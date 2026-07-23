@@ -1,0 +1,10 @@
+{
+  "name": "Nawasrah Business Manager",
+  "description": "تطبيق إدارة ومحاسبة شامل ومستقل لمنشأة نواصرة - إدارة المبيعات، المخزون، الطلبات، نقطة البيع، والحسابات بالدينار الأردني",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
