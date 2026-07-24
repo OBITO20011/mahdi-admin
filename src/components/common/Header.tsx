@@ -93,15 +93,19 @@ export const Header: React.FC = () => {
 
         {/* User Role Avatar */}
         <button
-          onClick={() => openModal('user_profile')}
-          className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-800 border border-slate-700 hover:bg-slate-750 transition"
+          onClick={() => openModal('profile')}
+          className="flex items-center gap-2 p-1 px-2 rounded-xl bg-slate-800 border border-slate-700 hover:bg-slate-750 transition"
+          title={currentUser.name}
         >
           <img
             src={currentUser.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200'}
             alt={currentUser.name}
             className="w-6 h-6 rounded-lg object-cover border border-slate-600"
           />
-          <span className="text-[10px] font-bold text-slate-300 hidden sm:inline">{currentUser.role}</span>
+          <div className="text-right hidden sm:block">
+            <span className="text-[11px] font-bold text-slate-100 block leading-none">{currentUser.name}</span>
+            <span className="text-[9px] font-medium text-blue-400 block mt-0.5">{currentUser.role}</span>
+          </div>
         </button>
       </div>
     </header>

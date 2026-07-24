@@ -121,7 +121,15 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     setToast('تم تغيير صورة المنتج بنجاح');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<{
+    message: string;
+    code?: string;
+    details?: string;
+    hint?: string;
+  } | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!nameAr.trim()) {
@@ -129,30 +137,52 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       return;
     }
 
-    const payload: Partial<Product> = {
-      nameAr: nameAr.trim(),
-      imageUrl: imageUrl.trim() || 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=400',
-      categoryId,
-      barcode: barcode.trim(),
-      costPrice: Number(costPrice) || 0,
-      retailPrice: Number(retailPrice) || 0,
-      unit,
-      branchId,
-      warehouseId,
-      warehouseLocation: warehouseLocation.trim(),
-      onHandQuantity: Number(onHandQuantity) || 0,
-      reorderLevel: Number(reorderLevel) || 5,
-      expiryDate: expiryDate || undefined,
-      status: 'active',
-    };
+    setIsSubmitting(true);
+    setSubmitError(null);
 
-    if (isEditing && initialProduct?.id) {
-      updateProduct(initialProduct.id, payload);
-    } else {
-      addProduct(payload);
+    try {
+      const payload: Partial<Product> = {
+        nameAr: nameAr.trim(),
+        imageUrl: imageUrl.trim() || 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=400',
+        categoryId,
+        barcode: barcode.trim(),
+        costPrice: Number(costPrice) || 0,
+        retailPrice: Number(retailPrice) || 0,
+        unit,
+        branchId,
+        warehouseId,
+        warehouseLocation: warehouseLocation.trim(),
+        onHandQuantity: Number(onHandQuantity) || 0,
+        reorderLevel: Number(reorderLevel) || 5,
+        expiryDate: expiryDate || undefined,
+        status: 'active',
+      };
+
+      if (isEditing && initialProduct?.id) {
+        updateProduct(initialProduct.id, payload);
+        onClose();
+      } else {
+        const res = await addProduct(payload);
+        if (res && res.success) {
+          onClose();
+        } else if (res && !res.success) {
+          setSubmitError(
+            res.errorDetails || {
+              message: res.error || 'فشلت عملية إضافة المنتج في Supabase',
+              code: 'ADD_PRODUCT_FAILED',
+            }
+          );
+        }
+      }
+    } catch (err: any) {
+      console.error('Error submitting product form:', err);
+      setSubmitError({
+        message: err?.message || 'حدث خطأ غير متوقع أثناء معالجة النموذج.',
+        code: 'CLIENT_EXCEPTION',
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-
-    onClose();
   };
 
   const numCost = Number(costPrice) || 0;
@@ -428,20 +458,60 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         />
       </div>
 
+      {/* Error Details Banner */}
+      {submitError && (
+        <div className="bg-red-500/10 border border-red-500/30 p-3.5 rounded-2xl text-red-200 text-xs space-y-2 animate-fadeIn">
+          <div className="flex items-center gap-2 text-red-400 font-bold">
+            <AlertTriangle className="w-4 h-4 shrink-0 text-red-400" />
+            <span>فشلت عملية حفظ المنتج في Supabase</span>
+          </div>
+          <div className="bg-slate-950/80 p-2.5 rounded-xl font-mono text-[11px] space-y-1 text-red-300">
+            <div>
+              <span className="text-slate-400 font-sans">رمز الخطأ (error.code): </span>
+              <strong className="text-amber-300">{submitError.code || 'N/A'}</strong>
+            </div>
+            <div>
+              <span className="text-slate-400 font-sans">الرسالة (error.message): </span>
+              <p className="text-red-200 font-bold mt-0.5">{submitError.message}</p>
+            </div>
+            {submitError.details && (
+              <div>
+                <span className="text-slate-400 font-sans">التفاصيل (error.details): </span>
+                <p className="text-slate-300">{submitError.details}</p>
+              </div>
+            )}
+            {submitError.hint && (
+              <div>
+                <span className="text-slate-400 font-sans">الملاحظة (error.hint): </span>
+                <p className="text-slate-300">{submitError.hint}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Actions */}
       <div className="flex gap-2 pt-3 border-t border-slate-800">
         <button
           type="submit"
-          className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5 shadow-lg shadow-blue-600/20"
+          disabled={isSubmitting}
+          className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5 shadow-lg shadow-blue-600/20 disabled:opacity-50"
         >
-          <CheckCircle2 className="w-4 h-4" />
-          <span>{isEditing ? 'حفظ التعديلات' : 'حفظ المنتج'}</span>
+          <CheckCircle2 className={`w-4 h-4 ${isSubmitting ? 'animate-spin' : ''}`} />
+          <span>
+            {isSubmitting
+              ? 'جاري الحفظ في Supabase...'
+              : isEditing
+              ? 'حفظ التعديلات'
+              : 'حفظ المنتج والمخزون'}
+          </span>
         </button>
 
         <button
           type="button"
           onClick={onClose}
-          className="px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 rounded-xl text-xs transition"
+          disabled={isSubmitting}
+          className="px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 rounded-xl text-xs transition disabled:opacity-50"
         >
           إلغاء
         </button>

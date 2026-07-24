@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { Customer, Supplier } from '../../types';
+import { CrmView } from '../crm/CrmView';
 import {
   Users,
   Building,
@@ -34,18 +35,7 @@ export const AccountsView: React.FC = () => {
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
 
   return (
-    <div className="p-4 space-y-4 pb-24">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-base font-black text-slate-100 flex items-center gap-2">
-            <Users className="w-5 h-5 text-teal-400" />
-            <span>إدارة العملاء والموردين والديون</span>
-          </h2>
-          <p className="text-[11px] text-slate-400">متابعة الذمم المدينة والدائنة وكشوفات الحسابات</p>
-        </div>
-      </div>
-
+    <div className="p-2 sm:p-4 space-y-4 pb-24">
       {/* Main Mode Tabs */}
       <div className="flex items-center bg-slate-900 border border-slate-800 rounded-2xl p-1 text-xs font-bold">
         <button
@@ -54,7 +44,7 @@ export const AccountsView: React.FC = () => {
             activeTab === 'customers' ? 'bg-teal-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
           }`}
         >
-          العملاء والذمم ({customers.length})
+          نظام إدارة العملاء CRM
         </button>
         <button
           onClick={() => setActiveTab('suppliers')}
@@ -66,79 +56,30 @@ export const AccountsView: React.FC = () => {
         </button>
       </div>
 
-      {/* Customers List View */}
-      {activeTab === 'customers' && (
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-300">قائمة العملاء والديون:</span>
-            <button
-              onClick={() => openModal('record_customer_payment')}
-              className="bg-teal-600/20 text-teal-300 border border-teal-500/30 px-3 py-1.5 rounded-xl text-xs font-bold hover:bg-teal-600/30 transition flex items-center gap-1"
-            >
-              <ArrowDownLeft className="w-3.5 h-3.5" />
-              <span>سند قبض</span>
-            </button>
-          </div>
-
-          <div className="space-y-2.5">
-            {customers.map((cust) => (
-              <div
-                key={cust.id}
-                onClick={() => setSelectedCustomer(cust)}
-                className="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow transition cursor-pointer hover:border-slate-700 text-xs"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-bold text-slate-100 text-sm">{cust.name}</h4>
-                  <span className="text-[10px] bg-slate-800 px-2 py-0.5 rounded-full text-slate-400 font-medium">
-                    {cust.customerType === 'wholesale' ? 'جملة' : 'تجزئة'}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between text-slate-400 mb-2">
-                  <span>هاتف: {cust.phone}</span>
-                  <div className="flex items-center gap-2">
-                    <a
-                      href={`https://wa.me/${cust.whatsapp || '962791234567'}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-emerald-400 hover:underline flex items-center gap-0.5 font-bold"
-                    >
-                      <MessageSquare className="w-3 h-3" />
-                      <span>واتساب</span>
-                    </a>
-                  </div>
-                </div>
-
-                <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
-                  <div>
-                    <span className="text-[10px] text-slate-500 block">حد الائتمان: {cust.creditLimit} د.أ</span>
-                    <span className="text-[10px] text-slate-400">فترة السداد: {cust.paymentTermDays} يوم</span>
-                  </div>
-                  <div className="text-left">
-                    <span className="text-[10px] text-slate-400 block">الرصيد القائم:</span>
-                    <span className={`font-black text-sm ${cust.currentBalance > 0 ? 'text-red-400' : 'text-emerald-400'}`}>
-                      {cust.currentBalance.toFixed(2)} {CURRENCY}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* Enterprise CRM Customers Module View */}
+      {activeTab === 'customers' && <CrmView />}
 
       {/* Suppliers List View */}
       {activeTab === 'suppliers' && (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-300">قائمة الموردين والمستحقات:</span>
-            <button
-              onClick={() => openModal('record_supplier_payment')}
-              className="bg-rose-600/20 text-rose-300 border border-rose-500/30 px-3 py-1.5 rounded-xl text-xs font-bold hover:bg-rose-600/30 transition flex items-center gap-1"
-            >
-              <ArrowUpRight className="w-3.5 h-3.5" />
-              <span>سند صرف</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setActiveTab('purchases')}
+                className="bg-blue-600/20 text-blue-300 border border-blue-500/30 px-3 py-1.5 rounded-xl text-xs font-bold hover:bg-blue-600/30 transition flex items-center gap-1"
+              >
+                <Building className="w-3.5 h-3.5 text-blue-400" />
+                <span>نظام المشتريات والتوريد</span>
+              </button>
+              <button
+                onClick={() => openModal('record_supplier_payment')}
+                className="bg-rose-600/20 text-rose-300 border border-rose-500/30 px-3 py-1.5 rounded-xl text-xs font-bold hover:bg-rose-600/30 transition flex items-center gap-1"
+              >
+                <ArrowUpRight className="w-3.5 h-3.5" />
+                <span>سند صرف</span>
+              </button>
+            </div>
           </div>
 
           <div className="space-y-2.5">

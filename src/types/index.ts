@@ -217,10 +217,12 @@ export type OrderStatus =
   | 'new'
   | 'pending_confirmation'
   | 'confirmed'
+  | 'preparing'
   | 'processing'
   | 'ready'
   | 'out_for_delivery'
   | 'delivered'
+  | 'completed'
   | 'cancelled'
   | 'returned';
 
@@ -469,3 +471,5 @@ export interface SyncQueueItem {
   timestamp: string;
   errorMessage?: string;
 }
+
+export * from './purchases';

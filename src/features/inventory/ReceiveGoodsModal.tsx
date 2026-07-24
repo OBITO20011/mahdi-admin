@@ -25,7 +25,9 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({ onClose })
 
   const selectedProduct = products.find((p) => p.id === selectedProductId);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!selectedProduct) {
@@ -38,17 +40,25 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({ onClose })
       return;
     }
 
-    // Receive goods via store engine with 'Purchase Receipt' movement type
-    receiveGoods({
-      productId: selectedProduct.id,
-      quantity: receivedQty,
-      branchId,
-      warehouseId,
-      supplierInvoiceNo,
-      notes,
-    });
+    setIsSubmitting(true);
 
-    onClose();
+    try {
+      // Receive goods via store engine with 'Purchase Receipt' movement type
+      await receiveGoods({
+        productId: selectedProduct.id,
+        quantity: receivedQty,
+        branchId,
+        warehouseId,
+        supplierInvoiceNo,
+        notes,
+      });
+
+      onClose();
+    } catch (err: any) {
+      console.error('Error receiving goods:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

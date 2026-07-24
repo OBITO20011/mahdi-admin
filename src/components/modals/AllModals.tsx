@@ -17,6 +17,7 @@ import { OrderDetailModal } from '../../features/orders/OrderDetailModal';
 import { ReceiveGoodsModal } from '../../features/inventory/ReceiveGoodsModal';
 import { WarehouseTransferModal } from '../../features/inventory/WarehouseTransferModal';
 import { StockCountModal } from '../../features/inventory/StockCountModal';
+import { SupabaseSqlViewerModal } from './SupabaseSqlViewerModal';
 import { runSystemTests, TestResult } from '../../../tests/accounting.test';
 import {
   FileCheck2,
@@ -298,27 +299,10 @@ export const AllModals: React.FC = () => {
       <Modal
         isOpen={currentModal === 'supabase_sql_preview'}
         onClose={closeModal}
-        title="ملفات تصميم قاعدة البيانات Supabase SQL"
-        subtitle="الجداول والعلاقات والسياسات الجاهزة للربط"
+        title="ملفات تصميم قاعدة البيانات Supabase SQL (Phase 1)"
+        subtitle="نسخ الأكواد وترتيب تطبيقها في Supabase SQL Editor"
       >
-        <div className="space-y-3 text-xs">
-          <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-[10px] text-emerald-400 max-h-56 overflow-y-auto leading-relaxed dir-ltr">
-            <p>-- Supabase Schema Ready</p>
-            <p>CREATE TABLE products (...);</p>
-            <p>CREATE TABLE orders (...);</p>
-            <p>CREATE TABLE customers (...);</p>
-            <p>-- Atomic function reserve_order_stock ready in database/functions.sql</p>
-          </div>
-          <button
-            onClick={() => {
-              alert('تم نسخ كود SQL الخاص بـ Supabase إلى الحافظة!');
-            }}
-            className="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 rounded-xl border border-slate-700 flex items-center justify-center gap-1.5"
-          >
-            <Copy className="w-3.5 h-3.5" />
-            <span>نسخ ملفات schema.sql</span>
-          </button>
-        </div>
+        <SupabaseSqlViewerModal />
       </Modal>
 
       {/* 14. QA Integration Tests Runner */}
@@ -382,6 +366,110 @@ export const AllModals: React.FC = () => {
           ))}
         </div>
       </Modal>
+
+      {/* 16. Add Customer Modal */}
+      <Modal
+        isOpen={currentModal === 'add_customer'}
+        onClose={closeModal}
+        title="إضافة عميل جديد"
+        subtitle="تسجيل بيانات الزبون الجديد ودليله في قاعدة بيانات النواصرة"
+      >
+        <AddCustomerModalContent onClose={closeModal} />
+      </Modal>
     </>
+  );
+};
+
+const AddCustomerModalContent: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const { setToast } = useAppStore();
+  const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [governorate, setGovernorate] = useState('عمان');
+  const [address, setAddress] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!fullName.trim()) return;
+
+    try {
+      const { supabase, isSupabaseConfigured } = await import('../../lib/supabase');
+      if (isSupabaseConfigured && supabase) {
+        await supabase.from('customers').insert({
+          full_name: fullName.trim(),
+          phone: phone.trim() || '0790000000',
+          governorate,
+          address_line1: address || governorate,
+          is_active: true,
+        });
+      }
+      setToast(`تمت إضافة العميل ${fullName} بنجاح!`, 'success');
+    } catch (err) {
+      console.error('Error adding customer:', err);
+    } finally {
+      onClose();
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-3 text-xs">
+      <div>
+        <label className="text-slate-300 font-bold block mb-1">اسم العميل الكامل *</label>
+        <input
+          type="text"
+          required
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          placeholder="مثال: المهندس عمر الشوابكة"
+          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white"
+        />
+      </div>
+
+      <div>
+        <label className="text-slate-300 font-bold block mb-1">رقم الهاتف / الواتساب</label>
+        <input
+          type="text"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="079XXXXXXX"
+          className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white"
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <label className="text-slate-300 font-bold block mb-1">المحافظة</label>
+          <select
+            value={governorate}
+            onChange={(e) => setGovernorate(e.target.value)}
+            className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white"
+          >
+            <option value="عمان">عمان</option>
+            <option value="الزرقاء">الزرقاء</option>
+            <option value="إربد">إربد</option>
+            <option value="العقبة">العقبة</option>
+            <option value="السلط">السلط</option>
+            <option value="مأدبا">مأدبا</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="text-slate-300 font-bold block mb-1">العنوان التفصيلي</label>
+          <input
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder="مثال: شارع الجامعة"
+            className="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white"
+          />
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-2xl transition shadow mt-2"
+      >
+        حفظ وإضافة العميل
+      </button>
+    </form>
   );
 };

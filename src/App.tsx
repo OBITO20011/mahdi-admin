@@ -5,6 +5,8 @@
 
 import React from 'react';
 import { useAppStore } from './stores/useAppStore';
+import { useAuthStore } from './stores/useAuthStore';
+import { LoginView } from './features/auth/LoginView';
 import { IPhoneContainer } from './components/layout/IPhoneContainer';
 import { Header } from './components/common/Header';
 import { BottomTabs } from './components/layout/BottomTabs';
@@ -21,10 +23,14 @@ import { ShiftsView } from './features/shifts/ShiftsView';
 import { ReportsCenterView } from './features/reports/ReportsCenterView';
 import { UsersView } from './features/users/UsersView';
 import { MoreMenuView } from './features/more/MoreMenuView';
+import { PurchasesView } from './features/purchases/PurchasesView';
+import { SystemTestView } from './features/systemTest/SystemTestView';
 import { AllModals } from './components/modals/AllModals';
+import { Building2, Loader2 } from 'lucide-react';
 
 export const App: React.FC = () => {
   const { activeTab, toast, setToast } = useAppStore();
+  const { isAuthenticated, isLoading: isAuthLoading } = useAuthStore();
 
   const renderActiveTabContent = () => {
     switch (activeTab) {
@@ -50,13 +56,44 @@ export const App: React.FC = () => {
         return <ReportsCenterView />;
       case 'users':
         return <UsersView />;
+      case 'purchases':
+        return <PurchasesView />;
       case 'more':
         return <MoreMenuView />;
+      case 'system_test':
+        return <SystemTestView />;
       default:
         return <DashboardView />;
     }
   };
 
+  // 1. Initial Session Check Screen
+  if (isAuthLoading) {
+    return (
+      <IPhoneContainer>
+        <div dir="rtl" className="min-h-full flex flex-col items-center justify-center p-6 text-slate-100 space-y-4">
+          <div className="w-16 h-16 rounded-2xl bg-blue-600/20 text-blue-400 border border-blue-500/30 flex items-center justify-center shadow-lg animate-pulse">
+            <Building2 className="w-8 h-8" />
+          </div>
+          <div className="flex items-center gap-2.5 text-xs font-bold text-slate-300 bg-slate-900 border border-slate-800 px-4 py-2 rounded-2xl shadow">
+            <Loader2 className="w-4 h-4 animate-spin text-blue-400" />
+            <span>جاري التحقق من جلسة الدخول والمصادقة...</span>
+          </div>
+        </div>
+      </IPhoneContainer>
+    );
+  }
+
+  // 2. Unauthenticated -> Login View Screen
+  if (!isAuthenticated) {
+    return (
+      <IPhoneContainer>
+        <LoginView />
+      </IPhoneContainer>
+    );
+  }
+
+  // 3. Authenticated -> Full Application Interface
   return (
     <IPhoneContainer>
       {/* Toast Notification Banner */}

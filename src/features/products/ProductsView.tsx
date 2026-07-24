@@ -26,6 +26,8 @@ import {
   SlidersHorizontal,
   Check,
   Truck,
+  RefreshCw,
+  Database,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 
@@ -38,6 +40,11 @@ export const ProductsView: React.FC = () => {
     deleteProduct,
     hideProduct,
     duplicateProduct,
+    productsSource,
+    isProductsLoading,
+    productsError,
+    supabaseDiagnostics,
+    refreshProductsFromSupabase,
   } = useAppStore();
 
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -103,16 +110,40 @@ export const ProductsView: React.FC = () => {
       {/* Header Bar */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-base font-black text-slate-100 flex items-center gap-2">
-            <Package className="w-5 h-5 text-blue-400" />
-            <span>إدارة الأصناف والمخزون</span>
-          </h2>
-          <p className="text-[10px] text-slate-400">
+          <div className="flex items-center gap-2">
+            <h2 className="text-base font-black text-slate-100 flex items-center gap-2">
+              <Package className="w-5 h-5 text-blue-400" />
+              <span>إدارة الأصناف والمخزون</span>
+            </h2>
+
+            {/* Supabase Status Pill */}
+            <span
+              className={`text-[9px] font-extrabold px-2 py-0.5 rounded-full border flex items-center gap-1 ${
+                productsSource === 'supabase'
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                  : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+              }`}
+            >
+              <Database className="w-3 h-3" />
+              <span>{productsSource === 'supabase' ? 'Supabase حقيقي' : 'بيانات تجريبية (Fallback)'}</span>
+            </span>
+          </div>
+
+          <p className="text-[10px] text-slate-400 mt-0.5">
             إجمالي الأصناف: <strong className="text-slate-200">{(products || []).length}</strong> صنف
           </p>
         </div>
 
         <div className="flex items-center gap-1.5">
+          <button
+            onClick={() => refreshProductsFromSupabase()}
+            disabled={isProductsLoading}
+            title="إعادة جلب من Supabase"
+            className="bg-slate-900 hover:bg-slate-800 text-slate-300 p-2 rounded-xl border border-slate-800 transition active:scale-95 disabled:opacity-50"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isProductsLoading ? 'animate-spin text-blue-400' : ''}`} />
+          </button>
+
           <button
             onClick={() => openModal('receive_goods')}
             className="bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-2 rounded-xl text-[11px] font-bold transition flex items-center gap-1 shadow active:scale-95"
@@ -129,6 +160,127 @@ export const ProductsView: React.FC = () => {
             <span>إضافة صنف</span>
           </button>
         </div>
+      </div>
+
+      {/* Supabase Diagnostic Badge Bar */}
+      <div className="bg-slate-900/90 border border-slate-800 p-2.5 rounded-2xl space-y-2">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-[10px]">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="font-bold text-slate-300 flex items-center gap-1">
+              <Database className="w-3.5 h-3.5 text-blue-400" />
+              <span>تشخيص الاتصال:</span>
+            </span>
+
+            {/* URL Scheme Pill */}
+            <span
+              className={`px-2 py-0.5 rounded-md border font-semibold ${
+                supabaseDiagnostics?.isValidUrlScheme
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                  : 'bg-red-500/10 text-red-400 border-red-500/30'
+              }`}
+            >
+              URL: {supabaseDiagnostics?.isValidUrlScheme ? 'صالح (https://)' : 'غير صالح'}
+            </span>
+
+            {/* Key Pill */}
+            <span
+              className={`px-2 py-0.5 rounded-md border font-semibold ${
+                supabaseDiagnostics?.hasKey
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                  : 'bg-red-500/10 text-red-400 border-red-500/30'
+              }`}
+            >
+              Key: {supabaseDiagnostics?.hasKey ? 'موجود' : 'مفقود'}
+            </span>
+
+            {/* Auth Session Pill */}
+            <span
+              className={`px-2 py-0.5 rounded-md border font-semibold ${
+                supabaseDiagnostics?.authSessionStatus === 'authenticated'
+                  ? 'bg-blue-500/10 text-blue-400 border-blue-500/30'
+                  : 'bg-slate-800 text-slate-400 border-slate-700'
+              }`}
+            >
+              جلسة المصادقة: {supabaseDiagnostics?.authSessionStatus === 'authenticated' ? 'مُسجّل الدخول' : 'زائر (unauthenticated)'}
+            </span>
+
+            {/* Query Status Pill */}
+            <span
+              className={`px-2 py-0.5 rounded-md border font-semibold ${
+                supabaseDiagnostics?.productsQueryStatus === 'success'
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                  : supabaseDiagnostics?.productsQueryStatus === 'failed'
+                  ? 'bg-red-500/10 text-red-400 border-red-500/30'
+                  : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+              }`}
+            >
+              استعلام الأصناف: {supabaseDiagnostics?.productsQueryStatus === 'success' ? 'ناجح (success)' : supabaseDiagnostics?.productsQueryStatus === 'failed' ? 'فشل (failed)' : 'قيد التحميل'}
+            </span>
+          </div>
+
+          <button
+            onClick={() => refreshProductsFromSupabase()}
+            disabled={isProductsLoading}
+            className="text-[10px] font-bold bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 px-2.5 py-1 rounded-lg transition flex items-center gap-1 active:scale-95"
+          >
+            <RefreshCw className={`w-3 h-3 ${isProductsLoading ? 'animate-spin' : ''}`} />
+            <span>إعادة الفحص</span>
+          </button>
+        </div>
+
+        {/* Detailed Supabase Error Card if Failed */}
+        {(supabaseDiagnostics?.productsQueryStatus === 'failed' || productsError) && (
+          <div className="bg-red-500/10 border border-red-500/30 p-3 rounded-xl space-y-1.5 text-red-300 text-[11px] mt-2">
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex items-center gap-1.5 font-black text-red-400">
+                <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />
+                <span>خطأ استعلام Supabase الحقيقي</span>
+              </div>
+              <button
+                onClick={() => refreshProductsFromSupabase()}
+                className="bg-red-600 hover:bg-red-500 text-white font-bold px-2 py-0.5 rounded text-[10px] transition"
+              >
+                إعادة المحاولة
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 bg-slate-950/60 p-2 rounded-lg font-mono text-[10px]">
+              <div>
+                <span className="text-slate-400 block">رمز الخطأ (error.code):</span>
+                <strong className="text-amber-300">{supabaseDiagnostics?.productsErrorCode || 'غير محدد'}</strong>
+              </div>
+              <div>
+                <span className="text-slate-400 block">الحالة (status):</span>
+                <strong className="text-amber-300">{String(supabaseDiagnostics?.productsErrorStatus || 'N/A')}</strong>
+              </div>
+              <div>
+                <span className="text-slate-400 block">جلسة Auth:</span>
+                <strong className="text-slate-200">{supabaseDiagnostics?.authSessionStatus}</strong>
+              </div>
+            </div>
+
+            <div>
+              <span className="font-bold text-slate-300">رسالة الخطأ (error.message):</span>
+              <p className="bg-slate-950/80 p-2 rounded text-red-200 font-mono mt-0.5 select-all">
+                {supabaseDiagnostics?.productsErrorMessage || productsError || 'حدث خطأ أثناء الاتصال بالخادم.'}
+              </p>
+            </div>
+
+            {supabaseDiagnostics?.productsErrorDetails && (
+              <div>
+                <span className="font-bold text-slate-400">التفاصيل (error.details):</span>
+                <p className="text-slate-300 font-mono text-[10px]">{supabaseDiagnostics.productsErrorDetails}</p>
+              </div>
+            )}
+
+            {supabaseDiagnostics?.productsErrorHint && (
+              <div>
+                <span className="font-bold text-slate-400">ملاحظة الخادم (error.hint):</span>
+                <p className="text-slate-300 font-mono text-[10px]">{supabaseDiagnostics.productsErrorHint}</p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Auxiliary Management Buttons (Categories, Brands, Units) */}

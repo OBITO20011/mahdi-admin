@@ -47,8 +47,44 @@ import {
   INITIAL_SUPPLIERS,
   INITIAL_USERS,
 } from '../services/mockData';
+import { isSupabaseConfigured, sanitizedSupabaseUrl, sanitizedSupabaseKey, isValidSupabaseUrl } from '../lib/supabase';
+import {
+  fetchProductsFromSupabase,
+  createProductWithOpeningStockInSupabase,
+  SupabaseFetchError,
+} from '../services/supabase/products.service';
+import { receiveInventoryInSupabase } from '../services/supabase/inventory.service';
+import {
+  fetchCategoriesFromSupabase,
+  fetchBrandsFromSupabase,
+  fetchUnitsFromSupabase,
+  fetchBranchesFromSupabase,
+  fetchWarehousesFromSupabase,
+} from '../services/supabase/reference-data.service';
+import {
+  fetchOrdersFromSupabase,
+  confirmOrderInSupabase,
+  completeOrderInSupabase,
+  cancelOrderInSupabase,
+  updateOrderStatusInSupabase,
+} from '../services/supabase/orders.service';
 
 const STORAGE_KEY = 'nawasrah_bm_state_v1';
+
+export interface SupabaseDiagnosticInfo {
+  hasUrl: boolean;
+  isValidUrlScheme: boolean;
+  hasKey: boolean;
+  isConfigured: boolean;
+  authSessionStatus: 'authenticated' | 'unauthenticated' | 'error' | 'checking';
+  authSessionUser?: string | null;
+  productsQueryStatus: 'success' | 'failed' | 'idle' | 'loading';
+  productsErrorCode?: string;
+  productsErrorMessage?: string;
+  productsErrorStatus?: number | string;
+  productsErrorDetails?: string;
+  productsErrorHint?: string;
+}
 
 export interface AppState {
   // Auth & Session
@@ -83,13 +119,17 @@ export interface AppState {
   // App UI State
   isOffline: boolean;
   isQuickActionOpen: boolean;
-  activeTab: 'home' | 'orders' | 'products' | 'accounts' | 'more' | 'dashboard' | 'pos' | 'inventory' | 'accounting' | 'expenses' | 'shifts' | 'reports' | 'users';
+  activeTab: 'home' | 'orders' | 'products' | 'accounts' | 'more' | 'dashboard' | 'pos' | 'inventory' | 'accounting' | 'expenses' | 'shifts' | 'reports' | 'users' | 'system_test' | 'purchases';
   currentModal: string | null;
   modalData: any;
   toast: { message: string; type: 'success' | 'error' | 'info' } | null;
 
   // Simulator & Adapter Mode
   databaseMode: 'mock' | 'supabase';
+  isProductsLoading: boolean;
+  productsSource: 'supabase' | 'mock';
+  productsError: string | null;
+  supabaseDiagnostics: SupabaseDiagnosticInfo;
 }
 
 class StoreEngine {
@@ -139,6 +179,86 @@ class StoreEngine {
       }
     } else {
       this.state = initial;
+    }
+
+    if (isSupabaseConfigured) {
+      this.refreshProductsFromSupabase();
+      this.refreshOrdersFromSupabase();
+    }
+  }
+
+  public async refreshOrdersFromSupabase() {
+    if (!isSupabaseConfigured) return;
+    try {
+      const res = await fetchOrdersFromSupabase('all');
+      if (res.success && res.orders) {
+        this.state.orders = res.orders;
+        this.notify();
+      }
+    } catch (err) {
+      console.error('[Store refreshOrdersFromSupabase Exception]:', err);
+    }
+  }
+
+  public async refreshProductsFromSupabase() {
+    this.state.isProductsLoading = true;
+    this.state.supabaseDiagnostics = {
+      ...this.state.supabaseDiagnostics,
+      productsQueryStatus: 'loading',
+    };
+    this.notify();
+
+    try {
+      const res = await fetchProductsFromSupabase();
+      this.state.products = res.products;
+      this.state.productsSource = res.source;
+      this.state.productsError = res.error || null;
+
+      this.state.supabaseDiagnostics = {
+        hasUrl: Boolean(sanitizedSupabaseUrl),
+        isValidUrlScheme: isValidSupabaseUrl,
+        hasKey: Boolean(sanitizedSupabaseKey),
+        isConfigured: isSupabaseConfigured,
+        authSessionStatus: res.authSessionStatus || 'unauthenticated',
+        authSessionUser: res.authSessionUser,
+        productsQueryStatus: res.errorDetails ? 'failed' : 'success',
+        productsErrorCode: res.errorDetails?.code,
+        productsErrorMessage: res.errorDetails?.message,
+        productsErrorStatus: res.errorDetails?.status,
+        productsErrorDetails: res.errorDetails?.details,
+        productsErrorHint: res.errorDetails?.hint,
+      };
+
+      if (res.source === 'supabase') {
+        if (!res.errorDetails) {
+          const categories = await fetchCategoriesFromSupabase();
+          if (categories && categories.length > 0) this.state.categories = categories;
+
+          const brands = await fetchBrandsFromSupabase();
+          if (brands && brands.length > 0) this.state.brands = brands;
+
+          const units = await fetchUnitsFromSupabase();
+          if (units && units.length > 0) this.state.units = units;
+
+          const branches = await fetchBranchesFromSupabase();
+          if (branches && branches.length > 0) this.state.branches = branches;
+
+          const warehouses = await fetchWarehousesFromSupabase();
+          if (warehouses && warehouses.length > 0) this.state.warehouses = warehouses;
+        }
+      }
+    } catch (err: any) {
+      console.error('[Store refreshProductsFromSupabase Exception]:', err);
+      this.state.productsSource = isSupabaseConfigured ? 'supabase' : 'mock';
+      this.state.productsError = err?.message || 'تعذر الاتصال بـ Supabase';
+      this.state.supabaseDiagnostics = {
+        ...this.state.supabaseDiagnostics,
+        productsQueryStatus: 'failed',
+        productsErrorMessage: err?.message || String(err),
+      };
+    } finally {
+      this.state.isProductsLoading = false;
+      this.notify();
     }
   }
 
@@ -214,7 +334,18 @@ class StoreEngine {
       currentModal: null,
       modalData: null,
       toast: null,
-      databaseMode: 'mock',
+      databaseMode: isSupabaseConfigured ? 'supabase' : 'mock',
+      isProductsLoading: false,
+      productsSource: isSupabaseConfigured ? 'supabase' : 'mock',
+      productsError: null,
+      supabaseDiagnostics: {
+        hasUrl: Boolean(sanitizedSupabaseUrl),
+        isValidUrlScheme: isValidSupabaseUrl,
+        hasKey: Boolean(sanitizedSupabaseKey),
+        isConfigured: isSupabaseConfigured,
+        authSessionStatus: 'checking',
+        productsQueryStatus: 'idle',
+      },
     };
   }
 
@@ -276,6 +407,17 @@ class StoreEngine {
     }
   }
 
+  public setCurrentUser(userUpdates: Partial<User>) {
+    this.state.currentUser = {
+      ...this.state.currentUser,
+      ...userUpdates,
+      permissions: userUpdates.role
+        ? ROLE_PERMISSIONS_MAP[userUpdates.role] || this.state.currentUser.permissions
+        : this.state.currentUser.permissions,
+    };
+    this.notify();
+  }
+
   public switchRole(role: Role) {
     this.state.currentUser.role = role;
     this.state.currentUser.permissions = ROLE_PERMISSIONS_MAP[role] || [];
@@ -328,7 +470,19 @@ class StoreEngine {
 
   // --- Atomic Stock & Order Actions ---
 
-  public confirmOrder(orderId: string) {
+  public async confirmOrder(orderId: string, notes?: string) {
+    if (isSupabaseConfigured) {
+      const res = await confirmOrderInSupabase(orderId, notes);
+      if (!res.success) {
+        this.setToast(`فشل تأكيد الطلب: ${res.error}`, 'error');
+        return;
+      }
+      this.setToast(res.message || 'تم قبول الطلب وحجز المخزون بنجاح');
+      await this.refreshOrdersFromSupabase();
+      await this.refreshProductsFromSupabase();
+      return;
+    }
+
     const order = this.state.orders.find((o) => o.id === orderId);
     if (!order) return;
 
@@ -394,7 +548,19 @@ class StoreEngine {
     this.notify();
   }
 
-  public cancelOrder(orderId: string, reason: string = 'إلغاء بواسطة الإدارة') {
+  public async cancelOrder(orderId: string, reason: string = 'إلغاء بواسطة الإدارة') {
+    if (isSupabaseConfigured) {
+      const res = await cancelOrderInSupabase(orderId, reason);
+      if (!res.success) {
+        this.setToast(`فشل إلغاء الطلب: ${res.error}`, 'error');
+        return;
+      }
+      this.setToast(res.message || 'تم إلغاء الطلب وتحرير الكميات المحجوزة');
+      await this.refreshOrdersFromSupabase();
+      await this.refreshProductsFromSupabase();
+      return;
+    }
+
     const order = this.state.orders.find((o) => o.id === orderId);
     if (!order) return;
 
@@ -440,7 +606,29 @@ class StoreEngine {
     this.notify();
   }
 
-  public advanceOrderStatus(orderId: string, nextStatus: OrderStatus) {
+  public async advanceOrderStatus(orderId: string, nextStatus: OrderStatus, notes?: string) {
+    if (isSupabaseConfigured) {
+      let res;
+      if (nextStatus === 'delivered' || nextStatus === 'completed') {
+        res = await completeOrderInSupabase(orderId, notes);
+      } else if (nextStatus === 'cancelled') {
+        res = await cancelOrderInSupabase(orderId, notes);
+      } else if (nextStatus === 'confirmed') {
+        res = await confirmOrderInSupabase(orderId, notes);
+      } else {
+        res = await updateOrderStatusInSupabase(orderId, nextStatus, notes);
+      }
+
+      if (!res.success) {
+        this.setToast(`فشل تحديث حالة الطلب: ${res.error}`, 'error');
+        return;
+      }
+      this.setToast(res.message || `تم تحديث حالة الطلب إلى ${nextStatus}`);
+      await this.refreshOrdersFromSupabase();
+      await this.refreshProductsFromSupabase();
+      return;
+    }
+
     const order = this.state.orders.find((o) => o.id === orderId);
     if (!order) return;
 
@@ -484,7 +672,7 @@ class StoreEngine {
       changedBy: this.state.currentUser.name,
     });
 
-    this.setToast(`تم حديث حالة الطلب ${order.orderNumber}`);
+    this.setToast(`تم تحديث حالة الطلب ${order.orderNumber}`);
     this.notify();
   }
 
@@ -524,89 +712,78 @@ class StoreEngine {
 
   // --- Product CRUD & Operations ---
 
-  public addProduct(productData: Partial<Product>): Product {
+  public async addProduct(productData: Partial<Product>): Promise<{
+    success: boolean;
+    productId?: string;
+    error?: string;
+    errorDetails?: any;
+  }> {
     const openingQty = Number(productData.onHandQuantity) || 0;
-    const reservedQty = 0; // 5. اجعل الكمية المحجوزة صفرًا
-    const availableQty = openingQty; // 6. احسب الكمية المتاحة تلقائيًا
-
     const targetBranchId = productData.branchId || this.state.activeBranch?.id || 'b-amman-main';
     const targetWarehouseId = productData.warehouseId || 'w-main';
 
-    const newProd: Product = {
-      id: `prod-${Date.now()}`,
-      sku: productData.sku || `NWS-${Math.floor(1000 + Math.random() * 9000)}`,
-      barcode: productData.barcode || `625${Math.floor(1000000000 + Math.random() * 9000000000)}`,
-      nameAr: productData.nameAr || 'منتج جديد',
-      nameEn: productData.nameEn || '',
-      description: productData.description || '',
-      imageUrl:
-        productData.imageUrl ||
-        'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=400',
-      additionalImages: productData.additionalImages || [],
-      categoryId: productData.categoryId || (this.state.categories[0]?.id || 'cat-1'),
-      brandId: productData.brandId || '',
-      supplierId: productData.supplierId || '',
-      costPrice: Number(productData.costPrice) || 0,
-      retailPrice: Number(productData.retailPrice) || 0,
-      wholesalePrice: Number(productData.wholesalePrice) || Number(productData.retailPrice) || 0,
-      promoPrice: productData.promoPrice,
-      taxRate: productData.taxRate ?? 16,
-      unit: productData.unit || 'قطعة',
-      packetSize: productData.packetSize || 1,
-      cartonSize: productData.cartonSize || 1,
-      onHandQuantity: openingQty, // 3. أضف الكمية الافتتاحية تلقائيًا
-      reservedQuantity: reservedQty, // 5. اجعل الكمية المحجوزة صفرًا
-      availableQuantity: availableQty, // 6. احسب الكمية المتاحة تلقائيًا
-      reorderLevel: Number(productData.reorderLevel) || 5,
-      expiryDate: productData.expiryDate || '',
-      productionDate: productData.productionDate || '',
-      batchNumber: productData.batchNumber || '',
-      alertDaysBeforeExpiry: productData.alertDaysBeforeExpiry || 30,
-      countryOfOrigin: productData.countryOfOrigin || 'الأردن',
-      warehouseLocation: productData.warehouseLocation || '',
-      branchId: targetBranchId, // 2. اربطه بالفرع والمستودع المختار
-      warehouseId: targetWarehouseId, // 2. اربطه بالمستودع المختار
-      weightKg: productData.weightKg || 0,
-      ingredients: productData.ingredients || '',
-      allergens: productData.allergens || '',
-      nutritionalInfo: productData.nutritionalInfo || '',
-      isFeatured: productData.isFeatured || false,
-      isNewProduct: productData.isNewProduct || true,
-      isBestSeller: productData.isBestSeller || false,
-      allowWholesale: productData.allowWholesale ?? true,
-      isWebsiteVisible: productData.isWebsiteVisible ?? true,
-      status: productData.status || 'active',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      lastModifiedBy: this.state.currentUser.name,
-      ...productData,
+    if (isSupabaseConfigured) {
+      try {
+        const unitObj = this.state.units.find((u) => u.nameAr === productData.unit || u.id === productData.unit);
+        const res = await createProductWithOpeningStockInSupabase({
+          sku: productData.sku || `NWS-${Math.floor(1000 + Math.random() * 9000)}`,
+          barcode: productData.barcode || `625${Math.floor(1000000000 + Math.random() * 9000000000)}`,
+          nameAr: productData.nameAr || 'منتج جديد',
+          description: productData.description || '',
+          categoryId: productData.categoryId,
+          brandId: productData.brandId,
+          unitId: unitObj?.id,
+          costPrice: Number(productData.costPrice) || 0,
+          retailPrice: Number(productData.retailPrice) || 0,
+          reorderLevel: Number(productData.reorderLevel) || 5,
+          warehouseId: targetWarehouseId,
+          branchId: targetBranchId,
+          openingQuantity: openingQty,
+          imageUrl: productData.imageUrl,
+        });
+
+        if (res.success) {
+          this.addAuditLog('إضافة منتج', `تم إنشاء المنتج والمخزون في Supabase: ${productData.nameAr}`);
+          this.setToast('تم حفظ المنتج والمخزون في قاعدة البيانات بنجاح.', 'success');
+          await this.refreshProductsFromSupabase();
+          return { success: true, productId: res.productId };
+        } else {
+          console.error('[Supabase RPC addProduct Failed]:', res.error, res.errorDetails);
+          this.state.productsError = res.error || 'فشلت إضافة المنتج في Supabase';
+          this.notify();
+          return {
+            success: false,
+            error: res.error,
+            errorDetails: res.errorDetails || {
+              message: res.error || 'فشلت عملية إنشاء المنتج في Supabase.',
+              code: 'RPC_FAILED',
+            },
+          };
+        }
+      } catch (err: any) {
+        console.error('[Supabase RPC addProduct Exception]:', err);
+        const errMsg = err?.message || String(err);
+        this.state.productsError = errMsg;
+        this.notify();
+        return {
+          success: false,
+          error: errMsg,
+          errorDetails: {
+            message: errMsg,
+            code: 'CLIENT_EXCEPTION',
+          },
+        };
+      }
+    }
+
+    return {
+      success: false,
+      error: 'تكوين Supabase غير مكتمل في التطبيق.',
+      errorDetails: {
+        code: 'SUPABASE_NOT_CONFIGURED',
+        message: 'تكوين Supabase غير مكتمل في التطبيق.',
+      },
     };
-
-    // 1. أنشئ المنتج
-    this.state.products.unshift(newProd);
-
-    // 4. أنشئ حركة مخزون باسم Opening Balance
-    this.state.movements.unshift({
-      id: `mov-${Date.now()}-${Math.random()}`,
-      productId: newProd.id,
-      productName: newProd.nameAr,
-      branchId: targetBranchId,
-      warehouseId: targetWarehouseId,
-      movementType: 'Opening Balance',
-      previousQuantity: 0,
-      quantityChange: openingQty,
-      newQuantity: openingQty,
-      reason: 'Opening Balance',
-      performedByUserId: this.state.currentUser.id,
-      performedByUserName: this.state.currentUser.name,
-      timestamp: new Date().toISOString(),
-    });
-
-    this.addAuditLog('إضافة منتج', `تم إنشاء المنتج: ${newProd.nameAr} برصيد افتتاحي ${openingQty}`);
-    // 7. أظهر رسالة نجاح
-    this.setToast('تم إنشاء المنتج وإضافته إلى المستودع بنجاح.');
-    this.notify();
-    return newProd;
   }
 
   public updateProduct(id: string, updates: Partial<Product>) {
@@ -763,7 +940,7 @@ class StoreEngine {
     return movement;
   }
 
-  public receiveGoods(params: {
+  public async receiveGoods(params: {
     productId: string;
     quantity: number;
     branchId?: string;
@@ -771,6 +948,31 @@ class StoreEngine {
     supplierInvoiceNo?: string;
     notes?: string;
   }) {
+    if (isSupabaseConfigured) {
+      try {
+        const targetWarehouse = params.warehouseId || this.state.warehouses[0]?.id || 'w-main';
+        const res = await receiveInventoryInSupabase({
+          productId: params.productId,
+          warehouseId: targetWarehouse,
+          quantity: params.quantity,
+          referenceType: 'purchase_receipt',
+          notes: params.notes || `فاتورة مورد #${params.supplierInvoiceNo || ''}`,
+        });
+
+        if (res.success) {
+          this.addAuditLog('استلام بضاعة', `تم استلام كمية +${params.quantity} في Supabase للمنتج ${params.productId}`);
+          this.setToast('تم استلام البضاعة وتحديث الرصيد والمخزون في Supabase بنجاح.');
+          await this.refreshProductsFromSupabase();
+          return;
+        } else {
+          console.warn('Supabase receive_inventory returned error, falling back to local state:', res.error);
+          this.setToast(`تعذر التحديث في Supabase: ${res.error}. تم التحديث محلياً.`, 'error');
+        }
+      } catch (err: any) {
+        console.warn('Exception during Supabase receiveInventory:', err);
+      }
+    }
+
     const prod = this.state.products.find((p) => p.id === params.productId);
     if (!prod) return;
 
@@ -1556,11 +1758,13 @@ export function useAppStore() {
     lockWithFaceId: () => storeEngine.lockWithFaceId(),
     unlockFaceId: () => storeEngine.unlockFaceId(),
     toggleOfflineMode: () => storeEngine.toggleOfflineMode(),
-    confirmOrder: (orderId: string) => storeEngine.confirmOrder(orderId),
+    confirmOrder: (orderId: string, notes?: string) => storeEngine.confirmOrder(orderId, notes),
     cancelOrder: (orderId: string, reason?: string) =>
       storeEngine.cancelOrder(orderId, reason),
-    advanceOrderStatus: (orderId: string, status: OrderStatus) =>
-      storeEngine.advanceOrderStatus(orderId, status),
+    advanceOrderStatus: (orderId: string, status: OrderStatus, notes?: string) =>
+      storeEngine.advanceOrderStatus(orderId, status, notes),
+    refreshOrdersFromSupabase: () => storeEngine.refreshOrdersFromSupabase(),
+    refreshProductsFromSupabase: () => storeEngine.refreshProductsFromSupabase(),
     addProduct: (data: Partial<Product>) => storeEngine.addProduct(data),
     updateProduct: (id: string, updates: Partial<Product>) => storeEngine.updateProduct(id, updates),
     deleteProduct: (id: string) => storeEngine.deleteProduct(id),
@@ -1585,6 +1789,7 @@ export function useAppStore() {
     deleteUnit: (id: string) => storeEngine.deleteUnit(id),
 
     getCurrentProfile: () => storeEngine.getCurrentProfile(),
+    setCurrentUser: (userUpdates: Partial<User>) => storeEngine.setCurrentUser(userUpdates),
     updateProfile: (updates: Partial<User>) => storeEngine.updateProfile(updates),
     updateProfilePhoto: (avatarUrl: string) => storeEngine.updateProfilePhoto(avatarUrl),
     updatePhone: (newPhone: string) => storeEngine.updatePhone(newPhone),

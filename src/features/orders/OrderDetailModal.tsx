@@ -73,16 +73,20 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({ order: initi
     setToast(`تم تعيين السائق ${driver?.name} للطلب ${order.orderNumber}`);
   };
 
-  const statusBadgeColor = (status: OrderStatus) => {
+  const statusBadgeColor = (status: OrderStatus | string) => {
     switch (status) {
       case 'new':
         return 'bg-blue-600/20 text-blue-400 border-blue-500/30';
       case 'confirmed':
         return 'bg-amber-600/20 text-amber-400 border-amber-500/30';
+      case 'preparing':
       case 'processing':
         return 'bg-purple-600/20 text-purple-400 border-purple-500/30';
+      case 'ready':
+        return 'bg-indigo-600/20 text-indigo-400 border-indigo-500/30';
       case 'out_for_delivery':
         return 'bg-cyan-600/20 text-cyan-400 border-cyan-500/30';
+      case 'completed':
       case 'delivered':
         return 'bg-emerald-600/20 text-emerald-400 border-emerald-500/30';
       case 'cancelled':
@@ -92,16 +96,20 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({ order: initi
     }
   };
 
-  const statusLabel = (status: OrderStatus) => {
+  const statusLabel = (status: OrderStatus | string) => {
     switch (status) {
       case 'new':
         return 'طلب جديد ⚡';
       case 'confirmed':
         return 'مؤكد ومحجوز 🛒';
+      case 'preparing':
       case 'processing':
         return 'قيد التجهيز 📦';
+      case 'ready':
+        return 'جاهز للتوصيل 🏁';
       case 'out_for_delivery':
         return 'خرج للتوصيل 🚚';
+      case 'completed':
       case 'delivered':
         return 'تم التسليم 🏁';
       case 'cancelled':
@@ -250,18 +258,28 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({ order: initi
         {/* State Advancement */}
         {order.status === 'confirmed' && (
           <button
-            onClick={() => advanceOrderStatus(order.id, 'processing')}
-            className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5"
+            onClick={() => advanceOrderStatus(order.id, 'preparing')}
+            className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow"
           >
             <PackageCheck className="w-4 h-4" />
-            <span>بدء التجهيز والمستودع ← (قيد التجهيز)</span>
+            <span>بدء تجهيز الطلب والمستودع ← (قيد التجهيز)</span>
           </button>
         )}
 
-        {order.status === 'processing' && (
+        {(order.status === 'preparing' || order.status === 'processing') && (
+          <button
+            onClick={() => advanceOrderStatus(order.id, 'ready')}
+            className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow"
+          >
+            <CheckCircle className="w-4 h-4" />
+            <span>جاهز للتوصيل ← (جاهز)</span>
+          </button>
+        )}
+
+        {order.status === 'ready' && (
           <button
             onClick={() => advanceOrderStatus(order.id, 'out_for_delivery')}
-            className="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5"
+            className="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow"
           >
             <Truck className="w-4 h-4" />
             <span>تسليم الطلب للسائق ← (خرج للتوصيل)</span>
@@ -271,11 +289,25 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({ order: initi
         {order.status === 'out_for_delivery' && (
           <button
             onClick={() => advanceOrderStatus(order.id, 'delivered')}
-            className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5"
+            className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow"
           >
             <CheckCircle className="w-4 h-4" />
-            <span>تأكيد الاستلام والتحصيل ← (تم التسليم)</span>
+            <span>تأكيد استلام الزبون والتحصيل ← (تم التسليم)</span>
           </button>
+        )}
+
+        {(order.status === 'delivered' || order.status === 'completed') && (
+          <div className="bg-emerald-950/40 border border-emerald-800/60 p-2.5 rounded-xl text-center text-emerald-400 font-bold text-xs flex items-center justify-center gap-1.5">
+            <CheckCircle className="w-4 h-4" />
+            <span>الطلب مكتمل ومسلم للعميل بنجاح</span>
+          </div>
+        )}
+
+        {order.status === 'cancelled' && (
+          <div className="bg-red-950/40 border border-red-800/60 p-2.5 rounded-xl text-center text-red-400 font-bold text-xs flex items-center justify-center gap-1.5">
+            <XCircle className="w-4 h-4" />
+            <span>هذا الطلب ملغي</span>
+          </div>
         )}
 
         {/* Reject Form popup inside modal */}

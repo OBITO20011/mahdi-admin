@@ -4,6 +4,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
+import { useAuthStore } from '../../stores/useAuthStore';
 import {
   User as UserIcon,
   ShieldCheck,
@@ -33,6 +34,7 @@ import {
 } from 'lucide-react';
 
 export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const { signOut } = useAuthStore();
   const {
     currentUser,
     branches,
@@ -885,6 +887,19 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
               ))}
             </div>
           </div>
+
+          {/* Direct Supabase Sign Out Button */}
+          <button
+            type="button"
+            onClick={async () => {
+              onClose();
+              await signOut();
+            }}
+            className="w-full bg-red-950/60 hover:bg-red-900/80 border border-red-800 text-red-300 font-bold py-3 rounded-2xl transition flex items-center justify-center gap-2 text-xs active:scale-98 shadow-lg"
+          >
+            <LogOut className="w-4 h-4 text-red-400" />
+            <span>تسجيل الخروج النهائي من الحساب</span>
+          </button>
         </div>
       )}
 

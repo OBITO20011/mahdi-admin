@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { useAppStore } from '../../stores/useAppStore';
+import { useAuthStore } from '../../stores/useAuthStore';
 import {
   Building2,
   Scan,
@@ -16,9 +17,13 @@ import {
   Moon,
   Sun,
   Edit3,
+  LogOut,
+  Terminal,
+  ShoppingBag,
 } from 'lucide-react';
 
 export const MoreMenuView: React.FC = () => {
+  const { signOut } = useAuthStore();
   const {
     activeBranch,
     branches,
@@ -29,6 +34,7 @@ export const MoreMenuView: React.FC = () => {
     currentUser,
     openModal,
     toggleThemeMode,
+    setActiveTab,
   } = useAppStore();
 
   const isDarkMode = currentUser.themeMode !== 'light';
@@ -138,6 +144,23 @@ export const MoreMenuView: React.FC = () => {
           <ChevronLeft className="w-4 h-4 text-slate-500" />
         </button>
 
+        {/* Purchases & Wholesale Module */}
+        <button
+          onClick={() => setActiveTab('purchases')}
+          className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-800 transition border-t border-slate-800/80"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center">
+              <ShoppingBag className="w-4 h-4" />
+            </div>
+            <div className="text-right">
+              <h4 className="font-bold text-slate-200">إدارة المشتريات واستلام البضائع</h4>
+              <p className="text-[10px] text-slate-400">طلبات الشراء، توريد المخازن، وسندات الصرف للموردين</p>
+            </div>
+          </div>
+          <ChevronLeft className="w-4 h-4 text-slate-500" />
+        </button>
+
         {/* Users & Permissions */}
         <button
           onClick={() => openModal('users')}
@@ -226,7 +249,38 @@ export const MoreMenuView: React.FC = () => {
           </div>
           <ChevronLeft className="w-4 h-4 text-slate-500" />
         </button>
+
+        {/* System Test Screen (Owner Only) */}
+        <button
+          onClick={() => setActiveTab('system_test')}
+          className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-800 transition border-t border-slate-800/80"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center">
+              <Terminal className="w-4 h-4" />
+            </div>
+            <div className="text-right">
+              <div className="flex items-center gap-1.5">
+                <h4 className="font-bold text-slate-200">شاشة تجارب النظام (System Test)</h4>
+                <span className="text-[9px] font-extrabold bg-red-950 text-red-400 border border-red-800/60 px-1.5 py-0.2 rounded-full">
+                  Owner
+                </span>
+              </div>
+              <p className="text-[10px] text-slate-400">اختبار تنفيذ Supabase RPCs وحجز المخزون الحقيقي</p>
+            </div>
+          </div>
+          <ChevronLeft className="w-4 h-4 text-slate-500" />
+        </button>
       </div>
+
+      {/* Sign Out Button */}
+      <button
+        onClick={() => signOut()}
+        className="w-full bg-red-950/40 hover:bg-red-900/60 border border-red-800/60 text-red-300 font-bold p-3.5 rounded-2xl transition shadow-lg flex items-center justify-center gap-2.5 active:scale-98 text-xs"
+      >
+        <LogOut className="w-4 h-4 text-red-400" />
+        <span>تسجيل الخروج من الحساب</span>
+      </button>
 
       {/* App Info Footer */}
       <div className="text-center py-4 text-slate-500 text-[11px] space-y-1">
