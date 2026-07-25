@@ -70,7 +70,7 @@ export const AccountsView: React.FC = () => {
                 className="bg-blue-600/20 text-blue-300 border border-blue-500/30 px-3 py-1.5 rounded-xl text-xs font-bold hover:bg-blue-600/30 transition flex items-center gap-1"
               >
                 <Building className="w-3.5 h-3.5 text-blue-400" />
-                <span>نظام المشتريات والتوريد</span>
+                <span>استلام البضائع من الموردين</span>
               </button>
               <button
                 onClick={() => openModal('record_supplier_payment')}

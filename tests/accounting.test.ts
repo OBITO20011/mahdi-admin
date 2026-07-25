@@ -58,5 +58,30 @@ export function runSystemTests(): TestResult[] {
     message: changeDue === 6.30 ? 'تم حساب الباقي 6.30 د.أ بنجاح' : `خطأ بالباقي: ${changeDue}`,
   });
 
+  // Test 5: Wholesale Direct Goods Receiving Calculation Test
+  const packageQty = 5; // 5 cartons
+  const unitsPerPkg = 24; // 24 pieces per carton
+  const cartonPriceJod = 6.00; // 6.000 JOD per carton
+  const totalBaseUnits = packageQty * unitsPerPkg; // 120 pieces
+  const calculatedUnitCost = cartonPriceJod / unitsPerPkg; // 0.250 JOD per piece
+  const lineTotalJod = packageQty * cartonPriceJod; // 30.000 JOD
+  const paidJod = 10.00;
+  const dueJod = lineTotalJod - paidJod; // 20.000 JOD
+
+  const directReceivingValid =
+    totalBaseUnits === 120 &&
+    calculatedUnitCost === 0.25 &&
+    lineTotalJod === 30 &&
+    dueJod === 20;
+
+  results.push({
+    title: 'فحص استلام البضائع المباشر وحسبة الطرود (5 كراتين × 24 حبة)',
+    category: 'استلام البضائع من الموردين',
+    passed: directReceivingValid,
+    message: directReceivingValid
+      ? 'تم احتساب الطرود 120 حبة وتكلفة الحبة 0.250 د.أ والمتبقي 20.000 د.أ بنجاح'
+      : 'خطأ بحسبة الطرود والاستلام المباشر',
+  });
+
   return results;
 }

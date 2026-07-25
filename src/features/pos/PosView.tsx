@@ -5,9 +5,11 @@
 import React, { useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { Product, OrderItem, PaymentMethod } from '../../types';
+import { BarcodeScannerModal } from './BarcodeScannerModal';
 import {
   Search,
   Scan,
+  Camera,
   ShoppingBag,
   Plus,
   Minus,
@@ -25,7 +27,7 @@ import {
 import { CURRENCY } from '../../constants';
 
 export const PosView: React.FC = () => {
-  const { products, customers, createPosSale, openModal } = useAppStore();
+  const { products, customers, createPosSale, openModal, setToast } = useAppStore();
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -36,7 +38,7 @@ export const PosView: React.FC = () => {
   const [cashReceived, setCashReceived] = useState<number>(0);
   const [showReceiptModal, setShowReceiptModal] = useState<boolean>(false);
   const [lastInvoice, setLastInvoice] = useState<any>(null);
-  const [isScanningBarcode, setIsScanningBarcode] = useState<boolean>(false);
+  const [isBarcodeScannerOpen, setIsBarcodeScannerOpen] = useState<boolean>(false);
 
   const filteredProducts = products.filter((p) => {
     const matchesCategory = selectedCategory === 'all' ? true : p.categoryId === selectedCategory;
@@ -106,18 +108,6 @@ export const PosView: React.FC = () => {
     setCashReceived(0);
   };
 
-  const simulateBarcodeScan = () => {
-    setIsScanningBarcode(true);
-    setTimeout(() => {
-      setIsScanningBarcode(false);
-      if (!products || products.length === 0) return;
-      const randomProd = products[Math.floor(Math.random() * products.length)];
-      if (randomProd) {
-        addToCart(randomProd);
-      }
-    }, 1200);
-  };
-
   return (
     <div className="p-4 space-y-4 pb-24">
       {/* Header */}
@@ -130,14 +120,13 @@ export const PosView: React.FC = () => {
           <p className="text-[11px] text-slate-400">إصدار الفواتير وطباعة الإيصالات المباشرة</p>
         </div>
 
-        {/* Barcode Camera Simulator Button */}
+        {/* Barcode Camera Scanner Button */}
         <button
-          onClick={simulateBarcodeScan}
-          disabled={isScanningBarcode}
-          className="bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 active:scale-95"
+          onClick={() => setIsBarcodeScannerOpen(true)}
+          className="bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-950/50 border border-emerald-500/40 px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-2 active:scale-95"
         >
-          <Scan className={`w-4 h-4 ${isScanningBarcode ? 'animate-spin' : ''}`} />
-          <span>{isScanningBarcode ? 'جاري المسح...' : 'مسح الكاميرا'}</span>
+          <Camera className="w-4 h-4 animate-pulse" />
+          <span>مسح بالباركود (الكاميرا)</span>
         </button>
       </div>
 
@@ -408,6 +397,15 @@ export const PosView: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Live Barcode Camera Scanner Modal */}
+      <BarcodeScannerModal
+        isOpen={isBarcodeScannerOpen}
+        onClose={() => setIsBarcodeScannerOpen(false)}
+        products={products}
+        onProductScanned={(scannedProduct) => addToCart(scannedProduct)}
+        setToast={setToast}
+      />
     </div>
   );
 };

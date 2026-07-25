@@ -23,7 +23,7 @@ import { ShiftsView } from './features/shifts/ShiftsView';
 import { ReportsCenterView } from './features/reports/ReportsCenterView';
 import { UsersView } from './features/users/UsersView';
 import { MoreMenuView } from './features/more/MoreMenuView';
-import { PurchasesView } from './features/purchases/PurchasesView';
+import { DirectReceivingView } from './features/directReceiving/DirectReceivingView';
 import { SystemTestView } from './features/systemTest/SystemTestView';
 import { AllModals } from './components/modals/AllModals';
 import { Building2, Loader2 } from 'lucide-react';
@@ -57,7 +57,7 @@ export const App: React.FC = () => {
       case 'users':
         return <UsersView />;
       case 'purchases':
-        return <PurchasesView />;
+        return <DirectReceivingView />;
       case 'more':
         return <MoreMenuView />;
       case 'system_test':

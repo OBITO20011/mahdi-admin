@@ -144,7 +144,7 @@ export const MoreMenuView: React.FC = () => {
           <ChevronLeft className="w-4 h-4 text-slate-500" />
         </button>
 
-        {/* Purchases & Wholesale Module */}
+        {/* Direct Goods Receiving Module */}
         <button
           onClick={() => setActiveTab('purchases')}
           className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-800 transition border-t border-slate-800/80"
@@ -154,8 +154,8 @@ export const MoreMenuView: React.FC = () => {
               <ShoppingBag className="w-4 h-4" />
             </div>
             <div className="text-right">
-              <h4 className="font-bold text-slate-200">إدارة المشتريات واستلام البضائع</h4>
-              <p className="text-[10px] text-slate-400">طلبات الشراء، توريد المخازن، وسندات الصرف للموردين</p>
+              <h4 className="font-bold text-slate-200">استلام البضائع من الموردين</h4>
+              <p className="text-[10px] text-slate-400">تسجيل البضاعة الواردة، تحديث المخزون، وحساب مستحقات الموردين</p>
             </div>
           </div>
           <ChevronLeft className="w-4 h-4 text-slate-500" />

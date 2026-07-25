@@ -4,6 +4,7 @@
 
 import React, { useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
+import { formatProductInventory } from '../../utils/inventoryFormatter';
 import { ArrowLeftRight, Check, Package, Warehouse as WarehouseIcon, Building2 } from 'lucide-react';
 
 interface WarehouseTransferModalProps {
@@ -91,7 +92,7 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
         >
           {products.map((p) => (
             <option key={p.id} value={p.id}>
-              {p.nameAr} - (الباركود: {p.barcode}) - المخزون المتوفر: {p.onHandQuantity} {p.unit}
+              {p.nameAr} - (الباركود: {p.barcode}) - المخزون المتوفر: {formatProductInventory(p).fullFormatted}
             </option>
           ))}
         </select>
@@ -113,8 +114,8 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
           </div>
           <div className="text-left">
             <span className="text-[10px] text-slate-400 block">المخزون المتوفر</span>
-            <strong className="text-emerald-400 text-xs font-extrabold">
-              {selectedProduct.onHandQuantity} {selectedProduct.unit}
+            <strong className="text-emerald-400 text-xs font-extrabold block">
+              {formatProductInventory(selectedProduct).fullFormatted}
             </strong>
           </div>
         </div>

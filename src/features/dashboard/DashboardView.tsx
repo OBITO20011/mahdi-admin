@@ -14,6 +14,7 @@ import { KpiCards } from './KpiCards';
 import { ChartsSection } from './ChartsSection';
 import { WidgetsSection } from './WidgetsSection';
 import { QuickActions } from './QuickActions';
+import { SmartLowStockAlertBar } from './SmartLowStockAlertBar';
 import {
   RefreshCw,
   Wifi,
@@ -244,6 +245,13 @@ export const DashboardView: React.FC = () => {
         onAddCustomer={handleAddCustomer}
         onGoToOrders={handleGoToOrders}
         onGoToProducts={handleGoToProducts}
+      />
+
+      {/* 2.5 Smart Low-Stock Alert Bar */}
+      <SmartLowStockAlertBar
+        alerts={analytics?.lowStockAlerts || []}
+        onReceiveGoods={(productId) => openModal('receive_goods', { productId })}
+        onNavigateToProducts={handleGoToProducts}
       />
 
       {/* 3. Empty State Banner (If no data in database yet) */}

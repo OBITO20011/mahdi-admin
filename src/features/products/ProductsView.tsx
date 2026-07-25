@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { Product, ProductStatus } from '../../types';
+import { formatProductInventory } from '../../utils/inventoryFormatter';
 import {
   Package,
   Search,
@@ -52,6 +53,7 @@ export const ProductsView: React.FC = () => {
   const [selectedStatusFilter, setSelectedStatusFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'name' | 'price_desc' | 'price_asc' | 'qty_desc' | 'qty_asc'>('name');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [showWholesaleInfo, setShowWholesaleInfo] = useState<boolean>(true);
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
   // Filter Logic
@@ -378,24 +380,39 @@ export const ProductsView: React.FC = () => {
           </select>
         </div>
 
-        {/* View Mode */}
-        <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5">
+        {/* View Mode & Wholesale Info Toggle */}
+        <div className="flex items-center gap-1.5">
           <button
-            onClick={() => setViewMode('grid')}
-            className={`p-1.5 rounded-lg transition ${
-              viewMode === 'grid' ? 'bg-slate-800 text-blue-400' : 'text-slate-500'
+            onClick={() => setShowWholesaleInfo(!showWholesaleInfo)}
+            className={`px-2.5 py-1.5 rounded-xl border text-[10px] font-bold transition flex items-center gap-1 ${
+              showWholesaleInfo
+                ? 'bg-blue-600/20 text-blue-300 border-blue-500/40'
+                : 'bg-slate-900 text-slate-400 border-slate-800'
             }`}
+            title="إظهار/إخفاء أعمدة وأسعار طرود الجملة والربح"
           >
-            <Grid className="w-3.5 h-3.5" />
+            <Layers className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">أعمدة طرود الجملة</span>
           </button>
-          <button
-            onClick={() => setViewMode('list')}
-            className={`p-1.5 rounded-lg transition ${
-              viewMode === 'list' ? 'bg-slate-800 text-blue-400' : 'text-slate-500'
-            }`}
-          >
-            <List className="w-3.5 h-3.5" />
-          </button>
+
+          <div className="flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`p-1.5 rounded-lg transition ${
+                viewMode === 'grid' ? 'bg-slate-800 text-blue-400' : 'text-slate-500'
+              }`}
+            >
+              <Grid className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={`p-1.5 rounded-lg transition ${
+                viewMode === 'list' ? 'bg-slate-800 text-blue-400' : 'text-slate-500'
+              }`}
+            >
+              <List className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -542,23 +559,44 @@ export const ProductsView: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Footer Prices */}
+                {/* Footer Prices & Optional Wholesale Metrics */}
                 <div
                   onClick={() => openModal('view_product', prod)}
-                  className="mt-2 pt-2 border-t border-slate-800 flex items-center justify-between cursor-pointer"
+                  className="mt-2 pt-2 border-t border-slate-800 space-y-1.5 cursor-pointer"
                 >
-                  <div>
-                    <span className="text-[9px] text-slate-500 block">سعر البيع:</span>
-                    <strong className="font-black text-blue-400 text-xs">
-                      {prod.retailPrice.toFixed(2)} {CURRENCY}
-                    </strong>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-[9px] text-slate-500 block">سعر البيع:</span>
+                      <strong className="font-black text-blue-400 text-xs">
+                        {prod.retailPrice.toFixed(3)} {CURRENCY}
+                      </strong>
+                    </div>
+                    <div className="text-left">
+                      <span className="text-[9px] text-slate-500 block">المتاح بالمخزن:</span>
+                      {(() => {
+                        const inv = formatProductInventory(prod, true);
+                        return (
+                          <div>
+                            <strong className="font-extrabold text-amber-300 text-xs block">{inv.cartonFormatted}</strong>
+                            <span className="text-[10px] text-slate-400 font-bold block">{inv.totalPiecesFormatted}</span>
+                          </div>
+                        );
+                      })()}
+                    </div>
                   </div>
-                  <div className="text-left">
-                    <span className="text-[9px] text-slate-500 block">المتاح:</span>
-                    <strong className="font-extrabold text-slate-200 text-xs">
-                      {prod.availableQuantity} {prod.unit}
-                    </strong>
-                  </div>
+
+                  {showWholesaleInfo && (
+                    <div className="bg-slate-900/90 p-1.5 rounded-xl border border-slate-800 text-[10px] space-y-0.5">
+                      <div className="flex items-center justify-between text-slate-400">
+                        <span>طرد الشراء: <strong className="text-slate-200">{prod.purchasePackage || 'كرتونة'} ({prod.unitsPerPackage || 24} قطعة)</strong></span>
+                        <span>التكلفة/قطعة: <strong className="text-amber-400">{prod.costPrice.toFixed(3)}</strong></span>
+                      </div>
+                      <div className="flex items-center justify-between text-slate-400">
+                        <span>الربح/قطعة: <strong className="text-emerald-400">{(prod.profitPerPiece ?? (prod.retailPrice - prod.costPrice)).toFixed(3)}</strong></span>
+                        <span>نسبة الربح: <strong className="text-emerald-400 font-mono">%{(prod.profitPercentage ?? (prod.costPrice > 0 ? (((prod.retailPrice - prod.costPrice) / prod.costPrice) * 100).toFixed(1) : 0))}</strong></span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             );
@@ -569,12 +607,14 @@ export const ProductsView: React.FC = () => {
         <div className="space-y-2">
           {filteredProducts.map((prod) => {
             const badge = getStatusBadge(prod.status, prod.availableQuantity, prod.reorderLevel);
+            const profitVal = (prod.profitPerPiece ?? (prod.retailPrice - prod.costPrice));
+            const profitPct = (prod.profitPercentage ?? (prod.costPrice > 0 ? (((prod.retailPrice - prod.costPrice) / prod.costPrice) * 100).toFixed(1) : 0));
 
             return (
               <div
                 key={prod.id}
                 onClick={() => openModal('view_product', prod)}
-                className="bg-slate-950 border border-slate-800 p-2.5 rounded-2xl flex items-center justify-between cursor-pointer hover:border-slate-700 transition"
+                className="bg-slate-950 border border-slate-800 p-2.5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2 cursor-pointer hover:border-slate-700 transition"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <img
@@ -593,13 +633,36 @@ export const ProductsView: React.FC = () => {
                   </div>
                 </div>
 
+                {showWholesaleInfo && (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-800 text-[10px] text-slate-300">
+                    <div>
+                      <span className="text-slate-500 block text-[9px]">وحدة الشراء</span>
+                      <strong className="text-slate-200">{prod.purchasePackage || 'كرتونة'} ({prod.unitsPerPackage || 24} قطعة)</strong>
+                    </div>
+                    <div>
+                      <span className="text-slate-500 block text-[9px]">تكلفة القطعة</span>
+                      <strong className="text-amber-400">{prod.costPrice.toFixed(3)} {CURRENCY}</strong>
+                    </div>
+                    <div>
+                      <span className="text-slate-500 block text-[9px]">الربح (% / JOD)</span>
+                      <strong className="text-emerald-400">{profitVal.toFixed(3)} JOD (%{profitPct})</strong>
+                    </div>
+                  </div>
+                )}
+
                 <div className="text-left shrink-0">
                   <strong className="font-black text-blue-400 text-sm block">
-                    {prod.retailPrice.toFixed(2)} {CURRENCY}
+                    {prod.retailPrice.toFixed(3)} {CURRENCY}
                   </strong>
-                  <span className="text-[10px] text-slate-400">
-                    متاح: {prod.availableQuantity} {prod.unit}
-                  </span>
+                  {(() => {
+                    const inv = formatProductInventory(prod, true);
+                    return (
+                      <div className="text-[10px] text-left">
+                        <strong className="font-extrabold text-amber-300 block">{inv.cartonFormatted}</strong>
+                        <span className="text-slate-400 font-bold block">{inv.totalPiecesFormatted}</span>
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
             );

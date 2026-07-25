@@ -365,8 +365,23 @@ class StoreEngine {
 
   // --- Actions ---
 
-  public setToast(message: string, type: 'success' | 'error' | 'info' = 'success') {
-    this.state.toast = { message, type };
+  public setToast(
+    message: string | { message?: string; type?: 'success' | 'error' | 'info' },
+    type: 'success' | 'error' | 'info' = 'success'
+  ) {
+    let finalMsg = '';
+    let finalType = type;
+
+    if (typeof message === 'object' && message !== null) {
+      finalMsg = message.message || JSON.stringify(message);
+      if (message.type) {
+        finalType = message.type;
+      }
+    } else {
+      finalMsg = String(message || '');
+    }
+
+    this.state.toast = { message: finalMsg, type: finalType };
     this.notify();
     setTimeout(() => {
       this.state.toast = null;
@@ -1746,8 +1761,10 @@ export function useAppStore() {
 
   return {
     ...state,
-    setToast: (msg: string, type?: 'success' | 'error' | 'info') =>
-      storeEngine.setToast(msg, type),
+    setToast: (
+      msg: string | { message?: string; type?: 'success' | 'error' | 'info' },
+      type?: 'success' | 'error' | 'info'
+    ) => storeEngine.setToast(msg, type),
     setActiveTab: (tab: AppState['activeTab']) => storeEngine.setActiveTab(tab),
     toggleQuickAction: (open?: boolean) => storeEngine.toggleQuickAction(open),
     openModal: (m: string, data?: any) => storeEngine.openModal(m, data),

@@ -14,7 +14,7 @@ import { UnitsModal } from './UnitsModal';
 import { ProfileModal } from '../../features/more/ProfileModal';
 import { UserFormModal } from '../../features/users/UserFormModal';
 import { OrderDetailModal } from '../../features/orders/OrderDetailModal';
-import { ReceiveGoodsModal } from '../../features/inventory/ReceiveGoodsModal';
+import { CreateDirectReceiptModal } from '../../features/directReceiving/CreateDirectReceiptModal';
 import { WarehouseTransferModal } from '../../features/inventory/WarehouseTransferModal';
 import { StockCountModal } from '../../features/inventory/StockCountModal';
 import { SupabaseSqlViewerModal } from './SupabaseSqlViewerModal';
@@ -89,14 +89,14 @@ export const AllModals: React.FC = () => {
         )}
       </Modal>
 
-      {/* Standalone Receive Goods Modal */}
+      {/* Standalone Direct Receive Goods Modal */}
       <Modal
         isOpen={currentModal === 'receive_goods'}
         onClose={closeModal}
-        title="استلام بضاعة (إذن توريد جديد)"
-        subtitle="إدخال واستلام الشحنات والبضائع الجديدة وتحديث المخزون"
+        title="استلام بضائع من الموردين (إذن توريد جديد)"
+        subtitle="تسجيل الشحنة المباشرة، إدخال أسعار وطرود المنتجات، وتحديث المخزون والمستحقات"
       >
-        <ReceiveGoodsModal onClose={closeModal} />
+        <CreateDirectReceiptModal onClose={closeModal} />
       </Modal>
 
       {/* Warehouse Transfer Modal */}

@@ -4,6 +4,7 @@
 
 import React, { useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
+import { formatProductInventory, formatWholesaleInventory } from '../../utils/inventoryFormatter';
 import { Truck, Check, Package, Warehouse as WarehouseIcon, Building2, Calendar, FileText, Barcode } from 'lucide-react';
 
 interface ReceiveGoodsModalProps {
@@ -89,7 +90,7 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({ onClose })
         >
           {products.map((p) => (
             <option key={p.id} value={p.id}>
-              {p.nameAr} - (الباركود: {p.barcode}) - المخزون الحالي: {p.onHandQuantity} {p.unit}
+              {p.nameAr} - (الباركود: {p.barcode}) - المخزون الحالي: {formatProductInventory(p).fullFormatted}
             </option>
           ))}
         </select>
@@ -113,8 +114,8 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({ onClose })
           </div>
           <div className="text-left">
             <span className="text-[10px] text-slate-400 block">المخزون الحالي</span>
-            <strong className="text-emerald-400 text-xs font-extrabold">
-              {selectedProduct.onHandQuantity} {selectedProduct.unit}
+            <strong className="text-emerald-400 text-xs font-extrabold block">
+              {formatProductInventory(selectedProduct).fullFormatted}
             </strong>
           </div>
         </div>
@@ -156,10 +157,10 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({ onClose })
         <div className="bg-indigo-950/30 p-2.5 rounded-xl border border-indigo-900/50 flex items-center justify-between text-xs">
           <span className="text-slate-400">المخزون الجديد بعد الاستلام:</span>
           <div className="flex items-center gap-1.5 font-bold">
-            <span className="text-slate-400 line-through">{selectedProduct.onHandQuantity}</span>
+            <span className="text-slate-400 line-through text-[11px]">{formatProductInventory(selectedProduct).fullFormatted}</span>
             <span className="text-indigo-400">←</span>
-            <span className="text-emerald-400 font-black text-sm">
-              {selectedProduct.onHandQuantity + receivedQty} {selectedProduct.unit}
+            <span className="text-emerald-400 font-black text-xs">
+              {formatWholesaleInventory(selectedProduct.onHandQuantity + receivedQty, selectedProduct.unitsPerPackage, selectedProduct.purchasePackage, selectedProduct.unit).fullFormatted}
             </span>
           </div>
         </div>

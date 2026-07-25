@@ -73,15 +73,17 @@ export interface User {
 export interface Branch {
   id: string;
   name: string;
+  nameAr?: string;
   address: string;
   city: string;
   phone: string;
-  isMain: boolean;
+  isMain?: boolean;
 }
 
 export interface Warehouse {
   id: string;
   name: string;
+  nameAr?: string;
   branchId: string;
   location: string;
 }
@@ -114,18 +116,23 @@ export interface Product {
   categoryId: string;
   brandId?: string;
   supplierId?: string;
-  costPrice: number;
-  retailPrice: number;
+  purchasePackage?: string; // e.g. 'كرتونة'
+  unitsPerPackage?: number; // INTEGER e.g. 24
+  defaultPurchasePrice?: number; // Package purchase price e.g. 7.200
+  costPrice: number; // Cost per piece e.g. 0.300
+  retailPrice: number; // Selling price per piece e.g. 0.450
   wholesalePrice: number;
+  profitPerPiece?: number; // Automatically calculated: retailPrice - costPrice
+  profitPercentage?: number; // Automatically calculated: ((retailPrice - costPrice) / costPrice) * 100
   promoPrice?: number;
   taxRate: number; // percentage e.g. 16%
   unit: string; // e.g. 'قطعة'
   packetSize?: number; // pieces inside packet
   cartonSize?: number; // pieces inside carton
-  onHandQuantity: number;
+  onHandQuantity: number; // INTEGER
   reservedQuantity: number; // reserved for pending orders
   availableQuantity: number; // calculated: onHand - reserved
-  reorderLevel: number; // minimum alert quantity
+  reorderLevel: number; // minimum stock alert level
   expiryDate?: string;
   productionDate?: string;
   batchNumber?: string;
@@ -134,7 +141,6 @@ export interface Product {
   warehouseLocation?: string;
   branchId?: string;
   warehouseId?: string;
-  weightKg?: number;
   ingredients?: string;
   allergens?: string;
   nutritionalInfo?: string;
@@ -175,6 +181,8 @@ export interface UnitDefinition {
   conversionFactor: number; // e.g. 1 for piece, 12 for packet, 144 for carton
   isSystem?: boolean;
 }
+
+export type Unit = UnitDefinition;
 
 export type MovementType =
   | 'Opening Balance'
@@ -473,5 +481,7 @@ export interface SyncQueueItem {
   timestamp: string;
   errorMessage?: string;
 }
+
+export * from './directReceiving';
 
 export * from './purchases';

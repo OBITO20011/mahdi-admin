@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { Product, InventoryMovement } from '../../types';
+import { formatProductInventory } from '../../utils/inventoryFormatter';
 import {
   Boxes,
   Search,
@@ -539,28 +540,38 @@ export const InventoryView: React.FC = () => {
                       {/* Quantities Table Breakdown */}
                       <div className="grid grid-cols-4 gap-1.5 text-center bg-slate-950/60 p-2 rounded-xl border border-slate-800">
                         {/* Actual Stock */}
-                        <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
-                          <span className="text-[9px] text-slate-400 block font-bold">الفعلي</span>
-                          <strong className="text-xs font-black text-slate-100">
-                            {product.onHandQuantity}
-                          </strong>
-                        </div>
+                        {(() => {
+                          const invOnHand = formatProductInventory(product, false);
+                          const invAvail = formatProductInventory(product, true);
+                          return (
+                            <>
+                              <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
+                                <span className="text-[9px] text-slate-400 block font-bold">الفعلي</span>
+                                <strong className="text-[11px] font-black text-amber-300 block">
+                                  {invOnHand.cartonFormatted}
+                                </strong>
+                                <span className="text-[10px] text-slate-400 font-bold block">{invOnHand.totalPiecesFormatted}</span>
+                              </div>
 
-                        {/* Reserved Stock */}
-                        <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
-                          <span className="text-[9px] text-amber-400 block font-bold">المحجوز</span>
-                          <strong className="text-xs font-black text-amber-400">
-                            {product.reservedQuantity}
-                          </strong>
-                        </div>
+                              {/* Reserved Stock */}
+                              <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
+                                <span className="text-[9px] text-amber-400 block font-bold">المحجوز</span>
+                                <strong className="text-xs font-black text-amber-400 block">
+                                  {product.reservedQuantity} قطعة
+                                </strong>
+                              </div>
 
-                        {/* Available Stock */}
-                        <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
-                          <span className="text-[9px] text-emerald-400 block font-bold">المتاح</span>
-                          <strong className="text-xs font-black text-emerald-400">
-                            {product.availableQuantity}
-                          </strong>
-                        </div>
+                              {/* Available Stock */}
+                              <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
+                                <span className="text-[9px] text-emerald-400 block font-bold">المتاح</span>
+                                <strong className="text-[11px] font-black text-emerald-400 block">
+                                  {invAvail.cartonFormatted}
+                                </strong>
+                                <span className="text-[10px] text-emerald-300/80 font-bold block">{invAvail.totalPiecesFormatted}</span>
+                              </div>
+                            </>
+                          );
+                        })()}
 
                         {/* Reorder Level */}
                         <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
@@ -723,7 +734,7 @@ export const InventoryView: React.FC = () => {
                 <div>
                   <h3 className="font-extrabold text-slate-100 text-xs">{historyProduct.nameAr}</h3>
                   <p className="text-[10px] text-slate-400">
-                    الرمز: <span className="font-mono">{historyProduct.sku}</span> | المخزون الحالي: {historyProduct.onHandQuantity} {historyProduct.unit}
+                    الرمز: <span className="font-mono">{historyProduct.sku}</span> | المخزون الحالي: <strong className="text-amber-300 font-bold">{formatProductInventory(historyProduct).fullFormatted}</strong>
                   </p>
                 </div>
               </div>

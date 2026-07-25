@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { Product } from '../../types';
+import { formatProductInventory } from '../../utils/inventoryFormatter';
 import {
   Package,
   Edit,
@@ -133,20 +134,55 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product,
       {/* Key Stock & Price Metrics Bento Box */}
       <div className="grid grid-cols-3 gap-2">
         <div className="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 text-center">
-          <span className="text-[10px] text-slate-400 block">سعر التجزئة</span>
+          <span className="text-[10px] text-slate-400 block">سعر بيع القطعة</span>
           <span className="text-sm font-black text-blue-400">
-            {product.retailPrice.toFixed(2)} {CURRENCY}
+            {product.retailPrice.toFixed(3)} {CURRENCY}
           </span>
         </div>
         <div className="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 text-center">
-          <span className="text-[10px] text-slate-400 block">سعر التكلفة</span>
-          <span className="text-sm font-bold text-slate-300">
-            {product.costPrice.toFixed(2)} {CURRENCY}
+          <span className="text-[10px] text-slate-400 block">تكلفة القطعة</span>
+          <span className="text-sm font-bold text-amber-400">
+            {product.costPrice.toFixed(3)} {CURRENCY}
           </span>
         </div>
         <div className="bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 text-center">
-          <span className="text-[10px] text-slate-400 block">هامش الربح</span>
-          <span className="text-sm font-extrabold text-emerald-400">%{profitMargin}</span>
+          <span className="text-[10px] text-slate-400 block">الربح (% والـ JOD)</span>
+          <span className="text-sm font-extrabold text-emerald-400 block">
+            {((product.profitPerPiece ?? (product.retailPrice - product.costPrice))).toFixed(3)} {CURRENCY}
+          </span>
+          <span className="text-[9px] text-emerald-300 font-mono">
+            (%{(product.profitPercentage ?? profitMargin)})
+          </span>
+        </div>
+      </div>
+
+      {/* Wholesale Package Information Breakdown */}
+      <div className="bg-slate-900/90 p-3 rounded-2xl border border-blue-900/40 space-y-2">
+        <h4 className="font-bold text-blue-300 text-[11px] flex items-center justify-between">
+          <span>بيانات الجملة وطرد الشراء</span>
+          <span className="text-blue-400 text-[10px] bg-blue-950 px-2 py-0.5 rounded-full border border-blue-800">
+            {product.purchasePackage || 'كرتونة'}
+          </span>
+        </h4>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-[10px]">
+          <div className="bg-slate-950 p-2 rounded-xl border border-slate-800">
+            <span className="text-slate-400 block">وحدة الشراء</span>
+            <strong className="text-slate-100 text-xs font-bold">{product.purchasePackage || 'كرتونة'}</strong>
+          </div>
+          <div className="bg-slate-950 p-2 rounded-xl border border-slate-800">
+            <span className="text-slate-400 block">قطع الطرد</span>
+            <strong className="text-amber-400 text-xs font-bold">{product.unitsPerPackage || 24} قطعة</strong>
+          </div>
+          <div className="bg-slate-950 p-2 rounded-xl border border-slate-800">
+            <span className="text-slate-400 block">سعر شراء الطرد</span>
+            <strong className="text-emerald-400 text-xs font-bold">
+              {(product.defaultPurchasePrice || (product.costPrice * (product.unitsPerPackage || 24))).toFixed(3)} {CURRENCY}
+            </strong>
+          </div>
+          <div className="bg-slate-950 p-2 rounded-xl border border-slate-800">
+            <span className="text-slate-400 block">تكلفة القطعة</span>
+            <strong className="text-slate-200 text-xs font-bold">{product.costPrice.toFixed(3)} {CURRENCY}</strong>
+          </div>
         </div>
       </div>
 
@@ -157,18 +193,28 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ product,
           <span className="text-slate-500 text-[10px]">الوحدة: {product.unit}</span>
         </h4>
         <div className="grid grid-cols-3 gap-2 text-center text-[11px]">
-          <div className="bg-slate-950 p-2 rounded-xl border border-slate-800">
-            <span className="text-slate-500 block text-[9px]">الفعلي المخزن</span>
-            <strong className="text-slate-100 text-xs font-black">{product.onHandQuantity}</strong>
-          </div>
-          <div className="bg-slate-950 p-2 rounded-xl border border-slate-800">
-            <span className="text-slate-500 block text-[9px]">المحجوز لطلبات</span>
-            <strong className="text-amber-400 text-xs font-black">{product.reservedQuantity}</strong>
-          </div>
-          <div className="bg-slate-950 p-2 rounded-xl border border-slate-800">
-            <span className="text-slate-500 block text-[9px]">المتاح للبيع</span>
-            <strong className="text-emerald-400 text-xs font-black">{product.availableQuantity}</strong>
-          </div>
+          {(() => {
+            const invOnHand = formatProductInventory(product, false);
+            const invAvail = formatProductInventory(product, true);
+            return (
+              <>
+                <div className="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                  <span className="text-slate-500 block text-[9px]">الفعلي المخزن</span>
+                  <strong className="text-amber-300 text-[11px] font-black block">{invOnHand.cartonFormatted}</strong>
+                  <span className="text-slate-400 text-[10px] font-bold block">{invOnHand.totalPiecesFormatted}</span>
+                </div>
+                <div className="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                  <span className="text-slate-500 block text-[9px]">المحجوز لطلبات</span>
+                  <strong className="text-amber-400 text-xs font-black block">{product.reservedQuantity} قطعة</strong>
+                </div>
+                <div className="bg-slate-950 p-2 rounded-xl border border-slate-800">
+                  <span className="text-slate-500 block text-[9px]">المتاح للبيع</span>
+                  <strong className="text-emerald-400 text-[11px] font-black block">{invAvail.cartonFormatted}</strong>
+                  <span className="text-emerald-300/80 text-[10px] font-bold block">{invAvail.totalPiecesFormatted}</span>
+                </div>
+              </>
+            );
+          })()}
         </div>
       </div>
 

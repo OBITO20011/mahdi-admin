@@ -4,6 +4,7 @@
 
 import React, { useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
+import { formatProductInventory } from '../../utils/inventoryFormatter';
 import { ClipboardCheck, Check, Package, AlertTriangle } from 'lucide-react';
 
 interface StockCountModalProps {
@@ -91,7 +92,7 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
         >
           {products.map((p) => (
             <option key={p.id} value={p.id}>
-              {p.nameAr} - (الرمز: {p.sku}) - بالنظام: {p.onHandQuantity} {p.unit}
+              {p.nameAr} - (الرمز: {p.sku}) - بالنظام: {formatProductInventory(p).fullFormatted}
             </option>
           ))}
         </select>
@@ -115,8 +116,8 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
           </div>
           <div className="text-left">
             <span className="text-[10px] text-slate-400 block">الكمية بالنظام</span>
-            <strong className="text-purple-300 text-xs font-extrabold">
-              {systemQty} {selectedProduct.unit}
+            <strong className="text-purple-300 text-xs font-extrabold block">
+              {formatProductInventory(selectedProduct).fullFormatted}
             </strong>
           </div>
         </div>

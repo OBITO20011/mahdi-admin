@@ -5,6 +5,7 @@
 import React, { useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { Product } from '../../types';
+import { formatProductInventory, formatWholesaleInventory } from '../../utils/inventoryFormatter';
 import { Plus, Minus, Layers, AlertCircle, Check } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 
@@ -57,7 +58,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
         <div className="flex-1 min-w-0">
           <h4 className="font-extrabold text-slate-100 truncate text-xs">{product.nameAr}</h4>
           <p className="text-[10px] text-slate-400">
-            المخزون الحالي: <strong className="text-emerald-400 font-bold">{currentOnHand} {product.unit}</strong>
+            المخزون الحالي: <strong className="text-emerald-400 font-bold">{formatProductInventory(product).fullFormatted}</strong>
           </p>
         </div>
       </div>
@@ -169,10 +170,10 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
       <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex items-center justify-between">
         <span className="text-slate-400 text-[11px]">النتيجة النهائية للمخزون:</span>
         <div className="flex items-center gap-2">
-          <span className="text-slate-400 line-through text-[11px]">{currentOnHand}</span>
+          <span className="text-slate-400 line-through text-[11px]">{formatProductInventory(product).fullFormatted}</span>
           <span className="text-slate-500">←</span>
-          <span className="text-sm font-extrabold text-emerald-400">
-            {calculatedNewOnHand} {product.unit}
+          <span className="text-xs font-extrabold text-emerald-400">
+            {formatWholesaleInventory(calculatedNewOnHand, product.unitsPerPackage, product.purchasePackage, product.unit).fullFormatted}
           </span>
         </div>
       </div>
