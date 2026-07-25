@@ -4,8 +4,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { Supplier } from '../../types';
-import { createSupplierInSupabase } from '../../services/supabase/purchases.service';
-import { useAppStore } from '../../stores/useAppStore';
+import { createSupplierInSupabase, updateSupplierInSupabase } from '../../services/supabase/purchases.service';
+import { storeEngine } from '../../stores/useAppStore';
 import {
   X,
   Building,
@@ -23,18 +23,18 @@ import {
 interface CreateSupplierModalProps {
   isOpen: boolean;
   initialCompanyName?: string;
+  supplierToEdit?: Supplier | null;
   onClose: () => void;
-  onSuccess: (newSupplier: Supplier) => void;
+  onSuccess: (supplier: Supplier) => void;
 }
 
 export const CreateSupplierModal: React.FC<CreateSupplierModalProps> = ({
   isOpen,
   initialCompanyName = '',
+  supplierToEdit = null,
   onClose,
   onSuccess,
 }) => {
-  const { setToast } = useAppStore();
-
   const [companyName, setCompanyName] = useState<string>('');
   const [contactPerson, setContactPerson] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
@@ -50,19 +50,31 @@ export const CreateSupplierModal: React.FC<CreateSupplierModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
-      setCompanyName(initialCompanyName);
-      setContactPerson('');
-      setPhone('');
-      setWhatsapp('');
-      setEmail('');
-      setAddress('');
-      setTaxNumber('');
-      setNotes('');
-      setIsActive(true);
+      if (supplierToEdit) {
+        setCompanyName(supplierToEdit.companyName || '');
+        setContactPerson(supplierToEdit.contactPerson || '');
+        setPhone(supplierToEdit.phone || '');
+        setWhatsapp(supplierToEdit.whatsapp || '');
+        setEmail(supplierToEdit.email || '');
+        setAddress(supplierToEdit.address || '');
+        setTaxNumber(supplierToEdit.taxNumber || '');
+        setNotes(supplierToEdit.notes || '');
+        setIsActive(supplierToEdit.isActive ?? true);
+      } else {
+        setCompanyName(initialCompanyName);
+        setContactPerson('');
+        setPhone('');
+        setWhatsapp('');
+        setEmail('');
+        setAddress('');
+        setTaxNumber('');
+        setNotes('');
+        setIsActive(true);
+      }
       setErrorMsg(null);
       setIsSubmitting(false);
     }
-  }, [isOpen, initialCompanyName]);
+  }, [isOpen, initialCompanyName, supplierToEdit]);
 
   if (!isOpen) return null;
 
@@ -87,7 +99,7 @@ export const CreateSupplierModal: React.FC<CreateSupplierModalProps> = ({
 
     setIsSubmitting(true);
 
-    const res = await createSupplierInSupabase({
+    const inputData = {
       companyName: trimmedCompanyName,
       contactPerson: contactPerson.trim() || undefined,
       phone: phone.trim() || undefined,
@@ -97,16 +109,26 @@ export const CreateSupplierModal: React.FC<CreateSupplierModalProps> = ({
       taxNumber: taxNumber.trim() || undefined,
       notes: notes.trim() || undefined,
       isActive,
-    });
+    };
+
+    let res;
+    if (supplierToEdit) {
+      res = await updateSupplierInSupabase(supplierToEdit.id, inputData);
+    } else {
+      res = await createSupplierInSupabase(inputData);
+    }
 
     setIsSubmitting(false);
 
     if (res.success && res.data) {
-      setToast('تمت إضافة المورد بنجاح', 'success');
+      storeEngine.setToast(
+        supplierToEdit ? 'تم تحديث بيانات المورد بنجاح' : 'تمت إضافة المورد بنجاح',
+        'success'
+      );
       onSuccess(res.data);
       onClose();
     } else {
-      setErrorMsg(res.error || 'حدث خطأ أثناء إضافة المورد');
+      setErrorMsg(res.error || 'حدث خطأ أثناء حفظ بيانات المورد');
     }
   };
 
@@ -120,8 +142,14 @@ export const CreateSupplierModal: React.FC<CreateSupplierModalProps> = ({
               <Building className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-100">إضافة مورد جديد</h2>
-              <p className="text-xs text-slate-400">إدخال بيانات المورد لإتاحته في أمر الشراء</p>
+              <h2 className="text-base font-bold text-slate-100">
+                {supplierToEdit ? 'تعديل بيانات المورد' : 'إضافة مورد جديد'}
+              </h2>
+              <p className="text-xs text-slate-400">
+                {supplierToEdit
+                  ? 'تحديث بيانات وسجل معلومات المورد'
+                  : 'إدخال بيانات المورد لإتاحته في أوامر الشراء'}
+              </p>
             </div>
           </div>
           <button

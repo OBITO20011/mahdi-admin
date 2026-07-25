@@ -3,11 +3,17 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { useAppStore } from '../../stores/useAppStore';
-import { CreatePurchaseOrderInput } from '../../types/purchases';
-import { createPurchaseOrderInSupabase, fetchSuppliersFromSupabase } from '../../services/supabase/purchases.service';
+import { useAppStore, storeEngine } from '../../stores/useAppStore';
+import { CreatePurchaseOrderInput, PurchaseOrder } from '../../types/purchases';
+import {
+  createPurchaseOrderInSupabase,
+  updatePurchaseOrderInSupabase,
+  fetchSuppliersFromSupabase,
+  isValidUUID,
+} from '../../services/supabase/purchases.service';
 import { fetchProductsFromSupabase } from '../../services/supabase/products.service';
-import { Supplier, Product } from '../../types';
+import { fetchBranchesFromSupabase, fetchWarehousesFromSupabase } from '../../services/supabase/reference-data.service';
+import { Supplier, Product, Branch, Warehouse } from '../../types';
 import { CreateSupplierModal } from './CreateSupplierModal';
 import {
   X,
@@ -21,6 +27,8 @@ import {
   AlertTriangle,
   CheckCircle2,
   Search,
+  Package,
+  Edit,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 
@@ -28,12 +36,14 @@ interface CreatePurchaseOrderModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: (poId: string) => void;
+  poToEdit?: PurchaseOrder | null;
 }
 
 interface OrderItemRow {
   productId: string;
   productName: string;
   sku: string;
+  barcode?: string;
   unit: string;
   orderedQuantity: number;
   purchasePrice: number; // JOD
@@ -44,8 +54,9 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
   isOpen,
   onClose,
   onSuccess,
+  poToEdit,
 }) => {
-  const { branches, warehouses, activeBranch } = useAppStore();
+  const { activeBranch } = useAppStore();
 
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [selectedSupplierId, setSelectedSupplierId] = useState<string>('');
@@ -53,7 +64,10 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
   const [isCreateSupplierModalOpen, setIsCreateSupplierModalOpen] = useState<boolean>(false);
   const [initialSupplierName, setInitialSupplierName] = useState<string>('');
 
-  const [selectedBranchId, setSelectedBranchId] = useState<string>(activeBranch?.id || '');
+  const [availableBranches, setAvailableBranches] = useState<Branch[]>([]);
+  const [availableWarehouses, setAvailableWarehouses] = useState<Warehouse[]>([]);
+
+  const [selectedBranchId, setSelectedBranchId] = useState<string>('');
   const [selectedWarehouseId, setSelectedWarehouseId] = useState<string>('');
   const [expectedDeliveryDate, setExpectedDeliveryDate] = useState<string>('');
   const [supplierInvoiceNumber, setSupplierInvoiceNumber] = useState<string>('');
@@ -89,22 +103,93 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
     };
   }, []);
 
-  // Load suppliers and active products on open
+  // Load suppliers, active products, branches, and warehouses on open
   useEffect(() => {
     if (isOpen) {
+      if (poToEdit) {
+        setSelectedSupplierId(poToEdit.supplierId);
+        setSelectedBranchId(poToEdit.branchId || '');
+        setSelectedWarehouseId(poToEdit.warehouseId || '');
+        setExpectedDeliveryDate(poToEdit.expectedDeliveryDate ? poToEdit.expectedDeliveryDate.substring(0, 10) : '');
+        setSupplierInvoiceNumber(poToEdit.supplierInvoiceNumber || '');
+        setDeliveryFee(poToEdit.deliveryFee || 0);
+        setOverallDiscount(poToEdit.discount || 0);
+        setNotes(poToEdit.notes || '');
+        setInternalNotes(poToEdit.internalNotes || '');
+        setItems(
+          (poToEdit.items || []).map((i) => ({
+            productId: i.productId,
+            productName: i.productName,
+            sku: i.sku || '',
+            barcode: i.barcode || '',
+            unit: i.unit || 'قطعة',
+            orderedQuantity: i.orderedQuantity,
+            purchasePrice: i.purchasePrice,
+            discount: i.discount,
+          }))
+        );
+      } else {
+        setSelectedSupplierId('');
+        setSelectedBranchId('');
+        setSelectedWarehouseId('');
+        setExpectedDeliveryDate('');
+        setSupplierInvoiceNumber('');
+        setDeliveryFee(0);
+        setOverallDiscount(0);
+        setNotes('');
+        setInternalNotes('');
+        setItems([]);
+      }
       loadSuppliers();
       loadProducts();
-      if (warehouses && warehouses.length > 0 && !selectedWarehouseId) {
-        setSelectedWarehouseId(warehouses[0].id);
-      }
+      loadBranchesAndWarehouses();
     }
-  }, [isOpen]);
+  }, [isOpen, poToEdit]);
+
+  const loadBranchesAndWarehouses = async () => {
+    try {
+      const [bList, wList] = await Promise.all([
+        fetchBranchesFromSupabase(),
+        fetchWarehousesFromSupabase(),
+      ]);
+
+      // Filter only real UUID branches/warehouses
+      const validBranches = (bList || []).filter((b) => isValidUUID(b.id));
+      const validWarehouses = (wList || []).filter((w) => isValidUUID(w.id));
+
+      setAvailableBranches(validBranches);
+      setAvailableWarehouses(validWarehouses);
+
+      // Default active branch if it has a valid UUID
+      if (activeBranch?.id && isValidUUID(activeBranch.id)) {
+        setSelectedBranchId(activeBranch.id);
+      } else if (validBranches.length > 0) {
+        setSelectedBranchId(validBranches[0].id);
+      } else {
+        setSelectedBranchId('');
+      }
+
+      if (validWarehouses.length > 0) {
+        setSelectedWarehouseId(validWarehouses[0].id);
+      } else {
+        setSelectedWarehouseId('');
+      }
+    } catch (err) {
+      if (import.meta.env.DEV) {
+        console.error('[CreatePurchaseOrderModal] Error loading reference data:', err);
+      }
+      setAvailableBranches([]);
+      setAvailableWarehouses([]);
+    }
+  };
 
   const loadSuppliers = async () => {
     const list = await fetchSuppliersFromSupabase();
-    setSuppliers(list);
-    if (list.length > 0 && !selectedSupplierId) {
-      setSelectedSupplierId(list[0].id);
+    // Only keep suppliers with valid UUIDs
+    const validSuppliers = list.filter((s) => isValidUUID(s.id));
+    setSuppliers(validSuppliers);
+    if (validSuppliers.length > 0 && !isValidUUID(selectedSupplierId)) {
+      setSelectedSupplierId(validSuppliers[0].id);
     }
   };
 
@@ -120,8 +205,11 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
         setProductsFetchError('تعذر تحميل قائمة المنتجات من قاعدة البيانات.');
         setFetchedProducts([]);
       } else {
-        const activeProds = (res.products || []).filter((p) => p.status !== 'hidden');
-        setFetchedProducts(activeProds);
+        // Ensure products have valid UUIDs
+        const validActiveProds = (res.products || []).filter(
+          (p) => p.status !== 'hidden' && isValidUUID(p.id)
+        );
+        setFetchedProducts(validActiveProds);
       }
     } catch (err: any) {
       if (import.meta.env.DEV) {
@@ -138,6 +226,11 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
 
   // Add or increment a product item row
   const handleAddProduct = (product: Product) => {
+    if (!product.id || !isValidUUID(product.id)) {
+      setErrorMsg(`المنتج (${product.nameAr}) لا يمتلك معرّف UUID صالح في قاعدة البيانات.`);
+      return;
+    }
+
     const existingIndex = items.findIndex((i) => i.productId === product.id);
     if (existingIndex >= 0) {
       const updated = [...items];
@@ -147,9 +240,10 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
       setItems([
         ...items,
         {
-          productId: product.id,
+          productId: product.id, // Strictly public.products.id (UUID)
           productName: product.nameAr,
           sku: product.sku || '',
+          barcode: product.barcode || '',
           unit: product.unit || 'قطعة',
           orderedQuantity: 1,
           purchasePrice: product.costPrice || 0,
@@ -227,17 +321,23 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
     e.preventDefault();
     setErrorMsg(null);
 
-    if (!selectedSupplierId) {
-      setErrorMsg('يرجى اختيار المورد.');
+    // 1. Strict Supplier UUID Check
+    if (!selectedSupplierId || !isValidUUID(selectedSupplierId)) {
+      setErrorMsg('معرّف المورد غير صالح (يجب أن يكون UUID). يرجى اختيار مورد من القائمة.');
       return;
     }
 
+    // 2. Items Validation
     if (items.length === 0) {
       setErrorMsg('يرجى إضافة منتج واحد على الأقل إلى طلب الشراء.');
       return;
     }
 
     for (const item of items) {
+      if (!item.productId || !isValidUUID(item.productId)) {
+        setErrorMsg(`معرّف المنتج (${item.productName}) غير صالح (يجب أن يكون UUID).`);
+        return;
+      }
       if (item.orderedQuantity <= 0) {
         setErrorMsg(`الكمية المطلوبة للمنتج (${item.productName}) يجب أن تكون أكبر من صفر.`);
         return;
@@ -248,12 +348,16 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
       }
     }
 
+    // 3. Clean optional branch and warehouse UUIDs (strip non-UUID strings like "b-jrbd")
+    const cleanBranchId = isValidUUID(selectedBranchId) ? selectedBranchId.trim() : undefined;
+    const cleanWarehouseId = isValidUUID(selectedWarehouseId) ? selectedWarehouseId.trim() : undefined;
+
     setIsSubmitting(true);
 
     const input: CreatePurchaseOrderInput = {
-      supplierId: selectedSupplierId,
-      branchId: selectedBranchId || undefined,
-      warehouseId: selectedWarehouseId || undefined,
+      supplierId: selectedSupplierId.trim(),
+      branchId: cleanBranchId,
+      warehouseId: cleanWarehouseId,
       expectedDeliveryDate: expectedDeliveryDate ? new Date(expectedDeliveryDate).toISOString() : undefined,
       supplierInvoiceNumber: supplierInvoiceNumber.trim() || undefined,
       deliveryFee: Number(deliveryFee) || 0,
@@ -261,21 +365,30 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
       notes: notes.trim() || undefined,
       internalNotes: internalNotes.trim() || undefined,
       items: items.map((i) => ({
-        productId: i.productId,
+        productId: i.productId.trim(),
         orderedQuantity: i.orderedQuantity,
         purchasePrice: i.purchasePrice,
         discount: i.discount,
       })),
     };
 
-    const res = await createPurchaseOrderInSupabase(input);
+    let res;
+    if (poToEdit) {
+      res = await updatePurchaseOrderInSupabase(poToEdit.id, input);
+    } else {
+      res = await createPurchaseOrderInSupabase(input);
+    }
     setIsSubmitting(false);
 
-    if (res.success && res.purchaseOrderId) {
-      onSuccess(res.purchaseOrderId);
+    if (res.success) {
+      storeEngine.setToast(
+        poToEdit ? 'تم تحديث أمر الشراء بنجاح' : 'تم إنشاء أمر الشراء بنجاح',
+        'success'
+      );
+      onSuccess(res.purchaseOrderId || poToEdit?.id || '');
       onClose();
     } else {
-      setErrorMsg(res.error || 'حدث خطأ أثناء إنشاء أمر الشراء');
+      setErrorMsg(res.error || 'حدث خطأ أثناء حفظ أمر الشراء');
     }
   };
 
@@ -286,11 +399,17 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
         <div className="bg-slate-800/80 px-5 py-4 border-b border-slate-700/80 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="w-10 h-10 rounded-2xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold">
-              <Plus className="w-5 h-5" />
+              {poToEdit ? <Edit className="w-5 h-5 text-amber-400" /> : <Plus className="w-5 h-5" />}
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-100">إنشاء أمر شراء جديد (Purchase Order)</h2>
-              <p className="text-xs text-slate-400">إدخال طلب شراء بالجملة من المورد وتحديد الكميات والأسعار</p>
+              <h2 className="text-base font-bold text-slate-100">
+                {poToEdit ? `تعديل أمر الشراء (${poToEdit.purchaseOrderNumber})` : 'إنشاء أمر شراء جديد (Purchase Order)'}
+              </h2>
+              <p className="text-xs text-slate-400">
+                {poToEdit
+                  ? 'تعديل أصناف وكميات وأسعار المورد لأمر الشراء بحالة مسودة'
+                  : 'إدخال طلب شراء بالجملة من المورد وتحديد الكميات والأسعار'}
+              </p>
             </div>
           </div>
           <button
@@ -381,11 +500,12 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                 مستودع الاستلام المستهدف:
               </label>
               <select
-                value={selectedWarehouseId}
+                value={isValidUUID(selectedWarehouseId) ? selectedWarehouseId : ''}
                 onChange={(e) => setSelectedWarehouseId(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 font-semibold focus:outline-none focus:border-blue-500"
               >
-                {warehouses.map((w) => (
+                <option value="">-- بدون تحديد مستودع --</option>
+                {availableWarehouses.map((w) => (
                   <option key={w.id} value={w.id}>
                     {w.name}
                   </option>
@@ -426,11 +546,12 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
             <div className="space-y-1">
               <label className="font-bold text-slate-300">الفرع طالب الشراء:</label>
               <select
-                value={selectedBranchId}
+                value={isValidUUID(selectedBranchId) ? selectedBranchId : ''}
                 onChange={(e) => setSelectedBranchId(e.target.value)}
                 className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-blue-500"
               >
-                {branches.map((b) => (
+                <option value="">-- بدون تحديد فرع --</option>
+                {availableBranches.map((b) => (
                   <option key={b.id} value={b.id}>
                     {b.name}
                   </option>
@@ -489,28 +610,49 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                           type="button"
                           key={p.id}
                           onClick={() => handleAddProduct(p)}
-                          className="w-full text-right p-2.5 rounded-xl hover:bg-slate-800/90 flex items-center justify-between transition group border border-transparent hover:border-slate-700"
+                          className="w-full text-right p-2.5 rounded-xl hover:bg-slate-800/90 flex items-center justify-between gap-3 transition group border border-transparent hover:border-slate-700"
                         >
-                          <div>
-                            <div className="font-bold text-slate-100 group-hover:text-teal-400 transition">
-                              {p.nameAr}
-                            </div>
-                            <div className="text-[10px] text-slate-400 flex flex-wrap items-center gap-2 mt-0.5 font-mono">
-                              <span>SKU: {p.sku || 'غير محدد'}</span>
-                              {p.barcode && <span>| باركود: {p.barcode}</span>}
-                              <span className="text-emerald-400 font-bold">
-                                | سعر التكلفة: {p.costPrice.toFixed(2)} {CURRENCY}
-                              </span>
-                              {p.unit && (
-                                <span className="bg-slate-800 border border-slate-700 px-1.5 py-0.5 rounded text-[9px] text-slate-300 font-sans">
-                                  {p.unit}
-                                </span>
-                              )}
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            {p.imageUrl ? (
+                              <img
+                                src={p.imageUrl}
+                                alt={p.nameAr}
+                                className="w-9 h-9 rounded-lg object-cover border border-slate-700/80 shrink-0"
+                              />
+                            ) : (
+                              <div className="w-9 h-9 rounded-lg bg-slate-800 border border-slate-700/80 flex items-center justify-center shrink-0 text-slate-400">
+                                <Package className="w-4 h-4" />
+                              </div>
+                            )}
+                            <div className="min-w-0">
+                              <div className="font-bold text-slate-100 group-hover:text-teal-400 transition truncate">
+                                {p.nameAr}
+                              </div>
+                              <div className="text-[10px] text-slate-400 flex flex-wrap items-center gap-2 mt-0.5 font-mono">
+                                <span>SKU: {p.sku || 'غير محدد'}</span>
+                                {p.barcode && <span>• باركود: {p.barcode}</span>}
+                                {p.unit && (
+                                  <span className="bg-slate-800 border border-slate-700/80 px-1.5 py-0.2 rounded text-[9px] text-slate-300 font-sans">
+                                    {p.unit}
+                                  </span>
+                                )}
+                              </div>
                             </div>
                           </div>
-                          <span className="bg-blue-600/20 text-blue-300 border border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition shrink-0">
-                            + إضافة
-                          </span>
+
+                          <div className="flex items-center gap-3 shrink-0 text-left">
+                            <div className="text-[10px]">
+                              <div className="text-emerald-400 font-bold">
+                                تكلفة: {(p.costPrice || 0).toFixed(2)} {CURRENCY}
+                              </div>
+                              <div className="text-slate-400 font-sans">
+                                المخزون: <span className={(p.onHandQuantity || 0) > 0 ? 'text-slate-200 font-bold' : 'text-amber-400 font-bold'}>{p.onHandQuantity || 0}</span>
+                              </div>
+                            </div>
+                            <span className="bg-blue-600/20 text-blue-300 border border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white px-2.5 py-1 rounded-lg font-bold text-[10px] transition">
+                              + إضافة
+                            </span>
+                          </div>
                         </button>
                       ))}
                     </div>
@@ -529,15 +671,23 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                       <th className="p-3 w-28 text-center">الكمية المطلوب شراءها</th>
                       <th className="p-3 w-32 text-center">سعر الشراء الفردي ({CURRENCY})</th>
                       <th className="p-3 w-28 text-center">الخصم ({CURRENCY})</th>
-                      <th className="p-3 w-32 text-center">إجمالي السطر ({CURRENCY})</th>
+                      <th className="p-3 w-32 text-center">إجمالي هذا المنتج ({CURRENCY})</th>
                       <th className="p-3 w-12 text-center">حذف</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800">
                     {items.length === 0 ? (
                       <tr>
-                        <td colSpan={6} className="p-6 text-center text-slate-500">
-                          لم يتم إضافة أي منتج بعد. استخدم مربع البحث أعلاه لاختيار المنتجات.
+                        <td colSpan={6} className="p-8 text-center text-slate-400 bg-slate-900/30">
+                          <div className="flex flex-col items-center justify-center gap-2 max-w-sm mx-auto">
+                            <div className="w-12 h-12 rounded-2xl bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-400">
+                              <Package className="w-6 h-6" />
+                            </div>
+                            <h4 className="font-bold text-slate-200 text-xs">لا توجد منتجات مضافة بعد</h4>
+                            <p className="text-slate-400 text-[11px] leading-relaxed">
+                              ابحث واختر المنتجات من القائمة أعلاه للبدء في إعداد أمر الشراء وتحديد الكميات والأسعار.
+                            </p>
+                          </div>
                         </td>
                       </tr>
                     ) : (
@@ -701,7 +851,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
               ) : (
                 <>
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>حفظ وإصدار أمر الشراء</span>
+                  <span>{poToEdit ? 'حفظ التعديلات' : 'حفظ وإصدار أمر الشراء'}</span>
                 </>
               )}
             </button>

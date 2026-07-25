@@ -340,10 +340,12 @@ export interface Supplier {
   contactPerson: string;
   phone: string;
   whatsapp?: string;
+  email?: string;
   address: string;
   currentBalance: number; // positive = we owe supplier
   taxNumber?: string;
   notes?: string;
+  isActive?: boolean;
 }
 
 export interface CustomerPayment {

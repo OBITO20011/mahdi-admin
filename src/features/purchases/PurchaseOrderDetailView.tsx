@@ -3,15 +3,18 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { useAppStore, storeEngine } from '../../stores/useAppStore';
 import { PurchaseOrder, PurchaseOrderStatus } from '../../types/purchases';
 import {
   fetchPurchaseOrderByIdFromSupabase,
   sendPurchaseOrderInSupabase,
   approvePurchaseOrderInSupabase,
   cancelPurchaseOrderInSupabase,
+  deletePurchaseOrderInSupabase,
 } from '../../services/supabase/purchases.service';
 import { ReceiveGoodsModal } from './ReceiveGoodsModal';
 import { SupplierPaymentModal } from './SupplierPaymentModal';
+import { CreatePurchaseOrderModal } from './CreatePurchaseOrderModal';
 import {
   X,
   FileText,
@@ -32,8 +35,55 @@ import {
   History,
   AlertTriangle,
   ChevronRight,
+  Edit,
+  Trash2,
+  User,
+  Package,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
+
+export function formatHumanQuantity(qty: number, unitName?: string): string {
+  const unit = (unitName || 'قطعة').trim();
+  const num = Math.round(qty * 100) / 100;
+
+  if (unit === 'كرتونة' || unit === 'كرتون' || unit === 'كراتين') {
+    if (num === 1) return 'كرتونة واحدة';
+    if (num === 2) return 'كرتونتان';
+    if (num >= 3 && num <= 10) return `${num} كراتين`;
+    return `${num} كرتونة`;
+  }
+  if (unit === 'علبة' || unit === 'علبه' || unit === 'علب') {
+    if (num === 1) return 'علبة واحدة';
+    if (num === 2) return 'علبتان';
+    if (num >= 3 && num <= 10) return `${num} علب`;
+    return `${num} علبة`;
+  }
+  if (unit === 'باكيت' || unit === 'بكيت' || unit === 'باكيتات') {
+    if (num === 1) return 'باكيت واحد';
+    if (num === 2) return 'باكيتان';
+    if (num >= 3 && num <= 10) return `${num} باكيتات`;
+    return `${num} باكيت`;
+  }
+  if (unit === 'ربطة' || unit === 'ربطه' || unit === 'ربطات') {
+    if (num === 1) return 'ربطة واحدة';
+    if (num === 2) return 'ربطتان';
+    if (num >= 3 && num <= 10) return `${num} ربطات`;
+    return `${num} ربطة`;
+  }
+  if (unit === 'قطعة' || unit === 'حبة' || unit === 'قطع') {
+    if (num === 1) return 'قطعة واحدة';
+    if (num === 2) return 'قطعتان';
+    if (num >= 3 && num <= 10) return `${num} قطع`;
+    return `${num} قطعة`;
+  }
+  if (unit === 'كيلو' || unit === 'كغم') {
+    return `${num} كغم`;
+  }
+  if (unit === 'لتر') {
+    return `${num} لتر`;
+  }
+  return `${num} ${unit}`;
+}
 
 interface PurchaseOrderDetailViewProps {
   poId: string | null;
@@ -53,6 +103,8 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
   // Modals
   const [isReceiveModalOpen, setIsReceiveModalOpen] = useState<boolean>(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState<boolean>(false);
   const [isActionLoading, setIsActionLoading] = useState<boolean>(false);
   const [actionError, setActionError] = useState<string | null>(null);
 
@@ -70,6 +122,22 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
       setPo(res.data);
     }
     setLoading(false);
+  };
+
+  const handleDeletePO = async () => {
+    if (!po) return;
+    setIsActionLoading(true);
+    setActionError(null);
+    const res = await deletePurchaseOrderInSupabase(po.id);
+    setIsActionLoading(false);
+    if (res.success) {
+      storeEngine.setToast('تم حذف أمر الشراء بنجاح', 'success');
+      onRefresh();
+      onClose();
+    } else {
+      setActionError(res.error || 'فشل حذف أمر الشراء');
+      setIsDeleteConfirmOpen(false);
+    }
   };
 
   if (!poId) return null;
@@ -102,6 +170,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
     const res = await sendPurchaseOrderInSupabase(po.id);
     setIsActionLoading(false);
     if (res.success) {
+      storeEngine.setToast('تم إرسال أمر الشراء للمورد بنجاح', 'success');
       loadPoDetails();
       onRefresh();
     } else {
@@ -116,6 +185,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
     const res = await approvePurchaseOrderInSupabase(po.id);
     setIsActionLoading(false);
     if (res.success) {
+      storeEngine.setToast('تم اعتماد أمر الشراء بنجاح', 'success');
       loadPoDetails();
       onRefresh();
     } else {
@@ -131,6 +201,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
     const res = await cancelPurchaseOrderInSupabase(po.id);
     setIsActionLoading(false);
     if (res.success) {
+      storeEngine.setToast('تم إلغاء أمر الشراء بنجاح', 'info');
       loadPoDetails();
       onRefresh();
     } else {
@@ -192,15 +263,15 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
               )}
 
               {/* Status Header Banner & Action Toolbar */}
-              <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
+              <div className="bg-slate-950 p-4 sm:p-5 rounded-2xl border border-slate-800 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex flex-wrap items-center gap-2">
                     {(() => {
                       const badge = getStatusBadge(po.status);
                       const Icon = badge.icon;
                       return (
                         <div
-                          className={`px-3 py-1.5 rounded-xl border text-xs font-bold flex items-center gap-2 ${badge.color}`}
+                          className={`px-3.5 py-1.5 rounded-xl border text-xs font-bold flex items-center gap-2 ${badge.color}`}
                         >
                           <Icon className="w-4 h-4" />
                           <span>الحالة: {badge.label}</span>
@@ -209,61 +280,123 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                     })()}
 
                     {po.supplierInvoiceNumber && (
-                      <span className="bg-slate-800 text-slate-300 px-2.5 py-1 rounded-xl border border-slate-700 font-mono text-[11px]">
-                        فاتورة المورد: {po.supplierInvoiceNumber}
+                      <span className="bg-slate-800 text-slate-300 px-3 py-1.5 rounded-xl border border-slate-700 font-mono text-[11px] font-bold">
+                        رقم فاتورة المورد: {po.supplierInvoiceNumber}
                       </span>
                     )}
                   </div>
 
-                  {/* Dynamic Workflow Actions */}
-                  <div className="flex items-center gap-2">
+                  {/* Context-Aware Action Buttons */}
+                  <div className="flex flex-wrap items-center gap-2">
                     {po.status === 'draft' && (
-                      <button
-                        onClick={handleSendPO}
-                        disabled={isActionLoading}
-                        className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition"
-                      >
-                        <Send className="w-3.5 h-3.5" />
-                        <span>إرسال للمورد</span>
-                      </button>
+                      <>
+                        <button
+                          onClick={() => setIsEditModalOpen(true)}
+                          className="bg-amber-600/20 text-amber-300 border border-amber-500/30 hover:bg-amber-600/30 px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition text-xs"
+                        >
+                          <Edit className="w-3.5 h-3.5" />
+                          <span>تعديل أمر الشراء</span>
+                        </button>
+                        <button
+                          onClick={() => setIsDeleteConfirmOpen(true)}
+                          className="bg-rose-600/20 text-rose-300 border border-rose-500/30 hover:bg-rose-600/30 px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition text-xs"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>حذف</span>
+                        </button>
+                        <button
+                          onClick={handleSendPO}
+                          disabled={isActionLoading}
+                          className="bg-blue-600 hover:bg-blue-500 text-white px-3.5 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition text-xs shadow"
+                        >
+                          <Send className="w-3.5 h-3.5" />
+                          <span>إرسال للمورد</span>
+                        </button>
+                      </>
                     )}
 
-                    {['draft', 'sent'].includes(po.status) && (
-                      <button
-                        onClick={handleApprovePO}
-                        disabled={isActionLoading}
-                        className="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition"
-                      >
-                        <CheckCircle2 className="w-3.5 h-3.5" />
-                        <span>اعتماد الطلب</span>
-                      </button>
+                    {po.status === 'sent' && (
+                      <>
+                        <button
+                          onClick={handleApprovePO}
+                          disabled={isActionLoading}
+                          className="bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition text-xs shadow"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>اعتماد الطلب</span>
+                        </button>
+                        <button
+                          onClick={() => window.print()}
+                          className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition text-xs"
+                        >
+                          <Printer className="w-3.5 h-3.5" />
+                          <span>طباعة</span>
+                        </button>
+                      </>
                     )}
 
-                    {['approved', 'partially_received'].includes(po.status) && (
+                    {po.status === 'approved' && (
                       <button
                         onClick={() => setIsReceiveModalOpen(true)}
-                        className="bg-purple-600 hover:bg-purple-500 text-white px-3.5 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition shadow"
+                        className="bg-purple-600 hover:bg-purple-500 text-white px-4 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition text-xs shadow-lg"
                       >
                         <Truck className="w-4 h-4" />
                         <span>استلام بضائع لمخزن</span>
                       </button>
                     )}
 
-                    {po.amountDue > 0 && po.status !== 'cancelled' && (
+                    {po.status === 'partially_received' && (
                       <button
-                        onClick={() => setIsPaymentModalOpen(true)}
-                        className="bg-rose-600 hover:bg-rose-500 text-white px-3.5 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition shadow"
+                        onClick={() => setIsReceiveModalOpen(true)}
+                        className="bg-purple-600 hover:bg-purple-500 text-white px-4 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition text-xs shadow-lg"
                       >
-                        <ArrowUpRight className="w-4 h-4" />
-                        <span>تسديد دفعة (سند صرف)</span>
+                        <Truck className="w-4 h-4" />
+                        <span>استلام المتبقي</span>
                       </button>
                     )}
 
-                    {po.status !== 'cancelled' && po.status !== 'received' && (
+                    {po.status === 'received' && (
+                      <>
+                        <button
+                          onClick={() => window.print()}
+                          className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition text-xs"
+                        >
+                          <Printer className="w-3.5 h-3.5" />
+                          <span>طباعة</span>
+                        </button>
+                        {po.amountDue > 0 && (
+                          <button
+                            onClick={() => setIsPaymentModalOpen(true)}
+                            className="bg-rose-600 hover:bg-rose-500 text-white px-3.5 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition text-xs shadow"
+                          >
+                            <ArrowUpRight className="w-3.5 h-3.5" />
+                            <span>تسديد دفعة</span>
+                          </button>
+                        )}
+                      </>
+                    )}
+
+                    {po.status === 'cancelled' && (
+                      <span className="bg-slate-800/80 text-slate-400 border border-slate-700 px-3 py-1 rounded-xl text-xs font-semibold">
+                        عرض فقط (ملغى)
+                      </span>
+                    )}
+
+                    {po.amountDue > 0 && !['draft', 'cancelled', 'received'].includes(po.status) && (
+                      <button
+                        onClick={() => setIsPaymentModalOpen(true)}
+                        className="bg-rose-600 hover:bg-rose-500 text-white px-3.5 py-1.5 rounded-xl font-bold flex items-center gap-1.5 transition text-xs shadow"
+                      >
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                        <span>تسديد دفعة</span>
+                      </button>
+                    )}
+
+                    {['draft', 'sent', 'approved'].includes(po.status) && (
                       <button
                         onClick={handleCancelPO}
                         disabled={isActionLoading}
-                        className="bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800 px-3 py-1.5 rounded-xl font-bold transition"
+                        className="bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/80 px-3 py-1.5 rounded-xl font-bold transition text-xs"
                       >
                         إلغاء الطلب
                       </button>
@@ -271,39 +404,130 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                   </div>
                 </div>
 
-                {/* Metadata Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 border-t border-slate-800/80 text-[11px]">
-                  <div>
-                    <span className="text-slate-400 block mb-0.5">المورد:</span>
-                    <span className="font-bold text-slate-100 flex items-center gap-1">
-                      <Building className="w-3 h-3 text-teal-400" />
+                {/* Comprehensive Metadata Header Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-slate-800/80 text-xs">
+                  <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800/60">
+                    <span className="text-[10px] text-slate-400 block mb-0.5">المورد الرئيسي:</span>
+                    <span className="font-bold text-slate-100 flex items-center gap-1.5 truncate">
+                      <Building className="w-3.5 h-3.5 text-teal-400 shrink-0" />
                       {po.supplierName}
                     </span>
                   </div>
 
-                  <div>
-                    <span className="text-slate-400 block mb-0.5">المستودع:</span>
-                    <span className="font-bold text-slate-100 flex items-center gap-1">
-                      <Warehouse className="w-3 h-3 text-blue-400" />
-                      {po.warehouseName || 'الرئيسي'}
+                  <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800/60">
+                    <span className="text-[10px] text-slate-400 block mb-0.5">الفرع والفرع المالي:</span>
+                    <span className="font-bold text-slate-100 flex items-center gap-1.5 truncate">
+                      <Building className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+                      {po.branchName || 'غير محدد'}
                     </span>
                   </div>
 
-                  <div>
-                    <span className="text-slate-400 block mb-0.5">تاريخ الطلب:</span>
-                    <span className="font-bold text-slate-200">
-                      {new Date(po.orderDate).toLocaleDateString('ar-JO')}
+                  <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800/60">
+                    <span className="text-[10px] text-slate-400 block mb-0.5">مخزن الاستلام:</span>
+                    <span className="font-bold text-slate-100 flex items-center gap-1.5 truncate">
+                      <Warehouse className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                      {po.warehouseName || 'المخزن الرئيسي'}
                     </span>
                   </div>
 
-                  <div>
-                    <span className="text-slate-400 block mb-0.5">تاريخ التسليم المتوقع:</span>
-                    <span className="font-bold text-slate-200">
+                  <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800/60">
+                    <span className="text-[10px] text-slate-400 block mb-0.5">أنشئ بواسطة:</span>
+                    <span className="font-bold text-slate-100 flex items-center gap-1.5 truncate">
+                      <User className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      {po.createdBy || 'مسؤول المشتريات'}
+                    </span>
+                  </div>
+
+                  <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800/60">
+                    <span className="text-[10px] text-slate-400 block mb-0.5">تاريخ إصدار الطلب:</span>
+                    <span className="font-bold text-slate-200 flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      {new Date(po.createdAt || po.orderDate).toLocaleDateString('ar-JO')}
+                    </span>
+                  </div>
+
+                  <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800/60">
+                    <span className="text-[10px] text-slate-400 block mb-0.5">تاريخ التسليم المتوقع:</span>
+                    <span className="font-bold text-slate-200 flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                       {po.expectedDeliveryDate
                         ? new Date(po.expectedDeliveryDate).toLocaleDateString('ar-JO')
                         : 'غير محدد'}
                     </span>
                   </div>
+
+                  <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800/60">
+                    <span className="text-[10px] text-slate-400 block mb-0.5">خصم كلي على الطلب:</span>
+                    <span className="font-bold text-slate-200 font-mono">
+                      {(po.discount || 0).toFixed(2)} {CURRENCY}
+                    </span>
+                  </div>
+
+                  <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800/60">
+                    <span className="text-[10px] text-slate-400 block mb-0.5">رسوم الشحن والتوصيل:</span>
+                    <span className="font-bold text-slate-200 font-mono">
+                      {(po.deliveryFee || 0).toFixed(2)} {CURRENCY}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Enhanced Summary Cards Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
+                {/* 1. Total Products */}
+                <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl text-center space-y-1">
+                  <span className="text-[10px] text-slate-400 block font-medium">عدد أصناف الطلب</span>
+                  <span className="font-black text-sm text-slate-100 block">{po.items.length} أصناف</span>
+                </div>
+
+                {/* 2. Requested Units */}
+                <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl text-center space-y-1">
+                  <span className="text-[10px] text-slate-400 block font-medium">إجمالي المطلوبة</span>
+                  <span className="font-black text-xs text-blue-400 block">
+                    {formatHumanQuantity(po.items.reduce((sum, i) => sum + i.orderedQuantity, 0))}
+                  </span>
+                </div>
+
+                {/* 3. Received Units */}
+                <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl text-center space-y-1">
+                  <span className="text-[10px] text-slate-400 block font-medium">إجمالي المستلمة</span>
+                  <span className="font-black text-xs text-emerald-400 block">
+                    {formatHumanQuantity(po.items.reduce((sum, i) => sum + i.receivedQuantity, 0))}
+                  </span>
+                </div>
+
+                {/* 4. Remaining Units */}
+                <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl text-center space-y-1">
+                  <span className="text-[10px] text-slate-400 block font-medium">إجمالي المتبقية</span>
+                  <span className="font-black text-xs text-purple-400 block">
+                    {formatHumanQuantity(
+                      po.items.reduce((sum, i) => sum + Math.max(0, i.orderedQuantity - i.receivedQuantity), 0)
+                    )}
+                  </span>
+                </div>
+
+                {/* 5. Order Total */}
+                <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl text-center space-y-1">
+                  <span className="text-[10px] text-slate-400 block font-medium">إجمالي أمر الشراء</span>
+                  <span className="font-black text-xs text-slate-100 block font-mono">
+                    {po.totalAmount.toFixed(2)} {CURRENCY}
+                  </span>
+                </div>
+
+                {/* 6. Paid */}
+                <div className="bg-emerald-950/30 border border-emerald-500/20 p-3 rounded-2xl text-center space-y-1">
+                  <span className="text-[10px] text-emerald-400 block font-medium">المدفوع للمورد</span>
+                  <span className="font-black text-xs text-emerald-300 block font-mono">
+                    {po.amountPaid.toFixed(2)} {CURRENCY}
+                  </span>
+                </div>
+
+                {/* 7. Outstanding */}
+                <div className="bg-rose-950/30 border border-rose-500/20 p-3 rounded-2xl text-center space-y-1">
+                  <span className="text-[10px] text-rose-400 block font-medium">المتبقي المستحق</span>
+                  <span className="font-black text-xs text-rose-300 block font-mono">
+                    {po.amountDue.toFixed(2)} {CURRENCY}
+                  </span>
                 </div>
               </div>
 
@@ -353,50 +577,84 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                     <table className="w-full text-right text-xs">
                       <thead className="bg-slate-800/80 text-slate-300 font-bold border-b border-slate-700/80">
                         <tr>
-                          <th className="p-3">اسم المنتج / SKU</th>
-                          <th className="p-3 text-center">المطلوب</th>
-                          <th className="p-3 text-center">المستلم</th>
+                          <th className="p-3">اسم المنتج والترميز</th>
+                          <th className="p-3 text-center">الكمية المطلوبة</th>
+                          <th className="p-3 text-center">الكمية المستلمة</th>
+                          <th className="p-3 text-center">الكمية المتبقية</th>
                           <th className="p-3 text-center">سعر الشراء</th>
                           <th className="p-3 text-center">الخصم</th>
-                          <th className="p-3 text-center">الإجمالي ({CURRENCY})</th>
+                          <th className="p-3 text-center">إجمالي هذا المنتج ({CURRENCY})</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-800">
-                        {po.items.map((item) => (
-                          <tr key={item.id} className="hover:bg-slate-800/40 transition">
-                            <td className="p-3 font-semibold text-slate-100">
-                              <div>{item.productName}</div>
-                              <div className="text-[10px] text-slate-400 font-mono">
-                                SKU: {item.sku} ({item.unit})
-                              </div>
-                            </td>
-                            <td className="p-3 text-center font-bold text-slate-200">
-                              {item.orderedQuantity}
-                            </td>
-                            <td className="p-3 text-center">
-                              <span
-                                className={`px-2 py-0.5 rounded font-bold ${
-                                  item.receivedQuantity >= item.orderedQuantity
-                                    ? 'bg-emerald-600/20 text-emerald-300'
-                                    : item.receivedQuantity > 0
-                                    ? 'bg-purple-600/20 text-purple-300'
-                                    : 'bg-slate-800 text-slate-400'
-                                }`}
-                              >
-                                {item.receivedQuantity}
-                              </span>
-                            </td>
-                            <td className="p-3 text-center text-slate-300">
-                              {item.purchasePrice.toFixed(2)}
-                            </td>
-                            <td className="p-3 text-center text-slate-400">
-                              {item.discount.toFixed(2)}
-                            </td>
-                            <td className="p-3 text-center font-black text-slate-100">
-                              {item.lineTotal.toFixed(2)}
-                            </td>
-                          </tr>
-                        ))}
+                        {po.items.map((item) => {
+                          const remainingQty = Math.max(0, item.orderedQuantity - item.receivedQuantity);
+                          const formulaText =
+                            item.discount > 0
+                              ? `(${item.orderedQuantity} × ${item.purchasePrice.toFixed(2)}) - ${item.discount.toFixed(2)} = ${item.lineTotal.toFixed(2)} ${CURRENCY}`
+                              : `${item.orderedQuantity} × ${item.purchasePrice.toFixed(2)} = ${item.lineTotal.toFixed(2)} ${CURRENCY}`;
+
+                          return (
+                            <tr key={item.id} className="hover:bg-slate-800/40 transition">
+                              <td className="p-3 font-semibold text-slate-100">
+                                <div className="font-bold text-slate-100">{item.productName}</div>
+                                <div className="text-[10px] text-slate-400 font-mono flex flex-wrap items-center gap-2 mt-0.5">
+                                  <span>SKU: {item.sku || 'غير محدد'}</span>
+                                  {item.barcode && <span>• باركود: {item.barcode}</span>}
+                                  {item.unit && (
+                                    <span className="bg-slate-800 border border-slate-700 px-1.5 py-0.2 rounded text-[9px] text-slate-300 font-sans">
+                                      الوحدة: {item.unit}
+                                    </span>
+                                  )}
+                                </div>
+                              </td>
+
+                              <td className="p-3 text-center font-bold text-blue-300">
+                                <div>{formatHumanQuantity(item.orderedQuantity, item.unit)}</div>
+                                <div className="text-[10px] text-slate-500 font-mono">({item.orderedQuantity})</div>
+                              </td>
+
+                              <td className="p-3 text-center">
+                                <span
+                                  className={`px-2.5 py-1 rounded-lg font-bold text-[11px] inline-block ${
+                                    item.receivedQuantity >= item.orderedQuantity
+                                      ? 'bg-emerald-600/20 text-emerald-300 border border-emerald-500/30'
+                                      : item.receivedQuantity > 0
+                                      ? 'bg-purple-600/20 text-purple-300 border border-purple-500/30'
+                                      : 'bg-slate-800 text-slate-400'
+                                  }`}
+                                >
+                                  {formatHumanQuantity(item.receivedQuantity, item.unit)}
+                                </span>
+                              </td>
+
+                              <td className="p-3 text-center">
+                                <span
+                                  className={`px-2.5 py-1 rounded-lg font-bold text-[11px] inline-block ${
+                                    remainingQty === 0
+                                      ? 'bg-slate-800 text-slate-500'
+                                      : 'bg-amber-600/20 text-amber-300 border border-amber-500/30'
+                                  }`}
+                                >
+                                  {formatHumanQuantity(remainingQty, item.unit)}
+                                </span>
+                              </td>
+
+                              <td className="p-3 text-center text-slate-300 font-mono">
+                                {item.purchasePrice.toFixed(2)} {CURRENCY}
+                              </td>
+
+                              <td className="p-3 text-center text-slate-400 font-mono">
+                                {item.discount.toFixed(2)} {CURRENCY}
+                              </td>
+
+                              <td className="p-3 text-center font-black text-slate-100">
+                                <div className="text-emerald-400 font-mono">{item.lineTotal.toFixed(2)} {CURRENCY}</div>
+                                <div className="text-[9px] text-slate-400 font-mono mt-0.5">{formulaText}</div>
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
@@ -531,7 +789,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
         </div>
       </div>
 
-      {/* Sub-modals for Receive & Payment */}
+      {/* Sub-modals for Receive, Payment, Edit, and Delete */}
       {po && (
         <>
           <ReceiveGoodsModal
@@ -539,6 +797,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
             po={po}
             onClose={() => setIsReceiveModalOpen(false)}
             onSuccess={() => {
+              storeEngine.setToast('تم استلام البضائع وتحديث المخزون بنجاح', 'success');
               loadPoDetails();
               onRefresh();
             }}
@@ -549,10 +808,68 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
             po={po}
             onClose={() => setIsPaymentModalOpen(false)}
             onSuccess={() => {
+              storeEngine.setToast('تم تسجيل دفعة المورد بنجاح', 'success');
               loadPoDetails();
               onRefresh();
             }}
           />
+
+          <CreatePurchaseOrderModal
+            isOpen={isEditModalOpen}
+            poToEdit={po}
+            onClose={() => setIsEditModalOpen(false)}
+            onSuccess={() => {
+              storeEngine.setToast('تم حفظ تعديلات أمر الشراء بنجاح', 'success');
+              loadPoDetails();
+              onRefresh();
+            }}
+          />
+
+          {/* Delete Confirmation Modal */}
+          {isDeleteConfirmOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4">
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4">
+                <div className="flex items-center gap-3 text-rose-400">
+                  <div className="w-10 h-10 rounded-2xl bg-rose-600/20 border border-rose-500/30 flex items-center justify-center shrink-0">
+                    <AlertTriangle className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-slate-100 text-sm">تأكيد حذف أمر الشراء</h3>
+                    <p className="text-xs text-slate-400">هذا الإجراء غير قابل للتراجع عنه</p>
+                  </div>
+                </div>
+
+                <p className="text-xs text-slate-300 leading-relaxed bg-slate-950 p-3 rounded-2xl border border-slate-800">
+                  هل أنت تأكد من إغلاق/حذف أمر الشراء رقم{' '}
+                  <span className="font-bold text-amber-400 font-mono">{po.purchaseOrderNumber}</span>؟
+                </p>
+
+                <div className="flex items-center justify-end gap-2 pt-2">
+                  <button
+                    onClick={() => setIsDeleteConfirmOpen(false)}
+                    disabled={isActionLoading}
+                    className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 font-bold transition text-xs"
+                  >
+                    إلغاء
+                  </button>
+                  <button
+                    onClick={handleDeletePO}
+                    disabled={isActionLoading}
+                    className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold transition text-xs shadow flex items-center gap-1.5"
+                  >
+                    {isActionLoading ? (
+                      <span>جاري الحذف...</span>
+                    ) : (
+                      <>
+                        <Trash2 className="w-4 h-4" />
+                        <span>نعم، تأكيد الحذف</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </>
       )}
     </>

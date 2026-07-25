@@ -3,7 +3,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStore, storeEngine } from '../../stores/useAppStore';
 import { PurchaseOrder, ReceivePurchaseOrderInput } from '../../types/purchases';
 import { receivePurchaseOrderInSupabase } from '../../services/supabase/purchases.service';
 import {
@@ -140,6 +140,7 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({
     setIsSubmitting(false);
 
     if (res.success) {
+      storeEngine.setToast('تم استلام البضائع وزيادة المخزون بنجاح', 'success');
       onSuccess();
       onClose();
     } else {

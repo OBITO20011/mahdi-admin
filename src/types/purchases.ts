@@ -16,6 +16,7 @@ export interface PurchaseOrderItem {
   productId: string;
   productName: string;
   sku: string;
+  barcode?: string;
   unit: string;
   orderedQuantity: number;
   receivedQuantity: number;

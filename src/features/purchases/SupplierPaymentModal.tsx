@@ -3,6 +3,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { useAppStore, storeEngine } from '../../stores/useAppStore';
 import { PurchaseOrder } from '../../types/purchases';
 import { Supplier } from '../../types';
 import {
@@ -137,6 +138,7 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
     setIsSubmitting(false);
 
     if (res.success) {
+      storeEngine.setToast('تم تسجيل دفعة المورد بنجاح', 'success');
       onSuccess();
       onClose();
     } else {
