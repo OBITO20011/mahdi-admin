@@ -81,8 +81,8 @@ export const AllModals: React.FC = () => {
       <Modal
         isOpen={currentModal === 'receive_goods'}
         onClose={closeModal}
-        title="استلام بضائع من الموردين (إذن توريد جديد)"
-        subtitle="تسجيل الشحنة المباشرة، إدخال أسعار وطرود المنتجات، وتحديث المخزون والمستحقات"
+        title="استلام بضاعة"
+        subtitle="اختر المورد والصنف وعدد الطرود ثم احفظ"
       >
         <CreateDirectReceiptModal onClose={closeModal} />
       </Modal>
@@ -101,8 +101,8 @@ export const AllModals: React.FC = () => {
       <Modal
         isOpen={currentModal === 'stock_count'}
         onClose={closeModal}
-        title="جرد وتدقيق المخزون"
-        subtitle="إدخال الجرد الفعلي وتسوية الفروق أوتوماتيكياً"
+        title="جرد صنف"
+        subtitle="أدخل الكمية الفعلية، والنظام يحفظ الفرق تلقائيًا"
       >
         <StockCountModal productId={modalData?.productId} onClose={closeModal} />
       </Modal>

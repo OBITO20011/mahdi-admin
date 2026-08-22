@@ -2024,8 +2024,21 @@ class StoreEngine {
       this.setToast(result.message, 'success');
       return true;
     } catch (error) {
+      // The screen can briefly hold an old shift after another device closes it.
+      // Refresh before showing the operational message so the next action uses
+      // the canonical server state rather than stale React state.
+      const message =
+        error instanceof Error ? error.message : 'تعذر تسجيل المصروف.';
+      if (message.includes('افتح وردية الصندوق')) {
+        await this.refreshExpenseShiftCenterFromSupabase().catch(() => undefined);
+        this.setToast(
+          'لا توجد وردية مفتوحة الآن. افتح وردية الصندوق ثم سجّل المصروف.',
+          'info'
+        );
+        return false;
+      }
       this.setToast(
-        error instanceof Error ? error.message : 'تعذر تسجيل المصروف.',
+        message,
         'error'
       );
       return false;
@@ -2091,8 +2104,30 @@ class StoreEngine {
       this.setToast(result.message, 'success');
       return true;
     } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'تعذر فتح الوردية.';
+
+      // Opening a shift from two quick taps (or a second device) can race with
+      // the database's one-open-shift guard. The server is correct to reject
+      // the duplicate insert; reload its result and keep the operator working
+      // on the already-open shift instead of exposing a misleading error.
+      const isExistingOpenShift =
+        message.includes('توجد وردية مفتوحة بالفعل') ||
+        message.includes('idx_cash_shifts_one_open_per_branch') ||
+        /duplicate key/i.test(message);
+      if (isExistingOpenShift) {
+        await this.refreshExpenseShiftCenterFromSupabase().catch(() => undefined);
+        if (this.state.currentShift) {
+          this.setToast(
+            `الوردية ${this.state.currentShift.shiftNumber} مفتوحة بالفعل وتم تحديث الشاشة.`,
+            'info'
+          );
+          return true;
+        }
+      }
+
       this.setToast(
-        error instanceof Error ? error.message : 'تعذر فتح الوردية.',
+        message,
         'error'
       );
       return false;

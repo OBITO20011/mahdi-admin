@@ -70,6 +70,10 @@ test('only one open shift is allowed for each branch', () => {
     migration,
     /IF EXISTS \(SELECT 1 FROM public\.cash_shifts WHERE branch_id = p_branch_id AND status = 'open'\)/
   );
+  assert.match(store, /isExistingOpenShift/);
+  assert.match(store, /idx_cash_shifts_one_open_per_branch/);
+  assert.match(store, /تم تحديث الشاشة/);
+  assert.match(store, /refreshExpenseShiftCenterFromSupabase\(\)\.catch/);
 });
 
 test('expected drawer cash uses canonical inflows and outflows only once', () => {
@@ -107,6 +111,11 @@ test('frontend reads and mutates this module exclusively through RPC services', 
   assert.match(store, /fetchExpenseShiftCenterFromSupabase/);
   assert.doesNotMatch(store, /EXP-2026-\$\{Math\.floor/);
   assert.doesNotMatch(store, /SHF-2026-\$\{Math\.floor/);
+});
+
+test('stale shift state becomes an actionable message instead of a generic error', () => {
+  assert.match(store, /لا توجد وردية مفتوحة الآن\. افتح وردية الصندوق ثم سجّل المصروف/);
+  assert.match(store, /message\.includes\('افتح وردية الصندوق'\)/);
 });
 
 test('shift screen has no fake opening or actual cash defaults', () => {
