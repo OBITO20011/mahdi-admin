@@ -1,4 +1,5 @@
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
+import { InventoryMovement, MovementType } from '../../types';
 
 export interface ReceiveInventoryInput {
   warehouseId: string;
@@ -7,6 +8,14 @@ export interface ReceiveInventoryInput {
   referenceType?: string;
   referenceId?: string;
   notes?: string;
+}
+
+export interface AdjustInventoryStockInput {
+  warehouseId: string;
+  productId: string;
+  actualQuantity: number;
+  reason: string;
+  adjustmentType?: 'stock_count' | 'damage' | 'expired' | 'manual';
 }
 
 export async function receiveInventoryInSupabase(
@@ -71,7 +80,32 @@ export async function fetchInventoryBalancesFromSupabase() {
   }
 }
 
-export async function fetchInventoryMovementsFromSupabase() {
+function mapMovementType(
+  movementType: string,
+  referenceType?: string | null
+): MovementType {
+  if (referenceType === 'damage') return 'Damage';
+  if (referenceType === 'expired') return 'Expired';
+  if (referenceType === 'stock_count') return 'Stock Count';
+
+  const movementTypes: Record<string, MovementType> = {
+    opening_balance: 'Opening Balance',
+    purchase_receipt: 'Purchase Receipt',
+    sales_deduction: 'Sale',
+    transfer_in: 'Transfer In',
+    transfer_out: 'Transfer Out',
+    adjustment_add: 'Manual Adjustment',
+    adjustment_subtract: 'Manual Adjustment',
+    return_in: 'Sale Return',
+    return_out: 'Purchase Return',
+  };
+
+  return movementTypes[movementType] || 'Manual Adjustment';
+}
+
+export async function fetchInventoryMovementsFromSupabase(): Promise<
+  InventoryMovement[]
+> {
   if (!isSupabaseConfigured || !supabase) return [];
 
   try {
@@ -86,10 +120,12 @@ export async function fetchInventoryMovementsFromSupabase() {
         balance_before,
         balance_after,
         reference_type,
+        reference_id,
         notes,
+        created_by,
         created_at,
         products ( name_ar, sku ),
-        warehouses ( name_ar )
+        warehouses ( name_ar, branch_id )
       `)
       .order('created_at', { ascending: false });
 
@@ -98,9 +134,76 @@ export async function fetchInventoryMovementsFromSupabase() {
       return [];
     }
 
-    return data || [];
+    return (data || []).map((movement: any) => {
+      const product = Array.isArray(movement.products)
+        ? movement.products[0]
+        : movement.products;
+      const warehouse = Array.isArray(movement.warehouses)
+        ? movement.warehouses[0]
+        : movement.warehouses;
+
+      return {
+        id: movement.id,
+        productId: movement.product_id,
+        productName: product?.name_ar || product?.sku || 'منتج',
+        branchId: warehouse?.branch_id || '',
+        warehouseId: movement.warehouse_id,
+        movementType: mapMovementType(
+          movement.movement_type,
+          movement.reference_type
+        ),
+        previousQuantity: Number(movement.balance_before) || 0,
+        quantityChange: Number(movement.quantity) || 0,
+        newQuantity: Number(movement.balance_after) || 0,
+        reason:
+          movement.notes ||
+          movement.reference_type ||
+          movement.movement_type,
+        performedByUserId: movement.created_by || '',
+        performedByUserName: movement.created_by ? 'موظف معتمد' : 'النظام',
+        timestamp: movement.created_at,
+        referenceId: movement.reference_id || undefined,
+        notes: movement.notes || undefined,
+      };
+    });
   } catch (err) {
     console.warn('Exception fetching inventory movements:', err);
     return [];
+  }
+}
+
+export async function adjustInventoryStockInSupabase(
+  input: AdjustInventoryStockInput
+): Promise<{ success: boolean; data?: any; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) {
+    return {
+      success: false,
+      error: 'الاتصال بقاعدة بيانات Supabase غير متاح.',
+    };
+  }
+
+  try {
+    const { data, error } = await supabase.rpc('adjust_inventory_stock', {
+      p_warehouse_id: input.warehouseId,
+      p_product_id: input.productId,
+      p_actual_quantity: Math.floor(Number(input.actualQuantity) || 0),
+      p_reason: input.reason.trim(),
+      p_adjustment_type: input.adjustmentType || 'stock_count',
+    });
+
+    if (error) return { success: false, error: error.message };
+    if (!data?.success) {
+      return {
+        success: false,
+        error: data?.message || 'فشلت عملية تسوية المخزون.',
+      };
+    }
+
+    return { success: true, data };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error?.message || 'تعذر الاتصال بقاعدة بيانات Supabase.',
+    };
   }
 }

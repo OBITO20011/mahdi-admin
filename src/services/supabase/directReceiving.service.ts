@@ -9,8 +9,9 @@ import {
   SupplierReceiptItem,
   SupplierReceiptPayment,
   DirectReceiptForm,
+  ReceivingProduct,
 } from '../../types/directReceiving';
-import { Supplier, Product, Unit, Warehouse, Branch } from '../../types';
+import { Supplier, Unit, Warehouse, Branch } from '../../types';
 
 // Helper: Convert DB row to SupplierReceipt interface
 const mapSupplierReceiptRow = (row: any): SupplierReceipt => ({
@@ -64,6 +65,7 @@ const mapSupplierReceiptItemRow = (item: any): SupplierReceiptItem => ({
   totalBaseUnits: Number(item.total_base_units) || 0,
   packagePriceInMinorUnits: Number(item.package_price_in_minor_units) || 0,
   baseUnitCostInMinorUnits: Number(item.base_unit_cost_in_minor_units) || 0,
+  sellingPriceInMinorUnits: Number(item.selling_price_in_minor_units) || 0,
   discountInMinorUnits: Number(item.discount_in_minor_units) || 0,
   lineTotalInMinorUnits: Number(item.line_total_in_minor_units) || 0,
   batchNumber: item.batch_number,
@@ -83,6 +85,10 @@ const mapSupplierPaymentRow = (p: any): SupplierReceiptPayment => ({
   paymentDate: p.payment_date,
   notes: p.notes,
   createdBy: p.created_by,
+  isReversed: Boolean(p.is_reversed),
+  reversedAt: p.reversed_at,
+  reversedBy: p.reversed_by,
+  reversalReason: p.reversal_reason,
   createdAt: p.created_at,
 });
 
@@ -238,6 +244,7 @@ export const createDirectSupplierReceiptInSupabase = async (
         package_quantity: item.packageQuantity,
         units_per_package: item.unitsPerPackage,
         package_price_in_minor_units: item.packagePriceInMinorUnits,
+        update_product_defaults: Boolean(item.updateProductDefaults),
         discount_in_minor_units: item.discountInMinorUnits || 0,
         batch_number: item.batchNumber || null,
         production_date: item.productionDate || null,
@@ -334,16 +341,68 @@ export const archiveSupplierReceiptInSupabase = async (
   }
 };
 
+export const cancelSupplierReceiptInSupabase = async (
+  receiptId: string,
+  reason: string
+): Promise<{
+  success: boolean;
+  data?: {
+    receiptId: string;
+    receiptNumber: string;
+    inventoryUnitsReversed: number;
+    paymentsAmountReversed: number;
+  };
+  error?: string;
+}> => {
+  if (!isSupabaseConfigured || !supabase) {
+    return { success: false, error: 'الاتصال بقاعدة البيانات غير متاح.' };
+  }
+
+  try {
+    const { data, error } = await supabase.rpc('cancel_supplier_receipt', {
+      p_supplier_receipt_id: receiptId,
+      p_reason: reason.trim() || 'إلغاء سند استلام البضائع',
+    });
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    return data?.success
+      ? {
+          success: true,
+          data: {
+            receiptId: data.receipt_id,
+            receiptNumber: data.receipt_number,
+            inventoryUnitsReversed:
+              Number(data.inventory_units_reversed) || 0,
+            paymentsAmountReversed:
+              Number(data.payments_amount_reversed) || 0,
+          },
+        }
+      : { success: false, error: 'لم يؤكد الخادم إلغاء السند.' };
+  } catch (err: any) {
+    return {
+      success: false,
+      error: err?.message || 'حدث خطأ أثناء إلغاء سند الاستلام.',
+    };
+  }
+};
+
 /**
  * Helper data fetchers for receiving modal dropdowns
  */
 export const fetchSuppliersForReceivingFromSupabase = async (): Promise<Supplier[]> => {
-  if (!isSupabaseConfigured || !supabase) return [];
-  const { data } = await supabase
+  if (!isSupabaseConfigured || !supabase) {
+    throw new Error('الاتصال بقاعدة بيانات Supabase غير متاح.');
+  }
+  const { data, error } = await supabase
     .from('suppliers')
     .select('*')
     .eq('is_active', true)
     .order('company_name');
+
+  if (error) throw error;
 
   return (data || []).map((s: any) => ({
     id: s.id,
@@ -353,31 +412,133 @@ export const fetchSuppliersForReceivingFromSupabase = async (): Promise<Supplier
     whatsapp: s.whatsapp || '',
     email: s.email || '',
     address: s.address || '',
-    currentBalance: Number(s.current_balance) || 0,
+    currentBalance: (Number(s.current_balance_in_minor_units) || 0) / 1000,
     taxNumber: s.tax_number || '',
     notes: s.notes || '',
     isActive: s.is_active,
   }));
 };
 
-export const fetchProductsForReceivingFromSupabase = async (): Promise<any[]> => {
-  if (!isSupabaseConfigured || !supabase) return [];
-  const { data } = await supabase
+export const fetchProductsForReceivingFromSupabase = async (): Promise<ReceivingProduct[]> => {
+  if (!isSupabaseConfigured || !supabase) {
+    throw new Error('الاتصال بقاعدة بيانات Supabase غير متاح.');
+  }
+  const { data, error } = await supabase
     .from('products')
     .select(`
-      *,
-      units ( id, name_ar, code ),
-      inventory_balances ( warehouse_id, on_hand_quantity )
+      id,
+      name_ar,
+      sku,
+      barcode,
+      unit_id,
+      purchase_unit_id,
+      units_per_purchase_unit,
+      default_purchase_price_in_minor_units,
+      cost_price_in_minor_units,
+      sale_price_in_minor_units,
+      min_stock_level,
+      base_unit:units!products_unit_id_fkey ( id, name_ar, code ),
+      purchase_unit:units!products_purchase_unit_id_fkey ( id, name_ar, code ),
+      inventory_balances (
+        warehouse_id,
+        on_hand_quantity,
+        reserved_quantity,
+        available_quantity
+      )
     `)
     .eq('is_active', true)
     .order('name_ar');
 
-  return data || [];
+  if (error) {
+    console.error('Error fetching products for receiving:', error);
+    throw error;
+  }
+
+  return (data || []).map((product: any) => {
+    const baseUnit = Array.isArray(product.base_unit) ? product.base_unit[0] : product.base_unit;
+    const purchaseUnit = Array.isArray(product.purchase_unit)
+      ? product.purchase_unit[0]
+      : product.purchase_unit;
+    const unitsPerPackage = Math.max(
+      1,
+      Math.floor(Number(product.units_per_purchase_unit) || 1)
+    );
+    const costPriceInMinorUnits = Number(product.cost_price_in_minor_units) || 0;
+    const defaultPackagePriceInMinorUnits =
+      Number(product.default_purchase_price_in_minor_units) ||
+      costPriceInMinorUnits * unitsPerPackage;
+    const inventoryBalances = (product.inventory_balances || []).map(
+      (balance: any) => ({
+        warehouseId: balance.warehouse_id,
+        onHandQuantity: Math.max(
+          0,
+          Math.floor(Number(balance.on_hand_quantity) || 0)
+        ),
+        reservedQuantity: Math.max(
+          0,
+          Math.floor(Number(balance.reserved_quantity) || 0)
+        ),
+        availableQuantity: Math.max(
+          0,
+          Math.floor(
+            Number(
+              balance.available_quantity ??
+                (Number(balance.on_hand_quantity) || 0) -
+                  (Number(balance.reserved_quantity) || 0)
+            ) || 0
+          )
+        ),
+      })
+    );
+    const onHandQuantity = inventoryBalances.reduce(
+      (sum: number, balance: any) =>
+        sum + balance.onHandQuantity,
+      0
+    );
+    const reservedQuantity = inventoryBalances.reduce(
+      (sum: number, balance: any) =>
+        sum + balance.reservedQuantity,
+      0
+    );
+    const availableQuantity = inventoryBalances.reduce(
+      (sum: number, balance: any) =>
+        sum + balance.availableQuantity,
+      0
+    );
+
+    return {
+      id: product.id,
+      nameAr: product.name_ar || '',
+      sku: product.sku || '',
+      barcode: product.barcode || '',
+      baseUnitId: baseUnit?.id || product.unit_id || undefined,
+      baseUnitName: baseUnit?.name_ar || 'حبة',
+      baseUnitCode: baseUnit?.code || undefined,
+      purchaseUnitId: purchaseUnit?.id || baseUnit?.id || product.purchase_unit_id || undefined,
+      purchaseUnitName: purchaseUnit?.name_ar || baseUnit?.name_ar || 'حبة',
+      purchaseUnitCode: purchaseUnit?.code || baseUnit?.code || undefined,
+      unitsPerPackage,
+      defaultPackagePriceInMinorUnits,
+      costPriceInMinorUnits,
+      salePriceInMinorUnits: Number(product.sale_price_in_minor_units) || 0,
+      onHandQuantity,
+      reservedQuantity,
+      availableQuantity,
+      minStockLevel: Math.max(
+        0,
+        Math.floor(Number(product.min_stock_level) || 0)
+      ),
+      inventoryBalances,
+    };
+  });
 };
 
 export const fetchUnitsForReceivingFromSupabase = async (): Promise<Unit[]> => {
-  if (!isSupabaseConfigured || !supabase) return [];
-  const { data } = await supabase.from('units').select('*').order('name_ar');
+  if (!isSupabaseConfigured || !supabase) {
+    throw new Error('الاتصال بقاعدة بيانات Supabase غير متاح.');
+  }
+  const { data, error } = await supabase.from('units').select('*').order('name_ar');
+  if (error) throw error;
   return (data || []).map((u: any) => ({
     id: u.id,
     code: u.code,
@@ -387,10 +548,18 @@ export const fetchUnitsForReceivingFromSupabase = async (): Promise<Unit[]> => {
 };
 
 export const fetchWarehousesForReceivingFromSupabase = async (): Promise<Warehouse[]> => {
-  if (!isSupabaseConfigured || !supabase) return [];
-  const { data } = await supabase.from('warehouses').select('*').eq('is_active', true).order('name_ar');
+  if (!isSupabaseConfigured || !supabase) {
+    throw new Error('الاتصال بقاعدة بيانات Supabase غير متاح.');
+  }
+  const { data, error } = await supabase
+    .from('warehouses')
+    .select('*')
+    .eq('is_active', true)
+    .order('name_ar');
+  if (error) throw error;
   return (data || []).map((w: any) => ({
     id: w.id,
+    code: w.code || '',
     name: w.name_ar || w.name || 'مستودع',
     nameAr: w.name_ar || w.name || 'مستودع',
     branchId: w.branch_id || '',
@@ -399,8 +568,15 @@ export const fetchWarehousesForReceivingFromSupabase = async (): Promise<Warehou
 };
 
 export const fetchBranchesForReceivingFromSupabase = async (): Promise<Branch[]> => {
-  if (!isSupabaseConfigured || !supabase) return [];
-  const { data } = await supabase.from('branches').select('*').eq('is_active', true).order('name_ar');
+  if (!isSupabaseConfigured || !supabase) {
+    throw new Error('الاتصال بقاعدة بيانات Supabase غير متاح.');
+  }
+  const { data, error } = await supabase
+    .from('branches')
+    .select('*')
+    .eq('is_active', true)
+    .order('name_ar');
+  if (error) throw error;
   return (data || []).map((b: any) => ({
     id: b.id,
     name: b.name_ar || b.name || 'فرع',

@@ -6,6 +6,10 @@ import {
   translateAuthError,
   UserProfile,
 } from '../services/supabase/auth.service';
+import {
+  translateMfaError,
+  verifyTotpFactor,
+} from '../services/supabase/mfa.service';
 import { storeEngine } from './useAppStore';
 import { Role } from '../types';
 
@@ -16,6 +20,9 @@ export interface AuthState {
   roles: string[];
   roleName: string | null;
   isAuthenticated: boolean;
+  mfaRequired: boolean;
+  mfaFactorId: string | null;
+  mfaCurrentLevel: string | null;
   isLoading: boolean;
   authError: string | null;
 }
@@ -28,6 +35,9 @@ class AuthStoreEngine {
     roles: [],
     roleName: null,
     isAuthenticated: false,
+    mfaRequired: false,
+    mfaFactorId: null,
+    mfaCurrentLevel: null,
     isLoading: true,
     authError: null,
   };
@@ -52,6 +62,19 @@ class AuthStoreEngine {
 
   private notify() {
     this.listeners.forEach((listener) => listener());
+  }
+
+  private resetSessionState(clearError = true) {
+    this.state.user = null;
+    this.state.session = null;
+    this.state.profile = null;
+    this.state.roles = [];
+    this.state.roleName = null;
+    this.state.isAuthenticated = false;
+    this.state.mfaRequired = false;
+    this.state.mfaFactorId = null;
+    this.state.mfaCurrentLevel = null;
+    if (clearError) this.state.authError = null;
   }
 
   public async initAuth() {
@@ -82,12 +105,7 @@ class AuthStoreEngine {
       if (initialSession) {
         await this.handleUserSession(initialSession);
       } else {
-        this.state.user = null;
-        this.state.session = null;
-        this.state.profile = null;
-        this.state.roles = [];
-        this.state.roleName = null;
-        this.state.isAuthenticated = false;
+        this.resetSessionState();
       }
 
       // 2. Listen to Auth changes
@@ -99,13 +117,7 @@ class AuthStoreEngine {
             await this.handleUserSession(newSession);
           }
         } else if (event === 'SIGNED_OUT') {
-          this.state.user = null;
-          this.state.session = null;
-          this.state.profile = null;
-          this.state.roles = [];
-          this.state.roleName = null;
-          this.state.isAuthenticated = false;
-          this.state.authError = null;
+          this.resetSessionState();
           this.notify();
         }
       });
@@ -121,6 +133,56 @@ class AuthStoreEngine {
     const user = session.user;
     this.state.session = session;
     this.state.user = user;
+    this.state.isAuthenticated = false;
+
+    if (!supabase) {
+      this.resetSessionState(false);
+      this.state.authError = 'تعذر الاتصال بخادم المصادقة.';
+      this.notify();
+      return;
+    }
+
+    // A user with a verified TOTP factor must finish the second factor before
+    // any profile, role, inventory, or accounting data is requested.
+    const { data: aalData, error: aalError } =
+      await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+
+    if (aalError) {
+      await supabase.auth.signOut();
+      this.resetSessionState(false);
+      this.state.authError = translateMfaError(aalError);
+      this.notify();
+      return;
+    }
+
+    this.state.mfaCurrentLevel = aalData.currentLevel;
+
+    if (aalData.currentLevel === 'aal1' && aalData.nextLevel === 'aal2') {
+      const { data: factorsData, error: factorsError } =
+        await supabase.auth.mfa.listFactors();
+
+      if (factorsError || !factorsData.totp[0]) {
+        await supabase.auth.signOut();
+        this.resetSessionState(false);
+        this.state.authError = factorsError
+          ? translateMfaError(factorsError)
+          : 'تعذر العثور على تطبيق المصادقة المرتبط بهذا الحساب.';
+        this.notify();
+        return;
+      }
+
+      this.state.profile = null;
+      this.state.roles = [];
+      this.state.roleName = null;
+      this.state.mfaRequired = true;
+      this.state.mfaFactorId = factorsData.totp[0].id;
+      this.state.authError = null;
+      this.notify();
+      return;
+    }
+
+    this.state.mfaRequired = false;
+    this.state.mfaFactorId = null;
 
     // Fetch profile and roles from public tables
     const result = await fetchUserProfileAndRole(user.id);
@@ -129,12 +191,7 @@ class AuthStoreEngine {
       console.warn('[AuthStore] User is not authorized:', result.reason);
       await supabase?.auth.signOut();
 
-      this.state.user = null;
-      this.state.session = null;
-      this.state.profile = null;
-      this.state.roles = [];
-      this.state.roleName = null;
-      this.state.isAuthenticated = false;
+      this.resetSessionState(false);
       this.state.authError = result.reason || 'ليس لديك صلاحية لدخول لوحة الإدارة.';
       this.notify();
       return;
@@ -148,13 +205,16 @@ class AuthStoreEngine {
     this.state.authError = null;
 
     // Map role string to application Role type
-    let appRole: Role = 'Owner';
+    let appRole: Role = 'View Only';
     const roleLower = (result.primaryRole || '').toLowerCase();
-    if (roleLower.includes('admin') || roleLower.includes('مدير')) appRole = 'Admin';
-    if (roleLower.includes('account') || roleLower.includes('محاسب')) appRole = 'Accountant';
-    if (roleLower.includes('cashier') || roleLower.includes('كاشير')) appRole = 'Cashier';
-    if (roleLower.includes('sales') || roleLower.includes('مبيعات')) appRole = 'Sales Employee';
-    if (roleLower.includes('warehouse') || roleLower.includes('مخزن')) appRole = 'Warehouse Employee';
+    if (roleLower === 'owner') appRole = 'Owner';
+    if (roleLower === 'admin' || roleLower === 'manager') appRole = 'Admin';
+    if (roleLower === 'accountant') appRole = 'Accountant';
+    if (roleLower === 'cashier') appRole = 'Cashier';
+    if (roleLower === 'sales') appRole = 'Sales Employee';
+    if (roleLower === 'warehouse_keeper') appRole = 'Warehouse Employee';
+    if (roleLower === 'orders') appRole = 'Orders Employee';
+    if (roleLower === 'delivery_driver') appRole = 'Delivery Driver';
 
     // Synchronize current logged-in user details to App Store
     storeEngine.setCurrentUser({
@@ -166,11 +226,12 @@ class AuthStoreEngine {
         user.email?.split('@')[0] ||
         'مستخدم نواصرة',
       email: user.email || result.profile?.email || '',
-      phone: result.profile?.phone || user.phone || '0790000000',
+      phone: result.profile?.phone || user.phone || '',
       avatarUrl:
         result.profile?.avatar_url ||
         user.user_metadata?.avatar_url ||
-        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
+        undefined,
+      branchId: result.profile?.branch_id || storeEngine.getState().activeBranch?.id || '',
       role: appRole,
       isActive: true,
     });
@@ -185,7 +246,11 @@ class AuthStoreEngine {
     }
   }
 
-  public async signIn(email: string, password: string): Promise<{ success: boolean; error?: string }> {
+  public async signIn(
+    email: string,
+    password: string,
+    captchaToken: string
+  ): Promise<{ success: boolean; mfaRequired?: boolean; error?: string }> {
     if (!supabase || !isSupabaseConfigured) {
       return { success: false, error: 'تكوين Supabase غير مكتمل. يرجى التأكد من الإعدادات.' };
     }
@@ -197,6 +262,7 @@ class AuthStoreEngine {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password,
+        options: { captchaToken },
       });
 
       if (error) {
@@ -216,6 +282,10 @@ class AuthStoreEngine {
       // Handle user authorization & session setup
       await this.handleUserSession(data.session);
 
+      if (this.state.mfaRequired) {
+        return { success: true, mfaRequired: true };
+      }
+
       if (!this.state.isAuthenticated) {
         return {
           success: false,
@@ -233,6 +303,47 @@ class AuthStoreEngine {
     }
   }
 
+  public async verifyMfa(code: string): Promise<{ success: boolean; error?: string }> {
+    if (!supabase || !this.state.mfaFactorId) {
+      const error = 'لا توجد جلسة تحقق ثنائي نشطة. أعد تسجيل الدخول.';
+      this.state.authError = error;
+      this.notify();
+      return { success: false, error };
+    }
+
+    this.state.authError = null;
+    this.notify();
+
+    try {
+      await verifyTotpFactor(this.state.mfaFactorId, code);
+      const { data, error: sessionError } = await supabase.auth.getSession();
+
+      if (sessionError || !data.session) {
+        throw sessionError || new Error('تعذر تحديث جلسة الدخول بعد التحقق.');
+      }
+
+      await this.handleUserSession(data.session);
+
+      if (!this.state.isAuthenticated) {
+        return {
+          success: false,
+          error: this.state.authError || 'تعذر إكمال تسجيل الدخول الآمن.',
+        };
+      }
+
+      return { success: true };
+    } catch (error) {
+      const arabicError = translateMfaError(error);
+      this.state.authError = arabicError;
+      this.notify();
+      return { success: false, error: arabicError };
+    }
+  }
+
+  public async cancelMfa(): Promise<void> {
+    await this.signOut();
+  }
+
   public async signOut(): Promise<void> {
     try {
       if (supabase) {
@@ -241,13 +352,7 @@ class AuthStoreEngine {
     } catch (err) {
       console.error('[AuthStore] signOut Error:', err);
     } finally {
-      this.state.user = null;
-      this.state.session = null;
-      this.state.profile = null;
-      this.state.roles = [];
-      this.state.roleName = null;
-      this.state.isAuthenticated = false;
-      this.state.authError = null;
+      this.resetSessionState();
       this.notify();
     }
   }
@@ -276,7 +381,10 @@ export function useAuthStore() {
 
   return {
     ...state,
-    signIn: (e: string, p: string) => authStoreEngine.signIn(e, p),
+    signIn: (e: string, p: string, captchaToken: string) =>
+      authStoreEngine.signIn(e, p, captchaToken),
+    verifyMfa: (code: string) => authStoreEngine.verifyMfa(code),
+    cancelMfa: () => authStoreEngine.cancelMfa(),
     signOut: () => authStoreEngine.signOut(),
     clearError: () => authStoreEngine.clearError(),
   };

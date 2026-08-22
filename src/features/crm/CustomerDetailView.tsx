@@ -1,46 +1,25 @@
-/**
- * Nawasrah Business Manager - Customer Details Full CRM View
- * Displays complete profile, addresses list, stats, order timeline, notes, tags & enterprise action buttons.
- */
-
-import React, { useState, useEffect } from 'react';
-import { CrmCustomer } from '../../types/crm';
-import {
-  fetchCustomerDetailsCrmFromSupabase,
-  toggleCustomerBlockStatusInSupabase,
-  softDeleteCustomerInSupabase,
-  updateCustomerCrmInSupabase,
-  subscribeToCrmRealtime,
-} from '../../services/supabase/crm.service';
-import { CURRENCY } from '../../constants';
-import { AddAddressModal } from './AddAddressModal';
-import { CustomerEditModal } from './CustomerEditModal';
-import { useAppStore } from '../../stores/useAppStore';
+import React, { useEffect, useState } from 'react';
 import {
   ArrowRight,
-  Phone,
-  MessageSquare,
-  MapPin,
-  Calendar,
-  Mail,
-  ShieldAlert,
-  Star,
-  UserCheck,
-  ShoppingBag,
-  CheckCircle2,
-  XCircle,
-  TrendingUp,
-  DollarSign,
-  Clock,
-  Plus,
   Edit,
-  Trash2,
-  ExternalLink,
-  StickyNote,
-  Tag,
+  Loader2,
+  MapPin,
+  MessageCircle,
+  Phone,
+  Plus,
   RefreshCw,
-  Navigation,
+  ShoppingBag,
+  UserRound,
+  WalletCards,
 } from 'lucide-react';
+import { CURRENCY } from '../../constants';
+import {
+  fetchCustomerDetailsCrmFromSupabase,
+  subscribeToCrmRealtime,
+} from '../../services/supabase/crm.service';
+import { CrmCustomer } from '../../types/crm';
+import { AddAddressModal } from './AddAddressModal';
+import { CustomerEditModal } from './CustomerEditModal';
 
 interface CustomerDetailViewProps {
   customerId: string;
@@ -48,541 +27,320 @@ interface CustomerDetailViewProps {
   onRefreshList: () => void;
 }
 
+const ORDER_STATUS_LABELS: Record<string, string> = {
+  new: 'جديد',
+  confirmed: 'مؤكد',
+  preparing: 'قيد التجهيز',
+  processing: 'قيد التجهيز',
+  ready: 'جاهز',
+  out_for_delivery: 'خرج للتوصيل',
+  delivered: 'مكتمل',
+  completed: 'مكتمل',
+  cancelled: 'ملغي',
+};
+
+function jordanWhatsappNumber(phone: string) {
+  const digits = phone.replace(/\D/g, '');
+  if (digits.startsWith('962')) return digits;
+  if (digits.startsWith('0')) return `962${digits.slice(1)}`;
+  return `962${digits}`;
+}
+
 export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
   customerId,
   onBack,
   onRefreshList,
 }) => {
-  const { openModal, setToast } = useAppStore();
-
   const [customer, setCustomer] = useState<CrmCustomer | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
+  const [addressOpen, setAddressOpen] = useState(false);
 
-  // Modals state
-  const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
-  const [isAddAddressOpen, setIsAddAddressOpen] = useState<boolean>(false);
-  const [editingNotes, setEditingNotes] = useState<boolean>(false);
-  const [notesText, setNotesText] = useState<string>('');
-
-  const loadDetails = async () => {
+  const load = async () => {
     setLoading(true);
     setError(null);
-
-    const res = await fetchCustomerDetailsCrmFromSupabase(customerId);
-
-    if (res.success && res.customer) {
-      setCustomer(res.customer);
-      setNotesText(res.customer.notes || '');
+    const result = await fetchCustomerDetailsCrmFromSupabase(customerId);
+    if (result.success && result.customer) {
+      setCustomer(result.customer);
     } else {
-      setError(res.error || 'تعذر جلب تفاصيل العميل من قاعدة البيانات.');
+      setError(result.error || 'تعذر تحميل ملف العميل.');
     }
-
     setLoading(false);
   };
 
   useEffect(() => {
-    loadDetails();
-
-    const unsubscribe = subscribeToCrmRealtime(() => {
-      loadDetails();
-      onRefreshList();
-    });
-
-    return () => {
-      unsubscribe();
-    };
+    load();
+    const unsubscribe = subscribeToCrmRealtime(load);
+    return unsubscribe;
   }, [customerId]);
 
-  const handleToggleBlock = async () => {
-    if (!customer) return;
-    const nextBlocked = !customer.isBlocked;
-    const confirmMsg = nextBlocked
-      ? `هل أنت أيد أنك تريد حظر العميل "${customer.fullName}"؟`
-      : `هل تريد إلغاء حظر العميل "${customer.fullName}"؟`;
-
-    if (!window.confirm(confirmMsg)) return;
-
-    const res = await toggleCustomerBlockStatusInSupabase(customer.id, nextBlocked);
-    if (res.success) {
-      setToast(nextBlocked ? 'تم حظر العميل بنجاح' : 'تم إلغاء حظر العميل بنجاح', 'success');
-      loadDetails();
-      onRefreshList();
-    } else {
-      setToast(res.error || 'فشلت عملية تحديث حالة الحظر', 'error');
-    }
-  };
-
-  const handleSoftDelete = async () => {
-    if (!customer) return;
-    if (!window.confirm(`هل أنت أيد أنك تريد نقل العميل "${customer.fullName}" إلى سلة المحذوفات؟`)) return;
-
-    const res = await softDeleteCustomerInSupabase(customer.id);
-    if (res.success) {
-      setToast('تم حذف العميل بنجاح', 'success');
-      onRefreshList();
-      onBack();
-    } else {
-      setToast(res.error || 'فشلت عملية الحذف', 'error');
-    }
-  };
-
-  const handleSaveNotes = async () => {
-    if (!customer) return;
-    const res = await updateCustomerCrmInSupabase(customer.id, { notes: notesText });
-    if (res.success) {
-      setToast('تم تحديث الملاحظات الداخلية بنجاح', 'success');
-      setEditingNotes(false);
-      loadDetails();
-    } else {
-      setToast(res.error || 'فشل حفظ الملاحظات', 'error');
-    }
-  };
-
-  // Loading state
   if (loading && !customer) {
     return (
-      <div dir="rtl" className="p-4 space-y-4 max-w-5xl mx-auto">
-        <div className="h-10 w-28 bg-slate-900 rounded-xl animate-pulse" />
-        <div className="h-40 bg-slate-900 border border-slate-800 rounded-2xl animate-pulse p-4" />
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="h-24 bg-slate-900 border border-slate-800 rounded-2xl animate-pulse" />
-          ))}
-        </div>
+      <div className="mx-3 flex items-center justify-center gap-2 rounded-2xl border border-slate-800 bg-slate-900 p-10 text-xs font-bold text-slate-400">
+        <Loader2 className="h-5 w-5 animate-spin text-indigo-400" />
+        جاري تحميل ملف العميل...
       </div>
     );
   }
 
-  // Error state
-  if (error || !customer) {
+  if (!customer || error) {
     return (
-      <div dir="rtl" className="p-4 max-w-xl mx-auto text-center space-y-4 mt-8">
-        <div className="bg-rose-950/80 border border-rose-800 p-6 rounded-2xl space-y-3">
-          <ShieldAlert className="w-10 h-10 text-rose-400 mx-auto" />
-          <h3 className="text-sm font-bold text-white">خطأ في عرض ملف العميل</h3>
-          <p className="text-xs text-rose-300">{error || 'العميل غير موجود'}</p>
-          <button
-            onClick={onBack}
-            className="bg-slate-800 text-slate-200 px-4 py-2 rounded-xl text-xs font-bold"
-          >
-            العودة لقائمة العملاء
-          </button>
-        </div>
+      <div className="mx-3 rounded-2xl border border-rose-800 bg-rose-950/50 p-5 text-xs text-rose-300">
+        <p>{error || 'العميل غير موجود.'}</p>
+        <button
+          type="button"
+          onClick={onBack}
+          className="mt-3 rounded-xl bg-slate-800 px-4 py-2 font-bold text-slate-200"
+        >
+          رجوع
+        </button>
       </div>
     );
   }
-
-  const primaryAddress = customer.addresses && customer.addresses.length > 0 ? customer.addresses[0] : null;
-  const primaryMapsUrl = primaryAddress?.googleMapsUrl || `https://maps.google.com/?q=${encodeURIComponent(customer.governorate + ' ' + customer.fullName)}`;
 
   const stats = customer.stats || {
-    totalOrders: customer.totalOrdersCount,
+    totalOrders: 0,
     completedOrders: 0,
     cancelledOrders: 0,
-    totalSpending: customer.totalSpending,
+    totalSpending: 0,
+    outstandingBalance: 0,
     averageOrderValue: 0,
     lastOrderDate: null,
   };
 
+  const refresh = async () => {
+    await load();
+    onRefreshList();
+  };
+
   return (
-    <div dir="rtl" className="p-3 sm:p-4 space-y-4 pb-24 max-w-5xl mx-auto text-xs">
-      {/* Top Header & Back Navigation */}
-      <div className="flex items-center justify-between">
+    <div dir="rtl" className="space-y-4 px-3 text-xs">
+      <div className="flex items-start justify-between gap-2">
         <button
+          type="button"
           onClick={onBack}
-          className="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 px-3.5 py-2 rounded-xl font-bold flex items-center gap-1.5 transition active:scale-95"
+          className="flex items-center gap-1 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 font-bold text-slate-300"
         >
-          <ArrowRight className="w-4 h-4" />
-          <span>العودة لقائمة العملاء</span>
+          <ArrowRight className="h-4 w-4" />
+          الدليل
         </button>
-
         <button
-          onClick={loadDetails}
-          className="bg-slate-900 hover:bg-slate-800 text-slate-300 p-2 rounded-xl border border-slate-800 transition"
-          title="تحديث بيانات العميل"
+          type="button"
+          onClick={refresh}
+          className="rounded-xl border border-slate-700 bg-slate-800 p-2 text-slate-300"
         >
-          <RefreshCw className="w-4 h-4" />
+          <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
         </button>
       </div>
 
-      {/* 1. Customer Profile Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 p-4 sm:p-5 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
-          <div>
-            <div className="flex items-center gap-2 flex-wrap mb-1.5">
-              {/* Status Badge */}
-              {customer.isBlocked ? (
-                <span className="text-[10px] font-black bg-rose-950 text-rose-300 border border-rose-800 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                  <ShieldAlert className="w-3 h-3" />
-                  <span>محظور Blocked</span>
-                </span>
-              ) : customer.isVip ? (
-                <span className="text-[10px] font-black bg-amber-950 text-amber-300 border border-amber-700 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                  <Star className="w-3 h-3 fill-amber-300" />
-                  <span>عميل VIP متميز</span>
-                </span>
-              ) : customer.isActive ? (
-                <span className="text-[10px] font-black bg-emerald-950 text-emerald-300 border border-emerald-800 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                  <UserCheck className="w-3 h-3" />
-                  <span>حساب نشط Active</span>
-                </span>
-              ) : (
-                <span className="text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700 px-2.5 py-0.5 rounded-full">
-                  حساب غير نشط
-                </span>
-              )}
-
-              {/* Tags */}
-              {customer.tags.map((tag, idx) => (
-                <span
-                  key={idx}
-                  className="text-[10px] font-extrabold bg-blue-950 text-blue-300 border border-blue-800 px-2.5 py-0.5 rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
+      <div className="rounded-2xl border border-slate-800 bg-gradient-to-l from-indigo-950/70 to-slate-900 p-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-indigo-500/30 bg-indigo-500/10 text-indigo-300">
+              <UserRound className="h-5 w-5" />
             </div>
-
-            <h1 className="text-base sm:text-lg font-black text-white flex items-center gap-2">
-              <span>{customer.fullName}</span>
-            </h1>
-
-            <p className="text-[11px] text-slate-400 mt-1 flex items-center gap-3 flex-wrap">
-              <span className="flex items-center gap-1 font-mono">
-                <Phone className="w-3.5 h-3.5 text-blue-400" />
-                <span>{customer.phone}</span>
-              </span>
-
-              {customer.email && (
-                <span className="flex items-center gap-1 font-mono">
-                  <Mail className="w-3.5 h-3.5 text-blue-400" />
-                  <span>{customer.email}</span>
-                </span>
-              )}
-
-              <span className="flex items-center gap-1 text-slate-400">
-                <Calendar className="w-3.5 h-3.5 text-slate-500" />
-                <span>مسجل منذ: {new Date(customer.createdAt).toLocaleDateString('ar-JO')}</span>
-              </span>
-            </p>
+            <div>
+              <h2 className="text-base font-black text-white">
+                {customer.fullName}
+              </h2>
+              <p className="text-[10px] text-slate-400">
+                {customer.customerType === 'wholesale'
+                  ? 'عميل جملة'
+                  : 'عميل تجزئة'}{' '}
+                — {customer.governorate}
+              </p>
+            </div>
           </div>
-
-          {/* Toolbar Action Buttons */}
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <button
-              onClick={() => setIsEditModalOpen(true)}
-              className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3 py-2 rounded-xl transition flex items-center gap-1 text-xs shadow"
-            >
-              <Edit className="w-3.5 h-3.5" />
-              <span>تعديل</span>
-            </button>
-
-            <button
-              onClick={handleToggleBlock}
-              className={`font-bold px-3 py-2 rounded-xl transition flex items-center gap-1 text-xs border ${
-                customer.isBlocked
-                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white border-emerald-500'
-                  : 'bg-amber-600/20 text-amber-300 border-amber-500/30 hover:bg-amber-600/30'
-              }`}
-            >
-              <ShieldAlert className="w-3.5 h-3.5" />
-              <span>{customer.isBlocked ? 'إلغاء الحظر' : 'حظر العميل'}</span>
-            </button>
-
-            <button
-              onClick={handleSoftDelete}
-              className="bg-rose-950/80 text-rose-300 border border-rose-800 hover:bg-rose-900 px-3 py-2 rounded-xl font-bold transition flex items-center gap-1 text-xs"
-              title="نقل لسلة المحذوفات"
-            >
-              <Trash2 className="w-3.5 h-3.5" />
-              <span>حذف</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Quick Contact Options */}
-        <div className="flex items-center gap-2 flex-wrap text-xs">
-          <a
-            href={`tel:${customer.phone}`}
-            className="bg-slate-800 hover:bg-emerald-600 text-emerald-400 hover:text-white px-3.5 py-2 rounded-xl font-bold transition flex items-center gap-1.5 border border-slate-700"
-          >
-            <Phone className="w-3.5 h-3.5" />
-            <span>اتصال هاتفي</span>
-          </a>
-
-          <a
-            href={`https://wa.me/${customer.whatsapp || customer.phone}`}
-            target="_blank"
-            rel="noreferrer"
-            className="bg-slate-800 hover:bg-emerald-600 text-emerald-400 hover:text-white px-3.5 py-2 rounded-xl font-bold transition flex items-center gap-1.5 border border-slate-700"
-          >
-            <MessageSquare className="w-3.5 h-3.5" />
-            <span>واتساب المبيعات</span>
-          </a>
-
-          <a
-            href={primaryMapsUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="bg-slate-800 hover:bg-rose-600 text-rose-400 hover:text-white px-3.5 py-2 rounded-xl font-bold transition flex items-center gap-1.5 border border-slate-700"
-          >
-            <MapPin className="w-3.5 h-3.5" />
-            <span>خرائط جوجل</span>
-          </a>
-        </div>
-      </div>
-
-      {/* 2. Customer Statistics Grid (6 Metrics) */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5">
-        <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl space-y-1">
-          <span className="text-[10px] text-slate-400 block font-medium">إجمالي الطلبات</span>
-          <div className="text-base font-black text-slate-100 flex items-center gap-1.5">
-            <ShoppingBag className="w-4 h-4 text-blue-400" />
-            <span>{stats.totalOrders}</span>
-          </div>
-        </div>
-
-        <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl space-y-1">
-          <span className="text-[10px] text-slate-400 block font-medium">طلبات منجزة</span>
-          <div className="text-base font-black text-emerald-400 flex items-center gap-1.5">
-            <CheckCircle2 className="w-4 h-4" />
-            <span>{stats.completedOrders}</span>
-          </div>
-        </div>
-
-        <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl space-y-1">
-          <span className="text-[10px] text-slate-400 block font-medium">طلبات ملغاة</span>
-          <div className="text-base font-black text-rose-400 flex items-center gap-1.5">
-            <XCircle className="w-4 h-4" />
-            <span>{stats.cancelledOrders}</span>
-          </div>
-        </div>
-
-        <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl space-y-1">
-          <span className="text-[10px] text-slate-400 block font-medium">إجمالي الإنفاق</span>
-          <div className="text-base font-black text-amber-400 flex items-center gap-1">
-            <span>{stats.totalSpending.toFixed(2)}</span>
-            <span className="text-[10px] text-slate-400">{CURRENCY}</span>
-          </div>
-        </div>
-
-        <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl space-y-1">
-          <span className="text-[10px] text-slate-400 block font-medium">متوسط قيمة الطلب</span>
-          <div className="text-base font-black text-cyan-400 flex items-center gap-1">
-            <span>{stats.averageOrderValue.toFixed(2)}</span>
-            <span className="text-[10px] text-slate-400">{CURRENCY}</span>
-          </div>
-        </div>
-
-        <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl space-y-1">
-          <span className="text-[10px] text-slate-400 block font-medium">آخر طلب</span>
-          <div className="text-xs font-extrabold text-slate-200 flex items-center gap-1 truncate mt-0.5">
-            <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            <span>
-              {stats.lastOrderDate
-                ? new Date(stats.lastOrderDate).toLocaleDateString('ar-JO')
-                : 'لا يوجد'}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* 3. Customer Addresses Section */}
-      <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-lg space-y-3">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
-          <h3 className="text-xs font-extrabold text-slate-100 flex items-center gap-1.5">
-            <MapPin className="w-4 h-4 text-rose-400" />
-            <span>عناوين التوصيل المسجلة ({customer.addresses?.length || 0})</span>
-          </h3>
-
           <button
-            onClick={() => setIsAddAddressOpen(true)}
-            className="bg-rose-600 hover:bg-rose-500 text-white font-bold px-3 py-1.5 rounded-xl text-xs transition flex items-center gap-1 shadow"
+            type="button"
+            onClick={() => setEditOpen(true)}
+            className="flex items-center gap-1 rounded-xl bg-indigo-600 px-3 py-2 font-bold text-white"
           >
-            <Plus className="w-3.5 h-3.5" />
-            <span>إضافة عنوان جديد</span>
+            <Edit className="h-3.5 w-3.5" />
+            تعديل
           </button>
         </div>
 
-        {customer.addresses && customer.addresses.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-            {customer.addresses.map((addr) => (
-              <div
-                key={addr.id}
-                className="bg-slate-950 border border-slate-800 p-3 rounded-xl space-y-2 text-xs relative"
+        <div className="mt-3 grid grid-cols-2 gap-2">
+          {customer.phone && (
+            <>
+              <a
+                href={`tel:${customer.phone}`}
+                className="flex items-center justify-center gap-1 rounded-xl border border-emerald-800 bg-emerald-950/40 py-2 font-bold text-emerald-300"
               >
-                <div className="flex items-center justify-between">
-                  <span className="font-extrabold text-slate-200 text-xs flex items-center gap-1">
-                    <Navigation className="w-3 h-3 text-rose-400" />
-                    <span>{addr.governorate} • {addr.area}</span>
-                  </span>
-
-                  <a
-                    href={addr.googleMapsUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-blue-400 hover:underline flex items-center gap-1 text-[11px] font-bold"
-                  >
-                    <span>خرائط جوجل</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-
-                <p className="text-slate-400 text-[11px] leading-relaxed">
-                  الشارع: <strong className="text-slate-200">{addr.street || 'غير محدد'}</strong>
-                  {addr.building ? ` • مبنى: ${addr.building}` : ''}
-                  {addr.floor ? ` • طابق: ${addr.floor}` : ''}
-                  {addr.apartment ? ` • شقة: ${addr.apartment}` : ''}
-                </p>
-
-                {addr.notes && (
-                  <p className="text-[10px] text-amber-300/90 bg-amber-950/40 border border-amber-800/40 p-1.5 rounded-lg">
-                    ملاحظات: {addr.notes}
-                  </p>
-                )}
-
-                <div className="flex items-center justify-between text-[10px] text-slate-500 pt-1 border-t border-slate-800/80 font-mono">
-                  <span>الإحداثيات: {addr.latitude?.toFixed(4)}, {addr.longitude?.toFixed(4)}</span>
-                  <span>{addr.locationSource || 'GPS'}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="bg-slate-950 border border-slate-800/80 p-4 rounded-xl text-center text-slate-400 text-xs">
-            لا توجد عناوين مسجلة للعميل. يمكنك إضافة عنوان جديد الآن.
-          </div>
-        )}
-      </div>
-
-      {/* 4. Order History Timeline */}
-      <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-lg space-y-3">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
-          <h3 className="text-xs font-extrabold text-slate-100 flex items-center gap-1.5">
-            <ShoppingBag className="w-4 h-4 text-blue-400" />
-            <span>سجل طلبات العميل (Order Timeline)</span>
-          </h3>
-          <span className="text-[10px] text-slate-400">إجمالي {customer.orderHistory?.length || 0} طلبات</span>
-        </div>
-
-        {customer.orderHistory && customer.orderHistory.length > 0 ? (
-          <div className="space-y-2">
-            {customer.orderHistory.map((ord) => (
-              <div
-                key={ord.id}
-                className="bg-slate-950 border border-slate-800 p-3 rounded-xl flex items-center justify-between text-xs transition hover:border-slate-700"
+                <Phone className="h-3.5 w-3.5" />
+                {customer.phone}
+              </a>
+              <a
+                href={`https://wa.me/${jordanWhatsappNumber(
+                  customer.whatsapp || customer.phone
+                )}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-center gap-1 rounded-xl border border-green-800 bg-green-950/40 py-2 font-bold text-green-300"
               >
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-extrabold text-blue-400 font-mono">{ord.orderNumber}</span>
-                    <span className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full font-bold">
-                      {ord.status}
-                    </span>
-                  </div>
-                  <span className="text-[10px] text-slate-500 block">
-                    تاريخ الطلب: {new Date(ord.createdAt).toLocaleString('ar-JO')} • {ord.itemsCount} صنف
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="text-left">
-                    <span className="text-[10px] text-slate-500 block">الإجمالي:</span>
-                    <span className="font-black text-emerald-400">
-                      {ord.totalAmount.toFixed(2)} {CURRENCY}
-                    </span>
-                  </div>
-
-                  <button
-                    onClick={() => openModal('view_order', { id: ord.id })}
-                    className="bg-blue-600/20 text-blue-300 border border-blue-500/30 hover:bg-blue-600/30 px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1 text-[11px]"
-                  >
-                    <span>فتح الطلب</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="bg-slate-950 border border-slate-800/80 p-4 rounded-xl text-center text-slate-400 text-xs">
-            لا توجد طلبات سابقة لهذا العميل حتى الآن.
-          </div>
-        )}
-      </div>
-
-      {/* 5. Internal Customer Notes Section */}
-      <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-lg space-y-3">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
-          <h3 className="text-xs font-extrabold text-slate-100 flex items-center gap-1.5">
-            <StickyNote className="w-4 h-4 text-amber-400" />
-            <span>الملاحظات الداخلية للعميل (Internal Notes)</span>
-          </h3>
-
-          {!editingNotes ? (
-            <button
-              onClick={() => setEditingNotes(true)}
-              className="text-blue-400 hover:underline font-bold text-xs flex items-center gap-1"
-            >
-              <Edit className="w-3.5 h-3.5" />
-              <span>تعديل الملاحظات</span>
-            </button>
-          ) : (
-            <div className="flex items-center gap-1.5">
-              <button
-                onClick={() => setEditingNotes(false)}
-                className="bg-slate-800 text-slate-300 px-3 py-1 rounded-lg text-xs font-bold"
-              >
-                إلغاء
-              </button>
-              <button
-                onClick={handleSaveNotes}
-                className="bg-blue-600 text-white px-3 py-1 rounded-lg text-xs font-bold"
-              >
-                حفظ
-              </button>
-            </div>
+                <MessageCircle className="h-3.5 w-3.5" />
+                واتساب
+              </a>
+            </>
           )}
         </div>
-
-        {editingNotes ? (
-          <textarea
-            rows={3}
-            value={notesText}
-            onChange={(e) => setNotesText(e.target.value)}
-            placeholder="اكتب ملاحظات بخصوص طريقة دفع العميل، أي حساسيات أو شروط خاصة..."
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-100 text-xs focus:outline-none focus:border-blue-500 resize-none"
-          />
-        ) : (
-          <p className="text-slate-300 text-xs leading-relaxed bg-slate-950 border border-slate-800/80 p-3 rounded-xl min-h-[3rem]">
-            {customer.notes || 'لا توجد ملاحظات مدخلة للعميل بعد.'}
-          </p>
-        )}
       </div>
 
-      {/* Modals */}
-      {isEditModalOpen && (
-        <CustomerEditModal
-          customer={customer}
-          isOpen={isEditModalOpen}
-          onClose={() => setIsEditModalOpen(false)}
-          onCustomerUpdated={() => {
-            loadDetails();
-            onRefreshList();
-          }}
-        />
+      <div className="grid grid-cols-3 gap-2">
+        <div className="rounded-2xl border border-blue-500/20 bg-blue-500/5 p-3">
+          <ShoppingBag className="mb-1 h-4 w-4 text-blue-400" />
+          <span className="block text-[9px] text-slate-500">كل الطلبات</span>
+          <b className="text-blue-300">{stats.totalOrders}</b>
+        </div>
+        <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-3">
+          <span className="block text-[9px] text-slate-500">مبيعات مكتملة</span>
+          <b className="text-emerald-300">
+            {stats.totalSpending.toFixed(3)}
+          </b>
+        </div>
+        <div className="rounded-2xl border border-rose-500/20 bg-rose-500/5 p-3">
+          <WalletCards className="mb-1 h-4 w-4 text-rose-400" />
+          <span className="block text-[9px] text-slate-500">الذمة الحالية</span>
+          <b className={stats.outstandingBalance > 0 ? 'text-rose-300' : 'text-emerald-300'}>
+            {stats.outstandingBalance.toFixed(3)}
+          </b>
+        </div>
+      </div>
+
+      <section className="rounded-2xl border border-slate-800 bg-slate-900 p-4">
+        <div className="mb-3 flex items-center justify-between">
+          <div>
+            <h3 className="flex items-center gap-1.5 font-black text-white">
+              <MapPin className="h-4 w-4 text-amber-400" />
+              عناوين التوصيل
+            </h3>
+            <p className="text-[9px] text-slate-500">
+              لا يتم إنشاء موقع افتراضي؛ الإحداثيات تظهر فقط عند إدخالها
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setAddressOpen(true)}
+            className="flex items-center gap-1 rounded-xl bg-amber-500/10 px-2.5 py-2 font-bold text-amber-300"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            عنوان
+          </button>
+        </div>
+        {customer.addresses?.length ? (
+          <div className="space-y-2">
+            {customer.addresses.map((address) => (
+              <div
+                key={address.id}
+                className="rounded-xl border border-slate-800 bg-slate-950 p-3"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <strong className="text-slate-200">
+                      {address.formattedAddress ||
+                        [
+                          address.governorate,
+                          address.city,
+                          address.area,
+                          address.street,
+                        ]
+                          .filter(Boolean)
+                          .join(' — ')}
+                    </strong>
+                    {address.notes && (
+                      <p className="mt-1 text-[10px] text-slate-500">
+                        {address.notes}
+                      </p>
+                    )}
+                  </div>
+                  {address.googleMapsUrl ? (
+                    <a
+                      href={address.googleMapsUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="shrink-0 rounded-lg bg-blue-500/10 px-2 py-1 text-[9px] font-bold text-blue-300"
+                    >
+                      الخريطة
+                    </a>
+                  ) : (
+                    <span className="shrink-0 text-[9px] text-slate-600">
+                      بدون GPS
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-xl bg-slate-950 p-4 text-center text-slate-500">
+            لا توجد عناوين مسجلة.
+          </div>
+        )}
+      </section>
+
+      <section className="rounded-2xl border border-slate-800 bg-slate-900 p-4">
+        <h3 className="mb-3 font-black text-white">سجل طلبات المتجر</h3>
+        {customer.orderHistory?.length ? (
+          <div className="space-y-2">
+            {customer.orderHistory.map((order) => (
+              <div
+                key={order.id}
+                className="rounded-xl border border-slate-800 bg-slate-950 p-3"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <span className="font-mono text-[10px] font-black text-blue-400">
+                      {order.orderNumber}
+                    </span>
+                    <p className="text-[10px] text-slate-500">
+                      {ORDER_STATUS_LABELS[order.status] || order.status} —{' '}
+                      {new Date(order.createdAt).toLocaleDateString('ar-JO')}
+                    </p>
+                  </div>
+                  <strong className="text-slate-200">
+                    {order.totalAmount.toFixed(3)} {CURRENCY}
+                  </strong>
+                </div>
+                {order.amountDue > 0 && (
+                  <div className="mt-2 rounded-lg bg-rose-500/10 px-2 py-1 text-[10px] text-rose-300">
+                    مدفوع {order.amountPaid.toFixed(3)} — متبقي{' '}
+                    {order.amountDue.toFixed(3)} {CURRENCY}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-xl bg-slate-950 p-4 text-center text-slate-500">
+            لا توجد طلبات متجر لهذا العميل.
+          </div>
+        )}
+      </section>
+
+      {customer.notes && (
+        <section className="rounded-2xl border border-slate-800 bg-slate-900 p-4">
+          <h3 className="mb-2 font-black text-white">ملاحظات داخلية</h3>
+          <p className="leading-5 text-slate-400">{customer.notes}</p>
+        </section>
       )}
 
-      {isAddAddressOpen && (
+      {editOpen && (
+        <CustomerEditModal
+          customer={customer}
+          isOpen={editOpen}
+          onClose={() => setEditOpen(false)}
+          onCustomerUpdated={refresh}
+        />
+      )}
+      {addressOpen && (
         <AddAddressModal
           customerId={customer.id}
           customerName={customer.fullName}
-          isOpen={isAddAddressOpen}
-          onClose={() => setIsAddAddressOpen(false)}
-          onAddressAdded={() => {
-            loadDetails();
-            onRefreshList();
-          }}
+          isOpen={addressOpen}
+          onClose={() => setAddressOpen(false)}
+          onAddressAdded={refresh}
         />
       )}
     </div>

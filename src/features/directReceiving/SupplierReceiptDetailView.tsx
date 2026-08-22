@@ -9,6 +9,7 @@ import { CURRENCY } from '../../constants';
 import { formatWholesaleInventory } from '../../utils/inventoryFormatter';
 import { archiveSupplierReceiptInSupabase } from '../../services/supabase/directReceiving.service';
 import { useAppStore } from '../../stores/useAppStore';
+import { CancelSupplierReceiptDialog } from './CancelSupplierReceiptDialog';
 import {
   FileText,
   Printer,
@@ -25,6 +26,7 @@ import {
   Package,
   Layers,
   ChevronLeft,
+  RotateCcw,
 } from 'lucide-react';
 
 interface SupplierReceiptDetailViewProps {
@@ -43,6 +45,8 @@ export const SupplierReceiptDetailView: React.FC<SupplierReceiptDetailViewProps>
   const { setToast } = useAppStore();
   const [activeSubTab, setActiveSubTab] = useState<'items' | 'payments' | 'history'>('items');
   const [isArchiving, setIsArchiving] = useState<boolean>(false);
+  const [showCancellationDialog, setShowCancellationDialog] =
+    useState<boolean>(false);
 
   const minorToJod = (fils: number) => (fils / 1000).toFixed(3);
 
@@ -67,11 +71,29 @@ export const SupplierReceiptDetailView: React.FC<SupplierReceiptDetailViewProps>
     setIsArchiving(false);
   };
 
-  const paymentStatusBadge = {
-    paid: { label: 'مدفوع بالكامل', bg: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' },
-    partially_paid: { label: 'مدفوع جزئيًا', bg: 'bg-amber-500/20 text-amber-300 border-amber-500/30' },
-    unpaid: { label: 'غير مدفوع (ذمة)', bg: 'bg-rose-500/20 text-rose-300 border-rose-500/30' },
-  }[receipt.paymentStatus] || { label: 'غير مدفوع', bg: 'bg-slate-800 text-slate-300 border-slate-700' };
+  const paymentStatusBadge =
+    receipt.status === 'cancelled'
+      ? {
+          label: 'ملغى ومعكوس',
+          bg: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
+        }
+      : {
+          paid: {
+            label: 'مدفوع بالكامل',
+            bg: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+          },
+          partially_paid: {
+            label: 'مدفوع جزئيًا',
+            bg: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+          },
+          unpaid: {
+            label: 'غير مدفوع (ذمة)',
+            bg: 'bg-rose-500/20 text-rose-300 border-rose-500/30',
+          },
+        }[receipt.paymentStatus] || {
+          label: 'غير مدفوع',
+          bg: 'bg-slate-800 text-slate-300 border-slate-700',
+        };
 
   return (
     <div dir="rtl" className="space-y-4 text-xs text-slate-200">
@@ -86,7 +108,17 @@ export const SupplierReceiptDetailView: React.FC<SupplierReceiptDetailViewProps>
         </button>
 
         <div className="flex items-center gap-2">
-          {receipt.amountDueInMinorUnits > 0 && (
+          {receipt.status === 'completed' && (
+            <button
+              onClick={() => setShowCancellationDialog(true)}
+              className="bg-rose-600/15 text-rose-300 border border-rose-500/30 px-3 py-1.5 rounded-xl font-bold hover:bg-rose-600/25 transition flex items-center gap-1.5"
+            >
+              <RotateCcw className="w-4 h-4" />
+              <span>إلغاء وعكس السند</span>
+            </button>
+          )}
+
+          {receipt.status === 'completed' && receipt.amountDueInMinorUnits > 0 && (
             <button
               onClick={() => onRecordPayment(receipt)}
               className="bg-emerald-600/20 text-emerald-300 border border-emerald-500/30 px-3 py-1.5 rounded-xl font-bold hover:bg-emerald-600/30 transition flex items-center gap-1.5"
@@ -96,14 +128,16 @@ export const SupplierReceiptDetailView: React.FC<SupplierReceiptDetailViewProps>
             </button>
           )}
 
-          <button
-            onClick={handleToggleArchive}
-            disabled={isArchiving}
-            className="bg-slate-800 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-xl font-bold hover:bg-slate-700 transition flex items-center gap-1.5"
-          >
-            <Archive className="w-4 h-4 text-amber-400" />
-            <span>{receipt.isArchived ? 'إلغاء الأرشفة' : 'أرشفة السند'}</span>
-          </button>
+          {receipt.status === 'completed' && (
+            <button
+              onClick={handleToggleArchive}
+              disabled={isArchiving}
+              className="bg-slate-800 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-xl font-bold hover:bg-slate-700 transition flex items-center gap-1.5"
+            >
+              <Archive className="w-4 h-4 text-amber-400" />
+              <span>{receipt.isArchived ? 'إلغاء الأرشفة' : 'أرشفة السند'}</span>
+            </button>
+          )}
 
           <button
             onClick={handlePrint}
@@ -213,7 +247,7 @@ export const SupplierReceiptDetailView: React.FC<SupplierReceiptDetailViewProps>
         </div>
 
         {/* Items Table */}
-        {(activeSubTab === 'items' || true) && (
+        {activeSubTab === 'items' && (
           <div className="space-y-3">
             <h3 className="font-bold text-slate-200 print:text-black text-xs hidden print:block">
               بيانات البضائع والأصناف المستلمة:
@@ -230,6 +264,8 @@ export const SupplierReceiptDetailView: React.FC<SupplierReceiptDetailViewProps>
                     <th className="p-2.5 text-center">إجمالي الوحدات</th>
                     <th className="p-2.5 text-center">سعر الطرد</th>
                     <th className="p-2.5 text-center">تكلفة الوحدة</th>
+                    <th className="p-2.5 text-center">سعر البيع</th>
+                    <th className="p-2.5 text-center">ربح الوحدة</th>
                     <th className="p-2.5 text-center">الإجمالي</th>
                   </tr>
                 </thead>
@@ -255,6 +291,22 @@ export const SupplierReceiptDetailView: React.FC<SupplierReceiptDetailViewProps>
                       <td className="p-2.5 text-center font-mono text-amber-400 print:text-black">
                         {minorToJod(item.baseUnitCostInMinorUnits)} {CURRENCY}
                       </td>
+                      <td className="p-2.5 text-center font-mono text-blue-400 print:text-black">
+                        {minorToJod(item.sellingPriceInMinorUnits || 0)} {CURRENCY}
+                      </td>
+                      <td
+                        className={`p-2.5 text-center font-mono font-bold print:text-black ${
+                          (item.sellingPriceInMinorUnits || 0) >= item.baseUnitCostInMinorUnits
+                            ? 'text-emerald-400'
+                            : 'text-rose-400'
+                        }`}
+                      >
+                        {minorToJod(
+                          (item.sellingPriceInMinorUnits || 0) -
+                            item.baseUnitCostInMinorUnits
+                        )}{' '}
+                        {CURRENCY}
+                      </td>
                       <td className="p-2.5 text-center font-mono font-bold text-emerald-400 print:text-black">
                         {minorToJod(item.lineTotalInMinorUnits)} {CURRENCY}
                       </td>
@@ -273,20 +325,46 @@ export const SupplierReceiptDetailView: React.FC<SupplierReceiptDetailViewProps>
               <div className="p-4 text-center text-slate-500">لا توجد دفعات مسجلة على هذا السند بعد.</div>
             ) : (
               receipt.payments?.map((p) => (
-                <div key={p.id} className="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+                <div
+                  key={p.id}
+                  className={`flex items-center justify-between rounded-xl border p-3 ${
+                    p.isReversed
+                      ? 'border-rose-500/30 bg-rose-950/20'
+                      : 'border-slate-800 bg-slate-950'
+                  }`}
+                >
                   <div>
-                    <span className="font-bold text-emerald-400 block text-xs">
+                    <span
+                      className={`block text-xs font-bold ${
+                        p.isReversed
+                          ? 'text-rose-300 line-through'
+                          : 'text-emerald-400'
+                      }`}
+                    >
                       {minorToJod(p.amountInMinorUnits)} {CURRENCY} ({p.paymentMethod})
                     </span>
                     <span className="text-[10px] text-slate-400">
                       {new Date(p.paymentDate).toLocaleString('ar-JO')} {p.notes ? `| ${p.notes}` : ''}
                     </span>
+                    {p.isReversed && (
+                      <span className="mt-1 block text-[10px] font-bold text-rose-300">
+                        دفعة معكوسة
+                        {p.reversalReason ? ` — ${p.reversalReason}` : ''}
+                      </span>
+                    )}
                   </div>
-                  {p.referenceNumber && (
-                    <span className="text-[10px] text-slate-500 font-mono bg-slate-900 px-2 py-0.5 rounded">
-                      مرجع: {p.referenceNumber}
-                    </span>
-                  )}
+                  <div className="flex flex-col items-end gap-1">
+                    {p.isReversed && (
+                      <span className="rounded-full border border-rose-500/30 bg-rose-500/10 px-2 py-0.5 text-[10px] font-extrabold text-rose-300">
+                        معكوسة
+                      </span>
+                    )}
+                    {p.referenceNumber && (
+                      <span className="text-[10px] text-slate-500 font-mono bg-slate-900 px-2 py-0.5 rounded">
+                        مرجع: {p.referenceNumber}
+                      </span>
+                    )}
+                  </div>
                 </div>
               ))
             )}
@@ -346,6 +424,12 @@ export const SupplierReceiptDetailView: React.FC<SupplierReceiptDetailViewProps>
           </div>
         </div>
       </div>
+
+      <CancelSupplierReceiptDialog
+        receipt={showCancellationDialog ? receipt : null}
+        onClose={() => setShowCancellationDialog(false)}
+        onSuccess={onRefresh}
+      />
     </div>
   );
 };

@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { Product } from '../../types';
 import { formatProductInventory, formatWholesaleInventory } from '../../utils/inventoryFormatter';
-import { Plus, Minus, Layers, AlertCircle, Check } from 'lucide-react';
+import { Plus, Minus, Check, Loader2 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 
 interface StockAdjustmentModalProps {
@@ -20,13 +20,18 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
   mode = 'add',
   onClose,
 }) => {
-  const { adjustStock } = useAppStore();
+  const { executeStockCount, setToast } = useAppStore();
 
   const [adjustType, setAdjustType] = useState<'delta' | 'exact'>('delta');
   const [quantityValue, setQuantityValue] = useState<number>(1);
   const [isDeduct, setIsDeduct] = useState<boolean>(mode === 'deduct');
-  const [reason, setReason] = useState<string>(mode === 'deduct' ? 'تعديل بسبب تالف / منتهي' : 'توريد بضاعة جديدة');
+  const [reason, setReason] = useState<string>(
+    mode === 'deduct'
+      ? 'تعديل بسبب تالف / منتهي'
+      : 'تسوية زيادة ظهرت أثناء الجرد'
+  );
   const [notes, setNotes] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const currentOnHand = product.onHandQuantity;
 
@@ -39,11 +44,24 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
     calculatedNewOnHand = Math.max(0, quantityValue);
   }
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!product.warehouseId) {
+      setToast('لا يوجد مستودع مرتبط بهذا المنتج.', 'error');
+      return;
+    }
+
     const finalReason = notes ? `${reason} (${notes})` : reason;
-    adjustStock(product.id, calculatedNewOnHand, finalReason);
-    onClose();
+    setIsSubmitting(true);
+    const result = await executeStockCount({
+      productId: product.id,
+      actualQuantity: calculatedNewOnHand,
+      warehouseId: product.warehouseId,
+      reason: finalReason,
+      adjustmentType: isDeduct ? 'damage' : 'manual',
+    });
+    setIsSubmitting(false);
+    if (result?.success) onClose();
   };
 
   return (
@@ -69,14 +87,14 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
           type="button"
           onClick={() => {
             setIsDeduct(false);
-            setReason('استلام شحنة / توريد جديد');
+            setReason('تسوية زيادة ظهرت أثناء الجرد');
           }}
           className={`flex-1 py-2 rounded-lg font-bold flex items-center justify-center gap-1.5 transition ${
             !isDeduct ? 'bg-emerald-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
           }`}
         >
           <Plus className="w-3.5 h-3.5" />
-          <span>إضافة للمخزون (+)</span>
+          <span>تسوية زيادة جرد (+)</span>
         </button>
 
         <button
@@ -183,10 +201,10 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
         <label className="text-[11px] font-bold text-slate-300 block">سبب الحركة والتسوية:</label>
         <div className="flex flex-wrap gap-1.5">
           {[
-            'استلام شحنة جديدة',
+            'تسوية زيادة ظهرت أثناء الجرد',
             'جرد مخزني دوري',
             'بضاعة تالفة / منتهية الصلاحية',
-            'عينة تجريبية / تسويق',
+            'عينة مجانية / تسويق',
             'خطأ في التسجيل السابق',
           ].map((r) => (
             <button
@@ -221,10 +239,17 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
       <div className="flex gap-2 pt-2">
         <button
           type="submit"
-          className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5"
+          disabled={isSubmitting}
+          className="flex-1 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-bold py-2.5 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5"
         >
-          <Check className="w-4 h-4" />
-          <span>تأكيد تعديل المخزون</span>
+          {isSubmitting ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Check className="w-4 h-4" />
+          )}
+          <span>
+            {isSubmitting ? 'جاري الحفظ...' : 'تأكيد تعديل المخزون'}
+          </span>
         </button>
 
         <button

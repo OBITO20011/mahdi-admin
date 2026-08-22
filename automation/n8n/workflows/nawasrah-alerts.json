@@ -1,0 +1,284 @@
+[
+  {
+    "id": "nawasrahTelegramAlerts",
+    "name": "Nawasrah ERP - Telegram Alerts",
+    "active": false,
+    "nodes": [
+      {
+        "id": "telegram-schedule",
+        "name": "Every Minute",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.3,
+        "position": [-760, 0],
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 1
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "telegram-claim",
+        "name": "Claim Telegram Events",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [-520, 0],
+        "parameters": {
+          "method": "POST",
+          "url": "https://acjtabdqqnpwhdvbvnyw.supabase.co/functions/v1/n8n-alert-feed",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "{\"action\":\"claim\",\"channel\":\"telegram\",\"limit\":10,\"leaseSeconds\":120}",
+          "options": {}
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "nawasrahFeedAuth",
+            "name": "Nawasrah Supabase Alert Feed"
+          }
+        }
+      },
+      {
+        "id": "telegram-split",
+        "name": "Split Telegram Events",
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [-280, 0],
+        "parameters": {
+          "fieldToSplitOut": "items",
+          "options": {}
+        }
+      },
+      {
+        "id": "telegram-send",
+        "name": "Telegram - Set Chat ID Here",
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [-20, 0],
+        "parameters": {
+          "resource": "message",
+          "operation": "sendMessage",
+          "chatId": "REPLACE_WITH_TELEGRAM_CHAT_ID",
+          "text": "={{ $json.eventType === 'new_order' ? '🛒 طلب جديد: ' + $json.payload.orderNumber + '\\nالعميل: ' + $json.payload.customerName + '\\nالإجمالي: ' + (Number($json.payload.totalInMinorUnits || 0) / 1000).toFixed(3) + ' د.أ\\nالدفع: ' + $json.payload.paymentMethod + '\\nافتح الإدارة: https://nawasrah-admin.pages.dev/?screen=orders&order=' + $json.entityId : ($json.eventType === 'shift_closed' ? '📒 تم إغلاق الوردية: ' + $json.payload.shiftNumber + '\\nالمتوقع: ' + (Number($json.payload.expectedCashInMinorUnits || 0) / 1000).toFixed(3) + ' د.أ\\nالفعلي: ' + (Number($json.payload.actualCashInMinorUnits || 0) / 1000).toFixed(3) + ' د.أ\\nالفرق: ' + (Number($json.payload.cashDiscrepancyInMinorUnits || 0) / 1000).toFixed(3) + ' د.أ' : ($json.eventType === 'out_of_stock' ? '⛔ نفد المخزون: ' : '⚠️ مخزون منخفض: ') + $json.payload.productName + '\\nالمتاح: ' + $json.payload.availableQuantity + '\\nحد التنبيه: ' + $json.payload.thresholdQuantity + '\\nالمستودع: ' + $json.payload.warehouseName) }}",
+          "additionalFields": {
+            "disable_web_page_preview": true
+          }
+        },
+        "credentials": {
+          "telegramApi": {
+            "id": "0C8DJHCi7V8RQX0W",
+            "name": "Telegram account"
+          }
+        }
+      },
+      {
+        "id": "telegram-complete",
+        "name": "Complete Telegram Delivery",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [240, 0],
+        "parameters": {
+          "method": "POST",
+          "url": "https://acjtabdqqnpwhdvbvnyw.supabase.co/functions/v1/n8n-alert-feed",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "={{ JSON.stringify({ action: 'complete', channel: 'telegram', eventId: $('Split Telegram Events').item.json.eventId, success: true }) }}",
+          "options": {}
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "nawasrahFeedAuth",
+            "name": "Nawasrah Supabase Alert Feed"
+          }
+        }
+      },
+      {
+        "id": "telegram-note",
+        "name": "Telegram Setup",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [-80, -260],
+        "parameters": {
+          "content": "## قبل التفعيل\n1. أنشئ Telegram Bot credential.\n2. افتح محادثة مع البوت.\n3. ضع Chat ID في عقدة Telegram الوحيدة.\n4. نفّذ تجربة يدوية ثم فعّل الـWorkflow.",
+          "height": 220,
+          "width": 430,
+          "color": 5
+        }
+      }
+    ],
+    "connections": {
+      "Every Minute": {
+        "main": [[{"node": "Claim Telegram Events", "type": "main", "index": 0}]]
+      },
+      "Claim Telegram Events": {
+        "main": [[{"node": "Split Telegram Events", "type": "main", "index": 0}]]
+      },
+      "Split Telegram Events": {
+        "main": [[{"node": "Telegram - Set Chat ID Here", "type": "main", "index": 0}]]
+      },
+      "Telegram - Set Chat ID Here": {
+        "main": [[{"node": "Complete Telegram Delivery", "type": "main", "index": 0}]]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "timezone": "Asia/Amman",
+      "callerPolicy": "workflowsFromSameOwner",
+      "availableInMCP": false
+    },
+    "versionId": "6e0f0d88-af88-4d52-8804-5d32b33ed5c0",
+    "meta": {
+      "templateCredsSetupCompleted": false
+    },
+    "tags": []
+  },
+  {
+    "id": "nawasrahWhatsappAlerts",
+    "name": "Nawasrah ERP - WhatsApp Alerts",
+    "active": false,
+    "nodes": [
+      {
+        "id": "whatsapp-schedule",
+        "name": "Every Minute",
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.3,
+        "position": [-760, 0],
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "minutes",
+                "minutesInterval": 1
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "whatsapp-claim",
+        "name": "Claim WhatsApp Events",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [-520, 0],
+        "parameters": {
+          "method": "POST",
+          "url": "https://acjtabdqqnpwhdvbvnyw.supabase.co/functions/v1/n8n-alert-feed",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "{\"action\":\"claim\",\"channel\":\"whatsapp\",\"limit\":10,\"leaseSeconds\":120}",
+          "options": {}
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "nawasrahFeedAuth",
+            "name": "Nawasrah Supabase Alert Feed"
+          }
+        }
+      },
+      {
+        "id": "whatsapp-split",
+        "name": "Split WhatsApp Events",
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [-280, 0],
+        "parameters": {
+          "fieldToSplitOut": "items",
+          "options": {}
+        }
+      },
+      {
+        "id": "whatsapp-send",
+        "name": "WhatsApp - Central Recipient",
+        "type": "n8n-nodes-base.whatsApp",
+        "typeVersion": 1.1,
+        "position": [-20, 0],
+        "parameters": {
+          "resource": "message",
+          "operation": "send",
+          "phoneNumberId": "REPLACE_WITH_META_PHONE_NUMBER_ID",
+          "recipientPhoneNumber": "REPLACE_WITH_WHATSAPP_RECIPIENT",
+          "messageType": "text",
+          "textBody": "={{ $json.eventType === 'new_order' ? '🛒 طلب جديد: ' + $json.payload.orderNumber + '\\nالعميل: ' + $json.payload.customerName + '\\nالإجمالي: ' + (Number($json.payload.totalInMinorUnits || 0) / 1000).toFixed(3) + ' د.أ\\nالدفع: ' + $json.payload.paymentMethod + '\\nافتح الإدارة: https://nawasrah-admin.pages.dev/?screen=orders&order=' + $json.entityId : ($json.eventType === 'shift_closed' ? '📒 تم إغلاق الوردية: ' + $json.payload.shiftNumber + '\\nالمتوقع: ' + (Number($json.payload.expectedCashInMinorUnits || 0) / 1000).toFixed(3) + ' د.أ\\nالفعلي: ' + (Number($json.payload.actualCashInMinorUnits || 0) / 1000).toFixed(3) + ' د.أ\\nالفرق: ' + (Number($json.payload.cashDiscrepancyInMinorUnits || 0) / 1000).toFixed(3) + ' د.أ' : ($json.eventType === 'out_of_stock' ? '⛔ نفد المخزون: ' : '⚠️ مخزون منخفض: ') + $json.payload.productName + '\\nالمتاح: ' + $json.payload.availableQuantity + '\\nحد التنبيه: ' + $json.payload.thresholdQuantity + '\\nالمستودع: ' + $json.payload.warehouseName) }}",
+          "additionalFields": {
+            "previewUrl": false
+          }
+        }
+      },
+      {
+        "id": "whatsapp-complete",
+        "name": "Complete WhatsApp Delivery",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [240, 0],
+        "parameters": {
+          "method": "POST",
+          "url": "https://acjtabdqqnpwhdvbvnyw.supabase.co/functions/v1/n8n-alert-feed",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpHeaderAuth",
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "={{ JSON.stringify({ action: 'complete', channel: 'whatsapp', eventId: $('Split WhatsApp Events').item.json.eventId, success: true }) }}",
+          "options": {}
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "nawasrahFeedAuth",
+            "name": "Nawasrah Supabase Alert Feed"
+          }
+        }
+      },
+      {
+        "id": "whatsapp-note",
+        "name": "WhatsApp Setup",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [-90, -280],
+        "parameters": {
+          "content": "## وجهة WhatsApp المركزية\nتُقرأ من ملف الإعداد المحلي المحمي `.env.channels`.\n\nقبل التفعيل أضف WhatsApp Business Cloud credential واختر Sender Phone Number ID.",
+          "height": 250,
+          "width": 450,
+          "color": 4
+        }
+      }
+    ],
+    "connections": {
+      "Every Minute": {
+        "main": [[{"node": "Claim WhatsApp Events", "type": "main", "index": 0}]]
+      },
+      "Claim WhatsApp Events": {
+        "main": [[{"node": "Split WhatsApp Events", "type": "main", "index": 0}]]
+      },
+      "Split WhatsApp Events": {
+        "main": [[{"node": "WhatsApp - Central Recipient", "type": "main", "index": 0}]]
+      },
+      "WhatsApp - Central Recipient": {
+        "main": [[{"node": "Complete WhatsApp Delivery", "type": "main", "index": 0}]]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "timezone": "Asia/Amman",
+      "callerPolicy": "workflowsFromSameOwner",
+      "availableInMCP": false
+    },
+    "versionId": "050fb8b6-da1c-432d-9e65-07c25f2b5fc3",
+    "meta": {
+      "templateCredsSetupCompleted": false
+    },
+    "tags": []
+  }
+]

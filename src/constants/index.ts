@@ -7,6 +7,20 @@ import { Permission, Role } from '../types';
 export const CURRENCY = 'د.أ';
 export const CURRENCY_FULL = 'دينار أردني';
 
+export const PURCHASE_PACKAGE_OPTIONS = [
+  { code: 'CTN', nameAr: 'كرتونة' },
+  { code: 'BOX', nameAr: 'صندوق' },
+  { code: 'PKT', nameAr: 'باكيت' },
+  { code: 'SHRINK', nameAr: 'شرنك' },
+  { code: 'BAG', nameAr: 'كيس' },
+  { code: 'SACK', nameAr: 'شوال' },
+  { code: 'BUNDLE', nameAr: 'ربطة' },
+  { code: 'CASE', nameAr: 'حافظة' },
+  { code: 'CAN', nameAr: 'علبة' },
+  { code: 'BTL', nameAr: 'قنينة / زجاجة' },
+  { code: 'PCS', nameAr: 'حبة / قطعة' },
+] as const;
+
 export const APP_NAME = 'Nawasrah Business Manager';
 export const APP_NAME_AR = 'نواصرة للمحاسبة والإدارة';
 
@@ -117,10 +131,10 @@ export const ROLE_PERMISSIONS_MAP: Record<Role, Permission[]> = {
 
 export const DEFAULT_BRANCHES = [
   {
-    id: 'b-amman-main',
-    name: 'فرع عمان الرئيسي',
-    address: 'شارع مكة، بناية رقم 120',
-    city: 'عمان',
+    id: 'b-ramtha-main',
+    name: 'محلات النواصرة - الرمثا',
+    address: 'الرمثا - محلات النواصرة',
+    city: 'الرمثا',
     phone: '065800111',
     isMain: true,
   },
@@ -143,10 +157,10 @@ export const DEFAULT_BRANCHES = [
 ];
 
 export const DEFAULT_WAREHOUSES = [
-  { id: 'w-main', name: 'المستودع الرئيسي - عمّان', branchId: 'b-amman-main', location: 'عمّان - سحاب' },
+  { id: 'w-main', name: 'مستودع محلات النواصرة - الرمثا', branchId: 'b-ramtha-main', location: 'الرمثا - محلات النواصرة' },
   { id: 'w-irbid', name: 'مستودع فرع إربد', branchId: 'b-irbid', location: 'إربد - المدينة الصناعية' },
   { id: 'w-zarqa', name: 'مستودع فرع الزرقاء', branchId: 'b-zarqa', location: 'الزرقاء - المنطقة الحرة' },
-  { id: 'w-cold', name: 'مستودع التبريد المركزي', branchId: 'b-amman-main', location: 'عمّان - القسطل' },
+  { id: 'w-cold', name: 'مستودع التبريد المركزي', branchId: 'b-ramtha-main', location: 'الرمثا' },
 ];
 
 export const DEFAULT_CATEGORIES = [

@@ -34,6 +34,10 @@ export interface CrmCustomerOrderSummary {
   orderNumber: string;
   status: string;
   totalAmount: number; // in JOD
+  amountPaid: number;
+  amountDue: number;
+  paymentStatus: 'unpaid' | 'partially_paid' | 'paid';
+  source: string;
   itemsCount: number;
   createdAt: string;
 }
@@ -43,6 +47,7 @@ export interface CrmCustomerStats {
   completedOrders: number;
   cancelledOrders: number;
   totalSpending: number; // JOD
+  outstandingBalance: number; // JOD
   averageOrderValue: number; // JOD
   lastOrderDate: string | null;
 }

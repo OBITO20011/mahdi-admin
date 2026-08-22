@@ -82,6 +82,7 @@ export interface Branch {
 
 export interface Warehouse {
   id: string;
+  code?: string;
   name: string;
   nameAr?: string;
   branchId: string;
@@ -116,12 +117,19 @@ export interface Product {
   categoryId: string;
   brandId?: string;
   supplierId?: string;
+  purchaseUnitId?: string;
+  purchaseUnitCode?: string;
   purchasePackage?: string; // e.g. 'كرتونة'
   unitsPerPackage?: number; // INTEGER e.g. 24
   defaultPurchasePrice?: number; // Package purchase price e.g. 7.200
+  saleUnitId?: string;
+  saleUnitCode?: string;
+  salePackage?: string; // Minimum wholesale package e.g. 'شرنك'
+  unitsPerSalePackage?: number; // Base pieces in one sale package
+  salePackagePrice?: number; // Selling price of the full package
   costPrice: number; // Cost per piece e.g. 0.300
-  retailPrice: number; // Selling price per piece e.g. 0.450
-  wholesalePrice: number;
+  retailPrice: number; // Legacy derived price per base piece
+  wholesalePrice: number; // Legacy derived price per base piece
   profitPerPiece?: number; // Automatically calculated: retailPrice - costPrice
   profitPercentage?: number; // Automatically calculated: ((retailPrice - costPrice) / costPrice) * 100
   promoPrice?: number;
@@ -133,6 +141,7 @@ export interface Product {
   reservedQuantity: number; // reserved for pending orders
   availableQuantity: number; // calculated: onHand - reserved
   reorderLevel: number; // minimum stock alert level
+  maxStockLevel?: number;
   expiryDate?: string;
   productionDate?: string;
   batchNumber?: string;
@@ -157,6 +166,7 @@ export interface Product {
 
 export interface Category {
   id: string;
+  code?: string;
   nameAr: string;
   nameEn?: string;
   imageUrl?: string;
@@ -171,6 +181,9 @@ export interface Brand {
   nameAr: string;
   nameEn?: string;
   logoUrl?: string;
+  description?: string;
+  isHidden?: boolean;
+  productsCount?: number;
 }
 
 export interface UnitDefinition {
@@ -180,6 +193,8 @@ export interface UnitDefinition {
   code: string;
   conversionFactor: number; // e.g. 1 for piece, 12 for packet, 144 for carton
   isSystem?: boolean;
+  isHidden?: boolean;
+  productsCount?: number;
 }
 
 export type Unit = UnitDefinition;
@@ -234,8 +249,19 @@ export type OrderStatus =
   | 'cancelled'
   | 'returned';
 
-export type PaymentMethod = 'cash' | 'cliq' | 'card' | 'bank_transfer' | 'debt' | 'mixed';
-export type PaymentStatus = 'unpaid' | 'partially_paid' | 'paid';
+export type PaymentMethod =
+  | 'cash'
+  | 'cash_on_delivery'
+  | 'cliq'
+  | 'card'
+  | 'bank_transfer'
+  | 'debt'
+  | 'mixed';
+export type PaymentStatus =
+  | 'unpaid'
+  | 'partially_paid'
+  | 'paid'
+  | 'refunded';
 
 export interface CustomerAddress {
   governorate?: string;
@@ -257,6 +283,9 @@ export interface OrderItem {
   unitPrice: number;
   costPrice: number;
   quantity: number;
+  baseQuantity?: number;
+  unitsPerSalePackage?: number;
+  salePackage?: string;
   discount: number;
   totalPrice: number;
 }
@@ -264,6 +293,7 @@ export interface OrderItem {
 export interface Order {
   id: string;
   orderNumber: string;
+  customerId?: string;
   customerName: string;
   customerPhone: string;
   governorate: string;
@@ -277,13 +307,34 @@ export interface Order {
   mapUrl?: string;
   locationSource?: 'gps' | 'map_pin' | 'manual';
   locationConfirmed?: boolean;
+  trackingToken?: string;
+  deliveryStartedAt?: string;
+  estimatedArrivalAt?: string;
+  deliveryCompletedAt?: string;
+  deliveryDriverPhone?: string;
   items: OrderItem[];
   subtotal: number;
   discount: number;
+  promotionCode?: string;
   deliveryFee: number;
+  deliveryZone?: 'inside_ramtha' | 'outside_ramtha';
   totalAmount: number;
+  amountPaid?: number;
+  amountDue?: number;
   paymentMethod: PaymentMethod;
   paymentStatus: PaymentStatus;
+  paymentReferenceNumber?: string;
+  paymentConfirmedAt?: string;
+  paymentConfirmedBy?: string;
+  cashShiftId?: string;
+  returnNumber?: string;
+  returnReason?: string;
+  returnStockDisposition?: 'restock' | 'damaged';
+  refundMethod?: 'cash' | 'cliq';
+  refundAmount?: number;
+  refundReferenceNumber?: string;
+  returnedAt?: string;
+  source?: string;
   status: OrderStatus;
   branchId: string;
   isNew: boolean;
@@ -324,6 +375,7 @@ export interface Invoice {
   createdById: string;
   createdByName: string;
   createdAt: string;
+  publicReceiptUrl?: string;
 }
 
 export interface Customer {
@@ -385,9 +437,11 @@ export interface SupplierPayment {
 export interface Expense {
   id: string;
   expenseNumber: string;
+  shiftId: string;
   category: string; // 'إيجار' | 'كهرباء' | 'رواتب' | 'تسويق' | 'صيانة' | etc.
   amount: number;
-  paymentMethod: PaymentMethod;
+  paymentMethod: 'cash' | 'cliq';
+  referenceNumber?: string;
   description: string;
   receiptImageUrl?: string;
   isApproved: boolean;
@@ -411,12 +465,76 @@ export interface Shift {
   totalCardSales: number;
   totalReceipts: number; // مقبوضات
   totalPayments: number; // مدفوعات ومصروفات
+  cashReceipts: number;
+  cliqReceipts: number;
+  cashSupplierPayments: number;
+  cliqSupplierPayments: number;
+  cashExpenses: number;
+  cliqExpenses: number;
+  cashRefunds: number;
+  cliqRefunds: number;
   expectedCash: number;
   actualCash?: number;
   cashDiscrepancy?: number;
   discrepancyReason?: string;
-  status: 'open' | 'closed';
+  status: 'open' | 'closed' | 'cancelled';
   managerSignOffBy?: string;
+  cancelledByName?: string;
+  cancelledAt?: string;
+  cancellationReason?: string;
+}
+
+export interface ShiftClosingReport {
+  generatedAt: string;
+  shift: Shift;
+  sales: {
+    orderCount: number;
+    posOrderCount: number;
+    websiteOrderCount: number;
+    packageCount: number;
+    uniqueProductCount: number;
+    grossSales: number;
+    refunds: number;
+    netSales: number;
+  };
+  collections: {
+    count: number;
+    cash: number;
+    cliq: number;
+  };
+  outflows: {
+    supplierPaymentCount: number;
+    cashSupplierPayments: number;
+    cliqSupplierPayments: number;
+    expenseCount: number;
+    cashExpenses: number;
+    cliqExpenses: number;
+    returnCount: number;
+    cashRefunds: number;
+    cliqRefunds: number;
+  };
+  reconciliation: {
+    totalInflows: number;
+    totalOutflows: number;
+    netMovement: number;
+    netCliqMovement: number;
+    openingCash: number;
+    expectedCash: number;
+    actualCash?: number;
+    cashDiscrepancy?: number;
+    isBalanced?: boolean;
+  };
+  expenseBreakdown: Array<{
+    category: string;
+    count: number;
+    amount: number;
+  }>;
+  returnBreakdown: Array<{
+    refundMethod: 'cash' | 'cliq';
+    stockDisposition: 'restock' | 'damaged';
+    count: number;
+    amount: number;
+  }>;
 }
 
 export interface Account {
@@ -485,3 +603,5 @@ export interface SyncQueueItem {
 export * from './directReceiving';
 
 export * from './purchases';
+
+export * from './reports';

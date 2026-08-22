@@ -1,321 +1,329 @@
-/**
- * Nawasrah Business Manager - Edit Order Address Modal
- */
-
 import React, { useState } from 'react';
-import { Order, CustomerAddress } from '../../types';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  CheckCircle2,
+  Compass,
+  Loader2,
+  MapPin,
+  X,
+} from 'lucide-react';
 import { JORDAN_GOVERNORATES } from '../../constants';
-import { MapPin, CheckCircle, X, Compass, Edit3 } from 'lucide-react';
+import { updateOrderDeliveryAddressInSupabase } from '../../services/supabase/orders.service';
+import { useAppStore } from '../../stores/useAppStore';
+import { Order } from '../../types';
 
 interface EditAddressModalProps {
   order: Order;
   onClose: () => void;
+  onSaved?: () => void | Promise<void>;
 }
 
-export const EditAddressModal: React.FC<EditAddressModalProps> = ({ order, onClose }) => {
-  const { updateOrder, setToast } = useAppStore();
-
-  const addr: CustomerAddress = order.customerAddress || {};
-
-  const [governorate, setGovernorate] = useState(addr.governorate || order.governorate || 'عمان');
-  const [area, setArea] = useState(addr.area || order.region || '');
-  const [street, setStreet] = useState(addr.street || '');
-  const [building, setBuilding] = useState(addr.building || '');
-  const [apartment, setApartment] = useState(addr.apartment || '');
-  const [landmark, setLandmark] = useState(addr.landmark || '');
-  const [deliveryNotes, setDeliveryNotes] = useState(addr.deliveryNotes || order.notes || '');
-
-  const [latitude, setLatitude] = useState<string>(
+export const EditAddressModal: React.FC<EditAddressModalProps> = ({
+  order,
+  onClose,
+  onSaved,
+}) => {
+  const { setToast } = useAppStore();
+  const address = order.customerAddress || {};
+  const [governorate, setGovernorate] = useState(
+    address.governorate || order.governorate || ''
+  );
+  const [city, setCity] = useState(address.landmark || '');
+  const [area, setArea] = useState(address.area || order.region || '');
+  const [street, setStreet] = useState(address.street || '');
+  const [building, setBuilding] = useState(address.building || '');
+  const [floor, setFloor] = useState('');
+  const [apartment, setApartment] = useState(address.apartment || '');
+  const [notes, setNotes] = useState(address.deliveryNotes || '');
+  const [latitude, setLatitude] = useState(
     typeof order.latitude === 'number' ? String(order.latitude) : ''
   );
-  const [longitude, setLongitude] = useState<string>(
+  const [longitude, setLongitude] = useState(
     typeof order.longitude === 'number' ? String(order.longitude) : ''
   );
-
-  const [locationSource, setLocationSource] = useState<'gps' | 'map_pin' | 'manual'>(
-    order.locationSource || 'manual'
+  const [locationSource, setLocationSource] = useState<
+    'gps' | 'map_pin' | 'manual'
+  >(order.locationSource || 'manual');
+  const [locationConfirmed, setLocationConfirmed] = useState(
+    Boolean(order.locationConfirmed)
   );
-  const [locationConfirmed, setLocationConfirmed] = useState<boolean>(
-    order.locationConfirmed ?? false
-  );
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
+  const getCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      setError('خدمة الموقع غير مدعومة على هذا الجهاز.');
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLatitude(position.coords.latitude.toFixed(6));
+        setLongitude(position.coords.longitude.toFixed(6));
+        setLocationSource('gps');
+        setLocationConfirmed(true);
+        setError(null);
+      },
+      () => setError('تعذر جلب الموقع. يمكنك إدخال الإحداثيات يدويًا.')
+    );
+  };
 
-    const latNum = latitude.trim() !== '' ? parseFloat(latitude) : undefined;
-    const lngNum = longitude.trim() !== '' ? parseFloat(longitude) : undefined;
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const hasLatitude = latitude.trim() !== '';
+    const hasLongitude = longitude.trim() !== '';
+    if (hasLatitude !== hasLongitude) {
+      setError('أدخل خط العرض وخط الطول معًا أو اتركهما فارغين.');
+      return;
+    }
 
-    const updatedCustomerAddress: CustomerAddress = {
+    const latitudeValue = hasLatitude ? Number(latitude) : undefined;
+    const longitudeValue = hasLongitude ? Number(longitude) : undefined;
+    if (
+      (latitudeValue !== undefined &&
+        (!Number.isFinite(latitudeValue) ||
+          latitudeValue < -90 ||
+          latitudeValue > 90)) ||
+      (longitudeValue !== undefined &&
+        (!Number.isFinite(longitudeValue) ||
+          longitudeValue < -180 ||
+          longitudeValue > 180))
+    ) {
+      setError('إحداثيات الموقع غير صحيحة.');
+      return;
+    }
+
+    setSaving(true);
+    setError(null);
+    const result = await updateOrderDeliveryAddressInSupabase(order.id, {
       governorate,
-      area,
-      street,
-      building,
-      apartment,
-      landmark,
-      deliveryNotes,
-    };
-
-    const fullFormatted = [
-      governorate,
-      area,
-      street ? `شارع ${street}` : '',
-      building ? `بناية ${building}` : '',
-      apartment ? `شقة ${apartment}` : '',
-    ]
-      .filter(Boolean)
-      .join('، ');
-
-    const googleUrl =
-      latNum !== undefined && lngNum !== undefined
-        ? `https://www.google.com/maps/search/?api=1&query=${latNum},${lngNum}`
-        : order.googleMapsUrl;
-
-    updateOrder(order.id, {
-      governorate,
-      region: area,
-      address: fullFormatted || order.address,
-      customerAddress: updatedCustomerAddress,
-      latitude: latNum,
-      longitude: lngNum,
-      formattedAddress: fullFormatted,
-      googleMapsUrl: googleUrl,
-      mapUrl: googleUrl || order.mapUrl,
-      locationSource,
-      locationConfirmed,
+      city: city.trim(),
+      area: area.trim(),
+      street: street.trim(),
+      building: building.trim(),
+      floor: floor.trim(),
+      apartment: apartment.trim(),
+      notes: notes.trim(),
+      latitude: latitudeValue,
+      longitude: longitudeValue,
+      locationSource:
+        latitudeValue === undefined ? 'manual' : locationSource,
+      locationConfirmed:
+        latitudeValue !== undefined && locationConfirmed,
     });
+    setSaving(false);
 
-    setToast('تم تحديث بيانات العنوان والموقع بنجاح');
+    if (!result.success) {
+      setError(result.error || 'تعذر حفظ العنوان.');
+      return;
+    }
+    setToast(result.message || 'تم تحديث عنوان التوصيل.', 'success');
+    await onSaved?.();
     onClose();
   };
 
-  const handleFetchCurrentGps = () => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          setLatitude(pos.coords.latitude.toFixed(6));
-          setLongitude(pos.coords.longitude.toFixed(6));
-          setLocationSource('gps');
-          setLocationConfirmed(true);
-          setToast('تم الحصول على إحداثيات موقعك الحالي بنجاح');
-        },
-        (err) => {
-          setToast('تعذر جلب موقع GPS. يرجى إدخال الإحداثيات يدوياً', 'error');
-        }
-      );
-    } else {
-      setToast('خدمة الموقع الجغرافي غير مدعومة في المتصفح', 'error');
-    }
-  };
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto">
-      <div className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-5 space-y-4 my-8">
-        {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
-              <Edit3 className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-slate-100">تعديل بيانات موقع وعنوان العميل</h3>
-              <p className="text-[10px] text-slate-400">الطلب: {order.orderNumber} - العميل: {order.customerName}</p>
-            </div>
+    <div className="fixed inset-0 z-[60] flex items-end justify-center bg-slate-950/85 backdrop-blur-sm sm:items-center sm:p-4">
+      <div className="max-h-[94vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border border-slate-800 bg-slate-900 p-5 shadow-2xl sm:rounded-3xl">
+        <div className="mb-4 flex items-start justify-between border-b border-slate-800 pb-3">
+          <div>
+            <h3 className="text-sm font-black text-white">
+              تعديل عنوان التوصيل
+            </h3>
+            <p className="text-[10px] text-slate-400">
+              الطلب {order.orderNumber} — يُحفظ مباشرة في Supabase
+            </p>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center hover:bg-slate-700 hover:text-white transition"
+            className="rounded-full bg-slate-800 p-2 text-slate-400"
           >
-            <X className="w-4 h-4" />
+            <X className="h-4 w-4" />
           </button>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSave} className="space-y-3 text-xs">
-          {/* Row 1: Governorate & Area */}
+        <form onSubmit={handleSubmit} className="space-y-3 text-xs">
+          {error && (
+            <div className="rounded-xl border border-rose-800 bg-rose-950/50 p-3 text-rose-300">
+              {error}
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-[11px] font-bold text-slate-300 block mb-1">المحافظة *</label>
+              <label className="mb-1 block font-bold text-slate-300">
+                المحافظة *
+              </label>
               <select
                 value={governorate}
-                onChange={(e) => setGovernorate(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-slate-200 focus:outline-none focus:border-blue-500"
+                onChange={(event) => setGovernorate(event.target.value)}
                 required
+                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
               >
-                {JORDAN_GOVERNORATES.map((g) => (
-                  <option key={g} value={g}>{g}</option>
+                <option value="">اختر المحافظة</option>
+                {JORDAN_GOVERNORATES.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
                 ))}
               </select>
             </div>
-
             <div>
-              <label className="text-[11px] font-bold text-slate-300 block mb-1">المنطقة / الحي *</label>
+              <label className="mb-1 block font-bold text-slate-300">
+                المدينة / البلدة
+              </label>
               <input
-                type="text"
+                value={city}
+                onChange={(event) => setCity(event.target.value)}
+                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="mb-1 block font-bold text-slate-300">
+                المنطقة / الحي *
+              </label>
+              <input
                 value={area}
-                onChange={(e) => setArea(e.target.value)}
-                placeholder="مثال: خلدا، الشميساني، حي الجامعة"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-slate-200 focus:outline-none focus:border-blue-500"
+                onChange={(event) => setArea(event.target.value)}
                 required
+                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
               />
             </div>
-          </div>
-
-          {/* Row 2: Street & Building */}
-          <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-[11px] font-bold text-slate-300 block mb-1">الشارع</label>
+              <label className="mb-1 block font-bold text-slate-300">
+                الشارع
+              </label>
               <input
-                type="text"
                 value={street}
-                onChange={(e) => setStreet(e.target.value)}
-                placeholder="اسم الشارع"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-slate-200 focus:outline-none focus:border-blue-500"
+                onChange={(event) => setStreet(event.target.value)}
+                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
               />
             </div>
+          </div>
 
+          <div className="grid grid-cols-3 gap-2">
             <div>
-              <label className="text-[11px] font-bold text-slate-300 block mb-1">البناية / المجمع</label>
+              <label className="mb-1 block font-bold text-slate-300">
+                المبنى
+              </label>
               <input
-                type="text"
                 value={building}
-                onChange={(e) => setBuilding(e.target.value)}
-                placeholder="اسم/رقم البناية"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-slate-200 focus:outline-none focus:border-blue-500"
+                onChange={(event) => setBuilding(event.target.value)}
+                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
               />
             </div>
-          </div>
-
-          {/* Row 3: Apartment & Landmark */}
-          <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-[11px] font-bold text-slate-300 block mb-1">الشقة / الطابق</label>
+              <label className="mb-1 block font-bold text-slate-300">
+                الطابق
+              </label>
               <input
-                type="text"
+                value={floor}
+                onChange={(event) => setFloor(event.target.value)}
+                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block font-bold text-slate-300">
+                الشقة
+              </label>
+              <input
                 value={apartment}
-                onChange={(e) => setApartment(e.target.value)}
-                placeholder="مثال: طابق 3، شقة 302"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-slate-200 focus:outline-none focus:border-blue-500"
-              />
-            </div>
-
-            <div>
-              <label className="text-[11px] font-bold text-slate-300 block mb-1">العلامة المميزة</label>
-              <input
-                type="text"
-                value={landmark}
-                onChange={(e) => setLandmark(e.target.value)}
-                placeholder="مثال: خلف صيدلية فارمسي وان"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-slate-200 focus:outline-none focus:border-blue-500"
+                onChange={(event) => setApartment(event.target.value)}
+                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
               />
             </div>
           </div>
 
-          {/* Row 4: Coordinates (Latitude / Longitude) */}
-          <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 space-y-2">
+          <div className="space-y-2 rounded-2xl border border-slate-800 bg-slate-950 p-3">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-slate-200 flex items-center gap-1">
-                <Compass className="w-3.5 h-3.5 text-blue-400" />
-                <span>إحداثيات GPS (اختياري)</span>
+              <span className="flex items-center gap-1 font-bold text-slate-300">
+                <Compass className="h-3.5 w-3.5 text-blue-400" />
+                إحداثيات الموقع (اختياري)
               </span>
               <button
                 type="button"
-                onClick={handleFetchCurrentGps}
-                className="bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 px-2.5 py-1 rounded-lg text-[10px] font-bold border border-blue-500/30 transition flex items-center gap-1"
+                onClick={getCurrentLocation}
+                className="flex items-center gap-1 rounded-lg border border-blue-500/30 bg-blue-500/10 px-2 py-1 text-[10px] font-bold text-blue-300"
               >
-                <MapPin className="w-3 h-3" />
-                <span>جلب الموقع الحالي (GPS)</span>
+                <MapPin className="h-3 w-3" />
+                جلب GPS
               </button>
             </div>
-
             <div className="grid grid-cols-2 gap-2">
-              <div>
-                <label className="text-[10px] text-slate-400 block mb-0.5">خط العرض (Latitude)</label>
-                <input
-                  type="number"
-                  step="any"
-                  value={latitude}
-                  onChange={(e) => setLatitude(e.target.value)}
-                  placeholder="31.9833"
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-2.5 py-1.5 text-slate-200 font-mono text-xs dir-ltr focus:outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label className="text-[10px] text-slate-400 block mb-0.5">خط الطول (Longitude)</label>
-                <input
-                  type="number"
-                  step="any"
-                  value={longitude}
-                  onChange={(e) => setLongitude(e.target.value)}
-                  placeholder="35.8500"
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-2.5 py-1.5 text-slate-200 font-mono text-xs dir-ltr focus:outline-none focus:border-blue-500"
-                />
-              </div>
+              <input
+                type="number"
+                step="any"
+                value={latitude}
+                onChange={(event) => setLatitude(event.target.value)}
+                placeholder="خط العرض"
+                className="rounded-xl border border-slate-800 bg-slate-900 p-2 text-white"
+              />
+              <input
+                type="number"
+                step="any"
+                value={longitude}
+                onChange={(event) => setLongitude(event.target.value)}
+                placeholder="خط الطول"
+                className="rounded-xl border border-slate-800 bg-slate-900 p-2 text-white"
+              />
             </div>
           </div>
 
-          {/* Row 5: Location Source & Confirmation Toggle */}
           <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="text-[11px] font-bold text-slate-300 block mb-1">مصدر الموقع</label>
-              <select
-                value={locationSource}
-                onChange={(e) => setLocationSource(e.target.value as any)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-slate-200 focus:outline-none focus:border-blue-500"
-              >
-                <option value="gps">GPS مباشر</option>
-                <option value="map_pin">دبوس خريطة (Pin)</option>
-                <option value="manual">عنوان يدوي</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="text-[11px] font-bold text-slate-300 block mb-1">حالة التأكيد</label>
-              <button
-                type="button"
-                onClick={() => setLocationConfirmed(!locationConfirmed)}
-                className={`w-full py-2 px-3 rounded-xl font-bold text-xs border transition flex items-center justify-center gap-1.5 ${
-                  locationConfirmed
-                    ? 'bg-emerald-600/20 border-emerald-500/40 text-emerald-300'
-                    : 'bg-rose-600/20 border-rose-500/40 text-rose-300'
-                }`}
-              >
-                <CheckCircle className="w-3.5 h-3.5" />
-                <span>{locationConfirmed ? 'موقع مؤكد ✓' : 'غير مؤكد ⚠️'}</span>
-              </button>
-            </div>
+            <select
+              value={locationSource}
+              onChange={(event) =>
+                setLocationSource(
+                  event.target.value as 'gps' | 'map_pin' | 'manual'
+                )
+              }
+              disabled={!latitude || !longitude}
+              className="rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white disabled:opacity-50"
+            >
+              <option value="manual">عنوان يدوي</option>
+              <option value="gps">GPS مباشر</option>
+              <option value="map_pin">دبوس خريطة</option>
+            </select>
+            <button
+              type="button"
+              disabled={!latitude || !longitude}
+              onClick={() => setLocationConfirmed((value) => !value)}
+              className={`rounded-xl border p-2.5 font-bold disabled:opacity-50 ${
+                locationConfirmed
+                  ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
+                  : 'border-amber-500/30 bg-amber-500/10 text-amber-300'
+              }`}
+            >
+              {locationConfirmed ? 'الموقع مؤكد' : 'الموقع غير مؤكد'}
+            </button>
           </div>
 
-          {/* Delivery Notes */}
           <div>
-            <label className="text-[11px] font-bold text-slate-300 block mb-1">ملاحظات التوصيل للسائق</label>
+            <label className="mb-1 block font-bold text-slate-300">
+              ملاحظات التوصيل
+            </label>
             <textarea
               rows={2}
-              value={deliveryNotes}
-              onChange={(e) => setDeliveryNotes(e.target.value)}
-              placeholder="أي ملاحظات خاصة بالتوصيل (المصعد، أوقات التسليم، إلخ)"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-slate-200 focus:outline-none focus:border-blue-500 resize-none"
+              value={notes}
+              onChange={(event) => setNotes(event.target.value)}
+              className="w-full resize-none rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
             />
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex gap-2 pt-2 border-t border-slate-800">
-            <button
-              type="submit"
-              className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1 shadow"
-            >
-              <CheckCircle className="w-4 h-4" />
-              <span>حفظ التعديلات</span>
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl transition"
-            >
-              إلغاء
-            </button>
-          </div>
+          <button
+            type="submit"
+            disabled={saving}
+            className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-emerald-600 py-3 font-bold text-white disabled:opacity-60"
+          >
+            {saving ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <CheckCircle2 className="h-4 w-4" />
+            )}
+            {saving ? 'جاري الحفظ...' : 'حفظ العنوان في قاعدة البيانات'}
+          </button>
         </form>
       </div>
     </div>

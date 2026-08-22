@@ -36,7 +36,7 @@ export const CustomerLocationCard: React.FC<CustomerLocationCardProps> = ({
   order,
   onEditAddress,
 }) => {
-  const { setToast, currentUser } = useAppStore();
+  const { setToast } = useAppStore();
   const [copied, setCopied] = useState(false);
 
   // Address fields breakdown
@@ -102,7 +102,6 @@ export const CustomerLocationCard: React.FC<CustomerLocationCardProps> = ({
 
   // 3. Send location to courier / driver via WhatsApp or share
   const handleSendToCourier = () => {
-    const driverPhone = order.deliveryDriverName ? '' : '';
     const message = encodeURIComponent(
       `🚚 *توجيه توصيل طلب #${order.orderNumber}*\n` +
       `👤 العميل: ${order.customerName}\n` +
@@ -371,14 +370,16 @@ export const CustomerLocationCard: React.FC<CustomerLocationCardProps> = ({
             <span>واتساب العميل</span>
           </a>
 
-          {/* 8. Edit Address according to permission */}
-          <button
-            onClick={onEditAddress}
-            className="bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 p-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1"
-          >
-            <Edit3 className="w-3.5 h-3.5 text-amber-400" />
-            <span>تعديل العنوان</span>
-          </button>
+          {/* 8. Edit Address according to order state */}
+          {onEditAddress && (
+            <button
+              onClick={onEditAddress}
+              className="bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 p-2 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1"
+            >
+              <Edit3 className="w-3.5 h-3.5 text-amber-400" />
+              <span>تعديل العنوان</span>
+            </button>
+          )}
         </div>
       </div>
     </div>

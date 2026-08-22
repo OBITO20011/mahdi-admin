@@ -1,17 +1,14 @@
-/**
- * Nawasrah Business Manager - Enterprise CRM Customer Filters & Search Bar
- * Search by Name, Phone, Email. Filter by VIP, Active, Inactive, Blocked. Sort by Latest, Highest Spending, Most Orders.
- */
-
 import React from 'react';
+import { ArrowUpDown, Search, SlidersHorizontal, X } from 'lucide-react';
 import { CustomerSortOption } from '../../types/crm';
-import { Search, X, SlidersHorizontal, ArrowUpDown, ShieldAlert, Star, CheckCircle2, UserX } from 'lucide-react';
 
 interface CustomerFiltersProps {
   searchQuery: string;
   onSearchChange: (value: string) => void;
   statusFilter: 'all' | 'vip' | 'active' | 'inactive' | 'blocked';
-  onStatusFilterChange: (status: 'all' | 'vip' | 'active' | 'inactive' | 'blocked') => void;
+  onStatusFilterChange: (
+    status: 'all' | 'vip' | 'active' | 'inactive' | 'blocked'
+  ) => void;
   sortBy: CustomerSortOption;
   onSortByChange: (sort: CustomerSortOption) => void;
   totalResults: number;
@@ -25,113 +22,71 @@ export const CustomerFilters: React.FC<CustomerFiltersProps> = ({
   sortBy,
   onSortByChange,
   totalResults,
-}) => {
-  return (
-    <div className="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl shadow-lg space-y-3">
-      {/* Search Bar Input */}
-      <div className="relative">
-        <Search className="w-4 h-4 text-slate-400 absolute right-3.5 top-3.5" />
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="ابحث بالاسم، رقم الهاتف، أو البريد الإلكتروني..."
-          className="w-full bg-slate-950 border border-slate-800 text-slate-100 placeholder-slate-500 rounded-xl py-2.5 pr-10 pl-9 text-xs focus:outline-none focus:border-blue-500 transition"
-        />
-        {searchQuery && (
-          <button
-            onClick={() => onSearchChange('')}
-            className="absolute left-3 top-3 text-slate-400 hover:text-white p-0.5 rounded-full bg-slate-800"
-          >
-            <X className="w-3.5 h-3.5" />
-          </button>
-        )}
-      </div>
-
-      {/* Filter Chips & Sorting Row */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-1 border-t border-slate-800/80">
-        {/* Status Segment Chips */}
-        <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 no-scrollbar text-xs">
-          <button
-            onClick={() => onStatusFilterChange('all')}
-            className={`px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 border ${
-              statusFilter === 'all'
-                ? 'bg-blue-600 text-white border-blue-500 shadow'
-                : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
-            }`}
-          >
-            <span>جميع العملاء</span>
-          </button>
-
-          <button
-            onClick={() => onStatusFilterChange('vip')}
-            className={`px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 border ${
-              statusFilter === 'vip'
-                ? 'bg-amber-600 text-white border-amber-500 shadow'
-                : 'bg-slate-950 text-amber-400/80 border-slate-800 hover:text-amber-300'
-            }`}
-          >
-            <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-            <span>عملاء VIP</span>
-          </button>
-
-          <button
-            onClick={() => onStatusFilterChange('active')}
-            className={`px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 border ${
-              statusFilter === 'active'
-                ? 'bg-emerald-600 text-white border-emerald-500 shadow'
-                : 'bg-slate-950 text-emerald-400/80 border-slate-800 hover:text-emerald-300'
-            }`}
-          >
-            <CheckCircle2 className="w-3 h-3" />
-            <span>نشطون</span>
-          </button>
-
-          <button
-            onClick={() => onStatusFilterChange('inactive')}
-            className={`px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 border ${
-              statusFilter === 'inactive'
-                ? 'bg-slate-700 text-white border-slate-600 shadow'
-                : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-300'
-            }`}
-          >
-            <UserX className="w-3 h-3" />
-            <span>غير نشطين</span>
-          </button>
-
-          <button
-            onClick={() => onStatusFilterChange('blocked')}
-            className={`px-3 py-1.5 rounded-xl font-bold transition shrink-0 flex items-center gap-1 border ${
-              statusFilter === 'blocked'
-                ? 'bg-rose-600 text-white border-rose-500 shadow'
-                : 'bg-slate-950 text-rose-400/80 border-slate-800 hover:text-rose-300'
-            }`}
-          >
-            <ShieldAlert className="w-3 h-3" />
-            <span>محظورون</span>
-          </button>
-        </div>
-
-        {/* Sorting Dropdown & Results Counter */}
-        <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto text-xs border-t sm:border-t-0 border-slate-800 pt-1.5 sm:pt-0">
-          <span className="text-[11px] text-slate-400 font-medium">
-            النتائج: <strong className="text-white font-black">{totalResults}</strong> عميل
-          </span>
-
-          <div className="flex items-center gap-1 bg-slate-950 border border-slate-800 px-2.5 py-1 rounded-xl">
-            <ArrowUpDown className="w-3 h-3 text-slate-400" />
-            <select
-              value={sortBy}
-              onChange={(e) => onSortByChange(e.target.value as CustomerSortOption)}
-              className="bg-transparent text-slate-200 font-bold focus:outline-none cursor-pointer"
-            >
-              <option value="latest">الأحدث تسجيلاً</option>
-              <option value="highest_spending">الأعلى إنفاقاً (Spending)</option>
-              <option value="most_orders">الأكثر طلباً (Orders)</option>
-            </select>
-          </div>
-        </div>
-      </div>
+}) => (
+  <div className="space-y-3 rounded-2xl border border-slate-800 bg-slate-900 p-3 shadow">
+    <div className="relative">
+      <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+      <input
+        value={searchQuery}
+        onChange={(event) => onSearchChange(event.target.value)}
+        placeholder="ابحث بالاسم أو الهاتف أو البريد"
+        className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2.5 pl-9 pr-9 text-xs text-white outline-none focus:border-indigo-500"
+      />
+      {searchQuery && (
+        <button
+          type="button"
+          onClick={() => onSearchChange('')}
+          className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-slate-800 p-1 text-slate-400"
+          aria-label="مسح البحث"
+        >
+          <X className="h-3 w-3" />
+        </button>
+      )}
     </div>
-  );
-};
+
+    <div className="grid grid-cols-2 gap-2">
+      <label className="relative">
+        <SlidersHorizontal className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-indigo-400" />
+        <select
+          value={statusFilter}
+          onChange={(event) =>
+            onStatusFilterChange(
+              event.target.value as
+                | 'all'
+                | 'vip'
+                | 'active'
+                | 'inactive'
+                | 'blocked'
+            )
+          }
+          className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 pl-2 pr-8 text-[11px] font-bold text-slate-200"
+        >
+          <option value="all">جميع العملاء</option>
+          <option value="active">النشطون</option>
+          <option value="vip">عملاء VIP</option>
+          <option value="inactive">غير النشطين</option>
+          <option value="blocked">المحظورون</option>
+        </select>
+      </label>
+
+      <label className="relative">
+        <ArrowUpDown className="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-teal-400" />
+        <select
+          value={sortBy}
+          onChange={(event) =>
+            onSortByChange(event.target.value as CustomerSortOption)
+          }
+          className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 pl-2 pr-8 text-[11px] font-bold text-slate-200"
+        >
+          <option value="latest">الأحدث تسجيلًا</option>
+          <option value="highest_spending">الأعلى شراءً</option>
+          <option value="most_orders">الأكثر طلبًا</option>
+        </select>
+      </label>
+    </div>
+
+    <p className="text-[10px] text-slate-500">
+      النتائج: <strong className="text-slate-200">{totalResults}</strong> عميل
+    </p>
+  </div>
+);

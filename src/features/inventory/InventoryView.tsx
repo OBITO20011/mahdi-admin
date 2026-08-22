@@ -2,10 +2,11 @@
  * Nawasrah Business Manager - Independent Inventory Management View (شاشة إدارة المخزون)
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { Product, InventoryMovement } from '../../types';
 import { formatProductInventory } from '../../utils/inventoryFormatter';
+import { ClearInventoryBalanceDialog } from './ClearInventoryBalanceDialog';
 import {
   Boxes,
   Search,
@@ -16,7 +17,6 @@ import {
   Truck,
   Plus,
   Minus,
-  ArrowLeftRight,
   ClipboardCheck,
   History,
   AlertTriangle,
@@ -27,9 +27,12 @@ import {
   TrendingUp,
   Package,
   Calendar,
+  ChevronLeft,
   Eye,
   FileText,
   Activity,
+  Trash2,
+  FileSpreadsheet,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 
@@ -42,7 +45,12 @@ export const InventoryView: React.FC = () => {
     movements,
     openModal,
     activeBranch,
+    refreshInventoryMovementsFromSupabase,
   } = useAppStore();
+
+  useEffect(() => {
+    refreshInventoryMovementsFromSupabase();
+  }, []);
 
   // Active Tab: 'products' (الأصناف والمخزون) vs 'movements' (سجل الحركات)
   const [activeTab, setActiveTab] = useState<'products' | 'movements'>('products');
@@ -56,6 +64,8 @@ export const InventoryView: React.FC = () => {
 
   // Selected product for movement history modal inside this view
   const [historyProduct, setHistoryProduct] = useState<Product | null>(null);
+  const [clearInventoryProduct, setClearInventoryProduct] =
+    useState<Product | null>(null);
 
   // Calculate Metrics
   const totalCostValue = products.reduce((acc, p) => acc + (p.costPrice * p.onHandQuantity), 0);
@@ -63,9 +73,9 @@ export const InventoryView: React.FC = () => {
   const totalItemCount = products.length;
 
   const lowStockProducts = products.filter(
-    (p) => p.onHandQuantity > 0 && p.onHandQuantity <= p.reorderLevel
+    (p) => p.availableQuantity > 0 && p.availableQuantity <= p.reorderLevel
   );
-  const outOfStockProducts = products.filter((p) => p.onHandQuantity === 0);
+  const outOfStockProducts = products.filter((p) => p.availableQuantity <= 0);
 
   // Near expiry (e.g. within 30 days)
   const now = new Date().getTime();
@@ -113,9 +123,11 @@ export const InventoryView: React.FC = () => {
     // Status filter match
     let matchesStatus = true;
     if (statusFilter === 'low_stock') {
-      matchesStatus = product.onHandQuantity > 0 && product.onHandQuantity <= product.reorderLevel;
+      matchesStatus =
+        product.availableQuantity > 0 &&
+        product.availableQuantity <= product.reorderLevel;
     } else if (statusFilter === 'out_of_stock') {
-      matchesStatus = product.onHandQuantity === 0;
+      matchesStatus = product.availableQuantity <= 0;
     } else if (statusFilter === 'near_expiry') {
       if (!product.expiryDate) matchesStatus = false;
       else {
@@ -160,23 +172,15 @@ export const InventoryView: React.FC = () => {
         <div>
           <h2 className="text-lg font-black text-slate-100 flex items-center gap-2">
             <Boxes className="w-6 h-6 text-indigo-400" />
-            <span>نظام إدارة المخزون والجرد المتكامل</span>
+            <span>المخزون</span>
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            الربط المباشر مع الفروع والمستودعات وحساب التكلفة والكميات المحجوزة
+            استلم البضاعة أو راقب المتاح؛ كل تعديل محفوظ بحركة موثقة.
           </p>
         </div>
 
         {/* Action Buttons Header */}
         <div className="flex items-center gap-2 flex-wrap">
-          <button
-            onClick={() => openModal('add_product')}
-            className="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow"
-          >
-            <Plus className="w-4 h-4" />
-            <span>منتج جديد</span>
-          </button>
-
           <button
             onClick={() => openModal('receive_goods')}
             className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow"
@@ -184,22 +188,40 @@ export const InventoryView: React.FC = () => {
             <Truck className="w-4 h-4" />
             <span>استلام بضاعة</span>
           </button>
+          <details className="group relative">
+            <summary className="flex cursor-pointer list-none items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-xs font-bold text-slate-300 marker:hidden">
+              إدارة
+              <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
+            </summary>
+            <div className="absolute left-0 z-20 mt-2 w-52 space-y-1 rounded-2xl border border-slate-700 bg-slate-900 p-2 shadow-2xl">
+              <button
+                onClick={() => openModal('stock_count')}
+                className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-right text-xs font-bold text-slate-200 hover:bg-slate-800"
+              >
+                <ClipboardCheck className="h-4 w-4 text-purple-400" />
+                جرد منتج
+              </button>
+              <button
+                onClick={() => openModal('inventory_opening_setup')}
+                className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-right text-xs font-bold text-emerald-300 hover:bg-slate-800"
+              >
+                <FileSpreadsheet className="h-4 w-4" />
+                تهيئة المخزون الافتتاحي
+              </button>
+            </div>
+          </details>
+        </div>
+      </div>
 
-          <button
-            onClick={() => openModal('warehouse_transfer')}
-            className="bg-purple-600 hover:bg-purple-500 text-white px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow"
-          >
-            <ArrowLeftRight className="w-4 h-4" />
-            <span>تحويل مستودعات</span>
-          </button>
-
-          <button
-            onClick={() => openModal('stock_count')}
-            className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5"
-          >
-            <ClipboardCheck className="w-4 h-4 text-purple-400" />
-            <span>جرد المنتج</span>
-          </button>
+      <div className="flex items-start gap-3 rounded-2xl border border-cyan-500/25 bg-cyan-950/20 p-3 text-xs">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-cyan-500/30 bg-cyan-500/10 text-cyan-300">
+          <CheckCircle2 className="h-4 w-4" />
+        </div>
+        <div>
+          <strong className="text-cyan-200">الرصيد يتغير تلقائيًا</strong>
+          <p className="mt-1 leading-5 text-slate-400">
+            الاستلام يزيده، تسليم الطلب ينقصه، والجرد وحده يصحح أي فرق مع حفظ السبب.
+          </p>
         </div>
       </div>
 
@@ -270,6 +292,12 @@ export const InventoryView: React.FC = () => {
           </div>
         </button>
 
+        <details className="col-span-2 group rounded-2xl border border-slate-800 bg-slate-900 p-2.5">
+          <summary className="flex cursor-pointer list-none items-center justify-between text-[10px] font-bold text-slate-400 marker:hidden">
+            تنبيهات إضافية: صلاحية وركود
+            <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
+          </summary>
+          <div className="mt-2 grid grid-cols-2 gap-2">
         {/* Near Expiry */}
         <button
           onClick={() => setStatusFilter(statusFilter === 'near_expiry' ? 'all' : 'near_expiry')}
@@ -305,6 +333,8 @@ export const InventoryView: React.FC = () => {
             <strong className="text-sm font-extrabold text-purple-300">{stagnantProducts.length}</strong>
           </div>
         </button>
+          </div>
+        </details>
       </div>
 
       {/* 2. Main Navigation Tabs */}
@@ -318,7 +348,7 @@ export const InventoryView: React.FC = () => {
           }`}
         >
           <Boxes className="w-4 h-4" />
-          <span>جدول الأقسام والمخزون المباشر ({filteredProducts.length})</span>
+          <span>المتاح الآن ({filteredProducts.length})</span>
         </button>
 
         <button
@@ -330,7 +360,7 @@ export const InventoryView: React.FC = () => {
           }`}
         >
           <History className="w-4 h-4" />
-          <span>سجل حركات المخزون والتدقيق ({filteredMovements.length})</span>
+          <span>سجل الحركات ({filteredMovements.length})</span>
         </button>
       </div>
 
@@ -356,8 +386,13 @@ export const InventoryView: React.FC = () => {
           )}
         </div>
 
+        <details className="group rounded-xl border border-slate-800 bg-slate-950/40 p-2.5">
+          <summary className="flex cursor-pointer list-none items-center justify-between text-[11px] font-bold text-slate-400 marker:hidden">
+            تصفية وبحث متقدم
+            <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
+          </summary>
         {/* Dropdown Filters */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+        <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
           {/* Branch Filter */}
           <div className="space-y-1">
             <label className="text-[10px] text-slate-400 font-bold block flex items-center gap-1">
@@ -437,6 +472,7 @@ export const InventoryView: React.FC = () => {
             </select>
           </div>
         </div>
+        </details>
       </div>
 
       {/* TAB 1: PRODUCTS INVENTORY TAB */}
@@ -464,14 +500,17 @@ export const InventoryView: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {filteredProducts.map((product) => {
                 const branchName =
-                  branches.find((b) => b.id === product.branchId)?.name || 'الفرع الرئيسي';
+                  branches.find((b) => b.id === product.branchId)?.name ||
+                  activeBranch.name;
                 const warehouseName =
                   warehouses.find((w) => w.id === product.warehouseId)?.name || 'المستودع الرئيسي';
                 const categoryName =
                   categories.find((c) => c.id === product.categoryId)?.nameAr || 'عام';
 
-                const isLow = product.onHandQuantity > 0 && product.onHandQuantity <= product.reorderLevel;
-                const isOut = product.onHandQuantity === 0;
+                const isLow =
+                  product.availableQuantity > 0 &&
+                  product.availableQuantity <= product.reorderLevel;
+                const isOut = product.availableQuantity <= 0;
 
                 return (
                   <div
@@ -520,6 +559,29 @@ export const InventoryView: React.FC = () => {
                         </div>
                       </div>
 
+                      {(() => {
+                        const invAvailable = formatProductInventory(product, true);
+                        return (
+                          <div className="rounded-xl border border-emerald-500/25 bg-emerald-950/20 p-2.5 text-center">
+                            <span className="block text-[9px] font-bold text-emerald-200/70">المتاح للبيع الآن</span>
+                            <strong className="mt-0.5 block text-sm font-black text-emerald-300">
+                              {invAvailable.fullFormatted}
+                            </strong>
+                            {product.reservedQuantity > 0 && (
+                              <span className="mt-1 block text-[9px] text-amber-300">
+                                محجوز للطلبات: {product.reservedQuantity} قطعة
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })()}
+
+                      <details className="group rounded-xl border border-slate-800 bg-slate-950/40 p-2">
+                        <summary className="flex cursor-pointer list-none items-center justify-between text-[10px] font-bold text-slate-400 marker:hidden">
+                          تفاصيل الصنف والرصد
+                          <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
+                        </summary>
+                        <div className="mt-2 space-y-2">
                       {/* Branch & Warehouse Tags */}
                       <div className="bg-slate-950 p-2 rounded-xl border border-slate-800/80 flex items-center justify-between text-[10px]">
                         <div className="flex items-center gap-1 text-slate-300">
@@ -581,11 +643,13 @@ export const InventoryView: React.FC = () => {
                           </strong>
                         </div>
                       </div>
+                        </div>
+                      </details>
                     </div>
 
                     {/* Action Bar per Product */}
                     <div className="pt-2 border-t border-slate-800 space-y-1.5">
-                      <div className="grid grid-cols-5 gap-1">
+                      <div className="grid grid-cols-2 gap-1.5">
                         {/* 1. Receive Goods */}
                         <button
                           onClick={() => openModal('receive_goods')}
@@ -596,37 +660,7 @@ export const InventoryView: React.FC = () => {
                           <span>استلام</span>
                         </button>
 
-                        {/* 2. Add Stock */}
-                        <button
-                          onClick={() => openModal('adjust_stock', { product, mode: 'add' })}
-                          className="bg-emerald-950/60 hover:bg-emerald-900/80 text-emerald-300 border border-emerald-800/80 p-1.5 rounded-lg text-[10px] font-bold flex flex-col items-center justify-center gap-0.5 transition"
-                          title="إضافة كمية"
-                        >
-                          <Plus className="w-3.5 h-3.5" />
-                          <span>إضافة</span>
-                        </button>
-
-                        {/* 3. Deduct Stock */}
-                        <button
-                          onClick={() => openModal('adjust_stock', { product, mode: 'deduct' })}
-                          className="bg-rose-950/60 hover:bg-rose-900/80 text-rose-300 border border-rose-800/80 p-1.5 rounded-lg text-[10px] font-bold flex flex-col items-center justify-center gap-0.5 transition"
-                          title="خصم كمية (تالف / عجز)"
-                        >
-                          <Minus className="w-3.5 h-3.5" />
-                          <span>خصم</span>
-                        </button>
-
-                        {/* 4. Warehouse Transfer */}
-                        <button
-                          onClick={() => openModal('warehouse_transfer', { productId: product.id })}
-                          className="bg-purple-950/60 hover:bg-purple-900/80 text-purple-300 border border-purple-800/80 p-1.5 rounded-lg text-[10px] font-bold flex flex-col items-center justify-center gap-0.5 transition"
-                          title="نقل بين المستودعات"
-                        >
-                          <ArrowLeftRight className="w-3.5 h-3.5" />
-                          <span>تحويل</span>
-                        </button>
-
-                        {/* 5. Stock Count */}
+                        {/* 2. Stock Count: the only controlled correction path */}
                         <button
                           onClick={() => openModal('stock_count', { productId: product.id })}
                           className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 p-1.5 rounded-lg text-[10px] font-bold flex flex-col items-center justify-center gap-0.5 transition"
@@ -637,21 +671,63 @@ export const InventoryView: React.FC = () => {
                         </button>
                       </div>
 
-                      {/* View Movement Log */}
-                      <button
-                        onClick={() => setHistoryProduct(product)}
-                        className="w-full bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 py-1.5 rounded-xl text-[10px] font-bold transition flex items-center justify-center gap-1.5"
-                      >
-                        <History className="w-3.5 h-3.5 text-indigo-400" />
-                        <span>عرض سجل الحركات لهذا المنتج ({getProductMovements(product.id).length})</span>
-                      </button>
-                    </div>
+                      <details className="group rounded-xl border border-slate-800 bg-slate-950/40 p-2">
+                        <summary className="flex cursor-pointer list-none items-center justify-between text-[10px] font-bold text-slate-400 marker:hidden">
+                          سجل الحركات وإدارة الرصيد
+                          <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
+                        </summary>
+                      <div className="mt-2 grid grid-cols-[1fr_auto] gap-1.5">
+                        {/* View Movement Log */}
+                        <button
+                          onClick={() => setHistoryProduct(product)}
+                          className="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 px-2 py-1.5 rounded-xl text-[10px] font-bold transition flex items-center justify-center gap-1.5"
+                        >
+                          <History className="w-3.5 h-3.5 text-indigo-400" />
+                          <span>
+                            سجل الحركات ({getProductMovements(product.id).length})
+                          </span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => setClearInventoryProduct(product)}
+                          className="min-w-[92px] rounded-xl border border-rose-800/70 bg-rose-950/40 px-2 py-1.5 text-[10px] font-black text-rose-300 transition hover:bg-rose-950/70 disabled:cursor-not-allowed disabled:opacity-45"
+                          title={
+                            product.onHandQuantity > 0
+                              ? 'تصفير الرصيد مع حفظ حركة تدقيق'
+                              : 'الرصيد صفر بالفعل'
+                          }
+                        >
+                          <span className="flex items-center justify-center gap-1">
+                            <Trash2 className="h-3.5 w-3.5" />
+                            {product.onHandQuantity > 0
+                              ? 'حذف الرصيد'
+                              : 'الرصيد صفر'}
+                          </span>
+                        </button>
+                      </div>
+                      </details>
+                  </div>
                   </div>
                 );
               })}
             </div>
           )}
         </div>
+      )}
+
+      {clearInventoryProduct && (
+        <ClearInventoryBalanceDialog
+          product={clearInventoryProduct}
+          warehouseName={
+            warehouses.find(
+              (warehouse) =>
+                warehouse.id === clearInventoryProduct.warehouseId
+            )?.name || 'المستودع الرئيسي'
+          }
+          movementCount={getProductMovements(clearInventoryProduct.id).length}
+          onClose={() => setClearInventoryProduct(null)}
+        />
       )}
 
       {/* TAB 2: LIVE MOVEMENTS FEED TAB */}

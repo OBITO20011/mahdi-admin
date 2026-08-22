@@ -1,5 +1,5 @@
 {
-  "name": "react-example",
+  "name": "nawasrah-erp-admin",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,7 +8,14 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "backup:preflight": "node scripts/backup/preflight.mjs",
+    "backup:setup": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/backup/setup-backup.ps1",
+    "backup:update-password": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/backup/update-database-password.ps1",
+    "backup:run": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/backup/run-backup.ps1",
+    "backup:verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/backup/verify-latest-backup.ps1",
+    "backup:restore-test": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/backup/run-restore-drill.ps1"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
@@ -26,13 +33,14 @@
     "vite": "^6.2.3"
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
     "esbuild": "^0.25.0",
+    "supabase": "^2.114.0",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.21.0",
     "typescript": "~5.8.2",
-    "vite": "^6.2.3",
-    "@types/express": "^4.17.21"
+    "vite": "^6.2.3"
   }
 }

@@ -1,1 +1,252 @@
 @import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #020617;
+  transition:
+    background-color 220ms ease,
+    color 220ms ease;
+}
+
+html.theme-light {
+  color-scheme: light;
+}
+
+html.theme-light body {
+  background: #e8eef6;
+  color: #0f172a;
+}
+
+html.theme-light [class~="bg-slate-950"],
+html.theme-light [class~="bg-slate-950/95"],
+html.theme-light [class~="bg-slate-950/85"],
+html.theme-light [class~="bg-slate-950/80"],
+html.theme-light [class~="bg-slate-950/70"],
+html.theme-light [class~="bg-slate-950/60"],
+html.theme-light [class~="bg-slate-950/50"],
+html.theme-light [class~="bg-slate-950/45"],
+html.theme-light [class~="bg-slate-950/40"] {
+  background-color: rgb(248 250 252 / 0.98) !important;
+}
+
+html.theme-light [class~="bg-slate-900"],
+html.theme-light [class~="bg-slate-900/95"],
+html.theme-light [class~="bg-slate-900/90"],
+html.theme-light [class~="bg-slate-900/80"],
+html.theme-light [class~="bg-slate-900/70"],
+html.theme-light [class~="bg-slate-900/60"],
+html.theme-light [class~="bg-slate-900/50"],
+html.theme-light [class~="bg-slate-900/40"],
+html.theme-light [class~="bg-slate-900/30"] {
+  background-color: rgb(255 255 255 / 0.97) !important;
+}
+
+html.theme-light [class~="bg-slate-800"],
+html.theme-light [class~="bg-slate-800/90"],
+html.theme-light [class~="bg-slate-800/80"],
+html.theme-light [class~="bg-slate-800/60"],
+html.theme-light [class~="bg-slate-800/50"],
+html.theme-light [class~="bg-slate-800/40"],
+html.theme-light [class~="bg-slate-800/30"],
+html.theme-light [class~="bg-slate-750"] {
+  background-color: #eef2f7 !important;
+}
+
+html.theme-light [class~="bg-slate-700"],
+html.theme-light [class~="bg-slate-700/60"] {
+  background-color: #e2e8f0 !important;
+}
+
+html.theme-light [class~="hover:bg-slate-800"]:hover,
+html.theme-light [class~="hover:bg-slate-750"]:hover {
+  background-color: #e2e8f0 !important;
+}
+
+html.theme-light [class~="hover:bg-slate-700"]:hover {
+  background-color: #cbd5e1 !important;
+}
+
+html.theme-light [class~="text-slate-100"] {
+  color: #0f172a !important;
+}
+
+html.theme-light [class~="text-slate-200"] {
+  color: #1e293b !important;
+}
+
+html.theme-light [class~="text-slate-300"] {
+  color: #334155 !important;
+}
+
+html.theme-light [class~="text-slate-400"] {
+  color: #475569 !important;
+}
+
+html.theme-light [class~="text-slate-500"] {
+  color: #64748b !important;
+}
+
+html.theme-light [class~="text-slate-600"],
+html.theme-light [class~="text-slate-700"] {
+  color: #475569 !important;
+}
+
+html.theme-light [class~="border-slate-900"],
+html.theme-light [class~="border-slate-800"],
+html.theme-light [class~="border-slate-800/90"],
+html.theme-light [class~="border-slate-800/80"],
+html.theme-light [class~="border-slate-800/60"],
+html.theme-light [class~="border-slate-800/50"] {
+  border-color: #dbe4ef !important;
+}
+
+html.theme-light [class~="border-slate-700"],
+html.theme-light [class~="border-slate-700/80"],
+html.theme-light [class~="border-slate-700/60"],
+html.theme-light [class~="border-slate-600"],
+html.theme-light [class~="border-slate-600/60"] {
+  border-color: #cbd5e1 !important;
+}
+
+html.theme-light [class~="ring-slate-700"] {
+  --tw-ring-color: #cbd5e1 !important;
+}
+
+html.theme-light [class~="from-slate-950"],
+html.theme-light [class~="from-slate-900"] {
+  --tw-gradient-from: #ffffff !important;
+}
+
+html.theme-light [class~="via-slate-950"],
+html.theme-light [class~="via-slate-950/40"],
+html.theme-light [class~="via-slate-900"] {
+  --tw-gradient-via: #f8fafc !important;
+}
+
+html.theme-light [class~="to-slate-950"],
+html.theme-light [class~="to-slate-900"] {
+  --tw-gradient-to: #eef2f7 !important;
+}
+
+html.theme-light [class~="bg-blue-950"],
+html.theme-light [class~="bg-blue-950/95"],
+html.theme-light [class~="bg-blue-950/80"],
+html.theme-light [class~="bg-blue-950/60"],
+html.theme-light [class~="bg-blue-950/40"] {
+  background-color: #dbeafe !important;
+}
+
+html.theme-light [class~="bg-emerald-950"],
+html.theme-light [class~="bg-emerald-950/90"],
+html.theme-light [class~="bg-emerald-950/80"],
+html.theme-light [class~="bg-emerald-950/40"],
+html.theme-light [class~="bg-emerald-950/30"],
+html.theme-light [class~="bg-emerald-950/20"],
+html.theme-light [class~="bg-emerald-950/10"] {
+  background-color: #d1fae5 !important;
+}
+
+html.theme-light [class~="bg-amber-950"],
+html.theme-light [class~="bg-amber-950/90"],
+html.theme-light [class~="bg-amber-950/80"],
+html.theme-light [class~="bg-amber-950/60"],
+html.theme-light [class~="bg-amber-950/40"],
+html.theme-light [class~="bg-amber-950/30"],
+html.theme-light [class~="bg-amber-950/20"] {
+  background-color: #fef3c7 !important;
+}
+
+html.theme-light [class~="bg-rose-950"],
+html.theme-light [class~="bg-rose-950/90"],
+html.theme-light [class~="bg-rose-950/60"],
+html.theme-light [class~="bg-rose-950/50"],
+html.theme-light [class~="bg-rose-950/40"],
+html.theme-light [class~="bg-rose-950/30"],
+html.theme-light [class~="bg-rose-950/20"],
+html.theme-light [class~="bg-red-950"],
+html.theme-light [class~="bg-red-950/95"],
+html.theme-light [class~="bg-red-950/80"],
+html.theme-light [class~="bg-red-950/60"],
+html.theme-light [class~="bg-red-950/40"] {
+  background-color: #ffe4e6 !important;
+}
+
+html.theme-light [class~="bg-purple-950"],
+html.theme-light [class~="bg-purple-950/60"],
+html.theme-light [class~="bg-indigo-950"],
+html.theme-light [class~="bg-indigo-950/60"],
+html.theme-light [class~="bg-cyan-950/20"] {
+  background-color: #ede9fe !important;
+}
+
+html.theme-light [class~="text-blue-400"],
+html.theme-light [class~="text-blue-300"],
+html.theme-light [class~="text-blue-200"] {
+  color: #1d4ed8 !important;
+}
+
+html.theme-light [class~="text-emerald-400"],
+html.theme-light [class~="text-emerald-300"],
+html.theme-light [class~="text-emerald-200"] {
+  color: #047857 !important;
+}
+
+html.theme-light [class~="text-amber-400"],
+html.theme-light [class~="text-amber-300"],
+html.theme-light [class~="text-amber-200"],
+html.theme-light [class~="text-amber-100"] {
+  color: #b45309 !important;
+}
+
+html.theme-light [class~="text-rose-400"],
+html.theme-light [class~="text-rose-300"],
+html.theme-light [class~="text-rose-200"],
+html.theme-light [class~="text-red-400"],
+html.theme-light [class~="text-red-300"],
+html.theme-light [class~="text-red-200"] {
+  color: #be123c !important;
+}
+
+html.theme-light [class~="text-purple-400"],
+html.theme-light [class~="text-purple-300"],
+html.theme-light [class~="text-purple-200"],
+html.theme-light [class~="text-indigo-400"],
+html.theme-light [class~="text-indigo-300"],
+html.theme-light [class~="text-indigo-200"] {
+  color: #6d28d9 !important;
+}
+
+html.theme-light [class~="text-cyan-400"],
+html.theme-light [class~="text-cyan-300"],
+html.theme-light [class~="text-cyan-200"],
+html.theme-light [class~="text-teal-400"],
+html.theme-light [class~="text-teal-300"] {
+  color: #0f766e !important;
+}
+
+html.theme-light input,
+html.theme-light select,
+html.theme-light textarea {
+  color: #0f172a;
+}
+
+html.theme-light input::placeholder,
+html.theme-light textarea::placeholder {
+  color: #94a3b8;
+}
+
+html.theme-light [class~="bg-slate-950"][class~="text-white"],
+html.theme-light [class~="bg-slate-900"][class~="text-white"],
+html.theme-light [class~="bg-slate-800"][class~="text-white"] {
+  color: #0f172a !important;
+}

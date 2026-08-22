@@ -1,5 +1,23 @@
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
-import { User, Session } from '@supabase/supabase-js';
+
+export const ERP_APP_ROLE_CODES = [
+  'owner',
+  'admin',
+  'manager',
+  'accountant',
+  'cashier',
+  'sales',
+  'warehouse_keeper',
+  'orders',
+  'delivery_driver',
+  'view_only',
+] as const;
+
+const ERP_APP_ROLE_CODE_SET = new Set<string>(ERP_APP_ROLE_CODES);
+
+export function isAuthorizedErpRole(role?: string | null): boolean {
+  return ERP_APP_ROLE_CODE_SET.has((role || '').trim().toLowerCase());
+}
 
 export interface UserProfile {
   id: string;
@@ -18,7 +36,6 @@ export interface UserRoleInfo {
   role_name?: string;
   roles?: {
     id?: string;
-    name?: string;
     name_ar?: string;
     code?: string;
   };
@@ -52,6 +69,9 @@ export function translateAuthError(errorMessage?: string): string {
   if (msg.includes('too many requests') || msg.includes('rate limit')) {
     return 'محاولات دخول كثيرة خاطئة، يرجى الانتظار دقيقة وإعادة المحاولة';
   }
+  if (msg.includes('captcha')) {
+    return 'تعذر التحقق البشري. أعد التحقق من Cloudflare ثم حاول تسجيل الدخول.';
+  }
   if (msg.includes('network') || msg.includes('fetch')) {
     return 'تعذر الاتصال بخادم الخادم. يرجى التحقق من اتصال الإنترنت';
   }
@@ -66,8 +86,8 @@ export async function fetchUserProfileAndRole(userId: string): Promise<FetchUser
   if (!supabase || !isSupabaseConfigured) {
     return {
       profile: null,
-      roles: ['Owner'],
-      primaryRole: 'Owner',
+      roles: [],
+      primaryRole: '',
       isAuthorized: false,
       reason: 'تكوين Supabase غير مكتمل.',
     };
@@ -83,42 +103,62 @@ export async function fetchUserProfileAndRole(userId: string): Promise<FetchUser
 
     if (profileErr) {
       console.error('[Supabase Auth Service] Error fetching profiles table:', profileErr);
+      return {
+        profile: null,
+        roles: [],
+        primaryRole: '',
+        isAuthorized: false,
+        reason: 'تعذر التحقق من ملف المستخدم الإداري.',
+      };
+    }
+
+    if (!profile) {
+      return {
+        profile: null,
+        roles: [],
+        primaryRole: '',
+        isAuthorized: false,
+        reason: 'هذا الحساب غير مرتبط بملف موظف معتمد.',
+      };
     }
 
     // 2. Fetch user roles from public.user_roles
     let rolesList: string[] = [];
-    let primaryRole = 'Owner';
 
     const { data: userRoles, error: rolesErr } = await supabase
       .from('user_roles')
-      .select('role_id, role, roles(id, name, name_ar, code)')
+      .select('role_id, roles(id, name_ar, code)')
       .eq('user_id', userId);
 
     if (rolesErr) {
       console.warn('[Supabase Auth Service] Warning fetching user_roles:', rolesErr.message);
+      return {
+        profile,
+        roles: [],
+        primaryRole: '',
+        isAuthorized: false,
+        reason: 'تعذر التحقق من دور الحساب وصلاحياته.',
+      };
     } else if (userRoles && userRoles.length > 0) {
-      rolesList = userRoles.map((r: any) => {
-        const roleObj = r.roles;
-        return roleObj?.name_ar || roleObj?.name || roleObj?.code || r.role || 'Admin';
-      });
-      if (rolesList.length > 0) {
-        primaryRole = rolesList[0];
-      }
+      rolesList = userRoles
+        .map((r: any) => String(r.roles?.code || '').trim().toLowerCase())
+        .filter(Boolean);
     }
 
-    // Fallback if user_roles returned empty or profile had role directly
-    if (rolesList.length === 0) {
-      if ((profile as any)?.role) {
-        primaryRole = (profile as any).role;
-        rolesList = [primaryRole];
-      } else {
-        rolesList = ['Owner'];
-        primaryRole = 'Owner';
-      }
+    const primaryRole = rolesList.find(isAuthorizedErpRole) || '';
+
+    if (!primaryRole) {
+      return {
+        profile,
+        roles: rolesList,
+        primaryRole: '',
+        isAuthorized: false,
+        reason: 'هذا الحساب لا يملك دورًا معتمدًا لاستخدام نظام الإدارة.',
+      };
     }
 
     // 3. Authorization Check
-    const isActive = profile ? profile.is_active !== false : true;
+    const isActive = profile.is_active === true;
 
     if (!isActive) {
       return {
@@ -127,29 +167,6 @@ export async function fetchUserProfileAndRole(userId: string): Promise<FetchUser
         primaryRole,
         isAuthorized: false,
         reason: 'حسابك معطل حالياً. ليس لديك صلاحية لدخول لوحة الإدارة.',
-      };
-    }
-
-    // Role verification (owner / admin / staff)
-    const normalizedRoles = rolesList.map((r) => r.toLowerCase());
-    const isOwnerOrAdmin =
-      normalizedRoles.some(
-        (r) =>
-          r.includes('owner') ||
-          r.includes('admin') ||
-          r.includes('مالك') ||
-          r.includes('مدير') ||
-          r.includes('مشرف') ||
-          r.includes('محاسب')
-      ) || true; // Allow active authenticated users with profile
-
-    if (!isOwnerOrAdmin) {
-      return {
-        profile,
-        roles: rolesList,
-        primaryRole,
-        isAuthorized: false,
-        reason: 'ليس لديك صلاحية لدخول لوحة الإدارة.',
       };
     }
 
@@ -163,8 +180,8 @@ export async function fetchUserProfileAndRole(userId: string): Promise<FetchUser
     console.error('[Supabase Auth Service] Exception fetching profile/role:', err);
     return {
       profile: null,
-      roles: ['User'],
-      primaryRole: 'User',
+      roles: [],
+      primaryRole: '',
       isAuthorized: false,
       reason: err?.message || 'حدث خطأ عند جلب بيانات الصلاحيات والملف الشخصي.',
     };

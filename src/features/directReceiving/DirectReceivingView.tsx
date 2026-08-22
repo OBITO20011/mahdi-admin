@@ -5,10 +5,10 @@
  */
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { useAppStore } from '../../stores/useAppStore';
-import { SupplierReceipt } from '../../types/directReceiving';
-import { Supplier } from '../../types';
+import { ReceivingProduct, SupplierReceipt } from '../../types/directReceiving';
+import { Supplier, Warehouse } from '../../types';
 import {
+  fetchProductsForReceivingFromSupabase,
   fetchSupplierReceiptsFromSupabase,
   fetchSuppliersForReceivingFromSupabase,
   fetchWarehousesForReceivingFromSupabase,
@@ -17,8 +17,11 @@ import {
 import { CreateDirectReceiptModal } from './CreateDirectReceiptModal';
 import { SupplierReceiptDetailView } from './SupplierReceiptDetailView';
 import { RecordSupplierPaymentModal } from './RecordSupplierPaymentModal';
+import { CancelSupplierReceiptDialog } from './CancelSupplierReceiptDialog';
+import { CreateSupplierModal } from '../purchases/CreateSupplierModal';
 import { Modal } from '../../components/common/Modal';
 import { CURRENCY } from '../../constants';
+import { formatWholesaleInventory } from '../../utils/inventoryFormatter';
 import {
   Building2,
   PackageCheck,
@@ -42,27 +45,41 @@ import {
   ArrowUpRight,
   ShieldCheck,
   History,
+  Boxes,
+  Trash2,
 } from 'lucide-react';
 
 export const DirectReceivingView: React.FC = () => {
-  const { openModal, setToast } = useAppStore();
-
   // Primary Receipts State
   const [receipts, setReceipts] = useState<SupplierReceipt[]>([]);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
-  const [warehouses, setWarehouses] = useState<any[]>([]);
+  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+  const [products, setProducts] = useState<ReceivingProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   // Active View State
-  const [activeTab, setActiveTab] = useState<'all' | 'unpaid' | 'partially_paid' | 'paid' | 'archived' | 'suppliers' | 'old_history'>('all');
+  const [activeTab, setActiveTab] = useState<
+    | 'all'
+    | 'unpaid'
+    | 'partially_paid'
+    | 'paid'
+    | 'archived'
+    | 'suppliers'
+    | 'inventory'
+    | 'old_history'
+  >('all');
   const [selectedReceipt, setSelectedReceipt] = useState<SupplierReceipt | null>(null);
 
   // Modals
   const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
+  const [showSupplierModal, setShowSupplierModal] = useState<boolean>(false);
   const [paymentModalReceipt, setPaymentModalReceipt] = useState<SupplierReceipt | null>(null);
+  const [cancellationReceipt, setCancellationReceipt] =
+    useState<SupplierReceipt | null>(null);
 
   // Filters State
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [inventorySearchTerm, setInventorySearchTerm] = useState<string>('');
   const [selectedSupplierFilter, setSelectedSupplierFilter] = useState<string>('');
   const [selectedWarehouseFilter, setSelectedWarehouseFilter] = useState<string>('');
 
@@ -70,7 +87,7 @@ export const DirectReceivingView: React.FC = () => {
   const loadData = useCallback(async (isSilent = false) => {
     if (!isSilent) setLoading(true);
     try {
-      const [receiptsRes, supsData, whsData] = await Promise.all([
+      const [receiptsRes, supsData, whsData, productsData] = await Promise.all([
         fetchSupplierReceiptsFromSupabase({
           isArchived: activeTab === 'archived',
           paymentStatus: ['unpaid', 'partially_paid', 'paid'].includes(activeTab) ? activeTab : undefined,
@@ -80,6 +97,7 @@ export const DirectReceivingView: React.FC = () => {
         }),
         fetchSuppliersForReceivingFromSupabase(),
         fetchWarehousesForReceivingFromSupabase(),
+        fetchProductsForReceivingFromSupabase(),
       ]);
 
       if (receiptsRes.success && receiptsRes.data) {
@@ -87,6 +105,7 @@ export const DirectReceivingView: React.FC = () => {
       }
       setSuppliers(supsData);
       setWarehouses(whsData);
+      setProducts(productsData);
     } catch (err) {
       console.error('Error loading supplier receipts:', err);
     } finally {
@@ -123,6 +142,86 @@ export const DirectReceivingView: React.FC = () => {
       return true;
     });
   }, [receipts, activeTab]);
+
+  const filteredInventoryProducts = useMemo(() => {
+    const query = inventorySearchTerm.trim().toLowerCase();
+    if (!query) return products;
+
+    return products.filter(
+      (product) =>
+        product.nameAr.toLowerCase().includes(query) ||
+        product.sku.toLowerCase().includes(query) ||
+        Boolean(product.barcode?.toLowerCase().includes(query))
+    );
+  }, [inventorySearchTerm, products]);
+
+  const inventoryMetrics = useMemo(() => {
+    const onHandQuantity = products.reduce(
+      (total, product) => total + product.onHandQuantity,
+      0
+    );
+    const reservedQuantity = products.reduce(
+      (total, product) => total + product.reservedQuantity,
+      0
+    );
+    const availableQuantity = products.reduce(
+      (total, product) => total + product.availableQuantity,
+      0
+    );
+    const costValueInMinorUnits = products.reduce(
+      (total, product) =>
+        total + product.onHandQuantity * product.costPriceInMinorUnits,
+      0
+    );
+    const saleValueInMinorUnits = products.reduce(
+      (total, product) =>
+        total + product.onHandQuantity * product.salePriceInMinorUnits,
+      0
+    );
+    const lowStockCount = products.filter(
+      (product) => product.availableQuantity <= product.minStockLevel
+    ).length;
+
+    return {
+      onHandQuantity,
+      reservedQuantity,
+      availableQuantity,
+      costValueInMinorUnits,
+      saleValueInMinorUnits,
+      lowStockCount,
+    };
+  }, [products]);
+
+  const productReceiptContext = useMemo(() => {
+    const context = new Map<
+      string,
+      {
+        supplierNames: Set<string>;
+        lastReceipt: SupplierReceipt | null;
+      }
+    >();
+
+    receipts.forEach((receipt) => {
+      receipt.items?.forEach((item) => {
+        const current = context.get(item.productId) ?? {
+          supplierNames: new Set<string>(),
+          lastReceipt: null,
+        };
+        current.supplierNames.add(receipt.supplierName);
+
+        if (
+          !current.lastReceipt ||
+          new Date(receipt.receivedAt).getTime() >
+            new Date(current.lastReceipt.receivedAt).getTime()
+        ) {
+          current.lastReceipt = receipt;
+        }
+        context.set(item.productId, current);
+      });
+    });
+
+    return context;
+  }, [receipts]);
 
   // Today KPI Aggregations
   const kpiMetrics = useMemo(() => {
@@ -216,7 +315,7 @@ export const DirectReceivingView: React.FC = () => {
           </button>
 
           <button
-            onClick={() => openModal('add_supplier')}
+            onClick={() => setShowSupplierModal(true)}
             className="bg-slate-800 text-slate-300 border border-slate-700 px-3 py-2 rounded-xl font-bold text-xs hover:bg-slate-700 transition flex items-center gap-1"
           >
             <Building2 className="w-3.5 h-3.5 text-blue-400" />
@@ -319,6 +418,17 @@ export const DirectReceivingView: React.FC = () => {
 
         <div className="flex items-center gap-1">
           <button
+            onClick={() => setActiveTab('inventory')}
+            className={`px-3 py-1.5 rounded-xl border transition flex items-center gap-1 ${
+              activeTab === 'inventory'
+                ? 'bg-slate-800 text-cyan-300 border-cyan-500/50'
+                : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
+            }`}
+          >
+            <Boxes className="w-3.5 h-3.5" />
+            <span>المخزون ({products.length})</span>
+          </button>
+          <button
             onClick={() => setActiveTab('suppliers')}
             className={`px-3 py-1.5 rounded-xl border transition ${
               activeTab === 'suppliers'
@@ -343,7 +453,9 @@ export const DirectReceivingView: React.FC = () => {
       </div>
 
       {/* Search & Secondary Filters */}
-      {activeTab !== 'suppliers' && activeTab !== 'old_history' && (
+      {activeTab !== 'suppliers' &&
+        activeTab !== 'inventory' &&
+        activeTab !== 'old_history' && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-900 border border-slate-800 p-2.5 rounded-2xl">
           <div className="flex items-center bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs">
             <Search className="w-3.5 h-3.5 text-slate-400 ml-2" />
@@ -390,7 +502,7 @@ export const DirectReceivingView: React.FC = () => {
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-300">قائمة الموردين النشطين والمستحقات:</span>
             <button
-              onClick={() => openModal('add_supplier')}
+              onClick={() => setShowSupplierModal(true)}
               className="bg-blue-600/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-xl text-xs font-bold hover:bg-blue-600/30 transition flex items-center gap-1"
             >
               <Plus className="w-3.5 h-3.5" />
@@ -408,7 +520,7 @@ export const DirectReceivingView: React.FC = () => {
 
                 <div className="text-xs text-slate-400 flex items-center justify-between">
                   <span>هاتف: {sup.phone || 'بدون هاتف'}</span>
-                  <span>العنوان: {sup.address || 'عمان'}</span>
+                  <span>العنوان: {sup.address || 'غير محدد'}</span>
                 </div>
 
                 <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex items-center justify-between text-xs font-bold pt-2">
@@ -418,6 +530,280 @@ export const DirectReceivingView: React.FC = () => {
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* Live Inventory Tab */}
+      {activeTab === 'inventory' && (
+        <div className="space-y-3">
+          <div className="rounded-2xl border border-cyan-500/20 bg-gradient-to-l from-cyan-950/25 via-slate-900 to-slate-900 p-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-2">
+                  <Boxes className="h-5 w-5 text-cyan-300" />
+                  <h2 className="text-sm font-extrabold text-slate-100">
+                    المخزون الفعلي بعد الاستلام والبيع
+                  </h2>
+                </div>
+                <p className="mt-1 text-[11px] text-slate-400">
+                  الأرقام مباشرة من أرصدة Supabase لكل مستودع. الاستلام يزيد المخزون
+                  والبيع ينقص المتاح تلقائياً.
+                </p>
+              </div>
+
+              <div className="flex min-w-[240px] items-center rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-xs">
+                <Search className="ml-2 h-4 w-4 text-slate-500" />
+                <input
+                  value={inventorySearchTerm}
+                  onChange={(event) => setInventorySearchTerm(event.target.value)}
+                  placeholder="ابحث باسم الصنف أو SKU أو الباركود..."
+                  className="w-full bg-transparent font-bold text-slate-100 outline-none placeholder:text-slate-600"
+                />
+              </div>
+            </div>
+
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+              {[
+                {
+                  label: 'الأصناف',
+                  value: products.length.toLocaleString('ar-JO'),
+                  tone: 'text-white',
+                },
+                {
+                  label: 'المخزون الفعلي',
+                  value: inventoryMetrics.onHandQuantity.toLocaleString('ar-JO'),
+                  tone: 'text-blue-300',
+                },
+                {
+                  label: 'المحجوز للطلبات',
+                  value: inventoryMetrics.reservedQuantity.toLocaleString('ar-JO'),
+                  tone: 'text-amber-300',
+                },
+                {
+                  label: 'المتاح للبيع',
+                  value: inventoryMetrics.availableQuantity.toLocaleString('ar-JO'),
+                  tone: 'text-cyan-300',
+                },
+                {
+                  label: 'قيمة التكلفة',
+                  value: `${minorToJod(inventoryMetrics.costValueInMinorUnits)} ${CURRENCY}`,
+                  tone: 'text-emerald-300',
+                },
+                {
+                  label: 'قريب من النفاد',
+                  value: inventoryMetrics.lowStockCount.toLocaleString('ar-JO'),
+                  tone:
+                    inventoryMetrics.lowStockCount > 0
+                      ? 'text-rose-300'
+                      : 'text-emerald-300',
+                },
+              ].map((metric) => (
+                <div
+                  key={metric.label}
+                  className="rounded-xl border border-slate-800 bg-slate-950/70 p-2.5"
+                >
+                  <span className="block text-[9px] font-bold text-slate-500">
+                    {metric.label}
+                  </span>
+                  <strong className={`mt-1 block text-xs ${metric.tone}`}>
+                    {metric.value}
+                  </strong>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="p-12 text-center text-slate-400">
+              <Loader2 className="mx-auto h-6 w-6 animate-spin text-cyan-400" />
+            </div>
+          ) : filteredInventoryProducts.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-slate-800 bg-slate-900 p-10 text-center">
+              <Boxes className="mx-auto h-9 w-9 text-slate-600" />
+              <p className="mt-2 text-xs font-bold text-slate-300">
+                لا توجد أصناف مطابقة للبحث
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+              {filteredInventoryProducts.map((product) => {
+                const isLowStock =
+                  product.availableQuantity <= product.minStockLevel;
+                const context = productReceiptContext.get(product.id);
+                const supplierNames = context
+                  ? Array.from(context.supplierNames).join('، ')
+                  : 'لا يوجد استلام مسجل';
+                const lastReceipt = context?.lastReceipt;
+                const stockFormat = formatWholesaleInventory(
+                  product.onHandQuantity,
+                  product.unitsPerPackage,
+                  product.purchaseUnitName,
+                  product.baseUnitName
+                );
+                const availableFormat = formatWholesaleInventory(
+                  product.availableQuantity,
+                  product.unitsPerPackage,
+                  product.purchaseUnitName,
+                  product.baseUnitName
+                );
+
+                return (
+                  <article
+                    key={product.id}
+                    className={`space-y-3 rounded-2xl border bg-slate-900 p-4 shadow ${
+                      isLowStock
+                        ? 'border-rose-500/35'
+                        : 'border-slate-800 hover:border-slate-700'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-3 border-b border-slate-800 pb-2">
+                      <div>
+                        <h3 className="text-sm font-extrabold text-slate-100">
+                          {product.nameAr}
+                        </h3>
+                        <p className="mt-0.5 text-[10px] text-slate-500">
+                          SKU: {product.sku}
+                          {product.barcode ? ` · باركود: ${product.barcode}` : ''}
+                        </p>
+                      </div>
+                      <span
+                        className={`rounded-full border px-2.5 py-1 text-[9px] font-extrabold ${
+                          isLowStock
+                            ? 'border-rose-500/30 bg-rose-950/50 text-rose-300'
+                            : 'border-emerald-500/30 bg-emerald-950/40 text-emerald-300'
+                        }`}
+                      >
+                        {isLowStock ? 'قريب من النفاد' : 'المخزون جيد'}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="rounded-xl border border-blue-500/20 bg-blue-950/20 p-2.5">
+                        <span className="block text-[9px] text-slate-500">
+                          الفعلي
+                        </span>
+                        <strong className="mt-1 block text-[11px] text-blue-200">
+                          {stockFormat.fullFormatted}
+                        </strong>
+                      </div>
+                      <div className="rounded-xl border border-amber-500/20 bg-amber-950/15 p-2.5">
+                        <span className="block text-[9px] text-slate-500">
+                          المحجوز
+                        </span>
+                        <strong className="mt-1 block text-[11px] text-amber-300">
+                          {formatWholesaleInventory(
+                            product.reservedQuantity,
+                            product.unitsPerPackage,
+                            product.purchaseUnitName,
+                            product.baseUnitName
+                          ).fullFormatted}
+                        </strong>
+                      </div>
+                      <div className="rounded-xl border border-cyan-500/20 bg-cyan-950/20 p-2.5">
+                        <span className="block text-[9px] text-slate-500">
+                          المتاح للبيع
+                        </span>
+                        <strong className="mt-1 block text-[11px] text-cyan-200">
+                          {availableFormat.fullFormatted}
+                        </strong>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2 text-[10px]">
+                      <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-2">
+                        <span className="text-slate-500">تكلفة الحبة: </span>
+                        <strong className="text-amber-300">
+                          {minorToJod(product.costPriceInMinorUnits)} {CURRENCY}
+                        </strong>
+                        <span className="mt-1 block text-slate-500">
+                          قيمة المخزون بالتكلفة:{' '}
+                          <strong className="text-slate-200">
+                            {minorToJod(
+                              product.onHandQuantity *
+                                product.costPriceInMinorUnits
+                            )}{' '}
+                            {CURRENCY}
+                          </strong>
+                        </span>
+                      </div>
+                      <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-2">
+                        <span className="text-slate-500">سعر بيع الحبة: </span>
+                        <strong className="text-emerald-300">
+                          {minorToJod(product.salePriceInMinorUnits)} {CURRENCY}
+                        </strong>
+                        <span className="mt-1 block text-slate-500">
+                          قيمة البيع المتوقعة:{' '}
+                          <strong className="text-slate-200">
+                            {minorToJod(
+                              product.onHandQuantity *
+                                product.salePriceInMinorUnits
+                            )}{' '}
+                            {CURRENCY}
+                          </strong>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5 rounded-xl border border-slate-800 bg-slate-950/50 p-2.5">
+                      {product.inventoryBalances.length === 0 ? (
+                        <p className="text-[10px] text-slate-500">
+                          لا يوجد رصيد في أي مستودع بعد.
+                        </p>
+                      ) : (
+                        product.inventoryBalances.map((balance) => {
+                          const warehouse = warehouses.find(
+                            (item) => item.id === balance.warehouseId
+                          );
+                          return (
+                            <div
+                              key={balance.warehouseId}
+                              className="flex flex-wrap items-center justify-between gap-2 text-[10px]"
+                            >
+                              <span className="font-bold text-slate-300">
+                                {warehouse?.nameAr || 'مستودع غير معروف'}
+                              </span>
+                              <span className="text-slate-500">
+                                فعلي{' '}
+                                <strong className="text-blue-300">
+                                  {balance.onHandQuantity}
+                                </strong>{' '}
+                                · محجوز{' '}
+                                <strong className="text-amber-300">
+                                  {balance.reservedQuantity}
+                                </strong>{' '}
+                                · متاح{' '}
+                                <strong className="text-cyan-300">
+                                  {balance.availableQuantity}
+                                </strong>
+                              </span>
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] text-slate-500">
+                      <span>
+                        الموردون في سجل الاستلام:{' '}
+                        <strong className="text-slate-300">{supplierNames}</strong>
+                      </span>
+                      <span>
+                        حد التنبيه:{' '}
+                        <strong className="text-rose-300">
+                          {product.minStockLevel} {product.baseUnitName}
+                        </strong>
+                        {lastReceipt
+                          ? ` · آخر استلام ${new Date(
+                              lastReceipt.receivedAt
+                            ).toLocaleDateString('ar-JO')}`
+                          : ''}
+                      </span>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
 
@@ -439,7 +825,9 @@ export const DirectReceivingView: React.FC = () => {
       )}
 
       {/* Primary Receipts List Cards */}
-      {activeTab !== 'suppliers' && activeTab !== 'old_history' && (
+      {activeTab !== 'suppliers' &&
+        activeTab !== 'inventory' &&
+        activeTab !== 'old_history' && (
         <div className="space-y-3">
           {loading ? (
             <div className="p-12 text-center text-slate-400 space-y-2">
@@ -464,6 +852,7 @@ export const DirectReceivingView: React.FC = () => {
               {filteredReceipts.map((r) => {
                 const isPaid = r.paymentStatus === 'paid';
                 const isPartial = r.paymentStatus === 'partially_paid';
+                const isCancelled = r.status === 'cancelled';
 
                 return (
                   <div
@@ -483,14 +872,22 @@ export const DirectReceivingView: React.FC = () => {
 
                       <span
                         className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${
-                          isPaid
+                          isCancelled
+                            ? 'bg-rose-500/20 text-rose-300 border-rose-500/30'
+                            : isPaid
                             ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
                             : isPartial
                             ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
                             : 'bg-rose-500/20 text-rose-300 border-rose-500/30'
                         }`}
                       >
-                        {isPaid ? 'مدفوع' : isPartial ? 'مدفوع جزئياً' : 'غير مدفوع'}
+                        {isCancelled
+                          ? 'ملغى ومعكوس'
+                          : isPaid
+                          ? 'مدفوع'
+                          : isPartial
+                          ? 'مدفوع جزئياً'
+                          : 'غير مدفوع'}
                       </span>
                     </div>
 
@@ -548,15 +945,29 @@ export const DirectReceivingView: React.FC = () => {
                         <span>عرض التفاصيل</span>
                       </button>
 
-                      {r.amountDueInMinorUnits > 0 && (
-                        <button
-                          onClick={() => setPaymentModalReceipt(r)}
-                          className="bg-emerald-600/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-600/30 px-3 py-1.5 rounded-xl text-[11px] font-bold transition flex items-center gap-1"
-                        >
-                          <DollarSign className="w-3.5 h-3.5 text-emerald-400" />
-                          <span>سداد دفعة</span>
-                        </button>
-                      )}
+                      <div className="flex items-center gap-1">
+                        {r.status === 'completed' && (
+                          <button
+                            onClick={() => setCancellationReceipt(r)}
+                            className="flex items-center gap-1 rounded-xl border border-rose-500/30 bg-rose-600/15 px-2.5 py-1.5 text-[10px] font-bold text-rose-300 transition hover:bg-rose-600/25"
+                            title="إلغاء السند وعكس المخزون"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                            <span>حذف</span>
+                          </button>
+                        )}
+
+                        {r.status === 'completed' &&
+                          r.amountDueInMinorUnits > 0 && (
+                            <button
+                              onClick={() => setPaymentModalReceipt(r)}
+                              className="bg-emerald-600/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-600/30 px-3 py-1.5 rounded-xl text-[11px] font-bold transition flex items-center gap-1"
+                            >
+                              <DollarSign className="w-3.5 h-3.5 text-emerald-400" />
+                              <span>سداد دفعة</span>
+                            </button>
+                          )}
+                      </div>
                     </div>
                   </div>
                 );
@@ -580,6 +991,27 @@ export const DirectReceivingView: React.FC = () => {
           />
         </Modal>
       )}
+
+      <CreateSupplierModal
+        isOpen={showSupplierModal}
+        onClose={() => setShowSupplierModal(false)}
+        onSuccess={(supplier) => {
+          setSuppliers((current) => {
+            const next = current.filter((item) => item.id !== supplier.id);
+            return [...next, supplier].sort((a, b) =>
+              a.companyName.localeCompare(b.companyName, 'ar')
+            );
+          });
+          setShowSupplierModal(false);
+          loadData(true);
+        }}
+      />
+
+      <CancelSupplierReceiptDialog
+        receipt={cancellationReceipt}
+        onClose={() => setCancellationReceipt(null)}
+        onSuccess={() => loadData()}
+      />
 
       {/* Standalone Record Payment Modal */}
       {paymentModalReceipt && (

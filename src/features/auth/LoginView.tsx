@@ -1,9 +1,29 @@
 import React, { useState } from 'react';
 import { useAuthStore } from '../../stores/useAuthStore';
-import { Lock, Mail, Eye, EyeOff, ShieldCheck, LogIn, Loader2, Building2 } from 'lucide-react';
+import { SUPABASE_PUBLIC_CONFIG } from '../../config/supabase-public-config';
+import { TurnstileWidget } from './TurnstileWidget';
+import {
+  Lock,
+  Mail,
+  Eye,
+  EyeOff,
+  ShieldCheck,
+  LogIn,
+  Loader2,
+  Building2,
+  Smartphone,
+  ArrowRight,
+} from 'lucide-react';
 
 export const LoginView: React.FC = () => {
-  const { signIn, authError, clearError } = useAuthStore();
+  const {
+    signIn,
+    verifyMfa,
+    cancelMfa,
+    mfaRequired,
+    authError,
+    clearError,
+  } = useAuthStore();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,6 +31,9 @@ export const LoginView: React.FC = () => {
   const [rememberMe, setRememberMe] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
+  const [mfaCode, setMfaCode] = useState('');
+  const [captchaToken, setCaptchaToken] = useState('');
+  const [captchaResetKey, setCaptchaResetKey] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,10 +50,15 @@ export const LoginView: React.FC = () => {
       return;
     }
 
+    if (!captchaToken) {
+      setLocalError('أكمل التحقق البشري الآمن قبل تسجيل الدخول.');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      const res = await signIn(email, password);
+      const res = await signIn(email, password, captchaToken);
       if (!res.success) {
         setLocalError(res.error || 'تعذر تسجيل الدخول. تحقق من البيانات المدخلة.');
       }
@@ -39,6 +67,40 @@ export const LoginView: React.FC = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleMfaSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLocalError(null);
+    clearError();
+
+    if (!/^\d{6}$/.test(mfaCode)) {
+      setLocalError('أدخل الرمز المكوّن من 6 أرقام من تطبيق المصادقة.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const result = await verifyMfa(mfaCode);
+      if (!result.success) {
+        setLocalError(result.error || 'تعذر التحقق من الرمز.');
+      }
+    } catch {
+      setLocalError('تعذر الاتصال بخادم المصادقة. حاول مرة أخرى.');
+    } finally {
+      setCaptchaToken('');
+      setCaptchaResetKey((current) => current + 1);
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleMfaBack = async () => {
+    setIsSubmitting(true);
+    setMfaCode('');
+    setLocalError(null);
+    clearError();
+    await cancelMfa();
+    setIsSubmitting(false);
   };
 
   const displayError = localError || authError;
@@ -65,7 +127,7 @@ export const LoginView: React.FC = () => {
           <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
             <span className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-blue-400" />
-              <span>تسجيل الدخول للنظام</span>
+              <span>{mfaRequired ? 'التحقق بخطوتين' : 'تسجيل الدخول للنظام'}</span>
             </span>
             <span className="text-[10px] bg-blue-950/80 text-blue-300 font-mono font-bold px-2 py-0.5 rounded-full border border-blue-800/60">
               Supabase Auth
@@ -83,6 +145,62 @@ export const LoginView: React.FC = () => {
             </div>
           )}
 
+          {mfaRequired ? (
+            <form onSubmit={handleMfaSubmit} className="space-y-4">
+              <div className="rounded-2xl border border-blue-800/70 bg-blue-950/40 p-4 text-center space-y-2">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600/20 text-blue-300">
+                  <Smartphone className="h-6 w-6" />
+                </div>
+                <h2 className="text-sm font-black text-white">أكد دخولك من تطبيق المصادقة</h2>
+                <p className="text-[11px] leading-relaxed text-slate-400">
+                  افتح Google Authenticator أو Microsoft Authenticator وأدخل الرمز الحالي.
+                </p>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="block text-xs font-bold text-slate-300">
+                  رمز التحقق المكوّن من 6 أرقام
+                </label>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  value={mfaCode}
+                  onChange={(event) =>
+                    setMfaCode(event.target.value.replace(/\D/g, '').slice(0, 6))
+                  }
+                  disabled={isSubmitting}
+                  placeholder="000000"
+                  dir="ltr"
+                  autoFocus
+                  className="w-full rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-center font-mono text-2xl font-black tracking-[0.35em] text-slate-100 placeholder:text-slate-700 focus:border-blue-500 focus:outline-none disabled:opacity-50"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting || mfaCode.length !== 6}
+                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 py-3 text-xs font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-500 disabled:opacity-50"
+              >
+                {isSubmitting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <ShieldCheck className="h-4 w-4" />
+                )}
+                <span>{isSubmitting ? 'جاري التحقق...' : 'تأكيد الرمز والدخول'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => void handleMfaBack()}
+                disabled={isSubmitting}
+                className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-700 bg-slate-800/70 py-2.5 text-xs font-bold text-slate-300 transition hover:bg-slate-800 disabled:opacity-50"
+              >
+                <ArrowRight className="h-4 w-4" />
+                <span>الرجوع إلى البريد وكلمة المرور</span>
+              </button>
+            </form>
+          ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email Field */}
             <div className="space-y-1.5">
@@ -144,10 +262,26 @@ export const LoginView: React.FC = () => {
               </label>
             </div>
 
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between text-[10px] font-bold text-slate-400">
+                <span>التحقق البشري الآمن</span>
+                {captchaToken && <span className="text-emerald-400">تم التحقق ✓</span>}
+              </div>
+              <TurnstileWidget
+                siteKey={SUPABASE_PUBLIC_CONFIG.TURNSTILE_SITE_KEY}
+                resetKey={captchaResetKey}
+                onVerify={(token) => {
+                  setCaptchaToken(token);
+                  if (token) setLocalError(null);
+                }}
+                onUnavailable={(message) => setLocalError(message)}
+              />
+            </div>
+
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !captchaToken}
               className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-2xl shadow-lg shadow-blue-600/30 transition active:scale-98 flex items-center justify-center gap-2 disabled:opacity-50 text-xs"
             >
               {isSubmitting ? (
@@ -163,6 +297,7 @@ export const LoginView: React.FC = () => {
               )}
             </button>
           </form>
+          )}
         </div>
 
         {/* Footer info */}

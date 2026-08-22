@@ -1,8 +1,3 @@
-/**
- * Nawasrah Business Manager - Enterprise CRM Service (Supabase Integration)
- * Realtime Supabase data fetch, filtering, sorting, pagination, and customer operations.
- */
-
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import {
   CrmCustomer,
@@ -13,597 +8,515 @@ import {
   CrmCustomerStats,
   CustomerTag,
 } from '../../types/crm';
+import {
+  calculateOrderAmountDue,
+  isOperationalOrderSource,
+} from '../../utils/orderCalculations';
 
-/**
- * Fetch list of customers from Supabase with search, filters, sorting & pagination
- */
+type RawCustomer = Record<string, any>;
+type RawOrder = Record<string, any>;
+
+function mapAddress(address: Record<string, any>): CrmCustomerAddress {
+  const latitude =
+    address.latitude === null || address.latitude === undefined
+      ? undefined
+      : Number(address.latitude);
+  const longitude =
+    address.longitude === null || address.longitude === undefined
+      ? undefined
+      : Number(address.longitude);
+  const hasCoordinates =
+    Number.isFinite(latitude) && Number.isFinite(longitude);
+
+  return {
+    id: address.id,
+    customerId: address.customer_id,
+    governorate: address.governorate || '',
+    city: address.city || '',
+    area: address.area || '',
+    street: address.street || '',
+    building: address.building || undefined,
+    floor: address.floor || undefined,
+    apartment: address.apartment || undefined,
+    notes: address.notes || undefined,
+    latitude: hasCoordinates ? latitude : undefined,
+    longitude: hasCoordinates ? longitude : undefined,
+    formattedAddress: address.formatted_address || undefined,
+    googleMapsUrl: address.google_maps_url || undefined,
+    locationSource: address.location_source || 'manual',
+    locationConfirmed: Boolean(address.location_confirmed),
+    isDefault: Boolean(address.is_default),
+    createdAt: address.created_at,
+  };
+}
+
+function deriveCustomerStatus(customer: RawCustomer) {
+  const isBlocked = Boolean(customer.is_blocked);
+  const isActive = customer.is_active !== false && !isBlocked;
+  const isVip = Boolean(customer.is_vip);
+
+  return {
+    isBlocked,
+    isActive,
+    isVip,
+    status: isBlocked
+      ? ('blocked' as const)
+      : isVip
+      ? ('vip' as const)
+      : isActive
+      ? ('active' as const)
+      : ('inactive' as const),
+  };
+}
+
+function deriveCustomerTags(
+  customer: RawCustomer,
+  totalSpending: number
+): CustomerTag[] {
+  const tags: CustomerTag[] = [];
+  if (customer.is_vip || totalSpending >= 500) tags.push('VIP');
+  tags.push(customer.customer_type === 'wholesale' ? 'Wholesale' : 'Retail');
+
+  const createdAt = new Date(customer.created_at || 0).getTime();
+  if (createdAt && Date.now() - createdAt < 30 * 24 * 60 * 60 * 1000) {
+    tags.push('New Customer');
+  }
+  return tags;
+}
+
+function buildCustomer(
+  customer: RawCustomer,
+  orders: RawOrder[],
+  addresses: CrmCustomerAddress[]
+): CrmCustomer {
+  const completedOrders = orders.filter((order) =>
+    ['completed', 'delivered'].includes(order.status)
+  );
+  const totalSpending = completedOrders.reduce(
+    (sum, order) =>
+      sum + Number(order.total_in_minor_units || 0) / 1000,
+    0
+  );
+  const currentBalance = completedOrders.reduce((sum, order) => {
+    const total = Number(order.total_in_minor_units || 0) / 1000;
+    const paid = Number(order.amount_paid_in_minor_units || 0) / 1000;
+    return sum + calculateOrderAmountDue(total, paid);
+  }, 0);
+  const state = deriveCustomerStatus(customer);
+
+  return {
+    id: customer.id,
+    fullName: customer.full_name || 'عميل بدون اسم',
+    phone: customer.phone || '',
+    email: customer.email || '',
+    governorate:
+      customer.governorate || addresses[0]?.governorate || 'غير محدد',
+    ...state,
+    isDeleted: Boolean(customer.is_deleted),
+    tags: deriveCustomerTags(customer, totalSpending),
+    notes: customer.notes || '',
+    whatsapp: customer.whatsapp || customer.phone || undefined,
+    creditLimit:
+      Number(customer.credit_limit_in_minor_units || 0) / 1000,
+    currentBalance: Number(currentBalance.toFixed(3)),
+    customerType:
+      customer.customer_type === 'wholesale' ? 'wholesale' : 'retail',
+    createdAt: customer.created_at,
+    updatedAt: customer.updated_at,
+    totalOrdersCount: orders.length,
+    totalSpending: Number(totalSpending.toFixed(3)),
+    addresses,
+  };
+}
+
 export async function fetchCustomersCrmFromSupabase(
   params: CrmCustomerFilterParams
 ): Promise<CrmCustomerResponse> {
   const page = params.page && params.page > 0 ? params.page : 1;
-  const pageSize = params.pageSize && params.pageSize > 0 ? params.pageSize : 10;
+  const pageSize =
+    params.pageSize && params.pageSize > 0 ? params.pageSize : 10;
   const searchQuery = params.searchQuery?.trim().toLowerCase() || '';
   const statusFilter = params.statusFilter || 'all';
   const sortBy = params.sortBy || 'latest';
 
+  const failure = (error: string): CrmCustomerResponse => ({
+    success: false,
+    customers: [],
+    totalCount: 0,
+    page,
+    pageSize,
+    totalPages: 0,
+    error,
+  });
+
   if (!isSupabaseConfigured || !supabase) {
-    return {
-      success: false,
-      customers: [],
-      totalCount: 0,
-      page,
-      pageSize,
-      totalPages: 0,
-      error: 'لم يتم إعداد الاتصال بقاعدة بيانات Supabase بنجاح.',
-    };
+    return failure('لم يتم إعداد الاتصال بقاعدة بيانات Supabase بنجاح.');
   }
 
   try {
-    // 1. Fetch raw customers and related orders
-    const [customersRes, ordersRes, addressesRes] = await Promise.all([
-      supabase
-        .from('customers')
-        .select('*')
-        .order('created_at', { ascending: false }),
-      supabase
-        .from('orders')
-        .select('id, customer_id, total_in_minor_units, status, created_at, order_items(id)'),
-      supabase
-        .from('customer_addresses')
-        .select('*'),
-    ]);
+    const [customersResult, ordersResult, addressesResult] =
+      await Promise.all([
+        supabase
+          .from('customers')
+          .select('*')
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('orders')
+          .select(
+            'id, customer_id, total_in_minor_units, amount_paid_in_minor_units, status, source, created_at'
+          ),
+        supabase.from('customer_addresses').select('*'),
+      ]);
 
-    if (customersRes.error) {
-      console.error('[fetchCustomersCrm] Supabase customer query error:', customersRes.error);
-      return {
-        success: false,
-        customers: [],
-        totalCount: 0,
-        page,
-        pageSize,
-        totalPages: 0,
-        error: customersRes.error.message,
-      };
-    }
+    const queryError =
+      customersResult.error || ordersResult.error || addressesResult.error;
+    if (queryError) return failure(queryError.message);
 
-    const rawCustomers = customersRes.data || [];
-    const rawOrders = ordersRes.data || [];
-    const rawAddresses = addressesRes.data || [];
-
-    // Map orders by customer ID for spending & order count metrics
-    const customerOrdersMap = new Map<string, any[]>();
-    rawOrders.forEach((o: any) => {
-      const cId = o.customer_id;
-      if (cId) {
-        if (!customerOrdersMap.has(cId)) customerOrdersMap.set(cId, []);
-        customerOrdersMap.get(cId)!.push(o);
-      }
+    const operationalOrders = (ordersResult.data || []).filter((order) =>
+      isOperationalOrderSource(order.source)
+    );
+    const ordersByCustomer = new Map<string, RawOrder[]>();
+    operationalOrders.forEach((order) => {
+      if (!order.customer_id) return;
+      const list = ordersByCustomer.get(order.customer_id) || [];
+      list.push(order);
+      ordersByCustomer.set(order.customer_id, list);
     });
 
-    // Map addresses by customer ID
-    const customerAddressesMap = new Map<string, CrmCustomerAddress[]>();
-    rawAddresses.forEach((addr: any) => {
-      const cId = addr.customer_id;
-      if (cId) {
-        if (!customerAddressesMap.has(cId)) customerAddressesMap.set(cId, []);
-        customerAddressesMap.get(cId)!.push({
-          id: addr.id,
-          customerId: addr.customer_id,
-          governorate: addr.governorate || 'عمان',
-          city: addr.city || 'عمان',
-          area: addr.area || '',
-          street: addr.street || '',
-          building: addr.building || '',
-          floor: addr.floor || '',
-          apartment: addr.apartment || '',
-          notes: addr.notes || '',
-          latitude: addr.latitude || 31.9539,
-          longitude: addr.longitude || 35.9106,
-          formattedAddress: addr.formatted_address || `${addr.governorate || ''} ${addr.area || ''}`,
-          googleMapsUrl:
-            addr.google_maps_url ||
-            (addr.latitude && addr.longitude
-              ? `https://maps.google.com/?q=${addr.latitude},${addr.longitude}`
-              : `https://maps.google.com/?q=Amman`),
-          locationSource: addr.location_source || 'manual',
-          locationConfirmed: Boolean(addr.location_confirmed),
-          isDefault: Boolean(addr.is_default),
-        });
-      }
+    const addressesByCustomer = new Map<string, CrmCustomerAddress[]>();
+    (addressesResult.data || []).forEach((address) => {
+      const list = addressesByCustomer.get(address.customer_id) || [];
+      list.push(mapAddress(address));
+      addressesByCustomer.set(address.customer_id, list);
     });
 
-    // Transform raw customers to CrmCustomer
-    let transformed: CrmCustomer[] = rawCustomers.map((c: any) => {
-      const cOrders = customerOrdersMap.get(c.id) || [];
-      const cAddresses = customerAddressesMap.get(c.id) || [];
+    let customers = (customersResult.data || [])
+      .map((customer) =>
+        buildCustomer(
+          customer,
+          ordersByCustomer.get(customer.id) || [],
+          addressesByCustomer.get(customer.id) || []
+        )
+      )
+      .filter((customer) => !customer.isDeleted);
 
-      // Calculate total spending & total orders
-      let totalSpent = 0;
-      let orderCount = cOrders.length;
-
-      cOrders.forEach((ord: any) => {
-        if (ord.status !== 'cancelled') {
-          totalSpent += (Number(ord.total_in_minor_units) || 0) / 1000;
-        }
-      });
-
-      // Tags derivation
-      const tags: CustomerTag[] = [];
-      if (c.is_vip || c.status === 'vip' || totalSpent > 500) tags.push('VIP');
-      if (c.customer_type === 'wholesale') tags.push('Wholesale');
-      else tags.push('Retail');
-
-      const createdAt = c.created_at || new Date().toISOString();
-      const isNew = new Date().getTime() - new Date(createdAt).getTime() < 30 * 24 * 60 * 60 * 1000;
-      if (isNew) tags.push('New Customer');
-
-      const isBlocked = Boolean(c.is_blocked || c.status === 'blocked');
-      const isActive = c.is_active !== undefined ? Boolean(c.is_active) : !isBlocked;
-      const isVip = Boolean(c.is_vip || c.status === 'vip');
-
-      let status: 'active' | 'inactive' | 'blocked' | 'vip' = 'active';
-      if (isBlocked) status = 'blocked';
-      else if (isVip) status = 'vip';
-      else if (!isActive) status = 'inactive';
-
-      return {
-        id: c.id,
-        fullName: c.full_name || c.name || 'عميل بدون اسم',
-        phone: c.phone || '0790000000',
-        email: c.email || '',
-        governorate: c.governorate || (cAddresses[0]?.governorate) || 'عمان',
-        status,
-        isActive,
-        isVip,
-        isBlocked,
-        isDeleted: Boolean(c.is_deleted),
-        tags,
-        notes: c.notes || c.internal_notes || '',
-        whatsapp: c.whatsapp || c.phone || '0790000000',
-        creditLimit: Number(c.credit_limit) || 0,
-        currentBalance: Number(c.current_balance) || 0,
-        customerType: c.customer_type === 'wholesale' ? 'wholesale' : 'retail',
-        createdAt,
-        updatedAt: c.updated_at,
-        totalOrdersCount: orderCount,
-        totalSpending: totalSpent,
-        addresses: cAddresses,
-      };
-    });
-
-    // 2. Exclude soft-deleted items unless requested
-    transformed = transformed.filter((c) => !c.isDeleted);
-
-    // 3. Search Filter (by Name, Phone, Email)
     if (searchQuery) {
-      transformed = transformed.filter(
-        (c) =>
-          c.fullName.toLowerCase().includes(searchQuery) ||
-          c.phone.toLowerCase().includes(searchQuery) ||
-          c.email.toLowerCase().includes(searchQuery)
+      customers = customers.filter((customer) =>
+        [customer.fullName, customer.phone, customer.email].some((value) =>
+          value.toLowerCase().includes(searchQuery)
+        )
       );
     }
 
-    // 4. Status / Segment Filter (VIP, Active, Inactive, Blocked)
     if (statusFilter !== 'all') {
-      if (statusFilter === 'vip') {
-        transformed = transformed.filter((c) => c.isVip || c.status === 'vip');
-      } else if (statusFilter === 'active') {
-        transformed = transformed.filter((c) => c.isActive && !c.isBlocked);
-      } else if (statusFilter === 'inactive') {
-        transformed = transformed.filter((c) => !c.isActive && !c.isBlocked);
-      } else if (statusFilter === 'blocked') {
-        transformed = transformed.filter((c) => c.isBlocked || c.status === 'blocked');
-      }
+      customers = customers.filter((customer) => {
+        if (statusFilter === 'vip') return customer.isVip;
+        if (statusFilter === 'active') {
+          return customer.isActive && !customer.isBlocked;
+        }
+        if (statusFilter === 'inactive') {
+          return !customer.isActive && !customer.isBlocked;
+        }
+        return customer.isBlocked;
+      });
     }
 
-    // 5. Sorting (Latest, Highest Spending, Most Orders)
-    if (sortBy === 'latest') {
-      transformed.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    } else if (sortBy === 'highest_spending') {
-      transformed.sort((a, b) => b.totalSpending - a.totalSpending);
+    if (sortBy === 'highest_spending') {
+      customers.sort((a, b) => b.totalSpending - a.totalSpending);
     } else if (sortBy === 'most_orders') {
-      transformed.sort((a, b) => b.totalOrdersCount - a.totalOrdersCount);
+      customers.sort((a, b) => b.totalOrdersCount - a.totalOrdersCount);
+    } else {
+      customers.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
     }
 
-    // 6. Pagination
-    const totalCount = transformed.length;
-    const totalPages = Math.ceil(totalCount / pageSize) || 1;
-    const startIndex = (page - 1) * pageSize;
-    const paginatedCustomers = transformed.slice(startIndex, startIndex + pageSize);
+    const totalCount = customers.length;
+    const totalPages = Math.max(Math.ceil(totalCount / pageSize), 1);
+    const start = (page - 1) * pageSize;
 
     return {
       success: true,
-      customers: paginatedCustomers,
+      customers: customers.slice(start, start + pageSize),
       totalCount,
       page,
       pageSize,
       totalPages,
     };
-  } catch (err: any) {
-    console.error('[fetchCustomersCrmFromSupabase Exception]:', err);
-    return {
-      success: false,
-      customers: [],
-      totalCount: 0,
-      page,
-      pageSize,
-      totalPages: 0,
-      error: err.message || 'حدث خطأ في جلب بيانات العملاء.',
-    };
+  } catch (error: any) {
+    return failure(error?.message || 'تعذر جلب بيانات العملاء.');
   }
 }
 
-/**
- * Fetch detailed profile, full addresses, statistics and order history timeline for a single customer
- */
 export async function fetchCustomerDetailsCrmFromSupabase(
   customerId: string
 ): Promise<{ success: boolean; customer: CrmCustomer | null; error?: string }> {
   if (!isSupabaseConfigured || !supabase) {
-    return { success: false, customer: null, error: 'Supabase غير مهيأ' };
+    return { success: false, customer: null, error: 'Supabase غير مهيأ.' };
   }
 
   try {
-    const [customerRes, addressesRes, ordersRes] = await Promise.all([
-      supabase.from('customers').select('*').eq('id', customerId).single(),
-      supabase.from('customer_addresses').select('*').eq('customer_id', customerId),
-      supabase
-        .from('orders')
-        .select(`
-          id,
-          order_number,
-          status,
-          total_in_minor_units,
-          created_at,
-          order_items (id)
-        `)
-        .eq('customer_id', customerId)
-        .order('created_at', { ascending: false }),
-    ]);
+    const [customerResult, addressesResult, ordersResult] =
+      await Promise.all([
+        supabase.from('customers').select('*').eq('id', customerId).single(),
+        supabase
+          .from('customer_addresses')
+          .select('*')
+          .eq('customer_id', customerId)
+          .order('is_default', { ascending: false }),
+        supabase
+          .from('orders')
+          .select(
+            'id, order_number, status, payment_status, total_in_minor_units, amount_paid_in_minor_units, source, created_at, order_items(id)'
+          )
+          .eq('customer_id', customerId)
+          .order('created_at', { ascending: false }),
+      ]);
 
-    if (customerRes.error || !customerRes.data) {
-      return { success: false, customer: null, error: customerRes.error?.message || 'العميل غير موجود' };
+    const queryError =
+      customerResult.error || addressesResult.error || ordersResult.error;
+    if (queryError || !customerResult.data) {
+      return {
+        success: false,
+        customer: null,
+        error: queryError?.message || 'العميل غير موجود.',
+      };
     }
 
-    const c = customerRes.data;
-    const rawAddresses = addressesRes.data || [];
-    const rawOrders = ordersRes.data || [];
+    const addresses = (addressesResult.data || []).map(mapAddress);
+    const rawOrders = (ordersResult.data || []).filter((order) =>
+      isOperationalOrderSource(order.source)
+    );
+    const customer = buildCustomer(
+      customerResult.data,
+      rawOrders,
+      addresses
+    );
 
-    // Addresses mapping
-    const addresses: CrmCustomerAddress[] = rawAddresses.map((addr: any) => ({
-      id: addr.id,
-      customerId: addr.customer_id,
-      governorate: addr.governorate || 'عمان',
-      city: addr.city || 'عمان',
-      area: addr.area || '',
-      street: addr.street || '',
-      building: addr.building || '',
-      floor: addr.floor || '',
-      apartment: addr.apartment || '',
-      notes: addr.notes || '',
-      latitude: addr.latitude || 31.9539,
-      longitude: addr.longitude || 35.9106,
-      formattedAddress: addr.formatted_address || `${addr.governorate || ''} ${addr.area || ''}`,
-      googleMapsUrl:
-        addr.google_maps_url ||
-        (addr.latitude && addr.longitude
-          ? `https://maps.google.com/?q=${addr.latitude},${addr.longitude}`
-          : `https://maps.google.com/?q=Amman`),
-      locationSource: addr.location_source || 'manual',
-      locationConfirmed: Boolean(addr.location_confirmed),
-      isDefault: Boolean(addr.is_default),
-    }));
-
-    // Order history & Statistics
-    let totalOrders = rawOrders.length;
     let completedOrders = 0;
     let cancelledOrders = 0;
     let totalSpending = 0;
-    let lastOrderDate: string | null = null;
+    let outstandingBalance = 0;
 
-    const orderHistory: CrmCustomerOrderSummary[] = rawOrders.map((o: any) => {
-      const totalJod = (Number(o.total_in_minor_units) || 0) / 1000;
-      const status = o.status || 'new';
+    const orderHistory: CrmCustomerOrderSummary[] = rawOrders.map((order) => {
+      const totalAmount =
+        Number(order.total_in_minor_units || 0) / 1000;
+      const amountPaid =
+        Number(order.amount_paid_in_minor_units || 0) / 1000;
+      const isCompleted = ['completed', 'delivered'].includes(order.status);
+      const amountDue = isCompleted
+        ? calculateOrderAmountDue(totalAmount, amountPaid)
+        : 0;
 
-      if (status === 'completed' || status === 'delivered') {
+      if (isCompleted) {
         completedOrders += 1;
-        totalSpending += totalJod;
-      } else if (status === 'cancelled') {
+        totalSpending += totalAmount;
+        outstandingBalance += amountDue;
+      } else if (order.status === 'cancelled') {
         cancelledOrders += 1;
-      } else {
-        totalSpending += totalJod;
-      }
-
-      if (!lastOrderDate && o.created_at) {
-        lastOrderDate = o.created_at;
       }
 
       return {
-        id: o.id,
-        orderNumber: o.order_number || `ORD-${o.id.substring(0, 6)}`,
-        status,
-        totalAmount: totalJod,
-        itemsCount: Array.isArray(o.order_items) ? o.order_items.length : 1,
-        createdAt: o.created_at,
+        id: order.id,
+        orderNumber: order.order_number,
+        status: order.status,
+        totalAmount,
+        amountPaid,
+        amountDue,
+        paymentStatus: order.payment_status || 'unpaid',
+        source: order.source || 'website',
+        itemsCount: Array.isArray(order.order_items)
+          ? order.order_items.length
+          : 0,
+        createdAt: order.created_at,
       };
     });
 
-    const activeOrdersCount = totalOrders - cancelledOrders;
-    const averageOrderValue = activeOrdersCount > 0 ? Number((totalSpending / activeOrdersCount).toFixed(2)) : 0;
-
     const stats: CrmCustomerStats = {
-      totalOrders,
+      totalOrders: rawOrders.length,
       completedOrders,
       cancelledOrders,
-      totalSpending,
-      averageOrderValue,
-      lastOrderDate,
+      totalSpending: Number(totalSpending.toFixed(3)),
+      outstandingBalance: Number(outstandingBalance.toFixed(3)),
+      averageOrderValue:
+        completedOrders > 0
+          ? Number((totalSpending / completedOrders).toFixed(3))
+          : 0,
+      lastOrderDate: rawOrders[0]?.created_at || null,
     };
 
-    // Derived tags
-    const tags: CustomerTag[] = [];
-    if (c.is_vip || c.status === 'vip' || totalSpending > 500) tags.push('VIP');
-    if (c.customer_type === 'wholesale') tags.push('Wholesale');
-    else tags.push('Retail');
-    if (new Date().getTime() - new Date(c.created_at || Date.now()).getTime() < 30 * 24 * 60 * 60 * 1000) {
-      tags.push('New Customer');
-    }
-
-    const isBlocked = Boolean(c.is_blocked || c.status === 'blocked');
-    const isActive = c.is_active !== undefined ? Boolean(c.is_active) : !isBlocked;
-    const isVip = Boolean(c.is_vip || c.status === 'vip');
-
-    let status: 'active' | 'inactive' | 'blocked' | 'vip' = 'active';
-    if (isBlocked) status = 'blocked';
-    else if (isVip) status = 'vip';
-    else if (!isActive) status = 'inactive';
-
-    const customer: CrmCustomer = {
-      id: c.id,
-      fullName: c.full_name || c.name || 'عميل بدون اسم',
-      phone: c.phone || '0790000000',
-      email: c.email || '',
-      governorate: c.governorate || (addresses[0]?.governorate) || 'عمان',
-      status,
-      isActive,
-      isVip,
-      isBlocked,
-      isDeleted: Boolean(c.is_deleted),
-      tags,
-      notes: c.notes || c.internal_notes || '',
-      whatsapp: c.whatsapp || c.phone || '0790000000',
-      creditLimit: Number(c.credit_limit) || 0,
-      currentBalance: Number(c.current_balance) || 0,
-      customerType: c.customer_type === 'wholesale' ? 'wholesale' : 'retail',
-      createdAt: c.created_at || new Date().toISOString(),
-      updatedAt: c.updated_at,
-      totalOrdersCount: totalOrders,
-      totalSpending,
-      addresses,
-      stats,
-      orderHistory,
-    };
+    customer.currentBalance = stats.outstandingBalance;
+    customer.totalSpending = stats.totalSpending;
+    customer.stats = stats;
+    customer.orderHistory = orderHistory;
 
     return { success: true, customer };
-  } catch (err: any) {
-    console.error('[fetchCustomerDetailsCrmFromSupabase Exception]:', err);
-    return { success: false, customer: null, error: err.message };
+  } catch (error: any) {
+    return {
+      success: false,
+      customer: null,
+      error: error?.message || 'تعذر جلب ملف العميل.',
+    };
   }
 }
 
-/**
- * Edit Customer Profile
- */
+export interface SaveCustomerInput {
+  fullName: string;
+  phone: string;
+  email?: string;
+  governorate?: string;
+  whatsapp?: string;
+  notes?: string;
+  customerType?: 'retail' | 'wholesale';
+}
+
+async function saveCustomerThroughRpc(
+  input: SaveCustomerInput,
+  customerId?: string
+): Promise<{ success: boolean; customerId?: string; error?: string }> {
+  if (!isSupabaseConfigured || !supabase) {
+    return { success: false, error: 'Supabase غير مهيأ.' };
+  }
+
+  try {
+    const { data, error } = await supabase.rpc('save_customer', {
+      p_full_name: input.fullName,
+      p_phone: input.phone,
+      p_customer_id: customerId || null,
+      p_email: input.email || null,
+      p_governorate: input.governorate || null,
+      p_whatsapp: input.whatsapp || null,
+      p_notes: input.notes || null,
+      p_customer_type: input.customerType || 'retail',
+    });
+    if (error) return { success: false, error: error.message };
+    return {
+      success: true,
+      customerId: data?.customer_id || customerId,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error?.message || 'تعذر حفظ بيانات العميل.',
+    };
+  }
+}
+
+export function createCustomerCrmInSupabase(input: SaveCustomerInput) {
+  return saveCustomerThroughRpc(input);
+}
+
 export async function updateCustomerCrmInSupabase(
   customerId: string,
-  updates: {
-    fullName?: string;
-    phone?: string;
-    email?: string;
-    governorate?: string;
-    notes?: string;
-    tags?: CustomerTag[];
-    customerType?: 'retail' | 'wholesale';
-  }
+  updates: SaveCustomerInput
+) {
+  return saveCustomerThroughRpc(updates, customerId);
+}
+
+async function setCustomerStatus(
+  customerId: string,
+  action: 'block' | 'unblock' | 'delete'
 ): Promise<{ success: boolean; error?: string }> {
   if (!isSupabaseConfigured || !supabase) {
-    return { success: false, error: 'Supabase غير مهيأ' };
+    return { success: false, error: 'Supabase غير مهيأ.' };
   }
 
   try {
-    const payload: any = {
-      updated_at: new Date().toISOString(),
+    const { error } = await supabase.rpc('set_customer_status', {
+      p_customer_id: customerId,
+      p_action: action,
+    });
+    return error
+      ? { success: false, error: error.message }
+      : { success: true };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error?.message || 'تعذر تعديل حالة العميل.',
     };
-
-    if (updates.fullName !== undefined) payload.full_name = updates.fullName;
-    if (updates.phone !== undefined) payload.phone = updates.phone;
-    if (updates.email !== undefined) payload.email = updates.email;
-    if (updates.governorate !== undefined) payload.governorate = updates.governorate;
-    if (updates.notes !== undefined) payload.notes = updates.notes;
-    if (updates.customerType !== undefined) payload.customer_type = updates.customerType;
-
-    const { error } = await supabase
-      .from('customers')
-      .update(payload)
-      .eq('id', customerId);
-
-    if (error) {
-      console.error('[updateCustomerCrmInSupabase Error]:', error);
-      return { success: false, error: error.message };
-    }
-
-    return { success: true };
-  } catch (err: any) {
-    return { success: false, error: err.message };
   }
 }
 
-/**
- * Block or Unblock Customer
- */
-export async function toggleCustomerBlockStatusInSupabase(
+export function toggleCustomerBlockStatusInSupabase(
   customerId: string,
   isBlocked: boolean
-): Promise<{ success: boolean; error?: string }> {
-  if (!isSupabaseConfigured || !supabase) {
-    return { success: false, error: 'Supabase غير مهيأ' };
-  }
-
-  try {
-    const { error } = await supabase
-      .from('customers')
-      .update({
-        is_blocked: isBlocked,
-        status: isBlocked ? 'blocked' : 'active',
-        is_active: !isBlocked,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', customerId);
-
-    if (error) {
-      console.error('[toggleCustomerBlockStatusInSupabase Error]:', error);
-      return { success: false, error: error.message };
-    }
-
-    return { success: true };
-  } catch (err: any) {
-    return { success: false, error: err.message };
-  }
+) {
+  return setCustomerStatus(customerId, isBlocked ? 'block' : 'unblock');
 }
 
-/**
- * Soft Delete Customer
- */
-export async function softDeleteCustomerInSupabase(
-  customerId: string
-): Promise<{ success: boolean; error?: string }> {
-  if (!isSupabaseConfigured || !supabase) {
-    return { success: false, error: 'Supabase غير مهيأ' };
-  }
-
-  try {
-    const { error } = await supabase
-      .from('customers')
-      .update({
-        is_deleted: true,
-        is_active: false,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', customerId);
-
-    if (error) {
-      console.error('[softDeleteCustomerInSupabase Error]:', error);
-      return { success: false, error: error.message };
-    }
-
-    return { success: true };
-  } catch (err: any) {
-    return { success: false, error: err.message };
-  }
+export function softDeleteCustomerInSupabase(customerId: string) {
+  return setCustomerStatus(customerId, 'delete');
 }
 
-/**
- * Add New Address to Customer
- */
+export interface CustomerAddressInput {
+  governorate: string;
+  city?: string;
+  area: string;
+  street?: string;
+  building?: string;
+  floor?: string;
+  apartment?: string;
+  notes?: string;
+  latitude?: number;
+  longitude?: number;
+  isDefault?: boolean;
+}
+
 export async function addCustomerAddressInSupabase(
   customerId: string,
-  addressData: {
-    governorate: string;
-    city?: string;
-    area: string;
-    street: string;
-    building?: string;
-    floor?: string;
-    apartment?: string;
-    notes?: string;
-    latitude?: number;
-    longitude?: number;
-  }
-): Promise<{ success: boolean; address?: CrmCustomerAddress; error?: string }> {
+  input: CustomerAddressInput
+): Promise<{ success: boolean; error?: string }> {
   if (!isSupabaseConfigured || !supabase) {
-    return { success: false, error: 'Supabase غير مهيأ' };
+    return { success: false, error: 'Supabase غير مهيأ.' };
   }
 
   try {
-    const lat = addressData.latitude || 31.9539;
-    const lng = addressData.longitude || 35.9106;
-    const formattedAddress = `${addressData.governorate} - ${addressData.area} - ${addressData.street}`;
-    const mapsUrl = `https://maps.google.com/?q=${lat},${lng}`;
-
-    const { data, error } = await supabase
-      .from('customer_addresses')
-      .insert({
-        customer_id: customerId,
-        governorate: addressData.governorate,
-        city: addressData.city || addressData.governorate,
-        area: addressData.area,
-        street: addressData.street,
-        building: addressData.building || '',
-        floor: addressData.floor || '',
-        apartment: addressData.apartment || '',
-        notes: addressData.notes || '',
-        latitude: lat,
-        longitude: lng,
-        formatted_address: formattedAddress,
-        google_maps_url: mapsUrl,
-        location_source: 'gps',
-        location_confirmed: true,
-        is_default: false,
-      })
-      .select('*')
-      .single();
-
-    if (error) {
-      console.error('[addCustomerAddressInSupabase Error]:', error);
-      return { success: false, error: error.message };
-    }
-
-    const createdAddress: CrmCustomerAddress = {
-      id: data.id,
-      customerId: data.customer_id,
-      governorate: data.governorate,
-      city: data.city,
-      area: data.area,
-      street: data.street,
-      building: data.building,
-      floor: data.floor,
-      apartment: data.apartment,
-      notes: data.notes,
-      latitude: data.latitude,
-      longitude: data.longitude,
-      formattedAddress: data.formatted_address,
-      googleMapsUrl: data.google_maps_url,
-      locationSource: 'gps',
-      locationConfirmed: true,
-      isDefault: false,
+    const { error } = await supabase.rpc('add_customer_address', {
+      p_customer_id: customerId,
+      p_governorate: input.governorate,
+      p_city: input.city || null,
+      p_area: input.area,
+      p_street: input.street || null,
+      p_building: input.building || null,
+      p_floor: input.floor || null,
+      p_apartment: input.apartment || null,
+      p_notes: input.notes || null,
+      p_latitude: input.latitude ?? null,
+      p_longitude: input.longitude ?? null,
+      p_is_default: Boolean(input.isDefault),
+    });
+    return error
+      ? { success: false, error: error.message }
+      : { success: true };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error?.message || 'تعذر إضافة عنوان العميل.',
     };
-
-    return { success: true, address: createdAddress };
-  } catch (err: any) {
-    return { success: false, error: err.message };
   }
 }
 
-/**
- * Subscribe to Supabase Realtime changes for customers & addresses
- */
 export function subscribeToCrmRealtime(onChange: () => void): () => void {
-  if (!isSupabaseConfigured || !supabase) {
-    return () => {};
-  }
+  if (!isSupabaseConfigured || !supabase) return () => {};
 
   const channel = supabase
-    .channel('crm_realtime_changes')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'customers' }, () => {
-      onChange();
-    })
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'customer_addresses' }, () => {
-      onChange();
-    })
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
-      onChange();
-    })
+    .channel(`crm-realtime-${crypto.randomUUID()}`)
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'customers' },
+      onChange
+    )
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'customer_addresses' },
+      onChange
+    )
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'orders' },
+      onChange
+    )
     .subscribe();
 
   return () => {

@@ -1,0 +1,53 @@
+export interface CatalogProduct {
+  id: string;
+  sku: string;
+  barcode: string;
+  nameAr: string;
+  description: string;
+  categoryId: string;
+  categoryCode: string;
+  categoryNameAr: string;
+  brandId: string;
+  brandNameAr: string;
+  unitId: string;
+  unitNameAr: string;
+  saleUnitId: string;
+  saleUnitNameAr: string;
+  unitsPerSalePackage: number;
+  salePackagePriceInMinorUnits: number;
+  availableQuantity: number;
+  availableSalePackages: number;
+  minimumOrderPackages: number;
+  imageUrl: string;
+  isAvailable: boolean;
+  createdAt: string;
+  soldPackagesLast90Days: number;
+}
+
+export interface CatalogCategory {
+  id: string;
+  code: string;
+  nameAr: string;
+  productCount: number;
+  availableProductCount: number;
+}
+
+export interface CatalogResponse {
+  items: CatalogProduct[];
+  categories: CatalogCategory[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
+export interface CartItem {
+  productId: string;
+  sku: string;
+  nameAr: string;
+  imageUrl: string;
+  saleUnitNameAr: string;
+  unitsPerSalePackage: number;
+  unitPriceInMinorUnits: number;
+  quantity: number;
+  maxAvailablePackages: number;
+}

@@ -5,14 +5,12 @@
 import React from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import {
-  Plus,
   PlusCircle,
   Receipt,
   Truck,
   DollarSign,
-  ArrowDownLeft,
-  ArrowUpRight,
-  ClipboardList,
+  ChevronLeft,
+  Settings2,
   X,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -22,17 +20,6 @@ export const QuickActionButton: React.FC = () => {
 
   const actions = [
     {
-      id: 'add-product',
-      title: 'إضافة منتج جديد',
-      desc: 'إدخال منتج مع الباركود والأسعار',
-      icon: PlusCircle,
-      color: 'bg-blue-600/20 text-blue-400 border-blue-500/30',
-      handler: () => {
-        toggleQuickAction(false);
-        openModal('add_product');
-      },
-    },
-    {
       id: 'pos-sale',
       title: 'إنشاء فاتورة بيع (POS)',
       desc: 'بيع مباشر سريع مع طباعة الفاتورة',
@@ -40,7 +27,7 @@ export const QuickActionButton: React.FC = () => {
       color: 'bg-emerald-600/20 text-emerald-400 border-emerald-500/30',
       handler: () => {
         toggleQuickAction(false);
-        openModal('pos_sale');
+        setActiveTab('pos');
       },
     },
     {
@@ -66,73 +53,43 @@ export const QuickActionButton: React.FC = () => {
       },
     },
     {
-      id: 'customer-payment',
-      title: 'تسجيل دفعة عميل (سند قبض)',
-      desc: 'تحصيل ديون العميل وتحديث كشف الحساب',
-      icon: ArrowDownLeft,
-      color: 'bg-teal-600/20 text-teal-400 border-teal-500/30',
+      id: 'add-product',
+      title: 'إضافة صنف',
+      desc: 'منتج جديد مع الأسعار والطرد',
+      icon: PlusCircle,
+      color: 'bg-violet-600/20 text-violet-400 border-violet-500/30',
       handler: () => {
         toggleQuickAction(false);
-        openModal('record_customer_payment');
-      },
-    },
-    {
-      id: 'supplier-payment',
-      title: 'تسجيل دفعة مورد (سند صرف)',
-      desc: 'دفع مستحقات الموردين وتوثيق الدفعات',
-      icon: ArrowUpRight,
-      color: 'bg-rose-600/20 text-rose-400 border-rose-500/30',
-      handler: () => {
-        toggleQuickAction(false);
-        openModal('record_supplier_payment');
-      },
-    },
-    {
-      id: 'inventory-count',
-      title: 'تنفيذ جرد وفروقات المخزون',
-      desc: 'جرد كلي أو جزئي ومطابقة الفروقات',
-      icon: ClipboardList,
-      color: 'bg-indigo-600/20 text-indigo-400 border-indigo-500/30',
-      handler: () => {
-        toggleQuickAction(false);
-        setActiveTab('products');
-        openModal('stock_count');
+        openModal('add_product');
       },
     },
   ];
 
   return (
     <>
-      {/* Floating Action Button */}
-      <button
-        onClick={() => toggleQuickAction()}
-        className={`fixed bottom-16 left-6 z-40 w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white shadow-[0_10px_25px_-5px_rgba(16,85,201,0.6)] border border-blue-400/40 flex items-center justify-center transition-transform active:scale-90 ${
-          isQuickActionOpen ? 'rotate-45 bg-red-600' : ''
-        }`}
-        aria-label="إجراءات سريعة"
-      >
-        <Plus className="w-6 h-6 stroke-[2.5]" />
-      </button>
-
       {/* Speed Drawer Modal */}
       <AnimatePresence>
         {isQuickActionOpen && (
-          <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/80 backdrop-blur-md p-4">
+          <div
+            className="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/80 p-3 backdrop-blur-md"
+            onClick={() => toggleQuickAction(false)}
+          >
             <motion.div
               initial={{ y: '100%', opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: '100%', opacity: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-2xl flex flex-col gap-3 max-h-[85vh] overflow-y-auto"
+              onClick={(event) => event.stopPropagation()}
+              className="flex w-full max-w-md flex-col gap-3 rounded-3xl border border-slate-800 bg-slate-900 p-4 shadow-2xl"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold">
                     +
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-slate-100">إجراءات عملية سريعة</h3>
-                    <p className="text-[11px] text-slate-400">اختر العملية المطلوبة للتنفيذ الفوري</p>
+                    <h3 className="text-sm font-black text-slate-100">عملية جديدة</h3>
+                    <p className="text-[10px] text-slate-400">أكثر 4 عمليات استخداماً</p>
                   </div>
                 </div>
                 <button
@@ -143,28 +100,40 @@ export const QuickActionButton: React.FC = () => {
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 gap-2 pt-1">
+              <div className="grid grid-cols-2 gap-2 pt-1">
                 {actions.map((act) => {
                   const Icon = act.icon;
                   return (
                     <button
                       key={act.id}
                       onClick={act.handler}
-                      className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 text-right transition group active:scale-98"
+                      className="group rounded-2xl border border-slate-700/60 bg-slate-800/60 p-3 text-right transition hover:bg-slate-800 active:scale-[0.98]"
                     >
-                      <div className={`w-10 h-10 rounded-2xl border flex items-center justify-center shrink-0 ${act.color}`}>
+                      <div className={`flex h-9 w-9 items-center justify-center rounded-xl border ${act.color}`}>
                         <Icon className="w-5 h-5" />
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-xs font-bold text-slate-100 group-hover:text-blue-400 transition">
+                      <div className="mt-2 min-w-0">
+                        <h4 className="text-[11px] font-black text-slate-100 transition group-hover:text-blue-400">
                           {act.title}
                         </h4>
-                        <p className="text-[11px] text-slate-400 truncate">{act.desc}</p>
+                        <p className="mt-0.5 truncate text-[9px] text-slate-400">{act.desc}</p>
                       </div>
                     </button>
                   );
                 })}
               </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  toggleQuickAction(false);
+                  setActiveTab('more');
+                }}
+                className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-950/50 px-3 py-2.5 text-[10px] font-bold text-slate-300 transition hover:border-slate-700 hover:text-white"
+              >
+                <span className="flex items-center gap-2"><Settings2 className="h-3.5 w-3.5 text-slate-400" />عمليات وإعدادات أخرى</span>
+                <ChevronLeft className="h-4 w-4 text-slate-500" />
+              </button>
             </motion.div>
           </div>
         )}

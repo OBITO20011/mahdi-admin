@@ -1,6 +1,5 @@
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import { Product } from '../../types';
-import { INITIAL_PRODUCTS } from '../mockData';
 
 export interface CreateProductInput {
   sku: string;
@@ -11,8 +10,13 @@ export interface CreateProductInput {
   brandId?: string;
   unitId?: string;
   unitName?: string;
+  purchasePackage?: string;
+  unitsPerPackage?: number;
+  defaultPurchasePrice?: number;
+  salePackage?: string;
+  unitsPerSalePackage: number;
+  salePackagePrice: number;
   costPrice: number; // in JOD
-  retailPrice: number; // in JOD
   reorderLevel?: number;
   maxStockLevel?: number;
   warehouseId?: string;
@@ -43,6 +47,29 @@ export interface SupabaseRpcResult {
   };
 }
 
+export interface UpdateProductInput {
+  productId: string;
+  sku: string;
+  barcode?: string;
+  nameAr: string;
+  description?: string;
+  categoryId?: string;
+  brandId?: string;
+  unitId?: string;
+  unitName?: string;
+  purchasePackage?: string;
+  unitsPerPackage: number;
+  defaultPurchasePrice: number;
+  salePackage?: string;
+  unitsPerSalePackage: number;
+  salePackagePrice: number;
+  costPrice: number;
+  reorderLevel: number;
+  maxStockLevel?: number;
+  isActive: boolean;
+  imageUrl?: string;
+}
+
 function isValidUuid(id?: string | null): boolean {
   if (!id) return false;
   return /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id.trim());
@@ -50,7 +77,7 @@ function isValidUuid(id?: string | null): boolean {
 
 export async function fetchProductsFromSupabase(): Promise<{
   products: Product[];
-  source: 'supabase' | 'mock';
+  source: 'supabase';
   error?: string;
   errorDetails?: SupabaseFetchError;
   authSessionStatus?: 'authenticated' | 'unauthenticated' | 'error';
@@ -85,7 +112,7 @@ export async function fetchProductsFromSupabase(): Promise<{
 
   try {
     // Query products table
-    const { data: dbProducts, error: prodError, status } = await supabase
+    let productQuery: any = await supabase
       .from('products')
       .select(`
         id,
@@ -96,16 +123,70 @@ export async function fetchProductsFromSupabase(): Promise<{
         category_id,
         brand_id,
         unit_id,
+        purchase_unit_id,
+        units_per_purchase_unit,
+        default_purchase_price_in_minor_units,
+        sale_unit_id,
+        units_per_sale_unit,
+        default_sale_price_in_minor_units,
         cost_price_in_minor_units,
         sale_price_in_minor_units,
+        wholesale_price_in_minor_units,
         min_stock_level,
         max_stock_level,
         is_active,
         created_at,
         updated_at,
-        units ( name_ar )
+        base_unit:units!products_unit_id_fkey ( id, name_ar, code ),
+        purchase_unit:units!products_purchase_unit_id_fkey ( id, name_ar, code ),
+        sale_unit:units!products_sale_unit_id_fkey ( id, name_ar, code )
       `)
       .order('created_at', { ascending: false });
+
+    // Keep reads operational while a newly deployed client waits for migration
+    // 019 to be applied. All writes still require the V2 RPCs.
+    if (
+      productQuery.error &&
+      String(productQuery.error.message || '').includes(
+        'wholesale_price_in_minor_units'
+      )
+    ) {
+      productQuery = await supabase
+        .from('products')
+        .select(`
+          id,
+          sku,
+          barcode,
+          name_ar,
+          description,
+          category_id,
+          brand_id,
+          unit_id,
+          purchase_unit_id,
+          units_per_purchase_unit,
+          default_purchase_price_in_minor_units,
+          sale_unit_id,
+          units_per_sale_unit,
+          default_sale_price_in_minor_units,
+          cost_price_in_minor_units,
+          sale_price_in_minor_units,
+          min_stock_level,
+          max_stock_level,
+          is_active,
+          created_at,
+          updated_at,
+          base_unit:units!products_unit_id_fkey ( id, name_ar, code ),
+          purchase_unit:units!products_purchase_unit_id_fkey ( id, name_ar, code ),
+          sale_unit:units!products_sale_unit_id_fkey ( id, name_ar, code )
+        `)
+        .order('created_at', { ascending: false });
+    }
+
+    const {
+      data: dbProducts,
+      error: prodError,
+      status,
+    } = productQuery;
 
     if (prodError) {
       console.error('[Supabase fetchProducts Error]:', {
@@ -190,14 +271,39 @@ export async function fetchProductsFromSupabase(): Promise<{
     // Convert minor units (fils) to standard JOD (1 JOD = 1000 fils)
     const mappedProducts: Product[] = dbProducts.map((p: any) => {
       const bal = balanceMap[p.id] || { onHand: 0, reserved: 0, available: 0 };
-      const defaultImg =
-        imageMap[p.id] ||
-        'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=400';
+      const defaultImg = imageMap[p.id] || '';
 
       const costInJod = Number(p.cost_price_in_minor_units || 0) / 1000;
       const saleInJod = Number(p.sale_price_in_minor_units || 0) / 1000;
+      const wholesaleInJod =
+        Number(
+          p.wholesale_price_in_minor_units ??
+            p.sale_price_in_minor_units ??
+            0
+        ) / 1000;
 
-      const unitName = (p.units && p.units.name_ar) ? p.units.name_ar : 'قطعة';
+      const baseUnit = Array.isArray(p.base_unit) ? p.base_unit[0] : p.base_unit;
+      const purchaseUnit = Array.isArray(p.purchase_unit)
+        ? p.purchase_unit[0]
+        : p.purchase_unit;
+      const saleUnit = Array.isArray(p.sale_unit)
+        ? p.sale_unit[0]
+        : p.sale_unit;
+      const unitName = baseUnit?.name_ar || 'قطعة';
+      const unitsPerPackage = Math.max(
+        1,
+        Math.floor(Number(p.units_per_purchase_unit) || 1)
+      );
+      const defaultPurchasePrice =
+        Number(p.default_purchase_price_in_minor_units || 0) / 1000 ||
+        costInJod * unitsPerPackage;
+      const unitsPerSalePackage = Math.max(
+        1,
+        Math.floor(Number(p.units_per_sale_unit) || unitsPerPackage)
+      );
+      const salePackagePrice = saleUnit
+        ? Number(p.default_sale_price_in_minor_units || 0) / 1000
+        : 0;
 
       return {
         id: p.id,
@@ -208,15 +314,26 @@ export async function fetchProductsFromSupabase(): Promise<{
         imageUrl: defaultImg,
         categoryId: p.category_id || '',
         brandId: p.brand_id || '',
+        purchaseUnitId: purchaseUnit?.id || p.purchase_unit_id || undefined,
+        purchaseUnitCode: purchaseUnit?.code || undefined,
+        purchasePackage: purchaseUnit?.name_ar || unitName,
+        unitsPerPackage,
+        defaultPurchasePrice,
+        saleUnitId: saleUnit?.id || p.sale_unit_id || undefined,
+        saleUnitCode: saleUnit?.code || undefined,
+        salePackage: saleUnit?.name_ar || undefined,
+        unitsPerSalePackage,
+        salePackagePrice,
         costPrice: costInJod,
         retailPrice: saleInJod,
-        wholesalePrice: saleInJod,
+        wholesalePrice: wholesaleInJod,
         taxRate: 16,
         unit: unitName,
         onHandQuantity: bal.onHand,
         reservedQuantity: bal.reserved,
         availableQuantity: Math.max(0, bal.available),
-        reorderLevel: p.min_stock_level || 5,
+        reorderLevel: p.min_stock_level ?? 0,
+        maxStockLevel: p.max_stock_level ?? undefined,
         warehouseId: bal.warehouseId,
         status: p.is_active ? (bal.available === 0 ? 'out_of_stock' : 'active') : 'hidden',
         createdAt: p.created_at || new Date().toISOString(),
@@ -304,11 +421,36 @@ export async function createProductWithOpeningStockInSupabase(
     }
   }
 
-  let brandIdToUse: string | null = isValidUuid(input.brandId) ? input.brandId! : null;
+  let purchaseUnitIdToUse: string | null = null;
+  if (input.purchasePackage?.trim()) {
+    const { data: purchaseUnits } = await supabase
+      .from('units')
+      .select('id')
+      .eq('name_ar', input.purchasePackage.trim())
+      .limit(1);
+    purchaseUnitIdToUse = purchaseUnits?.[0]?.id || null;
+  }
+  if (!purchaseUnitIdToUse) {
+    purchaseUnitIdToUse = unitIdToUse;
+  }
+
+  let saleUnitIdToUse: string | null = null;
+  if (input.salePackage?.trim()) {
+    const { data: saleUnits } = await supabase
+      .from('units')
+      .select('id')
+      .eq('name_ar', input.salePackage.trim())
+      .limit(1);
+    saleUnitIdToUse = saleUnits?.[0]?.id || null;
+  }
+  saleUnitIdToUse = saleUnitIdToUse || purchaseUnitIdToUse || unitIdToUse;
+
+  const brandIdToUse: string | null = isValidUuid(input.brandId)
+    ? input.brandId!
+    : null;
 
   // 3. Convert prices to minor units (1 JOD = 1000 fils)
   const costMinorUnits = Math.round((Number(input.costPrice) || 0) * 1000);
-  const saleMinorUnits = Math.round((Number(input.retailPrice) || 0) * 1000);
 
   const rpcParams = {
     p_sku: input.sku.trim(),
@@ -318,22 +460,47 @@ export async function createProductWithOpeningStockInSupabase(
     p_category_id: categoryIdToUse,
     p_brand_id: brandIdToUse,
     p_unit_id: unitIdToUse,
+    p_purchase_unit_id: purchaseUnitIdToUse,
+    p_units_per_purchase_unit: Math.max(
+      1,
+      Math.floor(Number(input.unitsPerPackage) || 1)
+    ),
+    p_default_purchase_price_in_minor_units: Math.round(
+      Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000
+    ),
+    p_sale_unit_id: saleUnitIdToUse,
+    p_units_per_sale_unit: Math.max(
+      1,
+      Math.floor(Number(input.unitsPerSalePackage) || 1)
+    ),
+    p_default_sale_price_in_minor_units: Math.round(
+      Math.max(0, Number(input.salePackagePrice) || 0) * 1000
+    ),
     p_cost_price_in_minor_units: costMinorUnits,
-    p_sale_price_in_minor_units: saleMinorUnits,
     p_min_stock_level: Number(input.reorderLevel) || 0,
-    p_max_stock_level: input.maxStockLevel ? Number(input.maxStockLevel) : null,
+    p_max_stock_level:
+      input.maxStockLevel === undefined
+        ? null
+        : Number(input.maxStockLevel),
     p_warehouse_id: warehouseIdToUse,
     p_opening_quantity: Number(input.openingQuantity) || 0,
     p_notes: 'رصيد افتتاحي عند إضافة المنتج عبر التطبيق',
+    p_image_url: input.imageUrl?.trim() || null,
   };
 
-  console.log('[Supabase RPC Calling] create_product_with_opening_stock params:', rpcParams);
+  console.log('[Supabase RPC Calling] create_product_with_opening_stock_v4');
 
   try {
-    const { data: res, error } = await supabase.rpc('create_product_with_opening_stock', rpcParams);
+    const { data: res, error } = await supabase.rpc(
+      'create_product_with_opening_stock_v4',
+      rpcParams
+    );
 
     if (error) {
-      console.error('[Supabase RPC Error] create_product_with_opening_stock failed:', error);
+      console.error(
+        '[Supabase RPC Error] create_product_with_opening_stock_v4 failed:',
+        error
+      );
       return {
         success: false,
         error: error.message,
@@ -396,20 +563,6 @@ export async function createProductWithOpeningStockInSupabase(
       inventory_movements: checkMov,
     });
 
-    // Save image if provided
-    if (createdProdId && input.imageUrl) {
-      try {
-        await supabase.from('product_images').insert({
-          product_id: createdProdId,
-          image_url: input.imageUrl,
-          is_primary: true,
-          display_order: 1,
-        });
-      } catch (imgErr) {
-        console.warn('Failed to insert product_images:', imgErr);
-      }
-    }
-
     return {
       success: true,
       productId: createdProdId,
@@ -423,6 +576,123 @@ export async function createProductWithOpeningStockInSupabase(
       errorDetails: {
         code: 'CLIENT_EXCEPTION',
         message: err?.message || String(err),
+      },
+    };
+  }
+}
+
+export async function updateProductInSupabase(
+  input: UpdateProductInput
+): Promise<SupabaseRpcResult> {
+  if (!isSupabaseConfigured || !supabase) {
+    return {
+      success: false,
+      error: 'تكوين Supabase غير مكتمل في التطبيق.',
+    };
+  }
+
+  try {
+    let unitIdToUse = isValidUuid(input.unitId) ? input.unitId! : null;
+    if (!unitIdToUse && input.unitName?.trim()) {
+      const { data: units, error: unitError } = await supabase
+        .from('units')
+        .select('id')
+        .eq('name_ar', input.unitName.trim())
+        .limit(1);
+      if (unitError) throw unitError;
+      unitIdToUse = units?.[0]?.id || null;
+    }
+
+    let purchaseUnitIdToUse: string | null = null;
+    if (input.purchasePackage?.trim()) {
+      const { data: purchaseUnits, error: purchaseUnitError } = await supabase
+        .from('units')
+        .select('id')
+        .eq('name_ar', input.purchasePackage.trim())
+        .limit(1);
+      if (purchaseUnitError) throw purchaseUnitError;
+      purchaseUnitIdToUse = purchaseUnits?.[0]?.id || null;
+    }
+    purchaseUnitIdToUse = purchaseUnitIdToUse || unitIdToUse;
+
+    let saleUnitIdToUse: string | null = null;
+    if (input.salePackage?.trim()) {
+      const { data: saleUnits, error: saleUnitError } = await supabase
+        .from('units')
+        .select('id')
+        .eq('name_ar', input.salePackage.trim())
+        .limit(1);
+      if (saleUnitError) throw saleUnitError;
+      saleUnitIdToUse = saleUnits?.[0]?.id || null;
+    }
+    saleUnitIdToUse =
+      saleUnitIdToUse || purchaseUnitIdToUse || unitIdToUse;
+
+    const { data, error } = await supabase.rpc('update_product_master_v3', {
+      p_product_id: input.productId,
+      p_sku: input.sku.trim(),
+      p_barcode: input.barcode?.trim() || null,
+      p_name_ar: input.nameAr.trim(),
+      p_description: input.description?.trim() || null,
+      p_category_id: isValidUuid(input.categoryId) ? input.categoryId : null,
+      p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,
+      p_unit_id: unitIdToUse,
+      p_purchase_unit_id: purchaseUnitIdToUse,
+      p_units_per_purchase_unit: Math.max(
+        1,
+        Math.floor(Number(input.unitsPerPackage) || 1)
+      ),
+      p_default_purchase_price_in_minor_units: Math.round(
+        Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000
+      ),
+      p_sale_unit_id: saleUnitIdToUse,
+      p_units_per_sale_unit: Math.max(
+        1,
+        Math.floor(Number(input.unitsPerSalePackage) || 1)
+      ),
+      p_default_sale_price_in_minor_units: Math.round(
+        Math.max(0, Number(input.salePackagePrice) || 0) * 1000
+      ),
+      p_cost_price_in_minor_units: Math.round(
+        Math.max(0, Number(input.costPrice) || 0) * 1000
+      ),
+      p_min_stock_level: Math.max(
+        0,
+        Math.floor(Number(input.reorderLevel) || 0)
+      ),
+      p_max_stock_level:
+        input.maxStockLevel === undefined
+          ? null
+          : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),
+      p_is_active: input.isActive,
+      p_image_url: input.imageUrl?.trim() || null,
+    });
+
+    if (error) {
+      return {
+        success: false,
+        error: error.message,
+        errorDetails: {
+          code: error.code,
+          message: error.message,
+          details: error.details || undefined,
+          hint: error.hint || undefined,
+        },
+      };
+    }
+
+    return {
+      success: Boolean(data?.success),
+      productId: data?.productId || input.productId,
+      message: data?.message || 'تم تحديث المنتج بنجاح.',
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error?.message || 'تعذر تحديث المنتج في Supabase.',
+      errorDetails: {
+        code: error?.code || 'CLIENT_EXCEPTION',
+        message: error?.message || 'تعذر تحديث المنتج في Supabase.',
       },
     };
   }

@@ -1,12 +1,7 @@
-/**
- * Nawasrah Business Manager - Customer Edit Profile Modal
- * Allows updating Full Name, Phone, Email, Governorate, Customer Type, Notes & Status
- */
-
 import React, { useState } from 'react';
-import { CrmCustomer } from '../../types/crm';
+import { Loader2, Save, X } from 'lucide-react';
 import { updateCustomerCrmInSupabase } from '../../services/supabase/crm.service';
-import { UserCheck, X, Save } from 'lucide-react';
+import { CrmCustomer } from '../../types/crm';
 
 interface CustomerEditModalProps {
   customer: CrmCustomer;
@@ -21,168 +16,165 @@ export const CustomerEditModal: React.FC<CustomerEditModalProps> = ({
   onClose,
   onCustomerUpdated,
 }) => {
-  const [fullName, setFullName] = useState<string>(customer.fullName);
-  const [phone, setPhone] = useState<string>(customer.phone);
-  const [email, setEmail] = useState<string>(customer.email);
-  const [governorate, setGovernorate] = useState<string>(customer.governorate);
-  const [customerType, setCustomerType] = useState<'retail' | 'wholesale'>(customer.customerType);
-  const [notes, setNotes] = useState<string>(customer.notes);
-
-  const [loading, setLoading] = useState<boolean>(false);
+  const [fullName, setFullName] = useState(customer.fullName);
+  const [phone, setPhone] = useState(customer.phone);
+  const [whatsapp, setWhatsapp] = useState(customer.whatsapp || '');
+  const [email, setEmail] = useState(customer.email);
+  const [governorate, setGovernorate] = useState(customer.governorate);
+  const [customerType, setCustomerType] = useState<
+    'retail' | 'wholesale'
+  >(customer.customerType);
+  const [notes, setNotes] = useState(customer.notes);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const submit = async (event: React.FormEvent) => {
+    event.preventDefault();
     if (!fullName.trim() || !phone.trim()) {
-      setError('يرجى تعبئة اسم العميل ورقم الهاتف.');
+      setError('اسم العميل ورقم الهاتف مطلوبان.');
       return;
     }
-
     setLoading(true);
     setError(null);
-
-    const res = await updateCustomerCrmInSupabase(customer.id, {
+    const result = await updateCustomerCrmInSupabase(customer.id, {
       fullName: fullName.trim(),
       phone: phone.trim(),
+      whatsapp: whatsapp.trim(),
       email: email.trim(),
-      governorate,
+      governorate: governorate.trim(),
       customerType,
       notes: notes.trim(),
     });
-
     setLoading(false);
-
-    if (res.success) {
-      onCustomerUpdated();
-      onClose();
-    } else {
-      setError(res.error || 'تعذر حفظ تعديلات العميل.');
+    if (!result.success) {
+      setError(result.error || 'تعذر حفظ البيانات.');
+      return;
     }
+    onCustomerUpdated();
+    onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto">
-      <div className="bg-slate-900 border border-slate-800 w-full max-w-md rounded-3xl p-5 space-y-4 shadow-2xl relative my-auto text-xs">
-        {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center border border-blue-500/30">
-              <UserCheck className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="font-extrabold text-slate-100 text-sm">تعديل ملف العميل</h3>
-              <p className="text-[10px] text-slate-400">{customer.fullName}</p>
-            </div>
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/85 backdrop-blur-sm sm:items-center sm:p-4">
+      <div className="max-h-[94vh] w-full max-w-md overflow-y-auto rounded-t-3xl border border-slate-800 bg-slate-900 p-5 sm:rounded-3xl">
+        <div className="mb-4 flex items-start justify-between border-b border-slate-800 pb-3">
+          <div>
+            <h3 className="text-sm font-black text-white">تعديل ملف العميل</h3>
+            <p className="text-[10px] text-slate-500">
+              الحفظ يتم عبر إجراء قاعدة البيانات المعتمد
+            </p>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-full bg-slate-800 text-slate-400 hover:text-white">
-            <X className="w-4 h-4" />
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-full bg-slate-800 p-2 text-slate-400"
+          >
+            <X className="h-4 w-4" />
           </button>
         </div>
-
-        {error && (
-          <div className="bg-rose-950/80 border border-rose-800 p-2.5 rounded-xl text-rose-300 text-[11px]">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-3">
+        <form onSubmit={submit} className="space-y-3 text-xs">
+          {error && (
+            <div className="rounded-xl border border-rose-800 bg-rose-950/50 p-3 text-rose-300">
+              {error}
+            </div>
+          )}
           <div>
-            <label className="text-slate-300 font-bold block mb-1">الاسم الكامل *</label>
+            <label className="mb-1 block font-bold text-slate-300">
+              الاسم الكامل *
+            </label>
             <input
-              type="text"
-              required
               value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-slate-100 focus:border-blue-500"
+              onChange={(event) => setFullName(event.target.value)}
+              required
+              className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
             />
           </div>
-
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="text-slate-300 font-bold block mb-1">رقم الهاتف *</label>
+              <label className="mb-1 block font-bold text-slate-300">
+                الهاتف *
+              </label>
               <input
-                type="text"
-                required
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-slate-100 font-mono"
+                onChange={(event) => setPhone(event.target.value)}
+                required
+                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
               />
             </div>
-
             <div>
-              <label className="text-slate-300 font-bold block mb-1">البريد الإلكتروني</label>
+              <label className="mb-1 block font-bold text-slate-300">
+                واتساب
+              </label>
+              <input
+                value={whatsapp}
+                onChange={(event) => setWhatsapp(event.target.value)}
+                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="mb-1 block font-bold text-slate-300">
+                البريد الإلكتروني
+              </label>
               <input
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="customer@example.com"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-slate-100 font-mono"
+                onChange={(event) => setEmail(event.target.value)}
+                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block font-bold text-slate-300">
+                المحافظة
+              </label>
+              <input
+                value={governorate}
+                onChange={(event) => setGovernorate(event.target.value)}
+                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
               />
             </div>
           </div>
-
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="text-slate-300 font-bold block mb-1">المحافظة الرئيسي</label>
-              <select
-                value={governorate}
-                onChange={(e) => setGovernorate(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-slate-100"
-              >
-                <option value="عمان">عمان</option>
-                <option value="الزرقاء">الزرقاء</option>
-                <option value="إربد">إربد</option>
-                <option value="العقبة">العقبة</option>
-                <option value="السلط">السلط</option>
-                <option value="مأدبا">مأدبا</option>
-                <option value="الكرك">الكرك</option>
-                <option value="جرش">جرش</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="text-slate-300 font-bold block mb-1">تصنيف العميل</label>
-              <select
-                value={customerType}
-                onChange={(e) => setCustomerType(e.target.value as 'retail' | 'wholesale')}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-slate-100 font-bold"
-              >
-                <option value="retail">عميل تجزئة (Retail)</option>
-                <option value="wholesale">عميل جملة (Wholesale)</option>
-              </select>
-            </div>
-          </div>
-
           <div>
-            <label className="text-slate-300 font-bold block mb-1">الملاحظات الداخلية للشركة</label>
+            <label className="mb-1 block font-bold text-slate-300">
+              نوع العميل
+            </label>
+            <select
+              value={customerType}
+              onChange={(event) =>
+                setCustomerType(event.target.value as 'retail' | 'wholesale')
+              }
+              className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
+            >
+              <option value="retail">تجزئة</option>
+              <option value="wholesale">جملة</option>
+            </select>
+          </div>
+          <div>
+            <label className="mb-1 block font-bold text-slate-300">
+              ملاحظات داخلية
+            </label>
             <textarea
               rows={3}
               value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="اكتب أي تفاصيل بخصوص تفضيلات العميل أو شروط التعامل..."
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-slate-100 resize-none"
+              onChange={(event) => setNotes(event.target.value)}
+              className="w-full resize-none rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
             />
           </div>
-
-          <div className="pt-2 flex items-center justify-end gap-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="bg-slate-800 text-slate-300 px-4 py-2.5 rounded-xl font-bold"
-            >
-              إلغاء
-            </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-5 py-2.5 rounded-xl transition shadow flex items-center gap-1.5"
-            >
-              <Save className="w-4 h-4" />
-              <span>{loading ? 'جاري الحفظ...' : 'تحديث البيانات'}</span>
-            </button>
-          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-indigo-600 py-3 font-bold text-white disabled:opacity-60"
+          >
+            {loading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Save className="h-4 w-4" />
+            )}
+            {loading ? 'جاري الحفظ...' : 'حفظ التعديلات'}
+          </button>
         </form>
       </div>
     </div>

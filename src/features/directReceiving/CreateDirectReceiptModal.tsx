@@ -3,14 +3,19 @@
  * Wholesale Store Goods Receiving Form (Direct receiving bypassing PO approval)
  */
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
-import { useAuthStore } from '../../stores/useAuthStore';
 import { formatWholesaleInventory } from '../../utils/inventoryFormatter';
 import {
-  SupplierReceipt,
+  calculateReceivingLine,
+  jodToMinorUnits,
+  minorUnitsToJod,
+  normalizeIntegerQuantity,
+} from '../../utils/receivingCalculations';
+import {
   DirectReceiptItemInput,
   DirectReceiptForm,
+  ReceivingProduct,
 } from '../../types/directReceiving';
 import { Supplier, Unit, Warehouse, Branch } from '../../types';
 import {
@@ -21,24 +26,24 @@ import {
   fetchBranchesForReceivingFromSupabase,
   createDirectSupplierReceiptInSupabase,
 } from '../../services/supabase/directReceiving.service';
-import { createSupplierInSupabase } from '../../services/supabase/purchases.service';
-import { CURRENCY } from '../../constants';
+import { CreateSupplierModal } from '../purchases/CreateSupplierModal';
+import { CURRENCY, PURCHASE_PACKAGE_OPTIONS } from '../../constants';
 import {
   Building2,
+  ChevronLeft,
   PackageCheck,
   Search,
   Plus,
+  Minus,
   Trash2,
   Calendar,
   DollarSign,
   FileText,
   Loader2,
   AlertCircle,
-  CheckCircle2,
   Info,
   Warehouse as WarehouseIcon,
   X,
-  Sparkles,
 } from 'lucide-react';
 
 interface CreateDirectReceiptModalProps {
@@ -46,33 +51,20 @@ interface CreateDirectReceiptModalProps {
   onSuccess?: (receiptData: any) => void;
 }
 
-const COMMON_PURCHASE_UNITS = [
-  { name: 'كرتونة', code: 'CARTON' },
-  { name: 'صندوق', code: 'BOX' },
-  { name: 'باكيت', code: 'PACKET' },
-  { name: 'ربطة', code: 'BUNDLE' },
-  { name: 'شوال / كيس', code: 'BAG' },
-  { name: 'علبة', code: 'CAN' },
-  { name: 'قنينة / زجاجة', code: 'BOTTLE' },
-  { name: 'حافظة / كيس', code: 'CASE' },
-  { name: 'قطعة', code: 'PIECE' },
-  { name: 'حبة', code: 'ITEM' },
-];
-
 export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> = ({
   onClose,
   onSuccess,
 }) => {
-  const { user } = useAuthStore();
-  const { setToast, activeBranch, updateProduct } = useAppStore();
+  const { setToast, refreshProductsFromSupabase } = useAppStore();
 
   // Reference Data States
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<ReceivingProduct[]>([]);
   const [units, setUnits] = useState<Unit[]>([]);
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [branches, setBranches] = useState<Branch[]>([]);
   const [isLoadingRefData, setIsLoadingRefData] = useState<boolean>(true);
+  const [referenceDataError, setReferenceDataError] = useState<string | null>(null);
 
   // Form State
   const [selectedSupplierId, setSelectedSupplierId] = useState<string>('');
@@ -86,7 +78,6 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
     new Date().toISOString().slice(0, 16)
   );
   const [deliveryFeeJod, setDeliveryFeeJod] = useState<number>(0);
-  const [discountJod, setDiscountJod] = useState<number>(0);
   const [taxJod, setTaxJod] = useState<number>(0);
   const [amountPaidJod, setAmountPaidJod] = useState<number>(0);
   const [paymentMethod, setPaymentMethod] = useState<string>('cash');
@@ -100,8 +91,6 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       tempId: string;
       pkgPriceJod: number;
       discountJod: number;
-      sellingPriceJod: number; // Selling Price per Piece (JOD)
-      availableStock?: number;
     })[]
   >([]);
 
@@ -109,19 +98,17 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
   const [productSearch, setProductSearch] = useState<string>('');
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
 
-  // Inline Add Supplier Modal
+  // Shared Supplier Modal
   const [showAddSupplierModal, setShowAddSupplierModal] = useState<boolean>(false);
-  const [newSupplierCompany, setNewSupplierCompany] = useState<string>('');
-  const [newSupplierContact, setNewSupplierContact] = useState<string>('');
-  const [newSupplierPhone, setNewSupplierPhone] = useState<string>('');
-  const [isAddingSupplier, setIsAddingSupplier] = useState<boolean>(false);
 
   // Submitting state
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const idempotencyKeyRef = useRef<string>(crypto.randomUUID());
 
   // Load Initial Reference Data
   const loadReferenceData = useCallback(async () => {
     setIsLoadingRefData(true);
+    setReferenceDataError(null);
     try {
       const [sups, prods, unts, whs, brs] = await Promise.all([
         fetchSuppliersForReceivingFromSupabase(),
@@ -138,10 +125,30 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       setBranches(brs);
 
       if (sups.length > 0) setSelectedSupplierId(sups[0].id);
-      if (whs.length > 0) setSelectedWarehouseId(whs[0].id);
-      if (brs.length > 0) setSelectedBranchId(brs[0].id);
+
+      const preferredWarehouse =
+        whs.find((warehouse) =>
+          /الرمثا|النواصرة|نواصره/.test(
+            `${warehouse.nameAr ?? ''} ${warehouse.location ?? ''}`
+          )
+        ) ?? whs[0];
+      setSelectedWarehouseId(preferredWarehouse?.id ?? '');
+      setSelectedBranchId(preferredWarehouse?.branchId ?? '');
     } catch (err) {
       console.error('Error loading receiving metadata:', err);
+      setSuppliers([]);
+      setProducts([]);
+      setUnits([]);
+      setWarehouses([]);
+      setBranches([]);
+      setSelectedSupplierId('');
+      setSelectedWarehouseId('');
+      setSelectedBranchId('');
+      setReferenceDataError(
+        err instanceof Error
+          ? err.message
+          : 'تعذر تحميل بيانات الاستلام من Supabase.'
+      );
     } finally {
       setIsLoadingRefData(false);
     }
@@ -151,57 +158,54 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
     loadReferenceData();
   }, [loadReferenceData]);
 
+  useEffect(() => {
+    const selectedWarehouse = warehouses.find(
+      (warehouse) => warehouse.id === selectedWarehouseId
+    );
+    setSelectedBranchId(selectedWarehouse?.branchId ?? '');
+  }, [selectedWarehouseId, warehouses]);
+
   // Filtered Products for Search Dropdown
   const filteredProducts = useMemo(() => {
     if (!productSearch.trim()) return products.slice(0, 8);
     const query = productSearch.toLowerCase().trim();
     return products.filter(
       (p) =>
-        (p.name_ar && p.name_ar.toLowerCase().includes(query)) ||
+        (p.nameAr && p.nameAr.toLowerCase().includes(query)) ||
         (p.sku && p.sku.toLowerCase().includes(query)) ||
         (p.barcode && p.barcode.toLowerCase().includes(query))
     );
   }, [products, productSearch]);
 
   // Add Product to Receipt Rows
-  const handleSelectProduct = (prod: any) => {
-    const baseUnitName = prod.units?.name_ar || prod.unit || 'حبة';
-    const unitsPerPackage = Math.max(1, Math.floor(Number(prod.units_per_package || prod.unitsPerPackage || prod.packet_size || prod.carton_size) || 24));
-    const currentCostPerPiece = (Number(prod.cost_price_in_minor_units) || 0) / 1000.0;
-    const currentRetailPerPiece = (Number(prod.retail_price_in_minor_units) || 0) / 1000.0 || (Number(prod.retail_price) || 0) || (currentCostPerPiece * 1.5);
-    const defaultPkgPrice = prod.default_purchase_price ? Number(prod.default_purchase_price) : (currentCostPerPiece > 0 ? currentCostPerPiece * unitsPerPackage : 7.200);
-
-    const currentStock = prod.inventory_balances
-      ? prod.inventory_balances.reduce(
-          (acc: number, ib: any) => acc + Math.floor(Number(ib.on_hand_quantity) || 0),
-          0
-        )
-      : 0;
+  const handleSelectProduct = (prod: ReceivingProduct) => {
+    const unitsPerPackage = normalizeIntegerQuantity(prod.unitsPerPackage);
+    const defaultPkgPrice = minorUnitsToJod(
+      prod.defaultPackagePriceInMinorUnits ||
+        prod.costPriceInMinorUnits * unitsPerPackage
+    );
 
     const newItem: DirectReceiptItemInput & {
       tempId: string;
       pkgPriceJod: number;
       discountJod: number;
-      sellingPriceJod: number;
-      availableStock?: number;
     } = {
       tempId: `${prod.id}-${Date.now()}`,
       productId: prod.id,
-      productName: prod.name_ar,
+      productName: prod.nameAr,
       productSku: prod.sku,
       productBarcode: prod.barcode || '',
-      purchaseUnitId: prod.unit_id || undefined,
-      baseUnitId: prod.unit_id || undefined,
-      purchaseUnitName: prod.purchase_package || 'كرتونة',
-      baseUnitName: baseUnitName,
+      purchaseUnitId: prod.purchaseUnitId,
+      baseUnitId: prod.baseUnitId,
+      purchaseUnitName: prod.purchaseUnitName,
+      baseUnitName: prod.baseUnitName,
       packageQuantity: 1, // Whole package INT
       unitsPerPackage: unitsPerPackage, // Whole package INT
-      packagePriceInMinorUnits: Math.round(defaultPkgPrice * 1000),
+      packagePriceInMinorUnits: jodToMinorUnits(defaultPkgPrice),
+      updateProductDefaults: true,
       discountInMinorUnits: 0,
       pkgPriceJod: defaultPkgPrice,
-      sellingPriceJod: currentRetailPerPiece,
       discountJod: 0,
-      availableStock: currentStock,
     };
 
     setItems((prev) => [...prev, newItem]);
@@ -217,24 +221,32 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
       if (field === 'packageQuantity') {
         // MUST BE INTEGER >= 1
-        item.packageQuantity = Math.max(1, Math.floor(Number(value) || 1));
+        item.packageQuantity = normalizeIntegerQuantity(Number(value));
       } else if (field === 'unitsPerPackage') {
         // MUST BE INTEGER >= 1
-        item.unitsPerPackage = Math.max(1, Math.floor(Number(value) || 1));
+        item.unitsPerPackage = normalizeIntegerQuantity(Number(value));
       } else if (field === 'purchaseUnitName') {
         item.purchaseUnitName = String(value);
+        const selectedOption = PURCHASE_PACKAGE_OPTIONS.find(
+          (option) => option.nameAr === item.purchaseUnitName
+        );
+        const selectedUnit = units.find(
+          (unit) =>
+            unit.code === selectedOption?.code ||
+            unit.nameAr === item.purchaseUnitName
+        );
+        item.purchaseUnitId = selectedUnit?.id;
       } else if (field === 'baseUnitName') {
         item.baseUnitName = String(value);
       } else if (field === 'pkgPriceJod') {
         item.pkgPriceJod = Math.max(0, Number(value) || 0);
-        item.packagePriceInMinorUnits = Math.round(item.pkgPriceJod * 1000);
-      } else if (field === 'sellingPriceJod') {
-        item.sellingPriceJod = Math.max(0, Number(value) || 0);
-        item.sellingPriceInMinorUnits = Math.round(item.sellingPriceJod * 1000);
+        item.packagePriceInMinorUnits = jodToMinorUnits(item.pkgPriceJod);
       } else if (field === 'discountJod') {
         const maxDiscount = item.packageQuantity * item.pkgPriceJod;
         item.discountJod = Math.min(maxDiscount, Math.max(0, Number(value) || 0));
-        item.discountInMinorUnits = Math.round(item.discountJod * 1000);
+        item.discountInMinorUnits = jodToMinorUnits(item.discountJod);
+      } else if (field === 'updateProductDefaults') {
+        item.updateProductDefaults = Boolean(value);
       } else if (field === 'batchNumber') {
         item.batchNumber = value;
       } else if (field === 'productionDate') {
@@ -255,33 +267,15 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
     setItems((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // Add Inline New Supplier Handler
-  const handleCreateSupplier = async () => {
-    if (!newSupplierCompany.trim()) {
-      setToast('اسم شركة المورد مطلوب.', 'error');
-      return;
-    }
-
-    setIsAddingSupplier(true);
-    const res = await createSupplierInSupabase({
-      companyName: newSupplierCompany.trim(),
-      contactPerson: newSupplierContact.trim(),
-      phone: newSupplierPhone.trim(),
+  const handleSupplierCreated = (supplier: Supplier) => {
+    setSuppliers((current) => {
+      const next = current.filter((item) => item.id !== supplier.id);
+      return [...next, supplier].sort((a, b) =>
+        a.companyName.localeCompare(b.companyName, 'ar')
+      );
     });
-
-    if (res.success && res.data) {
-      setToast('تم إضافة المورد الجديد بنجاح.', 'success');
-      const sups = await fetchSuppliersForReceivingFromSupabase();
-      setSuppliers(sups);
-      setSelectedSupplierId(res.data.id);
-      setShowAddSupplierModal(false);
-      setNewSupplierCompany('');
-      setNewSupplierContact('');
-      setNewSupplierPhone('');
-    } else {
-      setToast(res.error || 'تعذر إضافة المورد.', 'error');
-    }
-    setIsAddingSupplier(false);
+    setSelectedSupplierId(supplier.id);
+    setShowAddSupplierModal(false);
   };
 
   // Subtotal Calculation in JOD
@@ -293,21 +287,23 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
   }, [items]);
 
   const grandTotalJod = useMemo(() => {
-    const tot = itemsSubtotalJod - discountJod + deliveryFeeJod + taxJod;
+    const tot = itemsSubtotalJod + deliveryFeeJod + taxJod;
     return Math.max(0, tot);
-  }, [itemsSubtotalJod, discountJod, deliveryFeeJod, taxJod]);
+  }, [itemsSubtotalJod, deliveryFeeJod, taxJod]);
 
   const amountDueJod = useMemo(() => {
     const due = grandTotalJod - amountPaidJod;
     return Math.max(0, due);
   }, [grandTotalJod, amountPaidJod]);
 
-  // Handle Payment Method Deferred vs Paid
-  useEffect(() => {
-    if (paymentMethod === 'deferred') {
-      setAmountPaidJod(0);
-    }
-  }, [paymentMethod]);
+  const selectedWarehouse = useMemo(
+    () => warehouses.find((warehouse) => warehouse.id === selectedWarehouseId),
+    [selectedWarehouseId, warehouses]
+  );
+  const selectedBranch = useMemo(
+    () => branches.find((branch) => branch.id === selectedBranchId),
+    [branches, selectedBranchId]
+  );
 
   // Main Action: Save Goods Receipt & Update Inventory
   const handleSubmitReceipt = async () => {
@@ -348,9 +344,20 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         );
         return;
       }
+      if (
+        it.productionDate &&
+        it.expiryDate &&
+        new Date(it.expiryDate) < new Date(it.productionDate)
+      ) {
+        setToast(
+          `تاريخ انتهاء الصنف رقم ${i + 1} (${it.productName}) لا يمكن أن يسبق تاريخ الإنتاج.`,
+          'error'
+        );
+        return;
+      }
     }
 
-    // Validate Payment & Discount Rules
+    // Validate direct payment
     if (amountPaidJod > grandTotalJod) {
       setToast(
         `المبلغ المدفوع (${amountPaidJod.toFixed(3)}) لا يمكن أن يتجاوز إجمالي سند الاستلام (${grandTotalJod.toFixed(3)}).`,
@@ -358,17 +365,6 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       );
       return;
     }
-
-    if (discountJod > itemsSubtotalJod) {
-      setToast(
-        `خصم السند (${discountJod.toFixed(3)}) لا يمكن أن يتجاوز مجموع الأصناف المستلمة (${itemsSubtotalJod.toFixed(3)}).`,
-        'error'
-      );
-      return;
-    }
-
-    // Generate unique idempotency key for this request attempt
-    const idempotencyKey = crypto.randomUUID();
 
     setIsSubmitting(true);
 
@@ -379,15 +375,17 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       supplierInvoiceNumber: supplierInvoiceNumber.trim() || undefined,
       supplierInvoiceDate: supplierInvoiceDate || undefined,
       receivedAt: receivedAt || new Date().toISOString(),
-      deliveryFeeInMinorUnits: Math.round(deliveryFeeJod * 1000),
-      discountInMinorUnits: Math.round(discountJod * 1000),
-      taxInMinorUnits: Math.round(taxJod * 1000),
-      amountPaidInMinorUnits: Math.round(amountPaidJod * 1000),
+      deliveryFeeInMinorUnits: jodToMinorUnits(deliveryFeeJod),
+      // Receipt-level discount is intentionally disabled. Supplier discounts
+      // stay attached to their product lines so inventory cost remains exact.
+      discountInMinorUnits: 0,
+      taxInMinorUnits: jodToMinorUnits(taxJod),
+      amountPaidInMinorUnits: jodToMinorUnits(amountPaidJod),
       paymentMethod,
       paymentReference: paymentReference.trim() || undefined,
       notes: notes.trim() || undefined,
       internalNotes: internalNotes.trim() || undefined,
-      idempotencyKey,
+      idempotencyKey: idempotencyKeyRef.current,
       items: items.map((item) => ({
         productId: item.productId,
         purchaseUnitId: item.purchaseUnitId,
@@ -396,8 +394,9 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         baseUnitName: item.baseUnitName,
         packageQuantity: Math.floor(item.packageQuantity), // Strict Integer
         unitsPerPackage: Math.floor(item.unitsPerPackage), // Strict Integer
-        packagePriceInMinorUnits: Math.round(item.pkgPriceJod * 1000),
-        discountInMinorUnits: Math.round(item.discountJod * 1000),
+        packagePriceInMinorUnits: jodToMinorUnits(item.pkgPriceJod),
+        updateProductDefaults: Boolean(item.updateProductDefaults),
+        discountInMinorUnits: jodToMinorUnits(item.discountJod),
         batchNumber: item.batchNumber,
         productionDate: item.productionDate,
         expiryDate: item.expiryDate,
@@ -408,24 +407,8 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
     const res = await createDirectSupplierReceiptInSupabase(payload);
 
     if (res.success && res.data) {
-      // Update Product master data for items with updateDefaultPrice = true
-      items.forEach((item) => {
-        if (item.updateDefaultPrice) {
-          const costPerPiece = item.unitsPerPackage > 0 ? item.pkgPriceJod / item.unitsPerPackage : 0;
-          const profitPerPiece = item.sellingPriceJod - costPerPiece;
-          const profitPercent = costPerPiece > 0 ? (profitPerPiece / costPerPiece) * 100 : 0;
-
-          updateProduct(item.productId, {
-            defaultPurchasePrice: item.pkgPriceJod,
-            purchasePackage: item.purchaseUnitName,
-            unitsPerPackage: item.unitsPerPackage,
-            costPrice: Number(costPerPiece.toFixed(4)),
-            retailPrice: item.sellingPriceJod,
-            profitPerPiece: Number(profitPerPiece.toFixed(4)),
-            profitPercentage: Number(profitPercent.toFixed(2)),
-          });
-        }
-      });
+      await refreshProductsFromSupabase();
+      idempotencyKeyRef.current = crypto.randomUUID();
 
       setToast(
         `تم حفظ سند الاستلام ${res.data.receiptNumber} وزيادة المخزون بنجاح (+${res.data.totalInventoryUnitsAdded} وحدة)`,
@@ -452,6 +435,30 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
     );
   }
 
+  if (referenceDataError) {
+    return (
+      <div
+        dir="rtl"
+        className="m-2 rounded-2xl border border-rose-500/30 bg-rose-950/30 p-6 text-center"
+      >
+        <AlertCircle className="mx-auto mb-3 h-9 w-9 text-rose-400" />
+        <h3 className="text-sm font-extrabold text-rose-100">
+          تعذر تحميل بيانات الاستلام
+        </h3>
+        <p className="mx-auto mt-2 max-w-md text-xs leading-6 text-rose-200/80">
+          {referenceDataError}
+        </p>
+        <button
+          type="button"
+          onClick={loadReferenceData}
+          className="mt-4 rounded-xl bg-rose-500 px-4 py-2 text-xs font-extrabold text-white transition hover:bg-rose-400"
+        >
+          إعادة المحاولة
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div dir="rtl" className="space-y-4 max-h-[80vh] overflow-y-auto p-1 pr-2 text-xs text-slate-200">
       {/* Supplier & Location Info Section */}
@@ -459,7 +466,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         <div className="flex items-center justify-between border-b border-slate-800 pb-2">
           <div className="flex items-center gap-2">
             <Building2 className="w-4 h-4 text-blue-400" />
-            <span className="font-bold text-slate-100">بيانات المورد والمستودع المستلم</span>
+            <span className="font-bold text-slate-100">ابدأ بالمورد والمستودع</span>
           </div>
           <button
             onClick={() => setShowAddSupplierModal(true)}
@@ -470,7 +477,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {/* Supplier Dropdown */}
           <div className="space-y-1">
             <label className="text-[11px] font-bold text-slate-400">
@@ -509,23 +516,27 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
             </select>
           </div>
 
-          {/* Branch Dropdown */}
+          {/* Branch is derived from the warehouse to prevent mismatches */}
           <div className="space-y-1">
-            <label className="text-[11px] font-bold text-slate-400">الفرع المالي (اختياري)</label>
-            <select
-              value={selectedBranchId}
-              onChange={(e) => setSelectedBranchId(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-bold text-slate-100 focus:border-blue-500 outline-none"
-            >
-              <option value="">-- الفرع الحالي ({activeBranch?.name}) --</option>
-              {branches.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.nameAr}
-                </option>
-              ))}
-            </select>
+            <label className="text-[11px] font-bold text-slate-400">موقع الاستلام المعتمد</label>
+            <div className="min-h-[34px] rounded-xl border border-emerald-500/25 bg-emerald-950/20 px-3 py-2">
+              <p className="text-xs font-extrabold text-emerald-300">
+                {selectedWarehouse?.nameAr || 'اختر المستودع'}
+              </p>
+              <p className="mt-0.5 text-[10px] text-slate-400">
+                {selectedWarehouse?.location || selectedBranch?.nameAr || 'سيتم تحديد الفرع تلقائياً'}
+              </p>
+            </div>
           </div>
 
+        </div>
+
+        <details className="group rounded-xl border border-slate-800 bg-slate-950/40 p-2.5">
+          <summary className="flex cursor-pointer list-none items-center justify-between text-[11px] font-bold text-slate-400 marker:hidden">
+            معلومات سند إضافية (اختياري)
+            <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
+          </summary>
+          <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
           {/* Supplier Invoice Number */}
           <div className="space-y-1">
             <label className="text-[11px] font-bold text-slate-400">رقم فاتورة/إذن المورد</label>
@@ -560,6 +571,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
             />
           </div>
         </div>
+        </details>
       </div>
 
       {/* Product Search & Addition Section */}
@@ -572,6 +584,11 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
           <span className="text-[10px] text-slate-400 font-bold">
             عدد الأصناف المضافة: {items.length}
           </span>
+        </div>
+
+        <div className="rounded-xl border border-blue-900/70 bg-blue-950/30 px-3 py-2 text-[11px] font-bold leading-5 text-blue-200">
+          اختر الصنف، ثم أدخل عدد الطرود التي وصلت فعليًا ومحتوى كل طرد.
+          مثال: 3 كراتين × 5 حبات = 15 حبة تُضاف للمخزون.
         </div>
 
         {/* Product Search Box */}
@@ -604,28 +621,45 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                   </p>
                 </div>
               ) : (
-                filteredProducts.map((prod) => (
-                  <div
-                    key={prod.id}
-                    onClick={() => handleSelectProduct(prod)}
-                    className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-900 border border-transparent hover:border-slate-800 transition cursor-pointer"
-                  >
-                    <div>
-                      <h4 className="font-bold text-slate-100 text-xs">{prod.name_ar}</h4>
-                      <div className="flex items-center gap-2 text-[10px] text-slate-400">
-                        <span>SKU: {prod.sku}</span>
-                        {prod.barcode && <span>| الباركود: {prod.barcode}</span>}
-                        <span>| الوحدة الأساسية: {prod.units?.name_ar || 'حبة'}</span>
+                filteredProducts.map((prod) => {
+                  const warehouseBalance = prod.inventoryBalances.find(
+                    (balance) => balance.warehouseId === selectedWarehouseId
+                  );
+                  const warehouseAvailable = warehouseBalance?.availableQuantity ?? 0;
+
+                  return (
+                    <div
+                      key={prod.id}
+                      onClick={() => handleSelectProduct(prod)}
+                      className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-900 border border-transparent hover:border-slate-800 transition cursor-pointer"
+                    >
+                      <div>
+                        <h4 className="font-bold text-slate-100 text-xs">{prod.nameAr}</h4>
+                        <div className="flex items-center gap-2 text-[10px] text-slate-400">
+                          <span>SKU: {prod.sku}</span>
+                          {prod.barcode && <span>| الباركود: {prod.barcode}</span>}
+                          <span>| الوحدة الأساسية: {prod.baseUnitName}</span>
+                          <span>| طرد الشراء: {prod.purchaseUnitName} × {prod.unitsPerPackage}</span>
+                        </div>
+                        <p className="mt-1 text-[10px] font-bold text-cyan-300">
+                          المتاح الآن في {selectedWarehouse?.nameAr || 'المستودع'}:{' '}
+                          {formatWholesaleInventory(
+                            warehouseAvailable,
+                            prod.unitsPerPackage,
+                            prod.purchaseUnitName,
+                            prod.baseUnitName
+                          ).fullFormatted}
+                        </p>
+                      </div>
+                      <div className="text-left">
+                        <span className="text-emerald-400 font-extrabold text-xs block">
+                          {minorUnitsToJod(prod.costPriceInMinorUnits).toFixed(3)} {CURRENCY}
+                        </span>
+                        <span className="text-[10px] text-slate-500 font-semibold">اضغط للإضافة +</span>
                       </div>
                     </div>
-                    <div className="text-left">
-                      <span className="text-emerald-400 font-extrabold text-xs block">
-                        {((Number(prod.cost_price_in_minor_units) || 0) / 1000).toFixed(3)} {CURRENCY}
-                      </span>
-                      <span className="text-[10px] text-slate-500 font-semibold">اضغط للإضافة +</span>
-                    </div>
-                  </div>
-                ))
+                  );
+                })
               )}
               <div className="p-2 border-t border-slate-900 text-center">
                 <button
@@ -651,12 +685,30 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         ) : (
           <div className="space-y-3">
             {items.map((item, index) => {
-              const totalBaseUnits = Math.floor(item.packageQuantity * item.unitsPerPackage);
-              const costPerPieceJod = item.unitsPerPackage > 0 ? item.pkgPriceJod / item.unitsPerPackage : 0;
-              const sellingPricePerPieceJod = item.sellingPriceJod || 0;
-              const profitPerPieceJod = sellingPricePerPieceJod - costPerPieceJod;
-              const profitPercent = costPerPieceJod > 0 ? (profitPerPieceJod / costPerPieceJod) * 100 : 0;
-              const lineTotalJod = Math.max(0, item.packageQuantity * item.pkgPriceJod - item.discountJod);
+              const lineCalculation = calculateReceivingLine({
+                packageQuantity: item.packageQuantity,
+                unitsPerPackage: item.unitsPerPackage,
+                packagePriceInMinorUnits: jodToMinorUnits(item.pkgPriceJod),
+                discountInMinorUnits: jodToMinorUnits(item.discountJod),
+              });
+              const totalBaseUnits = lineCalculation.totalBaseUnits;
+              const costPerPieceJod = minorUnitsToJod(
+                lineCalculation.effectiveUnitCostInMinorUnits
+              );
+              const lineTotalJod = minorUnitsToJod(
+                lineCalculation.lineTotalInMinorUnits
+              );
+              const sourceProduct = products.find(
+                (product) => product.id === item.productId
+              );
+              const warehouseBalance = sourceProduct?.inventoryBalances.find(
+                (balance) => balance.warehouseId === selectedWarehouseId
+              );
+              const stockBefore = warehouseBalance?.onHandQuantity ?? 0;
+              const reservedBefore = warehouseBalance?.reservedQuantity ?? 0;
+              const availableBefore = warehouseBalance?.availableQuantity ?? 0;
+              const stockAfter = stockBefore + totalBaseUnits;
+              const availableAfter = availableBefore + totalBaseUnits;
 
               return (
                 <div
@@ -683,7 +735,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                   </div>
 
                   {/* Quantity & Unit Configurations */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6">
                     {/* Purchase Unit Name */}
                     <div className="space-y-0.5">
                       <label className="text-[10px] font-bold text-slate-400">وحدة الشراء (الطرد)</label>
@@ -692,25 +744,65 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                         onChange={(e) => updateItemField(index, 'purchaseUnitName', e.target.value)}
                         className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 text-xs font-bold text-slate-200"
                       >
-                        {COMMON_PURCHASE_UNITS.map((u) => (
-                          <option key={u.code} value={u.name}>
-                            {u.name}
+                        {PURCHASE_PACKAGE_OPTIONS.map((unitOption) => (
+                          <option key={unitOption.code} value={unitOption.nameAr}>
+                            {unitOption.nameAr}
                           </option>
                         ))}
                       </select>
                     </div>
 
                     {/* Received Package Quantity - INTEGER ONLY */}
-                    <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-amber-400">عدد الطرود (صحيح)</label>
-                      <input
-                        type="number"
-                        min="1"
-                        step="1"
-                        value={item.packageQuantity}
-                        onChange={(e) => updateItemField(index, 'packageQuantity', e.target.value)}
-                        className="w-full bg-slate-900 border border-amber-500/40 rounded-lg px-2 py-1 text-xs font-extrabold text-white text-center focus:border-amber-400 outline-none"
-                      />
+                    <div className="col-span-2 space-y-1 rounded-xl border border-amber-500/40 bg-amber-950/20 p-2">
+                      <label className="block text-[11px] font-black text-amber-300">
+                        عدد الطرود المستلمة ({item.purchaseUnitName})
+                      </label>
+                      <div className="grid grid-cols-[2.25rem_1fr_2.25rem] gap-1.5">
+                        <button
+                          type="button"
+                          aria-label={`إنقاص عدد طرود ${item.productName}`}
+                          disabled={item.packageQuantity <= 1}
+                          onClick={() =>
+                            updateItemField(
+                              index,
+                              'packageQuantity',
+                              item.packageQuantity - 1
+                            )
+                          }
+                          className="flex items-center justify-center rounded-lg border border-slate-700 bg-slate-950 text-slate-200 transition hover:border-amber-500 hover:text-amber-300 disabled:cursor-not-allowed disabled:opacity-35"
+                        >
+                          <Minus className="h-4 w-4" />
+                        </button>
+                        <input
+                          aria-label={`عدد الطرود المستلمة للصنف ${item.productName}`}
+                          type="number"
+                          min="1"
+                          step="1"
+                          inputMode="numeric"
+                          value={item.packageQuantity}
+                          onChange={(e) =>
+                            updateItemField(index, 'packageQuantity', e.target.value)
+                          }
+                          className="w-full rounded-lg border border-amber-500/50 bg-slate-950 px-2 py-2 text-center text-base font-black text-white outline-none focus:border-amber-300"
+                        />
+                        <button
+                          type="button"
+                          aria-label={`زيادة عدد طرود ${item.productName}`}
+                          onClick={() =>
+                            updateItemField(
+                              index,
+                              'packageQuantity',
+                              item.packageQuantity + 1
+                            )
+                          }
+                          className="flex items-center justify-center rounded-lg border border-amber-600/60 bg-amber-600/20 text-amber-200 transition hover:bg-amber-600/30"
+                        >
+                          <Plus className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <p className="text-[9px] font-bold text-amber-200/70">
+                        اكتب عدد الكراتين أو الصناديق التي وصلت، وليس عدد الحبات.
+                      </p>
                     </div>
 
                     {/* Units Per Package - INTEGER ONLY */}
@@ -739,19 +831,6 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                       />
                     </div>
 
-                    {/* Selling Price Per Piece (JOD) */}
-                    <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-blue-400">سعر بيع القطعة ({CURRENCY})</label>
-                      <input
-                        type="number"
-                        min="0"
-                        step="0.001"
-                        value={item.sellingPriceJod}
-                        onChange={(e) => updateItemField(index, 'sellingPriceJod', e.target.value)}
-                        className="w-full bg-slate-900 border border-blue-500/30 rounded-lg px-2 py-1 text-xs font-bold text-blue-300 text-center"
-                      />
-                    </div>
-
                     {/* Discount (JOD) */}
                     <div className="space-y-0.5">
                       <label className="text-[10px] font-bold text-slate-400">خصم الصنف ({CURRENCY})</label>
@@ -772,15 +851,90 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                       <div className="text-blue-400 flex items-center gap-1.5 flex-wrap">
                         <Info className="w-3.5 h-3.5 shrink-0" />
                         <span>
-                          إجمالي القطع: {item.packageQuantity} {item.purchaseUnitName} × {item.unitsPerPackage} {item.baseUnitName} ={' '}
-                          <strong className="text-white font-extrabold">{formatWholesaleInventory(totalBaseUnits, item.unitsPerPackage, item.purchaseUnitName, item.baseUnitName).fullFormatted}</strong>
+                          الكمية التي ستدخل المخزون: {item.packageQuantity}{' '}
+                          {item.purchaseUnitName} × {item.unitsPerPackage}{' '}
+                          {item.baseUnitName} ={' '}
+                          <strong className="font-extrabold text-white">
+                            {totalBaseUnits} {item.baseUnitName}
+                          </strong>
+                          <span className="text-slate-400">
+                            {' '}({formatWholesaleInventory(totalBaseUnits, item.unitsPerPackage, item.purchaseUnitName, item.baseUnitName).fullFormatted})
+                          </span>
                         </span>
                       </div>
 
                       <div className="text-slate-300 flex items-center gap-3 flex-wrap text-[10px]">
-                        <span>تكلفة القطعة: <strong className="text-amber-400">{costPerPieceJod.toFixed(3)} {CURRENCY}</strong></span>
-                        <span>الربح/قطعة: <strong className={profitPerPieceJod >= 0 ? "text-emerald-400" : "text-rose-400"}>{profitPerPieceJod.toFixed(3)} {CURRENCY} ({profitPercent.toFixed(1)}%)</strong></span>
+                        <span>تكلفة {item.baseUnitName} المحسوبة: <strong className="text-amber-400">{costPerPieceJod.toFixed(3)} {CURRENCY}</strong></span>
                         <span>الإجمالي: <strong className="text-emerald-400 text-xs">{lineTotalJod.toFixed(3)} {CURRENCY}</strong></span>
+                      </div>
+                    </div>
+
+                    <details className="group rounded-lg border border-slate-800 bg-slate-950/30 p-2">
+                      <summary className="flex cursor-pointer list-none items-center justify-between text-[10px] text-slate-400 marker:hidden">
+                        تفاصيل الرصيد قبل/بعد وخيارات الصنف
+                        <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
+                      </summary>
+                    <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-5">
+                      <div className="rounded-lg border border-slate-800 bg-slate-950/60 px-2 py-1">
+                        <span className="block text-[9px] text-slate-500">المخزون الفعلي قبل</span>
+                        <strong className="text-slate-200">
+                          {formatWholesaleInventory(
+                            stockBefore,
+                            item.unitsPerPackage,
+                            item.purchaseUnitName,
+                            item.baseUnitName
+                          ).fullFormatted}
+                        </strong>
+                      </div>
+                      <div className="rounded-lg border border-slate-800 bg-slate-950/60 px-2 py-1">
+                        <span className="block text-[9px] text-slate-500">المحجوز للطلبات</span>
+                        <strong className="text-amber-300">
+                          {formatWholesaleInventory(
+                            reservedBefore,
+                            item.unitsPerPackage,
+                            item.purchaseUnitName,
+                            item.baseUnitName
+                          ).fullFormatted}
+                        </strong>
+                      </div>
+                      <div className="rounded-lg border border-slate-800 bg-slate-950/60 px-2 py-1">
+                        <span className="block text-[9px] text-slate-500">المتاح للبيع قبل</span>
+                        <strong className="text-cyan-300">
+                          {formatWholesaleInventory(
+                            availableBefore,
+                            item.unitsPerPackage,
+                            item.purchaseUnitName,
+                            item.baseUnitName
+                          ).fullFormatted}
+                        </strong>
+                      </div>
+                      <div className="rounded-lg border border-emerald-500/20 bg-emerald-950/20 px-2 py-1">
+                        <span className="block text-[9px] text-emerald-300/70">الكمية الداخلة</span>
+                        <strong className="text-emerald-300">
+                          +{formatWholesaleInventory(
+                            totalBaseUnits,
+                            item.unitsPerPackage,
+                            item.purchaseUnitName,
+                            item.baseUnitName
+                          ).fullFormatted}
+                        </strong>
+                      </div>
+                      <div className="col-span-2 rounded-lg border border-blue-500/30 bg-blue-950/25 px-2 py-1 sm:col-span-1">
+                        <span className="block text-[9px] text-blue-300/70">بعد الاستلام / المتاح</span>
+                        <strong className="text-blue-200">
+                          {formatWholesaleInventory(
+                            stockAfter,
+                            item.unitsPerPackage,
+                            item.purchaseUnitName,
+                            item.baseUnitName
+                          ).fullFormatted}{' '}
+                          / {formatWholesaleInventory(
+                            availableAfter,
+                            item.unitsPerPackage,
+                            item.purchaseUnitName,
+                            item.baseUnitName
+                          ).fullFormatted}
+                        </strong>
                       </div>
                     </div>
 
@@ -789,17 +943,20 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                       <input
                         type="checkbox"
                         id={`update-default-${item.tempId}`}
-                        checked={Boolean(item.updateDefaultPrice)}
-                        onChange={(e) => updateItemField(index, 'updateDefaultPrice', e.target.checked)}
+                        checked={Boolean(item.updateProductDefaults)}
+                        onChange={(e) =>
+                          updateItemField(index, 'updateProductDefaults', e.target.checked)
+                        }
                         className="w-3.5 h-3.5 rounded bg-slate-950 border-slate-700 text-blue-600 focus:ring-blue-500 cursor-pointer"
                       />
                       <label
                         htmlFor={`update-default-${item.tempId}`}
                         className="text-slate-300 cursor-pointer hover:text-white select-none"
                       >
-                        تحديث هذا كالسعر الافتراضي الجديد للشراء والسعر بالمستر
+                        حفظ وحدة الشراء ومحتوى الطرد وسعر الشراء كبيانات افتراضية للصنف
                       </label>
                     </div>
+                    </details>
                   </div>
                 </div>
               );
@@ -812,9 +969,32 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       <div className="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl space-y-3">
         <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
           <DollarSign className="w-4 h-4 text-emerald-400" />
-          <span className="font-bold text-slate-100">إجماليات سند الاستلام والدفعات</span>
+          <span className="font-bold text-slate-100">ملخص الاستلام</span>
         </div>
 
+        <div className="grid grid-cols-3 gap-2 rounded-xl border border-slate-800 bg-slate-950/60 p-2.5 text-center">
+          <div>
+            <span className="block text-[9px] text-slate-500">إجمالي السند</span>
+            <strong className="text-slate-100">{grandTotalJod.toFixed(3)}</strong>
+          </div>
+          <div>
+            <span className="block text-[9px] text-slate-500">المدفوع</span>
+            <strong className="text-emerald-300">{amountPaidJod.toFixed(3)}</strong>
+          </div>
+          <div>
+            <span className="block text-[9px] text-slate-500">ذمة المورد</span>
+            <strong className={amountDueJod > 0 ? 'text-rose-300' : 'text-emerald-300'}>
+              {amountDueJod.toFixed(3)}
+            </strong>
+          </div>
+        </div>
+
+        <details className="group rounded-xl border border-slate-800 bg-slate-950/40 p-2.5">
+          <summary className="flex cursor-pointer list-none items-center justify-between text-[11px] font-bold text-slate-400 marker:hidden">
+            الدفعة وأجور النقل والضريبة والملاحظات
+            <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
+          </summary>
+          <div className="mt-3 space-y-3">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Financial Breakdown Inputs */}
           <div className="space-y-2">
@@ -823,19 +1003,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
               <span className="font-mono font-extrabold text-slate-200">{itemsSubtotalJod.toFixed(3)} {CURRENCY}</span>
             </div>
 
-            <div className="grid grid-cols-3 gap-2">
-              <div>
-                <label className="text-[10px] font-bold text-slate-400">خصم السند ({CURRENCY})</label>
-                <input
-                  type="number"
-                  min="0"
-                  step="0.001"
-                  value={discountJod}
-                  onChange={(e) => setDiscountJod(Math.max(0, Number(e.target.value) || 0))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2 py-1 text-xs font-bold text-rose-400 text-center"
-                />
-              </div>
-
+            <div className="grid grid-cols-2 gap-2">
               <div>
                 <label className="text-[10px] font-bold text-slate-400">أجور التوصيل/النقل</label>
                 <input
@@ -873,7 +1041,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
           <div className="space-y-2 bg-slate-950 p-3 rounded-xl border border-slate-800">
             <div className="space-y-1">
               <label className="text-[10px] font-bold text-slate-400">طريقة الدفع للمورد</label>
-              <div className="grid grid-cols-3 gap-1 text-[10px] font-bold">
+              <div className="grid grid-cols-2 gap-1 text-[10px] font-bold">
                 <button
                   type="button"
                   onClick={() => setPaymentMethod('cash')}
@@ -884,17 +1052,6 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                   }`}
                 >
                   نقدي (Cash)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPaymentMethod('deferred')}
-                  className={`py-1.5 rounded-lg border transition ${
-                    paymentMethod === 'deferred'
-                      ? 'bg-amber-600 text-white border-amber-500 shadow'
-                      : 'bg-slate-900 border-slate-800 text-slate-400'
-                  }`}
-                >
-                  آجل (على الحساب)
                 </button>
                 <button
                   type="button"
@@ -910,35 +1067,52 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
               </div>
             </div>
 
-            {paymentMethod !== 'deferred' && (
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label className="text-[10px] font-bold text-slate-400">المبلغ المدفوع فوراً ({CURRENCY})</label>
-                  <input
-                    type="number"
-                    min="0"
-                    step="0.001"
-                    value={amountPaidJod}
-                    onChange={(e) => setAmountPaidJod(Math.max(0, Number(e.target.value) || 0))}
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-2 py-1.5 text-xs font-bold text-emerald-400 text-center"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-[10px] font-bold text-slate-400">رقم الحوالة/المرجع</label>
-                  <input
-                    type="text"
-                    value={paymentReference}
-                    onChange={(e) => setPaymentReference(e.target.value)}
-                    placeholder="رقم المرجع اختياري"
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl px-2 py-1.5 text-xs text-slate-200"
-                  />
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="text-[10px] font-bold text-slate-400">المبلغ المدفوع الآن ({CURRENCY})</label>
+                <input
+                  type="number"
+                  min="0"
+                  max={grandTotalJod}
+                  step="0.001"
+                  value={amountPaidJod}
+                  onChange={(e) => setAmountPaidJod(Math.max(0, Number(e.target.value) || 0))}
+                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-2 py-1.5 text-xs font-bold text-emerald-400 text-center"
+                />
+                <div className="mt-1 flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => setAmountPaidJod(grandTotalJod)}
+                    className="rounded-lg bg-emerald-600/15 px-2 py-1 text-[9px] font-bold text-emerald-300"
+                  >
+                    دفع كامل
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAmountPaidJod(0)}
+                    className="rounded-lg bg-slate-800 px-2 py-1 text-[9px] font-bold text-slate-300"
+                  >
+                    بدون دفعة الآن
+                  </button>
                 </div>
               </div>
-            )}
 
-            <div className="flex items-center justify-between text-[11px] pt-1 border-t border-slate-900">
-              <span className="text-slate-400 font-bold">المتبقي كذمة للمورد:</span>
+              <div>
+                <label className="text-[10px] font-bold text-slate-400">رقم الحوالة/المرجع</label>
+                <input
+                  type="text"
+                  value={paymentReference}
+                  onChange={(e) => setPaymentReference(e.target.value)}
+                  placeholder="رقم المرجع اختياري"
+                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-2 py-1.5 text-xs text-slate-200"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between gap-2 text-[11px] pt-1 border-t border-slate-900">
+              <span className="text-slate-400 font-bold">
+                المتبقي يُسجل تلقائياً كذمة للمورد:
+              </span>
               <span className={`font-extrabold ${amountDueJod > 0 ? 'text-rose-400' : 'text-emerald-400'}`}>
                 {amountDueJod.toFixed(3)} {CURRENCY}
               </span>
@@ -963,6 +1137,8 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
             className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-200"
           />
         </div>
+          </div>
+        </details>
       </div>
 
       {/* Main Action Button */}
@@ -996,69 +1172,11 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         </button>
       </div>
 
-      {/* Inline Add Supplier Sub-Modal */}
-      {showAddSupplierModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl w-full max-w-md space-y-3 text-right">
-            <h3 className="font-extrabold text-slate-100 text-sm flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-blue-400" />
-              <span>إضافة مورد جديد للقائمة</span>
-            </h3>
-
-            <div className="space-y-2">
-              <div>
-                <label className="text-[10px] font-bold text-slate-400">اسم شركة المورد *</label>
-                <input
-                  type="text"
-                  value={newSupplierCompany}
-                  onChange={(e) => setNewSupplierCompany(e.target.value)}
-                  placeholder="مثال: شركة القدس للتوريدات"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-bold text-slate-100"
-                />
-              </div>
-
-              <div>
-                <label className="text-[10px] font-bold text-slate-400">اسم مسؤول التواصل</label>
-                <input
-                  type="text"
-                  value={newSupplierContact}
-                  onChange={(e) => setNewSupplierContact(e.target.value)}
-                  placeholder="اسم الشخص المسؤول"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100"
-                />
-              </div>
-
-              <div>
-                <label className="text-[10px] font-bold text-slate-400">رقم الهاتف</label>
-                <input
-                  type="text"
-                  value={newSupplierPhone}
-                  onChange={(e) => setNewSupplierPhone(e.target.value)}
-                  placeholder="079XXXXXXX"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-end gap-2 pt-2">
-              <button
-                onClick={() => setShowAddSupplierModal(false)}
-                className="bg-slate-800 text-slate-300 px-3 py-1.5 rounded-xl font-bold text-xs"
-              >
-                إلغاء
-              </button>
-              <button
-                onClick={handleCreateSupplier}
-                disabled={isAddingSupplier || !newSupplierCompany.trim()}
-                className="bg-blue-600 text-white px-4 py-1.5 rounded-xl font-bold text-xs hover:bg-blue-500 transition flex items-center gap-1"
-              >
-                {isAddingSupplier ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null}
-                <span>حفظ المورد</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <CreateSupplierModal
+        isOpen={showAddSupplierModal}
+        onClose={() => setShowAddSupplierModal(false)}
+        onSuccess={handleSupplierCreated}
+      />
     </div>
   );
 };

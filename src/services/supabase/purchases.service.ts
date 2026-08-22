@@ -32,6 +32,21 @@ export function isValidUUID(id: unknown): id is string {
   return uuidRegex.test(id.trim());
 }
 
+const mapSupplierRow = (supplier: any): Supplier => ({
+  id: supplier.id,
+  companyName: supplier.company_name,
+  contactPerson: supplier.contact_person || '',
+  phone: supplier.phone || '',
+  whatsapp: supplier.whatsapp || '',
+  address: supplier.address || '',
+  currentBalance:
+    (Number(supplier.current_balance_in_minor_units) || 0) / 1000,
+  taxNumber: supplier.tax_number || '',
+  notes: supplier.notes || '',
+  email: supplier.email || '',
+  isActive: supplier.is_active ?? true,
+});
+
 /**
  * Fetch list of suppliers from Supabase
  */
@@ -57,19 +72,7 @@ export async function fetchSuppliersFromSupabase(includeInactive: boolean = fals
       return [];
     }
 
-    return data.map((s: any) => ({
-      id: s.id,
-      companyName: s.company_name,
-      contactPerson: s.contact_person || '',
-      phone: s.phone || '',
-      whatsapp: s.whatsapp || '',
-      address: s.address || '',
-      currentBalance: 0, // calculate from payments / POs if needed
-      taxNumber: s.tax_number || '',
-      notes: s.notes || '',
-      email: s.email || '',
-      isActive: s.is_active ?? true,
-    }));
+    return data.map(mapSupplierRow);
   } catch (err) {
     console.error('Exception in fetchSuppliersFromSupabase:', err);
     return [];
@@ -104,48 +107,29 @@ export async function createSupplierInSupabase(
       return { success: false, error: 'اسم الشركة/المورد مطلوب' };
     }
 
-    const payload = {
-      company_name: companyName,
-      contact_person: input.contactPerson?.trim() || null,
-      phone: input.phone?.trim() || null,
-      whatsapp: input.whatsapp?.trim() || null,
-      email: input.email?.trim() || null,
-      address: input.address?.trim() || null,
-      tax_number: input.taxNumber?.trim() || null,
-      notes: input.notes?.trim() || null,
-      is_active: input.isActive ?? true,
-    };
-
-    const { data, error } = await supabase
-      .from('suppliers')
-      .insert(payload)
-      .select('*')
-      .single();
+    const { data, error } = await supabase.rpc('save_supplier', {
+      p_company_name: companyName,
+      p_supplier_id: null,
+      p_contact_person: input.contactPerson?.trim() || null,
+      p_phone: input.phone?.trim() || null,
+      p_whatsapp: input.whatsapp?.trim() || null,
+      p_email: input.email?.trim() || null,
+      p_address: input.address?.trim() || null,
+      p_tax_number: input.taxNumber?.trim() || null,
+      p_notes: input.notes?.trim() || null,
+      p_is_active: input.isActive ?? true,
+    });
 
     if (error) {
       console.error('createSupplierInSupabase error:', error.message);
       return { success: false, error: error.message };
     }
 
-    if (!data) {
+    if (!data?.success || !data?.supplier) {
       return { success: false, error: 'لم يتم إرجاع بيانات المورد المنشأ' };
     }
 
-    const newSupplier: Supplier = {
-      id: data.id,
-      companyName: data.company_name,
-      contactPerson: data.contact_person || '',
-      phone: data.phone || '',
-      whatsapp: data.whatsapp || '',
-      address: data.address || '',
-      currentBalance: 0,
-      taxNumber: data.tax_number || '',
-      notes: data.notes || '',
-      email: data.email || '',
-      isActive: data.is_active ?? true,
-    };
-
-    return { success: true, data: newSupplier };
+    return { success: true, data: mapSupplierRow(data.supplier) };
   } catch (err: any) {
     console.error('Exception in createSupplierInSupabase:', err);
     return { success: false, error: err?.message || 'حدث خطأ أثناء إضافة المورد' };
@@ -169,46 +153,29 @@ export async function updateSupplierInSupabase(
       return { success: false, error: 'اسم الشركة/المورد مطلوب' };
     }
 
-    const payload = {
-      company_name: companyName,
-      contact_person: input.contactPerson?.trim() || null,
-      phone: input.phone?.trim() || null,
-      whatsapp: input.whatsapp?.trim() || null,
-      email: input.email?.trim() || null,
-      address: input.address?.trim() || null,
-      tax_number: input.taxNumber?.trim() || null,
-      notes: input.notes?.trim() || null,
-      is_active: input.isActive ?? true,
-      updated_at: new Date().toISOString(),
-    };
-
-    const { data, error } = await supabase
-      .from('suppliers')
-      .update(payload)
-      .eq('id', supplierId)
-      .select('*')
-      .single();
+    const { data, error } = await supabase.rpc('save_supplier', {
+      p_company_name: companyName,
+      p_supplier_id: supplierId,
+      p_contact_person: input.contactPerson?.trim() || null,
+      p_phone: input.phone?.trim() || null,
+      p_whatsapp: input.whatsapp?.trim() || null,
+      p_email: input.email?.trim() || null,
+      p_address: input.address?.trim() || null,
+      p_tax_number: input.taxNumber?.trim() || null,
+      p_notes: input.notes?.trim() || null,
+      p_is_active: input.isActive ?? true,
+    });
 
     if (error) {
       console.error('updateSupplierInSupabase error:', error.message);
       return { success: false, error: error.message };
     }
 
-    const updatedSupplier: Supplier = {
-      id: data.id,
-      companyName: data.company_name,
-      contactPerson: data.contact_person || '',
-      phone: data.phone || '',
-      whatsapp: data.whatsapp || '',
-      address: data.address || '',
-      currentBalance: 0,
-      taxNumber: data.tax_number || '',
-      notes: data.notes || '',
-      email: data.email || '',
-      isActive: data.is_active ?? true,
-    };
+    if (!data?.success || !data?.supplier) {
+      return { success: false, error: 'لم يؤكد الخادم تحديث المورد.' };
+    }
 
-    return { success: true, data: updatedSupplier };
+    return { success: true, data: mapSupplierRow(data.supplier) };
   } catch (err: any) {
     console.error('Exception in updateSupplierInSupabase:', err);
     return { success: false, error: err?.message || 'حدث خطأ أثناء تحديث المورد' };
@@ -227,13 +194,15 @@ export async function toggleSupplierActiveInSupabase(
   }
 
   try {
-    const { error } = await supabase
-      .from('suppliers')
-      .update({ is_active: isActive, updated_at: new Date().toISOString() })
-      .eq('id', supplierId);
+    const { data, error } = await supabase.rpc('set_supplier_active', {
+      p_supplier_id: supplierId,
+      p_is_active: isActive,
+    });
 
     if (error) return { success: false, error: error.message };
-    return { success: true };
+    return data?.success
+      ? { success: true }
+      : { success: false, error: 'لم يؤكد الخادم تغيير حالة المورد.' };
   } catch (err: any) {
     return { success: false, error: err?.message };
   }
@@ -266,7 +235,14 @@ export async function fetchPurchaseOrdersFromSupabase(
           purchase_price_in_minor_units,
           discount_in_minor_units,
           line_total_in_minor_units,
-          products (id, name_ar, sku, barcode, unit_id, units(name_ar))
+          products (
+            id,
+            name_ar,
+            sku,
+            barcode,
+            unit_id,
+            base_unit:units!products_unit_id_fkey(name_ar)
+          )
         )
       `);
 
@@ -304,7 +280,7 @@ export async function fetchPurchaseOrdersFromSupabase(
         productName: item.products?.name_ar || 'منتج غير معروف',
         sku: item.products?.sku || '',
         barcode: item.products?.barcode || '',
-        unit: item.products?.units?.name_ar || 'قطعة',
+        unit: item.products?.base_unit?.name_ar || 'قطعة',
         orderedQuantity: item.ordered_quantity,
         receivedQuantity: item.received_quantity,
         purchasePrice: minorToJod(item.purchase_price_in_minor_units),
@@ -401,7 +377,14 @@ export async function fetchPurchaseOrderByIdFromSupabase(
           purchase_price_in_minor_units,
           discount_in_minor_units,
           line_total_in_minor_units,
-          products (id, name_ar, sku, barcode, unit_id, units(name_ar))
+          products (
+            id,
+            name_ar,
+            sku,
+            barcode,
+            unit_id,
+            base_unit:units!products_unit_id_fkey(name_ar)
+          )
         ),
         purchase_receipts (
           id,
@@ -441,7 +424,7 @@ export async function fetchPurchaseOrderByIdFromSupabase(
       productName: item.products?.name_ar || 'منتج غير معروف',
       sku: item.products?.sku || '',
       barcode: item.products?.barcode || '',
-      unit: item.products?.units?.name_ar || 'قطعة',
+      unit: item.products?.base_unit?.name_ar || 'قطعة',
       orderedQuantity: item.ordered_quantity,
       receivedQuantity: item.received_quantity,
       purchasePrice: minorToJod(item.purchase_price_in_minor_units),
@@ -634,22 +617,6 @@ export async function updatePurchaseOrderInSupabase(
   }
 
   try {
-    // 1. Verify status is draft
-    const { data: existingPo, error: fetchErr } = await supabase
-      .from('purchase_orders')
-      .select('id, status')
-      .eq('id', poId)
-      .single();
-
-    if (fetchErr || !existingPo) {
-      return { success: false, error: 'أمر الشراء غير موجود.' };
-    }
-
-    if (existingPo.status !== 'draft') {
-      return { success: false, error: 'تعديل أمر الشراء متاح فقط للطلبات بحالة مسودة (Draft).' };
-    }
-
-    // 2. Validate UUIDs
     const cleanSupplierId = isValidUUID(input.supplierId) ? input.supplierId.trim() : null;
     const cleanBranchId = isValidUUID(input.branchId) ? input.branchId.trim() : null;
     const cleanWarehouseId = isValidUUID(input.warehouseId) ? input.warehouseId.trim() : null;
@@ -662,81 +629,34 @@ export async function updatePurchaseOrderInSupabase(
       return { success: false, error: 'يجب إضافة منتج واحد على الأقل إلى طلب الشراء.' };
     }
 
-    // 3. Compute item line totals and subtotal
-    let subtotalMinor = 0;
-    const itemsToInsert = [];
+    const items = input.items.map((item) => ({
+      product_id: item.productId,
+      ordered_quantity: Math.max(1, Math.floor(Number(item.orderedQuantity) || 1)),
+      purchase_price_in_minor_units: jodToMinor(item.purchasePrice),
+      discount_in_minor_units: jodToMinor(item.discount),
+    }));
 
-    for (const item of input.items) {
-      const cleanProdId = isValidUUID(item.productId) ? item.productId.trim() : null;
-      if (!cleanProdId) {
-        return { success: false, error: `معرّف المنتج غير صالح: "${item.productId}"` };
-      }
+    const { data, error } = await supabase.rpc('update_purchase_order', {
+      p_purchase_order_id: poId,
+      p_supplier_id: cleanSupplierId,
+      p_branch_id: cleanBranchId,
+      p_warehouse_id: cleanWarehouseId,
+      p_expected_delivery_date: input.expectedDeliveryDate || null,
+      p_delivery_fee_in_minor_units: jodToMinor(input.deliveryFee),
+      p_discount_in_minor_units: jodToMinor(input.discount),
+      p_supplier_invoice_number: input.supplierInvoiceNumber?.trim() || null,
+      p_notes: input.notes?.trim() || null,
+      p_internal_notes: input.internalNotes?.trim() || null,
+      p_items: items,
+    });
 
-      const qty = Number(item.orderedQuantity) || 1;
-      const priceJod = Number(item.purchasePrice) || 0;
-      const discountJod = Number(item.discount) || 0;
-
-      const lineTotalJod = Math.max(0, qty * priceJod - discountJod);
-      const lineTotalMinor = jodToMinor(lineTotalJod);
-      subtotalMinor += lineTotalMinor;
-
-      itemsToInsert.push({
-        purchase_order_id: poId,
-        product_id: cleanProdId,
-        ordered_quantity: qty,
-        purchase_price_in_minor_units: jodToMinor(priceJod),
-        discount_in_minor_units: jodToMinor(discountJod),
-        line_total_in_minor_units: lineTotalMinor,
-      });
+    if (error) {
+      return { success: false, error: error.message };
     }
 
-    const deliveryFeeMinor = jodToMinor(input.deliveryFee || 0);
-    const orderDiscountMinor = jodToMinor(input.discount || 0);
-    const totalMinor = Math.max(0, subtotalMinor + deliveryFeeMinor - orderDiscountMinor);
-
-    // 4. Update purchase_orders table
-    const { error: updatePoErr } = await supabase
-      .from('purchase_orders')
-      .update({
-        supplier_id: cleanSupplierId,
-        branch_id: cleanBranchId,
-        warehouse_id: cleanWarehouseId,
-        expected_delivery_date: input.expectedDeliveryDate || null,
-        supplier_invoice_number: input.supplierInvoiceNumber || null,
-        delivery_fee_in_minor_units: deliveryFeeMinor,
-        discount_in_minor_units: orderDiscountMinor,
-        subtotal_in_minor_units: subtotalMinor,
-        total_in_minor_units: totalMinor,
-        notes: input.notes || null,
-        internal_notes: input.internalNotes || null,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', poId)
-      .eq('status', 'draft');
-
-    if (updatePoErr) {
-      return { success: false, error: `فشل تحديث أمر الشراء: ${updatePoErr.message}` };
-    }
-
-    // 5. Replace purchase_order_items (delete old, insert new)
-    const { error: delItemsErr } = await supabase
-      .from('purchase_order_items')
-      .delete()
-      .eq('purchase_order_id', poId);
-
-    if (delItemsErr) {
-      return { success: false, error: `فشل تحديث عناصر طلب الشراء: ${delItemsErr.message}` };
-    }
-
-    const { error: insItemsErr } = await supabase
-      .from('purchase_order_items')
-      .insert(itemsToInsert);
-
-    if (insItemsErr) {
-      return { success: false, error: `فشل حفظ عناصر طلب الشراء الجديدة: ${insItemsErr.message}` };
-    }
-
-    return { success: true, message: 'تم تحديث أمر الشراء بنجاح' };
+    return data?.success
+      ? { success: true, message: 'تم تحديث أمر الشراء بنجاح' }
+      : { success: false, error: 'لم يؤكد الخادم تحديث أمر الشراء.' };
   } catch (err: any) {
     console.error('Exception in updatePurchaseOrderInSupabase:', err);
     return { success: false, error: err?.message || 'خطأ أثناء تحديث أمر الشراء' };
@@ -754,45 +674,18 @@ export async function deletePurchaseOrderInSupabase(
   }
 
   try {
-    // Verify PO status is draft before deleting
-    const { data: po, error: fetchErr } = await supabase
-      .from('purchase_orders')
-      .select('id, status')
-      .eq('id', poId)
-      .single();
+    const { data, error } = await supabase.rpc(
+      'delete_draft_purchase_order',
+      { p_purchase_order_id: poId }
+    );
 
-    if (fetchErr || !po) {
-      return { success: false, error: 'طلب الشراء غير موجود' };
+    if (error) {
+      return { success: false, error: error.message };
     }
 
-    if (po.status !== 'draft') {
-      return {
-        success: false,
-        error: 'يمكن حذف أمر الشراء فقط عندما تكون حالته مسودة (Draft).',
-      };
-    }
-
-    // Delete purchase order items first
-    const { error: itemsErr } = await supabase
-      .from('purchase_order_items')
-      .delete()
-      .eq('purchase_order_id', poId);
-
-    if (itemsErr) {
-      return { success: false, error: `فشل حذف عناصر طلب الشراء: ${itemsErr.message}` };
-    }
-
-    // Delete purchase order
-    const { error: poErr } = await supabase
-      .from('purchase_orders')
-      .delete()
-      .eq('id', poId);
-
-    if (poErr) {
-      return { success: false, error: `فشل حذف طلب الشراء: ${poErr.message}` };
-    }
-
-    return { success: true, message: 'تم حذف طلب الشراء بنجاح' };
+    return data?.success
+      ? { success: true, message: 'تم حذف طلب الشراء بنجاح' }
+      : { success: false, error: 'لم يؤكد الخادم حذف أمر الشراء.' };
   } catch (err: any) {
     console.error('Exception in deletePurchaseOrderInSupabase:', err);
     return { success: false, error: err?.message || 'خطأ أثناء حذف طلب الشراء' };

@@ -5,6 +5,16 @@
 import React, { useState, useEffect } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { useAuthStore } from '../../stores/useAuthStore';
+import { isDeviceBiometricAvailable } from '../../services/deviceBiometrics.service';
+import {
+  beginTotpEnrollment,
+  getMfaStatus,
+  MfaStatus,
+  removeTotpFactor,
+  TotpEnrollment,
+  translateMfaError,
+  verifyTotpFactor,
+} from '../../services/supabase/mfa.service';
 import {
   User as UserIcon,
   ShieldCheck,
@@ -22,7 +32,6 @@ import {
   MessageSquare,
   LogOut,
   RefreshCw,
-  ShieldAlert,
   Sparkles,
   CheckCircle2,
   Building2,
@@ -30,7 +39,9 @@ import {
   Mail,
   Briefcase,
   Layers,
-  Info,
+  QrCode,
+  Copy,
+  Trash2,
 } from 'lucide-react';
 
 export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
@@ -40,8 +51,6 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
     branches,
     updateProfile,
     updateProfilePhoto,
-    updatePhone,
-    updateEmail,
     changePassword,
     isBiometricsEnabled,
     toggleFaceId,
@@ -52,6 +61,129 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
   } = useAppStore();
 
   const [activeTab, setActiveTab] = useState<'profile' | 'edit' | 'security' | 'notifications'>('profile');
+  const [isBiometricSupported, setIsBiometricSupported] = useState<
+    boolean | null
+  >(null);
+  const [isUpdatingBiometrics, setIsUpdatingBiometrics] = useState(false);
+  const [mfaStatus, setMfaStatus] = useState<MfaStatus | null>(null);
+  const [mfaEnrollment, setMfaEnrollment] = useState<TotpEnrollment | null>(null);
+  const [mfaCode, setMfaCode] = useState('');
+  const [isUpdatingMfa, setIsUpdatingMfa] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    void isDeviceBiometricAvailable().then((isAvailable) => {
+      if (isMounted) {
+        setIsBiometricSupported(isAvailable);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const handleBiometricToggle = async () => {
+    setIsUpdatingBiometrics(true);
+    await toggleFaceId();
+    setIsUpdatingBiometrics(false);
+  };
+
+  const refreshMfaStatus = async () => {
+    setIsUpdatingMfa(true);
+    try {
+      setMfaStatus(await getMfaStatus());
+    } catch (error) {
+      setToast(translateMfaError(error), 'error');
+    } finally {
+      setIsUpdatingMfa(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'security') {
+      void refreshMfaStatus();
+    }
+  }, [activeTab]);
+
+  const handleBeginMfaEnrollment = async () => {
+    setIsUpdatingMfa(true);
+    setMfaCode('');
+    try {
+      setMfaEnrollment(await beginTotpEnrollment());
+    } catch (error) {
+      setToast(translateMfaError(error), 'error');
+    } finally {
+      setIsUpdatingMfa(false);
+    }
+  };
+
+  const handleVerifyMfaEnrollment = async () => {
+    if (!mfaEnrollment) return;
+
+    setIsUpdatingMfa(true);
+    try {
+      await verifyTotpFactor(mfaEnrollment.factorId, mfaCode);
+      setMfaEnrollment(null);
+      setMfaCode('');
+      setMfaStatus(await getMfaStatus());
+      setToast('تم تفعيل المصادقة الثنائية بنجاح. سيُطلب الرمز عند تسجيل الدخول القادم.');
+    } catch (error) {
+      setToast(translateMfaError(error), 'error');
+    } finally {
+      setIsUpdatingMfa(false);
+    }
+  };
+
+  const handleCancelMfaEnrollment = async () => {
+    if (!mfaEnrollment) return;
+
+    setIsUpdatingMfa(true);
+    try {
+      await removeTotpFactor(mfaEnrollment.factorId);
+      setMfaEnrollment(null);
+      setMfaCode('');
+      setMfaStatus(await getMfaStatus());
+      setToast('تم إلغاء إعداد تطبيق المصادقة.');
+    } catch (error) {
+      setToast(translateMfaError(error), 'error');
+    } finally {
+      setIsUpdatingMfa(false);
+    }
+  };
+
+  const handleDisableMfa = async () => {
+    const factor = mfaStatus?.verifiedTotpFactor;
+    if (!factor) return;
+
+    const confirmed = window.confirm(
+      'هل أنت متأكد من إلغاء المصادقة الثنائية؟ سيبقى الحساب محميًا بكلمة المرور وFace ID المحلي فقط.'
+    );
+    if (!confirmed) return;
+
+    setIsUpdatingMfa(true);
+    try {
+      await removeTotpFactor(factor.id);
+      setMfaStatus(await getMfaStatus());
+      setToast('تم إلغاء المصادقة الثنائية من الحساب.');
+    } catch (error) {
+      setToast(translateMfaError(error), 'error');
+    } finally {
+      setIsUpdatingMfa(false);
+    }
+  };
+
+  const handleCopyMfaSecret = async () => {
+    if (!mfaEnrollment) return;
+
+    try {
+      await navigator.clipboard.writeText(mfaEnrollment.secret);
+      setToast('تم نسخ مفتاح الإعداد. احفظه في مكان آمن ولا تشاركه.');
+    } catch {
+      setToast('تعذر النسخ تلقائيًا. اضغط مطولًا على المفتاح لنسخه.', 'error');
+    }
+  };
 
   // Form Fields State
   const [name, setName] = useState(currentUser.name || '');
@@ -96,12 +228,6 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
   const [isSaving, setIsSaving] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
   const [showUnsavedPrompt, setShowUnsavedPrompt] = useState(false);
-
-  // OTP Verification Step State
-  const [showOtpStep, setShowOtpStep] = useState(false);
-  const [otpCode, setOtpCode] = useState('');
-  const [otpType, setOtpType] = useState<'email' | 'phone' | 'both'>('email');
-  const [pendingChanges, setPendingChanges] = useState<any>(null);
 
   const isOwnerOrAdmin = currentUser.role === 'Owner' || currentUser.role === 'Admin';
 
@@ -171,9 +297,6 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
 
     setIsSaving(true);
 
-    const isEmailChanged = email !== currentUser.email;
-    const isPhoneChanged = phone !== currentUser.phone;
-
     const updates = {
       name: name.trim(),
       email: email.trim(),
@@ -187,58 +310,13 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
       avatarUrl,
     };
 
-    // If Email or Phone changed, require OTP Verification!
-    if (isEmailChanged || isPhoneChanged) {
-      setTimeout(() => {
-        setIsSaving(false);
-        setPendingChanges(updates);
-        if (isEmailChanged && isPhoneChanged) setOtpType('both');
-        else if (isEmailChanged) setOtpType('email');
-        else setOtpType('phone');
-        setShowOtpStep(true);
-      }, 400);
-      return;
+    updateProfile(updates);
+    if (branchId !== currentUser.branchId && isOwnerOrAdmin) {
+      updateDefaultBranch(branchId);
     }
-
-    // Direct Save
-    setTimeout(() => {
-      updateProfile(updates);
-      if (branchId !== currentUser.branchId && isOwnerOrAdmin) {
-        updateDefaultBranch(branchId);
-      }
-      setIsSaving(false);
-      setActiveTab('profile');
-      setToast('تم تحديث بيانات ملفك الشخصي بنجاح!');
-    }, 500);
-  };
-
-  // Confirm OTP Verification
-  const handleVerifyOtp = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!otpCode || otpCode.trim().length < 4) {
-      setToast('يرجى إدخال رمز التحقق المكون من 4 أرقام', 'error');
-      return;
-    }
-
-    // Mock OTP verification - accepting 1234 or any 4 digit
-    setIsSaving(true);
-    setTimeout(() => {
-      if (pendingChanges) {
-        updateProfile(pendingChanges);
-        if (pendingChanges.phone !== currentUser.phone) {
-          updatePhone(pendingChanges.phone);
-        }
-        if (pendingChanges.email !== currentUser.email) {
-          updateEmail(pendingChanges.email);
-        }
-      }
-      setIsSaving(false);
-      setShowOtpStep(false);
-      setOtpCode('');
-      setPendingChanges(null);
-      setActiveTab('profile');
-      setToast('تم التأكد من الرمز وتحديث البريد والرقم بنجاح!');
-    }, 600);
+    setIsSaving(false);
+    setActiveTab('profile');
+    setToast('تم تحديث بيانات ملفك الشخصي بنجاح!');
   };
 
   // Password change submission
@@ -312,87 +390,6 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
               </button>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* OTP Verification Modal Overlay */}
-      {showOtpStep && (
-        <div className="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <form
-            onSubmit={handleVerifyOtp}
-            className="bg-slate-900 border border-slate-800 p-5 rounded-2xl max-w-md w-full space-y-4 shadow-2xl animate-scaleUp text-right"
-          >
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div className="flex items-center gap-2.5 text-blue-400">
-                <ShieldAlert className="w-5 h-5" />
-                <h3 className="font-extrabold text-slate-100 text-sm">تأكيد رمز التحقق (OTP)</h3>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowOtpStep(false)}
-                className="p-1 text-slate-400 hover:text-slate-100"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <p className="text-[11px] text-slate-300 leading-relaxed">
-              لقد قمت بتعديل{' '}
-              <span className="font-bold text-blue-400">
-                {otpType === 'email'
-                  ? 'البريد الإلكتروني'
-                  : otpType === 'phone'
-                  ? 'رقم الهاتف'
-                  : 'البريد الإلكتروني ورقم الهاتف'}
-              </span>
-              . لضمان أمان حسابك، أرسلنا كود التحقق المكون من 4 أرقام.
-            </p>
-
-            <div className="bg-blue-950/60 border border-blue-800/80 p-3 rounded-xl text-[10px] text-blue-300 flex items-center gap-2">
-              <Info className="w-4 h-4 text-blue-400 shrink-0" />
-              <span>
-                رمز التحقق التجريبي هو <strong className="text-white underline font-mono text-xs">1234</strong>
-              </span>
-            </div>
-
-            <div className="space-y-1">
-              <label className="text-[11px] font-bold text-slate-300 block">رمز التحقق *</label>
-              <input
-                type="text"
-                maxLength={4}
-                required
-                autoFocus
-                placeholder="1234"
-                value={otpCode}
-                onChange={(e) => setOtpCode(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-100 text-center font-mono text-lg tracking-widest focus:outline-none focus:border-blue-500"
-              />
-            </div>
-
-            <div className="flex gap-2 pt-2">
-              <button
-                type="submit"
-                disabled={isSaving}
-                className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg disabled:opacity-50"
-              >
-                {isSaving ? (
-                  <RefreshCw className="w-4 h-4 animate-spin" />
-                ) : (
-                  <>
-                    <CheckCircle2 className="w-4 h-4" />
-                    <span>تأكيد وتحديث الحساب</span>
-                  </>
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowOtpStep(false)}
-                className="px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition"
-              >
-                إلغاء
-              </button>
-            </div>
-          </form>
         </div>
       )}
 
@@ -770,6 +767,139 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
       {/* --- TAB 3: Security, Password & Active Sessions --- */}
       {activeTab === 'security' && (
         <div className="space-y-4 animate-fadeIn">
+          {/* Server-side MFA (TOTP) */}
+          <div className="space-y-3 rounded-2xl border border-blue-800/70 bg-blue-950/20 p-4">
+            <div className="flex items-start justify-between gap-3 border-b border-blue-900/70 pb-3">
+              <div className="flex items-center gap-3">
+                <div className="rounded-xl bg-blue-600/20 p-2.5 text-blue-300">
+                  <QrCode className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-extrabold text-slate-100">
+                    المصادقة الثنائية عبر تطبيق Authenticator
+                  </h4>
+                  <p className="mt-0.5 text-[10px] leading-relaxed text-slate-400">
+                    حماية حقيقية من Supabase تتطلب كلمة المرور ورمزًا متغيرًا عند كل دخول جديد.
+                  </p>
+                </div>
+              </div>
+              <span
+                className={`shrink-0 rounded-full border px-2 py-1 text-[9px] font-black ${
+                  mfaStatus?.verifiedTotpFactor
+                    ? 'border-emerald-700 bg-emerald-950/70 text-emerald-300'
+                    : 'border-amber-800 bg-amber-950/60 text-amber-300'
+                }`}
+              >
+                {isUpdatingMfa && !mfaStatus
+                  ? 'جاري الفحص...'
+                  : mfaStatus?.verifiedTotpFactor
+                  ? 'مفعلة'
+                  : 'غير مفعلة'}
+              </span>
+            </div>
+
+            {mfaStatus?.verifiedTotpFactor ? (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 rounded-xl border border-emerald-900/70 bg-emerald-950/30 p-3 text-[10px] text-emerald-200">
+                  <CheckCircle2 className="h-4 w-4 shrink-0" />
+                  <span>
+                    الحساب محمي الآن بطبقتين. مستوى الجلسة الحالية: {mfaStatus.currentLevel || 'غير معروف'}.
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => void handleDisableMfa()}
+                  disabled={isUpdatingMfa}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-rose-800 bg-rose-950/50 py-2.5 text-[11px] font-bold text-rose-300 transition hover:bg-rose-900/60 disabled:opacity-50"
+                >
+                  {isUpdatingMfa ? (
+                    <RefreshCw className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Trash2 className="h-4 w-4" />
+                  )}
+                  <span>إلغاء المصادقة الثنائية</span>
+                </button>
+              </div>
+            ) : mfaEnrollment ? (
+              <div className="space-y-3">
+                <div className="grid gap-3 sm:grid-cols-[150px_1fr]">
+                  <div className="mx-auto rounded-2xl bg-white p-2 shadow-lg">
+                    <img
+                      src={
+                        mfaEnrollment.qrCode.startsWith('data:')
+                          ? mfaEnrollment.qrCode
+                          : `data:image/svg+xml;utf-8,${encodeURIComponent(mfaEnrollment.qrCode)}`
+                      }
+                      alt="رمز QR لتطبيق المصادقة"
+                      className="h-32 w-32"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <ol className="list-decimal space-y-1 pr-4 text-[10px] leading-relaxed text-slate-300">
+                      <li>افتح Google Authenticator أو Microsoft Authenticator.</li>
+                      <li>امسح رمز QR، ثم أدخل الرمز الظاهر في التطبيق.</li>
+                      <li>لا تشارك صورة QR أو مفتاح الإعداد مع أي شخص.</li>
+                    </ol>
+                    <button
+                      type="button"
+                      onClick={() => void handleCopyMfaSecret()}
+                      className="flex w-full items-center justify-between gap-2 rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 font-mono text-[10px] text-slate-300"
+                    >
+                      <span className="truncate" dir="ltr">{mfaEnrollment.secret}</span>
+                      <Copy className="h-3.5 w-3.5 shrink-0 text-blue-400" />
+                    </button>
+                  </div>
+                </div>
+
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  value={mfaCode}
+                  onChange={(event) =>
+                    setMfaCode(event.target.value.replace(/\D/g, '').slice(0, 6))
+                  }
+                  placeholder="000000"
+                  dir="ltr"
+                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2.5 text-center font-mono text-xl font-black tracking-[0.35em] text-slate-100 focus:border-blue-500 focus:outline-none"
+                />
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => void handleVerifyMfaEnrollment()}
+                    disabled={isUpdatingMfa || mfaCode.length !== 6}
+                    className="flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 py-2.5 text-[11px] font-black text-white transition hover:bg-blue-500 disabled:opacity-50"
+                  >
+                    {isUpdatingMfa && <RefreshCw className="h-3.5 w-3.5 animate-spin" />}
+                    <span>تأكيد وتفعيل</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => void handleCancelMfaEnrollment()}
+                    disabled={isUpdatingMfa}
+                    className="rounded-xl border border-slate-700 bg-slate-800 py-2.5 text-[11px] font-bold text-slate-300 disabled:opacity-50"
+                  >
+                    إلغاء
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => void handleBeginMfaEnrollment()}
+                disabled={isUpdatingMfa || !mfaStatus}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-2.5 text-[11px] font-black text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500 disabled:opacity-50"
+              >
+                {isUpdatingMfa ? (
+                  <RefreshCw className="h-4 w-4 animate-spin" />
+                ) : (
+                  <ShieldCheck className="h-4 w-4" />
+                )}
+                <span>تفعيل تطبيق المصادقة</span>
+              </button>
+            )}
+          </div>
+
           {/* Biometrics Face ID Switch */}
           <div className="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -777,15 +907,27 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                 <Smartphone className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-extrabold text-slate-100 text-xs">حماية الحساب ببصمة الوجه Face ID</h4>
-                <p className="text-[10px] text-slate-400">تطبيق القفل وتأكيد الهوية عند بدء التشغيل</p>
+                <h4 className="font-extrabold text-slate-100 text-xs">
+                  حماية التطبيق ببصمة الجهاز (Face ID)
+                </h4>
+                <p className="text-[10px] text-slate-400">
+                  {isBiometricSupported === null
+                    ? 'جاري فحص دعم بصمة الجهاز...'
+                    : isBiometricSupported
+                    ? 'قفل التطبيق والتحقق الحقيقي عند بدء جلسة جديدة'
+                    : 'غير مدعومة على هذا الجهاز أو الاتصال غير آمن'}
+                </p>
               </div>
             </div>
             <input
               type="checkbox"
               checked={isBiometricsEnabled}
-              onChange={toggleFaceId}
-              className="w-5 h-5 accent-blue-600 rounded cursor-pointer"
+              onChange={() => void handleBiometricToggle()}
+              disabled={
+                isUpdatingBiometrics ||
+                (!isBiometricsEnabled && isBiometricSupported !== true)
+              }
+              className="w-5 h-5 accent-blue-600 rounded cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
             />
           </div>
 

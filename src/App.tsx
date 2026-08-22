@@ -3,7 +3,7 @@
  * Standalone iPhone iOS Business & Accounting App Engine
  */
 
-import React from 'react';
+import React, { lazy, Suspense, useEffect, useRef } from 'react';
 import { useAppStore } from './stores/useAppStore';
 import { useAuthStore } from './stores/useAuthStore';
 import { LoginView } from './features/auth/LoginView';
@@ -11,29 +11,189 @@ import { IPhoneContainer } from './components/layout/IPhoneContainer';
 import { Header } from './components/common/Header';
 import { BottomTabs } from './components/layout/BottomTabs';
 import { QuickActionButton } from './components/layout/QuickActionButton';
-import { DashboardView } from './features/dashboard/DashboardView';
-import { OrdersCenterView } from './features/orders/OrdersCenterView';
-import { PosView } from './features/pos/PosView';
-import { ProductsView } from './features/products/ProductsView';
-import { AccountsView } from './features/accounts/AccountsView';
-import { InventoryView } from './features/inventory/InventoryView';
-import { AccountingView } from './features/accounting/AccountingView';
-import { ExpensesView } from './features/expenses/ExpensesView';
-import { ShiftsView } from './features/shifts/ShiftsView';
-import { ReportsCenterView } from './features/reports/ReportsCenterView';
-import { UsersView } from './features/users/UsersView';
-import { MoreMenuView } from './features/more/MoreMenuView';
-import { DirectReceivingView } from './features/directReceiving/DirectReceivingView';
-import { SystemTestView } from './features/systemTest/SystemTestView';
-import { AllModals } from './components/modals/AllModals';
 import { Building2, Loader2 } from 'lucide-react';
+import { AppErrorBoundary } from './components/common/AppErrorBoundary';
+
+const DashboardView = lazy(() =>
+  import('./features/dashboard/DashboardView').then((module) => ({
+    default: module.DashboardView,
+  }))
+);
+const OrdersCenterView = lazy(() =>
+  import('./features/orders/OrdersCenterView').then((module) => ({
+    default: module.OrdersCenterView,
+  }))
+);
+const PosView = lazy(() =>
+  import('./features/pos/PosView').then((module) => ({
+    default: module.PosView,
+  }))
+);
+const ProductsView = lazy(() =>
+  import('./features/products/ProductsView').then((module) => ({
+    default: module.ProductsView,
+  }))
+);
+const AccountsView = lazy(() =>
+  import('./features/accounts/AccountsView').then((module) => ({
+    default: module.AccountsView,
+  }))
+);
+const InventoryView = lazy(() =>
+  import('./features/inventory/InventoryView').then((module) => ({
+    default: module.InventoryView,
+  }))
+);
+const ExpensesView = lazy(() =>
+  import('./features/expenses/ExpensesView').then((module) => ({
+    default: module.ExpensesView,
+  }))
+);
+const ShiftsView = lazy(() =>
+  import('./features/shifts/ShiftsView').then((module) => ({
+    default: module.ShiftsView,
+  }))
+);
+const ReportsCenterView = lazy(() =>
+  import('./features/reports/ReportsCenterView').then((module) => ({
+    default: module.ReportsCenterView,
+  }))
+);
+const UsersView = lazy(() =>
+  import('./features/users/UsersView').then((module) => ({
+    default: module.UsersView,
+  }))
+);
+const MoreMenuView = lazy(() =>
+  import('./features/more/MoreMenuView').then((module) => ({
+    default: module.MoreMenuView,
+  }))
+);
+const DirectReceivingView = lazy(() =>
+  import('./features/directReceiving/DirectReceivingView').then((module) => ({
+    default: module.DirectReceivingView,
+  }))
+);
+const AllModals = lazy(() =>
+  import('./components/modals/AllModals').then((module) => ({
+    default: module.AllModals,
+  }))
+);
+
+const ViewLoadingFallback: React.FC = () => (
+  <div className="flex min-h-[50vh] items-center justify-center" dir="rtl">
+    <div className="flex items-center gap-2 rounded-2xl border border-slate-800 bg-slate-900 px-4 py-3 text-xs font-bold text-slate-300 shadow-lg">
+      <Loader2 className="h-4 w-4 animate-spin text-blue-400" />
+      <span>جاري فتح الشاشة...</span>
+    </div>
+  </div>
+);
 
 export const App: React.FC = () => {
-  const { activeTab, toast, setToast } = useAppStore();
-  const { isAuthenticated, isLoading: isAuthLoading } = useAuthStore();
+  const {
+    activeTab,
+    toast,
+    setToast,
+    currentUser,
+    isBiometricsEnabled,
+    lockWithFaceId,
+    setActiveTab,
+  } = useAppStore();
+  const {
+    isAuthenticated,
+    isLoading: isAuthLoading,
+    user: authenticatedUser,
+  } = useAuthStore();
+  const mainScrollRef = useRef<HTMLElement>(null);
+  const biometricSessionUserRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('screen') === 'orders') {
+      setActiveTab('orders');
+      params.delete('screen');
+      params.delete('order');
+      const query = params.toString();
+      window.history.replaceState(
+        null,
+        '',
+        `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`,
+      );
+    }
+  }, [isAuthenticated, setActiveTab]);
+
+  useEffect(() => {
+    if (mainScrollRef.current) {
+      mainScrollRef.current.scrollTop = 0;
+    }
+  }, [activeTab]);
+
+  useEffect(() => {
+    const themeMode = currentUser.themeMode === 'light' ? 'light' : 'dark';
+    const root = document.documentElement;
+
+    root.dataset.theme = themeMode;
+    root.classList.toggle('theme-light', themeMode === 'light');
+    root.classList.toggle('theme-dark', themeMode === 'dark');
+    root.style.colorScheme = themeMode;
+
+    document
+      .querySelector<HTMLMetaElement>('meta[name="theme-color"]')
+      ?.setAttribute('content', themeMode === 'light' ? '#f8fafc' : '#020617');
+  }, [currentUser.themeMode]);
+
+  useEffect(() => {
+    if (isAuthLoading) {
+      return;
+    }
+
+    if (!isAuthenticated || !authenticatedUser?.id) {
+      biometricSessionUserRef.current = null;
+      return;
+    }
+
+    if (biometricSessionUserRef.current === authenticatedUser.id) {
+      return;
+    }
+
+    biometricSessionUserRef.current = authenticatedUser.id;
+    if (isBiometricsEnabled) {
+      lockWithFaceId();
+    }
+  }, [
+    authenticatedUser?.id,
+    isAuthenticated,
+    isAuthLoading,
+    isBiometricsEnabled,
+    lockWithFaceId,
+  ]);
+
+  useEffect(() => {
+    let wasHidden = false;
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        wasHidden = true;
+        return;
+      }
+
+      if (wasHidden && isAuthenticated && isBiometricsEnabled) {
+        wasHidden = false;
+        lockWithFaceId();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [isAuthenticated, isBiometricsEnabled, lockWithFaceId]);
 
   const renderActiveTabContent = () => {
     switch (activeTab) {
+      case 'home':
       case 'dashboard':
         return <DashboardView />;
       case 'orders':
@@ -46,8 +206,6 @@ export const App: React.FC = () => {
         return <AccountsView />;
       case 'inventory':
         return <InventoryView />;
-      case 'accounting':
-        return <AccountingView />;
       case 'expenses':
         return <ExpensesView />;
       case 'shifts':
@@ -60,8 +218,6 @@ export const App: React.FC = () => {
         return <DirectReceivingView />;
       case 'more':
         return <MoreMenuView />;
-      case 'system_test':
-        return <SystemTestView />;
       default:
         return <DashboardView />;
     }
@@ -117,8 +273,12 @@ export const App: React.FC = () => {
       <Header />
 
       {/* Main Active View Scroll Area */}
-      <main className="flex-1 overflow-y-auto no-scrollbar">
-        {renderActiveTabContent()}
+      <main ref={mainScrollRef} className="flex-1 overflow-y-auto no-scrollbar">
+        <AppErrorBoundary key={activeTab}>
+          <Suspense fallback={<ViewLoadingFallback />}>
+            {renderActiveTabContent()}
+          </Suspense>
+        </AppErrorBoundary>
       </main>
 
       {/* Speed Dial Quick Action Floating Button */}
@@ -128,7 +288,9 @@ export const App: React.FC = () => {
       <BottomTabs />
 
       {/* All Modal Sheets Dispatcher */}
-      <AllModals />
+      <Suspense fallback={null}>
+        <AllModals />
+      </Suspense>
     </IPhoneContainer>
   );
 };

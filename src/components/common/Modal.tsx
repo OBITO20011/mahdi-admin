@@ -13,6 +13,7 @@ interface ModalProps {
   subtitle?: string;
   children: React.ReactNode;
   maxHeight?: string;
+  maxWidth?: string;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -22,6 +23,7 @@ export const Modal: React.FC<ModalProps> = ({
   subtitle,
   children,
   maxHeight = 'max-h-[90vh]',
+  maxWidth = 'max-w-lg',
 }) => {
   return (
     <AnimatePresence>
@@ -32,7 +34,7 @@ export const Modal: React.FC<ModalProps> = ({
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: '100%', opacity: 0 }}
             transition={{ type: 'spring', damping: 26, stiffness: 220 }}
-            className={`w-full max-w-lg bg-slate-900 border border-slate-800 rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col ${maxHeight} overflow-hidden`}
+            className={`w-full ${maxWidth} bg-slate-900 border border-slate-800 rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col ${maxHeight} overflow-hidden`}
           >
             {/* Sheet Drag Handle Indicator */}
             <div className="w-12 h-1 bg-slate-700 rounded-full mx-auto my-2 shrink-0 sm:hidden" />
@@ -45,6 +47,7 @@ export const Modal: React.FC<ModalProps> = ({
               </div>
               <button
                 onClick={onClose}
+                aria-label="إغلاق"
                 className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-100 flex items-center justify-center transition"
               >
                 <X className="w-4 h-4" />

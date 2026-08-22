@@ -50,6 +50,10 @@ export interface SupplierReceiptPayment {
   paymentDate: string;
   notes?: string;
   createdBy?: string;
+  isReversed?: boolean;
+  reversedAt?: string;
+  reversedBy?: string;
+  reversalReason?: string;
   createdAt: string;
 }
 
@@ -100,7 +104,7 @@ export interface DirectReceiptItemInput {
   packageQuantity: number; // INTEGER
   unitsPerPackage: number; // INTEGER
   packagePriceInMinorUnits: number;
-  sellingPriceInMinorUnits?: number;
+  updateProductDefaults?: boolean;
   discountInMinorUnits?: number;
   batchNumber?: string;
   productionDate?: string;
@@ -125,4 +129,31 @@ export interface DirectReceiptForm {
   internalNotes?: string;
   idempotencyKey?: string;
   items: DirectReceiptItemInput[];
+}
+
+export interface ReceivingProduct {
+  id: string;
+  nameAr: string;
+  sku: string;
+  barcode: string;
+  baseUnitId?: string;
+  baseUnitName: string;
+  baseUnitCode?: string;
+  purchaseUnitId?: string;
+  purchaseUnitName: string;
+  purchaseUnitCode?: string;
+  unitsPerPackage: number;
+  defaultPackagePriceInMinorUnits: number;
+  costPriceInMinorUnits: number;
+  salePriceInMinorUnits: number;
+  onHandQuantity: number;
+  reservedQuantity: number;
+  availableQuantity: number;
+  minStockLevel: number;
+  inventoryBalances: Array<{
+    warehouseId: string;
+    onHandQuantity: number;
+    reservedQuantity: number;
+    availableQuantity: number;
+  }>;
 }
