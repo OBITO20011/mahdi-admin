@@ -78,7 +78,11 @@ if (-not $restoreDrillTask) {
 elseif ($restoreDrillTask.Principal.LogonType -eq 'Interactive') {
   $actionRequired += 'The restore drill runs only after Windows sign-in. Run backup:background for signed-out operation.'
 }
-if ($restoreDrillTaskInfo -and $restoreDrillTaskInfo.LastRunTime -and $restoreDrillTaskInfo.LastRunTime -gt [datetime]::MinValue -and $restoreDrillTaskInfo.LastTaskResult -ne 0) {
+# 267011 (0x41303) is the documented Task Scheduler result for a newly
+# registered task that has not run yet. A manual restore report can already be
+# valid at that point, so it must not be presented as a failed scheduled run.
+$taskHasNotRunYetResult = 267011
+if ($restoreDrillTaskInfo -and $restoreDrillTaskInfo.LastTaskResult -notin @(0, $taskHasNotRunYetResult)) {
   $actionRequired += 'The latest restore drill task attempt did not return 0. Review restore-drill-runner.log.'
 }
 if (-not $latestRestoreDrillStatus) {

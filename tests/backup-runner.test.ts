@@ -88,6 +88,7 @@ test('background backup helper requests the Windows credential locally and statu
   assert.match(status, /restoreDrillTask/u);
   assert.match(status, /latestRestoreDrill/u);
   assert.match(status, /last-restore-drill-status\.json/u);
+  assert.match(status, /taskHasNotRunYetResult = 267011/u);
   assert.match(status, /ConvertTo-SecureString -String \$config\.archivePassphrase/u);
   assert.doesNotMatch(status, /GetNetworkCredential/u);
   assert.doesNotMatch(status, /Write-(Host|Output).*Passphrase/iu);
