@@ -378,7 +378,7 @@ export function buildWhatsAppOrderMessage({
 }: WhatsAppOrderSummary): string {
   const itemLines = items.map(
     (item) =>
-      `• ${item.nameAr}: ${item.quantity} ${item.saleUnitNameAr} × ${formatJod(
+      `• ${item.nameAr} — ${item.quantity} ${item.saleUnitNameAr} × ${formatJod(
         item.unitPriceInMinorUnits
       )}`
   );
@@ -394,9 +394,11 @@ export function buildWhatsAppOrderMessage({
     .join(' - ');
 
   return [
-    'مرحبًا محلات النواصرة،',
-    `تم تسجيل طلبي رقم ${receipt.orderNumber} في النظام.`,
+    '🛒 *طلب جملة جديد من الموقع*',
+    `رقم الطلب: *${receipt.orderNumber}*`,
+    'تم حفظ الطلب في النظام؛ يرجى مراجعته وتأكيده من تطبيق الإدارة.',
     '',
+    `📦 *الأصناف (${items.length})*`,
     ...itemLines,
     '',
     receipt.discountInMinorUnits > 0
@@ -407,10 +409,13 @@ export function buildWhatsAppOrderMessage({
           receipt.discountInMinorUnits
         )}`
       : '',
+    '🚚 *التوصيل والتحصيل*',
     `منطقة التوصيل: ${receipt.deliveryZone === 'inside_ramtha' ? 'داخل الرمثا' : 'خارج الرمثا'}`,
     `أجرة التوصيل: ${formatJod(receipt.deliveryFeeInMinorUnits)}`,
-    `الإجمالي: ${formatJod(receipt.totalInMinorUnits)}`,
     `طريقة الدفع: ${paymentMethod === 'cliq' ? 'CliQ' : 'كاش عند الاستلام'}`,
+    `💰 *الإجمالي المطلوب: ${formatJod(receipt.totalInMinorUnits)}*`,
+    '',
+    '👤 *بيانات العميل*',
     `الاسم: ${customer.fullName.trim()}`,
     `الهاتف: ${normalizeJordanPhone(customer.phone) || customer.phone.trim()}`,
     `العنوان: ${address}`,
@@ -421,7 +426,7 @@ export function buildWhatsAppOrderMessage({
       ? `ملاحظات: ${customer.customerNotes.trim()}`
       : '',
     '',
-    'يرجى تأكيد الطلب والتوصيل، شكرًا.',
+    'يرجى تأكيد الطلب للعميل، شكرًا.',
   ]
     .filter((line, index, allLines) => line !== '' || allLines[index - 1] !== '')
     .join('\n');

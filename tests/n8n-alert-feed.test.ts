@@ -24,8 +24,14 @@ test('automation events are durable and deliveries are independent per channel',
 });
 
 test('ERP activity is captured by database triggers without duplicating business logic in n8n', () => {
-  assert.match(migration, /AFTER INSERT ON public\.orders/);
-  assert.match(migration, /NEW\.source = 'website'/);
+  const finalizedOrderAlertMigration = readFileSync(
+    'supabase/migrations/062_finalize_automation_order_alerts.sql',
+    'utf8',
+  );
+  assert.match(finalizedOrderAlertMigration, /AFTER INSERT OR UPDATE OF delivery_zone ON public\.orders/);
+  assert.match(finalizedOrderAlertMigration, /NEW\.delivery_zone IS NULL/);
+  assert.match(finalizedOrderAlertMigration, /customerPhone/);
+  assert.match(finalizedOrderAlertMigration, /deliveryFeeInMinorUnits/);
   assert.match(
     migration,
     /AFTER INSERT OR UPDATE OF status, severity ON public\.stock_alerts/,

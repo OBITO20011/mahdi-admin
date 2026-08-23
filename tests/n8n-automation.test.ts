@@ -19,6 +19,10 @@ const workflowImport = readFileSync(
   'automation/n8n/import-workflows.ps1',
   'utf8',
 );
+const workflowRefresh = readFileSync(
+  'automation/n8n/refresh-live-alert-workflows.ps1',
+  'utf8',
+);
 
 type AlertWorkflow = {
   name: string;
@@ -104,10 +108,33 @@ test('Telegram and WhatsApp message expressions compile before import', () => {
 
     assert.ok(expression, `${workflow.name} must define a message expression`);
     assert.match(expression, /^=\{\{[\s\S]+\}\}$/);
+    let formatter: ($json: Record<string, unknown>) => unknown;
     assert.doesNotThrow(() => {
       const source = expression.slice(3, -3);
-      new Function('$json', `return (${source})`);
+      formatter = new Function('$json', `return (${source})`) as (
+        $json: Record<string, unknown>
+      ) => unknown;
     });
+    const message = String(
+      formatter!({
+        eventType: 'new_order',
+        entityId: 'order-id',
+        payload: {
+          orderNumber: 'ORD-2026-001',
+          customerName: 'أحمد',
+          customerPhone: '0790000000',
+          deliveryAddress: 'الرمثا - الحي الشرقي',
+          deliveryZone: 'inside_ramtha',
+          deliveryFeeInMinorUnits: 2000,
+          totalInMinorUnits: 12000,
+          paymentMethod: 'cash_on_delivery',
+        },
+      })
+    );
+    assert.match(message, /طلب جديد من موقع النواصرة/);
+    assert.match(message, /كاش عند الاستلام/);
+    assert.match(message, /12\.000 د\.أ/);
+    assert.doesNotMatch(message, /\\u[0-9a-f]{4}/i);
   }
 });
 
@@ -120,4 +147,14 @@ test('the temporary WhatsApp recipient is centralized and normalized', () => {
   assert.match(workflowImport, /NAWASRAH_TELEGRAM_CHAT_ID/);
   assert.match(workflowImport, /NAWASRAH_WHATSAPP_RECIPIENT/);
   assert.match(workflowImport, /temporaryWorkflowPath/);
+  assert.match(workflowImport, /Get-Content -LiteralPath \$workflowPath -Raw -Encoding UTF8/);
+});
+
+test('the live refresh protects active workflows while verifying UTF-8', () => {
+  assert.match(workflowRefresh, /Get-Content -LiteralPath \$workflowPath -Raw -Encoding UTF8/);
+  assert.match(workflowRefresh, /nodes\s+= \$liveWorkflow\.nodes/);
+  assert.match(workflowRefresh, /active\s+= \[bool\]\$liveWorkflow\.active/);
+  assert.match(workflowRefresh, /if \(\$liveWorkflow\.active\)/);
+  assert.doesNotMatch(workflowRefresh, /--activeState=fromJson/);
+  assert.match(workflowRefresh, /UTF-8 verification failed/);
 });

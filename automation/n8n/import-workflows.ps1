@@ -43,7 +43,10 @@ try {
     throw 'NAWASRAH_WHATSAPP_RECIPIENT must use international digits only.'
   }
 
-  $workflowContent = Get-Content -LiteralPath $workflowPath -Raw
+  # The workflow contains Arabic message templates. PowerShell 5.1 otherwise
+  # assumes the local ANSI code page for a BOM-less file and corrupts the text
+  # before it reaches n8n/Telegram.
+  $workflowContent = Get-Content -LiteralPath $workflowPath -Raw -Encoding UTF8
   if ($telegramChatId) {
     $workflowContent = $workflowContent.Replace(
       'REPLACE_WITH_TELEGRAM_CHAT_ID',
