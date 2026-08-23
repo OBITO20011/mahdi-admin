@@ -1,6 +1,34 @@
 import React, { ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 
+const staleChunkReloadKey = 'nawasrah:stale-chunk-reload-at';
+const staleChunkReloadCooldownMs = 30_000;
+
+function isStaleChunkError(error: Error): boolean {
+  return /failed to fetch dynamically imported module|importing a module script failed|error loading dynamically imported module/i.test(
+    error.message,
+  );
+}
+
+function recoverFromStaleChunk(): boolean {
+  if (typeof window === 'undefined') return false;
+
+  try {
+    const now = Date.now();
+    const lastReloadAt = Number(window.sessionStorage.getItem(staleChunkReloadKey));
+
+    if (Number.isFinite(lastReloadAt) && now - lastReloadAt < staleChunkReloadCooldownMs) {
+      return false;
+    }
+
+    window.sessionStorage.setItem(staleChunkReloadKey, String(now));
+    window.location.reload();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 interface AppErrorBoundaryProps {
   children: ReactNode;
 }
@@ -23,6 +51,8 @@ export class AppErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
+    if (isStaleChunkError(error) && recoverFromStaleChunk()) return;
+
     console.error('[AppErrorBoundary]', error, info);
   }
 

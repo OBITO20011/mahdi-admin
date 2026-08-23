@@ -6,6 +6,10 @@ const migration = readFileSync(
   new URL('../supabase/migrations/066_secure_admin_ai_assistant.sql', import.meta.url),
   'utf8',
 );
+const inventoryMigration = readFileSync(
+  new URL('../supabase/migrations/067_admin_ai_inventory_lookup.sql', import.meta.url),
+  'utf8',
+);
 const edgeFunction = readFileSync(
   new URL('../supabase/functions/admin-ai-assistant/index.ts', import.meta.url),
   'utf8',
@@ -44,6 +48,22 @@ test('assistant reuses authenticated dashboard data and excludes personal order 
   assert.match(edgeFunction, /لا يحتوي بيانات شخصية/);
   assert.doesNotMatch(edgeFunction, /SUPABASE_SERVICE_ROLE_KEY/);
   assert.doesNotMatch(edgeFunction, /latestOrders/);
+});
+
+test('assistant answers product availability from a guarded live inventory RPC', () => {
+  assert.match(inventoryMigration, /get_admin_ai_inventory_snapshot/);
+  assert.match(inventoryMigration, /PERFORM public\.assert_erp_role/);
+  assert.match(inventoryMigration, /availableBaseUnits/);
+  assert.match(inventoryMigration, /availableSalePackages/);
+  assert.match(inventoryMigration, /REVOKE ALL ON FUNCTION public\.get_admin_ai_inventory_snapshot\(\) FROM PUBLIC, anon/);
+  assert.match(edgeFunction, /get_admin_ai_inventory_snapshot/);
+  assert.match(edgeFunction, /findInventoryMatches/);
+  assert.match(edgeFunction, /levenshteinDistance/);
+  assert.match(edgeFunction, /buildDirectInventoryAnswer/);
+  assert.match(edgeFunction, /alert\.nameAr/);
+  assert.match(edgeFunction, /alert\.availableSalePackages/);
+  assert.match(edgeFunction, /summary\.todaySalesInMinorUnits/);
+  assert.match(edgeFunction, /day\.salesInMinorUnits/);
 });
 
 test('Gemini key remains server-side and the UI does not persist conversations', () => {
