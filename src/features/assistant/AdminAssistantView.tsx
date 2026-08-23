@@ -29,6 +29,7 @@ export const AdminAssistantView: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastContext, setLastContext] = useState<AdminAssistantContext | undefined>();
+  const [lastProductSku, setLastProductSku] = useState<string | undefined>();
 
   const submit = async (event?: FormEvent, requestedMessage?: string) => {
     event?.preventDefault();
@@ -41,8 +42,13 @@ export const AdminAssistantView: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const { answer, context } = await askAdminAssistant(message, lastContext);
+      const { answer, context, productSku } = await askAdminAssistant(
+        message,
+        lastContext,
+        lastProductSku,
+      );
       if (context) setLastContext(context);
+      if (productSku) setLastProductSku(productSku);
       setMessages((current) => [...current, newMessage('assistant', answer)]);
     } catch (submissionError) {
       setError(
@@ -107,7 +113,7 @@ export const AdminAssistantView: React.FC = () => {
               className={
                 message.role === 'user'
                   ? 'mr-auto max-w-[88%] rounded-2xl rounded-tr-sm bg-blue-600 px-3 py-2.5 text-[11px] font-bold leading-6 text-white shadow'
-                  : 'ml-auto max-w-[92%] rounded-2xl rounded-tl-sm border border-violet-500/20 bg-slate-900 px-3 py-2.5 text-[11px] leading-6 text-slate-200 shadow'
+                  : 'ml-auto max-w-[92%] whitespace-pre-wrap rounded-2xl rounded-tl-sm border border-violet-500/20 bg-slate-900 px-3 py-2.5 text-[11px] leading-6 text-slate-200 shadow'
               }
             >
               {message.content}

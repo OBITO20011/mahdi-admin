@@ -5,6 +5,7 @@ export type AdminAssistantMessageRole = 'user' | 'assistant';
 export type AdminAssistantContext =
   | 'monitoring'
   | 'inventory'
+  | 'weekly_summary'
   | 'debts'
   | 'monthly_report'
   | 'orders'
@@ -20,4 +21,8 @@ export interface AdminAssistantMessage {
 export interface AdminAssistantResponse {
   answer: string;
   context?: AdminAssistantContext;
+  // The server returns this only after it found the product in the guarded
+  // inventory snapshot. It lets a short next question such as "كم سعرها؟"
+  // refer to the same product without storing the chat or customer data.
+  productSku?: string;
 }

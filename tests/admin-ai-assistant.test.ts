@@ -14,6 +14,10 @@ const operationalReportMigration = readFileSync(
   new URL('../supabase/migrations/068_admin_ai_operational_reports.sql', import.meta.url),
   'utf8',
 );
+const productPriceMigration = readFileSync(
+  new URL('../supabase/migrations/069_admin_ai_product_price_lookup.sql', import.meta.url),
+  'utf8',
+);
 const edgeFunction = readFileSync(
   new URL('../supabase/functions/admin-ai-assistant/index.ts', import.meta.url),
   'utf8',
@@ -68,11 +72,28 @@ test('assistant answers product availability from a guarded live inventory RPC',
   assert.ok(edgeFunction.includes(".replace(/[؟،؛]/g, ' ')"));
   assert.match(edgeFunction, /Array\.isArray\(payload\) \? payload\[0\] : payload/);
   assert.match(edgeFunction, /mapDashboardStockAlerts/);
+  assert.match(edgeFunction, /isAvailabilityQuestion/);
   assert.match(edgeFunction, /buildDirectInventoryAnswer/);
   assert.match(edgeFunction, /alert\.nameAr/);
   assert.match(edgeFunction, /alert\.availableSalePackages/);
   assert.match(edgeFunction, /summary\.todaySalesInMinorUnits/);
   assert.match(edgeFunction, /day\.salesInMinorUnits/);
+});
+
+test('assistant remembers only a safe product key and answers its wholesale price directly', () => {
+  assert.match(productPriceMigration, /salePriceInMinorUnits/);
+  assert.match(productPriceMigration, /default_sale_price_in_minor_units/);
+  assert.doesNotMatch(productPriceMigration, /cost_price_in_minor_units/);
+  assert.match(productPriceMigration, /PERFORM public\.assert_erp_role/);
+  assert.match(edgeFunction, /isProductPriceQuestion/);
+  assert.match(edgeFunction, /buildDirectProductPriceAnswer/);
+  assert.match(edgeFunction, /const followUpProductSku/);
+  assert.match(edgeFunction, /findInventoryItemBySku/);
+  assert.match(edgeFunction, /productSku: product\.sku/);
+  assert.match(service, /productSku\?: string/);
+  assert.match(service, /body: \{ message: normalizedMessage, context, productSku \}/);
+  assert.match(view, /const \[lastProductSku, setLastProductSku\]/);
+  assert.match(view, /lastProductSku/);
 });
 
 test('assistant answers debts and monthly reporting from guarded RPC facts', () => {
@@ -85,6 +106,8 @@ test('assistant answers debts and monthly reporting from guarded RPC facts', () 
   assert.match(edgeFunction, /buildDirectDebtAnswer/);
   assert.match(edgeFunction, /buildDirectMonthlyReportAnswer/);
   assert.match(edgeFunction, /buildDirectOrderStatusAnswer/);
+  assert.match(edgeFunction, /buildDirectWeeklySummary/);
+  assert.match(edgeFunction, /isWeeklySummaryQuestion/);
   assert.match(edgeFunction, /customerReceivablesInMinorUnits/);
   assert.match(edgeFunction, /supplierPayablesInMinorUnits/);
   assert.doesNotMatch(edgeFunction, /customerName/);
@@ -101,10 +124,10 @@ test('assistant grounds priority monitoring and short follow-ups in live dashboa
   assert.match(edgeFunction, /المخزون المنخفض/);
   assert.match(edgeFunction, /const followUpContext = asAssistantContext\(body\.context\)/);
   assert.match(edgeFunction, /context: 'monitoring'/);
-  assert.match(service, /body: \{ message: normalizedMessage, context \}/);
+  assert.match(service, /body: \{ message: normalizedMessage, context, productSku \}/);
   assert.match(service, /context: isAssistantContext\(data\.context\)/);
   assert.match(view, /const \[lastContext, setLastContext\] = useState<AdminAssistantContext/);
-  assert.match(view, /askAdminAssistant\(message, lastContext\)/);
+  assert.match(view, /askAdminAssistant\(\s*message,\s*lastContext,\s*lastProductSku,/);
   assert.doesNotMatch(view, /localStorage/);
 });
 

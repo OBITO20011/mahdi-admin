@@ -16,6 +16,7 @@ type InventoryItem = {
   sku: string;
   saleUnitName: string;
   unitsPerSaleUnit: number;
+  salePriceInMinorUnits: number;
   availableBaseUnits: number;
   availableSalePackages: number;
 };
@@ -29,6 +30,7 @@ type DashboardStockAlert = InventoryItem & {
 type AssistantContext =
   | 'monitoring'
   | 'inventory'
+  | 'weekly_summary'
   | 'debts'
   | 'monthly_report'
   | 'orders'
@@ -103,6 +105,11 @@ const asCount = (value: unknown) => {
   return Number.isFinite(count) ? Math.max(0, Math.trunc(count)) : 0;
 };
 
+const asMinorUnits = (value: unknown) => {
+  const amount = Number(value);
+  return Number.isFinite(amount) ? Math.max(0, Math.trunc(amount)) : 0;
+};
+
 const asRecord = (value: unknown): Record<string, unknown> =>
   value && typeof value === 'object' && !Array.isArray(value)
     ? value as Record<string, unknown>
@@ -169,6 +176,7 @@ const mapInventoryItems = (
     sku: String(item.sku ?? ''),
     saleUnitName: String(item.saleUnitName ?? 'طرد'),
     unitsPerSaleUnit: Math.max(1, asCount(item.unitsPerSaleUnit)),
+    salePriceInMinorUnits: asMinorUnits(item.salePriceInMinorUnits),
     availableBaseUnits: asCount(item.availableBaseUnits),
     availableSalePackages: asCount(item.availableSalePackages),
   })).filter((item) => item.productName.length > 0 || item.sku.length > 0);
@@ -181,6 +189,7 @@ const mapDashboardStockAlerts = (dashboard: DashboardPayload): InventoryItem[] =
       sku: alert.sku,
       saleUnitName: alert.saleUnitName,
       unitsPerSaleUnit: alert.unitsPerSaleUnit,
+      salePriceInMinorUnits: alert.salePriceInMinorUnits,
       availableBaseUnits: alert.availableBaseUnits,
       availableSalePackages: alert.availableSalePackages,
     })),
@@ -192,6 +201,7 @@ const getDashboardStockAlerts = (dashboard: DashboardPayload): DashboardStockAle
     sku: String(alert.sku ?? ''),
     saleUnitName: String(alert.saleUnitName ?? 'طرد'),
     unitsPerSaleUnit: Math.max(1, asCount(alert.unitsPerSaleUnit)),
+    salePriceInMinorUnits: asMinorUnits(alert.salePriceInMinorUnits),
     availableBaseUnits: asCount(alert.availableBaseUnits),
     availableSalePackages: asCount(alert.availableSalePackages),
     severity: String(alert.severity ?? 'low_stock'),
@@ -235,8 +245,11 @@ const findInventoryMatches = (message: string, items: InventoryItem[]): Inventor
     .slice(0, 5);
 };
 
-const isInventoryQuestion = (message: string) =>
-  /(موجود|متوفر|مخزون|رصيد|كم|باقي|بقي|available|stock|inventory|how many)/i.test(message);
+const isAvailabilityQuestion = (message: string) =>
+  /(موجود|متوفر|مخزون|رصيد|باقي|بقي|available|stock|inventory|how many)/i.test(message);
+
+const isProductPriceQuestion = (message: string) =>
+  /(سعر|بكم|بيعها|بتبيعها|للبيع|price|how much)/i.test(message);
 
 const isPriorityMonitoringQuestion = (message: string) =>
   /((اهم|أهم).{0,20}(امور|أمور|اشياء|أشياء).{0,28}(متابعة|تحتاج))|((متابعة|تحتاج).{0,28}(اهم|أهم).{0,20}(امور|أمور|اشياء|أشياء))|what needs attention|priority items/i.test(message);
@@ -270,6 +283,9 @@ const isOrderStatusQuestion = (message: string) =>
 const isDailySummaryQuestion = (message: string) =>
   /(ملخص.*اليوم|اليوم.*ملخص|اداء.*اليوم|أداء.*اليوم|مبيعات اليوم|شو وضع اليوم|وضع اليوم|today sales|daily summary)/i.test(message);
 
+const isWeeklySummaryQuestion = (message: string) =>
+  /((ملخص|تقرير|مبيعات|اداء|أداء).{0,24}(اسبوع|أسبوع))|((اسبوع|أسبوع).{0,24}(ملخص|تقرير|مبيعات|اداء|أداء))|weekly/i.test(message);
+
 const isProfitQuestion = (message: string) =>
   /(الربح|ارباح|أرباح|صافي الربح|profit)/i.test(message);
 
@@ -288,13 +304,38 @@ const formatInventoryQuantity = (item: InventoryItem) => {
 const buildDirectInventoryAnswer = (matches: InventoryMatch[]) => {
   if (matches.length === 1) {
     const item = matches[0];
-    return `«${item.productName || item.sku}» ${item.availableBaseUnits > 0 ? 'موجود' : 'غير متوفر'} الآن. المتاح: ${formatInventoryQuantity(item)} (${item.availableBaseUnits} حبة/قطعة أساسية).`;
+    const name = `«${item.productName || item.sku}»`;
+    if (item.availableSalePackages > 0) {
+      const contents = item.unitsPerSaleUnit > 1
+        ? ` (${item.unitsPerSaleUnit} حبة/قطعة في ${item.saleUnitName})`
+        : '';
+      return `${name}: متوفر للبيع — ${formatInventoryQuantity(item)}${contents}.`;
+    }
+    if (item.availableBaseUnits > 0) {
+      return `${name}: لا يوجد ${item.saleUnitName} كامل للبيع؛ المتبقي ${item.availableBaseUnits} حبة/قطعة.`;
+    }
+    return `${name}: غير متوفر حاليًا.`;
   }
 
   return `وجدت أكثر من صنف مطابق. ${matches.map((item) =>
     `«${item.productName || item.sku}»: ${formatInventoryQuantity(item)}`,
   ).join('، ')}.`;
 };
+
+const buildDirectProductPriceAnswer = (item: InventoryItem) => {
+  const name = `«${item.productName || item.sku}»`;
+  if (item.salePriceInMinorUnits <= 0) {
+    return `${name}: لم يُضبط سعر بيع ${item.saleUnitName} بعد.`;
+  }
+  const stockNote = item.availableSalePackages > 0 ? '' : ' الصنف غير متوفر للبيع الآن.';
+  return `${name}: سعر البيع ${formatJod(item.salePriceInMinorUnits)} لكل ${item.saleUnitName}.${stockNote}`;
+};
+
+const findInventoryItemBySku = (sku: string | undefined, items: InventoryItem[]) =>
+  sku ? items.find((item) => item.sku === sku) : undefined;
+
+const buildProductClarificationAnswer = () =>
+  'اكتب اسم المنتج أو SKU، مثل: «كم سعر water للبيع؟»';
 
 const statusLabel = (status: string) => ({
   new: 'جديدة',
@@ -340,6 +381,23 @@ const buildDirectDailySummary = (dashboard: DashboardPayload) => {
     ? ''
     : ` صافي ربح الشهر حتى الآن: ${formatJod(profit)}.`;
   return `ملخص اليوم: مبيعات مكتملة ${formatJod(summary.todaySalesInMinorUnits ?? summary.salesToday ?? 0)} من ${asCount(summary.todayCompletedOrders ?? summary.ordersToday)} طلب/فاتورة. الطلبات الجديدة: ${asCount(summary.newOrdersCount)}، والمفتوحة: ${asCount(summary.openOrdersCount)}. تنبيه المخزون: ${asCount(summary.lowStockCount)} منخفض و${asCount(summary.outOfStockCount)} نافد.${profitText}`;
+};
+
+const buildDirectWeeklySummary = (dashboard: DashboardPayload) => {
+  const sales = (dashboard.sevenDaySales || []).map((day) => ({
+    date: String(day.date ?? ''),
+    amount: asMinorUnits(day.salesInMinorUnits ?? day.sales ?? day.totalSales ?? day.amount),
+  }));
+  if (sales.length === 0) {
+    return 'لا توجد بيانات مبيعات كافية لملخص الأسبوع الحالي بعد.';
+  }
+
+  const total = sales.reduce((sum, day) => sum + day.amount, 0);
+  const bestDay = sales.reduce((best, day) => day.amount > best.amount ? day : best, sales[0]);
+  const bestDayText = bestDay.date
+    ? ` أعلى يوم: ${bestDay.date} (${formatJod(bestDay.amount)}).`
+    : '';
+  return `ملخص آخر ${sales.length} أيام: المبيعات ${formatJod(total)}.${bestDayText}`;
 };
 
 const describeStockAlert = (alert: DashboardStockAlert) => {
@@ -398,6 +456,7 @@ const buildDirectMonitoringAnswer = (dashboard: DashboardPayload) => {
 const assistantContexts = new Set<AssistantContext>([
   'monitoring',
   'inventory',
+  'weekly_summary',
   'debts',
   'monthly_report',
   'orders',
@@ -502,7 +561,7 @@ const buildSafeSnapshot = (dashboard: DashboardPayload, inventoryMatches: Invent
   };
 };
 
-const systemInstruction = 'أنت مساعد إداري عربي لنظام نواصرة للجملة. أجب بالعربية فقط وباختصار مفيد. ' +
+const systemInstruction = 'أنت مساعد إداري عربي لنظام نواصرة للجملة. أجب بالعربية فقط وباختصار شديد: سطر أو سطران، أو حتى 3 نقاط قصيرة عند الحاجة. ' +
   'المعلومات المعطاة لك هي ملخص تشغيلي مجهول الهوية. لا تطلب أو تخمّن بيانات شخصية، ولا تذكر عملاء أو أرقام هواتف أو عناوين. ' +
   'لا تدّعِ تنفيذ أي إجراء: أنت للقراءة والتحليل فقط ولا يمكنك تعديل الطلبات أو المخزون أو الحسابات. ' +
   'اعتمد فقط على الملخص المرفق. عند وجود inventoryMatches استخدم الكمية والاسم كما هما ولا تقل إن الصنف غير موجود. ' +
@@ -534,7 +593,7 @@ Deno.serve(async (request) => {
     return respond({ error: 'تعذر التحقق من جلسة الدخول.' }, 401, origin);
   }
 
-  let body: { message?: unknown; context?: unknown };
+  let body: { message?: unknown; context?: unknown; productSku?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -542,6 +601,9 @@ Deno.serve(async (request) => {
   }
   const message = typeof body.message === 'string' ? body.message.trim() : '';
   const followUpContext = asAssistantContext(body.context);
+  const followUpProductSku = typeof body.productSku === 'string' && body.productSku.trim().length > 0 && body.productSku.trim().length <= 128
+    ? body.productSku.trim()
+    : undefined;
   if (!message || message.length > 750) {
     return respond({ error: 'اكتب سؤالاً بين 1 و750 حرفاً.' }, 400, origin);
   }
@@ -573,12 +635,43 @@ Deno.serve(async (request) => {
     return respond({ error: 'تعذر تحميل مخزون الأصناف الحالي.' }, 500, origin);
   }
 
-  const inventoryMatches = findInventoryMatches(
-    message,
-    mapInventoryItems(inventorySnapshot as InventorySnapshotPayload | InventorySnapshotPayload[]),
+  const inventoryItems = mapInventoryItems(
+    inventorySnapshot as InventorySnapshotPayload | InventorySnapshotPayload[],
   );
-  if (isInventoryQuestion(message) && inventoryMatches.length > 0) {
-    return respond({ answer: buildDirectInventoryAnswer(inventoryMatches), context: 'inventory' }, 200, origin);
+  const inventoryMatches = findInventoryMatches(message, inventoryItems);
+  const followUpProduct = findInventoryItemBySku(followUpProductSku, inventoryItems);
+
+  // Price must be checked before availability. The old broad "كم" stock
+  // intent incorrectly treated "كم سعر Water؟" as a stock question.
+  if (isProductPriceQuestion(message)) {
+    if (inventoryMatches.length > 1) {
+      return respond({ answer: buildProductClarificationAnswer(), context: 'inventory' }, 200, origin);
+    }
+    const product = inventoryMatches[0] || followUpProduct;
+    if (!product) {
+      return respond({ answer: buildProductClarificationAnswer(), context: 'inventory' }, 200, origin);
+    }
+    return respond(
+      {
+        answer: buildDirectProductPriceAnswer(product),
+        context: 'inventory',
+        productSku: product.sku,
+      },
+      200,
+      origin,
+    );
+  }
+  if (isAvailabilityQuestion(message) && inventoryMatches.length > 0) {
+    const matchedProduct = inventoryMatches.length === 1 ? inventoryMatches[0] : undefined;
+    return respond(
+      {
+        answer: buildDirectInventoryAnswer(inventoryMatches),
+        context: 'inventory',
+        ...(matchedProduct ? { productSku: matchedProduct.sku } : {}),
+      },
+      200,
+      origin,
+    );
   }
 
   const { data: dashboard, error: dashboardError } = await caller.rpc('get_home_dashboard');
@@ -592,8 +685,17 @@ Deno.serve(async (request) => {
     message,
     mapDashboardStockAlerts(dashboardPayload),
   );
-  if (isInventoryQuestion(message) && dashboardInventoryMatches.length > 0) {
-    return respond({ answer: buildDirectInventoryAnswer(dashboardInventoryMatches), context: 'inventory' }, 200, origin);
+  if (isAvailabilityQuestion(message) && dashboardInventoryMatches.length > 0) {
+    const matchedProduct = dashboardInventoryMatches.length === 1 ? dashboardInventoryMatches[0] : undefined;
+    return respond(
+      {
+        answer: buildDirectInventoryAnswer(dashboardInventoryMatches),
+        context: 'inventory',
+        ...(matchedProduct ? { productSku: matchedProduct.sku } : {}),
+      },
+      200,
+      origin,
+    );
   }
 
   // These are business facts, not language-model interpretations. Answer the
@@ -614,6 +716,9 @@ Deno.serve(async (request) => {
       return respond({ error: 'أعاد التقرير الشهري بيانات غير صالحة.' }, 500, origin);
     }
     return respond({ answer: buildDirectMonthlyReportAnswer(mappedMonthlyReport), context: 'monthly_report' }, 200, origin);
+  }
+  if (isWeeklySummaryQuestion(message)) {
+    return respond({ answer: buildDirectWeeklySummary(dashboardPayload), context: 'weekly_summary' }, 200, origin);
   }
   if (isOrderStatusQuestion(message)) {
     return respond({ answer: buildDirectOrderStatusAnswer(dashboardPayload), context: 'orders' }, 200, origin);
@@ -651,6 +756,9 @@ Deno.serve(async (request) => {
     if (followUpContext === 'daily_summary') {
       return respond({ answer: buildDirectDailySummary(dashboardPayload), context: 'daily_summary' }, 200, origin);
     }
+    if (followUpContext === 'weekly_summary') {
+      return respond({ answer: buildDirectWeeklySummary(dashboardPayload), context: 'weekly_summary' }, 200, origin);
+    }
     if (followUpContext === 'profit') {
       const summary = dashboardPayload.summary || {};
       const profit = summary.monthProfitInMinorUnits ?? summary.netProfitThisMonth;
@@ -659,6 +767,17 @@ Deno.serve(async (request) => {
       }
     }
     if (followUpContext === 'inventory') {
+      if (followUpProduct) {
+        return respond(
+          {
+            answer: buildDirectInventoryAnswer([{ ...followUpProduct, score: 100 }]),
+            context: 'inventory',
+            productSku: followUpProduct.sku,
+          },
+          200,
+          origin,
+        );
+      }
       return respond({ answer: 'اكتب اسم المنتج أو SKU لأعطيك الكمية المتاحة بدقة.', context: 'inventory' }, 200, origin);
     }
     return respond({ answer: buildDirectMonitoringAnswer(dashboardPayload), context: 'monitoring' }, 200, origin);
