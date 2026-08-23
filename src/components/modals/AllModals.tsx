@@ -12,7 +12,6 @@ import { CategoriesModal } from './CategoriesModal';
 import { BrandsModal } from './BrandsModal';
 import { UnitsModal } from './UnitsModal';
 import { ProfileModal } from '../../features/more/ProfileModal';
-import { UserFormModal } from '../../features/users/UserFormModal';
 import { OrderDetailModal } from '../../features/orders/OrderDetailModal';
 import { CreateDirectReceiptModal } from '../../features/directReceiving/CreateDirectReceiptModal';
 import { WarehouseTransferModal } from '../../features/inventory/WarehouseTransferModal';
@@ -177,16 +176,6 @@ export const AllModals: React.FC = () => {
         subtitle="إنشاء الرموز ومتابعة الاستخدام وإيقافها مع حفظ السجل"
       >
         <PromotionCodesModal />
-      </Modal>
-
-      {/* 8. Add / Edit User Modal */}
-      <Modal
-        isOpen={currentModal === 'add_user' || currentModal === 'edit_user'}
-        onClose={closeModal}
-        title={currentModal === 'edit_user' ? 'تعديل بيانات الموظف' : 'إضافة موظف جديد لفرق العمل'}
-        subtitle="تحديد الدور والصلاحيات والفرع التابع له"
-      >
-        <UserFormModal initialUser={modalData} onClose={closeModal} />
       </Modal>
 
       {/* 9. View Order Details Modal */}

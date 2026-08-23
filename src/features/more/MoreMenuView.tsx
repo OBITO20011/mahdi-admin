@@ -18,6 +18,7 @@ import {
   Package,
   ReceiptText,
   Scan,
+  ShieldCheck,
   ShoppingBag,
   Store,
   Sun,
@@ -112,7 +113,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({
 );
 
 export const MoreMenuView: React.FC = () => {
-  const { signOut } = useAuthStore();
+  const { signOut, roleName } = useAuthStore();
   const {
     activeBranch,
     branches,
@@ -297,6 +298,15 @@ export const MoreMenuView: React.FC = () => {
           tone="bg-emerald-500/10 text-emerald-300"
           onClick={() => openModal('branches_list')}
         />
+        {roleName === 'owner' && (
+          <MenuItem
+            title="المستخدمون والصلاحيات"
+            description="إضافة الموظفين وتحديد دورهم وتعطيل الحسابات بأمان"
+            icon={ShieldCheck}
+            tone="bg-violet-500/10 text-violet-300"
+            onClick={() => setActiveTab('users')}
+          />
+        )}
         <MenuItem
           title="المخزون الفعلي"
           description="الأرصدة المتاحة والمحجوزة وسجل الحركات"

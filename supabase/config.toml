@@ -25,3 +25,6 @@ verify_jwt = false
 
 [functions.n8n-alert-feed]
 verify_jwt = false
+
+[functions.manage-staff-users]
+verify_jwt = true
