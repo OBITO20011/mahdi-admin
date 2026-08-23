@@ -18,6 +18,10 @@ const view = readFileSync(
   new URL('../src/features/assistant/AdminAssistantView.tsx', import.meta.url),
   'utf8',
 );
+const app = readFileSync(
+  new URL('../src/App.tsx', import.meta.url),
+  'utf8',
+);
 const functionConfig = readFileSync(
   new URL('../supabase/config.toml', import.meta.url),
   'utf8',
@@ -49,4 +53,11 @@ test('Gemini key remains server-side and the UI does not persist conversations',
   assert.doesNotMatch(service, /GEMINI_API_KEY/);
   assert.match(view, /useState<AdminAssistantMessage\[\]>\(\[\]\)/);
   assert.doesNotMatch(view, /localStorage/);
+});
+
+test('eligible staff can open the assistant from a fixed mobile launcher', () => {
+  assert.match(app, /aria-label="فتح المساعد الإداري الذكي"/);
+  assert.match(app, /bottom-20 left-3/);
+  assert.match(app, /activeTab !== 'assistant'/);
+  assert.match(app, /'owner', 'admin', 'manager', 'accountant'/);
 });

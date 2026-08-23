@@ -11,7 +11,7 @@ import { IPhoneContainer } from './components/layout/IPhoneContainer';
 import { Header } from './components/common/Header';
 import { BottomTabs } from './components/layout/BottomTabs';
 import { QuickActionButton } from './components/layout/QuickActionButton';
-import { Building2, Loader2 } from 'lucide-react';
+import { BotMessageSquare, Building2, Loader2 } from 'lucide-react';
 import { AppErrorBoundary } from './components/common/AppErrorBoundary';
 
 const DashboardView = lazy(() =>
@@ -108,9 +108,13 @@ export const App: React.FC = () => {
     isAuthenticated,
     isLoading: isAuthLoading,
     user: authenticatedUser,
+    roleName,
   } = useAuthStore();
   const mainScrollRef = useRef<HTMLElement>(null);
   const biometricSessionUserRef = useRef<string | null>(null);
+  const canUseAssistant = ['owner', 'admin', 'manager', 'accountant'].includes(
+    roleName || '',
+  );
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -292,6 +296,18 @@ export const App: React.FC = () => {
       <QuickActionButton />
 
       {/* Bottom iOS Navigation Bar */}
+      {canUseAssistant && activeTab !== 'assistant' && (
+        <button
+          type="button"
+          onClick={() => setActiveTab('assistant')}
+          aria-label="فتح المساعد الإداري الذكي"
+          className="absolute bottom-20 left-3 z-20 flex h-12 w-12 items-center justify-center rounded-2xl border border-violet-300/35 bg-gradient-to-br from-violet-500 to-indigo-700 text-white shadow-[0_14px_28px_-10px_rgba(139,92,246,0.95)] transition hover:from-violet-400 hover:to-indigo-600 active:scale-95"
+        >
+          <BotMessageSquare className="h-5 w-5" />
+          <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-slate-950 bg-emerald-400" />
+          <span className="sr-only">اسأل مساعد الإدارة</span>
+        </button>
+      )}
       <BottomTabs />
 
       {/* All Modal Sheets Dispatcher */}
