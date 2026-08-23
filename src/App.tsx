@@ -74,6 +74,11 @@ const DirectReceivingView = lazy(() =>
     default: module.DirectReceivingView,
   }))
 );
+const AdminAssistantView = lazy(() =>
+  import('./features/assistant/AdminAssistantView').then((module) => ({
+    default: module.AdminAssistantView,
+  }))
+);
 const AllModals = lazy(() =>
   import('./components/modals/AllModals').then((module) => ({
     default: module.AllModals,
@@ -216,6 +221,8 @@ export const App: React.FC = () => {
         return <UsersView />;
       case 'purchases':
         return <DirectReceivingView />;
+      case 'assistant':
+        return <AdminAssistantView />;
       case 'more':
         return <MoreMenuView />;
       default:

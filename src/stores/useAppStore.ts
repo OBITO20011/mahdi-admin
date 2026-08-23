@@ -160,7 +160,7 @@ export interface AppState {
 
   // App UI State
   isQuickActionOpen: boolean;
-  activeTab: 'home' | 'orders' | 'products' | 'accounts' | 'more' | 'dashboard' | 'pos' | 'inventory' | 'expenses' | 'shifts' | 'reports' | 'users' | 'purchases';
+  activeTab: 'home' | 'orders' | 'products' | 'accounts' | 'more' | 'dashboard' | 'pos' | 'inventory' | 'expenses' | 'shifts' | 'reports' | 'users' | 'purchases' | 'assistant';
   currentModal: string | null;
   modalData: any;
   customerNavigationTarget: string | null;
@@ -200,6 +200,7 @@ class StoreEngine {
               'reports',
               'users',
               'purchases',
+              'assistant',
             ].includes(parsed.activeTab)
               ? parsed.activeTab
               : initial.activeTab,

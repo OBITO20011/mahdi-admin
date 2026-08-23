@@ -9,6 +9,7 @@ import { isDeviceBiometricAvailable } from '../../services/deviceBiometrics.serv
 import { InstallAppPanel } from './InstallAppPanel';
 import {
   BarChart3,
+  BotMessageSquare,
   Building2,
   Boxes,
   ChevronDown,
@@ -155,6 +156,9 @@ export const MoreMenuView: React.FC = () => {
   const userBranch =
     branches.find((branch) => branch.id === currentUser.branchId)?.name ||
     activeBranch.name;
+  const canUseAssistant = ['owner', 'admin', 'manager', 'accountant'].includes(
+    roleName || '',
+  );
 
   return (
     <div dir="rtl" className="mx-auto max-w-2xl space-y-3 p-3 pb-28 sm:p-4">
@@ -250,6 +254,15 @@ export const MoreMenuView: React.FC = () => {
           tone="bg-indigo-500/10 text-indigo-300"
           onClick={() => setActiveTab('reports')}
         />
+        {canUseAssistant && (
+          <MenuItem
+            title="المساعد الإداري الذكي"
+            description="ملخص وتحليل آمن من بيانات العمل الحالية"
+            icon={BotMessageSquare}
+            tone="bg-violet-500/10 text-violet-300"
+            onClick={() => setActiveTab('assistant')}
+          />
+        )}
       </MenuSection>
 
       <MenuSection
