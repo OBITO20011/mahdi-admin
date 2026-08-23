@@ -95,6 +95,10 @@ test('assistant grounds priority monitoring and short follow-ups in live dashboa
   assert.match(edgeFunction, /isPriorityMonitoringQuestion/);
   assert.match(edgeFunction, /isAmbiguousFollowUpQuestion/);
   assert.match(edgeFunction, /buildDirectMonitoringAnswer/);
+  assert.match(edgeFunction, /getDashboardStockAlerts/);
+  assert.match(edgeFunction, /describeStockAlert/);
+  assert.match(edgeFunction, /المخزون غير الجاهز للبيع/);
+  assert.match(edgeFunction, /المخزون المنخفض/);
   assert.match(edgeFunction, /const followUpContext = asAssistantContext\(body\.context\)/);
   assert.match(edgeFunction, /context: 'monitoring'/);
   assert.match(service, /body: \{ message: normalizedMessage, context \}/);

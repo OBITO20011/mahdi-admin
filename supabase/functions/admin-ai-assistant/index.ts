@@ -22,6 +22,10 @@ type InventoryItem = {
 
 type InventoryMatch = InventoryItem & { score: number };
 
+type DashboardStockAlert = InventoryItem & {
+  severity: 'configuration' | 'out_of_stock' | 'low_stock' | string;
+};
+
 type AssistantContext =
   | 'monitoring'
   | 'inventory'
@@ -182,6 +186,17 @@ const mapDashboardStockAlerts = (dashboard: DashboardPayload): InventoryItem[] =
     })),
   });
 
+const getDashboardStockAlerts = (dashboard: DashboardPayload): DashboardStockAlert[] =>
+  (dashboard.stockAlerts || []).map((alert) => ({
+    productName: String(alert.nameAr ?? alert.productName ?? alert.name ?? ''),
+    sku: String(alert.sku ?? ''),
+    saleUnitName: String(alert.saleUnitName ?? 'طرد'),
+    unitsPerSaleUnit: Math.max(1, asCount(alert.unitsPerSaleUnit)),
+    availableBaseUnits: asCount(alert.availableBaseUnits),
+    availableSalePackages: asCount(alert.availableSalePackages),
+    severity: String(alert.severity ?? 'low_stock'),
+  })).filter((alert) => alert.productName.length > 0 || alert.sku.length > 0);
+
 const findInventoryMatches = (message: string, items: InventoryItem[]): InventoryMatch[] => {
   const queryTokens = searchTokens(message);
   if (queryTokens.length === 0) return [];
@@ -327,6 +342,19 @@ const buildDirectDailySummary = (dashboard: DashboardPayload) => {
   return `ملخص اليوم: مبيعات مكتملة ${formatJod(summary.todaySalesInMinorUnits ?? summary.salesToday ?? 0)} من ${asCount(summary.todayCompletedOrders ?? summary.ordersToday)} طلب/فاتورة. الطلبات الجديدة: ${asCount(summary.newOrdersCount)}، والمفتوحة: ${asCount(summary.openOrdersCount)}. تنبيه المخزون: ${asCount(summary.lowStockCount)} منخفض و${asCount(summary.outOfStockCount)} نافد.${profitText}`;
 };
 
+const describeStockAlert = (alert: DashboardStockAlert) => {
+  const name = `«${alert.productName || alert.sku}»`;
+  if (alert.severity === 'configuration') {
+    return `${name}: يحتاج ضبط وحدة البيع أو سعر الطرد`;
+  }
+  if (alert.severity === 'out_of_stock') {
+    return alert.availableBaseUnits > 0
+      ? `${name}: لا يوجد ${alert.saleUnitName} كامل للبيع (المتبقي ${alert.availableBaseUnits} حبة/قطعة)`
+      : `${name}: نافد بالكامل`;
+  }
+  return `${name}: المتاح ${formatInventoryQuantity(alert)}`;
+};
+
 const buildDirectMonitoringAnswer = (dashboard: DashboardPayload) => {
   const summary = dashboard.summary || {};
   const actions: string[] = [];
@@ -337,14 +365,30 @@ const buildDirectMonitoringAnswer = (dashboard: DashboardPayload) => {
   const configurationIssues = asCount(summary.configurationIssuesCount);
   const customerDue = summary.customerReceivablesInMinorUnits ?? summary.receivables ?? 0;
   const supplierDue = summary.supplierPayablesInMinorUnits ?? summary.payables ?? 0;
+  const stockAlerts = getDashboardStockAlerts(dashboard);
+  const outOfStockAlerts = stockAlerts.filter((alert) => alert.severity === 'out_of_stock');
+  const lowStockAlerts = stockAlerts.filter((alert) => alert.severity === 'low_stock');
+  const configurationAlerts = stockAlerts.filter((alert) => alert.severity === 'configuration');
 
   if (newOrders > 0) actions.push(`راجع ${newOrders} طلب جديد`);
   if (openOrders > 0) actions.push(`أكمل متابعة ${openOrders} طلب مفتوح`);
-  if (outOfStock > 0) actions.push(`عالج ${outOfStock} صنف نافد من المخزون`);
-  if (lowStock > 0) actions.push(`تابع ${lowStock} صنفًا منخفض المخزون`);
+  if (outOfStockAlerts.length > 0) {
+    actions.push(`المخزون غير الجاهز للبيع: ${outOfStockAlerts.map(describeStockAlert).join('، ')}`);
+  } else if (outOfStock > 0) {
+    actions.push(`عالج ${outOfStock} صنف نافد من المخزون`);
+  }
+  if (lowStockAlerts.length > 0) {
+    actions.push(`المخزون المنخفض: ${lowStockAlerts.map(describeStockAlert).join('، ')}`);
+  } else if (lowStock > 0) {
+    actions.push(`تابع ${lowStock} صنفًا منخفض المخزون`);
+  }
   if (asJod(customerDue) > 0) actions.push(`راجع ذمم العملاء بقيمة ${formatJod(customerDue)}`);
   if (asJod(supplierDue) > 0) actions.push(`راجع التزامات الموردين بقيمة ${formatJod(supplierDue)}`);
-  if (configurationIssues > 0) actions.push(`أكمل ضبط ${configurationIssues} إعدادات/أصناف تحتاج تهيئة`);
+  if (configurationAlerts.length > 0) {
+    actions.push(`أصناف تحتاج تهيئة: ${configurationAlerts.map(describeStockAlert).join('، ')}`);
+  } else if (configurationIssues > 0) {
+    actions.push(`أكمل ضبط ${configurationIssues} إعدادات/أصناف تحتاج تهيئة`);
+  }
 
   return actions.length > 0
     ? `أهم الأمور التي تحتاج متابعة الآن: ${actions.map((item, index) => `${index + 1}) ${item}`).join('، ')}.`
