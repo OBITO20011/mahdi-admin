@@ -75,6 +75,8 @@ test('background backup helper requests the Windows credential locally and statu
   assert.match(background, /Get-Credential/u);
   assert.match(background, /RunWhenUserLoggedOff/u);
   assert.match(background, /LogonType -ne 'Password'/u);
+  assert.match(background, /Keep the PSCredential in this PowerShell process/u);
+  assert.doesNotMatch(background, /& powershell\.exe .*\$scheduleScript/u);
   assert.match(status, /actionRequired/u);
   assert.match(status, /last-backup-status\.json/u);
   assert.match(status, /-Encoding UTF8/u);

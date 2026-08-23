@@ -31,15 +31,20 @@ if (-not $windowsCredential) {
   throw 'Background backup setup was cancelled before any task was changed.'
 }
 
-& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $scheduleScript `
-  -RunScript $runScript `
-  -ConfigPath $ConfigPath `
-  -ScheduleTime $scheduleTime `
-  -TaskName $TaskName `
-  -RunWhenUserLoggedOff `
-  -WindowsCredential $windowsCredential
-if ($LASTEXITCODE -ne 0) {
-  throw 'Windows could not save the background task credential. The existing task was not intentionally removed.'
+try {
+  # Keep the PSCredential in this PowerShell process. Passing it to a child
+  # powershell.exe process can degrade the account identity to plain text and
+  # makes Task Scheduler reject the Windows account SID mapping.
+  & $scheduleScript `
+    -RunScript $runScript `
+    -ConfigPath $ConfigPath `
+    -ScheduleTime $scheduleTime `
+    -TaskName $TaskName `
+    -RunWhenUserLoggedOff `
+    -WindowsCredential $windowsCredential
+}
+catch {
+  throw "Windows could not save the background task credential. The existing task was not intentionally removed. $($_.Exception.Message)"
 }
 
 $task = Get-ScheduledTask -TaskName $TaskName -ErrorAction Stop
