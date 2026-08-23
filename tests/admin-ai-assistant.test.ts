@@ -10,6 +10,10 @@ const inventoryMigration = readFileSync(
   new URL('../supabase/migrations/067_admin_ai_inventory_lookup.sql', import.meta.url),
   'utf8',
 );
+const operationalReportMigration = readFileSync(
+  new URL('../supabase/migrations/068_admin_ai_operational_reports.sql', import.meta.url),
+  'utf8',
+);
 const edgeFunction = readFileSync(
   new URL('../supabase/functions/admin-ai-assistant/index.ts', import.meta.url),
   'utf8',
@@ -69,6 +73,22 @@ test('assistant answers product availability from a guarded live inventory RPC',
   assert.match(edgeFunction, /alert\.availableSalePackages/);
   assert.match(edgeFunction, /summary\.todaySalesInMinorUnits/);
   assert.match(edgeFunction, /day\.salesInMinorUnits/);
+});
+
+test('assistant answers debts and monthly reporting from guarded RPC facts', () => {
+  assert.match(operationalReportMigration, /get_admin_ai_monthly_report/);
+  assert.match(operationalReportMigration, /PERFORM public\.assert_erp_role/);
+  assert.match(operationalReportMigration, /get_operational_business_report/);
+  assert.match(operationalReportMigration, /WHERE b\.is_active = true/);
+  assert.match(operationalReportMigration, /REVOKE ALL ON FUNCTION public\.get_admin_ai_monthly_report\(\)/);
+  assert.match(edgeFunction, /get_admin_ai_monthly_report/);
+  assert.match(edgeFunction, /buildDirectDebtAnswer/);
+  assert.match(edgeFunction, /buildDirectMonthlyReportAnswer/);
+  assert.match(edgeFunction, /buildDirectOrderStatusAnswer/);
+  assert.match(edgeFunction, /customerReceivablesInMinorUnits/);
+  assert.match(edgeFunction, /supplierPayablesInMinorUnits/);
+  assert.doesNotMatch(edgeFunction, /customerName/);
+  assert.doesNotMatch(edgeFunction, /customerPhone/);
 });
 
 test('Gemini key remains server-side and the UI does not persist conversations', () => {

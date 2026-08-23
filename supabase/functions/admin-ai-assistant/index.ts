@@ -22,6 +22,26 @@ type InventoryItem = {
 
 type InventoryMatch = InventoryItem & { score: number };
 
+type MonthlyReport = {
+  periodLabel: string;
+  branchCount: number;
+  sales: {
+    orderCount: number;
+    grossSalesInMinorUnits: number;
+    netSalesInMinorUnits: number;
+    netProfitInMinorUnits: number;
+    collectedInMinorUnits: number;
+    outstandingInMinorUnits: number;
+  };
+  expenses: { count: number; totalInMinorUnits: number };
+  purchases: { receiptCount: number; totalInMinorUnits: number };
+  balances: {
+    customerDueInMinorUnits: number;
+    supplierDueInMinorUnits: number;
+  };
+  inventory: { stockedProducts: number; lowStockProducts: number };
+};
+
 type GeminiResponse = {
   candidates?: Array<{
     content?: { parts?: Array<{ text?: string }> };
@@ -69,6 +89,14 @@ const asCount = (value: unknown) => {
   const count = Number(value);
   return Number.isFinite(count) ? Math.max(0, Math.trunc(count)) : 0;
 };
+
+const asRecord = (value: unknown): Record<string, unknown> =>
+  value && typeof value === 'object' && !Array.isArray(value)
+    ? value as Record<string, unknown>
+    : {};
+
+const formatJod = (valueInMinorUnits: unknown) =>
+  `${asJod(valueInMinorUnits).toFixed(3)} د.أ`;
 
 const normalizeForMatch = (value: string) =>
   value
@@ -186,6 +214,21 @@ const findInventoryMatches = (message: string, items: InventoryItem[]): Inventor
 const isInventoryQuestion = (message: string) =>
   /(موجود|متوفر|مخزون|رصيد|كم|باقي|بقي|available|stock|inventory|how many)/i.test(message);
 
+const isDebtQuestion = (message: string) =>
+  /(ذمم|ذمه|مديون|مستحقات العملاء|مستحقات الموردين|على العملاء|على الموردين|receivable|payable|debt)/i.test(message);
+
+const isMonthlyReportQuestion = (message: string) =>
+  /((تقرير|ملخص|اداء|أداء|مبيعات|مصروفات|مشتريات|ارباح|أرباح).{0,24}(شهري|الشهر))|((شهري|الشهر).{0,24}(تقرير|ملخص|اداء|أداء|مبيعات|مصروفات|مشتريات|ارباح|أرباح))|monthly/i.test(message);
+
+const isOrderStatusQuestion = (message: string) =>
+  /(وضع الطلبات|حالة الطلبات|طلبات جديدة|طلبات جديده|قيد التجهيز|جاهز للتوصيل|بالتوصيل|طلبات اليوم|طلبات مفتوحة|طلبات مفتوحه|order status|open orders)/i.test(message);
+
+const isDailySummaryQuestion = (message: string) =>
+  /(ملخص.*اليوم|اليوم.*ملخص|اداء.*اليوم|أداء.*اليوم|مبيعات اليوم|شو وضع اليوم|وضع اليوم|today sales|daily summary)/i.test(message);
+
+const isProfitQuestion = (message: string) =>
+  /(الربح|ارباح|أرباح|صافي الربح|profit)/i.test(message);
+
 const formatInventoryQuantity = (item: InventoryItem) => {
   if (item.availableBaseUnits <= 0) return 'غير متوفر حاليًا';
   if (item.unitsPerSaleUnit <= 1) {
@@ -207,6 +250,96 @@ const buildDirectInventoryAnswer = (matches: InventoryMatch[]) => {
   return `وجدت أكثر من صنف مطابق. ${matches.map((item) =>
     `«${item.productName || item.sku}»: ${formatInventoryQuantity(item)}`,
   ).join('، ')}.`;
+};
+
+const statusLabel = (status: string) => ({
+  new: 'جديدة',
+  confirmed: 'مؤكدة',
+  preparing: 'قيد التجهيز',
+  ready: 'جاهزة للتوصيل',
+  out_for_delivery: 'بالتوصيل',
+  completed: 'مكتملة',
+  cancelled: 'ملغاة',
+}[status] || status || 'غير محددة');
+
+const buildDirectDebtAnswer = (dashboard: DashboardPayload) => {
+  const summary = dashboard.summary || {};
+  const customerDue = summary.customerReceivablesInMinorUnits ?? summary.receivables ?? 0;
+  const supplierDue = summary.supplierPayablesInMinorUnits ?? summary.payables ?? 0;
+  const customerText = asJod(customerDue) > 0
+    ? `ذمم العملاء: ${formatJod(customerDue)}.`
+    : 'لا توجد ذمم مستحقة على العملاء حاليًا.';
+  const supplierText = asJod(supplierDue) > 0
+    ? `التزامات الموردين: ${formatJod(supplierDue)}.`
+    : 'لا توجد التزامات مستحقة للموردين حاليًا.';
+  return `${customerText} ${supplierText} الأرقام إجمالية ولا تعرض بيانات العملاء داخل المحادثة.`;
+};
+
+const buildDirectOrderStatusAnswer = (dashboard: DashboardPayload) => {
+  const summary = dashboard.summary || {};
+  const statuses = (dashboard.orderStatuses || [])
+    .map((item) => {
+      const count = asCount(item.count ?? item.total);
+      return count > 0 ? `${statusLabel(String(item.status ?? item.code ?? ''))}: ${count}` : '';
+    })
+    .filter(Boolean);
+  const intro = `الطلبات المفتوحة: ${asCount(summary.openOrdersCount)}، والطلبات الجديدة: ${asCount(summary.newOrdersCount)}.`;
+  return statuses.length > 0
+    ? `${intro} التوزيع الحالي: ${statuses.join('، ')}.`
+    : `${intro} لا توجد حالات طلبات إضافية تحتاج متابعة الآن.`;
+};
+
+const buildDirectDailySummary = (dashboard: DashboardPayload) => {
+  const summary = dashboard.summary || {};
+  const profit = summary.monthProfitInMinorUnits;
+  const profitText = profit === null || profit === undefined
+    ? ''
+    : ` صافي ربح الشهر حتى الآن: ${formatJod(profit)}.`;
+  return `ملخص اليوم: مبيعات مكتملة ${formatJod(summary.todaySalesInMinorUnits ?? summary.salesToday ?? 0)} من ${asCount(summary.todayCompletedOrders ?? summary.ordersToday)} طلب/فاتورة. الطلبات الجديدة: ${asCount(summary.newOrdersCount)}، والمفتوحة: ${asCount(summary.openOrdersCount)}. تنبيه المخزون: ${asCount(summary.lowStockCount)} منخفض و${asCount(summary.outOfStockCount)} نافد.${profitText}`;
+};
+
+const mapMonthlyReport = (payload: unknown): MonthlyReport | null => {
+  const root = asRecord(payload);
+  if (root.success !== true) return null;
+  const period = asRecord(root.period);
+  const sales = asRecord(root.sales);
+  const expenses = asRecord(root.expenses);
+  const purchases = asRecord(root.purchases);
+  const balances = asRecord(root.balances);
+  const inventory = asRecord(root.inventory);
+  return {
+    periodLabel: String(period.label ?? ''),
+    branchCount: asCount(root.branchCount),
+    sales: {
+      orderCount: asCount(sales.orderCount),
+      grossSalesInMinorUnits: Number(sales.grossSalesInMinorUnits ?? 0),
+      netSalesInMinorUnits: Number(sales.netSalesInMinorUnits ?? 0),
+      netProfitInMinorUnits: Number(sales.netProfitInMinorUnits ?? 0),
+      collectedInMinorUnits: Number(sales.collectedInMinorUnits ?? 0),
+      outstandingInMinorUnits: Number(sales.outstandingInMinorUnits ?? 0),
+    },
+    expenses: {
+      count: asCount(expenses.count),
+      totalInMinorUnits: Number(expenses.totalInMinorUnits ?? 0),
+    },
+    purchases: {
+      receiptCount: asCount(purchases.receiptCount),
+      totalInMinorUnits: Number(purchases.totalInMinorUnits ?? 0),
+    },
+    balances: {
+      customerDueInMinorUnits: Number(balances.customerDueInMinorUnits ?? 0),
+      supplierDueInMinorUnits: Number(balances.supplierDueInMinorUnits ?? 0),
+    },
+    inventory: {
+      stockedProducts: asCount(inventory.stockedProducts),
+      lowStockProducts: asCount(inventory.lowStockProducts),
+    },
+  };
+};
+
+const buildDirectMonthlyReportAnswer = (report: MonthlyReport) => {
+  const scope = report.branchCount > 1 ? `من ${report.branchCount} فروع نشطة` : 'للفرع النشط';
+  return `تقرير ${report.periodLabel || 'الشهر الحالي'} ${scope}: المبيعات الصافية ${formatJod(report.sales.netSalesInMinorUnits)} من ${report.sales.orderCount} طلب/فاتورة، وصافي الربح ${formatJod(report.sales.netProfitInMinorUnits)}. المقبوض ${formatJod(report.sales.collectedInMinorUnits)}، ومصروفات التشغيل ${formatJod(report.expenses.totalInMinorUnits)} (${report.expenses.count} قيد)، والمشتريات ${formatJod(report.purchases.totalInMinorUnits)} (${report.purchases.receiptCount} سند). ذمم العملاء الحالية ${formatJod(report.balances.customerDueInMinorUnits)}، والتزامات الموردين الحالية ${formatJod(report.balances.supplierDueInMinorUnits)}. المخزون: ${report.inventory.stockedProducts} صنفًا متوفرًا و${report.inventory.lowStockProducts} يحتاج متابعة.`;
 };
 
 // Deliberately excludes latest orders and every customer identity, address, or phone field.
@@ -347,6 +480,43 @@ Deno.serve(async (request) => {
   );
   if (isInventoryQuestion(message) && dashboardInventoryMatches.length > 0) {
     return respond({ answer: buildDirectInventoryAnswer(dashboardInventoryMatches) }, 200, origin);
+  }
+
+  // These are business facts, not language-model interpretations. Answer the
+  // common financial and operational questions directly from guarded RPC data.
+  if (isDebtQuestion(message)) {
+    return respond({ answer: buildDirectDebtAnswer(dashboardPayload) }, 200, origin);
+  }
+  if (isMonthlyReportQuestion(message)) {
+    const { data: monthlyReport, error: monthlyReportError } = await caller.rpc(
+      'get_admin_ai_monthly_report',
+    );
+    if (monthlyReportError) {
+      console.error('get_admin_ai_monthly_report failed', monthlyReportError.code);
+      return respond({ error: 'تعذر إنشاء التقرير الشهري من قاعدة البيانات.' }, 500, origin);
+    }
+    const mappedMonthlyReport = mapMonthlyReport(monthlyReport);
+    if (!mappedMonthlyReport) {
+      return respond({ error: 'أعاد التقرير الشهري بيانات غير صالحة.' }, 500, origin);
+    }
+    return respond({ answer: buildDirectMonthlyReportAnswer(mappedMonthlyReport) }, 200, origin);
+  }
+  if (isOrderStatusQuestion(message)) {
+    return respond({ answer: buildDirectOrderStatusAnswer(dashboardPayload) }, 200, origin);
+  }
+  if (isDailySummaryQuestion(message)) {
+    return respond({ answer: buildDirectDailySummary(dashboardPayload) }, 200, origin);
+  }
+  if (isProfitQuestion(message)) {
+    const summary = dashboardPayload.summary || {};
+    const profit = summary.monthProfitInMinorUnits ?? summary.netProfitThisMonth;
+    if (profit !== null && profit !== undefined) {
+      return respond(
+        { answer: `صافي ربح الشهر حتى الآن: ${formatJod(profit)}. للمبيعات التفصيلية والمصروفات اسأل: «أعطني التقرير الشهري».` },
+        200,
+        origin,
+      );
+    }
   }
 
   const apiKey = Deno.env.get('GEMINI_API_KEY');

@@ -6,6 +6,7 @@ import type { AdminAssistantMessage } from '../../types/adminAssistant';
 const quickPrompts = [
   'ما أهم الأمور التي تحتاج متابعة الآن؟',
   'أعطني ملخصاً مختصراً لأداء اليوم.',
+  'أعطني التقرير الشهري الحالي.',
   'ما هي أصناف المخزون التي تحتاج تدخلاً؟',
   'ما وضع الذمم الحالية؟',
 ];
@@ -60,7 +61,7 @@ export const AdminAssistantView: React.FC = () => {
             </div>
             <h2 className="text-base font-black text-white">المساعد الإداري الذكي</h2>
             <p className="mt-1 max-w-md text-[10px] leading-5 text-slate-400">
-              اسأل عن ملخص العمل والمخزون والذمم من بيانات النظام الحقيقية.
+              اسأل عن المخزون والذمم وحالة الطلبات وملخص اليوم والتقرير الشهري من بيانات النظام الحقيقية.
               لا يملك أي صلاحية لتعديل الطلبات أو الحسابات.
             </p>
           </div>
