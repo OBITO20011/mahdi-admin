@@ -50,10 +50,12 @@ export function HomeCategoryMosaic({
           const visual = getCategoryVisual(category.code);
           const Icon = visual.icon;
           const coverUrl =
+            category.imageUrl ||
             products.find(
               (product) =>
                 product.categoryId === category.id && Boolean(product.imageUrl)
-            )?.imageUrl ?? '';
+            )?.imageUrl ||
+            '';
           const isFeatured = index === 0;
           const layoutClass =
             index === 0

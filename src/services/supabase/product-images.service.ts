@@ -17,8 +17,13 @@ export interface ProductImageUploadResult {
   code?: string;
 }
 
-export async function uploadProductImageToSupabase(
-  file: File
+interface CatalogImageUploadOptions {
+  subdirectory?: string;
+}
+
+async function uploadCatalogImageToSupabase(
+  file: File,
+  options: CatalogImageUploadOptions = {}
 ): Promise<ProductImageUploadResult> {
   const validationError = validateProductImage(file);
   if (validationError) {
@@ -54,7 +59,10 @@ export async function uploadProductImageToSupabase(
     typeof crypto !== 'undefined' && 'randomUUID' in crypto
       ? crypto.randomUUID()
       : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  const storagePath = `${userId}/${fileName}.${extension}`;
+  const subdirectory = options.subdirectory
+    ? `${options.subdirectory.replace(/^\/+|\/+$/g, '')}/`
+    : '';
+  const storagePath = `${userId}/${subdirectory}${fileName}.${extension}`;
 
   const { error: uploadError } = await supabase.storage
     .from(PRODUCT_IMAGE_BUCKET)
@@ -93,6 +101,20 @@ export async function uploadProductImageToSupabase(
     publicUrl: publicUrlData.publicUrl,
     storagePath,
   };
+}
+
+export function uploadProductImageToSupabase(
+  file: File
+): Promise<ProductImageUploadResult> {
+  return uploadCatalogImageToSupabase(file);
+}
+
+export function uploadCategoryImageToSupabase(
+  file: File
+): Promise<ProductImageUploadResult> {
+  return uploadCatalogImageToSupabase(file, {
+    subdirectory: 'categories',
+  });
 }
 
 export async function removeUploadedProductImage(

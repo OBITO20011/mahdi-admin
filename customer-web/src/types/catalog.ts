@@ -28,6 +28,7 @@ export interface CatalogCategory {
   id: string;
   code: string;
   nameAr: string;
+  imageUrl: string;
   productCount: number;
   availableProductCount: number;
 }

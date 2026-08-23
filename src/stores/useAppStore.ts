@@ -1428,6 +1428,7 @@ class StoreEngine {
     const result = await saveProductCategoryInSupabase({
       nameAr: data.nameAr,
       code: data.code,
+      imageUrl: data.imageUrl,
     });
     if (!result.success) {
       this.setToast(result.error || 'فشل حفظ القسم.', 'error');
@@ -1449,6 +1450,7 @@ class StoreEngine {
       categoryId: id,
       nameAr: updates.nameAr?.trim() || current.nameAr,
       code: updates.code ?? current.code,
+      imageUrl: updates.imageUrl ?? current.imageUrl,
     });
     if (!result.success) {
       this.setToast(result.error || 'فشل تحديث القسم.', 'error');

@@ -45,6 +45,7 @@ test('catalog maps public category metadata without inventory cost fields', () =
       id: 'category-drinks',
       code: 'CAT-BEV',
       nameAr: 'مشروبات وعصائر',
+      imageUrl: '',
       productCount: 2,
       availableProductCount: 1,
     }

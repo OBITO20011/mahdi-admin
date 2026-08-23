@@ -1,14 +1,21 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Archive,
   Check,
   Edit3,
   FolderTree,
+  ImagePlus,
   Plus,
   RotateCcw,
+  Trash2,
   X,
 } from 'lucide-react';
+import {
+  removeUploadedProductImage,
+  uploadCategoryImageToSupabase,
+} from '../../services/supabase/product-images.service';
 import { useAppStore } from '../../stores/useAppStore';
+import { validateProductImage } from '../../utils/productImage';
 
 export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -23,6 +30,14 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [nameAr, setNameAr] = useState('');
   const [code, setCode] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(
+    null
+  );
+  const [selectedImagePreview, setSelectedImagePreview] = useState('');
+  const [imageError, setImageError] = useState('');
+  const [imageFailed, setImageFailed] = useState(false);
+  const imageInputRef = useRef<HTMLInputElement>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState('');
@@ -40,11 +55,29 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
   const activeCount = categories.filter((category) => !category.isHidden)
     .length;
 
+  useEffect(() => {
+    if (!selectedImageFile) {
+      setSelectedImagePreview('');
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedImageFile);
+    setSelectedImagePreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedImageFile]);
+
+  const imagePreviewSource = selectedImagePreview || imageUrl;
+
   const resetForm = () => {
     setMode('idle');
     setEditingId(null);
     setNameAr('');
     setCode('');
+    setImageUrl('');
+    setSelectedImageFile(null);
+    setImageError('');
+    setImageFailed(false);
     setError('');
   };
 
@@ -58,7 +91,38 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
     setEditingId(category.id);
     setNameAr(category.nameAr);
     setCode(category.code || '');
+    setImageUrl(category.imageUrl || '');
+    setSelectedImageFile(null);
+    setImageError('');
+    setImageFailed(false);
     setError('');
+  };
+
+  const handleImageSelection = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+
+    if (!file) return;
+
+    const validationError = validateProductImage(file);
+    if (validationError) {
+      setSelectedImageFile(null);
+      setImageError(validationError);
+      return;
+    }
+
+    setSelectedImageFile(file);
+    setImageError('');
+    setImageFailed(false);
+  };
+
+  const clearCategoryImage = () => {
+    setImageUrl('');
+    setSelectedImageFile(null);
+    setImageError('');
+    setImageFailed(false);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -70,24 +134,56 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
 
     setIsSaving(true);
     setError('');
-    const result =
-      mode === 'edit' && editingId
-        ? await updateCategory(editingId, {
-            nameAr: nameAr.trim(),
-            code: code.trim(),
-          })
-        : await addCategory({
-            nameAr: nameAr.trim(),
-            code: code.trim(),
-          });
-    setIsSaving(false);
+    let uploadedStoragePath: string | undefined;
 
-    if (!result?.success) {
-      setError(result?.error || 'تعذر حفظ القسم.');
-      return;
+    try {
+      let nextImageUrl = imageUrl.trim();
+
+      if (selectedImageFile) {
+        const uploadResult = await uploadCategoryImageToSupabase(
+          selectedImageFile
+        );
+        if (!uploadResult.success || !uploadResult.publicUrl) {
+          setImageError(
+            uploadResult.error || 'تعذر رفع صورة القسم إلى Supabase.'
+          );
+          return;
+        }
+
+        uploadedStoragePath = uploadResult.storagePath;
+        nextImageUrl = uploadResult.publicUrl;
+      }
+
+      const result =
+        mode === 'edit' && editingId
+          ? await updateCategory(editingId, {
+              nameAr: nameAr.trim(),
+              code: code.trim(),
+              imageUrl: nextImageUrl,
+            })
+          : await addCategory({
+              nameAr: nameAr.trim(),
+              code: code.trim(),
+              imageUrl: nextImageUrl,
+            });
+
+      if (!result?.success) {
+        if (uploadedStoragePath) {
+          await removeUploadedProductImage(uploadedStoragePath);
+        }
+        setError(result?.error || 'تعذر حفظ القسم.');
+        return;
+      }
+
+      resetForm();
+    } catch (saveError: any) {
+      if (uploadedStoragePath) {
+        await removeUploadedProductImage(uploadedStoragePath);
+      }
+      setError(saveError?.message || 'حدث خطأ غير متوقع أثناء حفظ القسم.');
+    } finally {
+      setIsSaving(false);
     }
-
-    resetForm();
   };
 
   const changeCategoryVisibility = async (
@@ -177,6 +273,61 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
               className="rounded-xl border border-slate-800 bg-slate-900 px-2 py-2.5 text-center font-mono text-[10px] text-slate-300 outline-none focus:border-blue-500"
             />
           </div>
+          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-2.5">
+            <div className="flex items-center gap-2.5">
+              <div className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-700 bg-slate-900 text-slate-500">
+                <span className="text-lg font-black">
+                  {nameAr.trim().charAt(0) || 'ق'}
+                </span>
+                {imagePreviewSource && !imageFailed && (
+                  <img
+                    src={imagePreviewSource}
+                    alt="معاينة صورة القسم"
+                    onError={() => setImageFailed(true)}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                )}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="font-bold text-slate-200">صورة القسم</p>
+                <p className="mt-1 text-[9px] leading-4 text-slate-500">
+                  تظهر تلقائيًا للعميل في صفحة الأقسام والرئيسية.
+                </p>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  <input
+                    ref={imageInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    onChange={handleImageSelection}
+                    className="hidden"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => imageInputRef.current?.click()}
+                    className="inline-flex items-center gap-1 rounded-lg bg-blue-500/15 px-2 py-1.5 text-[10px] font-black text-blue-300 transition hover:bg-blue-500/25"
+                  >
+                    <ImagePlus className="h-3.5 w-3.5" />
+                    اختر صورة
+                  </button>
+                  {(imageUrl || selectedImageFile) && (
+                    <button
+                      type="button"
+                      onClick={clearCategoryImage}
+                      className="inline-flex items-center gap-1 rounded-lg bg-rose-500/10 px-2 py-1.5 text-[10px] font-black text-rose-300 transition hover:bg-rose-500/20"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                      إزالة
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+            {imageError && (
+              <p className="mt-2 rounded-lg bg-rose-500/10 px-2 py-1.5 text-[10px] font-bold text-rose-400">
+                {imageError}
+              </p>
+            )}
+          </div>
           {error && (
             <p className="rounded-lg bg-rose-500/10 px-2.5 py-1.5 font-bold text-rose-400">
               {error}
@@ -209,13 +360,23 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
             >
               <div className="flex min-w-0 items-center gap-2.5">
                 <span
-                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl font-black ${
+                  className={`relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl font-black ${
                     category.isHidden
                       ? 'bg-slate-800 text-slate-500'
                       : 'bg-blue-500/10 text-blue-400'
                   }`}
                 >
                   {category.nameAr.trim().charAt(0)}
+                  {category.imageUrl && (
+                    <img
+                      src={category.imageUrl}
+                      alt=""
+                      onError={(event) => {
+                        event.currentTarget.style.display = 'none';
+                      }}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  )}
                 </span>
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5">

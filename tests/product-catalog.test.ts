@@ -197,3 +197,41 @@ test('public catalog categories are seeded and exposed without private costs', (
   assert.doesNotMatch(migration, /'costPriceInMinorUnits'/);
   assert.doesNotMatch(migration, /'supplierId'/);
 });
+
+test('category cover images use secured storage and reach the public storefront', () => {
+  const migration = fs.readFileSync(
+    'supabase/migrations/063_category_cover_images.sql',
+    'utf8'
+  );
+  const imageService = fs.readFileSync(
+    'src/services/supabase/product-images.service.ts',
+    'utf8'
+  );
+  const referenceDataService = fs.readFileSync(
+    'src/services/supabase/reference-data.service.ts',
+    'utf8'
+  );
+  const categoriesModal = fs.readFileSync(
+    'src/components/modals/CategoriesModal.tsx',
+    'utf8'
+  );
+  const catalogService = fs.readFileSync(
+    'customer-web/src/services/catalog.service.ts',
+    'utf8'
+  );
+  const categoryShowcase = fs.readFileSync(
+    'customer-web/src/components/CategoryShowcase.tsx',
+    'utf8'
+  );
+
+  assert.match(migration, /ADD COLUMN IF NOT EXISTS image_url TEXT/);
+  assert.match(migration, /FROM storage\.objects o/);
+  assert.match(migration, /save_product_category\(TEXT, UUID, TEXT, TEXT\)/);
+  assert.match(migration, /'imageUrl', c\.image_url/);
+  assert.match(imageService, /uploadCategoryImageToSupabase/);
+  assert.match(referenceDataService, /p_image_url/);
+  assert.match(categoriesModal, /accept="image\/jpeg,image\/png,image\/webp"/);
+  assert.match(categoriesModal, /تظهر تلقائيًا للعميل/);
+  assert.match(catalogService, /imageUrl: textValue\(item\.imageUrl\)/);
+  assert.match(categoryShowcase, /category\.imageUrl \|\|/);
+});

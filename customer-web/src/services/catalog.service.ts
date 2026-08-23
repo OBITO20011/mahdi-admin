@@ -70,6 +70,7 @@ export function mapCatalogCategory(item: RawCatalogItem): CatalogCategory {
     id: textValue(item.id),
     code: textValue(item.code),
     nameAr: textValue(item.nameAr) || 'قسم بدون اسم',
+    imageUrl: textValue(item.imageUrl),
     productCount: integerValue(item.productCount),
     availableProductCount: integerValue(item.availableProductCount),
   };
@@ -87,6 +88,7 @@ export function deriveCatalogCategories(
       id: product.categoryId,
       code: product.categoryCode,
       nameAr: product.categoryNameAr,
+      imageUrl: '',
       productCount: (current?.productCount ?? 0) + 1,
       availableProductCount:
         (current?.availableProductCount ?? 0) +

@@ -79,6 +79,7 @@ export async function fetchCategoriesFromSupabase(): Promise<Category[]> {
       id: item.id,
       nameAr: item.name_ar,
       code: item.code || '',
+      imageUrl: item.image_url || '',
       icon: 'Tag',
       sortOrder: 1,
       isHidden: !item.is_active,
@@ -94,6 +95,7 @@ export async function saveProductCategoryInSupabase(input: {
   categoryId?: string;
   nameAr: string;
   code?: string;
+  imageUrl?: string;
 }): Promise<CategoryMutationResult> {
   if (!isSupabaseConfigured || !supabase) {
     return {
@@ -106,6 +108,7 @@ export async function saveProductCategoryInSupabase(input: {
     p_category_id: input.categoryId || null,
     p_name_ar: input.nameAr.trim(),
     p_code: input.code?.trim() || null,
+    p_image_url: input.imageUrl?.trim() || null,
   });
 
   if (error) {

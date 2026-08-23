@@ -129,10 +129,12 @@ export function CategoryShowcase({
       count: category.productCount,
       code: category.code,
       coverUrl:
+        category.imageUrl ||
         products.find(
           (product) =>
             product.categoryId === category.id && Boolean(product.imageUrl)
-        )?.imageUrl ?? '',
+        )?.imageUrl ||
+        '',
     })),
   ];
 
