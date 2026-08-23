@@ -22,6 +22,15 @@ type InventoryItem = {
 
 type InventoryMatch = InventoryItem & { score: number };
 
+type AssistantContext =
+  | 'monitoring'
+  | 'inventory'
+  | 'debts'
+  | 'monthly_report'
+  | 'orders'
+  | 'daily_summary'
+  | 'profit';
+
 type MonthlyReport = {
   periodLabel: string;
   branchCount: number;
@@ -214,6 +223,26 @@ const findInventoryMatches = (message: string, items: InventoryItem[]): Inventor
 const isInventoryQuestion = (message: string) =>
   /(موجود|متوفر|مخزون|رصيد|كم|باقي|بقي|available|stock|inventory|how many)/i.test(message);
 
+const isPriorityMonitoringQuestion = (message: string) =>
+  /((اهم|أهم).{0,20}(امور|أمور|اشياء|أشياء).{0,28}(متابعة|تحتاج))|((متابعة|تحتاج).{0,28}(اهم|أهم).{0,20}(امور|أمور|اشياء|أشياء))|what needs attention|priority items/i.test(message);
+
+const isAmbiguousFollowUpQuestion = (message: string) => {
+  const normalized = normalizeForMatch(message).replace(/\s+/g, ' ');
+  return new Set([
+    'ما هي',
+    'ماهي',
+    'شو هي',
+    'اشو هي',
+    'وضح',
+    'وضحلي',
+    'اذكرها',
+    'اذكرهم',
+    'فصلها',
+    'افصلها',
+    'التفاصيل',
+  ]).has(normalized);
+};
+
 const isDebtQuestion = (message: string) =>
   /(ذمم|ذمه|مديون|مستحقات العملاء|مستحقات الموردين|على العملاء|على الموردين|receivable|payable|debt)/i.test(message);
 
@@ -297,6 +326,45 @@ const buildDirectDailySummary = (dashboard: DashboardPayload) => {
     : ` صافي ربح الشهر حتى الآن: ${formatJod(profit)}.`;
   return `ملخص اليوم: مبيعات مكتملة ${formatJod(summary.todaySalesInMinorUnits ?? summary.salesToday ?? 0)} من ${asCount(summary.todayCompletedOrders ?? summary.ordersToday)} طلب/فاتورة. الطلبات الجديدة: ${asCount(summary.newOrdersCount)}، والمفتوحة: ${asCount(summary.openOrdersCount)}. تنبيه المخزون: ${asCount(summary.lowStockCount)} منخفض و${asCount(summary.outOfStockCount)} نافد.${profitText}`;
 };
+
+const buildDirectMonitoringAnswer = (dashboard: DashboardPayload) => {
+  const summary = dashboard.summary || {};
+  const actions: string[] = [];
+  const newOrders = asCount(summary.newOrdersCount);
+  const openOrders = asCount(summary.openOrdersCount);
+  const lowStock = asCount(summary.lowStockCount);
+  const outOfStock = asCount(summary.outOfStockCount);
+  const configurationIssues = asCount(summary.configurationIssuesCount);
+  const customerDue = summary.customerReceivablesInMinorUnits ?? summary.receivables ?? 0;
+  const supplierDue = summary.supplierPayablesInMinorUnits ?? summary.payables ?? 0;
+
+  if (newOrders > 0) actions.push(`راجع ${newOrders} طلب جديد`);
+  if (openOrders > 0) actions.push(`أكمل متابعة ${openOrders} طلب مفتوح`);
+  if (outOfStock > 0) actions.push(`عالج ${outOfStock} صنف نافد من المخزون`);
+  if (lowStock > 0) actions.push(`تابع ${lowStock} صنفًا منخفض المخزون`);
+  if (asJod(customerDue) > 0) actions.push(`راجع ذمم العملاء بقيمة ${formatJod(customerDue)}`);
+  if (asJod(supplierDue) > 0) actions.push(`راجع التزامات الموردين بقيمة ${formatJod(supplierDue)}`);
+  if (configurationIssues > 0) actions.push(`أكمل ضبط ${configurationIssues} إعدادات/أصناف تحتاج تهيئة`);
+
+  return actions.length > 0
+    ? `أهم الأمور التي تحتاج متابعة الآن: ${actions.map((item, index) => `${index + 1}) ${item}`).join('، ')}.`
+    : 'لا توجد أمور عاجلة ظاهرة الآن: لا طلبات جديدة أو مفتوحة، ولا تنبيهات مخزون أو ذمم أو إعدادات معلقة.';
+};
+
+const assistantContexts = new Set<AssistantContext>([
+  'monitoring',
+  'inventory',
+  'debts',
+  'monthly_report',
+  'orders',
+  'daily_summary',
+  'profit',
+]);
+
+const asAssistantContext = (value: unknown): AssistantContext | undefined =>
+  typeof value === 'string' && assistantContexts.has(value as AssistantContext)
+    ? value as AssistantContext
+    : undefined;
 
 const mapMonthlyReport = (payload: unknown): MonthlyReport | null => {
   const root = asRecord(payload);
@@ -395,6 +463,7 @@ const systemInstruction = 'أنت مساعد إداري عربي لنظام نو
   'لا تدّعِ تنفيذ أي إجراء: أنت للقراءة والتحليل فقط ولا يمكنك تعديل الطلبات أو المخزون أو الحسابات. ' +
   'اعتمد فقط على الملخص المرفق. عند وجود inventoryMatches استخدم الكمية والاسم كما هما ولا تقل إن الصنف غير موجود. ' +
   'availableSalePackages هي الطرود الكاملة المتاحة وavailableBaseUnits هي عدد الحبات/القطع الأساسية. ' +
+  'إن كان السؤال قصيراً ومبهماً ولا تتوفر له بيانات كافية، اطلب من المستخدم تحديد هل يقصد المخزون أو الطلبات أو الذمم أو التقارير، ولا تخمّن المقصود. ' +
   'إن لم تتوفر معلومة، قل بوضوح إنها غير متاحة حالياً. ' +
   'اكتب الأرقام بالدينار الأردني عند الحاجة، وقدّم تنبيهات عملية قصيرة قابلة للتنفيذ داخل لوحة الإدارة.';
 
@@ -421,13 +490,14 @@ Deno.serve(async (request) => {
     return respond({ error: 'تعذر التحقق من جلسة الدخول.' }, 401, origin);
   }
 
-  let body: { message?: unknown };
+  let body: { message?: unknown; context?: unknown };
   try {
     body = await request.json();
   } catch {
     return respond({ error: 'صيغة الطلب غير صحيحة.' }, 400, origin);
   }
   const message = typeof body.message === 'string' ? body.message.trim() : '';
+  const followUpContext = asAssistantContext(body.context);
   if (!message || message.length > 750) {
     return respond({ error: 'اكتب سؤالاً بين 1 و750 حرفاً.' }, 400, origin);
   }
@@ -464,7 +534,7 @@ Deno.serve(async (request) => {
     mapInventoryItems(inventorySnapshot as InventorySnapshotPayload | InventorySnapshotPayload[]),
   );
   if (isInventoryQuestion(message) && inventoryMatches.length > 0) {
-    return respond({ answer: buildDirectInventoryAnswer(inventoryMatches) }, 200, origin);
+    return respond({ answer: buildDirectInventoryAnswer(inventoryMatches), context: 'inventory' }, 200, origin);
   }
 
   const { data: dashboard, error: dashboardError } = await caller.rpc('get_home_dashboard');
@@ -479,13 +549,13 @@ Deno.serve(async (request) => {
     mapDashboardStockAlerts(dashboardPayload),
   );
   if (isInventoryQuestion(message) && dashboardInventoryMatches.length > 0) {
-    return respond({ answer: buildDirectInventoryAnswer(dashboardInventoryMatches) }, 200, origin);
+    return respond({ answer: buildDirectInventoryAnswer(dashboardInventoryMatches), context: 'inventory' }, 200, origin);
   }
 
   // These are business facts, not language-model interpretations. Answer the
   // common financial and operational questions directly from guarded RPC data.
   if (isDebtQuestion(message)) {
-    return respond({ answer: buildDirectDebtAnswer(dashboardPayload) }, 200, origin);
+    return respond({ answer: buildDirectDebtAnswer(dashboardPayload), context: 'debts' }, 200, origin);
   }
   if (isMonthlyReportQuestion(message)) {
     const { data: monthlyReport, error: monthlyReportError } = await caller.rpc(
@@ -499,24 +569,55 @@ Deno.serve(async (request) => {
     if (!mappedMonthlyReport) {
       return respond({ error: 'أعاد التقرير الشهري بيانات غير صالحة.' }, 500, origin);
     }
-    return respond({ answer: buildDirectMonthlyReportAnswer(mappedMonthlyReport) }, 200, origin);
+    return respond({ answer: buildDirectMonthlyReportAnswer(mappedMonthlyReport), context: 'monthly_report' }, 200, origin);
   }
   if (isOrderStatusQuestion(message)) {
-    return respond({ answer: buildDirectOrderStatusAnswer(dashboardPayload) }, 200, origin);
+    return respond({ answer: buildDirectOrderStatusAnswer(dashboardPayload), context: 'orders' }, 200, origin);
   }
   if (isDailySummaryQuestion(message)) {
-    return respond({ answer: buildDirectDailySummary(dashboardPayload) }, 200, origin);
+    return respond({ answer: buildDirectDailySummary(dashboardPayload), context: 'daily_summary' }, 200, origin);
   }
   if (isProfitQuestion(message)) {
     const summary = dashboardPayload.summary || {};
     const profit = summary.monthProfitInMinorUnits ?? summary.netProfitThisMonth;
     if (profit !== null && profit !== undefined) {
       return respond(
-        { answer: `صافي ربح الشهر حتى الآن: ${formatJod(profit)}. للمبيعات التفصيلية والمصروفات اسأل: «أعطني التقرير الشهري».` },
+        {
+          answer: `صافي ربح الشهر حتى الآن: ${formatJod(profit)}. للمبيعات التفصيلية والمصروفات اسأل: «أعطني التقرير الشهري».`,
+          context: 'profit',
+        },
         200,
         origin,
       );
     }
+  }
+  if (isPriorityMonitoringQuestion(message)) {
+    return respond({ answer: buildDirectMonitoringAnswer(dashboardPayload), context: 'monitoring' }, 200, origin);
+  }
+  if (isAmbiguousFollowUpQuestion(message)) {
+    // A short question such as "ما هي؟" has no subject by itself. The browser
+    // can pass only a safe topic token, and monitoring is the useful default
+    // if the message was opened fresh without prior context.
+    if (followUpContext === 'debts') {
+      return respond({ answer: buildDirectDebtAnswer(dashboardPayload), context: 'debts' }, 200, origin);
+    }
+    if (followUpContext === 'orders') {
+      return respond({ answer: buildDirectOrderStatusAnswer(dashboardPayload), context: 'orders' }, 200, origin);
+    }
+    if (followUpContext === 'daily_summary') {
+      return respond({ answer: buildDirectDailySummary(dashboardPayload), context: 'daily_summary' }, 200, origin);
+    }
+    if (followUpContext === 'profit') {
+      const summary = dashboardPayload.summary || {};
+      const profit = summary.monthProfitInMinorUnits ?? summary.netProfitThisMonth;
+      if (profit !== null && profit !== undefined) {
+        return respond({ answer: `صافي ربح الشهر حتى الآن: ${formatJod(profit)}.`, context: 'profit' }, 200, origin);
+      }
+    }
+    if (followUpContext === 'inventory') {
+      return respond({ answer: 'اكتب اسم المنتج أو SKU لأعطيك الكمية المتاحة بدقة.', context: 'inventory' }, 200, origin);
+    }
+    return respond({ answer: buildDirectMonitoringAnswer(dashboardPayload), context: 'monitoring' }, 200, origin);
   }
 
   const apiKey = Deno.env.get('GEMINI_API_KEY');

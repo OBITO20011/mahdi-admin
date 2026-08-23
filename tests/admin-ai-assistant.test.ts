@@ -91,6 +91,19 @@ test('assistant answers debts and monthly reporting from guarded RPC facts', () 
   assert.doesNotMatch(edgeFunction, /customerPhone/);
 });
 
+test('assistant grounds priority monitoring and short follow-ups in live dashboard facts', () => {
+  assert.match(edgeFunction, /isPriorityMonitoringQuestion/);
+  assert.match(edgeFunction, /isAmbiguousFollowUpQuestion/);
+  assert.match(edgeFunction, /buildDirectMonitoringAnswer/);
+  assert.match(edgeFunction, /const followUpContext = asAssistantContext\(body\.context\)/);
+  assert.match(edgeFunction, /context: 'monitoring'/);
+  assert.match(service, /body: \{ message: normalizedMessage, context \}/);
+  assert.match(service, /context: isAssistantContext\(data\.context\)/);
+  assert.match(view, /const \[lastContext, setLastContext\] = useState<AdminAssistantContext/);
+  assert.match(view, /askAdminAssistant\(message, lastContext\)/);
+  assert.doesNotMatch(view, /localStorage/);
+});
+
 test('Gemini key remains server-side and the UI does not persist conversations', () => {
   assert.match(edgeFunction, /Deno\.env\.get\('GEMINI_API_KEY'\)/);
   assert.match(edgeFunction, /x-goog-api-key/);

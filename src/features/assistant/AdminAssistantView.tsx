@@ -1,7 +1,10 @@
 import React, { FormEvent, useState } from 'react';
 import { BotMessageSquare, LockKeyhole, Send, Sparkles } from 'lucide-react';
 import { askAdminAssistant } from '../../services/supabase/adminAssistant.service';
-import type { AdminAssistantMessage } from '../../types/adminAssistant';
+import type {
+  AdminAssistantContext,
+  AdminAssistantMessage,
+} from '../../types/adminAssistant';
 
 const quickPrompts = [
   'ما أهم الأمور التي تحتاج متابعة الآن؟',
@@ -25,6 +28,7 @@ export const AdminAssistantView: React.FC = () => {
   const [draft, setDraft] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastContext, setLastContext] = useState<AdminAssistantContext | undefined>();
 
   const submit = async (event?: FormEvent, requestedMessage?: string) => {
     event?.preventDefault();
@@ -37,7 +41,8 @@ export const AdminAssistantView: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const { answer } = await askAdminAssistant(message);
+      const { answer, context } = await askAdminAssistant(message, lastContext);
+      if (context) setLastContext(context);
       setMessages((current) => [...current, newMessage('assistant', answer)]);
     } catch (submissionError) {
       setError(
