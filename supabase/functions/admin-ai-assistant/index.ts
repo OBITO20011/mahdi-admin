@@ -114,8 +114,15 @@ const levenshteinDistance = (left: string, right: string) => {
   return previous[right.length];
 };
 
-const mapInventoryItems = (payload: InventorySnapshotPayload): InventoryItem[] =>
-  (Array.isArray(payload.items) ? payload.items : []).map((item) => ({
+const mapInventoryItems = (
+  payload: InventorySnapshotPayload | InventorySnapshotPayload[] | null | undefined,
+): InventoryItem[] => {
+  // PostgREST normally returns a JSONB RPC result as an object. Accept a one-row
+  // response too, so a platform serialization change cannot make every product
+  // lookup silently fall back to the language model.
+  const normalizedPayload = Array.isArray(payload) ? payload[0] : payload;
+
+  return (Array.isArray(normalizedPayload?.items) ? normalizedPayload.items : []).map((item) => ({
     productName: String(item.productName ?? ''),
     sku: String(item.sku ?? ''),
     saleUnitName: String(item.saleUnitName ?? 'طرد'),
@@ -123,6 +130,19 @@ const mapInventoryItems = (payload: InventorySnapshotPayload): InventoryItem[] =
     availableBaseUnits: asCount(item.availableBaseUnits),
     availableSalePackages: asCount(item.availableSalePackages),
   })).filter((item) => item.productName.length > 0 || item.sku.length > 0);
+};
+
+const mapDashboardStockAlerts = (dashboard: DashboardPayload): InventoryItem[] =>
+  mapInventoryItems({
+    items: (dashboard.stockAlerts || []).map((alert) => ({
+      productName: alert.nameAr ?? alert.productName,
+      sku: alert.sku,
+      saleUnitName: alert.saleUnitName,
+      unitsPerSaleUnit: alert.unitsPerSaleUnit,
+      availableBaseUnits: alert.availableBaseUnits,
+      availableSalePackages: alert.availableSalePackages,
+    })),
+  });
 
 const findInventoryMatches = (message: string, items: InventoryItem[]): InventoryMatch[] => {
   const queryTokens = searchTokens(message);
@@ -307,7 +327,7 @@ Deno.serve(async (request) => {
 
   const inventoryMatches = findInventoryMatches(
     message,
-    mapInventoryItems((inventorySnapshot || {}) as InventorySnapshotPayload),
+    mapInventoryItems(inventorySnapshot as InventorySnapshotPayload | InventorySnapshotPayload[]),
   );
   if (isInventoryQuestion(message) && inventoryMatches.length > 0) {
     return respond({ answer: buildDirectInventoryAnswer(inventoryMatches) }, 200, origin);
@@ -317,6 +337,15 @@ Deno.serve(async (request) => {
   if (dashboardError) {
     console.error('get_home_dashboard failed', dashboardError.code);
     return respond({ error: 'تعذر تحميل ملخص العمل الحالي.' }, 500, origin);
+  }
+
+  const dashboardPayload = (dashboard || {}) as DashboardPayload;
+  const dashboardInventoryMatches = findInventoryMatches(
+    message,
+    mapDashboardStockAlerts(dashboardPayload),
+  );
+  if (isInventoryQuestion(message) && dashboardInventoryMatches.length > 0) {
+    return respond({ answer: buildDirectInventoryAnswer(dashboardInventoryMatches) }, 200, origin);
   }
 
   const apiKey = Deno.env.get('GEMINI_API_KEY');
@@ -329,7 +358,7 @@ Deno.serve(async (request) => {
   }
 
   const safeSnapshot = buildSafeSnapshot(
-    (dashboard || {}) as DashboardPayload,
+    dashboardPayload,
     inventoryMatches,
   );
   const geminiResponse = await fetch(

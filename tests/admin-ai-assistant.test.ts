@@ -61,6 +61,8 @@ test('assistant answers product availability from a guarded live inventory RPC',
   assert.match(edgeFunction, /levenshteinDistance/);
   assert.match(edgeFunction, /collapseRepeatedLatinLetters/);
   assert.match(edgeFunction, /watter.*water/);
+  assert.match(edgeFunction, /Array\.isArray\(payload\) \? payload\[0\] : payload/);
+  assert.match(edgeFunction, /mapDashboardStockAlerts/);
   assert.match(edgeFunction, /buildDirectInventoryAnswer/);
   assert.match(edgeFunction, /alert\.nameAr/);
   assert.match(edgeFunction, /alert\.availableSalePackages/);
