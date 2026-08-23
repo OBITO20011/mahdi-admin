@@ -55,3 +55,13 @@ test('the operational home removes the legacy dashboard overload', () => {
   assert.doesNotMatch(view, /WidgetsSection/);
   assert.doesNotMatch(view, /SmartLowStockAlertBar/);
 });
+
+test('the home is a focused daily work center, not a reports shortcut', () => {
+  assert.match(view, /مركز اليوم/);
+  assert.match(view, /طلبات جديدة/);
+  assert.match(view, /قيد التجهيز/);
+  assert.match(view, /بالتوصيل/);
+  assert.match(view, /ذمم العملاء/);
+  assert.match(view, /الإجراء التالي/);
+  assert.doesNotMatch(view, /setActiveTab\('reports'\)/);
+});
