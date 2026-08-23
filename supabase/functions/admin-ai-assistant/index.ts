@@ -77,6 +77,7 @@ const normalizeForMatch = (value: string) =>
     .replace(/ى/g, 'ي')
     .replace(/ة/g, 'ه')
     .replace(/ـ/g, '')
+    .replace(/[؟،؛]/g, ' ')
     .replace(/[^a-z0-9\u0600-\u06ff]+/gi, ' ')
     .trim();
 
