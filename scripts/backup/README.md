@@ -41,9 +41,33 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\backup\setup-backup.
   -BackupRoot 'D:\Nawasrah Backups'
 ```
 
-The task runs for the current Windows user. If the computer misses the planned
-time, Windows runs it when the user next signs in. The device must have an
-internet connection.
+The first setup registers an **Interactive** task for the current Windows user.
+If the computer misses the planned time, Windows runs it when the user next
+signs in. The device must have an internet connection.
+
+For a stronger unattended schedule (including while this Windows user is signed
+out), run the following command once and enter the **Windows account password**
+only into the native secure prompt:
+
+```powershell
+npm.cmd run backup:background
+```
+
+Windows Task Scheduler encrypts that credential. It is not written to this
+repository, the backup folder, or `%LOCALAPPDATA%\NawasrahBackup\config.json`.
+The machine must still be powered on and Docker Desktop must be available; a
+completely powered-off computer cannot create local backups.
+
+Check the schedule and latest backup without exposing any secret:
+
+```powershell
+npm.cmd run backup:status
+```
+
+Run these commands from the same Windows account that completed
+`backup:setup`. The encrypted configuration is deliberately bound to that
+Windows account, so another account (including a restricted automation
+session) cannot decrypt it or impersonate the backup owner.
 
 If the Supabase Database password is reset later, update only that credential
 without changing the archive passphrase:

@@ -21,6 +21,8 @@ test('backup package scripts isolate Windows PowerShell from inherited PowerShel
     'backup:run',
     'backup:verify',
     'backup:restore-test',
+    'backup:status',
+    'backup:background',
   ]) {
     assert.match(packageJson.scripts[name], /^node scripts\/backup\/run-powershell-script\.mjs scripts\/backup\/.+\.ps1$/u);
   }
@@ -51,12 +53,37 @@ test('database password updater validates before enabling the existing schedule'
   assert.match(source, /The backup succeeded, but Windows could not clear the clipboard automatically/u);
 });
 
-test('schedule helper creates or replaces the Windows task only after it is invoked', async () => {
+test('schedule helper creates an interactive task by default and supports a credential-protected background task', async () => {
   const source = await readFile('scripts/backup/register-backup-schedule.ps1', 'utf8');
   assert.match(source, /Register-ScheduledTask/u);
   assert.match(source, /-StartWhenAvailable/u);
+  assert.match(source, /-AllowStartIfOnBatteries/u);
+  assert.match(source, /-DontStopIfGoingOnBatteries/u);
+  assert.match(source, /-WakeToRun/u);
   assert.match(source, /-LogonType Interactive/u);
+  assert.match(source, /RunWhenUserLoggedOff/u);
+  assert.match(source, /-LogonType Password/u);
+  assert.match(source, /PSCredential\]\$WindowsCredential/u);
+  assert.match(source, /-Password \$plainWindowsPassword/u);
+  assert.match(source, /never written/u);
   assert.match(source, /-Force/u);
+});
+
+test('background backup helper requests the Windows credential locally and status never reads backup secrets', async () => {
+  const background = await readFile('scripts/backup/enable-background-backup.ps1', 'utf8');
+  const status = await readFile('scripts/backup/get-backup-status.ps1', 'utf8');
+  assert.match(background, /Get-Credential/u);
+  assert.match(background, /RunWhenUserLoggedOff/u);
+  assert.match(background, /LogonType -ne 'Password'/u);
+  assert.match(status, /actionRequired/u);
+  assert.match(status, /last-backup-status\.json/u);
+  assert.match(status, /-Encoding UTF8/u);
+  assert.match(status, /startedAt = \$latestStatus\.startedAt/u);
+  assert.match(status, /configDecryptable/u);
+  assert.match(status, /ConvertTo-SecureString -String \$config\.archivePassphrase/u);
+  assert.doesNotMatch(status, /GetNetworkCredential/u);
+  assert.doesNotMatch(status, /Write-(Host|Output).*Passphrase/iu);
+  assert.doesNotMatch(status, /Write-(Host|Output).*databasePassword/iu);
 });
 
 test('database connection check captures Docker output without nullable temporary-file reads', async () => {

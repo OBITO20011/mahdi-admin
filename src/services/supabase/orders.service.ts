@@ -1,6 +1,29 @@
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
-import { Order, OrderStatus } from '../../types';
+import { Order, OrderStatus, PaymentMethod, PaymentStatus } from '../../types';
 import { calculateOrderAmountDue } from '../../utils/orderCalculations';
+
+const paymentMethods: PaymentMethod[] = [
+  'cash',
+  'cash_on_delivery',
+  'cliq',
+  'card',
+  'bank_transfer',
+  'debt',
+  'mixed',
+];
+const paymentStatuses: PaymentStatus[] = ['unpaid', 'partially_paid', 'paid', 'refunded'];
+
+function toPaymentMethod(value: unknown): PaymentMethod {
+  return paymentMethods.includes(value as PaymentMethod)
+    ? (value as PaymentMethod)
+    : 'cash_on_delivery';
+}
+
+function toPaymentStatus(value: unknown): PaymentStatus {
+  return paymentStatuses.includes(value as PaymentStatus)
+    ? (value as PaymentStatus)
+    : 'unpaid';
+}
 
 export async function fetchOrdersFromSupabase(
   filterStatus?: string,
@@ -263,8 +286,8 @@ export async function fetchOrdersFromSupabase(
         totalAmount,
         amountPaid,
         amountDue: calculateOrderAmountDue(totalAmount, amountPaid),
-        paymentMethod: (ord.payment_method as any) || 'cash_on_delivery',
-        paymentStatus: (ord.payment_status as any) || 'unpaid',
+        paymentMethod: toPaymentMethod(ord.payment_method),
+        paymentStatus: toPaymentStatus(ord.payment_status),
         paymentReferenceNumber:
           ord.payment_reference_number || undefined,
         paymentConfirmedAt: ord.payment_confirmed_at || undefined,

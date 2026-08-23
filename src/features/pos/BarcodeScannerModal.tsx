@@ -27,6 +27,10 @@ interface BarcodeScannerModalProps {
   setToast: (msg: string, type?: 'success' | 'error' | 'info') => void;
 }
 
+type AudioContextWindow = Window & {
+  webkitAudioContext?: typeof AudioContext;
+};
+
 export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
   isOpen,
   onClose,
@@ -49,7 +53,9 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
   const playBeep = () => {
     if (!soundEnabled) return;
     try {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioCtx =
+        window.AudioContext ||
+        (window as AudioContextWindow).webkitAudioContext;
       if (!AudioCtx) return;
       const ctx = new AudioCtx();
       const osc = ctx.createOscillator();

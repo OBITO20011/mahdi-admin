@@ -1616,10 +1616,12 @@ class StoreEngine {
 
   public updateProfile(updates: Partial<User>) {
     // Prevent changing role, permissions or isActive from profile form
-    const safeUpdates = { ...updates };
-    delete (safeUpdates as any).role;
-    delete (safeUpdates as any).permissions;
-    delete (safeUpdates as any).isActive;
+    const {
+      role: _role,
+      permissions: _permissions,
+      isActive: _isActive,
+      ...safeUpdates
+    } = updates;
 
     Object.assign(this.state.currentUser, safeUpdates);
 

@@ -47,6 +47,17 @@ export interface SupabaseRpcResult {
   };
 }
 
+function readErrorStatus(error: unknown): number | string | undefined {
+  if (!error || typeof error !== 'object' || !('status' in error)) {
+    return undefined;
+  }
+
+  const status = (error as { status?: unknown }).status;
+  return typeof status === 'number' || typeof status === 'string'
+    ? status
+    : undefined;
+}
+
 export interface UpdateProductInput {
   productId: string;
   sku: string;
@@ -192,7 +203,7 @@ export async function fetchProductsFromSupabase(): Promise<{
       console.error('[Supabase fetchProducts Error]:', {
         message: prodError.message,
         code: prodError.code,
-        status: status || (prodError as any).status,
+        status: status || readErrorStatus(prodError),
         details: prodError.details,
         hint: prodError.hint,
       });
@@ -204,7 +215,7 @@ export async function fetchProductsFromSupabase(): Promise<{
         errorDetails: {
           message: prodError.message,
           code: prodError.code || 'UNKNOWN_CODE',
-          status: status || (prodError as any).status || 400,
+          status: status || readErrorStatus(prodError) || 400,
           details: prodError.details || undefined,
           hint: prodError.hint || undefined,
         },
@@ -509,7 +520,7 @@ export async function createProductWithOpeningStockInSupabase(
           message: error.message,
           details: error.details || undefined,
           hint: error.hint || undefined,
-          status: (error as any).status || 400,
+          status: readErrorStatus(error) || 400,
         },
       };
     }

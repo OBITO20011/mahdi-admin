@@ -69,6 +69,8 @@ import {
 import { CURRENCY } from '../../constants';
 
 type TabType = 'orders' | 'receiving' | 'suppliers' | 'payments' | 'reports';
+type PurchaseSort = 'newest' | 'highest_value' | 'outstanding';
+type SupplierStatusFilter = 'all' | 'active' | 'inactive';
 
 export const PurchasesView: React.FC = () => {
   const { warehouses, branches } = useAppStore();
@@ -87,11 +89,11 @@ export const PurchasesView: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<PurchaseOrderStatus | 'all'>('all');
   const [supplierFilter, setSupplierFilter] = useState<string>('all');
   const [warehouseFilter, setWarehouseFilter] = useState<string>('all');
-  const [sortBy, setSortBy] = useState<'newest' | 'highest_value' | 'outstanding'>('newest');
+  const [sortBy, setSortBy] = useState<PurchaseSort>('newest');
 
   // Filters for Tab 3 (Suppliers)
   const [supplierSearch, setSupplierSearch] = useState<string>('');
-  const [supplierStatusFilter, setSupplierStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
+  const [supplierStatusFilter, setSupplierStatusFilter] = useState<SupplierStatusFilter>('all');
 
   // Filters for Tab 4 (Payments)
   const [paymentSearch, setPaymentSearch] = useState<string>('');
@@ -502,7 +504,7 @@ export const PurchasesView: React.FC = () => {
               {/* Sort By */}
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
+                onChange={(e) => setSortBy(e.target.value as PurchaseSort)}
                 className="w-full md:w-44 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-blue-500 font-bold"
               >
                 <option value="newest">الأحدث أولاً</option>
@@ -830,7 +832,7 @@ export const PurchasesView: React.FC = () => {
               {/* Filter Active status */}
               <select
                 value={supplierStatusFilter}
-                onChange={(e) => setSupplierStatusFilter(e.target.value as any)}
+                onChange={(e) => setSupplierStatusFilter(e.target.value as SupplierStatusFilter)}
                 className="w-full md:w-48 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-teal-500 font-bold"
               >
                 <option value="all">جميع الحالات</option>
