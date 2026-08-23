@@ -1,0 +1,48 @@
+name: Nawasrah public uptime
+
+on:
+  workflow_dispatch:
+  schedule:
+    # UTC: intentionally offset from the hour to avoid the busiest scheduler minute.
+    - cron: '7,37 * * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    name: Check customer store and admin
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Verify public availability and security headers
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          check_endpoint() {
+            local label="$1"
+            local url="$2"
+            local headers
+            headers="$(mktemp)"
+            trap 'rm -f "$headers"' RETURN
+
+            local status
+            status="$(curl --silent --show-error --location --max-time 20 --output /dev/null --dump-header "$headers" --write-out '%{http_code}' "$url")"
+            if [[ "$status" != "200" ]]; then
+              echo "$label returned HTTP $status: $url" >&2
+              return 1
+            fi
+
+            for header in strict-transport-security content-security-policy x-frame-options x-content-type-options; do
+              if ! grep --ignore-case --quiet "^${header}:" "$headers"; then
+                echo "$label is missing required ${header} header: $url" >&2
+                return 1
+              fi
+            done
+
+            echo "${label} is healthy (HTTP ${status})."
+          }
+
+          check_endpoint 'Customer store' 'https://nawasrah-store.pages.dev/'
+          check_endpoint 'Admin application' 'https://nawasrah-admin.pages.dev/'

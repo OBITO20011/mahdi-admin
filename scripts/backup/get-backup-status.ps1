@@ -2,13 +2,16 @@
 param(
   [string]$ConfigPath = (Join-Path $env:LOCALAPPDATA 'NawasrahBackup\config.json'),
 
-  [string]$TaskName = 'Nawasrah ERP Nightly Backup'
+  [string]$TaskName = 'Nawasrah ERP Nightly Backup',
+
+  [string]$RestoreDrillTaskName = 'Nawasrah ERP Quarterly Restore Drill'
 )
 
 $ErrorActionPreference = 'Stop'
 $configFound = Test-Path -LiteralPath $ConfigPath
 $backupRoot = $null
 $latestStatus = $null
+$latestRestoreDrillStatus = $null
 $configDecryptable = $false
 $executionIdentity = [Security.Principal.WindowsIdentity]::GetCurrent().Name
 
@@ -34,10 +37,21 @@ if ($configFound) {
       $latestStatus = $null
     }
   }
+  $restoreDrillStatusPath = Join-Path $backupRoot 'last-restore-drill-status.json'
+  if (Test-Path -LiteralPath $restoreDrillStatusPath) {
+    try {
+      $latestRestoreDrillStatus = Get-Content -LiteralPath $restoreDrillStatusPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    }
+    catch {
+      $latestRestoreDrillStatus = $null
+    }
+  }
 }
 
 $task = Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue
 $taskInfo = if ($task) { Get-ScheduledTaskInfo -TaskName $TaskName } else { $null }
+$restoreDrillTask = Get-ScheduledTask -TaskName $RestoreDrillTaskName -ErrorAction SilentlyContinue
+$restoreDrillTaskInfo = if ($restoreDrillTask) { Get-ScheduledTaskInfo -TaskName $RestoreDrillTaskName } else { $null }
 $actionRequired = @()
 
 if (-not $configFound) {
@@ -57,6 +71,21 @@ if ($latestStatus -and $latestStatus.ok -ne $true) {
 }
 if ($configFound -and -not $configDecryptable) {
   $actionRequired += 'This Windows account cannot decrypt the protected backup configuration. Run this command from the same Windows account that created the backup setup.'
+}
+if (-not $restoreDrillTask) {
+  $actionRequired += 'The 90-day restore drill task does not exist. Run backup:background once to create it.'
+}
+elseif ($restoreDrillTask.Principal.LogonType -eq 'Interactive') {
+  $actionRequired += 'The restore drill runs only after Windows sign-in. Run backup:background for signed-out operation.'
+}
+if ($restoreDrillTaskInfo -and $restoreDrillTaskInfo.LastRunTime -and $restoreDrillTaskInfo.LastRunTime -gt [datetime]::MinValue -and $restoreDrillTaskInfo.LastTaskResult -ne 0) {
+  $actionRequired += 'The latest restore drill task attempt did not return 0. Review restore-drill-runner.log.'
+}
+if (-not $latestRestoreDrillStatus) {
+  $actionRequired += 'No restore drill report exists yet. Run backup:restore-test once now to verify recovery safely.'
+}
+elseif ($latestRestoreDrillStatus.ok -ne $true -or $latestRestoreDrillStatus.liveSupabaseTouched -ne $false) {
+  $actionRequired += 'The latest restore drill was not a verified isolated success. Review last-restore-drill-status.json.'
 }
 
 [ordered]@{
@@ -81,6 +110,25 @@ if ($configFound -and -not $configDecryptable) {
       startedAt = $latestStatus.startedAt
       finishedAt = $latestStatus.finishedAt
       archivePath = $latestStatus.archivePath
+    }
+  } else { $null }
+  restoreDrillTask = if ($restoreDrillTask) {
+    [ordered]@{
+      state = [string]$restoreDrillTask.State
+      enabled = [bool]($restoreDrillTask.State -ne 'Disabled')
+      logonType = [string]$restoreDrillTask.Principal.LogonType
+      lastRunTime = $restoreDrillTaskInfo.LastRunTime
+      nextRunTime = $restoreDrillTaskInfo.NextRunTime
+      lastTaskResult = $restoreDrillTaskInfo.LastTaskResult
+    }
+  } else { $null }
+  latestRestoreDrill = if ($latestRestoreDrillStatus) {
+    [ordered]@{
+      ok = [bool]$latestRestoreDrillStatus.ok
+      completedAt = $latestRestoreDrillStatus.completedAt
+      liveSupabaseTouched = [bool]$latestRestoreDrillStatus.liveSupabaseTouched
+      archiveName = $latestRestoreDrillStatus.archiveName
+      durationSeconds = $latestRestoreDrillStatus.durationSeconds
     }
   } else { $null }
   actionRequired = $actionRequired

@@ -11,6 +11,8 @@ param(
 
   [string]$TaskName = 'Nawasrah ERP Nightly Backup',
 
+  [string]$Description = 'Encrypted daily database and product image backup for Nawasrah ERP.',
+
   [switch]$RunWhenUserLoggedOff,
 
   [System.Management.Automation.PSCredential]$WindowsCredential
@@ -28,8 +30,6 @@ $settings = New-ScheduledTaskSettingsSet `
   -WakeToRun `
   -ExecutionTimeLimit (New-TimeSpan -Hours 2) `
   -MultipleInstances IgnoreNew
-$description = 'Encrypted daily database and product image backup for Nawasrah ERP.'
-
 if ($RunWhenUserLoggedOff) {
   if (-not $WindowsCredential) {
     throw 'A Windows credential is required to run the backup while the user is signed out.'
@@ -49,7 +49,7 @@ if ($RunWhenUserLoggedOff) {
     -Trigger $trigger `
     -Settings $settings `
     -Principal $principal `
-    -Description $description
+    -Description $Description
 
   try {
     # Task Scheduler encrypts this credential in Windows. It is never written
@@ -81,7 +81,7 @@ Register-ScheduledTask `
   -Trigger $trigger `
   -Settings $settings `
   -Principal $principal `
-  -Description $description `
+  -Description $Description `
   -Force | Out-Null
 
 Write-Host "Interactive schedule created and enabled: $TaskName at $ScheduleTime" -ForegroundColor Green

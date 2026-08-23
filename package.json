@@ -16,6 +16,7 @@
     "backup:run": "node scripts/backup/run-powershell-script.mjs scripts/backup/run-backup.ps1",
     "backup:verify": "node scripts/backup/run-powershell-script.mjs scripts/backup/verify-latest-backup.ps1",
     "backup:restore-test": "node scripts/backup/run-powershell-script.mjs scripts/backup/run-restore-drill.ps1",
+    "backup:restore-schedule": "node scripts/backup/run-powershell-script.mjs scripts/backup/run-scheduled-restore-drill.ps1",
     "backup:status": "node scripts/backup/run-powershell-script.mjs scripts/backup/get-backup-status.ps1",
     "backup:background": "node scripts/backup/run-powershell-script.mjs scripts/backup/enable-background-backup.ps1"
   },

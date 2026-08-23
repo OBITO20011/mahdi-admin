@@ -58,10 +58,31 @@ repository, the backup folder, or `%LOCALAPPDATA%\NawasrahBackup\config.json`.
 The machine must still be powered on and Docker Desktop must be available; a
 completely powered-off computer cannot create local backups.
 
+The same command also creates a second background task named **Nawasrah ERP
+Quarterly Restore Drill**. It wakes daily at 02:17, reads only the timestamp of
+the last safe restore report, and runs the isolated restore test only when 90
+days have elapsed (or when no successful report exists). It never connects to
+or overwrites the live Supabase database.
+
 Check the schedule and latest backup without exposing any secret:
 
 ```powershell
 npm.cmd run backup:status
+```
+
+The status output includes `restoreDrillTask` and `latestRestoreDrill`. Before
+relying on the new schedule, perform one fresh safe drill now:
+
+```powershell
+npm.cmd run backup:restore-test
+```
+
+It must finish with a report containing `"ok": true` and
+`"liveSupabaseTouched": false`. You can manually run the scheduled 90-day gate
+without forcing a new drill with:
+
+```powershell
+npm.cmd run backup:restore-schedule
 ```
 
 Run these commands from the same Windows account that completed
@@ -149,3 +170,6 @@ The backup destination contains:
 The runner also writes early setup/runner failures to
 `%LOCALAPPDATA%\NawasrahBackup\runner.log` when it cannot yet access the backup
 destination.
+
+Restore-drill scheduling failures are written separately to
+`%LOCALAPPDATA%\NawasrahBackup\restore-drill-runner.log`.

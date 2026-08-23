@@ -21,6 +21,7 @@ test('backup package scripts isolate Windows PowerShell from inherited PowerShel
     'backup:run',
     'backup:verify',
     'backup:restore-test',
+    'backup:restore-schedule',
     'backup:status',
     'backup:background',
   ]) {
@@ -74,6 +75,8 @@ test('background backup helper requests the Windows credential locally and statu
   const status = await readFile('scripts/backup/get-backup-status.ps1', 'utf8');
   assert.match(background, /Get-Credential/u);
   assert.match(background, /RunWhenUserLoggedOff/u);
+  assert.match(background, /Quarterly Restore Drill/u);
+  assert.match(background, /run-scheduled-restore-drill\.ps1/u);
   assert.match(background, /LogonType -ne 'Password'/u);
   assert.match(background, /Keep the PSCredential in this PowerShell process/u);
   assert.doesNotMatch(background, /& powershell\.exe .*\$scheduleScript/u);
@@ -82,10 +85,35 @@ test('background backup helper requests the Windows credential locally and statu
   assert.match(status, /-Encoding UTF8/u);
   assert.match(status, /startedAt = \$latestStatus\.startedAt/u);
   assert.match(status, /configDecryptable/u);
+  assert.match(status, /restoreDrillTask/u);
+  assert.match(status, /latestRestoreDrill/u);
+  assert.match(status, /last-restore-drill-status\.json/u);
   assert.match(status, /ConvertTo-SecureString -String \$config\.archivePassphrase/u);
   assert.doesNotMatch(status, /GetNetworkCredential/u);
   assert.doesNotMatch(status, /Write-(Host|Output).*Passphrase/iu);
   assert.doesNotMatch(status, /Write-(Host|Output).*databasePassword/iu);
+});
+
+test('scheduled restore drill runs only when the previous isolated success is at least 90 days old', async () => {
+  const source = await readFile('scripts/backup/run-scheduled-restore-drill.ps1', 'utf8');
+  assert.match(source, /\[int\]\$MinimumDays = 90/u);
+  assert.match(source, /last-restore-drill-status\.json/u);
+  assert.match(source, /candidate\.ok -eq \$true/u);
+  assert.match(source, /candidate\.liveSupabaseTouched -eq \$false/u);
+  assert.match(source, /\$age\.TotalDays -lt \$MinimumDays/u);
+  assert.match(source, /run-restore-drill\.ps1/u);
+  assert.doesNotMatch(source, /SUPABASE_DB_PASSWORD/u);
+  assert.doesNotMatch(source, /databasePassword/u);
+});
+
+test('public uptime monitor checks both Cloudflare applications without storing a secret', async () => {
+  const source = await readFile('.github/workflows/public-uptime.yml', 'utf8');
+  assert.match(source, /https:\/\/nawasrah-store\.pages\.dev\//u);
+  assert.match(source, /https:\/\/nawasrah-admin\.pages\.dev\//u);
+  assert.match(source, /7,37 \* \* \* \*/u);
+  assert.match(source, /strict-transport-security/u);
+  assert.match(source, /content-security-policy/u);
+  assert.doesNotMatch(source, /(token|password|secret)\s*:/iu);
 });
 
 test('database connection check captures Docker output without nullable temporary-file reads', async () => {
