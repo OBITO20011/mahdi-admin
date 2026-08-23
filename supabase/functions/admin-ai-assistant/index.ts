@@ -92,6 +92,10 @@ const searchTokens = (value: string) =>
     .split(' ')
     .filter((token) => token.length >= 2 && !searchStopWords.has(token));
 
+// Treat a harmless repeated Latin letter as a typo: "watter" -> "water".
+// Arabic letters are intentionally left untouched because doubling can change meaning.
+const collapseRepeatedLatinLetters = (value: string) => value.replace(/([a-z])\1+/g, '$1');
+
 const levenshteinDistance = (left: string, right: string) => {
   const previous = Array.from({ length: right.length + 1 }, (_, index) => index);
   for (let leftIndex = 1; leftIndex <= left.length; leftIndex += 1) {
@@ -130,7 +134,11 @@ const findInventoryMatches = (message: string, items: InventoryItem[]): Inventor
     let score = 0;
 
     for (const queryToken of queryTokens) {
-      if (candidateTokens.includes(queryToken)) {
+      const compactQueryToken = collapseRepeatedLatinLetters(queryToken);
+      if (candidateTokens.some((candidateToken) =>
+        candidateToken === queryToken ||
+        collapseRepeatedLatinLetters(candidateToken) === compactQueryToken
+      )) {
         score = Math.max(score, 100);
         continue;
       }
