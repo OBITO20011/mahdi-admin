@@ -3,6 +3,7 @@ import { Branch, Role, User } from '../../types';
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
 
 export type StaffRoleCode =
+  | 'owner'
   | 'admin'
   | 'manager'
   | 'accountant'
@@ -19,7 +20,7 @@ export interface StaffAccountInput {
   phone?: string;
   jobTitle?: string;
   branchId?: string;
-  role: Exclude<Role, 'Owner'>;
+  role: Role;
   password?: string;
 }
 
@@ -48,7 +49,8 @@ interface StaffAccountRow {
   last_sign_in_at: string | null;
 }
 
-const roleToCode: Record<Exclude<Role, 'Owner'>, StaffRoleCode> = {
+const roleToCode: Record<Role, StaffRoleCode> = {
+  Owner: 'owner',
   Admin: 'admin',
   Accountant: 'accountant',
   Cashier: 'cashier',
@@ -126,12 +128,13 @@ function mapStaffAccount(row: StaffAccountRow): User {
   };
 }
 
-export function getStaffRoleCode(role: Exclude<Role, 'Owner'>): StaffRoleCode {
+export function getStaffRoleCode(role: Role): StaffRoleCode {
   return roleToCode[role];
 }
 
-export function getAssignableRoles(): Exclude<Role, 'Owner'>[] {
+export function getAssignableRoles(): Role[] {
   return [
+    'Owner',
     'Admin',
     'Accountant',
     'Cashier',

@@ -22,7 +22,8 @@ interface UserFormModalProps {
   onSaved: () => Promise<void> | void;
 }
 
-const roleLabels: Record<Exclude<Role, 'Owner'>, string> = {
+const roleLabels: Record<Role, string> = {
+  Owner: 'مالك النظام',
   Admin: 'مدير تنفيذي',
   Accountant: 'محاسب',
   Cashier: 'كاشير',
@@ -33,7 +34,7 @@ const roleLabels: Record<Exclude<Role, 'Owner'>, string> = {
   'View Only': 'مشاهدة فقط',
 };
 
-const defaultRole: Exclude<Role, 'Owner'> = 'Cashier';
+const defaultRole: Role = 'Cashier';
 
 export const UserFormModal: React.FC<UserFormModalProps> = ({
   initialUser,
@@ -46,9 +47,7 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
   const [email, setEmail] = useState(initialUser?.email || '');
   const [phone, setPhone] = useState(initialUser?.phone || '');
   const [jobTitle, setJobTitle] = useState(initialUser?.jobTitle || '');
-  const [role, setRole] = useState<Exclude<Role, 'Owner'>>(
-    initialUser?.role && initialUser.role !== 'Owner' ? initialUser.role : defaultRole,
-  );
+  const [role, setRole] = useState<Role>(initialUser?.role || defaultRole);
   const [branchId, setBranchId] = useState(initialUser?.branchId || branches[0]?.id || '');
   const [password, setPassword] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -78,6 +77,13 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
     }
     if (!isEditing && !password) {
       setError('أدخل كلمة مرور مؤقتة للموظف.');
+      return;
+    }
+    if (role === 'Owner' && !window.confirm(
+      isEditing
+        ? 'هل أنت متأكد من منح هذا الحساب صلاحية مالك النظام الكاملة؟'
+        : 'هل أنت متأكد من إنشاء مالك نظام إضافي؟ سيكون له كامل الصلاحيات، بما فيها إدارة المستخدمين.',
+    )) {
       return;
     }
 
@@ -210,7 +216,7 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
         </label>
         <select
           value={role}
-          onChange={(event) => setRole(event.target.value as Exclude<Role, 'Owner'>)}
+          onChange={(event) => setRole(event.target.value as Role)}
           className="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-2 font-bold text-blue-300 outline-none focus:border-blue-500"
         >
           {getAssignableRoles().map((option) => (
@@ -220,7 +226,7 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
           ))}
         </select>
         <p className="text-[9px] leading-4 text-slate-500">
-          صلاحية المالك لا تُنشأ أو تُمنح من هذه الشاشة لحماية النظام.
+          مالك النظام يمتلك كل الصلاحيات. لا تُنشئه إلا لشخص تثق به تمامًا.
         </p>
       </div>
 

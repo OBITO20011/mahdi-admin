@@ -57,6 +57,7 @@ const isUuid = (value: unknown): value is string =>
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 
 const validRoleCodes = new Set([
+  'owner',
   'admin',
   'manager',
   'accountant',
@@ -154,7 +155,7 @@ Deno.serve(async (request) => {
     const staff = await loadStaff();
     if (!staff.data) return staff;
     const target = staff.data.find((row) => row.user_id === userId);
-    if (!target || target.role_code === 'owner') {
+    if (!target) {
       return {error: 'Invalid staff account target'};
     }
     return {data: target};

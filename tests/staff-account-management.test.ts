@@ -2,10 +2,11 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-const migration = readFileSync(
+const initialMigration = readFileSync(
   'supabase/migrations/064_secure_staff_account_management.sql',
   'utf8',
 );
+const ownerMigration = readFileSync('supabase/migrations/065_multiple_system_owners.sql', 'utf8');
 const functionSource = readFileSync(
   'supabase/functions/manage-staff-users/index.ts',
   'utf8',
@@ -28,14 +29,14 @@ test('staff account records are owner-only audited RPCs', () => {
     'record_erp_staff_password_reset',
     'get_erp_staff_account_audit_logs',
   ]) {
-    assert.match(migration, new RegExp(`CREATE OR REPLACE FUNCTION public\\.${functionName}`));
+    assert.match(initialMigration, new RegExp(`CREATE OR REPLACE FUNCTION public\\.${functionName}`));
   }
-  assert.match(migration, /ARRAY\['owner'\]/);
-  assert.match(migration, /entity_name,\s*\n\s*entity_id,\s*\n\s*details/);
-  assert.match(migration, /REVOKE ALL ON FUNCTION public\.create_erp_staff_account_record[\s\S]*FROM PUBLIC, anon/);
-  assert.match(migration, /GRANT EXECUTE ON FUNCTION public\.get_erp_staff_accounts\(\) TO authenticated/);
-  assert.match(migration, /role\.code = 'owner'/);
-  assert.match(migration, /p_user_id = auth\.uid\(\)/);
+  assert.match(initialMigration, /ARRAY\['owner'\]/);
+  assert.match(initialMigration, /entity_name,\s*\n\s*entity_id,\s*\n\s*details/);
+  assert.match(initialMigration, /REVOKE ALL ON FUNCTION public\.create_erp_staff_account_record[\s\S]*FROM PUBLIC, anon/);
+  assert.match(initialMigration, /GRANT EXECUTE ON FUNCTION public\.get_erp_staff_accounts\(\) TO authenticated/);
+  assert.match(initialMigration, /role\.code = 'owner'/);
+  assert.match(initialMigration, /p_user_id = auth\.uid\(\)/);
 });
 
 test('the browser reaches staff management only through the protected Edge Function', () => {
@@ -60,9 +61,15 @@ test('Edge Function authenticates caller, limits origin, and keeps service role 
   assert.match(config, /\[functions\.manage-staff-users\]\s*\nverify_jwt = true/);
 });
 
-test('only the owner sees the staff management entry point and owner role cannot be assigned', () => {
+test('only an owner can assign a second owner while the final active owner remains protected', () => {
   assert.match(moreMenu, /roleName === 'owner'/);
   assert.match(moreMenu, /المستخدمون والصلاحيات/);
-  assert.match(userForm, /صلاحية المالك لا تُنشأ أو تُمنح/);
+  assert.match(userForm, /مالك النظام/);
+  assert.match(userForm, /إنشاء مالك نظام إضافي/);
+  assert.match(ownerMigration, /لا يمكن خفض صلاحية آخر مالك نظام نشط/);
+  assert.match(ownerMigration, /لا يمكن تعطيل آخر مالك نظام نشط/);
+  assert.match(ownerMigration, /pg_advisory_xact_lock/);
+  assert.match(ownerMigration, /ARRAY\['owner'\]/);
+  assert.match(functionSource, /'owner'/);
   assert.match(usersView, /هذه الشاشة للمالك فقط/);
 });

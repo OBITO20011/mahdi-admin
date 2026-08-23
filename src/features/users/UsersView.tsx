@@ -58,7 +58,7 @@ function getAuditDetails(record: StaffAuditRecord): string {
 
 export const UsersView: React.FC = () => {
   const { branches } = useAppStore();
-  const { roleName } = useAuthStore();
+  const { roleName, user: authenticatedUser } = useAuthStore();
   const isOwner = roleName === 'owner';
   const [staff, setStaff] = useState<User[]>([]);
   const [audits, setAudits] = useState<StaffAuditRecord[]>([]);
@@ -172,7 +172,7 @@ export const UsersView: React.FC = () => {
             <h2 className="text-base font-black text-slate-100">المستخدمون والصلاحيات</h2>
           </div>
           <p className="mt-1 text-[10px] text-slate-500">
-            أنشئ حساب الموظف وحدد دوره وفرعه من مكان واحد آمن.
+            أنشئ حساب الموظف أو مالك نظام إضافيًا وحدد دوره وفرعه من مكان واحد آمن.
           </p>
         </div>
         <button
@@ -184,7 +184,7 @@ export const UsersView: React.FC = () => {
           className="flex shrink-0 items-center gap-1.5 rounded-xl bg-blue-600 px-3 py-2 text-xs font-black text-white shadow-lg shadow-blue-950/30 transition hover:bg-blue-500 active:scale-95"
         >
           <Plus className="h-4 w-4" />
-          إضافة موظف
+          إضافة مستخدم
         </button>
       </header>
 
@@ -256,7 +256,8 @@ export const UsersView: React.FC = () => {
           ) : (
             <div className="space-y-2">
               {filteredUsers.map((user) => {
-                const isProtectedOwner = user.role === 'Owner';
+                const isSystemOwner = user.role === 'Owner';
+                const isCurrentAccount = user.id === authenticatedUser?.id;
                 const isPending = pendingUserId === user.id;
                 return (
                   <article
@@ -287,7 +288,7 @@ export const UsersView: React.FC = () => {
                         </div>
                       </div>
 
-                      {!isProtectedOwner && (
+                      {!isCurrentAccount && (
                         <div className="flex shrink-0 items-center gap-1">
                           <button
                             type="button"
@@ -296,7 +297,7 @@ export const UsersView: React.FC = () => {
                               setIsFormOpen(true);
                             }}
                             className="rounded-lg border border-slate-700 bg-slate-950 p-1.5 text-slate-300 transition hover:bg-slate-800"
-                            title="تعديل بيانات الموظف"
+                            title="تعديل بيانات المستخدم"
                           >
                             <Edit3 className="h-3.5 w-3.5" />
                           </button>
@@ -327,9 +328,9 @@ export const UsersView: React.FC = () => {
                         </div>
                       )}
                     </div>
-                    {isProtectedOwner && (
+                    {isSystemOwner && (
                       <p className="mt-2 rounded-lg border border-amber-500/15 bg-amber-500/5 px-2 py-1.5 text-[9px] text-amber-200/80">
-                        حساب المالك محمي؛ لا يمكن تغييره أو تعطيله أو إعادة كلمة مروره من هذه الشاشة.
+                        مالك نظام بصلاحية كاملة. لا يمكن تعديل حسابك الحالي من هذه الشاشة، ولا يمكن تعطيل آخر مالك نشط.
                       </p>
                     )}
                   </article>
