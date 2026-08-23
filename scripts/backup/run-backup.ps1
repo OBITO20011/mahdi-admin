@@ -5,6 +5,9 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+if (-not (Get-Command ConvertTo-SecureString -ErrorAction SilentlyContinue)) {
+  Import-Module -Name Microsoft.PowerShell.Security -ErrorAction Stop
+}
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 $statusFallback = Join-Path $env:LOCALAPPDATA 'NawasrahBackup\runner.log'
 

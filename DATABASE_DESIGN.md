@@ -1,83 +1,66 @@
-# DATABASE_DESIGN.md - Nawasrah Business Manager Database Schema & Relational Design
+# تصميم بيانات نواصرة التشغيلي
 
-## 🗄️ تصميم قاعدة البيانات والجداول (Supabase PostgreSQL)
+## مصدر المخطط
 
-تم تصميم قاعدة البيانات لدعم المعاملات التزSynchronous مع الحفاظ على سلامة البيانات الذرية وضمان عدم حدوث حجز مضاعف للمخزون (Double Booking) في أوقات الذروة.
+المصدر الوحيد للمخطط هو migrations في `supabase/migrations` من `001` حتى `062`. لا تطبق SQL يدويًا من وثيقة قديمة، ولا تستخدم `supabase db reset` على قاعدة الإنتاج. قبل أي تغيير:
 
----
-
-## 📋 الجداول الرئيسية (Core Tables)
-
-### 1. `branches` & `warehouses`
-- **branches**: `id`, `name`, `address`, `city`, `phone`, `is_main`, `created_at`
-- **warehouses**: `id`, `branch_id`, `name`, `location`
-
-### 2. `categories`, `brands`, `products`
-- **products**:
-  - `id` (UUID PK)
-  - `sku` (UNIQUE), `barcode` (UNIQUE)
-  - `name_ar`, `name_en`, `description`, `image_url`
-  - `cost_price`, `retail_price`, `wholesale_price`
-  - `tax_rate` (Default 16.00%)
-  - `on_hand_quantity`, `reserved_quantity`, `reorder_level`
-  - `unit` ('قطعة', 'باكيت', 'كرتونة')
-  - `status` ('active', 'out_of_stock', 'near_expiry')
-
-### 3. `orders` & `order_items`
-- **orders**:
-  - `id`, `order_number` (UNIQUE e.g. ORD-2026-881)
-  - `customer_name`, `customer_phone`, `governorate`, `region`, `address`, `map_url`
-  - `subtotal`, `discount`, `delivery_fee`, `total_amount`
-  - `payment_method` ('cash', 'cliq', 'card', 'debt')
-  - `status` ('new', 'confirmed', 'processing', 'out_for_delivery', 'delivered', 'cancelled')
-  - `idempotency_key` (UNIQUE)
-
-### 4. `customers` & `suppliers`
-- **customers**: `id`, `name`, `phone`, `whatsapp`, `address`, `credit_limit`, `current_balance`
-- **suppliers**: `id`, `company_name`, `contact_person`, `phone`, `current_balance`, `tax_number`
-
-### 5. `inventory_movements` (Audit Feed)
-- `id`, `product_id`, `branch_id`, `movement_type`, `previous_quantity`, `quantity_change`, `new_quantity`, `reason`, `performed_by_user_id`, `timestamp`
-
-### 6. `expenses`, `shifts`, `accounts`
-- **expenses**: `id`, `expense_number`, `category`, `amount`, `payment_method`, `description`
-- **shifts**: `id`, `shift_number`, `branch_id`, `opening_cash`, `expected_cash`, `actual_cash`, `cash_discrepancy`, `status`
-- **accounts**: `id`, `code`, `name_ar`, `type`, `balance`, `is_system`
-
----
-
-## ⚡ الدالة الذرية لضمان عدم تضارب المخزون (`reserve_order_stock`)
-
-تستخدم هذه الدالة قفل الأسطر (`FOR UPDATE`) لضمان صحة حجز المخزون أوتوماتيكياً:
-
-```sql
-CREATE OR REPLACE FUNCTION reserve_order_stock(
-  p_order_id UUID,
-  p_performed_by_id UUID
-)
-RETURNS VOID AS $$
-DECLARE
-  item RECORD;
-  v_available INT;
-BEGIN
-  FOR item IN SELECT product_id, product_name, quantity FROM order_items WHERE order_id = p_order_id LOOP
-    SELECT (on_hand_quantity - reserved_quantity) INTO v_available
-    FROM products
-    WHERE id = item.product_id
-    FOR UPDATE;
-
-    IF v_available < item.quantity THEN
-      RAISE EXCEPTION 'Stock Conflict: Product % has only % available', item.product_name, v_available;
-    END IF;
-  END LOOP;
-
-  FOR item IN SELECT product_id, product_name, quantity FROM order_items WHERE order_id = p_order_id LOOP
-    UPDATE products
-    SET reserved_quantity = reserved_quantity + item.quantity
-    WHERE id = item.product_id;
-  END LOOP;
-
-  UPDATE orders SET status = 'confirmed' WHERE id = p_order_id;
-END;
-$$ LANGUAGE plpgsql;
+```powershell
+npx supabase migration list
 ```
+
+يجب أن تتطابق الهجرات المحلية والبعيدة، ثم تضاف migration جديدة متسلسلة فقط.
+
+## مجالات البيانات
+
+| المجال | أمثلة على مصدر الحقيقة | القاعدة التشغيلية |
+|---|---|---|
+| المرجعيات | الفروع، المستودعات، الأقسام، الماركات، الوحدات والمنتجات | تُدار من الإدارة وبصلاحية محمية. |
+| المخزون | `inventory_balances` و`inventory_movements` | الرصيد لا يعدل من المتصفح؛ كل تغيير حركة مدققة. |
+| التوريد | الموردون، سندات الاستلام، دفعات المورد | استلام الطرد يحول محتواه إلى وحدات أساس ويحدث الذمة ذريًا. |
+| الطلبات | الطلبات، البنود، الحجوزات وحالات التنفيذ | طلب العميل العام يمر عبر RPC محمية بمفتاح منع التكرار. |
+| العملاء والذمم | العميل، العناوين، تحصيلات الطلبات وسندات القبض | رقم الهاتف للربط التجاري؛ UUID هو الهوية الداخلية. |
+| البيع المباشر | إيصالات POS، التحصيل، المرتجعات | لا يتم البيع إلا من وردية مفتوحة وبكمية طرود صحيحة. |
+| التشغيل المالي | المصروفات، الورديات، تقارير الإغلاق والتقارير الدورية | الكاش وCliQ منفصلان، والفروقات تحتاج سببًا محفوظًا. |
+| التنبيهات | Outbox أحداث الأتمتة وسجل التسليم | التسجيل داخل PostgreSQL؛ القنوات الخارجية لا تعدل ERP. |
+
+## المخزون والطرود
+
+- وحدة المخزون داخليًا هي **الوحدة الأساسية** فقط.
+- المنتج يعرّف طرد شراء وطرد بيع ومحتوى كل منهما.
+- إدخال 3 كراتين، وكل كرتونة فيها 12 حبة، يسجل 36 وحدة أساس مع حركة استلام واحدة قابلة للتدقيق.
+- البيع للعميل يكون بطرود البيع الكاملة فقط؛ الواجهة لا تقدم بيع تجزئة بالحبة.
+- الجرد يقارن العدد الفعلي بالرصيد المتوقع وينشئ تسوية مدققة، ولا يمسح سجل الحركات.
+
+## المال والدقة الحسابية
+
+- المبالغ تخزن وتُحسب بوحدات صحيحة من ألف الدينار الأردني، ثم تُعرض بدقة ثلاثة منازل (`د.أ`). لا يعتمد النظام على جمع JavaScript العائم للحقائق المحاسبية.
+- تكلفة طرد البيع مشتقة من تكلفة الوحدة الأساسية ومحتوى طرد البيع.
+- رسوم التوصيل والخصومات وطريقة الدفع والتحصيل الجزئي تُثبت في قاعدة البيانات نفسها؛ لا يرسل المتصفح رقم خصم أو رسمًا يفرضه بنفسه.
+- الذمم لا تصبح سالبة، وسندات التحصيل/الدفع مرتبطة بالوردية المناسبة حيث يلزم.
+
+## دورة الطلب
+
+```text
+كتالوج عام آمن
+  -> RPC طلب ضيف مع idempotency
+  -> عميل مرتبط بالهاتف + طلب + حجز مخزون
+  -> تأكيد وتجهيز
+  -> بدء توصيل (وقت متوقع + رقم سائق)
+  -> تحصيل/تسوية أو ذمة
+  -> تسليم أو إلغاء/مرتجع مدقق
+```
+
+رابط التتبع والإيصال العامان يستخدمان رموزًا عشوائية لكل طلب ولا يعرضان عنوان العميل أو هاتفه أو التكلفة أو الربح.
+
+## الصلاحيات والتدقيق
+
+- RLS تحمي الجداول؛ القراءة العامة محدودة بالكتالوج والعروض وتتبع الطلب/الإيصال المصرح بهما فقط.
+- دوال ERP التي تغير المخزون أو المال تتحقق من الهوية والدور، وتطبق MFA عند الحاجة.
+- كل عكس أو إلغاء يبقي السجل واضحًا: لا حذف صامت لحركة مالية أو مخزنية مؤثرة.
+- `service_role` محصور داخل Edge Functions الموثقة، ولا يرسل إلى React أو n8n.
+
+## استمرارية البيانات
+
+- النسخ الاحتياطي يتضمن بنية PostgreSQL، البيانات، الأدوار وملفات Storage داخل أرشيف مشفر.
+- مهمة Windows الليلية تنشئ الأرشيف، وفحص السلامة يتحقق من التشفير والبصمات.
+- استعادة الاختبار تُشغل في Docker معزول ولا تلمس Supabase الحية.

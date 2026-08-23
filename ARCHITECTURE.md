@@ -1,56 +1,78 @@
-# ARCHITECTURE.md - Nawasrah Business Manager System Architecture
+# معمارية نظام نواصرة لإدارة الجملة
 
-## 📐 نظرة عامة على المعمارية (System Architecture Overview)
+## الحالة الحالية
 
-يعتمد تطبيق **مؤسسة نواصرة التجارية** على معمارية حديثة ومفصولة تميز بين واجهات المستخدم (UI Layer) وإدارة الحالة المركزية (State Management) والمنطق البرمجي للعمليات (Business Logic Layer) مع محاكاة كاملة للتزامن والعمل المحمول.
+نواصرة نظام جملة عربي RTL يتكون من تطبيقين مستقلين يشتركان في مشروع Supabase واحد:
 
-```
-+-----------------------------------------------------------------------+
-|                           User Interface (UI)                         |
-|  [Dashboard] [OrdersCenter] [POSView] [ProductsView] [AccountingView] |
-+-----------------------------------------------------------------------+
-                                    |
-                                    v
-+-----------------------------------------------------------------------+
-|                    Global Store & State Manager                       |
-|                          (Zustand Store)                              |
-|  - Active Orders & Stock Reservations                                 |
-|  - POS Cart & Financial Accounts Ledger                               |
-|  - Shift Balances & Audit Logs                                        |
-+-----------------------------------------------------------------------+
-                                    |
-                                    v
-+-----------------------------------------------------------------------+
-|                       Business & Domain Logic                         |
-|  - Atomic Stock Reservation Engine                                    |
-|  - Financial Double-Entry Ledger Logic                                |
-|  - Jordanian 16% Tax & Change Calculator                              |
-|  - Offline Persistence & LocalStorage Sync                            |
-+-----------------------------------------------------------------------+
-                                    |
-                                    v
-+-----------------------------------------------------------------------+
-|                        Data Layer / Persistence                       |
-|  - Supabase PostgreSQL Schema & RPC Functions                         |
-|  - RLS Policies & Audit Logs                                          |
-+-----------------------------------------------------------------------+
+- `src/`: تطبيق الإدارة والمبيعات المباشرة والمخزون والحسابات.
+- `customer-web/src/`: متجر العملاء العام للطرود بالجملة، من دون حساب عميل.
+
+لا توجد بيانات تشغيلية موثوقة داخل Zustand أو LocalStorage. الحالة المحلية تقتصر على التنقل والواجهة والسلة وتفضيلات الجهاز. مصدر الحقيقة للمنتجات والمخزون والطلبات والذمم والورديات والحسابات هو PostgreSQL في Supabase.
+
+## طبقات التطبيق
+
+```text
+المستخدم / العميل
+        |
+React 19 + TypeScript + واجهة RTL متجاوبة
+        |
+خدمات Typed في src/services و customer-web/src/services
+        |
+Supabase Auth / RPCs / دوال قراءة عامة آمنة
+        |
+PostgreSQL: RLS + SECURITY DEFINER RPCs + triggers + audit/movement records
+        |
+Outbox دائم للتنبيهات --> Edge Function محدود --> n8n محلي --> Telegram / WhatsApp
 ```
 
----
+## قواعد مصدر الحقيقة
 
-## 🛠️ التقنيات والمكتبات المستخدمة (Tech Stack)
+1. React لا يكتب أرصدة المخزون أو القيود أو الذمم مباشرة.
+2. كل عملية تغير المال أو المخزون تمر عبر RPC ذرية ومراجعة الصلاحية داخل قاعدة البيانات.
+3. المخزون يحتفظ بوحدة أساسية داخلية؛ الشراء والبيع يتمان بطرود كاملة فقط.
+4. الطلب العام يحفظ في Supabase قبل فتح WhatsApp، ويستخدم مفتاح منع التكرار.
+5. n8n طبقة إرسال وتنبيه فقط. لا يملك كلمة مرور PostgreSQL أو `service_role` ولا يغير جداول ERP.
 
-1. **Framework & Engine**: React 18, Vite, TypeScript Strict Mode.
-2. **State Management**: Zustand مع Persistence Middleware للحفظ المحلي التلقائي.
-3. **Styling & UI**: Tailwind CSS مع تصميم محاكي لـ iOS iPhone Dark Glass Layout، ودعم كامل للـ RTL.
-4. **Icons**: Lucide React Icons.
-5. **Database Ready Schema**: Supabase PostgreSQL with PL/pgSQL Atomic Locking.
-6. **Testing Suite**: Custom In-App Automated QA Testing Suite.
+## تطبيق الإدارة
 
----
+- Supabase Auth مع دور ERP فعّال، Turnstile في الدخول، وMFA للمستخدم الذي سجّل عاملًا.
+- قفل بصمة اختياري محلي بعد مصادقة Supabase؛ كلمة المرور أو MFA يبقيان طريق الاستعادة عند غياب البصمة.
+- الشاشات الثقيلة محملة عند الحاجة عبر `React.lazy` لتبقى شاشة الهاتف سريعة.
+- البيع المباشر، الموردون، المخزون، الجرد، المصروفات، الورديات، الذمم والتقارير تستخدم خدمات Supabase منفصلة ومTyped.
+- PWA وإشعارات الويب لا تخزّن بيانات Supabase الحساسة في Service Worker.
 
-## 🔒 مبادئ الفصل والأمان (Security & Clean Code Rules)
+## متجر العملاء
 
-- **Unidirectional Data Flow**: يتم تعديل جميع البيانات حكراً عبر دساتير وقوانين `useAppStore`.
-- **Decimal & Precise Math**: معالجة الحسابات المالية عبر تقريب محكم لتفادي أخطاء Floating Point.
-- **Audit Logging**: تسجيل كل عملية جرد أو تعديل مخزون أو حجز طلب في جدول `auditLogs` مع اسم المستخدم والطابع الزمني.
+- يقرأ كتالوجًا عامًا لا يعرض تكلفة الشراء أو المورد أو ربح المحل.
+- يعرض وحدات بيع جملة كاملة، المخزون المتاح، الأقسام، العروض والرسوم حسب منطقة التوصيل.
+- يدعم كاش عند الاستلام أو CliQ، حفظًا اختياريًا للبيانات على جهاز العميل، التتبع الآمن للطلب وإيصالًا عامًا منقحًا.
+- يطلب الموقع الحالي فقط بعد ضغط العميل، ويمكنه إدخال رابط موقع مختلف.
+
+## قاعدة البيانات والأمان
+
+- مصدر المخطط هو `supabase/migrations/001...062`، ويجب مقارنة المجلد مع قاعدة البيانات الحية عبر `npx supabase migration list` قبل أي تغيير.
+- الجداول المحمية تعتمد RLS، والدوال الحساسة تتحقق من المستخدم والدور وMFA عند الحاجة.
+- المفتاح المضمّن في الواجهتين هو Publishable key فقط. مفاتيح الإدارة موجودة في Edge Functions أو بيئات آمنة فقط.
+- سجلات الحركات والتدقيق تحفظ سبب العملية ومنفذها وتاريخها؛ الإلغاء والعكس لا يزيلان التاريخ المالي أو المخزني.
+
+## التشغيل والنشر
+
+- الإدارة: https://nawasrah-admin.pages.dev/
+- المتجر: https://nawasrah-store.pages.dev/
+- Supabase هو الاستضافة الحية لقاعدة البيانات؛ Docker محلي فقط لـ n8n وفحص الاستعادة المعزول.
+- النسخة الاحتياطية يومية ومشفرة. فحص الأرشيف لا يكفي وحده؛ يجب تنفيذ استعادة معزولة دورية عبر `npm.cmd run backup:restore-test`.
+
+## التحقق قبل التسليم
+
+```powershell
+npm.cmd test
+npm.cmd run lint
+npm.cmd run build
+
+cd customer-web
+npm.cmd test
+npm.cmd run lint
+npm.cmd run build
+```
+
+هذه الوثيقة تصف النظام التشغيلي الحالي، وليست وصفًا لنسخة محاكاة أو خطة أولية.

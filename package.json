@@ -11,11 +11,11 @@
     "lint": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts",
     "backup:preflight": "node scripts/backup/preflight.mjs",
-    "backup:setup": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/backup/setup-backup.ps1",
-    "backup:update-password": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/backup/update-database-password.ps1",
-    "backup:run": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/backup/run-backup.ps1",
-    "backup:verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/backup/verify-latest-backup.ps1",
-    "backup:restore-test": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/backup/run-restore-drill.ps1"
+    "backup:setup": "node scripts/backup/run-powershell-script.mjs scripts/backup/setup-backup.ps1",
+    "backup:update-password": "node scripts/backup/run-powershell-script.mjs scripts/backup/update-database-password.ps1",
+    "backup:run": "node scripts/backup/run-powershell-script.mjs scripts/backup/run-backup.ps1",
+    "backup:verify": "node scripts/backup/run-powershell-script.mjs scripts/backup/verify-latest-backup.ps1",
+    "backup:restore-test": "node scripts/backup/run-powershell-script.mjs scripts/backup/run-restore-drill.ps1"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

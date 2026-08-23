@@ -5,6 +5,9 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+if (-not (Get-Command ConvertTo-SecureString -ErrorAction SilentlyContinue)) {
+  Import-Module -Name Microsoft.PowerShell.Security -ErrorAction Stop
+}
 $taskName = 'Nawasrah ERP Nightly Backup'
 $testScript = Join-Path $PSScriptRoot 'test-database-connection.ps1'
 $runScript = Join-Path $PSScriptRoot 'run-backup.ps1'
