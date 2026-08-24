@@ -29,7 +29,8 @@ async function sha256(filePath) {
 }
 
 async function runTar(args) {
-  const { stdout } = await execFileAsync('tar.exe', args, {
+  const tarExecutable = process.platform === 'win32' ? 'tar.exe' : 'tar';
+  const { stdout } = await execFileAsync(tarExecutable, args, {
     windowsHide: true,
     maxBuffer: 20 * 1024 * 1024,
   });
