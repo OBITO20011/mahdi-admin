@@ -131,6 +131,21 @@ test('assistant grounds priority monitoring and short follow-ups in live dashboa
   assert.doesNotMatch(view, /localStorage/);
 });
 
+test('assistant returns compact structured cards for operational facts', () => {
+  assert.match(edgeFunction, /type AssistantCard =/);
+  assert.match(edgeFunction, /buildInventoryCard/);
+  assert.match(edgeFunction, /buildProductPriceCard/);
+  assert.match(edgeFunction, /buildInventoryAlertsCard/);
+  assert.match(edgeFunction, /buildMonitoringCard/);
+  assert.match(edgeFunction, /isInventoryAlertQuestion/);
+  assert.match(edgeFunction, /card: buildGenericAnswerCard\(\)/);
+  assert.match(service, /const asAssistantCard/);
+  assert.match(service, /slice\(0, 6\)/);
+  assert.match(view, /card\.facts/);
+  assert.match(view, /card\?\.suggestions/);
+  assert.match(view, /قراءة مباشرة من النظام/);
+});
+
 test('Gemini key remains server-side and the UI does not persist conversations', () => {
   assert.match(edgeFunction, /Deno\.env\.get\('GEMINI_API_KEY'\)/);
   assert.match(edgeFunction, /x-goog-api-key/);

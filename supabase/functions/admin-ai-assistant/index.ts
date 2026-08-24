@@ -37,6 +37,19 @@ type AssistantContext =
   | 'daily_summary'
   | 'profit';
 
+type AssistantCardTone = 'info' | 'success' | 'warning' | 'danger';
+
+type AssistantFactTone = 'default' | 'positive' | 'warning' | 'danger';
+
+type AssistantCard = {
+  title: string;
+  subtitle?: string;
+  tone: AssistantCardTone;
+  facts?: Array<{ label: string; value: string; tone?: AssistantFactTone }>;
+  note?: string;
+  suggestions?: string[];
+};
+
 type MonthlyReport = {
   periodLabel: string;
   branchCount: number;
@@ -248,6 +261,9 @@ const findInventoryMatches = (message: string, items: InventoryItem[]): Inventor
 const isAvailabilityQuestion = (message: string) =>
   /(موجود|متوفر|مخزون|رصيد|باقي|بقي|available|stock|inventory|how many)/i.test(message);
 
+const isInventoryAlertQuestion = (message: string) =>
+  /((اصناف|أصناف|المخزون).{0,28}(تحتاج|تدخل|تدخلا|تدخّل|ناقص|منخفض|نافد|نفاذ))|((ناقص|منخفض|نافد|نفاذ).{0,28}(اصناف|أصناف|مخزون))|stock alerts|low stock|out of stock/i.test(message);
+
 const isProductPriceQuestion = (message: string) =>
   /(سعر|بكم|بيعها|بتبيعها|للبيع|price|how much)/i.test(message);
 
@@ -351,36 +367,22 @@ const buildDirectDebtAnswer = (dashboard: DashboardPayload) => {
   const summary = dashboard.summary || {};
   const customerDue = summary.customerReceivablesInMinorUnits ?? summary.receivables ?? 0;
   const supplierDue = summary.supplierPayablesInMinorUnits ?? summary.payables ?? 0;
-  const customerText = asJod(customerDue) > 0
-    ? `ذمم العملاء: ${formatJod(customerDue)}.`
-    : 'لا توجد ذمم مستحقة على العملاء حاليًا.';
-  const supplierText = asJod(supplierDue) > 0
-    ? `التزامات الموردين: ${formatJod(supplierDue)}.`
-    : 'لا توجد التزامات مستحقة للموردين حاليًا.';
-  return `${customerText} ${supplierText} الأرقام إجمالية ولا تعرض بيانات العملاء داخل المحادثة.`;
+  return asJod(customerDue) > 0 || asJod(supplierDue) > 0
+    ? 'ملخص الذمم الإجمالي ظاهر في البطاقة، دون عرض أي بيانات شخصية.'
+    : 'لا توجد ذمم معلقة حاليًا.';
 };
 
 const buildDirectOrderStatusAnswer = (dashboard: DashboardPayload) => {
   const summary = dashboard.summary || {};
-  const statuses = (dashboard.orderStatuses || [])
-    .map((item) => {
-      const count = asCount(item.count ?? item.total);
-      return count > 0 ? `${statusLabel(String(item.status ?? item.code ?? ''))}: ${count}` : '';
-    })
-    .filter(Boolean);
-  const intro = `الطلبات المفتوحة: ${asCount(summary.openOrdersCount)}، والطلبات الجديدة: ${asCount(summary.newOrdersCount)}.`;
-  return statuses.length > 0
-    ? `${intro} التوزيع الحالي: ${statuses.join('، ')}.`
-    : `${intro} لا توجد حالات طلبات إضافية تحتاج متابعة الآن.`;
+  const hasOpenOrders = asCount(summary.openOrdersCount) > 0 || asCount(summary.newOrdersCount) > 0;
+  return hasOpenOrders
+    ? 'تفصيل الطلبات التي تحتاج متابعة ظاهر في البطاقة.'
+    : 'لا توجد طلبات مفتوحة تحتاج متابعة الآن.';
 };
 
 const buildDirectDailySummary = (dashboard: DashboardPayload) => {
-  const summary = dashboard.summary || {};
-  const profit = summary.monthProfitInMinorUnits;
-  const profitText = profit === null || profit === undefined
-    ? ''
-    : ` صافي ربح الشهر حتى الآن: ${formatJod(profit)}.`;
-  return `ملخص اليوم: مبيعات مكتملة ${formatJod(summary.todaySalesInMinorUnits ?? summary.salesToday ?? 0)} من ${asCount(summary.todayCompletedOrders ?? summary.ordersToday)} طلب/فاتورة. الطلبات الجديدة: ${asCount(summary.newOrdersCount)}، والمفتوحة: ${asCount(summary.openOrdersCount)}. تنبيه المخزون: ${asCount(summary.lowStockCount)} منخفض و${asCount(summary.outOfStockCount)} نافد.${profitText}`;
+  void dashboard;
+  return 'ملخص المبيعات والطلبات وتنبيهات المخزون لليوم ظاهر في البطاقة.';
 };
 
 const buildDirectWeeklySummary = (dashboard: DashboardPayload) => {
@@ -392,12 +394,7 @@ const buildDirectWeeklySummary = (dashboard: DashboardPayload) => {
     return 'لا توجد بيانات مبيعات كافية لملخص الأسبوع الحالي بعد.';
   }
 
-  const total = sales.reduce((sum, day) => sum + day.amount, 0);
-  const bestDay = sales.reduce((best, day) => day.amount > best.amount ? day : best, sales[0]);
-  const bestDayText = bestDay.date
-    ? ` أعلى يوم: ${bestDay.date} (${formatJod(bestDay.amount)}).`
-    : '';
-  return `ملخص آخر ${sales.length} أيام: المبيعات ${formatJod(total)}.${bestDayText}`;
+  return `ملخص آخر ${sales.length} أيام ظاهر في البطاقة.`;
 };
 
 const describeStockAlert = (alert: DashboardStockAlert) => {
@@ -449,8 +446,8 @@ const buildDirectMonitoringAnswer = (dashboard: DashboardPayload) => {
   }
 
   return actions.length > 0
-    ? `أهم الأمور التي تحتاج متابعة الآن: ${actions.map((item, index) => `${index + 1}) ${item}`).join('، ')}.`
-    : 'لا توجد أمور عاجلة ظاهرة الآن: لا طلبات جديدة أو مفتوحة، ولا تنبيهات مخزون أو ذمم أو إعدادات معلقة.';
+    ? 'رتّب الأولوية من البطاقة: الطلبات أولًا، ثم المخزون، ثم الذمم.'
+    : 'لا توجد أمور عاجلة ظاهرة الآن.';
 };
 
 const assistantContexts = new Set<AssistantContext>([
@@ -509,9 +506,263 @@ const mapMonthlyReport = (payload: unknown): MonthlyReport | null => {
 };
 
 const buildDirectMonthlyReportAnswer = (report: MonthlyReport) => {
-  const scope = report.branchCount > 1 ? `من ${report.branchCount} فروع نشطة` : 'للفرع النشط';
-  return `تقرير ${report.periodLabel || 'الشهر الحالي'} ${scope}: المبيعات الصافية ${formatJod(report.sales.netSalesInMinorUnits)} من ${report.sales.orderCount} طلب/فاتورة، وصافي الربح ${formatJod(report.sales.netProfitInMinorUnits)}. المقبوض ${formatJod(report.sales.collectedInMinorUnits)}، ومصروفات التشغيل ${formatJod(report.expenses.totalInMinorUnits)} (${report.expenses.count} قيد)، والمشتريات ${formatJod(report.purchases.totalInMinorUnits)} (${report.purchases.receiptCount} سند). ذمم العملاء الحالية ${formatJod(report.balances.customerDueInMinorUnits)}، والتزامات الموردين الحالية ${formatJod(report.balances.supplierDueInMinorUnits)}. المخزون: ${report.inventory.stockedProducts} صنفًا متوفرًا و${report.inventory.lowStockProducts} يحتاج متابعة.`;
+  return `تفاصيل تقرير ${report.periodLabel || 'الشهر الحالي'} ظاهرة في البطاقة.`;
 };
+
+const productAvailabilityTone = (item: InventoryItem): AssistantCardTone => {
+  if (item.availableSalePackages > 0) return 'success';
+  return item.availableBaseUnits > 0 ? 'warning' : 'danger';
+};
+
+const productAvailabilityLabel = (item: InventoryItem) => {
+  if (item.availableSalePackages > 0) return 'متوفر للبيع';
+  return item.availableBaseUnits > 0 ? 'لا يوجد طرد كامل للبيع' : 'غير متوفر حاليًا';
+};
+
+const buildInventoryCard = (matches: InventoryMatch[]): AssistantCard => {
+  if (matches.length === 1) {
+    const item = matches[0];
+    return {
+      title: item.productName || item.sku,
+      subtitle: productAvailabilityLabel(item),
+      tone: productAvailabilityTone(item),
+      facts: [
+        {
+          label: 'المتاح للبيع',
+          value: formatInventoryQuantity(item),
+          tone: item.availableSalePackages > 0 ? 'positive' : item.availableBaseUnits > 0 ? 'warning' : 'danger',
+        },
+        { label: 'وحدة البيع', value: item.saleUnitName },
+        ...(item.unitsPerSaleUnit > 1
+          ? [{ label: 'محتوى الطرد', value: `${item.unitsPerSaleUnit} حبة/قطعة` }]
+          : []),
+      ],
+      suggestions: [
+        `كم سعر ${item.productName || item.sku} للبيع؟`,
+        'ما هي أصناف المخزون الناقص؟',
+      ],
+    };
+  }
+
+  return {
+    title: 'نتائج مطابقة متعددة',
+    subtitle: 'حدد اسم الصنف أو SKU إذا كنت تقصد صنفًا بعينه',
+    tone: 'info',
+    facts: matches.slice(0, 4).map((item) => ({
+      label: item.productName || item.sku,
+      value: formatInventoryQuantity(item),
+      tone: item.availableSalePackages > 0 ? 'positive' : 'warning',
+    })),
+  };
+};
+
+const buildProductPriceCard = (item: InventoryItem): AssistantCard => ({
+  title: `سعر بيع ${item.productName || item.sku}`,
+  subtitle: item.salePriceInMinorUnits > 0 ? 'سعر الطرد الكامل للعميل' : 'سعر البيع يحتاج ضبطًا',
+  tone: item.salePriceInMinorUnits > 0 ? 'info' : 'warning',
+  facts: [
+    {
+      label: 'سعر البيع',
+      value: item.salePriceInMinorUnits > 0 ? formatJod(item.salePriceInMinorUnits) : 'غير مضبوط',
+      tone: item.salePriceInMinorUnits > 0 ? 'positive' : 'warning',
+    },
+    { label: 'وحدة البيع', value: item.saleUnitName },
+    ...(item.unitsPerSaleUnit > 1
+      ? [{ label: 'محتوى الطرد', value: `${item.unitsPerSaleUnit} حبة/قطعة` }]
+      : []),
+    {
+      label: 'حالة التوفر',
+      value: productAvailabilityLabel(item),
+      tone: item.availableSalePackages > 0 ? 'positive' : item.availableBaseUnits > 0 ? 'warning' : 'danger',
+    },
+  ],
+  suggestions: [`هل ${item.productName || item.sku} موجود؟`, 'ما أهم الأمور التي تحتاج متابعة الآن؟'],
+});
+
+const buildDebtCard = (dashboard: DashboardPayload): AssistantCard => {
+  const summary = dashboard.summary || {};
+  const customerDue = summary.customerReceivablesInMinorUnits ?? summary.receivables ?? 0;
+  const supplierDue = summary.supplierPayablesInMinorUnits ?? summary.payables ?? 0;
+  const hasDue = asJod(customerDue) > 0 || asJod(supplierDue) > 0;
+  return {
+    title: 'الذمم الحالية',
+    subtitle: hasDue ? 'إجماليات مالية دون بيانات شخصية' : 'لا توجد ذمم معلقة حاليًا',
+    tone: hasDue ? 'warning' : 'success',
+    facts: [
+      {
+        label: 'على العملاء',
+        value: formatJod(customerDue),
+        tone: asJod(customerDue) > 0 ? 'warning' : 'positive',
+      },
+      {
+        label: 'للموردين',
+        value: formatJod(supplierDue),
+        tone: asJod(supplierDue) > 0 ? 'warning' : 'positive',
+      },
+    ],
+    suggestions: ['أعطني التقرير الشهري الحالي.', 'ما أهم الأمور التي تحتاج متابعة الآن؟'],
+  };
+};
+
+const buildOrdersCard = (dashboard: DashboardPayload): AssistantCard => {
+  const summary = dashboard.summary || {};
+  const facts = [
+    { label: 'طلبات جديدة', value: String(asCount(summary.newOrdersCount)), tone: asCount(summary.newOrdersCount) > 0 ? 'warning' : 'positive' as AssistantFactTone },
+    { label: 'طلبات مفتوحة', value: String(asCount(summary.openOrdersCount)), tone: asCount(summary.openOrdersCount) > 0 ? 'warning' : 'positive' as AssistantFactTone },
+    ...(dashboard.orderStatuses || []).map((item) => ({
+      label: statusLabel(String(item.status ?? item.code ?? '')),
+      value: String(asCount(item.count ?? item.total)),
+      tone: 'default' as AssistantFactTone,
+    })).filter((item) => item.value !== '0'),
+  ].slice(0, 6);
+  const requiresAttention = asCount(summary.newOrdersCount) > 0 || asCount(summary.openOrdersCount) > 0;
+  return {
+    title: 'حالة الطلبات',
+    subtitle: requiresAttention ? 'هناك طلبات تحتاج متابعة' : 'لا توجد طلبات مفتوحة الآن',
+    tone: requiresAttention ? 'warning' : 'success',
+    facts,
+    suggestions: ['أعطني ملخصاً مختصراً لأداء اليوم.', 'ما أهم الأمور التي تحتاج متابعة الآن؟'],
+  };
+};
+
+const buildDailyCard = (dashboard: DashboardPayload): AssistantCard => {
+  const summary = dashboard.summary || {};
+  const lowStock = asCount(summary.lowStockCount);
+  const outOfStock = asCount(summary.outOfStockCount);
+  const requiresAttention = asCount(summary.newOrdersCount) > 0 || outOfStock > 0;
+  return {
+    title: 'أداء اليوم',
+    subtitle: 'ملخص تشغيلي مباشر للفرع الحالي',
+    tone: requiresAttention ? 'warning' : 'info',
+    facts: [
+      { label: 'المبيعات المكتملة', value: formatJod(summary.todaySalesInMinorUnits ?? summary.salesToday ?? 0), tone: 'positive' },
+      { label: 'طلبات/فواتير مكتملة', value: String(asCount(summary.todayCompletedOrders ?? summary.ordersToday)) },
+      { label: 'طلبات جديدة', value: String(asCount(summary.newOrdersCount)), tone: asCount(summary.newOrdersCount) > 0 ? 'warning' : 'positive' },
+      { label: 'مخزون منخفض', value: String(lowStock), tone: lowStock > 0 ? 'warning' : 'positive' },
+      { label: 'مخزون نافد', value: String(outOfStock), tone: outOfStock > 0 ? 'danger' : 'positive' },
+    ],
+    suggestions: ['أعطني ملخص الأسبوع.', 'ما وضع الذمم الحالية؟'],
+  };
+};
+
+const buildWeeklyCard = (dashboard: DashboardPayload): AssistantCard => {
+  const sales = (dashboard.sevenDaySales || []).map((day) => ({
+    date: String(day.date ?? ''),
+    amount: asMinorUnits(day.salesInMinorUnits ?? day.sales ?? day.totalSales ?? day.amount),
+  }));
+  const total = sales.reduce((sum, day) => sum + day.amount, 0);
+  const bestDay = sales.length > 0
+    ? sales.reduce((best, day) => day.amount > best.amount ? day : best, sales[0])
+    : undefined;
+  return {
+    title: `ملخص آخر ${sales.length || 7} أيام`,
+    subtitle: sales.length > 0 ? 'المبيعات المكتملة فقط' : 'لا توجد مبيعات مكتملة مسجلة في هذه الفترة',
+    tone: sales.length > 0 ? 'info' : 'warning',
+    facts: [
+      { label: 'إجمالي المبيعات', value: formatJod(total), tone: 'positive' },
+      ...(bestDay ? [{ label: 'أعلى يوم', value: `${bestDay.date || '—'} · ${formatJod(bestDay.amount)}` }] : []),
+    ],
+    suggestions: ['أعطني التقرير الشهري الحالي.', 'ما أهم الأمور التي تحتاج متابعة الآن؟'],
+  };
+};
+
+const buildMonitoringCard = (dashboard: DashboardPayload): AssistantCard => {
+  const summary = dashboard.summary || {};
+  const lowStock = asCount(summary.lowStockCount);
+  const outOfStock = asCount(summary.outOfStockCount);
+  const configurationIssues = asCount(summary.configurationIssuesCount);
+  const newOrders = asCount(summary.newOrdersCount);
+  const openOrders = asCount(summary.openOrdersCount);
+  const customerDue = summary.customerReceivablesInMinorUnits ?? summary.receivables ?? 0;
+  const needsAttention = newOrders > 0 || openOrders > 0 || lowStock > 0 || outOfStock > 0 || asJod(customerDue) > 0 || configurationIssues > 0;
+  const stockNames = getDashboardStockAlerts(dashboard)
+    .filter((item) => item.severity === 'out_of_stock' || item.severity === 'low_stock')
+    .slice(0, 2)
+    .map(describeStockAlert);
+  return {
+    title: needsAttention ? 'متابعة اليوم' : 'الوضع التشغيلي مستقر',
+    subtitle: needsAttention ? 'ابدأ بالعناصر ذات اللون التحذيري' : 'لا توجد عناصر عاجلة ظاهرة',
+    tone: needsAttention ? (outOfStock > 0 ? 'danger' : 'warning') : 'success',
+    facts: [
+      { label: 'طلبات جديدة', value: String(newOrders), tone: newOrders > 0 ? 'warning' : 'positive' },
+      { label: 'طلبات مفتوحة', value: String(openOrders), tone: openOrders > 0 ? 'warning' : 'positive' },
+      { label: 'مخزون منخفض', value: String(lowStock), tone: lowStock > 0 ? 'warning' : 'positive' },
+      { label: 'مخزون نافد', value: String(outOfStock), tone: outOfStock > 0 ? 'danger' : 'positive' },
+      { label: 'ذمم العملاء', value: formatJod(customerDue), tone: asJod(customerDue) > 0 ? 'warning' : 'positive' },
+      ...(configurationIssues > 0 ? [{ label: 'يحتاج تهيئة', value: String(configurationIssues), tone: 'warning' as AssistantFactTone }] : []),
+    ].slice(0, 6),
+    ...(stockNames.length > 0 ? { note: `الأكثر إلحاحًا: ${stockNames.join('، ')}.` } : {}),
+    suggestions: ['ما هي أصناف المخزون التي تحتاج تدخلاً؟', 'ما وضع الذمم الحالية؟', 'ما هي حالة الطلبات؟'],
+  };
+};
+
+const buildInventoryAlertsAnswer = (dashboard: DashboardPayload) => {
+  const alerts = getDashboardStockAlerts(dashboard)
+    .filter((item) => item.severity === 'out_of_stock' || item.severity === 'low_stock' || item.severity === 'configuration');
+  if (alerts.length === 0) return 'لا توجد أصناف ناقصة أو نافدة أو تحتاج تهيئة حاليًا.';
+  return `الأصناف التي تحتاج تدخلاً الآن: ${alerts.slice(0, 4).map(describeStockAlert).join('، ')}.`;
+};
+
+const buildInventoryAlertsCard = (dashboard: DashboardPayload): AssistantCard => {
+  const alerts = getDashboardStockAlerts(dashboard)
+    .filter((item) => item.severity === 'out_of_stock' || item.severity === 'low_stock' || item.severity === 'configuration');
+  const outOfStock = alerts.filter((item) => item.severity === 'out_of_stock').length;
+  if (alerts.length === 0) {
+    return {
+      title: 'المخزون بحاجة متابعة؟',
+      subtitle: 'لا توجد أصناف ناقصة أو نافدة حاليًا',
+      tone: 'success',
+      facts: [{ label: 'تنبيهات المخزون', value: '0', tone: 'positive' }],
+      suggestions: ['ما أهم الأمور التي تحتاج متابعة الآن؟', 'أعطني ملخصاً مختصراً لأداء اليوم.'],
+    };
+  }
+  return {
+    title: 'أصناف تحتاج تدخلاً',
+    subtitle: outOfStock > 0 ? 'ابدأ بالأصناف النافدة قبل الأصناف المنخفضة' : 'راجع إعادة الطلب قريبًا',
+    tone: outOfStock > 0 ? 'danger' : 'warning',
+    facts: alerts.slice(0, 6).map((item) => ({
+      label: item.productName || item.sku,
+      value: item.severity === 'configuration'
+        ? 'يحتاج تهيئة'
+        : formatInventoryQuantity(item),
+      tone: item.severity === 'out_of_stock'
+        ? 'danger'
+        : item.severity === 'low_stock'
+          ? 'warning'
+          : 'default',
+    })),
+    suggestions: ['ما أهم الأمور التي تحتاج متابعة الآن؟', 'ما هي حالة الطلبات؟'],
+  };
+};
+
+const buildMonthlyCard = (report: MonthlyReport): AssistantCard => ({
+  title: `تقرير ${report.periodLabel || 'الشهر الحالي'}`,
+  subtitle: report.branchCount > 1 ? `${report.branchCount} فروع نشطة` : 'للفرع النشط',
+  tone: report.inventory.lowStockProducts > 0 || report.sales.outstandingInMinorUnits > 0 ? 'warning' : 'info',
+  facts: [
+    { label: 'المبيعات الصافية', value: formatJod(report.sales.netSalesInMinorUnits), tone: 'positive' },
+    { label: 'صافي الربح', value: formatJod(report.sales.netProfitInMinorUnits), tone: 'positive' },
+    { label: 'مصروفات التشغيل', value: formatJod(report.expenses.totalInMinorUnits) },
+    { label: 'ذمم العملاء', value: formatJod(report.balances.customerDueInMinorUnits), tone: report.balances.customerDueInMinorUnits > 0 ? 'warning' : 'positive' },
+    { label: 'مخزون يحتاج متابعة', value: String(report.inventory.lowStockProducts), tone: report.inventory.lowStockProducts > 0 ? 'warning' : 'positive' },
+    { label: 'طلبات/فواتير', value: String(report.sales.orderCount) },
+  ],
+  suggestions: ['ما أهم الأمور التي تحتاج متابعة الآن؟', 'أعطني ملخصاً مختصراً لأداء اليوم.'],
+});
+
+const buildProfitCard = (valueInMinorUnits: unknown): AssistantCard => ({
+  title: 'صافي ربح الشهر',
+  subtitle: 'حتى هذه اللحظة من الشهر الحالي',
+  tone: 'info',
+  facts: [{ label: 'صافي الربح', value: formatJod(valueInMinorUnits), tone: 'positive' }],
+  suggestions: ['أعطني التقرير الشهري الحالي.', 'ما وضع الذمم الحالية؟'],
+});
+
+const buildGenericAnswerCard = (): AssistantCard => ({
+  title: 'إجابة المساعد',
+  subtitle: 'تحليل مبني على ملخص العمل الحالي',
+  tone: 'info',
+});
 
 // Deliberately excludes latest orders and every customer identity, address, or phone field.
 const buildSafeSnapshot = (dashboard: DashboardPayload, inventoryMatches: InventoryMatch[]) => {
@@ -656,6 +907,7 @@ Deno.serve(async (request) => {
         answer: buildDirectProductPriceAnswer(product),
         context: 'inventory',
         productSku: product.sku,
+        card: buildProductPriceCard(product),
       },
       200,
       origin,
@@ -667,6 +919,7 @@ Deno.serve(async (request) => {
       {
         answer: buildDirectInventoryAnswer(inventoryMatches),
         context: 'inventory',
+        card: buildInventoryCard(inventoryMatches),
         ...(matchedProduct ? { productSku: matchedProduct.sku } : {}),
       },
       200,
@@ -691,6 +944,7 @@ Deno.serve(async (request) => {
       {
         answer: buildDirectInventoryAnswer(dashboardInventoryMatches),
         context: 'inventory',
+        card: buildInventoryCard(dashboardInventoryMatches),
         ...(matchedProduct ? { productSku: matchedProduct.sku } : {}),
       },
       200,
@@ -700,8 +954,19 @@ Deno.serve(async (request) => {
 
   // These are business facts, not language-model interpretations. Answer the
   // common financial and operational questions directly from guarded RPC data.
+  if (isInventoryAlertQuestion(message)) {
+    return respond(
+      {
+        answer: buildInventoryAlertsAnswer(dashboardPayload),
+        context: 'inventory',
+        card: buildInventoryAlertsCard(dashboardPayload),
+      },
+      200,
+      origin,
+    );
+  }
   if (isDebtQuestion(message)) {
-    return respond({ answer: buildDirectDebtAnswer(dashboardPayload), context: 'debts' }, 200, origin);
+    return respond({ answer: buildDirectDebtAnswer(dashboardPayload), context: 'debts', card: buildDebtCard(dashboardPayload) }, 200, origin);
   }
   if (isMonthlyReportQuestion(message)) {
     const { data: monthlyReport, error: monthlyReportError } = await caller.rpc(
@@ -715,16 +980,16 @@ Deno.serve(async (request) => {
     if (!mappedMonthlyReport) {
       return respond({ error: 'أعاد التقرير الشهري بيانات غير صالحة.' }, 500, origin);
     }
-    return respond({ answer: buildDirectMonthlyReportAnswer(mappedMonthlyReport), context: 'monthly_report' }, 200, origin);
+    return respond({ answer: buildDirectMonthlyReportAnswer(mappedMonthlyReport), context: 'monthly_report', card: buildMonthlyCard(mappedMonthlyReport) }, 200, origin);
   }
   if (isWeeklySummaryQuestion(message)) {
-    return respond({ answer: buildDirectWeeklySummary(dashboardPayload), context: 'weekly_summary' }, 200, origin);
+    return respond({ answer: buildDirectWeeklySummary(dashboardPayload), context: 'weekly_summary', card: buildWeeklyCard(dashboardPayload) }, 200, origin);
   }
   if (isOrderStatusQuestion(message)) {
-    return respond({ answer: buildDirectOrderStatusAnswer(dashboardPayload), context: 'orders' }, 200, origin);
+    return respond({ answer: buildDirectOrderStatusAnswer(dashboardPayload), context: 'orders', card: buildOrdersCard(dashboardPayload) }, 200, origin);
   }
   if (isDailySummaryQuestion(message)) {
-    return respond({ answer: buildDirectDailySummary(dashboardPayload), context: 'daily_summary' }, 200, origin);
+    return respond({ answer: buildDirectDailySummary(dashboardPayload), context: 'daily_summary', card: buildDailyCard(dashboardPayload) }, 200, origin);
   }
   if (isProfitQuestion(message)) {
     const summary = dashboardPayload.summary || {};
@@ -734,6 +999,7 @@ Deno.serve(async (request) => {
         {
           answer: `صافي ربح الشهر حتى الآن: ${formatJod(profit)}. للمبيعات التفصيلية والمصروفات اسأل: «أعطني التقرير الشهري».`,
           context: 'profit',
+          card: buildProfitCard(profit),
         },
         200,
         origin,
@@ -741,29 +1007,29 @@ Deno.serve(async (request) => {
     }
   }
   if (isPriorityMonitoringQuestion(message)) {
-    return respond({ answer: buildDirectMonitoringAnswer(dashboardPayload), context: 'monitoring' }, 200, origin);
+    return respond({ answer: buildDirectMonitoringAnswer(dashboardPayload), context: 'monitoring', card: buildMonitoringCard(dashboardPayload) }, 200, origin);
   }
   if (isAmbiguousFollowUpQuestion(message)) {
     // A short question such as "ما هي؟" has no subject by itself. The browser
     // can pass only a safe topic token, and monitoring is the useful default
     // if the message was opened fresh without prior context.
     if (followUpContext === 'debts') {
-      return respond({ answer: buildDirectDebtAnswer(dashboardPayload), context: 'debts' }, 200, origin);
+      return respond({ answer: buildDirectDebtAnswer(dashboardPayload), context: 'debts', card: buildDebtCard(dashboardPayload) }, 200, origin);
     }
     if (followUpContext === 'orders') {
-      return respond({ answer: buildDirectOrderStatusAnswer(dashboardPayload), context: 'orders' }, 200, origin);
+      return respond({ answer: buildDirectOrderStatusAnswer(dashboardPayload), context: 'orders', card: buildOrdersCard(dashboardPayload) }, 200, origin);
     }
     if (followUpContext === 'daily_summary') {
-      return respond({ answer: buildDirectDailySummary(dashboardPayload), context: 'daily_summary' }, 200, origin);
+      return respond({ answer: buildDirectDailySummary(dashboardPayload), context: 'daily_summary', card: buildDailyCard(dashboardPayload) }, 200, origin);
     }
     if (followUpContext === 'weekly_summary') {
-      return respond({ answer: buildDirectWeeklySummary(dashboardPayload), context: 'weekly_summary' }, 200, origin);
+      return respond({ answer: buildDirectWeeklySummary(dashboardPayload), context: 'weekly_summary', card: buildWeeklyCard(dashboardPayload) }, 200, origin);
     }
     if (followUpContext === 'profit') {
       const summary = dashboardPayload.summary || {};
       const profit = summary.monthProfitInMinorUnits ?? summary.netProfitThisMonth;
       if (profit !== null && profit !== undefined) {
-        return respond({ answer: `صافي ربح الشهر حتى الآن: ${formatJod(profit)}.`, context: 'profit' }, 200, origin);
+        return respond({ answer: `صافي ربح الشهر حتى الآن: ${formatJod(profit)}.`, context: 'profit', card: buildProfitCard(profit) }, 200, origin);
       }
     }
     if (followUpContext === 'inventory') {
@@ -773,6 +1039,7 @@ Deno.serve(async (request) => {
             answer: buildDirectInventoryAnswer([{ ...followUpProduct, score: 100 }]),
             context: 'inventory',
             productSku: followUpProduct.sku,
+            card: buildInventoryCard([{ ...followUpProduct, score: 100 }]),
           },
           200,
           origin,
@@ -780,7 +1047,7 @@ Deno.serve(async (request) => {
       }
       return respond({ answer: 'اكتب اسم المنتج أو SKU لأعطيك الكمية المتاحة بدقة.', context: 'inventory' }, 200, origin);
     }
-    return respond({ answer: buildDirectMonitoringAnswer(dashboardPayload), context: 'monitoring' }, 200, origin);
+    return respond({ answer: buildDirectMonitoringAnswer(dashboardPayload), context: 'monitoring', card: buildMonitoringCard(dashboardPayload) }, 200, origin);
   }
 
   const apiKey = Deno.env.get('GEMINI_API_KEY');
@@ -826,5 +1093,5 @@ Deno.serve(async (request) => {
   if (!answer) {
     return respond({ error: 'لم يتم إنشاء إجابة قابلة للعرض. حاول صياغة السؤال بشكل آخر.' }, 502, origin);
   }
-  return respond({ answer }, 200, origin);
+  return respond({ answer, card: buildGenericAnswerCard() }, 200, origin);
 });

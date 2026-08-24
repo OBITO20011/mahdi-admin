@@ -1,8 +1,18 @@
 import React, { FormEvent, useState } from 'react';
-import { BotMessageSquare, LockKeyhole, Send, Sparkles } from 'lucide-react';
+import {
+  BotMessageSquare,
+  CircleAlert,
+  LockKeyhole,
+  PackageCheck,
+  Send,
+  Sparkles,
+  TrendingUp,
+} from 'lucide-react';
 import { askAdminAssistant } from '../../services/supabase/adminAssistant.service';
 import type {
   AdminAssistantContext,
+  AdminAssistantCard,
+  AdminAssistantFactTone,
   AdminAssistantMessage,
 } from '../../types/adminAssistant';
 
@@ -17,11 +27,52 @@ const quickPrompts = [
 const newMessage = (
   role: AdminAssistantMessage['role'],
   content: string,
+  card?: AdminAssistantCard,
 ): AdminAssistantMessage => ({
   id: crypto.randomUUID(),
   role,
   content,
+  card,
 });
+
+const cardStyle = {
+  info: {
+    icon: TrendingUp,
+    shell: 'border-blue-400/25 bg-blue-500/10',
+    iconShell: 'bg-blue-500/15 text-blue-200',
+    label: 'قراءة مباشرة من النظام',
+  },
+  success: {
+    icon: PackageCheck,
+    shell: 'border-emerald-400/25 bg-emerald-500/10',
+    iconShell: 'bg-emerald-500/15 text-emerald-200',
+    label: 'الوضع الحالي',
+  },
+  warning: {
+    icon: CircleAlert,
+    shell: 'border-amber-400/25 bg-amber-500/10',
+    iconShell: 'bg-amber-500/15 text-amber-100',
+    label: 'يحتاج متابعة',
+  },
+  danger: {
+    icon: CircleAlert,
+    shell: 'border-rose-400/25 bg-rose-500/10',
+    iconShell: 'bg-rose-500/15 text-rose-100',
+    label: 'تنبيه تشغيلي',
+  },
+} satisfies Record<AdminAssistantCard['tone'], {
+  icon: typeof PackageCheck;
+  shell: string;
+  iconShell: string;
+  label: string;
+}>;
+
+const factStyle = {
+  default: 'text-slate-100',
+  positive: 'text-emerald-300',
+  warning: 'text-amber-200',
+  danger: 'text-rose-200',
+} satisfies Record<AdminAssistantFactTone, string>;
 
 export const AdminAssistantView: React.FC = () => {
   const [messages, setMessages] = useState<AdminAssistantMessage[]>([]);
@@ -42,14 +93,14 @@ export const AdminAssistantView: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const { answer, context, productSku } = await askAdminAssistant(
+      const { answer, context, productSku, card } = await askAdminAssistant(
         message,
         lastContext,
         lastProductSku,
       );
       if (context) setLastContext(context);
       if (productSku) setLastProductSku(productSku);
-      setMessages((current) => [...current, newMessage('assistant', answer)]);
+      setMessages((current) => [...current, newMessage('assistant', answer, card)]);
     } catch (submissionError) {
       setError(
         submissionError instanceof Error
@@ -107,18 +158,64 @@ export const AdminAssistantView: React.FC = () => {
 
       {messages.length > 0 && (
         <section className="space-y-2 rounded-3xl border border-slate-800 bg-slate-950/55 p-3 shadow-sm">
-          {messages.map((message) => (
-            <article
-              key={message.id}
-              className={
-                message.role === 'user'
-                  ? 'mr-auto max-w-[88%] rounded-2xl rounded-tr-sm bg-blue-600 px-3 py-2.5 text-[11px] font-bold leading-6 text-white shadow'
-                  : 'ml-auto max-w-[92%] whitespace-pre-wrap rounded-2xl rounded-tl-sm border border-violet-500/20 bg-slate-900 px-3 py-2.5 text-[11px] leading-6 text-slate-200 shadow'
-              }
-            >
-              {message.content}
-            </article>
-          ))}
+          {messages.map((message) => {
+            if (message.role === 'user') {
+              return (
+                <article key={message.id} className="mr-auto max-w-[88%] rounded-2xl rounded-tr-sm bg-blue-600 px-3 py-2.5 text-[11px] font-bold leading-6 text-white shadow">
+                  {message.content}
+                </article>
+              );
+            }
+
+            const card = message.card;
+            const style = card ? cardStyle[card.tone] : undefined;
+            const Icon = style?.icon ?? BotMessageSquare;
+            return (
+              <article key={message.id} className="ml-auto max-w-[94%] rounded-2xl rounded-tl-sm border border-violet-500/20 bg-slate-900 p-3 text-[11px] leading-6 text-slate-200 shadow">
+                {card && style && (
+                  <div className={`rounded-2xl border p-3 ${style.shell}`}>
+                    <div className="flex items-start gap-2.5">
+                      <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${style.iconShell}`}>
+                        <Icon className="h-4 w-4" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[9px] font-black text-slate-400">{style.label}</p>
+                        <h3 className="mt-0.5 text-[12px] font-black text-white">{card.title}</h3>
+                        {card.subtitle && <p className="mt-0.5 text-[10px] leading-5 text-slate-300">{card.subtitle}</p>}
+                      </div>
+                    </div>
+                    {card.facts && card.facts.length > 0 && (
+                      <dl className="mt-2.5 grid grid-cols-2 gap-1.5">
+                        {card.facts.map((fact) => (
+                          <div key={`${fact.label}-${fact.value}`} className="min-w-0 rounded-xl border border-white/8 bg-slate-950/35 px-2 py-1.5">
+                            <dt className="truncate text-[8px] font-bold text-slate-400">{fact.label}</dt>
+                            <dd className={`mt-0.5 truncate text-[10px] font-black ${factStyle[fact.tone ?? 'default']}`}>{fact.value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
+                    {card.note && <p className="mt-2 text-[9px] leading-5 text-slate-300">{card.note}</p>}
+                  </div>
+                )}
+                {message.content && <p className={`whitespace-pre-wrap ${card ? 'mt-2 px-0.5 text-[10px] text-slate-300' : ''}`}>{message.content}</p>}
+                {card?.suggestions && card.suggestions.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {card.suggestions.map((suggestion) => (
+                      <button
+                        key={suggestion}
+                        type="button"
+                        disabled={isSubmitting}
+                        onClick={() => void submit(undefined, suggestion)}
+                        className="rounded-xl border border-violet-400/20 bg-violet-500/10 px-2 py-1 text-[9px] font-black text-violet-100 transition hover:border-violet-300/45 hover:bg-violet-500/20 disabled:opacity-50"
+                      >
+                        {suggestion}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </article>
+            );
+          })}
           {isSubmitting && (
             <div className="ml-auto flex w-fit items-center gap-2 rounded-2xl border border-violet-500/20 bg-slate-900 px-3 py-2 text-[10px] font-bold text-violet-200">
               <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-violet-300" />

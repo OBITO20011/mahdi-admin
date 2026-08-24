@@ -1,6 +1,9 @@
 import { supabase } from '../../lib/supabase';
 import type {
+  AdminAssistantCard,
+  AdminAssistantCardTone,
   AdminAssistantContext,
+  AdminAssistantFactTone,
   AdminAssistantResponse,
 } from '../../types/adminAssistant';
 
@@ -20,6 +23,54 @@ const asProductSku = (value: unknown) =>
   typeof value === 'string' && value.trim().length > 0 && value.trim().length <= 128
     ? value.trim()
     : undefined;
+
+const isCardTone = (value: unknown): value is AdminAssistantCardTone =>
+  value === 'info' || value === 'success' || value === 'warning' || value === 'danger';
+
+const isFactTone = (value: unknown): value is AdminAssistantFactTone =>
+  value === 'default' || value === 'positive' || value === 'warning' || value === 'danger';
+
+const asDisplayText = (value: unknown, maxLength: number) =>
+  typeof value === 'string' && value.trim().length > 0 && value.trim().length <= maxLength
+    ? value.trim()
+    : undefined;
+
+const asAssistantCard = (value: unknown): AdminAssistantCard | undefined => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
+  const candidate = value as Record<string, unknown>;
+  const title = asDisplayText(candidate.title, 120);
+  if (!title || !isCardTone(candidate.tone)) return undefined;
+
+  const facts = Array.isArray(candidate.facts)
+    ? candidate.facts.slice(0, 6).flatMap((fact) => {
+      if (!fact || typeof fact !== 'object' || Array.isArray(fact)) return [];
+      const item = fact as Record<string, unknown>;
+      const label = asDisplayText(item.label, 64);
+      const factValue = asDisplayText(item.value, 120);
+      return label && factValue
+        ? [{ label, value: factValue, ...(isFactTone(item.tone) ? { tone: item.tone } : {}) }]
+        : [];
+    })
+    : undefined;
+
+  const suggestions = Array.isArray(candidate.suggestions)
+    ? candidate.suggestions
+      .slice(0, 4)
+      .flatMap((suggestion) => {
+        const text = asDisplayText(suggestion, 160);
+        return text ? [text] : [];
+      })
+    : undefined;
+
+  return {
+    title,
+    tone: candidate.tone,
+    ...(asDisplayText(candidate.subtitle, 180) ? { subtitle: asDisplayText(candidate.subtitle, 180) } : {}),
+    ...(facts?.length ? { facts } : {}),
+    ...(asDisplayText(candidate.note, 240) ? { note: asDisplayText(candidate.note, 240) } : {}),
+    ...(suggestions?.length ? { suggestions } : {}),
+  };
+};
 
 export const askAdminAssistant = async (
   message: string,
@@ -48,5 +99,6 @@ export const askAdminAssistant = async (
     answer: data.answer.trim(),
     context: isAssistantContext(data.context) ? data.context : undefined,
     productSku: asProductSku(data.productSku),
+    card: asAssistantCard(data.card),
   };
 };
