@@ -1,5 +1,6 @@
 import React, { ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
+import {captureRenderError} from '../../lib/errorMonitoring';
 
 const staleChunkReloadKey = 'nawasrah:stale-chunk-reload-at';
 const staleChunkReloadCooldownMs = 30_000;
@@ -54,6 +55,7 @@ export class AppErrorBoundary extends React.Component<
     if (isStaleChunkError(error) && recoverFromStaleChunk()) return;
 
     console.error('[AppErrorBoundary]', error, info);
+    captureRenderError(error, info.componentStack ?? undefined);
   }
 
   render() {

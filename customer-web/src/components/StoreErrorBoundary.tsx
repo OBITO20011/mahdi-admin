@@ -1,5 +1,6 @@
 import React, { ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw, ShoppingBag } from 'lucide-react';
+import { captureRenderError } from '../lib/errorMonitoring';
 
 interface StoreErrorBoundaryProps {
   children: ReactNode;
@@ -21,6 +22,7 @@ export class StoreErrorBoundary extends React.Component<
 
   componentDidCatch(error: Error, info: ErrorInfo) {
     console.error('[StoreErrorBoundary]', error, info);
+    captureRenderError(error, info.componentStack ?? undefined);
   }
 
   render() {

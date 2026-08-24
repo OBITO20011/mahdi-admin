@@ -16,6 +16,7 @@ export default defineConfig(() => {
         output: {
           manualChunks(id) {
             if (!id.includes('node_modules')) return undefined;
+            if (id.includes('@sentry')) return 'monitoring';
             if (id.includes('@supabase') || id.includes('realtime-js')) {
               return 'supabase';
             }
