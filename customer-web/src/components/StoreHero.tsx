@@ -20,6 +20,11 @@ export function StoreHero({
       id="top"
       className="relative isolate flex min-h-[calc(100svh-7.5rem)] items-center overflow-hidden bg-[#07152f] px-4 py-14 text-white sm:min-h-[calc(100svh-8rem)] sm:py-16"
     >
+      <div
+        aria-hidden="true"
+        className="absolute -inset-8 -z-30 scale-110 bg-cover bg-center opacity-65 blur-2xl"
+        style={{ backgroundImage: "url('/nawasrah-hero-poster.webp')" }}
+      />
       <video
         aria-hidden="true"
         autoPlay
@@ -28,12 +33,18 @@ export function StoreHero({
         playsInline
         preload="auto"
         disablePictureInPicture
+        poster="/nawasrah-hero-poster.webp"
         className="absolute inset-0 -z-20 h-full w-full bg-[#07152f] object-contain object-center opacity-100 motion-reduce:hidden"
       >
-        <source src="/nawasrah-hero.mp4" type="video/mp4" />
+        <source
+          src="/nawasrah-hero-mobile.mp4"
+          type="video/mp4"
+          media="(max-width: 767px)"
+        />
+        <source src="/nawasrah-hero-4k.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 -z-10 bg-gradient-to-l from-[#07152f]/78 via-[#0b1b3f]/42 to-[#07152f]/68" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#081632]/60 via-transparent to-[#081632]/20" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-l from-[#07152f]/72 via-[#0b1b3f]/34 to-[#07152f]/60" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#081632]/54 via-transparent to-[#081632]/16" />
       <div className="hero-orb hero-orb-one" />
       <div className="hero-orb hero-orb-two" />
       <div className="hero-grid" />

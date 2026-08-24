@@ -9,5 +9,11 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-/nawasrah-hero.mp4
+/nawasrah-hero-4k.mp4
+  Cache-Control: public, max-age=604800
+
+/nawasrah-hero-mobile.mp4
+  Cache-Control: public, max-age=604800
+
+/nawasrah-hero-poster.webp
   Cache-Control: public, max-age=604800

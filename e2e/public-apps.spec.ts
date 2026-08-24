@@ -40,6 +40,43 @@ test.describe('متجر العملاء العام', () => {
     ).toBeVisible();
   });
 
+  test('فيديو الواجهة صامت ويستخدم الدقة المناسبة للجهاز', async (
+    { page },
+    testInfo,
+  ) => {
+    await page.goto(customerBaseUrl, { waitUntil: 'domcontentloaded' });
+
+    const heroVideo = page.locator('#top video');
+    await expect(heroVideo).toBeAttached();
+    await expect
+      .poll(() =>
+        heroVideo.evaluate((element) => {
+          const video = element as HTMLVideoElement;
+          return {
+            currentSrc: video.currentSrc,
+            muted: video.muted,
+            videoHeight: video.videoHeight,
+            videoWidth: video.videoWidth,
+          };
+        }),
+      )
+      .toEqual(
+        testInfo.project.name === 'mobile-webkit'
+          ? {
+              currentSrc: `${customerBaseUrl}/nawasrah-hero-mobile.mp4`,
+              muted: true,
+              videoHeight: 1080,
+              videoWidth: 1920,
+            }
+          : {
+              currentSrc: `${customerBaseUrl}/nawasrah-hero-4k.mp4`,
+              muted: true,
+              videoHeight: 2160,
+              videoWidth: 3840,
+            },
+      );
+  });
+
   test('صفحة المنتجات قابلة للوصول وخالية من مخالفات الوصول الخطرة', async ({
     page,
   }) => {
