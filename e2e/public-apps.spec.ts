@@ -87,6 +87,28 @@ test.describe('متجر العملاء العام', () => {
     await expect(headerLogo).toHaveAttribute('alt', '');
   });
 
+  test('واجهة الهاتف تعرض الفيديو والإحصاءات دون تكديس طويل', async ({
+    page,
+  }, testInfo) => {
+    test.skip(!testInfo.project.name.includes('mobile'));
+    await page.goto(customerBaseUrl);
+
+    const hero = page.locator('#top');
+    const stats = page.locator('[data-testid="hero-stats"] > div');
+    await expect(hero).toBeVisible();
+    await expect(stats).toHaveCount(3);
+
+    const layout = await stats.evaluateAll((cards) =>
+      cards.map((card) => {
+        const rect = card.getBoundingClientRect();
+        return { left: rect.left, top: rect.top, width: rect.width };
+      }),
+    );
+    expect(Math.max(...layout.map((card) => card.top)) - Math.min(...layout.map((card) => card.top))).toBeLessThan(4);
+    expect(layout.every((card) => card.width > 80)).toBe(true);
+    await expect(hero.locator('video')).toHaveCSS('object-fit', 'cover');
+  });
+
   test('صفحة المنتجات قابلة للوصول وخالية من مخالفات الوصول الخطرة', async ({
     page,
   }) => {
