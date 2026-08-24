@@ -4,6 +4,7 @@ import {
   CircleAlert,
   LockKeyhole,
   PackageCheck,
+  RotateCcw,
   Send,
   Sparkles,
   TrendingUp,
@@ -16,12 +17,23 @@ import type {
   AdminAssistantMessage,
 } from '../../types/adminAssistant';
 
-const quickPrompts = [
-  'ما أهم الأمور التي تحتاج متابعة الآن؟',
-  'أعطني ملخصاً مختصراً لأداء اليوم.',
-  'أعطني التقرير الشهري الحالي.',
-  'ما هي أصناف المخزون التي تحتاج تدخلاً؟',
-  'ما وضع الذمم الحالية؟',
+const quickPromptGroups = [
+  {
+    title: 'متابعة اليوم',
+    prompts: [
+      'ما أهم الأمور التي تحتاج متابعة الآن؟',
+      'ما هي حالة الطلبات؟',
+      'أعطني ملخصاً مختصراً لأداء اليوم.',
+    ],
+  },
+  {
+    title: 'المخزون والحسابات',
+    prompts: [
+      'ما هي أصناف المخزون التي تحتاج تدخلاً؟',
+      'ما وضع الذمم الحالية؟',
+      'أعطني التقرير الشهري الحالي.',
+    ],
+  },
 ];
 
 const newMessage = (
@@ -112,6 +124,14 @@ export const AdminAssistantView: React.FC = () => {
     }
   };
 
+  const clearConversation = () => {
+    if (isSubmitting) return;
+    setMessages([]);
+    setLastContext(undefined);
+    setLastProductSku(undefined);
+    setError(null);
+  };
+
   return (
     <div dir="rtl" className="mx-auto max-w-2xl space-y-3 p-3 pb-28 sm:p-4">
       <header className="overflow-hidden rounded-3xl border border-violet-500/20 bg-gradient-to-bl from-violet-500/15 via-slate-900 to-slate-950 p-4 shadow-xl">
@@ -123,7 +143,7 @@ export const AdminAssistantView: React.FC = () => {
             </div>
             <h2 className="text-base font-black text-white">المساعد الإداري الذكي</h2>
             <p className="mt-1 max-w-md text-[10px] leading-5 text-slate-400">
-              اسأل عن المخزون والذمم وحالة الطلبات وملخص اليوم والتقرير الشهري من بيانات النظام الحقيقية.
+              اسأل بطريقتك عن المخزون والذمم وحالة الطلبات وملخص اليوم والتقرير الشهري من بيانات النظام الحقيقية.
               لا يملك أي صلاحية لتعديل الطلبات أو الحسابات.
             </p>
           </div>
@@ -139,18 +159,25 @@ export const AdminAssistantView: React.FC = () => {
 
       {messages.length === 0 && (
         <section className="rounded-3xl border border-slate-800 bg-slate-900/80 p-3 shadow-sm">
-          <p className="px-1 text-[11px] font-black text-slate-200">أسئلة جاهزة</p>
-          <div className="mt-2 grid gap-2 sm:grid-cols-2">
-            {quickPrompts.map((prompt) => (
-              <button
-                key={prompt}
-                type="button"
-                disabled={isSubmitting}
-                onClick={() => void submit(undefined, prompt)}
-                className="rounded-2xl border border-slate-800 bg-slate-950/70 px-3 py-2.5 text-right text-[10px] font-bold leading-5 text-slate-300 transition hover:border-violet-500/40 hover:bg-violet-500/10 disabled:opacity-50"
-              >
-                {prompt}
-              </button>
+          <p className="px-1 text-[11px] font-black text-slate-200">ابدأ بسؤال جاهز أو اكتب سؤالك</p>
+          <div className="mt-2 space-y-3">
+            {quickPromptGroups.map((group) => (
+              <div key={group.title}>
+                <p className="px-1 text-[9px] font-black text-slate-500">{group.title}</p>
+                <div className="mt-1.5 grid gap-2 sm:grid-cols-2">
+                  {group.prompts.map((prompt) => (
+                    <button
+                      key={prompt}
+                      type="button"
+                      disabled={isSubmitting}
+                      onClick={() => void submit(undefined, prompt)}
+                      className="rounded-2xl border border-slate-800 bg-slate-950/70 px-3 py-2.5 text-right text-[10px] font-bold leading-5 text-slate-300 transition hover:border-violet-500/40 hover:bg-violet-500/10 disabled:opacity-50"
+                    >
+                      {prompt}
+                    </button>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </section>
@@ -158,6 +185,18 @@ export const AdminAssistantView: React.FC = () => {
 
       {messages.length > 0 && (
         <section className="space-y-2 rounded-3xl border border-slate-800 bg-slate-950/55 p-3 shadow-sm">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            <p className="text-[10px] font-black text-slate-300">المحادثة الحالية</p>
+            <button
+              type="button"
+              onClick={clearConversation}
+              disabled={isSubmitting}
+              className="inline-flex items-center gap-1 rounded-xl px-2 py-1 text-[9px] font-black text-slate-400 transition hover:bg-slate-800 hover:text-white disabled:opacity-50"
+            >
+              <RotateCcw className="h-3 w-3" />
+              بدء من جديد
+            </button>
+          </div>
           {messages.map((message) => {
             if (message.role === 'user') {
               return (

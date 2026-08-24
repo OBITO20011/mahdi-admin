@@ -294,7 +294,25 @@ const isGreetingMessage = (message: string) => new Set([
 ]).has(normalizeForMatch(message).replace(/\s+/g, ' '));
 
 const isHelpQuestion = (message: string) =>
-  /(شو بتقدر|ماذا تستطيع|شو بتعمل|كيف تساعد|ساعدني|كيف استخدمك|وظيفتك|اوامرك|أوامرك|help|what can you do)/i.test(message);
+  /(شو بتقدر|ما بتقدر|شو بتعمل|ماذا تستطيع|كيف تساعد|كيف فيك تساعد|ساعدني|كيف استخدمك|وظيفتك|اوامرك|أوامرك|شو اختصاصك|كيف بستفيد منك|help|what can you do)/i.test(message);
+
+const isThankYouMessage = (message: string) => new Set([
+  'شكرا', 'شكرا الك', 'شكرا لك', 'يسلمو', 'يعطيك العافيه', 'يعطيك العافية',
+  'مشكور', 'تسلم', 'thank you', 'thanks',
+]).has(normalizeForMatch(message).replace(/\s+/g, ' '));
+
+const isAcknowledgementMessage = (message: string) => new Set([
+  'تمام', 'اوكي', 'اوك', 'ممتاز', 'حلو', 'نعم', 'اه', 'ايوه', 'طيب', 'ماشي',
+]).has(normalizeForMatch(message).replace(/\s+/g, ' '));
+
+const isOperationalOverviewQuestion = (message: string) =>
+  /(كيف الوضع|شو الوضع|كيف الشغل|وضع المحل|وضع الشغل|شو اخبار المحل|شو اخبار الشغل|كيف امور المحل|كيف امور الشغل|الوضع العام|كيف الامور)/i.test(message);
+
+const isPeriodlessFinanceQuestion = (message: string) =>
+  /(كم بعنا|كم بيعنا|المبيعات|مصاريف|مصروفات|صرفنا|المشتريات|اشترينا|الوضع المالي|الحسابات|الخزنه|الخزينة|cashier|sales|expenses|purchases)/i.test(message);
+
+const isPersonalDataRequest = (message: string) =>
+  /(اسم العميل|اسماء العملاء|أسماء العملاء|رقم العميل|رقم هاتف|رقم تلفون|هاتف العميل|عنوان العميل|عناوين العملاء|مين العميل|من هو العميل)/i.test(message);
 
 const isDebtQuestion = (message: string) =>
   /(ذمم|ذمه|مديون|مستحقات العملاء|مستحقات الموردين|على العملاء|على الموردين|receivable|payable|debt)/i.test(message);
@@ -705,6 +723,44 @@ const buildMonitoringCard = (dashboard: DashboardPayload): AssistantCard => {
   };
 };
 
+const buildMonitoringDetailsCard = (dashboard: DashboardPayload): AssistantCard => {
+  const summary = dashboard.summary || {};
+  const alerts = getDashboardStockAlerts(dashboard);
+  const outOfStock = alerts.filter((item) => item.severity === 'out_of_stock');
+  const lowStock = alerts.filter((item) => item.severity === 'low_stock');
+  const configuration = alerts.filter((item) => item.severity === 'configuration');
+  const customerDue = summary.customerReceivablesInMinorUnits ?? summary.receivables ?? 0;
+  const facts: NonNullable<AssistantCard['facts']> = [
+    ...(outOfStock.length > 0 ? [{
+      label: 'نافد أو غير جاهز للبيع',
+      value: outOfStock.slice(0, 2).map((item) => item.productName || item.sku).join('، '),
+      tone: 'danger' as AssistantFactTone,
+    }] : []),
+    ...(lowStock.length > 0 ? [{
+      label: 'منخفض المخزون',
+      value: lowStock.slice(0, 2).map((item) => item.productName || item.sku).join('، '),
+      tone: 'warning' as AssistantFactTone,
+    }] : []),
+    ...(configuration.length > 0 ? [{
+      label: 'يحتاج تهيئة',
+      value: configuration.slice(0, 2).map((item) => item.productName || item.sku).join('، '),
+      tone: 'warning' as AssistantFactTone,
+    }] : []),
+    { label: 'طلبات جديدة', value: String(asCount(summary.newOrdersCount)), tone: asCount(summary.newOrdersCount) > 0 ? 'warning' : 'positive' },
+    { label: 'طلبات مفتوحة', value: String(asCount(summary.openOrdersCount)), tone: asCount(summary.openOrdersCount) > 0 ? 'warning' : 'positive' },
+    { label: 'ذمم العملاء', value: formatJod(customerDue), tone: asJod(customerDue) > 0 ? 'warning' : 'positive' },
+  ].slice(0, 6);
+
+  const hasDetails = facts.some((fact) => fact.tone === 'danger' || fact.tone === 'warning');
+  return {
+    title: hasDetails ? 'تفاصيل المتابعة الآن' : 'لا توجد تفاصيل عاجلة',
+    subtitle: hasDetails ? 'هذه العناصر نفسها التي تحتاج إجراءً' : 'الطلبات والذمم والمخزون ضمن الوضع الطبيعي',
+    tone: hasDetails ? 'warning' : 'success',
+    facts,
+    suggestions: ['ما هي أصناف المخزون التي تحتاج تدخلاً؟', 'ما هي حالة الطلبات؟', 'ما وضع الذمم الحالية؟'],
+  };
+};
+
 const buildInventoryAlertsAnswer = (dashboard: DashboardPayload) => {
   const alerts = getDashboardStockAlerts(dashboard)
     .filter((item) => item.severity === 'out_of_stock' || item.severity === 'low_stock' || item.severity === 'configuration');
@@ -805,6 +861,37 @@ const buildHelpCard = (): AssistantCard => ({
     'أعطني ملخصاً مختصراً لأداء اليوم.',
     'ما وضع الذمم الحالية؟',
   ],
+});
+
+const buildAcknowledgementCard = (context?: AssistantContext): AssistantCard => {
+  const nextStep = context === 'inventory'
+    ? 'يمكنك الآن سؤال المساعد عن الكمية أو السعر.'
+    : context === 'orders'
+      ? 'يمكنك متابعة حالة الطلبات أو البدء بالتجهيز.'
+      : context === 'debts'
+        ? 'يمكنك فتح العملاء لتسديد ذمة محددة.'
+        : 'اختر ما تريد متابعته الآن.';
+  return {
+    title: 'تمام، أنا معك',
+    subtitle: nextStep,
+    tone: 'success',
+    suggestions: ['ما أهم الأمور التي تحتاج متابعة الآن؟', 'ما هي حالة الطلبات؟', 'ما هي أصناف المخزون التي تحتاج تدخلاً؟'],
+  };
+};
+
+const buildPrivacyCard = (): AssistantCard => ({
+  title: 'حماية بيانات العملاء',
+  subtitle: 'المساعد يعرض إجماليات العمل فقط',
+  tone: 'info',
+  note: 'للاطلاع على اسم عميل أو هاتفه أو عنوانه، استخدم شاشة العملاء أو الطلبات داخل التطبيق.',
+  suggestions: ['ما وضع الذمم الحالية؟', 'ما هي حالة الطلبات؟'],
+});
+
+const buildPeriodClarificationCard = (): AssistantCard => ({
+  title: 'حدد الفترة التي تقصدها',
+  subtitle: 'الأرقام المالية تحتاج فترة واضحة حتى تكون دقيقة',
+  tone: 'info',
+  suggestions: ['أعطني ملخصاً مختصراً لأداء اليوم.', 'أعطني ملخص الأسبوع.', 'أعطني التقرير الشهري الحالي.'],
 });
 
 const buildSafeFallbackAnswer = () => ({
@@ -948,6 +1035,36 @@ Deno.serve(async (request) => {
   if (isHelpQuestion(message)) {
     return respond(buildSafeFallbackAnswer(), 200, origin);
   }
+  if (isThankYouMessage(message)) {
+    return respond(
+      {
+        answer: 'أهلًا وسهلًا. أنا جاهز في أي وقت.',
+        card: buildAcknowledgementCard(followUpContext),
+      },
+      200,
+      origin,
+    );
+  }
+  if (isAcknowledgementMessage(message)) {
+    return respond(
+      {
+        answer: 'تمام. اختر السؤال التالي أو اكتب ما تريد باختصار.',
+        card: buildAcknowledgementCard(followUpContext),
+      },
+      200,
+      origin,
+    );
+  }
+  if (isPersonalDataRequest(message)) {
+    return respond(
+      {
+        answer: 'لحماية الخصوصية، لا أعرض بيانات العملاء الشخصية هنا. استخدم شاشة العملاء أو الطلبات للوصول إليها بصلاحيتك.',
+        card: buildPrivacyCard(),
+      },
+      200,
+      origin,
+    );
+  }
 
   const { data: inventorySnapshot, error: inventoryError } = await caller.rpc(
     'get_admin_ai_inventory_snapshot',
@@ -1077,8 +1194,18 @@ Deno.serve(async (request) => {
       );
     }
   }
-  if (isPriorityMonitoringQuestion(message)) {
+  if (isPriorityMonitoringQuestion(message) || isOperationalOverviewQuestion(message)) {
     return respond({ answer: buildDirectMonitoringAnswer(dashboardPayload), context: 'monitoring', card: buildMonitoringCard(dashboardPayload) }, 200, origin);
+  }
+  if (isPeriodlessFinanceQuestion(message)) {
+    return respond(
+      {
+        answer: 'هل تقصد اليوم أو الأسبوع أو الشهر؟ اختر الفترة لأعطيك رقمًا دقيقًا من النظام.',
+        card: buildPeriodClarificationCard(),
+      },
+      200,
+      origin,
+    );
   }
   if (isAmbiguousFollowUpQuestion(message)) {
     // A short question such as "ما هي؟" has no subject by itself. The browser
@@ -1118,7 +1245,26 @@ Deno.serve(async (request) => {
       }
       return respond({ answer: 'اكتب اسم المنتج أو SKU لأعطيك الكمية المتاحة بدقة.', context: 'inventory' }, 200, origin);
     }
-    return respond({ answer: buildDirectMonitoringAnswer(dashboardPayload), context: 'monitoring', card: buildMonitoringCard(dashboardPayload) }, 200, origin);
+    if (followUpContext === 'monitoring') {
+      return respond(
+        {
+          answer: 'هذه هي التفاصيل الفعلية التي تحتاج متابعة الآن.',
+          context: 'monitoring',
+          card: buildMonitoringDetailsCard(dashboardPayload),
+        },
+        200,
+        origin,
+      );
+    }
+    return respond(
+      {
+        answer: 'هذه هي التفاصيل الفعلية التي تحتاج متابعة الآن.',
+        context: 'monitoring',
+        card: buildMonitoringDetailsCard(dashboardPayload),
+      },
+      200,
+      origin,
+    );
   }
 
   const apiKey = Deno.env.get('GEMINI_API_KEY');
@@ -1134,26 +1280,32 @@ Deno.serve(async (request) => {
     dashboardPayload,
     inventoryMatches,
   );
-  const geminiResponse = await fetch(
-    'https://generativelanguage.googleapis.com/v1beta/models/' + configuredModel() + ':generateContent',
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: systemInstruction }] },
-        contents: [{
-          role: 'user',
-          parts: [{
-            text: 'سؤال المستخدم:\n' + message + '\n\nملخص العمل الحقيقي الحالي (لا يحتوي بيانات شخصية):\n' + JSON.stringify(safeSnapshot),
+  let geminiResponse: Response;
+  try {
+    geminiResponse = await fetch(
+      'https://generativelanguage.googleapis.com/v1beta/models/' + configuredModel() + ':generateContent',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: systemInstruction }] },
+          contents: [{
+            role: 'user',
+            parts: [{
+              text: 'سؤال المستخدم:\n' + message + '\n\nملخص العمل الحقيقي الحالي (لا يحتوي بيانات شخصية):\n' + JSON.stringify(safeSnapshot),
+            }],
           }],
-        }],
-        generationConfig: { temperature: 0.2, maxOutputTokens: 450 },
-      }),
-    },
-  );
+          generationConfig: { temperature: 0.2, maxOutputTokens: 450 },
+        }),
+      },
+    );
+  } catch {
+    console.error('Gemini request could not reach the provider');
+    return respond(buildSafeFallbackAnswer(), 200, origin);
+  }
   if (!geminiResponse.ok) {
     console.error('Gemini request failed', geminiResponse.status);
-    return respond({ error: 'تعذر الحصول على إجابة الآن. حاول لاحقاً.' }, 502, origin);
+    return respond(buildSafeFallbackAnswer(), 200, origin);
   }
 
   const geminiPayload = (await geminiResponse.json()) as GeminiResponse;

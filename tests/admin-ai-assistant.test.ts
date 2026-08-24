@@ -157,6 +157,36 @@ test('assistant handles greetings locally and never displays a leaked model inst
   assert.match(edgeFunction, /return respond\(buildSafeFallbackAnswer\(\), 200, origin\)/);
 });
 
+test('assistant handles local Arabic acknowledgements and asks for a financial period instead of guessing', () => {
+  assert.match(edgeFunction, /const isThankYouMessage/);
+  assert.match(edgeFunction, /const isAcknowledgementMessage/);
+  assert.match(edgeFunction, /const isOperationalOverviewQuestion/);
+  assert.match(edgeFunction, /const isPeriodlessFinanceQuestion/);
+  assert.match(edgeFunction, /const isPersonalDataRequest/);
+  assert.match(edgeFunction, /buildAcknowledgementCard/);
+  assert.match(edgeFunction, /buildPeriodClarificationCard/);
+  assert.match(edgeFunction, /buildPrivacyCard/);
+  assert.match(edgeFunction, /هل تقصد اليوم أو الأسبوع أو الشهر/);
+  assert.match(edgeFunction, /لحماية الخصوصية، لا أعرض بيانات العملاء الشخصية هنا/);
+});
+
+test('assistant resolves a short monitoring follow-up into named current actions', () => {
+  assert.match(edgeFunction, /const buildMonitoringDetailsCard/);
+  assert.match(edgeFunction, /نافد أو غير جاهز للبيع/);
+  assert.match(edgeFunction, /منخفض المخزون/);
+  assert.match(edgeFunction, /هذه هي التفاصيل الفعلية التي تحتاج متابعة الآن/);
+  assert.match(edgeFunction, /followUpContext === 'monitoring'/);
+});
+
+test('assistant UI groups useful starting questions and lets the operator clear only the local chat', () => {
+  assert.match(view, /const quickPromptGroups/);
+  assert.match(view, /متابعة اليوم/);
+  assert.match(view, /المخزون والحسابات/);
+  assert.match(view, /const clearConversation/);
+  assert.match(view, /بدء من جديد/);
+  assert.doesNotMatch(view, /localStorage/);
+});
+
 test('Gemini key remains server-side and the UI does not persist conversations', () => {
   assert.match(edgeFunction, /Deno\.env\.get\('GEMINI_API_KEY'\)/);
   assert.match(edgeFunction, /x-goog-api-key/);
