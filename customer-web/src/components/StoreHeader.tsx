@@ -203,6 +203,7 @@ export function StoreHeader({
             <button
               type="button"
               onClick={onCartOpen}
+              aria-label={`فتح السلة، ${cartPackages.toLocaleString('ar-JO')} طرد`}
               className="relative flex h-11 items-center gap-2 rounded-2xl bg-blue-700 px-3.5 font-extrabold text-white shadow-lg shadow-blue-900/15 transition hover:bg-blue-800"
             >
               <ShoppingCart className="h-4 w-4" />

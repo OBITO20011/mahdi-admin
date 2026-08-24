@@ -53,6 +53,7 @@ export function CartDrawer({
         isOpen ? 'pointer-events-auto' : 'pointer-events-none'
       }`}
       aria-hidden={!isOpen}
+      inert={!isOpen}
     >
       <button
         type="button"
@@ -238,7 +239,7 @@ export function CartDrawer({
                             <Plus className="h-3 w-3" />
                           </button>
                         </div>
-                        <p className="text-xs font-black text-orange-600">
+                        <p className="text-xs font-black text-orange-700">
                           {formatJod(
                             item.quantity * item.unitPriceInMinorUnits
                           )}

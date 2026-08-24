@@ -546,6 +546,7 @@ export function CheckoutModal({
         isOpen ? 'pointer-events-auto' : 'pointer-events-none'
       }`}
       aria-hidden={!isOpen}
+      inert={!isOpen}
     >
       <button
         type="button"
@@ -709,7 +710,7 @@ export function CheckoutModal({
                             {item.quantity.toLocaleString('ar-JO')} {item.saleUnitNameAr} × {formatJod(item.unitPriceInMinorUnits)}
                           </p>
                         </div>
-                        <strong className="shrink-0 text-xs font-black text-orange-600">
+                        <strong className="shrink-0 text-xs font-black text-orange-700">
                           {formatJod(item.quantity * item.unitPriceInMinorUnits)}
                         </strong>
                       </div>
@@ -823,7 +824,7 @@ export function CheckoutModal({
                           {formatJod(item.unitPriceInMinorUnits)}
                         </p>
                       </div>
-                      <strong className="shrink-0 text-[11px] font-black text-orange-600">
+                      <strong className="shrink-0 text-[11px] font-black text-orange-700">
                         {formatJod(
                           item.quantity * item.unitPriceInMinorUnits
                         )}

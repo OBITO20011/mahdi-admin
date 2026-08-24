@@ -61,6 +61,7 @@ export function CategoryDrawer({
         isOpen ? 'pointer-events-auto' : 'pointer-events-none'
       }`}
       aria-hidden={!isOpen}
+      inert={!isOpen}
     >
       <button
         type="button"

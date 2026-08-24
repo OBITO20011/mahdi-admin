@@ -241,6 +241,8 @@ export const LoginView: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}
+                  aria-pressed={showPassword}
                   className="absolute left-3 top-2.5 text-slate-500 hover:text-slate-300 transition"
                   tabIndex={-1}
                 >
@@ -301,7 +303,7 @@ export const LoginView: React.FC = () => {
         </div>
 
         {/* Footer info */}
-        <div className="text-center space-y-1 text-[10px] text-slate-500">
+        <div className="text-center space-y-1 text-[10px] text-slate-400">
           <p className="font-semibold text-slate-400">نظام إدارة المحاسبة والمبيعات الموحد</p>
           <p>جميع الحقوق محفوظة لمؤسسة نواصرة التجارية © 2026</p>
         </div>

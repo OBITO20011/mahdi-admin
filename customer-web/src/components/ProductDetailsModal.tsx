@@ -333,7 +333,7 @@ export function ProductDetailsModal({
               <div className="mt-4 rounded-3xl border border-emerald-100 bg-emerald-50 p-4">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-[10px] font-bold text-emerald-600">
+                    <p className="text-[10px] font-bold text-emerald-700">
                       المتوفر للطلب الآن
                     </p>
                     <p className="mt-1 text-base font-black text-emerald-950">
@@ -426,7 +426,7 @@ export function ProductDetailsModal({
                       <p className="mt-1 text-[9px] font-bold text-slate-400">
                         {relatedProduct.saleUnitNameAr}
                       </p>
-                      <p className="mt-1 text-xs font-black text-orange-600">
+                      <p className="mt-1 text-xs font-black text-orange-700">
                         {formatJod(
                           relatedProduct.salePackagePriceInMinorUnits
                         )}

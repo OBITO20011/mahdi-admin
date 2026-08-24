@@ -749,7 +749,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                   </p>
                 </div>
 
-                <div className="flex flex-col items-start gap-2 text-[10px] font-bold text-slate-400 sm:items-end">
+                <div className="flex flex-col items-start gap-2 text-[10px] font-bold text-slate-600 sm:items-end">
                   <span
                     className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 ${
                       isOnline && !loadError
@@ -810,7 +810,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                       onClick={() => setAvailabilityFilter(filter.value)}
                       className={`rounded-2xl px-3.5 py-2 text-[10px] font-black transition sm:text-xs ${
                         availabilityFilter === filter.value
-                          ? 'bg-emerald-600 text-white shadow-md shadow-emerald-900/15'
+                          ? 'bg-emerald-700 text-white shadow-md shadow-emerald-900/15'
                           : 'border border-slate-200 bg-slate-50 text-slate-600 hover:border-emerald-200'
                       }`}
                     >
@@ -848,7 +848,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
               {lastGuestOrder && <button type="button" onClick={repeatLastOrder} className="mt-3 w-full rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-xs font-black text-blue-800">إعادة آخر طلب ({lastGuestOrder.orderNumber})</button>}
 
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2 px-1">
-                <p className="text-[10px] font-bold text-slate-400">
+                <p className="text-[10px] font-bold text-slate-600">
                   عرض {filteredProducts.length.toLocaleString('ar-JO')} من{' '}
                   {products.length.toLocaleString('ar-JO')} صنف
                 </p>
@@ -1012,7 +1012,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
               </p>
             </div>
           </div>
-          <p className="text-[10px] font-bold text-blue-200/50">
+          <p className="text-[10px] font-bold text-blue-200">
             البيانات المعروضة مرتبطة بنظام إدارة المخزون.
           </p>
         </div>

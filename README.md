@@ -45,6 +45,34 @@ npm.cmd test
 npm.cmd run build
 ```
 
+### بوابة الجودة الآلية
+
+يعتمد المستودع أربع طبقات تحقق لا تغيّر بيانات Supabase ولا تنفّذ عمليات بيع أو
+مخزون:
+
+- **ESLint + TypeScript** لفحص أخطاء الكود وقواعد React وHooks.
+- **Playwright** لاختبار فتح متجر العملاء وبوابة الإدارة على Chromium وWebKit
+  بحجم هاتف.
+- **axe-core** لفحص مخالفات الوصول الخطرة داخل نفس اختبارات المتصفح.
+- **Gitleaks** لفحص الأسرار عند كل Push وPull Request داخل GitHub Actions.
+
+لتشغيل الحزمة الكاملة محليًا:
+
+```powershell
+npm.cmd run quality
+```
+
+ولتكرار اختبار المتصفح أو فتح تقريره فقط:
+
+```powershell
+npm.cmd run test:e2e
+npm.cmd run test:e2e:report
+```
+
+تعمل بوابة الجودة في `.github/workflows/quality.yml`، وفحص الأسرار في
+`.github/workflows/secrets.yml`. لا تُضاف مفاتيح Supabase أو كلمات المرور إلى
+ملفات الاختبار أو GitHub؛ اختبارات الواجهات العامة للقراءة فقط.
+
 ## النشر والوثائق
 
 - تطبيق الإدارة: https://nawasrah-admin.pages.dev/

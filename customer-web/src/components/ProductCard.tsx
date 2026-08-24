@@ -112,7 +112,7 @@ export function ProductCard({
                 {product.nameAr}
               </h2>
             </button>
-            <p className="mt-1 truncate text-[10px] font-bold text-slate-400">
+            <p className="mt-1 truncate text-[10px] font-bold text-slate-600">
               {product.sku}
               {product.brandNameAr ? ` • ${product.brandNameAr}` : ''}
             </p>
@@ -128,13 +128,13 @@ export function ProductCard({
 
         <div className="mt-4 grid grid-cols-2 gap-2">
           <div className="rounded-2xl bg-blue-50 p-2.5">
-            <p className="text-[9px] font-bold text-blue-500">طرد البيع</p>
+            <p className="text-[9px] font-bold text-blue-700">طرد البيع</p>
             <p className="mt-1 text-xs font-black text-blue-950">
               {product.saleUnitNameAr}
             </p>
           </div>
           <div className="rounded-2xl bg-slate-50 p-2.5">
-            <p className="text-[9px] font-bold text-slate-400">محتوى الطرد</p>
+            <p className="text-[9px] font-bold text-slate-600">محتوى الطرد</p>
             <p className="mt-1 text-xs font-black text-slate-800">
               {product.unitsPerSalePackage.toLocaleString('ar-JO')}{' '}
               {product.unitNameAr}
@@ -144,13 +144,13 @@ export function ProductCard({
 
         <div className="mt-auto flex items-end justify-between gap-3 pt-5">
           <div>
-            <p className="text-[9px] font-bold text-slate-400">
+            <p className="text-[9px] font-bold text-slate-600">
               سعر {product.saleUnitNameAr}
             </p>
-            <p className="mt-0.5 text-lg font-black text-orange-600">
+            <p className="mt-0.5 text-lg font-black text-orange-700">
               {formatJod(product.salePackagePriceInMinorUnits)}
             </p>
-            <p className="mt-1 text-[9px] font-bold text-emerald-600">
+            <p className="mt-1 text-[9px] font-bold text-emerald-700">
               متاح {product.availableSalePackages.toLocaleString('ar-JO')}{' '}
               {product.saleUnitNameAr}
             </p>

@@ -1,0 +1,5 @@
+# Supabase publishable keys are intentionally public browser credentials.
+# These entries suppress only the two reviewed historical fingerprints;
+# any new key-like value or secret still fails the scan.
+2fb2c9b27030be4c2ea0d9ac7b76dfdd19b87d41:customer-web/src/config/supabase-public-config.ts:generic-api-key:16
+817c98f83a12b776b0ddc5d2175f42de25dc0d4d:src/config/supabase-public-config.ts:generic-api-key:16

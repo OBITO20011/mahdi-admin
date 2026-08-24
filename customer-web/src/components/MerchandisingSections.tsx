@@ -65,7 +65,7 @@ function ProductRail({
             <span className="min-w-0 flex-1">
               <strong className="block truncate text-xs font-black text-slate-950">{product.nameAr}</strong>
               <span className="mt-1 block truncate text-[9px] font-bold text-slate-400">{product.saleUnitNameAr} • {product.categoryNameAr}</span>
-              <span className="mt-2 block text-sm font-black text-orange-600">{formatJod(product.salePackagePriceInMinorUnits)}</span>
+              <span className="mt-2 block text-sm font-black text-orange-700">{formatJod(product.salePackagePriceInMinorUnits)}</span>
             </span>
           </button>
         ))}

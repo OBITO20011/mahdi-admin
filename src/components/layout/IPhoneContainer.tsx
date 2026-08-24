@@ -164,16 +164,16 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
 
   useEffect(() => {
     const compactViewport = window.matchMedia('(max-width: 767px)');
-    const useRealDeviceViewport = () => {
+    const syncRealDeviceViewport = () => {
       if (compactViewport.matches || isRunningStandalone()) {
         setIsFrameMode(false);
       }
     };
 
-    useRealDeviceViewport();
-    compactViewport.addEventListener('change', useRealDeviceViewport);
+    syncRealDeviceViewport();
+    compactViewport.addEventListener('change', syncRealDeviceViewport);
     return () => {
-      compactViewport.removeEventListener('change', useRealDeviceViewport);
+      compactViewport.removeEventListener('change', syncRealDeviceViewport);
     };
   }, []);
 
