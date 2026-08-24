@@ -124,13 +124,13 @@ export function StoreHeader({
         </span>
       </div>
 
-      <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 shadow-sm backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-amber-100/90 bg-[#fffdf8]/95 shadow-sm backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1450px] items-center gap-3 px-4 py-3 lg:px-7">
           <button
             type="button"
             onClick={onMenuOpen}
             aria-label="فتح قائمة الأقسام"
-            className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-slate-200 bg-white text-blue-800 transition hover:border-blue-200 hover:bg-blue-50"
+            className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-slate-200 bg-[#fffdf8] text-blue-800 transition hover:border-blue-200 hover:bg-blue-50"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -175,7 +175,7 @@ export function StoreHeader({
               type="button"
               onClick={onRefresh}
               aria-label="تحديث المنتجات"
-              className="hidden h-11 w-11 place-items-center rounded-2xl border border-slate-200 bg-white text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 lg:grid"
+              className="hidden h-11 w-11 place-items-center rounded-2xl border border-slate-200 bg-[#fffdf8] text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 lg:grid"
             >
               <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
             </button>
@@ -184,7 +184,7 @@ export function StoreHeader({
               type="button"
               onClick={() => setMobileSearchOpen((open) => !open)}
               aria-label={mobileSearchOpen ? 'إغلاق البحث' : 'فتح البحث'}
-              className="grid h-11 w-11 place-items-center rounded-2xl border border-slate-200 bg-white text-slate-600 md:hidden"
+              className="grid h-11 w-11 place-items-center rounded-2xl border border-slate-200 bg-[#fffdf8] text-slate-600 md:hidden"
             >
               {mobileSearchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
             </button>
@@ -194,7 +194,7 @@ export function StoreHeader({
               onClick={onFavoritesOpen}
               aria-label="عرض المنتجات المفضلة"
               aria-pressed={favoritesActive}
-              className={`relative grid h-11 w-11 place-items-center rounded-2xl border transition ${favoritesActive ? 'border-rose-200 bg-rose-50 text-rose-600' : 'border-slate-200 bg-white text-slate-600 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600'}`}
+              className={`relative grid h-11 w-11 place-items-center rounded-2xl border transition ${favoritesActive ? 'border-rose-200 bg-rose-50 text-rose-600' : 'border-slate-200 bg-[#fffdf8] text-slate-600 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600'}`}
             >
               <Heart className={`h-5 w-5 ${favoritesActive ? 'fill-current' : ''}`} />
               {favoritesCount > 0 && (

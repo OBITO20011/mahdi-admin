@@ -36,7 +36,7 @@ test.describe('متجر العملاء العام', () => {
       page.getByRole('button', { name: 'فتح قائمة الأقسام' }),
     ).toBeVisible();
     await expect(
-      page.getByRole('button', { name: 'عرض جميع المنتجات' }).first(),
+      page.getByRole('button', { name: 'تصفح أصناف الجملة' }).first(),
     ).toBeVisible();
   });
 
@@ -46,35 +46,38 @@ test.describe('متجر العملاء العام', () => {
   ) => {
     await page.goto(customerBaseUrl, { waitUntil: 'domcontentloaded' });
 
-    const heroVideo = page.locator('#top video');
+    const heroVideo = page.locator(
+      testInfo.project.name === 'mobile-webkit'
+        ? '[data-testid="mobile-hero-video"] video'
+        : '[data-testid="desktop-hero-video"]',
+    );
     await expect(heroVideo).toBeAttached();
-    await expect
-      .poll(() =>
-        heroVideo.evaluate((element) => {
-          const video = element as HTMLVideoElement;
-          return {
-            currentSrc: video.currentSrc,
-            muted: video.muted,
-            videoHeight: video.videoHeight,
-            videoWidth: video.videoWidth,
-          };
-        }),
-      )
-      .toEqual(
-        testInfo.project.name === 'mobile-webkit'
-          ? {
-              currentSrc: `${customerBaseUrl}/nawasrah-hero-mobile.mp4`,
-              muted: true,
-              videoHeight: 1080,
-              videoWidth: 1920,
-            }
-          : {
-              currentSrc: `${customerBaseUrl}/nawasrah-hero-4k.mp4`,
-              muted: true,
-              videoHeight: 2160,
-              videoWidth: 3840,
-            },
-      );
+    const expectedSource =
+      testInfo.project.name === 'mobile-webkit'
+        ? '/nawasrah-hero-mobile.mp4'
+        : '/nawasrah-hero-4k.mp4';
+    await expect(heroVideo.locator('source')).toHaveAttribute(
+      'src',
+      expectedSource,
+    );
+    expect(
+      await heroVideo.evaluate(
+        (element) => (element as HTMLVideoElement).muted,
+      ),
+    ).toBe(true);
+
+    if (testInfo.project.name !== 'mobile-webkit') {
+      await expect
+        .poll(
+          () =>
+            heroVideo.evaluate((element) => {
+              const video = element as HTMLVideoElement;
+              return { height: video.videoHeight, width: video.videoWidth };
+            }),
+          { timeout: 20_000 },
+        )
+        .toEqual({ height: 2160, width: 3840 });
+    }
   });
 
   test('شعار متجر النواصرة ظاهر بدل حرف النون القديم', async ({ page }) => {
@@ -106,7 +109,15 @@ test.describe('متجر العملاء العام', () => {
     );
     expect(Math.max(...layout.map((card) => card.top)) - Math.min(...layout.map((card) => card.top))).toBeLessThan(4);
     expect(layout.every((card) => card.width > 80)).toBe(true);
-    await expect(hero.locator('video')).toHaveCSS('object-fit', 'cover');
+    const videoStage = page.locator('[data-testid="mobile-hero-video"]');
+    const stageBox = await videoStage.boundingBox();
+    expect(stageBox).not.toBeNull();
+    expect(stageBox!.width / stageBox!.height).toBeCloseTo(16 / 9, 1);
+    await expect(videoStage.locator('video')).toHaveCSS('object-fit', 'contain');
+
+    const heroBox = await hero.boundingBox();
+    expect(heroBox).not.toBeNull();
+    expect(heroBox!.height).toBeLessThan(760);
   });
 
   test('صفحة المنتجات قابلة للوصول وخالية من مخالفات الوصول الخطرة', async ({

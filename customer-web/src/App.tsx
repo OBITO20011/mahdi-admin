@@ -639,7 +639,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f9fc] text-slate-900">
+    <div className="min-h-screen bg-[#fbf7f0] text-slate-900">
       <StoreHeader
         activePage={activePage}
         searchQuery={searchQuery}
@@ -719,7 +719,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         )}
 
         {activePage === 'categories' && (
-          <section id="categories-page" className="min-h-[70vh] bg-gradient-to-b from-blue-50/60 to-[#f7f9fc] py-10 sm:py-14">
+          <section id="categories-page" className="min-h-[70vh] bg-gradient-to-b from-blue-50/50 to-[#fbf7f0] py-10 sm:py-14">
             <div className="mx-auto max-w-7xl px-4 lg:px-8">
               <CategoryShowcase
                 categories={catalogCategories}
@@ -1003,7 +1003,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       <footer className="bg-[#08152e] px-4 pb-28 pt-10 text-blue-100 md:py-10">
         <div className="mx-auto flex max-w-7xl flex-col gap-5 sm:flex-row sm:items-center sm:justify-between lg:px-4">
           <div className="flex items-center gap-3">
-            <StoreLogoMark className="h-11 w-11" />
+            <StoreLogoMark className="h-12 w-16" />
             <div>
               <p className="font-black text-white">{storefrontSettings.storeNameAr}</p>
               <p className="mt-1 text-[10px] font-bold text-blue-200/60">

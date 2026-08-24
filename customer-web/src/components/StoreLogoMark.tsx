@@ -3,7 +3,7 @@ interface StoreLogoMarkProps {
 }
 
 export function StoreLogoMark({
-  className = 'h-12 w-12',
+  className = 'h-14 w-[4.5rem]',
 }: StoreLogoMarkProps) {
   return (
     <span
@@ -14,7 +14,7 @@ export function StoreLogoMark({
         src="/nawasrah-store-logo.jpg"
         alt=""
         decoding="async"
-        className="absolute left-1/2 top-0 h-auto w-[160%] max-w-none -translate-x-1/2 -translate-y-[7%]"
+        className="h-full w-full object-contain p-0.5"
       />
     </span>
   );
