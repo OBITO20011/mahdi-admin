@@ -146,6 +146,17 @@ test('assistant returns compact structured cards for operational facts', () => {
   assert.match(view, /قراءة مباشرة من النظام/);
 });
 
+test('assistant handles greetings locally and never displays a leaked model instruction', () => {
+  assert.match(edgeFunction, /const isGreetingMessage/);
+  assert.match(edgeFunction, /const isHelpQuestion/);
+  assert.match(edgeFunction, /buildGreetingCard/);
+  assert.match(edgeFunction, /buildSafeFallbackAnswer/);
+  assert.match(edgeFunction, /const isSafeModelAnswer/);
+  assert.match(edgeFunction, /Discarded an unsafe or non-Arabic model response/);
+  assert.match(edgeFunction, /أهلًا! أنا جاهز لمساعدتك في عمل المحل الآن/);
+  assert.match(edgeFunction, /return respond\(buildSafeFallbackAnswer\(\), 200, origin\)/);
+});
+
 test('Gemini key remains server-side and the UI does not persist conversations', () => {
   assert.match(edgeFunction, /Deno\.env\.get\('GEMINI_API_KEY'\)/);
   assert.match(edgeFunction, /x-goog-api-key/);

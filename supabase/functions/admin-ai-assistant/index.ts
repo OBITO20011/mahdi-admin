@@ -287,6 +287,15 @@ const isAmbiguousFollowUpQuestion = (message: string) => {
   ]).has(normalized);
 };
 
+const isGreetingMessage = (message: string) => new Set([
+  'مرحبا', 'مرحبا بك', 'اهلا', 'اهلا بك', 'اهلين', 'اهلين فيك',
+  'السلام عليكم', 'السلام عليكم ورحمة الله', 'صباح الخير', 'مساء الخير',
+  'هاي', 'hello', 'hi',
+]).has(normalizeForMatch(message).replace(/\s+/g, ' '));
+
+const isHelpQuestion = (message: string) =>
+  /(شو بتقدر|ماذا تستطيع|شو بتعمل|كيف تساعد|ساعدني|كيف استخدمك|وظيفتك|اوامرك|أوامرك|help|what can you do)/i.test(message);
+
 const isDebtQuestion = (message: string) =>
   /(ذمم|ذمه|مديون|مستحقات العملاء|مستحقات الموردين|على العملاء|على الموردين|receivable|payable|debt)/i.test(message);
 
@@ -764,6 +773,51 @@ const buildGenericAnswerCard = (): AssistantCard => ({
   tone: 'info',
 });
 
+const buildGreetingCard = (): AssistantCard => ({
+  title: 'أهلًا، أنا جاهز 👋',
+  subtitle: 'مساعد نواصرة التشغيلي من بيانات النظام الحالية',
+  tone: 'info',
+  facts: [
+    { label: 'المخزون', value: 'كمية وسعر الطرد' },
+    { label: 'المتابعة', value: 'طلبات وذمم وتنبيهات' },
+    { label: 'التقارير', value: 'ملخص يومي وأسبوعي وشهري' },
+  ],
+  suggestions: [
+    'ما أهم الأمور التي تحتاج متابعة الآن؟',
+    'هل Water موجود؟',
+    'ما وضع الذمم الحالية؟',
+    'أعطني التقرير الشهري الحالي.',
+  ],
+});
+
+const buildHelpCard = (): AssistantCard => ({
+  title: 'كيف أساعدك؟',
+  subtitle: 'أسئلة قصيرة، وإجابات حقيقية من النظام فقط',
+  tone: 'info',
+  facts: [
+    { label: 'منتج', value: 'هل Water موجود؟ أو كم سعره؟' },
+    { label: 'العمل اليومي', value: 'ما أهم الأمور التي تحتاج متابعة؟' },
+    { label: 'التقارير', value: 'ملخص اليوم أو الأسبوع أو الشهر' },
+  ],
+  suggestions: [
+    'ما هي أصناف المخزون التي تحتاج تدخلاً؟',
+    'ما هي حالة الطلبات؟',
+    'أعطني ملخصاً مختصراً لأداء اليوم.',
+    'ما وضع الذمم الحالية؟',
+  ],
+});
+
+const buildSafeFallbackAnswer = () => ({
+  answer: 'أستطيع المساعدة في المخزون والطلبات والذمم والتقارير. اختر سؤالًا من الاقتراحات أو اكتب ما تريد باختصار.',
+  card: buildHelpCard(),
+});
+
+const isSafeModelAnswer = (answer: string) => {
+  const normalized = answer.trim();
+  if (!normalized || normalized.length > 900 || !/[\u0600-\u06ff]/.test(normalized)) return false;
+  return !/(system\s*instruction|no assumptions|guessing|line\s*\/?\s*\d|availablesalepackages|availablebaseunits|inventorymatches|generatedat|generationconfig|role:\s*(user|model))/i.test(normalized);
+};
+
 // Deliberately excludes latest orders and every customer identity, address, or phone field.
 const buildSafeSnapshot = (dashboard: DashboardPayload, inventoryMatches: InventoryMatch[]) => {
   const summary = dashboard.summary || {};
@@ -876,6 +930,23 @@ Deno.serve(async (request) => {
       isRateLimited ? 429 : 403,
       origin,
     );
+  }
+
+  // Greetings and "what can you do?" are not business queries. Keep them
+  // deterministic so a language-model response can never look like a leaked
+  // prompt or leave the operator without a useful next action.
+  if (isGreetingMessage(message)) {
+    return respond(
+      {
+        answer: 'أهلًا! أنا جاهز لمساعدتك في عمل المحل الآن.',
+        card: buildGreetingCard(),
+      },
+      200,
+      origin,
+    );
+  }
+  if (isHelpQuestion(message)) {
+    return respond(buildSafeFallbackAnswer(), 200, origin);
   }
 
   const { data: inventorySnapshot, error: inventoryError } = await caller.rpc(
@@ -1091,7 +1162,11 @@ Deno.serve(async (request) => {
     .join('')
     .trim();
   if (!answer) {
-    return respond({ error: 'لم يتم إنشاء إجابة قابلة للعرض. حاول صياغة السؤال بشكل آخر.' }, 502, origin);
+    return respond(buildSafeFallbackAnswer(), 200, origin);
+  }
+  if (!isSafeModelAnswer(answer)) {
+    console.warn('Discarded an unsafe or non-Arabic model response');
+    return respond(buildSafeFallbackAnswer(), 200, origin);
   }
   return respond({ answer, card: buildGenericAnswerCard() }, 200, origin);
 });
