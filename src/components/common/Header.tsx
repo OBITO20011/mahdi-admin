@@ -58,7 +58,7 @@ export const Header: React.FC = () => {
   }, []);
 
   return (
-    <header className="z-20 flex items-center justify-between border-b border-slate-800 bg-slate-900 px-3 py-2 shadow-md">
+    <header className="admin-app-header z-20 flex items-center justify-between border-b border-slate-800 bg-slate-900 px-3 py-2 shadow-md">
       {/* Branch Selector Dropdown */}
       <div className="relative">
         <button

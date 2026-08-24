@@ -409,6 +409,7 @@ export const DashboardView: React.FC = () => {
               <button
                 key={lane.id}
                 type="button"
+                data-ui="dashboard-status-card"
                 onClick={() => setActiveTab('orders')}
                 className={`rounded-2xl border p-2.5 text-right transition active:scale-[0.98] ${lane.tone}`}
               >
@@ -424,6 +425,7 @@ export const DashboardView: React.FC = () => {
 
       <section
         aria-labelledby="receivables-title"
+        data-ui="dashboard-receivables"
         className="overflow-hidden rounded-2xl border border-rose-500/20 bg-[linear-gradient(135deg,rgba(159,18,57,0.15),rgba(15,23,42,0.8))]"
       >
         <button
@@ -492,6 +494,7 @@ export const DashboardView: React.FC = () => {
         <div className="grid grid-cols-3 gap-2">
           <button
             type="button"
+            data-ui="dashboard-quick-card"
             onClick={() => setActiveTab('pos')}
             className="rounded-2xl border border-blue-500/25 bg-blue-500/10 p-2.5 text-right transition hover:border-blue-500/40 active:scale-[0.98]"
           >
@@ -501,6 +504,7 @@ export const DashboardView: React.FC = () => {
           </button>
           <button
             type="button"
+            data-ui="dashboard-quick-card"
             onClick={() => openModal('receive_goods')}
             className="rounded-2xl border border-emerald-500/25 bg-emerald-500/10 p-2.5 text-right transition hover:border-emerald-500/40 active:scale-[0.98]"
           >
@@ -510,6 +514,7 @@ export const DashboardView: React.FC = () => {
           </button>
           <button
             type="button"
+            data-ui="dashboard-quick-card"
             onClick={() => openModal('add_expense')}
             className="rounded-2xl border border-amber-500/25 bg-amber-500/10 p-2.5 text-right transition hover:border-amber-500/40 active:scale-[0.98]"
           >

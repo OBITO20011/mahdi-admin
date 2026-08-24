@@ -20,11 +20,23 @@ body {
 
 html.theme-light {
   color-scheme: light;
+  --admin-canvas: #dfe7f1;
+  --admin-screen: #f3f6fa;
+  --admin-surface: #ffffff;
+  --admin-surface-muted: #edf2f7;
+  --admin-surface-strong: #dde5ee;
+  --admin-border: #d1dbe7;
+  --admin-border-strong: #bcc9d8;
+  --admin-text: #172033;
+  --admin-text-muted: #53647a;
+  --admin-text-faint: #6d7d91;
 }
 
 html.theme-light body {
-  background: #e8eef6;
-  color: #0f172a;
+  background:
+    radial-gradient(circle at 15% 0%, rgb(219 234 254 / 0.65), transparent 34rem),
+    var(--admin-canvas);
+  color: var(--admin-text);
 }
 
 html.theme-light [class~="bg-slate-950"],
@@ -36,7 +48,7 @@ html.theme-light [class~="bg-slate-950/60"],
 html.theme-light [class~="bg-slate-950/50"],
 html.theme-light [class~="bg-slate-950/45"],
 html.theme-light [class~="bg-slate-950/40"] {
-  background-color: rgb(248 250 252 / 0.98) !important;
+  background-color: rgb(243 246 250 / 0.98) !important;
 }
 
 html.theme-light [class~="bg-slate-900"],
@@ -48,7 +60,7 @@ html.theme-light [class~="bg-slate-900/60"],
 html.theme-light [class~="bg-slate-900/50"],
 html.theme-light [class~="bg-slate-900/40"],
 html.theme-light [class~="bg-slate-900/30"] {
-  background-color: rgb(255 255 255 / 0.97) !important;
+  background-color: rgb(255 255 255 / 0.98) !important;
 }
 
 html.theme-light [class~="bg-slate-800"],
@@ -59,12 +71,12 @@ html.theme-light [class~="bg-slate-800/50"],
 html.theme-light [class~="bg-slate-800/40"],
 html.theme-light [class~="bg-slate-800/30"],
 html.theme-light [class~="bg-slate-750"] {
-  background-color: #eef2f7 !important;
+  background-color: var(--admin-surface-muted) !important;
 }
 
 html.theme-light [class~="bg-slate-700"],
 html.theme-light [class~="bg-slate-700/60"] {
-  background-color: #e2e8f0 !important;
+  background-color: var(--admin-surface-strong) !important;
 }
 
 html.theme-light [class~="hover:bg-slate-800"]:hover,
@@ -77,7 +89,7 @@ html.theme-light [class~="hover:bg-slate-700"]:hover {
 }
 
 html.theme-light [class~="text-slate-100"] {
-  color: #0f172a !important;
+  color: var(--admin-text) !important;
 }
 
 html.theme-light [class~="text-slate-200"] {
@@ -89,11 +101,11 @@ html.theme-light [class~="text-slate-300"] {
 }
 
 html.theme-light [class~="text-slate-400"] {
-  color: #475569 !important;
+  color: var(--admin-text-muted) !important;
 }
 
 html.theme-light [class~="text-slate-500"] {
-  color: #64748b !important;
+  color: var(--admin-text-faint) !important;
 }
 
 html.theme-light [class~="text-slate-600"],
@@ -107,7 +119,7 @@ html.theme-light [class~="border-slate-800/90"],
 html.theme-light [class~="border-slate-800/80"],
 html.theme-light [class~="border-slate-800/60"],
 html.theme-light [class~="border-slate-800/50"] {
-  border-color: #dbe4ef !important;
+  border-color: var(--admin-border) !important;
 }
 
 html.theme-light [class~="border-slate-700"],
@@ -115,7 +127,7 @@ html.theme-light [class~="border-slate-700/80"],
 html.theme-light [class~="border-slate-700/60"],
 html.theme-light [class~="border-slate-600"],
 html.theme-light [class~="border-slate-600/60"] {
-  border-color: #cbd5e1 !important;
+  border-color: var(--admin-border-strong) !important;
 }
 
 html.theme-light [class~="ring-slate-700"] {
@@ -237,7 +249,18 @@ html.theme-light [class~="text-teal-300"] {
 html.theme-light input,
 html.theme-light select,
 html.theme-light textarea {
-  color: #0f172a;
+  background-color: #ffffff !important;
+  border-color: var(--admin-border-strong) !important;
+  color: var(--admin-text);
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.04), inset 0 1px 0 rgb(255 255 255 / 0.9);
+  caret-color: #2563eb;
+}
+
+html.theme-light input:focus,
+html.theme-light select:focus,
+html.theme-light textarea:focus {
+  border-color: #60a5fa !important;
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 0.14) !important;
 }
 
 html.theme-light input::placeholder,
@@ -248,5 +271,79 @@ html.theme-light textarea::placeholder {
 html.theme-light [class~="bg-slate-950"][class~="text-white"],
 html.theme-light [class~="bg-slate-900"][class~="text-white"],
 html.theme-light [class~="bg-slate-800"][class~="text-white"] {
-  color: #0f172a !important;
+  color: var(--admin-text) !important;
+}
+
+/* Light mode surface hierarchy and component-specific contrast. */
+html.theme-light [data-testid="dashboard-hero"] {
+  background:
+    radial-gradient(circle at 8% 0%, rgb(96 165 250 / 0.22), transparent 16rem),
+    linear-gradient(135deg, #ffffff 0%, #eef5ff 58%, #edf9f5 100%) !important;
+  border-color: #bfd3ef !important;
+  box-shadow: 0 14px 34px -24px rgb(30 64 175 / 0.45) !important;
+}
+
+html.theme-light [data-testid="dashboard-hero"] [class~="text-white"] {
+  color: #14345f !important;
+}
+
+html.theme-light [data-testid="dashboard-hero"] [class~="border-white/8"],
+html.theme-light [data-testid="dashboard-hero"] [class~="border-white/10"] {
+  border-color: rgb(37 99 235 / 0.16) !important;
+}
+
+html.theme-light [data-ui="dashboard-status-card"],
+html.theme-light [data-ui="dashboard-quick-card"] {
+  background-color: rgb(255 255 255 / 0.88) !important;
+  box-shadow: 0 8px 22px -18px rgb(15 23 42 / 0.35);
+}
+
+html.theme-light [data-ui="dashboard-status-card"] [class~="text-white"],
+html.theme-light [data-ui="dashboard-quick-card"] [class~="text-white"] {
+  color: var(--admin-text) !important;
+}
+
+html.theme-light [data-ui="dashboard-receivables"] {
+  background: linear-gradient(135deg, #fff7f8, #ffffff 62%, #fdf2f8) !important;
+  border-color: #fecdd3 !important;
+  box-shadow: 0 10px 24px -22px rgb(190 24 93 / 0.5);
+}
+
+html.theme-light [data-ui="dashboard-receivables"] [class~="text-white"] {
+  color: #4c1628 !important;
+}
+
+html.theme-light :is(
+  [class~="bg-slate-950"],
+  [class~="bg-slate-950/60"],
+  [class~="bg-slate-950/50"],
+  [class~="bg-slate-900"],
+  [class~="bg-slate-900/90"],
+  [class~="bg-slate-900/80"],
+  [class~="bg-slate-900/70"],
+  [class~="bg-slate-800"],
+  [class~="bg-slate-800/60"]
+) :is(h1, h2, h3, h4, h5, strong, b, p, span)[class~="text-white"] {
+  color: var(--admin-text) !important;
+}
+
+html.theme-light .admin-app-header,
+html.theme-light .admin-bottom-tabs {
+  border-color: var(--admin-border) !important;
+  background-color: rgb(255 255 255 / 0.94) !important;
+  box-shadow: 0 8px 26px -22px rgb(15 23 42 / 0.55);
+}
+
+html.theme-light .admin-bottom-tabs {
+  box-shadow: 0 -12px 28px -24px rgb(15 23 42 / 0.5);
+}
+
+html.theme-light [class~="fixed"][class~="inset-0"][class~="bg-slate-950/80"],
+html.theme-light [class~="fixed"][class~="inset-0"][class~="bg-slate-950/95"] {
+  background-color: rgb(15 23 42 / 0.52) !important;
+}
+
+html.theme-light ::selection {
+  background: rgb(147 197 253 / 0.5);
+  color: #0f172a;
 }

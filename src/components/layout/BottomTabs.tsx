@@ -22,7 +22,7 @@ export const BottomTabs: React.FC = () => {
   return (
     <nav
       aria-label="التنقل الرئيسي"
-      className="relative z-30 grid grid-cols-5 items-end border-t border-slate-800 bg-slate-900/95 px-1 pb-[max(0.45rem,env(safe-area-inset-bottom))] pt-1.5 shadow-2xl backdrop-blur-lg"
+      className="admin-bottom-tabs relative z-30 grid grid-cols-5 items-end border-t border-slate-800 bg-slate-900/95 px-1 pb-[max(0.45rem,env(safe-area-inset-bottom))] pt-1.5 shadow-2xl backdrop-blur-lg"
     >
       {tabs.map((tab) => {
         const Icon = tab.icon;
