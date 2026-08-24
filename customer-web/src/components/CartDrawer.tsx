@@ -42,6 +42,44 @@ export function CartDrawer({
     if (!isOpen) setClearConfirmationOpen(false);
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const root = document.documentElement;
+    const previousBodyStyles = {
+      overflow: body.style.overflow,
+      position: body.style.position,
+      top: body.style.top,
+      width: body.style.width,
+      overscrollBehavior: body.style.overscrollBehavior,
+    };
+    const previousRootStyles = {
+      overflow: root.style.overflow,
+      overscrollBehavior: root.style.overscrollBehavior,
+    };
+
+    body.style.overflow = 'hidden';
+    body.style.position = 'fixed';
+    body.style.top = `-${scrollY}px`;
+    body.style.width = '100%';
+    body.style.overscrollBehavior = 'none';
+    root.style.overflow = 'hidden';
+    root.style.overscrollBehavior = 'none';
+
+    return () => {
+      body.style.overflow = previousBodyStyles.overflow;
+      body.style.position = previousBodyStyles.position;
+      body.style.top = previousBodyStyles.top;
+      body.style.width = previousBodyStyles.width;
+      body.style.overscrollBehavior = previousBodyStyles.overscrollBehavior;
+      root.style.overflow = previousRootStyles.overflow;
+      root.style.overscrollBehavior = previousRootStyles.overscrollBehavior;
+      window.scrollTo({ top: scrollY, behavior: 'auto' });
+    };
+  }, [isOpen]);
+
   const handleConfirmedClear = () => {
     onClear();
     setClearConfirmationOpen(false);
@@ -49,7 +87,7 @@ export function CartDrawer({
 
   return (
     <div
-      className={`fixed inset-0 z-50 transition ${
+      className={`fixed inset-0 z-50 isolate overflow-hidden overscroll-none transition ${
         isOpen ? 'pointer-events-auto' : 'pointer-events-none'
       }`}
       aria-hidden={!isOpen}
@@ -65,17 +103,20 @@ export function CartDrawer({
       />
 
       <aside
-        className={`absolute left-0 top-0 flex h-full w-full max-w-2xl flex-col bg-white shadow-2xl transition-transform duration-300 ${
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cart-drawer-title"
+        className={`absolute inset-0 flex h-[100dvh] max-h-[100dvh] w-full flex-col overflow-hidden overscroll-none bg-white shadow-2xl transition-transform duration-300 sm:inset-y-0 sm:left-0 sm:right-auto sm:h-full sm:max-h-none sm:max-w-2xl ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+        <div className="shrink-0 flex items-center justify-between border-b border-slate-100 px-4 py-3 sm:px-5 sm:py-4">
           <div className="flex items-center gap-3">
             <div className="grid h-10 w-10 place-items-center rounded-2xl bg-blue-100 text-blue-700">
               <ShoppingBag className="h-5 w-5" />
             </div>
             <div>
-              <h2 className="font-black text-slate-950">سلة طلب الجملة</h2>
+              <h2 id="cart-drawer-title" className="font-black text-slate-950">سلة طلب الجملة</h2>
               <p className="text-[10px] font-bold text-slate-400">
                 {packagesCount.toLocaleString('ar-JO')} طرد
               </p>
@@ -118,7 +159,10 @@ export function CartDrawer({
           </div>
         ) : (
           <>
-            <div className="flex-1 space-y-3 overflow-y-auto p-4">
+            <div
+              data-cart-scroll-region
+              className="min-h-0 flex-1 touch-pan-y space-y-3 overflow-y-auto overscroll-contain p-4 [-webkit-overflow-scrolling:touch]"
+            >
               {clearConfirmationOpen ? (
                 <div className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-rose-200 bg-rose-50 p-3">
                   <p className="text-[10px] font-black text-rose-800">
@@ -251,8 +295,8 @@ export function CartDrawer({
               ))}
             </div>
 
-            <div className="border-t border-slate-100 bg-slate-50 p-5">
-              <div className="mb-4 flex items-start gap-2 rounded-2xl border border-violet-200 bg-violet-50 p-3 text-[10px] font-bold leading-5 text-violet-800">
+            <div className="shrink-0 border-t border-slate-100 bg-slate-50 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 sm:p-5">
+              <div className="mb-3 flex items-start gap-2 rounded-2xl border border-violet-200 bg-violet-50 p-2.5 text-[10px] font-bold leading-5 text-violet-800 sm:mb-4 sm:p-3">
                 <TicketPercent className="mt-0.5 h-4 w-4 shrink-0" />
                 لديك كوبون خصم؟ ستتمكن من إدخاله والتحقق منه آمنًا في خطوة البيانات والدفع.
               </div>
@@ -273,7 +317,7 @@ export function CartDrawer({
               <button
                 type="button"
                 onClick={onCheckout}
-                className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-700 px-5 py-4 text-sm font-black text-white shadow-lg shadow-blue-900/20 transition hover:bg-blue-800"
+                className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-700 px-5 py-3.5 text-sm font-black text-white shadow-lg shadow-blue-900/20 transition hover:bg-blue-800 sm:mt-4 sm:py-4"
               >
                 إتمام الطلب بدون تسجيل دخول
                 <ArrowLeft className="h-4 w-4" />
@@ -283,7 +327,7 @@ export function CartDrawer({
                 متابعة التسوق
               </button>
 
-              <div className="mt-3 flex items-start gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 p-3 text-[10px] font-bold leading-5 text-emerald-800">
+              <div className="mt-3 hidden items-start gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 p-3 text-[10px] font-bold leading-5 text-emerald-800 sm:flex">
                 <LockKeyhole className="mt-0.5 h-4 w-4 shrink-0" />
                 لا تحتاج حسابًا أو كلمة مرور. سيُحفظ الطلب أولًا في الإدارة،
                 وبعدها يفتح ملخص واتساب.
