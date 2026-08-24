@@ -7,6 +7,7 @@ import {
   Tag,
   X,
 } from 'lucide-react';
+import { StoreLogoMark } from './StoreLogoMark';
 import { useEffect, useState } from 'react';
 import type { CatalogProduct } from '../types/catalog';
 
@@ -134,10 +135,13 @@ export function StoreHeader({
             <Menu className="h-5 w-5" />
           </button>
 
-          <button type="button" onClick={onHome} className="flex shrink-0 items-center gap-3 text-right">
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-blue-600 to-blue-950 text-xl font-black text-white shadow-lg shadow-blue-900/20">
-              ن
-            </div>
+          <button
+            type="button"
+            onClick={onHome}
+            aria-label="العودة إلى الصفحة الرئيسية"
+            className="flex shrink-0 items-center gap-3 text-right"
+          >
+            <StoreLogoMark />
             <div className="hidden sm:block">
               <p className="text-lg font-black leading-tight text-blue-900">نواصرة</p>
               <p className="text-[9px] font-bold text-amber-700">تجارة الجملة والمواد الغذائية</p>

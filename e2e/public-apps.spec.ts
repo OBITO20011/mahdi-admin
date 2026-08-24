@@ -77,6 +77,16 @@ test.describe('متجر العملاء العام', () => {
       );
   });
 
+  test('شعار متجر النواصرة ظاهر بدل حرف النون القديم', async ({ page }) => {
+    await page.goto(customerBaseUrl);
+
+    const headerLogo = page.locator(
+      'header img[src="/nawasrah-store-logo.jpg"]',
+    );
+    await expect(headerLogo).toBeVisible();
+    await expect(headerLogo).toHaveAttribute('alt', '');
+  });
+
   test('صفحة المنتجات قابلة للوصول وخالية من مخالفات الوصول الخطرة', async ({
     page,
   }) => {

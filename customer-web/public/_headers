@@ -17,3 +17,6 @@
 
 /nawasrah-hero-poster.webp
   Cache-Control: public, max-age=604800
+
+/nawasrah-store-logo.jpg
+  Cache-Control: public, max-age=604800

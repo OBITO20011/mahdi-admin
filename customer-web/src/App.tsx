@@ -26,6 +26,7 @@ import { ProductDetailsModal } from './components/ProductDetailsModal';
 import { PublicPosReceiptPage } from './components/PublicPosReceiptPage';
 import { PromotionOffers } from './components/PromotionOffers';
 import { StoreHeader } from './components/StoreHeader';
+import { StoreLogoMark } from './components/StoreLogoMark';
 import { StoreHero } from './components/StoreHero';
 import { StoreInfoSection } from './components/StoreInfoSection';
 import { DEFAULT_STOREFRONT_SETTINGS } from './config/store';
@@ -1002,9 +1003,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       <footer className="bg-[#08152e] px-4 pb-28 pt-10 text-blue-100 md:py-10">
         <div className="mx-auto flex max-w-7xl flex-col gap-5 sm:flex-row sm:items-center sm:justify-between lg:px-4">
           <div className="flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-blue-600 text-lg font-black text-white">
-              ن
-            </div>
+            <StoreLogoMark className="h-11 w-11" />
             <div>
               <p className="font-black text-white">{storefrontSettings.storeNameAr}</p>
               <p className="mt-1 text-[10px] font-bold text-blue-200/60">
