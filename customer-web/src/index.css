@@ -102,6 +102,29 @@ button:disabled {
   background: #bfdbfe;
 }
 
+.merchandising-rail {
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 0.25rem;
+  scrollbar-width: none;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.merchandising-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.merchandising-card {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.merchandising-card[data-active='true'] {
+  border-color: rgb(191 219 254 / 0.95);
+  box-shadow: 0 18px 42px -30px rgb(37 99 235 / 0.55);
+}
+
 .category-card-enter {
   animation: category-rise 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -222,5 +245,9 @@ button:disabled {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .merchandising-rail {
+    scroll-behavior: auto;
   }
 }
