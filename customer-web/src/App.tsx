@@ -21,6 +21,7 @@ import { NetworkStatusBanner } from './components/NetworkStatusBanner';
 import { MerchandisingSections } from './components/MerchandisingSections';
 import { MobileStoreNav } from './components/MobileStoreNav';
 import { OrderTrackingModal } from './components/OrderTrackingModal';
+import { OffersPage } from './components/OffersPage';
 import { ProductCard } from './components/ProductCard';
 import { ProductDetailsModal } from './components/ProductDetailsModal';
 import { PublicPosReceiptPage } from './components/PublicPosReceiptPage';
@@ -57,12 +58,13 @@ interface ToastState {
   type: 'success' | 'error' | 'info';
 }
 
-type StorePage = 'home' | 'categories' | 'catalog';
+type StorePage = 'home' | 'categories' | 'catalog' | 'offers';
 
 function readStorePageFromHash(): StorePage {
   if (typeof window === 'undefined') return 'home';
   if (window.location.hash === '#categories') return 'categories';
   if (window.location.hash === '#catalog') return 'catalog';
+  if (window.location.hash === '#offers') return 'offers';
   return 'home';
 }
 
@@ -132,6 +134,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     readStoredFavorites
   );
   const [storefrontOffers, setStorefrontOffers] = useState<StorefrontOffer[]>([]);
+  const [offersLoading, setOffersLoading] = useState(true);
+  const [offersLoadError, setOffersLoadError] = useState<string | null>(null);
   const [preferredPromotionCode, setPreferredPromotionCode] = useState('');
   const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -207,8 +211,14 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const loadStorefrontOffers = useCallback(async () => {
     try {
       setStorefrontOffers(await fetchPublicStorefrontOffers());
+      setOffersLoadError(null);
     } catch (error) {
       console.error('[Storefront offers]', error);
+      setOffersLoadError(
+        error instanceof Error ? error.message : 'تعذر تحميل عروض المتجر.'
+      );
+    } finally {
+      setOffersLoading(false);
     }
   }, []);
 
@@ -598,29 +608,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     showAllProducts();
   };
 
-  const openPromotionOffers = () => {
-    if (storefrontOffers.length === 0) {
-      const offersCategory = catalogCategories.find(
-        (category) => category.code === 'CAT-OFFERS'
-      );
-      if (offersCategory) selectCatalogCategory(offersCategory.id);
-      else showAllProducts();
-      return;
-    }
-
-    setActivePage('home');
-    if (window.location.hash !== '#home') {
-      window.history.pushState(null, '', '#home');
-    }
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        document.getElementById('storefront-offers')?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        });
-      });
-    });
-  };
+  const openPromotionOffers = () => navigateStorePage('offers');
 
   const repeatLastOrder = () => {
     if (!lastGuestOrder) return;
@@ -730,6 +718,20 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
               />
             </div>
           </section>
+        )}
+
+        {activePage === 'offers' && (
+          <OffersPage
+            offers={storefrontSettings.showOffers ? storefrontOffers : []}
+            isLoading={offersLoading}
+            error={offersLoadError}
+            onRetry={() => {
+              setOffersLoading(true);
+              void loadStorefrontOffers();
+            }}
+            onBrowseProducts={showAllProducts}
+            onUseOffer={usePromotionOffer}
+          />
         )}
 
         {activePage === 'catalog' && (

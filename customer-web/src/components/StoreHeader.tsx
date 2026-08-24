@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import type { CatalogProduct } from '../types/catalog';
 
 interface StoreHeaderProps {
-  activePage: 'home' | 'categories' | 'catalog';
+  activePage: 'home' | 'categories' | 'catalog' | 'offers';
   searchQuery: string;
   onSearchChange: (value: string) => void;
   cartPackages: number;
@@ -69,7 +69,7 @@ export function StoreHeader({
     { label: 'الرئيسية', onClick: onHome, page: 'home' as const },
     { label: 'الأقسام', onClick: onCategoriesOpen, page: 'categories' as const },
     { label: 'جميع المنتجات', onClick: onAllProducts, page: 'catalog' as const },
-    { label: 'العروض', onClick: onOffers, icon: Tag },
+    { label: 'العروض', onClick: onOffers, page: 'offers' as const, icon: Tag },
     { label: 'تتبع الطلب', onClick: onTrackOrder },
   ];
 

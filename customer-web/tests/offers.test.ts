@@ -1,6 +1,20 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { mapStorefrontOffer } from '../src/services/offers.service';
+
+const storefrontApp = readFileSync(
+  new URL('../src/App.tsx', import.meta.url),
+  'utf8'
+);
+const storeHeader = readFileSync(
+  new URL('../src/components/StoreHeader.tsx', import.meta.url),
+  'utf8'
+);
+const offersPage = readFileSync(
+  new URL('../src/components/OffersPage.tsx', import.meta.url),
+  'utf8'
+);
 
 test('storefront percentage offer maps basis points without inventing a price', () => {
   const offer = mapStorefrontOffer({
@@ -33,4 +47,22 @@ test('storefront fixed offer maps fils to JOD once', () => {
   assert.equal(offer.discountType, 'fixed');
   assert.equal(offer.discountValue, 1.5);
   assert.equal(offer.maximumDiscountInMinorUnits, undefined);
+});
+
+test('offers navigation opens a dedicated route instead of a fallback category', () => {
+  assert.match(
+    storefrontApp,
+    /type StorePage = 'home' \| 'categories' \| 'catalog' \| 'offers'/
+  );
+  assert.match(storefrontApp, /window\.location\.hash === '#offers'/);
+  assert.match(storefrontApp, /navigateStorePage\('offers'\)/);
+  assert.match(storeHeader, /page: 'offers' as const/);
+  assert.doesNotMatch(storefrontApp, /category\.code === 'CAT-OFFERS'/);
+});
+
+test('offers page shows real codes or a calm empty state without mock coupons', () => {
+  assert.match(offersPage, /<PromotionOffers offers=\{offers\}/);
+  assert.match(offersPage, /لا توجد عروض فعّالة الآن/);
+  assert.match(offersPage, /لم نعرض أي رمز غير مؤكد/);
+  assert.doesNotMatch(offersPage, /WELCOME10|SAVE1|NWSR20/);
 });
