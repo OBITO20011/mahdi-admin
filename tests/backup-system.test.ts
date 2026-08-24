@@ -45,7 +45,8 @@ test('encrypted backup verifies checksums and rejects a wrong passphrase', async
       files: entries,
     }));
 
-    await execFileAsync('tar.exe', ['-cf', archiveTar, '-C', contents, '.']);
+    const tarExecutable = process.platform === 'win32' ? 'tar.exe' : 'tar';
+    await execFileAsync(tarExecutable, ['-cf', archiveTar, '-C', contents, '.']);
     await encryptFile(archiveTar, encryptedArchive, passphrase);
 
     const verification = await verifyBackupArchive({
