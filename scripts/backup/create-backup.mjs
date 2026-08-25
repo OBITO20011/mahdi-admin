@@ -176,10 +176,11 @@ async function runSupabaseDump({ projectRoot, outputPath, arguments: dumpArgumen
     const detail = redact(error.stderr || error.message, secrets);
     if (/password authentication failed/iu.test(detail)) {
       throw new Error(
-        'Supabase rejected the database password. Use the Database password from Project Settings > Database, not the admin login password.'
+        'Supabase rejected the database password. Use the Database password from Project Settings > Database, not the admin login password.',
+        { cause: error }
       );
     }
-    throw new Error(`Supabase database dump failed: ${detail}`);
+    throw new Error(`Supabase database dump failed: ${detail}`, { cause: error });
   }
 
   const outputStats = await stat(outputPath);
@@ -352,7 +353,7 @@ export async function createBackup(options = {}) {
       message: redact(error instanceof Error ? error.message : error, secrets),
     };
     await writeStatus(outputRoot, result);
-    throw new Error(result.message);
+    throw new Error(result.message, { cause: error });
   } finally {
     delete process.env.SUPABASE_DB_PASSWORD;
     await rm(tempRoot, { recursive: true, force: true });

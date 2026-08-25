@@ -3,11 +3,10 @@
  * Includes Dashboard, Purchase Orders, Goods Receiving, Supplier Management, Payments, and Reports
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useAppStore, storeEngine } from '../../stores/useAppStore';
 import {
   PurchaseOrder,
-  PurchaseOrderFilters,
   PurchaseOrderStatus,
   SupplierPayment,
   PurchaseReceipt,
@@ -19,9 +18,6 @@ import {
   fetchGoodsReceiptsFromSupabase,
   toggleSupplierActiveInSupabase,
   subscribeToPurchasesRealtime,
-  approvePurchaseOrderInSupabase,
-  cancelPurchaseOrderInSupabase,
-  deletePurchaseOrderInSupabase,
 } from '../../services/supabase/purchases.service';
 import { PurchaseOrderCard } from './PurchaseOrderCard';
 import { CreatePurchaseOrderModal } from './CreatePurchaseOrderModal';
@@ -35,36 +31,18 @@ import {
   Plus,
   ArrowUpRight,
   Search,
-  Filter,
   RefreshCw,
-  Clock,
   CheckCircle2,
-  AlertCircle,
   Truck,
   Building,
-  Warehouse,
-  DollarSign,
-  TrendingUp,
-  FileText,
-  Users,
   CreditCard,
   BarChart3,
-  CheckSquare,
-  XCircle,
   Edit,
-  Trash2,
   Printer,
-  Calendar,
-  ChevronRight,
-  ChevronLeft,
   PackageCheck,
-  ShieldAlert,
-  ArrowDownRight,
-  ExternalLink,
   Phone,
   Mail,
   MapPin,
-  MessageSquare,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 
@@ -73,7 +51,7 @@ type PurchaseSort = 'newest' | 'highest_value' | 'outstanding';
 type SupplierStatusFilter = 'all' | 'active' | 'inactive';
 
 export const PurchasesView: React.FC = () => {
-  const { warehouses, branches } = useAppStore();
+  const { warehouses } = useAppStore();
 
   const [activeTab, setActiveTab] = useState<TabType>('orders');
 
@@ -115,21 +93,7 @@ export const PurchasesView: React.FC = () => {
   // Selected Voucher for printing
   const [printingVoucher, setPrintingVoucher] = useState<SupplierPayment | null>(null);
 
-  // Load data
-  useEffect(() => {
-    loadData();
-
-    // Subscribe to Realtime updates
-    const unsubscribe = subscribeToPurchasesRealtime(() => {
-      loadData();
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, [statusFilter, supplierFilter, warehouseFilter, sortBy]);
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setLoading(true);
     const [poRes, suppList, payList, rcptList] = await Promise.all([
       fetchPurchaseOrdersFromSupabase({
@@ -151,7 +115,15 @@ export const PurchasesView: React.FC = () => {
     setPayments(payList);
     setReceipts(rcptList);
     setLoading(false);
-  };
+  }, [search, sortBy, statusFilter, supplierFilter, warehouseFilter]);
+
+  // Reload when a query/filter changes and keep the list live for supplier activity.
+  useEffect(() => {
+    void loadData();
+    return subscribeToPurchasesRealtime(() => {
+      void loadData();
+    });
+  }, [loadData]);
 
   // Top 8 KPI Calculations
   const totalOrdersCount = orders.length;
@@ -226,42 +198,6 @@ export const PurchasesView: React.FC = () => {
 
     return matchesSearch && matchesMethod;
   });
-
-  // Quick PO Actions
-  const handleApprove = async (poId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    const res = await approvePurchaseOrderInSupabase(poId);
-    if (res.success) {
-      storeEngine.setToast('تم اعتماد امر الشراء بنجاح', 'success');
-      loadData();
-    } else {
-      storeEngine.setToast(res.error || 'فشل اعتماد امر الشراء', 'error');
-    }
-  };
-
-  const handleCancel = async (poId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!window.confirm('هل أنت تأكد من إلغاء أمر الشراء هذا؟')) return;
-    const res = await cancelPurchaseOrderInSupabase(poId);
-    if (res.success) {
-      storeEngine.setToast('تم إلغاء أمر الشراء', 'info');
-      loadData();
-    } else {
-      storeEngine.setToast(res.error || 'فشل إلغاء الأمر', 'error');
-    }
-  };
-
-  const handleDeleteDraft = async (poId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!window.confirm('هل أنت تأكد من حذف مسودة أمر الشراء نهائياً؟')) return;
-    const res = await deletePurchaseOrderInSupabase(poId);
-    if (res.success) {
-      storeEngine.setToast('تم حذف مسودة أمر الشراء بنجاح', 'success');
-      loadData();
-    } else {
-      storeEngine.setToast(res.error || 'فشل حذف مسودة الأمر', 'error');
-    }
-  };
 
   const handleToggleSupplierActive = async (supplier: Supplier) => {
     const nextActive = !(supplier.isActive ?? true);

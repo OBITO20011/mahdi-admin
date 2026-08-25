@@ -2,8 +2,8 @@
  * Nawasrah Business Manager - Purchase Order Detail View Sheet
  */
 
-import React, { useState, useEffect } from 'react';
-import { useAppStore, storeEngine } from '../../stores/useAppStore';
+import React, { useCallback, useEffect, useState } from 'react';
+import { storeEngine } from '../../stores/useAppStore';
 import { PurchaseOrder, PurchaseOrderStatus } from '../../types/purchases';
 import {
   fetchPurchaseOrderByIdFromSupabase,
@@ -28,21 +28,17 @@ import {
   ArrowUpRight,
   XCircle,
   Send,
-  DollarSign,
   PackageCheck,
-  Receipt,
   Printer,
-  History,
   AlertTriangle,
   ChevronRight,
   Edit,
   Trash2,
   User,
-  Package,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 
-export function formatHumanQuantity(qty: number, unitName?: string): string {
+function formatHumanQuantity(qty: number, unitName?: string): string {
   const unit = (unitName || 'قطعة').trim();
   const num = Math.round(qty * 100) / 100;
 
@@ -108,13 +104,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
   const [isActionLoading, setIsActionLoading] = useState<boolean>(false);
   const [actionError, setActionError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (poId) {
-      loadPoDetails();
-    }
-  }, [poId]);
-
-  const loadPoDetails = async () => {
+  const loadPoDetails = useCallback(async () => {
     if (!poId) return;
     setLoading(true);
     const res = await fetchPurchaseOrderByIdFromSupabase(poId);
@@ -122,7 +112,11 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
       setPo(res.data);
     }
     setLoading(false);
-  };
+  }, [poId]);
+
+  useEffect(() => {
+    void loadPoDetails();
+  }, [loadPoDetails]);
 
   const handleDeletePO = async () => {
     if (!po) return;

@@ -7,7 +7,6 @@ import {
   ChevronLeft,
   Clock3,
   Copy,
-  MapPin,
   MessageCircle,
   PackageCheck,
   PackageX,

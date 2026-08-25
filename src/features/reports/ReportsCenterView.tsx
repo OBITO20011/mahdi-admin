@@ -131,7 +131,7 @@ export const ReportsCenterView: React.FC = () => {
 
   useEffect(() => {
     void loadReport();
-  }, [activeBranch.id]);
+  }, [loadReport]);
 
   const setPreset = (days: number | 'month') => {
     const end = new Date();

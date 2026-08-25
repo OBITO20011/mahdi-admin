@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   ArrowRight,
   Edit,
@@ -57,7 +57,7 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
   const [editOpen, setEditOpen] = useState(false);
   const [addressOpen, setAddressOpen] = useState(false);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     setLoading(true);
     setError(null);
     const result = await fetchCustomerDetailsCrmFromSupabase(customerId);
@@ -67,13 +67,13 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
       setError(result.error || 'تعذر تحميل ملف العميل.');
     }
     setLoading(false);
-  };
+  }, [customerId]);
 
   useEffect(() => {
     load();
     const unsubscribe = subscribeToCrmRealtime(load);
     return unsubscribe;
-  }, [customerId]);
+  }, [load]);
 
   if (loading && !customer) {
     return (

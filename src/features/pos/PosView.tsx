@@ -86,7 +86,7 @@ export const PosView: React.FC = () => {
         console.error('Unable to load POS customers:', error);
         setPosCustomers([]);
       });
-  }, []);
+  }, [refreshProductsFromSupabase]);
 
   useEffect(() => {
     if (!activeBranch.id) return;
@@ -307,7 +307,7 @@ export const PosView: React.FC = () => {
   const handleShareReceipt = async () => {
     if (!lastInvoice) return;
 
-    let publicReceiptUrl = lastInvoice.publicReceiptUrl;
+    let publicReceiptUrl: string;
     try {
       publicReceiptUrl = await ensurePublicReceiptUrl();
     } catch (linkError) {

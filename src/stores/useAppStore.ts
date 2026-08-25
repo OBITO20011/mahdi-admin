@@ -37,7 +37,6 @@ import {
   fetchProductsFromSupabase,
   createProductWithOpeningStockInSupabase,
   updateProductInSupabase,
-  SupabaseFetchError,
 } from '../services/supabase/products.service';
 import {
   adjustInventoryStockInSupabase,
@@ -507,7 +506,7 @@ class StoreEngine {
     message: string | { message?: string; type?: 'success' | 'error' | 'info' },
     type: 'success' | 'error' | 'info' = 'success'
   ) {
-    let finalMsg = '';
+    let finalMsg: string;
     let finalType = type;
 
     if (typeof message === 'object' && message !== null) {

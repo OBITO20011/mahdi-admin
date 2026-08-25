@@ -131,7 +131,7 @@ export function OrderTrackingModal({
 
   const remainingMinutes = useMemo(
     () => calculateRemainingMinutes(result?.estimatedArrivalAt),
-    [result?.estimatedArrivalAt, lastRefreshAt]
+    [result?.estimatedArrivalAt]
   );
 
   if (!isOpen) return null;

@@ -10,7 +10,6 @@ import {
   Trash2,
   WalletCards,
 } from 'lucide-react';
-import { CURRENCY } from '../../constants';
 import { CrmCustomer } from '../../types/crm';
 
 interface CustomerListProps {

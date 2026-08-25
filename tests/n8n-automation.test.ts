@@ -93,12 +93,12 @@ test('the Supabase feed secret is imported as an encrypted n8n credential', () =
 });
 
 test('Telegram and WhatsApp workflows use independent durable feed channels', () => {
-  assert.match(alertWorkflows, /\\\"channel\\\":\\\"telegram\\\"/);
-  assert.match(alertWorkflows, /\\\"channel\\\":\\\"whatsapp\\\"/);
+  assert.match(alertWorkflows, /\\"channel\\":\\"telegram\\"/);
+  assert.match(alertWorkflows, /\\"channel\\":\\"whatsapp\\"/);
   assert.match(alertWorkflows, /Complete Telegram Delivery/);
   assert.match(alertWorkflows, /Complete WhatsApp Delivery/);
   assert.match(alertWorkflows, /nawasrahFeedAuth/);
-  assert.match(alertWorkflows, /\"active\": false/);
+  assert.match(alertWorkflows, /"active": false/);
 });
 
 test('Telegram and WhatsApp message expressions compile before import', () => {

@@ -2,7 +2,7 @@
  * Nawasrah Business Manager - Create Purchase Order Modal Component
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppStore, storeEngine } from '../../stores/useAppStore';
 import { CreatePurchaseOrderInput, PurchaseOrder } from '../../types/purchases';
 import {
@@ -23,7 +23,6 @@ import {
   Warehouse as WarehouseIcon,
   Calendar,
   FileText,
-  DollarSign,
   AlertTriangle,
   CheckCircle2,
   Search,
@@ -103,50 +102,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
     };
   }, []);
 
-  // Load suppliers, active products, branches, and warehouses on open
-  useEffect(() => {
-    if (isOpen) {
-      if (poToEdit) {
-        setSelectedSupplierId(poToEdit.supplierId);
-        setSelectedBranchId(poToEdit.branchId || '');
-        setSelectedWarehouseId(poToEdit.warehouseId || '');
-        setExpectedDeliveryDate(poToEdit.expectedDeliveryDate ? poToEdit.expectedDeliveryDate.substring(0, 10) : '');
-        setSupplierInvoiceNumber(poToEdit.supplierInvoiceNumber || '');
-        setDeliveryFee(poToEdit.deliveryFee || 0);
-        setOverallDiscount(poToEdit.discount || 0);
-        setNotes(poToEdit.notes || '');
-        setInternalNotes(poToEdit.internalNotes || '');
-        setItems(
-          (poToEdit.items || []).map((i) => ({
-            productId: i.productId,
-            productName: i.productName,
-            sku: i.sku || '',
-            barcode: i.barcode || '',
-            unit: i.unit || 'قطعة',
-            orderedQuantity: i.orderedQuantity,
-            purchasePrice: i.purchasePrice,
-            discount: i.discount,
-          }))
-        );
-      } else {
-        setSelectedSupplierId('');
-        setSelectedBranchId('');
-        setSelectedWarehouseId('');
-        setExpectedDeliveryDate('');
-        setSupplierInvoiceNumber('');
-        setDeliveryFee(0);
-        setOverallDiscount(0);
-        setNotes('');
-        setInternalNotes('');
-        setItems([]);
-      }
-      loadSuppliers();
-      loadProducts();
-      loadBranchesAndWarehouses();
-    }
-  }, [isOpen, poToEdit]);
-
-  const loadBranchesAndWarehouses = async () => {
+  const loadBranchesAndWarehouses = useCallback(async () => {
     try {
       const [bList, wList] = await Promise.all([
         fetchBranchesFromSupabase(),
@@ -181,19 +137,21 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
       setAvailableBranches([]);
       setAvailableWarehouses([]);
     }
-  };
+  }, [activeBranch?.id]);
 
-  const loadSuppliers = async () => {
+  const loadSuppliers = useCallback(async () => {
     const list = await fetchSuppliersFromSupabase();
     // Only keep suppliers with valid UUIDs
     const validSuppliers = list.filter((s) => isValidUUID(s.id));
     setSuppliers(validSuppliers);
-    if (validSuppliers.length > 0 && !isValidUUID(selectedSupplierId)) {
-      setSelectedSupplierId(validSuppliers[0].id);
-    }
-  };
+      setSelectedSupplierId((currentSupplierId) =>
+        validSuppliers.length > 0 && !isValidUUID(currentSupplierId)
+          ? validSuppliers[0].id
+          : currentSupplierId,
+      );
+  }, []);
 
-  const loadProducts = async () => {
+  const loadProducts = useCallback(async () => {
     setIsLoadingProducts(true);
     setProductsFetchError(null);
     try {
@@ -220,7 +178,49 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
     } finally {
       setIsLoadingProducts(false);
     }
-  };
+  }, []);
+
+  // Load suppliers, products, branches, and warehouses only when this sheet opens.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    if (poToEdit) {
+      setSelectedSupplierId(poToEdit.supplierId);
+      setSelectedBranchId(poToEdit.branchId || '');
+      setSelectedWarehouseId(poToEdit.warehouseId || '');
+      setExpectedDeliveryDate(poToEdit.expectedDeliveryDate ? poToEdit.expectedDeliveryDate.substring(0, 10) : '');
+      setSupplierInvoiceNumber(poToEdit.supplierInvoiceNumber || '');
+      setDeliveryFee(poToEdit.deliveryFee || 0);
+      setOverallDiscount(poToEdit.discount || 0);
+      setNotes(poToEdit.notes || '');
+      setInternalNotes(poToEdit.internalNotes || '');
+      setItems((poToEdit.items || []).map((i) => ({
+        productId: i.productId,
+        productName: i.productName,
+        sku: i.sku || '',
+        barcode: i.barcode || '',
+        unit: i.unit || 'قطعة',
+        orderedQuantity: i.orderedQuantity,
+        purchasePrice: i.purchasePrice,
+        discount: i.discount,
+      })));
+    } else {
+      setSelectedSupplierId('');
+      setSelectedBranchId('');
+      setSelectedWarehouseId('');
+      setExpectedDeliveryDate('');
+      setSupplierInvoiceNumber('');
+      setDeliveryFee(0);
+      setOverallDiscount(0);
+      setNotes('');
+      setInternalNotes('');
+      setItems([]);
+    }
+
+    void loadSuppliers();
+    void loadProducts();
+    void loadBranchesAndWarehouses();
+  }, [isOpen, loadBranchesAndWarehouses, loadProducts, loadSuppliers, poToEdit]);
 
   if (!isOpen) return null;
 

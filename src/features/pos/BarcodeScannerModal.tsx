@@ -10,7 +10,6 @@ import {
   Camera,
   X,
   Zap,
-  Check,
   AlertCircle,
   RefreshCw,
   Volume2,
@@ -176,6 +175,9 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
         }
       }
     };
+    // The scanner must retain its camera session while callback props change.
+    // Restarting it on every product/state update interrupts active scans.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   if (!isOpen) return null;

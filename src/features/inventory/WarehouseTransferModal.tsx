@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { formatProductInventory } from '../../utils/inventoryFormatter';
-import { ArrowLeftRight, Check, Package, Warehouse as WarehouseIcon, Building2 } from 'lucide-react';
+import { ArrowLeftRight, Check, Package, Warehouse as WarehouseIcon } from 'lucide-react';
 
 interface WarehouseTransferModalProps {
   productId?: string;
@@ -16,7 +16,7 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
   productId: initialProductId,
   onClose,
 }) => {
-  const { products, warehouses, branches, transferWarehouse, setToast } = useAppStore();
+  const { products, warehouses, transferWarehouse, setToast } = useAppStore();
 
   const [selectedProductId, setSelectedProductId] = useState<string>(
     initialProductId || products[0]?.id || ''

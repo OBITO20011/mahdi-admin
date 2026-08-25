@@ -4,7 +4,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
-import { Product, InventoryMovement } from '../../types';
+import { Product } from '../../types';
 import { formatProductInventory } from '../../utils/inventoryFormatter';
 import { ClearInventoryBalanceDialog } from './ClearInventoryBalanceDialog';
 import {
@@ -24,13 +24,9 @@ import {
   Clock,
   CheckCircle2,
   DollarSign,
-  TrendingUp,
   Package,
   Calendar,
   ChevronLeft,
-  Eye,
-  FileText,
-  Activity,
   Trash2,
   FileSpreadsheet,
 } from 'lucide-react';
@@ -50,7 +46,7 @@ export const InventoryView: React.FC = () => {
 
   useEffect(() => {
     refreshInventoryMovementsFromSupabase();
-  }, []);
+  }, [refreshInventoryMovementsFromSupabase]);
 
   // Active Tab: 'products' (الأصناف والمخزون) vs 'movements' (سجل الحركات)
   const [activeTab, setActiveTab] = useState<'products' | 'movements'>('products');
@@ -85,10 +81,6 @@ export const InventoryView: React.FC = () => {
     const diffDays = (expTime - now) / (1000 * 3600 * 24);
     return diffDays >= 0 && diffDays <= 30;
   });
-
-  const damagedProducts = products.filter(
-    (p) => p.status === 'expired' || p.status === 'discontinued'
-  );
 
   // Stagnant / slow moving products: no sales in movements or onHand == opening
   const stagnantProducts = products.filter((p) => {

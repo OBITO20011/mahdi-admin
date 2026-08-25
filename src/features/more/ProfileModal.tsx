@@ -2,7 +2,7 @@
  * Nawasrah Business Manager - Comprehensive Profile & Settings Modal
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { isDeviceBiometricAvailable } from '../../services/deviceBiometrics.service';
@@ -23,22 +23,16 @@ import {
   Smartphone,
   Key,
   Check,
-  X,
   AlertTriangle,
   Camera,
   Globe,
-  Clock,
   MapPin,
   MessageSquare,
   LogOut,
   RefreshCw,
-  Sparkles,
   CheckCircle2,
-  Building2,
   Phone,
   Mail,
-  Briefcase,
-  Layers,
   QrCode,
   Copy,
   Trash2,
@@ -50,7 +44,6 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
     currentUser,
     branches,
     updateProfile,
-    updateProfilePhoto,
     changePassword,
     isBiometricsEnabled,
     toggleFaceId,
@@ -90,7 +83,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
     setIsUpdatingBiometrics(false);
   };
 
-  const refreshMfaStatus = async () => {
+  const refreshMfaStatus = useCallback(async () => {
     setIsUpdatingMfa(true);
     try {
       setMfaStatus(await getMfaStatus());
@@ -99,13 +92,13 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
     } finally {
       setIsUpdatingMfa(false);
     }
-  };
+  }, [setToast]);
 
   useEffect(() => {
     if (activeTab === 'security') {
       void refreshMfaStatus();
     }
-  }, [activeTab]);
+  }, [activeTab, refreshMfaStatus]);
 
   const handleBeginMfaEnrollment = async () => {
     setIsUpdatingMfa(true);

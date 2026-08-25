@@ -2,8 +2,8 @@
  * Nawasrah Business Manager - Supplier Payment Voucher (سند صرف) Modal
  */
 
-import React, { useState, useEffect } from 'react';
-import { useAppStore, storeEngine } from '../../stores/useAppStore';
+import React, { useCallback, useEffect, useState } from 'react';
+import { storeEngine } from '../../stores/useAppStore';
 import { PurchaseOrder } from '../../types/purchases';
 import { Supplier } from '../../types';
 import {
@@ -16,10 +16,8 @@ import {
   ArrowUpRight,
   Building,
   FileText,
-  DollarSign,
   AlertTriangle,
   CheckCircle2,
-  CreditCard,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 
@@ -51,13 +49,15 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      loadData();
+  const loadSupplierOrders = useCallback(async (supId: string) => {
+    const res = await fetchPurchaseOrdersFromSupabase({ supplierId: supId });
+    if (res.success) {
+      const unpaid = res.data.filter((purchaseOrder) => purchaseOrder.amountDue > 0 && purchaseOrder.status !== 'cancelled');
+      setPos(unpaid);
     }
-  }, [isOpen]);
+  }, []);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     const suppList = await fetchSuppliersFromSupabase();
     setSuppliers(suppList);
 
@@ -65,23 +65,20 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
     setSelectedSupplierId(supId);
 
     if (supId) {
-      loadSupplierOrders(supId);
+      await loadSupplierOrders(supId);
     }
 
     if (initialPo) {
       setSelectedPoId(initialPo.id);
       setAmount(initialPo.amountDue);
     }
-  };
+  }, [initialPo, initialSupplierId, loadSupplierOrders]);
 
-  const loadSupplierOrders = async (supId: string) => {
-    const res = await fetchPurchaseOrdersFromSupabase({ supplierId: supId });
-    if (res.success) {
-      // Filter orders that have amountDue > 0
-      const unpaid = res.data.filter((p) => p.amountDue > 0 && p.status !== 'cancelled');
-      setPos(unpaid);
+  useEffect(() => {
+    if (isOpen) {
+      void loadData();
     }
-  };
+  }, [isOpen, loadData]);
 
   if (!isOpen) return null;
 

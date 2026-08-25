@@ -23,7 +23,9 @@ export interface CatalogViewOptions {
 export function normalizeCatalogSearch(value: string): string {
   return value
     .normalize('NFKD')
-    .replace(/[\u0640\u064B-\u065F\u0670]/g, '')
+    .replace(/\u0640/g, '')
+    .replace(/[\u064B-\u065F]/g, '')
+    .replace(/\u0670/g, '')
     .replace(/[أإآ]/g, 'ا')
     .replace(/ى/g, 'ي')
     .trim()
@@ -103,7 +105,7 @@ export function buildCatalogView(
       const availabilityOrder = compareAvailability(first, second);
       if (availabilityOrder !== 0) return availabilityOrder;
 
-      let comparison = 0;
+      let comparison: number;
       switch (options.sort) {
         case 'name_asc':
           comparison = first.nameAr.localeCompare(second.nameAr, 'ar');

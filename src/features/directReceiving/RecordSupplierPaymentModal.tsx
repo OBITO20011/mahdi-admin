@@ -8,7 +8,7 @@ import { SupplierReceipt } from '../../types/directReceiving';
 import { recordSupplierReceiptPaymentInSupabase } from '../../services/supabase/directReceiving.service';
 import { useAppStore } from '../../stores/useAppStore';
 import { CURRENCY } from '../../constants';
-import { DollarSign, Loader2, CreditCard, FileText } from 'lucide-react';
+import { DollarSign, Loader2 } from 'lucide-react';
 
 interface RecordSupplierPaymentModalProps {
   receipt: SupplierReceipt;

@@ -9,11 +9,8 @@ import { receivePurchaseOrderInSupabase } from '../../services/supabase/purchase
 import {
   X,
   Truck,
-  Warehouse,
-  FileText,
   AlertTriangle,
   CheckCircle2,
-  Package,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 
@@ -78,7 +75,7 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({
 
       setItems(mapped);
     }
-  }, [isOpen, po]);
+  }, [isOpen, po, warehouses]);
 
   if (!isOpen || !po) return null;
 

@@ -20,10 +20,8 @@ import {
   Bell,
   ChevronLeft,
   Plus,
-  PackageCheck,
   CheckCircle2,
   Clock,
-  PackageX,
 } from 'lucide-react';
 
 interface WidgetsSectionProps {

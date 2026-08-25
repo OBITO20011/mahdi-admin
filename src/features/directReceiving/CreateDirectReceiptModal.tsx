@@ -36,13 +36,10 @@ import {
   Plus,
   Minus,
   Trash2,
-  Calendar,
   DollarSign,
-  FileText,
   Loader2,
   AlertCircle,
   Info,
-  Warehouse as WarehouseIcon,
   X,
 } from 'lucide-react';
 

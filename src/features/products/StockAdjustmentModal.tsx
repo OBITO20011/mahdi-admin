@@ -7,7 +7,6 @@ import { useAppStore } from '../../stores/useAppStore';
 import { Product } from '../../types';
 import { formatProductInventory, formatWholesaleInventory } from '../../utils/inventoryFormatter';
 import { Plus, Minus, Check, Loader2 } from 'lucide-react';
-import { CURRENCY } from '../../constants';
 
 interface StockAdjustmentModalProps {
   product: Product;

@@ -48,14 +48,14 @@ export const ShiftsView: React.FC = () => {
 
   useEffect(() => {
     void refreshExpenseShiftCenterFromSupabase().catch(() => undefined);
-  }, []);
+  }, [refreshExpenseShiftCenterFromSupabase]);
 
   useEffect(() => {
     if (currentShift) {
       setActualCashInput(currentShift.expectedCash.toFixed(3));
       setDiscrepancyReason('');
     }
-  }, [currentShift?.id]);
+  }, [currentShift]);
 
   const actualCash = Number(actualCashInput);
   const discrepancy = useMemo(

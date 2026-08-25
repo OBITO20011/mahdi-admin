@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AlertTriangle,
   Boxes,
@@ -139,7 +139,7 @@ export const InventoryOpeningSetupModal: React.FC<
     }
   }, [warehouseId, warehouseOptions]);
 
-  const loadSetup = async () => {
+  const loadSetup = useCallback(async () => {
     if (!warehouseId) return;
     setIsLoading(true);
     setLoadError('');
@@ -157,11 +157,11 @@ export const InventoryOpeningSetupModal: React.FC<
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [warehouseId]);
 
   useEffect(() => {
     void loadSetup();
-  }, [warehouseId]);
+  }, [loadSetup]);
 
   const selectedRows = useMemo(() => {
     if (!setup) return [];

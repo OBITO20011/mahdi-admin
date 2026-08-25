@@ -16,7 +16,6 @@ import {
   ArrowUpRight,
   ChevronLeft,
   XCircle,
-  TrendingUp,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 

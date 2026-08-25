@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { formatProductInventory, formatWholesaleInventory } from '../../utils/inventoryFormatter';
-import { Truck, Check, Package, Warehouse as WarehouseIcon, Building2, Calendar, FileText, Barcode } from 'lucide-react';
+import { Truck, Check, Package, Warehouse as WarehouseIcon, Building2, Calendar, FileText } from 'lucide-react';
 
 interface ReceiveGoodsModalProps {
   onClose: () => void;
@@ -251,10 +251,11 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({ onClose })
       <div className="flex gap-2 pt-3 border-t border-slate-800">
         <button
           type="submit"
+          disabled={isSubmitting}
           className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-600/20"
         >
           <Check className="w-4 h-4" />
-          <span>تأكيد استلام البضاعة</span>
+          <span>{isSubmitting ? 'جارٍ تأكيد الاستلام...' : 'تأكيد استلام البضاعة'}</span>
         </button>
 
         <button

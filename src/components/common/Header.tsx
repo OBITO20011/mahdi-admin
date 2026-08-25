@@ -5,7 +5,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { subscribeToStockAlertChanges } from '../../services/supabase/stockAlerts.service';
-import { Building2, Bell, Shield, ChevronDown, Check, AlertTriangle } from 'lucide-react';
+import { Building2, Bell, ChevronDown, Check } from 'lucide-react';
 
 export const Header: React.FC = () => {
   const {
@@ -55,7 +55,7 @@ export const Header: React.FC = () => {
     refreshAlerts();
     const unsubscribe = subscribeToStockAlertChanges(refreshAlerts);
     return unsubscribe;
-  }, []);
+  }, [refreshStockNotificationsFromSupabase]);
 
   return (
     <header className="admin-app-header z-20 flex items-center justify-between border-b border-slate-800 bg-slate-900 px-3 py-2 shadow-md">

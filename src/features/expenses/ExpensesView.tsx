@@ -26,7 +26,7 @@ export const ExpensesView: React.FC = () => {
 
   useEffect(() => {
     void refreshExpenseShiftCenterFromSupabase().catch(() => undefined);
-  }, []);
+  }, [refreshExpenseShiftCenterFromSupabase]);
 
   const cashTotal = expenses
     .filter((expense) => expense.paymentMethod === 'cash')

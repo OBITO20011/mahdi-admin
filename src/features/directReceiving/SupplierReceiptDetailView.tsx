@@ -11,21 +11,11 @@ import { archiveSupplierReceiptInSupabase } from '../../services/supabase/direct
 import { useAppStore } from '../../stores/useAppStore';
 import { CancelSupplierReceiptDialog } from './CancelSupplierReceiptDialog';
 import {
-  FileText,
   Printer,
   DollarSign,
   Archive,
   Building2,
-  Calendar,
-  Warehouse,
-  User,
-  CheckCircle2,
-  Clock,
-  AlertTriangle,
   ArrowRight,
-  Package,
-  Layers,
-  ChevronLeft,
   RotateCcw,
 } from 'lucide-react';
 

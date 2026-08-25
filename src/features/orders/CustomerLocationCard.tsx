@@ -20,11 +20,6 @@ import {
   AlertTriangle,
   ExternalLink,
   Map,
-  Building,
-  Home,
-  FileText,
-  Smartphone,
-  Info,
 } from 'lucide-react';
 
 interface CustomerLocationCardProps {
@@ -89,7 +84,7 @@ export const CustomerLocationCard: React.FC<CustomerLocationCardProps> = ({
           text: shareText,
           url: googleMapsUrl || order.mapUrl,
         });
-      } catch (e) {
+      } catch {
         // Fallback to copy
         navigator.clipboard.writeText(shareText);
         setToast('تم نسخ تفاصيل ورابط الموقع للمشاركة');

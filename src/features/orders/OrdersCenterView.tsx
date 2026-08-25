@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   AlertCircle,
   CheckCircle2,
@@ -118,7 +118,7 @@ export const OrdersCenterView: React.FC = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const loadOrders = async (silent = false) => {
+  const loadOrders = useCallback(async (silent = false) => {
     if (!silent) setLoading(true);
     setError(null);
     try {
@@ -128,7 +128,7 @@ export const OrdersCenterView: React.FC = () => {
     } finally {
       if (!silent) setLoading(false);
     }
-  };
+  }, [refreshOrdersFromSupabase]);
 
   useEffect(() => {
     let mounted = true;
@@ -145,7 +145,7 @@ export const OrdersCenterView: React.FC = () => {
       mounted = false;
       unsubscribe();
     };
-  }, []);
+  }, [loadOrders, setToast]);
 
   const handleRefresh = async () => {
     setRefreshing(true);

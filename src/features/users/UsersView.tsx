@@ -11,7 +11,6 @@ import {
   Search,
   ShieldAlert,
   ShieldCheck,
-  UserRound,
   Users,
   XCircle,
 } from 'lucide-react';

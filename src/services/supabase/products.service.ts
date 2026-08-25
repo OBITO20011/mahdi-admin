@@ -102,7 +102,7 @@ export async function fetchProductsFromSupabase(): Promise<{
     };
   }
 
-  let authSessionStatus: 'authenticated' | 'unauthenticated' | 'error' = 'unauthenticated';
+  let authSessionStatus: 'authenticated' | 'unauthenticated' | 'error';
   let authSessionUser: string | null = null;
 
   try {

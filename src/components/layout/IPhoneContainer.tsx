@@ -2,7 +2,7 @@
  * Nawasrah Business Manager - iOS iPhone Frame Wrapper & Container
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { useAuthStore } from '../../stores/useAuthStore';
 import {isRunningStandalone} from '../../pwa/pwa';
@@ -83,7 +83,7 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
     setUnlockMethod('password');
   };
 
-  const showBiometricUnlock = () => {
+  const showBiometricUnlock = useCallback(() => {
     clearError();
     setPasswordError(null);
     setPassword('');
@@ -92,7 +92,7 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
     setIsPasswordMfaPending(false);
     setShowPassword(false);
     setUnlockMethod('biometric');
-  };
+  }, [clearError]);
 
   const handlePasswordUnlock = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -181,7 +181,7 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
     if (!isLockedWithFaceId) {
       showBiometricUnlock();
     }
-  }, [isLockedWithFaceId]);
+  }, [isLockedWithFaceId, showBiometricUnlock]);
 
   return (
     <div

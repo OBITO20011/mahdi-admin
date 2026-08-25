@@ -62,7 +62,7 @@ export const LoginView: React.FC = () => {
       if (!res.success) {
         setLocalError(res.error || 'تعذر تسجيل الدخول. تحقق من البيانات المدخلة.');
       }
-    } catch (err: any) {
+    } catch {
       setLocalError('حدث خطأ أثناء الاتصال بالنظام. حاول مرة أخرى.');
     } finally {
       setIsSubmitting(false);
