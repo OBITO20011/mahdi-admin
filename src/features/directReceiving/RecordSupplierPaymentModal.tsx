@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 import { SupplierReceipt } from '../../types/directReceiving';
 import { recordSupplierReceiptPaymentInSupabase } from '../../services/supabase/directReceiving.service';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreActions } from '../../stores/useAppStore';
 import { CURRENCY } from '../../constants';
 import { DollarSign, Loader2 } from 'lucide-react';
 
@@ -21,7 +21,7 @@ export const RecordSupplierPaymentModal: React.FC<RecordSupplierPaymentModalProp
   onClose,
   onSuccess,
 }) => {
-  const { setToast } = useAppStore();
+  const { setToast } = useAppStoreActions();
   const minorToJod = (fils: number) => fils / 1000;
   const remainingDueJod = minorToJod(receipt.amountDueInMinorUnits);
 

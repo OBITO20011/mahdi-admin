@@ -4,7 +4,7 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { useAppStore, storeEngine } from '../../stores/useAppStore';
+import { useAppStoreSelector, storeEngine } from '../../stores/useAppStore';
 import {
   PurchaseOrder,
   PurchaseOrderStatus,
@@ -51,7 +51,7 @@ type PurchaseSort = 'newest' | 'highest_value' | 'outstanding';
 type SupplierStatusFilter = 'all' | 'active' | 'inactive';
 
 export const PurchasesView: React.FC = () => {
-  const { warehouses } = useAppStore();
+  const warehouses = useAppStoreSelector((state) => state.warehouses);
 
   const [activeTab, setActiveTab] = useState<TabType>('orders');
 

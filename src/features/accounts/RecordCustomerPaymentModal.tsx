@@ -6,7 +6,7 @@ import {
   fetchCustomerOutstandingOrders,
   recordCustomerOrderPayment,
 } from '../../services/supabase/customerAccounts.service';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreActions } from '../../stores/useAppStore';
 
 interface RecordCustomerPaymentModalProps {
   initialOrder?: CustomerOutstandingOrder | null;
@@ -17,7 +17,7 @@ interface RecordCustomerPaymentModalProps {
 export const RecordCustomerPaymentModal: React.FC<
   RecordCustomerPaymentModalProps
 > = ({ initialOrder, onClose, onSuccess }) => {
-  const { setToast } = useAppStore();
+  const { setToast } = useAppStoreActions();
   const [orders, setOrders] = useState<CustomerOutstandingOrder[]>([]);
   const [orderId, setOrderId] = useState(initialOrder?.id || '');
   const [amount, setAmount] = useState(

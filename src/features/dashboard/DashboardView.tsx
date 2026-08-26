@@ -24,7 +24,10 @@ import {
   fetchHomeDashboardFromSupabase,
   subscribeToDashboardRealtime,
 } from '../../services/supabase/dashboard.service';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 import {
   HomeDashboardData,
   HomeDashboardOrder,
@@ -208,7 +211,10 @@ const StockActionRow: React.FC<{
 };
 
 export const DashboardView: React.FC = () => {
-  const { currentUser, openModal, setActiveTab } = useAppStore();
+  const currentUserName = useAppStoreSelector(
+    (state) => state.currentUser.name
+  );
+  const { openModal, setActiveTab } = useAppStoreActions();
   const [data, setData] = useState<HomeDashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -381,7 +387,7 @@ export const DashboardView: React.FC = () => {
                   مركز اليوم
                 </p>
                 <h2 className="truncate text-base font-black text-white">
-                  أهلاً {currentUser?.name || 'بإدارة النواصرة'}
+                  أهلاً {currentUserName || 'بإدارة النواصرة'}
                 </h2>
               </span>
             </div>

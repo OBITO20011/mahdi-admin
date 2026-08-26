@@ -20,7 +20,7 @@ import {
   fetchStorefrontSettings,
   saveStorefrontSettings,
 } from '../../services/supabase/storefront-settings.service';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreActions } from '../../stores/useAppStore';
 import { StorefrontSettingsInput } from '../../types/storefront';
 
 const EMPTY_SETTINGS: StorefrontSettingsInput = {
@@ -105,7 +105,7 @@ function SectionToggle({
 }
 
 export function StorefrontSettingsModal() {
-  const { setToast } = useAppStore();
+  const { setToast } = useAppStoreActions();
   const [form, setForm] = useState<StorefrontSettingsInput>(EMPTY_SETTINGS);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

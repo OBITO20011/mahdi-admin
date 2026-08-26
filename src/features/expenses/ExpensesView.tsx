@@ -11,7 +11,11 @@ import {
   Smartphone,
   WalletCards,
 } from 'lucide-react';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  shallowEqual,
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 import { CURRENCY } from '../../constants';
 
 const money = (value: number) => `${value.toFixed(3)} ${CURRENCY}`;
@@ -20,9 +24,15 @@ export const ExpensesView: React.FC = () => {
   const {
     expenses,
     currentShift,
-    openModal,
-    refreshExpenseShiftCenterFromSupabase,
-  } = useAppStore();
+  } = useAppStoreSelector(
+    (state) => ({
+      expenses: state.expenses,
+      currentShift: state.currentShift,
+    }),
+    shallowEqual
+  );
+  const { openModal, refreshExpenseShiftCenterFromSupabase } =
+    useAppStoreActions();
 
   useEffect(() => {
     void refreshExpenseShiftCenterFromSupabase().catch(() => undefined);

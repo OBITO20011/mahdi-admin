@@ -14,7 +14,10 @@ import {
   subscribeToCrmRealtime,
   toggleCustomerBlockStatusInSupabase,
 } from '../../services/supabase/crm.service';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 import {
   CrmCustomer,
   CrmCustomerFilterParams,
@@ -25,12 +28,11 @@ import { CustomerFilters } from './CustomerFilters';
 import { CustomerList } from './CustomerList';
 
 export const CrmView: React.FC = () => {
-  const {
-    openModal,
-    setToast,
-    customerNavigationTarget,
-    clearCustomerNavigationTarget,
-  } = useAppStore();
+  const customerNavigationTarget = useAppStoreSelector(
+    (state) => state.customerNavigationTarget
+  );
+  const { openModal, setToast, clearCustomerNavigationTarget } =
+    useAppStoreActions();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<
     'all' | 'vip' | 'active' | 'inactive' | 'blocked'

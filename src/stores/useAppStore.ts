@@ -2,7 +2,13 @@
  * Nawasrah Business Manager - Global Application Store & State Engine
  */
 
-import { useState, useEffect } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react';
 import {
   AuditLog,
   Branch,
@@ -89,8 +95,83 @@ import {
   fetchExpenseShiftCenterFromSupabase,
   openCashShiftInSupabase,
 } from '../services/supabase/expenses-shifts.service';
+import {
+  type SelectorCache,
+  type SelectorEquality,
+  updateSelectorCache,
+} from './storeSelectors';
+
+export { shallowEqual } from './storeSelectors';
 
 const STORAGE_KEY = 'nawasrah_bm_state_v1';
+
+const VALID_ACTIVE_TABS = [
+  'home',
+  'orders',
+  'products',
+  'accounts',
+  'more',
+  'dashboard',
+  'pos',
+  'inventory',
+  'expenses',
+  'shifts',
+  'reports',
+  'users',
+  'purchases',
+  'assistant',
+] as const;
+
+type ActiveTab = (typeof VALID_ACTIVE_TABS)[number];
+type ThemeMode = 'dark' | 'light';
+
+interface PersistedAppPreferences {
+  version: 1;
+  activeTab: ActiveTab;
+  themeMode: ThemeMode;
+}
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);
+
+const isActiveTab = (value: unknown): value is ActiveTab =>
+  typeof value === 'string' &&
+  (VALID_ACTIVE_TABS as readonly string[]).includes(value);
+
+const readPersistedPreferences = (
+  saved: string | null
+): Partial<PersistedAppPreferences> => {
+  if (!saved) return {};
+
+  try {
+    const parsed: unknown = JSON.parse(saved);
+    if (!isRecord(parsed)) return {};
+
+    const legacyCurrentUser = isRecord(parsed.currentUser)
+      ? parsed.currentUser
+      : null;
+    const storedThemeMode = parsed.themeMode ?? legacyCurrentUser?.themeMode;
+
+    return {
+      ...(isActiveTab(parsed.activeTab) ? { activeTab: parsed.activeTab } : {}),
+      ...(storedThemeMode === 'light' || storedThemeMode === 'dark'
+        ? { themeMode: storedThemeMode }
+        : {}),
+    };
+  } catch (error) {
+    console.warn('[Store preferences read warning]:', error);
+    return {};
+  }
+};
+
+const loadPersistedPreferences = (): Partial<PersistedAppPreferences> => {
+  try {
+    return readPersistedPreferences(localStorage.getItem(STORAGE_KEY));
+  } catch (error) {
+    console.warn('[Store preferences storage warning]:', error);
+    return {};
+  }
+};
 
 const UNAUTHENTICATED_USER: User = {
   id: '',
@@ -160,7 +241,7 @@ export interface AppState {
 
   // App UI State
   isQuickActionOpen: boolean;
-  activeTab: 'home' | 'orders' | 'products' | 'accounts' | 'more' | 'dashboard' | 'pos' | 'inventory' | 'expenses' | 'shifts' | 'reports' | 'users' | 'purchases' | 'assistant';
+  activeTab: ActiveTab;
   currentModal: string | null;
   modalData: any;
   customerNavigationTarget: string | null;
@@ -175,6 +256,7 @@ export interface AppState {
 class StoreEngine {
   private state: AppState;
   private listeners: Set<() => void> = new Set();
+  private persistedPreferencesSnapshot: string | null = null;
   private productsRefreshPromise: Promise<void> | null = null;
   private ordersRefreshPromise: Promise<void> | null = null;
   private movementsRefreshPromise: Promise<void> | null = null;
@@ -182,49 +264,24 @@ class StoreEngine {
   private notificationsRefreshPromise: Promise<NotificationItem[]> | null = null;
 
   constructor() {
-    const saved = localStorage.getItem(STORAGE_KEY);
     const initial = this.getInitialState();
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        this.state = {
-          ...initial,
-          activeTab:
-            parsed.activeTab &&
-            [
-              'home',
-              'orders',
-              'products',
-              'accounts',
-              'more',
-              'dashboard',
-              'pos',
-              'inventory',
-              'expenses',
-              'shifts',
-              'reports',
-              'users',
-              'purchases',
-              'assistant',
-            ].includes(parsed.activeTab)
-              ? parsed.activeTab
-              : initial.activeTab,
-          currentModal: null,
-          currentUser: {
-            ...UNAUTHENTICATED_USER,
-            themeMode: parsed.currentUser?.themeMode === 'light' ? 'light' : 'dark',
-          },
-          isQuickActionOpen: false,
-          isBiometricsEnabled: false,
-          isLockedWithFaceId: false,
-        };
-      } catch {
-        this.state = initial;
-      }
-    } else {
-      this.state = initial;
-    }
+    const preferences = loadPersistedPreferences();
 
+    this.state = {
+      ...initial,
+      activeTab: preferences.activeTab ?? initial.activeTab,
+      currentModal: null,
+      currentUser: {
+        ...UNAUTHENTICATED_USER,
+        themeMode: preferences.themeMode ?? initial.currentUser.themeMode,
+      },
+      isQuickActionOpen: false,
+      isBiometricsEnabled: false,
+      isLockedWithFaceId: false,
+    };
+
+    // Rewrite any legacy full-state payload as compact UI-only preferences.
+    this.persistUiPreferences();
   }
 
   public refreshOrdersFromSupabase(): Promise<void> {
@@ -550,11 +607,7 @@ class StoreEngine {
   }
 
   private notify() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
-    } catch (error) {
-      console.warn('[Store persistence warning]:', error);
-    }
+    this.persistUiPreferences();
     this.listeners.forEach((listener) => {
       try {
         listener();
@@ -562,6 +615,24 @@ class StoreEngine {
         console.error('[Store listener error]:', error);
       }
     });
+  }
+
+  private persistUiPreferences() {
+    const preferences: PersistedAppPreferences = {
+      version: 1,
+      activeTab: this.state.activeTab,
+      themeMode: this.state.currentUser.themeMode === 'light' ? 'light' : 'dark',
+    };
+    const serializedPreferences = JSON.stringify(preferences);
+
+    if (serializedPreferences === this.persistedPreferencesSnapshot) return;
+
+    try {
+      localStorage.setItem(STORAGE_KEY, serializedPreferences);
+      this.persistedPreferencesSnapshot = serializedPreferences;
+    } catch (error) {
+      console.warn('[Store preferences write warning]:', error);
+    }
   }
 
   // --- Actions ---
@@ -2193,6 +2264,113 @@ class StoreEngine {
 }
 
 export const storeEngine = new StoreEngine();
+
+export function useAppStoreSelector<T>(
+  selector: (state: AppState) => T,
+  isEqual: SelectorEquality<T> = Object.is
+): T {
+  const selectorRef = useRef(selector);
+  const equalityRef = useRef(isEqual);
+  const cacheRef = useRef<SelectorCache<T>>({ hasValue: false });
+
+  selectorRef.current = selector;
+  equalityRef.current = isEqual;
+
+  const getSnapshot = useCallback(() => {
+    const nextSelection = selectorRef.current(storeEngine.getState());
+    return updateSelectorCache(
+      cacheRef.current,
+      nextSelection,
+      equalityRef.current
+    ).selection;
+  }, []);
+
+  const subscribe = useCallback((onSelectionChange: () => void) => {
+    return storeEngine.subscribe(() => {
+      const nextSelection = selectorRef.current(storeEngine.getState());
+      const result = updateSelectorCache(
+        cacheRef.current,
+        nextSelection,
+        equalityRef.current
+      );
+      if (result.changed) onSelectionChange();
+    });
+  }, []);
+
+  return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
+}
+
+const coreAppStoreActions = {
+  setToast: (
+    message: string | { message?: string; type?: 'success' | 'error' | 'info' },
+    type?: 'success' | 'error' | 'info'
+  ) => storeEngine.setToast(message, type),
+  setActiveTab: (tab: AppState['activeTab']) => storeEngine.setActiveTab(tab),
+  toggleQuickAction: (open?: boolean) => storeEngine.toggleQuickAction(open),
+  openModal: (modal: string, data?: unknown) => storeEngine.openModal(modal, data),
+  closeModal: () => storeEngine.closeModal(),
+  setActiveBranch: (branchId: string) => storeEngine.setActiveBranch(branchId),
+  clearCustomerNavigationTarget: () =>
+    storeEngine.clearCustomerNavigationTarget(),
+  lockWithFaceId: () => storeEngine.lockWithFaceId(),
+  unlockFaceId: () => storeEngine.unlockFaceId(),
+  clearFaceIdLockForPasswordSignIn: () =>
+    storeEngine.clearFaceIdLockForPasswordSignIn(),
+  refreshOrdersFromSupabase: () => storeEngine.refreshOrdersFromSupabase(),
+  refreshProductsFromSupabase: () => storeEngine.refreshProductsFromSupabase(),
+  refreshInventoryMovementsFromSupabase: () =>
+    storeEngine.refreshInventoryMovementsFromSupabase(),
+  refreshExpenseShiftCenterFromSupabase: () =>
+    storeEngine.refreshExpenseShiftCenterFromSupabase(),
+  refreshStockNotificationsFromSupabase: () =>
+    storeEngine.refreshStockNotificationsFromSupabase(),
+  markNotificationRead: (notificationId: string) =>
+    storeEngine.markNotificationRead(notificationId),
+  markAllNotificationsRead: () => storeEngine.markAllNotificationsRead(),
+  executeStockCount: (
+    params: Parameters<StoreEngine['executeStockCount']>[0]
+  ) => storeEngine.executeStockCount(params),
+  createPosSale: (
+    items: Order['items'],
+    customerId: string | undefined,
+    customerName: string,
+    paymentMethod: PaymentMethod,
+    discount: number,
+    amountReceived: number,
+    idempotencyKey: string
+  ) =>
+    storeEngine.createPosSale(
+      items,
+      customerId,
+      customerName,
+      paymentMethod,
+      discount,
+      amountReceived,
+      idempotencyKey
+    ),
+  toggleBiometrics: () => storeEngine.toggleBiometrics(),
+  toggleThemeMode: (mode?: ThemeMode) => storeEngine.toggleThemeMode(mode),
+  openShift: (openingCash: number) => storeEngine.openShift(openingCash),
+  closeShift: (actualCash: number, reason?: string) =>
+    storeEngine.closeShift(actualCash, reason),
+  cancelEmptyShift: (reason: string) => storeEngine.cancelEmptyShift(reason),
+  addExpense: (
+    category: string,
+    amount: number,
+    description: string,
+    paymentMethod: 'cash' | 'cliq',
+    referenceNumber?: string
+  ) =>
+    storeEngine.addExpense(
+      category,
+      amount,
+      description,
+      paymentMethod,
+      referenceNumber
+    ),
+};
+
+export const useAppStoreActions = () => coreAppStoreActions;
 
 export function useAppStore() {
   const [state, setState] = useState<AppState>(storeEngine.getState());

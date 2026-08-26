@@ -20,7 +20,11 @@ import {
   Truck,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  shallowEqual,
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 import { Product, ProductStatus } from '../../types';
 import { formatProductInventory } from '../../utils/inventoryFormatter';
 import { calculateProductProfit } from '../../utils/productCalculations';
@@ -38,12 +42,20 @@ export const ProductsView: React.FC = () => {
   const {
     products,
     categories,
-    openModal,
     productsSource,
     isProductsLoading,
     productsError,
-    refreshProductsFromSupabase,
-  } = useAppStore();
+  } = useAppStoreSelector(
+    (state) => ({
+      products: state.products,
+      categories: state.categories,
+      productsSource: state.productsSource,
+      isProductsLoading: state.isProductsLoading,
+      productsError: state.productsError,
+    }),
+    shallowEqual
+  );
+  const { openModal, refreshProductsFromSupabase } = useAppStoreActions();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');

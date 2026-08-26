@@ -3,7 +3,11 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  shallowEqual,
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 import { subscribeToStockAlertChanges } from '../../services/supabase/stockAlerts.service';
 import { Building2, Bell, ChevronDown, Check } from 'lucide-react';
 
@@ -11,12 +15,26 @@ export const Header: React.FC = () => {
   const {
     activeBranch,
     branches,
-    setActiveBranch,
-    currentUser,
     notifications,
+    currentUserName,
+    currentUserRole,
+    currentUserAvatarUrl,
+  } = useAppStoreSelector(
+    (state) => ({
+      activeBranch: state.activeBranch,
+      branches: state.branches,
+      notifications: state.notifications,
+      currentUserName: state.currentUser.name,
+      currentUserRole: state.currentUser.role,
+      currentUserAvatarUrl: state.currentUser.avatarUrl,
+    }),
+    shallowEqual
+  );
+  const {
+    setActiveBranch,
     refreshStockNotificationsFromSupabase,
     openModal,
-  } = useAppStore();
+  } = useAppStoreActions();
 
   const [showBranchDropdown, setShowBranchDropdown] = useState(false);
   const unreadCount = (notifications || []).filter((n) => !n?.read).length;
@@ -134,16 +152,16 @@ export const Header: React.FC = () => {
         <button
           onClick={() => openModal('profile')}
           className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 p-1 transition hover:bg-slate-750"
-          title={currentUser.name}
+          title={currentUserName}
         >
           <img
-            src={currentUser.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200'}
-            alt={currentUser.name}
+            src={currentUserAvatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200'}
+            alt={currentUserName}
             className="w-6 h-6 rounded-lg object-cover border border-slate-600"
           />
           <div className="text-right hidden sm:block">
-            <span className="text-[11px] font-bold text-slate-100 block leading-none">{currentUser.name}</span>
-            <span className="text-[9px] font-medium text-blue-400 block mt-0.5">{currentUser.role}</span>
+            <span className="text-[11px] font-bold text-slate-100 block leading-none">{currentUserName}</span>
+            <span className="text-[9px] font-medium text-blue-400 block mt-0.5">{currentUserRole}</span>
           </div>
         </button>
       </div>

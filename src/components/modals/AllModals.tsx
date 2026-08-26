@@ -3,7 +3,11 @@
  */
 
 import React from 'react';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  shallowEqual,
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 import { Modal } from '../common/Modal';
 import { ProductFormModal } from '../../features/products/ProductFormModal';
 import { ProductDetailModal } from '../../features/products/ProductDetailModal';
@@ -32,11 +36,17 @@ export const AllModals: React.FC = () => {
   const {
     currentModal,
     modalData,
-    closeModal,
     notifications,
-    markNotificationRead,
-    markAllNotificationsRead,
-  } = useAppStore();
+  } = useAppStoreSelector(
+    (state) => ({
+      currentModal: state.currentModal,
+      modalData: state.modalData,
+      notifications: state.notifications,
+    }),
+    shallowEqual
+  );
+  const { closeModal, markNotificationRead, markAllNotificationsRead } =
+    useAppStoreActions();
 
   return (
     <>

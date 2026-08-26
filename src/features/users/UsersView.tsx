@@ -15,7 +15,7 @@ import {
   XCircle,
 } from 'lucide-react';
 import { Modal } from '../../components/common/Modal';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreSelector } from '../../stores/useAppStore';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { Role, User } from '../../types';
 import {
@@ -56,7 +56,7 @@ function getAuditDetails(record: StaffAuditRecord): string {
 }
 
 export const UsersView: React.FC = () => {
-  const { branches } = useAppStore();
+  const branches = useAppStoreSelector((state) => state.branches);
   const { roleName, user: authenticatedUser } = useAuthStore();
   const isOwner = roleName === 'owner';
   const [staff, setStaff] = useState<User[]>([]);

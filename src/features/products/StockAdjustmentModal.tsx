@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreActions } from '../../stores/useAppStore';
 import { Product } from '../../types';
 import { formatProductInventory, formatWholesaleInventory } from '../../utils/inventoryFormatter';
 import { Plus, Minus, Check, Loader2 } from 'lucide-react';
@@ -19,7 +19,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
   mode = 'add',
   onClose,
 }) => {
-  const { executeStockCount, setToast } = useAppStore();
+  const { executeStockCount, setToast } = useAppStoreActions();
 
   const [adjustType, setAdjustType] = useState<'delta' | 'exact'>('delta');
   const [quantityValue, setQuantityValue] = useState<number>(1);

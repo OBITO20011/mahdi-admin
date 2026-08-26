@@ -15,7 +15,10 @@ import { CURRENCY } from '../../constants';
 import {
   subscribeToOrdersInSupabase,
 } from '../../services/supabase/orders.service';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 import { Order, OrderStatus } from '../../types';
 import {
   matchesOperationalOrderFilter,
@@ -109,7 +112,8 @@ function getPaymentLabel(order: Order) {
 }
 
 export const OrdersCenterView: React.FC = () => {
-  const { orders, refreshOrdersFromSupabase, setToast } = useAppStore();
+  const orders = useAppStoreSelector((state) => state.orders);
+  const { refreshOrdersFromSupabase, setToast } = useAppStoreActions();
   const [activeFilter, setActiveFilter] =
     useState<OperationalOrderFilter>('action');
   const [searchQuery, setSearchQuery] = useState('');

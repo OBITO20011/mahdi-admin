@@ -133,6 +133,48 @@ test.describe('متجر العملاء العام', () => {
 });
 
 test.describe('بوابة الإدارة العامة', () => {
+  test('ترحّل الحفظ القديم إلى تفضيلات واجهة خفيفة وتثبت بعد إعادة التحميل', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      const migrationSeedKey = 'nawasrah_bm_state_v1_migration_seeded';
+      if (sessionStorage.getItem(migrationSeedKey)) return;
+
+      localStorage.setItem(
+        'nawasrah_bm_state_v1',
+        JSON.stringify({
+          activeTab: 'products',
+          currentUser: { themeMode: 'light' },
+          products: [{ id: 'must-not-persist' }],
+          orders: [{ id: 'must-not-persist' }],
+          customers: [{ id: 'must-not-persist' }],
+          inventory: [{ id: 'must-not-persist' }],
+        }),
+      );
+      sessionStorage.setItem(migrationSeedKey, 'true');
+    });
+
+    await page.goto(adminBaseUrl, { waitUntil: 'domcontentloaded' });
+
+    const persistedAfterMigration = await page.evaluate(() => {
+      const stored = localStorage.getItem('nawasrah_bm_state_v1');
+      return stored ? JSON.parse(stored) : null;
+    });
+    expect(persistedAfterMigration).toEqual({
+      version: 1,
+      activeTab: 'products',
+      themeMode: 'light',
+    });
+
+    await page.reload({ waitUntil: 'domcontentloaded' });
+
+    const persistedAfterReload = await page.evaluate(() => {
+      const stored = localStorage.getItem('nawasrah_bm_state_v1');
+      return stored ? JSON.parse(stored) : null;
+    });
+    expect(persistedAfterReload).toEqual(persistedAfterMigration);
+  });
+
   test('لا تحمل بيانات العمل قبل اكتمال تسجيل الدخول', async ({ page }) => {
     const businessRequests: string[] = [];
     page.on('request', (request) => {

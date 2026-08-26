@@ -14,7 +14,11 @@ import {
   Smartphone,
   XCircle,
 } from 'lucide-react';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  shallowEqual,
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 import { CURRENCY } from '../../constants';
 import { fetchCashShiftClosingReportFromSupabase } from '../../services/supabase/expenses-shifts.service';
 import type { ShiftClosingReport } from '../../types';
@@ -26,11 +30,19 @@ export const ShiftsView: React.FC = () => {
   const {
     currentShift,
     recentShifts,
+  } = useAppStoreSelector(
+    (state) => ({
+      currentShift: state.currentShift,
+      recentShifts: state.recentShifts,
+    }),
+    shallowEqual
+  );
+  const {
     openShift,
     closeShift,
     cancelEmptyShift,
     refreshExpenseShiftCenterFromSupabase,
-  } = useAppStore();
+  } = useAppStoreActions();
   const [openingCashInput, setOpeningCashInput] = useState('');
   const [actualCashInput, setActualCashInput] = useState('');
   const [discrepancyReason, setDiscrepancyReason] = useState('');

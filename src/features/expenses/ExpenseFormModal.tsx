@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { AlertTriangle, Banknote, Smartphone } from 'lucide-react';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 
 interface ExpenseFormModalProps {
   onClose: () => void;
@@ -19,7 +22,8 @@ const EXPENSE_CATEGORIES = [
 export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
   onClose,
 }) => {
-  const { currentShift, addExpense, setActiveTab } = useAppStore();
+  const currentShift = useAppStoreSelector((state) => state.currentShift);
+  const { addExpense, setActiveTab } = useAppStoreActions();
   const [category, setCategory] = useState(EXPENSE_CATEGORIES[0]);
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');

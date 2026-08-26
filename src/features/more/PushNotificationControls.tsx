@@ -6,7 +6,7 @@ import {
   Loader2,
   Smartphone,
 } from 'lucide-react';
-import {useAppStore} from '../../stores/useAppStore';
+import {useAppStoreActions} from '../../stores/useAppStore';
 import {
   disableOrderPushNotifications,
   enableOrderPushNotifications,
@@ -15,7 +15,7 @@ import {
 } from '../../services/pushNotifications.service';
 
 export const PushNotificationControls: React.FC = () => {
-  const {setToast} = useAppStore();
+  const {setToast} = useAppStoreActions();
   const [state, setState] = useState<PushNotificationState | null>(null);
   const [isWorking, setIsWorking] = useState(false);
 

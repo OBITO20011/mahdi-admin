@@ -4,7 +4,7 @@ import { SupplierReceipt } from '../../types/directReceiving';
 import { CURRENCY } from '../../constants';
 import { Modal } from '../../components/common/Modal';
 import { cancelSupplierReceiptInSupabase } from '../../services/supabase/directReceiving.service';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreActions } from '../../stores/useAppStore';
 
 interface CancelSupplierReceiptDialogProps {
   receipt: SupplierReceipt | null;
@@ -15,7 +15,7 @@ interface CancelSupplierReceiptDialogProps {
 export const CancelSupplierReceiptDialog: React.FC<
   CancelSupplierReceiptDialogProps
 > = ({ receipt, onClose, onSuccess }) => {
-  const { setToast, refreshProductsFromSupabase } = useAppStore();
+  const { setToast, refreshProductsFromSupabase } = useAppStoreActions();
   const [reason, setReason] = useState('تم إدخال سند الاستلام بالخطأ');
   const [isSubmitting, setIsSubmitting] = useState(false);
 

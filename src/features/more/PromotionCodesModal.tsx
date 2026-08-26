@@ -20,7 +20,7 @@ import {
   PromotionCode,
   PromotionCodeInput,
 } from '../../types/promotions';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreActions } from '../../stores/useAppStore';
 
 interface PromotionFormState {
   id?: string;
@@ -105,7 +105,7 @@ function toOptionalPositiveNumber(value: string): number | undefined {
 }
 
 export const PromotionCodesModal: React.FC = () => {
-  const { setToast } = useAppStore();
+  const { setToast } = useAppStoreActions();
   const [codes, setCodes] = useState<PromotionCode[]>([]);
   const [form, setForm] = useState<PromotionFormState>(EMPTY_FORM);
   const [isLoading, setIsLoading] = useState(true);

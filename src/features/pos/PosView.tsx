@@ -3,7 +3,11 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  shallowEqual,
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 import { Invoice, Product, OrderItem, PaymentMethod } from '../../types';
 import { BarcodeScannerModal } from './BarcodeScannerModal';
 import { Modal } from '../../components/common/Modal';
@@ -52,12 +56,21 @@ export const PosView: React.FC = () => {
   const {
     products,
     categories,
+    activeBranch,
+  } = useAppStoreSelector(
+    (state) => ({
+      products: state.products,
+      categories: state.categories,
+      activeBranch: state.activeBranch,
+    }),
+    shallowEqual
+  );
+  const {
     createPosSale,
     refreshProductsFromSupabase,
     setToast,
-    activeBranch,
     setActiveTab,
-  } = useAppStore();
+  } = useAppStoreActions();
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');

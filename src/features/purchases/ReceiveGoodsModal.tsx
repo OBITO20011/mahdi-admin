@@ -3,7 +3,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { useAppStore, storeEngine } from '../../stores/useAppStore';
+import { useAppStoreSelector, storeEngine } from '../../stores/useAppStore';
 import { PurchaseOrder, ReceivePurchaseOrderInput } from '../../types/purchases';
 import { receivePurchaseOrderInSupabase } from '../../services/supabase/purchases.service';
 import {
@@ -40,7 +40,7 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({
   onClose,
   onSuccess,
 }) => {
-  const { warehouses } = useAppStore();
+  const warehouses = useAppStoreSelector((state) => state.warehouses);
 
   const [selectedWarehouseId, setSelectedWarehouseId] = useState<string>('');
   const [supplierDeliveryNote, setSupplierDeliveryNote] = useState<string>('');

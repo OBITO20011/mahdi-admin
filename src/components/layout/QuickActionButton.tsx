@@ -3,7 +3,10 @@
  */
 
 import React from 'react';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 import {
   PlusCircle,
   Receipt,
@@ -16,7 +19,10 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 
 export const QuickActionButton: React.FC = () => {
-  const { isQuickActionOpen, toggleQuickAction, openModal, setActiveTab } = useAppStore();
+  const isQuickActionOpen = useAppStoreSelector(
+    (state) => state.isQuickActionOpen
+  );
+  const { toggleQuickAction, openModal, setActiveTab } = useAppStoreActions();
 
   const actions = [
     {

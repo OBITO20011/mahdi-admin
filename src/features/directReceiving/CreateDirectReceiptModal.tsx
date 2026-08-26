@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreActions } from '../../stores/useAppStore';
 import { formatWholesaleInventory } from '../../utils/inventoryFormatter';
 import {
   calculateReceivingLine,
@@ -52,7 +52,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
   onClose,
   onSuccess,
 }) => {
-  const { setToast, refreshProductsFromSupabase } = useAppStore();
+  const { setToast, refreshProductsFromSupabase } = useAppStoreActions();
 
   // Reference Data States
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);

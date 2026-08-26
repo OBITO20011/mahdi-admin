@@ -3,7 +3,11 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  shallowEqual,
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { isDeviceBiometricAvailable } from '../../services/deviceBiometrics.service';
 import { InstallAppPanel } from './InstallAppPanel';
@@ -119,14 +123,28 @@ export const MoreMenuView: React.FC = () => {
     activeBranch,
     branches,
     isBiometricsEnabled,
-    toggleBiometrics,
-    currentUser,
-    openModal,
-    toggleThemeMode,
-    setActiveTab,
-  } = useAppStore();
+    currentUserName,
+    currentUserRole,
+    currentUserAvatarUrl,
+    currentUserBranchId,
+    themeMode,
+  } = useAppStoreSelector(
+    (state) => ({
+      activeBranch: state.activeBranch,
+      branches: state.branches,
+      isBiometricsEnabled: state.isBiometricsEnabled,
+      currentUserName: state.currentUser.name,
+      currentUserRole: state.currentUser.role,
+      currentUserAvatarUrl: state.currentUser.avatarUrl,
+      currentUserBranchId: state.currentUser.branchId,
+      themeMode: state.currentUser.themeMode,
+    }),
+    shallowEqual
+  );
+  const { toggleBiometrics, openModal, toggleThemeMode, setActiveTab } =
+    useAppStoreActions();
 
-  const isDarkMode = currentUser.themeMode !== 'light';
+  const isDarkMode = themeMode !== 'light';
   const [isBiometricSupported, setIsBiometricSupported] = useState<boolean | null>(null);
   const [isUpdatingBiometrics, setIsUpdatingBiometrics] = useState(false);
   const [openSection, setOpenSection] = useState<'daily' | 'store' | 'app' | null>('daily');
@@ -154,7 +172,7 @@ export const MoreMenuView: React.FC = () => {
   };
 
   const userBranch =
-    branches.find((branch) => branch.id === currentUser.branchId)?.name ||
+    branches.find((branch) => branch.id === currentUserBranchId)?.name ||
     activeBranch.name;
   const canUseAssistant = ['owner', 'admin', 'manager', 'accountant'].includes(
     roleName || '',
@@ -182,18 +200,18 @@ export const MoreMenuView: React.FC = () => {
         <span className="flex min-w-0 items-center gap-3">
           <img
             src={
-              currentUser.avatarUrl ||
+              currentUserAvatarUrl ||
               'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200'
             }
-            alt={currentUser.name}
+            alt={currentUserName}
             className="h-10 w-10 shrink-0 rounded-xl border border-blue-500/50 object-cover"
           />
           <span className="min-w-0">
             <span className="block truncate text-xs font-black text-slate-100">
-              {currentUser.name}
+              {currentUserName}
             </span>
             <span className="mt-0.5 block truncate text-[9px] text-slate-500">
-              {currentUser.role} · {userBranch}
+              {currentUserRole} · {userBranch}
             </span>
           </span>
         </span>

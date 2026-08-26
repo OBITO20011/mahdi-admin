@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BookUser, ReceiptText, Users } from 'lucide-react';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreSelector } from '../../stores/useAppStore';
 import { CrmView } from '../crm/CrmView';
 import { CustomerBalancesView } from './CustomerBalancesView';
 
@@ -8,7 +8,9 @@ type CustomerSection = 'directory' | 'balances';
 
 export const AccountsView: React.FC = () => {
   const [section, setSection] = useState<CustomerSection>('directory');
-  const { customerNavigationTarget } = useAppStore();
+  const customerNavigationTarget = useAppStoreSelector(
+    (state) => state.customerNavigationTarget
+  );
 
   useEffect(() => {
     if (customerNavigationTarget) {

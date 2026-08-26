@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BadgeCheck, Loader2 } from 'lucide-react';
 import { JORDAN_GOVERNORATES } from '../../constants';
 import { createCustomerCrmInSupabase } from '../../services/supabase/crm.service';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreActions } from '../../stores/useAppStore';
 
 export interface CreatedCustomer {
   id: string;
@@ -18,7 +18,7 @@ interface AddCustomerModalContentProps {
 export const AddCustomerModalContent: React.FC<
   AddCustomerModalContentProps
 > = ({ onClose, onCreated }) => {
-  const { setToast } = useAppStore();
+  const { setToast } = useAppStoreActions();
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [whatsapp, setWhatsapp] = useState('');

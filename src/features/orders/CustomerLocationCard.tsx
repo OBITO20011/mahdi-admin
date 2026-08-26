@@ -4,7 +4,7 @@
 
 import React, { useState } from 'react';
 import { Order, CustomerAddress } from '../../types';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreActions } from '../../stores/useAppStore';
 import {
   MapPin,
   Navigation,
@@ -31,7 +31,7 @@ export const CustomerLocationCard: React.FC<CustomerLocationCardProps> = ({
   order,
   onEditAddress,
 }) => {
-  const { setToast } = useAppStore();
+  const { setToast } = useAppStoreActions();
   const [copied, setCopied] = useState(false);
 
   // Address fields breakdown

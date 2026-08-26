@@ -20,7 +20,10 @@ import {
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 import { fetchOperationalBusinessReportFromSupabase } from '../../services/supabase/reports.service';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 import type { OperationalBusinessReport } from '../../types';
 
 const pad = (value: number) => String(value).padStart(2, '0');
@@ -94,7 +97,8 @@ const MetricCard: React.FC<{
 };
 
 export const ReportsCenterView: React.FC = () => {
-  const { activeBranch, setToast } = useAppStore();
+  const activeBranch = useAppStoreSelector((state) => state.activeBranch);
+  const { setToast } = useAppStoreActions();
   const [dateFrom, setDateFrom] = useState(monthStartValue);
   const [dateTo, setDateTo] = useState(todayValue);
   const [report, setReport] = useState<OperationalBusinessReport | null>(null);

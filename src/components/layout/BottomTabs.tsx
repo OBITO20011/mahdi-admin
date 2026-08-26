@@ -3,15 +3,50 @@
  */
 
 import React from 'react';
-import { useAppStore } from '../../stores/useAppStore';
-import { Home, ShoppingBag, Boxes, MoreHorizontal, Plus } from 'lucide-react';
+import {
+  shallowEqual,
+  type AppState,
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
+import {
+  Home,
+  ShoppingBag,
+  Boxes,
+  MoreHorizontal,
+  Plus,
+  type LucideIcon,
+} from 'lucide-react';
+
+type NavigationTab =
+  | {
+      id: AppState['activeTab'];
+      label: string;
+      icon: LucideIcon;
+      badge?: number;
+      isAction?: false;
+    }
+  | {
+      id: 'quick-action';
+      label: string;
+      icon: LucideIcon;
+      isAction: true;
+    };
 
 export const BottomTabs: React.FC = () => {
-  const { activeTab, setActiveTab, orders, isQuickActionOpen, toggleQuickAction } = useAppStore();
+  const { activeTab, newOrdersCount, isQuickActionOpen } = useAppStoreSelector(
+    (state) => ({
+      activeTab: state.activeTab,
+      newOrdersCount: state.orders.filter(
+        (order) => order?.status === 'new' || order?.isNew
+      ).length,
+      isQuickActionOpen: state.isQuickActionOpen,
+    }),
+    shallowEqual
+  );
+  const { setActiveTab, toggleQuickAction } = useAppStoreActions();
 
-  const newOrdersCount = (orders || []).filter((o) => o?.status === 'new' || o?.isNew).length;
-
-  const tabs: { id: string; label: string; icon: any; badge?: number; isAction?: boolean }[] = [
+  const tabs: NavigationTab[] = [
     { id: 'home', label: 'الرئيسية', icon: Home },
     { id: 'orders', label: 'الطلبات', icon: ShoppingBag, badge: newOrdersCount },
     { id: 'quick-action', label: 'عملية', icon: Plus, isAction: true },
@@ -31,7 +66,7 @@ export const BottomTabs: React.FC = () => {
             ? activeTab === 'home' || activeTab === 'dashboard'
             : activeTab === tab.id;
 
-        if (tab.isAction) {
+        if (tab.id === 'quick-action') {
           return (
             <button
               key={tab.id}

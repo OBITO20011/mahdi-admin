@@ -4,7 +4,11 @@
  */
 
 import React, { lazy, Suspense, useEffect, useRef } from 'react';
-import { useAppStore } from './stores/useAppStore';
+import {
+  shallowEqual,
+  useAppStoreActions,
+  useAppStoreSelector,
+} from './stores/useAppStore';
 import { useAuthStore } from './stores/useAuthStore';
 import { LoginView } from './features/auth/LoginView';
 import { IPhoneContainer } from './components/layout/IPhoneContainer';
@@ -99,12 +103,19 @@ export const App: React.FC = () => {
     activeTab,
     currentModal,
     toast,
-    setToast,
-    currentUser,
+    themeMode,
     isBiometricsEnabled,
-    lockWithFaceId,
-    setActiveTab,
-  } = useAppStore();
+  } = useAppStoreSelector(
+    (state) => ({
+      activeTab: state.activeTab,
+      currentModal: state.currentModal,
+      toast: state.toast,
+      themeMode: state.currentUser.themeMode,
+      isBiometricsEnabled: state.isBiometricsEnabled,
+    }),
+    shallowEqual
+  );
+  const { setToast, lockWithFaceId, setActiveTab } = useAppStoreActions();
   const {
     isAuthenticated,
     isLoading: isAuthLoading,
@@ -141,18 +152,18 @@ export const App: React.FC = () => {
   }, [activeTab]);
 
   useEffect(() => {
-    const themeMode = currentUser.themeMode === 'light' ? 'light' : 'dark';
+    const activeThemeMode = themeMode === 'light' ? 'light' : 'dark';
     const root = document.documentElement;
 
-    root.dataset.theme = themeMode;
-    root.classList.toggle('theme-light', themeMode === 'light');
-    root.classList.toggle('theme-dark', themeMode === 'dark');
-    root.style.colorScheme = themeMode;
+    root.dataset.theme = activeThemeMode;
+    root.classList.toggle('theme-light', activeThemeMode === 'light');
+    root.classList.toggle('theme-dark', activeThemeMode === 'dark');
+    root.style.colorScheme = activeThemeMode;
 
     document
       .querySelector<HTMLMetaElement>('meta[name="theme-color"]')
-      ?.setAttribute('content', themeMode === 'light' ? '#f8fafc' : '#020617');
-  }, [currentUser.themeMode]);
+      ?.setAttribute('content', activeThemeMode === 'light' ? '#f8fafc' : '#020617');
+  }, [themeMode]);
 
   useEffect(() => {
     if (isAuthLoading) {

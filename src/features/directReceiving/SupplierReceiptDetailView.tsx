@@ -8,7 +8,7 @@ import { SupplierReceipt } from '../../types/directReceiving';
 import { CURRENCY } from '../../constants';
 import { formatWholesaleInventory } from '../../utils/inventoryFormatter';
 import { archiveSupplierReceiptInSupabase } from '../../services/supabase/directReceiving.service';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreActions } from '../../stores/useAppStore';
 import { CancelSupplierReceiptDialog } from './CancelSupplierReceiptDialog';
 import {
   Printer,
@@ -32,7 +32,7 @@ export const SupplierReceiptDetailView: React.FC<SupplierReceiptDetailViewProps>
   onRecordPayment,
   onRefresh,
 }) => {
-  const { setToast } = useAppStore();
+  const { setToast } = useAppStoreActions();
   const [activeSubTab, setActiveSubTab] = useState<'items' | 'payments' | 'history'>('items');
   const [isArchiving, setIsArchiving] = useState<boolean>(false);
   const [showCancellationDialog, setShowCancellationDialog] =

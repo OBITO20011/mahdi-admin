@@ -3,7 +3,11 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  shallowEqual,
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 import { useAuthStore } from '../../stores/useAuthStore';
 import {isRunningStandalone} from '../../pwa/pwa';
 import { SUPABASE_PUBLIC_CONFIG } from '../../config/supabase-public-config';
@@ -33,11 +37,18 @@ interface IPhoneContainerProps {
 export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) => {
   const {
     isLockedWithFaceId,
-    unlockFaceId,
-    clearFaceIdLockForPasswordSignIn,
-    currentUser,
+    currentUserEmail,
     toast,
-  } = useAppStore();
+  } = useAppStoreSelector(
+    (state) => ({
+      isLockedWithFaceId: state.isLockedWithFaceId,
+      currentUserEmail: state.currentUser.email,
+      toast: state.toast,
+    }),
+    shallowEqual
+  );
+  const { unlockFaceId, clearFaceIdLockForPasswordSignIn } =
+    useAppStoreActions();
   const {
     user: authenticatedUser,
     signIn,
@@ -79,7 +90,7 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
     setPasswordCaptchaToken('');
     setPasswordMfaCode('');
     setIsPasswordMfaPending(false);
-    setPasswordEmail(authenticatedUser?.email || currentUser.email || '');
+    setPasswordEmail(authenticatedUser?.email || currentUserEmail || '');
     setUnlockMethod('password');
   };
 

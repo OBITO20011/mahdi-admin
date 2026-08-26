@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { JORDAN_GOVERNORATES } from '../../constants';
 import { updateOrderDeliveryAddressInSupabase } from '../../services/supabase/orders.service';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreActions } from '../../stores/useAppStore';
 import { Order } from '../../types';
 
 interface EditAddressModalProps {
@@ -22,7 +22,7 @@ export const EditAddressModal: React.FC<EditAddressModalProps> = ({
   onClose,
   onSaved,
 }) => {
-  const { setToast } = useAppStore();
+  const { setToast } = useAppStoreActions();
   const address = order.customerAddress || {};
   const [governorate, setGovernorate] = useState(
     address.governorate || order.governorate || ''

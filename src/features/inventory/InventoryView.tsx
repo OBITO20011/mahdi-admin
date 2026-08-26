@@ -3,7 +3,11 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useAppStore } from '../../stores/useAppStore';
+import {
+  shallowEqual,
+  useAppStoreActions,
+  useAppStoreSelector,
+} from '../../stores/useAppStore';
 import { Product } from '../../types';
 import { formatProductInventory } from '../../utils/inventoryFormatter';
 import { ClearInventoryBalanceDialog } from './ClearInventoryBalanceDialog';
@@ -39,10 +43,20 @@ export const InventoryView: React.FC = () => {
     warehouses,
     categories,
     movements,
-    openModal,
     activeBranch,
-    refreshInventoryMovementsFromSupabase,
-  } = useAppStore();
+  } = useAppStoreSelector(
+    (state) => ({
+      products: state.products,
+      branches: state.branches,
+      warehouses: state.warehouses,
+      categories: state.categories,
+      movements: state.movements,
+      activeBranch: state.activeBranch,
+    }),
+    shallowEqual
+  );
+  const { openModal, refreshInventoryMovementsFromSupabase } =
+    useAppStoreActions();
 
   useEffect(() => {
     refreshInventoryMovementsFromSupabase();

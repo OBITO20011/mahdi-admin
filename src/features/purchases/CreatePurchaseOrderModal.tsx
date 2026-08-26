@@ -3,7 +3,7 @@
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useAppStore, storeEngine } from '../../stores/useAppStore';
+import { useAppStoreSelector, storeEngine } from '../../stores/useAppStore';
 import { CreatePurchaseOrderInput, PurchaseOrder } from '../../types/purchases';
 import {
   createPurchaseOrderInSupabase,
@@ -55,7 +55,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
   onSuccess,
   poToEdit,
 }) => {
-  const { activeBranch } = useAppStore();
+  const activeBranch = useAppStoreSelector((state) => state.activeBranch);
 
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [selectedSupplierId, setSelectedSupplierId] = useState<string>('');

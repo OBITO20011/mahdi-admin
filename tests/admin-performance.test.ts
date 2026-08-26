@@ -19,6 +19,26 @@ const migration = readFileSync(
   'supabase/migrations/073_admin_dashboard_performance_indexes.sql',
   'utf8',
 );
+const selectorConsumers = [
+  'src/App.tsx',
+  'src/components/common/Header.tsx',
+  'src/components/layout/IPhoneContainer.tsx',
+  'src/components/layout/BottomTabs.tsx',
+  'src/components/layout/QuickActionButton.tsx',
+  'src/components/modals/AllModals.tsx',
+  'src/features/dashboard/DashboardView.tsx',
+  'src/features/orders/OrdersCenterView.tsx',
+  'src/features/products/ProductsView.tsx',
+  'src/features/inventory/InventoryView.tsx',
+  'src/features/pos/PosView.tsx',
+  'src/features/accounts/AccountsView.tsx',
+  'src/features/crm/CrmView.tsx',
+  'src/features/expenses/ExpensesView.tsx',
+  'src/features/shifts/ShiftsView.tsx',
+  'src/features/reports/ReportsCenterView.tsx',
+  'src/features/users/UsersView.tsx',
+  'src/features/more/MoreMenuView.tsx',
+].map((path) => ({ path, source: readFileSync(path, 'utf8') }));
 
 test('admin startup does not query business data before authentication', () => {
   const constructorStart = appStore.indexOf('constructor()');
@@ -33,6 +53,82 @@ test('admin startup does not query business data before authentication', () => {
   assert.doesNotMatch(constructorBody, /refreshOrdersFromSupabase/);
   assert.doesNotMatch(constructorBody, /refreshInventoryMovementsFromSupabase/);
   assert.match(authStore, /requestIdleCallback\(warmProductData/);
+});
+
+test('app store persists only compact UI preferences', () => {
+  assert.doesNotMatch(appStore, /JSON\.stringify\(this\.state\)/);
+  assert.match(appStore, /interface PersistedAppPreferences/);
+  assert.match(appStore, /version: 1/);
+  assert.match(appStore, /activeTab: this\.state\.activeTab/);
+  assert.match(
+    appStore,
+    /themeMode: this\.state\.currentUser\.themeMode === 'light'/,
+  );
+
+  const persistenceStart = appStore.indexOf('private persistUiPreferences()');
+  const actionsStart = appStore.indexOf('// --- Actions ---', persistenceStart);
+  const persistenceBody = appStore.slice(persistenceStart, actionsStart);
+
+  assert.ok(persistenceStart >= 0);
+  assert.ok(actionsStart > persistenceStart);
+  for (const domainField of [
+    'products',
+    'orders',
+    'customers',
+    'suppliers',
+    'movements',
+    'accounts',
+    'journalEntries',
+    'customerPayments',
+    'supplierPayments',
+    'expenses',
+    'invoices',
+  ]) {
+    assert.doesNotMatch(persistenceBody, new RegExp(`\\b${domainField}\\b`));
+  }
+});
+
+test('app store reload remains compatible with legacy UI preferences', () => {
+  assert.match(appStore, /parsed\.themeMode \?\? legacyCurrentUser\?\.themeMode/);
+  assert.match(appStore, /isActiveTab\(parsed\.activeTab\)/);
+  assert.match(appStore, /activeTab: preferences\.activeTab \?\? initial\.activeTab/);
+  assert.match(appStore, /themeMode: preferences\.themeMode \?\?/);
+  assert.match(appStore, /this\.persistUiPreferences\(\);/);
+});
+
+test('persistent shell and heavy operational views use selected store slices', () => {
+  assert.match(appStore, /useSyncExternalStore\(subscribe, getSnapshot, getSnapshot\)/);
+  assert.match(appStore, /updateSelectorCache/);
+  assert.match(appStore, /const coreAppStoreActions = \{/);
+
+  for (const consumer of selectorConsumers) {
+    assert.doesNotMatch(
+      consumer.source,
+      /\buseAppStore\(\)/,
+      `${consumer.path} must not subscribe to the full app state`,
+    );
+    assert.match(
+      consumer.source,
+      /useAppStoreSelector\(|useAppStoreActions\(/,
+      `${consumer.path} must use a selected slice or stable actions`,
+    );
+  }
+});
+
+test('product and inventory views do not subscribe to toast updates', () => {
+  for (const path of [
+    'src/features/products/ProductsView.tsx',
+    'src/features/inventory/InventoryView.tsx',
+  ]) {
+    const source = readFileSync(path, 'utf8');
+    const selectorStart = source.indexOf('useAppStoreSelector(');
+    const actionsStart = source.indexOf('useAppStoreActions()', selectorStart);
+    const selectedSlice = source.slice(selectorStart, actionsStart);
+
+    assert.ok(selectorStart >= 0);
+    assert.ok(actionsStart > selectorStart);
+    assert.doesNotMatch(selectedSlice, /\btoast\b/);
+  }
 });
 
 test('duplicate product refreshes share one request and reference reads run together', () => {

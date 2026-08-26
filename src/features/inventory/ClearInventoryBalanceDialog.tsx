@@ -7,7 +7,7 @@ import {
   Warehouse,
   X,
 } from 'lucide-react';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreActions } from '../../stores/useAppStore';
 import { Product } from '../../types';
 import { formatProductInventory } from '../../utils/inventoryFormatter';
 
@@ -21,7 +21,7 @@ interface ClearInventoryBalanceDialogProps {
 export const ClearInventoryBalanceDialog: React.FC<
   ClearInventoryBalanceDialogProps
 > = ({ product, warehouseName, movementCount, onClose }) => {
-  const { executeStockCount, setToast } = useAppStore();
+  const { executeStockCount, setToast } = useAppStoreActions();
   const [confirmation, setConfirmation] = useState('');
   const [reason, setReason] = useState('تصفير الرصيد بعد مراجعة المخزون');
   const [isSubmitting, setIsSubmitting] = useState(false);
