@@ -11,11 +11,7 @@ param(
 
   [string]$TaskName = 'Nawasrah ERP Nightly Backup',
 
-  [string]$Description = 'Encrypted daily database and product image backup for Nawasrah ERP.',
-
-  [switch]$RunWhenUserLoggedOff,
-
-  [System.Management.Automation.PSCredential]$WindowsCredential
+  [string]$Description = 'Encrypted daily database and product image backup for Nawasrah ERP.'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -30,46 +26,6 @@ $settings = New-ScheduledTaskSettingsSet `
   -WakeToRun `
   -ExecutionTimeLimit (New-TimeSpan -Hours 2) `
   -MultipleInstances IgnoreNew
-if ($RunWhenUserLoggedOff) {
-  if (-not $WindowsCredential) {
-    throw 'A Windows credential is required to run the backup while the user is signed out.'
-  }
-
-  $plainWindowsPassword = $WindowsCredential.GetNetworkCredential().Password
-  if ([string]::IsNullOrWhiteSpace($plainWindowsPassword)) {
-    throw 'The Windows credential does not contain a password.'
-  }
-
-  $principal = New-ScheduledTaskPrincipal `
-    -UserId $WindowsCredential.UserName `
-    -LogonType Password `
-    -RunLevel Limited
-  $task = New-ScheduledTask `
-    -Action $action `
-    -Trigger $trigger `
-    -Settings $settings `
-    -Principal $principal `
-    -Description $Description
-
-  try {
-    # Task Scheduler encrypts this credential in Windows. It is never written
-    # to the repository or the backup configuration file.
-    Register-ScheduledTask `
-      -TaskName $TaskName `
-      -InputObject $task `
-      -User $WindowsCredential.UserName `
-      -Password $plainWindowsPassword `
-      -Force | Out-Null
-  }
-  finally {
-    $plainWindowsPassword = $null
-  }
-
-  Write-Host "Background schedule created: $TaskName at $ScheduleTime" -ForegroundColor Green
-  Write-Host 'It can run while this Windows user is signed out, subject to Docker Desktop being available.' -ForegroundColor Cyan
-  return
-}
-
 $principal = New-ScheduledTaskPrincipal `
   -UserId ([Security.Principal.WindowsIdentity]::GetCurrent().Name) `
   -LogonType Interactive `
@@ -84,4 +40,5 @@ Register-ScheduledTask `
   -Description $Description `
   -Force | Out-Null
 
-Write-Host "Interactive schedule created and enabled: $TaskName at $ScheduleTime" -ForegroundColor Green
+Write-Host "Reliable Docker-compatible schedule created: $TaskName at $ScheduleTime" -ForegroundColor Green
+Write-Host 'Windows will catch up after a missed time when this user next signs in.' -ForegroundColor Cyan

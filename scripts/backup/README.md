@@ -41,24 +41,27 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\backup\setup-backup.
   -BackupRoot 'D:\Nawasrah Backups'
 ```
 
-The first setup registers an **Interactive** task for the current Windows user.
-If the computer misses the planned time, Windows runs it when the user next
-signs in. The device must have an internet connection.
+The first setup registers a Docker-compatible **Interactive** task for the
+current Windows user. This is intentional: Docker Desktop needs an active
+Windows desktop session. If the computer is off or the user is signed out at
+the planned time, `StartWhenAvailable` runs the missed task after the next
+Windows sign-in. The device must have an internet connection.
 
-For a stronger unattended schedule (including while this Windows user is signed
-out), run the following command once and enter the **Windows account password**
-only into the native secure prompt:
+To recreate both reliable schedules without changing backup credentials, run:
 
 ```powershell
-npm.cmd run backup:background
+npm.cmd run backup:schedule
 ```
 
-Windows Task Scheduler encrypts that credential. It is not written to this
-repository, the backup folder, or `%LOCALAPPDATA%\NawasrahBackup\config.json`.
-The machine must still be powered on and Docker Desktop must be available; a
-completely powered-off computer cannot create local backups.
+This command does not request or store the Windows account password. The machine
+must be powered on, the configured Windows user must be signed in, and Docker
+Desktop must be available. A completely powered-off computer cannot create a
+local backup.
 
-The same command also creates a second background task named **Nawasrah ERP
+`backup:background` remains as a backwards-compatible alias for the same safe
+interactive schedule; it does not promise signed-out Docker execution.
+
+The same command also creates a second scheduled task named **Nawasrah ERP
 Quarterly Restore Drill**. It wakes daily at 02:17, reads only the timestamp of
 the last safe restore report, and runs the isolated restore test only when 90
 days have elapsed (or when no successful report exists). It never connects to

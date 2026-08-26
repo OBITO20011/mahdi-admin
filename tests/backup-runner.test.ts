@@ -23,6 +23,7 @@ test('backup package scripts isolate Windows PowerShell from inherited PowerShel
     'backup:restore-test',
     'backup:restore-schedule',
     'backup:status',
+    'backup:schedule',
     'backup:background',
   ]) {
     assert.match(packageJson.scripts[name], /^node scripts\/backup\/run-powershell-script\.mjs scripts\/backup\/.+\.ps1$/u);
@@ -54,7 +55,7 @@ test('database password updater validates before enabling the existing schedule'
   assert.match(source, /The backup succeeded, but Windows could not clear the clipboard automatically/u);
 });
 
-test('schedule helper creates an interactive task by default and supports a credential-protected background task', async () => {
+test('schedule helper creates a catch-up Docker-compatible interactive task', async () => {
   const source = await readFile('scripts/backup/register-backup-schedule.ps1', 'utf8');
   assert.match(source, /Register-ScheduledTask/u);
   assert.match(source, /-StartWhenAvailable/u);
@@ -62,23 +63,21 @@ test('schedule helper creates an interactive task by default and supports a cred
   assert.match(source, /-DontStopIfGoingOnBatteries/u);
   assert.match(source, /-WakeToRun/u);
   assert.match(source, /-LogonType Interactive/u);
-  assert.match(source, /RunWhenUserLoggedOff/u);
-  assert.match(source, /-LogonType Password/u);
-  assert.match(source, /PSCredential\]\$WindowsCredential/u);
-  assert.match(source, /-Password \$plainWindowsPassword/u);
-  assert.match(source, /never written/u);
+  assert.doesNotMatch(source, /RunWhenUserLoggedOff/u);
+  assert.doesNotMatch(source, /-LogonType Password/u);
+  assert.doesNotMatch(source, /PSCredential\]\$WindowsCredential/u);
   assert.match(source, /-Force/u);
 });
 
-test('background backup helper requests the Windows credential locally and status never reads backup secrets', async () => {
+test('schedule repair avoids Windows credentials and status never reads backup secrets', async () => {
   const background = await readFile('scripts/backup/enable-background-backup.ps1', 'utf8');
   const status = await readFile('scripts/backup/get-backup-status.ps1', 'utf8');
-  assert.match(background, /Get-Credential/u);
-  assert.match(background, /RunWhenUserLoggedOff/u);
+  assert.doesNotMatch(background, /Get-Credential/u);
+  assert.doesNotMatch(background, /RunWhenUserLoggedOff/u);
   assert.match(background, /Quarterly Restore Drill/u);
   assert.match(background, /run-scheduled-restore-drill\.ps1/u);
-  assert.match(background, /LogonType -ne 'Password'/u);
-  assert.match(background, /Keep the PSCredential in this PowerShell process/u);
+  assert.match(background, /LogonType -ne 'Interactive'/u);
+  assert.match(background, /Docker-compatible Interactive logon mode/u);
   assert.doesNotMatch(background, /& powershell\.exe .*\$scheduleScript/u);
   assert.match(status, /actionRequired/u);
   assert.match(status, /last-backup-status\.json/u);
@@ -93,6 +92,15 @@ test('background backup helper requests the Windows credential locally and statu
   assert.doesNotMatch(status, /GetNetworkCredential/u);
   assert.doesNotMatch(status, /Write-(Host|Output).*Passphrase/iu);
   assert.doesNotMatch(status, /Write-(Host|Output).*databasePassword/iu);
+});
+
+test('backup and restore runners allow Docker Desktop ten minutes to become ready', async () => {
+  const backup = await readFile('scripts/backup/run-backup.ps1', 'utf8');
+  const restore = await readFile('scripts/backup/run-restore-drill.ps1', 'utf8');
+  for (const source of [backup, restore]) {
+    assert.match(source, /TimeoutSeconds = 600/u);
+    assert.match(source, /within ten minutes/u);
+  }
 });
 
 test('scheduled restore drill runs only when the previous isolated success is at least 90 days old', async () => {

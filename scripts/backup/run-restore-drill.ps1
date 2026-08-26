@@ -41,7 +41,7 @@ function Test-DockerReady {
 }
 
 function Wait-ForDocker {
-  param([int]$TimeoutSeconds = 120)
+  param([int]$TimeoutSeconds = 600)
   if (Test-DockerReady) {
     return
   }
@@ -60,7 +60,7 @@ function Wait-ForDocker {
       return
     }
   } while ((Get-Date) -lt $deadline)
-  throw 'Docker Desktop did not become ready within two minutes.'
+  throw 'Docker Desktop did not become ready within ten minutes.'
 }
 
 function Find-LatestBackupArchive {

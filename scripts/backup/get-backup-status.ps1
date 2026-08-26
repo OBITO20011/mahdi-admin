@@ -60,9 +60,6 @@ if (-not $configFound) {
 if (-not $task) {
   $actionRequired += 'The daily backup task does not exist.'
 }
-elseif ($task.Principal.LogonType -eq 'Interactive') {
-  $actionRequired += 'The task runs only after Windows sign-in. Run backup:background for signed-out operation.'
-}
 if ($taskInfo -and $taskInfo.LastTaskResult -ne 0) {
   $actionRequired += 'The latest Windows task attempt did not return 0. Review backup.log.'
 }
@@ -73,10 +70,7 @@ if ($configFound -and -not $configDecryptable) {
   $actionRequired += 'This Windows account cannot decrypt the protected backup configuration. Run this command from the same Windows account that created the backup setup.'
 }
 if (-not $restoreDrillTask) {
-  $actionRequired += 'The 90-day restore drill task does not exist. Run backup:background once to create it.'
-}
-elseif ($restoreDrillTask.Principal.LogonType -eq 'Interactive') {
-  $actionRequired += 'The restore drill runs only after Windows sign-in. Run backup:background for signed-out operation.'
+  $actionRequired += 'The 90-day restore drill task does not exist. Run backup:schedule once to create it.'
 }
 # 267011 (0x41303) is the documented Task Scheduler result for a newly
 # registered task that has not run yet. A manual restore report can already be
@@ -135,5 +129,9 @@ elseif ($latestRestoreDrillStatus.ok -ne $true -or $latestRestoreDrillStatus.liv
       durationSeconds = $latestRestoreDrillStatus.durationSeconds
     }
   } else { $null }
+  operationalNotes = @(
+    'Docker Desktop requires an active Windows session. Interactive task logon is intentional.'
+    'StartWhenAvailable catches up after the computer was off or the user was signed out at the planned time.'
+  )
   actionRequired = $actionRequired
 } | ConvertTo-Json -Depth 5
