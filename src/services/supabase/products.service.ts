@@ -98,6 +98,14 @@ export interface CreateProductFamilyInput extends CreateProductInput {
   }>;
 }
 
+export interface UpdateProductFlavorInput {
+  flavorProductId: string;
+  flavorNameAr: string;
+  barcode?: string;
+  imageUrl?: string;
+  isActive: boolean;
+}
+
 function isValidUuid(id?: string | null): boolean {
   if (!id) return false;
   return /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id.trim());
@@ -840,6 +848,101 @@ export async function createProductFamilyWithFlavorsInSupabase(
       errorDetails: {
         code: error?.code || 'CLIENT_EXCEPTION',
         message: error?.message || 'تعذر إنشاء المنتج ونكهاته.',
+      },
+    };
+  }
+}
+
+export async function updateProductFlavorInSupabase(
+  input: UpdateProductFlavorInput
+): Promise<SupabaseRpcResult> {
+  if (!isSupabaseConfigured || !supabase) {
+    return { success: false, error: 'تكوين Supabase غير مكتمل في التطبيق.' };
+  }
+
+  try {
+    const { data, error } = await supabase.rpc('update_product_flavor_v1', {
+      p_flavor_product_id: input.flavorProductId,
+      p_flavor_name_ar: input.flavorNameAr.trim(),
+      p_barcode: input.barcode?.trim() || null,
+      p_image_url: input.imageUrl?.trim() || null,
+      p_is_active: input.isActive,
+    });
+
+    if (error) {
+      return {
+        success: false,
+        error: error.message,
+        errorDetails: {
+          code: error.code,
+          message: error.message,
+          details: error.details || undefined,
+          hint: error.hint || undefined,
+        },
+      };
+    }
+
+    return {
+      success: data?.success === true,
+      productId: data?.productId,
+      message:
+        data?.message ||
+        'تم تحديث النكهة مع الحفاظ على مخزونها وسجلها.',
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error?.message || 'تعذر تحديث النكهة.',
+      errorDetails: {
+        code: error?.code || 'CLIENT_EXCEPTION',
+        message: error?.message || 'تعذر تحديث النكهة.',
+      },
+    };
+  }
+}
+
+export async function reorderProductFlavorsInSupabase(
+  masterProductId: string,
+  orderedFlavorIds: string[]
+): Promise<SupabaseRpcResult> {
+  if (!isSupabaseConfigured || !supabase) {
+    return { success: false, error: 'تكوين Supabase غير مكتمل في التطبيق.' };
+  }
+
+  try {
+    const { data, error } = await supabase.rpc(
+      'reorder_product_flavors_v1',
+      {
+        p_master_product_id: masterProductId,
+        p_ordered_flavor_ids: orderedFlavorIds,
+      }
+    );
+
+    if (error) {
+      return {
+        success: false,
+        error: error.message,
+        errorDetails: {
+          code: error.code,
+          message: error.message,
+          details: error.details || undefined,
+          hint: error.hint || undefined,
+        },
+      };
+    }
+
+    return {
+      success: data?.success === true,
+      productId: data?.productId,
+      message: data?.message || 'تم ترتيب النكهات.',
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error?.message || 'تعذر ترتيب النكهات.',
+      errorDetails: {
+        code: error?.code || 'CLIENT_EXCEPTION',
+        message: error?.message || 'تعذر ترتيب النكهات.',
       },
     };
   }

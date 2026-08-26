@@ -13,6 +13,13 @@ const atomicFamilyMigration = readFileSync(
   ),
   'utf8'
 );
+const flavorManagementMigration = readFileSync(
+  new URL(
+    '../supabase/migrations/072_manage_product_flavors.sql',
+    import.meta.url
+  ),
+  'utf8'
+);
 const productService = readFileSync(
   new URL('../src/services/supabase/products.service.ts', import.meta.url),
   'utf8'
@@ -23,6 +30,10 @@ const adminDetails = readFileSync(
 );
 const adminForm = readFileSync(
   new URL('../src/features/products/ProductFormModal.tsx', import.meta.url),
+  'utf8'
+);
+const adminProducts = readFileSync(
+  new URL('../src/features/products/ProductsView.tsx', import.meta.url),
   'utf8'
 );
 const storefrontDetails = readFileSync(
@@ -63,6 +74,31 @@ test('add-product flow creates the complete flavor family atomically', () => {
   assert.match(adminForm, /رصيد البداية/);
   assert.match(adminForm, /createProductFamilyWithFlavorsInSupabase/);
   assert.doesNotMatch(adminForm, /سعر النكهة/);
+});
+
+test('flavor management preserves inventory and history while editing identity', () => {
+  assert.match(
+    flavorManagementMigration,
+    /CREATE OR REPLACE FUNCTION public\.update_product_flavor_v1/
+  );
+  assert.match(flavorManagementMigration, /UPDATE_PRODUCT_FLAVOR/);
+  assert.match(flavorManagementMigration, /set_product_primary_image/);
+  assert.match(adminDetails, /updateProductFlavorInSupabase/);
+  assert.match(adminDetails, /إيقاف النكهة يخفيها عن العملاء فقط/);
+  assert.match(adminDetails, /الباركود \(اختياري\)/);
+  assert.doesNotMatch(flavorManagementMigration, /DELETE FROM public\.products/);
+});
+
+test('admin groups flavor families into one expandable searchable product card', () => {
+  assert.match(adminProducts, /flavorsByMaster/);
+  assert.match(adminProducts, /aria-expanded=\{areFlavorsExpanded\}/);
+  assert.match(adminProducts, /إدارة النكهات وترتيبها/);
+  assert.match(adminProducts, /flavor\.flavorNameAr[\s\S]*includes\(query\)/);
+  assert.match(
+    flavorManagementMigration,
+    /CREATE OR REPLACE FUNCTION public\.reorder_product_flavors_v1/
+  );
+  assert.match(flavorManagementMigration, /REORDER_PRODUCT_FLAVORS/);
 });
 
 test('storefront requires choosing a flavor and shows per-flavor availability', () => {

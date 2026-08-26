@@ -5,10 +5,13 @@ import {
   ArrowUpDown,
   Boxes,
   CheckCircle2,
+  ChevronDown,
+  ChevronUp,
   Edit3,
   Eye,
   FolderTree,
   Package,
+  Palette,
   Plus,
   RefreshCw,
   Ruler,
@@ -54,15 +57,33 @@ export const ProductsView: React.FC = () => {
     () => new Map(categories.map((category) => [category.id, category.nameAr])),
     [categories]
   );
+  const flavorsByMaster = useMemo(() => {
+    const grouped = new Map<string, Product[]>();
+    products.forEach((product) => {
+      if (!product.flavorMasterProductId) return;
+      const current = grouped.get(product.flavorMasterProductId) || [];
+      current.push(product);
+      grouped.set(product.flavorMasterProductId, current);
+    });
+    grouped.forEach((flavors) =>
+      flavors.sort(
+        (first, second) =>
+          (first.flavorSortOrder || 0) - (second.flavorSortOrder || 0) ||
+          (first.flavorNameAr || '').localeCompare(
+            second.flavorNameAr || '',
+            'ar'
+          )
+      )
+    );
+    return grouped;
+  }, [products]);
   const displayProducts = useMemo(
     () =>
       products
         .filter((product) => !product.flavorMasterProductId)
         .map((product) => {
           if (!product.isFlavorMaster) return product;
-          const flavors = products.filter(
-            (item) => item.flavorMasterProductId === product.id
-          );
+          const flavors = flavorsByMaster.get(product.id) || [];
           return {
             ...product,
             onHandQuantity: flavors.reduce(
@@ -79,7 +100,7 @@ export const ProductsView: React.FC = () => {
             ),
           };
         }),
-    [products]
+    [flavorsByMaster, products]
   );
 
   const metrics = useMemo(() => {
@@ -148,7 +169,15 @@ export const ProductsView: React.FC = () => {
         product.nameAr.toLocaleLowerCase('ar').includes(query) ||
         product.description?.toLocaleLowerCase('ar').includes(query) ||
         product.sku.toLocaleLowerCase().includes(query) ||
-        product.barcode.includes(query);
+        product.barcode.includes(query) ||
+        (flavorsByMaster.get(product.id) || []).some(
+          (flavor) =>
+            flavor.flavorNameAr
+              ?.toLocaleLowerCase('ar')
+              .includes(query) ||
+            flavor.sku.toLocaleLowerCase().includes(query) ||
+            flavor.barcode.includes(query)
+        );
 
       return matchesCategory && matchesStatus && Boolean(matchesQuery);
     });
@@ -172,7 +201,14 @@ export const ProductsView: React.FC = () => {
       }
       return a.nameAr.localeCompare(b.nameAr, 'ar');
     });
-  }, [displayProducts, searchQuery, selectedCategory, sortBy, statusFilter]);
+  }, [
+    displayProducts,
+    flavorsByMaster,
+    searchQuery,
+    selectedCategory,
+    sortBy,
+    statusFilter,
+  ]);
 
   const resetFilters = () => {
     setSearchQuery('');
@@ -452,8 +488,12 @@ export const ProductsView: React.FC = () => {
               categoryName={
                 categoryNames.get(product.categoryId) || 'بدون قسم'
               }
+              flavors={flavorsByMaster.get(product.id) || []}
               onView={() => openModal('view_product', product)}
               onEdit={() => openModal('edit_product', product)}
+              onReceiveFlavor={(flavorId) =>
+                openModal('receive_goods', { productId: flavorId })
+              }
             />
           ))}
         </div>
@@ -485,10 +525,20 @@ const HeroMetric: React.FC<{
 const ProductCatalogCard: React.FC<{
   product: Product;
   categoryName: string;
+  flavors: Product[];
   onView: () => void;
   onEdit: () => void;
-}> = ({ product, categoryName, onView, onEdit }) => {
+  onReceiveFlavor: (flavorId: string) => void;
+}> = ({
+  product,
+  categoryName,
+  flavors,
+  onView,
+  onEdit,
+  onReceiveFlavor,
+}) => {
   const [imageFailed, setImageFailed] = useState(false);
+  const [areFlavorsExpanded, setAreFlavorsExpanded] = useState(false);
   const inventory = formatProductInventory(product, true);
   const unitsPerSalePackage = product.unitsPerSalePackage || 1;
   const salePackagePrice = product.salePackagePrice || 0;
@@ -574,6 +624,97 @@ const ProductCatalogCard: React.FC<{
           </div>
         </div>
       </button>
+
+      {flavors.length > 0 && (
+        <div className="border-t border-slate-800 bg-indigo-500/[0.03] px-2.5 py-2">
+          <button
+            type="button"
+            aria-expanded={areFlavorsExpanded}
+            onClick={() => setAreFlavorsExpanded((current) => !current)}
+            className="flex w-full items-center justify-between rounded-xl px-1.5 py-1.5 text-right transition hover:bg-indigo-500/5"
+          >
+            <span className="flex items-center gap-2">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-300">
+                <Palette className="h-3.5 w-3.5" />
+              </span>
+              <span>
+                <strong className="block text-[10px] text-indigo-200">
+                  {flavors.length.toLocaleString('ar-JO')} نكهات
+                </strong>
+                <span className="text-[8px] text-slate-500">
+                  اضغط لعرض رصيد كل نكهة
+                </span>
+              </span>
+            </span>
+            {areFlavorsExpanded ? (
+              <ChevronUp className="h-4 w-4 text-indigo-300" />
+            ) : (
+              <ChevronDown className="h-4 w-4 text-slate-500" />
+            )}
+          </button>
+
+          {areFlavorsExpanded && (
+            <div className="mt-2 space-y-1.5 border-t border-slate-800 pt-2">
+              {flavors.map((flavor) => {
+                const availablePackages = Math.floor(
+                  flavor.availableQuantity /
+                    Math.max(1, flavor.unitsPerSalePackage || 1)
+                );
+                const isHidden = flavor.status === 'hidden';
+                return (
+                  <div
+                    key={flavor.id}
+                    className="flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/70 p-2"
+                  >
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-950">
+                      {flavor.imageUrl ? (
+                        <img
+                          src={flavor.imageUrl}
+                          alt={flavor.flavorNameAr}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <Palette className="h-4 w-4 text-slate-600" />
+                      )}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1.5">
+                        <strong className="truncate text-[9px] text-slate-200">
+                          {flavor.flavorNameAr}
+                        </strong>
+                        {isHidden && (
+                          <span className="rounded-full bg-slate-700/70 px-1.5 py-0.5 text-[7px] font-black text-slate-300">
+                            متوقفة
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-0.5 text-[8px] font-bold text-amber-300">
+                        {availablePackages.toLocaleString('ar-JO')}{' '}
+                        {product.salePackage || 'طرد'} متاح
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => onReceiveFlavor(flavor.id)}
+                      className="flex h-8 items-center gap-1 rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-2 text-[8px] font-black text-indigo-300"
+                    >
+                      <Truck className="h-3 w-3" />
+                      استلام
+                    </button>
+                  </div>
+                );
+              })}
+              <button
+                type="button"
+                onClick={onView}
+                className="w-full rounded-xl bg-indigo-500/10 py-2 text-[9px] font-black text-indigo-300"
+              >
+                إدارة النكهات وترتيبها
+              </button>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="grid grid-cols-3 border-t border-slate-800 bg-slate-950/80">
         <div className="border-l border-slate-800 px-2 py-2.5 text-center">
