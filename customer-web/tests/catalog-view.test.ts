@@ -38,6 +38,11 @@ function product(
     isAvailable: availablePackages > 0,
     createdAt: '2026-08-01T00:00:00Z',
     soldPackagesLast90Days: 0,
+    isFlavorMaster: false,
+    flavorMasterProductId: '',
+    flavorNameAr: '',
+    flavorSortOrder: 0,
+    variants: [],
   };
 }
 

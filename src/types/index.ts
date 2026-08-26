@@ -162,6 +162,12 @@ export interface Product {
   createdAt: string;
   updatedAt: string;
   lastModifiedBy?: string;
+  /** Root product used only as the shared commercial card for flavor families. */
+  isFlavorMaster?: boolean;
+  /** Present on a sellable flavor. Inventory is tracked on this product id. */
+  flavorMasterProductId?: string;
+  flavorNameAr?: string;
+  flavorSortOrder?: number;
 }
 
 export interface Category {

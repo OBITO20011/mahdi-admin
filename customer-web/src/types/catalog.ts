@@ -22,6 +22,12 @@ export interface CatalogProduct {
   isAvailable: boolean;
   createdAt: string;
   soldPackagesLast90Days: number;
+  isFlavorMaster: boolean;
+  flavorMasterProductId: string;
+  flavorNameAr: string;
+  flavorSortOrder: number;
+  /** Sellable inventory rows. Empty for a regular product. */
+  variants: CatalogProduct[];
 }
 
 export interface CatalogCategory {

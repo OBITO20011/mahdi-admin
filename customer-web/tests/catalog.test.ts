@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
   deriveCatalogCategories,
+  groupCatalogFlavorFamilies,
   mapCatalogCategory,
   mapCatalogProduct,
 } from '../src/services/catalog.service';
@@ -74,6 +75,51 @@ test('catalog maps the canonical wholesale package fields', () => {
   assert.equal(wholesaleProduct.salePackagePriceInMinorUnits, 4000);
   assert.equal(wholesaleProduct.availableSalePackages, 8);
   assert.equal(wholesaleProduct.isAvailable, true);
+});
+
+test('flavor families keep one card, one price, and independent availability', () => {
+  const master = {
+    ...wholesaleProduct,
+    id: 'lays-master',
+    nameAr: 'ليز',
+    isFlavorMaster: true,
+    availableQuantity: 0,
+    availableSalePackages: 0,
+    isAvailable: false,
+  };
+  const cheese = {
+    ...wholesaleProduct,
+    id: 'lays-cheese',
+    nameAr: 'ليز - جبنة',
+    flavorMasterProductId: master.id,
+    flavorNameAr: 'جبنة',
+    flavorSortOrder: 10,
+    availableQuantity: 0,
+    availableSalePackages: 0,
+    isAvailable: false,
+  };
+  const hot = {
+    ...wholesaleProduct,
+    id: 'lays-hot',
+    nameAr: 'ليز - حار',
+    flavorMasterProductId: master.id,
+    flavorNameAr: 'حار',
+    flavorSortOrder: 20,
+    availableQuantity: 24,
+    availableSalePackages: 4,
+    isAvailable: true,
+  };
+
+  const [family] = groupCatalogFlavorFamilies([master, cheese, hot]);
+  assert.equal(family.id, master.id);
+  assert.equal(family.variants.length, 2);
+  assert.equal(family.salePackagePriceInMinorUnits, 4000);
+  assert.equal(family.availableSalePackages, 4);
+  assert.equal(family.isAvailable, true);
+  assert.equal(family.variants[0].flavorNameAr, 'جبنة');
+  assert.equal(family.variants[0].isAvailable, false);
+  assert.equal(family.variants[1].flavorNameAr, 'حار');
+  assert.equal(family.variants[1].isAvailable, true);
 });
 
 test('cart prices complete wholesale packages in integer minor units', () => {

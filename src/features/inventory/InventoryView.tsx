@@ -62,20 +62,23 @@ export const InventoryView: React.FC = () => {
   const [historyProduct, setHistoryProduct] = useState<Product | null>(null);
   const [clearInventoryProduct, setClearInventoryProduct] =
     useState<Product | null>(null);
+  // Flavor masters are commercial cards only. Their child flavors are the
+  // actual inventory rows shown and counted here.
+  const inventoryProducts = products.filter((product) => !product.isFlavorMaster);
 
   // Calculate Metrics
-  const totalCostValue = products.reduce((acc, p) => acc + (p.costPrice * p.onHandQuantity), 0);
-  const totalRetailValue = products.reduce((acc, p) => acc + (p.retailPrice * p.onHandQuantity), 0);
-  const totalItemCount = products.length;
+  const totalCostValue = inventoryProducts.reduce((acc, p) => acc + (p.costPrice * p.onHandQuantity), 0);
+  const totalRetailValue = inventoryProducts.reduce((acc, p) => acc + (p.retailPrice * p.onHandQuantity), 0);
+  const totalItemCount = inventoryProducts.length;
 
-  const lowStockProducts = products.filter(
+  const lowStockProducts = inventoryProducts.filter(
     (p) => p.availableQuantity > 0 && p.availableQuantity <= p.reorderLevel
   );
-  const outOfStockProducts = products.filter((p) => p.availableQuantity <= 0);
+  const outOfStockProducts = inventoryProducts.filter((p) => p.availableQuantity <= 0);
 
   // Near expiry (e.g. within 30 days)
   const now = new Date().getTime();
-  const nearExpiryProducts = products.filter((p) => {
+  const nearExpiryProducts = inventoryProducts.filter((p) => {
     if (!p.expiryDate) return false;
     const expTime = new Date(p.expiryDate).getTime();
     const diffDays = (expTime - now) / (1000 * 3600 * 24);
@@ -83,7 +86,7 @@ export const InventoryView: React.FC = () => {
   });
 
   // Stagnant / slow moving products: no sales in movements or onHand == opening
-  const stagnantProducts = products.filter((p) => {
+  const stagnantProducts = inventoryProducts.filter((p) => {
     const hasSaleMovements = movements.some(
       (m) => m.productId === p.id && m.movementType === 'Sale'
     );
@@ -91,7 +94,7 @@ export const InventoryView: React.FC = () => {
   });
 
   // Filtered Products List
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = inventoryProducts.filter((product) => {
     // Search query match
     const q = searchQuery.toLowerCase().trim();
     const matchesSearch =

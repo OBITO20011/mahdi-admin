@@ -165,6 +165,13 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const [toast, setToast] = useState<ToastState | null>(null);
   const [storefrontSettings, setStorefrontSettings] =
     useState<PublicStorefrontSettings>(DEFAULT_STOREFRONT_SETTINGS);
+  const sellableProducts = useMemo(
+    () =>
+      products.flatMap((product) =>
+        product.variants.length > 0 ? product.variants : [product]
+      ),
+    [products]
+  );
 
   useEffect(() => {
     if (trackingToken) setTrackingOpen(true);
@@ -255,9 +262,9 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   }, [loadCatalog, loadStorefrontOffers, loadStorefrontSettings]);
 
   useEffect(() => {
-    if (products.length === 0) return;
-    setCartItems((currentItems) => reconcileCart(currentItems, products));
-  }, [products]);
+    if (sellableProducts.length === 0) return;
+    setCartItems((currentItems) => reconcileCart(currentItems, sellableProducts));
+  }, [sellableProducts]);
 
   useEffect(() => {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
@@ -346,6 +353,22 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         cartItems.map((item) => [item.productId, item.quantity] as const)
       ),
     [cartItems]
+  );
+  const catalogCartQuantityByProduct = useMemo(
+    () =>
+      new Map(
+        products.map((product) => [
+          product.id,
+          product.variants.length > 0
+            ? product.variants.reduce(
+                (sum, variant) =>
+                  sum + (cartQuantityByProduct.get(variant.id) || 0),
+                0
+              )
+            : cartQuantityByProduct.get(product.id) || 0,
+        ] as const)
+      ),
+    [cartQuantityByProduct, products]
   );
   const selectedProduct = useMemo(
     () =>
@@ -613,7 +636,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const repeatLastOrder = () => {
     if (!lastGuestOrder) return;
     const restored = lastGuestOrder.items.flatMap((saved) => {
-      const product = products.find((item) => item.id === saved.productId);
+      const product = sellableProducts.find((item) => item.id === saved.productId);
       if (!product?.isAvailable) return [];
       return [{ ...createCartItem(product), quantity: Math.min(saved.quantity, product.availableSalePackages) }];
     });
@@ -621,7 +644,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       showToast('أصناف الطلب السابق غير متوفرة حاليًا.', 'info');
       return;
     }
-    setCartItems(reconcileCart(restored, products));
+    setCartItems(reconcileCart(restored, sellableProducts));
     setCartOpen(true);
     showToast(`تمت إعادة ${restored.length.toLocaleString('ar-JO')} أصناف متوفرة من طلبك السابق.`);
   };
@@ -929,7 +952,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                   <ProductCard
                     key={product.id}
                     product={product}
-                    cartQuantity={cartQuantityByProduct.get(product.id) || 0}
+                    cartQuantity={catalogCartQuantityByProduct.get(product.id) || 0}
                     isFavorite={favoriteProductIds.includes(product.id)}
                     onAdd={addToCart}
                     onQuantityChange={updateCartQuantity}
@@ -1022,9 +1045,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       {selectedProduct && (
         <ProductDetailsModal
           product={selectedProduct}
-          cartQuantity={
-            cartQuantityByProduct.get(selectedProduct.id) || 0
-          }
+          cartQuantityByProduct={cartQuantityByProduct}
           relatedProducts={relatedProducts}
           onClose={closeProductDetails}
           onAddQuantity={addQuantityToCart}

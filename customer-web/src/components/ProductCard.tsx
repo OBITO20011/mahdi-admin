@@ -32,6 +32,7 @@ export function ProductCard({
   onOpenDetails,
   onToggleFavorite,
 }: ProductCardProps) {
+  const hasVariants = product.variants.length > 0;
   const remainingAfterCart = Math.max(
     0,
     product.availableSalePackages - cartQuantity
@@ -69,7 +70,9 @@ export function ProductCard({
         )}
 
         <div className="absolute right-3 top-3 rounded-xl border border-white/60 bg-white/90 px-2.5 py-1 text-[10px] font-extrabold text-blue-800 shadow-sm backdrop-blur">
-          {product.categoryNameAr}
+          {hasVariants
+            ? `${product.variants.length.toLocaleString('ar-JO')} نكهات`
+            : product.categoryNameAr}
         </div>
 
         <span className={`absolute left-3 top-3 rounded-xl px-2.5 py-1 text-[9px] font-black shadow-sm ${!product.isAvailable ? 'bg-rose-600 text-white' : isLowStock ? 'bg-amber-400 text-amber-950' : 'bg-emerald-600 text-white'}`}>
@@ -166,7 +169,15 @@ export function ProductCard({
             >
               <Eye className="h-4 w-4" />
             </button>
-            {cartQuantity > 0 ? (
+            {hasVariants ? (
+              <button
+                type="button"
+                onClick={() => onOpenDetails(product)}
+                className="h-11 rounded-2xl bg-blue-700 px-3 text-[10px] font-black text-white"
+              >
+                اختر النكهة
+              </button>
+            ) : cartQuantity > 0 ? (
               <div className="flex h-11 items-center rounded-2xl border border-blue-200 bg-blue-50">
                 <button
                   type="button"
@@ -204,7 +215,7 @@ export function ProductCard({
           </div>
         </div>
 
-        {cartQuantity > 0 && (
+        {cartQuantity > 0 && !hasVariants && (
           <div className="mt-3 rounded-xl border border-orange-200 bg-orange-50 px-3 py-2 text-[10px] font-extrabold text-orange-700">
             في السلة: {cartQuantity.toLocaleString('ar-JO')} • المتبقي للإضافة:{' '}
             {remainingAfterCart.toLocaleString('ar-JO')}

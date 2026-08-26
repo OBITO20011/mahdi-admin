@@ -28,7 +28,7 @@ import { buildWhatsAppUrl } from '../utils/checkout';
 
 interface ProductDetailsModalProps {
   product: CatalogProduct;
-  cartQuantity: number;
+  cartQuantityByProduct: ReadonlyMap<string, number>;
   relatedProducts: CatalogProduct[];
   onClose: () => void;
   onAddQuantity: (product: CatalogProduct, quantity: number) => void;
@@ -39,8 +39,8 @@ interface ProductDetailsModalProps {
 }
 
 export function ProductDetailsModal({
-  product,
-  cartQuantity,
+  product: familyProduct,
+  cartQuantityByProduct,
   relatedProducts,
   onClose,
   onAddQuantity,
@@ -49,6 +49,16 @@ export function ProductDetailsModal({
   isFavorite,
   onToggleFavorite,
 }: ProductDetailsModalProps) {
+  const [selectedVariantId, setSelectedVariantId] = useState(
+    () =>
+      familyProduct.variants.find((variant) => variant.isAvailable)?.id ||
+      familyProduct.variants[0]?.id ||
+      ''
+  );
+  const product =
+    familyProduct.variants.find((variant) => variant.id === selectedVariantId) ||
+    familyProduct;
+  const cartQuantity = cartQuantityByProduct.get(product.id) || 0;
   const remainingPackages = getRemainingProductPackages(
     product.availableSalePackages,
     cartQuantity
@@ -62,6 +72,14 @@ export function ProductDetailsModal({
   );
   const [shareMessage, setShareMessage] = useState('');
   const [imageZoomed, setImageZoomed] = useState(false);
+
+  useEffect(() => {
+    setSelectedVariantId(
+      familyProduct.variants.find((variant) => variant.isAvailable)?.id ||
+        familyProduct.variants[0]?.id ||
+        ''
+    );
+  }, [familyProduct.id, familyProduct.variants]);
 
   useEffect(() => {
     setQuantity(
@@ -193,11 +211,11 @@ export function ProductDetailsModal({
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => onToggleFavorite(product)}
+              onClick={() => onToggleFavorite(familyProduct)}
               aria-label={
                 isFavorite
-                  ? `إزالة ${product.nameAr} من المفضلة`
-                  : `إضافة ${product.nameAr} إلى المفضلة`
+                  ? `إزالة ${familyProduct.nameAr} من المفضلة`
+                  : `إضافة ${familyProduct.nameAr} إلى المفضلة`
               }
               aria-pressed={isFavorite}
               className={`grid h-10 w-10 place-items-center rounded-2xl border transition ${
@@ -294,6 +312,63 @@ export function ProductDetailsModal({
                 <p className="mt-3 text-xs font-semibold leading-6 text-slate-400">
                   بيانات الطرد والسعر والمخزون موضحة أدناه.
                 </p>
+              )}
+
+              {familyProduct.variants.length > 0 && (
+                <div className="mt-5 rounded-3xl border border-violet-100 bg-violet-50/70 p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-[10px] font-black text-violet-700">
+                        اختر النكهة
+                      </p>
+                      <p className="mt-1 text-[9px] font-bold text-slate-500">
+                        السعر نفسه، والتوفر محسوب لكل نكهة وحدها
+                      </p>
+                    </div>
+                    <span className="rounded-full bg-white px-2.5 py-1 text-[9px] font-black text-violet-700 shadow-sm">
+                      {familyProduct.variants.filter((variant) => variant.isAvailable).length.toLocaleString('ar-JO')} متوفرة
+                    </span>
+                  </div>
+                  <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+                    {familyProduct.variants.map((variant) => {
+                      const selected = variant.id === product.id;
+                      return (
+                        <button
+                          type="button"
+                          key={variant.id}
+                          onClick={() => setSelectedVariantId(variant.id)}
+                          className={`min-w-[7.5rem] shrink-0 rounded-2xl border p-2.5 text-right transition ${
+                            selected
+                              ? 'border-violet-500 bg-violet-700 text-white shadow-md'
+                              : variant.isAvailable
+                                ? 'border-violet-100 bg-white text-slate-800'
+                                : 'border-slate-200 bg-slate-100 text-slate-400'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2">
+                            <div className="h-9 w-9 shrink-0 overflow-hidden rounded-xl bg-white/80">
+                              {variant.imageUrl ? (
+                                <img src={variant.imageUrl} alt={variant.flavorNameAr} className="h-full w-full object-contain" />
+                              ) : (
+                                <Tag className="m-2.5 h-4 w-4 text-violet-400" />
+                              )}
+                            </div>
+                            <div className="min-w-0">
+                              <strong className="block truncate text-[10px] font-black">
+                                {variant.flavorNameAr}
+                              </strong>
+                              <span className={`mt-0.5 block text-[8px] font-bold ${selected ? 'text-violet-100' : variant.isAvailable ? 'text-emerald-600' : 'text-rose-500'}`}>
+                                {variant.isAvailable
+                                  ? `${variant.availableSalePackages.toLocaleString('ar-JO')} ${variant.saleUnitNameAr}`
+                                  : 'نافدة حاليًا'}
+                              </span>
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               )}
 
               <div className="mt-5 rounded-3xl border border-orange-100 bg-orange-50 p-4">

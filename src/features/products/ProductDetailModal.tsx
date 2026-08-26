@@ -7,13 +7,23 @@ import {
   EyeOff,
   Image,
   Layers3,
+  Palette,
+  Plus,
   ReceiptText,
   Tag,
+  Upload,
+  X,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
+import {
+  removeUploadedProductImage,
+  uploadProductImageToSupabase,
+} from '../../services/supabase/product-images.service';
+import { createProductFlavorInSupabase } from '../../services/supabase/products.service';
 import { useAppStore } from '../../stores/useAppStore';
 import { Product } from '../../types';
 import { formatProductInventory } from '../../utils/inventoryFormatter';
+import { validateProductImage } from '../../utils/productImage';
 import { calculateProductProfit } from '../../utils/productCalculations';
 
 interface ProductDetailModalProps {
@@ -25,10 +35,49 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   product,
   onClose,
 }) => {
-  const { categories, hideProduct, openModal } = useAppStore();
+  const {
+    categories,
+    products,
+    hideProduct,
+    openModal,
+    refreshProductsFromSupabase,
+    setToast,
+  } = useAppStore();
   const [imageFailed, setImageFailed] = useState(false);
   const [showVisibilityConfirm, setShowVisibilityConfirm] = useState(false);
   const [isUpdatingVisibility, setIsUpdatingVisibility] = useState(false);
+  const [showFlavorForm, setShowFlavorForm] = useState(false);
+  const [flavorName, setFlavorName] = useState('');
+  const [openingPackages, setOpeningPackages] = useState(0);
+  const [flavorImage, setFlavorImage] = useState<File | null>(null);
+  const [flavorImagePreview, setFlavorImagePreview] = useState('');
+  const [isSavingFlavor, setIsSavingFlavor] = useState(false);
+
+  const flavors = products
+    .filter((item) => item.flavorMasterProductId === product.id)
+    .sort(
+      (first, second) =>
+        (first.flavorSortOrder || 0) - (second.flavorSortOrder || 0) ||
+        (first.flavorNameAr || '').localeCompare(second.flavorNameAr || '', 'ar')
+    );
+  const isFlavorFamily = product.isFlavorMaster || flavors.length > 0;
+  const familyInventoryProduct: Product = isFlavorFamily
+    ? {
+        ...product,
+        onHandQuantity: flavors.reduce(
+          (sum, flavor) => sum + flavor.onHandQuantity,
+          0
+        ),
+        reservedQuantity: flavors.reduce(
+          (sum, flavor) => sum + flavor.reservedQuantity,
+          0
+        ),
+        availableQuantity: flavors.reduce(
+          (sum, flavor) => sum + flavor.availableQuantity,
+          0
+        ),
+      }
+    : product;
 
   const category = categories.find(
     (item) => item.id === product.categoryId
@@ -45,12 +94,81 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     salePackagePrice,
     salePackageCost
   );
-  const inventoryOnHand = formatProductInventory(product, false);
-  const inventoryAvailable = formatProductInventory(product, true);
-  const isOutOfStock = product.availableQuantity === 0;
+  const inventoryOnHand = formatProductInventory(familyInventoryProduct, false);
+  const inventoryAvailable = formatProductInventory(familyInventoryProduct, true);
+  const isOutOfStock = familyInventoryProduct.availableQuantity === 0;
   const isLowStock =
-    product.availableQuantity > 0 &&
-    product.availableQuantity <= product.reorderLevel;
+    familyInventoryProduct.availableQuantity > 0 &&
+    familyInventoryProduct.availableQuantity <= product.reorderLevel;
+
+  const resetFlavorForm = () => {
+    if (flavorImagePreview) URL.revokeObjectURL(flavorImagePreview);
+    setFlavorName('');
+    setOpeningPackages(0);
+    setFlavorImage(null);
+    setFlavorImagePreview('');
+    setShowFlavorForm(false);
+  };
+
+  const selectFlavorImage = (file?: File) => {
+    if (!file) return;
+    const validationError = validateProductImage(file);
+    if (validationError) {
+      setToast(validationError, 'error');
+      return;
+    }
+    if (flavorImagePreview) URL.revokeObjectURL(flavorImagePreview);
+    setFlavorImage(file);
+    setFlavorImagePreview(URL.createObjectURL(file));
+  };
+
+  const saveFlavor = async () => {
+    if (!flavorName.trim()) {
+      setToast('اكتب اسم النكهة.', 'error');
+      return;
+    }
+
+    setIsSavingFlavor(true);
+    let uploadedStoragePath = '';
+    try {
+      let imageUrl = '';
+      if (flavorImage) {
+        const upload = await uploadProductImageToSupabase(flavorImage);
+        imageUrl = upload.publicUrl;
+        uploadedStoragePath = upload.storagePath;
+      }
+
+      const result = await createProductFlavorInSupabase({
+        masterProductId: product.id,
+        flavorNameAr: flavorName,
+        openingSalePackages: openingPackages,
+        warehouseId: product.warehouseId,
+        imageUrl,
+      });
+
+      if (!result.success) {
+        if (uploadedStoragePath) {
+          await removeUploadedProductImage(uploadedStoragePath);
+        }
+        setToast(result.error || 'تعذر إضافة النكهة.', 'error');
+        return;
+      }
+
+      await refreshProductsFromSupabase();
+      setToast(result.message || 'تمت إضافة النكهة بنجاح.', 'success');
+      resetFlavorForm();
+    } catch (error) {
+      if (uploadedStoragePath) {
+        await removeUploadedProductImage(uploadedStoragePath).catch(() => undefined);
+      }
+      setToast(
+        error instanceof Error ? error.message : 'تعذر إضافة النكهة.',
+        'error'
+      );
+    } finally {
+      setIsSavingFlavor(false);
+    }
+  };
 
   const changeVisibility = async () => {
     setIsUpdatingVisibility(true);
@@ -120,6 +238,133 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           </div>
         </div>
       </section>
+
+      {!product.flavorMasterProductId && (
+        <section className="rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-950/25 to-slate-950 p-3.5">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex min-w-0 items-start gap-2">
+              <Palette className="mt-0.5 h-4 w-4 shrink-0 text-violet-400" />
+              <div>
+                <h4 className="font-black text-slate-100">النكهات</h4>
+                <p className="mt-0.5 text-[9px] leading-4 text-slate-500">
+                  السعر والطرد من المنتج الأساسي، والمخزون مستقل لكل نكهة.
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowFlavorForm((value) => !value)}
+              className="flex shrink-0 items-center gap-1 rounded-xl bg-violet-600 px-2.5 py-2 text-[9px] font-black text-white"
+            >
+              {showFlavorForm ? <X className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
+              {showFlavorForm ? 'إغلاق' : 'إضافة نكهة'}
+            </button>
+          </div>
+
+          {showFlavorForm && (
+            <div className="mt-3 space-y-2 rounded-2xl border border-violet-500/20 bg-slate-950/80 p-3">
+              <label className="block">
+                <span className="mb-1 block text-[9px] font-bold text-slate-400">اسم النكهة *</span>
+                <input
+                  value={flavorName}
+                  onChange={(event) => setFlavorName(event.target.value)}
+                  placeholder="مثال: جبنة"
+                  className="w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 text-xs font-bold text-slate-100 outline-none focus:border-violet-500"
+                />
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                <label className="block">
+                  <span className="mb-1 block text-[9px] font-bold text-slate-400">رصيد البداية ({product.salePackage || 'طرد'})</span>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={openingPackages}
+                    onChange={(event) => setOpeningPackages(Math.max(0, Number(event.target.value) || 0))}
+                    className="w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 text-center text-xs font-black text-slate-100 outline-none focus:border-violet-500"
+                  />
+                </label>
+                <label className="flex cursor-pointer flex-col justify-end">
+                  <span className="mb-1 block text-[9px] font-bold text-slate-400">صورة النكهة (اختياري)</span>
+                  <span className="flex h-[38px] items-center justify-center gap-1.5 rounded-xl border border-dashed border-slate-700 bg-slate-900 text-[9px] font-bold text-slate-300">
+                    <Upload className="h-3.5 w-3.5" />
+                    {flavorImage ? 'تغيير الصورة' : 'اختر صورة'}
+                  </span>
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    className="hidden"
+                    onChange={(event) => selectFlavorImage(event.target.files?.[0])}
+                  />
+                </label>
+              </div>
+              {flavorImagePreview && (
+                <img src={flavorImagePreview} alt="معاينة النكهة" className="h-20 w-full rounded-xl bg-slate-900 object-contain" />
+              )}
+              {!isFlavorFamily && product.onHandQuantity > 0 && (
+                <p className="rounded-xl border border-amber-500/25 bg-amber-500/10 p-2 text-[9px] font-bold leading-4 text-amber-300">
+                  رصيد المنتج الأساسي حاليًا ليس صفرًا. صفّر رصيده بالجرد أولًا، ثم وزّع الرصيد على النكهات حتى لا تختلط الكميات.
+                </p>
+              )}
+              <button
+                type="button"
+                onClick={() => void saveFlavor()}
+                disabled={isSavingFlavor}
+                className="w-full rounded-xl bg-violet-600 py-2.5 text-[10px] font-black text-white disabled:opacity-50"
+              >
+                {isSavingFlavor ? 'جاري الحفظ...' : 'حفظ النكهة بمخزون مستقل'}
+              </button>
+            </div>
+          )}
+
+          {flavors.length > 0 ? (
+            <div className="mt-3 grid gap-2">
+              {flavors.map((flavor) => {
+                const availablePackages = Math.floor(
+                  flavor.availableQuantity / Math.max(1, flavor.unitsPerSalePackage || 1)
+                );
+                const out = availablePackages === 0;
+                return (
+                  <div key={flavor.id} className="flex items-center gap-2 rounded-2xl border border-slate-800 bg-slate-900/70 p-2.5">
+                    <div className="h-11 w-11 shrink-0 overflow-hidden rounded-xl bg-slate-950">
+                      {flavor.imageUrl ? (
+                        <img src={flavor.imageUrl} alt={flavor.flavorNameAr} className="h-full w-full object-cover" />
+                      ) : (
+                        <Palette className="m-3 h-5 w-5 text-slate-600" />
+                      )}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <strong className="truncate text-[10px] text-slate-100">{flavor.flavorNameAr}</strong>
+                        <span className={`rounded-full px-2 py-0.5 text-[8px] font-black ${out ? 'bg-rose-500/15 text-rose-300' : 'bg-emerald-500/15 text-emerald-300'}`}>
+                          {out ? 'نافدة' : 'متوفرة'}
+                        </span>
+                      </div>
+                      <p className="mt-1 text-[9px] font-bold text-slate-400">
+                        المتاح: {availablePackages.toLocaleString('ar-JO')} {product.salePackage || 'طرد'}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onClose();
+                        openModal('receive_goods', { productId: flavor.id });
+                      }}
+                      className="rounded-xl border border-violet-500/25 bg-violet-500/10 px-2.5 py-2 text-[9px] font-black text-violet-300"
+                    >
+                      استلام
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="mt-3 rounded-xl border border-dashed border-slate-800 p-3 text-center text-[9px] font-bold text-slate-500">
+              لا توجد نكهات بعد. أضف الأولى وسيبقى السعر موحدًا تلقائيًا.
+            </p>
+          )}
+        </section>
+      )}
 
       <section className="rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-950/20 to-slate-950 p-3.5">
         <div className="mb-3 flex items-center gap-2">
@@ -230,7 +475,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           />
           <TextMetric
             label="المحجوز"
-            value={`${product.reservedQuantity} ${product.unit}`}
+            value={`${familyInventoryProduct.reservedQuantity} ${product.unit}`}
             color="text-orange-300"
           />
           <TextMetric

@@ -81,6 +81,15 @@ export interface UpdateProductInput {
   imageUrl?: string;
 }
 
+export interface CreateProductFlavorInput {
+  masterProductId: string;
+  flavorNameAr: string;
+  openingSalePackages: number;
+  warehouseId?: string;
+  imageUrl?: string;
+  barcode?: string;
+}
+
 function isValidUuid(id?: string | null): boolean {
   if (!id) return false;
   return /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id.trim());
@@ -146,6 +155,10 @@ export async function fetchProductsFromSupabase(): Promise<{
         min_stock_level,
         max_stock_level,
         is_active,
+        flavor_master_product_id,
+        flavor_name_ar,
+        is_flavor_master,
+        flavor_sort_order,
         created_at,
         updated_at,
         base_unit:units!products_unit_id_fkey ( id, name_ar, code ),
@@ -183,7 +196,11 @@ export async function fetchProductsFromSupabase(): Promise<{
           sale_price_in_minor_units,
           min_stock_level,
           max_stock_level,
-          is_active,
+        is_active,
+          flavor_master_product_id,
+          flavor_name_ar,
+          is_flavor_master,
+          flavor_sort_order,
           created_at,
           updated_at,
           base_unit:units!products_unit_id_fkey ( id, name_ar, code ),
@@ -349,6 +366,10 @@ export async function fetchProductsFromSupabase(): Promise<{
         status: p.is_active ? (bal.available === 0 ? 'out_of_stock' : 'active') : 'hidden',
         createdAt: p.created_at || new Date().toISOString(),
         updatedAt: p.updated_at || new Date().toISOString(),
+        isFlavorMaster: Boolean(p.is_flavor_master),
+        flavorMasterProductId: p.flavor_master_product_id || undefined,
+        flavorNameAr: p.flavor_name_ar || undefined,
+        flavorSortOrder: Number(p.flavor_sort_order || 0),
       };
     });
 
@@ -587,6 +608,65 @@ export async function createProductWithOpeningStockInSupabase(
       errorDetails: {
         code: 'CLIENT_EXCEPTION',
         message: err?.message || String(err),
+      },
+    };
+  }
+}
+
+export async function createProductFlavorInSupabase(
+  input: CreateProductFlavorInput
+): Promise<SupabaseRpcResult> {
+  if (!isSupabaseConfigured || !supabase) {
+    return { success: false, error: 'تكوين Supabase غير مكتمل في التطبيق.' };
+  }
+
+  const flavorName = input.flavorNameAr.trim();
+  if (!flavorName) {
+    return { success: false, error: 'اكتب اسم النكهة.' };
+  }
+
+  try {
+    const { data, error } = await supabase.rpc('create_product_flavor_v1', {
+      p_master_product_id: input.masterProductId,
+      p_flavor_name_ar: flavorName,
+      p_opening_sale_packages: Math.max(
+        0,
+        Math.floor(Number(input.openingSalePackages) || 0)
+      ),
+      p_warehouse_id: isValidUuid(input.warehouseId)
+        ? input.warehouseId
+        : null,
+      p_image_url: input.imageUrl?.trim() || null,
+      p_barcode: input.barcode?.trim() || null,
+    });
+
+    if (error) {
+      return {
+        success: false,
+        error: error.message,
+        errorDetails: {
+          code: error.code,
+          message: error.message,
+          details: error.details || undefined,
+          hint: error.hint || undefined,
+        },
+      };
+    }
+
+    return {
+      success: data?.success === true,
+      productId: data?.productId,
+      message:
+        data?.message ||
+        'تمت إضافة النكهة بمخزون مستقل وسعر المنتج الأساسي.',
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error?.message || 'تعذر إضافة النكهة.',
+      errorDetails: {
+        code: error?.code || 'CLIENT_EXCEPTION',
+        message: error?.message || 'تعذر إضافة النكهة.',
       },
     };
   }

@@ -54,24 +54,51 @@ export const ProductsView: React.FC = () => {
     () => new Map(categories.map((category) => [category.id, category.nameAr])),
     [categories]
   );
+  const displayProducts = useMemo(
+    () =>
+      products
+        .filter((product) => !product.flavorMasterProductId)
+        .map((product) => {
+          if (!product.isFlavorMaster) return product;
+          const flavors = products.filter(
+            (item) => item.flavorMasterProductId === product.id
+          );
+          return {
+            ...product,
+            onHandQuantity: flavors.reduce(
+              (sum, flavor) => sum + flavor.onHandQuantity,
+              0
+            ),
+            reservedQuantity: flavors.reduce(
+              (sum, flavor) => sum + flavor.reservedQuantity,
+              0
+            ),
+            availableQuantity: flavors.reduce(
+              (sum, flavor) => sum + flavor.availableQuantity,
+              0
+            ),
+          };
+        }),
+    [products]
+  );
 
   const metrics = useMemo(() => {
-    const lowStock = products.filter(
+    const lowStock = displayProducts.filter(
       (product) =>
         product.status !== 'hidden' &&
         product.availableQuantity > 0 &&
         product.availableQuantity <= product.reorderLevel
     ).length;
-    const outOfStock = products.filter(
+    const outOfStock = displayProducts.filter(
       (product) =>
         product.status !== 'hidden' && product.availableQuantity === 0
     ).length;
-    const inventoryCost = products.reduce(
+    const inventoryCost = displayProducts.reduce(
       (sum, product) =>
         sum + product.costPrice * Math.max(0, product.onHandQuantity),
       0
     );
-    const potentialProfit = products.reduce(
+    const potentialProfit = displayProducts.reduce(
       (sum, product) => {
         if (!product.salePackagePrice || !product.saleUnitId) return sum;
         return (
@@ -94,11 +121,11 @@ export const ProductsView: React.FC = () => {
       inventoryCost,
       potentialProfit,
     };
-  }, [products]);
+  }, [displayProducts]);
 
   const filteredProducts = useMemo(() => {
     const query = searchQuery.trim().toLocaleLowerCase('ar');
-    const filtered = products.filter((product) => {
+    const filtered = displayProducts.filter((product) => {
       const matchesCategory =
         selectedCategory === 'all' || product.categoryId === selectedCategory;
       const isLow =
@@ -145,7 +172,7 @@ export const ProductsView: React.FC = () => {
       }
       return a.nameAr.localeCompare(b.nameAr, 'ar');
     });
-  }, [products, searchQuery, selectedCategory, sortBy, statusFilter]);
+  }, [displayProducts, searchQuery, selectedCategory, sortBy, statusFilter]);
 
   const resetFilters = () => {
     setSearchQuery('');
@@ -208,7 +235,7 @@ export const ProductsView: React.FC = () => {
         <div className="grid grid-cols-3 border-t border-white/5 bg-slate-950/45">
           <HeroMetric
             label="عدد الأصناف"
-            value={products.length.toLocaleString('ar-JO')}
+            value={displayProducts.length.toLocaleString('ar-JO')}
             tone="blue"
           />
           <HeroMetric

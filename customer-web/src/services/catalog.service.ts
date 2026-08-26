@@ -62,7 +62,81 @@ export function mapCatalogProduct(item: RawCatalogItem): CatalogProduct {
       salePackagePriceInMinorUnits > 0,
     createdAt: textValue(item.createdAt),
     soldPackagesLast90Days: integerValue(item.soldPackagesLast90Days),
+    isFlavorMaster: item.isFlavorMaster === true,
+    flavorMasterProductId: textValue(item.flavorMasterProductId),
+    flavorNameAr: textValue(item.flavorNameAr),
+    flavorSortOrder: integerValue(item.flavorSortOrder),
+    variants: [],
   };
+}
+
+export function groupCatalogFlavorFamilies(
+  flatProducts: CatalogProduct[]
+): CatalogProduct[] {
+  const childrenByMaster = new Map<string, CatalogProduct[]>();
+  flatProducts.forEach((product) => {
+    if (!product.flavorMasterProductId) return;
+    const current = childrenByMaster.get(product.flavorMasterProductId) || [];
+    current.push(product);
+    childrenByMaster.set(product.flavorMasterProductId, current);
+  });
+
+  const roots = flatProducts.filter((product) => !product.flavorMasterProductId);
+  const rootsById = new Map(roots.map((product) => [product.id, product]));
+
+  // Search may return a matching flavor without its parent row. Build a safe
+  // family card from the flavor so the result still stays grouped.
+  childrenByMaster.forEach((children, masterId) => {
+    if (rootsById.has(masterId) || children.length === 0) return;
+    const first = children[0];
+    const suffix = first.flavorNameAr ? ` - ${first.flavorNameAr}` : '';
+    const familyName =
+      suffix && first.nameAr.endsWith(suffix)
+        ? first.nameAr.slice(0, -suffix.length)
+        : first.nameAr;
+    const syntheticRoot: CatalogProduct = {
+      ...first,
+      id: masterId,
+      sku: masterId,
+      barcode: '',
+      nameAr: familyName,
+      flavorMasterProductId: '',
+      flavorNameAr: '',
+      isFlavorMaster: true,
+      variants: [],
+    };
+    roots.push(syntheticRoot);
+    rootsById.set(masterId, syntheticRoot);
+  });
+
+  return roots.map((root) => {
+    const variants = [...(childrenByMaster.get(root.id) || [])].sort(
+      (first, second) =>
+        first.flavorSortOrder - second.flavorSortOrder ||
+        first.flavorNameAr.localeCompare(second.flavorNameAr, 'ar')
+    );
+    if (variants.length === 0) return root;
+
+    return {
+      ...root,
+      isFlavorMaster: true,
+      variants,
+      imageUrl: root.imageUrl || variants.find((item) => item.imageUrl)?.imageUrl || '',
+      availableQuantity: variants.reduce(
+        (sum, item) => sum + item.availableQuantity,
+        0
+      ),
+      availableSalePackages: variants.reduce(
+        (sum, item) => sum + item.availableSalePackages,
+        0
+      ),
+      isAvailable: variants.some((item) => item.isAvailable),
+      soldPackagesLast90Days: variants.reduce(
+        (sum, item) => sum + item.soldPackagesLast90Days,
+        0
+      ),
+    };
+  });
 }
 
 export function mapCatalogCategory(item: RawCatalogItem): CatalogCategory {
@@ -120,7 +194,7 @@ export async function fetchPublicProductCatalog(): Promise<CatalogResponse> {
   }
 
   const rawItems = Array.isArray(data?.items) ? data.items : [];
-  const items = rawItems
+  const flatItems = rawItems
     .map((item: RawCatalogItem) => mapCatalogProduct(item))
     .filter(
       (item: CatalogProduct) =>
@@ -129,10 +203,11 @@ export async function fetchPublicProductCatalog(): Promise<CatalogResponse> {
         item.unitsPerSalePackage > 0 &&
         item.salePackagePriceInMinorUnits > 0
     );
+  const items = groupCatalogFlavorFamilies(flatItems);
   const rawCategories = Array.isArray(data?.categories)
     ? data.categories
     : [];
-  const mappedCategories = rawCategories
+  const mappedCategories: CatalogCategory[] = rawCategories
     .map((item: RawCatalogItem) => mapCatalogCategory(item))
     .filter(
       (category: CatalogCategory) =>
@@ -141,11 +216,12 @@ export async function fetchPublicProductCatalog(): Promise<CatalogResponse> {
 
   return {
     items,
-    categories:
-      mappedCategories.length > 0
-        ? mappedCategories
-        : deriveCatalogCategories(items),
-    total: integerValue(data?.total, items.length),
+    categories: deriveCatalogCategories(items).map((category) => ({
+      ...category,
+      imageUrl:
+        mappedCategories.find((item) => item.id === category.id)?.imageUrl || '',
+    })),
+    total: items.length,
     limit: integerValue(data?.limit, 200),
     offset: integerValue(data?.offset),
   };
