@@ -9,8 +9,10 @@ import {
   Info,
   Layers3,
   Package,
+  Palette,
   Plus,
   Tag,
+  Trash2,
   Upload,
   Warehouse,
   X,
@@ -20,6 +22,7 @@ import {
   removeUploadedProductImage,
   uploadProductImageToSupabase,
 } from '../../services/supabase/product-images.service';
+import { createProductFamilyWithFlavorsInSupabase } from '../../services/supabase/products.service';
 import { useAppStore } from '../../stores/useAppStore';
 import { Product } from '../../types';
 import { validateProductImage } from '../../utils/productImage';
@@ -33,6 +36,25 @@ interface ProductFormModalProps {
   initialProduct?: Product | null;
   onClose: () => void;
 }
+
+interface ProductFlavorDraft {
+  id: string;
+  nameAr: string;
+  openingSalePackages: number | '';
+  imageFile: File | null;
+  imagePreview: string;
+}
+
+const createFlavorDraft = (): ProductFlavorDraft => ({
+  id:
+    typeof crypto !== 'undefined' && 'randomUUID' in crypto
+      ? crypto.randomUUID()
+      : `flavor-${Date.now()}-${Math.random()}`,
+  nameAr: '',
+  openingSalePackages: 0,
+  imageFile: null,
+  imagePreview: '',
+});
 
 const inputClass =
   'w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 text-xs font-semibold text-slate-100 outline-none transition placeholder:text-slate-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10';
@@ -51,6 +73,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     addCategory,
     addProduct,
     updateProduct,
+    refreshProductsFromSupabase,
     setToast,
   } = useAppStore();
 
@@ -146,6 +169,8 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     initialProduct?.maxStockLevel ?? ''
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasFlavors, setHasFlavors] = useState(false);
+  const [flavorDrafts, setFlavorDrafts] = useState<ProductFlavorDraft[]>([]);
   const [submitError, setSubmitError] = useState<{
     message: string;
     code?: string;
@@ -296,6 +321,64 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     setImageFailed(false);
   };
 
+  const toggleFlavorMode = () => {
+    setHasFlavors((current) => {
+      const next = !current;
+      if (next) {
+        setOnHandQuantity(0);
+        setFlavorDrafts((drafts) =>
+          drafts.length > 0 ? drafts : [createFlavorDraft()]
+        );
+      } else {
+        flavorDrafts.forEach((draft) => {
+          if (draft.imagePreview) URL.revokeObjectURL(draft.imagePreview);
+        });
+        setFlavorDrafts([]);
+      }
+      return next;
+    });
+  };
+
+  const updateFlavorDraft = (
+    id: string,
+    changes: Partial<ProductFlavorDraft>
+  ) => {
+    setFlavorDrafts((drafts) =>
+      drafts.map((draft) =>
+        draft.id === id ? { ...draft, ...changes } : draft
+      )
+    );
+  };
+
+  const selectFlavorImage = (id: string, file?: File) => {
+    if (!file) return;
+    const validationError = validateProductImage(file);
+    if (validationError) {
+      setToast(validationError, 'error');
+      return;
+    }
+
+    setFlavorDrafts((drafts) =>
+      drafts.map((draft) => {
+        if (draft.id !== id) return draft;
+        if (draft.imagePreview) URL.revokeObjectURL(draft.imagePreview);
+        return {
+          ...draft,
+          imageFile: file,
+          imagePreview: URL.createObjectURL(file),
+        };
+      })
+    );
+  };
+
+  const removeFlavorDraft = (id: string) => {
+    setFlavorDrafts((drafts) => {
+      const removed = drafts.find((draft) => draft.id === id);
+      if (removed?.imagePreview) URL.revokeObjectURL(removed.imagePreview);
+      return drafts.filter((draft) => draft.id !== id);
+    });
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -318,6 +401,23 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     if (validSalePackagePrice <= 0) {
       setToast('أدخل سعر بيع طرد الجملة كاملًا.', 'error');
       return;
+    }
+    if (hasFlavors && !isEditing) {
+      if (flavorDrafts.length < 1) {
+        setToast('أضف نكهة واحدة على الأقل.', 'error');
+        return;
+      }
+      const normalizedFlavorNames = flavorDrafts.map((draft) =>
+        draft.nameAr.trim().toLocaleLowerCase('ar')
+      );
+      if (normalizedFlavorNames.some((name) => !name)) {
+        setToast('اكتب اسمًا لكل نكهة.', 'error');
+        return;
+      }
+      if (new Set(normalizedFlavorNames).size !== normalizedFlavorNames.length) {
+        setToast('لا يمكن تكرار اسم النكهة نفسها.', 'error');
+        return;
+      }
     }
 
     const minLevel = Math.max(
@@ -358,16 +458,24 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       profitPercentage: salePackageProfit.markupPercentage,
       unit,
       warehouseId,
-      onHandQuantity: Math.max(
-        0,
-        Math.floor(Number(onHandQuantity) || 0)
-      ),
+      onHandQuantity:
+        hasFlavors && !isEditing
+          ? 0
+          : Math.max(0, Math.floor(Number(onHandQuantity) || 0)),
       reorderLevel: minLevel,
       maxStockLevel: maxLevel,
       status: 'active',
     };
 
-    let uploadedStoragePath: string | undefined;
+    const uploadedStoragePaths: string[] = [];
+    let productWasPersisted = false;
+    const cleanupUploadedImages = async () => {
+      await Promise.all(
+        uploadedStoragePaths.map((storagePath) =>
+          removeUploadedProductImage(storagePath).catch(() => undefined)
+        )
+      );
+    };
 
     try {
       if (selectedImageFile) {
@@ -383,23 +491,83 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           return;
         }
 
-        uploadedStoragePath = uploadResult.storagePath;
+        if (uploadResult.storagePath) {
+          uploadedStoragePaths.push(uploadResult.storagePath);
+        }
         payload.imageUrl = uploadResult.publicUrl;
       }
 
-      const result =
-        isEditing && initialProduct?.id
-          ? await updateProduct(initialProduct.id, payload)
-          : await addProduct(payload);
+      let result;
+      if (hasFlavors && !isEditing) {
+        const uploadedFlavors = [];
+        for (const draft of flavorDrafts) {
+          let flavorImageUrl = '';
+          if (draft.imageFile) {
+            const upload = await uploadProductImageToSupabase(draft.imageFile);
+            if (!upload.success || !upload.publicUrl) {
+              throw new Error(
+                upload.error || `تعذر رفع صورة نكهة ${draft.nameAr}.`
+              );
+            }
+            if (upload.storagePath) {
+              uploadedStoragePaths.push(upload.storagePath);
+            }
+            flavorImageUrl = upload.publicUrl;
+          }
+          uploadedFlavors.push({
+            nameAr: draft.nameAr.trim(),
+            openingSalePackages: Math.max(
+              0,
+              Math.floor(Number(draft.openingSalePackages) || 0)
+            ),
+            imageUrl: flavorImageUrl,
+          });
+        }
+
+        result = await createProductFamilyWithFlavorsInSupabase({
+          sku: payload.sku || '',
+          barcode: payload.barcode,
+          nameAr: payload.nameAr || '',
+          description: payload.description,
+          categoryId: payload.categoryId,
+          brandId: payload.brandId,
+          unitName: unit,
+          purchasePackage,
+          unitsPerPackage: validUnitsPerPackage,
+          defaultPurchasePrice: validPackagePrice,
+          salePackage,
+          unitsPerSalePackage: validUnitsPerSalePackage,
+          salePackagePrice: validSalePackagePrice,
+          costPrice: costPerUnit,
+          reorderLevel: minLevel,
+          maxStockLevel: maxLevel,
+          warehouseId,
+          openingQuantity: 0,
+          imageUrl: payload.imageUrl,
+          flavors: uploadedFlavors,
+        });
+      } else {
+        result =
+          isEditing && initialProduct?.id
+            ? await updateProduct(initialProduct.id, payload)
+            : await addProduct(payload);
+      }
 
       if (result?.success) {
+        productWasPersisted = true;
+        if (hasFlavors && !isEditing) {
+          await refreshProductsFromSupabase();
+          setToast(
+            result.message ||
+              'تم إنشاء المنتج وجميع نكهاته ومخزونها بنجاح.',
+            'success'
+          );
+        }
         onClose();
         return;
       }
 
-      if (uploadedStoragePath) {
-        await removeUploadedProductImage(uploadedStoragePath);
-      }
+      await cleanupUploadedImages();
 
       setSubmitError({
         message: result?.error || 'فشل حفظ المنتج في Supabase.',
@@ -408,8 +576,8 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         hint: result?.errorDetails?.hint,
       });
     } catch (error: any) {
-      if (uploadedStoragePath) {
-        await removeUploadedProductImage(uploadedStoragePath);
+      if (!productWasPersisted) {
+        await cleanupUploadedImages();
       }
 
       setSubmitError({
@@ -644,6 +812,197 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </div>
         </div>
       </section>
+
+      {!isEditing && (
+        <section
+          className={`overflow-hidden rounded-2xl border transition-colors ${
+            hasFlavors
+              ? 'border-indigo-500/30 bg-slate-950'
+              : 'border-slate-800 bg-slate-950'
+          }`}
+        >
+          <div className="flex items-center justify-between gap-3 p-3.5">
+            <div className="flex min-w-0 items-center gap-2.5">
+              <span
+                className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
+                  hasFlavors
+                    ? 'bg-indigo-500/15 text-indigo-300'
+                    : 'bg-slate-800 text-slate-400'
+                }`}
+              >
+                <Palette className="h-4 w-4" />
+              </span>
+              <div className="min-w-0">
+                <h4 className="font-black text-slate-100">
+                  هل لهذا المنتج نكهات؟
+                </h4>
+                <p className="mt-0.5 text-[10px] leading-4 text-slate-500">
+                  السعر والطرد موحّدان، والمخزون يُتابع لكل نكهة وحدها
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              role="switch"
+              aria-checked={hasFlavors}
+              onClick={toggleFlavorMode}
+              className={`flex shrink-0 items-center gap-2 rounded-full border px-2.5 py-1.5 font-black transition ${
+                hasFlavors
+                  ? 'border-indigo-400/30 bg-indigo-500/15 text-indigo-200'
+                  : 'border-slate-700 bg-slate-900 text-slate-400'
+              }`}
+            >
+              <span>{hasFlavors ? 'نعم' : 'لا'}</span>
+              <span
+                className={`relative h-5 w-9 rounded-full transition ${
+                  hasFlavors ? 'bg-indigo-500' : 'bg-slate-700'
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-all ${
+                    hasFlavors ? 'right-0.5' : 'right-[18px]'
+                  }`}
+                />
+              </span>
+            </button>
+          </div>
+
+          {hasFlavors && (
+            <div className="space-y-3 border-t border-indigo-500/15 p-3.5">
+              <div className="flex items-center justify-between gap-2">
+                <div>
+                  <strong className="text-[11px] text-indigo-200">
+                    النكهات ورصيد البداية
+                  </strong>
+                  <p className="mt-0.5 text-[9px] text-slate-500">
+                    مثال: جبنة، حار، ملح وخل
+                  </p>
+                </div>
+                <span className="rounded-full bg-indigo-500/10 px-2 py-1 text-[9px] font-black text-indigo-300">
+                  {flavorDrafts.length} نكهة
+                </span>
+              </div>
+
+              <div className="space-y-2.5">
+                {flavorDrafts.map((draft, index) => (
+                  <div
+                    key={draft.id}
+                    className="rounded-2xl border border-slate-800 bg-slate-900/80 p-3"
+                  >
+                    <div className="mb-2.5 flex items-center justify-between">
+                      <span className="flex h-6 min-w-6 items-center justify-center rounded-lg bg-indigo-500/15 px-1.5 text-[10px] font-black text-indigo-300">
+                        {index + 1}
+                      </span>
+                      {flavorDrafts.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeFlavorDraft(draft.id)}
+                          aria-label={`حذف النكهة ${index + 1}`}
+                          className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition hover:bg-rose-500/10 hover:text-rose-400"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-[minmax(0,1fr)_110px_52px] gap-2 max-[390px]:grid-cols-[minmax(0,1fr)_92px_48px]">
+                      <div>
+                        <label className="mb-1.5 block text-[9px] font-bold text-slate-400">
+                          اسم النكهة *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={draft.nameAr}
+                          onChange={(event) =>
+                            updateFlavorDraft(draft.id, {
+                              nameAr: event.target.value,
+                            })
+                          }
+                          placeholder="مثلاً: جبنة"
+                          className={inputClass}
+                        />
+                      </div>
+
+                      <div>
+                        <label className="mb-1.5 block truncate text-[9px] font-bold text-emerald-300">
+                          رصيد البداية ({salePackage})
+                        </label>
+                        <input
+                          type="number"
+                          min="0"
+                          step="1"
+                          required
+                          value={draft.openingSalePackages}
+                          onChange={(event) =>
+                            updateFlavorDraft(draft.id, {
+                              openingSalePackages:
+                                event.target.value === ''
+                                  ? ''
+                                  : Number.parseInt(event.target.value, 10),
+                            })
+                          }
+                          className={numberInputClass}
+                        />
+                      </div>
+
+                      <div>
+                        <label className="mb-1.5 block text-center text-[9px] font-bold text-slate-500">
+                          صورة
+                        </label>
+                        <label className="flex h-[38px] cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-dashed border-slate-700 bg-slate-950 text-slate-500 transition hover:border-indigo-500/50 hover:text-indigo-300">
+                          {draft.imagePreview ? (
+                            <img
+                              src={draft.imagePreview}
+                              alt={`معاينة ${draft.nameAr || `النكهة ${index + 1}`}`}
+                              className="h-full w-full object-cover"
+                            />
+                          ) : (
+                            <Image className="h-4 w-4" />
+                          )}
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                            onChange={(event) =>
+                              selectFlavorImage(
+                                draft.id,
+                                event.target.files?.[0] || null
+                              )
+                            }
+                            className="sr-only"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                disabled={flavorDrafts.length >= 30}
+                onClick={() =>
+                  setFlavorDrafts((current) => [
+                    ...current,
+                    createFlavorDraft(),
+                  ])
+                }
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-indigo-500/30 bg-indigo-500/5 py-2.5 font-black text-indigo-300 transition hover:bg-indigo-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Plus className="h-3.5 w-3.5" />
+                إضافة نكهة أخرى
+              </button>
+
+              <div className="flex items-start gap-2 rounded-xl border border-emerald-500/15 bg-emerald-500/5 p-2.5 text-[10px] leading-5 text-slate-400">
+                <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400" />
+                عند الحفظ يُنشأ المنتج ونكهاته معًا، وكل نكهة تظهر برصيدها
+                الخاص بينما ترث السعر والطرد من المنتج الأساسي.
+              </div>
+            </div>
+          )}
+        </section>
+      )}
 
       <section className="rounded-2xl border border-slate-800 bg-slate-950 p-3.5">
         <div className="mb-3 flex items-center gap-2">
@@ -916,8 +1275,19 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </div>
         )}
 
-        <div className={`grid gap-2 ${isEditing ? 'grid-cols-2' : 'grid-cols-3'}`}>
-          {!isEditing && (
+        {hasFlavors && !isEditing && (
+          <div className="mb-3 flex items-center gap-2 rounded-xl border border-indigo-500/15 bg-indigo-500/5 px-3 py-2 text-[10px] font-bold text-indigo-200">
+            <Palette className="h-3.5 w-3.5 shrink-0" />
+            الرصيد الافتتاحي موزّع على النكهات في القسم السابق.
+          </div>
+        )}
+
+        <div
+          className={`grid gap-2 ${
+            isEditing || hasFlavors ? 'grid-cols-2' : 'grid-cols-3'
+          }`}
+        >
+          {!isEditing && !hasFlavors && (
             <div>
               <label className="mb-1.5 block text-[9px] font-bold text-slate-400">
                 رصيد افتتاحي
@@ -1027,7 +1397,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             ? 'جاري الحفظ...'
             : isEditing
               ? 'حفظ التعديلات'
-              : 'إنشاء المنتج'}
+              : hasFlavors
+                ? `إنشاء المنتج و${flavorDrafts.length} نكهة`
+                : 'إنشاء المنتج'}
         </button>
         <button
           type="button"

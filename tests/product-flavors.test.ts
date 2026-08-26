@@ -6,12 +6,23 @@ const migration = readFileSync(
   new URL('../supabase/migrations/070_product_flavor_variants.sql', import.meta.url),
   'utf8'
 );
+const atomicFamilyMigration = readFileSync(
+  new URL(
+    '../supabase/migrations/071_atomic_product_family_creation.sql',
+    import.meta.url
+  ),
+  'utf8'
+);
 const productService = readFileSync(
   new URL('../src/services/supabase/products.service.ts', import.meta.url),
   'utf8'
 );
 const adminDetails = readFileSync(
   new URL('../src/features/products/ProductDetailModal.tsx', import.meta.url),
+  'utf8'
+);
+const adminForm = readFileSync(
+  new URL('../src/features/products/ProductFormModal.tsx', import.meta.url),
   'utf8'
 );
 const storefrontDetails = readFileSync(
@@ -32,6 +43,26 @@ test('admin adds only flavor identity and stock, never a second price', () => {
   assert.match(adminDetails, /المخزون مستقل لكل نكهة/);
   assert.match(adminDetails, /رصيد البداية/);
   assert.doesNotMatch(adminDetails, /سعر النكهة/);
+});
+
+test('add-product flow creates the complete flavor family atomically', () => {
+  assert.match(
+    atomicFamilyMigration,
+    /CREATE OR REPLACE FUNCTION public\.create_product_family_with_flavors_v1/
+  );
+  assert.match(
+    atomicFamilyMigration,
+    /create_product_with_opening_stock_v4[\s\S]*create_product_flavor_v1/
+  );
+  assert.match(
+    atomicFamilyMigration,
+    /REVOKE ALL[\s\S]*FROM PUBLIC, anon[\s\S]*GRANT EXECUTE[\s\S]*TO authenticated/
+  );
+  assert.match(productService, /createProductFamilyWithFlavorsInSupabase/);
+  assert.match(adminForm, /هل لهذا المنتج نكهات؟/);
+  assert.match(adminForm, /رصيد البداية/);
+  assert.match(adminForm, /createProductFamilyWithFlavorsInSupabase/);
+  assert.doesNotMatch(adminForm, /سعر النكهة/);
 });
 
 test('storefront requires choosing a flavor and shows per-flavor availability', () => {

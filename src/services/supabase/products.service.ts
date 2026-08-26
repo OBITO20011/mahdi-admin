@@ -90,6 +90,14 @@ export interface CreateProductFlavorInput {
   barcode?: string;
 }
 
+export interface CreateProductFamilyInput extends CreateProductInput {
+  flavors: Array<{
+    nameAr: string;
+    openingSalePackages: number;
+    imageUrl?: string;
+  }>;
+}
+
 function isValidUuid(id?: string | null): boolean {
   if (!id) return false;
   return /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id.trim());
@@ -667,6 +675,171 @@ export async function createProductFlavorInSupabase(
       errorDetails: {
         code: error?.code || 'CLIENT_EXCEPTION',
         message: error?.message || 'تعذر إضافة النكهة.',
+      },
+    };
+  }
+}
+
+export async function createProductFamilyWithFlavorsInSupabase(
+  input: CreateProductFamilyInput
+): Promise<SupabaseRpcResult> {
+  if (!isSupabaseConfigured || !supabase) {
+    return { success: false, error: 'تكوين Supabase غير مكتمل في التطبيق.' };
+  }
+
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getSession();
+  if (sessionError || !sessionData?.session) {
+    return {
+      success: false,
+      error: 'انتهت جلسة تسجيل الدخول، يرجى تسجيل الدخول مجددًا.',
+    };
+  }
+
+  if (input.flavors.length < 1) {
+    return { success: false, error: 'أضف نكهة واحدة على الأقل.' };
+  }
+
+  try {
+    let warehouseIdToUse: string | null = isValidUuid(input.warehouseId)
+      ? input.warehouseId!
+      : null;
+    if (!warehouseIdToUse) {
+      const { data: warehouses } = await supabase
+        .from('warehouses')
+        .select('id')
+        .eq('is_active', true)
+        .limit(1);
+      warehouseIdToUse = warehouses?.[0]?.id || null;
+    }
+
+    let categoryIdToUse: string | null = isValidUuid(input.categoryId)
+      ? input.categoryId!
+      : null;
+    if (!categoryIdToUse) {
+      const { data: categories } = await supabase
+        .from('categories')
+        .select('id')
+        .eq('is_active', true)
+        .limit(1);
+      categoryIdToUse = categories?.[0]?.id || null;
+    }
+
+    let unitIdToUse: string | null = isValidUuid(input.unitId)
+      ? input.unitId!
+      : null;
+    if (!unitIdToUse && input.unitName?.trim()) {
+      const { data: units } = await supabase
+        .from('units')
+        .select('id')
+        .eq('name_ar', input.unitName.trim())
+        .limit(1);
+      unitIdToUse = units?.[0]?.id || null;
+    }
+    if (!unitIdToUse) {
+      const { data: units } = await supabase.from('units').select('id').limit(1);
+      unitIdToUse = units?.[0]?.id || null;
+    }
+
+    let purchaseUnitIdToUse: string | null = null;
+    if (input.purchasePackage?.trim()) {
+      const { data: units } = await supabase
+        .from('units')
+        .select('id')
+        .eq('name_ar', input.purchasePackage.trim())
+        .limit(1);
+      purchaseUnitIdToUse = units?.[0]?.id || null;
+    }
+    purchaseUnitIdToUse = purchaseUnitIdToUse || unitIdToUse;
+
+    let saleUnitIdToUse: string | null = null;
+    if (input.salePackage?.trim()) {
+      const { data: units } = await supabase
+        .from('units')
+        .select('id')
+        .eq('name_ar', input.salePackage.trim())
+        .limit(1);
+      saleUnitIdToUse = units?.[0]?.id || null;
+    }
+    saleUnitIdToUse = saleUnitIdToUse || purchaseUnitIdToUse || unitIdToUse;
+
+    const { data, error } = await supabase.rpc(
+      'create_product_family_with_flavors_v1',
+      {
+        p_sku: input.sku.trim(),
+        p_barcode: input.barcode?.trim() || null,
+        p_name_ar: input.nameAr.trim(),
+        p_description: input.description?.trim() || null,
+        p_category_id: categoryIdToUse,
+        p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,
+        p_unit_id: unitIdToUse,
+        p_purchase_unit_id: purchaseUnitIdToUse,
+        p_units_per_purchase_unit: Math.max(
+          1,
+          Math.floor(Number(input.unitsPerPackage) || 1)
+        ),
+        p_default_purchase_price_in_minor_units: Math.round(
+          Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000
+        ),
+        p_sale_unit_id: saleUnitIdToUse,
+        p_units_per_sale_unit: Math.max(
+          1,
+          Math.floor(Number(input.unitsPerSalePackage) || 1)
+        ),
+        p_default_sale_price_in_minor_units: Math.round(
+          Math.max(0, Number(input.salePackagePrice) || 0) * 1000
+        ),
+        p_cost_price_in_minor_units: Math.round(
+          Math.max(0, Number(input.costPrice) || 0) * 1000
+        ),
+        p_min_stock_level: Math.max(
+          0,
+          Math.floor(Number(input.reorderLevel) || 0)
+        ),
+        p_max_stock_level:
+          input.maxStockLevel === undefined
+            ? null
+            : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),
+        p_warehouse_id: warehouseIdToUse,
+        p_image_url: input.imageUrl?.trim() || null,
+        p_flavors: input.flavors.map((flavor) => ({
+          nameAr: flavor.nameAr.trim(),
+          openingSalePackages: Math.max(
+            0,
+            Math.floor(Number(flavor.openingSalePackages) || 0)
+          ),
+          imageUrl: flavor.imageUrl?.trim() || null,
+        })),
+      }
+    );
+
+    if (error) {
+      return {
+        success: false,
+        error: error.message,
+        errorDetails: {
+          code: error.code,
+          message: error.message,
+          details: error.details || undefined,
+          hint: error.hint || undefined,
+        },
+      };
+    }
+
+    return {
+      success: data?.success === true,
+      productId: data?.productId,
+      message:
+        data?.message ||
+        'تم إنشاء المنتج وجميع نكهاته ومخزونها بنجاح.',
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error?.message || 'تعذر إنشاء المنتج ونكهاته.',
+      errorDetails: {
+        code: error?.code || 'CLIENT_EXCEPTION',
+        message: error?.message || 'تعذر إنشاء المنتج ونكهاته.',
       },
     };
   }
