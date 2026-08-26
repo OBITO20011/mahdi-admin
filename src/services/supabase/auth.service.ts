@@ -27,6 +27,7 @@ export interface UserProfile {
   phone?: string;
   avatar_url?: string;
   branch_id?: string;
+  job_title?: string;
   is_active?: boolean;
 }
 
@@ -47,6 +48,25 @@ export interface FetchUserResult {
   primaryRole: string;
   isAuthorized: boolean;
   reason?: string;
+}
+
+export interface UpdateMyProfileInput {
+  fullName: string;
+  phone: string;
+  email: string;
+  avatarUrl: string;
+  language: 'ar' | 'en';
+  timezone: string;
+  address: string;
+  whatsapp: string;
+}
+
+export interface UpdateMyProfileResult {
+  emailConfirmationRequired: boolean;
+}
+
+function getErrorMessage(error: unknown, fallback: string): string {
+  return error instanceof Error && error.message ? error.message : fallback;
 }
 
 /**
@@ -79,6 +99,105 @@ export function translateAuthError(errorMessage?: string): string {
   return `خطأ في تسجيل الدخول: ${errorMessage}`;
 }
 
+export function translateAccountUpdateError(error: unknown): string {
+  const message = getErrorMessage(error, 'تعذر تحديث بيانات الحساب.');
+  const normalized = message.toLowerCase();
+
+  if (normalized.includes('reauthentication')) {
+    return 'يتطلب هذا التغيير تسجيل دخول حديثًا. سجّل الخروج ثم ادخل مرة أخرى وحاول.';
+  }
+  if (normalized.includes('same password')) {
+    return 'كلمة المرور الجديدة مطابقة لكلمة المرور الحالية. اختر كلمة مختلفة.';
+  }
+  if (normalized.includes('password')) {
+    return 'تعذر تحديث كلمة المرور. تأكد من استيفاء متطلبات الأمان ثم حاول.';
+  }
+  if (normalized.includes('email')) {
+    return 'تعذر تحديث البريد الإلكتروني. تأكد من صحة البريد أو استخدم بريدًا غير مستخدم.';
+  }
+
+  return message;
+}
+
+export async function updateMyProfileInSupabase(
+  input: UpdateMyProfileInput,
+): Promise<UpdateMyProfileResult> {
+  if (!supabase || !isSupabaseConfigured) {
+    throw new Error('إعداد Supabase غير مكتمل. لا يمكن تحديث الملف الشخصي الآن.');
+  }
+
+  const fullName = input.fullName.trim();
+  const phone = input.phone.trim();
+  const email = input.email.trim();
+  const avatarUrl = input.avatarUrl.trim();
+
+  const {data: currentUserData, error: currentUserError} =
+    await supabase.auth.getUser();
+  if (currentUserError || !currentUserData.user) {
+    throw currentUserError || new Error('انتهت جلسة الحساب. سجّل الدخول مجددًا.');
+  }
+
+  const currentUser = currentUserData.user;
+  const emailChanged =
+    email.toLocaleLowerCase() !== (currentUser.email || '').toLocaleLowerCase();
+
+  const {data: authUpdateData, error: authUpdateError} =
+    await supabase.auth.updateUser({
+      ...(emailChanged ? {email} : {}),
+      data: {
+        language: input.language,
+        timezone: input.timezone.trim(),
+        address: input.address.trim(),
+        whatsapp: input.whatsapp.trim(),
+      },
+    });
+
+  if (authUpdateError || !authUpdateData.user) {
+    throw authUpdateError || new Error('تعذر تحديث إعدادات حساب Supabase.');
+  }
+
+  const {data: profilePayload, error: profileError} = await supabase.rpc(
+    'update_my_erp_profile',
+    {
+      p_full_name: fullName,
+      p_phone: phone || null,
+      p_avatar_url: avatarUrl || null,
+    },
+  );
+
+  if (profileError) {
+    throw profileError;
+  }
+
+  if (
+    !profilePayload ||
+    typeof profilePayload !== 'object' ||
+    !('success' in profilePayload) ||
+    profilePayload.success !== true
+  ) {
+    throw new Error('لم تؤكد قاعدة البيانات حفظ الملف الشخصي.');
+  }
+
+  return {
+    emailConfirmationRequired:
+      emailChanged &&
+      authUpdateData.user.email.toLocaleLowerCase() !== email.toLocaleLowerCase(),
+  };
+}
+
+export async function updateMyPasswordInSupabase(
+  newPassword: string,
+): Promise<void> {
+  if (!supabase || !isSupabaseConfigured) {
+    throw new Error('إعداد Supabase غير مكتمل. لا يمكن تحديث كلمة المرور الآن.');
+  }
+
+  const {error} = await supabase.auth.updateUser({password: newPassword});
+  if (error) {
+    throw error;
+  }
+}
+
 /**
  * Fetch profile and role from Supabase tables (public.profiles and public.user_roles)
  */
@@ -97,7 +216,7 @@ export async function fetchUserProfileAndRole(userId: string): Promise<FetchUser
     // 1. Fetch profile from public.profiles
     const { data: profile, error: profileErr } = await supabase
       .from('profiles')
-      .select('*')
+      .select('id, full_name, phone, avatar_url, branch_id, job_title, is_active')
       .eq('id', userId)
       .maybeSingle();
 

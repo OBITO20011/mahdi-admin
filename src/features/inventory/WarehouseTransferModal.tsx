@@ -5,7 +5,13 @@
 import React, { useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { formatProductInventory } from '../../utils/inventoryFormatter';
-import { ArrowLeftRight, Check, Package, Warehouse as WarehouseIcon } from 'lucide-react';
+import {
+  ArrowLeftRight,
+  Check,
+  LoaderCircle,
+  Package,
+  Warehouse as WarehouseIcon,
+} from 'lucide-react';
 
 interface WarehouseTransferModalProps {
   productId?: string;
@@ -27,10 +33,11 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
     warehouses[1]?.id || warehouses[0]?.id || 'w-main'
   );
   const [reason, setReason] = useState<string>('نقل مخزون لتلبية احتياج الفرع');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const selectedProduct = products.find((p) => p.id === selectedProductId);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!selectedProduct) {
@@ -48,20 +55,22 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
       return;
     }
 
-    if (transferQty > selectedProduct.onHandQuantity) {
-      setToast(`الكمية المراد نقلها (${transferQty}) أكبر من المتوفر في المستودع الحالي (${selectedProduct.onHandQuantity})`, 'error');
-      return;
+    setIsSubmitting(true);
+    try {
+      const result = await transferWarehouse({
+        productId: selectedProduct.id,
+        quantity: transferQty,
+        fromWarehouseId,
+        toWarehouseId,
+        reason,
+      });
+
+      if (result?.success) {
+        onClose();
+      }
+    } finally {
+      setIsSubmitting(false);
     }
-
-    transferWarehouse({
-      productId: selectedProduct.id,
-      quantity: transferQty,
-      fromWarehouseId,
-      toWarehouseId,
-      reason,
-    });
-
-    onClose();
   };
 
   return (
@@ -207,15 +216,21 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
       <div className="flex gap-2 pt-3 border-t border-slate-800">
         <button
           type="submit"
+          disabled={isSubmitting}
           className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5 shadow-lg shadow-blue-600/20"
         >
-          <Check className="w-4 h-4" />
-          <span>تأكيد نقل المخزون</span>
+          {isSubmitting ? (
+            <LoaderCircle className="w-4 h-4 animate-spin" />
+          ) : (
+            <Check className="w-4 h-4" />
+          )}
+          <span>{isSubmitting ? 'جارٍ تأكيد النقل...' : 'تأكيد نقل المخزون'}</span>
         </button>
 
         <button
           type="button"
           onClick={onClose}
+          disabled={isSubmitting}
           className="px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 rounded-xl text-xs transition"
         >
           إلغاء

@@ -5,6 +5,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { useAuthStore } from '../../stores/useAuthStore';
+import {
+  translateAccountUpdateError,
+  updateMyPasswordInSupabase,
+  updateMyProfileInSupabase,
+} from '../../services/supabase/auth.service';
 import { isDeviceBiometricAvailable } from '../../services/deviceBiometrics.service';
 import {
   beginTotpEnrollment,
@@ -39,16 +44,13 @@ import {
 } from 'lucide-react';
 
 export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const { signOut } = useAuthStore();
+  const { signOut, refreshCurrentUser } = useAuthStore();
   const {
     currentUser,
     branches,
-    updateProfile,
-    changePassword,
     isBiometricsEnabled,
     toggleFaceId,
     updateNotificationPreferences,
-    updateDefaultBranch,
     logoutOtherSessions,
     setToast,
   } = useAppStore();
@@ -201,7 +203,6 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
   ];
 
   // Password state
-  const [oldPass, setOldPass] = useState('');
   const [newPass, setNewPass] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
 
@@ -222,15 +223,11 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
   const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
   const [showUnsavedPrompt, setShowUnsavedPrompt] = useState(false);
 
-  const isOwnerOrAdmin = currentUser.role === 'Owner' || currentUser.role === 'Admin';
-
   // Check if form is dirty
   const isDirty =
     name !== currentUser.name ||
     phone !== currentUser.phone ||
     email !== currentUser.email ||
-    jobTitle !== (currentUser.jobTitle || '') ||
-    branchId !== currentUser.branchId ||
     language !== (currentUser.language || 'ar') ||
     timezone !== (currentUser.timezone || 'Asia/Amman') ||
     address !== (currentUser.address || '') ||
@@ -281,7 +278,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
   };
 
   // Handle Edit Profile Submission
-  const handleSaveProfile = (e: React.FormEvent) => {
+  const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) {
       setToast('يرجى تصحيح الأخطاء في النموذج قبل الحفظ', 'error');
@@ -289,36 +286,38 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
     }
 
     setIsSaving(true);
+    try {
+      const result = await updateMyProfileInSupabase({
+        fullName: name,
+        email,
+        phone,
+        avatarUrl,
+        language,
+        timezone,
+        address,
+        whatsapp,
+      });
+      const refreshResult = await refreshCurrentUser();
+      if (!refreshResult.success) {
+        throw new Error(refreshResult.error || 'تم الحفظ لكن تعذر تحديث العرض. أعد فتح الصفحة.');
+      }
 
-    const updates = {
-      name: name.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
-      jobTitle: jobTitle.trim(),
-      branchId,
-      language,
-      timezone,
-      address: address.trim(),
-      whatsapp: whatsapp.trim(),
-      avatarUrl,
-    };
-
-    updateProfile(updates);
-    if (branchId !== currentUser.branchId && isOwnerOrAdmin) {
-      updateDefaultBranch(branchId);
+      setActiveTab('profile');
+      setToast(
+        result.emailConfirmationRequired
+          ? 'تم حفظ بيانات الملف الشخصي. أرسل Supabase رسالة لتأكيد البريد الإلكتروني الجديد.'
+          : 'تم تحديث بيانات ملفك الشخصي بنجاح.',
+      );
+    } catch (error) {
+      setToast(translateAccountUpdateError(error), 'error');
+    } finally {
+      setIsSaving(false);
     }
-    setIsSaving(false);
-    setActiveTab('profile');
-    setToast('تم تحديث بيانات ملفك الشخصي بنجاح!');
   };
 
   // Password change submission
-  const handleSavePassword = (e: React.FormEvent) => {
+  const handleSavePassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!oldPass) {
-      setToast('يرجى إدخال كلمة المرور الحالية', 'error');
-      return;
-    }
     if (newPass.length < 6) {
       setToast('كلمة المرور الجديدة يجب أن لا تقل عن 6 خانات', 'error');
       return;
@@ -329,15 +328,20 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
     }
 
     setIsSaving(true);
-    setTimeout(() => {
-      const success = changePassword(oldPass, newPass);
-      setIsSaving(false);
-      if (success !== false) {
-        setOldPass('');
-        setNewPass('');
-        setConfirmPass('');
+    try {
+      await updateMyPasswordInSupabase(newPass);
+      const refreshResult = await refreshCurrentUser();
+      if (!refreshResult.success) {
+        throw new Error(refreshResult.error || 'تم التحديث لكن تعذر تحديث الجلسة.');
       }
-    }, 500);
+      setToast('تم تحديث كلمة المرور في Supabase بنجاح.');
+      setNewPass('');
+      setConfirmPass('');
+    } catch (error) {
+      setToast(translateAccountUpdateError(error), 'error');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   // Save Notifications
@@ -650,17 +654,17 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
               <input
                 type="text"
                 value={jobTitle}
-                onChange={(e) => setJobTitle(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-blue-500"
+                readOnly
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-400 cursor-not-allowed"
               />
+              <p className="text-[9px] text-slate-500">يديره مالك النظام من المستخدمين والصلاحيات.</p>
             </div>
 
             <div className="space-y-1">
               <label className="text-[11px] font-bold text-slate-300 block">الفرع الافتراضي</label>
               <select
                 value={branchId}
-                disabled={!isOwnerOrAdmin}
-                onChange={(e) => setBranchId(e.target.value)}
+                disabled
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 disabled:opacity-60 focus:outline-none focus:border-blue-500"
               >
                 {branches.map((b) => (
@@ -669,9 +673,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                   </option>
                 ))}
               </select>
-              {!isOwnerOrAdmin && (
-                <p className="text-[9px] text-amber-400">تغيير الفرع مقتصر على المدير والأدمن</p>
-              )}
+              <p className="text-[9px] text-amber-400">تغيير الفرع من إدارة المستخدمين والصلاحيات فقط.</p>
             </div>
           </div>
 
@@ -934,16 +936,9 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
               <h4 className="font-extrabold text-slate-100 text-xs">تغيير كلمة المرور</h4>
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[10px] text-slate-400 block">كلمة المرور الحالية *</label>
-              <input
-                type="password"
-                required
-                value={oldPass}
-                onChange={(e) => setOldPass(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 font-mono focus:outline-none focus:border-blue-500"
-              />
-            </div>
+            <p className="text-[10px] leading-relaxed text-slate-400">
+              سيتم تغيير كلمة المرور للحساب الحالي مباشرة عبر Supabase Auth. لا نخزن كلمة المرور أو نتحقق منها محليًا.
+            </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div className="space-y-1">

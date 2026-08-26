@@ -18,9 +18,23 @@ export interface AdjustInventoryStockInput {
   adjustmentType?: 'stock_count' | 'damage' | 'expired' | 'manual';
 }
 
+export interface TransferInventoryInput {
+  productId: string;
+  sourceWarehouseId: string;
+  destinationWarehouseId: string;
+  quantity: number;
+  notes?: string;
+}
+
+export interface SupabaseInventoryMutationResult {
+  success: boolean;
+  data?: unknown;
+  error?: string;
+}
+
 export async function receiveInventoryInSupabase(
   input: ReceiveInventoryInput
-): Promise<{ success: boolean; data?: any; error?: string }> {
+): Promise<SupabaseInventoryMutationResult> {
   if (!isSupabaseConfigured || !supabase) {
     throw new Error('Supabase client is not configured');
   }
@@ -103,6 +117,71 @@ function mapMovementType(
   return movementTypes[movementType] || 'Manual Adjustment';
 }
 
+export async function transferInventoryBetweenWarehousesInSupabase(
+  input: TransferInventoryInput,
+): Promise<SupabaseInventoryMutationResult> {
+  if (!isSupabaseConfigured || !supabase) {
+    return {
+      success: false,
+      error: 'الاتصال بقاعدة بيانات Supabase غير متاح.',
+    };
+  }
+
+  const quantity = Math.floor(Number(input.quantity));
+  if (!Number.isFinite(quantity) || quantity <= 0) {
+    return {
+      success: false,
+      error: 'الكمية المنقولة يجب أن تكون عددًا صحيحًا أكبر من صفر.',
+    };
+  }
+
+  if (input.sourceWarehouseId === input.destinationWarehouseId) {
+    return {
+      success: false,
+      error: 'يجب اختيار مستودعين مختلفين لعملية النقل.',
+    };
+  }
+
+  try {
+    const { data, error } = await supabase.rpc(
+      'transfer_inventory_between_warehouses',
+      {
+        p_product_id: input.productId,
+        p_source_warehouse_id: input.sourceWarehouseId,
+        p_destination_warehouse_id: input.destinationWarehouseId,
+        p_quantity: quantity,
+        p_notes: input.notes?.trim() || null,
+      },
+    );
+
+    if (error) {
+      console.error('RPC transfer_inventory_between_warehouses error:', error);
+      return {success: false, error: error.message};
+    }
+
+    if (
+      !data ||
+      typeof data !== 'object' ||
+      !('success' in data) ||
+      data.success !== true
+    ) {
+      return {
+        success: false,
+        error: 'تعذر تأكيد نقل المخزون من قاعدة البيانات.',
+      };
+    }
+
+    return {success: true, data};
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : 'تعذر التواصل مع قاعدة بيانات Supabase.';
+    console.error('Exception during inventory transfer:', error);
+    return {success: false, error: message};
+  }
+}
+
 export async function fetchInventoryMovementsFromSupabase(): Promise<
   InventoryMovement[]
 > {
@@ -174,7 +253,7 @@ export async function fetchInventoryMovementsFromSupabase(): Promise<
 
 export async function adjustInventoryStockInSupabase(
   input: AdjustInventoryStockInput
-): Promise<{ success: boolean; data?: any; error?: string }> {
+): Promise<SupabaseInventoryMutationResult> {
   if (!isSupabaseConfigured || !supabase) {
     return {
       success: false,
@@ -200,10 +279,13 @@ export async function adjustInventoryStockInSupabase(
     }
 
     return { success: true, data };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return {
       success: false,
-      error: error?.message || 'تعذر الاتصال بقاعدة بيانات Supabase.',
+      error:
+        error instanceof Error
+          ? error.message
+          : 'تعذر الاتصال بقاعدة بيانات Supabase.',
     };
   }
 }

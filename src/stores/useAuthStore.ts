@@ -13,6 +13,20 @@ import {
 import { storeEngine } from './useAppStore';
 import { Role } from '../types';
 
+function readUserMetadataString(metadata: unknown, key: string): string | undefined {
+  if (typeof metadata !== 'object' || metadata === null || Array.isArray(metadata)) {
+    return undefined;
+  }
+
+  const value = (metadata as Record<string, unknown>)[key];
+  return typeof value === 'string' && value.trim() ? value.trim() : undefined;
+}
+
+function readUserMetadataLanguage(metadata: unknown): 'ar' | 'en' | undefined {
+  const value = readUserMetadataString(metadata, 'language');
+  return value === 'ar' || value === 'en' ? value : undefined;
+}
+
 export interface AuthState {
   user: User | null;
   session: Session | null;
@@ -216,22 +230,31 @@ class AuthStoreEngine {
     if (roleLower === 'orders') appRole = 'Orders Employee';
     if (roleLower === 'delivery_driver') appRole = 'Delivery Driver';
 
-    // Synchronize current logged-in user details to App Store
+    const userMetadata = user.user_metadata;
+
+    // Synchronize current logged-in user details to App Store. Profiles and
+    // Auth metadata are the source of truth; no persisted UI user object is
+    // allowed to overwrite these values.
     storeEngine.setCurrentUser({
       id: user.id,
       name:
         result.profile?.full_name ||
         result.profile?.name ||
-        user.user_metadata?.full_name ||
+        readUserMetadataString(userMetadata, 'full_name') ||
         user.email?.split('@')[0] ||
         'مستخدم نواصرة',
       email: user.email || result.profile?.email || '',
       phone: result.profile?.phone || user.phone || '',
       avatarUrl:
         result.profile?.avatar_url ||
-        user.user_metadata?.avatar_url ||
+        readUserMetadataString(userMetadata, 'avatar_url') ||
         undefined,
       branchId: result.profile?.branch_id || storeEngine.getState().activeBranch?.id || '',
+      jobTitle: result.profile?.job_title || undefined,
+      language: readUserMetadataLanguage(userMetadata),
+      timezone: readUserMetadataString(userMetadata, 'timezone'),
+      address: readUserMetadataString(userMetadata, 'address'),
+      whatsapp: readUserMetadataString(userMetadata, 'whatsapp'),
       role: appRole,
       isActive: true,
     });
@@ -307,6 +330,31 @@ class AuthStoreEngine {
       this.notify();
       return { success: false, error: arabicError };
     }
+  }
+
+  public async refreshCurrentUser(): Promise<{
+    success: boolean;
+    error?: string;
+  }> {
+    if (!supabase || !isSupabaseConfigured) {
+      return {success: false, error: 'تعذر الاتصال بخادم المصادقة.'};
+    }
+
+    const {data, error} = await supabase.auth.getSession();
+    if (error || !data.session) {
+      return {
+        success: false,
+        error: error?.message || 'انتهت جلسة الحساب. سجّل الدخول مجددًا.',
+      };
+    }
+
+    await this.handleUserSession(data.session);
+    return this.state.isAuthenticated
+      ? {success: true}
+      : {
+          success: false,
+          error: this.state.authError || 'تعذر تحديث بيانات الحساب.',
+        };
   }
 
   public async verifyMfa(code: string): Promise<{ success: boolean; error?: string }> {
@@ -391,6 +439,7 @@ export function useAuthStore() {
       authStoreEngine.signIn(e, p, captchaToken),
     verifyMfa: (code: string) => authStoreEngine.verifyMfa(code),
     cancelMfa: () => authStoreEngine.cancelMfa(),
+    refreshCurrentUser: () => authStoreEngine.refreshCurrentUser(),
     signOut: () => authStoreEngine.signOut(),
     clearError: () => authStoreEngine.clearError(),
   };

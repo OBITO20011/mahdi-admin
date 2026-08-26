@@ -42,6 +42,7 @@ import {
   adjustInventoryStockInSupabase,
   fetchInventoryMovementsFromSupabase,
   receiveInventoryInSupabase,
+  transferInventoryBetweenWarehousesInSupabase,
 } from '../services/supabase/inventory.service';
 import {
   fetchCategoriesFromSupabase,
@@ -1381,7 +1382,7 @@ class StoreEngine {
     return result;
   }
 
-  public transferWarehouse(params: {
+  public async transferWarehouse(params: {
     productId: string;
     quantity: number;
     fromWarehouseId: string;
@@ -1391,54 +1392,38 @@ class StoreEngine {
     reason?: string;
   }) {
     const prod = this.state.products.find((p) => p.id === params.productId);
-    if (!prod) return;
+    if (!prod) {
+      const error = 'المنتج المحدد غير موجود.';
+      this.setToast(error, 'error');
+      return {success: false, error};
+    }
 
     const fromWh = this.state.warehouses.find((w) => w.id === params.fromWarehouseId)?.name || params.fromWarehouseId;
     const toWh = this.state.warehouses.find((w) => w.id === params.toWarehouseId)?.name || params.toWarehouseId;
 
     const reason = params.reason || `نقل مخزون من ${fromWh} إلى ${toWh}`;
 
-    // Record transfer out
-    this.state.movements.unshift({
-      id: `mov-${Date.now()}-out`,
-      productId: prod.id,
-      productName: prod.nameAr,
-      branchId: params.fromBranchId || prod.branchId || this.state.activeBranch.id,
-      warehouseId: params.fromWarehouseId,
-      movementType: 'Transfer Out',
-      previousQuantity: prod.onHandQuantity,
-      quantityChange: -params.quantity,
-      newQuantity: prod.onHandQuantity,
-      reason: `تحويل خروج: ${reason}`,
-      performedByUserId: this.state.currentUser.id,
-      performedByUserName: this.state.currentUser.name,
-      timestamp: new Date().toISOString(),
+    const result = await transferInventoryBetweenWarehousesInSupabase({
+      productId: params.productId,
+      quantity: params.quantity,
+      sourceWarehouseId: params.fromWarehouseId,
+      destinationWarehouseId: params.toWarehouseId,
+      notes: reason,
     });
 
-    // Record transfer in
-    this.state.movements.unshift({
-      id: `mov-${Date.now()}-in`,
-      productId: prod.id,
-      productName: prod.nameAr,
-      branchId: params.toBranchId || prod.branchId || this.state.activeBranch.id,
-      warehouseId: params.toWarehouseId,
-      movementType: 'Transfer In',
-      previousQuantity: prod.onHandQuantity,
-      quantityChange: params.quantity,
-      newQuantity: prod.onHandQuantity,
-      reason: `تحويل دخول: ${reason}`,
-      performedByUserId: this.state.currentUser.id,
-      performedByUserName: this.state.currentUser.name,
-      timestamp: new Date().toISOString(),
-    });
+    if (!result.success) {
+      this.setToast(result.error || 'تعذر نقل المخزون في Supabase.', 'error');
+      return result;
+    }
 
-    prod.warehouseId = params.toWarehouseId;
-    if (params.toBranchId) prod.branchId = params.toBranchId;
-    prod.updatedAt = new Date().toISOString();
+    await Promise.all([
+      this.refreshProductsFromSupabase(),
+      this.refreshInventoryMovementsFromSupabase(),
+      this.refreshStockNotificationsFromSupabase(),
+    ]);
 
-    this.addAuditLog('نقل مخزون', `نقل ${params.quantity} ${prod.unit} لـ ${prod.nameAr} من ${fromWh} إلى ${toWh}`);
     this.setToast(`تم نقل ${params.quantity} ${prod.unit} لـ ${prod.nameAr} إلى ${toWh} بنجاح`);
-    this.notify();
+    return result;
   }
 
   public async executeStockCount(params: {
@@ -1474,10 +1459,14 @@ class StoreEngine {
       this.refreshInventoryMovementsFromSupabase(),
       this.refreshStockNotificationsFromSupabase(),
     ]);
-    this.setToast(
-      result.data?.message ||
-        `تم اعتماد جرد ${prod.nameAr} وحفظه في Supabase.`
-    );
+    const resultMessage =
+      result.data &&
+      typeof result.data === 'object' &&
+      'message' in result.data &&
+      typeof result.data.message === 'string'
+        ? result.data.message
+        : `تم اعتماد جرد ${prod.nameAr} وحفظه في Supabase.`;
+    this.setToast(resultMessage);
     return result;
   }
 
