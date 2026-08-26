@@ -266,19 +266,23 @@ export async function fetchProductsFromSupabase(): Promise<{
       };
     }
 
-    // Query inventory balances
-    const { data: dbBalances, error: balError } = await supabase
-      .from('inventory_balances')
-      .select('product_id, warehouse_id, on_hand_quantity, reserved_quantity, available_quantity');
+    // Balances and images are independent, so load them in one network round.
+    const [balancesResult, imagesResult] = await Promise.all([
+      supabase
+        .from('inventory_balances')
+        .select(
+          'product_id, warehouse_id, on_hand_quantity, reserved_quantity, available_quantity',
+        ),
+      supabase
+        .from('product_images')
+        .select('product_id, image_url, is_primary'),
+    ]);
+    const { data: dbBalances, error: balError } = balancesResult;
+    const { data: dbImages, error: imgError } = imagesResult;
 
     if (balError) {
       console.error('[Supabase inventory_balances Query Error]:', balError);
     }
-
-    // Query primary product images
-    const { data: dbImages, error: imgError } = await supabase
-      .from('product_images')
-      .select('product_id, image_url, is_primary');
 
     if (imgError) {
       console.error('[Supabase product_images Query Error]:', imgError);

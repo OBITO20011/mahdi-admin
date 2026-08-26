@@ -1,4 +1,5 @@
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
+import { RequestTimeoutError, runWithTimeout } from '../../lib/async';
 import {
   HomeDashboardData,
   HomeDashboardOrder,
@@ -107,7 +108,11 @@ export async function fetchHomeDashboardFromSupabase(): Promise<DashboardResult>
   }
 
   try {
-    const { data, error } = await supabase.rpc('get_home_dashboard');
+    const { data, error } = await runWithTimeout(
+      (signal) => supabase.rpc('get_home_dashboard').abortSignal(signal),
+      12_000,
+      'استغرق تحميل مركز اليوم وقتًا أطول من المتوقع.',
+    );
 
     if (error) {
       return {
@@ -170,7 +175,9 @@ export async function fetchHomeDashboardFromSupabase(): Promise<DashboardResult>
     return {
       success: false,
       error:
-        error instanceof Error
+        error instanceof RequestTimeoutError
+          ? `${error.message} تحقق من الاتصال ثم أعد المحاولة.`
+          : error instanceof Error
           ? error.message
           : 'حدث خطأ غير متوقع أثناء تحميل الصفحة الرئيسية.',
       source: 'rpc',

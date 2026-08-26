@@ -97,6 +97,7 @@ const ViewLoadingFallback: React.FC = () => (
 export const App: React.FC = () => {
   const {
     activeTab,
+    currentModal,
     toast,
     setToast,
     currentUser,
@@ -311,9 +312,11 @@ export const App: React.FC = () => {
       <BottomTabs />
 
       {/* All Modal Sheets Dispatcher */}
-      <Suspense fallback={null}>
-        <AllModals />
-      </Suspense>
+      {currentModal && (
+        <Suspense fallback={null}>
+          <AllModals />
+        </Suspense>
+      )}
     </IPhoneContainer>
   );
 };

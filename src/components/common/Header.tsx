@@ -24,6 +24,7 @@ export const Header: React.FC = () => {
 
   useEffect(() => {
     let isInitialLoad = true;
+    let initialRefreshTimer: number | null = null;
 
     const refreshAlerts = async () => {
       const latest = await refreshStockNotificationsFromSupabase();
@@ -52,9 +53,16 @@ export const Header: React.FC = () => {
       isInitialLoad = false;
     };
 
-    refreshAlerts();
+    // Let the active operational screen load first; alerts remain realtime and
+    // are warmed shortly afterwards without competing with the first paint.
+    initialRefreshTimer = window.setTimeout(() => {
+      void refreshAlerts();
+    }, 400);
     const unsubscribe = subscribeToStockAlertChanges(refreshAlerts);
-    return unsubscribe;
+    return () => {
+      if (initialRefreshTimer) window.clearTimeout(initialRefreshTimer);
+      unsubscribe();
+    };
   }, [refreshStockNotificationsFromSupabase]);
 
   return (

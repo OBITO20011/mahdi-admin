@@ -133,6 +133,23 @@ test.describe('متجر العملاء العام', () => {
 });
 
 test.describe('بوابة الإدارة العامة', () => {
+  test('لا تحمل بيانات العمل قبل اكتمال تسجيل الدخول', async ({ page }) => {
+    const businessRequests: string[] = [];
+    page.on('request', (request) => {
+      const url = request.url();
+      if (url.includes('/rest/v1/') || url.includes('/storage/v1/object/')) {
+        businessRequests.push(url);
+      }
+    });
+
+    await page.goto(adminBaseUrl, { waitUntil: 'networkidle' });
+    await expect(
+      page.getByText(/تسجيل الدخول للنظام|جاري التحقق من جلسة الدخول/).first(),
+    ).toBeVisible({ timeout: 15_000 });
+
+    expect(businessRequests).toEqual([]);
+  });
+
   test('تفتح بواجهة عربية محمية دون انهيار', async ({ page }) => {
     await page.goto(adminBaseUrl, { waitUntil: 'domcontentloaded' });
 

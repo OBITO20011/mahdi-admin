@@ -6,6 +6,13 @@ interface ImportMetaEnv {
   readonly VITE_SENTRY_DSN?: string;
 }
 
+interface Window {
+  requestIdleCallback?: (
+    callback: () => void,
+    options?: { timeout: number },
+  ) => number;
+}
+
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }

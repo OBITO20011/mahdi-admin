@@ -15,4 +15,5 @@ test('admin feature screens and modal dispatcher load on demand', () => {
   assert.match(app, /import\('\.\/features\/products\/ProductsView'\)/);
   assert.match(app, /import\('\.\/components\/modals\/AllModals'\)/);
   assert.match(app, /<Suspense fallback=\{<ViewLoadingFallback \/>\}>/);
+  assert.match(app, /\{currentModal && \(\s*<Suspense fallback=\{null\}>/);
 });

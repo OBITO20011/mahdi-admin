@@ -174,6 +174,11 @@ export interface AppState {
 class StoreEngine {
   private state: AppState;
   private listeners: Set<() => void> = new Set();
+  private productsRefreshPromise: Promise<void> | null = null;
+  private ordersRefreshPromise: Promise<void> | null = null;
+  private movementsRefreshPromise: Promise<void> | null = null;
+  private financeRefreshPromise: Promise<void> | null = null;
+  private notificationsRefreshPromise: Promise<NotificationItem[]> | null = null;
 
   constructor() {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -219,14 +224,21 @@ class StoreEngine {
       this.state = initial;
     }
 
-    if (isSupabaseConfigured) {
-      this.refreshProductsFromSupabase();
-      this.refreshOrdersFromSupabase();
-      this.refreshInventoryMovementsFromSupabase();
-    }
   }
 
-  public async refreshOrdersFromSupabase() {
+  public refreshOrdersFromSupabase(): Promise<void> {
+    if (this.ordersRefreshPromise) return this.ordersRefreshPromise;
+
+    const refreshPromise = this.performOrdersRefresh().finally(() => {
+      if (this.ordersRefreshPromise === refreshPromise) {
+        this.ordersRefreshPromise = null;
+      }
+    });
+    this.ordersRefreshPromise = refreshPromise;
+    return refreshPromise;
+  }
+
+  private async performOrdersRefresh(): Promise<void> {
     if (!isSupabaseConfigured) return;
     try {
       const res = await fetchOrdersFromSupabase('all');
@@ -239,7 +251,19 @@ class StoreEngine {
     }
   }
 
-  public async refreshProductsFromSupabase() {
+  public refreshProductsFromSupabase(): Promise<void> {
+    if (this.productsRefreshPromise) return this.productsRefreshPromise;
+
+    const refreshPromise = this.performProductsRefresh().finally(() => {
+      if (this.productsRefreshPromise === refreshPromise) {
+        this.productsRefreshPromise = null;
+      }
+    });
+    this.productsRefreshPromise = refreshPromise;
+    return refreshPromise;
+  }
+
+  private async performProductsRefresh(): Promise<void> {
     this.state.isProductsLoading = true;
     this.state.supabaseDiagnostics = {
       ...this.state.supabaseDiagnostics,
@@ -270,16 +294,18 @@ class StoreEngine {
 
       if (res.source === 'supabase') {
         if (!res.errorDetails) {
-          const categories = await fetchCategoriesFromSupabase();
+          const [categories, brands, units, branches, warehouses] =
+            await Promise.all([
+              fetchCategoriesFromSupabase(),
+              fetchBrandsFromSupabase(),
+              fetchUnitsFromSupabase(),
+              fetchBranchesFromSupabase(),
+              fetchWarehousesFromSupabase(),
+            ]);
+
           this.state.categories = categories;
-
-          const brands = await fetchBrandsFromSupabase();
           this.state.brands = brands;
-
-          const units = await fetchUnitsFromSupabase();
           this.state.units = units;
-
-          const branches = await fetchBranchesFromSupabase();
           this.state.branches = branches;
           if (branches.length > 0) {
             // Always replace the cached object with the fresh Supabase record.
@@ -290,7 +316,6 @@ class StoreEngine {
               ) ?? branches[0];
           }
 
-          const warehouses = await fetchWarehousesFromSupabase();
           this.state.warehouses = warehouses;
 
           if (this.state.currentUser.id && this.state.activeBranch.id) {
@@ -340,7 +365,19 @@ class StoreEngine {
     return units;
   }
 
-  public async refreshInventoryMovementsFromSupabase() {
+  public refreshInventoryMovementsFromSupabase(): Promise<void> {
+    if (this.movementsRefreshPromise) return this.movementsRefreshPromise;
+
+    const refreshPromise = this.performMovementsRefresh().finally(() => {
+      if (this.movementsRefreshPromise === refreshPromise) {
+        this.movementsRefreshPromise = null;
+      }
+    });
+    this.movementsRefreshPromise = refreshPromise;
+    return refreshPromise;
+  }
+
+  private async performMovementsRefresh(): Promise<void> {
     if (!isSupabaseConfigured) return;
 
     try {
@@ -355,7 +392,19 @@ class StoreEngine {
     }
   }
 
-  public async refreshExpenseShiftCenterFromSupabase() {
+  public refreshExpenseShiftCenterFromSupabase(): Promise<void> {
+    if (this.financeRefreshPromise) return this.financeRefreshPromise;
+
+    const refreshPromise = this.performFinanceRefresh().finally(() => {
+      if (this.financeRefreshPromise === refreshPromise) {
+        this.financeRefreshPromise = null;
+      }
+    });
+    this.financeRefreshPromise = refreshPromise;
+    return refreshPromise;
+  }
+
+  private async performFinanceRefresh(): Promise<void> {
     if (
       !isSupabaseConfigured ||
       !this.state.currentUser.id ||
@@ -378,7 +427,21 @@ class StoreEngine {
     }
   }
 
-  public async refreshStockNotificationsFromSupabase() {
+  public refreshStockNotificationsFromSupabase(): Promise<NotificationItem[]> {
+    if (this.notificationsRefreshPromise) {
+      return this.notificationsRefreshPromise;
+    }
+
+    const refreshPromise = this.performNotificationsRefresh().finally(() => {
+      if (this.notificationsRefreshPromise === refreshPromise) {
+        this.notificationsRefreshPromise = null;
+      }
+    });
+    this.notificationsRefreshPromise = refreshPromise;
+    return refreshPromise;
+  }
+
+  private async performNotificationsRefresh(): Promise<NotificationItem[]> {
     if (!isSupabaseConfigured) {
       this.state.notifications = [];
       this.notify();

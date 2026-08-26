@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   AlertCircle,
   AlertTriangle,
@@ -213,27 +213,55 @@ export const DashboardView: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [realtimeConnected, setRealtimeConnected] = useState(false);
+  const refreshPromiseRef = useRef<Promise<void> | null>(null);
+  const queuedRefreshRef = useRef(false);
+  const mountedRef = useRef(true);
 
   const loadDashboard = useCallback(async (silent = false) => {
-    if (!silent) setLoading(true);
-    setError(null);
-
-    const result = await fetchHomeDashboardFromSupabase();
-    if (result.success) {
-      setData(result.data);
-    } else if ('error' in result) {
-      setError(result.error);
+    if (refreshPromiseRef.current) {
+      queuedRefreshRef.current = true;
+      return refreshPromiseRef.current;
     }
 
-    if (!silent) setLoading(false);
+    const refresh = async () => {
+      if (!silent && mountedRef.current) setLoading(true);
+      if (mountedRef.current) setError(null);
+
+      do {
+        queuedRefreshRef.current = false;
+        const result = await fetchHomeDashboardFromSupabase();
+        if (!mountedRef.current) return;
+
+        if (result.success) {
+          setData(result.data);
+          setError(null);
+        } else if ('error' in result) {
+          setError(result.error);
+        }
+      } while (queuedRefreshRef.current && mountedRef.current);
+
+      if (!silent && mountedRef.current) setLoading(false);
+    };
+
+    const promise = refresh().finally(() => {
+      refreshPromiseRef.current = null;
+    });
+    refreshPromiseRef.current = promise;
+    return promise;
   }, []);
 
   useEffect(() => {
+    mountedRef.current = true;
     void loadDashboard();
-    return subscribeToDashboardRealtime(
+    const unsubscribe = subscribeToDashboardRealtime(
       () => void loadDashboard(true),
       setRealtimeConnected
     );
+    return () => {
+      mountedRef.current = false;
+      queuedRefreshRef.current = false;
+      unsubscribe();
+    };
   }, [loadDashboard]);
 
   if (loading && !data) {

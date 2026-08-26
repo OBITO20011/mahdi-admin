@@ -5,7 +5,13 @@ import './index.css';
 import {initErrorMonitoring} from './lib/errorMonitoring';
 import {registerAdminServiceWorker} from './pwa/pwa';
 
-initErrorMonitoring();
+const startErrorMonitoring = () => initErrorMonitoring();
+
+if ('requestIdleCallback' in window) {
+  window.requestIdleCallback(startErrorMonitoring, {timeout: 3_000});
+} else {
+  window.setTimeout(startErrorMonitoring, 1_500);
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

@@ -238,11 +238,17 @@ class AuthStoreEngine {
 
     this.notify();
 
-    // Trigger store refresh so Supabase diagnostic badges immediately show 'authenticated'
-    try {
-      await storeEngine.refreshProductsFromSupabase();
-    } catch (err) {
-      console.warn('[AuthStore] Failed refreshing products after auth update:', err);
+    // Product/reference data is non-critical for finishing authentication.
+    // Warm it after the first screen gets a chance to request its own data.
+    const warmProductData = () => {
+      void storeEngine.refreshProductsFromSupabase().catch((err) => {
+        console.warn('[AuthStore] Failed refreshing products after auth update:', err);
+      });
+    };
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(warmProductData, {timeout: 1_500});
+    } else {
+      window.setTimeout(warmProductData, 250);
     }
   }
 
