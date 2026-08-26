@@ -5,13 +5,9 @@ import './index.css';
 import {initErrorMonitoring} from './lib/errorMonitoring';
 import {registerAdminServiceWorker} from './pwa/pwa';
 
-const startErrorMonitoring = () => initErrorMonitoring();
-
-if ('requestIdleCallback' in window) {
-  window.requestIdleCallback(startErrorMonitoring, {timeout: 3_000});
-} else {
-  window.setTimeout(startErrorMonitoring, 1_500);
-}
+// Installs two tiny native listeners. The Sentry SDK itself is downloaded only
+// after a real render/runtime error, so healthy sessions pay no startup cost.
+initErrorMonitoring();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

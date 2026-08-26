@@ -33,3 +33,10 @@ test('both React recovery boundaries report unexpected render failures', () => {
   assert.match(adminBoundary, /captureRenderError\(error, info\.componentStack/);
   assert.match(storeBoundary, /captureRenderError\(error, info\.componentStack/);
 });
+
+test('admin downloads Sentry only after a real browser or React error', () => {
+  assert.match(adminMonitoring, /function loadMonitoringSdk/);
+  assert.match(adminMonitoring, /window\.addEventListener\('error'/);
+  assert.match(adminMonitoring, /window\.addEventListener\('unhandledrejection'/);
+  assert.match(adminMonitoring, /void loadMonitoringSdk\(\)\?\.catch/);
+});

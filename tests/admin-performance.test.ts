@@ -4,6 +4,7 @@ import test from 'node:test';
 
 const app = readFileSync('src/App.tsx', 'utf8');
 const main = readFileSync('src/main.tsx', 'utf8');
+const errorMonitoring = readFileSync('src/lib/errorMonitoring.ts', 'utf8');
 const appStore = readFileSync('src/stores/useAppStore.ts', 'utf8');
 const authStore = readFileSync('src/stores/useAuthStore.ts', 'utf8');
 const dashboardService = readFileSync(
@@ -42,8 +43,12 @@ test('duplicate product refreshes share one request and reference reads run toge
   );
 });
 
-test('admin defers non-critical bundles until idle or direct use', () => {
-  assert.match(main, /requestIdleCallback\(startErrorMonitoring/);
+test('admin loads non-critical bundles only when they are needed', () => {
+  assert.match(main, /initErrorMonitoring\(\);/);
+  assert.doesNotMatch(main, /requestIdleCallback\(startErrorMonitoring/);
+  assert.match(errorMonitoring, /function loadMonitoringSdk/);
+  assert.match(errorMonitoring, /void loadMonitoringSdk\(\)\?\.catch/);
+  assert.match(errorMonitoring, /window\.addEventListener\('error'/);
   assert.match(app, /\{currentModal && \(\s*<Suspense fallback=\{null\}>/);
 });
 
@@ -63,4 +68,3 @@ test('database has the indexes used by the operational home', () => {
   assert.match(migration, /inventory_balances \(product_id\)/);
   assert.match(migration, /orders \(status, created_at DESC\)/);
 });
-

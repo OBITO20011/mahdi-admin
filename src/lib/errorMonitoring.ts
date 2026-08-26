@@ -1,4 +1,4 @@
-import type {Breadcrumb, ErrorEvent} from '@sentry/react';
+import type {Breadcrumb, ErrorEvent as SentryErrorEvent} from '@sentry/react';
 
 const sensitiveKeyPattern =
   /address|authorization|customer|email|location|name|notes?|password|phone|token/i;
@@ -10,6 +10,8 @@ type SentrySdk = typeof import('@sentry/react');
 
 let monitoringSdk: SentrySdk | null = null;
 let monitoringLoad: Promise<SentrySdk> | null = null;
+let bootstrapListenersInstalled = false;
+let removeBootstrapListeners: (() => void) | null = null;
 const pendingRenderErrors: Array<{error: Error; componentStack?: string}> = [];
 
 function redactText(value: string): string {
@@ -47,7 +49,7 @@ function sanitizeValue(value: unknown, key = '', depth = 0): unknown {
   return value;
 }
 
-function sanitizeEvent(event: ErrorEvent): ErrorEvent {
+function sanitizeEvent(event: SentryErrorEvent): SentryErrorEvent {
   event.user = undefined;
 
   if (event.request) {
@@ -58,9 +60,9 @@ function sanitizeEvent(event: ErrorEvent): ErrorEvent {
   }
 
   event.message = event.message ? redactText(event.message) : event.message;
-  event.extra = sanitizeValue(event.extra) as ErrorEvent['extra'];
-  event.contexts = sanitizeValue(event.contexts) as ErrorEvent['contexts'];
-  event.tags = sanitizeValue(event.tags) as ErrorEvent['tags'];
+  event.extra = sanitizeValue(event.extra) as SentryErrorEvent['extra'];
+  event.contexts = sanitizeValue(event.contexts) as SentryErrorEvent['contexts'];
+  event.tags = sanitizeValue(event.tags) as SentryErrorEvent['tags'];
 
   for (const value of event.exception?.values ?? []) {
     if (value.value) value.value = redactText(value.value);
@@ -86,10 +88,24 @@ function sanitizeBreadcrumb(breadcrumb: Breadcrumb): Breadcrumb | null {
   return breadcrumb;
 }
 
-export function initErrorMonitoring(): boolean {
+function getMonitoringDsn(): string | null {
   const dsn = import.meta.env.VITE_SENTRY_DSN?.trim();
-  if (!import.meta.env.PROD || !dsn) return false;
-  if (monitoringSdk || monitoringLoad) return true;
+  return import.meta.env.PROD && dsn ? dsn : null;
+}
+
+function normalizeUnexpectedError(value: unknown, fallback: string): Error {
+  if (value instanceof Error) return value;
+  if (typeof value === 'string' && value.trim()) {
+    return new Error(redactText(value));
+  }
+  return new Error(fallback);
+}
+
+function loadMonitoringSdk(): Promise<SentrySdk> | null {
+  const dsn = getMonitoringDsn();
+  if (!dsn) return null;
+  if (monitoringSdk) return Promise.resolve(monitoringSdk);
+  if (monitoringLoad) return monitoringLoad;
 
   monitoringLoad = import('@sentry/react')
     .then((sdk) => {
@@ -105,6 +121,9 @@ export function initErrorMonitoring(): boolean {
         beforeSend: sanitizeEvent,
       });
       monitoringSdk = sdk;
+      removeBootstrapListeners?.();
+      removeBootstrapListeners = null;
+      bootstrapListenersInstalled = false;
 
       for (const pending of pendingRenderErrors.splice(0)) {
         captureRenderError(pending.error, pending.componentStack);
@@ -113,19 +132,46 @@ export function initErrorMonitoring(): boolean {
       return sdk;
     })
     .catch((error: unknown) => {
+      monitoringLoad = null;
       console.warn('[ErrorMonitoring] تعذر تحميل خدمة مراقبة الأخطاء.', error);
       throw error;
     });
 
-  void monitoringLoad.catch(() => undefined);
+  return monitoringLoad;
+}
+
+export function initErrorMonitoring(): boolean {
+  if (!getMonitoringDsn()) return false;
+  if (monitoringSdk || monitoringLoad || bootstrapListenersInstalled) return true;
+
+  const handleWindowError = (event: globalThis.ErrorEvent) => {
+    captureRenderError(
+      normalizeUnexpectedError(event.error ?? event.message, 'خطأ غير متوقع في التطبيق.'),
+    );
+  };
+  const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+    captureRenderError(
+      normalizeUnexpectedError(event.reason, 'فشل غير متوقع في عملية غير متزامنة.'),
+    );
+  };
+
+  window.addEventListener('error', handleWindowError);
+  window.addEventListener('unhandledrejection', handleUnhandledRejection);
+  removeBootstrapListeners = () => {
+    window.removeEventListener('error', handleWindowError);
+    window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+  };
+  bootstrapListenersInstalled = true;
   return true;
 }
 
 export function captureRenderError(error: Error, componentStack?: string): void {
   if (!monitoringSdk) {
-    if (monitoringLoad && pendingRenderErrors.length < 10) {
+    if (!getMonitoringDsn()) return;
+    if (pendingRenderErrors.length < 10) {
       pendingRenderErrors.push({error, componentStack});
     }
+    void loadMonitoringSdk()?.catch(() => undefined);
     return;
   }
 
