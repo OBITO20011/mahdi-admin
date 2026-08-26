@@ -56,6 +56,15 @@ const createFlavorDraft = (): ProductFlavorDraft => ({
   imagePreview: '',
 });
 
+const toSalePackageCount = (
+  baseQuantity: number | undefined,
+  unitsPerSalePackage: number | undefined
+) =>
+  Math.ceil(
+    Math.max(0, Number(baseQuantity) || 0) /
+      Math.max(1, Number(unitsPerSalePackage) || 1)
+  );
+
 const inputClass =
   'w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 text-xs font-semibold text-slate-100 outline-none transition placeholder:text-slate-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10';
 
@@ -159,14 +168,25 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const [warehouseId, setWarehouseId] = useState(
     initialProduct?.warehouseId || warehouses[0]?.id || ''
   );
+  const initialSalePackageUnits =
+    initialProduct?.unitsPerSalePackage ??
+    initialProduct?.unitsPerPackage ??
+    1;
   const [onHandQuantity, setOnHandQuantity] = useState<number | ''>(
-    initialProduct?.onHandQuantity ?? 0
+    toSalePackageCount(initialProduct?.onHandQuantity, initialSalePackageUnits)
   );
   const [reorderLevel, setReorderLevel] = useState<number | ''>(
-    initialProduct?.reorderLevel ?? 5
+    initialProduct
+      ? toSalePackageCount(initialProduct.reorderLevel, initialSalePackageUnits)
+      : 5
   );
   const [maxStockLevel, setMaxStockLevel] = useState<number | ''>(
-    initialProduct?.maxStockLevel ?? ''
+    initialProduct?.maxStockLevel === undefined
+      ? ''
+      : toSalePackageCount(
+          initialProduct.maxStockLevel,
+          initialSalePackageUnits
+        )
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasFlavors, setHasFlavors] = useState(false);
@@ -225,6 +245,13 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     validSalePackagePrice,
     validUnitsPerSalePackage
   );
+  const currentStockSalePackages = Math.floor(
+    Math.max(0, initialProduct?.onHandQuantity || 0) /
+      validUnitsPerSalePackage
+  );
+  const currentStockLooseUnits =
+    Math.max(0, initialProduct?.onHandQuantity || 0) %
+    validUnitsPerSalePackage;
 
   const createCategoryInline = async () => {
     const cleanName = newCategoryName.trim();
@@ -420,18 +447,26 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       }
     }
 
-    const minLevel = Math.max(
+    const minSalePackages = Math.max(
       0,
       Math.floor(Number(reorderLevel) || 0)
     );
-    const maxLevel =
+    const maxSalePackages =
       maxStockLevel === ''
         ? undefined
         : Math.max(0, Math.floor(Number(maxStockLevel) || 0));
-    if (maxLevel !== undefined && maxLevel < minLevel) {
-      setToast('الحد الأعلى للمخزون يجب أن يساوي حد التنبيه أو يزيد عنه.', 'error');
+    if (
+      maxSalePackages !== undefined &&
+      maxSalePackages < minSalePackages
+    ) {
+      setToast('سقف المستودع يجب أن يساوي حد التنبيه أو يزيد عنه.', 'error');
       return;
     }
+    const minLevel = minSalePackages * validUnitsPerSalePackage;
+    const maxLevel =
+      maxSalePackages === undefined
+        ? undefined
+        : maxSalePackages * validUnitsPerSalePackage;
 
     setIsSubmitting(true);
     setSubmitError(null);
@@ -461,7 +496,8 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       onHandQuantity:
         hasFlavors && !isEditing
           ? 0
-          : Math.max(0, Math.floor(Number(onHandQuantity) || 0)),
+          : Math.max(0, Math.floor(Number(onHandQuantity) || 0)) *
+            validUnitsPerSalePackage,
       reorderLevel: minLevel,
       maxStockLevel: maxLevel,
       status: 'active',
@@ -1290,7 +1326,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           {!isEditing && !hasFlavors && (
             <div>
               <label className="mb-1.5 block text-[9px] font-bold text-slate-400">
-                رصيد افتتاحي
+                رصيد افتتاحي ({salePackage})
               </label>
               <input
                 type="number"
@@ -1310,7 +1346,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           )}
           <div>
             <label className="mb-1.5 block text-[9px] font-bold text-amber-300">
-              تنبيه عند
+              تنبيه عند ({salePackage})
             </label>
             <input
               type="number"
@@ -1330,7 +1366,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </div>
           <div>
             <label className="mb-1.5 block text-[9px] font-bold text-slate-400">
-              حد أعلى
+              سقف المستودع ({salePackage})
             </label>
             <input
               type="number"
@@ -1347,7 +1383,17 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               placeholder="اختياري"
               className={numberInputClass}
             />
+            <p className="mt-1 text-[8px] leading-4 text-slate-500">
+              اختياري: كمية لا تريد تجاوزها عند الشراء، ولا تمنع البيع.
+            </p>
           </div>
+        </div>
+
+        <div className="mt-3 flex items-start gap-2 rounded-xl border border-indigo-500/15 bg-indigo-500/5 p-2.5 text-[10px] leading-5 text-slate-400">
+          <Boxes className="mt-0.5 h-3.5 w-3.5 shrink-0 text-indigo-300" />
+          كل القيم هنا بعدد {salePackage}؛ كل {salePackage} ={' '}
+          {validUnitsPerSalePackage} {unit}. النظام يحولها تلقائيًا للحبات
+          عند الحفظ والحساب.
         </div>
 
         {isEditing && (
@@ -1357,7 +1403,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               الرصيد الحالي لا يُعدل من بطاقة الصنف
             </span>
             <strong className="text-amber-300">
-              {initialProduct?.onHandQuantity || 0} {unit}
+              {currentStockSalePackages} {salePackage}
+              {currentStockLooseUnits > 0
+                ? ` + ${currentStockLooseUnits} ${unit}`
+                : ''}
             </strong>
           </div>
         )}

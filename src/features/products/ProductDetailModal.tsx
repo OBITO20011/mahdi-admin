@@ -114,6 +114,15 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const isLowStock =
     familyInventoryProduct.availableQuantity > 0 &&
     familyInventoryProduct.availableQuantity <= product.reorderLevel;
+  const reorderSalePackages = Math.ceil(
+    Math.max(0, product.reorderLevel || 0) / unitsPerSalePackage
+  );
+  const maxStockSalePackages =
+    product.maxStockLevel === undefined
+      ? undefined
+      : Math.ceil(
+          Math.max(0, product.maxStockLevel) / unitsPerSalePackage
+        );
 
   const resetFlavorForm = () => {
     if (flavorImagePreview) URL.revokeObjectURL(flavorImagePreview);
@@ -779,17 +788,17 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               تنبيه النقص
             </span>
             <strong className="text-[10px] text-amber-300">
-              {product.reorderLevel} {product.unit}
+              {reorderSalePackages} {product.salePackage || 'طرد'}
             </strong>
           </div>
           <div>
             <span className="block text-[8px] font-bold text-slate-500">
-              الحد الأعلى
+              سقف المستودع
             </span>
             <strong className="text-[10px] text-slate-300">
-              {product.maxStockLevel === undefined
+              {maxStockSalePackages === undefined
                 ? 'غير محدد'
-                : `${product.maxStockLevel} ${product.unit}`}
+                : `${maxStockSalePackages} ${product.salePackage || 'طرد'}`}
             </strong>
           </div>
         </div>

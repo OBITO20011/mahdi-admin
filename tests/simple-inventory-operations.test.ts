@@ -110,6 +110,31 @@ test('product and POS screens expose wholesale package values only', () => {
   assert.doesNotMatch(posView, /totalPrice: prod\.retailPrice/);
 });
 
+test('product stock inputs use sale packages while persistence stays in base units', () => {
+  const productForm = fs.readFileSync(
+    'src/features/products/ProductFormModal.tsx',
+    'utf8'
+  );
+  const productDetails = fs.readFileSync(
+    'src/features/products/ProductDetailModal.tsx',
+    'utf8'
+  );
+
+  assert.match(productForm, /رصيد افتتاحي \(\{salePackage\}\)/);
+  assert.match(productForm, /تنبيه عند \(\{salePackage\}\)/);
+  assert.match(productForm, /سقف المستودع \(\{salePackage\}\)/);
+  assert.match(
+    productForm,
+    /minSalePackages \* validUnitsPerSalePackage/
+  );
+  assert.match(
+    productForm,
+    /Math\.floor\(Number\(onHandQuantity\) \|\| 0\)[\s\S]{0,80}validUnitsPerSalePackage/
+  );
+  assert.match(productDetails, /سقف المستودع/);
+  assert.match(productDetails, /reorderSalePackages/);
+});
+
 test('inventory clear action reuses the audited stock adjustment RPC', () => {
   const inventoryView = fs.readFileSync(
     'src/features/inventory/InventoryView.tsx',
