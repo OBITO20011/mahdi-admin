@@ -234,6 +234,10 @@ function mapExpense(payload: RpcRecord): Expense {
     branchId: textValue(payload.branchId),
     createdByName: textValue(payload.createdByName) || 'مستخدم النظام',
     createdAt: textValue(payload.createdAt),
+    isReversed: payload.isReversed === true,
+    reversedAt: textValue(payload.reversedAt) || undefined,
+    reversalReason: textValue(payload.reversalReason) || undefined,
+    reversedByName: textValue(payload.reversedByName) || undefined,
   };
 }
 
@@ -305,6 +309,27 @@ export async function createOperationalExpenseInSupabase(
   }
   return {
     message: textValue(payload.message) || 'تم تسجيل المصروف.',
+  };
+}
+
+export async function reverseOperationalExpenseInSupabase(
+  expenseId: string,
+  reason: string
+): Promise<{ message: string }> {
+  const { data, error } = await requireClient().rpc(
+    'reverse_operational_expense',
+    {
+      p_expense_id: expenseId,
+      p_reason: reason.trim(),
+    }
+  );
+  if (error) throw new Error(error.message || 'تعذر عكس المصروف.');
+  const payload = (data || {}) as RpcRecord;
+  if (payload.success !== true) {
+    throw new Error(textValue(payload.message) || 'تعذر عكس المصروف.');
+  }
+  return {
+    message: textValue(payload.message) || 'تم عكس المصروف مع حفظ سجل المراجعة.',
   };
 }
 

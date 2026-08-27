@@ -465,6 +465,10 @@ export interface Expense {
   createdByName: string;
   createdAt: string;
   isRecurring?: boolean;
+  isReversed?: boolean;
+  reversedAt?: string;
+  reversalReason?: string;
+  reversedByName?: string;
 }
 
 export interface Shift {

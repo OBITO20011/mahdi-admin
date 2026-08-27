@@ -103,6 +103,7 @@ export interface RecordCustomerPaymentInput {
   paymentMethod: 'cash' | 'cliq' | 'card' | 'bank_transfer' | 'cheque';
   referenceNumber?: string;
   notes?: string;
+  idempotencyKey: string;
 }
 
 export async function recordCustomerOrderPayment(
@@ -124,13 +125,14 @@ export async function recordCustomerOrderPayment(
 
   try {
     const { data, error } = await supabase.rpc(
-      'record_customer_order_payment',
+      'record_customer_order_payment_once',
       {
         p_order_id: input.orderId,
         p_amount_in_minor_units: amountInMinorUnits,
         p_payment_method: input.paymentMethod,
         p_reference_number: input.referenceNumber || null,
         p_notes: input.notes || null,
+        p_idempotency_key: input.idempotencyKey,
       }
     );
 

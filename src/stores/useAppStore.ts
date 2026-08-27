@@ -96,6 +96,7 @@ import {
   createOperationalExpenseInSupabase,
   fetchExpenseShiftCenterFromSupabase,
   openCashShiftInSupabase,
+  reverseOperationalExpenseInSupabase,
 } from '../services/supabase/expenses-shifts.service';
 import {
   type SelectorCache,
@@ -2188,6 +2189,21 @@ class StoreEngine {
     }
   }
 
+  public async reverseExpense(expenseId: string, reason: string) {
+    try {
+      const result = await reverseOperationalExpenseInSupabase(expenseId, reason);
+      await this.refreshExpenseShiftCenterFromSupabase();
+      this.setToast(result.message, 'success');
+      return true;
+    } catch (error) {
+      this.setToast(
+        error instanceof Error ? error.message : 'تعذر عكس المصروف.',
+        'error'
+      );
+      return false;
+    }
+  }
+
   // --- Close Shift ---
 
   public async closeShift(actualCash: number, discrepancyReason?: string) {
@@ -2384,6 +2400,8 @@ const coreAppStoreActions = {
       paymentMethod,
       referenceNumber
     ),
+  reverseExpense: (expenseId: string, reason: string) =>
+    storeEngine.reverseExpense(expenseId, reason),
 };
 
 export const useAppStoreActions = () => coreAppStoreActions;

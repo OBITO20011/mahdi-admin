@@ -2,7 +2,7 @@
  * Nawasrah Business Manager - RPC-backed operational expenses.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Banknote,
   CheckCircle2,
@@ -31,18 +31,19 @@ export const ExpensesView: React.FC = () => {
     }),
     shallowEqual
   );
-  const { openModal, refreshExpenseShiftCenterFromSupabase } =
+  const { openModal, refreshExpenseShiftCenterFromSupabase, reverseExpense } =
     useAppStoreActions();
+  const [reversingExpenseId, setReversingExpenseId] = useState<string | null>(null);
 
   useEffect(() => {
     void refreshExpenseShiftCenterFromSupabase().catch(() => undefined);
   }, [refreshExpenseShiftCenterFromSupabase]);
 
   const cashTotal = expenses
-    .filter((expense) => expense.paymentMethod === 'cash')
+    .filter((expense) => !expense.isReversed && expense.paymentMethod === 'cash')
     .reduce((total, expense) => total + expense.amount, 0);
   const cliqTotal = expenses
-    .filter((expense) => expense.paymentMethod === 'cliq')
+    .filter((expense) => !expense.isReversed && expense.paymentMethod === 'cliq')
     .reduce((total, expense) => total + expense.amount, 0);
 
   return (
@@ -110,7 +111,11 @@ export const ExpensesView: React.FC = () => {
           expenses.map((expense) => (
             <article
               key={expense.id}
-              className="space-y-2 rounded-2xl border border-slate-800 bg-slate-900 p-3.5 text-xs shadow"
+              className={`space-y-2 rounded-2xl border p-3.5 text-xs shadow ${
+                expense.isReversed
+                  ? 'border-rose-900/70 bg-rose-950/20 opacity-75'
+                  : 'border-slate-800 bg-slate-900'
+              }`}
             >
               <div className="flex items-center justify-between gap-2">
                 <div className="flex min-w-0 items-center gap-2">
@@ -139,6 +144,27 @@ export const ExpensesView: React.FC = () => {
                   {expense.referenceNumber ? ` • ${expense.referenceNumber}` : ''}
                 </span>
               </div>
+              {expense.isReversed ? (
+                <p className="rounded-xl border border-rose-900/60 bg-rose-950/30 p-2 text-[10px] text-rose-300">
+                  تم العكس{expense.reversalReason ? `: ${expense.reversalReason}` : ''}
+                  {expense.reversedByName ? ` — ${expense.reversedByName}` : ''}
+                </p>
+              ) : currentShift?.id === expense.shiftId ? (
+                <button
+                  type="button"
+                  disabled={reversingExpenseId === expense.id}
+                  onClick={async () => {
+                    const reason = window.prompt('اكتب سبب عكس المصروف (لا يمكن حذفه):');
+                    if (!reason?.trim()) return;
+                    setReversingExpenseId(expense.id);
+                    await reverseExpense(expense.id, reason);
+                    setReversingExpenseId(null);
+                  }}
+                  className="w-full rounded-xl border border-rose-900/70 bg-rose-950/30 py-2 font-bold text-rose-300 transition hover:bg-rose-950/60 disabled:opacity-60"
+                >
+                  {reversingExpenseId === expense.id ? 'جاري العكس...' : 'عكس المصروف مع حفظ السجل'}
+                </button>
+              ) : null}
             </article>
           ))
         )}

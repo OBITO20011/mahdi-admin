@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Banknote, CheckCircle2, Loader2, ReceiptText } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 import {
@@ -13,6 +13,11 @@ interface RecordCustomerPaymentModalProps {
   onClose: () => void;
   onSuccess?: () => void;
 }
+
+const createPaymentIdempotencyKey = () =>
+  typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+    ? crypto.randomUUID()
+    : `customer-payment-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
 export const RecordCustomerPaymentModal: React.FC<
   RecordCustomerPaymentModalProps
@@ -31,6 +36,7 @@ export const RecordCustomerPaymentModal: React.FC<
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const paymentIdempotencyKey = useRef(createPaymentIdempotencyKey());
 
   useEffect(() => {
     let mounted = true;
@@ -93,6 +99,7 @@ export const RecordCustomerPaymentModal: React.FC<
       paymentMethod,
       referenceNumber: referenceNumber.trim(),
       notes: notes.trim(),
+      idempotencyKey: paymentIdempotencyKey.current,
     });
     setSaving(false);
 
