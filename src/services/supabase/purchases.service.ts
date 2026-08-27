@@ -1043,41 +1043,51 @@ export function subscribeToPurchasesRealtime(callback: () => void): () => void {
     return () => {};
   }
 
+  let refreshTimer: ReturnType<typeof setTimeout> | null = null;
+  const scheduleRefresh = () => {
+    if (refreshTimer) clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(() => {
+      refreshTimer = null;
+      callback();
+    }, 350);
+  };
+
   const channel = supabase
     .channel('purchases_realtime_changes')
     .on(
       'postgres_changes',
       { event: '*', schema: 'public', table: 'purchase_orders' },
-      () => callback()
+      scheduleRefresh
     )
     .on(
       'postgres_changes',
       { event: '*', schema: 'public', table: 'purchase_order_items' },
-      () => callback()
+      scheduleRefresh
     )
     .on(
       'postgres_changes',
       { event: '*', schema: 'public', table: 'purchase_receipts' },
-      () => callback()
+      scheduleRefresh
     )
     .on(
       'postgres_changes',
       { event: '*', schema: 'public', table: 'supplier_payments' },
-      () => callback()
+      scheduleRefresh
     )
     .on(
       'postgres_changes',
       { event: '*', schema: 'public', table: 'inventory_balances' },
-      () => callback()
+      scheduleRefresh
     )
     .on(
       'postgres_changes',
       { event: '*', schema: 'public', table: 'inventory_movements' },
-      () => callback()
+      scheduleRefresh
     )
     .subscribe();
 
   return () => {
-    supabase.removeChannel(channel);
+    if (refreshTimer) clearTimeout(refreshTimer);
+    void supabase.removeChannel(channel);
   };
 }

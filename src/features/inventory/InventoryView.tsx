@@ -31,6 +31,7 @@ import {
   Package,
   Calendar,
   ChevronLeft,
+  ChevronRight,
   Trash2,
   FileSpreadsheet,
 } from 'lucide-react';
@@ -43,6 +44,7 @@ export const InventoryView: React.FC = () => {
     warehouses,
     categories,
     movements,
+    movementPage,
     activeBranch,
   } = useAppStoreSelector(
     (state) => ({
@@ -51,16 +53,13 @@ export const InventoryView: React.FC = () => {
       warehouses: state.warehouses,
       categories: state.categories,
       movements: state.movements,
+      movementPage: state.movementPage,
       activeBranch: state.activeBranch,
     }),
     shallowEqual
   );
   const { openModal, refreshInventoryMovementsFromSupabase } =
     useAppStoreActions();
-
-  useEffect(() => {
-    refreshInventoryMovementsFromSupabase();
-  }, [refreshInventoryMovementsFromSupabase]);
 
   // Active Tab: 'products' (الأصناف والمخزون) vs 'movements' (سجل الحركات)
   const [activeTab, setActiveTab] = useState<'products' | 'movements'>('products');
@@ -71,11 +70,39 @@ export const InventoryView: React.FC = () => {
   const [selectedWarehouseId, setSelectedWarehouseId] = useState<string>('all');
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [movementPageNumber, setMovementPageNumber] = useState(1);
+  const movementPageSize = 25;
 
   // Selected product for movement history modal inside this view
   const [historyProduct, setHistoryProduct] = useState<Product | null>(null);
   const [clearInventoryProduct, setClearInventoryProduct] =
     useState<Product | null>(null);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void refreshInventoryMovementsFromSupabase({
+        page: movementPageNumber,
+        pageSize: movementPageSize,
+        searchQuery,
+        branchId: selectedBranchId === 'all' ? undefined : selectedBranchId,
+        warehouseId:
+          selectedWarehouseId === 'all' ? undefined : selectedWarehouseId,
+        productId: historyProduct?.id,
+      });
+    }, 200);
+    return () => window.clearTimeout(timer);
+  }, [
+    historyProduct?.id,
+    movementPageNumber,
+    refreshInventoryMovementsFromSupabase,
+    searchQuery,
+    selectedBranchId,
+    selectedWarehouseId,
+  ]);
+
+  useEffect(() => {
+    setMovementPageNumber(1);
+  }, [searchQuery, selectedBranchId, selectedWarehouseId, historyProduct?.id]);
   // Flavor masters are commercial cards only. Their child flavors are the
   // actual inventory rows shown and counted here. When a warehouse is picked,
   // use its real balance rather than a misleading all-warehouse aggregate.
@@ -120,13 +147,15 @@ export const InventoryView: React.FC = () => {
     return diffDays >= 0 && diffDays <= 30;
   });
 
-  // Stagnant / slow moving products: no sales in movements or onHand == opening
-  const stagnantProducts = inventoryProducts.filter((p) => {
-    const hasSaleMovements = movements.some(
-      (m) => m.productId === p.id && m.movementType === 'Sale'
-    );
-    return !hasSaleMovements && p.onHandQuantity > 0;
-  });
+  // The page RPC returns compact sale-product IDs for the selected inventory
+  // scope, so this indicator remains correct without loading raw history rows.
+  const salesProductIds = useMemo(
+    () => new Set(movementPage.salesProductIds),
+    [movementPage.salesProductIds]
+  );
+  const stagnantProducts = inventoryProducts.filter(
+    (product) => !salesProductIds.has(product.id) && product.onHandQuantity > 0
+  );
 
   // Filtered Products List
   const filteredProducts = inventoryProducts.filter((product) => {
@@ -168,32 +197,19 @@ export const InventoryView: React.FC = () => {
     } else if (statusFilter === 'damaged') {
       matchesStatus = product.status === 'expired' || product.status === 'discontinued';
     } else if (statusFilter === 'stagnant') {
-      const hasSales = movements.some((m) => m.productId === product.id && m.movementType === 'Sale');
-      matchesStatus = !hasSales && product.onHandQuantity > 0;
+      matchesStatus =
+        !salesProductIds.has(product.id) && product.onHandQuantity > 0;
     }
 
     return matchesSearch && matchesBranch && matchesWarehouse && matchesCategory && matchesStatus;
   });
 
   // Filtered Movements List
-  const filteredMovements = movements.filter((mov) => {
-    const q = searchQuery.toLowerCase().trim();
-    const matchesSearch =
-      !q ||
-      mov.productName.toLowerCase().includes(q) ||
-      mov.reason.toLowerCase().includes(q) ||
-      mov.movementType.toLowerCase().includes(q);
-
-    const matchesBranch = selectedBranchId === 'all' || mov.branchId === selectedBranchId;
-    const matchesWarehouse = selectedWarehouseId === 'all' || mov.warehouseId === selectedWarehouseId;
-
-    return matchesSearch && matchesBranch && matchesWarehouse;
-  });
+  const filteredMovements = movements;
 
   // Product Movement History Helper
-  const getProductMovements = (pId: string) => {
-    return movements.filter((m) => m.productId === pId);
-  };
+  const getProductMovements = (productId: string) =>
+    movementPage.productId === productId ? movements : [];
 
   return (
     <div className="p-4 space-y-4 pb-28">
@@ -390,7 +406,7 @@ export const InventoryView: React.FC = () => {
           }`}
         >
           <History className="w-4 h-4" />
-          <span>سجل الحركات ({filteredMovements.length})</span>
+          <span>سجل الحركات ({movementPage.totalCount})</span>
         </button>
       </div>
 
@@ -714,7 +730,7 @@ export const InventoryView: React.FC = () => {
                         >
                           <History className="w-3.5 h-3.5 text-indigo-400" />
                           <span>
-                            سجل الحركات ({getProductMovements(product.id).length})
+                            سجل الحركات ({movementPage.productMovementCounts[product.id] || 0})
                           </span>
                         </button>
 
@@ -755,7 +771,9 @@ export const InventoryView: React.FC = () => {
                 warehouse.id === clearInventoryProduct.warehouseId
             )?.name || 'المستودع الرئيسي'
           }
-          movementCount={getProductMovements(clearInventoryProduct.id).length}
+          movementCount={
+            movementPage.productMovementCounts[clearInventoryProduct.id] || 0
+          }
           onClose={() => setClearInventoryProduct(null)}
         />
       )}
@@ -822,6 +840,37 @@ export const InventoryView: React.FC = () => {
               );
             })
           )}
+          {movementPage.totalPages > 1 && (
+            <div className="flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-900 p-3 text-xs">
+              <button
+                type="button"
+                onClick={() =>
+                  setMovementPageNumber((current) => Math.max(1, current - 1))
+                }
+                disabled={movementPage.page <= 1}
+                className="inline-flex items-center gap-1 rounded-xl border border-slate-700 px-3 py-2 font-bold text-slate-200 disabled:opacity-40"
+              >
+                <ChevronRight className="h-4 w-4" />
+                الأحدث
+              </button>
+              <span className="font-bold text-slate-400">
+                صفحة {movementPage.page} من {movementPage.totalPages}
+              </span>
+              <button
+                type="button"
+                onClick={() =>
+                  setMovementPageNumber((current) =>
+                    Math.min(movementPage.totalPages, current + 1)
+                  )
+                }
+                disabled={movementPage.page >= movementPage.totalPages}
+                className="inline-flex items-center gap-1 rounded-xl border border-slate-700 px-3 py-2 font-bold text-slate-200 disabled:opacity-40"
+              >
+                الأقدم
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+            </div>
+          )}
         </div>
       )}
 
@@ -855,8 +904,12 @@ export const InventoryView: React.FC = () => {
 
             {/* Modal Body: Movements list */}
             <div className="p-4 overflow-y-auto space-y-2 flex-1 text-xs">
-              <h4 className="font-bold text-slate-300 text-xs mb-2">سجل الحركات الكاملة لهذا المنتج:</h4>
-              {getProductMovements(historyProduct.id).length === 0 ? (
+              <h4 className="font-bold text-slate-300 text-xs mb-2">سجل حركات هذا المنتج:</h4>
+              {movementPage.productId !== historyProduct.id ? (
+                <div className="bg-slate-950 p-6 rounded-xl border border-slate-800 text-center text-slate-500">
+                  جارِ تحميل سجل حركات هذا المنتج…
+                </div>
+              ) : getProductMovements(historyProduct.id).length === 0 ? (
                 <div className="bg-slate-950 p-6 rounded-xl border border-slate-800 text-center text-slate-500">
                   لا توجد حركات مسجلة لهذا المنتج بعد
                 </div>
@@ -877,6 +930,34 @@ export const InventoryView: React.FC = () => {
                   </div>
                 ))
               )}
+              {movementPage.productId === historyProduct.id &&
+                movementPage.totalPages > 1 && (
+                  <div className="flex items-center justify-between pt-2 text-[10px] text-slate-400">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setMovementPageNumber((current) => Math.max(1, current - 1))
+                      }
+                      disabled={movementPage.page <= 1}
+                      className="rounded-lg border border-slate-700 px-2.5 py-1.5 disabled:opacity-40"
+                    >
+                      الأحدث
+                    </button>
+                    <span>صفحة {movementPage.page} من {movementPage.totalPages}</span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setMovementPageNumber((current) =>
+                          Math.min(movementPage.totalPages, current + 1)
+                        )
+                      }
+                      disabled={movementPage.page >= movementPage.totalPages}
+                      className="rounded-lg border border-slate-700 px-2.5 py-1.5 disabled:opacity-40"
+                    >
+                      الأقدم
+                    </button>
+                  </div>
+                )}
             </div>
 
             {/* Footer */}

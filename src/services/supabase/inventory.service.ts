@@ -32,6 +32,25 @@ export interface SupabaseInventoryMutationResult {
   error?: string;
 }
 
+export interface InventoryMovementPageInput {
+  page?: number;
+  pageSize?: number;
+  searchQuery?: string;
+  branchId?: string;
+  warehouseId?: string;
+  productId?: string;
+}
+
+export interface InventoryMovementPage {
+  movements: InventoryMovement[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  productMovementCounts: Record<string, number>;
+  salesProductIds: string[];
+}
+
 export async function receiveInventoryInSupabase(
   input: ReceiveInventoryInput
 ): Promise<SupabaseInventoryMutationResult> {
@@ -182,72 +201,114 @@ export async function transferInventoryBetweenWarehousesInSupabase(
   }
 }
 
-export async function fetchInventoryMovementsFromSupabase(): Promise<
-  InventoryMovement[]
-> {
-  if (!isSupabaseConfigured || !supabase) return [];
+function mapInventoryMovement(record: Record<string, unknown>): InventoryMovement {
+  return {
+    id: typeof record.id === 'string' ? record.id : '',
+    productId: typeof record.product_id === 'string' ? record.product_id : '',
+    productName:
+      typeof record.product_name === 'string' ? record.product_name : 'منتج',
+    branchId: typeof record.branch_id === 'string' ? record.branch_id : '',
+    warehouseId:
+      typeof record.warehouse_id === 'string' ? record.warehouse_id : '',
+    movementType: mapMovementType(
+      typeof record.movement_type === 'string' ? record.movement_type : '',
+      typeof record.reference_type === 'string' ? record.reference_type : null
+    ),
+    previousQuantity: Number(record.balance_before) || 0,
+    quantityChange: Number(record.quantity) || 0,
+    newQuantity: Number(record.balance_after) || 0,
+    reason:
+      (typeof record.notes === 'string' && record.notes) ||
+      (typeof record.reference_type === 'string' && record.reference_type) ||
+      (typeof record.movement_type === 'string' && record.movement_type) ||
+      'حركة مخزون',
+    performedByUserId:
+      typeof record.created_by === 'string' ? record.created_by : '',
+    performedByUserName:
+      typeof record.created_by === 'string' ? 'موظف معتمد' : 'النظام',
+    timestamp: typeof record.created_at === 'string' ? record.created_at : '',
+    referenceId:
+      typeof record.reference_id === 'string' ? record.reference_id : undefined,
+    notes: typeof record.notes === 'string' ? record.notes : undefined,
+  };
+}
+
+function toNonNegativeInteger(value: unknown, fallback = 0): number {
+  const numericValue = Number(value);
+  return Number.isFinite(numericValue)
+    ? Math.max(0, Math.floor(numericValue))
+    : fallback;
+}
+
+export async function fetchInventoryMovementsFromSupabase(
+  input: InventoryMovementPageInput = {}
+): Promise<InventoryMovementPage> {
+  const page = Math.max(1, Math.floor(input.page || 1));
+  const pageSize = Math.min(100, Math.max(1, Math.floor(input.pageSize || 25)));
+  const emptyPage: InventoryMovementPage = {
+    movements: [],
+    page,
+    pageSize,
+    totalCount: 0,
+    totalPages: 1,
+    productMovementCounts: {},
+    salesProductIds: [],
+  };
+  if (!isSupabaseConfigured || !supabase) return emptyPage;
 
   try {
-    const { data, error } = await supabase
-      .from('inventory_movements')
-      .select(`
-        id,
-        warehouse_id,
-        product_id,
-        movement_type,
-        quantity,
-        balance_before,
-        balance_after,
-        reference_type,
-        reference_id,
-        notes,
-        created_by,
-        created_at,
-        products ( name_ar, sku ),
-        warehouses ( name_ar, branch_id )
-      `)
-      .order('created_at', { ascending: false });
+    const { data, error } = await supabase.rpc('get_inventory_movement_page', {
+      p_page: page,
+      p_page_size: pageSize,
+      p_search: input.searchQuery?.trim() || null,
+      p_branch_id: input.branchId || null,
+      p_warehouse_id: input.warehouseId || null,
+      p_product_id: input.productId || null,
+    });
 
     if (error) {
       console.warn('Error fetching inventory movements from Supabase:', error.message);
-      return [];
+      return emptyPage;
     }
 
-    return (data || []).map((movement: any) => {
-      const product = Array.isArray(movement.products)
-        ? movement.products[0]
-        : movement.products;
-      const warehouse = Array.isArray(movement.warehouses)
-        ? movement.warehouses[0]
-        : movement.warehouses;
+    const payload =
+      data && typeof data === 'object' ? (data as Record<string, unknown>) : {};
+    const rows = Array.isArray(payload.rows) ? payload.rows : [];
+    const productMovementCounts =
+      payload.product_movement_counts &&
+      typeof payload.product_movement_counts === 'object' &&
+      !Array.isArray(payload.product_movement_counts)
+        ? Object.fromEntries(
+            Object.entries(payload.product_movement_counts).map(([productId, count]) => [
+              productId,
+              toNonNegativeInteger(count),
+            ])
+          )
+        : {};
+    const salesProductIds = Array.isArray(payload.sales_product_ids)
+      ? payload.sales_product_ids.filter(
+          (productId): productId is string => typeof productId === 'string'
+        )
+      : [];
+    const totalCount = toNonNegativeInteger(payload.total_count);
 
-      return {
-        id: movement.id,
-        productId: movement.product_id,
-        productName: product?.name_ar || product?.sku || 'منتج',
-        branchId: warehouse?.branch_id || '',
-        warehouseId: movement.warehouse_id,
-        movementType: mapMovementType(
-          movement.movement_type,
-          movement.reference_type
-        ),
-        previousQuantity: Number(movement.balance_before) || 0,
-        quantityChange: Number(movement.quantity) || 0,
-        newQuantity: Number(movement.balance_after) || 0,
-        reason:
-          movement.notes ||
-          movement.reference_type ||
-          movement.movement_type,
-        performedByUserId: movement.created_by || '',
-        performedByUserName: movement.created_by ? 'موظف معتمد' : 'النظام',
-        timestamp: movement.created_at,
-        referenceId: movement.reference_id || undefined,
-        notes: movement.notes || undefined,
-      };
-    });
+    return {
+      movements: rows
+        .filter(
+          (row): row is Record<string, unknown> =>
+            Boolean(row) && typeof row === 'object'
+        )
+        .map(mapInventoryMovement),
+      page,
+      pageSize,
+      totalCount,
+      totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+      productMovementCounts,
+      salesProductIds,
+    };
   } catch (err) {
     console.warn('Exception fetching inventory movements:', err);
-    return [];
+    return emptyPage;
   }
 }
 

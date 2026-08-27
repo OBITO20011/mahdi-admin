@@ -594,14 +594,24 @@ export const fetchBranchesForReceivingFromSupabase = async (): Promise<Branch[]>
 export const subscribeToSupplierReceiptsRealtime = (callback: () => void) => {
   if (!isSupabaseConfigured || !supabase) return () => {};
 
+  let refreshTimer: ReturnType<typeof setTimeout> | null = null;
+  const scheduleRefresh = () => {
+    if (refreshTimer) clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(() => {
+      refreshTimer = null;
+      callback();
+    }, 350);
+  };
+
   const channel = supabase
     .channel('supplier-receipts-changes')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'supplier_receipts' }, () => callback())
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'supplier_receipt_items' }, () => callback())
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'supplier_payments' }, () => callback())
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'supplier_receipts' }, scheduleRefresh)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'supplier_receipt_items' }, scheduleRefresh)
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'supplier_payments' }, scheduleRefresh)
     .subscribe();
 
   return () => {
-    supabase.removeChannel(channel);
+    if (refreshTimer) clearTimeout(refreshTimer);
+    void supabase.removeChannel(channel);
   };
 };

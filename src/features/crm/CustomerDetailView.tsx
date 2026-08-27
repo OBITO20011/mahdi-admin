@@ -71,9 +71,16 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
 
   useEffect(() => {
     load();
-    const unsubscribe = subscribeToCrmRealtime(load);
+    const unsubscribe = subscribeToCrmRealtime((change) => {
+      if (
+        change.customerIds.length === 0 ||
+        change.customerIds.includes(customerId)
+      ) {
+        void load();
+      }
+    });
     return unsubscribe;
-  }, [load]);
+  }, [customerId, load]);
 
   if (loading && !customer) {
     return (

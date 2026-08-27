@@ -129,13 +129,66 @@ function buildCustomer(
   };
 }
 
+function textValue(value: unknown, fallback = ''): string {
+  return typeof value === 'string' ? value : fallback;
+}
+
+function numberValue(value: unknown): number {
+  const numericValue = Number(value);
+  return Number.isFinite(numericValue) ? numericValue : 0;
+}
+
+function mapCrmDirectoryCustomer(row: Record<string, unknown>): CrmCustomer {
+  const totalSpending = numberValue(row.total_spending_in_minor_units) / 1000;
+  const currentBalance = numberValue(row.current_balance_in_minor_units) / 1000;
+  const customer = {
+    id: textValue(row.id),
+    full_name: textValue(row.full_name, 'عميل بدون اسم'),
+    phone: textValue(row.phone),
+    email: textValue(row.email),
+    whatsapp: textValue(row.whatsapp),
+    governorate: textValue(row.governorate),
+    notes: textValue(row.notes),
+    customer_type: textValue(row.customer_type, 'retail'),
+    is_active: row.is_active !== false,
+    is_vip: row.is_vip === true,
+    is_blocked: row.is_blocked === true,
+    is_deleted: row.is_deleted === true,
+    credit_limit_in_minor_units: numberValue(row.credit_limit_in_minor_units),
+    created_at: textValue(row.created_at),
+    updated_at: textValue(row.updated_at),
+  } as RawCustomer;
+  const state = deriveCustomerStatus(customer);
+
+  return {
+    id: customer.id,
+    fullName: customer.full_name,
+    phone: customer.phone,
+    email: customer.email,
+    governorate:
+      textValue(row.address_governorate) || customer.governorate || 'غير محدد',
+    ...state,
+    isDeleted: false,
+    tags: deriveCustomerTags(customer, totalSpending),
+    notes: customer.notes,
+    whatsapp: customer.whatsapp || customer.phone || undefined,
+    creditLimit: customer.credit_limit_in_minor_units / 1000,
+    currentBalance: Number(currentBalance.toFixed(3)),
+    customerType:
+      customer.customer_type === 'wholesale' ? 'wholesale' : 'retail',
+    createdAt: customer.created_at,
+    updatedAt: customer.updated_at,
+    totalOrdersCount: Math.max(0, Math.floor(numberValue(row.total_orders_count))),
+    totalSpending: Number(totalSpending.toFixed(3)),
+  };
+}
+
 export async function fetchCustomersCrmFromSupabase(
   params: CrmCustomerFilterParams
 ): Promise<CrmCustomerResponse> {
   const page = params.page && params.page > 0 ? params.page : 1;
   const pageSize =
     params.pageSize && params.pageSize > 0 ? params.pageSize : 10;
-  const searchQuery = params.searchQuery?.trim().toLowerCase() || '';
   const statusFilter = params.statusFilter || 'all';
   const sortBy = params.sortBy || 'latest';
 
@@ -154,98 +207,41 @@ export async function fetchCustomersCrmFromSupabase(
   }
 
   try {
-    const [customersResult, ordersResult, addressesResult] =
-      await Promise.all([
-        supabase
-          .from('customers')
-          .select('*')
-          .order('created_at', { ascending: false }),
-        supabase
-          .from('orders')
-          .select(
-            'id, customer_id, total_in_minor_units, amount_paid_in_minor_units, status, source, created_at'
-          ),
-        supabase.from('customer_addresses').select('*'),
-      ]);
-
-    const queryError =
-      customersResult.error || ordersResult.error || addressesResult.error;
-    if (queryError) return failure(queryError.message);
-
-    const operationalOrders = (ordersResult.data || []).filter((order) =>
-      isOperationalOrderSource(order.source)
-    );
-    const ordersByCustomer = new Map<string, RawOrder[]>();
-    operationalOrders.forEach((order) => {
-      if (!order.customer_id) return;
-      const list = ordersByCustomer.get(order.customer_id) || [];
-      list.push(order);
-      ordersByCustomer.set(order.customer_id, list);
+    const { data, error } = await supabase.rpc('get_crm_customer_page', {
+      p_page: page,
+      p_page_size: Math.min(pageSize, 100),
+      p_search: params.searchQuery?.trim() || null,
+      p_status: statusFilter,
+      p_sort: sortBy,
     });
+    if (error) return failure(error.message);
 
-    const addressesByCustomer = new Map<string, CrmCustomerAddress[]>();
-    (addressesResult.data || []).forEach((address) => {
-      const list = addressesByCustomer.get(address.customer_id) || [];
-      list.push(mapAddress(address));
-      addressesByCustomer.set(address.customer_id, list);
-    });
-
-    let customers = (customersResult.data || [])
-      .map((customer) =>
-        buildCustomer(
-          customer,
-          ordersByCustomer.get(customer.id) || [],
-          addressesByCustomer.get(customer.id) || []
-        )
+    const payload =
+      data && typeof data === 'object'
+        ? (data as Record<string, unknown>)
+        : {};
+    const rows = Array.isArray(payload.customers) ? payload.customers : [];
+    const customers = rows
+      .filter(
+        (row): row is Record<string, unknown> =>
+          Boolean(row) && typeof row === 'object'
       )
-      .filter((customer) => !customer.isDeleted);
-
-    if (searchQuery) {
-      customers = customers.filter((customer) =>
-        [customer.fullName, customer.phone, customer.email].some((value) =>
-          value.toLowerCase().includes(searchQuery)
-        )
-      );
-    }
-
-    if (statusFilter !== 'all') {
-      customers = customers.filter((customer) => {
-        if (statusFilter === 'vip') return customer.isVip;
-        if (statusFilter === 'active') {
-          return customer.isActive && !customer.isBlocked;
-        }
-        if (statusFilter === 'inactive') {
-          return !customer.isActive && !customer.isBlocked;
-        }
-        return customer.isBlocked;
-      });
-    }
-
-    if (sortBy === 'highest_spending') {
-      customers.sort((a, b) => b.totalSpending - a.totalSpending);
-    } else if (sortBy === 'most_orders') {
-      customers.sort((a, b) => b.totalOrdersCount - a.totalOrdersCount);
-    } else {
-      customers.sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
-    }
-
-    const totalCount = customers.length;
+      .map(mapCrmDirectoryCustomer);
+    const totalCount = Math.max(0, Math.floor(numberValue(payload.total_count)));
     const totalPages = Math.max(Math.ceil(totalCount / pageSize), 1);
-    const start = (page - 1) * pageSize;
 
     return {
       success: true,
-      customers: customers.slice(start, start + pageSize),
+      customers,
       totalCount,
       page,
       pageSize,
       totalPages,
     };
-  } catch (error: any) {
-    return failure(error?.message || 'تعذر جلب بيانات العملاء.');
+  } catch (error: unknown) {
+    return failure(
+      error instanceof Error ? error.message : 'تعذر جلب بيانات العملاء.'
+    );
   }
 }
 
@@ -497,29 +493,62 @@ export async function addCustomerAddressInSupabase(
   }
 }
 
-export function subscribeToCrmRealtime(onChange: () => void): () => void {
+export interface CrmRealtimeChange {
+  customerIds: string[];
+}
+
+function customerIdFromRealtimePayload(
+  table: 'customers' | 'customer_addresses' | 'orders',
+  payload: { new: Record<string, unknown>; old: Record<string, unknown> }
+): string | null {
+  const row = Object.keys(payload.new).length > 0 ? payload.new : payload.old;
+  const value = table === 'customers' ? row.id : row.customer_id;
+  return typeof value === 'string' && value ? value : null;
+}
+
+export function subscribeToCrmRealtime(
+  onChange: (change: CrmRealtimeChange) => void
+): () => void {
   if (!isSupabaseConfigured || !supabase) return () => {};
+
+  let refreshTimer: ReturnType<typeof setTimeout> | null = null;
+  const affectedCustomerIds = new Set<string>();
+  const scheduleRefresh = (
+    table: 'customers' | 'customer_addresses' | 'orders',
+    payload: { new: Record<string, unknown>; old: Record<string, unknown> }
+  ) => {
+    const customerId = customerIdFromRealtimePayload(table, payload);
+    if (customerId) affectedCustomerIds.add(customerId);
+    if (refreshTimer) clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(() => {
+      const customerIds = Array.from(affectedCustomerIds);
+      affectedCustomerIds.clear();
+      refreshTimer = null;
+      onChange({ customerIds });
+    }, 350);
+  };
 
   const channel = supabase
     .channel(`crm-realtime-${crypto.randomUUID()}`)
     .on(
       'postgres_changes',
       { event: '*', schema: 'public', table: 'customers' },
-      onChange
+      (payload) => scheduleRefresh('customers', payload)
     )
     .on(
       'postgres_changes',
       { event: '*', schema: 'public', table: 'customer_addresses' },
-      onChange
+      (payload) => scheduleRefresh('customer_addresses', payload)
     )
     .on(
       'postgres_changes',
       { event: '*', schema: 'public', table: 'orders' },
-      onChange
+      (payload) => scheduleRefresh('orders', payload)
     )
     .subscribe();
 
   return () => {
-    supabase.removeChannel(channel);
+    if (refreshTimer) clearTimeout(refreshTimer);
+    void supabase.removeChannel(channel);
   };
 }

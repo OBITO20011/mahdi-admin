@@ -47,6 +47,8 @@ import {
 import {
   adjustInventoryStockInSupabase,
   fetchInventoryMovementsFromSupabase,
+  type InventoryMovementPageInput,
+  type InventoryMovementPage,
   receiveInventoryInSupabase,
   transferInventoryBetweenWarehousesInSupabase,
 } from '../services/supabase/inventory.service';
@@ -232,6 +234,9 @@ export interface AppState {
   currentShift: Shift | null;
   recentShifts: Shift[];
   movements: InventoryMovement[];
+  movementPage: Omit<InventoryMovementPage, 'movements'> & {
+    productId: string | null;
+  };
   accounts: Account[];
   journalEntries: JournalEntry[];
   customerPayments: CustomerPayment[];
@@ -259,7 +264,7 @@ class StoreEngine {
   private persistedPreferencesSnapshot: string | null = null;
   private productsRefreshPromise: Promise<void> | null = null;
   private ordersRefreshPromise: Promise<void> | null = null;
-  private movementsRefreshPromise: Promise<void> | null = null;
+  private movementsRefreshRequestId = 0;
   private financeRefreshPromise: Promise<void> | null = null;
   private notificationsRefreshPromise: Promise<NotificationItem[]> | null = null;
 
@@ -423,24 +428,26 @@ class StoreEngine {
     return units;
   }
 
-  public refreshInventoryMovementsFromSupabase(): Promise<void> {
-    if (this.movementsRefreshPromise) return this.movementsRefreshPromise;
-
-    const refreshPromise = this.performMovementsRefresh().finally(() => {
-      if (this.movementsRefreshPromise === refreshPromise) {
-        this.movementsRefreshPromise = null;
-      }
-    });
-    this.movementsRefreshPromise = refreshPromise;
-    return refreshPromise;
-  }
-
-  private async performMovementsRefresh(): Promise<void> {
+  public async refreshInventoryMovementsFromSupabase(
+    input: InventoryMovementPageInput = {}
+  ): Promise<void> {
     if (!isSupabaseConfigured) return;
 
+    const requestId = ++this.movementsRefreshRequestId;
+
     try {
-      this.state.movements =
-        await fetchInventoryMovementsFromSupabase();
+      const result = await fetchInventoryMovementsFromSupabase(input);
+      if (requestId !== this.movementsRefreshRequestId) return;
+      this.state.movements = result.movements;
+      this.state.movementPage = {
+        page: result.page,
+        pageSize: result.pageSize,
+        totalCount: result.totalCount,
+        totalPages: result.totalPages,
+        productMovementCounts: result.productMovementCounts,
+        salesProductIds: result.salesProductIds,
+        productId: input.productId ?? null,
+      };
       this.notify();
     } catch (error) {
       console.error(
@@ -570,6 +577,15 @@ class StoreEngine {
       currentShift: null,
       recentShifts: [],
       movements: [],
+      movementPage: {
+        page: 1,
+        pageSize: 25,
+        totalCount: 0,
+        totalPages: 1,
+        productMovementCounts: {},
+        salesProductIds: [],
+        productId: null,
+      },
       accounts: [],
       journalEntries: [],
       customerPayments: [],
@@ -2318,8 +2334,8 @@ const coreAppStoreActions = {
     storeEngine.clearFaceIdLockForPasswordSignIn(),
   refreshOrdersFromSupabase: () => storeEngine.refreshOrdersFromSupabase(),
   refreshProductsFromSupabase: () => storeEngine.refreshProductsFromSupabase(),
-  refreshInventoryMovementsFromSupabase: () =>
-    storeEngine.refreshInventoryMovementsFromSupabase(),
+  refreshInventoryMovementsFromSupabase: (input?: InventoryMovementPageInput) =>
+    storeEngine.refreshInventoryMovementsFromSupabase(input),
   refreshExpenseShiftCenterFromSupabase: () =>
     storeEngine.refreshExpenseShiftCenterFromSupabase(),
   refreshStockNotificationsFromSupabase: () =>
@@ -2453,8 +2469,8 @@ export function useAppStore() {
       storeEngine.refreshCategoriesFromSupabase(),
     refreshBrandsFromSupabase: () => storeEngine.refreshBrandsFromSupabase(),
     refreshUnitsFromSupabase: () => storeEngine.refreshUnitsFromSupabase(),
-    refreshInventoryMovementsFromSupabase: () =>
-      storeEngine.refreshInventoryMovementsFromSupabase(),
+    refreshInventoryMovementsFromSupabase: (input?: InventoryMovementPageInput) =>
+      storeEngine.refreshInventoryMovementsFromSupabase(input),
     refreshExpenseShiftCenterFromSupabase: () =>
       storeEngine.refreshExpenseShiftCenterFromSupabase(),
     refreshStockNotificationsFromSupabase: () =>
