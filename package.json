@@ -16,6 +16,7 @@
     "test": "tsx --test tests/*.test.ts",
     "test:e2e": "playwright test",
     "test:e2e:report": "playwright show-report",
+    "test:db:isolated": "node scripts/testing/bootstrap-isolated-supabase.mjs",
     "quality": "npm run lint && npm test && npm --prefix customer-web run lint && npm --prefix customer-web test && npm run build && npm --prefix customer-web run build && npm run test:e2e",
     "backup:preflight": "node scripts/backup/preflight.mjs",
     "backup:setup": "node scripts/backup/run-powershell-script.mjs scripts/backup/setup-backup.ps1",

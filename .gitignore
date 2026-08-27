@@ -11,3 +11,5 @@ blob-report/
 .env*
 !.env.example
 automation/n8n/backups/
+supabase/.branches/
+supabase/.temp/
