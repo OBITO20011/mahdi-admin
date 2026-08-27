@@ -54,6 +54,104 @@ const EMPTY_OPERATIONAL_ORDERS_SUMMARY: OperationalOrdersSummary = {
   due: 0,
 };
 
+const ORDER_DETAIL_SELECT = `
+  id,
+  order_number,
+  customer_id,
+  customer_name_snapshot,
+  status,
+  payment_method,
+  payment_status,
+  payment_reference_number,
+  payment_confirmed_at,
+  payment_confirmed_by,
+  cash_shift_id,
+  subtotal_in_minor_units,
+  delivery_fee_in_minor_units,
+  delivery_zone,
+  discount_in_minor_units,
+  promotion_code_snapshot,
+  total_in_minor_units,
+  amount_paid_in_minor_units,
+  customer_notes,
+  internal_notes,
+  whatsapp_message,
+  tracking_token,
+  delivery_started_at,
+  estimated_arrival_at,
+  delivery_completed_at,
+  delivery_driver_phone,
+  source,
+  branch_id,
+  warehouse_id,
+  created_at,
+  updated_at,
+  customers (
+    id,
+    full_name,
+    phone,
+    email
+  ),
+  customer_addresses (
+    id,
+    governorate,
+    city,
+    area,
+    street,
+    building,
+    floor,
+    apartment,
+    notes,
+    latitude,
+    longitude,
+    formatted_address,
+    google_maps_url,
+    location_source,
+    location_confirmed
+  ),
+  order_items (
+    id,
+    product_id,
+    product_name_snapshot,
+    sku_snapshot,
+    quantity,
+    unit_price_in_minor_units,
+    line_total_in_minor_units,
+    sale_package_quantity,
+    units_per_sale_package,
+    sale_package_name_snapshot,
+    sale_package_price_in_minor_units,
+    products (
+      id,
+      cost_price_in_minor_units,
+      base_unit:units!products_unit_id_fkey (
+        name_ar
+      ),
+      product_images (
+        image_url
+      )
+    )
+  ),
+  order_status_history (
+    id,
+    old_status,
+    new_status,
+    changed_by,
+    notes,
+    created_at
+  ),
+  sales_returns (
+    id,
+    return_number,
+    reason,
+    stock_disposition,
+    refund_method,
+    refund_amount_in_minor_units,
+    reference_number,
+    created_at
+  )
+`;
+
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
 
@@ -115,103 +213,7 @@ export async function fetchOrdersFromSupabase(
   try {
     let query = supabase
       .from('orders')
-      .select(`
-        id,
-        order_number,
-        customer_id,
-        customer_name_snapshot,
-        status,
-        payment_method,
-        payment_status,
-        payment_reference_number,
-        payment_confirmed_at,
-        payment_confirmed_by,
-        cash_shift_id,
-        subtotal_in_minor_units,
-        delivery_fee_in_minor_units,
-        delivery_zone,
-        discount_in_minor_units,
-        promotion_code_snapshot,
-        total_in_minor_units,
-        amount_paid_in_minor_units,
-        customer_notes,
-        internal_notes,
-        whatsapp_message,
-        tracking_token,
-        delivery_started_at,
-        estimated_arrival_at,
-        delivery_completed_at,
-        delivery_driver_phone,
-        source,
-        branch_id,
-        warehouse_id,
-        created_at,
-        updated_at,
-        customers (
-          id,
-          full_name,
-          phone,
-          email
-        ),
-        customer_addresses (
-          id,
-          governorate,
-          city,
-          area,
-          street,
-          building,
-          floor,
-          apartment,
-          notes,
-          latitude,
-          longitude,
-          formatted_address,
-          google_maps_url,
-          location_source,
-          location_confirmed
-        ),
-        order_items (
-          id,
-          product_id,
-          product_name_snapshot,
-          sku_snapshot,
-          quantity,
-          unit_price_in_minor_units,
-          line_total_in_minor_units,
-          sale_package_quantity,
-          units_per_sale_package,
-          sale_package_name_snapshot,
-          sale_package_price_in_minor_units,
-          products (
-            id,
-            cost_price_in_minor_units,
-            base_unit:units!products_unit_id_fkey (
-              name_ar
-            ),
-            product_images (
-              image_url
-            )
-          )
-        ),
-        order_status_history (
-          id,
-          old_status,
-          new_status,
-          changed_by,
-          notes,
-          created_at
-        ),
-        sales_returns (
-          id,
-          return_number,
-          reason,
-          stock_disposition,
-          refund_method,
-          refund_amount_in_minor_units,
-          reference_number,
-          created_at
-        )
-      `);
+      .select(ORDER_DETAIL_SELECT);
 
     if (scope === 'operational') {
       query = query.or('source.is.null,source.neq.pos');
@@ -243,162 +245,7 @@ export async function fetchOrdersFromSupabase(
       return { success: true, orders: [] };
     }
 
-    const mappedOrders: Order[] = data.map((ord: any) => {
-      const cust = ord.customers || {};
-      const addr = ord.customer_addresses || {};
-
-      const items = (ord.order_items || []).map((item: any) => {
-        const prod = item.products || {};
-        const unitPrice = Number(item.unit_price_in_minor_units || 0) / 1000;
-        const lineTotal = Number(item.line_total_in_minor_units || 0) / 1000;
-        const costPrice = Number(prod.cost_price_in_minor_units || 0) / 1000;
-        const packageQuantity = Number(item.sale_package_quantity || 0);
-        const unitsPerSalePackage = Number(
-          item.units_per_sale_package || 0
-        );
-        const isWholesaleSnapshot =
-          packageQuantity > 0 && unitsPerSalePackage > 0;
-        const displayQuantity = isWholesaleSnapshot
-          ? packageQuantity
-          : Number(item.quantity || 1);
-        const displayUnitPrice = isWholesaleSnapshot
-          ? Number(item.sale_package_price_in_minor_units || 0) / 1000
-          : unitPrice;
-
-        const unitName = isWholesaleSnapshot
-          ? item.sale_package_name_snapshot || 'طرد'
-          : prod.base_unit?.name_ar || prod.unit || 'قطعة';
-        const imgUrl =
-          Array.isArray(prod.product_images) && prod.product_images.length > 0
-            ? prod.product_images[0].image_url
-            : prod.image_url || '';
-
-        return {
-          id: item.id,
-          productId: item.product_id || '',
-          productName: item.product_name_snapshot || 'منتج',
-          productImage: imgUrl,
-          sku: item.sku_snapshot || '',
-          unit: unitName,
-          unitPrice: displayUnitPrice,
-          costPrice,
-          quantity: displayQuantity,
-          baseQuantity: Number(item.quantity || 1),
-          unitsPerSalePackage:
-            unitsPerSalePackage || undefined,
-          salePackage: isWholesaleSnapshot
-            ? unitName
-            : undefined,
-          discount: 0,
-          totalPrice: lineTotal,
-        };
-      });
-
-      const statusHistory = (ord.order_status_history || [])
-        .map((h: any) => ({
-          status: (h.new_status || 'new') as OrderStatus,
-          changedAt: h.created_at || new Date().toISOString(),
-          changedBy: h.changed_by || 'النظام',
-          reason: h.notes || undefined,
-        }))
-        .sort(
-          (a: any, b: any) =>
-            new Date(b.changedAt).getTime() - new Date(a.changedAt).getTime()
-        );
-
-      const lat = addr.latitude ? Number(addr.latitude) : undefined;
-      const lng = addr.longitude ? Number(addr.longitude) : undefined;
-
-      let gMapsUrl = addr.google_maps_url;
-      if (!gMapsUrl && lat && lng) {
-        gMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
-      }
-
-      const addressStr =
-        addr.formatted_address ||
-        [addr.governorate, addr.city, addr.area, addr.street, addr.building]
-          .filter(Boolean)
-          .join(' - ') ||
-        'عنوان غير محدد';
-      const totalAmount = Number(ord.total_in_minor_units || 0) / 1000;
-      const amountPaid =
-        Number(ord.amount_paid_in_minor_units || 0) / 1000;
-      const salesReturn = Array.isArray(ord.sales_returns)
-        ? ord.sales_returns[0]
-        : ord.sales_returns;
-
-      return {
-        id: ord.id,
-        orderNumber: ord.order_number,
-        customerId: cust.id || ord.customer_id || undefined,
-        customerName:
-          cust.full_name || ord.customer_name_snapshot || 'زبون نقدي',
-        customerPhone: cust.phone || '',
-        governorate: addr.governorate || 'غير محدد',
-        region: addr.area || addr.city || 'غير محدد',
-        address: addressStr,
-        customerAddress: {
-          governorate: addr.governorate,
-          area: addr.area,
-          street: addr.street,
-          building: addr.building,
-          apartment: addr.apartment,
-          landmark: addr.city,
-          deliveryNotes: addr.notes,
-        },
-        latitude: lat,
-        longitude: lng,
-        formattedAddress: addr.formatted_address,
-        googleMapsUrl: gMapsUrl,
-        locationSource: addr.location_source || 'manual',
-        locationConfirmed: Boolean(addr.location_confirmed),
-        trackingToken: ord.tracking_token || undefined,
-        deliveryStartedAt: ord.delivery_started_at || undefined,
-        estimatedArrivalAt: ord.estimated_arrival_at || undefined,
-        deliveryCompletedAt: ord.delivery_completed_at || undefined,
-        deliveryDriverPhone: ord.delivery_driver_phone || undefined,
-        items,
-        subtotal: Number(ord.subtotal_in_minor_units || 0) / 1000,
-        deliveryFee: Number(ord.delivery_fee_in_minor_units || 0) / 1000,
-        deliveryZone:
-          ord.delivery_zone === 'inside_ramtha' ||
-          ord.delivery_zone === 'outside_ramtha'
-            ? ord.delivery_zone
-            : undefined,
-        discount: Number(ord.discount_in_minor_units || 0) / 1000,
-        promotionCode: ord.promotion_code_snapshot || undefined,
-        totalAmount,
-        amountPaid,
-        amountDue: calculateOrderAmountDue(totalAmount, amountPaid),
-        paymentMethod: toPaymentMethod(ord.payment_method),
-        paymentStatus: toPaymentStatus(ord.payment_status),
-        paymentReferenceNumber:
-          ord.payment_reference_number || undefined,
-        paymentConfirmedAt: ord.payment_confirmed_at || undefined,
-        paymentConfirmedBy: ord.payment_confirmed_by || undefined,
-        cashShiftId: ord.cash_shift_id || undefined,
-        returnNumber: salesReturn?.return_number || undefined,
-        returnReason: salesReturn?.reason || undefined,
-        returnStockDisposition:
-          salesReturn?.stock_disposition || undefined,
-        refundMethod: salesReturn?.refund_method || undefined,
-        refundAmount: salesReturn
-          ? Number(salesReturn.refund_amount_in_minor_units || 0) / 1000
-          : undefined,
-        refundReferenceNumber:
-          salesReturn?.reference_number || undefined,
-        returnedAt: salesReturn?.created_at || undefined,
-        source: ord.source || 'website',
-        status: (ord.status as OrderStatus) || 'new',
-        branchId: ord.branch_id || '',
-        isNew: ord.status === 'new',
-        notes: ord.customer_notes,
-        internalNotes: ord.internal_notes,
-        createdAt: ord.created_at,
-        updatedAt: ord.updated_at,
-        statusHistory,
-      };
-    });
+    const mappedOrders = mapOrderRows(data);
 
     // Apply client-side search query if present
     let filtered = mappedOrders;
@@ -423,6 +270,153 @@ export async function fetchOrdersFromSupabase(
   }
 }
 
+function mapOrderRows(data: unknown[]): Order[] {
+  return data.map((ord: any) => {
+    const cust = ord.customers || {};
+    const addr = ord.customer_addresses || {};
+
+    const items = (ord.order_items || []).map((item: any) => {
+      const prod = item.products || {};
+      const unitPrice = Number(item.unit_price_in_minor_units || 0) / 1000;
+      const lineTotal = Number(item.line_total_in_minor_units || 0) / 1000;
+      const costPrice = Number(prod.cost_price_in_minor_units || 0) / 1000;
+      const packageQuantity = Number(item.sale_package_quantity || 0);
+      const unitsPerSalePackage = Number(item.units_per_sale_package || 0);
+      const isWholesaleSnapshot = packageQuantity > 0 && unitsPerSalePackage > 0;
+      const displayQuantity = isWholesaleSnapshot
+        ? packageQuantity
+        : Number(item.quantity || 1);
+      const displayUnitPrice = isWholesaleSnapshot
+        ? Number(item.sale_package_price_in_minor_units || 0) / 1000
+        : unitPrice;
+
+      const unitName = isWholesaleSnapshot
+        ? item.sale_package_name_snapshot || 'طرد'
+        : prod.base_unit?.name_ar || prod.unit || 'قطعة';
+      const imgUrl =
+        Array.isArray(prod.product_images) && prod.product_images.length > 0
+          ? prod.product_images[0].image_url
+          : prod.image_url || '';
+
+      return {
+        id: item.id,
+        productId: item.product_id || '',
+        productName: item.product_name_snapshot || 'منتج',
+        productImage: imgUrl,
+        sku: item.sku_snapshot || '',
+        unit: unitName,
+        unitPrice: displayUnitPrice,
+        costPrice,
+        quantity: displayQuantity,
+        baseQuantity: Number(item.quantity || 1),
+        unitsPerSalePackage: unitsPerSalePackage || undefined,
+        salePackage: isWholesaleSnapshot ? unitName : undefined,
+        discount: 0,
+        totalPrice: lineTotal,
+      };
+    });
+
+    const statusHistory = (ord.order_status_history || [])
+      .map((h: any) => ({
+        status: (h.new_status || 'new') as OrderStatus,
+        changedAt: h.created_at || new Date().toISOString(),
+        changedBy: h.changed_by || 'النظام',
+        reason: h.notes || undefined,
+      }))
+      .sort(
+        (a: any, b: any) =>
+          new Date(b.changedAt).getTime() - new Date(a.changedAt).getTime()
+      );
+
+    const lat = addr.latitude ? Number(addr.latitude) : undefined;
+    const lng = addr.longitude ? Number(addr.longitude) : undefined;
+
+    let gMapsUrl = addr.google_maps_url;
+    if (!gMapsUrl && lat && lng) {
+      gMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+    }
+
+    const addressStr =
+      addr.formatted_address ||
+      [addr.governorate, addr.city, addr.area, addr.street, addr.building]
+        .filter(Boolean)
+        .join(' - ') ||
+      'عنوان غير محدد';
+    const totalAmount = Number(ord.total_in_minor_units || 0) / 1000;
+    const amountPaid = Number(ord.amount_paid_in_minor_units || 0) / 1000;
+    const salesReturn = Array.isArray(ord.sales_returns)
+      ? ord.sales_returns[0]
+      : ord.sales_returns;
+
+    return {
+      id: ord.id,
+      orderNumber: ord.order_number,
+      customerId: cust.id || ord.customer_id || undefined,
+      customerName: cust.full_name || ord.customer_name_snapshot || 'زبون نقدي',
+      customerPhone: cust.phone || '',
+      governorate: addr.governorate || 'غير محدد',
+      region: addr.area || addr.city || 'غير محدد',
+      address: addressStr,
+      customerAddress: {
+        governorate: addr.governorate,
+        area: addr.area,
+        street: addr.street,
+        building: addr.building,
+        apartment: addr.apartment,
+        landmark: addr.city,
+        deliveryNotes: addr.notes,
+      },
+      latitude: lat,
+      longitude: lng,
+      formattedAddress: addr.formatted_address,
+      googleMapsUrl: gMapsUrl,
+      locationSource: addr.location_source || 'manual',
+      locationConfirmed: Boolean(addr.location_confirmed),
+      trackingToken: ord.tracking_token || undefined,
+      deliveryStartedAt: ord.delivery_started_at || undefined,
+      estimatedArrivalAt: ord.estimated_arrival_at || undefined,
+      deliveryCompletedAt: ord.delivery_completed_at || undefined,
+      deliveryDriverPhone: ord.delivery_driver_phone || undefined,
+      items,
+      subtotal: Number(ord.subtotal_in_minor_units || 0) / 1000,
+      deliveryFee: Number(ord.delivery_fee_in_minor_units || 0) / 1000,
+      deliveryZone:
+        ord.delivery_zone === 'inside_ramtha' || ord.delivery_zone === 'outside_ramtha'
+          ? ord.delivery_zone
+          : undefined,
+      discount: Number(ord.discount_in_minor_units || 0) / 1000,
+      promotionCode: ord.promotion_code_snapshot || undefined,
+      totalAmount,
+      amountPaid,
+      amountDue: calculateOrderAmountDue(totalAmount, amountPaid),
+      paymentMethod: toPaymentMethod(ord.payment_method),
+      paymentStatus: toPaymentStatus(ord.payment_status),
+      paymentReferenceNumber: ord.payment_reference_number || undefined,
+      paymentConfirmedAt: ord.payment_confirmed_at || undefined,
+      paymentConfirmedBy: ord.payment_confirmed_by || undefined,
+      cashShiftId: ord.cash_shift_id || undefined,
+      returnNumber: salesReturn?.return_number || undefined,
+      returnReason: salesReturn?.reason || undefined,
+      returnStockDisposition: salesReturn?.stock_disposition || undefined,
+      refundMethod: salesReturn?.refund_method || undefined,
+      refundAmount: salesReturn
+        ? Number(salesReturn.refund_amount_in_minor_units || 0) / 1000
+        : undefined,
+      refundReferenceNumber: salesReturn?.reference_number || undefined,
+      returnedAt: salesReturn?.created_at || undefined,
+      source: ord.source || 'website',
+      status: (ord.status as OrderStatus) || 'new',
+      branchId: ord.branch_id || '',
+      isNew: ord.status === 'new',
+      notes: ord.customer_notes,
+      internalNotes: ord.internal_notes,
+      createdAt: ord.created_at,
+      updatedAt: ord.updated_at,
+      statusHistory,
+    };
+  });
+}
+
 export async function fetchOrderByIdFromSupabase(
   orderId: string
 ): Promise<{ success: boolean; order?: Order; error?: string }> {
@@ -431,12 +425,22 @@ export async function fetchOrderByIdFromSupabase(
   }
 
   try {
-    const res = await fetchOrdersFromSupabase('all', undefined, 'all');
-    if (!res.success) {
-      return { success: false, error: res.error };
+    const { data, error } = await supabase
+      .from('orders')
+      .select(ORDER_DETAIL_SELECT)
+      .eq('id', orderId)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return { success: false, error: 'الطلب غير موجود في قاعدة البيانات.' };
+      }
+
+      console.error('[fetchOrderByIdFromSupabase Error]:', error);
+      return { success: false, error: error.message };
     }
 
-    const order = res.orders.find((o) => o.id === orderId);
+    const [order] = mapOrderRows([data]);
     if (!order) {
       return { success: false, error: 'الطلب غير موجود في قاعدة البيانات.' };
     }
