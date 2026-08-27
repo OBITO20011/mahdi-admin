@@ -2,7 +2,7 @@
  * Nawasrah Business Manager - Independent Inventory Management View (شاشة إدارة المخزون)
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   shallowEqual,
   useAppStoreActions,
@@ -77,8 +77,29 @@ export const InventoryView: React.FC = () => {
   const [clearInventoryProduct, setClearInventoryProduct] =
     useState<Product | null>(null);
   // Flavor masters are commercial cards only. Their child flavors are the
-  // actual inventory rows shown and counted here.
-  const inventoryProducts = products.filter((product) => !product.isFlavorMaster);
+  // actual inventory rows shown and counted here. When a warehouse is picked,
+  // use its real balance rather than a misleading all-warehouse aggregate.
+  const inventoryProducts = useMemo(
+    () =>
+      products
+        .filter((product) => !product.isFlavorMaster)
+        .map((product) => {
+          if (selectedWarehouseId === 'all') return product;
+
+          const balance = product.warehouseBalances?.find(
+            (item) => item.warehouseId === selectedWarehouseId
+          );
+
+          return {
+            ...product,
+            warehouseId: selectedWarehouseId,
+            onHandQuantity: balance?.onHandQuantity ?? 0,
+            reservedQuantity: balance?.reservedQuantity ?? 0,
+            availableQuantity: balance?.availableQuantity ?? 0,
+          };
+        }),
+    [products, selectedWarehouseId]
+  );
 
   // Calculate Metrics
   const totalCostValue = inventoryProducts.reduce((acc, p) => acc + (p.costPrice * p.onHandQuantity), 0);

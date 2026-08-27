@@ -105,6 +105,13 @@ export interface ProductBatch {
   quantity: number;
 }
 
+export interface ProductWarehouseBalance {
+  warehouseId: string;
+  onHandQuantity: number;
+  reservedQuantity: number;
+  availableQuantity: number;
+}
+
 export interface Product {
   id: string;
   sku: string;
@@ -150,6 +157,8 @@ export interface Product {
   warehouseLocation?: string;
   branchId?: string;
   warehouseId?: string;
+  /** Per-warehouse quantities for inventory screens; aggregate fields stay global. */
+  warehouseBalances?: ProductWarehouseBalance[];
   ingredients?: string;
   allergens?: string;
   nutritionalInfo?: string;

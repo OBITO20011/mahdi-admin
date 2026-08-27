@@ -147,96 +147,16 @@ export async function fetchProductsFromSupabase(): Promise<{
   }
 
   try {
-    // Query products table
-    let productQuery: any = await supabase
-      .from('products')
-      .select(`
-        id,
-        sku,
-        barcode,
-        name_ar,
-        description,
-        category_id,
-        brand_id,
-        unit_id,
-        purchase_unit_id,
-        units_per_purchase_unit,
-        default_purchase_price_in_minor_units,
-        sale_unit_id,
-        units_per_sale_unit,
-        default_sale_price_in_minor_units,
-        cost_price_in_minor_units,
-        sale_price_in_minor_units,
-        wholesale_price_in_minor_units,
-        min_stock_level,
-        max_stock_level,
-        is_active,
-        flavor_master_product_id,
-        flavor_name_ar,
-        is_flavor_master,
-        flavor_sort_order,
-        created_at,
-        updated_at,
-        base_unit:units!products_unit_id_fkey ( id, name_ar, code ),
-        purchase_unit:units!products_purchase_unit_id_fkey ( id, name_ar, code ),
-        sale_unit:units!products_sale_unit_id_fkey ( id, name_ar, code )
-      `)
-      .order('created_at', { ascending: false });
-
-    // Keep reads operational while a newly deployed client waits for migration
-    // 019 to be applied. All writes still require the V2 RPCs.
-    if (
-      productQuery.error &&
-      String(productQuery.error.message || '').includes(
-        'wholesale_price_in_minor_units'
-      )
-    ) {
-      productQuery = await supabase
-        .from('products')
-        .select(`
-          id,
-          sku,
-          barcode,
-          name_ar,
-          description,
-          category_id,
-          brand_id,
-          unit_id,
-          purchase_unit_id,
-          units_per_purchase_unit,
-          default_purchase_price_in_minor_units,
-          sale_unit_id,
-          units_per_sale_unit,
-          default_sale_price_in_minor_units,
-          cost_price_in_minor_units,
-          sale_price_in_minor_units,
-          min_stock_level,
-          max_stock_level,
-        is_active,
-          flavor_master_product_id,
-          flavor_name_ar,
-          is_flavor_master,
-          flavor_sort_order,
-          created_at,
-          updated_at,
-          base_unit:units!products_unit_id_fkey ( id, name_ar, code ),
-          purchase_unit:units!products_purchase_unit_id_fkey ( id, name_ar, code ),
-          sale_unit:units!products_sale_unit_id_fkey ( id, name_ar, code )
-        `)
-        .order('created_at', { ascending: false });
-    }
-
-    const {
-      data: dbProducts,
-      error: prodError,
-      status,
-    } = productQuery;
+    const { data, error: prodError } = await supabase.rpc(
+      'get_admin_product_listing'
+    );
+    const dbProducts = Array.isArray(data) ? data : [];
 
     if (prodError) {
       console.error('[Supabase fetchProducts Error]:', {
         message: prodError.message,
         code: prodError.code,
-        status: status || readErrorStatus(prodError),
+        status: readErrorStatus(prodError),
         details: prodError.details,
         hint: prodError.hint,
       });
@@ -248,7 +168,7 @@ export async function fetchProductsFromSupabase(): Promise<{
         errorDetails: {
           message: prodError.message,
           code: prodError.code || 'UNKNOWN_CODE',
-          status: status || readErrorStatus(prodError) || 400,
+          status: readErrorStatus(prodError) || 400,
           details: prodError.details || undefined,
           hint: prodError.hint || undefined,
         },
@@ -266,60 +186,20 @@ export async function fetchProductsFromSupabase(): Promise<{
       };
     }
 
-    // Balances and images are independent, so load them in one network round.
-    const [balancesResult, imagesResult] = await Promise.all([
-      supabase
-        .from('inventory_balances')
-        .select(
-          'product_id, warehouse_id, on_hand_quantity, reserved_quantity, available_quantity',
-        ),
-      supabase
-        .from('product_images')
-        .select('product_id, image_url, is_primary'),
-    ]);
-    const { data: dbBalances, error: balError } = balancesResult;
-    const { data: dbImages, error: imgError } = imagesResult;
-
-    if (balError) {
-      console.error('[Supabase inventory_balances Query Error]:', balError);
-    }
-
-    if (imgError) {
-      console.error('[Supabase product_images Query Error]:', imgError);
-    }
-
-    // Map balances by product_id
-    const balanceMap: Record<string, { onHand: number; reserved: number; available: number; warehouseId?: string }> = {};
-    if (dbBalances) {
-      dbBalances.forEach((b: any) => {
-        if (!balanceMap[b.product_id]) {
-          balanceMap[b.product_id] = {
-            onHand: 0,
-            reserved: 0,
-            available: 0,
-            warehouseId: b.warehouse_id,
-          };
-        }
-        balanceMap[b.product_id].onHand += b.on_hand_quantity || 0;
-        balanceMap[b.product_id].reserved += b.reserved_quantity || 0;
-        balanceMap[b.product_id].available += b.available_quantity ?? ((b.on_hand_quantity || 0) - (b.reserved_quantity || 0));
-      });
-    }
-
-    // Map images by product_id
-    const imageMap: Record<string, string> = {};
-    if (dbImages) {
-      dbImages.forEach((img: any) => {
-        if (img.is_primary || !imageMap[img.product_id]) {
-          imageMap[img.product_id] = img.image_url;
-        }
-      });
-    }
-
     // Convert minor units (fils) to standard JOD (1 JOD = 1000 fils)
     const mappedProducts: Product[] = dbProducts.map((p: any) => {
-      const bal = balanceMap[p.id] || { onHand: 0, reserved: 0, available: 0 };
-      const defaultImg = imageMap[p.id] || '';
+      const onHandQuantity = Number(p.on_hand_quantity || 0);
+      const reservedQuantity = Number(p.reserved_quantity || 0);
+      const availableQuantity = Math.max(0, Number(p.available_quantity || 0));
+      const warehouseBalances = Array.isArray(p.warehouse_balances)
+        ? p.warehouse_balances.map((balance: any) => ({
+            warehouseId: String(balance.warehouse_id || ''),
+            onHandQuantity: Math.max(0, Number(balance.on_hand_quantity || 0)),
+            reservedQuantity: Math.max(0, Number(balance.reserved_quantity || 0)),
+            availableQuantity: Math.max(0, Number(balance.available_quantity || 0)),
+          }))
+        : [];
+      const defaultImg = typeof p.image_url === 'string' ? p.image_url : '';
 
       const costInJod = Number(p.cost_price_in_minor_units || 0) / 1000;
       const saleInJod = Number(p.sale_price_in_minor_units || 0) / 1000;
@@ -377,13 +257,14 @@ export async function fetchProductsFromSupabase(): Promise<{
         wholesalePrice: wholesaleInJod,
         taxRate: 16,
         unit: unitName,
-        onHandQuantity: bal.onHand,
-        reservedQuantity: bal.reserved,
-        availableQuantity: Math.max(0, bal.available),
+        onHandQuantity,
+        reservedQuantity,
+        availableQuantity,
         reorderLevel: p.min_stock_level ?? 0,
         maxStockLevel: p.max_stock_level ?? undefined,
-        warehouseId: bal.warehouseId,
-        status: p.is_active ? (bal.available === 0 ? 'out_of_stock' : 'active') : 'hidden',
+        warehouseId: p.warehouse_id || undefined,
+        warehouseBalances,
+        status: p.is_active ? (availableQuantity === 0 ? 'out_of_stock' : 'active') : 'hidden',
         createdAt: p.created_at || new Date().toISOString(),
         updatedAt: p.updated_at || new Date().toISOString(),
         isFlavorMaster: Boolean(p.is_flavor_master),
