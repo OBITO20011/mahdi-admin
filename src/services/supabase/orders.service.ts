@@ -1,6 +1,9 @@
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import { Order, OrderStatus, PaymentMethod, PaymentStatus } from '../../types';
-import { calculateOrderAmountDue } from '../../utils/orderCalculations';
+import {
+  calculateOrderAmountDue,
+  type OperationalOrderFilter,
+} from '../../utils/orderCalculations';
 
 const paymentMethods: PaymentMethod[] = [
   'cash',
@@ -12,6 +15,76 @@ const paymentMethods: PaymentMethod[] = [
   'mixed',
 ];
 const paymentStatuses: PaymentStatus[] = ['unpaid', 'partially_paid', 'paid', 'refunded'];
+
+export type OperationalOrdersSort = 'newest' | 'oldest';
+
+export interface OperationalOrdersPageInput {
+  page: number;
+  pageSize: number;
+  filter: OperationalOrderFilter;
+  searchQuery?: string;
+  sort?: OperationalOrdersSort;
+}
+
+export interface OperationalOrdersSummary {
+  review: number;
+  active: number;
+  due: number;
+}
+
+export interface OperationalOrdersPage {
+  success: boolean;
+  orders: Order[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  summary: OperationalOrdersSummary;
+  error?: string;
+}
+
+interface OrderDetailFetchOptions {
+  orderIds?: readonly string[];
+  sort?: OperationalOrdersSort;
+}
+
+const EMPTY_OPERATIONAL_ORDERS_SUMMARY: OperationalOrdersSummary = {
+  review: 0,
+  active: 0,
+  due: 0,
+};
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);
+
+const asNonNegativeInteger = (value: unknown, fallback = 0): number => {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed >= 0 ? parsed : fallback;
+};
+
+const asPositiveInteger = (value: number, fallback: number): number =>
+  Number.isInteger(value) && value > 0 ? value : fallback;
+
+function parseOperationalOrdersPagePayload(value: unknown): {
+  orderIds: string[];
+  totalCount: number;
+  summary: OperationalOrdersSummary;
+} | null {
+  if (!isRecord(value) || !Array.isArray(value.order_ids)) return null;
+
+  const summary = isRecord(value.summary) ? value.summary : {};
+  return {
+    orderIds: value.order_ids.filter(
+      (orderId): orderId is string => typeof orderId === 'string'
+    ),
+    totalCount: asNonNegativeInteger(value.total_count),
+    summary: {
+      review: asNonNegativeInteger(summary.review_count),
+      active: asNonNegativeInteger(summary.active_count),
+      due: asNonNegativeInteger(summary.due_in_minor_units) / 1000,
+    },
+  };
+}
 
 function toPaymentMethod(value: unknown): PaymentMethod {
   return paymentMethods.includes(value as PaymentMethod)
@@ -28,7 +101,8 @@ function toPaymentStatus(value: unknown): PaymentStatus {
 export async function fetchOrdersFromSupabase(
   filterStatus?: string,
   searchQuery?: string,
-  scope: 'operational' | 'all' = 'operational'
+  scope: 'operational' | 'all' = 'operational',
+  options: OrderDetailFetchOptions = {}
 ): Promise<{ success: boolean; orders: Order[]; error?: string }> {
   if (!isSupabaseConfigured || !supabase) {
     return {
@@ -137,8 +211,7 @@ export async function fetchOrdersFromSupabase(
           reference_number,
           created_at
         )
-      `)
-      .order('created_at', { ascending: false });
+      `);
 
     if (scope === 'operational') {
       query = query.or('source.is.null,source.neq.pos');
@@ -147,6 +220,17 @@ export async function fetchOrdersFromSupabase(
     if (filterStatus && filterStatus !== 'all') {
       query = query.eq('status', filterStatus);
     }
+
+    if (options.orderIds) {
+      if (options.orderIds.length === 0) {
+        return { success: true, orders: [] };
+      }
+      query = query.in('id', [...options.orderIds]);
+    }
+
+    query = query.order('created_at', {
+      ascending: options.sort === 'oldest',
+    });
 
     const { data, error } = await query;
 
@@ -463,6 +547,129 @@ export async function cancelOrderInSupabase(
     };
   } catch (err: any) {
     return { success: false, error: err?.message || 'حدث خطأ أثناء إلغاء الطلب.' };
+  }
+}
+
+export async function fetchOperationalOrdersPageFromSupabase(
+  input: OperationalOrdersPageInput
+): Promise<OperationalOrdersPage> {
+  const page = asPositiveInteger(input.page, 1);
+  const pageSize = Math.min(100, asPositiveInteger(input.pageSize, 25));
+  const sort = input.sort === 'oldest' ? 'oldest' : 'newest';
+  const searchQuery = input.searchQuery?.trim() || null;
+
+  if (!isSupabaseConfigured || !supabase) {
+    return {
+      success: false,
+      orders: [],
+      page,
+      pageSize,
+      totalCount: 0,
+      totalPages: 1,
+      summary: EMPTY_OPERATIONAL_ORDERS_SUMMARY,
+      error: 'لم يتم إعداد عميل Supabase بنجاح.',
+    };
+  }
+
+  try {
+    const { data, error } = await supabase.rpc('get_operational_orders_page', {
+      p_page: page,
+      p_page_size: pageSize,
+      p_filter: input.filter,
+      p_search: searchQuery,
+      p_sort: sort,
+    });
+
+    if (error) {
+      console.error('[fetchOperationalOrdersPageFromSupabase Error]:', error);
+      return {
+        success: false,
+        orders: [],
+        page,
+        pageSize,
+        totalCount: 0,
+        totalPages: 1,
+        summary: EMPTY_OPERATIONAL_ORDERS_SUMMARY,
+        error: error.message,
+      };
+    }
+
+    const pagePayload = parseOperationalOrdersPagePayload(data);
+    if (!pagePayload) {
+      return {
+        success: false,
+        orders: [],
+        page,
+        pageSize,
+        totalCount: 0,
+        totalPages: 1,
+        summary: EMPTY_OPERATIONAL_ORDERS_SUMMARY,
+        error: 'استجابة صفحة الطلبات غير صالحة.',
+      };
+    }
+
+    if (pagePayload.orderIds.length === 0) {
+      return {
+        success: true,
+        orders: [],
+        page,
+        pageSize,
+        totalCount: pagePayload.totalCount,
+        totalPages: Math.max(1, Math.ceil(pagePayload.totalCount / pageSize)),
+        summary: pagePayload.summary,
+      };
+    }
+
+    const detailsResult = await fetchOrdersFromSupabase(
+      undefined,
+      undefined,
+      'operational',
+      { orderIds: pagePayload.orderIds, sort }
+    );
+    if (!detailsResult.success) {
+      return {
+        success: false,
+        orders: [],
+        page,
+        pageSize,
+        totalCount: pagePayload.totalCount,
+        totalPages: Math.max(1, Math.ceil(pagePayload.totalCount / pageSize)),
+        summary: pagePayload.summary,
+        error: detailsResult.error || 'تعذر تحميل تفاصيل صفحة الطلبات.',
+      };
+    }
+
+    const ordersById = new Map(
+      detailsResult.orders.map((order) => [order.id, order])
+    );
+    const orders = pagePayload.orderIds.flatMap((orderId) => {
+      const order = ordersById.get(orderId);
+      return order ? [order] : [];
+    });
+
+    return {
+      success: true,
+      orders,
+      page,
+      pageSize,
+      totalCount: pagePayload.totalCount,
+      totalPages: Math.max(1, Math.ceil(pagePayload.totalCount / pageSize)),
+      summary: pagePayload.summary,
+    };
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : 'تعذر تحميل صفحة الطلبات.';
+    console.error('[fetchOperationalOrdersPageFromSupabase Exception]:', error);
+    return {
+      success: false,
+      orders: [],
+      page,
+      pageSize,
+      totalCount: 0,
+      totalPages: 1,
+      summary: EMPTY_OPERATIONAL_ORDERS_SUMMARY,
+      error: message,
+    };
   }
 }
 

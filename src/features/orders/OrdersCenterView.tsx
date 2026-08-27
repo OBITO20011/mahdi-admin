@@ -1,7 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
   AlertCircle,
   CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
   CircleDollarSign,
   Clock3,
   MapPin,
@@ -13,17 +20,13 @@ import {
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 import {
+  fetchOperationalOrdersPageFromSupabase,
+  OperationalOrdersSort,
   subscribeToOrdersInSupabase,
 } from '../../services/supabase/orders.service';
-import {
-  useAppStoreActions,
-  useAppStoreSelector,
-} from '../../stores/useAppStore';
+import { useAppStoreActions } from '../../stores/useAppStore';
 import { Order, OrderStatus } from '../../types';
-import {
-  matchesOperationalOrderFilter,
-  OperationalOrderFilter,
-} from '../../utils/orderCalculations';
+import { OperationalOrderFilter } from '../../utils/orderCalculations';
 import { OrderDetailModal } from './OrderDetailModal';
 
 const FILTERS: Array<{ id: OperationalOrderFilter; label: string }> = [
@@ -34,6 +37,8 @@ const FILTERS: Array<{ id: OperationalOrderFilter; label: string }> = [
   { id: 'returned', label: 'مرتجعة' },
   { id: 'cancelled', label: 'ملغاة' },
 ];
+
+const PAGE_SIZE = 25;
 
 function getStatusBadge(status: OrderStatus | string) {
   const badges: Record<string, { label: string; color: string }> = {
@@ -112,27 +117,55 @@ function getPaymentLabel(order: Order) {
 }
 
 export const OrdersCenterView: React.FC = () => {
-  const orders = useAppStoreSelector((state) => state.orders);
-  const { refreshOrdersFromSupabase, setToast } = useAppStoreActions();
+  const { setToast } = useAppStoreActions();
   const [activeFilter, setActiveFilter] =
     useState<OperationalOrderFilter>('action');
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
+  const [sort, setSort] = useState<OperationalOrdersSort>('newest');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [summary, setSummary] = useState({ review: 0, active: 0, due: 0 });
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const requestVersionRef = useRef(0);
+
+  useEffect(() => {
+    const timer = window.setTimeout(
+      () => setDebouncedSearchQuery(searchQuery),
+      250
+    );
+    return () => window.clearTimeout(timer);
+  }, [searchQuery]);
 
   const loadOrders = useCallback(async (silent = false) => {
+    const requestVersion = ++requestVersionRef.current;
     if (!silent) setLoading(true);
     setError(null);
-    try {
-      await refreshOrdersFromSupabase();
-    } catch (loadError: any) {
-      setError(loadError?.message || 'تعذر تحميل الطلبات.');
-    } finally {
-      if (!silent) setLoading(false);
+    const result = await fetchOperationalOrdersPageFromSupabase({
+      page,
+      pageSize: PAGE_SIZE,
+      filter: activeFilter,
+      searchQuery: debouncedSearchQuery,
+      sort,
+    });
+
+    if (requestVersion !== requestVersionRef.current) return;
+
+    if (result.success) {
+      setOrders(result.orders);
+      setTotalCount(result.totalCount);
+      setTotalPages(result.totalPages);
+      setSummary(result.summary);
+    } else {
+      setError(result.error || 'تعذر تحميل الطلبات.');
     }
-  }, [refreshOrdersFromSupabase]);
+    if (!silent) setLoading(false);
+  }, [activeFilter, debouncedSearchQuery, page, sort]);
 
   useEffect(() => {
     let mounted = true;
@@ -153,43 +186,12 @@ export const OrdersCenterView: React.FC = () => {
 
   const handleRefresh = async () => {
     setRefreshing(true);
-    await loadOrders(true);
-    setRefreshing(false);
+    try {
+      await loadOrders(true);
+    } finally {
+      setRefreshing(false);
+    }
   };
-
-  const filteredOrders = useMemo(() => {
-    const normalizedSearch = searchQuery.trim().toLowerCase();
-    return orders.filter((order) => {
-      const matchesFilter = matchesOperationalOrderFilter(
-        order.status,
-        activeFilter
-      );
-      const matchesSearch =
-        !normalizedSearch ||
-        order.orderNumber.toLowerCase().includes(normalizedSearch) ||
-        order.customerName.toLowerCase().includes(normalizedSearch) ||
-        order.customerPhone.includes(normalizedSearch);
-      return matchesFilter && matchesSearch;
-    });
-  }, [activeFilter, orders, searchQuery]);
-
-  const summary = useMemo(
-    () => ({
-      review: orders.filter((order) => order.status === 'new').length,
-      active: orders.filter((order) =>
-        matchesOperationalOrderFilter(order.status, 'active')
-      ).length,
-      due: orders.reduce(
-        (sum, order) =>
-          sum +
-          (['completed', 'delivered'].includes(order.status)
-            ? order.amountDue || 0
-            : 0),
-        0
-      ),
-    }),
-    [orders]
-  );
 
   return (
     <div dir="rtl" className="space-y-4 p-3 pb-24 text-xs">
@@ -215,6 +217,18 @@ export const OrdersCenterView: React.FC = () => {
             />
             تحديث
           </button>
+          <select
+            value={sort}
+            onChange={(event) => {
+              setSort(event.target.value as OperationalOrdersSort);
+              setPage(1);
+            }}
+            className="rounded-xl border border-slate-700 bg-slate-800 px-2 py-2 text-[10px] font-bold text-slate-300 outline-none"
+            aria-label="ترتيب الطلبات"
+          >
+            <option value="newest">الأحدث</option>
+            <option value="oldest">الأقدم</option>
+          </select>
         </div>
       </div>
 
@@ -242,7 +256,10 @@ export const OrdersCenterView: React.FC = () => {
         <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
         <input
           value={searchQuery}
-          onChange={(event) => setSearchQuery(event.target.value)}
+          onChange={(event) => {
+            setSearchQuery(event.target.value);
+            setPage(1);
+          }}
           placeholder="ابحث برقم الطلب أو اسم العميل أو الهاتف"
           className="w-full rounded-2xl border border-slate-800 bg-slate-900 py-2.5 pl-3 pr-9 text-slate-100 outline-none focus:border-blue-500"
         />
@@ -253,7 +270,10 @@ export const OrdersCenterView: React.FC = () => {
           <button
             type="button"
             key={filter.id}
-            onClick={() => setActiveFilter(filter.id)}
+            onClick={() => {
+              setActiveFilter(filter.id);
+              setPage(1);
+            }}
             className={`shrink-0 rounded-xl border px-3 py-2 font-bold transition ${
               activeFilter === filter.id
                 ? 'border-blue-500 bg-blue-600 text-white'
@@ -277,7 +297,7 @@ export const OrdersCenterView: React.FC = () => {
           <RefreshCw className="mx-auto mb-2 h-7 w-7 animate-spin text-blue-400" />
           جاري تحميل طلبات المتجر...
         </div>
-      ) : filteredOrders.length === 0 ? (
+      ) : orders.length === 0 ? (
         <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-9 text-center">
           <ShoppingBag className="mx-auto mb-2 h-10 w-10 text-slate-600" />
           <h3 className="font-black text-white">لا توجد طلبات في هذا القسم</h3>
@@ -287,7 +307,7 @@ export const OrdersCenterView: React.FC = () => {
         </div>
       ) : (
         <div className="space-y-2.5">
-          {filteredOrders.map((order) => {
+          {orders.map((order) => {
             const status = getStatusBadge(order.status);
             const payment = getPaymentLabel(order);
             return (
@@ -354,6 +374,34 @@ export const OrdersCenterView: React.FC = () => {
               </article>
             );
           })}
+        </div>
+      )}
+
+      {!loading && totalCount > 0 && (
+        <div className="flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-900 p-2 font-bold">
+          <button
+            type="button"
+            onClick={() => setPage((currentPage) => Math.max(1, currentPage - 1))}
+            disabled={page <= 1}
+            className="flex items-center gap-1 rounded-xl bg-slate-800 px-3 py-2 text-slate-300 disabled:opacity-40"
+          >
+            <ChevronRight className="h-4 w-4" />
+            السابق
+          </button>
+          <span className="text-[10px] text-slate-400">
+            {page} / {totalPages} · {totalCount} طلب
+          </span>
+          <button
+            type="button"
+            onClick={() =>
+              setPage((currentPage) => Math.min(totalPages, currentPage + 1))
+            }
+            disabled={page >= totalPages}
+            className="flex items-center gap-1 rounded-xl bg-slate-800 px-3 py-2 text-slate-300 disabled:opacity-40"
+          >
+            التالي
+            <ChevronLeft className="h-4 w-4" />
+          </button>
         </div>
       )}
 
