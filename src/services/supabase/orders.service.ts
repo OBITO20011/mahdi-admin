@@ -950,12 +950,38 @@ export async function updateOrderDeliveryAddressInSupabase(
   }
 }
 
+export type OrderRealtimeEventType = 'INSERT' | 'UPDATE' | 'DELETE';
+
+export interface OrderRealtimeChange {
+  eventType: OrderRealtimeEventType;
+}
+
 export function subscribeToOrdersInSupabase(
-  onNewOrUpdatedOrder: (payload: any) => void
+  onNewOrUpdatedOrder: (payload: OrderRealtimeChange) => void
 ) {
   if (!isSupabaseConfigured || !supabase) {
     return () => {};
   }
+
+  let refreshTimer: ReturnType<typeof setTimeout> | null = null;
+  let pendingEventType: OrderRealtimeEventType | null = null;
+
+  const scheduleRefresh = (eventType: OrderRealtimeEventType) => {
+    // An order transition can write the order and several accounting/inventory
+    // records in quick succession. Keep the INSERT signal for the toast, but
+    // let the list perform one refresh for the complete burst.
+    if (eventType === 'INSERT' || !pendingEventType) {
+      pendingEventType = eventType;
+    }
+    if (refreshTimer) clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(() => {
+      if (!pendingEventType) return;
+      const payload: OrderRealtimeChange = { eventType: pendingEventType };
+      pendingEventType = null;
+      refreshTimer = null;
+      onNewOrUpdatedOrder(payload);
+    }, 350);
+  };
 
   const channel = supabase
     .channel(`public-orders-changes-${crypto.randomUUID()}`)
@@ -963,13 +989,20 @@ export function subscribeToOrdersInSupabase(
       'postgres_changes',
       { event: '*', schema: 'public', table: 'orders' },
       (payload) => {
-        console.log('[Supabase Realtime] Order event received:', payload);
-        onNewOrUpdatedOrder(payload);
+        const eventType = payload.eventType;
+        if (
+          eventType === 'INSERT' ||
+          eventType === 'UPDATE' ||
+          eventType === 'DELETE'
+        ) {
+          scheduleRefresh(eventType);
+        }
       }
     )
     .subscribe();
 
   return () => {
-    supabase.removeChannel(channel);
+    if (refreshTimer) clearTimeout(refreshTimer);
+    void supabase.removeChannel(channel);
   };
 }

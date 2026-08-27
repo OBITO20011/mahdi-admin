@@ -15,6 +15,10 @@ const dashboardView = readFileSync(
   'src/features/dashboard/DashboardView.tsx',
   'utf8',
 );
+const ordersService = readFileSync(
+  'src/services/supabase/orders.service.ts',
+  'utf8',
+);
 const migration = readFileSync(
   'supabase/migrations/073_admin_dashboard_performance_indexes.sql',
   'utf8',
@@ -154,6 +158,13 @@ test('home dashboard times out and coalesces realtime refresh bursts', () => {
   assert.match(dashboardService, /abortSignal\(signal\)/);
   assert.match(dashboardView, /refreshPromiseRef/);
   assert.match(dashboardView, /queuedRefreshRef/);
+});
+
+test('operational orders coalesce realtime bursts before reloading their page', () => {
+  assert.match(ordersService, /let refreshTimer: ReturnType<typeof setTimeout>/);
+  assert.match(ordersService, /let pendingEventType: OrderRealtimeEventType/);
+  assert.match(ordersService, /setTimeout\(\(\) => \{[\s\S]*?\}, 350\)/);
+  assert.doesNotMatch(ordersService, /onNewOrUpdatedOrder: \(payload: any\)/);
 });
 
 test('database has the indexes used by the operational home', () => {

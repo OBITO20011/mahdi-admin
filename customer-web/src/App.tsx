@@ -10,7 +10,7 @@ import {
   ShieldCheck,
   Truck,
 } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CartDrawer } from './components/CartDrawer';
 import { CategoryDrawer } from './components/CategoryDrawer';
 import { CategoryShowcase } from './components/CategoryShowcase';
@@ -80,6 +80,11 @@ function readStoredCart(): CartItem[] {
 }
 
 const FAVORITES_STORAGE_KEY = 'nawasrah-store-favorites-v1';
+const CATALOG_STALE_TIME_MS = 90_000;
+const OFFERS_STALE_TIME_MS = 5 * 60_000;
+const STOREFRONT_SETTINGS_STALE_TIME_MS = 10 * 60_000;
+
+type StorefrontResource = 'catalog' | 'offers' | 'settings';
 
 function readStoredFavorites(): string[] {
   try {
@@ -165,6 +170,16 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const [toast, setToast] = useState<ToastState | null>(null);
   const [storefrontSettings, setStorefrontSettings] =
     useState<PublicStorefrontSettings>(DEFAULT_STOREFRONT_SETTINGS);
+  const lastLoadedAtRef = useRef<Record<StorefrontResource, number>>({
+    catalog: 0,
+    offers: 0,
+    settings: 0,
+  });
+  const pendingLoadRef = useRef<Record<StorefrontResource, Promise<void> | null>>({
+    catalog: null,
+    offers: null,
+    settings: null,
+  });
   const sellableProducts = useMemo(
     () =>
       products.flatMap((product) =>
@@ -185,81 +200,149 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     []
   );
 
-  const loadCatalog = useCallback(async (silent = false) => {
-    if (silent) setIsRefreshing(true);
-    else setIsLoading(true);
+  const isStale = useCallback(
+    (resource: StorefrontResource, staleTimeMs: number) =>
+      Date.now() - lastLoadedAtRef.current[resource] >= staleTimeMs,
+    []
+  );
 
-    try {
-      const catalog = await fetchPublicProductCatalog();
-      setProducts(catalog.items);
-      setCatalogCategories(catalog.categories);
-      setLoadError(null);
-      setLastUpdatedAt(new Date());
-    } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : 'تعذر تحميل كتالوج الجملة من Supabase.';
-      setLoadError(message);
-    } finally {
-      setIsLoading(false);
-      setIsRefreshing(false);
-    }
-  }, []);
+  const loadCatalog = useCallback(
+    async (silent = false, force = false) => {
+      if (!force && !isStale('catalog', CATALOG_STALE_TIME_MS)) return;
+      if (pendingLoadRef.current.catalog) return pendingLoadRef.current.catalog;
 
-  const loadStorefrontSettings = useCallback(async () => {
-    try {
-      setStorefrontSettings(await fetchPublicStorefrontSettings());
-    } catch (error) {
-      console.error('[Storefront settings]', error);
-    }
-  }, []);
+      const request = (async () => {
+        if (silent) setIsRefreshing(true);
+        else setIsLoading(true);
 
-  const loadStorefrontOffers = useCallback(async () => {
-    try {
-      setStorefrontOffers(await fetchPublicStorefrontOffers());
-      setOffersLoadError(null);
-    } catch (error) {
-      console.error('[Storefront offers]', error);
-      setOffersLoadError(
-        error instanceof Error ? error.message : 'تعذر تحميل عروض المتجر.'
-      );
-    } finally {
-      setOffersLoading(false);
-    }
-  }, []);
+        try {
+          const catalog = await fetchPublicProductCatalog();
+          setProducts(catalog.items);
+          setCatalogCategories(catalog.categories);
+          setLoadError(null);
+          setLastUpdatedAt(new Date());
+          lastLoadedAtRef.current.catalog = Date.now();
+        } catch (error) {
+          const message =
+            error instanceof Error
+              ? error.message
+              : 'تعذر تحميل كتالوج الجملة من Supabase.';
+          setLoadError(message);
+        } finally {
+          setIsLoading(false);
+          setIsRefreshing(false);
+        }
+      })();
+
+      pendingLoadRef.current.catalog = request;
+      try {
+        await request;
+      } finally {
+        pendingLoadRef.current.catalog = null;
+      }
+    },
+    [isStale]
+  );
+
+  const loadStorefrontSettings = useCallback(
+    async (force = false) => {
+      if (!force && !isStale('settings', STOREFRONT_SETTINGS_STALE_TIME_MS)) return;
+      if (pendingLoadRef.current.settings) return pendingLoadRef.current.settings;
+
+      const request = (async () => {
+        try {
+          setStorefrontSettings(await fetchPublicStorefrontSettings());
+          lastLoadedAtRef.current.settings = Date.now();
+        } catch (error) {
+          console.error('[Storefront settings]', error);
+        }
+      })();
+
+      pendingLoadRef.current.settings = request;
+      try {
+        await request;
+      } finally {
+        pendingLoadRef.current.settings = null;
+      }
+    },
+    [isStale]
+  );
+
+  const loadStorefrontOffers = useCallback(
+    async (force = false) => {
+      if (!force && !isStale('offers', OFFERS_STALE_TIME_MS)) return;
+      if (pendingLoadRef.current.offers) return pendingLoadRef.current.offers;
+
+      const request = (async () => {
+        try {
+          setStorefrontOffers(await fetchPublicStorefrontOffers());
+          setOffersLoadError(null);
+          lastLoadedAtRef.current.offers = Date.now();
+        } catch (error) {
+          console.error('[Storefront offers]', error);
+          setOffersLoadError(
+            error instanceof Error ? error.message : 'تعذر تحميل عروض المتجر.'
+          );
+        } finally {
+          setOffersLoading(false);
+        }
+      })();
+
+      pendingLoadRef.current.offers = request;
+      try {
+        await request;
+      } finally {
+        pendingLoadRef.current.offers = null;
+      }
+    },
+    [isStale]
+  );
 
   useEffect(() => {
-    void loadCatalog();
-    void loadStorefrontSettings();
-    void loadStorefrontOffers();
-    const intervalId = window.setInterval(() => {
-      void loadCatalog(true);
-      void loadStorefrontSettings();
-      void loadStorefrontOffers();
-    }, 30_000);
+    void loadCatalog(false, true);
+    void loadStorefrontSettings(true);
+    void loadStorefrontOffers(true);
     const handleFocus = () => {
+      if (document.visibilityState !== 'visible') return;
       void loadCatalog(true);
       void loadStorefrontOffers();
+      void loadStorefrontSettings();
+    };
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') handleFocus();
     };
     const handleOnline = () => {
       setIsOnline(true);
-      void loadCatalog(true);
-      void loadStorefrontSettings();
-      void loadStorefrontOffers();
+      void loadCatalog(true, true);
+      void loadStorefrontSettings(true);
+      void loadStorefrontOffers(true);
     };
     const handleOffline = () => setIsOnline(false);
     window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
 
     return () => {
-      window.clearInterval(intervalId);
       window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
   }, [loadCatalog, loadStorefrontOffers, loadStorefrontSettings]);
+
+  useEffect(() => {
+    if (!lastUpdatedAt) return;
+
+    const elapsedMs = Date.now() - lastUpdatedAt.getTime();
+    const delayMs = Math.max(250, CATALOG_STALE_TIME_MS - elapsedMs + 50);
+    const refreshTimer = window.setTimeout(() => {
+      if (document.visibilityState !== 'visible' || !navigator.onLine) return;
+      void loadCatalog(true);
+    }, delayMs);
+
+    return () => window.clearTimeout(refreshTimer);
+  }, [lastUpdatedAt, loadCatalog]);
 
   useEffect(() => {
     if (sellableProducts.length === 0) return;
@@ -617,7 +700,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     setPreferredPromotionCode('');
     setLastGuestOrder({ version: 1, orderNumber: receipt.orderNumber, items: submittedItems.map((item) => ({ productId: item.productId, quantity: item.quantity })), createdAt: Date.now() });
     showToast(`تم تسجيل الطلب ${receipt.orderNumber} بنجاح.`);
-    void loadCatalog(true);
+    void loadCatalog(true, true);
   };
 
   const usePromotionOffer = (offer: StorefrontOffer) => {
@@ -672,7 +755,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         onAllProducts={showAllProducts}
         onOffers={openPromotionOffers}
         onTrackOrder={() => setTrackingOpen(true)}
-        onRefresh={() => void loadCatalog(true)}
+        onRefresh={() => void loadCatalog(true, true)}
         isRefreshing={isRefreshing}
         suggestions={searchSuggestions}
         searchOpenSignal={searchOpenSignal}
@@ -684,7 +767,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         refreshError={products.length > 0 ? loadError : null}
         lastUpdatedAt={lastUpdatedAt}
         isRetrying={isRefreshing}
-        onRetry={() => void loadCatalog(true)}
+        onRetry={() => void loadCatalog(true, true)}
       />
 
       {!storefrontSettings.ordersEnabled && (
@@ -750,7 +833,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
             error={offersLoadError}
             onRetry={() => {
               setOffersLoading(true);
-              void loadStorefrontOffers();
+              void loadStorefrontOffers(true);
             }}
             onBrowseProducts={showAllProducts}
             onUseOffer={usePromotionOffer}
@@ -917,7 +1000,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                 </p>
                 <button
                   type="button"
-                  onClick={() => void loadCatalog()}
+                  onClick={() => void loadCatalog(false, true)}
                   className="mt-5 inline-flex items-center gap-2 rounded-2xl bg-blue-700 px-5 py-3 text-xs font-black text-white"
                 >
                   <RefreshCw className="h-4 w-4" />
