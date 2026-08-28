@@ -1,4 +1,19 @@
+import { useEffect, useState } from 'react';
 import { Boxes, PackageCheck, ShieldCheck, Sparkles } from 'lucide-react';
+
+const desktopHeroMediaQuery = '(min-width: 768px)';
+const reducedMotionMediaQuery = '(prefers-reduced-motion: reduce)';
+
+function getHeroMediaPreferences() {
+  if (typeof window === 'undefined') {
+    return { isDesktop: false, prefersReducedMotion: false };
+  }
+
+  return {
+    isDesktop: window.matchMedia(desktopHeroMediaQuery).matches,
+    prefersReducedMotion: window.matchMedia(reducedMotionMediaQuery).matches,
+  };
+}
 
 interface StoreHeroProps {
   productsCount: number;
@@ -15,6 +30,33 @@ export function StoreHero({
   onBrowseProducts,
   announcementText,
 }: StoreHeroProps) {
+  const [heroMediaPreferences, setHeroMediaPreferences] = useState(
+    getHeroMediaPreferences,
+  );
+
+  useEffect(() => {
+    const desktopMedia = window.matchMedia(desktopHeroMediaQuery);
+    const reducedMotionMedia = window.matchMedia(reducedMotionMediaQuery);
+    const updatePreferences = () => {
+      setHeroMediaPreferences({
+        isDesktop: desktopMedia.matches,
+        prefersReducedMotion: reducedMotionMedia.matches,
+      });
+    };
+
+    desktopMedia.addEventListener('change', updatePreferences);
+    reducedMotionMedia.addEventListener('change', updatePreferences);
+    return () => {
+      desktopMedia.removeEventListener('change', updatePreferences);
+      reducedMotionMedia.removeEventListener('change', updatePreferences);
+    };
+  }, []);
+
+  const shouldRenderMobileVideo =
+    !heroMediaPreferences.isDesktop && !heroMediaPreferences.prefersReducedMotion;
+  const shouldRenderDesktopVideo =
+    heroMediaPreferences.isDesktop && !heroMediaPreferences.prefersReducedMotion;
+
   const stats = [
     { label: 'صنف جملة', value: productsCount, icon: PackageCheck, color: 'text-orange-300' },
     { label: 'طرد متاح', value: availablePackages, icon: Boxes, color: 'text-emerald-300' },
@@ -35,19 +77,21 @@ export function StoreHero({
           className="absolute inset-0 scale-110 bg-cover bg-center opacity-45 blur-xl"
           style={{ backgroundImage: "url('/nawasrah-hero-poster.webp')" }}
         />
-        <video
-          aria-hidden="true"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          disablePictureInPicture
-          poster="/nawasrah-hero-poster.webp"
-          className="absolute inset-0 h-full w-full bg-[#07152f] object-contain motion-reduce:hidden"
-        >
-          <source src="/nawasrah-hero-mobile.mp4" type="video/mp4" />
-        </video>
+        {shouldRenderMobileVideo && (
+          <video
+            aria-hidden="true"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            disablePictureInPicture
+            poster="/nawasrah-hero-poster.webp"
+            className="absolute inset-0 h-full w-full bg-[#07152f] object-contain"
+          >
+            <source src="/nawasrah-hero-mobile.mp4" type="video/mp4" />
+          </video>
+        )}
       </div>
 
       <div
@@ -55,20 +99,22 @@ export function StoreHero({
         className="absolute -inset-8 -z-30 hidden scale-110 bg-cover bg-center opacity-65 blur-2xl md:block"
         style={{ backgroundImage: "url('/nawasrah-hero-poster.webp')" }}
       />
-      <video
-        data-testid="desktop-hero-video"
-        aria-hidden="true"
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        disablePictureInPicture
-        poster="/nawasrah-hero-poster.webp"
-        className="absolute inset-0 -z-20 hidden h-full w-full bg-[#07152f] object-contain object-center opacity-100 motion-reduce:hidden md:block"
-      >
-        <source src="/nawasrah-hero-4k.mp4" type="video/mp4" />
-      </video>
+      {shouldRenderDesktopVideo && (
+        <video
+          data-testid="desktop-hero-video"
+          aria-hidden="true"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          disablePictureInPicture
+          poster="/nawasrah-hero-poster.webp"
+          className="absolute inset-0 -z-20 h-full w-full bg-[#07152f] object-contain object-center opacity-100"
+        >
+          <source src="/nawasrah-hero-4k.mp4" type="video/mp4" />
+        </video>
+      )}
       <div className="absolute inset-0 -z-10 hidden bg-gradient-to-l from-[#07152f]/72 via-[#0b1b3f]/34 to-[#07152f]/60 md:block" />
       <div className="absolute inset-0 -z-10 hidden bg-gradient-to-t from-[#081632]/54 via-transparent to-[#081632]/16 md:block" />
       <div className="hero-orb hero-orb-one hidden md:block" />

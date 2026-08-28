@@ -919,7 +919,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                       onClick={() => setAvailabilityFilter(filter.value)}
                       className={`rounded-2xl px-3.5 py-2 text-[10px] font-black transition sm:text-xs ${
                         availabilityFilter === filter.value
-                          ? 'bg-emerald-700 text-white shadow-md shadow-emerald-900/15'
+                          ? 'bg-emerald-800 text-white shadow-md shadow-emerald-900/15'
                           : 'border border-slate-200 bg-slate-50 text-slate-600 hover:border-emerald-200'
                       }`}
                     >

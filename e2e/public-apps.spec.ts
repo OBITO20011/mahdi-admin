@@ -60,6 +60,12 @@ test.describe('متجر العملاء العام', () => {
       'src',
       expectedSource,
     );
+    await expect(heroVideo).toHaveAttribute('preload', 'metadata');
+    const inactiveHeroSource =
+      testInfo.project.name === 'mobile-webkit'
+        ? '/nawasrah-hero-4k.mp4'
+        : '/nawasrah-hero-mobile.mp4';
+    await expect(page.locator(`video source[src="${inactiveHeroSource}"]`)).toHaveCount(0);
     expect(
       await heroVideo.evaluate(
         (element) => (element as HTMLVideoElement).muted,

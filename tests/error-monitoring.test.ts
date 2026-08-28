@@ -40,3 +40,10 @@ test('admin downloads Sentry only after a real browser or React error', () => {
   assert.match(adminMonitoring, /window\.addEventListener\('unhandledrejection'/);
   assert.match(adminMonitoring, /void loadMonitoringSdk\(\)\?\.catch/);
 });
+
+test('storefront downloads Sentry only after a real browser or React error', () => {
+  assert.match(storeMonitoring, /function loadMonitoringSdk/);
+  assert.match(storeMonitoring, /window\.addEventListener\('error'/);
+  assert.match(storeMonitoring, /window\.addEventListener\('unhandledrejection'/);
+  assert.match(storeMonitoring, /void loadMonitoringSdk\(\)\?\.catch/);
+});

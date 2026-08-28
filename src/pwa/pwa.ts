@@ -37,8 +37,11 @@ export const registerAdminServiceWorker = (): void => {
   }
 
   const register = () => {
+    const serviceWorkerUrl = new URL('/sw.js', window.location.origin);
+    serviceWorkerUrl.searchParams.set('build', __NAWASRAH_BUILD_ID__);
+
     void navigator.serviceWorker
-      .register('/sw.js', {
+      .register(serviceWorkerUrl.href, {
         scope: '/',
         updateViaCache: 'none',
       })

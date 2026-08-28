@@ -75,7 +75,7 @@ export function ProductCard({
             : product.categoryNameAr}
         </div>
 
-        <span className={`absolute left-3 top-3 rounded-xl px-2.5 py-1 text-[9px] font-black shadow-sm ${!product.isAvailable ? 'bg-rose-600 text-white' : isLowStock ? 'bg-amber-400 text-amber-950' : 'bg-emerald-600 text-white'}`}>
+        <span className={`absolute left-3 top-3 rounded-xl px-2.5 py-1 text-[9px] font-black shadow-sm ${!product.isAvailable ? 'bg-rose-600 text-white' : isLowStock ? 'bg-amber-400 text-amber-950' : 'bg-emerald-700 text-white'}`}>
           {!product.isAvailable ? 'غير متوفر' : isLowStock ? 'قارب على النفاد' : 'متوفر'}
         </span>
 

@@ -31,6 +31,8 @@ test('service worker caches only the local shell and never Supabase traffic', ()
   assert.match(serviceWorker, /request\.method !== 'GET'/);
   assert.doesNotMatch(serviceWorker, /supabase\.co.*cache/i);
   assert.doesNotMatch(serviceWorker, /event\.request\.method === 'POST'/);
+  assert.doesNotMatch(serviceWorker, /cache\.put\('\/',/);
+  assert.match(serviceWorker, /event\.respondWith\(fetch\(request\)\)/);
   assert.match(main, /registerAdminServiceWorker/);
 });
 
@@ -38,7 +40,9 @@ test('installed app checks for updates and reloads once when a new worker contro
   assert.match(pwaRegistration, /registration\.update\(\)/);
   assert.match(pwaRegistration, /controllerchange/);
   assert.match(pwaRegistration, /window\.location\.reload\(\)/);
-  assert.match(serviceWorker, /nawasrah-admin-shell-v3/);
+  assert.match(pwaRegistration, /__NAWASRAH_BUILD_ID__/);
+  assert.match(serviceWorker, /new URL\(self\.location\.href\)\.searchParams\.get\('build'\)/);
+  assert.match(serviceWorker, /nawasrah-admin-shell-\$\{buildId\}/);
 });
 
 test('iPhone users get visible manual installation instructions', () => {

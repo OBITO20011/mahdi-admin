@@ -3,8 +3,17 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
 
+const buildId =
+  process.env.CF_PAGES_COMMIT_SHA ??
+  process.env.GITHUB_SHA ??
+  process.env.npm_package_version ??
+  'local';
+
 export default defineConfig(() => {
   return {
+    define: {
+      __NAWASRAH_BUILD_ID__: JSON.stringify(buildId),
+    },
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {

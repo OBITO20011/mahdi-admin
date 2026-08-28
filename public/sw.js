@@ -1,6 +1,6 @@
-const CACHE_NAME = 'nawasrah-admin-shell-v3';
+const buildId = new URL(self.location.href).searchParams.get('build') || 'unknown';
+const CACHE_NAME = `nawasrah-admin-shell-${buildId}`;
 const APP_SHELL = [
-  '/',
   '/manifest.webmanifest',
   '/icons/admin-icon-192.png',
   '/icons/admin-icon-512.png',
@@ -41,15 +41,9 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          const copy = response.clone();
-          void caches.open(CACHE_NAME).then((cache) => cache.put('/', copy));
-          return response;
-        })
-        .catch(() => caches.match('/')),
-    );
+    // The admin shell is deliberately network-only. Caching a navigation
+    // response can show a stale authenticated screen after logout or deploy.
+    event.respondWith(fetch(request));
     return;
   }
 

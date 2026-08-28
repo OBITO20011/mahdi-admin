@@ -2,14 +2,13 @@
  * Nawasrah Business Manager - POS (Point of Sale) View
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import {
   shallowEqual,
   useAppStoreActions,
   useAppStoreSelector,
 } from '../../stores/useAppStore';
 import { Invoice, Product, OrderItem, PaymentMethod } from '../../types';
-import { BarcodeScannerModal } from './BarcodeScannerModal';
 import { Modal } from '../../components/common/Modal';
 import {
   AddCustomerModalContent,
@@ -51,6 +50,12 @@ import {
   buildReceiptShareText,
   paymentMethodLabel,
 } from '../../utils/receipt';
+
+const BarcodeScannerModal = lazy(() =>
+  import('./BarcodeScannerModal').then((module) => ({
+    default: module.BarcodeScannerModal,
+  })),
+);
 
 export const PosView: React.FC = () => {
   const {
@@ -825,13 +830,26 @@ export const PosView: React.FC = () => {
       )}
 
       {/* Live Barcode Camera Scanner Modal */}
-      <BarcodeScannerModal
-        isOpen={isBarcodeScannerOpen}
-        onClose={() => setIsBarcodeScannerOpen(false)}
-        products={products}
-        onProductScanned={(scannedProduct) => addToCart(scannedProduct)}
-        setToast={setToast}
-      />
+      {isBarcodeScannerOpen && (
+        <Suspense
+          fallback={
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 p-4" dir="rtl">
+              <div className="flex items-center gap-2 rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-xs font-bold text-slate-200 shadow-2xl">
+                <Loader2 className="h-4 w-4 animate-spin text-emerald-400" />
+                <span>جاري فتح قارئ الباركود...</span>
+              </div>
+            </div>
+          }
+        >
+          <BarcodeScannerModal
+            isOpen={isBarcodeScannerOpen}
+            onClose={() => setIsBarcodeScannerOpen(false)}
+            products={products}
+            onProductScanned={(scannedProduct) => addToCart(scannedProduct)}
+            setToast={setToast}
+          />
+        </Suspense>
+      )}
 
       <Modal
         isOpen={isAddCustomerOpen}
