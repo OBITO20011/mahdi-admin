@@ -7,6 +7,11 @@ import {
 
 type RawCatalogItem = Record<string, unknown>;
 
+// This is an intentional near-term storefront threshold, not an unbounded
+// client-side catalog. Revisit it before the active catalog approaches 200
+// products, then introduce server-side search and pagination together.
+export const STOREFRONT_CATALOG_INITIAL_LIMIT = 200;
+
 function textValue(value: unknown): string {
   return typeof value === 'string' ? value : '';
 }
@@ -16,6 +21,13 @@ function integerValue(value: unknown, fallback = 0): number {
   return Number.isFinite(numericValue)
     ? Math.max(0, Math.floor(numericValue))
     : fallback;
+}
+
+export function resolveCatalogTotal(
+  itemCount: number,
+  serverTotal: unknown,
+): number {
+  return Math.max(itemCount, integerValue(serverTotal, itemCount));
 }
 
 export function mapCatalogProduct(item: RawCatalogItem): CatalogProduct {
@@ -183,7 +195,7 @@ export async function fetchPublicProductCatalog(): Promise<CatalogResponse> {
   }
 
   const { data, error } = await supabase.rpc('get_public_storefront_catalog', {
-    p_limit: 200,
+    p_limit: STOREFRONT_CATALOG_INITIAL_LIMIT,
     p_offset: 0,
     p_category_id: null,
     p_search: null,
@@ -221,8 +233,8 @@ export async function fetchPublicProductCatalog(): Promise<CatalogResponse> {
       imageUrl:
         mappedCategories.find((item) => item.id === category.id)?.imageUrl || '',
     })),
-    total: items.length,
-    limit: integerValue(data?.limit, 200),
+    total: resolveCatalogTotal(items.length, data?.total),
+    limit: integerValue(data?.limit, STOREFRONT_CATALOG_INITIAL_LIMIT),
     offset: integerValue(data?.offset),
   };
 }

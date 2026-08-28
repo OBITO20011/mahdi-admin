@@ -183,19 +183,34 @@ test.describe('بوابة الإدارة العامة', () => {
 
   test('لا تحمل بيانات العمل قبل اكتمال تسجيل الدخول', async ({ page }) => {
     const businessRequests: string[] = [];
+    const protectedBusinessRequests: string[] = [];
+    const businessRpcRequests: string[] = [];
     page.on('request', (request) => {
       const url = request.url();
       if (url.includes('/rest/v1/') || url.includes('/storage/v1/object/')) {
         businessRequests.push(url);
       }
+      if (url.includes('/rest/v1/rpc/')) {
+        businessRpcRequests.push(url);
+      }
+      if (
+        /\/(?:orders|products|customers|inventory_balances|inventory_movements)(?:[/?]|$)/.test(
+          url,
+        )
+      ) {
+        protectedBusinessRequests.push(url);
+      }
     });
 
-    await page.goto(adminBaseUrl, { waitUntil: 'networkidle' });
-    await expect(
-      page.getByText(/تسجيل الدخول للنظام|جاري التحقق من جلسة الدخول/).first(),
-    ).toBeVisible({ timeout: 15_000 });
+    await page.goto(adminBaseUrl, { waitUntil: 'domcontentloaded' });
+    const loginScreen = page
+      .getByText(/تسجيل الدخول للنظام|جاري التحقق من جلسة الدخول/)
+      .first();
+    await expect(loginScreen).toBeVisible({ timeout: 15_000 });
 
     expect(businessRequests).toEqual([]);
+    expect(protectedBusinessRequests).toEqual([]);
+    expect(businessRpcRequests).toEqual([]);
   });
 
   test('تفتح بواجهة عربية محمية دون انهيار', async ({ page }) => {

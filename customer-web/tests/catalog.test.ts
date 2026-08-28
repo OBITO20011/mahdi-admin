@@ -5,6 +5,8 @@ import {
   groupCatalogFlavorFamilies,
   mapCatalogCategory,
   mapCatalogProduct,
+  resolveCatalogTotal,
+  STOREFRONT_CATALOG_INITIAL_LIMIT,
 } from '../src/services/catalog.service';
 import {
   calculateCartPackages,
@@ -75,6 +77,13 @@ test('catalog maps the canonical wholesale package fields', () => {
   assert.equal(wholesaleProduct.salePackagePriceInMinorUnits, 4000);
   assert.equal(wholesaleProduct.availableSalePackages, 8);
   assert.equal(wholesaleProduct.isAvailable, true);
+});
+
+test('catalog keeps its explicit near-term threshold visible instead of silently hiding overflow', () => {
+  assert.equal(STOREFRONT_CATALOG_INITIAL_LIMIT, 200);
+  assert.equal(resolveCatalogTotal(6, 6), 6);
+  assert.equal(resolveCatalogTotal(200, 201), 201);
+  assert.equal(resolveCatalogTotal(200, undefined), 200);
 });
 
 test('flavor families keep one card, one price, and independent availability', () => {
