@@ -9,7 +9,6 @@ const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, '..', '..');
 const bootstrapPath = path.join(scriptDirectory, 'bootstrap-isolated-supabase.mjs');
 const runtimeSqlPath = path.join(scriptDirectory, 'supplier-payment-runtime.sql');
-const cliPath = path.join(projectRoot, 'node_modules', 'supabase', 'dist', 'supabase.js');
 const isolatedDatabaseContainer = 'supabase_db_nawasrah-phase7-test';
 
 const runRuntimeSql = async () => {

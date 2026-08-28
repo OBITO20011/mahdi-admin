@@ -300,7 +300,7 @@ export const recordSupplierReceiptPaymentInSupabase = async (
   paymentMethod: string,
   referenceNumber?: string,
   notes?: string,
-  idempotencyKey: string
+  idempotencyKey: string = crypto.randomUUID()
 ): Promise<{ success: boolean; data?: SupplierReceiptPaymentResult; error?: string }> => {
   if (!isSupabaseConfigured || !supabase) {
     return { success: false, error: 'الاتصال بقاعدة البيانات غير متاح.' };
