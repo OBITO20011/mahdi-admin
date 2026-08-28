@@ -39,9 +39,44 @@ export interface CatalogCategory {
   availableProductCount: number;
 }
 
+export interface CatalogFacet {
+  id: string;
+  nameAr: string;
+}
+
+export interface CatalogSummary {
+  availableProducts: number;
+  availableSalePackages: number;
+  lowStockProducts: number;
+}
+
+export interface PublicCatalogQuery {
+  limit?: number;
+  offset?: number;
+  categoryId?: string;
+  searchQuery?: string;
+  availability?: 'all' | 'available' | 'low_stock';
+  sort?:
+    | 'recommended'
+    | 'name_asc'
+    | 'price_asc'
+    | 'price_desc'
+    | 'stock_desc'
+    | 'newest'
+    | 'best_sellers'
+    | 'offers'
+    | 'low_stock';
+  brandId?: string;
+  saleUnitId?: string;
+  productIds?: string[];
+}
+
 export interface CatalogResponse {
   items: CatalogProduct[];
   categories: CatalogCategory[];
+  brands: CatalogFacet[];
+  saleUnits: CatalogFacet[];
+  summary: CatalogSummary;
   total: number;
   limit: number;
   offset: number;

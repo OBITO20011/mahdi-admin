@@ -49,6 +49,23 @@ export function reconcileCart(
   });
 }
 
+/**
+ * A catalog page is not the customer's entire cart. Refresh only the items
+ * returned by that page and preserve unseen items for checkout revalidation.
+ */
+export function reconcileCartPage(
+  cartItems: CartItem[],
+  products: CatalogProduct[]
+): CartItem[] {
+  const productsById = new Map(products.map((product) => [product.id, product]));
+
+  return cartItems.flatMap((item) => {
+    const product = productsById.get(item.productId);
+    if (!product) return [item];
+    return reconcileCart([item], [product]);
+  });
+}
+
 export function calculateCartSubtotal(cartItems: CartItem[]): number {
   return cartItems.reduce(
     (sum, item) =>

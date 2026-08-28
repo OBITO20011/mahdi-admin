@@ -2,7 +2,7 @@
  * Nawasrah Business Manager - Supplier Payment Voucher (سند صرف) Modal
  */
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { storeEngine } from '../../stores/useAppStore';
 import { PurchaseOrder } from '../../types/purchases';
 import { Supplier } from '../../types';
@@ -29,6 +29,11 @@ interface SupplierPaymentModalProps {
   onSuccess: () => void;
 }
 
+const createSupplierPaymentIdempotencyKey = () =>
+  typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+    ? crypto.randomUUID()
+    : `supplier-payment-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
 export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
   isOpen,
   supplierId: initialSupplierId,
@@ -48,6 +53,15 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const paymentIdempotencyKey = useRef(createSupplierPaymentIdempotencyKey());
+  const wasOpen = useRef(false);
+
+  useEffect(() => {
+    if (isOpen && !wasOpen.current) {
+      paymentIdempotencyKey.current = createSupplierPaymentIdempotencyKey();
+    }
+    wasOpen.current = isOpen;
+  }, [isOpen]);
 
   const loadSupplierOrders = useCallback(async (supId: string) => {
     const res = await fetchPurchaseOrdersFromSupabase({ supplierId: supId });
@@ -130,6 +144,7 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
       referenceNumber: referenceNumber.trim() || undefined,
       paymentDate: paymentDate ? new Date(paymentDate).toISOString() : undefined,
       notes: notes.trim() || undefined,
+      idempotencyKey: paymentIdempotencyKey.current,
     });
 
     setIsSubmitting(false);

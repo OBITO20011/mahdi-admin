@@ -11,6 +11,10 @@ const service = readFileSync(
   new URL('../src/services/storefront-settings.service.ts', import.meta.url),
   'utf8'
 );
+const catalogService = readFileSync(
+  new URL('../src/services/catalog.service.ts', import.meta.url),
+  'utf8'
+);
 
 test('customer site receives public settings from Supabase', () => {
   assert.match(service, /rpc\('get_public_storefront_settings'\)/);
@@ -34,5 +38,6 @@ test('homepage sections respect public settings while keeping real data sources'
   assert.match(app, /storefrontSettings\.showBestSellers \? bestSellerProducts : \[\]/);
   assert.match(app, /storefrontSettings\.showOffers \? offerProducts : \[\]/);
   assert.match(app, /storefrontSettings\.showLowStock \? lowStockProducts : \[\]/);
-  assert.match(app, /soldPackagesLast90Days/);
+  assert.match(app, /loadFeaturedProducts/);
+  assert.match(catalogService, /get_public_storefront_catalog_page/);
 });

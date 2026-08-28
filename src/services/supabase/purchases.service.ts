@@ -824,6 +824,7 @@ export async function recordSupplierPaymentInSupabase(params: {
   referenceNumber?: string;
   paymentDate?: string;
   notes?: string;
+  idempotencyKey: string;
 }): Promise<{ success: boolean; paymentId?: string; message?: string; error?: string }> {
   if (!isSupabaseConfigured || !supabase) {
     return { success: false, error: 'Supabase is not configured' };
@@ -838,6 +839,7 @@ export async function recordSupplierPaymentInSupabase(params: {
       p_reference_number: params.referenceNumber || null,
       p_payment_date: params.paymentDate || new Date().toISOString(),
       p_notes: params.notes || null,
+      p_idempotency_key: params.idempotencyKey,
     });
 
     if (error) {

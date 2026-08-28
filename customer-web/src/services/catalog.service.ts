@@ -1,16 +1,17 @@
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import {
+  CatalogFacet,
   CatalogCategory,
   CatalogProduct,
   CatalogResponse,
+  CatalogSummary,
+  PublicCatalogQuery,
 } from '../types/catalog';
 
 type RawCatalogItem = Record<string, unknown>;
 
-// This is an intentional near-term storefront threshold, not an unbounded
-// client-side catalog. Revisit it before the active catalog approaches 200
-// products, then introduce server-side search and pagination together.
-export const STOREFRONT_CATALOG_INITIAL_LIMIT = 200;
+export const STOREFRONT_CATALOG_PAGE_SIZE = 24;
+const STOREFRONT_CATALOG_MAX_PAGE_SIZE = 48;
 
 function textValue(value: unknown): string {
   return typeof value === 'string' ? value : '';
@@ -162,6 +163,24 @@ export function mapCatalogCategory(item: RawCatalogItem): CatalogCategory {
   };
 }
 
+function mapCatalogFacet(item: RawCatalogItem): CatalogFacet {
+  return {
+    id: textValue(item.id),
+    nameAr: textValue(item.nameAr) || 'غير مسمى',
+  };
+}
+
+function mapCatalogSummary(value: unknown): CatalogSummary {
+  const rawSummary = value && typeof value === 'object'
+    ? value as RawCatalogItem
+    : {};
+  return {
+    availableProducts: integerValue(rawSummary.availableProducts),
+    availableSalePackages: integerValue(rawSummary.availableSalePackages),
+    lowStockProducts: integerValue(rawSummary.lowStockProducts),
+  };
+}
+
 export function deriveCatalogCategories(
   products: CatalogProduct[]
 ): CatalogCategory[] {
@@ -187,18 +206,29 @@ export function deriveCatalogCategories(
   );
 }
 
-export async function fetchPublicProductCatalog(): Promise<CatalogResponse> {
+export async function fetchPublicProductCatalog(
+  query: PublicCatalogQuery = {}
+): Promise<CatalogResponse> {
   if (!isSupabaseConfigured || !supabase) {
     throw new Error(
       'إعدادات الاتصال بكتالوج Supabase غير مكتملة في موقع العملاء.'
     );
   }
 
-  const { data, error } = await supabase.rpc('get_public_storefront_catalog', {
-    p_limit: STOREFRONT_CATALOG_INITIAL_LIMIT,
-    p_offset: 0,
-    p_category_id: null,
-    p_search: null,
+  const requestedLimit = Math.min(
+    STOREFRONT_CATALOG_MAX_PAGE_SIZE,
+    Math.max(1, Math.floor(query.limit ?? STOREFRONT_CATALOG_PAGE_SIZE))
+  );
+  const { data, error } = await supabase.rpc('get_public_storefront_catalog_page', {
+    p_limit: requestedLimit,
+    p_offset: Math.max(0, Math.floor(query.offset ?? 0)),
+    p_category_id: query.categoryId || null,
+    p_search: query.searchQuery?.trim() || null,
+    p_availability: query.availability ?? 'all',
+    p_sort: query.sort ?? 'recommended',
+    p_brand_id: query.brandId || null,
+    p_sale_unit_id: query.saleUnitId || null,
+    p_product_ids: query.productIds?.filter(Boolean) ?? null,
   });
 
   if (error) {
@@ -226,15 +256,24 @@ export async function fetchPublicProductCatalog(): Promise<CatalogResponse> {
         Boolean(category.id) && Boolean(category.nameAr)
     );
 
+  const rawBrands = Array.isArray(data?.brands) ? data.brands : [];
+  const rawSaleUnits = Array.isArray(data?.saleUnits) ? data.saleUnits : [];
+  const categories = mappedCategories.length > 0
+    ? mappedCategories
+    : deriveCatalogCategories(items);
+
   return {
     items,
-    categories: deriveCatalogCategories(items).map((category) => ({
-      ...category,
-      imageUrl:
-        mappedCategories.find((item) => item.id === category.id)?.imageUrl || '',
-    })),
+    categories,
+    brands: rawBrands
+      .map((item: RawCatalogItem) => mapCatalogFacet(item))
+      .filter((item: CatalogFacet) => Boolean(item.id)),
+    saleUnits: rawSaleUnits
+      .map((item: RawCatalogItem) => mapCatalogFacet(item))
+      .filter((item: CatalogFacet) => Boolean(item.id)),
+    summary: mapCatalogSummary(data?.summary),
     total: resolveCatalogTotal(items.length, data?.total),
-    limit: integerValue(data?.limit, STOREFRONT_CATALOG_INITIAL_LIMIT),
+    limit: integerValue(data?.limit, requestedLimit),
     offset: integerValue(data?.offset),
   };
 }

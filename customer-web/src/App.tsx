@@ -31,10 +31,20 @@ import { StoreLogoMark } from './components/StoreLogoMark';
 import { StoreHero } from './components/StoreHero';
 import { StoreInfoSection } from './components/StoreInfoSection';
 import { DEFAULT_STOREFRONT_SETTINGS } from './config/store';
-import { fetchPublicProductCatalog } from './services/catalog.service';
+import {
+  fetchPublicProductCatalog,
+  STOREFRONT_CATALOG_PAGE_SIZE,
+} from './services/catalog.service';
 import { fetchPublicStorefrontOffers } from './services/offers.service';
 import { fetchPublicStorefrontSettings } from './services/storefront-settings.service';
-import { CartItem, CatalogCategory, CatalogProduct } from './types/catalog';
+import {
+  CartItem,
+  CatalogCategory,
+  CatalogFacet,
+  CatalogProduct,
+  CatalogSummary,
+  PublicCatalogQuery,
+} from './types/catalog';
 import { GuestOrderReceipt, LastGuestOrder } from './types/checkout';
 import { PublicStorefrontSettings } from './types/storefront';
 import { StorefrontOffer } from './types/offers';
@@ -44,12 +54,11 @@ import {
   calculateCartSubtotal,
   createCartItem,
   reconcileCart,
+  reconcileCartPage,
 } from './utils/cart';
 import {
   CatalogAvailabilityFilter,
   CatalogSortOption,
-  buildCatalogView,
-  isLowStockProduct,
 } from './utils/catalogView';
 import { buildWhatsAppUrl, readLastGuestOrder } from './utils/checkout';
 
@@ -83,6 +92,12 @@ const FAVORITES_STORAGE_KEY = 'nawasrah-store-favorites-v1';
 const CATALOG_STALE_TIME_MS = 90_000;
 const OFFERS_STALE_TIME_MS = 5 * 60_000;
 const STOREFRONT_SETTINGS_STALE_TIME_MS = 10 * 60_000;
+
+const EMPTY_CATALOG_SUMMARY: CatalogSummary = {
+  availableProducts: 0,
+  availableSalePackages: 0,
+  lowStockProducts: 0,
+};
 
 type StorefrontResource = 'catalog' | 'offers' | 'settings';
 
@@ -134,6 +149,19 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const [catalogCategories, setCatalogCategories] = useState<
     CatalogCategory[]
   >([]);
+  const [catalogBrands, setCatalogBrands] = useState<CatalogFacet[]>([]);
+  const [catalogSaleUnits, setCatalogSaleUnits] = useState<CatalogFacet[]>([]);
+  const [catalogSummary, setCatalogSummary] = useState<CatalogSummary>(
+    EMPTY_CATALOG_SUMMARY
+  );
+  const [catalogTotal, setCatalogTotal] = useState(0);
+  const [catalogOffset, setCatalogOffset] = useState(0);
+  const [featuredProducts, setFeaturedProducts] = useState({
+    newest: [] as CatalogProduct[],
+    bestSellers: [] as CatalogProduct[],
+    offers: [] as CatalogProduct[],
+    lowStock: [] as CatalogProduct[],
+  });
   const [cartItems, setCartItems] = useState<CartItem[]>(readStoredCart);
   const [favoriteProductIds, setFavoriteProductIds] = useState<string[]>(
     readStoredFavorites
@@ -180,6 +208,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     offers: null,
     settings: null,
   });
+  const catalogRequestSequenceRef = useRef(0);
+  const catalogRequestKeyRef = useRef('');
   const sellableProducts = useMemo(
     () =>
       products.flatMap((product) =>
@@ -206,31 +236,73 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     []
   );
 
+  const catalogQuery = useMemo<PublicCatalogQuery>(
+    () => ({
+      limit: STOREFRONT_CATALOG_PAGE_SIZE,
+      offset: catalogOffset,
+      categoryId: selectedCategory === 'all' ? undefined : selectedCategory,
+      searchQuery: searchQuery.trim() || undefined,
+      availability: availabilityFilter,
+      sort: sortOption,
+      brandId: selectedBrand === 'all' ? undefined : selectedBrand,
+      saleUnitId: selectedSaleUnit === 'all' ? undefined : selectedSaleUnit,
+      productIds: favoritesOnly ? favoriteProductIds : undefined,
+    }),
+    [
+      availabilityFilter,
+      catalogOffset,
+      favoriteProductIds,
+      favoritesOnly,
+      searchQuery,
+      selectedBrand,
+      selectedCategory,
+      selectedSaleUnit,
+      sortOption,
+    ]
+  );
+  const catalogQueryKey = useMemo(
+    () => JSON.stringify(catalogQuery),
+    [catalogQuery]
+  );
+
   const loadCatalog = useCallback(
     async (silent = false, force = false) => {
       if (!force && !isStale('catalog', CATALOG_STALE_TIME_MS)) return;
-      if (pendingLoadRef.current.catalog) return pendingLoadRef.current.catalog;
+      if (catalogRequestKeyRef.current === catalogQueryKey && pendingLoadRef.current.catalog) {
+        return pendingLoadRef.current.catalog;
+      }
+
+      const requestSequence = ++catalogRequestSequenceRef.current;
+      catalogRequestKeyRef.current = catalogQueryKey;
 
       const request = (async () => {
         if (silent) setIsRefreshing(true);
         else setIsLoading(true);
 
         try {
-          const catalog = await fetchPublicProductCatalog();
+          const catalog = await fetchPublicProductCatalog(catalogQuery);
+          if (requestSequence !== catalogRequestSequenceRef.current) return;
           setProducts(catalog.items);
           setCatalogCategories(catalog.categories);
+          setCatalogBrands(catalog.brands);
+          setCatalogSaleUnits(catalog.saleUnits);
+          setCatalogSummary(catalog.summary);
+          setCatalogTotal(catalog.total);
           setLoadError(null);
           setLastUpdatedAt(new Date());
           lastLoadedAtRef.current.catalog = Date.now();
         } catch (error) {
+          if (requestSequence !== catalogRequestSequenceRef.current) return;
           const message =
             error instanceof Error
               ? error.message
               : 'تعذر تحميل كتالوج الجملة من Supabase.';
           setLoadError(message);
         } finally {
-          setIsLoading(false);
-          setIsRefreshing(false);
+          if (requestSequence === catalogRequestSequenceRef.current) {
+            setIsLoading(false);
+            setIsRefreshing(false);
+          }
         }
       })();
 
@@ -238,11 +310,33 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       try {
         await request;
       } finally {
-        pendingLoadRef.current.catalog = null;
+        if (catalogRequestKeyRef.current === catalogQueryKey) {
+          pendingLoadRef.current.catalog = null;
+        }
       }
     },
-    [isStale]
+    [catalogQuery, catalogQueryKey, isStale]
   );
+
+  const loadFeaturedProducts = useCallback(async () => {
+    const [newest, bestSellers, offers, lowStock] = await Promise.all([
+      fetchPublicProductCatalog({ limit: 6, sort: 'newest' }),
+      fetchPublicProductCatalog({ limit: 6, sort: 'best_sellers' }),
+      fetchPublicProductCatalog({ limit: 6, sort: 'offers' }),
+      fetchPublicProductCatalog({ limit: 6, sort: 'low_stock' }),
+    ]);
+    setFeaturedProducts({
+      newest: newest.items,
+      bestSellers: bestSellers.items,
+      offers: offers.items,
+      lowStock: lowStock.items,
+    });
+  }, []);
+
+  const loadCatalogRef = useRef(loadCatalog);
+  useEffect(() => {
+    loadCatalogRef.current = loadCatalog;
+  }, [loadCatalog]);
 
   const loadStorefrontSettings = useCallback(
     async (force = false) => {
@@ -299,12 +393,14 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   );
 
   useEffect(() => {
-    void loadCatalog(false, true);
     void loadStorefrontSettings(true);
     void loadStorefrontOffers(true);
+    void loadFeaturedProducts().catch((error: unknown) => {
+      console.error('[Storefront featured products]', error);
+    });
     const handleFocus = () => {
       if (document.visibilityState !== 'visible') return;
-      void loadCatalog(true);
+      void loadCatalogRef.current(true);
       void loadStorefrontOffers();
       void loadStorefrontSettings();
     };
@@ -313,9 +409,12 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     };
     const handleOnline = () => {
       setIsOnline(true);
-      void loadCatalog(true, true);
+      void loadCatalogRef.current(true, true);
       void loadStorefrontSettings(true);
       void loadStorefrontOffers(true);
+      void loadFeaturedProducts().catch((error: unknown) => {
+        console.error('[Storefront featured products]', error);
+      });
     };
     const handleOffline = () => setIsOnline(false);
     window.addEventListener('focus', handleFocus);
@@ -329,7 +428,15 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
-  }, [loadCatalog, loadStorefrontOffers, loadStorefrontSettings]);
+  }, [loadFeaturedProducts, loadStorefrontOffers, loadStorefrontSettings]);
+
+  useEffect(() => {
+    const delayMs = searchQuery.trim() ? 250 : 0;
+    const timer = window.setTimeout(() => {
+      void loadCatalog(false, true);
+    }, delayMs);
+    return () => window.clearTimeout(timer);
+  }, [catalogQueryKey, loadCatalog, searchQuery]);
 
   useEffect(() => {
     if (!lastUpdatedAt) return;
@@ -346,7 +453,9 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
   useEffect(() => {
     if (sellableProducts.length === 0) return;
-    setCartItems((currentItems) => reconcileCart(currentItems, sellableProducts));
+    setCartItems((currentItems) =>
+      reconcileCartPage(currentItems, sellableProducts)
+    );
   }, [sellableProducts]);
 
   useEffect(() => {
@@ -403,31 +512,12 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     }
   }, [catalogCategories, selectedCategory]);
 
+  // Search, category, availability, brand, sale unit and sorting are all
+  // applied by the catalog RPC over the complete catalog. The page only owns
+  // rendering and the local favourites list.
   const filteredProducts = useMemo(
-    () => {
-      const catalogView = buildCatalogView(products, {
-        searchQuery,
-        categoryId: selectedCategory,
-        availability: availabilityFilter,
-        sort: sortOption,
-        brandId: selectedBrand,
-        saleUnitId: selectedSaleUnit,
-      });
-      return favoritesOnly
-        ? catalogView.filter((product) => favoriteProductIds.includes(product.id))
-        : catalogView;
-    },
-    [
-      availabilityFilter,
-      products,
-      searchQuery,
-      selectedCategory,
-      sortOption,
-      selectedBrand,
-      selectedSaleUnit,
-      favoritesOnly,
-      favoriteProductIds,
-    ]
+    () => products,
+    [products]
   );
 
   const cartQuantityByProduct = useMemo(
@@ -469,14 +559,9 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       .slice(0, 4);
   }, [products, selectedProduct]);
   const cartPackages = calculateCartPackages(cartItems);
-  const availablePackages = products.reduce(
-    (sum, product) => sum + product.availableSalePackages,
-    0
-  );
-  const availableProductsCount = products.filter(
-    (product) => product.isAvailable
-  ).length;
-  const lowStockProductsCount = products.filter(isLowStockProduct).length;
+  const availablePackages = catalogSummary.availableSalePackages;
+  const availableProductsCount = catalogSummary.availableProducts;
+  const lowStockProductsCount = catalogSummary.lowStockProducts;
   const selectedCategoryDetails = catalogCategories.find(
     (category) => category.id === selectedCategory
   );
@@ -489,13 +574,16 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     selectedSaleUnit !== 'all' ||
     favoritesOnly;
 
-  const brands = useMemo(() => Array.from(new Map(products.filter((product) => product.brandId).map((product) => [product.brandId, product.brandNameAr || 'ماركة غير مسماة'])).entries()).sort((a, b) => a[1].localeCompare(b[1], 'ar')), [products]);
-  const saleUnits = useMemo(() => Array.from(new Map(products.map((product) => [product.saleUnitId, product.saleUnitNameAr])).entries()).sort((a, b) => a[1].localeCompare(b[1], 'ar')), [products]);
-  const searchSuggestions = useMemo(() => searchQuery.trim() ? buildCatalogView(products, { searchQuery, categoryId: 'all', availability: 'all', sort: 'recommended' }).slice(0, 5) : [], [products, searchQuery]);
-  const newestProducts = useMemo(() => [...products].filter((product) => product.isAvailable).sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()).slice(0, 6), [products]);
-  const bestSellerProducts = useMemo(() => [...products].filter((product) => product.isAvailable && product.soldPackagesLast90Days > 0).sort((a, b) => b.soldPackagesLast90Days - a.soldPackagesLast90Days).slice(0, 6), [products]);
-  const offerProducts = useMemo(() => products.filter((product) => product.isAvailable && product.categoryCode === 'CAT-OFFERS').slice(0, 6), [products]);
-  const lowStockProducts = useMemo(() => products.filter(isLowStockProduct).slice(0, 6), [products]);
+  const brands = catalogBrands;
+  const saleUnits = catalogSaleUnits;
+  const searchSuggestions = useMemo(
+    () => (searchQuery.trim() ? products.slice(0, 5) : []),
+    [products, searchQuery]
+  );
+  const newestProducts = featuredProducts.newest;
+  const bestSellerProducts = featuredProducts.bestSellers;
+  const offerProducts = featuredProducts.offers;
+  const lowStockProducts = featuredProducts.lowStock;
   const cartSubtotal = calculateCartSubtotal(cartItems);
   const storeWhatsappUrl = buildWhatsAppUrl(storefrontSettings.whatsappNumber, `مرحبًا ${storefrontSettings.storeNameAr}، أريد الاستفسار عن أصناف الجملة.`);
 
@@ -604,6 +692,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     setSelectedBrand('all');
     setSelectedSaleUnit('all');
     setFavoritesOnly(false);
+    setCatalogOffset(0);
   };
 
   const navigateStorePage = useCallback((page: StorePage) => {
@@ -641,6 +730,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     if (favoriteProductIds.length === 0 && !favoritesOnly) {
       showToast('اضغط رمز القلب على أي منتج لإضافته إلى المفضلة.', 'info');
     }
+    setCatalogOffset(0);
     setFavoritesOnly((current) => !current);
     scrollToCatalog();
   };
@@ -664,6 +754,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     setSelectedCategory(categoryId);
     setSearchQuery('');
     setAvailabilityFilter('all');
+    setCatalogOffset(0);
     setCategoriesOpen(false);
     if (window.location.hash !== '#catalog') {
       window.history.pushState(null, '', '#catalog');
@@ -739,6 +830,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         searchQuery={searchQuery}
         onSearchChange={(value) => {
           setSearchQuery(value);
+          setCatalogOffset(0);
           if (value.trim() && activePage !== 'catalog') {
             setActivePage('catalog');
             window.history.pushState(null, '', '#catalog');
@@ -780,7 +872,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         {activePage === 'home' && (
           <>
         <StoreHero
-          productsCount={products.length}
+          productsCount={catalogTotal}
           categoriesCount={catalogCategories.length}
           availablePackages={availablePackages}
           onBrowseProducts={showAllProducts}
@@ -891,11 +983,11 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
               <div className="mt-4 grid gap-3 border-t border-slate-100 pt-4 lg:grid-cols-[1fr_auto] lg:items-end">
                 <div className="flex flex-wrap gap-2">
-                  {(
+                {(
                     [
                       {
                         value: 'all',
-                        label: `كل الحالات (${products.length.toLocaleString(
+                        label: `كل الحالات (${catalogTotal.toLocaleString(
                           'ar-JO'
                         )})`,
                       },
@@ -916,7 +1008,10 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                     <button
                       type="button"
                       key={filter.value}
-                      onClick={() => setAvailabilityFilter(filter.value)}
+                      onClick={() => {
+                        setCatalogOffset(0);
+                        setAvailabilityFilter(filter.value);
+                      }}
                       className={`rounded-2xl px-3.5 py-2 text-[10px] font-black transition sm:text-xs ${
                         availabilityFilter === filter.value
                           ? 'bg-emerald-800 text-white shadow-md shadow-emerald-900/15'
@@ -935,9 +1030,10 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                   </span>
                   <select
                     value={sortOption}
-                    onChange={(event) =>
-                      setSortOption(event.target.value as CatalogSortOption)
-                    }
+                    onChange={(event) => {
+                      setCatalogOffset(0);
+                      setSortOption(event.target.value as CatalogSortOption);
+                    }}
                     className="min-w-0 flex-1 bg-transparent text-xs font-black text-slate-800 outline-none"
                   >
                     <option value="recommended">المقترح</option>
@@ -950,8 +1046,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
               </div>
 
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                <label className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-[10px] font-black text-slate-500">الماركة<select value={selectedBrand} onChange={(event) => setSelectedBrand(event.target.value)} className="min-w-0 flex-1 bg-transparent text-xs font-black text-slate-800 outline-none"><option value="all">جميع الماركات</option>{brands.map(([id, name]) => <option key={id} value={id}>{name}</option>)}</select></label>
-                <label className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-[10px] font-black text-slate-500">نوع الطرد<select value={selectedSaleUnit} onChange={(event) => setSelectedSaleUnit(event.target.value)} className="min-w-0 flex-1 bg-transparent text-xs font-black text-slate-800 outline-none"><option value="all">جميع أنواع الطرود</option>{saleUnits.map(([id, name]) => <option key={id} value={id}>{name}</option>)}</select></label>
+                <label className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-[10px] font-black text-slate-500">الماركة<select value={selectedBrand} onChange={(event) => { setCatalogOffset(0); setSelectedBrand(event.target.value); }} className="min-w-0 flex-1 bg-transparent text-xs font-black text-slate-800 outline-none"><option value="all">جميع الماركات</option>{brands.map((brand) => <option key={brand.id} value={brand.id}>{brand.nameAr}</option>)}</select></label>
+                <label className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-[10px] font-black text-slate-500">نوع الطرد<select value={selectedSaleUnit} onChange={(event) => { setCatalogOffset(0); setSelectedSaleUnit(event.target.value); }} className="min-w-0 flex-1 bg-transparent text-xs font-black text-slate-800 outline-none"><option value="all">جميع أنواع الطرود</option>{saleUnits.map((saleUnit) => <option key={saleUnit.id} value={saleUnit.id}>{saleUnit.nameAr}</option>)}</select></label>
               </div>
 
               {lastGuestOrder && <button type="button" onClick={repeatLastOrder} className="mt-3 w-full rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-xs font-black text-blue-800">إعادة آخر طلب ({lastGuestOrder.orderNumber})</button>}
@@ -959,7 +1055,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2 px-1">
                 <p className="text-[10px] font-bold text-slate-600">
                   عرض {filteredProducts.length.toLocaleString('ar-JO')} من{' '}
-                  {products.length.toLocaleString('ar-JO')} صنف
+                  {catalogTotal.toLocaleString('ar-JO')} صنف
                 </p>
                 {hasActiveCatalogView && (
                   <button
@@ -1045,6 +1141,35 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                 ))}
               </div>
             )}
+            {!isLoading && !loadError && catalogTotal > STOREFRONT_CATALOG_PAGE_SIZE && (
+              <nav className="mt-8 flex items-center justify-center gap-3" aria-label="صفحات الكتالوج">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCatalogOffset((current) => Math.max(0, current - STOREFRONT_CATALOG_PAGE_SIZE));
+                    document.getElementById('catalog-products')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}
+                  disabled={catalogOffset === 0}
+                  className="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-black text-slate-700 transition enabled:hover:border-blue-300 enabled:hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-45"
+                >
+                  السابق
+                </button>
+                <span className="text-xs font-black text-slate-500">
+                  صفحة {Math.floor(catalogOffset / STOREFRONT_CATALOG_PAGE_SIZE) + 1} من {Math.max(1, Math.ceil(catalogTotal / STOREFRONT_CATALOG_PAGE_SIZE))}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCatalogOffset((current) => current + STOREFRONT_CATALOG_PAGE_SIZE);
+                    document.getElementById('catalog-products')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}
+                  disabled={catalogOffset + STOREFRONT_CATALOG_PAGE_SIZE >= catalogTotal}
+                  className="rounded-2xl bg-blue-700 px-4 py-2.5 text-xs font-black text-white transition enabled:hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-45"
+                >
+                  التالي
+                </button>
+              </nav>
+            )}
             </div>
           </div>
         </section>
@@ -1103,7 +1228,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         isOpen={categoriesOpen}
         categories={catalogCategories}
         selectedCategory={selectedCategory}
-        totalProducts={products.length}
+                totalProducts={catalogTotal}
         onClose={() => setCategoriesOpen(false)}
         onSelect={selectCatalogCategory}
       />

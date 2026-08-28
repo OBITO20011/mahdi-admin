@@ -6,13 +6,14 @@ import {
   mapCatalogCategory,
   mapCatalogProduct,
   resolveCatalogTotal,
-  STOREFRONT_CATALOG_INITIAL_LIMIT,
+  STOREFRONT_CATALOG_PAGE_SIZE,
 } from '../src/services/catalog.service';
 import {
   calculateCartPackages,
   calculateCartSubtotal,
   createCartItem,
   reconcileCart,
+  reconcileCartPage,
 } from '../src/utils/cart';
 import { formatJod } from '../src/utils/money';
 
@@ -79,8 +80,8 @@ test('catalog maps the canonical wholesale package fields', () => {
   assert.equal(wholesaleProduct.isAvailable, true);
 });
 
-test('catalog keeps its explicit near-term threshold visible instead of silently hiding overflow', () => {
-  assert.equal(STOREFRONT_CATALOG_INITIAL_LIMIT, 200);
+test('catalog uses a bounded server-side page rather than a client-side 200 item cap', () => {
+  assert.equal(STOREFRONT_CATALOG_PAGE_SIZE, 24);
   assert.equal(resolveCatalogTotal(6, 6), 6);
   assert.equal(resolveCatalogTotal(200, 201), 201);
   assert.equal(resolveCatalogTotal(200, undefined), 200);
@@ -166,4 +167,22 @@ test('unavailable or removed products cannot remain in the cart', () => {
     ]),
     []
   );
+});
+
+test('a page refresh preserves cart items that are outside the current catalog page', () => {
+  const visibleItem = createCartItem(wholesaleProduct);
+  const offPageItem = {
+    ...visibleItem,
+    productId: 'product-201',
+    sku: 'NWS-0201',
+    nameAr: 'الصنف رقم ٢٠١',
+  };
+
+  const reconciled = reconcileCartPage([visibleItem, offPageItem], [
+    { ...wholesaleProduct, availableSalePackages: 2 },
+  ]);
+
+  assert.equal(reconciled.length, 2);
+  assert.equal(reconciled[0].maxAvailablePackages, 2);
+  assert.equal(reconciled[1].productId, 'product-201');
 });

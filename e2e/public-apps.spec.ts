@@ -26,6 +26,71 @@ async function expectNoSeriousAccessibilityViolations(page: Page) {
 }
 
 test.describe('متجر العملاء العام', () => {
+  test('المنتج رقم 201+ يصل إليه بحث الخادم ويُعرض في الكتالوج', async ({ page }, testInfo) => {
+    test.skip(
+      testInfo.project.name === 'mobile-webkit',
+      'Mobile search is opened through its dedicated navigation control and is covered by the mobile interaction suite.'
+    );
+    const catalogRequests: Record<string, unknown>[] = [];
+    const regularItem = {
+      id: '00000000-0000-4000-8000-000000000001',
+      sku: 'NWS-0001',
+      barcode: '',
+      nameAr: 'منتج الصفحة الأولى',
+      description: '',
+      categoryId: '00000000-0000-4000-8000-000000000010',
+      categoryCode: 'CAT-BEV',
+      categoryNameAr: 'مشروبات',
+      brandId: '', brandNameAr: '', unitId: '00000000-0000-4000-8000-000000000020',
+      unitNameAr: 'حبة', saleUnitId: '00000000-0000-4000-8000-000000000021',
+      saleUnitNameAr: 'كرتونة', unitsPerSalePackage: 1,
+      salePackagePriceInMinorUnits: 1000, salePriceInMinorUnits: 1000,
+      availableQuantity: 10, availableSalePackages: 10, minimumOrderPackages: 1,
+      imageUrl: '', isAvailable: true, createdAt: '2026-01-01T00:00:00Z',
+      soldPackagesLast90Days: 0, flavorMasterProductId: null, flavorNameAr: null,
+      isFlavorMaster: false, flavorSortOrder: 0,
+    };
+    const product201 = {
+      ...regularItem,
+      id: '00000000-0000-4000-8000-000000000201',
+      sku: 'NWS-0201',
+      nameAr: 'منتج الاختبار رقم ٢٠١',
+    };
+
+    await page.route('**/rest/v1/rpc/get_public_storefront_catalog_page', async (route) => {
+      const requestBody = route.request().postDataJSON() as Record<string, unknown>;
+      catalogRequests.push(requestBody);
+      const isProduct201Search = requestBody.p_search === 'NWS-0201';
+      await route.fulfill({
+        contentType: 'application/json',
+        body: JSON.stringify({
+          items: [isProduct201Search ? product201 : regularItem],
+          categories: [{
+            id: regularItem.categoryId, code: 'CAT-BEV', nameAr: 'مشروبات',
+            imageUrl: '', productCount: 201, availableProductCount: 201,
+          }],
+          brands: [], saleUnits: [],
+          summary: { availableProducts: 201, availableSalePackages: 2010, lowStockProducts: 0 },
+          total: isProduct201Search ? 1 : 201,
+          limit: 24,
+          offset: requestBody.p_offset ?? 0,
+        }),
+      });
+    });
+
+    await page.goto(`${customerBaseUrl}/#catalog`, { waitUntil: 'domcontentloaded' });
+    await expect(page.getByText('منتج الصفحة الأولى')).toBeVisible();
+
+    await page.getByRole('button', { name: 'التالي' }).click();
+    await expect.poll(() => catalogRequests.some((request) => request.p_offset === 24)).toBe(true);
+
+    await page.getByPlaceholder(/ابحث باسم المنتج/i).fill('NWS-0201');
+    await expect(
+      page.getByRole('heading', { name: 'منتج الاختبار رقم ٢٠١', exact: true })
+    ).toBeVisible();
+    expect(catalogRequests.some((request) => request.p_search === 'NWS-0201')).toBe(true);
+  });
+
   test('يفتح بواجهة عربية ويعرض مسارات التسوق الأساسية', async ({ page }) => {
     await page.goto(customerBaseUrl, { waitUntil: 'domcontentloaded' });
 

@@ -284,13 +284,24 @@ export const createDirectSupplierReceiptInSupabase = async (
 /**
  * Record a payment against an existing supplier receipt
  */
+interface SupplierReceiptPaymentResult {
+  success?: boolean;
+  idempotent?: boolean;
+  payment_id?: string;
+  total_paid?: number;
+  amount_due?: number;
+  payment_status?: string;
+  message?: string;
+}
+
 export const recordSupplierReceiptPaymentInSupabase = async (
   receiptId: string,
   amountInMinorUnits: number,
   paymentMethod: string,
   referenceNumber?: string,
-  notes?: string
-): Promise<{ success: boolean; data?: any; error?: string }> => {
+  notes?: string,
+  idempotencyKey: string
+): Promise<{ success: boolean; data?: SupplierReceiptPaymentResult; error?: string }> => {
   if (!isSupabaseConfigured || !supabase) {
     return { success: false, error: 'الاتصال بقاعدة البيانات غير متاح.' };
   }
@@ -302,13 +313,14 @@ export const recordSupplierReceiptPaymentInSupabase = async (
       p_payment_method: paymentMethod,
       p_reference_number: referenceNumber || null,
       p_notes: notes || null,
+      p_idempotency_key: idempotencyKey,
     });
 
     if (error) {
       return { success: false, error: error.message };
     }
 
-    return { success: true, data };
+    return { success: true, data: data as SupplierReceiptPaymentResult };
   } catch (err: any) {
     return { success: false, error: err?.message || 'حدث خطأ أثناء تسجيل الدفعة.' };
   }

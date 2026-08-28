@@ -3,7 +3,7 @@
  * Allows recording payments against a specific direct receipt or supplier
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { SupplierReceipt } from '../../types/directReceiving';
 import { recordSupplierReceiptPaymentInSupabase } from '../../services/supabase/directReceiving.service';
 import { useAppStoreActions } from '../../stores/useAppStore';
@@ -15,6 +15,11 @@ interface RecordSupplierPaymentModalProps {
   onClose: () => void;
   onSuccess: () => void;
 }
+
+const createSupplierReceiptPaymentIdempotencyKey = () =>
+  typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+    ? crypto.randomUUID()
+    : `supplier-receipt-payment-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
 export const RecordSupplierPaymentModal: React.FC<RecordSupplierPaymentModalProps> = ({
   receipt,
@@ -30,6 +35,7 @@ export const RecordSupplierPaymentModal: React.FC<RecordSupplierPaymentModalProp
   const [referenceNumber, setReferenceNumber] = useState<string>('');
   const [notes, setNotes] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const paymentIdempotencyKey = useRef(createSupplierReceiptPaymentIdempotencyKey());
 
   const handleSubmit = async () => {
     if (paymentAmountJod <= 0) {
@@ -50,7 +56,8 @@ export const RecordSupplierPaymentModal: React.FC<RecordSupplierPaymentModalProp
       amountInMinor,
       paymentMethod,
       referenceNumber.trim() || undefined,
-      notes.trim() || undefined
+      notes.trim() || undefined,
+      paymentIdempotencyKey.current
     );
 
     if (res.success) {
