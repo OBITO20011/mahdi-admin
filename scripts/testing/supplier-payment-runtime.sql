@@ -90,9 +90,9 @@ BEGIN
     2000, 0, 2000, 'unpaid', 'completed'
   );
   INSERT INTO public.supplier_payments (
-    id, supplier_id, amount_in_minor_units, payment_method, created_by
+    id, supplier_id, purchase_order_id, amount_in_minor_units, payment_method, created_by
   ) VALUES (
-    v_supplier_payment, v_supplier, 1, 'bank', v_owner
+    v_supplier_payment, v_supplier, v_purchase_order, 1, 'bank', v_owner
   );
 END;
 $$;
