@@ -37,6 +37,8 @@ import {
   Building,
   CreditCard,
   BarChart3,
+  ChevronLeft,
+  ChevronRight,
   Edit,
   Printer,
   PackageCheck,
@@ -50,6 +52,42 @@ type TabType = 'orders' | 'receiving' | 'suppliers' | 'payments' | 'reports';
 type PurchaseSort = 'newest' | 'highest_value' | 'outstanding';
 type SupplierStatusFilter = 'all' | 'active' | 'inactive';
 
+const HistoryPagination: React.FC<{
+  page: number;
+  totalPages: number;
+  totalCount: number;
+  onPageChange: (page: number) => void;
+}> = ({ page, totalPages, totalCount, onPageChange }) => {
+  if (totalCount === 0) return null;
+
+  return (
+    <div className="flex items-center justify-between gap-3 pt-3 text-xs text-slate-400">
+      <span>إجمالي السجلات: {totalCount}</span>
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => onPageChange(page - 1)}
+          disabled={page <= 1}
+          aria-label="الصفحة السابقة"
+          className="rounded-lg border border-slate-700 p-1.5 text-slate-200 transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </button>
+        <span className="font-mono text-slate-300">{page} / {totalPages}</span>
+        <button
+          type="button"
+          onClick={() => onPageChange(page + 1)}
+          disabled={page >= totalPages}
+          aria-label="الصفحة التالية"
+          className="rounded-lg border border-slate-700 p-1.5 text-slate-200 transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export const PurchasesView: React.FC = () => {
   const warehouses = useAppStoreSelector((state) => state.warehouses);
 
@@ -61,6 +99,25 @@ export const PurchasesView: React.FC = () => {
   const [payments, setPayments] = useState<SupplierPayment[]>([]);
   const [receipts, setReceipts] = useState<PurchaseReceipt[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [ordersPage, setOrdersPage] = useState(1);
+  const [ordersTotalCount, setOrdersTotalCount] = useState(0);
+  const [ordersTotalPages, setOrdersTotalPages] = useState(1);
+  const [ordersSummary, setOrdersSummary] = useState({
+    draftCount: 0,
+    sentCount: 0,
+    approvedCount: 0,
+    partiallyReceivedCount: 0,
+    receivedCount: 0,
+    totalAmount: 0,
+    totalPaid: 0,
+    totalOutstanding: 0,
+  });
+  const [paymentsPage, setPaymentsPage] = useState(1);
+  const [paymentsTotalCount, setPaymentsTotalCount] = useState(0);
+  const [paymentsTotalPages, setPaymentsTotalPages] = useState(1);
+  const [receiptsPage, setReceiptsPage] = useState(1);
+  const [receiptsTotalCount, setReceiptsTotalCount] = useState(0);
+  const [receiptsTotalPages, setReceiptsTotalPages] = useState(1);
 
   // Filters for Tab 1 (Orders)
   const [search, setSearch] = useState<string>('');
@@ -97,6 +154,8 @@ export const PurchasesView: React.FC = () => {
     setLoading(true);
     const [poRes, suppList, payList, rcptList] = await Promise.all([
       fetchPurchaseOrdersFromSupabase({
+        page: ordersPage,
+        pageSize: 25,
         search,
         status: statusFilter,
         supplierId: supplierFilter,
@@ -104,18 +163,34 @@ export const PurchasesView: React.FC = () => {
         sortBy,
       }),
       fetchSuppliersFromSupabase(true), // include inactive suppliers for complete view
-      fetchSupplierPaymentsFromSupabase(),
-      fetchGoodsReceiptsFromSupabase(),
+      fetchSupplierPaymentsFromSupabase({
+        page: paymentsPage,
+        pageSize: 25,
+        search: paymentSearch,
+        paymentMethod: paymentMethodFilter,
+      }),
+      fetchGoodsReceiptsFromSupabase({ page: receiptsPage, pageSize: 25 }),
     ]);
 
     if (poRes.success) {
       setOrders(poRes.data);
+      setOrdersTotalCount(poRes.totalCount);
+      setOrdersTotalPages(poRes.totalPages);
+      setOrdersSummary(poRes.summary);
     }
     setSuppliers(suppList);
-    setPayments(payList);
-    setReceipts(rcptList);
+    if (payList.success) {
+      setPayments(payList.data);
+      setPaymentsTotalCount(payList.totalCount);
+      setPaymentsTotalPages(payList.totalPages);
+    }
+    if (rcptList.success) {
+      setReceipts(rcptList.data);
+      setReceiptsTotalCount(rcptList.totalCount);
+      setReceiptsTotalPages(rcptList.totalPages);
+    }
     setLoading(false);
-  }, [search, sortBy, statusFilter, supplierFilter, warehouseFilter]);
+  }, [ordersPage, paymentsPage, paymentMethodFilter, paymentSearch, receiptsPage, search, sortBy, statusFilter, supplierFilter, warehouseFilter]);
 
   // Reload when a query/filter changes and keep the list live for supplier activity.
   useEffect(() => {
@@ -126,31 +201,14 @@ export const PurchasesView: React.FC = () => {
   }, [loadData]);
 
   // Top 8 KPI Calculations
-  const totalOrdersCount = orders.length;
-  const draftOrdersCount = orders.filter((o) => o.status === 'draft').length;
-  const sentOrdersCount = orders.filter((o) => o.status === 'sent').length;
-  const approvedOrdersCount = orders.filter((o) => o.status === 'approved').length;
-  const partiallyReceivedCount = orders.filter((o) => o.status === 'partially_received').length;
-  const fullyReceivedCount = orders.filter((o) => o.status === 'received').length;
-
-  const totalOutstanding = orders
-    .filter((o) => o.status !== 'cancelled')
-    .reduce((sum, o) => sum + o.amountDue, 0);
-
-  const totalPaid = orders
-    .filter((o) => o.status !== 'cancelled')
-    .reduce((sum, o) => sum + o.amountPaid, 0);
-
-  // Search filter for Tab 1 (Orders)
-  const filteredOrders = orders.filter((po) => {
-    if (!search.trim()) return true;
-    const q = search.toLowerCase().trim();
-    return (
-      po.purchaseOrderNumber.toLowerCase().includes(q) ||
-      po.supplierName.toLowerCase().includes(q) ||
-      (po.supplierInvoiceNumber && po.supplierInvoiceNumber.toLowerCase().includes(q))
-    );
-  });
+  const totalOrdersCount = ordersTotalCount;
+  const draftOrdersCount = ordersSummary.draftCount;
+  const sentOrdersCount = ordersSummary.sentCount;
+  const approvedOrdersCount = ordersSummary.approvedCount;
+  const partiallyReceivedCount = ordersSummary.partiallyReceivedCount;
+  const fullyReceivedCount = ordersSummary.receivedCount;
+  const totalOutstanding = ordersSummary.totalOutstanding;
+  const totalPaid = ordersSummary.totalPaid;
 
   // Orders waiting for receiving (Tab 2)
   const receivingOrders = orders.filter((po) =>
@@ -173,30 +231,6 @@ export const PurchasesView: React.FC = () => {
       (supplierStatusFilter === 'inactive' && !(s.isActive ?? true));
 
     return matchesSearch && matchesStatus;
-  });
-
-  // Calculate supplier balances from POs
-  const getSupplierBalance = (supplierId: string) => {
-    const pos = orders.filter((o) => o.supplierId === supplierId && o.status !== 'cancelled');
-    const due = pos.reduce((sum, o) => sum + o.amountDue, 0);
-    const totalPurchases = pos.reduce((sum, o) => sum + o.totalAmount, 0);
-    return { due, totalPurchases, ordersCount: pos.length };
-  };
-
-  // Filtered Payments for Tab 4
-  const filteredPayments = payments.filter((p) => {
-    const q = paymentSearch.toLowerCase().trim();
-    const matchesSearch =
-      !q ||
-      p.supplierName.toLowerCase().includes(q) ||
-      (p.purchaseOrderNumber && p.purchaseOrderNumber.toLowerCase().includes(q)) ||
-      (p.referenceNumber && p.referenceNumber.toLowerCase().includes(q)) ||
-      (p.notes && p.notes.toLowerCase().includes(q));
-
-    const matchesMethod =
-      paymentMethodFilter === 'all' || p.paymentMethod === paymentMethodFilter;
-
-    return matchesSearch && matchesMethod;
   });
 
   const handleToggleSupplierActive = async (supplier: Supplier) => {
@@ -338,7 +372,7 @@ export const PurchasesView: React.FC = () => {
           }`}
         >
           <ShoppingBag className="w-4 h-4" />
-          <span>1. أوامر الشراء ({orders.length})</span>
+          <span>1. أوامر الشراء ({ordersTotalCount})</span>
         </button>
 
         <button
@@ -374,7 +408,7 @@ export const PurchasesView: React.FC = () => {
           }`}
         >
           <CreditCard className="w-4 h-4" />
-          <span>4. سندات الصرف والمدفوعات ({payments.length})</span>
+          <span>4. سندات الصرف والمدفوعات ({paymentsTotalCount})</span>
         </button>
 
         <button
@@ -403,7 +437,7 @@ export const PurchasesView: React.FC = () => {
                 <input
                   type="text"
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => { setSearch(e.target.value); setOrdersPage(1); }}
                   placeholder="بحث برقم أمر الشراء، المورد، رقم فاتورة المورد..."
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl pr-9 pl-3 py-2 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 font-medium"
                 />
@@ -412,7 +446,7 @@ export const PurchasesView: React.FC = () => {
               {/* Supplier Filter */}
               <select
                 value={supplierFilter}
-                onChange={(e) => setSupplierFilter(e.target.value)}
+                onChange={(e) => { setSupplierFilter(e.target.value); setOrdersPage(1); }}
                 className="w-full md:w-48 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-blue-500 font-bold"
               >
                 <option value="all">جميع الموردين ({suppliers.length})</option>
@@ -426,7 +460,7 @@ export const PurchasesView: React.FC = () => {
               {/* Warehouse Filter */}
               <select
                 value={warehouseFilter}
-                onChange={(e) => setWarehouseFilter(e.target.value)}
+                onChange={(e) => { setWarehouseFilter(e.target.value); setOrdersPage(1); }}
                 className="w-full md:w-48 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-blue-500 font-bold"
               >
                 <option value="all">جميع المخازن</option>
@@ -440,7 +474,7 @@ export const PurchasesView: React.FC = () => {
               {/* Sort By */}
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as PurchaseSort)}
+                onChange={(e) => { setSortBy(e.target.value as PurchaseSort); setOrdersPage(1); }}
                 className="w-full md:w-44 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-blue-500 font-bold"
               >
                 <option value="newest">الأحدث أولاً</option>
@@ -462,7 +496,7 @@ export const PurchasesView: React.FC = () => {
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none text-xs font-bold pt-1 border-t border-slate-800/80">
               <span className="text-slate-500 text-[10px] shrink-0 font-medium">الحالة:</span>
               <button
-                onClick={() => setStatusFilter('all')}
+                onClick={() => { setStatusFilter('all'); setOrdersPage(1); }}
                 className={`px-3 py-1 rounded-xl border shrink-0 transition ${
                   statusFilter === 'all'
                     ? 'bg-blue-600 text-white border-blue-500'
@@ -472,7 +506,7 @@ export const PurchasesView: React.FC = () => {
                 الكل
               </button>
               <button
-                onClick={() => setStatusFilter('draft')}
+                onClick={() => { setStatusFilter('draft'); setOrdersPage(1); }}
                 className={`px-3 py-1 rounded-xl border shrink-0 transition ${
                   statusFilter === 'draft'
                     ? 'bg-slate-700 text-white border-slate-600'
@@ -482,7 +516,7 @@ export const PurchasesView: React.FC = () => {
                 مسودة
               </button>
               <button
-                onClick={() => setStatusFilter('sent')}
+                onClick={() => { setStatusFilter('sent'); setOrdersPage(1); }}
                 className={`px-3 py-1 rounded-xl border shrink-0 transition ${
                   statusFilter === 'sent'
                     ? 'bg-blue-600 text-white border-blue-500'
@@ -492,7 +526,7 @@ export const PurchasesView: React.FC = () => {
                 مرسل للمورد
               </button>
               <button
-                onClick={() => setStatusFilter('approved')}
+                onClick={() => { setStatusFilter('approved'); setOrdersPage(1); }}
                 className={`px-3 py-1 rounded-xl border shrink-0 transition ${
                   statusFilter === 'approved'
                     ? 'bg-amber-600 text-white border-amber-500'
@@ -502,7 +536,7 @@ export const PurchasesView: React.FC = () => {
                 معتمد قيد التوريد
               </button>
               <button
-                onClick={() => setStatusFilter('partially_received')}
+                onClick={() => { setStatusFilter('partially_received'); setOrdersPage(1); }}
                 className={`px-3 py-1 rounded-xl border shrink-0 transition ${
                   statusFilter === 'partially_received'
                     ? 'bg-indigo-600 text-white border-indigo-500'
@@ -512,7 +546,7 @@ export const PurchasesView: React.FC = () => {
                 مستلم جزئياً
               </button>
               <button
-                onClick={() => setStatusFilter('received')}
+                onClick={() => { setStatusFilter('received'); setOrdersPage(1); }}
                 className={`px-3 py-1 rounded-xl border shrink-0 transition ${
                   statusFilter === 'received'
                     ? 'bg-emerald-600 text-white border-emerald-500'
@@ -522,7 +556,7 @@ export const PurchasesView: React.FC = () => {
                 مستلم بالكامل
               </button>
               <button
-                onClick={() => setStatusFilter('cancelled')}
+                onClick={() => { setStatusFilter('cancelled'); setOrdersPage(1); }}
                 className={`px-3 py-1 rounded-xl border shrink-0 transition ${
                   statusFilter === 'cancelled'
                     ? 'bg-rose-600 text-white border-rose-500'
@@ -540,7 +574,7 @@ export const PurchasesView: React.FC = () => {
               <RefreshCw className="w-8 h-8 animate-spin mx-auto text-blue-500 mb-3" />
               <span className="font-bold">جاري تحميل أوامر الشراء...</span>
             </div>
-          ) : filteredOrders.length === 0 ? (
+          ) : orders.length === 0 ? (
             <div className="p-12 text-center bg-slate-900 border border-slate-800 rounded-3xl space-y-3">
               <ShoppingBag className="w-12 h-12 mx-auto text-slate-600" />
               <h3 className="font-bold text-slate-200 text-sm">لا توجد أوامر شراء مطابقة للبحث</h3>
@@ -559,16 +593,24 @@ export const PurchasesView: React.FC = () => {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredOrders.map((po) => (
-                <PurchaseOrderCard
-                  key={po.id}
-                  po={po}
-                  onViewDetails={() => setSelectedPoForDetail(po.id)}
-                  onReceiveGoods={() => setSelectedPoForReceive(po)}
-                  onRecordPayment={() => setSelectedPoForPayment(po)}
-                />
-              ))}
+            <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {orders.map((po) => (
+                  <PurchaseOrderCard
+                    key={po.id}
+                    po={po}
+                    onViewDetails={() => setSelectedPoForDetail(po.id)}
+                    onReceiveGoods={() => setSelectedPoForReceive(po)}
+                    onRecordPayment={() => setSelectedPoForPayment(po)}
+                  />
+                ))}
+              </div>
+              <HistoryPagination
+                page={ordersPage}
+                totalPages={ordersTotalPages}
+                totalCount={ordersTotalCount}
+                onPageChange={setOrdersPage}
+              />
             </div>
           )}
         </div>
@@ -683,6 +725,13 @@ export const PurchasesView: React.FC = () => {
             </div>
           )}
 
+          <HistoryPagination
+            page={ordersPage}
+            totalPages={ordersTotalPages}
+            totalCount={ordersTotalCount}
+            onPageChange={setOrdersPage}
+          />
+
           {/* Receiving History Section */}
           <div className="pt-6 space-y-3">
             <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow flex items-center justify-between">
@@ -743,6 +792,12 @@ export const PurchasesView: React.FC = () => {
                 </div>
               </div>
             )}
+            <HistoryPagination
+              page={receiptsPage}
+              totalPages={receiptsTotalPages}
+              totalCount={receiptsTotalCount}
+              onPageChange={setReceiptsPage}
+            />
           </div>
         </div>
       )}
@@ -809,7 +864,7 @@ export const PurchasesView: React.FC = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {filteredSuppliers.map((supp) => {
-                const { due, totalPurchases, ordersCount } = getSupplierBalance(supp.id);
+                const due = supp.currentBalance;
                 const isActive = supp.isActive ?? true;
 
                 return (
@@ -880,21 +935,11 @@ export const PurchasesView: React.FC = () => {
                     </div>
 
                     {/* Balances */}
-                    <div className="grid grid-cols-2 gap-2 text-center text-xs">
-                      <div className="bg-slate-800/40 p-2 rounded-xl border border-slate-800">
-                        <span className="text-[10px] text-slate-400 block">إجمالي المشتريات:</span>
-                        <span className="font-bold text-slate-200 font-mono">
-                          {totalPurchases.toFixed(2)} {CURRENCY}
-                        </span>
-                        <span className="text-[9px] text-slate-500 block">({ordersCount} طلبيات)</span>
-                      </div>
-
-                      <div className="bg-rose-950/20 p-2 rounded-xl border border-rose-500/20">
+                    <div className="bg-rose-950/20 p-2 rounded-xl border border-rose-500/20 text-center text-xs">
                         <span className="text-[10px] text-rose-400 block">المستحق للمورد:</span>
                         <span className="font-bold text-rose-300 font-mono">
                           {due.toFixed(2)} {CURRENCY}
                         </span>
-                      </div>
                     </div>
 
                     {/* Actions toolbar */}
@@ -953,7 +998,7 @@ export const PurchasesView: React.FC = () => {
                 <input
                   type="text"
                   value={paymentSearch}
-                  onChange={(e) => setPaymentSearch(e.target.value)}
+                  onChange={(e) => { setPaymentSearch(e.target.value); setPaymentsPage(1); }}
                   placeholder="بحث باسم المورد، مرجع الشيك/التحويل، رقم أمر الشراء..."
                   className="w-full bg-slate-800 border border-slate-700 rounded-xl pr-9 pl-3 py-2 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-rose-500 font-medium"
                 />
@@ -962,7 +1007,7 @@ export const PurchasesView: React.FC = () => {
               {/* Payment Method filter */}
               <select
                 value={paymentMethodFilter}
-                onChange={(e) => setPaymentMethodFilter(e.target.value)}
+                onChange={(e) => { setPaymentMethodFilter(e.target.value); setPaymentsPage(1); }}
                 className="w-full md:w-48 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-rose-500 font-bold"
               >
                 <option value="all">جميع وسائل الدفع</option>
@@ -989,7 +1034,7 @@ export const PurchasesView: React.FC = () => {
           </div>
 
           {/* Payments Table */}
-          {filteredPayments.length === 0 ? (
+          {payments.length === 0 ? (
             <div className="p-12 text-center bg-slate-900 border border-slate-800 rounded-3xl space-y-3 text-slate-400">
               <CreditCard className="w-12 h-12 mx-auto text-slate-600" />
               <h3 className="font-bold text-slate-200">لا توجد سندات صرف مطابقة للبحث</h3>
@@ -1006,7 +1051,7 @@ export const PurchasesView: React.FC = () => {
               </button>
             </div>
           ) : (
-            <div className="border border-slate-800 rounded-2xl overflow-hidden bg-slate-900 shadow-lg">
+              <div className="border border-slate-800 rounded-2xl overflow-hidden bg-slate-900 shadow-lg">
               <div className="overflow-x-auto">
                 <table className="w-full text-right text-xs">
                   <thead className="bg-slate-800/80 text-slate-300 font-bold border-b border-slate-700/80">
@@ -1021,7 +1066,7 @@ export const PurchasesView: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800">
-                    {filteredPayments.map((p) => (
+                    {payments.map((p) => (
                       <tr key={p.id} className="hover:bg-slate-800/40 transition">
                         <td className="p-3 font-mono text-slate-300">
                           {new Date(p.paymentDate).toLocaleDateString('ar-JO')}
@@ -1067,9 +1112,15 @@ export const PurchasesView: React.FC = () => {
                     ))}
                   </tbody>
                 </table>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          <HistoryPagination
+            page={paymentsPage}
+            totalPages={paymentsTotalPages}
+            totalCount={paymentsTotalCount}
+            onPageChange={setPaymentsPage}
+          />
         </div>
       )}
 
@@ -1087,16 +1138,16 @@ export const PurchasesView: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Report 1: Top Suppliers by Purchases */}
+            {/* Report 1: Supplier balances (canonical supplier read model) */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow space-y-3">
               <h3 className="font-bold text-slate-100 text-xs flex items-center gap-2 pb-2 border-b border-slate-800">
                 <Building className="w-4 h-4 text-teal-400" />
-                <span>المشتريات والذمم حسب المورد</span>
+                <span>ذمم الموردين الحالية</span>
               </h3>
 
               <div className="space-y-2">
                 {suppliers.slice(0, 5).map((supp) => {
-                  const { due, totalPurchases } = getSupplierBalance(supp.id);
+                  const due = supp.currentBalance;
                   return (
                     <div
                       key={supp.id}
@@ -1105,7 +1156,7 @@ export const PurchasesView: React.FC = () => {
                       <div>
                         <span className="font-bold text-slate-200 block">{supp.companyName}</span>
                         <span className="text-[10px] text-slate-500 font-mono">
-                          مشتريات: {totalPurchases.toFixed(2)} {CURRENCY}
+                          الرصيد مصدره دفتر المورد الخادمي
                         </span>
                       </div>
                       <div className="text-left">

@@ -1,8 +1,4 @@
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
-import {
-  calculateOrderAmountDue,
-  isOperationalOrderSource,
-} from '../../utils/orderCalculations';
 
 export interface CustomerOutstandingOrder {
   id: string;
@@ -17,81 +13,87 @@ export interface CustomerOutstandingOrder {
   createdAt: string;
 }
 
-export async function fetchCustomerOutstandingOrders(): Promise<{
+export async function fetchCustomerOutstandingOrders(params?: {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+}): Promise<{
   success: boolean;
   orders: CustomerOutstandingOrder[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  summary: { amount: number; customers: number };
   error?: string;
 }> {
+  const page = Math.max(1, Math.trunc(params?.page || 1));
+  const pageSize = Math.min(100, Math.max(1, Math.trunc(params?.pageSize || 25)));
+  const empty = {
+    success: false,
+    orders: [] as CustomerOutstandingOrder[],
+    page,
+    pageSize,
+    totalCount: 0,
+    totalPages: 1,
+    summary: { amount: 0, customers: 0 },
+  };
   if (!isSupabaseConfigured || !supabase) {
     return {
-      success: false,
-      orders: [],
+      ...empty,
       error: 'لم يتم إعداد الاتصال بقاعدة بيانات Supabase.',
     };
   }
 
   try {
     const { data, error } = await supabase
-      .from('orders')
-      .select(`
-        id,
-        order_number,
-        customer_id,
-        customer_name_snapshot,
-        total_in_minor_units,
-        amount_paid_in_minor_units,
-        payment_status,
-        source,
-        created_at,
-        customers (
-          full_name,
-          phone
-        )
-      `)
-      .eq('status', 'completed')
-      .not('customer_id', 'is', null)
-      .order('created_at', { ascending: false });
+      .rpc('get_customer_outstanding_orders_page', {
+        p_page: page,
+        p_page_size: pageSize,
+        p_search: params?.search?.trim() || null,
+      });
 
-    if (error) return { success: false, orders: [], error: error.message };
+    if (error) return { ...empty, error: error.message };
 
-    const orders = (data || [])
-      .filter((order) => isOperationalOrderSource(order.source))
-      .map((order: any) => {
-        const relation = Array.isArray(order.customers)
-          ? order.customers[0]
-          : order.customers;
-        const totalAmount =
-          Number(order.total_in_minor_units || 0) / 1000;
-        const amountPaid =
-          Number(order.amount_paid_in_minor_units || 0) / 1000;
-        const amountDue = calculateOrderAmountDue(totalAmount, amountPaid);
+    const payload = data && typeof data === 'object' ? data as {
+      orders?: unknown[];
+      total_count?: unknown;
+      summary?: Record<string, unknown>;
+    } : {};
+    const orders = (Array.isArray(payload.orders) ? payload.orders : []).map((order: any) => {
+      const totalAmount = Number(order.total_in_minor_units || 0) / 1000;
+      const amountPaid = Number(order.amount_paid_in_minor_units || 0) / 1000;
+      return {
+        id: order.id,
+        orderNumber: order.order_number,
+        customerId: order.customer_id,
+        customerName: order.customer_name || 'عميل مسجل',
+        customerPhone: order.customer_phone || '',
+        totalAmount,
+        amountPaid,
+        amountDue: Number(order.amount_due_in_minor_units || 0) / 1000,
+        paymentStatus: order.payment_status === 'partially_paid' ? 'partially_paid' : 'unpaid',
+        createdAt: order.created_at,
+      } satisfies CustomerOutstandingOrder;
+    });
+    const totalCount = Math.max(0, Number(payload.total_count) || 0);
+    const summary = payload.summary || {};
 
-        return {
-          id: order.id,
-          orderNumber: order.order_number,
-          customerId: order.customer_id,
-          customerName:
-            relation?.full_name ||
-            order.customer_name_snapshot ||
-            'عميل مسجل',
-          customerPhone: relation?.phone || '',
-          totalAmount,
-          amountPaid,
-          amountDue,
-          paymentStatus:
-            amountPaid > 0
-              ? ('partially_paid' as const)
-              : ('unpaid' as const),
-          createdAt: order.created_at,
-        };
-      })
-      .filter((order) => order.amountDue > 0);
-
-    return { success: true, orders };
+    return {
+      success: true,
+      orders,
+      page,
+      pageSize,
+      totalCount,
+      totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+      summary: {
+        amount: Number(summary.due_in_minor_units || 0) / 1000,
+        customers: Number(summary.customer_count) || 0,
+      },
+    };
   } catch (error: any) {
     return {
-      success: false,
-      orders: [],
+      ...empty,
       error: error?.message || 'تعذر تحميل ذمم العملاء.',
     };
   }

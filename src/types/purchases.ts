@@ -100,6 +100,8 @@ export interface SupplierPayment {
 }
 
 export interface PurchaseOrderFilters {
+  page?: number;
+  pageSize?: number;
   search?: string;
   status?: PurchaseOrderStatus | 'all';
   supplierId?: string | 'all';

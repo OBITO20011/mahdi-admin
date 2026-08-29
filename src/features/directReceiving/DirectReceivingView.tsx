@@ -9,6 +9,7 @@ import { ReceivingProduct, SupplierReceipt } from '../../types/directReceiving';
 import { Supplier, Warehouse } from '../../types';
 import {
   fetchProductsForReceivingFromSupabase,
+  fetchSupplierReceiptByIdFromSupabase,
   fetchSupplierReceiptsFromSupabase,
   fetchSuppliersForReceivingFromSupabase,
   fetchWarehousesForReceivingFromSupabase,
@@ -33,6 +34,8 @@ import {
   Eye,
   History,
   Boxes,
+  ChevronLeft,
+  ChevronRight,
   Trash2,
 } from 'lucide-react';
 
@@ -69,6 +72,16 @@ export const DirectReceivingView: React.FC = () => {
   const [inventorySearchTerm, setInventorySearchTerm] = useState<string>('');
   const [selectedSupplierFilter, setSelectedSupplierFilter] = useState<string>('');
   const [selectedWarehouseFilter, setSelectedWarehouseFilter] = useState<string>('');
+  const [receiptPage, setReceiptPage] = useState(1);
+  const [receiptTotalCount, setReceiptTotalCount] = useState(0);
+  const [receiptTotalPages, setReceiptTotalPages] = useState(1);
+  const [receiptSummary, setReceiptSummary] = useState({
+    dueInMinorUnits: 0,
+    todayCount: 0,
+    todayTotalInMinorUnits: 0,
+    todayPaidInMinorUnits: 0,
+    itemCount: 0,
+  });
 
   // Load Data
   const loadData = useCallback(async (isSilent = false) => {
@@ -76,6 +89,8 @@ export const DirectReceivingView: React.FC = () => {
     try {
       const [receiptsRes, supsData, whsData, productsData] = await Promise.all([
         fetchSupplierReceiptsFromSupabase({
+          page: receiptPage,
+          pageSize: 25,
           isArchived: activeTab === 'archived',
           paymentStatus: ['unpaid', 'partially_paid', 'paid'].includes(activeTab) ? activeTab : undefined,
           supplierId: selectedSupplierFilter || undefined,
@@ -89,6 +104,9 @@ export const DirectReceivingView: React.FC = () => {
 
       if (receiptsRes.success && receiptsRes.data) {
         setReceipts(receiptsRes.data);
+        setReceiptTotalCount(receiptsRes.totalCount);
+        setReceiptTotalPages(receiptsRes.totalPages);
+        setReceiptSummary(receiptsRes.summary);
       }
       setSuppliers(supsData);
       setWarehouses(whsData);
@@ -98,7 +116,7 @@ export const DirectReceivingView: React.FC = () => {
     } finally {
       if (!isSilent) setLoading(false);
     }
-  }, [activeTab, selectedSupplierFilter, selectedWarehouseFilter, searchTerm]);
+  }, [activeTab, receiptPage, selectedSupplierFilter, selectedWarehouseFilter, searchTerm]);
 
   useEffect(() => {
     loadData();
@@ -115,20 +133,6 @@ export const DirectReceivingView: React.FC = () => {
 
   // Minor units to JOD helper
   const minorToJod = (fils: number) => (fils / 1000).toFixed(3);
-
-  // Filtered Receipts List
-  const filteredReceipts = useMemo(() => {
-    return receipts.filter((r) => {
-      if (activeTab === 'archived') return r.isArchived;
-      if (r.isArchived && activeTab !== 'archived') return false;
-
-      if (activeTab === 'unpaid' && r.paymentStatus !== 'unpaid') return false;
-      if (activeTab === 'partially_paid' && r.paymentStatus !== 'partially_paid') return false;
-      if (activeTab === 'paid' && r.paymentStatus !== 'paid') return false;
-
-      return true;
-    });
-  }, [receipts, activeTab]);
 
   const filteredInventoryProducts = useMemo(() => {
     const query = inventorySearchTerm.trim().toLowerCase();
@@ -212,33 +216,25 @@ export const DirectReceivingView: React.FC = () => {
 
   // Today KPI Aggregations
   const kpiMetrics = useMemo(() => {
-    const todayStr = new Date().toISOString().split('T')[0];
-
-    const todayReceipts = receipts.filter(
-      (r) => !r.isArchived && r.receivedAt && r.receivedAt.startsWith(todayStr)
-    );
-
-    const todayCount = todayReceipts.length;
-    const todayValueFils = todayReceipts.reduce((sum, r) => sum + r.totalInMinorUnits, 0);
-    const todayPaidFils = todayReceipts.reduce((sum, r) => sum + r.amountPaidInMinorUnits, 0);
-
-    const totalOutstandingDueFils = receipts
-      .filter((r) => !r.isArchived)
-      .reduce((sum, r) => sum + r.amountDueInMinorUnits, 0);
-
-    const totalReceivedItemsCount = receipts
-      .filter((r) => !r.isArchived)
-      .reduce((sum, r) => sum + (r.items?.length || 0), 0);
-
     return {
-      todayCount,
-      todayValueJod: (todayValueFils / 1000).toFixed(3),
-      todayPaidJod: (todayPaidFils / 1000).toFixed(3),
-      outstandingDueJod: (totalOutstandingDueFils / 1000).toFixed(3),
+      todayCount: receiptSummary.todayCount,
+      todayValueJod: (receiptSummary.todayTotalInMinorUnits / 1000).toFixed(3),
+      todayPaidJod: (receiptSummary.todayPaidInMinorUnits / 1000).toFixed(3),
+      outstandingDueJod: (receiptSummary.dueInMinorUnits / 1000).toFixed(3),
       suppliersCount: suppliers.length,
-      receivedItemsCount: totalReceivedItemsCount,
+      receivedItemsCount: receiptSummary.itemCount,
     };
-  }, [receipts, suppliers]);
+  }, [receiptSummary, suppliers]);
+
+  const handleViewReceiptDetails = useCallback(async (receipt: SupplierReceipt) => {
+    const result = await fetchSupplierReceiptByIdFromSupabase(receipt.id);
+    if (result.success && result.data) {
+      setSelectedReceipt(result.data);
+      return;
+    }
+
+    console.error('Unable to load supplier receipt details:', result.error);
+  }, []);
 
   // Handle Detail View
   if (selectedReceipt) {
@@ -362,7 +358,7 @@ export const DirectReceivingView: React.FC = () => {
       <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-900 border border-slate-800 p-1.5 rounded-2xl text-xs font-bold">
         <div className="flex items-center gap-1 overflow-x-auto">
           <button
-            onClick={() => setActiveTab('all')}
+            onClick={() => { setActiveTab('all'); setReceiptPage(1); }}
             className={`px-3 py-1.5 rounded-xl transition ${
               activeTab === 'all' ? 'bg-blue-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
             }`}
@@ -370,7 +366,7 @@ export const DirectReceivingView: React.FC = () => {
             جميع الاستلامات
           </button>
           <button
-            onClick={() => setActiveTab('unpaid')}
+            onClick={() => { setActiveTab('unpaid'); setReceiptPage(1); }}
             className={`px-3 py-1.5 rounded-xl transition ${
               activeTab === 'unpaid' ? 'bg-rose-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
             }`}
@@ -378,7 +374,7 @@ export const DirectReceivingView: React.FC = () => {
             غير مدفوع (ذمم)
           </button>
           <button
-            onClick={() => setActiveTab('partially_paid')}
+            onClick={() => { setActiveTab('partially_paid'); setReceiptPage(1); }}
             className={`px-3 py-1.5 rounded-xl transition ${
               activeTab === 'partially_paid' ? 'bg-amber-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
             }`}
@@ -386,7 +382,7 @@ export const DirectReceivingView: React.FC = () => {
             مدفوع جزئيًا
           </button>
           <button
-            onClick={() => setActiveTab('paid')}
+            onClick={() => { setActiveTab('paid'); setReceiptPage(1); }}
             className={`px-3 py-1.5 rounded-xl transition ${
               activeTab === 'paid' ? 'bg-emerald-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
             }`}
@@ -394,7 +390,7 @@ export const DirectReceivingView: React.FC = () => {
             مدفوع بالكامل
           </button>
           <button
-            onClick={() => setActiveTab('archived')}
+            onClick={() => { setActiveTab('archived'); setReceiptPage(1); }}
             className={`px-3 py-1.5 rounded-xl transition ${
               activeTab === 'archived' ? 'bg-slate-800 text-amber-300 shadow' : 'text-slate-400 hover:text-slate-200'
             }`}
@@ -449,7 +445,7 @@ export const DirectReceivingView: React.FC = () => {
             <input
               type="text"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => { setSearchTerm(e.target.value); setReceiptPage(1); }}
               placeholder="ابحث برقم السند أو فاتورة المورد..."
               className="w-full bg-transparent text-slate-100 placeholder-slate-500 outline-none font-bold"
             />
@@ -457,7 +453,7 @@ export const DirectReceivingView: React.FC = () => {
 
           <select
             value={selectedSupplierFilter}
-            onChange={(e) => setSelectedSupplierFilter(e.target.value)}
+            onChange={(e) => { setSelectedSupplierFilter(e.target.value); setReceiptPage(1); }}
             className="bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-1.5 text-xs font-bold outline-none"
           >
             <option value="">جميع الموردين</option>
@@ -470,7 +466,7 @@ export const DirectReceivingView: React.FC = () => {
 
           <select
             value={selectedWarehouseFilter}
-            onChange={(e) => setSelectedWarehouseFilter(e.target.value)}
+            onChange={(e) => { setSelectedWarehouseFilter(e.target.value); setReceiptPage(1); }}
             className="bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-1.5 text-xs font-bold outline-none"
           >
             <option value="">جميع المستودعات</option>
@@ -821,7 +817,7 @@ export const DirectReceivingView: React.FC = () => {
               <Loader2 className="w-6 h-6 animate-spin text-blue-500 mx-auto" />
               <p className="text-xs font-bold">جاري تحميل سندات استلام البضائع...</p>
             </div>
-          ) : filteredReceipts.length === 0 ? (
+          ) : receipts.length === 0 ? (
             <div className="bg-slate-900 border border-dashed border-slate-800 p-12 rounded-2xl text-center space-y-3">
               <PackageCheck className="w-10 h-10 text-slate-600 mx-auto" />
               <h3 className="font-bold text-slate-200 text-xs">لا توجد سندات استلام بضائع مطابقة</h3>
@@ -835,8 +831,9 @@ export const DirectReceivingView: React.FC = () => {
               </button>
             </div>
           ) : (
+            <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {filteredReceipts.map((r) => {
+              {receipts.map((r) => {
                 const isPaid = r.paymentStatus === 'paid';
                 const isPartial = r.paymentStatus === 'partially_paid';
                 const isCancelled = r.status === 'cancelled';
@@ -925,7 +922,7 @@ export const DirectReceivingView: React.FC = () => {
                     {/* Actions */}
                     <div className="flex items-center justify-between gap-1 pt-1 border-t border-slate-800/80">
                       <button
-                        onClick={() => setSelectedReceipt(r)}
+                        onClick={() => void handleViewReceiptDetails(r)}
                         className="bg-slate-800 text-blue-300 hover:bg-slate-700 px-3 py-1.5 rounded-xl text-[11px] font-bold transition flex items-center gap-1"
                       >
                         <Eye className="w-3.5 h-3.5" />
@@ -960,6 +957,28 @@ export const DirectReceivingView: React.FC = () => {
                 );
               })}
             </div>
+            {receiptTotalCount > 0 && (
+              <div className="flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-900 p-2 text-[11px] font-bold text-slate-400">
+                <button
+                  type="button"
+                  onClick={() => setReceiptPage((current) => Math.max(1, current - 1))}
+                  disabled={receiptPage <= 1 || loading}
+                  className="inline-flex items-center gap-1 rounded-xl bg-slate-800 px-3 py-2 text-slate-200 disabled:opacity-40"
+                >
+                  <ChevronRight className="h-4 w-4" /> السابق
+                </button>
+                <span>{receiptPage} / {receiptTotalPages} · {receiptTotalCount} سند</span>
+                <button
+                  type="button"
+                  onClick={() => setReceiptPage((current) => Math.min(receiptTotalPages, current + 1))}
+                  disabled={receiptPage >= receiptTotalPages || loading}
+                  className="inline-flex items-center gap-1 rounded-xl bg-slate-800 px-3 py-2 text-slate-200 disabled:opacity-40"
+                >
+                  التالي <ChevronLeft className="h-4 w-4" />
+                </button>
+              </div>
+            )}
+            </>
           )}
         </div>
       )}

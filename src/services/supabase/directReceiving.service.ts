@@ -96,65 +96,91 @@ const mapSupplierPaymentRow = (p: any): SupplierReceiptPayment => ({
  * Fetch supplier receipts with filters
  */
 export const fetchSupplierReceiptsFromSupabase = async (params?: {
+  page?: number;
+  pageSize?: number;
   search?: string;
   supplierId?: string;
   warehouseId?: string;
   paymentStatus?: string;
   isArchived?: boolean;
-}): Promise<{ success: boolean; data?: SupplierReceipt[]; error?: string }> => {
+}): Promise<{
+  success: boolean;
+  data?: SupplierReceipt[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  summary: {
+    dueInMinorUnits: number;
+    todayCount: number;
+    todayTotalInMinorUnits: number;
+    todayPaidInMinorUnits: number;
+    itemCount: number;
+  };
+  error?: string;
+}> => {
+  const page = Math.max(1, Math.trunc(params?.page || 1));
+  const pageSize = Math.min(100, Math.max(1, Math.trunc(params?.pageSize || 25)));
+  const empty = {
+    success: false,
+    data: [] as SupplierReceipt[],
+    page,
+    pageSize,
+    totalCount: 0,
+    totalPages: 1,
+    summary: {
+      dueInMinorUnits: 0,
+      todayCount: 0,
+      todayTotalInMinorUnits: 0,
+      todayPaidInMinorUnits: 0,
+      itemCount: 0,
+    },
+  };
   if (!isSupabaseConfigured || !supabase) {
-    return { success: false, error: 'الاتصال بقاعدة البيانات غير متاح.' };
+    return { ...empty, error: 'الاتصال بقاعدة البيانات غير متاح.' };
   }
 
   try {
-    let query = supabase
-      .from('supplier_receipts')
-      .select(`
-        *,
-        suppliers ( company_name, phone ),
-        warehouses ( name_ar ),
-        branches ( name_ar ),
-        profiles ( full_name ),
-        supplier_receipt_items (
-          *,
-          products ( name_ar, sku, barcode )
-        ),
-        supplier_payments ( * )
-      `)
-      .order('received_at', { ascending: false });
-
-    if (params?.isArchived !== undefined) {
-      query = query.eq('is_archived', params.isArchived);
-    }
-
-    if (params?.supplierId) {
-      query = query.eq('supplier_id', params.supplierId);
-    }
-
-    if (params?.warehouseId) {
-      query = query.eq('warehouse_id', params.warehouseId);
-    }
-
-    if (params?.paymentStatus && params.paymentStatus !== 'all') {
-      query = query.eq('payment_status', params.paymentStatus);
-    }
-
-    if (params?.search && params.search.trim()) {
-      const searchTerm = `%${params.search.trim()}%`;
-      query = query.or(`receipt_number.ilike.${searchTerm},supplier_invoice_number.ilike.${searchTerm}`);
-    }
-
-    const { data, error } = await query;
+    const { data, error } = await supabase.rpc('get_supplier_receipts_page', {
+      p_page: page,
+      p_page_size: pageSize,
+      p_search: params?.search?.trim() || null,
+      p_supplier_id: params?.supplierId || null,
+      p_warehouse_id: params?.warehouseId || null,
+      p_payment_status: params?.paymentStatus || 'all',
+      p_is_archived: params?.isArchived ?? false,
+    });
 
     if (error) {
       console.error('Error fetching supplier receipts:', error);
-      return { success: false, error: error.message };
+      return { ...empty, error: error.message };
     }
 
-    const receipts = (data || []).map(mapSupplierReceiptRow);
-    return { success: true, data: receipts };
+    const payload = data && typeof data === 'object' ? data as {
+      receipts?: unknown[];
+      total_count?: unknown;
+      summary?: Record<string, unknown>;
+    } : {};
+    const summary = payload.summary || {};
+    const totalCount = Math.max(0, Number(payload.total_count) || 0);
+    const receipts = (Array.isArray(payload.receipts) ? payload.receipts : []).map(mapSupplierReceiptRow);
+    return {
+      success: true,
+      data: receipts,
+      page,
+      pageSize,
+      totalCount,
+      totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+      summary: {
+        dueInMinorUnits: Number(summary.due_in_minor_units) || 0,
+        todayCount: Number(summary.today_count) || 0,
+        todayTotalInMinorUnits: Number(summary.today_total_in_minor_units) || 0,
+        todayPaidInMinorUnits: Number(summary.today_paid_in_minor_units) || 0,
+        itemCount: Number(summary.item_count) || 0,
+      },
+    };
   } catch (err: any) {
-    return { success: false, error: err?.message || 'حدث خطأ أثناء جلب سندات الاستلام.' };
+    return { ...empty, error: err?.message || 'حدث خطأ أثناء جلب سندات الاستلام.' };
   }
 };
 

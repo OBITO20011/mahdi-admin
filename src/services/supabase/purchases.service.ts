@@ -213,66 +213,77 @@ export async function toggleSupplierActiveInSupabase(
  */
 export async function fetchPurchaseOrdersFromSupabase(
   filters?: PurchaseOrderFilters
-): Promise<{ success: boolean; data: PurchaseOrder[]; error?: string }> {
+): Promise<{
+  success: boolean;
+  data: PurchaseOrder[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  summary: {
+    draftCount: number;
+    sentCount: number;
+    approvedCount: number;
+    partiallyReceivedCount: number;
+    receivedCount: number;
+    totalAmount: number;
+    totalPaid: number;
+    totalOutstanding: number;
+  };
+  error?: string;
+}> {
+  const page = Math.max(1, Math.trunc(filters?.page || 1));
+  const pageSize = Math.min(100, Math.max(1, Math.trunc(filters?.pageSize || 25)));
+  const empty = {
+    success: false,
+    data: [] as PurchaseOrder[],
+    page,
+    pageSize,
+    totalCount: 0,
+    totalPages: 1,
+    summary: {
+      draftCount: 0,
+      sentCount: 0,
+      approvedCount: 0,
+      partiallyReceivedCount: 0,
+      receivedCount: 0,
+      totalAmount: 0,
+      totalPaid: 0,
+      totalOutstanding: 0,
+    },
+  };
   if (!isSupabaseConfigured || !supabase) {
-    return { success: false, data: [], error: 'Supabase is not configured' };
+    return { ...empty, error: 'Supabase is not configured' };
   }
 
   try {
-    let query = supabase
-      .from('purchase_orders')
-      .select(`
-        *,
-        suppliers (id, company_name),
-        branches (id, name_ar),
-        warehouses (id, name_ar),
-        purchase_order_items (
-          id,
-          purchase_order_id,
-          product_id,
-          ordered_quantity,
-          received_quantity,
-          purchase_price_in_minor_units,
-          discount_in_minor_units,
-          line_total_in_minor_units,
-          products (
-            id,
-            name_ar,
-            sku,
-            barcode,
-            unit_id,
-            base_unit:units!products_unit_id_fkey(name_ar)
-          )
-        )
-      `);
-
-    if (filters?.status && filters.status !== 'all') {
-      query = query.eq('status', filters.status);
-    }
-    if (filters?.supplierId && filters.supplierId !== 'all') {
-      query = query.eq('supplier_id', filters.supplierId);
-    }
-    if (filters?.branchId && filters.branchId !== 'all') {
-      query = query.eq('branch_id', filters.branchId);
-    }
-    if (filters?.warehouseId && filters.warehouseId !== 'all') {
-      query = query.eq('warehouse_id', filters.warehouseId);
-    }
-
-    if (filters?.sortBy === 'highest_value') {
-      query = query.order('total_in_minor_units', { ascending: false });
-    } else {
-      query = query.order('created_at', { ascending: false });
-    }
-
-    const { data, error } = await query;
+    const { data, error } = await supabase.rpc('get_purchase_orders_page', {
+      p_page: page,
+      p_page_size: pageSize,
+      p_search: filters?.search?.trim() || null,
+      p_status: filters?.status || 'all',
+      p_supplier_id:
+        filters?.supplierId && filters.supplierId !== 'all'
+          ? filters.supplierId
+          : null,
+      p_warehouse_id:
+        filters?.warehouseId && filters.warehouseId !== 'all'
+          ? filters.warehouseId
+          : null,
+      p_sort: filters?.sortBy || 'newest',
+    });
 
     if (error) {
       console.error('fetchPurchaseOrdersFromSupabase error:', error.message);
-      return { success: false, data: [], error: error.message };
+      return { ...empty, error: error.message };
     }
 
-    const formatted: PurchaseOrder[] = (data || []).map((po: any) => {
+    const pagePayload = data && typeof data === 'object' ? data as {
+      orders?: unknown[];
+      total_count?: unknown;
+      summary?: Record<string, unknown>;
+    } : {};
+    const formatted: PurchaseOrder[] = (Array.isArray(pagePayload.orders) ? pagePayload.orders : []).map((po: any) => {
       const items = (po.purchase_order_items || []).map((item: any) => ({
         id: item.id,
         purchaseOrderId: item.purchase_order_id,
@@ -327,26 +338,29 @@ export async function fetchPurchaseOrdersFromSupabase(
       };
     });
 
-    // Client side filtering for search and outstanding if needed
-    let filteredData = formatted;
-    if (filters?.search) {
-      const q = filters.search.toLowerCase().trim();
-      filteredData = filteredData.filter(
-        (po) =>
-          po.purchaseOrderNumber.toLowerCase().includes(q) ||
-          po.supplierName.toLowerCase().includes(q) ||
-          (po.supplierInvoiceNumber && po.supplierInvoiceNumber.toLowerCase().includes(q))
-      );
-    }
-
-    if (filters?.sortBy === 'outstanding') {
-      filteredData.sort((a, b) => b.amountDue - a.amountDue);
-    }
-
-    return { success: true, data: filteredData };
+    const summary = pagePayload.summary || {};
+    const totalCount = Math.max(0, Number(pagePayload.total_count) || 0);
+    return {
+      success: true,
+      data: formatted,
+      page,
+      pageSize,
+      totalCount,
+      totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+      summary: {
+        draftCount: Number(summary.draft_count) || 0,
+        sentCount: Number(summary.sent_count) || 0,
+        approvedCount: Number(summary.approved_count) || 0,
+        partiallyReceivedCount: Number(summary.partially_received_count) || 0,
+        receivedCount: Number(summary.received_count) || 0,
+        totalAmount: minorToJod(Number(summary.total_in_minor_units) || 0),
+        totalPaid: minorToJod(Number(summary.paid_in_minor_units) || 0),
+        totalOutstanding: minorToJod(Number(summary.due_in_minor_units) || 0),
+      },
+    };
   } catch (err: any) {
     console.error('Exception in fetchPurchaseOrdersFromSupabase:', err);
-    return { success: false, data: [], error: err?.message || 'Error fetching purchase orders' };
+    return { ...empty, error: err?.message || 'Error fetching purchase orders' };
   }
 }
 
@@ -865,62 +879,112 @@ export async function recordSupplierPaymentInSupabase(params: {
 /**
  * Fetch all supplier payments with supplier and PO info
  */
-export async function fetchSupplierPaymentsFromSupabase(supplierId?: string): Promise<SupplierPayment[]> {
+export async function fetchSupplierPaymentsFromSupabase(params?: {
+  supplierId?: string;
+  search?: string;
+  paymentMethod?: string;
+  page?: number;
+  pageSize?: number;
+}): Promise<{
+  success: boolean;
+  data: SupplierPayment[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  error?: string;
+}> {
+  const page = Math.max(1, Math.trunc(params?.page || 1));
+  const pageSize = Math.min(100, Math.max(1, Math.trunc(params?.pageSize || 25)));
+  const empty = { success: false, data: [] as SupplierPayment[], page, pageSize, totalCount: 0, totalPages: 1 };
   if (!isSupabaseConfigured || !supabase) {
-    return [];
+    return { ...empty, error: 'Supabase is not configured' };
   }
 
   try {
-    let query = supabase
-      .from('supplier_payments')
-      .select(`
-        *,
-        suppliers (id, company_name),
-        purchase_orders (id, purchase_order_number)
-      `)
-      .order('payment_date', { ascending: false });
+    const { data, error } = await supabase.rpc('get_supplier_payments_page', {
+      p_page: page,
+      p_page_size: pageSize,
+      p_search: params?.search?.trim() || null,
+      p_supplier_id:
+        params?.supplierId && params.supplierId !== 'all' ? params.supplierId : null,
+      p_payment_method: params?.paymentMethod || 'all',
+    });
 
-    if (supplierId && supplierId !== 'all') {
-      query = query.eq('supplier_id', supplierId);
+    if (error) {
+      console.warn('fetchSupplierPaymentsFromSupabase error:', error.message);
+      return { ...empty, error: error.message };
     }
 
-    const { data, error } = await query;
-
-    if (error || !data) {
-      console.warn('fetchSupplierPaymentsFromSupabase error or empty:', error?.message);
-      return [];
-    }
-
-    return data.map((p: any) => ({
-      id: p.id,
-      supplierId: p.supplier_id,
-      supplierName: p.suppliers?.company_name || 'مورد غير معروف',
-      purchaseOrderId: p.purchase_order_id,
-      purchaseOrderNumber: p.purchase_orders?.purchase_order_number || '',
-      amount: minorToJod(p.amount_in_minor_units),
-      paymentMethod: p.payment_method || 'cash',
-      referenceNumber: p.reference_number || '',
-      paymentDate: p.payment_date || p.created_at,
-      notes: p.notes || '',
-      createdByName: p.created_by || 'المستخدم',
-      createdAt: p.created_at,
-    }));
+    const payload = data && typeof data === 'object' ? data as {
+      payments?: Array<{
+        id: string;
+        supplier_id: string;
+        supplier_name?: string;
+        purchase_order_id?: string | null;
+        purchase_order_number?: string | null;
+        amount_in_minor_units?: number | null;
+        payment_method?: string | null;
+        reference_number?: string | null;
+        payment_date?: string | null;
+        notes?: string | null;
+        created_by?: string | null;
+        created_at: string;
+      }>;
+      total_count?: unknown;
+    } : {};
+    const totalCount = Math.max(0, Number(payload.total_count) || 0);
+    return {
+      success: true,
+      data: (payload.payments || []).map((payment) => ({
+        id: payment.id,
+        supplierId: payment.supplier_id,
+        supplierName: payment.supplier_name || 'مورد غير معروف',
+        purchaseOrderId: payment.purchase_order_id || undefined,
+        purchaseOrderNumber: payment.purchase_order_number || '',
+        amount: minorToJod(payment.amount_in_minor_units),
+        paymentMethod: payment.payment_method || 'cash',
+        referenceNumber: payment.reference_number || '',
+        paymentDate: payment.payment_date || payment.created_at,
+        notes: payment.notes || '',
+        createdByName: payment.created_by || 'المستخدم',
+        createdAt: payment.created_at,
+      })),
+      page,
+      pageSize,
+      totalCount,
+      totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+    };
   } catch (err) {
     console.error('Exception in fetchSupplierPaymentsFromSupabase:', err);
-    return [];
+    return { ...empty, error: 'تعذر تحميل سندات الصرف.' };
   }
 }
 
 /**
  * Fetch purchase receipts history
  */
-export async function fetchGoodsReceiptsFromSupabase(): Promise<PurchaseReceipt[]> {
+export async function fetchGoodsReceiptsFromSupabase(params?: {
+  page?: number;
+  pageSize?: number;
+}): Promise<{
+  success: boolean;
+  data: PurchaseReceipt[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  error?: string;
+}> {
+  const page = Math.max(1, Math.trunc(params?.page || 1));
+  const pageSize = Math.min(100, Math.max(1, Math.trunc(params?.pageSize || 25)));
+  const empty = { success: false, data: [] as PurchaseReceipt[], page, pageSize, totalCount: 0, totalPages: 1 };
   if (!isSupabaseConfigured || !supabase) {
-    return [];
+    return { ...empty, error: 'Supabase is not configured' };
   }
 
   try {
-    const { data, error } = await supabase
+    const query = supabase
       .from('purchase_receipts')
       .select(`
         *,
@@ -935,15 +999,21 @@ export async function fetchGoodsReceiptsFromSupabase(): Promise<PurchaseReceipt[
           unit_cost_in_minor_units,
           products (id, name_ar)
         )
-      `)
+      `, { count: 'exact' })
       .order('received_at', { ascending: false });
+
+    const from = (page - 1) * pageSize;
+    const { data, error, count } = await query.range(from, from + pageSize - 1);
 
     if (error || !data) {
       console.warn('fetchGoodsReceiptsFromSupabase error:', error?.message);
-      return [];
+      return { ...empty, error: error?.message || 'تعذر تحميل سجل الاستلام.' };
     }
 
-    return data.map((r: any) => ({
+    const totalCount = Math.max(0, count || 0);
+    return {
+      success: true,
+      data: data.map((r: any) => ({
       id: r.id,
       receiptNumber: r.receipt_number || r.id.substring(0, 8),
       purchaseOrderId: r.purchase_order_id,
@@ -965,10 +1035,15 @@ export async function fetchGoodsReceiptsFromSupabase(): Promise<PurchaseReceipt[
         receivedQuantity: ri.received_quantity,
         unitCost: minorToJod(ri.unit_cost_in_minor_units),
       })),
-    }));
+      })),
+      page,
+      pageSize,
+      totalCount,
+      totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+    };
   } catch (err) {
     console.error('Exception in fetchGoodsReceiptsFromSupabase:', err);
-    return [];
+    return { ...empty, error: 'تعذر تحميل سجل الاستلام.' };
   }
 }
 

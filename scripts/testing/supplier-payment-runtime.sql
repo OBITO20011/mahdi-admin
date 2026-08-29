@@ -120,7 +120,36 @@ DECLARE
   v_po_retry JSONB;
   v_receipt_first JSONB;
   v_receipt_retry JSONB;
+  v_history_page JSONB;
 BEGIN
+  v_history_page := public.get_purchase_orders_page(1, 25, NULL, 'all', NULL, NULL, 'newest');
+  IF jsonb_typeof(v_history_page->'orders') <> 'array'
+    OR COALESCE((v_history_page->>'total_count')::INTEGER, -1) < 1
+  THEN
+    RAISE EXCEPTION 'Purchase-order history read model did not return a paged result.';
+  END IF;
+
+  v_history_page := public.get_supplier_receipts_page(1, 25, NULL, NULL, NULL, 'all', false);
+  IF jsonb_typeof(v_history_page->'receipts') <> 'array'
+    OR COALESCE((v_history_page->>'total_count')::INTEGER, -1) < 1
+  THEN
+    RAISE EXCEPTION 'Supplier-receipt history read model did not return a paged result.';
+  END IF;
+
+  v_history_page := public.get_supplier_payments_page(1, 25, 'RUNTIME-PO-001', NULL, 'all');
+  IF jsonb_typeof(v_history_page->'payments') <> 'array'
+    OR COALESCE((v_history_page->>'total_count')::INTEGER, -1) < 1
+  THEN
+    RAISE EXCEPTION 'Supplier-payment history read model did not apply server-side search.';
+  END IF;
+
+  v_history_page := public.get_customer_outstanding_orders_page(1, 25, NULL);
+  IF jsonb_typeof(v_history_page->'orders') <> 'array'
+    OR jsonb_typeof(v_history_page->'summary') <> 'object'
+  THEN
+    RAISE EXCEPTION 'Customer outstanding read model did not return the guarded page contract.';
+  END IF;
+
   v_po_first := public.record_supplier_payment(
     '20000000-0000-0000-0000-000000000001',
     '20000000-0000-0000-0000-000000000004',

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Banknote, CheckCircle2, Loader2, ReceiptText } from 'lucide-react';
+import { Banknote, CheckCircle2, ChevronLeft, ChevronRight, Loader2, ReceiptText, Search } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 import {
   CustomerOutstandingOrder,
@@ -36,14 +36,22 @@ export const RecordCustomerPaymentModal: React.FC<
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [orderSearch, setOrderSearch] = useState('');
+  const [orderPage, setOrderPage] = useState(1);
+  const [orderTotalPages, setOrderTotalPages] = useState(1);
   const paymentIdempotencyKey = useRef(createPaymentIdempotencyKey());
 
   useEffect(() => {
     let mounted = true;
-    fetchCustomerOutstandingOrders().then((result) => {
+    fetchCustomerOutstandingOrders({
+      page: orderPage,
+      pageSize: 25,
+      search: initialOrder ? undefined : orderSearch,
+    }).then((result) => {
       if (!mounted) return;
       if (result.success) {
         setOrders(result.orders);
+        setOrderTotalPages(result.totalPages);
         if (!initialOrder && result.orders[0]) {
           setOrderId(result.orders[0].id);
           setAmount(String(result.orders[0].amountDue));
@@ -56,7 +64,7 @@ export const RecordCustomerPaymentModal: React.FC<
     return () => {
       mounted = false;
     };
-  }, [initialOrder]);
+  }, [initialOrder, orderPage, orderSearch]);
 
   const selectedOrder = useMemo(
     () =>
@@ -146,6 +154,20 @@ export const RecordCustomerPaymentModal: React.FC<
       )}
 
       <div>
+        {!initialOrder && (
+          <label className="mb-2 flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-slate-400">
+            <Search className="h-3.5 w-3.5" />
+            <input
+              value={orderSearch}
+              onChange={(event) => {
+                setOrderSearch(event.target.value);
+                setOrderPage(1);
+              }}
+              placeholder="ابحث برقم الطلب أو العميل أو الهاتف"
+              className="w-full bg-transparent text-xs text-white outline-none placeholder:text-slate-600"
+            />
+          </label>
+        )}
         <label className="mb-1 block font-bold text-slate-300">
           الطلب والعميل *
         </label>
@@ -166,6 +188,17 @@ export const RecordCustomerPaymentModal: React.FC<
             </option>
           ))}
         </select>
+        {!initialOrder && orderTotalPages > 1 && (
+          <div className="mt-2 flex items-center justify-between text-[10px] text-slate-400">
+            <button type="button" onClick={() => setOrderPage((current) => Math.max(1, current - 1))} disabled={orderPage <= 1} className="rounded-lg border border-slate-700 px-2 py-1 disabled:opacity-40">
+              <ChevronRight className="inline h-3 w-3" /> السابق
+            </button>
+            <span>{orderPage} / {orderTotalPages}</span>
+            <button type="button" onClick={() => setOrderPage((current) => Math.min(orderTotalPages, current + 1))} disabled={orderPage >= orderTotalPages} className="rounded-lg border border-slate-700 px-2 py-1 disabled:opacity-40">
+              التالي <ChevronLeft className="inline h-3 w-3" />
+            </button>
+          </div>
+        )}
       </div>
 
       {selectedOrder && (

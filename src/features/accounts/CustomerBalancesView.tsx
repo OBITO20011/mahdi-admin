@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   AlertCircle,
   Banknote,
+  ChevronLeft,
+  ChevronRight,
   Loader2,
   ReceiptText,
   RefreshCw,
@@ -22,31 +24,37 @@ export const CustomerBalancesView: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedOrder, setSelectedOrder] =
     useState<CustomerOutstandingOrder | null>(null);
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [serverSummary, setServerSummary] = useState({ amount: 0, customers: 0 });
 
   const loadBalances = useCallback(async () => {
     setLoading(true);
     setError(null);
-    const result = await fetchCustomerOutstandingOrders();
+    const result = await fetchCustomerOutstandingOrders({ page, pageSize: 25 });
     if (result.success) {
       setOrders(result.orders);
+      setTotalCount(result.totalCount);
+      setTotalPages(result.totalPages);
+      setServerSummary(result.summary);
     } else {
       setError(result.error || 'تعذر تحميل الذمم.');
     }
     setLoading(false);
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     loadBalances();
   }, [loadBalances]);
 
   const summary = useMemo(() => {
-    const customerIds = new Set(orders.map((order) => order.customerId));
     return {
-      amount: orders.reduce((sum, order) => sum + order.amountDue, 0),
-      customers: customerIds.size,
-      orders: orders.length,
+      amount: serverSummary.amount,
+      customers: serverSummary.customers,
+      orders: totalCount,
     };
-  }, [orders]);
+  }, [serverSummary, totalCount]);
 
   return (
     <div className="space-y-4 px-3 text-xs">
@@ -162,6 +170,27 @@ export const CustomerBalancesView: React.FC = () => {
               </button>
             </article>
           ))}
+          {totalCount > 0 && (
+            <div className="flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-900 p-2 text-[11px] font-bold text-slate-400">
+              <button
+                type="button"
+                onClick={() => setPage((current) => Math.max(1, current - 1))}
+                disabled={page <= 1 || loading}
+                className="inline-flex items-center gap-1 rounded-xl bg-slate-800 px-3 py-2 text-slate-200 disabled:opacity-40"
+              >
+                <ChevronRight className="h-4 w-4" /> السابق
+              </button>
+              <span>{page} / {totalPages} · {totalCount} طلب</span>
+              <button
+                type="button"
+                onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
+                disabled={page >= totalPages || loading}
+                className="inline-flex items-center gap-1 rounded-xl bg-slate-800 px-3 py-2 text-slate-200 disabled:opacity-40"
+              >
+                التالي <ChevronLeft className="h-4 w-4" />
+              </button>
+            </div>
+          )}
         </div>
       )}
 
