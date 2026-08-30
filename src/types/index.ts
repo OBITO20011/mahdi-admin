@@ -496,11 +496,15 @@ export interface Shift {
   actualCash?: number;
   cashDiscrepancy?: number;
   discrepancyReason?: string;
-  status: 'open' | 'closed' | 'cancelled';
+  status: 'open' | 'closed' | 'cancelled' | 'reversed';
   managerSignOffBy?: string;
   cancelledByName?: string;
   cancelledAt?: string;
   cancellationReason?: string;
+  reversedByName?: string;
+  reversedAt?: string;
+  reversalReason?: string;
+  reversalId?: string;
 }
 
 export interface ShiftClosingReport {

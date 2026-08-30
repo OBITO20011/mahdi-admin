@@ -20,7 +20,11 @@ import {
   useAppStoreSelector,
 } from '../../stores/useAppStore';
 import { CURRENCY } from '../../constants';
-import { fetchCashShiftClosingReportFromSupabase } from '../../services/supabase/expenses-shifts.service';
+import {
+  fetchCashShiftClosingReportFromSupabase,
+  previewCashShiftFullReversalFromSupabase,
+  type CashShiftFullReversalPreview,
+} from '../../services/supabase/expenses-shifts.service';
 import type { ShiftClosingReport } from '../../types';
 import { ShiftClosingReportModal } from './ShiftClosingReportModal';
 
@@ -30,10 +34,12 @@ export const ShiftsView: React.FC = () => {
   const {
     currentShift,
     recentShifts,
+    currentUser,
   } = useAppStoreSelector(
     (state) => ({
       currentShift: state.currentShift,
       recentShifts: state.recentShifts,
+      currentUser: state.currentUser,
     }),
     shallowEqual
   );
@@ -41,6 +47,7 @@ export const ShiftsView: React.FC = () => {
     openShift,
     closeShift,
     cancelEmptyShift,
+    reverseCashShiftWithOperations,
     refreshExpenseShiftCenterFromSupabase,
   } = useAppStoreActions();
   const [openingCashInput, setOpeningCashInput] = useState('');
@@ -57,6 +64,14 @@ export const ShiftsView: React.FC = () => {
   const [showCancelPanel, setShowCancelPanel] = useState(false);
   const [cancelReason, setCancelReason] = useState('');
   const [isCancelling, setIsCancelling] = useState(false);
+  const [showFullReversalPanel, setShowFullReversalPanel] = useState(false);
+  const [fullReversalReason, setFullReversalReason] = useState('');
+  const [fullReversalConfirmation, setFullReversalConfirmation] = useState('');
+  const [fullReversalPreview, setFullReversalPreview] = useState<CashShiftFullReversalPreview | null>(null);
+  const [fullReversalError, setFullReversalError] = useState('');
+  const [isFullReversalLoading, setIsFullReversalLoading] = useState(false);
+  const [fullReversalReference, setFullReversalReference] = useState('');
+  const [fullReversalKey, setFullReversalKey] = useState('');
 
   useEffect(() => {
     void refreshExpenseShiftCenterFromSupabase().catch(() => undefined);
@@ -144,6 +159,71 @@ export const ShiftsView: React.FC = () => {
       setCancelReason('');
     }
   };
+
+  const resetFullReversalPanel = () => {
+    setShowFullReversalPanel(false);
+    setFullReversalReason('');
+    setFullReversalConfirmation('');
+    setFullReversalPreview(null);
+    setFullReversalError('');
+    setFullReversalReference('');
+    setFullReversalKey('');
+  };
+
+  const handlePreviewFullReversal = async () => {
+    if (!currentShift || isFullReversalLoading) return;
+    setIsFullReversalLoading(true);
+    setFullReversalError('');
+    setFullReversalReference('');
+    try {
+      const preview = await previewCashShiftFullReversalFromSupabase(currentShift.id);
+      setFullReversalPreview(preview);
+      setFullReversalKey(
+        globalThis.crypto?.randomUUID?.() ??
+          `shift-reversal-${Date.now()}-${Math.random().toString(36).slice(2)}`
+      );
+    } catch (error) {
+      setFullReversalError(
+        error instanceof Error ? error.message : 'تعذر معاينة عكس الوردية.'
+      );
+    } finally {
+      setIsFullReversalLoading(false);
+    }
+  };
+
+  const handleExecuteFullReversal = async () => {
+    if (
+      !currentShift ||
+      !fullReversalPreview?.canExecute ||
+      fullReversalReason.trim().length < 3 ||
+      fullReversalConfirmation.trim() !== 'إلغاء الوردية' ||
+      !fullReversalKey ||
+      isFullReversalLoading
+    ) return;
+    setIsFullReversalLoading(true);
+    setFullReversalError('');
+    const result = await reverseCashShiftWithOperations(
+      currentShift.id,
+      fullReversalReason,
+      fullReversalKey
+    );
+    setIsFullReversalLoading(false);
+    if (result) {
+      setFullReversalReference(result.reversalId);
+      setFullReversalPreview(null);
+    }
+  };
+
+  const effectValue = (key: string) => fullReversalPreview?.summary[key] ?? 0;
+  const reversalOperationLabel = (operationType: string) => ({
+    pos_sale: 'بيع نقطة بيع',
+    customer_payment: 'سند قبض عميل',
+    supplier_payment: 'دفعة مورد',
+    operational_expense: 'مصروف تشغيلي',
+    unsupported_sales_return: 'مرتجع مبيعات غير مدعوم',
+    shift: 'الوردية',
+  }[operationType] ?? operationType);
+  const isOwner = currentUser.role === 'Owner';
 
   return (
     <div className="space-y-4 p-4 pb-24">
@@ -337,6 +417,73 @@ export const ShiftsView: React.FC = () => {
               </div>
             )}
           </div>
+
+          {isOwner && (
+            <div className="space-y-2 border-t border-slate-800 pt-3">
+              {!showFullReversalPanel ? (
+                <button
+                  type="button"
+                  onClick={() => setShowFullReversalPanel(true)}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-amber-800/80 bg-amber-950/30 py-2.5 font-black text-amber-200 transition hover:bg-amber-950/50"
+                >
+                  <ShieldAlert className="h-4 w-4" />
+                  إلغاء الوردية وعكس جميع عملياتها
+                </button>
+              ) : (
+                <div className="space-y-3 rounded-xl border border-amber-800/80 bg-amber-950/20 p-3">
+                  <div className="flex items-start gap-2 text-amber-100">
+                    <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" />
+                    <p className="leading-5">
+                      عملية مالك النظام فقط وتتطلب MFA. يتم فحص كل عملية أولًا؛ إذا ظهر مانع فلن يُنفذ أي تعديل.
+                    </p>
+                  </div>
+                  {!fullReversalPreview && !fullReversalReference && (
+                    <button type="button" disabled={isFullReversalLoading} onClick={() => void handlePreviewFullReversal()} className="w-full rounded-lg bg-amber-700 py-2.5 font-black text-white disabled:opacity-50">
+                      {isFullReversalLoading ? 'جاري الفحص...' : 'معاينة العمليات والأثر المالي'}
+                    </button>
+                  )}
+                  {fullReversalError && <p className="rounded-lg border border-rose-800 bg-rose-950/40 p-2 text-[11px] text-rose-200">{fullReversalError}</p>}
+                  {fullReversalPreview && (
+                    <>
+                      <div className="grid grid-cols-2 gap-2 text-[10px]">
+                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">الكاش: {money(effectValue('cash_in_minor_units') / 1000)}</div>
+                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">CliQ: {money(effectValue('cliq_in_minor_units') / 1000)}</div>
+                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">ذمم العملاء: {money(effectValue('customer_balance_in_minor_units') / 1000)}</div>
+                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">ذمم الموردين: {money(effectValue('supplier_balance_in_minor_units') / 1000)}</div>
+                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">المخزون: {effectValue('inventory_base_units_delta')} وحدة أساسية</div>
+                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">المبيعات: {money(effectValue('sales_in_minor_units') / 1000)}</div>
+                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">الخصم: {money(effectValue('discount_in_minor_units') / 1000)}</div>
+                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">تكلفة البضاعة: {money(effectValue('cogs_in_minor_units') / 1000)}</div>
+                        <div className="col-span-2 rounded-lg bg-slate-950/70 p-2 text-slate-300">الربح: {money(effectValue('profit_in_minor_units') / 1000)}</div>
+                      </div>
+                      <div className="max-h-48 space-y-1 overflow-y-auto rounded-lg border border-slate-700 bg-slate-950/60 p-2 text-[10px]">
+                        {fullReversalPreview.operations.map((operation) => (
+                          <div key={`${operation.operationType}-${operation.originalRecordId}`} className="rounded border border-slate-800 p-2">
+                            <b className={operation.status === 'SUPPORTED' || operation.status === 'ALREADY_REVERSED' ? 'text-emerald-300' : 'text-rose-300'}>{operation.status}</b>{' '}
+                            <span className="text-slate-300">{reversalOperationLabel(operation.operationType)}</span>
+                            <span className="mt-1 block break-all text-slate-500">المرجع: {operation.originalRecordId}</span>
+                            {operation.reason && <span className="mt-1 block text-slate-400">{operation.reason}</span>}
+                          </div>
+                        ))}
+                      </div>
+                      {fullReversalPreview.scopeNote && <p className="text-[10px] leading-5 text-slate-400">{fullReversalPreview.scopeNote}</p>}
+                      {fullReversalPreview.canExecute ? (
+                        <>
+                          <textarea value={fullReversalReason} onChange={(event) => setFullReversalReason(event.target.value)} maxLength={500} rows={2} placeholder="سبب عكس الوردية (إجباري)" className="w-full resize-none rounded-lg border border-amber-800 bg-slate-950 p-2.5 text-xs text-white placeholder:text-amber-700 focus:outline-none" />
+                          <input type="text" value={fullReversalConfirmation} onChange={(event) => setFullReversalConfirmation(event.target.value)} placeholder="اكتب: إلغاء الوردية" className="w-full rounded-lg border border-amber-800 bg-slate-950 p-2.5 text-xs text-white placeholder:text-amber-700 focus:outline-none" />
+                          <button type="button" disabled={isFullReversalLoading || fullReversalReason.trim().length < 3 || fullReversalConfirmation.trim() !== 'إلغاء الوردية'} onClick={() => void handleExecuteFullReversal()} className="w-full rounded-lg bg-rose-700 py-2.5 font-black text-white disabled:cursor-not-allowed disabled:opacity-40">
+                            {isFullReversalLoading ? 'جاري العكس الذرّي...' : 'تأكيد عكس الوردية بالكامل'}
+                          </button>
+                        </>
+                      ) : <p className="rounded-lg border border-rose-900 bg-rose-950/40 p-2 text-[11px] text-rose-200">لا يمكن التأكيد: يجب إزالة جميع الموانع أولًا، ولم يُنفذ أي تعديل.</p>}
+                    </>
+                  )}
+                  {fullReversalReference && <p className="rounded-lg border border-emerald-800 bg-emerald-950/40 p-2 text-[11px] text-emerald-200">تم العكس بنجاح. مرجع العملية: {fullReversalReference}</p>}
+                  <button type="button" disabled={isFullReversalLoading} onClick={resetFullReversalPanel} className="w-full rounded-lg border border-slate-700 bg-slate-900 py-2 text-xs font-bold text-slate-300">إغلاق</button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       ) : (
         <div className="space-y-4 rounded-2xl border border-slate-800 bg-slate-900 p-6 text-center text-xs shadow">
@@ -380,7 +527,7 @@ export const ShiftsView: React.FC = () => {
       {recentShifts.length > 0 && (
         <section className="space-y-2">
           <h3 className="text-xs font-black text-slate-300">
-            آخر الورديات المغلقة والملغاة
+            آخر الورديات المغلقة والملغاة والمعكوسة
           </h3>
           {recentShifts.map((shift) => (
             <article
@@ -394,6 +541,11 @@ export const ShiftsView: React.FC = () => {
                     {shift.status === 'cancelled' && (
                       <span className="rounded-full border border-rose-800 bg-rose-950/60 px-2 py-0.5 text-[9px] font-black text-rose-300">
                         ملغاة
+                      </span>
+                    )}
+                    {shift.status === 'reversed' && (
+                      <span className="rounded-full border border-amber-800 bg-amber-950/60 px-2 py-0.5 text-[9px] font-black text-amber-200">
+                        معكوسة
                       </span>
                     )}
                   </div>
@@ -422,6 +574,17 @@ export const ShiftsView: React.FC = () => {
                   {shift.cancellationReason || 'غير متاح'}
                   {shift.cancelledByName && (
                     <span className="mt-1 block">أُلغي بواسطة: {shift.cancelledByName}</span>
+                  )}
+                </div>
+              ) : shift.status === 'reversed' ? (
+                <div className="mt-3 rounded-xl border border-amber-950 bg-amber-950/20 p-2.5 text-[10px] leading-5 text-slate-400">
+                  <span className="font-bold text-amber-200">سبب العكس: </span>
+                  {shift.reversalReason || 'غير متاح'}
+                  {shift.reversedByName && (
+                    <span className="mt-1 block">عُكست بواسطة: {shift.reversedByName}</span>
+                  )}
+                  {shift.reversalId && (
+                    <span className="mt-1 block">مرجع العكس: {shift.reversalId}</span>
                   )}
                 </div>
               ) : (

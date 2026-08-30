@@ -97,6 +97,7 @@ import {
   fetchExpenseShiftCenterFromSupabase,
   openCashShiftInSupabase,
   reverseOperationalExpenseInSupabase,
+  reverseCashShiftWithOperationsInSupabase,
 } from '../services/supabase/expenses-shifts.service';
 import {
   type SelectorCache,
@@ -2253,6 +2254,29 @@ class StoreEngine {
     }
   }
 
+  public async reverseCashShiftWithOperations(
+    shiftId: string,
+    reason: string,
+    idempotencyKey: string
+  ) {
+    try {
+      const result = await reverseCashShiftWithOperationsInSupabase(
+        shiftId,
+        reason,
+        idempotencyKey
+      );
+      await this.refreshExpenseShiftCenterFromSupabase();
+      this.setToast(result.message, 'success');
+      return result;
+    } catch (error) {
+      this.setToast(
+        error instanceof Error ? error.message : 'تعذر عكس عمليات الوردية.',
+        'error'
+      );
+      return null;
+    }
+  }
+
   public async openShift(openingCash: number) {
     try {
       const result = await openCashShiftInSupabase(
@@ -2386,6 +2410,11 @@ const coreAppStoreActions = {
   closeShift: (actualCash: number, reason?: string) =>
     storeEngine.closeShift(actualCash, reason),
   cancelEmptyShift: (reason: string) => storeEngine.cancelEmptyShift(reason),
+  reverseCashShiftWithOperations: (
+    shiftId: string,
+    reason: string,
+    idempotencyKey: string
+  ) => storeEngine.reverseCashShiftWithOperations(shiftId, reason, idempotencyKey),
   addExpense: (
     category: string,
     amount: number,
@@ -2577,6 +2606,11 @@ export function useAppStore() {
     closeShift: (actualCash: number, reason?: string) =>
       storeEngine.closeShift(actualCash, reason),
     cancelEmptyShift: (reason: string) => storeEngine.cancelEmptyShift(reason),
+    reverseCashShiftWithOperations: (
+      shiftId: string,
+      reason: string,
+      idempotencyKey: string
+    ) => storeEngine.reverseCashShiftWithOperations(shiftId, reason, idempotencyKey),
     openShift: (openingCash: number) => storeEngine.openShift(openingCash),
   };
 }

@@ -18,6 +18,38 @@ export interface OperationalExpenseInput {
   referenceNumber?: string;
 }
 
+export type CashShiftFullReversalOperationStatus =
+  | 'SUPPORTED'
+  | 'BLOCKED'
+  | 'ALREADY_REVERSED'
+  | 'UNSUPPORTED';
+
+export interface CashShiftFullReversalOperation {
+  operationType: string;
+  originalRecordId: string;
+  status: CashShiftFullReversalOperationStatus;
+  reason?: string;
+  expectedEffect: Record<string, number>;
+}
+
+export interface CashShiftFullReversalPreview {
+  shiftId: string;
+  shiftNumber: string;
+  shiftStatus: string;
+  canExecute: boolean;
+  operations: CashShiftFullReversalOperation[];
+  summary: Record<string, number>;
+  scopeNote?: string;
+}
+
+export interface CashShiftFullReversalResult {
+  reversalId: string;
+  idempotent: boolean;
+  actualEffect: Record<string, number>;
+  operations: CashShiftFullReversalOperation[];
+  message: string;
+}
+
 const textValue = (value: unknown): string =>
   typeof value === 'string' ? value : '';
 
@@ -92,13 +124,105 @@ function mapShift(payload: RpcRecord): Shift {
     status:
       payload.status === 'cancelled'
         ? 'cancelled'
-        : payload.status === 'closed'
-          ? 'closed'
-          : 'open',
+        : payload.status === 'reversed'
+          ? 'reversed'
+          : payload.status === 'closed'
+            ? 'closed'
+            : 'open',
     managerSignOffBy: textValue(payload.managerSignOffBy) || undefined,
     cancelledByName: textValue(payload.cancelledByName) || undefined,
     cancelledAt: textValue(payload.cancelledAt) || undefined,
     cancellationReason: textValue(payload.cancellationReason) || undefined,
+    reversedByName: textValue(payload.reversedByName) || undefined,
+    reversedAt: textValue(payload.reversedAt) || undefined,
+    reversalReason: textValue(payload.reversalReason) || undefined,
+    reversalId: textValue(payload.reversalId) || undefined,
+  };
+}
+
+const numericEffect = (value: unknown): Record<string, number> => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
+  return Object.fromEntries(
+    Object.entries(value as RpcRecord).flatMap(([key, entry]) => {
+      const parsed = Number(entry);
+      return Number.isFinite(parsed) ? [[key, parsed]] : [];
+    })
+  );
+};
+
+const mapFullShiftReversalOperation = (
+  value: unknown
+): CashShiftFullReversalOperation => {
+  const payload = (value && typeof value === 'object' ? value : {}) as RpcRecord;
+  const status = textValue(payload.status);
+  return {
+    operationType: textValue(payload.operationType),
+    originalRecordId: textValue(payload.originalRecordId),
+    status:
+      status === 'SUPPORTED' ||
+      status === 'BLOCKED' ||
+      status === 'ALREADY_REVERSED' ||
+      status === 'UNSUPPORTED'
+        ? status
+        : 'UNSUPPORTED',
+    reason: textValue(payload.reason) || undefined,
+    expectedEffect: numericEffect(payload.expectedEffect),
+  };
+};
+
+export async function previewCashShiftFullReversalFromSupabase(
+  shiftId: string
+): Promise<CashShiftFullReversalPreview> {
+  const { data, error } = await requireClient().rpc(
+    'preview_cash_shift_full_reversal',
+    { p_shift_id: shiftId }
+  );
+  if (error) throw new Error(error.message || 'تعذر معاينة عكس الوردية.');
+  const payload = (data || {}) as RpcRecord;
+  if (payload.success !== true) {
+    throw new Error(textValue(payload.message) || 'تعذر معاينة عكس الوردية.');
+  }
+  return {
+    shiftId: textValue(payload.shiftId),
+    shiftNumber: textValue(payload.shiftNumber),
+    shiftStatus: textValue(payload.shiftStatus),
+    canExecute: payload.canExecute === true,
+    operations: Array.isArray(payload.operations)
+      ? payload.operations.map(mapFullShiftReversalOperation)
+      : [],
+    summary: numericEffect(payload.summary),
+    scopeNote: textValue(payload.scopeNote) || undefined,
+  };
+}
+
+export async function reverseCashShiftWithOperationsInSupabase(
+  shiftId: string,
+  reason: string,
+  idempotencyKey: string
+): Promise<CashShiftFullReversalResult> {
+  const { data, error } = await requireClient().rpc(
+    'reverse_cash_shift_with_operations',
+    {
+      p_shift_id: shiftId,
+      p_reason: reason.trim(),
+      p_idempotency_key: idempotencyKey,
+    }
+  );
+  if (error) throw new Error(error.message || 'تعذر عكس عمليات الوردية.');
+  const payload = (data || {}) as RpcRecord;
+  if (payload.success !== true) {
+    throw new Error(textValue(payload.message) || 'تعذر عكس عمليات الوردية.');
+  }
+  return {
+    reversalId: textValue(payload.reversalId),
+    idempotent: payload.idempotent === true,
+    actualEffect: numericEffect(payload.actualEffect),
+    operations: Array.isArray(payload.operations)
+      ? payload.operations.map(mapFullShiftReversalOperation)
+      : [],
+    message:
+      textValue(payload.message) ||
+      'تم عكس عمليات الوردية وحفظ سجل المراجعة.',
   };
 }
 
