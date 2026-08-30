@@ -8,13 +8,8 @@ import {
   CrmCustomerStats,
   CustomerTag,
 } from '../../types/crm';
-import {
-  calculateOrderAmountDue,
-  isOperationalOrderSource,
-} from '../../utils/orderCalculations';
 
 type RawCustomer = Record<string, any>;
-type RawOrder = Record<string, any>;
 
 function mapAddress(address: Record<string, any>): CrmCustomerAddress {
   const latitude =
@@ -82,51 +77,6 @@ function deriveCustomerTags(
     tags.push('New Customer');
   }
   return tags;
-}
-
-function buildCustomer(
-  customer: RawCustomer,
-  orders: RawOrder[],
-  addresses: CrmCustomerAddress[]
-): CrmCustomer {
-  const completedOrders = orders.filter((order) =>
-    ['completed', 'delivered'].includes(order.status)
-  );
-  const totalSpending = completedOrders.reduce(
-    (sum, order) =>
-      sum + Number(order.total_in_minor_units || 0) / 1000,
-    0
-  );
-  const currentBalance = completedOrders.reduce((sum, order) => {
-    const total = Number(order.total_in_minor_units || 0) / 1000;
-    const paid = Number(order.amount_paid_in_minor_units || 0) / 1000;
-    return sum + calculateOrderAmountDue(total, paid);
-  }, 0);
-  const state = deriveCustomerStatus(customer);
-
-  return {
-    id: customer.id,
-    fullName: customer.full_name || 'عميل بدون اسم',
-    phone: customer.phone || '',
-    email: customer.email || '',
-    governorate:
-      customer.governorate || addresses[0]?.governorate || 'غير محدد',
-    ...state,
-    isDeleted: Boolean(customer.is_deleted),
-    tags: deriveCustomerTags(customer, totalSpending),
-    notes: customer.notes || '',
-    whatsapp: customer.whatsapp || customer.phone || undefined,
-    creditLimit:
-      Number(customer.credit_limit_in_minor_units || 0) / 1000,
-    currentBalance: Number(currentBalance.toFixed(3)),
-    customerType:
-      customer.customer_type === 'wholesale' ? 'wholesale' : 'retail',
-    createdAt: customer.created_at,
-    updatedAt: customer.updated_at,
-    totalOrdersCount: orders.length,
-    totalSpending: Number(totalSpending.toFixed(3)),
-    addresses,
-  };
 }
 
 function textValue(value: unknown, fallback = ''): string {
@@ -246,113 +196,149 @@ export async function fetchCustomersCrmFromSupabase(
 }
 
 export async function fetchCustomerDetailsCrmFromSupabase(
-  customerId: string
+  customerId: string,
+  params?: { historyPage?: number; historyPageSize?: number }
 ): Promise<{ success: boolean; customer: CrmCustomer | null; error?: string }> {
   if (!isSupabaseConfigured || !supabase) {
     return { success: false, customer: null, error: 'Supabase غير مهيأ.' };
   }
 
   try {
-    const [customerResult, addressesResult, ordersResult] =
-      await Promise.all([
-        supabase.from('customers').select('*').eq('id', customerId).single(),
-        supabase
-          .from('customer_addresses')
-          .select('*')
-          .eq('customer_id', customerId)
-          .order('is_default', { ascending: false }),
-        supabase
-          .from('orders')
-          .select(
-            'id, order_number, status, payment_status, total_in_minor_units, amount_paid_in_minor_units, source, created_at, order_items(id)'
-          )
-          .eq('customer_id', customerId)
-          .order('created_at', { ascending: false }),
-      ]);
+    const historyPage = Math.max(1, Math.trunc(params?.historyPage || 1));
+    const historyPageSize = Math.min(
+      100,
+      Math.max(1, Math.trunc(params?.historyPageSize || 25))
+    );
+    const { data, error } = await supabase.rpc(
+      'get_crm_customer_detail_page',
+      {
+        p_customer_id: customerId,
+        p_history_page: historyPage,
+        p_history_page_size: historyPageSize,
+      }
+    );
 
-    const queryError =
-      customerResult.error || addressesResult.error || ordersResult.error;
-    if (queryError || !customerResult.data) {
+    if (error || !data || typeof data !== 'object') {
       return {
         success: false,
         customer: null,
-        error: queryError?.message || 'العميل غير موجود.',
+        error: error?.message || 'العميل غير موجود.',
       };
     }
 
-    const addresses = (addressesResult.data || []).map(mapAddress);
-    const rawOrders = (ordersResult.data || []).filter((order) =>
-      isOperationalOrderSource(order.source)
-    );
-    const customer = buildCustomer(
-      customerResult.data,
-      rawOrders,
-      addresses
-    );
-
-    let completedOrders = 0;
-    let cancelledOrders = 0;
-    let totalSpending = 0;
-    let outstandingBalance = 0;
-
-    const orderHistory: CrmCustomerOrderSummary[] = rawOrders.map((order) => {
-      const totalAmount =
-        Number(order.total_in_minor_units || 0) / 1000;
-      const amountPaid =
-        Number(order.amount_paid_in_minor_units || 0) / 1000;
-      const isCompleted = ['completed', 'delivered'].includes(order.status);
-      const amountDue = isCompleted
-        ? calculateOrderAmountDue(totalAmount, amountPaid)
-        : 0;
-
-      if (isCompleted) {
-        completedOrders += 1;
-        totalSpending += totalAmount;
-        outstandingBalance += amountDue;
-      } else if (order.status === 'cancelled') {
-        cancelledOrders += 1;
-      }
-
+    const payload = data as Record<string, unknown>;
+    const customerRow = payload.customer && typeof payload.customer === 'object'
+      ? payload.customer as Record<string, unknown>
+      : null;
+    if (!customerRow) {
+      return { success: false, customer: null, error: 'العميل غير موجود.' };
+    }
+    const addresses = (Array.isArray(payload.addresses) ? payload.addresses : [])
+      .filter(
+        (address): address is Record<string, unknown> =>
+          Boolean(address) && typeof address === 'object'
+      )
+      .map(mapAddress);
+    const statsRow = payload.stats && typeof payload.stats === 'object'
+      ? payload.stats as Record<string, unknown>
+      : {};
+    const totalSpending = numberValue(
+      statsRow.total_spending_in_minor_units
+    ) / 1000;
+    const outstandingBalance = numberValue(
+      statsRow.outstanding_in_minor_units
+    ) / 1000;
+    const state = deriveCustomerStatus(customerRow);
+    const orderHistory: CrmCustomerOrderSummary[] = (
+      Array.isArray(payload.orders) ? payload.orders : []
+    ).filter(
+      (order): order is Record<string, unknown> =>
+        Boolean(order) && typeof order === 'object'
+    ).map((order) => {
       return {
-        id: order.id,
-        orderNumber: order.order_number,
-        status: order.status,
-        totalAmount,
-        amountPaid,
-        amountDue,
-        paymentStatus: order.payment_status || 'unpaid',
-        source: order.source || 'website',
-        itemsCount: Array.isArray(order.order_items)
-          ? order.order_items.length
-          : 0,
-        createdAt: order.created_at,
+        id: textValue(order.id),
+        orderNumber: textValue(order.order_number),
+        status: textValue(order.status),
+        totalAmount: numberValue(order.total_in_minor_units) / 1000,
+        amountPaid: numberValue(order.amount_paid_in_minor_units) / 1000,
+        amountDue: numberValue(order.amount_due_in_minor_units) / 1000,
+        paymentStatus: ['paid', 'partially_paid'].includes(
+          textValue(order.payment_status)
+        )
+          ? textValue(order.payment_status) as 'paid' | 'partially_paid'
+          : 'unpaid',
+        source: textValue(order.source, 'website'),
+        itemsCount: Math.max(0, Math.trunc(numberValue(order.items_count))),
+        createdAt: textValue(order.created_at),
       };
     });
-
     const stats: CrmCustomerStats = {
-      totalOrders: rawOrders.length,
-      completedOrders,
-      cancelledOrders,
+      totalOrders: Math.max(0, Math.trunc(numberValue(statsRow.total_orders))),
+      completedOrders: Math.max(
+        0,
+        Math.trunc(numberValue(statsRow.completed_orders))
+      ),
+      cancelledOrders: Math.max(
+        0,
+        Math.trunc(numberValue(statsRow.cancelled_orders))
+      ),
       totalSpending: Number(totalSpending.toFixed(3)),
       outstandingBalance: Number(outstandingBalance.toFixed(3)),
-      averageOrderValue:
-        completedOrders > 0
-          ? Number((totalSpending / completedOrders).toFixed(3))
-          : 0,
-      lastOrderDate: rawOrders[0]?.created_at || null,
+      averageOrderValue: Number(
+        (numberValue(statsRow.average_order_value_in_minor_units) / 1000).toFixed(3)
+      ),
+      lastOrderDate: textValue(statsRow.last_order_date) || null,
+    };
+    const customer: CrmCustomer = {
+      id: textValue(customerRow.id),
+      fullName: textValue(customerRow.full_name, 'عميل بدون اسم'),
+      phone: textValue(customerRow.phone),
+      email: textValue(customerRow.email),
+      governorate:
+        textValue(customerRow.governorate) ||
+        addresses[0]?.governorate ||
+        'غير محدد',
+      ...state,
+      isDeleted: customerRow.is_deleted === true,
+      tags: deriveCustomerTags(customerRow, totalSpending),
+      notes: textValue(customerRow.notes),
+      whatsapp:
+        textValue(customerRow.whatsapp) || textValue(customerRow.phone) || undefined,
+      creditLimit: numberValue(customerRow.credit_limit_in_minor_units) / 1000,
+      currentBalance: stats.outstandingBalance,
+      customerType:
+        textValue(customerRow.customer_type) === 'wholesale'
+          ? 'wholesale'
+          : 'retail',
+      createdAt: textValue(customerRow.created_at),
+      updatedAt: textValue(customerRow.updated_at) || undefined,
+      totalOrdersCount: stats.totalOrders,
+      totalSpending: stats.totalSpending,
+      addresses,
+      stats,
+      orderHistory,
+      orderHistoryPage: Math.max(
+        1,
+        Math.trunc(numberValue(payload.history_page) || historyPage)
+      ),
+      orderHistoryPageSize: Math.max(
+        1,
+        Math.trunc(numberValue(payload.history_page_size) || historyPageSize)
+      ),
+      orderHistoryTotalCount: Math.max(
+        0,
+        Math.trunc(numberValue(payload.history_total_count))
+      ),
+      orderHistoryHasMore: payload.history_has_more === true,
     };
 
-    customer.currentBalance = stats.outstandingBalance;
-    customer.totalSpending = stats.totalSpending;
-    customer.stats = stats;
-    customer.orderHistory = orderHistory;
-
     return { success: true, customer };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return {
       success: false,
       customer: null,
-      error: error?.message || 'تعذر جلب ملف العميل.',
+      error:
+        error instanceof Error ? error.message : 'تعذر جلب ملف العميل.',
     };
   }
 }

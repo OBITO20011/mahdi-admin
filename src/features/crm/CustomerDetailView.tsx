@@ -56,11 +56,16 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [editOpen, setEditOpen] = useState(false);
   const [addressOpen, setAddressOpen] = useState(false);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
-    const result = await fetchCustomerDetailsCrmFromSupabase(customerId);
+    const result = await fetchCustomerDetailsCrmFromSupabase(customerId, {
+      historyPage: 1,
+      historyPageSize: 25,
+    });
     if (result.success && result.customer) {
       setCustomer(result.customer);
     } else {
@@ -68,6 +73,36 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
     }
     setLoading(false);
   }, [customerId]);
+
+  const loadMoreHistory = async () => {
+    if (!customer?.orderHistoryHasMore || historyLoading) return;
+    setHistoryLoading(true);
+    setHistoryError(null);
+    const result = await fetchCustomerDetailsCrmFromSupabase(customerId, {
+      historyPage: (customer.orderHistoryPage || 1) + 1,
+      historyPageSize: customer.orderHistoryPageSize || 25,
+    });
+    if (result.success && result.customer) {
+      setCustomer((current) => {
+        if (!current) return result.customer;
+        const existingIds = new Set(
+          (current.orderHistory || []).map((order) => order.id)
+        );
+        return {
+          ...result.customer,
+          orderHistory: [
+            ...(current.orderHistory || []),
+            ...(result.customer?.orderHistory || []).filter(
+              (order) => !existingIds.has(order.id)
+            ),
+          ],
+        };
+      });
+    } else {
+      setHistoryError(result.error || 'تعذر تحميل المزيد من سجل العميل.');
+    }
+    setHistoryLoading(false);
+  };
 
   useEffect(() => {
     load();
@@ -288,7 +323,12 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
       </section>
 
       <section className="rounded-2xl border border-slate-800 bg-slate-900 p-4">
-        <h3 className="mb-3 font-black text-white">سجل طلبات المتجر</h3>
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <h3 className="font-black text-white">سجل طلبات المتجر</h3>
+          <span className="text-[9px] text-slate-500">
+            {customer.orderHistoryTotalCount || 0} طلب
+          </span>
+        </div>
         {customer.orderHistory?.length ? (
           <div className="space-y-2">
             {customer.orderHistory.map((order) => (
@@ -318,6 +358,22 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
                 )}
               </div>
             ))}
+            {customer.orderHistoryHasMore && (
+              <button
+                type="button"
+                onClick={loadMoreHistory}
+                disabled={historyLoading}
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 font-bold text-slate-300 disabled:cursor-wait disabled:opacity-60"
+              >
+                {historyLoading && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+                {historyLoading ? 'جاري تحميل المزيد...' : 'تحميل طلبات أقدم'}
+              </button>
+            )}
+            {historyError && (
+              <p className="rounded-xl bg-rose-500/10 px-3 py-2 text-center text-[10px] text-rose-300">
+                {historyError}
+              </p>
+            )}
           </div>
         ) : (
           <div className="rounded-xl bg-slate-950 p-4 text-center text-slate-500">

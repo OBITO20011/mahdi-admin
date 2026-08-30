@@ -81,6 +81,11 @@ export const PosView: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [cartItems, setCartItems] = useState<OrderItem[]>([]);
   const [posCustomers, setPosCustomers] = useState<PosCustomer[]>([]);
+  const [customerSearch, setCustomerSearch] = useState('');
+  const [posCustomerPage, setPosCustomerPage] = useState(1);
+  const [posCustomerTotal, setPosCustomerTotal] = useState(0);
+  const [posCustomersHaveMore, setPosCustomersHaveMore] = useState(false);
+  const [isPosCustomersLoading, setIsPosCustomersLoading] = useState(false);
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>('');
   const [discountAmount, setDiscountAmount] = useState<number>(0);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cash');
@@ -98,13 +103,56 @@ export const PosView: React.FC = () => {
 
   useEffect(() => {
     refreshProductsFromSupabase();
-    fetchPosCustomersFromSupabase()
-      .then(setPosCustomers)
-      .catch((error) => {
-        console.error('Unable to load POS customers:', error);
-        setPosCustomers([]);
-      });
   }, [refreshProductsFromSupabase]);
+
+  useEffect(() => {
+    let active = true;
+    const timer = window.setTimeout(() => {
+      setIsPosCustomersLoading(true);
+      fetchPosCustomersFromSupabase({
+        page: 1,
+        pageSize: 25,
+        search: customerSearch,
+      })
+        .then((result) => {
+          if (!active) return;
+          setPosCustomers((currentCustomers) => {
+            const selected = currentCustomers.find(
+              (customer) => customer.id === selectedCustomerId
+            );
+            if (
+              selected &&
+              !result.customers.some((customer) => customer.id === selected.id)
+            ) {
+              return [selected, ...result.customers];
+            }
+            return result.customers;
+          });
+          setPosCustomerPage(result.page);
+          setPosCustomerTotal(result.totalCount);
+          setPosCustomersHaveMore(result.hasMore);
+        })
+        .catch((error) => {
+          if (!active) return;
+          console.error('Unable to load POS customers:', error);
+          setPosCustomers((currentCustomers) =>
+            currentCustomers.filter(
+              (customer) => customer.id === selectedCustomerId
+            )
+          );
+          setPosCustomerTotal(0);
+          setPosCustomersHaveMore(false);
+        })
+        .finally(() => {
+          if (active) setIsPosCustomersLoading(false);
+        });
+    }, customerSearch.trim() ? 250 : 0);
+
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+    };
+  }, [customerSearch, selectedCustomerId]);
 
   useEffect(() => {
     if (!activeBranch.id) return;
@@ -301,7 +349,39 @@ export const PosView: React.FC = () => {
       ...currentCustomers.filter((item) => item.id !== customer.id),
       customer,
     ].sort((first, second) => first.name.localeCompare(second.name, 'ar')));
+    setPosCustomerTotal((currentTotal) => currentTotal + 1);
     setSelectedCustomerId(customer.id);
+  };
+
+  const loadMorePosCustomers = async () => {
+    if (!posCustomersHaveMore || isPosCustomersLoading) return;
+    setIsPosCustomersLoading(true);
+    try {
+      const result = await fetchPosCustomersFromSupabase({
+        page: posCustomerPage + 1,
+        pageSize: 25,
+        search: customerSearch,
+      });
+      setPosCustomers((currentCustomers) => {
+        const existingIds = new Set(
+          currentCustomers.map((customer) => customer.id)
+        );
+        return [
+          ...currentCustomers,
+          ...result.customers.filter(
+            (customer) => !existingIds.has(customer.id)
+          ),
+        ];
+      });
+      setPosCustomerPage(result.page);
+      setPosCustomerTotal(result.totalCount);
+      setPosCustomersHaveMore(result.hasMore);
+    } catch (error) {
+      console.error('Unable to load more POS customers:', error);
+      setToast('تعذر تحميل المزيد من العملاء.', 'error');
+    } finally {
+      setIsPosCustomersLoading(false);
+    }
   };
 
   const selectedPosCustomer = posCustomers.find(
@@ -601,6 +681,17 @@ export const PosView: React.FC = () => {
                 إضافة عميل جديد
               </button>
             </div>
+            <div className="relative">
+              <Search className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-500" />
+              <input
+                type="search"
+                value={customerSearch}
+                onChange={(event) => setCustomerSearch(event.target.value)}
+                placeholder="ابحث بالاسم أو الهاتف أو معرف العميل"
+                aria-label="البحث عن عميل للبيع"
+                className="w-full rounded-xl border border-slate-700 bg-slate-800 py-2 pl-3 pr-9 text-xs text-slate-100 placeholder:text-slate-500 focus:border-emerald-500 focus:outline-none"
+              />
+            </div>
             <select
               value={selectedCustomerId}
               onChange={(e) => setSelectedCustomerId(e.target.value)}
@@ -614,6 +705,23 @@ export const PosView: React.FC = () => {
                 </option>
               ))}
             </select>
+            <div className="flex items-center justify-between gap-2 text-[9px] text-slate-500">
+              <span>
+                {isPosCustomersLoading
+                  ? 'جاري البحث...'
+                  : `${posCustomerTotal} عميل مطابق`}
+              </span>
+              {posCustomersHaveMore && (
+                <button
+                  type="button"
+                  onClick={loadMorePosCustomers}
+                  disabled={isPosCustomersLoading}
+                  className="rounded-lg border border-slate-700 bg-slate-800 px-2 py-1 font-bold text-slate-300 disabled:opacity-60"
+                >
+                  تحميل المزيد
+                </button>
+              )}
+            </div>
             {paymentMethod === 'debt' && !selectedCustomerId ? (
               <p className="flex items-start gap-1.5 text-[10px] leading-5 text-amber-300">
                 <CircleAlert className="mt-0.5 h-3.5 w-3.5 shrink-0" />

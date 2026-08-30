@@ -9,10 +9,14 @@ const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, '..', '..');
 const bootstrapPath = path.join(scriptDirectory, 'bootstrap-isolated-supabase.mjs');
 const runtimeSqlPath = path.join(scriptDirectory, 'supplier-payment-runtime.sql');
+const finalBlockersRuntimeSqlPath = path.join(
+  scriptDirectory,
+  'final-admin-blockers-runtime.sql',
+);
 const isolatedDatabaseContainer = 'supabase_db_nawasrah-phase7-test';
 
-const runRuntimeSql = async () => {
-  const sql = await readFile(runtimeSqlPath, 'utf8');
+const runRuntimeSql = async (sqlPath, label) => {
+  const sql = await readFile(sqlPath, 'utf8');
 
   await new Promise((resolve, reject) => {
     const child = spawn(
@@ -47,7 +51,7 @@ const runRuntimeSql = async () => {
         resolve();
         return;
       }
-      reject(new Error(`Isolated supplier-payment runtime SQL failed: ${stderr}`));
+      reject(new Error(`Isolated ${label} runtime SQL failed: ${stderr}`));
     });
     child.stdin.end(sql);
   });
@@ -68,7 +72,8 @@ if (!bootstrapResult.ok || typeof bootstrapResult.isolatedProjectRoot !== 'strin
   throw new Error('The isolated Supabase bootstrap did not return a test project root.');
 }
 
-await runRuntimeSql();
+await runRuntimeSql(runtimeSqlPath, 'supplier-payment');
+await runRuntimeSql(finalBlockersRuntimeSqlPath, 'final-admin-blockers');
 
 console.log(JSON.stringify({
   ok: true,
@@ -76,5 +81,8 @@ console.log(JSON.stringify({
     'supplier-payment idempotency retry',
     'supplier-receipt-payment idempotency retry',
     'cashier/view_only direct-write denial',
+    'POS credit debt/payment/reversal reconciliation',
+    'customer history 1,000-row server pagination',
+    'POS customer 251/500/1,000 server search',
   ],
 }, null, 2));

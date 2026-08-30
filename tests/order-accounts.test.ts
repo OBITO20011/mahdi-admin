@@ -59,10 +59,18 @@ test('POS customer directory excludes inactive, blocked, and deleted customers',
     new URL('../src/services/supabase/pos.service.ts', import.meta.url),
     'utf8'
   );
+  const migration = readFileSync(
+    new URL(
+      '../supabase/migrations/085_admin_customer_receivables_and_scalability.sql',
+      import.meta.url
+    ),
+    'utf8'
+  );
 
-  assert.match(posService, /\.eq\('is_active', true\)/);
-  assert.match(posService, /\.eq\('is_blocked', false\)/);
-  assert.match(posService, /\.eq\('is_deleted', false\)/);
+  assert.match(posService, /rpc\('get_pos_customer_page'/);
+  assert.match(migration, /c\.is_active = true/);
+  assert.match(migration, /c\.is_blocked = false/);
+  assert.match(migration, /c\.is_deleted = false/);
 });
 
 test('the quick sale action navigates to the real POS screen', () => {

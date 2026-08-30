@@ -8,6 +8,14 @@ export interface PosCustomer {
   phone: string;
 }
 
+export interface PosCustomerPage {
+  customers: PosCustomer[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  hasMore: boolean;
+}
+
 export interface OpenPosShift {
   id: string;
   shiftNumber: string;
@@ -55,27 +63,49 @@ export interface PosSaleResult {
   }>;
 }
 
-export async function fetchPosCustomersFromSupabase(): Promise<PosCustomer[]> {
+export async function fetchPosCustomersFromSupabase(params?: {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+}): Promise<PosCustomerPage> {
   if (!isSupabaseConfigured || !supabase) {
     throw new Error('الاتصال بقاعدة بيانات Supabase غير متاح.');
   }
 
-  const { data, error } = await supabase
-    .from('customers')
-    .select('id,full_name,phone')
-    .eq('is_active', true)
-    .eq('is_blocked', false)
-    .eq('is_deleted', false)
-    .order('full_name')
-    .limit(250);
+  const page = Math.max(1, Math.trunc(params?.page || 1));
+  const pageSize = Math.min(
+    100,
+    Math.max(1, Math.trunc(params?.pageSize || 25))
+  );
+  const { data, error } = await supabase.rpc('get_pos_customer_page', {
+    p_page: page,
+    p_page_size: pageSize,
+    p_search: params?.search?.trim() || null,
+  });
 
   if (error) throw error;
 
-  return (data || []).map((customer: any) => ({
-    id: customer.id,
-    name: customer.full_name || 'عميل',
-    phone: customer.phone || '',
-  }));
+  const payload = data && typeof data === 'object'
+    ? data as Record<string, unknown>
+    : {};
+  const customers = (Array.isArray(payload.customers) ? payload.customers : [])
+    .filter(
+      (customer): customer is Record<string, unknown> =>
+        Boolean(customer) && typeof customer === 'object'
+    )
+    .map((customer) => ({
+      id: String(customer.id || ''),
+      name: String(customer.full_name || 'عميل'),
+      phone: String(customer.phone || ''),
+    }));
+
+  return {
+    customers,
+    page: Math.max(1, Number(payload.page) || page),
+    pageSize: Math.max(1, Number(payload.page_size) || pageSize),
+    totalCount: Math.max(0, Number(payload.total_count) || 0),
+    hasMore: payload.has_more === true,
+  };
 }
 
 export async function fetchOpenPosShiftFromSupabase(

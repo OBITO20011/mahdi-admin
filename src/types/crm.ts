@@ -78,6 +78,10 @@ export interface CrmCustomer {
   addresses?: CrmCustomerAddress[];
   stats?: CrmCustomerStats;
   orderHistory?: CrmCustomerOrderSummary[];
+  orderHistoryPage?: number;
+  orderHistoryPageSize?: number;
+  orderHistoryTotalCount?: number;
+  orderHistoryHasMore?: boolean;
 }
 
 export interface CrmCustomerFilterParams {
