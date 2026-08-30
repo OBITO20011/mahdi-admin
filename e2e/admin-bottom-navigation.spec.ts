@@ -136,7 +136,9 @@ test.describe('شريط تنقل الإدارة السفلي', () => {
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
     await trigger.click();
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
-    await expect(page.getByText('عملية جديدة')).toBeVisible();
+    const quickActionDialog = page.getByRole('dialog');
+    await expect(quickActionDialog).toBeVisible();
+    await expect(quickActionDialog).toHaveCSS('opacity', '1');
     await expectNoSeriousAccessibilityViolations(page);
     await page.getByRole('button', { name: 'إغلاق العمليات السريعة' }).click();
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
