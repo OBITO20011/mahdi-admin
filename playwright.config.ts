@@ -34,6 +34,14 @@ export default defineConfig({
         timezoneId: 'Asia/Amman',
       },
     },
+    {
+      name: 'mobile-chromium',
+      use: {
+        ...devices['Pixel 7'],
+        locale: 'ar-JO',
+        timezoneId: 'Asia/Amman',
+      },
+    },
   ],
   webServer: [
     {

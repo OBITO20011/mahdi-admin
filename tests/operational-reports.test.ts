@@ -18,6 +18,10 @@ const moreMenu = readFileSync(
   'src/features/more/MoreMenuView.tsx',
   'utf8'
 );
+const navigationConfig = readFileSync(
+  'src/features/more/adminNavigation.config.ts',
+  'utf8'
+);
 
 test('business reports are calculated by one authenticated role-checked RPC', () => {
   assert.match(
@@ -46,6 +50,7 @@ test('report UI uses the RPC service and offers real browser print to Arabic PDF
   assert.match(view, /@page \{ size: A4 portrait/);
   assert.match(view, /direction: rtl/);
   assert.doesNotMatch(view, /alert\(/);
-  assert.match(moreMenu, /setActiveTab\('reports'\)/);
-  assert.match(moreMenu, /التقارير والحسابات/);
+  assert.match(moreMenu, /handleNavigationAction\(item\.action\)/);
+  assert.match(navigationConfig, /destination: 'reports'/);
+  assert.match(navigationConfig, /التقارير والحسابات/);
 });

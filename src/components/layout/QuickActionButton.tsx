@@ -9,6 +9,7 @@ import {
 } from '../../stores/useAppStore';
 import {
   PlusCircle,
+  Plus,
   Receipt,
   Truck,
   DollarSign,
@@ -73,14 +74,34 @@ export const QuickActionButton: React.FC = () => {
 
   return (
     <>
+      <button
+        type="button"
+        data-navigation-id="quick-action-trigger"
+        onClick={() => toggleQuickAction()}
+        aria-label="فتح العمليات السريعة"
+        aria-expanded={isQuickActionOpen}
+        aria-controls="quick-action-drawer"
+        className={`pointer-events-auto absolute right-3 top-1 flex h-12 w-12 items-center justify-center rounded-2xl border text-white shadow-[0_14px_28px_-10px_rgba(37,99,235,0.95)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 active:scale-95 ${
+          isQuickActionOpen
+            ? 'rotate-45 border-rose-300/50 bg-rose-600'
+            : 'border-blue-300/45 bg-gradient-to-br from-blue-500 to-indigo-700 hover:from-blue-400 hover:to-indigo-600'
+        }`}
+      >
+        <Plus className="h-6 w-6 stroke-[2.5]" />
+      </button>
+
       {/* Speed Drawer Modal */}
       <AnimatePresence>
         {isQuickActionOpen && (
           <div
-            className="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/80 p-3 backdrop-blur-md"
+            className="pointer-events-auto fixed inset-0 z-50 flex items-end justify-center bg-slate-950/80 p-3 backdrop-blur-md"
             onClick={() => toggleQuickAction(false)}
           >
             <motion.div
+              id="quick-action-drawer"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="quick-action-drawer-title"
               initial={{ y: '100%', opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: '100%', opacity: 0 }}
@@ -94,12 +115,19 @@ export const QuickActionButton: React.FC = () => {
                     +
                   </div>
                   <div>
-                    <h3 className="text-sm font-black text-slate-100">عملية جديدة</h3>
+                    <h3
+                      id="quick-action-drawer-title"
+                      className="text-sm font-black text-slate-100"
+                    >
+                      عملية جديدة
+                    </h3>
                     <p className="text-[10px] text-slate-400">أكثر 4 عمليات استخداماً</p>
                   </div>
                 </div>
                 <button
+                  type="button"
                   onClick={() => toggleQuickAction(false)}
+                  aria-label="إغلاق العمليات السريعة"
                   className="w-8 h-8 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center hover:bg-slate-700 hover:text-slate-100 transition"
                 >
                   <X className="w-4 h-4" />
@@ -122,7 +150,7 @@ export const QuickActionButton: React.FC = () => {
                         <h4 className="text-[11px] font-black text-slate-100 transition group-hover:text-blue-400">
                           {act.title}
                         </h4>
-                        <p className="mt-0.5 truncate text-[9px] text-slate-400">{act.desc}</p>
+                        <p className="mt-0.5 truncate text-[10px] text-slate-400">{act.desc}</p>
                       </div>
                     </button>
                   );

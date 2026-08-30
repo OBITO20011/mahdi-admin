@@ -304,22 +304,28 @@ export const App: React.FC = () => {
         </AppErrorBoundary>
       </main>
 
-      {/* Speed Dial Quick Action Floating Button */}
-      <QuickActionButton />
+      {/* Reserved action dock keeps floating shortcuts clear of content and tabs. */}
+      <div
+        data-navigation-action-dock
+        aria-label="اختصارات سريعة"
+        className="relative z-20 h-16 shrink-0 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent pointer-events-none"
+      >
+        <QuickActionButton />
+        {canUseAssistant && activeTab !== 'assistant' && (
+          <button
+            type="button"
+            onClick={() => setActiveTab('assistant')}
+            aria-label="فتح المساعد الإداري الذكي"
+            className="pointer-events-auto absolute left-3 top-1 flex h-12 w-12 items-center justify-center rounded-2xl border border-violet-300/35 bg-gradient-to-br from-violet-500 to-indigo-700 text-white shadow-[0_14px_28px_-10px_rgba(139,92,246,0.95)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 hover:from-violet-400 hover:to-indigo-600 active:scale-95"
+          >
+            <BotMessageSquare className="h-5 w-5" />
+            <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-slate-950 bg-emerald-400" />
+            <span className="sr-only">اسأل مساعد الإدارة</span>
+          </button>
+        )}
+      </div>
 
       {/* Bottom iOS Navigation Bar */}
-      {canUseAssistant && activeTab !== 'assistant' && (
-        <button
-          type="button"
-          onClick={() => setActiveTab('assistant')}
-          aria-label="فتح المساعد الإداري الذكي"
-          className="absolute bottom-20 left-3 z-20 flex h-12 w-12 items-center justify-center rounded-2xl border border-violet-300/35 bg-gradient-to-br from-violet-500 to-indigo-700 text-white shadow-[0_14px_28px_-10px_rgba(139,92,246,0.95)] transition hover:from-violet-400 hover:to-indigo-600 active:scale-95"
-        >
-          <BotMessageSquare className="h-5 w-5" />
-          <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-slate-950 bg-emerald-400" />
-          <span className="sr-only">اسأل مساعد الإدارة</span>
-        </button>
-      )}
       <BottomTabs />
 
       {/* All Modal Sheets Dispatcher */}

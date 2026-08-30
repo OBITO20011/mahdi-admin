@@ -19,6 +19,10 @@ const staffService = readFileSync(
 const usersView = readFileSync('src/features/users/UsersView.tsx', 'utf8');
 const userForm = readFileSync('src/features/users/UserFormModal.tsx', 'utf8');
 const moreMenu = readFileSync('src/features/more/MoreMenuView.tsx', 'utf8');
+const navigationConfig = readFileSync(
+  'src/features/more/adminNavigation.config.ts',
+  'utf8',
+);
 
 test('staff account records are owner-only audited RPCs', () => {
   for (const functionName of [
@@ -63,7 +67,7 @@ test('Edge Function authenticates caller, limits origin, and keeps service role 
 
 test('only an owner can assign a second owner while the final active owner remains protected', () => {
   assert.match(moreMenu, /roleName === 'owner'/);
-  assert.match(moreMenu, /المستخدمون والصلاحيات/);
+  assert.match(navigationConfig, /المستخدمون والصلاحيات/);
   assert.match(userForm, /مالك النظام/);
   assert.match(userForm, /إنشاء مالك نظام إضافي/);
   assert.match(ownerMigration, /لا يمكن خفض صلاحية آخر مالك نظام نشط/);

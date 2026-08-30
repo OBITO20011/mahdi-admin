@@ -198,7 +198,8 @@ test('Gemini key remains server-side and the UI does not persist conversations',
 
 test('eligible staff can open the assistant from a fixed mobile launcher', () => {
   assert.match(app, /aria-label="فتح المساعد الإداري الذكي"/);
-  assert.match(app, /bottom-20 left-3/);
+  assert.match(app, /data-navigation-action-dock/);
+  assert.match(app, /pointer-events-auto absolute left-3 top-1/);
   assert.match(app, /activeTab !== 'assistant'/);
   assert.match(app, /'owner', 'admin', 'manager', 'accountant'/);
 });
