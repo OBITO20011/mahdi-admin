@@ -51,6 +51,14 @@ test('standalone primitives and orchestrator share one canonical advisory lock o
   );
 });
 
+test('migration 083 normalizes line endings without weakening its report contract guard', () => {
+  assert.match(primitives, /REPLACE\(\s*REPLACE\(v_definition, E'\\r\\n', E'\\n'\),\s*E'\\r',\s*E'\\n'\s*\)/);
+  assert.match(primitives, /POSITION\(v_core_original IN v_normalized_definition\) = 0/);
+  assert.match(primitives, /POSITION\(v_discount_original IN v_normalized_definition\) = 0/);
+  assert.match(primitives, /EXECUTE REPLACE\(v_normalized_definition, v_core_original, v_core_replacement\)/);
+  assert.match(primitives, /EXECUTE REPLACE\(v_normalized_definition, v_discount_original, v_discount_replacement\)/);
+});
+
 test('orchestrator validates the complete preview before writing a reversal header', () => {
   const previewIndex = orchestrator.indexOf('v_preview := public._preview_cash_shift_full_reversal');
   const blockerIndex = orchestrator.indexOf("v_preview->>'canExecute'", previewIndex);

@@ -9,6 +9,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const baseSql = await readFile(path.join(here, 'full-shift-reversal-runtime.sql'), 'utf8');
 const safetyFreezeSql = await readFile(path.join(here, 'full-shift-reversal-safety-freeze.sql'), 'utf8');
 const reversalPrimitivesSql = await readFile(path.join(here, 'reversal-primitives-runtime.sql'), 'utf8');
+const reportGuardLineEndingsSql = await readFile(path.join(here, 'report-guard-line-endings-runtime.sql'), 'utf8');
 const bootstrapPath = path.join(here, 'bootstrap-isolated-supabase.mjs');
 const execFileAsync = promisify(execFile);
 const owner = '83000000-0000-0000-0000-000000000001';
@@ -44,6 +45,13 @@ const { stdout: bootstrapOutput } = await execFileAsync(process.execPath, [boots
 });
 const bootstrap = JSON.parse(bootstrapOutput);
 if (!bootstrap.ok) throw new Error('The isolated Supabase bootstrap did not succeed.');
+
+const reportGuardOutput = await run(reportGuardLineEndingsSql);
+const reportGuardLine = reportGuardOutput.split(/\r?\n/).find((line) => line.startsWith('{') && line.includes('guard_scenarios'));
+const reportGuard = reportGuardLine ? JSON.parse(reportGuardLine) : null;
+if (!reportGuard || reportGuard.ok !== true || reportGuard.guard_scenarios !== 4) {
+  throw new Error(`Migration 083 report-guard line-ending suite failed: ${reportGuardOutput}`);
+}
 
 const primitivesOutput = await run(reversalPrimitivesSql);
 const primitivesSummaryLine = primitivesOutput.split(/\r?\n/).find((line) => line.startsWith('{') && line.includes('runtime_scenarios'));
@@ -183,5 +191,6 @@ console.log(JSON.stringify({
   concurrentScenarios: 2,
   lockOrderScenarios,
   expectedBlockers: 42,
+  reportGuardScenarios: reportGuard.guard_scenarios,
   reconciliation: reconciliationResult,
 }, null, 2));

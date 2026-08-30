@@ -540,6 +540,7 @@ $$;
 DO $$
 DECLARE
   v_definition TEXT;
+  v_normalized_definition TEXT;
   v_core_original TEXT := E'  completed_orders AS (\n    SELECT o.*, ce.completed_at\n    FROM completion_events ce\n    JOIN public.orders o ON o.id = ce.order_id\n  ),';
   v_core_replacement TEXT := E'  completed_orders AS (\n    SELECT o.*, ce.completed_at\n    FROM completion_events ce\n    JOIN public.orders o ON o.id = ce.order_id\n    WHERE o.status IN (''completed'', ''returned'')\n  ),';
   v_discount_original TEXT := E'  completed_orders AS (\n    SELECT o.id, COALESCE(o.discount_in_minor_units, 0)::BIGINT AS order_discount\n    FROM completion_events ce\n    JOIN public.orders o ON o.id = ce.order_id\n  ),';
@@ -548,19 +549,32 @@ BEGIN
   SELECT pg_get_functiondef('public._get_operational_business_report_v1(uuid,date,date)'::REGPROCEDURE)
   INTO v_definition;
 
-  IF v_definition IS NULL OR POSITION(v_core_original IN v_definition) = 0 THEN
+  -- pg_proc preserves the line endings used when a function was installed.
+  -- Normalize formatting only; the exact SQL contract below must still match.
+  v_normalized_definition := REPLACE(
+    REPLACE(v_definition, E'\r\n', E'\n'),
+    E'\r',
+    E'\n'
+  );
+
+  IF v_definition IS NULL OR POSITION(v_core_original IN v_normalized_definition) = 0 THEN
     RAISE EXCEPTION
       'Cannot safely install POS reversal report guard: core report contract changed.';
   END IF;
-  EXECUTE REPLACE(v_definition, v_core_original, v_core_replacement);
+  EXECUTE REPLACE(v_normalized_definition, v_core_original, v_core_replacement);
 
   SELECT pg_get_functiondef('public.get_operational_business_report(uuid,date,date)'::REGPROCEDURE)
   INTO v_definition;
-  IF v_definition IS NULL OR POSITION(v_discount_original IN v_definition) = 0 THEN
+  v_normalized_definition := REPLACE(
+    REPLACE(v_definition, E'\r\n', E'\n'),
+    E'\r',
+    E'\n'
+  );
+  IF v_definition IS NULL OR POSITION(v_discount_original IN v_normalized_definition) = 0 THEN
     RAISE EXCEPTION
       'Cannot safely install POS reversal report guard: discount report contract changed.';
   END IF;
-  EXECUTE REPLACE(v_definition, v_discount_original, v_discount_replacement);
+  EXECUTE REPLACE(v_normalized_definition, v_discount_original, v_discount_replacement);
 END;
 $$;
 
