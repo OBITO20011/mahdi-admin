@@ -98,7 +98,7 @@ export function ProductCard({
         onClick={() => onToggleFavorite(product)}
         aria-label={isFavorite ? `إزالة ${product.nameAr} من المفضلة` : `إضافة ${product.nameAr} إلى المفضلة`}
         aria-pressed={isFavorite}
-        className={`absolute left-3 top-12 z-10 grid h-9 w-9 place-items-center rounded-xl border border-white/70 shadow-sm backdrop-blur transition hover:scale-105 ${isFavorite ? 'bg-rose-600 text-white' : 'bg-white/90 text-slate-600 hover:text-rose-600'}`}
+        className={`absolute left-3 top-12 z-10 grid h-11 w-11 place-items-center rounded-xl border border-white/70 shadow-sm backdrop-blur transition hover:scale-105 ${isFavorite ? 'bg-rose-600 text-white' : 'bg-white/90 text-slate-600 hover:text-rose-600'}`}
       >
         <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
       </button>
@@ -185,7 +185,7 @@ export function ProductCard({
                     onQuantityChange(product.id, cartQuantity - 1)
                   }
                   aria-label={`إنقاص ${product.nameAr} من السلة`}
-                  className="grid h-11 w-9 place-items-center text-slate-600 transition hover:text-rose-600"
+                  className="grid h-11 w-11 place-items-center text-slate-600 transition hover:text-rose-600"
                 >
                   <Minus className="h-3.5 w-3.5" />
                 </button>
@@ -199,7 +199,7 @@ export function ProductCard({
                   }
                   disabled={!canAdd}
                   aria-label={`زيادة ${product.nameAr} في السلة`}
-                  className="grid h-11 w-9 place-items-center text-blue-700 transition hover:text-blue-900 disabled:text-slate-300"
+                  className="grid h-11 w-11 place-items-center text-blue-700 transition hover:text-blue-900 disabled:text-slate-300"
                 >
                   <Plus className="h-3.5 w-3.5" />
                 </button>

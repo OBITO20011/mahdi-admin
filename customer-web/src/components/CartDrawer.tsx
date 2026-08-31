@@ -137,7 +137,7 @@ export function CartDrawer({
             type="button"
             onClick={onClose}
             aria-label="إغلاق"
-            className="grid h-9 w-9 place-items-center rounded-xl bg-slate-100 text-slate-500"
+            className="grid h-11 w-11 place-items-center rounded-xl bg-slate-100 text-slate-500"
           >
             <X className="h-4 w-4" />
           </button>
@@ -162,7 +162,7 @@ export function CartDrawer({
               <button
                 type="button"
                 onClick={onClose}
-                className="mt-5 rounded-2xl bg-blue-700 px-5 py-3 text-xs font-black text-white"
+                className="mt-5 flex min-h-11 items-center justify-center rounded-2xl bg-blue-700 px-5 py-3 text-xs font-black text-white"
               >
                 تصفح الأصناف
               </button>
@@ -183,14 +183,14 @@ export function CartDrawer({
                     <button
                       type="button"
                       onClick={() => setClearConfirmationOpen(false)}
-                      className="rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-[10px] font-black text-slate-600"
+                      className="flex min-h-11 items-center rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-[10px] font-black text-slate-600"
                     >
                       تراجع
                     </button>
                     <button
                       type="button"
                       onClick={handleConfirmedClear}
-                      className="rounded-xl bg-rose-600 px-3 py-1.5 text-[10px] font-black text-white"
+                      className="flex min-h-11 items-center rounded-xl bg-rose-600 px-3 py-1.5 text-[10px] font-black text-white"
                     >
                       نعم، إفراغ
                     </button>
@@ -204,7 +204,7 @@ export function CartDrawer({
                   <button
                     type="button"
                     onClick={() => setClearConfirmationOpen(true)}
-                    className="flex items-center gap-1 text-[10px] font-extrabold text-rose-500"
+                    className="flex min-h-11 items-center gap-1 px-2 text-[10px] font-extrabold text-rose-500"
                   >
                     <Trash2 className="h-3 w-3" />
                     إفراغ السلة
@@ -253,7 +253,7 @@ export function CartDrawer({
                           type="button"
                           onClick={() => onRemove(item.productId)}
                           aria-label={`حذف ${item.nameAr}`}
-                          className="text-rose-400"
+                          className="grid h-11 w-11 place-items-center text-rose-400"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -269,7 +269,7 @@ export function CartDrawer({
                                 item.quantity - 1
                               )
                             }
-                            className="grid h-8 w-8 place-items-center text-slate-500"
+                            className="grid h-11 w-11 place-items-center text-slate-500"
                             aria-label={`إنقاص كمية ${item.nameAr}`}
                           >
                             <Minus className="h-3 w-3" />
@@ -288,7 +288,7 @@ export function CartDrawer({
                                 item.quantity + 1
                               )
                             }
-                            className="grid h-8 w-8 place-items-center text-blue-700 disabled:text-slate-300"
+                            className="grid h-11 w-11 place-items-center text-blue-700 disabled:text-slate-300"
                             aria-label={`زيادة كمية ${item.nameAr}`}
                           >
                             <Plus className="h-3 w-3" />
@@ -330,7 +330,7 @@ export function CartDrawer({
                     <button
                       type="button"
                       onClick={onRetryCheckoutSettings}
-                      className="shrink-0 rounded-xl border border-amber-300 bg-white px-3 py-1.5 text-[10px] font-black text-amber-900"
+                      className="flex min-h-11 shrink-0 items-center rounded-xl border border-amber-300 bg-white px-3 py-1.5 text-[10px] font-black text-amber-900"
                     >
                       إعادة المحاولة
                     </button>
@@ -367,7 +367,7 @@ export function CartDrawer({
                 <ArrowLeft className="h-4 w-4" />
               </button>
 
-              <button type="button" onClick={onClose} className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-5 py-3 text-xs font-black text-slate-700">
+              <button type="button" onClick={onClose} className="mt-2 flex min-h-11 w-full items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-xs font-black text-slate-700">
                 متابعة التسوق
               </button>
 

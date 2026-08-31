@@ -189,7 +189,7 @@ function ProductRail({
             <button
               type="button"
               onClick={() => scrollToProduct(activeIndex - 1, true)}
-              className="grid h-9 w-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-blue-200 hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              className="grid h-11 w-11 place-items-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-blue-200 hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               aria-label={`المنتج السابق في ${meta.title}`}
             >
               <ChevronRight className="h-4 w-4" aria-hidden="true" />
@@ -197,7 +197,7 @@ function ProductRail({
             <button
               type="button"
               onClick={() => scrollToProduct(activeIndex + 1, true)}
-              className="grid h-9 w-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-blue-200 hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              className="grid h-11 w-11 place-items-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-blue-200 hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               aria-label={`المنتج التالي في ${meta.title}`}
             >
               <ChevronLeft className="h-4 w-4" aria-hidden="true" />
@@ -268,12 +268,16 @@ function ProductRail({
               type="button"
               key={product.id}
               onClick={() => scrollToProduct(index, true)}
-              className={`h-1.5 rounded-full transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${
+              aria-label={`عرض المنتج ${index + 1} من ${products.length}`}
+              aria-current={index === activeIndex ? 'true' : undefined}
+              className="grid h-11 w-11 place-items-center rounded-xl transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+            >
+              <span className={`h-1.5 rounded-full transition-all duration-300 ${
                 index === activeIndex ? 'w-6 bg-blue-600' : 'w-1.5 bg-slate-200 hover:bg-slate-300'
               }`}
-              aria-label={`عرض المنتج ${index + 1} من ${products.length} في ${meta.title}`}
-              aria-current={index === activeIndex ? 'true' : undefined}
-            />
+                aria-hidden="true"
+              />
+            </button>
           ))}
         </div>
       )}
@@ -300,7 +304,7 @@ export function MerchandisingSections({
         <button
           type="button"
           onClick={onShowAll}
-          className="shrink-0 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-2 text-[10px] font-black text-blue-700 transition hover:border-blue-300 hover:bg-blue-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+          className="flex min-h-11 shrink-0 items-center rounded-2xl border border-blue-200 bg-blue-50 px-4 py-2 text-[10px] font-black text-blue-700 transition hover:border-blue-300 hover:bg-blue-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
         >
           عرض جميع المنتجات
         </button>

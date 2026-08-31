@@ -29,3 +29,10 @@ test('merchandising sections still use the live catalog product payload', () => 
   assert.match(component, /product\.imageUrl/);
   assert.doesNotMatch(component, /mock|placeholder/i);
 });
+
+test('carousel controls have 44px targets while pagination dots stay visually compact', () => {
+  assert.match(component, /grid h-11 w-11 place-items-center rounded-xl border/);
+  assert.match(component, /grid h-11 w-11 place-items-center rounded-xl transition/);
+  assert.match(component, /aria-current=\{index === activeIndex \? 'true' : undefined\}/);
+  assert.match(component, /<span className=\{`h-1\.5 rounded-full/);
+});

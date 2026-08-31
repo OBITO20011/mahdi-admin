@@ -27,3 +27,11 @@ test('cart exposes dialog semantics for mobile assistive technology', () => {
   assert.match(cartDrawer, /aria-modal="true"/);
   assert.match(cartDrawer, /aria-labelledby="cart-drawer-title"/);
 });
+
+test('cart controls keep 44px touch targets without enlarging their icons', () => {
+  assert.match(cartDrawer, /grid h-11 w-11 place-items-center text-rose-400/);
+  assert.match(cartDrawer, /grid h-11 w-11 place-items-center text-slate-500/);
+  assert.match(cartDrawer, /grid h-11 w-11 place-items-center text-blue-700/);
+  assert.match(cartDrawer, /<Plus className="h-3 w-3" \/>/);
+  assert.match(cartDrawer, /<Minus className="h-3 w-3" \/>/);
+});
