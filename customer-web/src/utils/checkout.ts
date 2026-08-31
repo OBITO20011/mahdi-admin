@@ -25,6 +25,7 @@ export const GUEST_ORDER_SESSION_STORAGE_KEY =
 export const MAX_GUEST_ORDER_LINE_ITEMS = 50;
 
 const PENDING_ORDER_TTL_MS = 24 * 60 * 60 * 1000;
+export const SAVED_GUEST_CUSTOMER_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 
 export const EMPTY_GUEST_CHECKOUT_FORM: GuestCheckoutForm = {
   fullName: '',
@@ -254,27 +255,41 @@ export function createOrderFingerprint(
 }
 
 export function readSavedGuestCustomer(
-  storage: Pick<Storage, 'getItem'>
+  storage: Pick<Storage, 'getItem' | 'removeItem'>,
+  now = Date.now()
 ): GuestCheckoutForm | null {
   try {
     const raw = storage.getItem(SAVED_CUSTOMER_STORAGE_KEY);
     if (!raw) return null;
     const saved = JSON.parse(raw) as SavedGuestCustomer;
-    if (saved.version !== 1 || !saved.customer) return null;
+    if (
+      saved.version !== 2 ||
+      !saved.customer ||
+      typeof saved.customer !== 'object' ||
+      Array.isArray(saved.customer) ||
+      !Number.isFinite(saved.expiresAt) ||
+      saved.expiresAt <= now
+    ) {
+      storage.removeItem(SAVED_CUSTOMER_STORAGE_KEY);
+      return null;
+    }
     return { ...EMPTY_GUEST_CHECKOUT_FORM, ...saved.customer };
   } catch {
+    storage.removeItem(SAVED_CUSTOMER_STORAGE_KEY);
     return null;
   }
 }
 
 export function saveGuestCustomer(
   storage: Pick<Storage, 'setItem'>,
-  customer: GuestCheckoutForm
+  customer: GuestCheckoutForm,
+  now = Date.now()
 ): void {
   const saved: SavedGuestCustomer = {
-    version: 1,
-    customer,
-    savedAt: Date.now(),
+    version: 2,
+    customer: { ...customer },
+    savedAt: now,
+    expiresAt: now + SAVED_GUEST_CUSTOMER_TTL_MS,
   };
   storage.setItem(SAVED_CUSTOMER_STORAGE_KEY, JSON.stringify(saved));
 }

@@ -9,6 +9,8 @@ import {
 import { CartItem } from '../src/types/catalog';
 import {
   EMPTY_GUEST_CHECKOUT_FORM,
+  SAVED_CUSTOMER_STORAGE_KEY,
+  SAVED_GUEST_CUSTOMER_TTL_MS,
   PENDING_ORDER_STORAGE_KEY,
   GUEST_ORDER_SESSION_STORAGE_KEY,
   MAX_GUEST_ORDER_LINE_ITEMS,
@@ -217,6 +219,45 @@ test('saved customer data and last order stay optional on this device', () => {
 
   saveLastGuestOrder(storage as unknown as Storage, 'ORD-2026-001', cartItems);
   assert.equal(readLastGuestOrder(storage as unknown as Storage)?.items[0].quantity, 2);
+});
+
+test('saved customer details expire after thirty days and are removed', () => {
+  const storage = new MemoryStorage();
+  const savedAt = 1_700_000_000_000;
+  saveGuestCustomer(storage as unknown as Storage, validForm, savedAt);
+
+  const raw = storage.getItem(SAVED_CUSTOMER_STORAGE_KEY);
+  assert.ok(raw);
+  assert.equal(JSON.parse(raw).version, 2);
+  assert.equal(JSON.parse(raw).expiresAt, savedAt + SAVED_GUEST_CUSTOMER_TTL_MS);
+  assert.equal(
+    readSavedGuestCustomer(storage as unknown as Storage, savedAt + SAVED_GUEST_CUSTOMER_TTL_MS - 1)?.phone,
+    validForm.phone,
+  );
+  assert.equal(
+    readSavedGuestCustomer(storage as unknown as Storage, savedAt + SAVED_GUEST_CUSTOMER_TTL_MS),
+    null,
+  );
+  assert.equal(storage.getItem(SAVED_CUSTOMER_STORAGE_KEY), null);
+});
+
+test('legacy or malformed saved customer storage fails closed and is removed', () => {
+  const storage = new MemoryStorage();
+  storage.setItem(SAVED_CUSTOMER_STORAGE_KEY, JSON.stringify({ version: 1, customer: validForm, savedAt: Date.now() }));
+  assert.equal(readSavedGuestCustomer(storage as unknown as Storage), null);
+  assert.equal(storage.getItem(SAVED_CUSTOMER_STORAGE_KEY), null);
+
+  storage.setItem(SAVED_CUSTOMER_STORAGE_KEY, '{not-json');
+  assert.equal(readSavedGuestCustomer(storage as unknown as Storage), null);
+  assert.equal(storage.getItem(SAVED_CUSTOMER_STORAGE_KEY), null);
+});
+
+test('saved customer storage stays absent when consent is revoked or never given', () => {
+  const storage = new MemoryStorage();
+  assert.equal(storage.getItem(SAVED_CUSTOMER_STORAGE_KEY), null);
+  saveGuestCustomer(storage as unknown as Storage, validForm);
+  clearSavedGuestCustomer(storage as unknown as Storage);
+  assert.equal(storage.getItem(SAVED_CUSTOMER_STORAGE_KEY), null);
 });
 
 test('successful RPC data maps to a stable order receipt', () => {

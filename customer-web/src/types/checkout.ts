@@ -86,9 +86,10 @@ export interface WhatsAppOrderSummary {
 }
 
 export interface SavedGuestCustomer {
-  version: 1;
+  version: 2;
   customer: GuestCheckoutForm;
   savedAt: number;
+  expiresAt: number;
 }
 
 export interface LastGuestOrder {
