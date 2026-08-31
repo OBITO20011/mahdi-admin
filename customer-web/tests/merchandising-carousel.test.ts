@@ -7,10 +7,11 @@ const component = readFileSync(
   'utf8'
 );
 
-test('home merchandising rails support touch, buttons and direct product details', () => {
+test('home merchandising rails scroll only inside the rail and support direct product details', () => {
   assert.match(component, /aria-roledescription="carousel"/);
   assert.match(component, /onPointerDown/);
-  assert.match(component, /scrollIntoView/);
+  assert.match(component, /rail\.scrollTo\(\{ left: nextCard\.offsetLeft, behavior: 'smooth' \}\)/);
+  assert.doesNotMatch(component, /scrollIntoView/);
   assert.match(component, /onOpenProduct\(product\)/);
   assert.match(component, /المنتج السابق/);
   assert.match(component, /المنتج التالي/);

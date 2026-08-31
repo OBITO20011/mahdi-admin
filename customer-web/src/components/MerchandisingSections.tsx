@@ -87,11 +87,9 @@ function ProductRail({
 
       const nextIndex = (requestedIndex + cards.length) % cards.length;
       if (manual) pauseUntilRef.current = Date.now() + 10_000;
-      cards[nextIndex]?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'start',
-      });
+      const nextCard = cards[nextIndex];
+      if (!nextCard) return;
+      rail.scrollTo({ left: nextCard.offsetLeft, behavior: 'smooth' });
       setActiveIndex(nextIndex);
     },
     []

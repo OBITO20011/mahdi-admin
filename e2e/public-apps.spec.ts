@@ -120,7 +120,7 @@ test.describe('متجر العملاء العام', () => {
     const expectedSource =
       testInfo.project.name === 'mobile-webkit'
         ? '/nawasrah-hero-mobile.mp4'
-        : '/nawasrah-hero-4k.mp4';
+        : '/nawasrah-hero-desktop-1080p.mp4';
     await expect(heroVideo.locator('source')).toHaveAttribute(
       'src',
       expectedSource,
@@ -128,7 +128,7 @@ test.describe('متجر العملاء العام', () => {
     await expect(heroVideo).toHaveAttribute('preload', 'metadata');
     const inactiveHeroSource =
       testInfo.project.name === 'mobile-webkit'
-        ? '/nawasrah-hero-4k.mp4'
+        ? '/nawasrah-hero-desktop-1080p.mp4'
         : '/nawasrah-hero-mobile.mp4';
     await expect(page.locator(`video source[src="${inactiveHeroSource}"]`)).toHaveCount(0);
     expect(
@@ -147,8 +147,50 @@ test.describe('متجر العملاء العام', () => {
             }),
           { timeout: 20_000 },
         )
-        .toEqual({ height: 2160, width: 3840 });
+        .toEqual({ height: 1080, width: 1920 });
     }
+  });
+
+  test('الواجهة الرئيسية لا تغيّر موضع الصفحة تلقائيًا بعد تحميل الـHero', async (
+    { page },
+    testInfo,
+  ) => {
+    test.skip(
+      testInfo.project.name === 'mobile-chromium',
+      'The customer storefront is covered on desktop Chromium and Mobile WebKit.',
+    );
+
+    const readViewportState = () =>
+      page.evaluate(() => {
+        const hero = document.getElementById('top');
+        const video = document.querySelector<HTMLVideoElement>(
+          '[data-testid="desktop-hero-video"], [data-testid="mobile-hero-video"] video',
+        );
+        return {
+          scrollY: window.scrollY,
+          heroHeight: hero?.getBoundingClientRect().height ?? 0,
+          videoReadyState: video?.readyState ?? 0,
+        };
+      });
+
+    await page.goto(customerBaseUrl, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#top')).toBeVisible();
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'auto' }));
+
+    const initial = await readViewportState();
+    await page.waitForTimeout(20_000);
+    const afterIdle = await readViewportState();
+
+    expect(afterIdle.scrollY).toBe(0);
+    expect(afterIdle.heroHeight).toBeCloseTo(initial.heroHeight, 1);
+    expect(afterIdle.videoReadyState).toBeGreaterThanOrEqual(initial.videoReadyState);
+
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await expect(page.locator('#top')).toBeVisible();
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'auto' }));
+    await page.waitForTimeout(6_000);
+
+    expect((await readViewportState()).scrollY).toBe(0);
   });
 
   test('شعار متجر النواصرة ظاهر بدل حرف النون القديم', async ({ page }) => {

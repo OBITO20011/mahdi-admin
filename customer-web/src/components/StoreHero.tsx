@@ -112,7 +112,7 @@ export function StoreHero({
           poster="/nawasrah-hero-poster.webp"
           className="absolute inset-0 -z-20 h-full w-full bg-[#07152f] object-contain object-center opacity-100"
         >
-          <source src="/nawasrah-hero-4k.mp4" type="video/mp4" />
+          <source src="/nawasrah-hero-desktop-1080p.mp4" type="video/mp4" />
         </video>
       )}
       <div className="absolute inset-0 -z-10 hidden bg-gradient-to-l from-[#07152f]/72 via-[#0b1b3f]/34 to-[#07152f]/60 md:block" />
