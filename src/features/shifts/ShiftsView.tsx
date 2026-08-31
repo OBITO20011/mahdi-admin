@@ -27,6 +27,7 @@ import {
 } from '../../services/supabase/expenses-shifts.service';
 import type { ShiftClosingReport } from '../../types';
 import { ShiftClosingReportModal } from './ShiftClosingReportModal';
+import { ShiftArchiveSection } from './ShiftArchiveSection';
 
 const money = (value: number) => `${value.toFixed(3)} ${CURRENCY}`;
 
@@ -35,11 +36,15 @@ export const ShiftsView: React.FC = () => {
     currentShift,
     recentShifts,
     currentUser,
+    branches,
+    activeBranch,
   } = useAppStoreSelector(
     (state) => ({
       currentShift: state.currentShift,
       recentShifts: state.recentShifts,
       currentUser: state.currentUser,
+      branches: state.branches,
+      activeBranch: state.activeBranch,
     }),
     shallowEqual
   );
@@ -601,6 +606,12 @@ export const ShiftsView: React.FC = () => {
           ))}
         </section>
       )}
+
+      <ShiftArchiveSection
+        branches={branches}
+        initialBranchId={activeBranch?.id || ''}
+        onOpenReport={(shiftId) => void handleOpenReport(shiftId)}
+      />
 
       <ShiftClosingReportModal
         isOpen={reportShiftId !== null}

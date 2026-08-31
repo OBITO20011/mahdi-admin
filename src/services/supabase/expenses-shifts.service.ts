@@ -9,6 +9,26 @@ export interface ExpenseShiftCenter {
   recentShifts: Shift[];
 }
 
+export interface CashShiftArchiveFilters {
+  branchId?: string;
+  cashierId?: string;
+  status?: Shift['status'];
+  shiftNumber?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  limit: number;
+  offset: number;
+}
+
+export interface CashShiftArchivePage {
+  shifts: Shift[];
+  totalCount: number;
+  limit: number;
+  offset: number;
+  hasMore: boolean;
+  cashiers: Array<{ id: string; name: string }>;
+}
+
 export interface OperationalExpenseInput {
   branchId: string;
   category: string;
@@ -389,6 +409,44 @@ export async function fetchExpenseShiftCenterFromSupabase(
         : null,
     recentShifts: Array.isArray(payload.recentShifts)
       ? payload.recentShifts.map((item) => mapShift(item as RpcRecord))
+      : [],
+  };
+}
+
+export async function fetchCashShiftArchivePageFromSupabase(
+  input: CashShiftArchiveFilters
+): Promise<CashShiftArchivePage> {
+  const { data, error } = await requireClient().rpc('get_cash_shift_archive_page', {
+    p_branch_id: input.branchId || null,
+    p_cashier_id: input.cashierId || null,
+    p_status: input.status || null,
+    p_shift_number: input.shiftNumber?.trim() || null,
+    p_date_from: input.dateFrom || null,
+    p_date_to: input.dateTo || null,
+    p_limit: input.limit,
+    p_offset: input.offset,
+  });
+  if (error) throw new Error(error.message || 'تعذر تحميل أرشيف الورديات.');
+
+  const payload = (data || {}) as RpcRecord;
+  if (payload.success !== true) {
+    throw new Error(textValue(payload.message) || 'تعذر تحميل أرشيف الورديات.');
+  }
+
+  return {
+    shifts: Array.isArray(payload.items)
+      ? payload.items.map((item) => mapShift(item as RpcRecord))
+      : [],
+    totalCount: Math.max(0, Number(payload.totalCount) || 0),
+    limit: Math.max(1, Number(payload.limit) || input.limit),
+    offset: Math.max(0, Number(payload.offset) || 0),
+    hasMore: payload.hasMore === true,
+    cashiers: Array.isArray(payload.cashiers)
+      ? payload.cashiers.flatMap((item) => {
+          const record = item as RpcRecord;
+          const id = textValue(record.id);
+          return id ? [{ id, name: textValue(record.name) || 'مستخدم النظام' }] : [];
+        })
       : [],
   };
 }
