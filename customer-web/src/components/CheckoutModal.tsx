@@ -48,6 +48,7 @@ import {
   createOrderFingerprint,
   createPromotionContextKey,
   MAX_GUEST_ORDER_LINE_ITEMS,
+  MAX_GUEST_DELIVERY_DETAILS_LENGTH,
   getOrCreateIdempotencyKey,
   getOrCreateGuestOrderSessionId,
   extractGoogleMapsCoordinates,
@@ -633,7 +634,7 @@ export function CheckoutModal({
                   بدون تسجيل دخول
                 </span>
               </div>
-              <p className="mt-1 text-[10px] font-bold text-slate-400">
+              <p className="mt-1 text-[10px] font-bold text-slate-500">
                 {settingsUnavailable && !receipt
                   ? 'إعدادات الطلب غير متاحة مؤقتًا'
                   : `${packagesCount.toLocaleString('ar-JO')} طرد • ${formatJod(receipt?.totalInMinorUnits ?? checkoutTotal)}`}
@@ -772,7 +773,7 @@ export function CheckoutModal({
                       <div key={item.productId} className="flex items-center justify-between gap-3 py-3">
                         <div className="min-w-0">
                           <p className="truncate text-xs font-black text-slate-900">{item.nameAr}</p>
-                          <p className="mt-1 text-[10px] font-bold text-slate-400">
+                          <p className="mt-1 text-[10px] font-bold text-slate-500">
                             {item.quantity.toLocaleString('ar-JO')} {item.saleUnitNameAr} × {formatJod(item.unitPriceInMinorUnits)}
                           </p>
                         </div>
@@ -860,7 +861,7 @@ export function CheckoutModal({
                   <p className="text-xs font-black text-blue-900">
                     لا تحتاج حسابًا أو كلمة مرور
                   </p>
-                  <p className="mt-1 text-[10px] font-bold leading-5 text-blue-700/80">
+                  <p className="mt-1 text-[10px] font-bold leading-5 text-blue-800">
                     نستخدم رقم هاتفك فقط لربط طلباتك بملف عميل واحد والتواصل
                     معك بخصوص التوصيل.
                   </p>
@@ -891,7 +892,7 @@ export function CheckoutModal({
                         <p className="truncate text-[11px] font-black text-slate-900">
                           {item.nameAr}
                         </p>
-                        <p className="mt-1 text-[9px] font-bold text-slate-400">
+                        <p className="mt-1 text-[9px] font-bold text-slate-500">
                           {item.quantity.toLocaleString('ar-JO')}{' '}
                           {item.saleUnitNameAr} ×{' '}
                           {formatJod(item.unitPriceInMinorUnits)}
@@ -906,44 +907,6 @@ export function CheckoutModal({
                   ))}
                 </div>
               </details>
-
-              <section className="mb-5 rounded-3xl border border-sky-200 bg-gradient-to-br from-sky-50 to-white p-4">
-                <div className="mb-3 flex items-start gap-3">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-sky-600 text-white"><Truck className="h-5 w-5" /></span>
-                  <div>
-                    <p className="text-xs font-black text-sky-950">أين عنوان التوصيل؟</p>
-                    <p className="mt-1 text-[10px] font-bold leading-5 text-sky-700">اختر المنطقة ليظهر المجموع النهائي شامل أجرة التوصيل.</p>
-                  </div>
-                </div>
-                <div className="grid gap-2 sm:grid-cols-2">
-                  {([
-                    ['inside_ramtha', 'داخل الرمثا', storefrontSettings.insideRamthaDeliveryFeeInMinorUnits],
-                    ['outside_ramtha', 'خارج الرمثا', storefrontSettings.outsideRamthaDeliveryFeeInMinorUnits],
-                  ] as const).map(([zone, label, fee]) => (
-                    <button
-                      key={zone}
-                      type="button"
-                      aria-pressed={deliveryZone === zone}
-                      onClick={() => {
-                        setDeliveryZone(zone);
-                        setSubmitError('');
-                        if (zone === 'inside_ramtha') {
-                          setForm((current) => ({ ...current, governorate: 'إربد', city: 'الرمثا' }));
-                          setErrors((current) => ({ ...current, governorate: undefined, city: undefined }));
-                        }
-                      }}
-                      className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-right transition ${deliveryZone === zone ? 'border-sky-600 bg-sky-600 text-white shadow-lg shadow-sky-900/15' : 'border-slate-200 bg-white text-slate-800 hover:border-sky-300'}`}
-                    >
-                      <span><strong className="block text-xs font-black">{label}</strong><span className={`mt-1 block text-[9px] font-bold ${deliveryZone === zone ? 'text-sky-100' : 'text-slate-400'}`}>أجرة التوصيل</span></span>
-                      <strong className="text-sm font-black">{formatJod(fee)}</strong>
-                    </button>
-                  ))}
-                </div>
-                <div className="mt-3 flex items-center justify-between rounded-2xl bg-slate-950 px-4 py-3 text-white">
-                  <span className="text-[10px] font-bold text-slate-300">الإجمالي شامل التوصيل</span>
-                  <strong className="text-base font-black text-emerald-300">{formatJod(checkoutTotal)}</strong>
-                </div>
-              </section>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field
@@ -1029,35 +992,26 @@ export function CheckoutModal({
                   />
                 </Field>
 
-                <Field
-                  label="رقم المحل أو المبنى"
-                  error={errors.building}
-                >
-                  <input
-                    value={form.building}
-                    onChange={(event) =>
-                      setField('building', event.target.value)
-                    }
-                    placeholder="اختياري"
-                    className={inputClassName}
-                  />
-                </Field>
-
                 <div className="sm:col-span-2">
                   <Field
-                    label="تفاصيل العنوان"
+                    label="تفاصيل العنوان والتوصيل"
                     required
                     error={errors.street}
                   >
-                    <input
+                    <textarea
                       autoComplete="street-address"
                       value={form.street}
                       onChange={(event) =>
                         setField('street', event.target.value)
                       }
-                      placeholder="الشارع، أقرب معلم، اسم المحل..."
-                      className={inputClassName}
+                      maxLength={MAX_GUEST_DELIVERY_DETAILS_LENGTH}
+                      placeholder="رقم المحل أو المبنى، الشارع، أقرب معلم، وقت التوصيل أو أي ملاحظة مهمة..."
+                      rows={3}
+                      className={`${inputClassName} resize-none`}
                     />
+                    <p className="mt-1.5 text-[10px] font-bold text-slate-500">
+                      اكتب كل ما يحتاجه المندوب هنا دون تكرار. {form.street.length}/{MAX_GUEST_DELIVERY_DETAILS_LENGTH}
+                    </p>
                   </Field>
                 </div>
 
@@ -1207,6 +1161,47 @@ export function CheckoutModal({
                   </Field>
                 </div>
 
+              </div>
+
+              <section className="mb-5 rounded-3xl border border-sky-200 bg-gradient-to-br from-sky-50 to-white p-4">
+                <div className="mb-3 flex items-start gap-3">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-sky-600 text-white"><Truck className="h-5 w-5" /></span>
+                  <div>
+                    <p className="text-xs font-black text-sky-950">منطقة التوصيل</p>
+                    <p className="mt-1 text-[10px] font-bold leading-5 text-sky-700">اختر المنطقة ليظهر المجموع النهائي شامل أجرة التوصيل.</p>
+                  </div>
+                </div>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {([
+                    ['inside_ramtha', 'داخل الرمثا', storefrontSettings.insideRamthaDeliveryFeeInMinorUnits],
+                    ['outside_ramtha', 'خارج الرمثا', storefrontSettings.outsideRamthaDeliveryFeeInMinorUnits],
+                  ] as const).map(([zone, label, fee]) => (
+                    <button
+                      key={zone}
+                      type="button"
+                      aria-pressed={deliveryZone === zone}
+                      onClick={() => {
+                        setDeliveryZone(zone);
+                        setSubmitError('');
+                        if (zone === 'inside_ramtha') {
+                          setForm((current) => ({ ...current, governorate: 'إربد', city: 'الرمثا' }));
+                          setErrors((current) => ({ ...current, governorate: undefined, city: undefined }));
+                        }
+                      }}
+                      className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-right transition ${deliveryZone === zone ? 'border-sky-600 bg-sky-600 text-white shadow-lg shadow-sky-900/15' : 'border-slate-200 bg-white text-slate-800 hover:border-sky-300'}`}
+                    >
+                      <span><strong className="block text-xs font-black">{label}</strong><span className={`mt-1 block text-[9px] font-bold ${deliveryZone === zone ? 'text-sky-100' : 'text-slate-400'}`}>أجرة التوصيل</span></span>
+                      <strong className="text-sm font-black">{formatJod(fee)}</strong>
+                    </button>
+                  ))}
+                </div>
+                <div className="mt-3 flex items-center justify-between rounded-2xl bg-slate-950 px-4 py-3 text-white">
+                  <span className="text-[10px] font-bold text-slate-300">الإجمالي شامل التوصيل</span>
+                  <strong className="text-base font-black text-emerald-300">{formatJod(checkoutTotal)}</strong>
+                </div>
+              </section>
+
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div className="sm:col-span-2 rounded-3xl border border-violet-200 bg-violet-50 p-4">
                   <div className="mb-3 flex items-start gap-2">
                     <BadgePercent className="mt-0.5 h-5 w-5 shrink-0 text-violet-700" />
@@ -1295,35 +1290,6 @@ export function CheckoutModal({
                   {readSavedGuestCustomer(window.localStorage) && <button type="button" onClick={() => { clearSavedGuestCustomer(window.localStorage); setSaveCustomerDetails(false); setForm(EMPTY_GUEST_CHECKOUT_FORM); }} className="mt-3 inline-flex items-center gap-1.5 text-[10px] font-black text-rose-600"><Trash2 className="h-3.5 w-3.5" />مسح البيانات المحفوظة</button>}
                 </div>
 
-                <Field
-                  label="ملاحظات على العنوان"
-                  error={errors.addressNotes}
-                >
-                  <textarea
-                    value={form.addressNotes}
-                    onChange={(event) =>
-                      setField('addressNotes', event.target.value)
-                    }
-                    placeholder="الطابق، وقت التوصيل المناسب..."
-                    rows={3}
-                    className={`${inputClassName} resize-none`}
-                  />
-                </Field>
-
-                <Field
-                  label="ملاحظات على الطلب"
-                  error={errors.customerNotes}
-                >
-                  <textarea
-                    value={form.customerNotes}
-                    onChange={(event) =>
-                      setField('customerNotes', event.target.value)
-                    }
-                    placeholder="أي ملاحظة إضافية (اختياري)"
-                    rows={3}
-                    className={`${inputClassName} resize-none`}
-                  />
-                </Field>
               </div>
 
               {submitError && (

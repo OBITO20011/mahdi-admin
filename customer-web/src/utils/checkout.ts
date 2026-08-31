@@ -23,6 +23,12 @@ export const GUEST_ORDER_SESSION_STORAGE_KEY =
  * Kept in sync with the Edge gateway and PostgreSQL checkout core.
  */
 export const MAX_GUEST_ORDER_LINE_ITEMS = 50;
+/**
+ * Matches the public checkout RPC validation for p_street. Keeping this in
+ * the browser prevents a long delivery instruction from being cut off by the
+ * gateway before it reaches PostgreSQL.
+ */
+export const MAX_GUEST_DELIVERY_DETAILS_LENGTH = 300;
 
 const PENDING_ORDER_TTL_MS = 24 * 60 * 60 * 1000;
 export const SAVED_GUEST_CUSTOMER_TTL_MS = 30 * 24 * 60 * 60 * 1000;
@@ -175,6 +181,9 @@ export function validateGuestCheckout(
   if (!form.city.trim()) errors.city = 'اكتب المدينة.';
   if (!form.area.trim()) errors.area = 'اكتب المنطقة أو الحي.';
   if (!form.street.trim()) errors.street = 'اكتب تفاصيل العنوان.';
+  else if (form.street.trim().length > MAX_GUEST_DELIVERY_DETAILS_LENGTH) {
+    errors.street = `تفاصيل العنوان والتوصيل يجب ألا تتجاوز ${MAX_GUEST_DELIVERY_DETAILS_LENGTH} حرفًا.`;
+  }
 
   const mapsUrl = form.googleMapsUrl.trim();
   if (mapsUrl && !isSupportedGoogleMapsUrl(mapsUrl)) {

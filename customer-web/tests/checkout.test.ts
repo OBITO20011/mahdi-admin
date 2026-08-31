@@ -14,6 +14,7 @@ import {
   PENDING_ORDER_STORAGE_KEY,
   GUEST_ORDER_SESSION_STORAGE_KEY,
   MAX_GUEST_ORDER_LINE_ITEMS,
+  MAX_GUEST_DELIVERY_DETAILS_LENGTH,
   buildGuestOrderItems,
   buildGoogleMapsUrl,
   buildWhatsAppOrderMessage,
@@ -93,6 +94,24 @@ test('guest checkout requires identity and a deliverable address', () => {
   assert.ok(errors.phone);
   assert.ok(errors.area);
   assert.ok(errors.street);
+});
+
+test('delivery details use the RPC length limit before the request is sent', () => {
+  assert.equal(MAX_GUEST_DELIVERY_DETAILS_LENGTH, 300);
+  assert.deepEqual(
+    validateGuestCheckout({
+      ...validForm,
+      street: 'أ'.repeat(MAX_GUEST_DELIVERY_DETAILS_LENGTH),
+    }),
+    {}
+  );
+  assert.match(
+    validateGuestCheckout({
+      ...validForm,
+      street: 'أ'.repeat(MAX_GUEST_DELIVERY_DETAILS_LENGTH + 1),
+    }).street || '',
+    /300/
+  );
 });
 
 test('current GPS coordinates produce a stable Google Maps link', () => {
