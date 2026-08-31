@@ -16,6 +16,7 @@ import {
   reconcileCart,
   reconcileCartPage,
   reconcileCartSnapshot,
+  restoreLastOrderFromSnapshot,
 } from '../src/utils/cart';
 import { formatJod } from '../src/utils/money';
 
@@ -279,6 +280,84 @@ test('cart snapshots reconcile flavor variants by their exact sellable IDs', () 
 
   assert.equal(result.items.length, 1);
   assert.equal(result.items[0].productId, 'lays-hot');
+  assert.equal(result.items[0].nameAr, 'ليز - حار');
+  assert.equal(result.items[0].unitPriceInMinorUnits, 5000);
+});
+
+test('last-order restoration uses the bounded server snapshot for off-page items and current prices', () => {
+  const offPageProduct = {
+    ...wholesaleProduct,
+    id: 'product-201',
+    sku: 'NWS-0201',
+    salePackagePriceInMinorUnits: 4750,
+    availableSalePackages: 7,
+  };
+
+  const result = restoreLastOrderFromSnapshot(
+    [
+      { productId: wholesaleProduct.id, quantity: 2 },
+      { productId: offPageProduct.id, quantity: 3 },
+    ],
+    [wholesaleProduct, offPageProduct]
+  );
+
+  assert.equal(result.items.length, 2);
+  assert.equal(result.items[1].productId, 'product-201');
+  assert.equal(result.items[1].unitPriceInMinorUnits, 4750);
+  assert.equal(result.items[1].quantity, 3);
+});
+
+test('last-order restoration clamps stock and explicitly reports unavailable products', () => {
+  const lowStock = {
+    ...wholesaleProduct,
+    id: 'product-low-stock',
+    availableSalePackages: 2,
+  };
+  const unavailable = {
+    ...wholesaleProduct,
+    id: 'product-unavailable',
+    isAvailable: false,
+    availableSalePackages: 0,
+  };
+
+  const result = restoreLastOrderFromSnapshot(
+    [
+      { productId: lowStock.id, quantity: 6 },
+      { productId: unavailable.id, quantity: 1 },
+    ],
+    [lowStock, unavailable]
+  );
+
+  assert.equal(result.items.length, 1);
+  assert.equal(result.items[0].quantity, 2);
+  assert.equal(result.quantityAdjustments, 1);
+  assert.equal(result.unavailableItems, 1);
+});
+
+test('last-order restoration preserves exact flavor variant identities', () => {
+  const cheese = {
+    ...wholesaleProduct,
+    id: 'lays-cheese',
+    nameAr: 'ليز - جبنة',
+    flavorMasterProductId: 'lays-master',
+    flavorNameAr: 'جبنة',
+  };
+  const hot = {
+    ...wholesaleProduct,
+    id: 'lays-hot',
+    nameAr: 'ليز - حار',
+    flavorMasterProductId: 'lays-master',
+    flavorNameAr: 'حار',
+    salePackagePriceInMinorUnits: 5000,
+  };
+
+  const result = restoreLastOrderFromSnapshot(
+    [{ productId: hot.id, quantity: 2 }],
+    [cheese, hot]
+  );
+
+  assert.equal(result.items.length, 1);
+  assert.equal(result.items[0].productId, hot.id);
   assert.equal(result.items[0].nameAr, 'ليز - حار');
   assert.equal(result.items[0].unitPriceInMinorUnits, 5000);
 });

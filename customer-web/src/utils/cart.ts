@@ -56,6 +56,59 @@ export interface CartSnapshotReconciliation {
   removedUnavailableItems: number;
 }
 
+export interface LastOrderSnapshotItem {
+  productId: string;
+  quantity: number;
+}
+
+export interface LastOrderSnapshotRestoration {
+  items: CartItem[];
+  unavailableItems: number;
+  quantityAdjustments: number;
+}
+
+/**
+ * Rebuilds a previous order only from the current, server-supplied snapshot.
+ * The saved order is used solely for product identity and requested quantity;
+ * price, availability and package limits always come from the snapshot.
+ */
+export function restoreLastOrderFromSnapshot(
+  savedItems: LastOrderSnapshotItem[],
+  snapshotProducts: CatalogProduct[]
+): LastOrderSnapshotRestoration {
+  const requestedQuantityByProductId = new Map<string, number>();
+  for (const savedItem of savedItems) {
+    if (!savedItem.productId) continue;
+    const requestedQuantity = Math.max(1, Math.floor(savedItem.quantity || 1));
+    requestedQuantityByProductId.set(
+      savedItem.productId,
+      (requestedQuantityByProductId.get(savedItem.productId) ?? 0) + requestedQuantity
+    );
+  }
+
+  const productsById = new Map(
+    snapshotProducts.map((product) => [product.id, product])
+  );
+  let unavailableItems = 0;
+  let quantityAdjustments = 0;
+
+  const items = Array.from(requestedQuantityByProductId.entries()).flatMap(
+    ([productId, requestedQuantity]) => {
+      const product = productsById.get(productId);
+      if (!product || !product.isAvailable || product.availableSalePackages < 1) {
+        unavailableItems += 1;
+        return [];
+      }
+
+      const quantity = Math.min(requestedQuantity, product.availableSalePackages);
+      if (quantity !== requestedQuantity) quantityAdjustments += 1;
+      return [{ ...createCartItem(product), quantity }];
+    }
+  );
+
+  return { items, unavailableItems, quantityAdjustments };
+}
+
 /**
  * Applies a server snapshot only to the exact cart IDs that were requested.
  * Items added while the request was in flight stay untouched; a requested ID

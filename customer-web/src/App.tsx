@@ -54,9 +54,9 @@ import {
   calculateCartPackages,
   calculateCartSubtotal,
   createCartItem,
-  reconcileCart,
   reconcileCartPage,
   reconcileCartSnapshot,
+  restoreLastOrderFromSnapshot,
 } from './utils/cart';
 import {
   CatalogAvailabilityFilter,
@@ -194,6 +194,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   );
   const [cartOpen, setCartOpen] = useState(false);
   const [isRefreshingCart, setIsRefreshingCart] = useState(false);
+  const [isRepeatingLastOrder, setIsRepeatingLastOrder] = useState(false);
   const [cartSnapshotNotice, setCartSnapshotNotice] = useState<string | null>(null);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
@@ -225,6 +226,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     key: string;
     promise: Promise<CartSnapshotResult>;
   } | null>(null);
+  const pendingRepeatLastOrderRef = useRef<Promise<void> | null>(null);
   const sellableProducts = useMemo(
     () =>
       products.flatMap((product) =>
@@ -922,20 +924,54 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const openPromotionOffers = () => navigateStorePage('offers');
 
   const repeatLastOrder = () => {
-    if (!lastGuestOrder) return;
-    const restored = lastGuestOrder.items.flatMap((saved) => {
-      const product = sellableProducts.find((item) => item.id === saved.productId);
-      if (!product?.isAvailable) return [];
-      return [{ ...createCartItem(product), quantity: Math.min(saved.quantity, product.availableSalePackages) }];
+    if (!lastGuestOrder || pendingRepeatLastOrderRef.current) return;
+
+    const request = (async () => {
+      setIsRepeatingLastOrder(true);
+      try {
+        const snapshotProducts = await fetchPublicCartSnapshot(
+          lastGuestOrder.items.map((item) => item.productId)
+        );
+        const restoration = restoreLastOrderFromSnapshot(
+          lastGuestOrder.items,
+          snapshotProducts
+        );
+        const notices: string[] = [];
+        if (restoration.unavailableItems > 0) {
+          notices.push('بعض أصناف الطلب السابق لم تعد متاحة للبيع ولم تُضف إلى السلة.');
+        }
+        if (restoration.quantityAdjustments > 0) {
+          notices.push('تم تعديل كمية بعض الأصناف إلى المتاح حاليًا.');
+        }
+
+        if (restoration.items.length === 0) {
+          const notice = notices[0] ?? 'أصناف الطلب السابق لم تعد متاحة للبيع.';
+          setCartSnapshotNotice(notice);
+          showToast(notice, 'info');
+          return;
+        }
+
+        const successNotice = `تمت إعادة ${restoration.items.length.toLocaleString('ar-JO')} أصناف من طلبك السابق بالأسعار الحالية.`;
+        const notice = [successNotice, ...notices].join(' ');
+        setCartItems(restoration.items);
+        setCartSnapshotNotice(notice);
+        setCartOpen(true);
+        showToast(notice, notices.length > 0 ? 'info' : 'success');
+      } catch {
+        const notice = 'تعذر التحقق من أصناف الطلب السابق. حاول مرة أخرى.';
+        setCartSnapshotNotice(notice);
+        showToast(notice, 'error');
+      } finally {
+        setIsRepeatingLastOrder(false);
+      }
+    })();
+
+    pendingRepeatLastOrderRef.current = request;
+    void request.finally(() => {
+      if (pendingRepeatLastOrderRef.current === request) {
+        pendingRepeatLastOrderRef.current = null;
+      }
     });
-    if (restored.length === 0) {
-      showToast('أصناف الطلب السابق غير متوفرة حاليًا.', 'info');
-      return;
-    }
-    const restoredCartItems = reconcileCart(restored, sellableProducts);
-    setCartItems(restoredCartItems);
-    openCart(restoredCartItems);
-    showToast(`تمت إعادة ${restored.length.toLocaleString('ar-JO')} أصناف متوفرة من طلبك السابق.`);
   };
 
   return (
@@ -1194,7 +1230,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                 <label className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-[10px] font-black text-slate-500">نوع الطرد<select value={selectedSaleUnit} onChange={(event) => { setCatalogOffset(0); setSelectedSaleUnit(event.target.value); }} className="min-w-0 flex-1 bg-transparent text-xs font-black text-slate-800 outline-none"><option value="all">جميع أنواع الطرود</option>{saleUnits.map((saleUnit) => <option key={saleUnit.id} value={saleUnit.id}>{saleUnit.nameAr}</option>)}</select></label>
               </div>
 
-              {lastGuestOrder && <button type="button" onClick={repeatLastOrder} className="mt-3 w-full rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-xs font-black text-blue-800">إعادة آخر طلب ({lastGuestOrder.orderNumber})</button>}
+              {lastGuestOrder && <button type="button" onClick={repeatLastOrder} disabled={isRepeatingLastOrder} className="mt-3 w-full rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-xs font-black text-blue-800 disabled:cursor-wait disabled:opacity-60">{isRepeatingLastOrder ? 'جارٍ التحقق من أصناف الطلب...' : `إعادة آخر طلب (${lastGuestOrder.orderNumber})`}</button>}
 
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2 px-1">
                 <p className="text-[10px] font-bold text-slate-600">
