@@ -170,6 +170,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     offers: [] as CatalogProduct[],
     lowStock: [] as CatalogProduct[],
   });
+  const [featuredProductsLoading, setFeaturedProductsLoading] = useState(true);
+  const [featuredProductsError, setFeaturedProductsError] = useState<string | null>(null);
   const [cartItems, setCartItems] = useState<CartItem[]>(readStoredCart);
   const [favoriteProductIds, setFavoriteProductIds] = useState<string[]>(
     readStoredFavorites
@@ -228,6 +230,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     offers: null,
     settings: null,
   });
+  const pendingFeaturedProductsRef = useRef<Promise<void> | null>(null);
   const catalogRequestSequenceRef = useRef(0);
   const catalogRequestKeyRef = useRef('');
   const pendingCartSnapshotRef = useRef<{
@@ -349,18 +352,34 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   );
 
   const loadFeaturedProducts = useCallback(async () => {
-    const [newest, bestSellers, offers, lowStock] = await Promise.all([
-      fetchPublicProductCatalog({ limit: 6, sort: 'newest' }),
-      fetchPublicProductCatalog({ limit: 6, sort: 'best_sellers' }),
-      fetchPublicProductCatalog({ limit: 6, sort: 'offers' }),
-      fetchPublicProductCatalog({ limit: 6, sort: 'low_stock' }),
-    ]);
-    setFeaturedProducts({
-      newest: newest.items,
-      bestSellers: bestSellers.items,
-      offers: offers.items,
-      lowStock: lowStock.items,
-    });
+    if (pendingFeaturedProductsRef.current) return pendingFeaturedProductsRef.current;
+    const request = (async () => {
+      setFeaturedProductsLoading(true);
+      setFeaturedProductsError(null);
+      try {
+        const [newest, bestSellers, offers, lowStock] = await Promise.all([
+          fetchPublicProductCatalog({ limit: 6, sort: 'newest' }),
+          fetchPublicProductCatalog({ limit: 6, sort: 'best_sellers' }),
+          fetchPublicProductCatalog({ limit: 6, sort: 'offers' }),
+          fetchPublicProductCatalog({ limit: 6, sort: 'low_stock' }),
+        ]);
+        setFeaturedProducts({
+          newest: newest.items,
+          bestSellers: bestSellers.items,
+          offers: offers.items,
+          lowStock: lowStock.items,
+        });
+      } catch (error) {
+        console.error('[Storefront featured products]', error);
+        setFeaturedProducts({ newest: [], bestSellers: [], offers: [], lowStock: [] });
+        setFeaturedProductsError('تعذر تحميل الاختيارات المميزة حاليًا.');
+      } finally {
+        setFeaturedProductsLoading(false);
+        pendingFeaturedProductsRef.current = null;
+      }
+    })();
+    pendingFeaturedProductsRef.current = request;
+    return request;
   }, []);
 
   const loadCatalogRef = useRef(loadCatalog);
@@ -430,9 +449,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   useEffect(() => {
     void loadStorefrontSettings(true);
     void loadStorefrontOffers(true);
-    void loadFeaturedProducts().catch((error: unknown) => {
-      console.error('[Storefront featured products]', error);
-    });
+    void loadFeaturedProducts();
     const handleFocus = () => {
       if (document.visibilityState !== 'visible') return;
       void loadCatalogRef.current(true);
@@ -447,9 +464,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       void loadCatalogRef.current(true, true);
       void loadStorefrontSettings(true);
       void loadStorefrontOffers(true);
-      void loadFeaturedProducts().catch((error: unknown) => {
-        console.error('[Storefront featured products]', error);
-      });
+      void loadFeaturedProducts();
     };
     const handleOffline = () => setIsOnline(false);
     window.addEventListener('focus', handleFocus);
@@ -1162,6 +1177,9 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           bestSellers={settingsTrusted && storefrontSettings.showBestSellers ? bestSellerProducts : []}
           offers={settingsTrusted && storefrontSettings.showOffers ? offerProducts : []}
           lowStock={settingsTrusted && storefrontSettings.showLowStock ? lowStockProducts : []}
+          isLoading={featuredProductsLoading}
+          error={featuredProductsError}
+          onRetry={() => void loadFeaturedProducts()}
           onOpenProduct={openProductDetails}
           onShowAll={showAllProducts}
         />

@@ -3,7 +3,6 @@ import {
   Boxes,
   CheckCircle2,
   Copy,
-  ImageOff,
   Heart,
   Minus,
   PackageCheck,
@@ -18,6 +17,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { CatalogProduct } from '../types/catalog';
 import { formatJod } from '../utils/money';
 import { CargoAddButton } from './CargoAddButton';
+import { ProductImage } from './ProductImage';
 import {
   buildProductShareUrl,
   calculateProductSelectionTotal,
@@ -258,22 +258,13 @@ export function ProductDetailsModal({
           <div className="grid sm:grid-cols-[0.9fr_1.1fr]">
             <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50 p-4 sm:p-7">
               <button type="button" onClick={() => setImageZoomed((value) => !value)} aria-label={imageZoomed ? 'تصغير صورة المنتج' : 'تكبير صورة المنتج'} className="relative mx-auto block aspect-[4/3] max-h-[46vh] w-full overflow-hidden rounded-[2rem] border border-white bg-white shadow-[0_24px_70px_-44px_rgba(15,23,42,0.7)] sm:aspect-square sm:max-h-[440px]">
-                {product.imageUrl ? (
-                  <img
-                    src={product.imageUrl}
-                    alt={product.nameAr}
-                    className={`h-full w-full object-contain p-3 transition duration-300 sm:p-5 ${imageZoomed ? 'scale-150' : 'scale-100'}`}
-                  />
-                ) : (
-                  <div className="grid h-full place-items-center text-center text-slate-400">
-                    <div>
-                      <ImageOff className="mx-auto h-14 w-14" />
-                      <p className="mt-3 text-xs font-bold">
-                        لا توجد صورة لهذا المنتج بعد
-                      </p>
-                    </div>
-                  </div>
-                )}
+                <ProductImage
+                  src={product.imageUrl}
+                  alt={product.nameAr}
+                  imageClassName={`h-full w-full object-contain p-3 transition duration-300 sm:p-5 ${imageZoomed ? 'scale-150' : 'scale-100'}`}
+                  fallbackClassName="grid h-full place-items-center text-center text-slate-400"
+                  fallbackLabel="لا توجد صورة لهذا المنتج بعد"
+                />
 
                 <span className="absolute right-4 top-4 rounded-2xl border border-white/80 bg-white/90 px-3 py-2 text-[10px] font-black text-blue-800 shadow-sm backdrop-blur">
                   {product.categoryNameAr}
@@ -353,11 +344,12 @@ export function ProductDetailsModal({
                         >
                           <div className="flex items-center gap-2">
                             <div className="h-9 w-9 shrink-0 overflow-hidden rounded-xl bg-white/80">
-                              {variant.imageUrl ? (
-                                <img src={variant.imageUrl} alt={variant.flavorNameAr} className="h-full w-full object-contain" />
-                              ) : (
-                                <Tag className="m-2.5 h-4 w-4 text-violet-400" />
-                              )}
+                              <ProductImage
+                                src={variant.imageUrl}
+                                alt={variant.flavorNameAr}
+                                imageClassName="h-full w-full object-contain"
+                                fallbackClassName="grid h-full place-items-center text-violet-400"
+                              />
                             </div>
                             <div className="min-w-0">
                               <strong className="block truncate text-[10px] font-black">
@@ -488,17 +480,11 @@ export function ProductDetailsModal({
                     className="flex w-64 shrink-0 items-center gap-3 rounded-3xl border border-slate-200 bg-white p-3 text-right transition hover:border-blue-200 hover:shadow-md"
                   >
                     <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-slate-100">
-                      {relatedProduct.imageUrl ? (
-                        <img
-                          src={relatedProduct.imageUrl}
-                          alt={relatedProduct.nameAr}
-                          className="h-full w-full object-contain p-1"
-                        />
-                      ) : (
-                        <div className="grid h-full place-items-center text-slate-400">
-                          <ImageOff className="h-5 w-5" />
-                        </div>
-                      )}
+                      <ProductImage
+                        src={relatedProduct.imageUrl}
+                        alt={relatedProduct.nameAr}
+                        imageClassName="h-full w-full object-contain p-1"
+                      />
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-xs font-black text-slate-900">

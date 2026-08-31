@@ -1,7 +1,6 @@
 import {
   Eye,
   Heart,
-  ImageOff,
   Minus,
   PackagePlus,
   Plus,
@@ -12,6 +11,7 @@ import { formatJod } from '../utils/money';
 import { CargoAddButton } from './CargoAddButton';
 import { buildProductShareUrl } from '../utils/productDetails';
 import { isLowStockProduct } from '../utils/catalogView';
+import { ProductImage } from './ProductImage';
 
 interface ProductCardProps {
   product: CatalogProduct;
@@ -53,21 +53,13 @@ export function ProductCard({
         aria-label={`عرض تفاصيل ${product.nameAr}`}
         className="relative block aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-slate-50 to-blue-50 text-right"
       >
-        {product.imageUrl ? (
-          <img
-            src={product.imageUrl}
-            alt={product.nameAr}
-            loading="lazy"
-            className="h-full w-full object-contain p-3 transition duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <div className="grid h-full place-items-center">
-            <div className="text-center text-slate-400">
-              <ImageOff className="mx-auto h-9 w-9" />
-              <p className="mt-2 text-[10px] font-bold">لا توجد صورة بعد</p>
-            </div>
-          </div>
-        )}
+        <ProductImage
+          src={product.imageUrl}
+          alt={product.nameAr}
+          imageClassName="h-full w-full object-contain p-3 transition duration-500 group-hover:scale-105"
+          fallbackClassName="grid h-full place-items-center text-slate-400"
+          fallbackLabel="لا توجد صورة بعد"
+        />
 
         <div className="absolute right-3 top-3 rounded-xl border border-white/60 bg-white/90 px-2.5 py-1 text-[10px] font-extrabold text-blue-800 shadow-sm backdrop-blur">
           {hasVariants

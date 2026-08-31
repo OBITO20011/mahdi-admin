@@ -3,13 +3,13 @@ import {
   ChevronLeft,
   ChevronRight,
   Flame,
-  ImageOff,
   PackageOpen,
   Sparkles,
 } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { CatalogProduct } from '../types/catalog';
 import { formatJod } from '../utils/money';
+import { ProductImage } from './ProductImage';
 
 interface MerchandisingSectionsProps {
   newest: CatalogProduct[];
@@ -18,6 +18,9 @@ interface MerchandisingSectionsProps {
   lowStock: CatalogProduct[];
   onOpenProduct: (product: CatalogProduct) => void;
   onShowAll: () => void;
+  isLoading?: boolean;
+  error?: string | null;
+  onRetry?: () => void;
 }
 
 const sectionMeta = {
@@ -227,19 +230,11 @@ function ProductRail({
             aria-label={`عرض تفاصيل ${product.nameAr}`}
           >
             <span className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[1.35rem] border border-slate-100 bg-white shadow-sm">
-              {product.imageUrl ? (
-                <img
-                  src={product.imageUrl}
-                  alt={product.nameAr}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-contain p-1.5 transition duration-500 group-hover:scale-105"
-                />
-              ) : (
-                <span className="grid h-full place-items-center text-slate-300">
-                  <ImageOff className="h-6 w-6" aria-hidden="true" />
-                </span>
-              )}
+              <ProductImage
+                src={product.imageUrl}
+                alt={product.nameAr}
+                imageClassName="h-full w-full object-contain p-1.5 transition duration-500 group-hover:scale-105"
+              />
             </span>
 
             <span className="min-w-0 flex-1">
@@ -292,10 +287,36 @@ export function MerchandisingSections({
   lowStock,
   onOpenProduct,
   onShowAll,
+  isLoading = false,
+  error = null,
+  onRetry,
 }: MerchandisingSectionsProps) {
-  if (![newest, bestSellers, offers, lowStock].some((items) => items.length > 0)) return null;
+  const hasProducts = [newest, bestSellers, offers, lowStock].some((items) => items.length > 0);
+  if (!hasProducts && !isLoading && !error) return null;
   return (
     <section className="mx-auto max-w-7xl px-4 pb-8 lg:px-8" aria-label="اختيارات المتجر">
+      {!hasProducts && (
+        <div className="rounded-3xl border border-slate-200 bg-white px-5 py-6 text-center shadow-sm" role={isLoading ? 'status' : 'alert'}>
+          <p className="text-sm font-black text-slate-800">
+            {isLoading ? 'نجهّز لك اختيارات مناسبة من المتجر…' : 'تعذر تحميل الاختيارات المميزة حاليًا.'}
+          </p>
+          {!isLoading && (
+            <>
+              <p className="mt-2 text-xs font-bold text-slate-500">يمكنك متابعة تصفح المنتجات أو المحاولة مرة أخرى.</p>
+              {onRetry && (
+                <button
+                  type="button"
+                  onClick={onRetry}
+                  className="mt-4 inline-flex min-h-11 items-center justify-center rounded-2xl border border-blue-200 bg-blue-50 px-5 text-xs font-black text-blue-700 transition hover:bg-blue-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                >
+                  إعادة المحاولة
+                </button>
+              )}
+            </>
+          )}
+        </div>
+      )}
+      {hasProducts && (
       <div className="mb-4 flex items-end justify-between gap-3">
         <div>
           <p className="text-[10px] font-black text-blue-600">اختيارات سريعة</p>
@@ -309,12 +330,13 @@ export function MerchandisingSections({
           عرض جميع المنتجات
         </button>
       </div>
-      <div className="grid gap-4 lg:grid-cols-2">
+      )}
+      {hasProducts && <div className="grid gap-4 lg:grid-cols-2">
         <ProductRail kind="newest" products={newest} onOpenProduct={onOpenProduct} />
         <ProductRail kind="bestSellers" products={bestSellers} onOpenProduct={onOpenProduct} />
         <ProductRail kind="offers" products={offers} onOpenProduct={onOpenProduct} />
         <ProductRail kind="lowStock" products={lowStock} onOpenProduct={onOpenProduct} />
-      </div>
+      </div>}
     </section>
   );
 }

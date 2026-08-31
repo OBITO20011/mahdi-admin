@@ -1,7 +1,6 @@
 import {
   AlertTriangle,
   ArrowLeft,
-  ImageOff,
   LockKeyhole,
   Minus,
   Plus,
@@ -15,6 +14,7 @@ import { CartItem } from '../types/catalog';
 import { calculateCartPackages, calculateCartSubtotal } from '../utils/cart';
 import { formatJod } from '../utils/money';
 import { CheckoutProgress } from './CheckoutProgress';
+import { ProductImage } from './ProductImage';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -219,17 +219,11 @@ export function CartDrawer({
                 >
                   <div className="flex gap-3">
                     <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-slate-100">
-                      {item.imageUrl ? (
-                        <img
-                          src={item.imageUrl}
-                          alt={item.nameAr}
-                          className="h-full w-full object-contain p-1"
-                        />
-                      ) : (
-                        <div className="grid h-full place-items-center text-slate-400">
-                          <ImageOff className="h-5 w-5" />
-                        </div>
-                      )}
+                      <ProductImage
+                        src={item.imageUrl}
+                        alt={item.nameAr}
+                        imageClassName="h-full w-full object-contain p-1"
+                      />
                     </div>
 
                     <div className="min-w-0 flex-1">
