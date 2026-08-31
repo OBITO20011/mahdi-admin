@@ -159,3 +159,57 @@ test('checkout keeps all required delivery data while showing one non-duplicated
       .map((violation) => ({ id: violation.id, nodes: violation.nodes.map((node) => node.target) }))
   ).toEqual([]);
 });
+
+test('Turnstile retry requires a fresh token before the submit action is enabled', async ({ page }) => {
+  await page.addInitScript(() => {
+    const testWindow = window as typeof window & {
+      __turnstileRenders?: number;
+      turnstile?: {
+        render: (_container: HTMLElement, options: {
+          callback: (token: string) => void;
+          'error-callback': () => void;
+        }) => string;
+        reset: () => void;
+        remove: () => void;
+      };
+    };
+    testWindow.__turnstileRenders = 0;
+    testWindow.turnstile = {
+      render: (_container, options) => {
+        testWindow.__turnstileRenders = (testWindow.__turnstileRenders ?? 0) + 1;
+        const attempt = testWindow.__turnstileRenders;
+        queueMicrotask(() => {
+          // React Strict Mode may mount twice; neither initial render can
+          // provide a token. Only an explicit retry creates one.
+          if (attempt <= 2) options['error-callback']();
+          else options.callback(`fresh-test-token-${attempt}`);
+        });
+        return `test-widget-${attempt}`;
+      },
+      reset: () => undefined,
+      remove: () => undefined,
+    };
+  });
+  await mockStorefront(page);
+  await page.goto(`${customerBaseUrl}/#catalog`, { waitUntil: 'domcontentloaded' });
+  await page.getByRole('button', { name: `إضافة ${product.nameAr} إلى السلة` }).click();
+  await page.getByRole('button', { name: /فتح السلة/ }).click();
+  await page.getByRole('button', { name: 'إتمام الطلب بدون تسجيل دخول' }).click();
+
+  const checkout = page.getByRole('dialog').filter({ has: page.getByRole('heading', { name: 'إتمام طلب الجملة' }) });
+  await checkout.getByLabel('الاسم الكامل*').fill('عميل إعادة تحقق');
+  await checkout.getByLabel('رقم الهاتف*').fill('0791234567');
+  await checkout.getByLabel('المنطقة أو الحي*').fill('الحي الشرقي');
+  await checkout.getByRole('button', { name: 'مراجعة الطلب قبل الإرسال' }).click();
+
+  const review = page.getByRole('dialog', { name: 'راجع طلبك قبل الإرسال' });
+  const submit = review.getByRole('button', { name: 'تأكيد وحفظ الطلب في الإدارة' });
+  await expect(review.getByRole('alert')).toContainText('تعذر تحميل التحقق الأمني');
+  await expect(submit).toBeDisabled();
+  await review.getByRole('button', { name: 'إعادة التحقق' }).click();
+  await expect(review.getByText('تم التحقق الأمني وجاهز للإرسال.')).toBeVisible();
+  await expect(submit).toBeEnabled();
+  expect(await page.evaluate(() => (window as typeof window & {
+    __turnstileRenders?: number;
+  }).__turnstileRenders)).toBeGreaterThanOrEqual(3);
+});
