@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import type { CatalogProduct } from '../types/catalog';
 
 interface StoreHeaderProps {
-  activePage: 'home' | 'categories' | 'catalog' | 'offers';
+  activePage: 'home' | 'categories' | 'catalog' | 'favorites' | 'offers';
   searchQuery: string;
   onSearchChange: (value: string) => void;
   cartPackages: number;

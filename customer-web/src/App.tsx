@@ -2,6 +2,7 @@ import {
   AlertTriangle,
   Boxes,
   CheckCircle2,
+  Heart,
   ListFilter,
   PackageSearch,
   RefreshCw,
@@ -72,12 +73,13 @@ interface ToastState {
   type: 'success' | 'error' | 'info';
 }
 
-type StorePage = 'home' | 'categories' | 'catalog' | 'offers';
+type StorePage = 'home' | 'categories' | 'catalog' | 'favorites' | 'offers';
 
 function readStorePageFromHash(): StorePage {
   if (typeof window === 'undefined') return 'home';
   if (window.location.hash === '#categories') return 'categories';
   if (window.location.hash === '#catalog') return 'catalog';
+  if (window.location.hash === '#favorites') return 'favorites';
   if (window.location.hash === '#offers') return 'offers';
   return 'home';
 }
@@ -181,7 +183,6 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const [offersLoading, setOffersLoading] = useState(true);
   const [offersLoadError, setOffersLoadError] = useState<string | null>(null);
   const [preferredPromotionCode, setPreferredPromotionCode] = useState('');
-  const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [availabilityFilter, setAvailabilityFilter] =
@@ -270,6 +271,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     []
   );
 
+  const favoritesActive = activePage === 'favorites';
+
   const catalogQuery = useMemo<PublicCatalogQuery>(
     () => ({
       limit: STOREFRONT_CATALOG_PAGE_SIZE,
@@ -280,13 +283,13 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       sort: sortOption,
       brandId: selectedBrand === 'all' ? undefined : selectedBrand,
       saleUnitId: selectedSaleUnit === 'all' ? undefined : selectedSaleUnit,
-      productIds: favoritesOnly ? favoriteProductIds : undefined,
+      productIds: favoritesActive ? favoriteProductIds : undefined,
     }),
     [
       availabilityFilter,
       catalogOffset,
       favoriteProductIds,
-      favoritesOnly,
+      favoritesActive,
       searchQuery,
       selectedBrand,
       selectedCategory,
@@ -648,6 +651,32 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       ),
     [cartQuantityByProduct, products]
   );
+  const resolvedFavoriteProductIds = useMemo(
+    () =>
+      new Set(
+        products.flatMap((product) => [
+          product.id,
+          ...product.variants.map((variant) => variant.id),
+        ])
+      ),
+    [products]
+  );
+  const missingFavoriteProductCount = useMemo(
+    () =>
+      favoriteProductIds.filter(
+        (productId) => !resolvedFavoriteProductIds.has(productId)
+      ).length,
+    [favoriteProductIds, resolvedFavoriteProductIds]
+  );
+  const favoriteProducts = useMemo(
+    () =>
+      products.filter(
+        (product) =>
+          favoriteProductIds.includes(product.id) ||
+          product.variants.some((variant) => favoriteProductIds.includes(variant.id))
+      ),
+    [favoriteProductIds, products]
+  );
   const selectedProduct = useMemo(
     () =>
       products.find((product) => product.id === selectedProductId) ??
@@ -678,8 +707,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     availabilityFilter !== 'all' ||
     sortOption !== 'recommended' ||
     selectedBrand !== 'all' ||
-    selectedSaleUnit !== 'all' ||
-    favoritesOnly;
+    selectedSaleUnit !== 'all';
 
   const brands = catalogBrands;
   const saleUnits = catalogSaleUnits;
@@ -874,7 +902,6 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     setSortOption('recommended');
     setSelectedBrand('all');
     setSelectedSaleUnit('all');
-    setFavoritesOnly(false);
     setCatalogOffset(0);
   };
 
@@ -909,13 +936,15 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     scrollToCatalog();
   };
 
-  const toggleFavoritesView = () => {
-    if (favoriteProductIds.length === 0 && !favoritesOnly) {
-      showToast('اضغط رمز القلب على أي منتج لإضافته إلى المفضلة.', 'info');
-    }
+  const openFavorites = () => {
+    setSearchQuery('');
+    setSelectedCategory('all');
+    setAvailabilityFilter('all');
+    setSortOption('recommended');
+    setSelectedBrand('all');
+    setSelectedSaleUnit('all');
     setCatalogOffset(0);
-    setFavoritesOnly((current) => !current);
-    scrollToCatalog();
+    navigateStorePage('favorites');
   };
 
   const toggleProductFavorite = (product: CatalogProduct) => {
@@ -1089,9 +1118,9 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         }}
         cartPackages={cartPackages}
         favoritesCount={favoriteProductIds.length}
-        favoritesActive={favoritesOnly}
+        favoritesActive={favoritesActive}
         onCartOpen={() => openCart()}
-        onFavoritesOpen={toggleFavoritesView}
+        onFavoritesOpen={openFavorites}
         onMenuOpen={() => setCategoriesOpen(true)}
         onCategoriesOpen={() => navigateStorePage('categories')}
         onHome={() => navigateStorePage('home')}
@@ -1456,6 +1485,138 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
             </div>
           </div>
         </section>
+        )}
+
+        {activePage === 'favorites' && (
+          <section
+            id="favorites"
+            data-testid="favorites-page"
+            className="relative z-10 min-h-[70vh] py-8 pb-24 sm:py-12"
+          >
+            <div className="mx-auto max-w-7xl px-4 lg:px-8">
+              <div className="rounded-[2rem] border border-rose-100 bg-white/95 p-5 shadow-xl shadow-slate-900/5 backdrop-blur sm:p-7">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <div className="inline-flex items-center gap-2 text-rose-600">
+                      <Heart className="h-5 w-5 fill-current" />
+                      <span className="text-xs font-black">قائمة خاصة بك</span>
+                    </div>
+                    <h2 className="mt-2 text-2xl font-black text-slate-950">
+                      المنتجات المفضلة
+                    </h2>
+                    <p className="mt-2 text-xs leading-6 text-slate-500">
+                      احتفظنا باختياراتك على هذا الجهاز لتعود إليها بسهولة.
+                    </p>
+                  </div>
+                  {favoriteProductIds.length > 0 && (
+                    <span className="inline-flex w-fit items-center rounded-full bg-rose-50 px-3 py-1.5 text-xs font-black text-rose-700">
+                      {favoriteProductIds.length.toLocaleString('ar-JO')} منتجات محفوظة
+                    </span>
+                  )}
+                </div>
+
+                {favoriteProductIds.length === 0 ? (
+                  <div
+                    data-testid="favorites-empty-state"
+                    className="mt-7 rounded-[1.75rem] border border-dashed border-rose-200 bg-rose-50/50 px-5 py-12 text-center"
+                  >
+                    <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-white text-rose-500 shadow-sm">
+                      <Heart className="h-6 w-6" />
+                    </div>
+                    <h3 className="mt-5 text-lg font-black text-slate-900">
+                      مفضلتك فارغة حاليًا
+                    </h3>
+                    <p className="mx-auto mt-2 max-w-md text-xs leading-6 text-slate-500">
+                      أضف المنتجات التي تهمك عبر رمز القلب لتجدها هنا بسرعة.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={showAllProducts}
+                      className="mt-6 inline-flex min-h-11 items-center justify-center rounded-2xl bg-blue-700 px-5 py-3 text-xs font-black text-white transition hover:bg-blue-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+                    >
+                      تصفح المنتجات
+                    </button>
+                  </div>
+                ) : isLoading ? (
+                  <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {Array.from({ length: Math.min(4, favoriteProductIds.length) }).map((_, index) => (
+                      <div
+                        key={index}
+                        className="h-[430px] animate-pulse rounded-[1.75rem] border border-slate-200 bg-slate-50 p-4"
+                      >
+                        <div className="h-52 rounded-3xl bg-slate-100" />
+                        <div className="mt-5 h-4 w-2/3 rounded bg-slate-100" />
+                        <div className="mt-3 h-3 w-1/3 rounded bg-slate-100" />
+                      </div>
+                    ))}
+                  </div>
+                ) : loadError && favoriteProducts.length === 0 ? (
+                  <div className="mt-7 rounded-[1.75rem] border border-rose-200 bg-rose-50/50 p-8 text-center">
+                    <AlertTriangle className="mx-auto h-9 w-9 text-rose-500" />
+                    <h3 className="mt-4 text-base font-black text-slate-900">
+                      تعذر تحديث المفضلة الآن
+                    </h3>
+                    <p className="mx-auto mt-2 max-w-md text-xs leading-6 text-slate-500">
+                      لم نعرض معلومات قديمة عن السعر أو التوفر. حاول مرة أخرى.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => void loadCatalog(false, true)}
+                      className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-2xl bg-blue-700 px-5 py-3 text-xs font-black text-white"
+                    >
+                      <RefreshCw className="h-4 w-4" />
+                      إعادة المحاولة
+                    </button>
+                  </div>
+                ) : favoriteProducts.length === 0 ? (
+                  <div className="mt-7 rounded-[1.75rem] border border-amber-200 bg-amber-50/60 p-8 text-center">
+                    <AlertTriangle className="mx-auto h-9 w-9 text-amber-600" />
+                    <h3 className="mt-4 text-base font-black text-slate-900">
+                      لا توجد منتجات مفضلة قابلة للعرض الآن
+                    </h3>
+                    <p className="mx-auto mt-2 max-w-md text-xs leading-6 text-slate-600">
+                      قد تكون بعض المنتجات قد حُذفت أو لم تعد متاحة للبيع. أبقينا قائمتك محفوظة كما هي.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={showAllProducts}
+                      className="mt-5 inline-flex min-h-11 items-center justify-center rounded-2xl bg-blue-700 px-5 py-3 text-xs font-black text-white"
+                    >
+                      تصفح المنتجات
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    {missingFavoriteProductCount > 0 && (
+                      <div className="mt-6 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs leading-6 text-amber-900">
+                        <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" />
+                        <p>
+                          بعض العناصر المحفوظة لم تعد متاحة للعرض حاليًا. أبقيناها في قائمتك ولم نحذفها تلقائيًا.
+                        </p>
+                      </div>
+                    )}
+                    <div
+                      data-testid="favorites-products-grid"
+                      className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                    >
+                      {favoriteProducts.map((product) => (
+                        <ProductCard
+                          key={product.id}
+                          product={product}
+                          cartQuantity={catalogCartQuantityByProduct.get(product.id) || 0}
+                          isFavorite={favoriteProductIds.includes(product.id)}
+                          onAdd={addToCart}
+                          onQuantityChange={updateCartQuantity}
+                          onOpenDetails={openProductDetails}
+                          onToggleFavorite={toggleProductFavorite}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </section>
         )}
 
         {activePage === 'home' && (

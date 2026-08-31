@@ -52,7 +52,7 @@ test('storefront fixed offer maps fils to JOD once', () => {
 test('offers navigation opens a dedicated route instead of a fallback category', () => {
   assert.match(
     storefrontApp,
-    /type StorePage = 'home' \| 'categories' \| 'catalog' \| 'offers'/
+    /type StorePage = 'home' \| 'categories' \| 'catalog' \| 'favorites' \| 'offers'/
   );
   assert.match(storefrontApp, /window\.location\.hash === '#offers'/);
   assert.match(storefrontApp, /navigateStorePage\('offers'\)/);
