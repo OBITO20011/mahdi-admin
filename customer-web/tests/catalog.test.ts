@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
+  buildCartSnapshotBatches,
   deriveCatalogCategories,
   groupCatalogFlavorFamilies,
   mapCatalogCategory,
@@ -14,6 +15,7 @@ import {
   createCartItem,
   reconcileCart,
   reconcileCartPage,
+  reconcileCartSnapshot,
 } from '../src/utils/cart';
 import { formatJod } from '../src/utils/money';
 
@@ -185,4 +187,98 @@ test('a page refresh preserves cart items that are outside the current catalog p
   assert.equal(reconciled.length, 2);
   assert.equal(reconciled[0].maxAvailablePackages, 2);
   assert.equal(reconciled[1].productId, 'product-201');
+});
+
+test('cart snapshots stay bounded to cart product IDs and deduplicate requests', () => {
+  const batches = buildCartSnapshotBatches([
+    'product-201',
+    'product-201',
+    ...Array.from({ length: 48 }, (_, index) => `product-${index}`),
+  ]);
+
+  assert.equal(batches.length, 2);
+  assert.equal(batches[0].length, 48);
+  assert.equal(batches[1].length, 1);
+  assert.equal(new Set(batches.flat()).size, 49);
+});
+
+test('an off-page cart item receives its current server price and stock', () => {
+  const staleOffPageItem = {
+    ...createCartItem(wholesaleProduct),
+    productId: 'product-201',
+    unitPriceInMinorUnits: 3000,
+    maxAvailablePackages: 8,
+    quantity: 6,
+  };
+  const refreshedOffPageProduct = {
+    ...wholesaleProduct,
+    id: 'product-201',
+    salePackagePriceInMinorUnits: 4250,
+    availableSalePackages: 2,
+  };
+
+  const result = reconcileCartSnapshot(
+    [staleOffPageItem],
+    [refreshedOffPageProduct],
+    ['product-201']
+  );
+
+  assert.equal(result.items[0].unitPriceInMinorUnits, 4250);
+  assert.equal(result.items[0].maxAvailablePackages, 2);
+  assert.equal(result.items[0].quantity, 2);
+  assert.equal(result.priceChanges, 1);
+  assert.equal(result.quantityAdjustments, 1);
+});
+
+test('a cart snapshot removes an item no longer sellable and preserves unrelated in-flight additions', () => {
+  const unavailable = {
+    ...wholesaleProduct,
+    id: 'product-unavailable',
+    isAvailable: false,
+    availableSalePackages: 0,
+  };
+  const laterAddition = {
+    ...createCartItem(wholesaleProduct),
+    productId: 'added-while-refreshing',
+  };
+
+  const result = reconcileCartSnapshot(
+    [{ ...createCartItem(unavailable) }, laterAddition],
+    [unavailable],
+    ['product-unavailable']
+  );
+
+  assert.deepEqual(result.items, [laterAddition]);
+  assert.equal(result.removedUnavailableItems, 1);
+});
+
+test('cart snapshots reconcile flavor variants by their exact sellable IDs', () => {
+  const cheese = {
+    ...wholesaleProduct,
+    id: 'lays-cheese',
+    nameAr: 'ليز - جبنة',
+    flavorMasterProductId: 'lays-master',
+    flavorNameAr: 'جبنة',
+    availableSalePackages: 1,
+  };
+  const hot = {
+    ...wholesaleProduct,
+    id: 'lays-hot',
+    nameAr: 'ليز - حار',
+    flavorMasterProductId: 'lays-master',
+    flavorNameAr: 'حار',
+    salePackagePriceInMinorUnits: 5000,
+    availableSalePackages: 5,
+  };
+
+  const result = reconcileCartSnapshot(
+    [{ ...createCartItem(hot), quantity: 2 }],
+    [cheese, hot],
+    ['lays-hot']
+  );
+
+  assert.equal(result.items.length, 1);
+  assert.equal(result.items[0].productId, 'lays-hot');
+  assert.equal(result.items[0].nameAr, 'ليز - حار');
+  assert.equal(result.items[0].unitPriceInMinorUnits, 5000);
 });

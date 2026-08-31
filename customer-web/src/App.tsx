@@ -32,6 +32,7 @@ import { StoreHero } from './components/StoreHero';
 import { StoreInfoSection } from './components/StoreInfoSection';
 import { DEFAULT_STOREFRONT_SETTINGS } from './config/store';
 import {
+  fetchPublicCartSnapshot,
   fetchPublicProductCatalog,
   STOREFRONT_CATALOG_PAGE_SIZE,
 } from './services/catalog.service';
@@ -55,6 +56,7 @@ import {
   createCartItem,
   reconcileCart,
   reconcileCartPage,
+  reconcileCartSnapshot,
 } from './utils/cart';
 import {
   CatalogAvailabilityFilter,
@@ -100,6 +102,10 @@ const EMPTY_CATALOG_SUMMARY: CatalogSummary = {
 };
 
 type StorefrontResource = 'catalog' | 'offers' | 'settings';
+
+interface CartSnapshotResult {
+  items: CartItem[];
+}
 
 function readStoredFavorites(): string[] {
   try {
@@ -187,6 +193,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     typeof navigator === 'undefined' ? true : navigator.onLine
   );
   const [cartOpen, setCartOpen] = useState(false);
+  const [isRefreshingCart, setIsRefreshingCart] = useState(false);
+  const [cartSnapshotNotice, setCartSnapshotNotice] = useState<string | null>(null);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [trackingOpen, setTrackingOpen] = useState(false);
@@ -213,6 +221,10 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   });
   const catalogRequestSequenceRef = useRef(0);
   const catalogRequestKeyRef = useRef('');
+  const pendingCartSnapshotRef = useRef<{
+    key: string;
+    promise: Promise<CartSnapshotResult>;
+  } | null>(null);
   const sellableProducts = useMemo(
     () =>
       products.flatMap((product) =>
@@ -653,6 +665,73 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     addQuantityToCart(product, 1);
   };
 
+  const refreshCartSnapshot = useCallback(async (
+    itemsToRefresh: CartItem[] = cartItems
+  ): Promise<CartSnapshotResult> => {
+    const snapshotProductIds = Array.from(
+      new Set(itemsToRefresh.map((item) => item.productId).filter(Boolean))
+    );
+    if (snapshotProductIds.length === 0) return { items: [] };
+
+    const snapshotKey = snapshotProductIds.slice().sort().join(',');
+    if (pendingCartSnapshotRef.current?.key === snapshotKey) {
+      return pendingCartSnapshotRef.current.promise;
+    }
+
+    const request = (async () => {
+      setIsRefreshingCart(true);
+      try {
+        const snapshotProducts = await fetchPublicCartSnapshot(snapshotProductIds);
+        const reconciliation = reconcileCartSnapshot(
+          itemsToRefresh,
+          snapshotProducts,
+          snapshotProductIds
+        );
+        setCartItems((currentItems) =>
+          reconcileCartSnapshot(
+            currentItems,
+            snapshotProducts,
+            snapshotProductIds
+          ).items
+        );
+
+        const notices: string[] = [];
+        if (reconciliation.priceChanges > 0) {
+          notices.push('تم تحديث سعر بعض الأصناف.');
+        }
+        if (reconciliation.quantityAdjustments > 0) {
+          notices.push('تم تعديل الكمية إلى المتاح حاليًا.');
+        }
+        if (reconciliation.removedUnavailableItems > 0) {
+          notices.push('تمت إزالة أصناف لم تعد متاحة للبيع.');
+        }
+        setCartSnapshotNotice(notices.length > 0 ? notices.join(' ') : null);
+        return { items: reconciliation.items };
+      } finally {
+        setIsRefreshingCart(false);
+      }
+    })();
+
+    pendingCartSnapshotRef.current = { key: snapshotKey, promise: request };
+    try {
+      return await request;
+    } finally {
+      if (pendingCartSnapshotRef.current?.promise === request) {
+        pendingCartSnapshotRef.current = null;
+      }
+    }
+  }, [cartItems]);
+
+  const openCart = useCallback((itemsToRefresh?: CartItem[]) => {
+    setCartOpen(true);
+    void refreshCartSnapshot(itemsToRefresh).catch((error: unknown) => {
+      const message = error instanceof Error
+        ? error.message
+        : 'تعذر التحقق من سعر ومخزون السلة. حاول مرة أخرى.';
+      setCartSnapshotNotice(message);
+    });
+  }, [refreshCartSnapshot]);
+
   const openProductDetails = useCallback((product: CatalogProduct) => {
     setSelectedProductId(product.id);
     const nextHash = `#product=${encodeURIComponent(
@@ -782,8 +861,20 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     });
   }, []);
 
-  const openCheckout = () => {
-    if (cartItems.length === 0) {
+  const openCheckout = async () => {
+    let currentCartItems: CartItem[];
+    try {
+      currentCartItems = (await refreshCartSnapshot()).items;
+    } catch (error) {
+      showToast(
+        error instanceof Error
+          ? error.message
+          : 'تعذر التحقق من سعر ومخزون السلة. حاول مرة أخرى.',
+        'error'
+      );
+      return;
+    }
+    if (currentCartItems.length === 0) {
       showToast('السلة فارغة. أضف طردًا أولًا.', 'info');
       return;
     }
@@ -800,7 +891,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       showToast('الطلبات متوقفة مؤقتًا من إدارة المتجر. تواصل معنا عبر واتساب.', 'info');
       return;
     }
-    if (cartSubtotal < storefrontSettings.minimumOrderInMinorUnits) {
+    const refreshedCartSubtotal = calculateCartSubtotal(currentCartItems);
+    if (refreshedCartSubtotal < storefrontSettings.minimumOrderInMinorUnits) {
       showToast(`الحد الأدنى للطلب هو ${(storefrontSettings.minimumOrderInMinorUnits / 1000).toFixed(3)} د.أ.`, 'info');
       return;
     }
@@ -821,7 +913,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     void navigator.clipboard?.writeText(offer.code).catch(() => undefined);
     showToast(`تم تجهيز رمز ${offer.code}. سيظهر تلقائيًا عند إتمام الطلب.`);
     if (cartItems.length > 0) {
-      setCartOpen(true);
+      openCart();
       return;
     }
     showAllProducts();
@@ -840,8 +932,9 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       showToast('أصناف الطلب السابق غير متوفرة حاليًا.', 'info');
       return;
     }
-    setCartItems(reconcileCart(restored, sellableProducts));
-    setCartOpen(true);
+    const restoredCartItems = reconcileCart(restored, sellableProducts);
+    setCartItems(restoredCartItems);
+    openCart(restoredCartItems);
     showToast(`تمت إعادة ${restored.length.toLocaleString('ar-JO')} أصناف متوفرة من طلبك السابق.`);
   };
 
@@ -861,7 +954,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         cartPackages={cartPackages}
         favoritesCount={favoriteProductIds.length}
         favoritesActive={favoritesOnly}
-        onCartOpen={() => setCartOpen(true)}
+        onCartOpen={openCart}
         onFavoritesOpen={toggleFavoritesView}
         onMenuOpen={() => setCategoriesOpen(true)}
         onCategoriesOpen={() => navigateStorePage('categories')}
@@ -1327,6 +1420,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         }
         onClear={() => setCartItems([])}
         onCheckout={openCheckout}
+        isRefreshingSnapshot={isRefreshingCart}
+        snapshotNotice={cartSnapshotNotice}
         checkoutDisabled={!settingsTrusted}
         checkoutBlockedMessage={
           settingsUnavailable
@@ -1364,7 +1459,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         }}
       />
 
-      <MobileStoreNav cartPackages={cartPackages} cartTotal={cartSubtotal} whatsappUrl={storeWhatsappUrl} onHome={() => navigateStorePage('home')} onCategories={() => navigateStorePage('categories')} onSearch={() => { setActivePage('catalog'); if (window.location.hash !== '#catalog') window.history.pushState(null, '', '#catalog'); setSearchOpenSignal((value) => value + 1); }} onCart={() => setCartOpen(true)} />
+      <MobileStoreNav cartPackages={cartPackages} cartTotal={cartSubtotal} whatsappUrl={storeWhatsappUrl} onHome={() => navigateStorePage('home')} onCategories={() => navigateStorePage('categories')} onSearch={() => { setActivePage('catalog'); if (window.location.hash !== '#catalog') window.history.pushState(null, '', '#catalog'); setSearchOpenSignal((value) => value + 1); }} onCart={openCart} />
 
       <FloatingContactActions whatsappUrl={storeWhatsappUrl} />
 

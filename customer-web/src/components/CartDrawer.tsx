@@ -24,6 +24,8 @@ interface CartDrawerProps {
   onRemove: (productId: string) => void;
   onClear: () => void;
   onCheckout: () => void;
+  isRefreshingSnapshot?: boolean;
+  snapshotNotice?: string | null;
   checkoutDisabled?: boolean;
   checkoutBlockedMessage?: string;
   onRetryCheckoutSettings?: () => void;
@@ -37,6 +39,8 @@ export function CartDrawer({
   onRemove,
   onClear,
   onCheckout,
+  isRefreshingSnapshot = false,
+  snapshotNotice,
   checkoutDisabled = false,
   checkoutBlockedMessage,
   onRetryCheckoutSettings,
@@ -303,6 +307,16 @@ export function CartDrawer({
             </div>
 
             <div className="shrink-0 border-t border-slate-100 bg-slate-50 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 sm:p-5">
+              {(isRefreshingSnapshot || snapshotNotice) && (
+                <div
+                  role="status"
+                  className="mb-3 rounded-2xl border border-sky-200 bg-sky-50 p-3 text-[10px] font-bold leading-5 text-sky-900"
+                >
+                  {isRefreshingSnapshot
+                    ? 'جارٍ التحقق من سعر ومخزون السلة.'
+                    : snapshotNotice}
+                </div>
+              )}
               {checkoutDisabled && (
                 <div
                   role="alert"
@@ -344,10 +358,10 @@ export function CartDrawer({
               <button
                 type="button"
                 onClick={onCheckout}
-                disabled={checkoutDisabled}
+                disabled={checkoutDisabled || isRefreshingSnapshot}
                 className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-700 px-5 py-3.5 text-sm font-black text-white shadow-lg shadow-blue-900/20 transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none sm:mt-4 sm:py-4"
               >
-                {checkoutDisabled
+                {checkoutDisabled || isRefreshingSnapshot
                   ? 'إتمام الطلب غير متاح مؤقتًا'
                   : 'إتمام الطلب بدون تسجيل دخول'}
                 <ArrowLeft className="h-4 w-4" />

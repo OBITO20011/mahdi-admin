@@ -12,6 +12,7 @@ type RawCatalogItem = Record<string, unknown>;
 
 export const STOREFRONT_CATALOG_PAGE_SIZE = 24;
 const STOREFRONT_CATALOG_MAX_PAGE_SIZE = 48;
+export const STOREFRONT_CART_SNAPSHOT_BATCH_SIZE = 48;
 
 function textValue(value: unknown): string {
   return typeof value === 'string' ? value : '';
@@ -206,6 +207,23 @@ export function deriveCatalogCategories(
   );
 }
 
+export function buildCartSnapshotBatches(productIds: string[]): string[][] {
+  const uniqueProductIds = Array.from(
+    new Set(productIds.filter((productId) => Boolean(productId)))
+  );
+  const batches: string[][] = [];
+  for (
+    let index = 0;
+    index < uniqueProductIds.length;
+    index += STOREFRONT_CART_SNAPSHOT_BATCH_SIZE
+  ) {
+    batches.push(
+      uniqueProductIds.slice(index, index + STOREFRONT_CART_SNAPSHOT_BATCH_SIZE)
+    );
+  }
+  return batches;
+}
+
 export async function fetchPublicProductCatalog(
   query: PublicCatalogQuery = {}
 ): Promise<CatalogResponse> {
@@ -276,4 +294,34 @@ export async function fetchPublicProductCatalog(
     limit: integerValue(data?.limit, requestedLimit),
     offset: integerValue(data?.offset),
   };
+}
+
+/**
+ * Reads only the cart's exact sellable product IDs. The catalog RPC groups
+ * flavor families for rendering, so flatten the response back to sellable
+ * rows before reconciling the cart by product ID.
+ */
+export async function fetchPublicCartSnapshot(
+  productIds: string[]
+): Promise<CatalogProduct[]> {
+  const batches = buildCartSnapshotBatches(productIds);
+  if (batches.length === 0) return [];
+
+  try {
+    const responses = await Promise.all(
+      batches.map((productIdsBatch) =>
+        fetchPublicProductCatalog({
+          limit: productIdsBatch.length,
+          productIds: productIdsBatch,
+        })
+      )
+    );
+    return responses.flatMap((response) =>
+      response.items.flatMap((product) =>
+        product.variants.length > 0 ? product.variants : [product]
+      )
+    );
+  } catch {
+    throw new Error('تعذر التحقق من سعر ومخزون السلة. حاول مرة أخرى.');
+  }
 }

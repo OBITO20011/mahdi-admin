@@ -72,7 +72,7 @@ test('settings failures block checkout and retry returns through the same loader
   assert.match(app, /setSettingsUnavailable\(true\)/);
   assert.match(app, /loadStorefrontSettings\(true\)/);
   assert.match(app, /checkoutDisabled=\{!settingsTrusted\}/);
-  assert.match(cart, /disabled=\{checkoutDisabled\}/);
+  assert.match(cart, /disabled=\{checkoutDisabled \|\| isRefreshingSnapshot\}/);
   assert.match(app, /settingsUnavailable=\{settingsUnavailable\}/);
   assert.match(checkout, /settingsUnavailable/);
   assert.match(checkout, /لن نعرض رسوم توصيل أو حدًا أدنى غير موثوقين/);
