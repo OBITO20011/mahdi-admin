@@ -41,6 +41,7 @@ const STATUS_LABELS: Record<string, string> = {
   completed: 'مكتمل',
   cancelled: 'ملغي',
   returned: 'مرتجع',
+  expired: 'انتهت مهلة الحجز',
 };
 
 const STATUS_COLORS: Record<string, string> = {
@@ -54,6 +55,7 @@ const STATUS_COLORS: Record<string, string> = {
   completed: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300',
   cancelled: 'border-rose-500/30 bg-rose-500/10 text-rose-300',
   returned: 'border-orange-500/30 bg-orange-500/10 text-orange-300',
+  expired: 'border-slate-600 bg-slate-800 text-slate-300',
 };
 
 const PAYMENT_METHOD_LABELS: Record<string, string> = {

@@ -82,6 +82,10 @@ function getStatusBadge(status: OrderStatus | string) {
       label: 'ملغي',
       color: 'border-slate-600 bg-slate-800 text-slate-400',
     },
+    expired: {
+      label: 'انتهت مهلة الحجز',
+      color: 'border-slate-600 bg-slate-800 text-slate-400',
+    },
   };
   return (
     badges[status] || {

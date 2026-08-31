@@ -63,6 +63,10 @@ const ORDER_STATUS: Record<string, { label: string; className: string }> = {
     label: 'ملغي',
     className: 'border-rose-500/30 bg-rose-500/10 text-rose-300',
   },
+  expired: {
+    label: 'انتهت مهلة الحجز',
+    className: 'border-slate-600 bg-slate-800 text-slate-300',
+  },
 };
 
 const ACTIVE_ORDER_STATUSES = new Set([

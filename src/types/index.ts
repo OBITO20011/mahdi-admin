@@ -262,7 +262,8 @@ export type OrderStatus =
   | 'delivered'
   | 'completed'
   | 'cancelled'
-  | 'returned';
+  | 'returned'
+  | 'expired';
 
 export type PaymentMethod =
   | 'cash'

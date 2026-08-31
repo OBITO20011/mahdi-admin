@@ -388,6 +388,7 @@ const statusLabel = (status: string) => ({
   out_for_delivery: 'بالتوصيل',
   completed: 'مكتملة',
   cancelled: 'ملغاة',
+  expired: 'انتهت مهلة الحجز',
 }[status] || status || 'غير محددة');
 
 const buildDirectDebtAnswer = (dashboard: DashboardPayload) => {

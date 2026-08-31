@@ -37,6 +37,7 @@ const ORDER_STATUS_LABELS: Record<string, string> = {
   delivered: 'مكتمل',
   completed: 'مكتمل',
   cancelled: 'ملغي',
+  expired: 'انتهت مهلة الحجز',
 };
 
 function jordanWhatsappNumber(phone: string) {

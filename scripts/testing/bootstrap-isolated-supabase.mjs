@@ -28,6 +28,26 @@ const isolatedFragment = `    public.supplier_payments,
     public.stock_counts,
     public.supplier_receipt_items,`;
 
+// The local CLI gives every project the same default host ports.  Test
+// runners intentionally use throw-away projects, so remove only stale
+// Nawasrah *test* containers before starting another isolated instance.
+// This never matches the production project or the local n8n container.
+const { stdout: staleContainerIds } = await execFileAsync('docker', [
+  'ps', '-aq', '--filter', 'name=nawasrah-.*-test',
+], { windowsHide: true });
+const staleIds = staleContainerIds.split(/\r?\n/).map((value) => value.trim()).filter(Boolean);
+if (staleIds.length > 0) {
+  await execFileAsync('docker', ['rm', '-f', ...staleIds], { windowsHide: true });
+}
+
+const cleanupProjectContainers = async () => {
+  const { stdout } = await execFileAsync('docker', [
+    'ps', '-aq', '--filter', `name=nawasrah-${isolatedProjectId}`,
+  ], { windowsHide: true });
+  const ids = stdout.split(/\r?\n/).map((value) => value.trim()).filter(Boolean);
+  if (ids.length > 0) await execFileAsync('docker', ['rm', '-f', ...ids], { windowsHide: true });
+};
+
 await mkdir(isolatedSupabaseRoot, { recursive: true });
 await Promise.all([
   cp(path.join(sourceSupabaseRoot, 'config.toml'), isolatedConfigPath),
@@ -76,25 +96,17 @@ await writeFile(
 );
 
 const cliPath = path.join(projectRoot, 'node_modules', 'supabase', 'dist', 'supabase.js');
-await execFileAsync(
-  process.execPath,
-  [cliPath, 'start', '--workdir', temporaryRoot],
-  {
-    cwd: projectRoot,
-    windowsHide: true,
-    maxBuffer: 1024 * 1024,
-  },
-);
-
-await execFileAsync(
-  process.execPath,
-  [cliPath, 'db', 'reset', '--local', '--workdir', temporaryRoot],
-  {
-    cwd: projectRoot,
-    windowsHide: true,
-    maxBuffer: 1024 * 1024,
-  },
-);
+try {
+  await execFileAsync(process.execPath, [cliPath, 'start', '--workdir', temporaryRoot], {
+    cwd: projectRoot, windowsHide: true, maxBuffer: 1024 * 1024, timeout: 120_000,
+  });
+  await execFileAsync(process.execPath, [cliPath, 'db', 'reset', '--local', '--workdir', temporaryRoot], {
+    cwd: projectRoot, windowsHide: true, maxBuffer: 1024 * 1024, timeout: 180_000,
+  });
+} catch (error) {
+  await cleanupProjectContainers();
+  throw error;
+}
 
 console.log(JSON.stringify({
   ok: true,

@@ -13,7 +13,9 @@ const finalBlockersRuntimeSqlPath = path.join(
   scriptDirectory,
   'final-admin-blockers-runtime.sql',
 );
-const isolatedDatabaseContainer = 'supabase_db_nawasrah-phase7-test';
+const isolatedProjectId = 'nawasrah-supplier-payments-test';
+const isolatedDatabaseContainer = `supabase_db_${isolatedProjectId}`;
+let isolatedProjectRoot = '';
 
 const runRuntimeSql = async (sqlPath, label) => {
   const sql = await readFile(sqlPath, 'utf8');
@@ -57,22 +59,34 @@ const runRuntimeSql = async (sqlPath, label) => {
   });
 };
 
-const { stdout: bootstrapOutput } = await execFileAsync(
-  process.execPath,
-  [bootstrapPath],
-  {
-    cwd: projectRoot,
-    windowsHide: true,
-    maxBuffer: 1024 * 1024,
-  },
-);
+if (process.env.NAWASRAH_SKIP_BOOTSTRAP !== '1') {
+  const { stdout: bootstrapOutput } = await execFileAsync(
+    process.execPath,
+    [bootstrapPath],
+    {
+      cwd: projectRoot,
+      env: { ...process.env, NAWASRAH_ISOLATED_PROJECT_ID: isolatedProjectId },
+      windowsHide: true,
+      maxBuffer: 1024 * 1024,
+    },
+  );
 
-const bootstrapResult = JSON.parse(bootstrapOutput);
-if (!bootstrapResult.ok || typeof bootstrapResult.isolatedProjectRoot !== 'string') {
-  throw new Error('The isolated Supabase bootstrap did not return a test project root.');
+  const bootstrapResult = JSON.parse(bootstrapOutput);
+  if (!bootstrapResult.ok || typeof bootstrapResult.isolatedProjectRoot !== 'string') {
+    throw new Error('The isolated Supabase bootstrap did not return a test project root.');
+  }
+  isolatedProjectRoot = bootstrapResult.isolatedProjectRoot;
 }
 
 await runRuntimeSql(runtimeSqlPath, 'supplier-payment');
+if (isolatedProjectRoot) {
+  const cliPath = path.join(projectRoot, 'node_modules', 'supabase', 'dist', 'supabase.js');
+  await execFileAsync(process.execPath, [cliPath, 'db', 'reset', '--local', '--workdir', isolatedProjectRoot], {
+    cwd: projectRoot,
+    windowsHide: true,
+    maxBuffer: 1024 * 1024,
+  });
+}
 await runRuntimeSql(finalBlockersRuntimeSqlPath, 'final-admin-blockers');
 
 console.log(JSON.stringify({

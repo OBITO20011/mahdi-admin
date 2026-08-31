@@ -32,6 +32,7 @@ const STATUS_LABELS: Record<string, string> = {
   completed: 'تم تسليم الطلب',
   returned: 'تم إرجاع الطلب ورد المبلغ',
   cancelled: 'تم إلغاء الطلب',
+  expired: 'انتهت مهلة حجز هذا الطلب',
 };
 
 type TrackingLookup = { orderNumber: string; phone: string };
@@ -199,7 +200,7 @@ export function OrderTrackingModal({
   };
 
   const isExceptionalStatus = result
-    ? result.status === 'cancelled' || result.status === 'returned'
+    ? result.status === 'cancelled' || result.status === 'returned' || result.status === 'expired'
     : false;
 
   return (
@@ -360,6 +361,12 @@ export function OrderTrackingModal({
               {result.status === 'returned' && (
                 <p className="mt-3 rounded-2xl border border-orange-200 bg-white/80 p-3 text-[11px] font-bold leading-5 text-orange-800">
                   تم تسجيل إرجاع هذا الطلب. تواصل مع المتجر إذا احتجت تفاصيل إضافية.
+                </p>
+              )}
+
+              {result.status === 'expired' && (
+                <p className="mt-3 rounded-2xl border border-slate-200 bg-white/80 p-3 text-[11px] font-bold leading-5 text-slate-700">
+                  لم يتم تأكيد الطلب خلال مهلة الحجز، لذلك أُعيدت الكميات إلى المخزون. يمكنك إنشاء طلب جديد عند الحاجة.
                 </p>
               )}
 
