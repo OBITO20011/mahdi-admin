@@ -72,6 +72,26 @@ async function mockStorefront(page: Page) {
 }
 
 test('checkout keeps all required delivery data while showing one non-duplicated details field', async ({ page }) => {
+  await page.addInitScript(() => {
+    const testWindow = window as typeof window & {
+      turnstile?: {
+        render: (
+          container: HTMLElement,
+          options: { callback: (token: string) => void },
+        ) => string;
+        reset: () => void;
+        remove: () => void;
+      };
+    };
+    testWindow.turnstile = {
+      render: (_container, options) => {
+        queueMicrotask(() => options.callback('test-security-token'));
+        return 'checkout-test-widget';
+      },
+      reset: () => undefined,
+      remove: () => undefined,
+    };
+  });
   await mockStorefront(page);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`${customerBaseUrl}/#catalog`, { waitUntil: 'domcontentloaded' });
@@ -88,7 +108,7 @@ test('checkout keeps all required delivery data while showing one non-duplicated
   await expect(checkout.getByLabel('المحافظة*')).toBeVisible();
   await expect(checkout.getByLabel('المدينة*')).toBeVisible();
   await expect(checkout.getByLabel('المنطقة أو الحي*')).toBeVisible();
-  const deliveryDetails = checkout.getByLabel(/تفاصيل العنوان والتوصيل/);
+  const deliveryDetails = checkout.getByLabel(/تفاصيل العنوان والتوصيل \(اختياري\)/);
   await expect(deliveryDetails).toBeVisible();
   await expect(checkout.getByText('منطقة التوصيل')).toBeVisible();
   await expect(checkout.getByText('موقع التوصيل على الخريطة (اختياري)')).toBeVisible();
@@ -110,6 +130,8 @@ test('checkout keeps all required delivery data while showing one non-duplicated
   await checkout.getByRole('button', { name: 'CliQ' }).click();
   await checkout.getByRole('button', { name: 'مراجعة الطلب قبل الإرسال' }).click();
   const review = page.getByRole('dialog', { name: 'راجع طلبك قبل الإرسال' });
+  await expect(review.getByText('تم التحقق الأمني وجاهز للإرسال.')).toBeVisible();
+  await expect(review.getByRole('button', { name: 'تأكيد وحفظ الطلب في الإدارة' })).toBeEnabled();
   const editDetails = review.getByRole('button', { name: 'تعديل البيانات' });
   await expect(editDetails).toBeVisible();
   await editDetails.click();

@@ -67,6 +67,7 @@ import {
 import { formatJod } from '../utils/money';
 import { CheckoutProgress } from './CheckoutProgress';
 import { TurnstileWidget } from './TurnstileWidget';
+import type { TurnstileStatus } from './TurnstileWidget';
 import { PublicStorefrontSettings } from '../types/storefront';
 
 interface CheckoutModalProps {
@@ -163,6 +164,7 @@ export function CheckoutModal({
   const [isReviewing, setIsReviewing] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState('');
   const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
+  const [turnstileStatus, setTurnstileStatus] = useState<TurnstileStatus>('loading');
 
   const displayedItems = receipt ? submittedItems : items;
   const packagesCount = calculateCartPackages(displayedItems);
@@ -828,6 +830,7 @@ export function CheckoutModal({
                       setTurnstileToken(token);
                       if (token) setSubmitError('');
                     }}
+                    onStatusChange={setTurnstileStatus}
                   />
                 </section>
               </div>
@@ -844,8 +847,8 @@ export function CheckoutModal({
               <button type="button" onClick={() => setIsReviewing(false)} disabled={isSubmitting} className="rounded-2xl border border-slate-200 bg-white px-5 py-4 text-xs font-black text-slate-700 disabled:opacity-50">
                 تعديل البيانات
               </button>
-              <button type="button" onClick={() => void handleSubmit()} disabled={isSubmitting || !turnstileToken} className="flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 text-sm font-black text-white shadow-lg shadow-emerald-900/20 transition hover:bg-emerald-700 disabled:bg-slate-300">
-                {isSubmitting ? <><LoaderCircle className="h-5 w-5 animate-spin" /> جارٍ حفظ الطلب...</> : <><CheckCircle2 className="h-5 w-5" /> تأكيد وحفظ الطلب في الإدارة</>}
+              <button type="button" onClick={() => void handleSubmit()} disabled={isSubmitting || !turnstileToken || turnstileStatus !== 'verified'} className="flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 text-sm font-black text-white shadow-lg shadow-emerald-900/20 transition hover:bg-emerald-700 disabled:bg-slate-300">
+                {isSubmitting ? <><LoaderCircle className="h-5 w-5 animate-spin" /> جارٍ حفظ الطلب...</> : turnstileStatus === 'loading' || turnstileStatus === 'waiting' ? <><LoaderCircle className="h-5 w-5 animate-spin" /> جارٍ تجهيز التحقق الأمني...</> : <><CheckCircle2 className="h-5 w-5" /> تأكيد وحفظ الطلب في الإدارة</>}
               </button>
             </footer>
           </div>
@@ -994,8 +997,7 @@ export function CheckoutModal({
 
                 <div className="sm:col-span-2">
                   <Field
-                    label="تفاصيل العنوان والتوصيل"
-                    required
+                    label="تفاصيل العنوان والتوصيل (اختياري)"
                     error={errors.street}
                   >
                     <textarea
@@ -1010,7 +1012,7 @@ export function CheckoutModal({
                       className={`${inputClassName} resize-none`}
                     />
                     <p className="mt-1.5 text-[10px] font-bold text-slate-500">
-                      اكتب كل ما يحتاجه المندوب هنا دون تكرار. {form.street.length}/{MAX_GUEST_DELIVERY_DETAILS_LENGTH}
+                      أضف رقم المبنى أو أقرب معلم أو وقت التوصيل عند الحاجة. {form.street.length}/{MAX_GUEST_DELIVERY_DETAILS_LENGTH}
                     </p>
                   </Field>
                 </div>

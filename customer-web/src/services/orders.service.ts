@@ -9,7 +9,11 @@ import {
   GuestOrderTracking,
   GuestPromotionQuote,
 } from '../types/checkout';
-import { normalizeJordanPhone } from '../utils/checkout';
+import {
+  buildDeliveryAddress,
+  MAX_GUEST_DELIVERY_DETAILS_LENGTH,
+  normalizeJordanPhone,
+} from '../utils/checkout';
 
 type RpcPayload = Record<string, unknown>;
 
@@ -131,6 +135,11 @@ export async function submitGuestCustomerOrder(
     throw new Error('رقم الهاتف الأردني غير صحيح.');
   }
 
+  const deliveryAddress = buildDeliveryAddress(request.customer);
+  if (!deliveryAddress || deliveryAddress.length > MAX_GUEST_DELIVERY_DETAILS_LENGTH) {
+    throw new Error(`تفاصيل العنوان والتوصيل يجب ألا تتجاوز ${MAX_GUEST_DELIVERY_DETAILS_LENGTH} حرفًا.`);
+  }
+
   const data = await invokePublicEdgeFunction<RpcPayload>(
     'submit-guest-order',
     {
@@ -144,7 +153,7 @@ export async function submitGuestCustomerOrder(
         governorate: request.customer.governorate.trim(),
         city: request.customer.city.trim(),
         area: request.customer.area.trim(),
-        street: request.customer.street.trim(),
+        street: deliveryAddress,
         building: request.customer.building.trim(),
         addressNotes: request.customer.addressNotes.trim(),
         googleMapsUrl: request.customer.googleMapsUrl.trim(),

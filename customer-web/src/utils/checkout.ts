@@ -48,6 +48,14 @@ export const EMPTY_GUEST_CHECKOUT_FORM: GuestCheckoutForm = {
   customerNotes: '',
 };
 
+/** Structured delivery fields are the required address; free text supplements them. */
+export function buildDeliveryAddress(form: GuestCheckoutForm): string {
+  return [form.governorate, form.city, form.area, form.street]
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .join(' - ');
+}
+
 export function buildGoogleMapsUrl(
   latitude: number,
   longitude: number
@@ -180,8 +188,7 @@ export function validateGuestCheckout(
   if (!form.governorate.trim()) errors.governorate = 'اختر المحافظة.';
   if (!form.city.trim()) errors.city = 'اكتب المدينة.';
   if (!form.area.trim()) errors.area = 'اكتب المنطقة أو الحي.';
-  if (!form.street.trim()) errors.street = 'اكتب تفاصيل العنوان.';
-  else if (form.street.trim().length > MAX_GUEST_DELIVERY_DETAILS_LENGTH) {
+  if (buildDeliveryAddress(form).length > MAX_GUEST_DELIVERY_DETAILS_LENGTH) {
     errors.street = `تفاصيل العنوان والتوصيل يجب ألا تتجاوز ${MAX_GUEST_DELIVERY_DETAILS_LENGTH} حرفًا.`;
   }
 
@@ -437,13 +444,7 @@ export function buildWhatsAppOrderMessage({
         item.unitPriceInMinorUnits
       )}`
   );
-  const address = [
-    customer.governorate,
-    customer.city,
-    customer.area,
-    customer.street,
-    customer.building,
-  ]
+  const address = [buildDeliveryAddress(customer), customer.building]
     .map((value) => value.trim())
     .filter(Boolean)
     .join(' - ');

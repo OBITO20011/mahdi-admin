@@ -28,6 +28,7 @@ import {
   readLastGuestOrder,
   saveLastGuestOrder,
   getOrCreateIdempotencyKey,
+  buildDeliveryAddress,
   getOrCreateGuestOrderSessionId,
   isSupportedGoogleMapsUrl,
   normalizeJordanPhone,
@@ -81,7 +82,7 @@ test('Jordan phone formats resolve to one guest customer identity', () => {
   assert.equal(normalizeJordanPhone('061234567'), null);
 });
 
-test('guest checkout requires identity and a deliverable address', () => {
+test('guest checkout requires identity and a structured deliverable address', () => {
   assert.deepEqual(validateGuestCheckout(validForm), {});
   const errors = validateGuestCheckout({
     ...validForm,
@@ -93,25 +94,34 @@ test('guest checkout requires identity and a deliverable address', () => {
   assert.ok(errors.fullName);
   assert.ok(errors.phone);
   assert.ok(errors.area);
-  assert.ok(errors.street);
+  assert.equal(errors.street, undefined);
 });
 
 test('delivery details use the RPC length limit before the request is sent', () => {
   assert.equal(MAX_GUEST_DELIVERY_DETAILS_LENGTH, 300);
+  const baseAddressLength = buildDeliveryAddress({...validForm, street: ''}).length;
+  const maxOptionalDetailsLength = MAX_GUEST_DELIVERY_DETAILS_LENGTH - baseAddressLength - 3;
   assert.deepEqual(
     validateGuestCheckout({
       ...validForm,
-      street: 'أ'.repeat(MAX_GUEST_DELIVERY_DETAILS_LENGTH),
+      street: 'أ'.repeat(maxOptionalDetailsLength),
     }),
     {}
   );
   assert.match(
     validateGuestCheckout({
       ...validForm,
-      street: 'أ'.repeat(MAX_GUEST_DELIVERY_DETAILS_LENGTH + 1),
+      street: 'أ'.repeat(maxOptionalDetailsLength + 1),
     }).street || '',
     /300/
   );
+});
+
+test('delivery details are optional while the structured address remains canonical', () => {
+  const withoutDetails = {...validForm, street: ''};
+  assert.equal(buildDeliveryAddress(withoutDetails), 'إربد - الرمثا - الحي الشرقي');
+  assert.deepEqual(validateGuestCheckout(withoutDetails), {});
+  assert.equal(buildDeliveryAddress({...withoutDetails, street: 'بناية 12، اتصل قبل الوصول'}), 'إربد - الرمثا - الحي الشرقي - بناية 12، اتصل قبل الوصول');
 });
 
 test('current GPS coordinates produce a stable Google Maps link', () => {

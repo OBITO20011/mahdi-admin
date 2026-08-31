@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ShieldCheck } from 'lucide-react';
 
 const TURNSTILE_SCRIPT_ID = 'cloudflare-turnstile-script';
@@ -33,7 +33,10 @@ declare global {
 interface TurnstileWidgetProps {
   resetSignal: number;
   onTokenChange: (token: string) => void;
+  onStatusChange?: (status: TurnstileStatus) => void;
 }
+
+export type TurnstileStatus = 'loading' | 'waiting' | 'verified' | 'error';
 
 function configuredSiteKey(): string {
   const value = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim();
@@ -44,11 +47,18 @@ function configuredSiteKey(): string {
 export function TurnstileWidget({
   resetSignal,
   onTokenChange,
+  onStatusChange,
 }: TurnstileWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
   const callbackRef = useRef(onTokenChange);
-  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [status, setStatus] = useState<TurnstileStatus>('loading');
+  const [retryNonce, setRetryNonce] = useState(0);
+
+  const updateStatus = useCallback((nextStatus: TurnstileStatus) => {
+    setStatus(nextStatus);
+    onStatusChange?.(nextStatus);
+  }, [onStatusChange]);
 
   useEffect(() => {
     callbackRef.current = onTokenChange;
@@ -57,7 +67,7 @@ export function TurnstileWidget({
   useEffect(() => {
     const siteKey = configuredSiteKey();
     if (!siteKey) {
-      setStatus('error');
+      updateStatus('error');
       callbackRef.current('');
       return;
     }
@@ -77,25 +87,25 @@ export function TurnstileWidget({
           theme: 'light',
           language: 'ar',
           callback: (token) => {
-            setStatus('ready');
+            updateStatus('verified');
             callbackRef.current(token);
           },
           'expired-callback': () => {
-            setStatus('ready');
+            updateStatus('waiting');
             callbackRef.current('');
           },
           'timeout-callback': () => {
-            setStatus('ready');
+            updateStatus('waiting');
             callbackRef.current('');
           },
           'error-callback': () => {
-            setStatus('error');
+            updateStatus('error');
             callbackRef.current('');
           },
         });
-        setStatus('ready');
+        updateStatus('waiting');
       } catch {
-        setStatus('error');
+        updateStatus('error');
         callbackRef.current('');
       }
     };
@@ -112,11 +122,11 @@ export function TurnstileWidget({
         document.head.appendChild(script);
       }
       script.addEventListener('load', renderWidget);
-      script.addEventListener('error', () => {
-        if (!cancelled) {
-          setStatus('error');
-          callbackRef.current('');
-        }
+        script.addEventListener('error', () => {
+          if (!cancelled) {
+            updateStatus('error');
+            callbackRef.current('');
+          }
       }, {once: true});
     }
 
@@ -128,14 +138,16 @@ export function TurnstileWidget({
         widgetIdRef.current = null;
       }
     };
-  }, []);
+  }, [resetSignal, retryNonce, updateStatus]);
 
-  useEffect(() => {
-    if (!widgetIdRef.current || !window.turnstile) return;
+  const retry = () => {
     callbackRef.current('');
-    window.turnstile.reset(widgetIdRef.current);
-    setStatus('ready');
-  }, [resetSignal]);
+    if (!window.turnstile) {
+      document.getElementById(TURNSTILE_SCRIPT_ID)?.remove();
+    }
+    updateStatus('loading');
+    setRetryNonce((current) => current + 1);
+  };
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-3">
@@ -149,10 +161,25 @@ export function TurnstileWidget({
           جارٍ تحميل التحقق الأمني…
         </p>
       )}
-      {status === 'error' && (
-        <p className="mt-2 text-[10px] font-bold text-rose-700" role="alert">
-          تعذر تحميل التحقق الأمني. تحقق من الاتصال ثم أعد المحاولة.
+      {status === 'waiting' && (
+        <p className="mt-2 text-[10px] font-bold text-slate-500" role="status">
+          جارٍ إكمال التحقق الأمني…
         </p>
+      )}
+      {status === 'verified' && (
+        <p className="mt-2 text-[10px] font-bold text-emerald-700" role="status">
+          تم التحقق الأمني وجاهز للإرسال.
+        </p>
+      )}
+      {status === 'error' && (
+        <div className="mt-2 flex items-center justify-between gap-3" role="alert">
+          <p className="text-[10px] font-bold text-rose-700">
+            تعذر تحميل التحقق الأمني. تحقق من الاتصال ثم أعد المحاولة.
+          </p>
+          <button type="button" onClick={retry} className="min-h-11 shrink-0 rounded-xl border border-rose-200 bg-rose-50 px-3 text-[10px] font-black text-rose-800 transition hover:bg-rose-100">
+            إعادة التحقق
+          </button>
+        </div>
       )}
     </div>
   );
