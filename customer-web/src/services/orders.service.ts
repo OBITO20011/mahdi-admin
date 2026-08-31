@@ -57,6 +57,8 @@ export function mapGuestOrderReceipt(data: RpcPayload): GuestOrderReceipt {
     status: stringValue(data.status) || 'new',
     paymentMethod:
       data.payment_method === 'cliq' ? 'cliq' : 'cash_on_delivery',
+    trackingToken: stringValue(data.tracking_token) || undefined,
+    trackingPath: stringValue(data.tracking_path) || undefined,
     message:
       stringValue(data.message) || 'تم تسجيل الطلب في نظام الإدارة بنجاح.',
   };

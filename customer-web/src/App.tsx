@@ -999,6 +999,17 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     void loadCatalog(true, true);
   };
 
+  const openCreatedOrderTracking = (receipt: GuestOrderReceipt) => {
+    if (!receipt.trackingToken) {
+      showToast('تعذر تجهيز رابط متابعة هذا الطلب. استخدم رقم الطلب والهاتف من صفحة المتابعة.', 'info');
+      return;
+    }
+
+    const nextHash = `#track=${encodeURIComponent(receipt.trackingToken)}`;
+    window.history.pushState(null, '', nextHash);
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+  };
+
   const usePromotionOffer = (offer: StorefrontOffer) => {
     setPreferredPromotionCode(offer.code);
     void navigator.clipboard?.writeText(offer.code).catch(() => undefined);
@@ -1574,6 +1585,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         onClose={() => setCheckoutOpen(false)}
         onRetryStorefrontSettings={() => void loadStorefrontSettings(true)}
         onOrderCreated={handleOrderCreated}
+        onTrackOrder={openCreatedOrderTracking}
       />
 
       <OrderTrackingModal

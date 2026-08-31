@@ -8,6 +8,8 @@ const trackingModal = readFileSync(
   'src/components/OrderTrackingModal.tsx',
   'utf8'
 );
+const checkoutModal = readFileSync('src/components/CheckoutModal.tsx', 'utf8');
+const receiptType = readFileSync('src/types/checkout.ts', 'utf8');
 
 test('secure tracking links open without customer login', () => {
   assert.match(app, /#track=/);
@@ -16,21 +18,35 @@ test('secure tracking links open without customer login', () => {
   assert.match(service, /p_tracking_token/);
 });
 
-test('customer tracking shows canonical stages and ETA with automatic refresh', () => {
+test('customer tracking renders only actual canonical status history and has an explicit refresh', () => {
   for (const status of [
     'new',
+    'pending_confirmation',
     'confirmed',
     'preparing',
+    'processing',
     'ready',
     'out_for_delivery',
+    'delivered',
     'completed',
+    'returned',
+    'cancelled',
   ]) {
-    assert.match(trackingModal, new RegExp(`'${status}'`));
+    assert.match(trackingModal, new RegExp(`\\b${status}\\b`));
   }
   assert.match(trackingModal, /estimatedArrivalAt/);
   assert.match(trackingModal, /متبقي تقريبًا/);
-  assert.match(trackingModal, /30_000/);
-  assert.match(trackingModal, /تتحدث حالة الطلب تلقائيًا/);
+  assert.match(trackingModal, /visibleTimeline/);
+  assert.match(trackingModal, /تحديث الحالة/);
+  assert.doesNotMatch(trackingModal, /setInterval/);
+  assert.doesNotMatch(trackingModal, /30_000/);
+});
+
+test('successful checkout keeps the opaque tracking capability and offers a direct tracking action', () => {
+  assert.match(receiptType, /trackingToken\?: string/);
+  assert.match(service, /trackingToken: stringValue\(data\.tracking_token\)/);
+  assert.match(checkoutModal, /onTrackOrder: \(receipt: GuestOrderReceipt\) => void/);
+  assert.match(checkoutModal, /متابعة الطلب/);
 });
 
 test('public tracking screen does not render customer private information', () => {

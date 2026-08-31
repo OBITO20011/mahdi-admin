@@ -18,6 +18,10 @@ const orderModal = readFileSync(
   'src/features/orders/OrderDetailModal.tsx',
   'utf8'
 );
+const trackingReceiptMigration = readFileSync(
+  'supabase/migrations/089_customer_order_tracking_receipt.sql',
+  'utf8'
+);
 
 test('delivery tracking uses a per-order unguessable token and exposes no customer PII', () => {
   assert.match(migration, /tracking_token UUID/);
@@ -75,4 +79,23 @@ test('driver contact is normalized, required, audited and shared through secure 
   );
   assert.match(orderService, /p_driver_phone: driverPhone\.trim\(\)/);
   assert.match(orderModal, /إرسال التتبع ورقم السائق للعميل/);
+});
+
+test('guest checkout returns only its opaque tracking token through the existing gateway-only contract', () => {
+  assert.match(
+    trackingReceiptMigration,
+    /'tracking_token', v_tracking_token/
+  );
+  assert.match(
+    trackingReceiptMigration,
+    /'tracking_path', '\/#track=' \|\| v_tracking_token::TEXT/
+  );
+  assert.match(
+    trackingReceiptMigration,
+    /GRANT EXECUTE ON FUNCTION public\.submit_guest_customer_order[\s\S]*?TO service_role/
+  );
+  assert.doesNotMatch(
+    trackingReceiptMigration,
+    /GRANT EXECUTE ON FUNCTION public\.submit_guest_customer_order[\s\S]*?TO anon/
+  );
 });

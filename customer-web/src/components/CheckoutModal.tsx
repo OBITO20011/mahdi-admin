@@ -78,6 +78,7 @@ interface CheckoutModalProps {
   onClose: () => void;
   onRetryStorefrontSettings: () => void;
   onOrderCreated: (receipt: GuestOrderReceipt, items: CartItem[]) => void;
+  onTrackOrder: (receipt: GuestOrderReceipt) => void;
 }
 
 const GOVERNORATES = [
@@ -132,6 +133,7 @@ export function CheckoutModal({
   onClose,
   onRetryStorefrontSettings,
   onOrderCreated,
+  onTrackOrder,
 }: CheckoutModalProps) {
   const [form, setForm] = useState<GuestCheckoutForm>(
     EMPTY_GUEST_CHECKOUT_FORM
@@ -724,6 +726,18 @@ export function CheckoutModal({
               >
                 العودة للمتجر
               </button>
+              {receipt.trackingToken && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleClose();
+                    onTrackOrder(receipt);
+                  }}
+                  className="flex-1 rounded-2xl bg-blue-700 px-5 py-3.5 text-xs font-black text-white shadow-lg shadow-blue-900/15 transition hover:bg-blue-800"
+                >
+                  متابعة الطلب
+                </button>
+              )}
             </div>
           </div>
         ) : settingsUnavailable ? (

@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Check,
   CheckCircle2,
@@ -9,6 +9,7 @@ import {
   PackageCheck,
   PackageSearch,
   Phone,
+  RefreshCw,
   Truck,
   X,
 } from 'lucide-react';
@@ -19,27 +20,21 @@ import {
 import type { GuestOrderTracking } from '../types/checkout';
 import { formatJod } from '../utils/money';
 
-const DELIVERY_STEPS = [
-  'new',
-  'confirmed',
-  'preparing',
-  'ready',
-  'out_for_delivery',
-  'completed',
-] as const;
-
 const STATUS_LABELS: Record<string, string> = {
   new: 'وصلنا الطلب',
+  pending_confirmation: 'بانتظار تأكيد الطلب',
   confirmed: 'تمت مراجعة الطلب',
   preparing: 'جاري تجهيز الطلب',
+  processing: 'جاري تجهيز الطلب',
   ready: 'الطلب جاهز للتوصيل',
   out_for_delivery: 'الطلب في الطريق إليك',
+  delivered: 'تم تسليم الطلب',
   completed: 'تم تسليم الطلب',
   returned: 'تم إرجاع الطلب ورد المبلغ',
   cancelled: 'تم إلغاء الطلب',
 };
 
-const TERMINAL_STATUSES = new Set(['completed', 'returned', 'cancelled']);
+type TrackingLookup = { orderNumber: string; phone: string };
 
 interface OrderTrackingModalProps {
   isOpen: boolean;
@@ -84,12 +79,15 @@ export function OrderTrackingModal({
   const [loading, setLoading] = useState(false);
   const [lastRefreshAt, setLastRefreshAt] = useState<Date | null>(null);
   const [copied, setCopied] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const lastLookupRef = useRef<TrackingLookup | null>(null);
   const secureToken = trackingToken.trim();
 
   const loadByToken = useCallback(
-    async (silent = false) => {
+    async (isManualRefresh = false) => {
       if (!secureToken) return;
-      if (!silent) setLoading(true);
+      if (isManualRefresh) setIsRefreshing(true);
+      else setLoading(true);
       setError('');
       try {
         const nextResult = await trackGuestOrderByToken(secureToken);
@@ -102,55 +100,88 @@ export function OrderTrackingModal({
             : 'تعذر فتح رابط متابعة الطلب.'
         );
       } finally {
-        if (!silent) setLoading(false);
+        if (isManualRefresh) setIsRefreshing(false);
+        else setLoading(false);
       }
     },
     [secureToken]
   );
 
-  useEffect(() => {
-    if (!isOpen || !secureToken) return;
-    setResult(null);
-    void loadByToken();
-  }, [isOpen, loadByToken, secureToken]);
+  const loadByLookup = useCallback(
+    async (lookup: TrackingLookup, isManualRefresh = false) => {
+      if (isManualRefresh) setIsRefreshing(true);
+      else setLoading(true);
+      setError('');
+      try {
+        const nextResult = await trackGuestOrder(
+          lookup.orderNumber,
+          lookup.phone
+        );
+        setResult(nextResult);
+        setLastRefreshAt(new Date());
+      } catch (caught) {
+        setError(
+          caught instanceof Error ? caught.message : 'تعذر متابعة الطلب.'
+        );
+      } finally {
+        if (isManualRefresh) setIsRefreshing(false);
+        else setLoading(false);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
-    if (
-      !isOpen ||
-      !secureToken ||
-      (result && TERMINAL_STATUSES.has(result.status))
-    ) {
+    if (!isOpen) return;
+    if (secureToken) {
+      setResult(null);
+      void loadByToken();
       return;
     }
-
-    const intervalId = window.setInterval(() => {
-      void loadByToken(true);
-    }, 30_000);
-    return () => window.clearInterval(intervalId);
-  }, [isOpen, loadByToken, result, secureToken]);
+    if (lastLookupRef.current) {
+      void loadByLookup(lastLookupRef.current);
+    }
+  }, [isOpen, loadByLookup, loadByToken, secureToken]);
 
   const remainingMinutes = useMemo(
     () => calculateRemainingMinutes(result?.estimatedArrivalAt),
     [result?.estimatedArrivalAt]
   );
 
+  const visibleTimeline = useMemo(() => {
+    if (!result) return [];
+    const timeline = result.timeline.filter(
+      (entry) => Boolean(STATUS_LABELS[entry.status]) && entry.createdAt
+    );
+    if (timeline.some((entry) => entry.status === result.status)) {
+      return timeline;
+    }
+    return [
+      ...timeline,
+      {
+        status: result.status,
+        createdAt: result.updatedAt || result.createdAt,
+      },
+    ];
+  }, [result]);
+
   if (!isOpen) return null;
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
-    setLoading(true);
-    setError('');
     setResult(null);
-    try {
-      const nextResult = await trackGuestOrder(orderNumber, phone);
-      setResult(nextResult);
-      setLastRefreshAt(new Date());
-    } catch (caught) {
-      setError(
-        caught instanceof Error ? caught.message : 'تعذر متابعة الطلب.'
-      );
-    } finally {
-      setLoading(false);
+    const lookup = { orderNumber, phone };
+    lastLookupRef.current = lookup;
+    await loadByLookup(lookup);
+  };
+
+  const refreshTracking = () => {
+    if (secureToken) {
+      void loadByToken(true);
+      return;
+    }
+    if (lastLookupRef.current) {
+      void loadByLookup(lastLookupRef.current, true);
     }
   };
 
@@ -167,11 +198,6 @@ export function OrderTrackingModal({
     }
   };
 
-  const currentStepIndex = result
-    ? DELIVERY_STEPS.indexOf(
-        result.status as (typeof DELIVERY_STEPS)[number]
-      )
-    : -1;
   const isExceptionalStatus = result
     ? result.status === 'cancelled' || result.status === 'returned'
     : false;
@@ -202,7 +228,7 @@ export function OrderTrackingModal({
               أين وصل طلبك؟
             </h2>
             <p className="mt-2 text-[10px] font-bold leading-5 text-slate-500">
-              تتحدث حالة الطلب تلقائيًا كل 30 ثانية.
+              نعرض أحدث حالة عند الفتح أو عند الضغط على تحديث الحالة.
             </p>
           </div>
           <button
@@ -308,6 +334,35 @@ export function OrderTrackingModal({
                 )}
               </div>
 
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[10px] font-bold text-slate-600">
+                <span>
+                  آخر تحديث للطلب: <b>{formatDateTime(result.updatedAt)}</b>
+                </span>
+                <button
+                  type="button"
+                  onClick={refreshTracking}
+                  disabled={isRefreshing}
+                  className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-slate-200 bg-white/85 px-3 text-[10px] font-black text-blue-800 shadow-sm disabled:opacity-60"
+                >
+                  <RefreshCw
+                    className={`h-3.5 w-3.5 ${isRefreshing ? 'animate-spin' : ''}`}
+                  />
+                  تحديث الحالة
+                </button>
+              </div>
+
+              {result.status === 'cancelled' && (
+                <p className="mt-3 rounded-2xl border border-rose-200 bg-white/80 p-3 text-[11px] font-bold leading-5 text-rose-800">
+                  تم إلغاء هذا الطلب. إذا احتجت مساعدة، تواصل مع المتجر مع ذكر رقم الطلب.
+                </p>
+              )}
+
+              {result.status === 'returned' && (
+                <p className="mt-3 rounded-2xl border border-orange-200 bg-white/80 p-3 text-[11px] font-bold leading-5 text-orange-800">
+                  تم تسجيل إرجاع هذا الطلب. تواصل مع المتجر إذا احتجت تفاصيل إضافية.
+                </p>
+              )}
+
               {result.status === 'out_for_delivery' &&
                 result.estimatedArrivalAt && (
                   <div className="mt-4 rounded-2xl bg-white/85 p-4 shadow-sm">
@@ -375,65 +430,59 @@ export function OrderTrackingModal({
                   الدفع:{' '}
                   <b>{result.paymentMethod === 'cliq' ? 'CliQ' : 'كاش'}</b>
                 </span>
+                <span>
+                  التوصيل: <b>إلى العنوان المسجل</b>
+                </span>
               </div>
             </div>
 
-            {!isExceptionalStatus && (
+            {visibleTimeline.length > 0 && (
               <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
                 <div className="mb-4 flex items-center gap-2 text-slate-900">
                   <PackageCheck className="h-4 w-4 text-blue-600" />
                   <h3 className="text-xs font-black">مراحل تنفيذ الطلب</h3>
                 </div>
                 <div className="space-y-0">
-                  {DELIVERY_STEPS.map((status, index) => {
-                    const isDone = index <= currentStepIndex;
-                    const isCurrent = index === currentStepIndex;
-                    const historyEntry = [...result.timeline]
-                      .reverse()
-                      .find((entry) => entry.status === status);
+                  {visibleTimeline.map((entry, index) => {
+                    const isCurrent = index === visibleTimeline.length - 1;
+                    const isExceptionalEntry =
+                      entry.status === 'cancelled' || entry.status === 'returned';
                     return (
-                      <div key={status} className="flex gap-3">
+                      <div
+                        key={`${entry.status}-${entry.createdAt}-${index}`}
+                        className="flex gap-3"
+                      >
                         <div className="flex flex-col items-center">
                           <span
                             className={`grid h-7 w-7 place-items-center rounded-full border-2 ${
-                              isDone
-                                ? 'border-blue-700 bg-blue-700 text-white'
-                                : 'border-slate-200 bg-white text-slate-300'
+                              isExceptionalEntry
+                                ? 'border-rose-600 bg-rose-600 text-white'
+                                : 'border-blue-700 bg-blue-700 text-white'
                             }`}
                           >
-                            {isDone ? (
-                              <Check className="h-3.5 w-3.5" />
-                            ) : (
-                              <span className="h-1.5 w-1.5 rounded-full bg-current" />
-                            )}
+                            <Check className="h-3.5 w-3.5" />
                           </span>
-                          {index < DELIVERY_STEPS.length - 1 && (
+                          {index < visibleTimeline.length - 1 && (
                             <span
-                              className={`h-8 w-0.5 ${
-                                index < currentStepIndex
-                                  ? 'bg-blue-700'
-                                  : 'bg-slate-200'
-                              }`}
+                              className="h-8 w-0.5 bg-blue-700"
                             />
                           )}
                         </div>
                         <div className="min-w-0 flex-1 pb-4 pt-1">
                           <p
                             className={`text-[11px] font-black ${
-                              isCurrent
-                                ? 'text-blue-800'
-                                : isDone
-                                  ? 'text-slate-800'
-                                  : 'text-slate-400'
+                              isExceptionalEntry
+                                ? 'text-rose-800'
+                                : isCurrent
+                                  ? 'text-blue-800'
+                                  : 'text-slate-800'
                             }`}
                           >
-                            {STATUS_LABELS[status]}
+                            {STATUS_LABELS[entry.status] || entry.status}
                           </p>
-                          {historyEntry?.createdAt && (
-                            <p className="mt-1 text-[9px] font-bold text-slate-400">
-                              {formatDateTime(historyEntry.createdAt)}
-                            </p>
-                          )}
+                          <p className="mt-1 text-[9px] font-bold text-slate-400">
+                            {formatDateTime(entry.createdAt)}
+                          </p>
                         </div>
                       </div>
                     );
@@ -442,9 +491,11 @@ export function OrderTrackingModal({
               </div>
             )}
 
-            <p className="text-center text-[9px] font-bold text-slate-400">
-              آخر تحديث: {lastRefreshAt?.toLocaleTimeString('ar-JO') || 'الآن'}
-            </p>
+            {lastRefreshAt && (
+              <p className="text-center text-[9px] font-bold text-slate-400">
+                تم جلب الحالة: {lastRefreshAt.toLocaleTimeString('ar-JO')}
+              </p>
+            )}
           </div>
         )}
       </section>

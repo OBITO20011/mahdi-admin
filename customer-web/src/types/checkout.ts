@@ -69,6 +69,12 @@ export interface GuestOrderReceipt {
   promotionCode: string;
   status: string;
   paymentMethod: GuestPaymentMethod;
+  /**
+   * Per-order opaque capability returned only after the gateway has accepted
+   * this customer's order. It is never derived from the order number.
+   */
+  trackingToken?: string;
+  trackingPath?: string;
   message: string;
 }
 
