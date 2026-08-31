@@ -3,6 +3,7 @@ import test from 'node:test';
 import {
   buildCartSnapshotBatches,
   deriveCatalogCategories,
+  findPublicProductLink,
   groupCatalogFlavorFamilies,
   mapCatalogCategory,
   mapCatalogProduct,
@@ -360,4 +361,37 @@ test('last-order restoration preserves exact flavor variant identities', () => {
   assert.equal(result.items[0].productId, hot.id);
   assert.equal(result.items[0].nameAr, 'ليز - حار');
   assert.equal(result.items[0].unitPriceInMinorUnits, 5000);
+});
+
+test('product share links resolve a catalog family and its exact flavor variant', () => {
+  const cheese = {
+    ...wholesaleProduct,
+    id: 'lays-cheese',
+    sku: 'LAYS-CHEESE',
+    nameAr: 'ليز - جبنة',
+    flavorMasterProductId: 'lays-master',
+    flavorNameAr: 'جبنة',
+  };
+  const hot = {
+    ...wholesaleProduct,
+    id: 'lays-hot',
+    sku: 'LAYS-HOT',
+    nameAr: 'ليز - حار',
+    flavorMasterProductId: 'lays-master',
+    flavorNameAr: 'حار',
+  };
+  const family = {
+    ...wholesaleProduct,
+    id: 'lays-master',
+    sku: 'LAYS',
+    nameAr: 'ليز',
+    isFlavorMaster: true,
+    variants: [cheese, hot],
+  };
+
+  const link = findPublicProductLink([family], 'LAYS-HOT');
+
+  assert.equal(link?.family.id, family.id);
+  assert.equal(link?.selectedProductId, hot.id);
+  assert.equal(findPublicProductLink([family], 'missing-product'), null);
 });

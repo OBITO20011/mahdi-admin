@@ -13,6 +13,15 @@ type RawCatalogItem = Record<string, unknown>;
 export const STOREFRONT_CATALOG_PAGE_SIZE = 24;
 const STOREFRONT_CATALOG_MAX_PAGE_SIZE = 48;
 export const STOREFRONT_CART_SNAPSHOT_BATCH_SIZE = 48;
+export const STOREFRONT_PRODUCT_LINK_SEARCH_LIMIT = 8;
+
+const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+export interface PublicProductLink {
+  family: CatalogProduct;
+  selectedProductId: string;
+}
 
 function textValue(value: unknown): string {
   return typeof value === 'string' ? value : '';
@@ -224,6 +233,26 @@ export function buildCartSnapshotBatches(productIds: string[]): string[][] {
   return batches;
 }
 
+/** Finds the exact family and sellable product addressed by a public link. */
+export function findPublicProductLink(
+  products: CatalogProduct[],
+  productKey: string
+): PublicProductLink | null {
+  const normalizedKey = productKey.trim();
+  if (!normalizedKey) return null;
+
+  for (const family of products) {
+    const matchedProduct = [family, ...family.variants].find(
+      (product) => product.id === normalizedKey || product.sku === normalizedKey
+    );
+    if (matchedProduct) {
+      return { family, selectedProductId: matchedProduct.id };
+    }
+  }
+
+  return null;
+}
+
 export async function fetchPublicProductCatalog(
   query: PublicCatalogQuery = {}
 ): Promise<CatalogResponse> {
@@ -294,6 +323,32 @@ export async function fetchPublicProductCatalog(
     limit: integerValue(data?.limit, requestedLimit),
     offset: integerValue(data?.offset),
   };
+}
+
+/**
+ * Resolves a share link with one bounded public catalog request. UUID links
+ * use the exact product-ID contract; SKU links use server-side catalog search
+ * and are accepted only when an exact result match is returned.
+ */
+export async function fetchPublicProductLink(
+  productKey: string
+): Promise<PublicProductLink | null> {
+  const normalizedKey = productKey.trim();
+  if (!normalizedKey) return null;
+
+  try {
+    const response = await fetchPublicProductCatalog(
+      UUID_PATTERN.test(normalizedKey)
+        ? { limit: 1, productIds: [normalizedKey] }
+        : {
+            limit: STOREFRONT_PRODUCT_LINK_SEARCH_LIMIT,
+            searchQuery: normalizedKey,
+          }
+    );
+    return findPublicProductLink(response.items, normalizedKey);
+  } catch {
+    throw new Error('تعذر فتح هذا المنتج الآن. حاول مرة أخرى.');
+  }
 }
 
 /**

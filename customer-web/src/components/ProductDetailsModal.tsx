@@ -28,6 +28,7 @@ import { buildWhatsAppUrl } from '../utils/checkout';
 
 interface ProductDetailsModalProps {
   product: CatalogProduct;
+  initialVariantId?: string;
   cartQuantityByProduct: ReadonlyMap<string, number>;
   relatedProducts: CatalogProduct[];
   onClose: () => void;
@@ -40,6 +41,7 @@ interface ProductDetailsModalProps {
 
 export function ProductDetailsModal({
   product: familyProduct,
+  initialVariantId,
   cartQuantityByProduct,
   relatedProducts,
   onClose,
@@ -51,6 +53,8 @@ export function ProductDetailsModal({
 }: ProductDetailsModalProps) {
   const [selectedVariantId, setSelectedVariantId] = useState(
     () =>
+      familyProduct.variants.find((variant) => variant.id === initialVariantId)
+        ?.id ||
       familyProduct.variants.find((variant) => variant.isAvailable)?.id ||
       familyProduct.variants[0]?.id ||
       ''
@@ -75,11 +79,13 @@ export function ProductDetailsModal({
 
   useEffect(() => {
     setSelectedVariantId(
-      familyProduct.variants.find((variant) => variant.isAvailable)?.id ||
+      familyProduct.variants.find((variant) => variant.id === initialVariantId)
+        ?.id ||
+        familyProduct.variants.find((variant) => variant.isAvailable)?.id ||
         familyProduct.variants[0]?.id ||
         ''
     );
-  }, [familyProduct.id, familyProduct.variants]);
+  }, [familyProduct.id, familyProduct.variants, initialVariantId]);
 
   useEffect(() => {
     setQuantity(

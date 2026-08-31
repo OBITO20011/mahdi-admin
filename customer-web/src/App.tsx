@@ -33,7 +33,9 @@ import { StoreInfoSection } from './components/StoreInfoSection';
 import { DEFAULT_STOREFRONT_SETTINGS } from './config/store';
 import {
   fetchPublicCartSnapshot,
+  fetchPublicProductLink,
   fetchPublicProductCatalog,
+  findPublicProductLink,
   STOREFRONT_CATALOG_PAGE_SIZE,
 } from './services/catalog.service';
 import { fetchPublicStorefrontOffers } from './services/offers.service';
@@ -204,6 +206,12 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
   );
+  const [selectedProductVariantId, setSelectedProductVariantId] = useState<
+    string | null
+  >(null);
+  const [linkedProduct, setLinkedProduct] = useState<CatalogProduct | null>(
+    null
+  );
   const [toast, setToast] = useState<ToastState | null>(null);
   const [storefrontSettings, setStorefrontSettings] =
     useState<PublicStorefrontSettings>(DEFAULT_STOREFRONT_SETTINGS);
@@ -227,6 +235,11 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     promise: Promise<CartSnapshotResult>;
   } | null>(null);
   const pendingRepeatLastOrderRef = useRef<Promise<void> | null>(null);
+  const pendingProductLinkRef = useRef<{
+    key: string;
+    promise: Promise<void>;
+  } | null>(null);
+  const resolvedProductLinkKeyRef = useRef<string | null>(null);
   const sellableProducts = useMemo(
     () =>
       products.flatMap((product) =>
@@ -495,6 +508,9 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     const syncProductFromHash = () => {
       if (!window.location.hash.startsWith('#product=')) {
         setSelectedProductId(null);
+        setSelectedProductVariantId(null);
+        setLinkedProduct(null);
+        resolvedProductLinkKeyRef.current = null;
         setActivePage(readStorePageFromHash());
         return;
       }
@@ -508,10 +524,72 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         productKey = '';
       }
 
-      const matchedProduct = products.find(
-        (product) => product.sku === productKey || product.id === productKey
-      );
-      setSelectedProductId(matchedProduct?.id ?? null);
+      const localProductLink = findPublicProductLink(products, productKey);
+      if (localProductLink) {
+        setLinkedProduct(null);
+        setSelectedProductId(localProductLink.family.id);
+        setSelectedProductVariantId(
+          localProductLink.selectedProductId === localProductLink.family.id
+            ? null
+            : localProductLink.selectedProductId
+        );
+        resolvedProductLinkKeyRef.current = productKey;
+        return;
+      }
+
+      if (!productKey || resolvedProductLinkKeyRef.current === productKey) return;
+      if (pendingProductLinkRef.current?.key === productKey) return;
+
+      const expectedHash = window.location.hash;
+      const request = (async () => {
+        try {
+          const publicProductLink = await fetchPublicProductLink(productKey);
+          if (window.location.hash !== expectedHash) return;
+
+          if (!publicProductLink) {
+            setSelectedProductId(null);
+            setSelectedProductVariantId(null);
+            setLinkedProduct(null);
+            showToast('هذا المنتج غير موجود أو لم يعد متاحًا للبيع.', 'info');
+            return;
+          }
+
+          const selectedProduct = [
+            publicProductLink.family,
+            ...publicProductLink.family.variants,
+          ].find((product) => product.id === publicProductLink.selectedProductId);
+          if (!selectedProduct?.isAvailable) {
+            setSelectedProductId(null);
+            setSelectedProductVariantId(null);
+            setLinkedProduct(null);
+            showToast('هذا المنتج لم يعد متاحًا للبيع حاليًا.', 'info');
+            return;
+          }
+
+          setLinkedProduct(publicProductLink.family);
+          setSelectedProductId(publicProductLink.family.id);
+          setSelectedProductVariantId(
+            publicProductLink.selectedProductId === publicProductLink.family.id
+              ? null
+              : publicProductLink.selectedProductId
+          );
+        } catch {
+          if (window.location.hash === expectedHash) {
+            setSelectedProductId(null);
+            setSelectedProductVariantId(null);
+            setLinkedProduct(null);
+            showToast('تعذر فتح هذا المنتج الآن. حاول مرة أخرى.', 'error');
+          }
+        }
+      })();
+
+      resolvedProductLinkKeyRef.current = productKey;
+      pendingProductLinkRef.current = { key: productKey, promise: request };
+      void request.finally(() => {
+        if (pendingProductLinkRef.current?.promise === request) {
+          pendingProductLinkRef.current = null;
+        }
+      });
     };
 
     syncProductFromHash();
@@ -522,7 +600,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       window.removeEventListener('hashchange', syncProductFromHash);
       window.removeEventListener('popstate', syncProductFromHash);
     };
-  }, [products]);
+  }, [products, showToast]);
 
   useEffect(() => {
     if (
@@ -567,8 +645,10 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   );
   const selectedProduct = useMemo(
     () =>
-      products.find((product) => product.id === selectedProductId) ?? null,
-    [products, selectedProductId]
+      products.find((product) => product.id === selectedProductId) ??
+      linkedProduct ??
+      null,
+    [linkedProduct, products, selectedProductId]
   );
   const relatedProducts = useMemo(() => {
     if (!selectedProduct) return [];
@@ -735,7 +815,9 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   }, [refreshCartSnapshot]);
 
   const openProductDetails = useCallback((product: CatalogProduct) => {
+    setLinkedProduct(null);
     setSelectedProductId(product.id);
+    setSelectedProductVariantId(null);
     const nextHash = `#product=${encodeURIComponent(
       product.sku || product.id
     )}`;
@@ -750,6 +832,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
   const closeProductDetails = useCallback(() => {
     setSelectedProductId(null);
+    setSelectedProductVariantId(null);
+    setLinkedProduct(null);
     if (window.location.hash.startsWith('#product=')) {
       window.history.replaceState(null, '', `#${activePage}`);
     }
@@ -1433,6 +1517,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       {selectedProduct && (
         <ProductDetailsModal
           product={selectedProduct}
+          initialVariantId={selectedProductVariantId ?? undefined}
           cartQuantityByProduct={cartQuantityByProduct}
           relatedProducts={relatedProducts}
           onClose={closeProductDetails}
