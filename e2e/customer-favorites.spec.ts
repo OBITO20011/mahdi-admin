@@ -136,7 +136,9 @@ test.describe('مفضلات متجر العملاء', () => {
 
     await page.getByRole('button', { name: 'تصفح المنتجات' }).click();
     await expect(page.locator('#catalog')).toBeVisible();
-    await expect(page).toHaveURL(/#catalog$/);
+    // Public catalog navigation uses the clean M9 route. The legacy
+    // #catalog hash remains accepted on entry, but is not emitted on exit.
+    await expect(page).toHaveURL(/\/products$/);
   });
 
   test('تعرض المفضلات المحفوظة، تبقي غير المتاح ظاهرًا، ولا تحذف العنصر المفقود بصمت', async ({ page }) => {
