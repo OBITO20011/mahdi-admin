@@ -41,3 +41,9 @@ test('homepage sections respect public settings while keeping real data sources'
   assert.match(app, /loadFeaturedProducts/);
   assert.match(catalogService, /get_public_storefront_catalog_page/);
 });
+
+test('home merchandising uses one bounded RPC instead of four independent catalog reads', () => {
+  assert.match(catalogService, /rpc\('get_public_storefront_merchandising'\)/);
+  assert.match(app, /setFeaturedProducts\(await fetchPublicStorefrontMerchandising\(\)\)/);
+  assert.doesNotMatch(app, /fetchPublicProductCatalog\(\{ limit: 6, sort: 'newest' \}\)/);
+});

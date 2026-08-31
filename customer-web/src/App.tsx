@@ -35,6 +35,7 @@ import {
   fetchPublicCartSnapshot,
   fetchPublicProductLink,
   fetchPublicProductCatalog,
+  fetchPublicStorefrontMerchandising,
   findPublicProductLink,
   STOREFRONT_CATALOG_PAGE_SIZE,
 } from './services/catalog.service';
@@ -357,18 +358,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       setFeaturedProductsLoading(true);
       setFeaturedProductsError(null);
       try {
-        const [newest, bestSellers, offers, lowStock] = await Promise.all([
-          fetchPublicProductCatalog({ limit: 6, sort: 'newest' }),
-          fetchPublicProductCatalog({ limit: 6, sort: 'best_sellers' }),
-          fetchPublicProductCatalog({ limit: 6, sort: 'offers' }),
-          fetchPublicProductCatalog({ limit: 6, sort: 'low_stock' }),
-        ]);
-        setFeaturedProducts({
-          newest: newest.items,
-          bestSellers: bestSellers.items,
-          offers: offers.items,
-          lowStock: lowStock.items,
-        });
+        setFeaturedProducts(await fetchPublicStorefrontMerchandising());
       } catch (error) {
         console.error('[Storefront featured products]', error);
         setFeaturedProducts({ newest: [], bestSellers: [], offers: [], lowStock: [] });

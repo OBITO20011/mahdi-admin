@@ -7,6 +7,7 @@ import {
   groupCatalogFlavorFamilies,
   mapCatalogCategory,
   mapCatalogProduct,
+  mapPublicMerchandisingResponse,
   resolveCatalogTotal,
   STOREFRONT_CATALOG_PAGE_SIZE,
 } from '../src/services/catalog.service';
@@ -38,6 +39,34 @@ const wholesaleProduct = mapCatalogProduct({
   availableSalePackages: 8,
   minimumOrderPackages: 1,
   isAvailable: true,
+});
+
+test('bounded merchandising response preserves exact flavor families per rail', () => {
+  const response = mapPublicMerchandisingResponse({
+    newest: [
+      {
+        id: 'chips-master', sku: 'CHIPS', nameAr: 'شيبس', categoryId: 'snacks',
+        categoryCode: 'CAT-CHIPS', categoryNameAr: 'شيبس', unitId: 'piece',
+        saleUnitId: 'box', unitsPerSalePackage: 6, salePackagePriceInMinorUnits: 1200,
+        availableQuantity: 0, availableSalePackages: 0, isAvailable: false,
+        isFlavorMaster: true,
+      },
+      {
+        id: 'chips-cheese', sku: 'CHIPS-CHEESE', nameAr: 'شيبس - جبنة', categoryId: 'snacks',
+        categoryCode: 'CAT-CHIPS', categoryNameAr: 'شيبس', unitId: 'piece',
+        saleUnitId: 'box', unitsPerSalePackage: 6, salePackagePriceInMinorUnits: 1200,
+        availableQuantity: 12, availableSalePackages: 2, isAvailable: true,
+        flavorMasterProductId: 'chips-master', flavorNameAr: 'جبنة', flavorSortOrder: 1,
+      },
+    ],
+  });
+
+  assert.equal(response.newest.length, 1);
+  assert.equal(response.newest[0]?.id, 'chips-master');
+  assert.equal(response.newest[0]?.variants[0]?.id, 'chips-cheese');
+  assert.deepEqual(response.bestSellers, []);
+  assert.deepEqual(response.offers, []);
+  assert.deepEqual(response.lowStock, []);
 });
 
 test('catalog maps public category metadata without inventory cost fields', () => {

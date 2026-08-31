@@ -82,6 +82,14 @@ export interface CatalogResponse {
   offset: number;
 }
 
+/** Bounded, server-selected product families for the home merchandising rails. */
+export interface PublicMerchandisingResponse {
+  newest: CatalogProduct[];
+  bestSellers: CatalogProduct[];
+  offers: CatalogProduct[];
+  lowStock: CatalogProduct[];
+}
+
 export interface CartItem {
   productId: string;
   sku: string;

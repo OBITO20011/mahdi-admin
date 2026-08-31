@@ -26,6 +26,48 @@ async function expectNoSeriousAccessibilityViolations(page: Page) {
 }
 
 test.describe('متجر العملاء العام', () => {
+  test('الواجهة الرئيسية تجمع أقسام المنتجات المميزة في طلب واحد محدود', async ({ page }) => {
+    const merchandisingRequests: Record<string, unknown>[] = [];
+    const product = {
+      id: '00000000-0000-4000-8000-000000000301',
+      sku: 'NWS-MERCH-01',
+      barcode: '',
+      nameAr: 'منتج الاختيارات المميزة',
+      description: '',
+      categoryId: '00000000-0000-4000-8000-000000000010',
+      categoryCode: 'CAT-BEV',
+      categoryNameAr: 'مشروبات',
+      brandId: '', brandNameAr: '', unitId: '00000000-0000-4000-8000-000000000020',
+      unitNameAr: 'حبة', saleUnitId: '00000000-0000-4000-8000-000000000021',
+      saleUnitNameAr: 'كرتونة', unitsPerSalePackage: 1,
+      salePackagePriceInMinorUnits: 1000, salePriceInMinorUnits: 1000,
+      availableQuantity: 10, availableSalePackages: 10, minimumOrderPackages: 1,
+      imageUrl: '', isAvailable: true, createdAt: '2026-01-01T00:00:00Z',
+      soldPackagesLast90Days: 0, flavorMasterProductId: null, flavorNameAr: null,
+      isFlavorMaster: false, flavorSortOrder: 0,
+    };
+
+    await page.route('**/rest/v1/rpc/get_public_storefront_merchandising', async (route) => {
+      merchandisingRequests.push(route.request().postDataJSON() as Record<string, unknown>);
+      await route.fulfill({
+        contentType: 'application/json',
+        body: JSON.stringify({
+          newest: [product], bestSellers: [product], offers: [product], lowStock: [product],
+        }),
+      });
+    });
+
+    await page.goto(customerBaseUrl, { waitUntil: 'domcontentloaded' });
+    await expect(page.getByRole('heading', { name: 'وصل حديثًا' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'الأكثر طلبًا' })).toBeVisible();
+    await page.waitForTimeout(500);
+    expect(merchandisingRequests).toHaveLength(1);
+
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await expect(page.getByRole('heading', { name: 'وصل حديثًا' })).toBeVisible();
+    expect(merchandisingRequests).toHaveLength(2);
+  });
+
   test('المنتج رقم 201+ يصل إليه بحث الخادم ويُعرض في الكتالوج', async ({ page }, testInfo) => {
     test.skip(
       testInfo.project.name === 'mobile-webkit',

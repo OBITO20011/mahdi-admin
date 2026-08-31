@@ -5,6 +5,7 @@ import {
   CatalogProduct,
   CatalogResponse,
   CatalogSummary,
+  PublicMerchandisingResponse,
   PublicCatalogQuery,
 } from '../types/catalog';
 
@@ -90,6 +91,34 @@ export function mapCatalogProduct(item: RawCatalogItem): CatalogProduct {
     flavorNameAr: textValue(item.flavorNameAr),
     flavorSortOrder: integerValue(item.flavorSortOrder),
     variants: [],
+  };
+}
+
+function mapCatalogItems(value: unknown): CatalogProduct[] {
+  const rawItems = Array.isArray(value) ? value : [];
+  const flatItems = rawItems
+    .map((item) => mapCatalogProduct(item as RawCatalogItem))
+    .filter(
+      (item: CatalogProduct) =>
+        Boolean(item.id) &&
+        Boolean(item.saleUnitId) &&
+        item.unitsPerSalePackage > 0 &&
+        item.salePackagePriceInMinorUnits > 0
+    );
+  return groupCatalogFlavorFamilies(flatItems);
+}
+
+export function mapPublicMerchandisingResponse(
+  value: unknown,
+): PublicMerchandisingResponse {
+  const payload = value && typeof value === 'object' && !Array.isArray(value)
+    ? value as RawCatalogItem
+    : {};
+  return {
+    newest: mapCatalogItems(payload.newest),
+    bestSellers: mapCatalogItems(payload.bestSellers),
+    offers: mapCatalogItems(payload.offers),
+    lowStock: mapCatalogItems(payload.lowStock),
   };
 }
 
@@ -282,17 +311,7 @@ export async function fetchPublicProductCatalog(
     throw new Error(error.message || 'تعذر تحميل كتالوج الجملة.');
   }
 
-  const rawItems = Array.isArray(data?.items) ? data.items : [];
-  const flatItems = rawItems
-    .map((item: RawCatalogItem) => mapCatalogProduct(item))
-    .filter(
-      (item: CatalogProduct) =>
-        Boolean(item.id) &&
-        Boolean(item.saleUnitId) &&
-        item.unitsPerSalePackage > 0 &&
-        item.salePackagePriceInMinorUnits > 0
-    );
-  const items = groupCatalogFlavorFamilies(flatItems);
+  const items = mapCatalogItems(data?.items);
   const rawCategories = Array.isArray(data?.categories)
     ? data.categories
     : [];
@@ -323,6 +342,23 @@ export async function fetchPublicProductCatalog(
     limit: integerValue(data?.limit, requestedLimit),
     offset: integerValue(data?.offset),
   };
+}
+
+/**
+ * Loads all home merchandising rails in one bounded server response. The
+ * response contains at most six product families per rail and no catalog facets.
+ */
+export async function fetchPublicStorefrontMerchandising(): Promise<PublicMerchandisingResponse> {
+  if (!isSupabaseConfigured || !supabase) {
+    throw new Error('إعدادات الاتصال بكتالوج Supabase غير مكتملة في موقع العملاء.');
+  }
+
+  const { data, error } = await supabase.rpc('get_public_storefront_merchandising');
+  if (error) {
+    throw new Error(error.message || 'تعذر تحميل الاختيارات المميزة.');
+  }
+
+  return mapPublicMerchandisingResponse(data);
 }
 
 /**
