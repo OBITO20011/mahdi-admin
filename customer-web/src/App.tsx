@@ -954,7 +954,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         cartPackages={cartPackages}
         favoritesCount={favoriteProductIds.length}
         favoritesActive={favoritesOnly}
-        onCartOpen={openCart}
+        onCartOpen={() => openCart()}
         onFavoritesOpen={toggleFavoritesView}
         onMenuOpen={() => setCategoriesOpen(true)}
         onCategoriesOpen={() => navigateStorePage('categories')}
@@ -1459,7 +1459,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         }}
       />
 
-      <MobileStoreNav cartPackages={cartPackages} cartTotal={cartSubtotal} whatsappUrl={storeWhatsappUrl} onHome={() => navigateStorePage('home')} onCategories={() => navigateStorePage('categories')} onSearch={() => { setActivePage('catalog'); if (window.location.hash !== '#catalog') window.history.pushState(null, '', '#catalog'); setSearchOpenSignal((value) => value + 1); }} onCart={openCart} />
+      <MobileStoreNav cartPackages={cartPackages} cartTotal={cartSubtotal} whatsappUrl={storeWhatsappUrl} onHome={() => navigateStorePage('home')} onCategories={() => navigateStorePage('categories')} onSearch={() => { setActivePage('catalog'); if (window.location.hash !== '#catalog') window.history.pushState(null, '', '#catalog'); setSearchOpenSignal((value) => value + 1); }} onCart={() => openCart()} />
 
       <FloatingContactActions whatsappUrl={storeWhatsappUrl} />
 

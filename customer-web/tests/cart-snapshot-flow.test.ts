@@ -11,6 +11,8 @@ const catalogService = readFileSync(
 test('opening the cart and starting checkout both use the bounded server snapshot', () => {
   assert.match(app, /const openCart = useCallback/);
   assert.match(app, /void refreshCartSnapshot\(itemsToRefresh\)/);
+  assert.match(app, /onCartOpen=\{\(\) => openCart\(\)\}/);
+  assert.match(app, /onCart=\{\(\) => openCart\(\)\}/);
   assert.match(app, /currentCartItems = \(await refreshCartSnapshot\(\)\)\.items/);
   assert.match(catalogService, /p_product_ids: query\.productIds/);
   assert.match(catalogService, /STOREFRONT_CART_SNAPSHOT_BATCH_SIZE = 48/);
