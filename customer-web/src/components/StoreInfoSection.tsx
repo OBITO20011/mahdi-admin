@@ -1,7 +1,15 @@
 import { Clock3, CreditCard, HelpCircle, MapPinned, Phone, RefreshCcw, Truck } from 'lucide-react';
 import { PublicStorefrontSettings } from '../types/storefront';
 
-export function StoreInfoSection({ whatsappUrl, onTrackOrder, settings }: { whatsappUrl: string; onTrackOrder: () => void; settings: PublicStorefrontSettings }) {
+export function StoreInfoSection({ whatsappUrl, onTrackOrder, settings }: { whatsappUrl: string; onTrackOrder: () => void; settings: PublicStorefrontSettings | null }) {
+  if (!settings) {
+    return <section id="store-info" className="bg-white py-12">
+      <div className="mx-auto max-w-7xl px-4 lg:px-8"><div className="flex flex-wrap items-end justify-between gap-3"><div><p className="text-[10px] font-black text-blue-600">قبل أن تطلب</p><h2 className="mt-1 text-2xl font-black text-slate-950">معلومات مهمة وواضحة</h2></div><div className="flex gap-2"><button type="button" onClick={onTrackOrder} className="rounded-2xl bg-blue-700 px-4 py-3 text-xs font-black text-white">متابعة طلب</button><a href={whatsappUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-emerald-600 px-4 py-3 text-xs font-black text-white"><Phone className="h-4 w-4" />واتساب</a></div></div>
+        <div role="status" className="mt-6 rounded-3xl border border-amber-200 bg-amber-50 p-5 text-sm font-bold leading-7 text-amber-900">تعذر تحميل معلومات الطلب والتوصيل الآن. لن نعرض الحد الأدنى أو أجرة التوصيل حتى تتوفر الإعدادات الصحيحة.</div>
+      </div>
+    </section>;
+  }
+
   const info = [
     { icon: MapPinned, title: 'مناطق التوصيل', text: settings.deliveryAreasText },
     { icon: Clock3, title: 'أوقات الدوام', text: settings.businessHoursText },

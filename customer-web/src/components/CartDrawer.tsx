@@ -1,4 +1,5 @@
 import {
+  AlertTriangle,
   ArrowLeft,
   ImageOff,
   LockKeyhole,
@@ -23,6 +24,9 @@ interface CartDrawerProps {
   onRemove: (productId: string) => void;
   onClear: () => void;
   onCheckout: () => void;
+  checkoutDisabled?: boolean;
+  checkoutBlockedMessage?: string;
+  onRetryCheckoutSettings?: () => void;
 }
 
 export function CartDrawer({
@@ -33,6 +37,9 @@ export function CartDrawer({
   onRemove,
   onClear,
   onCheckout,
+  checkoutDisabled = false,
+  checkoutBlockedMessage,
+  onRetryCheckoutSettings,
 }: CartDrawerProps) {
   const [clearConfirmationOpen, setClearConfirmationOpen] = useState(false);
   const packagesCount = calculateCartPackages(items);
@@ -296,6 +303,26 @@ export function CartDrawer({
             </div>
 
             <div className="shrink-0 border-t border-slate-100 bg-slate-50 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 sm:p-5">
+              {checkoutDisabled && (
+                <div
+                  role="alert"
+                  className="mb-3 flex items-start justify-between gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-3 text-[10px] font-bold leading-5 text-amber-900"
+                >
+                  <div className="flex items-start gap-2">
+                    <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                    <p>{checkoutBlockedMessage}</p>
+                  </div>
+                  {onRetryCheckoutSettings && (
+                    <button
+                      type="button"
+                      onClick={onRetryCheckoutSettings}
+                      className="shrink-0 rounded-xl border border-amber-300 bg-white px-3 py-1.5 text-[10px] font-black text-amber-900"
+                    >
+                      إعادة المحاولة
+                    </button>
+                  )}
+                </div>
+              )}
               <div className="mb-3 flex items-start gap-2 rounded-2xl border border-violet-200 bg-violet-50 p-2.5 text-[10px] font-bold leading-5 text-violet-800 sm:mb-4 sm:p-3">
                 <TicketPercent className="mt-0.5 h-4 w-4 shrink-0" />
                 لديك كوبون خصم؟ ستتمكن من إدخاله والتحقق منه آمنًا في خطوة البيانات والدفع.
@@ -317,9 +344,12 @@ export function CartDrawer({
               <button
                 type="button"
                 onClick={onCheckout}
-                className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-700 px-5 py-3.5 text-sm font-black text-white shadow-lg shadow-blue-900/20 transition hover:bg-blue-800 sm:mt-4 sm:py-4"
+                disabled={checkoutDisabled}
+                className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-700 px-5 py-3.5 text-sm font-black text-white shadow-lg shadow-blue-900/20 transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none sm:mt-4 sm:py-4"
               >
-                إتمام الطلب بدون تسجيل دخول
+                {checkoutDisabled
+                  ? 'إتمام الطلب غير متاح مؤقتًا'
+                  : 'إتمام الطلب بدون تسجيل دخول'}
                 <ArrowLeft className="h-4 w-4" />
               </button>
 

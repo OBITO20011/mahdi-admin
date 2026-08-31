@@ -72,8 +72,10 @@ interface CheckoutModalProps {
   items: CartItem[];
   storeWhatsAppNumber: string;
   storefrontSettings: PublicStorefrontSettings;
+  settingsUnavailable: boolean;
   initialPromotionCode?: string;
   onClose: () => void;
+  onRetryStorefrontSettings: () => void;
   onOrderCreated: (receipt: GuestOrderReceipt, items: CartItem[]) => void;
 }
 
@@ -124,8 +126,10 @@ export function CheckoutModal({
   items,
   storeWhatsAppNumber,
   storefrontSettings,
+  settingsUnavailable,
   initialPromotionCode = '',
   onClose,
+  onRetryStorefrontSettings,
   onOrderCreated,
 }: CheckoutModalProps) {
   const [form, setForm] = useState<GuestCheckoutForm>(
@@ -206,6 +210,13 @@ export function CheckoutModal({
       );
     }
   }, [isOpen, receipt]);
+
+  useEffect(() => {
+    if (!settingsUnavailable || receipt) return;
+    setIsReviewing(false);
+    setTurnstileToken('');
+    setSubmitError('تعذر التحقق من إعدادات الطلب والتوصيل. حاول مرة أخرى.');
+  }, [receipt, settingsUnavailable]);
 
   useEffect(() => {
     if (!isOpen || receipt || !initialPromotionCode.trim()) return;
@@ -418,6 +429,10 @@ export function CheckoutModal({
   const validateForReview = () => {
     setSubmitError('');
     if (isSubmitting || receipt) return;
+    if (settingsUnavailable) {
+      setSubmitError('تعذر التحقق من إعدادات الطلب والتوصيل. حاول مرة أخرى.');
+      return false;
+    }
     if (items.length === 0) {
       setSubmitError('السلة فارغة. أضف طردًا قبل إرسال الطلب.');
       return false;
@@ -609,8 +624,9 @@ export function CheckoutModal({
                 </span>
               </div>
               <p className="mt-1 text-[10px] font-bold text-slate-400">
-                {packagesCount.toLocaleString('ar-JO')} طرد •{' '}
-                {formatJod(receipt?.totalInMinorUnits ?? checkoutTotal)}
+                {settingsUnavailable && !receipt
+                  ? 'إعدادات الطلب غير متاحة مؤقتًا'
+                  : `${packagesCount.toLocaleString('ar-JO')} طرد • ${formatJod(receipt?.totalInMinorUnits ?? checkoutTotal)}`}
               </p>
             </div>
           </div>
@@ -700,6 +716,18 @@ export function CheckoutModal({
               >
                 العودة للمتجر
               </button>
+            </div>
+          </div>
+        ) : settingsUnavailable ? (
+          <div className="p-6 text-center sm:p-10">
+            <div className="mx-auto grid h-16 w-16 place-items-center rounded-[1.5rem] bg-amber-100 text-amber-700">
+              <AlertTriangle className="h-8 w-8" />
+            </div>
+            <h3 className="mt-5 text-lg font-black text-slate-950">تعذر التحقق من إعدادات الطلب</h3>
+            <p className="mx-auto mt-2 max-w-md text-xs leading-6 text-slate-500">لن نعرض رسوم توصيل أو حدًا أدنى غير موثوقين. أعد المحاولة ثم أكمل طلبك.</p>
+            <div className="mx-auto mt-6 flex max-w-sm flex-col gap-3 sm:flex-row">
+              <button type="button" onClick={onRetryStorefrontSettings} className="flex-1 rounded-2xl bg-blue-700 px-5 py-3.5 text-xs font-black text-white">إعادة المحاولة</button>
+              <button type="button" onClick={handleClose} className="flex-1 rounded-2xl border border-slate-200 bg-white px-5 py-3.5 text-xs font-black text-slate-700">العودة إلى السلة</button>
             </div>
           </div>
         ) : isReviewing ? (

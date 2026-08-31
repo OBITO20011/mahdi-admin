@@ -198,6 +198,9 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const [toast, setToast] = useState<ToastState | null>(null);
   const [storefrontSettings, setStorefrontSettings] =
     useState<PublicStorefrontSettings>(DEFAULT_STOREFRONT_SETTINGS);
+  const [settingsUnavailable, setSettingsUnavailable] = useState(false);
+  const [isLoadingStorefrontSettings, setIsLoadingStorefrontSettings] =
+    useState(true);
   const lastLoadedAtRef = useRef<Record<StorefrontResource, number>>({
     catalog: 0,
     offers: 0,
@@ -344,11 +347,16 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       if (pendingLoadRef.current.settings) return pendingLoadRef.current.settings;
 
       const request = (async () => {
+        setIsLoadingStorefrontSettings(true);
         try {
           setStorefrontSettings(await fetchPublicStorefrontSettings());
+          setSettingsUnavailable(false);
           lastLoadedAtRef.current.settings = Date.now();
         } catch (error) {
           console.error('[Storefront settings]', error);
+          setSettingsUnavailable(true);
+        } finally {
+          setIsLoadingStorefrontSettings(false);
         }
       })();
 
@@ -585,7 +593,12 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const offerProducts = featuredProducts.offers;
   const lowStockProducts = featuredProducts.lowStock;
   const cartSubtotal = calculateCartSubtotal(cartItems);
+  const settingsTrusted = !settingsUnavailable && !isLoadingStorefrontSettings;
   const storeWhatsappUrl = buildWhatsAppUrl(storefrontSettings.whatsappNumber, `مرحبًا ${storefrontSettings.storeNameAr}، أريد الاستفسار عن أصناف الجملة.`);
+
+  useEffect(() => {
+    if (!settingsTrusted && checkoutOpen) setCheckoutOpen(false);
+  }, [checkoutOpen, settingsTrusted]);
 
   const addQuantityToCart = (
     product: CatalogProduct,
@@ -774,6 +787,15 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       showToast('السلة فارغة. أضف طردًا أولًا.', 'info');
       return;
     }
+    if (!settingsTrusted) {
+      showToast(
+        settingsUnavailable
+          ? 'تعذر التحقق من إعدادات الطلب والتوصيل. أعد المحاولة.'
+          : 'جارٍ التحقق من إعدادات الطلب والتوصيل.',
+        'info'
+      );
+      return;
+    }
     if (!storefrontSettings.ordersEnabled) {
       showToast('الطلبات متوقفة مؤقتًا من إدارة المتجر. تواصل معنا عبر واتساب.', 'info');
       return;
@@ -862,7 +884,32 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         onRetry={() => void loadCatalog(true, true)}
       />
 
-      {!storefrontSettings.ordersEnabled && (
+      {!settingsTrusted && (
+        <section
+          role={settingsUnavailable ? 'alert' : 'status'}
+          aria-live="polite"
+          className="border-b border-amber-200 bg-amber-50 px-4 py-3 text-center text-xs font-black text-amber-900"
+        >
+          <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-center gap-3">
+            <span>
+              {settingsUnavailable
+                ? 'تعذر تحميل إعدادات الطلب والتوصيل. لن نعرض رسومًا أو حدًا أدنى غير موثوقين.'
+                : 'جارٍ التحقق من إعدادات الطلب والتوصيل.'}
+            </span>
+            {settingsUnavailable && (
+              <button
+                type="button"
+                onClick={() => void loadStorefrontSettings(true)}
+                className="rounded-xl border border-amber-300 bg-white px-3 py-1.5 text-[11px] font-black text-amber-900"
+              >
+                إعادة المحاولة
+              </button>
+            )}
+          </div>
+        </section>
+      )}
+
+      {settingsTrusted && !storefrontSettings.ordersEnabled && (
         <div className="border-b border-amber-200 bg-amber-50 px-4 py-3 text-center text-xs font-black text-amber-800">
           الطلبات متوقفة مؤقتًا، لكن يمكنك تصفح الأصناف والتواصل معنا عبر واتساب.
         </div>
@@ -876,10 +923,14 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           categoriesCount={catalogCategories.length}
           availablePackages={availablePackages}
           onBrowseProducts={showAllProducts}
-          announcementText={storefrontSettings.announcementText}
+          announcementText={
+            settingsTrusted
+              ? storefrontSettings.announcementText
+              : 'تصفح أصناف الجملة المتوفرة حاليًا'
+          }
         />
 
-        {storefrontSettings.showOffers && (
+        {settingsTrusted && storefrontSettings.showOffers && (
           <PromotionOffers
             offers={storefrontOffers}
             onUseOffer={usePromotionOffer}
@@ -894,10 +945,10 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         />
 
         <MerchandisingSections
-          newest={storefrontSettings.showNewestProducts ? newestProducts : []}
-          bestSellers={storefrontSettings.showBestSellers ? bestSellerProducts : []}
-          offers={storefrontSettings.showOffers ? offerProducts : []}
-          lowStock={storefrontSettings.showLowStock ? lowStockProducts : []}
+          newest={settingsTrusted && storefrontSettings.showNewestProducts ? newestProducts : []}
+          bestSellers={settingsTrusted && storefrontSettings.showBestSellers ? bestSellerProducts : []}
+          offers={settingsTrusted && storefrontSettings.showOffers ? offerProducts : []}
+          lowStock={settingsTrusted && storefrontSettings.showLowStock ? lowStockProducts : []}
           onOpenProduct={openProductDetails}
           onShowAll={showAllProducts}
         />
@@ -920,7 +971,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
         {activePage === 'offers' && (
           <OffersPage
-            offers={storefrontSettings.showOffers ? storefrontOffers : []}
+            offers={settingsTrusted && storefrontSettings.showOffers ? storefrontOffers : []}
             isLoading={offersLoading}
             error={offersLoadError}
             onRetry={() => {
@@ -1177,7 +1228,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
         {activePage === 'home' && (
           <>
-        <StoreInfoSection whatsappUrl={storeWhatsappUrl} onTrackOrder={() => setTrackingOpen(true)} settings={storefrontSettings} />
+        <StoreInfoSection whatsappUrl={storeWhatsappUrl} onTrackOrder={() => setTrackingOpen(true)} settings={settingsTrusted ? storefrontSettings : null} />
 
         <section className="border-y border-slate-200 bg-white py-12">
           <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-3 lg:px-8">
@@ -1276,6 +1327,17 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         }
         onClear={() => setCartItems([])}
         onCheckout={openCheckout}
+        checkoutDisabled={!settingsTrusted}
+        checkoutBlockedMessage={
+          settingsUnavailable
+            ? 'تعذر التحقق من إعدادات الطلب والتوصيل. لن نعرض رسومًا أو حدًا أدنى غير موثوقين.'
+            : 'جارٍ التحقق من إعدادات الطلب والتوصيل.'
+        }
+        onRetryCheckoutSettings={
+          settingsUnavailable
+            ? () => void loadStorefrontSettings(true)
+            : undefined
+        }
       />
 
       <CheckoutModal
@@ -1283,8 +1345,10 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         items={cartItems}
         storeWhatsAppNumber={storefrontSettings.whatsappNumber}
         storefrontSettings={storefrontSettings}
+        settingsUnavailable={!settingsTrusted}
         initialPromotionCode={preferredPromotionCode}
         onClose={() => setCheckoutOpen(false)}
+        onRetryStorefrontSettings={() => void loadStorefrontSettings(true)}
         onOrderCreated={handleOrderCreated}
       />
 
