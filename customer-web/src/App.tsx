@@ -1384,7 +1384,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
             <div id="catalog-products" className="scroll-mt-40">
             {isLoading ? (
-              <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="mt-6 grid grid-cols-2 gap-3 min-[380px]:grid-cols-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
                 {Array.from({ length: 8 }).map((_, index) => (
                   <div
                     key={index}
@@ -1438,7 +1438,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                 </p>
               </div>
             ) : (
-              <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div data-testid="catalog-products-grid" className="mt-6 grid grid-cols-2 gap-3 min-[380px]:grid-cols-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
                 {filteredProducts.map((product) => (
                   <ProductCard
                     key={product.id}
@@ -1538,7 +1538,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                     </button>
                   </div>
                 ) : isLoading ? (
-                  <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  <div className="mt-7 grid grid-cols-2 gap-3 min-[380px]:grid-cols-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
                     {Array.from({ length: Math.min(4, favoriteProductIds.length) }).map((_, index) => (
                       <div
                         key={index}
@@ -1597,7 +1597,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                     )}
                     <div
                       data-testid="favorites-products-grid"
-                      className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                      className="mt-7 grid grid-cols-2 gap-3 min-[380px]:grid-cols-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4"
                     >
                       {favoriteProducts.map((product) => (
                         <ProductCard
