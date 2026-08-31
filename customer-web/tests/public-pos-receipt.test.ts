@@ -3,11 +3,12 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const app = readFileSync('src/App.tsx', 'utf8');
+const publicRoutes = readFileSync('src/utils/publicRoutes.ts', 'utf8');
 const service = readFileSync('src/services/receipts.service.ts', 'utf8');
 const page = readFileSync('src/components/PublicPosReceiptPage.tsx', 'utf8');
 
 test('store opens a dedicated public receipt page from an unguessable hash token', () => {
-  assert.match(app, /#receipt=/);
+  assert.match(publicRoutes, /readUuidHash\(location\.hash, 'receipt'\)/);
   assert.match(app, /PublicPosReceiptPage/);
   assert.match(service, /rpc\('get_public_pos_receipt'/);
   assert.match(service, /\[0-9a-f\]\{8\}/);

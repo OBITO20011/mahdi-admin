@@ -37,6 +37,8 @@ export function calculateProductSelectionTotal(
 
 export function buildProductShareUrl(currentUrl: string, productKey: string) {
   const url = new URL(currentUrl);
-  url.hash = `product=${encodeURIComponent(productKey)}`;
+  url.pathname = `/product/${encodeURIComponent(productKey.trim())}`;
+  url.search = '';
+  url.hash = '';
   return url.toString();
 }

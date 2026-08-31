@@ -7,6 +7,10 @@ const storefrontApp = readFileSync(
   new URL('../src/App.tsx', import.meta.url),
   'utf8'
 );
+const publicRoutes = readFileSync(
+  new URL('../src/utils/publicRoutes.ts', import.meta.url),
+  'utf8'
+);
 const storeHeader = readFileSync(
   new URL('../src/components/StoreHeader.tsx', import.meta.url),
   'utf8'
@@ -51,10 +55,10 @@ test('storefront fixed offer maps fils to JOD once', () => {
 
 test('offers navigation opens a dedicated route instead of a fallback category', () => {
   assert.match(
-    storefrontApp,
+    publicRoutes,
     /type StorePage = 'home' \| 'categories' \| 'catalog' \| 'favorites' \| 'offers'/
   );
-  assert.match(storefrontApp, /window\.location\.hash === '#offers'/);
+  assert.match(publicRoutes, /case 'offers': return '\/offers'/);
   assert.match(storefrontApp, /navigateStorePage\('offers'\)/);
   assert.match(storeHeader, /page: 'offers' as const/);
   assert.doesNotMatch(storefrontApp, /category\.code === 'CAT-OFFERS'/);

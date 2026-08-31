@@ -19,12 +19,12 @@ test('product details total prices complete wholesale packages', () => {
   assert.equal(calculateProductSelectionTotal(5400, 0), 0);
 });
 
-test('shared product links keep a stable encoded catalog key', () => {
+test('shared product links use a stable clean product route', () => {
   assert.equal(
     buildProductShareUrl(
       'https://store.example/catalog?source=whatsapp#catalog',
       'NWS 100/2'
     ),
-    'https://store.example/catalog?source=whatsapp#product=NWS%20100%2F2'
+    'https://store.example/product/NWS%20100%2F2'
   );
 });

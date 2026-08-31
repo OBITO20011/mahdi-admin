@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /cart
+Disallow: /checkout
+Disallow: /favorites
+Disallow: /tracking
+Disallow: /receipt
+Disallow: /search
+Sitemap: https://nawasrah-store.pages.dev/sitemap.xml

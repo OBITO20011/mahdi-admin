@@ -67,21 +67,20 @@ import {
   CatalogSortOption,
 } from './utils/catalogView';
 import { buildWhatsAppUrl, readLastGuestOrder } from './utils/checkout';
+import {
+  changeStoreLocation,
+  getCategoryPath,
+  getCategorySlug,
+  getProductPath,
+  getStorePagePath,
+  readStoreLocationRoute,
+  StorePage,
+} from './utils/publicRoutes';
+import {useStorefrontSeo} from './utils/storefrontSeo';
 
 interface ToastState {
   message: string;
   type: 'success' | 'error' | 'info';
-}
-
-type StorePage = 'home' | 'categories' | 'catalog' | 'favorites' | 'offers';
-
-function readStorePageFromHash(): StorePage {
-  if (typeof window === 'undefined') return 'home';
-  if (window.location.hash === '#categories') return 'categories';
-  if (window.location.hash === '#catalog') return 'catalog';
-  if (window.location.hash === '#favorites') return 'favorites';
-  if (window.location.hash === '#offers') return 'offers';
-  return 'home';
 }
 
 function readStoredCart(): CartItem[] {
@@ -125,37 +124,40 @@ function readStoredFavorites(): string[] {
   }
 }
 
-function readPublicReceiptToken(): string {
-  if (typeof window === 'undefined') return '';
-  const match = window.location.hash.match(/^#receipt=([0-9a-f-]{36})$/i);
-  return match?.[1] || '';
-}
-
-function readPublicTrackingToken(): string {
-  if (typeof window === 'undefined') return '';
-  const match = window.location.hash.match(/^#track=([0-9a-f-]{36})$/i);
-  return match?.[1] || '';
-}
-
 export function App() {
-  const [receiptToken, setReceiptToken] = useState(readPublicReceiptToken);
-  const [trackingToken, setTrackingToken] = useState(readPublicTrackingToken);
+  const [locationRoute, setLocationRoute] = useState(() =>
+    readStoreLocationRoute(window.location)
+  );
 
   useEffect(() => {
-    const handleHashChange = () => {
-      setReceiptToken(readPublicReceiptToken());
-      setTrackingToken(readPublicTrackingToken());
+    const syncLocation = () => setLocationRoute(readStoreLocationRoute(window.location));
+    window.addEventListener('hashchange', syncLocation);
+    window.addEventListener('popstate', syncLocation);
+    return () => {
+      window.removeEventListener('hashchange', syncLocation);
+      window.removeEventListener('popstate', syncLocation);
     };
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  if (receiptToken) return <PublicPosReceiptPage token={receiptToken} />;
-  return <StorefrontApp trackingToken={trackingToken} />;
+  useEffect(() => {
+    if (!locationRoute.receiptToken) return;
+    let robots = document.head.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    if (!robots) {
+      robots = document.createElement('meta');
+      robots.name = 'robots';
+      document.head.append(robots);
+    }
+    robots.content = 'noindex, nofollow, noarchive';
+  }, [locationRoute.receiptToken]);
+
+  if (locationRoute.receiptToken) return <PublicPosReceiptPage token={locationRoute.receiptToken} />;
+  return <StorefrontApp trackingToken={locationRoute.trackingToken} />;
 }
 
 function StorefrontApp({ trackingToken }: { trackingToken: string }) {
-  const [activePage, setActivePage] = useState<StorePage>(readStorePageFromHash);
+  const [activePage, setActivePage] = useState<StorePage>(
+    () => readStoreLocationRoute(window.location).page
+  );
   const [products, setProducts] = useState<CatalogProduct[]>([]);
   const [catalogCategories, setCatalogCategories] = useState<
     CatalogCategory[]
@@ -513,24 +515,18 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   }, [favoriteProductIds]);
 
   useEffect(() => {
-    const syncProductFromHash = () => {
-      if (!window.location.hash.startsWith('#product=')) {
+    const syncProductFromLocation = () => {
+      const route = readStoreLocationRoute(window.location);
+      setActivePage(route.page);
+      if (!route.productKey) {
         setSelectedProductId(null);
         setSelectedProductVariantId(null);
         setLinkedProduct(null);
         resolvedProductLinkKeyRef.current = null;
-        setActivePage(readStorePageFromHash());
         return;
       }
 
-      let productKey = '';
-      try {
-        productKey = decodeURIComponent(
-          window.location.hash.slice('#product='.length)
-        );
-      } catch {
-        productKey = '';
-      }
+      const productKey = route.productKey;
 
       const localProductLink = findPublicProductLink(products, productKey);
       if (localProductLink) {
@@ -548,11 +544,11 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       if (!productKey || resolvedProductLinkKeyRef.current === productKey) return;
       if (pendingProductLinkRef.current?.key === productKey) return;
 
-      const expectedHash = window.location.hash;
+      const expectedLocation = `${window.location.pathname}${window.location.hash}`;
       const request = (async () => {
         try {
           const publicProductLink = await fetchPublicProductLink(productKey);
-          if (window.location.hash !== expectedHash) return;
+          if (`${window.location.pathname}${window.location.hash}` !== expectedLocation) return;
 
           if (!publicProductLink) {
             setSelectedProductId(null);
@@ -582,7 +578,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
               : publicProductLink.selectedProductId
           );
         } catch {
-          if (window.location.hash === expectedHash) {
+          if (`${window.location.pathname}${window.location.hash}` === expectedLocation) {
             setSelectedProductId(null);
             setSelectedProductVariantId(null);
             setLinkedProduct(null);
@@ -600,13 +596,13 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       });
     };
 
-    syncProductFromHash();
-    window.addEventListener('hashchange', syncProductFromHash);
-    window.addEventListener('popstate', syncProductFromHash);
+    syncProductFromLocation();
+    window.addEventListener('hashchange', syncProductFromLocation);
+    window.addEventListener('popstate', syncProductFromLocation);
 
     return () => {
-      window.removeEventListener('hashchange', syncProductFromHash);
-      window.removeEventListener('popstate', syncProductFromHash);
+      window.removeEventListener('hashchange', syncProductFromLocation);
+      window.removeEventListener('popstate', syncProductFromLocation);
     };
   }, [products, showToast]);
 
@@ -619,6 +615,15 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       setSelectedCategory('all');
     }
   }, [catalogCategories, selectedCategory]);
+
+  useEffect(() => {
+    const categorySlug = readStoreLocationRoute(window.location).categorySlug;
+    if (!categorySlug || catalogCategories.length === 0) return;
+    const category = catalogCategories.find(
+      (candidate) => getCategorySlug(candidate) === categorySlug
+    );
+    setSelectedCategory(category?.id ?? 'all');
+  }, [catalogCategories]);
 
   // Search, category, availability, brand, sale unit and sorting are all
   // applied by the catalog RPC over the complete catalog. The page only owns
@@ -722,6 +727,21 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const cartSubtotal = calculateCartSubtotal(cartItems);
   const settingsTrusted = !settingsUnavailable && !isLoadingStorefrontSettings;
   const storeWhatsappUrl = buildWhatsAppUrl(storefrontSettings.whatsappNumber, `مرحبًا ${storefrontSettings.storeNameAr}، أريد الاستفسار عن أصناف الجملة.`);
+
+  useStorefrontSeo({
+    activePage,
+    category: selectedCategoryDetails,
+    product: selectedProduct,
+    offers: storefrontOffers,
+    privateState:
+      cartOpen ||
+      checkoutOpen ||
+      trackingOpen ||
+      Boolean(trackingToken) ||
+      activePage === 'favorites' ||
+      activePage === 'categories' ||
+      Boolean(searchQuery.trim()),
+  });
 
   useEffect(() => {
     if (!settingsTrusted && checkoutOpen) setCheckoutOpen(false);
@@ -851,26 +871,22 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     setLinkedProduct(null);
     setSelectedProductId(product.id);
     setSelectedProductVariantId(null);
-    const nextHash = `#product=${encodeURIComponent(
-      product.sku || product.id
-    )}`;
-    if (window.location.hash === nextHash) return;
-
-    if (window.location.hash.startsWith('#product=')) {
-      window.history.replaceState(null, '', nextHash);
-    } else {
-      window.history.pushState(null, '', nextHash);
-    }
+    const nextPath = getProductPath(product.sku || product.id);
+    if (window.location.pathname === nextPath && !window.location.hash) return;
+    changeStoreLocation(nextPath, window.location.pathname.startsWith('/product/'));
   }, []);
 
   const closeProductDetails = useCallback(() => {
     setSelectedProductId(null);
     setSelectedProductVariantId(null);
     setLinkedProduct(null);
-    if (window.location.hash.startsWith('#product=')) {
-      window.history.replaceState(null, '', `#${activePage}`);
+    if (readStoreLocationRoute(window.location).productKey) {
+      const nextPath = selectedCategoryDetails
+        ? getCategoryPath(getCategorySlug(selectedCategoryDetails))
+        : getStorePagePath(activePage);
+      changeStoreLocation(nextPath, true);
     }
-  }, [activePage]);
+  }, [activePage, selectedCategoryDetails]);
 
   const updateCartQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) {
@@ -907,10 +923,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
   const navigateStorePage = useCallback((page: StorePage) => {
     setActivePage(page);
-    const nextHash = `#${page}`;
-    if (window.location.hash !== nextHash) {
-      window.history.pushState(null, '', nextHash);
-    }
+    changeStoreLocation(getStorePagePath(page));
     window.requestAnimationFrame(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
@@ -918,9 +931,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
   const scrollToCatalog = () => {
     setActivePage('catalog');
-    if (window.location.hash !== '#catalog') {
-      window.history.pushState(null, '', '#catalog');
-    }
+    changeStoreLocation(getStorePagePath('catalog'));
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
         document.getElementById('catalog-products')?.scrollIntoView({
@@ -968,9 +979,10 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     setAvailabilityFilter('all');
     setCatalogOffset(0);
     setCategoriesOpen(false);
-    if (window.location.hash !== '#catalog') {
-      window.history.pushState(null, '', '#catalog');
-    }
+    const category = catalogCategories.find((candidate) => candidate.id === categoryId);
+    changeStoreLocation(
+      category ? getCategoryPath(getCategorySlug(category)) : getStorePagePath('catalog')
+    );
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
         document.getElementById('catalog-products')?.scrollIntoView({
@@ -979,7 +991,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         });
       });
     });
-  }, []);
+  }, [catalogCategories]);
 
   const openCheckout = async () => {
     let currentCartItems: CartItem[];
@@ -1036,7 +1048,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
     const nextHash = `#track=${encodeURIComponent(receipt.trackingToken)}`;
     window.history.pushState(null, '', nextHash);
-    window.dispatchEvent(new HashChangeEvent('hashchange'));
+    window.dispatchEvent(new PopStateEvent('popstate'));
   };
 
   const usePromotionOffer = (offer: StorefrontOffer) => {
@@ -1113,7 +1125,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           setCatalogOffset(0);
           if (value.trim() && activePage !== 'catalog') {
             setActivePage('catalog');
-            window.history.pushState(null, '', '#catalog');
+            changeStoreLocation(getStorePagePath('catalog'));
           }
         }}
         cartPackages={cartPackages}
@@ -1755,13 +1767,13 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         onClose={() => {
           setTrackingOpen(false);
           if (trackingToken) {
-            window.history.replaceState(null, '', '#home');
-            window.dispatchEvent(new HashChangeEvent('hashchange'));
+            window.history.replaceState(null, '', '/');
+            window.dispatchEvent(new PopStateEvent('popstate'));
           }
         }}
       />
 
-      <MobileStoreNav cartPackages={cartPackages} cartTotal={cartSubtotal} whatsappUrl={storeWhatsappUrl} onHome={() => navigateStorePage('home')} onCategories={() => navigateStorePage('categories')} onSearch={() => { setActivePage('catalog'); if (window.location.hash !== '#catalog') window.history.pushState(null, '', '#catalog'); setSearchOpenSignal((value) => value + 1); }} onCart={() => openCart()} />
+      <MobileStoreNav cartPackages={cartPackages} cartTotal={cartSubtotal} whatsappUrl={storeWhatsappUrl} onHome={() => navigateStorePage('home')} onCategories={() => navigateStorePage('categories')} onSearch={() => { setActivePage('catalog'); changeStoreLocation(getStorePagePath('catalog')); setSearchOpenSignal((value) => value + 1); }} onCart={() => openCart()} />
 
       <FloatingContactActions whatsappUrl={storeWhatsappUrl} />
 

@@ -113,7 +113,7 @@ export function PublicPosReceiptPage({ token }: { token: string }) {
             <AlertTriangle className="h-10 w-10 text-amber-500" />
             <h2 className="text-lg font-black">تعذر فتح الإيصال</h2>
             <p className="text-sm leading-7 text-slate-500">{error}</p>
-            <a href="/#catalog" className="mt-2 rounded-xl bg-blue-700 px-5 py-3 text-sm font-black text-white">العودة إلى المتجر</a>
+            <a href="/products" className="mt-2 rounded-xl bg-blue-700 px-5 py-3 text-sm font-black text-white">العودة إلى المتجر</a>
           </div>
         )}
 
@@ -161,7 +161,7 @@ export function PublicPosReceiptPage({ token }: { token: string }) {
             <div className="receipt-actions grid grid-cols-3 gap-2">
               <button type="button" onClick={() => window.print()} className="flex items-center justify-center gap-1 rounded-xl bg-blue-700 px-2 py-3 text-xs font-black text-white"><Printer className="h-4 w-4" />طباعة</button>
               <button type="button" onClick={() => void shareReceipt()} className="flex items-center justify-center gap-1 rounded-xl border border-blue-200 bg-blue-50 px-2 py-3 text-xs font-black text-blue-800"><Share2 className="h-4 w-4" />مشاركة</button>
-              <a href="/#catalog" className="flex items-center justify-center gap-1 rounded-xl border border-slate-200 px-2 py-3 text-xs font-black text-slate-700"><ArrowRight className="h-4 w-4" />المتجر</a>
+              <a href="/products" className="flex items-center justify-center gap-1 rounded-xl border border-slate-200 px-2 py-3 text-xs font-black text-slate-700"><ArrowRight className="h-4 w-4" />المتجر</a>
             </div>
           </div>
         )}

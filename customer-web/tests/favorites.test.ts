@@ -6,13 +6,17 @@ const storefrontApp = readFileSync(
   new URL('../src/App.tsx', import.meta.url),
   'utf8'
 );
+const publicRoutes = readFileSync(
+  new URL('../src/utils/publicRoutes.ts', import.meta.url),
+  'utf8'
+);
 
-test('favorites have a dedicated hash route and do not reuse catalog-only filtering', () => {
+test('favorites retain their private route and do not reuse catalog-only filtering', () => {
   assert.match(
-    storefrontApp,
+    publicRoutes,
     /type StorePage = 'home' \| 'categories' \| 'catalog' \| 'favorites' \| 'offers'/
   );
-  assert.match(storefrontApp, /window\.location\.hash === '#favorites'/);
+  assert.match(publicRoutes, /location\.hash === '#favorites'/);
   assert.match(storefrontApp, /navigateStorePage\('favorites'\)/);
   assert.match(storefrontApp, /activePage === 'favorites'/);
   assert.doesNotMatch(storefrontApp, /favoritesOnly/);
