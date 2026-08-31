@@ -32,10 +32,14 @@ const isolatedFragment = `    public.supplier_payments,
 // runners intentionally use throw-away projects, so remove only stale
 // Nawasrah *test* containers before starting another isolated instance.
 // This never matches the production project or the local n8n container.
-const { stdout: staleContainerIds } = await execFileAsync('docker', [
-  'ps', '-aq', '--filter', 'name=nawasrah-.*-test',
+const { stdout: knownContainers } = await execFileAsync('docker', [
+  'ps', '-a', '--format', '{{.ID}}\t{{.Names}}',
 ], { windowsHide: true });
-const staleIds = staleContainerIds.split(/\r?\n/).map((value) => value.trim()).filter(Boolean);
+const staleIds = knownContainers
+  .split(/\r?\n/)
+  .map((line) => line.trim().split('\t'))
+  .filter(([id, name]) => id && /^supabase_.+_nawasrah-[a-z0-9-]+-test$/i.test(name || ''))
+  .map(([id]) => id);
 if (staleIds.length > 0) {
   await execFileAsync('docker', ['rm', '-f', ...staleIds], { windowsHide: true });
 }
