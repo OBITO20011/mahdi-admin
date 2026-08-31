@@ -19,6 +19,10 @@ export const SAVED_CUSTOMER_STORAGE_KEY = 'nawasrah-saved-customer-v1';
 export const LAST_ORDER_STORAGE_KEY = 'nawasrah-last-order-v1';
 export const GUEST_ORDER_SESSION_STORAGE_KEY =
   'nawasrah-guest-order-session-v1';
+/**
+ * Kept in sync with the Edge gateway and PostgreSQL checkout core.
+ */
+export const MAX_GUEST_ORDER_LINE_ITEMS = 50;
 
 const PENDING_ORDER_TTL_MS = 24 * 60 * 60 * 1000;
 

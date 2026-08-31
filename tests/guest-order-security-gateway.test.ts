@@ -17,6 +17,13 @@ const migration = readFileSync(
   ),
   'utf8'
 );
+const lineItemLimitMigration = readFileSync(
+  new URL(
+    '../supabase/migrations/087_guest_order_line_item_limit.sql',
+    import.meta.url
+  ),
+  'utf8'
+);
 const edgeFunction = readFileSync(
   new URL('../supabase/functions/submit-guest-order/index.ts', import.meta.url),
   'utf8'
@@ -186,6 +193,23 @@ test('customer browser uses the Edge gateway instead of the mutation RPC', () =>
   );
 });
 
+test('M5 keeps a fifty-item limit identical in the private core and gateway', () => {
+  assert.match(
+    lineItemLimitMigration,
+    /CREATE OR REPLACE FUNCTION public\._calculate_guest_promotion[\s\S]*?jsonb_array_length\(p_items\) > 50/
+  );
+  assert.match(
+    lineItemLimitMigration,
+    /CREATE OR REPLACE FUNCTION public\.submit_guest_customer_order_core[\s\S]*?jsonb_array_length\(p_items\) > 50/
+  );
+  assert.match(edgeFunction, /const MAX_GUEST_ORDER_LINE_ITEMS = 50/);
+  assert.match(edgeFunction, /code: 'too_many_line_items'/);
+  assert.match(
+    lineItemLimitMigration,
+    /REVOKE ALL ON FUNCTION public\.submit_guest_customer_order_core[\s\S]*?FROM PUBLIC, anon, authenticated/
+  );
+});
+
 test('gateway logs contain request IDs and outcomes but no raw identifiers', () => {
   assert.doesNotMatch(edgeFunction, /console\.(?:info|error|warn)\([^\n]*(?:clientIp|phone|turnstileToken)/);
   assert.match(edgeFunction, /logSecurityEvent\('guest_order_accepted'/);
@@ -283,6 +307,58 @@ test('runtime gateway accepts valid Turnstile and returns one canonical order re
   assert.equal(calls.filter((url) => url.includes('/siteverify')).length, 1);
   assert.equal(calls.filter((url) => url.endsWith('/submit_guest_customer_order')).length, 1);
   assert.equal(calls.filter((url) => url.endsWith('/finalize_guest_order_gateway')).length, 1);
+});
+
+test('runtime gateway accepts exactly 50 line items and preserves their variant identities', async () => {
+  let submittedItems: unknown[] | null = null;
+  const items = Array.from({length: 50}, (_, index) => ({
+    product_id: `33333333-3333-4333-8333-${String(index + 1).padStart(12, '0')}`,
+    quantity: (index % 3) + 1,
+  }));
+  const response = await handleGuestOrderRequest(gatewayRequest({items}), {
+    getEnv: testEnvironment,
+    fetchImpl: async (input, init) => {
+      const url = String(input);
+      if (url.includes('/siteverify')) {
+        return new Response(JSON.stringify(validVerification), {status: 200});
+      }
+      if (url.endsWith('/authorize_guest_order_gateway')) {
+        return new Response(JSON.stringify({allowed: true}), {status: 200});
+      }
+      if (url.endsWith('/submit_guest_customer_order')) {
+        submittedItems = (JSON.parse(String(init?.body)) as {p_items: unknown[]}).p_items;
+        return new Response(JSON.stringify({
+          success: true,
+          order_id: '44444444-4444-4444-8444-444444444444',
+          order_number: 'WEB-SECURITY-050',
+        }), {status: 200});
+      }
+      return new Response(null, {status: 204});
+    },
+  });
+  assert.equal(response.status, 200);
+  assert.deepEqual(submittedItems, items);
+});
+
+test('runtime gateway rejects 51 line items before Turnstile or database work', async () => {
+  let networkCalls = 0;
+  const response = await handleGuestOrderRequest(gatewayRequest({
+    items: Array.from({length: 51}, (_, index) => ({
+      product_id: `33333333-3333-4333-8333-${String(index + 1).padStart(12, '0')}`,
+      quantity: 1,
+    })),
+  }), {
+    getEnv: testEnvironment,
+    fetchImpl: async () => {
+      networkCalls += 1;
+      return new Response('{}', {status: 500});
+    },
+  });
+  const payload = await response.json() as {code?: string; error?: string};
+  assert.equal(response.status, 400);
+  assert.equal(payload.code, 'too_many_line_items');
+  assert.match(payload.error || '', /50 صنفًا/);
+  assert.equal(networkCalls, 0);
 });
 
 test('runtime gateway rejects invalid or replayed Turnstile before every database RPC', async () => {

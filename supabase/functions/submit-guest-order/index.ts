@@ -62,6 +62,7 @@ const text = (value: unknown, maxLength: number) =>
 
 const eventId = () => crypto.randomUUID();
 const MAX_REQUEST_BODY_BYTES = 64 * 1024;
+const MAX_GUEST_ORDER_LINE_ITEMS = 50;
 
 async function readLimitedJsonBody(
   request: Request,
@@ -194,11 +195,18 @@ export async function handleGuestOrderRequest(
   const clientSessionId = text(body.clientSessionId, 64);
   const turnstileToken = text(body.turnstileToken, MAX_TURNSTILE_TOKEN_LENGTH + 1);
   const customer = body.customer || {};
+  const items = Array.isArray(body.items) ? body.items : [];
   const phone = normalizeJordanPhone(customer.phone);
   const clientIp = extractTrustedClientIp(request.headers);
 
   if (!isUuid(idempotencyKey) || !isUuid(clientSessionId) || !phone || !clientIp) {
     return jsonResponse({error: 'راجع بيانات الطلب ثم حاول مرة أخرى.', code: 'invalid_request'}, 400, origin);
+  }
+  if (items.length > MAX_GUEST_ORDER_LINE_ITEMS) {
+    return jsonResponse({
+      error: `الحد الأقصى للطلب هو ${MAX_GUEST_ORDER_LINE_ITEMS} صنفًا. احذف صنفًا واحدًا على الأقل ثم حاول مرة أخرى.`,
+      code: 'too_many_line_items',
+    }, 400, origin);
   }
   if (!turnstileToken || turnstileToken.length > MAX_TURNSTILE_TOKEN_LENGTH) {
     logSecurityEvent('turnstile_missing', requestId);
@@ -272,7 +280,6 @@ export async function handleGuestOrderRequest(
     }, 429, origin, {'Retry-After': String(retryAfter)});
   }
 
-  const items = Array.isArray(body.items) ? body.items : [];
   let orderResponse: Response;
   let orderResult: Record<string, unknown>;
   try {

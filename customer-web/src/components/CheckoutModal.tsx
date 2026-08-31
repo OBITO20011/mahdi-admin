@@ -47,6 +47,7 @@ import {
   clearPendingOrder,
   createOrderFingerprint,
   createPromotionContextKey,
+  MAX_GUEST_ORDER_LINE_ITEMS,
   getOrCreateIdempotencyKey,
   getOrCreateGuestOrderSessionId,
   extractGoogleMapsCoordinates,
@@ -435,6 +436,13 @@ export function CheckoutModal({
     }
     if (items.length === 0) {
       setSubmitError('السلة فارغة. أضف طردًا قبل إرسال الطلب.');
+      return false;
+    }
+
+    if (items.length > MAX_GUEST_ORDER_LINE_ITEMS) {
+      setSubmitError(
+        `الحد الأقصى للطلب هو ${MAX_GUEST_ORDER_LINE_ITEMS} صنفًا. احذف ${items.length - MAX_GUEST_ORDER_LINE_ITEMS} صنفًا على الأقل ثم حاول مرة أخرى.`
+      );
       return false;
     }
 

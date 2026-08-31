@@ -11,6 +11,7 @@ import {
   EMPTY_GUEST_CHECKOUT_FORM,
   PENDING_ORDER_STORAGE_KEY,
   GUEST_ORDER_SESSION_STORAGE_KEY,
+  MAX_GUEST_ORDER_LINE_ITEMS,
   buildGuestOrderItems,
   buildGoogleMapsUrl,
   buildWhatsAppOrderMessage,
@@ -149,6 +150,10 @@ test('guest order sends wholesale package counts only', () => {
       quantity: 2,
     },
   ]);
+});
+
+test('guest checkout exposes the same 50-line-item limit as the server gateway', () => {
+  assert.equal(MAX_GUEST_ORDER_LINE_ITEMS, 50);
 });
 
 test('the same pending checkout reuses one idempotency key', () => {
