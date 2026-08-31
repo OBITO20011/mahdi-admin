@@ -33,6 +33,8 @@ export interface GuestOrderItem {
 
 export interface GuestOrderRequest {
   idempotencyKey: string;
+  turnstileToken: string;
+  clientSessionId: string;
   customer: GuestCheckoutForm;
   items: GuestOrderItem[];
   promotionCode?: string;

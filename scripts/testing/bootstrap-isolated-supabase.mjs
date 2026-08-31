@@ -12,7 +12,8 @@ const sourceSupabaseRoot = path.join(projectRoot, 'supabase');
 const temporaryRoot = await mkdtemp(path.join(tmpdir(), 'nawasrah-isolated-supabase-'));
 const isolatedSupabaseRoot = path.join(temporaryRoot, 'supabase');
 const isolatedConfigPath = path.join(isolatedSupabaseRoot, 'config.toml');
-const isolatedProjectId = 'nawasrah-phase7-test';
+const isolatedProjectId = process.env.NAWASRAH_ISOLATED_PROJECT_ID ||
+  'nawasrah-phase7-test';
 const cleanupMigrationPath = path.join(
   isolatedSupabaseRoot,
   'migrations',
@@ -38,6 +39,14 @@ await Promise.all([
     recursive: true,
   }),
 ]);
+
+if (process.env.NAWASRAH_FUNCTION_ENV_FILE_CONTENT) {
+  await writeFile(
+    path.join(isolatedSupabaseRoot, 'functions', '.env'),
+    process.env.NAWASRAH_FUNCTION_ENV_FILE_CONTENT,
+    'utf8',
+  );
+}
 
 const sourceConfig = await readFile(isolatedConfigPath, 'utf8');
 if (!/^project_id\s*=\s*"[^"]+"\s*$/mu.test(sourceConfig)) {
@@ -90,5 +99,6 @@ await execFileAsync(
 console.log(JSON.stringify({
   ok: true,
   isolatedProjectRoot: temporaryRoot,
+  isolatedProjectId,
   note: 'This temporary copy is for local destructive integrity tests only. Production migration 034 remains unchanged.',
 }, null, 2));

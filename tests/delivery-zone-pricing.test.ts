@@ -18,6 +18,13 @@ const orderService = readFileSync(
   new URL('../customer-web/src/services/orders.service.ts', import.meta.url),
   'utf8'
 );
+const guestOrderGateway = readFileSync(
+  new URL(
+    '../supabase/functions/submit-guest-order/index.ts',
+    import.meta.url
+  ),
+  'utf8'
+);
 
 test('admin controls two persisted delivery fees', () => {
   assert.match(adminSettings, /insideRamthaDeliveryFee/);
@@ -31,7 +38,8 @@ test('customer selects a delivery zone and sees a delivery-inclusive total', () 
   assert.match(checkout, /خارج الرمثا/);
   assert.match(checkout, /checkoutBeforeDelivery \+ selectedDeliveryFee/);
   assert.match(checkout, /الإجمالي شامل التوصيل/);
-  assert.match(orderService, /p_delivery_zone: request\.deliveryZone/);
+  assert.match(orderService, /deliveryZone: request\.deliveryZone/);
+  assert.match(guestOrderGateway, /p_delivery_zone: text\(body\.deliveryZone/);
 });
 
 test('PostgreSQL owns fee selection and rejects mismatched inside-Ramtha addresses', () => {

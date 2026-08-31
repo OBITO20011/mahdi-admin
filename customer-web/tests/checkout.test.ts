@@ -10,6 +10,7 @@ import { CartItem } from '../src/types/catalog';
 import {
   EMPTY_GUEST_CHECKOUT_FORM,
   PENDING_ORDER_STORAGE_KEY,
+  GUEST_ORDER_SESSION_STORAGE_KEY,
   buildGuestOrderItems,
   buildGoogleMapsUrl,
   buildWhatsAppOrderMessage,
@@ -23,6 +24,7 @@ import {
   readLastGuestOrder,
   saveLastGuestOrder,
   getOrCreateIdempotencyKey,
+  getOrCreateGuestOrderSessionId,
   isSupportedGoogleMapsUrl,
   normalizeJordanPhone,
   normalizePromotionCode,
@@ -173,6 +175,20 @@ test('the same pending checkout reuses one idempotency key', () => {
   );
 });
 
+test('guest order session ID is opaque, stable per session and contains no customer data', () => {
+  const storage = new MemoryStorage();
+  const first = getOrCreateGuestOrderSessionId(
+    storage as unknown as Storage
+  );
+  const second = getOrCreateGuestOrderSessionId(
+    storage as unknown as Storage
+  );
+  assert.equal(first, second);
+  assert.match(first, /^[0-9a-f-]{36}$/i);
+  assert.equal(storage.getItem(GUEST_ORDER_SESSION_STORAGE_KEY), first);
+  assert.doesNotMatch(first, /محمد|0791234567/);
+});
+
 test('payment choice changes the protected order fingerprint', () => {
   assert.notEqual(
     createOrderFingerprint(validForm, cartItems, '', 'cash_on_delivery'),
@@ -317,5 +333,32 @@ test('guest RPC is a guarded wrapper around canonical order creation', () => {
   assert.doesNotMatch(
     migration,
     /UPDATE public\.inventory_balances|INSERT INTO public\.order_items/
+  );
+});
+
+test('latest security migration makes the guest mutation service-only', () => {
+  const migration = readFileSync(
+    new URL(
+      '../../supabase/migrations/086_guest_order_abuse_gateway.sql',
+      import.meta.url
+    ),
+    'utf8'
+  );
+  const service = readFileSync(
+    new URL('../src/services/orders.service.ts', import.meta.url),
+    'utf8'
+  );
+  assert.match(
+    migration,
+    /REVOKE ALL ON FUNCTION public\.submit_guest_customer_order[\s\S]*FROM PUBLIC, anon, authenticated/
+  );
+  assert.match(
+    migration,
+    /GRANT EXECUTE ON FUNCTION public\.submit_guest_customer_order[\s\S]*TO service_role/
+  );
+  assert.match(service, /'submit-guest-order'/);
+  assert.doesNotMatch(
+    service,
+    /supabase\.rpc\(\s*['"]submit_guest_customer_order['"]/
   );
 });

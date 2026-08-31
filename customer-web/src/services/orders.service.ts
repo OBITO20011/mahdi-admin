@@ -1,4 +1,8 @@
-import { isSupabaseConfigured, supabase } from '../lib/supabase';
+import {
+  invokePublicEdgeFunction,
+  isSupabaseConfigured,
+  supabase,
+} from '../lib/supabase';
 import {
   GuestOrderReceipt,
   GuestOrderRequest,
@@ -125,35 +129,33 @@ export async function submitGuestCustomerOrder(
     throw new Error('رقم الهاتف الأردني غير صحيح.');
   }
 
-  const { data, error } = await supabase.rpc(
-    'submit_guest_customer_order',
+  const data = await invokePublicEdgeFunction<RpcPayload>(
+    'submit-guest-order',
     {
-      p_idempotency_key: request.idempotencyKey,
-      p_customer_full_name: request.customer.fullName.trim(),
-      p_customer_phone: normalizedPhone,
-      p_governorate: request.customer.governorate.trim(),
-      p_city: request.customer.city.trim(),
-      p_area: request.customer.area.trim(),
-      p_street: request.customer.street.trim(),
-      p_building: request.customer.building.trim() || null,
-      p_address_notes: request.customer.addressNotes.trim() || null,
-      p_google_maps_url:
-        request.customer.googleMapsUrl.trim() || null,
-      p_latitude: request.customer.latitude,
-      p_longitude: request.customer.longitude,
-      p_customer_notes: request.customer.customerNotes.trim() || null,
-      p_items: request.items,
-      p_promotion_code: request.promotionCode?.trim() || null,
-      p_payment_method: request.paymentMethod,
-      p_delivery_zone: request.deliveryZone,
+      idempotencyKey: request.idempotencyKey,
+      turnstileToken: request.turnstileToken,
+      clientSessionId: request.clientSessionId,
+      customer: {
+        ...request.customer,
+        fullName: request.customer.fullName.trim(),
+        phone: normalizedPhone,
+        governorate: request.customer.governorate.trim(),
+        city: request.customer.city.trim(),
+        area: request.customer.area.trim(),
+        street: request.customer.street.trim(),
+        building: request.customer.building.trim(),
+        addressNotes: request.customer.addressNotes.trim(),
+        googleMapsUrl: request.customer.googleMapsUrl.trim(),
+        customerNotes: request.customer.customerNotes.trim(),
+      },
+      items: request.items,
+      promotionCode: request.promotionCode?.trim() || null,
+      paymentMethod: request.paymentMethod,
+      deliveryZone: request.deliveryZone,
     }
   );
 
-  if (error) {
-    throw new Error(error.message || 'تعذر إرسال الطلب إلى الإدارة.');
-  }
-
-  return mapGuestOrderReceipt((data || {}) as RpcPayload);
+  return mapGuestOrderReceipt(data);
 }
 
 function mapGuestOrderTracking(payload: RpcPayload): GuestOrderTracking {

@@ -17,6 +17,8 @@ export const PENDING_ORDER_STORAGE_KEY =
   'nawasrah-guest-order-request-v1';
 export const SAVED_CUSTOMER_STORAGE_KEY = 'nawasrah-saved-customer-v1';
 export const LAST_ORDER_STORAGE_KEY = 'nawasrah-last-order-v1';
+export const GUEST_ORDER_SESSION_STORAGE_KEY =
+  'nawasrah-guest-order-session-v1';
 
 const PENDING_ORDER_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -331,6 +333,31 @@ function generateRequestKey(): string {
     throw new Error('المتصفح لا يدعم إنشاء مفتاح آمن للطلب.');
   }
   return cryptoApi.randomUUID();
+}
+
+function isUuid(value: string): boolean {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+    value
+  );
+}
+
+export function getOrCreateGuestOrderSessionId(
+  storage: Pick<Storage, 'getItem' | 'setItem'>
+): string {
+  try {
+    const existing = storage.getItem(GUEST_ORDER_SESSION_STORAGE_KEY);
+    if (existing && isUuid(existing)) return existing;
+  } catch {
+    // Continue with a fresh opaque session identifier when storage is blocked.
+  }
+
+  const sessionId = generateRequestKey();
+  try {
+    storage.setItem(GUEST_ORDER_SESSION_STORAGE_KEY, sessionId);
+  } catch {
+    // The current request can still use the in-memory identifier.
+  }
+  return sessionId;
 }
 
 export function getOrCreateIdempotencyKey(

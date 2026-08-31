@@ -48,6 +48,7 @@ import {
   createOrderFingerprint,
   createPromotionContextKey,
   getOrCreateIdempotencyKey,
+  getOrCreateGuestOrderSessionId,
   extractGoogleMapsCoordinates,
   isSupportedGoogleMapsUrl,
   normalizePromotionCode,
@@ -63,6 +64,7 @@ import {
 } from '../utils/cart';
 import { formatJod } from '../utils/money';
 import { CheckoutProgress } from './CheckoutProgress';
+import { TurnstileWidget } from './TurnstileWidget';
 import { PublicStorefrontSettings } from '../types/storefront';
 
 interface CheckoutModalProps {
@@ -151,6 +153,8 @@ export function CheckoutModal({
   const [deliveryZone, setDeliveryZone] = useState<DeliveryZone>('inside_ramtha');
   const [saveCustomerDetails, setSaveCustomerDetails] = useState(false);
   const [isReviewing, setIsReviewing] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
 
   const displayedItems = receipt ? submittedItems : items;
   const packagesCount = calculateCartPackages(displayedItems);
@@ -464,6 +468,10 @@ export function CheckoutModal({
 
   const handleSubmit = async () => {
     if (!validateForReview()) return;
+    if (!turnstileToken) {
+      setSubmitError('أكمل التحقق الأمني قبل إرسال الطلب.');
+      return;
+    }
 
     setIsSubmitting(true);
     setSubmitError('');
@@ -481,6 +489,10 @@ export function CheckoutModal({
       );
       const result = await submitGuestCustomerOrder({
         idempotencyKey,
+        turnstileToken,
+        clientSessionId: getOrCreateGuestOrderSessionId(
+          window.sessionStorage
+        ),
         customer: form,
         items: buildGuestOrderItems(items),
         promotionCode: activePromotionQuote?.code,
@@ -510,6 +522,8 @@ export function CheckoutModal({
       );
       if (popup) popup.opener = null;
     } catch (error) {
+      setTurnstileToken('');
+      setTurnstileResetSignal((current) => current + 1);
       setSubmitError(
         error instanceof Error
           ? error.message
@@ -524,6 +538,8 @@ export function CheckoutModal({
     if (isSubmitting) return;
     onClose();
     setIsReviewing(false);
+    setTurnstileToken('');
+    setTurnstileResetSignal((current) => current + 1);
     if (receipt) {
       setReceipt(null);
       setForm(EMPTY_GUEST_CHECKOUT_FORM);
@@ -755,6 +771,13 @@ export function CheckoutModal({
                     <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" />
                     عند التأكيد سيُحفظ الطلب في نظام الإدارة أولًا، وبعد نجاح الحفظ فقط سيفتح ملخص واتساب.
                   </div>
+                  <TurnstileWidget
+                    resetSignal={turnstileResetSignal}
+                    onTokenChange={(token) => {
+                      setTurnstileToken(token);
+                      if (token) setSubmitError('');
+                    }}
+                  />
                 </section>
               </div>
 
@@ -770,7 +793,7 @@ export function CheckoutModal({
               <button type="button" onClick={() => setIsReviewing(false)} disabled={isSubmitting} className="rounded-2xl border border-slate-200 bg-white px-5 py-4 text-xs font-black text-slate-700 disabled:opacity-50">
                 تعديل البيانات
               </button>
-              <button type="button" onClick={() => void handleSubmit()} disabled={isSubmitting} className="flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 text-sm font-black text-white shadow-lg shadow-emerald-900/20 transition hover:bg-emerald-700 disabled:bg-slate-300">
+              <button type="button" onClick={() => void handleSubmit()} disabled={isSubmitting || !turnstileToken} className="flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 text-sm font-black text-white shadow-lg shadow-emerald-900/20 transition hover:bg-emerald-700 disabled:bg-slate-300">
                 {isSubmitting ? <><LoaderCircle className="h-5 w-5 animate-spin" /> جارٍ حفظ الطلب...</> : <><CheckCircle2 className="h-5 w-5" /> تأكيد وحفظ الطلب في الإدارة</>}
               </button>
             </footer>
