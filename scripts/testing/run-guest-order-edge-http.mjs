@@ -41,7 +41,7 @@ const runSql = (sql) => new Promise((resolve, reject) => {
 });
 
 const sqlJson = async (sql) => JSON.parse(await runSql(sql));
-const requestBody = ({ idempotencyKey, sessionId, phone }) => ({
+const requestBody = ({ idempotencyKey, sessionId, phone, street = 'شارع الاختبار' }) => ({
   idempotencyKey,
   turnstileToken: 'XXXX.DUMMY.TOKEN.XXXX',
   clientSessionId: sessionId,
@@ -51,7 +51,7 @@ const requestBody = ({ idempotencyKey, sessionId, phone }) => ({
     governorate: 'إربد',
     city: 'الرمثا',
     area: 'الحي الشرقي',
-    street: 'شارع الاختبار',
+    street,
     building: '',
     addressNotes: '',
     googleMapsUrl: '',
@@ -229,6 +229,7 @@ TRUNCATE public.guest_order_gateway_requests;
     idempotencyKey: firstKey,
     sessionId: uuidFor('8602', 1),
     phone: '0797000001',
+    street: '',
   });
   Object.assign(firstBody, {
     productPrice: 1,
@@ -266,13 +267,19 @@ TRUNCATE public.guest_order_gateway_requests;
     'customers', (SELECT COUNT(*) FROM public.customers WHERE phone = '0797000001'),
     'on_hand', (SELECT on_hand_quantity FROM public.inventory_balances WHERE product_id='86000000-0000-4000-8600-000000000001'),
     'reserved', (SELECT reserved_quantity FROM public.inventory_balances WHERE product_id='86000000-0000-4000-8600-000000000001'),
-    'gateway_rows', (SELECT COUNT(*) FROM public.guest_order_gateway_requests WHERE idempotency_key='${firstKey}')
+    'gateway_rows', (SELECT COUNT(*) FROM public.guest_order_gateway_requests WHERE idempotency_key='${firstKey}'),
+    'stored_street', (
+      SELECT ca.street
+      FROM public.orders o
+      JOIN public.customer_addresses ca ON ca.id = o.customer_address_id
+      WHERE o.idempotency_key='${firstKey}'
+    )
   ) FROM public.orders;`);
   if (
     replayReconciliation.orders !== 1 || replayReconciliation.customers !== 1 ||
     replayReconciliation.on_hand !== baseline.on_hand ||
     replayReconciliation.reserved !== baseline.reserved + 1 ||
-    replayReconciliation.gateway_rows !== 1
+    replayReconciliation.gateway_rows !== 1 || replayReconciliation.stored_street !== null
   ) {
     throw new Error(`Retry reconciliation failed: ${JSON.stringify(replayReconciliation)}`);
   }

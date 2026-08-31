@@ -153,7 +153,7 @@ export async function submitGuestCustomerOrder(
         governorate: request.customer.governorate.trim(),
         city: request.customer.city.trim(),
         area: request.customer.area.trim(),
-        street: deliveryAddress,
+        street: request.customer.street.trim(),
         building: request.customer.building.trim(),
         addressNotes: request.customer.addressNotes.trim(),
         googleMapsUrl: request.customer.googleMapsUrl.trim(),
