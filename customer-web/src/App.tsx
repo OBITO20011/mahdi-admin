@@ -1345,7 +1345,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         items={cartItems}
         storeWhatsAppNumber={storefrontSettings.whatsappNumber}
         storefrontSettings={storefrontSettings}
-        settingsUnavailable={!settingsTrusted}
+        settingsUnavailable={settingsUnavailable}
         initialPromotionCode={preferredPromotionCode}
         onClose={() => setCheckoutOpen(false)}
         onRetryStorefrontSettings={() => void loadStorefrontSettings(true)}
