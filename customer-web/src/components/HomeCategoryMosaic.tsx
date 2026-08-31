@@ -1,4 +1,4 @@
-import { ArrowLeft, Layers3 } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import type { CatalogCategory, CatalogProduct } from '../types/catalog';
 import { getCategoryVisual } from './categoryVisuals';
 
@@ -45,8 +45,11 @@ export function HomeCategoryMosaic({
         </button>
       </div>
 
-      <div className="grid auto-rows-[190px] gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:auto-rows-[210px]">
-        {featuredCategories.map((category, index) => {
+      <div
+        data-testid="home-category-grid"
+        className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 sm:gap-3 lg:grid-cols-4"
+      >
+        {featuredCategories.map((category) => {
           const visual = getCategoryVisual(category.code);
           const Icon = visual.icon;
           const coverUrl =
@@ -56,23 +59,16 @@ export function HomeCategoryMosaic({
                 product.categoryId === category.id && Boolean(product.imageUrl)
             )?.imageUrl ||
             '';
-          const isFeatured = index === 0;
-          const layoutClass =
-            index === 0
-              ? 'sm:col-span-2 lg:col-span-2 lg:row-span-2'
-              : index === 3
-                ? 'sm:col-span-2 lg:col-span-2'
-                : '';
-
           return (
             <button
               type="button"
               key={category.id}
               onClick={() => onSelect(category.id)}
-              className={`group relative overflow-hidden rounded-[1.75rem] bg-gradient-to-br text-right shadow-[0_18px_45px_-28px_rgba(15,23,42,0.7)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_25px_55px_-28px_rgba(30,64,175,0.55)] ${visual.active} ${layoutClass}`}
+              aria-label={`فتح قسم ${category.nameAr}`}
+              className={`group relative aspect-square overflow-hidden rounded-2xl bg-gradient-to-br text-right shadow-[0_12px_30px_-22px_rgba(15,23,42,0.7)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_-22px_rgba(30,64,175,0.55)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200 ${visual.active}`}
             >
               <span className="absolute inset-0 grid place-items-center text-white/20">
-                <Icon className={isFeatured ? 'h-28 w-28' : 'h-16 w-16'} />
+                <Icon className="h-10 w-10" />
               </span>
               {coverUrl && (
                 <img
@@ -85,29 +81,12 @@ export function HomeCategoryMosaic({
                   className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
                 />
               )}
-              <span className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/25 to-transparent" />
+              <span className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent" />
 
-              <span className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-2xl border border-white/20 bg-white/15 text-white backdrop-blur">
-                <Icon className="h-5 w-5" />
-              </span>
-              <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-[9px] font-black text-blue-950 shadow-sm">
-                {category.productCount.toLocaleString('ar-JO')} منتج
-              </span>
-
-              <span className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-6">
-                {isFeatured && category.productCount > 0 && (
-                  <span className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-amber-400 px-3 py-1 text-[9px] font-black text-amber-950">
-                    <Layers3 className="h-3.5 w-3.5" />
-                    أكبر تشكيلة حاليًا
-                  </span>
-                )}
-                <strong className={`block font-black ${isFeatured ? 'text-2xl sm:text-3xl' : 'text-lg'}`}>
+              <span className="absolute inset-x-2 bottom-2 rounded-xl bg-slate-950/65 px-2 py-1.5 text-center text-[10px] font-black leading-4 text-white shadow-sm backdrop-blur-sm sm:text-xs">
+                <strong className="line-clamp-2 block">
                   {category.nameAr}
                 </strong>
-                <span className="mt-2 flex items-center justify-between text-[10px] font-bold text-white/75">
-                  <span>{category.productCount > 0 ? 'تصفح منتجات القسم' : 'بانتظار إضافة الأصناف'}</span>
-                  <ArrowLeft className="h-4 w-4 transition group-hover:-translate-x-1" />
-                </span>
               </span>
             </button>
           );

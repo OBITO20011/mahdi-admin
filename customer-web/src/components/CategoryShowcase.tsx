@@ -1,4 +1,4 @@
-import { ArrowLeft, CheckCircle2, ImageOff } from 'lucide-react';
+import { ImageOff } from 'lucide-react';
 import type { CSSProperties } from 'react';
 import type { CatalogCategory, CatalogProduct } from '../types/catalog';
 import {
@@ -43,20 +43,23 @@ function CategoryCard({
     <button
       type="button"
       aria-pressed={isSelected}
+      aria-label={`فتح قسم ${category.name}`}
       onClick={() => onSelect(category.id)}
       style={{ animationDelay: `${Math.min(index * 45, 540)}ms` } as CSSProperties}
-      className={`category-card-enter group relative flex min-h-[310px] w-[82vw] max-w-[330px] shrink-0 snap-center flex-col overflow-hidden rounded-[1.75rem] border bg-white text-right shadow-[0_16px_45px_-30px_rgba(15,23,42,0.55)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_55px_-30px_rgba(30,64,175,0.45)] sm:w-[300px] lg:w-auto lg:max-w-none ${
+      className={`category-card-enter group relative aspect-square w-full overflow-hidden rounded-2xl border bg-white text-right shadow-[0_12px_30px_-22px_rgba(15,23,42,0.55)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_-22px_rgba(30,64,175,0.45)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200 ${
         isSelected
-          ? 'border-blue-500 ring-4 ring-blue-100'
+          ? 'border-blue-600 ring-2 ring-blue-100'
           : 'border-slate-200/90 hover:border-blue-200'
       }`}
     >
-      <span className={`relative block h-44 w-full overflow-hidden bg-gradient-to-br ${resolvedVisual.active}`}>
+      <span
+        className={`absolute inset-0 grid place-items-center overflow-hidden bg-gradient-to-br ${resolvedVisual.active}`}
+      >
         <span className="absolute inset-0 grid place-items-center text-white/30">
           {category.coverUrl ? (
-            <ImageOff className="h-10 w-10" />
+            <ImageOff className="h-7 w-7" />
           ) : (
-            <Icon className="h-16 w-16" />
+            <Icon className="h-10 w-10" />
           )}
         </span>
         {category.coverUrl && (
@@ -70,35 +73,18 @@ function CategoryCard({
             className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
           />
         )}
-        <span className="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-transparent to-slate-950/5" />
+        <span className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent" />
 
-        <span className="absolute right-4 top-4 grid h-11 w-11 place-items-center rounded-2xl border border-white/25 bg-white/90 text-blue-800 shadow-lg backdrop-blur">
-          <Icon className="h-5 w-5" />
-        </span>
-        <span className="absolute left-4 top-4 rounded-full border border-white/60 bg-white/95 px-3 py-1.5 text-[10px] font-black text-blue-900 shadow-sm backdrop-blur">
-          {category.count.toLocaleString('ar-JO')} منتج
-        </span>
         {isSelected && (
-          <span className="absolute bottom-3 right-4 inline-flex items-center gap-1.5 rounded-full bg-blue-700 px-3 py-1.5 text-[9px] font-black text-white shadow-lg">
-            <CheckCircle2 className="h-3.5 w-3.5" />
-            القسم المحدد
-          </span>
+          <span
+            className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full border-2 border-white bg-blue-500 shadow-sm"
+            aria-hidden="true"
+          />
         )}
-      </span>
 
-      <span className="flex flex-1 flex-col p-5">
-        <span className="block truncate text-lg font-black text-slate-950">
-          {category.name}
-        </span>
-        <span className="mt-2 block min-h-10 text-[11px] font-bold leading-5 text-slate-500">
-          {category.count > 0
-            ? `اكتشف أصناف الجملة المتوفرة داخل قسم ${category.name}`
-            : 'سيظهر محتوى هذا القسم تلقائيًا عند إضافة أصناف إليه من تطبيق الإدارة'}
-        </span>
-        <span className="mt-auto flex items-center justify-between border-t border-slate-100 pt-4 text-xs font-black text-blue-800">
-          <span>{category.count > 0 ? 'تصفح المنتجات' : 'عرض القسم'}</span>
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-blue-50 transition group-hover:-translate-x-1 group-hover:bg-blue-700 group-hover:text-white">
-            <ArrowLeft className="h-4 w-4" />
+        <span className="absolute inset-x-2 bottom-2 rounded-xl bg-slate-950/65 px-2 py-1.5 text-center text-[10px] font-black leading-4 text-white shadow-sm backdrop-blur-sm sm:text-xs">
+          <span className="line-clamp-2">
+            {category.name}
           </span>
         </span>
       </span>
@@ -162,7 +148,10 @@ export function CategoryShowcase({
         </div>
       </div>
 
-      <div className="category-scroll flex snap-x snap-mandatory gap-4 overflow-x-auto pb-5 lg:grid lg:grid-cols-3 lg:overflow-visible xl:grid-cols-4">
+      <div
+        data-testid="category-grid"
+        className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 sm:gap-3 lg:grid-cols-5 xl:grid-cols-6"
+      >
         {categoryItems.map((category, index) => (
           <CategoryCard
             key={category.id}
