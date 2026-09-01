@@ -28,6 +28,7 @@ async function expectNoSeriousAccessibilityViolations(page: Page) {
 test.describe('متجر العملاء العام', () => {
   test('الواجهة الرئيسية تجمع أقسام المنتجات المميزة في طلب واحد محدود', async ({ page }) => {
     const merchandisingRequests: Record<string, unknown>[] = [];
+    const settingsRequests: Record<string, unknown>[] = [];
     const product = {
       id: '00000000-0000-4000-8000-000000000301',
       sku: 'NWS-MERCH-01',
@@ -47,6 +48,33 @@ test.describe('متجر العملاء العام', () => {
       isFlavorMaster: false, flavorSortOrder: 0,
     };
 
+    await page.route('**/rest/v1/rpc/get_public_storefront_settings', async (route) => {
+      settingsRequests.push(route.request().postDataJSON() as Record<string, unknown>);
+      await route.fulfill({
+        contentType: 'application/json',
+        body: JSON.stringify({
+          storeNameAr: 'محلات النواصرة',
+          whatsappNumber: '962770000000',
+          cliqAlias: '',
+          ordersEnabled: true,
+          announcementText: '',
+          businessHoursText: '',
+          deliveryAreasText: '',
+          deliveryEtaText: '',
+          exchangePolicyText: '',
+          minimumOrderInMinorUnits: 0,
+          deliveryFeeInMinorUnits: 0,
+          insideRamthaDeliveryFeeInMinorUnits: 0,
+          outsideRamthaDeliveryFeeInMinorUnits: 0,
+          showNewestProducts: true,
+          showBestSellers: true,
+          showOffers: true,
+          showLowStock: true,
+          updatedAt: '2026-09-02T00:00:00Z',
+        }),
+      });
+    });
+
     await page.route('**/rest/v1/rpc/get_public_storefront_merchandising', async (route) => {
       merchandisingRequests.push(route.request().postDataJSON() as Record<string, unknown>);
       await route.fulfill({
@@ -60,12 +88,13 @@ test.describe('متجر العملاء العام', () => {
     await page.goto(customerBaseUrl, { waitUntil: 'domcontentloaded' });
     await expect(page.getByRole('heading', { name: 'وصل حديثًا' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'الأكثر طلبًا' })).toBeVisible();
-    await page.waitForTimeout(500);
-    expect(merchandisingRequests).toHaveLength(1);
+    await expect.poll(() => merchandisingRequests.length).toBe(1);
+    await expect.poll(() => settingsRequests.length).toBe(1);
 
     await page.reload({ waitUntil: 'domcontentloaded' });
     await expect(page.getByRole('heading', { name: 'وصل حديثًا' })).toBeVisible();
-    expect(merchandisingRequests).toHaveLength(2);
+    await expect.poll(() => merchandisingRequests.length).toBe(2);
+    await expect.poll(() => settingsRequests.length).toBe(2);
   });
 
   test('المنتج رقم 201+ يصل إليه بحث الخادم ويُعرض في الكتالوج', async ({ page }, testInfo) => {
