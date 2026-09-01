@@ -36,6 +36,13 @@ const tracking = [
     ),
     'utf8'
   ),
+  readFileSync(
+    new URL(
+      '../customer-web/src/components/orderTrackingPresentation.ts',
+      import.meta.url
+    ),
+    'utf8'
+  ),
 ].join('\n');
 
 test('sales returns are immutable full-order records written only by RPC', () => {
