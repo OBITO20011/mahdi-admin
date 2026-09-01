@@ -181,7 +181,7 @@ elseif ($latestRestoreDrillStatus.ok -ne $true -or $latestRestoreDrillStatus.liv
   } else { $null }
   operationalNotes = @(
     'The nightly backup runs as SYSTEM with native PostgreSQL tools and does not require a signed-in user.'
-    'StartWhenAvailable and three bounded retries cover restart, missed schedule, and transient network failure.'
+    'StartWhenAvailable, a delayed startup trigger, and three bounded retries cover restarts, missed schedules, and transient network failure.'
     'The isolated restore drill remains interactive because it intentionally uses Docker Desktop.'
   )
   actionRequired = $actionRequired

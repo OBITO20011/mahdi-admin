@@ -51,8 +51,11 @@ The first setup asks for Windows elevation once and registers **Nawasrah ERP
 Nightly Backup** as a `SYSTEM` service-account task. The task runs even when no
 user is signed in, uses native `pg_dump`/`pg_dumpall`, and does not start or
 depend on Docker Desktop. `StartWhenAvailable` catches up after a missed
-schedule, and transient failures are retried up to three times at 15-minute
-intervals. The computer must be powered on and have an internet connection.
+schedule while Windows remains available. A second trigger runs the same task
+five minutes after system startup, covering a
+schedule missed while the machine was fully powered off. Transient failures are
+retried up to three times at 15-minute intervals. The computer needs an internet
+connection when the backup runs.
 
 To recreate both reliable schedules without changing backup credentials, run:
 
@@ -61,9 +64,9 @@ npm.cmd run backup:schedule
 ```
 
 This command does not request or store the Windows account password. The machine
-must be powered on, but the configured Windows user does not need to be signed
-in. A completely powered-off computer cannot create a local backup; the missed
-run starts when Windows next becomes available.
+does not need to stay signed in. A completely powered-off computer cannot create
+a local backup at the scheduled time; the startup trigger catches it up after
+Windows next boots.
 
 `backup:background` remains as a backwards-compatible alias for registering the
 same unattended `SYSTEM` schedule.

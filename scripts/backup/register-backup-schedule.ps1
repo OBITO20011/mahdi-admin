@@ -21,6 +21,16 @@ $schedule = [DateTime]::ParseExact($ScheduleTime, 'HH:mm', [Globalization.Cultur
 $actionArguments = "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$RunScript`" -ConfigPath `"$ConfigPath`""
 $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument $actionArguments
 $trigger = New-ScheduledTaskTrigger -Daily -At $schedule
+$triggers = @($trigger)
+if ($RunAsSystem) {
+  # A machine that is fully powered off cannot be woken by Task Scheduler.
+  # This delayed startup trigger provides a deterministic catch-up run after boot.
+  $startupTrigger = New-ScheduledTaskTrigger -AtStartup
+  # Windows PowerShell accepts -RandomDelay for -AtStartup but can silently omit it
+  # from the registered task. Set the Task Scheduler ISO-8601 delay explicitly.
+  $startupTrigger.Delay = 'PT5M'
+  $triggers += $startupTrigger
+}
 $settings = New-ScheduledTaskSettingsSet `
   -StartWhenAvailable `
   -AllowStartIfOnBatteries `
@@ -46,7 +56,7 @@ else {
 Register-ScheduledTask `
   -TaskName $TaskName `
   -Action $action `
-  -Trigger $trigger `
+  -Trigger $triggers `
   -Settings $settings `
   -Principal $principal `
   -Description $Description `
@@ -54,4 +64,4 @@ Register-ScheduledTask `
 
 $mode = if ($RunAsSystem) { 'unattended SYSTEM' } else { 'interactive Docker-compatible' }
 Write-Host "Reliable $mode schedule created: $TaskName at $ScheduleTime" -ForegroundColor Green
-Write-Host 'StartWhenAvailable and bounded retries cover missed schedules and transient failures.' -ForegroundColor Cyan
+Write-Host 'StartWhenAvailable, a delayed startup catch-up, and bounded retries cover missed schedules and transient failures.' -ForegroundColor Cyan

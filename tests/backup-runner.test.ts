@@ -71,6 +71,9 @@ test('schedule helper supports an unattended SYSTEM task with catch-up and bound
   assert.match(source, /-AllowStartIfOnBatteries/u);
   assert.match(source, /-DontStopIfGoingOnBatteries/u);
   assert.match(source, /-WakeToRun/u);
+  assert.match(source, /New-ScheduledTaskTrigger -AtStartup/u);
+  assert.match(source, /\$startupTrigger\.Delay = 'PT5M'/u);
+  assert.match(source, /-Trigger \$triggers/u);
   assert.match(source, /-RestartCount 3/u);
   assert.match(source, /-RestartInterval/u);
   assert.match(source, /\[switch\]\$RunAsSystem/u);
