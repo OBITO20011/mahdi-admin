@@ -6,7 +6,6 @@ import {
   Copy,
   LoaderCircle,
   MessageCircle,
-  PackageCheck,
   PackageSearch,
   Phone,
   RefreshCw,
@@ -19,21 +18,11 @@ import {
 } from '../services/orders.service';
 import type { GuestOrderTracking } from '../types/checkout';
 import { formatJod } from '../utils/money';
-
-const STATUS_LABELS: Record<string, string> = {
-  new: 'وصلنا الطلب',
-  pending_confirmation: 'بانتظار تأكيد الطلب',
-  confirmed: 'تمت مراجعة الطلب',
-  preparing: 'جاري تجهيز الطلب',
-  processing: 'جاري تجهيز الطلب',
-  ready: 'الطلب جاهز للتوصيل',
-  out_for_delivery: 'الطلب في الطريق إليك',
-  delivered: 'تم تسليم الطلب',
-  completed: 'تم تسليم الطلب',
-  returned: 'تم إرجاع الطلب ورد المبلغ',
-  cancelled: 'تم إلغاء الطلب',
-  expired: 'انتهت مهلة حجز هذا الطلب',
-};
+import {
+  formatTrackingDateTime,
+  ORDER_STATUS_LABELS,
+  OrderTrackingTimeline,
+} from './OrderTrackingTimeline';
 
 type TrackingLookup = { orderNumber: string; phone: string };
 
@@ -41,18 +30,6 @@ interface OrderTrackingModalProps {
   isOpen: boolean;
   onClose: () => void;
   trackingToken?: string;
-}
-
-function formatDateTime(value?: string): string {
-  if (!value) return 'غير محدد';
-  const parsed = new Date(value);
-  if (Number.isNaN(parsed.getTime())) return 'غير محدد';
-  return parsed.toLocaleString('ar-JO', {
-    hour: 'numeric',
-    minute: '2-digit',
-    day: 'numeric',
-    month: 'short',
-  });
 }
 
 function calculateRemainingMinutes(value?: string): number | null {
@@ -152,7 +129,7 @@ export function OrderTrackingModal({
   const visibleTimeline = useMemo(() => {
     if (!result) return [];
     const timeline = result.timeline.filter(
-      (entry) => Boolean(STATUS_LABELS[entry.status]) && entry.createdAt
+      (entry) => Boolean(ORDER_STATUS_LABELS[entry.status]) && entry.createdAt
     );
     if (timeline.some((entry) => entry.status === result.status)) {
       return timeline;
@@ -316,7 +293,7 @@ export function OrderTrackingModal({
                     <CheckCircle2 className="h-5 w-5" />
                   )}
                   <strong className="text-sm font-black">
-                    {STATUS_LABELS[result.status] || result.status}
+                    {ORDER_STATUS_LABELS[result.status] || result.status}
                   </strong>
                 </div>
                 {(result.trackingToken || secureToken) && (
@@ -337,7 +314,8 @@ export function OrderTrackingModal({
 
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[10px] font-bold text-slate-600">
                 <span>
-                  آخر تحديث للطلب: <b>{formatDateTime(result.updatedAt)}</b>
+                  آخر تحديث للطلب:{' '}
+                  <b>{formatTrackingDateTime(result.updatedAt)}</b>
                 </span>
                 <button
                   type="button"
@@ -376,7 +354,8 @@ export function OrderTrackingModal({
                     <div className="flex items-center gap-2 text-blue-800">
                       <Clock3 className="h-5 w-5" />
                       <span className="text-xs font-black">
-                        الوصول المتوقع {formatDateTime(result.estimatedArrivalAt)}
+                        الوصول المتوقع{' '}
+                        {formatTrackingDateTime(result.estimatedArrivalAt)}
                       </span>
                     </div>
                     <p className="mt-2 text-[11px] font-bold text-slate-600">
@@ -443,60 +422,7 @@ export function OrderTrackingModal({
               </div>
             </div>
 
-            {visibleTimeline.length > 0 && (
-              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
-                <div className="mb-4 flex items-center gap-2 text-slate-900">
-                  <PackageCheck className="h-4 w-4 text-blue-600" />
-                  <h3 className="text-xs font-black">مراحل تنفيذ الطلب</h3>
-                </div>
-                <div className="space-y-0">
-                  {visibleTimeline.map((entry, index) => {
-                    const isCurrent = index === visibleTimeline.length - 1;
-                    const isExceptionalEntry =
-                      entry.status === 'cancelled' || entry.status === 'returned';
-                    return (
-                      <div
-                        key={`${entry.status}-${entry.createdAt}-${index}`}
-                        className="flex gap-3"
-                      >
-                        <div className="flex flex-col items-center">
-                          <span
-                            className={`grid h-7 w-7 place-items-center rounded-full border-2 ${
-                              isExceptionalEntry
-                                ? 'border-rose-600 bg-rose-600 text-white'
-                                : 'border-blue-700 bg-blue-700 text-white'
-                            }`}
-                          >
-                            <Check className="h-3.5 w-3.5" />
-                          </span>
-                          {index < visibleTimeline.length - 1 && (
-                            <span
-                              className="h-8 w-0.5 bg-blue-700"
-                            />
-                          )}
-                        </div>
-                        <div className="min-w-0 flex-1 pb-4 pt-1">
-                          <p
-                            className={`text-[11px] font-black ${
-                              isExceptionalEntry
-                                ? 'text-rose-800'
-                                : isCurrent
-                                  ? 'text-blue-800'
-                                  : 'text-slate-800'
-                            }`}
-                          >
-                            {STATUS_LABELS[entry.status] || entry.status}
-                          </p>
-                          <p className="mt-1 text-[9px] font-bold text-slate-400">
-                            {formatDateTime(entry.createdAt)}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+            <OrderTrackingTimeline entries={visibleTimeline} />
 
             {lastRefreshAt && (
               <p className="text-center text-[9px] font-bold text-slate-400">

@@ -4,11 +4,14 @@ import test from 'node:test';
 
 const app = readFileSync('src/App.tsx', 'utf8');
 const service = readFileSync('src/services/orders.service.ts', 'utf8');
-const trackingModal = readFileSync(
-  'src/components/OrderTrackingModal.tsx',
-  'utf8'
-);
-const checkoutModal = readFileSync('src/components/CheckoutModal.tsx', 'utf8');
+const trackingModal = [
+  readFileSync('src/components/OrderTrackingModal.tsx', 'utf8'),
+  readFileSync('src/components/OrderTrackingTimeline.tsx', 'utf8'),
+].join('\n');
+const checkoutModal = [
+  readFileSync('src/components/CheckoutModal.tsx', 'utf8'),
+  readFileSync('src/components/CheckoutReceiptPanel.tsx', 'utf8'),
+].join('\n');
 const receiptType = readFileSync('src/types/checkout.ts', 'utf8');
 
 test('secure tracking links open without customer login', () => {

@@ -21,13 +21,22 @@ const shiftView = readFileSync(
   new URL('../src/features/shifts/ShiftsView.tsx', import.meta.url),
   'utf8'
 );
-const tracking = readFileSync(
-  new URL(
-    '../customer-web/src/components/OrderTrackingModal.tsx',
-    import.meta.url
+const tracking = [
+  readFileSync(
+    new URL(
+      '../customer-web/src/components/OrderTrackingModal.tsx',
+      import.meta.url
+    ),
+    'utf8'
   ),
-  'utf8'
-);
+  readFileSync(
+    new URL(
+      '../customer-web/src/components/OrderTrackingTimeline.tsx',
+      import.meta.url
+    ),
+    'utf8'
+  ),
+].join('\n');
 
 test('sales returns are immutable full-order records written only by RPC', () => {
   assert.match(migration, /CREATE TABLE IF NOT EXISTS public\.sales_returns/);
