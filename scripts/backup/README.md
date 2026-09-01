@@ -9,16 +9,22 @@ successful archive contains:
 - a manifest with SHA-256 checksums for every archived file.
 
 The backup is encrypted with AES-256-GCM. The Supabase database password and
-archive passphrase are stored outside the repository in
-`%LOCALAPPDATA%\NawasrahBackup\config.json`, encrypted with Windows DPAPI for
-the current user. No service-role key is required or stored.
+archive passphrase are stored outside the repository. The interactive copy at
+`%LOCALAPPDATA%\NawasrahBackup\config.json` is protected with Windows DPAPI for
+the current user. The unattended copy at `config-machine.json` is protected
+with machine-scoped DPAPI and an ACL restricted to the setup user, local
+Administrators, and `SYSTEM`. No service-role key is required or stored.
 
 ## One-time setup
 
 Prerequisites:
 
-1. Docker Desktop is installed. The runner starts it when needed because the
-   official Supabase `db dump` command uses Docker.
+1. Install the official PostgreSQL 17 Windows binary tools under
+   `%LOCALAPPDATA%\NawasrahBackup\postgresql-17.11` so that `bin\pg_dump.exe`,
+   `bin\pg_dumpall.exe`, `bin\pg_restore.exe`, and `bin\psql.exe` exist. The
+   official Windows download page links to the EDB binary ZIP. The nightly
+   backup uses these native tools and does not need Docker Desktop. Preflight
+   fails before credentials are requested if the tools are missing.
 2. The project remains linked to `acjtabdqqnpwhdvbvnyw`.
 3. You know the Supabase database password.
 4. Choose a separate archive passphrase of at least 16 characters and keep a
@@ -41,11 +47,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\backup\setup-backup.
   -BackupRoot 'D:\Nawasrah Backups'
 ```
 
-The first setup registers a Docker-compatible **Interactive** task for the
-current Windows user. This is intentional: Docker Desktop needs an active
-Windows desktop session. If the computer is off or the user is signed out at
-the planned time, `StartWhenAvailable` runs the missed task after the next
-Windows sign-in. The device must have an internet connection.
+The first setup asks for Windows elevation once and registers **Nawasrah ERP
+Nightly Backup** as a `SYSTEM` service-account task. The task runs even when no
+user is signed in, uses native `pg_dump`/`pg_dumpall`, and does not start or
+depend on Docker Desktop. `StartWhenAvailable` catches up after a missed
+schedule, and transient failures are retried up to three times at 15-minute
+intervals. The computer must be powered on and have an internet connection.
 
 To recreate both reliable schedules without changing backup credentials, run:
 
@@ -54,18 +61,20 @@ npm.cmd run backup:schedule
 ```
 
 This command does not request or store the Windows account password. The machine
-must be powered on, the configured Windows user must be signed in, and Docker
-Desktop must be available. A completely powered-off computer cannot create a
-local backup.
+must be powered on, but the configured Windows user does not need to be signed
+in. A completely powered-off computer cannot create a local backup; the missed
+run starts when Windows next becomes available.
 
-`backup:background` remains as a backwards-compatible alias for the same safe
-interactive schedule; it does not promise signed-out Docker execution.
+`backup:background` remains as a backwards-compatible alias for registering the
+same unattended `SYSTEM` schedule.
 
 The same command also creates a second scheduled task named **Nawasrah ERP
 Quarterly Restore Drill**. It wakes daily at 02:17, reads only the timestamp of
 the last safe restore report, and runs the isolated restore test only when 90
-days have elapsed (or when no successful report exists). It never connects to
-or overwrites the live Supabase database.
+days have elapsed (or when no successful report exists). This drill remains an
+interactive task because the isolated Supabase PostgreSQL container uses Docker
+Desktop; it never connects to or overwrites the live Supabase database. Daily
+backup reliability does not depend on this quarterly Docker task.
 
 Check the schedule and latest backup without exposing any secret:
 
@@ -88,10 +97,10 @@ without forcing a new drill with:
 npm.cmd run backup:restore-schedule
 ```
 
-Run these commands from the same Windows account that completed
-`backup:setup`. The encrypted configuration is deliberately bound to that
-Windows account, so another account (including a restricted automation
-session) cannot decrypt it or impersonate the backup owner.
+Run manual verification and restore commands from the same Windows account that
+completed `backup:setup`. Its interactive configuration is deliberately bound
+to that Windows account. Only the registered `SYSTEM` task uses the separate,
+machine-protected configuration.
 
 If the Supabase Database password is reset later, update only that credential
 without changing the archive passphrase:
@@ -101,10 +110,11 @@ npm.cmd run backup:update-password
 ```
 
 The updater tests the new password first, creates a verified backup, and only
-then creates or replaces the daily task. If the original setup stopped before
-task creation, the updater completes that step automatically at the saved time
-(or 23:30 by default). A rejected password leaves the schedule disabled and
-restores the previous encrypted configuration value.
+then refreshes the machine-protected configuration and daily task. If the
+original setup stopped before task creation, the updater completes that step
+automatically at the saved time (or 23:30 by default). A rejected password
+leaves the schedule disabled and restores the previous encrypted configuration
+value.
 
 ## Verification and safe extraction
 
@@ -148,7 +158,9 @@ report must contain `"ok": true` and `"liveSupabaseTouched": false`.
 If OneDrive moved the backup folder, the runner searches for a folder named
 `Nawasrah ERP Backups` below the current OneDrive root and selects the newest
 archive. Update the saved `backupRoot` before the next scheduled production
-backup so new archives continue to be written to the intended folder.
+backup so new archives continue to be written to the intended folder. The
+update command also refreshes the unattended machine configuration and may ask
+for elevation.
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts\backup\update-backup-root.ps1 `
@@ -170,9 +182,10 @@ The backup destination contains:
 - `backup.log`: append-only success/failure history;
 - `nawasrah-backup-<UTC timestamp>.nwb`: verified encrypted archives.
 
-The runner also writes early setup/runner failures to
-`%LOCALAPPDATA%\NawasrahBackup\runner.log` when it cannot yet access the backup
-destination.
+The runner also writes early setup/runner failures beside the configuration as
+`%LOCALAPPDATA%\NawasrahBackup\runner.log`, including the Windows execution
+identity and explicit `STARTED`, `SUCCESS`, or `FAILED` state. Secret values are
+never written to this log.
 
 Restore-drill scheduling failures are written separately to
 `%LOCALAPPDATA%\NawasrahBackup\restore-drill-runner.log`.

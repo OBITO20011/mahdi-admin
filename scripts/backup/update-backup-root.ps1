@@ -27,3 +27,9 @@ finally {
 }
 
 Write-Output "Backup destination updated: $resolvedBackupRoot"
+
+$backgroundScript = Join-Path $PSScriptRoot 'enable-background-backup.ps1'
+& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $backgroundScript -ConfigPath $ConfigPath
+if ($LASTEXITCODE -ne 0) {
+  throw "Backup destination was saved, but the unattended task configuration could not be refreshed (exit code $LASTEXITCODE)."
+}

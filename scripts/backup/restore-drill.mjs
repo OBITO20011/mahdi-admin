@@ -17,6 +17,7 @@ const REQUIRED_CORE_TABLES = [
   'orders',
 ];
 const SAFE_IDENTIFIER = /^[a-z_][a-z0-9_$]*$/u;
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iu;
 
 async function docker(args, options = {}) {
   return execFileAsync('docker.exe', args, {
@@ -68,14 +69,99 @@ async function psql(containerName, sql) {
   return stdout.trim();
 }
 
-async function restoreSqlFile(containerName, containerPath) {
-  await docker([
+async function restoreSqlFile(
+  containerName,
+  containerPath,
+  { disableTriggers = false, username = 'postgres' } = {}
+) {
+  const argumentsList = [
     'exec', containerName,
     'psql', '-X', '--no-psqlrc', '--single-transaction',
     '--set', 'ON_ERROR_STOP=1',
-    '--username', 'postgres', '--dbname', DATABASE_NAME,
-    '--file', containerPath,
-  ]);
+    '--username', username, '--dbname', DATABASE_NAME,
+  ];
+  if (disableTriggers) {
+    argumentsList.push('--command', 'set session_replication_role = replica;');
+  }
+  argumentsList.push('--file', containerPath);
+  if (disableTriggers) {
+    argumentsList.push('--command', 'set session_replication_role = origin;');
+  }
+  await docker(argumentsList);
+}
+
+function parseCopyIdentifier(value) {
+  const trimmed = value.trim();
+  if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
+    return trimmed.slice(1, -1).replaceAll('""', '"');
+  }
+  return trimmed;
+}
+
+function collectReferencedAuthUserIds(dataSource, references) {
+  const wanted = new Map(references.map(({ table, column }) => [`${table}.${column}`, true]));
+  const ids = new Set();
+  const lines = dataSource.split(/\r?\n/u);
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const header = lines[index].match(/^COPY public\.("(?:[^"]|"")+"|[a-z_][a-z0-9_$]*) \((.+)\) FROM stdin;$/u);
+    if (!header) continue;
+    const table = parseCopyIdentifier(header[1]);
+    const columns = header[2].split(',').map(parseCopyIdentifier);
+    const wantedIndexes = columns
+      .map((column, columnIndex) => wanted.has(`${table}.${column}`) ? columnIndex : -1)
+      .filter((columnIndex) => columnIndex >= 0);
+    if (wantedIndexes.length === 0) continue;
+
+    for (index += 1; index < lines.length && lines[index] !== '\\.'; index += 1) {
+      const values = lines[index].split('\t');
+      for (const columnIndex of wantedIndexes) {
+        const value = values[columnIndex];
+        if (value && value !== '\\N') {
+          if (!UUID_PATTERN.test(value)) {
+            throw new Error(`Restore drill found an invalid Auth user reference in ${table}.`);
+          }
+          ids.add(value.toLowerCase());
+        }
+      }
+    }
+  }
+  return [...ids].sort();
+}
+
+async function seedAuthUserPlaceholders(containerName, dataPath) {
+  const referenceOutput = await psql(
+    containerName,
+    `select cls.relname || '|' || att.attname
+       from pg_catalog.pg_constraint con
+       join pg_catalog.pg_class cls on cls.oid = con.conrelid
+       join pg_catalog.pg_namespace nsp on nsp.oid = cls.relnamespace
+       join pg_catalog.pg_attribute att
+         on att.attrelid = con.conrelid and att.attnum = con.conkey[1]
+      where con.contype = 'f'
+        and nsp.nspname = 'public'
+        and con.confrelid = 'auth.users'::regclass
+        and cardinality(con.conkey) = 1
+      order by cls.relname, att.attname;`
+  );
+  const references = referenceOutput.split(/\r?\n/u).filter(Boolean).map((line) => {
+    const [table, column, ...unexpected] = line.split('|');
+    if (unexpected.length > 0 || !SAFE_IDENTIFIER.test(table) || !SAFE_IDENTIFIER.test(column)) {
+      throw new Error('Restore drill found an unexpected Auth foreign-key definition.');
+    }
+    return { table, column };
+  });
+  const ids = collectReferencedAuthUserIds(await readFile(dataPath, 'utf8'), references);
+  if (ids.length === 0) return 0;
+
+  const uuidValues = ids.map((id) => `('${id}'::uuid)`).join(', ');
+  await psql(
+    containerName,
+    `insert into auth.users (id)
+     select candidate.id from (values ${uuidValues}) as candidate(id)
+     on conflict (id) do nothing;`
+  );
+  return ids.length;
 }
 
 async function inspectRestoredDatabase(containerName) {
@@ -213,7 +299,14 @@ export async function runRestoreDrill({
     await docker(['cp', schemaPath, `${containerName}:/restore/schema.sql`]);
     await docker(['cp', dataPath, `${containerName}:/restore/data.sql`]);
     await restoreSqlFile(containerName, '/restore/schema.sql');
-    await restoreSqlFile(containerName, '/restore/data.sql');
+    const authUserPlaceholdersCreated = await seedAuthUserPlaceholders(containerName, dataPath);
+    // Data-only dumps are not dependency ordered for application triggers.
+    // Restore as the isolated superuser with triggers disabled in the same
+    // transaction, then return the session to normal before validation.
+    await restoreSqlFile(containerName, '/restore/data.sql', {
+      disableTriggers: true,
+      username: 'supabase_admin',
+    });
 
     const validation = await inspectRestoredDatabase(containerName);
     const completedAt = new Date();
@@ -230,6 +323,8 @@ export async function runRestoreDrill({
       storageObjectCount: verification.storageObjectCount,
       manifestFormatVersion: manifest.formatVersion,
       rolesFileVerifiedButNotApplied: true,
+      authUserPlaceholdersCreated,
+      authCredentialsRestored: false,
       ...validation,
     };
     return report;

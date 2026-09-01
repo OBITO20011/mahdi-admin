@@ -11,7 +11,9 @@ param(
 
   [string]$TaskName = 'Nawasrah ERP Nightly Backup',
 
-  [string]$Description = 'Encrypted daily database and product image backup for Nawasrah ERP.'
+  [string]$Description = 'Encrypted daily database and product image backup for Nawasrah ERP.',
+
+  [switch]$RunAsSystem
 )
 
 $ErrorActionPreference = 'Stop'
@@ -25,11 +27,21 @@ $settings = New-ScheduledTaskSettingsSet `
   -DontStopIfGoingOnBatteries `
   -WakeToRun `
   -ExecutionTimeLimit (New-TimeSpan -Hours 2) `
+  -RestartCount 3 `
+  -RestartInterval (New-TimeSpan -Minutes 15) `
   -MultipleInstances IgnoreNew
-$principal = New-ScheduledTaskPrincipal `
-  -UserId ([Security.Principal.WindowsIdentity]::GetCurrent().Name) `
-  -LogonType Interactive `
-  -RunLevel Limited
+$principal = if ($RunAsSystem) {
+  New-ScheduledTaskPrincipal `
+    -UserId 'SYSTEM' `
+    -LogonType ServiceAccount `
+    -RunLevel Highest
+}
+else {
+  New-ScheduledTaskPrincipal `
+    -UserId ([Security.Principal.WindowsIdentity]::GetCurrent().Name) `
+    -LogonType Interactive `
+    -RunLevel Limited
+}
 
 Register-ScheduledTask `
   -TaskName $TaskName `
@@ -40,5 +52,6 @@ Register-ScheduledTask `
   -Description $Description `
   -Force | Out-Null
 
-Write-Host "Reliable Docker-compatible schedule created: $TaskName at $ScheduleTime" -ForegroundColor Green
-Write-Host 'Windows will catch up after a missed time when this user next signs in.' -ForegroundColor Cyan
+$mode = if ($RunAsSystem) { 'unattended SYSTEM' } else { 'interactive Docker-compatible' }
+Write-Host "Reliable $mode schedule created: $TaskName at $ScheduleTime" -ForegroundColor Green
+Write-Host 'StartWhenAvailable and bounded retries cover missed schedules and transient failures.' -ForegroundColor Cyan

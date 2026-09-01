@@ -2,12 +2,18 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 
-test('backup runner probes Docker without turning expected stderr into a fatal PowerShell error', async () => {
+test('backup runner prefers native PostgreSQL tools and keeps Docker as an interactive fallback', async () => {
   const source = await readFile('scripts/backup/run-backup.ps1', 'utf8');
+  const backupSource = await readFile('scripts/backup/create-backup.mjs', 'utf8');
   assert.match(source, /function Test-DockerReady/u);
+  assert.match(source, /NAWASRAH_PG_BIN/u);
+  assert.match(source, /pg_dump\.exe/u);
+  assert.match(source, /protectionScope -eq 'LocalMachine'/u);
+  assert.match(source, /DataProtectionScope\]::LocalMachine/u);
   assert.match(source, /RedirectStandardError/u);
   assert.match(source, /process\.ExitCode -eq 0/u);
   assert.doesNotMatch(source, /& \$docker\.Source info/u);
+  assert.match(backupSource, /'--data-only',[\s\S]*'--disable-triggers'/u);
 });
 
 test('backup package scripts isolate Windows PowerShell from inherited PowerShell 7 modules', async () => {
@@ -32,11 +38,14 @@ test('backup package scripts isolate Windows PowerShell from inherited PowerShel
 
 test('backup setup enables the schedule only after the first real backup succeeds', async () => {
   const source = await readFile('scripts/backup/setup-backup.ps1', 'utf8');
+  const preflight = await readFile('scripts/backup/preflight.mjs', 'utf8');
   const firstBackup = source.indexOf('Creating and verifying the first backup now');
   const registerSchedule = source.indexOf('& powershell.exe -NoProfile -ExecutionPolicy Bypass -File $scheduleScript');
   assert.ok(firstBackup > 0);
   assert.ok(registerSchedule > firstBackup);
   assert.match(source, /daily schedule was not enabled/u);
+  assert.match(preflight, /if \(!nativePgTools\)/u);
+  assert.match(preflight, /process\.exitCode = 1/u);
 });
 
 test('database password updater validates before enabling the existing schedule', async () => {
@@ -55,13 +64,18 @@ test('database password updater validates before enabling the existing schedule'
   assert.match(source, /The backup succeeded, but Windows could not clear the clipboard automatically/u);
 });
 
-test('schedule helper creates a catch-up Docker-compatible interactive task', async () => {
+test('schedule helper supports an unattended SYSTEM task with catch-up and bounded retries', async () => {
   const source = await readFile('scripts/backup/register-backup-schedule.ps1', 'utf8');
   assert.match(source, /Register-ScheduledTask/u);
   assert.match(source, /-StartWhenAvailable/u);
   assert.match(source, /-AllowStartIfOnBatteries/u);
   assert.match(source, /-DontStopIfGoingOnBatteries/u);
   assert.match(source, /-WakeToRun/u);
+  assert.match(source, /-RestartCount 3/u);
+  assert.match(source, /-RestartInterval/u);
+  assert.match(source, /\[switch\]\$RunAsSystem/u);
+  assert.match(source, /-UserId 'SYSTEM'/u);
+  assert.match(source, /-LogonType ServiceAccount/u);
   assert.match(source, /-LogonType Interactive/u);
   assert.doesNotMatch(source, /RunWhenUserLoggedOff/u);
   assert.doesNotMatch(source, /-LogonType Password/u);
@@ -69,21 +83,26 @@ test('schedule helper creates a catch-up Docker-compatible interactive task', as
   assert.match(source, /-Force/u);
 });
 
-test('schedule repair avoids Windows credentials and status never reads backup secrets', async () => {
+test('schedule repair creates machine-protected config and status never emits backup secrets', async () => {
   const background = await readFile('scripts/backup/enable-background-backup.ps1', 'utf8');
   const status = await readFile('scripts/backup/get-backup-status.ps1', 'utf8');
   assert.doesNotMatch(background, /Get-Credential/u);
-  assert.doesNotMatch(background, /RunWhenUserLoggedOff/u);
+  assert.match(background, /DataProtectionScope\]::LocalMachine/u);
+  assert.match(background, /config-machine\.json/u);
+  assert.match(background, /Set-RestrictedConfigAcl/u);
+  assert.match(background, /register-unattended-backup-tasks\.ps1/u);
+  assert.match(background, /-Verb RunAs/u);
   assert.match(background, /Quarterly Restore Drill/u);
-  assert.match(background, /run-scheduled-restore-drill\.ps1/u);
-  assert.match(background, /LogonType -ne 'Interactive'/u);
-  assert.match(background, /Docker-compatible Interactive logon mode/u);
-  assert.doesNotMatch(background, /& powershell\.exe .*\$scheduleScript/u);
+  assert.match(background, /LogonType -ne 'ServiceAccount'/u);
   assert.match(status, /actionRequired/u);
   assert.match(status, /last-backup-status\.json/u);
   assert.match(status, /-Encoding UTF8/u);
   assert.match(status, /startedAt = \$latestStatus\.startedAt/u);
   assert.match(status, /configDecryptable/u);
+  assert.match(status, /machineConfigDecryptable/u);
+  assert.match(status, /older than 36 hours/u);
+  assert.match(status, /executionIdentity/u);
+  assert.match(status, /dumpProvider/u);
   assert.match(status, /restoreDrillTask/u);
   assert.match(status, /latestRestoreDrill/u);
   assert.match(status, /last-restore-drill-status\.json/u);
@@ -94,13 +113,20 @@ test('schedule repair avoids Windows credentials and status never reads backup s
   assert.doesNotMatch(status, /Write-(Host|Output).*databasePassword/iu);
 });
 
-test('backup and restore runners allow Docker Desktop ten minutes to become ready', async () => {
+test('backup and restore runners bound every external dependency wait', async () => {
   const backup = await readFile('scripts/backup/run-backup.ps1', 'utf8');
   const restore = await readFile('scripts/backup/run-restore-drill.ps1', 'utf8');
   for (const source of [backup, restore]) {
     assert.match(source, /TimeoutSeconds = 600/u);
     assert.match(source, /within ten minutes/u);
   }
+  const createBackup = await readFile('scripts/backup/create-backup.mjs', 'utf8');
+  assert.match(createBackup, /NATIVE_DUMP_TIMEOUT_MS = 10 \* 60 \* 1000/u);
+  assert.match(createBackup, /Native PostgreSQL dump exceeded the ten-minute safety timeout/u);
+  assert.match(createBackup, /--no-role-passwords/u);
+  assert.match(createBackup, /native-postgresql-17/u);
+  assert.match(createBackup, /createPublicSchemaMatches\.length !== 1/u);
+  assert.match(createBackup, /public schema is created by the verified restore target/u);
 });
 
 test('scheduled restore drill runs only when the previous isolated success is at least 90 days old', async () => {
@@ -143,7 +169,14 @@ test('restore drill is isolated from live Supabase and always cleans up its Dock
   assert.match(source, /docker\(\['rm', '--force', containerName\]\)/u);
   assert.match(source, /rm\(resolvedTempRoot, \{ recursive: true, force: true \}\)/u);
   assert.match(source, /rolesFileVerifiedButNotApplied: true/u);
+  assert.match(source, /seedAuthUserPlaceholders/u);
+  assert.match(source, /authUserPlaceholdersCreated/u);
+  assert.match(source, /authCredentialsRestored: false/u);
+  assert.match(source, /con\.confrelid = 'auth\.users'::regclass/u);
   assert.match(source, /alter database.*owner to postgres/u);
+  assert.match(source, /session_replication_role = replica/u);
+  assert.match(source, /session_replication_role = origin/u);
+  assert.match(source, /username: 'supabase_admin'/u);
   assert.match(source, /PostgreSQL init process complete; ready for start up\./u);
   assert.doesNotMatch(source, /SUPABASE_DB_PASSWORD/u);
   assert.doesNotMatch(source, /supabase\s+db\s+(push|reset)/iu);
@@ -167,6 +200,8 @@ test('backup destination updater preserves the encrypted configuration and valid
   assert.match(source, /Test-Path -LiteralPath \$BackupRoot -PathType Container/u);
   assert.match(source, /\$config\.backupRoot = \$resolvedBackupRoot/u);
   assert.match(source, /Move-Item -LiteralPath \$temporaryConfigPath/u);
+  assert.match(source, /enable-background-backup\.ps1/u);
+  assert.match(source, /if \(\$LASTEXITCODE -ne 0\)/u);
   assert.doesNotMatch(source, /archivePassphrase\s*=/u);
   assert.doesNotMatch(source, /databasePassword\s*=/u);
 });

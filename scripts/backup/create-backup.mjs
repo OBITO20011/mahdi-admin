@@ -15,6 +15,7 @@ import {
   writeFile,
 } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
+import { userInfo } from 'node:os';
 import path from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
@@ -27,6 +28,7 @@ const DEFAULT_PROJECT_ROOT = path.resolve(SCRIPT_DIR, '..', '..');
 const BACKUP_PREFIX = 'nawasrah-backup-';
 const STATUS_FILE = 'last-backup-status.json';
 const LOG_FILE = 'backup.log';
+const NATIVE_DUMP_TIMEOUT_MS = 10 * 60 * 1000;
 
 function requireEnvironment(name, minimumLength = 1) {
   const value = process.env[name]?.trim();
@@ -189,6 +191,112 @@ async function runSupabaseDump({ projectRoot, outputPath, arguments: dumpArgumen
   }
 }
 
+async function runNativeCommand(executable, argumentsList, { cwd, env, secrets }) {
+  try {
+    await execFileAsync(executable, argumentsList, {
+      cwd,
+      env,
+      windowsHide: true,
+      timeout: NATIVE_DUMP_TIMEOUT_MS,
+      killSignal: 'SIGKILL',
+      maxBuffer: 20 * 1024 * 1024,
+    });
+  } catch (error) {
+    const detail = redact(error.stderr || error.message, secrets);
+    if (/password authentication failed/iu.test(detail)) {
+      throw new Error(
+        'Supabase rejected the database password. Use the Database password from Project Settings > Database.',
+        { cause: error }
+      );
+    }
+    if (error.killed || error.signal === 'SIGKILL') {
+      throw new Error('Native PostgreSQL dump exceeded the ten-minute safety timeout.', {
+        cause: error,
+      });
+    }
+    throw new Error(`Native PostgreSQL dump failed: ${detail}`, { cause: error });
+  }
+}
+
+async function runNativePostgresDumps({ projectRoot, databaseRoot, pgBinPath, secrets }) {
+  const pgDump = path.join(pgBinPath, 'pg_dump.exe');
+  const pgDumpAll = path.join(pgBinPath, 'pg_dumpall.exe');
+  await access(pgDump);
+  await access(pgDumpAll);
+
+  const poolerUrl = (await readFile(
+    path.join(projectRoot, 'supabase', '.temp', 'pooler-url'),
+    'utf8'
+  )).trim();
+  if (!/^postgresql:\/\/[A-Za-z0-9._:@-]+\/[A-Za-z0-9_-]+$/u.test(poolerUrl)) {
+    throw new Error('The linked Supabase pooler URL is missing or unexpected.');
+  }
+
+  const connectionUrl = `${poolerUrl}?sslmode=require&connect_timeout=15`;
+  const commandEnvironment = {
+    ...process.env,
+    PGPASSWORD: process.env.SUPABASE_DB_PASSWORD,
+    PGAPPNAME: 'nawasrah-encrypted-backup',
+  };
+  const commandOptions = {
+    cwd: projectRoot,
+    env: commandEnvironment,
+    secrets,
+  };
+  const rolesPath = path.join(databaseRoot, 'roles.sql');
+  const schemaPath = path.join(databaseRoot, 'schema.sql');
+  const dataPath = path.join(databaseRoot, 'data.sql');
+
+  await runNativeCommand(pgDumpAll, [
+    '--roles-only',
+    '--no-role-passwords',
+    '--no-tablespaces',
+    `--database=${connectionUrl}`,
+    `--file=${rolesPath}`,
+  ], commandOptions);
+  await runNativeCommand(pgDump, [
+    '--schema-only',
+    '--schema=public',
+    '--no-owner',
+    '--no-privileges',
+    '--no-sync',
+    `--file=${schemaPath}`,
+    connectionUrl,
+  ], commandOptions);
+  const schemaSource = await readFile(schemaPath, 'utf8');
+  const createPublicSchemaMatches = schemaSource.match(/^CREATE SCHEMA public;\r?$/gmu) ?? [];
+  if (createPublicSchemaMatches.length !== 1) {
+    throw new Error(
+      'Native PostgreSQL schema dump did not contain exactly one expected public schema declaration.'
+    );
+  }
+  await writeFile(
+    schemaPath,
+    schemaSource.replace(
+      /^CREATE SCHEMA public;\r?$/mu,
+      '-- public schema is created by the verified restore target.'
+    ),
+    'utf8'
+  );
+  await runNativeCommand(pgDump, [
+    '--data-only',
+    '--disable-triggers',
+    '--schema=public',
+    '--no-owner',
+    '--no-privileges',
+    '--no-sync',
+    `--file=${dataPath}`,
+    connectionUrl,
+  ], commandOptions);
+
+  for (const outputPath of [rolesPath, schemaPath, dataPath]) {
+    const outputStats = await stat(outputPath);
+    if (outputStats.size === 0) {
+      throw new Error(`Native PostgreSQL produced an empty dump: ${path.basename(outputPath)}.`);
+    }
+  }
+}
+
 async function collectFiles(root, current = root) {
   const files = [];
   for (const entry of await readdir(current, { withFileTypes: true })) {
@@ -273,24 +381,35 @@ export async function createBackup(options = {}) {
     const rolesPath = path.join(databaseRoot, 'roles.sql');
     const schemaPath = path.join(databaseRoot, 'schema.sql');
     const dataPath = path.join(databaseRoot, 'data.sql');
-    await runSupabaseDump({
-      projectRoot,
-      outputPath: rolesPath,
-      arguments: ['--role-only'],
-      secrets,
-    });
-    await runSupabaseDump({
-      projectRoot,
-      outputPath: schemaPath,
-      arguments: ['--schema', 'public'],
-      secrets,
-    });
-    await runSupabaseDump({
-      projectRoot,
-      outputPath: dataPath,
-      arguments: ['--data-only', '--use-copy', '--schema', 'public'],
-      secrets,
-    });
+    const pgBinPath = process.env.NAWASRAH_PG_BIN?.trim();
+    const dumpProvider = pgBinPath ? 'native-postgresql-17' : 'supabase-cli-docker';
+    if (pgBinPath) {
+      await runNativePostgresDumps({
+        projectRoot,
+        databaseRoot,
+        pgBinPath: path.resolve(pgBinPath),
+        secrets,
+      });
+    } else {
+      await runSupabaseDump({
+        projectRoot,
+        outputPath: rolesPath,
+        arguments: ['--role-only'],
+        secrets,
+      });
+      await runSupabaseDump({
+        projectRoot,
+        outputPath: schemaPath,
+        arguments: ['--schema', 'public'],
+        secrets,
+      });
+      await runSupabaseDump({
+        projectRoot,
+        outputPath: dataPath,
+        arguments: ['--data-only', '--use-copy', '--schema', 'public'],
+        secrets,
+      });
+    }
 
     const migrationsSource = path.join(projectRoot, 'supabase', 'migrations');
     await cp(migrationsSource, path.join(contentsRoot, 'migrations'), { recursive: true });
@@ -312,6 +431,7 @@ export async function createBackup(options = {}) {
       system: 'Nawasrah ERP',
       createdAt: startedAt.toISOString(),
       projectRef: 'acjtabdqqnpwhdvbvnyw',
+      dumpProvider,
       databaseFiles: ['database/roles.sql', 'database/schema.sql', 'database/data.sql'],
       storageBucket: 'product-images',
       storageObjectCount: storageObjects.length,
@@ -340,6 +460,9 @@ export async function createBackup(options = {}) {
       archiveSize: archiveStats.size,
       storageObjectCount: storageObjects.length,
       retentionCount,
+      dumpProvider,
+      executionIdentity: process.env.NAWASRAH_BACKUP_EXECUTION_IDENTITY
+        || userInfo().username,
       message: `Verified encrypted backup created: ${path.basename(finalPath)}`,
     };
     await writeStatus(outputRoot, result);

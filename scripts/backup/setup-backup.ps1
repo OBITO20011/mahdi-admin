@@ -18,7 +18,7 @@ if (-not (Get-Command ConvertTo-SecureString -ErrorAction SilentlyContinue)) {
 $taskName = 'Nawasrah ERP Nightly Backup'
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 $runScript = Join-Path $PSScriptRoot 'run-backup.ps1'
-$scheduleScript = Join-Path $PSScriptRoot 'register-backup-schedule.ps1'
+$scheduleScript = Join-Path $PSScriptRoot 'enable-background-backup.ps1'
 $configDirectory = Join-Path $env:LOCALAPPDATA 'NawasrahBackup'
 $configPath = Join-Path $configDirectory 'config.json'
 
@@ -115,12 +115,9 @@ if (-not $SkipInitialBackup) {
 }
 
 & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $scheduleScript `
-  -RunScript $runScript `
-  -ConfigPath $configPath `
-  -ScheduleTime $ScheduleTime `
-  -TaskName $taskName
+  -ConfigPath $configPath
 if ($LASTEXITCODE -ne 0) {
-  throw 'The first backup succeeded, but Windows could not create the daily schedule.'
+  throw 'The first backup succeeded, but Windows could not create the unattended daily schedule.'
 }
 
 Write-Host ''

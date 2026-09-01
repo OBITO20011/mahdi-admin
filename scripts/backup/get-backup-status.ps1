@@ -2,17 +2,22 @@
 param(
   [string]$ConfigPath = (Join-Path $env:LOCALAPPDATA 'NawasrahBackup\config.json'),
 
+  [string]$MachineConfigPath = (Join-Path $env:LOCALAPPDATA 'NawasrahBackup\config-machine.json'),
+
   [string]$TaskName = 'Nawasrah ERP Nightly Backup',
 
   [string]$RestoreDrillTaskName = 'Nawasrah ERP Quarterly Restore Drill'
 )
 
 $ErrorActionPreference = 'Stop'
+Add-Type -AssemblyName System.Security -ErrorAction Stop
 $configFound = Test-Path -LiteralPath $ConfigPath
 $backupRoot = $null
 $latestStatus = $null
 $latestRestoreDrillStatus = $null
 $configDecryptable = $false
+$machineConfigFound = Test-Path -LiteralPath $MachineConfigPath
+$machineConfigDecryptable = $false
 $executionIdentity = [Security.Principal.WindowsIdentity]::GetCurrent().Name
 
 if ($configFound) {
@@ -48,6 +53,25 @@ if ($configFound) {
   }
 }
 
+if ($machineConfigFound) {
+  try {
+    $machineConfig = Get-Content -LiteralPath $MachineConfigPath -Raw | ConvertFrom-Json
+    foreach ($protectedValue in @($machineConfig.archivePassphrase, $machineConfig.databasePassword)) {
+      $protectedBytes = [Convert]::FromBase64String([string]$protectedValue)
+      $plainBytes = [Security.Cryptography.ProtectedData]::Unprotect(
+        $protectedBytes,
+        $null,
+        [Security.Cryptography.DataProtectionScope]::LocalMachine
+      )
+      [Array]::Clear($plainBytes, 0, $plainBytes.Length)
+    }
+    $machineConfigDecryptable = $machineConfig.protectionScope -eq 'LocalMachine'
+  }
+  catch {
+    $machineConfigDecryptable = $false
+  }
+}
+
 $task = Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue
 $taskInfo = if ($task) { Get-ScheduledTaskInfo -TaskName $TaskName } else { $null }
 $restoreDrillTask = Get-ScheduledTask -TaskName $RestoreDrillTaskName -ErrorAction SilentlyContinue
@@ -60,6 +84,9 @@ if (-not $configFound) {
 if (-not $task) {
   $actionRequired += 'The daily backup task does not exist.'
 }
+elseif (($task.Principal.UserId -notin @('SYSTEM', 'S-1-5-18')) -or ($task.Principal.LogonType -ne 'ServiceAccount')) {
+  $actionRequired += 'The daily backup task is not using the unattended SYSTEM service account.'
+}
 if ($taskInfo -and $taskInfo.LastTaskResult -ne 0) {
   $actionRequired += 'The latest Windows task attempt did not return 0. Review backup.log.'
 }
@@ -68,6 +95,23 @@ if ($latestStatus -and $latestStatus.ok -ne $true) {
 }
 if ($configFound -and -not $configDecryptable) {
   $actionRequired += 'This Windows account cannot decrypt the protected backup configuration. Run this command from the same Windows account that created the backup setup.'
+}
+if (-not $machineConfigFound) {
+  $actionRequired += 'The machine-protected unattended backup configuration does not exist.'
+}
+elseif (-not $machineConfigDecryptable) {
+  $actionRequired += 'The machine-protected backup configuration cannot be decrypted safely.'
+}
+if ($latestStatus -and $latestStatus.finishedAt) {
+  try {
+    $backupAge = [DateTimeOffset]::UtcNow - [DateTimeOffset]::Parse([string]$latestStatus.finishedAt).ToUniversalTime()
+    if ($backupAge.TotalHours -gt 36) {
+      $actionRequired += 'The latest successful backup is older than 36 hours.'
+    }
+  }
+  catch {
+    $actionRequired += 'The latest backup timestamp is invalid.'
+  }
 }
 if (-not $restoreDrillTask) {
   $actionRequired += 'The 90-day restore drill task does not exist. Run backup:schedule once to create it.'
@@ -91,6 +135,8 @@ elseif ($latestRestoreDrillStatus.ok -ne $true -or $latestRestoreDrillStatus.liv
   executionIdentity = $executionIdentity
   configurationFound = $configFound
   configDecryptable = $configDecryptable
+  machineConfigurationFound = $machineConfigFound
+  machineConfigDecryptable = $machineConfigDecryptable
   backupRoot = $backupRoot
   task = if ($task) {
     [ordered]@{
@@ -100,6 +146,8 @@ elseif ($latestRestoreDrillStatus.ok -ne $true -or $latestRestoreDrillStatus.liv
       lastRunTime = $taskInfo.LastRunTime
       nextRunTime = $taskInfo.NextRunTime
       lastTaskResult = $taskInfo.LastTaskResult
+      restartCount = $task.Settings.RestartCount
+      restartInterval = [string]$task.Settings.RestartInterval
     }
   } else { $null }
   latestBackup = if ($latestStatus) {
@@ -108,6 +156,8 @@ elseif ($latestRestoreDrillStatus.ok -ne $true -or $latestRestoreDrillStatus.liv
       startedAt = $latestStatus.startedAt
       finishedAt = $latestStatus.finishedAt
       archivePath = $latestStatus.archivePath
+      dumpProvider = $latestStatus.dumpProvider
+      executionIdentity = $latestStatus.executionIdentity
     }
   } else { $null }
   restoreDrillTask = if ($restoreDrillTask) {
@@ -130,8 +180,9 @@ elseif ($latestRestoreDrillStatus.ok -ne $true -or $latestRestoreDrillStatus.liv
     }
   } else { $null }
   operationalNotes = @(
-    'Docker Desktop requires an active Windows session. Interactive task logon is intentional.'
-    'StartWhenAvailable catches up after the computer was off or the user was signed out at the planned time.'
+    'The nightly backup runs as SYSTEM with native PostgreSQL tools and does not require a signed-in user.'
+    'StartWhenAvailable and three bounded retries cover restart, missed schedule, and transient network failure.'
+    'The isolated restore drill remains interactive because it intentionally uses Docker Desktop.'
   )
   actionRequired = $actionRequired
 } | ConvertTo-Json -Depth 5

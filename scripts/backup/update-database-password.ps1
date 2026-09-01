@@ -11,7 +11,7 @@ if (-not (Get-Command ConvertTo-SecureString -ErrorAction SilentlyContinue)) {
 $taskName = 'Nawasrah ERP Nightly Backup'
 $testScript = Join-Path $PSScriptRoot 'test-database-connection.ps1'
 $runScript = Join-Path $PSScriptRoot 'run-backup.ps1'
-$scheduleScript = Join-Path $PSScriptRoot 'register-backup-schedule.ps1'
+$scheduleScript = Join-Path $PSScriptRoot 'enable-background-backup.ps1'
 
 if (-not (Test-Path -LiteralPath $ConfigPath)) {
   throw "Backup configuration was not found: $ConfigPath"
@@ -54,18 +54,14 @@ try {
     throw 'The password is valid, but the first backup failed.'
   }
 
-  $scheduleTime = if ($config.scheduleTime) { [string]$config.scheduleTime } else { '23:30' }
   & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $scheduleScript `
-    -RunScript $runScript `
-    -ConfigPath $ConfigPath `
-    -ScheduleTime $scheduleTime `
-    -TaskName $taskName
+    -ConfigPath $ConfigPath
   if ($LASTEXITCODE -ne 0) {
-    throw 'The first backup succeeded, but Windows could not create the daily schedule.'
+    throw 'The first backup succeeded, but Windows could not update the unattended daily schedule.'
   }
 
   Write-Host ''
-  Write-Host "Database password verified, first backup completed, and daily schedule enabled at $scheduleTime." -ForegroundColor Green
+  Write-Host 'Database password verified, first backup completed, and unattended daily schedule updated.' -ForegroundColor Green
   if ($UseClipboard) {
     try {
       Set-Clipboard -Value 'Nawasrah backup password removed from clipboard.'

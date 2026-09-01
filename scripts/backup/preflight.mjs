@@ -43,6 +43,9 @@ const dockerInstalled = await commandSucceeds('docker.exe', ['--version']);
 const dockerReady = dockerInstalled
   ? await commandSucceeds('docker.exe', ['info', '--format', '{{.ServerVersion}}'])
   : false;
+const configuredPgBin = process.env.NAWASRAH_PG_BIN
+  || path.join(process.env.LOCALAPPDATA || '', 'NawasrahBackup', 'postgresql-17.11', 'bin');
+const nativePgTools = await commandSucceeds(path.join(configuredPgBin, 'pg_dump.exe'), ['--version']);
 
 console.log(JSON.stringify({
   ok: true,
@@ -51,9 +54,16 @@ console.log(JSON.stringify({
   tar: true,
   productImagesReachable: true,
   productImageCount: storageObjects.length,
+  nativePgTools,
   dockerInstalled,
   dockerReady,
-  note: dockerReady
-    ? 'Ready to create database dumps.'
-    : 'Docker Desktop will be started automatically by the scheduled runner.',
+  note: nativePgTools
+    ? 'Ready for unattended native PostgreSQL database dumps.'
+    : (dockerReady
+      ? 'Interactive Docker backup is available, but unattended scheduling requires native PostgreSQL tools.'
+      : 'Install the official PostgreSQL 17 Windows binaries before enabling unattended backup.'),
 }, null, 2));
+
+if (!nativePgTools) {
+  process.exitCode = 1;
+}

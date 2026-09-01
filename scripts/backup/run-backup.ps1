@@ -8,8 +8,21 @@ $ErrorActionPreference = 'Stop'
 if (-not (Get-Command ConvertTo-SecureString -ErrorAction SilentlyContinue)) {
   Import-Module -Name Microsoft.PowerShell.Security -ErrorAction Stop
 }
+Add-Type -AssemblyName System.Security -ErrorAction Stop
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
-$statusFallback = Join-Path $env:LOCALAPPDATA 'NawasrahBackup\runner.log'
+$statusFallback = Join-Path (Split-Path -Parent $ConfigPath) 'runner.log'
+
+function Resolve-NodeExecutable {
+  $node = Get-Command node.exe -ErrorAction SilentlyContinue
+  if ($node) {
+    return $node.Source
+  }
+  $systemNode = Join-Path $env:ProgramFiles 'nodejs\node.exe'
+  if (Test-Path -LiteralPath $systemNode -PathType Leaf) {
+    return $systemNode
+  }
+  throw 'Node.js was not found in PATH or Program Files.'
+}
 
 function ConvertTo-PlainText {
   param([Parameter(Mandatory = $true)][Security.SecureString]$SecureValue)
@@ -20,6 +33,23 @@ function ConvertTo-PlainText {
   }
   finally {
     [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($pointer)
+  }
+}
+
+function Unprotect-MachineValue {
+  param([Parameter(Mandatory = $true)][string]$ProtectedValue)
+
+  $protectedBytes = [Convert]::FromBase64String($ProtectedValue)
+  $plainBytes = [Security.Cryptography.ProtectedData]::Unprotect(
+    $protectedBytes,
+    $null,
+    [Security.Cryptography.DataProtectionScope]::LocalMachine
+  )
+  try {
+    return [Text.Encoding]::UTF8.GetString($plainBytes)
+  }
+  finally {
+    [Array]::Clear($plainBytes, 0, $plainBytes.Length)
   }
 }
 
@@ -76,30 +106,56 @@ function Wait-ForDocker {
 }
 
 try {
+  New-Item -ItemType Directory -Path (Split-Path -Parent $statusFallback) -Force | Out-Null
+  "$(Get-Date -Format o)`tSTARTED`t$([Security.Principal.WindowsIdentity]::GetCurrent().Name)" |
+    Add-Content -LiteralPath $statusFallback -Encoding UTF8
   if (-not (Test-Path -LiteralPath $ConfigPath)) {
     throw "Backup configuration was not found: $ConfigPath"
   }
 
   $config = Get-Content -LiteralPath $ConfigPath -Raw | ConvertFrom-Json
-  $databasePasswordSecure = ConvertTo-SecureString -String $config.databasePassword
-  $archivePassphraseSecure = ConvertTo-SecureString -String $config.archivePassphrase
-  $databasePassword = ConvertTo-PlainText -SecureValue $databasePasswordSecure
-  $archivePassphrase = ConvertTo-PlainText -SecureValue $archivePassphraseSecure
+  if ($config.protectionScope -eq 'LocalMachine') {
+    $databasePassword = Unprotect-MachineValue -ProtectedValue $config.databasePassword
+    $archivePassphrase = Unprotect-MachineValue -ProtectedValue $config.archivePassphrase
+  }
+  else {
+    $databasePasswordSecure = ConvertTo-SecureString -String $config.databasePassword
+    $archivePassphraseSecure = ConvertTo-SecureString -String $config.archivePassphrase
+    $databasePassword = ConvertTo-PlainText -SecureValue $databasePasswordSecure
+    $archivePassphrase = ConvertTo-PlainText -SecureValue $archivePassphraseSecure
+  }
 
-  Wait-ForDocker
+  $pgBinPath = if ($config.pgBinPath) { [string]$config.pgBinPath } else { $null }
+  if ($pgBinPath) {
+    foreach ($tool in @('pg_dump.exe', 'pg_dumpall.exe', 'pg_restore.exe', 'psql.exe')) {
+      if (-not (Test-Path -LiteralPath (Join-Path $pgBinPath $tool) -PathType Leaf)) {
+        throw "Native PostgreSQL backup tool was not found: $tool"
+      }
+    }
+  }
+  else {
+    Wait-ForDocker
+  }
 
   $env:SUPABASE_DB_PASSWORD = $databasePassword
   $env:NAWASRAH_BACKUP_PASSPHRASE = $archivePassphrase
   $env:NAWASRAH_BACKUP_OUTPUT = [string]$config.backupRoot
   $env:NAWASRAH_BACKUP_RETENTION = [string]$config.retentionCount
   $env:NAWASRAH_PROJECT_ROOT = $projectRoot
+  $env:NAWASRAH_BACKUP_EXECUTION_IDENTITY = [Security.Principal.WindowsIdentity]::GetCurrent().Name
+  if ($pgBinPath) {
+    $env:NAWASRAH_PG_BIN = $pgBinPath
+  }
 
   Push-Location $projectRoot
   try {
-    & node.exe (Join-Path $PSScriptRoot 'create-backup.mjs')
+    $nodeExecutable = Resolve-NodeExecutable
+    & $nodeExecutable (Join-Path $PSScriptRoot 'create-backup.mjs')
     if ($LASTEXITCODE -ne 0) {
       throw "Backup process exited with code $LASTEXITCODE."
     }
+    "$(Get-Date -Format o)`tSUCCESS`tScheduled backup runner completed." |
+      Add-Content -LiteralPath $statusFallback -Encoding UTF8
   }
   finally {
     Pop-Location
@@ -118,6 +174,8 @@ finally {
   Remove-Item Env:NAWASRAH_BACKUP_OUTPUT -ErrorAction SilentlyContinue
   Remove-Item Env:NAWASRAH_BACKUP_RETENTION -ErrorAction SilentlyContinue
   Remove-Item Env:NAWASRAH_PROJECT_ROOT -ErrorAction SilentlyContinue
+  Remove-Item Env:NAWASRAH_BACKUP_EXECUTION_IDENTITY -ErrorAction SilentlyContinue
+  Remove-Item Env:NAWASRAH_PG_BIN -ErrorAction SilentlyContinue
   $databasePassword = $null
   $archivePassphrase = $null
 }
