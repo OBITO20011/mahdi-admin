@@ -123,6 +123,10 @@ export const ShiftClosingReportModal: React.FC<
               <span className="font-bold text-slate-200">
                 {report.shift.status === 'open'
                   ? 'تقرير حي — الأرقام تتحدث حتى هذه اللحظة'
+                  : report.snapshotStatus === 'immutable'
+                    ? 'لقطة الإغلاق محفوظة وثابتة للتدقيق والطباعة'
+                    : report.snapshotStatus === 'legacy_recalculated'
+                      ? 'تقرير تاريخي محسوب — لا توجد لقطة إغلاق محفوظة لهذه الوردية'
                   : report.reconciliation.isBalanced
                     ? 'الوردية مغلقة والصندوق مطابق'
                     : 'الوردية مغلقة ويوجد فرق صندوق موثق'}

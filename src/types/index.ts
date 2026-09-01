@@ -510,6 +510,7 @@ export interface Shift {
 
 export interface ShiftClosingReport {
   generatedAt: string;
+  snapshotStatus?: 'immutable' | 'legacy_recalculated' | 'live' | 'not_applicable';
   shift: Shift;
   sales: {
     orderCount: number;

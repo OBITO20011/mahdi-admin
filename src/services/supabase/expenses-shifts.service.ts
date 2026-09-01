@@ -271,6 +271,13 @@ export async function fetchCashShiftClosingReportFromSupabase(
 
   return {
     generatedAt: textValue(payload.generatedAt),
+    snapshotStatus:
+      payload.snapshotStatus === 'immutable' ||
+      payload.snapshotStatus === 'legacy_recalculated' ||
+      payload.snapshotStatus === 'live' ||
+      payload.snapshotStatus === 'not_applicable'
+        ? payload.snapshotStatus
+        : undefined,
     shift: mapShift((payload.shift || {}) as RpcRecord),
     sales: {
       orderCount: Number(sales.orderCount) || 0,
