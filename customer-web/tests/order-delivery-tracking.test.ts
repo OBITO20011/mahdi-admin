@@ -7,6 +7,7 @@ const service = readFileSync('src/services/orders.service.ts', 'utf8');
 const trackingModal = [
   readFileSync('src/components/OrderTrackingModal.tsx', 'utf8'),
   readFileSync('src/components/OrderTrackingTimeline.tsx', 'utf8'),
+  readFileSync('src/components/orderTrackingPresentation.ts', 'utf8'),
 ].join('\n');
 const checkoutModal = [
   readFileSync('src/components/CheckoutModal.tsx', 'utf8'),

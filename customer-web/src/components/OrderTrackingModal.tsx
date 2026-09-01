@@ -18,11 +18,11 @@ import {
 } from '../services/orders.service';
 import type { GuestOrderTracking } from '../types/checkout';
 import { formatJod } from '../utils/money';
+import { OrderTrackingTimeline } from './OrderTrackingTimeline';
 import {
   formatTrackingDateTime,
   ORDER_STATUS_LABELS,
-  OrderTrackingTimeline,
-} from './OrderTrackingTimeline';
+} from './orderTrackingPresentation';
 
 type TrackingLookup = { orderNumber: string; phone: string };
 
