@@ -8,6 +8,7 @@ CREATE TEMP TABLE r5_orders_results (
   scenario TEXT PRIMARY KEY,
   details JSONB NOT NULL DEFAULT '{}'::JSONB
 ) ON COMMIT PRESERVE ROWS;
+GRANT SELECT, INSERT, UPDATE ON r5_orders_results TO authenticated;
 
 DO $$
 DECLARE
@@ -141,9 +142,6 @@ DECLARE
   v_seen UUID[] := ARRAY[]::UUID[];
   v_id_text TEXT;
   v_expected INTEGER;
-  v_before INTEGER;
-  v_target UUID;
-  v_new UUID;
   v_denied BOOLEAN := false;
 BEGIN
   v_page_1 := public.get_operational_orders_page(1, 25, 'all', NULL, 'newest');
@@ -199,40 +197,6 @@ BEGIN
     'server_search', jsonb_build_object('phone_results', 31, 'exact_order_results', 1)
   );
 
-  SELECT id INTO v_target
-  FROM public.orders
-  WHERE order_number = 'R5-WEB-0060';
-  v_page := public.get_operational_orders_page(1, 25, 'action', NULL, 'newest');
-  v_before := (v_page->>'total_count')::INTEGER;
-  UPDATE public.orders SET status = 'confirmed', updated_at = NOW() WHERE id = v_target;
-  v_page := public.get_operational_orders_page(1, 25, 'action', NULL, 'newest');
-  IF (v_page->>'total_count')::INTEGER <> v_before - 1 THEN
-    RAISE EXCEPTION 'Updated order was not invalidated from its old status page.';
-  END IF;
-  INSERT INTO r5_orders_results VALUES (
-    'updated_order_invalidation', jsonb_build_object('before', v_before, 'after', v_before - 1)
-  );
-
-  INSERT INTO public.orders (
-    order_number, customer_id, customer_name_snapshot, branch_id,
-    status, payment_method, payment_status,
-    subtotal_in_minor_units, total_in_minor_units,
-    amount_paid_in_minor_units, source, created_at, updated_at
-  ) VALUES (
-    'R5-WEB-NEWEST',
-    '95000000-0000-0000-0000-000000000020',
-    'عميل بحث R5 ألف',
-    '95000000-0000-0000-0000-000000000010',
-    'new', 'cash_on_delivery', 'unpaid', 1000, 1000, 0, 'website', NOW(), NOW()
-  ) RETURNING id INTO v_new;
-  v_page := public.get_operational_orders_page(1, 25, 'action', NULL, 'newest');
-  IF (v_page->'order_ids'->>0)::UUID IS DISTINCT FROM v_new THEN
-    RAISE EXCEPTION 'Newest inserted order did not appear first.';
-  END IF;
-  INSERT INTO r5_orders_results VALUES (
-    'new_order_visible', jsonb_build_object('order_id', v_new)
-  );
-
   v_page := public.get_operational_orders_page(1, 100, 'all', 'R5-POS-', 'newest');
   IF (v_page->>'total_count')::INTEGER <> 0 THEN
     RAISE EXCEPTION 'POS orders leaked into the operational website queue.';
@@ -272,6 +236,91 @@ BEGIN
   INSERT INTO r5_orders_results VALUES ('anonymous_denied', '{}'::JSONB);
 END $$;
 
+RESET ROLE;
+
+-- Mutate test fixtures as the database owner, then return to the protected
+-- read model as an authenticated ERP owner. This proves invalidation without
+-- granting or relying on direct table writes for application roles.
+SET LOCAL ROLE authenticated;
+SELECT set_config(
+  'request.jwt.claims',
+  '{"sub":"95000000-0000-0000-0000-000000000001","role":"authenticated","aal":"aal2"}',
+  true
+);
+INSERT INTO r5_orders_results (scenario, details)
+SELECT
+  'updated_order_invalidation',
+  jsonb_build_object(
+    'before',
+    (public.get_operational_orders_page(1, 25, 'action', NULL, 'newest')->>'total_count')::INTEGER
+  );
+RESET ROLE;
+
+UPDATE public.orders
+SET status = 'confirmed', updated_at = NOW()
+WHERE order_number = 'R5-WEB-0060';
+
+SET LOCAL ROLE authenticated;
+SELECT set_config(
+  'request.jwt.claims',
+  '{"sub":"95000000-0000-0000-0000-000000000001","role":"authenticated","aal":"aal2"}',
+  true
+);
+DO $$
+DECLARE
+  v_before INTEGER;
+  v_after INTEGER;
+BEGIN
+  SELECT (details->>'before')::INTEGER INTO v_before
+  FROM r5_orders_results
+  WHERE scenario = 'updated_order_invalidation';
+  v_after := (
+    public.get_operational_orders_page(1, 25, 'action', NULL, 'newest')->>'total_count'
+  )::INTEGER;
+  IF v_after <> v_before - 1 THEN
+    RAISE EXCEPTION 'Updated order was not invalidated from its old status page.';
+  END IF;
+  UPDATE r5_orders_results
+  SET details = details || jsonb_build_object('after', v_after)
+  WHERE scenario = 'updated_order_invalidation';
+END $$;
+RESET ROLE;
+
+INSERT INTO public.orders (
+  order_number, customer_id, customer_name_snapshot, branch_id,
+  status, payment_method, payment_status,
+  subtotal_in_minor_units, total_in_minor_units,
+  amount_paid_in_minor_units, source, created_at, updated_at
+) VALUES (
+  'R5-WEB-NEWEST',
+  '95000000-0000-0000-0000-000000000020',
+  'عميل بحث R5 ألف',
+  '95000000-0000-0000-0000-000000000010',
+  'new', 'cash_on_delivery', 'unpaid', 1000, 1000, 0, 'website', NOW(), NOW()
+);
+
+SET LOCAL ROLE authenticated;
+SELECT set_config(
+  'request.jwt.claims',
+  '{"sub":"95000000-0000-0000-0000-000000000001","role":"authenticated","aal":"aal2"}',
+  true
+);
+DO $$
+DECLARE
+  v_page JSONB;
+  v_expected UUID;
+BEGIN
+  SELECT id INTO v_expected
+  FROM public.orders
+  WHERE order_number = 'R5-WEB-NEWEST';
+  v_page := public.get_operational_orders_page(1, 25, 'action', NULL, 'newest');
+  IF (v_page->'order_ids'->>0)::UUID IS DISTINCT FROM v_expected THEN
+    RAISE EXCEPTION 'Newest inserted order did not appear first.';
+  END IF;
+  INSERT INTO r5_orders_results VALUES (
+    'new_order_visible', jsonb_build_object('order_id', v_expected)
+  );
+END $$;
 RESET ROLE;
 
 SELECT jsonb_build_object(
