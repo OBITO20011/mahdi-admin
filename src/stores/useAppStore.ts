@@ -58,12 +58,6 @@ import {
   fetchUnitsFromSupabase,
   fetchBranchesFromSupabase,
   fetchWarehousesFromSupabase,
-  saveProductCategoryInSupabase,
-  setProductCategoryActiveInSupabase,
-  saveProductBrandInSupabase,
-  setProductBrandActiveInSupabase,
-  saveProductUnitInSupabase,
-  setProductUnitActiveInSupabase,
 } from '../services/supabase/reference-data.service';
 import {
   fetchOperationalOrdersSummaryFromSupabase,
@@ -79,11 +73,6 @@ import {
   createPosSaleInSupabase,
   getOrCreatePublicPosReceiptUrlFromSupabase,
 } from '../services/supabase/pos.service';
-import {
-  fetchStockAlertsFromSupabase,
-  markAllStockAlertsReadInSupabase,
-  markStockAlertReadInSupabase,
-} from '../services/supabase/stockAlerts.service';
 import {
   hasRegisteredDeviceBiometric,
   registerDeviceBiometric,
@@ -104,78 +93,17 @@ import {
   type SelectorEquality,
   updateSelectorCache,
 } from './storeSelectors';
+import {
+  type ActiveTab,
+  type ThemeMode,
+  loadPersistedAppPreferences,
+  serializeAppPreferences,
+  writePersistedAppPreferences,
+} from './appStorePreferences';
+import { ReferenceDataStoreSlice } from './referenceData.storeSlice';
+import { StockNotificationsStoreSlice } from './stockNotifications.storeSlice';
 
 export { shallowEqual } from './storeSelectors';
-
-const STORAGE_KEY = 'nawasrah_bm_state_v1';
-
-const VALID_ACTIVE_TABS = [
-  'home',
-  'orders',
-  'products',
-  'accounts',
-  'more',
-  'dashboard',
-  'pos',
-  'inventory',
-  'expenses',
-  'shifts',
-  'reports',
-  'users',
-  'purchases',
-  'assistant',
-] as const;
-
-type ActiveTab = (typeof VALID_ACTIVE_TABS)[number];
-type ThemeMode = 'dark' | 'light';
-
-interface PersistedAppPreferences {
-  version: 1;
-  activeTab: ActiveTab;
-  themeMode: ThemeMode;
-}
-
-const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value);
-
-const isActiveTab = (value: unknown): value is ActiveTab =>
-  typeof value === 'string' &&
-  (VALID_ACTIVE_TABS as readonly string[]).includes(value);
-
-const readPersistedPreferences = (
-  saved: string | null
-): Partial<PersistedAppPreferences> => {
-  if (!saved) return {};
-
-  try {
-    const parsed: unknown = JSON.parse(saved);
-    if (!isRecord(parsed)) return {};
-
-    const legacyCurrentUser = isRecord(parsed.currentUser)
-      ? parsed.currentUser
-      : null;
-    const storedThemeMode = parsed.themeMode ?? legacyCurrentUser?.themeMode;
-
-    return {
-      ...(isActiveTab(parsed.activeTab) ? { activeTab: parsed.activeTab } : {}),
-      ...(storedThemeMode === 'light' || storedThemeMode === 'dark'
-        ? { themeMode: storedThemeMode }
-        : {}),
-    };
-  } catch (error) {
-    console.warn('[Store preferences read warning]:', error);
-    return {};
-  }
-};
-
-const loadPersistedPreferences = (): Partial<PersistedAppPreferences> => {
-  try {
-    return readPersistedPreferences(localStorage.getItem(STORAGE_KEY));
-  } catch (error) {
-    console.warn('[Store preferences storage warning]:', error);
-    return {};
-  }
-};
 
 const UNAUTHENTICATED_USER: User = {
   id: '',
@@ -269,11 +197,12 @@ class StoreEngine {
   private ordersRefreshPromise: Promise<void> | null = null;
   private movementsRefreshRequestId = 0;
   private financeRefreshPromise: Promise<void> | null = null;
-  private notificationsRefreshPromise: Promise<NotificationItem[]> | null = null;
+  private readonly referenceDataSlice: ReferenceDataStoreSlice;
+  private readonly stockNotificationsSlice: StockNotificationsStoreSlice;
 
   constructor() {
     const initial = this.getInitialState();
-    const preferences = loadPersistedPreferences();
+    const preferences = loadPersistedAppPreferences();
 
     this.state = {
       ...initial,
@@ -287,6 +216,34 @@ class StoreEngine {
       isBiometricsEnabled: false,
       isLockedWithFaceId: false,
     };
+
+    this.referenceDataSlice = new ReferenceDataStoreSlice({
+      getCategories: () => this.state.categories,
+      getBrands: () => this.state.brands,
+      getUnits: () => this.state.units,
+      replaceCategories: (categories) => {
+        this.state.categories = categories;
+        this.notify();
+      },
+      replaceBrands: (brands) => {
+        this.state.brands = brands;
+        this.notify();
+      },
+      replaceUnits: (units) => {
+        this.state.units = units;
+        this.notify();
+      },
+      setToast: (message, type) => this.setToast(message, type),
+    });
+    this.stockNotificationsSlice = new StockNotificationsStoreSlice({
+      isConfigured: () => isSupabaseConfigured,
+      getNotifications: () => this.state.notifications,
+      replaceNotifications: (notifications) => {
+        this.state.notifications = notifications;
+      },
+      notify: () => this.notify(),
+      setToast: (message, type) => this.setToast(message, type),
+    });
 
     // Rewrite any legacy full-state payload as compact UI-only preferences.
     this.persistUiPreferences();
@@ -410,25 +367,16 @@ class StoreEngine {
     }
   }
 
-  public async refreshCategoriesFromSupabase() {
-    const categories = await fetchCategoriesFromSupabase();
-    this.state.categories = categories;
-    this.notify();
-    return categories;
+  public refreshCategoriesFromSupabase() {
+    return this.referenceDataSlice.refreshCategories();
   }
 
-  public async refreshBrandsFromSupabase() {
-    const brands = await fetchBrandsFromSupabase();
-    this.state.brands = brands;
-    this.notify();
-    return brands;
+  public refreshBrandsFromSupabase() {
+    return this.referenceDataSlice.refreshBrands();
   }
 
-  public async refreshUnitsFromSupabase() {
-    const units = await fetchUnitsFromSupabase();
-    this.state.units = units;
-    this.notify();
-    return units;
+  public refreshUnitsFromSupabase() {
+    return this.referenceDataSlice.refreshUnits();
   }
 
   public async refreshInventoryMovementsFromSupabase(
@@ -496,66 +444,15 @@ class StoreEngine {
   }
 
   public refreshStockNotificationsFromSupabase(): Promise<NotificationItem[]> {
-    if (this.notificationsRefreshPromise) {
-      return this.notificationsRefreshPromise;
-    }
-
-    const refreshPromise = this.performNotificationsRefresh().finally(() => {
-      if (this.notificationsRefreshPromise === refreshPromise) {
-        this.notificationsRefreshPromise = null;
-      }
-    });
-    this.notificationsRefreshPromise = refreshPromise;
-    return refreshPromise;
+    return this.stockNotificationsSlice.refresh();
   }
 
-  private async performNotificationsRefresh(): Promise<NotificationItem[]> {
-    if (!isSupabaseConfigured) {
-      this.state.notifications = [];
-      this.notify();
-      return [];
-    }
-
-    try {
-      const result = await fetchStockAlertsFromSupabase();
-      this.state.notifications = result.notifications;
-      this.notify();
-      return result.notifications;
-    } catch (error) {
-      console.error('[Store refreshStockNotifications Exception]:', error);
-      return this.state.notifications;
-    }
+  public markNotificationRead(notificationId: string) {
+    return this.stockNotificationsSlice.markRead(notificationId);
   }
 
-  public async markNotificationRead(notificationId: string) {
-    const result = await markStockAlertReadInSupabase(notificationId);
-    if (!result.success) {
-      this.setToast(result.error || 'تعذر تحديث حالة التنبيه.', 'error');
-      return false;
-    }
-
-    this.state.notifications = this.state.notifications.map((notification) =>
-      notification.id === notificationId
-        ? { ...notification, read: true }
-        : notification
-    );
-    this.notify();
-    return true;
-  }
-
-  public async markAllNotificationsRead() {
-    const result = await markAllStockAlertsReadInSupabase();
-    if (!result.success) {
-      this.setToast(result.error || 'تعذر تحديث التنبيهات.', 'error');
-      return false;
-    }
-
-    this.state.notifications = this.state.notifications.map((notification) => ({
-      ...notification,
-      read: true,
-    }));
-    this.notify();
-    return true;
+  public markAllNotificationsRead() {
+    return this.stockNotificationsSlice.markAllRead();
   }
 
   private getInitialState(): AppState {
@@ -638,20 +535,15 @@ class StoreEngine {
   }
 
   private persistUiPreferences() {
-    const preferences: PersistedAppPreferences = {
-      version: 1,
-      activeTab: this.state.activeTab,
-      themeMode: this.state.currentUser.themeMode === 'light' ? 'light' : 'dark',
-    };
-    const serializedPreferences = JSON.stringify(preferences);
+    const serializedPreferences = serializeAppPreferences(
+      this.state.activeTab,
+      this.state.currentUser.themeMode === 'light' ? 'light' : 'dark'
+    );
 
     if (serializedPreferences === this.persistedPreferencesSnapshot) return;
 
-    try {
-      localStorage.setItem(STORAGE_KEY, serializedPreferences);
+    if (writePersistedAppPreferences(serializedPreferences)) {
       this.persistedPreferencesSnapshot = serializedPreferences;
-    } catch (error) {
-      console.warn('[Store preferences write warning]:', error);
     }
   }
 
@@ -1571,194 +1463,52 @@ class StoreEngine {
 
   // --- Category, Brand & Unit Actions ---
 
-  public async addCategory(data: Partial<Category>) {
-    if (!data.nameAr?.trim()) {
-      return { success: false, error: 'اسم القسم مطلوب.' };
-    }
-
-    const result = await saveProductCategoryInSupabase({
-      nameAr: data.nameAr,
-      code: data.code,
-      imageUrl: data.imageUrl,
-    });
-    if (!result.success) {
-      this.setToast(result.error || 'فشل حفظ القسم.', 'error');
-      return result;
-    }
-
-    await this.refreshCategoriesFromSupabase();
-    this.setToast(result.message || `تمت إضافة القسم ${data.nameAr}.`);
-    return result;
+  public addCategory(data: Partial<Category>) {
+    return this.referenceDataSlice.addCategory(data);
   }
 
-  public async updateCategory(id: string, updates: Partial<Category>) {
-    const current = this.state.categories.find((category) => category.id === id);
-    if (!current) {
-      return { success: false, error: 'القسم غير موجود.' };
-    }
-
-    const result = await saveProductCategoryInSupabase({
-      categoryId: id,
-      nameAr: updates.nameAr?.trim() || current.nameAr,
-      code: updates.code ?? current.code,
-      imageUrl: updates.imageUrl ?? current.imageUrl,
-    });
-    if (!result.success) {
-      this.setToast(result.error || 'فشل تحديث القسم.', 'error');
-      return result;
-    }
-
-    await this.refreshCategoriesFromSupabase();
-    this.setToast(result.message || `تم تحديث القسم ${current.nameAr}.`);
-    return result;
+  public updateCategory(id: string, updates: Partial<Category>) {
+    return this.referenceDataSlice.updateCategory(id, updates);
   }
 
-  public async setCategoryActive(id: string, isActive: boolean) {
-    const category = this.state.categories.find((item) => item.id === id);
-    if (!category) {
-      return { success: false, error: 'القسم غير موجود.' };
-    }
-
-    const result = await setProductCategoryActiveInSupabase(id, isActive);
-    if (!result.success) {
-      this.setToast(result.error || 'فشل تحديث حالة القسم.', 'error');
-      return result;
-    }
-
-    await this.refreshCategoriesFromSupabase();
-    this.setToast(result.message || 'تم تحديث حالة القسم.');
-    return result;
+  public setCategoryActive(id: string, isActive: boolean) {
+    return this.referenceDataSlice.setCategoryActive(id, isActive);
   }
 
-  public async deleteCategory(id: string) {
-    return this.setCategoryActive(id, false);
+  public deleteCategory(id: string) {
+    return this.referenceDataSlice.deleteCategory(id);
   }
 
-  public async addBrand(data: Partial<Brand>) {
-    if (!data.nameAr?.trim()) {
-      return { success: false, error: 'اسم العلامة التجارية مطلوب.' };
-    }
-
-    const result = await saveProductBrandInSupabase({
-      nameAr: data.nameAr,
-      description: data.description,
-      logoUrl: data.logoUrl,
-    });
-    if (!result.success) {
-      this.setToast(result.error || 'فشل حفظ العلامة التجارية.', 'error');
-      return result;
-    }
-
-    await this.refreshBrandsFromSupabase();
-    this.setToast(result.message || `تمت إضافة العلامة ${data.nameAr}.`);
-    return result;
+  public addBrand(data: Partial<Brand>) {
+    return this.referenceDataSlice.addBrand(data);
   }
 
-  public async updateBrand(id: string, updates: Partial<Brand>) {
-    const brand = this.state.brands.find((b) => b.id === id);
-    if (!brand) {
-      return { success: false, error: 'العلامة التجارية غير موجودة.' };
-    }
-
-    const result = await saveProductBrandInSupabase({
-      brandId: id,
-      nameAr: updates.nameAr?.trim() || brand.nameAr,
-      description: updates.description ?? brand.description,
-      logoUrl: updates.logoUrl ?? brand.logoUrl,
-    });
-    if (!result.success) {
-      this.setToast(result.error || 'فشل تحديث العلامة التجارية.', 'error');
-      return result;
-    }
-
-    await this.refreshBrandsFromSupabase();
-    this.setToast(result.message || `تم تحديث العلامة ${brand.nameAr}.`);
-    return result;
+  public updateBrand(id: string, updates: Partial<Brand>) {
+    return this.referenceDataSlice.updateBrand(id, updates);
   }
 
-  public async setBrandActive(id: string, isActive: boolean) {
-    const brand = this.state.brands.find((item) => item.id === id);
-    if (!brand) {
-      return { success: false, error: 'العلامة التجارية غير موجودة.' };
-    }
-
-    const result = await setProductBrandActiveInSupabase(id, isActive);
-    if (!result.success) {
-      this.setToast(result.error || 'فشل تحديث حالة العلامة التجارية.', 'error');
-      return result;
-    }
-
-    await this.refreshBrandsFromSupabase();
-    this.setToast(result.message || 'تم تحديث حالة العلامة التجارية.');
-    return result;
+  public setBrandActive(id: string, isActive: boolean) {
+    return this.referenceDataSlice.setBrandActive(id, isActive);
   }
 
-  public async deleteBrand(id: string) {
-    return this.setBrandActive(id, false);
+  public deleteBrand(id: string) {
+    return this.referenceDataSlice.deleteBrand(id);
   }
 
-  public async addUnit(data: Partial<UnitDefinition>) {
-    if (!data.nameAr?.trim() || !data.code?.trim()) {
-      return { success: false, error: 'اسم الوحدة وكودها مطلوبان.' };
-    }
-
-    const result = await saveProductUnitInSupabase({
-      nameAr: data.nameAr,
-      code: data.code,
-      conversionFactor: data.conversionFactor || 1,
-    });
-    if (!result.success) {
-      this.setToast(result.error || 'فشل حفظ وحدة القياس.', 'error');
-      return result;
-    }
-
-    await this.refreshUnitsFromSupabase();
-    this.setToast(result.message || `تمت إضافة الوحدة ${data.nameAr}.`);
-    return result;
+  public addUnit(data: Partial<UnitDefinition>) {
+    return this.referenceDataSlice.addUnit(data);
   }
 
-  public async updateUnit(id: string, updates: Partial<UnitDefinition>) {
-    const unit = this.state.units.find((u) => u.id === id);
-    if (!unit) {
-      return { success: false, error: 'وحدة القياس غير موجودة.' };
-    }
-
-    const result = await saveProductUnitInSupabase({
-      unitId: id,
-      nameAr: updates.nameAr?.trim() || unit.nameAr,
-      code: updates.code?.trim() || unit.code,
-      conversionFactor:
-        updates.conversionFactor ?? unit.conversionFactor,
-    });
-    if (!result.success) {
-      this.setToast(result.error || 'فشل تحديث وحدة القياس.', 'error');
-      return result;
-    }
-
-    await this.refreshUnitsFromSupabase();
-    this.setToast(result.message || `تم تحديث الوحدة ${unit.nameAr}.`);
-    return result;
+  public updateUnit(id: string, updates: Partial<UnitDefinition>) {
+    return this.referenceDataSlice.updateUnit(id, updates);
   }
 
-  public async setUnitActive(id: string, isActive: boolean) {
-    const unit = this.state.units.find((item) => item.id === id);
-    if (!unit) {
-      return { success: false, error: 'وحدة القياس غير موجودة.' };
-    }
-
-    const result = await setProductUnitActiveInSupabase(id, isActive);
-    if (!result.success) {
-      this.setToast(result.error || 'فشل تحديث حالة وحدة القياس.', 'error');
-      return result;
-    }
-
-    await this.refreshUnitsFromSupabase();
-    this.setToast(result.message || 'تم تحديث حالة وحدة القياس.');
-    return result;
+  public setUnitActive(id: string, isActive: boolean) {
+    return this.referenceDataSlice.setUnitActive(id, isActive);
   }
 
-  public async deleteUnit(id: string) {
-    return this.setUnitActive(id, false);
+  public deleteUnit(id: string) {
+    return this.referenceDataSlice.deleteUnit(id);
   }
 
   // --- Profile & User Management ---

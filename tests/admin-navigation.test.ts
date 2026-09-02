@@ -5,9 +5,9 @@ import {
   ADMIN_NAVIGATION_GROUPS,
   getNextOpenNavigationGroup,
 } from '../src/features/more/adminNavigation.config';
+import { VALID_ACTIVE_TABS } from '../src/stores/appStorePreferences';
 
 const app = readFileSync('src/App.tsx', 'utf8');
-const appStore = readFileSync('src/stores/useAppStore.ts', 'utf8');
 const bottomTabs = readFileSync('src/components/layout/BottomTabs.tsx', 'utf8');
 const quickActions = readFileSync('src/components/layout/QuickActionButton.tsx', 'utf8');
 const moreMenu = readFileSync('src/features/more/MoreMenuView.tsx', 'utf8');
@@ -50,15 +50,8 @@ const expectedGroupDestinations = new Map([
   ],
 ]);
 
-const extractSingleQuotedValues = (source: string) =>
-  Array.from(source.matchAll(/'([^']+)'/g), (match) => match[1]);
-
 test('the canonical activeTab contract is unchanged and every destination remains reachable', () => {
-  const activeTabBlock = appStore.match(
-    /const VALID_ACTIVE_TABS = \[([\s\S]*?)\] as const/,
-  );
-  assert.ok(activeTabBlock);
-  const activeTabs = extractSingleQuotedValues(activeTabBlock[1]).sort();
+  const activeTabs = [...VALID_ACTIVE_TABS].sort();
   assert.deepEqual(activeTabs, expectedActiveTabs);
 
   const groupedTabs = ADMIN_NAVIGATION_GROUPS.flatMap((group) =>

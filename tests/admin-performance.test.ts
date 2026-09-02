@@ -6,6 +6,10 @@ const app = readFileSync('src/App.tsx', 'utf8');
 const main = readFileSync('src/main.tsx', 'utf8');
 const errorMonitoring = readFileSync('src/lib/errorMonitoring.ts', 'utf8');
 const appStore = readFileSync('src/stores/useAppStore.ts', 'utf8');
+const appStorePreferences = readFileSync(
+  'src/stores/appStorePreferences.ts',
+  'utf8',
+);
 const authStore = readFileSync('src/stores/useAuthStore.ts', 'utf8');
 const dashboardService = readFileSync(
   'src/services/supabase/dashboard.service.ts',
@@ -61,12 +65,12 @@ test('admin startup does not query business data before authentication', () => {
 
 test('app store persists only compact UI preferences', () => {
   assert.doesNotMatch(appStore, /JSON\.stringify\(this\.state\)/);
-  assert.match(appStore, /interface PersistedAppPreferences/);
-  assert.match(appStore, /version: 1/);
-  assert.match(appStore, /activeTab: this\.state\.activeTab/);
+  assert.match(appStorePreferences, /interface PersistedAppPreferences/);
+  assert.match(appStorePreferences, /version: 1/);
+  assert.match(appStorePreferences, /JSON\.stringify\(\{ version: 1, activeTab, themeMode \}\)/);
   assert.match(
     appStore,
-    /themeMode: this\.state\.currentUser\.themeMode === 'light'/,
+    /serializeAppPreferences\([\s\S]*this\.state\.activeTab,[\s\S]*this\.state\.currentUser\.themeMode === 'light'/,
   );
 
   const persistenceStart = appStore.indexOf('private persistUiPreferences()');
@@ -93,8 +97,12 @@ test('app store persists only compact UI preferences', () => {
 });
 
 test('app store reload remains compatible with legacy UI preferences', () => {
-  assert.match(appStore, /parsed\.themeMode \?\? legacyCurrentUser\?\.themeMode/);
-  assert.match(appStore, /isActiveTab\(parsed\.activeTab\)/);
+  assert.match(
+    appStorePreferences,
+    /parsed\.themeMode \?\? legacyCurrentUser\?\.themeMode/,
+  );
+  assert.match(appStorePreferences, /isActiveTab\(parsed\.activeTab\)/);
+  assert.match(appStore, /loadPersistedAppPreferences\(\)/);
   assert.match(appStore, /activeTab: preferences\.activeTab \?\? initial\.activeTab/);
   assert.match(appStore, /themeMode: preferences\.themeMode \?\?/);
   assert.match(appStore, /this\.persistUiPreferences\(\);/);
