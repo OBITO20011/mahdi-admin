@@ -20,7 +20,9 @@ import {
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 import {
+  fetchOrderByIdFromSupabase,
   fetchOperationalOrdersPageFromSupabase,
+  type OperationalOrderListItem,
   OperationalOrdersSort,
   subscribeToOrdersInSupabase,
 } from '../../services/supabase/orders.service';
@@ -95,7 +97,7 @@ function getStatusBadge(status: OrderStatus | string) {
   );
 }
 
-function getPaymentLabel(order: Order) {
+function getPaymentLabel(order: OperationalOrderListItem) {
   if (order.paymentStatus === 'refunded') {
     return {
       label: 'تم رد المبلغ',
@@ -127,8 +129,11 @@ export const OrdersCenterView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [sort, setSort] = useState<OperationalOrdersSort>('newest');
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [selectedOrderLoading, setSelectedOrderLoading] = useState(false);
+  const [selectedOrderError, setSelectedOrderError] = useState<string | null>(null);
+  const [orders, setOrders] = useState<OperationalOrderListItem[]>([]);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
@@ -137,6 +142,7 @@ export const OrdersCenterView: React.FC = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const requestVersionRef = useRef(0);
+  const detailRequestVersionRef = useRef(0);
 
   useEffect(() => {
     const timer = window.setTimeout(
@@ -161,6 +167,11 @@ export const OrdersCenterView: React.FC = () => {
     if (requestVersion !== requestVersionRef.current) return;
 
     if (result.success) {
+      if (page > result.totalPages) {
+        setPage(result.totalPages);
+        if (!silent) setLoading(false);
+        return;
+      }
       setOrders(result.orders);
       setTotalCount(result.totalCount);
       setTotalPages(result.totalPages);
@@ -171,6 +182,46 @@ export const OrdersCenterView: React.FC = () => {
     if (!silent) setLoading(false);
   }, [activeFilter, debouncedSearchQuery, page, sort]);
 
+  const loadOrderDetails = useCallback(
+    async (orderId: string, silent = false) => {
+      const requestVersion = ++detailRequestVersionRef.current;
+      if (!silent) setSelectedOrderLoading(true);
+      setSelectedOrderError(null);
+      const result = await fetchOrderByIdFromSupabase(orderId);
+      if (requestVersion !== detailRequestVersionRef.current) return;
+
+      if (result.success && result.order) {
+        setSelectedOrder(result.order);
+      } else {
+        setSelectedOrderError(result.error || 'تعذر تحميل تفاصيل الطلب.');
+      }
+      if (!silent) setSelectedOrderLoading(false);
+    },
+    []
+  );
+
+  const openOrderDetails = (orderId: string) => {
+    setSelectedOrderId(orderId);
+    setSelectedOrder(null);
+    void loadOrderDetails(orderId);
+  };
+
+  const closeOrderDetails = () => {
+    detailRequestVersionRef.current += 1;
+    setSelectedOrderId(null);
+    setSelectedOrder(null);
+    setSelectedOrderError(null);
+    setSelectedOrderLoading(false);
+  };
+
+  const refreshSelectedOrder = useCallback(async () => {
+    if (!selectedOrderId) return;
+    await Promise.all([
+      loadOrders(true),
+      loadOrderDetails(selectedOrderId, true),
+    ]);
+  }, [loadOrderDetails, loadOrders, selectedOrderId]);
+
   useEffect(() => {
     let mounted = true;
     loadOrders();
@@ -179,14 +230,30 @@ export const OrdersCenterView: React.FC = () => {
       if (payload.eventType === 'INSERT') {
         setToast('وصل طلب جديد من المتجر الإلكتروني.', 'success');
       }
-      loadOrders(true);
+      if (
+        payload.eventType === 'INSERT' &&
+        sort === 'newest' &&
+        (activeFilter === 'all' || activeFilter === 'action') &&
+        page !== 1
+      ) {
+        setPage(1);
+      } else {
+        void loadOrders(true);
+      }
+
+      if (
+        selectedOrderId &&
+        payload.orderIds.includes(selectedOrderId)
+      ) {
+        void loadOrderDetails(selectedOrderId, true);
+      }
     });
 
     return () => {
       mounted = false;
       unsubscribe();
     };
-  }, [loadOrders, setToast]);
+  }, [activeFilter, loadOrderDetails, loadOrders, page, selectedOrderId, setToast, sort]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -321,7 +388,7 @@ export const OrdersCenterView: React.FC = () => {
               >
                 <button
                   type="button"
-                  onClick={() => setSelectedOrder(order)}
+                  onClick={() => openOrderDetails(order.id)}
                   className="w-full text-right"
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -367,7 +434,7 @@ export const OrdersCenterView: React.FC = () => {
 
                   <div className="mt-3 flex items-center justify-between border-t border-slate-800 pt-2">
                     <span className="text-[10px] text-slate-500">
-                      {(order.items || []).length} أصناف
+                      {order.itemCount} أصناف
                     </span>
                     <span className="flex items-center gap-1 font-bold text-blue-300">
                       <CheckCircle2 className="h-3.5 w-3.5" />
@@ -409,16 +476,44 @@ export const OrdersCenterView: React.FC = () => {
         </div>
       )}
 
-      {selectedOrder && (
+      {selectedOrderId && (
         <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/80 backdrop-blur-sm sm:items-center sm:p-4">
           <div className="max-h-[94vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border border-slate-800 bg-slate-900 p-5 shadow-2xl sm:rounded-3xl">
-            <OrderDetailModal
-              order={
-                orders.find((order) => order.id === selectedOrder.id) ||
-                selectedOrder
-              }
-              onClose={() => setSelectedOrder(null)}
-            />
+            {selectedOrderLoading ? (
+              <div className="p-10 text-center text-slate-400">
+                <RefreshCw className="mx-auto mb-3 h-7 w-7 animate-spin text-blue-400" />
+                جاري تحميل تفاصيل الطلب...
+              </div>
+            ) : selectedOrderError || !selectedOrder ? (
+              <div className="space-y-4 p-6 text-center">
+                <AlertCircle className="mx-auto h-8 w-8 text-rose-400" />
+                <p className="font-bold text-rose-300">
+                  {selectedOrderError || 'تعذر تحميل تفاصيل الطلب.'}
+                </p>
+                <div className="flex justify-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => void loadOrderDetails(selectedOrderId)}
+                    className="rounded-xl bg-blue-600 px-4 py-2 font-bold text-white"
+                  >
+                    إعادة المحاولة
+                  </button>
+                  <button
+                    type="button"
+                    onClick={closeOrderDetails}
+                    className="rounded-xl bg-slate-800 px-4 py-2 font-bold text-slate-300"
+                  >
+                    إغلاق
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <OrderDetailModal
+                order={selectedOrder}
+                onOrderChanged={refreshSelectedOrder}
+                onClose={closeOrderDetails}
+              />
+            )}
           </div>
         </div>
       )}

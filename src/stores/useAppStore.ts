@@ -66,7 +66,7 @@ import {
   setProductUnitActiveInSupabase,
 } from '../services/supabase/reference-data.service';
 import {
-  fetchOrdersFromSupabase,
+  fetchOperationalOrdersSummaryFromSupabase,
   confirmOrderInSupabase,
   completeWebsiteOrderWithPaymentInSupabase,
   completeWebsiteOrderWithSettlementInSupabase,
@@ -229,6 +229,7 @@ export interface AppState {
   brands: Brand[];
   units: UnitDefinition[];
   orders: Order[];
+  newOrdersCount: number;
   invoices: Invoice[];
   customers: Customer[];
   suppliers: Supplier[];
@@ -306,9 +307,9 @@ class StoreEngine {
   private async performOrdersRefresh(): Promise<void> {
     if (!isSupabaseConfigured) return;
     try {
-      const res = await fetchOrdersFromSupabase('all');
-      if (res.success && res.orders) {
-        this.state.orders = res.orders;
+      const res = await fetchOperationalOrdersSummaryFromSupabase();
+      if (res.success) {
+        this.state.newOrdersCount = res.summary.review;
         this.notify();
       }
     } catch (err) {
@@ -572,6 +573,7 @@ class StoreEngine {
       brands: [],
       units: [],
       orders: [],
+      newOrdersCount: 0,
       invoices: [],
       customers: [],
       suppliers: [],
@@ -1093,7 +1095,15 @@ class StoreEngine {
     etaMinutes: number,
     driverPhone: string,
     notes?: string
-  ) {
+  ): Promise<{
+    success: boolean;
+    message?: string;
+    estimatedArrivalAt?: string;
+    trackingToken?: string;
+    trackingUrl?: string;
+    driverPhone?: string;
+    error?: string;
+  }> {
     if (!isSupabaseConfigured) {
       const result = {
         success: false,
@@ -2365,6 +2375,8 @@ const coreAppStoreActions = {
   toggleQuickAction: (open?: boolean) => storeEngine.toggleQuickAction(open),
   openModal: (modal: string, data?: unknown) => storeEngine.openModal(modal, data),
   closeModal: () => storeEngine.closeModal(),
+  openCustomerProfile: (customerId: string) =>
+    storeEngine.openCustomerProfile(customerId),
   setActiveBranch: (branchId: string) => storeEngine.setActiveBranch(branchId),
   clearCustomerNavigationTarget: () =>
     storeEngine.clearCustomerNavigationTarget(),
@@ -2373,6 +2385,43 @@ const coreAppStoreActions = {
   clearFaceIdLockForPasswordSignIn: () =>
     storeEngine.clearFaceIdLockForPasswordSignIn(),
   refreshOrdersFromSupabase: () => storeEngine.refreshOrdersFromSupabase(),
+  confirmOrder: (orderId: string, notes?: string) =>
+    storeEngine.confirmOrder(orderId, notes),
+  cancelOrder: (orderId: string, reason?: string) =>
+    storeEngine.cancelOrder(orderId, reason),
+  advanceOrderStatus: (
+    orderId: string,
+    status: OrderStatus,
+    notes?: string
+  ) => storeEngine.advanceOrderStatus(orderId, status, notes),
+  startOrUpdateOrderDelivery: (
+    orderId: string,
+    etaMinutes: number,
+    driverPhone: string,
+    notes?: string
+  ) =>
+    storeEngine.startOrUpdateOrderDelivery(
+      orderId,
+      etaMinutes,
+      driverPhone,
+      notes
+    ),
+  completeWebsiteOrderWithSettlement: (input: {
+    orderId: string;
+    paymentMethod: 'cash' | 'cliq' | 'debt';
+    amountCollected: number;
+    deliveryFee: number;
+    referenceNumber?: string;
+    notes?: string;
+  }) => storeEngine.completeWebsiteOrderWithSettlement(input),
+  returnCompletedWebsiteOrder: (input: {
+    orderId: string;
+    reason: string;
+    stockDisposition: 'restock' | 'damaged';
+    refundMethod: 'cash' | 'cliq';
+    referenceNumber?: string;
+    notes?: string;
+  }) => storeEngine.returnCompletedWebsiteOrder(input),
   refreshProductsFromSupabase: () => storeEngine.refreshProductsFromSupabase(),
   refreshInventoryMovementsFromSupabase: (input?: InventoryMovementPageInput) =>
     storeEngine.refreshInventoryMovementsFromSupabase(input),

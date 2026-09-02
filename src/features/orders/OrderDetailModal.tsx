@@ -19,7 +19,7 @@ import {
   XCircle,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
-import { useAppStore } from '../../stores/useAppStore';
+import { useAppStoreActions } from '../../stores/useAppStore';
 import { Order, OrderStatus } from '../../types';
 import { CustomerLocationCard } from './CustomerLocationCard';
 import { EditAddressModal } from './EditAddressModal';
@@ -28,6 +28,7 @@ import { buildStorefrontTrackingUrl } from '../../services/supabase/orders.servi
 interface OrderDetailModalProps {
   order: Order;
   onClose: () => void;
+  onOrderChanged?: () => Promise<void>;
 }
 
 const STATUS_LABELS: Record<string, string> = {
@@ -115,24 +116,20 @@ function normalizeJordanianPhone(value: string): string | null {
 }
 
 export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
-  order: initialOrder,
+  order,
   onClose,
+  onOrderChanged,
 }) => {
   const {
-    orders,
     confirmOrder,
     cancelOrder,
     advanceOrderStatus,
     startOrUpdateOrderDelivery,
     completeWebsiteOrderWithSettlement,
     returnCompletedWebsiteOrder,
-    refreshOrdersFromSupabase,
     openCustomerProfile,
     setToast,
-  } = useAppStore();
-  const order =
-    orders.find((candidate) => candidate.id === initialOrder.id) ||
-    initialOrder;
+  } = useAppStoreActions();
 
   const [busy, setBusy] = useState(false);
   const [showCancelForm, setShowCancelForm] = useState(false);
@@ -203,6 +200,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
     setBusy(true);
     try {
       await action();
+      await onOrderChanged?.();
     } finally {
       setBusy(false);
     }
@@ -254,7 +252,10 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         referenceNumber: paymentReference.trim(),
         notes: paymentNotes.trim(),
       });
-      if (success) setShowPaymentConfirmation(false);
+      if (success) {
+        setShowPaymentConfirmation(false);
+        await onOrderChanged?.();
+      }
     } finally {
       setBusy(false);
     }
@@ -290,6 +291,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           result.driverPhone || normalizedDriverPhone
         );
         setShowDeliveryEtaForm(false);
+        await onOrderChanged?.();
       }
     } finally {
       setBusy(false);
@@ -335,7 +337,10 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         referenceNumber: refundReference.trim(),
         notes: returnNotes.trim(),
       });
-      if (success) setShowReturnForm(false);
+      if (success) {
+        setShowReturnForm(false);
+        await onOrderChanged?.();
+      }
     } finally {
       setBusy(false);
     }
@@ -1293,7 +1298,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           order={order}
           onClose={() => setShowEditAddress(false)}
           onSaved={async () => {
-            await refreshOrdersFromSupabase();
+            await onOrderChanged?.();
             setShowEditAddress(false);
           }}
         />

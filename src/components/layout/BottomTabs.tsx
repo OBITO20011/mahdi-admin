@@ -2,13 +2,14 @@
  * Nawasrah Business Manager - iOS Bottom Navigation Tabs
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   shallowEqual,
   type AppState,
   useAppStoreActions,
   useAppStoreSelector,
 } from '../../stores/useAppStore';
+import { subscribeToOrdersInSupabase } from '../../services/supabase/orders.service';
 import {
   Home,
   ShoppingBag,
@@ -29,13 +30,18 @@ export const BottomTabs: React.FC = () => {
   const { activeTab, newOrdersCount } = useAppStoreSelector(
     (state) => ({
       activeTab: state.activeTab,
-      newOrdersCount: state.orders.filter(
-        (order) => order?.status === 'new' || order?.isNew,
-      ).length,
+      newOrdersCount: state.newOrdersCount,
     }),
     shallowEqual,
   );
-  const { setActiveTab } = useAppStoreActions();
+  const { setActiveTab, refreshOrdersFromSupabase } = useAppStoreActions();
+
+  useEffect(() => {
+    void refreshOrdersFromSupabase();
+    return subscribeToOrdersInSupabase(() => {
+      void refreshOrdersFromSupabase();
+    });
+  }, [refreshOrdersFromSupabase]);
 
   const tabs: NavigationTab[] = [
     { id: 'home', label: 'الرئيسية', icon: Home },

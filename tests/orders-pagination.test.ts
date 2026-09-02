@@ -10,6 +10,15 @@ const ordersCenter = readFileSync(
   'src/features/orders/OrdersCenterView.tsx',
   'utf8'
 );
+const orderDetail = readFileSync(
+  'src/features/orders/OrderDetailModal.tsx',
+  'utf8'
+);
+const appStore = readFileSync('src/stores/useAppStore.ts', 'utf8');
+const bottomTabs = readFileSync(
+  'src/components/layout/BottomTabs.tsx',
+  'utf8'
+);
 const migration = readFileSync(
   'supabase/migrations/075_operational_orders_pagination.sql',
   'utf8'
@@ -27,21 +36,41 @@ test('operational order paging is server-side, guarded, and excludes POS', () =>
   assert.match(migration, /GRANT EXECUTE ON FUNCTION public\.get_operational_orders_page/);
 });
 
-test('order page service requests page metadata before page-limited details', () => {
+test('order page service requests server page metadata then only bounded lightweight rows', () => {
   assert.match(orderService, /export async function fetchOperationalOrdersPageFromSupabase/);
   assert.match(orderService, /supabase\.rpc\('get_operational_orders_page'/);
   assert.match(orderService, /p_page_size: pageSize/);
   assert.match(orderService, /p_filter: input\.filter/);
   assert.match(orderService, /p_search: searchQuery/);
-  assert.match(orderService, /orderIds: pagePayload\.orderIds/);
-  assert.match(orderService, /query = query\.in\('id', \[\.\.\.options\.orderIds\]\)/);
+  assert.match(orderService, /fetchOperationalOrderListRows\(\s*pagePayload\.orderIds/);
+  assert.match(orderService, /\.select\(OPERATIONAL_ORDER_LIST_SELECT\)/);
+  assert.match(orderService, /\.in\('id', \[\.\.\.orderIds\]\)/);
+  assert.match(orderService, /order_items \(count\)/);
+  assert.doesNotMatch(orderService, /export async function fetchOrdersFromSupabase/);
 });
 
-test('orders center no longer filters a full store order list in React', () => {
+test('orders center pages summaries and loads heavy details only for the opened order', () => {
   assert.match(ordersCenter, /fetchOperationalOrdersPageFromSupabase/);
+  assert.match(ordersCenter, /fetchOrderByIdFromSupabase\(orderId\)/);
   assert.match(ordersCenter, /const PAGE_SIZE = 25/);
   assert.match(ordersCenter, /setDebouncedSearchQuery/);
   assert.match(ordersCenter, /setTotalCount\(result\.totalCount\)/);
   assert.doesNotMatch(ordersCenter, /orders\.filter\(/);
   assert.doesNotMatch(ordersCenter, /refreshOrdersFromSupabase/);
+  assert.match(orderDetail, /onOrderChanged\?: \(\) => Promise<void>/);
+  assert.doesNotMatch(orderDetail, /orders\.find\(/);
+});
+
+test('global store refreshes only the bounded summary used by the navigation badge', () => {
+  assert.match(appStore, /fetchOperationalOrdersSummaryFromSupabase/);
+  assert.match(appStore, /this\.state\.newOrdersCount = res\.summary\.review/);
+  assert.doesNotMatch(appStore, /this\.state\.orders = res\.orders/);
+  assert.match(bottomTabs, /newOrdersCount: state\.newOrdersCount/);
+  assert.match(bottomTabs, /subscribeToOrdersInSupabase/);
+});
+
+test('realtime invalidates the visible page and refreshes only an opened matching detail', () => {
+  assert.match(orderService, /orderIds: \[\.\.\.pendingOrderIds\]/);
+  assert.match(ordersCenter, /payload\.orderIds\.includes\(selectedOrderId\)/);
+  assert.match(ordersCenter, /loadOrderDetails\(selectedOrderId, true\)/);
 });

@@ -34,7 +34,7 @@ export interface OperationalOrdersSummary {
 
 export interface OperationalOrdersPage {
   success: boolean;
-  orders: Order[];
+  orders: OperationalOrderListItem[];
   page: number;
   pageSize: number;
   totalCount: number;
@@ -43,9 +43,23 @@ export interface OperationalOrdersPage {
   error?: string;
 }
 
-interface OrderDetailFetchOptions {
-  orderIds?: readonly string[];
-  sort?: OperationalOrdersSort;
+export interface OperationalOrderListItem {
+  id: string;
+  orderNumber: string;
+  customerName: string;
+  customerPhone: string;
+  governorate: string;
+  region: string;
+  status: OrderStatus;
+  paymentMethod: PaymentMethod;
+  paymentStatus: PaymentStatus;
+  totalAmount: number;
+  amountPaid: number;
+  amountDue: number;
+  itemCount: number;
+  branchId: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 const EMPTY_OPERATIONAL_ORDERS_SUMMARY: OperationalOrdersSummary = {
@@ -152,6 +166,30 @@ const ORDER_DETAIL_SELECT = `
   )
 `;
 
+const OPERATIONAL_ORDER_LIST_SELECT = `
+  id,
+  order_number,
+  customer_name_snapshot,
+  status,
+  payment_method,
+  payment_status,
+  total_in_minor_units,
+  amount_paid_in_minor_units,
+  branch_id,
+  created_at,
+  updated_at,
+  customers (
+    full_name,
+    phone
+  ),
+  customer_addresses (
+    governorate,
+    city,
+    area
+  ),
+  order_items (count)
+`;
+
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
 
@@ -196,12 +234,13 @@ function toPaymentStatus(value: unknown): PaymentStatus {
     : 'unpaid';
 }
 
-export async function fetchOrdersFromSupabase(
-  filterStatus?: string,
-  searchQuery?: string,
-  scope: 'operational' | 'all' = 'operational',
-  options: OrderDetailFetchOptions = {}
-): Promise<{ success: boolean; orders: Order[]; error?: string }> {
+async function fetchOperationalOrderListRows(
+  orderIds: readonly string[]
+): Promise<{
+  success: boolean;
+  orders: OperationalOrderListItem[];
+  error?: string;
+}> {
   if (!isSupabaseConfigured || !supabase) {
     return {
       success: false,
@@ -210,34 +249,18 @@ export async function fetchOrdersFromSupabase(
     };
   }
 
+  if (orderIds.length === 0) {
+    return { success: true, orders: [] };
+  }
+
   try {
-    let query = supabase
+    const { data, error } = await supabase
       .from('orders')
-      .select(ORDER_DETAIL_SELECT);
-
-    if (scope === 'operational') {
-      query = query.or('source.is.null,source.neq.pos');
-    }
-
-    if (filterStatus && filterStatus !== 'all') {
-      query = query.eq('status', filterStatus);
-    }
-
-    if (options.orderIds) {
-      if (options.orderIds.length === 0) {
-        return { success: true, orders: [] };
-      }
-      query = query.in('id', [...options.orderIds]);
-    }
-
-    query = query.order('created_at', {
-      ascending: options.sort === 'oldest',
-    });
-
-    const { data, error } = await query;
+      .select(OPERATIONAL_ORDER_LIST_SELECT)
+      .in('id', [...orderIds]);
 
     if (error) {
-      console.error('[fetchOrdersFromSupabase Error]:', error);
+      console.error('[fetchOperationalOrderListRows Error]:', error);
       return { success: false, orders: [], error: error.message };
     }
 
@@ -245,29 +268,84 @@ export async function fetchOrdersFromSupabase(
       return { success: true, orders: [] };
     }
 
-    const mappedOrders = mapOrderRows(data);
-
-    // Apply client-side search query if present
-    let filtered = mappedOrders;
-    if (searchQuery && searchQuery.trim() !== '') {
-      const q = searchQuery.toLowerCase().trim();
-      filtered = mappedOrders.filter(
-        (o) =>
-          o.orderNumber.toLowerCase().includes(q) ||
-          o.customerName.toLowerCase().includes(q) ||
-          o.customerPhone.includes(q)
-      );
-    }
-
-    return { success: true, orders: filtered };
-  } catch (err: any) {
-    console.error('[fetchOrdersFromSupabase Exception]:', err);
+    return { success: true, orders: mapOperationalOrderListRows(data) };
+  } catch (error) {
+    console.error('[fetchOperationalOrderListRows Exception]:', error);
     return {
       success: false,
       orders: [],
-      error: err?.message || 'حدث خطأ غير متوقع أثناء جلب الطلبات.',
+      error:
+        error instanceof Error
+          ? error.message
+          : 'حدث خطأ غير متوقع أثناء جلب صفحة الطلبات.',
     };
   }
+}
+
+function firstRelation(value: unknown): Record<string, unknown> {
+  if (Array.isArray(value)) {
+    return isRecord(value[0]) ? value[0] : {};
+  }
+  return isRecord(value) ? value : {};
+}
+
+function mapOperationalOrderListRows(
+  data: unknown[]
+): OperationalOrderListItem[] {
+  return data.flatMap((value) => {
+    if (!isRecord(value) || typeof value.id !== 'string') return [];
+
+    const customer = firstRelation(value.customers);
+    const address = firstRelation(value.customer_addresses);
+    const itemCountRelation = firstRelation(value.order_items);
+    const totalAmount = Number(value.total_in_minor_units || 0) / 1000;
+    const amountPaid = Number(value.amount_paid_in_minor_units || 0) / 1000;
+
+    return [{
+      id: value.id,
+      orderNumber:
+        typeof value.order_number === 'string' ? value.order_number : value.id,
+      customerName:
+        typeof customer.full_name === 'string'
+          ? customer.full_name
+          : typeof value.customer_name_snapshot === 'string'
+            ? value.customer_name_snapshot
+            : 'زبون نقدي',
+      customerPhone:
+        typeof customer.phone === 'string' ? customer.phone : '',
+      governorate:
+        typeof address.governorate === 'string'
+          ? address.governorate
+          : 'غير محدد',
+      region:
+        typeof address.area === 'string'
+          ? address.area
+          : typeof address.city === 'string'
+            ? address.city
+            : 'غير محدد',
+      status:
+        typeof value.status === 'string'
+          ? (value.status as OrderStatus)
+          : 'new',
+      paymentMethod: toPaymentMethod(value.payment_method),
+      paymentStatus: toPaymentStatus(value.payment_status),
+      totalAmount,
+      amountPaid,
+      amountDue: calculateOrderAmountDue(totalAmount, amountPaid),
+      itemCount: asNonNegativeInteger(itemCountRelation.count),
+      branchId: typeof value.branch_id === 'string' ? value.branch_id : '',
+      createdAt:
+        typeof value.created_at === 'string'
+          ? value.created_at
+          : new Date(0).toISOString(),
+      updatedAt:
+        typeof value.updated_at === 'string'
+          ? value.updated_at
+          : typeof value.created_at === 'string'
+            ? value.created_at
+            : new Date(0).toISOString(),
+    }];
+  });
 }
 
 function mapOrderRows(data: unknown[]): Order[] {
@@ -624,13 +702,10 @@ export async function fetchOperationalOrdersPageFromSupabase(
       };
     }
 
-    const detailsResult = await fetchOrdersFromSupabase(
-      undefined,
-      undefined,
-      'operational',
-      { orderIds: pagePayload.orderIds, sort }
+    const listResult = await fetchOperationalOrderListRows(
+      pagePayload.orderIds
     );
-    if (!detailsResult.success) {
+    if (!listResult.success) {
       return {
         success: false,
         orders: [],
@@ -639,12 +714,12 @@ export async function fetchOperationalOrdersPageFromSupabase(
         totalCount: pagePayload.totalCount,
         totalPages: Math.max(1, Math.ceil(pagePayload.totalCount / pageSize)),
         summary: pagePayload.summary,
-        error: detailsResult.error || 'تعذر تحميل تفاصيل صفحة الطلبات.',
+        error: listResult.error || 'تعذر تحميل صفحة الطلبات.',
       };
     }
 
     const ordersById = new Map(
-      detailsResult.orders.map((order) => [order.id, order])
+      listResult.orders.map((order) => [order.id, order])
     );
     const orders = pagePayload.orderIds.flatMap((orderId) => {
       const order = ordersById.get(orderId);
@@ -673,6 +748,56 @@ export async function fetchOperationalOrdersPageFromSupabase(
       totalPages: 1,
       summary: EMPTY_OPERATIONAL_ORDERS_SUMMARY,
       error: message,
+    };
+  }
+}
+
+export async function fetchOperationalOrdersSummaryFromSupabase(): Promise<{
+  success: boolean;
+  summary: OperationalOrdersSummary;
+  error?: string;
+}> {
+  if (!isSupabaseConfigured || !supabase) {
+    return {
+      success: false,
+      summary: EMPTY_OPERATIONAL_ORDERS_SUMMARY,
+      error: 'لم يتم إعداد عميل Supabase بنجاح.',
+    };
+  }
+
+  try {
+    const { data, error } = await supabase.rpc('get_operational_orders_page', {
+      p_page: 1,
+      p_page_size: 1,
+      p_filter: 'action',
+      p_search: null,
+      p_sort: 'newest',
+    });
+
+    if (error) {
+      return {
+        success: false,
+        summary: EMPTY_OPERATIONAL_ORDERS_SUMMARY,
+        error: error.message,
+      };
+    }
+
+    const payload = parseOperationalOrdersPagePayload(data);
+    if (!payload) {
+      return {
+        success: false,
+        summary: EMPTY_OPERATIONAL_ORDERS_SUMMARY,
+        error: 'استجابة ملخص الطلبات غير صالحة.',
+      };
+    }
+
+    return { success: true, summary: payload.summary };
+  } catch (error) {
+    return {
+      success: false,
+      summary: EMPTY_OPERATIONAL_ORDERS_SUMMARY,
+      error:
+        error instanceof Error ? error.message : 'تعذر تحميل ملخص الطلبات.',
     };
   }
 }
@@ -954,6 +1079,7 @@ export type OrderRealtimeEventType = 'INSERT' | 'UPDATE' | 'DELETE';
 
 export interface OrderRealtimeChange {
   eventType: OrderRealtimeEventType;
+  orderIds: string[];
 }
 
 export function subscribeToOrdersInSupabase(
@@ -965,19 +1091,28 @@ export function subscribeToOrdersInSupabase(
 
   let refreshTimer: ReturnType<typeof setTimeout> | null = null;
   let pendingEventType: OrderRealtimeEventType | null = null;
+  const pendingOrderIds = new Set<string>();
 
-  const scheduleRefresh = (eventType: OrderRealtimeEventType) => {
+  const scheduleRefresh = (
+    eventType: OrderRealtimeEventType,
+    orderId?: string
+  ) => {
     // An order transition can write the order and several accounting/inventory
     // records in quick succession. Keep the INSERT signal for the toast, but
     // let the list perform one refresh for the complete burst.
     if (eventType === 'INSERT' || !pendingEventType) {
       pendingEventType = eventType;
     }
+    if (orderId) pendingOrderIds.add(orderId);
     if (refreshTimer) clearTimeout(refreshTimer);
     refreshTimer = setTimeout(() => {
       if (!pendingEventType) return;
-      const payload: OrderRealtimeChange = { eventType: pendingEventType };
+      const payload: OrderRealtimeChange = {
+        eventType: pendingEventType,
+        orderIds: [...pendingOrderIds],
+      };
       pendingEventType = null;
+      pendingOrderIds.clear();
       refreshTimer = null;
       onNewOrUpdatedOrder(payload);
     }, 350);
@@ -995,7 +1130,15 @@ export function subscribeToOrdersInSupabase(
           eventType === 'UPDATE' ||
           eventType === 'DELETE'
         ) {
-          scheduleRefresh(eventType);
+          const newRow = isRecord(payload.new) ? payload.new : {};
+          const oldRow = isRecord(payload.old) ? payload.old : {};
+          const orderId =
+            typeof newRow.id === 'string'
+              ? newRow.id
+              : typeof oldRow.id === 'string'
+                ? oldRow.id
+                : undefined;
+          scheduleRefresh(eventType, orderId);
         }
       }
     )
