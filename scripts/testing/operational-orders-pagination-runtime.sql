@@ -174,9 +174,7 @@ BEGIN
     jsonb_build_object('total', 61, 'page_sizes', ARRAY[25, 25, 11])
   );
 
-  SELECT COUNT(*)::INTEGER INTO v_expected
-  FROM public.orders
-  WHERE source = 'website' AND status = 'new';
+  v_expected := 15;
   v_page := public.get_operational_orders_page(1, 25, 'action', NULL, 'newest');
   IF (v_page->>'total_count')::INTEGER <> v_expected THEN
     RAISE EXCEPTION 'Status filter count is incorrect.';
@@ -287,11 +285,12 @@ END $$;
 RESET ROLE;
 
 INSERT INTO public.orders (
-  order_number, customer_id, customer_name_snapshot, branch_id,
+  id, order_number, customer_id, customer_name_snapshot, branch_id,
   status, payment_method, payment_status,
   subtotal_in_minor_units, total_in_minor_units,
   amount_paid_in_minor_units, source, created_at, updated_at
 ) VALUES (
+  '95000000-0000-0000-0000-000000000030',
   'R5-WEB-NEWEST',
   '95000000-0000-0000-0000-000000000020',
   'عميل بحث R5 ألف',
@@ -308,11 +307,8 @@ SELECT set_config(
 DO $$
 DECLARE
   v_page JSONB;
-  v_expected UUID;
+  v_expected UUID := '95000000-0000-0000-0000-000000000030';
 BEGIN
-  SELECT id INTO v_expected
-  FROM public.orders
-  WHERE order_number = 'R5-WEB-NEWEST';
   v_page := public.get_operational_orders_page(1, 25, 'action', NULL, 'newest');
   IF (v_page->'order_ids'->>0)::UUID IS DISTINCT FROM v_expected THEN
     RAISE EXCEPTION 'Newest inserted order did not appear first.';
