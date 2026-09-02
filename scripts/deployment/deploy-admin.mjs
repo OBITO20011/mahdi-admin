@@ -1,9 +1,11 @@
 import { execFileSync, spawnSync } from 'node:child_process';
 
-const isWindows = process.platform === 'win32';
-const npmCommand = isWindows ? 'npm.cmd' : 'npm';
-const npxCommand = isWindows ? 'npx.cmd' : 'npx';
 const checkOnly = process.argv.includes('--check');
+const npmCliPath = process.env.npm_execpath;
+
+if (!npmCliPath) {
+  throw new Error('Run this deployment through npm run deploy:admin.');
+}
 
 function git(...args) {
   return execFileSync('git', args, {
@@ -43,9 +45,13 @@ if (checkOnly) {
   process.exit(0);
 }
 
-run(npmCommand, ['run', 'build']);
-run(npxCommand, [
+run(process.execPath, [npmCliPath, 'run', 'build']);
+run(process.execPath, [
+  npmCliPath,
+  'exec',
+  '--yes',
   'wrangler',
+  '--',
   'pages',
   'deploy',
   'dist',

@@ -23,6 +23,8 @@ test('admin deployment records the exact verified main commit in Cloudflare meta
   assert.match(deploymentScript, /status', '--porcelain'/);
   assert.match(deploymentScript, /ls-remote', 'origin', 'refs\/heads\/main'/);
   assert.match(deploymentScript, /localSha !== remoteMain/);
+  assert.match(deploymentScript, /process\.env\.npm_execpath/);
+  assert.match(deploymentScript, /run\(process\.execPath/);
   assert.match(deploymentScript, /`--commit-hash=\$\{localSha\}`/);
   assert.match(deploymentScript, /`--commit-message=\$\{commitMessage\}`/);
 });
