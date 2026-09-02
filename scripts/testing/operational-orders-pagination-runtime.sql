@@ -18,6 +18,7 @@ DECLARE
   v_cashier_role UUID;
   v_view_role UUID;
   v_branch UUID := '95000000-0000-0000-0000-000000000010';
+  v_shift UUID := '95000000-0000-0000-0000-000000000011';
   v_customer_a UUID := '95000000-0000-0000-0000-000000000020';
   v_customer_b UUID := '95000000-0000-0000-0000-000000000021';
 BEGIN
@@ -58,6 +59,14 @@ BEGIN
   INSERT INTO public.branches (id, code, name_ar, is_active)
   VALUES (v_branch, 'R5-BRANCH', 'فرع اختبار R5', true)
   ON CONFLICT (id) DO NOTHING;
+
+  -- Keep the POS exclusion fixture valid under the same production guard that
+  -- requires every direct sale to belong to an open cash shift.
+  INSERT INTO public.cash_shifts (
+    id, shift_number, branch_id, opened_by, opening_cash_in_minor_units, status
+  ) VALUES (
+    v_shift, 'R5-SHIFT-OPEN', v_branch, v_owner, 0, 'open'
+  );
 
   INSERT INTO public.customers (id, full_name, phone, customer_type)
   VALUES
