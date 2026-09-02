@@ -43,6 +43,7 @@ import {
   fetchProductsFromSupabase,
   createProductWithOpeningStockInSupabase,
   updateProductInSupabase,
+  type SupabaseRpcResult,
 } from '../services/supabase/products.service';
 import {
   adjustInventoryStockInSupabase,
@@ -352,14 +353,15 @@ class StoreEngine {
           }
         }
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
       console.error('[Store refreshProductsFromSupabase Exception]:', err);
       this.state.productsSource = 'supabase';
-      this.state.productsError = err?.message || 'تعذر الاتصال بـ Supabase';
+      this.state.productsError = errorMessage || 'تعذر الاتصال بـ Supabase';
       this.state.supabaseDiagnostics = {
         ...this.state.supabaseDiagnostics,
         productsQueryStatus: 'failed',
-        productsErrorMessage: err?.message || String(err),
+        productsErrorMessage: errorMessage,
       };
     } finally {
       this.state.isProductsLoading = false;
@@ -1027,7 +1029,7 @@ class StoreEngine {
     success: boolean;
     productId?: string;
     error?: string;
-    errorDetails?: any;
+    errorDetails?: SupabaseRpcResult['errorDetails'];
   }> {
     const openingQty = Number(productData.onHandQuantity) || 0;
     const targetBranchId = productData.branchId || this.state.activeBranch?.id;
@@ -1103,9 +1105,9 @@ class StoreEngine {
             },
           };
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error('[Supabase RPC addProduct Exception]:', err);
-        const errMsg = err?.message || String(err);
+        const errMsg = err instanceof Error ? err.message : String(err);
         this.state.productsError = errMsg;
         this.notify();
         return {
@@ -2256,7 +2258,7 @@ export function useAppStore() {
     clearCustomerNavigationTarget: () =>
       storeEngine.clearCustomerNavigationTarget(),
     toggleQuickAction: (open?: boolean) => storeEngine.toggleQuickAction(open),
-    openModal: (m: string, data?: any) => storeEngine.openModal(m, data),
+    openModal: (m: string, data?: unknown) => storeEngine.openModal(m, data),
     closeModal: () => storeEngine.closeModal(),
     setActiveBranch: (bId: string) => storeEngine.setActiveBranch(bId),
     toggleBiometrics: () => storeEngine.toggleBiometrics(),
@@ -2330,10 +2332,10 @@ export function useAppStore() {
     hideProduct: (id: string) => storeEngine.hideProduct(id),
     duplicateProduct: (id: string) => storeEngine.duplicateProduct(id),
     adjustStock: (pId: string, newQty: number, reason: string) => storeEngine.adjustStock(pId, newQty, reason),
-    recordStockMovement: (params: any) => storeEngine.recordStockMovement(params),
-    receiveGoods: (params: any) => storeEngine.receiveGoods(params),
-    transferWarehouse: (params: any) => storeEngine.transferWarehouse(params),
-    executeStockCount: (params: any) => storeEngine.executeStockCount(params),
+    recordStockMovement: (params: Parameters<StoreEngine['recordStockMovement']>[0]) => storeEngine.recordStockMovement(params),
+    receiveGoods: (params: Parameters<StoreEngine['receiveGoods']>[0]) => storeEngine.receiveGoods(params),
+    transferWarehouse: (params: Parameters<StoreEngine['transferWarehouse']>[0]) => storeEngine.transferWarehouse(params),
+    executeStockCount: (params: Parameters<StoreEngine['executeStockCount']>[0]) => storeEngine.executeStockCount(params),
     
     addCategory: (data: Partial<Category>) => storeEngine.addCategory(data),
     updateCategory: (id: string, updates: Partial<Category>) => storeEngine.updateCategory(id, updates),
@@ -2361,8 +2363,8 @@ export function useAppStore() {
     updateEmail: (newEmail: string) => storeEngine.updateEmail(newEmail),
     changePassword: (oldPass: string, newPass: string) => storeEngine.changePassword(oldPass, newPass),
     toggleFaceId: () => storeEngine.toggleFaceId(),
-    updateNotificationPreferences: (settings: any) => storeEngine.updateNotificationPreferences(settings),
-    updateNotificationSettings: (settings: any) => storeEngine.updateNotificationPreferences(settings),
+    updateNotificationPreferences: (settings: User['notificationSettings']) => storeEngine.updateNotificationPreferences(settings),
+    updateNotificationSettings: (settings: User['notificationSettings']) => storeEngine.updateNotificationPreferences(settings),
     updateDefaultBranch: (branchId: string) => storeEngine.updateDefaultBranch(branchId),
     logoutOtherSessions: () => storeEngine.logoutOtherSessions(),
     toggleThemeMode: (mode?: 'dark' | 'light') => storeEngine.toggleThemeMode(mode),

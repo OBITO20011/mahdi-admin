@@ -124,8 +124,6 @@ class AuthStoreEngine {
 
       // 2. Listen to Auth changes
       supabase.auth.onAuthStateChange(async (event, newSession) => {
-        console.log('[AuthStore] Auth event:', event);
-
         if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
           if (newSession) {
             await this.handleUserSession(newSession);

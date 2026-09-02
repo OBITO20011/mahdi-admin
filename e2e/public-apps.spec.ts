@@ -241,6 +241,7 @@ test.describe('متجر العملاء العام', () => {
           scrollY: window.scrollY,
           heroHeight: hero?.getBoundingClientRect().height ?? 0,
           videoReadyState: video?.readyState ?? 0,
+          videoCurrentSrc: video?.currentSrc ?? '',
         };
       });
 
@@ -254,7 +255,8 @@ test.describe('متجر العملاء العام', () => {
 
     expect(afterIdle.scrollY).toBe(0);
     expect(afterIdle.heroHeight).toBeCloseTo(initial.heroHeight, 1);
-    expect(afterIdle.videoReadyState).toBeGreaterThanOrEqual(initial.videoReadyState);
+    expect(afterIdle.videoReadyState).toBeGreaterThanOrEqual(1);
+    expect(afterIdle.videoCurrentSrc).toBe(initial.videoCurrentSrc);
 
     await page.reload({ waitUntil: 'domcontentloaded' });
     await expect(page.locator('#top')).toBeVisible();

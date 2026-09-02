@@ -575,16 +575,6 @@ export async function createPurchaseOrderInSupabase(
       });
     }
 
-    // Development logging for debugging (no sensitive user data)
-    if (import.meta.env.DEV) {
-      console.log('[create_purchase_order RPC Payload]:', {
-        p_supplier_id,
-        p_branch_id,
-        p_warehouse_id,
-        item_product_ids: p_items.map((it) => it.product_id),
-      });
-    }
-
     const { data, error } = await supabase.rpc('create_purchase_order', {
       p_supplier_id,
       p_branch_id,

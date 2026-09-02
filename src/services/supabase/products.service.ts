@@ -421,8 +421,6 @@ export async function createProductWithOpeningStockInSupabase(
     p_image_url: input.imageUrl?.trim() || null,
   };
 
-  console.log('[Supabase RPC Calling] create_product_with_opening_stock_v4');
-
   try {
     const { data: res, error } = await supabase.rpc(
       'create_product_with_opening_stock_v4',
@@ -460,7 +458,7 @@ export async function createProductWithOpeningStockInSupabase(
       };
     }
 
-    // 4. Verify actual records created in Supabase tables: public.products, public.inventory_balances, public.inventory_movements
+    // Verify the canonical product row before reporting success to the UI.
     const { data: checkProd, error: checkProdErr } = await supabase
       .from('products')
       .select('id, name_ar, sku')
@@ -479,22 +477,6 @@ export async function createProductWithOpeningStockInSupabase(
         },
       };
     }
-
-    const { data: checkBal } = await supabase
-      .from('inventory_balances')
-      .select('*')
-      .eq('product_id', createdProdId);
-
-    const { data: checkMov } = await supabase
-      .from('inventory_movements')
-      .select('*')
-      .eq('product_id', createdProdId);
-
-    console.log('[Supabase Multi-Table Verification Success]:', {
-      product: checkProd,
-      inventory_balances: checkBal,
-      inventory_movements: checkMov,
-    });
 
     return {
       success: true,

@@ -77,6 +77,10 @@ npm.cmd run test:e2e:report
 
 - تطبيق الإدارة: https://nawasrah-admin.pages.dev/
 - متجر الزبائن: https://nawasrah-store.pages.dev/
+- نشر الإدارة المعتمد يتم من فرع `main` النظيف فقط عبر
+  `npm.cmd run deploy:admin`. يتحقق الأمر أن SHA المحلي يطابق
+  `origin/main` ثم يمرر SHA نفسه إلى Cloudflare Pages كـ commit metadata.
+  للفحص دون بناء أو نشر استخدم `npm.cmd run deploy:admin:check`.
 - [خطة المشروع](./PROJECT_PLAN.md)
 - [المعمارية](./ARCHITECTURE.md)
 - [تصميم قاعدة البيانات](./DATABASE_DESIGN.md)
