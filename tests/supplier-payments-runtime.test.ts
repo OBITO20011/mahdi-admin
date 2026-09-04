@@ -21,30 +21,44 @@ const ordersPaginationRuntimeScript = path.join(
   'run-operational-orders-pagination-runtime.mjs',
 );
 
-test('supplier payment idempotency and restricted direct writes pass in isolated Supabase', async () => {
-  const { stdout } = await execFileAsync(process.execPath, [runtimeScript], {
-    cwd: projectRoot,
-    windowsHide: true,
-    maxBuffer: 1024 * 1024,
-  });
+test(
+  'isolated Supabase runtime suites do not compete for Docker resources',
+  { timeout: 1_200_000 },
+  async (context) => {
+    await context.test(
+      'supplier payment idempotency and restricted direct writes pass',
+      async () => {
+        const { stdout } = await execFileAsync(process.execPath, [runtimeScript], {
+          cwd: projectRoot,
+          windowsHide: true,
+          maxBuffer: 1024 * 1024,
+          timeout: 600_000,
+        });
 
-  const result: { ok?: boolean } = JSON.parse(stdout);
-  assert.equal(result.ok, true);
-});
+        const result: { ok?: boolean } = JSON.parse(stdout);
+        assert.equal(result.ok, true);
+      },
+    );
 
-test('operational orders paging, search and role gates pass in isolated Supabase', async () => {
-  const { stdout } = await execFileAsync(
-    process.execPath,
-    [ordersPaginationRuntimeScript],
-    {
-      cwd: projectRoot,
-      windowsHide: true,
-      maxBuffer: 1024 * 1024,
-    },
-  );
+    await context.test(
+      'operational orders paging, search and role gates pass',
+      async () => {
+        const { stdout } = await execFileAsync(
+          process.execPath,
+          [ordersPaginationRuntimeScript],
+          {
+            cwd: projectRoot,
+            windowsHide: true,
+            maxBuffer: 1024 * 1024,
+            timeout: 600_000,
+          },
+        );
 
-  const result: { ok?: boolean; runtime_scenarios?: number } =
-    JSON.parse(stdout);
-  assert.equal(result.ok, true);
-  assert.equal(result.runtime_scenarios, 9);
-});
+        const result: { ok?: boolean; runtime_scenarios?: number } =
+          JSON.parse(stdout);
+        assert.equal(result.ok, true);
+        assert.equal(result.runtime_scenarios, 9);
+      },
+    );
+  },
+);

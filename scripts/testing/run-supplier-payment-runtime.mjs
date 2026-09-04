@@ -59,35 +59,53 @@ const runRuntimeSql = async (sqlPath, label) => {
   });
 };
 
-if (process.env.NAWASRAH_SKIP_BOOTSTRAP !== '1') {
-  const { stdout: bootstrapOutput } = await execFileAsync(
-    process.execPath,
-    [bootstrapPath],
-    {
+const cliPath = path.join(projectRoot, 'node_modules', 'supabase', 'dist', 'supabase.js');
+
+try {
+  if (process.env.NAWASRAH_SKIP_BOOTSTRAP !== '1') {
+    const { stdout: bootstrapOutput } = await execFileAsync(
+      process.execPath,
+      [bootstrapPath],
+      {
+        cwd: projectRoot,
+        env: { ...process.env, NAWASRAH_ISOLATED_PROJECT_ID: isolatedProjectId },
+        windowsHide: true,
+        maxBuffer: 1024 * 1024,
+        timeout: 360_000,
+      },
+    );
+
+    const bootstrapResult = JSON.parse(bootstrapOutput);
+    if (!bootstrapResult.ok || typeof bootstrapResult.isolatedProjectRoot !== 'string') {
+      throw new Error('The isolated Supabase bootstrap did not return a test project root.');
+    }
+    isolatedProjectRoot = bootstrapResult.isolatedProjectRoot;
+  }
+
+  await runRuntimeSql(runtimeSqlPath, 'supplier-payment');
+  if (isolatedProjectRoot) {
+    await execFileAsync(process.execPath, [cliPath, 'db', 'reset', '--local', '--workdir', isolatedProjectRoot], {
       cwd: projectRoot,
-      env: { ...process.env, NAWASRAH_ISOLATED_PROJECT_ID: isolatedProjectId },
       windowsHide: true,
       maxBuffer: 1024 * 1024,
-    },
-  );
-
-  const bootstrapResult = JSON.parse(bootstrapOutput);
-  if (!bootstrapResult.ok || typeof bootstrapResult.isolatedProjectRoot !== 'string') {
-    throw new Error('The isolated Supabase bootstrap did not return a test project root.');
+      timeout: 180_000,
+    });
   }
-  isolatedProjectRoot = bootstrapResult.isolatedProjectRoot;
+  await runRuntimeSql(finalBlockersRuntimeSqlPath, 'final-admin-blockers');
+} finally {
+  if (isolatedProjectRoot) {
+    await execFileAsync(
+      process.execPath,
+      [cliPath, 'stop', '--no-backup', '--workdir', isolatedProjectRoot],
+      {
+        cwd: projectRoot,
+        windowsHide: true,
+        maxBuffer: 1024 * 1024,
+        timeout: 120_000,
+      },
+    );
+  }
 }
-
-await runRuntimeSql(runtimeSqlPath, 'supplier-payment');
-if (isolatedProjectRoot) {
-  const cliPath = path.join(projectRoot, 'node_modules', 'supabase', 'dist', 'supabase.js');
-  await execFileAsync(process.execPath, [cliPath, 'db', 'reset', '--local', '--workdir', isolatedProjectRoot], {
-    cwd: projectRoot,
-    windowsHide: true,
-    maxBuffer: 1024 * 1024,
-  });
-}
-await runRuntimeSql(finalBlockersRuntimeSqlPath, 'final-admin-blockers');
 
 console.log(JSON.stringify({
   ok: true,

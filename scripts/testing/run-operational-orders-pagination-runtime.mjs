@@ -64,33 +64,54 @@ const runSql = (sql) =>
     child.stdin.end(sql);
   });
 
-const { stdout } = await execFileAsync(process.execPath, [bootstrapPath], {
-  cwd: projectRoot,
-  windowsHide: true,
-  maxBuffer: 1024 * 1024,
-});
-const bootstrap = JSON.parse(stdout);
-if (!bootstrap.ok) {
-  throw new Error('The isolated Supabase bootstrap did not succeed.');
-}
+const cliPath = path.join(projectRoot, 'node_modules', 'supabase', 'dist', 'supabase.js');
+let isolatedProjectRoot = '';
+let summary;
 
-const sql = await readFile(runtimeSqlPath, 'utf8');
-const output = await runSql(sql);
-const summaryLine = output
-  .split(/\r?\n/)
-  .find((line) => line.startsWith('{') && line.includes('runtime_scenarios'));
-if (!summaryLine) {
-  throw new Error(`Runtime did not produce a JSON summary. Output: ${output}`);
-}
+try {
+  const { stdout } = await execFileAsync(process.execPath, [bootstrapPath], {
+    cwd: projectRoot,
+    windowsHide: true,
+    maxBuffer: 1024 * 1024,
+    timeout: 360_000,
+  });
+  const bootstrap = JSON.parse(stdout);
+  if (!bootstrap.ok || typeof bootstrap.isolatedProjectRoot !== 'string') {
+    throw new Error('The isolated Supabase bootstrap did not succeed.');
+  }
+  isolatedProjectRoot = bootstrap.isolatedProjectRoot;
 
-const summary = JSON.parse(summaryLine);
-if (
-  summary.unexpected_failures !== 0 ||
-  summary.passed !== summary.runtime_scenarios
-) {
-  throw new Error(
-    `Operational orders pagination runtime failed: ${JSON.stringify(summary)}`
-  );
+  const sql = await readFile(runtimeSqlPath, 'utf8');
+  const output = await runSql(sql);
+  const summaryLine = output
+    .split(/\r?\n/)
+    .find((line) => line.startsWith('{') && line.includes('runtime_scenarios'));
+  if (!summaryLine) {
+    throw new Error(`Runtime did not produce a JSON summary. Output: ${output}`);
+  }
+
+  summary = JSON.parse(summaryLine);
+  if (
+    summary.unexpected_failures !== 0 ||
+    summary.passed !== summary.runtime_scenarios
+  ) {
+    throw new Error(
+      `Operational orders pagination runtime failed: ${JSON.stringify(summary)}`
+    );
+  }
+} finally {
+  if (isolatedProjectRoot) {
+    await execFileAsync(
+      process.execPath,
+      [cliPath, 'stop', '--no-backup', '--workdir', isolatedProjectRoot],
+      {
+        cwd: projectRoot,
+        windowsHide: true,
+        maxBuffer: 1024 * 1024,
+        timeout: 120_000,
+      },
+    );
+  }
 }
 
 console.log(JSON.stringify({ ok: true, ...summary }, null, 2));
