@@ -101,28 +101,42 @@ BEGIN
     NOW()
   );
 
-  IF NOT COALESCE((v_result->>'success')::BOOLEAN, false)
-    OR (SELECT on_hand_quantity FROM public.inventory_balances WHERE warehouse_id = '95000000-0000-0000-0000-000000000020' AND product_id = '95000000-0000-0000-0000-000000000050') <> 6
+  IF NOT COALESCE((v_result->>'success')::BOOLEAN, false) THEN
+    RAISE EXCEPTION 'Successful transfer returned an unexpected result: %', v_result;
+  END IF;
+END;
+$$;
+
+RESET ROLE;
+
+-- Reconciliation is intentionally performed as the isolated database owner.
+-- The authenticated application role must not receive direct table reads merely
+-- to support this test.
+DO $$
+BEGIN
+  IF (SELECT on_hand_quantity FROM public.inventory_balances WHERE warehouse_id = '95000000-0000-0000-0000-000000000020' AND product_id = '95000000-0000-0000-0000-000000000050') <> 6
     OR (SELECT reserved_quantity FROM public.inventory_balances WHERE warehouse_id = '95000000-0000-0000-0000-000000000020' AND product_id = '95000000-0000-0000-0000-000000000050') <> 2
     OR (SELECT on_hand_quantity FROM public.inventory_balances WHERE warehouse_id = '95000000-0000-0000-0000-000000000021' AND product_id = '95000000-0000-0000-0000-000000000050') <> 7
     OR (SELECT count(*) FROM public.inventory_movements WHERE product_id = '95000000-0000-0000-0000-000000000050' AND reference_type = 'warehouse_transfer') <> 2
     OR (SELECT COALESCE(sum(quantity), 0) FROM public.inventory_movements WHERE product_id = '95000000-0000-0000-0000-000000000050' AND reference_type = 'warehouse_transfer') <> 0
     OR (SELECT count(*) FROM public.audit_logs WHERE entity_id = '95000000-0000-0000-0000-000000000050' AND action = 'TRANSFER_INVENTORY') <> 1
   THEN
-    RAISE EXCEPTION 'Successful transfer reconciliation failed: %', v_result;
+    RAISE EXCEPTION 'Successful transfer reconciliation failed.';
   END IF;
 END;
 $$;
 
 -- Insufficient available stock must fail without any partial effects.
+SET LOCAL ROLE authenticated;
+SELECT set_config(
+  'request.jwt.claims',
+  '{"sub":"95000000-0000-0000-0000-000000000001","role":"authenticated","aal":"aal2"}',
+  true
+);
 DO $$
 DECLARE
   v_error TEXT;
-  v_movement_count INTEGER;
-  v_audit_count INTEGER;
 BEGIN
-  SELECT count(*) INTO v_movement_count FROM public.inventory_movements;
-  SELECT count(*) INTO v_audit_count FROM public.audit_logs;
   BEGIN
     PERFORM public.transfer_inventory_between_warehouses(
       '95000000-0000-0000-0000-000000000050',
@@ -137,11 +151,16 @@ BEGIN
     v_error := SQLERRM;
     IF v_error = 'Insufficient-stock transfer unexpectedly succeeded.' THEN RAISE; END IF;
   END;
+END;
+$$;
 
+RESET ROLE;
+DO $$
+BEGIN
   IF (SELECT on_hand_quantity FROM public.inventory_balances WHERE warehouse_id = '95000000-0000-0000-0000-000000000020' AND product_id = '95000000-0000-0000-0000-000000000050') <> 6
     OR (SELECT on_hand_quantity FROM public.inventory_balances WHERE warehouse_id = '95000000-0000-0000-0000-000000000021' AND product_id = '95000000-0000-0000-0000-000000000050') <> 7
-    OR (SELECT count(*) FROM public.inventory_movements) <> v_movement_count
-    OR (SELECT count(*) FROM public.audit_logs) <> v_audit_count
+    OR (SELECT count(*) FROM public.inventory_movements WHERE product_id = '95000000-0000-0000-0000-000000000050' AND reference_type = 'warehouse_transfer') <> 2
+    OR (SELECT count(*) FROM public.audit_logs WHERE entity_id = '95000000-0000-0000-0000-000000000050' AND action = 'TRANSFER_INVENTORY') <> 1
   THEN
     RAISE EXCEPTION 'Insufficient-stock rejection left partial effects.';
   END IF;
@@ -149,6 +168,12 @@ END;
 $$;
 
 -- Inactive and missing products must fail before inventory is changed.
+SET LOCAL ROLE authenticated;
+SELECT set_config(
+  'request.jwt.claims',
+  '{"sub":"95000000-0000-0000-0000-000000000001","role":"authenticated","aal":"aal2"}',
+  true
+);
 DO $$
 DECLARE
   v_product UUID;
@@ -173,7 +198,12 @@ BEGIN
       IF v_error = 'Inactive/missing product transfer unexpectedly succeeded.' THEN RAISE; END IF;
     END;
   END LOOP;
+END;
+$$;
 
+RESET ROLE;
+DO $$
+BEGIN
   IF (SELECT on_hand_quantity FROM public.inventory_balances WHERE warehouse_id = '95000000-0000-0000-0000-000000000020' AND product_id = '95000000-0000-0000-0000-000000000051') <> 5
     OR EXISTS (SELECT 1 FROM public.inventory_movements WHERE product_id = '95000000-0000-0000-0000-000000000051')
   THEN
@@ -183,6 +213,7 @@ END;
 $$;
 
 -- A cashier remains denied by the same server-side RBAC guard.
+SET LOCAL ROLE authenticated;
 SELECT set_config(
   'request.jwt.claims',
   '{"sub":"95000000-0000-0000-0000-000000000002","role":"authenticated","aal":"aal2"}',
@@ -206,7 +237,12 @@ BEGIN
     v_error := SQLERRM;
     IF v_error = 'Cashier transfer unexpectedly succeeded.' THEN RAISE; END IF;
   END;
+END;
+$$;
 
+RESET ROLE;
+DO $$
+BEGIN
   IF (SELECT on_hand_quantity FROM public.inventory_balances WHERE warehouse_id = '95000000-0000-0000-0000-000000000020' AND product_id = '95000000-0000-0000-0000-000000000050') <> 6
     OR (SELECT count(*) FROM public.inventory_movements WHERE product_id = '95000000-0000-0000-0000-000000000050' AND reference_type = 'warehouse_transfer') <> 2
   THEN
@@ -214,8 +250,6 @@ BEGIN
   END IF;
 END;
 $$;
-
-RESET ROLE;
 SELECT jsonb_build_object(
   'ok', true,
   'runtime_scenarios', 5,
