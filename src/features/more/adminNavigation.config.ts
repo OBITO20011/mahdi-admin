@@ -15,6 +15,7 @@ import {
   WalletCards,
 } from 'lucide-react';
 import type { AppState } from '../../stores/useAppStore';
+import type { ModalNameCallableWithoutPayload } from '../../stores/modalTypes';
 
 export type AdminNavigationGroupId =
   | 'sales'
@@ -26,7 +27,7 @@ export type AdminNavigationGroupId =
 
 export type AdminNavigationAction =
   | { type: 'tab'; destination: AppState['activeTab'] }
-  | { type: 'modal'; destination: string };
+  | { type: 'modal'; destination: ModalNameCallableWithoutPayload };
 
 export interface AdminNavigationItem {
   id: string;

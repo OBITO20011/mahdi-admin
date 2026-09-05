@@ -8,6 +8,12 @@ import {
   useAppStoreActions,
   useAppStoreSelector,
 } from '../../stores/useAppStore';
+import {
+  isOrderModalPayload,
+  isProductIdModalPayload,
+  isProductModalPayload,
+  isStockAdjustmentModalPayload,
+} from '../../stores/modalTypes';
 import { Modal } from '../common/Modal';
 import { ProductFormModal } from '../../features/products/ProductFormModal';
 import { ProductDetailModal } from '../../features/products/ProductDetailModal';
@@ -47,6 +53,19 @@ export const AllModals: React.FC = () => {
   );
   const { closeModal, markNotificationRead, markAllNotificationsRead } =
     useAppStoreActions();
+  const productFormInitialProduct =
+    currentModal === 'edit_product' && isProductModalPayload(modalData)
+      ? modalData
+      : null;
+  const warehouseTransferProductId =
+    currentModal === 'warehouse_transfer' &&
+    isProductIdModalPayload(modalData)
+      ? modalData.productId
+      : undefined;
+  const stockCountProductId =
+    currentModal === 'stock_count' && isProductIdModalPayload(modalData)
+      ? modalData.productId
+      : undefined;
 
   return (
     <>
@@ -57,33 +76,39 @@ export const AllModals: React.FC = () => {
         title={currentModal === 'edit_product' ? 'تعديل بطاقة الصنف' : 'إضافة صنف جديد'}
         subtitle="عرّف طرد الشراء وطرد بيع الجملة وحدود المخزون"
       >
-        <ProductFormModal initialProduct={modalData} onClose={closeModal} />
+        <ProductFormModal initialProduct={productFormInitialProduct} onClose={closeModal} />
       </Modal>
 
       {/* 2. View Product Details Modal */}
       <Modal
-        isOpen={currentModal === 'view_product' && Boolean(modalData)}
+        isOpen={currentModal === 'view_product' && isProductModalPayload(modalData)}
         onClose={closeModal}
         title="تفاصيل الصنف والمخزون"
         subtitle="عرض الأسعار والكميات والمستودع"
       >
-        {modalData && <ProductDetailModal product={modalData} onClose={closeModal} />}
+        {currentModal === 'view_product' && isProductModalPayload(modalData) && (
+          <ProductDetailModal product={modalData} onClose={closeModal} />
+        )}
       </Modal>
 
       {/* 3. Adjust Stock Modal */}
       <Modal
-        isOpen={currentModal === 'adjust_stock' && Boolean(modalData?.product)}
+        isOpen={
+          currentModal === 'adjust_stock' &&
+          isStockAdjustmentModalPayload(modalData)
+        }
         onClose={closeModal}
         title="تعديل وتسوية المخزون"
         subtitle="إضافة أو خصم كمية مع تسجيل سبب الحركة"
       >
-        {modalData?.product && (
+        {currentModal === 'adjust_stock' &&
+          isStockAdjustmentModalPayload(modalData) && (
           <StockAdjustmentModal
             product={modalData.product}
             mode={modalData.mode || 'add'}
             onClose={closeModal}
           />
-        )}
+          )}
       </Modal>
 
       {/* Standalone Direct Receive Goods Modal */}
@@ -103,7 +128,7 @@ export const AllModals: React.FC = () => {
         title="نقل كميات بين المستودعات"
         subtitle="تحويل بضاعة من مستودع إلى آخر مع تسجيل حركات الخروج والدخول"
       >
-        <WarehouseTransferModal productId={modalData?.productId} onClose={closeModal} />
+        <WarehouseTransferModal productId={warehouseTransferProductId} onClose={closeModal} />
       </Modal>
 
       {/* Stock Count / Audit Modal */}
@@ -113,7 +138,7 @@ export const AllModals: React.FC = () => {
         title="جرد صنف"
         subtitle="أدخل الكمية الفعلية، والنظام يحفظ الفرق تلقائيًا"
       >
-        <StockCountModal productId={modalData?.productId} onClose={closeModal} />
+        <StockCountModal productId={stockCountProductId} onClose={closeModal} />
       </Modal>
 
       {/* 4. Manage Categories Modal */}
@@ -190,12 +215,14 @@ export const AllModals: React.FC = () => {
 
       {/* 9. View Order Details Modal */}
       <Modal
-        isOpen={currentModal === 'view_order' && Boolean(modalData)}
+        isOpen={currentModal === 'view_order' && isOrderModalPayload(modalData)}
         onClose={closeModal}
         title="تفاصيل الطلب والتحصيل"
         subtitle="متابعة حالة الطلب وقبوله وتعيين السائق"
       >
-        {modalData && <OrderDetailModal order={modalData} onClose={closeModal} />}
+        {currentModal === 'view_order' && isOrderModalPayload(modalData) && (
+          <OrderDetailModal order={modalData} onClose={closeModal} />
+        )}
       </Modal>
 
       {/* 10. Add Expense Modal */}

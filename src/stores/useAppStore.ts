@@ -103,6 +103,12 @@ import {
 } from './appStorePreferences';
 import { ReferenceDataStoreSlice } from './referenceData.storeSlice';
 import { StockNotificationsStoreSlice } from './stockNotifications.storeSlice';
+import {
+  type ModalName,
+  type ModalOpenArguments,
+  type ModalPayload,
+  type OpenModal,
+} from './modalTypes';
 
 export { shallowEqual } from './storeSelectors';
 
@@ -179,8 +185,8 @@ export interface AppState {
   // App UI State
   isQuickActionOpen: boolean;
   activeTab: ActiveTab;
-  currentModal: string | null;
-  modalData: any;
+  currentModal: ModalName | null;
+  modalData: ModalPayload;
   customerNavigationTarget: string | null;
   toast: { message: string; type: 'success' | 'error' | 'info' } | null;
 
@@ -599,11 +605,13 @@ class StoreEngine {
     this.notify();
   }
 
-  public openModal(modalName: string, data: any = null) {
+  public readonly openModal: OpenModal = (
+    ...[modalName, data]: ModalOpenArguments
+  ) => {
     this.state.currentModal = modalName;
-    this.state.modalData = data;
+    this.state.modalData = data ?? null;
     this.notify();
-  }
+  };
 
   public closeModal() {
     this.state.currentModal = null;
@@ -2125,7 +2133,7 @@ const coreAppStoreActions = {
   ) => storeEngine.setToast(message, type),
   setActiveTab: (tab: AppState['activeTab']) => storeEngine.setActiveTab(tab),
   toggleQuickAction: (open?: boolean) => storeEngine.toggleQuickAction(open),
-  openModal: (modal: string, data?: unknown) => storeEngine.openModal(modal, data),
+  openModal: storeEngine.openModal,
   closeModal: () => storeEngine.closeModal(),
   openCustomerProfile: (customerId: string) =>
     storeEngine.openCustomerProfile(customerId),
@@ -2258,7 +2266,7 @@ export function useAppStore() {
     clearCustomerNavigationTarget: () =>
       storeEngine.clearCustomerNavigationTarget(),
     toggleQuickAction: (open?: boolean) => storeEngine.toggleQuickAction(open),
-    openModal: (m: string, data?: unknown) => storeEngine.openModal(m, data),
+    openModal: storeEngine.openModal,
     closeModal: () => storeEngine.closeModal(),
     setActiveBranch: (bId: string) => storeEngine.setActiveBranch(bId),
     toggleBiometrics: () => storeEngine.toggleBiometrics(),
