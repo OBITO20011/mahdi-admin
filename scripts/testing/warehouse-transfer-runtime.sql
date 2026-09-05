@@ -29,6 +29,11 @@ BEGIN
     (v_owner, 'Transfer Runtime Owner', true),
     (v_cashier, 'Transfer Runtime Cashier', true);
 
+  INSERT INTO public.roles (code, name_ar) VALUES
+    ('owner', 'مالك النظام'),
+    ('cashier', 'كاشير')
+  ON CONFLICT (code) DO NOTHING;
+
   SELECT id INTO v_owner_role FROM public.roles WHERE code = 'owner';
   SELECT id INTO v_cashier_role FROM public.roles WHERE code = 'cashier';
   INSERT INTO public.user_roles (user_id, role_id) VALUES
