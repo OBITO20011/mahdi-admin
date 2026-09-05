@@ -13,6 +13,10 @@ const finalBlockersRuntimeSqlPath = path.join(
   scriptDirectory,
   'final-admin-blockers-runtime.sql',
 );
+const warehouseTransferRuntimeSqlPath = path.join(
+  scriptDirectory,
+  'warehouse-transfer-runtime.sql',
+);
 const isolatedProjectId = 'nawasrah-supplier-payments-test';
 const isolatedDatabaseContainer = `supabase_db_${isolatedProjectId}`;
 let isolatedProjectRoot = '';
@@ -92,6 +96,29 @@ try {
     });
   }
   await runRuntimeSql(finalBlockersRuntimeSqlPath, 'final-admin-blockers');
+  if (isolatedProjectRoot) {
+    await execFileAsync(process.execPath, [cliPath, 'db', 'reset', '--local', '--workdir', isolatedProjectRoot], {
+      cwd: projectRoot,
+      windowsHide: true,
+      maxBuffer: 1024 * 1024,
+      timeout: 180_000,
+    });
+  }
+  await runRuntimeSql(warehouseTransferRuntimeSqlPath, 'warehouse-transfer');
+
+  const { stdout: lintOutput } = await execFileAsync(
+    process.execPath,
+    [cliPath, 'db', 'lint', '--local', '--level', 'warning', '--workdir', isolatedProjectRoot],
+    {
+      cwd: projectRoot,
+      windowsHide: true,
+      maxBuffer: 1024 * 1024,
+      timeout: 120_000,
+    },
+  );
+  if (lintOutput.includes('v_product_name')) {
+    throw new Error(`Migration 095 did not remove the target lint warning: ${lintOutput}`);
+  }
 } finally {
   if (isolatedProjectRoot) {
     await execFileAsync(
@@ -116,5 +143,8 @@ console.log(JSON.stringify({
     'POS credit debt/payment/reversal reconciliation',
     'customer history 1,000-row server pagination',
     'POS customer 251/500/1,000 server search',
+    'warehouse transfer success/failure/reconciliation and role gates',
+    'v_product_name lint warning removal',
   ],
+  targetLintWarningRemoved: true,
 }, null, 2));
