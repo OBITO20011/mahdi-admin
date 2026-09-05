@@ -39,7 +39,6 @@ export interface ModalPayloadMap {
   record_customer_payment: ModalPayloadContract<null, 'none'>;
   notifications: ModalPayloadContract<null, 'none'>;
   add_customer: ModalPayloadContract<null, 'none'>;
-  branches_list: ModalPayloadContract<null, 'none'>;
 }
 
 export type ModalName = keyof ModalPayloadMap;

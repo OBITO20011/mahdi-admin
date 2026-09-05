@@ -46,7 +46,7 @@ const expectedGroupDestinations = new Map([
   ['finance-reports', ['shifts', 'expenses', 'reports']],
   [
     'administration-store',
-    ['users', 'storefront_settings', 'promotion_codes', 'profile', 'branches_list'],
+    ['users', 'storefront_settings', 'promotion_codes', 'profile'],
   ],
 ]);
 
@@ -109,7 +109,7 @@ test('More exposes exactly the approved six navigation groups with no misroutes'
   assert.equal(new Set(destinations).size, destinations.length);
 });
 
-test('the mandatory parity gate preserves every legacy More feature', () => {
+test('the mandatory parity gate preserves every functional legacy More feature', () => {
   const legacyTabDestinations = [
     'products',
     'accounts',
@@ -124,7 +124,6 @@ test('the mandatory parity gate preserves every legacy More feature', () => {
     'profile',
     'storefront_settings',
     'promotion_codes',
-    'branches_list',
   ];
   const groupedActions = ADMIN_NAVIGATION_GROUPS.flatMap((group) =>
     group.items.map((item) => item.action),
@@ -255,16 +254,4 @@ test('Phase 2 BottomTabs use the approved five destinations without changing ide
   assert.match(quickActions, /data-navigation-id="quick-action-trigger"/);
   assert.match(quickActions, /aria-expanded=\{isQuickActionOpen\}/);
   assert.match(quickActions, /setActiveTab\('more'\)/);
-});
-
-test('the pre-existing unresolved branches_list action is preserved without inventing behavior', () => {
-  const branchItem = ADMIN_NAVIGATION_GROUPS.flatMap((group) => group.items).find(
-    (item) => item.id === 'unclassified-branches',
-  );
-  assert.deepEqual(branchItem?.action, {
-    type: 'modal',
-    destination: 'branches_list',
-  });
-  assert.equal(branchItem?.classification, 'unclassified');
-  assert.doesNotMatch(allModals, /currentModal\s*===\s*'branches_list'/);
 });

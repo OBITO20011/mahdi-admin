@@ -2,7 +2,6 @@ import type { LucideIcon } from 'lucide-react';
 import {
   BarChart3,
   Boxes,
-  Building2,
   Package,
   ReceiptText,
   ShieldCheck,
@@ -206,15 +205,6 @@ export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = [
         icon: UserRound,
         tone: 'bg-blue-500/10 text-blue-300',
         action: { type: 'modal', destination: 'profile' },
-      },
-      {
-        id: 'unclassified-branches',
-        label: 'الفروع والمستودعات',
-        description: 'المدخل القديم محفوظ كما هو ويحتاج قرارًا لعدم وجود شاشة مسجّلة له',
-        icon: Building2,
-        tone: 'bg-emerald-500/10 text-emerald-300',
-        action: { type: 'modal', destination: 'branches_list' },
-        classification: 'unclassified',
       },
     ],
   },
