@@ -1,0 +1,69 @@
+name: Nawasrah developer alerts
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Nawasrah code quality
+      - Nawasrah secret scanning
+      - Nawasrah public uptime
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  notify-developer:
+    name: Notify dedicated developer channel
+    if: >-
+      ${{ github.event_name == 'workflow_run' &&
+          vars.DEVELOPER_ALERTS_ENABLED == 'true' &&
+          github.event.workflow_run.head_branch == 'main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Checkout trusted main revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+
+      - name: Deliver failure or recovery transition
+        env:
+          DEV_TELEGRAM_BOT_TOKEN: ${{ secrets.DEV_TELEGRAM_BOT_TOKEN }}
+          DEV_TELEGRAM_CHAT_ID: ${{ secrets.DEV_TELEGRAM_CHAT_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WATCHED_WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          WATCHED_WORKFLOW_ID: ${{ github.event.workflow_run.workflow_id }}
+          WATCHED_RUN_ID: ${{ github.event.workflow_run.id }}
+          WATCHED_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          WATCHED_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          WATCHED_RUN_URL: ${{ github.event.workflow_run.html_url }}
+        run: node scripts/monitoring/github-workflow-alert.mjs
+
+  verify-developer-channel:
+    name: Verify failure dedupe and recovery delivery
+    if: ${{ github.event_name == 'workflow_dispatch' && vars.DEVELOPER_ALERTS_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Checkout trusted main revision
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+
+      - name: Simulate one failure duplicate and recovery
+        env:
+          DEV_TELEGRAM_BOT_TOKEN: ${{ secrets.DEV_TELEGRAM_BOT_TOKEN }}
+          DEV_TELEGRAM_CHAT_ID: ${{ secrets.DEV_TELEGRAM_CHAT_ID }}
+        run: node scripts/monitoring/run-developer-alert-e2e.mjs

@@ -1,0 +1,227 @@
+import {spawnSync} from 'node:child_process';
+import {readFile, rename, writeFile, mkdir, open, unlink, readdir, stat} from 'node:fs/promises';
+import path from 'node:path';
+import {parseTechnicalJson, runIncidentCycle, sendTelegramMessage} from './developer-alert-core.mjs';
+
+const root = process.env.NAWASRAH_DEVELOPER_MONITOR_ROOT || 'C:\\ProgramData\\NawasrahDeveloperMonitoring';
+const statePath = path.join(root, 'incidents.json');
+const lockPath = path.join(root, 'watchdog.lock');
+const now = new Date();
+const probeOnly = process.argv.includes('--probe-only');
+
+const readJson = async (filePath) => parseTechnicalJson(await readFile(filePath, 'utf8'));
+const ageHours = (value) => (now.getTime() - Date.parse(value)) / 3_600_000;
+const check = (key, source, severity, healthy, summary, details = {}) => ({
+  key, source, severity, healthy, summary, details, observedAt: now.toISOString(),
+});
+
+function run(command, args, timeout = 15_000, environment = process.env) {
+  const result = spawnSync(command, args, {encoding: 'utf8', windowsHide: true, timeout, env: environment});
+  return {ok: !result.error && result.status === 0, stdout: result.stdout?.trim() || '', stderr: result.stderr?.trim() || ''};
+}
+
+async function collectLocalChecks() {
+  const checks = [];
+  try {
+    const startup = await readJson(process.env.NAWASRAH_DOCKER_STATUS_PATH || 'C:\\ProgramData\\NawasrahDockerRecovery\\last-status.json');
+    checks.push(check('developer:docker:safe-startup', 'Docker Safe Startup', 'high', startup.result === 'PASS', startup.result === 'PASS' ? 'آخر تشغيل آمن لـDocker نجح.' : 'فشل تشغيل Docker الآمن.', {stage: startup.stage || 'unknown'}));
+  } catch {
+    checks.push(check('developer:docker:safe-startup', 'Docker Safe Startup', 'high', false, 'ملف حالة Docker Safe Startup غير متاح.'));
+  }
+  const task = run('powershell.exe', ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command', "$i=Get-ScheduledTaskInfo -TaskName 'Nawasrah Docker Safe Startup' -ErrorAction Stop; [string]$i.LastTaskResult"]);
+  const taskResult = Number(task.stdout);
+  checks.push(check('developer:docker:safe-startup-task', 'Windows Task Scheduler', 'high', task.ok && taskResult === 0, task.ok && taskResult === 0 ? 'مهمة Docker Safe Startup انتهت بنجاح.' : 'مهمة Docker Safe Startup فشلت أو غير متاحة.', {lastTaskResult: Number.isFinite(taskResult) ? taskResult : 'unavailable'}));
+
+  const docker = run('docker.exe', ['inspect', '--format', '{{.State.Status}}|{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}', 'nawasrah-n8n']);
+  const [containerStatus, containerHealth] = docker.stdout.split('|');
+  const containerHealthy = docker.ok && containerStatus === 'running' && containerHealth === 'healthy';
+  checks.push(check('developer:n8n:container', 'n8n', 'high', containerHealthy, containerHealthy ? 'حاوية n8n تعمل وبحالة healthy.' : 'حاوية n8n متوقفة أو غير healthy.', {status: containerStatus || 'unavailable', health: containerHealth || 'unavailable'}));
+
+  let healthStatus;
+  try {
+    const response = await fetch('http://127.0.0.1:5678/healthz', {signal: AbortSignal.timeout(10_000)});
+    healthStatus = response.status;
+  } catch {
+    healthStatus = 0;
+  }
+  checks.push(check('developer:n8n:healthz', 'n8n', 'high', healthStatus === 200, healthStatus === 200 ? 'n8n health endpoint يستجيب.' : 'n8n health endpoint لا يستجيب.', {httpStatus: healthStatus || 'unreachable'}));
+
+  if (docker.ok) {
+    const logs = run('docker.exe', ['logs', '--since', '10m', 'nawasrah-n8n'], 20_000);
+    const logText = `${logs.stdout}\n${logs.stderr}`;
+    const failureCount = (logText.match(/The connection cannot be established|Workflow execution (?:failed|error)|NodeOperationError/giu) || []).length;
+    checks.push(check('developer:n8n:workflow-executions', 'n8n', 'medium', logs.ok && failureCount === 0, failureCount === 0 ? 'لا توجد أخطاء workflow حديثة.' : 'ظهرت أخطاء حديثة في تنفيذ n8n workflows.', {failureCount}));
+  }
+
+  return checks;
+}
+
+async function collectBackupChecks() {
+  const checks = [];
+  const backupRoot = process.env.NAWASRAH_BACKUP_ROOT;
+  if (!backupRoot) return [check('developer:backup:configuration', 'Backup', 'critical', false, 'مسار النسخ الاحتياطية غير متاح للـwatchdog.')];
+  const tasks = run('powershell.exe', ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command', "$a=Get-ScheduledTaskInfo -TaskName 'Nawasrah ERP Nightly Backup' -ErrorAction Stop; $b=Get-ScheduledTaskInfo -TaskName 'Nawasrah ERP Quarterly Restore Drill' -ErrorAction Stop; [pscustomobject]@{backup=$a.LastTaskResult;restore=$b.LastTaskResult}|ConvertTo-Json -Compress"]);
+  try {
+    const taskResults = JSON.parse(tasks.stdout);
+    checks.push(check('developer:backup:scheduled-tasks', 'Windows Task Scheduler', 'high', tasks.ok && taskResults.backup === 0 && [0, 267011].includes(taskResults.restore), tasks.ok && taskResults.backup === 0 && [0, 267011].includes(taskResults.restore) ? 'مهام Backup وRestore Drill لم تسجل فشلًا.' : 'إحدى مهام Backup أوRestore Drill سجلت فشلًا.', {backupResult: taskResults.backup, restoreResult: taskResults.restore}));
+  } catch {
+    checks.push(check('developer:backup:scheduled-tasks', 'Windows Task Scheduler', 'high', false, 'تعذر قراءة نتائج مهام Backup وRestore Drill.'));
+  }
+  try {
+    const status = await readJson(path.join(backupRoot, 'last-backup-status.json'));
+    const age = ageHours(status.finishedAt);
+    const healthy = status.ok === true && Number.isFinite(age) && age <= 36;
+    checks.push(check('developer:backup:nightly', 'Backup', 'critical', healthy, healthy ? 'آخر نسخة ERP الاحتياطية سليمة وحديثة.' : 'آخر نسخة ERP فاشلة أو أقدم من 36 ساعة.', {ageHours: Number.isFinite(age) ? age.toFixed(1) : 'invalid', provider: status.dumpProvider || 'unknown'}));
+  } catch {
+    checks.push(check('developer:backup:nightly', 'Backup', 'critical', false, 'حالة آخر نسخة ERP غير متاحة.'));
+  }
+  try {
+    const files = (await readdir(backupRoot)).filter((name) => /^nawasrah-n8n-.*\.nwb$/u.test(name));
+    const candidates = await Promise.all(files.map(async (name) => ({name, info: await stat(path.join(backupRoot, name))})));
+    const latest = candidates.sort((left, right) => right.info.mtimeMs - left.info.mtimeMs)[0];
+    const age = latest ? (now.getTime() - latest.info.mtimeMs) / 3_600_000 : Number.POSITIVE_INFINITY;
+    const healthy = Boolean(latest) && age <= 36;
+    checks.push(check('developer:backup:n8n', 'n8n Backup', 'critical', healthy, healthy ? 'آخر نسخة n8n الاحتياطية حديثة.' : 'نسخة n8n الاحتياطية غير موجودة أو أقدم من 36 ساعة.', {ageHours: Number.isFinite(age) ? age.toFixed(1) : 'missing'}));
+  } catch {
+    checks.push(check('developer:backup:n8n', 'n8n Backup', 'critical', false, 'تعذر فحص نسخة n8n الاحتياطية.'));
+  }
+  try {
+    const status = await readJson(path.join(backupRoot, 'last-restore-drill-status.json'));
+    const age = ageHours(status.completedAt) / 24;
+    const healthy = status.ok === true && status.liveSupabaseTouched === false && Number.isFinite(age) && age <= 91;
+    checks.push(check('developer:backup:restore-drill', 'Restore Drill', 'high', healthy, healthy ? 'آخر Restore Drill معزول وسليم.' : 'Restore Drill فاشل أو متأخر عن 91 يومًا.', {ageDays: Number.isFinite(age) ? age.toFixed(1) : 'invalid'}));
+  } catch {
+    checks.push(check('developer:backup:restore-drill', 'Restore Drill', 'high', false, 'حالة Restore Drill غير متاحة.'));
+  }
+  return checks;
+}
+
+function collectSupabaseChecks() {
+  const psql = process.env.NAWASRAH_PSQL_PATH;
+  const databaseUrl = process.env.NAWASRAH_SUPABASE_DATABASE_URL;
+  const password = process.env.SUPABASE_DB_PASSWORD;
+  if (!psql || !databaseUrl || !password) {
+    return [check('developer:supabase:monitoring-query', 'Supabase', 'high', false, 'إعداد قراءة Supabase للـwatchdog غير مكتمل.')];
+  }
+  const sql = `SET default_transaction_read_only=on; SELECT json_build_object(
+    'missing_jobs', (SELECT count(*) FROM (VALUES ('expire-stale-new-website-orders'),('cleanup-guest-order-gateway-requests')) expected(name) LEFT JOIN cron.job j ON j.jobname=expected.name WHERE j.jobid IS NULL OR NOT j.active),
+    'recent_failures', (SELECT count(*) FROM cron.job_run_details d JOIN cron.job j ON j.jobid=d.jobid WHERE j.jobname IN ('expire-stale-new-website-orders','cleanup-guest-order-gateway-requests') AND d.start_time >= now()-interval '30 minutes' AND d.status <> 'succeeded'),
+    'stale_jobs', (SELECT count(*) FROM cron.job j WHERE (j.jobname='expire-stale-new-website-orders' AND NOT EXISTS (SELECT 1 FROM cron.job_run_details d WHERE d.jobid=j.jobid AND d.status='succeeded' AND d.start_time>=now()-interval '15 minutes')) OR (j.jobname='cleanup-guest-order-gateway-requests' AND NOT EXISTS (SELECT 1 FROM cron.job_run_details d WHERE d.jobid=j.jobid AND d.status='succeeded' AND d.start_time>=now()-interval '30 minutes'))),
+    'backlog', (SELECT count(*) FROM public.automation_event_deliveries d JOIN public.automation_events e ON e.id=d.event_id WHERE e.created_at>=now()-interval '30 days' AND d.updated_at<now()-interval '10 minutes' AND ((d.status IN ('pending','failed') AND d.next_attempt_at<=now() AND d.attempt_count<10) OR (d.status='processing' AND d.lease_expires_at<=now()))),
+    'exhausted', (SELECT count(*) FROM public.automation_event_deliveries WHERE status<>'delivered' AND attempt_count>=10)
+  );`;
+  const env = {...process.env, PGPASSWORD: password};
+  const result = run(psql, [databaseUrl, '-v', 'ON_ERROR_STOP=1', '-tA', '-c', sql], 30_000, env);
+  if (!result.ok) return [check('developer:supabase:monitoring-query', 'Supabase', 'high', false, 'تعذر تنفيذ فحص Supabase الآمن.')];
+  try {
+    const metrics = JSON.parse(result.stdout.split(/\r?\n/u).filter((line) => line.trim().startsWith('{')).at(-1));
+    return [
+      check('developer:supabase:monitoring-query', 'Supabase', 'high', true, 'فحص Supabase التقني يعمل.'),
+      check('developer:supabase:cron', 'Supabase Cron', 'high', metrics.missing_jobs === 0 && metrics.recent_failures === 0 && metrics.stale_jobs === 0, 'حالة Supabase cron.', {missingJobs: metrics.missing_jobs, recentFailures: metrics.recent_failures, staleJobs: metrics.stale_jobs}),
+      check('developer:automation:backlog', 'Automation Delivery', 'high', metrics.backlog === 0 && metrics.exhausted === 0, 'حالة طابور Business delivery التقنية بدون محتوى أعمال.', {backlog: metrics.backlog, exhausted: metrics.exhausted}),
+    ];
+  } catch {
+    return [check('developer:supabase:monitoring-query', 'Supabase', 'high', false, 'نتيجة فحص Supabase غير متوقعة.')];
+  }
+}
+
+async function collectCloudflareChecks() {
+  const token = process.env.CLOUDFLARE_API_TOKEN;
+  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
+  if (!token || !accountId) return [check('developer:cloudflare:configuration', 'Cloudflare', 'high', false, 'إعداد Cloudflare read-only غير مكتمل.')];
+  const projects = [
+    {name: 'nawasrah-admin', key: 'admin', relevant: (file) => /^(?:src\/|public\/|index\.html$|package(?:-lock)?\.json$|vite\.config\.ts$)/u.test(file)},
+    {name: 'nawasrah-store', key: 'customer', relevant: (file) => file.startsWith('customer-web/')},
+  ];
+  const checks = [];
+  const githubHeaders = {'user-agent': 'nawasrah-developer-watchdog', accept: 'application/vnd.github+json'};
+  let mainSha = '';
+  try {
+    const mainResponse = await fetch('https://api.github.com/repos/OBITO20011/mahdi-admin/commits/main', {headers: githubHeaders, signal: AbortSignal.timeout(15_000)});
+    const main = await mainResponse.json();
+    if (mainResponse.ok) mainSha = main.sha || '';
+  } catch {
+    mainSha = '';
+  }
+  for (const project of projects) {
+    try {
+      const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${project.name}/deployments?env=production&per_page=1`, {headers: {authorization: `Bearer ${token}`}, signal: AbortSignal.timeout(15_000)});
+      const body = await response.json();
+      const deployment = body?.result?.[0];
+      const deployedSha = deployment?.deployment_trigger?.metadata?.commit_hash
+        || deployment?.source?.config?.commit_hash
+        || '';
+      const successful = response.ok && body?.success === true && deployment?.latest_stage?.status === 'success';
+      let relevantChanges = true;
+      if (successful && mainSha && deployedSha) {
+        if (deployedSha === mainSha) {
+          relevantChanges = false;
+        } else {
+          const compareResponse = await fetch(`https://api.github.com/repos/OBITO20011/mahdi-admin/compare/${deployedSha}...${mainSha}`, {headers: githubHeaders, signal: AbortSignal.timeout(15_000)});
+          const comparison = await compareResponse.json();
+          relevantChanges = !compareResponse.ok || comparison.status === 'diverged' || (comparison.files || []).some((file) => project.relevant(file.filename || ''));
+        }
+      }
+      const aligned = successful && Boolean(mainSha) && Boolean(deployedSha) && !relevantChanges;
+      checks.push(check(`developer:cloudflare:${project.key}`, 'Cloudflare Pages', 'high', aligned, aligned ? `${project.name} deployment ناجح ولا توجد تغييرات تطبيق غير منشورة.` : `${project.name} deployment فاشل أو توجد تغييرات تطبيق غير منشورة.`, {deploymentStatus: deployment?.latest_stage?.status || 'unavailable', deployedSha: deployedSha.slice(0, 12) || 'unavailable', mainSha: mainSha.slice(0, 12) || 'unavailable'}));
+    } catch {
+      checks.push(check(`developer:cloudflare:${project.key}`, 'Cloudflare Pages', 'high', false, `تعذر قراءة حالة ${project.name}.`));
+    }
+  }
+  return checks;
+}
+
+async function loadState() {
+  try { return await readJson(statePath); } catch { return {version: 1, incidents: {}}; }
+}
+
+async function saveState(state) {
+  const temporary = `${statePath}.tmp`;
+  await writeFile(temporary, `${JSON.stringify(state, null, 2)}\n`, 'utf8');
+  await rename(temporary, statePath);
+}
+
+async function main() {
+  await mkdir(root, {recursive: true});
+  let lock;
+  try {
+    lock = await open(lockPath, 'wx');
+  } catch {
+    process.stdout.write('Developer watchdog skipped because another instance owns the lock.\n');
+    return;
+  }
+  try {
+    const checks = [
+      ...await collectLocalChecks(),
+      ...await collectBackupChecks(),
+      ...collectSupabaseChecks(),
+      ...await collectCloudflareChecks(),
+    ];
+    if (probeOnly) {
+      process.stdout.write(`${JSON.stringify({
+        ok: checks.every((item) => item.healthy),
+        checks: checks.map(({key, severity, healthy}) => ({key, severity, healthy})),
+      })}\n`);
+      return;
+    }
+    const state = await loadState();
+    const result = await runIncidentCycle({
+      checks,
+      state,
+      now,
+      send: ({message}) => sendTelegramMessage({
+        botToken: process.env.NAWASRAH_DEV_TELEGRAM_BOT_TOKEN,
+        chatId: process.env.NAWASRAH_DEV_TELEGRAM_CHAT_ID,
+        message,
+      }),
+    });
+    await saveState(result.state);
+    process.stdout.write(`${JSON.stringify({ok: result.notifications.every((item) => item.delivered), checks: checks.length, notifications: result.notifications.length})}\n`);
+    if (result.notifications.some((item) => !item.delivered)) process.exitCode = 1;
+  } finally {
+    await lock?.close();
+    await unlink(lockPath).catch(() => undefined);
+  }
+}
+
+await main();
