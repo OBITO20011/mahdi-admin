@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
   [string]$ConfigPath = (Join-Path $env:LOCALAPPDATA 'NawasrahBackup\config.json'),
+  [string]$DefaultPgBinPath = (Join-Path $env:LOCALAPPDATA 'NawasrahBackup\postgresql-17.11\bin'),
   [switch]$NoDockerStart
 )
 
@@ -125,7 +126,15 @@ try {
     $archivePassphrase = ConvertTo-PlainText -SecureValue $archivePassphraseSecure
   }
 
-  $pgBinPath = if ($config.pgBinPath) { [string]$config.pgBinPath } else { $null }
+  $pgBinPath = if ($config.pgBinPath) {
+    [string]$config.pgBinPath
+  }
+  elseif (Test-Path -LiteralPath $DefaultPgBinPath -PathType Container) {
+    (Resolve-Path -LiteralPath $DefaultPgBinPath).Path
+  }
+  else {
+    $null
+  }
   if ($pgBinPath) {
     foreach ($tool in @('pg_dump.exe', 'pg_dumpall.exe', 'pg_restore.exe', 'psql.exe')) {
       if (-not (Test-Path -LiteralPath (Join-Path $pgBinPath $tool) -PathType Leaf)) {

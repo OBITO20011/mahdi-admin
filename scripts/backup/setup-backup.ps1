@@ -93,6 +93,7 @@ $config = [ordered]@{
   backupRoot = (Resolve-Path $BackupRoot).Path
   retentionCount = $RetentionCount
   scheduleTime = $ScheduleTime
+  pgBinPath = (Resolve-Path (Join-Path $env:LOCALAPPDATA 'NawasrahBackup\postgresql-17.11\bin')).Path
   databasePassword = ConvertFrom-SecureString -SecureString $databasePassword
   archivePassphrase = ConvertFrom-SecureString -SecureString $archivePassphrase
 }

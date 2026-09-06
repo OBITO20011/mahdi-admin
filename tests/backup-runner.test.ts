@@ -8,6 +8,8 @@ test('backup runner prefers native PostgreSQL tools and keeps Docker as an inter
   assert.match(source, /function Test-DockerReady/u);
   assert.match(source, /NAWASRAH_PG_BIN/u);
   assert.match(source, /pg_dump\.exe/u);
+  assert.match(source, /DefaultPgBinPath/u);
+  assert.match(source, /elseif \(Test-Path -LiteralPath \$DefaultPgBinPath -PathType Container\)/u);
   assert.match(source, /protectionScope -eq 'LocalMachine'/u);
   assert.match(source, /DataProtectionScope\]::LocalMachine/u);
   assert.match(source, /RedirectStandardError/u);
@@ -46,6 +48,7 @@ test('backup setup enables the schedule only after the first real backup succeed
   assert.match(source, /daily schedule was not enabled/u);
   assert.match(preflight, /if \(!nativePgTools\)/u);
   assert.match(preflight, /process\.exitCode = 1/u);
+  assert.match(source, /pgBinPath = \(Resolve-Path \(Join-Path \$env:LOCALAPPDATA 'NawasrahBackup\\postgresql-17\.11\\bin'\)\)\.Path/u);
 });
 
 test('database password updater validates before enabling the existing schedule', async () => {
