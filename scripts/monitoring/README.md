@@ -34,6 +34,7 @@ phone numbers, order contents, balances, or financial totals.
 - isolated restore drill success and 91-day freshness.
 - expected Supabase cron jobs, recent cron failures, and schedule freshness.
 - automation delivery backlog and exhausted retry count, without payloads.
+- missed or overdue Business summary delivery, as technical counts only.
 - Cloudflare Admin and Customer production deployment status/SHA.
 - GitHub CI, secret scan, and public uptime failure/recovery.
 

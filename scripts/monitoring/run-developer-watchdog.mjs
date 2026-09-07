@@ -120,10 +120,13 @@ function collectSupabaseChecks() {
   if (!psql || !databaseUrl || !password) {
     return [check('developer:supabase:monitoring-query', 'Supabase', 'high', false, 'إعداد قراءة Supabase للـwatchdog غير مكتمل.')];
   }
-  const sql = `SET default_transaction_read_only=on; SELECT json_build_object(
-    'missing_jobs', (SELECT count(*) FROM (VALUES ('expire-stale-new-website-orders'),('cleanup-guest-order-gateway-requests')) expected(name) LEFT JOIN cron.job j ON j.jobname=expected.name WHERE j.jobid IS NULL OR NOT j.active),
-    'recent_failures', (SELECT count(*) FROM cron.job_run_details d JOIN cron.job j ON j.jobid=d.jobid WHERE j.jobname IN ('expire-stale-new-website-orders','cleanup-guest-order-gateway-requests') AND d.start_time >= now()-interval '30 minutes' AND d.status <> 'succeeded'),
-    'stale_jobs', (SELECT count(*) FROM cron.job j WHERE (j.jobname='expire-stale-new-website-orders' AND NOT EXISTS (SELECT 1 FROM cron.job_run_details d WHERE d.jobid=j.jobid AND d.status='succeeded' AND d.start_time>=now()-interval '15 minutes')) OR (j.jobname='cleanup-guest-order-gateway-requests' AND NOT EXISTS (SELECT 1 FROM cron.job_run_details d WHERE d.jobid=j.jobid AND d.status='succeeded' AND d.start_time>=now()-interval '30 minutes'))),
+  const sql = `SET default_transaction_read_only=on; WITH capabilities AS (
+    SELECT to_regprocedure('public.get_business_summary_monitoring_status()') IS NOT NULL AS summaries_installed
+  ) SELECT json_build_object(
+    'summary_monitoring_installed', (SELECT summaries_installed FROM capabilities),
+    'missing_jobs', (SELECT count(*) FROM (VALUES ('expire-stale-new-website-orders',true),('cleanup-guest-order-gateway-requests',true),('scan-core-business-alerts',true),('scan-business-summaries',(SELECT summaries_installed FROM capabilities))) expected(name,required) LEFT JOIN cron.job j ON j.jobname=expected.name WHERE expected.required AND (j.jobid IS NULL OR NOT j.active)),
+    'recent_failures', (SELECT count(*) FROM cron.job_run_details d JOIN cron.job j ON j.jobid=d.jobid WHERE j.jobname IN ('expire-stale-new-website-orders','cleanup-guest-order-gateway-requests','scan-core-business-alerts','scan-business-summaries') AND d.start_time >= now()-interval '30 minutes' AND d.status <> 'succeeded'),
+    'stale_jobs', (SELECT count(*) FROM cron.job j WHERE (j.jobname='expire-stale-new-website-orders' AND NOT EXISTS (SELECT 1 FROM cron.job_run_details d WHERE d.jobid=j.jobid AND d.status='succeeded' AND d.start_time>=now()-interval '15 minutes')) OR (j.jobname='cleanup-guest-order-gateway-requests' AND NOT EXISTS (SELECT 1 FROM cron.job_run_details d WHERE d.jobid=j.jobid AND d.status='succeeded' AND d.start_time>=now()-interval '30 minutes')) OR (j.jobname='scan-core-business-alerts' AND NOT EXISTS (SELECT 1 FROM cron.job_run_details d WHERE d.jobid=j.jobid AND d.status='succeeded' AND d.start_time>=now()-interval '15 minutes')) OR (j.jobname='scan-business-summaries' AND NOT EXISTS (SELECT 1 FROM cron.job_run_details d WHERE d.jobid=j.jobid AND d.status='succeeded' AND d.start_time>=now()-interval '15 minutes'))),
     'retryable_backlog', (SELECT count(*) FROM public.automation_event_deliveries d JOIN public.automation_events e ON e.id=d.event_id WHERE e.created_at>=now()-interval '30 days' AND d.updated_at<now()-interval '10 minutes' AND d.status IN ('pending','failed') AND d.next_attempt_at<=now() AND d.attempt_count<10),
     'stuck_leases', (SELECT count(*) FROM public.automation_event_deliveries WHERE status='processing' AND lease_expires_at<=now()),
     'dead_letters', (SELECT count(*) FROM public.automation_event_deliveries WHERE status='dead_letter' OR (status<>'delivered' AND attempt_count>=10)),
@@ -134,7 +137,7 @@ function collectSupabaseChecks() {
   if (!result.ok) return [check('developer:supabase:monitoring-query', 'Supabase', 'high', false, 'تعذر تنفيذ فحص Supabase الآمن.')];
   try {
     const metrics = JSON.parse(result.stdout.split(/\r?\n/u).filter((line) => line.trim().startsWith('{')).at(-1));
-    return [
+    const checks = [
       check('developer:supabase:monitoring-query', 'Supabase', 'high', true, 'فحص Supabase التقني يعمل.'),
       check('developer:supabase:cron', 'Supabase Cron', 'high', metrics.missing_jobs === 0 && metrics.recent_failures === 0 && metrics.stale_jobs === 0, 'حالة Supabase cron.', {missingJobs: metrics.missing_jobs, recentFailures: metrics.recent_failures, staleJobs: metrics.stale_jobs}),
       check('developer:automation:backlog', 'Automation Delivery', 'high', metrics.retryable_backlog === 0, 'حالة Business delivery backlog التقنية بدون محتوى أعمال.', {backlog: metrics.retryable_backlog}),
@@ -142,6 +145,25 @@ function collectSupabaseChecks() {
       check('developer:automation:dead-letter', 'Automation Delivery', 'high', metrics.dead_letters === 0, 'حالة Business delivery dead-letter التقنية.', {deadLetters: metrics.dead_letters}),
       check('developer:automation:latency', 'Automation Delivery', 'medium', metrics.latency_breaches === 0, 'حالة Business delivery latency التقنية.', {latencyBreaches: metrics.latency_breaches}),
     ];
+    if (metrics.summary_monitoring_installed === true) {
+      const summaryResult = run(psql, [databaseUrl, '-v', 'ON_ERROR_STOP=1', '-tA', '-c', "SET default_transaction_read_only=on; SELECT public.get_business_summary_monitoring_status();"], 30_000, env);
+      if (!summaryResult.ok) {
+        checks.push(check('developer:business-summary:schedule', 'Business Summary Scheduler', 'high', false, 'تعذر قراءة حالة جدولة ملخصات الأعمال.'));
+      } else {
+        const status = JSON.parse(summaryResult.stdout.split(/\r?\n/u).filter((line) => line.trim().startsWith('{')).at(-1));
+        const missed = Number(status.unresolvedMissedPeriods || 0);
+        const overdue = Number(status.overdueDeliveries || 0);
+        checks.push(check(
+          'developer:business-summary:schedule',
+          'Business Summary Scheduler',
+          'high',
+          missed === 0 && overdue === 0,
+          'حالة جدولة وتسليم ملخصات الأعمال التقنية بدون محتوى أعمال.',
+          {unresolvedMissedPeriods: missed, overdueDeliveries: overdue},
+        ));
+      }
+    }
+    return checks;
   } catch {
     return [check('developer:supabase:monitoring-query', 'Supabase', 'high', false, 'نتيجة فحص Supabase غير متوقعة.')];
   }

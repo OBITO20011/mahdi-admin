@@ -140,11 +140,15 @@ test('watchdog is separate from Business outbox and uses read-only monitoring', 
   assert.match(watchdog, /developer:automation:dead-letter/u);
   assert.match(watchdog, /developer:automation:stuck-lease/u);
   assert.match(watchdog, /developer:automation:latency/u);
+  assert.match(watchdog, /developer:business-summary:schedule/u);
+  assert.match(watchdog, /get_business_summary_monitoring_status/u);
+  assert.match(watchdog, /summary_monitoring_installed/u);
   assert.match(watchdog, /Nawasrah Docker Safe Startup/u);
   assert.match(watchdog, /Nawasrah ERP Nightly Backup/u);
   assert.doesNotMatch(watchdog + runner, /SUPABASE_SERVICE_ROLE_KEY/u);
   assert.doesNotMatch(watchdog + runner, /claim_automation_deliveries|complete_automation_delivery/u);
   assert.doesNotMatch(watchdog + runner, /customer_name|customer_phone|delivery_address|total_in_minor_units/iu);
+  assert.doesNotMatch(watchdog, /grossSalesInMinorUnits|customerDueInMinorUnits|supplierDueInMinorUnits/u);
 });
 
 test('Windows setup protects dedicated secrets and schedules one bounded SYSTEM watchdog', async () => {

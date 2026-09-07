@@ -92,6 +92,14 @@ actually become `expired` and purchase orders past a recorded
 business value. Customer/supplier overdue-debt alerts remain unavailable until
 the source records have a trustworthy due date.
 
+Migration `098_business_summaries.sql` adds one deduplicated summary ledger and
+one bounded five-minute scheduler. The default owner schedule is 08:00 daily
+and 09:00 each Monday for the preceding Monday-Sunday period in `Asia/Amman`.
+The message contains aggregate operational figures only, reuses the existing
+Business recipient and hardened delivery lifecycle, and never goes to the
+Developer bot. Developer monitoring receives only missed-period and overdue
+delivery counts when a summary fails.
+
 The shared secret is generated in the protected ignored `.env.feed` file. It is
 uploaded to Supabase with `supabase secrets set --env-file` and imported into
 n8n as the encrypted `Nawasrah Supabase Alert Feed` Header Auth credential. It
