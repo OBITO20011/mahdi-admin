@@ -132,7 +132,14 @@ test('watchdog is separate from Business outbox and uses read-only monitoring', 
   assert.match(watchdog, /Cloudflare Pages/u);
   assert.match(watchdog, /deployment_trigger\?\.metadata\?\.commit_hash/u);
   assert.match(watchdog, /--probe-only/u);
+  assert.match(watchdog, /10 \* 60_000/u);
+  assert.match(watchdog, /recoveredStaleLock/u);
   assert.match(watchdog, /developer:backup:n8n/u);
+  assert.match(watchdog, /Nawasrah n8n Daily Backup/u);
+  assert.match(watchdog, /restoreVerified/u);
+  assert.match(watchdog, /developer:automation:dead-letter/u);
+  assert.match(watchdog, /developer:automation:stuck-lease/u);
+  assert.match(watchdog, /developer:automation:latency/u);
   assert.match(watchdog, /Nawasrah Docker Safe Startup/u);
   assert.match(watchdog, /Nawasrah ERP Nightly Backup/u);
   assert.doesNotMatch(watchdog + runner, /SUPABASE_SERVICE_ROLE_KEY/u);

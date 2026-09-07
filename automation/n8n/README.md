@@ -35,6 +35,21 @@ Supabase feed secret inside one AES-256-GCM encrypted `.nwb` archive. It reuses 
 passphrase from the existing Nawasrah backup configuration and verifies the
 encrypted archive before publishing it to the configured backup folder.
 
+The production schedule is registered with:
+
+```powershell
+.\automation\n8n\register-backup-schedule.ps1
+```
+
+`Nawasrah n8n Daily Backup` runs under Windows `SYSTEM` every day at 01:30,
+uses the existing machine-scope DPAPI backup configuration, and runs missed
+schedules when the machine becomes available. A backup is published only after
+AES-GCM verification, isolated extraction, and a read of the restored SQLite
+database by the n8n CLI. Status and bounded daily logs live in
+`C:\ProgramData\NawasrahN8nBackup`, outside the n8n volumes. The newest 30
+archives are retained (or the configured ERP retention count); overlapping
+runs are locked and Task Scheduler ignores a second instance.
+
 ## Security boundary
 
 - Do not place the Supabase `service_role` key in n8n.
@@ -59,6 +74,13 @@ The `n8n-alert-feed` Edge Function is the only n8n gateway. It authenticates a
 scoped shared secret and calls service-role-only claim/complete RPCs internally.
 Each event has an independent Telegram and WhatsApp delivery state, lease, and
 retry counter.
+
+Migration `096_harden_automation_delivery_lifecycle.sql` makes exhausted
+deliveries explicit as `dead_letter` after the existing fixed ten-attempt
+budget. Expired leases remain reclaimable, active leases are never stolen, and
+first/last attempt timestamps support aggregate latency monitoring. The
+Developer Watchdog reports only technical counts for backlog, stuck leases,
+dead letters, and latency; it never reads Business payloads into an alert.
 
 The shared secret is generated in the protected ignored `.env.feed` file. It is
 uploaded to Supabase with `supabase secrets set --env-file` and imported into

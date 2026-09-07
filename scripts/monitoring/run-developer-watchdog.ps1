@@ -67,6 +67,7 @@ try {
   $env:CLOUDFLARE_ACCOUNT_ID = [string]$config.cloudflareAccountId
   $env:NAWASRAH_PROJECT_ROOT = [string]$backupConfig.projectRoot
   $env:NAWASRAH_BACKUP_ROOT = [string]$backupConfig.backupRoot
+  $env:NAWASRAH_N8N_BACKUP_STATUS_ROOT = 'C:\ProgramData\NawasrahN8nBackup'
   $env:NAWASRAH_PSQL_PATH = $psqlPath
   $env:NAWASRAH_SUPABASE_DATABASE_URL = $databaseUrl
   $env:SUPABASE_DB_PASSWORD = $databasePassword
@@ -88,6 +89,7 @@ finally {
     'NAWASRAH_DEVELOPER_MONITOR_ROOT', 'NAWASRAH_DEV_TELEGRAM_BOT_TOKEN',
     'NAWASRAH_DEV_TELEGRAM_CHAT_ID', 'CLOUDFLARE_API_TOKEN',
     'CLOUDFLARE_ACCOUNT_ID', 'NAWASRAH_PROJECT_ROOT', 'NAWASRAH_BACKUP_ROOT',
+    'NAWASRAH_N8N_BACKUP_STATUS_ROOT',
     'NAWASRAH_PSQL_PATH', 'NAWASRAH_SUPABASE_DATABASE_URL', 'SUPABASE_DB_PASSWORD'
   )) {
     Remove-Item "Env:$name" -ErrorAction SilentlyContinue

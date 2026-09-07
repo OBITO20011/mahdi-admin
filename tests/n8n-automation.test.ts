@@ -7,6 +7,9 @@ const setup = readFileSync('automation/n8n/setup.ps1', 'utf8');
 const docs = readFileSync('automation/n8n/README.md', 'utf8');
 const backup = readFileSync('automation/n8n/backup.ps1', 'utf8');
 const backupEncryption = readFileSync('automation/n8n/encrypt-backup.mjs', 'utf8');
+const backupDecryption = readFileSync('automation/n8n/decrypt-backup.mjs', 'utf8');
+const backupSchedule = readFileSync('automation/n8n/register-backup-schedule.ps1', 'utf8');
+const backupScheduleTest = readFileSync('automation/n8n/test-backup-schedule.ps1', 'utf8');
 const feedCredentialImport = readFileSync(
   'automation/n8n/import-feed-credential.ps1',
   'utf8',
@@ -80,6 +83,19 @@ test('n8n backup is complete, encrypted, and verified before publication', () =>
   assert.match(backupEncryption, /encryptFile/);
   assert.match(backupEncryption, /decryptFile/);
   assert.match(backupEncryption, /sourceHash !== verifiedHash/);
+  assert.match(backupDecryption, /decryptFile/);
+  assert.match(backup, /export:workflow --all/);
+  assert.match(backup, /--network none/);
+  assert.match(backup, /restoreVerified = \$true/);
+  assert.match(backup, /last-status\.json/);
+  assert.match(backup, /Select-Object -Skip \$retentionCount/);
+  assert.match(backupSchedule, /Nawasrah n8n Daily Backup/);
+  assert.match(backupSchedule, /-UserId 'SYSTEM'/);
+  assert.match(backupSchedule, /-StartWhenAvailable/);
+  assert.match(backupSchedule, /-ExecutionTimeLimit \(New-TimeSpan -Minutes 30\)/);
+  assert.match(backupScheduleTest, /Start-ScheduledTask/);
+  assert.match(backupScheduleTest, /Principal\.UserId -ne 'SYSTEM'/);
+  assert.match(backupScheduleTest, /LastTaskResult -ne 0/);
 });
 
 test('the Supabase feed secret is imported as an encrypted n8n credential', () => {

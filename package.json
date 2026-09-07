@@ -37,7 +37,8 @@
     "monitoring:test-live": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts/monitoring/run-developer-alert-e2e.ps1",
     "monitoring:status": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts/monitoring/get-developer-monitoring-status.ps1",
     "monitoring:test-system-dpapi": "powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/monitoring/test-system-dpapi.ps1",
-    "monitoring:test": "tsx --test tests/developer-monitoring.test.ts"
+    "monitoring:test": "tsx --test tests/developer-monitoring.test.ts",
+    "test:automation-delivery:runtime": "node scripts/testing/run-automation-delivery-hardening-runtime.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

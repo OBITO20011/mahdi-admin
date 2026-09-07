@@ -11,6 +11,10 @@ const edgeFunction = readFileSync(
   'utf8',
 );
 const supabaseConfig = readFileSync('supabase/config.toml', 'utf8');
+const hardeningMigration = readFileSync(
+  'supabase/migrations/096_harden_automation_delivery_lifecycle.sql',
+  'utf8',
+);
 
 test('automation events are durable and deliveries are independent per channel', () => {
   assert.match(migration, /CREATE TABLE IF NOT EXISTS public\.automation_events/);
@@ -70,4 +74,14 @@ test('the n8n feed has a narrow shared-secret boundary and internal service role
     supabaseConfig,
     /\[functions\.n8n-alert-feed\]\s*verify_jwt = false/,
   );
+});
+
+test('delivery lifecycle has explicit dead-letter, lease recovery, and bounded retries', () => {
+  assert.match(hardeningMigration, /status IN \('pending', 'processing', 'delivered', 'failed', 'dead_letter'\)/);
+  assert.match(hardeningMigration, /d\.attempt_count >= 10/);
+  assert.match(hardeningMigration, /d\.lease_expires_at <= NOW\(\)/);
+  assert.match(hardeningMigration, /FOR UPDATE OF d SKIP LOCKED/);
+  assert.match(hardeningMigration, /first_attempt_at = COALESCE\(d\.first_attempt_at, NOW\(\)\)/);
+  assert.match(hardeningMigration, /WHEN d\.attempt_count >= 10 THEN 'dead_letter'/);
+  assert.match(hardeningMigration, /REVOKE ALL ON FUNCTION public\.claim_automation_deliveries[\s\S]*FROM PUBLIC, anon, authenticated/);
 });

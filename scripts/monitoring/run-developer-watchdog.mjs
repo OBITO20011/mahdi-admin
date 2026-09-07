@@ -1,5 +1,5 @@
 import {spawnSync} from 'node:child_process';
-import {readFile, rename, writeFile, mkdir, open, unlink, readdir, stat} from 'node:fs/promises';
+import {readFile, rename, writeFile, mkdir, open, unlink, stat} from 'node:fs/promises';
 import path from 'node:path';
 import {parseTechnicalJson, runIncidentCycle, sendTelegramMessage} from './developer-alert-core.mjs';
 
@@ -67,6 +67,16 @@ async function collectBackupChecks() {
   } catch {
     checks.push(check('developer:backup:scheduled-tasks', 'Windows Task Scheduler', 'high', false, 'تعذر قراءة نتائج مهام Backup وRestore Drill.'));
   }
+  const n8nTask = run('powershell.exe', ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command', "$i=Get-ScheduledTaskInfo -TaskName 'Nawasrah n8n Daily Backup' -ErrorAction Stop; [string]$i.LastTaskResult"]);
+  const n8nTaskResult = Number(n8nTask.stdout);
+  checks.push(check(
+    'developer:backup:n8n-task',
+    'Windows Task Scheduler',
+    'high',
+    n8nTask.ok && n8nTaskResult === 0,
+    n8nTask.ok && n8nTaskResult === 0 ? 'مهمة n8n Backup المجدولة ناجحة.' : 'مهمة n8n Backup المجدولة فاشلة أو غير متاحة.',
+    {lastTaskResult: Number.isFinite(n8nTaskResult) ? n8nTaskResult : 'unavailable'},
+  ));
   try {
     const status = await readJson(path.join(backupRoot, 'last-backup-status.json'));
     const age = ageHours(status.finishedAt);
@@ -76,14 +86,21 @@ async function collectBackupChecks() {
     checks.push(check('developer:backup:nightly', 'Backup', 'critical', false, 'حالة آخر نسخة ERP غير متاحة.'));
   }
   try {
-    const files = (await readdir(backupRoot)).filter((name) => /^nawasrah-n8n-.*\.nwb$/u.test(name));
-    const candidates = await Promise.all(files.map(async (name) => ({name, info: await stat(path.join(backupRoot, name))})));
-    const latest = candidates.sort((left, right) => right.info.mtimeMs - left.info.mtimeMs)[0];
-    const age = latest ? (now.getTime() - latest.info.mtimeMs) / 3_600_000 : Number.POSITIVE_INFINITY;
-    const healthy = Boolean(latest) && age <= 36;
-    checks.push(check('developer:backup:n8n', 'n8n Backup', 'critical', healthy, healthy ? 'آخر نسخة n8n الاحتياطية حديثة.' : 'نسخة n8n الاحتياطية غير موجودة أو أقدم من 36 ساعة.', {ageHours: Number.isFinite(age) ? age.toFixed(1) : 'missing'}));
+    const n8nStatusRoot = process.env.NAWASRAH_N8N_BACKUP_STATUS_ROOT || 'C:\\ProgramData\\NawasrahN8nBackup';
+    const status = await readJson(path.join(n8nStatusRoot, 'last-status.json'));
+    const age = ageHours(status.finishedAt);
+    const archivePath = path.join(backupRoot, path.basename(String(status.archiveName || '')));
+    const archive = await stat(archivePath);
+    const healthy = status.ok === true
+      && status.restoreVerified === true
+      && status.liveVolumesModified === false
+      && archive.isFile()
+      && archive.size === status.archiveBytes
+      && Number.isFinite(age)
+      && age <= 36;
+    checks.push(check('developer:backup:n8n', 'n8n Backup', 'critical', healthy, healthy ? 'آخر نسخة n8n حديثة واجتازت Restore Drill المعزول.' : 'نسخة n8n فاشلة أو قديمة أو لم تجتز Restore Drill.', {ageHours: Number.isFinite(age) ? age.toFixed(1) : 'invalid', restoreVerified: status.restoreVerified === true}));
   } catch {
-    checks.push(check('developer:backup:n8n', 'n8n Backup', 'critical', false, 'تعذر فحص نسخة n8n الاحتياطية.'));
+    checks.push(check('developer:backup:n8n', 'n8n Backup', 'critical', false, 'حالة نسخة n8n أو Restore Drill غير متاحة.'));
   }
   try {
     const status = await readJson(path.join(backupRoot, 'last-restore-drill-status.json'));
@@ -107,8 +124,10 @@ function collectSupabaseChecks() {
     'missing_jobs', (SELECT count(*) FROM (VALUES ('expire-stale-new-website-orders'),('cleanup-guest-order-gateway-requests')) expected(name) LEFT JOIN cron.job j ON j.jobname=expected.name WHERE j.jobid IS NULL OR NOT j.active),
     'recent_failures', (SELECT count(*) FROM cron.job_run_details d JOIN cron.job j ON j.jobid=d.jobid WHERE j.jobname IN ('expire-stale-new-website-orders','cleanup-guest-order-gateway-requests') AND d.start_time >= now()-interval '30 minutes' AND d.status <> 'succeeded'),
     'stale_jobs', (SELECT count(*) FROM cron.job j WHERE (j.jobname='expire-stale-new-website-orders' AND NOT EXISTS (SELECT 1 FROM cron.job_run_details d WHERE d.jobid=j.jobid AND d.status='succeeded' AND d.start_time>=now()-interval '15 minutes')) OR (j.jobname='cleanup-guest-order-gateway-requests' AND NOT EXISTS (SELECT 1 FROM cron.job_run_details d WHERE d.jobid=j.jobid AND d.status='succeeded' AND d.start_time>=now()-interval '30 minutes'))),
-    'backlog', (SELECT count(*) FROM public.automation_event_deliveries d JOIN public.automation_events e ON e.id=d.event_id WHERE e.created_at>=now()-interval '30 days' AND d.updated_at<now()-interval '10 minutes' AND ((d.status IN ('pending','failed') AND d.next_attempt_at<=now() AND d.attempt_count<10) OR (d.status='processing' AND d.lease_expires_at<=now()))),
-    'exhausted', (SELECT count(*) FROM public.automation_event_deliveries WHERE status<>'delivered' AND attempt_count>=10)
+    'retryable_backlog', (SELECT count(*) FROM public.automation_event_deliveries d JOIN public.automation_events e ON e.id=d.event_id WHERE e.created_at>=now()-interval '30 days' AND d.updated_at<now()-interval '10 minutes' AND d.status IN ('pending','failed') AND d.next_attempt_at<=now() AND d.attempt_count<10),
+    'stuck_leases', (SELECT count(*) FROM public.automation_event_deliveries WHERE status='processing' AND lease_expires_at<=now()),
+    'dead_letters', (SELECT count(*) FROM public.automation_event_deliveries WHERE status='dead_letter' OR (status<>'delivered' AND attempt_count>=10)),
+    'latency_breaches', (SELECT count(*) FROM public.automation_event_deliveries d JOIN public.automation_events e ON e.id=d.event_id WHERE d.status NOT IN ('delivered','dead_letter') AND e.created_at<=now()-interval '10 minutes')
   );`;
   const env = {...process.env, PGPASSWORD: password};
   const result = run(psql, [databaseUrl, '-v', 'ON_ERROR_STOP=1', '-tA', '-c', sql], 30_000, env);
@@ -118,7 +137,10 @@ function collectSupabaseChecks() {
     return [
       check('developer:supabase:monitoring-query', 'Supabase', 'high', true, 'فحص Supabase التقني يعمل.'),
       check('developer:supabase:cron', 'Supabase Cron', 'high', metrics.missing_jobs === 0 && metrics.recent_failures === 0 && metrics.stale_jobs === 0, 'حالة Supabase cron.', {missingJobs: metrics.missing_jobs, recentFailures: metrics.recent_failures, staleJobs: metrics.stale_jobs}),
-      check('developer:automation:backlog', 'Automation Delivery', 'high', metrics.backlog === 0 && metrics.exhausted === 0, 'حالة طابور Business delivery التقنية بدون محتوى أعمال.', {backlog: metrics.backlog, exhausted: metrics.exhausted}),
+      check('developer:automation:backlog', 'Automation Delivery', 'high', metrics.retryable_backlog === 0, 'حالة Business delivery backlog التقنية بدون محتوى أعمال.', {backlog: metrics.retryable_backlog}),
+      check('developer:automation:stuck-lease', 'Automation Delivery', 'high', metrics.stuck_leases === 0, 'حالة Business delivery leases التقنية.', {stuckLeases: metrics.stuck_leases}),
+      check('developer:automation:dead-letter', 'Automation Delivery', 'high', metrics.dead_letters === 0, 'حالة Business delivery dead-letter التقنية.', {deadLetters: metrics.dead_letters}),
+      check('developer:automation:latency', 'Automation Delivery', 'medium', metrics.latency_breaches === 0, 'حالة Business delivery latency التقنية.', {latencyBreaches: metrics.latency_breaches}),
     ];
   } catch {
     return [check('developer:supabase:monitoring-query', 'Supabase', 'high', false, 'نتيجة فحص Supabase غير متوقعة.')];
@@ -175,6 +197,29 @@ async function loadState() {
   try { return await readJson(statePath); } catch { return {version: 1, incidents: {}}; }
 }
 
+async function acquireLock() {
+  try {
+    const handle = await open(lockPath, 'wx');
+    await handle.writeFile(`${JSON.stringify({pid: process.pid, createdAt: new Date().toISOString()})}\n`, 'utf8');
+    return handle;
+  } catch (error) {
+    if (error?.code !== 'EEXIST') throw error;
+    try {
+      const info = await stat(lockPath);
+      if (now.getTime() - info.mtimeMs <= 10 * 60_000) return null;
+      const stalePath = `${lockPath}.stale-${now.getTime()}`;
+      await rename(lockPath, stalePath);
+      await unlink(stalePath).catch(() => undefined);
+      const handle = await open(lockPath, 'wx');
+      await handle.writeFile(`${JSON.stringify({pid: process.pid, createdAt: new Date().toISOString(), recoveredStaleLock: true})}\n`, 'utf8');
+      return handle;
+    } catch (retryError) {
+      if (retryError?.code === 'ENOENT' || retryError?.code === 'EEXIST') return null;
+      throw retryError;
+    }
+  }
+}
+
 async function saveState(state) {
   const temporary = `${statePath}.tmp`;
   await writeFile(temporary, `${JSON.stringify(state, null, 2)}\n`, 'utf8');
@@ -183,10 +228,8 @@ async function saveState(state) {
 
 async function main() {
   await mkdir(root, {recursive: true});
-  let lock;
-  try {
-    lock = await open(lockPath, 'wx');
-  } catch {
+  const lock = await acquireLock();
+  if (!lock) {
     process.stdout.write('Developer watchdog skipped because another instance owns the lock.\n');
     return;
   }
