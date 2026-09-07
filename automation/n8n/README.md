@@ -82,6 +82,16 @@ first/last attempt timestamps support aggregate latency monitoring. The
 Developer Watchdog reports only technical counts for backlog, stuck leases,
 dead letters, and latency; it never reads Business payloads into an alert.
 
+Migration `097_core_business_alerts.sql` adds a private incident state machine
+and one bounded five-minute database scanner. It reuses this same outbox and
+recipient: no new delivery path or credential is added. Website orders that
+actually become `expired` and purchase orders past a recorded
+`expected_delivery_date` are enabled. Unapproved timing or money thresholds
+(order attention, shift closing, cash discrepancy, and daily expense) remain
+`NULL`, fail closed, and produce no notification until the owner supplies a
+business value. Customer/supplier overdue-debt alerts remain unavailable until
+the source records have a trustworthy due date.
+
 The shared secret is generated in the protected ignored `.env.feed` file. It is
 uploaded to Supabase with `supabase secrets set --env-file` and imported into
 n8n as the encrypted `Nawasrah Supabase Alert Feed` Header Auth credential. It
