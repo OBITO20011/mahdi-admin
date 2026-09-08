@@ -61,6 +61,15 @@ test('orders center pages summaries and loads heavy details only for the opened 
   assert.doesNotMatch(orderDetail, /orders\.find\(/);
 });
 
+test('cancelled and expired orders are not presented as collectible receivables', () => {
+  assert.match(
+    ordersCenter,
+    /order\.status === 'cancelled' \|\| order\.status === 'expired'/
+  );
+  assert.match(ordersCenter, /label: 'لا مبلغ للتحصيل'/);
+  assert.match(ordersCenter, /ذمم الطلبات المكتملة/);
+});
+
 test('global store refreshes only the bounded summary used by the navigation badge', () => {
   assert.match(appStore, /fetchOperationalOrdersSummaryFromSupabase/);
   assert.match(appStore, /this\.state\.newOrdersCount = res\.summary\.review/);

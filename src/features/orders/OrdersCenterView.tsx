@@ -98,6 +98,12 @@ function getStatusBadge(status: OrderStatus | string) {
 }
 
 function getPaymentLabel(order: OperationalOrderListItem) {
+  if (order.status === 'cancelled' || order.status === 'expired') {
+    return {
+      label: 'لا مبلغ للتحصيل',
+      color: 'border-slate-600 bg-slate-800 text-slate-300',
+    };
+  }
   if (order.paymentStatus === 'refunded') {
     return {
       label: 'تم رد المبلغ',
@@ -316,7 +322,9 @@ export const OrdersCenterView: React.FC = () => {
         </div>
         <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-3">
           <CircleDollarSign className="mb-1 h-4 w-4 text-rose-400" />
-          <span className="block text-[9px] text-slate-500">ذمم قيد التحصيل</span>
+          <span className="block text-[9px] text-slate-500">
+            ذمم الطلبات المكتملة
+          </span>
           <strong className="text-xs text-rose-300">
             {summary.due.toFixed(3)}
           </strong>
