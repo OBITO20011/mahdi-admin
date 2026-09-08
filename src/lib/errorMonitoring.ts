@@ -1,4 +1,5 @@
 import type {Breadcrumb, ErrorEvent as SentryErrorEvent} from '@sentry/react';
+import {supabase} from './supabase';
 
 const sensitiveKeyPattern =
   /address|authorization|customer|email|location|name|notes?|password|phone|token/i;
@@ -13,6 +14,27 @@ let monitoringLoad: Promise<SentrySdk> | null = null;
 let bootstrapListenersInstalled = false;
 let removeBootstrapListeners: (() => void) | null = null;
 const pendingRenderErrors: Array<{error: Error; componentStack?: string}> = [];
+const runtimeIncidentCooldown = new Map<string, number>();
+const runtimeIncidentCooldownMs = 10 * 60_000;
+
+async function reportSanitizedRuntimeIncident(
+  error: Error,
+  componentStack?: string,
+): Promise<void> {
+  if (!supabase || !globalThis.crypto?.subtle) return;
+  const componentRoot = componentStack?.split(/\r?\n/u).find(Boolean)?.trim() ?? 'global';
+  const source = `${error.name || 'Error'}:${componentRoot}`;
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(source));
+  const fingerprint = Array.from(new Uint8Array(digest), (byte) =>
+    byte.toString(16).padStart(2, '0')).join('');
+  const lastSentAt = runtimeIncidentCooldown.get(fingerprint) ?? 0;
+  if (Date.now() - lastSentAt < runtimeIncidentCooldownMs) return;
+  runtimeIncidentCooldown.set(fingerprint, Date.now());
+  await supabase.rpc('report_admin_runtime_incident', {
+    p_fingerprint: fingerprint,
+    p_area: componentStack ? 'admin_render' : 'admin_global',
+  });
+}
 
 function redactText(value: string): string {
   return value
@@ -166,6 +188,7 @@ export function initErrorMonitoring(): boolean {
 }
 
 export function captureRenderError(error: Error, componentStack?: string): void {
+  void reportSanitizedRuntimeIncident(error, componentStack).catch(() => undefined);
   if (!monitoringSdk) {
     if (!getMonitoringDsn()) return;
     if (pendingRenderErrors.length < 10) {

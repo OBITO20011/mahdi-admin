@@ -39,7 +39,8 @@
     "monitoring:test-system-dpapi": "powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/monitoring/test-system-dpapi.ps1",
     "monitoring:test": "tsx --test tests/developer-monitoring.test.ts",
     "test:automation-delivery:runtime": "node scripts/testing/run-automation-delivery-hardening-runtime.mjs",
-    "test:business-alerts:runtime": "node scripts/testing/run-core-business-alerts-runtime.mjs"
+    "test:business-alerts:runtime": "node scripts/testing/run-core-business-alerts-runtime.mjs",
+    "test:advanced-monitoring:runtime": "node scripts/testing/run-advanced-monitoring-runtime.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

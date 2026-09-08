@@ -20,6 +20,17 @@ function run(command, args, timeout = 15_000, environment = process.env) {
   return {ok: !result.error && result.status === 0, stdout: result.stdout?.trim() || '', stderr: result.stderr?.trim() || ''};
 }
 
+function runMonitoringSql(sql, timeout = 30_000) {
+  const psql = process.env.NAWASRAH_PSQL_PATH;
+  const databaseUrl = process.env.NAWASRAH_SUPABASE_DATABASE_URL;
+  const password = process.env.SUPABASE_DB_PASSWORD;
+  if (!psql || !databaseUrl || !password) return {ok: false, stdout: '', stderr: 'configuration unavailable'};
+  return run(psql, [databaseUrl, '-v', 'ON_ERROR_STOP=1', '-tA', '-c', sql], timeout, {
+    ...process.env,
+    PGPASSWORD: password,
+  });
+}
+
 async function collectLocalChecks() {
   const checks = [];
   try {
@@ -163,10 +174,104 @@ function collectSupabaseChecks() {
         ));
       }
     }
+    const advancedCapability = runMonitoringSql("SET default_transaction_read_only=on; SELECT to_regprocedure('public.get_advanced_monitoring_status()') IS NOT NULL;");
+    if (advancedCapability.ok && advancedCapability.stdout.split(/\r?\n/u).some((line) => line.trim() === 't')) {
+      const advanced = runMonitoringSql('SET default_transaction_read_only=on; SELECT public.get_advanced_monitoring_status();');
+      if (!advanced.ok) {
+        checks.push(check('developer:integrity:monitoring-scan', 'Business Integrity', 'high', false, 'تعذر قراءة فحوص سلامة البيانات.'));
+      } else {
+        const status = JSON.parse(advanced.stdout.split(/\r?\n/u).filter((line) => line.trim().startsWith('{')).at(-1));
+        const grouped = new Map();
+        for (const item of status.checks || []) {
+          if (item.status === 'healthy' || item.status === 'unknown') continue;
+          const family = ['inventory', 'orders'].includes(item.category)
+            ? 'inventory'
+            : ['accounting', 'shifts'].includes(item.category)
+              ? 'accounting'
+              : item.category;
+          const current = grouped.get(family) || {issueCount: 0, severity: 'medium'};
+          current.issueCount += Number(item.issueCount || 0);
+          if (item.status === 'critical') current.severity = item.severity === 'critical' ? 'critical' : 'high';
+          grouped.set(family, current);
+        }
+        const families = ['inventory', 'accounting', 'automation', 'performance', 'database', 'security', 'runtime'];
+        for (const family of families) {
+          const incident = grouped.get(family);
+          checks.push(check(
+            `developer:integrity:${family}`,
+            'Advanced Monitoring',
+            incident?.severity || 'high',
+            !incident,
+            incident ? `اكتشفت فحوص ${family} مؤشرات تحتاج المراجعة.` : `فحوص ${family} سليمة.`,
+            {issueCount: incident?.issueCount || 0},
+          ));
+        }
+      }
+    }
     return checks;
   } catch {
     return [check('developer:supabase:monitoring-query', 'Supabase', 'high', false, 'نتيجة فحص Supabase غير متوقعة.')];
   }
+}
+
+async function collectPublicServiceChecks() {
+  const checks = [];
+  try {
+    const response = await fetch('https://api.github.com/repos/OBITO20011/mahdi-admin/actions/runs?per_page=20', {
+      headers: {'user-agent': 'nawasrah-developer-watchdog', accept: 'application/vnd.github+json'},
+      signal: AbortSignal.timeout(15_000),
+    });
+    const body = await response.json();
+    const relevant = (body.workflow_runs || []).filter((item) =>
+      ['Code Quality', 'Secret Scanning', 'Public Uptime'].includes(item.name));
+    const failed = relevant.filter((item) => item.status === 'completed' && item.conclusion !== 'success');
+    checks.push(check('developer:github:ci', 'GitHub Actions', 'high', response.ok && relevant.length >= 3 && failed.length === 0,
+      failed.length === 0 ? 'آخر نتائج CI وSecret Scanning وUptime ناجحة.' : 'أحد GitHub release gates فاشل.',
+      {workflowCount: relevant.length, failedCount: failed.length}));
+  } catch {
+    checks.push(check('developer:github:ci', 'GitHub Actions', 'high', false, 'تعذر قراءة GitHub Actions.'));
+  }
+  for (const service of [
+    {key: 'admin', url: 'https://nawasrah-admin.pages.dev'},
+    {key: 'customer', url: 'https://nawasrah-store.pages.dev'},
+  ]) {
+    try {
+      const response = await fetch(service.url, {redirect: 'follow', signal: AbortSignal.timeout(15_000)});
+      checks.push(check(`developer:uptime:${service.key}`, 'Public Uptime', 'high', response.ok,
+        response.ok ? `${service.key} endpoint متاح.` : `${service.key} endpoint أعاد حالة غير ناجحة.`, {httpStatus: response.status}));
+    } catch {
+      checks.push(check(`developer:uptime:${service.key}`, 'Public Uptime', 'high', false, `${service.key} endpoint غير متاح.`));
+    }
+  }
+  return checks;
+}
+
+function publishExternalMonitoringSnapshot(checks) {
+  const allHealthy = (prefixes) => {
+    const matched = checks.filter((item) => prefixes.some((prefix) => item.key.startsWith(prefix)));
+    return matched.length > 0 && matched.every((item) => item.healthy);
+  };
+  const items = [
+    {key: 'external:infrastructure:docker', category: 'infrastructure', severity: 'high', healthy: allHealthy(['developer:docker:']), summary: 'Docker Safe Startup'},
+    {key: 'external:infrastructure:n8n', category: 'infrastructure', severity: 'high', healthy: allHealthy(['developer:n8n:']), summary: 'n8n container and health'},
+    {key: 'external:backup:erp', category: 'backup', severity: 'critical', healthy: allHealthy(['developer:backup:nightly', 'developer:backup:scheduled-tasks']), summary: 'ERP backup'},
+    {key: 'external:backup:n8n', category: 'backup', severity: 'critical', healthy: allHealthy(['developer:backup:n8n']), summary: 'n8n backup'},
+    {key: 'external:backup:restore', category: 'backup', severity: 'high', healthy: allHealthy(['developer:backup:restore-drill']), summary: 'Restore drill'},
+    {key: 'external:deployment:github', category: 'deployment', severity: 'high', healthy: allHealthy(['developer:github:ci']), summary: 'GitHub release gates'},
+    {key: 'external:deployment:uptime', category: 'deployment', severity: 'high', healthy: allHealthy(['developer:uptime:']), summary: 'Public uptime'},
+    {key: 'external:deployment:cloudflare-admin', category: 'deployment', severity: 'high', healthy: allHealthy(['developer:cloudflare:admin']), summary: 'Cloudflare Admin deployment'},
+    {key: 'external:deployment:cloudflare-customer', category: 'deployment', severity: 'high', healthy: allHealthy(['developer:cloudflare:customer']), summary: 'Cloudflare Customer deployment'},
+  ].map((item) => ({
+    key: item.key,
+    category: item.category,
+    status: item.healthy ? 'healthy' : 'critical',
+    severity: item.severity,
+    issueCount: item.healthy ? 0 : 1,
+    summary: item.summary,
+    details: {},
+  }));
+  const encoded = Buffer.from(JSON.stringify(items), 'utf8').toString('base64');
+  return runMonitoringSql(`SELECT public.record_external_monitoring_snapshot(convert_from(decode('${encoded}','base64'),'UTF8')::jsonb);`);
 }
 
 async function collectCloudflareChecks() {
@@ -261,7 +366,14 @@ async function main() {
       ...await collectBackupChecks(),
       ...collectSupabaseChecks(),
       ...await collectCloudflareChecks(),
+      ...await collectPublicServiceChecks(),
     ];
+    const advancedInstalled = runMonitoringSql("SET default_transaction_read_only=on; SELECT to_regprocedure('public.record_external_monitoring_snapshot(jsonb,timestamp with time zone)') IS NOT NULL;");
+    if (advancedInstalled.ok && advancedInstalled.stdout.split(/\r?\n/u).some((line) => line.trim() === 't')) {
+      const published = publishExternalMonitoringSnapshot(checks);
+      checks.push(check('developer:monitoring:dashboard-sync', 'Monitoring Dashboard', 'medium', published.ok,
+        published.ok ? 'تم تحديث مؤشرات الخدمات الخارجية في لوحة Admin.' : 'فشل تحديث مؤشرات الخدمات الخارجية في لوحة Admin.'));
+    }
     if (probeOnly) {
       process.stdout.write(`${JSON.stringify({
         ok: checks.every((item) => item.healthy),

@@ -24,6 +24,9 @@ phone numbers, order contents, balances, or financial totals.
 - Supabase is queried read-only with the existing machine-protected backup
   credentials. n8n still receives no PostgreSQL password and no service-role
   key.
+- After migrations `099` and `100`, the same watchdog reads sanitized integrity counters
+  and publishes only allowlisted external health states to the owner-only Admin
+  dashboard. No Business row, amount, customer field, or credential is copied.
 
 ## Checks
 
@@ -37,6 +40,11 @@ phone numbers, order contents, balances, or financial totals.
 - missed or overdue Business summary delivery, as technical counts only.
 - Cloudflare Admin and Customer production deployment status/SHA.
 - GitHub CI, secret scan, and public uptime failure/recovery.
+- database, inventory, accounting, shift, runtime, and security integrity state
+  produced by the private advanced-monitoring RPC.
+
+Runbooks for each incident family are in
+`docs/operations/MONITORING_RUNBOOKS.md`.
 
 ## Required dedicated credentials
 

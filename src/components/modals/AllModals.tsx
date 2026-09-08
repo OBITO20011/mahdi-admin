@@ -33,6 +33,7 @@ import { PromotionCodesModal } from '../../features/more/PromotionCodesModal';
 import {PushNotificationControls} from '../../features/more/PushNotificationControls';
 import { StorefrontSettingsModal } from '../../features/more/StorefrontSettingsModal';
 import { ExpenseFormModal } from '../../features/expenses/ExpenseFormModal';
+import { MonitoringDashboardModal } from '../../features/more/MonitoringDashboardModal';
 import {
   CheckCheck,
   PackageOpen,
@@ -325,6 +326,17 @@ export const AllModals: React.FC = () => {
         subtitle="تسجيل بيانات الزبون الجديد ودليله في قاعدة بيانات النواصرة"
       >
         <AddCustomerModalContent onClose={closeModal} />
+      </Modal>
+
+      <Modal
+        isOpen={currentModal === 'monitoring_dashboard'}
+        onClose={closeModal}
+        title="مراقبة صحة النظام"
+        subtitle="حالة الخدمات والتكامل المالي والمخزني — للمالك فقط"
+        maxWidth="max-w-4xl"
+        maxHeight="max-h-[94vh]"
+      >
+        <MonitoringDashboardModal />
       </Modal>
     </>
   );

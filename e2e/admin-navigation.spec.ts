@@ -73,6 +73,7 @@ test.describe('تنظيم تنقل الإدارة', () => {
     );
     await administration.click();
     await expect(page.locator('[data-navigation-id="admin-users"]')).toHaveCount(0);
+    await expect(page.locator('[data-navigation-id="admin-monitoring"]')).toHaveCount(0);
     await expect(page.locator('[data-navigation-id="admin-profile"]')).toBeVisible();
     await page.locator('[data-navigation-id="admin-profile"]').click();
     await expect
@@ -80,6 +81,18 @@ test.describe('تنظيم تنقل الإدارة', () => {
         page.evaluate(() => window.__ADMIN_NAVIGATION_TEST_CURRENT_MODAL__()),
       )
       .toBe('profile');
+  });
+
+  test('يعرض لوحة المراقبة للمالك فقط ويربطها بالمودال الصحيح', async ({page}) => {
+    await page.goto(`${adminBaseUrl}/e2e/admin-navigation-harness.html?role=owner`, {
+      waitUntil: 'domcontentloaded',
+    });
+    await page.locator('[data-navigation-group="administration-store"] > button').click();
+    const monitoring = page.locator('[data-navigation-id="admin-monitoring"]');
+    await expect(monitoring).toBeVisible();
+    await monitoring.press('Enter');
+    await expect.poll(() => page.evaluate(() =>
+      window.__ADMIN_NAVIGATION_TEST_CURRENT_MODAL__())).toBe('monitoring_dashboard');
   });
 
   test('يفتح كل مجموعة وحدها ويحترم reduced motion', async ({ page }) => {

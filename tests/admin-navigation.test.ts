@@ -46,7 +46,7 @@ const expectedGroupDestinations = new Map([
   ['finance-reports', ['shifts', 'expenses', 'reports']],
   [
     'administration-store',
-    ['users', 'storefront_settings', 'promotion_codes', 'profile'],
+    ['users', 'monitoring_dashboard', 'storefront_settings', 'promotion_codes', 'profile'],
   ],
 ]);
 
@@ -174,7 +174,7 @@ test('role visibility and the independent assistant gate are unchanged', () => {
   const ownerOnlyItems = ADMIN_NAVIGATION_GROUPS.flatMap((group) => group.items).filter(
     (item) => item.visibility === 'owner',
   );
-  assert.deepEqual(ownerOnlyItems.map((item) => item.id), ['admin-users']);
+  assert.deepEqual(ownerOnlyItems.map((item) => item.id), ['admin-users', 'admin-monitoring']);
   assert.match(moreMenu, /item\.visibility !== 'owner' \|\| roleName === 'owner'/);
   assert.match(
     moreMenu,
@@ -199,6 +199,7 @@ test('modal dispatcher, quick actions and nested feature views retain their iden
     'manage_brands',
     'manage_categories',
     'manage_units',
+    'monitoring_dashboard',
     'notifications',
     'profile',
     'profile_settings',

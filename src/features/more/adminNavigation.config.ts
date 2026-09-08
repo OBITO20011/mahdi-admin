@@ -1,6 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
 import {
   BarChart3,
+  Activity,
   Boxes,
   Package,
   ReceiptText,
@@ -180,6 +181,15 @@ export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = [
         icon: ShieldCheck,
         tone: 'bg-violet-500/10 text-violet-300',
         action: { type: 'tab', destination: 'users' },
+        visibility: 'owner',
+      },
+      {
+        id: 'admin-monitoring',
+        label: 'مراقبة صحة النظام',
+        description: 'الخدمات والنسخ والـCI وسلامة البيانات — قراءة فقط',
+        icon: Activity,
+        tone: 'bg-emerald-500/10 text-emerald-300',
+        action: { type: 'modal', destination: 'monitoring_dashboard' },
         visibility: 'owner',
       },
       {
