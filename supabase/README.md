@@ -1,42 +1,57 @@
-# Supabase في نواصرة
+# Supabase في Nawasrah ERP
 
 ## الحالة الحالية
 
-هذا المجلد ليس مرحلة أولية أو مخططًا غير مطبق. يحتوي على migrations المتسلسلة من `001` إلى `100`. يجب مطابقة النسخة الحية مع آخر migration قبل كل إصدار.
+هذا المجلد هو مصدر مخطط Production ويحتوي migrations متسلسلة من `001` حتى
+`102`. تطبيق Admin وCustomer Store يستخدمان RPCs وEdge Functions المحمية، ولا
+توجد بيانات واجهة تجريبية تعامل كمصدر حقيقة.
 
-لا توجد بيانات واجهة وهمية تُعامل كمصدر حقيقة. تطبيق الإدارة وموقع العملاء يقرآن ويغيران البيانات عبر عقود Supabase وRPCs المحمية.
-
-## قبل أي تعديل
+## بوابة أي تغيير
 
 ```powershell
+git status --short
 npx supabase migration list
+npm.cmd run backup:status
+npm.cmd run backup:verify
 ```
 
-يجب أن تتطابق كل الهجرات المحلية والبعيدة. أضف migration جديدة مرقمة بعد آخر ملف، واجعلها idempotent عند الإمكان، ثم راجع أثرها على RLS وRPCs والاختبارات.
+قبل migration جديدة:
 
-> لا تستخدم `supabase db reset` على قاعدة الإنتاج، ولا تعِد تنفيذ migrations قديمة من SQL Editor.
+1. يجب أن يطابق `main` النظيف `origin/main`.
+2. يجب تطابق migrations المحلية والبعيدة.
+3. أنشئ ملفًا جديدًا بالرقم التالي فقط؛ لا تعدّل ملفًا تاريخيًا.
+4. شغّل isolated rebuild والاختبارات المرتبطة وDB lint.
+5. خذ backup مشفرًا verified ونفّذ Restore Drill معزولًا عند بوابات البيانات
+   الحساسة.
+6. طبّق migration مرة واحدة، ثم تحقق من history وsignature/grants/RLS والسلوك.
+
+> ممنوع تشغيل `supabase db reset` على Production، أو لصق تعديل schema يدويًا
+> لتجاوز migration، أو عمل rollback عشوائي لدوال مالية/مخزنية.
 
 ## الحدود الأمنية
 
-- واجهات React تستخدم Publishable key فقط.
-- جداول الإدارة والحسابات والمخزون محمية بـRLS.
-- تغيرات المال والمخزون تمر عبر RPCs ذرية ومدققة؛ لا تحدث `update` مباشر من الواجهة.
-- `service_role` مسموح فقط داخل Edge Functions التي تحتاجه، ولا يضاف إلى n8n أو ملفات الواجهة.
-- الدوال العامة لا تعيد التكلفة أو الربح أو بيانات المورد أو تفاصيل العملاء.
+- الواجهات تستخدم Publishable key فقط.
+- RLS يحمي الجداول الإدارية والمالية والمخزنية.
+- المال والمخزون والحجوزات تمر عبر RPCs ذرية ومدققة.
+- `service_role` محصور داخل Edge Functions الموثقة؛ لا يدخل React أو n8n.
+- canonical guest-order RPC خاص؛ anonymous يدخل عبر `submit-guest-order` بعد
+  Turnstile/rate-limit validation.
+- الدوال العامة للكتالوج والتتبع والإيصال تعيد الحد الأدنى ولا تعرض التكلفة أو
+  المورد أو الربح أو PII غير اللازمة.
+- وظائف cron الخاصة غير ممنوحة للـ`anon` أو `authenticated`.
 
-## المكونات المهمة
+## المجالات المطبقة حتى 102
 
-- مخزون وحركات وتوريد وجرد وتأسيس رصيد افتتاحي.
-- طلبات موقع العملاء، حجز، تسليم، تحصيل، ذمم ومرتجعات.
-- بوابة طلب ضيف محمية، حد 50 بندًا، تتبع وإيصال منقحان، وانتهاء ذري لحجز طلب الموقع الجديد بعد خمس ساعات.
-- ورديات، كاش/CliQ، مصروفات، عكس وردية للمالك/AAL2، أرشيف مقسّط ولقطات إغلاق immutable للورديات الجديدة.
-- إعدادات المتجر والعروض والرسوم حسب منطقة التوصيل.
-- Auth، MFA، Push، روابط إيصال وتتبع آمنة.
-- إدارة مستخدمين للمالك فقط: الحسابات تنشأ خادميًا، والأدوار والملفات تمر عبر RPCs مدققة.
-- Outbox دائم للأتمتة يسحبه n8n عبر Edge Function بسر محدود، مع leases وretry bounded وdead-letter صريح ومراقبة latency تجميعية.
-- حالات Business incident منفصلة تحفظ open/resolved/occurrence لمنع spam، وتكتب انتقالاتها فقط إلى الـoutbox الحالية. الإعدادات ذات الحدود غير المعتمدة تبقى `NULL` ولا تولد تنبيهًا.
-- ملخصات Business اليومية والأسبوعية لها سجل فترة فريد وجدولة قابلة للضبط بتوقيت عمّان؛ الأرقام تأتي من نفس قواعد التقرير التشغيلي، والتسليم يمر بالـoutbox والـretry/dead-letter القائمين.
-- نماذج قراءة خادمية مقسطة للعمليات التاريخية: الطلبات التشغيلية، المخزون وCRM، أوامر الشراء، سندات استلام الموردين، دفعات الموردين وذمم العملاء. لا تستخدم الواجهة تحميل السجل كاملًا ثم حساب الرصيد أو تصفيته محليًا.
-- وظائف `pg_cron` الخاصة بانتهاء حجوزات الطلبات وتنظيف rate-limit خاصة وغير متاحة لأدوار المتصفح، وتعمل بدفعات محدودة.
+- المنتجات والنكهات والمخزون والحركات والجرد والتسويات والاستلام وWAC.
+- الطلبات والحجوزات والتوصيل والتسوية والمرتجعات والـPOS والذمم والمدفوعات.
+- Customer catalog/search/pagination/cart snapshot/checkout/tracking/receipt.
+- حد 50 بندًا، انتهاء حجز `website/new` بعد خمس ساعات، وتنظيف rate-limit.
+- أرشيف الورديات وclosing snapshot immutable وFull Shift Reversal/AAL2.
+- server-side pagination للطلبات والمخزون وCRM والمشتريات والاستلام والدفعات.
+- Business outbox مع leases وbounded retry وdead-letter وincidents وsummaries.
+- Advanced monitoring وBusiness Integrity وHealth Dashboard للمالك/AAL2.
+- Privacy minimization للـautomation payloads في migration `102`.
 
-راجع [DATABASE_DESIGN.md](../DATABASE_DESIGN.md) للمنطق التشغيلي، وراجع ملفات الهجرة نفسها للتفاصيل الدقيقة لكل جدول ودالة.
+التفاصيل في [DATABASE_DESIGN.md](../DATABASE_DESIGN.md)، ودورة الطلب في
+[README-orders.md](./README-orders.md)، وكل contract دقيق مصدره ملف migration
+نفسه واختباراته.

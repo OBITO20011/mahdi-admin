@@ -2,6 +2,13 @@
 
 هذه الصفحة للمطور/المالك التقني. لوحة Admin للقراءة فقط، ولا تعالج البيانات تلقائيًا.
 
+## Docker Safe Startup failure
+
+- **المعنى:** Docker Server لم يبدأ أو ظهر runtime socket/IPC تالف قبل تشغيل n8n.
+- **أول فحص:** راجع `Nawasrah Docker Safe Startup` و`C:\ProgramData\NawasrahDockerRecovery\logs` و`last-status.json` ثم `docker info`.
+- **لا تفعل:** لا تستخدم Factory Reset، ولا تحذف VHDX أو images أو volumes أو containers، ولا تعمل force-kill متكررًا.
+- **التصعيد:** إذا ثبت socket runtime تالف والعمليات متوقفة، اعزل مجلد runtime المحدد مرة واحدة وفق Safe Startup؛ توقف إذا تكرر الفشل بعد المحاولة المحدودة.
+
 ## Backup failure
 
 - **المعنى:** النسخة لم تكتمل، أو تجاوز عمرها 36 ساعة، أو فشل فحص الاستعادة.
@@ -57,3 +64,10 @@
 - `Warning`: يحتاج متابعة، ولا يثبت فساد بيانات وحده.
 - `Critical`: invariant أو خدمة أساسية تحتاج تدخلًا سريعًا.
 - `Unknown`: المصدر غير متاح أو لا يخزن telemetry كافيًا؛ لا يعامل كـHealthy.
+
+## Incident state لا يطابق الفحص المباشر
+
+- **المعنى:** قد تبقى incident مفتوحة لأن watchdog لم يكمل دورة recovery حتى لو أصبح المصدر سليمًا.
+- **أول فحص:** قارن `npm.cmd run monitoring:status` مع Task Scheduler وآخر watchdog log والفحص المباشر للمصدر.
+- **لا تفعل:** لا تحذف `incidents.json` ولا ترسل recovery يدويًا ولا تغيّر cooldown لإخفاء الحالة.
+- **التصعيد:** أصلح تشغيل watchdog نفسه ثم نفّذ دورة واحدة؛ يجب أن يصدر recovery واحدًا ويغلق المفتاح من خلال state machine الحالية.

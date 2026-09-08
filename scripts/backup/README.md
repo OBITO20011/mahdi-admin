@@ -192,3 +192,13 @@ never written to this log.
 
 Restore-drill scheduling failures are written separately to
 `%LOCALAPPDATA%\NawasrahBackup\restore-drill-runner.log`.
+
+## Handoff status
+
+Do not treat a recent manual archive as proof that the unattended schedule is
+healthy. Check `task.lastTaskResult` from `npm.cmd run backup:status`; it must be
+`0`. At the 2026-09-08 documentation audit, the newest encrypted archive and
+isolated Restore Drill both passed, but the preceding nightly Scheduled Task
+returned `1`. This remains an operational launch item documented in
+[`docs/HANDOFF.md`](../../docs/HANDOFF.md), not a reason to alter encryption,
+retention, or Production data.

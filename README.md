@@ -1,32 +1,48 @@
 # Nawasrah ERP — نظام نواصرة لإدارة الجملة
 
-تطبيق إدارة عربي RTL لمحل جملة، مرتبط بمتجر الزبائن وبقاعدة Supabase واحدة. مصدر الحقيقة هو PostgreSQL: المنتجات والمخزون والطلبات والاستلام والذمم والمصروفات والورديات والتقارير تُقرأ وتُحدّث عبر خدمات Supabase وRPCs محمية، من دون بيانات تجريبية أو محاسبة محلية بديلة.
+نظام عربي RTL لإدارة محل جملة، يتكون من تطبيق Admin ومتجر Customer Store
+ويستخدم مشروع Supabase واحدًا كمصدر الحقيقة للطلبات والمخزون والاستلام والذمم
+والمدفوعات والمصاريف والورديات والتقارير.
+
+الحالة الموثقة في 2026-09-08:
+
+- Production migrations مطابقة للمستودع من `001` حتى `102`.
+- Admin وCustomer Store منشوران على Cloudflare Pages.
+- n8n يشغل Business Telegram والتنبيهات والملخصات عبر outbox محمية؛ WhatsApp
+  يبقى غير مفعّل حتى اعتماد مزوده.
+- Developer Monitoring مستقل عن n8n وعن قناة صاحب المحل.
+- النسخ المشفرة وRestore Drill المعزول مطبقان، مع وجود incident تشغيلي مفتوح
+  لآخر محاولة مجدولة كما هو موضح في [وثيقة التسليم](./docs/HANDOFF.md).
+- لوحة Health/Integrity داخل Admin للمالك مع AAL2 وللقراءة فقط.
+- Privacy Policy وتقليل PII في التنبيهات الخارجية مطبقان حتى migration `102`.
+
+> ابدأ أي استلام أو تشغيل جديد من [docs/HANDOFF.md](./docs/HANDOFF.md). هذه
+> الوثيقة هي نقطة الدخول العملية، بينما تبقى migrations والكود مصدر الحقيقة.
 
 ## الوظائف التشغيلية
 
-- كتالوج جملة بوحدات بيع كاملة: كرتونة، شرنك، صندوق وغيرها.
-- استلام بضائع الموردين وزيادة المخزون بحركة موثقة.
-- مخزون متاح ومحجوز، تنبيهات نقص، جرد وتسويات وتأسيس رصيد افتتاحي.
-- طلبات المتجر، حجز المخزون، التسليم، التحصيل كاش أو CliQ، والمرتجعات.
-- متابعة آمنة لطلبات المتجر بلا تسجيل دخول: رابط عشوائي لكل طلب، مراحل تنفيذ واضحة، ووقت وصول ورقم سائق يحددهما الموظف عند بدء التوصيل ويتحدثان تلقائيًا لدى العميل.
-- بيع مباشر POS مرتبط بالعميل والوردية والمخزون مع إيصال عربي قابل للطباعة أو المشاركة، ورابط عام عشوائي يعرض الفاتورة المنقّحة فقط من دون بيانات العميل أو التكلفة والربح.
-- ذمم العملاء والموردين، المصروفات، الورديات وتقارير الإغلاق.
-- تقارير تشغيلية حقيقية للمبيعات والتكلفة والربح والمصروفات والذمم والمخزون وحركة الإدخال والإخراج حسب الفترة، مع طباعة RTL وحفظ PDF من المتصفح.
-- تسجيل دخول Supabase Auth، MFA للمستخدم المسجل به عامل، قفل بصمة الجهاز، وصلاحيات ERP على مستوى قاعدة البيانات.
-- PWA قابلة للتثبيت، إشعارات طلبات ومخزون، ونسخ احتياطي محلي مشفر مجدول.
-- فحص خارجي كل 30 دقيقة لرابطَي المتجر والإدارة عبر GitHub Actions، مع التحقق من
-  الاستجابة ورؤوس الحماية الأساسية؛ وDocker healthcheck محلي دائم لـ n8n.
+- كتالوج جملة مقسّط وبحث خادمي، عروض، أقسام، سلة وCheckout آمن.
+- Guest Order Gateway محمي بـTurnstile وrate limits وHMAC وidempotency، مع حد
+  50 بندًا وحجز مخزون ذري.
+- POS مرتبط بالوردية والعميل والمخزون، وإيصالات عامة منقحة.
+- الاستلام والمشتريات والموردون وWAC والمخزون والجرد والتحويلات.
+- ذمم العملاء والموردين وسندات القبض والدفع والمصاريف.
+- الطلبات والتوصيل والتتبع الآمن والمرتجعات.
+- أرشيف ورديات كامل وتقارير إغلاق ولقطات immutable للورديات الجديدة.
+- عكس وردية كامل للمالك/AAL2 ضمن Support Matrix المثبتة فقط.
+- تقارير المبيعات وCOGS والربح والمصاريف والذمم وحركات المخزون.
+- Business Alerts وDaily/Weekly Summaries، ومراقبة سلامة وأداء وأمان.
 
-## قواعد مهمة
+## قواعد لا يجوز تجاوزها
 
-- المتجر لا يحتاج حساب عميل؛ الطلب يُحفظ أولاً في Supabase ثم يُفتح WhatsApp.
-- موظف المحل نفسه يبدأ التوصيل ويختار وقت الوصول المتوقع؛ لا يلزم حساب أو تطبيق مستقل للسائق في المرحلة الحالية، ولا يوجد تتبع GPS خلفي للمندوب.
-- رقم الهاتف يربط الطلب بسجل العميل، لكن هوية قاعدة البيانات الداخلية تبقى UUID آمنة.
-- لا يوجد بيع تجزئة بالحبة. محتوى الطرد يُستخدم لتحويل الطرود إلى وحدات مخزون أساسية فقط.
-- لا تُعدّل أرصدة المخزون أو الحسابات مباشرة من React؛ كل حركة مالية أو مخزنية تمر عبر RPC ذري ومدقق.
-- لا تُحتسب ضريبة افتراضية داخل النظام. المبالغ المعروضة هي أسعار الجملة المحفوظة فعلياً.
+- PostgreSQL/RPCs المحمية هي مصدر الحقيقة؛ لا تعدّل المال أو المخزون من React.
+- لا تستخدم `service_role` أو كلمة مرور PostgreSQL داخل الواجهات أو n8n.
+- لا تطبق SQL يدويًا على Production ولا تعدّل migration تاريخية.
+- لا تشغّل `supabase db reset` على Production.
+- لا تنفذ Factory Reset لـDocker أو تحذف volumes كخطوة معالجة أولى.
+- لا تضع tokens أو Chat IDs أو كلمات مرور داخل Git أو logs أو الوثائق.
 
-## التشغيل والتحقق
+## تشغيل محلي
 
 ```powershell
 npm.cmd install
@@ -34,80 +50,56 @@ npm.cmd run dev
 npm.cmd run lint
 npm.cmd test
 npm.cmd run build
+
+npm.cmd --prefix customer-web install
+npm.cmd --prefix customer-web run dev
+npm.cmd --prefix customer-web run lint
+npm.cmd --prefix customer-web test
+npm.cmd --prefix customer-web run build
 ```
 
-المتجر موجود داخل `customer-web` ويُفحص بشكل مستقل:
-
-```powershell
-cd customer-web
-npm.cmd run lint
-npm.cmd test
-npm.cmd run build
-```
-
-### بوابة الجودة الآلية
-
-يعتمد المستودع أربع طبقات تحقق لا تغيّر بيانات Supabase ولا تنفّذ عمليات بيع أو
-مخزون:
-
-- **ESLint + TypeScript** لفحص أخطاء الكود وقواعد React وHooks.
-- **Playwright** لاختبار فتح متجر العملاء وبوابة الإدارة على Chromium وWebKit
-  بحجم هاتف.
-- **axe-core** لفحص مخالفات الوصول الخطرة داخل نفس اختبارات المتصفح.
-- **Gitleaks** لفحص الأسرار عند كل Push وPull Request داخل GitHub Actions.
-
-لتشغيل الحزمة الكاملة محليًا:
+الحزمة الكاملة:
 
 ```powershell
 npm.cmd run quality
 ```
 
-ولتكرار اختبار المتصفح أو فتح تقريره فقط:
+تغطي الجودة TypeScript وESLint واختبارات Admin وCustomer وPlaywright وaxe.
+تعمل GitHub Actions من:
 
-```powershell
-npm.cmd run test:e2e
-npm.cmd run test:e2e:report
-```
+- `.github/workflows/quality.yml`
+- `.github/workflows/secrets.yml`
+- `.github/workflows/public-uptime.yml`
+- `.github/workflows/developer-alerts.yml`
 
-تعمل بوابة الجودة في `.github/workflows/quality.yml`، وفحص الأسرار في
-`.github/workflows/secrets.yml`. لا تُضاف مفاتيح Supabase أو كلمات المرور إلى
-ملفات الاختبار أو GitHub؛ اختبارات الواجهات العامة للقراءة فقط.
+## Production وعمليات التشغيل
 
-## النشر والوثائق
+- Admin: <https://nawasrah-admin.pages.dev/>
+- Customer Store: <https://nawasrah-store.pages.dev/>
+- Admin deploy/check: `npm.cmd run deploy:admin` و`npm.cmd run deploy:admin:check`
+- Customer deploy: `npm.cmd --prefix customer-web run deploy:cloudflare`
+- Migration alignment: `npx supabase migration list`
+- Backup status: `npm.cmd run backup:status`
+- Backup verification: `npm.cmd run backup:verify`
+- Isolated restore drill: `npm.cmd run backup:restore-test`
+- n8n status: `powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\automation\n8n\status.ps1`
+- Developer monitoring status: `npm.cmd run monitoring:status`
 
-- تطبيق الإدارة: https://nawasrah-admin.pages.dev/
-- متجر الزبائن: https://nawasrah-store.pages.dev/
-- نشر الإدارة المعتمد يتم من فرع `main` النظيف فقط عبر
-  `npm.cmd run deploy:admin`. يتحقق الأمر أن SHA المحلي يطابق
-  `origin/main` ثم يمرر SHA نفسه إلى Cloudflare Pages كـ commit metadata.
-  للفحص دون بناء أو نشر استخدم `npm.cmd run deploy:admin:check`.
-- [خطة المشروع](./PROJECT_PLAN.md)
+لا تنشر من working tree متسخ. يجب أن تكون CI خضراء وأن يطابق SHA المحلي
+`origin/main`. نشر Admin يثبت SHA داخل Cloudflare metadata؛ وبالنسبة لكل تطبيق
+يُقارن deployment بآخر commit غيّر ملفات ذلك التطبيق، لا بمجرد أحدث docs commit.
+
+## الوثائق
+
+- [Handoff وتشغيل النظام](./docs/HANDOFF.md)
 - [المعمارية](./ARCHITECTURE.md)
 - [تصميم قاعدة البيانات](./DATABASE_DESIGN.md)
+- [حالة المشروع والمتبقي للإطلاق](./PROJECT_PLAN.md)
 - [نظام التصميم](./DESIGN_SYSTEM.md)
-- [دليل النسخ الاحتياطي](./scripts/backup/README.md)
-- [دليل الأتمتة والتنبيهات عبر n8n](./automation/n8n/README.md)
-
-## الأتمتة الاختيارية
-
-يعمل n8n محلياً داخل Docker كطبقة تنبيهات ومهام مساندة فقط. تبقى Supabase وRPCs المحمية مصدر الحقيقة الوحيد، ولا تُمنح n8n مفاتيح `service_role` أو اتصال PostgreSQL مباشر، ولا يُسمح لها بتعديل المخزون أو الحسابات خارج مسار النظام المعتمد.
-
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\automation\n8n\setup.ps1
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\automation\n8n\status.ps1
-```
-
-تلتقط Supabase أحداث طلب الموقع الجديد، ونقص/نفاد المخزون، وإغلاق الوردية في
-Outbox دائم. تسحبها Workflowات Telegram وWhatsApp عبر Edge Function بسر محدود
-ومشفّر داخل n8n، مع حالة تسليم مستقلة وإعادة محاولة لكل قناة. لا يحتوي n8n على
-مفتاح `service_role` أو كلمة مرور قاعدة البيانات. تبقى Workflowات الإرسال غير
-مفعلة حتى إدخال بيانات مزودي Telegram وMeta محلياً وإتمام اختبار يدوي ناجح.
-
-## مراقبة التوفر
-
-ملف `.github/workflows/public-uptime.yml` يفحص موقعي الإنتاج العامين كل 30
-دقيقة، ويمكن تشغيله فوراً من GitHub عبر **Actions → Nawasrah public uptime →
-Run workflow**. عند فشل الفحص تظهر نتيجة حمراء في GitHub؛ فعّل إشعارات فشل
-Actions من إعدادات حساب GitHub ليصل التنبيه إلى بريدك. لا يراقب هذا الفحص n8n
-من الإنترنت لأنه مربوط عمدًا بجهاز المحل فقط؛ Docker يعيد تشغيله عند الحاجة
-ويتحقق منه داخليًا كل 15 ثانية.
+- [Supabase](./supabase/README.md)
+- [الطلبات والحجوزات](./supabase/README-orders.md)
+- [النسخ والاستعادة](./scripts/backup/README.md)
+- [Developer Monitoring](./scripts/monitoring/README.md)
+- [n8n وBusiness delivery](./automation/n8n/README.md)
+- [Monitoring Runbooks](./docs/operations/MONITORING_RUNBOOKS.md)
+- [Privacy Data Map](./docs/operations/PRIVACY_DATA_MAP.md)

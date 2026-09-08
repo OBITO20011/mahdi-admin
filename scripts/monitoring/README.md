@@ -24,9 +24,11 @@ phone numbers, order contents, balances, or financial totals.
 - Supabase is queried read-only with the existing machine-protected backup
   credentials. n8n still receives no PostgreSQL password and no service-role
   key.
-- After migrations `099` and `100`, the same watchdog reads sanitized integrity counters
-  and publishes only allowlisted external health states to the owner-only Admin
-  dashboard. No Business row, amount, customer field, or credential is copied.
+- After migrations `099`–`101`, the same watchdog reads sanitized integrity
+  counters and publishes only allowlisted external health states to the
+  owner+AAL2 Admin dashboard. No Business row, customer field, credential, or
+  detailed financial payload is copied. Migration `102` also removes customer
+  identity/address/location from the new-order Business event before n8n sees it.
 
 ## Checks
 
@@ -76,6 +78,13 @@ persists only a sanitized PASS/FAIL result and removes its temporary ciphertext.
 Use `npm run monitoring:status` to inspect the task and active incident keys. It
 never outputs Telegram, Cloudflare, PostgreSQL, or backup credentials.
 
+Do not infer `Healthy` from an old registration file. Compare the Scheduled Task,
+the latest watchdog log, `incidents.json`, GitHub Actions, Cloudflare deployments,
+and the Admin Health Dashboard. At the 2026-09-08 handoff audit, recent watchdog
+logs existed but Task Scheduler enumeration returned no watchdog task and the
+incident state still contained unreconciled failures. Treat that as an open
+operational item until one scheduled SYSTEM run records clean checks/recoveries.
+
 ## Operational files
 
 - Configuration: `C:\ProgramData\NawasrahDeveloperMonitoring\config.json`
@@ -85,3 +94,8 @@ never outputs Telegram, Cloudflare, PostgreSQL, or backup credentials.
 Telegram delivery performs at most three attempts per run. Windows Task
 Scheduler ignores overlapping executions and the Node runner also uses an
 exclusive lock. There is no unbounded retry loop.
+
+The current Business Telegram recipient is intentionally not documented here.
+It is stored only in protected Business channel configuration and must be cut
+over to the real store owner during final handoff. Developer bot credentials and
+recipient remain separate.

@@ -1,221 +1,90 @@
-# دليل نظام العملاء والطلبات - Nawasrah Business Manager
+# دليل الطلبات والحجوزات
 
-هذا المستند يشرح الهيكلية البرمجية، ودورة حياة الطلب، والإجراءات المخزنة (RPCs) الخاصة بنظام العملاء والطلبات وإدارة المخزون الذرية.
+هذه الوثيقة تلخص العقد التشغيلي الحالي. migrations والدوال والاختبارات هي
+المصدر النهائي عند اختلاف أي وصف.
 
----
+## مسار Customer Store
 
-## 1. ترتيب تشغيل ملفات الهجرة (Migration Execution Order)
-
-عند تهيئة قاعدة بيانات Supabase من الصفر، يجب تنفيذ ملفات الـ SQL بالترتيب التالي:
-
-1. **`supabase/migrations/001_initial_schema.sql`**
-   - ينشئ الجداول الأساسية (الملفات الشخصية، الأدوار، الفروع، المستودعات، التصنيفات، العلامات التجارية، الوحدات، المنتجات، صور المنتجات، أرصدة المخزون، حركات المخزون، وسجل التدقيق).
-
-2. **`supabase/migrations/002_rls_policies.sql`**
-   - يفعل حماية الصلاحيات والأمان على مستوى الصفوف (Row Level Security - RLS) لكل الجداول.
-
-3. **`supabase/migrations/003_inventory_functions.sql`**
-   - ينشئ دوال الاستلام وإضافة المنتجات الذرية (`create_product_with_opening_stock` و `receive_inventory`).
-
-4. **`supabase/migrations/004_customers_orders.sql`** (الجديد)
-   - ينشئ جداول العملاء، عناوين التوصيل، الطلبات، عناصر الطلب، وسجل حالات الطلب.
-   - يوفر الـ RPCs الأربعة الرئيسية لربط متجر الزبائن ولوحة تحكم الإدارة.
-
----
-
-## 2. دورة حياة الطلب (Order Lifecycle)
-
-تمر الطلبات بالحالات التالية (`status`):
-
-```
-       [إنشاء الطلب] 
-            │
-            ▼
-        ┌───────┐
-        │  new  │ ──► (حجز المخزون: reserved_quantity + qty)
-        └───┬───┘
-            │ ── (confirm_order)
-            ▼
-      ┌───────────┐
-      │ confirmed │
-      └─────┬─────┘
-            │
-            ▼
-      ┌───────────┐
-      │ preparing │
-      └─────┬─────┘
-            │
-            ▼
-      ┌───────────┐
-      │   ready   │
-      └─────┬─────┘
-            │
-            ▼
-   ┌──────────────────┐
-   │ out_for_delivery │
-   └────────┬─────────┘
-            │ ── (complete_order)
-            ▼
-      ┌───────────┐
-      │ completed │ ──► (خصم نهائي: on_hand_quantity - qty ، تنقيص reserved_quantity)
-      └───────────┘
-
-   * في أي مرحلة قبل completed يمكن إلغاء الطلب عبر (cancel_order):
-     cancelled ──► (تحرير المحجوز: reserved_quantity - qty دون المساس بـ on_hand_quantity)
+```text
+public catalog/settings/offers
+  -> customer cart
+  -> bounded server cart snapshot
+  -> Turnstile token
+  -> submit-guest-order Edge Gateway
+  -> private submit_guest_customer_order contract
+  -> canonical create_customer_order transaction
+  -> customer/address + order/items + inventory reservation + history
+  -> receipt + random tracking token
 ```
 
----
+- لا يستدعي المتصفح canonical order creation مباشرة.
+- Gateway يتحقق من Turnstile وHMAC rate limits وidempotency.
+- الأسعار والخصومات ورسوم التوصيل والمخزون تحسب أو تتحقق خادميًا.
+- الحد الأقصى 50 line items في الواجهة والخادم.
+- رقم الهاتف يستخدم للربط التجاري؛ UUID هو هوية قاعدة البيانات.
 
-## 3. الفرق بين حجز المخزون (Reservation) والخصم النهائي (Deduction)
+## دورة الحالة
 
-- **عند إنشاء الطلب (`create_customer_order`)**:
-  - يتم التحقق من أن الكمية المتاحة `available_quantity = (on_hand_quantity - reserved_quantity)` كافية.
-  - يزداد `reserved_quantity` بمقدار الكميات المطلوبة.
-  - **لا يتغير** `on_hand_quantity` في هذه المرحلة (المنتج ما زال في المستودع).
+```text
+new -> confirmed -> preparing -> ready -> out_for_delivery -> completed
+  |          |          |         |              |
+  +----------+----------+---------+--------------+--> cancelled عند المسار المسموح
+  |
+  +--> expired فقط لطلب website/new الذي انتهت مهلة حجزه
 
-- **عند تأكيد الطلب (`confirm_order`)**:
-  - تتحول الحالة إلى `confirmed`.
-  - يظل المخزون محجوزاً دون خصم فعلي من الرصيد الموجود.
-
-- **عند تسليم وإكمال الطلب (`complete_order`)**:
-  - ينقص `on_hand_quantity` بمقدار الكمية المباعة.
-  - ينقص `reserved_quantity` بمقدار الكمية المحجوزة.
-  - تسجل حركة مخزنية في `inventory_movements` بنوع `sales_deduction`.
-  - تتم حماية الدالة لمنع إكمال الطلب أكثر من مرة واحدة.
-
-- **عند إلغاء الطلب (`cancel_order`)**:
-  - ينقص `reserved_quantity` بمقدار الكمية المحجوزة (تحرير المحجوز).
-  - **لا يتغير** `on_hand_quantity`.
-  - يمنع إلغاء الطلب إذا كانت حالته `completed`.
-
----
-
-## 4. أسماء الإجراءات المخزنة (RPCs) ومعاملاتها
-
-### أ. `create_customer_order`
-تُستخدم لإنشاء طلب جديد من متجر الزبائن أو التطبيق بشكل آمن.
-
-- **المعاملات (Parameters)**:
-  - `p_customer_full_name` (text, مطلوب)
-  - `p_customer_phone` (text, مطلوب)
-  - `p_customer_email` (text, اختياري)
-  - `p_governorate` (text, اختياري)
-  - `p_city` (text, اختياري)
-  - `p_area` (text, اختياري)
-  - `p_street` (text, اختياري)
-  - `p_building` (text, اختياري)
-  - `p_floor` (text, اختياري)
-  - `p_apartment` (text, اختياري)
-  - `p_address_notes` (text, اختياري)
-  - `p_latitude` (double precision, اختياري)
-  - `p_longitude` (double precision, اختياري)
-  - `p_formatted_address` (text, اختياري)
-  - `p_google_maps_url` (text, اختياري)
-  - `p_location_source` (text, افتراضي `'manual'`)
-  - `p_branch_id` (UUID, اختياري)
-  - `p_warehouse_id` (UUID, اختياري)
-  - `p_items` (JSONB, مطلوب، مثل: `[{"product_id": "...", "quantity": 2}]`)
-  - `p_delivery_fee_in_minor_units` (bigint, افتراضي `0`)
-  - `p_discount_in_minor_units` (bigint, افتراضي `0`)
-  - `p_customer_notes` (text, اختياري)
-  - `p_internal_notes` (text, اختياري)
-  - `p_source` (text, افتراضي `'website'`)
-
-- **النتيجة الراجعة**:
-  ```json
-  {
-    "success": true,
-    "order_id": "uuid...",
-    "order_number": "ORD-20260723-12345",
-    "subtotal": 15000,
-    "total": 17000,
-    "status": "new",
-    "message": "تم إنشاء الطلب وحجز الكميات بنجاح."
-  }
-  ```
-
----
-
-### ب. `confirm_order`
-تأكيد الطلب وبدء معالجته في المستودع.
-
-- **المعاملات**:
-  - `p_order_id` (UUID, مطلوب)
-  - `p_notes` (text, اختياري)
-
----
-
-### ج. `complete_order`
-إكمال الطلب وتسليمه للعميل وخصم المخزون النهائي.
-
-- **المعاملات**:
-  - `p_order_id` (UUID, مطلوب)
-  - `p_notes` (text, اختياري)
-
----
-
-### د. `cancel_order`
-إلغاء الطلب وإرجاع الكميات المحجوزة.
-
-- **المعاملات**:
-  - `p_order_id` (UUID, مطلوب)
-  - `p_notes` (text, اختياري)
-
----
-
-## 5. كيفية اختبار النظام (Testing Guide)
-
-يمكنك اختبار الإجراءات مباشرة من خلال **Supabase SQL Editor**:
-
-```sql
--- 1. تجربة إنشاء طلب زبون جديد
-SELECT public.create_customer_order(
-  p_customer_full_name := 'أحمد النواصرة',
-  p_customer_phone := '0791234567',
-  p_governorate := 'عمان',
-  p_city := 'عمان',
-  p_area := 'خلدا',
-  p_items := jsonb_build_array(
-    jsonb_build_object(
-      'product_id', (SELECT id FROM public.products LIMIT 1),
-      'quantity', 1
-    )
-  ),
-  p_delivery_fee_in_minor_units := 2000
-);
-
--- 2. تأكيد الطلب
-SELECT public.confirm_order(
-  p_order_id := 'حط_معرف_الطلب_هنا',
-  p_notes := 'تم الاتصال بالعميل وتأكيد العنوان'
-);
-
--- 3. إكمال الطلب وخصم المخزون
-SELECT public.complete_order(
-  p_order_id := 'حط_معرف_الطلب_هنا',
-  p_notes := 'تم التسليم وسداد المبلغ نقداً'
-);
-
--- 4. أو إلغاء الطلب إذا لزم الأمر
-SELECT public.cancel_order(
-  p_order_id := 'حط_معرف_الطلب_هنا',
-  p_notes := 'العميل قام بطلب الإلغاء قبل الشحن'
-);
+completed -> returned عبر مسار المرتجع المدقق فقط
 ```
 
----
+الحالات الفعلية: `new`, `confirmed`, `preparing`, `ready`,
+`out_for_delivery`, `completed`, `cancelled`, `returned`, `expired`.
 
-## 6. طلب الموقع العام والدفع والمتابعة
+## حجز المخزون
 
-- موقع الزبائن يستدعي `submit_guest_customer_order` فقط، وهي غلاف عام آمن يعيد استخدام منطق `create_customer_order` ولا يكتب المخزون مباشرة.
-- طريقة الدفع المسموحة للطلب العام هي `cash_on_delivery` أو `cliq`، وتُحفظ في `orders.payment_method` بحالة `unpaid` حتى تراجعها الإدارة.
-- `track_guest_order(order_number, customer_phone)` متاحة للزائر دون تسجيل دخول، لكنها لا تعيد نتيجة إلا عند تطابق رقم الطلب ورقم الهاتف معًا، ولا تكشف العنوان أو اسم العميل أو الملاحظات الداخلية.
-- `get_public_storefront_catalog` يمدد الكتالوج العام الموجود بوقت إضافة الصنف وإجمالي طرود المبيعات المكتملة خلال 90 يومًا، دون كشف تكلفة الشراء أو المورد.
+- إنشاء طلب الموقع يرفع `reserved_quantity` ولا يخفض `on_hand_quantity`.
+- confirmation/preparation/delivery يحافظ على الحجز.
+- completion يخفض `on_hand_quantity` ويحرر الحجز ويسجل الحركة مرة واحدة.
+- cancellation قبل الإكمال يحرر الحجز دون خصم فعلي.
+- طلب `website/new` الجديد يحصل على `reservation_expires_at = created_at + 5
+  hours`. Cron خاص كل خمس دقائق ينفذ batch bounded ويفشل مغلقًا عند mismatch.
+- الطلبات التاريخية السابقة لم تحصل على expiry backfill تلقائي.
+- idempotency والـrow locks تمنع duplicate order/release/deduction.
 
-## 7. دورة الإدارة المبسطة والتسوية والذمم
+## التتبع العام
 
-- `accept_order_for_preparation` ينفذ قبول الطلب وبدء التجهيز بزر واحد، مع إبقاء حجز المخزون وسجل حالتي `confirmed` و`preparing` عبر الدوال الأصلية.
-- `start_or_update_order_delivery` يسمح ببدء التوصيل مباشرة من `preparing`، ويسجل مرحلة `ready` داخليًا قبل `out_for_delivery` حتى يبقى سجل الطلب كاملًا.
-- `complete_website_order_with_settlement` هي نقطة التسليم والحساب الموحدة لطلبات الموقع. تستقبل أجرة التوصيل، والمبلغ المقبوض، وطريقة القبض (`cash` أو `cliq` أو `debt`) داخل معاملة واحدة.
-- إذا كان المقبوض أقل من الإجمالي، يُربط المتبقي تلقائيًا بذمة العميل على الطلب نفسه. أي مبلغ مقبوض يُسجل بواسطة `record_customer_order_payment` حتى يظهر في سندات القبض والوردية.
-- تسديد الذمة لاحقًا يتم من شاشة ذمم العملاء، ويستدعي `record_customer_order_payment` بدل تعديل رصيد الطلب مباشرة.
+- `track_guest_order_by_token` يستخدم token عشوائيًا خاصًا بالطلب.
+- fallback `track_guest_order` يحتاج رقم الطلب **مع** الهاتف؛ الرقم وحده لا يكفي.
+- الرد العام لا يعرض العنوان أو اسم العميل أو الملاحظات الداخلية أو التكلفة أو
+  الربح.
+- refresh يجلب آخر حالة، ولا يوجد polling دائم غير ضروري.
+
+## عمليات Admin
+
+- قبول وتجهيز وتوصيل وإكمال وإلغاء الطلب تمر عبر RPCs المصادق عليها.
+- تسليم website order وتسويته يستخدم contract موحدًا لتحديث المخزون والتحصيل
+  Cash/CliQ أو الذمة داخل المعاملة المناسبة.
+- تفاصيل الطلب تُجلب عند فتحه، بينما القائمة تستخدم server-side pagination
+  وstable ordering وفلاتر خادمية.
+- realtime يسبب targeted refresh ولا يعيد تحميل كامل التاريخ.
+
+## الخصوصية والتنبيهات
+
+- البيانات الشخصية تبقى داخل customer/order/address records المحمية.
+- migration `102` تمنع الاسم والهاتف والعنوان والموقع والملاحظات من new-order
+  Business automation payload.
+- Web Push والتنبيه التقني لا يعرضان هوية العميل أو عنوانه.
+- راجع [Privacy Data Map](../docs/operations/PRIVACY_DATA_MAP.md).
+
+## الاختبار الآمن
+
+لا تستخدم أمثلة SQL التي تنشئ طلبًا على Production. استخدم بيئة Supabase
+معزولة وتشغيل الاختبارات الرسمية:
+
+```powershell
+npm.cmd run test:db:isolated
+npm.cmd test
+npm.cmd --prefix customer-web test
+npm.cmd run test:e2e
+```
+
+أي اختبار يحتاج كتابة على Production يجب أن يكون read-only أو داخل transaction
+تنتهي بـ`ROLLBACK` وبعد موافقة صريحة، ولا يستخدم بيانات عميل حقيقية كـfixture.

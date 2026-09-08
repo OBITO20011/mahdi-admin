@@ -2,93 +2,120 @@
 
 ## الحالة الحالية
 
-نواصرة نظام جملة عربي RTL يتكون من تطبيقين مستقلين يشتركان في مشروع Supabase واحد:
+النظام يتكون من تطبيقين React 19/TypeScript يشتركان في Supabase واحد:
 
-- `src/`: تطبيق الإدارة والمبيعات المباشرة والمخزون والحسابات.
-- `customer-web/src/`: متجر العملاء العام للطرود بالجملة، من دون حساب عميل.
+- `src/`: Admin للطلبات وPOS والمخزون والتوريد والحسابات والورديات والتقارير.
+- `customer-web/src/`: متجر عام للطلبات بالجملة من دون حساب عميل.
 
-لا توجد بيانات تشغيلية موثوقة داخل Zustand أو LocalStorage. الحالة المحلية تقتصر على التنقل والواجهة والسلة وتفضيلات الجهاز. مصدر الحقيقة للمنتجات والمخزون والطلبات والذمم والورديات والحسابات هو PostgreSQL في Supabase.
+المخطط الحي والمستودع متطابقان من migration `001` حتى `102`. PostgreSQL هو
+مصدر الحقيقة؛ Zustand وLocalStorage يحتفظان بحالة واجهة وسلة وتفضيلات جهاز
+محدودة فقط.
 
-## طبقات التطبيق
+## مخطط الطبقات
 
 ```text
-المستخدم / العميل
-        |
-React 19 + TypeScript + واجهة RTL متجاوبة
-        |
-خدمات Typed في src/services و customer-web/src/services
-        |
-Supabase Auth / RPCs / دوال قراءة عامة آمنة
-        |
-PostgreSQL: RLS + SECURITY DEFINER RPCs + triggers + audit/movement records
-        |
-Outbox دائم للتنبيهات --> Edge Function محدود --> n8n محلي --> Telegram / WhatsApp
+Admin / Customer Store (React + TypeScript + RTL)
+              |
+      typed services / Edge Gateway
+              |
+Supabase Auth + RLS + protected/public-minimal RPCs
+              |
+PostgreSQL transactions + movements + audit + outbox + cron
+       |                                  |
+       |                                  +--> Business n8n plane
+       |                                       --> Business Telegram
+       |
+       +--> sanitized monitoring RPCs
+            --> Windows Developer Watchdog / GitHub Actions
+            --> developer-only Telegram
+            --> owner+AAL2 read-only Health Dashboard
+
+Cloudflare Pages hosts Admin and Customer Store.
+Encrypted ERP/n8n backups are stored outside runtime data and verified by drills.
 ```
 
-## قواعد مصدر الحقيقة
+## حدود المسؤولية
 
-1. React لا يكتب أرصدة المخزون أو القيود أو الذمم مباشرة.
-2. كل عملية تغير المال أو المخزون تمر عبر RPC ذرية ومراجعة الصلاحية داخل قاعدة البيانات.
-3. المخزون يحتفظ بوحدة أساسية داخلية؛ الشراء والبيع يتمان بطرود كاملة فقط.
-4. الطلب العام يحفظ في Supabase قبل فتح WhatsApp، ويستخدم مفتاح منع التكرار.
-5. n8n طبقة إرسال وتنبيه فقط. لا يملك كلمة مرور PostgreSQL أو `service_role` ولا يغير جداول ERP.
+1. React لا يكتب أرصدة أو قيودًا أو ذممًا مباشرة.
+2. العمليات المالية والمخزنية تمر عبر RPCs ذرية وتُسجل في movements/audit.
+3. Checkout العام يمر عبر `submit-guest-order`، ويتحقق من Turnstile ثم يستدعي
+   العقد الخادمي الخاص؛ canonical order creation ليس متاحًا مباشرة للـanonymous.
+4. n8n طبقة Business delivery فقط، بلا PostgreSQL credentials أو `service_role`.
+5. Developer Alerts لا تمر عبر n8n حتى تستمر عند توقفه، ولا تحمل PII أو مبالغ
+   Business تفصيلية.
+6. Health Dashboard للقراءة فقط؛ monitoring لا يصلح البيانات تلقائيًا.
 
-## تطبيق الإدارة
+## Admin
 
-- Supabase Auth مع دور ERP فعّال، Turnstile في الدخول، وMFA للمستخدم الذي سجّل عاملًا.
-- قفل بصمة اختياري محلي بعد مصادقة Supabase؛ كلمة المرور أو MFA يبقيان طريق الاستعادة عند غياب البصمة.
-- الشاشات الثقيلة ومركز النوافذ محملة عند الحاجة عبر `React.lazy`، ولا تبدأ
-  قراءات التشغيل قبل اكتمال المصادقة. الطلبات المتطابقة تُدمج، والصفحة
-  الرئيسية تملك مهلة انتهاء واضحة بدل شاشة تحميل لا تنتهي.
-- مراقبة Sentry تبقى فعالة عبر مستمعين أصليين خفيفين، لكن حزمة SDK لا تُنزّل
-  في الجلسة السليمة؛ تُحمّل فقط عند وقوع خطأ React أو خطأ متصفح فعلي.
-- البيع المباشر، الموردون، المخزون، الجرد، المصروفات، الورديات، الذمم والتقارير تستخدم خدمات Supabase منفصلة ومكتوبة الأنواع.
-- إدارة حسابات الموظفين والمالكين تتم من شاشة محمية عبر Edge Function؛ إنشاء مالك نظام جديد محصور بمالك نظام حالي.
-- مساعد الإدارة يستقبل سياقًا تشغيليًا محدودًا من RPCs الآمنة لقراءة المخزون والأسعار والذمم والتقارير، ولا ينفذ حركات مالية أو مخزنية.
-- PWA وإشعارات الويب لا تخزّن بيانات Supabase الحساسة في Service Worker.
+- Supabase Auth وRBAC وRLS وMFA/AAL2 للعمليات الحساسة.
+- الطلبات والمخزون وCRM والمشتريات والاستلام والدفعات والورديات تقرأ صفحات
+  وفلاتر خادمية، ولا تحمل السجل التاريخي كاملًا.
+- Orders realtime يستخدم targeted invalidation/refetch مع بقاء تفاصيل الطلب
+  محملة عند الحاجة.
+- Shift Archive مقسّط ومحمي، وclosing snapshot للورديات الجديدة immutable.
+- Full Shift Reversal للمالك/AAL2 ويفشل قبل الكتابة عند وجود عملية غير مدعومة.
+- Health Dashboard يعرض `Healthy / Warning / Critical / Unknown` وملخصات
+  sanitized للمطور، من دون credentials أو PII.
 
-## متجر العملاء
+## Customer Store
 
-- يقرأ كتالوجًا عامًا لا يعرض تكلفة الشراء أو المورد أو ربح المحل.
-- الكتالوج العام يستخدم pagination والبحث والفلترة من PostgreSQL على كامل الكتالوج؛ لا يعتمد على حد عميل ثابت أو تحميل جميع الأصناف إلى المتصفح.
-- يعرض وحدات بيع جملة كاملة، المخزون المتاح، الأقسام وصورها، والعروض المميزة عبر استجابة خادمية واحدة محدودة.
-- إنشاء طلب الضيف يمر عبر Edge Gateway محمي بـTurnstile وحدود إساءة استخدام ومعرّفات HMAC، بينما يبقى RPC الإنشاء الفعلي خاصًا؛ حد الطلب متطابق خادميًا وفي الواجهة عند 50 بندًا.
-- يدعم كاش عند الاستلام أو CliQ، رسوم منطقة التوصيل، حفظًا اختياريًا للبيانات على جهاز العميل، التتبع برمز عشوائي وإيصالًا عامًا منقحًا. حقول المحافظة والمدينة والمنطقة مطلوبة، وتفاصيل التوصيل الحرة اختيارية.
-- يطلب الموقع الحالي فقط بعد ضغط العميل، ويمكنه إدخال رابط موقع مختلف.
+- كتالوج عام مقسّط، بحث خادمي، deep links نظيفة، merchandising محدود، وسلة
+  تتحقق من السعر والمخزون عند الفتح وقبل Checkout.
+- Guest Order Gateway محمي بـTurnstile وHMAC rate limits وidempotency.
+- الحد الأقصى 50 line items؛ السعر والخصم والرسوم والمخزون تحسب خادميًا.
+- طلب `website/new` يحجز المخزون خمس ساعات ثم يصبح eligible للانتهاء الذري إذا
+  بقي في الحالة نفسها. لا يوجد backfill تلقائي للطلبات التاريخية.
+- التتبع يتطلب token عشوائيًا أو رقم الطلب مع الهاتف؛ رقم الطلب وحده لا يكفي.
+- سياسة الخصوصية متاحة من Footer وCheckout، والتخزين الاختياري لبيانات العميل
+  مدته 30 يومًا ولا يحتفظ بملاحظات الطلب.
 
-## قاعدة البيانات والأمان
+## Supabase وعمليات الخلفية
 
-- مصدر المخطط هو `supabase/migrations/001...100`، ويجب مقارنة المجلد مع قاعدة البيانات الحية عبر `npx supabase migration list` قبل أي تغيير.
-- الجداول المحمية تعتمد RLS، والدوال الحساسة تتحقق من المستخدم والدور وMFA عند الحاجة.
-- المفتاح المضمّن في الواجهتين هو Publishable key فقط. مفاتيح الإدارة موجودة في Edge Functions أو بيئات آمنة فقط.
-- سجلات الحركات والتدقيق تحفظ سبب العملية ومنفذها وتاريخها؛ الإلغاء والعكس لا يزيلان التاريخ المالي أو المخزني.
-- عكس الوردية الكامل محصور بالمالك مع AAL2، ويدعم فقط العمليات المثبتة؛ أي dependency غير آمنة تمنع المعاملة قبل الكتابة.
-- طلبات الموقع الجديدة تحجز المخزون لخمس ساعات. دالة خاصة مجدولة تنهي فقط الطلب الذي بقي `website/new` وتحرر حجزه مرة واحدة؛ الطلبات التاريخية لم تُعطَ expiry افتراضيًا.
-- تنبيهات الأعمال تستخدم الـoutbox نفسها ولا تمنح n8n وصولًا لقاعدة البيانات. انتقال الطلب فعليًا إلى `expired` وتأخر أمر شراء عن `expected_delivery_date` مفعّلان؛ الحدود غير المعتمدة مثل قرب الانتهاء ووقت إغلاق الوردية وحد المصروف تبقى `NULL` ومقفلة حتى اعتمادها.
-- ملخصات الأعمال اليومية والأسبوعية تُبنى خادميًا من صيغ التقرير التشغيلي المعتمدة، وتُسجل بفترة فريدة في الـoutbox نفسها. الجدولة الافتراضية 08:00 لليوم السابق و09:00 صباح الاثنين للأسبوع السابق بتوقيت `Asia/Amman`، ولا تُنشئ backfill لفترات بدأت قبل التفعيل.
-- أرشيف الورديات مقسّط ومحمي، والورديات الجديدة المغلقة تحفظ لقطة تقرير إغلاق immutable داخل معاملة الإغلاق؛ الورديات القديمة تبقى بتقرير legacy المحسوب.
-- شاشات السجل التشغيلي الثقيل (الطلبات، المخزون، CRM، أوامر الشراء، سندات استلام الموردين، دفعات الموردين وذمم العملاء) تقرأ صفحات وفلاتر خادمية مقيدة بالدور؛ لا تحمّل السجل التاريخي كاملًا ثم تصفيه في React.
+- RLS على الجداول المحمية، و`SECURITY DEFINER` مع `search_path` مقيد حيث يلزم.
+- crons الخاصة بانتهاء الحجز وتنظيف rate-limit وتنبيهات الأعمال والملخصات
+  والمراقبة تعمل بدفعات محدودة وبلا grants للمتصفح.
+- Business Alerts تستخدم outbox واحدة مع lease وbounded retry وdead-letter.
+- الملخص اليومي 08:00 لليوم السابق، والأسبوعي 09:00 صباح الاثنين للأسبوع
+  السابق بتوقيت `Asia/Amman`.
+- migrations `099`–`101` تضيف Business Integrity/Health monitoring وتصحيحاته؛
+  migration `102` تقلل payload الطلب الجديد قبل خروجه إلى automation.
 
-## التشغيل والنشر
+## قناتا التنبيه
 
-- الإدارة: https://nawasrah-admin.pages.dev/
-- المتجر: https://nawasrah-store.pages.dev/
-- Supabase هو الاستضافة الحية لقاعدة البيانات؛ Docker محلي فقط لـ n8n وفحص الاستعادة المعزول.
-- النسخة الاحتياطية اليومية المشفرة تعمل بحساب Windows `SYSTEM` وبأدوات PostgreSQL الأصلية، من دون جلسة مستخدم أو Docker Desktop. لديها تشغيل يومي، catch-up بعد إقلاع النظام، ومحاولات فشل محدودة ومسجلة.
-- نسخة n8n اليومية المشفرة تعمل بحساب `SYSTEM`، ولا تُنشر إلا بعد Restore Drill معزول يفتح قاعدة SQLite المستعادة؛ حالتها وسجلاتها خارج volumes الخاصة بـn8n.
-- فحص الأرشيف لا يكفي وحده؛ يجب تنفيذ استعادة معزولة دورية عبر `npm.cmd run backup:restore-test`.
+### Developer plane
 
-## التحقق قبل التسليم
+- Windows Watchdog وGitHub Actions يرسلان incidents تقنية للمطور فقط.
+- يراقب Docker/n8n والنسخ والاستعادة وcron وCI/Uptime/Cloudflare وDB/RPC
+  والأمان وسلامة الأعمال.
+- deduplication وcooldown وrecovery وbounded retry مطبقة.
 
-```powershell
-npm.cmd test
-npm.cmd run lint
-npm.cmd run build
+### Business plane
 
-cd customer-web
-npm.cmd test
-npm.cmd run lint
-npm.cmd run build
-```
+- Supabase outbox → Edge Function scoped → n8n → Business Telegram.
+- طلبات ومخزون وورديات وحالات شراء وتنبيهات وملخصات يومية/أسبوعية.
+- التفاصيل الإدارية تبقى داخل Admin؛ لا تُرسل PII في developer incidents.
+- credentials والمستلم منفصلان تقنيًا عن Developer plane. Cutover المستلم
+  المؤقت إلى صاحب المحل الحقيقي مؤجل للتسليم النهائي.
 
-هذه الوثيقة تصف النظام التشغيلي الحالي، وليست وصفًا لنسخة محاكاة أو خطة أولية.
+## Backup وRecovery
+
+- ERP backup يومي مشفر AES-256-GCM تحت `SYSTEM` باستخدام PostgreSQL 17 native
+  tools، مع checksums وretention محدود وstatus/log خارج Docker.
+- n8n backup مشفر يشمل بياناته وملفات الاعتماد المشفرة اللازمة للاستعادة، ولا
+  يُنشر إلا بعد verification/restore check.
+- Restore Drill يعيد ERP إلى PostgreSQL container معزول ولا يلمس Supabase الحية.
+- Docker Safe Startup يعالج runtime socket failure بتدخل bounded؛ لا يلمس VHDX
+  أو images أو volumes ولا يستخدم Factory Reset.
+
+## الخصوصية
+
+راجع [docs/operations/PRIVACY_DATA_MAP.md](./docs/operations/PRIVACY_DATA_MAP.md).
+لا تحمل Developer Alerts بيانات العملاء، وBusiness new-order payload لا يحمل
+اسمًا أو هاتفًا أو عنوانًا أو موقعًا بعد migration `102`. هذا توصيف تقني وليس
+ادعاء توافق قانوني كامل.
+
+## التشغيل والتسليم
+
+الإجراءات والأوامر وحالة Production الحالية موجودة في
+[docs/HANDOFF.md](./docs/HANDOFF.md). لا تُستخدم هذه الوثيقة بدل migrations أو
+التحقق الحي من CI/deployments/incidents.

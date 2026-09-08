@@ -40,6 +40,9 @@ not a legal opinion and does not claim complete legal compliance.
 - **n8n / Telegram / WhatsApp Business automation:** owner-only operational
   events and summaries. New-order events are minimized before leaving the
   database and contain no customer name, phone, address, notes, or location.
+  The current Business Telegram recipient is temporary and stored only in
+  protected local configuration; final cutover to the actual store owner is a
+  handoff task. No recipient ID is recorded in public documentation.
 - **Web Push:** staff opt-in endpoint; order alerts contain the order number and
   a generic action only.
 - **Customer-initiated WhatsApp:** only when the customer chooses the WhatsApp
@@ -89,6 +92,8 @@ No automatic Production deletion of Business data is introduced by this pass.
 6. Decide which ERP roles genuinely need full customer contact/address access;
    current policy grants read access to every active ERP staff role, while UI
    navigation and mutation RPCs apply narrower operational permissions.
+7. Approve and perform the Business Telegram recipient cutover to the actual
+   store owner, keeping the developer bot and recipient separate.
 
 These decisions should be reviewed against Jordan's Personal Data Protection
 Law No. 24 of 2023 and its current implementing regulations by qualified local

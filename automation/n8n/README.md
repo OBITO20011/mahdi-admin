@@ -6,7 +6,8 @@ mutations. n8n must never update ERP tables directly.
 
 ## First setup
 
-1. Keep Docker Desktop running.
+1. Verify `Nawasrah Docker Safe Startup` and Docker Server health. Do not start
+   with Factory Reset or delete the n8n volume when Docker itself fails.
 2. From PowerShell run:
 
    ```powershell
@@ -35,7 +36,7 @@ Supabase feed secret inside one AES-256-GCM encrypted `.nwb` archive. It reuses 
 passphrase from the existing Nawasrah backup configuration and verifies the
 encrypted archive before publishing it to the configured backup folder.
 
-The production schedule is registered with:
+The intended production schedule is registered with:
 
 ```powershell
 .\automation\n8n\register-backup-schedule.ps1
@@ -49,6 +50,18 @@ database by the n8n CLI. Status and bounded daily logs live in
 `C:\ProgramData\NawasrahN8nBackup`, outside the n8n volumes. The newest 30
 archives are retained (or the configured ERP retention count); overlapping
 runs are locked and Task Scheduler ignores a second instance.
+
+Always verify current registration and last result instead of trusting an old
+registration file:
+
+```powershell
+schtasks.exe /Query /TN "Nawasrah n8n Daily Backup" /FO LIST /V
+Get-Content C:\ProgramData\NawasrahN8nBackup\last-status.json
+```
+
+At the 2026-09-08 handoff audit the latest encrypted n8n archive was verified,
+but Task Scheduler did not enumerate this task although a prior registration
+record existed. This is an open operational item in `docs/HANDOFF.md`.
 
 ## Security boundary
 
@@ -100,6 +113,13 @@ Business recipient and hardened delivery lifecycle, and never goes to the
 Developer bot. Developer monitoring receives only missed-period and overdue
 delivery counts when a summary fails.
 
+Migrations `099`–`101` add the owner+AAL2 Health Dashboard, read-only Business
+Integrity/performance/security checks, and correct incident ownership and
+supplier-receipt monitoring. Migration `102` removes customer name, phone,
+address, notes, and location from the new-order payload before it leaves
+PostgreSQL. Business delivery failures expose only sanitized technical counts
+to Developer Monitoring.
+
 The shared secret is generated in the protected ignored `.env.feed` file. It is
 uploaded to Supabase with `supabase secrets set --env-file` and imported into
 n8n as the encrypted `Nawasrah Supabase Alert Feed` Header Auth credential. It
@@ -107,7 +127,7 @@ is never stored in a workflow JSON file.
 
 ## Alert workflows
 
-The repository contains two inactive workflows in
+The repository contains two workflow definitions in
 `workflows/nawasrah-alerts.json`:
 
 1. `Nawasrah ERP - Telegram Alerts`
@@ -118,18 +138,21 @@ message, and acknowledge Supabase only after the channel succeeds. A provider
 failure leaves the leased event available for a safe retry.
 
 Notification destinations are centralized in the protected ignored
-`.env.channels` file. The initial WhatsApp recipient is `0772838886` in local
-format and `962772838886` in international format. Telegram uses its numeric
-Chat ID instead of a phone number. `import-workflows.ps1` validates these
-values and substitutes them into a temporary workflow copy, so the private
-Telegram Chat ID is never stored in the repository workflow template.
+`.env.channels` file. Telegram uses its numeric Chat ID and WhatsApp uses the
+approved international recipient format. `import-workflows.ps1` validates these
+values and substitutes them into a temporary workflow copy, so recipient IDs
+are never stored in the repository workflow template or documentation.
 
-Both workflows must stay inactive until their provider credentials are added:
+Current production intent:
 
-- Telegram: a BotFather token saved as a Telegram API credential, then the
-  target user opens the bot chat and the Chat ID is selected.
-- WhatsApp: an official Meta WhatsApp Business Cloud credential and Sender
-  Phone Number ID. Meta template/session rules still apply to outbound text.
+- Telegram Business delivery is live with encrypted n8n credentials and the
+  current temporary Business recipient. Cutover to the real store-owner Chat ID
+  is deferred to final handoff; do not record either ID in Git.
+- WhatsApp remains inactive until an official Meta WhatsApp Business Cloud
+  credential, Sender Phone Number ID, recipient, and template/session policy
+  are approved and tested.
+- Developer Telegram is a separate bot/recipient and is never configured in
+  `.env.channels` or routed through these workflows.
 
 To re-import them after a restore:
 
@@ -140,8 +163,14 @@ To re-import them after a restore:
 
 Always run a manual execution successfully before publishing either workflow.
 
-## First production events
+## Live Business coverage
 
-1. New website order notification.
-2. Low/out-of-stock notification.
-3. Closed-shift summary.
+- New website orders, low/out-of-stock, and shift close/cash discrepancy events.
+- Expired website orders and overdue purchase orders with trusted due dates.
+- Configurable incident types whose unapproved thresholds remain disabled.
+- Daily and weekly aggregate Business summaries.
+- Business-integrity warning summaries when a real invariant is violated.
+
+Details stay in Admin to avoid alert fatigue. Delivery uses one outbox with
+per-channel leases, deduplication, bounded retry, dead-letter, and latency
+monitoring.
