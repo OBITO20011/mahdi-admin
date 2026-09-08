@@ -351,7 +351,7 @@ export const ProductsView: React.FC = () => {
             <AlertTriangle className="h-4 w-4 text-amber-400" />
             <div>
               <p className="font-black text-amber-200">مخزون يحتاج انتباهك</p>
-              <p className="text-[9px] text-slate-500">
+              <p className="text-[9px] text-slate-400">
                 {metrics.lowStock} منخفض • {metrics.outOfStock} نافد
               </p>
             </div>
@@ -402,6 +402,7 @@ export const ProductsView: React.FC = () => {
 
         <div className="grid grid-cols-3 gap-1.5">
           <select
+            aria-label="تصفية المنتجات حسب القسم"
             value={selectedCategory}
             onChange={(event) => setSelectedCategory(event.target.value)}
             className="min-w-0 rounded-xl border border-slate-800 bg-slate-900 px-2 py-2 text-[10px] font-bold text-slate-300 outline-none"
@@ -414,6 +415,7 @@ export const ProductsView: React.FC = () => {
             ))}
           </select>
           <select
+            aria-label="تصفية المنتجات حسب حالة المخزون"
             value={statusFilter}
             onChange={(event) =>
               setStatusFilter(event.target.value as StatusFilter)
@@ -429,6 +431,7 @@ export const ProductsView: React.FC = () => {
           <label className="relative">
             <ArrowUpDown className="pointer-events-none absolute right-2 top-1/2 h-3 w-3 -translate-y-1/2 text-slate-500" />
             <select
+              aria-label="ترتيب المنتجات"
               value={sortBy}
               onChange={(event) =>
                 setSortBy(event.target.value as SortOption)
@@ -469,7 +472,7 @@ export const ProductsView: React.FC = () => {
         <div className="flex min-h-40 items-center justify-center rounded-3xl border border-slate-800 bg-slate-950">
           <div className="text-center">
             <RefreshCw className="mx-auto h-6 w-6 animate-spin text-blue-400" />
-            <p className="mt-2 text-[10px] font-bold text-slate-500">
+            <p className="mt-2 text-[10px] font-bold text-slate-400">
               جاري تحميل المنتجات...
             </p>
           </div>
@@ -480,7 +483,7 @@ export const ProductsView: React.FC = () => {
           <h4 className="mt-3 font-black text-slate-200">
             لا توجد منتجات مطابقة
           </h4>
-          <p className="mt-1 text-[10px] text-slate-500">
+          <p className="mt-1 text-[10px] text-slate-400">
             غيّر البحث أو أضف أول منتج لهذا القسم
           </p>
           <button
@@ -492,7 +495,7 @@ export const ProductsView: React.FC = () => {
           </button>
         </div>
       ) : (
-        <div className="space-y-2.5">
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-2 xl:grid-cols-3">
           {filteredProducts.map((product) => (
             <ProductCatalogCard
               key={product.id}
@@ -526,7 +529,7 @@ const HeroMetric: React.FC<{
   };
   return (
     <div className="min-w-0 border-l border-white/5 px-2 py-3 text-center last:border-l-0">
-      <span className="block text-[8px] font-bold text-slate-500">{label}</span>
+      <span className="block text-[8px] font-bold text-slate-400">{label}</span>
       <strong className={`mt-0.5 block truncate text-[10px] ${colors[tone]}`}>
         {value}
       </strong>
@@ -568,6 +571,7 @@ const ProductCatalogCard: React.FC<{
 
   return (
     <article
+      data-product-catalog-card={product.id}
       className={`overflow-hidden rounded-3xl border bg-slate-950 transition ${
         product.status === 'hidden'
           ? 'border-slate-800 opacity-70'
@@ -577,10 +581,10 @@ const ProductCatalogCard: React.FC<{
       <button
         type="button"
         onClick={onView}
-        className="w-full p-3 text-right"
+        className="w-full p-2 text-right sm:p-3"
       >
-        <div className="flex items-start gap-3">
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-slate-800 bg-slate-900">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:gap-3">
+          <div className="flex h-20 w-full shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 sm:h-16 sm:w-16">
             {product.imageUrl && !imageFailed ? (
               <img
                 src={product.imageUrl}
@@ -596,13 +600,13 @@ const ProductCatalogCard: React.FC<{
           <div className="min-w-0 flex-1">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0">
-                <p className="mb-1 text-[9px] font-bold text-blue-400">
+                <p className="mb-0.5 truncate text-[8px] font-bold text-blue-400 sm:mb-1 sm:text-[9px]">
                   {categoryName}
                 </p>
-                <h4 className="truncate text-sm font-black text-slate-100">
+                <h4 className="line-clamp-2 text-[11px] font-black leading-4 text-slate-100 sm:text-sm">
                   {product.nameAr}
                 </h4>
-                <p className="mt-0.5 truncate font-mono text-[9px] text-slate-500">
+                <p className="mt-0.5 truncate font-mono text-[8px] text-slate-400 sm:text-[9px]">
                   {product.sku}
                   {product.barcode ? ` • ${product.barcode}` : ''}
                 </p>
@@ -614,20 +618,20 @@ const ProductCatalogCard: React.FC<{
               </span>
             </div>
 
-            <div className="mt-2 flex items-end justify-between rounded-xl border border-slate-800 bg-slate-900/70 px-2.5 py-2">
-              <div>
-                <span className="block text-[8px] font-bold text-slate-500">
+            <div className="mt-2 grid grid-cols-1 gap-1 rounded-xl border border-slate-800 bg-slate-900/70 px-2 py-1.5 sm:grid-cols-2 sm:px-2.5 sm:py-2">
+              <div className="min-w-0">
+                <span className="block text-[8px] font-bold text-slate-400">
                   المتاح
                 </span>
-                <strong className="text-[11px] text-amber-300">
+                <strong className="block truncate text-[10px] text-amber-300 sm:text-[11px]">
                   {inventory.totalPiecesFormatted}
                 </strong>
               </div>
-              <div className="text-left">
-                <span className="block text-[8px] font-bold text-slate-500">
+              <div className="min-w-0 text-right sm:text-left">
+                <span className="block text-[8px] font-bold text-slate-400">
                   طرد الشراء
                 </span>
-                <strong className="text-[10px] text-slate-300">
+                <strong className="block truncate text-[9px] text-slate-300 sm:text-[10px]">
                   {product.purchasePackage || product.unit} ×{' '}
                   {product.unitsPerPackage || 1}
                 </strong>
@@ -643,7 +647,7 @@ const ProductCatalogCard: React.FC<{
             type="button"
             aria-expanded={areFlavorsExpanded}
             onClick={() => setAreFlavorsExpanded((current) => !current)}
-            className="flex w-full items-center justify-between rounded-xl px-1.5 py-1.5 text-right transition hover:bg-indigo-500/5"
+            className="flex min-h-11 w-full items-center justify-between gap-1 rounded-xl px-1 py-1.5 text-right transition hover:bg-indigo-500/5 sm:px-1.5"
           >
             <span className="flex items-center gap-2">
               <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-300">
@@ -653,7 +657,7 @@ const ProductCatalogCard: React.FC<{
                 <strong className="block text-[10px] text-indigo-200">
                   {flavors.length.toLocaleString('ar-JO')} نكهات
                 </strong>
-                <span className="text-[8px] text-slate-500">
+                <span className="text-[8px] text-slate-400">
                   اضغط لعرض رصيد كل نكهة
                 </span>
               </span>
@@ -676,7 +680,7 @@ const ProductCatalogCard: React.FC<{
                 return (
                   <div
                     key={flavor.id}
-                    className="flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/70 p-2"
+                    className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/70 p-2"
                   >
                     <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-slate-950">
                       {flavor.imageUrl ? (
@@ -708,7 +712,7 @@ const ProductCatalogCard: React.FC<{
                     <button
                       type="button"
                       onClick={() => onReceiveFlavor(flavor.id)}
-                      className="flex h-8 items-center gap-1 rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-2 text-[8px] font-black text-indigo-300"
+                      className="flex min-h-11 w-full items-center justify-center gap-1 rounded-lg border border-indigo-500/20 bg-indigo-500/10 px-2 text-[8px] font-black text-indigo-300 sm:w-auto"
                     >
                       <Truck className="h-3 w-3" />
                       استلام
@@ -719,7 +723,7 @@ const ProductCatalogCard: React.FC<{
               <button
                 type="button"
                 onClick={onView}
-                className="w-full rounded-xl bg-indigo-500/10 py-2 text-[9px] font-black text-indigo-300"
+                className="min-h-11 w-full rounded-xl bg-indigo-500/10 py-2 text-[9px] font-black text-indigo-300"
               >
                 إدارة النكهات وترتيبها
               </button>
@@ -730,7 +734,7 @@ const ProductCatalogCard: React.FC<{
 
       <div className="grid grid-cols-3 border-t border-slate-800 bg-slate-950/80">
         <div className="border-l border-slate-800 px-2 py-2.5 text-center">
-          <span className="block text-[8px] font-bold text-slate-500">
+          <span className="block text-[8px] font-bold text-slate-400">
             طرد البيع
           </span>
           <strong className="mt-0.5 block text-[9px] text-blue-300">
@@ -749,13 +753,13 @@ const ProductCatalogCard: React.FC<{
           }
         />
         <div className="border-l border-slate-800 px-2 py-2.5 text-center last:border-l-0">
-          <span className="block text-[8px] font-bold text-slate-500">
+          <span className="block text-[8px] font-bold text-slate-400">
             ربح / هامش
           </span>
           <strong
             className={`mt-0.5 block text-[9px] ${
               needsSalePackageSetup
-                ? 'text-slate-500'
+                ? 'text-slate-400'
                 : salePackageProfit.isLoss
                 ? 'text-rose-400'
                 : 'text-emerald-400'
@@ -772,7 +776,7 @@ const ProductCatalogCard: React.FC<{
         <button
           type="button"
           onClick={onView}
-          className="flex flex-1 items-center justify-center gap-1 rounded-xl py-2 font-bold text-slate-400 transition hover:bg-slate-900 hover:text-blue-400"
+          className="flex min-h-11 flex-1 items-center justify-center gap-1 rounded-xl py-2 font-bold text-slate-400 transition hover:bg-slate-900 hover:text-blue-400"
         >
           <Eye className="h-3.5 w-3.5" />
           التفاصيل
@@ -780,7 +784,7 @@ const ProductCatalogCard: React.FC<{
         <button
           type="button"
           onClick={onEdit}
-          className="flex flex-1 items-center justify-center gap-1 rounded-xl py-2 font-bold text-slate-400 transition hover:bg-slate-900 hover:text-emerald-400"
+          className="flex min-h-11 flex-1 items-center justify-center gap-1 rounded-xl py-2 font-bold text-slate-400 transition hover:bg-slate-900 hover:text-emerald-400"
         >
           <Edit3 className="h-3.5 w-3.5" />
           تعديل
@@ -796,7 +800,7 @@ const PriceCell: React.FC<{
   color: string;
 }> = ({ label, value, color }) => (
   <div className="border-l border-slate-800 px-2 py-2.5 text-center last:border-l-0">
-    <span className="block text-[8px] font-bold text-slate-500">{label}</span>
+    <span className="block text-[8px] font-bold text-slate-400">{label}</span>
     <strong className={`mt-0.5 block text-[9px] ${color}`}>
       {value.toFixed(3)} {CURRENCY}
     </strong>

@@ -29,6 +29,12 @@ test('catalog navigation and page use one product term without changing destinat
   });
   assert.match(productsView, /دليل المنتجات/);
   assert.doesNotMatch(productsView, /دليل الأصناف/);
+  assert.match(
+    productsView,
+    /grid grid-cols-2 gap-2 md:grid-cols-2 xl:grid-cols-3/,
+  );
+  assert.match(productsView, /data-product-catalog-card/);
+  assert.match(productsView, /min-h-11/);
 });
 
 test('inventory cards prioritize available stock and keep compact accessible actions', () => {

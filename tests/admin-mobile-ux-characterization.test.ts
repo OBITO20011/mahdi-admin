@@ -37,6 +37,19 @@ test('product terminology remains tied to the products destination and SKU ident
   assert.match(productsView, /product\.barcode/);
   assert.match(productForm, /اسم المنتج/);
   assert.match(productForm, /رمز الصنف SKU/);
+  assert.match(productsView, /openModal\('view_product', product\)/);
+  assert.match(productsView, /openModal\('edit_product', product\)/);
+  assert.match(productsView, /openModal\('receive_goods', \{ productId: flavorId \}\)/);
+  assert.match(productsView, /flavors\.map/);
+});
+
+test('product catalog cards retain details, edit, flavor, and receiving entry points', () => {
+  assert.match(productsView, /onView=\{\(\) => openModal\('view_product', product\)\}/);
+  assert.match(productsView, /onEdit=\{\(\) => openModal\('edit_product', product\)\}/);
+  assert.match(productsView, /openModal\('receive_goods', \{ productId: flavorId \}\)/);
+  assert.match(productsView, /setAreFlavorsExpanded/);
+  assert.match(productsView, /formatProductInventory\(product, true\)/);
+  assert.match(productsView, /calculateProductProfit/);
 });
 
 test('inventory card keeps every existing capability and canonical formatter', () => {

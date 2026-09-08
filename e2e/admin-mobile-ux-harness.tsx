@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import '../src/index.css';
 import { InventoryView } from '../src/features/inventory/InventoryView';
 import { OperationalOrderCard } from '../src/features/orders/OrdersCenterView';
+import { ProductsView } from '../src/features/products/ProductsView';
 import { storeEngine } from '../src/stores/useAppStore';
 import type { OperationalOrderListItem } from '../src/services/supabase/orders.service';
 import type { Product } from '../src/types';
@@ -77,6 +78,42 @@ const baseProduct: Product = {
   updatedAt: '2026-09-09T08:00:00.000Z',
 };
 
+const catalogProducts: Product[] = [
+  baseProduct,
+  {
+    ...baseProduct,
+    id: 'product-cola-mobile-ux',
+    sku: 'COLA-1L-12',
+    barcode: '6251234567891',
+    nameAr: 'بيبسي عبوة لتر واحد',
+    onHandQuantity: 72,
+    reservedQuantity: 0,
+    availableQuantity: 72,
+  },
+  {
+    ...baseProduct,
+    id: 'product-water-mobile-ux',
+    sku: 'WATER-500-24',
+    barcode: '6251234567892',
+    nameAr: 'مياه معدنية كرتونة 24 حبة',
+    onHandQuantity: 24,
+    reservedQuantity: 6,
+    availableQuantity: 18,
+  },
+  {
+    ...baseProduct,
+    id: 'product-chips-mobile-ux',
+    sku: 'CHIPS-LARGE-20',
+    barcode: '6251234567893',
+    nameAr: 'شيبس عائلي بنكهة الجبنة والبهارات',
+    onHandQuantity: 0,
+    reservedQuantity: 0,
+    availableQuantity: 0,
+  },
+];
+
+const view = new URLSearchParams(window.location.search).get('view');
+
 const state = storeEngine.getState();
 Object.assign(state, {
   activeBranch: branch,
@@ -89,7 +126,7 @@ Object.assign(state, {
       nameAr: 'العصائر والمشروبات',
     },
   ],
-  products: [baseProduct],
+  products: view === 'products' ? catalogProducts : [baseProduct],
   movements: [],
   movementPage: {
     page: 1,
@@ -147,7 +184,6 @@ const orders: OperationalOrderListItem[] = [
   },
 ];
 
-const view = new URLSearchParams(window.location.search).get('view');
 const content =
   view === 'orders' ? (
     <main dir="rtl" className="mx-auto max-w-3xl space-y-2.5 p-3">
@@ -159,6 +195,8 @@ const content =
         />
       ))}
     </main>
+  ) : view === 'products' ? (
+    <ProductsView />
   ) : (
     <InventoryView />
   );

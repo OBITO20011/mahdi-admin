@@ -59,6 +59,50 @@ for (const viewport of [
   });
 }
 
+for (const viewport of [
+  { width: 360, height: 640 },
+  { width: 390, height: 844 },
+  { width: 430, height: 932 },
+]) {
+  test(`product catalog uses two compact columns at ${viewport.width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    await page.goto(
+      `${adminBaseUrl}/e2e/admin-mobile-ux-harness.html?view=products`,
+      { waitUntil: 'domcontentloaded' }
+    );
+
+    const cards = page.locator('[data-product-catalog-card]');
+    await expect(cards).toHaveCount(4);
+    const firstBox = await cards.nth(0).boundingBox();
+    const secondBox = await cards.nth(1).boundingBox();
+    expect(firstBox).not.toBeNull();
+    expect(secondBox).not.toBeNull();
+    expect(Math.abs((firstBox?.y ?? 0) - (secondBox?.y ?? 0))).toBeLessThan(2);
+    expect(firstBox?.width ?? viewport.width).toBeLessThan(viewport.width / 2);
+    await expectNoOverflow(page);
+
+    for (const label of ['التفاصيل', 'تعديل']) {
+      const box = await cards.nth(0).getByRole('button', { name: label }).boundingBox();
+      expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
+    }
+  });
+}
+
+test('compact product cards preserve actions and accessibility', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(
+    `${adminBaseUrl}/e2e/admin-mobile-ux-harness.html?view=products`,
+    { waitUntil: 'domcontentloaded' }
+  );
+
+  const firstCard = page.locator('[data-product-catalog-card]').first();
+  await firstCard.getByRole('button', { name: 'تعديل' }).click();
+  await expect.poll(() => page.evaluate(() => window.__ADMIN_MOBILE_UX_MODAL__())).toBe('edit_product');
+  await expectNoSeriousAccessibilityViolations(page);
+});
+
 test('inventory secondary data and actions stay reachable', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`${adminBaseUrl}/e2e/admin-mobile-ux-harness.html`, {
