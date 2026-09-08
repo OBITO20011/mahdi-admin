@@ -221,15 +221,52 @@ async function collectPublicServiceChecks() {
       headers: {'user-agent': 'nawasrah-developer-watchdog', accept: 'application/vnd.github+json'},
       signal: AbortSignal.timeout(15_000),
     });
+    if (!response.ok) throw new Error(`GitHub Actions API returned ${response.status}.`);
     const body = await response.json();
-    const relevant = (body.workflow_runs || []).filter((item) =>
-      ['Code Quality', 'Secret Scanning', 'Public Uptime'].includes(item.name));
-    const failed = relevant.filter((item) => item.status === 'completed' && item.conclusion !== 'success');
-    checks.push(check('developer:github:ci', 'GitHub Actions', 'high', response.ok && relevant.length >= 3 && failed.length === 0,
+    const expectedWorkflows = [
+      'Nawasrah code quality',
+      'Nawasrah secret scanning',
+      'Nawasrah public uptime',
+    ];
+    const latestCompleted = new Map();
+    for (const item of body.workflow_runs || []) {
+      if (item.status === 'completed' && expectedWorkflows.includes(item.name) && !latestCompleted.has(item.name)) {
+        latestCompleted.set(item.name, item);
+      }
+    }
+    const relevant = [...latestCompleted.values()];
+    const failed = relevant.filter((item) => item.conclusion !== 'success');
+    checks.push(check('developer:github:ci', 'GitHub Actions', 'high', relevant.length === expectedWorkflows.length && failed.length === 0,
       failed.length === 0 ? 'آخر نتائج CI وSecret Scanning وUptime ناجحة.' : 'أحد GitHub release gates فاشل.',
       {workflowCount: relevant.length, failedCount: failed.length}));
   } catch {
-    checks.push(check('developer:github:ci', 'GitHub Actions', 'high', false, 'تعذر قراءة GitHub Actions.'));
+    const workflowBadges = await Promise.all([
+      'quality.yml',
+      'secrets.yml',
+      'public-uptime.yml',
+    ].map(async (workflow) => {
+      try {
+        const response = await fetch(
+          `https://github.com/OBITO20011/mahdi-admin/actions/workflows/${workflow}/badge.svg?branch=main`,
+          {signal: AbortSignal.timeout(15_000)},
+        );
+        const badge = await response.text();
+        return response.ok && /\bpassing\b/u.test(badge);
+      } catch {
+        return false;
+      }
+    }));
+    const passingCount = workflowBadges.filter(Boolean).length;
+    checks.push(check(
+      'developer:github:ci',
+      'GitHub Actions',
+      'high',
+      passingCount === workflowBadges.length,
+      passingCount === workflowBadges.length
+        ? 'آخر نتائج CI وSecret Scanning وUptime ناجحة.'
+        : 'تعذر إثبات نجاح جميع GitHub release gates.',
+      {workflowCount: workflowBadges.length, passingCount, source: 'workflow-badges'},
+    ));
   }
   for (const service of [
     {key: 'admin', url: 'https://nawasrah-admin.pages.dev'},
@@ -284,13 +321,20 @@ async function collectCloudflareChecks() {
   ];
   const checks = [];
   const githubHeaders = {'user-agent': 'nawasrah-developer-watchdog', accept: 'application/vnd.github+json'};
+  const projectRoot = process.env.NAWASRAH_PROJECT_ROOT;
   let mainSha = '';
-  try {
-    const mainResponse = await fetch('https://api.github.com/repos/OBITO20011/mahdi-admin/commits/main', {headers: githubHeaders, signal: AbortSignal.timeout(15_000)});
-    const main = await mainResponse.json();
-    if (mainResponse.ok) mainSha = main.sha || '';
-  } catch {
-    mainSha = '';
+  if (projectRoot) {
+    const remote = run('git.exe', ['-C', projectRoot, 'ls-remote', 'origin', 'refs/heads/main'], 30_000);
+    if (remote.ok) mainSha = remote.stdout.split(/\s+/u)[0] || '';
+  }
+  if (!mainSha) {
+    try {
+      const mainResponse = await fetch('https://api.github.com/repos/OBITO20011/mahdi-admin/commits/main', {headers: githubHeaders, signal: AbortSignal.timeout(15_000)});
+      const main = await mainResponse.json();
+      if (mainResponse.ok) mainSha = main.sha || '';
+    } catch {
+      mainSha = '';
+    }
   }
   for (const project of projects) {
     try {
@@ -306,9 +350,16 @@ async function collectCloudflareChecks() {
         if (deployedSha === mainSha) {
           relevantChanges = false;
         } else {
-          const compareResponse = await fetch(`https://api.github.com/repos/OBITO20011/mahdi-admin/compare/${deployedSha}...${mainSha}`, {headers: githubHeaders, signal: AbortSignal.timeout(15_000)});
-          const comparison = await compareResponse.json();
-          relevantChanges = !compareResponse.ok || comparison.status === 'diverged' || (comparison.files || []).some((file) => project.relevant(file.filename || ''));
+          const localComparison = projectRoot
+            ? run('git.exe', ['-C', projectRoot, 'diff', '--name-only', `${deployedSha}..${mainSha}`], 30_000)
+            : {ok: false, stdout: ''};
+          if (localComparison.ok) {
+            relevantChanges = localComparison.stdout.split(/\r?\n/u).filter(Boolean).some(project.relevant);
+          } else {
+            const compareResponse = await fetch(`https://api.github.com/repos/OBITO20011/mahdi-admin/compare/${deployedSha}...${mainSha}`, {headers: githubHeaders, signal: AbortSignal.timeout(15_000)});
+            const comparison = await compareResponse.json();
+            relevantChanges = !compareResponse.ok || comparison.status === 'diverged' || (comparison.files || []).some((file) => project.relevant(file.filename || ''));
+          }
         }
       }
       const aligned = successful && Boolean(mainSha) && Boolean(deployedSha) && !relevantChanges;

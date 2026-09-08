@@ -149,6 +149,11 @@ test('watchdog is separate from Business outbox and uses read-only monitoring', 
   assert.doesNotMatch(watchdog + runner, /claim_automation_deliveries|complete_automation_delivery/u);
   assert.doesNotMatch(watchdog + runner, /customer_name|customer_phone|delivery_address|total_in_minor_units/iu);
   assert.doesNotMatch(watchdog, /grossSalesInMinorUnits|customerDueInMinorUnits|supplierDueInMinorUnits/u);
+  assert.match(watchdog, /actions\/workflows\/\$\{workflow\}\/badge\.svg\?branch=main/u);
+  assert.match(watchdog, /Nawasrah code quality/u);
+  assert.match(watchdog, /latestCompleted/u);
+  assert.match(watchdog, /'ls-remote', 'origin', 'refs\/heads\/main'/u);
+  assert.match(watchdog, /'diff', '--name-only'/u);
 });
 
 test('Windows setup protects dedicated secrets and schedules one bounded SYSTEM watchdog', async () => {
