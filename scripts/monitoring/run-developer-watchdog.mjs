@@ -235,6 +235,9 @@ async function collectPublicServiceChecks() {
       }
     }
     const relevant = [...latestCompleted.values()];
+    if (relevant.length !== expectedWorkflows.length) {
+      throw new Error('GitHub Actions API window is missing a required workflow.');
+    }
     const failed = relevant.filter((item) => item.conclusion !== 'success');
     checks.push(check('developer:github:ci', 'GitHub Actions', 'high', relevant.length === expectedWorkflows.length && failed.length === 0,
       failed.length === 0 ? 'آخر نتائج CI وSecret Scanning وUptime ناجحة.' : 'أحد GitHub release gates فاشل.',

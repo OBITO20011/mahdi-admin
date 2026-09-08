@@ -152,6 +152,7 @@ test('watchdog is separate from Business outbox and uses read-only monitoring', 
   assert.match(watchdog, /actions\/workflows\/\$\{workflow\}\/badge\.svg\?branch=main/u);
   assert.match(watchdog, /Nawasrah code quality/u);
   assert.match(watchdog, /latestCompleted/u);
+  assert.match(watchdog, /API window is missing a required workflow/u);
   assert.match(watchdog, /'ls-remote', 'origin', 'refs\/heads\/main'/u);
   assert.match(watchdog, /'diff', '--name-only'/u);
 });
