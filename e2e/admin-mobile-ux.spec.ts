@@ -1,0 +1,95 @@
+import AxeBuilder from '@axe-core/playwright';
+import { expect, test, type Page } from '@playwright/test';
+
+const adminBaseUrl =
+  process.env.ADMIN_BASE_URL ?? 'http://127.0.0.1:4173';
+
+async function expectNoOverflow(page: Page) {
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth
+      )
+    )
+    .toBe(true);
+}
+
+async function expectNoSeriousAccessibilityViolations(page: Page) {
+  const results = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+    .analyze();
+
+  expect(
+    results.violations
+      .filter(
+        (violation) =>
+          violation.impact === 'critical' || violation.impact === 'serious'
+      )
+      .map((violation) => ({
+        id: violation.id,
+        targets: violation.nodes.map((node) => node.target.join(' ')),
+      }))
+  ).toEqual([]);
+}
+
+for (const viewport of [
+  { width: 360, height: 640 },
+  { width: 390, height: 844 },
+  { width: 430, height: 932 },
+  { width: 768, height: 1024 },
+  { width: 1280, height: 900 },
+]) {
+  test(`inventory remains compact without overflow at ${viewport.width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    await page.goto(`${adminBaseUrl}/e2e/admin-mobile-ux-harness.html`, {
+      waitUntil: 'domcontentloaded',
+    });
+
+    const card = page.locator('[data-inventory-product-card]');
+    await expect(card).toHaveCount(1);
+    await expect(card.getByText('المتاح في المخزون')).toBeVisible();
+    await expectNoOverflow(page);
+
+    for (const label of ['استلام', 'جرد']) {
+      const box = await card.getByRole('button', { name: label }).boundingBox();
+      expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
+    }
+  });
+}
+
+test('inventory secondary data and actions stay reachable', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(`${adminBaseUrl}/e2e/admin-mobile-ux-harness.html`, {
+    waitUntil: 'domcontentloaded',
+  });
+
+  const card = page.locator('[data-inventory-product-card]');
+  await card.getByText('تفاصيل المنتج والرصيد').click();
+  await expect(card.getByText(/6251234567890/)).toBeVisible();
+  await expect(card.getByText(/طرد الشراء: كرتونة × 30/)).toBeVisible();
+  await expect(card.getByText(/طرد البيع: شرنك × 6/)).toBeVisible();
+
+  await card.getByText('سجل الحركات وإدارة الرصيد').click();
+  await expect(card.getByRole('button', { name: /سجل الحركات/ })).toBeVisible();
+  await expect(card.getByRole('button', { name: /حذف الرصيد/ })).toBeVisible();
+  await expectNoSeriousAccessibilityViolations(page);
+});
+
+test('orders lead with historical product contents and keep the reference secondary', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(
+    `${adminBaseUrl}/e2e/admin-mobile-ux-harness.html?view=orders`,
+    { waitUntil: 'domcontentloaded' }
+  );
+
+  await expect(page.locator('[data-order-card]')).toHaveCount(2);
+  await expect(page.getByText('عصير فراولة طبيعي + صنفان إضافيان')).toBeVisible();
+  await expect(page.getByText('بيبسي 1 لتر')).toBeVisible();
+  await expect(page.getByText('ORD-20260909-80582')).toBeVisible();
+  await expectNoOverflow(page);
+  await expectNoSeriousAccessibilityViolations(page);
+});

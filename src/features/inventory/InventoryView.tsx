@@ -297,8 +297,8 @@ export const InventoryView: React.FC = () => {
             <Package className="w-4 h-4" />
           </div>
           <div>
-            <span className="text-[10px] text-slate-400 block font-bold">عدد الأصناف</span>
-            <strong className="text-sm font-extrabold text-slate-100">{totalItemCount} صنف</strong>
+            <span className="text-[10px] text-slate-400 block font-bold">عدد المنتجات</span>
+            <strong className="text-sm font-extrabold text-slate-100">{totalItemCount} منتج</strong>
           </div>
         </div>
 
@@ -561,29 +561,29 @@ export const InventoryView: React.FC = () => {
                 return (
                   <div
                     key={product.id}
-                    className="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl shadow hover:border-slate-700 transition space-y-3 flex flex-col justify-between"
+                    data-inventory-product-card={product.id}
+                    className="flex flex-col justify-between gap-2 rounded-2xl border border-slate-800 bg-slate-900 p-2.5 shadow transition hover:border-slate-700 sm:p-3"
                   >
                     {/* Header: Product Info */}
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <div className="flex items-start justify-between gap-2">
-                        <div className="flex items-center gap-3">
+                        <div className="flex min-w-0 items-center gap-2">
                           <img
                             src={product.imageUrl}
                             alt=""
-                            className="w-12 h-12 rounded-xl object-cover border border-slate-800 shrink-0"
+                            className="h-10 w-10 shrink-0 rounded-xl border border-slate-800 object-cover"
                           />
-                          <div>
-                            <h4 className="font-extrabold text-slate-100 text-xs line-clamp-1">
+                          <div className="min-w-0">
+                            <h4 className="line-clamp-1 text-xs font-extrabold text-slate-100">
                               {product.nameAr}
                             </h4>
-                            <div className="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5 font-mono">
-                              <span>SKU: {product.sku}</span>
-                              <span>|</span>
-                              <span>الباركود: {product.barcode}</span>
+                            <div className="mt-0.5 flex min-w-0 items-center gap-1.5 text-[9px] text-slate-400">
+                              <span className="max-w-[12rem] truncate font-mono">
+                                SKU: {product.sku}
+                              </span>
+                              <span aria-hidden="true">•</span>
+                              <span className="truncate">{categoryName}</span>
                             </div>
-                            <span className="inline-block mt-1 bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md text-[9px] font-semibold">
-                              القسم: {categoryName}
-                            </span>
                           </div>
                         </div>
 
@@ -608,28 +608,41 @@ export const InventoryView: React.FC = () => {
                       {(() => {
                         const invAvailable = formatProductInventory(product, true);
                         return (
-                          <div className="rounded-xl border border-emerald-500/25 bg-emerald-950/20 p-2.5 text-center">
-                            <span className="block text-[9px] font-bold text-emerald-200/70">المتاح للبيع الآن</span>
-                            <strong className="mt-0.5 block text-sm font-black text-emerald-300">
-                              {invAvailable.fullFormatted}
-                            </strong>
+                          <div className="flex min-h-11 items-center justify-between gap-2 rounded-xl border border-emerald-500/25 bg-emerald-950/20 px-2.5 py-1.5">
+                            <div className="min-w-0">
+                              <span className="block text-[9px] font-bold text-emerald-200/70">المتاح في المخزون</span>
+                              <strong className="mt-0.5 block truncate text-xs font-black text-emerald-300">
+                                {invAvailable.cartonFormatted}
+                              </strong>
+                            </div>
                             {product.reservedQuantity > 0 && (
-                              <span className="mt-1 block text-[9px] text-amber-300">
-                                محجوز للطلبات: {product.reservedQuantity} قطعة
+                              <span className="shrink-0 rounded-lg bg-amber-500/10 px-2 py-1 text-[9px] font-bold text-amber-300">
+                                محجوز: {product.reservedQuantity}
                               </span>
                             )}
                           </div>
                         );
                       })()}
 
-                      <details className="group rounded-xl border border-slate-800 bg-slate-950/40 p-2">
-                        <summary className="flex cursor-pointer list-none items-center justify-between text-[10px] font-bold text-slate-400 marker:hidden">
-                          تفاصيل الصنف والرصد
+                      <details className="group rounded-xl border border-slate-800 bg-slate-950/40 px-2">
+                        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-[10px] font-bold text-slate-400 marker:hidden">
+                          تفاصيل المنتج والرصيد
                           <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
                         </summary>
-                        <div className="mt-2 space-y-2">
+                        <div className="space-y-2 pb-2">
+                      <div className="grid grid-cols-1 gap-1.5 text-[9px] sm:grid-cols-3">
+                        <span className="truncate rounded-lg border border-slate-800 bg-slate-900 px-2 py-1.5 font-mono text-slate-400">
+                          الباركود: {product.barcode || 'غير محدد'}
+                        </span>
+                        <span className="truncate rounded-lg border border-slate-800 bg-slate-900 px-2 py-1.5 text-slate-400">
+                          طرد الشراء: {product.purchasePackage || product.unit} × {product.unitsPerPackage || 1}
+                        </span>
+                        <span className="truncate rounded-lg border border-slate-800 bg-slate-900 px-2 py-1.5 text-slate-400">
+                          طرد البيع: {product.salePackage || 'غير مضبوط'} × {product.unitsPerSalePackage || 1}
+                        </span>
+                      </div>
                       {/* Branch & Warehouse Tags */}
-                      <div className="bg-slate-950 p-2 rounded-xl border border-slate-800/80 flex items-center justify-between text-[10px]">
+                      <div className="flex flex-wrap items-center justify-between gap-1.5 rounded-xl border border-slate-800/80 bg-slate-950 p-2 text-[10px]">
                         <div className="flex items-center gap-1 text-slate-300">
                           <Building2 className="w-3.5 h-3.5 text-blue-400" />
                           <span>{branchName}</span>
@@ -646,7 +659,7 @@ export const InventoryView: React.FC = () => {
                       </div>
 
                       {/* Quantities Table Breakdown */}
-                      <div className="grid grid-cols-4 gap-1.5 text-center bg-slate-950/60 p-2 rounded-xl border border-slate-800">
+                      <div className="grid grid-cols-2 gap-1.5 rounded-xl border border-slate-800 bg-slate-950/60 p-2 text-center sm:grid-cols-4">
                         {/* Actual Stock */}
                         {(() => {
                           const invOnHand = formatProductInventory(product, false);
@@ -694,12 +707,12 @@ export const InventoryView: React.FC = () => {
                     </div>
 
                     {/* Action Bar per Product */}
-                    <div className="pt-2 border-t border-slate-800 space-y-1.5">
+                    <div className="space-y-1.5 border-t border-slate-800 pt-1.5">
                       <div className="grid grid-cols-2 gap-1.5">
                         {/* 1. Receive Goods */}
                         <button
                           onClick={() => openModal('receive_goods')}
-                          className="bg-indigo-950/60 hover:bg-indigo-900/80 text-indigo-300 border border-indigo-800/80 p-1.5 rounded-lg text-[10px] font-bold flex flex-col items-center justify-center gap-0.5 transition"
+                          className="flex min-h-11 items-center justify-center gap-1.5 rounded-lg border border-indigo-800/80 bg-indigo-950/60 px-2 py-1.5 text-[10px] font-bold text-indigo-300 transition hover:bg-indigo-900/80"
                           title="استلام بضاعة جديدة"
                         >
                           <Truck className="w-3.5 h-3.5" />
@@ -709,7 +722,7 @@ export const InventoryView: React.FC = () => {
                         {/* 2. Stock Count: the only controlled correction path */}
                         <button
                           onClick={() => openModal('stock_count', { productId: product.id })}
-                          className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 p-1.5 rounded-lg text-[10px] font-bold flex flex-col items-center justify-center gap-0.5 transition"
+                          className="flex min-h-11 items-center justify-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800 px-2 py-1.5 text-[10px] font-bold text-slate-200 transition hover:bg-slate-700"
                           title="جرد مطابقة المخزون"
                         >
                           <ClipboardCheck className="w-3.5 h-3.5 text-purple-400" />
@@ -717,16 +730,16 @@ export const InventoryView: React.FC = () => {
                         </button>
                       </div>
 
-                      <details className="group rounded-xl border border-slate-800 bg-slate-950/40 p-2">
-                        <summary className="flex cursor-pointer list-none items-center justify-between text-[10px] font-bold text-slate-400 marker:hidden">
+                      <details className="group rounded-xl border border-slate-800 bg-slate-950/40 px-2">
+                        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-[10px] font-bold text-slate-400 marker:hidden">
                           سجل الحركات وإدارة الرصيد
                           <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
                         </summary>
-                      <div className="mt-2 grid grid-cols-[1fr_auto] gap-1.5">
+                      <div className="grid grid-cols-1 gap-1.5 pb-2 sm:grid-cols-[1fr_auto]">
                         {/* View Movement Log */}
                         <button
                           onClick={() => setHistoryProduct(product)}
-                          className="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 px-2 py-1.5 rounded-xl text-[10px] font-bold transition flex items-center justify-center gap-1.5"
+                          className="flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-slate-800 bg-slate-950 px-2 py-1.5 text-[10px] font-bold text-slate-300 transition hover:bg-slate-800"
                         >
                           <History className="w-3.5 h-3.5 text-indigo-400" />
                           <span>
@@ -737,7 +750,7 @@ export const InventoryView: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => setClearInventoryProduct(product)}
-                          className="min-w-[92px] rounded-xl border border-rose-800/70 bg-rose-950/40 px-2 py-1.5 text-[10px] font-black text-rose-300 transition hover:bg-rose-950/70 disabled:cursor-not-allowed disabled:opacity-45"
+                          className="min-h-11 min-w-[92px] rounded-xl border border-rose-800/70 bg-rose-950/40 px-2 py-1.5 text-[10px] font-black text-rose-300 transition hover:bg-rose-950/70 disabled:cursor-not-allowed disabled:opacity-45"
                           title={
                             product.onHandQuantity > 0
                               ? 'تصفير الرصيد مع حفظ حركة تدقيق'

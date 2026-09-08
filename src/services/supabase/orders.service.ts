@@ -57,6 +57,8 @@ export interface OperationalOrderListItem {
   amountPaid: number;
   amountDue: number;
   itemCount: number;
+  /** Historical first line label from order_items.product_name_snapshot. */
+  firstProductName: string;
   branchId: string;
   createdAt: string;
   updatedAt: string;
@@ -190,6 +192,15 @@ const OPERATIONAL_ORDER_LIST_SELECT = `
   order_items (count)
 `;
 
+const OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT = `
+  id,
+  order_id,
+  product_name_snapshot,
+  created_at
+`;
+
+const MAX_OPERATIONAL_ORDER_ITEMS = 50;
+
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
 
@@ -254,10 +265,23 @@ async function fetchOperationalOrderListRows(
   }
 
   try {
-    const { data, error } = await supabase
-      .from('orders')
-      .select(OPERATIONAL_ORDER_LIST_SELECT)
-      .in('id', [...orderIds]);
+    const previewLimit = orderIds.length * MAX_OPERATIONAL_ORDER_ITEMS;
+    const [ordersResult, previewsResult] = await Promise.all([
+      supabase
+        .from('orders')
+        .select(OPERATIONAL_ORDER_LIST_SELECT)
+        .in('id', [...orderIds]),
+      supabase
+        .from('order_items')
+        .select(OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT)
+        .in('order_id', [...orderIds])
+        .order('order_id', { ascending: true })
+        .order('created_at', { ascending: true })
+        .order('id', { ascending: true })
+        .limit(previewLimit),
+    ]);
+
+    const { data, error } = ordersResult;
 
     if (error) {
       console.error('[fetchOperationalOrderListRows Error]:', error);
@@ -268,7 +292,21 @@ async function fetchOperationalOrderListRows(
       return { success: true, orders: [] };
     }
 
-    return { success: true, orders: mapOperationalOrderListRows(data) };
+    if (previewsResult.error) {
+      console.error(
+        '[fetchOperationalOrderListRows Preview Error]:',
+        previewsResult.error
+      );
+    }
+
+    const firstProductNamesByOrderId = mapFirstProductNamesByOrderId(
+      previewsResult.error ? [] : previewsResult.data
+    );
+
+    return {
+      success: true,
+      orders: mapOperationalOrderListRows(data, firstProductNamesByOrderId),
+    };
   } catch (error) {
     console.error('[fetchOperationalOrderListRows Exception]:', error);
     return {
@@ -282,6 +320,24 @@ async function fetchOperationalOrderListRows(
   }
 }
 
+function mapFirstProductNamesByOrderId(value: unknown): Map<string, string> {
+  const firstProductNames = new Map<string, string>();
+  if (!Array.isArray(value)) return firstProductNames;
+
+  value.forEach((row) => {
+    if (!isRecord(row)) return;
+    const orderId = typeof row.order_id === 'string' ? row.order_id : '';
+    const productName =
+      typeof row.product_name_snapshot === 'string'
+        ? row.product_name_snapshot.trim()
+        : '';
+    if (!orderId || !productName || firstProductNames.has(orderId)) return;
+    firstProductNames.set(orderId, productName);
+  });
+
+  return firstProductNames;
+}
+
 function firstRelation(value: unknown): Record<string, unknown> {
   if (Array.isArray(value)) {
     return isRecord(value[0]) ? value[0] : {};
@@ -290,7 +346,8 @@ function firstRelation(value: unknown): Record<string, unknown> {
 }
 
 function mapOperationalOrderListRows(
-  data: unknown[]
+  data: unknown[],
+  firstProductNamesByOrderId: ReadonlyMap<string, string> = new Map()
 ): OperationalOrderListItem[] {
   return data.flatMap((value) => {
     if (!isRecord(value) || typeof value.id !== 'string') return [];
@@ -333,6 +390,7 @@ function mapOperationalOrderListRows(
       amountPaid,
       amountDue: calculateOrderAmountDue(totalAmount, amountPaid),
       itemCount: asNonNegativeInteger(itemCountRelation.count),
+      firstProductName: firstProductNamesByOrderId.get(value.id) || '',
       branchId: typeof value.branch_id === 'string' ? value.branch_id : '',
       createdAt:
         typeof value.created_at === 'string'

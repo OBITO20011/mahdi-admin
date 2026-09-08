@@ -74,7 +74,7 @@ export const AllModals: React.FC = () => {
       <Modal
         isOpen={currentModal === 'add_product' || currentModal === 'edit_product'}
         onClose={closeModal}
-        title={currentModal === 'edit_product' ? 'تعديل بطاقة الصنف' : 'إضافة صنف جديد'}
+        title={currentModal === 'edit_product' ? 'تعديل بطاقة المنتج' : 'إضافة منتج جديد'}
         subtitle="عرّف طرد الشراء وطرد بيع الجملة وحدود المخزون"
       >
         <ProductFormModal initialProduct={productFormInitialProduct} onClose={closeModal} />

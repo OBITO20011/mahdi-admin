@@ -242,7 +242,7 @@ export const ProductsView: React.FC = () => {
                 </span>
                 <div>
                   <h2 className="text-base font-black text-slate-100">
-                    دليل الأصناف
+                    دليل المنتجات
                   </h2>
                   <p className="mt-0.5 text-[10px] text-slate-400">
                     الأسعار والطرود والربح في مكان واحد
@@ -270,7 +270,7 @@ export const ProductsView: React.FC = () => {
               type="button"
               onClick={() => refreshProductsFromSupabase()}
               disabled={isProductsLoading}
-              title="تحديث الأصناف"
+              title="تحديث المنتجات"
               className="rounded-xl border border-slate-800 bg-slate-900/80 p-2.5 text-slate-400 transition hover:text-blue-400 disabled:opacity-50"
             >
               <RefreshCw
@@ -282,7 +282,7 @@ export const ProductsView: React.FC = () => {
 
         <div className="grid grid-cols-3 border-t border-white/5 bg-slate-950/45">
           <HeroMetric
-            label="عدد الأصناف"
+            label="عدد المنتجات"
             value={displayProducts.length.toLocaleString('ar-JO')}
             tone="blue"
           />
@@ -306,7 +306,7 @@ export const ProductsView: React.FC = () => {
           className="flex items-center justify-center gap-1.5 rounded-2xl bg-blue-600 px-2 py-3 font-black text-white shadow-lg shadow-blue-600/20 transition active:scale-[0.98]"
         >
           <Plus className="h-4 w-4" />
-          إضافة صنف
+          إضافة منتج
         </button>
         <button
           type="button"
@@ -374,7 +374,7 @@ export const ProductsView: React.FC = () => {
         <div className="rounded-2xl border border-rose-500/25 bg-rose-500/10 p-3">
           <div className="flex items-center gap-1.5 font-black text-rose-400">
             <AlertCircle className="h-4 w-4" />
-            تعذر تحديث الأصناف
+            تعذر تحديث المنتجات
           </div>
           <p className="mt-1.5 text-[10px] leading-5 text-rose-200">
             {productsError}
@@ -446,7 +446,7 @@ export const ProductsView: React.FC = () => {
 
       <div className="flex items-center justify-between px-1">
         <h3 className="font-black text-slate-200">
-          الأصناف
+          المنتجات
           <span className="mr-1.5 rounded-full bg-slate-800 px-2 py-0.5 text-[9px] text-slate-400">
             {filteredProducts.length}
           </span>
@@ -470,7 +470,7 @@ export const ProductsView: React.FC = () => {
           <div className="text-center">
             <RefreshCw className="mx-auto h-6 w-6 animate-spin text-blue-400" />
             <p className="mt-2 text-[10px] font-bold text-slate-500">
-              جاري تحميل الأصناف...
+              جاري تحميل المنتجات...
             </p>
           </div>
         </div>
@@ -478,17 +478,17 @@ export const ProductsView: React.FC = () => {
         <div className="rounded-3xl border border-dashed border-slate-800 bg-slate-950 p-8 text-center">
           <Package className="mx-auto h-8 w-8 text-slate-700" />
           <h4 className="mt-3 font-black text-slate-200">
-            لا توجد أصناف مطابقة
+            لا توجد منتجات مطابقة
           </h4>
           <p className="mt-1 text-[10px] text-slate-500">
-            غيّر البحث أو أضف أول صنف لهذا القسم
+            غيّر البحث أو أضف أول منتج لهذا القسم
           </p>
           <button
             type="button"
             onClick={resetFilters}
             className="mt-3 rounded-xl bg-slate-800 px-4 py-2 font-bold text-blue-400"
           >
-            عرض كل الأصناف
+            عرض كل المنتجات
           </button>
         </div>
       ) : (

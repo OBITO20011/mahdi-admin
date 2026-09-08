@@ -61,7 +61,7 @@ export const QuickActionButton: React.FC = () => {
     },
     {
       id: 'add-product',
-      title: 'إضافة صنف',
+      title: 'إضافة منتج',
       desc: 'منتج جديد مع الأسعار والطرد',
       icon: PlusCircle,
       color: 'bg-violet-600/20 text-violet-400 border-violet-500/30',

@@ -78,13 +78,13 @@ export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = [
   {
     id: 'products-inventory',
     label: 'المنتجات والمخزون',
-    description: 'الأصناف والأرصدة والمستودعات والحركات',
+    description: 'المنتجات والأرصدة والمستودعات والحركات',
     icon: Boxes,
     iconTone: 'border border-cyan-500/20 bg-cyan-500/10 text-cyan-300',
     items: [
       {
         id: 'catalog-products',
-        label: 'الأصناف والمنتجات',
+        label: 'المنتجات',
         description: 'الأسعار، طرد البيع، الصور والأقسام',
         icon: Package,
         tone: 'bg-blue-500/10 text-blue-300',

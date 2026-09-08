@@ -101,7 +101,7 @@ export const BrandsModal: React.FC<{ onClose: () => void }> = () => {
     if (
       !willActivate &&
       !window.confirm(
-        `هل أنت متأكد من إخفاء العلامة التجارية "${brand.nameAr}"؟ لن تظهر عند إضافة صنف جديد.`
+        `هل أنت متأكد من إخفاء العلامة التجارية "${brand.nameAr}"؟ لن تظهر عند إضافة منتج جديد.`
       )
     ) {
       return;

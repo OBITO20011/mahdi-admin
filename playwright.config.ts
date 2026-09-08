@@ -36,7 +36,7 @@ export default defineConfig({
     },
     {
       name: 'mobile-chromium',
-      testMatch: /admin-(?:bottom-)?navigation\.spec\.ts/,
+      testMatch: /admin-(?:(?:bottom-)?navigation|mobile-ux)\.spec\.ts/,
       use: {
         ...devices['Pixel 7'],
         locale: 'ar-JO',

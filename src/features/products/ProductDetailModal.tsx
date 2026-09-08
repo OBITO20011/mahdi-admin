@@ -826,7 +826,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           ) : (
             <EyeOff className="h-4 w-4 text-amber-400" />
           )}
-          {product.status === 'hidden' ? 'إظهار الصنف' : 'إخفاء الصنف'}
+          {product.status === 'hidden' ? 'إظهار المنتج' : 'إخفاء المنتج'}
         </button>
       </div>
 
@@ -837,8 +837,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             <div>
               <h4 className="font-black text-amber-200">
                 {product.status === 'hidden'
-                  ? 'إعادة إظهار الصنف؟'
-                  : 'هل تريد إخفاء الصنف؟'}
+                  ? 'إعادة إظهار المنتج؟'
+                  : 'هل تريد إخفاء المنتج؟'}
               </h4>
               <p className="mt-1 text-[10px] leading-5 text-slate-400">
                 لن نحذف حركاته أو رصيده. سيتم فقط تغيير حالة ظهوره في

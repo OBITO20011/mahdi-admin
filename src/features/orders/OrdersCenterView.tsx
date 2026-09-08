@@ -29,6 +29,7 @@ import {
 import { useAppStoreActions } from '../../stores/useAppStore';
 import { Order, OrderStatus } from '../../types';
 import { OperationalOrderFilter } from '../../utils/orderCalculations';
+import { formatOperationalOrderContents } from '../../utils/orderPresentation';
 import { OrderDetailModal } from './OrderDetailModal';
 
 const FILTERS: Array<{ id: OperationalOrderFilter; label: string }> = [
@@ -127,6 +128,92 @@ function getPaymentLabel(order: OperationalOrderListItem) {
     color: 'border-rose-500/30 bg-rose-500/10 text-rose-300',
   };
 }
+
+export const OperationalOrderCard: React.FC<{
+  order: OperationalOrderListItem;
+  onOpen: (orderId: string) => void;
+}> = ({ order, onOpen }) => {
+  const status = getStatusBadge(order.status);
+  const payment = getPaymentLabel(order);
+  const contentsLabel = formatOperationalOrderContents(
+    order.firstProductName,
+    order.itemCount
+  );
+
+  return (
+    <article
+      data-order-card={order.id}
+      className="rounded-2xl border border-slate-800 bg-slate-900 p-3 shadow transition hover:border-slate-700 sm:p-4"
+    >
+      <button
+        type="button"
+        onClick={() => onOpen(order.id)}
+        className="w-full text-right"
+      >
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <h4 className="line-clamp-2 text-sm font-black leading-5 text-white">
+              {contentsLabel}
+            </h4>
+            <div className="mt-1 flex flex-wrap items-center gap-1.5">
+              <span
+                className={`rounded-full border px-2 py-0.5 text-[9px] font-bold ${status.color}`}
+              >
+                {status.label}
+              </span>
+              <span
+                className={`rounded-full border px-2 py-0.5 text-[9px] font-bold ${payment.color}`}
+              >
+                {payment.label}
+              </span>
+            </div>
+            <div className="mt-1.5 flex min-w-0 items-center gap-2 text-[10px] text-slate-500">
+              <span className="truncate font-bold text-slate-300">
+                {order.customerName}
+              </span>
+              <span aria-hidden="true">•</span>
+              <span
+                dir="ltr"
+                title={order.orderNumber}
+                className="max-w-[10.5rem] truncate font-mono text-[9px] text-blue-400"
+              >
+                {order.orderNumber}
+              </span>
+            </div>
+            <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-slate-400">
+              <span className="flex items-center gap-1">
+                <Phone className="h-3 w-3 text-emerald-400" />
+                {order.customerPhone || 'بدون هاتف'}
+              </span>
+              <span className="flex items-center gap-1">
+                <MapPin className="h-3 w-3 text-amber-400" />
+                {order.governorate} — {order.region}
+              </span>
+            </div>
+          </div>
+          <div className="shrink-0 text-left">
+            <strong className="block whitespace-nowrap text-sm text-emerald-400">
+              {order.totalAmount.toFixed(3)} {CURRENCY}
+            </strong>
+            <span className="text-[9px] text-slate-400">
+              {new Date(order.createdAt).toLocaleDateString('ar-JO')}
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-2.5 flex min-h-11 items-center justify-between border-t border-slate-800 pt-2">
+          <span className="text-[10px] text-slate-400">
+            {order.itemCount} أصناف
+          </span>
+          <span className="flex items-center gap-1 font-bold text-blue-300">
+            <CheckCircle2 className="h-3.5 w-3.5" />
+            فتح ومراجعة الطلب
+          </span>
+        </div>
+      </button>
+    </article>
+  );
+};
 
 export const OrdersCenterView: React.FC = () => {
   const { setToast } = useAppStoreActions();
@@ -386,73 +473,13 @@ export const OrdersCenterView: React.FC = () => {
         </div>
       ) : (
         <div className="space-y-2.5">
-          {orders.map((order) => {
-            const status = getStatusBadge(order.status);
-            const payment = getPaymentLabel(order);
-            return (
-              <article
-                key={order.id}
-                className="rounded-2xl border border-slate-800 bg-slate-900 p-4 shadow"
-              >
-                <button
-                  type="button"
-                  onClick={() => openOrderDetails(order.id)}
-                  className="w-full text-right"
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <div className="mb-1 flex flex-wrap items-center gap-1.5">
-                        <span className="font-mono text-[11px] font-black text-blue-400">
-                          {order.orderNumber}
-                        </span>
-                        <span
-                          className={`rounded-full border px-2 py-0.5 text-[9px] font-bold ${status.color}`}
-                        >
-                          {status.label}
-                        </span>
-                        <span
-                          className={`rounded-full border px-2 py-0.5 text-[9px] font-bold ${payment.color}`}
-                        >
-                          {payment.label}
-                        </span>
-                      </div>
-                      <h4 className="font-bold text-white">
-                        {order.customerName}
-                      </h4>
-                      <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-slate-500">
-                        <span className="flex items-center gap-1">
-                          <Phone className="h-3 w-3 text-emerald-400" />
-                          {order.customerPhone || 'بدون هاتف'}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <MapPin className="h-3 w-3 text-amber-400" />
-                          {order.governorate} — {order.region}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="text-left">
-                      <strong className="block text-sm text-emerald-400">
-                        {order.totalAmount.toFixed(3)} {CURRENCY}
-                      </strong>
-                      <span className="text-[9px] text-slate-500">
-                        {new Date(order.createdAt).toLocaleDateString('ar-JO')}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 flex items-center justify-between border-t border-slate-800 pt-2">
-                    <span className="text-[10px] text-slate-500">
-                      {order.itemCount} أصناف
-                    </span>
-                    <span className="flex items-center gap-1 font-bold text-blue-300">
-                      <CheckCircle2 className="h-3.5 w-3.5" />
-                      فتح ومراجعة الطلب
-                    </span>
-                  </div>
-                </button>
-              </article>
-            );
-          })}
+          {orders.map((order) => (
+            <OperationalOrderCard
+              key={order.id}
+              order={order}
+              onOpen={openOrderDetails}
+            />
+          ))}
         </div>
       )}
 

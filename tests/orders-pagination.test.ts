@@ -46,6 +46,15 @@ test('order page service requests server page metadata then only bounded lightwe
   assert.match(orderService, /\.select\(OPERATIONAL_ORDER_LIST_SELECT\)/);
   assert.match(orderService, /\.in\('id', \[\.\.\.orderIds\]\)/);
   assert.match(orderService, /order_items \(count\)/);
+  assert.match(orderService, /OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT/);
+  assert.match(orderService, /product_name_snapshot/);
+  assert.match(orderService, /MAX_OPERATIONAL_ORDER_ITEMS = 50/);
+  assert.match(orderService, /const previewLimit = orderIds\.length \* MAX_OPERATIONAL_ORDER_ITEMS/);
+  assert.match(orderService, /\.from\('order_items'\)/);
+  assert.match(orderService, /\.in\('order_id', \[\.\.\.orderIds\]\)/);
+  assert.match(orderService, /\.limit\(previewLimit\)/);
+  assert.match(orderService, /firstProductName:/);
+  assert.doesNotMatch(orderService, /\.from\('products'\)/);
   assert.doesNotMatch(orderService, /export async function fetchOrdersFromSupabase/);
 });
 
