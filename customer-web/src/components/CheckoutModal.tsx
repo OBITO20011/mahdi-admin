@@ -79,6 +79,7 @@ interface CheckoutModalProps {
   initialPromotionCode?: string;
   onClose: () => void;
   onRetryStorefrontSettings: () => void;
+  onOpenPrivacyPolicy: () => void;
   onOrderCreated: (receipt: GuestOrderReceipt, items: CartItem[]) => void;
   onTrackOrder: (receipt: GuestOrderReceipt) => void;
 }
@@ -134,6 +135,7 @@ export function CheckoutModal({
   initialPromotionCode = '',
   onClose,
   onRetryStorefrontSettings,
+  onOpenPrivacyPolicy,
   onOrderCreated,
   onTrackOrder,
 }: CheckoutModalProps) {
@@ -189,12 +191,11 @@ export function CheckoutModal({
       storeWhatsAppNumber,
       buildWhatsAppOrderMessage({
         receipt,
-        customer: form,
         items: displayedItems,
         paymentMethod,
       })
     );
-  }, [displayedItems, form, paymentMethod, receipt, storeWhatsAppNumber]);
+  }, [displayedItems, paymentMethod, receipt, storeWhatsAppNumber]);
 
   useEffect(() => {
     if (!isOpen || receipt) return;
@@ -540,7 +541,6 @@ export function CheckoutModal({
           storeWhatsAppNumber,
           buildWhatsAppOrderMessage({
             receipt: result,
-            customer: form,
             items,
             paymentMethod,
           })
@@ -1213,6 +1213,7 @@ export function CheckoutModal({
                 <div className="sm:col-span-2 rounded-3xl border border-emerald-200 bg-emerald-50 p-4">
                   <label className="flex cursor-pointer items-start gap-3"><input type="checkbox" checked={saveCustomerDetails} onChange={(event) => { const enabled = event.target.checked; setSaveCustomerDetails(enabled); if (!enabled) clearSavedGuestCustomer(window.localStorage); }} className="mt-1 h-4 w-4 accent-emerald-600" /><span><span className="flex items-center gap-1.5 text-xs font-black text-emerald-950"><Save className="h-4 w-4" />حفظ بياناتي على هذا الجهاز</span><span className="mt-1 block text-[10px] font-bold leading-5 text-emerald-800/80">اختياري لتعبئة الاسم والهاتف والعنوان تلقائيًا في الطلب القادم.</span><span className="mt-1 block text-[10px] font-bold leading-5 text-emerald-800/80">لا تستخدم هذا الخيار على جهاز مشترك.</span></span></label>
                   {readSavedGuestCustomer(window.localStorage) && <button type="button" onClick={() => { clearSavedGuestCustomer(window.localStorage); setSaveCustomerDetails(false); setForm(EMPTY_GUEST_CHECKOUT_FORM); }} className="mt-3 inline-flex items-center gap-1.5 text-[10px] font-black text-rose-600"><Trash2 className="h-3.5 w-3.5" />مسح البيانات المحفوظة</button>}
+                  <button type="button" onClick={onOpenPrivacyPolicy} className="mt-3 block text-[10px] font-black text-blue-700 underline-offset-4 hover:underline">كيف نستخدم ونحمي بياناتك؟ اقرأ سياسة الخصوصية</button>
                 </div>
 
               </div>

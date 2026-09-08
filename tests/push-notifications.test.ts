@@ -59,6 +59,11 @@ test('production push accepts new website orders only', () => {
   assert.match(productionCleanup, /CHECK \(event_type = 'new_order'\)/);
 });
 
+test('lock-screen order push excludes customer identity and financial data', () => {
+  assert.doesNotMatch(edgeFunction, /customer_name_snapshot|total_in_minor_units/);
+  assert.match(edgeFunction, /طلب موقع جديد بحاجة للمراجعة/);
+});
+
 test('the service worker displays and routes background notifications', () => {
   assert.match(serviceWorker, /addEventListener\('push'/);
   assert.match(serviceWorker, /showNotification/);

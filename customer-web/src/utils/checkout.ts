@@ -271,15 +271,20 @@ export function createOrderFingerprint(
 }
 
 export function readSavedGuestCustomer(
-  storage: Pick<Storage, 'getItem' | 'removeItem'>,
+  storage: Pick<Storage, 'getItem' | 'removeItem' | 'setItem'>,
   now = Date.now()
 ): GuestCheckoutForm | null {
   try {
     const raw = storage.getItem(SAVED_CUSTOMER_STORAGE_KEY);
     if (!raw) return null;
-    const saved = JSON.parse(raw) as SavedGuestCustomer;
+    const saved = JSON.parse(raw) as SavedGuestCustomer | {
+      version: 2;
+      customer: GuestCheckoutForm;
+      savedAt: number;
+      expiresAt: number;
+    };
     if (
-      saved.version !== 2 ||
+      (saved.version !== 2 && saved.version !== 3) ||
       !saved.customer ||
       typeof saved.customer !== 'object' ||
       Array.isArray(saved.customer) ||
@@ -289,7 +294,15 @@ export function readSavedGuestCustomer(
       storage.removeItem(SAVED_CUSTOMER_STORAGE_KEY);
       return null;
     }
-    return { ...EMPTY_GUEST_CHECKOUT_FORM, ...saved.customer };
+    const customer = {
+      ...EMPTY_GUEST_CHECKOUT_FORM,
+      ...saved.customer,
+      customerNotes: '',
+    };
+    if (saved.version === 2 || 'customerNotes' in saved.customer) {
+      saveGuestCustomer(storage, customer, saved.savedAt);
+    }
+    return customer;
   } catch {
     storage.removeItem(SAVED_CUSTOMER_STORAGE_KEY);
     return null;
@@ -301,9 +314,22 @@ export function saveGuestCustomer(
   customer: GuestCheckoutForm,
   now = Date.now()
 ): void {
+  const reusableCustomer: SavedGuestCustomer['customer'] = {
+    fullName: customer.fullName,
+    phone: customer.phone,
+    governorate: customer.governorate,
+    city: customer.city,
+    area: customer.area,
+    street: customer.street,
+    building: customer.building,
+    addressNotes: customer.addressNotes,
+    googleMapsUrl: customer.googleMapsUrl,
+    latitude: customer.latitude,
+    longitude: customer.longitude,
+  };
   const saved: SavedGuestCustomer = {
-    version: 2,
-    customer: { ...customer },
+    version: 3,
+    customer: reusableCustomer,
     savedAt: now,
     expiresAt: now + SAVED_GUEST_CUSTOMER_TTL_MS,
   };
@@ -434,7 +460,6 @@ export function clearPendingOrder(
 
 export function buildWhatsAppOrderMessage({
   receipt,
-  customer,
   items,
   paymentMethod,
 }: WhatsAppOrderSummary): string {
@@ -444,11 +469,6 @@ export function buildWhatsAppOrderMessage({
         item.unitPriceInMinorUnits
       )}`
   );
-  const address = [buildDeliveryAddress(customer), customer.building]
-    .map((value) => value.trim())
-    .filter(Boolean)
-    .join(' - ');
-
   return [
     '🛒 *طلب جملة جديد من الموقع*',
     `رقم الطلب: *${receipt.orderNumber}*`,
@@ -471,18 +491,7 @@ export function buildWhatsAppOrderMessage({
     `طريقة الدفع: ${paymentMethod === 'cliq' ? 'CliQ' : 'كاش عند الاستلام'}`,
     `💰 *الإجمالي المطلوب: ${formatJod(receipt.totalInMinorUnits)}*`,
     '',
-    '👤 *بيانات العميل*',
-    `الاسم: ${customer.fullName.trim()}`,
-    `الهاتف: ${normalizeJordanPhone(customer.phone) || customer.phone.trim()}`,
-    `العنوان: ${address}`,
-    customer.googleMapsUrl.trim()
-      ? `الموقع: ${customer.googleMapsUrl.trim()}`
-      : '',
-    customer.customerNotes.trim()
-      ? `ملاحظات: ${customer.customerNotes.trim()}`
-      : '',
-    '',
-    'يرجى تأكيد الطلب للعميل، شكرًا.',
+    'تفاصيل التوصيل وبيانات العميل محفوظة داخل نظام الإدارة.',
   ]
     .filter((line, index, allLines) => line !== '' || allLines[index - 1] !== '')
     .join('\n');

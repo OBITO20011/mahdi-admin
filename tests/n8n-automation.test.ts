@@ -150,6 +150,8 @@ test('Telegram and WhatsApp message expressions compile before import', () => {
     assert.match(message, /طلب جديد من موقع النواصرة/);
     assert.match(message, /كاش عند الاستلام/);
     assert.match(message, /12\.000 د\.أ/);
+    assert.doesNotMatch(message, /أحمد|0790000000|الحي الشرقي/);
+    assert.match(message, /بيانات العميل والتوصيل محفوظة داخل نظام الإدارة/);
     assert.doesNotMatch(message, /\\u[0-9a-f]{4}/i);
   }
 });

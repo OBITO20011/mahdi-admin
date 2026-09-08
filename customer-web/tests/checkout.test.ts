@@ -257,8 +257,10 @@ test('saved customer details expire after thirty days and are removed', () => {
 
   const raw = storage.getItem(SAVED_CUSTOMER_STORAGE_KEY);
   assert.ok(raw);
-  assert.equal(JSON.parse(raw).version, 2);
-  assert.equal(JSON.parse(raw).expiresAt, savedAt + SAVED_GUEST_CUSTOMER_TTL_MS);
+  const persisted = JSON.parse(raw);
+  assert.equal(persisted.version, 3);
+  assert.equal(persisted.expiresAt, savedAt + SAVED_GUEST_CUSTOMER_TTL_MS);
+  assert.equal('customerNotes' in persisted.customer, false);
   assert.equal(
     readSavedGuestCustomer(storage as unknown as Storage, savedAt + SAVED_GUEST_CUSTOMER_TTL_MS - 1)?.phone,
     validForm.phone,
@@ -268,6 +270,25 @@ test('saved customer details expire after thirty days and are removed', () => {
     null,
   );
   assert.equal(storage.getItem(SAVED_CUSTOMER_STORAGE_KEY), null);
+});
+
+test('version two saved customer records migrate locally without order notes', () => {
+  const storage = new MemoryStorage();
+  const savedAt = 1_700_000_000_000;
+  storage.setItem(SAVED_CUSTOMER_STORAGE_KEY, JSON.stringify({
+    version: 2,
+    customer: { ...validForm, customerNotes: 'ملاحظة لطلب قديم' },
+    savedAt,
+    expiresAt: savedAt + SAVED_GUEST_CUSTOMER_TTL_MS,
+  }));
+
+  const restored = readSavedGuestCustomer(storage as unknown as Storage, savedAt + 1);
+  assert.equal(restored?.phone, validForm.phone);
+  assert.equal(restored?.customerNotes, '');
+
+  const migrated = JSON.parse(storage.getItem(SAVED_CUSTOMER_STORAGE_KEY) ?? '{}');
+  assert.equal(migrated.version, 3);
+  assert.equal('customerNotes' in migrated.customer, false);
 });
 
 test('legacy or malformed saved customer storage fails closed and is removed', () => {
@@ -357,7 +378,6 @@ test('WhatsApp opens only with the saved order number and summary', () => {
   });
   const message = buildWhatsAppOrderMessage({
     receipt,
-    customer: validForm,
     items: cartItems,
     paymentMethod: 'cliq',
   });
@@ -371,6 +391,8 @@ test('WhatsApp opens only with the saved order number and summary', () => {
   assert.match(message, /منطقة التوصيل: خارج الرمثا/);
   assert.match(message, /أجرة التوصيل/);
   assert.match(message, /الإجمالي المطلوب/);
+  assert.doesNotMatch(message, /0791234567|شارع الحسن|محمد/);
+  assert.match(message, /بيانات العميل محفوظة داخل نظام الإدارة/);
   assert.match(url, /^https:\/\/wa\.me\/962799999999\?text=/);
 });
 

@@ -86,14 +86,13 @@ export interface PendingGuestOrder {
 
 export interface WhatsAppOrderSummary {
   receipt: GuestOrderReceipt;
-  customer: GuestCheckoutForm;
   items: CartItem[];
   paymentMethod: GuestPaymentMethod;
 }
 
 export interface SavedGuestCustomer {
-  version: 2;
-  customer: GuestCheckoutForm;
+  version: 3;
+  customer: Omit<GuestCheckoutForm, 'customerNotes'>;
   savedAt: number;
   expiresAt: number;
 }

@@ -102,7 +102,7 @@ Deno.serve(async (request) => {
   const {data: order, error: orderError} = await supabase
     .from('orders')
     .select(
-      'id, order_number, customer_name_snapshot, total_in_minor_units, status, source',
+      'id, order_number, status, source',
     )
     .eq('id', body.orderId)
     .eq('source', 'website')
@@ -121,9 +121,8 @@ Deno.serve(async (request) => {
     return jsonResponse({error: 'Order not found'}, 404);
   }
 
-  const total = (Number(order.total_in_minor_units || 0) / 1000).toFixed(3);
   const title = `طلب جديد ${order.order_number}`;
-  const message = `${order.customer_name_snapshot || 'عميل جديد'} — ${total} د.أ`;
+  const message = 'طلب موقع جديد بحاجة للمراجعة في تطبيق الإدارة.';
   const targetUrl = `/?screen=orders&order=${encodeURIComponent(order.id)}`;
   const tag = `new-order-${order.id}`;
 

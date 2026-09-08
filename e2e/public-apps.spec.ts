@@ -6,10 +6,18 @@ const adminBaseUrl =
 const customerBaseUrl =
   process.env.CUSTOMER_BASE_URL ?? 'http://127.0.0.1:4174';
 
-async function expectNoSeriousAccessibilityViolations(page: Page) {
-  const results = await new AxeBuilder({ page })
-    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-    .analyze();
+async function expectNoSeriousAccessibilityViolations(
+  page: Page,
+  includeSelector?: string,
+) {
+  const builder = new AxeBuilder({ page }).withTags([
+    'wcag2a',
+    'wcag2aa',
+    'wcag21a',
+    'wcag21aa',
+  ]);
+  if (includeSelector) builder.include(includeSelector);
+  const results = await builder.analyze();
 
   const blockingViolations = results.violations.filter(
     (violation) =>
@@ -315,6 +323,21 @@ test.describe('متجر العملاء العام', () => {
 
     await expect(page.locator('#catalog')).toBeVisible();
     await expectNoSeriousAccessibilityViolations(page);
+  });
+
+  test('سياسة الخصوصية متاحة من المتجر ومناسبة للهاتف', async ({ page }) => {
+    await page.goto(customerBaseUrl, { waitUntil: 'domcontentloaded' });
+    await page.getByRole('button', { name: 'سياسة الخصوصية وحماية البيانات' }).click();
+
+    const policy = page.getByRole('dialog', { name: 'سياسة الخصوصية' });
+    await expect(policy).toBeVisible();
+    await expect(policy.getByText('البيانات التي نحتاجها')).toBeVisible();
+    await expectNoSeriousAccessibilityViolations(
+      page,
+      '[aria-labelledby="privacy-policy-title"]',
+    );
+    await policy.getByRole('button', { name: 'إغلاق سياسة الخصوصية' }).click();
+    await expect(policy).toBeHidden();
   });
 });
 

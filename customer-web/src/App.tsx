@@ -22,6 +22,7 @@ import { NetworkStatusBanner } from './components/NetworkStatusBanner';
 import { MerchandisingSections } from './components/MerchandisingSections';
 import { MobileStoreNav } from './components/MobileStoreNav';
 import { OrderTrackingModal } from './components/OrderTrackingModal';
+import { PrivacyPolicyModal } from './components/PrivacyPolicyModal';
 import { OffersPage } from './components/OffersPage';
 import { ProductCard } from './components/ProductCard';
 import { ProductDetailsModal } from './components/ProductDetailsModal';
@@ -155,6 +156,7 @@ export function App() {
 }
 
 function StorefrontApp({ trackingToken }: { trackingToken: string }) {
+  const [privacyPolicyOpen, setPrivacyPolicyOpen] = useState(false);
   const [activePage, setActivePage] = useState<StorePage>(
     () => readStoreLocationRoute(window.location).page
   );
@@ -1700,9 +1702,14 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
               </p>
             </div>
           </div>
-          <p className="text-[10px] font-bold text-blue-200">
-            البيانات المعروضة مرتبطة بنظام إدارة المخزون.
-          </p>
+          <div className="flex flex-col items-start gap-2 sm:items-end">
+            <p className="text-[10px] font-bold text-blue-200">
+              البيانات المعروضة مرتبطة بنظام إدارة المخزون.
+            </p>
+            <button type="button" onClick={() => setPrivacyPolicyOpen(true)} className="min-h-11 text-xs font-black text-white underline decoration-blue-300 underline-offset-4">
+              سياسة الخصوصية وحماية البيانات
+            </button>
+          </div>
         </div>
       </footer>
 
@@ -1757,6 +1764,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         initialPromotionCode={preferredPromotionCode}
         onClose={() => setCheckoutOpen(false)}
         onRetryStorefrontSettings={() => void loadStorefrontSettings(true)}
+        onOpenPrivacyPolicy={() => setPrivacyPolicyOpen(true)}
         onOrderCreated={handleOrderCreated}
         onTrackOrder={openCreatedOrderTracking}
       />
@@ -1771,6 +1779,13 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
             window.dispatchEvent(new PopStateEvent('popstate'));
           }
         }}
+      />
+
+      <PrivacyPolicyModal
+        isOpen={privacyPolicyOpen}
+        onClose={() => setPrivacyPolicyOpen(false)}
+        storeName={storefrontSettings.storeNameAr}
+        whatsappNumber={storefrontSettings.whatsappNumber}
       />
 
       <MobileStoreNav cartPackages={cartPackages} cartTotal={cartSubtotal} whatsappUrl={storeWhatsappUrl} onHome={() => navigateStorePage('home')} onCategories={() => navigateStorePage('categories')} onSearch={() => { setActivePage('catalog'); changeStoreLocation(getStorePagePath('catalog')); setSearchOpenSignal((value) => value + 1); }} onCart={() => openCart()} />
