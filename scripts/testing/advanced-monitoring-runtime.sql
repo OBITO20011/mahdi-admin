@@ -45,6 +45,12 @@ BEGIN
   THEN RAISE EXCEPTION 'Integrity incident did not open once.'; END IF;
   INSERT INTO advanced_monitoring_results VALUES('integrity_violation_opens_once',true);
 
+  v_result:=public.scan_core_business_alerts(v_now+interval '90 seconds');
+  IF (SELECT state FROM public.business_alert_incidents WHERE incident_key='business-integrity:system')<>'open'
+    OR (SELECT count(*) FROM public.automation_events WHERE event_type='business_alert_recovery' AND payload->>'resolvedAlertType'='business_integrity_warning')<>0
+  THEN RAISE EXCEPTION 'Core Business scanner resolved an incident it does not own.'; END IF;
+  INSERT INTO advanced_monitoring_results VALUES('scanner_ownership_isolated',true);
+
   v_result:=public.run_advanced_monitoring_checks(v_now+interval '2 minutes');
   IF (SELECT count(*) FROM public.automation_events WHERE event_type='business_integrity_warning')<>1
   THEN RAISE EXCEPTION 'Repeated integrity scan duplicated Business alert.'; END IF;

@@ -33,5 +33,5 @@ if (process.env.NAWASRAH_SKIP_BOOTSTRAP !== '1') {
 const output=await runSql(await readFile(sqlPath,'utf8'));
 const line=output.split(/\r?\n/u).find((item)=>item.startsWith('{'));
 const summary=line?JSON.parse(line):null;
-if(!summary?.ok||summary.runtime_scenarios!==14) throw new Error(`Advanced monitoring runtime suite failed: ${output}`);
+if(!summary?.ok||summary.runtime_scenarios!==15) throw new Error(`Advanced monitoring runtime suite failed: ${output}`);
 console.log(JSON.stringify({ok:true,runtimeScenarios:summary.runtime_scenarios,scenarios:summary.scenarios},null,2));

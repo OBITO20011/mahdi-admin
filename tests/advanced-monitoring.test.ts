@@ -4,6 +4,7 @@ import test from 'node:test';
 
 const migrationPath='supabase/migrations/099_advanced_monitoring_and_business_integrity.sql';
 const monitoringFixPath='supabase/migrations/100_fix_cancelled_supplier_receipt_monitoring.sql';
+const incidentOwnershipFixPath='supabase/migrations/101_scope_core_business_incident_recovery.sql';
 
 test('advanced monitoring is read-only for Business sources and has no repair path',async()=>{
   const sql=await readFile(migrationPath,'utf8');
@@ -21,6 +22,13 @@ test('cancelled supplier receipts reconcile original and reversal movements as a
   assert.match(sql,/reference_type = 'supplier_receipt_cancellation'[\s\S]*movement_type = 'return_out'/u);
   assert.match(sql,/COALESCE\(e\.qty, 0\) <> COALESCE\(a\.qty, 0\)/u);
   assert.doesNotMatch(sql,/UPDATE public\.supplier_receipts|UPDATE public\.inventory_balances/u);
+});
+
+test('core Business scanner resolves only incident types that it owns',async()=>{
+  const sql=await readFile(incidentOwnershipFixPath,'utf8');
+  assert.match(sql,/WHERE bi\.state = 'open'[\s\S]*AND bi\.alert_type IN \([\s\S]*'expense_daily_threshold'/u);
+  const ownedLoop=sql.slice(sql.indexOf('-- Resolve only incidents owned by this scanner.'));
+  assert.doesNotMatch(ownedLoop,/business_integrity_warning/u);
 });
 
 test('monitoring RPCs are private and dashboard requires owner AAL2',async()=>{
