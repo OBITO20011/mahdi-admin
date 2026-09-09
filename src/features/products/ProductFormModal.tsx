@@ -1045,7 +1045,6 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                 type="button"
                 onClick={() => {
                   if (!initialProduct) return;
-                  onClose();
                   openModal('view_product', initialProduct);
                 }}
                 className="shrink-0 rounded-xl bg-violet-600 px-3 py-2 text-[10px] font-black text-white"

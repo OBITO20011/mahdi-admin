@@ -168,6 +168,11 @@ test('editing a flavor master exposes existing children and reuses management', 
   assert.match(adminForm, /SKU: \{flavor\.sku\}/);
   assert.match(adminForm, /إدارة النكهات/);
   assert.match(adminForm, /openModal\('view_product', initialProduct\)/);
+  assert.doesNotMatch(
+    adminForm,
+    /onClose\(\);\s*openModal\('view_product', initialProduct\)/,
+    'switching from edit to flavor management must not close the shared modal dispatcher first'
+  );
 });
 
 test('flavor management preserves inventory and history while editing identity', () => {
