@@ -25,6 +25,7 @@ interface GuestOrderGatewayBody {
 }
 
 const approvedOrigins = new Set([
+  'https://alnawasreh.com',
   'https://nawasrah-store.pages.dev',
   'http://localhost:3002',
   'http://127.0.0.1:3002',
@@ -162,7 +163,7 @@ export async function handleGuestOrderRequest(
   const hashSecret = getEnv('GUEST_ORDER_HASH_SECRET');
   const turnstileTestMode = getEnv('TURNSTILE_TEST_MODE') === 'true';
   const allowedHostnames = new Set<string>(
-    (getEnv('TURNSTILE_ALLOWED_HOSTNAMES') || 'nawasrah-store.pages.dev')
+    (getEnv('TURNSTILE_ALLOWED_HOSTNAMES') || 'alnawasreh.com,nawasrah-store.pages.dev')
       .split(',')
       .map((hostname) => hostname.trim().toLowerCase())
       .filter(Boolean),

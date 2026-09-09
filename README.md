@@ -74,8 +74,8 @@ npm.cmd run quality
 
 ## Production وعمليات التشغيل
 
-- Admin: <https://nawasrah-admin.pages.dev/>
-- Customer Store: <https://nawasrah-store.pages.dev/>
+- Admin: <https://admin.alnawasreh.com/>
+- Customer Store: <https://alnawasreh.com/>
 - Admin deploy/check: `npm.cmd run deploy:admin` و`npm.cmd run deploy:admin:check`
 - Customer deploy: `npm.cmd --prefix customer-web run deploy:cloudflare`
 - Migration alignment: `npx supabase migration list`

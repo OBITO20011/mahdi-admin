@@ -212,7 +212,7 @@ export function StorefrontSettingsModal() {
 
       <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
         <button type="submit" disabled={saving} className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-xs font-black text-white transition hover:bg-blue-500 disabled:opacity-50">{saving ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}{saving ? 'جارٍ الحفظ...' : 'حفظ وتطبيق على الموقع'}</button>
-        <a href="https://nawasrah-store.pages.dev/" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-xs font-black text-slate-200"><ExternalLink className="h-4 w-4" />معاينة الموقع</a>
+        <a href="https://alnawasreh.com/" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-xs font-black text-slate-200"><ExternalLink className="h-4 w-4" />معاينة الموقع</a>
       </div>
     </form>
   );

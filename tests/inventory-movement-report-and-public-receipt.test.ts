@@ -44,5 +44,5 @@ test('public POS receipt links are random, staff-issued, and sanitized', () => {
   assert.match(migration, /o\.source = 'pos'/);
   assert.doesNotMatch(migration, /'customerPhone'|'customerAddress'|'costInMinorUnits'|'profitInMinorUnits'/);
   assert.match(posService, /get_or_create_pos_receipt_token/);
-  assert.match(posService, /nawasrah-store\.pages\.dev/);
+  assert.match(posService, /https:\/\/alnawasreh\.com/);
 });

@@ -29,7 +29,7 @@ test('POS receipt share text contains the saved wholesale sale details', () => {
     remainingAmount: 0,
     changeDue: 0,
     publicReceiptUrl:
-      'https://nawasrah-store.pages.dev/#receipt=11111111-1111-4111-8111-111111111111',
+      'https://alnawasreh.com/#receipt=11111111-1111-4111-8111-111111111111',
   });
 
   assert.match(text, /POS-1001/);

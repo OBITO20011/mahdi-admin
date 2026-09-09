@@ -77,6 +77,7 @@ type GeminiResponse = {
 };
 
 const allowedOrigins = new Set([
+  'https://admin.alnawasreh.com',
   'https://nawasrah-admin.pages.dev',
   'http://localhost:3000',
   'http://127.0.0.1:3000',
@@ -91,8 +92,8 @@ const isAllowedOrigin = (origin: string | null) =>
 
 const corsHeaders = (origin: string | null) => ({
   'Access-Control-Allow-Origin': isAllowedOrigin(origin)
-    ? origin || 'https://nawasrah-admin.pages.dev'
-    : 'https://nawasrah-admin.pages.dev',
+    ? origin || 'https://admin.alnawasreh.com'
+    : 'https://admin.alnawasreh.com',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   Vary: 'Origin',

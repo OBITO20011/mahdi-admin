@@ -27,6 +27,7 @@ interface StaffRow {
 }
 
 const approvedOrigins = new Set([
+  'https://admin.alnawasreh.com',
   'https://nawasrah-admin.pages.dev',
   'http://localhost:3000',
   'http://127.0.0.1:3000',

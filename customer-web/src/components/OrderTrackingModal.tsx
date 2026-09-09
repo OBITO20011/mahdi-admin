@@ -19,6 +19,7 @@ import {
 import type { GuestOrderTracking } from '../types/checkout';
 import { formatJod } from '../utils/money';
 import { OrderTrackingTimeline } from './OrderTrackingTimeline';
+import { getPublicStorefrontUrl } from '../config/publicSite';
 import {
   formatTrackingDateTime,
   ORDER_STATUS_LABELS,
@@ -166,7 +167,9 @@ export function OrderTrackingModal({
   const copyTrackingLink = async () => {
     const token = result?.trackingToken || secureToken;
     if (!token) return;
-    const url = `${window.location.origin}${window.location.pathname}#track=${encodeURIComponent(token)}`;
+    const url = getPublicStorefrontUrl(
+      `${window.location.pathname}#track=${encodeURIComponent(token)}`,
+    );
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);

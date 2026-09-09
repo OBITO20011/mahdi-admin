@@ -2,6 +2,7 @@ import {useEffect} from 'react';
 import {StorefrontOffer} from '../types/offers';
 import {CatalogCategory, CatalogProduct} from '../types/catalog';
 import {getCategoryPath, getProductPath, getStorePagePath, StorePage} from './publicRoutes';
+import {getPublicStorefrontUrl} from '../config/publicSite';
 
 const STORE_NAME = 'محلات النواصرة';
 const DEFAULT_DESCRIPTION = 'كتالوج محلات النواصرة لطلبات الجملة من المخزون مباشرة.';
@@ -46,7 +47,7 @@ function upsertStructuredData(value: Record<string, unknown> | null) {
 }
 
 function publicUrl(path: string): string {
-  return new URL(path, window.location.origin).toString();
+  return getPublicStorefrontUrl(path);
 }
 
 function productSchema(product: CatalogProduct): Record<string, unknown> {

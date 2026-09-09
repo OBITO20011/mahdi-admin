@@ -296,8 +296,8 @@ async function collectPublicServiceChecks() {
     ));
   }
   for (const service of [
-    {key: 'admin', url: 'https://nawasrah-admin.pages.dev'},
-    {key: 'customer', url: 'https://nawasrah-store.pages.dev'},
+    {key: 'admin', url: 'https://admin.alnawasreh.com'},
+    {key: 'customer', url: 'https://alnawasreh.com'},
   ]) {
     try {
       const response = await fetch(service.url, {redirect: 'follow', signal: AbortSignal.timeout(15_000)});

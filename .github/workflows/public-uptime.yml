@@ -44,5 +44,5 @@ jobs:
             echo "${label} is healthy (HTTP ${status})."
           }
 
-          check_endpoint 'Customer store' 'https://nawasrah-store.pages.dev/'
-          check_endpoint 'Admin application' 'https://nawasrah-admin.pages.dev/'
+          check_endpoint 'Customer store' 'https://alnawasreh.com/'
+          check_endpoint 'Admin application' 'https://admin.alnawasreh.com/'

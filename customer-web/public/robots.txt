@@ -6,4 +6,4 @@ Disallow: /favorites
 Disallow: /tracking
 Disallow: /receipt
 Disallow: /search
-Sitemap: https://nawasrah-store.pages.dev/sitemap.xml
+Sitemap: https://alnawasreh.com/sitemap.xml

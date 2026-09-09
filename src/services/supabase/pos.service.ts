@@ -216,7 +216,7 @@ function storefrontReceiptUrl(receiptToken: string): string {
   ).env;
   const baseUrl =
     environment?.VITE_STOREFRONT_PUBLIC_URL?.trim() ||
-    'https://nawasrah-store.pages.dev';
+    'https://alnawasreh.com';
   return `${baseUrl.replace(/\/+$/, '')}/#receipt=${encodeURIComponent(receiptToken)}`;
 }
 

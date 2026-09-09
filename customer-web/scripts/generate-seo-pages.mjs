@@ -4,7 +4,7 @@ import {fileURLToPath} from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
-const siteOrigin = (process.env.VITE_PUBLIC_SITE_ORIGIN || 'https://nawasrah-store.pages.dev').replace(/\/+$/, '');
+const siteOrigin = (process.env.VITE_PUBLIC_SITE_ORIGIN || 'https://alnawasreh.com').replace(/\/+$/, '');
 const config = await readFile(path.join(root, 'src', 'config', 'supabase-public-config.ts'), 'utf8');
 const url = config.match(/SUPABASE_URL:\s*'([^']+)'/)?.[1];
 const key = config.match(/SUPABASE_PUBLISHABLE_KEY:\s*'([^']+)'/)?.[1];
