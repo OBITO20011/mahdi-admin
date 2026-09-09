@@ -28,7 +28,11 @@ import {
 } from '../../services/supabase/products.service';
 import { useAppStore } from '../../stores/useAppStore';
 import { Product } from '../../types';
-import { formatProductInventory } from '../../utils/inventoryFormatter';
+import {
+  formatProductInventory,
+  formatWholesaleInventory,
+  summarizeFlavorFamilyInventory,
+} from '../../utils/inventoryFormatter';
 import { validateProductImage } from '../../utils/productImage';
 import { calculateProductProfit } from '../../utils/productCalculations';
 
@@ -74,21 +78,13 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         (first.flavorNameAr || '').localeCompare(second.flavorNameAr || '', 'ar')
     );
   const isFlavorFamily = product.isFlavorMaster || flavors.length > 0;
+  const familyInventorySummary = summarizeFlavorFamilyInventory(flavors);
   const familyInventoryProduct: Product = isFlavorFamily
     ? {
         ...product,
-        onHandQuantity: flavors.reduce(
-          (sum, flavor) => sum + flavor.onHandQuantity,
-          0
-        ),
-        reservedQuantity: flavors.reduce(
-          (sum, flavor) => sum + flavor.reservedQuantity,
-          0
-        ),
-        availableQuantity: flavors.reduce(
-          (sum, flavor) => sum + flavor.availableQuantity,
-          0
-        ),
+        onHandQuantity: familyInventorySummary.onHandQuantity,
+        reservedQuantity: familyInventorySummary.reservedQuantity,
+        availableQuantity: familyInventorySummary.availableQuantity,
       }
     : product;
 
@@ -109,6 +105,12 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   );
   const inventoryOnHand = formatProductInventory(familyInventoryProduct, false);
   const inventoryAvailable = formatProductInventory(familyInventoryProduct, true);
+  const familyReserved = formatWholesaleInventory(
+    familyInventorySummary.reservedQuantity,
+    familyInventorySummary.unitsPerPackage,
+    familyInventorySummary.purchasePackage,
+    familyInventorySummary.unit
+  );
   const isOutOfStock = familyInventoryProduct.availableQuantity === 0;
   const isLowStock =
     familyInventoryProduct.availableQuantity > 0 &&
@@ -363,7 +365,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               </p>
             )}
           </div>
-          <div className="flex flex-wrap gap-1.5 border-t border-slate-800 pt-2.5 font-mono text-[9px] text-slate-500">
+          <div className="flex flex-wrap gap-1.5 border-t border-slate-800 pt-2.5 font-mono text-[9px] text-slate-300">
             <span className="rounded-lg bg-slate-900 px-2 py-1">
               SKU: {product.sku}
             </span>
@@ -449,10 +451,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           {flavors.length > 0 ? (
             <div className="mt-3 grid gap-2">
               {flavors.map((flavor, index) => {
-                const availablePackages = Math.floor(
-                  flavor.availableQuantity / Math.max(1, flavor.unitsPerSalePackage || 1)
-                );
-                const out = availablePackages === 0;
+                const flavorAvailable = formatProductInventory(flavor, true);
+                const out = flavor.availableQuantity <= 0;
                 const isHidden = flavor.status === 'hidden';
                 const isEditingFlavor = editingFlavorId === flavor.id;
                 return (
@@ -486,7 +486,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                           </span>
                         </div>
                         <p className="mt-1 text-[9px] font-bold text-slate-400">
-                          المتاح: {availablePackages.toLocaleString('ar-JO')} {product.salePackage || 'طرد'}
+                          المتاح: {flavorAvailable.cartonFormatted}
                           {flavor.barcode ? ` • ${flavor.barcode}` : ''}
                         </p>
                       </div>
@@ -744,36 +744,53 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         </div>
       </section>
 
-      <section className="rounded-2xl border border-slate-800 bg-slate-950 p-3.5">
+      <section
+        className="rounded-2xl border border-slate-800 bg-slate-950 p-3.5"
+        data-flavor-family-stock-summary={isFlavorFamily ? 'true' : undefined}
+      >
         <div className="mb-3 flex items-center gap-2">
           <Boxes className="h-4 w-4 text-indigo-400" />
           <div>
-            <h4 className="font-black text-slate-100">الرصيد الحالي</h4>
+            <h4 className="font-black text-slate-100">
+              {isFlavorFamily ? 'إجمالي مخزون النكهات' : 'الرصيد الحالي'}
+            </h4>
             <p className="text-[9px] text-slate-500">
-              يتغير من الاستلام والطلبات والجرد المعتمد
+              {isFlavorFamily
+                ? 'محسوب للعرض فقط من أرصدة النكهات المستقلة'
+                : 'يتغير من الاستلام والطلبات والجرد المعتمد'}
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-2">
-          <TextMetric
-            label="الفعلي"
-            value={inventoryOnHand.totalPiecesFormatted}
-            color="text-amber-300"
-          />
-          <TextMetric
-            label="المحجوز"
-            value={`${familyInventoryProduct.reservedQuantity} ${product.unit}`}
-            color="text-orange-300"
-          />
-          <TextMetric
-            label="المتاح"
-            value={inventoryAvailable.totalPiecesFormatted}
-            color="text-emerald-300"
-          />
-        </div>
+        {isFlavorFamily && !familyInventorySummary.hasCompatiblePackaging ? (
+          <p className="rounded-xl border border-amber-500/25 bg-amber-500/10 p-2.5 text-[9px] font-bold leading-4 text-amber-300">
+            أحجام طرود النكهات غير متطابقة؛ راجع رصيد كل نكهة بدل عرض مجموع مضلل.
+          </p>
+        ) : (
+          <div className="grid grid-cols-3 gap-2">
+            <TextMetric
+              label="الموجود"
+              value={inventoryOnHand.cartonFormatted}
+              color="text-amber-300"
+            />
+            <TextMetric
+              label="المحجوز"
+              value={
+                isFlavorFamily
+                  ? familyReserved.cartonFormatted
+                  : `${familyInventoryProduct.reservedQuantity} ${product.unit}`
+              }
+              color="text-orange-300"
+            />
+            <TextMetric
+              label={isFlavorFamily ? 'إجمالي المتاح' : 'المتاح'}
+              value={inventoryAvailable.cartonFormatted}
+              color="text-emerald-300"
+            />
+          </div>
+        )}
         <div className="mt-2 grid grid-cols-2 gap-2 rounded-xl border border-slate-800 bg-slate-900/70 p-2.5">
           <div>
-            <span className="block text-[8px] font-bold text-slate-500">
+            <span className="block text-[8px] font-bold text-slate-400">
               تنبيه النقص
             </span>
             <strong className="text-[10px] text-amber-300">
@@ -781,7 +798,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             </strong>
           </div>
           <div>
-            <span className="block text-[8px] font-bold text-slate-500">
+            <span className="block text-[8px] font-bold text-slate-400">
               سقف المستودع
             </span>
             <strong className="text-[10px] text-slate-300">
@@ -864,7 +881,7 @@ const PriceMetric: React.FC<{
   color: string;
 }> = ({ label, value, color }) => (
   <div className="rounded-xl border border-slate-800 bg-slate-900/80 p-2 text-center">
-    <span className="block text-[8px] font-bold text-slate-500">{label}</span>
+    <span className="block text-[8px] font-bold text-slate-400">{label}</span>
     <strong className={`mt-1 block text-[10px] ${color}`}>
       {value.toFixed(3)} {CURRENCY}
     </strong>
@@ -897,7 +914,7 @@ const TextMetric: React.FC<{
   color?: string;
 }> = ({ label, value, color = 'text-slate-200' }) => (
   <div className="min-w-0 rounded-xl border border-slate-800 bg-slate-900/70 p-2 text-center">
-    <span className="block text-[8px] font-bold text-slate-500">{label}</span>
+    <span className="block text-[8px] font-bold text-slate-400">{label}</span>
     <strong className={`mt-1 block break-words text-[9px] ${color}`}>
       {value}
     </strong>

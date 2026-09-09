@@ -113,6 +113,42 @@ test('compact product cards preserve actions and accessibility', async ({ page }
   await expectNoSeriousAccessibilityViolations(page);
 });
 
+test('flavor master shows a compact read-only family stock summary', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(
+    `${adminBaseUrl}/e2e/admin-mobile-ux-harness.html?view=products`,
+    { waitUntil: 'domcontentloaded' }
+  );
+
+  const familyCard = page.locator(
+    '[data-product-catalog-card="product-flavor-master-mobile-ux"]'
+  );
+  await expect(familyCard.getByText('إجمالي المتاح في النكهات')).toBeVisible();
+  await expect(familyCard.getByText(/8 كراتين/)).toBeVisible();
+  await familyCard.getByRole('button', { name: /٢ نكهات/ }).click();
+  await expect(familyCard.getByText(/تفاح/)).toBeVisible();
+  await expect(familyCard.getByText(/فراولة/)).toBeVisible();
+  await expectNoOverflow(page);
+  await expectNoSeriousAccessibilityViolations(page);
+});
+
+test('flavor details separate on-hand, reserved and available family totals', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(
+    `${adminBaseUrl}/e2e/admin-mobile-ux-harness.html?view=flavor-detail`,
+    { waitUntil: 'domcontentloaded' }
+  );
+
+  await expect(page.getByText('إجمالي مخزون النكهات')).toBeVisible();
+  await expect(page.getByText('محسوب للعرض فقط من أرصدة النكهات المستقلة')).toBeVisible();
+  const stockSummary = page.locator('[data-flavor-family-stock-summary="true"]');
+  await expect(stockSummary.getByText(/10 كراتين/)).toBeVisible();
+  await expect(stockSummary.getByText(/2 كرتونة/)).toBeVisible();
+  await expect(stockSummary.getByText(/8 كراتين/)).toBeVisible();
+  await expectNoOverflow(page);
+  await expectNoSeriousAccessibilityViolations(page);
+});
+
 test('inventory secondary data and actions stay reachable', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`${adminBaseUrl}/e2e/admin-mobile-ux-harness.html`, {

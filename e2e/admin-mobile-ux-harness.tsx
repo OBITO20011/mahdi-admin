@@ -4,6 +4,7 @@ import '../src/index.css';
 import { InventoryView } from '../src/features/inventory/InventoryView';
 import { OperationalOrderCard } from '../src/features/orders/OrdersCenterView';
 import { ProductsView } from '../src/features/products/ProductsView';
+import { ProductDetailModal } from '../src/features/products/ProductDetailModal';
 import { storeEngine } from '../src/stores/useAppStore';
 import type { OperationalOrderListItem } from '../src/services/supabase/orders.service';
 import type { Product } from '../src/types';
@@ -112,6 +113,62 @@ const catalogProducts: Product[] = [
   },
 ];
 
+const flavorMasterProduct: Product = {
+  ...baseProduct,
+  id: 'product-flavor-master-mobile-ux',
+  sku: 'JUICE-FAMILY',
+  barcode: '',
+  nameAr: 'عصير النكهات',
+  onHandQuantity: 0,
+  reservedQuantity: 0,
+  availableQuantity: 0,
+  unitsPerPackage: 6,
+  unitsPerSalePackage: 6,
+  purchasePackage: 'كرتونة',
+  salePackage: 'كرتونة',
+  unit: 'حبة',
+  isFlavorMaster: true,
+};
+
+const flavorProducts: Product[] = [
+  {
+    ...flavorMasterProduct,
+    id: 'product-flavor-apple-mobile-ux',
+    sku: 'JUICE-FAMILY-APPLE',
+    barcode: '6251234567810',
+    nameAr: 'عصير النكهات - تفاح',
+    flavorMasterProductId: flavorMasterProduct.id,
+    flavorNameAr: 'تفاح',
+    flavorSortOrder: 1,
+    isFlavorMaster: false,
+    onHandQuantity: 30,
+    reservedQuantity: 6,
+    availableQuantity: 24,
+  },
+  {
+    ...flavorMasterProduct,
+    id: 'product-flavor-strawberry-mobile-ux',
+    sku: 'JUICE-FAMILY-STRAWBERRY',
+    barcode: '6251234567811',
+    nameAr: 'عصير النكهات - فراولة',
+    flavorMasterProductId: flavorMasterProduct.id,
+    flavorNameAr: 'فراولة',
+    flavorSortOrder: 2,
+    isFlavorMaster: false,
+    onHandQuantity: 30,
+    reservedQuantity: 6,
+    availableQuantity: 24,
+  },
+];
+
+const productCatalogProducts: Product[] = [
+  baseProduct,
+  catalogProducts[1],
+  flavorMasterProduct,
+  catalogProducts[3],
+  ...flavorProducts,
+];
+
 const view = new URLSearchParams(window.location.search).get('view');
 
 const state = storeEngine.getState();
@@ -126,7 +183,12 @@ Object.assign(state, {
       nameAr: 'العصائر والمشروبات',
     },
   ],
-  products: view === 'orders' ? [baseProduct] : catalogProducts,
+  products:
+    view === 'orders'
+      ? [baseProduct]
+      : view === 'products' || view === 'flavor-detail'
+        ? productCatalogProducts
+        : catalogProducts,
   movements: [],
   movementPage: {
     page: 1,
@@ -202,6 +264,13 @@ const content =
     </main>
   ) : view === 'products' ? (
     <ProductsView />
+  ) : view === 'flavor-detail' ? (
+    <main dir="rtl" className="mx-auto max-w-lg p-3">
+      <ProductDetailModal
+        product={flavorMasterProduct}
+        onClose={() => undefined}
+      />
+    </main>
   ) : (
     <InventoryView />
   );

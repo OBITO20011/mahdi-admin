@@ -26,7 +26,11 @@ import {
   useAppStoreSelector,
 } from '../../stores/useAppStore';
 import { Product, ProductStatus } from '../../types';
-import { formatProductInventory } from '../../utils/inventoryFormatter';
+import {
+  formatProductInventory,
+  formatWholesaleInventory,
+  summarizeFlavorFamilyInventory,
+} from '../../utils/inventoryFormatter';
 import { calculateProductProfit } from '../../utils/productCalculations';
 
 type StatusFilter = 'all' | 'healthy' | 'low_stock' | 'out_of_stock' | 'hidden';
@@ -96,20 +100,12 @@ export const ProductsView: React.FC = () => {
         .map((product) => {
           if (!product.isFlavorMaster) return product;
           const flavors = flavorsByMaster.get(product.id) || [];
+          const familyInventory = summarizeFlavorFamilyInventory(flavors);
           return {
             ...product,
-            onHandQuantity: flavors.reduce(
-              (sum, flavor) => sum + flavor.onHandQuantity,
-              0
-            ),
-            reservedQuantity: flavors.reduce(
-              (sum, flavor) => sum + flavor.reservedQuantity,
-              0
-            ),
-            availableQuantity: flavors.reduce(
-              (sum, flavor) => sum + flavor.availableQuantity,
-              0
-            ),
+            onHandQuantity: familyInventory.onHandQuantity,
+            reservedQuantity: familyInventory.reservedQuantity,
+            availableQuantity: familyInventory.availableQuantity,
           };
         }),
     [flavorsByMaster, products]
@@ -554,7 +550,15 @@ const ProductCatalogCard: React.FC<{
 }) => {
   const [imageFailed, setImageFailed] = useState(false);
   const [areFlavorsExpanded, setAreFlavorsExpanded] = useState(false);
-  const inventory = formatProductInventory(product, true);
+  const familyInventory = summarizeFlavorFamilyInventory(flavors);
+  const inventory = product.isFlavorMaster
+    ? formatWholesaleInventory(
+        familyInventory.availableQuantity,
+        familyInventory.unitsPerPackage,
+        familyInventory.purchasePackage,
+        familyInventory.unit
+      )
+    : formatProductInventory(product, true);
   const unitsPerSalePackage = product.unitsPerSalePackage || 1;
   const salePackagePrice = product.salePackagePrice || 0;
   const needsSalePackageSetup =
@@ -621,10 +625,14 @@ const ProductCatalogCard: React.FC<{
             <div className="mt-2 grid grid-cols-1 gap-1 rounded-xl border border-slate-800 bg-slate-900/70 px-2 py-1.5 sm:grid-cols-2 sm:px-2.5 sm:py-2">
               <div className="min-w-0">
                 <span className="block text-[8px] font-bold text-slate-400">
-                  المتاح
+                  {product.isFlavorMaster
+                    ? 'إجمالي المتاح في النكهات'
+                    : 'المتاح'}
                 </span>
                 <strong className="block truncate text-[10px] text-amber-300 sm:text-[11px]">
-                  {inventory.totalPiecesFormatted}
+                  {product.isFlavorMaster && !familyInventory.hasCompatiblePackaging
+                    ? 'راجع أرصدة النكهات'
+                    : inventory.cartonFormatted}
                 </strong>
               </div>
               <div className="min-w-0 text-right sm:text-left">
@@ -672,10 +680,7 @@ const ProductCatalogCard: React.FC<{
           {areFlavorsExpanded && (
             <div className="mt-2 space-y-1.5 border-t border-slate-800 pt-2">
               {flavors.map((flavor) => {
-                const availablePackages = Math.floor(
-                  flavor.availableQuantity /
-                    Math.max(1, flavor.unitsPerSalePackage || 1)
-                );
+                const flavorAvailable = formatProductInventory(flavor, true);
                 const isHidden = flavor.status === 'hidden';
                 return (
                   <div
@@ -705,8 +710,7 @@ const ProductCatalogCard: React.FC<{
                         )}
                       </div>
                       <p className="mt-0.5 text-[8px] font-bold text-amber-300">
-                        {availablePackages.toLocaleString('ar-JO')}{' '}
-                        {product.salePackage || 'طرد'} متاح
+                        {flavorAvailable.cartonFormatted} متاح
                       </p>
                     </div>
                     <button
