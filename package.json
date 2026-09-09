@@ -29,6 +29,11 @@
     "backup:status": "node scripts/backup/run-powershell-script.mjs scripts/backup/get-backup-status.ps1",
     "backup:schedule": "node scripts/backup/run-powershell-script.mjs scripts/backup/enable-background-backup.ps1",
     "backup:background": "node scripts/backup/run-powershell-script.mjs scripts/backup/enable-background-backup.ps1",
+    "offsite:setup": "powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/offsite-backup/setup-offsite-backup.ps1",
+    "offsite:upload": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts/offsite-backup/run-offsite-backup.ps1 -Mode Upload",
+    "offsite:verify": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts/offsite-backup/run-offsite-backup.ps1 -Mode Verify -Force",
+    "offsite:restore-test": "powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File scripts/offsite-backup/run-offsite-backup.ps1 -Mode RestoreDrill -Force",
+    "offsite:test": "tsx --test tests/offsite-backup.test.ts",
     "deploy:admin": "node scripts/deployment/deploy-admin.mjs",
     "deploy:admin:check": "node scripts/deployment/deploy-admin.mjs --check",
     "monitoring:setup": "powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/monitoring/setup-developer-monitoring.ps1",
@@ -43,6 +48,7 @@
     "test:advanced-monitoring:runtime": "node scripts/testing/run-advanced-monitoring-runtime.mjs"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1128.0",
     "@google/genai": "^2.4.0",
     "@sentry/react": "^10.70.0",
     "@supabase/supabase-js": "^2.110.8",

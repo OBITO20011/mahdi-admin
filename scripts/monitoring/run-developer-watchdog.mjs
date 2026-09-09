@@ -121,6 +121,29 @@ async function collectBackupChecks() {
   } catch {
     checks.push(check('developer:backup:restore-drill', 'Restore Drill', 'high', false, 'حالة Restore Drill غير متاحة.'));
   }
+  for (const pipelineName of ['erp', 'n8n']) {
+    try {
+      const offsiteRoot = process.env.NAWASRAH_OFFSITE_STATUS_ROOT || 'C:\\ProgramData\\NawasrahOffsiteBackup';
+      const status = await readJson(path.join(offsiteRoot, `${pipelineName}-status.json`));
+      const age = ageHours(status.lastUploadAt);
+      const restoreAgeDays = ageHours(status.lastRestoreVerifiedAt) / 24;
+      const healthy = status.ok === true
+        && status.remoteVerified === true
+        && status.remoteRestoreVerified === true
+        && Number.isFinite(age) && age <= 36
+        && Number.isFinite(restoreAgeDays) && restoreAgeDays <= 91;
+      checks.push(check(
+        `developer:backup:offsite:${pipelineName}`,
+        `${pipelineName.toUpperCase()} Off-site Backup`,
+        'critical',
+        healthy,
+        healthy ? 'النسخة الخارجية حديثة واجتازت تحقق التنزيل والاستعادة المعزولة.' : 'النسخة الخارجية فاشلة أو قديمة أو لم تجتز Restore Drill.',
+        {ageHours: Number.isFinite(age) ? age.toFixed(1) : 'invalid', restoreAgeDays: Number.isFinite(restoreAgeDays) ? restoreAgeDays.toFixed(1) : 'invalid'},
+      ));
+    } catch {
+      checks.push(check(`developer:backup:offsite:${pipelineName}`, `${pipelineName.toUpperCase()} Off-site Backup`, 'critical', false, 'حالة النسخة الخارجية غير متاحة.'));
+    }
+  }
   return checks;
 }
 

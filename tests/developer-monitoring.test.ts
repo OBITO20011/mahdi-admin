@@ -135,6 +135,10 @@ test('watchdog is separate from Business outbox and uses read-only monitoring', 
   assert.match(watchdog, /10 \* 60_000/u);
   assert.match(watchdog, /recoveredStaleLock/u);
   assert.match(watchdog, /developer:backup:n8n/u);
+  assert.match(watchdog, /developer:backup:offsite:\$\{pipelineName\}/u);
+  assert.match(watchdog, /remoteVerified === true/u);
+  assert.match(watchdog, /remoteRestoreVerified === true/u);
+  assert.match(watchdog, /restoreAgeDays <= 91/u);
   assert.match(watchdog, /Nawasrah n8n Daily Backup/u);
   assert.match(watchdog, /restoreVerified/u);
   assert.match(watchdog, /developer:automation:dead-letter/u);

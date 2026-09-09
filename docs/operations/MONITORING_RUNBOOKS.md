@@ -16,6 +16,13 @@
 - **لا تفعل:** لا تحذف آخر نسخة سليمة، ولا تعمل Factory Reset لـDocker، ولا تطبع secrets.
 - **التصعيد:** إذا غابت نسخة سليمة أو فشل Restore Drill، أوقف migrations المالية حتى نجاح backup + restore معزول.
 
+## Off-site backup failure
+
+- **المعنى:** نسخة ERP أو n8n المشفرة لم تصل إلى R2 الخاصة، أو فشل تنزيلها بنفس SHA-256، أو تجاوز عمر الرفع 36 ساعة، أو غاب دليل Restore Drill الدوري.
+- **أول فحص:** راجع ملف الحالة الموافق وآخر log داخل `C:\ProgramData\NawasrahOffsiteBackup`، ثم تأكد أولًا أن النسخة المحلية للمسار نفسه سليمة.
+- **لا تفعل:** لا تحذف أو تستبدل أي archive في R2، ولا تعطل Bucket Lock، ولا تكشف اعتماد S3، ولا تستعد إلى Production.
+- **التصعيد:** عند فشل authentication، أو immutable-key conflict، أو اختلاف SHA-256، أو فشل Restore Drill المعزول لأي من المسارين.
+
 ## n8n down
 
 - **المعنى:** container أو `/healthz` غير سليم وقد تتأخر Business deliveries.

@@ -37,6 +37,8 @@ phone numbers, order contents, balances, or financial totals.
 - recent n8n workflow execution errors, counted without forwarding logs.
 - nightly backup success and 36-hour freshness.
 - isolated restore drill success and 91-day freshness.
+- independent ERP and n8n R2 off-site upload/download/restore status, with
+  separate incident keys and 36-hour upload freshness.
 - expected Supabase cron jobs, recent cron failures, and schedule freshness.
 - automation delivery backlog and exhausted retry count, without payloads.
 - missed or overdue Business summary delivery, as technical counts only.

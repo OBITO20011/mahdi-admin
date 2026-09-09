@@ -193,6 +193,13 @@ never written to this log.
 Restore-drill scheduling failures are written separately to
 `%LOCALAPPDATA%\NawasrahBackup\restore-drill-runner.log`.
 
+Verified encrypted archives are additionally copied by the independent R2
+off-site layer documented in
+[`scripts/offsite-backup/README.md`](../offsite-backup/README.md). The local
+backup path, local retention, encryption format, and nightly task remain
+unchanged; off-site upload failure therefore cannot invalidate a successful
+local backup.
+
 ## Handoff status
 
 Do not treat a recent manual archive as proof that the unattended schedule is

@@ -23,6 +23,17 @@ function ConvertTo-PlainText {
   }
 }
 
+function Unprotect-MachineValue {
+  param([Parameter(Mandatory = $true)][string]$ProtectedValue)
+  Add-Type -AssemblyName System.Security -ErrorAction Stop
+  $protectedBytes = [Convert]::FromBase64String($ProtectedValue)
+  $plainBytes = [Security.Cryptography.ProtectedData]::Unprotect(
+    $protectedBytes, $null, [Security.Cryptography.DataProtectionScope]::LocalMachine
+  )
+  try { return [Text.Encoding]::UTF8.GetString($plainBytes) }
+  finally { [Array]::Clear($plainBytes, 0, $plainBytes.Length) }
+}
+
 function Test-DockerReady {
   $docker = Get-Command docker.exe -ErrorAction SilentlyContinue
   if (-not $docker) {
@@ -116,8 +127,13 @@ if (-not $PostgresImage) {
 }
 
 $reportPath = Join-Path (Split-Path -Parent $ArchivePath) 'last-restore-drill-status.json'
-$archivePassphraseSecure = ConvertTo-SecureString -String $config.archivePassphrase
-$archivePassphrase = ConvertTo-PlainText -SecureValue $archivePassphraseSecure
+$archivePassphrase = if ($config.protectionScope -eq 'LocalMachine') {
+  Unprotect-MachineValue -ProtectedValue ([string]$config.archivePassphrase)
+}
+else {
+  $archivePassphraseSecure = ConvertTo-SecureString -String $config.archivePassphrase
+  ConvertTo-PlainText -SecureValue $archivePassphraseSecure
+}
 
 try {
   Wait-ForDocker
