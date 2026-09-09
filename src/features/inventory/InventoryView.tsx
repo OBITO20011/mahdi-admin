@@ -543,7 +543,7 @@ export const InventoryView: React.FC = () => {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 gap-2 md:grid-cols-2 xl:grid-cols-3">
               {filteredProducts.map((product) => {
                 const branchName =
                   branches.find((b) => b.id === product.branchId)?.name ||
@@ -562,11 +562,11 @@ export const InventoryView: React.FC = () => {
                   <div
                     key={product.id}
                     data-inventory-product-card={product.id}
-                    className="flex flex-col justify-between gap-2 rounded-2xl border border-slate-800 bg-slate-900 p-2.5 shadow transition hover:border-slate-700 sm:p-3"
+                    className="flex min-w-0 flex-col justify-between gap-2 rounded-2xl border border-slate-800 bg-slate-900 p-2 shadow transition-[border-color,box-shadow] hover:border-slate-700 sm:p-3 [&:has(details[open])]:col-span-2"
                   >
                     {/* Header: Product Info */}
                     <div className="space-y-1.5">
-                      <div className="flex items-start justify-between gap-2">
+                      <div className="flex flex-col gap-1.5 sm:flex-row sm:items-start sm:justify-between sm:gap-2">
                         <div className="flex min-w-0 items-center gap-2">
                           <img
                             src={product.imageUrl}
@@ -574,11 +574,11 @@ export const InventoryView: React.FC = () => {
                             className="h-10 w-10 shrink-0 rounded-xl border border-slate-800 object-cover"
                           />
                           <div className="min-w-0">
-                            <h4 className="line-clamp-1 text-xs font-extrabold text-slate-100">
+                            <h4 className="line-clamp-2 text-[11px] font-extrabold leading-4 text-slate-100 sm:text-xs">
                               {product.nameAr}
                             </h4>
-                            <div className="mt-0.5 flex min-w-0 items-center gap-1.5 text-[9px] text-slate-400">
-                              <span className="max-w-[12rem] truncate font-mono">
+                            <div className="mt-0.5 flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[9px] text-slate-400">
+                              <span className="max-w-full truncate font-mono">
                                 SKU: {product.sku}
                               </span>
                               <span aria-hidden="true">•</span>
@@ -588,7 +588,7 @@ export const InventoryView: React.FC = () => {
                         </div>
 
                         {/* Status Badge */}
-                        <div>
+                        <div className="self-start sm:self-auto">
                           {isOut ? (
                             <span className="bg-rose-950 text-rose-300 border border-rose-800 px-2 py-0.5 rounded-full text-[9px] font-extrabold block whitespace-nowrap">
                               نافد المخزون
@@ -608,10 +608,10 @@ export const InventoryView: React.FC = () => {
                       {(() => {
                         const invAvailable = formatProductInventory(product, true);
                         return (
-                          <div className="flex min-h-11 items-center justify-between gap-2 rounded-xl border border-emerald-500/25 bg-emerald-950/20 px-2.5 py-1.5">
+                          <div className="flex min-h-11 flex-col items-start justify-center gap-1 rounded-xl border border-emerald-500/25 bg-emerald-950/20 px-2 py-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-2 sm:px-2.5">
                             <div className="min-w-0">
                               <span className="block text-[9px] font-bold text-emerald-200/70">المتاح في المخزون</span>
-                              <strong className="mt-0.5 block truncate text-xs font-black text-emerald-300">
+                              <strong className="mt-0.5 line-clamp-2 text-[11px] font-black leading-4 text-emerald-300 sm:text-xs">
                                 {invAvailable.cartonFormatted}
                               </strong>
                             </div>

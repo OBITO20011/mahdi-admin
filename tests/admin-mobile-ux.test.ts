@@ -42,6 +42,11 @@ test('inventory cards prioritize available stock and keep compact accessible act
   assert.doesNotMatch(inventoryView, /المتاح للبيع الآن/);
   assert.match(inventoryView, /invAvailable\.cartonFormatted/);
   assert.match(inventoryView, /تفاصيل المنتج والرصيد/);
+  assert.match(
+    inventoryView,
+    /grid grid-cols-2 gap-2 md:grid-cols-2 xl:grid-cols-3/,
+  );
+  assert.match(inventoryView, /\[&:has\(details\[open\]\)\]:col-span-2/);
   assert.match(inventoryView, /grid-cols-2 sm:grid-cols-4/);
   assert.match(inventoryView, /min-h-11/);
   assert.match(inventoryView, /openModal\('receive_goods'\)/);

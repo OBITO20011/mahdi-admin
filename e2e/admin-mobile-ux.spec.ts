@@ -47,10 +47,20 @@ for (const viewport of [
       waitUntil: 'domcontentloaded',
     });
 
-    const card = page.locator('[data-inventory-product-card]');
-    await expect(card).toHaveCount(1);
+    const cards = page.locator('[data-inventory-product-card]');
+    await expect(cards).toHaveCount(4);
+    const card = cards.first();
     await expect(card.getByText('المتاح في المخزون')).toBeVisible();
     await expectNoOverflow(page);
+
+    if (viewport.width <= 430) {
+      const firstBox = await cards.nth(0).boundingBox();
+      const secondBox = await cards.nth(1).boundingBox();
+      expect(firstBox).not.toBeNull();
+      expect(secondBox).not.toBeNull();
+      expect(Math.abs((firstBox?.y ?? 0) - (secondBox?.y ?? 0))).toBeLessThan(2);
+      expect(firstBox?.width ?? viewport.width).toBeLessThan(viewport.width / 2);
+    }
 
     for (const label of ['استلام', 'جرد']) {
       const box = await card.getByRole('button', { name: label }).boundingBox();
@@ -109,8 +119,11 @@ test('inventory secondary data and actions stay reachable', async ({ page }) => 
     waitUntil: 'domcontentloaded',
   });
 
-  const card = page.locator('[data-inventory-product-card]');
+  const card = page.locator('[data-inventory-product-card]').first();
+  const compactBox = await card.boundingBox();
   await card.getByText('تفاصيل المنتج والرصيد').click();
+  const expandedBox = await card.boundingBox();
+  expect(expandedBox?.width ?? 0).toBeGreaterThan((compactBox?.width ?? 0) * 1.8);
   await expect(card.getByText(/6251234567890/)).toBeVisible();
   await expect(card.getByText(/طرد الشراء: كرتونة × 30/)).toBeVisible();
   await expect(card.getByText(/طرد البيع: شرنك × 6/)).toBeVisible();
