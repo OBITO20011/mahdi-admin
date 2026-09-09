@@ -1039,7 +1039,6 @@ class StoreEngine {
     error?: string;
     errorDetails?: SupabaseRpcResult['errorDetails'];
   }> {
-    const openingQty = Number(productData.onHandQuantity) || 0;
     const targetBranchId = productData.branchId || this.state.activeBranch?.id;
     const targetWarehouseId =
       productData.warehouseId || this.state.warehouses[0]?.id;
@@ -1091,7 +1090,7 @@ class StoreEngine {
           maxStockLevel: productData.maxStockLevel,
           warehouseId: targetWarehouseId,
           branchId: targetBranchId,
-          openingQuantity: openingQty,
+          openingQuantity: 0,
           imageUrl: productData.imageUrl,
         });
 

@@ -165,7 +165,10 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
       } else {
         // Ensure products have valid UUIDs
         const validActiveProds = (res.products || []).filter(
-          (p) => p.status !== 'hidden' && isValidUUID(p.id)
+          (p) =>
+            p.status !== 'hidden' &&
+            !p.isFlavorMaster &&
+            isValidUUID(p.id)
         );
         setFetchedProducts(validActiveProds);
       }

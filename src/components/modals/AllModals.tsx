@@ -67,6 +67,10 @@ export const AllModals: React.FC = () => {
     currentModal === 'stock_count' && isProductIdModalPayload(modalData)
       ? modalData.productId
       : undefined;
+  const receiveGoodsProductId =
+    currentModal === 'receive_goods' && isProductIdModalPayload(modalData)
+      ? modalData.productId
+      : undefined;
 
   return (
     <>
@@ -119,7 +123,10 @@ export const AllModals: React.FC = () => {
         title="استلام بضاعة"
         subtitle="اختر المورد والصنف وعدد الطرود ثم احفظ"
       >
-        <CreateDirectReceiptModal onClose={closeModal} />
+        <CreateDirectReceiptModal
+          onClose={closeModal}
+          initialProductId={receiveGoodsProductId}
+        />
       </Modal>
 
       {/* Warehouse Transfer Modal */}

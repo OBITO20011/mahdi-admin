@@ -20,6 +20,13 @@ const flavorManagementMigration = readFileSync(
   ),
   'utf8'
 );
+const hardeningMigration = readFileSync(
+  new URL(
+    '../supabase/migrations/103_flavor_receiving_hardening.sql',
+    import.meta.url
+  ),
+  'utf8'
+);
 const productService = readFileSync(
   new URL('../src/services/supabase/products.service.ts', import.meta.url),
   'utf8'
@@ -36,6 +43,38 @@ const adminProducts = readFileSync(
   new URL('../src/features/products/ProductsView.tsx', import.meta.url),
   'utf8'
 );
+const directReceivingService = readFileSync(
+  new URL(
+    '../src/services/supabase/directReceiving.service.ts',
+    import.meta.url
+  ),
+  'utf8'
+);
+const purchaseOrderModal = readFileSync(
+  new URL(
+    '../src/features/purchases/CreatePurchaseOrderModal.tsx',
+    import.meta.url
+  ),
+  'utf8'
+);
+const stockCountModal = readFileSync(
+  new URL('../src/features/inventory/StockCountModal.tsx', import.meta.url),
+  'utf8'
+);
+const warehouseTransferModal = readFileSync(
+  new URL(
+    '../src/features/inventory/WarehouseTransferModal.tsx',
+    import.meta.url
+  ),
+  'utf8'
+);
+const inventoryOpeningService = readFileSync(
+  new URL(
+    '../src/services/supabase/inventory-opening.service.ts',
+    import.meta.url
+  ),
+  'utf8'
+);
 const storefrontDetails = readFileSync(
   new URL('../customer-web/src/components/ProductDetailsModal.tsx', import.meta.url),
   'utf8'
@@ -49,10 +88,11 @@ test('flavors inherit the master commercial price while retaining product invent
   assert.match(migration, /CREATE_PRODUCT_FLAVOR/);
 });
 
-test('admin adds only flavor identity and stock, never a second price', () => {
+test('admin adds only flavor identity, never opening stock or a second price', () => {
   assert.match(productService, /createProductFlavorInSupabase/);
   assert.match(adminDetails, /المخزون مستقل لكل نكهة/);
-  assert.match(adminDetails, /رصيد البداية/);
+  assert.doesNotMatch(adminDetails, /رصيد البداية/);
+  assert.match(adminDetails, /تُنشأ النكهة برصيد صفر/);
   assert.doesNotMatch(adminDetails, /سعر النكهة/);
 });
 
@@ -71,9 +111,63 @@ test('add-product flow creates the complete flavor family atomically', () => {
   );
   assert.match(productService, /createProductFamilyWithFlavorsInSupabase/);
   assert.match(adminForm, /هل لهذا المنتج نكهات؟/);
-  assert.match(adminForm, /رصيد البداية/);
+  assert.doesNotMatch(adminForm, /رصيد البداية/);
+  assert.match(adminForm, /يُنشأ الصنف برصيد صفر/);
   assert.match(adminForm, /createProductFamilyWithFlavorsInSupabase/);
   assert.doesNotMatch(adminForm, /سعر النكهة/);
+});
+
+test('flavor master is rejected at the inventory persistence boundary', () => {
+  assert.match(
+    hardeningMigration,
+    /CREATE OR REPLACE FUNCTION public\.reject_flavor_master_inventory_mutation/
+  );
+  assert.match(
+    hardeningMigration,
+    /trg_inventory_balances_reject_flavor_master/
+  );
+  assert.match(
+    hardeningMigration,
+    /trg_inventory_movements_reject_flavor_master/
+  );
+  assert.match(
+    hardeningMigration,
+    /COALESCE\(p_opening_quantity, 0\) <> 0/
+  );
+});
+
+test('receiving and purchase-order selectors exclude flavor masters', () => {
+  assert.match(
+    directReceivingService,
+    /\.eq\('is_flavor_master', false\)/
+  );
+  assert.match(purchaseOrderModal, /!p\.isFlavorMaster/);
+  assert.match(stockCountModal, /!product\.isFlavorMaster/);
+  assert.match(warehouseTransferModal, /!product\.isFlavorMaster/);
+  assert.doesNotMatch(inventoryOpeningService, /\.from\(/);
+  assert.match(
+    hardeningMigration,
+    /get_inventory_opening_setup[\s\S]*WHERE p\.is_flavor_master = false/
+  );
+});
+
+test('child WAC is initialized once and never overwritten by master edits', () => {
+  assert.match(
+    hardeningMigration,
+    /IF TG_OP = 'INSERT' THEN[\s\S]*NEW\.cost_price_in_minor_units := v_master\.cost_price_in_minor_units/
+  );
+  const syncFunction = hardeningMigration.match(
+    /CREATE OR REPLACE FUNCTION public\.sync_product_flavor_commercial_settings\(\)[\s\S]*?\$\$;/
+  )?.[0];
+  assert.ok(syncFunction);
+  assert.doesNotMatch(syncFunction, /cost_price_in_minor_units\s*=/);
+});
+
+test('editing a flavor master exposes existing children and reuses management', () => {
+  assert.match(adminForm, /النكهات الحالية/);
+  assert.match(adminForm, /SKU: \{flavor\.sku\}/);
+  assert.match(adminForm, /إدارة النكهات/);
+  assert.match(adminForm, /openModal\('view_product', initialProduct\)/);
 });
 
 test('flavor management preserves inventory and history while editing identity', () => {

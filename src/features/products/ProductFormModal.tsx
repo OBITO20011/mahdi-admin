@@ -40,7 +40,6 @@ interface ProductFormModalProps {
 interface ProductFlavorDraft {
   id: string;
   nameAr: string;
-  openingSalePackages: number | '';
   imageFile: File | null;
   imagePreview: string;
 }
@@ -51,7 +50,6 @@ const createFlavorDraft = (): ProductFlavorDraft => ({
       ? crypto.randomUUID()
       : `flavor-${Date.now()}-${Math.random()}`,
   nameAr: '',
-  openingSalePackages: 0,
   imageFile: null,
   imagePreview: '',
 });
@@ -78,11 +76,13 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const {
     categories,
     brands,
+    products,
     warehouses,
     addCategory,
     addProduct,
     updateProduct,
     refreshProductsFromSupabase,
+    openModal,
     setToast,
   } = useAppStore();
 
@@ -172,9 +172,6 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     initialProduct?.unitsPerSalePackage ??
     initialProduct?.unitsPerPackage ??
     1;
-  const [onHandQuantity, setOnHandQuantity] = useState<number | ''>(
-    toSalePackageCount(initialProduct?.onHandQuantity, initialSalePackageUnits)
-  );
   const [reorderLevel, setReorderLevel] = useState<number | ''>(
     initialProduct
       ? toSalePackageCount(initialProduct.reorderLevel, initialSalePackageUnits)
@@ -197,6 +194,26 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     details?: string;
     hint?: string;
   } | null>(null);
+  const currentFlavors = useMemo(
+    () =>
+      initialProduct?.id
+        ? products
+            .filter(
+              (product) =>
+                product.flavorMasterProductId === initialProduct.id
+            )
+            .sort(
+              (first, second) =>
+                (first.flavorSortOrder || 0) -
+                  (second.flavorSortOrder || 0) ||
+                (first.flavorNameAr || '').localeCompare(
+                  second.flavorNameAr || '',
+                  'ar'
+                )
+            )
+        : [],
+    [initialProduct?.id, products]
+  );
 
   useEffect(() => {
     if (!selectedImageFile) {
@@ -352,7 +369,6 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     setHasFlavors((current) => {
       const next = !current;
       if (next) {
-        setOnHandQuantity(0);
         setFlavorDrafts((drafts) =>
           drafts.length > 0 ? drafts : [createFlavorDraft()]
         );
@@ -493,11 +509,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       profitPercentage: salePackageProfit.markupPercentage,
       unit,
       warehouseId,
-      onHandQuantity:
-        hasFlavors && !isEditing
-          ? 0
-          : Math.max(0, Math.floor(Number(onHandQuantity) || 0)) *
-            validUnitsPerSalePackage,
+      onHandQuantity: 0,
       reorderLevel: minLevel,
       maxStockLevel: maxLevel,
       status: 'active',
@@ -552,10 +564,6 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           }
           uploadedFlavors.push({
             nameAr: draft.nameAr.trim(),
-            openingSalePackages: Math.max(
-              0,
-              Math.floor(Number(draft.openingSalePackages) || 0)
-            ),
             imageUrl: flavorImageUrl,
           });
         }
@@ -909,7 +917,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               <div className="flex items-center justify-between gap-2">
                 <div>
                   <strong className="text-[11px] text-indigo-200">
-                    النكهات ورصيد البداية
+                    النكهات الحالية عند الإنشاء
                   </strong>
                   <p className="mt-0.5 text-[9px] text-slate-500">
                     مثال: جبنة، حار، ملح وخل
@@ -942,7 +950,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                       )}
                     </div>
 
-                    <div className="grid grid-cols-[minmax(0,1fr)_110px_52px] gap-2 max-[390px]:grid-cols-[minmax(0,1fr)_92px_48px]">
+                    <div className="grid grid-cols-[minmax(0,1fr)_52px] gap-2 max-[390px]:grid-cols-[minmax(0,1fr)_48px]">
                       <div>
                         <label className="mb-1.5 block text-[9px] font-bold text-slate-400">
                           اسم النكهة *
@@ -958,28 +966,6 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                           }
                           placeholder="مثلاً: جبنة"
                           className={inputClass}
-                        />
-                      </div>
-
-                      <div>
-                        <label className="mb-1.5 block truncate text-[9px] font-bold text-emerald-300">
-                          رصيد البداية ({salePackage})
-                        </label>
-                        <input
-                          type="number"
-                          min="0"
-                          step="1"
-                          required
-                          value={draft.openingSalePackages}
-                          onChange={(event) =>
-                            updateFlavorDraft(draft.id, {
-                              openingSalePackages:
-                                event.target.value === ''
-                                  ? ''
-                                  : Number.parseInt(event.target.value, 10),
-                            })
-                          }
-                          className={numberInputClass}
                         />
                       </div>
 
@@ -1032,13 +1018,70 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
               <div className="flex items-start gap-2 rounded-xl border border-emerald-500/15 bg-emerald-500/5 p-2.5 text-[10px] leading-5 text-slate-400">
                 <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400" />
-                عند الحفظ يُنشأ المنتج ونكهاته معًا، وكل نكهة تظهر برصيدها
-                الخاص بينما ترث السعر والطرد من المنتج الأساسي.
+                عند الحفظ يُنشأ تعريف المنتج ونكهاته معًا برصيد صفر. تدخل
+                البضاعة لاحقًا من الاستلام، ولكل نكهة مخزونها وتكلفتها.
               </div>
             </div>
           )}
         </section>
       )}
+
+      {isEditing &&
+        (initialProduct?.isFlavorMaster || currentFlavors.length > 0) && (
+          <section className="rounded-2xl border border-violet-500/25 bg-violet-950/15 p-3.5">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <Palette className="h-4 w-4 shrink-0 text-violet-300" />
+                  <h4 className="font-black text-slate-100">
+                    النكهات الحالية
+                  </h4>
+                </div>
+                <p className="mt-1 text-[9px] leading-4 text-slate-500">
+                  كل نكهة SKU مستقل وله مخزون وتكلفة خاصة به.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  if (!initialProduct) return;
+                  onClose();
+                  openModal('view_product', initialProduct);
+                }}
+                className="shrink-0 rounded-xl bg-violet-600 px-3 py-2 text-[10px] font-black text-white"
+              >
+                إدارة النكهات
+              </button>
+            </div>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {currentFlavors.map((flavor) => (
+                <div
+                  key={flavor.id}
+                  className="rounded-xl border border-slate-800 bg-slate-950/80 p-2.5"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <strong className="truncate text-[10px] text-slate-100">
+                      {flavor.flavorNameAr || flavor.nameAr}
+                    </strong>
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-[8px] font-black ${
+                        flavor.status === 'hidden'
+                          ? 'bg-slate-700 text-slate-300'
+                          : 'bg-emerald-500/15 text-emerald-300'
+                      }`}
+                    >
+                      {flavor.status === 'hidden' ? 'متوقفة' : 'نشطة'}
+                    </span>
+                  </div>
+                  <p className="mt-1 truncate font-mono text-[8px] text-slate-500">
+                    SKU: {flavor.sku}
+                    {flavor.barcode ? ` • ${flavor.barcode}` : ''}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
       <section className="rounded-2xl border border-slate-800 bg-slate-950 p-3.5">
         <div className="mb-3 flex items-center gap-2">
@@ -1293,7 +1336,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         {!isEditing && (
           <div className="mb-3">
             <label className="mb-1.5 block text-[10px] font-bold text-slate-300">
-              مستودع الرصيد الافتتاحي *
+              المستودع الافتراضي للصنف *
             </label>
             <select
               required
@@ -1311,39 +1354,14 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </div>
         )}
 
-        {hasFlavors && !isEditing && (
-          <div className="mb-3 flex items-center gap-2 rounded-xl border border-indigo-500/15 bg-indigo-500/5 px-3 py-2 text-[10px] font-bold text-indigo-200">
-            <Palette className="h-3.5 w-3.5 shrink-0" />
-            الرصيد الافتتاحي موزّع على النكهات في القسم السابق.
+        {!isEditing && (
+          <div className="mb-3 flex items-center gap-2 rounded-xl border border-emerald-500/15 bg-emerald-500/5 px-3 py-2 text-[10px] font-bold text-emerald-200">
+            <Package className="h-3.5 w-3.5 shrink-0" />
+            يُنشأ الصنف برصيد صفر؛ أدخل البضاعة الفعلية من شاشة الاستلام.
           </div>
         )}
 
-        <div
-          className={`grid gap-2 ${
-            isEditing || hasFlavors ? 'grid-cols-2' : 'grid-cols-3'
-          }`}
-        >
-          {!isEditing && !hasFlavors && (
-            <div>
-              <label className="mb-1.5 block text-[9px] font-bold text-slate-400">
-                رصيد افتتاحي ({salePackage})
-              </label>
-              <input
-                type="number"
-                min="0"
-                step="1"
-                value={onHandQuantity}
-                onChange={(event) =>
-                  setOnHandQuantity(
-                    event.target.value === ''
-                      ? ''
-                      : Number.parseInt(event.target.value, 10)
-                  )
-                }
-                className={numberInputClass}
-              />
-            </div>
-          )}
+        <div className="grid grid-cols-2 gap-2">
           <div>
             <label className="mb-1.5 block text-[9px] font-bold text-amber-300">
               تنبيه عند ({salePackage})

@@ -306,7 +306,7 @@ test('the modal dispatcher preserves each current payload-to-prop mapping', () =
   );
   assert.match(
     allModalsSource,
-    /currentModal === 'receive_goods'[\s\S]*?<CreateDirectReceiptModal onClose=\{closeModal\} \/>/,
+    /currentModal === 'receive_goods'[\s\S]*?<CreateDirectReceiptModal[\s\S]*?initialProductId=\{receiveGoodsProductId\}/,
   );
 });
 

@@ -45,6 +45,13 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (product.isFlavorMaster) {
+      setToast(
+        'المنتج الأساسي للنكهات لا يحمل مخزونًا؛ اختر نكهة محددة.',
+        'error'
+      );
+      return;
+    }
     if (!product.warehouseId) {
       setToast('لا يوجد مستودع مرتبط بهذا المنتج.', 'error');
       return;
@@ -238,7 +245,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
       <div className="flex gap-2 pt-2">
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || product.isFlavorMaster}
           className="flex-1 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-bold py-2.5 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5"
         >
           {isSubmitting ? (

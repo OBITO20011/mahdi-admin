@@ -54,7 +54,6 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const [isUpdatingVisibility, setIsUpdatingVisibility] = useState(false);
   const [showFlavorForm, setShowFlavorForm] = useState(false);
   const [flavorName, setFlavorName] = useState('');
-  const [openingPackages, setOpeningPackages] = useState(0);
   const [flavorImage, setFlavorImage] = useState<File | null>(null);
   const [flavorImagePreview, setFlavorImagePreview] = useState('');
   const [isSavingFlavor, setIsSavingFlavor] = useState(false);
@@ -127,7 +126,6 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const resetFlavorForm = () => {
     if (flavorImagePreview) URL.revokeObjectURL(flavorImagePreview);
     setFlavorName('');
-    setOpeningPackages(0);
     setFlavorImage(null);
     setFlavorImagePreview('');
     setShowFlavorForm(false);
@@ -167,7 +165,6 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
       const result = await createProductFlavorInSupabase({
         masterProductId: product.id,
         flavorNameAr: flavorName,
-        openingSalePackages: openingPackages,
         warehouseId: product.warehouseId,
         imageUrl,
       });
@@ -412,18 +409,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   className="w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 text-xs font-bold text-slate-100 outline-none focus:border-violet-500"
                 />
               </label>
-              <div className="grid grid-cols-2 gap-2">
-                <label className="block">
-                  <span className="mb-1 block text-[9px] font-bold text-slate-400">رصيد البداية ({product.salePackage || 'طرد'})</span>
-                  <input
-                    type="number"
-                    min="0"
-                    step="1"
-                    value={openingPackages}
-                    onChange={(event) => setOpeningPackages(Math.max(0, Number(event.target.value) || 0))}
-                    className="w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 text-center text-xs font-black text-slate-100 outline-none focus:border-violet-500"
-                  />
-                </label>
+              <div className="grid gap-2">
                 <label className="flex cursor-pointer flex-col justify-end">
                   <span className="mb-1 block text-[9px] font-bold text-slate-400">صورة النكهة (اختياري)</span>
                   <span className="flex h-[38px] items-center justify-center gap-1.5 rounded-xl border border-dashed border-slate-700 bg-slate-900 text-[9px] font-bold text-slate-300">
@@ -441,6 +427,9 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               {flavorImagePreview && (
                 <img src={flavorImagePreview} alt="معاينة النكهة" className="h-20 w-full rounded-xl bg-slate-900 object-contain" />
               )}
+              <p className="rounded-xl border border-emerald-500/15 bg-emerald-500/5 p-2 text-[9px] font-bold leading-4 text-emerald-200">
+                تُنشأ النكهة برصيد صفر. استلم كميتها الفعلية لاحقًا من شاشة الاستلام.
+              </p>
               {!isFlavorFamily && product.onHandQuantity > 0 && (
                 <p className="rounded-xl border border-amber-500/25 bg-amber-500/10 p-2 text-[9px] font-bold leading-4 text-amber-300">
                   رصيد المنتج الأساسي حاليًا ليس صفرًا. صفّر رصيده بالجرد أولًا، ثم وزّع الرصيد على النكهات حتى لا تختلط الكميات.
@@ -452,7 +441,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 disabled={isSavingFlavor}
                 className="w-full rounded-xl bg-violet-600 py-2.5 text-[10px] font-black text-white disabled:opacity-50"
               >
-                {isSavingFlavor ? 'جاري الحفظ...' : 'حفظ النكهة بمخزون مستقل'}
+                {isSavingFlavor ? 'جاري الحفظ...' : 'حفظ تعريف النكهة'}
               </button>
             </div>
           )}

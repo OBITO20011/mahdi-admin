@@ -485,6 +485,7 @@ export const fetchProductsForReceivingFromSupabase = async (): Promise<Receiving
       )
     `)
     .eq('is_active', true)
+    .eq('is_flavor_master', false)
     .order('name_ar');
 
   if (error) {

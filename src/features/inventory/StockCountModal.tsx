@@ -24,12 +24,18 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
   onClose,
 }) => {
   const { products, warehouses, executeStockCount, setToast } = useAppStore();
+  const stockableProducts = products.filter((product) => !product.isFlavorMaster);
+  const safeInitialProductId = stockableProducts.some(
+    (product) => product.id === initialProductId
+  )
+    ? initialProductId
+    : stockableProducts[0]?.id;
 
   const [selectedProductId, setSelectedProductId] = useState<string>(
-    initialProductId || products[0]?.id || ''
+    safeInitialProductId || ''
   );
 
-  const selectedProduct = products.find((p) => p.id === selectedProductId);
+  const selectedProduct = stockableProducts.find((p) => p.id === selectedProductId);
 
   const [actualQty, setActualQty] = useState<number>(selectedProduct?.onHandQuantity || 0);
   const [warehouseId, setWarehouseId] = useState<string>(
@@ -44,7 +50,7 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
   // Handle product change
   const handleProductChange = (id: string) => {
     setSelectedProductId(id);
-    const prod = products.find((p) => p.id === id);
+    const prod = stockableProducts.find((p) => p.id === id);
     if (prod) {
       setActualQty(prod.onHandQuantity);
       if (prod.warehouseId) setWarehouseId(prod.warehouseId);
@@ -116,7 +122,7 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
           onChange={(e) => handleProductChange(e.target.value)}
           className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-slate-100 text-xs font-semibold focus:outline-none focus:border-purple-500"
         >
-          {products.map((p) => (
+          {stockableProducts.map((p) => (
             <option key={p.id} value={p.id}>
               {p.nameAr} - (الرمز: {p.sku}) - بالنظام: {formatProductInventory(p).fullFormatted}
             </option>

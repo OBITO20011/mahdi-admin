@@ -110,7 +110,7 @@ test('product and POS screens expose wholesale package values only', () => {
   assert.doesNotMatch(posView, /totalPrice: prod\.retailPrice/);
 });
 
-test('product stock inputs use sale packages while persistence stays in base units', () => {
+test('product creation is zero-stock while thresholds stay in sale packages', () => {
   const productForm = fs.readFileSync(
     'src/features/products/ProductFormModal.tsx',
     'utf8'
@@ -120,17 +120,16 @@ test('product stock inputs use sale packages while persistence stays in base uni
     'utf8'
   );
 
-  assert.match(productForm, /رصيد افتتاحي \(\{salePackage\}\)/);
+  assert.doesNotMatch(productForm, /رصيد افتتاحي \(\{salePackage\}\)/);
+  assert.match(productForm, /onHandQuantity: 0/);
+  assert.match(productForm, /أدخل البضاعة الفعلية من شاشة الاستلام/);
   assert.match(productForm, /تنبيه عند \(\{salePackage\}\)/);
   assert.match(productForm, /سقف المستودع \(\{salePackage\}\)/);
   assert.match(
     productForm,
     /minSalePackages \* validUnitsPerSalePackage/
   );
-  assert.match(
-    productForm,
-    /Math\.floor\(Number\(onHandQuantity\) \|\| 0\)[\s\S]{0,80}validUnitsPerSalePackage/
-  );
+  assert.doesNotMatch(productForm, /setOnHandQuantity/);
   assert.match(productDetails, /سقف المستودع/);
   assert.match(productDetails, /reorderSalePackages/);
 });

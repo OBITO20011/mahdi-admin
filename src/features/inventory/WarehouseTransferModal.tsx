@@ -23,9 +23,15 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
   onClose,
 }) => {
   const { products, warehouses, transferWarehouse, setToast } = useAppStore();
+  const stockableProducts = products.filter((product) => !product.isFlavorMaster);
+  const safeInitialProductId = stockableProducts.some(
+    (product) => product.id === initialProductId
+  )
+    ? initialProductId
+    : stockableProducts[0]?.id;
 
   const [selectedProductId, setSelectedProductId] = useState<string>(
-    initialProductId || products[0]?.id || ''
+    safeInitialProductId || ''
   );
   const [transferQty, setTransferQty] = useState<number>(5);
   const [fromWarehouseId, setFromWarehouseId] = useState<string>(warehouses[0]?.id || 'w-main');
@@ -35,7 +41,7 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
   const [reason, setReason] = useState<string>('نقل مخزون لتلبية احتياج الفرع');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const selectedProduct = products.find((p) => p.id === selectedProductId);
+  const selectedProduct = stockableProducts.find((p) => p.id === selectedProductId);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,7 +105,7 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
           onChange={(e) => setSelectedProductId(e.target.value)}
           className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-slate-100 text-xs font-semibold focus:outline-none focus:border-blue-500"
         >
-          {products.map((p) => (
+          {stockableProducts.map((p) => (
             <option key={p.id} value={p.id}>
               {p.nameAr} - (الباركود: {p.barcode}) - المخزون المتوفر: {formatProductInventory(p).fullFormatted}
             </option>

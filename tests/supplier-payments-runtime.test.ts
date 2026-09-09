@@ -20,6 +20,12 @@ const ordersPaginationRuntimeScript = path.join(
   'testing',
   'run-operational-orders-pagination-runtime.mjs',
 );
+const flavorHardeningRuntimeScript = path.join(
+  projectRoot,
+  'scripts',
+  'testing',
+  'run-flavor-receiving-hardening-runtime.mjs',
+);
 
 test(
   'isolated Supabase runtime suites do not compete for Docker resources',
@@ -58,6 +64,31 @@ test(
           JSON.parse(stdout);
         assert.equal(result.ok, true);
         assert.equal(result.runtime_scenarios, 9);
+      },
+    );
+
+    await context.test(
+      'flavor master, receiving, partial PO and WAC hardening pass',
+      async () => {
+        const { stdout } = await execFileAsync(
+          process.execPath,
+          [flavorHardeningRuntimeScript],
+          {
+            cwd: projectRoot,
+            windowsHide: true,
+            maxBuffer: 1024 * 1024,
+            timeout: 600_000,
+          },
+        );
+
+        const result: {
+          ok?: boolean;
+          runtime_scenarios?: number;
+          unexpected_failures?: number;
+        } = JSON.parse(stdout);
+        assert.equal(result.ok, true);
+        assert.equal(result.unexpected_failures, 0);
+        assert.ok((result.runtime_scenarios || 0) >= 12);
       },
     );
   },

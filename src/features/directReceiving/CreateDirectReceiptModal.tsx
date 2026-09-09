@@ -46,11 +46,13 @@ import {
 interface CreateDirectReceiptModalProps {
   onClose: () => void;
   onSuccess?: (receiptData: any) => void;
+  initialProductId?: string;
 }
 
 export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> = ({
   onClose,
   onSuccess,
+  initialProductId,
 }) => {
   const { setToast, refreshProductsFromSupabase } = useAppStoreActions();
 
@@ -101,6 +103,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
   // Submitting state
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const idempotencyKeyRef = useRef<string>(crypto.randomUUID());
+  const didPreselectProductRef = useRef(false);
 
   // Load Initial Reference Data
   const loadReferenceData = useCallback(async () => {
@@ -175,7 +178,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
   }, [products, productSearch]);
 
   // Add Product to Receipt Rows
-  const handleSelectProduct = (prod: ReceivingProduct) => {
+  const handleSelectProduct = useCallback((prod: ReceivingProduct) => {
     const unitsPerPackage = normalizeIntegerQuantity(prod.unitsPerPackage);
     const defaultPkgPrice = minorUnitsToJod(
       prod.defaultPackagePriceInMinorUnits ||
@@ -208,7 +211,15 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
     setItems((prev) => [...prev, newItem]);
     setProductSearch('');
     setIsSearchFocused(false);
-  };
+  }, []);
+
+  useEffect(() => {
+    if (!initialProductId || didPreselectProductRef.current) return;
+    const product = products.find((item) => item.id === initialProductId);
+    if (!product) return;
+    didPreselectProductRef.current = true;
+    handleSelectProduct(product);
+  }, [handleSelectProduct, initialProductId, products]);
 
   // Update item field in list
   const updateItemField = (index: number, field: string, value: any) => {

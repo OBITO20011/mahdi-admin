@@ -84,7 +84,6 @@ export interface UpdateProductInput {
 export interface CreateProductFlavorInput {
   masterProductId: string;
   flavorNameAr: string;
-  openingSalePackages: number;
   warehouseId?: string;
   imageUrl?: string;
   barcode?: string;
@@ -93,7 +92,6 @@ export interface CreateProductFlavorInput {
 export interface CreateProductFamilyInput extends CreateProductInput {
   flavors: Array<{
     nameAr: string;
-    openingSalePackages: number;
     imageUrl?: string;
   }>;
 }
@@ -416,8 +414,8 @@ export async function createProductWithOpeningStockInSupabase(
         ? null
         : Number(input.maxStockLevel),
     p_warehouse_id: warehouseIdToUse,
-    p_opening_quantity: Number(input.openingQuantity) || 0,
-    p_notes: 'رصيد افتتاحي عند إضافة المنتج عبر التطبيق',
+    p_opening_quantity: 0,
+    p_notes: 'تعريف منتج جديد برصيد صفر عبر التطبيق',
     p_image_url: input.imageUrl?.trim() || null,
   };
 
@@ -512,10 +510,7 @@ export async function createProductFlavorInSupabase(
     const { data, error } = await supabase.rpc('create_product_flavor_v1', {
       p_master_product_id: input.masterProductId,
       p_flavor_name_ar: flavorName,
-      p_opening_sale_packages: Math.max(
-        0,
-        Math.floor(Number(input.openingSalePackages) || 0)
-      ),
+      p_opening_sale_packages: 0,
       p_warehouse_id: isValidUuid(input.warehouseId)
         ? input.warehouseId
         : null,
@@ -679,10 +674,7 @@ export async function createProductFamilyWithFlavorsInSupabase(
         p_image_url: input.imageUrl?.trim() || null,
         p_flavors: input.flavors.map((flavor) => ({
           nameAr: flavor.nameAr.trim(),
-          openingSalePackages: Math.max(
-            0,
-            Math.floor(Number(flavor.openingSalePackages) || 0)
-          ),
+          openingSalePackages: 0,
           imageUrl: flavor.imageUrl?.trim() || null,
         })),
       }
