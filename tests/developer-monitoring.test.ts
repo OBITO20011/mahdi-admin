@@ -131,6 +131,9 @@ test('watchdog is separate from Business outbox and uses read-only monitoring', 
   assert.match(watchdog, /failureCount/u);
   assert.match(watchdog, /Cloudflare Pages/u);
   assert.match(watchdog, /deployment_trigger\?\.metadata\?\.commit_hash/u);
+  assert.match(watchdog, /evaluateCloudflareDeployment/u);
+  assert.match(watchdog, /freshnessStatus/u);
+  assert.match(watchdog, /DEPLOYMENT_FRESHNESS\.SOURCE_UNRESOLVED/u);
   assert.match(watchdog, /--probe-only/u);
   assert.match(watchdog, /10 \* 60_000/u);
   assert.match(watchdog, /recoveredStaleLock/u);
@@ -157,8 +160,8 @@ test('watchdog is separate from Business outbox and uses read-only monitoring', 
   assert.match(watchdog, /Nawasrah code quality/u);
   assert.match(watchdog, /latestCompleted/u);
   assert.match(watchdog, /API window is missing a required workflow/u);
-  assert.match(watchdog, /'ls-remote', 'origin', 'refs\/heads\/main'/u);
-  assert.match(watchdog, /'diff', '--name-only'/u);
+  assert.match(watchdog, /resolveRepositoryMainSha/u);
+  assert.doesNotMatch(watchdog, /repos\/OBITO20011\/mahdi-admin\/compare/u);
 });
 
 test('Windows setup protects dedicated secrets and schedules one bounded SYSTEM watchdog', async () => {

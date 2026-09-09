@@ -43,6 +43,10 @@ phone numbers, order contents, balances, or financial totals.
 - automation delivery backlog and exhausted retry count, without payloads.
 - missed or overdue Business summary delivery, as technical counts only.
 - Cloudflare Admin and Customer production deployment status/SHA.
+  Freshness is based on the newest commit that actually affects each app's
+  build surface, not repository `HEAD`. Admin and Customer have independent
+  source/package boundaries; operational scripts and docs do not require a web
+  deployment. `SOURCE_UNRESOLVED` is reported separately from public uptime.
 - GitHub CI, secret scan, and public uptime failure/recovery.
 - database, inventory, accounting, shift, runtime, and security integrity state
   produced by the private advanced-monitoring RPC.

@@ -2,6 +2,7 @@ import {spawnSync} from 'node:child_process';
 import {readFile, rename, writeFile, mkdir, open, unlink, stat} from 'node:fs/promises';
 import path from 'node:path';
 import {parseTechnicalJson, runIncidentCycle, sendTelegramMessage} from './developer-alert-core.mjs';
+import {DEPLOYMENT_FRESHNESS, evaluateCloudflareDeployment, resolveRepositoryMainSha} from './deployment-impact.mjs';
 
 const root = process.env.NAWASRAH_DEVELOPER_MONITOR_ROOT || 'C:\\ProgramData\\NawasrahDeveloperMonitoring';
 const statePath = path.join(root, 'incidents.json');
@@ -342,26 +343,13 @@ async function collectCloudflareChecks() {
   const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
   if (!token || !accountId) return [check('developer:cloudflare:configuration', 'Cloudflare', 'high', false, 'إعداد Cloudflare read-only غير مكتمل.')];
   const projects = [
-    {name: 'nawasrah-admin', key: 'admin', relevant: (file) => /^(?:src\/|public\/|index\.html$|package(?:-lock)?\.json$|vite\.config\.ts$)/u.test(file)},
-    {name: 'nawasrah-store', key: 'customer', relevant: (file) => file.startsWith('customer-web/')},
+    {name: 'nawasrah-admin', key: 'admin'},
+    {name: 'nawasrah-store', key: 'customer'},
   ];
   const checks = [];
-  const githubHeaders = {'user-agent': 'nawasrah-developer-watchdog', accept: 'application/vnd.github+json'};
   const projectRoot = process.env.NAWASRAH_PROJECT_ROOT;
-  let mainSha = '';
-  if (projectRoot) {
-    const remote = run('git.exe', ['-C', projectRoot, 'ls-remote', 'origin', 'refs/heads/main'], 30_000);
-    if (remote.ok) mainSha = remote.stdout.split(/\s+/u)[0] || '';
-  }
-  if (!mainSha) {
-    try {
-      const mainResponse = await fetch('https://api.github.com/repos/OBITO20011/mahdi-admin/commits/main', {headers: githubHeaders, signal: AbortSignal.timeout(15_000)});
-      const main = await mainResponse.json();
-      if (mainResponse.ok) mainSha = main.sha || '';
-    } catch {
-      mainSha = '';
-    }
-  }
+  const mainSource = resolveRepositoryMainSha(projectRoot);
+  const mainSha = mainSource.sha;
   for (const project of projects) {
     try {
       const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${project.name}/deployments?env=production&per_page=1`, {headers: {authorization: `Bearer ${token}`}, signal: AbortSignal.timeout(15_000)});
@@ -371,27 +359,38 @@ async function collectCloudflareChecks() {
         || deployment?.source?.config?.commit_hash
         || '';
       const successful = response.ok && body?.success === true && deployment?.latest_stage?.status === 'success';
-      let relevantChanges = true;
-      if (successful && mainSha && deployedSha) {
-        if (deployedSha === mainSha) {
-          relevantChanges = false;
-        } else {
-          const localComparison = projectRoot
-            ? run('git.exe', ['-C', projectRoot, 'diff', '--name-only', `${deployedSha}..${mainSha}`], 30_000)
-            : {ok: false, stdout: ''};
-          if (localComparison.ok) {
-            relevantChanges = localComparison.stdout.split(/\r?\n/u).filter(Boolean).some(project.relevant);
-          } else {
-            const compareResponse = await fetch(`https://api.github.com/repos/OBITO20011/mahdi-admin/compare/${deployedSha}...${mainSha}`, {headers: githubHeaders, signal: AbortSignal.timeout(15_000)});
-            const comparison = await compareResponse.json();
-            relevantChanges = !compareResponse.ok || comparison.status === 'diverged' || (comparison.files || []).some((file) => project.relevant(file.filename || ''));
-          }
-        }
-      }
-      const aligned = successful && Boolean(mainSha) && Boolean(deployedSha) && !relevantChanges;
-      checks.push(check(`developer:cloudflare:${project.key}`, 'Cloudflare Pages', 'high', aligned, aligned ? `${project.name} deployment ناجح ولا توجد تغييرات تطبيق غير منشورة.` : `${project.name} deployment فاشل أو توجد تغييرات تطبيق غير منشورة.`, {deploymentStatus: deployment?.latest_stage?.status || 'unavailable', deployedSha: deployedSha.slice(0, 12) || 'unavailable', mainSha: mainSha.slice(0, 12) || 'unavailable'}));
+      const freshness = evaluateCloudflareDeployment({
+        cloudflareAvailable: successful,
+        projectRoot,
+        app: project.key,
+        deployedSha,
+        mainSha,
+      });
+      const current = freshness.status === DEPLOYMENT_FRESHNESS.CURRENT;
+      const summaries = {
+        [DEPLOYMENT_FRESHNESS.CURRENT]: `${project.name} deployment ناجح ويطابق أحدث تغيير فعلي للتطبيق.`,
+        [DEPLOYMENT_FRESHNESS.DEPLOYMENT_BEHIND]: `${project.name} deployment ناجح لكنه أقدم من تغيير فعلي للتطبيق.`,
+        [DEPLOYMENT_FRESHNESS.SOURCE_UNRESOLVED]: `تعذر تحديد مصدر ${project.name} المتوقع (${freshness.reason || 'unknown'})؛ حالة الموقع لا تُعتبر Down.`,
+        [DEPLOYMENT_FRESHNESS.CLOUDFLARE_UNAVAILABLE]: `تعذر قراءة deployment ناجح لمشروع ${project.name}.`,
+      };
+      checks.push(check(
+        `developer:cloudflare:${project.key}`,
+        'Cloudflare Pages',
+        freshness.status === DEPLOYMENT_FRESHNESS.SOURCE_UNRESOLVED ? 'medium' : 'high',
+        current,
+        summaries[freshness.status],
+        {
+          freshnessStatus: freshness.status,
+          sourceReason: freshness.reason || 'none',
+          deploymentStatus: deployment?.latest_stage?.status || 'unavailable',
+          deployedSha: deployedSha.slice(0, 12) || 'unavailable',
+          expectedSha: freshness.expectedSha?.slice(0, 12) || 'unavailable',
+          mainSha: mainSha.slice(0, 12) || 'unavailable',
+          mainShaSource: mainSource.source,
+        },
+      ));
     } catch {
-      checks.push(check(`developer:cloudflare:${project.key}`, 'Cloudflare Pages', 'high', false, `تعذر قراءة حالة ${project.name}.`));
+      checks.push(check(`developer:cloudflare:${project.key}`, 'Cloudflare Pages', 'high', false, `تعذر قراءة حالة ${project.name}.`, {freshnessStatus: DEPLOYMENT_FRESHNESS.CLOUDFLARE_UNAVAILABLE}));
     }
   }
   return checks;
