@@ -16,6 +16,7 @@ test('official brand entity is the single runtime SEO identity', () => {
 test('public canonicals use one HTTPS origin and final slash-normalized paths', () => {
   assert.equal(getStorePagePath('catalog'), '/products/');
   assert.equal(getStorePagePath('offers'), '/offers/');
+  assert.equal(getStorePagePath('about'), '/about/');
   assert.equal(getCategoryPath('CAT-WATER'), '/category/CAT-WATER/');
   assert.equal(getProductPath('NWS-12'), '/product/NWS-12/');
 });
@@ -37,6 +38,7 @@ test('static SEO generator validates every generated route and excludes private 
   const verifier = read('../scripts/verify-seo-output.mjs');
   assert.match(generator, /officialName = 'محلات النواصرة التجارية'/u);
   assert.match(generator, /sameAs: socialProfiles/u);
+  assert.match(generator, /pageSchema\('AboutPage'/u);
   assert.match(generator, /BreadcrumbList/u);
   assert.match(generator, /summary_large_image/u);
   assert.match(verifier, /sitemap contains a backup, Admin, or private URL/u);
@@ -57,4 +59,5 @@ test('unsupported clean paths have a noindex HTTP 404 without breaking dynamic p
   assert.match(handler, /status: 404/u);
   assert.match(handler, /X-Robots-Tag.*noindex, nofollow, noarchive/us);
   assert.match(handler, /product\\\/\[\^\/\]\+/u);
+  assert.match(handler, /about\\\/\?\$/u);
 });

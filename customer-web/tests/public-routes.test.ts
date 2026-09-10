@@ -15,6 +15,7 @@ test('public SEO paths map to the existing storefront destinations', () => {
   assert.equal(readStoreLocationRoute(location('/')).page, 'home');
   assert.equal(readStoreLocationRoute(location('/products')).page, 'catalog');
   assert.equal(readStoreLocationRoute(location('/offers')).page, 'offers');
+  assert.equal(readStoreLocationRoute(location('/about')).page, 'about');
   assert.deepEqual(readStoreLocationRoute(location('/category/drinks')), {
     page: 'catalog', productKey: '', categorySlug: 'drinks', trackingToken: '', receiptToken: '', isLegacyHash: false,
   });
@@ -28,6 +29,7 @@ test('legacy shared product and private tracking hashes remain compatible', () =
   const tracking = readStoreLocationRoute(location('/', '#track=12345678-1234-1234-1234-123456789012'));
   assert.equal(tracking.trackingToken, '12345678-1234-1234-1234-123456789012');
   assert.equal(getStorePagePath('catalog'), '/products/');
+  assert.equal(getStorePagePath('about'), '/about/');
   assert.equal(getCategoryPath('drinks & juice'), '/category/drinks%20%26%20juice/');
   assert.equal(getProductPath('NWS 100/2'), '/product/NWS%20100%2F2/');
 });

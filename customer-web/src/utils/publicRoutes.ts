@@ -1,4 +1,4 @@
-export type StorePage = 'home' | 'categories' | 'catalog' | 'favorites' | 'offers';
+export type StorePage = 'home' | 'categories' | 'catalog' | 'favorites' | 'offers' | 'about';
 
 export interface StoreLocationRoute {
   page: StorePage;
@@ -45,6 +45,9 @@ export function readStoreLocationRoute(location: Pick<Location, 'pathname' | 'ha
   if (firstSegment === 'offers' && pathSegments.length === 1) {
     return {...base, page: 'offers'};
   }
+  if (firstSegment === 'about' && pathSegments.length === 1) {
+    return {...base, page: 'about'};
+  }
   if (firstSegment === 'category' && secondSegment && pathSegments.length === 2) {
     return {...base, page: 'catalog', categorySlug: secondSegment};
   }
@@ -72,6 +75,7 @@ export function getStorePagePath(page: StorePage): string {
   switch (page) {
     case 'catalog': return '/products/';
     case 'offers': return '/offers/';
+    case 'about': return '/about/';
     // These are private local UI states, deliberately not indexable paths.
     case 'categories': return '/#categories';
     case 'favorites': return '/#favorites';

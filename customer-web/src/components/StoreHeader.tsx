@@ -10,9 +10,10 @@ import {
 import { StoreLogoMark } from './StoreLogoMark';
 import { useEffect, useState } from 'react';
 import type { CatalogProduct } from '../types/catalog';
+import type { StorePage } from '../utils/publicRoutes';
 
 interface StoreHeaderProps {
-  activePage: 'home' | 'categories' | 'catalog' | 'favorites' | 'offers';
+  activePage: StorePage;
   searchQuery: string;
   onSearchChange: (value: string) => void;
   cartPackages: number;
@@ -25,6 +26,7 @@ interface StoreHeaderProps {
   onHome: () => void;
   onAllProducts: () => void;
   onOffers: () => void;
+  onAbout: () => void;
   onTrackOrder: () => void;
   onRefresh: () => void;
   isRefreshing: boolean;
@@ -47,6 +49,7 @@ export function StoreHeader({
   onHome,
   onAllProducts,
   onOffers,
+  onAbout,
   onTrackOrder,
   onRefresh,
   isRefreshing,
@@ -70,6 +73,7 @@ export function StoreHeader({
     { label: 'الأقسام', onClick: onCategoriesOpen, page: 'categories' as const },
     { label: 'جميع المنتجات', onClick: onAllProducts, page: 'catalog' as const },
     { label: 'العروض', onClick: onOffers, page: 'offers' as const, icon: Tag },
+    { label: 'عن المحل', onClick: onAbout, page: 'about' as const },
     { label: 'تتبع الطلب', onClick: onTrackOrder },
   ];
 

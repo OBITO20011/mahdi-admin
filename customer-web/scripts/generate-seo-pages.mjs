@@ -10,6 +10,8 @@ const alternateName = 'محلات مهدي النواصرة التجارية';
 const socialProfiles = ['https://www.facebook.com/profile.php?id=100042236486849'];
 const homepageTitle = `${officialName} | مواد غذائية ومشروبات بالجملة`;
 const homepageDescription = 'تصفح منتجات الجملة من محلات النواصرة التجارية، واطلب المواد الغذائية والمشروبات المتوفرة مباشرة من المتجر.';
+const aboutTitle = `عن ${officialName} | تجارة الجملة في الرمثا`;
+const aboutDescription = `تعرف على ${officialName}، المعروفة أيضًا باسم ${alternateName}، لتجارة المواد الغذائية والسكاكر والعصائر بالجملة في الرمثا، الأردن.`;
 const defaultImage = `${siteOrigin}/nawasrah-store-logo.jpg`;
 const config = await readFile(path.join(root, 'src', 'config', 'supabase-public-config.ts'), 'utf8');
 const url = config.match(/SUPABASE_URL:\s*'([^']+)'/)?.[1];
@@ -59,6 +61,8 @@ function homeSchema() {
       alternateName, url: homepage,
       sameAs: socialProfiles,
       logo: {'@type': 'ImageObject', url: defaultImage}, image: defaultImage,
+      telephone: '+962795957700',
+      address: {'@type': 'PostalAddress', addressLocality: 'الرمثا', addressCountry: 'JO'},
     },
     {
       '@type': 'WebSite', '@id': `${homepage}#website`, url: homepage,
@@ -169,11 +173,21 @@ await writeRoute('/offers/', injectHead(shell, {
     breadcrumbSchema([{name: 'الرئيسية', route: '/'}, {name: 'العروض', route: '/offers/'}]),
   ),
 }));
+await writeRoute('/about/', injectHead(shell, {
+  title: aboutTitle,
+  description: aboutDescription,
+  canonical: routeUrl('/about/'),
+  schema: graphSchema(
+    pageSchema('AboutPage', 'عن محلات النواصرة التجارية', '/about/'),
+    breadcrumbSchema([{name: 'الرئيسية', route: '/'}, {name: 'عن المحل', route: '/about/'}]),
+  ),
+}));
 
 const sitemapRoutes = [
   {route: '/', changefreq: 'daily', priority: '1.0'},
   {route: '/products/', changefreq: 'daily', priority: '0.9'},
   {route: '/offers/', changefreq: 'daily', priority: '0.8'},
+  {route: '/about/', changefreq: 'monthly', priority: '0.7'},
 ];
 for (const category of categories) {
   const slug = String(category.code || category.id || '').trim();

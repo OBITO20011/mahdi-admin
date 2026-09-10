@@ -49,6 +49,15 @@ invariant(rootHtml.includes(`rel="canonical" href="${origin}/"`), 'homepage cano
 invariant(rootHtml.includes(`property="og:image" content="${origin}/nawasrah-store-logo.jpg"`), 'homepage social image is missing');
 const rootTypes = graphTypes(structuredData(rootHtml));
 invariant(rootTypes.has('Store') && rootTypes.has('WebSite'), 'homepage entity graph is incomplete');
+invariant(rootHtml.includes('محلات مهدي النواصرة التجارية'), 'homepage entity graph is missing the alternate business name');
+invariant(rootHtml.includes('+962795957700'), 'homepage entity graph is missing the public business phone');
+
+const aboutHtml = await readRoute('/about/');
+const aboutTypes = graphTypes(structuredData(aboutHtml));
+invariant(locations.includes(`${origin}/about/`), 'sitemap is missing the about page');
+invariant(aboutTypes.has('AboutPage') && aboutTypes.has('BreadcrumbList'), 'about page schema is incomplete');
+invariant(aboutHtml.includes('محلات مهدي النواصرة التجارية'), 'about page is missing the alternate business name');
+invariant(aboutHtml.includes(`rel="canonical" href="${origin}/about/"`), 'about page canonical is invalid');
 
 const productLocation = locations.find((location) => location.startsWith(`${origin}/product/`));
 const categoryLocation = locations.find((location) => location.startsWith(`${origin}/category/`));

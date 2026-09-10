@@ -63,6 +63,12 @@ function homeSchema(): Record<string, unknown> {
       alternateName: SEO_BRAND.alternateName,
       url: homepage,
       sameAs: SEO_BRAND.socialProfiles,
+      telephone: SEO_BRAND.publicPhone,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: SEO_BRAND.locality,
+        addressCountry: SEO_BRAND.countryCode,
+      },
       logo: {'@type': 'ImageObject', url: publicUrl(SEO_BRAND.defaultImagePath)},
       image: publicUrl(SEO_BRAND.defaultImagePath),
     },
@@ -212,6 +218,16 @@ export function useStorefrontSeo({activePage, category, product, offers = [], pr
       title = `العروض | ${STORE_NAME}`;
       description = `العروض العامة المتاحة حاليًا من ${STORE_NAME}.`;
       structuredData = offersSchema(offers);
+    } else if (activePage === 'about') {
+      title = SEO_BRAND.aboutTitle;
+      description = SEO_BRAND.aboutDescription;
+      structuredData = graphSchema(
+        pageSchema('WebPage', 'عن محلات النواصرة التجارية', '/about/'),
+        breadcrumbSchema([
+          {name: 'الرئيسية', path: '/'},
+          {name: 'عن المحل', path: '/about/'},
+        ]),
+      );
     }
 
     const canonical = publicUrl(path);

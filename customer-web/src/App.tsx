@@ -32,6 +32,7 @@ import { StoreHeader } from './components/StoreHeader';
 import { StoreLogoMark } from './components/StoreLogoMark';
 import { StoreHero } from './components/StoreHero';
 import { StoreInfoSection } from './components/StoreInfoSection';
+import { AboutStorePage } from './components/AboutStorePage';
 import { DEFAULT_STOREFRONT_SETTINGS } from './config/store';
 import {
   fetchPublicCartSnapshot,
@@ -1140,6 +1141,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         onHome={() => navigateStorePage('home')}
         onAllProducts={showAllProducts}
         onOffers={openPromotionOffers}
+        onAbout={() => navigateStorePage('about')}
         onTrackOrder={() => setTrackingOpen(true)}
         onRefresh={() => void loadCatalog(true, true)}
         isRefreshing={isRefreshing}
@@ -1256,6 +1258,10 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
             onBrowseProducts={showAllProducts}
             onUseOffer={usePromotionOffer}
           />
+        )}
+
+        {activePage === 'about' && (
+          <AboutStorePage onBrowseProducts={showAllProducts} />
         )}
 
         {activePage === 'catalog' && (
@@ -1706,6 +1712,9 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
             <p className="text-[10px] font-bold text-blue-200">
               البيانات المعروضة مرتبطة بنظام إدارة المخزون.
             </p>
+            <button type="button" onClick={() => navigateStorePage('about')} className="min-h-11 text-xs font-black text-white underline decoration-blue-300 underline-offset-4">
+              عن محلات النواصرة التجارية
+            </button>
             <button type="button" onClick={() => setPrivacyPolicyOpen(true)} className="min-h-11 text-xs font-black text-white underline decoration-blue-300 underline-offset-4">
               سياسة الخصوصية وحماية البيانات
             </button>
