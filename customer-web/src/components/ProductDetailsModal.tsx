@@ -2,6 +2,7 @@ import {
   Barcode,
   Boxes,
   CheckCircle2,
+  CircleHelp,
   Copy,
   Heart,
   Minus,
@@ -37,6 +38,7 @@ interface ProductDetailsModalProps {
   storeWhatsAppNumber: string;
   isFavorite: boolean;
   onToggleFavorite: (product: CatalogProduct) => void;
+  onOpenAssistant: () => void;
 }
 
 export function ProductDetailsModal({
@@ -50,6 +52,7 @@ export function ProductDetailsModal({
   storeWhatsAppNumber,
   isFavorite,
   onToggleFavorite,
+  onOpenAssistant,
 }: ProductDetailsModalProps) {
   const [selectedVariantId, setSelectedVariantId] = useState(
     () =>
@@ -241,6 +244,14 @@ export function ProductDetailsModal({
               className="grid h-10 w-10 place-items-center rounded-2xl border border-slate-200 bg-white text-blue-700 transition hover:bg-blue-50"
             >
               <Share2 className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={onOpenAssistant}
+              aria-label="فتح مساعد المتجر"
+              className="grid h-10 w-10 place-items-center rounded-2xl border border-amber-200 bg-amber-50 text-amber-800 transition hover:bg-amber-100"
+            >
+              <CircleHelp className="h-4 w-4" />
             </button>
             <button type="button" onClick={shareOnWhatsApp} aria-label="مشاركة المنتج على واتساب" className="grid h-10 w-10 place-items-center rounded-2xl border border-emerald-200 bg-emerald-50 text-emerald-700"><MessageCircle className="h-4 w-4" /></button>
             <button

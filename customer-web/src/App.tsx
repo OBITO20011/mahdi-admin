@@ -17,6 +17,7 @@ import { CategoryDrawer } from './components/CategoryDrawer';
 import { CategoryShowcase } from './components/CategoryShowcase';
 import { CheckoutModal } from './components/CheckoutModal';
 import { FloatingContactActions } from './components/FloatingContactActions';
+import { GuidedStoreAssistant } from './components/GuidedStoreAssistant';
 import { HomeCategoryMosaic } from './components/HomeCategoryMosaic';
 import { NetworkStatusBanner } from './components/NetworkStatusBanner';
 import { MerchandisingSections } from './components/MerchandisingSections';
@@ -209,6 +210,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [trackingOpen, setTrackingOpen] = useState(false);
+  const [assistantOpen, setAssistantOpen] = useState(false);
   const [searchOpenSignal, setSearchOpenSignal] = useState(0);
   const [lastGuestOrder, setLastGuestOrder] = useState<LastGuestOrder | null>(() => readLastGuestOrder(window.localStorage));
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
@@ -748,6 +750,12 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   useEffect(() => {
     if (!settingsTrusted && checkoutOpen) setCheckoutOpen(false);
   }, [checkoutOpen, settingsTrusted]);
+
+  useEffect(() => {
+    if (cartOpen || checkoutOpen || trackingOpen || privacyPolicyOpen) {
+      setAssistantOpen(false);
+    }
+  }, [cartOpen, checkoutOpen, privacyPolicyOpen, trackingOpen]);
 
   const addQuantityToCart = (
     product: CatalogProduct,
@@ -1718,8 +1726,28 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           storeWhatsAppNumber={storefrontSettings.whatsappNumber}
           isFavorite={favoriteProductIds.includes(selectedProduct.id)}
           onToggleFavorite={toggleProductFavorite}
+          onOpenAssistant={() => setAssistantOpen(true)}
         />
       )}
+
+      <GuidedStoreAssistant
+        isOpen={assistantOpen}
+        showFloatingButton={
+          !selectedProduct &&
+          !cartOpen &&
+          !checkoutOpen &&
+          !trackingOpen &&
+          !privacyPolicyOpen
+        }
+        settings={settingsTrusted ? storefrontSettings : null}
+        whatsappUrl={storeWhatsappUrl}
+        onOpen={() => setAssistantOpen(true)}
+        onClose={() => setAssistantOpen(false)}
+        onBrowseProducts={showAllProducts}
+        onOpenOffers={openPromotionOffers}
+        onTrackOrder={() => setTrackingOpen(true)}
+        hasCartItems={cartPackages > 0}
+      />
 
       <CartDrawer
         isOpen={cartOpen}
