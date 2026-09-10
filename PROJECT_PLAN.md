@@ -31,9 +31,14 @@
 
 ### إطلاق الواجهة العامة
 
-- ربط Custom Domain وDNS وCloudflare production aliases.
-- إكمال SEO Part 2 بعد اعتماد الدومين: canonical origin وsitemap وSearch Console.
-- تنفيذ Final Production/Website Smoke Test من الدومين المعتمد.
+- تم ربط `alnawasreh.com` و`www.alnawasreh.com` و`admin.alnawasreh.com`، وتعمل
+  جميعها على Production عبر HTTPS.
+- اكتمل SEO Part 2: canonical origin و`robots.txt` و`sitemap.xml` تعمل من
+  الدومين الرسمي، وDNS يحتوي Google site-verification token.
+- نجح Final Production/Website Smoke بتاريخ 2026-09-11 على Chromium وMobile
+  WebKit للصفحات الرئيسية والمنتجات والعروض وعن المتجر وصفحات القسم والمنتج.
+- المتبقي الإداري فقط هو تأكيد ملكية Search Console من حساب صاحب العمل والتأكد
+  من إرسال `sitemap.xml` داخله.
 
 ### Business recipient cutover
 
@@ -41,17 +46,18 @@
 - عند التسليم النهائي يُستبدل بمستلم صاحب المحل الحقيقي ويُختبر failure/recovery
   دون تغيير Developer Telegram. لا تُحفظ Chat IDs أو tokens في Git أو الوثائق.
 
-### Incidents تشغيلية مفتوحة وقت الفحص
+### Operational recovery — مكتمل 2026-09-11
 
-لقطة `npm.cmd run monitoring:status` بتاريخ 2026-09-08 أظهرت مفاتيح incidents
-مفتوحة تخص n8n، scheduled backup tasks، Supabase monitoring query، Cloudflare،
-GitHub CI وPublic Uptime. بعض الفحوص المباشرة الحالية سليمة بالفعل (`n8n`
-healthy وGitHub CI أخضر وأحدث backup/restore ناجحان)، لذلك يلزم **incident state
-reconciliation/recovery run** منفصل قبل الإطلاق، لا ترقيع وثائقي ولا تعديل بيانات.
-
-آخر محاولة Scheduled Task للنسخ الليلي أعادت exit code `1` رغم نجاح backup
-يدوي مشفر وRestore Drill معزول في اليوم نفسه. يجب فحص `backup.log` وتشغيل المهمة
-المجدولة بنجاح قبل اعتبار backup incident مغلقًا.
+- `Nawasrah Docker Safe Startup` أعادت `0`، وDocker وn8n و`/healthz` سليمة.
+- `Nawasrah ERP Nightly Backup` اشتغلت فعليًا تحت `SYSTEM` وأعادت `0`، والأرشيف
+  الجديد اجتاز فحص التشفير والـchecksums.
+- أُعيد تسجيل `Nawasrah n8n Daily Backup` تحت `SYSTEM`، وشُغلت فعليًا وأعادت
+  `0` مع `restoreVerified=true`.
+- رُفعت أحدث نسختي ERP وn8n إلى R2، ونجح download/verify والـRestore Drill
+  المعزول لكليهما دون لمس Production.
+- أُعيد تسجيل Developer Watchdog، ونفذ دورة تلقائية تحت `SYSTEM`؛ الحالة الحالية
+  لا تحتوي active incidents.
+- GitHub Code Quality وSecret Scanning وDeveloper Alerts للـcommit الحالي خضراء.
 
 ## Deferred وغير مانع حاليًا
 

@@ -128,6 +128,13 @@ test('Windows setup uses DPAPI SYSTEM, independent schedules, bounded retries, a
   assert.doesNotMatch(`${setup}\n${register}\n${runner}`, /DeleteObject|Remove-S3Object/u);
 });
 
+test('off-site ERP restore runs in a clean PowerShell process and propagates failures', async () => {
+  const runner = await readFile(path.resolve('scripts/offsite-backup/run-offsite-backup.ps1'), 'utf8');
+  assert.match(runner, /& powershell\.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass/u);
+  assert.match(runner, /-File \$erpRestoreScript/u);
+  assert.match(runner, /if \(\$LASTEXITCODE -ne 0\) \{ throw 'ERP off-site restore drill failed\.' \}/u);
+});
+
 test('scheduled verification starts the registered SYSTEM uploader and requires zero exit code', async () => {
   const source = await readFile(path.resolve('scripts/offsite-backup/test-offsite-schedule.ps1'), 'utf8');
   assert.match(source, /Start-ScheduledTask -TaskName \$TaskName/u);

@@ -7,9 +7,6 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-if (-not (Get-Command ConvertTo-SecureString -ErrorAction SilentlyContinue)) {
-  Import-Module -Name Microsoft.PowerShell.Security -ErrorAction Stop
-}
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 
 function ConvertTo-PlainText {
@@ -131,6 +128,9 @@ $archivePassphrase = if ($config.protectionScope -eq 'LocalMachine') {
   Unprotect-MachineValue -ProtectedValue ([string]$config.archivePassphrase)
 }
 else {
+  if (-not (Get-Command ConvertTo-SecureString -ErrorAction SilentlyContinue)) {
+    Import-Module -Name Microsoft.PowerShell.Security -ErrorAction Stop
+  }
   $archivePassphraseSecure = ConvertTo-SecureString -String $config.archivePassphrase
   ConvertTo-PlainText -SecureValue $archivePassphraseSecure
 }

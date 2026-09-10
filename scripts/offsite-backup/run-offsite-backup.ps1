@@ -96,8 +96,12 @@ try {
     $inputs = Get-Content -LiteralPath (Join-Path $workRoot 'restore-inputs.json') -Raw -Encoding UTF8 | ConvertFrom-Json
     $erpInput = $inputs | Where-Object pipeline -eq 'erp' | Select-Object -First 1
     $n8nInput = $inputs | Where-Object pipeline -eq 'n8n' | Select-Object -First 1
-    & (Join-Path $projectRoot 'scripts\backup\run-restore-drill.ps1') `
-      -ConfigPath ([string]$config.erpMachineConfigPath) -ArchivePath ([string]$erpInput.outputPath) -NoDockerStart
+    $erpRestoreScript = Join-Path $projectRoot 'scripts\backup\run-restore-drill.ps1'
+    & powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass `
+      -File $erpRestoreScript `
+      -ConfigPath ([string]$config.erpMachineConfigPath) `
+      -ArchivePath ([string]$erpInput.outputPath) `
+      -NoDockerStart
     if ($LASTEXITCODE -ne 0) { throw 'ERP off-site restore drill failed.' }
     $env:NAWASRAH_BACKUP_PASSPHRASE = $archivePassphrase
     & (Join-Path $projectRoot 'automation\n8n\verify-offsite-restore.ps1') -ArchivePath ([string]$n8nInput.outputPath)

@@ -134,14 +134,14 @@ npm.cmd run backup:restore-test
 
 - ERP backup مشفر AES-256-GCM بأدوات PostgreSQL 17 الأصلية وchecksums.
 - Nightly task تعمل تحت `SYSTEM`; Restore Drill يبقى معزولًا ويستخدم Docker.
-- أحدث backup يدوي وقت الفحص: `nawasrah-backup-2026-09-08T08-30-11Z.nwb`،
-  verified، وأحدث drill أعاد 54 جدولًا و109 foreign keys و0 unvalidated constraints
+- تشغيل `Nawasrah ERP Nightly Backup` تحت `SYSTEM` بتاريخ 2026-09-11 أعاد `0`،
+  وأنتج `nawasrah-backup-2026-09-10T21-43-43Z.nwb` ثم اجتاز verify.
+- أحدث Restore Drill أعاد 54 جدولًا و109 foreign keys و0 unvalidated constraints
   مع `liveSupabaseTouched=false`.
-- آخر تشغيل Scheduled Nightly Task أعاد exit code `1`. لا تعتمد على نجاح manual
-  وحده؛ راجع `backup.log` ثم أثبت Scheduled run = 0 قبل الإطلاق.
-- n8n latest archive status كان `ok=true` و`restoreVerified=true`، لكن مهمة
-  `Nawasrah n8n Daily Backup` لم تظهر في Task Scheduler وقت هذا الفحص رغم وجود
-  registration status سابق؛ أعد التحقق/التسجيل الآمن دون تغيير credentials.
+- أُعيد تسجيل `Nawasrah n8n Daily Backup` تحت `SYSTEM` واختبارها فعليًا؛ أعادت
+  `0` وأنشأت أرشيفًا جديدًا مع `restoreVerified=true`.
+- رُفعت النسختان الجديدتان إلى R2، ونجح download/verify والـRestore Drill المعزول
+  لكل من ERP وn8n دون لمس Production.
 
 التفاصيل في [scripts/backup/README.md](../scripts/backup/README.md) و
 [automation/n8n/README.md](../automation/n8n/README.md).
@@ -149,7 +149,7 @@ npm.cmd run backup:restore-test
 ## 9. Docker Safe Startup وn8n
 
 - Safe Startup task: `Nawasrah Docker Safe Startup` تحت حساب `TOP`، وآخر نتيجة
-  وقت الفحص `0`.
+  بتاريخ 2026-09-11 هي `0` مع Docker `29.7.2` وn8n healthy و`/healthz = 200`.
 - runner/log/status خارج Docker تحت `C:\ProgramData\NawasrahDockerRecovery`.
 - لا Factory Reset ولا حذف VHDX/images/volumes/containers.
 - عند socket runtime تالف، runner يعزل مجلد runtime المحدد بمحاولة bounded فقط.
@@ -175,24 +175,15 @@ npm.cmd run monitoring:status
 اتبع [Monitoring Runbooks](./operations/MONITORING_RUNBOOKS.md) ولا تصلح
 incident عبر تعديل Business rows أو حذف incident state.
 
-## 11. Open incident state وقت الفحص
+## 11. Incident state بعد Recovery
 
-`npm.cmd run monitoring:status` أعاد `task = null` ومفاتيح مفتوحة:
+بتاريخ 2026-09-11 أُعيد تسجيل Developer Watchdog تحت `SYSTEM`، ثم أثبت سجلّه
+تشغيلًا تلقائيًا ناجحًا كل خمس دقائق. دورة الـstate machine أغلقت الحالات القديمة
+طبيعيًا، و`npm.cmd run monitoring:status` يعيد حاليًا `activeIncidents = {}`.
 
-- `developer:n8n:container`
-- `developer:n8n:healthz`
-- `developer:n8n:workflow-executions`
-- `developer:backup:scheduled-tasks`
-- `developer:supabase:monitoring-query`
-- `developer:cloudflare:admin`
-- `developer:cloudflare:customer`
-- `developer:github:ci`
-- `developer:uptime:admin`
-- `developer:uptime:customer`
-
-الفحص المباشر خالف بعض هذه الحالات: n8n healthy، CI أخضر، deployments موجودة،
-والنسخة/الاستعادة اليدويتان ناجحتان. المطلوب هو إصلاح/إثبات Scheduled Watchdog
-ثم دورة recovery واحدة، لا حذف `incidents.json` أو إرسال recovery يدوي.
+قد تعيد جلسة Windows غير المرتفعة `task = null` لأن ACL المهمة يمنع تعدادها، لذلك
+الدليل التشغيلي المعتمد هو registration status تحت `SYSTEM` وسجل watchdog المتجدد؛
+لا تحذف `incidents.json` ولا ترسل recovery يدويًا.
 
 ## 12. Known deferred warnings
 
@@ -207,9 +198,8 @@ incident عبر تعديل Business rows أو حذف incident state.
    [PRIVACY_DATA_MAP.md](./operations/PRIVACY_DATA_MAP.md).
 2. Cutover Business Telegram من المستلم المؤقت إلى صاحب المحل الحقيقي، مع test
    آمن وعدم لمس Developer recipient.
-3. إغلاق/reconcile incidents أعلاه وإثبات Scheduled ERP/n8n backup وWatchdog.
-4. اعتماد Custom Domain ثم SEO Part 2 وcanonical origin/Search Console.
-5. Final Production/Website Smoke Test من الدومين المعتمد.
+3. تأكيد ملكية Search Console من حساب صاحب العمل وإرسال `sitemap.xml`؛ DNS
+   verification والدومينات وSEO Part 2 وProduction Website Smoke مكتملة.
 
 لا تبدأ أي بند من هذه الوثيقة لمجرد قراءته؛ كل تغيير Production يحتاج scope
 صريحًا وbackup/CI/verification مناسبًا.

@@ -193,6 +193,7 @@ test('restore drill runner reads only the encrypted archive passphrase and suppo
   const source = await readFile('scripts/backup/run-restore-drill.ps1', 'utf8');
   assert.match(source, /Get-Command ConvertTo-SecureString/u);
   assert.match(source, /Import-Module -Name Microsoft\.PowerShell\.Security -ErrorAction Stop/u);
+  assert.match(source, /if \(\$config\.protectionScope -eq 'LocalMachine'\)[\s\S]*else \{[\s\S]*Get-Command ConvertTo-SecureString/u);
   assert.match(source, /Find-LatestBackupArchive/u);
   assert.match(source, /Nawasrah ERP Backups/u);
   assert.match(source, /archivePassphrase/u);
