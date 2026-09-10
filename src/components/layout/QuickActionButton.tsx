@@ -81,7 +81,8 @@ export const QuickActionButton: React.FC = () => {
         aria-label="فتح العمليات السريعة"
         aria-expanded={isQuickActionOpen}
         aria-controls="quick-action-drawer"
-        className={`pointer-events-auto absolute right-3 top-1 flex h-12 w-12 items-center justify-center rounded-2xl border text-white shadow-[0_14px_28px_-10px_rgba(37,99,235,0.95)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 active:scale-95 ${
+        data-open={isQuickActionOpen}
+        className={`admin-fab admin-fab-primary pointer-events-auto absolute right-3 top-1 flex h-12 w-12 items-center justify-center rounded-2xl border text-white shadow-[0_14px_28px_-10px_rgba(37,99,235,0.95)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 active:scale-95 ${
           isQuickActionOpen
             ? 'rotate-45 border-rose-300/50 bg-rose-600'
             : 'border-blue-300/45 bg-gradient-to-br from-blue-500 to-indigo-700 hover:from-blue-400 hover:to-indigo-600'

@@ -20,7 +20,7 @@ export const AccountsView: React.FC = () => {
 
   return (
     <div dir="rtl" className="space-y-3 pb-24">
-      <div className="mx-3 mt-3 rounded-2xl border border-slate-800 bg-gradient-to-l from-teal-950/80 to-slate-900 p-4">
+      <div data-ui="accounts-header" className="mx-3 mt-3 rounded-2xl border border-slate-800 bg-gradient-to-l from-teal-950/80 to-slate-900 p-4">
         <div className="flex items-center gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-teal-500/30 bg-teal-500/10 text-teal-300">
             <Users className="h-5 w-5" />

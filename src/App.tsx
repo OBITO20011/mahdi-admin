@@ -102,20 +102,18 @@ export const App: React.FC = () => {
   const {
     activeTab,
     currentModal,
-    toast,
     themeMode,
     isBiometricsEnabled,
   } = useAppStoreSelector(
     (state) => ({
       activeTab: state.activeTab,
       currentModal: state.currentModal,
-      toast: state.toast,
       themeMode: state.currentUser.themeMode,
       isBiometricsEnabled: state.isBiometricsEnabled,
     }),
     shallowEqual
   );
-  const { setToast, lockWithFaceId, setActiveTab } = useAppStoreActions();
+  const { lockWithFaceId, setActiveTab } = useAppStoreActions();
   const {
     isAuthenticated,
     isLoading: isAuthLoading,
@@ -162,7 +160,7 @@ export const App: React.FC = () => {
 
     document
       .querySelector<HTMLMetaElement>('meta[name="theme-color"]')
-      ?.setAttribute('content', activeThemeMode === 'light' ? '#f8fafc' : '#020617');
+      ?.setAttribute('content', activeThemeMode === 'light' ? '#f7f8fa' : '#020617');
   }, [themeMode]);
 
   useEffect(() => {
@@ -275,23 +273,6 @@ export const App: React.FC = () => {
   // 3. Authenticated -> Full Application Interface
   return (
     <IPhoneContainer>
-      {/* Toast Notification Banner */}
-      {toast && (
-        <div
-          onClick={() => setToast('', 'info')}
-          className={`fixed top-12 left-4 right-4 z-50 p-3 rounded-2xl shadow-2xl text-xs font-bold transition-all transform animate-bounce flex items-center justify-between cursor-pointer border ${
-            toast.type === 'error'
-              ? 'bg-red-950 text-red-200 border-red-800'
-              : toast.type === 'info'
-              ? 'bg-amber-950 text-amber-200 border-amber-800'
-              : 'bg-emerald-950 text-emerald-200 border-emerald-800'
-          }`}
-        >
-          <span>{toast.message}</span>
-          <span className="text-[10px] opacity-75">إغلاق ✕</span>
-        </div>
-      )}
-
       {/* Top Header Bar */}
       <Header />
 
@@ -308,7 +289,7 @@ export const App: React.FC = () => {
       <div
         data-navigation-action-dock
         aria-label="اختصارات سريعة"
-        className="relative z-20 h-16 shrink-0 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent pointer-events-none"
+        className="admin-action-dock relative z-20 h-16 shrink-0 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent pointer-events-none"
       >
         <QuickActionButton />
         {canUseAssistant && activeTab !== 'assistant' && (
@@ -316,7 +297,7 @@ export const App: React.FC = () => {
             type="button"
             onClick={() => setActiveTab('assistant')}
             aria-label="فتح المساعد الإداري الذكي"
-            className="pointer-events-auto absolute left-3 top-1 flex h-12 w-12 items-center justify-center rounded-2xl border border-violet-300/35 bg-gradient-to-br from-violet-500 to-indigo-700 text-white shadow-[0_14px_28px_-10px_rgba(139,92,246,0.95)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 hover:from-violet-400 hover:to-indigo-600 active:scale-95"
+            className="admin-fab admin-fab-assistant pointer-events-auto absolute left-3 top-1 flex h-12 w-12 items-center justify-center rounded-2xl border border-violet-300/35 bg-gradient-to-br from-violet-500 to-indigo-700 text-white shadow-[0_14px_28px_-10px_rgba(139,92,246,0.95)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 hover:from-violet-400 hover:to-indigo-600 active:scale-95"
           >
             <BotMessageSquare className="h-5 w-5" />
             <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-slate-950 bg-emerald-400" />

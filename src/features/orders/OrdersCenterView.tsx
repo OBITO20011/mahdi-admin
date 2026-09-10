@@ -359,7 +359,7 @@ export const OrdersCenterView: React.FC = () => {
 
   return (
     <div dir="rtl" className="space-y-4 p-3 pb-24 text-xs">
-      <div className="rounded-2xl border border-slate-800 bg-gradient-to-l from-blue-950/70 to-slate-900 p-4">
+      <div data-ui="orders-header" className="rounded-2xl border border-slate-800 bg-gradient-to-l from-blue-950/70 to-slate-900 p-4">
         <div className="flex items-start justify-between gap-3">
           <div>
             <h2 className="flex items-center gap-2 text-base font-black text-white">

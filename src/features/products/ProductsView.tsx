@@ -227,7 +227,7 @@ export const ProductsView: React.FC = () => {
 
   return (
     <div dir="rtl" className="space-y-3 p-3 pb-24 text-xs">
-      <section className="overflow-hidden rounded-3xl border border-blue-500/20 bg-gradient-to-br from-blue-950/70 via-slate-950 to-slate-950 shadow-xl shadow-blue-950/10">
+      <section data-ui="products-hero" className="overflow-hidden rounded-3xl border border-blue-500/20 bg-gradient-to-br from-blue-950/70 via-slate-950 to-slate-950 shadow-xl shadow-blue-950/10">
         <div className="relative p-4">
           <div className="absolute -left-8 -top-10 h-28 w-28 rounded-full bg-blue-500/10 blur-2xl" />
           <div className="relative flex items-start justify-between gap-3">

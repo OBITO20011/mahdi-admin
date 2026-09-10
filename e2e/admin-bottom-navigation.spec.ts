@@ -48,6 +48,55 @@ async function readNavigationGeometry(page: Page) {
 }
 
 test.describe('شريط تنقل الإدارة السفلي', () => {
+  test('يطبق Light Mode الهادئ على الأسطح والتنبيهات والأزرار العائمة دون خفض التباين', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${harnessUrl}?start=more&theme=light&toast=success`, {
+      waitUntil: 'domcontentloaded',
+    });
+
+    await expect(page.locator('html')).toHaveClass(/theme-light/);
+    await expect(page.locator('[data-ui="admin-screen"]')).toHaveCSS(
+      'background-color',
+      'rgb(247, 248, 250)',
+    );
+    await expect(page.locator('[data-ui="admin-toast"]')).toHaveCSS(
+      'color',
+      'rgb(22, 101, 52)',
+    );
+    await expect(page.locator('[data-bottom-tab="more"]')).toHaveCSS(
+      'color',
+      'rgb(49, 95, 168)',
+    );
+
+    const fabShadow = await page
+      .locator('[data-navigation-id="quick-action-trigger"]')
+      .evaluate((element) => getComputedStyle(element).boxShadow);
+    expect(fabShadow).not.toContain('0.95');
+    await expectNoSeriousAccessibilityViolations(page);
+  });
+
+  test('يحافظ على مظهر Dark Mode الحالي بصورة مستقلة عن تحسينات Light Mode', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${harnessUrl}?start=more&theme=dark&toast=success`, {
+      waitUntil: 'domcontentloaded',
+    });
+
+    await expect(page.locator('html')).toHaveClass(/theme-dark/);
+    await expect(page.locator('[data-ui="admin-screen"]')).toHaveCSS(
+      'background-color',
+      'rgb(2, 6, 23)',
+    );
+    const darkToastColor = await page
+      .locator('[data-ui="admin-toast"]')
+      .evaluate((element) => getComputedStyle(element).color);
+    expect(darkToastColor).not.toBe('rgb(22, 101, 52)');
+    await expectNoSeriousAccessibilityViolations(page);
+  });
+
   test('يعرض الترتيب النهائي ويوجه كل تبويب إلى activeTab الحالي', async ({
     page,
   }) => {
@@ -136,6 +185,7 @@ test.describe('شريط تنقل الإدارة السفلي', () => {
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
     await trigger.click();
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await expect(trigger).toHaveAttribute('data-open', 'true');
     const quickActionDialog = page.getByRole('dialog');
     await expect(quickActionDialog).toBeVisible();
     await expect(quickActionDialog).toHaveCSS('opacity', '1');

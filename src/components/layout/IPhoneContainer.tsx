@@ -18,9 +18,6 @@ import {
   ShieldCheck,
   Scan,
   RefreshCw,
-  CheckCircle2,
-  XCircle,
-  Info,
   KeyRound,
   ChevronRight,
   Eye,
@@ -29,6 +26,7 @@ import {
   LockKeyhole,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { AdminToast } from './AdminToast';
 
 interface IPhoneContainerProps {
   children: React.ReactNode;
@@ -237,35 +235,10 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
         </div>}
 
         {/* Screen Content Wrapper */}
-        <div className={`relative w-full bg-slate-950 text-slate-100 overflow-hidden flex flex-col ${isFrameMode ? 'h-[calc(100%-28px)]' : 'h-full'}`}>
+        <div data-ui="admin-screen" className={`relative w-full bg-slate-950 text-slate-100 overflow-hidden flex flex-col ${isFrameMode ? 'h-[calc(100%-28px)]' : 'h-full'}`}>
           {children}
 
-          {/* Toast Notification Container */}
-          <AnimatePresence>
-            {toast && (
-              <motion.div
-                initial={{ opacity: 0, y: -20, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                className="absolute top-4 left-4 right-4 z-50 pointer-events-none"
-              >
-                <div
-                  className={`flex items-center gap-3 p-3.5 rounded-2xl shadow-2xl backdrop-blur-md border text-xs font-semibold ${
-                    toast.type === 'error'
-                      ? 'bg-red-950/95 border-red-800 text-red-200'
-                      : toast.type === 'info'
-                      ? 'bg-blue-950/95 border-blue-800 text-blue-200'
-                      : 'bg-emerald-950/95 border-emerald-800 text-emerald-200'
-                  }`}
-                >
-                  {toast.type === 'error' && <XCircle className="w-5 h-5 text-red-400 shrink-0" />}
-                  {toast.type === 'info' && <Info className="w-5 h-5 text-blue-400 shrink-0" />}
-                  {toast.type === 'success' && <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />}
-                  <span className="flex-1">{toast.message}</span>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <AdminToast toast={toast} />
 
           {/* Face ID Biometric Lock Overlay */}
           <AnimatePresence>
