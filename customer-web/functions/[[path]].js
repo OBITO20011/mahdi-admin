@@ -1,4 +1,4 @@
-const PUBLIC_ROUTE = /^\/(?:$|products\/?$|offers\/?$|about\/?$|product\/[^/]+\/?$|category\/[^/]+\/?$|robots\.txt$|sitemap\.xml$|assets\/|nawasrah-[^/]+\.(?:jpg|webp|mp4)$)/u;
+const PUBLIC_ROUTE = /^\/(?:$|products\/?$|offers\/?$|about\/?$|product\/[^/]+\/?$|category\/[^/]+\/?$|robots\.txt$|sitemap\.xml$|site\.webmanifest$|apple-touch-icon\.png$|favicon-(?:48|96|192|512)\.png$|assets\/|nawasrah-[^/]+\.(?:jpg|webp|mp4)$)/u;
 
 const NOT_FOUND_HTML = `<!doctype html>
 <html lang="ar" dir="rtl">

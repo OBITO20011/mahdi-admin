@@ -61,4 +61,6 @@ test('unsupported clean paths have a noindex HTTP 404 without breaking dynamic p
   assert.match(handler, /X-Robots-Tag.*noindex, nofollow, noarchive/us);
   assert.match(handler, /product\\\/\[\^\/\]\+/u);
   assert.match(handler, /about\\\/\?\$/u);
+  assert.match(handler, /site\\\.webmanifest/u);
+  assert.match(handler, /favicon-\(\?:48\|96\|192\|512\)\\\.png/u);
 });
