@@ -29,7 +29,7 @@ import { ProductDetailsModal } from './components/ProductDetailsModal';
 import { PublicPosReceiptPage } from './components/PublicPosReceiptPage';
 import { PromotionOffers } from './components/PromotionOffers';
 import { StoreHeader } from './components/StoreHeader';
-import { StoreLogoMark } from './components/StoreLogoMark';
+import { StoreFooter } from './components/StoreFooter';
 import { StoreHero } from './components/StoreHero';
 import { AboutStorePage } from './components/AboutStorePage';
 import { DEFAULT_STOREFRONT_SETTINGS } from './config/store';
@@ -1699,30 +1699,12 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         onSelect={selectCatalogCategory}
       />
 
-      <footer className="bg-[#08152e] px-4 pb-28 pt-10 text-blue-100 md:py-10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-5 sm:flex-row sm:items-center sm:justify-between lg:px-4">
-          <div className="flex items-center gap-3">
-            <StoreLogoMark className="h-12 w-16" />
-            <div>
-              <p className="font-black text-white">{storefrontSettings.storeNameAr}</p>
-              <p className="mt-1 text-[10px] font-bold text-blue-200/60">
-                الرمثا، الأردن • تجارة الجملة
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-col items-start gap-2 sm:items-end">
-            <p className="text-[10px] font-bold text-blue-200">
-              البيانات المعروضة مرتبطة بنظام إدارة المخزون.
-            </p>
-            <button type="button" onClick={() => navigateStorePage('about')} className="min-h-11 text-xs font-black text-white underline decoration-blue-300 underline-offset-4">
-              عن محلات النواصرة التجارية
-            </button>
-            <button type="button" onClick={() => setPrivacyPolicyOpen(true)} className="min-h-11 text-xs font-black text-white underline decoration-blue-300 underline-offset-4">
-              سياسة الخصوصية وحماية البيانات
-            </button>
-          </div>
-        </div>
-      </footer>
+      <StoreFooter
+        whatsappUrl={storeWhatsappUrl}
+        onNavigate={navigateStorePage}
+        onTrackOrder={() => setTrackingOpen(true)}
+        onOpenPrivacy={() => setPrivacyPolicyOpen(true)}
+      />
 
       {selectedProduct && (
         <ProductDetailsModal
