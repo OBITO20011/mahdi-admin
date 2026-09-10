@@ -64,13 +64,15 @@ function homeSchema(): Record<string, unknown> {
       url: homepage,
       sameAs: SEO_BRAND.socialProfiles,
       telephone: SEO_BRAND.publicPhone,
+      foundingDate: String(SEO_BRAND.foundingYear),
+      areaServed: {'@type': 'Country', name: 'الأردن'},
       address: {
         '@type': 'PostalAddress',
         addressLocality: SEO_BRAND.locality,
         addressCountry: SEO_BRAND.countryCode,
       },
       logo: {'@type': 'ImageObject', url: publicUrl(SEO_BRAND.defaultImagePath)},
-      image: publicUrl(SEO_BRAND.defaultImagePath),
+      image: publicUrl(SEO_BRAND.storefrontImagePath),
     },
     {
       '@type': 'WebSite',

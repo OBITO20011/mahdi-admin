@@ -9,6 +9,7 @@ const read = (path: string) => readFileSync(new URL(path, import.meta.url), 'utf
 test('official brand entity is the single runtime SEO identity', () => {
   assert.equal(SEO_BRAND.officialName, 'محلات النواصرة التجارية');
   assert.equal(SEO_BRAND.alternateName, 'محلات مهدي النواصرة التجارية');
+  assert.equal(SEO_BRAND.foundingYear, 2000);
   assert.deepEqual(SEO_BRAND.socialProfiles, ['https://www.facebook.com/profile.php?id=100042236486849']);
   assert.match(SEO_BRAND.homepageTitle, /^محلات النواصرة التجارية \|/u);
 });

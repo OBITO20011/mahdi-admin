@@ -57,6 +57,7 @@ const aboutTypes = graphTypes(structuredData(aboutHtml));
 invariant(locations.includes(`${origin}/about/`), 'sitemap is missing the about page');
 invariant(aboutTypes.has('AboutPage') && aboutTypes.has('BreadcrumbList'), 'about page schema is incomplete');
 invariant(aboutHtml.includes('محلات مهدي النواصرة التجارية'), 'about page is missing the alternate business name');
+invariant(aboutHtml.includes('nawasrah-storefront.webp'), 'about page is missing the storefront image');
 invariant(aboutHtml.includes(`rel="canonical" href="${origin}/about/"`), 'about page canonical is invalid');
 
 const productLocation = locations.find((location) => location.startsWith(`${origin}/product/`));
