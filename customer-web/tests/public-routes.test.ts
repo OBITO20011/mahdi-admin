@@ -27,7 +27,7 @@ test('legacy shared product and private tracking hashes remain compatible', () =
   assert.equal(legacyProduct.isLegacyHash, true);
   const tracking = readStoreLocationRoute(location('/', '#track=12345678-1234-1234-1234-123456789012'));
   assert.equal(tracking.trackingToken, '12345678-1234-1234-1234-123456789012');
-  assert.equal(getStorePagePath('catalog'), '/products');
-  assert.equal(getCategoryPath('drinks & juice'), '/category/drinks%20%26%20juice');
-  assert.equal(getProductPath('NWS 100/2'), '/product/NWS%20100%2F2');
+  assert.equal(getStorePagePath('catalog'), '/products/');
+  assert.equal(getCategoryPath('drinks & juice'), '/category/drinks%20%26%20juice/');
+  assert.equal(getProductPath('NWS 100/2'), '/product/NWS%20100%2F2/');
 });

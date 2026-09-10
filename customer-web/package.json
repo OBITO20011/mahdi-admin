@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 3002",
-    "build": "vite build && node scripts/generate-seo-pages.mjs",
+    "build": "vite build && node scripts/generate-seo-pages.mjs && node scripts/verify-seo-output.mjs",
     "deploy:cloudflare": "npm run build && wrangler pages deploy dist --project-name=nawasrah-store --branch=main",
     "lint": "tsc --noEmit",
     "test": "tsx --test tests/*.test.ts"

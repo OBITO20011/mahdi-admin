@@ -12,6 +12,7 @@ import { CargoAddButton } from './CargoAddButton';
 import { buildProductShareUrl } from '../utils/productDetails';
 import { isLowStockProduct } from '../utils/catalogView';
 import { ProductImage } from './ProductImage';
+import { getProductPath } from '../utils/publicRoutes';
 
 interface ProductCardProps {
   product: CatalogProduct;
@@ -103,15 +104,18 @@ export function ProductCard({
       <div className="flex flex-1 flex-col p-2.5 sm:p-4">
         <div className="flex min-w-0 items-start justify-between gap-2 sm:gap-3">
           <div className="min-w-0">
-            <button
-              type="button"
-              onClick={() => onOpenDetails(product)}
+            <a
+              href={getProductPath(product.sku || product.id)}
+              onClick={(event) => {
+                event.preventDefault();
+                onOpenDetails(product);
+              }}
               className="block max-w-full text-right"
             >
               <h2 className="line-clamp-2 text-[11px] font-black leading-4 text-slate-950 transition hover:text-blue-700 sm:truncate sm:text-base sm:leading-normal">
                 {product.nameAr}
               </h2>
-            </button>
+            </a>
             <p className="mt-1 hidden truncate text-[10px] font-bold text-slate-600 sm:block">
               {product.sku}
               {product.brandNameAr ? ` • ${product.brandNameAr}` : ''}

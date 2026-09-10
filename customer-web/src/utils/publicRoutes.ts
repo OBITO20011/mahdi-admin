@@ -70,8 +70,8 @@ export function readStoreLocationRoute(location: Pick<Location, 'pathname' | 'ha
 
 export function getStorePagePath(page: StorePage): string {
   switch (page) {
-    case 'catalog': return '/products';
-    case 'offers': return '/offers';
+    case 'catalog': return '/products/';
+    case 'offers': return '/offers/';
     // These are private local UI states, deliberately not indexable paths.
     case 'categories': return '/#categories';
     case 'favorites': return '/#favorites';
@@ -80,11 +80,11 @@ export function getStorePagePath(page: StorePage): string {
 }
 
 export function getProductPath(productKey: string): string {
-  return `/product/${encodeURIComponent(productKey.trim())}`;
+  return `/product/${encodeURIComponent(productKey.trim())}/`;
 }
 
 export function getCategoryPath(categorySlug: string): string {
-  return `/category/${encodeURIComponent(categorySlug.trim())}`;
+  return `/category/${encodeURIComponent(categorySlug.trim())}/`;
 }
 
 export function getCategorySlug(category: {code: string; id: string}): string {

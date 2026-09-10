@@ -25,6 +25,6 @@ test('shared product links use a stable clean product route', () => {
       'https://store.example/catalog?source=whatsapp#catalog',
       'NWS 100/2'
     ),
-    'https://store.example/product/NWS%20100%2F2'
+    'https://store.example/product/NWS%20100%2F2/'
   );
 });

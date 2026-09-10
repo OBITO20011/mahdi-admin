@@ -5,6 +5,7 @@ import {
   ALL_CATEGORY_VISUAL,
   getCategoryVisual,
 } from './categoryVisuals';
+import { getCategoryPath } from '../utils/publicRoutes';
 
 interface CategoryShowcaseProps {
   categories: CatalogCategory[];
@@ -40,11 +41,14 @@ function CategoryCard({
   const Icon = resolvedVisual.icon;
 
   return (
-    <button
-      type="button"
-      aria-pressed={isSelected}
+    <a
+      href={category.id === 'all' ? '/products/' : getCategoryPath(category.code || category.id)}
+      aria-current={isSelected ? 'page' : undefined}
       aria-label={`فتح قسم ${category.name}`}
-      onClick={() => onSelect(category.id)}
+      onClick={(event) => {
+        event.preventDefault();
+        onSelect(category.id);
+      }}
       style={{ animationDelay: `${Math.min(index * 45, 540)}ms` } as CSSProperties}
       className={`category-card-enter group relative aspect-square w-full overflow-hidden rounded-2xl border bg-white text-right shadow-[0_12px_30px_-22px_rgba(15,23,42,0.55)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_-22px_rgba(30,64,175,0.45)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200 ${
         isSelected
@@ -88,7 +92,7 @@ function CategoryCard({
           </span>
         </span>
       </span>
-    </button>
+    </a>
   );
 }
 

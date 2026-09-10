@@ -137,20 +137,20 @@ async function mockCategoryResponses(page: Page) {
 }
 
 async function waitForStableCategoryGrid(page: Page) {
-  await page.getByTestId('category-grid').getByRole('button').first().waitFor();
+  await page.getByTestId('category-grid').getByRole('link').first().waitFor();
   await page.evaluate(async () => {
     const animations = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-testid="category-grid"] button'),
+      document.querySelectorAll<HTMLElement>('[data-testid="category-grid"] a'),
     ).flatMap((element) => element.getAnimations());
     await Promise.all(animations.map((animation) => animation.finished.catch(() => undefined)));
   });
 }
 
 async function waitForStableHomeCategoryGrid(page: Page) {
-  await page.getByTestId('home-category-grid').getByRole('button').first().waitFor();
+  await page.getByTestId('home-category-grid').getByRole('link').first().waitFor();
   await page.evaluate(async () => {
     const animations = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-testid="home-category-grid"] button'),
+      document.querySelectorAll<HTMLElement>('[data-testid="home-category-grid"] a'),
     ).flatMap((element) => element.getAnimations());
     await Promise.all(animations.map((animation) => animation.finished.catch(() => undefined)));
   });
@@ -173,7 +173,7 @@ test.describe('شبكة تصنيفات متجر العملاء', () => {
       await waitForStableCategoryGrid(page);
 
       const grid = page.getByTestId('category-grid');
-      const cards = grid.getByRole('button');
+      const cards = grid.getByRole('link');
       await expect(cards).toHaveCount(categories.length + 1);
       const firstRow = await cards.evaluateAll((elements) =>
         elements.slice(0, 3).map((element) => {
@@ -196,15 +196,15 @@ test.describe('شبكة تصنيفات متجر العملاء', () => {
     const brokenImage = page.locator('img[src="https://test.invalid/broken-category-cover.jpg"]');
     await expect(brokenImage).toHaveCSS('display', 'none');
 
-    await page.getByRole('button', { name: 'فتح قسم مياه' }).click();
+    await page.getByRole('link', { name: 'فتح قسم مياه' }).click();
     await expect(page.locator('#catalog')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'منتج مياه' })).toBeVisible();
 
-    await page.goto(`${customerBaseUrl}/#home`, { waitUntil: 'domcontentloaded' });
+    await page.getByRole('button', { name: 'العودة إلى الصفحة الرئيسية' }).click();
     const homeGrid = page.getByTestId('home-category-grid');
-    await expect(homeGrid.getByRole('button')).toHaveCount(4);
+    await expect(homeGrid.getByRole('link')).toHaveCount(4);
     await waitForStableHomeCategoryGrid(page);
-    const homeCards = await homeGrid.getByRole('button').evaluateAll((elements) =>
+    const homeCards = await homeGrid.getByRole('link').evaluateAll((elements) =>
       elements.slice(0, 3).map((element) => {
         const box = element.getBoundingClientRect();
         return { top: box.top, width: box.width, height: box.height };
@@ -227,7 +227,7 @@ test.describe('شبكة تصنيفات متجر العملاء', () => {
       });
       const grid = page.getByTestId('category-grid');
       await waitForStableCategoryGrid(page);
-      const firstCard = await grid.getByRole('button').first().boundingBox();
+      const firstCard = await grid.getByRole('link').first().boundingBox();
       expect(firstCard).not.toBeNull();
       expect(firstCard!.width).toBeLessThan(260);
       expect(Math.abs(firstCard!.width - firstCard!.height)).toBeLessThan(2);

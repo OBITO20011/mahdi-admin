@@ -58,7 +58,7 @@ test('offers navigation opens a dedicated route instead of a fallback category',
     publicRoutes,
     /type StorePage = 'home' \| 'categories' \| 'catalog' \| 'favorites' \| 'offers'/
   );
-  assert.match(publicRoutes, /case 'offers': return '\/offers'/);
+  assert.match(publicRoutes, /case 'offers': return '\/offers\/'/);
   assert.match(storefrontApp, /navigateStorePage\('offers'\)/);
   assert.match(storeHeader, /page: 'offers' as const/);
   assert.doesNotMatch(storefrontApp, /category\.code === 'CAT-OFFERS'/);

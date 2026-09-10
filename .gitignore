@@ -11,5 +11,7 @@ blob-report/
 .env*
 !.env.example
 automation/n8n/backups/
+customer-web/.wrangler/
 supabase/.branches/
 supabase/.temp/
+customer-web/.wrangler/

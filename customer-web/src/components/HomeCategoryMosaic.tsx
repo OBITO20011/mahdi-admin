@@ -1,6 +1,7 @@
 import { ArrowLeft } from 'lucide-react';
 import type { CatalogCategory, CatalogProduct } from '../types/catalog';
 import { getCategoryVisual } from './categoryVisuals';
+import { getCategoryPath, getCategorySlug } from '../utils/publicRoutes';
 
 interface HomeCategoryMosaicProps {
   categories: CatalogCategory[];
@@ -60,10 +61,13 @@ export function HomeCategoryMosaic({
             )?.imageUrl ||
             '';
           return (
-            <button
-              type="button"
+            <a
               key={category.id}
-              onClick={() => onSelect(category.id)}
+              href={getCategoryPath(getCategorySlug(category))}
+              onClick={(event) => {
+                event.preventDefault();
+                onSelect(category.id);
+              }}
               aria-label={`فتح قسم ${category.nameAr}`}
               className={`group relative aspect-square overflow-hidden rounded-2xl bg-gradient-to-br text-right shadow-[0_12px_30px_-22px_rgba(15,23,42,0.7)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_36px_-22px_rgba(30,64,175,0.55)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-200 ${visual.active}`}
             >
@@ -88,7 +92,7 @@ export function HomeCategoryMosaic({
                   {category.nameAr}
                 </strong>
               </span>
-            </button>
+            </a>
           );
         })}
       </div>

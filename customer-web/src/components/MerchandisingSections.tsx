@@ -10,6 +10,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { CatalogProduct } from '../types/catalog';
 import { formatJod } from '../utils/money';
 import { ProductImage } from './ProductImage';
+import { getProductPath } from '../utils/publicRoutes';
 
 interface MerchandisingSectionsProps {
   newest: CatalogProduct[];
@@ -218,12 +219,15 @@ function ProductRail({
         }}
       >
         {products.map((product, index) => (
-          <button
-            type="button"
+          <a
             key={product.id}
+            href={getProductPath(product.sku || product.id)}
             data-merchandising-card
             data-active={index === activeIndex}
-            onClick={() => onOpenProduct(product)}
+            onClick={(event) => {
+              event.preventDefault();
+              onOpenProduct(product);
+            }}
             className="merchandising-card group relative flex w-[calc(100%-1rem)] min-w-[calc(100%-1rem)] items-center gap-3 overflow-hidden rounded-[1.65rem] border border-slate-200/90 bg-gradient-to-l from-white to-slate-50 p-3 text-right shadow-[0_14px_36px_-30px_rgba(15,23,42,0.65)] transition duration-300 hover:border-blue-200 sm:w-[280px] sm:min-w-[280px]"
             aria-label={`عرض تفاصيل ${product.nameAr}`}
           >
@@ -250,7 +254,7 @@ function ProductRail({
                 </span>
               </span>
             </span>
-          </button>
+          </a>
         ))}
       </div>
 
