@@ -31,7 +31,6 @@ import { PromotionOffers } from './components/PromotionOffers';
 import { StoreHeader } from './components/StoreHeader';
 import { StoreLogoMark } from './components/StoreLogoMark';
 import { StoreHero } from './components/StoreHero';
-import { StoreInfoSection } from './components/StoreInfoSection';
 import { AboutStorePage } from './components/AboutStorePage';
 import { DEFAULT_STOREFRONT_SETTINGS } from './config/store';
 import {
@@ -1261,7 +1260,12 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         )}
 
         {activePage === 'about' && (
-          <AboutStorePage onBrowseProducts={showAllProducts} />
+          <AboutStorePage
+            onBrowseProducts={showAllProducts}
+            whatsappUrl={storeWhatsappUrl}
+            onTrackOrder={() => setTrackingOpen(true)}
+            settings={settingsTrusted ? storefrontSettings : null}
+          />
         )}
 
         {activePage === 'catalog' && (
@@ -1641,8 +1645,6 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
         {activePage === 'home' && (
           <>
-        <StoreInfoSection whatsappUrl={storeWhatsappUrl} onTrackOrder={() => setTrackingOpen(true)} settings={settingsTrusted ? storefrontSettings : null} />
-
         <section className="border-y border-slate-200 bg-white py-12">
           <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-3 lg:px-8">
             {[

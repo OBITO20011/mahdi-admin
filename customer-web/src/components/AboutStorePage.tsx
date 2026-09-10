@@ -1,14 +1,20 @@
 import { Building2, CalendarDays, Candy, ExternalLink, GlassWater, MapPinned, PackageCheck, Phone, ShieldCheck, Truck } from 'lucide-react';
 import { SEO_BRAND } from '../config/seoBrand';
+import type { PublicStorefrontSettings } from '../types/storefront';
+import { StoreInfoSection } from './StoreInfoSection';
 
 interface AboutStorePageProps {
   onBrowseProducts: () => void;
+  whatsappUrl: string;
+  onTrackOrder: () => void;
+  settings: PublicStorefrontSettings | null;
 }
 
-export function AboutStorePage({onBrowseProducts}: AboutStorePageProps) {
+export function AboutStorePage({onBrowseProducts, whatsappUrl, onTrackOrder, settings}: AboutStorePageProps) {
   return (
-    <section className="min-h-[70vh] bg-gradient-to-b from-blue-50/60 to-[#fbf7f0] py-10 pb-24 sm:py-16">
-      <div className="mx-auto max-w-5xl px-4 lg:px-8">
+    <>
+      <section className="min-h-[70vh] bg-gradient-to-b from-blue-50/60 to-[#fbf7f0] py-10 sm:py-16">
+        <div className="mx-auto max-w-5xl px-4 lg:px-8">
         <div className="overflow-hidden rounded-[2rem] border border-white bg-white shadow-xl shadow-slate-900/5">
           <figure className="relative overflow-hidden bg-slate-950">
             <img
@@ -103,8 +109,10 @@ export function AboutStorePage({onBrowseProducts}: AboutStorePageProps) {
               </a>
             </div>
           </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+      <StoreInfoSection whatsappUrl={whatsappUrl} onTrackOrder={onTrackOrder} settings={settings} />
+    </>
   );
 }
