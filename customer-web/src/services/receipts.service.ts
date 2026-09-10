@@ -45,7 +45,7 @@ export async function fetchPublicPosReceipt(
     discountInMinorUnits: integerValue(payload.discountInMinorUnits),
     totalInMinorUnits: integerValue(payload.totalInMinorUnits),
     branch: {
-      name: stringValue(branch.name) || 'محلات مهدي النواصرة التجارية',
+      name: stringValue(branch.name) || 'محلات النواصرة التجارية',
       address: stringValue(branch.address),
       phone: stringValue(branch.phone),
     },

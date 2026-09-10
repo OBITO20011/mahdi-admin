@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 const origin = 'https://alnawasreh.com';
-const officialName = 'محلات مهدي النواصرة التجارية';
+const officialName = 'محلات النواصرة التجارية';
 
 function invariant(condition, message) {
   if (!condition) throw new Error(`SEO verification failed: ${message}`);
