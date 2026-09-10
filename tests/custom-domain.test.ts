@@ -40,3 +40,9 @@ test('Admin stays noindex and monitoring targets final production hostnames', ()
   assert.match(uptime, /https:\/\/admin\.alnawasreh\.com/u);
   assert.match(uptime, /https:\/\/alnawasreh\.com/u);
 });
+
+test('Business order links open the canonical Admin domain', () => {
+  const alerts = read('automation/n8n/workflows/nawasrah-alerts.json');
+  assert.match(alerts, /https:\/\/admin\.alnawasreh\.com\/\?screen=orders&order=/u);
+  assert.doesNotMatch(alerts, /https:\/\/nawasrah-admin\.pages\.dev\/\?screen=orders&order=/u);
+});
