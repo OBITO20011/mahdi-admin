@@ -165,7 +165,7 @@ export function GuidedStoreAssistant({
           aria-labelledby="guided-store-assistant-title"
           data-testid="guided-store-assistant-panel"
           className={`absolute inset-x-0 bottom-0 max-h-[min(44rem,calc(100dvh-1rem))] overflow-y-auto rounded-t-[2rem] border border-white/80 bg-[#fbf7f0] shadow-2xl transition-transform duration-200 motion-reduce:transition-none sm:bottom-6 sm:right-6 sm:left-auto sm:w-[25rem] sm:rounded-[2rem] ${
-            isOpen ? 'translate-y-0' : 'translate-y-full sm:translate-y-8'
+            isOpen ? 'translate-y-0' : 'translate-y-full sm:translate-y-[calc(100%+1.5rem)]'
           }`}
         >
           <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-amber-100 bg-[#fbf7f0]/95 px-5 pb-4 pt-5 backdrop-blur sm:rounded-t-[2rem]">

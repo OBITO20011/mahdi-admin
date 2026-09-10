@@ -35,6 +35,22 @@ async function mockStorefront(page: Page) {
   await page.route('**/rest/v1/rpc/get_public_storefront_offers', (route) => route.fulfill({contentType: 'application/json', body: '[]'}));
 }
 
+test('guided store assistant starts fully hidden and remains interactive on desktop', async ({page}) => {
+  await page.setViewportSize({width: 1440, height: 900});
+  await mockStorefront(page);
+  await page.goto(customerBaseUrl, {waitUntil: 'domcontentloaded'});
+
+  const assistant = page.getByTestId('guided-store-assistant-panel');
+  const assistantRoot = assistant.locator('xpath=..');
+  await expect(assistantRoot).toHaveAttribute('aria-hidden', 'true');
+  await expect.poll(async () => (await assistant.boundingBox())?.y ?? 0).toBeGreaterThanOrEqual(900);
+
+  await page.getByTestId('guided-store-assistant-trigger').click();
+  await expect(assistantRoot).toHaveAttribute('aria-hidden', 'false');
+  await assistant.getByTestId('guided-store-assistant-delivery').click();
+  await expect(assistant.getByText('داخل الرمثا')).toBeVisible();
+});
+
 test('guided store assistant is accessible, uses only public settings, and routes through existing paths', async ({page}) => {
   await mockStorefront(page);
   await page.goto(customerBaseUrl, {waitUntil: 'domcontentloaded'});
