@@ -41,7 +41,7 @@ export function PublicPosReceiptPage({ token }: { token: string }) {
       .then((result) => {
         if (!active) return;
         setReceipt(result);
-        document.title = `إيصال ${result.orderNumber} | محلات النواصرة`;
+        document.title = `إيصال ${result.orderNumber} | محلات مهدي النواصرة التجارية`;
       })
       .catch((loadError) => {
         if (!active) return;
@@ -92,7 +92,7 @@ export function PublicPosReceiptPage({ token }: { token: string }) {
                 <ReceiptText className="h-4 w-4" />
                 إيصال إلكتروني موثّق
               </div>
-              <h1 className="text-2xl font-black">{receipt?.branch.name || 'محلات النواصرة'}</h1>
+              <h1 className="text-2xl font-black">{receipt?.branch.name || 'محلات مهدي النواصرة التجارية'}</h1>
               <p className="mt-1 text-xs text-blue-100">تجارة الجملة والمواد الغذائية</p>
             </div>
             <div className="rounded-2xl border border-white/20 bg-white/10 p-3">

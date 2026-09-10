@@ -7,9 +7,10 @@ import {getCategoryPath, getProductPath, getStorePagePath} from '../src/utils/pu
 const read = (path: string) => readFileSync(new URL(path, import.meta.url), 'utf8');
 
 test('official brand entity is the single runtime SEO identity', () => {
-  assert.equal(SEO_BRAND.officialName, 'محلات النواصرة التجارية');
-  assert.equal(SEO_BRAND.alternateName, 'النواصرة');
-  assert.match(SEO_BRAND.homepageTitle, /^محلات النواصرة التجارية \|/u);
+  assert.equal(SEO_BRAND.officialName, 'محلات مهدي النواصرة التجارية');
+  assert.equal(SEO_BRAND.alternateName, 'محلات النواصرة التجارية');
+  assert.deepEqual(SEO_BRAND.socialProfiles, ['https://www.facebook.com/profile.php?id=100042236486849']);
+  assert.match(SEO_BRAND.homepageTitle, /^محلات مهدي النواصرة التجارية \|/u);
 });
 
 test('public canonicals use one HTTPS origin and final slash-normalized paths', () => {
@@ -26,6 +27,7 @@ test('runtime SEO includes entity, breadcrumb, product, offer and social metadat
   assert.match(seo, /'@type': 'BreadcrumbList'/u);
   assert.match(seo, /'@type': 'Product'/u);
   assert.match(seo, /'@type': 'Offer'/u);
+  assert.match(seo, /sameAs: SEO_BRAND\.socialProfiles/u);
   assert.match(seo, /summary_large_image/u);
   assert.doesNotMatch(seo, /WAC|supplier|reservedQuantity|availableQuantity/u);
 });
@@ -33,7 +35,8 @@ test('runtime SEO includes entity, breadcrumb, product, offer and social metadat
 test('static SEO generator validates every generated route and excludes private surfaces', () => {
   const generator = read('../scripts/generate-seo-pages.mjs');
   const verifier = read('../scripts/verify-seo-output.mjs');
-  assert.match(generator, /officialName = 'محلات النواصرة التجارية'/u);
+  assert.match(generator, /officialName = 'محلات مهدي النواصرة التجارية'/u);
+  assert.match(generator, /sameAs: socialProfiles/u);
   assert.match(generator, /BreadcrumbList/u);
   assert.match(generator, /summary_large_image/u);
   assert.match(verifier, /sitemap contains a backup, Admin, or private URL/u);

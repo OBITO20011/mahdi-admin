@@ -40,7 +40,7 @@ export class StoreErrorBoundary extends React.Component<
           <h1 className="mt-5 text-xl font-black">تعذر فتح المتجر الآن</h1>
           <p className="mt-3 text-xs font-bold leading-6 text-slate-500">
             لم يتم فقدان محتوى سلتك. أعد تحميل الصفحة، وإذا استمرت المشكلة
-            تواصل مع محلات النواصرة.
+            تواصل مع محلات مهدي النواصرة التجارية.
           </p>
           <button
             type="button"

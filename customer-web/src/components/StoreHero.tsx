@@ -136,7 +136,7 @@ export function StoreHero({
           </h1>
 
           <p className="mt-3 max-w-2xl text-[11px] font-medium leading-6 text-blue-50/85 sm:mt-6 sm:text-base sm:leading-8 sm:text-blue-100/75">
-            اختر الطرود المتوفرة فعليًا لدى محلات النواصرة. السعر، نوع الطرد،
+            اختر الطرود المتوفرة فعليًا لدى محلات مهدي النواصرة التجارية. السعر، نوع الطرد،
             وعدد الطرود المتاحة تأتي من نظام الإدارة نفسه.
           </p>
 

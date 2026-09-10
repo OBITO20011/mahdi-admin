@@ -62,6 +62,7 @@ function homeSchema(): Record<string, unknown> {
       name: SEO_BRAND.officialName,
       alternateName: SEO_BRAND.alternateName,
       url: homepage,
+      sameAs: SEO_BRAND.socialProfiles,
       logo: {'@type': 'ImageObject', url: publicUrl(SEO_BRAND.defaultImagePath)},
       image: publicUrl(SEO_BRAND.defaultImagePath),
     },

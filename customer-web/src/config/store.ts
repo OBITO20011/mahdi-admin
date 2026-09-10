@@ -15,11 +15,11 @@ export const STORE_PUBLIC_CONFIG = {
 } as const;
 
 export const DEFAULT_STOREFRONT_SETTINGS = {
-  storeNameAr: 'محلات النواصرة',
+  storeNameAr: 'محلات مهدي النواصرة التجارية',
   whatsappNumber: STORE_PUBLIC_CONFIG.WHATSAPP_NUMBER,
   cliqAlias: '',
   ordersEnabled: true,
-  announcementText: 'الأسعار والكميات تُحدّث مباشرة من مخزون محلات النواصرة',
+  announcementText: 'الأسعار والكميات تُحدّث مباشرة من مخزون محلات مهدي النواصرة التجارية',
   businessHoursText: 'يُؤكد وقت التجهيز والتوصيل بعد مراجعة الطلب.',
   deliveryAreasText: 'الرمثا وإربد والمناطق المحيطة، وتُؤكد المنطقة مع الإدارة.',
   deliveryEtaText: 'تعتمد على المنطقة وتوفر الأصناف ويؤكدها فريق المتجر.',

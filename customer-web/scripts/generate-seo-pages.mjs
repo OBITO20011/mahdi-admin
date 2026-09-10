@@ -5,10 +5,11 @@ import {fileURLToPath} from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 const siteOrigin = (process.env.VITE_PUBLIC_SITE_ORIGIN || 'https://alnawasreh.com').replace(/\/+$/, '');
-const officialName = 'محلات النواصرة التجارية';
-const alternateName = 'النواصرة';
+const officialName = 'محلات مهدي النواصرة التجارية';
+const alternateName = 'محلات النواصرة التجارية';
+const socialProfiles = ['https://www.facebook.com/profile.php?id=100042236486849'];
 const homepageTitle = `${officialName} | مواد غذائية ومشروبات بالجملة`;
-const homepageDescription = 'تصفح منتجات الجملة من محلات النواصرة التجارية، واطلب المواد الغذائية والمشروبات المتوفرة مباشرة من المتجر.';
+const homepageDescription = 'تصفح منتجات الجملة من محلات مهدي النواصرة التجارية، واطلب المواد الغذائية والمشروبات المتوفرة مباشرة من المتجر.';
 const defaultImage = `${siteOrigin}/nawasrah-store-logo.jpg`;
 const config = await readFile(path.join(root, 'src', 'config', 'supabase-public-config.ts'), 'utf8');
 const url = config.match(/SUPABASE_URL:\s*'([^']+)'/)?.[1];
@@ -56,6 +57,7 @@ function homeSchema() {
     {
       '@type': 'Store', '@id': `${homepage}#organization`, name: officialName,
       alternateName, url: homepage,
+      sameAs: socialProfiles,
       logo: {'@type': 'ImageObject', url: defaultImage}, image: defaultImage,
     },
     {
