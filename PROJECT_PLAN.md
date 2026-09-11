@@ -6,7 +6,7 @@
 ## Live & Verified
 
 - Admin وCustomer Store على Cloudflare Pages.
-- Supabase migrations `001–102` متطابقة محليًا وعلى Production.
+- Supabase migrations `001–105` متطابقة محليًا وعلى Production.
 - الطلبات، POS، المخزون، الاستلام، المشتريات، WAC، الذمم، المدفوعات، المصاريف،
   الورديات، المرتجعات والعكس والتقارير تعمل من PostgreSQL/RPCs المحمية.
 - Server-side pagination للشاشات التشغيلية الثقيلة والكتالوج العام.
@@ -19,17 +19,25 @@
 - Business Integrity وDB/RPC monitoring وHealth Dashboard للمالك/AAL2.
 - ERP وn8n encrypted backups، وERP isolated Restore Drill.
 - Privacy Policy وتقليل PII في Web Push وBusiness automation وbrowser storage.
+- Monitoring Phases 1–5 وR2 Off-site Backup وCloudflare Insights cleanup مكتملة.
+- Guided Store Assistant وAdmin Light Mode Visual Comfort مكتملان ومتحققان على
+  Production.
 
 ## Remaining Before Final Launch
 
-### قرارات Business/Legal
+### Technical blockers
+
+لا توجد blockers تقنية معروفة حاليًا. Custom Domain وSEO Part 2 والإعداد التقني
+لـGoogle Search Console وR2 Off-site Backup وMonitoring Phases 1–5 والتنفيذ
+التقني للخصوصية وGuided Store Assistant وAdmin Light Mode Visual Comfort و
+Cloudflare Insights cleanup كلها مكتملة، وليست بنودًا معلقة.
+
+### Manual / Business decisions
 
 - اعتماد الاسم والعنوان القانونيين لمسؤول معالجة البيانات ووسيلة اتصال الخصوصية.
 - اعتماد legal basis/consent wording ومدد الاحتفاظ وإجراءات طلبات الوصول أو
   التصحيح أو التقييد أو الحذف.
 - اعتماد مصفوفة الأدوار التي تحتاج قراءة بيانات اتصال العميل كاملة.
-
-### إطلاق الواجهة العامة
 
 - تم ربط `alnawasreh.com` و`www.alnawasreh.com` و`admin.alnawasreh.com`، وتعمل
   جميعها على Production عبر HTTPS.
@@ -40,13 +48,11 @@
 - المتبقي الإداري فقط هو تأكيد ملكية Search Console من حساب صاحب العمل والتأكد
   من إرسال `sitemap.xml` داخله.
 
-### Business recipient cutover
-
 - Business Telegram يستخدم حاليًا المستلم المؤقت المحمي في الإعداد المحلي.
 - عند التسليم النهائي يُستبدل بمستلم صاحب المحل الحقيقي ويُختبر failure/recovery
   دون تغيير Developer Telegram. لا تُحفظ Chat IDs أو tokens في Git أو الوثائق.
 
-### Operational recovery — مكتمل 2026-09-11
+### Operational recovery — `OPERATIONAL RECOVERY = VERIFIED`
 
 - `Nawasrah Docker Safe Startup` أعادت `0`، وDocker وn8n و`/healthz` سليمة.
 - `Nawasrah ERP Nightly Backup` اشتغلت فعليًا تحت `SYSTEM` وأعادت `0`، والأرشيف
@@ -57,15 +63,27 @@
   المعزول لكليهما دون لمس Production.
 - أُعيد تسجيل Developer Watchdog، ونفذ دورة تلقائية تحت `SYSTEM`؛ الحالة الحالية
   لا تحتوي active incidents.
-- GitHub Code Quality وSecret Scanning وDeveloper Alerts للـcommit الحالي خضراء.
+- GitHub Code Quality وSecret Scanning وDeveloper Alerts اجتازت baseline
+  التشغيلي الموثق، وتُعاد بوابات CI لكل commit جديد.
 
-## Deferred وغير مانع حاليًا
+### Optional future enhancements
 
 - WhatsApp Business Cloud يبقى غير مفعّل إلى أن يعتمد صاحب العمل المزود والقالب.
-- حدود Business غير المعتمدة (قرب انتهاء الطلب، وقت إغلاق الوردية، حد المصروف)
-  تبقى `NULL` ومقفلة حتى يصدر قرار Business.
-- تحذيرا DB lint المعروفان: `v_product_id` في receiving و`p_transfer_date` في
-  warehouse transfer؛ لا يتغيران ضمن Documentation cleanup.
 - GPS حي للمندوب وForecasts وAI Business analysis ليست مطلوبة للإطلاق الحالي.
+
+## DB lint والحالة النهائية لقواعد Business Alerts
+
+- أُزيل المتغير المحلي غير المستخدم `v_product_id` من
+  `_receive_purchase_order_impl` عبر migration
+  `104_remove_unused_receive_purchase_order_product_id.sql` مع الحفاظ على تحقق
+  UUID وسلوك الاستلام. `V_PRODUCT_ID DB LINT CLEANUP = VERIFIED`.
+- يبقى `p_transfer_date` intentional unused parameter في
+  `transfer_inventory_between_warehouses` لأجل legacy/backward compatibility.
+  لا يُحذف من signature، ولا يُعد Bug مفتوحًا أو Production blocker.
+- migration `105_harden_business_alert_rules_and_thresholds.sql` اعتمدت:
+  Delayed Order بعد ساعتين، وCash Difference لأي فرق غير صفري، والمصروف اليومي
+  حسب يوم `Asia/Amman` دون حد مالي، وحد الوردية
+  `min(opened_at + 15h, next local midnight)` كتنبيه فقط بلا إغلاق تلقائي.
+  `BUSINESS ALERT RULES & THRESHOLDS = VERIFIED`.
 
 راجع [docs/HANDOFF.md](./docs/HANDOFF.md) للأوامر وخطوات التشغيل الآمنة.

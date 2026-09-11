@@ -86,10 +86,11 @@ never outputs Telegram, Cloudflare, PostgreSQL, or backup credentials.
 
 Do not infer `Healthy` from an old registration file. Compare the Scheduled Task,
 the latest watchdog log, `incidents.json`, GitHub Actions, Cloudflare deployments,
-and the Admin Health Dashboard. At the 2026-09-08 handoff audit, recent watchdog
-logs existed but Task Scheduler enumeration returned no watchdog task and the
-incident state still contained unreconciled failures. Treat that as an open
-operational item until one scheduled SYSTEM run records clean checks/recoveries.
+and the Admin Health Dashboard. On 2026-09-11 the Developer Watchdog was
+re-registered under `SYSTEM`, completed a scheduled clean cycle, and reconciled
+the old incident state. ERP and n8n backups, Docker Safe Startup, R2
+download/verification, and isolated restore drills were also verified.
+`OPERATIONAL RECOVERY = VERIFIED`.
 
 ## Operational files
 

@@ -1,5 +1,8 @@
 # Business Alert Rules
 
+Implemented by `105_harden_business_alert_rules_and_thresholds.sql`.
+`BUSINESS ALERT RULES & THRESHOLDS = VERIFIED`.
+
 The existing Business outbox, Telegram delivery, incident deduplication, and
 recovery state machine remain authoritative. These rules do not create a new
 monitoring channel and never mutate operational state automatically.

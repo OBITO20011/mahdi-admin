@@ -18,18 +18,18 @@ Nawasrah ERP نظام جملة عربي RTL:
 
 ## 2. Production baseline
 
-لقطة الفحص: 2026-09-08 قبل Documentation-only commit.
+لقطة الحالة النهائية: 2026-09-11 قبل Documentation-only sync.
 
 | Component | Verified state |
 | --- | --- |
-| Git | `main`, baseline code SHA `dd733d16ef96cff05d68d2f3cb84ec68dbab53b7` |
-| Supabase | migrations المحلية والبعيدة `001–102` |
-| Admin | Cloudflare production deployment `0920c0d6-db07-44e2-a849-5f0685b415ad`, source `06cea6c`؛ لم تتغير Admin production files في privacy/docs commits |
-| Customer Store | deployment `ef9fb298-bf92-43b0-972a-5b39c8314af3`, source `dd733d1` |
+| Git | `main`, baseline business-rules SHA `11be4f0d3802237df1ad3cbbdcb5d8c50ed58441` |
+| Supabase | migrations المحلية والبعيدة `001–105` |
+| Admin | Cloudflare Production متحقق؛ Admin Light Mode Visual Comfort مكتمل |
+| Customer Store | Cloudflare Production متحقق؛ Custom Domain وSEO Part 2 وGuided Store Assistant مكتملة |
 | Guest push | `send-order-push` Edge Function version 12 |
 | n8n | container `nawasrah-n8n` running/healthy و`/healthz` = 200 وقت الفحص |
-| GitHub | Code Quality وSecret Scanning وDeveloper Alerts خضراء للـbaseline |
-| Privacy | migration `102` وCustomer Privacy Policy منشورتان |
+| GitHub | Code Quality وSecret Scanning وDeveloper Alerts تعمل على `main` |
+| Privacy | التنفيذ التقني للخصوصية وCustomer Privacy Policy منشوران؛ المدخلات القانونية Business decision منفصلة |
 
 الـdocs-only commit اللاحق لا يحتاج deploy. قارن كل deployment بآخر commit غيّر
 ذلك التطبيق، وليس دائمًا بأحدث commit وثائقي على `main`.
@@ -101,7 +101,11 @@ npm.cmd run test:db:isolated
 Supabase، ثم أعد `migration list` وDB lint واختبارات العقد. لا تعدّل migrations
 قديمة، ولا تستخدم SQL Editor لتجاوز history، ولا تعمل rollback عشوائيًا.
 
-آخر migration الحالية: `102_privacy_minimize_business_alert_payload.sql`.
+آخر migrations الحالية:
+
+- `103_flavor_receiving_hardening.sql`
+- `104_remove_unused_receive_purchase_order_product_id.sql`
+- `105_harden_business_alert_rules_and_thresholds.sql`
 
 ## 7. Deploy
 
@@ -175,7 +179,7 @@ npm.cmd run monitoring:status
 اتبع [Monitoring Runbooks](./operations/MONITORING_RUNBOOKS.md) ولا تصلح
 incident عبر تعديل Business rows أو حذف incident state.
 
-## 11. Incident state بعد Recovery
+## 11. Incident state بعد Recovery — `OPERATIONAL RECOVERY = VERIFIED`
 
 بتاريخ 2026-09-11 أُعيد تسجيل Developer Watchdog تحت `SYSTEM`، ثم أثبت سجلّه
 تشغيلًا تلقائيًا ناجحًا كل خمس دقائق. دورة الـstate machine أغلقت الحالات القديمة
@@ -185,14 +189,37 @@ incident عبر تعديل Business rows أو حذف incident state.
 الدليل التشغيلي المعتمد هو registration status تحت `SYSTEM` وسجل watchdog المتجدد؛
 لا تحذف `incidents.json` ولا ترسل recovery يدويًا.
 
-## 12. Known deferred warnings
+## 12. DB lint compatibility note
 
-- DB lint: متغير `v_product_id` غير مقروء في `_receive_purchase_order_impl`.
-- DB lint: parameter `p_transfer_date` غير مستخدم في
-  `transfer_inventory_between_warehouses`.
-- لا تُصلح أيًا منهما ضمن handoff؛ يحتاج كل تغيير migration واختبارات العقود.
+- أُزيل `v_product_id` غير المستخدم من `_receive_purchase_order_impl` عبر
+  `104_remove_unused_receive_purchase_order_product_id.sql` مع الحفاظ على تحقق
+  UUID وكل عقود receiving/WAC/inventory/flavor/accounting.
+  `V_PRODUCT_ID DB LINT CLEANUP = VERIFIED`.
+- `p_transfer_date` في `transfer_inventory_between_warehouses` هو intentional
+  unused parameter محفوظ لأجل legacy/backward compatibility. لا تحذفه من
+  signature؛ ليس Bug مفتوحًا ولا Production blocker.
 
-## 13. Remaining Before Final Launch
+## 13. Business Alert Rules — `BUSINESS ALERT RULES & THRESHOLDS = VERIFIED`
+
+Migration `105_harden_business_alert_rules_and_thresholds.sql` تعتمد القواعد
+النهائية التالية عبر البنية الحالية للـdedup/recovery:
+
+- Delayed Order = ساعتان من `created_at` بحسب وقت الخادم.
+- Cash Difference = أي فرق غير صفري، موجبًا أو سالبًا.
+- Daily Expenses = يوم تقويمي `Asia/Amman` بلا monetary threshold.
+- Shift max close = `min(opened_at + 15h, next local midnight)`.
+- الوردية المتأخرة تُطلق alert فقط ولا تُغلق تلقائيًا.
+
+## 14. Remaining Before Final Launch
+
+### Technical blockers
+
+لا توجد blockers تقنية معروفة حاليًا. Custom Domain وSEO Part 2 والإعداد التقني
+لـGoogle Search Console وR2 Off-site Backup وMonitoring Phases 1–5 والتنفيذ
+التقني للخصوصية وGuided Store Assistant وAdmin Light Mode Visual Comfort و
+Cloudflare Insights cleanup مكتملة ولا تظهر كمهام معلقة.
+
+### Manual / Business decisions
 
 1. إغلاق Business/Legal privacy inputs في
    [PRIVACY_DATA_MAP.md](./operations/PRIVACY_DATA_MAP.md).
@@ -200,6 +227,12 @@ incident عبر تعديل Business rows أو حذف incident state.
    آمن وعدم لمس Developer recipient.
 3. تأكيد ملكية Search Console من حساب صاحب العمل وإرسال `sitemap.xml`؛ DNS
    verification والدومينات وSEO Part 2 وProduction Website Smoke مكتملة.
+
+### Optional future enhancements
+
+- WhatsApp Business Cloud بعد اعتماد المزود والقالب والاعتمادات.
+- Driver GPS الحي.
+- Forecasting وAI Business analytics إضافية.
 
 لا تبدأ أي بند من هذه الوثيقة لمجرد قراءته؛ كل تغيير Production يحتاج scope
 صريحًا وbackup/CI/verification مناسبًا.

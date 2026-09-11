@@ -59,9 +59,10 @@ schtasks.exe /Query /TN "Nawasrah n8n Daily Backup" /FO LIST /V
 Get-Content C:\ProgramData\NawasrahN8nBackup\last-status.json
 ```
 
-At the 2026-09-08 handoff audit the latest encrypted n8n archive was verified,
-but Task Scheduler did not enumerate this task although a prior registration
-record existed. This is an open operational item in `docs/HANDOFF.md`.
+On 2026-09-11 the task was re-registered under `SYSTEM`, ran successfully with
+exit code `0`, and produced an encrypted archive with `restoreVerified=true`.
+Its R2 upload, download verification, and isolated restore drill also passed.
+`OPERATIONAL RECOVERY = VERIFIED`.
 
 ## Security boundary
 
@@ -99,11 +100,13 @@ Migration `097_core_business_alerts.sql` adds a private incident state machine
 and one bounded five-minute database scanner. It reuses this same outbox and
 recipient: no new delivery path or credential is added. Website orders that
 actually become `expired` and purchase orders past a recorded
-`expected_delivery_date` are enabled. Unapproved timing or money thresholds
-(order attention, shift closing, cash discrepancy, and daily expense) remain
-`NULL`, fail closed, and produce no notification until the owner supplies a
-business value. Customer/supplier overdue-debt alerts remain unavailable until
-the source records have a trustworthy due date.
+`expected_delivery_date` are enabled. Migration
+`105_harden_business_alert_rules_and_thresholds.sql` later adopts the approved
+two-hour delayed-order rule, any-non-zero cash difference, calendar-day expense
+reporting in `Asia/Amman` without an amount alert, and the shift cutoff at the
+earlier of 15 elapsed hours or next local midnight. Customer/supplier
+overdue-debt alerts remain unavailable until the source records have a
+trustworthy due date.
 
 Migration `098_business_summaries.sql` adds one deduplicated summary ledger and
 one bounded five-minute scheduler. The default owner schedule is 08:00 daily
@@ -167,7 +170,10 @@ Always run a manual execution successfully before publishing either workflow.
 
 - New website orders, low/out-of-stock, and shift close/cash discrepancy events.
 - Expired website orders and overdue purchase orders with trusted due dates.
-- Configurable incident types whose unapproved thresholds remain disabled.
+- Delayed orders after two hours and overdue open shifts at the earlier of 15
+  elapsed hours or next `Asia/Amman` midnight, with deduplication and recovery.
+- Any non-zero cash difference in the existing shift-close event; daily expense
+  totals remain calendar-day summary data with no monetary-threshold alert.
 - Daily and weekly aggregate Business summaries.
 - Business-integrity warning summaries when a real invariant is violated.
 
