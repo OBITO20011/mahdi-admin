@@ -17,7 +17,6 @@ DECLARE
   v_receipt UUID:='99000000-0000-0000-0000-000000000009';
   v_result JSONB;
   v_dashboard JSONB;
-  v_denied BOOLEAN:=false;
 BEGIN
   INSERT INTO auth.users(id,aud,role,email,email_confirmed_at,raw_app_meta_data,raw_user_meta_data,created_at,updated_at)
   VALUES(v_owner,'authenticated','authenticated','phase5-owner@example.test',NOW(),'{}','{}',NOW(),NOW());
@@ -116,9 +115,10 @@ BEGIN
   INSERT INTO advanced_monitoring_results VALUES('owner_aal2_dashboard_allowed',true);
 
   PERFORM set_config('request.jwt.claims',jsonb_build_object('sub',v_owner,'role','authenticated','aal','aal1')::TEXT,true);
-  BEGIN PERFORM public.get_advanced_monitoring_dashboard(); EXCEPTION WHEN OTHERS THEN v_denied:=true; END;
-  IF NOT v_denied THEN RAISE EXCEPTION 'Owner AAL1 was not denied.'; END IF;
-  INSERT INTO advanced_monitoring_results VALUES('owner_aal1_dashboard_denied',true);
+  v_dashboard:=public.get_advanced_monitoring_dashboard();
+  IF v_dashboard->>'overallStatus' IS NULL OR jsonb_typeof(v_dashboard->'checks')<>'array'
+  THEN RAISE EXCEPTION 'Owner without an enrolled MFA factor did not receive the dashboard at AAL1.'; END IF;
+  INSERT INTO advanced_monitoring_results VALUES('owner_aal1_without_factor_dashboard_allowed',true);
 
   IF has_function_privilege('anon','public.get_advanced_monitoring_dashboard()','EXECUTE')
     OR has_function_privilege('authenticated','public.get_advanced_monitoring_status()','EXECUTE')

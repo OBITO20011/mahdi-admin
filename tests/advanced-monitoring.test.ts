@@ -5,6 +5,7 @@ import test from 'node:test';
 const migrationPath='supabase/migrations/099_advanced_monitoring_and_business_integrity.sql';
 const monitoringFixPath='supabase/migrations/100_fix_cancelled_supplier_receipt_monitoring.sql';
 const incidentOwnershipFixPath='supabase/migrations/101_scope_core_business_incident_recovery.sql';
+const monitoringAccessFixPath='supabase/migrations/106_align_monitoring_owner_mfa_policy.sql';
 
 test('advanced monitoring is read-only for Business sources and has no repair path',async()=>{
   const sql=await readFile(migrationPath,'utf8');
@@ -31,12 +32,17 @@ test('core Business scanner resolves only incident types that it owns',async()=>
   assert.doesNotMatch(ownedLoop,/business_integrity_warning/u);
 });
 
-test('monitoring RPCs are private and dashboard requires owner AAL2',async()=>{
-  const sql=await readFile(migrationPath,'utf8');
-  assert.match(sql,/assert_erp_role\(ARRAY\['owner'\]/u);
-  assert.match(sql,/auth\.jwt\(\)->>'aal','aal1'\)<>'aal2'/u);
+test('monitoring RPCs stay private and dashboard follows the central owner MFA policy',async()=>{
+  const [sql,accessFix]=await Promise.all([
+    readFile(migrationPath,'utf8'),
+    readFile(monitoringAccessFixPath,'utf8'),
+  ]);
+  assert.match(accessFix,/assert_erp_role\([\s\S]*ARRAY\['owner'\]/u);
+  assert.doesNotMatch(accessFix,/auth\.jwt\(\)[\s\S]*aal2/u);
+  assert.match(accessFix,/REVOKE ALL ON FUNCTION public\.assert_monitoring_owner\(\)[\s\S]*PUBLIC, anon, authenticated/u);
+  assert.match(accessFix,/REVOKE ALL ON FUNCTION public\.get_advanced_monitoring_dashboard\(\)[\s\S]*PUBLIC, anon/u);
+  assert.match(accessFix,/GRANT EXECUTE ON FUNCTION public\.get_advanced_monitoring_dashboard\(\)[\s\S]*authenticated/u);
   assert.match(sql,/REVOKE ALL ON FUNCTION public\.record_external_monitoring_snapshot[\s\S]*PUBLIC,anon,authenticated,service_role/u);
-  assert.match(sql,/GRANT EXECUTE ON FUNCTION public\.get_advanced_monitoring_dashboard\(\) TO authenticated/u);
 });
 
 test('monitoring uses conservative configurable performance thresholds',async()=>{
@@ -78,6 +84,18 @@ test('health dashboard is owner-only navigation and typed modal',async()=>{
   assert.match(navigation,/admin-monitoring[\s\S]*monitoring_dashboard[\s\S]*visibility: 'owner'/u);
   assert.match(modals,/monitoring_dashboard: ModalPayloadContract<null, 'none'>/u);
   assert.match(dispatcher,/MonitoringDashboardModal/u);
+});
+
+test('health dashboard consumes the read-only RPC contract and keeps a bounded error state',async()=>{
+  const [service,modal]=await Promise.all([
+    readFile('src/services/supabase/monitoring.service.ts','utf8'),
+    readFile('src/features/more/MonitoringDashboardModal.tsx','utf8'),
+  ]);
+  assert.match(service,/supabase\.rpc\('get_advanced_monitoring_dashboard'\)/u);
+  assert.match(modal,/setDashboard\(await getMonitoringDashboard\(\)\)/u);
+  assert.match(modal,/setError\(caught instanceof Error/u);
+  assert.match(modal,/onClick=\{\(\) => void load\(\)\}[\s\S]*إعادة المحاولة/u);
+  assert.doesNotMatch(service,/run_advanced_monitoring_checks|record_external_monitoring_snapshot/u);
 });
 
 test('integrity Business alert is counts-only and uses hardened outbox',async()=>{

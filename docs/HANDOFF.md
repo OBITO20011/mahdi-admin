@@ -23,7 +23,7 @@ Nawasrah ERP نظام جملة عربي RTL:
 | Component | Verified state |
 | --- | --- |
 | Git | `main`, baseline business-rules SHA `11be4f0d3802237df1ad3cbbdcb5d8c50ed58441` |
-| Supabase | migrations المحلية والبعيدة `001–105` |
+| Supabase | migrations المحلية والبعيدة `001–106` |
 | Admin | Cloudflare Production متحقق؛ Admin Light Mode Visual Comfort مكتمل |
 | Customer Store | Cloudflare Production متحقق؛ Custom Domain وSEO Part 2 وGuided Store Assistant مكتملة |
 | Guest push | `send-order-push` Edge Function version 12 |
@@ -46,7 +46,7 @@ PostgreSQL transactions / audit / movements / outbox / cron
 Business outbox -> n8n -> temporary Business Telegram recipient
 
 Developer Watchdog + GitHub Actions -> separate developer Telegram
-Sanitized monitoring -> owner+AAL2 Admin Health Dashboard
+Sanitized monitoring -> owner-only Admin Health Dashboard + central MFA policy
 ```
 
 - n8n لا يملك PostgreSQL credentials ولا `service_role`.
@@ -106,6 +106,7 @@ Supabase، ثم أعد `migration list` وDB lint واختبارات العقد.
 - `103_flavor_receiving_hardening.sql`
 - `104_remove_unused_receive_purchase_order_product_id.sql`
 - `105_harden_business_alert_rules_and_thresholds.sql`
+- `106_align_monitoring_owner_mfa_policy.sql`
 
 ## 7. Deploy
 

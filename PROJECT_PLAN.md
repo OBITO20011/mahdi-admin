@@ -6,7 +6,7 @@
 ## Live & Verified
 
 - Admin وCustomer Store على Cloudflare Pages.
-- Supabase migrations `001–105` متطابقة محليًا وعلى Production.
+- Supabase migrations `001–106` متطابقة محليًا وعلى Production.
 - الطلبات، POS، المخزون، الاستلام، المشتريات، WAC، الذمم، المدفوعات، المصاريف،
   الورديات، المرتجعات والعكس والتقارير تعمل من PostgreSQL/RPCs المحمية.
 - Server-side pagination للشاشات التشغيلية الثقيلة والكتالوج العام.
@@ -16,7 +16,8 @@
 - Developer Alerts منفصلة عن Business delivery، مع CI/Uptime/Cloudflare/n8n/
   backup/cron/integrity/security checks.
 - Business Telegram والتنبيهات والملخصات اليومية والأسبوعية عبر outbox hardened.
-- Business Integrity وDB/RPC monitoring وHealth Dashboard للمالك/AAL2.
+- Business Integrity وDB/RPC monitoring وHealth Dashboard للمالك فقط، مع تطبيق
+  سياسة MFA المركزية التي تتطلب AAL2 بعد تسجيل عامل MFA موثّق.
 - ERP وn8n encrypted backups، وERP isolated Restore Drill.
 - Privacy Policy وتقليل PII في Web Push وBusiness automation وbrowser storage.
 - Monitoring Phases 1–5 وR2 Off-site Backup وCloudflare Insights cleanup مكتملة.
@@ -85,5 +86,8 @@ Cloudflare Insights cleanup كلها مكتملة، وليست بنودًا مع
   حسب يوم `Asia/Amman` دون حد مالي، وحد الوردية
   `min(opened_at + 15h, next local midnight)` كتنبيه فقط بلا إغلاق تلقائي.
   `BUSINESS ALERT RULES & THRESHOLDS = VERIFIED`.
+- migration `106_align_monitoring_owner_mfa_policy.sql` أبقت Health Dashboard
+  للمالك فقط، وربطت AAL2 بسياسة MFA المركزية بدل اشتراطه قبل تسجيل عامل MFA.
+  `MONITORING / HEALTH DASHBOARD = VERIFIED`.
 
 راجع [docs/HANDOFF.md](./docs/HANDOFF.md) للأوامر وخطوات التشغيل الآمنة.

@@ -10,6 +10,10 @@ const migration = readFileSync(
   'supabase/migrations/051_enrolled_staff_mfa_enforcement.sql',
   'utf8'
 );
+const monitoringAccessMigration = readFileSync(
+  'supabase/migrations/106_align_monitoring_owner_mfa_policy.sql',
+  'utf8'
+);
 
 test('admin data is not loaded until the session AAL has been checked', () => {
   const handlerStart = authStore.indexOf('private async handleUserSession');
@@ -52,6 +56,18 @@ test('database requires AAL2 only for users with a verified factor', () => {
   assert.match(migration, /OR COALESCE\(auth\.jwt\(\) ->> 'aal', 'aal1'\) = 'aal2'/);
   assert.match(migration, /public\.is_mfa_policy_satisfied\(\)/);
   assert.doesNotMatch(migration, /CREATE POLICY|DROP POLICY/);
+});
+
+test('technical monitoring reuses the enrolled-factor MFA policy without widening roles', () => {
+  assert.match(
+    monitoringAccessMigration,
+    /assert_erp_role\([\s\S]*ARRAY\['owner'\][\s\S]*عرض المراقبة التقنية/u
+  );
+  assert.doesNotMatch(monitoringAccessMigration, /auth\.jwt\(\)[\s\S]*aal2/u);
+  assert.match(
+    monitoringAccessMigration,
+    /REVOKE ALL ON FUNCTION public\.assert_monitoring_owner\(\)[\s\S]*PUBLIC, anon, authenticated/u
+  );
 });
 
 test('central ERP mutation and storage guards both enforce MFA', () => {
