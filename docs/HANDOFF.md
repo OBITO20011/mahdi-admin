@@ -18,12 +18,12 @@ Nawasrah ERP نظام جملة عربي RTL:
 
 ## 2. Production baseline
 
-لقطة الحالة النهائية: 2026-09-12 بعد canonical schema reconciliation.
+لقطة الحالة النهائية: 2026-09-12 بعد SKU وBarcode integrity hardening.
 
 | Component | Verified state |
 | --- | --- |
 | Git | `main`؛ تحقّق دائمًا من التطابق الحالي عبر `git rev-parse HEAD` و`git rev-parse origin/main` |
-| Supabase | migrations المحلية والبعيدة `001–107` |
+| Supabase | migrations المحلية والبعيدة `001–108` |
 | Admin | Cloudflare Production متحقق؛ Admin Light Mode Visual Comfort مكتمل و`PWA-01 = RESOLVED` |
 | Customer Store | Cloudflare Production متحقق؛ Custom Domain وSEO Part 2 وGuided Store Assistant مكتملة |
 | Guest push | `send-order-push` Edge Function version 12 |
@@ -108,6 +108,7 @@ Supabase، ثم أعد `migration list` وDB lint واختبارات العقد.
 - `105_harden_business_alert_rules_and_thresholds.sql`
 - `106_align_monitoring_owner_mfa_policy.sql`
 - `107_canonical_schema_reconciliation.sql`
+- `108_harden_product_sku_barcode_integrity.sql`
 
 ### DB-01: مسار Fresh الرسمي
 
@@ -116,7 +117,7 @@ Supabase، ثم أعد `migration list` وDB lint واختبارات العقد.
 1. ينشئ `npm.cmd run test:db:isolated` نسخة مؤقتة منفصلة من مجلد Supabase.
 2. يطبّق compatibility patch المعروف على النسخة المؤقتة من migration 034 فقط؛
    لا يغيّر الملف التاريخي في المستودع.
-3. يعيد تشغيل migrations `001–107` ثم اختبارات canonical schema/runtime.
+3. يعيد تشغيل migrations `001–108` ثم اختبارات canonical schema/runtime.
 
 سبب المسار الهجين هو أن ledger التاريخي كان متطابقًا، لكن إعادة التشغيل من صفر
 كانت تعيد كائنات legacy وتكشف اختلافات في دالة الاستلام وtriggers. لا يمكن إثبات
@@ -142,7 +143,30 @@ Supabase، ثم أعد `migration list` وDB lint واختبارات العقد.
   والمتحقق داخل بيئة معزولة. هذا هو مسار disaster recovery، ولا يُستخدم Fresh
   Build بدلًا منه.
 - يمكن لاحقًا إنشاء clean baseline اختياري لتبسيط bootstrap، لكنه ليس blocker
-  ولا يبرر تعديل migrations `001–107`.
+  ولا يبرر تعديل migrations `001–108`.
+
+### SKU وBarcode integrity
+
+- SKU إلزامي لكل Product، ويُخزن uppercase/trimmed وتُفرض فرادته بعد التطبيع.
+- Barcode اختياري؛ القيمة الفارغة تصبح `NULL`، وعند وجوده يكون trimmed وفريدًا
+  دون حساسية لحالة الأحرف.
+- لا يجوز أن يصطدم SKU بباركود منتج آخر؛ trigger محمي مع advisory locks يغلق
+  السباق، وتبقى normalized unique indexes خط حماية مستقل.
+- Flavor Master grouping-only بلا باركود بيع. كل Flavor Child يملك SKU مستقلًا
+  ويخضع لنفس قواعد Barcode/SKU لكل المنتجات.
+- Admin ينفذ validation مسبقًا ويحوّل duplicate errors إلى رسائل عربية بلا raw
+  PostgreSQL details. زر «توليد» يولّد SKU bounded، وليس Barcode.
+- POS يطابق Barcode/SKU/ID إلى نتيجة واحدة، ويرفض ambiguous أو hidden/
+  non-sellable وFlavor Master. المسح يضيف للسلة محليًا فقط ولا ينشئ بيعًا أو
+  حركة مخزون.
+
+اختبار DB المعزول:
+
+```powershell
+npm.cmd run test:product-identifiers:runtime
+```
+
+`SKU & BARCODE INTEGRITY = VERIFIED`.
 
 ## 7. Deploy
 

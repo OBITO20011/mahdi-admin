@@ -6,7 +6,7 @@
 ## Live & Verified
 
 - Admin وCustomer Store على Cloudflare Pages.
-- Supabase migrations `001–107` متطابقة محليًا وعلى Production.
+- Supabase migrations `001–108` متطابقة محليًا وعلى Production.
 - الطلبات، POS، المخزون، الاستلام، المشتريات، WAC، الذمم، المدفوعات، المصاريف،
   الورديات، المرتجعات والعكس والتقارير تعمل من PostgreSQL/RPCs المحمية.
 - Server-side pagination للشاشات التشغيلية الثقيلة والكتالوج العام.
@@ -29,6 +29,11 @@
 - `A11Y-01 = RESOLVED`: صفحة Customer `/about/` والـHeader والتنقل والمحتوى
   الرئيسي والفوتر وStore Info اجتازت Axe على Chromium وMobile WebKit. رُفع
   تباين نص رسوم التوصيل إلى WCAG AA، وأصبحت landmarks وأسماء التنقل مميزة.
+- SKU إلزامي ومطبّع إلى uppercase/trimmed وفريد دون حساسية لحالة الأحرف،
+  والباركود اختياري لكنه trimmed وفريد عند وجوده. Flavor Child يخضع لنفس
+  القواعد، وFlavor Master للتجميع فقط بلا باركود بيع. الحماية في DB والواجهة،
+  والـPOS يرفض التطابق الغامض أو غير القابل للبيع.
+  `SKU & BARCODE INTEGRITY = VERIFIED`.
 
 ## Remaining Before Final Launch
 
@@ -109,5 +114,10 @@ Cloudflare Insights cleanup وPWA-01 كلها مكتملة، وليست بنود
 - مسار البناء الرسمي هو `HYBRID SANCTIONED BOOTSTRAP`: نسخة مؤقتة من migrations
   مع compatibility patch محصور على migration 034، ثم تطبيق 001–107 والتحقق
   canonical. لا تُعدّل migration 034 التاريخية. `DB-01 DATABASE REBUILD PATH = VERIFIED`.
+- migration `108_harden_product_sku_barcode_integrity.sql` أضافت normalized
+  unique indexes وcanonical checks وrace-safe cross-field collision guard دون
+  تعديل بيانات المنتجات القائمة. زر «توليد» هو مولّد SKU وليس Barcode؛ أصبح
+  bounded ويتحقق من identifiers المحملة، مع بقاء DB خط الحماية النهائي.
+  `SKU & BARCODE INTEGRITY = VERIFIED`.
 
 راجع [docs/HANDOFF.md](./docs/HANDOFF.md) للأوامر وخطوات التشغيل الآمنة.

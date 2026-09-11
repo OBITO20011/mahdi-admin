@@ -31,6 +31,10 @@ import {
   calculateProductProfit,
   calculateUnitCost,
 } from '../../utils/productCalculations';
+import {
+  generateUniqueProductSku,
+  validateProductIdentifiers,
+} from '../../utils/productIdentifiers';
 
 interface ProductFormModalProps {
   initialProduct?: Product | null;
@@ -214,6 +218,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         : [],
     [initialProduct?.id, products]
   );
+  const isFlavorMaster = Boolean(
+    initialProduct?.isFlavorMaster || (hasFlavors && !isEditing)
+  );
 
   useEffect(() => {
     if (!selectedImageFile) {
@@ -293,7 +300,21 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   };
 
   const generateSku = () => {
-    setSku(`NWS-${Date.now().toString().slice(-7)}`);
+    try {
+      setSku(
+        generateUniqueProductSku([
+          sku,
+          ...products.flatMap((product) => [product.sku, product.barcode]),
+        ])
+      );
+    } catch (error) {
+      setToast(
+        error instanceof Error
+          ? error.message
+          : 'تعذر توليد SKU فريد. حاول مرة أخرى.',
+        'error'
+      );
+    }
   };
 
   const changeUnitsPerPackage = (rawValue: string) => {
@@ -369,6 +390,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     setHasFlavors((current) => {
       const next = !current;
       if (next) {
+        setBarcode('');
         setFlavorDrafts((drafts) =>
           drafts.length > 0 ? drafts : [createFlavorDraft()]
         );
@@ -427,6 +449,19 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
     if (!nameAr.trim() || !sku.trim()) {
       setToast('اسم المنتج ورمز الصنف SKU مطلوبان.', 'error');
+      return;
+    }
+    const identifierValidation = validateProductIdentifiers(products, {
+      sku,
+      barcode: isFlavorMaster ? '' : barcode,
+      currentProductId: initialProduct?.id,
+    });
+    if (identifierValidation.valid === false) {
+      setSubmitError({
+        message: identifierValidation.message,
+        code: identifierValidation.code,
+      });
+      setToast(identifierValidation.message, 'error');
       return;
     }
     if (!categoryId) {
@@ -493,7 +528,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       imageUrl: imageUrl.trim(),
       categoryId,
       brandId,
-      barcode: barcode.trim(),
+      barcode: isFlavorMaster ? '' : barcode.trim(),
       sku: sku.trim().toUpperCase(),
       purchasePackage,
       unitsPerPackage: validUnitsPerPackage,
@@ -1121,11 +1156,19 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               الباركود
             </label>
             <input
-              value={barcode}
+              value={isFlavorMaster ? '' : barcode}
               onChange={(event) => setBarcode(event.target.value)}
-              placeholder="اختياري"
+              placeholder={
+                isFlavorMaster ? 'لا يُستخدم للمنتج الأساسي' : 'اختياري'
+              }
+              disabled={isFlavorMaster}
               className={`${inputClass} font-mono`}
             />
+            {isFlavorMaster && (
+              <p className="mt-1 text-[9px] leading-4 text-slate-500">
+                المنتج الأساسي للتجميع فقط؛ أضف الباركود لكل نكهة قابلة للبيع.
+              </p>
+            )}
           </div>
         </div>
       </section>

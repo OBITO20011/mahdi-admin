@@ -50,6 +50,7 @@ import {
   buildReceiptShareText,
   paymentMethodLabel,
 } from '../../utils/receipt';
+import { isPosSellableProduct } from '../../utils/productIdentifiers';
 
 const BarcodeScannerModal = lazy(() =>
   import('./BarcodeScannerModal').then((module) => ({
@@ -176,16 +177,12 @@ export const PosView: React.FC = () => {
   }, [activeBranch.id]);
 
   const filteredProducts = products.filter((p) => {
-    const isWholesaleReady =
-      (p.unitsPerSalePackage || 0) > 0 &&
-      (p.salePackagePrice || 0) > 0 &&
-      p.saleUnitCode !== 'PCS';
     const matchesCategory = selectedCategory === 'all' ? true : p.categoryId === selectedCategory;
     const matchesSearch =
       p.nameAr.includes(searchQuery) ||
       p.barcode.includes(searchQuery) ||
       p.sku.toLowerCase().includes(searchQuery.toLowerCase());
-    return isWholesaleReady && matchesCategory && matchesSearch;
+    return isPosSellableProduct(p) && matchesCategory && matchesSearch;
   });
 
   const addToCart = (prod: Product) => {

@@ -100,12 +100,17 @@ test('product and POS screens expose wholesale package values only', () => {
     'src/features/pos/PosView.tsx',
     'utf8'
   );
+  const productIdentifiers = fs.readFileSync(
+    'src/utils/productIdentifiers.ts',
+    'utf8'
+  );
 
   assert.doesNotMatch(productForm, /سعر الحبة المحاسبي/);
   assert.match(posView, /prod\.salePackagePrice/);
   assert.match(posView, /calculateAvailableSalePackages/);
-  assert.match(posView, /isWholesaleReady/);
-  assert.match(posView, /p\.saleUnitCode !== 'PCS'/);
+  assert.match(posView, /isPosSellableProduct\(p\)/);
+  assert.match(productIdentifiers, /product\.saleUnitCode !== 'PCS'/);
+  assert.match(productIdentifiers, /product\.salePackagePrice/);
   assert.doesNotMatch(posView, /prod\.retailPrice\.toFixed/);
   assert.doesNotMatch(posView, /totalPrice: prod\.retailPrice/);
 });

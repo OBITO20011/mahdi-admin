@@ -6,6 +6,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
 import { Product } from '../../types';
+import { resolvePosProductCode } from '../../utils/productIdentifiers';
 import {
   Camera,
   X,
@@ -86,15 +87,10 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
 
     lastScanTimeRef.current[code] = now;
 
-    // Search product by barcode, SKU, or ID
-    const matchedProduct = products.find(
-      (p) =>
-        p.barcode.toLowerCase() === code.toLowerCase() ||
-        p.sku.toLowerCase() === code.toLowerCase() ||
-        p.id === code
-    );
+    const lookup = resolvePosProductCode(products, code);
 
-    if (matchedProduct) {
+    if (lookup.status === 'found') {
+      const matchedProduct = lookup.product;
       playBeep();
       setLastScannedCode(code);
       setLastScannedProduct(matchedProduct);
@@ -105,11 +101,18 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
       if (!isContinuous) {
         onClose();
       }
+      return;
+    }
+
+    playBeep();
+    setLastScannedCode(code);
+    setLastScannedProduct(null);
+    if (lookup.status === 'ambiguous') {
+      setToast('هذا الرمز يطابق أكثر من منتج؛ راجع SKU والباركود.', 'error');
+    } else if (lookup.status === 'not_sellable') {
+      setToast('المنتج غير متاح للبيع من نقطة البيع.', 'error');
     } else {
-      playBeep();
-      setLastScannedCode(code);
-      setLastScannedProduct(null);
-      setToast(`لم يتم العثور على منتج بالباركود: ${code}`, 'error');
+      setToast(`لم يتم العثور على منتج بالرمز: ${code}`, 'error');
     }
   };
 

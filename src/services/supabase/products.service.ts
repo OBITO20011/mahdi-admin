@@ -58,6 +58,96 @@ function readErrorStatus(error: unknown): number | string | undefined {
     : undefined;
 }
 
+type ProductMutationError = {
+  message?: string;
+  code?: string;
+  details?: string;
+  hint?: string;
+  constraint?: string;
+};
+
+export function toProductMutationFailure(
+  error: unknown,
+  fallbackMessage: string
+): SupabaseRpcResult {
+  const source =
+    error && typeof error === 'object'
+      ? (error as ProductMutationError)
+      : {};
+  const rawMessage =
+    typeof error === 'string' ? error : source.message || fallbackMessage;
+  const searchable = [
+    rawMessage,
+    source.code,
+    source.details,
+    source.hint,
+    source.constraint,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  let code: string | undefined;
+  let message: string | undefined;
+
+  if (
+    searchable.includes('product_identifier_cross_collision') ||
+    searchable.includes('نفس الرقم كـsku') ||
+    searchable.includes('مستخدم بالفعل كـباركود') ||
+    searchable.includes('مستخدم بالفعل كـ sku')
+  ) {
+    code = 'IDENTIFIER_COLLISION';
+    message = 'لا يمكن استخدام نفس الرقم كـSKU لمنتج وباركود لمنتج آخر.';
+  } else if (
+    searchable.includes('products_barcode_normalized_key') ||
+    searchable.includes('idx_products_barcode_unique') ||
+    searchable.includes('الباركود مستخدم بالفعل')
+  ) {
+    code = 'DUPLICATE_BARCODE';
+    message = 'الباركود مستخدم بالفعل لمنتج آخر.';
+  } else if (
+    searchable.includes('products_sku_normalized_key') ||
+    searchable.includes('products_sku_key') ||
+    searchable.includes('رمز الصنف sku مستخدم بالفعل')
+  ) {
+    code = 'DUPLICATE_SKU';
+    message = 'رمز الصنف SKU مستخدم بالفعل لمنتج آخر.';
+  } else if (
+    source.code === '23505' ||
+    searchable.includes('duplicate key value')
+  ) {
+    code = 'DUPLICATE_PRODUCT_IDENTIFIER';
+    message = 'رمز SKU أو الباركود مستخدم بالفعل لمنتج آخر.';
+  } else if (searchable.includes('المنتج الأساسي للنكهات') && searchable.includes('باركود')) {
+    code = 'FLAVOR_MASTER_BARCODE_NOT_ALLOWED';
+    message = 'المنتج الأساسي للنكهات للتجميع فقط ولا يحمل باركود بيع.';
+  }
+
+  if (message && code) {
+    return {
+      success: false,
+      error: message,
+      errorDetails: {
+        code,
+        message,
+        status: readErrorStatus(error) || 409,
+      },
+    };
+  }
+
+  return {
+    success: false,
+    error: rawMessage,
+    errorDetails: {
+      code: source.code || 'RPC_ERROR',
+      message: rawMessage,
+      details: source.details || undefined,
+      hint: source.hint || undefined,
+      status: readErrorStatus(error) || 400,
+    },
+  };
+}
+
 export interface UpdateProductInput {
   productId: string;
   sku: string;
@@ -430,17 +520,7 @@ export async function createProductWithOpeningStockInSupabase(
         '[Supabase RPC Error] create_product_with_opening_stock_v4 failed:',
         error
       );
-      return {
-        success: false,
-        error: error.message,
-        errorDetails: {
-          code: error.code || 'RPC_ERROR',
-          message: error.message,
-          details: error.details || undefined,
-          hint: error.hint || undefined,
-          status: readErrorStatus(error) || 400,
-        },
-      };
+      return toProductMutationFailure(error, 'تعذر حفظ المنتج.');
     }
 
     const createdProdId = res?.product_id;
@@ -483,14 +563,7 @@ export async function createProductWithOpeningStockInSupabase(
     };
   } catch (err: any) {
     console.error('Exception during createProductWithOpeningStockInSupabase:', err);
-    return {
-      success: false,
-      error: err?.message || 'تعذر الاتصال بـ Supabase',
-      errorDetails: {
-        code: 'CLIENT_EXCEPTION',
-        message: err?.message || String(err),
-      },
-    };
+    return toProductMutationFailure(err, 'تعذر الاتصال بـ Supabase');
   }
 }
 
@@ -519,16 +592,7 @@ export async function createProductFlavorInSupabase(
     });
 
     if (error) {
-      return {
-        success: false,
-        error: error.message,
-        errorDetails: {
-          code: error.code,
-          message: error.message,
-          details: error.details || undefined,
-          hint: error.hint || undefined,
-        },
-      };
+      return toProductMutationFailure(error, 'تعذر إضافة النكهة.');
     }
 
     return {
@@ -539,14 +603,7 @@ export async function createProductFlavorInSupabase(
         'تمت إضافة النكهة بمخزون مستقل وسعر المنتج الأساسي.',
     };
   } catch (error: any) {
-    return {
-      success: false,
-      error: error?.message || 'تعذر إضافة النكهة.',
-      errorDetails: {
-        code: error?.code || 'CLIENT_EXCEPTION',
-        message: error?.message || 'تعذر إضافة النكهة.',
-      },
-    };
+    return toProductMutationFailure(error, 'تعذر إضافة النكهة.');
   }
 }
 
@@ -637,7 +694,8 @@ export async function createProductFamilyWithFlavorsInSupabase(
       'create_product_family_with_flavors_v1',
       {
         p_sku: input.sku.trim(),
-        p_barcode: input.barcode?.trim() || null,
+        // Flavor-family masters are grouping records, never sellable barcode targets.
+        p_barcode: null,
         p_name_ar: input.nameAr.trim(),
         p_description: input.description?.trim() || null,
         p_category_id: categoryIdToUse,
@@ -681,16 +739,10 @@ export async function createProductFamilyWithFlavorsInSupabase(
     );
 
     if (error) {
-      return {
-        success: false,
-        error: error.message,
-        errorDetails: {
-          code: error.code,
-          message: error.message,
-          details: error.details || undefined,
-          hint: error.hint || undefined,
-        },
-      };
+      return toProductMutationFailure(
+        error,
+        'تعذر إنشاء المنتج ونكهاته.'
+      );
     }
 
     return {
@@ -701,14 +753,7 @@ export async function createProductFamilyWithFlavorsInSupabase(
         'تم إنشاء المنتج وجميع نكهاته ومخزونها بنجاح.',
     };
   } catch (error: any) {
-    return {
-      success: false,
-      error: error?.message || 'تعذر إنشاء المنتج ونكهاته.',
-      errorDetails: {
-        code: error?.code || 'CLIENT_EXCEPTION',
-        message: error?.message || 'تعذر إنشاء المنتج ونكهاته.',
-      },
-    };
+    return toProductMutationFailure(error, 'تعذر إنشاء المنتج ونكهاته.');
   }
 }
 
@@ -729,16 +774,7 @@ export async function updateProductFlavorInSupabase(
     });
 
     if (error) {
-      return {
-        success: false,
-        error: error.message,
-        errorDetails: {
-          code: error.code,
-          message: error.message,
-          details: error.details || undefined,
-          hint: error.hint || undefined,
-        },
-      };
+      return toProductMutationFailure(error, 'تعذر تحديث النكهة.');
     }
 
     return {
@@ -749,14 +785,7 @@ export async function updateProductFlavorInSupabase(
         'تم تحديث النكهة مع الحفاظ على مخزونها وسجلها.',
     };
   } catch (error: any) {
-    return {
-      success: false,
-      error: error?.message || 'تعذر تحديث النكهة.',
-      errorDetails: {
-        code: error?.code || 'CLIENT_EXCEPTION',
-        message: error?.message || 'تعذر تحديث النكهة.',
-      },
-    };
+    return toProductMutationFailure(error, 'تعذر تحديث النكهة.');
   }
 }
 
@@ -895,16 +924,7 @@ export async function updateProductInSupabase(
     });
 
     if (error) {
-      return {
-        success: false,
-        error: error.message,
-        errorDetails: {
-          code: error.code,
-          message: error.message,
-          details: error.details || undefined,
-          hint: error.hint || undefined,
-        },
-      };
+      return toProductMutationFailure(error, 'تعذر تحديث المنتج.');
     }
 
     return {
@@ -913,14 +933,10 @@ export async function updateProductInSupabase(
       message: data?.message || 'تم تحديث المنتج بنجاح.',
     };
   } catch (error: any) {
-    return {
-      success: false,
-      error: error?.message || 'تعذر تحديث المنتج في Supabase.',
-      errorDetails: {
-        code: error?.code || 'CLIENT_EXCEPTION',
-        message: error?.message || 'تعذر تحديث المنتج في Supabase.',
-      },
-    };
+    return toProductMutationFailure(
+      error,
+      'تعذر تحديث المنتج في Supabase.'
+    );
   }
 }
 
