@@ -170,6 +170,11 @@ npm.cmd --prefix customer-web run deploy:cloudflare
 ثم smoke read-only وasset HTTP 200 بعد النشر. لا تنشئ معاملات مالية أو مخزنية
 حقيقية لاختبار النشر.
 
+`A11Y-01 = RESOLVED`: صفحة `/about/` وlandmarks الأساسية للمتجر اجتازت Axe
+على Chromium وMobile WebKit. نص رسوم التوصيل يستخدم تباين WCAG AA، وشريط
+التحديث وروابط التواصل العائمة داخل landmarks معنونة، وأسماء navigation
+المتزامنة مميزة. لم يتغير منطق الطلب أو البيانات.
+
 ## 8. Backup وRestore
 
 ```powershell
@@ -268,6 +273,7 @@ accounting defect ولم تتغير business logic أو migrations.
 لـGoogle Search Console وR2 Off-site Backup وMonitoring Phases 1–5 والتنفيذ
 التقني للخصوصية وGuided Store Assistant وAdmin Light Mode Visual Comfort و
 Cloudflare Insights cleanup وPWA-01 مكتملة ولا تظهر كمهام معلقة.
+A11Y-01 مكتملة كذلك ولا تظهر كـTechnical blocker.
 
 ### Manual / Business decisions
 

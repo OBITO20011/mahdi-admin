@@ -9,7 +9,7 @@ export function FloatingContactActions({
   whatsappUrl,
 }: FloatingContactActionsProps) {
   return (
-    <div className="fixed bottom-6 left-6 z-30 hidden flex-col items-start gap-2 md:flex">
+    <aside aria-label="روابط التواصل السريع" className="fixed bottom-6 left-6 z-30 hidden flex-col items-start gap-2 md:flex">
       <div className="flex flex-col gap-2 rounded-[1.4rem] border border-white/80 bg-white/85 p-2 shadow-2xl shadow-slate-950/15 backdrop-blur-xl">
         <a
           href={SEO_BRAND.socialProfiles[0]}
@@ -44,6 +44,6 @@ export function FloatingContactActions({
       >
         <ArrowUp className="h-4 w-4" />
       </button>
-    </div>
+    </aside>
   );
 }

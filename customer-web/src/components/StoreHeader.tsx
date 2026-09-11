@@ -120,7 +120,7 @@ export function StoreHeader({
   );
 
   return (
-    <>
+    <header>
       <div className="bg-[#081835] px-4 py-2 text-center text-[11px] font-bold text-blue-100 sm:text-xs">
         <span className="inline-flex items-center gap-2">
           <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
@@ -128,7 +128,7 @@ export function StoreHeader({
         </span>
       </div>
 
-      <header className="sticky top-0 z-40 border-b border-amber-100/90 bg-[#fffdf8]/95 shadow-sm backdrop-blur-xl">
+      <div className="sticky top-0 z-40 border-b border-amber-100/90 bg-[#fffdf8]/95 shadow-sm backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1450px] items-center gap-3 px-4 py-3 lg:px-7">
           <button
             type="button"
@@ -232,7 +232,7 @@ export function StoreHeader({
         )}
 
         <div className="border-t border-slate-100 px-4 py-2 xl:hidden">
-          <nav className="mx-auto flex max-w-7xl gap-1 overflow-x-auto pb-1 scrollbar-none" aria-label="روابط سريعة">
+          <nav className="mx-auto flex max-w-7xl gap-1 overflow-x-auto pb-1 scrollbar-none" aria-label="التنقل السريع">
             {navigation.map((item) => (
               <button
                 type="button"
@@ -246,7 +246,7 @@ export function StoreHeader({
             ))}
           </nav>
         </div>
-      </header>
-    </>
+      </div>
+    </header>
   );
 }

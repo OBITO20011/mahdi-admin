@@ -26,6 +26,9 @@
 - `PWA-01 = RESOLVED`: إصدار Admin Service Worker مرتبط بالـGit commit SHA لكل
   release بدل `0.0.0`، مع تنظيف cache الإصدار السابق واختبار انتقال A→B على
   Chromium وMobile WebKit.
+- `A11Y-01 = RESOLVED`: صفحة Customer `/about/` والـHeader والتنقل والمحتوى
+  الرئيسي والفوتر وStore Info اجتازت Axe على Chromium وMobile WebKit. رُفع
+  تباين نص رسوم التوصيل إلى WCAG AA، وأصبحت landmarks وأسماء التنقل مميزة.
 
 ## Remaining Before Final Launch
 
@@ -35,6 +38,7 @@
 لـGoogle Search Console وR2 Off-site Backup وMonitoring Phases 1–5 والتنفيذ
 التقني للخصوصية وGuided Store Assistant وAdmin Light Mode Visual Comfort و
 Cloudflare Insights cleanup وPWA-01 كلها مكتملة، وليست بنودًا معلقة.
+كما أن A11Y-01 مكتملة وليست blocker للإطلاق.
 
 ### Manual / Business decisions
 

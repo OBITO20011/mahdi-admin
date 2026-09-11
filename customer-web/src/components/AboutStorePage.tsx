@@ -13,7 +13,7 @@ interface AboutStorePageProps {
 export function AboutStorePage({onBrowseProducts, whatsappUrl, onTrackOrder, settings}: AboutStorePageProps) {
   return (
     <>
-      <section className="min-h-[70vh] bg-gradient-to-b from-blue-50/60 to-[#fbf7f0] py-10 sm:py-16">
+      <section aria-label="نبذة عن محلات النواصرة التجارية" className="min-h-[70vh] bg-gradient-to-b from-blue-50/60 to-[#fbf7f0] py-10 sm:py-16">
         <div className="mx-auto max-w-5xl px-4 lg:px-8">
         <div className="overflow-hidden rounded-[2rem] border border-white bg-white shadow-xl shadow-slate-900/5">
           <figure className="relative overflow-hidden bg-slate-950">
