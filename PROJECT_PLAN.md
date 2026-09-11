@@ -6,7 +6,7 @@
 ## Live & Verified
 
 - Admin وCustomer Store على Cloudflare Pages.
-- Supabase migrations `001–106` متطابقة محليًا وعلى Production.
+- Supabase migrations `001–107` متطابقة محليًا وعلى Production.
 - الطلبات، POS، المخزون، الاستلام، المشتريات، WAC، الذمم، المدفوعات، المصاريف،
   الورديات، المرتجعات والعكس والتقارير تعمل من PostgreSQL/RPCs المحمية.
 - Server-side pagination للشاشات التشغيلية الثقيلة والكتالوج العام.
@@ -92,5 +92,15 @@ Cloudflare Insights cleanup كلها مكتملة، وليست بنودًا مع
 - أُغلق `TEST-01` بتصحيح stale reversal test fixture فقط: الـFlavor Master أصبح
   grouping-only بلا stock، والبيع والحركات والعكس تستهدف Flavor Child حقيقيًا.
   لم يظهر أي Production accounting defect. `TEST-01 REVERSAL COVERAGE = VERIFIED`.
+- migration `107_canonical_schema_reconciliation.sql` وحّدت Fresh replay مع
+  Production: أعادت تعريف `_receive_inventory_impl` بالعقد الموسع، أضافت قفلًا
+  حتميًا وآمنًا لأول إنشاء لرصيد المخزون، أعادت triggers الخاصة بـ`updated_at`،
+  وحذفت كائنات legacy الفارغة فقط عبر بوابة count و`RESTRICT`. بقي
+  `rls_auto_enable` ككائن منصة خارج canonical application schema. تطابقت نسخة
+  Fresh 001–107 مع Production بعد استثناء كائنات/صلاحيات المنصة المثبتة.
+  `MIGRATION 107 CANONICAL SCHEMA RECONCILIATION = VERIFIED`.
+- مسار البناء الرسمي هو `HYBRID SANCTIONED BOOTSTRAP`: نسخة مؤقتة من migrations
+  مع compatibility patch محصور على migration 034، ثم تطبيق 001–107 والتحقق
+  canonical. لا تُعدّل migration 034 التاريخية. `DB-01 DATABASE REBUILD PATH = VERIFIED`.
 
 راجع [docs/HANDOFF.md](./docs/HANDOFF.md) للأوامر وخطوات التشغيل الآمنة.

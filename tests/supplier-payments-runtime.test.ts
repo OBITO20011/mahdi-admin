@@ -26,6 +26,12 @@ const flavorHardeningRuntimeScript = path.join(
   'testing',
   'run-flavor-receiving-hardening-runtime.mjs',
 );
+const canonicalSchemaRuntimeScript = path.join(
+  projectRoot,
+  'scripts',
+  'testing',
+  'run-canonical-schema-runtime.mjs',
+);
 
 test(
   'isolated Supabase runtime suites do not compete for Docker resources',
@@ -89,6 +95,36 @@ test(
         assert.equal(result.ok, true);
         assert.equal(result.unexpected_failures, 0);
         assert.ok((result.runtime_scenarios || 0) >= 12);
+      },
+    );
+
+    await context.test(
+      'canonical schema rebuild and inventory concurrency pass',
+      async () => {
+        const { stdout } = await execFileAsync(
+          process.execPath,
+          [canonicalSchemaRuntimeScript],
+          {
+            cwd: projectRoot,
+            windowsHide: true,
+            maxBuffer: 1024 * 1024,
+            timeout: 600_000,
+          },
+        );
+
+        const result: {
+          ok?: boolean;
+          firstBalance?: number;
+          existingBalance?: number;
+          rollback?: boolean;
+          schema?: { legacy?: number; triggers?: number };
+        } = JSON.parse(stdout);
+        assert.equal(result.ok, true);
+        assert.equal(result.firstBalance, 20);
+        assert.equal(result.existingBalance, 20);
+        assert.equal(result.rollback, true);
+        assert.equal(result.schema?.legacy, 0);
+        assert.equal(result.schema?.triggers, 5);
       },
     );
   },

@@ -4,17 +4,19 @@
 ويستخدم مشروع Supabase واحدًا كمصدر الحقيقة للطلبات والمخزون والاستلام والذمم
 والمدفوعات والمصاريف والورديات والتقارير.
 
-الحالة الموثقة في 2026-09-08:
+الحالة الموثقة في 2026-09-12:
 
-- Production migrations مطابقة للمستودع من `001` حتى `102`.
+- Production migrations مطابقة للمستودع من `001` حتى `107`، ومسار Fresh
+  `HYBRID SANCTIONED BOOTSTRAP` متحقق.
 - Admin وCustomer Store منشوران على Cloudflare Pages.
 - n8n يشغل Business Telegram والتنبيهات والملخصات عبر outbox محمية؛ WhatsApp
   يبقى غير مفعّل حتى اعتماد مزوده.
 - Developer Monitoring مستقل عن n8n وعن قناة صاحب المحل.
-- النسخ المشفرة وRestore Drill المعزول مطبقان، مع وجود incident تشغيلي مفتوح
-  لآخر محاولة مجدولة كما هو موضح في [وثيقة التسليم](./docs/HANDOFF.md).
+- النسخ المشفرة وRestore Drill المعزول مطبقان، وOperational Recovery موثق
+  كـverified في [وثيقة التسليم](./docs/HANDOFF.md).
 - لوحة Health/Integrity داخل Admin للمالك مع AAL2 وللقراءة فقط.
-- Privacy Policy وتقليل PII في التنبيهات الخارجية مطبقان حتى migration `102`.
+- Privacy Policy وتقليل PII في التنبيهات الخارجية مطبقان، وأحدث canonical
+  schema reconciliation مثبتة في migration `107`.
 
 > ابدأ أي استلام أو تشغيل جديد من [docs/HANDOFF.md](./docs/HANDOFF.md). هذه
 > الوثيقة هي نقطة الدخول العملية، بينما تبقى migrations والكود مصدر الحقيقة.

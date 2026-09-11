@@ -18,12 +18,12 @@ Nawasrah ERP نظام جملة عربي RTL:
 
 ## 2. Production baseline
 
-لقطة الحالة النهائية: 2026-09-11 قبل Documentation-only sync.
+لقطة الحالة النهائية: 2026-09-12 بعد canonical schema reconciliation.
 
 | Component | Verified state |
 | --- | --- |
-| Git | `main`, baseline business-rules SHA `11be4f0d3802237df1ad3cbbdcb5d8c50ed58441` |
-| Supabase | migrations المحلية والبعيدة `001–106` |
+| Git | `main`؛ تحقّق دائمًا من التطابق الحالي عبر `git rev-parse HEAD` و`git rev-parse origin/main` |
+| Supabase | migrations المحلية والبعيدة `001–107` |
 | Admin | Cloudflare Production متحقق؛ Admin Light Mode Visual Comfort مكتمل |
 | Customer Store | Cloudflare Production متحقق؛ Custom Domain وSEO Part 2 وGuided Store Assistant مكتملة |
 | Guest push | `send-order-push` Edge Function version 12 |
@@ -107,6 +107,42 @@ Supabase، ثم أعد `migration list` وDB lint واختبارات العقد.
 - `104_remove_unused_receive_purchase_order_product_id.sql`
 - `105_harden_business_alert_rules_and_thresholds.sql`
 - `106_align_monitoring_owner_mfa_policy.sql`
+- `107_canonical_schema_reconciliation.sql`
+
+### DB-01: مسار Fresh الرسمي
+
+المسار المعتمد هو `HYBRID SANCTIONED BOOTSTRAP`:
+
+1. ينشئ `npm.cmd run test:db:isolated` نسخة مؤقتة منفصلة من مجلد Supabase.
+2. يطبّق compatibility patch المعروف على النسخة المؤقتة من migration 034 فقط؛
+   لا يغيّر الملف التاريخي في المستودع.
+3. يعيد تشغيل migrations `001–107` ثم اختبارات canonical schema/runtime.
+
+سبب المسار الهجين هو أن ledger التاريخي كان متطابقًا، لكن إعادة التشغيل من صفر
+كانت تعيد كائنات legacy وتكشف اختلافات في دالة الاستلام وtriggers. لا يمكن إثبات
+الآلية التاريخية الدقيقة لكل فرق من Git وحده، لذلك أصلحت migration 107 الحالة
+النهائية بشكل idempotent وآمن بدل إعادة كتابة التاريخ.
+
+- `_receive_inventory_impl` يحتفظ بالاستجابة الموسعة وaudit reference والتحقق
+  والحجوزات والحركات والـrollback، ولا يحسب WAC. أضيف advisory lock حتمي قبل
+  إنشاء أول `inventory_balances` لمنع race دون تغيير wrapper أو callers.
+- أُعيدت triggers الخمسة لـ`updated_at`، وعُززت
+  `update_updated_at_column` مع `search_path = public` وصلاحياتها الخاصة.
+- تُحذف جداول/دالة legacy فقط بعد lock وcount صفري، وبـ`RESTRICT` دون `CASCADE`.
+- `rls_auto_enable` كائن منصة مستثنى عمدًا ولا تعدله migration 107.
+
+`MIGRATION 107 CANONICAL SCHEMA RECONCILIATION = VERIFIED`.
+`DB-01 DATABASE REBUILD PATH = VERIFIED`.
+
+### Fresh Build مقابل Backup Restore
+
+- **Fresh Build**: لإثبات أن schema والعقود قابلة لإعادة البناء من migrations في
+  قاعدة مؤقتة فارغة؛ لا يحتوي بيانات Production ولا يستبدل خطة التعافي.
+- **Backup Restore**: لاستعادة بيانات وأدوار وStorage من أرشيف Production المشفّر
+  والمتحقق داخل بيئة معزولة. هذا هو مسار disaster recovery، ولا يُستخدم Fresh
+  Build بدلًا منه.
+- يمكن لاحقًا إنشاء clean baseline اختياري لتبسيط bootstrap، لكنه ليس blocker
+  ولا يبرر تعديل migrations `001–107`.
 
 ## 7. Deploy
 

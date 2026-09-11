@@ -3,7 +3,7 @@
 ## الحالة الحالية
 
 هذا المجلد هو مصدر مخطط Production ويحتوي migrations متسلسلة من `001` حتى
-`102`. تطبيق Admin وCustomer Store يستخدمان RPCs وEdge Functions المحمية، ولا
+`107`. تطبيق Admin وCustomer Store يستخدمان RPCs وEdge Functions المحمية، ولا
 توجد بيانات واجهة تجريبية تعامل كمصدر حقيقة.
 
 ## بوابة أي تغيير
@@ -40,7 +40,28 @@ npm.cmd run backup:verify
   المورد أو الربح أو PII غير اللازمة.
 - وظائف cron الخاصة غير ممنوحة للـ`anon` أو `authenticated`.
 
-## المجالات المطبقة حتى 102
+## مسار إعادة البناء المعتمد
+
+`npm.cmd run test:db:isolated` ينفذ `HYBRID SANCTIONED BOOTSTRAP`: ينسخ مجلد
+Supabase إلى مساحة مؤقتة، ويطبّق compatibility patch المعروف على النسخة المؤقتة
+من migration 034، ثم يعيد migrations `001–107` ويتحقق من canonical schema.
+ملف 034 التاريخي لا يُعدّل.
+
+Migration `107_canonical_schema_reconciliation.sql` توحّد Fresh وProduction عبر:
+
+- التعريف canonical الموسع لـ`_receive_inventory_impl` مع قفل حتمي لأول رصيد.
+- استعادة خمسة triggers لـ`updated_at` وتقوية trigger function.
+- حذف كائنات legacy فقط إن كانت فارغة ودون `CASCADE`.
+- ترك `rls_auto_enable` خارج النطاق لأنه كائن تديره المنصة.
+
+Fresh Build يثبت قابلية إعادة بناء schema في قاعدة فارغة، أما Backup Restore
+فيستعيد بيانات/أدوار/Storage من النسخة المشفرة المتحققة وهو مسار disaster
+recovery. لا يحل أحدهما محل الآخر. Clean baseline لاحق تحسين اختياري فقط.
+
+`MIGRATION 107 CANONICAL SCHEMA RECONCILIATION = VERIFIED`.
+`DB-01 DATABASE REBUILD PATH = VERIFIED`.
+
+## المجالات المطبقة حتى 107
 
 - المنتجات والنكهات والمخزون والحركات والجرد والتسويات والاستلام وWAC.
 - الطلبات والحجوزات والتوصيل والتسوية والمرتجعات والـPOS والذمم والمدفوعات.
@@ -51,6 +72,7 @@ npm.cmd run backup:verify
 - Business outbox مع leases وbounded retry وdead-letter وincidents وsummaries.
 - Advanced monitoring وBusiness Integrity وHealth Dashboard للمالك/AAL2.
 - Privacy minimization للـautomation payloads في migration `102`.
+- canonical schema reconciliation ومسار Fresh المعتمد في migration `107`.
 
 التفاصيل في [DATABASE_DESIGN.md](../DATABASE_DESIGN.md)، ودورة الطلب في
 [README-orders.md](./README-orders.md)، وكل contract دقيق مصدره ملف migration
