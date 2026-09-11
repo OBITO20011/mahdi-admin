@@ -211,7 +211,14 @@ Migration `105_harden_business_alert_rules_and_thresholds.sql` تعتمد الق
 - Shift max close = `min(opened_at + 15h, next local midnight)`.
 - الوردية المتأخرة تُطلق alert فقط ولا تُغلق تلقائيًا.
 
-## 14. Remaining Before Final Launch
+## 14. Reversal fixture recovery — `TEST-01 REVERSAL COVERAGE = VERIFIED`
+
+كان `TEST-01` ناتجًا عن stale reversal test fixture أعطت Flavor Master رصيدًا
+مباشرًا. أصبحت fixture تستخدم Master للتجميع فقط وFlavor Child للبيع والمخزون
+والحركات والعكس، مع SKU عادي مستقل لسيناريو الائتمان. لم يظهر Production
+accounting defect ولم تتغير business logic أو migrations.
+
+## 15. Remaining Before Final Launch
 
 ### Technical blockers
 

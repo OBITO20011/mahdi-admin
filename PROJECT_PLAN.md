@@ -89,5 +89,8 @@ Cloudflare Insights cleanup كلها مكتملة، وليست بنودًا مع
 - migration `106_align_monitoring_owner_mfa_policy.sql` أبقت Health Dashboard
   للمالك فقط، وربطت AAL2 بسياسة MFA المركزية بدل اشتراطه قبل تسجيل عامل MFA.
   `MONITORING / HEALTH DASHBOARD = VERIFIED`.
+- أُغلق `TEST-01` بتصحيح stale reversal test fixture فقط: الـFlavor Master أصبح
+  grouping-only بلا stock، والبيع والحركات والعكس تستهدف Flavor Child حقيقيًا.
+  لم يظهر أي Production accounting defect. `TEST-01 REVERSAL COVERAGE = VERIFIED`.
 
 راجع [docs/HANDOFF.md](./docs/HANDOFF.md) للأوامر وخطوات التشغيل الآمنة.

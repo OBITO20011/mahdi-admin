@@ -29,6 +29,7 @@ DECLARE
   p_1275 UUID := '83000000-0000-0000-0000-000000000073';
   p_19999 UUID := '83000000-0000-0000-0000-000000000074';
   p_flavor UUID := '83000000-0000-0000-0000-000000000075';
+  p_flavor_master UUID := '83000000-0000-0000-0000-000000000080';
   p_blocked UUID := '83000000-0000-0000-0000-000000000076';
   p_supplier UUID := '83000000-0000-0000-0000-000000000077';
   p_retry UUID := '83000000-0000-0000-0000-000000000078';
@@ -86,9 +87,10 @@ BEGIN
   ) VALUES
     (p_fils, 'REV-001', 'صنف فلس', v_category, v_unit, v_unit, v_unit, 1, 1, 1, 0, 1, 1, 1, true, NULL, NULL, false),
     (p_five, 'REV-005', 'صنف خمسة فلوس', v_category, v_unit, v_unit, v_unit, 1, 1, 5, 1, 5, 5, 1, true, NULL, NULL, false),
-    (p_1275, 'REV-1275', 'شيبس اختبار', v_category, v_unit, v_unit, v_unit, 1, 1, 1275, 100, 1275, 1275, 1, true, NULL, NULL, true),
+    (p_1275, 'REV-1275', 'صنف اختبار 1.275', v_category, v_unit, v_unit, v_unit, 1, 1, 1275, 100, 1275, 1275, 1, true, NULL, NULL, false),
     (p_19999, 'REV-19999', 'صنف 19.999', v_category, v_unit, v_unit, v_unit, 1, 1, 19999, 1500, 19999, 19999, 1, true, NULL, NULL, false),
-    (p_flavor, 'REV-1275-SPICY', 'شيبس اختبار حار', v_category, v_unit, v_unit, v_unit, 1, 1, 1275, 100, 1275, 1275, 1, true, p_1275, 'حار', false),
+    (p_flavor_master, 'REV-FLAVOR-MASTER', 'شيبس اختبار النكهات', v_category, v_unit, v_unit, v_unit, 1, 1, 1275, 100, 1275, 1275, 1, true, NULL, NULL, true),
+    (p_flavor, 'REV-1275-SPICY', 'شيبس اختبار حار', v_category, v_unit, v_unit, v_unit, 1, 1, 1275, 100, 1275, 1275, 1, true, p_flavor_master, 'حار', false),
     (p_blocked, 'REV-BLOCK', 'صنف حركة لاحقة', v_category, v_unit, v_unit, v_unit, 1, 1, 100, 10, 100, 100, 1, true, NULL, NULL, false),
     (p_supplier, 'REV-SUP', 'صنف مورد', v_category, v_unit, v_unit, v_unit, 1, 1, 500, 100, 500, 500, 1, true, NULL, NULL, false),
     (p_retry, 'REV-RETRY', 'صنف إعادة الشبكة', v_category, v_unit, v_unit, v_unit, 1, 1, 500, 100, 500, 500, 1, true, NULL, NULL, false),
@@ -100,6 +102,13 @@ BEGIN
   FROM unnest(ARRAY[p_fils, p_five, p_1275, p_19999, p_flavor, p_blocked, p_supplier, p_retry, p_concurrent]) AS product_id
   ON CONFLICT (warehouse_id, product_id)
   DO UPDATE SET on_hand_quantity = EXCLUDED.on_hand_quantity, reserved_quantity = 0;
+
+  IF EXISTS (
+    SELECT 1 FROM public.inventory_balances
+    WHERE warehouse_id = v_warehouse AND product_id = p_flavor_master
+  ) THEN
+    RAISE EXCEPTION 'Flavor Master fixture must remain grouping-only without inventory.';
+  END IF;
 END $$;
 
 SELECT set_config(
@@ -119,6 +128,7 @@ DECLARE
   p_1275 UUID := '83000000-0000-0000-0000-000000000073';
   p_19999 UUID := '83000000-0000-0000-0000-000000000074';
   p_flavor UUID := '83000000-0000-0000-0000-000000000075';
+  p_flavor_master UUID := '83000000-0000-0000-0000-000000000080';
   p_blocked UUID := '83000000-0000-0000-0000-000000000076';
   p_supplier UUID := '83000000-0000-0000-0000-000000000077';
   p_retry UUID := '83000000-0000-0000-0000-000000000078';
@@ -132,6 +142,8 @@ DECLARE
   v_cliq_payment UUID;
   v_before INTEGER;
   v_after INTEGER;
+  v_flavor_before INTEGER;
+  v_flavor_after INTEGER;
   v_supplier_before BIGINT;
   v_error TEXT;
   v_shift_id UUID;
@@ -170,11 +182,24 @@ BEGIN
 
   -- Multi-line sale with flavor and a discount at 19.999 JOD precision.
   SELECT on_hand_quantity INTO v_before FROM public.inventory_balances WHERE warehouse_id=v_warehouse AND product_id=p_19999;
+  SELECT on_hand_quantity INTO v_flavor_before FROM public.inventory_balances WHERE warehouse_id=v_warehouse AND product_id=p_flavor;
   v_result := public.create_pos_sale(v_warehouse, v_branch, NULL, 'متعدد الأصناف', 'cash', jsonb_build_array(jsonb_build_object('product_id', p_19999, 'quantity', 1), jsonb_build_object('product_id', p_flavor, 'quantity', 1)), 1000, 0, 'rev-pos-multi-sale-key-000000000001');
   v_order := (v_result->>'orderId')::UUID;
   v_result := public.reverse_pos_sale(v_order, 'عكس بيع متعدد مع خصم', 'rev-pos-multi-reversal-key-00000001');
   SELECT on_hand_quantity INTO v_after FROM public.inventory_balances WHERE warehouse_id=v_warehouse AND product_id=p_19999;
-  IF v_after <> v_before OR NOT EXISTS (SELECT 1 FROM public.inventory_movements WHERE reference_type='pos_sale_reversal' AND reference_id=(v_result->>'reversal_id')::UUID) THEN RAISE EXCEPTION 'Multi-item flavor reversal failed.'; END IF;
+  SELECT on_hand_quantity INTO v_flavor_after FROM public.inventory_balances WHERE warehouse_id=v_warehouse AND product_id=p_flavor;
+  IF v_after <> v_before
+    OR v_flavor_after <> v_flavor_before
+    OR EXISTS (SELECT 1 FROM public.inventory_balances WHERE warehouse_id=v_warehouse AND product_id=p_flavor_master)
+    OR NOT EXISTS (SELECT 1 FROM public.order_items WHERE order_id=v_order AND product_id=p_flavor)
+    OR EXISTS (SELECT 1 FROM public.order_items WHERE order_id=v_order AND product_id=p_flavor_master)
+    OR NOT EXISTS (
+      SELECT 1 FROM public.inventory_movements
+      WHERE reference_type='pos_sale_reversal'
+        AND reference_id=(v_result->>'reversal_id')::UUID
+        AND product_id=p_flavor
+    )
+  THEN RAISE EXCEPTION 'Multi-item Flavor Child reversal failed.'; END IF;
   INSERT INTO reversal_runtime_results VALUES ('multi_item_flavor_discount_precision_19999', 'pass', v_result);
 
   -- Same-key retry returns the same completed reversal; a new key cannot reverse twice.
