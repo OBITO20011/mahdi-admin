@@ -25,6 +25,7 @@ test('admin deployment records the exact verified main commit in Cloudflare meta
   assert.match(deploymentScript, /localSha !== remoteMain/);
   assert.match(deploymentScript, /process\.env\.npm_execpath/);
   assert.match(deploymentScript, /run\(process\.execPath/);
+  assert.match(deploymentScript, /NAWASRAH_ADMIN_RELEASE_ID: localSha/);
   assert.match(deploymentScript, /`--commit-hash=\$\{localSha\}`/);
   assert.match(deploymentScript, /`--commit-message=\$\{commitMessage\}`/);
 });

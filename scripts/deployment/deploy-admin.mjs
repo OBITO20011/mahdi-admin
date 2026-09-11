@@ -14,8 +14,8 @@ function git(...args) {
   }).trim();
 }
 
-function run(command, args) {
-  const result = spawnSync(command, args, { stdio: 'inherit' });
+function run(command, args, env = process.env) {
+  const result = spawnSync(command, args, { env, stdio: 'inherit' });
   if (result.error) throw result.error;
   if (result.status !== 0) {
     throw new Error(`${command} failed with exit code ${result.status ?? 'unknown'}`);
@@ -45,7 +45,10 @@ if (checkOnly) {
   process.exit(0);
 }
 
-run(process.execPath, [npmCliPath, 'run', 'build']);
+run(process.execPath, [npmCliPath, 'run', 'build'], {
+  ...process.env,
+  NAWASRAH_ADMIN_RELEASE_ID: localSha,
+});
 run(process.execPath, [
   npmCliPath,
   'exec',

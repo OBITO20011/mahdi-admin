@@ -9,6 +9,7 @@ const serviceWorker = readFileSync('public/sw.js', 'utf8');
 const indexHtml = readFileSync('index.html', 'utf8');
 const main = readFileSync('src/main.tsx', 'utf8');
 const pwaRegistration = readFileSync('src/pwa/pwa.ts', 'utf8');
+const viteConfig = readFileSync('vite.config.ts', 'utf8');
 const installPanel = readFileSync(
   'src/features/more/InstallAppPanel.tsx',
   'utf8',
@@ -43,6 +44,14 @@ test('installed app checks for updates and reloads once when a new worker contro
   assert.match(pwaRegistration, /__NAWASRAH_BUILD_ID__/);
   assert.match(serviceWorker, /new URL\(self\.location\.href\)\.searchParams\.get\('build'\)/);
   assert.match(serviceWorker, /nawasrah-admin-shell-\$\{buildId\}/);
+});
+
+test('production service worker identity comes from the release commit', () => {
+  assert.match(viteConfig, /process\.env\.NAWASRAH_ADMIN_RELEASE_ID/);
+  assert.match(viteConfig, /\^\[0-9a-f\]\{40\}\$/);
+  assert.match(viteConfig, /'local-dev'/);
+  assert.doesNotMatch(viteConfig, /npm_package_version/);
+  assert.match(serviceWorker, /keys[\s\S]*\.filter\(\(key\) => key !== CACHE_NAME\)/);
 });
 
 test('iPhone users get visible manual installation instructions', () => {

@@ -23,6 +23,9 @@
 - Monitoring Phases 1–5 وR2 Off-site Backup وCloudflare Insights cleanup مكتملة.
 - Guided Store Assistant وAdmin Light Mode Visual Comfort مكتملان ومتحققان على
   Production.
+- `PWA-01 = RESOLVED`: إصدار Admin Service Worker مرتبط بالـGit commit SHA لكل
+  release بدل `0.0.0`، مع تنظيف cache الإصدار السابق واختبار انتقال A→B على
+  Chromium وMobile WebKit.
 
 ## Remaining Before Final Launch
 
@@ -31,7 +34,7 @@
 لا توجد blockers تقنية معروفة حاليًا. Custom Domain وSEO Part 2 والإعداد التقني
 لـGoogle Search Console وR2 Off-site Backup وMonitoring Phases 1–5 والتنفيذ
 التقني للخصوصية وGuided Store Assistant وAdmin Light Mode Visual Comfort و
-Cloudflare Insights cleanup كلها مكتملة، وليست بنودًا معلقة.
+Cloudflare Insights cleanup وPWA-01 كلها مكتملة، وليست بنودًا معلقة.
 
 ### Manual / Business decisions
 

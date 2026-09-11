@@ -15,6 +15,7 @@
     "lint:fix": "eslint . --fix",
     "test": "tsx --test tests/*.test.ts",
     "test:e2e": "playwright test",
+    "test:pwa:release-update": "node scripts/testing/run-admin-pwa-release-update.mjs",
     "test:e2e:report": "playwright show-report",
     "test:db:isolated": "node scripts/testing/bootstrap-isolated-supabase.mjs",
     "test:orders-pagination:runtime": "node scripts/testing/run-operational-orders-pagination-runtime.mjs",

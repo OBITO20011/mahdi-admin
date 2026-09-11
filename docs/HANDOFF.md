@@ -24,7 +24,7 @@ Nawasrah ERP نظام جملة عربي RTL:
 | --- | --- |
 | Git | `main`؛ تحقّق دائمًا من التطابق الحالي عبر `git rev-parse HEAD` و`git rev-parse origin/main` |
 | Supabase | migrations المحلية والبعيدة `001–107` |
-| Admin | Cloudflare Production متحقق؛ Admin Light Mode Visual Comfort مكتمل |
+| Admin | Cloudflare Production متحقق؛ Admin Light Mode Visual Comfort مكتمل و`PWA-01 = RESOLVED` |
 | Customer Store | Cloudflare Production متحقق؛ Custom Domain وSEO Part 2 وGuided Store Assistant مكتملة |
 | Guest push | `send-order-push` Edge Function version 12 |
 | n8n | container `nawasrah-n8n` running/healthy و`/healthz` = 200 وقت الفحص |
@@ -153,6 +153,12 @@ npm.cmd run deploy:admin:check
 npm.cmd run deploy:admin
 ```
 
+سكربت النشر يتحقق من `main = origin/main` ثم يمرر SHA الكامل عبر
+`NAWASRAH_ADMIN_RELEASE_ID` إلى Vite. يسجل Admin الـService Worker بعنوان
+`/sw.js?build=<commit-sha>` وتستخدم cache الهوية نفسها؛ `local-dev` fallback
+محصور في builds المحلية غير المنشورة. لا تستخدم `package.json` version كهوية
+release. `PWA-01 = RESOLVED`.
+
 ### Customer Store
 
 ```powershell
@@ -261,7 +267,7 @@ accounting defect ولم تتغير business logic أو migrations.
 لا توجد blockers تقنية معروفة حاليًا. Custom Domain وSEO Part 2 والإعداد التقني
 لـGoogle Search Console وR2 Off-site Backup وMonitoring Phases 1–5 والتنفيذ
 التقني للخصوصية وGuided Store Assistant وAdmin Light Mode Visual Comfort و
-Cloudflare Insights cleanup مكتملة ولا تظهر كمهام معلقة.
+Cloudflare Insights cleanup وPWA-01 مكتملة ولا تظهر كمهام معلقة.
 
 ### Manual / Business decisions
 

@@ -3,11 +3,16 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
 
-const buildId =
+const releaseId =
+  process.env.NAWASRAH_ADMIN_RELEASE_ID ??
   process.env.CF_PAGES_COMMIT_SHA ??
-  process.env.GITHUB_SHA ??
-  process.env.npm_package_version ??
-  'local';
+  process.env.GITHUB_SHA;
+
+if (releaseId && !/^[0-9a-f]{40}$/iu.test(releaseId)) {
+  throw new Error('Admin release ID must be a full Git commit SHA.');
+}
+
+const buildId = releaseId?.toLowerCase() ?? 'local-dev';
 
 export default defineConfig(() => {
   return {
