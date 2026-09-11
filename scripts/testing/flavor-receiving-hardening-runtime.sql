@@ -100,6 +100,8 @@ DECLARE
   v_created_product UUID;
   v_po_id UUID;
   v_po_item_id UUID;
+  v_contract_po_id UUID;
+  v_contract_po_item_id UUID;
   v_order_id UUID;
   v_before_reserved INTEGER;
   v_after_reserved INTEGER;
@@ -317,6 +319,97 @@ BEGIN
     'child_transfer_and_adjustment', 'passed', '{}'
   );
 
+  -- The payload product_id remains syntax-validated, while the locked PO item
+  -- remains authoritative for valid-but-mismatched product IDs.
+  v_result := public.create_purchase_order(
+    v_supplier, v_branch, v_wh_a, NOW() + INTERVAL '1 day', 0, 0,
+    'FH-PO-CONTRACT', 'اختبار عقد منتج الاستلام', NULL,
+    jsonb_build_array(jsonb_build_object(
+      'product_id', v_created_product, 'ordered_quantity', 2,
+      'purchase_price_in_minor_units', 3000,
+      'discount_in_minor_units', 0
+    ))
+  );
+  v_contract_po_id := (v_result->>'purchase_order_id')::UUID;
+  PERFORM public.update_purchase_order_status(
+    v_contract_po_id, 'sent', 'إرسال اختبار العقد'
+  );
+  PERFORM public.update_purchase_order_status(
+    v_contract_po_id, 'approved', 'اعتماد اختبار العقد'
+  );
+  SELECT id INTO v_contract_po_item_id
+  FROM public.purchase_order_items
+  WHERE purchase_order_id = v_contract_po_id
+    AND product_id = v_created_product;
+
+  BEGIN
+    PERFORM public.receive_purchase_order(
+      v_contract_po_id, v_wh_a, 'FH-DN-MALFORMED', 'يجب رفض UUID غير صالح',
+      jsonb_build_array(jsonb_build_object(
+        'purchase_order_item_id', v_contract_po_item_id,
+        'product_id', 'not-a-uuid',
+        'received_quantity', 1, 'unit_cost_in_minor_units', 3000
+      ))
+    );
+    RAISE EXCEPTION 'Malformed payload product_id was accepted.';
+  EXCEPTION
+    WHEN invalid_text_representation THEN
+      INSERT INTO flavor_hardening_results VALUES (
+        'po_receiving_malformed_product_id_rejected',
+        'expected_safe_failure',
+        jsonb_build_object('sqlstate', SQLSTATE)
+      );
+  END;
+  IF (SELECT received_quantity FROM public.purchase_order_items
+      WHERE id = v_contract_po_item_id) <> 0
+     OR EXISTS (
+       SELECT 1 FROM public.purchase_receipts
+       WHERE purchase_order_id = v_contract_po_id
+         AND supplier_delivery_note = 'FH-DN-MALFORMED'
+     )
+  THEN
+    RAISE EXCEPTION 'Malformed payload rejection left partial effects.';
+  END IF;
+
+  PERFORM public.receive_purchase_order(
+    v_contract_po_id, v_wh_a, 'FH-DN-MISMATCH', 'توثيق المصدر الموثوق',
+    jsonb_build_array(jsonb_build_object(
+      'purchase_order_item_id', v_contract_po_item_id,
+      'product_id', v_po_child,
+      'received_quantity', 2, 'unit_cost_in_minor_units', 3000
+    ))
+  );
+  IF (SELECT received_quantity FROM public.purchase_order_items
+      WHERE id = v_contract_po_item_id) <> 2
+     OR (SELECT on_hand_quantity FROM public.inventory_balances
+       WHERE warehouse_id = v_wh_a AND product_id = v_created_product) <> 2
+     OR NOT EXISTS (
+       SELECT 1
+       FROM public.purchase_receipt_items pri
+       JOIN public.purchase_receipts pr ON pr.id = pri.purchase_receipt_id
+       WHERE pr.purchase_order_id = v_contract_po_id
+         AND pr.supplier_delivery_note = 'FH-DN-MISMATCH'
+         AND pri.product_id = v_created_product
+         AND pri.purchase_order_item_id = v_contract_po_item_id
+     )
+     OR EXISTS (
+       SELECT 1
+       FROM public.purchase_receipt_items pri
+       JOIN public.purchase_receipts pr ON pr.id = pri.purchase_receipt_id
+       WHERE pr.purchase_order_id = v_contract_po_id
+         AND pri.product_id = v_po_child
+     )
+  THEN
+    RAISE EXCEPTION 'PO item did not remain the authoritative product source.';
+  END IF;
+  INSERT INTO flavor_hardening_results VALUES (
+    'po_receiving_mismatched_payload_uses_po_item', 'passed',
+    jsonb_build_object(
+      'payload_product_id', v_po_child,
+      'authoritative_product_id', v_created_product
+    )
+  );
+
   -- PO receiving keeps its existing partial workflow: 10 -> 6 -> 4.
   v_result := public.create_purchase_order(
     v_supplier, v_branch, v_wh_a, NOW() + INTERVAL '1 day', 0, 0,
@@ -357,11 +450,13 @@ BEGIN
   );
   SELECT on_hand_quantity INTO v_qty FROM public.inventory_balances
   WHERE warehouse_id = v_wh_a AND product_id = v_po_child;
+  SELECT cost_price_in_minor_units INTO v_cost
+  FROM public.products WHERE id = v_po_child;
   SELECT COUNT(*) INTO v_count FROM public.inventory_movements
   WHERE warehouse_id = v_wh_a AND product_id = v_po_child
     AND movement_type = 'purchase_receipt';
   IF (SELECT status FROM public.purchase_orders WHERE id = v_po_id) <> 'received'
-     OR v_qty <> 10 OR v_count <> 2
+     OR v_qty <> 10 OR v_count <> 2 OR v_cost <> 4000
      OR (SELECT COALESCE(SUM(quantity), 0) FROM public.inventory_movements
        WHERE warehouse_id = v_wh_a AND product_id = v_po_child
          AND movement_type = 'purchase_receipt') <> 10
@@ -370,7 +465,9 @@ BEGIN
   END IF;
   INSERT INTO flavor_hardening_results VALUES (
     'partial_po_receiving_6_then_4', 'passed',
-    jsonb_build_object('received', 10, 'movements', v_count)
+    jsonb_build_object(
+      'received', 10, 'movements', v_count, 'weighted_cost', v_cost
+    )
   );
 
   BEGIN
