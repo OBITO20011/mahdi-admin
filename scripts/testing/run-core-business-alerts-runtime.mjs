@@ -8,7 +8,7 @@ const execFileAsync = promisify(execFile);
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '..', '..');
 const bootstrapPath = path.join(here, 'bootstrap-isolated-supabase.mjs');
-const sqlPath = path.join(here, 'core-business-alerts-runtime.sql');
+const sqlPath = path.join(here, 'business-alert-rules-runtime.sql');
 const projectId = process.env.NAWASRAH_ISOLATED_PROJECT_ID || 'nawasrah-core-business-alerts-test';
 const databaseContainer = `supabase_db_${projectId}`;
 
@@ -45,7 +45,7 @@ if (process.env.NAWASRAH_SKIP_BOOTSTRAP !== '1') {
 const output = await runSql(await readFile(sqlPath, 'utf8'));
 const summaryLine = output.split(/\r?\n/u).find((line) => line.startsWith('{'));
 const summary = summaryLine ? JSON.parse(summaryLine) : null;
-if (!summary?.ok || summary.runtime_scenarios !== 13) {
+if (!summary?.ok || summary.runtime_scenarios !== 15) {
   throw new Error(`Core Business Alerts runtime suite failed: ${output}`);
 }
 

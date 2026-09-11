@@ -15,6 +15,8 @@ $temporaryLivePath = Join-Path ([IO.Path]::GetTempPath()) "nawasrah-live-alerts-
 $temporaryMergedPath = Join-Path ([IO.Path]::GetTempPath()) "nawasrah-refreshed-alerts-$([Guid]::NewGuid().ToString('N')).json"
 $containerLivePath = '/tmp/nawasrah-live-alerts.json'
 $containerMergedPath = '/tmp/nawasrah-refreshed-alerts.json'
+$activeWorkflowIds = @()
+$republishedWorkflowIds = @()
 
 function Get-WorkflowNode($Workflow, [string]$NodeId) {
   $node = @($Workflow.nodes | Where-Object { $_.id -eq $NodeId }) | Select-Object -First 1
@@ -66,7 +68,7 @@ try {
   foreach ($templateWorkflow in $selectedTemplateWorkflows) {
     $liveWorkflow = Get-WorkflowById -Workflows $liveWorkflows -WorkflowId $templateWorkflow.id
     if ($liveWorkflow.active) {
-      throw "Workflow '$($liveWorkflow.name)' is active. Refresh it in the n8n editor so regular-mode import cannot accidentally deactivate it."
+      $activeWorkflowIds += $liveWorkflow.id
     }
 
     foreach ($nodeId in @('telegram-send', 'telegram-note', 'whatsapp-send', 'whatsapp-note')) {
@@ -114,11 +116,26 @@ try {
     throw 'Could not copy the refreshed alert workflows into n8n.'
   }
 
+  foreach ($activeWorkflowId in $activeWorkflowIds) {
+    & docker.exe exec nawasrah-n8n n8n unpublish:workflow --id=$activeWorkflowId
+    if ($LASTEXITCODE -ne 0) {
+      throw "Could not temporarily unpublish active workflow '$activeWorkflowId'."
+    }
+  }
+
   & docker.exe exec nawasrah-n8n n8n import:workflow `
     --input=$containerMergedPath `
     --projectId=$ProjectId
   if ($LASTEXITCODE -ne 0) {
     throw 'n8n rejected the refreshed alert workflow import.'
+  }
+
+  foreach ($activeWorkflowId in $activeWorkflowIds) {
+    & docker.exe exec nawasrah-n8n n8n publish:workflow --id=$activeWorkflowId
+    if ($LASTEXITCODE -ne 0) {
+      throw "Could not republish workflow '$activeWorkflowId' after refresh."
+    }
+    $republishedWorkflowIds += $activeWorkflowId
   }
 
   & docker.exe exec nawasrah-n8n n8n export:workflow --all --output=$containerLivePath
@@ -147,6 +164,11 @@ try {
   Write-Host 'Refreshed the Arabic Telegram and WhatsApp alert templates safely.' -ForegroundColor Green
 }
 finally {
+  foreach ($activeWorkflowId in $activeWorkflowIds) {
+    if ($republishedWorkflowIds -notcontains $activeWorkflowId) {
+      & docker.exe exec nawasrah-n8n n8n publish:workflow --id=$activeWorkflowId 2>$null
+    }
+  }
   & docker.exe exec --user root nawasrah-n8n rm -f $containerLivePath $containerMergedPath 2>$null
   Remove-Item -LiteralPath $temporaryLivePath -Force -ErrorAction SilentlyContinue
   Remove-Item -LiteralPath $temporaryMergedPath -Force -ErrorAction SilentlyContinue

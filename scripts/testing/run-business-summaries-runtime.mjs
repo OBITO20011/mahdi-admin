@@ -46,7 +46,7 @@ if (process.env.NAWASRAH_SKIP_BOOTSTRAP !== '1') {
 const output = await runSql(await readFile(sqlPath, 'utf8'));
 const summaryLine = output.split(/\r?\n/u).find((line) => line.startsWith('{'));
 const summary = summaryLine ? JSON.parse(summaryLine) : null;
-if (!summary?.ok || summary.runtime_scenarios !== 11) {
+if (!summary?.ok || summary.runtime_scenarios !== 12) {
   throw new Error(`Business Summaries runtime suite failed: ${output}`);
 }
 

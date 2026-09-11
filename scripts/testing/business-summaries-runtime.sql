@@ -26,6 +26,7 @@ DECLARE
   v_debt_order UUID := '98000000-0000-0000-0000-000000000022';
   v_expired_order UUID := '98000000-0000-0000-0000-000000000023';
   v_summary JSONB;
+  v_next_day_summary JSONB;
   v_weekly JSONB;
   v_report JSONB;
   v_first JSONB;
@@ -137,10 +138,11 @@ BEGIN
   INSERT INTO public.operational_expenses(
     expense_number, branch_id, shift_id, category, description,
     amount_in_minor_units, payment_method, created_by, created_at
-  ) VALUES (
-    'PHASE4-EXP', v_branch, v_open_shift, 'other', 'مصروف اختبار الملخصات',
-    1500, 'cash', v_owner, '2026-01-05 12:00:00+03'
-  );
+  ) VALUES
+    ('PHASE4-EXP', v_branch, v_open_shift, 'other', 'مصروف اختبار الملخصات',
+      1500, 'cash', v_owner, '2026-01-05 23:59:59+03'),
+    ('PHASE4-EXP-NEXT', v_branch, v_open_shift, 'other', 'مصروف اليوم التالي',
+      2500, 'cash', v_owner, '2026-01-06 00:00:00+03');
   INSERT INTO public.supplier_receipts(
     receipt_number, supplier_id, warehouse_id, branch_id, received_by,
     total_in_minor_units, amount_paid_in_minor_units,
@@ -195,6 +197,20 @@ BEGIN
     OR (v_summary #>> '{sales,netProfitInMinorUnits}')::BIGINT <> 12500
   THEN RAISE EXCEPTION 'Profit/expense reconciliation failed: %', v_summary; END IF;
   INSERT INTO business_summary_results VALUES ('cogs_discount_profit_and_expenses_reconcile', true);
+
+  v_next_day_summary := public.build_business_summary(
+    'daily', DATE '2026-01-06', DATE '2026-01-06',
+    '2026-01-06 08:00:00+03'
+  );
+  IF (v_summary #>> '{expenses,totalInMinorUnits}')::BIGINT <> 1500
+    OR (v_next_day_summary #>> '{expenses,totalInMinorUnits}')::BIGINT <> 2500
+  THEN
+    RAISE EXCEPTION 'Asia/Amman midnight expense reset failed: day one %, day two %',
+      v_summary, v_next_day_summary;
+  END IF;
+  INSERT INTO business_summary_results VALUES (
+    'daily_expenses_reset_at_amman_midnight_without_rolling_window', true
+  );
 
   IF (v_summary #>> '{balances,customerDueInMinorUnits}')::BIGINT <> 4000
     OR (v_summary #>> '{balances,supplierDueInMinorUnits}')::BIGINT <> 7000

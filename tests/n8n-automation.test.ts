@@ -168,11 +168,13 @@ test('the temporary WhatsApp recipient is centralized and normalized', () => {
   assert.match(workflowImport, /Get-Content -LiteralPath \$workflowPath -Raw -Encoding UTF8/);
 });
 
-test('the live refresh protects active workflows while verifying UTF-8', () => {
+test('the live refresh safely cycles active workflows while verifying UTF-8', () => {
   assert.match(workflowRefresh, /Get-Content -LiteralPath \$workflowPath -Raw -Encoding UTF8/);
   assert.match(workflowRefresh, /nodes\s+= \$liveWorkflow\.nodes/);
   assert.match(workflowRefresh, /active\s+= \[bool\]\$liveWorkflow\.active/);
   assert.match(workflowRefresh, /if \(\$liveWorkflow\.active\)/);
+  assert.match(workflowRefresh, /unpublish:workflow --id=\$activeWorkflowId/);
+  assert.match(workflowRefresh, /publish:workflow --id=\$activeWorkflowId/);
   assert.doesNotMatch(workflowRefresh, /--activeState=fromJson/);
   assert.match(workflowRefresh, /UTF-8 verification failed/);
 });
