@@ -52,6 +52,9 @@ test('cancel closes the camera, releases it, and preserves manual input', async 
 
   await page.getByRole('button', { name: 'مسح باركود المنتج بالكاميرا' }).click();
   await expect(page.getByRole('dialog', { name: 'مسح باركود المنتج' })).toBeVisible();
+  await expect
+    .poll(() => page.evaluate(() => window.__BARCODE_CAMERA_START_COUNT__))
+    .toBe(1);
   await page
     .getByRole('button', { name: 'إلغاء مسح الباركود وإغلاق الكاميرا' })
     .click();
