@@ -99,29 +99,22 @@ const ViewLoadingFallback: React.FC = () => (
 );
 
 export const App: React.FC = () => {
-  const {
-    activeTab,
-    currentModal,
-    themeMode,
-    isBiometricsEnabled,
-  } = useAppStoreSelector(
+  const { activeTab, currentModal, themeMode } = useAppStoreSelector(
     (state) => ({
       activeTab: state.activeTab,
       currentModal: state.currentModal,
       themeMode: state.currentUser.themeMode,
-      isBiometricsEnabled: state.isBiometricsEnabled,
     }),
     shallowEqual
   );
-  const { lockWithFaceId, setActiveTab } = useAppStoreActions();
+  const { setActiveTab } = useAppStoreActions();
   const {
     isAuthenticated,
     isLoading: isAuthLoading,
-    user: authenticatedUser,
     roleName,
+    recordSessionActivity,
   } = useAuthStore();
   const mainScrollRef = useRef<HTMLElement>(null);
-  const biometricSessionUserRef = useRef<string | null>(null);
   const canUseAssistant = ['owner', 'admin', 'manager', 'accountant'].includes(
     roleName || '',
   );
@@ -147,7 +140,10 @@ export const App: React.FC = () => {
     if (mainScrollRef.current) {
       mainScrollRef.current.scrollTop = 0;
     }
-  }, [activeTab]);
+    if (isAuthenticated) {
+      recordSessionActivity();
+    }
+  }, [activeTab, isAuthenticated, recordSessionActivity]);
 
   useEffect(() => {
     const activeThemeMode = themeMode === 'light' ? 'light' : 'dark';
@@ -162,53 +158,6 @@ export const App: React.FC = () => {
       .querySelector<HTMLMetaElement>('meta[name="theme-color"]')
       ?.setAttribute('content', activeThemeMode === 'light' ? '#f7f8fa' : '#020617');
   }, [themeMode]);
-
-  useEffect(() => {
-    if (isAuthLoading) {
-      return;
-    }
-
-    if (!isAuthenticated || !authenticatedUser?.id) {
-      biometricSessionUserRef.current = null;
-      return;
-    }
-
-    if (biometricSessionUserRef.current === authenticatedUser.id) {
-      return;
-    }
-
-    biometricSessionUserRef.current = authenticatedUser.id;
-    if (isBiometricsEnabled) {
-      lockWithFaceId();
-    }
-  }, [
-    authenticatedUser?.id,
-    isAuthenticated,
-    isAuthLoading,
-    isBiometricsEnabled,
-    lockWithFaceId,
-  ]);
-
-  useEffect(() => {
-    let wasHidden = false;
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') {
-        wasHidden = true;
-        return;
-      }
-
-      if (wasHidden && isAuthenticated && isBiometricsEnabled) {
-        wasHidden = false;
-        lockWithFaceId();
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [isAuthenticated, isBiometricsEnabled, lockWithFaceId]);
 
   const renderActiveTabContent = () => {
     switch (activeTab) {

@@ -35,11 +35,13 @@ interface IPhoneContainerProps {
 export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) => {
   const {
     isLockedWithFaceId,
+    isBiometricsEnabled,
     currentUserEmail,
     toast,
   } = useAppStoreSelector(
     (state) => ({
       isLockedWithFaceId: state.isLockedWithFaceId,
+      isBiometricsEnabled: state.isBiometricsEnabled,
       currentUserEmail: state.currentUser.email,
       toast: state.toast,
     }),
@@ -49,11 +51,18 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
     useAppStoreActions();
   const {
     user: authenticatedUser,
-    signIn,
-    verifyMfa,
+    isSessionLocked,
+    unlockSession,
+    reauthenticateForUnlock,
+    verifyUnlockMfa,
     authError,
     clearError,
   } = useAuthStore();
+  const isApplicationLocked = Boolean(authenticatedUser) &&
+    (isSessionLocked || isLockedWithFaceId);
+  const canUseBiometricUnlock = Boolean(
+    authenticatedUser?.id && isBiometricsEnabled,
+  );
 
   const [isFrameMode, setIsFrameMode] = useState<boolean>(() =>
     typeof window === 'undefined'
@@ -77,8 +86,18 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
 
   const handleBiometricUnlock = async () => {
     setIsVerifyingBiometric(true);
-    await unlockFaceId();
-    setIsVerifyingBiometric(false);
+    setPasswordError(null);
+    try {
+      const deviceVerified = await unlockFaceId();
+      if (!deviceVerified) return;
+
+      const result = await unlockSession();
+      if (!result.success) {
+        setPasswordError(result.error || 'تعذر فتح الجلسة. سجّل الدخول مجددًا.');
+      }
+    } finally {
+      setIsVerifyingBiometric(false);
+    }
   };
 
   const showPasswordUnlock = () => {
@@ -110,8 +129,8 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
     setPasswordError(null);
     clearError();
 
-    if (!passwordEmail.trim() || !password) {
-      setPasswordError('أدخل البريد الإلكتروني وكلمة المرور للمتابعة.');
+    if (!password) {
+      setPasswordError('أدخل كلمة المرور للمتابعة.');
       return;
     }
     if (!passwordCaptchaToken) {
@@ -121,7 +140,10 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
 
     setIsVerifyingPassword(true);
     try {
-      const result = await signIn(passwordEmail, password, passwordCaptchaToken);
+      const result = await reauthenticateForUnlock(
+        password,
+        passwordCaptchaToken,
+      );
       if (!result.success) {
         setPasswordError(result.error || 'تعذر التحقق من بيانات الدخول.');
         return;
@@ -155,7 +177,7 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
     setIsVerifyingPassword(true);
     setPasswordError(null);
     try {
-      const result = await verifyMfa(passwordMfaCode);
+      const result = await verifyUnlockMfa(passwordMfaCode);
       if (!result.success) {
         setPasswordError(result.error || 'تعذر التحقق من رمز المصادقة.');
         return;
@@ -187,10 +209,22 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
   }, []);
 
   useEffect(() => {
-    if (!isLockedWithFaceId) {
+    if (!isApplicationLocked) {
       showBiometricUnlock();
+      return;
     }
-  }, [isLockedWithFaceId, showBiometricUnlock]);
+
+    setPasswordEmail(authenticatedUser?.email || currentUserEmail || '');
+    if (!canUseBiometricUnlock) {
+      setUnlockMethod('password');
+    }
+  }, [
+    authenticatedUser?.email,
+    canUseBiometricUnlock,
+    currentUserEmail,
+    isApplicationLocked,
+    showBiometricUnlock,
+  ]);
 
   return (
     <div
@@ -236,26 +270,29 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
 
         {/* Screen Content Wrapper */}
         <div data-ui="admin-screen" className={`relative w-full bg-slate-950 text-slate-100 overflow-hidden flex flex-col ${isFrameMode ? 'h-[calc(100%-28px)]' : 'h-full'}`}>
-          {children}
+          {!isApplicationLocked && (
+            <>
+              {children}
+              <AdminToast toast={toast} />
+            </>
+          )}
 
-          <AdminToast toast={toast} />
-
-          {/* Face ID Biometric Lock Overlay */}
+          {/* Locked sessions do not retain protected Admin content in the DOM. */}
           <AnimatePresence>
-            {isLockedWithFaceId && (
+            {isApplicationLocked && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="absolute inset-0 z-50 bg-slate-950/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center"
               >
-                {unlockMethod === 'biometric' ? (
+                {unlockMethod === 'biometric' && canUseBiometricUnlock ? (
                   <>
                     <div className="w-20 h-20 bg-blue-600/20 rounded-full border border-blue-500/40 flex items-center justify-center mb-6 shadow-inner">
                       <Scan className="w-10 h-10 text-blue-400 animate-pulse" />
                     </div>
                     <h3 className="text-lg font-bold text-slate-100 mb-1">
-                      التطبيق مقفل ببصمة الجهاز
+                      جلسة الإدارة مقفلة
                     </h3>
                     <p className="text-xs text-slate-400 mb-8 max-w-xs leading-relaxed">
                       استخدم Face ID على iPhone أو بصمة الجهاز وWindows Hello
@@ -293,15 +330,17 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
                     onSubmit={isPasswordMfaPending ? handlePasswordMfaUnlock : handlePasswordUnlock}
                     className="w-full max-w-xs rounded-3xl border border-slate-800 bg-slate-900/90 p-5 text-right shadow-2xl"
                   >
-                    <button
-                      type="button"
-                      onClick={showBiometricUnlock}
-                      disabled={isVerifyingPassword}
-                      className="mb-5 flex items-center gap-1 text-xs font-bold text-blue-300 hover:text-blue-200 disabled:opacity-50"
-                    >
-                      <ChevronRight className="h-4 w-4" />
-                      <span>الرجوع إلى Face ID</span>
-                    </button>
+                    {canUseBiometricUnlock && (
+                      <button
+                        type="button"
+                        onClick={showBiometricUnlock}
+                        disabled={isVerifyingPassword}
+                        className="mb-5 flex items-center gap-1 text-xs font-bold text-blue-300 hover:text-blue-200 disabled:opacity-50"
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                        <span>الرجوع إلى Face ID</span>
+                      </button>
+                    )}
 
                     <div className="mb-5 text-center">
                       <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-amber-500/30 bg-amber-500/10">
@@ -313,7 +352,7 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
                       <p className="mt-1 text-[10px] leading-relaxed text-slate-400">
                         {isPasswordMfaPending
                           ? 'أكمل العامل الثاني للحساب قبل فتح التطبيق.'
-                          : 'تحقق من حساب الموظف نفسه بدون تعطيل Face ID.'}
+                          : 'تحقق من حساب الموظف نفسه لفتح الجلسة بأمان.'}
                       </p>
                     </div>
 

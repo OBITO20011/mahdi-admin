@@ -316,3 +316,37 @@ A11Y-01 مكتملة كذلك ولا تظهر كـTechnical blocker.
 
 لا تبدأ أي بند من هذه الوثيقة لمجرد قراءته؛ كل تغيير Production يحتاج scope
 صريحًا وbackup/CI/verification مناسبًا.
+
+## 16. Admin Session Security
+
+- Idle Lock = 15 دقيقة من نشاط مستخدم حقيقي فقط؛ polling وRealtime وطلبات
+  الخلفية لا تمدد المهلة.
+- `lastActivityAt` و`absoluteSessionStartedAt` محفوظان لكل user بصورة منفصلة،
+  ومتزامنان بين tabs عبر storage events. reload وإغلاق tab وعودة Safari من
+  الخلفية تعيد التقييم فورًا، وتغيير الساعة للخلف يفشل بأمان.
+- Absolute Session = 12 ساعة من تسجيل الدخول الكامل. لا يعيد password/biometric
+  unlock أو MFA unlock أو token refresh ضبط البداية.
+- `ABSOLUTE SESSION LIMIT = CLIENT-ENFORCED`. لم يتغير Supabase Auth configuration
+  ولم تُنشأ مصادقة موازية. الجلسات السابقة لأول تحميل للإصدار المحسّن تبدأ
+  tracking محليًا عند أول مشاهدة آمنة، ثم تصبح كل عمليات الدخول اللاحقة دقيقة.
+- عند القفل لا يبقى Admin shell أو modal أو toast في DOM/accessibility tree؛
+  unmount يزيل subscriptions الخاصة بالشاشات، وunlock يعيد mount ويحدّث ملخصات
+  الطلبات والمنتجات والتنبيهات.
+- password fallback يعيد التحقق من البريد المعروف للجلسة بدون إدخاله مجددًا،
+  ويحافظ على TOTP/AAL2 للحسابات المسجل لها عامل MFA.
+- Face ID/Windows Hello الحالي هو local WebAuthn device unlock. ليس Supabase
+  Passkey server-side؛ المسار الكامل مؤجل إلى Phase منفصلة ولا يوجد تنفيذ ناقص.
+- Logout = current Supabase session فقط عبر `scope: 'local'`، مع انتشار
+  `SIGNED_OUT` إلى tabs وحذف timestamps المحلية الخاصة بالمستخدم. الأجهزة الأخرى
+  لا تُسجل خروجًا.
+- Sensitive-action step-up لم يتغير. المرشحون لمرحلة مستقلة لاحقة: تعديل
+  الأدوار/الصلاحيات، إعدادات الأمن وMFA، واعتمادات التكاملات الحرجة.
+
+اختبارات السياسة والـDOM/password fallback:
+
+```powershell
+npx.cmd tsx --test tests/admin-session-security.test.ts tests/biometric-unlock-options.test.ts tests/turnstile-auth.test.ts tests/mfa-security.test.ts
+npx.cmd playwright test e2e/admin-session-security.spec.ts --project=desktop-chromium --project=mobile-webkit
+```
+
+`ADMIN SESSION SECURITY HARDENING = VERIFIED`.

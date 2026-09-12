@@ -13,10 +13,10 @@ test('biometric lock offers password verification and a return to Face ID', () =
   assert.match(biometricLock, /handlePasswordUnlock/);
   assert.match(
     biometricLock,
-    /signIn\(passwordEmail, password, passwordCaptchaToken\)/,
+    /reauthenticateForUnlock\([\s\S]*password,[\s\S]*passwordCaptchaToken/u,
   );
   assert.match(biometricLock, /TurnstileWidget/);
   assert.match(biometricLock, /handlePasswordMfaUnlock/);
-  assert.match(biometricLock, /verifyMfa\(passwordMfaCode\)/);
+  assert.match(biometricLock, /verifyUnlockMfa\(passwordMfaCode\)/);
   assert.doesNotMatch(biometricLock, /signOut\(\)/);
 });

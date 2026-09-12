@@ -26,6 +26,12 @@
 - `PWA-01 = RESOLVED`: إصدار Admin Service Worker مرتبط بالـGit commit SHA لكل
   release بدل `0.0.0`، مع تنظيف cache الإصدار السابق واختبار انتقال A→B على
   Chromium وMobile WebKit.
+- Admin Session Security تطبق قفل خمول بعد 15 دقيقة وحدًا أقصى للجلسة بعد 12
+  ساعة من تسجيل الدخول الكامل. القفل يزيل Admin shell الحساس من DOM ويوقف
+  subscriptions التابعة للشاشات عبر unmount، ثم يعيد mount/refetch عند الفتح.
+  timestamps معزولة بحسب المستخدم ومتزامنة بين tabs، وعودة Safari من الخلفية
+  تعيد التقييم فورًا. حد 12 ساعة `CLIENT-ENFORCED` ولا يُعاد ضبطه بفك القفل أو
+  token refresh. Logout يستدعي Supabase للجلسة الحالية فقط.
 - `A11Y-01 = RESOLVED`: صفحة Customer `/about/` والـHeader والتنقل والمحتوى
   الرئيسي والفوتر وStore Info اجتازت Axe على Chromium وMobile WebKit. رُفع
   تباين نص رسوم التوصيل إلى WCAG AA، وأصبحت landmarks وأسماء التنقل مميزة.
@@ -83,6 +89,11 @@ Cloudflare Insights cleanup وPWA-01 كلها مكتملة، وليست بنود
 
 - WhatsApp Business Cloud يبقى غير مفعّل إلى أن يعتمد صاحب العمل المزود والقالب.
 - GPS حي للمندوب وForecasts وAI Business analysis ليست مطلوبة للإطلاق الحالي.
+- Passkey server-side كامل يبقى
+  `DEFERRED — REQUIRES SEPARATE WEBAUTHN IMPLEMENTATION`. دعم Face ID الحالي هو
+  local device unlock عبر WebAuthn ولا يُقدّم نفسه كمصادقة Supabase Passkey.
+- Step-up Auth منفصل لاحقًا لتغيير الأدوار/الصلاحيات، وإعدادات الأمن وMFA،
+  واعتمادات التكاملات الحرجة. لم يتغير سلوك هذه العمليات في هذه المرحلة.
 
 ## DB lint والحالة النهائية لقواعد Business Alerts
 

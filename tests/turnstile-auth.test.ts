@@ -26,7 +26,7 @@ test('every password sign-in requires a fresh Turnstile token', () => {
 
   assert.match(
     biometricLock,
-    /signIn\(passwordEmail, password, passwordCaptchaToken\)/,
+    /reauthenticateForUnlock\([\s\S]*password,[\s\S]*passwordCaptchaToken/u,
   );
   assert.match(biometricLock, /!passwordCaptchaToken/);
   assert.match(

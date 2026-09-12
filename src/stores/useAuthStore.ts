@@ -12,6 +12,18 @@ import {
 } from '../services/supabase/mfa.service';
 import { storeEngine } from './useAppStore';
 import { Role } from '../types';
+import {
+  type AdminSessionSecuritySnapshot,
+  createAdminSessionSecuritySnapshot,
+  evaluateAdminSessionSecurity,
+  getAdminSessionSecurityStorageKey,
+  lockAdminSession,
+  readAdminSessionSecuritySnapshot,
+  recordAdminSessionActivity,
+  removeAdminSessionSecuritySnapshot,
+  unlockAdminSession,
+  writeAdminSessionSecuritySnapshot,
+} from '../services/sessionSecurity.service';
 
 function readUserMetadataString(metadata: unknown, key: string): string | undefined {
   if (typeof metadata !== 'object' || metadata === null || Array.isArray(metadata)) {
@@ -37,9 +49,14 @@ export interface AuthState {
   mfaRequired: boolean;
   mfaFactorId: string | null;
   mfaCurrentLevel: string | null;
+  isSessionLocked: boolean;
+  absoluteSessionStartedAt: number | null;
+  lastActivityAt: number | null;
   isLoading: boolean;
   authError: string | null;
 }
+
+type AuthIntent = 'full-login' | 'unlock-reauth' | null;
 
 class AuthStoreEngine {
   private state: AuthState = {
@@ -52,12 +69,22 @@ class AuthStoreEngine {
     mfaRequired: false,
     mfaFactorId: null,
     mfaCurrentLevel: null,
+    isSessionLocked: false,
+    absoluteSessionStartedAt: null,
+    lastActivityAt: null,
     isLoading: true,
     authError: null,
   };
 
   private listeners: Set<() => void> = new Set();
   private isInitialized = false;
+  private authIntent: AuthIntent = null;
+  private pendingFullLoginUserId: string | null = null;
+  private unlockMfaFactorId: string | null = null;
+  private sessionSecuritySnapshot: AdminSessionSecuritySnapshot | null = null;
+  private sessionSecurityTimer: number | null = null;
+  private sessionSecurityListenersAttached = false;
+  private isExpiringAbsoluteSession = false;
 
   constructor() {
     //
@@ -78,7 +105,180 @@ class AuthStoreEngine {
     this.listeners.forEach((listener) => listener());
   }
 
+  private applySessionSecuritySnapshot(
+    snapshot: AdminSessionSecuritySnapshot,
+  ) {
+    const wasLocked = this.state.isSessionLocked;
+    this.sessionSecuritySnapshot = snapshot;
+    this.state.absoluteSessionStartedAt = snapshot.absoluteSessionStartedAt;
+    this.state.lastActivityAt = snapshot.lastActivityAt;
+    this.state.isSessionLocked = snapshot.lockedAt !== null;
+
+    if (!wasLocked && this.state.isSessionLocked) {
+      storeEngine.closeModal();
+      storeEngine.toggleQuickAction(false);
+    }
+
+    this.notify();
+  }
+
+  private persistSessionSecuritySnapshot(
+    snapshot: AdminSessionSecuritySnapshot,
+  ) {
+    writeAdminSessionSecuritySnapshot(snapshot);
+    this.applySessionSecuritySnapshot(snapshot);
+  }
+
+  private stopSessionSecurityTracking() {
+    if (this.sessionSecurityTimer !== null && typeof window !== 'undefined') {
+      window.clearInterval(this.sessionSecurityTimer);
+    }
+    this.sessionSecurityTimer = null;
+    this.sessionSecuritySnapshot = null;
+  }
+
+  private attachSessionSecurityListeners() {
+    if (
+      this.sessionSecurityListenersAttached ||
+      typeof window === 'undefined' ||
+      typeof document === 'undefined'
+    ) {
+      return;
+    }
+
+    const recordTrustedActivity = (event: Event) => {
+      if (!event.isTrusted) return;
+      this.recordSessionActivity();
+    };
+    const checkWhenVisible = () => {
+      if (document.visibilityState === 'visible') {
+        void this.evaluateCurrentSessionSecurity();
+      }
+    };
+    const syncFromAnotherTab = (event: StorageEvent) => {
+      const currentUserId = this.state.user?.id;
+      if (
+        !currentUserId ||
+        event.key !== getAdminSessionSecurityStorageKey(currentUserId) ||
+        !event.newValue
+      ) {
+        return;
+      }
+
+      const snapshot = readAdminSessionSecuritySnapshot(currentUserId);
+      if (!snapshot) return;
+      this.applySessionSecuritySnapshot(snapshot);
+      void this.evaluateCurrentSessionSecurity();
+    };
+
+    window.addEventListener('pointerdown', recordTrustedActivity, true);
+    window.addEventListener('touchstart', recordTrustedActivity, {
+      capture: true,
+      passive: true,
+    });
+    window.addEventListener('keydown', recordTrustedActivity, true);
+    window.addEventListener('wheel', recordTrustedActivity, {
+      capture: true,
+      passive: true,
+    });
+    window.addEventListener('storage', syncFromAnotherTab);
+    document.addEventListener('visibilitychange', checkWhenVisible);
+    this.sessionSecurityListenersAttached = true;
+  }
+
+  private startSessionSecurityTracking(
+    snapshot: AdminSessionSecuritySnapshot,
+  ) {
+    this.stopSessionSecurityTracking();
+    this.applySessionSecuritySnapshot(snapshot);
+    this.attachSessionSecurityListeners();
+
+    if (typeof window !== 'undefined') {
+      this.sessionSecurityTimer = window.setInterval(() => {
+        void this.evaluateCurrentSessionSecurity();
+      }, 15_000);
+    }
+  }
+
+  private prepareRestoredSessionSecurity(userId: string) {
+    const snapshot =
+      readAdminSessionSecuritySnapshot(userId) ||
+      createAdminSessionSecuritySnapshot(userId);
+    writeAdminSessionSecuritySnapshot(snapshot);
+    this.startSessionSecurityTracking(snapshot);
+    const status = evaluateAdminSessionSecurity(snapshot);
+    if (status === 'idle_locked' && snapshot.lockedAt === null) {
+      this.persistSessionSecuritySnapshot(lockAdminSession(snapshot));
+    }
+    return status;
+  }
+
+  private beginFullSessionSecurity(userId: string) {
+    const snapshot = createAdminSessionSecuritySnapshot(userId);
+    writeAdminSessionSecuritySnapshot(snapshot);
+    this.startSessionSecurityTracking(snapshot);
+  }
+
+  private async evaluateCurrentSessionSecurity() {
+    const currentUserId = this.sessionSecuritySnapshot?.userId;
+    const snapshot = currentUserId
+      ? readAdminSessionSecuritySnapshot(currentUserId) ||
+        this.sessionSecuritySnapshot
+      : null;
+    if (!snapshot || !this.state.session) return;
+
+    const status = evaluateAdminSessionSecurity(snapshot);
+    if (status === 'absolute_expired' || status === 'clock_invalid') {
+      await this.expireAbsoluteSession();
+      return;
+    }
+
+    if (status === 'idle_locked' && snapshot.lockedAt === null) {
+      this.persistSessionSecuritySnapshot(lockAdminSession(snapshot));
+    }
+  }
+
+  private async expireAbsoluteSession() {
+    if (this.isExpiringAbsoluteSession) return;
+    this.isExpiringAbsoluteSession = true;
+    try {
+      await this.signOut('انتهت مدة الجلسة القصوى. سجّل الدخول مجددًا.');
+    } finally {
+      this.isExpiringAbsoluteSession = false;
+    }
+  }
+
+  public recordSessionActivity() {
+    const currentUserId = this.sessionSecuritySnapshot?.userId;
+    const snapshot = currentUserId
+      ? readAdminSessionSecuritySnapshot(currentUserId) ||
+        this.sessionSecuritySnapshot
+      : null;
+    if (
+      !snapshot ||
+      !this.state.isAuthenticated ||
+      this.state.isSessionLocked ||
+      snapshot.lockedAt !== null
+    ) {
+      if (snapshot && snapshot.lockedAt !== null) {
+        this.applySessionSecuritySnapshot(snapshot);
+      }
+      return;
+    }
+
+    const status = evaluateAdminSessionSecurity(snapshot);
+    if (status === 'absolute_expired' || status === 'clock_invalid') {
+      void this.expireAbsoluteSession();
+      return;
+    }
+
+    this.persistSessionSecuritySnapshot(
+      recordAdminSessionActivity(snapshot),
+    );
+  }
+
   private resetSessionState(clearError = true) {
+    this.stopSessionSecurityTracking();
     this.state.user = null;
     this.state.session = null;
     this.state.profile = null;
@@ -88,6 +288,11 @@ class AuthStoreEngine {
     this.state.mfaRequired = false;
     this.state.mfaFactorId = null;
     this.state.mfaCurrentLevel = null;
+    this.state.isSessionLocked = false;
+    this.state.absoluteSessionStartedAt = null;
+    this.state.lastActivityAt = null;
+    this.pendingFullLoginUserId = null;
+    this.unlockMfaFactorId = null;
     if (clearError) this.state.authError = null;
   }
 
@@ -117,7 +322,17 @@ class AuthStoreEngine {
       const initialSession = sessionData?.session || null;
 
       if (initialSession) {
-        await this.handleUserSession(initialSession);
+        const securityStatus = this.prepareRestoredSessionSecurity(
+          initialSession.user.id,
+        );
+        if (
+          securityStatus === 'absolute_expired' ||
+          securityStatus === 'clock_invalid'
+        ) {
+          await this.expireAbsoluteSession();
+        } else {
+          await this.handleUserSession(initialSession);
+        }
       } else {
         this.resetSessionState();
       }
@@ -126,9 +341,36 @@ class AuthStoreEngine {
       supabase.auth.onAuthStateChange(async (event, newSession) => {
         if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
           if (newSession) {
+            if (this.authIntent !== null) {
+              this.state.session = newSession;
+              this.state.user = newSession.user;
+              this.notify();
+              return;
+            }
+
+            if (
+              !this.sessionSecuritySnapshot ||
+              this.sessionSecuritySnapshot.userId !== newSession.user.id
+            ) {
+              const securityStatus = this.prepareRestoredSessionSecurity(
+                newSession.user.id,
+              );
+              if (
+                securityStatus === 'absolute_expired' ||
+                securityStatus === 'clock_invalid'
+              ) {
+                await this.expireAbsoluteSession();
+                return;
+              }
+            }
             await this.handleUserSession(newSession);
           }
         } else if (event === 'SIGNED_OUT') {
+          const signedOutUserId =
+            this.state.user?.id || this.sessionSecuritySnapshot?.userId;
+          if (signedOutUserId) {
+            removeAdminSessionSecuritySnapshot(signedOutUserId);
+          }
           this.resetSessionState();
           this.notify();
         }
@@ -160,7 +402,7 @@ class AuthStoreEngine {
       await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
 
     if (aalError) {
-      await supabase.auth.signOut();
+      await supabase.auth.signOut({ scope: 'local' });
       this.resetSessionState(false);
       this.state.authError = translateMfaError(aalError);
       this.notify();
@@ -174,7 +416,7 @@ class AuthStoreEngine {
         await supabase.auth.mfa.listFactors();
 
       if (factorsError || !factorsData.totp[0]) {
-        await supabase.auth.signOut();
+        await supabase.auth.signOut({ scope: 'local' });
         this.resetSessionState(false);
         this.state.authError = factorsError
           ? translateMfaError(factorsError)
@@ -201,7 +443,7 @@ class AuthStoreEngine {
 
     if (!result.isAuthorized) {
       console.warn('[AuthStore] User is not authorized:', result.reason);
-      await supabase?.auth.signOut();
+      await supabase?.auth.signOut({ scope: 'local' });
 
       this.resetSessionState(false);
       this.state.authError = result.reason || 'ليس لديك صلاحية لدخول لوحة الإدارة.';
@@ -260,6 +502,9 @@ class AuthStoreEngine {
     this.notify();
 
     // Product/reference data is non-critical for finishing authentication.
+    // Never warm business data while the local application session is locked.
+    if (this.state.isSessionLocked) return;
+
     // Warm it after the first screen gets a chance to request its own data.
     const warmProductData = () => {
       void storeEngine.refreshProductsFromSupabase().catch((err) => {
@@ -286,6 +531,7 @@ class AuthStoreEngine {
     this.notify();
 
     try {
+      this.authIntent = 'full-login';
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password,
@@ -306,6 +552,8 @@ class AuthStoreEngine {
         return { success: false, error: err };
       }
 
+      this.pendingFullLoginUserId = data.user.id;
+
       // Handle user authorization & session setup
       await this.handleUserSession(data.session);
 
@@ -320,6 +568,8 @@ class AuthStoreEngine {
         };
       }
 
+      this.beginFullSessionSecurity(data.user.id);
+      this.pendingFullLoginUserId = null;
       return { success: true };
     } catch (err: any) {
       console.error('[AuthStore] signIn Exception:', err);
@@ -327,6 +577,8 @@ class AuthStoreEngine {
       this.state.authError = arabicError;
       this.notify();
       return { success: false, error: arabicError };
+    } finally {
+      this.authIntent = null;
     }
   }
 
@@ -367,6 +619,7 @@ class AuthStoreEngine {
     this.notify();
 
     try {
+      this.authIntent = 'full-login';
       await verifyTotpFactor(this.state.mfaFactorId, code);
       const { data, error: sessionError } = await supabase.auth.getSession();
 
@@ -383,12 +636,169 @@ class AuthStoreEngine {
         };
       }
 
+      if (this.pendingFullLoginUserId === data.session.user.id) {
+        this.beginFullSessionSecurity(data.session.user.id);
+        this.pendingFullLoginUserId = null;
+      }
       return { success: true };
     } catch (error) {
       const arabicError = translateMfaError(error);
       this.state.authError = arabicError;
       this.notify();
       return { success: false, error: arabicError };
+    } finally {
+      this.authIntent = null;
+    }
+  }
+
+  private async completeSessionUnlock(): Promise<{
+    success: boolean;
+    error?: string;
+  }> {
+    const snapshot = this.sessionSecuritySnapshot;
+    if (!snapshot) {
+      return {
+        success: false,
+        error: 'تعذر التحقق من مدة الجلسة. سجّل الدخول مجددًا.',
+      };
+    }
+
+    const status = evaluateAdminSessionSecurity(snapshot);
+    if (status === 'absolute_expired' || status === 'clock_invalid') {
+      await this.expireAbsoluteSession();
+      return {
+        success: false,
+        error: 'انتهت مدة الجلسة القصوى. سجّل الدخول مجددًا.',
+      };
+    }
+
+    this.persistSessionSecuritySnapshot(unlockAdminSession(snapshot));
+    this.unlockMfaFactorId = null;
+    this.state.authError = null;
+    this.notify();
+
+    // Locked views are unmounted, which tears down their Realtime listeners.
+    // Refresh the shared summaries before remounted views resume their own reads.
+    void Promise.allSettled([
+      storeEngine.refreshOrdersFromSupabase(),
+      storeEngine.refreshProductsFromSupabase(),
+      storeEngine.refreshStockNotificationsFromSupabase(),
+    ]);
+
+    return { success: true };
+  }
+
+  public async unlockSession(): Promise<{ success: boolean; error?: string }> {
+    return this.completeSessionUnlock();
+  }
+
+  public async reauthenticateForUnlock(
+    password: string,
+    captchaToken: string,
+  ): Promise<{ success: boolean; mfaRequired?: boolean; error?: string }> {
+    if (!supabase || !this.state.user?.id || !this.state.user.email) {
+      return {
+        success: false,
+        error: 'انتهت جلسة الحساب. سجّل الدخول مجددًا.',
+      };
+    }
+    const expectedUserId = this.state.user.id;
+    const expectedEmail = this.state.user.email;
+    this.state.authError = null;
+    this.authIntent = 'unlock-reauth';
+    this.notify();
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: expectedEmail,
+        password,
+        options: { captchaToken },
+      });
+      if (error) {
+        const arabicError = translateAuthError(error.message);
+        this.state.authError = arabicError;
+        this.notify();
+        return { success: false, error: arabicError };
+      }
+      if (!data.session || !data.user || data.user.id !== expectedUserId) {
+        await supabase.auth.signOut({ scope: 'local' });
+        const mismatchError = 'تغيّرت هوية الجلسة. سجّل الدخول مجددًا.';
+        this.resetSessionState(false);
+        this.state.authError = mismatchError;
+        this.notify();
+        return { success: false, error: mismatchError };
+      }
+
+      this.state.session = data.session;
+      this.state.user = data.user;
+      const { data: aalData, error: aalError } =
+        await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (aalError) {
+        const arabicError = translateMfaError(aalError);
+        this.state.authError = arabicError;
+        this.notify();
+        return { success: false, error: arabicError };
+      }
+
+      if (aalData.currentLevel === 'aal1' && aalData.nextLevel === 'aal2') {
+        const { data: factorsData, error: factorsError } =
+          await supabase.auth.mfa.listFactors();
+        const factor = factorsData?.totp[0];
+        if (factorsError || !factor) {
+          const arabicError = factorsError
+            ? translateMfaError(factorsError)
+            : 'تعذر العثور على تطبيق المصادقة المرتبط بهذا الحساب.';
+          this.state.authError = arabicError;
+          this.notify();
+          return { success: false, error: arabicError };
+        }
+
+        this.unlockMfaFactorId = factor.id;
+        return { success: true, mfaRequired: true };
+      }
+
+      return await this.completeSessionUnlock();
+    } catch (error) {
+      const arabicError = translateAuthError(
+        error instanceof Error ? error.message : String(error),
+      );
+      this.state.authError = arabicError;
+      this.notify();
+      return { success: false, error: arabicError };
+    } finally {
+      this.authIntent = null;
+    }
+  }
+
+  public async verifyUnlockMfa(
+    code: string,
+  ): Promise<{ success: boolean; error?: string }> {
+    if (!supabase || !this.unlockMfaFactorId || !this.state.user?.id) {
+      return {
+        success: false,
+        error: 'لا توجد جلسة تحقق ثنائي نشطة. سجّل الدخول مجددًا.',
+      };
+    }
+
+    const expectedUserId = this.state.user.id;
+    this.authIntent = 'unlock-reauth';
+    try {
+      await verifyTotpFactor(this.unlockMfaFactorId, code);
+      const { data, error } = await supabase.auth.getSession();
+      if (error || !data.session || data.session.user.id !== expectedUserId) {
+        throw error || new Error('تعذر تحديث جلسة الدخول بعد التحقق.');
+      }
+
+      this.state.session = data.session;
+      this.state.user = data.session.user;
+      return await this.completeSessionUnlock();
+    } catch (error) {
+      const arabicError = translateMfaError(error);
+      this.state.authError = arabicError;
+      this.notify();
+      return { success: false, error: arabicError };
+    } finally {
+      this.authIntent = null;
     }
   }
 
@@ -396,17 +806,35 @@ class AuthStoreEngine {
     await this.signOut();
   }
 
-  public async signOut(): Promise<void> {
+  public async signOut(reason?: string): Promise<{
+    success: boolean;
+    error?: string;
+  }> {
+    const signedOutUserId =
+      this.state.user?.id || this.sessionSecuritySnapshot?.userId;
+    let signOutError: string | undefined;
     try {
       if (supabase) {
-        await supabase.auth.signOut();
+        const { error } = await supabase.auth.signOut({ scope: 'local' });
+        if (error) signOutError = translateAuthError(error.message);
       }
     } catch (err) {
       console.error('[AuthStore] signOut Error:', err);
+      signOutError = translateAuthError(
+        err instanceof Error ? err.message : String(err),
+      );
     } finally {
+      if (signedOutUserId) {
+        removeAdminSessionSecuritySnapshot(signedOutUserId);
+      }
       this.resetSessionState();
+      this.state.authError = reason || signOutError || null;
       this.notify();
     }
+
+    return signOutError
+      ? { success: false, error: signOutError }
+      : { success: true };
   }
 
   public clearError() {
@@ -416,6 +844,21 @@ class AuthStoreEngine {
 }
 
 export const authStoreEngine = new AuthStoreEngine();
+
+const authStoreActions = {
+  signIn: (email: string, password: string, captchaToken: string) =>
+    authStoreEngine.signIn(email, password, captchaToken),
+  verifyMfa: (code: string) => authStoreEngine.verifyMfa(code),
+  cancelMfa: () => authStoreEngine.cancelMfa(),
+  refreshCurrentUser: () => authStoreEngine.refreshCurrentUser(),
+  recordSessionActivity: () => authStoreEngine.recordSessionActivity(),
+  unlockSession: () => authStoreEngine.unlockSession(),
+  reauthenticateForUnlock: (password: string, captchaToken: string) =>
+    authStoreEngine.reauthenticateForUnlock(password, captchaToken),
+  verifyUnlockMfa: (code: string) => authStoreEngine.verifyUnlockMfa(code),
+  signOut: () => authStoreEngine.signOut(),
+  clearError: () => authStoreEngine.clearError(),
+};
 
 export function useAuthStore() {
   const [state, setState] = useState<AuthState>(authStoreEngine.getState());
@@ -433,12 +876,6 @@ export function useAuthStore() {
 
   return {
     ...state,
-    signIn: (e: string, p: string, captchaToken: string) =>
-      authStoreEngine.signIn(e, p, captchaToken),
-    verifyMfa: (code: string) => authStoreEngine.verifyMfa(code),
-    cancelMfa: () => authStoreEngine.cancelMfa(),
-    refreshCurrentUser: () => authStoreEngine.refreshCurrentUser(),
-    signOut: () => authStoreEngine.signOut(),
-    clearError: () => authStoreEngine.clearError(),
+    ...authStoreActions,
   };
 }
