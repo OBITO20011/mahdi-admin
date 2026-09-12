@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   AlertTriangle,
   ArrowDown,
   ArrowUp,
   Boxes,
+  Camera,
   Edit3,
   Eye,
   EyeOff,
@@ -16,6 +17,8 @@ import {
   Upload,
   X,
 } from 'lucide-react';
+import { BarcodeCameraCaptureModal } from '../barcode/BarcodeCameraCaptureModal';
+import type { StartBarcodeCamera } from '../barcode/barcodeCamera';
 import { CURRENCY } from '../../constants';
 import {
   removeUploadedProductImage,
@@ -35,15 +38,18 @@ import {
 } from '../../utils/inventoryFormatter';
 import { validateProductImage } from '../../utils/productImage';
 import { calculateProductProfit } from '../../utils/productCalculations';
+import { validateProductBarcode } from '../../utils/productIdentifiers';
 
 interface ProductDetailModalProps {
   product: Product;
   onClose: () => void;
+  startBarcodeScanner?: StartBarcodeCamera;
 }
 
 export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   product,
   onClose,
+  startBarcodeScanner,
 }) => {
   const {
     categories,
@@ -58,6 +64,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const [isUpdatingVisibility, setIsUpdatingVisibility] = useState(false);
   const [showFlavorForm, setShowFlavorForm] = useState(false);
   const [flavorName, setFlavorName] = useState('');
+  const [flavorBarcode, setFlavorBarcode] = useState('');
   const [flavorImage, setFlavorImage] = useState<File | null>(null);
   const [flavorImagePreview, setFlavorImagePreview] = useState('');
   const [isSavingFlavor, setIsSavingFlavor] = useState(false);
@@ -69,6 +76,9 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const [editFlavorImagePreview, setEditFlavorImagePreview] = useState('');
   const [isUpdatingFlavor, setIsUpdatingFlavor] = useState(false);
   const [isReorderingFlavors, setIsReorderingFlavors] = useState(false);
+  const [barcodeCameraTarget, setBarcodeCameraTarget] = useState<
+    'new' | 'edit' | null
+  >(null);
 
   const flavors = products
     .filter((item) => item.flavorMasterProductId === product.id)
@@ -128,9 +138,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const resetFlavorForm = () => {
     if (flavorImagePreview) URL.revokeObjectURL(flavorImagePreview);
     setFlavorName('');
+    setFlavorBarcode('');
     setFlavorImage(null);
     setFlavorImagePreview('');
     setShowFlavorForm(false);
+    setBarcodeCameraTarget(null);
   };
 
   const selectFlavorImage = (file?: File) => {
@@ -148,6 +160,14 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const saveFlavor = async () => {
     if (!flavorName.trim()) {
       setToast('اكتب اسم النكهة.', 'error');
+      return;
+    }
+
+    const barcodeValidation = validateProductBarcode(products, {
+      barcode: flavorBarcode,
+    });
+    if (barcodeValidation.valid === false) {
+      setToast(barcodeValidation.message, 'error');
       return;
     }
 
@@ -169,6 +189,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         flavorNameAr: flavorName,
         warehouseId: product.warehouseId,
         imageUrl,
+        barcode: flavorBarcode,
       });
 
       if (!result.success) {
@@ -205,6 +226,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     setEditFlavorActive(true);
     setEditFlavorImage(null);
     setEditFlavorImagePreview('');
+    setBarcodeCameraTarget((target) => (target === 'edit' ? null : target));
   };
 
   const startFlavorEdit = (flavor: Product) => {
@@ -232,6 +254,15 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const saveFlavorChanges = async (flavor: Product) => {
     if (!editFlavorName.trim()) {
       setToast('اكتب اسم النكهة.', 'error');
+      return;
+    }
+
+    const barcodeValidation = validateProductBarcode(products, {
+      barcode: editFlavorBarcode,
+      currentProductId: flavor.id,
+    });
+    if (barcodeValidation.valid === false) {
+      setToast(barcodeValidation.message, 'error');
       return;
     }
 
@@ -308,6 +339,31 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     await refreshProductsFromSupabase();
     setToast(result.message || 'تم ترتيب النكهات.', 'success');
   };
+
+  const captureFlavorBarcode = useCallback(
+    (value: string) => {
+      const capturedBarcode = value.trim();
+      const currentProductId =
+        barcodeCameraTarget === 'edit' ? editingFlavorId || undefined : undefined;
+      const validation = validateProductBarcode(products, {
+        barcode: capturedBarcode,
+        currentProductId,
+      });
+
+      if (barcodeCameraTarget === 'edit') {
+        setEditFlavorBarcode(capturedBarcode);
+      } else {
+        setFlavorBarcode(capturedBarcode);
+      }
+
+      if (validation.valid === false) {
+        setToast(validation.message, 'error');
+        return;
+      }
+      setToast('تمت قراءة باركود النكهة وتعبئة الحقل.', 'success');
+    },
+    [barcodeCameraTarget, editingFlavorId, products, setToast]
+  );
 
   const changeVisibility = async () => {
     setIsUpdatingVisibility(true);
@@ -410,6 +466,28 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   placeholder="مثال: جبنة"
                   className="w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 text-xs font-bold text-slate-100 outline-none focus:border-violet-500"
                 />
+              </label>
+              <label className="block">
+                <span className="mb-1 block text-[9px] font-bold text-slate-400">الباركود (اختياري)</span>
+                <span className="flex gap-1.5">
+                  <input
+                    value={flavorBarcode}
+                    onChange={(event) => setFlavorBarcode(event.target.value)}
+                    inputMode="text"
+                    aria-label="باركود النكهة الجديدة"
+                    placeholder="أدخله يدويًا أو امسحه بالكاميرا"
+                    className="min-w-0 flex-1 rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 text-xs font-bold text-slate-100 outline-none focus:border-violet-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setBarcodeCameraTarget('new')}
+                    aria-label="مسح باركود النكهة الجديدة بالكاميرا"
+                    title="مسح الباركود بالكاميرا"
+                    className="flex h-[38px] w-10 shrink-0 items-center justify-center rounded-xl border border-violet-500/30 bg-violet-500/10 text-violet-300"
+                  >
+                    <Camera className="h-4 w-4" />
+                  </button>
+                </span>
               </label>
               <div className="grid gap-2">
                 <label className="flex cursor-pointer flex-col justify-end">
@@ -553,14 +631,26 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                             <span className="mb-1 block text-[8px] font-bold text-slate-500">
                               الباركود (اختياري)
                             </span>
-                            <input
-                              value={editFlavorBarcode}
-                              onChange={(event) =>
-                                setEditFlavorBarcode(event.target.value)
-                              }
-                              inputMode="numeric"
-                              className="w-full rounded-xl border border-slate-800 bg-slate-950 px-2.5 py-2 text-[10px] font-bold text-slate-100 outline-none focus:border-indigo-500"
-                            />
+                            <span className="flex gap-1">
+                              <input
+                                value={editFlavorBarcode}
+                                onChange={(event) =>
+                                  setEditFlavorBarcode(event.target.value)
+                                }
+                                inputMode="text"
+                                aria-label={`باركود نكهة ${flavor.flavorNameAr || flavor.nameAr}`}
+                                className="min-w-0 flex-1 rounded-xl border border-slate-800 bg-slate-950 px-2.5 py-2 text-[10px] font-bold text-slate-100 outline-none focus:border-indigo-500"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => setBarcodeCameraTarget('edit')}
+                                aria-label={`مسح باركود نكهة ${flavor.flavorNameAr || flavor.nameAr} بالكاميرا`}
+                                title="مسح الباركود بالكاميرا"
+                                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-indigo-500/30 bg-indigo-500/10 text-indigo-300"
+                              >
+                                <Camera className="h-3.5 w-3.5" />
+                              </button>
+                            </span>
                           </label>
                         </div>
 
@@ -871,6 +961,13 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           </div>
         </div>
       )}
+
+      <BarcodeCameraCaptureModal
+        isOpen={barcodeCameraTarget !== null}
+        onClose={() => setBarcodeCameraTarget(null)}
+        onCapture={captureFlavorBarcode}
+        startScanner={startBarcodeScanner}
+      />
     </div>
   );
 };

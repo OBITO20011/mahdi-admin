@@ -27,6 +27,44 @@ export type ProductIdentifierValidation =
       message: string;
     };
 
+export type ProductBarcodeValidation =
+  | { valid: true }
+  | {
+      valid: false;
+      code: 'DUPLICATE_BARCODE' | 'IDENTIFIER_COLLISION';
+      message: string;
+    };
+
+export function validateProductBarcode(
+  products: Product[],
+  input: { barcode?: string; currentProductId?: string }
+): ProductBarcodeValidation {
+  const barcode = normalizeProductBarcode(input.barcode || '');
+  if (!barcode) return { valid: true };
+
+  for (const product of products) {
+    if (product.id === input.currentProductId) continue;
+
+    if (normalizeProductBarcode(product.barcode || '') === barcode) {
+      return {
+        valid: false,
+        code: 'DUPLICATE_BARCODE',
+        message: 'الباركود مستخدم بالفعل لمنتج آخر.',
+      };
+    }
+
+    if (normalizeProductSku(product.sku).toLowerCase() === barcode) {
+      return {
+        valid: false,
+        code: 'IDENTIFIER_COLLISION',
+        message: 'لا يمكن استخدام نفس الرقم كـSKU لمنتج وباركود لمنتج آخر.',
+      };
+    }
+  }
+
+  return { valid: true };
+}
+
 export function validateProductIdentifiers(
   products: Product[],
   input: {

@@ -5,6 +5,8 @@ import { InventoryView } from '../src/features/inventory/InventoryView';
 import { OperationalOrderCard } from '../src/features/orders/OrdersCenterView';
 import { ProductsView } from '../src/features/products/ProductsView';
 import { ProductDetailModal } from '../src/features/products/ProductDetailModal';
+import { ProductFormModal } from '../src/features/products/ProductFormModal';
+import type { StartBarcodeCamera } from '../src/features/barcode/barcodeCamera';
 import { storeEngine } from '../src/stores/useAppStore';
 import type { OperationalOrderListItem } from '../src/services/supabase/orders.service';
 import type { Product } from '../src/types';
@@ -12,6 +14,12 @@ import type { Product } from '../src/types';
 declare global {
   interface Window {
     __ADMIN_MOBILE_UX_MODAL__: () => string | null;
+    __BARCODE_CAMERA_START_COUNT__: number;
+    __BARCODE_CAMERA_STOP_COUNT__: number;
+    __BARCODE_CAMERA_OPTIONS__: {
+      oneShot?: boolean;
+      productBarcodesOnly?: boolean;
+    } | null;
   }
 }
 
@@ -170,6 +178,53 @@ const productCatalogProducts: Product[] = [
 ];
 
 const view = new URLSearchParams(window.location.search).get('view');
+const barcodeScenario =
+  new URLSearchParams(window.location.search).get('scenario') || 'success';
+
+window.__BARCODE_CAMERA_START_COUNT__ = 0;
+window.__BARCODE_CAMERA_STOP_COUNT__ = 0;
+window.__BARCODE_CAMERA_OPTIONS__ = null;
+
+const startBarcodeScanner: StartBarcodeCamera = async (options) => {
+  window.__BARCODE_CAMERA_START_COUNT__ += 1;
+  window.__BARCODE_CAMERA_OPTIONS__ = {
+    oneShot: options.oneShot,
+    productBarcodesOnly: options.productBarcodesOnly,
+  };
+
+  if (barcodeScenario === 'denied') {
+    throw new DOMException('Permission denied', 'NotAllowedError');
+  }
+  if (barcodeScenario === 'unsupported') {
+    throw new DOMException('Unsupported camera', 'NotSupportedError');
+  }
+  if (barcodeScenario === 'failure') {
+    throw new Error('Camera stream failed');
+  }
+
+  let stopped = false;
+  const timer =
+    barcodeScenario === 'success' || barcodeScenario === 'duplicate'
+      ? window.setTimeout(() => {
+          if (!stopped) {
+            options.onDecoded(
+              barcodeScenario === 'duplicate'
+                ? '6251234567891'
+                : '6291041500213'
+            );
+          }
+        }, 600)
+      : null;
+
+  return {
+    stop: async () => {
+      if (stopped) return;
+      stopped = true;
+      if (timer !== null) window.clearTimeout(timer);
+      window.__BARCODE_CAMERA_STOP_COUNT__ += 1;
+    },
+  };
+};
 
 const state = storeEngine.getState();
 Object.assign(state, {
@@ -186,7 +241,9 @@ Object.assign(state, {
   products:
     view === 'orders'
       ? [baseProduct]
-      : view === 'products' || view === 'flavor-detail'
+      : view === 'products' ||
+          view === 'flavor-detail' ||
+          view === 'barcode-flavor'
         ? productCatalogProducts
         : catalogProducts,
   movements: [],
@@ -271,10 +328,41 @@ const content =
         onClose={() => undefined}
       />
     </main>
+  ) : view === 'barcode-add' ? (
+    <main dir="rtl" className="mx-auto max-w-lg p-3">
+      <ProductFormModal
+        onClose={() => undefined}
+        startBarcodeScanner={startBarcodeScanner}
+      />
+    </main>
+  ) : view === 'barcode-edit' ? (
+    <main dir="rtl" className="mx-auto max-w-lg p-3">
+      <ProductFormModal
+        initialProduct={baseProduct}
+        onClose={() => undefined}
+        startBarcodeScanner={startBarcodeScanner}
+      />
+    </main>
+  ) : view === 'barcode-master' ? (
+    <main dir="rtl" className="mx-auto max-w-lg p-3">
+      <ProductFormModal
+        initialProduct={flavorMasterProduct}
+        onClose={() => undefined}
+        startBarcodeScanner={startBarcodeScanner}
+      />
+    </main>
+  ) : view === 'barcode-flavor' ? (
+    <main dir="rtl" className="mx-auto max-w-lg p-3">
+      <ProductDetailModal
+        product={flavorMasterProduct}
+        onClose={() => undefined}
+        startBarcodeScanner={startBarcodeScanner}
+      />
+    </main>
   ) : (
     <InventoryView />
   );
 
 createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>{content}</React.StrictMode>
+  view?.startsWith('barcode-') ? content : <React.StrictMode>{content}</React.StrictMode>
 );

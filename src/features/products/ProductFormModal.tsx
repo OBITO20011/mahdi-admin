@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   AlertTriangle,
   ArrowLeftRight,
   Barcode,
   Boxes,
+  Camera,
   CheckCircle2,
   Image,
   Info,
@@ -17,6 +18,8 @@ import {
   Warehouse,
   X,
 } from 'lucide-react';
+import { BarcodeCameraCaptureModal } from '../barcode/BarcodeCameraCaptureModal';
+import type { StartBarcodeCamera } from '../barcode/barcodeCamera';
 import { CURRENCY, PURCHASE_PACKAGE_OPTIONS } from '../../constants';
 import {
   removeUploadedProductImage,
@@ -33,12 +36,14 @@ import {
 } from '../../utils/productCalculations';
 import {
   generateUniqueProductSku,
+  validateProductBarcode,
   validateProductIdentifiers,
 } from '../../utils/productIdentifiers';
 
 interface ProductFormModalProps {
   initialProduct?: Product | null;
   onClose: () => void;
+  startBarcodeScanner?: StartBarcodeCamera;
 }
 
 interface ProductFlavorDraft {
@@ -76,6 +81,7 @@ const numberInputClass =
 export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   initialProduct,
   onClose,
+  startBarcodeScanner,
 }) => {
   const {
     categories,
@@ -121,6 +127,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const [categoryError, setCategoryError] = useState('');
 
   const [barcode, setBarcode] = useState(initialProduct?.barcode || '');
+  const [isBarcodeCameraOpen, setIsBarcodeCameraOpen] = useState(false);
   const [sku, setSku] = useState(initialProduct?.sku || '');
   const [purchasePackage, setPurchasePackage] = useState(
     initialProduct?.purchasePackage || 'كرتونة'
@@ -220,6 +227,30 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   );
   const isFlavorMaster = Boolean(
     initialProduct?.isFlavorMaster || (hasFlavors && !isEditing)
+  );
+
+  const captureBarcode = useCallback(
+    (value: string) => {
+      const capturedBarcode = value.trim();
+      setBarcode(capturedBarcode);
+      setSubmitError(null);
+
+      const validation = validateProductBarcode(products, {
+        barcode: capturedBarcode,
+        currentProductId: initialProduct?.id,
+      });
+      if (validation.valid === false) {
+        setSubmitError({
+          message: validation.message,
+          code: validation.code,
+        });
+        setToast(validation.message, 'error');
+        return;
+      }
+
+      setToast('تمت قراءة الباركود وتعبئة الحقل.', 'success');
+    },
+    [initialProduct?.id, products, setToast]
   );
 
   useEffect(() => {
@@ -391,6 +422,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       const next = !current;
       if (next) {
         setBarcode('');
+        setIsBarcodeCameraOpen(false);
         setFlavorDrafts((drafts) =>
           drafts.length > 0 ? drafts : [createFlavorDraft()]
         );
@@ -1155,15 +1187,29 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             <label className="mb-1.5 block text-[10px] font-bold text-slate-300">
               الباركود
             </label>
-            <input
-              value={isFlavorMaster ? '' : barcode}
-              onChange={(event) => setBarcode(event.target.value)}
-              placeholder={
-                isFlavorMaster ? 'لا يُستخدم للمنتج الأساسي' : 'اختياري'
-              }
-              disabled={isFlavorMaster}
-              className={`${inputClass} font-mono`}
-            />
+            <div className="flex gap-1.5">
+              <input
+                value={isFlavorMaster ? '' : barcode}
+                onChange={(event) => setBarcode(event.target.value)}
+                inputMode="text"
+                aria-label="باركود المنتج"
+                placeholder={
+                  isFlavorMaster ? 'لا يُستخدم للمنتج الأساسي' : 'اختياري'
+                }
+                disabled={isFlavorMaster}
+                className={`${inputClass} min-w-0 font-mono`}
+              />
+              <button
+                type="button"
+                onClick={() => setIsBarcodeCameraOpen(true)}
+                disabled={isFlavorMaster}
+                aria-label="مسح باركود المنتج بالكاميرا"
+                title="مسح الباركود بالكاميرا"
+                className="flex h-[38px] w-10 shrink-0 items-center justify-center rounded-xl border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 transition hover:bg-cyan-500/20 disabled:cursor-not-allowed disabled:border-slate-800 disabled:bg-slate-900 disabled:text-slate-600"
+              >
+                <Camera className="h-4 w-4" />
+              </button>
+            </div>
             {isFlavorMaster && (
               <p className="mt-1 text-[9px] leading-4 text-slate-500">
                 المنتج الأساسي للتجميع فقط؛ أضف الباركود لكل نكهة قابلة للبيع.
@@ -1519,6 +1565,13 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           إلغاء
         </button>
       </div>
+
+      <BarcodeCameraCaptureModal
+        isOpen={isBarcodeCameraOpen && !isFlavorMaster}
+        onClose={() => setIsBarcodeCameraOpen(false)}
+        onCapture={captureBarcode}
+        startScanner={startBarcodeScanner}
+      />
     </form>
   );
 };

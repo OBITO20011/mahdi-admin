@@ -4,9 +4,12 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Html5Qrcode } from 'html5-qrcode';
 import { Product } from '../../types';
 import { resolvePosProductCode } from '../../utils/productIdentifiers';
+import {
+  startBarcodeCamera,
+  type BarcodeCameraController,
+} from '../barcode/barcodeCamera';
 import {
   Camera,
   X,
@@ -45,7 +48,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
   const [lastScannedProduct, setLastScannedProduct] = useState<Product | null>(null);
   const [scanCount, setScanCount] = useState<number>(0);
 
-  const scannerRef = useRef<Html5Qrcode | null>(null);
+  const scannerRef = useRef<BarcodeCameraController | null>(null);
   const lastScanTimeRef = useRef<{ [code: string]: number }>({});
   const regionId = 'pos-camera-barcode-region';
 
@@ -124,27 +127,19 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
 
     const startScanner = async () => {
       try {
-        const html5Qrcode = new Html5Qrcode(regionId);
-        scannerRef.current = html5Qrcode;
-
-        const config = {
-          fps: 15,
-          qrbox: { width: 280, height: 160 },
-          aspectRatio: 1.0,
-        };
-
-        await html5Qrcode.start(
-          { facingMode: 'environment' },
-          config,
-          (decodedText) => {
+        const controller = await startBarcodeCamera({
+          elementId: regionId,
+          onDecoded: (decodedText) => {
             if (isSubscribed) {
               handleBarCodeDetected(decodedText);
             }
           },
-          () => {
-            // Frame search failure, safe to ignore
-          }
-        );
+        });
+        if (!isSubscribed) {
+          await controller.stop();
+          return;
+        }
+        scannerRef.current = controller;
       } catch (err: any) {
         console.error('Html5Qrcode camera error:', err);
         if (isSubscribed) {
@@ -164,18 +159,10 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
       isSubscribed = false;
       clearTimeout(timer);
       if (scannerRef.current) {
-        if (scannerRef.current.isScanning) {
-          scannerRef.current
-            .stop()
-            .then(() => scannerRef.current?.clear())
-            .catch((e) => console.error('Error stopping scanner:', e));
-        } else {
-          try {
-            scannerRef.current.clear();
-          } catch {
-            // clear error ignore
-          }
-        }
+        scannerRef.current
+          .stop()
+          .catch((e) => console.error('Error stopping scanner:', e));
+        scannerRef.current = null;
       }
     };
     // The scanner must retain its camera session while callback props change.
