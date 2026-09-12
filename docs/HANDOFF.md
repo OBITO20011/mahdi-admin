@@ -244,8 +244,9 @@ npm.cmd run monitoring:status
 - Developer Alerts: Docker/n8n/backup/restore/Supabase cron/outbox/CI/Uptime/
   Cloudflare/integrity/performance/security، بلا PII.
 - Business Alerts/Summaries: Business outbox → n8n → صاحب العمل فقط.
-- لوحة Admin: `المزيد → الإدارة والمتجر → مراقبة صحة النظام`، Owner فقط، والعقد
-  الخادمي يتطلب AAL2.
+- لوحة Admin: `المزيد → الإدارة والمتجر → مراقبة صحة النظام`، Owner فقط. وفق
+  سياسة MFA المركزية، يتطلب العقد الخادمي AAL2 بعد وجود عامل MFA مسجّل وموثّق،
+  ويسمح بـAAL1 قبل تسجيل العامل.
 - الحالة `Unknown` ليست `Healthy`.
 
 اتبع [Monitoring Runbooks](./operations/MONITORING_RUNBOOKS.md) ولا تصلح

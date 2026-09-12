@@ -44,7 +44,7 @@ npm.cmd run backup:verify
 
 `npm.cmd run test:db:isolated` ينفذ `HYBRID SANCTIONED BOOTSTRAP`: ينسخ مجلد
 Supabase إلى مساحة مؤقتة، ويطبّق compatibility patch المعروف على النسخة المؤقتة
-من migration 034، ثم يعيد migrations `001–107` ويتحقق من canonical schema.
+من migration 034، ثم يعيد migrations `001–108` ويتحقق من canonical schema.
 ملف 034 التاريخي لا يُعدّل.
 
 Migration `107_canonical_schema_reconciliation.sql` توحّد Fresh وProduction عبر:

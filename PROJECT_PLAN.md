@@ -123,7 +123,7 @@ Cloudflare Insights cleanup وPWA-01 كلها مكتملة، وليست بنود
   Fresh 001–107 مع Production بعد استثناء كائنات/صلاحيات المنصة المثبتة.
   `MIGRATION 107 CANONICAL SCHEMA RECONCILIATION = VERIFIED`.
 - مسار البناء الرسمي هو `HYBRID SANCTIONED BOOTSTRAP`: نسخة مؤقتة من migrations
-  مع compatibility patch محصور على migration 034، ثم تطبيق 001–107 والتحقق
+  مع compatibility patch محصور على migration 034، ثم تطبيق 001–108 والتحقق
   canonical. لا تُعدّل migration 034 التاريخية. `DB-01 DATABASE REBUILD PATH = VERIFIED`.
 - migration `108_harden_product_sku_barcode_integrity.sql` أضافت normalized
   unique indexes وcanonical checks وrace-safe cross-field collision guard دون
