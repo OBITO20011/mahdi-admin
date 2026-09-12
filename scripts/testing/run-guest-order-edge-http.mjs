@@ -131,6 +131,27 @@ BEGIN
     1, 1, 1275, 500, 1275, 1275, 1, true, false
   ) ON CONFLICT (id) DO UPDATE SET is_active = true;
 
+  INSERT INTO public.products (
+    id, sku, name_ar, category_id, unit_id, purchase_unit_id, sale_unit_id,
+    units_per_purchase_unit, units_per_sale_unit,
+    default_sale_price_in_minor_units, cost_price_in_minor_units,
+    sale_price_in_minor_units, wholesale_price_in_minor_units,
+    min_stock_level, is_active, is_flavor_master
+  ) VALUES
+    (
+      '86000000-0000-4000-8600-000000000002', 'EDGE-HTTP-INACTIVE',
+      'صنف اختبار غير نشط', v_category, v_unit, v_unit, v_unit,
+      1, 1, 1275, 500, 1275, 1275, 1, false, false
+    ),
+    (
+      '86000000-0000-4000-8600-000000000003', 'EDGE-HTTP-HIDDEN-MASTER',
+      'مجموعة نكهات غير قابلة للبيع', v_category, v_unit, v_unit, v_unit,
+      1, 1, 1275, 500, 1275, 1275, 1, true, true
+    )
+  ON CONFLICT (id) DO UPDATE SET
+    is_active = EXCLUDED.is_active,
+    is_flavor_master = EXCLUDED.is_flavor_master;
+
   INSERT INTO public.inventory_balances (
     warehouse_id, product_id, on_hand_quantity, reserved_quantity
   ) VALUES (
@@ -180,6 +201,43 @@ TRUNCATE public.guest_order_gateway_requests;
     extraHeaders,
   });
 
+  const invalidProductRequest = requestBody({
+    idempotencyKey: uuidFor('8601', 94),
+    sessionId: uuidFor('8602', 94),
+    phone: '0797000094',
+  });
+  invalidProductRequest.items = [{
+    product_id: '86000000-0000-4000-8600-999999999999',
+    quantity: 1,
+  }];
+  const inactiveProductRequest = requestBody({
+    idempotencyKey: uuidFor('8601', 95),
+    sessionId: uuidFor('8602', 95),
+    phone: '0797000095',
+  });
+  inactiveProductRequest.items = [{
+    product_id: '86000000-0000-4000-8600-000000000002',
+    quantity: 1,
+  }];
+  const hiddenMasterRequest = requestBody({
+    idempotencyKey: uuidFor('8601', 96),
+    sessionId: uuidFor('8602', 96),
+    phone: '0797000096',
+  });
+  hiddenMasterRequest.items = [{
+    product_id: '86000000-0000-4000-8600-000000000003',
+    quantity: 1,
+  }];
+  const overLineLimitRequest = requestBody({
+    idempotencyKey: uuidFor('8601', 97),
+    sessionId: uuidFor('8602', 97),
+    phone: '0797000097',
+  });
+  overLineLimitRequest.items = Array.from({ length: 51 }, (_, index) => ({
+    product_id: uuidFor('8699', index + 1),
+    quantity: 1,
+  }));
+
   const rejectedInputs = [
     await rawGatewayRequest({ body: '{}', origin: 'https://attacker.example' }),
     await rawGatewayRequest({ body: '{malformed' }),
@@ -210,6 +268,10 @@ TRUNCATE public.guest_order_gateway_requests;
         quantity: 0,
       }],
     }),
+    await browserRequest(overLineLimitRequest),
+    await browserRequest(invalidProductRequest),
+    await browserRequest(inactiveProductRequest),
+    await browserRequest(hiddenMasterRequest),
   ];
   if (rejectedInputs.some(({ status }) => status !== 0 && (status < 400 || status >= 500))) {
     throw new Error(`Request validation did not fail safely: ${JSON.stringify(
@@ -223,6 +285,9 @@ TRUNCATE public.guest_order_gateway_requests;
     'on_hand', (SELECT on_hand_quantity FROM public.inventory_balances WHERE product_id='86000000-0000-4000-8600-000000000001'),
     'reserved', (SELECT reserved_quantity FROM public.inventory_balances WHERE product_id='86000000-0000-4000-8600-000000000001')
   ) FROM public.orders;`);
+  if (baseline.orders !== 0 || baseline.customers !== 0 || baseline.reserved !== 0) {
+    throw new Error(`Rejected checkout cases mutated business data: ${JSON.stringify(baseline)}`);
+  }
 
   const firstKey = uuidFor('8601', 1);
   const firstBody = requestBody({

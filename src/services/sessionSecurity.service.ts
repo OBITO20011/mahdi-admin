@@ -99,7 +99,7 @@ export function recordAdminSessionActivity(
   snapshot: AdminSessionSecuritySnapshot,
   now = Date.now(),
 ): AdminSessionSecuritySnapshot {
-  if (snapshot.lockedAt !== null) return snapshot;
+  if (evaluateAdminSessionSecurity(snapshot, now) !== 'active') return snapshot;
 
   return {
     ...snapshot,

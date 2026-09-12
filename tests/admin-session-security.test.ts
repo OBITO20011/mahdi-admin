@@ -36,10 +36,10 @@ test('idle policy stays open at 14m59s and locks at 15 minutes', () => {
 test('absolute policy requires full login at 12 hours', () => {
   const startedAt = 1_800_000_000_000;
   const snapshot = createAdminSessionSecuritySnapshot('user-a', startedAt);
-  const activeSnapshot = recordAdminSessionActivity(
-    snapshot,
-    startedAt + ADMIN_ABSOLUTE_SESSION_MS - 1_000,
-  );
+  const activeSnapshot = {
+    ...snapshot,
+    lastActivityAt: startedAt + ADMIN_ABSOLUTE_SESSION_MS - 1_000,
+  };
 
   assert.equal(
     evaluateAdminSessionSecurity(
@@ -83,6 +83,28 @@ test('background activity cannot silently unlock a locked session', () => {
   assert.equal(recordAdminSessionActivity(locked, startedAt + 2_000_000), locked);
 });
 
+test('the first activity at or after the idle boundary cannot revive the session', () => {
+  const startedAt = 1_800_000_000_000;
+  const snapshot = createAdminSessionSecuritySnapshot('user-a', startedAt);
+  const beforeBoundary = recordAdminSessionActivity(
+    snapshot,
+    startedAt + ADMIN_IDLE_LOCK_MS - 1,
+  );
+
+  assert.equal(
+    beforeBoundary.lastActivityAt,
+    startedAt + ADMIN_IDLE_LOCK_MS - 1,
+  );
+  assert.equal(
+    recordAdminSessionActivity(snapshot, startedAt + ADMIN_IDLE_LOCK_MS),
+    snapshot,
+  );
+  assert.equal(
+    recordAdminSessionActivity(snapshot, startedAt + ADMIN_IDLE_LOCK_MS + 1),
+    snapshot,
+  );
+});
+
 test('stored timestamps are isolated by user and reject clock rollback', () => {
   const startedAt = 1_800_000_000_000;
   const snapshot = createAdminSessionSecuritySnapshot('user-a', startedAt);
@@ -102,6 +124,10 @@ test('session security is shared across tabs and reacts on Safari return', () =>
   assert.match(authStore, /event\.isTrusted/);
   assert.match(authStore, /window\.addEventListener\('wheel', recordTrustedActivity/);
   assert.match(authStore, /getAdminSessionSecurityStorageKey\(currentUserId\)/);
+  assert.match(
+    authStore,
+    /if \(status === 'idle_locked'\) \{[\s\S]*?persistSessionSecuritySnapshot\(lockAdminSession\(snapshot\)\)/,
+  );
   assert.match(app, /\[activeTab, isAuthenticated, recordSessionActivity\]/);
 });
 

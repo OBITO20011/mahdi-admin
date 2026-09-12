@@ -89,43 +89,88 @@ const listen = () => new Promise((resolve, reject) => {
   server.listen(0, '127.0.0.1', () => resolve(server.address()));
 });
 
-const waitForRelease = async (page, releaseId) => {
+const releaseCacheName = (releaseId) => `nawasrah-admin-shell-${releaseId}`;
+
+const waitForActiveRelease = async (page, releaseId) => {
   await page.waitForFunction(
     async (expectedRelease) => {
-      const registration = await navigator.serviceWorker.getRegistration('/');
-      return registration?.active?.scriptURL.includes(`build=${expectedRelease}`) === true;
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      return registrations.some((registration) => {
+        const workerUrl = registration.active?.scriptURL;
+        return workerUrl
+          ? new URL(workerUrl).searchParams.get('build') === expectedRelease
+          : false;
+      });
     },
     releaseId,
     {timeout: 30_000},
   );
 };
 
-const waitForReleaseCache = async (page, releaseId) => {
+const waitForControllerRelease = async (page, releaseId) => {
   await page.waitForFunction(
-    async (expectedCache) => {
-      const keys = await caches.keys();
-      return keys.length === 1 && keys[0] === expectedCache;
+    (expectedRelease) => {
+      const controllerUrl = navigator.serviceWorker.controller?.scriptURL;
+      return controllerUrl
+        ? new URL(controllerUrl).searchParams.get('build') === expectedRelease
+        : false;
     },
-    `nawasrah-admin-shell-${releaseId}`,
+    releaseId,
     {timeout: 30_000},
   );
 };
 
-const inspectPage = async (page) => {
-  for (let attempt = 0; attempt < 10; attempt += 1) {
+const waitForReleaseCacheCleanup = async (page, releaseId) => {
+  await page.waitForFunction(
+    async ({expectedCache, prefix}) => {
+      const keys = await caches.keys();
+      const releaseCaches = keys.filter((key) => key.startsWith(prefix));
+      return releaseCaches.length === 1 && releaseCaches[0] === expectedCache;
+    },
+    {
+      expectedCache: releaseCacheName(releaseId),
+      prefix: 'nawasrah-admin-shell-',
+    },
+    {timeout: 30_000},
+  );
+};
+
+const inspectPage = async (page, expectedRelease) => {
+  for (let attempt = 0; attempt < 20; attempt += 1) {
     try {
-      return await page.evaluate(async () => {
-        const registration = await navigator.serviceWorker.getRegistration('/');
+      const state = await page.evaluate(async (releaseId) => {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        const registration = registrations.find((candidate) => {
+          const workerUrl = candidate.active?.scriptURL;
+          return workerUrl
+            ? new URL(workerUrl).searchParams.get('build') === releaseId
+            : false;
+        });
+        const cacheKeys = await caches.keys();
+        const controllerUrl = navigator.serviceWorker.controller?.scriptURL || null;
         return {
           bodyTextLength: document.body.innerText.trim().length,
-          cacheKeys: await caches.keys(),
-          controllerUrl: navigator.serviceWorker.controller?.scriptURL || null,
+          cacheKeys,
+          releaseCacheKeys: cacheKeys.filter((key) =>
+            key.startsWith('nawasrah-admin-shell-')),
+          controllerUrl,
+          controllerRelease: controllerUrl
+            ? new URL(controllerUrl).searchParams.get('build')
+            : null,
           rootCached: Boolean(await caches.match('/')),
           scriptUrls: [...document.querySelectorAll('script[src]')]
             .map((script) => new URL(script.src).pathname),
           workerUrl: registration?.active?.scriptURL || null,
         };
-      });
+      }, expectedRelease);
+      if (
+        state.workerUrl &&
+        state.controllerRelease === expectedRelease &&
+        state.releaseCacheKeys.length === 1 &&
+        state.releaseCacheKeys[0] === releaseCacheName(expectedRelease)
+      ) {
+        return state;
+      }
     } catch (error) {
       if (!String(error).includes('Execution context was destroyed')) throw error;
       await page.waitForLoadState('domcontentloaded');
@@ -142,6 +187,7 @@ const runBrowserScenario = async (name, browserType, origin) => {
   const page = await context.newPage();
   const pageErrors = [];
   const failedLocalRequests = [];
+  let mainFrameNavigations = 0;
 
   page.on('pageerror', (error) => {
     const isLocalTurnstileProtocolNoise =
@@ -157,44 +203,62 @@ const runBrowserScenario = async (name, browserType, origin) => {
       failedLocalRequests.push(`${response.status()} ${response.url()}`);
     }
   });
+  page.on('framenavigated', (frame) => {
+    if (frame === page.mainFrame()) mainFrameNavigations += 1;
+  });
 
   try {
     await page.goto(origin, {waitUntil: 'domcontentloaded'});
     await page.waitForFunction(() => document.body.innerText.trim().length > 0);
-    await waitForRelease(page, releaseA);
-    await waitForReleaseCache(page, releaseA);
-    const stateA = await inspectPage(page);
+    await waitForActiveRelease(page, releaseA);
+    await waitForControllerRelease(page, releaseA);
+    await waitForReleaseCacheCleanup(page, releaseA);
+    const stateA = await inspectPage(page, releaseA);
     assert.ok(stateA.bodyTextLength > 0, `${name}: release A rendered a blank page`);
     assert.match(stateA.workerUrl || '', new RegExp(`build=${releaseA}$`));
-    assert.deepEqual(stateA.cacheKeys, [`nawasrah-admin-shell-${releaseA}`]);
+    assert.deepEqual(stateA.releaseCacheKeys, [releaseCacheName(releaseA)]);
     assert.equal(stateA.rootCached, false);
 
     activeRoot = releaseRoots[releaseB];
     await page.reload({waitUntil: 'domcontentloaded'});
-    await waitForRelease(page, releaseB);
-    await waitForReleaseCache(page, releaseB);
-    await page.waitForFunction(
-      (expectedRelease) => navigator.serviceWorker.controller?.scriptURL.includes(`build=${expectedRelease}`),
-      releaseB,
-      {timeout: 30_000},
-    );
+    await waitForActiveRelease(page, releaseB);
+    await waitForControllerRelease(page, releaseB);
+    await waitForReleaseCacheCleanup(page, releaseB);
     await page.waitForFunction(() => document.body.innerText.trim().length > 0);
-    await page.waitForTimeout(500);
 
-    const stateB = await inspectPage(page);
+    const stateB = await inspectPage(page, releaseB);
     assert.ok(stateB.bodyTextLength > 0, `${name}: release B rendered a blank page`);
     assert.match(stateB.workerUrl || '', new RegExp(`build=${releaseB}$`));
     assert.match(stateB.controllerUrl || '', new RegExp(`build=${releaseB}$`));
-    assert.deepEqual(stateB.cacheKeys, [`nawasrah-admin-shell-${releaseB}`]);
+    assert.deepEqual(stateB.releaseCacheKeys, [releaseCacheName(releaseB)]);
+    assert.equal(stateB.releaseCacheKeys.includes(releaseCacheName(releaseA)), false);
     assert.equal(stateB.rootCached, false);
     assert.notDeepEqual(stateB.scriptUrls, stateA.scriptUrls);
+    assert.ok(mainFrameNavigations <= 3, `${name}: possible service-worker reload loop`);
+
+    const reopenedPage = await context.newPage();
+    await reopenedPage.goto(origin, {waitUntil: 'domcontentloaded'});
+    await reopenedPage.waitForFunction(() => document.body.innerText.trim().length > 0);
+    await waitForActiveRelease(reopenedPage, releaseB);
+    await waitForControllerRelease(reopenedPage, releaseB);
+    const reopenedState = await inspectPage(reopenedPage, releaseB);
+    assert.ok(reopenedState.bodyTextLength > 0, `${name}: reopened release B was blank`);
+    assert.match(reopenedState.workerUrl || '', new RegExp(`build=${releaseB}$`));
+    assert.match(reopenedState.controllerUrl || '', new RegExp(`build=${releaseB}$`));
+    await reopenedPage.close();
+
     assert.deepEqual(pageErrors, []);
     assert.deepEqual(failedLocalRequests, []);
 
     return {
       releaseAWorker: stateA.workerUrl,
       releaseBWorker: stateB.workerUrl,
-      cacheCleanup: stateB.cacheKeys.length === 1,
+      releaseCaches: stateB.releaseCacheKeys,
+      obsoleteReleaseCacheRemoved:
+        !stateB.releaseCacheKeys.includes(releaseCacheName(releaseA)),
+      cacheCleanup: stateB.releaseCacheKeys.length === 1,
+      reopenedOnReleaseB: reopenedState.controllerRelease === releaseB,
+      mainFrameNavigations,
       rendered: true,
     };
   } finally {

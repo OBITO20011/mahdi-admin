@@ -148,7 +148,10 @@ class AuthStoreEngine {
 
     const recordTrustedActivity = (event: Event) => {
       if (!event.isTrusted) return;
-      this.recordSessionActivity();
+      if (this.recordSessionActivity() === 'blocked') {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
     };
     const checkWhenVisible = () => {
       if (document.visibilityState === 'visible') {
@@ -167,8 +170,22 @@ class AuthStoreEngine {
 
       const snapshot = readAdminSessionSecuritySnapshot(currentUserId);
       if (!snapshot) return;
+      const status = evaluateAdminSessionSecurity(snapshot);
+      if (status === 'absolute_expired' || status === 'clock_invalid') {
+        void this.expireAbsoluteSession();
+        return;
+      }
+
+      if (status === 'idle_locked') {
+        if (snapshot.lockedAt === null) {
+          this.persistSessionSecuritySnapshot(lockAdminSession(snapshot));
+        } else {
+          this.applySessionSecuritySnapshot(snapshot);
+        }
+        return;
+      }
+
       this.applySessionSecuritySnapshot(snapshot);
-      void this.evaluateCurrentSessionSecurity();
     };
 
     window.addEventListener('pointerdown', recordTrustedActivity, true);
@@ -248,7 +265,7 @@ class AuthStoreEngine {
     }
   }
 
-  public recordSessionActivity() {
+  public recordSessionActivity(): 'recorded' | 'blocked' | 'ignored' {
     const currentUserId = this.sessionSecuritySnapshot?.userId;
     const snapshot = currentUserId
       ? readAdminSessionSecuritySnapshot(currentUserId) ||
@@ -263,18 +280,28 @@ class AuthStoreEngine {
       if (snapshot && snapshot.lockedAt !== null) {
         this.applySessionSecuritySnapshot(snapshot);
       }
-      return;
+      return 'ignored';
     }
 
     const status = evaluateAdminSessionSecurity(snapshot);
     if (status === 'absolute_expired' || status === 'clock_invalid') {
       void this.expireAbsoluteSession();
-      return;
+      return 'blocked';
+    }
+
+    if (status === 'idle_locked') {
+      if (snapshot.lockedAt === null) {
+        this.persistSessionSecuritySnapshot(lockAdminSession(snapshot));
+      } else {
+        this.applySessionSecuritySnapshot(snapshot);
+      }
+      return 'blocked';
     }
 
     this.persistSessionSecuritySnapshot(
       recordAdminSessionActivity(snapshot),
     );
+    return 'recorded';
   }
 
   private resetSessionState(clearError = true) {
