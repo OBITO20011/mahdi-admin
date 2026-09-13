@@ -17,6 +17,10 @@ const warehouseTransferRuntimeSqlPath = path.join(
   scriptDirectory,
   'warehouse-transfer-runtime.sql',
 );
+const posIdempotencyRuntimeScript = path.join(
+  scriptDirectory,
+  'run-pos-idempotency-runtime.mjs',
+);
 const isolatedProjectId = 'nawasrah-supplier-payments-test';
 const isolatedDatabaseContainer = `supabase_db_${isolatedProjectId}`;
 let isolatedProjectRoot = '';
@@ -104,6 +108,34 @@ try {
       timeout: 180_000,
     });
   }
+  const { stdout: posIdempotencyOutput } = await execFileAsync(
+    process.execPath,
+    [posIdempotencyRuntimeScript],
+    {
+      cwd: projectRoot,
+      env: {
+        ...process.env,
+        NAWASRAH_SKIP_BOOTSTRAP: '1',
+        NAWASRAH_POS_TEST_PROJECT_ID: isolatedProjectId,
+        NAWASRAH_POS_TEST_CONTAINER: isolatedDatabaseContainer,
+      },
+      windowsHide: true,
+      maxBuffer: 1024 * 1024,
+      timeout: 180_000,
+    },
+  );
+  const posIdempotencyResult = JSON.parse(posIdempotencyOutput);
+  if (!posIdempotencyResult.ok) {
+    throw new Error('POS idempotency runtime verification did not pass.');
+  }
+  if (isolatedProjectRoot) {
+    await execFileAsync(process.execPath, [cliPath, 'db', 'reset', '--local', '--workdir', isolatedProjectRoot], {
+      cwd: projectRoot,
+      windowsHide: true,
+      maxBuffer: 1024 * 1024,
+      timeout: 180_000,
+    });
+  }
   await runRuntimeSql(warehouseTransferRuntimeSqlPath, 'warehouse-transfer');
 
   const { stdout: lintOutput } = await execFileAsync(
@@ -144,6 +176,7 @@ console.log(JSON.stringify({
     'customer history 1,000-row server pagination',
     'POS customer 251/500/1,000 server search',
     'warehouse transfer success/failure/reconciliation and role gates',
+    'POS immutable replay, conflict detection and concurrency',
     'v_product_name lint warning removal',
   ],
   targetLintWarningRemoved: true,
