@@ -123,6 +123,8 @@ export interface Product {
   additionalImages?: string[];
   categoryId: string;
   brandId?: string;
+  baseUnitId?: string;
+  baseUnitCode?: string;
   supplierId?: string;
   purchaseUnitId?: string;
   purchaseUnitCode?: string;

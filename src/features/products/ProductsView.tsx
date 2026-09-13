@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   AlertCircle,
   AlertTriangle,
@@ -6,6 +6,8 @@ import {
   Boxes,
   CheckCircle2,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   ChevronUp,
   Edit3,
   Eye,
@@ -32,6 +34,10 @@ import {
   summarizeFlavorFamilyInventory,
 } from '../../utils/inventoryFormatter';
 import { calculateProductProfit } from '../../utils/productCalculations';
+import {
+  fetchAdminProductPage,
+  type AdminProductPage,
+} from '../../services/supabase/products.service';
 
 type StatusFilter = 'all' | 'healthy' | 'low_stock' | 'out_of_stock' | 'hidden';
 type SortOption = 'name' | 'stock_asc' | 'stock_desc' | 'profit_desc';
@@ -42,28 +48,94 @@ const money = (value: number) =>
     maximumFractionDigits: 3,
   })} ${CURRENCY}`;
 
-export const ProductsView: React.FC = () => {
-  const {
-    products,
-    categories,
-    productsSource,
-    isProductsLoading,
-    productsError,
-  } = useAppStoreSelector(
+interface ProductsViewProps {
+  fetchProductPage?: typeof fetchAdminProductPage;
+}
+
+export const ProductsView: React.FC<ProductsViewProps> = ({
+  fetchProductPage = fetchAdminProductPage,
+}) => {
+  const {categories, productDataRevision} = useAppStoreSelector(
     (state) => ({
-      products: state.products,
       categories: state.categories,
-      productsSource: state.productsSource,
-      isProductsLoading: state.isProductsLoading,
-      productsError: state.productsError,
+      productDataRevision: state.productDataRevision,
     }),
     shallowEqual
   );
-  const { openModal, refreshProductsFromSupabase } = useAppStoreActions();
+  const {openModal, cacheProductPage} = useAppStoreActions();
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
   const [sortBy, setSortBy] = useState<SortOption>('name');
+  const [page, setPage] = useState(1);
+  const [refreshToken, setRefreshToken] = useState(0);
+  const [productPage, setProductPage] = useState<AdminProductPage>({
+    products: [],
+    page: 1,
+    pageSize: 24,
+    totalCount: 0,
+    totalPages: 1,
+    metrics: {lowStock: 0, outOfStock: 0, inventoryCost: 0, potentialProfit: 0},
+  });
+  const [isProductsLoading, setIsProductsLoading] = useState(true);
+  const [productsError, setProductsError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const timer = window.setTimeout(
+      () => setDebouncedSearch(searchQuery.trim()),
+      searchQuery.trim() ? 250 : 0,
+    );
+    return () => window.clearTimeout(timer);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch, selectedCategory, sortBy, statusFilter]);
+
+  useEffect(() => {
+    let active = true;
+    setIsProductsLoading(true);
+    setProductsError(null);
+    fetchProductPage({
+      page,
+      pageSize: 24,
+      search: debouncedSearch,
+      categoryId: selectedCategory === 'all' ? undefined : selectedCategory,
+      status: statusFilter,
+      sort: sortBy,
+    })
+      .then((result) => {
+        if (!active) return;
+        setProductPage(result);
+        cacheProductPage(result.products);
+      })
+      .catch((error: unknown) => {
+        if (!active) return;
+        setProductsError(
+          error instanceof Error ? error.message : 'تعذر تحميل صفحة المنتجات.',
+        );
+      })
+      .finally(() => {
+        if (active) setIsProductsLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [
+    cacheProductPage,
+    debouncedSearch,
+    fetchProductPage,
+    page,
+    productDataRevision,
+    refreshToken,
+    selectedCategory,
+    sortBy,
+    statusFilter,
+  ]);
+
+  const products = productPage.products;
+  const metrics = productPage.metrics;
 
   const activeCategories = useMemo(
     () => categories.filter((category) => !category.isHidden),
@@ -94,135 +166,17 @@ export const ProductsView: React.FC = () => {
     return grouped;
   }, [products]);
   const displayProducts = useMemo(
-    () =>
-      products
-        .filter((product) => !product.flavorMasterProductId)
-        .map((product) => {
-          if (!product.isFlavorMaster) return product;
-          const flavors = flavorsByMaster.get(product.id) || [];
-          const familyInventory = summarizeFlavorFamilyInventory(flavors);
-          return {
-            ...product,
-            onHandQuantity: familyInventory.onHandQuantity,
-            reservedQuantity: familyInventory.reservedQuantity,
-            availableQuantity: familyInventory.availableQuantity,
-          };
-        }),
-    [flavorsByMaster, products]
+    () => products.filter((product) => !product.flavorMasterProductId),
+    [products],
   );
-
-  const metrics = useMemo(() => {
-    const lowStock = displayProducts.filter(
-      (product) =>
-        product.status !== 'hidden' &&
-        product.availableQuantity > 0 &&
-        product.availableQuantity <= product.reorderLevel
-    ).length;
-    const outOfStock = displayProducts.filter(
-      (product) =>
-        product.status !== 'hidden' && product.availableQuantity === 0
-    ).length;
-    const inventoryCost = displayProducts.reduce(
-      (sum, product) =>
-        sum + product.costPrice * Math.max(0, product.onHandQuantity),
-      0
-    );
-    const potentialProfit = displayProducts.reduce(
-      (sum, product) => {
-        if (!product.salePackagePrice || !product.saleUnitId) return sum;
-        return (
-          sum +
-          Math.max(
-            0,
-            product.salePackagePrice /
-              (product.unitsPerSalePackage || 1) -
-              product.costPrice
-          ) *
-            Math.max(0, product.availableQuantity)
-        );
-      },
-      0
-    );
-
-    return {
-      lowStock,
-      outOfStock,
-      inventoryCost,
-      potentialProfit,
-    };
-  }, [displayProducts]);
-
-  const filteredProducts = useMemo(() => {
-    const query = searchQuery.trim().toLocaleLowerCase('ar');
-    const filtered = displayProducts.filter((product) => {
-      const matchesCategory =
-        selectedCategory === 'all' || product.categoryId === selectedCategory;
-      const isLow =
-        product.availableQuantity > 0 &&
-        product.availableQuantity <= product.reorderLevel;
-      const matchesStatus =
-        statusFilter === 'all' ||
-        (statusFilter === 'healthy' &&
-          product.status !== 'hidden' &&
-          product.availableQuantity > product.reorderLevel) ||
-        (statusFilter === 'low_stock' &&
-          product.status !== 'hidden' &&
-          isLow) ||
-        (statusFilter === 'out_of_stock' &&
-          product.status !== 'hidden' &&
-          product.availableQuantity === 0) ||
-        (statusFilter === 'hidden' && product.status === 'hidden');
-      const matchesQuery =
-        !query ||
-        product.nameAr.toLocaleLowerCase('ar').includes(query) ||
-        product.description?.toLocaleLowerCase('ar').includes(query) ||
-        product.sku.toLocaleLowerCase().includes(query) ||
-        product.barcode.includes(query) ||
-        (flavorsByMaster.get(product.id) || []).some(
-          (flavor) =>
-            flavor.flavorNameAr
-              ?.toLocaleLowerCase('ar')
-              .includes(query) ||
-            flavor.sku.toLocaleLowerCase().includes(query) ||
-            flavor.barcode.includes(query)
-        );
-
-      return matchesCategory && matchesStatus && Boolean(matchesQuery);
-    });
-
-    return [...filtered].sort((a, b) => {
-      if (sortBy === 'stock_asc') {
-        return a.availableQuantity - b.availableQuantity;
-      }
-      if (sortBy === 'stock_desc') {
-        return b.availableQuantity - a.availableQuantity;
-      }
-      if (sortBy === 'profit_desc') {
-        const bUnits = b.unitsPerSalePackage || 1;
-        const aUnits = a.unitsPerSalePackage || 1;
-        return (
-          (b.salePackagePrice || 0) -
-          b.costPrice * bUnits -
-          ((a.salePackagePrice || 0) -
-            a.costPrice * aUnits)
-        );
-      }
-      return a.nameAr.localeCompare(b.nameAr, 'ar');
-    });
-  }, [
-    displayProducts,
-    flavorsByMaster,
-    searchQuery,
-    selectedCategory,
-    sortBy,
-    statusFilter,
-  ]);
+  const filteredProducts = displayProducts;
 
   const resetFilters = () => {
     setSearchQuery('');
     setSelectedCategory('all');
     setStatusFilter('all');
     setSortBy('name');
+    setPage(1);
   };
 
   return (
@@ -247,24 +201,24 @@ export const ProductsView: React.FC = () => {
               </div>
               <div
                 className={`mt-3 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[9px] font-bold ${
-                  productsSource === 'supabase' && !productsError
+                  !productsError
                     ? 'border-emerald-500/25 bg-emerald-500/10 text-emerald-400'
                     : 'border-rose-500/25 bg-rose-500/10 text-rose-400'
                 }`}
               >
-                {productsSource === 'supabase' && !productsError ? (
+                {!productsError ? (
                   <CheckCircle2 className="h-3 w-3" />
                 ) : (
                   <AlertCircle className="h-3 w-3" />
                 )}
-                {productsSource === 'supabase' && !productsError
+                {!productsError
                   ? 'متصل ومحدّث من Supabase'
                   : 'تحتاج البيانات إلى إعادة اتصال'}
               </div>
             </div>
             <button
               type="button"
-              onClick={() => refreshProductsFromSupabase()}
+              onClick={() => setRefreshToken((value) => value + 1)}
               disabled={isProductsLoading}
               title="تحديث المنتجات"
               className="rounded-xl border border-slate-800 bg-slate-900/80 p-2.5 text-slate-400 transition hover:text-blue-400 disabled:opacity-50"
@@ -279,7 +233,7 @@ export const ProductsView: React.FC = () => {
         <div className="grid grid-cols-3 border-t border-white/5 bg-slate-950/45">
           <HeroMetric
             label="عدد المنتجات"
-            value={displayProducts.length.toLocaleString('ar-JO')}
+            value={productPage.totalCount.toLocaleString('ar-JO')}
             tone="blue"
           />
           <HeroMetric
@@ -377,7 +331,7 @@ export const ProductsView: React.FC = () => {
           </p>
           <button
             type="button"
-            onClick={() => refreshProductsFromSupabase()}
+            onClick={() => setRefreshToken((value) => value + 1)}
             className="mt-2 rounded-lg bg-rose-500/15 px-3 py-1.5 font-bold text-rose-300"
           >
             إعادة المحاولة
@@ -447,7 +401,7 @@ export const ProductsView: React.FC = () => {
         <h3 className="font-black text-slate-200">
           المنتجات
           <span className="mr-1.5 rounded-full bg-slate-800 px-2 py-0.5 text-[9px] text-slate-400">
-            {filteredProducts.length}
+            {productPage.totalCount}
           </span>
         </h3>
         {(searchQuery ||
@@ -508,6 +462,38 @@ export const ProductsView: React.FC = () => {
             />
           ))}
         </div>
+      )}
+
+      {productPage.totalPages > 1 && (
+        <nav
+          aria-label="صفحات المنتجات"
+          className="flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-950 px-3 py-2"
+        >
+          <button
+            type="button"
+            onClick={() => setPage((value) => Math.max(1, value - 1))}
+            disabled={page <= 1 || isProductsLoading}
+            className="flex items-center gap-1 rounded-xl bg-slate-800 px-3 py-2 text-[10px] font-bold text-slate-200 disabled:opacity-40"
+          >
+            <ChevronRight className="h-3.5 w-3.5" />
+            السابق
+          </button>
+          <span className="text-[10px] font-bold text-slate-400">
+            صفحة {productPage.page.toLocaleString('ar-JO')} من{' '}
+            {productPage.totalPages.toLocaleString('ar-JO')}
+          </span>
+          <button
+            type="button"
+            onClick={() =>
+              setPage((value) => Math.min(productPage.totalPages, value + 1))
+            }
+            disabled={page >= productPage.totalPages || isProductsLoading}
+            className="flex items-center gap-1 rounded-xl bg-slate-800 px-3 py-2 text-[10px] font-bold text-slate-200 disabled:opacity-40"
+          >
+            التالي
+            <ChevronLeft className="h-3.5 w-3.5" />
+          </button>
+        </nav>
       )}
     </div>
   );

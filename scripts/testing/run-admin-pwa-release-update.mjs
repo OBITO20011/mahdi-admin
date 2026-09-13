@@ -20,6 +20,12 @@ const releaseRoots = {
   [releaseB]: path.join(temporaryRoot, 'release-b'),
 };
 let activeRoot = releaseRoots[releaseA];
+const requestedBrowsers = new Set(
+  (process.env.NAWASRAH_PWA_TEST_BROWSERS || 'chromium,webkit')
+    .split(',')
+    .map((value) => value.trim().toLowerCase())
+    .filter(Boolean),
+);
 
 const contentTypes = new Map([
   ['.css', 'text/css; charset=utf-8'],
@@ -108,16 +114,32 @@ const waitForActiveRelease = async (page, releaseId) => {
 };
 
 const waitForControllerRelease = async (page, releaseId) => {
-  await page.waitForFunction(
-    (expectedRelease) => {
-      const controllerUrl = navigator.serviceWorker.controller?.scriptURL;
-      return controllerUrl
-        ? new URL(controllerUrl).searchParams.get('build') === expectedRelease
-        : false;
-    },
-    releaseId,
-    {timeout: 30_000},
-  );
+  try {
+    await page.waitForFunction(
+      (expectedRelease) => {
+        const controllerUrl = navigator.serviceWorker.controller?.scriptURL;
+        return controllerUrl
+          ? new URL(controllerUrl).searchParams.get('build') === expectedRelease
+          : false;
+      },
+      releaseId,
+      {timeout: 30_000},
+    );
+  } catch (error) {
+    const state = await page.evaluate(async () => ({
+      controllerUrl: navigator.serviceWorker.controller?.scriptURL || null,
+      registrations: (await navigator.serviceWorker.getRegistrations()).map((registration) => ({
+        active: registration.active?.scriptURL || null,
+        waiting: registration.waiting?.scriptURL || null,
+        installing: registration.installing?.scriptURL || null,
+      })),
+      caches: await caches.keys(),
+    }));
+    throw new Error(
+      `Controller did not reach ${releaseId}: ${JSON.stringify(state)}; ${String(error)}`,
+      {cause: error},
+    );
+  }
 };
 
 const waitForReleaseCacheCleanup = async (page, releaseId) => {
@@ -273,8 +295,12 @@ try {
   serverAddress = await listen();
   assert.ok(serverAddress && typeof serverAddress === 'object');
   const origin = `http://127.0.0.1:${serverAddress.port}`;
-  const chromiumResult = await runBrowserScenario('Chromium', chromium, origin);
-  const webkitResult = await runBrowserScenario('WebKit', webkit, origin);
+  const chromiumResult = requestedBrowsers.has('chromium')
+    ? await runBrowserScenario('Chromium', chromium, origin)
+    : null;
+  const webkitResult = requestedBrowsers.has('webkit')
+    ? await runBrowserScenario('WebKit', webkit, origin)
+    : null;
 
   console.log(JSON.stringify({
     ok: true,

@@ -108,7 +108,7 @@ test('product and POS screens expose wholesale package values only', () => {
   assert.doesNotMatch(productForm, /سعر الحبة المحاسبي/);
   assert.match(posView, /prod\.salePackagePrice/);
   assert.match(posView, /calculateAvailableSalePackages/);
-  assert.match(posView, /isPosSellableProduct\(p\)/);
+  assert.match(posView, /result\.filter\(isPosSellableProduct\)/);
   assert.match(productIdentifiers, /product\.saleUnitCode !== 'PCS'/);
   assert.match(productIdentifiers, /product\.salePackagePrice/);
   assert.doesNotMatch(posView, /prod\.retailPrice\.toFixed/);

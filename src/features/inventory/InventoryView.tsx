@@ -2,7 +2,7 @@
  * Nawasrah Business Manager - Independent Inventory Management View (شاشة إدارة المخزون)
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   shallowEqual,
   useAppStoreActions,
@@ -36,29 +36,47 @@ import {
   FileSpreadsheet,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
+import {
+  fetchInventoryProductPageFromSupabase,
+  type InventoryProductPage,
+} from '../../services/supabase/inventory.service';
 
-export const InventoryView: React.FC = () => {
+type InventoryStatusFilter =
+  | 'all'
+  | 'low_stock'
+  | 'out_of_stock'
+  | 'near_expiry'
+  | 'damaged'
+  | 'stagnant';
+
+interface InventoryViewProps {
+  fetchProductPage?: typeof fetchInventoryProductPageFromSupabase;
+}
+
+export const InventoryView: React.FC<InventoryViewProps> = ({
+  fetchProductPage = fetchInventoryProductPageFromSupabase,
+}) => {
   const {
-    products,
     branches,
     warehouses,
     categories,
     movements,
     movementPage,
     activeBranch,
+    productDataRevision,
   } = useAppStoreSelector(
     (state) => ({
-      products: state.products,
       branches: state.branches,
       warehouses: state.warehouses,
       categories: state.categories,
       movements: state.movements,
       movementPage: state.movementPage,
       activeBranch: state.activeBranch,
+      productDataRevision: state.productDataRevision,
     }),
     shallowEqual
   );
-  const { openModal, refreshInventoryMovementsFromSupabase } =
+  const {openModal, refreshInventoryMovementsFromSupabase, cacheProductPage} =
     useAppStoreActions();
 
   // Active Tab: 'products' (الأصناف والمخزون) vs 'movements' (سجل الحركات)
@@ -69,16 +87,101 @@ export const InventoryView: React.FC = () => {
   const [selectedBranchId, setSelectedBranchId] = useState<string>('all');
   const [selectedWarehouseId, setSelectedWarehouseId] = useState<string>('all');
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('all');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<InventoryStatusFilter>('all');
+  const [debouncedProductSearch, setDebouncedProductSearch] = useState('');
+  const [productPageNumber, setProductPageNumber] = useState(1);
+  const [isProductPageLoading, setIsProductPageLoading] = useState(true);
+  const [productPageError, setProductPageError] = useState<string | null>(null);
+  const [productPageRefreshToken, setProductPageRefreshToken] = useState(0);
+  const [inventoryProductPage, setInventoryProductPage] = useState<InventoryProductPage>({
+    products: [],
+    page: 1,
+    pageSize: 24,
+    totalCount: 0,
+    totalPages: 1,
+    metrics: {
+      totalItems: 0,
+      totalCostValue: 0,
+      totalRetailValue: 0,
+      lowStock: 0,
+      outOfStock: 0,
+      stagnant: 0,
+    },
+  });
   const [movementPageNumber, setMovementPageNumber] = useState(1);
   const movementPageSize = 25;
 
   // Selected product for movement history modal inside this view
   const [historyProduct, setHistoryProduct] = useState<Product | null>(null);
+  const historyProductId = historyProduct?.id;
   const [clearInventoryProduct, setClearInventoryProduct] =
     useState<Product | null>(null);
 
   useEffect(() => {
+    const timer = window.setTimeout(
+      () => setDebouncedProductSearch(searchQuery.trim()),
+      searchQuery.trim() ? 250 : 0,
+    );
+    return () => window.clearTimeout(timer);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    setProductPageNumber(1);
+  }, [
+    debouncedProductSearch,
+    selectedBranchId,
+    selectedCategoryId,
+    selectedWarehouseId,
+    statusFilter,
+  ]);
+
+  useEffect(() => {
+    if (activeTab !== 'products') return;
+    let active = true;
+    setIsProductPageLoading(true);
+    setProductPageError(null);
+    fetchProductPage({
+      page: productPageNumber,
+      pageSize: 24,
+      search: debouncedProductSearch,
+      branchId: selectedBranchId === 'all' ? undefined : selectedBranchId,
+      warehouseId: selectedWarehouseId === 'all' ? undefined : selectedWarehouseId,
+      categoryId: selectedCategoryId === 'all' ? undefined : selectedCategoryId,
+      status: statusFilter,
+    })
+      .then((result) => {
+        if (!active) return;
+        setInventoryProductPage(result);
+        cacheProductPage(result.products);
+      })
+      .catch((error: unknown) => {
+        if (!active) return;
+        setProductPageError(
+          error instanceof Error ? error.message : 'تعذر تحميل صفحة المخزون.',
+        );
+      })
+      .finally(() => {
+        if (active) setIsProductPageLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [
+    activeTab,
+    cacheProductPage,
+    debouncedProductSearch,
+    fetchProductPage,
+    productDataRevision,
+    productPageNumber,
+    productPageRefreshToken,
+    selectedBranchId,
+    selectedCategoryId,
+    selectedWarehouseId,
+    statusFilter,
+  ]);
+
+  useEffect(() => {
+    if (activeTab !== 'movements' && !historyProductId) return;
     const timer = window.setTimeout(() => {
       void refreshInventoryMovementsFromSupabase({
         page: movementPageNumber,
@@ -87,122 +190,31 @@ export const InventoryView: React.FC = () => {
         branchId: selectedBranchId === 'all' ? undefined : selectedBranchId,
         warehouseId:
           selectedWarehouseId === 'all' ? undefined : selectedWarehouseId,
-        productId: historyProduct?.id,
+        productId: historyProductId,
       });
     }, 200);
     return () => window.clearTimeout(timer);
   }, [
-    historyProduct?.id,
+    historyProductId,
     movementPageNumber,
     refreshInventoryMovementsFromSupabase,
     searchQuery,
     selectedBranchId,
     selectedWarehouseId,
+    activeTab,
   ]);
 
   useEffect(() => {
     setMovementPageNumber(1);
-  }, [searchQuery, selectedBranchId, selectedWarehouseId, historyProduct?.id]);
-  // Flavor masters are commercial cards only. Their child flavors are the
-  // actual inventory rows shown and counted here. When a warehouse is picked,
-  // use its real balance rather than a misleading all-warehouse aggregate.
-  const inventoryProducts = useMemo(
-    () =>
-      products
-        .filter((product) => !product.isFlavorMaster)
-        .map((product) => {
-          if (selectedWarehouseId === 'all') return product;
-
-          const balance = product.warehouseBalances?.find(
-            (item) => item.warehouseId === selectedWarehouseId
-          );
-
-          return {
-            ...product,
-            warehouseId: selectedWarehouseId,
-            onHandQuantity: balance?.onHandQuantity ?? 0,
-            reservedQuantity: balance?.reservedQuantity ?? 0,
-            availableQuantity: balance?.availableQuantity ?? 0,
-          };
-        }),
-    [products, selectedWarehouseId]
-  );
-
-  // Calculate Metrics
-  const totalCostValue = inventoryProducts.reduce((acc, p) => acc + (p.costPrice * p.onHandQuantity), 0);
-  const totalRetailValue = inventoryProducts.reduce((acc, p) => acc + (p.retailPrice * p.onHandQuantity), 0);
-  const totalItemCount = inventoryProducts.length;
-
-  const lowStockProducts = inventoryProducts.filter(
-    (p) => p.availableQuantity > 0 && p.availableQuantity <= p.reorderLevel
-  );
-  const outOfStockProducts = inventoryProducts.filter((p) => p.availableQuantity <= 0);
-
-  // Near expiry (e.g. within 30 days)
-  const now = new Date().getTime();
-  const nearExpiryProducts = inventoryProducts.filter((p) => {
-    if (!p.expiryDate) return false;
-    const expTime = new Date(p.expiryDate).getTime();
-    const diffDays = (expTime - now) / (1000 * 3600 * 24);
-    return diffDays >= 0 && diffDays <= 30;
-  });
-
-  // The page RPC returns compact sale-product IDs for the selected inventory
-  // scope, so this indicator remains correct without loading raw history rows.
-  const salesProductIds = useMemo(
-    () => new Set(movementPage.salesProductIds),
-    [movementPage.salesProductIds]
-  );
-  const stagnantProducts = inventoryProducts.filter(
-    (product) => !salesProductIds.has(product.id) && product.onHandQuantity > 0
-  );
-
-  // Filtered Products List
-  const filteredProducts = inventoryProducts.filter((product) => {
-    // Search query match
-    const q = searchQuery.toLowerCase().trim();
-    const matchesSearch =
-      !q ||
-      product.nameAr.toLowerCase().includes(q) ||
-      product.sku.toLowerCase().includes(q) ||
-      product.barcode.toLowerCase().includes(q);
-
-    // Branch match
-    const matchesBranch =
-      selectedBranchId === 'all' || product.branchId === selectedBranchId;
-
-    // Warehouse match
-    const matchesWarehouse =
-      selectedWarehouseId === 'all' || product.warehouseId === selectedWarehouseId;
-
-    // Category match
-    const matchesCategory =
-      selectedCategoryId === 'all' || product.categoryId === selectedCategoryId;
-
-    // Status filter match
-    let matchesStatus = true;
-    if (statusFilter === 'low_stock') {
-      matchesStatus =
-        product.availableQuantity > 0 &&
-        product.availableQuantity <= product.reorderLevel;
-    } else if (statusFilter === 'out_of_stock') {
-      matchesStatus = product.availableQuantity <= 0;
-    } else if (statusFilter === 'near_expiry') {
-      if (!product.expiryDate) matchesStatus = false;
-      else {
-        const expTime = new Date(product.expiryDate).getTime();
-        const diffDays = (expTime - now) / (1000 * 3600 * 24);
-        matchesStatus = diffDays >= 0 && diffDays <= 30;
-      }
-    } else if (statusFilter === 'damaged') {
-      matchesStatus = product.status === 'expired' || product.status === 'discontinued';
-    } else if (statusFilter === 'stagnant') {
-      matchesStatus =
-        !salesProductIds.has(product.id) && product.onHandQuantity > 0;
-    }
-
-    return matchesSearch && matchesBranch && matchesWarehouse && matchesCategory && matchesStatus;
-  });
+  }, [searchQuery, selectedBranchId, selectedWarehouseId, historyProductId]);
+  const filteredProducts = inventoryProductPage.products;
+  const totalCostValue = inventoryProductPage.metrics.totalCostValue;
+  const totalRetailValue = inventoryProductPage.metrics.totalRetailValue;
+  const totalItemCount = inventoryProductPage.metrics.totalItems;
+  const lowStockCount = inventoryProductPage.metrics.lowStock;
+  const outOfStockCount = inventoryProductPage.metrics.outOfStock;
+  const nearExpiryCount = 0;
+  const stagnantCount = inventoryProductPage.metrics.stagnant;
 
   // Filtered Movements List
   const filteredMovements = movements;
@@ -316,7 +328,7 @@ export const InventoryView: React.FC = () => {
           </div>
           <div>
             <span className="text-[10px] text-slate-400 block font-bold">منخفض المخزون</span>
-            <strong className="text-sm font-extrabold text-amber-400">{lowStockProducts.length}</strong>
+            <strong className="text-sm font-extrabold text-amber-400">{lowStockCount}</strong>
           </div>
         </button>
 
@@ -334,7 +346,7 @@ export const InventoryView: React.FC = () => {
           </div>
           <div>
             <span className="text-[10px] text-slate-400 block font-bold">نافد المخزون</span>
-            <strong className="text-sm font-extrabold text-rose-400">{outOfStockProducts.length}</strong>
+            <strong className="text-sm font-extrabold text-rose-400">{outOfStockCount}</strong>
           </div>
         </button>
 
@@ -358,7 +370,7 @@ export const InventoryView: React.FC = () => {
           </div>
           <div>
             <span className="text-[10px] text-slate-400 block font-bold">قريب انتهاء الصلاحية</span>
-            <strong className="text-sm font-extrabold text-orange-400">{nearExpiryProducts.length}</strong>
+            <strong className="text-sm font-extrabold text-orange-400">{nearExpiryCount}</strong>
           </div>
         </button>
 
@@ -376,7 +388,7 @@ export const InventoryView: React.FC = () => {
           </div>
           <div>
             <span className="text-[10px] text-slate-400 block font-bold">المنتجات الراكدة</span>
-            <strong className="text-sm font-extrabold text-purple-300">{stagnantProducts.length}</strong>
+            <strong className="text-sm font-extrabold text-purple-300">{stagnantCount}</strong>
           </div>
         </button>
           </div>
@@ -394,7 +406,7 @@ export const InventoryView: React.FC = () => {
           }`}
         >
           <Boxes className="w-4 h-4" />
-          <span>المتاح الآن ({filteredProducts.length})</span>
+          <span>المتاح الآن ({inventoryProductPage.totalCount})</span>
         </button>
 
         <button
@@ -507,7 +519,7 @@ export const InventoryView: React.FC = () => {
             </label>
             <select
               value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
+              onChange={(e) => setStatusFilter(e.target.value as InventoryStatusFilter)}
               className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-slate-200 text-xs focus:outline-none font-bold"
             >
               <option value="all">الكل (جميع الحالات)</option>
@@ -524,7 +536,22 @@ export const InventoryView: React.FC = () => {
       {/* TAB 1: PRODUCTS INVENTORY TAB */}
       {activeTab === 'products' && (
         <div className="space-y-3">
-          {filteredProducts.length === 0 ? (
+          {productPageError ? (
+            <div className="rounded-2xl border border-rose-800 bg-rose-950/30 p-6 text-center">
+              <p className="text-xs font-bold text-rose-300">{productPageError}</p>
+              <button
+                type="button"
+                onClick={() => setProductPageRefreshToken((value) => value + 1)}
+                className="mt-3 rounded-xl bg-rose-700 px-4 py-2 text-xs font-bold text-white transition hover:bg-rose-600"
+              >
+                إعادة المحاولة
+              </button>
+            </div>
+          ) : isProductPageLoading && filteredProducts.length === 0 ? (
+            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-10 text-center text-xs font-bold text-slate-400">
+              جارٍ تحميل صفحة المخزون…
+            </div>
+          ) : filteredProducts.length === 0 ? (
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-10 text-center space-y-3">
               <Package className="w-10 h-10 text-slate-600 mx-auto" />
               <h4 className="font-bold text-slate-300 text-sm">لا توجد منتجات تطابق الفلاتر المحددة</h4>
@@ -568,11 +595,17 @@ export const InventoryView: React.FC = () => {
                     <div className="space-y-1.5">
                       <div className="flex flex-col gap-1.5 sm:flex-row sm:items-start sm:justify-between sm:gap-2">
                         <div className="flex min-w-0 items-center gap-2">
-                          <img
-                            src={product.imageUrl}
-                            alt=""
-                            className="h-10 w-10 shrink-0 rounded-xl border border-slate-800 object-cover"
-                          />
+                          {product.imageUrl ? (
+                            <img
+                              src={product.imageUrl}
+                              alt=""
+                              className="h-10 w-10 shrink-0 rounded-xl border border-slate-800 object-cover"
+                            />
+                          ) : (
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-800 bg-slate-950">
+                              <Package className="h-4 w-4 text-slate-600" />
+                            </div>
+                          )}
                           <div className="min-w-0">
                             <h4 className="line-clamp-2 text-[11px] font-extrabold leading-4 text-slate-100 sm:text-xs">
                               {product.nameAr}
@@ -711,7 +744,7 @@ export const InventoryView: React.FC = () => {
                       <div className="grid grid-cols-2 gap-1.5">
                         {/* 1. Receive Goods */}
                         <button
-                          onClick={() => openModal('receive_goods')}
+                          onClick={() => openModal('receive_goods', { productId: product.id })}
                           className="flex min-h-11 items-center justify-center gap-1.5 rounded-lg border border-indigo-800/80 bg-indigo-950/60 px-2 py-1.5 text-[10px] font-bold text-indigo-300 transition hover:bg-indigo-900/80"
                           title="استلام بضاعة جديدة"
                         >
@@ -743,7 +776,7 @@ export const InventoryView: React.FC = () => {
                         >
                           <History className="w-3.5 h-3.5 text-indigo-400" />
                           <span>
-                            سجل الحركات ({movementPage.productMovementCounts[product.id] || 0})
+                            سجل الحركات ({product.movementCount})
                           </span>
                         </button>
 
@@ -772,6 +805,41 @@ export const InventoryView: React.FC = () => {
               })}
             </div>
           )}
+          {inventoryProductPage.totalPages > 1 && (
+            <nav
+              aria-label="صفحات منتجات المخزون"
+              className="flex items-center justify-center gap-3 rounded-2xl border border-slate-800 bg-slate-900 p-3"
+            >
+              <button
+                type="button"
+                onClick={() => setProductPageNumber((page) => Math.max(1, page - 1))}
+                disabled={productPageNumber <= 1 || isProductPageLoading}
+                className="flex min-h-10 items-center gap-1 rounded-xl border border-slate-700 px-3 text-xs font-bold text-slate-200 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <ChevronRight className="h-4 w-4" />
+                السابق
+              </button>
+              <span className="text-xs font-bold text-slate-300">
+                {inventoryProductPage.page} من {inventoryProductPage.totalPages}
+              </span>
+              <button
+                type="button"
+                onClick={() =>
+                  setProductPageNumber((page) =>
+                    Math.min(inventoryProductPage.totalPages, page + 1),
+                  )
+                }
+                disabled={
+                  productPageNumber >= inventoryProductPage.totalPages ||
+                  isProductPageLoading
+                }
+                className="flex min-h-10 items-center gap-1 rounded-xl border border-slate-700 px-3 text-xs font-bold text-slate-200 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                التالي
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+            </nav>
+          )}
         </div>
       )}
 
@@ -785,7 +853,9 @@ export const InventoryView: React.FC = () => {
             )?.name || 'المستودع الرئيسي'
           }
           movementCount={
-            movementPage.productMovementCounts[clearInventoryProduct.id] || 0
+            inventoryProductPage.products.find(
+              (product) => product.id === clearInventoryProduct.id,
+            )?.movementCount || 0
           }
           onClose={() => setClearInventoryProduct(null)}
         />

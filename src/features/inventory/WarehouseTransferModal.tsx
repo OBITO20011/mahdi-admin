@@ -2,14 +2,20 @@
  * Nawasrah Business Manager - Warehouse Transfer Modal
  */
 
-import React, { useState } from 'react';
-import { useAppStore } from '../../stores/useAppStore';
+import React, { useEffect, useRef, useState } from 'react';
+import { useAppStore, useAppStoreActions } from '../../stores/useAppStore';
 import { formatProductInventory } from '../../utils/inventoryFormatter';
+import {
+  fetchAdminProductById,
+  searchAdminProducts,
+} from '../../services/supabase/products.service';
+import { Product } from '../../types';
 import {
   ArrowLeftRight,
   Check,
   LoaderCircle,
   Package,
+  Search,
   Warehouse as WarehouseIcon,
 } from 'lucide-react';
 
@@ -22,17 +28,13 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
   productId: initialProductId,
   onClose,
 }) => {
-  const { products, warehouses, transferWarehouse, setToast } = useAppStore();
-  const stockableProducts = products.filter((product) => !product.isFlavorMaster);
-  const safeInitialProductId = stockableProducts.some(
-    (product) => product.id === initialProductId
-  )
-    ? initialProductId
-    : stockableProducts[0]?.id;
-
-  const [selectedProductId, setSelectedProductId] = useState<string>(
-    safeInitialProductId || ''
-  );
+  const { warehouses, transferWarehouse, setToast } = useAppStore();
+  const { cacheProductPage } = useAppStoreActions();
+  const [stockableProducts, setStockableProducts] = useState<Product[]>([]);
+  const [productSearch, setProductSearch] = useState('');
+  const [isProductsLoading, setIsProductsLoading] = useState(true);
+  const [selectedProductId, setSelectedProductId] = useState<string>('');
+  const selectedProductRef = useRef<Product | null>(null);
   const [transferQty, setTransferQty] = useState<number>(5);
   const [fromWarehouseId, setFromWarehouseId] = useState<string>(warehouses[0]?.id || 'w-main');
   const [toWarehouseId, setToWarehouseId] = useState<string>(
@@ -42,6 +44,52 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const selectedProduct = stockableProducts.find((p) => p.id === selectedProductId);
+
+  useEffect(() => {
+    let active = true;
+    const timer = window.setTimeout(() => {
+      setIsProductsLoading(true);
+      Promise.all([
+        searchAdminProducts({
+          search: productSearch,
+          limit: 30,
+          purpose: 'stockable',
+        }),
+        initialProductId
+          ? fetchAdminProductById(initialProductId, 'stockable')
+          : Promise.resolve(null),
+      ])
+        .then(([results, initialProduct]) => {
+          if (!active) return;
+          let merged = initialProduct && !results.some((item) => item.id === initialProduct.id)
+            ? [initialProduct, ...results]
+            : results;
+          const retainedProduct = selectedProductRef.current;
+          if (retainedProduct && !merged.some((item) => item.id === retainedProduct.id)) {
+            merged = [retainedProduct, ...merged];
+          }
+          setStockableProducts(merged);
+          cacheProductPage(merged);
+          setSelectedProductId((current) => {
+            if (current) return current;
+            const nextProduct = initialProduct || merged[0];
+            selectedProductRef.current = nextProduct || null;
+            return nextProduct?.id || '';
+          });
+        })
+        .catch((error) => {
+          console.error('Unable to search transfer products:', error);
+          if (active) setStockableProducts([]);
+        })
+        .finally(() => {
+          if (active) setIsProductsLoading(false);
+        });
+    }, productSearch.trim() ? 250 : 0);
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+    };
+  }, [cacheProductPage, initialProductId, productSearch]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,9 +148,23 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
           <Package className="w-3.5 h-3.5 text-blue-400" />
           <span>اختر المنتج المراد تحويله *</span>
         </label>
+        <div className="relative mb-2">
+          <Search className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-500" />
+          <input
+            type="search"
+            value={productSearch}
+            onChange={(event) => setProductSearch(event.target.value)}
+            placeholder="ابحث بالاسم أو SKU أو الباركود"
+            className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2.5 pl-3 pr-9 text-xs text-slate-100 outline-none focus:border-blue-500"
+          />
+        </div>
         <select
           value={selectedProductId}
-          onChange={(e) => setSelectedProductId(e.target.value)}
+          onChange={(e) => {
+            setSelectedProductId(e.target.value);
+            selectedProductRef.current =
+              stockableProducts.find((product) => product.id === e.target.value) || null;
+          }}
           className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-slate-100 text-xs font-semibold focus:outline-none focus:border-blue-500"
         >
           {stockableProducts.map((p) => (
@@ -225,6 +287,7 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
           disabled={isSubmitting}
           className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5 shadow-lg shadow-blue-600/20"
         >
+          {isProductsLoading && <option value="">جارٍ تحميل المنتجات…</option>}
           {isSubmitting ? (
             <LoaderCircle className="w-4 h-4 animate-spin" />
           ) : (

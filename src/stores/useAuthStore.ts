@@ -532,16 +532,17 @@ class AuthStoreEngine {
     // Never warm business data while the local application session is locked.
     if (this.state.isSessionLocked) return;
 
-    // Warm it after the first screen gets a chance to request its own data.
-    const warmProductData = () => {
-      void storeEngine.refreshProductsFromSupabase().catch((err) => {
-        console.warn('[AuthStore] Failed refreshing products after auth update:', err);
+    // Warm only compact reference data. Growing product datasets are loaded by
+    // each feature through bounded server-side pages/searches.
+    const warmReferenceData = () => {
+      void storeEngine.refreshReferenceDataFromSupabase().catch((err) => {
+        console.warn('[AuthStore] Failed refreshing reference data after auth update:', err);
       });
     };
     if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(warmProductData, {timeout: 1_500});
+      window.requestIdleCallback(warmReferenceData, {timeout: 1_500});
     } else {
-      window.setTimeout(warmProductData, 250);
+      window.setTimeout(warmReferenceData, 250);
     }
   }
 
@@ -708,7 +709,7 @@ class AuthStoreEngine {
     // Refresh the shared summaries before remounted views resume their own reads.
     void Promise.allSettled([
       storeEngine.refreshOrdersFromSupabase(),
-      storeEngine.refreshProductsFromSupabase(),
+      storeEngine.refreshReferenceDataFromSupabase(),
       storeEngine.refreshStockNotificationsFromSupabase(),
     ]);
 

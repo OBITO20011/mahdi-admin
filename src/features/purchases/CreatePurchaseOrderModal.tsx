@@ -11,7 +11,7 @@ import {
   fetchSuppliersFromSupabase,
   isValidUUID,
 } from '../../services/supabase/purchases.service';
-import { fetchProductsFromSupabase } from '../../services/supabase/products.service';
+import { searchAdminProducts } from '../../services/supabase/products.service';
 import { fetchBranchesFromSupabase, fetchWarehousesFromSupabase } from '../../services/supabase/reference-data.service';
 import { Supplier, Product, Branch, Warehouse } from '../../types';
 import { CreateSupplierModal } from './CreateSupplierModal';
@@ -151,39 +151,8 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
       );
   }, []);
 
-  const loadProducts = useCallback(async () => {
-    setIsLoadingProducts(true);
-    setProductsFetchError(null);
-    try {
-      const res = await fetchProductsFromSupabase();
-      if (res.error) {
-        if (import.meta.env.DEV) {
-          console.error('[CreatePurchaseOrderModal] Error loading products:', res.error, res.errorDetails);
-        }
-        setProductsFetchError('تعذر تحميل قائمة المنتجات من قاعدة البيانات.');
-        setFetchedProducts([]);
-      } else {
-        // Ensure products have valid UUIDs
-        const validActiveProds = (res.products || []).filter(
-          (p) =>
-            p.status !== 'hidden' &&
-            !p.isFlavorMaster &&
-            isValidUUID(p.id)
-        );
-        setFetchedProducts(validActiveProds);
-      }
-    } catch (err: any) {
-      if (import.meta.env.DEV) {
-        console.error('[CreatePurchaseOrderModal] Exception loading products:', err);
-      }
-      setProductsFetchError('حدث خطأ أثناء تحميل المنتجات من قاعدة البيانات.');
-      setFetchedProducts([]);
-    } finally {
-      setIsLoadingProducts(false);
-    }
-  }, []);
-
-  // Load suppliers, products, branches, and warehouses only when this sheet opens.
+  // Load reference data only when this sheet opens. Product options are searched
+  // independently below so opening the sheet never downloads the full catalog.
   useEffect(() => {
     if (!isOpen) return;
 
@@ -221,9 +190,42 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
     }
 
     void loadSuppliers();
-    void loadProducts();
     void loadBranchesAndWarehouses();
-  }, [isOpen, loadBranchesAndWarehouses, loadProducts, loadSuppliers, poToEdit]);
+  }, [isOpen, loadBranchesAndWarehouses, loadSuppliers, poToEdit]);
+
+  useEffect(() => {
+    if (!isOpen || !isProductDropdownOpen) return;
+    let active = true;
+    const timer = window.setTimeout(() => {
+      setIsLoadingProducts(true);
+      setProductsFetchError(null);
+      searchAdminProducts({
+        search: productSearch,
+        limit: 20,
+        purpose: 'receiving',
+      })
+        .then((products) => {
+          if (!active) return;
+          setFetchedProducts(products.filter((product) => isValidUUID(product.id)));
+        })
+        .catch((error: unknown) => {
+          if (!active) return;
+          if (import.meta.env.DEV) {
+            console.error('[CreatePurchaseOrderModal] Error searching products:', error);
+          }
+          setProductsFetchError('تعذر تحميل قائمة المنتجات من قاعدة البيانات.');
+          setFetchedProducts([]);
+        })
+        .finally(() => {
+          if (active) setIsLoadingProducts(false);
+        });
+    }, productSearch.trim() ? 250 : 0);
+
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+    };
+  }, [isOpen, isProductDropdownOpen, productSearch]);
 
   if (!isOpen) return null;
 
@@ -309,16 +311,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
     );
   });
 
-  // Filtered products for quick selection
-  const filteredProducts = fetchedProducts.filter((p) => {
-    if (!productSearch.trim()) return true;
-    const q = productSearch.toLowerCase().trim();
-    return (
-      p.nameAr.toLowerCase().includes(q) ||
-      (p.sku && p.sku.toLowerCase().includes(q)) ||
-      (p.barcode && p.barcode.toLowerCase().includes(q))
-    );
-  });
+  const filteredProducts = fetchedProducts;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

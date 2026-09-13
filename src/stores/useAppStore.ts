@@ -193,6 +193,7 @@ export interface AppState {
   isProductsLoading: boolean;
   productsSource: 'supabase';
   productsError: string | null;
+  productDataRevision: number;
   supabaseDiagnostics: SupabaseDiagnosticInfo;
 }
 
@@ -293,6 +294,48 @@ class StoreEngine {
     return refreshPromise;
   }
 
+  public cacheProductPage(products: Product[]) {
+    const bounded = new Map<string, Product>();
+    [...products, ...this.state.products].forEach((product) => {
+      if (!bounded.has(product.id) && bounded.size < 150) {
+        bounded.set(product.id, product);
+      }
+    });
+    this.state.products = [...bounded.values()];
+    this.notify();
+  }
+
+  public async refreshReferenceDataFromSupabase(): Promise<void> {
+    if (!isSupabaseConfigured) return;
+    const [categories, brands, units, branches, warehouses] = await Promise.all([
+      fetchCategoriesFromSupabase(),
+      fetchBrandsFromSupabase(),
+      fetchUnitsFromSupabase(),
+      fetchBranchesFromSupabase(),
+      fetchWarehousesFromSupabase(),
+    ]);
+
+    this.state.categories = categories;
+    this.state.brands = brands;
+    this.state.units = units;
+    this.state.branches = branches;
+    if (branches.length > 0) {
+      this.state.activeBranch =
+        branches.find((branch) => branch.id === this.state.activeBranch?.id) ??
+        branches[0];
+    }
+    this.state.warehouses = warehouses;
+    this.notify();
+
+    if (this.state.currentUser.id && this.state.activeBranch.id) {
+      try {
+        await this.refreshExpenseShiftCenterFromSupabase();
+      } catch (error) {
+        console.warn('[Store finance center refresh skipped]:', error);
+      }
+    }
+  }
+
   private async performProductsRefresh(): Promise<void> {
     this.state.isProductsLoading = true;
     this.state.supabaseDiagnostics = {
@@ -304,6 +347,7 @@ class StoreEngine {
     try {
       const res = await fetchProductsFromSupabase();
       this.state.products = res.products;
+      this.state.productDataRevision += 1;
       this.state.productsSource = res.source;
       this.state.productsError = res.error || null;
 
@@ -324,39 +368,7 @@ class StoreEngine {
 
       if (res.source === 'supabase') {
         if (!res.errorDetails) {
-          const [categories, brands, units, branches, warehouses] =
-            await Promise.all([
-              fetchCategoriesFromSupabase(),
-              fetchBrandsFromSupabase(),
-              fetchUnitsFromSupabase(),
-              fetchBranchesFromSupabase(),
-              fetchWarehousesFromSupabase(),
-            ]);
-
-          this.state.categories = categories;
-          this.state.brands = brands;
-          this.state.units = units;
-          this.state.branches = branches;
-          if (branches.length > 0) {
-            // Always replace the cached object with the fresh Supabase record.
-            // The branch id can stay the same while its name/location changes.
-            this.state.activeBranch =
-              branches.find(
-                (branch) => branch.id === this.state.activeBranch?.id
-              ) ?? branches[0];
-          }
-
-          this.state.warehouses = warehouses;
-
-          if (this.state.currentUser.id && this.state.activeBranch.id) {
-            try {
-              await this.refreshExpenseShiftCenterFromSupabase();
-            } catch (error) {
-              // Finance access is role-scoped and must not invalidate the
-              // independently successful product/reference-data refresh.
-              console.warn('[Store finance center refresh skipped]:', error);
-            }
-          }
+          await this.refreshReferenceDataFromSupabase();
         }
       }
     } catch (err: unknown) {
@@ -511,6 +523,7 @@ class StoreEngine {
       isProductsLoading: false,
       productsSource: 'supabase',
       productsError: null,
+      productDataRevision: 0,
       supabaseDiagnostics: {
         hasUrl: Boolean(sanitizedSupabaseUrl),
         isValidUrlScheme: isValidSupabaseUrl,
@@ -2182,6 +2195,9 @@ const coreAppStoreActions = {
     notes?: string;
   }) => storeEngine.returnCompletedWebsiteOrder(input),
   refreshProductsFromSupabase: () => storeEngine.refreshProductsFromSupabase(),
+  cacheProductPage: (products: Product[]) => storeEngine.cacheProductPage(products),
+  refreshReferenceDataFromSupabase: () =>
+    storeEngine.refreshReferenceDataFromSupabase(),
   refreshInventoryMovementsFromSupabase: (input?: InventoryMovementPageInput) =>
     storeEngine.refreshInventoryMovementsFromSupabase(input),
   refreshExpenseShiftCenterFromSupabase: () =>
@@ -2320,6 +2336,9 @@ export function useAppStore() {
       ),
     refreshOrdersFromSupabase: () => storeEngine.refreshOrdersFromSupabase(),
     refreshProductsFromSupabase: () => storeEngine.refreshProductsFromSupabase(),
+    cacheProductPage: (products: Product[]) => storeEngine.cacheProductPage(products),
+    refreshReferenceDataFromSupabase: () =>
+      storeEngine.refreshReferenceDataFromSupabase(),
     refreshCategoriesFromSupabase: () =>
       storeEngine.refreshCategoriesFromSupabase(),
     refreshBrandsFromSupabase: () => storeEngine.refreshBrandsFromSupabase(),

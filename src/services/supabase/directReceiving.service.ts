@@ -11,7 +11,8 @@ import {
   DirectReceiptForm,
   ReceivingProduct,
 } from '../../types/directReceiving';
-import { Supplier, Unit, Warehouse, Branch } from '../../types';
+import { Supplier, Unit, Warehouse, Branch, Product } from '../../types';
+import { searchAdminProducts } from './products.service';
 
 // Helper: Convert DB row to SupplierReceipt interface
 const mapSupplierReceiptRow = (row: any): SupplierReceipt => ({
@@ -457,119 +458,51 @@ export const fetchSuppliersForReceivingFromSupabase = async (): Promise<Supplier
   }));
 };
 
-export const fetchProductsForReceivingFromSupabase = async (): Promise<ReceivingProduct[]> => {
-  if (!isSupabaseConfigured || !supabase) {
-    throw new Error('الاتصال بقاعدة بيانات Supabase غير متاح.');
-  }
-  const { data, error } = await supabase
-    .from('products')
-    .select(`
-      id,
-      name_ar,
-      sku,
-      barcode,
-      unit_id,
-      purchase_unit_id,
-      units_per_purchase_unit,
-      default_purchase_price_in_minor_units,
-      cost_price_in_minor_units,
-      sale_price_in_minor_units,
-      min_stock_level,
-      base_unit:units!products_unit_id_fkey ( id, name_ar, code ),
-      purchase_unit:units!products_purchase_unit_id_fkey ( id, name_ar, code ),
-      inventory_balances (
-        warehouse_id,
-        on_hand_quantity,
-        reserved_quantity,
-        available_quantity
-      )
-    `)
-    .eq('is_active', true)
-    .eq('is_flavor_master', false)
-    .order('name_ar');
+const mapProductToReceivingProduct = (product: Product): ReceivingProduct => {
+  const unitsPerPackage = Math.max(1, Math.floor(product.unitsPerPackage || 1));
+  const costPriceInMinorUnits = Math.round(product.costPrice * 1000);
+  return {
+    id: product.id,
+    nameAr: product.nameAr,
+    sku: product.sku,
+    barcode: product.barcode,
+    baseUnitId: product.baseUnitId,
+    baseUnitName: product.unit || 'حبة',
+    baseUnitCode: product.baseUnitCode,
+    purchaseUnitId: product.purchaseUnitId || product.baseUnitId,
+    purchaseUnitName: product.purchasePackage || product.unit || 'حبة',
+    purchaseUnitCode: product.purchaseUnitCode || product.baseUnitCode,
+    unitsPerPackage,
+    defaultPackagePriceInMinorUnits:
+      Math.round((product.defaultPurchasePrice || 0) * 1000) ||
+      costPriceInMinorUnits * unitsPerPackage,
+    costPriceInMinorUnits,
+    salePriceInMinorUnits: Math.round(product.retailPrice * 1000),
+    onHandQuantity: product.onHandQuantity,
+    reservedQuantity: product.reservedQuantity,
+    availableQuantity: product.availableQuantity,
+    minStockLevel: Math.max(0, Math.floor(product.reorderLevel || 0)),
+    inventoryBalances: (product.warehouseBalances || []).map((balance) => ({
+      warehouseId: balance.warehouseId,
+      onHandQuantity: balance.onHandQuantity,
+      reservedQuantity: balance.reservedQuantity,
+      availableQuantity: balance.availableQuantity,
+    })),
+  };
+};
 
-  if (error) {
-    console.error('Error fetching products for receiving:', error);
-    throw error;
-  }
-
-  return (data || []).map((product: any) => {
-    const baseUnit = Array.isArray(product.base_unit) ? product.base_unit[0] : product.base_unit;
-    const purchaseUnit = Array.isArray(product.purchase_unit)
-      ? product.purchase_unit[0]
-      : product.purchase_unit;
-    const unitsPerPackage = Math.max(
-      1,
-      Math.floor(Number(product.units_per_purchase_unit) || 1)
-    );
-    const costPriceInMinorUnits = Number(product.cost_price_in_minor_units) || 0;
-    const defaultPackagePriceInMinorUnits =
-      Number(product.default_purchase_price_in_minor_units) ||
-      costPriceInMinorUnits * unitsPerPackage;
-    const inventoryBalances = (product.inventory_balances || []).map(
-      (balance: any) => ({
-        warehouseId: balance.warehouse_id,
-        onHandQuantity: Math.max(
-          0,
-          Math.floor(Number(balance.on_hand_quantity) || 0)
-        ),
-        reservedQuantity: Math.max(
-          0,
-          Math.floor(Number(balance.reserved_quantity) || 0)
-        ),
-        availableQuantity: Math.max(
-          0,
-          Math.floor(
-            Number(
-              balance.available_quantity ??
-                (Number(balance.on_hand_quantity) || 0) -
-                  (Number(balance.reserved_quantity) || 0)
-            ) || 0
-          )
-        ),
-      })
-    );
-    const onHandQuantity = inventoryBalances.reduce(
-      (sum: number, balance: any) =>
-        sum + balance.onHandQuantity,
-      0
-    );
-    const reservedQuantity = inventoryBalances.reduce(
-      (sum: number, balance: any) =>
-        sum + balance.reservedQuantity,
-      0
-    );
-    const availableQuantity = inventoryBalances.reduce(
-      (sum: number, balance: any) =>
-        sum + balance.availableQuantity,
-      0
-    );
-
-    return {
-      id: product.id,
-      nameAr: product.name_ar || '',
-      sku: product.sku || '',
-      barcode: product.barcode || '',
-      baseUnitId: baseUnit?.id || product.unit_id || undefined,
-      baseUnitName: baseUnit?.name_ar || 'حبة',
-      baseUnitCode: baseUnit?.code || undefined,
-      purchaseUnitId: purchaseUnit?.id || baseUnit?.id || product.purchase_unit_id || undefined,
-      purchaseUnitName: purchaseUnit?.name_ar || baseUnit?.name_ar || 'حبة',
-      purchaseUnitCode: purchaseUnit?.code || baseUnit?.code || undefined,
-      unitsPerPackage,
-      defaultPackagePriceInMinorUnits,
-      costPriceInMinorUnits,
-      salePriceInMinorUnits: Number(product.sale_price_in_minor_units) || 0,
-      onHandQuantity,
-      reservedQuantity,
-      availableQuantity,
-      minStockLevel: Math.max(
-        0,
-        Math.floor(Number(product.min_stock_level) || 0)
-      ),
-      inventoryBalances,
-    };
+export const fetchProductsForReceivingFromSupabase = async (input: {
+  search?: string;
+  limit?: number;
+  productId?: string;
+} = {}): Promise<ReceivingProduct[]> => {
+  const products = await searchAdminProducts({
+    search: input.search,
+    limit: input.limit || 24,
+    purpose: 'receiving',
+    productId: input.productId,
   });
+  return products.map(mapProductToReceivingProduct);
 };
 
 export const fetchUnitsForReceivingFromSupabase = async (): Promise<Unit[]> => {

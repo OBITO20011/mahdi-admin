@@ -46,6 +46,7 @@ export const DirectReceivingView: React.FC = () => {
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [products, setProducts] = useState<ReceivingProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [inventoryProductsLoading, setInventoryProductsLoading] = useState(false);
 
   // Active View State
   const [activeTab, setActiveTab] = useState<
@@ -87,7 +88,7 @@ export const DirectReceivingView: React.FC = () => {
   const loadData = useCallback(async (isSilent = false) => {
     if (!isSilent) setLoading(true);
     try {
-      const [receiptsRes, supsData, whsData, productsData] = await Promise.all([
+      const [receiptsRes, supsData, whsData] = await Promise.all([
         fetchSupplierReceiptsFromSupabase({
           page: receiptPage,
           pageSize: 25,
@@ -99,7 +100,6 @@ export const DirectReceivingView: React.FC = () => {
         }),
         fetchSuppliersForReceivingFromSupabase(),
         fetchWarehousesForReceivingFromSupabase(),
-        fetchProductsForReceivingFromSupabase(),
       ]);
 
       if (receiptsRes.success && receiptsRes.data) {
@@ -110,13 +110,40 @@ export const DirectReceivingView: React.FC = () => {
       }
       setSuppliers(supsData);
       setWarehouses(whsData);
-      setProducts(productsData);
     } catch (err) {
       console.error('Error loading supplier receipts:', err);
     } finally {
       if (!isSilent) setLoading(false);
     }
   }, [activeTab, receiptPage, selectedSupplierFilter, selectedWarehouseFilter, searchTerm]);
+
+  useEffect(() => {
+    if (activeTab !== 'inventory') return;
+    let active = true;
+    const timer = window.setTimeout(() => {
+      setInventoryProductsLoading(true);
+      fetchProductsForReceivingFromSupabase({
+        search: inventorySearchTerm,
+        limit: 50,
+      })
+        .then((result) => {
+          if (active) setProducts(result);
+        })
+        .catch((error) => {
+          if (!active) return;
+          console.error('Error searching receiving inventory products:', error);
+          setProducts([]);
+        })
+        .finally(() => {
+          if (active) setInventoryProductsLoading(false);
+        });
+    }, inventorySearchTerm.trim() ? 250 : 0);
+
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+    };
+  }, [activeTab, inventorySearchTerm]);
 
   useEffect(() => {
     loadData();
@@ -134,17 +161,7 @@ export const DirectReceivingView: React.FC = () => {
   // Minor units to JOD helper
   const minorToJod = (fils: number) => (fils / 1000).toFixed(3);
 
-  const filteredInventoryProducts = useMemo(() => {
-    const query = inventorySearchTerm.trim().toLowerCase();
-    if (!query) return products;
-
-    return products.filter(
-      (product) =>
-        product.nameAr.toLowerCase().includes(query) ||
-        product.sku.toLowerCase().includes(query) ||
-        Boolean(product.barcode?.toLowerCase().includes(query))
-    );
-  }, [inventorySearchTerm, products]);
+  const filteredInventoryProducts = products;
 
   const inventoryMetrics = useMemo(() => {
     const onHandQuantity = products.reduce(
@@ -529,8 +546,8 @@ export const DirectReceivingView: React.FC = () => {
                   </h2>
                 </div>
                 <p className="mt-1 text-[11px] text-slate-400">
-                  الأرقام مباشرة من أرصدة Supabase لكل مستودع. الاستلام يزيد المخزون
-                  والبيع ينقص المتاح تلقائياً.
+                  النتائج الحالية مباشرة من أرصدة Supabase ومحدودة إلى 50 صنفًا؛
+                  استخدم البحث للوصول السريع إلى أي صنف.
                 </p>
               </div>
 
@@ -596,7 +613,7 @@ export const DirectReceivingView: React.FC = () => {
             </div>
           </div>
 
-          {loading ? (
+          {inventoryProductsLoading ? (
             <div className="p-12 text-center text-slate-400">
               <Loader2 className="mx-auto h-6 w-6 animate-spin text-cyan-400" />
             </div>

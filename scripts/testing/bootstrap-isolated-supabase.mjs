@@ -46,7 +46,7 @@ if (staleIds.length > 0) {
 
 const cleanupProjectContainers = async () => {
   const { stdout } = await execFileAsync('docker', [
-    'ps', '-aq', '--filter', `name=nawasrah-${isolatedProjectId}`,
+    'ps', '-aq', '--filter', `name=${isolatedProjectId}`,
   ], { windowsHide: true });
   const ids = stdout.split(/\r?\n/).map((value) => value.trim()).filter(Boolean);
   if (ids.length > 0) await execFileAsync('docker', ['rm', '-f', ...ids], { windowsHide: true });
@@ -77,11 +77,21 @@ if (!/^project_id\s*=\s*"[^"]+"\s*$/mu.test(sourceConfig)) {
   throw new Error('The Supabase config is missing its project_id declaration.');
 }
 
+const isolatedTurnstileSecret = process.env.TURNSTILE_SECRET;
+if (isolatedTurnstileSecret && !/^[A-Za-z0-9_-]+$/.test(isolatedTurnstileSecret)) {
+  throw new Error('TURNSTILE_SECRET contains unsupported characters for isolated TOML config.');
+}
+
 await writeFile(
   isolatedConfigPath,
   sourceConfig.replace(
     /^project_id\s*=\s*"[^"]+"\s*$/mu,
     `project_id = "${isolatedProjectId}"`,
+  ).replace(
+    'secret = "env(TURNSTILE_SECRET)"',
+    isolatedTurnstileSecret
+      ? `secret = "${isolatedTurnstileSecret}"`
+      : 'secret = "env(TURNSTILE_SECRET)"',
   ),
   'utf8',
 );
@@ -102,7 +112,7 @@ await writeFile(
 const cliPath = path.join(projectRoot, 'node_modules', 'supabase', 'dist', 'supabase.js');
 try {
   await execFileAsync(process.execPath, [cliPath, 'start', '--workdir', temporaryRoot], {
-    cwd: projectRoot, windowsHide: true, maxBuffer: 1024 * 1024, timeout: 120_000,
+    cwd: projectRoot, windowsHide: true, maxBuffer: 1024 * 1024, timeout: 240_000,
   });
   await execFileAsync(process.execPath, [cliPath, 'db', 'reset', '--local', '--workdir', temporaryRoot], {
     cwd: projectRoot, windowsHide: true, maxBuffer: 1024 * 1024, timeout: 180_000,

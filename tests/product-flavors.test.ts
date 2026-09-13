@@ -139,11 +139,12 @@ test('flavor master is rejected at the inventory persistence boundary', () => {
 test('receiving and purchase-order selectors exclude flavor masters', () => {
   assert.match(
     directReceivingService,
-    /\.eq\('is_flavor_master', false\)/
+    /purpose: 'receiving'/
   );
-  assert.match(purchaseOrderModal, /!p\.isFlavorMaster/);
-  assert.match(stockCountModal, /!product\.isFlavorMaster/);
-  assert.match(warehouseTransferModal, /!product\.isFlavorMaster/);
+  assert.match(purchaseOrderModal, /purpose: 'receiving'/);
+  assert.match(stockCountModal, /purpose: 'stockable'/);
+  assert.match(warehouseTransferModal, /purpose: 'stockable'/);
+  assert.match(hardeningMigration, /p\.is_flavor_master = false/);
   assert.doesNotMatch(inventoryOpeningService, /\.from\(/);
   assert.match(
     hardeningMigration,
@@ -192,7 +193,8 @@ test('admin groups flavor families into one expandable searchable product card',
   assert.match(adminProducts, /flavorsByMaster/);
   assert.match(adminProducts, /aria-expanded=\{areFlavorsExpanded\}/);
   assert.match(adminProducts, /إدارة النكهات وترتيبها/);
-  assert.match(adminProducts, /flavor\.flavorNameAr[\s\S]*includes\(query\)/);
+  assert.match(adminProducts, /fetchAdminProductPage/);
+  assert.match(adminProducts, /debouncedSearch/);
   assert.match(
     flavorManagementMigration,
     /CREATE OR REPLACE FUNCTION public\.reorder_product_flavors_v1/

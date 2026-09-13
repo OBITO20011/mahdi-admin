@@ -5,7 +5,10 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { Product } from '../../types';
-import { resolvePosProductCode } from '../../utils/productIdentifiers';
+import {
+  resolvePosProductCode,
+  type PosProductLookupResult,
+} from '../../utils/productIdentifiers';
 import {
   startBarcodeCamera,
   type BarcodeCameraController,
@@ -25,7 +28,8 @@ import {
 interface BarcodeScannerModalProps {
   isOpen: boolean;
   onClose: () => void;
-  products: Product[];
+  products?: Product[];
+  resolveProductCode?: (code: string) => Promise<PosProductLookupResult>;
   onProductScanned: (product: Product) => void;
   setToast: (msg: string, type?: 'success' | 'error' | 'info') => void;
 }
@@ -37,7 +41,8 @@ type AudioContextWindow = Window & {
 export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
   isOpen,
   onClose,
-  products,
+  products = [],
+  resolveProductCode,
   onProductScanned,
   setToast,
 }) => {
@@ -50,6 +55,8 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
 
   const scannerRef = useRef<BarcodeCameraController | null>(null);
   const lastScanTimeRef = useRef<{ [code: string]: number }>({});
+  const lookupRef = useRef({ products, resolveProductCode });
+  lookupRef.current = { products, resolveProductCode };
   const regionId = 'pos-camera-barcode-region';
 
   // Play audio beep tone on successful scan
@@ -76,7 +83,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
     }
   };
 
-  const handleBarCodeDetected = (decodedText: string) => {
+  const handleBarCodeDetected = async (decodedText: string) => {
     const code = decodedText.trim();
     if (!code) return;
 
@@ -90,7 +97,16 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
 
     lastScanTimeRef.current[code] = now;
 
-    const lookup = resolvePosProductCode(products, code);
+    let lookup: PosProductLookupResult;
+    try {
+      lookup = lookupRef.current.resolveProductCode
+        ? await lookupRef.current.resolveProductCode(code)
+        : resolvePosProductCode(lookupRef.current.products, code);
+    } catch (error) {
+      console.error('Unable to resolve scanned product code:', error);
+      setToast('تعذر التحقق من الباركود. حاول مجددًا أو استخدم البحث اليدوي.', 'error');
+      return;
+    }
 
     if (lookup.status === 'found') {
       const matchedProduct = lookup.product;
@@ -131,7 +147,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
           elementId: regionId,
           onDecoded: (decodedText) => {
             if (isSubscribed) {
-              handleBarCodeDetected(decodedText);
+              void handleBarCodeDetected(decodedText);
             }
           },
         });

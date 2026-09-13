@@ -2,9 +2,14 @@
  * Nawasrah Business Manager - Stock Count / Audit Modal
  */
 
-import React, { useState } from 'react';
-import { useAppStore } from '../../stores/useAppStore';
+import React, { useEffect, useRef, useState } from 'react';
+import { useAppStore, useAppStoreActions } from '../../stores/useAppStore';
 import { formatProductInventory } from '../../utils/inventoryFormatter';
+import {
+  fetchAdminProductById,
+  searchAdminProducts,
+} from '../../services/supabase/products.service';
+import { Product } from '../../types';
 import {
   ClipboardCheck,
   Check,
@@ -12,6 +17,7 @@ import {
   AlertTriangle,
   ChevronLeft,
   Loader2,
+  Search,
 } from 'lucide-react';
 
 interface StockCountModalProps {
@@ -23,17 +29,13 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
   productId: initialProductId,
   onClose,
 }) => {
-  const { products, warehouses, executeStockCount, setToast } = useAppStore();
-  const stockableProducts = products.filter((product) => !product.isFlavorMaster);
-  const safeInitialProductId = stockableProducts.some(
-    (product) => product.id === initialProductId
-  )
-    ? initialProductId
-    : stockableProducts[0]?.id;
-
-  const [selectedProductId, setSelectedProductId] = useState<string>(
-    safeInitialProductId || ''
-  );
+  const { warehouses, executeStockCount, setToast } = useAppStore();
+  const { cacheProductPage } = useAppStoreActions();
+  const [stockableProducts, setStockableProducts] = useState<Product[]>([]);
+  const [productSearch, setProductSearch] = useState('');
+  const [isProductsLoading, setIsProductsLoading] = useState(true);
+  const [selectedProductId, setSelectedProductId] = useState<string>('');
+  const selectedProductRef = useRef<Product | null>(null);
 
   const selectedProduct = stockableProducts.find((p) => p.id === selectedProductId);
 
@@ -47,11 +49,62 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
   >('stock_count');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  useEffect(() => {
+    let active = true;
+    const timer = window.setTimeout(() => {
+      setIsProductsLoading(true);
+      Promise.all([
+        searchAdminProducts({
+          search: productSearch,
+          limit: 30,
+          purpose: 'stockable',
+        }),
+        initialProductId
+          ? fetchAdminProductById(initialProductId, 'stockable')
+          : Promise.resolve(null),
+      ])
+        .then(([results, initialProduct]) => {
+          if (!active) return;
+          let merged = initialProduct && !results.some((item) => item.id === initialProduct.id)
+            ? [initialProduct, ...results]
+            : results;
+          const retainedProduct = selectedProductRef.current;
+          if (retainedProduct && !merged.some((item) => item.id === retainedProduct.id)) {
+            merged = [retainedProduct, ...merged];
+          }
+          setStockableProducts(merged);
+          cacheProductPage(merged);
+          setSelectedProductId((current) => {
+            if (current) return current;
+            const nextProduct = initialProduct || merged[0];
+            if (nextProduct) {
+              selectedProductRef.current = nextProduct;
+              setActualQty(nextProduct.onHandQuantity);
+              if (nextProduct.warehouseId) setWarehouseId(nextProduct.warehouseId);
+            }
+            return nextProduct?.id || '';
+          });
+        })
+        .catch((error) => {
+          console.error('Unable to search stock count products:', error);
+          if (active) setStockableProducts([]);
+        })
+        .finally(() => {
+          if (active) setIsProductsLoading(false);
+        });
+    }, productSearch.trim() ? 250 : 0);
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+    };
+  }, [cacheProductPage, initialProductId, productSearch]);
+
   // Handle product change
   const handleProductChange = (id: string) => {
     setSelectedProductId(id);
     const prod = stockableProducts.find((p) => p.id === id);
     if (prod) {
+      selectedProductRef.current = prod;
       setActualQty(prod.onHandQuantity);
       if (prod.warehouseId) setWarehouseId(prod.warehouseId);
     }
@@ -241,6 +294,16 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
         <label className="text-[11px] font-bold text-slate-200 block">
           نوع التسوية:
         </label>
+        <div className="relative mb-2">
+          <Search className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-500" />
+          <input
+            type="search"
+            value={productSearch}
+            onChange={(event) => setProductSearch(event.target.value)}
+            placeholder="ابحث بالاسم أو SKU أو الباركود"
+            className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2.5 pl-3 pr-9 text-xs text-slate-100 outline-none focus:border-purple-500"
+          />
+        </div>
         <select
           value={adjustmentType}
           onChange={(event) =>
@@ -254,6 +317,7 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
           }
           className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 text-xs focus:outline-none focus:border-purple-500"
         >
+          {isProductsLoading && <option value="">جارٍ تحميل المنتجات…</option>}
           <option value="stock_count">جرد فعلي</option>
           <option value="damage">بضاعة تالفة</option>
           <option value="expired">بضاعة منتهية الصلاحية</option>

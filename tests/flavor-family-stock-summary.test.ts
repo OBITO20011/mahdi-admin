@@ -109,11 +109,8 @@ test('family summary is read-only UI derived from the existing bounded product l
   assert.match(productDetails, /محسوب للعرض فقط من أرصدة النكهات المستقلة/);
   assert.match(productsView, /summarizeFlavorFamilyInventory\(flavors\)/);
   assert.match(productDetails, /summarizeFlavorFamilyInventory\(flavors\)/);
-  assert.equal(
-    (productService.match(/'get_admin_product_listing'/g) || []).length,
-    1,
-    'the product family remains backed by one protected listing RPC'
-  );
+  assert.match(productService, /'get_admin_product_page'/);
+  assert.match(productService, /pageSize/);
   assert.doesNotMatch(productsView, /\.from\(['"]inventory_balances['"]\)/);
   assert.doesNotMatch(productDetails, /\.from\(['"]inventory_balances['"]\)/);
 });

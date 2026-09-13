@@ -62,7 +62,8 @@ test('inventory card keeps every existing capability and canonical formatter', (
   assert.match(inventoryView, /setHistoryProduct\(product\)/);
   assert.match(inventoryView, /setClearInventoryProduct\(product\)/);
   assert.match(inventoryView, /product\.reservedQuantity/);
-  assert.match(inventoryView, /product\.warehouseBalances/);
+  assert.match(inventoryView, /fetchInventoryProductPageFromSupabase/);
+  assert.match(inventoryView, /product\.movementCount/);
 });
 
 test('order list preserves page navigation, statuses, payment state, and detail loading', () => {

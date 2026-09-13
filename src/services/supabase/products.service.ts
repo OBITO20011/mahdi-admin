@@ -199,6 +199,215 @@ function isValidUuid(id?: string | null): boolean {
   return /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(id.trim());
 }
 
+export type AdminProductStatusFilter =
+  | 'all'
+  | 'healthy'
+  | 'low_stock'
+  | 'out_of_stock'
+  | 'hidden';
+
+export type AdminProductSort =
+  | 'name'
+  | 'stock_asc'
+  | 'stock_desc'
+  | 'profit_desc';
+
+export type AdminProductSearchPurpose =
+  | 'any'
+  | 'stockable'
+  | 'receiving'
+  | 'sellable';
+
+export interface AdminProductPageInput {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+  categoryId?: string;
+  status?: AdminProductStatusFilter;
+  sort?: AdminProductSort;
+}
+
+export interface AdminProductPage {
+  products: Product[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  metrics: {
+    lowStock: number;
+    outOfStock: number;
+    inventoryCost: number;
+    potentialProfit: number;
+  };
+}
+
+const toFiniteNumber = (value: unknown): number => {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 0;
+};
+
+export function mapAdminProductRecord(record: Record<string, any>): Product {
+  const onHandQuantity = toFiniteNumber(record.on_hand_quantity);
+  const reservedQuantity = toFiniteNumber(record.reserved_quantity);
+  const availableQuantity = Math.max(0, toFiniteNumber(record.available_quantity));
+  const warehouseBalances = Array.isArray(record.warehouse_balances)
+    ? record.warehouse_balances.map((balance: Record<string, unknown>) => ({
+        warehouseId: String(balance.warehouse_id || ''),
+        onHandQuantity: Math.max(0, toFiniteNumber(balance.on_hand_quantity)),
+        reservedQuantity: Math.max(0, toFiniteNumber(balance.reserved_quantity)),
+        availableQuantity: Math.max(0, toFiniteNumber(balance.available_quantity)),
+      }))
+    : [];
+  const baseUnit = Array.isArray(record.base_unit) ? record.base_unit[0] : record.base_unit;
+  const purchaseUnit = Array.isArray(record.purchase_unit) ? record.purchase_unit[0] : record.purchase_unit;
+  const saleUnit = Array.isArray(record.sale_unit) ? record.sale_unit[0] : record.sale_unit;
+  const costInJod = toFiniteNumber(record.cost_price_in_minor_units) / 1000;
+  const saleInJod = toFiniteNumber(record.sale_price_in_minor_units) / 1000;
+  const wholesaleInJod = toFiniteNumber(
+    record.wholesale_price_in_minor_units ?? record.sale_price_in_minor_units,
+  ) / 1000;
+  const unitName = baseUnit?.name_ar || 'قطعة';
+  const unitsPerPackage = Math.max(
+    1,
+    Math.floor(toFiniteNumber(record.units_per_purchase_unit) || 1),
+  );
+  const unitsPerSalePackage = Math.max(
+    1,
+    Math.floor(toFiniteNumber(record.units_per_sale_unit) || unitsPerPackage),
+  );
+
+  return {
+    id: String(record.id || ''),
+    sku: String(record.sku || ''),
+    barcode: String(record.barcode || ''),
+    nameAr: String(record.name_ar || ''),
+    description: String(record.description || ''),
+    imageUrl: String(record.image_url || ''),
+    categoryId: String(record.category_id || ''),
+    brandId: String(record.brand_id || ''),
+    baseUnitId: baseUnit?.id || record.unit_id || undefined,
+    baseUnitCode: baseUnit?.code || undefined,
+    purchaseUnitId: purchaseUnit?.id || record.purchase_unit_id || undefined,
+    purchaseUnitCode: purchaseUnit?.code || undefined,
+    purchasePackage: purchaseUnit?.name_ar || unitName,
+    unitsPerPackage,
+    defaultPurchasePrice:
+      toFiniteNumber(record.default_purchase_price_in_minor_units) / 1000 ||
+      costInJod * unitsPerPackage,
+    saleUnitId: saleUnit?.id || record.sale_unit_id || undefined,
+    saleUnitCode: saleUnit?.code || undefined,
+    salePackage: saleUnit?.name_ar || undefined,
+    unitsPerSalePackage,
+    salePackagePrice: saleUnit
+      ? toFiniteNumber(record.default_sale_price_in_minor_units) / 1000
+      : 0,
+    costPrice: costInJod,
+    retailPrice: saleInJod,
+    wholesalePrice: wholesaleInJod,
+    taxRate: 16,
+    unit: unitName,
+    onHandQuantity,
+    reservedQuantity,
+    availableQuantity,
+    reorderLevel: toFiniteNumber(record.min_stock_level),
+    maxStockLevel:
+      record.max_stock_level === null || record.max_stock_level === undefined
+        ? undefined
+        : toFiniteNumber(record.max_stock_level),
+    warehouseId: record.warehouse_id || undefined,
+    warehouseBalances,
+    status: record.is_active
+      ? availableQuantity === 0
+        ? 'out_of_stock'
+        : 'active'
+      : 'hidden',
+    createdAt: record.created_at || new Date().toISOString(),
+    updatedAt: record.updated_at || new Date().toISOString(),
+    isFlavorMaster: Boolean(record.is_flavor_master),
+    flavorMasterProductId: record.flavor_master_product_id || undefined,
+    flavorNameAr: record.flavor_name_ar || undefined,
+    flavorSortOrder: toFiniteNumber(record.flavor_sort_order),
+  };
+}
+
+const mapAdminProductRows = (value: unknown): Product[] =>
+  Array.isArray(value)
+    ? value.map((record) => mapAdminProductRecord(record))
+    : [];
+
+function requireProductClient() {
+  if (!isSupabaseConfigured || !supabase) {
+    throw new Error('إعدادات الاتصال بـ Supabase غير مكتملة.');
+  }
+  return supabase;
+}
+
+export async function fetchAdminProductPage(
+  input: AdminProductPageInput = {},
+): Promise<AdminProductPage> {
+  const page = Math.max(1, Math.floor(input.page || 1));
+  const pageSize = Math.min(100, Math.max(1, Math.floor(input.pageSize || 24)));
+  const {data, error} = await requireProductClient().rpc('get_admin_product_page', {
+    p_page: page,
+    p_page_size: pageSize,
+    p_search: input.search?.trim() || null,
+    p_category_id: input.categoryId || null,
+    p_status: input.status || 'all',
+    p_sort: input.sort || 'name',
+  });
+  if (error) throw new Error(error.message || 'تعذر تحميل صفحة المنتجات.');
+
+  const payload = data && typeof data === 'object'
+    ? (data as Record<string, any>)
+    : {};
+  const metrics = payload.metrics && typeof payload.metrics === 'object'
+    ? payload.metrics as Record<string, unknown>
+    : {};
+  const totalCount = Math.max(0, Math.floor(toFiniteNumber(payload.total_count)));
+
+  return {
+    products: mapAdminProductRows(payload.products),
+    page,
+    pageSize,
+    totalCount,
+    totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+    metrics: {
+      lowStock: Math.max(0, Math.floor(toFiniteNumber(metrics.low_stock))),
+      outOfStock: Math.max(0, Math.floor(toFiniteNumber(metrics.out_of_stock))),
+      inventoryCost: toFiniteNumber(metrics.inventory_cost_in_minor_units) / 1000,
+      potentialProfit: toFiniteNumber(metrics.potential_profit_in_minor_units) / 1000,
+    },
+  };
+}
+
+export async function searchAdminProducts(input: {
+  search?: string;
+  limit?: number;
+  categoryId?: string;
+  purpose?: AdminProductSearchPurpose;
+  productId?: string;
+} = {}): Promise<Product[]> {
+  const limit = Math.min(50, Math.max(1, Math.floor(input.limit || 24)));
+  const {data, error} = await requireProductClient().rpc('search_admin_products', {
+    p_search: input.search?.trim() || null,
+    p_limit: limit,
+    p_category_id: input.categoryId || null,
+    p_purpose: input.purpose || 'stockable',
+    p_product_id: input.productId || null,
+  });
+  if (error) throw new Error(error.message || 'تعذر البحث في المنتجات.');
+  return mapAdminProductRows(data);
+}
+
+export async function fetchAdminProductById(
+  productId: string,
+  purpose: AdminProductSearchPurpose = 'any',
+): Promise<Product | null> {
+  if (!isValidUuid(productId)) return null;
+  const products = await searchAdminProducts({productId, purpose, limit: 1});
+  return products[0] || null;
+}
+
 export async function fetchProductsFromSupabase(): Promise<{
   products: Product[];
   source: 'supabase';
@@ -236,7 +445,14 @@ export async function fetchProductsFromSupabase(): Promise<{
 
   try {
     const { data, error: prodError } = await supabase.rpc(
-      'get_admin_product_listing'
+      'search_admin_products',
+      {
+        p_search: null,
+        p_limit: 50,
+        p_category_id: null,
+        p_purpose: 'any',
+        p_product_id: null,
+      },
     );
     const dbProducts = Array.isArray(data) ? data : [];
 
@@ -274,93 +490,7 @@ export async function fetchProductsFromSupabase(): Promise<{
       };
     }
 
-    // Convert minor units (fils) to standard JOD (1 JOD = 1000 fils)
-    const mappedProducts: Product[] = dbProducts.map((p: any) => {
-      const onHandQuantity = Number(p.on_hand_quantity || 0);
-      const reservedQuantity = Number(p.reserved_quantity || 0);
-      const availableQuantity = Math.max(0, Number(p.available_quantity || 0));
-      const warehouseBalances = Array.isArray(p.warehouse_balances)
-        ? p.warehouse_balances.map((balance: any) => ({
-            warehouseId: String(balance.warehouse_id || ''),
-            onHandQuantity: Math.max(0, Number(balance.on_hand_quantity || 0)),
-            reservedQuantity: Math.max(0, Number(balance.reserved_quantity || 0)),
-            availableQuantity: Math.max(0, Number(balance.available_quantity || 0)),
-          }))
-        : [];
-      const defaultImg = typeof p.image_url === 'string' ? p.image_url : '';
-
-      const costInJod = Number(p.cost_price_in_minor_units || 0) / 1000;
-      const saleInJod = Number(p.sale_price_in_minor_units || 0) / 1000;
-      const wholesaleInJod =
-        Number(
-          p.wholesale_price_in_minor_units ??
-            p.sale_price_in_minor_units ??
-            0
-        ) / 1000;
-
-      const baseUnit = Array.isArray(p.base_unit) ? p.base_unit[0] : p.base_unit;
-      const purchaseUnit = Array.isArray(p.purchase_unit)
-        ? p.purchase_unit[0]
-        : p.purchase_unit;
-      const saleUnit = Array.isArray(p.sale_unit)
-        ? p.sale_unit[0]
-        : p.sale_unit;
-      const unitName = baseUnit?.name_ar || 'قطعة';
-      const unitsPerPackage = Math.max(
-        1,
-        Math.floor(Number(p.units_per_purchase_unit) || 1)
-      );
-      const defaultPurchasePrice =
-        Number(p.default_purchase_price_in_minor_units || 0) / 1000 ||
-        costInJod * unitsPerPackage;
-      const unitsPerSalePackage = Math.max(
-        1,
-        Math.floor(Number(p.units_per_sale_unit) || unitsPerPackage)
-      );
-      const salePackagePrice = saleUnit
-        ? Number(p.default_sale_price_in_minor_units || 0) / 1000
-        : 0;
-
-      return {
-        id: p.id,
-        sku: p.sku || '',
-        barcode: p.barcode || '',
-        nameAr: p.name_ar || '',
-        description: p.description || '',
-        imageUrl: defaultImg,
-        categoryId: p.category_id || '',
-        brandId: p.brand_id || '',
-        purchaseUnitId: purchaseUnit?.id || p.purchase_unit_id || undefined,
-        purchaseUnitCode: purchaseUnit?.code || undefined,
-        purchasePackage: purchaseUnit?.name_ar || unitName,
-        unitsPerPackage,
-        defaultPurchasePrice,
-        saleUnitId: saleUnit?.id || p.sale_unit_id || undefined,
-        saleUnitCode: saleUnit?.code || undefined,
-        salePackage: saleUnit?.name_ar || undefined,
-        unitsPerSalePackage,
-        salePackagePrice,
-        costPrice: costInJod,
-        retailPrice: saleInJod,
-        wholesalePrice: wholesaleInJod,
-        taxRate: 16,
-        unit: unitName,
-        onHandQuantity,
-        reservedQuantity,
-        availableQuantity,
-        reorderLevel: p.min_stock_level ?? 0,
-        maxStockLevel: p.max_stock_level ?? undefined,
-        warehouseId: p.warehouse_id || undefined,
-        warehouseBalances,
-        status: p.is_active ? (availableQuantity === 0 ? 'out_of_stock' : 'active') : 'hidden',
-        createdAt: p.created_at || new Date().toISOString(),
-        updatedAt: p.updated_at || new Date().toISOString(),
-        isFlavorMaster: Boolean(p.is_flavor_master),
-        flavorMasterProductId: p.flavor_master_product_id || undefined,
-        flavorNameAr: p.flavor_name_ar || undefined,
-        flavorSortOrder: Number(p.flavor_sort_order || 0),
-      };
-    });
+    const mappedProducts = mapAdminProductRows(dbProducts);
 
     return {
       products: mappedProducts,

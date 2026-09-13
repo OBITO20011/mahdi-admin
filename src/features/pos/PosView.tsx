@@ -50,7 +50,12 @@ import {
   buildReceiptShareText,
   paymentMethodLabel,
 } from '../../utils/receipt';
-import { isPosSellableProduct } from '../../utils/productIdentifiers';
+import {
+  isPosSellableProduct,
+  resolvePosProductCode,
+  type PosProductLookupResult,
+} from '../../utils/productIdentifiers';
+import { searchAdminProducts } from '../../services/supabase/products.service';
 
 const BarcodeScannerModal = lazy(() =>
   import('./BarcodeScannerModal').then((module) => ({
@@ -60,26 +65,29 @@ const BarcodeScannerModal = lazy(() =>
 
 export const PosView: React.FC = () => {
   const {
-    products,
     categories,
     activeBranch,
+    productDataRevision,
   } = useAppStoreSelector(
     (state) => ({
-      products: state.products,
       categories: state.categories,
       activeBranch: state.activeBranch,
+      productDataRevision: state.productDataRevision,
     }),
     shallowEqual
   );
   const {
     createPosSale,
-    refreshProductsFromSupabase,
+    cacheProductPage,
     setToast,
     setActiveTab,
   } = useAppStoreActions();
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [posProducts, setPosProducts] = useState<Product[]>([]);
+  const [isProductsLoading, setIsProductsLoading] = useState(true);
+  const [productsError, setProductsError] = useState<string | null>(null);
   const [cartItems, setCartItems] = useState<OrderItem[]>([]);
   const [posCustomers, setPosCustomers] = useState<PosCustomer[]>([]);
   const [customerSearch, setCustomerSearch] = useState('');
@@ -101,10 +109,45 @@ export const PosView: React.FC = () => {
   const [openPosShift, setOpenPosShift] = useState<OpenPosShift | null>(null);
   const [isShiftStatusLoading, setIsShiftStatusLoading] = useState(true);
   const idempotencyKeyRef = useRef<string>(crypto.randomUUID());
+  const knownProductsRef = useRef<Map<string, Product>>(new Map());
 
   useEffect(() => {
-    refreshProductsFromSupabase();
-  }, [refreshProductsFromSupabase]);
+    let active = true;
+    const timer = window.setTimeout(() => {
+      setIsProductsLoading(true);
+      setProductsError(null);
+      searchAdminProducts({
+        search: searchQuery,
+        limit: 40,
+        categoryId: selectedCategory === 'all' ? undefined : selectedCategory,
+        purpose: 'sellable',
+      })
+        .then((result) => {
+          if (!active) return;
+          const sellableProducts = result.filter(isPosSellableProduct);
+          sellableProducts.forEach((product) =>
+            knownProductsRef.current.set(product.id, product),
+          );
+          setPosProducts(sellableProducts);
+          cacheProductPage(sellableProducts);
+        })
+        .catch((error: unknown) => {
+          if (!active) return;
+          setProductsError(
+            error instanceof Error ? error.message : 'تعذر تحميل منتجات نقطة البيع.',
+          );
+          setPosProducts([]);
+        })
+        .finally(() => {
+          if (active) setIsProductsLoading(false);
+        });
+    }, searchQuery.trim() ? 250 : 0);
+
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+    };
+  }, [cacheProductPage, productDataRevision, searchQuery, selectedCategory]);
 
   useEffect(() => {
     let active = true;
@@ -176,16 +219,22 @@ export const PosView: React.FC = () => {
     };
   }, [activeBranch.id]);
 
-  const filteredProducts = products.filter((p) => {
-    const matchesCategory = selectedCategory === 'all' ? true : p.categoryId === selectedCategory;
-    const matchesSearch =
-      p.nameAr.includes(searchQuery) ||
-      p.barcode.includes(searchQuery) ||
-      p.sku.toLowerCase().includes(searchQuery.toLowerCase());
-    return isPosSellableProduct(p) && matchesCategory && matchesSearch;
-  });
+  const filteredProducts = posProducts;
+
+  const resolveScannedProductCode = async (
+    code: string,
+  ): Promise<PosProductLookupResult> => {
+    const matches = await searchAdminProducts({
+      search: code,
+      limit: 3,
+      purpose: 'any',
+    });
+    matches.forEach((product) => knownProductsRef.current.set(product.id, product));
+    return resolvePosProductCode(matches, code);
+  };
 
   const addToCart = (prod: Product) => {
+    knownProductsRef.current.set(prod.id, prod);
     const unitsPerSalePackage = Math.max(
       1,
       Math.floor(prod.unitsPerSalePackage || 1)
@@ -234,9 +283,7 @@ export const PosView: React.FC = () => {
         if (item.id === itemId) {
           const newQty = item.quantity + delta;
           if (newQty <= 0) return null;
-          const product = products.find(
-            (candidate) => candidate.id === item.productId
-          );
+          const product = knownProductsRef.current.get(item.productId);
           const availableSalePackages = product
             ? calculateAvailableSalePackages(
                 product.availableQuantity,
@@ -571,9 +618,26 @@ export const PosView: React.FC = () => {
 
       {/* Products Grid Picker */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-56 overflow-y-auto p-1 bg-slate-900/40 rounded-2xl border border-slate-800/80">
+        {productsError && (
+          <div className="col-span-full rounded-xl border border-rose-800 bg-rose-950/30 p-4 text-center text-xs font-bold text-rose-300">
+            {productsError}
+          </div>
+        )}
+        {isProductsLoading && filteredProducts.length === 0 && !productsError && (
+          <div className="col-span-full flex items-center justify-center gap-2 p-5 text-xs font-bold text-slate-400">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            جارٍ تحميل المنتجات…
+          </div>
+        )}
+        {!isProductsLoading && filteredProducts.length === 0 && !productsError && (
+          <div className="col-span-full p-5 text-center text-xs font-bold text-slate-500">
+            لا توجد منتجات مطابقة.
+          </div>
+        )}
         {filteredProducts.map((prod) => (
           <div
             key={prod.id}
+            data-pos-product-card={prod.id}
             onClick={() => addToCart(prod)}
             className="bg-slate-900 border border-slate-800 hover:border-emerald-500/50 p-2.5 rounded-2xl shadow transition cursor-pointer active:scale-95 text-right flex flex-col justify-between"
           >
@@ -949,7 +1013,7 @@ export const PosView: React.FC = () => {
           <BarcodeScannerModal
             isOpen={isBarcodeScannerOpen}
             onClose={() => setIsBarcodeScannerOpen(false)}
-            products={products}
+            resolveProductCode={resolveScannedProductCode}
             onProductScanned={(scannedProduct) => addToCart(scannedProduct)}
             setToast={setToast}
           />

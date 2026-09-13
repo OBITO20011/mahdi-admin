@@ -177,6 +177,47 @@ const productCatalogProducts: Product[] = [
   ...flavorProducts,
 ];
 
+const fetchHarnessProductPage = async () => ({
+  products: productCatalogProducts,
+  page: 1,
+  pageSize: 24,
+  totalCount: 4,
+  totalPages: 1,
+  metrics: {
+    lowStock: 1,
+    outOfStock: 1,
+    inventoryCost: 0,
+    potentialProfit: 0,
+  },
+});
+
+const fetchHarnessInventoryPage = async () => ({
+  products: catalogProducts.map((product) => ({
+    ...product,
+    hasSales: false,
+    movementCount:
+      product.id === baseProduct.id
+        ? 3
+        : product.id === catalogProducts[1].id
+          ? 1
+          : product.id === catalogProducts[2].id
+            ? 2
+            : 0,
+  })),
+  page: 1,
+  pageSize: 24,
+  totalCount: 4,
+  totalPages: 1,
+  metrics: {
+    totalItems: 4,
+    totalCostValue: 113.2,
+    totalRetailValue: 141.5,
+    lowStock: 1,
+    outOfStock: 1,
+    stagnant: 3,
+  },
+});
+
 const view = new URLSearchParams(window.location.search).get('view');
 const barcodeScenario =
   new URLSearchParams(window.location.search).get('scenario') || 'success';
@@ -320,7 +361,7 @@ const content =
       ))}
     </main>
   ) : view === 'products' ? (
-    <ProductsView />
+    <ProductsView fetchProductPage={fetchHarnessProductPage} />
   ) : view === 'flavor-detail' ? (
     <main dir="rtl" className="mx-auto max-w-lg p-3">
       <ProductDetailModal
@@ -360,7 +401,7 @@ const content =
       />
     </main>
   ) : (
-    <InventoryView />
+    <InventoryView fetchProductPage={fetchHarnessInventoryPage} />
   );
 
 createRoot(document.getElementById('root')!).render(

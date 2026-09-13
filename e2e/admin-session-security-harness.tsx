@@ -92,7 +92,7 @@ let refreshCount = 0;
 let protectedActionCount = 0;
 for (const method of [
   'refreshOrdersFromSupabase',
-  'refreshProductsFromSupabase',
+  'refreshReferenceDataFromSupabase',
   'refreshStockNotificationsFromSupabase',
 ] as const) {
   (storeEngine[method] as unknown as () => Promise<void>) = async () => {

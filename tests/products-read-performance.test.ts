@@ -9,6 +9,13 @@ const migration = readFileSync(
   ),
   'utf8',
 );
+const boundedMigration = readFileSync(
+  new URL(
+    '../supabase/migrations/109_admin_large_catalog_read_models.sql',
+    import.meta.url,
+  ),
+  'utf8',
+);
 const productService = readFileSync(
   new URL('../src/services/supabase/products.service.ts', import.meta.url),
   'utf8',
@@ -46,17 +53,36 @@ test('listing aggregates inventory in PostgreSQL and has lookup indexes', () => 
   assert.match(migration, /idx_product_images_primary_listing/);
 });
 
-test('browser product refresh makes one protected listing call and retains warehouse balances', () => {
+test('browser product refresh uses a bounded protected search and retains warehouse balances', () => {
   assert.ok(listStart >= 0 && listEnd > listStart);
-  assert.match(listingService, /rpc\(\s*'get_admin_product_listing'/);
-  assert.match(listingService, /warehouseBalances/);
+  assert.match(listingService, /'search_admin_products'/);
+  assert.match(listingService, /p_limit: 50/);
+  assert.match(productService, /warehouseBalances/);
   assert.doesNotMatch(listingService, /\.from\('inventory_balances'\)/);
   assert.doesNotMatch(listingService, /\.from\('product_images'\)/);
 });
 
-test('inventory warehouse filter uses the exact selected warehouse balance', () => {
-  assert.match(inventoryView, /product\.warehouseBalances\?\.find/);
-  assert.match(inventoryView, /item\.warehouseId === selectedWarehouseId/);
-  assert.match(inventoryView, /onHandQuantity: balance\?\.onHandQuantity \?\? 0/);
-  assert.match(inventoryView, /availableQuantity: balance\?\.availableQuantity \?\? 0/);
+test('inventory warehouse filter and metrics are calculated on the server, not the current page', () => {
+  assert.match(inventoryView, /fetchInventoryProductPageFromSupabase/);
+  assert.match(inventoryView, /warehouseId: selectedWarehouseId === 'all'/);
+  assert.match(inventoryView, /inventoryProductPage\.metrics\.totalCostValue/);
+  assert.match(boundedMigration, /CREATE OR REPLACE FUNCTION public\.get_admin_inventory_product_page/);
+  assert.match(boundedMigration, /p_warehouse_id IS NULL OR ib\.warehouse_id = p_warehouse_id/);
+  assert.match(boundedMigration, /FROM inventory_catalog product/);
+  assert.match(boundedMigration, /FROM paged_catalog product/);
+});
+
+test('large-catalog read models enforce bounded pages, deterministic ordering, and protected execution', () => {
+  assert.match(boundedMigration, /v_page_size < 1 OR v_page_size > 100/);
+  assert.match(boundedMigration, /v_limit < 1 OR v_limit > 50/);
+  assert.match(boundedMigration, /root\.name_ar ASC,[\s\S]*root\.id ASC/);
+  assert.match(boundedMigration, /product\.name_ar, product\.id/);
+  assert.match(boundedMigration, /PERFORM public\.assert_erp_role/g);
+  assert.match(boundedMigration, /REVOKE ALL ON FUNCTION public\.get_admin_product_page/);
+  assert.match(boundedMigration, /REVOKE ALL ON FUNCTION public\.search_admin_products/);
+  assert.match(boundedMigration, /REVOKE ALL ON FUNCTION public\.get_admin_inventory_product_page/);
+  assert.match(
+    boundedMigration,
+    /default_sale_price_in_minor_units, 0\)::NUMERIC\s*\/\s*GREATEST\(COALESCE\(root\.units_per_sale_unit, 1\), 1\)\s*- root\.cost_price_in_minor_units/,
+  );
 });

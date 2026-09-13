@@ -60,7 +60,8 @@ test('admin startup does not query business data before authentication', () => {
   assert.doesNotMatch(constructorBody, /refreshProductsFromSupabase/);
   assert.doesNotMatch(constructorBody, /refreshOrdersFromSupabase/);
   assert.doesNotMatch(constructorBody, /refreshInventoryMovementsFromSupabase/);
-  assert.match(authStore, /requestIdleCallback\(warmProductData/);
+  assert.match(authStore, /requestIdleCallback\(warmReferenceData/);
+  assert.doesNotMatch(authStore, /requestIdleCallback\(warmProductData/);
 });
 
 test('app store persists only compact UI preferences', () => {

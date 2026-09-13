@@ -1,5 +1,6 @@
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
-import { InventoryMovement, MovementType } from '../../types';
+import { InventoryMovement, MovementType, Product } from '../../types';
+import { mapAdminProductRecord } from './products.service';
 
 export interface ReceiveInventoryInput {
   warehouseId: string;
@@ -49,6 +50,100 @@ export interface InventoryMovementPage {
   totalPages: number;
   productMovementCounts: Record<string, number>;
   salesProductIds: string[];
+}
+
+export interface InventoryProduct extends Product {
+  hasSales: boolean;
+  movementCount: number;
+}
+
+export interface InventoryProductPageInput {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+  branchId?: string;
+  warehouseId?: string;
+  categoryId?: string;
+  status?: 'all' | 'low_stock' | 'out_of_stock' | 'near_expiry' | 'damaged' | 'stagnant';
+}
+
+export interface InventoryProductPage {
+  products: InventoryProduct[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  metrics: {
+    totalItems: number;
+    totalCostValue: number;
+    totalRetailValue: number;
+    lowStock: number;
+    outOfStock: number;
+    stagnant: number;
+  };
+}
+
+const finiteNumber = (value: unknown): number => {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : 0;
+};
+
+export async function fetchInventoryProductPageFromSupabase(
+  input: InventoryProductPageInput = {},
+): Promise<InventoryProductPage> {
+  const page = Math.max(1, Math.floor(input.page || 1));
+  const pageSize = Math.min(100, Math.max(1, Math.floor(input.pageSize || 24)));
+  if (!isSupabaseConfigured || !supabase) {
+    return {
+      products: [], page, pageSize, totalCount: 0, totalPages: 1,
+      metrics: {
+        totalItems: 0, totalCostValue: 0, totalRetailValue: 0,
+        lowStock: 0, outOfStock: 0, stagnant: 0,
+      },
+    };
+  }
+
+  const {data, error} = await supabase.rpc('get_admin_inventory_product_page', {
+    p_page: page,
+    p_page_size: pageSize,
+    p_search: input.search?.trim() || null,
+    p_branch_id: input.branchId || null,
+    p_warehouse_id: input.warehouseId || null,
+    p_category_id: input.categoryId || null,
+    p_status: input.status || 'all',
+  });
+  if (error) throw new Error(error.message || 'تعذر تحميل صفحة المخزون.');
+
+  const payload = data && typeof data === 'object'
+    ? data as Record<string, any>
+    : {};
+  const metrics = payload.metrics && typeof payload.metrics === 'object'
+    ? payload.metrics as Record<string, unknown>
+    : {};
+  const totalCount = Math.max(0, Math.floor(finiteNumber(payload.total_count)));
+  const products = Array.isArray(payload.products)
+    ? payload.products.map((record: Record<string, any>) => ({
+        ...mapAdminProductRecord(record),
+        hasSales: record.has_sales === true,
+        movementCount: Math.max(0, Math.floor(finiteNumber(record.movement_count))),
+      }))
+    : [];
+
+  return {
+    products,
+    page,
+    pageSize,
+    totalCount,
+    totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
+    metrics: {
+      totalItems: Math.max(0, Math.floor(finiteNumber(metrics.total_items))),
+      totalCostValue: finiteNumber(metrics.total_cost_in_minor_units) / 1000,
+      totalRetailValue: finiteNumber(metrics.total_retail_in_minor_units) / 1000,
+      lowStock: Math.max(0, Math.floor(finiteNumber(metrics.low_stock))),
+      outOfStock: Math.max(0, Math.floor(finiteNumber(metrics.out_of_stock))),
+      stagnant: Math.max(0, Math.floor(finiteNumber(metrics.stagnant))),
+    },
+  };
 }
 
 export async function receiveInventoryInSupabase(

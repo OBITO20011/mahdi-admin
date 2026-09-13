@@ -3,7 +3,7 @@
  * Wholesale Store Goods Receiving Form (Direct receiving bypassing PO approval)
  */
 
-import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useAppStoreActions } from '../../stores/useAppStore';
 import { formatWholesaleInventory } from '../../utils/inventoryFormatter';
 import {
@@ -59,6 +59,8 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
   // Reference Data States
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [products, setProducts] = useState<ReceivingProduct[]>([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
+  const [productsFetchError, setProductsFetchError] = useState<string | null>(null);
   const [units, setUnits] = useState<Unit[]>([]);
   const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [branches, setBranches] = useState<Branch[]>([]);
@@ -104,22 +106,21 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const idempotencyKeyRef = useRef<string>(crypto.randomUUID());
   const didPreselectProductRef = useRef(false);
+  const selectedProductsRef = useRef<Map<string, ReceivingProduct>>(new Map());
 
   // Load Initial Reference Data
   const loadReferenceData = useCallback(async () => {
     setIsLoadingRefData(true);
     setReferenceDataError(null);
     try {
-      const [sups, prods, unts, whs, brs] = await Promise.all([
+      const [sups, unts, whs, brs] = await Promise.all([
         fetchSuppliersForReceivingFromSupabase(),
-        fetchProductsForReceivingFromSupabase(),
         fetchUnitsForReceivingFromSupabase(),
         fetchWarehousesForReceivingFromSupabase(),
         fetchBranchesForReceivingFromSupabase(),
       ]);
 
       setSuppliers(sups);
-      setProducts(prods);
       setUnits(unts);
       setWarehouses(whs);
       setBranches(brs);
@@ -165,20 +166,42 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
     setSelectedBranchId(selectedWarehouse?.branchId ?? '');
   }, [selectedWarehouseId, warehouses]);
 
-  // Filtered Products for Search Dropdown
-  const filteredProducts = useMemo(() => {
-    if (!productSearch.trim()) return products.slice(0, 8);
-    const query = productSearch.toLowerCase().trim();
-    return products.filter(
-      (p) =>
-        (p.nameAr && p.nameAr.toLowerCase().includes(query)) ||
-        (p.sku && p.sku.toLowerCase().includes(query)) ||
-        (p.barcode && p.barcode.toLowerCase().includes(query))
-    );
-  }, [products, productSearch]);
+  useEffect(() => {
+    if (!isSearchFocused) return;
+    let active = true;
+    const timer = window.setTimeout(() => {
+      setIsLoadingProducts(true);
+      setProductsFetchError(null);
+      fetchProductsForReceivingFromSupabase({
+        search: productSearch,
+        limit: 20,
+      })
+        .then((result) => {
+          if (active) setProducts(result);
+        })
+        .catch((error: unknown) => {
+          if (!active) return;
+          setProducts([]);
+          setProductsFetchError(
+            error instanceof Error ? error.message : 'تعذر البحث في المنتجات.',
+          );
+        })
+        .finally(() => {
+          if (active) setIsLoadingProducts(false);
+        });
+    }, productSearch.trim() ? 250 : 0);
+
+    return () => {
+      active = false;
+      window.clearTimeout(timer);
+    };
+  }, [isSearchFocused, productSearch]);
+
+  const filteredProducts = products;
 
   // Add Product to Receipt Rows
   const handleSelectProduct = useCallback((prod: ReceivingProduct) => {
+    selectedProductsRef.current.set(prod.id, prod);
     const unitsPerPackage = normalizeIntegerQuantity(prod.unitsPerPackage);
     const defaultPkgPrice = minorUnitsToJod(
       prod.defaultPackagePriceInMinorUnits ||
@@ -215,11 +238,20 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
   useEffect(() => {
     if (!initialProductId || didPreselectProductRef.current) return;
-    const product = products.find((item) => item.id === initialProductId);
-    if (!product) return;
-    didPreselectProductRef.current = true;
-    handleSelectProduct(product);
-  }, [handleSelectProduct, initialProductId, products]);
+    let active = true;
+    fetchProductsForReceivingFromSupabase({ productId: initialProductId, limit: 1 })
+      .then(([product]) => {
+        if (!active || !product || didPreselectProductRef.current) return;
+        didPreselectProductRef.current = true;
+        handleSelectProduct(product);
+      })
+      .catch((error) => {
+        console.error('Unable to preselect receiving product:', error);
+      });
+    return () => {
+      active = false;
+    };
+  }, [handleSelectProduct, initialProductId]);
 
   // Update item field in list
   const updateItemField = (index: number, field: string, value: any) => {
@@ -621,7 +653,16 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
           {/* Search Dropdown Results */}
           {isSearchFocused && (
             <div className="absolute top-full left-0 right-0 mt-1 bg-slate-950 border border-slate-800 rounded-2xl shadow-2xl z-50 max-h-60 overflow-y-auto p-1.5 space-y-1">
-              {filteredProducts.length === 0 ? (
+              {isLoadingProducts ? (
+                <div className="flex items-center justify-center gap-2 p-4 text-xs font-bold text-slate-400">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  جارٍ البحث في المنتجات…
+                </div>
+              ) : productsFetchError ? (
+                <div className="p-4 text-center text-xs font-bold text-rose-300">
+                  {productsFetchError}
+                </div>
+              ) : filteredProducts.length === 0 ? (
                 <div className="p-4 text-center text-slate-500 space-y-1">
                   <p>لم يتم العثور على نتائج متطابقة.</p>
                   <p className="text-[10px] text-blue-400 font-bold">
@@ -638,6 +679,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                   return (
                     <div
                       key={prod.id}
+                      data-receiving-product-result={prod.id}
                       onClick={() => handleSelectProduct(prod)}
                       className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-900 border border-transparent hover:border-slate-800 transition cursor-pointer"
                     >
@@ -706,9 +748,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
               const lineTotalJod = minorUnitsToJod(
                 lineCalculation.lineTotalInMinorUnits
               );
-              const sourceProduct = products.find(
-                (product) => product.id === item.productId
-              );
+              const sourceProduct = selectedProductsRef.current.get(item.productId);
               const warehouseBalance = sourceProduct?.inventoryBalances.find(
                 (balance) => balance.warehouseId === selectedWarehouseId
               );
