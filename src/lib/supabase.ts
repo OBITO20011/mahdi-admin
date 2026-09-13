@@ -61,7 +61,9 @@ export const sanitizedSupabaseKey = sanitizeSupabaseKey(rawKey);
 // Validate scheme
 export const isValidSupabaseUrl = Boolean(
   sanitizedSupabaseUrl &&
-  (sanitizedSupabaseUrl.startsWith('https://') || sanitizedSupabaseUrl.startsWith('http://localhost'))
+  (sanitizedSupabaseUrl.startsWith('https://') ||
+    sanitizedSupabaseUrl.startsWith('http://localhost') ||
+    sanitizedSupabaseUrl.startsWith('http://127.0.0.1'))
 );
 
 export const isSupabaseConfigured = Boolean(

@@ -1,5 +1,10 @@
 import type { Factor } from '@supabase/supabase-js';
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
+import {
+  MfaStatusTimeoutError,
+  SingleFlightRequest,
+  withMfaStatusTimeout,
+} from './mfaStatusRequest';
 
 export interface MfaStatus {
   verifiedTotpFactor: Factor<'totp', 'verified'> | null;
@@ -34,6 +39,10 @@ function normalizeTotpCode(code: string): string {
 }
 
 export function translateMfaError(error: unknown): string {
+  if (error instanceof MfaStatusTimeoutError) {
+    return 'استغرق فحص حالة المصادقة وقتًا أطول من المتوقع. حاول مجددًا.';
+  }
+
   const message = error instanceof Error ? error.message : String(error || '');
   const normalized = message.toLowerCase();
 
@@ -53,17 +62,20 @@ export function translateMfaError(error: unknown): string {
     return 'تعذر الاتصال بخادم المصادقة. تحقق من الإنترنت وحاول مجددًا.';
   }
 
-  return message || 'تعذر إكمال التحقق بخطوتين.';
+  return 'تعذر إكمال التحقق بخطوتين. حاول مجددًا.';
 }
 
-export async function getMfaStatus(): Promise<MfaStatus> {
+const mfaStatusLoader = new SingleFlightRequest<MfaStatus>();
+
+async function loadMfaStatus(): Promise<MfaStatus> {
   const client = requireSupabase();
-  const [factorsResponse, aalResponse] = await Promise.all([
-    client.auth.mfa.listFactors(),
-    client.auth.mfa.getAuthenticatorAssuranceLevel(),
-  ]);
+  const factorsResponse = await client.auth.mfa.listFactors();
 
   if (factorsResponse.error) throw factorsResponse.error;
+
+  // GoTrue auth calls share session state. Keep the status probe sequential so
+  // the SDK never performs two MFA reads against that state at the same time.
+  const aalResponse = await client.auth.mfa.getAuthenticatorAssuranceLevel();
   if (aalResponse.error) throw aalResponse.error;
 
   return {
@@ -74,6 +86,12 @@ export async function getMfaStatus(): Promise<MfaStatus> {
     currentLevel: aalResponse.data.currentLevel,
     nextLevel: aalResponse.data.nextLevel,
   };
+}
+
+export function getMfaStatus(): Promise<MfaStatus> {
+  // Keep the underlying SDK call single-flight even after a caller times out.
+  // A retry receives a fresh timeout window around the same in-flight request.
+  return withMfaStatusTimeout(mfaStatusLoader.run(loadMfaStatus));
 }
 
 export async function beginTotpEnrollment(): Promise<TotpEnrollment> {
@@ -123,4 +141,3 @@ export async function removeTotpFactor(factorId: string): Promise<void> {
 
   if (error) throw error;
 }
-

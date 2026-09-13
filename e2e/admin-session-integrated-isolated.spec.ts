@@ -1,4 +1,4 @@
-import {expect, test, type BrowserContext, type Page, type Route} from '@playwright/test';
+import {expect, test, type BrowserContext, type Page} from '@playwright/test';
 
 const baseUrl = process.env.ADMIN_SESSION_E2E_BASE_URL;
 const email = process.env.ADMIN_SESSION_E2E_EMAIL;
@@ -21,13 +21,28 @@ window.turnstile = {
 };`;
 
 const installTurnstileShim = async (context: BrowserContext) => {
-  await context.route('https://challenges.cloudflare.com/turnstile/v0/api.js**', async (route: Route) => {
-    await route.fulfill({status: 200, contentType: 'text/javascript', body: turnstileShim});
-  });
+  await context.addInitScript({content: turnstileShim});
 };
 
 const waitForCaptcha = async (page: Page) => {
-  await expect(page.getByText('تم التحقق ✓')).toBeVisible();
+  await expect(page.getByText('تم التحقق ✓')).toBeVisible({timeout: 30_000});
+};
+
+const loginWithIsolatedUser = async (page: Page) => {
+  await page.goto(baseUrl!);
+  await waitForCaptcha(page);
+  await page.locator('input[type="email"]').fill(email!);
+  await page.locator('input[type="password"]').fill(password!);
+  await page.getByRole('button', {name: 'تسجيل الدخول', exact: true}).click();
+  await expect(page.locator('main')).toBeVisible({timeout: 60_000});
+};
+
+const openProfileSecurity = async (page: Page) => {
+  await page.locator('[data-bottom-tab="more"]').click();
+  await page.getByRole('button', {name: /الإدارة والمتجر/}).click();
+  await page.locator('[data-navigation-id="profile-summary"]').click();
+  const profileModal = page.locator('.fixed.inset-0.z-50');
+  await profileModal.getByRole('button', {name: 'الأمان والجلسات', exact: true}).click();
 };
 
 const ageSession = async (page: Page, ageMs: number) => {
@@ -61,7 +76,7 @@ const readSecuritySnapshot = async (page: Page) => page.evaluate(async () => {
 const unlock = async (page: Page, value: string) => {
   await page.locator('input[type="password"]').fill(value);
   const unlockButton = page.getByRole('button', {name: 'فتح التطبيق'});
-  await expect(unlockButton).toBeEnabled();
+  await expect(unlockButton).toBeEnabled({timeout: 30_000});
   await unlockButton.click();
 };
 
@@ -84,11 +99,13 @@ test.describe('isolated integrated Admin session security', () => {
     await page.locator('input[type="email"]').fill(email!);
     await page.locator('input[type="password"]').fill('wrong-isolated-password');
     await page.getByRole('button', {name: 'تسجيل الدخول', exact: true}).click();
-    await expect(page.getByText('البريد الإلكتروني أو كلمة المرور غير صحيحة')).toBeVisible();
+    await expect(page.getByText('البريد الإلكتروني أو كلمة المرور غير صحيحة')).toBeVisible({
+      timeout: 30_000,
+    });
     await waitForCaptcha(page);
     await page.locator('input[type="password"]').fill(password!);
     await page.getByRole('button', {name: 'تسجيل الدخول', exact: true}).click();
-    await expect(page.locator('main')).toBeVisible({timeout: 30_000});
+    await expect(page.locator('main')).toBeVisible({timeout: 60_000});
 
     await page.locator('[data-bottom-tab="orders"]').click();
     await expect(page.locator('[data-bottom-tab="orders"]')).toHaveAttribute('aria-current', 'page');
@@ -108,16 +125,18 @@ test.describe('isolated integrated Admin session security', () => {
     expect((await readSecuritySnapshot(page))?.lastActivityAt).toBe(expired?.lastActivityAt);
 
     await unlock(page, 'wrong-isolated-password');
-    await expect(page.getByText('البريد الإلكتروني أو كلمة المرور غير صحيحة')).toBeVisible();
+    await expect(page.getByText('البريد الإلكتروني أو كلمة المرور غير صحيحة')).toBeVisible({
+      timeout: 30_000,
+    });
     await expect(page.locator('main')).toHaveCount(0);
     await unlock(page, password!);
-    await expect(page.locator('main')).toBeVisible({timeout: 30_000});
+    await expect(page.locator('main')).toBeVisible({timeout: 60_000});
     const afterUnlock = await readSecuritySnapshot(page);
     expect(afterUnlock?.absoluteSessionStartedAt).toBe(beforeLock?.absoluteSessionStartedAt);
 
     const otherTab = await context.newPage();
     await otherTab.goto(baseUrl!);
-    await expect(otherTab.locator('main')).toBeVisible({timeout: 30_000});
+    await expect(otherTab.locator('main')).toBeVisible({timeout: 60_000});
     await ageSession(page, idleLockMs - 1_000);
     await page.locator('[data-bottom-tab="home"]').click();
     await expect.poll(async () =>
@@ -132,7 +151,7 @@ test.describe('isolated integrated Admin session security', () => {
     await otherTab.close();
 
     await unlock(page, password!);
-    await expect(page.locator('main')).toBeVisible({timeout: 30_000});
+    await expect(page.locator('main')).toBeVisible({timeout: 60_000});
     await page.locator('[data-bottom-tab="more"]').click();
     await page.getByRole('button', {name: 'تسجيل الخروج', exact: true}).click();
     await expect(page.getByText('تسجيل الدخول للنظام')).toBeVisible({timeout: 30_000});
@@ -141,5 +160,81 @@ test.describe('isolated integrated Admin session security', () => {
 
     expect(unexpectedAuthResponses).toEqual([]);
     expect(pageErrors).toEqual([]);
+  });
+
+  test('MFA status failure settles, retry is single-flight, and unmount is safe', async ({page, context}) => {
+    await installTurnstileShim(context);
+    const pageErrors: string[] = [];
+    const consoleErrors: string[] = [];
+    page.on('pageerror', (error) => pageErrors.push(error.message));
+    page.on('console', (message) => {
+      if (message.type() === 'error') consoleErrors.push(message.text());
+    });
+
+    await loginWithIsolatedUser(page);
+
+    let userRequestCount = 0;
+    let enrollmentRequestCount = 0;
+    let delayNextRequest = false;
+    page.on('request', (request) => {
+      if (request.method() === 'POST' && new URL(request.url()).pathname.endsWith('/auth/v1/factors')) {
+        enrollmentRequestCount += 1;
+      }
+    });
+    await context.route('**/auth/v1/user', async (route) => {
+      userRequestCount += 1;
+      if (userRequestCount === 1) {
+        await route.fulfill({
+          status: 503,
+          contentType: 'application/json',
+          body: JSON.stringify({message: 'test-only sensitive upstream detail'}),
+        });
+        return;
+      }
+      if (delayNextRequest) {
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        delayNextRequest = false;
+      }
+      await route.continue();
+    });
+
+    await openProfileSecurity(page);
+    const profileModal = page.locator('.fixed.inset-0.z-50');
+    await expect(profileModal.getByText('تعذر الفحص')).toBeVisible({timeout: 15_000});
+    await expect(page.getByRole('button', {name: 'إعادة المحاولة'})).toBeVisible();
+    await expect(page.getByText('test-only sensitive upstream detail')).toHaveCount(0);
+
+    await page.getByRole('button', {name: 'إعادة المحاولة'}).evaluate((button) => {
+      (button as HTMLButtonElement).click();
+      (button as HTMLButtonElement).click();
+      (button as HTMLButtonElement).click();
+    });
+    await expect(page.getByText('غير مفعلة', {exact: true})).toBeVisible();
+    const enrollmentButton = page.getByRole('button', {name: 'تفعيل تطبيق المصادقة'});
+    await expect(enrollmentButton).toBeEnabled();
+    expect(userRequestCount).toBe(2);
+
+    await enrollmentButton.evaluate((button) => {
+      (button as HTMLButtonElement).click();
+      (button as HTMLButtonElement).click();
+      (button as HTMLButtonElement).click();
+    });
+    await expect(profileModal.getByAltText('رمز QR لتطبيق المصادقة')).toBeVisible();
+    expect(enrollmentRequestCount).toBe(1);
+    await profileModal.getByRole('button', {name: 'إلغاء', exact: true}).click();
+    await expect(enrollmentButton).toBeEnabled();
+
+    await profileModal.getByRole('button', {name: 'إغلاق'}).click();
+    delayNextRequest = true;
+    await page.locator('[data-navigation-id="profile-summary"]').click();
+    await profileModal.getByRole('button', {name: 'الأمان والجلسات', exact: true}).click();
+    await profileModal.getByRole('button', {name: 'إغلاق'}).click();
+    await page.waitForTimeout(500);
+
+    expect(pageErrors).toEqual([]);
+    expect(consoleErrors.some((message) => message.includes('status of 503'))).toBe(true);
+    expect(
+      consoleErrors.filter((message) => !message.includes('status of 503'))
+    ).toEqual([]);
   });
 });

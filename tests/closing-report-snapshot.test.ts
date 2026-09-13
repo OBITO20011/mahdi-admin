@@ -9,6 +9,13 @@ const migration = readFileSync(
   ),
   'utf8'
 );
+const securityFixMigration = readFileSync(
+  new URL(
+    '../supabase/migrations/110_fix_deferred_cash_shift_snapshot_guard_privileges.sql',
+    import.meta.url
+  ),
+  'utf8'
+);
 const service = readFileSync(
   new URL('../src/services/supabase/expenses-shifts.service.ts', import.meta.url),
   'utf8'
@@ -35,4 +42,24 @@ test('new reports expose immutable status while legacy reports stay explicit', (
   assert.match(service, /snapshotStatus:/);
   assert.match(modal, /لقطة الإغلاق محفوظة وثابتة للتدقيق والطباعة/);
   assert.match(modal, /تقرير تاريخي محسوب/);
+});
+
+test('deferred snapshot guard uses trusted privileges without becoming a public API', () => {
+  assert.match(securityFixMigration, /^BEGIN;/m);
+  assert.match(securityFixMigration, /COMMIT;\s*$/);
+  assert.match(
+    securityFixMigration,
+    /CREATE OR REPLACE FUNCTION public\.assert_closed_cash_shift_has_snapshot\(\)[\s\S]*SECURITY DEFINER/
+  );
+  assert.match(securityFixMigration, /SET search_path = public, pg_temp/);
+  assert.match(
+    securityFixMigration,
+    /ALTER FUNCTION public\.assert_closed_cash_shift_has_snapshot\(\) OWNER TO postgres/
+  );
+  assert.match(
+    securityFixMigration,
+    /REVOKE ALL ON FUNCTION public\.assert_closed_cash_shift_has_snapshot\(\)[\s\S]*PUBLIC, anon, authenticated/
+  );
+  assert.doesNotMatch(securityFixMigration, /GRANT EXECUTE/);
+  assert.doesNotMatch(securityFixMigration, /(?:INSERT|UPDATE|DELETE)\s+(?:INTO\s+)?public\./i);
 });

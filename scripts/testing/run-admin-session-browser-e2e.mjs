@@ -9,7 +9,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(here, '..', '..');
 const bootstrapPath = path.join(here, 'bootstrap-isolated-supabase.mjs');
 const cliPath = path.join(projectRoot, 'node_modules', 'supabase', 'dist', 'supabase.js');
-const projectId = 'nawasrah-admin-session-test';
+const projectId = `nawasrah-admin-session-${randomUUID().slice(0, 8)}-test`;
 const databaseContainer = `supabase_db_${projectId}`;
 const vitePort = 4173;
 const email = `session-${randomUUID()}@example.test`;
@@ -122,7 +122,7 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO authenticated;
     windowsHide: true,
     env: {
       ...process.env,
-      VITE_SUPABASE_URL: apiUrl.replace('127.0.0.1', 'localhost'),
+      VITE_SUPABASE_URL: apiUrl,
       VITE_SUPABASE_PUBLISHABLE_KEY: anonKey,
     },
     stdio: 'ignore',

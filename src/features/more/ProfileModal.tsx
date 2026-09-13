@@ -2,7 +2,7 @@
  * Nawasrah Business Manager - Comprehensive Profile & Settings Modal
  */
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import { useAuthStore } from '../../stores/useAuthStore';
 import {
@@ -20,6 +20,9 @@ import {
   translateMfaError,
   verifyTotpFactor,
 } from '../../services/supabase/mfa.service';
+import {
+  LatestMfaStatusRequest,
+} from '../../services/supabase/mfaStatusRequest';
 import {
   User as UserIcon,
   ShieldCheck,
@@ -64,6 +67,27 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
   const [mfaEnrollment, setMfaEnrollment] = useState<TotpEnrollment | null>(null);
   const [mfaCode, setMfaCode] = useState('');
   const [isUpdatingMfa, setIsUpdatingMfa] = useState(false);
+  const [mfaStatusState, setMfaStatusState] = useState<
+    'idle' | 'loading' | 'ready' | 'error'
+  >('idle');
+  const [mfaStatusError, setMfaStatusError] = useState('');
+  const mfaStatusRequestRef = useRef(new LatestMfaStatusRequest());
+  const mfaMutationInFlightRef = useRef(false);
+  const isMountedRef = useRef(true);
+  const setToastRef = useRef(setToast);
+
+  useEffect(() => {
+    setToastRef.current = setToast;
+  }, [setToast]);
+
+  useEffect(() => {
+    const requestCoordinator = mfaStatusRequestRef.current;
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+      requestCoordinator.cancel();
+    };
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -86,86 +110,121 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
   };
 
   const refreshMfaStatus = useCallback(async () => {
-    setIsUpdatingMfa(true);
+    const requestId = mfaStatusRequestRef.current.begin();
+    if (requestId === null) return;
+
+    setMfaStatusState('loading');
+    setMfaStatusError('');
     try {
-      setMfaStatus(await getMfaStatus());
+      const status = await getMfaStatus();
+      if (!isMountedRef.current || !mfaStatusRequestRef.current.complete(requestId)) return;
+
+      setMfaStatus(status);
+      setMfaStatusState('ready');
     } catch (error) {
-      setToast(translateMfaError(error), 'error');
-    } finally {
-      setIsUpdatingMfa(false);
+      if (!isMountedRef.current || !mfaStatusRequestRef.current.complete(requestId)) return;
+
+      const safeMessage = translateMfaError(error);
+      setMfaStatus(null);
+      setMfaStatusError(safeMessage);
+      setMfaStatusState('error');
+      setToastRef.current(safeMessage, 'error');
     }
-  }, [setToast]);
+  }, []);
 
   useEffect(() => {
+    const requestCoordinator = mfaStatusRequestRef.current;
     if (activeTab === 'security') {
       void refreshMfaStatus();
     }
+
+    return () => {
+      requestCoordinator.cancel();
+    };
   }, [activeTab, refreshMfaStatus]);
 
   const handleBeginMfaEnrollment = async () => {
+    if (mfaMutationInFlightRef.current) return;
+    mfaMutationInFlightRef.current = true;
     setIsUpdatingMfa(true);
     setMfaCode('');
     try {
-      setMfaEnrollment(await beginTotpEnrollment());
+      const enrollment = await beginTotpEnrollment();
+      if (isMountedRef.current) setMfaEnrollment(enrollment);
     } catch (error) {
-      setToast(translateMfaError(error), 'error');
+      if (isMountedRef.current) setToast(translateMfaError(error), 'error');
     } finally {
-      setIsUpdatingMfa(false);
+      mfaMutationInFlightRef.current = false;
+      if (isMountedRef.current) setIsUpdatingMfa(false);
     }
   };
 
   const handleVerifyMfaEnrollment = async () => {
-    if (!mfaEnrollment) return;
+    if (!mfaEnrollment || mfaMutationInFlightRef.current) return;
 
+    mfaMutationInFlightRef.current = true;
     setIsUpdatingMfa(true);
     try {
       await verifyTotpFactor(mfaEnrollment.factorId, mfaCode);
+      if (!isMountedRef.current) return;
       setMfaEnrollment(null);
       setMfaCode('');
-      setMfaStatus(await getMfaStatus());
+      const status = await getMfaStatus();
+      if (!isMountedRef.current) return;
+      setMfaStatus(status);
       setToast('تم تفعيل المصادقة الثنائية بنجاح. سيُطلب الرمز عند تسجيل الدخول القادم.');
     } catch (error) {
-      setToast(translateMfaError(error), 'error');
+      if (isMountedRef.current) setToast(translateMfaError(error), 'error');
     } finally {
-      setIsUpdatingMfa(false);
+      mfaMutationInFlightRef.current = false;
+      if (isMountedRef.current) setIsUpdatingMfa(false);
     }
   };
 
   const handleCancelMfaEnrollment = async () => {
-    if (!mfaEnrollment) return;
+    if (!mfaEnrollment || mfaMutationInFlightRef.current) return;
 
+    mfaMutationInFlightRef.current = true;
     setIsUpdatingMfa(true);
     try {
       await removeTotpFactor(mfaEnrollment.factorId);
+      if (!isMountedRef.current) return;
       setMfaEnrollment(null);
       setMfaCode('');
-      setMfaStatus(await getMfaStatus());
+      const status = await getMfaStatus();
+      if (!isMountedRef.current) return;
+      setMfaStatus(status);
       setToast('تم إلغاء إعداد تطبيق المصادقة.');
     } catch (error) {
-      setToast(translateMfaError(error), 'error');
+      if (isMountedRef.current) setToast(translateMfaError(error), 'error');
     } finally {
-      setIsUpdatingMfa(false);
+      mfaMutationInFlightRef.current = false;
+      if (isMountedRef.current) setIsUpdatingMfa(false);
     }
   };
 
   const handleDisableMfa = async () => {
     const factor = mfaStatus?.verifiedTotpFactor;
-    if (!factor) return;
+    if (!factor || mfaMutationInFlightRef.current) return;
 
     const confirmed = window.confirm(
       'هل أنت متأكد من إلغاء المصادقة الثنائية؟ سيبقى الحساب محميًا بكلمة المرور وFace ID المحلي فقط.'
     );
     if (!confirmed) return;
 
+    mfaMutationInFlightRef.current = true;
     setIsUpdatingMfa(true);
     try {
       await removeTotpFactor(factor.id);
-      setMfaStatus(await getMfaStatus());
+      const status = await getMfaStatus();
+      if (!isMountedRef.current) return;
+      setMfaStatus(status);
       setToast('تم إلغاء المصادقة الثنائية من الحساب.');
     } catch (error) {
-      setToast(translateMfaError(error), 'error');
+      if (isMountedRef.current) setToast(translateMfaError(error), 'error');
     } finally {
-      setIsUpdatingMfa(false);
+      mfaMutationInFlightRef.current = false;
+      if (isMountedRef.current) setIsUpdatingMfa(false);
     }
   };
 
@@ -785,15 +844,34 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                     : 'border-amber-800 bg-amber-950/60 text-amber-300'
                 }`}
               >
-                {isUpdatingMfa && !mfaStatus
+                {mfaStatusState === 'loading'
                   ? 'جاري الفحص...'
+                  : mfaStatusState === 'error'
+                  ? 'تعذر الفحص'
                   : mfaStatus?.verifiedTotpFactor
                   ? 'مفعلة'
                   : 'غير مفعلة'}
               </span>
             </div>
 
-            {mfaStatus?.verifiedTotpFactor ? (
+            {mfaStatusState === 'error' && (
+              <div
+                className="space-y-2 rounded-xl border border-rose-800 bg-rose-950/40 p-3 text-[10px] text-rose-200"
+                role="alert"
+              >
+                <p>{mfaStatusError}</p>
+                <button
+                  type="button"
+                  onClick={() => void refreshMfaStatus()}
+                  className="flex items-center gap-1.5 rounded-lg border border-rose-700 px-2.5 py-1.5 font-bold transition hover:bg-rose-900/50"
+                >
+                  <RefreshCw className="h-3.5 w-3.5" />
+                  <span>إعادة المحاولة</span>
+                </button>
+              </div>
+            )}
+
+            {mfaStatusState === 'ready' && mfaStatus?.verifiedTotpFactor ? (
               <div className="space-y-3">
                 <div className="flex items-center gap-2 rounded-xl border border-emerald-900/70 bg-emerald-950/30 p-3 text-[10px] text-emerald-200">
                   <CheckCircle2 className="h-4 w-4 shrink-0" />
@@ -878,11 +956,11 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                   </button>
                 </div>
               </div>
-            ) : (
+            ) : mfaStatusState === 'ready' ? (
               <button
                 type="button"
                 onClick={() => void handleBeginMfaEnrollment()}
-                disabled={isUpdatingMfa || !mfaStatus}
+                disabled={isUpdatingMfa}
                 className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-2.5 text-[11px] font-black text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500 disabled:opacity-50"
               >
                 {isUpdatingMfa ? (
@@ -892,7 +970,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                 )}
                 <span>تفعيل تطبيق المصادقة</span>
               </button>
-            )}
+            ) : null}
           </div>
 
           {/* Biometrics Face ID Switch */}
