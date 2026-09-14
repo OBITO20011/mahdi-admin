@@ -170,12 +170,66 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\backup\update-backup
   -BackupRoot 'C:\Users\TOP\OneDrive\سطح المكتب\Nawasrah ERP Backups'
 ```
 
-Supabase CLI intentionally excludes managed `auth` and `storage` database
-schemas. The actual product images are copied separately by this workflow, but
-Supabase Auth passwords are not exportable by this logical backup. For a full
-project disaster migration, staff Auth accounts must be recreated and their
-passwords reset. Supabase's paid platform backup remains the stronger recovery
-option once the system is in daily production use.
+This project's current logical workflow excludes managed `auth` and `storage`
+database schemas. Product-image bytes are copied separately, but the current
+artifact does not contain Auth users, password hashes, identities, sessions or MFA
+factors. For recovery from this artifact, staff accounts must be recreated through
+supported Auth APIs, passwords reset and MFA re-enrolled. Public rows that retain an
+old `auth.users.id` require a reviewed UUID mapping; never write Auth internals merely
+to preserve an identifier. A separately designed full-platform backup/clone may have
+different capabilities, but it is not evidence supplied by this artifact.
+
+## Full isolated recovery evidence — 2026-09-14
+
+The exact R2 ERP object for `2026-09-14T03-34-51Z` was independently downloaded,
+matched by size/SHA-256, decrypted with the off-device passphrase copy and restored
+to a network-disabled local PostgreSQL container. Active database restoration took
+`43.7s`: 54 public tables, 465 rows, 109 foreign keys, 0 unvalidated constraints and
+209 public functions were present.
+
+The artifact's role dump is verified but not applied by the local runner, and the
+database dump uses `--no-privileges`. Consequently the standalone artifact restore
+is not a cutover-ready authorization model. The tested recovery order is:
+
+1. create a clean Supabase target and prove it is not Production;
+2. apply canonical migrations `001–111` so grants, RLS and platform integration are
+   reconstructed from reviewed history;
+3. restore the verified public data for the selected cutoff;
+4. reprovision Auth/configuration/Edge secrets and deploy repository functions;
+5. recreate users through supported Auth APIs, reset passwords, re-enroll MFA and
+   perform reviewed UUID mapping for public references;
+6. restore verified Storage object bytes, then run application and reconciliation
+   smoke tests before any cutover.
+
+An approved synthetic-only Managed Supabase target applied `001–111` in `11m53.4s`
+and matched Production's compared application schema, policies and ACLs; only the
+platform-generated `rls_auto_enable` helper was absent. Synthetic Managed Auth/TOTP,
+Admin Chromium/Mobile WebKit, Customer gateway idempotency, Edge Function deployment
+and Storage upload/download/hash tests passed. Real Production data was not uploaded
+to that cloud target. Therefore:
+
+- `DATABASE CANONICAL REBUILD = VERIFIED`
+- `R2 ARTIFACT RECOVERY = VERIFIED`
+- `HOST-INDEPENDENT R2 ACCESS = PARTIALLY VERIFIED` because R2 credentials came from
+  current-machine protected configuration
+- `FULL ISOLATED DISASTER-RECOVERY DRILL = PARTIALLY VERIFIED`
+
+The partial verdict is intentional: the current artifact is not a complete Managed
+Supabase project backup, Production Auth cannot be restored from it, historical UUID
+remapping and a full Production-data cloud cutover were not executed, and the same
+physical Windows host was used for the drill.
+
+After the target was confirmed free of synthetic Auth/business/Storage rows, the
+approved cleanup deleted the temporary Managed DR project, isolated local container,
+DR volumes/network and temporary working files. It did not delete or alter the
+original ERP backup, the private R2 object, Production or `nawasrah-n8n`.
+
+Provider references for a separately approved platform-level recovery design:
+[restore a platform project](https://supabase.com/docs/guides/self-hosting/restore-from-platform),
+[migrate Auth users](https://supabase.com/docs/guides/troubleshooting/migrating-auth-users-between-projects),
+and [clone a project](https://supabase.com/docs/guides/platform/clone-project).
+These describe broader provider capabilities; they do not expand what the current
+Nawasrah artifact contains.
 
 ## Monitoring
 
@@ -210,7 +264,7 @@ the 2026-09-13 23:30 scheduled run at `0`. Fresh local/R2 artifact verification
 on 2026-09-14 is separate evidence, not a new scheduled-run claim. See
 [`docs/HANDOFF.md`](../../docs/HANDOFF.md) for current evidence and recovery ownership.
 
-## New-machine recovery checklist (not executed by documentation audit)
+## New-machine recovery checklist
 
 1. Distinguish loss of the Windows host from loss of Supabase. A lost host alone
    does not justify overwriting the still-healthy cloud database.

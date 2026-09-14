@@ -431,12 +431,54 @@ named replacement operator and recovery custodian are required at handoff.
 
 ### Disaster recovery: recommendation versus proof
 
-- Existing encrypted artifact/download/SHA/private-bucket evidence from the prior
-  closure is retained. Local status still names the exact 2026-09-14 archive and
-  matching remote download digest. No new backup or restore was performed.
-- Remote restore evidence names the 2026-09-10 archive, not the new archive.
-  Byte-identical download plus local archive verification proves artifact integrity;
-  it does not mean a new end-to-end project restore or timed recovery was performed.
+- On 2026-09-14 the exact private R2 object
+  `erp/daily/2026/09/14/nawasrah-backup-2026-09-14T03-34-51Z.nwb` was downloaded
+  independently into a dedicated DR directory. Its `3769909` bytes and SHA-256
+  `10343485a94b004623d88483390dd37bf952ade551fb79f0761e3a23746612c6`
+  matched the sidecar and prior local artifact. The independently held passphrase
+  decrypted and verified all `116` archive files. The original local archive was
+  not used, but R2 access still used current-machine protected configuration;
+  therefore `R2 ARTIFACT RECOVERY = VERIFIED` and
+  `HOST-INDEPENDENT R2 ACCESS = PARTIALLY VERIFIED`.
+- The real artifact was restored only into a private network-disabled PostgreSQL
+  container. The active restore took `43.7s` and recovered 54 public tables, 465
+  rows, 109 foreign keys, 0 unvalidated constraints and 209 public functions;
+  core rows included 6 products, 6 inventory balances, 21 movements, 2 customers
+  and 6 orders. `liveSupabaseTouched=false`.
+- A separate canonical rebuild applied migrations `001–111`. Application-owned
+  tables, columns, constraints, indexes, triggers, policies, RLS flags, sequences
+  and function definitions matched the artifact after semantic normalization.
+  The standalone artifact intentionally contains no object privileges and its role
+  dump is verified but not applied by the local drill: 29/62 table/sequence ACL
+  entries and 201/209 function ACL entries therefore differed from Production.
+  Never treat that standalone container as a cutover-ready security model.
+- An explicitly approved synthetic-only Managed Supabase DR project in the same
+  region rebuilt `001–111` in `11m53.4s`. It matched Production for all compared
+  application structures, RLS and ACLs; the only function-count difference was the
+  platform-generated `rls_auto_enable` helper (208 versus 209). All five cron jobs
+  and five repository Edge Functions were present. The recovery order is canonical
+  migrations first, then verified data, then supported Auth/Storage/config recovery.
+- Managed Auth was proven with a synthetic user through password login, TOTP enroll,
+  challenge/verify to AAL2, unenroll and deletion. Admin Chromium and Mobile WebKit
+  passed 6/6 integrated session/MFA scenarios. This proves reprovisioning, not recovery
+  of the Production password, identities, sessions or MFA factor: the current archive
+  excludes `auth`. A new owner account needs a new/reset password and MFA re-enrollment;
+  historical public references to the old `auth.users.id` require reviewed UUID
+  mapping before data cutover.
+- The archive contained one product image, exactly the one object created by its
+  cutoff. Production's second object was created at `03:41:26Z`, after the
+  `03:34:51Z` backup. Bucket/policy reconstruction matched, and a 68-byte synthetic
+  PNG passed Managed Storage upload/download/SHA and cleanup. Real Production images
+  were not uploaded to the temporary cloud target.
+- `submit-guest-order` passed a managed synthetic create plus identical replay:
+  one canonical order, server-authoritative total, one reservation and no duplicate
+  effect. Local isolated POS idempotency, checkout and Admin session suites also
+  passed. All synthetic Auth/business/Storage rows were removed after the tests;
+  Production business writes remained zero and real outbound notification secrets
+  were never loaded into DR. After read-only confirmation that the Managed target
+  was empty, the approved cleanup removed the temporary Managed DR project, isolated
+  container, DR volumes/network and temporary working files. The original ERP backup,
+  Production, R2 and the healthy `nawasrah-n8n` runtime were not modified.
 - Recommended RPO: at most 24h for the local nightly copy while the host/schedule
   are healthy. The documented 23:30 backup / 02:10 off-site upload creates a worst
   normal off-site window of about 26h40m plus execution time; use about 27h as the
@@ -444,14 +486,66 @@ named replacement operator and recovery custodian are required at handoff.
   less data loss, approve a separate backup-frequency/platform-recovery change.
 - Recommended RTO: host-only recovery target 4h, planning ceiling one business day
   (8h), conditional on working hardware, internet, operator and recovered secrets.
-  Full Supabase-project recovery is not timed/verified: 8h is a proposed objective,
-  not a promise; Auth identity/configuration restoration can exceed it.
+  Measured components are local artifact restore `43.7s`, managed canonical migration
+  application `11m53.4s`, Admin browser validation about `2.1m`, Customer gateway
+  `13.8s` and Storage `9.4s`. The full drill elapsed about `4h33m`, but included human
+  authorization, interrupted work and test-harness diagnosis; aggregate active time
+  was not instrumented. A full Production-data Managed cutover and owner UUID remap
+  were not executed, so `MEASURED FULL PRACTICAL RTO = NOT FULLY MEASURED`.
 - `OWNER APPROVAL REQUIRED = YES` for RPO/RTO/restore decision owner.
 - New-machine steps and public-schema/Auth limitations are documented in
-  [backup README](../scripts/backup/README.md#new-machine-recovery-checklist-not-executed-by-documentation-audit).
+  [backup README](../scripts/backup/README.md#new-machine-recovery-checklist).
 - A 90-day local/remote drill gate is already documented. Retain quarterly drills
   and require a separately authorized drill after substantial recovery-pipeline
   changes; do not register another duplicate schedule.
+
+`FULL ISOLATED DISASTER-RECOVERY DRILL = PARTIALLY VERIFIED`.
+
+| Recovery item | Classification | Verified recovery source / action |
+| --- | --- | --- |
+| Public DB schema and data | RECOVERABLE FROM ARTIFACT + REBUILDABLE FROM REPOSITORY | verified R2 artifact plus canonical migrations `001–111` |
+| DB grants/RLS | REBUILDABLE FROM REPOSITORY | canonical migrations; not standalone artifact ACLs |
+| Auth users/passwords/identities/sessions/MFA | NOT CURRENTLY BACKED UP | supported user reprovisioning, password reset and MFA re-enrollment |
+| Public UUID references to Auth | MANUAL REPROVISIONING REQUIRED | reviewed old-to-new UUID mapping during cutover |
+| Product-image object bytes | RECOVERABLE FROM ARTIFACT | one cutoff object verified; restore and hash-check each object |
+| Bucket configuration/policies | REBUILDABLE FROM REPOSITORY | migration 020 plus Managed Storage verification |
+| Edge Function source | REBUILDABLE FROM REPOSITORY | five functions deployed and listed ACTIVE in Managed DR |
+| Edge secrets/external destinations | MANUAL + EXTERNAL ACCOUNT ACCESS REQUIRED | reprovision names only; use disabled/synthetic values until cutover |
+| Auth/project configuration | REPOSITORY-RECREATABLE + MANUAL | `supabase/config.toml`, provider/account settings and owner review |
+| Cloudflare Admin/Customer releases | EXTERNAL ACCOUNT ACCESS REQUIRED | unchanged by drill; restore/deploy under a separate envelope |
+| n8n/runtime and scheduled jobs | SEPARATE ARTIFACT + MANUAL HOST RECOVERY | do not overwrite healthy ERP; restore on authorized host |
+
+Recovery inventory and exact order:
+
+1. Recover repository and external-account access, then retrieve the immutable R2
+   artifact plus checksum using an independently recoverable credential path.
+2. Recover the off-device archive passphrase locally; stop if it is unavailable.
+3. Verify/decrypt in a private target. Build the target from canonical migrations
+   `001–111` before restoring public data so grants/RLS come from reviewed history.
+4. Reprovision project Auth settings, synthetic/test-safe Edge secrets, all five
+   Edge Functions, bucket settings/policies and cron configuration.
+5. Recreate the Owner through supported Auth APIs, require password reset and MFA
+   re-enrollment, then map the old user UUID references in `profiles`,
+   `push_subscriptions` and `admin_ai_assistant_usage_events` under a separately
+   reviewed cutover plan. Never patch Auth internals directly.
+6. Restore verified Storage objects for the selected cutoff, then run inventory,
+   accounting, RLS, Admin, Customer, POS and outbound-isolation reconciliation.
+7. Cut over only after owner approval. Abort on missing passphrase/account access,
+   checksum mismatch, ambiguous migration state, ACL/RLS drift, unresolved UUID
+   mapping, failed reconciliation or any real outbound destination in DR.
+
+| Failure mode | Detection | Impact / degradation | Recovery and stop condition | Owner |
+| --- | --- | --- | --- | --- |
+| Latest local backup missing / host lost | local artifact/status absent | local RPO unavailable | retrieve exact R2 object and sidecar; stop on missing/mismatched hash | recovery operator + owner |
+| R2-only recovery | no usable local copy | depends on external account and passphrase | recover R2 account and off-device passphrase; stop if either cannot be proven | account/key custodians |
+| Passphrase unavailable | archive verification cannot decrypt | encrypted artifact unusable | use independently held copy; no bypass or brute-force workflow | archive-key custodian |
+| Supabase project lost | project/API unavailable | Admin and Customer unavailable | create isolated target, rebuild migrations, restore data/config and verify before cutover | owner authorizes, operator executes |
+| Auth not in artifact | no `auth` schema in manifest | existing login/password/MFA unavailable | supported user recreation, password reset, MFA re-enrollment and UUID mapping | owner + operator |
+| Storage unavailable | bucket/object checks fail | product images missing; commerce data remains | restore cutoff objects and verify hashes; stop on missing source object | storage/R2 custodian |
+| Edge secret/function missing | function list/config smoke fails | affected gateway/automation unavailable | deploy repository source, reprovision named secret; stop before real outbound tests | integration owner |
+| Windows/n8n unavailable | host/health/schedules absent | local automation/alerts/backups stop | restore host/n8n artifact separately; do not overwrite healthy ERP | host operator |
+| Partial restore or schema mismatch | counts, ACL/RLS, migrations or reconciliation differ | unsafe reads/writes | stop cutover; rebuild from canonical history and re-run comparisons | recovery operator |
+| External account inaccessible | provider recovery fails | relevant platform cannot be reprovisioned | owner uses documented provider recovery; stop affected recovery branch | account owner |
 
 ### Access and recovery ownership
 
@@ -579,7 +673,7 @@ must not be relabeled as exploitable Production vulnerabilities without reachabi
 | ID | Severity / type | Remaining action / evidence |
 | --- | --- | --- |
 | OWN-01 | MEDIUM HANDOFF GAP, CLOSED | USER CONFIRMATION received for essential account recovery; independent archive key copy was locally re-entered and successfully verified against the latest encrypted backup |
-| DR-01 | MEDIUM OPERATIONAL RISK | Public-schema backup excludes managed Auth/config; full-project recovery time unproven. Procedure documented; owner accepts scope/RPO/RTO before Go-Live |
+| DR-01 | MEDIUM OPERATIONAL RISK, REDUCED | Full isolated drill proved R2/local data recovery and a synthetic Managed rebuild, but the current artifact excludes Auth and standalone DB grants; historical UUID mapping and a full Production-data cloud cutover remain manual/unmeasured |
 | DEP-01 | MEDIUM OPERATIONAL RISK | Customer sharp advisory in local toolchain; no demonstrated active input path. Review patch before untrusted-image processing |
 | MON-01 | MEDIUM OPERATIONAL RISK | Local host loss removes local backup/monitoring together; assign freshness responsibility before independent handoff |
 | CFG-01 | LOW EVIDENCE GAP | Protected task definitions not visible; confirm current schedules/duplicates during handoff/final recheck |

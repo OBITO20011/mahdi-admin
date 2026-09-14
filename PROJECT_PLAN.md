@@ -101,6 +101,17 @@ Cloudflare Insights cleanup وPWA-01 كلها مكتملة، وليست بنود
   التحقق من أحدث n8n artifact الموجود، وبقي `nawasrah-n8n` healthy دون إنشاء
   نسخة n8n جديدة أو تغيير Runtime/بياناته. تبقى Restore Drills المعزولة السابقة
   دليلًا منفصلًا ولم يحدث أي Restore إلى Production.
+- نُفذ Full Isolated DR Drill على نفس الجهاز: نُزّل الـartifact نفسه من R2، وفُك
+  بالمفتاح الخارجي، وأُعيدت بياناته محليًا خلال `43.7s`. كما بُني مشروع Supabase
+  سحابي مؤقت Synthetic-only من migrations `001–111` خلال `11m53.4s`، وتطابقت
+  Application schema/RLS/grants، ونجحت Managed Auth/TOTP وAdmin Chromium/WebKit
+  وCustomer Gateway وStorage وEdge Functions. يبقى الحكم
+  `FULL ISOLATED DISASTER-RECOVERY DRILL = PARTIALLY VERIFIED` لأن الـartifact
+  الحالي لا يحتوي Auth identities/passwords/MFA/sessions ولا database object grants، ولأن
+  Production-data cloud cutover وUUID remap وnew-hardware recovery لم تُنفذ.
+  بعد التحقق من خلو هدف DR من البيانات الاصطناعية، حُذف مشروع Managed DR المؤقت
+  والحاوية والـvolumes والشبكة وملفات العمل المؤقتة ضمن Cleanup Envelope المعتمد؛
+  بقيت نسخة ERP الأصلية وProduction وR2 و`nawasrah-n8n` دون تغيير.
 - أُعيد تسجيل Developer Watchdog، ونفذ دورة تلقائية تحت `SYSTEM`؛ الحالة الحالية
   لا تحتوي active incidents.
 - GitHub Code Quality وSecret Scanning وDeveloper Alerts اجتازت baseline
