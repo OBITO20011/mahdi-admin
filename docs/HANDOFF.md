@@ -18,14 +18,14 @@ Nawasrah ERP نظام جملة عربي RTL:
 
 ## 2. Production baseline
 
-لقطة الحالة النهائية: 2026-09-12 بعد SKU وBarcode integrity hardening.
+لقطة الحالة الحالية: 2026-09-14 بعد migration 111 وإغلاق إثبات R2 قبل التدريب.
 
 | Component | Verified state |
 | --- | --- |
 | Git | `main`؛ تحقّق دائمًا من التطابق الحالي عبر `git rev-parse HEAD` و`git rev-parse origin/main` |
-| Supabase | migrations المحلية والبعيدة `001–108` |
-| Admin | Cloudflare Production متحقق؛ Admin Light Mode Visual Comfort مكتمل و`PWA-01 = RESOLVED` |
-| Customer Store | Cloudflare Production متحقق؛ Custom Domain وSEO Part 2 وGuided Store Assistant مكتملة |
+| Supabase | migrations المحلية والبعيدة `001–111` |
+| Admin | Runtime SHA `95377d98b6f789cce05cbd14ecf6abc77e19284a`؛ Cloudflare Deployment `75e00664-f783-41b7-b2ea-424e900e85bf`؛ Light Mode و`PWA-01` متحققان |
+| Customer Store | Deployment `b127d695-b262-4afa-9ea7-ba48997ba2a9` بقي دون تغيير؛ Custom Domain وSEO Part 2 وGuided Store Assistant مكتملة |
 | Guest push | `send-order-push` Edge Function version 12 |
 | n8n | container `nawasrah-n8n` running/healthy و`/healthz` = 200 وقت الفحص |
 | GitHub | Code Quality وSecret Scanning وDeveloper Alerts تعمل على `main` |
@@ -109,6 +109,9 @@ Supabase، ثم أعد `migration list` وDB lint واختبارات العقد.
 - `106_align_monitoring_owner_mfa_policy.sql`
 - `107_canonical_schema_reconciliation.sql`
 - `108_harden_product_sku_barcode_integrity.sql`
+- `109_admin_large_catalog_read_models.sql`
+- `110_fix_deferred_cash_shift_snapshot_guard_privileges.sql`
+- `111_harden_pos_sale_idempotency_replays.sql`
 
 ### DB-01: مسار Fresh الرسمي
 
@@ -117,7 +120,7 @@ Supabase، ثم أعد `migration list` وDB lint واختبارات العقد.
 1. ينشئ `npm.cmd run test:db:isolated` نسخة مؤقتة منفصلة من مجلد Supabase.
 2. يطبّق compatibility patch المعروف على النسخة المؤقتة من migration 034 فقط؛
    لا يغيّر الملف التاريخي في المستودع.
-3. يعيد تشغيل migrations `001–108` ثم اختبارات canonical schema/runtime.
+3. يعيد تشغيل migrations `001–111` ثم اختبارات canonical schema/runtime.
 
 سبب المسار الهجين هو أن ledger التاريخي كان متطابقًا، لكن إعادة التشغيل من صفر
 كانت تعيد كائنات legacy وتكشف اختلافات في دالة الاستلام وtriggers. لا يمكن إثبات
@@ -143,7 +146,7 @@ Supabase، ثم أعد `migration list` وDB lint واختبارات العقد.
   والمتحقق داخل بيئة معزولة. هذا هو مسار disaster recovery، ولا يُستخدم Fresh
   Build بدلًا منه.
 - يمكن لاحقًا إنشاء clean baseline اختياري لتبسيط bootstrap، لكنه ليس blocker
-  ولا يبرر تعديل migrations `001–108`.
+  ولا يبرر تعديل migrations `001–111`.
 
 ### SKU وBarcode integrity
 
@@ -167,6 +170,23 @@ npm.cmd run test:product-identifiers:runtime
 ```
 
 `SKU & BARCODE INTEGRITY = VERIFIED`.
+
+### إغلاقات الاعتمادية الحالية
+
+- migration `109_admin_large_catalog_read_models.sql` نقلت قراءات الكتالوج
+  والمخزون الثقيلة إلى server-side pagination/search محدودة دون تغيير مسارات
+  الكتابة.
+- migration `110_fix_deferred_cash_shift_snapshot_guard_privileges.sql` ثبّتت
+  صلاحيات deferred closing-snapshot guard؛ الدالة داخلية، owner موثوق،
+  `search_path = public, pg_temp`، والتنفيذ المباشر غير ممنوح للـAPI roles.
+- migration `111_harden_pos_sale_idempotency_replays.sql` تمنع تعديل العملية
+  الأصلية عند replay، وتعيد النتيجة المخزنة للطلب المتطابق وترفض payload مختلفًا
+  بالمفتاح نفسه دون Business writes.
+  `POS IDEMPOTENCY BLOCKER = VERIFIED FIXED`.
+- قراءة MFA status تستخدم generation مشتركة ومحدودة، مع timeout/error/retry
+  صريحة وتجاهل late/stale responses وربط النتيجة بالمستخدم والجلسة الحاليين.
+  لا يوجد automatic retry على enroll/challenge/verify/unenroll.
+  `MFA RETRY RECOVERY = VERIFIED FIXED`.
 
 ## 7. Deploy
 
@@ -210,14 +230,25 @@ npm.cmd run backup:restore-test
 
 - ERP backup مشفر AES-256-GCM بأدوات PostgreSQL 17 الأصلية وchecksums.
 - Nightly task تعمل تحت `SYSTEM`; Restore Drill يبقى معزولًا ويستخدم Docker.
-- تشغيل `Nawasrah ERP Nightly Backup` تحت `SYSTEM` بتاريخ 2026-09-11 أعاد `0`،
-  وأنتج `nawasrah-backup-2026-09-10T21-43-43Z.nwb` ثم اجتاز verify.
+- `Nawasrah ERP Nightly Backup` تعمل تحت `SYSTEM` وآخر نتيجة مجدولة قبل هذا
+  الإغلاق هي `0`.
+- أُنشئت نسخة ERP مشفرة حديثة بعد بداية إغلاق 2026-09-14 باسم
+  `nawasrah-backup-2026-09-14T03-34-51Z.nwb`، حجمها `3769909` بايت، وSHA-256:
+  `10343485a94b004623d88483390dd37bf952ade551fb79f0761e3a23746612c6`.
+  اجتازت `backup:verify` على المسار الصريح مع `116` ملفًا متحققًا.
 - أحدث Restore Drill أعاد 54 جدولًا و109 foreign keys و0 unvalidated constraints
   مع `liveSupabaseTouched=false`.
 - أُعيد تسجيل `Nawasrah n8n Daily Backup` تحت `SYSTEM` واختبارها فعليًا؛ أعادت
   `0` وأنشأت أرشيفًا جديدًا مع `restoreVerified=true`.
-- رُفعت النسختان الجديدتان إلى R2، ونجح download/verify والـRestore Drill المعزول
-  لكل من ERP وn8n دون لمس Production.
+- رُفعت نسخة ERP نفسها عبر الـworkflow الرسمي إلى
+  `erp/daily/2026/09/14/nawasrah-backup-2026-09-14T03-34-51Z.nwb`. تحققت R2
+  metadata و`.sha256` sidecar، ثم نُزّل object نفسه وتطابق الحجم والـSHA حرفيًا
+  مع النسخة المحلية التي اجتازت `backup:verify`.
+- لا توجد Custom Domains مرتبطة بالـbucket وpublic `r2.dev` معطل، لذلك object
+  يبقى private. أعاد الـworkflow التحقق من أحدث n8n artifact الموجود دون إنشاء
+  n8n backup جديدة؛ container `nawasrah-n8n` بقي running/healthy ولم يتغير
+  Runtime أو بياناته. Restore Drill المعزول السابق يبقى دليلًا منفصلًا، ولم
+  يحدث Restore إلى Production في هذا الإغلاق.
 
 التفاصيل في [scripts/backup/README.md](../scripts/backup/README.md) و
 [automation/n8n/README.md](../automation/n8n/README.md).
@@ -294,11 +325,15 @@ accounting defect ولم تتغير business logic أو migrations.
 
 ### Technical blockers
 
-لا توجد blockers تقنية معروفة حاليًا. Custom Domain وSEO Part 2 والإعداد التقني
+عدد Critical/High/Medium blockers المفتوحة أو غير المحلولة ضمن نطاق المراجعة
+المكتمل = `0`. Custom Domain وSEO Part 2 والإعداد التقني
 لـGoogle Search Console وR2 Off-site Backup وMonitoring Phases 1–5 والتنفيذ
 التقني للخصوصية وGuided Store Assistant وAdmin Light Mode Visual Comfort و
 Cloudflare Insights cleanup وPWA-01 مكتملة ولا تظهر كمهام معلقة.
 A11Y-01 مكتملة كذلك ولا تظهر كـTechnical blocker.
+
+المرحلة التشغيلية التالية المسموحة هي
+`CONTROLLED ONE-TIME OWNER TRAINING`. لا يبدأ Cleanup أو Go-Live تلقائيًا.
 
 ### Manual / Business decisions
 

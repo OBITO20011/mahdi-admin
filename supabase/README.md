@@ -3,7 +3,7 @@
 ## الحالة الحالية
 
 هذا المجلد هو مصدر مخطط Production ويحتوي migrations متسلسلة من `001` حتى
-`107`. تطبيق Admin وCustomer Store يستخدمان RPCs وEdge Functions المحمية، ولا
+`111`. تطبيق Admin وCustomer Store يستخدمان RPCs وEdge Functions المحمية، ولا
 توجد بيانات واجهة تجريبية تعامل كمصدر حقيقة.
 
 ## بوابة أي تغيير
@@ -44,7 +44,7 @@ npm.cmd run backup:verify
 
 `npm.cmd run test:db:isolated` ينفذ `HYBRID SANCTIONED BOOTSTRAP`: ينسخ مجلد
 Supabase إلى مساحة مؤقتة، ويطبّق compatibility patch المعروف على النسخة المؤقتة
-من migration 034، ثم يعيد migrations `001–108` ويتحقق من canonical schema.
+من migration 034، ثم يعيد migrations `001–111` ويتحقق من canonical schema.
 ملف 034 التاريخي لا يُعدّل.
 
 Migration `107_canonical_schema_reconciliation.sql` توحّد Fresh وProduction عبر:
@@ -61,7 +61,7 @@ recovery. لا يحل أحدهما محل الآخر. Clean baseline لاحق ت
 `MIGRATION 107 CANONICAL SCHEMA RECONCILIATION = VERIFIED`.
 `DB-01 DATABASE REBUILD PATH = VERIFIED`.
 
-## المجالات المطبقة حتى 107
+## المجالات المطبقة حتى 111
 
 - المنتجات والنكهات والمخزون والحركات والجرد والتسويات والاستلام وWAC.
 - الطلبات والحجوزات والتوصيل والتسوية والمرتجعات والـPOS والذمم والمدفوعات.
@@ -73,6 +73,10 @@ recovery. لا يحل أحدهما محل الآخر. Clean baseline لاحق ت
 - Advanced monitoring وBusiness Integrity وHealth Dashboard للمالك/AAL2.
 - Privacy minimization للـautomation payloads في migration `102`.
 - canonical schema reconciliation ومسار Fresh المعتمد في migration `107`.
+- SKU/Barcode integrity في migration `108` وAdmin large-catalog read models في
+  migration `109`.
+- حماية closing-snapshot guard في migration `110` وPOS idempotency replay في
+  migration `111`.
 
 التفاصيل في [DATABASE_DESIGN.md](../DATABASE_DESIGN.md)، ودورة الطلب في
 [README-orders.md](./README-orders.md)، وكل contract دقيق مصدره ملف migration

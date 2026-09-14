@@ -6,7 +6,7 @@
 ## Live & Verified
 
 - Admin وCustomer Store على Cloudflare Pages.
-- Supabase migrations `001–108` متطابقة محليًا وعلى Production.
+- Supabase migrations `001–111` متطابقة محليًا وعلى Production.
 - الطلبات، POS، المخزون، الاستلام، المشتريات، WAC، الذمم، المدفوعات، المصاريف،
   الورديات، المرتجعات والعكس والتقارير تعمل من PostgreSQL/RPCs المحمية.
 - Server-side pagination للشاشات التشغيلية الثقيلة والكتالوج العام.
@@ -40,16 +40,30 @@
   القواعد، وFlavor Master للتجميع فقط بلا باركود بيع. الحماية في DB والواجهة،
   والـPOS يرفض التطابق الغامض أو غير القابل للبيع.
   `SKU & BARCODE INTEGRITY = VERIFIED`.
+- Admin runtime الحالي مرتبط بالـcommit
+  `95377d98b6f789cce05cbd14ecf6abc77e19284a` وبـCloudflare Deployment
+  `75e00664-f783-41b7-b2ea-424e900e85bf`. Customer deployment بقي دون تغيير:
+  `b127d695-b262-4afa-9ea7-ba48997ba2a9`.
+- `POS IDEMPOTENCY BLOCKER = VERIFIED FIXED`: إعادة نفس طلب POS المتطابق أصبحت
+  read-only، وأي payload مختلف مع المفتاح نفسه يُرفض دون أثر مخزني أو مالي.
+- `MFA RETRY RECOVERY = VERIFIED FIXED`: status reads لها generations محدودة،
+  وtimeout/error/retry نهائية وآمنة من late/stale responses دون retry تلقائي
+  لعمليات MFA الحساسة.
 
 ## Remaining Before Final Launch
 
 ### Technical blockers
 
-لا توجد blockers تقنية معروفة حاليًا. Custom Domain وSEO Part 2 والإعداد التقني
+لا توجد Critical أو High أو Medium blockers مفتوحة/غير محلولة معروفة ضمن نطاق
+المراجعة المكتمل. Custom Domain وSEO Part 2 والإعداد التقني
 لـGoogle Search Console وR2 Off-site Backup وMonitoring Phases 1–5 والتنفيذ
 التقني للخصوصية وGuided Store Assistant وAdmin Light Mode Visual Comfort و
 Cloudflare Insights cleanup وPWA-01 كلها مكتملة، وليست بنودًا معلقة.
 كما أن A11Y-01 مكتملة وليست blocker للإطلاق.
+
+المرحلة التشغيلية التالية المسموحة بعد إثبات النسخة الخارجية الحديثة هي
+`CONTROLLED ONE-TIME OWNER TRAINING`؛ لا يبدأ تنظيف بيانات الاختبار أو Go-Live
+ضمن هذه المرحلة.
 
 ### Manual / Business decisions
 
@@ -78,8 +92,15 @@ Cloudflare Insights cleanup وPWA-01 كلها مكتملة، وليست بنود
   الجديد اجتاز فحص التشفير والـchecksums.
 - أُعيد تسجيل `Nawasrah n8n Daily Backup` تحت `SYSTEM`، وشُغلت فعليًا وأعادت
   `0` مع `restoreVerified=true`.
-- رُفعت أحدث نسختي ERP وn8n إلى R2، ونجح download/verify والـRestore Drill
-  المعزول لكليهما دون لمس Production.
+- أُنشئت في 2026-09-14 نسخة ERP مشفرة حديثة بعد migration 111 باسم
+  `nawasrah-backup-2026-09-14T03-34-51Z.nwb`، واجتازت فحص archive والـchecksums
+  (`116` ملفًا متحققًا).
+- رُفعت نسخة ERP نفسها إلى R2 تحت `erp/daily/2026/09/14/`، ثم نُزّلت عبر
+  الـworkflow الرسمي وتطابق الحجم وSHA-256 حرفيًا مع النسخة المحلية المتحققة.
+  لا يملك bucket أي Custom Domain وpublic `r2.dev` معطل. أعاد workflow كذلك
+  التحقق من أحدث n8n artifact الموجود، وبقي `nawasrah-n8n` healthy دون إنشاء
+  نسخة n8n جديدة أو تغيير Runtime/بياناته. تبقى Restore Drills المعزولة السابقة
+  دليلًا منفصلًا ولم يحدث أي Restore إلى Production.
 - أُعيد تسجيل Developer Watchdog، ونفذ دورة تلقائية تحت `SYSTEM`؛ الحالة الحالية
   لا تحتوي active incidents.
 - GitHub Code Quality وSecret Scanning وDeveloper Alerts اجتازت baseline
@@ -123,12 +144,23 @@ Cloudflare Insights cleanup وPWA-01 كلها مكتملة، وليست بنود
   Fresh 001–107 مع Production بعد استثناء كائنات/صلاحيات المنصة المثبتة.
   `MIGRATION 107 CANONICAL SCHEMA RECONCILIATION = VERIFIED`.
 - مسار البناء الرسمي هو `HYBRID SANCTIONED BOOTSTRAP`: نسخة مؤقتة من migrations
-  مع compatibility patch محصور على migration 034، ثم تطبيق 001–108 والتحقق
+  مع compatibility patch محصور على migration 034، ثم تطبيق 001–111 والتحقق
   canonical. لا تُعدّل migration 034 التاريخية. `DB-01 DATABASE REBUILD PATH = VERIFIED`.
 - migration `108_harden_product_sku_barcode_integrity.sql` أضافت normalized
   unique indexes وcanonical checks وrace-safe cross-field collision guard دون
   تعديل بيانات المنتجات القائمة. زر «توليد» هو مولّد SKU وليس Barcode؛ أصبح
   bounded ويتحقق من identifiers المحملة، مع بقاء DB خط الحماية النهائي.
   `SKU & BARCODE INTEGRITY = VERIFIED`.
+- migration `109_admin_large_catalog_read_models.sql` أضافت read models محدودة
+  وserver-side pagination/search لشاشات Admin الثقيلة دون تغيير mutations.
+- migration `110_fix_deferred_cash_shift_snapshot_guard_privileges.sql` ثبّتت
+  صلاحيات guard لقطة إغلاق الوردية مع owner و`search_path` موثوقين ومنع التنفيذ
+  المباشر؛ لا توسعة لصلاحيات callers.
+- migration `111_harden_pos_sale_idempotency_replays.sql` جعلت replay المتطابق
+  read-only ورفضت conflict لنفس المفتاح مع payload مختلف دون تعديل الفاتورة أو
+  المخزون أو الحسابات. `POS IDEMPOTENCY BLOCKER = VERIFIED FIXED`.
+- تعافي قراءة MFA من الطلب المعلق أصبح bounded وgeneration-aware مع تجاهل
+  الاستجابات القديمة وربط النتيجة بالجلسة الحالية.
+  `MFA RETRY RECOVERY = VERIFIED FIXED`.
 
 راجع [docs/HANDOFF.md](./docs/HANDOFF.md) للأوامر وخطوات التشغيل الآمنة.
