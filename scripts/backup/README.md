@@ -204,8 +204,40 @@ local backup.
 
 Do not treat a recent manual archive as proof that the unattended schedule is
 healthy. Check `task.lastTaskResult` from `npm.cmd run backup:status`; it must be
-`0`. At the 2026-09-08 documentation audit, the newest encrypted archive and
-isolated Restore Drill both passed, but the preceding nightly Scheduled Task
-returned `1`. This remains an operational launch item documented in
-[`docs/HANDOFF.md`](../../docs/HANDOFF.md), not a reason to alter encryption,
-retention, or Production data.
+`0`. The 2026-09-08 failure (`1`) is historical: Operational Recovery subsequently
+verified the scheduled task under SYSTEM. The 2026-09-14 read-only audit observed
+the 2026-09-13 23:30 scheduled run at `0`. Fresh local/R2 artifact verification
+on 2026-09-14 is separate evidence, not a new scheduled-run claim. See
+[`docs/HANDOFF.md`](../../docs/HANDOFF.md) for current evidence and recovery ownership.
+
+## New-machine recovery checklist (not executed by documentation audit)
+
+1. Distinguish loss of the Windows host from loss of Supabase. A lost host alone
+   does not justify overwriting the still-healthy cloud database.
+2. The owner authorizes a named operator and recovery target. Recover Git access,
+   the archive passphrase from its independently held recovery copy, and R2 read
+   access. DPAPI ciphertext copied from the lost Windows machine is not a portable
+   recovery secret. If the independent passphrase is unavailable, STOP.
+3. Install the documented Windows/Node/PostgreSQL prerequisites. Docker is needed
+   for isolated restore drills/n8n, not native nightly ERP dumps. Check out the
+   approved code and migration state; recreate protected configuration through
+   official setup under a separately approved recovery task.
+4. Download the chosen immutable R2 object and sidecar to a restricted temporary
+   directory; match size/SHA-256 and verify/decrypt the exact archive. Never print
+   passphrases, tokens, decrypted business data or signed URLs.
+5. Restore to an isolated target first. Check tables, constraints, row counts,
+   financial/inventory reconciliation and application compatibility. Retain the
+   prior restore evidence as a dated artifact-specific result.
+6. A new Supabase project additionally needs Auth identities and UUID relationships,
+   Auth/MFA configuration, Edge Functions/secrets, Storage policy and object setup,
+   external integrations and public build configuration. The public-schema archive
+   is not a full managed-project backup. The drill's placeholder Auth rows are not
+   usable staff login accounts; do not replace IDs casually or assume MFA recovery.
+7. Only after owner approval, choose a production cutover/restore procedure and
+   reconcile transactions after the backup cutoff. For host-only loss, restore n8n
+   and protected task configuration without restoring the healthy ERP database.
+8. Confirm login/roles, read-only Admin/Customer smoke, schedules, notifications and
+   backup freshness. Resume real operations only with the owner's decision.
+
+RPO/RTO targets and responsibility handoff are recommendations recorded in HANDOFF;
+this checklist does not prove a timed new-machine recovery or authorize a live restore.
