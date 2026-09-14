@@ -17,7 +17,10 @@ const runtime = readFileSync(
 test('POS replay is resolved before the private mutating package implementation', () => {
   assert.match(migration, /RENAME TO _create_pos_sale_package_legacy/);
   assert.match(migration, /pg_advisory_xact_lock\(hashtext\(v_key\)\)/);
-  assert.match(migration, /IF NOT FOUND THEN[\s\S]*RETURN public\._create_pos_sale_package_legacy/);
+  assert.match(
+    migration,
+    /IF NOT FOUND THEN[\s\S]*v_legacy_result := public\._create_pos_sale_package_legacy/,
+  );
   assert.match(migration, /'idempotentReplay', true/);
   assert.doesNotMatch(migration, /REPLAY_WHOLESALE_POS_SALE/);
 });
@@ -27,6 +30,8 @@ test('POS replay identity uses stable product rows and stored package snapshots'
   assert.match(migration, /oi\.sale_package_quantity IS NOT NULL/);
   assert.match(migration, /v_stored_items IS DISTINCT FROM v_request_items/);
   assert.match(migration, /ORDER BY normalized\.product_id/);
+  assert.match(migration, /jsonb_agg\(item\.value ORDER BY item\.value->>'productId'\)/);
+  assert.match(migration, /ORDER BY oi\.product_id/);
   assert.match(migration, /p_customer_id IS DISTINCT FROM v_order\.customer_id/);
   assert.match(migration, /v_request_tender IS DISTINCT FROM v_stored_tender/);
   assert.match(migration, /IDEMPOTENCY_CONFLICT/);

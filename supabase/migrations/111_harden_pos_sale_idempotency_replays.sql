@@ -55,6 +55,8 @@ DECLARE
   v_items_result JSONB;
   v_request_tender BIGINT;
   v_stored_tender BIGINT;
+  v_legacy_result JSONB;
+  v_sorted_items JSONB;
 BEGIN
   PERFORM public.assert_erp_role(
     ARRAY['owner', 'admin', 'manager', 'sales'],
@@ -161,7 +163,7 @@ BEGIN
   FOR SHARE;
 
   IF NOT FOUND THEN
-    RETURN public._create_pos_sale_package_legacy(
+    v_legacy_result := public._create_pos_sale_package_legacy(
       p_warehouse_id,
       p_branch_id,
       p_customer_id,
@@ -172,6 +174,28 @@ BEGIN
       p_amount_received_in_minor_units,
       v_key
     );
+
+    -- PostgreSQL does not guarantee row order when several line items share
+    -- the same created_at. Normalize the first response to the same stable
+    -- product ordering used by read-only replays.
+    IF COALESCE((v_legacy_result->>'success')::BOOLEAN, false)
+      AND jsonb_typeof(v_legacy_result->'items') = 'array'
+    THEN
+      SELECT COALESCE(
+        jsonb_agg(item.value ORDER BY item.value->>'productId'),
+        '[]'::JSONB
+      )
+      INTO v_sorted_items
+      FROM jsonb_array_elements(v_legacy_result->'items') AS item(value);
+
+      v_legacy_result := jsonb_set(
+        v_legacy_result,
+        '{items}',
+        v_sorted_items
+      );
+    END IF;
+
+    RETURN v_legacy_result;
   END IF;
 
   -- The old order table has no creator column. The immutable creation audit is
@@ -231,7 +255,7 @@ BEGIN
       'lineTotalInMinorUnits', oi.line_total_in_minor_units,
       'cogsInMinorUnits', oi.cogs_in_minor_units,
       'profitInMinorUnits', oi.profit_in_minor_units
-    ) ORDER BY oi.created_at, oi.id), '[]'::JSONB)
+    ) ORDER BY oi.product_id), '[]'::JSONB)
   INTO
     v_stored_item_count,
     v_snapshots_complete,
