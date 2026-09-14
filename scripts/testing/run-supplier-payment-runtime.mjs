@@ -108,6 +108,10 @@ try {
       timeout: 180_000,
     });
   }
+  await runRuntimeSql(warehouseTransferRuntimeSqlPath, 'warehouse-transfer');
+
+  // POS uses distinct deterministic fixtures, so it can safely run last on
+  // this isolated database without paying for another full 001-current reset.
   const { stdout: posIdempotencyOutput } = await execFileAsync(
     process.execPath,
     [posIdempotencyRuntimeScript],
@@ -128,15 +132,6 @@ try {
   if (!posIdempotencyResult.ok) {
     throw new Error('POS idempotency runtime verification did not pass.');
   }
-  if (isolatedProjectRoot) {
-    await execFileAsync(process.execPath, [cliPath, 'db', 'reset', '--local', '--workdir', isolatedProjectRoot], {
-      cwd: projectRoot,
-      windowsHide: true,
-      maxBuffer: 1024 * 1024,
-      timeout: 180_000,
-    });
-  }
-  await runRuntimeSql(warehouseTransferRuntimeSqlPath, 'warehouse-transfer');
 
   const { stdout: lintOutput } = await execFileAsync(
     process.execPath,
