@@ -237,4 +237,48 @@ test.describe('isolated integrated Admin session security', () => {
       consoleErrors.filter((message) => !message.includes('status of 503'))
     ).toEqual([]);
   });
+
+  test('MFA hung status request recovers with a fresh generation and ignores the late request', async ({page, context}) => {
+    await installTurnstileShim(context);
+    const pageErrors: string[] = [];
+    const consoleErrors: string[] = [];
+    page.on('pageerror', (error) => pageErrors.push(error.message));
+    page.on('console', (message) => {
+      if (message.type() === 'error') consoleErrors.push(message.text());
+    });
+
+    await loginWithIsolatedUser(page);
+
+    let userRequestCount = 0;
+    let releaseFirstRequest!: () => void;
+    const firstRequestGate = new Promise<void>((resolve) => {
+      releaseFirstRequest = resolve;
+    });
+    await context.route('**/auth/v1/user', async (route) => {
+      userRequestCount += 1;
+      if (userRequestCount === 1) await firstRequestGate;
+      await route.continue();
+    });
+
+    await openProfileSecurity(page);
+    const profileModal = page.locator('.fixed.inset-0.z-50');
+    await expect(profileModal.getByText('تعذر الفحص')).toBeVisible({timeout: 15_000});
+
+    await page.getByRole('button', {name: 'إعادة المحاولة'}).evaluate((button) => {
+      (button as HTMLButtonElement).click();
+      (button as HTMLButtonElement).click();
+      (button as HTMLButtonElement).click();
+    });
+    await expect(profileModal.getByText('غير مفعلة', {exact: true})).toBeVisible({timeout: 15_000});
+    expect(userRequestCount).toBe(2);
+
+    releaseFirstRequest();
+    await page.waitForTimeout(500);
+    await expect(profileModal.getByText('غير مفعلة', {exact: true})).toBeVisible();
+    await expect(profileModal.getByText('تعذر الفحص')).toHaveCount(0);
+
+    await profileModal.getByRole('button', {name: 'إغلاق'}).click();
+    expect(pageErrors).toEqual([]);
+    expect(consoleErrors).toEqual([]);
+  });
 });

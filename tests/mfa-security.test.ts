@@ -3,9 +3,10 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import {
   LatestMfaStatusRequest,
+  MAX_MFA_STATUS_ORPHANED_REQUESTS,
+  MfaStatusRecoveryExhaustedError,
   MfaStatusTimeoutError,
-  SingleFlightRequest,
-  withMfaStatusTimeout,
+  RecoverableMfaStatusRequest,
 } from '../src/services/supabase/mfaStatusRequest';
 
 const authStore = readFileSync('src/stores/useAuthStore.ts', 'utf8');
@@ -20,6 +21,18 @@ const monitoringAccessMigration = readFileSync(
   'supabase/migrations/106_align_monitoring_owner_mfa_policy.sql',
   'utf8'
 );
+
+function deferred<T>() {
+  let resolve!: (value: T) => void;
+  let reject!: (error: unknown) => void;
+  const promise = new Promise<T>((resolvePromise, rejectPromise) => {
+    resolve = resolvePromise;
+    reject = rejectPromise;
+  });
+  return { promise, resolve, reject };
+}
+
+const flushPromises = () => new Promise((resolve) => setTimeout(resolve, 0));
 
 test('admin data is not loaded until the session AAL has been checked', () => {
   const handlerStart = authStore.indexOf('private async handleUserSession');
@@ -56,11 +69,12 @@ test('MFA status has explicit loading, ready, error, and retry states', () => {
   assert.match(profileModal, /إعادة المحاولة/);
   assert.match(profileModal, /role="alert"/);
   assert.match(profileModal, /const status = await getMfaStatus\(\)/);
-  assert.match(mfaService, /withMfaStatusTimeout\(mfaStatusLoader\.run\(loadMfaStatus\)\)/);
+  assert.match(mfaService, /mfaStatusLoader\.run\(loadMfaStatus\)/);
+  assert.match(profileModal, /setMfaStatus\(null\)[\s\S]*setMfaStatusError\(''\)/);
 });
 
-test('MFA status requests are single-flight and avoid concurrent SDK auth reads', () => {
-  assert.match(mfaService, /new SingleFlightRequest<MfaStatus>\(\)/);
+test('MFA status requests are recoverable single-flight and keep SDK auth reads sequential', () => {
+  assert.match(mfaService, /new RecoverableMfaStatusRequest<MfaStatus>\(\)/);
   assert.match(mfaService, /mfaStatusLoader\.run\(loadMfaStatus\)/);
   assert.doesNotMatch(mfaService, /Promise\.all\(\[\s*client\.auth\.mfa\.listFactors/);
   assert.ok(
@@ -84,34 +98,182 @@ test('MFA request lifecycle rejects stale completions and rapid duplicate checks
   assert.equal(requests.complete(second!), true);
 });
 
-test('MFA timeout settles safely and ignores a late response', async () => {
-  let resolveLate!: (value: string) => void;
-  const lateRequest = new Promise<string>((resolve) => {
-    resolveLate = resolve;
+test('MFA status succeeds normally with one accepted generation', async () => {
+  const requests = new RecoverableMfaStatusRequest<string>(50);
+  let sdkRequests = 0;
+
+  const result = await requests.run(async () => {
+    sdkRequests += 1;
+    return 'ready';
   });
 
-  await assert.rejects(withMfaStatusTimeout(lateRequest, 5), MfaStatusTimeoutError);
-  resolveLate('stale');
-  await new Promise((resolve) => setTimeout(resolve, 0));
+  assert.equal(result, 'ready');
+  assert.equal(sdkRequests, 1);
+  assert.deepEqual(requests.getDiagnostics(), {
+    logicalCalls: 1,
+    generationsCreated: 1,
+    generationsTimedOut: 0,
+    acceptedResults: 1,
+    ignoredStaleResults: 0,
+    activeGeneration: null,
+    orphanedRequests: 0,
+    maximumObservedUnderlyingRequests: 1,
+  });
 });
 
-test('MFA retry after timeout reuses the unresolved SDK request', async () => {
-  const loader = new SingleFlightRequest<string>();
-  let resolveRequest!: (value: string) => void;
-  let calls = 0;
+test('MFA status normal SDK failure settles without infinite loading', async () => {
+  const requests = new RecoverableMfaStatusRequest<string>(50);
+  const failure = new Error('isolated SDK failure');
+
+  await assert.rejects(requests.run(async () => { throw failure; }), failure);
+  assert.equal(requests.getDiagnostics().activeGeneration, null);
+  assert.equal(requests.getDiagnostics().orphanedRequests, 0);
+});
+
+test('MFA hung generation times out and becomes a bounded orphan', async () => {
+  const requests = new RecoverableMfaStatusRequest<string>(5);
+  const hung = deferred<string>();
+
+  await assert.rejects(requests.run(() => hung.promise), MfaStatusTimeoutError);
+  assert.equal(requests.getDiagnostics().generationsTimedOut, 1);
+  assert.equal(requests.getDiagnostics().orphanedRequests, 1);
+  assert.equal(requests.getDiagnostics().activeGeneration, null);
+
+  hung.resolve('late');
+  await flushPromises();
+});
+
+test('MFA retry after a hung generation starts a real recovery attempt', async () => {
+  const requests = new RecoverableMfaStatusRequest<string>(5);
+  const first = deferred<string>();
+  let sdkRequests = 0;
+  const firstRequest = requests.run(() => {
+    sdkRequests += 1;
+    return first.promise;
+  });
+
+  await assert.rejects(firstRequest, MfaStatusTimeoutError);
+  const recovery = requests.run(async () => {
+    sdkRequests += 1;
+    return 'ready';
+  });
+  assert.equal(await recovery, 'ready');
+  assert.equal(sdkRequests, 2);
+  assert.equal(requests.getDiagnostics().acceptedResults, 1);
+
+  first.resolve('stale');
+  await flushPromises();
+});
+
+test('MFA late stale response cannot overwrite a newer accepted result', async () => {
+  const requests = new RecoverableMfaStatusRequest<string>(5);
+  const first = deferred<string>();
+  const accepted: string[] = [];
+
+  await assert.rejects(requests.run(() => first.promise), MfaStatusTimeoutError);
+  accepted.push(await requests.run(async () => 'fresh'));
+  first.resolve('stale');
+  await flushPromises();
+
+  assert.deepEqual(accepted, ['fresh']);
+  assert.equal(requests.getDiagnostics().acceptedResults, 1);
+  assert.equal(requests.getDiagnostics().ignoredStaleResults, 1);
+});
+
+test('MFA concurrent callers share one generation and one SDK request', async () => {
+  const requests = new RecoverableMfaStatusRequest<string>(50);
+  const response = deferred<string>();
+  let sdkRequests = 0;
   const factory = () => {
-    calls += 1;
-    return new Promise<string>((resolve) => {
-      resolveRequest = resolve;
-    });
+    sdkRequests += 1;
+    return response.promise;
   };
 
-  await assert.rejects(withMfaStatusTimeout(loader.run(factory), 5), MfaStatusTimeoutError);
-  const retry = withMfaStatusTimeout(loader.run(factory), 100);
-  assert.equal(calls, 1);
+  const first = requests.run(factory);
+  const second = requests.run(factory);
+  const third = requests.run(factory);
+  assert.equal(first, second);
+  assert.equal(second, third);
+  response.resolve('ready');
+  assert.deepEqual(await Promise.all([first, second, third]), ['ready', 'ready', 'ready']);
+  assert.equal(sdkRequests, 1);
+  assert.equal(requests.getDiagnostics().logicalCalls, 3);
+});
 
-  resolveRequest('ready');
-  assert.equal(await retry, 'ready');
+test('MFA rapid retry creates only one recovery generation', async () => {
+  const requests = new RecoverableMfaStatusRequest<string>(5);
+  const hung = deferred<string>();
+  const recovery = deferred<string>();
+  let sdkRequests = 0;
+
+  await assert.rejects(requests.run(() => {
+    sdkRequests += 1;
+    return hung.promise;
+  }), MfaStatusTimeoutError);
+
+  const retryOne = requests.run(() => {
+    sdkRequests += 1;
+    return recovery.promise;
+  });
+  const retryTwo = requests.run(() => recovery.promise);
+  const retryThree = requests.run(() => recovery.promise);
+  recovery.resolve('ready');
+  assert.deepEqual(await Promise.all([retryOne, retryTwo, retryThree]), ['ready', 'ready', 'ready']);
+  assert.equal(sdkRequests, 2);
+  assert.equal(requests.getDiagnostics().maximumObservedUnderlyingRequests, 2);
+
+  hung.resolve('stale');
+  await flushPromises();
+});
+
+test('MFA orphan cap fails closed without an unbounded retry loop', async () => {
+  const requests = new RecoverableMfaStatusRequest<string>(5, 2);
+  const first = deferred<string>();
+  const second = deferred<string>();
+  let sdkRequests = 0;
+
+  await assert.rejects(requests.run(() => {
+    sdkRequests += 1;
+    return first.promise;
+  }), MfaStatusTimeoutError);
+  await assert.rejects(requests.run(() => {
+    sdkRequests += 1;
+    return second.promise;
+  }), MfaStatusTimeoutError);
+  await assert.rejects(
+    requests.run(async () => {
+      sdkRequests += 1;
+      return 'must-not-run';
+    }),
+    MfaStatusRecoveryExhaustedError
+  );
+
+  assert.equal(MAX_MFA_STATUS_ORPHANED_REQUESTS, 2);
+  assert.equal(sdkRequests, 2);
+  assert.equal(requests.getDiagnostics().orphanedRequests, 2);
+  assert.equal(requests.getDiagnostics().maximumObservedUnderlyingRequests, 2);
+
+  first.resolve('stale-one');
+  second.resolve('stale-two');
+  await flushPromises();
+});
+
+test('MFA stale generation cannot advance to a second SDK step', async () => {
+  const requests = new RecoverableMfaStatusRequest<string>(5);
+  const firstStep = deferred<void>();
+  let secondSdkStepRequests = 0;
+
+  await assert.rejects(requests.run(async (attempt) => {
+    await firstStep.promise;
+    attempt.assertCurrent();
+    secondSdkStepRequests += 1;
+    return 'must-not-complete';
+  }), MfaStatusTimeoutError);
+
+  firstStep.resolve();
+  await flushPromises();
+  assert.equal(secondSdkStepRequests, 0);
+  assert.equal(requests.getDiagnostics().ignoredStaleResults, 1);
 });
 
 test('MFA component lifecycle prevents unmounted updates and duplicate enrollment', () => {
@@ -127,6 +289,22 @@ test('TOTP secrets and codes are never written to the console', () => {
   assert.match(mfaService, /factor\.status === 'unverified'/);
   assert.match(mfaService, /challengeAndVerify/);
   assert.doesNotMatch(mfaService, /return message \|\|/);
+});
+
+test('MFA status binds accepted results to a non-secret session identity', () => {
+  assert.match(mfaService, /client\.auth\.getSession\(\)/);
+  assert.match(mfaService, /data\.session\.user\.id/);
+  assert.match(mfaService, /data\.session\.user\.last_sign_in_at/);
+  assert.match(mfaService, /data\.session\.expires_at/);
+  assert.doesNotMatch(mfaService, /data\.session\.(?:access_token|refresh_token)/);
+  assert.match(mfaService, /await assertSameMfaSession\(sessionIdentity, attempt\)/g);
+});
+
+test('MFA retry recovery is limited to status reads and never wraps mutations', () => {
+  assert.equal((mfaService.match(/mfaStatusLoader\.run\(/g) || []).length, 1);
+  for (const operation of ['enroll', 'challengeAndVerify', 'unenroll']) {
+    assert.doesNotMatch(mfaService, new RegExp(`mfaStatusLoader\\.run\\([^)]*${operation}`));
+  }
 });
 
 test('database requires AAL2 only for users with a verified factor', () => {

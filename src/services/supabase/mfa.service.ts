@@ -1,9 +1,11 @@
 import type { Factor } from '@supabase/supabase-js';
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
 import {
+  MfaStatusRecoveryExhaustedError,
+  MfaStatusStaleAttemptError,
   MfaStatusTimeoutError,
-  SingleFlightRequest,
-  withMfaStatusTimeout,
+  MfaStatusAttempt,
+  RecoverableMfaStatusRequest,
 } from './mfaStatusRequest';
 
 export interface MfaStatus {
@@ -39,8 +41,16 @@ function normalizeTotpCode(code: string): string {
 }
 
 export function translateMfaError(error: unknown): string {
+  if (error instanceof MfaStatusRecoveryExhaustedError) {
+    return 'تعذر استعادة فحص المصادقة بأمان. أعد تحميل صفحة النظام ثم حاول مجددًا.';
+  }
+
   if (error instanceof MfaStatusTimeoutError) {
     return 'استغرق فحص حالة المصادقة وقتًا أطول من المتوقع. حاول مجددًا.';
+  }
+
+  if (error instanceof MfaStatusStaleAttemptError) {
+    return 'تغيّرت جلسة الدخول أثناء فحص المصادقة. حاول مجددًا.';
   }
 
   const message = error instanceof Error ? error.message : String(error || '');
@@ -65,18 +75,48 @@ export function translateMfaError(error: unknown): string {
   return 'تعذر إكمال التحقق بخطوتين. حاول مجددًا.';
 }
 
-const mfaStatusLoader = new SingleFlightRequest<MfaStatus>();
+const mfaStatusLoader = new RecoverableMfaStatusRequest<MfaStatus>();
 
-async function loadMfaStatus(): Promise<MfaStatus> {
+async function readMfaSessionIdentity(): Promise<string> {
   const client = requireSupabase();
+  const { data, error } = await client.auth.getSession();
+  if (error) throw error;
+  if (!data.session?.user.id) throw new MfaStatusStaleAttemptError();
+
+  // Bind results without retaining access tokens or refresh tokens.
+  return JSON.stringify([
+    data.session.user.id,
+    data.session.user.last_sign_in_at || null,
+    data.session.expires_at || null,
+  ]);
+}
+
+async function assertSameMfaSession(
+  expectedIdentity: string,
+  attempt: MfaStatusAttempt
+): Promise<void> {
+  attempt.assertCurrent();
+  const currentIdentity = await readMfaSessionIdentity();
+  attempt.assertCurrent();
+  if (currentIdentity !== expectedIdentity) throw new MfaStatusStaleAttemptError();
+}
+
+async function loadMfaStatus(attempt: MfaStatusAttempt): Promise<MfaStatus> {
+  const client = requireSupabase();
+  const sessionIdentity = await readMfaSessionIdentity();
+  attempt.assertCurrent();
   const factorsResponse = await client.auth.mfa.listFactors();
 
   if (factorsResponse.error) throw factorsResponse.error;
 
   // GoTrue auth calls share session state. Keep the status probe sequential so
   // the SDK never performs two MFA reads against that state at the same time.
+  // A timed-out generation must not start this second SDK request when its
+  // first request eventually settles.
+  await assertSameMfaSession(sessionIdentity, attempt);
   const aalResponse = await client.auth.mfa.getAuthenticatorAssuranceLevel();
   if (aalResponse.error) throw aalResponse.error;
+  await assertSameMfaSession(sessionIdentity, attempt);
 
   return {
     verifiedTotpFactor: factorsResponse.data.totp[0] || null,
@@ -89,9 +129,7 @@ async function loadMfaStatus(): Promise<MfaStatus> {
 }
 
 export function getMfaStatus(): Promise<MfaStatus> {
-  // Keep the underlying SDK call single-flight even after a caller times out.
-  // A retry receives a fresh timeout window around the same in-flight request.
-  return withMfaStatusTimeout(mfaStatusLoader.run(loadMfaStatus));
+  return mfaStatusLoader.run(loadMfaStatus);
 }
 
 export async function beginTotpEnrollment(): Promise<TotpEnrollment> {

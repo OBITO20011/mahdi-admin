@@ -114,6 +114,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
     if (requestId === null) return;
 
     setMfaStatusState('loading');
+    setMfaStatus(null);
     setMfaStatusError('');
     try {
       const status = await getMfaStatus();
