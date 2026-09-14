@@ -455,34 +455,38 @@ named replacement operator and recovery custodian are required at handoff.
 
 ### Access and recovery ownership
 
-The following is a handoff inventory, not certification of owner access. `UNKNOWN`
-does not prove missing access. Confirmation was requested without secrets; no
-ownership, secret or MFA changes were made. Completion of owner access/custody is
-required before independent handoff. Removal of excessive developer access comes
-after successful handoff/Hypercare, with a known emergency operator retained.
+The following is a handoff inventory, not direct certification by each external
+provider. `UNKNOWN` does not prove missing access. After the audit, the user
+confirmed that recovery access for the essential Cloudflare, R2, Supabase, GitHub,
+domain and recovery-email accounts was secured. This remains `USER CONFIRMATION`,
+not direct proof of legal/billing ownership. No credential value was collected.
+Removal of excessive developer access comes after successful handoff/Hypercare,
+with a known emergency operator retained.
 
 | Service | Current evidence / ownership | Recovery method exists | Developer access | Owner access ready | Handoff action / timing |
 | --- | --- | --- | --- | --- | --- |
-| Cloudflare account + billing | DIRECTLY VERIFIED Pages read access; legal owner/billing UNKNOWN | UNKNOWN | YES, scoped observed access | UNKNOWN | Confirm account/billing/recovery custodian BEFORE GO-LIVE |
-| R2 | LOCAL CONFIG/METADATA: protected S3 config and prior successful download; ownership UNKNOWN | UNKNOWN for account/key custody after host loss | YES, existing local workflow access | UNKNOWN | Independent account and archive-key recovery BEFORE GO-LIVE |
-| Supabase + billing | DIRECTLY VERIFIED read-only DB, secret names, one Owner role and one verified MFA factor; human account/billing owner UNKNOWN | UNKNOWN | YES, privileged maintenance credential exists locally | UNKNOWN | Confirm project/billing/Auth recovery, least privilege BEFORE GO-LIVE |
-| GitHub repository/org/billing | DIRECTLY VERIFIED origin access; account/org/billing owner UNKNOWN | UNKNOWN | YES, existing repository session | UNKNOWN | Confirm owner/admin/recovery access BEFORE GO-LIVE; developer reduction AFTER HYPERCARE |
-| Domain registrar/renewal/payment | USER CONFIRMATION REQUIRED; working domain does not prove registrar access | UNKNOWN | UNKNOWN | UNKNOWN | Registrar/renewal/recovery confirmation BEFORE GO-LIVE |
-| DNS | DIRECTLY VERIFIED working official domains; DNS control/recovery custody UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | Confirm registrar/zone authority BEFORE GO-LIVE |
+| Cloudflare account + billing | DIRECTLY VERIFIED Pages read access; account/recovery secured by USER CONFIRMATION; legal billing identity not directly inspected | YES — USER CONFIRMATION | YES, scoped observed access | YES — USER CONFIRMATION | Reconfirm billing contact during handoff; developer reduction AFTER HYPERCARE |
+| R2 | LOCAL CONFIG/METADATA: protected S3 config and successful download; account recovery secured and archive key held independently by USER CONFIRMATION | YES — USER CONFIRMATION plus tested key copy | YES, existing local workflow access | YES — USER CONFIRMATION | Preserve independent archive-key custody; never record the value here |
+| Supabase + billing | DIRECTLY VERIFIED read-only DB, one Owner role and one verified MFA factor; account/recovery secured by USER CONFIRMATION | YES — USER CONFIRMATION | YES, privileged maintenance credential exists locally | YES — USER CONFIRMATION | Reconfirm billing contact/least privilege during handoff |
+| GitHub repository/org/billing | DIRECTLY VERIFIED origin access; account/recovery secured by USER CONFIRMATION | YES — USER CONFIRMATION | YES, existing repository session | YES — USER CONFIRMATION | Confirm organization/billing contact during handoff; developer reduction AFTER HYPERCARE |
+| Domain registrar/renewal/payment | Working domain directly verified; registrar/recovery access secured by USER CONFIRMATION | YES — USER CONFIRMATION | UNKNOWN | YES — USER CONFIRMATION | Reconfirm renewal/payment contact during handoff |
+| DNS | DIRECTLY VERIFIED working official domains; control/recovery secured by USER CONFIRMATION | YES — USER CONFIRMATION | UNKNOWN | YES — USER CONFIRMATION | Record zone custodian during handoff without credentials |
 | n8n | DIRECTLY VERIFIED local healthy container, one user, Telegram workflow active | LOCAL CONFIG/METADATA: encrypted n8n artifact; human recovery UNKNOWN | YES, host/container maintenance | UNKNOWN | Owner operation and encryption/config custody DURING HANDOFF |
 | Telegram developer/business bots | REPOSITORY-INFERRED separation; LOCAL CONFIG/METADATA routing configured; human bot owner UNKNOWN | UNKNOWN | YES, local configuration exists | UNKNOWN | Business recipient/bot custody BEFORE GO-LIVE; developer bot separate |
-| Recovery email | USER CONFIRMATION REQUIRED | UNKNOWN | UNKNOWN | UNKNOWN | Confirm access without collecting addresses/codes BEFORE GO-LIVE |
-| App Owner/Admin + MFA device | DIRECTLY VERIFIED one Owner membership / verified factor; holder/device/recovery UNKNOWN | UNKNOWN; no native recovery-code capability assumed | UNKNOWN for human account | UNKNOWN | Owner demonstrates Login/Unlock/MFA, recovery procedure DURING HANDOFF |
+| Recovery email | Access and recovery secured by USER CONFIRMATION; address not collected | YES — USER CONFIRMATION | UNKNOWN | YES — USER CONFIRMATION | Reconfirm access during handoff without collecting addresses/codes |
+| App Owner/Admin + MFA device | DIRECTLY VERIFIED one Owner membership / verified factor; account recovery secured by USER CONFIRMATION | YES — USER CONFIRMATION; no native recovery-code capability assumed | UNKNOWN for human account | YES — USER CONFIRMATION | Owner demonstrates Login/Unlock/MFA during training/handoff without exposing codes |
 | Windows administrator / Scheduled Tasks | DIRECTLY VERIFIED current host/read access; some SYSTEM task definitions hidden | UNKNOWN for lost-host administrator recovery | YES, current host | UNKNOWN | Administrator recovery and protected-task visibility DURING HANDOFF |
-| Backup DPAPI configuration / passphrase | LOCAL CONFIG/METADATA protected configuration; independent off-device passphrase custody unconfirmed | UNKNOWN outside this host | YES, current machine tooling | UNKNOWN | Confirm independent passphrase copy BEFORE GO-LIVE; never record the value here |
+| Backup DPAPI configuration / passphrase | LOCAL CONFIG/METADATA protected configuration; user saved an independent off-device copy and re-entered it locally | YES — exact copy successfully decrypted/verified the latest archive | YES, current machine tooling | YES — USER CONFIRMATION | CLOSED; preserve the off-device copy and never record its value here |
 | OneDrive/local backup ownership | LOCAL CONFIG/METADATA backup path under developer Windows profile | UNKNOWN for cloud-account recovery | YES, filesystem access | UNKNOWN | Confirm backup ownership/storage access DURING HANDOFF |
 | Emergency operator | USER CONFIRMATION REQUIRED | UNKNOWN | Current developer available; replacement unconfirmed | UNKNOWN | Name recovery custodian BEFORE GO-LIVE and successor BEFORE access removal |
 | Sentry, Turnstile, optional Gemini, Web Push | REPOSITORY-INFERRED integrations / DIRECTLY VERIFIED secret names only | UNKNOWN | Configured access does not prove external ownership | UNKNOWN | Confirm required integration owners BEFORE GO-LIVE; optional Gemini separately |
 
-Essential-service recovery-path sign-off remains `USER CONFIRMATION REQUIRED`.
-Do not turn unknown billing into a demonstrated defect, or silently mark this
-strict sign-off requirement PASS. No conclusion that a recovery path is absent
-has been established.
+`ESSENTIAL ACCOUNT RECOVERY PATH = CONFIRMED` by the user. The independently held
+archive passphrase was re-entered in a local no-log dialog and successfully
+decrypted/verified the exact latest archive; the temporary tool and clipboard copy
+were removed afterward. This closes the strict pre-training recovery-path gap.
+External legal/billing ownership remains confirmation-based and must not be
+represented as direct provider evidence.
 
 ### Dependency / supply-chain snapshot
 
@@ -574,7 +578,7 @@ must not be relabeled as exploitable Production vulnerabilities without reachabi
 
 | ID | Severity / type | Remaining action / evidence |
 | --- | --- | --- |
-| OWN-01 | MEDIUM HANDOFF GAP | USER CONFIRMATION REQUIRED: essential account recovery and off-device archive key custody. Strict recovery-path sign-off not yet evidenced |
+| OWN-01 | MEDIUM HANDOFF GAP, CLOSED | USER CONFIRMATION received for essential account recovery; independent archive key copy was locally re-entered and successfully verified against the latest encrypted backup |
 | DR-01 | MEDIUM OPERATIONAL RISK | Public-schema backup excludes managed Auth/config; full-project recovery time unproven. Procedure documented; owner accepts scope/RPO/RTO before Go-Live |
 | DEP-01 | MEDIUM OPERATIONAL RISK | Customer sharp advisory in local toolchain; no demonstrated active input path. Review patch before untrusted-image processing |
 | MON-01 | MEDIUM OPERATIONAL RISK | Local host loss removes local backup/monitoring together; assign freshness responsibility before independent handoff |
@@ -584,8 +588,12 @@ must not be relabeled as exploitable Production vulnerabilities without reachabi
 | DOC-01 | LOW DOCUMENTATION GAP, CLOSED | Updated stale scheduled-backup failure wording, rollback decision, new-machine and incident procedures |
 | OPS-01 | INFO OPERATING LIMIT | POS key survives retry within mounted view, not reload. UNKNOWN-sale procedure now explicit; no new duplicate transaction proven |
 
-Read-only audit findings and documentation completion do not themselves establish
-owner recovery control. Until OWN-01 confirmation, the strict final readiness
-sign-off is NOT VERIFIED (evidence pending), rather than a claim that a High
-defect or missing recovery method has been proved. The next permitted phase after
-the gate is satisfied is `CONTROLLED ONE-TIME OWNER TRAINING`; training is not run here.
+No open Critical/High pre-training blocker was established. The remaining Medium
+items above are documented operational/maintenance risks for acceptance or later
+hardening, not demonstrated blockers to owner training. Based on the explicit user
+confirmation and the locally verified independent archive-key copy:
+
+`LEAN PRE-TRAINING OPERATIONAL READINESS & OWNERSHIP AUDIT = PASS`.
+
+The next permitted phase is `CONTROLLED ONE-TIME OWNER TRAINING`; training is not
+run here.
