@@ -223,11 +223,100 @@ export const fetchSupplierReceiptByIdFromSupabase = async (
   }
 };
 
+export interface LegacyReceiptReplayResolution {
+  found: boolean;
+  receiptId?: string;
+  receiptNumber?: string;
+  receivedAt?: string;
+  totalInMinorUnits?: number;
+  status?: string;
+}
+
+export const LEGACY_RECEIPT_RESOLVER_TIMEOUT_MS = 4_000;
+
+type LegacyReceiptReplayResolver = (
+  idempotencyKey: string
+) => Promise<LegacyReceiptReplayResolution>;
+
+export interface LegacyReceiptRecoveryOptions {
+  resolver?: LegacyReceiptReplayResolver;
+  timeoutMs?: number;
+}
+
+const resolveLegacySupplierReceiptReplayInSupabase = async (
+  idempotencyKey: string
+): Promise<LegacyReceiptReplayResolution> => {
+  if (!isSupabaseConfigured || !supabase) return { found: false };
+
+  const { data, error } = await supabase.rpc(
+    'resolve_legacy_supplier_receipt_replay_v1',
+    { p_idempotency_key: idempotencyKey }
+  );
+  if (error || !data || data.found !== true) return { found: false };
+
+  return {
+    found: true,
+    receiptId: data.receipt_id,
+    receiptNumber: data.receipt_number,
+    receivedAt: data.received_at,
+    totalInMinorUnits: data.total_in_minor_units,
+    status: data.status,
+  };
+};
+
+export interface LegacyReceiptFailClosedResult {
+  success: false;
+  sqlState: 'P0001';
+  errorCode: 'LEGACY_IDEMPOTENCY_IDENTITY_UNPROVEN';
+  error: string;
+  recovery: LegacyReceiptReplayResolution;
+}
+
+export const buildLegacyReceiptFailClosedResult = async (
+  idempotencyKey: string,
+  options: LegacyReceiptRecoveryOptions = {}
+): Promise<LegacyReceiptFailClosedResult> => {
+  const safeFallback: LegacyReceiptFailClosedResult = {
+    success: false,
+    sqlState: 'P0001',
+    errorCode: 'LEGACY_IDEMPOTENCY_IDENTITY_UNPROVEN',
+    error: 'تعذر إثبات تطابق الطلب التاريخي. راجع سندات الاستلام قبل إنشاء عملية مستقلة.',
+    recovery: { found: false },
+  };
+  const resolver = options.resolver ?? resolveLegacySupplierReceiptReplayInSupabase;
+  const timeoutMs = Math.max(1, options.timeoutMs ?? LEGACY_RECEIPT_RESOLVER_TIMEOUT_MS);
+  let timeoutHandle: ReturnType<typeof setTimeout> | undefined;
+
+  const resolverOutcome = Promise.resolve()
+    .then(() => resolver(idempotencyKey))
+    .then(
+      (recovery) => ({ kind: 'resolved' as const, recovery }),
+      () => ({ kind: 'failed' as const })
+    );
+  const timeoutOutcome = new Promise<{ kind: 'timeout' }>((resolve) => {
+    timeoutHandle = setTimeout(() => resolve({ kind: 'timeout' }), timeoutMs);
+  });
+
+  const outcome = await Promise.race([resolverOutcome, timeoutOutcome]);
+  if (timeoutHandle) clearTimeout(timeoutHandle);
+  if (outcome.kind !== 'resolved') return safeFallback;
+
+  const recovery = outcome.recovery;
+  return {
+    ...safeFallback,
+    error: recovery.found && recovery.receiptNumber
+      ? `هذه العملية مرتبطة بسند سابق (${recovery.receiptNumber}). راجع السند الموجود قبل إنشاء عملية مستقلة.`
+      : safeFallback.error,
+    recovery,
+  };
+};
+
 /**
  * Call create_direct_supplier_receipt RPC to save receipt, update inventory, record payment
  */
 export const createDirectSupplierReceiptInSupabase = async (
-  form: DirectReceiptForm
+  form: DirectReceiptForm,
+  recoveryOptions: LegacyReceiptRecoveryOptions = {}
 ): Promise<{
   success: boolean;
   data?: {
@@ -240,6 +329,9 @@ export const createDirectSupplierReceiptInSupabase = async (
     totalInventoryUnitsAdded: number;
   };
   error?: string;
+  sqlState?: 'P0001';
+  errorCode?: 'LEGACY_IDEMPOTENCY_IDENTITY_UNPROVEN';
+  recovery?: LegacyReceiptReplayResolution;
 }> => {
   if (!isSupabaseConfigured || !supabase) {
     return { success: false, error: 'الاتصال بقاعدة البيانات غير متاح.' };
@@ -252,7 +344,7 @@ export const createDirectSupplierReceiptInSupabase = async (
       p_branch_id: form.branchId || null,
       p_supplier_invoice_number: form.supplierInvoiceNumber || null,
       p_supplier_invoice_date: form.supplierInvoiceDate || null,
-      p_received_at: form.receivedAt || new Date().toISOString(),
+      p_received_at: form.receivedAt || null,
       p_delivery_fee_in_minor_units: form.deliveryFeeInMinorUnits || 0,
       p_discount_in_minor_units: form.discountInMinorUnits || 0,
       p_tax_in_minor_units: form.taxInMinorUnits || 0,
@@ -283,6 +375,13 @@ export const createDirectSupplierReceiptInSupabase = async (
     const { data, error } = await supabase.rpc('create_direct_supplier_receipt', payload);
 
     if (error) {
+      if (
+        error.code === 'P0001'
+        && form.idempotencyKey
+        && error.message?.includes('LEGACY_IDEMPOTENCY_IDENTITY_UNPROVEN')
+      ) {
+        return buildLegacyReceiptFailClosedResult(form.idempotencyKey, recoveryOptions);
+      }
       console.error('RPC create_direct_supplier_receipt error:', error);
       return { success: false, error: error.message };
     }

@@ -118,7 +118,7 @@ export interface DirectReceiptForm {
   branchId?: string;
   supplierInvoiceNumber?: string;
   supplierInvoiceDate?: string;
-  receivedAt: string;
+  receivedAt?: string;
   deliveryFeeInMinorUnits: number;
   discountInMinorUnits: number;
   taxInMinorUnits: number;

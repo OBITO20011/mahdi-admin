@@ -25,6 +25,7 @@ import {
   fetchWarehousesForReceivingFromSupabase,
   fetchBranchesForReceivingFromSupabase,
   createDirectSupplierReceiptInSupabase,
+  type LegacyReceiptReplayResolution,
 } from '../../services/supabase/directReceiving.service';
 import { CreateSupplierModal } from '../purchases/CreateSupplierModal';
 import { CURRENCY, PURCHASE_PACKAGE_OPTIONS } from '../../constants';
@@ -104,9 +105,19 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
   // Submitting state
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [legacyReplayResolution, setLegacyReplayResolution] =
+    useState<LegacyReceiptReplayResolution | null>(null);
   const idempotencyKeyRef = useRef<string>(crypto.randomUUID());
   const didPreselectProductRef = useRef(false);
   const selectedProductsRef = useRef<Map<string, ReceivingProduct>>(new Map());
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   // Load Initial Reference Data
   const loadReferenceData = useCallback(async () => {
@@ -347,6 +358,13 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
   // Main Action: Save Goods Receipt & Update Inventory
   const handleSubmitReceipt = async () => {
+    if (legacyReplayResolution) {
+      setToast(
+        'راجع سند الاستلام الموجود أولًا، ثم أغلق النموذج وابدأ عملية مستقلة فقط عند الحاجة.',
+        'error'
+      );
+      return;
+    }
     if (!selectedSupplierId) {
       setToast('الرجاء اختيار المورد.', 'error');
       return;
@@ -414,7 +432,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       branchId: selectedBranchId || undefined,
       supplierInvoiceNumber: supplierInvoiceNumber.trim() || undefined,
       supplierInvoiceDate: supplierInvoiceDate || undefined,
-      receivedAt: receivedAt || new Date().toISOString(),
+      receivedAt: receivedAt || undefined,
       deliveryFeeInMinorUnits: jodToMinorUnits(deliveryFeeJod),
       // Receipt-level discount is intentionally disabled. Supplier discounts
       // stay attached to their product lines so inventory cost remains exact.
@@ -445,9 +463,12 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
     };
 
     const res = await createDirectSupplierReceiptInSupabase(payload);
+    if (!isMountedRef.current) return;
 
     if (res.success && res.data) {
+      setLegacyReplayResolution(null);
       await refreshProductsFromSupabase();
+      if (!isMountedRef.current) return;
       idempotencyKeyRef.current = crypto.randomUUID();
 
       setToast(
@@ -458,6 +479,11 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       onSuccess?.(res.data);
       onClose();
     } else {
+      setLegacyReplayResolution(
+        res.errorCode === 'LEGACY_IDEMPOTENCY_IDENTITY_UNPROVEN'
+          ? res.recovery ?? { found: false }
+          : null
+      );
       setToast(
         res.error || 'فشلت عملية حفظ سند الاستلام وزيادة المخزون.',
         'error'
@@ -501,6 +527,37 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
   return (
     <div dir="rtl" className="space-y-4 max-h-[80vh] overflow-y-auto p-1 pr-2 text-xs text-slate-200">
+      {legacyReplayResolution && (
+        <div
+          role="alert"
+          className="rounded-2xl border border-amber-500/40 bg-amber-950/30 p-4 text-amber-100"
+        >
+          <div className="flex items-start gap-3">
+            <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" />
+            <div className="space-y-1.5">
+              <p className="font-extrabold">توقفت إعادة الإرسال لحماية المخزون والحسابات</p>
+              {legacyReplayResolution.found && legacyReplayResolution.receiptNumber ? (
+                <p className="leading-6 text-amber-100/90">
+                  المفتاح مرتبط بسند الاستلام{' '}
+                  <span className="font-extrabold">{legacyReplayResolution.receiptNumber}</span>
+                  {typeof legacyReplayResolution.totalInMinorUnits === 'number'
+                    ? ` بقيمة ${minorUnitsToJod(legacyReplayResolution.totalInMinorUnits).toFixed(3)} ${CURRENCY}`
+                    : ''}
+                  . راجع السند الموجود قبل إنشاء عملية مستقلة.
+                </p>
+              ) : (
+                <p className="leading-6 text-amber-100/90">
+                  تعذر إثبات أن الطلب الحالي مطابق لعملية تاريخية. راجع سندات الاستلام
+                  قبل إنشاء عملية مستقلة.
+                </p>
+              )}
+              <p className="text-[11px] leading-5 text-amber-200/75">
+                لن يعيد النظام الإرسال تلقائيًا، ولن يغيّر المخزون أو رصيد المورد من هذه المحاولة.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Supplier & Location Info Section */}
       <div className="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl space-y-3">
         <div className="flex items-center justify-between border-b border-slate-800 pb-2">
@@ -1203,13 +1260,18 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         <button
           type="button"
           onClick={handleSubmitReceipt}
-          disabled={isSubmitting || items.length === 0}
+          disabled={isSubmitting || items.length === 0 || legacyReplayResolution !== null}
           className="bg-gradient-to-r from-emerald-600 via-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold px-6 py-2.5 rounded-xl shadow-lg shadow-emerald-900/30 transition flex items-center gap-2 text-xs disabled:opacity-50"
         >
           {isSubmitting ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin text-white" />
               <span>جاري حفظ سند الاستلام وتحديث المخزون...</span>
+            </>
+          ) : legacyReplayResolution ? (
+            <>
+              <AlertCircle className="w-4 h-4 text-white" />
+              <span>راجع السند الموجود أولًا</span>
             </>
           ) : (
             <>
