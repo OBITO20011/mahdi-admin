@@ -17,20 +17,87 @@ const canonicalRuntimeSuite = readFileSync(
   'utf8',
 );
 
+type MigrationDigestEntry = {
+  name: string;
+  content: Uint8Array;
+};
+
+const canonicalizeMigrationBytes = (content: Uint8Array): Buffer => {
+  const canonical: number[] = [];
+
+  for (let index = 0; index < content.length; index += 1) {
+    const current = content[index];
+    if (current === 0x0d && content[index + 1] === 0x0a) {
+      canonical.push(0x0a);
+      index += 1;
+      continue;
+    }
+    canonical.push(current);
+  }
+
+  return Buffer.from(canonical);
+};
+
+const calculateCanonicalMigrationDigest = (
+  entries: readonly MigrationDigestEntry[],
+): string => {
+  const digest = createHash('sha256');
+  const sortedEntries = [...entries].sort((left, right) => {
+    if (left.name < right.name) return -1;
+    if (left.name > right.name) return 1;
+    return 0;
+  });
+
+  for (const entry of sortedEntries) {
+    digest.update(Buffer.from(entry.name, 'utf8'));
+    digest.update(Buffer.from([0]));
+    digest.update(canonicalizeMigrationBytes(entry.content));
+  }
+
+  return digest.digest('hex').toUpperCase();
+};
+
+test('migration integrity digest is cross-platform and content-sensitive', () => {
+  const lfEntries = [
+    { name: '001_example.sql', content: Buffer.from('BEGIN;\nSELECT 1;\nCOMMIT;\n') },
+    { name: '002_example.sql', content: Buffer.from('BEGIN;\nSELECT 2;\nCOMMIT;\n') },
+  ];
+  const crlfEntries = lfEntries.map((entry) => ({
+    name: entry.name,
+    content: Buffer.from(entry.content.toString('utf8').replaceAll('\n', '\r\n')),
+  }));
+
+  const canonicalDigest = calculateCanonicalMigrationDigest(lfEntries);
+  assert.equal(calculateCanonicalMigrationDigest(crlfEntries), canonicalDigest);
+  assert.equal(calculateCanonicalMigrationDigest([...crlfEntries].reverse()), canonicalDigest);
+  assert.notEqual(
+    calculateCanonicalMigrationDigest([
+      lfEntries[0],
+      { name: lfEntries[1].name, content: Buffer.from('BEGIN;\nSELECT 3;\nCOMMIT;\n') },
+    ]),
+    canonicalDigest,
+  );
+  assert.notEqual(
+    calculateCanonicalMigrationDigest([
+      lfEntries[0],
+      { name: '003_example.sql', content: lfEntries[1].content },
+    ]),
+    canonicalDigest,
+  );
+});
+
 test('migrations 001-119 retain the approved Phase-3 baseline', () => {
   const historical = migrationNames.filter((name) => {
     const sequence = Number.parseInt(name.slice(0, 3), 10);
     return sequence >= 1 && sequence <= 119;
   });
   assert.equal(historical.length, 119);
-  const digest = createHash('sha256');
-  for (const name of historical) {
-    digest.update(`${name}\0`);
-    digest.update(readFileSync(new URL(name, migrationsUrl)));
-  }
   assert.equal(
-    digest.digest('hex').toUpperCase(),
-    '47F84EADCE87BAFF37D103C029FA27920A95E1BFD8EE247540BB9FC29A40A936',
+    calculateCanonicalMigrationDigest(historical.map((name) => ({
+      name,
+      content: readFileSync(new URL(name, migrationsUrl)),
+    }))),
+    '294CD072D0C9AAD456901504BA3EF044CF538DA6ECA14AC68E8EC2F08FCCF7F8',
   );
   assert.equal(migrationNames.some((name) => name.startsWith('121_')), false);
 });

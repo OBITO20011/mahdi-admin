@@ -37,6 +37,19 @@ const product = {
 const trackingToken = '73100000-0000-4731-8731-000000000731';
 
 async function mockStorefront(page: Page) {
+  await page.route('**/rest/v1/rpc/preview_guest_promotion_v2', async (route) => {
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        success: true,
+        contractVersion: 'phase3-customer-promotion-preview-v2',
+        merchandiseSubtotalInMinorUnits: 1250,
+        promotionDiscountInMinorUnits: 0,
+        finalMerchandiseTotalInMinorUnits: 1250,
+        promotion: null,
+      }),
+    });
+  });
   await page.route('**/rest/v1/rpc/get_public_storefront_settings', async (route) => {
     await route.fulfill({
       contentType: 'application/json',
@@ -166,6 +179,9 @@ test('successful checkout preserves the complete receipt presentation and direct
   await checkout.getByLabel('الاسم الكامل*').fill('عميل اختبار L3');
   await checkout.getByLabel('رقم الهاتف*').fill('0791234567');
   await checkout.getByLabel('المنطقة أو الحي*').fill('الحي الشرقي');
+  await checkout
+    .getByLabel('تفاصيل العنوان والتوصيل*')
+    .fill('شارع الاختبار، بجانب المتجر');
   await checkout
     .getByRole('button', { name: 'مراجعة الطلب قبل الإرسال' })
     .click();

@@ -108,8 +108,11 @@ test('checkout keeps all required delivery data while showing one non-duplicated
   await expect(checkout.getByLabel('المحافظة*')).toBeVisible();
   await expect(checkout.getByLabel('المدينة*')).toBeVisible();
   await expect(checkout.getByLabel('المنطقة أو الحي*')).toBeVisible();
-  const deliveryDetails = checkout.getByLabel(/تفاصيل العنوان والتوصيل \(اختياري\)/);
+  const deliveryDetails = checkout.getByLabel('تفاصيل العنوان والتوصيل*');
   await expect(deliveryDetails).toBeVisible();
+  await expect(
+    checkout.getByText(/تفاصيل العنوان والتوصيل\s*\(اختياري\)/),
+  ).toHaveCount(0);
   await expect(checkout.getByText('منطقة التوصيل')).toBeVisible();
   await expect(checkout.getByText('موقع التوصيل على الخريطة (اختياري)')).toBeVisible();
   await expect(checkout.getByText('معك رمز خصم؟')).toBeVisible();
@@ -200,6 +203,9 @@ test('Turnstile retry requires a fresh token before the submit action is enabled
   await checkout.getByLabel('الاسم الكامل*').fill('عميل إعادة تحقق');
   await checkout.getByLabel('رقم الهاتف*').fill('0791234567');
   await checkout.getByLabel('المنطقة أو الحي*').fill('الحي الشرقي');
+  await checkout
+    .getByLabel('تفاصيل العنوان والتوصيل*')
+    .fill('شارع الاختبار، بجانب المتجر');
   await checkout.getByRole('button', { name: 'مراجعة الطلب قبل الإرسال' }).click();
 
   const review = page.getByRole('dialog', { name: 'راجع طلبك قبل الإرسال' });
