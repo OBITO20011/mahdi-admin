@@ -16,12 +16,14 @@ function repeatLastOrderBlock(): string {
   return appSource.slice(start, end);
 }
 
-test('repeat-last-order fetches only saved product IDs from the server snapshot', () => {
+test('repeat-last-order revalidates scalar and configurable parcel contracts independently', () => {
   const handler = repeatLastOrderBlock();
   assert.match(
     handler,
-    /fetchPublicCartSnapshot\(\s*lastGuestOrder\.items\.map\(\(item\) => item\.productId\)/
+    /fetchPublicCartSnapshot\(scalarItems\.map\(\(item\) => item\.productId\)\)/
   );
+  assert.match(handler, /fetchPublicConfigurableParcelOptions\(configurableItems\.map/);
+  assert.match(handler, /option\.configurationRevision !== saved\.configurationRevision/);
   assert.match(handler, /restoreLastOrderFromSnapshot\(/);
   assert.doesNotMatch(handler, /sellableProducts/);
 });

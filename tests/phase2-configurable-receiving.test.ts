@@ -240,7 +240,7 @@ test('corrective zero-cost and internal lock regressions are permanent runtime g
     /phase2_lock_payment_shift_internal\([\s\S]{0,250}LOWER\(BTRIM\(p_payment_method\)\)/u);
   assert.match(runtimeHarness, /expectedSequentialWac/u);
   assert.match(runtimeHarness, /createGateConnection/u);
-  assert.match(runtimeHarness, /exactMessage: 'لا يمكن عكس البيع بعد وجود حركة مخزون لاحقة على أحد أصنافه\.'/u);
+  assert.match(runtimeHarness, /applicationIdentity: 'PHASE3_POS_REVERSAL_LATER_MOVEMENT'/u);
   assert.match(runtimeHarness, /legacyZeroCostShapesVerified: true/u);
   assert.match(runtimeHarness, /paidReceiptAndPosReversalInternalSerialization: true/u);
   assert.match(runtimeHarness, /paidReplayAfterShiftClosedZeroWrites: true/u);

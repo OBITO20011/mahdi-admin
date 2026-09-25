@@ -1,5 +1,7 @@
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import { Order, OrderStatus, PaymentMethod, PaymentStatus } from '../../types';
+import { isCustomerV2Order, runCustomerV2AdminAction } from './adminCustomerV2Lifecycle';
+import { attachHistoricalParcelComposition } from './historicalParcelComposition';
 import {
   calculateOrderAmountDue,
   type OperationalOrderFilter,
@@ -127,6 +129,7 @@ const ORDER_DETAIL_SELECT = `
   ),
   order_items (
     id,
+    commercial_line_kind,
     product_id,
     product_name_snapshot,
     sku_snapshot,
@@ -449,6 +452,7 @@ function mapOrderRows(data: unknown[]): Order[] {
         salePackage: isWholesaleSnapshot ? unitName : undefined,
         discount: 0,
         totalPrice: lineTotal,
+        commercialLineKind: item.commercial_line_kind || undefined,
       };
     });
 
@@ -581,6 +585,21 @@ export async function fetchOrderByIdFromSupabase(
       return { success: false, error: 'الطلب غير موجود في قاعدة البيانات.' };
     }
 
+    const parcelItems = order.items.filter((item) => item.commercialLineKind === 'configurable_parcel');
+    if (parcelItems.length > 0) {
+      const instancesResult = await supabase.from('order_parcel_instances')
+        .select('id,order_item_id,instance_sequence,units_per_parcel_snapshot,parcel_unit_name_snapshot')
+        .eq('order_id', orderId).order('instance_sequence');
+      if (instancesResult.error) throw instancesResult.error;
+      const instances = instancesResult.data || [];
+      const componentsResult = instances.length > 0
+        ? await supabase.from('order_parcel_components')
+          .select('id,parcel_instance_id,product_id,base_quantity,product_name_snapshot,sku_snapshot,base_unit_name_snapshot')
+          .in('parcel_instance_id', instances.map((instance) => instance.id))
+        : { data: [], error: null };
+      if (componentsResult.error) throw componentsResult.error;
+      attachHistoricalParcelComposition(order, instances, componentsResult.data || []);
+    }
     return { success: true, order };
   } catch (err: any) {
     return { success: false, error: err?.message || 'تعذر جلب تفاصيل الطلب.' };
@@ -627,6 +646,9 @@ export async function completeWebsiteOrderWithPaymentInSupabase(
   }
 
   try {
+    if (await isCustomerV2Order(supabase, orderId)) {
+      return { success: false, error: 'طلب Customer V2 يتطلب إكماله عبر التسوية المالية المعتمدة.' };
+    }
     const { data, error } = await supabase.rpc(
       'complete_website_order_with_payment',
       {
@@ -669,11 +691,14 @@ export async function cancelOrderInSupabase(
   }
 
   try {
-    const { data, error } = await supabase.rpc('update_order_status', {
-      p_order_id: orderId,
-      p_new_status: 'cancelled',
-      p_notes: notes || null,
-    });
+    const customerV2 = await isCustomerV2Order(supabase, orderId);
+    const { data, error } = customerV2
+      ? await runCustomerV2AdminAction(supabase, orderId, 'cancel', { reason: notes || null })
+      : await supabase.rpc('update_order_status', {
+        p_order_id: orderId,
+        p_new_status: 'cancelled',
+        p_notes: notes || null,
+      });
 
     if (error) {
       console.error('[cancelOrderInSupabase Error]:', error);
@@ -895,17 +920,24 @@ export async function completeWebsiteOrderWithSettlementInSupabase(
   }
 
   try {
-    const { data, error } = await supabase.rpc(
-      'complete_website_order_with_settlement',
-      {
+    const request = {
+      paymentMethod: input.paymentMethod,
+      amountCollectedInMinorUnits,
+      deliveryFeeInMinorUnits,
+      referenceNumber: input.referenceNumber?.trim() || null,
+      notes: input.notes?.trim() || null,
+    };
+    const customerV2 = await isCustomerV2Order(supabase, input.orderId);
+    const { data, error } = customerV2
+      ? await runCustomerV2AdminAction(supabase, input.orderId, 'complete', request)
+      : await supabase.rpc('complete_website_order_with_settlement', {
         p_order_id: input.orderId,
-        p_payment_method: input.paymentMethod,
-        p_amount_collected_in_minor_units: amountCollectedInMinorUnits,
-        p_delivery_fee_in_minor_units: deliveryFeeInMinorUnits,
-        p_reference_number: input.referenceNumber?.trim() || null,
-        p_notes: input.notes?.trim() || null,
-      }
-    );
+        p_payment_method: request.paymentMethod,
+        p_amount_collected_in_minor_units: request.amountCollectedInMinorUnits,
+        p_delivery_fee_in_minor_units: request.deliveryFeeInMinorUnits,
+        p_reference_number: request.referenceNumber,
+        p_notes: request.notes,
+      });
 
     if (error) {
       console.error(
@@ -986,6 +1018,11 @@ export async function updateOrderStatusInSupabase(
 ): Promise<{ success: boolean; message?: string; error?: string }> {
   if (!isSupabaseConfigured || !supabase) {
     return { success: false, error: 'عميل Supabase غير متاح.' };
+  }
+
+  if (newStatus === 'cancelled') return cancelOrderInSupabase(orderId, notes);
+  if (newStatus === 'completed' || newStatus === 'delivered') {
+    return { success: false, error: 'استخدم مسار إكمال الطلب مع التسوية المالية.' };
   }
 
   try {

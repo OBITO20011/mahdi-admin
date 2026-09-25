@@ -8,6 +8,8 @@ import {
   GuestOrderRequest,
   GuestOrderTracking,
   GuestPromotionQuote,
+  GuestPromotionQuoteV2,
+  GuestOrderV2Line,
 } from '../types/checkout';
 import {
   buildDeliveryAddress,
@@ -95,6 +97,46 @@ export function mapGuestPromotionQuote(
   };
 }
 
+export function mapGuestPromotionQuoteV2(data: RpcPayload): GuestPromotionQuoteV2 {
+  if (
+    data.success !== true ||
+    data.contractVersion !== 'phase3-customer-promotion-preview-v2'
+  ) {
+    throw new Error(stringValue(data.message) || 'تعذر التحقق من إجمالي الطلب.');
+  }
+  const promotion = data.promotion && typeof data.promotion === 'object'
+    ? data.promotion as RpcPayload
+    : {};
+  return {
+    success: true,
+    contractVersion: 'phase3-customer-promotion-preview-v2',
+    code: stringValue(promotion.code),
+    description: stringValue(promotion.descriptionAr),
+    subtotalInMinorUnits: integerValue(data.merchandiseSubtotalInMinorUnits),
+    discountInMinorUnits: integerValue(data.promotionDiscountInMinorUnits),
+    totalInMinorUnits: integerValue(data.finalMerchandiseTotalInMinorUnits),
+    message: stringValue(promotion.code) ? 'تم تطبيق رمز الخصم.' : 'تم التحقق من أسعار الطلب.',
+  };
+}
+
+export async function previewGuestPromotionV2(
+  lines: GuestOrderV2Line[],
+  code?: string,
+  customerPhone?: string
+): Promise<GuestPromotionQuoteV2> {
+  if (!isSupabaseConfigured || !supabase) {
+    throw new Error('إعدادات الاتصال بـ Supabase غير مكتملة.');
+  }
+  const normalizedPhone = customerPhone ? normalizeJordanPhone(customerPhone) : null;
+  const { data, error } = await supabase.rpc('preview_guest_promotion_v2', {
+    p_lines: lines,
+    p_promotion_code: code?.trim() || null,
+    p_customer_phone: normalizedPhone,
+  });
+  if (error) throw new Error(error.message || 'تعذر التحقق من إجمالي الطلب.');
+  return mapGuestPromotionQuoteV2((data || {}) as RpcPayload);
+}
+
 export async function previewGuestPromotion(
   code: string,
   items: GuestOrderRequest['items'],
@@ -143,6 +185,7 @@ export async function submitGuestCustomerOrder(
   const data = await invokePublicEdgeFunction<RpcPayload>(
     'submit-guest-order',
     {
+      contractVersion: request.contractVersion,
       idempotencyKey: request.idempotencyKey,
       turnstileToken: request.turnstileToken,
       clientSessionId: request.clientSessionId,
@@ -163,6 +206,7 @@ export async function submitGuestCustomerOrder(
       promotionCode: request.promotionCode?.trim() || null,
       paymentMethod: request.paymentMethod,
       deliveryZone: request.deliveryZone,
+      expectedQuote: request.expectedQuote,
     }
   );
 

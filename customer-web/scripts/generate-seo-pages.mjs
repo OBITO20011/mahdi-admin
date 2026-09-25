@@ -15,8 +15,22 @@ const aboutDescription = `تعرف على ${officialName}، المعروفة أ�
 const defaultImage = `${siteOrigin}/nawasrah-store-logo.jpg`;
 const storefrontImage = `${siteOrigin}/nawasrah-storefront.webp`;
 const config = await readFile(path.join(root, 'src', 'config', 'supabase-public-config.ts'), 'utf8');
-const url = config.match(/SUPABASE_URL:\s*'([^']+)'/)?.[1];
-const key = config.match(/SUPABASE_PUBLISHABLE_KEY:\s*'([^']+)'/)?.[1];
+const configuredUrl = config.match(/SUPABASE_URL:\s*'([^']+)'/)?.[1];
+const configuredKey = config.match(/SUPABASE_PUBLISHABLE_KEY:\s*'([^']+)'/)?.[1];
+const auditUrl = process.env.NAWASRAH_SEO_AUDIT_API_URL;
+const auditKey = process.env.NAWASRAH_SEO_AUDIT_API_KEY;
+if (Boolean(auditUrl) !== Boolean(auditKey)) {
+  throw new Error('Isolated SEO audit requires both a URL and a key.');
+}
+if (auditUrl) {
+  const parsed = new URL(auditUrl);
+  if (parsed.protocol !== 'http:' || !['127.0.0.1', 'localhost', '[::1]'].includes(parsed.hostname)
+      || parsed.username || parsed.password || parsed.pathname !== '/' || parsed.search || parsed.hash) {
+    throw new Error('Isolated SEO audit API must be a plain loopback HTTP origin.');
+  }
+}
+const url = auditUrl || configuredUrl;
+const key = auditKey || configuredKey;
 
 if (!url || !key) throw new Error('Customer public Supabase configuration is unavailable for SEO generation.');
 

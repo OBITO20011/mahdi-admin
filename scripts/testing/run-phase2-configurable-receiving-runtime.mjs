@@ -1941,8 +1941,38 @@ try {
       await Promise.all([paymentPromise, reversalPromise].filter(Boolean));
     }
     const payment = await paymentPromise;
-    const reversal = await reversalPromise;
+    let reversal = await reversalPromise;
+    let safeRetryObserved = false;
+    let failedAttemptZeroWrites = false;
     assert.equal(payment.success, true, payment.error);
+    if (!reversal.success) {
+      assert.match(
+        reversal.error,
+        /40001:[\s\S]*PHASE4_LOCK_PLAN_CHANGED_RETRY/u,
+        'a changed frozen Supplier lock set must fail with the retryable Phase-4 identity',
+      );
+      const beforeRetry = await readJson(`SELECT jsonb_build_object(
+        'targetReversed', payment.is_reversed,
+        'reversalCount', (SELECT COUNT(*) FROM public.supplier_payment_reversals reversal
+          WHERE reversal.supplier_payment_id=payment.id),
+        'poPaid', po.amount_paid_in_minor_units,
+        'paymentCount', (SELECT COUNT(*) FROM public.supplier_payments related
+          WHERE related.purchase_order_id=po.id)
+      ) FROM public.supplier_payments payment
+      JOIN public.purchase_orders po ON po.id=payment.purchase_order_id
+      WHERE payment.id='${initial.payment_id}';`);
+      assert.deepEqual(beforeRetry, {
+        targetReversed: false,
+        reversalCount: 0,
+        poPaid: 150,
+        paymentCount: 2,
+      });
+      failedAttemptZeroWrites = true;
+      safeRetryObserved = true;
+      reversal = await capture(readJson(
+        `SET application_name='${reversalLabel}-safe-retry'; ${reversalSql}`,
+      ));
+    }
     assert.equal(reversal.success, true, reversal.error);
     const final = await readJson(`SELECT jsonb_build_object(
       'poPaid', po.amount_paid_in_minor_units,
@@ -1971,8 +2001,18 @@ try {
       allAttachedToOpenShift: true,
       shiftStatus: 'open',
     });
-    supplierPaymentReversalResults.push({ reversalFirst, internalWaitObserved: true, final });
+    supplierPaymentReversalResults.push({
+      reversalFirst,
+      internalWaitObserved: true,
+      safeRetryObserved,
+      failedAttemptZeroWrites,
+      final,
+    });
   }
+  assert.ok(supplierPaymentReversalResults.some((entry) => entry.safeRetryObserved));
+  assert.ok(supplierPaymentReversalResults.every(
+    (entry) => !entry.safeRetryObserved || entry.failedAttemptZeroWrites,
+  ));
   const supplierPaymentDeadlocksAfter = await readJson(`SELECT jsonb_build_object(
     'deadlocks', deadlocks) FROM pg_stat_database WHERE datname=current_database();`);
   const supplierPaymentDeadlockDelta =
@@ -2062,7 +2102,7 @@ try {
     else {
       assert.equal(reversal.success, false);
       assertSqlFailureIdentity(reversal.error, { sqlState: 'P0001',
-        exactMessage: 'لا يمكن عكس البيع بعد وجود حركة مخزون لاحقة على أحد أصنافه.' });
+        applicationIdentity: 'PHASE3_POS_REVERSAL_LATER_MOVEMENT' });
       assert.deepEqual(await originalSaleState(sale.orderId), orderBefore);
     }
     const receiptId = receipt.value.receipt_id;

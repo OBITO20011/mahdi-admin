@@ -1,6 +1,8 @@
 import {
   AlertTriangle,
   ArrowLeft,
+  Copy,
+  Pencil,
   LockKeyhole,
   Minus,
   Plus,
@@ -10,8 +12,9 @@ import {
   X,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { CartItem } from '../types/catalog';
+import { CartItem, ParcelInstanceSelection } from '../types/catalog';
 import { calculateCartPackages, calculateCartSubtotal } from '../utils/cart';
+import { CartStorageRecovery } from '../utils/cart';
 import { formatJod } from '../utils/money';
 import { CheckoutProgress } from './CheckoutProgress';
 import { ProductImage } from './ProductImage';
@@ -20,8 +23,16 @@ interface CartDrawerProps {
   isOpen: boolean;
   items: CartItem[];
   onClose: () => void;
-  onQuantityChange: (productId: string, quantity: number) => void;
-  onRemove: (productId: string) => void;
+  onQuantityChange: (localLineId: string, quantity: number) => void;
+  onRemove: (localLineId: string) => void;
+  onEditParcel: (lineId: string, instance: ParcelInstanceSelection) => void;
+  onDuplicateParcel: (lineId: string, instance: ParcelInstanceSelection) => void;
+  onRemoveParcel: (lineId: string, instanceId: string) => void;
+  lockedParcelInstanceIds: ReadonlySet<string>;
+  lockedLineIds: ReadonlySet<string>;
+  cartStorageRecovery?: CartStorageRecovery | null;
+  hasUnresolvedCheckoutAttempt?: boolean;
+  onResolveCartRecovery?: () => void;
   onClear: () => void;
   onCheckout: () => void;
   isRefreshingSnapshot?: boolean;
@@ -37,6 +48,14 @@ export function CartDrawer({
   onClose,
   onQuantityChange,
   onRemove,
+  onEditParcel,
+  onDuplicateParcel,
+  onRemoveParcel,
+  lockedParcelInstanceIds,
+  lockedLineIds,
+  cartStorageRecovery,
+  hasUnresolvedCheckoutAttempt = false,
+  onResolveCartRecovery,
   onClear,
   onCheckout,
   isRefreshingSnapshot = false,
@@ -143,6 +162,50 @@ export function CartDrawer({
           </button>
         </div>
 
+        {cartStorageRecovery && (
+          <div
+            role="alert"
+            data-cart-storage-recovery
+            className="border-b border-amber-200 bg-amber-50 p-4 text-right"
+          >
+            <div className="flex items-start gap-2 text-amber-950">
+              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
+              <div className="min-w-0 flex-1">
+                <strong className="block text-xs font-black">
+                  السلة المحفوظة تحتاج مراجعة
+                </strong>
+                <p className="mt-1 text-[10px] font-bold leading-5 text-amber-800">
+                  لم نحذف أو نصلح أي بيانات تلقائيًا. عُثر على{' '}
+                  {cartStorageRecovery.invalidEntries.length || 1} جزء غير صالح،
+                  وإتمام الطلب متوقف لحماية محتوى السلة.
+                </p>
+                {hasUnresolvedCheckoutAttempt && (
+                  <p className="mt-2 text-[10px] font-black text-blue-800">
+                    محاولة الطلب غير المحسومة محفوظة بصورة مستقلة ولن تتغير عند معالجة السلة.
+                  </p>
+                )}
+                {cartStorageRecovery.originalRaw === null && (
+                  <p className="mt-2 text-[10px] font-black text-rose-700">
+                    تعذر الوصول إلى تخزين المتصفح. تحقق من إعداداته ثم أعد تحميل الصفحة.
+                  </p>
+                )}
+                {onResolveCartRecovery && (
+                  <button
+                    type="button"
+                    onClick={onResolveCartRecovery}
+                    disabled={cartStorageRecovery.originalRaw === null}
+                    className="mt-3 min-h-11 rounded-xl bg-amber-900 px-4 py-2 text-[10px] font-black text-white disabled:cursor-not-allowed disabled:bg-slate-300"
+                  >
+                    {cartStorageRecovery.validItems.length > 0
+                      ? 'أوافق على الاحتفاظ بالعناصر السليمة'
+                      : 'أوافق على إعادة ضبط السلة'}
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {items.length > 0 && (
           <div className="border-b border-slate-100 bg-gradient-to-b from-white to-slate-50">
             <CheckoutProgress currentStep={1} compact />
@@ -212,9 +275,14 @@ export function CartDrawer({
                 </div>
               )}
 
-              {items.map((item) => (
+              {items.map((item) => {
+                const lineLocked = lockedLineIds.has(item.localLineId) || (
+                  item.commercialLineKind === 'configurable_parcel' &&
+                  item.parcelInstances.some((instance) => lockedParcelInstanceIds.has(instance.localInstanceId))
+                );
+                return (
                 <article
-                  key={item.productId}
+                  key={item.localLineId}
                   className="rounded-3xl border border-slate-200 bg-white p-3"
                 >
                   <div className="flex gap-3">
@@ -237,7 +305,7 @@ export function CartDrawer({
                             {item.unitsPerSalePackage.toLocaleString('ar-JO')}
                           </p>
                           <p className="mt-1 text-[9px] font-bold text-blue-600">
-                            سعر الطرد {formatJod(item.unitPriceInMinorUnits)} •
+                            السعر {formatJod(item.unitPriceInMinorUnits)} •
                             المتاح {item.maxAvailablePackages.toLocaleString(
                               'ar-JO'
                             )}
@@ -245,24 +313,49 @@ export function CartDrawer({
                         </div>
                         <button
                           type="button"
-                          onClick={() => onRemove(item.productId)}
+                          onClick={() => onRemove(item.localLineId)}
+                          disabled={lineLocked || Boolean(cartStorageRecovery)}
                           aria-label={`حذف ${item.nameAr}`}
-                          className="grid h-11 w-11 place-items-center text-rose-400"
+                          className="grid h-11 w-11 place-items-center text-rose-400 disabled:text-slate-300"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
 
+                      {item.commercialLineKind === 'configurable_parcel' && (
+                        <div className="mt-3 space-y-2">
+                          {item.parcelInstances.map((instance, index) => {
+                            const locked = lockedParcelInstanceIds.has(instance.localInstanceId);
+                            return (
+                              <div key={instance.localInstanceId} className="rounded-2xl border border-violet-100 bg-violet-50 p-2.5">
+                                <div className="flex items-center justify-between gap-2">
+                                  <strong className="text-[10px] font-black text-violet-900">طرد #{index + 1}</strong>
+                                  {locked && <span className="flex items-center gap-1 text-[9px] font-black text-amber-700"><LockKeyhole className="h-3 w-3" />بانتظار حسم الطلب</span>}
+                                </div>
+                                <p className="mt-1 text-[9px] font-bold leading-5 text-slate-600">{instance.components.map((component) => `${component.flavorNameAr || component.nameAr} × ${component.baseQuantity}`).join('، ')}</p>
+                                <div className="mt-2 flex gap-2">
+                                  <button type="button" onClick={() => onEditParcel(item.localLineId, instance)} disabled={locked || Boolean(cartStorageRecovery)} className="flex min-h-10 items-center gap-1 rounded-xl bg-white px-2.5 text-[9px] font-black text-violet-800 disabled:text-slate-300"><Pencil className="h-3 w-3" />تعديل</button>
+                                  <button type="button" onClick={() => onDuplicateParcel(item.localLineId, instance)} disabled={Boolean(cartStorageRecovery)} className="flex min-h-10 items-center gap-1 rounded-xl bg-white px-2.5 text-[9px] font-black text-blue-800 disabled:text-slate-300"><Copy className="h-3 w-3" />تكرار</button>
+                                  <button type="button" onClick={() => onRemoveParcel(item.localLineId, instance.localInstanceId)} disabled={locked || Boolean(cartStorageRecovery)} className="flex min-h-10 items-center gap-1 rounded-xl bg-white px-2.5 text-[9px] font-black text-rose-700 disabled:text-slate-300"><Trash2 className="h-3 w-3" />حذف</button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+
                       <div className="mt-3 flex items-center justify-between gap-3">
+                        {item.commercialLineKind !== 'configurable_parcel' ? (
                         <div className="flex items-center rounded-xl border border-slate-200 bg-slate-50">
                           <button
                             type="button"
                             onClick={() =>
                               onQuantityChange(
-                                item.productId,
+                                item.localLineId,
                                 item.quantity - 1
                               )
                             }
+                            disabled={lineLocked || Boolean(cartStorageRecovery)}
                             className="grid h-11 w-11 place-items-center text-slate-500"
                             aria-label={`إنقاص كمية ${item.nameAr}`}
                           >
@@ -274,11 +367,13 @@ export function CartDrawer({
                           <button
                             type="button"
                             disabled={
+                              lineLocked ||
+                              Boolean(cartStorageRecovery) ||
                               item.quantity >= item.maxAvailablePackages
                             }
                             onClick={() =>
                               onQuantityChange(
-                                item.productId,
+                                item.localLineId,
                                 item.quantity + 1
                               )
                             }
@@ -288,6 +383,7 @@ export function CartDrawer({
                             <Plus className="h-3 w-3" />
                           </button>
                         </div>
+                        ) : <span className="text-[10px] font-black text-violet-700">{item.parcelInstances.length.toLocaleString('ar-JO')} طرد مكوّن</span>}
                         <p className="text-xs font-black text-orange-700">
                           {formatJod(
                             item.quantity * item.unitPriceInMinorUnits
@@ -297,7 +393,8 @@ export function CartDrawer({
                     </div>
                   </div>
                 </article>
-              ))}
+                );
+              })}
             </div>
 
             <div className="shrink-0 border-t border-slate-100 bg-slate-50 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 sm:p-5">
@@ -352,7 +449,7 @@ export function CartDrawer({
               <button
                 type="button"
                 onClick={onCheckout}
-                disabled={checkoutDisabled || isRefreshingSnapshot}
+                disabled={checkoutDisabled || isRefreshingSnapshot || Boolean(cartStorageRecovery)}
                 className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-700 px-5 py-3.5 text-sm font-black text-white shadow-lg shadow-blue-900/20 transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none sm:mt-4 sm:py-4"
               >
                 {checkoutDisabled || isRefreshingSnapshot

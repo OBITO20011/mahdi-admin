@@ -14,6 +14,7 @@ export interface CatalogProduct {
   saleUnitId: string;
   saleUnitNameAr: string;
   unitsPerSalePackage: number;
+  salePriceInMinorUnits: number;
   salePackagePriceInMinorUnits: number;
   availableQuantity: number;
   availableSalePackages: number;
@@ -90,7 +91,10 @@ export interface PublicMerchandisingResponse {
   lowStock: CatalogProduct[];
 }
 
-export interface CartItem {
+export interface CartDisplayFields {
+  schemaVersion: 2;
+  localLineId: string;
+  localRevision: number;
   productId: string;
   sku: string;
   nameAr: string;
@@ -100,4 +104,74 @@ export interface CartItem {
   unitPriceInMinorUnits: number;
   quantity: number;
   maxAvailablePackages: number;
+}
+
+export interface BaseUnitCartItem extends CartDisplayFields {
+  commercialLineKind: 'base_unit';
+  unitsPerSalePackage: 1;
+}
+
+export interface LegacyParcelCartItem extends CartDisplayFields {
+  commercialLineKind: 'legacy_single_sku_parcel';
+}
+
+export interface ParcelComponentSelection {
+  productId: string;
+  sku: string;
+  nameAr: string;
+  flavorNameAr: string;
+  unitNameAr: string;
+  imageUrl: string;
+  baseQuantity: number;
+}
+
+export interface ParcelInstanceSelection {
+  localInstanceId: string;
+  localRevision: number;
+  components: ParcelComponentSelection[];
+}
+
+export interface ConfigurableParcelCartItem extends CartDisplayFields {
+  commercialLineKind: 'configurable_parcel';
+  familyProductId: string;
+  parcelConfigurationId: string;
+  configurationRevision: number;
+  compositionMode: 'configurable_mix';
+  capacity: number;
+  parcelInstances: ParcelInstanceSelection[];
+}
+
+export type CartItem =
+  | BaseUnitCartItem
+  | LegacyParcelCartItem
+  | ConfigurableParcelCartItem;
+
+export type ConfigurableParcelFeatureState = 'OFF' | 'OWNER_PILOT' | 'ENABLED';
+
+export interface PublicParcelComponentOption {
+  productId: string;
+  sku: string;
+  nameAr: string;
+  flavorNameAr: string;
+  unitNameAr: string;
+  imageUrl: string;
+  availableQuantity: number;
+}
+
+export interface PublicConfigurableParcelOption {
+  familyProductId: string;
+  parcelConfigurationId: string;
+  configurationRevision: number;
+  compositionMode: 'configurable_mix';
+  unitsPerParcel: number;
+  parcelPriceInMinorUnits: number;
+  baseUnitNameAr: string;
+  saleUnitNameAr: string;
+  components: PublicParcelComponentOption[];
+}
+
+export interface PublicConfigurableParcelResponse {
+  featureState: ConfigurableParcelFeatureState;
+  guestCreationEnabled: boolean;
+  options: PublicConfigurableParcelOption[];
 }

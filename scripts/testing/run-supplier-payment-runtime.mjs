@@ -91,14 +91,8 @@ try {
   }
 
   await runRuntimeSql(runtimeSqlPath, 'supplier-payment');
-  if (isolatedProjectRoot) {
-    await execFileAsync(process.execPath, [cliPath, 'db', 'reset', '--local', '--workdir', isolatedProjectRoot], {
-      cwd: projectRoot,
-      windowsHide: true,
-      maxBuffer: 1024 * 1024,
-      timeout: 180_000,
-    });
-  }
+  // supplier-payment-runtime.sql runs in one transaction and ends in ROLLBACK.
+  // Keep the reset after final-admin-blockers, which commits its fixtures.
   await runRuntimeSql(finalBlockersRuntimeSqlPath, 'final-admin-blockers');
   if (isolatedProjectRoot) {
     await execFileAsync(process.execPath, [cliPath, 'db', 'reset', '--local', '--workdir', isolatedProjectRoot], {

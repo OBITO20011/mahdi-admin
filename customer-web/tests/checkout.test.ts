@@ -54,6 +54,10 @@ class MemoryStorage {
 
 const cartItems: CartItem[] = [
   {
+    schemaVersion: 2,
+    localLineId: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+    localRevision: 1,
+    commercialLineKind: 'legacy_single_sku_parcel',
     productId: '11111111-1111-4111-8111-111111111111',
     sku: 'NWS-1001',
     nameAr: 'بيبسي',
@@ -94,7 +98,7 @@ test('guest checkout requires identity and a structured deliverable address', ()
   assert.ok(errors.fullName);
   assert.ok(errors.phone);
   assert.ok(errors.area);
-  assert.equal(errors.street, undefined);
+  assert.equal(errors.street, 'اكتب تفاصيل كافية للوصول إلى عنوان التوصيل.');
 });
 
 test('delivery details use the RPC length limit before the request is sent', () => {
@@ -117,10 +121,13 @@ test('delivery details use the RPC length limit before the request is sent', () 
   );
 });
 
-test('delivery details are optional while the structured address remains canonical', () => {
+test('structured address remains canonical while V2 requires delivery details', () => {
   const withoutDetails = {...validForm, street: ''};
   assert.equal(buildDeliveryAddress(withoutDetails), 'إربد - الرمثا - الحي الشرقي');
-  assert.deepEqual(validateGuestCheckout(withoutDetails), {});
+  assert.equal(
+    validateGuestCheckout(withoutDetails).street,
+    'اكتب تفاصيل كافية للوصول إلى عنوان التوصيل.'
+  );
   assert.equal(buildDeliveryAddress({...withoutDetails, street: 'بناية 12، اتصل قبل الوصول'}), 'إربد - الرمثا - الحي الشرقي - بناية 12، اتصل قبل الوصول');
 });
 

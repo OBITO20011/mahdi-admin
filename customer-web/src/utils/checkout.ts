@@ -4,6 +4,7 @@ import {
   DeliveryZone,
   GuestCheckoutForm,
   GuestOrderItem,
+  GuestOrderV2Line,
   GuestOrderReceipt,
   GuestPaymentMethod,
   LastGuestOrder,
@@ -188,7 +189,9 @@ export function validateGuestCheckout(
   if (!form.governorate.trim()) errors.governorate = 'اختر المحافظة.';
   if (!form.city.trim()) errors.city = 'اكتب المدينة.';
   if (!form.area.trim()) errors.area = 'اكتب المنطقة أو الحي.';
-  if (buildDeliveryAddress(form).length > MAX_GUEST_DELIVERY_DETAILS_LENGTH) {
+  if (!form.street.trim()) {
+    errors.street = 'اكتب تفاصيل كافية للوصول إلى عنوان التوصيل.';
+  } else if (buildDeliveryAddress(form).length > MAX_GUEST_DELIVERY_DETAILS_LENGTH) {
     errors.street = `تفاصيل العنوان والتوصيل يجب ألا تتجاوز ${MAX_GUEST_DELIVERY_DETAILS_LENGTH} حرفًا.`;
   }
 
@@ -228,6 +231,43 @@ export function buildGuestOrderItems(
   }));
 }
 
+export function buildGuestOrderV2Lines(
+  cartItems: CartItem[]
+): GuestOrderV2Line[] {
+  return cartItems.map((item) => {
+    if (item.commercialLineKind === 'base_unit') {
+      return {
+        commercial_line_kind: 'base_unit',
+        product_id: item.productId,
+        base_quantity: Math.max(1, Math.floor(item.quantity)),
+        expected_unit_price_in_minor_units: item.unitPriceInMinorUnits,
+      };
+    }
+    if (item.commercialLineKind === 'legacy_single_sku_parcel') {
+      return {
+        commercial_line_kind: 'legacy_single_sku_parcel',
+        product_id: item.productId,
+        parcel_quantity: Math.max(1, Math.floor(item.quantity)),
+        units_per_parcel: Math.max(1, Math.floor(item.unitsPerSalePackage)),
+        expected_unit_price_in_minor_units: item.unitPriceInMinorUnits,
+      };
+    }
+    return {
+      commercial_line_kind: 'configurable_parcel',
+      family_product_id: item.familyProductId,
+      parcel_configuration_id: item.parcelConfigurationId,
+      configuration_revision: item.configurationRevision,
+      expected_unit_price_in_minor_units: item.unitPriceInMinorUnits,
+      parcel_instances: item.parcelInstances.map((instance) => ({
+        components: instance.components.map((component) => ({
+          product_id: component.productId,
+          base_quantity: Math.max(1, Math.floor(component.baseQuantity)),
+        })),
+      })),
+    };
+  });
+}
+
 function fingerprintHash(value: string): string {
   let hash = 2166136261;
   for (let index = 0; index < value.length; index += 1) {
@@ -262,8 +302,8 @@ export function createOrderFingerprint(
     promotionCode: normalizePromotionCode(promotionCode),
     paymentMethod,
     deliveryZone,
-    items: buildGuestOrderItems(cartItems).sort((first, second) =>
-      first.product_id.localeCompare(second.product_id)
+    items: buildGuestOrderV2Lines(cartItems).sort((first, second) =>
+      JSON.stringify(first).localeCompare(JSON.stringify(second))
     ),
   };
 
@@ -349,7 +389,7 @@ export function readLastGuestOrder(
     const raw = storage.getItem(LAST_ORDER_STORAGE_KEY);
     if (!raw) return null;
     const saved = JSON.parse(raw) as LastGuestOrder;
-    if (saved.version !== 1 || !Array.isArray(saved.items)) return null;
+    if (saved.version !== 2 || !Array.isArray(saved.items)) return null;
     return saved;
   } catch {
     return null;
@@ -362,12 +402,9 @@ export function saveLastGuestOrder(
   items: CartItem[]
 ): LastGuestOrder {
   const saved: LastGuestOrder = {
-    version: 1,
+    version: 2,
     orderNumber,
-    items: items.map((item) => ({
-      productId: item.productId,
-      quantity: Math.max(1, Math.floor(item.quantity)),
-    })),
+    items: structuredClone(items),
     createdAt: Date.now(),
   };
   storage.setItem(LAST_ORDER_STORAGE_KEY, JSON.stringify(saved));
@@ -381,8 +418,8 @@ export function createPromotionContextKey(
   return fingerprintHash(
     JSON.stringify({
       phone: normalizeJordanPhone(phone) || phone.replace(/\s+/g, '').trim(),
-      items: buildGuestOrderItems(cartItems).sort((first, second) =>
-        first.product_id.localeCompare(second.product_id)
+      items: buildGuestOrderV2Lines(cartItems).sort((first, second) =>
+        JSON.stringify(first).localeCompare(JSON.stringify(second))
       ),
     })
   );
@@ -463,12 +500,16 @@ export function buildWhatsAppOrderMessage({
   items,
   paymentMethod,
 }: WhatsAppOrderSummary): string {
-  const itemLines = items.map(
-    (item) =>
-      `• ${item.nameAr} — ${item.quantity} ${item.saleUnitNameAr} × ${formatJod(
-        item.unitPriceInMinorUnits
-      )}`
-  );
+  const itemLines = items.map((item) => {
+    const composition = item.commercialLineKind === 'configurable_parcel'
+      ? ` (${item.parcelInstances.map((instance) => instance.components.map(
+          (component) => `${component.flavorNameAr || component.nameAr} × ${component.baseQuantity}`
+        ).join('، ')).join(' | ')})`
+      : '';
+    return `• ${item.nameAr} — ${item.quantity} ${item.saleUnitNameAr} × ${formatJod(
+      item.unitPriceInMinorUnits
+    )}${composition}`;
+  });
   return [
     '🛒 *طلب جملة جديد من الموقع*',
     `رقم الطلب: *${receipt.orderNumber}*`,

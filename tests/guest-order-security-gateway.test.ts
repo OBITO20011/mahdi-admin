@@ -262,7 +262,7 @@ function gatewayRequest(overrides: Record<string, unknown> = {}): Request {
   });
 }
 
-test('runtime gateway accepts valid Turnstile and returns one canonical order result', async () => {
+test('cached V1-shaped runtime gateway request remains compatible after Migration 116', async () => {
   const calls: string[] = [];
   const fetchImpl: typeof fetch = async (input) => {
     const url = String(input);
@@ -307,6 +307,71 @@ test('runtime gateway accepts valid Turnstile and returns one canonical order re
   assert.equal(calls.filter((url) => url.includes('/siteverify')).length, 1);
   assert.equal(calls.filter((url) => url.endsWith('/submit_guest_customer_order')).length, 1);
   assert.equal(calls.filter((url) => url.endsWith('/finalize_guest_order_gateway')).length, 1);
+});
+
+test('runtime gateway routes only the explicit Customer V2 contract and forwards privacy-safe actor hashes', async () => {
+  let submittedPayload: Record<string, unknown> | null = null;
+  const v2Items = [{
+    commercial_line_kind: 'base_unit',
+    product_id: '33333333-3333-4333-8333-333333333333',
+    base_quantity: 1,
+    expected_unit_price_in_minor_units: 1000,
+  }];
+  const response = await handleGuestOrderRequest(gatewayRequest({
+    contractVersion: 'phase3-customer-reservation-v2',
+    items: v2Items,
+    expectedQuote: {
+      subtotalInMinorUnits: 1000,
+      discountInMinorUnits: 0,
+      deliveryFeeInMinorUnits: 0,
+      totalInMinorUnits: 1000,
+    },
+  }), {
+    getEnv: testEnvironment,
+    fetchImpl: async (input, init) => {
+      const url = String(input);
+      if (url.includes('/siteverify')) {
+        return new Response(JSON.stringify(validVerification), {status: 200});
+      }
+      if (url.endsWith('/authorize_guest_order_gateway')) {
+        return new Response(JSON.stringify({allowed: true}), {status: 200});
+      }
+      if (url.endsWith('/submit_guest_customer_order_v2')) {
+        submittedPayload = JSON.parse(String(init?.body)) as Record<string, unknown>;
+        return new Response(JSON.stringify({
+          success: true,
+          order_id: '44444444-4444-4444-8444-444444444444',
+          order_number: 'WEB-V2-001',
+        }), {status: 200});
+      }
+      if (url.endsWith('/finalize_guest_order_gateway')) {
+        return new Response(null, {status: 204});
+      }
+      throw new Error(`Unexpected isolated URL: ${url}`);
+    },
+  });
+  assert.equal(response.status, 200);
+  assert.ok(submittedPayload);
+  assert.deepEqual(submittedPayload.p_lines, v2Items);
+  assert.match(String(submittedPayload.p_guest_phone_hash), /^[0-9a-f]{64}$/u);
+  assert.match(String(submittedPayload.p_guest_session_hash), /^[0-9a-f]{64}$/u);
+  assert.equal(submittedPayload.p_expected_total_in_minor_units, 1000);
+  assert.equal('turnstileToken' in submittedPayload, false);
+});
+
+test('runtime gateway rejects unknown contract versions before abuse or database calls', async () => {
+  let calls = 0;
+  const response = await handleGuestOrderRequest(gatewayRequest({
+    contractVersion: 'future-unknown-contract',
+  }), {
+    getEnv: testEnvironment,
+    fetchImpl: async () => {
+      calls += 1;
+      return new Response('{}', {status: 500});
+    },
+  });
+  assert.equal(response.status, 400);
+  assert.equal(calls, 0);
 });
 
 test('runtime gateway accepts exactly 50 line items and preserves their variant identities', async () => {
@@ -500,5 +565,71 @@ test('runtime gateway retry keeps the same idempotency key and canonical order',
     ]
   );
   assert.equal(authorizationCalls, 2);
+  assert.equal(orderCalls, 2);
+});
+
+test('V2 gateway timeout after a committed request requires an explicit same-key replay', async () => {
+  let orderCalls = 0;
+  const submittedKeys: unknown[] = [];
+  const v2Body = {
+    contractVersion: 'phase3-customer-reservation-v2',
+    items: [{
+      commercial_line_kind: 'base_unit',
+      product_id: '33333333-3333-4333-8333-333333333333',
+      base_quantity: 1,
+      expected_unit_price_in_minor_units: 1000,
+    }],
+    expectedQuote: {
+      subtotalInMinorUnits: 1000,
+      discountInMinorUnits: 0,
+      deliveryFeeInMinorUnits: 0,
+      totalInMinorUnits: 1000,
+    },
+  };
+  const fetchImpl: typeof fetch = async (input, init) => {
+    const url = String(input);
+    if (url.includes('/siteverify')) {
+      return new Response(JSON.stringify(validVerification), {status: 200});
+    }
+    if (url.endsWith('/authorize_guest_order_gateway')) {
+      return new Response(JSON.stringify({allowed: true}), {status: 200});
+    }
+    if (url.endsWith('/submit_guest_customer_order_v2')) {
+      orderCalls += 1;
+      const body = JSON.parse(String(init?.body)) as Record<string, unknown>;
+      submittedKeys.push(body.p_idempotency_key);
+      if (orderCalls === 1) {
+        // The database commit is intentionally considered successful here,
+        // while the transport returns no usable response to the caller.
+        return new Response(JSON.stringify({message: 'gateway timeout'}), {status: 504});
+      }
+      return new Response(JSON.stringify({
+        success: true,
+        order_id: '44444444-4444-4444-8444-444444444444',
+        order_number: 'WEB-V2-AMBIGUOUS-001',
+        idempotent_replay: true,
+      }), {status: 200});
+    }
+    if (url.endsWith('/finalize_guest_order_gateway')) {
+      return new Response(null, {status: 204});
+    }
+    throw new Error(`Unexpected isolated URL: ${url}`);
+  };
+
+  const first = await handleGuestOrderRequest(gatewayRequest(v2Body), {
+    getEnv: testEnvironment,
+    fetchImpl,
+  });
+  assert.notEqual(first.status, 200);
+  assert.equal(orderCalls, 1);
+
+  const second = await handleGuestOrderRequest(gatewayRequest(v2Body), {
+    getEnv: testEnvironment,
+    fetchImpl,
+  });
+  const replay = await second.json() as Record<string, unknown>;
+  assert.equal(second.status, 200);
+  assert.equal(replay.order_id, '44444444-4444-4444-8444-444444444444');
+  assert.deepEqual(submittedKeys, [gatewayBody.idempotencyKey, gatewayBody.idempotencyKey]);
   assert.equal(orderCalls, 2);
 });

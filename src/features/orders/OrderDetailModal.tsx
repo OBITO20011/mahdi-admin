@@ -584,32 +584,46 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         {(order.items || []).map((item) => (
           <div
             key={item.id}
-            className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900 p-2.5"
+            className="rounded-xl border border-slate-800 bg-slate-900 p-2.5"
           >
-            <div className="flex items-center gap-2">
-              {item.productImage ? (
-                <img
-                  src={item.productImage}
-                  alt=""
-                  className="h-9 w-9 rounded-lg border border-slate-800 object-cover"
-                />
-              ) : (
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-800 text-slate-500">
-                  <PackageCheck className="h-4 w-4" />
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                {item.productImage ? (
+                  <img
+                    src={item.productImage}
+                    alt=""
+                    className="h-9 w-9 rounded-lg border border-slate-800 object-cover"
+                  />
+                ) : (
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-800 text-slate-500">
+                    <PackageCheck className="h-4 w-4" />
+                  </div>
+                )}
+                <div>
+                  <h5 className="font-bold text-slate-200">
+                    {item.productName}
+                  </h5>
+                  <span className="text-[10px] text-slate-500">
+                    {item.quantity} {item.unit} × {item.unitPrice.toFixed(3)}
+                  </span>
                 </div>
-              )}
-              <div>
-                <h5 className="font-bold text-slate-200">
-                  {item.productName}
-                </h5>
-                <span className="text-[10px] text-slate-500">
-                  {item.quantity} {item.unit} × {item.unitPrice.toFixed(3)}
-                </span>
               </div>
+              <strong className="text-slate-100">
+                {item.totalPrice.toFixed(3)} {CURRENCY}
+              </strong>
             </div>
-            <strong className="text-slate-100">
-              {item.totalPrice.toFixed(3)} {CURRENCY}
-            </strong>
+            {item.parcelInstances?.map((instance) => (
+              <div key={instance.id} className="mt-2 rounded-lg border border-slate-700 bg-slate-950 p-2 text-xs text-slate-300">
+                <div className="font-semibold">{instance.unitName} #{instance.sequence}</div>
+                <ul className="mt-1 space-y-1" aria-label={`مكونات ${instance.unitName} رقم ${instance.sequence}`}>
+                  {instance.components.map((component) => (
+                    <li key={component.id}>
+                      {component.name} ({component.sku}) — {component.quantity} {component.unitName}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         ))}
       </div>

@@ -7,8 +7,9 @@ const checkout = readFileSync(
   'utf8'
 );
 
-test('checkout uses one clear delivery details field without duplicate note inputs', () => {
-  assert.match(checkout, /label="تفاصيل العنوان والتوصيل \(اختياري\)"/);
+test('checkout uses one clear required delivery details field without duplicate note inputs', () => {
+  assert.match(checkout, /label="تفاصيل العنوان والتوصيل"/);
+  assert.match(checkout, /label="تفاصيل العنوان والتوصيل"\s+required/);
   assert.match(checkout, /maxLength=\{MAX_GUEST_DELIVERY_DETAILS_LENGTH\}/);
   assert.match(checkout, /رقم المحل أو المبنى، الشارع، أقرب معلم/);
   assert.doesNotMatch(checkout, /label="رقم المحل أو المبنى"/);

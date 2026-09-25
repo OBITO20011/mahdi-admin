@@ -7,6 +7,9 @@ import {
   CatalogSummary,
   PublicMerchandisingResponse,
   PublicCatalogQuery,
+  PublicConfigurableParcelOption,
+  PublicConfigurableParcelResponse,
+  PublicParcelComponentOption,
 } from '../types/catalog';
 
 type RawCatalogItem = Record<string, unknown>;
@@ -55,6 +58,7 @@ export function mapCatalogProduct(item: RawCatalogItem): CatalogProduct {
   const salePackagePriceInMinorUnits = integerValue(
     item.salePackagePriceInMinorUnits
   );
+  const salePriceInMinorUnits = integerValue(item.salePriceInMinorUnits);
 
   return {
     id: textValue(item.id),
@@ -72,6 +76,7 @@ export function mapCatalogProduct(item: RawCatalogItem): CatalogProduct {
     saleUnitId: textValue(item.saleUnitId),
     saleUnitNameAr: textValue(item.saleUnitNameAr) || 'طرد',
     unitsPerSalePackage,
+    salePriceInMinorUnits,
     salePackagePriceInMinorUnits,
     availableQuantity,
     availableSalePackages,
@@ -91,6 +96,91 @@ export function mapCatalogProduct(item: RawCatalogItem): CatalogProduct {
     flavorNameAr: textValue(item.flavorNameAr),
     flavorSortOrder: integerValue(item.flavorSortOrder),
     variants: [],
+  };
+}
+
+const mapParcelComponent = (value: unknown): PublicParcelComponentOption | null => {
+  const component = value && typeof value === 'object' && !Array.isArray(value)
+    ? value as RawCatalogItem
+    : {};
+  const productId = textValue(component.productId);
+  const availableQuantity = integerValue(component.availableQuantity);
+  if (!UUID_PATTERN.test(productId) || availableQuantity < 0) return null;
+  return {
+    productId,
+    sku: textValue(component.sku),
+    nameAr: textValue(component.nameAr) || 'نكهة',
+    flavorNameAr: textValue(component.flavorNameAr),
+    unitNameAr: textValue(component.unitNameAr) || 'وحدة',
+    imageUrl: textValue(component.imageUrl),
+    availableQuantity,
+  };
+};
+
+const mapParcelOption = (value: unknown): PublicConfigurableParcelOption | null => {
+  const option = value && typeof value === 'object' && !Array.isArray(value)
+    ? value as RawCatalogItem
+    : {};
+  const familyProductId = textValue(option.familyProductId);
+  const parcelConfigurationId = textValue(option.parcelConfigurationId);
+  const configurationRevision = integerValue(option.configurationRevision);
+  const unitsPerParcel = integerValue(option.unitsPerParcel);
+  const parcelPriceInMinorUnits = integerValue(option.parcelPriceInMinorUnits);
+  const components = (Array.isArray(option.components) ? option.components : [])
+    .map(mapParcelComponent)
+    .filter((item): item is PublicParcelComponentOption => Boolean(item));
+  if (
+    !UUID_PATTERN.test(familyProductId) ||
+    !UUID_PATTERN.test(parcelConfigurationId) ||
+    option.compositionMode !== 'configurable_mix' ||
+    configurationRevision < 1 ||
+    unitsPerParcel < 1 ||
+    parcelPriceInMinorUnits < 1 ||
+    components.length === 0
+  ) return null;
+  return {
+    familyProductId,
+    parcelConfigurationId,
+    configurationRevision,
+    compositionMode: 'configurable_mix',
+    unitsPerParcel,
+    parcelPriceInMinorUnits,
+    baseUnitNameAr: textValue(option.baseUnitNameAr) || 'وحدة',
+    saleUnitNameAr: textValue(option.saleUnitNameAr) || 'طرد',
+    components,
+  };
+};
+
+/** Reads only the bounded guest-safe projection created by Migration 117. */
+export async function fetchPublicConfigurableParcelOptions(
+  familyProductIds: string[]
+): Promise<PublicConfigurableParcelResponse> {
+  const requestedIds = Array.from(new Set(familyProductIds.filter((id) => UUID_PATTERN.test(id))));
+  if (requestedIds.length < 1 || requestedIds.length > 48) {
+    throw new Error('تعذر تحديد عائلة الطرد المطلوبة.');
+  }
+  if (!isSupabaseConfigured || !supabase) {
+    throw new Error('إعدادات الاتصال بكتالوج Supabase غير مكتملة في موقع العملاء.');
+  }
+  const { data, error } = await supabase.rpc(
+    'get_public_configurable_parcel_options',
+    { p_family_product_ids: requestedIds }
+  );
+  if (error) throw new Error(error.message || 'تعذر تحميل خيارات الطرد.');
+  const payload = data && typeof data === 'object' && !Array.isArray(data)
+    ? data as RawCatalogItem
+    : {};
+  const featureState = payload.featureState;
+  if (!['OFF', 'OWNER_PILOT', 'ENABLED'].includes(String(featureState))) {
+    throw new Error('تعذر التحقق من حالة ميزة الطرود.');
+  }
+  const options = (Array.isArray(payload.options) ? payload.options : [])
+    .map(mapParcelOption)
+    .filter((item): item is PublicConfigurableParcelOption => Boolean(item));
+  return {
+    featureState: featureState as PublicConfigurableParcelResponse['featureState'],
+    guestCreationEnabled: payload.guestCreationEnabled === true,
+    options,
   };
 }
 

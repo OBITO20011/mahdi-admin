@@ -27,6 +27,7 @@ import { PrivacyPolicyModal } from './components/PrivacyPolicyModal';
 import { OffersPage } from './components/OffersPage';
 import { ProductCard } from './components/ProductCard';
 import { ProductDetailsModal } from './components/ProductDetailsModal';
+import { ParcelBuilderModal } from './components/ParcelBuilderModal';
 import { PublicPosReceiptPage } from './components/PublicPosReceiptPage';
 import { PromotionOffers } from './components/PromotionOffers';
 import { StoreHeader } from './components/StoreHeader';
@@ -39,6 +40,7 @@ import {
   fetchPublicProductLink,
   fetchPublicProductCatalog,
   fetchPublicStorefrontMerchandising,
+  fetchPublicConfigurableParcelOptions,
   findPublicProductLink,
   STOREFRONT_CATALOG_PAGE_SIZE,
 } from './services/catalog.service';
@@ -51,17 +53,25 @@ import {
   CatalogProduct,
   CatalogSummary,
   PublicCatalogQuery,
+  ConfigurableParcelCartItem,
+  ParcelInstanceSelection,
+  PublicConfigurableParcelOption,
 } from './types/catalog';
 import { GuestOrderReceipt, LastGuestOrder } from './types/checkout';
 import { PublicStorefrontSettings } from './types/storefront';
 import { StorefrontOffer } from './types/offers';
 import {
-  CART_STORAGE_KEY,
   calculateCartPackages,
   calculateCartSubtotal,
+  createBaseUnitCartItem,
   createCartItem,
+  createConfigurableParcelCartItem,
+  duplicateParcelInstance,
   reconcileCartPage,
   reconcileCartSnapshot,
+  removeParcelInstance,
+  replaceParcelInstance,
+  requiredBaseUnitsByProductId,
   restoreLastOrderFromSnapshot,
 } from './utils/cart';
 import {
@@ -79,21 +89,18 @@ import {
   StorePage,
 } from './utils/publicRoutes';
 import {useStorefrontSeo} from './utils/storefrontSeo';
+import { useCustomerCommerce } from './hooks/useCustomerCommerce';
+import { reviewPolicyFor } from './services/commerceStorage';
 
 interface ToastState {
   message: string;
   type: 'success' | 'error' | 'info';
 }
 
-function readStoredCart(): CartItem[] {
-  try {
-    const storedValue = localStorage.getItem(CART_STORAGE_KEY);
-    if (!storedValue) return [];
-    const parsedValue = JSON.parse(storedValue);
-    return Array.isArray(parsedValue) ? parsedValue : [];
-  } catch {
-    return [];
-  }
+interface ParcelBuilderState {
+  familyProduct: CatalogProduct;
+  option: PublicConfigurableParcelOption;
+  edit?: { lineId: string; instance: ParcelInstanceSelection };
 }
 
 const FAVORITES_STORAGE_KEY = 'nawasrah-store-favorites-v1';
@@ -157,6 +164,24 @@ export function App() {
 }
 
 function StorefrontApp({ trackingToken }: { trackingToken: string }) {
+  const {
+    snapshot: commerceSnapshot,
+    cartItems,
+    cartRecovery: cartStorageRecovery,
+    attempt: checkoutAttempt,
+    coordinator: checkoutCoordinator,
+    setCartItems,
+    mutateCart,
+    replaceCart,
+    resolveCartRecovery,
+    refresh: refreshCommerce,
+    lastError: commerceStorageError,
+  } = useCustomerCommerce();
+  const unresolvedCheckoutAttempt = Boolean(
+    checkoutAttempt &&
+      !['REJECTED', 'ABANDONED'].includes(checkoutAttempt.serverState) &&
+      !(checkoutAttempt.serverState === 'SUCCEEDED' && checkoutAttempt.reconciliationState === 'APPLIED')
+  );
   const [privacyPolicyOpen, setPrivacyPolicyOpen] = useState(false);
   const [activePage, setActivePage] = useState<StorePage>(
     () => readStoreLocationRoute(window.location).page
@@ -180,7 +205,11 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   });
   const [featuredProductsLoading, setFeaturedProductsLoading] = useState(true);
   const [featuredProductsError, setFeaturedProductsError] = useState<string | null>(null);
-  const [cartItems, setCartItems] = useState<CartItem[]>(readStoredCart);
+  const [parcelOptionsByFamily, setParcelOptionsByFamily] = useState(
+    () => new Map<string, PublicConfigurableParcelOption>()
+  );
+  const [parcelOptionLoading, setParcelOptionLoading] = useState(false);
+  const [parcelBuilder, setParcelBuilder] = useState<ParcelBuilderState | null>(null);
   const [favoriteProductIds, setFavoriteProductIds] = useState<string[]>(
     readStoredFavorites
   );
@@ -251,6 +280,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     promise: Promise<void>;
   } | null>(null);
   const resolvedProductLinkKeyRef = useRef<string | null>(null);
+  const parcelOptionRequestedRef = useRef(new Set<string>());
   const sellableProducts = useMemo(
     () =>
       products.flatMap((product) =>
@@ -270,6 +300,11 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     },
     []
   );
+
+  useEffect(() => {
+    if (!commerceStorageError) return;
+    showToast(commerceStorageError, 'error');
+  }, [commerceStorageError, showToast]);
 
   const isStale = useCallback(
     (resource: StorefrontResource, staleTimeMs: number) =>
@@ -501,15 +536,13 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   }, [lastUpdatedAt, loadCatalog]);
 
   useEffect(() => {
+    if (cartStorageRecovery) return;
+    if (unresolvedCheckoutAttempt) return;
     if (sellableProducts.length === 0) return;
     setCartItems((currentItems) =>
       reconcileCartPage(currentItems, sellableProducts)
     );
-  }, [sellableProducts]);
-
-  useEffect(() => {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
-  }, [cartItems]);
+  }, [cartStorageRecovery, sellableProducts, setCartItems, unresolvedCheckoutAttempt]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -638,10 +671,14 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   );
 
   const cartQuantityByProduct = useMemo(
-    () =>
-      new Map(
-        cartItems.map((item) => [item.productId, item.quantity] as const)
-      ),
+    () => {
+      const quantities = new Map<string, number>();
+      for (const item of cartItems) {
+        if (item.commercialLineKind === 'configurable_parcel') continue;
+        quantities.set(item.productId, (quantities.get(item.productId) ?? 0) + item.quantity);
+      }
+      return quantities;
+    },
     [cartItems]
   );
   const catalogCartQuantityByProduct = useMemo(
@@ -693,6 +730,57 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       null,
     [linkedProduct, products, selectedProductId]
   );
+  const commerceReview = commerceSnapshot.reviewReason
+    ? reviewPolicyFor(commerceSnapshot.reviewReason)
+    : checkoutAttempt?.reviewRequired ?? null;
+  const lockedLineIds = useMemo(
+    () => new Set(
+      unresolvedCheckoutAttempt && checkoutAttempt
+        ? checkoutAttempt.submittedItems.map((item) => item.localLineId)
+        : []
+    ),
+    [checkoutAttempt, unresolvedCheckoutAttempt]
+  );
+  const lockedParcelIds = useMemo(
+    () => new Set(
+      unresolvedCheckoutAttempt && checkoutAttempt
+        ? checkoutAttempt.submittedItems.flatMap((item) =>
+            item.commercialLineKind === 'configurable_parcel'
+              ? item.parcelInstances.map((instance) => instance.localInstanceId)
+              : []
+          )
+        : []
+    ),
+    [checkoutAttempt, unresolvedCheckoutAttempt]
+  );
+  const reservedBaseUnits = useMemo(
+    () => requiredBaseUnitsByProductId(cartItems),
+    [cartItems]
+  );
+
+  useEffect(() => {
+    if (
+      !selectedProduct ||
+      parcelOptionsByFamily.has(selectedProduct.id) ||
+      parcelOptionRequestedRef.current.has(selectedProduct.id)
+    ) return;
+    let active = true;
+    parcelOptionRequestedRef.current.add(selectedProduct.id);
+    setParcelOptionLoading(true);
+    void fetchPublicConfigurableParcelOptions([selectedProduct.id])
+      .then((response) => {
+        if (!active) return;
+        const option = response.guestCreationEnabled
+          ? response.options.find((candidate) => candidate.familyProductId === selectedProduct.id)
+          : undefined;
+        if (option) {
+          setParcelOptionsByFamily((current) => new Map(current).set(selectedProduct.id, option));
+        }
+      })
+      .catch(() => undefined)
+      .finally(() => { if (active) setParcelOptionLoading(false); });
+    return () => { active = false; };
+  }, [parcelOptionsByFamily, selectedProduct]);
   const relatedProducts = useMemo(() => {
     if (!selectedProduct) return [];
     return products
@@ -761,17 +849,27 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     product: CatalogProduct,
     requestedQuantity = 1
   ) => {
+    if (cartStorageRecovery) {
+      setCartOpen(true);
+      showToast('راجع حالة السلة المحفوظة قبل إضافة أصناف جديدة.', 'info');
+      return;
+    }
     if (!product.isAvailable) {
       showToast('هذا الصنف غير متوفر حاليًا.', 'error');
       return;
     }
 
-    const existingItem = cartItems.find(
-      (item) => item.productId === product.id
+    const existingQuantity = cartItems.reduce(
+      (sum, item) => sum + (
+        item.productId === product.id && item.commercialLineKind === 'legacy_single_sku_parcel'
+          ? item.quantity
+          : 0
+      ),
+      0
     );
     const remainingPackages = Math.max(
       0,
-      product.availableSalePackages - (existingItem?.quantity ?? 0)
+      product.availableSalePackages - existingQuantity
     );
     if (remainingPackages === 0) {
       showToast('وصلت إلى كامل الكمية المتاحة من هذا الصنف.', 'info');
@@ -785,7 +883,10 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
     setCartItems((currentItems) => {
       const currentItem = currentItems.find(
-        (item) => item.productId === product.id
+        (item) =>
+          item.productId === product.id &&
+          item.commercialLineKind === 'legacy_single_sku_parcel' &&
+          !lockedLineIds.has(item.localLineId)
       );
       if (!currentItem) {
         return [
@@ -794,7 +895,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         ];
       }
       return currentItems.map((item) =>
-        item.productId === product.id
+        item.localLineId === currentItem.localLineId
           ? { ...item, quantity: item.quantity + quantityToAdd }
           : item
       );
@@ -810,15 +911,160 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     addQuantityToCart(product, 1);
   };
 
+  const addBaseUnitToCart = (product: CatalogProduct) => {
+    if (cartStorageRecovery) {
+      setCartOpen(true);
+      showToast('راجع حالة السلة المحفوظة قبل إضافة أصناف جديدة.', 'info');
+      return;
+    }
+    if (product.salePriceInMinorUnits <= 0 || product.availableQuantity < 1) {
+      showToast('هذه الوحدة غير متاحة للبيع منفردة حاليًا.', 'info');
+      return;
+    }
+    const alreadyRequired = requiredBaseUnitsByProductId(cartItems).get(product.id) ?? 0;
+    if (alreadyRequired >= product.availableQuantity) {
+      showToast('وصلت السلة إلى كامل المخزون المتاح من هذه النكهة.', 'info');
+      return;
+    }
+    setCartItems((current) => {
+      const existing = current.find(
+        (item) =>
+          item.commercialLineKind === 'base_unit' &&
+          item.productId === product.id &&
+          !lockedLineIds.has(item.localLineId)
+      );
+      if (!existing) return [...current, createBaseUnitCartItem(product)];
+      return current.map((item) => item.localLineId === existing.localLineId
+        ? { ...item, localRevision: item.localRevision + 1, quantity: item.quantity + 1 }
+        : item);
+    });
+    showToast(`تمت إضافة ${product.unitNameAr} من ${product.nameAr}.`);
+  };
+
+  const saveParcelBuilder = (instance: ParcelInstanceSelection) => {
+    if (!parcelBuilder) return;
+    if (cartStorageRecovery) {
+      setParcelBuilder(null);
+      setCartOpen(true);
+      showToast('راجع حالة السلة المحفوظة قبل حفظ طرد جديد.', 'info');
+      return;
+    }
+    setCartItems((current) => {
+      if (parcelBuilder.edit) {
+        return current.map((item) =>
+          item.localLineId === parcelBuilder.edit?.lineId && item.commercialLineKind === 'configurable_parcel'
+            ? replaceParcelInstance(item, parcelBuilder.edit.instance.localInstanceId, instance)
+            : item
+        );
+      }
+      const matchingLine = current.find(
+        (item): item is ConfigurableParcelCartItem =>
+          item.commercialLineKind === 'configurable_parcel' &&
+          item.parcelConfigurationId === parcelBuilder.option.parcelConfigurationId &&
+          item.configurationRevision === parcelBuilder.option.configurationRevision &&
+          !lockedLineIds.has(item.localLineId)
+      );
+      if (matchingLine) {
+        return current.map((item) => item.localLineId === matchingLine.localLineId
+          ? {
+              ...matchingLine,
+              localRevision: matchingLine.localRevision + 1,
+              quantity: matchingLine.parcelInstances.length + 1,
+              parcelInstances: [...matchingLine.parcelInstances, instance],
+            }
+          : item);
+      }
+      return [...current, createConfigurableParcelCartItem(
+        parcelBuilder.familyProduct,
+        parcelBuilder.option,
+        instance
+      )];
+    });
+    setParcelBuilder(null);
+    showToast('تم حفظ الطرد بالنكهات في السلة.');
+  };
+
+  const editParcelInstance = (lineId: string, instance: ParcelInstanceSelection) => {
+    if (lockedParcelIds.has(instance.localInstanceId)) {
+      showToast('هذا الطرد مرتبط بطلب غير محسوم ولا يمكن تعديله الآن.', 'info');
+      return;
+    }
+    const line = cartItems.find(
+      (item): item is ConfigurableParcelCartItem => item.localLineId === lineId && item.commercialLineKind === 'configurable_parcel'
+    );
+    const familyProduct = products.find((product) => product.id === line?.familyProductId);
+    const option = line ? parcelOptionsByFamily.get(line.familyProductId) : undefined;
+    if (!line || !familyProduct || !option) {
+      showToast('تعذر تحميل إعداد الطرد الحالي. أعد فتح المنتج.', 'error');
+      return;
+    }
+    setParcelBuilder({ familyProduct, option, edit: { lineId, instance } });
+  };
+
+  const duplicateParcel = (lineId: string, instance: ParcelInstanceSelection) => {
+    if (cartStorageRecovery) return;
+    const line = cartItems.find(
+      (item): item is ConfigurableParcelCartItem => item.localLineId === lineId && item.commercialLineKind === 'configurable_parcel'
+    );
+    if (!line) return;
+    const duplicate = duplicateParcelInstance(instance);
+    const requirements = requiredBaseUnitsByProductId(cartItems);
+    const option = parcelOptionsByFamily.get(line.familyProductId);
+    const unavailable = duplicate.components.some((component) => {
+      const available = option?.components.find((candidate) => candidate.productId === component.productId)?.availableQuantity ?? 0;
+      return (requirements.get(component.productId) ?? 0) + component.baseQuantity > available;
+    });
+    if (unavailable) {
+      showToast('لا يكفي المخزون الحالي لتكرار هذا الطرد.', 'info');
+      return;
+    }
+    setCartItems((current) => {
+      if (lockedLineIds.has(lineId)) {
+        const familyProduct = products.find((product) => product.id === line.familyProductId);
+        if (!familyProduct || !option) return current;
+        return [...current, createConfigurableParcelCartItem(familyProduct, option, duplicate)];
+      }
+      return current.map((item) => item.localLineId === lineId && item.commercialLineKind === 'configurable_parcel'
+        ? { ...item, localRevision: item.localRevision + 1, quantity: item.parcelInstances.length + 1, parcelInstances: [...item.parcelInstances, duplicate] }
+        : item);
+    });
+  };
+
+  const removeParcel = (lineId: string, instanceId: string) => {
+    if (cartStorageRecovery) return;
+    if (lockedParcelIds.has(instanceId)) {
+      showToast('هذا الطرد مرتبط بطلب غير محسوم ولا يمكن حذفه الآن.', 'info');
+      return;
+    }
+    setCartItems((current) => current.flatMap((item) => {
+      if (item.localLineId !== lineId || item.commercialLineKind !== 'configurable_parcel') return [item];
+      const next = removeParcelInstance(item, instanceId);
+      return next ? [next] : [];
+    }));
+  };
+
   const refreshCartSnapshot = useCallback(async (
     itemsToRefresh: CartItem[] = cartItems
   ): Promise<CartSnapshotResult> => {
+    if (cartStorageRecovery) {
+      throw new Error('السلة المحفوظة تحتاج معالجة قبل تحديث السعر أو المخزون.');
+    }
+    if (unresolvedCheckoutAttempt) {
+      throw new Error('يوجد طلب غير محسوم. أكمل استرداده قبل تحديث السلة أو بدء طلب جديد.');
+    }
+    const expectedCartRevision = commerceSnapshot.cart.envelope?.revision;
     const snapshotProductIds = Array.from(
-      new Set(itemsToRefresh.map((item) => item.productId).filter(Boolean))
+      new Set(itemsToRefresh
+        .filter((item) => item.commercialLineKind !== 'configurable_parcel')
+        .map((item) => item.productId)
+        .filter(Boolean))
     );
-    if (snapshotProductIds.length === 0) return { items: [] };
+    const parcelFamilyIds = Array.from(new Set(itemsToRefresh.flatMap((item) =>
+      item.commercialLineKind === 'configurable_parcel' ? [item.familyProductId] : []
+    )));
+    if (snapshotProductIds.length === 0 && parcelFamilyIds.length === 0) return { items: [] };
 
-    const snapshotKey = snapshotProductIds.slice().sort().join(',');
+    const snapshotKey = [...snapshotProductIds, ...parcelFamilyIds].sort().join(',');
     if (pendingCartSnapshotRef.current?.key === snapshotKey) {
       return pendingCartSnapshotRef.current.promise;
     }
@@ -826,18 +1072,57 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     const request = (async () => {
       setIsRefreshingCart(true);
       try {
-        const snapshotProducts = await fetchPublicCartSnapshot(snapshotProductIds);
+        const [snapshotProducts, parcelResponse] = await Promise.all([
+          snapshotProductIds.length > 0 ? fetchPublicCartSnapshot(snapshotProductIds) : Promise.resolve([]),
+          parcelFamilyIds.length > 0
+            ? fetchPublicConfigurableParcelOptions(parcelFamilyIds)
+            : Promise.resolve(null),
+        ]);
         const reconciliation = reconcileCartSnapshot(
           itemsToRefresh,
           snapshotProducts,
           snapshotProductIds
         );
-        setCartItems((currentItems) =>
+        const optionByFamily = new Map(parcelResponse?.options.map((option) => [option.familyProductId, option]) ?? []);
+        const parcelItems = reconciliation.items.map((item) => {
+          if (item.commercialLineKind !== 'configurable_parcel') return item;
+          const option = optionByFamily.get(item.familyProductId);
+          if (
+            !parcelResponse?.guestCreationEnabled ||
+            !option ||
+            option.parcelConfigurationId !== item.parcelConfigurationId ||
+            option.configurationRevision !== item.configurationRevision ||
+            option.unitsPerParcel !== item.capacity
+          ) {
+            throw new Error('تغيّر إعداد أحد الطرود. افتح المنتج وراجع تكوينه قبل المتابعة.');
+          }
+          return {
+            ...item,
+            unitPriceInMinorUnits: option.parcelPriceInMinorUnits,
+            saleUnitNameAr: option.saleUnitNameAr,
+          };
+        });
+        const required = requiredBaseUnitsByProductId(parcelItems);
+        for (const option of parcelResponse?.options ?? []) {
+          for (const component of option.components) {
+            if ((required.get(component.productId) ?? 0) > component.availableQuantity) {
+              throw new Error(`الكمية المطلوبة من ${component.flavorNameAr || component.nameAr} لم تعد متاحة.`);
+            }
+          }
+        }
+        const persistedItems = await mutateCart((currentItems) =>
           reconcileCartSnapshot(
             currentItems,
             snapshotProducts,
             snapshotProductIds
-          ).items
+          ).items.map((item) => {
+            if (item.commercialLineKind !== 'configurable_parcel') return item;
+            const option = optionByFamily.get(item.familyProductId);
+            return option && option.configurationRevision === item.configurationRevision
+              ? { ...item, unitPriceInMinorUnits: option.parcelPriceInMinorUnits, saleUnitNameAr: option.saleUnitNameAr }
+              : item;
+          }),
+          expectedCartRevision
         );
 
         const notices: string[] = [];
@@ -851,7 +1136,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           notices.push('تمت إزالة أصناف لم تعد متاحة للبيع.');
         }
         setCartSnapshotNotice(notices.length > 0 ? notices.join(' ') : null);
-        return { items: reconciliation.items };
+        return { items: persistedItems };
       } finally {
         setIsRefreshingCart(false);
       }
@@ -865,17 +1150,18 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         pendingCartSnapshotRef.current = null;
       }
     }
-  }, [cartItems]);
+  }, [cartItems, cartStorageRecovery, commerceSnapshot.cart.envelope?.revision, mutateCart, unresolvedCheckoutAttempt]);
 
   const openCart = useCallback((itemsToRefresh?: CartItem[]) => {
     setCartOpen(true);
+    if (cartStorageRecovery) return;
     void refreshCartSnapshot(itemsToRefresh).catch((error: unknown) => {
       const message = error instanceof Error
         ? error.message
         : 'تعذر التحقق من سعر ومخزون السلة. حاول مرة أخرى.';
       setCartSnapshotNotice(message);
     });
-  }, [refreshCartSnapshot]);
+  }, [cartStorageRecovery, refreshCartSnapshot]);
 
   const openProductDetails = useCallback((product: CatalogProduct) => {
     setLinkedProduct(null);
@@ -898,19 +1184,25 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     }
   }, [activePage, selectedCategoryDetails]);
 
-  const updateCartQuantity = (productId: string, quantity: number) => {
+  const updateCartQuantity = (localLineId: string, quantity: number) => {
+    if (cartStorageRecovery) return;
+    if (lockedLineIds.has(localLineId)) {
+      showToast('هذا السطر مرتبط بطلب غير محسوم. أضف كمية جديدة كسطر مستقل.', 'info');
+      return;
+    }
     if (quantity <= 0) {
       setCartItems((items) =>
-        items.filter((item) => item.productId !== productId)
+        items.filter((item) => item.localLineId !== localLineId)
       );
       return;
     }
 
     setCartItems((items) =>
       items.map((item) =>
-        item.productId === productId
+        item.localLineId === localLineId && item.commercialLineKind !== 'configurable_parcel'
           ? {
               ...item,
+              localRevision: item.localRevision + 1,
               quantity: Math.min(
                 Math.max(1, Math.floor(quantity)),
                 item.maxAvailablePackages
@@ -1004,6 +1296,26 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   }, [catalogCategories]);
 
   const openCheckout = async () => {
+    if (commerceReview) {
+      setCartOpen(true);
+      showToast(commerceReview.message, 'error');
+      return;
+    }
+    if (cartStorageRecovery) {
+      setCartOpen(true);
+      showToast('لا يمكن إتمام الطلب قبل معالجة السلة المحفوظة.', 'error');
+      return;
+    }
+    if (
+      checkoutAttempt &&
+      (checkoutAttempt.serverState === 'UNKNOWN' ||
+        checkoutAttempt.serverState === 'SUCCEEDED' ||
+        checkoutAttempt.reviewRequired)
+    ) {
+      setCartOpen(false);
+      setCheckoutOpen(true);
+      return;
+    }
     let currentCartItems: CartItem[];
     try {
       currentCartItems = (await refreshCartSnapshot()).items;
@@ -1042,10 +1354,43 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     setCheckoutOpen(true);
   };
 
-  const handleOrderCreated = (receipt: GuestOrderReceipt, submittedItems: CartItem[]) => {
-    setCartItems([]);
+  const handleCartStorageRecovery = async () => {
+    if (!cartStorageRecovery) return;
+    try {
+      const action = cartStorageRecovery.validItems.length > 0
+        ? 'KEEP_VALID_ITEMS'
+        : 'RESET_CART';
+      await resolveCartRecovery(cartStorageRecovery, action);
+      const pendingSuccess = checkoutCoordinator.read().attempt;
+      showToast(
+        action === 'KEEP_VALID_ITEMS'
+          ? 'تم الاحتفاظ بالعناصر السليمة بعد موافقتك، وحُفظت نسخة استرداد محلية.'
+          : 'تمت إعادة ضبط السلة بعد موافقتك، وحُفظت نسخة استرداد محلية.'
+      );
+      if (
+        pendingSuccess.status === 'VALID' &&
+        pendingSuccess.attempt?.serverState === 'SUCCEEDED'
+      ) {
+        setCartOpen(false);
+        setCheckoutOpen(true);
+      }
+    } catch (error) {
+      showToast(
+        error instanceof Error
+          ? error.message
+          : 'تعذر معالجة السلة بأمان. لم تُحذف البيانات الأصلية.',
+        'error'
+      );
+    }
+  };
+
+  const handleOrderCreated = (
+    receipt: GuestOrderReceipt,
+    submittedItems: CartItem[]
+  ) => {
+    refreshCommerce();
     setPreferredPromotionCode('');
-    setLastGuestOrder({ version: 1, orderNumber: receipt.orderNumber, items: submittedItems.map((item) => ({ productId: item.productId, quantity: item.quantity })), createdAt: Date.now() });
+    setLastGuestOrder({ version: 2, orderNumber: receipt.orderNumber, items: structuredClone(submittedItems), createdAt: Date.now() });
     showToast(`تم تسجيل الطلب ${receipt.orderNumber} بنجاح.`);
     void loadCatalog(true, true);
   };
@@ -1075,18 +1420,61 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
   const openPromotionOffers = () => navigateStorePage('offers');
 
   const repeatLastOrder = () => {
+    if (cartStorageRecovery) {
+      setCartOpen(true);
+      showToast('راجع حالة السلة المحفوظة قبل استعادة طلب سابق.', 'info');
+      return;
+    }
+    if (unresolvedCheckoutAttempt) {
+      showToast('أكمل استرداد محاولة الطلب الحالية قبل استعادة طلب سابق.', 'info');
+      return;
+    }
     if (!lastGuestOrder || pendingRepeatLastOrderRef.current) return;
 
     const request = (async () => {
       setIsRepeatingLastOrder(true);
       try {
-        const snapshotProducts = await fetchPublicCartSnapshot(
-          lastGuestOrder.items.map((item) => item.productId)
+        const scalarItems = lastGuestOrder.items.filter(
+          (item) => item.commercialLineKind !== 'configurable_parcel'
         );
+        const configurableItems = lastGuestOrder.items.filter(
+          (item): item is ConfigurableParcelCartItem => item.commercialLineKind === 'configurable_parcel'
+        );
+        const [snapshotProducts, parcelResponse] = await Promise.all([
+          scalarItems.length > 0
+            ? fetchPublicCartSnapshot(scalarItems.map((item) => item.productId))
+            : Promise.resolve([]),
+          configurableItems.length > 0
+            ? fetchPublicConfigurableParcelOptions(configurableItems.map((item) => item.familyProductId))
+            : Promise.resolve(null),
+        ]);
         const restoration = restoreLastOrderFromSnapshot(
-          lastGuestOrder.items,
+          scalarItems,
           snapshotProducts
         );
+        const optionByFamily = new Map(parcelResponse?.options.map((option) => [option.familyProductId, option]) ?? []);
+        const restoredParcels = configurableItems.flatMap((saved) => {
+          const option = optionByFamily.get(saved.familyProductId);
+          if (
+            !parcelResponse?.guestCreationEnabled ||
+            !option ||
+            option.parcelConfigurationId !== saved.parcelConfigurationId ||
+            option.configurationRevision !== saved.configurationRevision ||
+            option.unitsPerParcel !== saved.capacity
+          ) return [];
+          const availableByProduct = new Map(option.components.map((component) => [component.productId, component.availableQuantity]));
+          const required = requiredBaseUnitsByProductId([saved]);
+          if ([...required].some(([productId, quantity]) => quantity > (availableByProduct.get(productId) ?? 0))) return [];
+          return [{
+            ...saved,
+            localLineId: crypto.randomUUID(),
+            localRevision: 1,
+            unitPriceInMinorUnits: option.parcelPriceInMinorUnits,
+            parcelInstances: saved.parcelInstances.map(duplicateParcelInstance),
+          }];
+        });
+        restoration.items.push(...restoredParcels);
+        restoration.unavailableItems += configurableItems.length - restoredParcels.length;
         const notices: string[] = [];
         if (restoration.unavailableItems > 0) {
           notices.push('بعض أصناف الطلب السابق لم تعد متاحة للبيع ولم تُضف إلى السلة.');
@@ -1104,7 +1492,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
         const successNotice = `تمت إعادة ${restoration.items.length.toLocaleString('ar-JO')} أصناف من طلبك السابق بالأسعار الحالية.`;
         const notice = [successNotice, ...notices].join(' ');
-        setCartItems(restoration.items);
+        await replaceCart(restoration.items);
         setCartSnapshotNotice(notice);
         setCartOpen(true);
         showToast(notice, notices.length > 0 ? 'info' : 'success');
@@ -1722,6 +2110,12 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           relatedProducts={relatedProducts}
           onClose={closeProductDetails}
           onAddQuantity={addQuantityToCart}
+          onAddBaseUnit={addBaseUnitToCart}
+          parcelOption={parcelOptionsByFamily.get(selectedProduct.id)}
+          parcelOptionLoading={parcelOptionLoading}
+          onOpenParcelBuilder={(familyProduct, option) =>
+            setParcelBuilder({ familyProduct, option })
+          }
           onOpenProduct={openProductDetails}
           storeWhatsAppNumber={storefrontSettings.whatsappNumber}
           isFavorite={favoriteProductIds.includes(selectedProduct.id)}
@@ -1754,18 +2148,42 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         items={cartItems}
         onClose={() => setCartOpen(false)}
         onQuantityChange={updateCartQuantity}
-        onRemove={(productId) =>
+        onRemove={(localLineId) =>
+          !cartStorageRecovery &&
+          !lockedLineIds.has(localLineId) &&
           setCartItems((items) =>
-            items.filter((item) => item.productId !== productId)
+            items.filter((item) => item.localLineId !== localLineId)
           )
         }
-        onClear={() => setCartItems([])}
+        onEditParcel={editParcelInstance}
+        onDuplicateParcel={duplicateParcel}
+        onRemoveParcel={removeParcel}
+        lockedParcelInstanceIds={lockedParcelIds}
+        lockedLineIds={lockedLineIds}
+        cartStorageRecovery={cartStorageRecovery}
+        hasUnresolvedCheckoutAttempt={unresolvedCheckoutAttempt}
+        onResolveCartRecovery={handleCartStorageRecovery}
+        onClear={() => {
+          if (cartStorageRecovery) {
+            showToast('استخدم إجراء معالجة السلة بدل الحذف التلقائي.', 'info');
+            return;
+          }
+          if (lockedLineIds.size > 0 || lockedParcelIds.size > 0) {
+            showToast('لا يمكن إفراغ السلة قبل حسم محاولة الطلب الحالية.', 'info');
+            return;
+          }
+          setCartItems([]);
+        }}
         onCheckout={openCheckout}
         isRefreshingSnapshot={isRefreshingCart}
         snapshotNotice={cartSnapshotNotice}
-        checkoutDisabled={!settingsTrusted}
+        checkoutDisabled={!settingsTrusted || Boolean(cartStorageRecovery) || Boolean(commerceReview)}
         checkoutBlockedMessage={
-          settingsUnavailable
+          commerceReview
+            ? commerceReview.message
+            : cartStorageRecovery
+            ? 'السلة المحفوظة تحتاج معالجة صريحة قبل إتمام الطلب.'
+            : settingsUnavailable
             ? 'تعذر التحقق من إعدادات الطلب والتوصيل. لن نعرض رسومًا أو حدًا أدنى غير موثوقين.'
             : 'جارٍ التحقق من إعدادات الطلب والتوصيل.'
         }
@@ -1783,12 +2201,23 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         storefrontSettings={storefrontSettings}
         settingsUnavailable={settingsUnavailable}
         initialPromotionCode={preferredPromotionCode}
+        coordinator={checkoutCoordinator}
         onClose={() => setCheckoutOpen(false)}
         onRetryStorefrontSettings={() => void loadStorefrontSettings(true)}
         onOpenPrivacyPolicy={() => setPrivacyPolicyOpen(true)}
         onOrderCreated={handleOrderCreated}
         onTrackOrder={openCreatedOrderTracking}
       />
+
+      {parcelBuilder && (
+        <ParcelBuilderModal
+          option={parcelBuilder.option}
+          initialInstance={parcelBuilder.edit?.instance}
+          reservedByProductId={reservedBaseUnits}
+          onClose={() => setParcelBuilder(null)}
+          onSave={saveParcelBuilder}
+        />
+      )}
 
       <OrderTrackingModal
         isOpen={trackingOpen}

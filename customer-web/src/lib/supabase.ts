@@ -37,6 +37,19 @@ export const supabase = isSupabaseConfigured
 
 interface EdgeFunctionErrorPayload {
   error?: unknown;
+  code?: unknown;
+}
+
+export class PublicGatewayError extends Error {
+  constructor(
+    message: string,
+    public readonly code: string,
+    public readonly status: number,
+    public readonly outcomeUnknown: boolean
+  ) {
+    super(message);
+    this.name = 'PublicGatewayError';
+  }
 }
 
 export async function invokePublicEdgeFunction<T>(
@@ -47,24 +60,39 @@ export async function invokePublicEdgeFunction<T>(
     throw new Error('إعدادات الاتصال بـ Supabase غير مكتملة.');
   }
 
-  const response = await fetch(
-    `${normalizedSupabaseUrl}/functions/v1/${functionName}`,
-    {
-      method: 'POST',
-      headers: {
-        apikey: supabasePublishableKey,
-        'Content-Type': 'application/json',
-        'X-Client-Info': 'nawasrah-customer-web',
-      },
-      body: JSON.stringify(body),
-    }
-  );
+  let response: Response;
+  try {
+    response = await fetch(
+      `${normalizedSupabaseUrl}/functions/v1/${functionName}`,
+      {
+        method: 'POST',
+        headers: {
+          apikey: supabasePublishableKey,
+          'Content-Type': 'application/json',
+          'X-Client-Info': 'nawasrah-customer-web',
+        },
+        body: JSON.stringify(body),
+      }
+    );
+  } catch {
+    throw new PublicGatewayError(
+      'انقطع الاتصال بعد إرسال الطلب. حالة الطلب غير معروفة؛ أعد التحقق بنفس المحاولة.',
+      'network_outcome_unknown',
+      0,
+      true
+    );
+  }
 
   let payload: T | EdgeFunctionErrorPayload;
   try {
     payload = (await response.json()) as T | EdgeFunctionErrorPayload;
   } catch {
-    throw new Error('تعذر إرسال الطلب مؤقتًا. حاول مرة أخرى.');
+    throw new PublicGatewayError(
+      'وصل رد غير مكتمل. حالة الطلب غير معروفة؛ أعد التحقق بنفس المحاولة.',
+      'invalid_gateway_response',
+      response.status,
+      true
+    );
   }
 
   if (!response.ok) {
@@ -72,7 +100,14 @@ export async function invokePublicEdgeFunction<T>(
     const safeMessage = typeof errorValue === 'string'
       ? errorValue
       : 'تعذر إرسال الطلب مؤقتًا. حاول مرة أخرى.';
-    throw new Error(safeMessage);
+    const codeValue = (payload as EdgeFunctionErrorPayload).code;
+    const code = typeof codeValue === 'string' ? codeValue : 'gateway_error';
+    throw new PublicGatewayError(
+      safeMessage,
+      code,
+      response.status,
+      response.status >= 500 || response.status === 429
+    );
   }
 
   return payload as T;

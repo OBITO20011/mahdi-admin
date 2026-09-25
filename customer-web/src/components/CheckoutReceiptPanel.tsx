@@ -1,4 +1,5 @@
 import {
+  AlertTriangle,
   CheckCircle2,
   ExternalLink,
   MessageCircle,
@@ -13,6 +14,7 @@ interface CheckoutReceiptPanelProps {
   storeWhatsAppNumber: string;
   onClose: () => void;
   onTrackOrder: (receipt: GuestOrderReceipt) => void;
+  reconciliationNotice?: string;
 }
 
 export function CheckoutReceiptPanel({
@@ -21,6 +23,7 @@ export function CheckoutReceiptPanel({
   storeWhatsAppNumber,
   onClose,
   onTrackOrder,
+  reconciliationNotice,
 }: CheckoutReceiptPanelProps) {
   return (
     <div className="overflow-y-auto p-6 text-center sm:p-10">
@@ -34,6 +37,13 @@ export function CheckoutReceiptPanel({
         تم ربطه بملف العميل وحجز الكمية المطلوبة دون خصمها كمبيع نهائي حتى
         تؤكد الإدارة التسليم.
       </p>
+
+      {reconciliationNotice && (
+        <div role="alert" className="mx-auto mt-4 flex max-w-lg items-start gap-2 rounded-2xl border border-amber-200 bg-amber-50 p-3 text-right text-[11px] font-bold leading-5 text-amber-800">
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+          {reconciliationNotice}
+        </div>
+      )}
 
       <div className="mx-auto mt-6 grid max-w-lg gap-3 sm:grid-cols-2">
         <div className="rounded-3xl border border-blue-100 bg-blue-50 p-4">

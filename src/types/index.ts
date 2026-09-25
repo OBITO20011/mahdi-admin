@@ -306,6 +306,20 @@ export interface OrderItem {
   salePackage?: string;
   discount: number;
   totalPrice: number;
+  commercialLineKind?: string;
+  parcelInstances?: {
+    id: string;
+    sequence: number;
+    unitName: string;
+    components: {
+      id: string;
+      productId: string;
+      name: string;
+      sku: string;
+      unitName: string;
+      quantity: number;
+    }[];
+  }[];
 }
 
 export interface Order {

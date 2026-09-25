@@ -30,6 +30,7 @@ function product(
     saleUnitId: 'box',
     saleUnitNameAr: 'كرتونة',
     unitsPerSalePackage: 12,
+    salePriceInMinorUnits: Math.max(1, Math.floor(price / 12)),
     salePackagePriceInMinorUnits: price,
     availableQuantity: availablePackages * 12,
     availableSalePackages: availablePackages,

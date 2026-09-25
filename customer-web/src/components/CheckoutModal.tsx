@@ -24,9 +24,9 @@ import {
 } from 'lucide-react';
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import {
-  previewGuestPromotion,
-  submitGuestCustomerOrder,
+  previewGuestPromotionV2,
 } from '../services/orders.service';
+import { CheckoutRecoveryCoordinator } from '../services/checkoutRecoveryCoordinator';
 import { CartItem } from '../types/catalog';
 import {
   CheckoutErrors,
@@ -35,20 +35,18 @@ import {
   GuestCheckoutForm,
   GuestOrderReceipt,
   GuestPaymentMethod,
-  GuestPromotionQuote,
+  GuestPromotionQuoteV2,
+  PersistedCheckoutAttemptV2,
 } from '../types/checkout';
 import {
   EMPTY_GUEST_CHECKOUT_FORM,
   buildGoogleMapsUrl,
-  buildGuestOrderItems,
+  buildGuestOrderV2Lines,
   buildWhatsAppOrderMessage,
   buildWhatsAppUrl,
-  clearPendingOrder,
-  createOrderFingerprint,
   createPromotionContextKey,
   MAX_GUEST_ORDER_LINE_ITEMS,
   MAX_GUEST_DELIVERY_DETAILS_LENGTH,
-  getOrCreateIdempotencyKey,
   getOrCreateGuestOrderSessionId,
   extractGoogleMapsCoordinates,
   isSupportedGoogleMapsUrl,
@@ -77,10 +75,14 @@ interface CheckoutModalProps {
   storefrontSettings: PublicStorefrontSettings;
   settingsUnavailable: boolean;
   initialPromotionCode?: string;
+  coordinator: CheckoutRecoveryCoordinator;
   onClose: () => void;
   onRetryStorefrontSettings: () => void;
   onOpenPrivacyPolicy: () => void;
-  onOrderCreated: (receipt: GuestOrderReceipt, items: CartItem[]) => void;
+  onOrderCreated: (
+    receipt: GuestOrderReceipt,
+    items: CartItem[]
+  ) => void;
   onTrackOrder: (receipt: GuestOrderReceipt) => void;
 }
 
@@ -133,6 +135,7 @@ export function CheckoutModal({
   storefrontSettings,
   settingsUnavailable,
   initialPromotionCode = '',
+  coordinator,
   onClose,
   onRetryStorefrontSettings,
   onOpenPrivacyPolicy,
@@ -156,7 +159,7 @@ export function CheckoutModal({
   const [isPastingLocation, setIsPastingLocation] = useState(false);
   const [promotionInput, setPromotionInput] = useState('');
   const [promotionQuote, setPromotionQuote] =
-    useState<GuestPromotionQuote | null>(null);
+    useState<GuestPromotionQuoteV2 | null>(null);
   const [promotionContextKey, setPromotionContextKey] = useState('');
   const [promotionError, setPromotionError] = useState('');
   const [isApplyingPromotion, setIsApplyingPromotion] = useState(false);
@@ -167,8 +170,16 @@ export function CheckoutModal({
   const [turnstileToken, setTurnstileToken] = useState('');
   const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
   const [turnstileStatus, setTurnstileStatus] = useState<TurnstileStatus>('loading');
+  const [pendingAttempt, setPendingAttempt] = useState<PersistedCheckoutAttemptV2 | null>(
+    () => {
+      const snapshot = coordinator.read();
+      return snapshot.attempt.status === 'VALID' ? snapshot.attempt.attempt : null;
+    }
+  );
 
-  const displayedItems = receipt ? submittedItems : items;
+  const displayedItems = receipt || pendingAttempt?.serverState === 'UNKNOWN'
+    ? submittedItems
+    : items;
   const packagesCount = calculateCartPackages(displayedItems);
   const subtotal = calculateCartSubtotal(displayedItems);
   const currentPromotionContextKey = useMemo(
@@ -179,9 +190,13 @@ export function CheckoutModal({
     promotionQuote && promotionContextKey === currentPromotionContextKey
       ? promotionQuote
       : null;
-  const checkoutBeforeDelivery = activePromotionQuote?.totalInMinorUnits ?? subtotal;
-  const selectedDeliveryFee =
-    deliveryZone === 'inside_ramtha'
+  const checkoutBeforeDelivery = pendingAttempt?.serverState === 'UNKNOWN'
+    ? (pendingAttempt.request.expectedQuote?.subtotalInMinorUnits ?? subtotal) -
+      (pendingAttempt.request.expectedQuote?.discountInMinorUnits ?? 0)
+    : activePromotionQuote?.totalInMinorUnits ?? subtotal;
+  const selectedDeliveryFee = pendingAttempt?.serverState === 'UNKNOWN'
+    ? pendingAttempt.request.expectedQuote?.deliveryFeeInMinorUnits ?? 0
+    : deliveryZone === 'inside_ramtha'
       ? storefrontSettings.insideRamthaDeliveryFeeInMinorUnits
       : storefrontSettings.outsideRamthaDeliveryFeeInMinorUnits;
   const checkoutTotal = checkoutBeforeDelivery + selectedDeliveryFee;
@@ -199,6 +214,56 @@ export function CheckoutModal({
 
   useEffect(() => {
     if (!isOpen || receipt) return;
+    let active = true;
+    void coordinator.resume().then((outcome) => {
+      if (!active) return;
+      const snapshot = coordinator.read();
+      const attempt = snapshot.attempt.status === 'VALID' ? snapshot.attempt.attempt : null;
+      setPendingAttempt(attempt);
+      if (snapshot.reviewReason) {
+        setSubmitError('تحتاج حالة الحفظ المحلية إلى مراجعة قبل إرسال أي طلب جديد.');
+        return;
+      }
+      if (!attempt) return;
+      if (attempt.reviewRequired) {
+        setSubmitError(attempt.reviewRequired.message);
+        return;
+      }
+      if (attempt.serverState === 'SUCCEEDED' && attempt.receipt) {
+        setSubmittedItems(attempt.submittedItems);
+        setReceipt(attempt.receipt);
+        if (outcome?.status === 'RECONCILED') {
+          setSubmitError('');
+          onOrderCreated(attempt.receipt, attempt.submittedItems);
+        } else {
+          setSubmitError(
+            outcome?.status === 'BLOCKED_CART'
+              ? 'تم تسجيل الطلب، لكن السلة المحفوظة تحتاج معالجة صريحة قبل إكمال تسويتها محليًا.'
+              : 'تم تسجيل الطلب، لكن تسوية السلة ما زالت معلقة محليًا. لن يُعاد إرسال الطلب.'
+          );
+        }
+        return;
+      }
+      if (attempt.serverState === 'UNKNOWN') {
+        setForm(attempt.request.customer);
+        setPaymentMethod(attempt.request.paymentMethod);
+        setDeliveryZone(attempt.request.deliveryZone);
+        setPromotionInput(attempt.request.promotionCode || '');
+        setSubmittedItems(attempt.submittedItems);
+        setIsReviewing(true);
+        setSubmitError(
+          'حالة محاولة سابقة غير معروفة. أعد التحقق الأمني ثم اضغط «التحقق من نفس الطلب»؛ لن ننشئ مفتاحًا جديدًا.'
+        );
+      }
+    }).catch((error: unknown) => {
+      if (!active) return;
+      setSubmitError(error instanceof Error ? error.message : 'تعذر استرداد محاولة الطلب بأمان.');
+    });
+    return () => { active = false; };
+  }, [coordinator, isOpen, onOrderCreated, receipt]);
+
+  useEffect(() => {
+    if (!isOpen || receipt || pendingAttempt?.serverState === 'UNKNOWN') return;
     const saved = readSavedGuestCustomer(window.localStorage);
     if (saved) {
       setForm(saved);
@@ -216,7 +281,7 @@ export function CheckoutModal({
             : 'current'
       );
     }
-  }, [isOpen, receipt]);
+  }, [isOpen, pendingAttempt?.serverState, receipt]);
 
   useEffect(() => {
     if (!settingsUnavailable || receipt) return;
@@ -406,9 +471,9 @@ export function CheckoutModal({
     setIsApplyingPromotion(true);
     setPromotionError('');
     try {
-      const quote = await previewGuestPromotion(
+      const quote = await previewGuestPromotionV2(
+        buildGuestOrderV2Lines(items),
         code,
-        buildGuestOrderItems(items),
         form.phone
       );
       setPromotionInput(quote.code);
@@ -496,7 +561,8 @@ export function CheckoutModal({
   };
 
   const handleSubmit = async () => {
-    if (!validateForReview()) return;
+    const recoveryAttempt = pendingAttempt?.serverState === 'UNKNOWN' ? pendingAttempt : null;
+    if (!recoveryAttempt && !validateForReview()) return;
     if (!turnstileToken) {
       setSubmitError('أكمل التحقق الأمني قبل إرسال الطلب.');
       return;
@@ -504,52 +570,91 @@ export function CheckoutModal({
 
     setIsSubmitting(true);
     setSubmitError('');
+    let attempt: PersistedCheckoutAttemptV2 | null = recoveryAttempt;
     try {
-      const fingerprint = createOrderFingerprint(
-        form,
-        items,
-        activePromotionQuote?.code,
-        paymentMethod,
-        deliveryZone
-      );
-      const idempotencyKey = getOrCreateIdempotencyKey(
-        window.localStorage,
-        fingerprint
-      );
-      const result = await submitGuestCustomerOrder({
-        idempotencyKey,
-        turnstileToken,
-        clientSessionId: getOrCreateGuestOrderSessionId(
-          window.sessionStorage
-        ),
-        customer: form,
-        items: buildGuestOrderItems(items),
-        promotionCode: activePromotionQuote?.code,
-        paymentMethod,
-        deliveryZone,
-      });
-      clearPendingOrder(window.localStorage);
-      if (saveCustomerDetails) saveGuestCustomer(window.localStorage, form);
-      else clearSavedGuestCustomer(window.localStorage);
-      saveLastGuestOrder(window.localStorage, result.orderNumber, items);
-      setSubmittedItems(items);
-      setReceipt(result);
-      onOrderCreated(result, items);
+      if (!attempt) {
+        const lines = buildGuestOrderV2Lines(items);
+        const authoritativeQuote = await previewGuestPromotionV2(
+          lines,
+          activePromotionQuote?.code,
+          form.phone
+        );
+        const request = {
+          contractVersion: 'phase3-customer-reservation-v2' as const,
+          idempotencyKey: crypto.randomUUID(),
+          clientSessionId: getOrCreateGuestOrderSessionId(window.sessionStorage),
+          customer: structuredClone(form),
+          items: lines,
+          promotionCode: authoritativeQuote.code || undefined,
+          paymentMethod,
+          deliveryZone,
+          expectedQuote: {
+            subtotalInMinorUnits: authoritativeQuote.subtotalInMinorUnits,
+            discountInMinorUnits: authoritativeQuote.discountInMinorUnits,
+            deliveryFeeInMinorUnits: selectedDeliveryFee,
+            totalInMinorUnits: authoritativeQuote.totalInMinorUnits + selectedDeliveryFee,
+          },
+        };
+        attempt = await coordinator.prepare(request, items);
+        setPendingAttempt(attempt);
+      }
+      const outcome = await coordinator.submit(attempt.attemptId, turnstileToken);
+      const latest = coordinator.read();
+      const latestAttempt = latest.attempt.status === 'VALID' ? latest.attempt.attempt : null;
+      setPendingAttempt(latestAttempt);
+      const result = 'receipt' in outcome ? outcome.receipt : undefined;
+      if (result) {
+        try {
+          if (saveCustomerDetails) saveGuestCustomer(window.localStorage, form);
+          else clearSavedGuestCustomer(window.localStorage);
+          saveLastGuestOrder(
+            window.localStorage,
+            result.orderNumber,
+            attempt.submittedItems
+          );
+        } catch {
+          // Durable server-success evidence remains authoritative.
+        }
+        setSubmittedItems(attempt.submittedItems);
+        setReceipt(result);
+        if (outcome.status === 'RECONCILED') {
+          onOrderCreated(result, attempt.submittedItems);
+          setSubmitError('');
+        } else {
+          setSubmitError(
+            outcome.status === 'BLOCKED_CART'
+              ? 'تم تسجيل الطلب، لكن السلة المحفوظة تحتاج معالجة صريحة قبل إكمال تسويتها محليًا.'
+              : outcome.status === 'SERVER_SUCCESS_MEMORY_ONLY'
+                ? outcome.message
+                : 'تم تسجيل الطلب، لكن تسوية السلة ما زالت معلقة محليًا. لن يُعاد إرسال الطلب.'
+          );
+        }
 
-      const popup = window.open(
-        buildWhatsAppUrl(
-          storeWhatsAppNumber,
-          buildWhatsAppOrderMessage({
-            receipt: result,
-            items,
-            paymentMethod,
-          })
-        ),
-        '_blank',
-        'noopener,noreferrer'
+        const popup = window.open(
+          buildWhatsAppUrl(
+            storeWhatsAppNumber,
+            buildWhatsAppOrderMessage({
+              receipt: result,
+              items: attempt.submittedItems,
+              paymentMethod: attempt.request.paymentMethod,
+            })
+          ),
+          '_blank',
+          'noopener,noreferrer'
+        );
+        if (popup) popup.opener = null;
+        return;
+      }
+      setTurnstileToken('');
+      setTurnstileResetSignal((current) => current + 1);
+      setSubmitError(
+        outcome.status === 'UNKNOWN' || outcome.status === 'REJECTED'
+          ? outcome.message
+          : 'تحتاج محاولة الطلب إلى مراجعة قبل المتابعة.'
       );
-      if (popup) popup.opener = null;
     } catch (error) {
+      const latest = coordinator.read();
+      setPendingAttempt(latest.attempt.status === 'VALID' ? latest.attempt.attempt : null);
       setTurnstileToken('');
       setTurnstileResetSignal((current) => current + 1);
       setSubmitError(
@@ -569,6 +674,11 @@ export function CheckoutModal({
     setTurnstileToken('');
     setTurnstileResetSignal((current) => current + 1);
     if (receipt) {
+      const resolvedAttempt = coordinator.read().attempt;
+      if (resolvedAttempt.status === 'VALID' && resolvedAttempt.attempt) {
+        void coordinator.dismissResolved(resolvedAttempt.attempt.attemptId);
+      }
+      setPendingAttempt(null);
       setReceipt(null);
       setForm(EMPTY_GUEST_CHECKOUT_FORM);
       setSubmittedItems([]);
@@ -665,6 +775,7 @@ export function CheckoutModal({
             storeWhatsAppNumber={storeWhatsAppNumber}
             onClose={handleClose}
             onTrackOrder={onTrackOrder}
+            reconciliationNotice={submitError || undefined}
           />
         ) : settingsUnavailable ? (
           <div className="p-6 text-center sm:p-10">
@@ -694,8 +805,8 @@ export function CheckoutModal({
                   </div>
 
                   <div className="divide-y divide-slate-100">
-                    {items.map((item) => (
-                      <div key={item.productId} className="flex items-center justify-between gap-3 py-3">
+                    {displayedItems.map((item) => (
+                      <div key={item.localLineId} className="flex items-center justify-between gap-3 py-3">
                         <div className="min-w-0">
                           <p className="truncate text-xs font-black text-slate-900">{item.nameAr}</p>
                           <p className="mt-1 text-[10px] font-bold text-slate-500">
@@ -751,7 +862,6 @@ export function CheckoutModal({
                     resetSignal={turnstileResetSignal}
                     onTokenChange={(token) => {
                       setTurnstileToken(token);
-                      if (token) setSubmitError('');
                     }}
                     onStatusChange={setTurnstileStatus}
                   />
@@ -767,11 +877,11 @@ export function CheckoutModal({
             </div>
 
             <footer className="grid gap-3 border-t border-slate-100 bg-slate-50 p-5 sm:grid-cols-[0.6fr_1.4fr] sm:px-7">
-              <button type="button" onClick={() => setIsReviewing(false)} disabled={isSubmitting} className="rounded-2xl border border-slate-200 bg-white px-5 py-4 text-xs font-black text-slate-700 disabled:opacity-50">
-                تعديل البيانات
+              <button type="button" onClick={() => setIsReviewing(false)} disabled={isSubmitting || pendingAttempt?.serverState === 'UNKNOWN'} className="rounded-2xl border border-slate-200 bg-white px-5 py-4 text-xs font-black text-slate-700 disabled:opacity-50">
+                {pendingAttempt?.serverState === 'UNKNOWN' ? 'البيانات مقفلة لهذه المحاولة' : 'تعديل البيانات'}
               </button>
               <button type="button" onClick={() => void handleSubmit()} disabled={isSubmitting || !turnstileToken || turnstileStatus !== 'verified'} className="flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-4 text-sm font-black text-white shadow-lg shadow-emerald-900/20 transition hover:bg-emerald-700 disabled:bg-slate-300">
-                {isSubmitting ? <><LoaderCircle className="h-5 w-5 animate-spin" /> جارٍ حفظ الطلب...</> : turnstileStatus === 'loading' || turnstileStatus === 'waiting' ? <><LoaderCircle className="h-5 w-5 animate-spin" /> جارٍ تجهيز التحقق الأمني...</> : <><CheckCircle2 className="h-5 w-5" /> تأكيد وحفظ الطلب في الإدارة</>}
+                {isSubmitting ? <><LoaderCircle className="h-5 w-5 animate-spin" /> جارٍ التحقق من الطلب...</> : turnstileStatus === 'loading' || turnstileStatus === 'waiting' ? <><LoaderCircle className="h-5 w-5 animate-spin" /> جارٍ تجهيز التحقق الأمني...</> : <><CheckCircle2 className="h-5 w-5" /> {pendingAttempt?.serverState === 'UNKNOWN' ? 'التحقق من نفس الطلب' : 'تأكيد وحفظ الطلب في الإدارة'}</>}
               </button>
             </footer>
           </div>
@@ -809,9 +919,9 @@ export function CheckoutModal({
                   </span>
                 </summary>
                 <div className="divide-y divide-slate-100 px-4">
-                  {items.map((item) => (
+                  {displayedItems.map((item) => (
                     <div
-                      key={item.productId}
+                      key={item.localLineId}
                       className="flex items-center justify-between gap-3 py-3"
                     >
                       <div className="min-w-0">
@@ -920,7 +1030,8 @@ export function CheckoutModal({
 
                 <div className="sm:col-span-2">
                   <Field
-                    label="تفاصيل العنوان والتوصيل (اختياري)"
+                    label="تفاصيل العنوان والتوصيل"
+                    required
                     error={errors.street}
                   >
                     <textarea
@@ -935,7 +1046,7 @@ export function CheckoutModal({
                       className={`${inputClassName} resize-none`}
                     />
                     <p className="mt-1.5 text-[10px] font-bold text-slate-500">
-                      أضف رقم المبنى أو أقرب معلم أو وقت التوصيل عند الحاجة. {form.street.length}/{MAX_GUEST_DELIVERY_DETAILS_LENGTH}
+                      اكتب الشارع أو رقم المبنى أو أقرب معلم ليسهل الوصول إليك. {form.street.length}/{MAX_GUEST_DELIVERY_DETAILS_LENGTH}
                     </p>
                   </Field>
                 </div>

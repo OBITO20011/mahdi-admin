@@ -75,17 +75,19 @@ let isolatedProjectRoot = '';
 let summary;
 
 try {
-  const { stdout } = await execFileAsync(process.execPath, [bootstrapPath], {
-    cwd: projectRoot,
-    windowsHide: true,
-    maxBuffer: 1024 * 1024,
-    timeout: 360_000,
-  });
-  const bootstrap = JSON.parse(stdout);
-  if (!bootstrap.ok || typeof bootstrap.isolatedProjectRoot !== 'string') {
-    throw new Error('The isolated Supabase bootstrap did not succeed.');
+  if (process.env.NAWASRAH_SKIP_BOOTSTRAP !== '1') {
+    const { stdout } = await execFileAsync(process.execPath, [bootstrapPath], {
+      cwd: projectRoot,
+      windowsHide: true,
+      maxBuffer: 1024 * 1024,
+      timeout: 360_000,
+    });
+    const bootstrap = JSON.parse(stdout);
+    if (!bootstrap.ok || typeof bootstrap.isolatedProjectRoot !== 'string') {
+      throw new Error('The isolated Supabase bootstrap did not succeed.');
+    }
+    isolatedProjectRoot = bootstrap.isolatedProjectRoot;
   }
-  isolatedProjectRoot = bootstrap.isolatedProjectRoot;
 
   const sql = await readFile(runtimeSqlPath, 'utf8');
   const output = await runSql(sql);

@@ -14,6 +14,7 @@ declare const Deno: {
 };
 
 interface GuestOrderGatewayBody {
+  contractVersion?: unknown;
   idempotencyKey?: unknown;
   turnstileToken?: unknown;
   clientSessionId?: unknown;
@@ -22,6 +23,7 @@ interface GuestOrderGatewayBody {
   promotionCode?: unknown;
   paymentMethod?: unknown;
   deliveryZone?: unknown;
+  expectedQuote?: Record<string, unknown>;
 }
 
 const approvedOrigins = new Set([
@@ -191,11 +193,17 @@ export async function handleGuestOrderRequest(
     return jsonResponse({error: 'راجع بيانات الطلب ثم حاول مرة أخرى.', code: 'invalid_request'}, 400, origin);
   }
   const body = parsedRequest.body;
+  const contractVersion = text(body.contractVersion, 80);
+  const isCustomerV2 = contractVersion === 'phase3-customer-reservation-v2';
+  if (contractVersion && !isCustomerV2) {
+    return jsonResponse({error: 'إصدار الطلب غير مدعوم.', code: 'unsupported_contract'}, 400, origin);
+  }
 
   const idempotencyKey = text(body.idempotencyKey, 64);
   const clientSessionId = text(body.clientSessionId, 64);
   const turnstileToken = text(body.turnstileToken, MAX_TURNSTILE_TOKEN_LENGTH + 1);
   const customer = body.customer || {};
+  const expectedQuote = body.expectedQuote || {};
   const items = Array.isArray(body.items) ? body.items : [];
   const phone = normalizeJordanPhone(customer.phone);
   const clientIp = extractTrustedClientIp(request.headers);
@@ -284,29 +292,65 @@ export async function handleGuestOrderRequest(
   let orderResponse: Response;
   let orderResult: Record<string, unknown>;
   try {
+    const rpcName = isCustomerV2
+      ? 'submit_guest_customer_order_v2'
+      : 'submit_guest_customer_order';
+    const rpcPayload = isCustomerV2 ? {
+      p_idempotency_key: idempotencyKey,
+      p_guest_phone_hash: phoneHash,
+      p_guest_session_hash: sessionHash,
+      p_customer_full_name: text(customer.fullName, 120),
+      p_customer_phone: phone,
+      p_governorate: text(customer.governorate, 80),
+      p_city: text(customer.city, 80),
+      p_area: text(customer.area, 120),
+      p_street: text(customer.street, 300),
+      p_building: text(customer.building, 120) || null,
+      p_address_notes: text(customer.addressNotes, 500) || null,
+      p_google_maps_url: text(customer.googleMapsUrl, 1000) || null,
+      p_latitude: typeof customer.latitude === 'number' ? customer.latitude : null,
+      p_longitude: typeof customer.longitude === 'number' ? customer.longitude : null,
+      p_customer_notes: text(customer.customerNotes, 1000) || null,
+      p_lines: items,
+      p_promotion_code: text(body.promotionCode, 80) || null,
+      p_payment_method: text(body.paymentMethod, 30),
+      p_delivery_zone: text(body.deliveryZone, 30),
+      p_expected_subtotal_in_minor_units:
+        typeof expectedQuote.subtotalInMinorUnits === 'number'
+          ? expectedQuote.subtotalInMinorUnits : null,
+      p_expected_discount_in_minor_units:
+        typeof expectedQuote.discountInMinorUnits === 'number'
+          ? expectedQuote.discountInMinorUnits : null,
+      p_expected_delivery_fee_in_minor_units:
+        typeof expectedQuote.deliveryFeeInMinorUnits === 'number'
+          ? expectedQuote.deliveryFeeInMinorUnits : null,
+      p_expected_total_in_minor_units:
+        typeof expectedQuote.totalInMinorUnits === 'number'
+          ? expectedQuote.totalInMinorUnits : null,
+    } : {
+      p_idempotency_key: idempotencyKey,
+      p_customer_full_name: text(customer.fullName, 120),
+      p_customer_phone: phone,
+      p_governorate: text(customer.governorate, 80),
+      p_city: text(customer.city, 80),
+      p_area: text(customer.area, 120),
+      p_street: text(customer.street, 300),
+      p_building: text(customer.building, 120) || null,
+      p_address_notes: text(customer.addressNotes, 500) || null,
+      p_google_maps_url: text(customer.googleMapsUrl, 1000) || null,
+      p_latitude: typeof customer.latitude === 'number' ? customer.latitude : null,
+      p_longitude: typeof customer.longitude === 'number' ? customer.longitude : null,
+      p_customer_notes: text(customer.customerNotes, 1000) || null,
+      p_items: items,
+      p_promotion_code: text(body.promotionCode, 80) || null,
+      p_payment_method: text(body.paymentMethod, 30),
+      p_delivery_zone: text(body.deliveryZone, 30),
+    };
     orderResponse = await callRpc(
       supabaseUrl,
       serviceRoleKey,
-      'submit_guest_customer_order',
-      {
-        p_idempotency_key: idempotencyKey,
-        p_customer_full_name: text(customer.fullName, 120),
-        p_customer_phone: phone,
-        p_governorate: text(customer.governorate, 80),
-        p_city: text(customer.city, 80),
-        p_area: text(customer.area, 120),
-        p_street: text(customer.street, 300),
-        p_building: text(customer.building, 120) || null,
-        p_address_notes: text(customer.addressNotes, 500) || null,
-        p_google_maps_url: text(customer.googleMapsUrl, 1000) || null,
-        p_latitude: typeof customer.latitude === 'number' ? customer.latitude : null,
-        p_longitude: typeof customer.longitude === 'number' ? customer.longitude : null,
-        p_customer_notes: text(customer.customerNotes, 1000) || null,
-        p_items: items,
-        p_promotion_code: text(body.promotionCode, 80) || null,
-        p_payment_method: text(body.paymentMethod, 30),
-        p_delivery_zone: text(body.deliveryZone, 30),
-      },
+      rpcName,
+      rpcPayload,
       fetchImpl,
     );
     orderResult = await orderResponse.json() as Record<string, unknown>;

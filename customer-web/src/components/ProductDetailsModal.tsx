@@ -15,7 +15,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
-import { CatalogProduct } from '../types/catalog';
+import { CatalogProduct, PublicConfigurableParcelOption } from '../types/catalog';
 import { formatJod } from '../utils/money';
 import { CargoAddButton } from './CargoAddButton';
 import { ProductImage } from './ProductImage';
@@ -34,6 +34,10 @@ interface ProductDetailsModalProps {
   relatedProducts: CatalogProduct[];
   onClose: () => void;
   onAddQuantity: (product: CatalogProduct, quantity: number) => void;
+  onAddBaseUnit: (product: CatalogProduct) => void;
+  parcelOption?: PublicConfigurableParcelOption;
+  parcelOptionLoading?: boolean;
+  onOpenParcelBuilder: (product: CatalogProduct, option: PublicConfigurableParcelOption) => void;
   onOpenProduct: (product: CatalogProduct) => void;
   storeWhatsAppNumber: string;
   isFavorite: boolean;
@@ -48,6 +52,10 @@ export function ProductDetailsModal({
   relatedProducts,
   onClose,
   onAddQuantity,
+  onAddBaseUnit,
+  parcelOption,
+  parcelOptionLoading = false,
+  onOpenParcelBuilder,
   onOpenProduct,
   storeWhatsAppNumber,
   isFavorite,
@@ -518,6 +526,24 @@ export function ProductDetailsModal({
         </div>
 
         <footer className="shrink-0 border-t border-slate-100 bg-white px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 sm:px-7 sm:py-4">
+          <div className="mx-auto mb-3 grid max-w-3xl grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => onAddBaseUnit(product)}
+              disabled={product.salePriceInMinorUnits <= 0 || product.availableQuantity < 1}
+              className="min-h-12 rounded-2xl border border-blue-200 bg-blue-50 px-3 text-xs font-black text-blue-800 disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400"
+            >
+              إضافة {product.unitNameAr} — {formatJod(product.salePriceInMinorUnits)}
+            </button>
+            <button
+              type="button"
+              onClick={() => parcelOption && onOpenParcelBuilder(familyProduct, parcelOption)}
+              disabled={!parcelOption || parcelOptionLoading}
+              className="min-h-12 rounded-2xl bg-violet-700 px-3 text-xs font-black text-white disabled:bg-slate-300"
+            >
+              {parcelOptionLoading ? 'جارٍ تحميل خيارات الطرد...' : parcelOption ? 'كوّن طردًا بالنكهات' : 'الطرد المختلط غير متاح'}
+            </button>
+          </div>
           <div className="mx-auto flex max-w-3xl items-center gap-3">
             {!product.isAvailable ? (
               <a href={buildWhatsAppUrl(storeWhatsAppNumber, `مرحبًا، أريد الاستفسار عن توفر ${product.nameAr} (${product.sku}).`)} target="_blank" rel="noreferrer" className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 text-xs font-black text-white"><MessageCircle className="h-4 w-4" />اسألنا على واتساب</a>
