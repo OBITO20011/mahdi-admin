@@ -59,7 +59,12 @@
     "monitoring:test": "tsx --test tests/developer-monitoring.test.ts",
     "test:automation-delivery:runtime": "node scripts/testing/run-automation-delivery-hardening-runtime.mjs",
     "test:business-alerts:runtime": "node scripts/testing/run-core-business-alerts-runtime.mjs",
-    "test:advanced-monitoring:runtime": "node scripts/testing/run-advanced-monitoring-runtime.mjs"
+    "test:advanced-monitoring:runtime": "node scripts/testing/run-advanced-monitoring-runtime.mjs",
+    "agent:preflight": "node scripts/agent/preflight.mjs",
+    "agent:start": "node scripts/agent/start.mjs",
+    "agent:checkpoint": "node scripts/agent/checkpoint.mjs",
+    "agent:resume": "node scripts/agent/resume.mjs",
+    "agent:verify-handoff": "node scripts/agent/verify-handoff.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1128.0",

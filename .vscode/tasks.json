@@ -1,0 +1,54 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Agent: Preflight",
+      "type": "shell",
+      "command": "npm.cmd run agent:preflight",
+      "problemMatcher": []
+    },
+    {
+      "label": "Agent: Verify Handoff",
+      "type": "shell",
+      "command": "npm.cmd run agent:verify-handoff",
+      "problemMatcher": []
+    },
+    {
+      "label": "Agent: Start (prompted)",
+      "type": "shell",
+      "command": "npm.cmd run agent:start -- --owner ${input:agentOwner} --phase ${input:phase} --objective \"${input:objective}\"",
+      "problemMatcher": []
+    },
+    {
+      "label": "Agent: Resume",
+      "type": "shell",
+      "command": "npm.cmd run agent:resume",
+      "problemMatcher": []
+    },
+    {
+      "label": "Quality: Full",
+      "type": "shell",
+      "command": "npm.cmd run quality",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "agentOwner",
+      "type": "pickString",
+      "description": "Writing agent",
+      "options": ["codex", "claude"],
+      "default": "codex"
+    },
+    {
+      "id": "phase",
+      "type": "promptString",
+      "description": "Authorized phase (for example 4.3)"
+    },
+    {
+      "id": "objective",
+      "type": "promptString",
+      "description": "Bounded owner-approved objective"
+    }
+  ]
+}
