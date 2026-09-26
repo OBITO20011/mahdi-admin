@@ -51,6 +51,7 @@ engine.initAuth = async () => undefined;
 storeEngine.setCurrentUser({
   id: 'bottom-navigation-test-user',
   name: 'مستخدم اختبار التنقل السفلي',
+  avatarUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==',
   role: roleName === 'owner' ? 'Owner' : 'View Only',
   themeMode: requestedTheme,
 });

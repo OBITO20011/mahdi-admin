@@ -1,4 +1,4 @@
-import {expect, test} from '@playwright/test';
+import {expect, test} from './isolated-test';
 
 const adminBaseUrl = process.env.ADMIN_BASE_URL ?? 'http://127.0.0.1:4173';
 const actorId = '22222222-2222-4222-8222-222222222222';

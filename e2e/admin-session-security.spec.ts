@@ -1,4 +1,4 @@
-import {expect, test, type Page} from '@playwright/test';
+import {expect, test, type Page} from './isolated-test';
 
 const harnessUrl = 'http://127.0.0.1:4173/e2e/admin-session-security-harness.html';
 const idleLockMs = 15 * 60 * 1_000;

@@ -19,9 +19,12 @@ const supabasePublishableKey =
   )?.trim() || '';
 
 const normalizedSupabaseUrl = supabaseUrl.replace(/\/+$/, '');
+const isolatedBrowserQa = viteEnvironment.VITE_BROWSER_QA_ISOLATED === 'true';
+const isApprovedIsolatedBrowserQaUrl =
+  isolatedBrowserQa && normalizedSupabaseUrl === 'http://127.0.0.1:4176';
 
 export const isSupabaseConfigured = Boolean(
-  /^https:\/\/.+\.supabase\.co\/?$/.test(supabaseUrl) &&
+  (/^https:\/\/.+\.supabase\.co\/?$/.test(supabaseUrl) || isApprovedIsolatedBrowserQaUrl) &&
     supabasePublishableKey.length > 10
 );
 

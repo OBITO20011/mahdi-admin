@@ -1,12 +1,44 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import test from 'node:test';
 import { assertLifecycleRace } from '../scripts/testing/phase3-lifecycle-harness.mjs';
 import { isExpectedGatewayReadinessRejection } from '../scripts/testing/gateway-readiness-contract.mjs';
 
 const checkoutBrowserHarness = readFileSync(
   new URL('../scripts/testing/run-customer-checkout-browser-e2e.mjs', import.meta.url),
+  'utf8'
+);
+const phase3RuntimeHarness = readFileSync(
+  new URL('../scripts/testing/run-phase3-configurable-parcel-contracts-runtime.mjs', import.meta.url),
+  'utf8'
+);
+const browserIsolationFixture = readFileSync(
+  new URL('../e2e/isolated-test.ts', import.meta.url),
+  'utf8'
+);
+const playwrightConfig = readFileSync(
+  new URL('../playwright.config.ts', import.meta.url),
+  'utf8'
+);
+const packageManifest = readFileSync(
+  new URL('../package.json', import.meta.url),
+  'utf8'
+);
+const isolatedViteHarness = readFileSync(
+  new URL('../scripts/testing/run-isolated-vite.mjs', import.meta.url),
+  'utf8'
+);
+const networkGuardHarness = readFileSync(
+  new URL('../scripts/testing/run-browser-network-guard.mjs', import.meta.url),
+  'utf8'
+);
+const networkAuditHarness = readFileSync(
+  new URL('../scripts/testing/playwright-network-audit.mjs', import.meta.url),
+  'utf8'
+);
+const customerSupabaseClient = readFileSync(
+  new URL('../customer-web/src/lib/supabase.ts', import.meta.url),
   'utf8'
 );
 
@@ -22,6 +54,56 @@ test('checkout browser fixtures select a catalog-eligible unit deterministically
     checkoutBrowserHarness.indexOf('await assertPublicCatalogFixtures(apiUrl, anonKey);') <
       checkoutBrowserHarness.indexOf("'test', 'e2e/customer-checkout-isolated.spec.ts'"),
     'catalog fixture preflight must complete before Playwright starts'
+  );
+});
+
+test('browser QA fails closed on non-loopback traffic and quality uses isolated SEO data', () => {
+  assert.match(browserIsolationFixture, /context\.route\('\*\*\/\*'/u);
+  assert.match(browserIsolationFixture, /route\.abort\('blockedbyclient'\)/u);
+  assert.doesNotMatch(browserIsolationFixture, /\['image', 'media', 'font'\]\.includes\(request\.resourceType\(\)\)/u);
+  assert.match(browserIsolationFixture, /blockedRequests[\s\S]*?toEqual\(\[\]\)/u);
+  assert.match(browserIsolationFixture, /assertLoopbackTestTarget/u);
+  assert.match(playwrightConfig, /baseURL: 'http:\/\/127\.0\.0\.1:4173'/u);
+  assert.match(playwrightConfig, /proxy: \{ server: 'http:\/\/127\.0\.0\.1:4175' \}/u);
+  assert.match(playwrightConfig, /run-browser-network-guard\.mjs 4175/u);
+  assert.match(playwrightConfig, /playwright-global-setup\.mjs/u);
+  assert.match(playwrightConfig, /playwright-global-teardown\.mjs/u);
+  assert.match(networkGuardHarness, /server\.on\('connect'/u);
+  assert.match(networkGuardHarness, /Browser QA network guard blocked non-loopback traffic/u);
+  assert.match(networkAuditHarness, /result\.denied\.length > 0/u);
+  assert.match(playwrightConfig, /serviceWorkers: 'block'/u);
+  assert.match(playwrightConfig, /run-isolated-vite\.mjs admin 4173/u);
+  assert.match(playwrightConfig, /run-isolated-vite\.mjs customer 4174/u);
+  assert.match(packageManifest, /node scripts\/testing\/run-customer-isolated-build\.mjs/u);
+  assert.match(isolatedViteHarness, /VITE_SUPABASE_URL: 'http:\/\/127\.0\.0\.1:4176'/u);
+  assert.match(isolatedViteHarness, /VITE_BROWSER_QA_ISOLATED: 'true'/u);
+  assert.match(browserIsolationFixture, /isolatedSupabaseOrigin = 'http:\/\/127\.0\.0\.1:4176'/u);
+  assert.match(customerSupabaseClient, /VITE_BROWSER_QA_ISOLATED === 'true'/u);
+  assert.match(customerSupabaseClient, /normalizedSupabaseUrl === 'http:\/\/127\.0\.0\.1:4176'/u);
+  assert.doesNotMatch(isolatedViteHarness, /acjtabdqqnpwhdvbvnyw/u);
+
+  const e2eDirectory = new URL('../e2e/', import.meta.url);
+  const specFiles = readdirSync(e2eDirectory)
+    .filter((name) => name.endsWith('.spec.ts'));
+  assert.ok(specFiles.length > 0);
+  for (const specFile of specFiles) {
+    const source = readFileSync(new URL(specFile, e2eDirectory), 'utf8');
+    assert.doesNotMatch(source, /from '@playwright\/test'/u, specFile);
+    assert.match(source, /from '\.\/isolated-test'/u, specFile);
+    assert.doesNotMatch(source, /launchOptions\s*:/u, specFile);
+    assert.doesNotMatch(source, /proxy\s*:/u, specFile);
+  }
+});
+
+test('Node-side Browser QA proxying accepts only an explicit loopback target', () => {
+  const checkout = readFileSync(
+    new URL('../e2e/customer-checkout-isolated.spec.ts', import.meta.url),
+    'utf8'
+  );
+  assert.match(checkout, /assertLoopbackTestTarget\(isolatedApiUrl, 'M10 isolated API'\)/u);
+  assert.ok(
+    checkout.indexOf("assertLoopbackTestTarget(isolatedApiUrl, 'M10 isolated API')")
+      < checkout.indexOf('await fetch(target'),
   );
 });
 
@@ -59,6 +141,21 @@ test('contender rejection is observed before asynchronous lock release', () => {
     "const p=Promise.reject(new Error('OLD_UNOBSERVED')); setTimeout(()=>p.catch(()=>{}),25);"],
   { stdio: 'pipe' }), (error: NodeJS.ErrnoException & {status?: number; stderr?: Buffer}) =>
     error.status === 1 && /Error: OLD_UNOBSERVED/u.test(error.stderr?.toString() || ''));
+});
+
+test('POS reversal races attach rejection observers before releasing lock holders', () => {
+  const race = phase3RuntimeHarness.match(
+    /const runSaleAndReversalConcurrencyTest = async \(\) => \{[\s\S]*?\n\};/u,
+  )?.[0] ?? '';
+  const legacyRace = phase3RuntimeHarness.match(
+    /const runLegacySaleAndReversalConcurrencyTest = async \(\) => \{[\s\S]*?\n\};/u,
+  )?.[0] ?? '';
+  assert.match(race, /const laterSale = observeOutcome\(readJson/u);
+  assert.match(race, /const reversal = observeOutcome\(readJson/u);
+  assert.match(race, /await holder\.release\(\);[\s\S]*?Promise\.all\(\[laterSale, reversal\]\)/u);
+  assert.doesNotMatch(race, /Promise\.allSettled\(\[laterSale, reversal\]\)/u);
+  assert.match(legacyRace, /const reversal = observeOutcome\(readJson/u);
+  assert.match(legacyRace, /await saleHolder\.release\(\);[\s\S]*?Promise\.all\(\[reversal\]\)/u);
 });
 
 test('race assertions reject double effects, wrong winner and unrelated SQL errors', () => {

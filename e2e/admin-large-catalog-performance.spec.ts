@@ -1,4 +1,4 @@
-import {expect, test, type BrowserContext, type Page, type Route} from '@playwright/test';
+import {expect, test, type BrowserContext, type Page, type Route} from './isolated-test';
 
 const baseUrl = process.env.ADMIN_LARGE_CATALOG_BASE_URL;
 const email = process.env.ADMIN_LARGE_CATALOG_EMAIL;
@@ -69,7 +69,7 @@ test.describe('isolated Admin 5k catalog performance', () => {
       if (body?.p_search === 'LCAT-000001') {
         await new Promise((resolve) => setTimeout(resolve, 800));
       }
-      await route.continue();
+      await route.fallback();
     });
 
     await page.goto(baseUrl!);

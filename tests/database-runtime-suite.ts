@@ -120,6 +120,12 @@ const phase4FoundationRuntimeScript = path.join(
   'testing',
   'run-phase4-returns-foundation-runtime.mjs',
 );
+const phase42ReturnRuntimeScript = path.join(
+  projectRoot,
+  'scripts',
+  'testing',
+  'run-phase42-atomic-return-runtime.mjs',
+);
 const guestGatewayRuntimeScript = path.join(
   projectRoot,
   'scripts',
@@ -1066,6 +1072,71 @@ test(
         assert.equal(result.settledReplayAfterDeadline?.zeroWrites, true);
         assert.equal(result.mixedReversalLockOrder?.bothCompleted, true);
         assert.equal(result.mixedReversalLockOrder?.deadlockDelta, 0);
+      },
+    );
+
+    await context.test(
+      'Phase 4.2 atomic Return settlement and cross-operation races pass',
+      async () => {
+        const { stdout } = await execFileAsync(
+          process.execPath,
+          [phase42ReturnRuntimeScript],
+          {
+            cwd: projectRoot,
+            windowsHide: true,
+            maxBuffer: 1024 * 1024,
+            timeout: 600_000,
+          },
+        );
+        const result = JSON.parse(stdout) as {
+          ok?: boolean;
+          freshRebuild?: string;
+          phase3PrerequisiteScenarios?: number;
+          settlementEvidenceBinding?: Record<string, boolean>;
+          core?: Record<string, boolean>;
+          temporalAndEvidence?: Record<string, boolean>;
+          concurrency?: {
+            deadlockDelta?: number;
+            exactlyOneSettlement?: boolean;
+            loserZeroPartialWrites?: boolean;
+          };
+          crossOperationConcurrency?: {
+            returnVsPaymentBothDirections?: boolean;
+            returnVsPaymentReversal?: boolean;
+            returnVsPosReversal?: Record<string, boolean>;
+            returnVsFullShiftReversal?: Record<string, boolean>;
+            returnVsReplacement?: Record<string, boolean>;
+            deadlockDelta?: number;
+            losingTransactionsZeroPartialWrites?: boolean;
+          };
+        };
+        assert.equal(result.ok, true);
+        assert.equal(result.freshRebuild, '001-121');
+        assert.equal(result.phase3PrerequisiteScenarios, 30);
+        for (const value of Object.values(result.settlementEvidenceBinding ?? {})) {
+          assert.equal(value, true);
+        }
+        for (const value of Object.values(result.core ?? {})) assert.equal(value, true);
+        for (const value of Object.values(result.temporalAndEvidence ?? {})) {
+          assert.equal(value, true);
+        }
+        assert.equal(result.concurrency?.deadlockDelta, 0);
+        assert.equal(result.concurrency?.exactlyOneSettlement, true);
+        assert.equal(result.concurrency?.loserZeroPartialWrites, true);
+        assert.equal(result.crossOperationConcurrency?.returnVsPaymentBothDirections, true);
+        assert.equal(result.crossOperationConcurrency?.returnVsPaymentReversal, true);
+        for (const matrix of [
+          result.crossOperationConcurrency?.returnVsPosReversal,
+          result.crossOperationConcurrency?.returnVsFullShiftReversal,
+          result.crossOperationConcurrency?.returnVsReplacement,
+        ]) {
+          for (const value of Object.values(matrix ?? {})) assert.equal(value, true);
+        }
+        assert.equal(result.crossOperationConcurrency?.deadlockDelta, 0);
+        assert.equal(
+          result.crossOperationConcurrency?.losingTransactionsZeroPartialWrites,
+          true,
+        );
       },
     );
 

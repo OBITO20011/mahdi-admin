@@ -1,5 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page } from './isolated-test';
 
 const customerBaseUrl = process.env.CUSTOMER_BASE_URL ?? 'http://127.0.0.1:4174';
 

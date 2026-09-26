@@ -1578,23 +1578,23 @@ const runSaleAndReversalConcurrencyTest = async () => {
     `SELECT pg_advisory_xact_lock(hashtextextended('inventory-product:${OTHER}',0))`,
     'phase3-sale-reversal-holder',
   );
-  const laterSale = readJson(`SET application_name='${appSale}'; ${ownerClaimsSql}
+  const laterSale = observeOutcome(readJson(`SET application_name='${appSale}'; ${ownerClaimsSql}
     SELECT public.create_pos_sale_v2(
       '92400000-0000-0000-0000-000000000201',
       '92400000-0000-0000-0000-000000000200', NULL,
       'Later sale wins before reversal', 'cash', '${baseRequest}'::jsonb,
       0, 900, '${laterSaleKey}'
-    );`);
+    );`));
   await waitForBlockedApplications([appSale]);
-  const reversal = readJson(`SET application_name='${appReversal}'; ${ownerClaimsSql}
+  const reversal = observeOutcome(readJson(`SET application_name='${appReversal}'; ${ownerClaimsSql}
     SELECT public.reverse_pos_sale(
       '${original.orderId}',
       'اختبار حارس الحركة اللاحقة',
       '${reversalKey}'
-    );`);
+    );`));
   await waitForBlockedApplications([appSale, appReversal]);
   await holder.release();
-  const settled = await Promise.allSettled([laterSale, reversal]);
+  const settled = await Promise.all([laterSale, reversal]);
   assert.equal(settled[0].status, 'fulfilled');
   assert.equal(settled[1].status, 'rejected');
   assertFailureIdentity(settled[1].reason.message, {
@@ -1654,15 +1654,15 @@ const runLegacySaleAndReversalConcurrencyTest = async () => {
         0, 4500, '${saleFirstLaterKey}'
       )`, `phase3-v1-sale-first-holder-${iteration}`);
     const reversalApplication = `phase3-v1-sale-first-reversal-${iteration}`;
-    const reversal = readJson(`SET application_name='${reversalApplication}';
+    const reversal = observeOutcome(readJson(`SET application_name='${reversalApplication}';
       ${ownerClaimsSql}
       SELECT public.reverse_pos_sale(
         '${original.orderId}', 'اختبار بيع V1 قبل العكس',
         '${saleFirstReversalKey}'
-      );`);
+      );`));
     await waitForBlockedApplications([reversalApplication]);
     await saleHolder.release();
-    const settledReversal = await Promise.allSettled([reversal]);
+    const settledReversal = await Promise.all([reversal]);
     assert.equal(settledReversal[0].status, 'rejected');
     assertFailureIdentity(settledReversal[0].reason.message, {
       sqlState: 'P0001',

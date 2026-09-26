@@ -1,4 +1,4 @@
-import {expect, test, type BrowserContext, type Page} from '@playwright/test';
+import {expect, test, type BrowserContext, type Page} from './isolated-test';
 
 const baseUrl = process.env.ADMIN_SESSION_E2E_BASE_URL;
 const email = process.env.ADMIN_SESSION_E2E_EMAIL;
@@ -195,7 +195,7 @@ test.describe('isolated integrated Admin session security', () => {
         await new Promise((resolve) => setTimeout(resolve, 300));
         delayNextRequest = false;
       }
-      await route.continue();
+      await route.fallback();
     });
 
     await openProfileSecurity(page);
@@ -257,7 +257,7 @@ test.describe('isolated integrated Admin session security', () => {
     await context.route('**/auth/v1/user', async (route) => {
       userRequestCount += 1;
       if (userRequestCount === 1) await firstRequestGate;
-      await route.continue();
+      await route.fallback();
     });
 
     await openProfileSecurity(page);

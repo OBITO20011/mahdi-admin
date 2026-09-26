@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './isolated-test';
 
 const customerBaseUrl =
   process.env.CUSTOMER_BASE_URL ?? 'http://127.0.0.1:4174';

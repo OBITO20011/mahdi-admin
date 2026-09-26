@@ -1,4 +1,4 @@
-import { cp, mkdtemp, mkdir, readFile, writeFile, rmdir } from 'node:fs/promises';
+import { cp, mkdtemp, mkdir, readFile, readdir, unlink, writeFile, rmdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -15,6 +15,13 @@ const isolatedConfigPath = path.join(isolatedSupabaseRoot, 'config.toml');
 const isolatedProjectId = process.env.NAWASRAH_ISOLATED_PROJECT_ID ||
   'nawasrah-phase7-test';
 const skipRedundantReset = process.env.NAWASRAH_SKIP_REDUNDANT_DB_RESET === 'true';
+const maximumMigration = process.env.NAWASRAH_MAX_MIGRATION
+  ? Number.parseInt(process.env.NAWASRAH_MAX_MIGRATION, 10)
+  : null;
+if (maximumMigration !== null
+  && (!Number.isInteger(maximumMigration) || maximumMigration < 1)) {
+  throw new Error('NAWASRAH_MAX_MIGRATION must be one positive integer.');
+}
 if (!/^nawasrah-[a-z0-9-]+-test$/u.test(isolatedProjectId)) {
   throw new Error('Isolated bootstrap requires an explicit Nawasrah test project identity.');
 }
@@ -85,6 +92,17 @@ await Promise.all([
     recursive: true,
   }),
 ]);
+
+if (maximumMigration !== null) {
+  const isolatedMigrations = path.join(isolatedSupabaseRoot, 'migrations');
+  const migrationNames = await readdir(isolatedMigrations);
+  for (const migrationName of migrationNames) {
+    const prefix = Number.parseInt(migrationName.match(/^(\d+)_/u)?.[1] ?? '', 10);
+    if (Number.isInteger(prefix) && prefix > maximumMigration) {
+      await unlink(path.join(isolatedMigrations, migrationName));
+    }
+  }
+}
 
 if (process.env.NAWASRAH_FUNCTION_ENV_FILE_CONTENT) {
   await writeFile(

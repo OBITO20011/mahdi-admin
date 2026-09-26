@@ -1,4 +1,4 @@
-import {expect, test, type Page, type Route} from '@playwright/test';
+import {expect, test, type Page, type Route} from './isolated-test';
 
 const harnessUrl =
   'http://127.0.0.1:4173/e2e/admin-direct-receiving-recovery-harness.html';
@@ -95,7 +95,7 @@ const installIsolatedBackend = async (
   let resolverCallCount = 0;
   let pendingResolverRoute: Route | null = null;
 
-  await page.route('https://**.supabase.co/**', async (route) => {
+  await page.route('**/rest/v1/**', async (route) => {
     const request = route.request();
     const url = new URL(request.url());
     const path = url.pathname;

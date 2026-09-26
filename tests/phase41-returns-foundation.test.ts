@@ -99,7 +99,6 @@ test('migrations 001-119 retain the approved Phase-3 baseline', () => {
     }))),
     '294CD072D0C9AAD456901504BA3EF044CF538DA6ECA14AC68E8EC2F08FCCF7F8',
   );
-  assert.equal(migrationNames.some((name) => name.startsWith('121_')), false);
 });
 
 test('Migration 120 is bounded to Phase-4 foundation and lock compatibility', () => {

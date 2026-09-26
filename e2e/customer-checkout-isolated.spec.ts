@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { assertLoopbackTestTarget, expect, test, type Page } from './isolated-test';
 
 const customerBaseUrl = process.env.M10_CUSTOMER_BASE_URL;
 const publicSupabaseUrl = process.env.M10_PUBLIC_SUPABASE_URL;
@@ -101,6 +101,7 @@ async function useIsolatedBackend(
   afterCommittedGatewayResponse?: () => Promise<'DROP_RESPONSE' | void>
 ) {
   if (!publicSupabaseUrl || !isolatedApiUrl) throw new Error('M10 isolation is not configured.');
+  assertLoopbackTestTarget(isolatedApiUrl, 'M10 isolated API');
   isolatedClientSequence += 1;
   const isolatedClientIp = `198.51.100.${isolatedClientSequence}`;
 

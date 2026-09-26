@@ -1779,6 +1779,7 @@ try {
       ...process.env,
       NAWASRAH_ISOLATED_PROJECT_ID: projectId,
       NAWASRAH_SKIP_REDUNDANT_DB_RESET: 'true',
+      NAWASRAH_MAX_MIGRATION: '120',
       NAWASRAH_SUPABASE_EXCLUDE:
         'realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor',
     },
