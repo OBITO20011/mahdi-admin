@@ -19,21 +19,27 @@ test('Codex and Claude resolve the same agent-neutral project contract', () => {
   assert.match(agents + claude, /Production/iu);
 });
 
-test('closed-phase state is explicit and Migration 121 is pinned', () => {
+test('closed Phase 4.3 state and Migration 122 ceiling are explicit', () => {
   const state = JSON.parse(read('docs/agent/project-state.json')) as {
     closedPhases: string[];
-    nextPermittedPhase: string;
+    currentPhase: null;
+    nextPermittedPhase: null;
     phase43Started: boolean;
+    phase44Started: boolean;
     migrationCeiling: number;
     migration121Sha256: string;
-    migration122MustBeAbsent: boolean;
+    migration122Sha256: string;
+    migration123MustBeAbsent: boolean;
   };
-  assert.deepEqual(state.closedPhases, ['3', '4.1', '4.2']);
-  assert.equal(state.nextPermittedPhase, '4.3');
-  assert.equal(state.phase43Started, false);
-  assert.equal(state.migrationCeiling, 121);
+  assert.deepEqual(state.closedPhases, ['3', '4.1', '4.2', '4.3']);
+  assert.equal(state.currentPhase, null);
+  assert.equal(state.nextPermittedPhase, null);
+  assert.equal(state.phase43Started, true);
+  assert.equal(state.phase44Started, false);
+  assert.equal(state.migrationCeiling, 122);
   assert.equal(state.migration121Sha256, '9779212034A901DBB971A68EC485D16B0AA4BE329478B9DAF1A4263CE6989BDD');
-  assert.equal(state.migration122MustBeAbsent, true);
+  assert.equal(state.migration122Sha256, 'DED829F8EF84F49EABD8D9AAA76D460632E36B86A8D041228DDB91692CA15C24');
+  assert.equal(state.migration123MustBeAbsent, true);
 });
 
 test('handoff tooling is fail-closed and never stores environment values', () => {
@@ -43,6 +49,7 @@ test('handoff tooling is fail-closed and never stores environment values', () =>
   const verify = read('scripts/agent/verify-handoff.mjs');
   assert.match(preflight, /productionEnvironmentNames/u);
   assert.match(preflight, /migration121Sha256/u);
+  assert.match(preflight, /migration122Sha256/u);
   assert.match(start, /dirty worktree/u);
   assert.match(resume, /workingTreeFingerprint/u);
   assert.match(verify, /possible secret material/u);

@@ -22,4 +22,4 @@ Repository architecture references remain useful: `ARCHITECTURE.md`, `DATABASE_D
 
 ## Current boundary
 
-Phases 3, 4.1, and 4.2 are owner-closed. Phase 4.3 has not started. The approved remote/local baseline is recorded in `project-state.json`.
+Phases 3, 4.1, 4.2, and 4.3 are owner-closed. Phase 4.4 has not started and requires explicit owner authorization. The approved baseline and migration ceiling are recorded in `project-state.json`.

@@ -21,6 +21,9 @@
 - Operational settlement must have durable relational evidence for the exact operation and expected inventory/financial effects. Foundation-only settled-looking state is not operational success.
 - Same-key committed replay returns the stored immutable outcome with zero duplicate effects, including after the eligibility deadline.
 - Phase 4.2 is Return settlement. Do not silently expand it into Supplier Claims, full Accounting Core, or Phase 4.3.
+- Phase 4.3 owns Admin integration, authoritative aftercare read contracts and operational Replacement V1 issuance. Replacement is same SKU and quantity, has no refund/debt effect, and persists issuance-time inventory/cost evidence without mutating original-sale COGS.
+- A later Return consumes the current physical lineage leaf. Refund entitlement remains original-sale truth; sellable restock valuation uses that leaf's immutable historical cost (replacement-time cost for an issued replacement), never current WAC. Non-sellable and customer-damage paths do not restock sellable inventory.
+- Phase 4.3 public clients may call only the public aftercare read/coordinator contracts. Internal finalizers, guards and evidence tables remain private authority boundaries.
 
 ## Change discipline
 

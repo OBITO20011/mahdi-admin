@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 export const root = resolve(import.meta.dirname, '../..');
@@ -69,13 +69,16 @@ export function commandVersion(command, args = ['--version']) {
 
 export function migrationInventory() {
   const state = readJson(statePath);
-  const migration = resolve(root, 'supabase/migrations/121_phase42_atomic_return_coordinator.sql');
-  const migration122 = git(['ls-files', '--', 'supabase/migrations/122_*.sql']);
+  const migration121 = resolve(root, 'supabase/migrations/121_phase42_atomic_return_coordinator.sql');
+  const migration122 = resolve(root, 'supabase/migrations/122_phase43_admin_aftercare_integration.sql');
+  const migrationFiles = readdirSync(resolve(root, 'supabase/migrations'));
   return {
     ceiling: state.migrationCeiling,
-    migration121Exists: existsSync(migration),
-    migration121Sha256: existsSync(migration) ? fileSha256(migration) : null,
-    migration122Absent: migration122.length === 0,
+    migration121Exists: existsSync(migration121),
+    migration121Sha256: existsSync(migration121) ? fileSha256(migration121) : null,
+    migration122Exists: existsSync(migration122),
+    migration122Sha256: existsSync(migration122) ? fileSha256(migration122) : null,
+    migration123Absent: !migrationFiles.some((name) => name.startsWith('123_') && name.endsWith('.sql')),
   };
 }
 

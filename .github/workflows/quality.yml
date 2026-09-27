@@ -69,3 +69,6 @@ jobs:
 
       - name: Run sequential isolated database runtime suites
         run: npm run test:db:runtime
+
+      - name: Run Phase 4.3 Admin aftercare runtime contract
+        run: npm run test:phase43-aftercare:runtime

@@ -33,7 +33,7 @@ const migrationContentHash = (filename: string, content: Uint8Array): string => 
   .digest('hex')
   .toUpperCase();
 
-test('Migration 121 is the only new migration and preserves approved Migration 120', () => {
+test('Migration 121 preserves approved Migration 120 before Phase 4.3', () => {
   assert.equal(
     migrationContentHash('120_phase4_returns_refunds_foundation.sql', migration120Bytes),
     '58C5E40E8E65D67440ACFFD6D6F11616CC3CD3C9434FD59CD5C980395B70F7FA',
@@ -42,7 +42,8 @@ test('Migration 121 is the only new migration and preserves approved Migration 1
     migrationNames.filter((name) => name.startsWith('121_')).length,
     1,
   );
-  assert.equal(migrationNames.some((name) => name.startsWith('122_')), false);
+  assert.equal(migrationNames.filter((name) => name.startsWith('122_')).length, 1);
+  assert.equal(migrationNames.some((name) => name.startsWith('123_')), false);
   assert.match(migration121, /^BEGIN;/u);
   assert.match(migration121, /COMMIT;\s*$/u);
 });

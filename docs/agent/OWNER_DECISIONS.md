@@ -35,6 +35,7 @@ These are business decisions, not implementation suggestions.
 - A defective replacement may be replaced again only within that original window and with lineage to the original unit.
 - A current replacement can represent the original component in a later whole-Parcel Return; refund remains based on original-sale entitlement, not replacement cost.
 - Replacement stock outflow gets its own cost snapshot under inventory policy and does not reinterpret original COGS.
+- If that replacement is the current physical representative in a later Return, sellable restock valuation uses its immutable replacement-time cost snapshot. Current WAC is not a Return valuation source, and lineage consumption must not consume the original source twice.
 
 ## Deadline
 

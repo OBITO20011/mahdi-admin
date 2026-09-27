@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   AlertTriangle,
   Banknote,
@@ -23,7 +23,9 @@ import { useAppStoreActions } from '../../stores/useAppStore';
 import { Order, OrderStatus } from '../../types';
 import { CustomerLocationCard } from './CustomerLocationCard';
 import { EditAddressModal } from './EditAddressModal';
+import { AdminAftercarePanel } from './AdminAftercarePanel';
 import { buildStorefrontTrackingUrl } from '../../services/supabase/orders.service';
+import type { AdminAftercareCapability } from '../../services/supabase/salesAftercare.service';
 
 interface OrderDetailModalProps {
   order: Order;
@@ -150,6 +152,8 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   const [paymentReference, setPaymentReference] = useState('');
   const [paymentNotes, setPaymentNotes] = useState('');
   const [showReturnForm, setShowReturnForm] = useState(false);
+  const [aftercareCapability, setAftercareCapability] =
+    useState<AdminAftercareCapability | null>(null);
   const [returnReason, setReturnReason] = useState('');
   const [returnDisposition, setReturnDisposition] = useState<
     'restock' | 'damaged'
@@ -166,6 +170,9 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   );
   const [latestTrackingUrl, setLatestTrackingUrl] = useState('');
   const nextStep = nextOrderStep(order.status);
+  const handleAftercareContract = useCallback((capability: AdminAftercareCapability | null) => {
+    setAftercareCapability(capability);
+  }, []);
   const parsedDeliveryFee = Number(deliveryFeeInput);
   const settlementDeliveryFee = Number.isFinite(parsedDeliveryFee)
     ? parsedDeliveryFee
@@ -1045,7 +1052,31 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           </div>
         )}
 
+        {['completed', 'delivered'].includes(order.status) && (
+          <AdminAftercarePanel
+            order={order}
+            onChanged={onOrderChanged}
+            onContractResolved={handleAftercareContract}
+            notify={setToast}
+          />
+        )}
+
         {['completed', 'delivered'].includes(order.status) &&
+          aftercareCapability === 'legacy_pos_v1_unsupported' && (
+            <div className="rounded-xl border border-amber-700/60 bg-amber-950/30 p-3 text-sm text-amber-200">
+              هذا بيع POS تاريخي. خدمات ما بعد البيع الحديثة ومسار مرتجع الموقع غير متاحين لهذا العقد.
+            </div>
+          )}
+
+        {['completed', 'delivered'].includes(order.status) &&
+          aftercareCapability === 'unsupported_contract' && (
+            <div className="rounded-xl border border-rose-800 bg-rose-950/30 p-3 text-sm text-rose-200">
+              عقد إنشاء الطلب غير معروف؛ تم إيقاف إجراءات ما بعد البيع لهذا الطلب بأمان.
+            </div>
+          )}
+
+        {['completed', 'delivered'].includes(order.status) &&
+          aftercareCapability === 'legacy_website_return_v1' &&
           !showReturnForm && (
             <button
               type="button"
@@ -1059,6 +1090,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           )}
 
         {['completed', 'delivered'].includes(order.status) &&
+          aftercareCapability === 'legacy_website_return_v1' &&
           showReturnForm && (
             <div className="space-y-3 rounded-2xl border border-orange-700/60 bg-orange-950/30 p-3">
               <div>
