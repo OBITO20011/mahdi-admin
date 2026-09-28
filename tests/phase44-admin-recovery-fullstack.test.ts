@@ -53,18 +53,62 @@ test('Slice 4 asserts immutable recovery identity and zero-write durable fingerp
   assert.match(runner, /ROLLBACK/u);
 });
 
-test('Slice 4 stays preserved after Phase 4.4 owner closure', async () => {
-  const packageSource = await read('package.json');
-  assert.match(packageSource, /test:phase44-admin-recovery:fullstack/u);
-  const task = JSON.parse(await read('docs/agent/ACTIVE_TASK.json')) as {
-    objective: string; inProgress: string[]; prohibitions: string[];
+test('Slice 4 stays preserved after final Phase 4 owner closure', async () => {
+  const packageState = JSON.parse(await read('package.json')) as {
+    scripts: Record<string, string>;
   };
   assert.equal(
-    task.objective,
-    'Complete the owner-approved Phase 4.4 closure commit, push, and exact-SHA CI verification',
+    packageState.scripts['test:phase44-admin-recovery:fullstack'],
+    'node scripts/testing/run-phase44-admin-recovery-fullstack.mjs',
   );
-  assert.deepEqual(task.inProgress, [
-    'Phase 4.4 closure commit, push, and exact-SHA CI verification',
-  ]);
-  assert.ok(task.prohibitions.includes('Start Phase 4.5 without owner authorization'));
+  const projectState = JSON.parse(await read('docs/agent/project-state.json')) as {
+    approvedBaseline: string;
+    closedPhases: string[];
+    phase4Closed: boolean;
+    currentPhase: string | null;
+    phase44Started: boolean;
+    phase45Started: boolean;
+    phase5Started: boolean;
+  };
+  const phaseStatus = await read('docs/agent/PHASE_STATUS.md');
+  const task = JSON.parse(await read('docs/agent/ACTIVE_TASK.json')) as {
+    status: string;
+    baselineSha: string;
+    completed: string[];
+    inProgress: string[];
+    notStarted: string[];
+    testsRemaining: string[];
+    prohibitions: string[];
+  };
+
+  const closureSha = '247980af9636ab01b20c80cac6bb3d23de2cc584';
+  assert.equal(projectState.approvedBaseline, closureSha);
+  assert.deepEqual(projectState.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5']);
+  assert.equal(projectState.phase4Closed, true);
+  assert.equal(projectState.currentPhase, null);
+  assert.equal(projectState.phase44Started, true);
+  assert.equal(projectState.phase45Started, true);
+  assert.equal(projectState.phase5Started, false);
+  assert.match(phaseStatus, /\| Phase 4\.4 \| OWNER-CLOSED \|/u);
+  assert.match(phaseStatus, /\| Phase 4\.5 \| OWNER-CLOSED \|/u);
+  assert.match(phaseStatus, /\| Phase 4 \(overall\) \| OWNER-CLOSED \|/u);
+  assert.match(phaseStatus, /\| Phase 5 \| NOT STARTED \|/u);
+
+  assert.equal(task.status, 'IDLE');
+  assert.equal(task.baselineSha, closureSha);
+  assert.ok(task.completed.includes('Phase 4.4 owner-closed'));
+  assert.ok(task.completed.includes(
+    `Phase 4.4 closure commit ${closureSha} pushed to origin/main`,
+  ));
+  assert.ok(task.completed.includes(
+    `Exact-SHA Nawasrah code quality and secret scanning CI passed for ${closureSha}`,
+  ));
+  assert.ok(task.completed.includes(
+    'Phase 4.5 independent closure sign-off passed with zero findings and zero material evidence gaps',
+  ));
+  assert.ok(task.completed.includes('Phase 4 owner-closed'));
+  assert.deepEqual(task.inProgress, []);
+  assert.deepEqual(task.testsRemaining, []);
+  assert.deepEqual(task.notStarted, ['Phase 5']);
+  assert.ok(task.prohibitions.includes('Start Phase 5 without owner authorization'));
 });
