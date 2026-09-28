@@ -5,16 +5,39 @@ const host = '127.0.0.1';
 const port = Number(process.argv[2] ?? 4175);
 const loopbackHosts = new Set(['127.0.0.1', '::1', 'localhost']);
 const denied = [];
+const expectedBlockedCanaries = new Set();
+const blockedCanaryAttempts = [];
+const deniedUnexpectedAttempts = [];
+const escapedExternalRequests = [];
 
 const isLoopback = (hostname) => loopbackHosts.has(
   hostname.replace(/^\[|\]$/gu, '').toLowerCase(),
 );
 
+const signatureFor = (method, target) => `${method.toUpperCase()}\0${target}`;
+
 const recordDenied = (method, target) => {
-  denied.push({ method, target, at: new Date().toISOString() });
+  const event = { method: method.toUpperCase(), target, at: new Date().toISOString() };
+  denied.push(event);
+  if (expectedBlockedCanaries.has(signatureFor(event.method, event.target))) {
+    blockedCanaryAttempts.push(event);
+  } else {
+    deniedUnexpectedAttempts.push(event);
+  }
 };
 
-const server = http.createServer((request, response) => {
+const readJsonBody = async (request) => {
+  const chunks = [];
+  let size = 0;
+  for await (const chunk of request) {
+    size += chunk.length;
+    if (size > 16_384) throw new Error('Network guard control payload is too large.');
+    chunks.push(chunk);
+  }
+  return JSON.parse(Buffer.concat(chunks).toString('utf8'));
+};
+
+const server = http.createServer(async (request, response) => {
   request.on('error', () => response.destroy());
   response.on('error', () => response.destroy());
   if (request.url === '/health') {
@@ -24,13 +47,42 @@ const server = http.createServer((request, response) => {
   }
   if (request.url === '/__network-guard/reset' && request.method === 'POST') {
     denied.length = 0;
+    expectedBlockedCanaries.clear();
+    blockedCanaryAttempts.length = 0;
+    deniedUnexpectedAttempts.length = 0;
+    escapedExternalRequests.length = 0;
     response.writeHead(204);
     response.end();
     return;
   }
+  if (request.url === '/__network-guard/expect-blocked-canary' && request.method === 'POST') {
+    try {
+      const body = await readJsonBody(request);
+      if (
+        typeof body?.method !== 'string' ||
+        typeof body?.target !== 'string' ||
+        body.method.length === 0 ||
+        body.target.length === 0
+      ) {
+        throw new Error('A method and exact target are required.');
+      }
+      expectedBlockedCanaries.add(signatureFor(body.method, body.target));
+      response.writeHead(204);
+      response.end();
+    } catch {
+      response.writeHead(400);
+      response.end('Invalid blocked-canary registration');
+    }
+    return;
+  }
   if (request.url === '/__network-guard/status') {
     response.writeHead(200, { 'content-type': 'application/json' });
-    response.end(JSON.stringify({ denied }));
+    response.end(JSON.stringify({
+      denied,
+      blockedCanaryAttempts,
+      deniedUnexpectedAttempts,
+      escapedExternalRequests,
+    }));
     return;
   }
 
@@ -49,6 +101,9 @@ const server = http.createServer((request, response) => {
     return;
   }
 
+  // Only loopback targets reach this forwarding boundary. A non-loopback
+  // request can therefore never be classified as escaped merely because the
+  // browser attempted it.
   const upstream = http.request({
     hostname: target.hostname,
     port: target.port || 80,

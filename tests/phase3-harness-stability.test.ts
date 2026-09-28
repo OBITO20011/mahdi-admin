@@ -70,7 +70,12 @@ test('browser QA fails closed on non-loopback traffic and quality uses isolated 
   assert.match(playwrightConfig, /playwright-global-teardown\.mjs/u);
   assert.match(networkGuardHarness, /server\.on\('connect'/u);
   assert.match(networkGuardHarness, /Browser QA network guard blocked non-loopback traffic/u);
-  assert.match(networkAuditHarness, /result\.denied\.length > 0/u);
+  assert.match(networkAuditHarness, /result\.deniedUnexpectedAttempts\.length > 0/u);
+  assert.match(networkAuditHarness, /result\.escapedExternalRequests\.length > 0/u);
+  assert.match(networkGuardHarness, /expectedBlockedCanaries\.has/u);
+  assert.match(networkGuardHarness, /blockedCanaryAttempts/u);
+  assert.match(networkGuardHarness, /deniedUnexpectedAttempts/u);
+  assert.match(networkGuardHarness, /escapedExternalRequests/u);
   assert.match(playwrightConfig, /serviceWorkers: 'block'/u);
   assert.match(playwrightConfig, /run-isolated-vite\.mjs admin 4173/u);
   assert.match(playwrightConfig, /run-isolated-vite\.mjs customer 4174/u);

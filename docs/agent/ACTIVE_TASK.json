@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Finalize the owner-approved Phase 4 closure state after Phase 4.5 independent sign-off",
-  "baselineSha": "247980af9636ab01b20c80cac6bb3d23de2cc584",
+  "objective": "Correct exact-SHA CI browser network-audit canary classification without weakening fail-closed isolation",
+  "baselineSha": "ca04478e127e7407bce11236e11522ff33f2c10f",
   "branch": "main",
   "phase": "4.5",
-  "startedAt": "2026-09-27T23:38:26.282Z",
-  "checkpointedAt": "2026-09-28T20:11:11.087Z",
+  "startedAt": "2026-09-28T20:43:27.269Z",
+  "checkpointedAt": "2026-09-28T21:03:35.619Z",
   "completed": [
     "Phase 3 owner-closed",
     "Phase 4.1 owner-closed",
@@ -47,41 +47,17 @@
     "Phase 5"
   ],
   "filesTouched": [
-    "docs/agent/PHASE_STATUS.md",
-    "docs/agent/PROJECT_OVERVIEW.md",
-    "docs/agent/project-state.json",
-    "tests/agent-continuity.test.ts",
+    "scripts/testing/playwright-network-audit.mjs",
+    "scripts/testing/run-browser-network-guard.mjs",
+    "scripts/testing/verify-browser-network-isolation.mjs",
+    "tests/phase3-harness-stability.test.ts",
     "tests/phase44-admin-recovery-fullstack.test.ts"
   ],
-  "testsPassed": [
-    "Phase 4.4 Slice 1 static/contract matrix: 4/4 PASS",
-    "Phase 4.2 + Phase 4.4 affected static contracts: 17/17 PASS",
-    "Phase 4.4 Slice 1 isolated real runtime 001-122: 9/9 scenarios PASS",
-    "Phase 4.4 Slice 2 static/contract matrix: 4/4 PASS",
-    "Phase 4.3 + Phase 4.4 affected static contracts: 19/19 PASS",
-    "Phase 4.4 Slice 2 isolated real runtime 001-122: 8/8 break-matrix scenarios PASS",
-    "Depth-2 multi-component Parcel lineage, historical price/cost isolation, stale identity rejection, and committed replay zero-write: PASS",
-    "Phase 4.4 Slice 3 static/contract matrix: 4/4 PASS",
-    "Phase 4.3 + Phase 4.4 affected static contracts: 23/23 PASS",
-    "Phase 4.4 Slice 3 isolated real runtime 001-122: 10/10 concurrency/replay scenarios PASS",
-    "First-flight and committed same-key replay, compatible and oversubscribed capacity, Return/Replacement races, cross-sale inventory serialization, and loser zero-write: PASS",
-    "Slice 3 deadlock delta 0 and lock timeouts 0",
-    "TypeScript, strict ESLint, git diff check, and changed-file Gitleaks: PASS",
-    "Migration 122 hash preserved; Migration 123 absent; Slice 1 implementation fingerprints preserved; zero stale Slice 2 containers",
-    "Phase 4.4 Slice 4 static/contract matrix: 4/4 PASS",
-    "Phase 4.4 Slice 4 real isolated Admin recovery bridge: 10 PASS, 4 intentional browser-matrix skips",
-    "Lost-response reload/recovery for Return and Replacement, malformed-result recovery, same-context Web Lock, cross-context DB authority, timeout-before-dispatch and stale-response CAS: PASS",
-    "Existing Admin recovery browser matrix: 22/22 PASS across Chromium and Mobile WebKit",
-    "Slice 5 continuity correction focused tests: 7/7 PASS",
-    "Final npm run quality PASS: Admin 617/617, Customer 189/189, builds and SEO PASS, Browser isolation zero escaped requests, Playwright 205 passed with 47 intentional skips",
-    "Phase 4.5 focused continuity correction: 19/19 PASS",
-    "Phase 4.5 independent continuity re-sign-off: 7/7 PASS and 12/12 negative mutations rejected",
-    "Final Phase 4 closure quality PASS: Admin 617/617, Customer 189/189, Browser QA 207 passed with 51 intentional skips, zero escaped Production requests"
-  ],
+  "testsPassed": [],
   "testsRemaining": [],
   "findings": [],
   "blockers": [],
-  "nextExactAction": "Owner review of the final Phase 4 closure commit and exact-SHA CI; do not begin Phase 5",
+  "nextExactAction": "Owner review after the network-audit corrective commit, push, and exact-SHA CI; Phase 5 remains not started",
   "activeProcesses": [],
   "prohibitions": [
     "Production access",
@@ -89,5 +65,5 @@
     "Commit or push without owner authorization",
     "Start Phase 5 without owner authorization"
   ],
-  "workingTreeFingerprint": "05A6271A3A4AA203E2B06371167E53EB356EE109E371D95BC4BBEA4A8842965B"
+  "workingTreeFingerprint": "C062867B5FDFCF73F42597844858E97CECB0C48AA830515DEB9B843CB299BF45"
 }

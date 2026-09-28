@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
 import {readFile} from 'node:fs/promises';
 import test from 'node:test';
 
@@ -95,7 +96,8 @@ test('Slice 4 stays preserved after final Phase 4 owner closure', async () => {
   assert.match(phaseStatus, /\| Phase 5 \| NOT STARTED \|/u);
 
   assert.equal(task.status, 'IDLE');
-  assert.equal(task.baselineSha, closureSha);
+  assert.match(task.baselineSha, /^[0-9a-f]{40}$/u);
+  execFileSync('git', ['merge-base', '--is-ancestor', task.baselineSha, 'HEAD']);
   assert.ok(task.completed.includes('Phase 4.4 owner-closed'));
   assert.ok(task.completed.includes(
     `Phase 4.4 closure commit ${closureSha} pushed to origin/main`,
