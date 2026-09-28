@@ -33,12 +33,15 @@ export interface AdminAftercareRecoveryState {
 
 const definitiveRejections: Record<AdminAftercareAction, ReadonlySet<string>> = {
   replacement: new Set([
+    'PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED', 'PHASE4_REPLACEMENT_WINDOW_INVALID',
     'PHASE43_ORDER_NOT_FOUND', 'PHASE43_ORIGINAL_SALE_INVALID',
     'PHASE43_REPLACEMENT_INVENTORY_UNAVAILABLE', 'PHASE43_REPLACEMENT_ITEM_INVALID',
     'PHASE43_REPLACEMENT_REQUEST_INVALID', 'PHASE43_REPLACEMENT_SOURCE_DUPLICATE',
     'PHASE43_REPLACEMENT_SOURCE_INVALID', 'PHASE43_SALE_CONTRACT_UNSUPPORTED',
   ]),
   return: new Set([
+    'PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED', 'PHASE4_PARCEL_RETURN_ALREADY_CONSUMED',
+    'PHASE4_RETURN_WINDOW_EXPIRED',
     'PHASE42_BASE_RETURN_ITEM_INVALID', 'PHASE42_BASE_SALE_EVIDENCE_MISSING',
     'PHASE42_CUMULATIVE_ALLOCATION_INVALID', 'PHASE42_FINANCIAL_EVIDENCE_CONTRADICTORY',
     'PHASE42_FINANCIAL_POSITION_UNAVAILABLE', 'PHASE42_HISTORICAL_COST_MISSING',
@@ -58,6 +61,11 @@ const definitiveRejections: Record<AdminAftercareAction, ReadonlySet<string>> = 
     'PHASE43_RETURN_PHYSICAL_SOURCES_INVALID', 'PHASE43_RETURN_RESTOCK_LINEAGE_INCOMPLETE',
   ]),
 };
+// These SQLSTATEs are emitted by validated Phase-4 request/business guards. A
+// matching response proves that the PostgreSQL statement aborted, so there is
+// no commit to recover. Serialization/deadlock/transport failures deliberately
+// remain outside this set because they require same-attempt recovery.
+const definitiveRejectionSqlStates = new Set(['P0001', '22023', '23503', '23514']);
 
 const prefix = 'nawasrah:admin:phase43-aftercare:v2:';
 const isObject = (value: unknown): value is Record<string, unknown> =>
@@ -87,6 +95,16 @@ const isAttempt = (value: unknown): value is AftercareAttempt => isObject(value)
 const extractIdentity = (message: unknown) => typeof message === 'string'
   ? message.match(/^([A-Z][A-Z0-9_]{4,}):/u)?.[1] || null
   : null;
+const isDefinitiveRejection = (
+  action: AdminAftercareAction,
+  error: unknown,
+  data: unknown,
+) => {
+  if (data !== null || !isObject(error) || typeof error.code !== 'string') return false;
+  const identity = extractIdentity(error.message);
+  return identity !== null && definitiveRejectionSqlStates.has(error.code)
+    && definitiveRejections[action].has(identity);
+};
 const uuid = (value: unknown): value is string => typeof value === 'string'
   && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iu.test(value);
 const nonNegativeMinor = (value: unknown) => Number.isSafeInteger(value) && Number(value) >= 0;
@@ -340,10 +358,8 @@ export async function runAdminAftercareMutation(
       return {data: result, error: null};
     }
     if (response.error) {
-      const identity = extractIdentity(response.error.message);
       const canReject = !fresh.hadUnknownOutcome && response.data === null
-        && response.error.code === 'P0001' && identity !== null
-        && definitiveRejections[action].has(identity);
+        && isDefinitiveRejection(action, response.error, response.data);
       save(storageKey, {...fresh,
         status: canReject ? 'DEFINITIVELY_REJECTED' : 'OUTCOME_UNKNOWN',
         hadUnknownOutcome: fresh.hadUnknownOutcome || !canReject});

@@ -57,6 +57,50 @@ test('persisted in-flight takeover preserves unknown history and blocks a new in
   expect(evidence.newError).toContain('AFTERCARE_OUTCOME_UNKNOWN');
 });
 
+test('proved non-commit business rejections permit a distinct safe new intent', async ({page}) => {
+  await isolateModuleShell(page);
+  await page.goto(adminBaseUrl);
+  const evidence = await page.evaluate(async ({actor, order, requestValue, resultValue}) => {
+    // @ts-expect-error Live Vite module.
+    const {runAdminAftercareMutation} = await import('/src/services/supabase/adminAftercareRecovery.ts');
+    const client = {auth: {getUser: async () => ({data: {user: {id: actor}}, error: null})}};
+    const cases = [
+      {code: 'P0001', identity: 'PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED'},
+      {code: 'P0001', identity: 'PHASE43_REPLACEMENT_INVENTORY_UNAVAILABLE'},
+      {code: '23514', identity: 'PHASE43_REPLACEMENT_SOURCE_INVALID'},
+    ];
+    const outcomes = [];
+    for (const testCase of cases) {
+      localStorage.clear();
+      const rejected = await runAdminAftercareMutation(client as never, order, 'replacement',
+        'START_NEW', requestValue, async () => ({data: null, error: {code: testCase.code,
+          message: `${testCase.identity}: deterministic test rejection`}}));
+      const stateKey = Object.keys(localStorage).find((key) => key.includes('phase43-aftercare'))!;
+      const rejectedState = JSON.parse(localStorage.getItem(stateKey)!);
+      let newCalls = 0;
+      const next = await runAdminAftercareMutation(client as never, order, 'replacement',
+        'START_NEW', {...requestValue, reason: `new intent after ${testCase.identity}`},
+        async () => { newCalls += 1; return {data: resultValue, error: null}; });
+      outcomes.push({rejected, rejectedState, next, newCalls});
+    }
+    localStorage.clear();
+    await runAdminAftercareMutation(client as never, order, 'replacement', 'START_NEW',
+      requestValue, async () => ({data: null, error: {code: '40001',
+        message: 'PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED: wrong SQLSTATE'}}));
+    const ambiguousKey = Object.keys(localStorage).find((key) => key.includes('phase43-aftercare'))!;
+    return {outcomes, ambiguous: JSON.parse(localStorage.getItem(ambiguousKey)!)};
+  }, {actor: actorId, order: orderId, requestValue: request, resultValue: success});
+  for (const outcome of evidence.outcomes) {
+    expect(outcome.rejected.data).toBeNull();
+    expect(outcome.rejectedState.status).toBe('DEFINITIVELY_REJECTED');
+    expect(outcome.rejectedState.hadUnknownOutcome).toBe(false);
+    expect(outcome.newCalls).toBe(1);
+    expect(outcome.next.data).toEqual(success);
+  }
+  expect(evidence.ambiguous.status).toBe('OUTCOME_UNKNOWN');
+  expect(evidence.ambiguous.hadUnknownOutcome).toBe(true);
+});
+
 test('request is captured before authentication or lock waits', async ({page}) => {
   await isolateModuleShell(page);
   await page.goto(adminBaseUrl);

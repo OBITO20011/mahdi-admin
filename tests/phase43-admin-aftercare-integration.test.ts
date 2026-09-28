@@ -189,7 +189,12 @@ test('Admin recovery persists stable identity and retries ambiguous outcomes thr
   assert.match(aftercareRecovery, /requestedMethod === null && requestedReference === null/u);
   assert.match(aftercareRecovery, /attempt\.status === 'IN_FLIGHT'/u);
   assert.match(aftercareRecovery, /withAdminActionLock/u);
-  assert.match(aftercareRecovery, /response\.error\.code === 'P0001'/u);
+  assert.match(aftercareRecovery, /definitiveRejectionSqlStates/u);
+  assert.match(aftercareRecovery, /'P0001', '22023', '23503', '23514'/u);
+  assert.match(aftercareRecovery, /PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED/u);
+  assert.match(aftercareRecovery, /PHASE4_RETURN_WINDOW_EXPIRED/u);
+  assert.match(aftercareRecovery, /PHASE4_REPLACEMENT_WINDOW_INVALID/u);
+  assert.match(aftercareRecovery, /!fresh\.hadUnknownOutcome/u);
   assert.match(aftercareRecovery, /definitiveRejections\[action\]\.has\(identity\)/u);
   assert.match(aftercareRecovery, /status: 'OUTCOME_UNKNOWN', hadUnknownOutcome: true/u);
   assert.match(aftercareRecovery, /attempt\.idempotencyKey/u);
