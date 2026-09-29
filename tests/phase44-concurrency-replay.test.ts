@@ -55,9 +55,9 @@ test('Slice 3 proves operation-scoped loser state and deadlock integrity', () =>
   assert.doesNotMatch(runtime, /retry|retries/iu);
 });
 
-test('Slice 3 uses schema 001-122 and reserves broad gates for Slice 5', () => {
-  assert.match(runtime, /freshRebuild: '001-122'/u);
-  assert.match(runtime, /migration123: 'ABSENT'/u);
+test('Slice 3 remains compatible with private inactive Migration 123 and reserves broad gates', () => {
+  assert.match(runtime, /freshRebuild: '001-123'/u);
+  assert.match(runtime, /migration123: 'PRIVATE_INACTIVE'/u);
   assert.match(runtime, /slice: 'concurrency-replay'/u);
   assert.doesNotMatch(runtime, /123_/u);
 });

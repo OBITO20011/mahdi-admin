@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "capturedBeforeMigration123": true,
+  "sourceBaseline": "c1632904782f3da770c9880423a0ea5fa506b8be",
+  "executionBaseline": "b4237c7d6569722834e35ce8a4cda3e8dbc6cdb6",
+  "algorithm": "SHA-256 raw file bytes",
+  "files": {
+    "scripts/analysis/build-phase5-authority-ledger.mjs": "8235C510353B99B3B8056CF430CCCE5EB6DE3E00FA0E08010D93774D3AFC2AF7",
+    "scripts/analysis/phase5-authority-policy.mjs": "EEA2EEFFA1EFD9F146CFD3F59BB8EF2F121377695BD24C6B7F0F01BB50E95A47",
+    "scripts/analysis/tests/phase5-evidence-builder.test.mjs": "5420581D0E7773F8BBF7AAEE7D05A35DA12030E2DAD4C4535FD78E6C4457A604",
+    "docs/agent/evidence/phase5-preimplementation/phase5_alter_function_ledger.json": "99D213BFDE7C3BC709DFBF31862CCB858E312FCCECCDBADCA75A378D90078098",
+    "docs/agent/evidence/phase5-preimplementation/phase5_authority_allowlists.json": "B3BEE35862CA564BD1BE7E178C68F0909FC2BDF2960BBACB614309B3CC75CB2F",
+    "docs/agent/evidence/phase5-preimplementation/phase5_evidence_manifest.json": "08642E2FD0F1E1B0A01C2BF2E85EF8AF7D38FB0638A8763D4957A4C69E5E334D",
+    "docs/agent/evidence/phase5-preimplementation/PHASE5_EVIDENCE_README.md": "185E239286CF26DFD30449D329D1BEF06E6A46E3233139BFAC3C00FF02E0F5AD",
+    "docs/agent/evidence/phase5-preimplementation/phase5_function_authority_ledger.csv": "1BB0DCC9AD81483FA99F03F1B69E833AE97ECBF1361C70ADB010FB7F43BBA2FD",
+    "docs/agent/evidence/phase5-preimplementation/phase5_function_authority_ledger.json": "98F147D45061DFB5B635F2C7CEC7E31B29ACDF8497AA9A249AED8A80705C39AA",
+    "docs/agent/evidence/phase5-preimplementation/phase5_job_caller_ledger.json": "2D4CDF5800686E9F913EF0C19E3D75944524ACF1994342BA092AF691572E8BEF",
+    "docs/agent/evidence/phase5-preimplementation/phase5_non_function_writer_ledger.json": "2DC0A637DC939D0698D3E0220CC6C5F8FC6DE84ACE582BDACDAD19F3DC0EBF9F",
+    "docs/agent/evidence/phase5-preimplementation/phase5_security_definer_owner_ledger.json": "3CE12DB02D09EE9B3867870C81BB43BBA7578A354EB0EC5539FF5689C7A2D720",
+    "docs/agent/evidence/phase5-preimplementation/phase5_source_coverage_ledger.json": "B5101B44B53DB137F5A4DEDE16FF0EE007BF7517F86C0371A5FC3ADF256D9588",
+    "docs/agent/evidence/phase5-preimplementation/phase5_trigger_ledger.csv": "739E2177B59EFFB6539F4F9F6F52485A1F0C63A51E141E20067A42243895D565",
+    "docs/agent/evidence/phase5-preimplementation/phase5_trigger_ledger.json": "0B04058A365CA0AE2DBC39E0710151D9C568F8F61F6A8086C9CEF1693FC1A7C9"
+  }
+}

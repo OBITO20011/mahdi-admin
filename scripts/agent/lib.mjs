@@ -71,6 +71,7 @@ export function migrationInventory() {
   const state = readJson(statePath);
   const migration121 = resolve(root, 'supabase/migrations/121_phase42_atomic_return_coordinator.sql');
   const migration122 = resolve(root, 'supabase/migrations/122_phase43_admin_aftercare_integration.sql');
+  const migration123 = resolve(root, 'supabase/migrations/123_phase5_private_financial_evidence_foundation.sql');
   const migrationFiles = readdirSync(resolve(root, 'supabase/migrations'));
   return {
     ceiling: state.migrationCeiling,
@@ -79,6 +80,8 @@ export function migrationInventory() {
     migration122Exists: existsSync(migration122),
     migration122Sha256: existsSync(migration122) ? fileSha256(migration122) : null,
     migration123Absent: !migrationFiles.some((name) => name.startsWith('123_') && name.endsWith('.sql')),
+    migration123Exists: existsSync(migration123),
+    migration123Sha256: existsSync(migration123) ? fileSha256(migration123) : null,
   };
 }
 

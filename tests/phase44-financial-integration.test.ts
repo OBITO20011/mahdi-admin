@@ -49,8 +49,7 @@ test('Phase 4.4 Slice 1 keeps every approved scenario explicit', () => {
   }
 });
 
-test('Phase 4.4 Slice 1 uses schema 001-122 and no Migration 123', () => {
-  assert.match(runtime, /freshRebuild: '001-122'/u);
-  assert.match(runtime, /migration123: 'ABSENT'/u);
-  assert.doesNotMatch(runtime, /123_/u);
+test('Phase 4.4 Slice 1 remains compatible with the private inactive Migration 123 foundation', () => {
+  assert.match(runtime, /freshRebuild: '001-123'/u);
+  assert.match(runtime, /migration123: 'PRIVATE_INACTIVE'/u);
 });

@@ -27,6 +27,10 @@ if (state.migration122Sha256
   failures.push('Migration 122 hash mismatch');
 }
 if (state.migration123MustBeAbsent && !migrations.migration123Absent) failures.push('Migration 123 is present');
+if (state.migration123Sha256
+  && (!migrations.migration123Exists || migrations.migration123Sha256 !== state.migration123Sha256)) {
+  failures.push('Migration 123 hash mismatch');
+}
 if (productionNames.length > 0) failures.push(`production-sensitive environment names are set: ${productionNames.join(', ')}`);
 
 const report = {

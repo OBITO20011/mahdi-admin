@@ -5,6 +5,75 @@ import test from 'node:test';
 
 const read = (path: string) => readFile(path, 'utf8');
 
+type ProjectContinuityState = {
+  approvedBaseline: string;
+  closedPhases: string[];
+  phase4Closed: boolean;
+  currentPhase: string | null;
+  phase44Started: boolean;
+  phase45Started: boolean;
+  phase5Started: boolean;
+  phase5Slice1Closed: boolean;
+};
+
+type ActiveTaskContinuityState = {
+  status: string;
+  baselineSha: string;
+  completed: string[];
+  inProgress: string[];
+  notStarted: string[];
+  testsRemaining: string[];
+  prohibitions: string[];
+};
+
+const closureSha = '247980af9636ab01b20c80cac6bb3d23de2cc584';
+const assertPhase4Closed = (
+  projectState: ProjectContinuityState,
+  phaseStatus: string,
+  task: ActiveTaskContinuityState,
+) => {
+  assert.equal(projectState.approvedBaseline, closureSha);
+  assert.deepEqual(projectState.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5']);
+  assert.equal(projectState.phase4Closed, true);
+  assert.equal(projectState.phase44Started, true);
+  assert.equal(projectState.phase45Started, true);
+  assert.match(phaseStatus, /\| Phase 4\.4 \| OWNER-CLOSED \|/u);
+  assert.match(phaseStatus, /\| Phase 4\.5 \| OWNER-CLOSED \|/u);
+  assert.match(phaseStatus, /\| Phase 4 \(overall\) \| OWNER-CLOSED \|/u);
+  assert.ok(task.completed.includes('Phase 4.4 owner-closed'));
+  assert.ok(task.completed.includes(
+    `Phase 4.4 closure commit ${closureSha} pushed to origin/main`,
+  ));
+  assert.ok(task.completed.includes(
+    `Exact-SHA Nawasrah code quality and secret scanning CI passed for ${closureSha}`,
+  ));
+  assert.ok(task.completed.includes(
+    'Phase 4.5 independent closure sign-off passed with zero findings and zero material evidence gaps',
+  ));
+  assert.ok(task.completed.includes('Phase 4 owner-closed'));
+};
+
+const assertSlice1Closed = (
+  projectState: ProjectContinuityState,
+  phaseStatus: string,
+  task: ActiveTaskContinuityState,
+) => {
+  assert.equal(projectState.currentPhase, '5');
+  assert.equal(projectState.phase5Started, true);
+  assert.equal(projectState.phase5Slice1Closed, true);
+  assert.match(phaseStatus, /\| Phase 5 \| IN PROGRESS \|/u);
+  assert.match(phaseStatus, /Slice 1 private inactive financial evidence foundation is OWNER-CLOSED/u);
+  assert.equal(task.status, 'IDLE');
+  assert.deepEqual(task.inProgress, []);
+  assert.deepEqual(task.testsRemaining, []);
+  assert.deepEqual(task.notStarted, ['Phase 5 Slice 2 and later slices']);
+  assert.ok(task.prohibitions.includes('Start Phase 5 Slice 2 without owner authorization'));
+  assert.ok(task.completed.includes(
+    'Phase 5 Slice 1 bounded independent re-review passed with zero remaining findings and zero material evidence gaps',
+  ));
+  assert.ok(task.completed.includes('Phase 5 Slice 1 owner-closed'));
+};
+
 test('Slice 4 runner uses a fresh isolated full schema and both browser projects', async () => {
   const source = await read('scripts/testing/run-phase44-admin-recovery-fullstack.mjs');
   assert.match(source, /bootstrap-isolated-supabase\.mjs/u);
@@ -62,55 +131,48 @@ test('Slice 4 stays preserved after final Phase 4 owner closure', async () => {
     packageState.scripts['test:phase44-admin-recovery:fullstack'],
     'node scripts/testing/run-phase44-admin-recovery-fullstack.mjs',
   );
-  const projectState = JSON.parse(await read('docs/agent/project-state.json')) as {
-    approvedBaseline: string;
-    closedPhases: string[];
-    phase4Closed: boolean;
-    currentPhase: string | null;
-    phase44Started: boolean;
-    phase45Started: boolean;
-    phase5Started: boolean;
-  };
+  const projectState = JSON.parse(
+    await read('docs/agent/project-state.json'),
+  ) as ProjectContinuityState;
   const phaseStatus = await read('docs/agent/PHASE_STATUS.md');
-  const task = JSON.parse(await read('docs/agent/ACTIVE_TASK.json')) as {
-    status: string;
-    baselineSha: string;
-    completed: string[];
-    inProgress: string[];
-    notStarted: string[];
-    testsRemaining: string[];
-    prohibitions: string[];
-  };
+  const task = JSON.parse(
+    await read('docs/agent/ACTIVE_TASK.json'),
+  ) as ActiveTaskContinuityState;
 
-  const closureSha = '247980af9636ab01b20c80cac6bb3d23de2cc584';
-  assert.equal(projectState.approvedBaseline, closureSha);
-  assert.deepEqual(projectState.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5']);
-  assert.equal(projectState.phase4Closed, true);
-  assert.equal(projectState.currentPhase, null);
-  assert.equal(projectState.phase44Started, true);
-  assert.equal(projectState.phase45Started, true);
-  assert.equal(projectState.phase5Started, false);
-  assert.match(phaseStatus, /\| Phase 4\.4 \| OWNER-CLOSED \|/u);
-  assert.match(phaseStatus, /\| Phase 4\.5 \| OWNER-CLOSED \|/u);
-  assert.match(phaseStatus, /\| Phase 4 \(overall\) \| OWNER-CLOSED \|/u);
-  assert.match(phaseStatus, /\| Phase 5 \| NOT STARTED \|/u);
-
-  assert.equal(task.status, 'IDLE');
+  assertPhase4Closed(projectState, phaseStatus, task);
+  assertSlice1Closed(projectState, phaseStatus, task);
   assert.match(task.baselineSha, /^[0-9a-f]{40}$/u);
   execFileSync('git', ['merge-base', '--is-ancestor', task.baselineSha, 'HEAD']);
-  assert.ok(task.completed.includes('Phase 4.4 owner-closed'));
-  assert.ok(task.completed.includes(
-    `Phase 4.4 closure commit ${closureSha} pushed to origin/main`,
-  ));
-  assert.ok(task.completed.includes(
-    `Exact-SHA Nawasrah code quality and secret scanning CI passed for ${closureSha}`,
-  ));
-  assert.ok(task.completed.includes(
-    'Phase 4.5 independent closure sign-off passed with zero findings and zero material evidence gaps',
-  ));
-  assert.ok(task.completed.includes('Phase 4 owner-closed'));
-  assert.deepEqual(task.inProgress, []);
-  assert.deepEqual(task.testsRemaining, []);
-  assert.deepEqual(task.notStarted, ['Phase 5']);
-  assert.ok(task.prohibitions.includes('Start Phase 5 without owner authorization'));
+});
+
+test('Slice 1 closed continuity rejects lost closure, stale work and unauthorized progression', async () => {
+  const projectState = JSON.parse(
+    await read('docs/agent/project-state.json'),
+  ) as ProjectContinuityState;
+  const phaseStatus = await read('docs/agent/PHASE_STATUS.md');
+  const task = JSON.parse(
+    await read('docs/agent/ACTIVE_TASK.json'),
+  ) as ActiveTaskContinuityState;
+
+  const lostPhase4Closure = structuredClone(projectState);
+  lostPhase4Closure.phase4Closed = false;
+  assert.throws(() => assertPhase4Closed(lostPhase4Closure, phaseStatus, task));
+
+  const lostSlice1Closure = structuredClone(projectState);
+  lostSlice1Closure.phase5Slice1Closed = false;
+  assert.throws(() => assertSlice1Closed(lostSlice1Closure, phaseStatus, task));
+
+  const missingClosureEvidence = structuredClone(task);
+  missingClosureEvidence.completed = missingClosureEvidence.completed.filter(
+    (entry) => entry !== 'Phase 5 Slice 1 owner-closed',
+  );
+  assert.throws(() => assertSlice1Closed(projectState, phaseStatus, missingClosureEvidence));
+
+  const unauthorizedSlice2 = structuredClone(task);
+  unauthorizedSlice2.notStarted = [];
+  assert.throws(() => assertSlice1Closed(projectState, phaseStatus, unauthorizedSlice2));
+
+  const staleClosedTask = structuredClone(task);
+  staleClosedTask.testsRemaining = ['stale completed review'];
+  assert.throws(() => assertSlice1Closed(projectState, phaseStatus, staleClosedTask));
 });

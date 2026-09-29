@@ -47,7 +47,7 @@ test('Migration 122 is bounded and preserves the approved Phase 4.2 migration', 
     '56366C43C264D8203B5C26F09F42C699E7602000F359EE2CCDBF0D001362D302',
   );
   assert.equal(migrations.filter((name) => name.startsWith('122_')).length, 1);
-  assert.equal(migrations.some((name) => name.startsWith('123_')), false);
+  assert.equal(migrations.filter((name) => name.startsWith('123_')).length, 1);
   assert.match(migration122, /^BEGIN;/u);
   assert.match(migration122, /COMMIT;\s*$/u);
   assert.match(canonicalRuntime, /run-phase42-atomic-return-runtime\.mjs/u);

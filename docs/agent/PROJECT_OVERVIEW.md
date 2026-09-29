@@ -22,4 +22,4 @@ Repository architecture references remain useful: `ARCHITECTURE.md`, `DATABASE_D
 
 ## Current boundary
 
-Phases 3 and 4 are owner-closed. Phase 4.1 through Phase 4.5 each passed their required implementation, regression and independent sign-off gates, with the final Phase 4.5 closure review reporting zero findings and zero material evidence gaps. Phase 5 is not started and requires explicit owner authorization after the Phase 4 closure commit exact-SHA CI gate. The approved baseline and migration ceiling are recorded in `project-state.json`.
+Phases 3 and 4 are owner-closed. Phase 4.1 through Phase 4.5 each passed their required implementation, regression and independent sign-off gates, with the final Phase 4.5 closure review reporting zero findings and zero material evidence gaps. Phase 5 is in progress: Slice 1 is owner-closed as a private inactive Migration 123 foundation with no current caller/read-model cutover. Medium A-D remain implementation-open and Slice 2 has not started. The exact baseline, migration hash, and ceiling are recorded in `project-state.json`.

@@ -50,9 +50,9 @@ test('Slice 2 expectations come from immutable anchors and per-identity evidence
   assert.doesNotMatch(runtime, /currentWac\s*\*\s*returned/u);
 });
 
-test('Slice 2 uses schema 001-122 with no migration or Slice 3 work', () => {
-  assert.match(runtime, /freshRebuild: '001-122'/u);
-  assert.match(runtime, /migration123: 'ABSENT'/u);
+test('Slice 2 remains compatible with the private inactive Migration 123 foundation', () => {
+  assert.match(runtime, /freshRebuild: '001-123'/u);
+  assert.match(runtime, /migration123: 'PRIVATE_INACTIVE'/u);
   assert.match(runtime, /slice: 'lineage-valuation'/u);
   assert.doesNotMatch(runtime, /123_/u);
 });
