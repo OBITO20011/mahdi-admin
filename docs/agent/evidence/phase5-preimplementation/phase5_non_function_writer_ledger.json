@@ -1,0 +1,215 @@
+[
+  {
+    "activation_disposition": "OUTSIDE_PHASE5_MUTATION_AUTHORITY",
+    "location": "supabase/functions/send-order-push/index.ts:113",
+    "mutation": "UPDATE",
+    "phase5_relevant": false,
+    "relation": "push_dispatches",
+    "writer_type": "APPLICATION_OR_EDGE_DIRECT_DML"
+  },
+  {
+    "activation_disposition": "OUTSIDE_PHASE5_MUTATION_AUTHORITY",
+    "location": "supabase/functions/send-order-push/index.ts:136",
+    "mutation": "UPDATE",
+    "phase5_relevant": false,
+    "relation": "push_dispatches",
+    "writer_type": "APPLICATION_OR_EDGE_DIRECT_DML"
+  },
+  {
+    "activation_disposition": "OUTSIDE_PHASE5_MUTATION_AUTHORITY",
+    "location": "supabase/functions/send-order-push/index.ts:173",
+    "mutation": "UPDATE",
+    "phase5_relevant": false,
+    "relation": "push_subscriptions",
+    "writer_type": "APPLICATION_OR_EDGE_DIRECT_DML"
+  },
+  {
+    "activation_disposition": "OUTSIDE_PHASE5_MUTATION_AUTHORITY",
+    "location": "supabase/functions/send-order-push/index.ts:188",
+    "mutation": "UPDATE",
+    "phase5_relevant": false,
+    "relation": "push_subscriptions",
+    "writer_type": "APPLICATION_OR_EDGE_DIRECT_DML"
+  },
+  {
+    "activation_disposition": "OUTSIDE_PHASE5_MUTATION_AUTHORITY",
+    "location": "supabase/functions/send-order-push/index.ts:208",
+    "mutation": "UPDATE",
+    "phase5_relevant": false,
+    "relation": "push_dispatches",
+    "writer_type": "APPLICATION_OR_EDGE_DIRECT_DML"
+  },
+  {
+    "activation_disposition": "OUTSIDE_PHASE5_MUTATION_AUTHORITY",
+    "location": "supabase/functions/send-order-push/index.ts:87",
+    "mutation": "INSERT",
+    "phase5_relevant": false,
+    "relation": "push_dispatches",
+    "writer_type": "APPLICATION_OR_EDGE_DIRECT_DML"
+  },
+  {
+    "activation_disposition": "OUTSIDE_PHASE5_MUTATION_AUTHORITY",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "033_order_web_push_notifications.sql:83",
+    "mutation": "DELETE|INSERT|UPDATE",
+    "phase5_relevant": false,
+    "relation": "push_subscriptions",
+    "writer_type": "FINAL_TABLE_GRANT"
+  },
+  {
+    "activation_disposition": "OUTSIDE_PHASE5_MUTATION_AUTHORITY",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "033_order_web_push_notifications.sql:85",
+    "mutation": "DELETE|INSERT|UPDATE",
+    "phase5_relevant": false,
+    "relation": "push_dispatches",
+    "writer_type": "FINAL_TABLE_GRANT"
+  },
+  {
+    "activation_disposition": "REVOKE_DIRECT_DML_UNLESS_EXPLICITLY_ALLOWLISTED_BY_PHASE5_ACTIVATION",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "057_secure_n8n_automation_events.sql:56",
+    "mutation": "DELETE|INSERT|UPDATE",
+    "phase5_relevant": true,
+    "relation": "automation_events",
+    "writer_type": "FINAL_TABLE_GRANT"
+  },
+  {
+    "activation_disposition": "OUTSIDE_PHASE5_MUTATION_AUTHORITY",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "057_secure_n8n_automation_events.sql:58",
+    "mutation": "DELETE|INSERT|UPDATE",
+    "phase5_relevant": false,
+    "relation": "automation_event_deliveries",
+    "writer_type": "FINAL_TABLE_GRANT"
+  },
+  {
+    "activation_disposition": "REVOKE_DIRECT_DML_UNLESS_EXPLICITLY_ALLOWLISTED_BY_PHASE5_ACTIVATION",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "083_shift_reversal_primitives.sql:46",
+    "mutation": "DELETE|INSERT|TRUNCATE|UPDATE",
+    "phase5_relevant": true,
+    "relation": "pos_sale_reversals",
+    "writer_type": "FINAL_TABLE_GRANT"
+  },
+  {
+    "activation_disposition": "REVOKE_DIRECT_DML_UNLESS_EXPLICITLY_ALLOWLISTED_BY_PHASE5_ACTIVATION",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "083_shift_reversal_primitives.sql:47",
+    "mutation": "DELETE|INSERT|TRUNCATE|UPDATE",
+    "phase5_relevant": true,
+    "relation": "supplier_payment_reversals",
+    "writer_type": "FINAL_TABLE_GRANT"
+  },
+  {
+    "activation_disposition": "REVOKE_DIRECT_DML_UNLESS_EXPLICITLY_ALLOWLISTED_BY_PHASE5_ACTIVATION",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "084_full_cash_shift_reversal.sql:81",
+    "mutation": "DELETE|INSERT|TRUNCATE|UPDATE",
+    "phase5_relevant": true,
+    "relation": "cash_shift_reversals",
+    "writer_type": "FINAL_TABLE_GRANT"
+  },
+  {
+    "activation_disposition": "REVOKE_DIRECT_DML_UNLESS_EXPLICITLY_ALLOWLISTED_BY_PHASE5_ACTIVATION",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "084_full_cash_shift_reversal.sql:82",
+    "mutation": "DELETE|INSERT|TRUNCATE|UPDATE",
+    "phase5_relevant": true,
+    "relation": "cash_shift_reversal_operations",
+    "writer_type": "FINAL_TABLE_GRANT"
+  },
+  {
+    "activation_disposition": "OUTSIDE_PHASE5_MUTATION_AUTHORITY",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "097_core_business_alerts.sql:100",
+    "mutation": "UPDATE",
+    "phase5_relevant": false,
+    "relation": "business_alert_settings",
+    "writer_type": "FINAL_TABLE_GRANT"
+  },
+  {
+    "activation_disposition": "REVOKE_DIRECT_DML_UNLESS_EXPLICITLY_ALLOWLISTED_BY_PHASE5_ACTIVATION",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "097_core_business_alerts.sql:101",
+    "mutation": "INSERT|UPDATE",
+    "phase5_relevant": true,
+    "relation": "business_alert_incidents",
+    "writer_type": "FINAL_TABLE_GRANT"
+  },
+  {
+    "activation_disposition": "REVOKE_DIRECT_DML_UNLESS_EXPLICITLY_ALLOWLISTED_BY_PHASE5_ACTIVATION",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "098_business_summaries.sql:72",
+    "mutation": "INSERT|UPDATE",
+    "phase5_relevant": true,
+    "relation": "business_summary_runs",
+    "writer_type": "FINAL_TABLE_GRANT"
+  },
+  {
+    "activation_disposition": "OUTSIDE_PHASE5_MUTATION_AUTHORITY",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "099_advanced_monitoring_and_business_integrity.sql:111",
+    "mutation": "UPDATE",
+    "phase5_relevant": false,
+    "relation": "advanced_monitoring_settings",
+    "writer_type": "FINAL_TABLE_GRANT"
+  },
+  {
+    "activation_disposition": "REVOKE_DIRECT_DML_UNLESS_EXPLICITLY_ALLOWLISTED_BY_PHASE5_ACTIVATION",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "099_advanced_monitoring_and_business_integrity.sql:112",
+    "mutation": "INSERT|UPDATE",
+    "phase5_relevant": true,
+    "relation": "advanced_monitoring_checks",
+    "writer_type": "FINAL_TABLE_GRANT"
+  },
+  {
+    "activation_disposition": "REVOKE_DIRECT_DML_UNLESS_EXPLICITLY_ALLOWLISTED_BY_PHASE5_ACTIVATION",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "099_advanced_monitoring_and_business_integrity.sql:113",
+    "mutation": "INSERT|UPDATE",
+    "phase5_relevant": true,
+    "relation": "advanced_monitoring_metrics",
+    "writer_type": "FINAL_TABLE_GRANT"
+  },
+  {
+    "activation_disposition": "OUTSIDE_PHASE5_MUTATION_AUTHORITY",
+    "grantees": [
+      "service_role"
+    ],
+    "location": "099_advanced_monitoring_and_business_integrity.sql:114",
+    "mutation": "INSERT|UPDATE",
+    "phase5_relevant": false,
+    "relation": "advanced_monitoring_runtime_incidents",
+    "writer_type": "FINAL_TABLE_GRANT"
+  }
+]

@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Correct exact-SHA CI browser network-audit canary classification without weakening fail-closed isolation",
-  "baselineSha": "ca04478e127e7407bce11236e11522ff33f2c10f",
+  "objective": "Phase 5 pre-implementation concept, contract, architecture, and evidence baseline closed; no Phase 5 business implementation",
+  "baselineSha": "c1632904782f3da770c9880423a0ea5fa506b8be",
   "branch": "main",
-  "phase": "4.5",
-  "startedAt": "2026-09-28T20:43:27.269Z",
-  "checkpointedAt": "2026-09-28T21:23:53.030Z",
+  "phase": "5",
+  "startedAt": "2026-09-28T21:44:29.345Z",
+  "checkpointedAt": "2026-09-29T19:11:23.892Z",
   "completed": [
     "Phase 3 owner-closed",
     "Phase 4.1 owner-closed",
@@ -40,20 +40,65 @@
     "Phase 4.4 closure commit 247980af9636ab01b20c80cac6bb3d23de2cc584 pushed to origin/main",
     "Exact-SHA Nawasrah code quality and secret scanning CI passed for 247980af9636ab01b20c80cac6bb3d23de2cc584",
     "Phase 4.5 independent closure sign-off passed with zero findings and zero material evidence gaps",
-    "Phase 4 owner-closed"
+    "Phase 4 owner-closed",
+    "Phase 5 evidence builder correctness closure passed with fail-closed source coverage, ordered ALTER/ACL reconstruction, nested-call completeness, direct-write token safety, and atomic artifact publication",
+    "Phase 5 source/ALTER evidence completeness correction passed with an immutable Git-tree baseline, exact migration identity, total source-family accounting, generalized function attributes, and SEO/automation caller coverage"
   ],
   "inProgress": [],
   "notStarted": [
-    "Phase 5"
+    "Phase 5 Slice 1 foundation implementation"
   ],
   "filesTouched": [
-    ".github/workflows/quality.yml"
+    "docs/agent/evidence/phase5-preimplementation/phase5_alter_function_ledger.json",
+    "docs/agent/evidence/phase5-preimplementation/phase5_authority_allowlists.json",
+    "docs/agent/evidence/phase5-preimplementation/phase5_evidence_manifest.json",
+    "docs/agent/evidence/phase5-preimplementation/PHASE5_EVIDENCE_README.md",
+    "docs/agent/evidence/phase5-preimplementation/phase5_function_authority_ledger.csv",
+    "docs/agent/evidence/phase5-preimplementation/phase5_function_authority_ledger.json",
+    "docs/agent/evidence/phase5-preimplementation/phase5_job_caller_ledger.json",
+    "docs/agent/evidence/phase5-preimplementation/phase5_non_function_writer_ledger.json",
+    "docs/agent/evidence/phase5-preimplementation/phase5_security_definer_owner_ledger.json",
+    "docs/agent/evidence/phase5-preimplementation/phase5_source_coverage_ledger.json",
+    "docs/agent/evidence/phase5-preimplementation/phase5_trigger_ledger.csv",
+    "docs/agent/evidence/phase5-preimplementation/phase5_trigger_ledger.json",
+    "scripts/analysis/build-phase5-authority-ledger.mjs",
+    "scripts/analysis/phase5-authority-policy.mjs",
+    "scripts/analysis/tests/phase5-evidence-builder.test.mjs"
   ],
-  "testsPassed": [],
-  "testsRemaining": [],
-  "findings": [],
-  "blockers": [],
-  "nextExactAction": "Owner review after CI checkout-depth follow-up and exact-SHA CI; Phase 5 remains not started",
+  "testsPassed": [
+    "node --test scripts/analysis/tests/phase5-evidence-builder.test.mjs (38/38)",
+    "direct trusted-blob identity rejects assume-unchanged and skip-worktree tampering",
+    "all 226 ALTER FUNCTION statements fully consumed; 165 OWNER and 4 SECURITY changes resolved",
+    "npm run typecheck",
+    "npm run lint:eslint:strict",
+    "Gitleaks analysis tooling and generated evidence",
+    "git diff --check",
+    "agent:preflight / agent:resume / agent:verify-handoff",
+    "Phase 5 owner invariant focused/adversarial analysis tests PASS 38/38",
+    "Deterministic double evidence rebuild PASS across all 12 generated artifacts",
+    "Owner ledger exact reconciliation PASS: 182 total, 93 SOURCE_PROVEN postgres, 89 SOURCE_UNKNOWN, zero unsafe/missing policy counters",
+    "TypeScript, strict ESLint and Gitleaks PASS after owner evidence integration",
+    "Final independent Phase 5 owner-evidence sanity confirmation PASS: persisted hashes verified, 182 exact SECURITY DEFINER signatures reconciled, 38/38 analysis tests PASS, and two disposable rebuilds matched all 12 persisted artifacts byte-for-byte",
+    "Phase 5 pre-implementation concept, contract, architecture, and evidence baseline closed"
+  ],
+  "testsRemaining": [
+    "Phase 5 Slice 1 implementation verification; live catalog and activation runtime proof remain future activation gates"
+  ],
+  "findings": [
+    "Repository source proves final owners for 93 relevant SECURITY DEFINER functions and leaves 89 current owners source-unknown; no historical owner is guessed",
+    "All 93 source-proven relevant owners and all 165 explicit function-owner transitions resolve to postgres; no dedicated owner role is repository-defined",
+    "Current source-unknown owner is acceptable only for additive private inactive Slice 1 work that does not execute or expose the affected functions; exact catalog owner verification and convergence remain mandatory activation gates",
+    "Independent source reconstruction reconciled 371 surviving signatures, 56 renames and 165 postgres owner transitions; all 182 relevant definers reconcile as 93 explicit postgres owners plus 89 source-unknown, with zero duplicate/unreconciled signatures",
+    "Pre-convergence owner mismatch is conditional and fail-closed: postgres is the sole currently admitted owner; another live owner requires an explicitly reviewed exact-signature transition and verified definition/privilege integrity, otherwise abort. Final owner mismatch always aborts. No runtime or Production owner proof was performed",
+    "Owner contract independent design review PASS; no material owner-contract design/evidence gaps. Medium A-D implementation remains OPEN / design remediation DEFINED. Exact sorted signature list LF SHA256 A37E3C1BD35ED386215C312567FC0F25A32D0A2DA09F0AF7DDA0678FD6921F32",
+    "Owner evidence model now preserves SOURCE_PROVEN versus SOURCE_UNKNOWN current-owner evidence separately from target-owner activation policy; all 182 relevant SECURITY DEFINER exact signatures require target postgres, live catalog proof, fail-closed transition evaluation, final postgres ownership, full privilege-envelope assertion and zero Slice 1 dependency",
+    "Generated owner ledger reconciles 182 = 93 source-proven postgres + 89 source-unknown, with every missing/unsafe owner-policy counter equal to zero; Class-B ACL revoke coverage remains 122/122",
+    "Evidence schema v4 rebuilt atomically and deterministically; manifest SHA256 08642E2FD0F1E1B0A01C2BF2E85EF8AF7D38FB0638A8763D4957A4C69E5E334D, owner ledger SHA256 3CE12DB02D09EE9B3867870C81BB43BBA7578A354EB0EC5539FF5689C7A2D720, combined evidence hash 0C90287A34C800E0B7E2A5C8EC3A733EA80950465C8F042D514C3183AAA590B4"
+  ],
+  "blockers": [
+    "Phase 5 Slice 1 is not started and requires an explicit owner-authorized task from the verified pre-implementation closure baseline; live owner catalog verification/convergence remains mandatory at activation and was not executed"
+  ],
+  "nextExactAction": "Owner review: authorize Phase 5 Slice 1 foundation implementation from the exact-SHA-CI-verified pre-implementation closure baseline. Start a new task with agent:start; preserve historical source evidence baseline c1632904782f3da770c9880423a0ea5fa506b8be. Medium A-D remain implementation OPEN / design remediation DEFINED.",
   "activeProcesses": [],
   "prohibitions": [
     "Production access",
@@ -61,5 +106,5 @@
     "Commit or push without owner authorization",
     "Start Phase 5 without owner authorization"
   ],
-  "workingTreeFingerprint": "788335F57942AC060C11E9590CED2D4DE61CE7CC063A5B38F2DAA9EB9C2296E6"
+  "workingTreeFingerprint": "378D6E5D97DFD102F75141106B7157F2AEA8A3BB9F44F824807A0584FEE0C734"
 }

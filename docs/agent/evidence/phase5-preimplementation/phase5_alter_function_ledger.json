@@ -1,0 +1,5260 @@
+[
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._create_product_with_opening_stock_impl(text,text,text,text,uuid,uuid,uuid,uuid,int,bigint,bigint,bigint,int,int,uuid,int,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _create_product_with_opening_stock_impl",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.create_product_with_opening_stock(text,text,text,text,uuid,uuid,uuid,uuid,int,bigint,bigint,bigint,int,int,uuid,int,text)",
+      "to": "public._create_product_with_opening_stock_impl(text,text,text,text,uuid,uuid,uuid,uuid,int,bigint,bigint,bigint,int,int,uuid,int,text)"
+    },
+    "security_effect": null,
+    "source_location": 51,
+    "source_migration": "012_supplier_purchasing_rbac.sql",
+    "target_signature": "public.create_product_with_opening_stock(text,text,text,text,uuid,uuid,uuid,uuid,int,bigint,bigint,bigint,int,int,uuid,int,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._create_direct_supplier_receipt_impl(uuid,uuid,uuid,text,date,timestamptz,bigint,bigint,bigint,bigint,text,text,text,text,uuid,jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _create_direct_supplier_receipt_impl",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.create_direct_supplier_receipt(uuid,uuid,uuid,text,date,timestamptz,bigint,bigint,bigint,bigint,text,text,text,text,uuid,jsonb)",
+      "to": "public._create_direct_supplier_receipt_impl(uuid,uuid,uuid,text,date,timestamptz,bigint,bigint,bigint,bigint,text,text,text,text,uuid,jsonb)"
+    },
+    "security_effect": null,
+    "source_location": 60,
+    "source_migration": "012_supplier_purchasing_rbac.sql",
+    "target_signature": "public.create_direct_supplier_receipt(uuid,uuid,uuid,text,date,timestamptz,bigint,bigint,bigint,bigint,text,text,text,text,uuid,jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._record_supplier_receipt_payment_impl(uuid,bigint,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _record_supplier_receipt_payment_impl",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.record_supplier_receipt_payment(uuid,bigint,text,text,text)",
+      "to": "public._record_supplier_receipt_payment_impl(uuid,bigint,text,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 69,
+    "source_migration": "012_supplier_purchasing_rbac.sql",
+    "target_signature": "public.record_supplier_receipt_payment(uuid,bigint,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._archive_supplier_receipt_impl(uuid,bool)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _archive_supplier_receipt_impl",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.archive_supplier_receipt(uuid,bool)",
+      "to": "public._archive_supplier_receipt_impl(uuid,bool)"
+    },
+    "security_effect": null,
+    "source_location": 77,
+    "source_migration": "012_supplier_purchasing_rbac.sql",
+    "target_signature": "public.archive_supplier_receipt(uuid,bool)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._cancel_supplier_receipt_impl(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _cancel_supplier_receipt_impl",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.cancel_supplier_receipt(uuid,text)",
+      "to": "public._cancel_supplier_receipt_impl(uuid,text)"
+    },
+    "security_effect": null,
+    "source_location": 84,
+    "source_migration": "012_supplier_purchasing_rbac.sql",
+    "target_signature": "public.cancel_supplier_receipt(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._confirm_order_impl(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _confirm_order_impl",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.confirm_order(uuid,text)",
+      "to": "public._confirm_order_impl(uuid,text)"
+    },
+    "security_effect": null,
+    "source_location": 89,
+    "source_migration": "012_supplier_purchasing_rbac.sql",
+    "target_signature": "public.confirm_order(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._complete_order_impl(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _complete_order_impl",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.complete_order(uuid,text)",
+      "to": "public._complete_order_impl(uuid,text)"
+    },
+    "security_effect": null,
+    "source_location": 94,
+    "source_migration": "012_supplier_purchasing_rbac.sql",
+    "target_signature": "public.complete_order(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._cancel_order_impl(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _cancel_order_impl",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.cancel_order(uuid,text)",
+      "to": "public._cancel_order_impl(uuid,text)"
+    },
+    "security_effect": null,
+    "source_location": 99,
+    "source_migration": "012_supplier_purchasing_rbac.sql",
+    "target_signature": "public.cancel_order(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._update_order_status_impl(uuid,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _update_order_status_impl",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.update_order_status(uuid,text,text)",
+      "to": "public._update_order_status_impl(uuid,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 106,
+    "source_migration": "012_supplier_purchasing_rbac.sql",
+    "target_signature": "public.update_order_status(uuid,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.create_pos_sale_base_units_legacy(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO create_pos_sale_base_units_legacy",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.create_pos_sale(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+      "to": "public.create_pos_sale_base_units_legacy(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)"
+    },
+    "security_effect": null,
+    "source_location": 77,
+    "source_migration": "023_wholesale_order_accounting.sql",
+    "target_signature": "public.create_pos_sale(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.create_customer_order_base_units_legacy(text,text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,text,text,uuid,uuid,jsonb,bigint,bigint,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO create_customer_order_base_units_legacy",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.create_customer_order(text,text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,text,text,uuid,uuid,jsonb,bigint,bigint,text,text,text)",
+      "to": "public.create_customer_order_base_units_legacy(text,text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,text,text,uuid,uuid,jsonb,bigint,bigint,text,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 85,
+    "source_migration": "023_wholesale_order_accounting.sql",
+    "target_signature": "public.create_customer_order(text,text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,text,text,uuid,uuid,jsonb,bigint,bigint,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.submit_guest_customer_order_core(text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO submit_guest_customer_order_core",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.submit_guest_customer_order(text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text)",
+      "to": "public.submit_guest_customer_order_core(text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text)"
+    },
+    "security_effect": null,
+    "source_location": 15,
+    "source_migration": "036_storefront_experience_and_payment.sql",
+    "target_signature": "public.submit_guest_customer_order(text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "SECURITY"
+    ],
+    "clauses_detected": [
+      "SECURITY"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.get_dashboard_analytics()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "SECURITY INVOKER",
+    "owner_effect": null,
+    "rename_effect": null,
+    "security_effect": {
+      "mode": "INVOKER"
+    },
+    "source_location": 12,
+    "source_migration": "050_admin_api_security_hardening.sql",
+    "target_signature": "public.get_dashboard_analytics()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "SECURITY"
+    ],
+    "clauses_detected": [
+      "SECURITY"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.get_cash_shift_summary(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "SECURITY INVOKER",
+    "owner_effect": null,
+    "rename_effect": null,
+    "security_effect": {
+      "mode": "INVOKER"
+    },
+    "source_location": 13,
+    "source_migration": "050_admin_api_security_hardening.sql",
+    "target_signature": "public.get_cash_shift_summary(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "SECURITY"
+    ],
+    "clauses_detected": [
+      "SECURITY"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.get_cash_shift_display_summary(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "SECURITY INVOKER",
+    "owner_effect": null,
+    "rename_effect": null,
+    "security_effect": {
+      "mode": "INVOKER"
+    },
+    "source_location": 14,
+    "source_migration": "050_admin_api_security_hardening.sql",
+    "target_signature": "public.get_cash_shift_display_summary(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "SECURITY"
+    ],
+    "clauses_detected": [
+      "SECURITY"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.is_authenticated()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "SECURITY INVOKER",
+    "owner_effect": null,
+    "rename_effect": null,
+    "security_effect": {
+      "mode": "INVOKER"
+    },
+    "source_location": 18,
+    "source_migration": "050_admin_api_security_hardening.sql",
+    "target_signature": "public.is_authenticated()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "SET_CONFIGURATION"
+    ],
+    "clauses_detected": [
+      "SET_CONFIGURATION"
+    ],
+    "configuration_effect": [
+      {
+        "action": "SET",
+        "parameter": "search_path",
+        "value": "public, pg_temp"
+      }
+    ],
+    "final_signature": "public.is_authenticated()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "SET search_path = public, pg_temp",
+    "owner_effect": null,
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 19,
+    "source_migration": "050_admin_api_security_hardening.sql",
+    "target_signature": "public.is_authenticated()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._receive_inventory_impl(uuid,uuid,int,text,uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _receive_inventory_impl",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.receive_inventory(uuid,uuid,int,text,uuid,text)",
+      "to": "public._receive_inventory_impl(uuid,uuid,int,text,uuid,text)"
+    },
+    "security_effect": null,
+    "source_location": 49,
+    "source_migration": "050_admin_api_security_hardening.sql",
+    "target_signature": "public.receive_inventory(uuid,uuid,int,text,uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._create_purchase_order_impl(uuid,uuid,uuid,timestamptz,bigint,bigint,text,text,text,jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _create_purchase_order_impl",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.create_purchase_order(uuid,uuid,uuid,timestamptz,bigint,bigint,text,text,text,jsonb)",
+      "to": "public._create_purchase_order_impl(uuid,uuid,uuid,timestamptz,bigint,bigint,text,text,text,jsonb)"
+    },
+    "security_effect": null,
+    "source_location": 57,
+    "source_migration": "050_admin_api_security_hardening.sql",
+    "target_signature": "public.create_purchase_order(uuid,uuid,uuid,timestamptz,bigint,bigint,text,text,text,jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._update_purchase_order_status_impl(uuid,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _update_purchase_order_status_impl",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.update_purchase_order_status(uuid,text,text)",
+      "to": "public._update_purchase_order_status_impl(uuid,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 65,
+    "source_migration": "050_admin_api_security_hardening.sql",
+    "target_signature": "public.update_purchase_order_status(uuid,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._receive_purchase_order_impl(uuid,uuid,text,text,jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _receive_purchase_order_impl",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.receive_purchase_order(uuid,uuid,text,text,jsonb)",
+      "to": "public._receive_purchase_order_impl(uuid,uuid,text,text,jsonb)"
+    },
+    "security_effect": null,
+    "source_location": 72,
+    "source_migration": "050_admin_api_security_hardening.sql",
+    "target_signature": "public.receive_purchase_order(uuid,uuid,text,text,jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._record_supplier_payment_impl(uuid,uuid,bigint,text,text,timestamptz,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _record_supplier_payment_impl",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.record_supplier_payment(uuid,uuid,bigint,text,text,timestamptz,text)",
+      "to": "public._record_supplier_payment_impl(uuid,uuid,bigint,text,text,timestamptz,text)"
+    },
+    "security_effect": null,
+    "source_location": 79,
+    "source_migration": "050_admin_api_security_hardening.sql",
+    "target_signature": "public.record_supplier_payment(uuid,uuid,bigint,text,text,timestamptz,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._get_operational_business_report_v1(uuid,date,date)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _get_operational_business_report_v1",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.get_operational_business_report(uuid,date,date)",
+      "to": "public._get_operational_business_report_v1(uuid,date,date)"
+    },
+    "security_effect": null,
+    "source_location": 14,
+    "source_migration": "056_inventory_movement_reports_and_public_pos_receipts.sql",
+    "target_signature": "public.get_operational_business_report(uuid,date,date)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._get_operational_business_report_v2(uuid,date,date)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _get_operational_business_report_v2",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.get_operational_business_report(uuid,date,date)",
+      "to": "public._get_operational_business_report_v2(uuid,date,date)"
+    },
+    "security_effect": null,
+    "source_location": 19,
+    "source_migration": "078_operational_accounting_integrity.sql",
+    "target_signature": "public.get_operational_business_report(uuid,date,date)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._get_expense_shift_center_v1(uuid,int)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _get_expense_shift_center_v1",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.get_expense_shift_center(uuid,int)",
+      "to": "public._get_expense_shift_center_v1(uuid,int)"
+    },
+    "security_effect": null,
+    "source_location": 667,
+    "source_migration": "078_operational_accounting_integrity.sql",
+    "target_signature": "public.get_expense_shift_center(uuid,int)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._get_cash_shift_summary_v1(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _get_cash_shift_summary_v1",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.get_cash_shift_summary(uuid)",
+      "to": "public._get_cash_shift_summary_v1(uuid)"
+    },
+    "security_effect": null,
+    "source_location": 741,
+    "source_migration": "078_operational_accounting_integrity.sql",
+    "target_signature": "public.get_cash_shift_summary(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._get_cash_shift_closing_report_v1(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _get_cash_shift_closing_report_v1",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.get_cash_shift_closing_report(uuid)",
+      "to": "public._get_cash_shift_closing_report_v1(uuid)"
+    },
+    "security_effect": null,
+    "source_location": 841,
+    "source_migration": "078_operational_accounting_integrity.sql",
+    "target_signature": "public.get_cash_shift_closing_report(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._record_supplier_payment_idempotency_legacy(uuid,uuid,bigint,text,text,timestamptz,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _record_supplier_payment_idempotency_legacy",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.record_supplier_payment(uuid,uuid,bigint,text,text,timestamptz,text)",
+      "to": "public._record_supplier_payment_idempotency_legacy(uuid,uuid,bigint,text,text,timestamptz,text)"
+    },
+    "security_effect": null,
+    "source_location": 39,
+    "source_migration": "080_supplier_payment_idempotency.sql",
+    "target_signature": "public.record_supplier_payment(uuid,uuid,bigint,text,text,timestamptz,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._record_supplier_receipt_payment_idempotency_legacy(uuid,bigint,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _record_supplier_receipt_payment_idempotency_legacy",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.record_supplier_receipt_payment(uuid,bigint,text,text,text)",
+      "to": "public._record_supplier_receipt_payment_idempotency_legacy(uuid,bigint,text,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 50,
+    "source_migration": "080_supplier_payment_idempotency.sql",
+    "target_signature": "public.record_supplier_receipt_payment(uuid,bigint,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._close_cash_shift_before_closing_report_snapshot(uuid,bigint,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _close_cash_shift_before_closing_report_snapshot",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.close_cash_shift(uuid,bigint,text)",
+      "to": "public._close_cash_shift_before_closing_report_snapshot(uuid,bigint,text)"
+    },
+    "security_effect": null,
+    "source_location": 119,
+    "source_migration": "094_immutable_cash_shift_closing_report_snapshot.sql",
+    "target_signature": "public.close_cash_shift(uuid,bigint,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._get_cash_shift_closing_report_before_snapshot(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _get_cash_shift_closing_report_before_snapshot",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.get_cash_shift_closing_report(uuid)",
+      "to": "public._get_cash_shift_closing_report_before_snapshot(uuid)"
+    },
+    "security_effect": null,
+    "source_location": 136,
+    "source_migration": "094_immutable_cash_shift_closing_report_snapshot.sql",
+    "target_signature": "public.get_cash_shift_closing_report(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._get_inventory_opening_setup_including_flavor_masters_v1(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _get_inventory_opening_setup_including_flavor_masters_v1",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.get_inventory_opening_setup(uuid)",
+      "to": "public._get_inventory_opening_setup_including_flavor_masters_v1(uuid)"
+    },
+    "security_effect": null,
+    "source_location": 322,
+    "source_migration": "103_flavor_receiving_hardening.sql",
+    "target_signature": "public.get_inventory_opening_setup(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.assert_closed_cash_shift_has_snapshot()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 27,
+    "source_migration": "110_fix_deferred_cash_shift_snapshot_guard_privileges.sql",
+    "target_signature": "public.assert_closed_cash_shift_has_snapshot()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._create_pos_sale_package_legacy(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _create_pos_sale_package_legacy",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.create_pos_sale(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+      "to": "public._create_pos_sale_package_legacy(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)"
+    },
+    "security_effect": null,
+    "source_location": 14,
+    "source_migration": "111_harden_pos_sale_idempotency_replays.sql",
+    "target_signature": "public.create_pos_sale(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.create_pos_sale(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 341,
+    "source_migration": "111_harden_pos_sale_idempotency_replays.sql",
+    "target_signature": "public.create_pos_sale(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.get_configurable_parcel_feature_state()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1729,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.get_configurable_parcel_feature_state()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.assert_configurable_parcel_creation_allowed()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1730,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.assert_configurable_parcel_creation_allowed()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_new_configurable_parcel_row()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1731,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.guard_new_configurable_parcel_row()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_order_parcel_instance_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1732,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.guard_order_parcel_instance_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_order_parcel_component_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1733,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.guard_order_parcel_component_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_finalized_order_parcel_item_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1734,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.guard_finalized_order_parcel_item_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_immutable_parcel_foundation_row()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1735,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.guard_immutable_parcel_foundation_row()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_order_inventory_reservation_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1736,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.guard_order_inventory_reservation_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.validate_order_inventory_reservation_chain()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1737,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.validate_order_inventory_reservation_chain()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.validate_inventory_movement_source_chain()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1738,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.validate_inventory_movement_source_chain()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.validate_sales_return_item_line_kind()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1739,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.validate_sales_return_item_line_kind()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.validate_product_parcel_configuration()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1740,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.validate_product_parcel_configuration()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.validate_order_parcel_instance_family()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1741,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.validate_order_parcel_instance_family()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.validate_order_parcel_component_family()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1742,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.validate_order_parcel_component_family()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.validate_supplier_receipt_item_commercial_family()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1743,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.validate_supplier_receipt_item_commercial_family()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.finalize_order_parcel_instance_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1744,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.finalize_order_parcel_instance_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.assert_order_parcel_composition_total()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1745,
+    "source_migration": "112_configurable_parcel_foundation.sql",
+    "target_signature": "public.assert_order_parcel_composition_total()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase2_lock_payment_shift_internal(uuid,text,bigint)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 876,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.phase2_lock_payment_shift_internal(uuid,text,bigint)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase2_lock_receipt_payment_shifts_internal(uuid,uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 877,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.phase2_lock_receipt_payment_shifts_internal(uuid,uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._cancel_supplier_receipt_legacy_guarded_v2(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _cancel_supplier_receipt_legacy_guarded_v2",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.cancel_supplier_receipt(uuid,text)",
+      "to": "public._cancel_supplier_receipt_legacy_guarded_v2(uuid,text)"
+    },
+    "security_effect": null,
+    "source_location": 2909,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.cancel_supplier_receipt(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase2_allocate_largest_remainder_internal(bigint,jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4306,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.phase2_allocate_largest_remainder_internal(bigint,jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase2_canonicalize_receipt_lines_internal(jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4307,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.phase2_canonicalize_receipt_lines_internal(jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase2_request_fingerprint_internal(jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4308,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.phase2_request_fingerprint_internal(jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase2_canonicalize_legacy_receipt_items_internal(jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4309,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.phase2_canonicalize_legacy_receipt_items_internal(jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase2_try_parse_uuid_internal(text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4310,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.phase2_try_parse_uuid_internal(text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.attach_supplier_payment_to_open_shift()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4311,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.attach_supplier_payment_to_open_shift()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.resolve_legacy_supplier_receipt_replay_v1(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4312,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.resolve_legacy_supplier_receipt_replay_v1(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase2_lock_inventory_products_internal(uuid[])",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4313,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.phase2_lock_inventory_products_internal(uuid[])",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase2_validate_receipt_lines_internal(jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4314,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.phase2_validate_receipt_lines_internal(jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase2_apply_inventory_and_wac_internal(uuid,uuid,text,uuid,jsonb,uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4315,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.phase2_apply_inventory_and_wac_internal(uuid,uuid,text,uuid,jsonb,uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.create_direct_supplier_receipt_v2(uuid,uuid,uuid,text,date,timestamptz,bigint,bigint,bigint,bigint,text,text,text,text,text,jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4316,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.create_direct_supplier_receipt_v2(uuid,uuid,uuid,text,date,timestamptz,bigint,bigint,bigint,bigint,text,text,text,text,text,jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.create_purchase_order_v2(uuid,uuid,uuid,timestamptz,bigint,bigint,text,text,text,jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4317,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.create_purchase_order_v2(uuid,uuid,uuid,timestamptz,bigint,bigint,text,text,text,jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.receive_purchase_order_v2(uuid,uuid,text,date,timestamptz,bigint,bigint,bigint,bigint,text,text,text,text,text,jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4318,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.receive_purchase_order_v2(uuid,uuid,text,date,timestamptz,bigint,bigint,bigint,bigint,text,text,text,text,text,jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase2_reverse_inventory_and_wac_internal(uuid,uuid,uuid,text,uuid,uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4319,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.phase2_reverse_inventory_and_wac_internal(uuid,uuid,uuid,text,uuid,uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._cancel_supplier_receipt_legacy_guarded_v2(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4320,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public._cancel_supplier_receipt_legacy_guarded_v2(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.cancel_supplier_receipt(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4321,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.cancel_supplier_receipt(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.cancel_purchase_receipt_v2(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4322,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.cancel_purchase_receipt_v2(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.validate_purchase_order_component_family_v2()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4323,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.validate_purchase_order_component_family_v2()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.validate_purchase_receipt_item_family_v2()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4324,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.validate_purchase_receipt_item_family_v2()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.validate_phase2_inventory_movement_source()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4325,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.validate_phase2_inventory_movement_source()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_phase2_receipt_header_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4326,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.guard_phase2_receipt_header_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_phase2_detail_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4327,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.guard_phase2_detail_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_supplier_invoice_identity_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4328,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.guard_supplier_invoice_identity_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.assert_phase2_receipt_reconciliation()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4329,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.assert_phase2_receipt_reconciliation()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.assign_inventory_movement_mutation_sequence()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4330,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.assign_inventory_movement_mutation_sequence()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.save_product_parcel_configuration_v1(uuid,text,bool)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4331,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.save_product_parcel_configuration_v1(uuid,text,bool)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.set_configurable_parcel_feature_state_v1(text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4332,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.set_configurable_parcel_feature_state_v1(text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.create_direct_supplier_receipt(uuid,uuid,uuid,text,date,timestamptz,bigint,bigint,bigint,bigint,text,text,text,text,uuid,jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4333,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.create_direct_supplier_receipt(uuid,uuid,uuid,text,date,timestamptz,bigint,bigint,bigint,bigint,text,text,text,text,uuid,jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.receive_purchase_order(uuid,uuid,text,text,jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4337,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.receive_purchase_order(uuid,uuid,text,text,jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._transfer_inventory_between_warehouses_phase2_legacy(uuid,uuid,uuid,int,text,timestamptz)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _transfer_inventory_between_warehouses_phase2_legacy",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.transfer_inventory_between_warehouses(uuid,uuid,uuid,int,text,timestamptz)",
+      "to": "public._transfer_inventory_between_warehouses_phase2_legacy(uuid,uuid,uuid,int,text,timestamptz)"
+    },
+    "security_effect": null,
+    "source_location": 4344,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.transfer_inventory_between_warehouses(uuid,uuid,uuid,int,text,timestamptz)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.transfer_inventory_between_warehouses(uuid,uuid,uuid,int,text,timestamptz)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4376,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public.transfer_inventory_between_warehouses(uuid,uuid,uuid,int,text,timestamptz)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._transfer_inventory_between_warehouses_phase2_legacy(uuid,uuid,uuid,int,text,timestamptz)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 4379,
+    "source_migration": "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "target_signature": "public._transfer_inventory_between_warehouses_phase2_legacy(uuid,uuid,uuid,int,text,timestamptz)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_actor_scope_hash_internal(text,uuid,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 994,
+    "source_migration": "114_configurable_parcel_sales_contracts_and_safety_primitives.sql",
+    "target_signature": "public.phase3_actor_scope_hash_internal(text,uuid,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_require_uuid_internal(text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 996,
+    "source_migration": "114_configurable_parcel_sales_contracts_and_safety_primitives.sql",
+    "target_signature": "public.phase3_require_uuid_internal(text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_require_positive_integer_internal(text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 997,
+    "source_migration": "114_configurable_parcel_sales_contracts_and_safety_primitives.sql",
+    "target_signature": "public.phase3_require_positive_integer_internal(text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_require_nonnegative_bigint_internal(text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 999,
+    "source_migration": "114_configurable_parcel_sales_contracts_and_safety_primitives.sql",
+    "target_signature": "public.phase3_require_nonnegative_bigint_internal(text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_canonicalize_components_internal(jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1001,
+    "source_migration": "114_configurable_parcel_sales_contracts_and_safety_primitives.sql",
+    "target_signature": "public.phase3_canonicalize_components_internal(jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_request_fingerprint_internal(jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1003,
+    "source_migration": "114_configurable_parcel_sales_contracts_and_safety_primitives.sql",
+    "target_signature": "public.phase3_request_fingerprint_internal(jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_canonicalize_sale_request_internal(jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1005,
+    "source_migration": "114_configurable_parcel_sales_contracts_and_safety_primitives.sql",
+    "target_signature": "public.phase3_canonicalize_sale_request_internal(jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_resolve_operation_replay_internal(text,text,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1007,
+    "source_migration": "114_configurable_parcel_sales_contracts_and_safety_primitives.sql",
+    "target_signature": "public.phase3_resolve_operation_replay_internal(text,text,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_assert_configurable_parcel_creation_allowed_internal(text,uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1010,
+    "source_migration": "114_configurable_parcel_sales_contracts_and_safety_primitives.sql",
+    "target_signature": "public.phase3_assert_configurable_parcel_creation_allowed_internal(text,uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_lock_inventory_products_internal(uuid[])",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1013,
+    "source_migration": "114_configurable_parcel_sales_contracts_and_safety_primitives.sql",
+    "target_signature": "public.phase3_lock_inventory_products_internal(uuid[])",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_validate_configurable_parcel_internal(text,uuid,uuid,uuid,int,jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1015,
+    "source_migration": "114_configurable_parcel_sales_contracts_and_safety_primitives.sql",
+    "target_signature": "public.phase3_validate_configurable_parcel_internal(text,uuid,uuid,uuid,int,jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_allocate_parcel_cogs_internal(jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1018,
+    "source_migration": "114_configurable_parcel_sales_contracts_and_safety_primitives.sql",
+    "target_signature": "public.phase3_allocate_parcel_cogs_internal(jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.validate_order_inventory_reservation_chain()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1020,
+    "source_migration": "114_configurable_parcel_sales_contracts_and_safety_primitives.sql",
+    "target_signature": "public.validate_order_inventory_reservation_chain()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._create_pos_sale_base_units_before_phase3_lock(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _create_pos_sale_base_units_before_phase3_lock",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.create_pos_sale_base_units_legacy(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+      "to": "public._create_pos_sale_base_units_before_phase3_lock(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)"
+    },
+    "security_effect": null,
+    "source_location": 23,
+    "source_migration": "115_configurable_parcel_pos_sale_coordinator.sql",
+    "target_signature": "public.create_pos_sale_base_units_legacy(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_resolve_legacy_pos_location_internal(uuid,uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 80,
+    "source_migration": "115_configurable_parcel_pos_sale_coordinator.sql",
+    "target_signature": "public.phase3_resolve_legacy_pos_location_internal(uuid,uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_lock_open_pos_shift_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 135,
+    "source_migration": "115_configurable_parcel_pos_sale_coordinator.sql",
+    "target_signature": "public.phase3_lock_open_pos_shift_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.create_pos_sale_base_units_legacy(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 182,
+    "source_migration": "115_configurable_parcel_pos_sale_coordinator.sql",
+    "target_signature": "public.create_pos_sale_base_units_legacy(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.create_pos_sale_v2(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1000,
+    "source_migration": "115_configurable_parcel_pos_sale_coordinator.sql",
+    "target_signature": "public.create_pos_sale_v2(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_pos_reversal_inventory_rows_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1050,
+    "source_migration": "115_configurable_parcel_pos_sale_coordinator.sql",
+    "target_signature": "public.phase3_pos_reversal_inventory_rows_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.reverse_pos_sale(uuid,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1318,
+    "source_migration": "115_configurable_parcel_pos_sale_coordinator.sql",
+    "target_signature": "public.reverse_pos_sale(uuid,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._create_pos_sale_v2_before_registered_customer_lock(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _create_pos_sale_v2_before_registered_customer_lock",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.create_pos_sale_v2(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+      "to": "public._create_pos_sale_v2_before_registered_customer_lock(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)"
+    },
+    "security_effect": null,
+    "source_location": 62,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.create_pos_sale_v2(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.create_pos_sale_v2(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 128,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.create_pos_sale_v2(uuid,uuid,uuid,text,text,jsonb,bigint,bigint,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_customer_cost_finalization_allowed_internal(uuid,text,uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 311,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.phase3_customer_cost_finalization_allowed_internal(uuid,text,uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._submit_guest_customer_order_v1_before_phase3(text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _submit_guest_customer_order_v1_before_phase3",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.submit_guest_customer_order(text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text,text,text)",
+      "to": "public._submit_guest_customer_order_v1_before_phase3(text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 905,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.submit_guest_customer_order(text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.populate_order_item_cost_snapshot()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2728,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.populate_order_item_cost_snapshot()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_order_parcel_instance_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2729,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.guard_order_parcel_instance_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_order_parcel_component_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2730,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.guard_order_parcel_component_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_finalized_order_parcel_item_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2731,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.guard_finalized_order_parcel_item_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_phase3_customer_order_cost_finalization()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2732,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.guard_phase3_customer_order_cost_finalization()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_phase3_customer_v2_terminal_status()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2733,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.guard_phase3_customer_v2_terminal_status()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_assert_legacy_customer_lifecycle_allowed_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2734,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.phase3_assert_legacy_customer_lifecycle_allowed_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_actor_scope_hash_internal(text,uuid,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2736,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.phase3_actor_scope_hash_internal(text,uuid,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_resolve_operation_replay_internal(text,text,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2738,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.phase3_resolve_operation_replay_internal(text,text,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_customer_line_identity_internal(jsonb)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2741,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.phase3_customer_line_identity_internal(jsonb)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.submit_guest_customer_order(text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2742,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.submit_guest_customer_order(text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.submit_guest_customer_order_v2(text,text,text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text,text,text,bigint,bigint,bigint,bigint)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2746,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.submit_guest_customer_order_v2(text,text,text,text,text,text,text,text,text,text,text,text,double precision,double precision,text,jsonb,text,text,text,bigint,bigint,bigint,bigint)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.complete_website_order_with_settlement_v2(uuid,text,text,bigint,bigint,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2751,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.complete_website_order_with_settlement_v2(uuid,text,text,bigint,bigint,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_release_customer_reservations_internal(uuid,uuid,text,text,text,jsonb,text,text,uuid,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2754,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.phase3_release_customer_reservations_internal(uuid,uuid,text,text,text,jsonb,text,text,uuid,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.cancel_customer_order_v2(uuid,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2757,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.cancel_customer_order_v2(uuid,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase3_expire_customer_order_v2_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2758,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.phase3_expire_customer_order_v2_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.expire_stale_new_website_orders(int)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2759,
+    "source_migration": "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "target_signature": "public.expire_stale_new_website_orders(int)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.get_public_configurable_parcel_options(uuid[])",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 196,
+    "source_migration": "117_customer_public_configurable_parcel_read_contract.sql",
+    "target_signature": "public.get_public_configurable_parcel_options(uuid[])",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.preview_guest_promotion_v2(jsonb,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 271,
+    "source_migration": "118_customer_guest_promotion_preview_v2.sql",
+    "target_signature": "public.preview_guest_promotion_v2(jsonb,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._record_customer_order_payment_before_phase4_lock(uuid,bigint,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _record_customer_order_payment_before_phase4_lock",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.record_customer_order_payment(uuid,bigint,text,text,text)",
+      "to": "public._record_customer_order_payment_before_phase4_lock(uuid,bigint,text,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 2765,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.record_customer_order_payment(uuid,bigint,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._complete_website_order_with_settlement_before_phase4_lock(uuid,text,bigint,bigint,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _complete_website_order_with_settlement_before_phase4_lock",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.complete_website_order_with_settlement(uuid,text,bigint,bigint,text,text)",
+      "to": "public._complete_website_order_with_settlement_before_phase4_lock(uuid,text,bigint,bigint,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 2802,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.complete_website_order_with_settlement(uuid,text,bigint,bigint,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._complete_website_order_with_settlement_v2_before_phase4_lock(uuid,text,text,bigint,bigint,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _complete_website_order_with_settlement_v2_before_phase4_lock",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.complete_website_order_with_settlement_v2(uuid,text,text,bigint,bigint,text,text)",
+      "to": "public._complete_website_order_with_settlement_v2_before_phase4_lock(uuid,text,text,bigint,bigint,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 2925,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.complete_website_order_with_settlement_v2(uuid,text,text,bigint,bigint,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._return_completed_website_order_before_phase4_lock(uuid,text,text,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _return_completed_website_order_before_phase4_lock",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.return_completed_website_order(uuid,text,text,text,text,text)",
+      "to": "public._return_completed_website_order_before_phase4_lock(uuid,text,text,text,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 2976,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.return_completed_website_order(uuid,text,text,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._complete_order_impl_before_phase4_lock(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _complete_order_impl_before_phase4_lock",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public._complete_order_impl(uuid,text)",
+      "to": "public._complete_order_impl_before_phase4_lock(uuid,text)"
+    },
+    "security_effect": null,
+    "source_location": 3017,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public._complete_order_impl(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._cancel_order_impl_before_phase4_lock(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _cancel_order_impl_before_phase4_lock",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public._cancel_order_impl(uuid,text)",
+      "to": "public._cancel_order_impl_before_phase4_lock(uuid,text)"
+    },
+    "security_effect": null,
+    "source_location": 3019,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public._cancel_order_impl(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._reverse_customer_order_payment_before_phase4_lock(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _reverse_customer_order_payment_before_phase4_lock",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.reverse_customer_order_payment(uuid,text)",
+      "to": "public._reverse_customer_order_payment_before_phase4_lock(uuid,text)"
+    },
+    "security_effect": null,
+    "source_location": 3089,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.reverse_customer_order_payment(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._reverse_operational_expense_before_phase4_lock(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _reverse_operational_expense_before_phase4_lock",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.reverse_operational_expense(uuid,text)",
+      "to": "public._reverse_operational_expense_before_phase4_lock(uuid,text)"
+    },
+    "security_effect": null,
+    "source_location": 3141,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.reverse_operational_expense(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._cancel_supplier_receipt_before_phase4_lock(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _cancel_supplier_receipt_before_phase4_lock",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.cancel_supplier_receipt(uuid,text)",
+      "to": "public._cancel_supplier_receipt_before_phase4_lock(uuid,text)"
+    },
+    "security_effect": null,
+    "source_location": 3374,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.cancel_supplier_receipt(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._cancel_purchase_receipt_v2_before_phase4_lock(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _cancel_purchase_receipt_v2_before_phase4_lock",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.cancel_purchase_receipt_v2(uuid,text)",
+      "to": "public._cancel_purchase_receipt_v2_before_phase4_lock(uuid,text)"
+    },
+    "security_effect": null,
+    "source_location": 3376,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.cancel_purchase_receipt_v2(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._reverse_supplier_payment_before_phase4_lock(uuid,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _reverse_supplier_payment_before_phase4_lock",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.reverse_supplier_payment(uuid,text,text)",
+      "to": "public._reverse_supplier_payment_before_phase4_lock(uuid,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 3378,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.reverse_supplier_payment(uuid,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._reverse_cash_shift_with_operations_before_phase4_lock(uuid,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _reverse_cash_shift_with_operations_before_phase4_lock",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.reverse_cash_shift_with_operations(uuid,text,text)",
+      "to": "public._reverse_cash_shift_with_operations_before_phase4_lock(uuid,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 3662,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.reverse_cash_shift_with_operations(uuid,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_effective_standalone_unit_price_internal(uuid,text,text,text,timestamptz)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3797,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_effective_standalone_unit_price_internal(uuid,text,text,text,timestamptz)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_canonicalize_idempotency_key_internal(text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3798,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_canonicalize_idempotency_key_internal(text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_assert_success_result_internal(uuid,text,jsonb,uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3799,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_assert_success_result_internal(uuid,text,jsonb,uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_lock_aftercare_order_gate_internal(text,jsonb,uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3800,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_lock_aftercare_order_gate_internal(text,jsonb,uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_lock_aftercare_operation_order_internal(uuid,uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3801,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_lock_aftercare_operation_order_internal(uuid,uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_lock_aftercare_parent_order_internal(text,uuid,uuid,uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3802,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_lock_aftercare_parent_order_internal(text,uuid,uuid,uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_guard_aftercare_operation_order_gate()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3803,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_guard_aftercare_operation_order_gate()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_assert_aftercare_operation_binding_internal(uuid,text,uuid,smallint)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3804,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_assert_aftercare_operation_binding_internal(uuid,text,uuid,smallint)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_resolve_operation_replay_internal(text,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3805,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_resolve_operation_replay_internal(text,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_capture_parcel_component_price_snapshot()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3806,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_capture_parcel_component_price_snapshot()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_guard_return_event_insert_state()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3807,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_guard_return_event_insert_state()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_guard_replacement_event_insert_state()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3808,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_guard_replacement_event_insert_state()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_order_parcel_component_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3809,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.guard_order_parcel_component_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_prepare_component_inspection()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3810,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_prepare_component_inspection()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_validate_replacement_item()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3811,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_validate_replacement_item()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_validate_return_item_insert()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3812,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_validate_return_item_insert()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_validate_aftercare_consumption_insert()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3813,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_validate_aftercare_consumption_insert()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_aftercare_source_root_internal(text,uuid,uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3814,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_aftercare_source_root_internal(text,uuid,uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_authoritative_completion_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3815,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_authoritative_completion_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_finalize_aftercare_operation_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3816,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_finalize_aftercare_operation_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_cancel_draft_aftercare_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3817,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_cancel_draft_aftercare_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_phase4_sales_return_event_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3818,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.guard_phase4_sales_return_event_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_phase4_replacement_event_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3819,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.guard_phase4_replacement_event_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_phase4_immutable_row()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3820,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.guard_phase4_immutable_row()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.guard_phase4_aftercare_consumption_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3821,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.guard_phase4_aftercare_consumption_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_assert_no_settled_aftercare_for_order_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3822,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_assert_no_settled_aftercare_for_order_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_guard_order_reversal_dependency()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3823,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_guard_order_reversal_dependency()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_guard_customer_payment_reversal_dependency()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3824,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_guard_customer_payment_reversal_dependency()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_lock_order_inventory_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3825,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_lock_order_inventory_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_lock_customer_order_context_internal(uuid,bool,bool)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3826,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_lock_customer_order_context_internal(uuid,bool,bool)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_customer_completion_replay_preflight_internal(uuid,text,text,bigint,bigint,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3827,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_customer_completion_replay_preflight_internal(uuid,text,text,bigint,bigint,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.record_customer_order_payment(uuid,bigint,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3830,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.record_customer_order_payment(uuid,bigint,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.complete_website_order_with_settlement(uuid,text,bigint,bigint,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3831,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.complete_website_order_with_settlement(uuid,text,bigint,bigint,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.complete_website_order_with_settlement_v2(uuid,text,text,bigint,bigint,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3832,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.complete_website_order_with_settlement_v2(uuid,text,text,bigint,bigint,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.return_completed_website_order(uuid,text,text,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3833,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.return_completed_website_order(uuid,text,text,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._complete_order_impl(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3834,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public._complete_order_impl(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._cancel_order_impl(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3835,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public._cancel_order_impl(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.attach_customer_payment_to_open_shift()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3836,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.attach_customer_payment_to_open_shift()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.reverse_customer_order_payment(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3837,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.reverse_customer_order_payment(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.reverse_operational_expense(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3838,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.reverse_operational_expense(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_supplier_context_snapshot_internal(uuid,uuid,uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3839,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_supplier_context_snapshot_internal(uuid,uuid,uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_lock_supplier_context_internal(uuid,uuid,uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3840,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_lock_supplier_context_internal(uuid,uuid,uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase2_lock_receipt_payment_shifts_internal(uuid,uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3841,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase2_lock_receipt_payment_shifts_internal(uuid,uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.cancel_supplier_receipt(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3842,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.cancel_supplier_receipt(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.cancel_purchase_receipt_v2(uuid,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3843,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.cancel_purchase_receipt_v2(uuid,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.reverse_supplier_payment(uuid,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3844,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.reverse_supplier_payment(uuid,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_full_shift_context_snapshot_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3845,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_full_shift_context_snapshot_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_lock_full_shift_context_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3846,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.phase4_lock_full_shift_context_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.reverse_cash_shift_with_operations(uuid,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 3847,
+    "source_migration": "120_phase4_returns_refunds_foundation.sql",
+    "target_signature": "public.reverse_cash_shift_with_operations(uuid,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_finalize_aftercare_operation_foundation_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO phase4_finalize_aftercare_operation_foundation_internal",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.phase4_finalize_aftercare_operation_internal(uuid)",
+      "to": "public.phase4_finalize_aftercare_operation_foundation_internal(uuid)"
+    },
+    "security_effect": null,
+    "source_location": 971,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase4_finalize_aftercare_operation_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._get_crm_customer_page_before_phase42_receivables(int,int,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _get_crm_customer_page_before_phase42_receivables",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.get_crm_customer_page(int,int,text,text,text)",
+      "to": "public._get_crm_customer_page_before_phase42_receivables(int,int,text,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 1793,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.get_crm_customer_page(int,int,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._get_crm_customer_detail_page_before_phase42_receivables(uuid,int,int)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _get_crm_customer_detail_page_before_phase42_receivables",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.get_crm_customer_detail_page(uuid,int,int)",
+      "to": "public._get_crm_customer_detail_page_before_phase42_receivables(uuid,int,int)"
+    },
+    "security_effect": null,
+    "source_location": 1834,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.get_crm_customer_detail_page(uuid,int,int)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._return_completed_website_order_before_phase42_coordinator(uuid,text,text,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _return_completed_website_order_before_phase42_coordinator",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.return_completed_website_order(uuid,text,text,text,text,text)",
+      "to": "public._return_completed_website_order_before_phase42_coordinator(uuid,text,text,text,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 1890,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.return_completed_website_order(uuid,text,text,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._record_customer_order_payment_before_phase42_financial_guard(uuid,bigint,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _record_customer_order_payment_before_phase42_financial_guard",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.record_customer_order_payment(uuid,bigint,text,text,text)",
+      "to": "public._record_customer_order_payment_before_phase42_financial_guard(uuid,bigint,text,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 1948,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.record_customer_order_payment(uuid,bigint,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public._reverse_cash_shift_with_operations_before_phase42_refund_guard(uuid,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO _reverse_cash_shift_with_operations_before_phase42_refund_guard",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.reverse_cash_shift_with_operations(uuid,text,text)",
+      "to": "public._reverse_cash_shift_with_operations_before_phase42_refund_guard(uuid,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 2002,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.reverse_cash_shift_with_operations(uuid,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_guard_return_coordinator_version()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2124,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase42_guard_return_coordinator_version()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_guard_inventory_effect_history()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2125,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase42_guard_inventory_effect_history()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_guard_settlement_evidence()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2126,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase42_guard_settlement_evidence()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_inventory_effects_snapshot_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2127,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase42_inventory_effects_snapshot_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_expected_return_inventory_effects_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2129,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase42_expected_return_inventory_effects_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_assert_operational_return_evidence_internal(uuid,bool)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2131,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase42_assert_operational_return_evidence_internal(uuid,bool)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_require_evidence_before_return_settlement()",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2134,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase42_require_evidence_before_return_settlement()",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_canonicalize_return_request_internal(uuid,jsonb,text,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2136,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase42_canonicalize_return_request_internal(uuid,jsonb,text,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_order_financial_position_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2139,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase42_order_financial_position_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_customer_receivable_total_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2140,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase42_customer_receivable_total_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_apply_return_inventory_internal(uuid,uuid,uuid,jsonb,uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2142,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase42_apply_return_inventory_internal(uuid,uuid,uuid,jsonb,uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_finalize_aftercare_operation_foundation_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2145,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase4_finalize_aftercare_operation_foundation_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_finalize_aftercare_operation_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2147,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase4_finalize_aftercare_operation_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_resolve_operation_replay_internal(text,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2149,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.phase4_resolve_operation_replay_internal(text,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.settle_sales_return_v1(uuid,text,jsonb,text,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2152,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.settle_sales_return_v1(uuid,text,jsonb,text,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.return_completed_website_order(uuid,text,text,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2155,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.return_completed_website_order(uuid,text,text,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.record_customer_order_payment(uuid,bigint,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2158,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.record_customer_order_payment(uuid,bigint,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.reverse_cash_shift_with_operations(uuid,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2161,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.reverse_cash_shift_with_operations(uuid,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.get_customer_outstanding_orders_page(int,int,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2163,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.get_customer_outstanding_orders_page(int,int,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.get_crm_customer_page(int,int,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2166,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.get_crm_customer_page(int,int,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.get_crm_customer_detail_page(uuid,int,int)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 2169,
+    "source_migration": "121_phase42_atomic_return_coordinator.sql",
+    "target_signature": "public.get_crm_customer_detail_page(uuid,int,int)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase4_finalize_aftercare_operation_before_phase43(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO phase4_finalize_aftercare_operation_before_phase43",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.phase4_finalize_aftercare_operation_internal(uuid)",
+      "to": "public.phase4_finalize_aftercare_operation_before_phase43(uuid)"
+    },
+    "security_effect": null,
+    "source_location": 540,
+    "source_migration": "122_phase43_admin_aftercare_integration.sql",
+    "target_signature": "public.phase4_finalize_aftercare_operation_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_canonicalize_return_request_before_phase43_internal(uuid,jsonb,text,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO phase42_canonicalize_return_request_before_phase43_internal",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.phase42_canonicalize_return_request_internal(uuid,jsonb,text,text,text,text)",
+      "to": "public.phase42_canonicalize_return_request_before_phase43_internal(uuid,jsonb,text,text,text,text)"
+    },
+    "security_effect": null,
+    "source_location": 924,
+    "source_migration": "122_phase43_admin_aftercare_integration.sql",
+    "target_signature": "public.phase42_canonicalize_return_request_internal(uuid,jsonb,text,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_assert_operational_return_evidence_before_phase43(uuid,bool)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO phase42_assert_operational_return_evidence_before_phase43",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.phase42_assert_operational_return_evidence_internal(uuid,bool)",
+      "to": "public.phase42_assert_operational_return_evidence_before_phase43(uuid,bool)"
+    },
+    "security_effect": null,
+    "source_location": 1295,
+    "source_migration": "122_phase43_admin_aftercare_integration.sql",
+    "target_signature": "public.phase42_assert_operational_return_evidence_internal(uuid,bool)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_apply_return_inventory_before_phase43_internal(uuid,uuid,uuid,jsonb,uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO phase42_apply_return_inventory_before_phase43_internal",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.phase42_apply_return_inventory_internal(uuid,uuid,uuid,jsonb,uuid)",
+      "to": "public.phase42_apply_return_inventory_before_phase43_internal(uuid,uuid,uuid,jsonb,uuid)"
+    },
+    "security_effect": null,
+    "source_location": 1394,
+    "source_migration": "122_phase43_admin_aftercare_integration.sql",
+    "target_signature": "public.phase42_apply_return_inventory_internal(uuid,uuid,uuid,jsonb,uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "RENAME"
+    ],
+    "clauses_detected": [
+      "RENAME"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.phase42_expected_return_effects_pre43_internal(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "RENAME TO phase42_expected_return_effects_pre43_internal",
+    "owner_effect": null,
+    "rename_effect": {
+      "from": "public.phase42_expected_return_inventory_effects_internal(uuid)",
+      "to": "public.phase42_expected_return_effects_pre43_internal(uuid)"
+    },
+    "security_effect": null,
+    "source_location": 1482,
+    "source_migration": "122_phase43_admin_aftercare_integration.sql",
+    "target_signature": "public.phase42_expected_return_inventory_effects_internal(uuid)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.settle_sales_replacement_v1(uuid,text,jsonb,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1827,
+    "source_migration": "122_phase43_admin_aftercare_integration.sql",
+    "target_signature": "public.settle_sales_replacement_v1(uuid,text,jsonb,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1828,
+    "source_migration": "122_phase43_admin_aftercare_integration.sql",
+    "target_signature": "public.settle_admin_sales_return_v1(uuid,text,jsonb,jsonb,text,text,text,text)",
+    "unconsumed_suffix": ""
+  },
+  {
+    "classification": "FULLY_HANDLED",
+    "clauses_applied": [
+      "OWNER"
+    ],
+    "clauses_detected": [
+      "OWNER"
+    ],
+    "configuration_effect": [],
+    "final_signature": "public.get_admin_sales_aftercare_context_v1(uuid)",
+    "fully_consumed": true,
+    "non_semantic_reason": null,
+    "original_clause": "OWNER TO postgres",
+    "owner_effect": {
+      "owner": "postgres"
+    },
+    "rename_effect": null,
+    "security_effect": null,
+    "source_location": 1831,
+    "source_migration": "122_phase43_admin_aftercare_integration.sql",
+    "target_signature": "public.get_admin_sales_aftercare_context_v1(uuid)",
+    "unconsumed_suffix": ""
+  }
+]
