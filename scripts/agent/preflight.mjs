@@ -39,6 +39,11 @@ if (state.migration124CanonicalLfSha256
   failures.push('Migration 124 hash mismatch');
 }
 if (productionNames.length > 0) failures.push(`production-sensitive environment names are set: ${productionNames.join(', ')}`);
+if (state.migration125CanonicalLfSha256
+  && (!migrations.migration125Exists
+    || migrations.migration125CanonicalLfSha256 !== state.migration125CanonicalLfSha256)) {
+  failures.push('Migration 125 hash mismatch');
+}
 
 const report = {
   ok: failures.length === 0,

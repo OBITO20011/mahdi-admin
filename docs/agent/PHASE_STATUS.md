@@ -17,4 +17,13 @@ Phase 4 was owner-closed after the Phase 4.5 independent sign-off passed with ze
 
 Phase 5 Slice 1 started from execution baseline `b4237c7d6569722834e35ce8a4cda3e8dbc6cdb6` and is owner-closed. Migration 123 remains private and inactive. Slice 2 started from `461ef23aa42cb099c79519e9e9ebb80d68bb2112`; Migration 124 implements private canonical collection and full exact-payment-reversal evidence writers with zero application grants/callers. Slice 2 is owner-closed after the bounded independent Low/P3 re-review passed with no remaining scoped findings or material evidence gaps. No public/production cutover has occurred; later activation obligations remain open. Slice 3 requires separate owner authorization.
 
+The Slice-2 closure commit `8ad617a979f27b888c0f3fc6d018f67e447abb80`
+was pushed; exact-SHA secret scanning passed, but the DB-runtime CI job failed
+on the collection writer's unused `v_shift_id` warning. Owner-authorized
+Migration 125 is a bounded corrective candidate that preserves the exact lock
+call and private authority. Its strict local Slice-2 lint/runtime and affected
+Phase 2/3 regressions have passed. The bounded independent correction review,
+including the lint-parser Low re-sign-off, passed. The owner authorized one
+corrective commit/push; exact-SHA CI remains required. Slice 3 remains NOT STARTED.
+
 Do not reopen a closed phase merely because a later task touches an integration edge. Record direct evidence and bound the new work first. Do not declare a phase closed without an independent read-only sign-off and owner closure.

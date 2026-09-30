@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
+import { assertPhase5DbLint } from './phase5-db-lint-policy.mjs';
 
 const execFileAsync = promisify(execFile);
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
@@ -288,6 +289,11 @@ try {
   const catalog = await jsonSql(`SELECT jsonb_build_object(
     'functions',(SELECT jsonb_agg(p.proname ORDER BY p.proname) FROM pg_proc p
       JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='phase5_private'),
+    'collectionLockPreserved',(SELECT p.prosrc LIKE
+      '%PERFORM public.phase4_lock_customer_order_context_internal(%'
+      AND p.prosrc NOT LIKE '%v_shift_id%'
+      FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace
+      WHERE n.nspname='phase5_private' AND p.proname='commit_customer_collection_v1'),
     'slice2SecurityDefiners',(SELECT count(*) FROM pg_proc p
       JOIN pg_namespace n ON n.oid=p.pronamespace
       WHERE n.nspname='phase5_private' AND p.proname IN (
@@ -317,6 +323,7 @@ try {
   assert.equal(catalog.slice2UnsafePaths, 0);
   assert.equal(catalog.roleExecute, 0);
   assert.equal(catalog.publicWrappers, 0);
+  assert.equal(catalog.collectionLockPreserved, true);
 
   for (const role of ['anon', 'authenticated', 'service_role']) {
     const denial = await runSql(
@@ -772,11 +779,12 @@ try {
   ], {
     cwd: projectRoot, windowsHide: true, timeout: 120_000, maxBuffer: 1024 * 1024,
   });
-  if (/ERROR:/u.test(lint)) throw new Error(`DB lint failed:\n${lint}`);
+  const acceptedDbLintWarnings = assertPhase5DbLint(lint);
 
   console.log(JSON.stringify({
     ok: true,
-    freshRebuild: '001-124',
+    freshRebuild: '001-125',
+    acceptedDbLintWarnings,
     migrationConflictAtomicity,
     privateFunctions: 4,
     exactReplay: true,

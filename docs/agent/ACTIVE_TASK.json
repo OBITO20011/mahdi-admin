@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Owner-closed Phase 5 Slice 2 private canonical writers; closure commit and exact-SHA CI verification authorized",
-  "baselineSha": "461ef23aa42cb099c79519e9e9ebb80d68bb2112",
+  "objective": "Owner-authorized Migration 125 corrective closure commit/push and exact-SHA CI verification after bounded independent re-sign-off; Slice 3 not started",
+  "baselineSha": "8ad617a979f27b888c0f3fc6d018f67e447abb80",
   "branch": "main",
   "phase": "5",
   "startedAt": "2026-09-30T11:21:42.480Z",
-  "checkpointedAt": "2026-09-30T16:43:40.294Z",
+  "checkpointedAt": "2026-09-30T18:59:41.704Z",
   "completed": [
     "Phase 3 owner-closed",
     "Phase 4.1 owner-closed",
@@ -59,7 +59,11 @@
     "Astra bounded Slice 2 source review found no Migration 124 implementation defect and one Low/P3 retained concurrency-test coverage finding",
     "Bounded harness correction replaced timing-based valid-vs-valid races with observed exact idempotency advisory-lock barriers; all six races passed with deadlockDelta 0",
     "Phase 5 Slice 2 bounded independent Low/P3 re-sign-off PASS with zero remaining scoped findings and material evidence gaps",
-    "Phase 5 Slice 2 owner-closed"
+    "Phase 5 Slice 2 owner-closed",
+    "Owner-authorized Migration 125 collection lint correction implemented without changing migrations 001-124 or activating private writers",
+    "Migration 125 focused static/lint matrix 12/12 PASS; fresh Slice-2 001-125 runtime and unchanged Phase 2/3 runtime regressions PASS",
+    "Lint-parser Low correction rejects mixed wrapper/root findings and unsupported wrapper fields; permanent tests reproduced failure before the correction and passed afterward",
+    "Bounded independent lint-parser re-sign-off PASS: 36 adversarial rejections, six valid accepted shapes, focused 24/24 PASS, unchanged working tree and Migration 125"
   ],
   "inProgress": [],
   "notStarted": [
@@ -67,20 +71,16 @@
   ],
   "filesTouched": [
     "docs/agent/PHASE_STATUS.md",
-    "docs/agent/PROJECT_OVERVIEW.md",
     "docs/agent/project-state.json",
-    "package.json",
     "scripts/agent/lib.mjs",
     "scripts/agent/preflight.mjs",
-    "scripts/testing/run-phase5-private-foundation-runtime.mjs",
-    "tests/agent-continuity.test.ts",
-    "tests/phase44-admin-recovery-fullstack.test.ts",
-    "docs/agent/evidence/phase5-slice2/SLICE2_AUTHORITY_MAP.md",
-    "docs/agent/evidence/phase5-slice2/SLICE2_IMPLEMENTATION_MAP.md",
-    "docs/agent/evidence/phase5-slice2/SLICE2_VERIFICATION_REPORT.md",
     "scripts/testing/run-phase5-canonical-payment-writers-runtime.mjs",
-    "supabase/migrations/124_phase5_canonical_collection_reversal_writers.sql",
-    "tests/phase5-canonical-payment-writers.test.ts"
+    "tests/agent-continuity.test.ts",
+    "tests/phase5-canonical-payment-writers.test.ts",
+    "docs/agent/evidence/phase5-slice2/COLLECTION_LINT_CORRECTION.md",
+    "scripts/testing/phase5-db-lint-policy.mjs",
+    "supabase/migrations/125_phase5_collection_lock_lint_correction.sql",
+    "tests/phase5-collection-lint-correction.test.ts"
   ],
   "testsPassed": [
     "Phase 5 Slice 2 static contract suite 9/9",
@@ -95,12 +95,19 @@
     "agent:preflight",
     "Low/P3 correction: focused Slice 2 and continuity tests 12/12 PASS",
     "Low/P3 correction: isolated Slice 2 runtime 001-124 PASS, exact advisory-lock wait observed 6/6, A-first 3/3 and B-first 3/3, deadlockDelta 0, DB lint zero errors",
-    "Low/P3 correction: TypeScript, strict ESLint, and Gitleaks PASS"
+    "Low/P3 correction: TypeScript, strict ESLint, and Gitleaks PASS",
+    "Migration 125: focused static/lint 12/12 PASS",
+    "Migration 125: fresh isolated Slice-2 001-125 rebuild/runtime, strict lint, six observed lock races and deadlockDelta 0 PASS",
+    "Migration 125: affected Phase 2 receiving/WAC/replay and Phase 3 contracts/runtime PASS without changing their assertions",
+    "Migration 125: TypeScript and strict ESLint PASS",
+    "Migration 125: final unit suite 640/640 and focused correction/continuity 20/20 PASS",
+    "Migration 125: 12-file Gitleaks scan, diff integrity, preflight and handoff validation PASS; test-owned containers cleaned up",
+    "Lint-parser Low correction: focused parser/Slice-2/continuity 19/19 and full unit suite 644/644 PASS; TypeScript, strict ESLint and 12-file Gitleaks PASS"
   ],
   "testsRemaining": [],
   "findings": [],
   "blockers": [],
-  "nextExactAction": "Verify the owner-authorized Slice 2 closure commit/push exact-SHA CI; then stop for owner review. Slice 3 remains NOT STARTED.",
+  "nextExactAction": "Owner-approved corrective commit/push and exact-SHA CI verification only. Bounded independent sign-off passed; commit the explicit 12-file corrective scope, verify origin/main and required quality/secret CI. No Production or Slice 3.",
   "activeProcesses": [],
   "prohibitions": [
     "Production access",
@@ -108,5 +115,5 @@
     "Commit or push without owner authorization",
     "Start Phase 5 Slice 3 without owner authorization"
   ],
-  "workingTreeFingerprint": "031AF7EC1ED8140CBABF5ADBA0E5CB1A8E6E90331F3BB54EF45057F6F5F83BB7"
+  "workingTreeFingerprint": "39FC34939A9BEDDDBFA7013A12E54948FBCF7D92B0FDB298019955B6886B12E1"
 }
