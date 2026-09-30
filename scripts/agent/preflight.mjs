@@ -22,8 +22,9 @@ if (task.status === 'IDLE' && !baselineIsAncestor) failures.push('HEAD does not 
 if (task.status !== 'IDLE' && head !== task.baselineSha) failures.push('active task HEAD differs from handoff baseline');
 if (!migrations.migration121Exists || migrations.migration121Sha256 !== state.migration121Sha256) failures.push('Migration 121 hash mismatch');
 if (state.migration122MustBeAbsent && migrations.migration122Exists) failures.push('Migration 122 is present');
-if (state.migration122Sha256
-  && (!migrations.migration122Exists || migrations.migration122Sha256 !== state.migration122Sha256)) {
+if (state.migration122CanonicalLfSha256
+  && (!migrations.migration122Exists
+    || migrations.migration122CanonicalLfSha256 !== state.migration122CanonicalLfSha256)) {
   failures.push('Migration 122 hash mismatch');
 }
 if (state.migration123MustBeAbsent && !migrations.migration123Absent) failures.push('Migration 123 is present');

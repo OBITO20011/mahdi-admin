@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Implement Phase 5 Slice 1 private inactive financial evidence foundation from the approved pre-implementation baseline",
-  "baselineSha": "b4237c7d6569722834e35ce8a4cda3e8dbc6cdb6",
+  "objective": "Correct Phase 5 Slice 1 cross-platform Migration 122 fingerprint and exact-SHA CI delivery",
+  "baselineSha": "f562bce3b43dd7eaaa6aa748fef2711807bc70ee",
   "branch": "main",
   "phase": "5",
-  "startedAt": "2026-09-29T20:27:03.771Z",
-  "checkpointedAt": "2026-09-29T22:03:47.128Z",
+  "startedAt": "2026-09-29T23:28:56.457Z",
+  "checkpointedAt": "2026-09-30T00:30:28.102Z",
   "completed": [
     "Phase 3 owner-closed",
     "Phase 4.1 owner-closed",
@@ -47,52 +47,32 @@
     "Phase 5 pre-implementation concept, contract, architecture, and evidence baseline closed",
     "Phase 5 Slice 1 two-Low corrective remediation aligned PAUSED review-pending continuity and documented PostgreSQL internal FK trigger accounting",
     "Phase 5 Slice 1 bounded independent re-review passed with zero remaining findings and zero material evidence gaps",
-    "Phase 5 Slice 1 owner-closed"
+    "Phase 5 Slice 1 owner-closed",
+    "Phase 5 Slice 1 cross-platform Migration 122 fingerprint correction implemented and focused LF verification passed"
   ],
   "inProgress": [],
   "notStarted": [
     "Phase 5 Slice 2 and later slices"
   ],
   "filesTouched": [
-    "docs/agent/PHASE_STATUS.md",
-    "docs/agent/PROJECT_OVERVIEW.md",
     "docs/agent/project-state.json",
-    "package.json",
     "scripts/agent/lib.mjs",
     "scripts/agent/preflight.mjs",
-    "scripts/testing/run-phase44-concurrency-replay-runtime.mjs",
-    "scripts/testing/run-phase44-financial-integration-runtime.mjs",
-    "scripts/testing/run-phase44-lineage-valuation-runtime.mjs",
     "tests/agent-continuity.test.ts",
-    "tests/phase42-atomic-return-coordinator.test.ts",
-    "tests/phase43-admin-aftercare-integration.test.ts",
-    "tests/phase44-admin-recovery-fullstack.test.ts",
-    "tests/phase44-concurrency-replay.test.ts",
-    "tests/phase44-financial-integration.test.ts",
-    "tests/phase44-lineage-valuation.test.ts",
-    "docs/agent/evidence/phase5-slice1/preimplementation_evidence_fingerprints.json",
-    "docs/agent/evidence/phase5-slice1/SLICE1_OBJECT_MAP.md",
-    "scripts/testing/run-phase5-private-foundation-runtime.mjs",
-    "supabase/migrations/123_phase5_private_financial_evidence_foundation.sql",
     "tests/phase5-private-financial-foundation.test.ts"
   ],
   "testsPassed": [
-    "Phase 5 Slice 1 focused static suite: 8/8",
-    "Fresh isolated rebuild 001-123 and Slice 1 runtime/adversarial validation: PASS",
-    "DB lint: 0 errors",
-    "Admin repository tests: 625/625",
-    "Phase 5 and affected continuity/regression subset: PASS",
-    "TypeScript: PASS",
-    "ESLint strict: PASS",
-    "Admin production build: PASS",
-    "Gitleaks changed/new Slice 1 files: 22/22 PASS",
-    "git diff --check: PASS",
-    "agent:preflight: PASS",
-    "Slice 1 Low-finding focused tests: 14/14 PASS",
-    "Admin repository tests after Low-finding remediation: 627/627 PASS",
-    "Fresh isolated 001-123 catalog trigger reconstruction: 4 explicit, 44 internal FK total, 28 on new tables, 16 on existing referenced tables",
-    "TypeScript and ESLint strict after Low-finding remediation: PASS",
-    "Phase 5 Slice 1 bounded independent re-review: PASS"
+    "Migration 122 LF/CRLF/CR canonical fingerprint and mutation detection: PASS",
+    "Phase 5 Slice 1 and agent continuity focused tests: 13/13 PASS",
+    "Windows and clean-LF agent preflight: PASS",
+    "TypeScript and ESLint strict: PASS",
+    "Admin repository tests: 628/628 PASS",
+    "Customer repository tests: 189/189 PASS",
+    "Windows npm run quality including Browser QA 207/207 executed tests: PASS",
+    "Clean-LF checkout npm run quality including Browser QA 207/207 executed tests: PASS",
+    "Browser production-network isolation in both quality runs: zero escaped requests",
+    "Gitleaks changed files: PASS",
+    "git diff --check: PASS"
   ],
   "testsRemaining": [],
   "findings": [
@@ -102,7 +82,7 @@
     "Medium D remains open: current source-proven lock-order inversion"
   ],
   "blockers": [],
-  "nextExactAction": "Owner review after exact-SHA CI; do not start Phase 5 Slice 2 without explicit owner authorization.",
+  "nextExactAction": "Owner review after corrective exact-SHA CI; do not start Phase 5 Slice 2 without explicit owner authorization.",
   "activeProcesses": [],
   "prohibitions": [
     "Production access",
@@ -110,5 +90,5 @@
     "Commit or push without owner authorization",
     "Start Phase 5 Slice 2 without owner authorization"
   ],
-  "workingTreeFingerprint": "90A31128B388DCCF480322DA3DBEFFE79761A2A849B1705C768506FA5DF827B7"
+  "workingTreeFingerprint": "1A58B0D33D76B273ED2EB026C34C242E1B6AC51CFFF5F929ADDDE654EE9386E9"
 }

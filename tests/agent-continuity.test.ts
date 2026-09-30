@@ -32,7 +32,8 @@ test('closed Phase 4 and active Phase 5 Slice 1 state with Migration 123 candida
     phase5Slice1Closed: boolean;
     migrationCeiling: number;
     migration121Sha256: string;
-    migration122Sha256: string;
+    migration122HistoricalRawWindowsSha256: string;
+    migration122CanonicalLfSha256: string;
     migration123MustBeAbsent: boolean;
     migration123Sha256: string;
   };
@@ -47,7 +48,8 @@ test('closed Phase 4 and active Phase 5 Slice 1 state with Migration 123 candida
   assert.equal(state.phase44Started, true);
   assert.equal(state.migrationCeiling, 123);
   assert.equal(state.migration121Sha256, '9779212034A901DBB971A68EC485D16B0AA4BE329478B9DAF1A4263CE6989BDD');
-  assert.equal(state.migration122Sha256, 'DED829F8EF84F49EABD8D9AAA76D460632E36B86A8D041228DDB91692CA15C24');
+  assert.equal(state.migration122HistoricalRawWindowsSha256, 'DED829F8EF84F49EABD8D9AAA76D460632E36B86A8D041228DDB91692CA15C24');
+  assert.equal(state.migration122CanonicalLfSha256, 'DF991DE73F32931B81C9C4B9C2F611F44731E99044ACBC2F5F60F4FE1192C066');
   assert.equal(state.migration123MustBeAbsent, false);
   assert.equal(state.migration123Sha256, '3F5FE7554B17BBC6BE872175682C36D7F17B5F2B72F00BD32EAE0F6A97483E80');
 });
@@ -59,7 +61,7 @@ test('handoff tooling is fail-closed and never stores environment values', () =>
   const verify = read('scripts/agent/verify-handoff.mjs');
   assert.match(preflight, /productionEnvironmentNames/u);
   assert.match(preflight, /migration121Sha256/u);
-  assert.match(preflight, /migration122Sha256/u);
+  assert.match(preflight, /migration122CanonicalLfSha256/u);
   assert.match(preflight, /migration123Sha256/u);
   assert.match(start, /dirty worktree/u);
   assert.match(resume, /workingTreeFingerprint/u);

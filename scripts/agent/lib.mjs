@@ -19,8 +19,20 @@ export function sha256(value) {
   return createHash('sha256').update(value).digest('hex').toUpperCase();
 }
 
+export function canonicalLf(value) {
+  return String(value).replace(/\r\n?/gu, '\n');
+}
+
+export function canonicalTextSha256(value) {
+  return sha256(canonicalLf(value));
+}
+
 export function fileSha256(path) {
   return sha256(readFileSync(path));
+}
+
+export function fileCanonicalTextSha256(path) {
+  return canonicalTextSha256(readFileSync(path, 'utf8'));
 }
 
 export function statusEntries() {
@@ -79,6 +91,9 @@ export function migrationInventory() {
     migration121Sha256: existsSync(migration121) ? fileSha256(migration121) : null,
     migration122Exists: existsSync(migration122),
     migration122Sha256: existsSync(migration122) ? fileSha256(migration122) : null,
+    migration122CanonicalLfSha256: existsSync(migration122)
+      ? fileCanonicalTextSha256(migration122)
+      : null,
     migration123Absent: !migrationFiles.some((name) => name.startsWith('123_') && name.endsWith('.sql')),
     migration123Exists: existsSync(migration123),
     migration123Sha256: existsSync(migration123) ? fileSha256(migration123) : null,

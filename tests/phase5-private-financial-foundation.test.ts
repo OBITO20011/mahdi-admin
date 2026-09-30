@@ -29,6 +29,9 @@ const sha256 = (value: Uint8Array | string) => createHash('sha256')
   .digest('hex')
   .toUpperCase();
 
+const canonicalLf = (value: string) => value.replace(/\r\n?/gu, '\n');
+const canonicalTextSha256 = (value: string) => sha256(canonicalLf(value));
+
 const walk = (directory: string): string[] => readdirSync(directory)
   .flatMap((name) => {
     const candidate = path.join(directory, name);
@@ -39,13 +42,25 @@ test('Migration 123 is the single additive Phase 5 migration over the immutable 
   const migrations = readdirSync(path.join(root, 'supabase/migrations')).sort();
   assert.equal(migrations.filter((name) => name.startsWith('123_')).length, 1);
   assert.equal(
-    sha256(readFileSync(migration122Path)),
-    'DED829F8EF84F49EABD8D9AAA76D460632E36B86A8D041228DDB91692CA15C24',
+    canonicalTextSha256(readFileSync(migration122Path, 'utf8')),
+    'DF991DE73F32931B81C9C4B9C2F611F44731E99044ACBC2F5F60F4FE1192C066',
   );
   assert.match(migration, /^BEGIN;/u);
   assert.match(migration, /COMMIT;\s*$/u);
   assert.doesNotMatch(migration, /\bIF NOT EXISTS\b|\bCREATE OR REPLACE\b/iu);
   assert.doesNotMatch(migration, /\b(?:ALTER|DROP|TRUNCATE)\s+(?:TABLE|FUNCTION|TRIGGER|VIEW)\s+public\./iu);
+});
+
+test('Migration 122 canonical fingerprint ignores line-ending representation only', () => {
+  const source = readFileSync(migration122Path, 'utf8');
+  const lf = canonicalLf(source);
+  const expected = 'DF991DE73F32931B81C9C4B9C2F611F44731E99044ACBC2F5F60F4FE1192C066';
+
+  assert.equal(canonicalTextSha256(lf), expected);
+  assert.equal(canonicalTextSha256(lf.replace(/\n/gu, '\r\n')), expected);
+  assert.equal(canonicalTextSha256(lf.replace(/\n/gu, '\r')), expected);
+  assert.notEqual(canonicalTextSha256(`${lf}\n-- deliberate SQL content mutation`), expected);
+  assert.notEqual(canonicalTextSha256(lf.replace('BEGIN;', 'BEGIN; ')), expected);
 });
 
 test('the frozen object map keeps every Slice-1 object private and runtime-inactive', () => {
