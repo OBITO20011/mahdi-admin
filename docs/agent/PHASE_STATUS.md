@@ -9,12 +9,12 @@
 | Phase 4.4 | OWNER-CLOSED | Integration/regression Slices 1–5, deterministic recovery rejection classification, content-sensitive zero-write evidence, and the final independent re-sign-off passed with zero findings and zero material evidence gaps. |
 | Phase 4.5 | OWNER-CLOSED | Lightweight phase-wide closure review and focused continuity re-sign-off passed with Critical/High/Medium/Low and material evidence gaps all zero. |
 | Phase 4 (overall) | OWNER-CLOSED | Returns, refunds, Replacement, Admin integration, cross-feature regression and independent closure are complete. |
-| Phase 5 | IN PROGRESS | Slice 1 private inactive financial evidence foundation is OWNER-CLOSED in Migration 123 after independent adversarial review and bounded re-review passed with zero remaining findings or evidence gaps. Slice 2 is NOT STARTED. |
+| Phase 5 | IN PROGRESS | Slice 1 private inactive financial evidence foundation is OWNER-CLOSED. Slice 2 private canonical collection and exact-payment-reversal writers are OWNER-CLOSED after independent re-sign-off; Migration 124 remains inactive/non-activatable. Slice 3 is NOT STARTED. |
 
 Approved Phase 4.4 closure baseline: `247980af9636ab01b20c80cac6bb3d23de2cc584` on `main`; exact-SHA code-quality and secret-scanning CI passed.
 
 Phase 4 was owner-closed after the Phase 4.5 independent sign-off passed with zero findings and zero material evidence gaps.
 
-Phase 5 Slice 1 started from execution baseline `b4237c7d6569722834e35ce8a4cda3e8dbc6cdb6` and is owner-closed. Migration 123 remains private and inactive; Medium A-D remain implementation-open and Slice 2 has not started.
+Phase 5 Slice 1 started from execution baseline `b4237c7d6569722834e35ce8a4cda3e8dbc6cdb6` and is owner-closed. Migration 123 remains private and inactive. Slice 2 started from `461ef23aa42cb099c79519e9e9ebb80d68bb2112`; Migration 124 implements private canonical collection and full exact-payment-reversal evidence writers with zero application grants/callers. Slice 2 is owner-closed after the bounded independent Low/P3 re-review passed with no remaining scoped findings or material evidence gaps. No public/production cutover has occurred; later activation obligations remain open. Slice 3 requires separate owner authorization.
 
 Do not reopen a closed phase merely because a later task touches an integration edge. Record direct evidence and bound the new work first. Do not declare a phase closed without an independent read-only sign-off and owner closure.

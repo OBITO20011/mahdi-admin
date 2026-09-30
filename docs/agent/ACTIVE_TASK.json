@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Correct Phase 5 Slice 1 cross-platform Migration 122 fingerprint and exact-SHA CI delivery",
-  "baselineSha": "f562bce3b43dd7eaaa6aa748fef2711807bc70ee",
+  "objective": "Owner-closed Phase 5 Slice 2 private canonical writers; closure commit and exact-SHA CI verification authorized",
+  "baselineSha": "461ef23aa42cb099c79519e9e9ebb80d68bb2112",
   "branch": "main",
   "phase": "5",
-  "startedAt": "2026-09-29T23:28:56.457Z",
-  "checkpointedAt": "2026-09-30T00:30:28.102Z",
+  "startedAt": "2026-09-30T11:21:42.480Z",
+  "checkpointedAt": "2026-09-30T16:43:40.294Z",
   "completed": [
     "Phase 3 owner-closed",
     "Phase 4.1 owner-closed",
@@ -48,47 +48,65 @@
     "Phase 5 Slice 1 two-Low corrective remediation aligned PAUSED review-pending continuity and documented PostgreSQL internal FK trigger accounting",
     "Phase 5 Slice 1 bounded independent re-review passed with zero remaining findings and zero material evidence gaps",
     "Phase 5 Slice 1 owner-closed",
-    "Phase 5 Slice 1 cross-platform Migration 122 fingerprint correction implemented and focused LF verification passed"
+    "Phase 5 Slice 1 cross-platform Migration 122 fingerprint correction implemented and focused LF verification passed",
+    "Phase 5 Slice 2 private canonical collection and full exact-payment-reversal writers implemented in Migration 124",
+    "Slice 2 replay correction canonicalized operationEventAt as explicit UTC microsecond text across collection/reversal writers and validators",
+    "Slice 2 historical collection replay no longer depends on mutable public payment is_reversed state while fresh collection/reversal eligibility remains fail-closed",
+    "Slice 2 valid-vs-valid changed-payload races, timezone replay matrix, legacy coexistence, and late Migration 124 conflict rollback all passed in fresh isolated runtime",
+    "Slice 2 modern Return gross-capacity inputs are revalidated through the central Phase 4.2 operational-evidence validator",
+    "Fresh isolated Slice 2 runtime and rebuild 001-124 passed with replay, concurrency, cross-tender, legacy/modern evidence, rollback, ACL, and DB-lint proofs",
+    "Final npm run quality passed with Admin 637/637, Customer 189/189, Browser QA 207 passed, 51 intentional skips, and zero escaped Production requests",
+    "Astra bounded Slice 2 source review found no Migration 124 implementation defect and one Low/P3 retained concurrency-test coverage finding",
+    "Bounded harness correction replaced timing-based valid-vs-valid races with observed exact idempotency advisory-lock barriers; all six races passed with deadlockDelta 0",
+    "Phase 5 Slice 2 bounded independent Low/P3 re-sign-off PASS with zero remaining scoped findings and material evidence gaps",
+    "Phase 5 Slice 2 owner-closed"
   ],
   "inProgress": [],
   "notStarted": [
-    "Phase 5 Slice 2 and later slices"
+    "Phase 5 Slice 3 and later slices"
   ],
   "filesTouched": [
+    "docs/agent/PHASE_STATUS.md",
+    "docs/agent/PROJECT_OVERVIEW.md",
     "docs/agent/project-state.json",
+    "package.json",
     "scripts/agent/lib.mjs",
     "scripts/agent/preflight.mjs",
+    "scripts/testing/run-phase5-private-foundation-runtime.mjs",
     "tests/agent-continuity.test.ts",
-    "tests/phase5-private-financial-foundation.test.ts"
+    "tests/phase44-admin-recovery-fullstack.test.ts",
+    "docs/agent/evidence/phase5-slice2/SLICE2_AUTHORITY_MAP.md",
+    "docs/agent/evidence/phase5-slice2/SLICE2_IMPLEMENTATION_MAP.md",
+    "docs/agent/evidence/phase5-slice2/SLICE2_VERIFICATION_REPORT.md",
+    "scripts/testing/run-phase5-canonical-payment-writers-runtime.mjs",
+    "supabase/migrations/124_phase5_canonical_collection_reversal_writers.sql",
+    "tests/phase5-canonical-payment-writers.test.ts"
   ],
   "testsPassed": [
-    "Migration 122 LF/CRLF/CR canonical fingerprint and mutation detection: PASS",
-    "Phase 5 Slice 1 and agent continuity focused tests: 13/13 PASS",
-    "Windows and clean-LF agent preflight: PASS",
-    "TypeScript and ESLint strict: PASS",
-    "Admin repository tests: 628/628 PASS",
-    "Customer repository tests: 189/189 PASS",
-    "Windows npm run quality including Browser QA 207/207 executed tests: PASS",
-    "Clean-LF checkout npm run quality including Browser QA 207/207 executed tests: PASS",
-    "Browser production-network isolation in both quality runs: zero escaped requests",
-    "Gitleaks changed files: PASS",
-    "git diff --check: PASS"
+    "Phase 5 Slice 2 static contract suite 9/9",
+    "Combined Slice 2 and continuity focused suite 17/17",
+    "Fresh isolated Slice 2 runtime and rebuild 001-124",
+    "Fresh isolated timezone replay, legacy coexistence, valid-vs-valid race, and late-migration conflict rollback matrix",
+    "Phase 5 Slice 1 runtime regression 001-123",
+    "Phase 4.2 atomic Return runtime regression",
+    "npm run quality",
+    "git diff --check",
+    "Gitleaks changed and untracked 16-file scope",
+    "agent:preflight",
+    "Low/P3 correction: focused Slice 2 and continuity tests 12/12 PASS",
+    "Low/P3 correction: isolated Slice 2 runtime 001-124 PASS, exact advisory-lock wait observed 6/6, A-first 3/3 and B-first 3/3, deadlockDelta 0, DB lint zero errors",
+    "Low/P3 correction: TypeScript, strict ESLint, and Gitleaks PASS"
   ],
   "testsRemaining": [],
-  "findings": [
-    "Medium A remains open: payment replay request/result identity",
-    "Medium B remains open: alternate non-idempotent payment writer",
-    "Medium C remains open: modern Return / Shift / Report source mismatch",
-    "Medium D remains open: current source-proven lock-order inversion"
-  ],
+  "findings": [],
   "blockers": [],
-  "nextExactAction": "Owner review after corrective exact-SHA CI; do not start Phase 5 Slice 2 without explicit owner authorization.",
+  "nextExactAction": "Verify the owner-authorized Slice 2 closure commit/push exact-SHA CI; then stop for owner review. Slice 3 remains NOT STARTED.",
   "activeProcesses": [],
   "prohibitions": [
     "Production access",
     "Deploy",
     "Commit or push without owner authorization",
-    "Start Phase 5 Slice 2 without owner authorization"
+    "Start Phase 5 Slice 3 without owner authorization"
   ],
-  "workingTreeFingerprint": "1A58B0D33D76B273ED2EB026C34C242E1B6AC51CFFF5F929ADDDE654EE9386E9"
+  "workingTreeFingerprint": "031AF7EC1ED8140CBABF5ADBA0E5CB1A8E6E90331F3BB54EF45057F6F5F83BB7"
 }

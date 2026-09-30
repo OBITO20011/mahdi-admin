@@ -32,6 +32,12 @@ if (state.migration123Sha256
   && (!migrations.migration123Exists || migrations.migration123Sha256 !== state.migration123Sha256)) {
   failures.push('Migration 123 hash mismatch');
 }
+if (state.migration124MustBeAbsent && !migrations.migration124Absent) failures.push('Migration 124 is present');
+if (state.migration124CanonicalLfSha256
+  && (!migrations.migration124Exists
+    || migrations.migration124CanonicalLfSha256 !== state.migration124CanonicalLfSha256)) {
+  failures.push('Migration 124 hash mismatch');
+}
 if (productionNames.length > 0) failures.push(`production-sensitive environment names are set: ${productionNames.join(', ')}`);
 
 const report = {

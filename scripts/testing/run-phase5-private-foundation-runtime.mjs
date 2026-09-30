@@ -62,6 +62,7 @@ try {
     env: {
       ...process.env,
       NAWASRAH_ISOLATED_PROJECT_ID: projectId,
+      NAWASRAH_MAX_MIGRATION: '123',
       NAWASRAH_SUPABASE_EXCLUDE:
         'realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor',
     },
