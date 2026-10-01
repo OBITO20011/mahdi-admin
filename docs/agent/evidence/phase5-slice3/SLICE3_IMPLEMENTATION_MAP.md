@@ -1,7 +1,7 @@
 # Slice 3 private coordinator candidate
 
-Status: bounded historical-membership correction implemented; corrective
-verification and independent re-review required. Not owner-closed or activated.
+Status: OWNER-CLOSED after bounded independent re-sign-off; committed and pushed
+as `095245e6bd30d2f40850e8779232f806f2cd0beb`, exact-SHA CI PASS. Not activated.
 Owner authorization baseline: `6fac32ac422206a3b5e5716159304806f30d0aed`.
 Additive migration: `126_phase5_private_tender_coordinator.sql`.
 The current candidate fingerprint is pinned in `project-state.json`; migrations
@@ -283,8 +283,11 @@ rejected with full rollback. Reordered valid identity sets and later-history cle
 replay succeeded without writes. Nine application-role access attempts were
 denied; strict fresh DB lint passed. Audit file fingerprints matched before and
 after, with only the subsequent required continuity checkpoint updated.
-The owner then closed Slice 3. Its local baseline awaits explicit commit/push
-authorization and exact-SHA CI; Slice 4 remains NOT STARTED.
+The owner then closed Slice 3 and authorized its closure commit/push.
+Commit `095245e6bd30d2f40850e8779232f806f2cd0beb` is on `origin/main`;
+push/main code-quality run `36808501724` and secret-scanning run `36808501743`
+passed on that exact SHA. Slice 4 implementation remains NOT STARTED;
+only its scope/design proposal has subsequently been authorized.
 Current candidate hash
 `4C099804BA1D6B97DF6AF3FA0C0A8D514FD616397BDE1BC7F5E5DAE3EB8B1D21`
 is pinned in project-state, not inferred

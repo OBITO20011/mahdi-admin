@@ -9,7 +9,7 @@
 | Phase 4.4 | OWNER-CLOSED | Integration/regression Slices 1–5, deterministic recovery rejection classification, content-sensitive zero-write evidence, and the final independent re-sign-off passed with zero findings and zero material evidence gaps. |
 | Phase 4.5 | OWNER-CLOSED | Lightweight phase-wide closure review and focused continuity re-sign-off passed with Critical/High/Medium/Low and material evidence gaps all zero. |
 | Phase 4 (overall) | OWNER-CLOSED | Returns, refunds, Replacement, Admin integration, cross-feature regression and independent closure are complete. |
-| Phase 5 | IN PROGRESS | Slice 1 private inactive financial evidence foundation is OWNER-CLOSED. Slice 2 private canonical collection and exact-payment-reversal writers are OWNER-CLOSED after independent re-sign-off; Migration 124 remains inactive/non-activatable. Slice 3 private inactive coordinator is OWNER-CLOSED; Slice 4 is NOT STARTED. |
+| Phase 5 | IN PROGRESS | Slice 1 private inactive financial evidence foundation is OWNER-CLOSED. Slice 2 private canonical collection and exact-payment-reversal writers are OWNER-CLOSED. Slice 3 private inactive coordinator is OWNER-CLOSED. Slice 4 private financial read/reconciliation in Migration 127 is OWNER-CLOSED; no public activation. |
 
 Approved Phase 4.4 closure baseline: `247980af9636ab01b20c80cac6bb3d23de2cc584` on `main`; exact-SHA code-quality and secret-scanning CI passed.
 
@@ -88,6 +88,40 @@ clean replay. Nine application-role mutation attempts were denied. Final
 Migration 126 SHA-256 is
 `4C099804BA1D6B97DF6AF3FA0C0A8D514FD616397BDE1BC7F5E5DAE3EB8B1D21`.
 Earlier pending-review paragraphs above are historical checkpoints. The local
-closure baseline remains uncommitted; commit/push require explicit authorization
-and exact-SHA CI is not yet available for it. Slice 4 is NOT STARTED and public
-activation remains prohibited.
+closure baseline was subsequently committed and pushed under owner authorization:
+`095245e6bd30d2f40850e8779232f806f2cd0beb` on `main` / `origin/main`.
+Exact-SHA push/main code-quality run `36808501724` and secret-scanning run
+`36808501743` passed. Slice 4 implementation is NOT STARTED and public activation
+remains prohibited. The owner has authorized continuity synchronization and a
+source-grounded Slice 4 scope/design proposal only, not its implementation.
+
+Slice 4 targeted design closure (2026-10-01): S4-DG1 total bidirectional evidence
+discovery, S4-DG2 explicit pre-derivation financial validity and historical Return
+snapshot semantics, and S4-DG3 STABLE calling-query snapshot / transitive read-only
+call graph are defined in `evidence/phase5-slice4/SLICE4_SCOPE_DESIGN.md` and
+`ACTIVE_TASK.json`. These are source-grounded definitions pending bounded
+independent confirmation, not runtime proof or an independent sign-off. Slice 4
+implementation remains NOT STARTED, Migration 127 remains absent, and public
+activation remains prohibited. Closed Slice 1–3 outcomes are unchanged.
+
+Subsequent owner authorization: the hash-bound S4-DG1/DG2/DG3 independent
+source-design confirmation passed. The owner authorized the bounded private
+Slice 4 implementation in Migration 127 against baseline
+`095245e6bd30d2f40850e8779232f806f2cd0beb`. Implementation and verification are
+IN PROGRESS, not signed off or closed. Migrations 001–126 are frozen; public
+activation, later slices, Production, commit/push/deploy remain prohibited.
+
+Current Slice 4 owner closure (2026-10-01): the owner approved closure after the
+bounded independent read-only re-sign-off passed with zero scoped findings and
+zero material evidence gaps. Final Migration 127 SHA-256 is
+`A2C9561EF071E959152D7DD06CAFC0F9BE933F18F845F4AE03D2B1A8971BE60D`.
+The candidate passed fresh isolated 001–127 runtime, affected prior-slice
+regressions, uninterrupted Canonical 11/11 and full quality. Browser QA passed
+207 cases with 51 intentional conditional skips and zero escaped Production
+requests. Independent runtime recorded 12 checks for arithmetic, evidence
+rejection, historical allocation, nine role denials, zero-write reads and a
+concurrent committed collection snapshot. Earlier pending statements are
+historical checkpoints. Slice 4 is closed as a private inactive layer;
+local baseline preparation is complete. The owner subsequently authorized one
+baseline commit/push and exact-SHA CI verification. Later slices and public
+activation remain NOT STARTED.

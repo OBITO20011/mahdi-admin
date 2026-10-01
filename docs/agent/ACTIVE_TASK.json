@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Phase 5 Slice 3 owner closure and local baseline preparation; await explicit commit/push authorization; Slice 4 and public activation not started.",
-  "baselineSha": "6fac32ac422206a3b5e5716159304806f30d0aed",
+  "objective": "Phase 5 Slice 4 owner closure and authorized baseline commit/push/CI verification; later slices and public activation not started.",
+  "baselineSha": "095245e6bd30d2f40850e8779232f806f2cd0beb",
   "branch": "main",
   "phase": "5",
   "startedAt": "2026-09-30T19:18:31.648Z",
-  "checkpointedAt": "2026-10-01T02:59:57.903Z",
+  "checkpointedAt": "2026-10-01T15:48:34.612Z",
   "completed": [
     "Phase 3 owner-closed",
     "Phase 4.1 owner-closed",
@@ -67,31 +67,34 @@
     "Corrective commit 6fac32ac422206a3b5e5716159304806f30d0aed pushed to origin/main; exact-SHA code-quality run 36762682913 and secret-scanning run 36762682904 PASS",
     "Owner-authorized Slice 3 scope/design analysis completed as a source-grounded proposal; implementation and public activation remain NOT STARTED",
     "Phase 5 Slice 3 bounded independent historical-membership re-sign-off PASS with zero scoped findings and material evidence gaps",
-    "Phase 5 Slice 3 owner-closed"
+    "Phase 5 Slice 3 owner-closed",
+    "Slice 3 closure commit 095245e6bd30d2f40850e8779232f806f2cd0beb pushed to origin/main; exact-SHA push/main code-quality run 36808501724 and secret-scanning run 36808501743 PASS",
+    "Phase 5 Slice 4 bounded independent read-only re-sign-off PASS with zero scoped findings and material evidence gaps",
+    "Phase 5 Slice 4 owner-closed"
   ],
   "inProgress": [
-    "Phase 5 Slice 3 local closure baseline preparation pending explicit commit/push authorization"
+    "Owner-authorized Slice 4 baseline commit/push and exact-SHA CI verification"
   ],
   "notStarted": [
-    "Phase 5 Slice 4 and later slices; public activation"
+    "Later Phase 5 slices and public activation"
   ],
   "filesTouched": [
+    "docs/agent/evidence/phase5-slice3/SLICE3_IMPLEMENTATION_MAP.md",
     "docs/agent/PHASE_STATUS.md",
     "docs/agent/PROJECT_OVERVIEW.md",
     "docs/agent/project-state.json",
     "package.json",
     "scripts/agent/lib.mjs",
     "scripts/agent/preflight.mjs",
-    "scripts/testing/run-phase4-returns-foundation-runtime.mjs",
-    "scripts/testing/run-phase42-atomic-return-runtime.mjs",
     "tests/agent-continuity.test.ts",
-    "tests/database-runtime-suite.ts",
     "tests/phase44-admin-recovery-fullstack.test.ts",
     "tests/phase5-canonical-payment-writers.test.ts",
-    "docs/agent/evidence/phase5-slice3/SLICE3_IMPLEMENTATION_MAP.md",
-    "scripts/testing/run-phase5-private-coordinator-runtime.mjs",
-    "supabase/migrations/126_phase5_private_tender_coordinator.sql",
-    "tests/phase5-private-coordinator.test.ts"
+    "tests/phase5-private-coordinator.test.ts",
+    "docs/agent/evidence/phase5-slice4/SLICE4_IMPLEMENTATION_MAP.md",
+    "docs/agent/evidence/phase5-slice4/SLICE4_SCOPE_DESIGN.md",
+    "scripts/testing/run-phase5-private-financial-read-runtime.mjs",
+    "supabase/migrations/127_phase5_private_financial_read_model.sql",
+    "tests/phase5-private-financial-read.test.ts"
   ],
   "testsPassed": [
     "Focused continuity tests 8/8 PASS; no assertion or test changes",
@@ -114,13 +117,20 @@
     "Bounded historical-membership correction: focused 27/27 and fresh 001-126 runtime 25 axes PASS; source/prior-reversal/settled-Return exact sets, corruption rejection, finalization/replay parity, content-sensitive rollback and sampled deadlockDelta=0",
     "Historical-membership corrected candidate uninterrupted Canonical 11/11 PASS, parent 1746308ms under unchanged 1800000ms budget",
     "Historical-membership corrected candidate npm run quality PASS once: Admin unit suite, Customer 189/189, lint/build/isolated SEO and Browser QA 207 passed / 51 intentional conditional skips, retries=0; network isolation reported zero external and Production requests escaped",
-    "Slice 3 local owner-closure continuity: focused 27/27 and full npm test 654/654 PASS; git diff check and Gitleaks changed/untracked 17 files PASS; Migration 126 hash unchanged and 127 absent"
+    "Slice 3 local owner-closure continuity: focused 27/27 and full npm test 654/654 PASS; git diff check and Gitleaks changed/untracked 17 files PASS; Migration 126 hash unchanged and 127 absent",
+    "Post-Slice3 closure synchronization: remote SHA 095245e6bd30d2f40850e8779232f806f2cd0beb independently matched; GitHub push/main code-quality 36808501724 and secret-scanning 36808501743 re-read as success on exact SHA",
+    "Slice4 design-only preparation: focused continuity tests 8/8 PASS, TypeScript and strict ESLint PASS, Gitleaks all seven changed/untracked files PASS, git diff check PASS; no business code or migrations changed, pinned126 hash preserved,127 absent; no new runtime or activation safety PASS claimed",
+    "Slice4 targeted three-gap design closure: existing static/continuity 18/18 PASS; exact BigInt financial design traces 22/22 PASS; TypeScript and strict ESLint PASS; all-seven-file Gitleaks and git diff check PASS. Source review confirmed historical Return snapshots store merchandise debt and refundable collection. An initially incorrect arithmetic rejection expectation for exact reversal10 was corrected against the closed Migration126 candidate formula, not by changing policy/code. No PostgreSQL runtime/snapshot/deadlock/activation proof is claimed.",
+    "Slice4 candidate A2C9561EF071E959152D7DD06CAFC0F9BE933F18F845F4AE03D2B1A8971BE60D: fresh isolated 001-127 full-schema runtime PASS with 17 recorded checks, 30-signature transitive STABLE/read-only graph, real POS/Customer collection/reversal/Return evidence, historical allocation, Parcel damage, orphan/missing/extra corruption rollback, actual draft cancellation, exact money/null/type/range matrix, nine role denials and observed concurrent committed collection snapshot. Strict DB lint PASS with only documented p_transfer_date compatibility warning. Owned stack cleaned up.",
+    "Slice4 focused static/continuity 32/32 PASS; full npm test 659/659 PASS; TypeScript and strict ESLint PASS; all 126 historical raw migration fingerprints unchanged. Candidate final regression/Canonical/quality and independent review remain pending; no public activation or closure claimed.",
+    "Slice4 affected prior-writer regression: unchanged Slice3 fresh 001-126 runtime 25 axes PASS; unchanged Slice2 fresh 001-125 runtime PASS with six observed both-direction idempotency races and deadlockDelta=0, conflict rollback, Legacy coexistence and strict lint. Both isolated stacks cleaned up. These historical-ceiling writer regressions supplement, not replace, Slice4 fresh 001-127 integration proof.",
+    "Slice4 owner-closure synchronization: focused13/13, full npm test659/659, TypeScript and strict ESLint PASS. Exact closed status, review/hash/zero-gap binding and rejected tampering remain enforced. All126 historical migration raw bytes matched the pre-implementation baseline;127 A2C9561EF071E959152D7DD06CAFC0F9BE933F18F845F4AE03D2B1A8971BE60D unchanged,128 absent. Gitleaks17 changed/untracked files and diff check PASS. No source/coordinator/migration changes in the closure pass; no broad gate rerun or public activation. Proposed17-file commit allowlist prepared; nothing staged or committed."
   ],
   "testsRemaining": [],
-  "slice3Closure": {
+  "slice4Closure": {
     "status": "OWNER-CLOSED",
-    "baselineSha": "6fac32ac422206a3b5e5716159304806f30d0aed",
-    "migration126Sha256": "4C099804BA1D6B97DF6AF3FA0C0A8D514FD616397BDE1BC7F5E5DAE3EB8B1D21",
+    "baselineSha": "095245e6bd30d2f40850e8779232f806f2cd0beb",
+    "migration127Sha256": "A2C9561EF071E959152D7DD06CAFC0F9BE933F18F845F4AE03D2B1A8971BE60D",
     "independentReSignOff": "PASS",
     "critical": 0,
     "high": 0,
@@ -131,6 +141,127 @@
     "push": "NOT PERFORMED",
     "exactShaCi": "NOT RUN FOR UNCOMMITTED CANDIDATE",
     "publicActivation": "NOT PERFORMED"
+  },
+  "slice4ProposedCommit": {
+    "status": "OWNER_APPROVED_ONE_COMMIT_PUSH_EXACT_SHA_CI",
+    "baselineSha": "095245e6bd30d2f40850e8779232f806f2cd0beb",
+    "branch": "main",
+    "subject": "feat: add private Phase 5 financial read model and reconciliation",
+    "fileCount": 17,
+    "allowlist": [
+      "docs/agent/ACTIVE_TASK.json",
+      "docs/agent/PHASE_STATUS.md",
+      "docs/agent/PROJECT_OVERVIEW.md",
+      "docs/agent/evidence/phase5-slice3/SLICE3_IMPLEMENTATION_MAP.md",
+      "docs/agent/evidence/phase5-slice4/SLICE4_IMPLEMENTATION_MAP.md",
+      "docs/agent/evidence/phase5-slice4/SLICE4_SCOPE_DESIGN.md",
+      "docs/agent/project-state.json",
+      "package.json",
+      "scripts/agent/lib.mjs",
+      "scripts/agent/preflight.mjs",
+      "scripts/testing/run-phase5-private-financial-read-runtime.mjs",
+      "supabase/migrations/127_phase5_private_financial_read_model.sql",
+      "tests/agent-continuity.test.ts",
+      "tests/phase44-admin-recovery-fullstack.test.ts",
+      "tests/phase5-canonical-payment-writers.test.ts",
+      "tests/phase5-private-coordinator.test.ts",
+      "tests/phase5-private-financial-read.test.ts"
+    ],
+    "preExistingContinuity": "Slice3 implementation-map diff records the verified closure commit/CI and the earlier Slice4 design checkpoint. Preserved without editing in the Slice4 implementation/review/closure passes.",
+    "staging": "NOT PERFORMED",
+    "commit": "NOT PERFORMED",
+    "push": "NOT PERFORMED"
+  },
+  "slice4DeliveryAuthorization": {
+    "approved": true,
+    "oneCommitOnly": true,
+    "pushTarget": "origin/main",
+    "exactShaCiRequired": true,
+    "deployAllowed": false,
+    "laterSliceAllowed": false,
+    "productionAccessAllowed": false
+  },
+  "slice4ImplementationAuthorization": {
+    "approved": true,
+    "baselineSha": "095245e6bd30d2f40850e8779232f806f2cd0beb",
+    "migration": 127,
+    "publicActivationAllowed": false,
+    "scope": "Private financial facts/position/reconciliation; total discovery, exact money and STABLE zero-write snapshot proof"
+  },
+  "slice3Closure": {
+    "status": "OWNER-CLOSED",
+    "baselineSha": "6fac32ac422206a3b5e5716159304806f30d0aed",
+    "migration126Sha256": "4C099804BA1D6B97DF6AF3FA0C0A8D514FD616397BDE1BC7F5E5DAE3EB8B1D21",
+    "independentReSignOff": "PASS",
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0,
+    "materialEvidenceGaps": 0,
+    "commit": "095245e6bd30d2f40850e8779232f806f2cd0beb",
+    "push": "VERIFIED origin/main",
+    "exactShaCi": "PASS",
+    "ciEvent": "push",
+    "ciBranch": "main",
+    "codeQualityRun": 36808501724,
+    "secretScanningRun": 36808501743,
+    "publicActivation": "NOT PERFORMED"
+  },
+  "slice4DesignAuthorization": {
+    "approved": true,
+    "scope": "Continuity synchronization and source-grounded scope/design proposal only",
+    "implementationAllowed": false,
+    "publicActivationAllowed": false
+  },
+  "slice4ScopeProposal": {
+    "status": "READY_FOR_OWNER_SCOPE_REVIEW",
+    "document": "docs/agent/evidence/phase5-slice4/SLICE4_SCOPE_DESIGN.md",
+    "proposedScope": "Private zero-write canonical financial read model and reconciliation; no public activation, writer/projection cutover or profit-report presentation",
+    "implementationStarted": false,
+    "independentDesignReview": "THREE_TARGETED_CLOSURES_DEFINED_PENDING_INDEPENDENT_CONFIRMATION",
+    "activationDesignCompleteness": "NOT CLAIMED; full writer/reader/guard/trigger/grant convergence remains required"
+  },
+  "slice4BoundedDesignReview": {
+    "status": "NEEDS_TARGETED_TECHNICAL_CLOSURE",
+    "proofType": "Fresh source-grounded design challenge by current agent; not separate-agent review, PostgreSQL runtime or implementation sign-off",
+    "confirmedNewCodeDefects": 0,
+    "materialDesignGaps": 3,
+    "materialEvidenceGapsForSourceReview": 0,
+    "ownerBusinessPolicyDecisionsRequired": 0,
+    "gaps": [
+      {
+        "id": "S4-DG1",
+        "boundary": "Total per-Order evidence discovery, including disconnected operation-owned rows",
+        "source": "Slice4 proposal lines 85-98 and 205; Migration123 financial_operation_events has no mandatory child-completion link; Migration126 validators start from an operation supplied by their caller",
+        "counterexample": "A financial operation identifies Order A in its immutable request but has no collection/reversal child; enumerating only children with order_id=A never invokes its validator. A completion or movement with contradictory Order ownership presents the same reverse-discovery problem.",
+        "requiredClosure": "Enumerate every owned relation and independent discovery edge, including request/result Order identity and child/event/completion/movement linkage. Require bidirectional per-operation tuple coverage and explicit rejection of disconnected, extra, foreign and contradictory rows. Define which incomplete inactive foundation records make the private read ineligible; never drop them silently.",
+        "runtimeObligation": "Read clean state, then inject disconnected operation/completion/movement identities in disposable rollback state and prove fail-closed rejection with zero content mutation."
+      },
+      {
+        "id": "S4-DG2",
+        "boundary": "Explicit financial validity predicates before derived max/min equations",
+        "source": "Slice4 proposal lines 102-126; closed Slice2 capacity equation and Migration126 reversal_position_v1",
+        "counterexample": "The equations alone clamp excess refund 110 against collection 100 to refundable zero, and clamp collection100 plus debtReduction30 against total100 to outstanding zero. Conversely collection130 minus valid reversals30 against total100 is a legitimate recollection history and must not fail a naive gross-collection bound.",
+        "requiredClosure": "Pin the exact pre-derivation domain and arithmetic predicates from approved contracts: complete identity-validated C/V/D/R, nonnegative coverage, full exact reversal bounds, coverage plus settled debt reductions bounded by total, refund backed by coverage net of collected delivery, and historical merchandise entitlement bounds. Reject corruption rather than clamp it; do not impose C<=T or subtract refund from coverage. Bind each historical Return's allocation to its authoritative settlement evidence rather than recalculating debt-first eligibility from today's position.",
+        "runtimeObligation": "Distinguish valid reversal/recollection, debt-only, mixed debt/refund and delivery cases from over-allocation, negative and same-total identity substitution cases."
+      },
+      {
+        "id": "S4-DG3",
+        "boundary": "Snapshot and function-volatility contract for all three proposed read entrypoints",
+        "source": "Slice4 proposal lines 67-75 and 150-159; reused Migration124/126 and final Migration122 Return validators are STABLE; PostgreSQL function-volatility documentation",
+        "counterexample": "A new default-VOLATILE PL/pgSQL wrapper can enumerate financial facts under one internal statement and calculate/reconcile under a later statement after another transaction commits. Requiring repeatable-read only in a test does not establish the normal single-call contract.",
+        "requiredClosure": "Specify STABLE entrypoints and a reviewed read-only STABLE call graph using one calling-query snapshot, or another explicit equivalent enforced isolation boundary. Keep clock/visibility metadata precise, and specify repeatable-read for multi-call comparisons. Do not label table-dependent reads IMMUTABLE or call volatile writers/locking helpers.",
+        "runtimeObligation": "Pause a reader between fact enumeration and derivation, commit a concurrent valid mutation, and prove one internally coherent result, zero read writes/gates and correct later-call visibility."
+      }
+    ],
+    "verifiedDesignBoundaries": [
+      "Proposed private inactive scope preserves closed writers and public behavior; activation stays separately prohibited",
+      "Economic coverage and actual Cash/CliQ flow remain distinct; partial Customer completion contributes once",
+      "Original source time, evidence anchor time and actual reversal time stay distinct; no closed Shift rewriting",
+      "Current position must not replace stored historical committed replay; no current price/WAC fallback or collapsed profit dimensions"
+    ],
+    "focusedVerification": "18/18 existing static/continuity tests PASS; 10/10 independent BigInt arithmetic design traces PASS; no PostgreSQL runtime claim",
+    "nextGate": "Bounded design-only closure of S4-DG1/DG2/DG3, then independent confirmation and separate owner implementation authorization; do not create Migration127 or activate public paths"
   },
   "slice3ImplementationAuthorization": {
     "approved": true,
@@ -188,7 +319,66 @@
     "proofLimit": "Source-grounded design only: no new runtime, rollback, concurrency or measured deadlock proof is claimed. Future implementation requires focused real-session probes, fresh rebuild and applicable final gates.",
     "nextGate": "Owner review of this bounded scope, followed by independent adversarial design review; obtain explicit implementation/migration authorization before coding."
   },
-  "nextExactAction": "Owner authorized one Slice3 closure commit and normal push to origin/main plus exact-SHA code-quality/secret-scanning CI verification. Stage only approved17 files. Subject feat: add private Phase 5 tender reversal coordinator. Precommit baseline6fac32ac422206a3b5e5716159304806f30d0aed main remoteequal staged0. Preserve1264C099804BA1D6B97DF6AF3FA0C0A8D514FD616397BDE1BC7F5E5DAE3EB8B1D21 frozen001-125127absent. No new functional changes/activation/Slice4/Production/deploy.",
+  "slice4TargetedDesignClosure": {
+    "status": "DEFINED_PENDING_INDEPENDENT_CONFIRMATION",
+    "document": "docs/agent/evidence/phase5-slice4/SLICE4_SCOPE_DESIGN.md",
+    "proofType": "Bounded current-agent source-grounded design closure and exact arithmetic traces only; no independent sign-off or PostgreSQL runtime proof",
+    "S4-DG1": {
+      "boundary": "Total graph discovery shared by facts, position and reconciliation",
+      "discovery": "Seed authoritative modern Order/creation/completion and all payments plus typed request/result Order identities, declared Order columns and reverse operation/event/payment/header/item/movement/completion edges. Expand to a fixed point before lifecycle classification; disconnected request-only operations and contradictory links cannot disappear through child/settled joins.",
+      "coverage": "Require bidirectional exact tuple coverage and cardinality per authoritative identity across financial operations, collections, reversals, tender movements/completions and operational Return evidence. Classify valid drafts as zero settled money only when no committed final/effect evidence exists; incomplete financial/foundation-only reversal evidence rejects.",
+      "unassignable": "Bounded relevant-node integrity check rejects malformed evidence with no usable Order identity or resolvable link as UNASSIGNABLE_EVIDENCE. Do not guess ownership or claim a per-Order child query can discover it. Valid unrelated assignable graphs are not rejected due to another Order's incomplete evidence.",
+      "runtimeRequired": "Real private reads with disconnected operations, orphan completion/movement/effect, contradictory Order links and identity substitution must reject with zero content mutation."
+    },
+    "S4-DG2": {
+      "domain": "Exact integer minor units, checked result range, non-null typed amounts and identities, immutable original T/L, nonnegative validated event amounts and full per-source reversal limits. No floating point, NULL/UNKNOWN acceptance or guessed zero.",
+      "currentPredicates": "X=C-V >= 0; D+R <= T-L; X+D <= T; O=T-X-D; DO=min(L,O); CD=L-DO; R <= X-CD, after independent per-identity evidence validation. Gross C may exceed T after legitimate full reversal/recollection; never subtract refund from coverage or recreate debt.",
+      "historicalReturn": "E_i=D_i+R_i; D_i=min(E_i,B_i); R_i=E_i-D_i <= N_i. Migration121 actually stores merchandise debt B_i and refundable collected N_i in the generic-named before snapshots. Do not subtract delivery/refunds again or recompute historical debt-first allocation from current state; require immutable item/evidence/result binding.",
+      "tender": "Use actual Cash/CliQ movement methods, preserve historical Return Shift requirements separately from CliQ-reversal rules, and require Cash+CliQ net flow equals X-R. Negative cross-tender Cash flow is valid, negative event amounts/capacity are not.",
+      "runtimeRequired": "Valid recollection/debt-only/mixed/delivery/cross-tender cases and invalid over-allocation, refund backing, SQL/JSON NULL, overflow and same-total identity substitution."
+    },
+    "S4-DG3": {
+      "entrypoints": "All three proposed read entrypoints and new table-reading helpers are STABLE SQL/PLpgSQL, SECURITY INVOKER with fixed search paths; never default VOLATILE or table-dependent IMMUTABLE.",
+      "callGraph": "Exact-signature transitive source/catalog admission permits read-only STABLE validators and pure scalar helpers only. Exclude writers, coordinators, finalizers, anchoring, business/advisory row locks, sequences, network and dynamic mutation; the old amount_paid reader is diagnostic only, not canonical authority.",
+      "visibility": "One calling-query MVCC snapshot for discovery, validation, arithmetic and reconciliation. Standalone next READ COMMITTED SELECT may see new commits; multi-call comparisons use REPEATABLE READ READ ONLY. Statement/event timestamps are not commit or universal visibility cutoffs. No same-statement data-modifying-CTE consumer or capacity reservation is supplied.",
+      "runtimeRequired": "Pause discovery/derivation in an isolated harness, commit a valid concurrent mutation and prove old coherent first result, fresh next call, consistent reconciliation and zero read-owned mutation/gates."
+    },
+    "remainingScopedDesignGaps": 0,
+    "ownerPolicyDecisionsRemaining": 0,
+    "runtimeProof": "NOT RUN; runtime correctness, snapshot behavior, atomicity, authorization and concurrency remain mandatory future implementation evidence",
+    "implementationStarted": false,
+    "publicActivationAllowed": false,
+    "nextGate": "Bounded independent confirmation of S4-DG1/DG2/DG3; separate explicit owner authorization is required before Slice4 implementation or Migration127 creation"
+  },
+  "slice4BoundedDesignConfirmation": {
+    "status": "PASS_FOR_THREE_REVIEWED_DESIGN_BOUNDARIES",
+    "baselineSha": "095245e6bd30d2f40850e8779232f806f2cd0beb",
+    "reviewedDesignSha256": "0BBAA04A24E99F07865AFF85A06DA08A27AD093628C135ECD307EFD81AEA9CC6",
+    "migration126Sha256": "4C099804BA1D6B97DF6AF3FA0C0A8D514FD616397BDE1BC7F5E5DAE3EB8B1D21",
+    "proofLevel": "Fresh bounded independent source-design review against repository definitions and new counterexample traces; no implemented Slice4 functions, PostgreSQL runtime, snapshot measurement, authorization or deadlock result is certified",
+    "S4-DG1": "PASS: typed request/result seeds and reverse operation/event/payment/header/movement/completion edges discover disconnected and contradictory evidence before classification. Per-identity bidirectional coverage and the explicit unassignable-node failure prevent silent partial aggregation. This requires new private read discovery, not reliance on the closed child-only source enumerator.",
+    "S4-DG2": "PASS: complete identity validation precedes exact nonnegative coverage/allocation/refund-backing checks. Gross recollection remains valid. Historical Return snapshots are correctly interpreted as merchandise debt and refundable collected at settlement; monetary refund does not recreate debt, and exact-payment reversal retains the approved candidate formula.",
+    "S4-DG3": "PASS: all proposed entrypoints and table-dependent helpers are STABLE with transitive read-only admission; mutators, locks, sequences and old paid-projection authority are excluded. Reconciliation shares the calling snapshot, multi-call comparison requires read-only repeatable-read, and same-statement mutation visibility is not promised.",
+    "freshCounterexampleTraces": [
+      "Financial operation with request Order A and no child is discovered and rejected as incomplete; malformed request plus linked child still enters reverse discovery and cannot disappear.",
+      "Completion claims Order A while movement/payment belongs to B: conflicting ownership rejects instead of selecting one side; unassignable orphan fails explicitly, while an unrelated assignable incomplete Order does not contaminate A.",
+      "Same-count equal-value source substitution cannot satisfy per-authoritative-identity cardinality; partial Customer completion linked to a payment contributes that payment once.",
+      "Collections135 minus full exact reversals35, total100 and refunds40 preserves coverage100, debt0 and net60; gross C<=T would incorrectly reject it.",
+      "Total120, delivery15, collections45, debtReduction65 and refund25 gives debt10 and net20, matching remaining commercial amount30 without refunding delivery.",
+      "Historical entitlement60 with merchandise-debt snapshot25 and refundable snapshot45 retains debtReduction25/refund35 after later debt changes; current debt must not replace the snapshot.",
+      "CliQ collection100 with Cash exact reversal10 and Cash refund35 gives Cash-45/CliQ100 and economic net55; original tender cannot classify the outflows.",
+      "Concurrent commit between discovery and derivation must remain outside the calling-query snapshot; a later READ COMMITTED call may see it. Default-VOLATILE or a hidden volatile writer violates the explicit admission contract and must fail the future implementation gate."
+    ],
+    "verification": "Existing focused static/continuity tests 18/18 PASS. Independent bounded arithmetic enumeration checked 95,634 admissible combinations and classified 928,235 out-of-domain combinations; conservation held for admitted states, with five additional explicit arithmetic cases. These are arithmetic/source checks, not DB runtime proof.",
+    "confirmedNewCodeDefects": 0,
+    "remainingScopedDesignGaps": 0,
+    "materialEvidenceGapsForThisSourceReview": 0,
+    "ownerPolicyDecisionsRemaining": 0,
+    "implementationObligations": "Future authorized Migration127 must prove total discovery, exact per-identity tuples, arithmetic/null/range validation, actual read-only STABLE call graph and concurrent snapshot behavior on fresh isolated full schema. Public activation and prior activation obligations remain separate and prohibited.",
+    "continuityNote": "Earlier proposal and targeted-closure pending-review fields describe the reviewed candidate. This hash-bound confirmation is the subsequent review result; synchronize implementation state only after separate owner authorization.",
+    "nextGate": "Owner authorization of bounded private Slice4 implementation and additive Migration127, preserving migrations001-126 and zero public activation/Production/commit/push/deploy"
+  },
+  "nextExactAction": "Owner authorized exactly one17-file Slice4 closure commit, normal push origin/main and exact-SHA code-quality/secret-scanning CI. Revalidate baseline095245e6bd30d2f40850e8779232f806f2cd0beb, approved allowlist, hashes and staged secrets; no deploy, Production, public activation or later slice.",
   "slice3DesignReview": {
     "status": "NEEDS_TARGETED_DESIGN_COMPLETENESS",
     "proofType": "Fresh source-grounded counterexample review by the current agent, not a separate-model review or runtime sign-off.",
@@ -222,6 +412,21 @@
     "nextGate": "Owner-approved targeted design closure of S3-DG1/S3-DG2/S3-DG3 before implementation authorization."
   },
   "activeProcesses": [],
+  "slice4FinalCandidateReview": {
+    "status": "BOUNDED_INDEPENDENT_READ_ONLY_REVIEW_PASS",
+    "migration127Sha256": "A2C9561EF071E959152D7DD06CAFC0F9BE933F18F845F4AE03D2B1A8971BE60D",
+    "finalImplementationGates": "Canonical 11/11 PASS, parent 1646143ms; quality session26607 exited0, Admin659/659, Customer189/189, Browser207 passed/51 intentional conditional skips/0 failed with retries0. These completed candidate gates supersede earlier pending checkpoint descriptions; no broad rerun during review.",
+    "independentEvidence": "Fresh isolated 001-127 focused audit exited0 with 12 recorded checks: 30-signature transitive read graph; actual partial cross-tender Return; repeated content-sensitive zero-write reads; historical entitlement and cancelled-consumption rejection; cross-order header FK rejection; historical debt Return followed by later collection; source amount contradiction; unrelated incomplete Order isolation; nine actual role denials; multi-tender arithmetic; observed concurrent committed collection with coherent old snapshot and fresh next read.",
+    "probeLimitations": "Two preliminary audit harness attempts stopped at constraints before completing the matrix and are not counted as successful runs. Corrected cancellation injection clears settled_at; cross-order header rejection is credited to the FK boundary, not the reader. No project test, business code or migration was changed by this audit.",
+    "integrity": "Focused13/13 PASS; Gitleaks17 changed/untracked files PASS; git diff check PASS; all126 historical raw fingerprints unchanged; Migration128 absent. Private catalog:10 new invoker functions,0 wrong owners,0 volatile functions,0 application-role EXECUTE privileges.",
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0,
+    "materialEvidenceGaps": 0,
+    "scope": "Bounded private Slice4 financial read/reconciliation candidate review only; no public activation or release certification.",
+    "remainingAction": "Owner approved Slice4 closure; prepare local baseline and await explicit commit/push authorization. No later slice or public activation is authorized."
+  },
   "slice3TargetedDesignClosure": {
     "status": "DEFINED_PENDING_INDEPENDENT_CONFIRMATION",
     "scope": "Source-grounded closure of S3-DG1/S3-DG2/S3-DG3 only; not implementation, activation or runtime sign-off.",
@@ -291,5 +496,5 @@
     "Commit or push without owner authorization",
     "Start Phase 5 Slice 4 or public activation without owner authorization"
   ],
-  "workingTreeFingerprint": "2B10549763A8D7935590FBE5E09B2AA3ACE299DDB1DFB4D2F2FA9F8A15AF7E19"
+  "workingTreeFingerprint": "11E714D7E351D51A2239F23F7B6E9A895394AB3D386002C8F9E22C08162A18A2"
 }
