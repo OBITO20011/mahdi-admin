@@ -28,6 +28,8 @@
   "phase5Slice4Closed": true,
   "phase5Slice4IndependentReSignOff": "PASS",
   "phase5Slice4AuthorizationBaseline": "095245e6bd30d2f40850e8779232f806f2cd0beb",
+  "phase5Slice4ClosureBaseline": "5405ed7a17656e4e18587b4f07ff0825a1efa838",
+  "phase5Slice4ClosureExactShaCi": "PASS",
   "phase5Slice3AuthorizationBaseline": "6fac32ac422206a3b5e5716159304806f30d0aed",
   "phase5PublicActivationAllowed": false,
   "migrationCeiling": 127,

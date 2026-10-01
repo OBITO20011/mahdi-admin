@@ -125,3 +125,17 @@ historical checkpoints. Slice 4 is closed as a private inactive layer;
 local baseline preparation is complete. The owner subsequently authorized one
 baseline commit/push and exact-SHA CI verification. Later slices and public
 activation remain NOT STARTED.
+
+Slice 4 post-delivery continuity synchronization (2026-10-01): closure commit
+`5405ed7a17656e4e18587b4f07ff0825a1efa838` (parent
+`095245e6bd30d2f40850e8779232f806f2cd0beb`) is verified on `main` / `origin/main`.
+Exact-SHA push/main code-quality run `36887359530` and secret-scanning run
+`36887359434` completed successfully. The earlier preparation/Push/CI statements
+are historical checkpoints, not pending tasks. Slice 4 remains OWNER-CLOSED and
+private/inactive; later slices and public activation remain NOT STARTED. Current
+authorization covers only continuity metadata and its directly dependent test
+expectations. Subsequent owner authorization covers one six-file continuity
+corrective commit/push and exact-SHA CI. Business/migration changes, public
+activation and later-slice implementation remain prohibited. Durable closure
+tests validate Git ancestry across the commit transition; preflight/resume
+still require the checkpoint baseline to match HEAD exactly before takeover.

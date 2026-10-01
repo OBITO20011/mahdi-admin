@@ -24,6 +24,8 @@ type ProjectContinuityState = {
   phase5Slice4Started: boolean;
   phase5Slice4Closed: boolean;
   phase5Slice4IndependentReSignOff: string;
+  phase5Slice4ClosureBaseline: string;
+  phase5Slice4ClosureExactShaCi: string;
   phase5PublicActivationAllowed: boolean;
   phase5Slice3AuthorizationBaseline: string;
 };
@@ -52,6 +54,7 @@ type ActiveTaskContinuityState = {
     independentReSignOff: string; critical: number; high: number; medium: number;
     low: number; materialEvidenceGaps: number; commit: string; push: string;
     exactShaCi: string; publicActivation: string;
+    ciEvent: string; ciBranch: string; codeQualityRun: number; secretScanningRun: number;
   };
   slice4DeliveryAuthorization: {
     approved: boolean; oneCommitOnly: boolean; pushTarget: string;
@@ -67,6 +70,12 @@ type ActiveTaskContinuityState = {
 };
 
 const closureSha = '247980af9636ab01b20c80cac6bb3d23de2cc584';
+const slice4ClosureSha = '5405ed7a17656e4e18587b4f07ff0825a1efa838';
+const assertCheckpointAncestry = (closedBaseline: string, checkpointBaseline: string, observedHead: string) => {
+  assert.match(checkpointBaseline, /^[0-9a-f]{40}$/u);
+  execFileSync('git', ['merge-base', '--is-ancestor', closedBaseline, checkpointBaseline]);
+  execFileSync('git', ['merge-base', '--is-ancestor', checkpointBaseline, observedHead]);
+};
 const assertPhase4Closed = (
   projectState: ProjectContinuityState,
   phaseStatus: string,
@@ -122,7 +131,12 @@ const assertSlices12Closed = (
   assert.equal(projectState.phase5Slice3ClosureBaseline, '095245e6bd30d2f40850e8779232f806f2cd0beb');
   assert.equal(projectState.phase5Slice3ClosureExactShaCi, 'PASS');
   assert.equal(projectState.phase5Slice4DesignStatus, 'THREE_GAP_BOUNDED_DESIGN_CONFIRMATION_PASS');
-  assert.equal(task.baselineSha, projectState.phase5Slice3ClosureBaseline);
+  // Durable closure tests permit a new commit descending from the checkpoint.
+  // Exact HEAD and working-tree equality remains the preflight/resume boundary.
+  assert.equal(projectState.phase5Slice4ClosureBaseline, slice4ClosureSha);
+  assert.equal(projectState.phase5Slice4ClosureExactShaCi, 'PASS');
+  assertCheckpointAncestry(slice4ClosureSha, task.baselineSha,
+    execFileSync('git', ['rev-parse', 'HEAD'], {encoding: 'utf8'}).trim());
   assert.deepEqual(task.slice4DesignAuthorization, {
     approved: true, scope: 'Continuity synchronization and source-grounded scope/design proposal only',
     implementationAllowed: false, publicActivationAllowed: false,
@@ -132,8 +146,8 @@ const assertSlices12Closed = (
     publicActivationAllowed: false,
     scope: 'Private financial facts/position/reconciliation; total discovery, exact money and STABLE zero-write snapshot proof',
   });
-  assert.equal(task.objective, 'Phase 5 Slice 4 owner closure and authorized baseline commit/push/CI verification; later slices and public activation not started.');
-  assert.deepEqual(task.inProgress, ['Owner-authorized Slice 4 baseline commit/push and exact-SHA CI verification']);
+  assert.equal(task.objective, 'Phase 5 Slice 4 post-delivery continuity synchronization; later slices and public activation not started.');
+  assert.deepEqual(task.inProgress, []);
   assert.deepEqual(task.slice4DeliveryAuthorization, {
     approved: true, oneCommitOnly: true, pushTarget: 'origin/main',
     exactShaCiRequired: true, deployAllowed: false,
@@ -144,9 +158,14 @@ const assertSlices12Closed = (
     status: 'OWNER-CLOSED', baselineSha: '095245e6bd30d2f40850e8779232f806f2cd0beb',
     migration127Sha256: 'A2C9561EF071E959152D7DD06CAFC0F9BE933F18F845F4AE03D2B1A8971BE60D',
     independentReSignOff: 'PASS', critical: 0, high: 0, medium: 0, low: 0,
-    materialEvidenceGaps: 0, commit: 'NOT PERFORMED', push: 'NOT PERFORMED',
-    exactShaCi: 'NOT RUN FOR UNCOMMITTED CANDIDATE', publicActivation: 'NOT PERFORMED',
+    materialEvidenceGaps: 0, commit: slice4ClosureSha, push: 'VERIFIED origin/main',
+    exactShaCi: 'PASS', ciEvent: 'push', ciBranch: 'main',
+    codeQualityRun: 36887359530, secretScanningRun: 36887359434,
+    publicActivation: 'NOT PERFORMED',
   });
+  assert.ok(task.completed.includes(
+    `Slice 4 closure commit ${slice4ClosureSha} pushed to origin/main; exact-SHA push/main code-quality run 36887359530 and secret-scanning run 36887359434 PASS`,
+  ));
   assert.ok(task.completed.includes('Phase 5 Slice 4 owner-closed'));
   assert.ok(task.completed.includes('Phase 5 Slice 4 bounded independent read-only re-sign-off PASS with zero scoped findings and material evidence gaps'));
   assert.deepEqual(task.slice3Closure, {
@@ -160,7 +179,7 @@ const assertSlices12Closed = (
   assert.ok(task.completed.includes('Phase 5 Slice 3 owner-closed'));
   assert.ok(task.completed.includes('Phase 5 Slice 3 bounded independent historical-membership re-sign-off PASS with zero scoped findings and material evidence gaps'));
   assert.deepEqual(task.notStarted, ['Later Phase 5 slices and public activation']);
-  assert.ok(task.prohibitions.includes('Start Phase 5 Slice 4 or public activation without owner authorization'));
+  assert.ok(task.prohibitions.includes('Start later Phase 5 slices or public activation without owner authorization'));
   assert.ok(task.completed.includes(
     'Phase 5 Slice 1 bounded independent re-review passed with zero remaining findings and zero material evidence gaps',
   ));
@@ -316,4 +335,53 @@ test('Slices 1-2 closed continuity rejects lost closure, stale work and unauthor
   const staleInProgress = structuredClone(task);
   staleInProgress.inProgress = ['completed Slice 2 review'];
   assert.throws(() => assertSlices12Closed(projectState, phaseStatus, staleInProgress));
+});
+
+test('durable continuity accepts a committed descendant and rejects checkpoints outside the closure chain', () => {
+  const priorClosure = '095245e6bd30d2f40850e8779232f806f2cd0beb';
+  // A real existing parent/child pair exercises the commit transition without
+  // creating test commits or weakening takeover checks in preflight/resume.
+  assertCheckpointAncestry(priorClosure, priorClosure, slice4ClosureSha);
+  assertCheckpointAncestry(priorClosure, slice4ClosureSha, slice4ClosureSha);
+  assert.throws(() => assertCheckpointAncestry(slice4ClosureSha, priorClosure, slice4ClosureSha));
+  assert.throws(() => assertCheckpointAncestry(priorClosure, slice4ClosureSha, priorClosure));
+  assert.throws(() => assertCheckpointAncestry(priorClosure, '0'.repeat(40), slice4ClosureSha));
+});
+
+test('Slice 4 delivered continuity rejects stale checkpoints and fabricated delivery evidence', async () => {
+  const projectState = JSON.parse(await read('docs/agent/project-state.json')) as ProjectContinuityState;
+  const phaseStatus = await read('docs/agent/PHASE_STATUS.md');
+  const task = JSON.parse(await read('docs/agent/ACTIVE_TASK.json')) as ActiveTaskContinuityState;
+  assertSlices12Closed(projectState, phaseStatus, task);
+
+  const wrongStateSha = structuredClone(projectState);
+  wrongStateSha.phase5Slice4ClosureBaseline = projectState.phase5Slice3ClosureBaseline;
+  assert.throws(() => assertSlices12Closed(wrongStateSha, phaseStatus, task));
+  const pendingStateCi = structuredClone(projectState);
+  pendingStateCi.phase5Slice4ClosureExactShaCi = 'PENDING';
+  assert.throws(() => assertSlices12Closed(pendingStateCi, phaseStatus, task));
+
+  const mutations: Array<(candidate: ActiveTaskContinuityState) => void> = [
+    (candidate) => { candidate.baselineSha = projectState.phase5Slice3ClosureBaseline; },
+    (candidate) => { candidate.slice4Closure.commit = projectState.phase5Slice3ClosureBaseline; },
+    (candidate) => { candidate.slice4Closure.baselineSha = slice4ClosureSha; },
+    (candidate) => { candidate.slice4Closure.push = 'NOT PERFORMED'; },
+    (candidate) => { candidate.slice4Closure.exactShaCi = 'PENDING'; },
+    (candidate) => { candidate.slice4Closure.ciEvent = 'workflow_dispatch'; },
+    (candidate) => { candidate.slice4Closure.ciBranch = 'codex/other'; },
+    (candidate) => { candidate.slice4Closure.codeQualityRun = 36808501724; },
+    (candidate) => { candidate.slice4Closure.secretScanningRun = 36808501743; },
+    (candidate) => { candidate.inProgress = ['Owner-authorized Slice 4 baseline commit/push and exact-SHA CI verification']; },
+    (candidate) => { candidate.testsRemaining = ['Completed exact-SHA CI']; },
+    (candidate) => { candidate.notStarted = []; },
+    (candidate) => { candidate.slice4DeliveryAuthorization.laterSliceAllowed = true; },
+    (candidate) => { candidate.slice4DeliveryAuthorization.deployAllowed = true; },
+    (candidate) => { candidate.slice4DeliveryAuthorization.productionAccessAllowed = true; },
+    (candidate) => { candidate.completed = candidate.completed.filter((entry) => !entry.startsWith(`Slice 4 closure commit ${slice4ClosureSha}`)); },
+  ];
+  for (const mutate of mutations) {
+    const candidate = structuredClone(task);
+    mutate(candidate);
+    assert.throws(() => assertSlices12Closed(projectState, phaseStatus, candidate));
+  }
 });

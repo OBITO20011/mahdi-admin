@@ -47,6 +47,8 @@ test('closed Phase 4 and Phase 5 Slices 1-2 with inactive Migration 124 are expl
     phase5Slice4Closed: boolean;
     phase5Slice4ImplementationStatus: string;
     phase5Slice4IndependentReSignOff: string;
+    phase5Slice4ClosureBaseline: string;
+    phase5Slice4ClosureExactShaCi: string;
     phase5PublicActivationAllowed: boolean;
     migration126CanonicalLfSha256: string;
   };
@@ -68,6 +70,8 @@ test('closed Phase 4 and Phase 5 Slices 1-2 with inactive Migration 124 are expl
   assert.equal(state.phase5Slice4Closed, true);
   assert.equal(state.phase5Slice4ImplementationStatus, 'OWNER_CLOSED_PRIVATE_ONLY');
   assert.equal(state.phase5Slice4IndependentReSignOff, 'PASS');
+  assert.equal(state.phase5Slice4ClosureBaseline, '5405ed7a17656e4e18587b4f07ff0825a1efa838');
+  assert.equal(state.phase5Slice4ClosureExactShaCi, 'PASS');
   assert.equal(state.phase5PublicActivationAllowed, false);
   assert.equal(state.migration126CanonicalLfSha256, '4C099804BA1D6B97DF6AF3FA0C0A8D514FD616397BDE1BC7F5E5DAE3EB8B1D21');
   assert.equal(state.migration121Sha256, '9779212034A901DBB971A68EC485D16B0AA4BE329478B9DAF1A4263CE6989BDD');
