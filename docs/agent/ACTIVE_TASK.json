@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "status": "IDLE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Owner-authorized Migration 125 corrective closure commit/push and exact-SHA CI verification after bounded independent re-sign-off; Slice 3 not started",
-  "baselineSha": "8ad617a979f27b888c0f3fc6d018f67e447abb80",
+  "objective": "Phase 5 Slice 3 owner closure and local baseline preparation; await explicit commit/push authorization; Slice 4 and public activation not started.",
+  "baselineSha": "6fac32ac422206a3b5e5716159304806f30d0aed",
   "branch": "main",
   "phase": "5",
-  "startedAt": "2026-09-30T11:21:42.480Z",
-  "checkpointedAt": "2026-09-30T18:59:41.704Z",
+  "startedAt": "2026-09-30T19:18:31.648Z",
+  "checkpointedAt": "2026-10-01T02:59:57.903Z",
   "completed": [
     "Phase 3 owner-closed",
     "Phase 4.1 owner-closed",
@@ -63,57 +63,233 @@
     "Owner-authorized Migration 125 collection lint correction implemented without changing migrations 001-124 or activating private writers",
     "Migration 125 focused static/lint matrix 12/12 PASS; fresh Slice-2 001-125 runtime and unchanged Phase 2/3 runtime regressions PASS",
     "Lint-parser Low correction rejects mixed wrapper/root findings and unsupported wrapper fields; permanent tests reproduced failure before the correction and passed afterward",
-    "Bounded independent lint-parser re-sign-off PASS: 36 adversarial rejections, six valid accepted shapes, focused 24/24 PASS, unchanged working tree and Migration 125"
+    "Bounded independent lint-parser re-sign-off PASS: 36 adversarial rejections, six valid accepted shapes, focused 24/24 PASS, unchanged working tree and Migration 125",
+    "Corrective commit 6fac32ac422206a3b5e5716159304806f30d0aed pushed to origin/main; exact-SHA code-quality run 36762682913 and secret-scanning run 36762682904 PASS",
+    "Owner-authorized Slice 3 scope/design analysis completed as a source-grounded proposal; implementation and public activation remain NOT STARTED",
+    "Phase 5 Slice 3 bounded independent historical-membership re-sign-off PASS with zero scoped findings and material evidence gaps",
+    "Phase 5 Slice 3 owner-closed"
   ],
-  "inProgress": [],
+  "inProgress": [
+    "Phase 5 Slice 3 local closure baseline preparation pending explicit commit/push authorization"
+  ],
   "notStarted": [
-    "Phase 5 Slice 3 and later slices"
+    "Phase 5 Slice 4 and later slices; public activation"
   ],
   "filesTouched": [
     "docs/agent/PHASE_STATUS.md",
+    "docs/agent/PROJECT_OVERVIEW.md",
     "docs/agent/project-state.json",
+    "package.json",
     "scripts/agent/lib.mjs",
     "scripts/agent/preflight.mjs",
-    "scripts/testing/run-phase5-canonical-payment-writers-runtime.mjs",
+    "scripts/testing/run-phase4-returns-foundation-runtime.mjs",
+    "scripts/testing/run-phase42-atomic-return-runtime.mjs",
     "tests/agent-continuity.test.ts",
+    "tests/database-runtime-suite.ts",
+    "tests/phase44-admin-recovery-fullstack.test.ts",
     "tests/phase5-canonical-payment-writers.test.ts",
-    "docs/agent/evidence/phase5-slice2/COLLECTION_LINT_CORRECTION.md",
-    "scripts/testing/phase5-db-lint-policy.mjs",
-    "supabase/migrations/125_phase5_collection_lock_lint_correction.sql",
-    "tests/phase5-collection-lint-correction.test.ts"
+    "docs/agent/evidence/phase5-slice3/SLICE3_IMPLEMENTATION_MAP.md",
+    "scripts/testing/run-phase5-private-coordinator-runtime.mjs",
+    "supabase/migrations/126_phase5_private_tender_coordinator.sql",
+    "tests/phase5-private-coordinator.test.ts"
   ],
   "testsPassed": [
-    "Phase 5 Slice 2 static contract suite 9/9",
-    "Combined Slice 2 and continuity focused suite 17/17",
-    "Fresh isolated Slice 2 runtime and rebuild 001-124",
-    "Fresh isolated timezone replay, legacy coexistence, valid-vs-valid race, and late-migration conflict rollback matrix",
-    "Phase 5 Slice 1 runtime regression 001-123",
-    "Phase 4.2 atomic Return runtime regression",
-    "npm run quality",
-    "git diff --check",
-    "Gitleaks changed and untracked 16-file scope",
-    "agent:preflight",
-    "Low/P3 correction: focused Slice 2 and continuity tests 12/12 PASS",
-    "Low/P3 correction: isolated Slice 2 runtime 001-124 PASS, exact advisory-lock wait observed 6/6, A-first 3/3 and B-first 3/3, deadlockDelta 0, DB lint zero errors",
-    "Low/P3 correction: TypeScript, strict ESLint, and Gitleaks PASS",
-    "Migration 125: focused static/lint 12/12 PASS",
-    "Migration 125: fresh isolated Slice-2 001-125 rebuild/runtime, strict lint, six observed lock races and deadlockDelta 0 PASS",
-    "Migration 125: affected Phase 2 receiving/WAC/replay and Phase 3 contracts/runtime PASS without changing their assertions",
-    "Migration 125: TypeScript and strict ESLint PASS",
-    "Migration 125: final unit suite 640/640 and focused correction/continuity 20/20 PASS",
-    "Migration 125: 12-file Gitleaks scan, diff integrity, preflight and handoff validation PASS; test-owned containers cleaned up",
-    "Lint-parser Low correction: focused parser/Slice-2/continuity 19/19 and full unit suite 644/644 PASS; TypeScript, strict ESLint and 12-file Gitleaks PASS"
+    "Focused continuity tests 8/8 PASS; no assertion or test changes",
+    "agent:preflight, agent:resume on the paused checkpoint, and agent:verify-handoff PASS",
+    "git diff --check PASS; scope limited to three authorized continuity files",
+    "Targeted three-gap design closure: focused continuity 8/8 PASS, TypeScript and strict ESLint PASS, changed-diff Gitleaks PASS; no runtime safety proof claimed",
+    "Slice 3 Migration 126 candidate 9047E102E4A112FBC8EDB80C69FB04E6AF9A1B04CF22238BDFF47C05F4F88E21: fresh isolated 001-126 rebuild and 14 focused runtime axes PASS, including real POS/Customer sources, cross-tender, foundation-only rejection, finalization/replay corruption parity, after-each-write rollback, ACL and Sales collection versus financial reversal authority",
+    "Slice 3 observed two-session same-key and both valid changed-payload scheduling directions PASS with deadlockDelta=0; historical Shift A/current B pre-write FK contention and no irrelevant historical locking PASS",
+    "Slice 3 focused static/continuity regression 33/33 PASS; full npm test 653/653 PASS; TypeScript and strict ESLint PASS; fresh strict DB lint PASS",
+    "Slice 3 continuation: fresh isolated 001-126 rebuild and 23 focused runtime axes PASS; complete tested Shift/FK, post-Return delivery, same-payment and cross-sale races passed with sampled deadlockDelta=0",
+    "Unchanged Slice-2 runtime regression PASS with six observed idempotency races and deadlockDelta=0",
+    "Final npm run quality PASS: Admin unit tests 653/653, Admin/Customer lint and builds, isolated Customer SEO, Browser QA 207 PASS with 51 intentional conditional skips, retries=0 and zero escaped Production requests",
+    "Final strict ESLint PASS; Canonical is NOT PASS: nine tests passed, Gateway and parent were cancelled when the unchanged 1800000ms parent budget expired; exit code 1",
+    "Smallest affected Gateway runtime succeeded independently on a fresh isolated stack, including Base Unit/Parcel ambiguous retry, cross-version privacy, and rate-limit reconciliation; this does not close the uninterrupted Canonical gap",
+    "Post-checkpoint continuity/status synchronization focused suite 26/26 PASS; no timeout, coverage or production authority changed",
+    "Canonical-alone diagnosis reproduced the 1800000ms parent cancellation (9/11 passed, 2 cancelled); removing Browser QA concurrency alone did not resolve it",
+    "Paired fresh bootstrap profiles preserved identical auth/public/phase5_private schema/ACL dumps; SQL-only profile reduced measured bootstrap from 95546ms to 80197ms",
+    "Bounded three-file SQL-only service-profile correction retained all assertions/timeouts and Gateway HTTP services; TypeScript, strict ESLint and focused 26/26 PASS",
+    "Corrected uninterrupted Canonical PASS 11/11, zero failures/cancellations/skips, parent duration 1783417ms under unchanged 1800000ms deadline; complete real Gateway PASS",
+    "Bounded historical-membership correction: focused 27/27 and fresh 001-126 runtime 25 axes PASS; source/prior-reversal/settled-Return exact sets, corruption rejection, finalization/replay parity, content-sensitive rollback and sampled deadlockDelta=0",
+    "Historical-membership corrected candidate uninterrupted Canonical 11/11 PASS, parent 1746308ms under unchanged 1800000ms budget",
+    "Historical-membership corrected candidate npm run quality PASS once: Admin unit suite, Customer 189/189, lint/build/isolated SEO and Browser QA 207 passed / 51 intentional conditional skips, retries=0; network isolation reported zero external and Production requests escaped",
+    "Slice 3 local owner-closure continuity: focused 27/27 and full npm test 654/654 PASS; git diff check and Gitleaks changed/untracked 17 files PASS; Migration 126 hash unchanged and 127 absent"
   ],
   "testsRemaining": [],
+  "slice3Closure": {
+    "status": "OWNER-CLOSED",
+    "baselineSha": "6fac32ac422206a3b5e5716159304806f30d0aed",
+    "migration126Sha256": "4C099804BA1D6B97DF6AF3FA0C0A8D514FD616397BDE1BC7F5E5DAE3EB8B1D21",
+    "independentReSignOff": "PASS",
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0,
+    "materialEvidenceGaps": 0,
+    "commit": "NOT PERFORMED",
+    "push": "NOT PERFORMED",
+    "exactShaCi": "NOT RUN FOR UNCOMMITTED CANDIDATE",
+    "publicActivation": "NOT PERFORMED"
+  },
+  "slice3ImplementationAuthorization": {
+    "approved": true,
+    "baselineSha": "6fac32ac422206a3b5e5716159304806f30d0aed",
+    "migration": 126,
+    "publicActivationAllowed": false
+  },
   "findings": [],
   "blockers": [],
-  "nextExactAction": "Owner-approved corrective commit/push and exact-SHA CI verification only. Bounded independent sign-off passed; commit the explicit 12-file corrective scope, verify origin/main and required quality/secret CI. No Production or Slice 3.",
+  "slice3ImplementationCheckpoint": {
+    "status": "OWNER_CLOSED_AFTER_BOUNDED_INDEPENDENT_REVIEW",
+    "migration126CanonicalLfSha256": "4C099804BA1D6B97DF6AF3FA0C0A8D514FD616397BDE1BC7F5E5DAE3EB8B1D21",
+    "focusedRuntimeAxesPassed": 25,
+    "focusedTests": "27/27 PASS after bounded history correction",
+    "npmTest": "Corrected candidate Admin unit suite PASS through full quality; Customer 189/189 PASS",
+    "quality": "Corrected candidate PASS once with CI=1 and retries=0; Browser QA 207 passed, 51 intentional conditional skips; zero external/Production requests escaped",
+    "canonical": "Corrected candidate uninterrupted PASS 11/11, parent 1746308ms / unchanged 1800000ms; zero failures/cancellations/skips",
+    "gatewayDiagnosis": "Gateway passed independently and in corrected uninterrupted Canonical; unnecessary HTTP-service lifecycle overhead removed only from SQL groups",
+    "canonicalTimingLimitation": "Corrected candidate had about 53.7 seconds remaining in the unchanged parent budget. This measured PASS does not establish timing stability across all hosts.",
+    "materialImplementationVerificationGaps": 0,
+    "sampledDeadlockDelta": 0,
+    "publicActivation": "NOT PERFORMED",
+    "remainingRuntimeEvidence": [],
+    "remainingFinalGates": []
+  },
+  "slice3DesignProposal": {
+    "status": "SOURCE_GROUNDED_DESIGN_PENDING_OWNER_REVIEW",
+    "scope": "Private inactive atomic tender-movement and coordinator evidence; no public/application activation or report cutover.",
+    "foundationBoundary": "Slice 2 committed evidence is not operational coordinator completion. Existing foundation-only events cannot be silently upgraded or replayed as operational success.",
+    "authority": "Keep private objects inaccessible to application roles. Future public wrappers derive authenticated actor context and authorize before business locks; never trust a caller-supplied actor as public authority.",
+    "evidence": "Separate immutable coordinator completion and actual-tender movement evidence linked to one exact original collection/full reversal event, payment, order, actor, event time, amount, tender, reference and current Cash Shift. Existing immutable foundation result is not rewritten.",
+    "cashCliq": "Original collection tender and actual reversal tender are independent. Cash reversal requires a current open Shift; CliQ requires durable reference and no artificial Cash movement. Closed original Shift snapshots remain immutable.",
+    "collectionBoundary": "A Slice 2 collection anchors an already-authoritative public payment. It is not permission to create a second payment or duplicate its inflow. New collection creation and existing-source anchoring must have explicit distinct roles before activation.",
+    "exactSet": "Derive expected evidence from immutable operation/request/source-payment anchors, validate per-identity bidirectional equality across all coordinator-owned records, and use one central validator for finalization and replay. No aggregate-only proof or evidence-self-derived truth.",
+    "transaction": "Fresh coordinator completion and all required foundation/movement evidence commit together; any missing, contradictory or extra evidence rejects atomically. No backfill/adoption of incomplete historical operations.",
+    "lockDesign": "Pre-acquire all exact idempotency gates before the existing phase4-order/current-Shift/Order/source-payment business lock domain. Reuse the existing helper; do not introduce an earlier-ranked gate after business locks. Freeze relevant Shift identities and revalidate after locking; discovery changes require rollback/safe retry.",
+    "replay": "Actor/key/fingerprint and exact original request must match. Validate complete durable operational evidence before stored success; valid committed replay precedes fresh Shift/eligibility checks and writes nothing.",
+    "activationDependencies": [
+      "Align public collection/once/reversal writers and all alternate mutation authority at one reviewed activation boundary.",
+      "Align sync_order_payment_state and Phase 4.2 financial-position readers with tender-independent coverage; prevent old trigger from restoring amount_paid after an exact payment reversal.",
+      "Align settled-aftercare reversal dependency guards with candidate-state validation without weakening unsupported reversal paths.",
+      "Align open-Shift summaries, close snapshots and full-Shift reversal guards with actual-tender movements without removing original collection or double-counting outflow.",
+      "Preserve economic coverage separately from monetary refunds and actual Cash/CliQ flow; cost/profit dimensions remain distinct and are not redesigned in this slice."
+    ],
+    "breakMatrix": [
+      "Two original payments 70 and 30; full reversal of payment 30; candidate coverage 70 cannot be restored to 100 by old projections.",
+      "CliQ original collection with Cash reversal in current open Shift; Cash original with CliQ reversal; no fake Cash effect or rewritten original tender.",
+      "Closed original Shift with valid current Cash Shift; no current Cash Shift rejection; preserve valid CliQ path and historical replay.",
+      "Settled Return debt/refund/delivery capacity, post-lock candidate validation, ambiguous legacy evidence and no partial payment reversal.",
+      "Foundation-only or missing/extra/duplicate/wrong-identity movement/completion evidence fails finalization and replay.",
+      "Same-key concurrent calls, changed payload, two keys reversing the same payment, collection versus reversal, Shift close/full reversal versus coordinator, and cross-order shared-Shift races.",
+      "Fault after each write proves operation-scoped content-sensitive zero partial effects; valid replay after Shift closure or subsequent state changes proves zero new writes.",
+      "Application roles cannot invoke private helpers or directly mutate evidence; future authorization is checked before waiting on business locks."
+    ],
+    "proofLimit": "Source-grounded design only: no new runtime, rollback, concurrency or measured deadlock proof is claimed. Future implementation requires focused real-session probes, fresh rebuild and applicable final gates.",
+    "nextGate": "Owner review of this bounded scope, followed by independent adversarial design review; obtain explicit implementation/migration authorization before coding."
+  },
+  "nextExactAction": "Owner authorized one Slice3 closure commit and normal push to origin/main plus exact-SHA code-quality/secret-scanning CI verification. Stage only approved17 files. Subject feat: add private Phase 5 tender reversal coordinator. Precommit baseline6fac32ac422206a3b5e5716159304806f30d0aed main remoteequal staged0. Preserve1264C099804BA1D6B97DF6AF3FA0C0A8D514FD616397BDE1BC7F5E5DAE3EB8B1D21 frozen001-125127absent. No new functional changes/activation/Slice4/Production/deploy.",
+  "slice3DesignReview": {
+    "status": "NEEDS_TARGETED_DESIGN_COMPLETENESS",
+    "proofType": "Fresh source-grounded counterexample review by the current agent, not a separate-model review or runtime sign-off.",
+    "newConfirmedCodeDefects": 0,
+    "materialDesignGaps": 3,
+    "gaps": [
+      {
+        "id": "S3-DG1",
+        "boundary": "Complete explicit and implicit FK lock plan",
+        "source": "Migration 123 collection cash_shift_id FK; Migration 120 phase4_lock_customer_order_context_internal and phase4_lock_full_shift_context_internal",
+        "counterexample": "An original Cash payment belongs to Shift A, but its private collection evidence is inserted while current Shift B and the Order are locked. The collection FK can request a key-share lock on A after the Order. A concurrent full-Shift reversal can own A and wait on that Order. This is a conditional design cycle trace, not a measured deadlock.",
+        "requiredClosure": "Enumerate which paths insert evidence versus only reuse existing collection evidence. Include all referenced Shift/FK resources and exact advisory domains in discovery and the canonical acquisition graph; define compatibility with full-Shift reversal and rollback on discovery changes. Do not blanket-lock an irrelevant historical Shift."
+      },
+      {
+        "id": "S3-DG2",
+        "boundary": "Financial coverage population and authority",
+        "source": "Migration 124 reversal candidate coverage SUMs all private collection/reversal rows without coordinator-completion joins",
+        "counterexample": "The same Order contains a private foundation-only reversal plus a proposed completed coordinator operation, or supported public payments absent from the private population. Revalidating only the candidate operation does not prove which other events are valid operational financial inputs or that coverage is complete.",
+        "requiredClosure": "Define exact per-Order supported source/event population and operational-completion classification before computing capacity. Reject incomplete, mixed-authority or ambiguous populations; do not silently trust foundation-only reversals, ignore unrepresented payments, or activate a partial reader. Distinguish legitimate existing collection anchoring from creating a new inflow."
+      },
+      {
+        "id": "S3-DG3",
+        "boundary": "Movement time versus evidence recording time",
+        "source": "Migration 017 customer_payments.created_at and Migration 124/125 clock_timestamp operation_event_at",
+        "counterexample": "A payment occurs in an earlier Shift/period but private collection evidence is anchored later. Treating the later foundation event time as a new collection movement would relocate or duplicate the original inflow, while a genuine reversal belongs to its actual execution period.",
+        "requiredClosure": "Specify original movement identity/time/Shift separately from evidence-recording time and reversal execution time. No historical backdating or evidence guessing; reject insufficient historical anchors. Define replay/result and future tender-report use of each field explicitly."
+      }
+    ],
+    "ownerPolicyChangesRequired": false,
+    "unchangedBoundary": "Slices 1-2 remain closed, private and inactive. No code, grants, migration or activation changes were made. Existing activation implementation obligations remain open.",
+    "nextGate": "Owner-approved targeted design closure of S3-DG1/S3-DG2/S3-DG3 before implementation authorization."
+  },
   "activeProcesses": [],
+  "slice3TargetedDesignClosure": {
+    "status": "DEFINED_PENDING_INDEPENDENT_CONFIRMATION",
+    "scope": "Source-grounded closure of S3-DG1/S3-DG2/S3-DG3 only; not implementation, activation or runtime sign-off.",
+    "S3-DG1": {
+      "entrypoints": "Distinguish existing-source collection anchoring, new collection creation, fresh exact-payment reversal and committed replay. Slice 3 reversal must reuse existing validated original collection evidence, never create an original collection as an implicit side effect.",
+      "discovery": "Before writes, freeze the branch, Order, actor, customer, exact source payments/collections, current Cash Shift when needed and every Shift referenced by rows actually being inserted. A historical Shift read is not automatically an FK write dependency; collection anchoring to a historical Cash Shift is one.",
+      "acquisition": "Authorize first; acquire exact operation idempotency gates, then phase4-order gate. Acquire required Shift rows in UUID order before the Order/payment/collection rows. Current Cash Shift uses FOR UPDATE; historical FK-only Shift uses FOR KEY SHARE. For a shared identity use the strongest required mode up front, never upgrade later. Acquire planned remaining FK parent key locks before the first evidence INSERT.",
+      "contention": "Use NOWAIT for preplanned business/FK row acquisition so a full-Shift reversal holding Shift/order resources cannot create a blocking inverse cycle. Contention is an explicit rollback/retry outcome, not success or a masked timeout. Replay remains read-only and does not take these business locks.",
+      "freshValidation": "After locking, reread all identities/statuses and compare the plan. Any new Shift, branch/source relationship or missing lock means rollback/safe retry, never late discovery/acquisition. No client-visible result is committed before validation.",
+      "legacyHelperBoundary": "The current Migration 120 helper discovers/locks only one current Shift and therefore is not sufficient for multi-Shift FK plans. Future additive private prelocked routines must reuse the established root domain and Slice 2 evidence/identity validation while consuming the frozen plan. They must not call the old blocking discovery helper after later locks, including the CliQ/no-open-Shift case where a new Shift could appear.",
+      "proofRequired": "Real independent-session tests for historical A/current B versus full reversal of A and B, inverse UUID ordering, Shift close/open during discovery, no-open CliQ, FK parent contention and post-lock relationship changes. Measure deadlock delta and prove loser content-sensitive zero footprint; no static measured-deadlock claim."
+    },
+    "S3-DG2": {
+      "population": "Build an exact disjoint per-Order source population from validated modern sale/completion facts and exact public customer_payments. Reject unsupported tenders, ambiguous legacy evidence, unrepresented payments and contradictory source bindings rather than infer truth from orders.amount_paid or an incomplete private SUM.",
+      "initialCollections": "Migration 115 POS stores original net collection in its immutable business-operation result without inserting a customer_payments row. Migration 116 Customer completion can either store a full initial collection without a payment row, or reference a partial collection by customer_payment_number. A partial completion linked to that exact payment contributes once through the payment source, not again through the completion result. Full initial modern collection is a distinct source fact, not a fabricated customer payment and not an extra reversible payment under this slice.",
+      "sourceIdentity": "Use typed source identity: validated original modern sale/completion operation versus exact original customer_payment_id. Revalidate original operation/request/result/order bindings; resolve Customer partial payment_number to its unique payment and verify order/amount/tender/actor relationship. Missing or contradictory anchors are unsupported/fail-closed.",
+      "foundationAuthority": "Slice 2 collection evidence may describe an already-committed authoritative source payment and is not a second inflow. All prior private reversal events used in operational coverage require exact validated coordinator completion and movement evidence. A foundation-only prior reversal makes the Order population ineligible; do not ignore it or adopt it as an operational outflow.",
+      "candidate": "Before writes, validate the full source population and every prior operational reversal/settled Return. Compute tender-independent coverage from distinct committed source collections minus validated operational reversals, then subtract the one exact candidate payment. Preserve the approved debt/refund/delivery equations; monetary refunds constrain reversible capacity and are not subtracted twice or used to recreate debt.",
+      "writerBoundary": "Migration 124 SUM-only capacity is insufficient for this expanded population. Future additive coordinator/prelocked writer logic must calculate candidate capacity from the complete typed source set instead of blindly delegating capacity to the closed Slice 2 helper. Original Slice 2 implementation stays unchanged/private. Public writer and financial reader convergence remains a separate activation prerequisite.",
+      "proofRequired": "70+30 with full reversal of exact payment 30; paid POS initial collection plus later payment; full Customer initial collection; partial Customer completion linked to payment counted once; missing canonical source; foundation-only prior reversal; duplicate typed sources; cross-Order matching amount; legacy ambiguity; candidate after settled Return. No new reversal of an implicit initial collection is introduced."
+    },
+    "S3-DG3": {
+      "identity": "Historical collection is identified by its original source event/payment, not by the later anchor operation. Anchoring does not create another economic movement, another drawer inflow or coordinator issuance success.",
+      "times": "Keep immutable source_recorded_at and source Shift distinct from evidence_recorded_at and fresh reversal_executed_at. For a customer payment source_recorded_at is its original created_at; for validated modern POS/Customer initial collection use the original operation's recorded server event time. These are repository event timestamps, not claimed bank settlement or wall-clock commit times.",
+      "reversal": "Capture reversal_executed_at after locks and candidate validation; bind the reversal movement, foundation reversal operation and coordinator completion to the same server event. Cash outflow belongs to the exact current open Shift; CliQ uses actual committed channel/reference and no Cash Shift.",
+      "readers": "Future tender reports attribute original inflow once to its original source/Shift/recorded period, and reversal once to its actual reversal tender/Shift/execution period. Evidence anchoring time is audit metadata only. Closed original Shift snapshots are not rewritten. Replay returns stored timestamps unchanged.",
+      "proofRequired": "Original collection in period/Shift A, anchor in B, Cash reversal in C; no new inflow in B, one outflow in C; cross-tender case; timestamp/Shift corruption; session TimeZone equivalence; replay after Shift closure. Insufficient historical time/identity evidence rejects without guessing."
+    },
+    "remainingTargetedDesignGaps": 0,
+    "ownerPolicyChangesRequired": false,
+    "runtimeProof": "NOT RUN; all specified runtime rejection, atomicity, authorization and deadlock obligations remain future implementation gates.",
+    "activation": "STILL PROHIBITED until public writers, guards, projections, readers, Shift summaries/reversal dependencies and grants converge at the separately approved activation transaction.",
+    "nextGate": "Bounded independent confirmation of these three source-grounded closures; explicit owner implementation/migration authorization is still required."
+  },
+  "slice3BoundedDesignConfirmation": {
+    "status": "PASS_FOR_THREE_REVIEWED_DESIGN_BOUNDARIES",
+    "baselineSha": "6fac32ac422206a3b5e5716159304806f30d0aed",
+    "proofLevel": "Independent source review and counterexample traces against the proposed design; no implemented coordinator or measured runtime/concurrency result is certified.",
+    "S3-DG1": "PASS: frozen Shift/FK plan, strongest mode up front, sorted pre-write acquisition and NOWAIT rollback address the identified historical/current Shift cycle. The old rediscovering helper is explicitly excluded after later locks. Both race directions remain implementation tests.",
+    "S3-DG2": "PASS: exact typed source coverage includes original modern sale/completion collections and customer payments without double-counting partial completion. Incomplete sources and foundation-only prior reversals reject. Candidate capacity must use this population rather than the old raw private SUM.",
+    "S3-DG3": "PASS: immutable original source time/Shift, anchor recording time and actual reversal time/tender remain separate; anchoring generates no inflow and replay preserves the stored event identity.",
+    "sourceReferences": [
+      "120_phase4_returns_refunds_foundation.sql:2701 and 3559; 123_phase5_private_financial_evidence_foundation.sql:57 and 92",
+      "115_configurable_parcel_pos_sale_coordinator.sql:718 and 744; 116_configurable_parcel_customer_reservation_coordinator.sql:1956 and 2260; 124_phase5_canonical_collection_reversal_writers.sql:579",
+      "017_orders_customers_accounts.sql:74; 112_configurable_parcel_foundation.sql:901; 123_phase5_private_financial_evidence_foundation.sql:54; 124_phase5_canonical_collection_reversal_writers.sql:623"
+    ],
+    "counterexampleTraces": [
+      "Historical Shift A/current B while full reversal owns A: preplanned NOWAIT conflict rolls back before writes; no late FK wait.",
+      "Same Shift is both current and historical: strongest required lock is acquired initially, with no later upgrade.",
+      "Changed Shift/branch/source plan or newly appearing Shift in CliQ path: reject/retry, never rediscover through the old helper after Order locks.",
+      "Customer partial collection 30 linked to its exact payment plus later payment 70: total collection is 100, not 130; completion evidence is not a second inflow.",
+      "Modern full initial collection without a customer_payment row retains its own validated source identity; no synthetic reversible payment is fabricated.",
+      "Missing source, wrong-Order payment-number binding or foundation-only prior reversal: entire fresh operational population is rejected.",
+      "Two exact payments 70 and 30 with full reversal of payment 30: candidate coverage is 70; mutable amount_paid is not the authority.",
+      "Original inflow in A, anchoring in B, cross-tender reversal in C: one original inflow and one actual-tender outflow; no inflow in B and no rewritten closed Shift."
+    ],
+    "newConfirmedCodeDefects": 0,
+    "remainingScopedDesignGaps": 0,
+    "materialEvidenceGapsForThisSourceReview": 0,
+    "ownerPolicyDecisionsRemaining": 0,
+    "implementationObligations": "Private additive implementation still needs real-session concurrency, complete rejection atomicity, operational evidence/replay validation, authorization and fresh migration/runtime verification. Public activation dependencies and pre-existing implementation defect families remain open.",
+    "nextGate": "Owner authorization of bounded private Slice 3 implementation and additive Migration 126; retain zero public activation, Production, commit/push or deploy."
+  },
   "prohibitions": [
     "Production access",
     "Deploy",
     "Commit or push without owner authorization",
-    "Start Phase 5 Slice 3 without owner authorization"
+    "Start Phase 5 Slice 4 or public activation without owner authorization"
   ],
-  "workingTreeFingerprint": "39FC34939A9BEDDDBFA7013A12E54948FBCF7D92B0FDB298019955B6886B12E1"
+  "workingTreeFingerprint": "2B10549763A8D7935590FBE5E09B2AA3ACE299DDB1DFB4D2F2FA9F8A15AF7E19"
 }

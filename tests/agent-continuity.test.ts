@@ -41,6 +41,11 @@ test('closed Phase 4 and Phase 5 Slices 1-2 with inactive Migration 124 are expl
     migration124MustBeAbsent: boolean;
     migration124CanonicalLfSha256: string;
     migration125CanonicalLfSha256: string;
+    phase5Slice3ImplementationStarted: boolean;
+    phase5Slice3Closed: boolean;
+    phase5Slice4Started: boolean;
+    phase5PublicActivationAllowed: boolean;
+    migration126CanonicalLfSha256: string;
   };
   assert.deepEqual(state.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5']);
   assert.equal(state.phase4Closed, true);
@@ -53,7 +58,12 @@ test('closed Phase 4 and Phase 5 Slices 1-2 with inactive Migration 124 are expl
   assert.equal(state.nextPermittedPhase, null);
   assert.equal(state.phase43Started, true);
   assert.equal(state.phase44Started, true);
-  assert.equal(state.migrationCeiling, 125);
+  assert.equal(state.migrationCeiling, 126);
+  assert.equal(state.phase5Slice3ImplementationStarted, true);
+  assert.equal(state.phase5Slice3Closed, true);
+  assert.equal(state.phase5Slice4Started, false);
+  assert.equal(state.phase5PublicActivationAllowed, false);
+  assert.equal(state.migration126CanonicalLfSha256, '4C099804BA1D6B97DF6AF3FA0C0A8D514FD616397BDE1BC7F5E5DAE3EB8B1D21');
   assert.equal(state.migration121Sha256, '9779212034A901DBB971A68EC485D16B0AA4BE329478B9DAF1A4263CE6989BDD');
   assert.equal(state.migration122HistoricalRawWindowsSha256, 'DED829F8EF84F49EABD8D9AAA76D460632E36B86A8D041228DDB91692CA15C24');
   assert.equal(state.migration122CanonicalLfSha256, 'DF991DE73F32931B81C9C4B9C2F611F44731E99044ACBC2F5F60F4FE1192C066');
@@ -75,6 +85,8 @@ test('handoff tooling is fail-closed and never stores environment values', () =>
   assert.match(preflight, /migration123Sha256/u);
   assert.match(preflight, /migration124CanonicalLfSha256/u);
   assert.match(preflight, /migration125CanonicalLfSha256/u);
+  assert.match(preflight, /migration126CanonicalLfSha256/u);
+  assert.match(preflight, /unexpectedAboveCeiling/u);
   assert.match(start, /dirty worktree/u);
   assert.match(resume, /workingTreeFingerprint/u);
   assert.match(verify, /possible secret material/u);

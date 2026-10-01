@@ -16,10 +16,25 @@ type ProjectContinuityState = {
   phase5Slice1Closed: boolean;
   phase5Slice2Started: boolean;
   phase5Slice2Closed: boolean;
+  phase5Slice3ImplementationStarted: boolean;
+  phase5Slice3Closed: boolean;
+  phase5Slice4Started: boolean;
+  phase5PublicActivationAllowed: boolean;
+  phase5Slice3AuthorizationBaseline: string;
 };
 
 type ActiveTaskContinuityState = {
   status: string;
+  objective: string;
+  slice3ImplementationAuthorization: {
+    approved: boolean; baselineSha: string; migration: number; publicActivationAllowed: boolean;
+  };
+  slice3Closure: {
+    status: string; baselineSha: string; migration126Sha256: string;
+    independentReSignOff: string; critical: number; high: number; medium: number;
+    low: number; materialEvidenceGaps: number; commit: string; push: string;
+    exactShaCi: string; publicActivation: string;
+  };
   baselineSha: string;
   completed: string[];
   inProgress: string[];
@@ -68,11 +83,30 @@ const assertSlices12Closed = (
   assert.match(phaseStatus, /\| Phase 5 \| IN PROGRESS \|/u);
   assert.match(phaseStatus, /Slice 1 private inactive financial evidence foundation is OWNER-CLOSED/u);
   assert.match(phaseStatus, /Slice 2 private canonical collection and exact-payment-reversal writers are OWNER-CLOSED/u);
-  assert.equal(task.status, 'IDLE');
-  assert.deepEqual(task.inProgress, []);
+  assert.equal(projectState.phase5Slice3ImplementationStarted, true);
+  assert.equal(projectState.phase5Slice3Closed, true);
+  assert.equal(projectState.phase5Slice4Started, false);
+  assert.equal(projectState.phase5PublicActivationAllowed, false);
+  assert.equal(projectState.phase5Slice3AuthorizationBaseline, '6fac32ac422206a3b5e5716159304806f30d0aed');
+  assert.deepEqual(task.slice3ImplementationAuthorization, {
+    approved: true, baselineSha: projectState.phase5Slice3AuthorizationBaseline,
+    migration: 126, publicActivationAllowed: false,
+  });
+  assert.ok(['ACTIVE', 'PAUSED'].includes(task.status));
+  assert.equal(task.objective, 'Phase 5 Slice 3 owner closure and local baseline preparation; await explicit commit/push authorization; Slice 4 and public activation not started.');
+  assert.deepEqual(task.inProgress, ['Phase 5 Slice 3 local closure baseline preparation pending explicit commit/push authorization']);
   assert.deepEqual(task.testsRemaining, []);
-  assert.deepEqual(task.notStarted, ['Phase 5 Slice 3 and later slices']);
-  assert.ok(task.prohibitions.includes('Start Phase 5 Slice 3 without owner authorization'));
+  assert.deepEqual(task.slice3Closure, {
+    status: 'OWNER-CLOSED', baselineSha: '6fac32ac422206a3b5e5716159304806f30d0aed',
+    migration126Sha256: '4C099804BA1D6B97DF6AF3FA0C0A8D514FD616397BDE1BC7F5E5DAE3EB8B1D21',
+    independentReSignOff: 'PASS', critical: 0, high: 0, medium: 0, low: 0,
+    materialEvidenceGaps: 0, commit: 'NOT PERFORMED', push: 'NOT PERFORMED',
+    exactShaCi: 'NOT RUN FOR UNCOMMITTED CANDIDATE', publicActivation: 'NOT PERFORMED',
+  });
+  assert.ok(task.completed.includes('Phase 5 Slice 3 owner-closed'));
+  assert.ok(task.completed.includes('Phase 5 Slice 3 bounded independent historical-membership re-sign-off PASS with zero scoped findings and material evidence gaps'));
+  assert.deepEqual(task.notStarted, ['Phase 5 Slice 4 and later slices; public activation']);
+  assert.ok(task.prohibitions.includes('Start Phase 5 Slice 4 or public activation without owner authorization'));
   assert.ok(task.completed.includes(
     'Phase 5 Slice 1 bounded independent re-review passed with zero remaining findings and zero material evidence gaps',
   ));
@@ -180,8 +214,25 @@ test('Slices 1-2 closed continuity rejects lost closure, stale work and unauthor
   assert.throws(() => assertSlices12Closed(projectState, phaseStatus, missingClosureEvidence));
 
   const unauthorizedSlice3 = structuredClone(task);
-  unauthorizedSlice3.notStarted = [];
+  unauthorizedSlice3.slice3ImplementationAuthorization.approved = false;
   assert.throws(() => assertSlices12Closed(projectState, phaseStatus, unauthorizedSlice3));
+
+  const unauthorizedActivation = structuredClone(projectState);
+  unauthorizedActivation.phase5PublicActivationAllowed = true;
+  assert.throws(() => assertSlices12Closed(unauthorizedActivation, phaseStatus, task));
+
+  const lostSlice3 = structuredClone(projectState);
+  lostSlice3.phase5Slice3Closed = false;
+  assert.throws(() => assertSlices12Closed(lostSlice3, phaseStatus, task));
+  const unauthorizedSlice4 = structuredClone(projectState);
+  unauthorizedSlice4.phase5Slice4Started = true;
+  assert.throws(() => assertSlices12Closed(unauthorizedSlice4, phaseStatus, task));
+  const falseCi = structuredClone(task);
+  falseCi.slice3Closure.exactShaCi = 'PASS';
+  assert.throws(() => assertSlices12Closed(projectState, phaseStatus, falseCi));
+  const missingReview = structuredClone(task);
+  missingReview.slice3Closure.independentReSignOff = 'PENDING';
+  assert.throws(() => assertSlices12Closed(projectState, phaseStatus, missingReview));
 
   const staleClosedTask = structuredClone(task);
   staleClosedTask.testsRemaining = ['stale completed review'];

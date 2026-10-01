@@ -1566,7 +1566,7 @@ try {
       NAWASRAH_ISOLATED_PROJECT_ID: projectId,
       NAWASRAH_SKIP_REDUNDANT_DB_RESET: 'true',
       NAWASRAH_SUPABASE_EXCLUDE:
-        'realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor',
+        'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor',
     },
     windowsHide: true,
     maxBuffer: 1024 * 1024,

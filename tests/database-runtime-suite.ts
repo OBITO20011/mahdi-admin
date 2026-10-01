@@ -139,11 +139,14 @@ test(
   async (context) => {
     // Fresh database volumes are rebuilt by `supabase start`; bootstrap MUST
     // reset reused volumes even with this optimization. Avoid a redundant reset
-    // and services that DB-only runtime suites never call. This preserves the
-    // original timeouts while reducing Docker health-check flakiness in CI.
+    // and services that DB-only runtime suites never call. Auth SQL objects,
+    // grants and migrations remain present without the HTTP services. The
+    // Gateway runner supplies its own HTTP-enabled profile. This preserves
+    // all assertions and original timeouts while avoiding repeated idle
+    // gotrue/PostgREST/Kong startup and shutdown in the SQL-only groups.
     process.env.NAWASRAH_SKIP_REDUNDANT_DB_RESET = 'true';
     process.env.NAWASRAH_SUPABASE_EXCLUDE =
-      'realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor';
+      'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor';
     await context.test(
       'supplier payment idempotency and restricted direct writes pass',
       async () => {

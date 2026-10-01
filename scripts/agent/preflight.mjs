@@ -8,6 +8,12 @@ const repoRoot = git(['rev-parse', '--show-toplevel']).replaceAll('\\', '/');
 const migrations = migrationInventory();
 const productionNames = productionEnvironmentNames();
 const failures = [];
+if (migrations.unexpectedAboveCeiling.length) failures.push('Migration above approved ceiling');
+if (state.migration126CanonicalLfSha256
+  && (!migrations.migration126Exists
+    || migrations.migration126CanonicalLfSha256 !== state.migration126CanonicalLfSha256)) {
+  failures.push('Migration 126 hash mismatch');
+}
 const baselineIsAncestor = (() => {
   try {
     git(['merge-base', '--is-ancestor', state.approvedBaseline, head]);
