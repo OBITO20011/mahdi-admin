@@ -15,6 +15,76 @@ const request = {items: [{sourceKind: 'base_order_item',
   sourceId: '43210000-0000-4000-8000-000000000005', quantity: 1}],
 reason: 'Supplier defect', notes: null};
 
+// Observe only this synthetic fixture. Do not change storage, lock scheduling,
+// adapter results or rejection behavior. Keep diagnostics out of product code.
+const installTwoTabDiagnostics = async (context: import('@playwright/test').BrowserContext) => {
+  await context.addInitScript(({actor, order}) => {
+    const global = window as typeof window & {
+      aftercareDiagnostics?: {events: unknown[]; dropped: number};
+    };
+    const evidence = {events: [] as unknown[], dropped: 0};
+    global.aftercareDiagnostics = evidence;
+    const storageKey = `nawasrah:admin:phase43-aftercare:v2:${actor}:${order}:replacement`;
+    const lockName = `nawasrah:admin:phase43-aftercare:v2:lock:${actor}:${order}:replacement`;
+    const record = (kind: string, value: unknown) => {
+      if (evidence.events.length >= 160) { evidence.dropped += 1; return; }
+      evidence.events.push({kind, at: Date.now(), monotonicAt: performance.now(), value});
+    };
+    const summarize = (raw: string | null) => {
+      if (raw === null) return null;
+      try {
+        const state = JSON.parse(raw);
+        return Object.fromEntries(['version', 'actorId', 'orderId', 'action', 'intentId',
+          'attemptId', 'idempotencyKey', 'requestFingerprint', 'status', 'generation',
+          'hadUnknownOutcome'].map((field) => [field, state?.[field]]));
+      } catch { return {invalidJson: true}; }
+    };
+    for (const method of ['getItem', 'setItem'] as const) {
+      const original = Storage.prototype[method];
+      Object.defineProperty(Storage.prototype, method, {configurable: true, writable: true,
+        value: new Proxy(original, {apply(target, receiver, args) {
+          const result = Reflect.apply(target, receiver, args);
+          if (args[0] === storageKey) {
+            record(method, summarize(method === 'getItem' ? result : args[1]));
+          }
+          return result;
+        }}),
+      });
+    }
+    addEventListener('storage', (event) => {
+      if (event.key === storageKey) record('storage-event', summarize(event.newValue));
+    });
+    const OriginalError = Error;
+    global.Error = new Proxy(OriginalError, {construct(target, args, newTarget) {
+      const error = Reflect.construct(target, args, newTarget) as Error;
+      if (String(args[0]).startsWith('AFTERCARE_REVIEW_REQUIRED:')) {
+        // Capture at construction, before WebKit truncates an async rejection stack.
+        record('review-required', {message: error.message, stack: error.stack});
+      }
+      return error;
+    }});
+    const manager = navigator.locks;
+    if (manager) manager.request = new Proxy(manager.request, {apply(target, receiver, args) {
+      if (args[0] !== lockName) return Reflect.apply(target, receiver, args);
+      record('lock-request', lockName);
+      const callbackIndex = args.length - 1;
+      const callback = args[callbackIndex];
+      const observed = [...args];
+      observed[callbackIndex] = new Proxy(callback, {apply(work, workReceiver, workArgs) {
+        record('lock-granted', lockName);
+        const result = Reflect.apply(work, workReceiver, workArgs);
+        // Observe settlement without replacing the promise returned to Web Locks.
+        void Promise.resolve(result).then(
+          () => record('lock-work-fulfilled', lockName),
+          () => record('lock-work-rejected', lockName),
+        );
+        return result;
+      }});
+      return Reflect.apply(target, receiver, observed);
+    }});
+  }, {actor: actorId, order: orderId});
+};
+
 test('persisted in-flight takeover preserves unknown history and blocks a new intent', async ({page}) => {
   await isolateModuleShell(page);
   await page.goto(adminBaseUrl);
@@ -375,6 +445,7 @@ test('explicit new intent with identical inputs creates a distinct attempt and k
 });
 
 test('post-RPC full-identity CAS rejects a concurrently substituted request', async ({page}) => {
+  await installTwoTabDiagnostics(page.context());
   await isolateModuleShell(page);
   await page.goto(adminBaseUrl);
   const evidence = await page.evaluate(async ({actor, order, requestValue, resultValue}) => {
@@ -407,10 +478,16 @@ test('post-RPC full-identity CAS rejects a concurrently substituted request', as
     return {message};
   }, {actor: actorId, order: orderId, requestValue: request, resultValue: success});
   expect(evidence.message).toContain('AFTERCARE_REVIEW_REQUIRED');
+  const diagnostics = await page.evaluate(() => (window as typeof window & {
+    aftercareDiagnostics?: {events: Array<{kind: string; value: {stack?: string}}>};
+  }).aftercareDiagnostics);
+  expect(diagnostics?.events.some((event) => event.kind === 'review-required'
+    && event.value.stack?.includes('adminAftercareRecovery.ts'))).toBe(true);
 });
 
-test('two real Admin tabs share one aftercare RPC and one durable success', async ({browser}) => {
+test('two real Admin tabs share one aftercare RPC and one durable success', async ({browser}, testInfo) => {
   const context = await browser.newContext();
+  await installTwoTabDiagnostics(context);
   await context.route('**/*', (route) => {
     const url = new URL(route.request().url());
     if (!['127.0.0.1', 'localhost'].includes(url.hostname)) return route.abort();
@@ -455,5 +532,22 @@ test('two real Admin tabs share one aftercare RPC and one durable success', asyn
     ]);
     expect(left).toEqual(right);
     expect(await first.evaluate(() => Number(localStorage.getItem('phase43-rpc-count') || 0))).toBe(1);
+  } catch (error) {
+    // Attachment failure must not replace the original test failure.
+    try {
+      const tabs = await Promise.all([first, second].map(async (page, index) => {
+        try {
+          return {tab: index + 1, diagnostics: await page.evaluate(() =>
+            (window as typeof window & {aftercareDiagnostics?: unknown}).aftercareDiagnostics)};
+        } catch { return {tab: index + 1, unavailable: true}; }
+      }));
+      const diagnostic = {project: testInfo.project.name, retry: testInfo.retry,
+        browserVersion: browser.version(), tabs};
+      await testInfo.attach('aftercare-two-tab-diagnostics', {
+        body: Buffer.from(JSON.stringify(diagnostic, null, 2)), contentType: 'application/json',
+      });
+      console.error('AFTERCARE_TWO_TAB_DIAGNOSTICS', JSON.stringify(diagnostic));
+    } catch { /* Preserve the original rejection/assertion. */ }
+    throw error;
   } finally { await context.close(); }
 });
