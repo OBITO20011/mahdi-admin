@@ -68,16 +68,21 @@ export const ClearInventoryBalanceDialog: React.FC<
     }
 
     setIsSubmitting(true);
-    const result = await executeStockCount({
-      productId: product.id,
-      warehouseId: product.warehouseId,
-      actualQuantity: 0,
-      reason: reason.trim(),
-      adjustmentType: 'manual',
-    });
-    setIsSubmitting(false);
+    try {
+      const result = await executeStockCount({
+        productId: product.id,
+        warehouseId: product.warehouseId,
+        actualQuantity: 0,
+        reason: reason.trim(),
+        adjustmentType: 'manual',
+      });
 
-    if (result?.success) onClose();
+
+      if (result?.success) onClose();
+
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

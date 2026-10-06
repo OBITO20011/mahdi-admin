@@ -62,6 +62,26 @@ test('parcel names, three-bucket totals and whole-parcel boundary remain explici
     expect((await input.boundingBox())!.height).toBeGreaterThanOrEqual(44);
   }
 });
+
+test('partial return re-reads capacity immediately before submit and rejects changed physical quantity', async ({page}) => {
+  let reads = 0; let writes = 0;
+  await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1', route => {
+    reads++;
+    const fresh = structuredClone(context);
+    if (reads > 1) fresh.baseItems[0].physicalRepresentatives[0].remainingQuantity = 1;
+    return route.fulfill({json: fresh});
+  });
+  await page.route('**/rest/v1/rpc/settle_admin_sales_return_v1', route => {
+    writes++; return route.fulfill({json: {success: true}});
+  });
+  await page.goto(url);
+  await page.getByRole('button', {name: 'مرتجع', exact: true}).click();
+  await page.getByPlaceholder('سبب المرتجع', {exact: true}).fill('مرتجع اختبار');
+  await page.getByLabel('كمية المرتجع', {exact: true}).fill('1');
+  await page.getByRole('button', {name: 'اعتماد المرتجع'}).click();
+  await expect(page.getByTestId('notice')).toContainText('تغيّرت الكمية المتبقية');
+  expect(reads).toBe(2); expect(writes).toBe(0);
+});
 test('desktop/tablet expand; mobile shell dimensions and selectable operational identity remain', async ({page}, testInfo) => {
   for (const width of [390, 768, 1440]) {
     await page.setViewportSize({width, height: 900});

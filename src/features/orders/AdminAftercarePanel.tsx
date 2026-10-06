@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { PackageCheck, PackageX, RefreshCw, RotateCcw } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 import type { Order } from '../../types';
-import {allocateBaseReturn} from './aftercarePresentation';
+import {allocateBaseReturn, assertReturnCapacityUnchanged} from './aftercarePresentation';
 import {businessErrorMessage} from '../../utils/businessError';
 import {
   fetchAdminAftercareContext,
@@ -141,7 +141,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
         items: [{return_scope: 'base_unit', order_item_id: returnDraft.orderItemId,
           quantity, stock_disposition: returnDraft.disposition}],
         physical: allocateBaseReturn(returnDraft.orderItemId, returnDraft.representatives,
-          quantity, returnDraft.disposition, context.replacements),
+          quantity, returnDraft.disposition, context.replacements, context.order.completedAt || undefined),
       };
     }
     return {
@@ -203,6 +203,14 @@ export const AdminAftercarePanel: React.FC<Props> = ({
     }
     setBusy(true);
     try {
+      // Re-read before a new submission, never silently reallocate an existing draft.
+      const fresh = await fetchAdminAftercareContext(order.id);
+      if (!fresh.success || !fresh.data?.supported) throw new Error(fresh.error || 'تعذر تحديث بيانات الطلب قبل الإرسال.');
+      const selected = returnDraft?.kind === 'base' ? returnDraft.representatives
+        : returnDraft?.parcel.components.flatMap(component => component.physicalRepresentatives) || [];
+      const current = fresh.data.baseItems.flatMap(item => item.physicalRepresentatives)
+        .concat(fresh.data.parcelInstances.flatMap(parcel => parcel.components.flatMap(component => component.physicalRepresentatives)));
+      assertReturnCapacityUnchanged(selected, current);
       const result = await settleAdminReturn({orderId: order.id, items: request.items,
         physicalSources: request.physical, reason, refundMethod,
         referenceNumber: reference, notes});

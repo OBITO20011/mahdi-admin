@@ -3,6 +3,7 @@
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import {useDialogFocus} from '../../hooks/useDialogFocus';
 import { storeEngine } from '../../stores/useAppStore';
 import { PurchaseOrder } from '../../types/purchases';
 import { Supplier } from '../../types';
@@ -53,6 +54,7 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const panel = useDialogFocus(isOpen, () => { if (!isSubmitting) onClose(); }, true);
   const paymentIdempotencyKey = useRef(createSupplierPaymentIdempotencyKey());
   const wasOpen = useRef(false);
 
@@ -135,31 +137,36 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
     }
 
     setIsSubmitting(true);
+    try {
 
-    const res = await recordSupplierPaymentInSupabase({
-      supplierId: selectedSupplierId,
-      purchaseOrderId: selectedPoId || undefined,
-      amount: Number(amount),
-      paymentMethod,
-      referenceNumber: referenceNumber.trim() || undefined,
-      paymentDate: paymentDate ? new Date(paymentDate).toISOString() : undefined,
-      notes: notes.trim() || undefined,
-      idempotencyKey: paymentIdempotencyKey.current,
-    });
+      const res = await recordSupplierPaymentInSupabase({
+        supplierId: selectedSupplierId,
+        purchaseOrderId: selectedPoId || undefined,
+        amount: Number(amount),
+        paymentMethod,
+        referenceNumber: referenceNumber.trim() || undefined,
+        paymentDate: paymentDate ? new Date(paymentDate).toISOString() : undefined,
+        notes: notes.trim() || undefined,
+        idempotencyKey: paymentIdempotencyKey.current,
+      });
 
-    setIsSubmitting(false);
 
-    if (res.success) {
-      storeEngine.setToast('تم تسجيل دفعة المورد بنجاح', 'success');
-      onSuccess();
-      onClose();
-    } else {
-      setErrorMsg(res.error || 'حدث خطأ أثناء تسديد الدفعة');
+
+      if (res.success) {
+        storeEngine.setToast('تم تسجيل دفعة المورد بنجاح', 'success');
+        onSuccess();
+        onClose();
+      } else {
+        setErrorMsg(res.error || 'حدث خطأ أثناء تسديد الدفعة');
+      }
+
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
+    <div ref={panel as React.RefObject<HTMLDivElement>} tabIndex={-1} role="dialog" aria-modal="true" aria-label="دفعة المورد" aria-busy={isSubmitting} className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
       <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden my-auto flex flex-col">
         {/* Header */}
         <div className="bg-slate-800/80 px-5 py-4 border-b border-slate-700/80 flex items-center justify-between shrink-0">

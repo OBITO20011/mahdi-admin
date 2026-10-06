@@ -18,6 +18,7 @@ import {
 } from '../services/orders.service';
 import type { GuestOrderTracking } from '../types/checkout';
 import { formatJod } from '../utils/money';
+import {useDialogFocus} from '../hooks/useDialogFocus';
 import { OrderTrackingTimeline } from './OrderTrackingTimeline';
 import { getPublicStorefrontUrl } from '../config/publicSite';
 import {
@@ -59,6 +60,7 @@ export function OrderTrackingModal({
   const [lastRefreshAt, setLastRefreshAt] = useState<Date | null>(null);
   const [copied, setCopied] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const panel = useDialogFocus(isOpen, () => { if (!loading && !isRefreshing) onClose(); });
   const lastLookupRef = useRef<TrackingLookup | null>(null);
   const secureToken = trackingToken.trim();
 
@@ -192,6 +194,9 @@ export function OrderTrackingModal({
         className="absolute inset-0 bg-slate-950/65 backdrop-blur-sm"
       />
       <section
+        ref={panel as React.RefObject<HTMLElement>}
+        tabIndex={-1}
+        aria-busy={loading || isRefreshing}
         role="dialog"
         aria-modal="true"
         aria-labelledby="order-tracking-title"

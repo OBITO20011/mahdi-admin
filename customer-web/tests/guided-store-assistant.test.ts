@@ -19,7 +19,15 @@ test('guided store assistant is a local, guided surface with the required safe a
     assert.match(assistant, new RegExp(label, 'u'));
   }
 
-  assert.match(assistant, /event\.key === 'Escape'/u);
+  // Escape belongs to the shared top-dialog stack, not a competing window listener.
+  assert.match(assistant, /useDialogFocus\(isOpen, onClose\)/u);
+  assert.doesNotMatch(assistant, /addEventListener\('keydown'/u);
+  const hook = read('../src/hooks/useDialogFocus.ts');
+  const focus = read('../src/utils/dialogFocus.ts');
+  assert.match(hook, /activateDialog\(panel\.current/u);
+  assert.match(focus, /if \(!top\(\) \|\| event\.defaultPrevented\) return/u);
+  assert.match(focus, /event\.key === 'Escape'/u);
+  assert.match(focus, /event\.preventDefault\(\); event\.stopPropagation\(\); onEscape\(\)/u);
   assert.match(assistant, /aria-modal="true"/u);
   assert.match(assistant, /prefers-reduced-motion|motion-reduce/u);
   assert.doesNotMatch(assistant, /supabase|\.rpc\(|fetch\(|localStorage|customerPhone|customerAddress|inventory|supplier|WAC/iu);

@@ -425,69 +425,74 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
     }
 
     setIsSubmitting(true);
+    try {
 
-    const payload: DirectReceiptForm = {
-      supplierId: selectedSupplierId,
-      warehouseId: selectedWarehouseId,
-      branchId: selectedBranchId || undefined,
-      supplierInvoiceNumber: supplierInvoiceNumber.trim() || undefined,
-      supplierInvoiceDate: supplierInvoiceDate || undefined,
-      receivedAt: receivedAt || undefined,
-      deliveryFeeInMinorUnits: jodToMinorUnits(deliveryFeeJod),
-      // Receipt-level discount is intentionally disabled. Supplier discounts
-      // stay attached to their product lines so inventory cost remains exact.
-      discountInMinorUnits: 0,
-      taxInMinorUnits: jodToMinorUnits(taxJod),
-      amountPaidInMinorUnits: jodToMinorUnits(amountPaidJod),
-      paymentMethod,
-      paymentReference: paymentReference.trim() || undefined,
-      notes: notes.trim() || undefined,
-      internalNotes: internalNotes.trim() || undefined,
-      idempotencyKey: idempotencyKeyRef.current,
-      items: items.map((item) => ({
-        productId: item.productId,
-        purchaseUnitId: item.purchaseUnitId,
-        baseUnitId: item.baseUnitId,
-        purchaseUnitName: item.purchaseUnitName,
-        baseUnitName: item.baseUnitName,
-        packageQuantity: Math.floor(item.packageQuantity), // Strict Integer
-        unitsPerPackage: Math.floor(item.unitsPerPackage), // Strict Integer
-        packagePriceInMinorUnits: jodToMinorUnits(item.pkgPriceJod),
-        updateProductDefaults: Boolean(item.updateProductDefaults),
-        discountInMinorUnits: jodToMinorUnits(item.discountJod),
-        batchNumber: item.batchNumber,
-        productionDate: item.productionDate,
-        expiryDate: item.expiryDate,
-        notes: item.notes,
-      })),
-    };
+      const payload: DirectReceiptForm = {
+        supplierId: selectedSupplierId,
+        warehouseId: selectedWarehouseId,
+        branchId: selectedBranchId || undefined,
+        supplierInvoiceNumber: supplierInvoiceNumber.trim() || undefined,
+        supplierInvoiceDate: supplierInvoiceDate || undefined,
+        receivedAt: receivedAt || undefined,
+        deliveryFeeInMinorUnits: jodToMinorUnits(deliveryFeeJod),
+        // Receipt-level discount is intentionally disabled. Supplier discounts
+        // stay attached to their product lines so inventory cost remains exact.
+        discountInMinorUnits: 0,
+        taxInMinorUnits: jodToMinorUnits(taxJod),
+        amountPaidInMinorUnits: jodToMinorUnits(amountPaidJod),
+        paymentMethod,
+        paymentReference: paymentReference.trim() || undefined,
+        notes: notes.trim() || undefined,
+        internalNotes: internalNotes.trim() || undefined,
+        idempotencyKey: idempotencyKeyRef.current,
+        items: items.map((item) => ({
+          productId: item.productId,
+          purchaseUnitId: item.purchaseUnitId,
+          baseUnitId: item.baseUnitId,
+          purchaseUnitName: item.purchaseUnitName,
+          baseUnitName: item.baseUnitName,
+          packageQuantity: Math.floor(item.packageQuantity), // Strict Integer
+          unitsPerPackage: Math.floor(item.unitsPerPackage), // Strict Integer
+          packagePriceInMinorUnits: jodToMinorUnits(item.pkgPriceJod),
+          updateProductDefaults: Boolean(item.updateProductDefaults),
+          discountInMinorUnits: jodToMinorUnits(item.discountJod),
+          batchNumber: item.batchNumber,
+          productionDate: item.productionDate,
+          expiryDate: item.expiryDate,
+          notes: item.notes,
+        })),
+      };
 
-    const res = await createDirectSupplierReceiptInSupabase(payload);
-    if (!isMountedRef.current) return;
-
-    if (res.success && res.data) {
-      setLegacyReplayResolution(null);
-      await refreshProductsFromSupabase();
+      const res = await createDirectSupplierReceiptInSupabase(payload);
       if (!isMountedRef.current) return;
-      idempotencyKeyRef.current = crypto.randomUUID();
 
-      setToast(
-        `تم حفظ سند الاستلام ${res.data.receiptNumber} وزيادة المخزون بنجاح (+${res.data.totalInventoryUnitsAdded} وحدة)`,
-        'success'
-      );
-      setIsSubmitting(false);
-      onSuccess?.(res.data);
-      onClose();
-    } else {
-      setLegacyReplayResolution(
-        res.errorCode === 'LEGACY_IDEMPOTENCY_IDENTITY_UNPROVEN'
-          ? res.recovery ?? { found: false }
-          : null
-      );
-      setToast(
-        res.error || 'فشلت عملية حفظ سند الاستلام وزيادة المخزون.',
-        'error'
-      );
+      if (res.success && res.data) {
+        setLegacyReplayResolution(null);
+        await refreshProductsFromSupabase();
+        if (!isMountedRef.current) return;
+        idempotencyKeyRef.current = crypto.randomUUID();
+
+        setToast(
+          `تم حفظ سند الاستلام ${res.data.receiptNumber} وزيادة المخزون بنجاح (+${res.data.totalInventoryUnitsAdded} وحدة)`,
+          'success'
+        );
+
+        onSuccess?.(res.data);
+        onClose();
+      } else {
+        setLegacyReplayResolution(
+          res.errorCode === 'LEGACY_IDEMPOTENCY_IDENTITY_UNPROVEN'
+            ? res.recovery ?? { found: false }
+            : null
+        );
+        setToast(
+          res.error || 'فشلت عملية حفظ سند الاستلام وزيادة المخزون.',
+          'error'
+        );
+
+      }
+
+    } finally {
       setIsSubmitting(false);
     }
   };

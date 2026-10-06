@@ -41,7 +41,7 @@ export function CheckoutReceiptPanel({
       {reconciliationNotice && (
         <div role="alert" className="mx-auto mt-4 flex max-w-lg items-start gap-2 rounded-2xl border border-amber-200 bg-amber-50 p-3 text-right text-[11px] font-bold leading-5 text-amber-800">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
-          {reconciliationNotice}
+          <span className="whitespace-pre-line">{reconciliationNotice}</span>
         </div>
       )}
 

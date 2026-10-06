@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
-import {allocateBaseReturn} from '../src/features/orders/aftercarePresentation';
+import {allocateBaseReturn, assertReturnCapacityUnchanged} from '../src/features/orders/aftercarePresentation';
 import {businessErrorMessage} from '../src/utils/businessError';
 import {formatCartQuantitySummary, calculateCartPackages} from '../customer-web/src/utils/cart';
 import {checkoutErrorMessage} from '../customer-web/src/utils/checkoutErrorMessage';
@@ -71,15 +71,34 @@ test('cart display separates base units and parcels without changing commercial 
   assert.equal(formatCartQuantitySummary([items[0]]), `${(3).toLocaleString('ar-JO')} وحدة أساسية`);
   assert.equal(formatCartQuantitySummary([]), 'السلة فارغة');
 });
-test('Arabic messages keep ambiguous outcomes fail-closed and hide technical codes', () => {
+test('Arabic messages preserve recovery semantics and expose unknown diagnostic codes', () => {
   assert.match(businessErrorMessage('AFTERCARE_OUTCOME_UNKNOWN'), /نفس المحاولة.*لا تبدأ/u);
   assert.match(businessErrorMessage('PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED'), /الكمية المتبقية/u);
   assert.match(businessErrorMessage('PHASE43_RETURN_ALLOCATION_INVALID'), /صنّف كامل/u);
   assert.match(businessErrorMessage('Failed to fetch'), /تحقق من المحاولة السابقة/u);
-  assert.doesNotMatch(businessErrorMessage('PHASE43_UNRECOGNIZED'), /PHASE43/u);
+  assert.match(businessErrorMessage('PHASE43_UNRECOGNIZED'), /رمز: PHASE43_UNRECOGNIZED/u);
+  assert.match(businessErrorMessage('PHASE43_RETURN_ALLOCATION_MISMATCH'), /صنّف كامل/u);
   assert.equal(businessErrorMessage('اختر كمية صحيحة'), 'اختر كمية صحيحة');
-  assert.match(checkoutErrorMessage('OUTCOME_UNKNOWN'), /نفس المحاولة/u);
-  assert.doesNotMatch(checkoutErrorMessage('PHASE3_UNKNOWN_ERROR'), /PHASE3/u);
+  assert.match(checkoutErrorMessage('OUTCOME_UNKNOWN', true), /نفس المحاولة/u);
+  assert.doesNotMatch(checkoutErrorMessage('timeout', false), /نفس المحاولة|المحاولة المحفوظة/u);
+  assert.match(checkoutErrorMessage('PHASE3_UNKNOWN_ERROR'), /رمز: PHASE3_UNKNOWN_ERROR/u);
+});
+
+test('return draft rejects changed quantity, missing/replaced identity and product/parent drift', () => {
+  assert.doesNotThrow(() => assertReturnCapacityUnchanged(leaves, leaves.map(row => ({...row}))));
+  for (const changed of [{...leaves[0], remainingQuantity: 1}, {...leaves[0], sourceId: 'other'},
+    {...leaves[0], productId: 'foreign'}, {...leaves[0], parentReplacementItemId: 'new'}]) {
+    assert.throws(() => assertReturnCapacityUnchanged(leaves, [changed, leaves[1]]), /تغيّرت الكمية/u);
+  }
+  assert.throws(() => assertReturnCapacityUnchanged(leaves, [leaves[0], leaves[0], leaves[1]]));
+});
+
+test('replacement cannot predate its parent or original completion, missing dates still use lineage', () => {
+  const earlierChild = [{...history[0], issuedAt: '2026-10-03T10:00:00Z'}, history[1]];
+  assert.throws(() => allocateBaseReturn('root', leaves, 3, 'restock', earlierChild), /أقدم من الأصل/u);
+  assert.throws(() => allocateBaseReturn('root', leaves, 3, 'restock', history, '2026-10-01T11:00:00Z'), /أقدم من الأصل/u);
+  assert.doesNotThrow(() => allocateBaseReturn('root', leaves, 3, 'restock', history, '2026-09-30T10:00:00Z'));
+  assert.doesNotThrow(() => allocateBaseReturn('root', leaves, 3, 'restock', history.map(row => ({...row, issuedAt: null}))));
 });
 test('desktop shell changes are md-only; mobile safe areas and locked-content exclusion remain', () => {
   const shell = readFileSync('src/components/layout/IPhoneContainer.tsx', 'utf8');

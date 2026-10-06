@@ -37,32 +37,37 @@ export const AddCustomerModalContent: React.FC<
     }
 
     setSaving(true);
-    setError(null);
-    const result = await createCustomerCrmInSupabase({
-      fullName: normalizedName,
-      phone: normalizedPhone,
-      whatsapp: whatsapp.trim() || undefined,
-      governorate: governorate || undefined,
-      customerType: 'wholesale',
-    });
-    setSaving(false);
+    try {
+      setError(null);
+      const result = await createCustomerCrmInSupabase({
+        fullName: normalizedName,
+        phone: normalizedPhone,
+        whatsapp: whatsapp.trim() || undefined,
+        governorate: governorate || undefined,
+        customerType: 'wholesale',
+      });
 
-    if (!result.success || !result.customerId) {
-      setError(result.error || 'تعذر إضافة العميل.');
-      return;
+
+      if (!result.success || !result.customerId) {
+        setError(result.error || 'تعذر إضافة العميل.');
+        return;
+      }
+
+      onCreated?.({
+        id: result.customerId,
+        name: normalizedName,
+        phone: normalizedPhone,
+      });
+      setToast(`تمت إضافة العميل ${normalizedName} واختياره بنجاح.`, 'success');
+      onClose();
+
+    } finally {
+      setSaving(false);
     }
-
-    onCreated?.({
-      id: result.customerId,
-      name: normalizedName,
-      phone: normalizedPhone,
-    });
-    setToast(`تمت إضافة العميل ${normalizedName} واختياره بنجاح.`, 'success');
-    onClose();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 text-xs">
+    <form aria-busy={saving} onSubmit={handleSubmit} className="space-y-3 text-xs">
       <div className="flex items-start gap-2 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-3">
         <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />
         <div>

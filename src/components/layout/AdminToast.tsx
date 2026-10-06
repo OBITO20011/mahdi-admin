@@ -36,7 +36,7 @@ export const AdminToast: React.FC<AdminToastProps> = ({ toast }) => (
           {toast.type === 'error' && <XCircle className="h-5 w-5 shrink-0 text-red-400" />}
           {toast.type === 'info' && <Info className="h-5 w-5 shrink-0 text-blue-400" />}
           {toast.type === 'success' && <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400" />}
-          <span className="flex-1">{toast.message}</span>
+          <span className="flex-1 whitespace-pre-line">{toast.message}</span>
         </div>
       </motion.div>
     )}

@@ -108,7 +108,7 @@ export const UserFormModal: React.FC<UserFormModalProps> = ({
   const currentRolePermissions = ROLE_PERMISSIONS_MAP[role] || [];
 
   return (
-    <form onSubmit={(event) => void handleSubmit(event)} className="space-y-3 text-xs" dir="rtl">
+    <form onSubmit={(event) => void handleSubmit(event)} aria-busy={isSaving} className="space-y-3 text-xs" dir="rtl">
       {error && (
         <div role="alert" className="rounded-xl border border-red-500/40 bg-red-950/40 px-3 py-2 text-[11px] font-bold text-red-200">
           {error}

@@ -15,6 +15,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import type { PublicStorefrontSettings } from '../types/storefront';
 import { formatJod } from '../utils/money';
+import {useDialogFocus} from '../hooks/useDialogFocus';
 
 type AssistantTopic = 'delivery' | 'payment' | 'faq' | null;
 
@@ -61,7 +62,7 @@ export function GuidedStoreAssistant({
   const [topic, setTopic] = useState<AssistantTopic>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const panelRef = useRef<HTMLElement>(null);
+  const panelRef = useDialogFocus(isOpen, onClose);
 
   useEffect(() => {
     if (!isOpen) {
@@ -69,40 +70,14 @@ export function GuidedStoreAssistant({
       return;
     }
 
-    const focusTimer = window.setTimeout(() => closeButtonRef.current?.focus(), 0);
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
-        return;
-      }
-
-      if (event.key !== 'Tab') return;
-      const focusable = panelRef.current?.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
-      );
-      if (!focusable?.length) return;
-
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
     const body = document.body;
     const root = document.documentElement;
     const previousBodyOverflow = body.style.overflow;
     const previousRootOverflow = root.style.overflow;
     body.style.overflow = 'hidden';
     root.style.overflow = 'hidden';
-    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      window.clearTimeout(focusTimer);
-      window.removeEventListener('keydown', handleKeyDown);
       body.style.overflow = previousBodyOverflow;
       root.style.overflow = previousRootOverflow;
     };
@@ -160,6 +135,7 @@ export function GuidedStoreAssistant({
         />
         <section
           ref={panelRef}
+          tabIndex={-1}
           role="dialog"
           aria-modal="true"
           aria-labelledby="guided-store-assistant-title"
@@ -184,10 +160,7 @@ export function GuidedStoreAssistant({
             <button
               ref={closeButtonRef}
               type="button"
-              onClick={() => {
-                onClose();
-                window.setTimeout(() => triggerRef.current?.focus(), 0);
-              }}
+              onClick={onClose}
               aria-label="إغلاق"
               className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white text-slate-500 shadow-sm ring-1 ring-slate-200 transition hover:text-slate-900 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-amber-200"
             >

@@ -4,6 +4,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
+import {useDialogFocus} from '../../hooks/useDialogFocus';
 import { useAuthStore } from '../../stores/useAuthStore';
 import {
   translateAccountUpdateError,
@@ -105,8 +106,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
 
   const handleBiometricToggle = async () => {
     setIsUpdatingBiometrics(true);
-    await toggleFaceId();
-    setIsUpdatingBiometrics(false);
+    try { await toggleFaceId(); } finally { setIsUpdatingBiometrics(false); }
   };
 
   const refreshMfaStatus = useCallback(async () => {
@@ -404,22 +404,29 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
     }
   };
 
+  const unsavedPanel = useDialogFocus(showUnsavedPrompt, () => setShowUnsavedPrompt(false));
+
   // Save Notifications
   const handleSaveNotifications = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
     setTimeout(() => {
-      updateNotificationPreferences(notifs);
-      setIsSaving(false);
+      try {
+        updateNotificationPreferences(notifs);
+      } finally {
+        setIsSaving(false);
+      }
     }, 400);
   };
 
   return (
-    <div className="space-y-4 text-xs font-sans">
+    <div aria-busy={isSaving || isUpdatingMfa || isUpdatingBiometrics} data-unsaved={isDirty} className="space-y-4 text-xs font-sans">
       {/* Unsaved Changes Dialog Modal Overlay */}
       {showUnsavedPrompt && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl max-w-sm w-full space-y-4 shadow-2xl animate-scaleUp text-right">
+          <div ref={unsavedPanel as React.RefObject<HTMLDivElement>} tabIndex={-1}
+            role="dialog" aria-modal="true" aria-label="تغييرات غير محفوظة"
+            className="bg-slate-900 border border-slate-800 p-5 rounded-2xl max-w-sm w-full space-y-4 shadow-2xl animate-scaleUp text-right">
             <div className="flex items-center gap-3 text-amber-400">
               <div className="p-2.5 bg-amber-500/20 rounded-xl">
                 <AlertTriangle className="w-6 h-6" />

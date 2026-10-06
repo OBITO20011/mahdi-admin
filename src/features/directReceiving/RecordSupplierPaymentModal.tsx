@@ -49,30 +49,35 @@ export const RecordSupplierPaymentModal: React.FC<RecordSupplierPaymentModalProp
     }
 
     setIsSubmitting(true);
-    const amountInMinor = Math.round(paymentAmountJod * 1000);
+    try {
+      const amountInMinor = Math.round(paymentAmountJod * 1000);
 
-    const res = await recordSupplierReceiptPaymentInSupabase(
-      receipt.id,
-      amountInMinor,
-      paymentMethod,
-      referenceNumber.trim() || undefined,
-      notes.trim() || undefined,
-      paymentIdempotencyKey.current
-    );
+      const res = await recordSupplierReceiptPaymentInSupabase(
+        receipt.id,
+        amountInMinor,
+        paymentMethod,
+        referenceNumber.trim() || undefined,
+        notes.trim() || undefined,
+        paymentIdempotencyKey.current
+      );
 
-    if (res.success) {
-      setToast('تم تسجيل دفعة المورد وتحديث الرصيد بنجاح.', 'success');
-      setIsSubmitting(false);
-      onSuccess();
-      onClose();
-    } else {
-      setToast(res.error || 'فشلت عملية تسجيل الدفعة.', 'error');
+      if (res.success) {
+        setToast('تم تسجيل دفعة المورد وتحديث الرصيد بنجاح.', 'success');
+
+        onSuccess();
+        onClose();
+      } else {
+        setToast(res.error || 'فشلت عملية تسجيل الدفعة.', 'error');
+
+      }
+
+    } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div dir="rtl" className="space-y-4 text-xs text-slate-200">
+    <div aria-busy={isSubmitting} dir="rtl" className="space-y-4 text-xs text-slate-200">
       <div className="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl space-y-2">
         <div className="flex items-center justify-between text-xs font-bold border-b border-slate-800 pb-2">
           <span>سند الاستلام: <strong className="text-blue-400">{receipt.receiptNumber}</strong></span>

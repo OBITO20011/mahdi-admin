@@ -51,6 +51,23 @@ test('guided store assistant starts fully hidden and remains interactive on desk
   await expect(assistant.getByText('داخل الرمثا')).toBeVisible();
 });
 
+test('assistant above product details owns focus and Escape closes only the upper dialog', async ({page}) => {
+  await mockStorefront(page); await page.goto(`${customerBaseUrl}/products/`);
+  await page.getByText(product.nameAr, {exact: true}).first().click();
+  const details = page.getByRole('dialog', {name: product.nameAr, exact: true});
+  await expect(details).toBeVisible();
+  const opener = details.getByRole('button', {name: 'فتح مساعد المتجر'});
+  await opener.click();
+  const assistant = page.getByTestId('guided-store-assistant-panel');
+  await expect(assistant).toBeVisible();
+  await assistant.getByTestId('guided-store-assistant-delivery').click();
+  await expect(assistant.getByText('داخل الرمثا')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(assistant.locator('xpath=..')).toHaveAttribute('aria-hidden', 'true');
+  await expect(details).toBeVisible(); await expect(opener).toBeFocused();
+  await page.keyboard.press('Escape'); await expect(details).toHaveCount(0);
+});
+
 test('guided store assistant is accessible, uses only public settings, and routes through existing paths', async ({page}) => {
   await mockStorefront(page);
   await page.goto(customerBaseUrl, {waitUntil: 'domcontentloaded'});

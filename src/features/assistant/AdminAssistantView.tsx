@@ -270,7 +270,7 @@ export const AdminAssistantView: React.FC = () => {
         </div>
       )}
 
-      <form onSubmit={(event) => void submit(event)} className="sticky bottom-2 rounded-3xl border border-slate-700 bg-slate-900/95 p-2 shadow-2xl backdrop-blur">
+      <form onSubmit={(event) => void submit(event)} aria-busy={isSubmitting} className="sticky bottom-2 rounded-3xl border border-slate-700 bg-slate-900/95 p-2 shadow-2xl backdrop-blur">
         <div className="flex items-end gap-2">
           <textarea
             value={draft}

@@ -36,31 +36,36 @@ export const CancelSupplierReceiptDialog: React.FC<
     }
 
     setIsSubmitting(true);
-    const result = await cancelSupplierReceiptInSupabase(
-      receipt.id,
-      trimmedReason
-    );
-
-    if (!result.success) {
-      setToast(
-        result.error ||
-          'تعذر إلغاء السند. قد تكون البضاعة بيعت أو حُجزت لطلب زبون.',
-        'error'
+    try {
+      const result = await cancelSupplierReceiptInSupabase(
+        receipt.id,
+        trimmedReason
       );
-      setIsSubmitting(false);
-      return;
-    }
 
-    await refreshProductsFromSupabase();
-    await onSuccess();
-    setToast(
-      `تم إلغاء السند ${result.data?.receiptNumber || receipt.receiptNumber} وعكس ${
-        result.data?.inventoryUnitsReversed || 0
-      } وحدة من المخزون بنجاح.`,
-      'success'
-    );
-    setIsSubmitting(false);
-    onClose();
+      if (!result.success) {
+        setToast(
+          result.error ||
+            'تعذر إلغاء السند. قد تكون البضاعة بيعت أو حُجزت لطلب زبون.',
+          'error'
+        );
+
+        return;
+      }
+
+      await refreshProductsFromSupabase();
+      await onSuccess();
+      setToast(
+        `تم إلغاء السند ${result.data?.receiptNumber || receipt.receiptNumber} وعكس ${
+          result.data?.inventoryUnitsReversed || 0
+        } وحدة من المخزون بنجاح.`,
+        'success'
+      );
+
+      onClose();
+
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -70,7 +75,7 @@ export const CancelSupplierReceiptDialog: React.FC<
       title="تأكيد إلغاء سند الاستلام"
       subtitle="عملية عكس محاسبية ومخزنية موثقة، وليست حذفاً نهائياً للسجل"
     >
-      <div dir="rtl" className="space-y-4 text-xs">
+      <div dir="rtl" aria-busy={isSubmitting} className="space-y-4 text-xs">
         <div className="flex items-start gap-3 rounded-2xl border border-rose-500/30 bg-rose-950/40 p-4">
           <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-rose-400" />
           <div className="space-y-1">

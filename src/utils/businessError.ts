@@ -8,7 +8,7 @@ export function businessErrorMessage(message: unknown): string {
     [/PHASE4_(LOGICAL_QUANTITY_ALREADY_CONSUMED|PARCEL_RETURN_ALREADY_CONSUMED)/u,
       'تم استخدام هذه الكمية في عملية سابقة. حدّث الطلب واختر من الكمية المتبقية.'],
     [/PHASE4_(RETURN_WINDOW_EXPIRED|REPLACEMENT_WINDOW_INVALID)/u, 'انتهت مهلة المرتجع أو الاستبدال الأصلية (48 ساعة).'],
-    [/PHASE43_RETURN_ALLOCATION_(INVALID|MISSING)/u, 'صنّف كامل كمية كل قطعة بين سليم، عيب، وضرر عميل قبل الاعتماد.'],
+    [/PHASE43_RETURN_ALLOCATION_(INVALID|MISSING|MISMATCH)/u, 'صنّف كامل كمية كل قطعة بين سليم، عيب، وضرر عميل قبل الاعتماد.'],
     [/IDEMPOTENCY.*(CONFLICT|MISMATCH)|PAYMENT.*CONFLICT/u, 'تفاصيل المحاولة تختلف عن المحاولة المحفوظة. راجعها ولا تعِد إرسالها بتفاصيل مختلفة.'],
     [/SHIFT.*(REQUIRED|NOT_OPEN|INVALID)|OPEN.*SHIFT/u, 'تحتاج هذه الحركة النقدية إلى وردية مفتوحة صالحة. افتح الوردية ثم تابع.'],
     [/permission denied|FORBIDDEN|UNAUTHORIZED/iu, 'ليس لديك صلاحية لهذا الإجراء. راجع مسؤول المحل.'],
@@ -16,7 +16,8 @@ export function businessErrorMessage(message: unknown): string {
   ];
   for (const [pattern, translation] of known) if (pattern.test(text)) return translation;
   if (!/[\u0600-\u06ff]/u.test(text) || /[A-Z][A-Z0-9]+_[A-Z0-9_]+/u.test(text)) {
-    return 'تعذر إتمام الإجراء. حدّث البيانات وراجع نتيجة المحاولة السابقة قبل تكراره.';
+    const code = text.match(/\b[A-Z][A-Z0-9]+(?:_[A-Z0-9]+)+\b/u)?.[0] || 'UNKNOWN';
+    return `تعذر إتمام الإجراء. حدّث البيانات وراجع نتيجة المحاولة السابقة قبل تكراره.\nرمز: ${code}`;
   }
   return text || 'تعذر إتمام الإجراء. راجع البيانات وحاول مجددًا.';
 }

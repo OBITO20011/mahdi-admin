@@ -6,6 +6,8 @@ import {KpiCards} from '../src/features/dashboard/KpiCards';
 import {PosView} from '../src/features/pos/PosView';
 import type {DashboardKpis} from '../src/types/dashboard';
 import {RecordCustomerPaymentModal} from '../src/features/accounts/RecordCustomerPaymentModal';
+import {RecordSupplierPaymentModal} from '../src/features/directReceiving/RecordSupplierPaymentModal';
+import type {SupplierReceipt} from '../src/types/directReceiving';
 import type {CustomerOutstandingOrder} from '../src/services/supabase/customerAccounts.service';
 import {CartDrawer} from '../customer-web/src/components/CartDrawer';
 import type {CartItem} from '../customer-web/src/types/catalog';
@@ -22,6 +24,7 @@ function Harness() {
   const [busy, setBusy] = useState(false);
   const [cart, setCart] = useState(false);
   const [action, setAction] = useState('');
+  const [supplier, setSupplier] = useState(false);
   if (new URLSearchParams(location.search).get('kind') === 'pos') return <PosView/>;
   const item = {schemaVersion: 2, localLineId: 'base', productId: 'base', nameAr: 'اختبار',
     commercialLineKind: 'base_unit', quantity: 1, unitsPerSalePackage: 1,
@@ -29,6 +32,7 @@ function Harness() {
   return <main>
     <button onClick={() => setOpen(true)}>فتح النافذة</button>
     <button onClick={() => setCart(true)}>فتح السلة</button>
+    <button onClick={() => setSupplier(true)}>فتح دفعة المورد</button>
     <p role="status">{action}</p>
     <KpiCards kpis={kpis} onFilterLowStock={() => setAction('منخفض')}
       onFilterOutOfStock={() => setAction('نفد')}/>
@@ -36,8 +40,16 @@ function Harness() {
       <button onClick={() => setNested(true)}>فتح نافذة داخلية</button>
       <button onClick={() => setBusy(value => !value)}>تغيير الانشغال</button>
       <div aria-busy={busy}><input aria-label="حقل الاختبار"/></div>
+      <details><summary>تفاصيل قابلة للفتح</summary><button>بعد الملخص</button></details>
+      <div contentEditable suppressContentEditableWarning aria-label="عنصر أصلي خارج القائمة">حقل أصلي</div>
+      <button>بعد العنصر الأصلي</button>
       <RecordCustomerPaymentModal initialOrder={order} onClose={noop}/>
       <button>آخر زر</button>
+    </Modal>
+    <Modal isOpen={supplier} onClose={() => setSupplier(false)} title="دفعة المورد">
+      <RecordSupplierPaymentModal receipt={{id: '66660000-0000-4000-8000-000000000091',
+        receiptNumber: 'SUP-TEST', supplierName: 'مورد اختبار', amountDueInMinorUnits: 2000} as SupplierReceipt}
+        onClose={() => setSupplier(false)} onSuccess={noop}/>
     </Modal>
     <Modal isOpen={nested} onClose={() => setNested(false)} title="نافذة داخلية">
       <input aria-label="حقل داخلي"/>

@@ -200,12 +200,11 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
     }
 
     setBusyId(category.id);
-    await setCategoryActive(category.id, willActivate);
-    setBusyId(null);
+    try { await setCategoryActive(category.id, willActivate); } finally { setBusyId(null); }
   };
 
   return (
-    <div dir="rtl" className="space-y-3 text-xs">
+    <div aria-busy={isSaving || busyId !== null} dir="rtl" className="space-y-3 text-xs">
       <div className="rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-950/40 to-slate-950 p-3.5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">

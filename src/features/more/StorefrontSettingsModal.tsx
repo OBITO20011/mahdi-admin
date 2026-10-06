@@ -160,7 +160,7 @@ export function StorefrontSettingsModal() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4" dir="rtl">
+    <form aria-busy={saving} onSubmit={handleSubmit} className="space-y-4" dir="rtl">
       <div className={`rounded-2xl border p-4 ${form.ordersEnabled ? 'border-emerald-700/60 bg-emerald-950/30' : 'border-rose-700/60 bg-rose-950/30'}`}>
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-start gap-3">

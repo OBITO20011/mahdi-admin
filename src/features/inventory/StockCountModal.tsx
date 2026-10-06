@@ -137,16 +137,21 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
     }
 
     setIsSubmitting(true);
-    const result = await executeStockCount({
-      productId: selectedProduct.id,
-      actualQuantity: actualQty,
-      warehouseId,
-      reason: reason.trim(),
-      adjustmentType,
-    });
-    setIsSubmitting(false);
+    try {
+      const result = await executeStockCount({
+        productId: selectedProduct.id,
+        actualQuantity: actualQty,
+        warehouseId,
+        reason: reason.trim(),
+        adjustmentType,
+      });
 
-    if (result?.success) onClose();
+
+      if (result?.success) onClose();
+
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

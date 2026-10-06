@@ -99,8 +99,7 @@ export const LoginView: React.FC = () => {
     setMfaCode('');
     setLocalError(null);
     clearError();
-    await cancelMfa();
-    setIsSubmitting(false);
+    try { await cancelMfa(); } finally { setIsSubmitting(false); }
   };
 
   const displayError = localError || authError;
@@ -146,7 +145,7 @@ export const LoginView: React.FC = () => {
           )}
 
           {mfaRequired ? (
-            <form onSubmit={handleMfaSubmit} className="space-y-4">
+            <form onSubmit={handleMfaSubmit} aria-busy={isSubmitting} className="space-y-4">
               <div className="rounded-2xl border border-blue-800/70 bg-blue-950/40 p-4 text-center space-y-2">
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600/20 text-blue-300">
                   <Smartphone className="h-6 w-6" />
@@ -201,7 +200,7 @@ export const LoginView: React.FC = () => {
               </button>
             </form>
           ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} aria-busy={isSubmitting} className="space-y-4">
             {/* Email Field */}
             <div className="space-y-1.5">
               <label className="block text-xs font-bold text-slate-300">

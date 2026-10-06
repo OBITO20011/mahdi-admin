@@ -74,27 +74,32 @@ export const AddAddressModal: React.FC<AddAddressModalProps> = ({
     }
 
     setLoading(true);
-    setError(null);
-    const result = await addCustomerAddressInSupabase(customerId, {
-      governorate,
-      city: city.trim(),
-      area: area.trim(),
-      street: street.trim(),
-      building: building.trim(),
-      floor: floor.trim(),
-      apartment: apartment.trim(),
-      notes: notes.trim(),
-      latitude: latitudeValue,
-      longitude: longitudeValue,
-      isDefault,
-    });
-    setLoading(false);
-    if (!result.success) {
-      setError(result.error || 'تعذر إضافة العنوان.');
-      return;
+    try {
+      setError(null);
+      const result = await addCustomerAddressInSupabase(customerId, {
+        governorate,
+        city: city.trim(),
+        area: area.trim(),
+        street: street.trim(),
+        building: building.trim(),
+        floor: floor.trim(),
+        apartment: apartment.trim(),
+        notes: notes.trim(),
+        latitude: latitudeValue,
+        longitude: longitudeValue,
+        isDefault,
+      });
+
+      if (!result.success) {
+        setError(result.error || 'تعذر إضافة العنوان.');
+        return;
+      }
+      onAddressAdded();
+      onClose();
+
+    } finally {
+      setLoading(false);
     }
-    onAddressAdded();
-    onClose();
   };
 
   return (
@@ -114,7 +119,7 @@ export const AddAddressModal: React.FC<AddAddressModalProps> = ({
           </button>
         </div>
 
-        <form onSubmit={submit} className="space-y-3 text-xs">
+        <form onSubmit={submit} aria-busy={loading} className="space-y-3 text-xs">
           {error && (
             <div className="rounded-xl border border-rose-800 bg-rose-950/50 p-3 text-rose-300">
               {error}

@@ -59,15 +59,20 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
 
     const finalReason = notes ? `${reason} (${notes})` : reason;
     setIsSubmitting(true);
-    const result = await executeStockCount({
-      productId: product.id,
-      actualQuantity: calculatedNewOnHand,
-      warehouseId: product.warehouseId,
-      reason: finalReason,
-      adjustmentType: isDeduct ? 'damage' : 'manual',
-    });
-    setIsSubmitting(false);
-    if (result?.success) onClose();
+    try {
+      const result = await executeStockCount({
+        productId: product.id,
+        actualQuantity: calculatedNewOnHand,
+        warehouseId: product.warehouseId,
+        reason: finalReason,
+        adjustmentType: isDeduct ? 'damage' : 'manual',
+      });
+
+      if (result?.success) onClose();
+
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

@@ -64,12 +64,12 @@ export const RecordCustomerPaymentModal: React.FC<
       } else {
         setError(businessErrorMessage(result.error || 'تعذر تحميل الذمم.'));
       }
-      setLoading(false);
-      setHasLoaded(true);
+    }).catch(error => {
+      if (mounted) setError(businessErrorMessage(error));
+    }).finally(() => {
+      if (mounted) { setLoading(false); setHasLoaded(true); }
     });
-    return () => {
-      mounted = false;
-    };
+    return () => { mounted = false; };
   }, [initialOrder, orderPage, orderSearch]);
 
   const selectedOrder = useMemo(
@@ -110,28 +110,33 @@ export const RecordCustomerPaymentModal: React.FC<
     }
 
     setSaving(true);
-    setError(null);
-    const result = await recordCustomerOrderPayment({
-      orderId: selectedOrder.id,
-      amount: numericAmount,
-      paymentMethod,
-      referenceNumber: referenceNumber.trim(),
-      notes: notes.trim(),
-      idempotencyKey: paymentIdempotencyKey.current,
-    });
-    setSaving(false);
+    try {
+      setError(null);
+      const result = await recordCustomerOrderPayment({
+        orderId: selectedOrder.id,
+        amount: numericAmount,
+        paymentMethod,
+        referenceNumber: referenceNumber.trim(),
+        notes: notes.trim(),
+        idempotencyKey: paymentIdempotencyKey.current,
+      });
 
-    if (!result.success) {
-      setError(businessErrorMessage(result.error || 'تعذر تسجيل الدفعة.'));
-      return;
+
+      if (!result.success) {
+        setError(businessErrorMessage(result.error || 'تعذر تسجيل الدفعة.'));
+        return;
+      }
+
+      setToast(
+        `تم حفظ سند القبض ${result.paymentNumber || ''} بنجاح.`,
+        'success'
+      );
+      onSuccess?.();
+      onClose();
+
+    } finally {
+      setSaving(false);
     }
-
-    setToast(
-      `تم حفظ سند القبض ${result.paymentNumber || ''} بنجاح.`,
-      'success'
-    );
-    onSuccess?.();
-    onClose();
   };
 
   if (loading && !hasLoaded) {

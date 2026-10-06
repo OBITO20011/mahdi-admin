@@ -110,6 +110,7 @@ export const PosView: React.FC = () => {
   const [isShiftStatusLoading, setIsShiftStatusLoading] = useState(true);
   const idempotencyKeyRef = useRef<string>(crypto.randomUUID());
   const knownProductsRef = useRef<Map<string, Product>>(new Map());
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     let active = true;
@@ -275,6 +276,7 @@ export const PosView: React.FC = () => {
       };
       setCartItems([...cartItems, newItem]);
     }
+    searchInputRef.current?.focus({preventScroll: true});
   };
 
   const updateQuantity = (itemId: string, delta: number) => {
@@ -589,6 +591,7 @@ export const PosView: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="ابحث باسم المنتج أو الباركود أو SKU..."
+            ref={searchInputRef}
             className="w-full bg-slate-900 border border-slate-800 rounded-2xl pr-9 pl-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
           />
         </div>
@@ -639,6 +642,9 @@ export const PosView: React.FC = () => {
             type="button"
             key={prod.id}
             data-pos-product-card={prod.id}
+            onKeyDown={event => {
+              if (event.key === 'Enter' && event.repeat) event.preventDefault();
+            }}
             onClick={() => addToCart(prod)}
             className="bg-slate-900 border border-slate-800 hover:border-emerald-500/50 p-2.5 rounded-2xl shadow transition cursor-pointer active:scale-95 text-right flex flex-col justify-between focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-400"
           >

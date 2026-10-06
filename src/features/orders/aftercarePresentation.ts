@@ -1,10 +1,12 @@
 import type {AftercarePhysicalRepresentative, ReturnPhysicalSource} from '../../services/supabase/salesAftercare.service';
 
-/** Presentation request allocation only; remaining capacity is still revalidated by the RPC. */
+/** UI allocation only. Refresh physical capacity before submission; an atomic
+ * server-side capacity guard is a separate owner-authorized package D task. */
 export function allocateBaseReturn(
   orderItemId: string, representatives: AftercarePhysicalRepresentative[],
   quantity: number, disposition: 'restock' | 'damaged',
   replacements: Array<Record<string, unknown>> = [],
+  originalCompletedAt?: string,
 ): ReturnPhysicalSource[] {
   const available = representatives.reduce((sum, source) => sum + source.remainingQuantity, 0);
   if (!Number.isSafeInteger(available) || !Number.isSafeInteger(quantity) || quantity <= 0 || quantity > available
@@ -32,6 +34,12 @@ export function allocateBaseReturn(
     const item = history.get(id);
     if (!item || visited.has(id)) throw new Error('تعذر ترتيب سلسلة الاستبدال؛ حدّث الطلب قبل المتابعة.');
     visited.add(id);
+    const parentDate = item.parent === null ? Date.parse(originalCompletedAt || '')
+      : history.get(item.parent)?.issuedAt;
+    if (item.issuedAt !== null && parentDate != null && Number.isFinite(parentDate)
+      && item.issuedAt < parentDate) {
+      throw new Error('تاريخ إصدار البديل أقدم من الأصل في سلسلة الاستبدال. حدّث الطلب.');
+    }
     return item.parent === null ? 1 : 1 + depth(item.parent, visited);
   };
   const replacementLeaves = representatives.filter(source => source.sourceKind === 'replacement_item');
@@ -62,4 +70,19 @@ export function allocateBaseReturn(
         customer_damage_quantity: 0,
       }];
     });
+}
+
+/** Fail closed if any selected physical identity changed since the UI draft. */
+export function assertReturnCapacityUnchanged(
+  selected: AftercarePhysicalRepresentative[], current: AftercarePhysicalRepresentative[],
+): void {
+  for (const source of selected) {
+    const matches = current.filter(candidate => candidate.sourceKind === source.sourceKind
+      && candidate.sourceId === source.sourceId);
+    if (matches.length !== 1 || matches[0].remainingQuantity !== source.remainingQuantity
+      || matches[0].productId !== source.productId
+      || matches[0].parentReplacementItemId !== source.parentReplacementItemId) {
+      throw new Error('تغيّرت الكمية المتبقية أو القطعة الحالية. حدّث الطلب وأعد اختيار كمية المرتجع قبل الإرسال.');
+    }
+  }
 }

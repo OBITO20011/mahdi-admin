@@ -3,6 +3,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import {useDialogFocus} from '../../hooks/useDialogFocus';
 import { Supplier } from '../../types';
 import { createSupplierInSupabase, updateSupplierInSupabase } from '../../services/supabase/purchases.service';
 import { storeEngine } from '../../stores/useAppStore';
@@ -47,6 +48,7 @@ export const CreateSupplierModal: React.FC<CreateSupplierModalProps> = ({
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const panel = useDialogFocus(isOpen, () => { if (!isSubmitting) onClose(); }, true);
 
   useEffect(() => {
     if (isOpen) {
@@ -98,42 +100,47 @@ export const CreateSupplierModal: React.FC<CreateSupplierModalProps> = ({
     }
 
     setIsSubmitting(true);
+    try {
 
-    const inputData = {
-      companyName: trimmedCompanyName,
-      contactPerson: contactPerson.trim() || undefined,
-      phone: phone.trim() || undefined,
-      whatsapp: whatsapp.trim() || undefined,
-      email: trimmedEmail || undefined,
-      address: address.trim() || undefined,
-      taxNumber: taxNumber.trim() || undefined,
-      notes: notes.trim() || undefined,
-      isActive,
-    };
+      const inputData = {
+        companyName: trimmedCompanyName,
+        contactPerson: contactPerson.trim() || undefined,
+        phone: phone.trim() || undefined,
+        whatsapp: whatsapp.trim() || undefined,
+        email: trimmedEmail || undefined,
+        address: address.trim() || undefined,
+        taxNumber: taxNumber.trim() || undefined,
+        notes: notes.trim() || undefined,
+        isActive,
+      };
 
-    let res;
-    if (supplierToEdit) {
-      res = await updateSupplierInSupabase(supplierToEdit.id, inputData);
-    } else {
-      res = await createSupplierInSupabase(inputData);
-    }
+      let res;
+      if (supplierToEdit) {
+        res = await updateSupplierInSupabase(supplierToEdit.id, inputData);
+      } else {
+        res = await createSupplierInSupabase(inputData);
+      }
 
-    setIsSubmitting(false);
 
-    if (res.success && res.data) {
-      storeEngine.setToast(
-        supplierToEdit ? 'تم تحديث بيانات المورد بنجاح' : 'تمت إضافة المورد بنجاح',
-        'success'
-      );
-      onSuccess(res.data);
-      onClose();
-    } else {
-      setErrorMsg(res.error || 'حدث خطأ أثناء حفظ بيانات المورد');
+
+      if (res.success && res.data) {
+        storeEngine.setToast(
+          supplierToEdit ? 'تم تحديث بيانات المورد بنجاح' : 'تمت إضافة المورد بنجاح',
+          'success'
+        );
+        onSuccess(res.data);
+        onClose();
+      } else {
+        setErrorMsg(res.error || 'حدث خطأ أثناء حفظ بيانات المورد');
+      }
+
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
+    <div ref={panel as React.RefObject<HTMLDivElement>} tabIndex={-1} role="dialog" aria-modal="true" aria-label="بيانات المورد" aria-busy={isSubmitting} className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
       <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden my-auto flex flex-col max-h-[90vh]">
         {/* Modal Header */}
         <div className="bg-slate-800/80 px-5 py-4 border-b border-slate-700/80 flex items-center justify-between shrink-0">

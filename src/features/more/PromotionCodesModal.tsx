@@ -248,7 +248,7 @@ export const PromotionCodesModal: React.FC = () => {
   };
 
   return (
-    <div className="space-y-4 text-xs">
+    <div aria-busy={isSaving || busyCodeId !== null} className="space-y-4 text-xs">
       <form
         onSubmit={handleSubmit}
         className="space-y-3 rounded-2xl border border-violet-800/50 bg-violet-950/20 p-3"

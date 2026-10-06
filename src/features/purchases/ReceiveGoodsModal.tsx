@@ -3,6 +3,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import {useDialogFocus} from '../../hooks/useDialogFocus';
 import { useAppStoreSelector, storeEngine } from '../../stores/useAppStore';
 import { PurchaseOrder, ReceivePurchaseOrderInput } from '../../types/purchases';
 import { receivePurchaseOrderInSupabase } from '../../services/supabase/purchases.service';
@@ -48,6 +49,7 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({
   const [items, setItems] = useState<ReceiveRow[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const panel = useDialogFocus(isOpen, () => { if (!isSubmitting) onClose(); }, true);
 
   useEffect(() => {
     if (isOpen && po) {
@@ -117,36 +119,41 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({
     }
 
     setIsSubmitting(true);
+    try {
 
-    const input: ReceivePurchaseOrderInput = {
-      purchaseOrderId: po.id,
-      warehouseId: selectedWarehouseId,
-      supplierDeliveryNote: supplierDeliveryNote.trim() || undefined,
-      notes: notes.trim() || undefined,
-      items: items
-        .filter((i) => i.thisReceiptQuantity > 0)
-        .map((i) => ({
-          purchaseOrderItemId: i.purchaseOrderItemId,
-          productId: i.productId,
-          receivedQuantity: i.thisReceiptQuantity,
-          unitCost: i.unitCost,
-        })),
-    };
+      const input: ReceivePurchaseOrderInput = {
+        purchaseOrderId: po.id,
+        warehouseId: selectedWarehouseId,
+        supplierDeliveryNote: supplierDeliveryNote.trim() || undefined,
+        notes: notes.trim() || undefined,
+        items: items
+          .filter((i) => i.thisReceiptQuantity > 0)
+          .map((i) => ({
+            purchaseOrderItemId: i.purchaseOrderItemId,
+            productId: i.productId,
+            receivedQuantity: i.thisReceiptQuantity,
+            unitCost: i.unitCost,
+          })),
+      };
 
-    const res = await receivePurchaseOrderInSupabase(input);
-    setIsSubmitting(false);
+      const res = await receivePurchaseOrderInSupabase(input);
 
-    if (res.success) {
-      storeEngine.setToast('تم استلام البضائع وزيادة المخزون بنجاح', 'success');
-      onSuccess();
-      onClose();
-    } else {
-      setErrorMsg(res.error || 'حدث خطأ أثناء استلام البضائع');
+
+      if (res.success) {
+        storeEngine.setToast('تم استلام البضائع وزيادة المخزون بنجاح', 'success');
+        onSuccess();
+        onClose();
+      } else {
+        setErrorMsg(res.error || 'حدث خطأ أثناء استلام البضائع');
+      }
+
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
+    <div ref={panel as React.RefObject<HTMLDivElement>} tabIndex={-1} role="dialog" aria-modal="true" aria-label="استلام البضائع" aria-busy={isSubmitting} className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
       <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-3xl shadow-2xl overflow-hidden my-auto flex flex-col max-h-[90vh]">
         {/* Header */}
         <div className="bg-slate-800/80 px-5 py-4 border-b border-slate-700/80 flex items-center justify-between shrink-0">

@@ -15,10 +15,53 @@ test('POS product keyboard activation adds once per Enter or Space and retains c
   const row = page.getByRole('heading', {name: 'صنف لوحة المفاتيح', level: 5}).locator('..').locator('..');
   const quantity = row.locator('span.font-bold.text-white');
   await expect(quantity).toHaveText('1');
+  const search = page.getByPlaceholder('ابحث باسم المنتج أو الباركود أو SKU...');
+  await expect(search).toBeFocused();
+  // Held Enter cannot repeatedly activate the card, even when delivered there.
+  await card.dispatchEvent('keydown', {key: 'Enter', repeat: true});
+  await expect(quantity).toHaveText('1');
+  // Keyboard-wedge scanner types into search, not the previously selected card.
+  await page.keyboard.type('123'); await page.keyboard.press('Enter');
+  await expect(search).toHaveValue('123'); await expect(quantity).toHaveText('1');
+  await search.fill('');
   await card.focus(); await page.keyboard.press('Space');
   await expect(quantity).toHaveText('2');
   await card.focus(); await page.keyboard.press('Enter');
   await expect(quantity).toHaveText('2');
+});
+
+test('dirty Admin input survives Escape; summary and native unlisted focus follow browser Tab order', async ({page}) => {
+  await page.goto(url);
+  await page.getByRole('button', {name: 'فتح النافذة', exact: true}).click();
+  const dialog = page.getByRole('dialog', {name: 'نافذة الاختبار', exact: true});
+  await dialog.getByLabel('حقل الاختبار', {exact: true}).fill('تعديلات غير محفوظة');
+  await page.keyboard.press('Escape'); await expect(dialog).toBeVisible();
+  await expect(dialog.getByLabel('حقل الاختبار', {exact: true})).toHaveValue('تعديلات غير محفوظة');
+  const summary = dialog.locator('summary');
+  await summary.focus(); await page.keyboard.press('Enter'); await page.keyboard.press('Tab');
+  await expect(dialog.getByRole('button', {name: 'بعد الملخص'})).toBeFocused();
+  await dialog.getByLabel('عنصر أصلي خارج القائمة').focus(); await page.keyboard.press('Tab');
+  await expect(dialog.getByRole('button', {name: 'بعد العنصر الأصلي'})).toBeFocused();
+});
+
+test('supplier payment Escape is blocked during request and busy clears after rejection', async ({page}) => {
+  let release!: () => void;
+  const held = new Promise<void>(resolve => { release = resolve; });
+  let calls = 0;
+  await page.route('**/rest/v1/rpc/record_supplier_receipt_payment', async route => {
+    calls++; await held;
+    await route.fulfill({status: 400, json: {message: 'TEST_PAYMENT_REJECTED'}});
+  });
+  await page.goto(url);
+  await page.getByRole('button', {name: 'فتح دفعة المورد'}).click();
+  const dialog = page.getByRole('dialog', {name: 'دفعة المورد'});
+  await dialog.getByRole('button', {name: 'تأكيد تسجيل الدفعة'}).click();
+  await expect.poll(() => calls).toBe(1);
+  await expect(dialog.locator('[aria-busy="true"]')).toHaveCount(1);
+  await page.keyboard.press('Escape'); await expect(dialog).toBeVisible();
+  release();
+  await expect(dialog.locator('[aria-busy="true"]')).toHaveCount(0);
+  await page.keyboard.press('Escape'); await expect(dialog).toHaveCount(0);
 });
 test('Admin dialog traps Tab, protects busy close, isolates nested Escape and restores focus', async ({page}) => {
   await page.goto(url);

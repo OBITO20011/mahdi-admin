@@ -3,6 +3,7 @@
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import {useDialogFocus} from '../../hooks/useDialogFocus';
 import { useAppStoreSelector, storeEngine } from '../../stores/useAppStore';
 import { CreatePurchaseOrderInput, PurchaseOrder } from '../../types/purchases';
 import {
@@ -86,6 +87,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
   const [isProductDropdownOpen, setIsProductDropdownOpen] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const panel = useDialogFocus(isOpen, () => { if (!isSubmitting) onClose(); }, true);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -349,47 +351,52 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
     const cleanWarehouseId = isValidUUID(selectedWarehouseId) ? selectedWarehouseId.trim() : undefined;
 
     setIsSubmitting(true);
+    try {
 
-    const input: CreatePurchaseOrderInput = {
-      supplierId: selectedSupplierId.trim(),
-      branchId: cleanBranchId,
-      warehouseId: cleanWarehouseId,
-      expectedDeliveryDate: expectedDeliveryDate ? new Date(expectedDeliveryDate).toISOString() : undefined,
-      supplierInvoiceNumber: supplierInvoiceNumber.trim() || undefined,
-      deliveryFee: Number(deliveryFee) || 0,
-      discount: Number(overallDiscount) || 0,
-      notes: notes.trim() || undefined,
-      internalNotes: internalNotes.trim() || undefined,
-      items: items.map((i) => ({
-        productId: i.productId.trim(),
-        orderedQuantity: i.orderedQuantity,
-        purchasePrice: i.purchasePrice,
-        discount: i.discount,
-      })),
-    };
+      const input: CreatePurchaseOrderInput = {
+        supplierId: selectedSupplierId.trim(),
+        branchId: cleanBranchId,
+        warehouseId: cleanWarehouseId,
+        expectedDeliveryDate: expectedDeliveryDate ? new Date(expectedDeliveryDate).toISOString() : undefined,
+        supplierInvoiceNumber: supplierInvoiceNumber.trim() || undefined,
+        deliveryFee: Number(deliveryFee) || 0,
+        discount: Number(overallDiscount) || 0,
+        notes: notes.trim() || undefined,
+        internalNotes: internalNotes.trim() || undefined,
+        items: items.map((i) => ({
+          productId: i.productId.trim(),
+          orderedQuantity: i.orderedQuantity,
+          purchasePrice: i.purchasePrice,
+          discount: i.discount,
+        })),
+      };
 
-    let res;
-    if (poToEdit) {
-      res = await updatePurchaseOrderInSupabase(poToEdit.id, input);
-    } else {
-      res = await createPurchaseOrderInSupabase(input);
-    }
-    setIsSubmitting(false);
+      let res;
+      if (poToEdit) {
+        res = await updatePurchaseOrderInSupabase(poToEdit.id, input);
+      } else {
+        res = await createPurchaseOrderInSupabase(input);
+      }
 
-    if (res.success) {
-      storeEngine.setToast(
-        poToEdit ? 'تم تحديث أمر الشراء بنجاح' : 'تم إنشاء أمر الشراء بنجاح',
-        'success'
-      );
-      onSuccess(res.purchaseOrderId || poToEdit?.id || '');
-      onClose();
-    } else {
-      setErrorMsg(res.error || 'حدث خطأ أثناء حفظ أمر الشراء');
+
+      if (res.success) {
+        storeEngine.setToast(
+          poToEdit ? 'تم تحديث أمر الشراء بنجاح' : 'تم إنشاء أمر الشراء بنجاح',
+          'success'
+        );
+        onSuccess(res.purchaseOrderId || poToEdit?.id || '');
+        onClose();
+      } else {
+        setErrorMsg(res.error || 'حدث خطأ أثناء حفظ أمر الشراء');
+      }
+
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
+    <div ref={panel as React.RefObject<HTMLDivElement>} tabIndex={-1} role="dialog" aria-modal="true" aria-label="أمر الشراء" aria-busy={isSubmitting} className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
       <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-4xl shadow-2xl overflow-hidden my-auto flex flex-col max-h-[90vh]">
         {/* Header */}
         <div className="bg-slate-800/80 px-5 py-4 border-b border-slate-700/80 flex items-center justify-between shrink-0">

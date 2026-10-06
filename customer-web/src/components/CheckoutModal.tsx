@@ -808,7 +808,7 @@ export function CheckoutModal({
             storeWhatsAppNumber={storeWhatsAppNumber}
             onClose={handleClose}
             onTrackOrder={onTrackOrder}
-            reconciliationNotice={submitError ? checkoutErrorMessage(submitError) : undefined}
+            reconciliationNotice={submitError ? checkoutErrorMessage(submitError, pendingAttempt !== null) : undefined}
           />
         ) : settingsUnavailable ? (
           <div className="p-6 text-center sm:p-10">
@@ -904,7 +904,7 @@ export function CheckoutModal({
               {submitError && (
                 <div role="alert" className="mt-5 flex items-start gap-2 rounded-2xl border border-rose-200 bg-rose-50 p-3 text-[11px] font-bold leading-5 text-rose-700">
                   <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
-                  {checkoutErrorMessage(submitError)}
+                  <span className="whitespace-pre-line">{checkoutErrorMessage(submitError, pendingAttempt !== null)}</span>
                 </div>
               )}
             </div>
@@ -1368,7 +1368,7 @@ export function CheckoutModal({
                   className="mt-5 flex items-start gap-2 rounded-2xl border border-rose-200 bg-rose-50 p-3 text-[11px] font-bold leading-5 text-rose-700"
                 >
                   <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
-                  {checkoutErrorMessage(submitError)}
+                  <span className="whitespace-pre-line">{checkoutErrorMessage(submitError, pendingAttempt !== null)}</span>
                 </div>
               )}
             </div>

@@ -112,9 +112,14 @@ export const ShiftsView: React.FC = () => {
     const openingCash = Number(openingCashInput);
     if (!Number.isFinite(openingCash) || openingCash < 0 || isSubmitting) return;
     setIsSubmitting(true);
-    const success = await openShift(openingCash);
-    setIsSubmitting(false);
-    if (success) setOpeningCashInput('');
+    try {
+      const success = await openShift(openingCash);
+
+      if (success) setOpeningCashInput('');
+
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleOpenReport = async (shiftId: string) => {
@@ -147,18 +152,23 @@ export const ShiftsView: React.FC = () => {
     }
     const shiftId = currentShift?.id;
     setIsSubmitting(true);
-    const success = await closeShift(actualCash, discrepancyReason);
-    setIsSubmitting(false);
-    if (success && shiftId) {
-      await handleOpenReport(shiftId);
+    try {
+      const success = await closeShift(actualCash, discrepancyReason);
+
+      if (success && shiftId) {
+        await handleOpenReport(shiftId);
+      }
+
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleCancelEmptyShift = async () => {
     if (cancelReason.trim().length < 2 || isCancelling) return;
     setIsCancelling(true);
-    const success = await cancelEmptyShift(cancelReason);
-    setIsCancelling(false);
+    let success;
+    try { success = await cancelEmptyShift(cancelReason); } finally { setIsCancelling(false); }
     if (success) {
       setShowCancelPanel(false);
       setCancelReason('');

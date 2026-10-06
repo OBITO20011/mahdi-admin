@@ -16,6 +16,7 @@ import {
   X,
 } from 'lucide-react';
 import { useAppStore } from '../../stores/useAppStore';
+import {useDialogFocus} from '../../hooks/useDialogFocus';
 import {
   applyInventoryOpeningSetupInSupabase,
   fetchInventoryOpeningSetupFromSupabase,
@@ -129,6 +130,7 @@ export const InventoryOpeningSetupModal: React.FC<
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showReview, setShowReview] = useState(false);
+  const reviewPanel = useDialogFocus(showReview, () => { if (!isSubmitting) setShowReview(false); });
   const [loadError, setLoadError] = useState('');
   const [idempotencyKey, setIdempotencyKey] = useState(createIdempotencyKey);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -759,7 +761,9 @@ export const InventoryOpeningSetupModal: React.FC<
 
       {showReview && (
         <div className="fixed inset-0 z-[70] flex items-end justify-center bg-slate-950/90 p-0 backdrop-blur-sm sm:items-center sm:p-4">
-          <div className="w-full max-w-lg space-y-4 rounded-t-3xl border border-slate-700 bg-slate-900 p-5 shadow-2xl sm:rounded-3xl">
+          <div ref={reviewPanel as React.RefObject<HTMLDivElement>} tabIndex={-1}
+            role="dialog" aria-modal="true" aria-label="تأكيد الجرد الافتتاحي" aria-busy={isSubmitting}
+            className="w-full max-w-lg space-y-4 rounded-t-3xl border border-slate-700 bg-slate-900 p-5 shadow-2xl sm:rounded-3xl">
             <div className="flex items-start gap-3">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-400">
                 <ShieldCheck className="h-5 w-5" />

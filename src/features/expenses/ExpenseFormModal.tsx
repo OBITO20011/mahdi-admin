@@ -67,15 +67,20 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
   const handleSubmit = async () => {
     if (!isValid || isSaving) return;
     setIsSaving(true);
-    const success = await addExpense(
-      category,
-      numericAmount,
-      description.trim(),
-      paymentMethod,
-      referenceNumber
-    );
-    setIsSaving(false);
-    if (success) onClose();
+    try {
+      const success = await addExpense(
+        category,
+        numericAmount,
+        description.trim(),
+        paymentMethod,
+        referenceNumber
+      );
+
+      if (success) onClose();
+
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (

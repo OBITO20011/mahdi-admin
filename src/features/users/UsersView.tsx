@@ -383,7 +383,7 @@ export const UsersView: React.FC = () => {
         title="تغيير كلمة مرور الموظف"
         subtitle="لا تُحفظ كلمة المرور في النظام؛ سلّمها للموظف بطريقة آمنة"
       >
-        <form onSubmit={(event) => void handlePasswordReset(event)} className="space-y-3 text-xs" dir="rtl">
+        <form onSubmit={(event) => void handlePasswordReset(event)} aria-busy={isSavingPassword} className="space-y-3 text-xs" dir="rtl">
           <div className="rounded-xl border border-amber-500/20 bg-amber-950/20 px-3 py-2 text-[11px] text-amber-100">
             الحساب: <strong>{passwordTarget?.name}</strong>
           </div>

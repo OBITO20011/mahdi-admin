@@ -2,7 +2,7 @@
  * Nawasrah Business Manager - iOS Sheet Modal Component
  */
 
-import React, {useId} from 'react';
+import React, {useEffect, useId, useRef} from 'react';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -29,9 +29,13 @@ export const Modal: React.FC<ModalProps> = ({
   closeDisabled = false,
 }) => {
   const titleId = useId();
+  const edited = useRef(false);
+  useEffect(() => { edited.current = false; }, [isOpen]);
   const panel = useDialogFocus(isOpen, () => {
-    // Child forms retain authority over in-flight close safety.
-    if (!closeDisabled && !panel.current?.querySelector('[aria-busy="true"]')) onClose();
+    // Escape must not silently discard input or interrupt a submitting child.
+    // Explicit Cancel/Save actions retain their existing workflow authority.
+    if (!edited.current && !closeDisabled
+      && !panel.current?.querySelector('[aria-busy="true"], [data-unsaved="true"]')) onClose();
   });
   return (
     <AnimatePresence>
@@ -43,6 +47,8 @@ export const Modal: React.FC<ModalProps> = ({
             aria-modal="true"
             aria-labelledby={titleId}
             tabIndex={-1}
+            onInputCapture={() => { edited.current = true; }}
+            onChangeCapture={() => { edited.current = true; }}
             initial={{ y: '100%', opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: '100%', opacity: 0 }}

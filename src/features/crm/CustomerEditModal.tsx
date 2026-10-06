@@ -37,23 +37,28 @@ export const CustomerEditModal: React.FC<CustomerEditModalProps> = ({
       return;
     }
     setLoading(true);
-    setError(null);
-    const result = await updateCustomerCrmInSupabase(customer.id, {
-      fullName: fullName.trim(),
-      phone: phone.trim(),
-      whatsapp: whatsapp.trim(),
-      email: email.trim(),
-      governorate: governorate.trim(),
-      customerType,
-      notes: notes.trim(),
-    });
-    setLoading(false);
-    if (!result.success) {
-      setError(result.error || 'تعذر حفظ البيانات.');
-      return;
+    try {
+      setError(null);
+      const result = await updateCustomerCrmInSupabase(customer.id, {
+        fullName: fullName.trim(),
+        phone: phone.trim(),
+        whatsapp: whatsapp.trim(),
+        email: email.trim(),
+        governorate: governorate.trim(),
+        customerType,
+        notes: notes.trim(),
+      });
+
+      if (!result.success) {
+        setError(result.error || 'تعذر حفظ البيانات.');
+        return;
+      }
+      onCustomerUpdated();
+      onClose();
+
+    } finally {
+      setLoading(false);
     }
-    onCustomerUpdated();
-    onClose();
   };
 
   return (
@@ -74,7 +79,7 @@ export const CustomerEditModal: React.FC<CustomerEditModalProps> = ({
             <X className="h-4 w-4" />
           </button>
         </div>
-        <form onSubmit={submit} className="space-y-3 text-xs">
+        <form onSubmit={submit} aria-busy={loading} className="space-y-3 text-xs">
           {error && (
             <div className="rounded-xl border border-rose-800 bg-rose-950/50 p-3 text-rose-300">
               {error}
