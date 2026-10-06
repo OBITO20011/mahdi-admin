@@ -19,10 +19,16 @@ test('Codex and Claude resolve the same agent-neutral project contract', () => {
   assert.match(agents + claude, /Production/iu);
 });
 
-test('closed Phase 4 and Phase 5 Slices 1-2 with inactive Migration 124 are explicit', () => {
+test('owner-closed Phases 4-5 and planning-only Phase 6 are explicit', () => {
   const state = JSON.parse(read('docs/agent/project-state.json')) as {
     closedPhases: string[];
     phase4Closed: boolean;
+    phase5Closed: boolean;
+    phase5ClosureBaseline: string;
+    phase5ClosureExactShaCi: string;
+    phase5ClosureCiRuns: { codeQuality: number; secretScanning: number };
+    phase6PlanningAllowed: boolean;
+    phase6ImplementationStarted: boolean;
     currentPhase: string | null;
     nextPermittedPhase: null;
     phase43Started: boolean;
@@ -52,9 +58,17 @@ test('closed Phase 4 and Phase 5 Slices 1-2 with inactive Migration 124 are expl
     phase5PublicActivationAllowed: boolean;
     migration126CanonicalLfSha256: string;
   };
-  assert.deepEqual(state.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5']);
+  assert.deepEqual(state.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5', '5']);
   assert.equal(state.phase4Closed, true);
-  assert.equal(state.currentPhase, '5');
+  assert.equal(state.currentPhase, null);
+  assert.equal(state.phase5Closed, true);
+  assert.equal(state.phase5ClosureBaseline, 'bdea567562b1de8c64fe3aa286076258decf3d26');
+  assert.equal(state.phase5ClosureExactShaCi, 'PASS');
+  assert.deepEqual(state.phase5ClosureCiRuns, {
+    codeQuality: 37408582997, secretScanning: 37408583034,
+  });
+  assert.equal(state.phase6PlanningAllowed, true);
+  assert.equal(state.phase6ImplementationStarted, false);
   assert.equal(state.phase45Started, true);
   assert.equal(state.phase5Started, true);
   assert.equal(state.phase5Slice1Closed, true);
@@ -82,6 +96,16 @@ test('closed Phase 4 and Phase 5 Slices 1-2 with inactive Migration 124 are expl
   assert.equal(state.migration124MustBeAbsent, false);
   assert.equal(state.migration124CanonicalLfSha256, '4B6A50442DDF0DBEE24233CB9036469B428CE20991E0315EB6C1FAFE4BDD4F41');
   assert.equal(state.migration125CanonicalLfSha256, 'D1CDA688B835C2791A0890F4E000A85FA7309B1A4E4DE02F21819491330A546B');
+});
+
+test('current task stays concise while historical evidence stays pinned in Git', () => {
+  const text = read('docs/agent/ACTIVE_TASK.json');
+  const task = JSON.parse(text) as { historyBaseline: string };
+  assert.equal(task.historyBaseline, 'bdea567562b1de8c64fe3aa286076258decf3d26');
+  assert.ok(Buffer.byteLength(text, 'utf8') <= 4096, 'Current task must not accumulate history');
+  for (const historicalField of ['slice3Closure', 'slice4Closure', 'slice3DesignProposal']) {
+    assert.equal(historicalField in task, false);
+  }
 });
 
 test('handoff tooling is fail-closed and never stores environment values', () => {

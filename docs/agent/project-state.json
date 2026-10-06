@@ -9,10 +9,20 @@
     "4.2",
     "4.3",
     "4.4",
-    "4.5"
+    "4.5",
+    "5"
   ],
   "phase4Closed": true,
-  "currentPhase": "5",
+  "currentPhase": null,
+  "phase5Closed": true,
+  "phase5ClosureBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
+  "phase5ClosureExactShaCi": "PASS",
+  "phase5ClosureCiRuns": {
+    "codeQuality": 37408582997,
+    "secretScanning": 37408583034
+  },
+  "phase6PlanningAllowed": true,
+  "phase6ImplementationStarted": false,
   "nextPermittedPhase": null,
   "phase43Started": true,
   "phase44Started": true,

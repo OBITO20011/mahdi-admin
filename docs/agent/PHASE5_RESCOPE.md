@@ -21,7 +21,7 @@ This file is the current Phase 5 contract. It supersedes the Slice 5 package pla
 - Migrations 123–127 stay as they are (historical migrations are immutable).
   They remain private, with no grants and no callers. Nothing new depends on them.
 
-## Scope: direct fixes on operational paths (Migrations 128–129)
+## Scope: direct fixes on operational paths (Migrations 128–130)
 
 | ID | Finding | Verified location | Fix |
 | --- | --- | --- | --- |
@@ -76,14 +76,23 @@ The focused independent review of 128–129 (2026-10-06) found High 1, Medium 2,
 
 ## Definition of done (Phase 5)
 
-- Migrations 128–129 apply on a fresh isolated rebuild 001–129 with DB lint PASS.
+- Migrations 128–130 apply on a fresh isolated rebuild 001–130 with DB lint PASS.
 - A runtime test proves each of C, B, A fails before the fix and passes after;
   A+ is proven on a fault-injected state (unreachable through current writers).
 - Full-shift reversal with a non-reversible operation is rejected with zero writes.
 - D: both real lock orderings complete with deadlock delta 0.
 - `npm test`, typecheck and strict ESLint PASS; affected existing runtime suites PASS.
 - Owner closes Phase 5. Then Phase 6 (UI terminology/cleanup) and Phase 7
-  (final regression, deploy 112–128 to Production, test-data cleanup, handover).
+  (final regression, controlled rollout through the approved migration ceiling,
+  test-data cleanup and handover; separate owner authorization required).
+
+## Owner closure (2026-10-06)
+
+Phase 5 is OWNER-CLOSED by explicit owner decision after push/main CI for
+`bdea567562b1de8c64fe3aa286076258decf3d26` passed: quality `37408582997`,
+secret scanning `37408583034`. Closure retains the documented L9/L10/Info
+deferrals; it is not a claim that those items were fixed. Phase 6 planning only
+is authorized next. Production access and deploy remain prohibited.
 
 ## Working rules for this re-scope
 

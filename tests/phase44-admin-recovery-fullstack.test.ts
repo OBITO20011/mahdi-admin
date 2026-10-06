@@ -9,6 +9,9 @@ type ProjectContinuityState = {
   approvedBaseline: string;
   closedPhases: string[];
   phase4Closed: boolean;
+  phase5Closed: boolean;
+  phase5ClosureBaseline: string;
+  phase5ClosureExactShaCi: string;
   currentPhase: string | null;
   phase44Started: boolean;
   phase45Started: boolean;
@@ -72,6 +75,20 @@ type ActiveTaskContinuityState = {
 
 const closureSha = '247980af9636ab01b20c80cac6bb3d23de2cc584';
 const slice4ClosureSha = '5405ed7a17656e4e18587b4f07ff0825a1efa838';
+const historySha = 'bdea567562b1de8c64fe3aa286076258decf3d26';
+const readContinuityTask = async (): Promise<ActiveTaskContinuityState> => {
+  const current = JSON.parse(await read('docs/agent/ACTIVE_TASK.json')) as {
+    baselineSha: string; historyBaseline: string;
+  };
+  assert.equal(current.historyBaseline, historySha);
+  execFileSync('git', ['merge-base', '--is-ancestor', historySha, 'HEAD']);
+  // Closed-slice assertions still validate every original fact against the
+  // immutable committed record, not whichever operational task is active now.
+  const historical = JSON.parse(execFileSync('git', [
+    'show', `${historySha}:docs/agent/ACTIVE_TASK.json`,
+  ], {encoding: 'utf8'})) as ActiveTaskContinuityState;
+  return {...historical, baselineSha: current.baselineSha};
+};
 const assertCheckpointAncestry = (closedBaseline: string, checkpointBaseline: string, observedHead: string) => {
   assert.match(checkpointBaseline, /^[0-9a-f]{40}$/u);
   execFileSync('git', ['merge-base', '--is-ancestor', closedBaseline, checkpointBaseline]);
@@ -83,7 +100,7 @@ const assertPhase4Closed = (
   task: ActiveTaskContinuityState,
 ) => {
   assert.equal(projectState.approvedBaseline, closureSha);
-  assert.deepEqual(projectState.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5']);
+  assert.deepEqual(projectState.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5', '5']);
   assert.equal(projectState.phase4Closed, true);
   assert.equal(projectState.phase44Started, true);
   assert.equal(projectState.phase45Started, true);
@@ -108,12 +125,15 @@ const assertSlices12Closed = (
   phaseStatus: string,
   task: ActiveTaskContinuityState,
 ) => {
-  assert.equal(projectState.currentPhase, '5');
+  assert.equal(projectState.currentPhase, null);
+  assert.equal(projectState.phase5Closed, true);
+  assert.equal(projectState.phase5ClosureBaseline, historySha);
+  assert.equal(projectState.phase5ClosureExactShaCi, 'PASS');
   assert.equal(projectState.phase5Started, true);
   assert.equal(projectState.phase5Slice1Closed, true);
   assert.equal(projectState.phase5Slice2Started, true);
   assert.equal(projectState.phase5Slice2Closed, true);
-  assert.match(phaseStatus, /\| Phase 5 \| IN PROGRESS \|/u);
+  assert.match(phaseStatus, /\| Phase 5 \| OWNER-CLOSED \|/u);
   assert.match(phaseStatus, /Slice 1 private inactive financial evidence foundation is OWNER-CLOSED/u);
   assert.match(phaseStatus, /Slice 2 private canonical collection and exact-payment-reversal writers are OWNER-CLOSED/u);
   assert.equal(projectState.phase5Slice3ImplementationStarted, true);
@@ -248,9 +268,7 @@ test('Slice 4 stays preserved after final Phase 4 owner closure', async () => {
     await read('docs/agent/project-state.json'),
   ) as ProjectContinuityState;
   const phaseStatus = await read('docs/agent/PHASE_STATUS.md');
-  const task = JSON.parse(
-    await read('docs/agent/ACTIVE_TASK.json'),
-  ) as ActiveTaskContinuityState;
+  const task = await readContinuityTask();
 
   assertPhase4Closed(projectState, phaseStatus, task);
   assertSlices12Closed(projectState, phaseStatus, task);
@@ -263,9 +281,7 @@ test('Slices 1-2 closed continuity rejects lost closure, stale work and unauthor
     await read('docs/agent/project-state.json'),
   ) as ProjectContinuityState;
   const phaseStatus = await read('docs/agent/PHASE_STATUS.md');
-  const task = JSON.parse(
-    await read('docs/agent/ACTIVE_TASK.json'),
-  ) as ActiveTaskContinuityState;
+  const task = await readContinuityTask();
 
   const lostPhase4Closure = structuredClone(projectState);
   lostPhase4Closure.phase4Closed = false;
@@ -346,7 +362,7 @@ test('durable continuity accepts a committed descendant and rejects checkpoints 
 test('Slice 4 delivered continuity rejects stale checkpoints and fabricated delivery evidence', async () => {
   const projectState = JSON.parse(await read('docs/agent/project-state.json')) as ProjectContinuityState;
   const phaseStatus = await read('docs/agent/PHASE_STATUS.md');
-  const task = JSON.parse(await read('docs/agent/ACTIVE_TASK.json')) as ActiveTaskContinuityState;
+  const task = await readContinuityTask();
   assertSlices12Closed(projectState, phaseStatus, task);
 
   const wrongStateSha = structuredClone(projectState);

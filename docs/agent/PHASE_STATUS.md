@@ -2,7 +2,7 @@
 
 > **Current Phase 5 contract (2026-10-06): read `docs/agent/PHASE5_RESCOPE.md` first.**
 > Slice 5 is parked on branch `codex/phase5-slice5-wip`. Phase 5 now closes by
-> direct fixes of findings C, B, A, A+ in a new Migration 128.
+> direct operational fixes in Migrations 128–130; owner-closed on 2026-10-06.
 
 | Phase | State | Durable outcome |
 | --- | --- | --- |
@@ -13,7 +13,18 @@
 | Phase 4.4 | OWNER-CLOSED | Integration/regression Slices 1–5, deterministic recovery rejection classification, content-sensitive zero-write evidence, and the final independent re-sign-off passed with zero findings and zero material evidence gaps. |
 | Phase 4.5 | OWNER-CLOSED | Lightweight phase-wide closure review and focused continuity re-sign-off passed with Critical/High/Medium/Low and material evidence gaps all zero. |
 | Phase 4 (overall) | OWNER-CLOSED | Returns, refunds, Replacement, Admin integration, cross-feature regression and independent closure are complete. |
-| Phase 5 | IN PROGRESS | Slice 1 private inactive financial evidence foundation is OWNER-CLOSED. Slice 2 private canonical collection and exact-payment-reversal writers are OWNER-CLOSED. Slice 3 private inactive coordinator is OWNER-CLOSED. Slice 4 private financial read/reconciliation in Migration 127 is OWNER-CLOSED; no public activation. |
+| Phase 5 | OWNER-CLOSED | Operational fixes in Migrations 128–130 delivered; owner closure after exact-SHA quality and secret-scanning CI PASS. Private Slices 1–4 remain inactive. |
+| Phase 6 | PLANNING ONLY | Owner authorized screen review and one plan of at most 20 items; implementation awaits approval. |
+| Phase 7 | NOT STARTED | Production/release work requires separate owner authorization. |
+
+Phase 5 closure evidence: `bdea567562b1de8c64fe3aa286076258decf3d26`, push/main,
+code-quality run `37408582997` and secret-scanning run `37408583034` both PASS.
+L9 remains an owner-policy decision; L10 and legacy-only daily reports enter the
+Phase 6 plan. These deferrals are not represented as zero unresolved findings.
+Slice 1 private inactive financial evidence foundation is OWNER-CLOSED.
+Slice 2 private canonical collection and exact-payment-reversal writers are OWNER-CLOSED.
+Slice 4 private financial read/reconciliation in Migration 127 is OWNER-CLOSED.
+The paragraphs below are historical checkpoints, not current pending work.
 
 Approved Phase 4.4 closure baseline: `247980af9636ab01b20c80cac6bb3d23de2cc584` on `main`; exact-SHA code-quality and secret-scanning CI passed.
 
