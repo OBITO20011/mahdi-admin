@@ -88,6 +88,9 @@ export const Header: React.FC = () => {
       {/* Branch Selector Dropdown */}
       <div className="relative">
         <button
+          type="button"
+          aria-label="اختيار الفرع"
+          aria-expanded={showBranchDropdown}
           onClick={() => setShowBranchDropdown(!showBranchDropdown)}
           className="flex max-w-[118px] items-center gap-1.5 rounded-xl border border-slate-700/80 bg-slate-800/80 px-2 py-1.5 text-[10px] font-semibold text-slate-200 transition hover:bg-slate-800 active:scale-[0.98]"
         >
@@ -137,6 +140,8 @@ export const Header: React.FC = () => {
       <div className="flex shrink-0 items-center gap-1.5">
         {/* Notification Bell */}
         <button
+          type="button"
+          aria-label="الإشعارات"
           onClick={() => openModal('notifications')}
           className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-slate-700/80 bg-slate-800 text-slate-300 transition hover:text-white"
         >
@@ -150,6 +155,8 @@ export const Header: React.FC = () => {
 
         {/* User Role Avatar */}
         <button
+          type="button"
+          aria-label={`الملف الشخصي: ${currentUserName}`}
           onClick={() => openModal('profile')}
           className="flex min-h-11 items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 p-1 transition hover:bg-slate-750"
           title={currentUserName}

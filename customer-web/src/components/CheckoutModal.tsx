@@ -22,7 +22,8 @@ import {
   Trash2,
   Truck,
 } from 'lucide-react';
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState, useId, useRef, isValidElement, cloneElement, Children } from 'react';
+import {useDialogFocus} from '../hooks/useDialogFocus';
 import {
   previewGuestPromotionV2,
 } from '../services/orders.service';
@@ -110,19 +111,36 @@ interface FieldProps {
 }
 
 function Field({ label, required, error, children }: FieldProps) {
+  const fieldId = useId();
+  const errorId = `${fieldId}-error`;
+  let controlId: string | undefined;
+  const decorate = (nodes: React.ReactNode): React.ReactNode => Children.map(nodes, child => {
+    if (!isValidElement<{id?: string; children?: React.ReactNode; 'aria-describedby'?: string}>(child)) return child;
+    if (typeof child.type === 'string' && ['input', 'select', 'textarea'].includes(child.type)) {
+      const id = child.props.id || fieldId;
+      controlId ||= id;
+      return cloneElement(child, {id,
+        ...{'aria-required': required || undefined, 'aria-invalid': error ? true : undefined,
+          'aria-describedby': [child.props['aria-describedby'], error ? errorId : null].filter(Boolean).join(' ') || undefined},
+      });
+    }
+    return typeof child.type === 'string' && child.props.children
+      ? cloneElement(child, {}, decorate(child.props.children)) : child;
+  });
+  const content = decorate(children);
   return (
-    <label className="block">
-      <span className="mb-2 block text-[11px] font-extrabold text-slate-700">
+    <div className="block">
+      <label htmlFor={controlId} className="mb-2 block text-[11px] font-extrabold text-slate-700">
         {label}
         {required && <span className="mr-1 text-rose-500">*</span>}
-      </span>
-      {children}
+      </label>
+      {content}
       {error && (
-        <span className="mt-1.5 block text-[10px] font-bold text-rose-600">
+        <span id={errorId} role="alert" className="mt-1.5 block text-[10px] font-bold text-rose-600">
           {error}
         </span>
       )}
-    </label>
+    </div>
   );
 }
 
@@ -147,6 +165,7 @@ export function CheckoutModal({
     EMPTY_GUEST_CHECKOUT_FORM
   );
   const [errors, setErrors] = useState<CheckoutErrors>({});
+  const focusValidationError = useRef(false);
   const [submitError, setSubmitError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [receipt, setReceipt] = useState<GuestOrderReceipt | null>(null);
@@ -535,6 +554,7 @@ export function CheckoutModal({
 
     const validationErrors = validateGuestCheckout(form);
     if (Object.keys(validationErrors).length > 0) {
+      focusValidationError.current = true;
       setErrors(validationErrors);
       setSubmitError('راجع الحقول المطلوبة قبل إرسال الطلب.');
       return false;
@@ -544,6 +564,7 @@ export function CheckoutModal({
       deliveryZone === 'inside_ramtha' &&
       !`${form.governorate} ${form.city} ${form.area}`.includes('الرمثا')
     ) {
+      focusValidationError.current = true;
       setErrors((current) => ({
         ...current,
         city: 'اكتب الرمثا أو اختر «خارج الرمثا» لحساب أجرة التوصيل الصحيحة.',
@@ -695,6 +716,14 @@ export function CheckoutModal({
     }
   };
 
+  const panel = useDialogFocus(isOpen, handleClose);
+  useEffect(() => {
+    if (isOpen && focusValidationError.current) {
+      focusValidationError.current = false;
+      panel.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+    }
+  }, [errors, isOpen, panel]);
+
   return (
     <div
       className={`fixed inset-0 z-[60] transition ${
@@ -713,6 +742,9 @@ export function CheckoutModal({
       />
 
       <section
+        ref={panel}
+        tabIndex={-1}
+        aria-busy={isSubmitting}
         role="dialog"
         aria-modal="true"
         aria-labelledby="checkout-title"

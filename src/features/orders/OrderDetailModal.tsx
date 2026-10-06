@@ -403,7 +403,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   };
 
   return (
-    <div className="space-y-4 text-xs">
+    <div aria-busy={busy} className="space-y-4 text-xs">
       <div className="flex items-start justify-between border-b border-slate-800 pb-3">
         <div>
           <bdi dir="ltr" className="select-text font-mono text-[11px] font-black text-blue-400">

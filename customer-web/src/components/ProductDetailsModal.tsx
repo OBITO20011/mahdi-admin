@@ -15,6 +15,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
+import {useDialogFocus} from '../hooks/useDialogFocus';
 import { CatalogProduct, PublicConfigurableParcelOption } from '../types/catalog';
 import { formatJod } from '../utils/money';
 import { CargoAddButton } from './CargoAddButton';
@@ -87,6 +88,10 @@ export function ProductDetailsModal({
   );
   const [shareMessage, setShareMessage] = useState('');
   const [imageZoomed, setImageZoomed] = useState(false);
+  const panel = useDialogFocus(true, () => {
+    if (imageZoomed) setImageZoomed(false);
+    else onClose();
+  });
 
   useEffect(() => {
     setSelectedVariantId(
@@ -119,14 +124,9 @@ export function ProductDetailsModal({
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [onClose]);
 
@@ -208,6 +208,8 @@ export function ProductDetailsModal({
       />
 
       <section
+        ref={panel}
+        tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-labelledby="product-details-title"

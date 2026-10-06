@@ -141,7 +141,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
         items: [{return_scope: 'base_unit', order_item_id: returnDraft.orderItemId,
           quantity, stock_disposition: returnDraft.disposition}],
         physical: allocateBaseReturn(returnDraft.orderItemId, returnDraft.representatives,
-          quantity, returnDraft.disposition),
+          quantity, returnDraft.disposition, context.replacements),
       };
     }
     return {
@@ -235,7 +235,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
   };
 
   return (
-    <section data-testid="phase43-admin-aftercare"
+    <section data-testid="phase43-admin-aftercare" aria-busy={busy}
       className="space-y-3 rounded-2xl border border-indigo-700/60 bg-indigo-950/20 p-3">
       <div className="flex items-start justify-between gap-2">
         <div>

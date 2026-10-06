@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import {useDialogFocus} from '../../hooks/useDialogFocus';
 import {
   AlertTriangle,
   Boxes,
@@ -25,6 +26,7 @@ export const ClearInventoryBalanceDialog: React.FC<
   const [confirmation, setConfirmation] = useState('');
   const [reason, setReason] = useState('تصفير الرصيد بعد مراجعة المخزون');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const panel = useDialogFocus(true, () => { if (!isSubmitting) onClose(); });
 
   const inventory = useMemo(
     () => formatProductInventory(product, false),
@@ -81,6 +83,9 @@ export const ClearInventoryBalanceDialog: React.FC<
   return (
     <div
       dir="rtl"
+      ref={panel as React.RefObject<HTMLDivElement>}
+      tabIndex={-1}
+      aria-busy={isSubmitting}
       role="dialog"
       aria-modal="true"
       aria-labelledby="clear-inventory-title"

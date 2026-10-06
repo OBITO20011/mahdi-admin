@@ -1,4 +1,5 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
+import {useDialogFocus} from '../../hooks/useDialogFocus';
 import { AlertCircle, Camera, RefreshCw, X } from 'lucide-react';
 import {
   classifyBarcodeCameraError,
@@ -21,18 +22,9 @@ export const BarcodeCameraCaptureModal: React.FC<
   const regionId = `product-barcode-camera-${reactId.replace(/:/g, '')}`;
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
-  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const dialogRef = useDialogFocus(isOpen, onClose);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const previousFocus = document.activeElement as HTMLElement | null;
-    closeButtonRef.current?.focus();
-    return () => {
-      window.setTimeout(() => previousFocus?.focus(), 0);
-    };
-  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -71,36 +63,6 @@ export const BarcodeCameraCaptureModal: React.FC<
     };
   }, [attempt, isOpen, onCapture, onClose, regionId, startScanner]);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
-        return;
-      }
-      if (event.key !== 'Tab') return;
-
-      const focusable = dialogRef.current
-        ? Array.from(
-            dialogRef.current.querySelectorAll<HTMLElement>(
-              'button:not([disabled]), [href], input:not([disabled]), [tabindex]:not([tabindex="-1"])'
-            )
-          )
-        : [];
-      if (focusable.length === 0) return;
-      const first = focusable[0] as HTMLElement;
-      const last = focusable[focusable.length - 1] as HTMLElement;
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    };
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
-  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -108,7 +70,8 @@ export const BarcodeCameraCaptureModal: React.FC<
     <div
       className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/85 p-3 backdrop-blur-md"
       role="dialog"
-      ref={dialogRef}
+      ref={dialogRef as React.RefObject<HTMLDivElement>}
+      tabIndex={-1}
       aria-modal="true"
       aria-labelledby={`${regionId}-title`}
       dir="rtl"

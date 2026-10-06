@@ -14,7 +14,14 @@ const context = {
     {parcelComponentId: 'component', productId: 'juice', quantity: 3, physicalRepresentatives: [
       {sourceKind: 'replacement_item', sourceId: 'leaf', productId: 'juice', remainingQuantity: 3, parentReplacementItemId: 'old-leaf'},
     ]},
-  ]}], returns: [], replacements: [],
+  ]}], returns: [], replacements: [
+    {operationalStatus: 'issued', issuedAt: '2026-10-01T10:00:00Z', items: [
+      {replacementItemId: 'prior', parentReplacementItemId: null, rootOrderItemId: 'base-root'},
+    ]},
+    {operationalStatus: 'issued', issuedAt: '2026-10-02T10:00:00Z', items: [
+      {replacementItemId: 'b', parentReplacementItemId: 'prior', rootOrderItemId: 'base-root'},
+    ]},
+  ],
 };
 test.beforeEach(async ({page}) => {
   await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1', route => route.fulfill({json: context}));

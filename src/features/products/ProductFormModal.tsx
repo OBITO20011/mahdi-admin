@@ -702,7 +702,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} dir="rtl" className="space-y-4 text-xs">
+    <form onSubmit={handleSubmit} aria-busy={isSubmitting} dir="rtl" className="space-y-4 text-xs">
       <section className="overflow-hidden rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-950/50 via-slate-950 to-slate-950">
         <div className="flex items-center justify-between border-b border-white/5 px-3.5 py-3">
           <div className="flex items-center gap-2">

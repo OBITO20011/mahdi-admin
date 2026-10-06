@@ -635,11 +635,12 @@ export const PosView: React.FC = () => {
           </div>
         )}
         {filteredProducts.map((prod) => (
-          <div
+          <button
+            type="button"
             key={prod.id}
             data-pos-product-card={prod.id}
             onClick={() => addToCart(prod)}
-            className="bg-slate-900 border border-slate-800 hover:border-emerald-500/50 p-2.5 rounded-2xl shadow transition cursor-pointer active:scale-95 text-right flex flex-col justify-between"
+            className="bg-slate-900 border border-slate-800 hover:border-emerald-500/50 p-2.5 rounded-2xl shadow transition cursor-pointer active:scale-95 text-right flex flex-col justify-between focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-400"
           >
             <div className="flex items-center gap-2 mb-1.5">
               {prod.imageUrl ? (
@@ -671,7 +672,7 @@ export const PosView: React.FC = () => {
                 {prod.salePackage || 'طرد'}
               </span>
             </div>
-          </div>
+          </button>
         ))}
       </div>
 

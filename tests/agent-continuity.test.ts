@@ -19,7 +19,7 @@ test('Codex and Claude resolve the same agent-neutral project contract', () => {
   assert.match(agents + claude, /Production/iu);
 });
 
-test('owner-closed Phases 4-5 and authorized Phase 6 package B are explicit', () => {
+test('owner-closed Phases 4-5 and authorized Phase 6 package C are explicit', () => {
   const state = JSON.parse(read('docs/agent/project-state.json')) as {
     closedPhases: string[];
     phase4Closed: boolean;
@@ -30,6 +30,8 @@ test('owner-closed Phases 4-5 and authorized Phase 6 package B are explicit', ()
     phase6PlanningAllowed: boolean;
     phase6ImplementationStarted: boolean;
     phase6AuthorizedPackage: string;
+    phase6PackageBLocalVerification: string;
+    phase6PackageBDeliverySha: string;
     phase6NextPackageAllowed: boolean;
     currentPhase: string | null;
     nextPermittedPhase: null;
@@ -71,7 +73,9 @@ test('owner-closed Phases 4-5 and authorized Phase 6 package B are explicit', ()
   });
   assert.equal(state.phase6PlanningAllowed, true);
   assert.equal(state.phase6ImplementationStarted, true);
-  assert.equal(state.phase6AuthorizedPackage, 'B');
+  assert.equal(state.phase6AuthorizedPackage, 'C');
+  assert.equal(state.phase6PackageBLocalVerification, 'FOCUSED_UI_FULL_QUALITY_AND_EXACT_SHA_CI_PASS');
+  assert.equal(state.phase6PackageBDeliverySha, 'b3eda6fffe2cd68e12e5464647bafd3ed75bee46');
   assert.equal(state.phase6NextPackageAllowed, false);
   assert.equal(state.phase45Started, true);
   assert.equal(state.phase5Started, true);

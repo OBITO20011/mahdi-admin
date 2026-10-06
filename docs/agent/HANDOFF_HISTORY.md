@@ -28,3 +28,14 @@ Append only concise, secret-free handoff summaries here when a task materially c
 ## 2026-10-06 — Phase 6 package A review remediation (claude)
 
 - Independent review of package A: Critical 0, High 1, Medium 5. Migration 131 rewritten in place as explicit wrappers (owner-approved, never applied outside isolated DBs); remediation recorded at the end of `docs/agent/PHASE6_A_REPORTS_SCOPE.md`. Task returned to IDLE for codex package B.
+
+## 2026-10-06 — Phase 6 package C (codex)
+
+- B delivered at `b3eda6fffe2cd68e12e5464647bafd3ed75bee46`; push/main quality 37432050153 and secrets 37432050171 PASS.
+- Owner authorized original/date/depth/sourceId allocation, C accessibility items 9,10,11,14,15, tests and commit/push/CI. No DB, Production/deploy or Phase 7.
+- Owner accepted initial allocation edits as the resume point and authorized checkpointing our own edits without another owner stop. No concurrent writer or scheduler.
+- Allocation/continuity 9/9; final Chromium/WebKit C/Checkout/receipt matrix 16/16, retries0. Barcode regression passed. Final quality/delivery verification pending.
+- A typing probe exposed first-error focus moving on every field edit. The correction focuses only after rejected Review; the permanent typing regression passed Chromium/WebKit 2/2. The earlier quality run was cancelled, not counted as PASS; the final corrected candidate is running quality serially.
+- Final corrected-candidate quality: Admin 684/684, Customer 189/189, lint/build/SEO and isolation PASS; browser 234 PASS, 51 existing conditional skips, one WebKit timeout at `guided-store-assistant.spec.ts:50`. Trace: trigger stability wait about 42s; root cause unproven. Fresh isolated exact scenario passed 1/1 with retries0, without source changes; this does not turn the full gate into PASS. Commit/push/CI not performed; owner review before expanding beyond package C.
+- Owner-authorized comparison: exact first assistant scenario (definition line38, failed click line50) repeat10/WebKit/workers2/retries0: current 10/10 PASS (2.9m), detached b3eda6f baseline 10/10 PASS (3.4m), failure rates 0%/0%. Baseline tracked tree remained clean; dependencies were junctions to the same installed versions. Runs sequential, fresh owned servers, no source/test alteration. The two Escape presses belong to scenario2 and cart interaction to scenario3. Root cause remains unproven; no code/test fix is justified by this comparison. Owner authorized one subsequent complete quality run, with no commit until PASS.
+- Escape/cart scenarios passed 2/2 on WebKit. Owner-authorized final complete quality PASS (exit0): Admin684/684, Customer189/189, lint/build/SEO/isolation, Browser235 PASS/51 existing conditional skips/retries0 (6.1m). Previously failing assistant passed inside this complete run. No assistant code/test or timeout/retry changes. Diagnostic worktree removed cleanly; package C delivery/CI is the remaining authorized step.

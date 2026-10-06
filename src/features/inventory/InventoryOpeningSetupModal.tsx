@@ -416,7 +416,7 @@ export const InventoryOpeningSetupModal: React.FC<
   };
 
   return (
-    <div className="space-y-4 text-xs">
+    <div aria-busy={isSubmitting} className="space-y-4 text-xs">
       <div className="rounded-2xl border border-indigo-500/30 bg-gradient-to-l from-indigo-950/80 to-slate-950 p-4">
         <div className="flex items-start gap-3">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-500/15 text-indigo-300">

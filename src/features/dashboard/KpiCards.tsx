@@ -167,9 +167,10 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
       </div>
 
       {/* 9. Low Stock Products */}
-      <div
+      <button
+        type="button"
         onClick={onFilterLowStock}
-        className="bg-slate-900 border border-amber-800/50 p-3.5 rounded-2xl shadow-sm hover:bg-amber-950/20 transition cursor-pointer"
+        className="text-right bg-slate-900 border border-amber-800/50 p-3.5 rounded-2xl shadow-sm hover:bg-amber-950/20 transition cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400"
       >
         <div className="flex items-center justify-between text-amber-400 mb-2">
           <span className="text-[11px] font-bold">منخفض المخزون</span>
@@ -181,12 +182,13 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
           {kpis.lowStockCount} <span className="text-[10px] font-normal text-slate-400">صنف</span>
         </div>
         <div className="text-[10px] text-amber-400 font-semibold mt-1">تحت حد إعادة الطلب</div>
-      </div>
+      </button>
 
       {/* 10. Out of Stock Products */}
-      <div
+      <button
+        type="button"
         onClick={onFilterOutOfStock}
-        className="bg-slate-900 border border-rose-800/50 p-3.5 rounded-2xl shadow-sm hover:bg-rose-950/20 transition cursor-pointer"
+        className="text-right bg-slate-900 border border-rose-800/50 p-3.5 rounded-2xl shadow-sm hover:bg-rose-950/20 transition cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-400"
       >
         <div className="flex items-center justify-between text-rose-400 mb-2">
           <span className="text-[11px] font-bold">نفذت من المخزن</span>
@@ -198,7 +200,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
           {kpis.outOfStockCount} <span className="text-[10px] font-normal text-slate-400">صنف</span>
         </div>
         <div className="text-[10px] text-rose-400 font-semibold mt-1">يحتاج توريد عاجل</div>
-      </div>
+      </button>
     </div>
   );
 };

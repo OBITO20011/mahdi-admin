@@ -137,8 +137,11 @@ test('successful checkout preserves the complete receipt presentation and direct
   await mockStorefront(page);
 
   let submittedBody: Record<string, unknown> | null = null;
+  let releaseResponse!: () => void;
+  const responseReady = new Promise<void>(resolve => { releaseResponse = resolve; });
   await page.route('**/functions/v1/submit-guest-order', async (route) => {
     submittedBody = route.request().postDataJSON() as Record<string, unknown>;
+    await responseReady;
     await route.fulfill({
       contentType: 'application/json',
       body: JSON.stringify({
@@ -193,6 +196,13 @@ test('successful checkout preserves the complete receipt presentation and direct
   await review
     .getByRole('button', { name: 'تأكيد وحفظ الطلب في الإدارة' })
     .click();
+
+  await expect.poll(() => submittedBody !== null).toBe(true);
+  await expect(review).toHaveAttribute('aria-busy', 'true');
+  await page.keyboard.press('Escape');
+  await expect(review).toBeVisible();
+  await expect(review.getByRole('button', {name: /جارٍ التحقق من الطلب/})).toBeDisabled();
+  releaseResponse();
 
   const receipt = page.getByRole('dialog').filter({
     has: page.getByRole('heading', { name: 'تم تسجيل طلبك' }),

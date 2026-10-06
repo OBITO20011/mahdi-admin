@@ -2,7 +2,8 @@
  * Nawasrah Business Manager - iOS Sheet Modal Component
  */
 
-import React from 'react';
+import React, {useId} from 'react';
+import {useDialogFocus} from '../../hooks/useDialogFocus';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -14,6 +15,7 @@ interface ModalProps {
   children: React.ReactNode;
   maxHeight?: string;
   maxWidth?: string;
+  closeDisabled?: boolean;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -24,12 +26,23 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   maxHeight = 'max-h-[90vh]',
   maxWidth = 'max-w-lg',
+  closeDisabled = false,
 }) => {
+  const titleId = useId();
+  const panel = useDialogFocus(isOpen, () => {
+    // Child forms retain authority over in-flight close safety.
+    if (!closeDisabled && !panel.current?.querySelector('[aria-busy="true"]')) onClose();
+  });
   return (
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-slate-950/80 backdrop-blur-sm p-0 sm:p-4">
           <motion.div
+            ref={panel as React.RefObject<HTMLDivElement>}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+            tabIndex={-1}
             initial={{ y: '100%', opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: '100%', opacity: 0 }}
@@ -42,11 +55,15 @@ export const Modal: React.FC<ModalProps> = ({
             {/* Modal Header */}
             <div className="px-5 py-3 border-b border-slate-800 flex items-center justify-between shrink-0 bg-slate-900/80">
               <div>
-                <h3 className="text-sm font-bold text-slate-100">{title}</h3>
+                <h3 id={titleId} className="text-sm font-bold text-slate-100">{title}</h3>
                 {subtitle && <p className="text-[11px] text-slate-400 mt-0.5">{subtitle}</p>}
               </div>
               <button
-                onClick={onClose}
+                type="button"
+                disabled={closeDisabled}
+                onClick={() => {
+                  if (!closeDisabled && !panel.current?.querySelector('[aria-busy="true"]')) onClose();
+                }}
                 aria-label="إغلاق"
                 className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-100 flex items-center justify-center transition"
               >

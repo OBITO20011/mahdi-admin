@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useDialogFocus} from '../../hooks/useDialogFocus';
 import {
   CheckCircle2,
   Compass,
@@ -47,6 +48,7 @@ export const EditAddressModal: React.FC<EditAddressModalProps> = ({
     Boolean(order.locationConfirmed)
   );
   const [saving, setSaving] = useState(false);
+  const panel = useDialogFocus(true, () => { if (!saving) onClose(); });
   const [error, setError] = useState<string | null>(null);
 
   const getCurrentLocation = () => {
@@ -121,7 +123,7 @@ export const EditAddressModal: React.FC<EditAddressModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-end justify-center bg-slate-950/85 backdrop-blur-sm sm:items-center sm:p-4">
+    <div ref={panel as React.RefObject<HTMLDivElement>} tabIndex={-1} role="dialog" aria-modal="true" aria-label="تعديل عنوان التوصيل" aria-busy={saving} className="fixed inset-0 z-[60] flex items-end justify-center bg-slate-950/85 backdrop-blur-sm sm:items-center sm:p-4">
       <div className="max-h-[94vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border border-slate-800 bg-slate-900 p-5 shadow-2xl sm:rounded-3xl">
         <div className="mb-4 flex items-start justify-between border-b border-slate-800 pb-3">
           <div>

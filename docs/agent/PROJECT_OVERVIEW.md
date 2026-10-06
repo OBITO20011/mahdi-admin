@@ -23,13 +23,18 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 VS Code and dual-agent setup: `docs/agent/VS_CODE_SETUP.md`.
 
-Current owner-authorized task: Phase 6 package B items 3,4,7,8,12,13,16,18,19
+Current owner-authorized task: Phase 6 package C items 9,10,11,14,15
 under `PHASE6_PLAN.md`, UI-only, following Claude's package A remediation.
 Phase 5 operational baseline is `bdea567562b1de8c64fe3aa286076258decf3d26`;
 exact-SHA push/main quality and secret-scanning CI passed. Package A remediation
 at `0b31eec0949519eefdac398dd6a034f956d0b5f9` passed both exact-SHA CI workflows.
-Package B authorizes its UI corrections, tests, commit/push and exact-SHA CI.
-No database/migration changes, Production access, deploy or package C work.
+Package B at `b3eda6fffe2cd68e12e5464647bafd3ed75bee46` passed exact-SHA
+push/main code quality (37432050153) and secret scanning (37432050171).
+Package C authorizes accessibility corrections and Base Return allocation:
+original first, replacement issuance oldest first, missing dates use lineage
+depth, sourceId is the final deterministic tie-breaker. Tests, commit/push and
+exact-SHA CI are authorized. No database/migration changes, Production, deploy
+or Phase 7 work.
 Mobile shell geometry remains unchanged; desktop/tablet layout only for item 8.
 `ACTIVE_TASK.json` records only the current step; prior detailed continuity
 evidence is preserved in Git at that baseline and in the phase evidence files.

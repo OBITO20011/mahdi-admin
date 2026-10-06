@@ -79,7 +79,7 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
   };
 
   return (
-    <div className="space-y-4 text-xs">
+    <div aria-busy={isSaving} className="space-y-4 text-xs">
       <div className="rounded-xl border border-emerald-800/70 bg-emerald-950/30 px-3 py-2 text-emerald-300">
         سيرتبط المصروف بالوردية <b>{currentShift.shiftNumber}</b> تلقائيًا.
       </div>

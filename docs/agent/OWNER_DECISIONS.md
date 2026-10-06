@@ -39,6 +39,15 @@ These are business decisions, not implementation suggestions.
 
 ## Deadline
 
+### Phase 6 Base Return allocation (owner approved 2026-10-06)
+
+For a selected partial Base Return, original `base_order_item` capacity is allocated first.
+Operational replacement leaves follow issuance date oldest-to-newest, then lineage depth,
+then sourceId as the final deterministic tie-breaker. If issuance dates are incomplete,
+use lineage depth then sourceId. Only the existing public aftercare read facts are used;
+incomplete or contradictory lineage fails closed. This does not change DB valuation,
+capacity, entitlement or current-leaf authority.
+
 - A new operation is allowed when authoritative DB time is `<= completed_at + 48 hours` after locks are acquired and state is revalidated.
 - Opening UI does not reserve eligibility.
 - Exact same-key replay of an already committed operation returns its stored result even after the deadline.

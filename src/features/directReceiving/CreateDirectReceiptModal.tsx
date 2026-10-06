@@ -526,7 +526,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
   }
 
   return (
-    <div dir="rtl" className="space-y-4 max-h-[80vh] overflow-y-auto p-1 pr-2 text-xs text-slate-200">
+    <div dir="rtl" aria-busy={isSubmitting} className="space-y-4 max-h-[80vh] overflow-y-auto p-1 pr-2 text-xs text-slate-200">
       {legacyReplayResolution && (
         <div
           role="alert"

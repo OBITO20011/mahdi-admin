@@ -71,7 +71,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
   };
 
   return (
-    <form onSubmit={handleSave} className="space-y-4 text-xs">
+    <form onSubmit={handleSave} aria-busy={isSubmitting} className="space-y-4 text-xs">
       {/* Product Card Header */}
       <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex items-center gap-3">
         <img

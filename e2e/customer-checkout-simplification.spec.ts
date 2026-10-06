@@ -103,6 +103,13 @@ test('checkout keeps all required delivery data while showing one non-duplicated
   const checkout = page.getByRole('dialog').filter({ has: page.getByRole('heading', { name: 'إتمام طلب الجملة' }) });
   await expect(checkout).toBeVisible();
   await expect(checkout.getByText('لا تحتاج حسابًا أو كلمة مرور')).toBeVisible();
+  const privacyOpener = checkout.getByRole('button', {name: 'سياسة الخصوصية'});
+  await privacyOpener.click();
+  await expect(page.getByRole('dialog', {name: /سياسة الخصوصية/})).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog', {name: /سياسة الخصوصية/})).toHaveCount(0);
+  await expect(checkout).toBeVisible();
+  await expect(privacyOpener).toBeFocused();
   await expect(checkout.getByLabel('الاسم الكامل*')).toBeVisible();
   await expect(checkout.getByLabel('رقم الهاتف*')).toBeVisible();
   await expect(checkout.getByLabel('المحافظة*')).toBeVisible();
@@ -121,6 +128,19 @@ test('checkout keeps all required delivery data while showing one non-duplicated
   await expect(checkout.getByText('رقم المحل أو المبنى', { exact: true })).toHaveCount(0);
   await expect(checkout.getByText('ملاحظات على العنوان', { exact: true })).toHaveCount(0);
   await expect(checkout.getByText('ملاحظات على الطلب', { exact: true })).toHaveCount(0);
+
+  await expect(deliveryDetails).toHaveAttribute('aria-required', 'true');
+  await checkout.getByRole('button', { name: 'مراجعة الطلب قبل الإرسال' }).click();
+  const firstInvalid = checkout.getByLabel('الاسم الكامل*');
+  await expect(firstInvalid).toHaveAttribute('aria-invalid', 'true');
+  await expect(firstInvalid).toBeFocused();
+  await firstInvalid.pressSequentially('م');
+  await expect(firstInvalid).toBeFocused();
+  await expect(deliveryDetails).toHaveAttribute('aria-invalid', 'true');
+  const describedBy = await deliveryDetails.getAttribute('aria-describedby');
+  expect(describedBy).toBeTruthy();
+  expect(await page.evaluate(id => document.getElementById(id!)?.textContent, describedBy)).toBeTruthy();
+  await expect(page.getByRole('dialog', {name: 'راجع طلبك قبل الإرسال'})).toHaveCount(0);
 
   await deliveryDetails.fill(
     'محل 12، بجانب الصيدلية، اتصل قبل الوصول، التوصيل بعد الساعة 4'

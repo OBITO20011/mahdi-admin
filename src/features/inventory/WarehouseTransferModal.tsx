@@ -128,7 +128,7 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+    <form onSubmit={handleSubmit} aria-busy={isSubmitting} className="space-y-4 text-xs">
       {/* Header Banner */}
       <div className="bg-blue-950/60 border border-blue-800 p-3 rounded-2xl flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center shrink-0">

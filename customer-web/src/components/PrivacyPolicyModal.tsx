@@ -1,4 +1,5 @@
 import { ExternalLink, ShieldCheck, X } from 'lucide-react';
+import {useDialogFocus} from '../hooks/useDialogFocus';
 import { buildWhatsAppUrl } from '../utils/checkout';
 
 interface PrivacyPolicyModalProps {
@@ -41,6 +42,7 @@ export function PrivacyPolicyModal({
   storeName,
   whatsappNumber,
 }: PrivacyPolicyModalProps) {
+  const panel = useDialogFocus(isOpen, onClose);
   if (!isOpen) return null;
 
   const contactUrl = buildWhatsAppUrl(
@@ -51,6 +53,8 @@ export function PrivacyPolicyModal({
   return (
     <div
       className="fixed inset-0 z-[90] flex items-end justify-center bg-slate-950/70 p-0 backdrop-blur-sm sm:items-center sm:p-5"
+      ref={panel as React.RefObject<HTMLDivElement>}
+      tabIndex={-1}
       role="dialog"
       aria-modal="true"
       aria-labelledby="privacy-policy-title"

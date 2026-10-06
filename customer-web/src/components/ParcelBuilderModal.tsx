@@ -7,6 +7,7 @@ import {
 import { createParcelInstance } from '../utils/cart';
 import { formatJod } from '../utils/money';
 import { ProductImage } from './ProductImage';
+import {useDialogFocus} from '../hooks/useDialogFocus';
 
 interface ParcelBuilderModalProps {
   option: PublicConfigurableParcelOption;
@@ -23,6 +24,7 @@ export function ParcelBuilderModal({
   onClose,
   onSave,
 }: ParcelBuilderModalProps) {
+  const panel = useDialogFocus(true, onClose);
   const [selection, setSelection] = useState<Record<string, number>>(() =>
     Object.fromEntries(
       initialInstance?.components.map((component) => [component.productId, component.baseQuantity]) ?? []
@@ -75,7 +77,7 @@ export function ParcelBuilderModal({
   return (
     <div className="fixed inset-0 z-[70]" dir="rtl">
       <button type="button" aria-label="إغلاق مكوّن الطرد" onClick={onClose} className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm" />
-      <section role="dialog" aria-modal="true" aria-labelledby="parcel-builder-title" className="absolute inset-x-0 bottom-0 flex max-h-[92dvh] flex-col rounded-t-[2rem] bg-white shadow-2xl sm:inset-x-6 sm:bottom-auto sm:top-1/2 sm:mx-auto sm:max-w-2xl sm:-translate-y-1/2 sm:rounded-[2rem]">
+      <section ref={panel} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="parcel-builder-title" className="absolute inset-x-0 bottom-0 flex max-h-[92dvh] flex-col rounded-t-[2rem] bg-white shadow-2xl sm:inset-x-6 sm:bottom-auto sm:top-1/2 sm:mx-auto sm:max-w-2xl sm:-translate-y-1/2 sm:rounded-[2rem]">
         <header className="flex items-center justify-between border-b border-slate-100 p-4 sm:p-5">
           <div>
             <p className="text-[10px] font-black text-violet-700">تكوين طرد بالنكهات</p>

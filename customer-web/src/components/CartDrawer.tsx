@@ -18,6 +18,7 @@ import { CartStorageRecovery } from '../utils/cart';
 import { formatJod } from '../utils/money';
 import { CheckoutProgress } from './CheckoutProgress';
 import { ProductImage } from './ProductImage';
+import {useDialogFocus} from '../hooks/useDialogFocus';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -65,6 +66,10 @@ export function CartDrawer({
   onRetryCheckoutSettings,
 }: CartDrawerProps) {
   const [clearConfirmationOpen, setClearConfirmationOpen] = useState(false);
+  const panel = useDialogFocus(isOpen, () => {
+    if (clearConfirmationOpen) setClearConfirmationOpen(false);
+    else onClose();
+  });
   const quantitySummary = formatCartQuantitySummary(items);
   const subtotal = calculateCartSubtotal(items);
 
@@ -133,6 +138,8 @@ export function CartDrawer({
       />
 
       <aside
+        ref={panel}
+        tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-labelledby="cart-drawer-title"

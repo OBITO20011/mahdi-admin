@@ -150,7 +150,7 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+    <form onSubmit={handleSubmit} aria-busy={isSubmitting} className="space-y-4 text-xs">
       {/* Header Banner */}
       <div className="bg-purple-950/60 border border-purple-800 p-3 rounded-2xl flex items-center gap-3">
         <div className="w-10 h-10 rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center shrink-0">

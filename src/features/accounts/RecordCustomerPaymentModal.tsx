@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState, useId } from 'react';
 import { Banknote, CheckCircle2, ChevronLeft, ChevronRight, Loader2, ReceiptText, Search } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 import {
@@ -23,6 +23,7 @@ const createPaymentIdempotencyKey = () =>
 export const RecordCustomerPaymentModal: React.FC<
   RecordCustomerPaymentModalProps
 > = ({ initialOrder, onClose, onSuccess }) => {
+  const fieldId = useId();
   const { setToast } = useAppStoreActions();
   const [orders, setOrders] = useState<CustomerOutstandingOrder[]>([]);
   const [orderId, setOrderId] = useState(initialOrder?.id || '');
@@ -156,7 +157,7 @@ export const RecordCustomerPaymentModal: React.FC<
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 text-xs">
+    <form onSubmit={handleSubmit} aria-busy={saving} className="space-y-3 text-xs">
       {loading && <p className="text-slate-400">جاري تحديث الذمم...</p>}
       {!loading && !error && orders.length === 0 && orderSearch.trim() && (
         <div className="rounded-xl border border-slate-700 p-3">
@@ -176,6 +177,7 @@ export const RecordCustomerPaymentModal: React.FC<
           <label className="mb-2 flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-slate-400">
             <Search className="h-3.5 w-3.5" />
             <input
+              aria-label="البحث عن طلب أو عميل أو هاتف"
               value={orderSearch}
               onChange={(event) => {
                 setOrderSearch(event.target.value);
@@ -186,10 +188,11 @@ export const RecordCustomerPaymentModal: React.FC<
             />
           </label>
         )}
-        <label className="mb-1 block font-bold text-slate-300">
+        <label htmlFor={`${fieldId}-order`} className="mb-1 block font-bold text-slate-300">
           الطلب والعميل *
         </label>
         <select
+          id={`${fieldId}-order`}
           value={orderId}
           onChange={(event) => handleOrderChange(event.target.value)}
           disabled={Boolean(initialOrder)}
@@ -244,10 +247,11 @@ export const RecordCustomerPaymentModal: React.FC<
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label className="mb-1 block font-bold text-slate-300">
+          <label htmlFor={`${fieldId}-amount`} className="mb-1 block font-bold text-slate-300">
             مبلغ الدفعة ({CURRENCY}) *
           </label>
           <input
+            id={`${fieldId}-amount`}
             type="number"
             min="0.001"
             step="0.001"
@@ -259,10 +263,11 @@ export const RecordCustomerPaymentModal: React.FC<
           />
         </div>
         <div>
-          <label className="mb-1 block font-bold text-slate-300">
+          <label htmlFor={`${fieldId}-method`} className="mb-1 block font-bold text-slate-300">
             طريقة الدفع *
           </label>
           <select
+            id={`${fieldId}-method`}
             value={paymentMethod}
             onChange={(event) =>
               setPaymentMethod(event.target.value as typeof paymentMethod)
@@ -276,10 +281,11 @@ export const RecordCustomerPaymentModal: React.FC<
       </div>
 
       <div>
-        <label className="mb-1 block font-bold text-slate-300">
+        <label htmlFor={`${fieldId}-reference`} className="mb-1 block font-bold text-slate-300">
           {paymentMethod === 'cliq' ? 'رقم مرجع CliQ *' : 'رقم المرجع (اختياري)'}
         </label>
         <input
+          id={`${fieldId}-reference`}
           value={referenceNumber}
           onChange={(event) => setReferenceNumber(event.target.value)}
           placeholder={paymentMethod === 'cliq' ? 'رقم مرجع CliQ' : 'مرجع داخلي إن وجد'}
@@ -289,10 +295,11 @@ export const RecordCustomerPaymentModal: React.FC<
       </div>
 
       <div>
-        <label className="mb-1 block font-bold text-slate-300">
+        <label htmlFor={`${fieldId}-notes`} className="mb-1 block font-bold text-slate-300">
           ملاحظات (اختياري)
         </label>
         <textarea
+          id={`${fieldId}-notes`}
           rows={2}
           value={notes}
           onChange={(event) => setNotes(event.target.value)}

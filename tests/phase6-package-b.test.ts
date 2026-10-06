@@ -12,20 +12,55 @@ const leaves: AftercarePhysicalRepresentative[] = [
   {sourceKind: 'base_order_item', sourceId: 'a', productId: 'p', remainingQuantity: 2, parentReplacementItemId: null},
   {sourceKind: 'replacement_item', sourceId: 'b', productId: 'p', remainingQuantity: 3, parentReplacementItemId: 'prior'},
 ];
+const history = [{operationalStatus: 'issued', issuedAt: '2026-10-01T10:00:00Z', items: [
+  {replacementItemId: 'prior', parentReplacementItemId: null, rootOrderItemId: 'root'},
+]}, {operationalStatus: 'issued', issuedAt: '2026-10-02T10:00:00Z', items: [
+  {replacementItemId: 'b', parentReplacementItemId: 'prior', rootOrderItemId: 'root'},
+]}];
 test('partial base return allocates exact selected quantity over current physical leaves only', () => {
-  const physical = allocateBaseReturn('root', [...leaves].reverse(), 3, 'restock');
+  const physical = allocateBaseReturn('root', [...leaves].reverse(), 3, 'restock', history);
   assert.deepEqual(physical.map(row => [row.source_id, row.quantity]), [['a', 2], ['b', 1]]);
   assert.equal(physical.reduce((sum, row) => sum + row.sellable_restock_quantity, 0), 3);
   assert.ok(physical.every(row => row.root_source_id === 'root' && row.product_id === 'p'));
   assert.deepEqual(leaves.map(row => row.remainingQuantity), [2, 3]);
-  const damaged = allocateBaseReturn('root', leaves, 1, 'damaged');
+  const damaged = allocateBaseReturn('root', leaves, 1, 'damaged', history);
   assert.equal(damaged[0].defect_non_sellable_quantity, 1);
   assert.equal(damaged[0].sellable_restock_quantity, 0);
   for (const invalid of [0, -1, 1.5, 6, NaN, Infinity]) {
     assert.throws(() => allocateBaseReturn('root', leaves, invalid, 'restock'));
   }
   assert.throws(() => allocateBaseReturn('root', [leaves[0], leaves[0]], 1, 'restock'));
-  assert.equal(allocateBaseReturn('root', leaves, 5, 'restock').length, 2);
+  assert.equal(allocateBaseReturn('root', leaves, 5, 'restock', history).length, 2);
+});
+test('base return orders original first, issuance oldest first, then depth and stable identity', () => {
+  const original = {...leaves[0], sourceId: 'zz-original', remainingQuantity: 1};
+  const leaf = (id: string, parent: string | null = null) => ({...leaves[1], sourceId: id,
+    parentReplacementItemId: parent, remainingQuantity: 1});
+  const event = (id: string, issuedAt: string | null, parent: string | null = null) => ({
+    operationalStatus: 'issued', issuedAt, items: [{replacementItemId: id,
+      parentReplacementItemId: parent, rootOrderItemId: 'root'}],
+  });
+  const reps = [leaf('aa-new'), leaf('zz-old'), original];
+  const dated = [event('aa-new', '2026-10-03T10:00:00Z'), event('zz-old', '2026-10-01T10:00:00Z')];
+  const ids = (r: AftercarePhysicalRepresentative[], h: Array<Record<string, unknown>>) =>
+    allocateBaseReturn('root', r, r.length, 'restock', h).map(row => row.source_id);
+  assert.deepEqual(ids(reps, dated), ['zz-original', 'zz-old', 'aa-new']);
+  assert.deepEqual(reps.map(r => r.sourceId), ['aa-new', 'zz-old', 'zz-original']);
+  const undated = [event('aa-deep', null, 'parent'), event('parent', null), event('zz-shallow', null)];
+  assert.deepEqual(ids([leaf('aa-deep', 'parent'), original, leaf('zz-shallow')], undated),
+    ['zz-original', 'zz-shallow', 'aa-deep']);
+  const tied = [event('bb', null), event('aa', null)];
+  assert.deepEqual(ids([leaf('bb'), leaf('aa')], tied), ['aa', 'bb']);
+  assert.deepEqual(ids([leaf('aa'), leaf('bb')], tied), ['aa', 'bb']);
+  assert.deepEqual(ids([leaf('bb'), leaf('aa')], [event('bb', '2026-10-01T10:00:00Z'),
+    event('aa', '2026-10-01T10:00:00Z')]), ['aa', 'bb']);
+  assert.throws(() => ids([leaf('aa')], [{operationalStatus: 'issued', items: [null]}]));
+  assert.throws(() => ids([leaf('aa-new', 'wrong-parent')], dated));
+  assert.throws(() => ids([leaf('foreign')], dated));
+  assert.throws(() => ids([leaf('cycle', 'cycle')], [event('cycle', null, 'cycle')]));
+  assert.throws(() => ids([leaf('aa-new')], [{...dated[0], items: [
+    {replacementItemId: 'aa-new', parentReplacementItemId: null, rootOrderItemId: 'foreign-root'},
+  ]}]));
 });
 test('cart display separates base units and parcels without changing commercial counting', () => {
   const items = [{commercialLineKind: 'base_unit', quantity: 3},
