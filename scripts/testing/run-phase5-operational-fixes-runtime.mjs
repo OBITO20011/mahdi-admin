@@ -166,14 +166,14 @@ const reverseReceiptSql = (paymentId) => `${ownerClaims}
 const runShiftAtomicityScenario = async () => {
   const ids = await createShiftBranch('ATOM');
   await createBaseSale({
-    key: 'phase5-atomic-cash-sale-0001', quantity: 1, paymentMethod: 'cash', amountPaid: 1000,
+    key: 'phase5-atomic-cash-sale-0001', quantity: 1, paymentMethod: 'cash', amountPaid: 1000, // gitleaks:allow test fixture
     targetBranchId: ids.branch, targetWarehouseId: ids.warehouse,
   });
   await readJson(`${ownerClaims}
     SELECT public.create_operational_expense(${sqlLiteral(ids.branch)},
       'Phase 5 atomicity','Reversible expense',150,'cash',NULL);`, 'Reversible expense');
   const debtSale = await createBaseSale({
-    key: 'phase5-atomic-debt-sale-0001', quantity: 1, paymentMethod: 'debt', amountPaid: 0,
+    key: 'phase5-atomic-debt-sale-0001', quantity: 1, paymentMethod: 'debt', amountPaid: 0, // gitleaks:allow test fixture
     customer: customerId, targetBranchId: ids.branch, targetWarehouseId: ids.warehouse, productId: productB,
   });
   await readJson(`${ownerClaims}
@@ -205,7 +205,7 @@ const runShiftAtomicityScenario = async () => {
 const runPaidOrderReversalScenario = async () => {
   const ids = await createShiftBranch('APLUS');
   const sale = await createBaseSale({
-    key: 'phase5-aplus-debt-sale-0001', quantity: 2, paymentMethod: 'debt', amountPaid: 0,
+    key: 'phase5-aplus-debt-sale-0001', quantity: 2, paymentMethod: 'debt', amountPaid: 0, // gitleaks:allow test fixture
     customer: customerId, targetBranchId: ids.branch, targetWarehouseId: ids.warehouse,
   });
   const receipt = await readJson(`${ownerClaims}
@@ -254,7 +254,7 @@ const createDedicatedBranch = async (suffix) => {
            (${sqlLiteral(ids.warehouse)},${sqlLiteral(productB)},20,0);`, `Dedicated branch ${suffix}`);
   // A reversible POS cash sale so full-shift reversal really runs and holds locks.
   await createBaseSale({
-    key: `phase5-d-${suffix}-pos-sale-0001`, quantity: 1, paymentMethod: 'cash', amountPaid: 1000,
+    key: `phase5-d-${suffix}-pos-sale-0001`, quantity: 1, paymentMethod: 'cash', amountPaid: 1000, // gitleaks:allow test fixture
     targetBranchId: ids.branch, targetWarehouseId: ids.warehouse,
   });
   // A legacy V1 website order on the same branch, ready for cash completion.
@@ -350,7 +350,7 @@ const runLockOrderScenario = async () => {
 // the close-time columns and the closing report.
 const runShiftRefundScenario = async () => {
   const sale = await createBaseSale({
-    key: 'phase5-fix-cash-sale-0001', quantity: 2, paymentMethod: 'cash', amountPaid: 2000,
+    key: 'phase5-fix-cash-sale-0001', quantity: 2, paymentMethod: 'cash', amountPaid: 2000, // gitleaks:allow test fixture
   });
   const before = await summary(sale.shiftId);
   const refund = await readJson(`${ownerClaims}
@@ -430,7 +430,7 @@ const runReplayScenario = async () => {
     VALUES (${sqlLiteral(customerId)},'Phase 5 fix customer','0795500001',1000000);`,
   'Create debt customer');
   const sale = await createBaseSale({
-    key: 'phase5-fix-debt-sale-0001', quantity: 2,
+    key: 'phase5-fix-debt-sale-0001', quantity: 2, // gitleaks:allow test fixture
     paymentMethod: 'debt', amountPaid: 0, customer: customerId,
   });
   const key = 'phase5-fix-payment-key-0001';
