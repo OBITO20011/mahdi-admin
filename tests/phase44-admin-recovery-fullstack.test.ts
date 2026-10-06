@@ -27,12 +27,23 @@ type ProjectContinuityState = {
   phase5Slice4ClosureBaseline: string;
   phase5Slice4ClosureExactShaCi: string;
   phase5PublicActivationAllowed: boolean;
+  phase5Slice5Started: boolean;
+  phase5Slice5Closed: boolean;
+  phase5Slice5ImplementationStatus: string;
+  phase5Slice5ReviewedDesignSha256: string;
   phase5Slice3AuthorizationBaseline: string;
 };
 
 type ActiveTaskContinuityState = {
   status: string;
   objective: string;
+  slice5OwnerWorkflowAuthorization: {
+    approved: boolean; activationReadinessRequired: boolean; independentSignOffRequired: boolean;
+  };
+  slice5ImplementationAuthorization: {
+    status: string; reviewedDesignSha256: string; publicActivation: string;
+    immutableHistoricalMigrations: string; productionCommitPushDeploy: string;
+  };
   slice3ImplementationAuthorization: {
     approved: boolean; baselineSha: string; migration: number; publicActivationAllowed: boolean;
   };
@@ -146,14 +157,37 @@ const assertSlices12Closed = (
     publicActivationAllowed: false,
     scope: 'Private financial facts/position/reconciliation; total discovery, exact money and STABLE zero-write snapshot proof',
   });
-  assert.equal(task.objective, 'Phase 5 Slice 4 post-delivery continuity synchronization; later slices and public activation not started.');
-  assert.deepEqual(task.inProgress, []);
+  // Closed Slice4 facts above remain immutable. The completed operational task
+  // is not required to remain active when a separately authorized Slice5 starts.
+  assert.equal(projectState.phase5Slice5Started,true);
+  assert.equal(projectState.phase5Slice5Closed,false);
+  assert.equal(projectState.phase5Slice5ImplementationStatus,'PRIVATE_INACTIVE_PREPARATION_IN_PROGRESS');
+  assert.equal(projectState.phase5Slice5ReviewedDesignSha256,
+    '9A74EB14788EA668BDE88DAC95561AD8DA2F734EC47EAA87491AB0F181E06099');
+  assert.equal(task.slice5ImplementationAuthorization.status,'OWNER_AUTHORIZED_PRIVATE_INACTIVE_PREPARATION');
+  assert.equal(task.slice5ImplementationAuthorization.reviewedDesignSha256,projectState.phase5Slice5ReviewedDesignSha256);
+  assert.equal(task.slice5ImplementationAuthorization.immutableHistoricalMigrations,'001-127');
+  assert.equal(task.slice5ImplementationAuthorization.publicActivation,'NOT_AUTHORIZED');
+  assert.equal(task.slice5ImplementationAuthorization.productionCommitPushDeploy,'NOT_AUTHORIZED');
+  // New owner consent does not turn private preparation into active authority.
+  // The old authorization object above remains the immutable historical grant.
+  assert.equal(task.slice5OwnerWorkflowAuthorization.approved,true);
+  assert.equal(task.slice5OwnerWorkflowAuthorization.activationReadinessRequired,true);
+  assert.equal(task.slice5OwnerWorkflowAuthorization.independentSignOffRequired,true);
+  assert.equal(task.objective,'Phase 5 Slice 5 owner-authorized Migration128 private inactive preparation and focused tests; complete packages A-E before the conditionally approved public activation/closure workflow. No early activation.');
+  assert.deepEqual(task.inProgress,[
+    'Slice5 private inactive preparation from reviewed design9A74; backend contract/schema first, no current public writer/reader cutover',
+  ]);
   assert.deepEqual(task.slice4DeliveryAuthorization, {
     approved: true, oneCommitOnly: true, pushTarget: 'origin/main',
     exactShaCiRequired: true, deployAllowed: false,
     laterSliceAllowed: false, productionAccessAllowed: false,
   });
-  assert.deepEqual(task.testsRemaining, []);
+  assert.deepEqual(task.testsRemaining,[
+    'Slice5 Legacy prelocked receipt/source executor/exact deferred evidence proof plus remaining caller/full-Shift/CliQ domains',
+    'Slice5 inactive payment recovery adapter verification',
+    'Slice5 final candidate regression and independent review',
+  ]);
   assert.deepEqual(task.slice4Closure, {
     status: 'OWNER-CLOSED', baselineSha: '095245e6bd30d2f40850e8779232f806f2cd0beb',
     migration127Sha256: 'A2C9561EF071E959152D7DD06CAFC0F9BE933F18F845F4AE03D2B1A8971BE60D',
@@ -362,6 +396,13 @@ test('Slice 4 delivered continuity rejects stale checkpoints and fabricated deli
   assert.throws(() => assertSlices12Closed(pendingStateCi, phaseStatus, task));
 
   const mutations: Array<(candidate: ActiveTaskContinuityState) => void> = [
+    (candidate) => { candidate.slice5OwnerWorkflowAuthorization.approved = false; },
+    (candidate) => { candidate.slice5OwnerWorkflowAuthorization.activationReadinessRequired = false; },
+    (candidate) => { candidate.slice5OwnerWorkflowAuthorization.independentSignOffRequired = false; },
+    (candidate) => { candidate.slice5ImplementationAuthorization.status = 'NOT_AUTHORIZED'; },
+    (candidate) => { candidate.slice5ImplementationAuthorization.publicActivation = 'AUTHORIZED'; },
+    (candidate) => { candidate.slice5ImplementationAuthorization.reviewedDesignSha256 = '0'.repeat(64); },
+    (candidate) => { candidate.slice5ImplementationAuthorization.productionCommitPushDeploy = 'AUTHORIZED'; },
     (candidate) => { candidate.baselineSha = projectState.phase5Slice3ClosureBaseline; },
     (candidate) => { candidate.slice4Closure.commit = projectState.phase5Slice3ClosureBaseline; },
     (candidate) => { candidate.slice4Closure.baselineSha = slice4ClosureSha; },

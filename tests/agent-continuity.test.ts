@@ -50,6 +50,9 @@ test('closed Phase 4 and Phase 5 Slices 1-2 with inactive Migration 124 are expl
     phase5Slice4ClosureBaseline: string;
     phase5Slice4ClosureExactShaCi: string;
     phase5PublicActivationAllowed: boolean;
+    phase5Slice5Started: boolean;
+    phase5Slice5Closed: boolean;
+    phase5Slice5ImplementationStatus: string;
     migration126CanonicalLfSha256: string;
   };
   assert.deepEqual(state.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5']);
@@ -63,7 +66,10 @@ test('closed Phase 4 and Phase 5 Slices 1-2 with inactive Migration 124 are expl
   assert.equal(state.nextPermittedPhase, null);
   assert.equal(state.phase43Started, true);
   assert.equal(state.phase44Started, true);
-  assert.equal(state.migrationCeiling, 127);
+  assert.equal(state.migrationCeiling, 128);
+  assert.equal(state.phase5Slice5Started, true);
+  assert.equal(state.phase5Slice5Closed, false);
+  assert.equal(state.phase5Slice5ImplementationStatus, 'PRIVATE_INACTIVE_PREPARATION_IN_PROGRESS');
   assert.equal(state.phase5Slice3ImplementationStarted, true);
   assert.equal(state.phase5Slice3Closed, true);
   assert.equal(state.phase5Slice4Started, true);
@@ -97,6 +103,7 @@ test('handoff tooling is fail-closed and never stores environment values', () =>
   assert.match(preflight, /migration125CanonicalLfSha256/u);
   assert.match(preflight, /migration126CanonicalLfSha256/u);
   assert.match(preflight, /migration127CanonicalLfSha256/u);
+  assert.match(preflight, /migration128CanonicalLfSha256/u);
   assert.match(preflight, /unexpectedAboveCeiling/u);
   assert.match(start, /dirty worktree/u);
   assert.match(resume, /workingTreeFingerprint/u);

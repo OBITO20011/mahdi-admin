@@ -20,7 +20,9 @@ test('Slice 3 is additive, bounded and private with no public authority cutover'
   assert.equal(execFileSync('git', ['diff', 'HEAD', '--name-only', '--',
     'supabase/migrations/0*', 'supabase/migrations/1[01]*',
     'supabase/migrations/12[0-5]*'], { encoding: 'utf8' }).trim(), '');
-  assert.equal(readdirSync('supabase/migrations').some((name) => name.startsWith('128_')), false);
+  assert.deepEqual(readdirSync('supabase/migrations').filter((name) => name.startsWith('128_')),
+    ['128_phase5_inactive_collection_preparation.sql']);
+  assert.equal(readdirSync('supabase/migrations').some((name) => name.startsWith('129_')), false);
 });
 
 test('all new evidence is immutable, forced RLS and app role mutation is revoked', () => {
@@ -122,7 +124,7 @@ test('continuity pins the exact LF-safe candidate, never an arbitrary runtime ha
   const state = JSON.parse(readFileSync('docs/agent/project-state.json', 'utf8')) as {
     migration126CanonicalLfSha256: string; migrationCeiling: number;
   };
-  assert.equal(state.migrationCeiling, 127);
+  assert.equal(state.migrationCeiling, 128);
   const digest = createHash('sha256').update(migration).digest('hex').toUpperCase();
   assert.equal(state.migration126CanonicalLfSha256, digest);
   assert.equal(createHash('sha256').update(migration.replaceAll('\n', '\r\n').replace(/\r\n?/gu, '\n'))
