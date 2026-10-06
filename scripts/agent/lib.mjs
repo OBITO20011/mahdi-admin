@@ -90,6 +90,7 @@ export function migrationInventory() {
   const migration127 = resolve(root, 'supabase/migrations/127_phase5_private_financial_read_model.sql');
   const migration128 = resolve(root, 'supabase/migrations/128_phase5_operational_payment_and_shift_refund_fixes.sql');
   const migration129 = resolve(root, 'supabase/migrations/129_phase5_block_paid_order_receipt_reversal.sql');
+  const migration130 = resolve(root, 'supabase/migrations/130_phase5_review_followup_shift_refund_guards.sql');
   const migrationFiles = readdirSync(resolve(root, 'supabase/migrations'));
   return {
     ceiling: state.migrationCeiling,
@@ -125,6 +126,9 @@ export function migrationInventory() {
     migration129Exists: existsSync(migration129),
     migration129CanonicalLfSha256: existsSync(migration129)
       ? fileCanonicalTextSha256(migration129) : null,
+    migration130Exists: existsSync(migration130),
+    migration130CanonicalLfSha256: existsSync(migration130)
+      ? fileCanonicalTextSha256(migration130) : null,
   };
 }
 

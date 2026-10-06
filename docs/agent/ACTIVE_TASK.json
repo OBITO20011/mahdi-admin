@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": null,
-  "objective": "No active task. Phase 5 Migrations 128-129 delivered; awaiting acceptance review and owner closure.",
+  "objective": "No active task. Phase 5 Migrations 128-130 delivered with review follow-ups; awaiting owner closure decision.",
   "baselineSha": "6ea09e3d65c857e3767ea522fe1e5f189e29080b",
   "branch": "main",
   "phase": "5",
@@ -76,28 +76,30 @@
     "Phase 5 Slices 1-4 (Migrations 123-127): private inactive layer, owner-closed, unchanged.",
     "Phase 5 Slice 5 Codex work parked on branch codex/phase5-slice5-wip (246066e); not merged.",
     "Phase 5 re-scope Migration 128 (C shift refunds, B payment writer grant, A payment replay check) implemented and runtime-proven by claude",
-    "Phase 5 re-scope Migration 129 (A+ block guard) implemented with fault-injected proof; D closed as unreachable with real-path concurrency proof"
+    "Phase 5 re-scope Migration 129 (A+ block guard) implemented with fault-injected proof; D closed as unreachable with real-path concurrency proof",
+    "Phase 5 re-scope Migration 130 (cancel-empty-shift guard, monitoring open-shift fix, preview Phase 4.2 rows, CliQ reference replay) implemented after independent review"
   ],
   "inProgress": [],
   "notStarted": [
-    "Independent focused review of Migrations 128-129",
+    "Owner decision on deferred L9 (create_customer_order p_source)",
     "Phase 5 owner closure",
     "Phase 6",
     "Phase 7"
   ],
   "filesTouched": [],
   "testsPassed": [
-    "test:phase5-operational-fixes:runtime after 001-129 PASS (C,B,A,A+ fault-injected, shift atomicity, D deadlock delta 0, DB lint); before 001-127 reproduces C,B,A,A+",
-    "npm test 668/668, typecheck, strict ESLint PASS",
-    "Regression 001-129: full-shift reversal 60 scenarios, phase42 atomic return PASS; closing-report snapshot 6/6 on 001-128"
+    "test:phase5-operational-fixes:runtime 001-130 PASS (C cash/CliQ/legacy, B real role, A 4 variants, A+ preview/full-shift/standalone, H1, M2, pre-write and in-loop rollback, D deadlock delta 0, DB lint); before 001-127 reproduces every defect",
+    "npm test 673/673, typecheck, strict ESLint PASS",
+    "Regression 001-130: full-shift reversal 60, phase42 atomic return, closing-report snapshot 6/6, advanced monitoring PASS"
   ],
   "testsRemaining": [],
   "findings": [
+    "Independent review of 128-129: H1, M2, L7, L8 fixed in 130; M3-L6 covered by runtime; L9/L10/Info deferred (see PHASE5_RESCOPE.md).",
     "A+ unreachable through current writers; Migration 129 is a guard per owner decision.",
-    "D unreachable on actual path: website orders attach to a shift only at completion; residual risk only if a future writer attaches uncompleted orders."
+    "D unreachable on actual path; residual only for a future Order->Shift writer accepting orders attached at insert."
   ],
   "blockers": [],
-  "nextExactAction": "Run independent focused review of Migrations 128-129, then owner decides Phase 5 closure.",
+  "nextExactAction": "Owner: review Phase 5 acceptance list and decide closure; decide L9 separately.",
   "activeProcesses": [],
   "prohibitions": [
     "Production access",

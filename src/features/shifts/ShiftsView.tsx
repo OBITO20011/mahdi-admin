@@ -226,6 +226,7 @@ export const ShiftsView: React.FC = () => {
     supplier_payment: 'دفعة مورد',
     operational_expense: 'مصروف تشغيلي',
     unsupported_sales_return: 'مرتجع مبيعات غير مدعوم',
+    phase42_sales_return: 'مرتجع مبيعات مسوّى',
     shift: 'الوردية',
   }[operationType] ?? operationType);
   const isOwner = currentUser.role === 'Owner';

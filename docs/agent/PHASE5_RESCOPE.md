@@ -29,27 +29,50 @@ This file is the current Phase 5 contract. It supersedes the Slice 5 package pla
 | B | Non-idempotent payment writer still callable | `record_customer_order_payment` re-granted to `authenticated` in Migration 121; app uses only `record_customer_order_payment_once`. | Revoke EXECUTE from `authenticated` (keep for internal callers). |
 | A | Payment replay accepts a different payload | `record_customer_order_payment_once` (078) returns the stored payment for the same user/key without comparing order, amount or method. | Reject same-key replay whose order/amount/method differ. |
 | A+ | Receipt reversal on a completed non-debt order would leave it "paid" | `sync_order_payment_state` (043) forces `amount_paid = total` on every UPDATE of a completed non-debt order. **Not reachable through current writers:** `record_customer_order_payment` (017) needs a completed order with an outstanding balance, and settlement completions (060, 116) write a receipt only when `payment_method = 'debt'`. Same conclusion as Codex's 2026-09-29 note (`CURRENT TRIGGER RUNTIME DEFECT = NOT PROVEN`). | **Owner decision 2026-10-06: block.** Migration 129 rejects such a reversal at the table (`PAYMENT_REVERSAL_PAID_ORDER_UNSUPPORTED`) and marks it BLOCKED in the full-shift preview. No alternative correction route; a Return is not used to fix a wrong collection. Guard against future writers. |
-| D | Lock-order inversion | Codex 2026-09-29: `complete_website_order_with_payment` (042) locks Order → Shift (FOR SHARE); full-shift reversal (084/120) locks Shift → Orders where `cash_shift_id = shift`. A cycle needs the same order in both lock sets, i.e. a not-yet-completed website order already attached to the shift. Only POS inserts are attached by trigger (041); website orders get `cash_shift_id` at completion (042/060/116). | **Not reachable on the actual path.** Runtime: both real orderings on real functions, deadlock counter delta 0, pre-completion `cash_shift_id` NULL asserted. Remaining unproven: a future writer that attaches an uncompleted order to a shift would make the inversion reachable. |
+| D | Lock-order inversion | Codex 2026-09-29: `complete_website_order_with_payment` (042) locks Order → Shift (FOR SHARE); full-shift reversal (084/120) locks Shift → Orders where `cash_shift_id = shift`. A cycle needs the same order in both lock sets while 042 holds it. Website orders get `cash_shift_id` only at completion (042/060/116). Correction from the independent review: an uncompleted order *can* be attached at insert by the 041 POS trigger when `create_customer_order` is called with `p_source='pos'`; 042 rejects `source='pos'`, `update_order_status` completion takes no shift lock, and 060/116 lock the shift first via their 120 wrappers, so the cycle is still not formed. | **Not reachable on the actual path.** Runtime: both real orderings on real functions, deadlock counter delta 0, pre-completion `cash_shift_id` NULL asserted for website orders. Remaining unproven: a future Order→Shift writer that accepts orders already attached at insert. Restricting `create_customer_order.p_source` is deferred (owner decision; it changes a public RPC). |
 
 ## Result (2026-10-06)
 
-Migration 128 fixes C, B, A. Migration 129 applies the A+ owner decision.
-Runtime proof `npm run test:phase5-operational-fixes:runtime` is two-sided:
+Migration 128 fixes C, B, A. Migration 129 applies the A+ owner decision. Migration 130 fixes the
+review follow-ups (H1, M2, L7, L8). Runtime proof `npm run test:phase5-operational-fixes:runtime` is two-sided:
 
-| Check | 001-127 (`NAWASRAH_PHASE5_FIX_MODE=before`) | 001-129 |
+| Check | 001-127 (`NAWASRAH_PHASE5_FIX_MODE=before`) | 001-130 |
 | --- | --- | --- |
-| C summary refund delta / expected cash delta | 0 / 0 | 1000 / -1000 |
-| C refund counter after close | 1000 → 0 (overwritten) | 1000 |
-| C closing report / snapshot returnCount | 0 / 0 | 1 / 1 |
-| B `authenticated` can execute legacy writer | true | false |
-| A same-key replay with changed amount | silently accepted | `PAYMENT_IDEMPOTENCY_CONFLICT` |
-| A+ (fault-injected state) receipt reversal | accepted, order stays paid | rejected, zero writes |
-| Full-shift reversal with a non-reversible op (2 reversible ops present) | rejected, zero writes | rejected, zero writes |
+| C shift with Phase 4.2 cash 1000 + CliQ 1000 + legacy cash 5000: cash/CliQ refund delta | 5000 / 0 | 6000 / 1000 |
+| C expected cash delta; refunds stored at close | -5000; cash 5000 | -6000; cash 6000, CliQ 1000 |
+| C closing report / snapshot returnCount | 1 / 1 | 3 / 3 |
+| B `authenticated` executes legacy writer (real role) | executable | permission denied |
+| A same-key replay with changed amount / order / method / CliQ reference | all silently accepted | all `PAYMENT_IDEMPOTENCY_CONFLICT` |
+| A+ (fault-injected website receipt) preview / full-shift / standalone | SUPPORTED / accepted, order stays paid | BLOCKED / rejected / rejected, zero writes |
+| H1 cancel a shift whose only activity is a Phase 4.2 refund | accepted | rejected, zero writes |
+| M2 monitoring mismatch delta for an open shift with a refund | +1 | 0 |
+| Full-shift reversal with non-reversible op (pre-write gate) | rejected, zero writes | rejected, zero writes |
+| Full-shift reversal with fault after the expense reversal (in-loop) | full rollback | full rollback |
 | D completion-first / reversal-first, real functions | — | safe retry (40001) then business block / business error; deadlock delta 0 |
 | DB lint | — | PASS |
 
-Regression on fresh 001-129: full-shift reversal 60 scenarios, Phase 4.2 atomic return
-(core/temporal/concurrency/cross-operation, deadlock delta 0) PASS. Closing-report snapshot 6/6 PASS on 001-128.
+Regression on fresh 001-130: full-shift reversal 60 scenarios, Phase 4.2 atomic return (core/temporal/
+concurrency/cross-operation, deadlock delta 0), closing-report snapshot 6/6, advanced monitoring runtime PASS.
+Note: `run-advanced-monitoring-runtime.mjs` needs `NAWASRAH_ISOLATED_PROJECT_ID=nawasrah-advanced-monitoring-test`
+(its default id predates the bootstrap `-test` suffix rule).
+
+## Independent review follow-up (Migration 130)
+
+The focused independent review of 128–129 (2026-10-06) found High 1, Medium 2, Low 7, Info 1, Critical 0.
+
+| Review item | Disposition |
+| --- | --- |
+| H1 `cancel_empty_cash_shift` (046) ignored `sales_return_events` | Fixed in 130: wrapper locks the shift and rejects any non-cancelled return event |
+| M2 monitoring `integrity:shifts:closing` false critical on open shifts | Fixed in 130: verbatim 116 body, formula limited to non-open shifts (static test proves single change) |
+| M3 129 preview wrapper not runtime-covered | Runtime: fault-injected website receipt is SUPPORTED pre-fix and BLOCKED post-fix |
+| L4 atomicity only proved at the pre-write gate | Runtime: fault after the expense reversal inside the loop → full rollback, zero residue |
+| L5 runtime never ran as `authenticated` | Runtime: `SET LOCAL ROLE authenticated` for payment-once and summary; legacy writer denied |
+| L6 C coverage gaps | Runtime: Phase 4.2 cash + CliQ + legacy refund on one shift, snapshot count both modes, expected cash at close asserted; A covers changed order/amount/method |
+| L7 CliQ replay ignored reference | Fixed in 130 |
+| L8 preview ignored Phase 4.2 refunds | Fixed in 130: `phase42_sales_return` BLOCKED rows; Admin label added |
+| L9 `create_customer_order` accepts any `p_source` | **Deferred, owner decision** (public RPC behavior); D analysis corrected above |
+| L10 closing-report breakdown per event, not per item/component | Deferred to Phase 6 reporting |
+| Info: daily summaries/business reports read legacy returns only; no index on `sales_return_events(cash_shift_id)`; 128 private functions not revoked from `service_role` | Deferred to Phase 6/7 (pre-existing or harmless; inner functions check ERP roles) |
 
 ## Definition of done (Phase 5)
 

@@ -1,5 +1,6 @@
 // Phase 5 re-scope runtime proof (docs/agent/PHASE5_RESCOPE.md).
-// Default mode builds 001-129 and asserts findings C, B, A and A+ are fixed,
+// Default mode builds 001-130 and asserts findings C, B, A, A+ and the review
+// follow-ups (H1 cancel guard, M2 monitoring, L7 CliQ reference) are fixed,
 // full-shift reversal stays atomic around a non-reversible operation, and the
 // D lock-order path completes without deadlock in both real orderings.
 // NAWASRAH_PHASE5_FIX_MODE=before builds 001-127 and asserts the same
@@ -198,10 +199,24 @@ const runShiftAtomicityScenario = async () => {
   return { supportedOperations: supported, blockedOperations: blocked, execution: 'rejected-zero-writes' };
 };
 
+const previewShift = (shiftId) => readJson(`${ownerClaims}
+  SELECT public.preview_cash_shift_full_reversal(${sqlLiteral(shiftId)});`, 'Full-shift preview');
+const reverseShiftSql = (shiftId, label) => `${ownerClaims}
+  SELECT public.reverse_cash_shift_with_operations(
+    ${sqlLiteral(shiftId)},${sqlLiteral(`Phase 5 ${label} probe`)},${sqlLiteral(`phase5-${label}-${randomUUID()}`)});`;
+const orderPaymentState = (orderId, paymentId) => readJson(`SELECT jsonb_build_object(
+  'reversed',(SELECT is_reversed FROM public.customer_payments WHERE id=${sqlLiteral(paymentId)}),
+  'amountPaid',(SELECT amount_paid_in_minor_units FROM public.orders WHERE id=${sqlLiteral(orderId)}),
+  'total',(SELECT total_in_minor_units FROM public.orders WHERE id=${sqlLiteral(orderId)}),
+  'order',(SELECT md5(to_jsonb(o)::text) FROM public.orders o WHERE o.id=${sqlLiteral(orderId)}));`,
+'Order/receipt state');
+
 // Finding A+ (owner decision: block). No current writer can create a receipt
 // on a completed non-debt order: receipts need an outstanding balance and
 // settlement receipts are only written for debt completions. The state is
 // therefore FAULT-INJECTED with triggers disabled, to exercise the guard.
+// The order is also made a website order not attached to the shift, so the
+// pre-existing POS/website rules of Migration 084 do not mask the A+ rule.
 const runPaidOrderReversalScenario = async () => {
   const ids = await createShiftBranch('APLUS');
   const sale = await createBaseSale({
@@ -212,29 +227,176 @@ const runPaidOrderReversalScenario = async () => {
     SELECT public.record_customer_order_payment_once(${sqlLiteral(sale.orderId)},500,'cash',NULL,NULL,
       'phase5-aplus-receipt-key-0001');`, 'Receipt on debt sale');
   await runSqlText(`SET session_replication_role = replica;
-    UPDATE public.orders SET payment_method='cash_on_delivery', payment_status='paid',
+    UPDATE public.orders SET source='website', cash_shift_id=NULL,
+      payment_method='cash_on_delivery', payment_status='paid',
       amount_paid_in_minor_units=total_in_minor_units
     WHERE id=${sqlLiteral(sale.orderId)};
-    SET session_replication_role = origin;`, 'FAULT INJECTION: completed non-debt order with receipt');
+    SET session_replication_role = origin;`, 'FAULT INJECTION: completed non-debt website order with receipt');
+
+  const preview = await previewShift(ids.shift);
+  const receiptOperation = preview.operations.find((operation) =>
+    operation.operationType === 'customer_payment' && operation.originalRecordId === receipt.payment_id);
 
   if (!fixed) {
-    await readJson(reverseReceiptSql(receipt.payment_id), 'Pre-fix receipt reversal');
-    const after = await readJson(`SELECT jsonb_build_object(
-      'reversed',(SELECT is_reversed FROM public.customer_payments WHERE id=${sqlLiteral(receipt.payment_id)}),
-      'amountPaid',(SELECT amount_paid_in_minor_units FROM public.orders WHERE id=${sqlLiteral(sale.orderId)}),
-      'total',(SELECT total_in_minor_units FROM public.orders WHERE id=${sqlLiteral(sale.orderId)}));`,
-    'Pre-fix state after reversal');
+    assert.equal(receiptOperation?.status, 'SUPPORTED');
+    assert.equal(preview.canExecute, true);
+    await readJson(reverseShiftSql(ids.shift, 'aplus'), 'Pre-fix full-shift reversal');
+    const after = await orderPaymentState(sale.orderId, receipt.payment_id);
     assert.equal(after.reversed, true);
     assert.equal(after.amountPaid, after.total, 'Pre-fix: receipt reversed but order stays fully paid.');
-    return { state: 'fault-injected', standalone: 'accepted-order-stays-paid' };
+    return { state: 'fault-injected', preview: 'SUPPORTED', fullShift: 'accepted-order-stays-paid' };
   }
 
-  const before = await shiftFingerprint(ids.shift);
-  const failure = await runSqlText(reverseReceiptSql(receipt.payment_id), 'Guarded receipt reversal',
+  assert.equal(receiptOperation?.status, 'BLOCKED');
+  assert.match(receiptOperation.reason, /غير آجل/u);
+  assert.doesNotMatch(receiptOperation.reason, /مرتجع/u);
+  assert.equal(preview.canExecute, false);
+
+  const shiftBefore = await shiftFingerprint(ids.shift);
+  const orderBefore = await orderPaymentState(sale.orderId, receipt.payment_id);
+  const standalone = await runSqlText(reverseReceiptSql(receipt.payment_id), 'Guarded receipt reversal',
     { expectFailure: true });
-  assert.match(failure.stderr, /PAYMENT_REVERSAL_PAID_ORDER_UNSUPPORTED/u);
+  assert.match(standalone.stderr, /PAYMENT_REVERSAL_PAID_ORDER_UNSUPPORTED/u);
+  const execution = await runSqlText(reverseShiftSql(ids.shift, 'aplus'), 'Guarded full-shift reversal',
+    { expectFailure: true });
+  assert.match(execution.stderr, /عكس الوردية محجوب/u);
+  assert.equal(await shiftFingerprint(ids.shift), shiftBefore);
+  assert.deepEqual(await orderPaymentState(sale.orderId, receipt.payment_id), orderBefore);
+  return {
+    state: 'fault-injected', preview: 'BLOCKED',
+    standalone: 'rejected-zero-writes', fullShift: 'rejected-zero-writes',
+  };
+};
+
+// Mid-execution rollback: a fault injected after the expense has already been
+// reversed inside the loop (operations run ordered by type: expense, then POS
+// sale) must roll back everything, including the reversal header.
+const runMidExecutionRollbackScenario = async () => {
+  const ids = await createShiftBranch('ROLLBACK');
+  await createBaseSale({
+    key: 'phase5-rollback-cash-sale-0001', quantity: 1, paymentMethod: 'cash', amountPaid: 1000, // gitleaks:allow test fixture
+    targetBranchId: ids.branch, targetWarehouseId: ids.warehouse,
+  });
+  await readJson(`${ownerClaims}
+    SELECT public.create_operational_expense(${sqlLiteral(ids.branch)},
+      'Phase 5 rollback','Reversible expense',150,'cash',NULL);`, 'Reversible expense');
+  const preview = await previewShift(ids.shift);
+  assert.equal(preview.canExecute, true, JSON.stringify(preview.operations));
+
+  const before = await shiftFingerprint(ids.shift);
+  await runSqlText(`
+    CREATE FUNCTION public.phase5_test_fault_after_expense() RETURNS TRIGGER
+    LANGUAGE plpgsql AS $fault$
+    BEGIN
+      RAISE EXCEPTION 'PHASE5_FAULT_INJECTED expense_reversed=%', (
+        SELECT bool_and(expense.is_reversed) FROM public.operational_expenses expense
+        JOIN public.orders customer_order ON customer_order.cash_shift_id = expense.shift_id
+        WHERE customer_order.id = NEW.order_id);
+    END;
+    $fault$;
+    CREATE TRIGGER trg_phase5_test_fault_after_expense
+    BEFORE INSERT ON public.pos_sale_reversals
+    FOR EACH ROW EXECUTE FUNCTION public.phase5_test_fault_after_expense();`, 'Install fault injection');
+  let failure;
+  try {
+    failure = await runSqlText(reverseShiftSql(ids.shift, 'rollback'), 'Faulted full-shift reversal',
+      { expectFailure: true });
+  } finally {
+    await runSqlText(`DROP TRIGGER trg_phase5_test_fault_after_expense ON public.pos_sale_reversals;
+      DROP FUNCTION public.phase5_test_fault_after_expense();`, 'Remove fault injection');
+  }
+  assert.match(failure.stderr, /PHASE5_FAULT_INJECTED expense_reversed=t/u,
+    'The fault must fire after the expense reversal was already applied.');
   assert.equal(await shiftFingerprint(ids.shift), before);
-  return { state: 'fault-injected', standalone: 'rejected-zero-writes' };
+  return { faultAfter: 'expense reversed', result: 'full rollback, zero residue' };
+};
+
+const settleReturnSql = ({ orderId, orderItemId, key, method, disposition = 'restock', reference = null }) => `${ownerClaims}
+  SELECT public.settle_sales_return_v1(
+    ${sqlLiteral(orderId)},${sqlLiteral(key)},
+    ${sqlLiteral(JSON.stringify([{
+      return_scope: 'base_unit', order_item_id: orderItemId, quantity: 1, stock_disposition: disposition,
+    }]))}::jsonb,
+    'Phase 5 runtime proof',${sqlLiteral(method)},${reference ? sqlLiteral(reference) : 'NULL'},NULL
+  );`;
+
+const monitoringClosingIssues = async () => {
+  await runSqlText('SELECT public.run_advanced_monitoring_checks(NOW());', 'Run monitoring checks');
+  return (await readJson(`SELECT jsonb_build_object('value',issue_count)
+    FROM public.advanced_monitoring_checks WHERE check_key='integrity:shifts:closing';`,
+  'Shift closing check')).value;
+};
+
+// H1 + M2: a shift whose only activity is a Phase 4.2 refund is not empty, and
+// an open shift with such a refund is not a monitoring mismatch.
+const runCancelEmptyShiftScenario = async () => {
+  const ids = await createShiftBranch('CANCEL');
+  const sale = await createBaseSale({
+    key: 'phase5-cancel-cash-sale-0001', quantity: 2, paymentMethod: 'cash', amountPaid: 2000, // gitleaks:allow test fixture
+    targetBranchId: ids.branch, targetWarehouseId: ids.warehouse,
+  });
+  const firstSummary = await summary(ids.shift);
+  await readJson(`${ownerClaims}
+    SELECT public.close_cash_shift(${sqlLiteral(ids.shift)},${firstSummary.expectedCashInMinorUnits},NULL);`,
+  'Close first shift');
+  const refundShift = randomUUID();
+  // Opened like open_cash_shift: expected cash starts at the opening amount.
+  await runSqlText(`INSERT INTO public.cash_shifts(id,shift_number,branch_id,opened_by,
+      opening_cash_in_minor_units,expected_cash_in_minor_units)
+    VALUES (${sqlLiteral(refundShift)},'P5-SHIFT-CANCEL-2',${sqlLiteral(ids.branch)},${sqlLiteral(ownerId)},500,500);`,
+  'Open refund-only shift');
+
+  const issuesBefore = await monitoringClosingIssues();
+  await readJson(settleReturnSql({
+    orderId: sale.orderId, orderItemId: sale.orderItemId, key: 'phase5-cancel-return-0001', method: 'cash', // gitleaks:allow test fixture
+  }), 'Refund into the new shift');
+  const attached = await readJson(`SELECT jsonb_build_object('value',count(*))
+    FROM public.sales_return_events WHERE cash_shift_id=${sqlLiteral(refundShift)} AND settlement_status='settled';`,
+  'Refund attached to new shift');
+  assert.equal(attached.value, 1);
+  const issuesAfter = await monitoringClosingIssues();
+
+  const cancelSql = `${ownerClaims}
+    SELECT public.cancel_empty_cash_shift(${sqlLiteral(refundShift)},'opened by mistake');`;
+  const before = await shiftFingerprint(refundShift);
+  if (!fixed) {
+    assert.equal(issuesAfter - issuesBefore, 1, 'Pre-fix monitoring flags the open shift with a refund.');
+    await readJson(cancelSql, 'Pre-fix cancel of refund-only shift');
+    const status = await readJson(`SELECT jsonb_build_object('value',status)
+      FROM public.cash_shifts WHERE id=${sqlLiteral(refundShift)};`, 'Cancelled status');
+    assert.equal(status.value, 'cancelled');
+    return { monitoringIssueDelta: 1, cancel: 'accepted-refund-leaves-accounting' };
+  }
+  assert.equal(issuesAfter - issuesBefore, 0, 'An open shift with a Phase 4.2 refund is not a mismatch.');
+  const failure = await runSqlText(cancelSql, 'Cancel refund-only shift', { expectFailure: true });
+  assert.match(failure.stderr, /تحتوي حركة مالية/u);
+  assert.equal(await shiftFingerprint(refundShift), before);
+  return { monitoringIssueDelta: 0, cancel: 'rejected-zero-writes' };
+};
+
+// Real app role: the SECURITY DEFINER paths still work for `authenticated`,
+// while the revoked legacy writer is denied (B) without a superuser shortcut.
+const runAuthenticatedRoleScenario = async () => {
+  const sale = await createBaseSale({
+    key: 'phase5-role-debt-sale-0001', quantity: 1, paymentMethod: 'debt', amountPaid: 0, // gitleaks:allow test fixture
+    customer: customerId, productId: productB,
+  });
+  const asApp = (sql) => `BEGIN; ${ownerClaims} SET LOCAL ROLE authenticated; ${sql} COMMIT;`;
+  const once = await readJson(asApp(`SELECT public.record_customer_order_payment_once(
+    ${sqlLiteral(sale.orderId)},200,'cash',NULL,NULL,'phase5-role-payment-key-0001');`), 'Payment as authenticated');
+  assert.equal(once.idempotent, false);
+  const shiftSummary = await readJson(asApp(`SELECT public.get_cash_shift_summary(${sqlLiteral(sale.shiftId)});`),
+    'Shift summary as authenticated');
+  assert.ok(Number.isFinite(shiftSummary.expectedCashInMinorUnits));
+  const legacySql = `BEGIN; ${ownerClaims} SET LOCAL ROLE authenticated;
+    SELECT public.record_customer_order_payment(${sqlLiteral(sale.orderId)},100,'cash',NULL,NULL); ROLLBACK;`;
+  if (fixed) {
+    const denied = await runSqlText(legacySql, 'Legacy writer as authenticated', { expectFailure: true });
+    assert.match(denied.stderr, /permission denied/u);
+    return { paymentOnce: 'ok', summary: 'ok', legacyWriter: 'permission denied' };
+  }
+  await runSqlText(legacySql, 'Legacy writer as authenticated (pre-fix)');
+  return { paymentOnce: 'ok', summary: 'ok', legacyWriter: 'executable' };
 };
 
 
@@ -346,68 +508,103 @@ const runLockOrderScenario = async () => {
   };
 };
 
-// Finding C: a settled Phase 4.2 cash refund must reach the cashier's summary,
-// the close-time columns and the closing report.
+const createReadyWebsiteOrder = async (suffix) => {
+  const created = await readJson(`${ownerClaims}
+    SELECT public.create_customer_order(
+      'عميل Phase 5 C',${sqlLiteral(`0791666${suffix}`)},NULL,'Irbid','Ramtha','C','Street','1',
+      NULL,NULL,NULL,NULL,NULL,'C address',NULL,'manual',
+      ${sqlLiteral(branchId)},${sqlLiteral(warehouseId)},
+      ${sqlLiteral(JSON.stringify([{ product_id: productB, quantity: 1 }]))}::jsonb,
+      0,0,'Phase 5 C legacy order',NULL,'website');`, `Create legacy website order ${suffix}`);
+  assert.ok(created.order_id);
+  await runSqlText(`${ownerClaims}
+    SELECT public.update_order_status(${sqlLiteral(created.order_id)},'confirmed','C');
+    SELECT public.update_order_status(${sqlLiteral(created.order_id)},'preparing','C');
+    SELECT public.update_order_status(${sqlLiteral(created.order_id)},'ready','C');`, `Ready legacy order ${suffix}`);
+  return created.order_id;
+};
+
+// Finding C: settled Phase 4.2 cash and CliQ refunds must reach the cashier's
+// summary, the close-time columns and the closing report, alongside legacy
+// sales_returns refunds on the same shift without double counting.
 const runShiftRefundScenario = async () => {
-  const sale = await createBaseSale({
+  const cashSale = await createBaseSale({
     key: 'phase5-fix-cash-sale-0001', quantity: 2, paymentMethod: 'cash', amountPaid: 2000, // gitleaks:allow test fixture
   });
-  const before = await summary(sale.shiftId);
-  const refund = await readJson(`${ownerClaims}
-    SELECT public.settle_sales_return_v1(
-      ${sqlLiteral(sale.orderId)},'phase5-fix-cash-return-0001',
-      ${sqlLiteral(JSON.stringify([{
-        return_scope: 'base_unit', order_item_id: sale.orderItemId,
-        quantity: 1, stock_disposition: 'damaged',
-      }]))}::jsonb,
-      'Phase 5 fix runtime proof','cash',NULL,NULL
-    );`, 'Settle cash Return');
-  const refundAmount = refund.moneyRefundInMinorUnits;
-  assert.ok(refundAmount > 0, 'Return must refund money for the scenario to be meaningful.');
+  const cliqSale = await createBaseSale({
+    key: 'phase5-fix-cliq-src-sale-0001', quantity: 2, paymentMethod: 'cash', amountPaid: 2000, // gitleaks:allow test fixture
+  });
+  const legacyOrder = await createReadyWebsiteOrder('201');
+  await readJson(`${ownerClaims}
+    SELECT public.complete_website_order_with_payment(${sqlLiteral(legacyOrder)},'cash',NULL,'Phase 5 C');`,
+  'Complete legacy website order');
+  const shiftId = cashSale.shiftId;
+  const before = await summary(shiftId);
 
-  const after = await summary(sale.shiftId);
-  const refundDelta = after.cashRefundsInMinorUnits - before.cashRefundsInMinorUnits;
-  const expectedDelta = after.expectedCashInMinorUnits - before.expectedCashInMinorUnits;
+  const cashRefund = await readJson(settleReturnSql({
+    orderId: cashSale.orderId, orderItemId: cashSale.orderItemId,
+    key: 'phase5-fix-cash-return-0001', method: 'cash', disposition: 'damaged', // gitleaks:allow test fixture
+  }), 'Settle Phase 4.2 cash Return');
+  const cliqRefund = await readJson(settleReturnSql({
+    orderId: cliqSale.orderId, orderItemId: cliqSale.orderItemId,
+    key: 'phase5-fix-cliq-return-0001', method: 'cliq', reference: 'P5-CLIQ-REF-0001', // gitleaks:allow test fixture
+  }), 'Settle Phase 4.2 CliQ Return');
+  const legacyReturn = await readJson(`${ownerClaims}
+    SELECT public.return_completed_website_order(${sqlLiteral(legacyOrder)},'Phase 5 C legacy','restock','cash',NULL,NULL);`,
+  'Legacy website order return');
+  assert.equal(legacyReturn.success, true);
+  const legacyAmount = (await readJson(`SELECT jsonb_build_object('value',sum(refund_amount_in_minor_units))
+    FROM public.sales_returns WHERE order_id=${sqlLiteral(legacyOrder)};`, 'Legacy refund amount')).value;
+  const c42 = cashRefund.moneyRefundInMinorUnits;
+  const q42 = cliqRefund.moneyRefundInMinorUnits;
+  assert.ok(c42 > 0 && q42 > 0 && legacyAmount > 0);
+
+  const after = await summary(shiftId);
+  const deltas = {
+    cashRefunds: after.cashRefundsInMinorUnits - before.cashRefundsInMinorUnits,
+    cliqRefunds: after.cliqRefundsInMinorUnits - before.cliqRefundsInMinorUnits,
+    expectedCash: after.expectedCashInMinorUnits - before.expectedCashInMinorUnits,
+  };
   const counter = await readJson(`SELECT jsonb_build_object('value',cash_refunds_in_minor_units)
-    FROM public.cash_shifts WHERE id=${sqlLiteral(sale.shiftId)};`, 'Refund counter');
-
+    FROM public.cash_shifts WHERE id=${sqlLiteral(shiftId)};`, 'Refund counter');
   const report = await readJson(`${ownerClaims}
-    SELECT public.get_cash_shift_closing_report(${sqlLiteral(sale.shiftId)});`, 'Live closing report');
-
-  const close = await readJson(`${ownerClaims}
-    SELECT public.close_cash_shift(
-      ${sqlLiteral(sale.shiftId)},${after.expectedCashInMinorUnits},NULL
-    );`, 'Close shift at summary expected cash');
+    SELECT public.get_cash_shift_closing_report(${sqlLiteral(shiftId)});`, 'Live closing report');
+  await readJson(`${ownerClaims}
+    SELECT public.close_cash_shift(${sqlLiteral(shiftId)},${after.expectedCashInMinorUnits},NULL);`,
+  'Close shift at summary expected cash');
   const closed = await readJson(`SELECT jsonb_build_object(
-    'cashRefunds',cash_refunds_in_minor_units,
-    'expectedCash',expected_cash_in_minor_units,
+    'cashRefunds',cash_refunds_in_minor_units,'cliqRefunds',cliq_refunds_in_minor_units,
+    'expectedCash',expected_cash_in_minor_units,'discrepancy',cash_discrepancy_in_minor_units,
     'snapshotReturnCount',(closing_report_snapshot #>> '{outflows,returnCount}')::INTEGER
-  ) FROM public.cash_shifts WHERE id=${sqlLiteral(sale.shiftId)};`, 'Closed shift state');
-
-  const breakdownAmount = (report.returnBreakdown || [])
-    .filter((item) => item.refundMethod === 'cash' && item.stockDisposition === 'damaged')
+  ) FROM public.cash_shifts WHERE id=${sqlLiteral(shiftId)};`, 'Closed shift state');
+  const breakdown = (method, disposition) => (report.returnBreakdown || [])
+    .filter((item) => item.refundMethod === method && item.stockDisposition === disposition)
     .reduce((sum, item) => sum + Number(item.amountInMinorUnits), 0);
 
+  assert.equal(closed.expectedCash, after.expectedCashInMinorUnits);
+  assert.equal(closed.discrepancy, 0);
   if (fixed) {
-    assert.equal(refundDelta, refundAmount, 'Summary must include the settled refund.');
-    assert.equal(expectedDelta, -refundAmount, 'Expected cash must drop by the refund.');
-    assert.equal(closed.cashRefunds, counter.value, 'Close must keep the refund counter.');
-    assert.equal(closed.cashRefunds, after.cashRefundsInMinorUnits);
+    assert.deepEqual(deltas, { cashRefunds: c42 + legacyAmount, cliqRefunds: q42, expectedCash: -(c42 + legacyAmount) });
+    assert.equal(closed.cashRefunds, c42 + legacyAmount + before.cashRefundsInMinorUnits);
+    assert.equal(closed.cliqRefunds, after.cliqRefundsInMinorUnits);
+    assert.equal(report.outflows.returnCount, 3);
+    assert.equal(closed.snapshotReturnCount, 3);
+    assert.equal(breakdown('cash', 'damaged'), c42);
+    assert.equal(breakdown('cliq', 'restock'), q42);
+    assert.equal(breakdown('cash', 'restock'), legacyAmount);
+  } else {
+    assert.deepEqual(deltas, { cashRefunds: legacyAmount, cliqRefunds: 0, expectedCash: -legacyAmount },
+      'Pre-fix summary sees only the legacy refund.');
+    assert.ok(counter.value >= c42, 'Migration 121 increments the counter.');
+    assert.equal(closed.cashRefunds, legacyAmount + before.cashRefundsInMinorUnits,
+      'Pre-fix close overwrites the counter without Phase 4.2 refunds.');
     assert.equal(report.outflows.returnCount, 1);
     assert.equal(closed.snapshotReturnCount, 1);
-    assert.equal(breakdownAmount, refundAmount);
-  } else {
-    assert.equal(refundDelta, 0, 'Pre-fix summary ignores Phase 4.2 refunds.');
-    assert.equal(expectedDelta, 0, 'Pre-fix expected cash ignores Phase 4.2 refunds.');
-    assert.equal(counter.value, refundAmount, 'Migration 121 increments the counter.');
-    assert.equal(closed.cashRefunds, 0, 'Pre-fix close overwrites the counter.');
-    assert.equal(report.outflows.returnCount, 0);
   }
   return {
-    refundAmount, refundDelta, expectedDelta,
-    counterBeforeClose: counter.value, cashRefundsAfterClose: closed.cashRefunds,
-    discrepancyAtClose: close.cashDiscrepancyInMinorUnits ?? close.cash_discrepancy_in_minor_units ?? null,
-    reportReturnCount: report.outflows.returnCount, snapshotReturnCount: closed.snapshotReturnCount,
+    phase42Cash: c42, phase42Cliq: q42, legacyCash: legacyAmount, deltas,
+    counterBeforeClose: counter.value, closed,
+    reportReturnCount: report.outflows.returnCount,
   };
 };
 
@@ -424,7 +621,8 @@ const runGrantScenario = async () => {
   return grants;
 };
 
-// Finding A: a same-key replay with a different amount must be rejected.
+// Finding A (+L7): a same-key replay must carry the same order, amount,
+// method and, for CliQ, the same reference.
 const runReplayScenario = async () => {
   await runSqlText(`INSERT INTO public.customers(id,full_name,phone,credit_limit_in_minor_units)
     VALUES (${sqlLiteral(customerId)},'Phase 5 fix customer','0795500001',1000000);`,
@@ -433,35 +631,52 @@ const runReplayScenario = async () => {
     key: 'phase5-fix-debt-sale-0001', quantity: 2, // gitleaks:allow test fixture
     paymentMethod: 'debt', amountPaid: 0, customer: customerId,
   });
-  const key = 'phase5-fix-payment-key-0001';
-  const pay = (amount) => `${ownerClaims}
+  const otherSale = await createBaseSale({
+    key: 'phase5-fix-debt-sale-0002', quantity: 1, // gitleaks:allow test fixture
+    paymentMethod: 'debt', amountPaid: 0, customer: customerId,
+  });
+  const pay = ({ orderId = sale.orderId, amount, method = 'cash', reference = null, key }) => `${ownerClaims}
     SELECT public.record_customer_order_payment_once(
-      ${sqlLiteral(sale.orderId)},${amount},'cash',NULL,NULL,${sqlLiteral(key)}
-    );`;
-  const first = await readJson(pay(500), 'First payment');
+      ${sqlLiteral(orderId)},${amount},${sqlLiteral(method)},${reference ? sqlLiteral(reference) : 'NULL'},NULL,
+      ${sqlLiteral(key)});`;
+  const cashKey = 'phase5-fix-payment-key-0001'; // gitleaks:allow test fixture
+  const cliqKey = 'phase5-fix-payment-key-0002'; // gitleaks:allow test fixture
+  const first = await readJson(pay({ amount: 500, key: cashKey }), 'First payment');
   assert.equal(first.idempotent, false);
-  const replay = await readJson(pay(500), 'Identical replay');
+  const replay = await readJson(pay({ amount: 500, key: cashKey }), 'Identical replay');
   assert.equal(replay.idempotent, true);
   assert.equal(replay.payment_id, first.payment_id);
+  const cliq = await readJson(pay({ amount: 300, method: 'cliq', reference: 'P5-REF-0001', key: cliqKey }),
+    'CliQ payment');
+  assert.equal(cliq.idempotent, false);
 
-  let changed;
-  if (fixed) {
-    const failure = await runSqlText(pay(700), 'Changed replay', { expectFailure: true });
-    assert.match(failure.stderr, /PAYMENT_IDEMPOTENCY_CONFLICT/u);
-    changed = 'rejected';
-  } else {
-    const accepted = await readJson(pay(700), 'Changed replay accepted pre-fix');
-    assert.equal(accepted.idempotent, true);
-    assert.equal(accepted.amount_in_minor_units, 500);
-    changed = 'silently-accepted';
+  const variants = {
+    amount: pay({ amount: 700, key: cashKey }),
+    order: pay({ orderId: otherSale.orderId, amount: 500, key: cashKey }),
+    method: pay({ amount: 500, method: 'cliq', reference: 'P5-REF-0009', key: cashKey }),
+    cliqReference: pay({ amount: 300, method: 'cliq', reference: 'P5-REF-0002', key: cliqKey }),
+  };
+  const outcomes = {};
+  for (const [name, sql] of Object.entries(variants)) {
+    if (fixed) {
+      const failure = await runSqlText(sql, `Changed ${name} replay`, { expectFailure: true });
+      assert.match(failure.stderr, /PAYMENT_IDEMPOTENCY_CONFLICT/u);
+      outcomes[name] = 'rejected';
+    } else {
+      const accepted = await readJson(sql, `Changed ${name} replay accepted pre-fix`);
+      assert.equal(accepted.idempotent, true);
+      outcomes[name] = 'silently-accepted';
+    }
   }
   const state = await readJson(`SELECT jsonb_build_object(
     'payments',(SELECT count(*) FROM public.customer_payments WHERE order_id=${sqlLiteral(sale.orderId)}),
+    'otherPayments',(SELECT count(*) FROM public.customer_payments WHERE order_id=${sqlLiteral(otherSale.orderId)}),
     'paid',(SELECT amount_paid_in_minor_units FROM public.orders WHERE id=${sqlLiteral(sale.orderId)})
   );`, 'Payment state');
-  assert.deepEqual(state, { payments: 1, paid: 500 });
-  return { changedPayloadReplay: changed, ...state };
+  assert.deepEqual(state, { payments: 2, otherPayments: 0, paid: 800 });
+  return { changedPayloadReplay: outcomes, ...state };
 };
+
 
 try {
   const { stdout } = await execFileAsync(process.execPath, [bootstrapPath], {
@@ -470,7 +685,7 @@ try {
       ...process.env,
       NAWASRAH_ISOLATED_PROJECT_ID: projectId,
       NAWASRAH_SKIP_REDUNDANT_DB_RESET: 'true',
-      NAWASRAH_MAX_MIGRATION: fixed ? '129' : '127',
+      NAWASRAH_MAX_MIGRATION: fixed ? '130' : '127',
       NAWASRAH_SUPABASE_EXCLUDE:
         'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor',
     },
@@ -489,6 +704,9 @@ try {
   const replay = await runReplayScenario();
   const shiftAtomicity = await runShiftAtomicityScenario();
   const paidOrderReversal = await runPaidOrderReversalScenario();
+  const midExecutionRollback = await runMidExecutionRollbackScenario();
+  const cancelEmptyShift = await runCancelEmptyShiftScenario();
+  const authenticatedRole = await runAuthenticatedRoleScenario();
   const lockOrder = fixed ? await runLockOrderScenario() : 'after-mode-only';
   const shiftRefund = await runShiftRefundScenario();
 
@@ -504,8 +722,9 @@ try {
   }
 
   console.log(JSON.stringify({
-    ok: true, mode, freshRebuild: fixed ? '001-129' : '001-127',
-    grants, replay, shiftAtomicity, paidOrderReversal, lockOrder, shiftRefund, lint,
+    ok: true, mode, freshRebuild: fixed ? '001-130' : '001-127',
+    grants, replay, shiftAtomicity, paidOrderReversal, midExecutionRollback, cancelEmptyShift,
+    authenticatedRole, lockOrder, shiftRefund, lint,
   }, null, 2));
 } finally {
   if (isolatedProjectRoot) {
