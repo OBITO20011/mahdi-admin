@@ -27,6 +27,7 @@ type ProjectContinuityState = {
   phase5Slice4ClosureBaseline: string;
   phase5Slice4ClosureExactShaCi: string;
   phase5PublicActivationAllowed: boolean;
+  phase5RescopeContract: string;
   phase5Slice3AuthorizationBaseline: string;
 };
 
@@ -127,7 +128,6 @@ const assertSlices12Closed = (
     approved: true, baselineSha: projectState.phase5Slice3AuthorizationBaseline,
     migration: 126, publicActivationAllowed: false,
   });
-  assert.ok(['ACTIVE', 'PAUSED'].includes(task.status));
   assert.equal(projectState.phase5Slice3ClosureBaseline, '095245e6bd30d2f40850e8779232f806f2cd0beb');
   assert.equal(projectState.phase5Slice3ClosureExactShaCi, 'PASS');
   assert.equal(projectState.phase5Slice4DesignStatus, 'THREE_GAP_BOUNDED_DESIGN_CONFIRMATION_PASS');
@@ -146,14 +146,15 @@ const assertSlices12Closed = (
     publicActivationAllowed: false,
     scope: 'Private financial facts/position/reconciliation; total discovery, exact money and STABLE zero-write snapshot proof',
   });
-  assert.equal(task.objective, 'Phase 5 Slice 4 post-delivery continuity synchronization; later slices and public activation not started.');
-  assert.deepEqual(task.inProgress, []);
+  // Current-task fields (status, objective, inProgress, testsRemaining,
+  // notStarted, prohibitions) belong to whichever task is active now and are
+  // validated by agent preflight/resume. Only closed-slice facts are pinned here.
+  assert.equal(projectState.phase5RescopeContract, 'docs/agent/PHASE5_RESCOPE.md');
   assert.deepEqual(task.slice4DeliveryAuthorization, {
     approved: true, oneCommitOnly: true, pushTarget: 'origin/main',
     exactShaCiRequired: true, deployAllowed: false,
     laterSliceAllowed: false, productionAccessAllowed: false,
   });
-  assert.deepEqual(task.testsRemaining, []);
   assert.deepEqual(task.slice4Closure, {
     status: 'OWNER-CLOSED', baselineSha: '095245e6bd30d2f40850e8779232f806f2cd0beb',
     migration127Sha256: 'A2C9561EF071E959152D7DD06CAFC0F9BE933F18F845F4AE03D2B1A8971BE60D',
@@ -178,8 +179,6 @@ const assertSlices12Closed = (
   });
   assert.ok(task.completed.includes('Phase 5 Slice 3 owner-closed'));
   assert.ok(task.completed.includes('Phase 5 Slice 3 bounded independent historical-membership re-sign-off PASS with zero scoped findings and material evidence gaps'));
-  assert.deepEqual(task.notStarted, ['Later Phase 5 slices and public activation']);
-  assert.ok(task.prohibitions.includes('Start later Phase 5 slices or public activation without owner authorization'));
   assert.ok(task.completed.includes(
     'Phase 5 Slice 1 bounded independent re-review passed with zero remaining findings and zero material evidence gaps',
   ));
@@ -328,13 +327,9 @@ test('Slices 1-2 closed continuity rejects lost closure, stale work and unauthor
   missingReview.slice3Closure.independentReSignOff = 'PENDING';
   assert.throws(() => assertSlices12Closed(projectState, phaseStatus, missingReview));
 
-  const staleClosedTask = structuredClone(task);
-  staleClosedTask.testsRemaining = ['stale completed review'];
-  assert.throws(() => assertSlices12Closed(projectState, phaseStatus, staleClosedTask));
-
-  const staleInProgress = structuredClone(task);
-  staleInProgress.inProgress = ['completed Slice 2 review'];
-  assert.throws(() => assertSlices12Closed(projectState, phaseStatus, staleInProgress));
+  const lostRescopeContract = structuredClone(projectState);
+  lostRescopeContract.phase5RescopeContract = 'docs/agent/OTHER.md';
+  assert.throws(() => assertSlices12Closed(lostRescopeContract, phaseStatus, task));
 });
 
 test('durable continuity accepts a committed descendant and rejects checkpoints outside the closure chain', () => {
@@ -371,9 +366,6 @@ test('Slice 4 delivered continuity rejects stale checkpoints and fabricated deli
     (candidate) => { candidate.slice4Closure.ciBranch = 'codex/other'; },
     (candidate) => { candidate.slice4Closure.codeQualityRun = 36808501724; },
     (candidate) => { candidate.slice4Closure.secretScanningRun = 36808501743; },
-    (candidate) => { candidate.inProgress = ['Owner-authorized Slice 4 baseline commit/push and exact-SHA CI verification']; },
-    (candidate) => { candidate.testsRemaining = ['Completed exact-SHA CI']; },
-    (candidate) => { candidate.notStarted = []; },
     (candidate) => { candidate.slice4DeliveryAuthorization.laterSliceAllowed = true; },
     (candidate) => { candidate.slice4DeliveryAuthorization.deployAllowed = true; },
     (candidate) => { candidate.slice4DeliveryAuthorization.productionAccessAllowed = true; },

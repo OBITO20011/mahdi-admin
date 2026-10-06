@@ -13,3 +13,4 @@ Append only concise, secret-free handoff summaries here when a task materially c
 - Codex paused Slice 5 (checkpoint + verify-handoff PASS); work parked unchanged on `codex/phase5-slice5-wip` (`246066e`).
 - Owner decision: drop the private-layer activation plan; fix the original Medium findings directly on operational paths in a new Migration 128. Contract: `docs/agent/PHASE5_RESCOPE.md`.
 - Owner: claude. Baseline `33ca5cc`.
+- Delivered Migration 128 (fixes C, B, A) with two-sided runtime proof and regression PASS. A+ awaits owner policy decision; D deferred. Task returned to IDLE. Details: `docs/agent/PHASE5_RESCOPE.md`.
