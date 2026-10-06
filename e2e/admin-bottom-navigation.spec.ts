@@ -110,7 +110,7 @@ test.describe('شريط تنقل الإدارة السفلي', () => {
       'الرئيسية',
       'الطلبات',
       'المخزون',
-      'العملاء',
+      'العملاء والذمم',
       'المزيد',
     ]);
     await expect(page.locator('[data-bottom-tab="home"]')).toHaveAttribute(

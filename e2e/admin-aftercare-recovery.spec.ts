@@ -315,12 +315,12 @@ export async function recoverAdminAftercare(){return {success:true};}
     // @ts-expect-error Live Vite module.
     const {AdminAftercarePanel} = await import('/src/features/orders/AdminAftercarePanel.tsx');
     createRoot(document.getElementById('root')!).render(React.createElement(AdminAftercarePanel, {
-      order: {id: '43210000-0000-4000-8000-000000000002'},
+      order: {id: '43210000-0000-4000-8000-000000000002', items: []},
       onContractResolved: () => undefined,
       notify: () => undefined,
     }));
   });
-  await page.getByRole('button', {name: 'استبدال 1', exact: true}).click();
+  await page.getByRole('button', {name: 'استبدال وحدة', exact: true}).click();
   await page.getByPlaceholder('سبب العيب/الاستبدال').fill('Supplier defect');
   await page.getByRole('button', {name: 'اعتماد الاستبدال', exact: true}).click();
   await expect(page.getByRole('button', {name: 'استعادة الاستبدال', exact: true})).toBeVisible();

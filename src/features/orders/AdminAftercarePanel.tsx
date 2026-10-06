@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { PackageCheck, PackageX, RefreshCw, RotateCcw } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 import type { Order } from '../../types';
+import {allocateBaseReturn} from './aftercarePresentation';
+import {businessErrorMessage} from '../../utils/businessError';
 import {
   fetchAdminAftercareContext,
   fetchAdminAftercareRecoveryStates,
@@ -29,7 +31,7 @@ interface LeafAllocation {
 }
 type ReturnDraft =
   | {kind: 'base'; orderItemId: string; productId: string;
-      representatives: AftercarePhysicalRepresentative[]; disposition: 'restock' | 'damaged'}
+      representatives: AftercarePhysicalRepresentative[]; quantity: number; disposition: 'restock' | 'damaged'}
   | {kind: 'parcel'; parcel: AdminAftercareContext['parcelInstances'][number];
       allocations: Record<string, LeafAllocation>};
 
@@ -98,7 +100,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
   );
   if (error) return (
     <div className="rounded-2xl border border-rose-800 bg-rose-950/30 p-3 text-rose-200">
-      <p>{error}</p>
+      <p>{businessErrorMessage(error)}</p>
       <button type="button" onClick={() => void load()}
         className="mt-2 rounded-lg bg-rose-700 px-3 py-1.5 font-bold text-white">
         إعادة المحاولة
@@ -121,11 +123,11 @@ export const AdminAftercarePanel: React.FC<Props> = ({
         items: [{sourceKind: replacementSource.sourceKind,
           sourceId: replacementSource.sourceId, quantity: 1}],
         reason, notes});
-      if (!result.success) { notify(result.error || 'تعذر إصدار البديل.', 'error'); return; }
+      if (!result.success) { notify(businessErrorMessage(result.error || 'تعذر إصدار البديل.'), 'error'); return; }
       notify('تم إصدار بديل من نفس الصنف والكمية مع حفظ سلسلة الأصل والتكلفة.');
       resetForm(); await load(); await onChanged?.();
     } catch (mutationError) {
-      notify(mutationError instanceof Error ? mutationError.message : 'تعذر إصدار البديل.', 'error');
+      notify(businessErrorMessage(mutationError), 'error');
     } finally {
       try { await refreshRecoveryStates(); } catch { /* load exposes recovery read errors */ }
       setBusy(false);
@@ -134,20 +136,12 @@ export const AdminAftercarePanel: React.FC<Props> = ({
   const buildReturn = (): {items: ReturnRequestItem[]; physical: ReturnPhysicalSource[]} | null => {
     if (!returnDraft) return null;
     if (returnDraft.kind === 'base') {
-      const quantity = rootQuantity(returnDraft.representatives);
+      const quantity = returnDraft.quantity;
       return {
         items: [{return_scope: 'base_unit', order_item_id: returnDraft.orderItemId,
           quantity, stock_disposition: returnDraft.disposition}],
-        physical: returnDraft.representatives.map((source) => ({
-          root_source_kind: 'base_order_item', root_source_id: returnDraft.orderItemId,
-          source_kind: source.sourceKind, source_id: source.sourceId,
-          product_id: source.productId, quantity: source.remainingQuantity,
-           sellable_restock_quantity: returnDraft.disposition === 'restock'
-             ? source.remainingQuantity : 0,
-           defect_non_sellable_quantity: returnDraft.disposition === 'damaged'
-             ? source.remainingQuantity : 0,
-           customer_damage_quantity: 0,
-        })),
+        physical: allocateBaseReturn(returnDraft.orderItemId, returnDraft.representatives,
+          quantity, returnDraft.disposition),
       };
     }
     return {
@@ -201,7 +195,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
   const runReturn = async () => {
     let request: ReturnType<typeof buildReturn>;
     try { request = buildReturn(); } catch (buildError) {
-      notify(buildError instanceof Error ? buildError.message : 'تصنيف الكميات غير صالح.', 'error');
+      notify(businessErrorMessage(buildError), 'error');
       return;
     }
     if (!request || reason.trim().length < 3 || (refundMethod === 'cliq' && !reference.trim())) {
@@ -212,11 +206,11 @@ export const AdminAftercarePanel: React.FC<Props> = ({
       const result = await settleAdminReturn({orderId: order.id, items: request.items,
         physicalSources: request.physical, reason, refundMethod,
         referenceNumber: reference, notes});
-      if (!result.success) { notify(result.error || 'تعذر تسوية المرتجع.', 'error'); return; }
+      if (!result.success) { notify(businessErrorMessage(result.error || 'تعذر تسوية المرتجع.'), 'error'); return; }
       notify('تمت تسوية المرتجع ذريًا وفق الدين والتحصيل والمخزون الفعلي.');
       resetForm(); await load(); await onChanged?.();
     } catch (mutationError) {
-      notify(mutationError instanceof Error ? mutationError.message : 'تعذر تسوية المرتجع.', 'error');
+      notify(businessErrorMessage(mutationError), 'error');
     } finally {
       try { await refreshRecoveryStates(); } catch { /* load exposes recovery read errors */ }
       setBusy(false);
@@ -227,14 +221,13 @@ export const AdminAftercarePanel: React.FC<Props> = ({
     try {
       const result = await recoverAdminAftercare(order.id, action);
       if (!result.success) {
-        notify(result.error || 'تعذر استعادة العملية المعلقة.', 'error'); return;
+        notify(businessErrorMessage(result.error || 'تعذر استعادة العملية المعلقة.'), 'error'); return;
       }
       notify(action === 'return' ? 'تم استرداد نتيجة المرتجع المعلقة.'
         : 'تم استرداد نتيجة الاستبدال المعلقة.');
       resetForm(); await load(); await onChanged?.();
     } catch (recoveryError) {
-      notify(recoveryError instanceof Error ? recoveryError.message
-        : 'تعذر استعادة العملية المعلقة.', 'error');
+      notify(businessErrorMessage(recoveryError), 'error');
     } finally {
       try { await refreshRecoveryStates(); } catch { /* load exposes recovery read errors */ }
       setBusy(false);
@@ -246,7 +239,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
       className="space-y-3 rounded-2xl border border-indigo-700/60 bg-indigo-950/20 p-3">
       <div className="flex items-start justify-between gap-2">
         <div>
-          <h4 className="font-black text-indigo-200">خدمات ما بعد البيع — Phase 4</h4>
+          <h4 className="font-black text-indigo-200">المرتجعات والاستبدال</h4>
           <p className="mt-1 text-[10px] text-slate-400">
             الموعد النهائي: {new Date(context.order.deadlineAt).toLocaleString('ar-JO')}
           </p>
@@ -280,17 +273,17 @@ export const AdminAftercarePanel: React.FC<Props> = ({
       {context.order.withinWindow && sources.length > 0 && !hasPendingRecovery
         && !replacementSource && !returnDraft && (
         <div className="space-y-2">
-          <p className="text-[10px] font-bold text-slate-300">الممثلون الفيزيائيون الحاليون</p>
+          <p className="text-sm font-bold text-slate-300">الأصناف والقطع الحالية المتاحة</p>
           {context.baseItems.map((item) => {
             const quantity = rootQuantity(item.physicalRepresentatives);
             return quantity > 0 && <div key={item.orderItemId} className="rounded-xl border border-slate-700 bg-slate-950 p-2">
-              <div className="flex items-center justify-between"><span>صنف أساسي · {quantity} وحدة</span>
+              <div className="flex flex-wrap items-center justify-between gap-2"><span>{order.items.find(line => line.id === item.orderItemId)?.productName || 'وحدة أساسية'} · المتبقي {quantity} وحدة</span>
                 <div className="flex gap-1">
                   <button type="button" onClick={() => setReturnDraft({kind: 'base', orderItemId: item.orderItemId,
-                    productId: item.productId, representatives: item.physicalRepresentatives, disposition: 'restock'})}
-                    className="rounded bg-orange-700 px-2 py-1 text-white">مرتجع</button>
-                  <button type="button" onClick={() => setReplacementSource(item.physicalRepresentatives[0])}
-                    className="rounded bg-indigo-700 px-2 py-1 text-white">استبدال 1</button>
+                    productId: item.productId, representatives: item.physicalRepresentatives, quantity: 1, disposition: 'restock'})}
+                    className="min-h-11 rounded bg-orange-700 px-3 py-2 text-white">مرتجع</button>
+                  <button type="button" onClick={() => setReplacementSource(item.physicalRepresentatives.find(source => source.remainingQuantity > 0) || null)}
+                    className="min-h-11 rounded bg-indigo-700 px-3 py-2 text-white">استبدال وحدة</button>
                 </div>
               </div>
             </div>;
@@ -299,7 +292,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
             const complete = parcel.components.every((component) =>
               rootQuantity(component.physicalRepresentatives) === component.quantity);
             return complete && <div key={parcel.parcelInstanceId} className="rounded-xl border border-slate-700 bg-slate-950 p-2">
-              <div className="flex items-center justify-between"><span>Parcel كاملة · {parcel.components.length} مكونات</span>
+              <div className="flex flex-wrap items-center justify-between gap-2"><span>{order.items.find(line => line.id === parcel.orderItemId)?.productName || 'طرد'} · طرد كامل · {parcel.components.length} مكونات · <bdi dir="ltr" className="select-text break-all font-mono">{parcel.parcelInstanceId}</bdi></span>
                 <button type="button" onClick={() => setReturnDraft({kind: 'parcel', parcel,
                    allocations: Object.fromEntries(parcel.components.flatMap((component) =>
                      component.physicalRepresentatives.map((source) => [source.sourceId, {
@@ -307,12 +300,12 @@ export const AdminAftercarePanel: React.FC<Props> = ({
                        defectNonSellable: 0,
                        customerDamage: 0,
                      }])))})}
-                  className="rounded bg-orange-700 px-2 py-1 text-white">مرتجع Parcel</button></div>
+                  className="min-h-11 rounded bg-orange-700 px-3 py-2 text-white">مرتجع الطرد</button></div>
               <div className="mt-2 flex flex-wrap gap-1">
-                {parcel.components.flatMap((component) => component.physicalRepresentatives)
+                {parcel.components.flatMap((component) => component.physicalRepresentatives
                   .map((source) => <button key={source.sourceId} type="button"
                     onClick={() => setReplacementSource(source)}
-                    className="rounded border border-indigo-700 px-2 py-1 text-indigo-200">استبدال مكوّن 1</button>)}
+                    className="min-h-11 rounded border border-indigo-700 px-3 py-2 text-indigo-200">استبدال وحدة · {order.items.find(line => line.id === parcel.orderItemId)?.parcelInstances?.find(instance => instance.id === parcel.parcelInstanceId)?.components.find(value => value.id === component.parcelComponentId)?.name || 'مكوّن'}{source.sourceKind === 'replacement_item' ? ' · بديل حالي' : ''}</button>))}
               </div>
             </div>;
           })}
@@ -320,7 +313,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
       )}
 
       {replacementSource && <div className="space-y-2 rounded-xl border border-indigo-700 bg-slate-950 p-3">
-        <b className="text-indigo-200">إصدار بديل من نفس SKU والكمية</b>
+        <b className="text-indigo-200">إصدار بديل من نفس الصنف — وحدة واحدة</b>
         <textarea value={reason} onChange={(event) => setReason(event.target.value)} rows={2}
           placeholder="سبب العيب/الاستبدال" className="w-full rounded-lg border border-slate-700 bg-slate-900 p-2 text-white"/>
         <input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="ملاحظة داخلية"
@@ -331,7 +324,13 @@ export const AdminAftercarePanel: React.FC<Props> = ({
       </div>}
 
       {returnDraft && <div className="space-y-2 rounded-xl border border-orange-700 bg-slate-950 p-3">
-        <b className="text-orange-200">تسوية مرتجع من الممثل الفيزيائي الحالي</b>
+        <b className="text-orange-200">مرتجع من القطعة الحالية</b>
+        {returnDraft.kind === 'base' && <label className="block text-sm">كمية المرتجع (المتبقي {rootQuantity(returnDraft.representatives)})
+          <input aria-label="كمية المرتجع" type="number" min={1} step={1}
+            max={rootQuantity(returnDraft.representatives)} value={returnDraft.quantity}
+            disabled={busy} onChange={event => setReturnDraft({...returnDraft, quantity: Number(event.target.value)})}
+            className="mt-1 min-h-11 w-full rounded-lg border border-slate-700 bg-slate-900 p-2"/>
+        </label>}
         {returnDraft.kind === 'base' && <div className="grid grid-cols-2 gap-2">
           <button type="button" onClick={() => setReturnDraft({...returnDraft, disposition: 'restock'})}
             className={`rounded-lg border p-2 ${returnDraft.disposition === 'restock' ? 'bg-emerald-700' : 'border-slate-700'}`}><PackageCheck className="mx-auto h-4 w-4"/>سليم</button>
@@ -341,7 +340,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
         {returnDraft.kind === 'parcel' && <div className="space-y-2">
           {returnDraft.parcel.components.map((component, index) => <div key={component.parcelComponentId}
             className="rounded-lg border border-slate-800 p-2">
-            <p className="mb-1 text-[10px] text-slate-300">المكوّن {index + 1} · {component.quantity} وحدة</p>
+            <p className="mb-1 text-sm text-slate-300">{order.items.flatMap(line => line.parcelInstances || []).flatMap(instance => instance.components).find(value => value.id === component.parcelComponentId)?.name || `المكوّن ${index + 1}`} · {component.quantity} وحدة</p>
             {component.physicalRepresentatives.map((source, sourceIndex) => {
               const allocation = returnDraft.allocations[source.sourceId];
               const update = (field: keyof LeafAllocation, value: number) => setReturnDraft({
@@ -351,20 +350,21 @@ export const AdminAftercarePanel: React.FC<Props> = ({
                 }},
               });
               return <div key={source.sourceId} className="mt-2 rounded border border-slate-700 p-2">
-                <p className="mb-1 text-[9px] text-slate-400">الممثل {sourceIndex + 1} · {source.remainingQuantity} وحدة</p>
-                <div className="grid grid-cols-3 gap-1 text-[9px]">
+                <p className="mb-1 text-sm text-slate-400">القطعة الحالية {sourceIndex + 1}{source.sourceKind === 'replacement_item' ? ' · بديل صادر' : ' · الأصل'} · {source.remainingQuantity} وحدة</p>
+                <p role="status" className={`mb-2 text-sm ${allocation.sellableRestock + allocation.defectNonSellable + allocation.customerDamage === source.remainingQuantity ? 'text-emerald-300' : 'text-amber-300'}`}>مجموع التصنيف: {allocation.sellableRestock + allocation.defectNonSellable + allocation.customerDamage} / {source.remainingQuantity}</p>
+                <div className="grid grid-cols-1 gap-2 min-[420px]:grid-cols-3 text-sm">
                   <label>سليم<input type="number" min={0} max={source.remainingQuantity}
                     value={allocation.sellableRestock}
                     onChange={(event) => update('sellableRestock', Number(event.target.value))}
-                    className="mt-1 w-full rounded bg-slate-900 p-1"/></label>
+                    className="mt-1 min-h-11 w-full rounded bg-slate-900 p-2"/></label>
                   <label>عيب/غير قابل للبيع<input type="number" min={0} max={source.remainingQuantity}
                     value={allocation.defectNonSellable}
                     onChange={(event) => update('defectNonSellable', Number(event.target.value))}
-                    className="mt-1 w-full rounded bg-slate-900 p-1"/></label>
+                    className="mt-1 min-h-11 w-full rounded bg-slate-900 p-2"/></label>
                   <label>ضرر عميل<input type="number" min={0} max={source.remainingQuantity}
                     value={allocation.customerDamage}
                     onChange={(event) => update('customerDamage', Number(event.target.value))}
-                    className="mt-1 w-full rounded bg-slate-900 p-1"/></label>
+                    className="mt-1 min-h-11 w-full rounded bg-slate-900 p-2"/></label>
                 </div>
               </div>;
             })}

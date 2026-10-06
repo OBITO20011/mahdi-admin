@@ -406,9 +406,9 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
     <div className="space-y-4 text-xs">
       <div className="flex items-start justify-between border-b border-slate-800 pb-3">
         <div>
-          <span className="font-mono text-[11px] font-black text-blue-400">
+          <bdi dir="ltr" className="select-text font-mono text-[11px] font-black text-blue-400">
             {order.orderNumber}
-          </span>
+          </bdi>
           <h3 className="text-sm font-black text-white">{order.customerName}</h3>
           <span className="text-[10px] text-slate-500">
             {new Date(order.createdAt).toLocaleString('ar-JO')}
@@ -437,9 +437,9 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
       <div className="flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-950 p-3">
         <div>
           <strong className="block text-slate-200">{order.customerName}</strong>
-          <span className="font-mono text-[10px] text-emerald-400">
+          <bdi dir="ltr" className="select-text font-mono text-[10px] text-emerald-400">
             {order.customerPhone || 'لا يوجد رقم هاتف'}
-          </span>
+          </bdi>
         </div>
         <div className="flex gap-1.5">
           {order.customerId && (
@@ -691,9 +691,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           <div className="mt-2 rounded-xl border border-emerald-800/50 bg-emerald-950/30 p-2 text-[10px] text-emerald-300">
             تم تأكيد القبض في{' '}
             {new Date(order.paymentConfirmedAt).toLocaleString('ar-JO')}
-            {order.paymentReferenceNumber
-              ? ` — المرجع: ${order.paymentReferenceNumber}`
-              : ''}
+            {order.paymentReferenceNumber && <> — المرجع: <bdi dir="ltr" className="select-text">{order.paymentReferenceNumber}</bdi></>}
           </div>
         )}
       </div>
@@ -1236,7 +1234,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
               تم إرجاع الطلب ورد كامل المبلغ
             </div>
             <div className="grid grid-cols-2 gap-2 text-[10px]">
-              <span>سند المرتجع: <b>{order.returnNumber || 'محفوظ'}</b></span>
+              <span>سند المرتجع: <bdi dir="ltr" className="select-text font-bold">{order.returnNumber || 'محفوظ'}</bdi></span>
               <span>المبلغ: <b>{(order.refundAmount || order.totalAmount).toFixed(3)} {CURRENCY}</b></span>
               <span>الرد: <b>{order.refundMethod === 'cliq' ? 'CliQ' : 'كاش'}</b></span>
               <span>

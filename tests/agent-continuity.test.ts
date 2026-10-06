@@ -19,7 +19,7 @@ test('Codex and Claude resolve the same agent-neutral project contract', () => {
   assert.match(agents + claude, /Production/iu);
 });
 
-test('owner-closed Phases 4-5 and authorized Phase 6 package A are explicit', () => {
+test('owner-closed Phases 4-5 and authorized Phase 6 package B are explicit', () => {
   const state = JSON.parse(read('docs/agent/project-state.json')) as {
     closedPhases: string[];
     phase4Closed: boolean;
@@ -71,7 +71,7 @@ test('owner-closed Phases 4-5 and authorized Phase 6 package A are explicit', ()
   });
   assert.equal(state.phase6PlanningAllowed, true);
   assert.equal(state.phase6ImplementationStarted, true);
-  assert.equal(state.phase6AuthorizedPackage, 'A');
+  assert.equal(state.phase6AuthorizedPackage, 'B');
   assert.equal(state.phase6NextPackageAllowed, false);
   assert.equal(state.phase45Started, true);
   assert.equal(state.phase5Started, true);

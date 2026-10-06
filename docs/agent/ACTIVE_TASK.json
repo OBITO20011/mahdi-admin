@@ -1,45 +1,66 @@
 {
   "schemaVersion": 1,
   "status": "IDLE",
-  "owner": null,
-  "objective": "No active task. Phase 6 package A delivered and its review remediation completed by claude; next is owner approval of package B (codex).",
-  "baselineSha": "c0399eeeb31f0795cdbaefafd67daa2b13c66d75",
+  "owner": "codex",
+  "objective": "Package B UI locally verified; deliver commit/push and verify exact-SHA CI, then stop before C",
+  "baselineSha": "0b31eec0949519eefdac398dd6a034f956d0b5f9",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "6",
   "completed": [
-    "Package A items 1,2,5,6,17 implemented; one reader-only Migration131",
-    "DB before001-130/after001-131 acceptance, Legacy+modern, historical replacement valuation, mixed closing detail, snapshots/ACL PASS",
-    "Quality PASS; final focused browser 12/12 without retries; Admin 678/678; Customer 189/189",
-    "Phase 6 package A review remediation (explicit Migration 131, home performance/degraded state, print/supplier due, V2-only modern returns, stronger runtime proof) by claude"
+    "Package A remediation baseline 0b31eec exact-SHA push/main quality + secret CI PASS",
+    "Package B items 3,4,7,8,12,13,16,18,19 implemented without DB changes"
   ],
   "inProgress": [],
   "notStarted": [
-    "Phase 6 package B (items 3,4,7,8,12,13,16,18,19)",
     "Phase 6 package C (items 9,10,11,14,15)",
     "Phase 7"
   ],
-  "filesTouched": [],
+  "filesTouched": [
+    "customer-web/src/components/CartDrawer.tsx",
+    "customer-web/src/components/CheckoutModal.tsx",
+    "customer-web/src/components/CheckoutReceiptPanel.tsx",
+    "customer-web/src/utils/cart.ts",
+    "docs/agent/PHASE_STATUS.md",
+    "docs/agent/PHASE6_PLAN.md",
+    "docs/agent/PROJECT_OVERVIEW.md",
+    "docs/agent/project-state.json",
+    "e2e/admin-aftercare-recovery.spec.ts",
+    "e2e/admin-bottom-navigation.spec.ts",
+    "src/components/common/Header.tsx",
+    "src/components/layout/BottomTabs.tsx",
+    "src/components/layout/IPhoneContainer.tsx",
+    "src/features/accounts/RecordCustomerPaymentModal.tsx",
+    "src/features/orders/AdminAftercarePanel.tsx",
+    "src/features/orders/OrderDetailModal.tsx",
+    "tests/admin-navigation.test.ts",
+    "tests/agent-continuity.test.ts",
+    "customer-web/src/utils/checkoutErrorMessage.ts",
+    "e2e/phase6-package-b-harness.html",
+    "e2e/phase6-package-b-harness.tsx",
+    "e2e/phase6-package-b.spec.ts",
+    "src/features/orders/aftercarePresentation.ts",
+    "src/utils/businessError.ts",
+    "tests/phase6-package-b.test.ts"
+  ],
   "testsPassed": [
-    "run-phase6-package-a-runtime after 001-131 PASS (acceptance exact incl. receivable card/coverage 6/net money 5/canonical per-order due; summary = sum of branch reports; home = summary; home degraded on corrupt evidence while report stays strict; untouched surface 7a84e3eb; DB lint); before 001-130 deltas 0",
-    "npm run quality PASS: admin 679/679, customer 189/189, browser 217 passed / 51 documented conditional skips, production requests escaped 0"
+    "Focused unit/continuity/navigation 15/15; TypeScript and strict ESLint",
+    "Package B Chromium/WebKit 10/10; affected recovery fixture recheck 2/2, retries=0",
+    "Full quality PASS: 227 browser tests / 51 existing conditional skips, no retries; isolation external/Production escaped=0"
   ],
-  "testsRemaining": [],
-  "findings": [
-    "Migration 131 rewritten in place (never applied outside isolated DBs) as explicit wrappers + phase6_financial_facts_internal; no runtime text patching.",
-    "Open note: modern Return writer guard (121:1143, 122:679) does not reject orders with operation_id NULL; reader is protected (V2-only modern returns). Writer fix out of scope.",
-    "Phase 7 deploy notes: migrations 112-131 before frontend; deploy admin-ai-assistant Edge Function; re-import nawasrah-alerts.json in n8n."
+  "testsRemaining": [
+    "Exact-SHA push/main code quality + secret scanning CI after authorized delivery"
   ],
+  "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "Production/deploy",
-    "Writer/grant/historical snapshot changes",
-    "Second migration",
-    "Packages B/C or Phase7"
+    "DB/migration changes",
+    "Package C or Phase7"
   ],
-  "nextExactAction": "Owner: approve Phase 6 package B; codex implements it per docs/agent/PHASE6_PLAN.md.",
-  "workingTreeFingerprint": null,
-  "checkpointedAt": "2026-10-06T07:09:28.019Z",
-  "startedAt": "2026-10-06T06:46:56.429Z"
+  "nextExactAction": "Verify package B delivery exact-SHA push/main code quality and secret CI, then stop for owner approval before C",
+  "workingTreeFingerprint": "0B9CC4AE5B694BE9EEFC48BEEB55417A3BE8BDE14359A791F067E623167BCEF0",
+  "checkpointedAt": "2026-10-06T07:48:15.768Z",
+  "startedAt": "2026-10-06T07:24:22.577Z"
 }

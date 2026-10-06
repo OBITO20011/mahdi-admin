@@ -138,7 +138,7 @@ export const Header: React.FC = () => {
         {/* Notification Bell */}
         <button
           onClick={() => openModal('notifications')}
-          className="relative flex h-8 w-8 items-center justify-center rounded-xl border border-slate-700/80 bg-slate-800 text-slate-300 transition hover:text-white"
+          className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-slate-700/80 bg-slate-800 text-slate-300 transition hover:text-white"
         >
           <Bell className="w-4 h-4" />
           {unreadCount > 0 && (
@@ -151,7 +151,7 @@ export const Header: React.FC = () => {
         {/* User Role Avatar */}
         <button
           onClick={() => openModal('profile')}
-          className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 p-1 transition hover:bg-slate-750"
+          className="flex min-h-11 items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 p-1 transition hover:bg-slate-750"
           title={currentUserName}
         >
           <img
@@ -161,7 +161,7 @@ export const Header: React.FC = () => {
           />
           <div className="text-right hidden sm:block">
             <span className="text-[11px] font-bold text-slate-100 block leading-none">{currentUserName}</span>
-            <span className="text-[9px] font-medium text-blue-400 block mt-0.5">{currentUserRole}</span>
+            <span className="text-[11px] font-medium text-blue-400 block mt-0.5">{{Owner: 'المالك', Admin: 'مدير تنفيذي', Accountant: 'محاسب', Cashier: 'كاشير', 'Sales Employee': 'موظف مبيعات', 'Warehouse Employee': 'مسؤول مستودع', 'Orders Employee': 'متابع الطلبات', 'Delivery Driver': 'سائق توصيل', 'View Only': 'مشاهدة فقط'}[currentUserRole] || 'موظف'}</span>
           </div>
         </button>
       </div>

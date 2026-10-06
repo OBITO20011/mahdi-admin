@@ -385,6 +385,17 @@ export function calculateCartPackages(cartItems: CartItem[]): number {
   return cartItems.reduce((sum, item) => sum + positiveInteger(item.quantity), 0);
 }
 
+/** Display counts only; do not change the existing commercial payload or total line count. */
+export function formatCartQuantitySummary(cartItems: CartItem[]): string {
+  const baseUnits = cartItems.filter(item => item.commercialLineKind === 'base_unit')
+    .reduce((sum, item) => sum + positiveInteger(item.quantity), 0);
+  const parcels = cartItems.filter(item => item.commercialLineKind !== 'base_unit')
+    .reduce((sum, item) => sum + positiveInteger(item.quantity), 0);
+  return [parcels > 0 ? `${parcels.toLocaleString('ar-JO')} طرد` : '',
+    baseUnits > 0 ? `${baseUnits.toLocaleString('ar-JO')} وحدة أساسية` : '']
+    .filter(Boolean).join(' • ') || 'السلة فارغة';
+}
+
 export function requiredBaseUnitsByProductId(cartItems: CartItem[]): Map<string, number> {
   const required = new Map<string, number>();
   const add = (productId: string, quantity: number) => required.set(productId, (required.get(productId) ?? 0) + quantity);

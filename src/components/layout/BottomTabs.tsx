@@ -47,7 +47,7 @@ export const BottomTabs: React.FC = () => {
     { id: 'home', label: 'الرئيسية', icon: Home },
     { id: 'orders', label: 'الطلبات', icon: ShoppingBag, badge: newOrdersCount },
     { id: 'inventory', label: 'المخزون', icon: Boxes },
-    { id: 'accounts', label: 'العملاء', icon: Users },
+    { id: 'accounts', label: 'العملاء والذمم', icon: Users },
     { id: 'more', label: 'المزيد', icon: MoreHorizontal },
   ];
 

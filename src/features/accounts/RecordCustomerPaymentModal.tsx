@@ -7,6 +7,7 @@ import {
   recordCustomerOrderPayment,
 } from '../../services/supabase/customerAccounts.service';
 import { useAppStoreActions } from '../../stores/useAppStore';
+import {businessErrorMessage} from '../../utils/businessError';
 
 interface RecordCustomerPaymentModalProps {
   initialOrder?: CustomerOutstandingOrder | null;
@@ -60,7 +61,7 @@ export const RecordCustomerPaymentModal: React.FC<
           setAmount(String(result.orders[0].amountDue));
         }
       } else {
-        setError(result.error || 'تعذر تحميل الذمم.');
+        setError(businessErrorMessage(result.error || 'تعذر تحميل الذمم.'));
       }
       setLoading(false);
       setHasLoaded(true);
@@ -120,7 +121,7 @@ export const RecordCustomerPaymentModal: React.FC<
     setSaving(false);
 
     if (!result.success) {
-      setError(result.error || 'تعذر تسجيل الدفعة.');
+      setError(businessErrorMessage(result.error || 'تعذر تسجيل الدفعة.'));
       return;
     }
 

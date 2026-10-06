@@ -242,7 +242,7 @@ test('Phase 2 BottomTabs use the approved five destinations without changing ide
     "{ id: 'home', label: 'الرئيسية'",
     "{ id: 'orders', label: 'الطلبات'",
     "{ id: 'inventory', label: 'المخزون'",
-    "{ id: 'accounts', label: 'العملاء'",
+    "{ id: 'accounts', label: 'العملاء والذمم'",
     "{ id: 'more', label: 'المزيد'",
   ]) {
     assert.ok(bottomTabs.includes(entry));

@@ -14,7 +14,7 @@
 | Phase 4.5 | OWNER-CLOSED | Lightweight phase-wide closure review and focused continuity re-sign-off passed with Critical/High/Medium/Low and material evidence gaps all zero. |
 | Phase 4 (overall) | OWNER-CLOSED | Returns, refunds, Replacement, Admin integration, cross-feature regression and independent closure are complete. |
 | Phase 5 | OWNER-CLOSED | Operational fixes in Migrations 128–130 delivered; owner closure after exact-SHA quality and secret-scanning CI PASS. Private Slices 1–4 remain inactive. |
-| Phase 6 | IN PROGRESS — PACKAGE A IMPLEMENTED | Items 1,2,5,6,17 locally verified, reader-only Migration 131; delivery requires exact-SHA CI. B/C await approval; mobile shell unchanged. |
+| Phase 6 | IN PROGRESS — PACKAGE B IMPLEMENTED | A remediation at 0b31eec has exact-SHA CI PASS. B items 3,4,7,8,12,13,16,18,19 passed focused UI and full quality; delivery requires exact-SHA CI. Mobile shell preserved; C awaits approval. |
 | Phase 7 | NOT STARTED | Production/release work requires separate owner authorization. |
 
 Phase 5 closure evidence: `bdea567562b1de8c64fe3aa286076258decf3d26`, push/main,

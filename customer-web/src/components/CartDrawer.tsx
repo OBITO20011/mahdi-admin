@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { CartItem, ParcelInstanceSelection } from '../types/catalog';
-import { calculateCartPackages, calculateCartSubtotal } from '../utils/cart';
+import { formatCartQuantitySummary, calculateCartSubtotal } from '../utils/cart';
 import { CartStorageRecovery } from '../utils/cart';
 import { formatJod } from '../utils/money';
 import { CheckoutProgress } from './CheckoutProgress';
@@ -65,7 +65,7 @@ export function CartDrawer({
   onRetryCheckoutSettings,
 }: CartDrawerProps) {
   const [clearConfirmationOpen, setClearConfirmationOpen] = useState(false);
-  const packagesCount = calculateCartPackages(items);
+  const quantitySummary = formatCartQuantitySummary(items);
   const subtotal = calculateCartSubtotal(items);
 
   useEffect(() => {
@@ -148,7 +148,7 @@ export function CartDrawer({
             <div>
               <h2 id="cart-drawer-title" className="font-black text-slate-950">سلة طلب الجملة</h2>
               <p className="text-[10px] font-bold text-slate-400">
-                {packagesCount.toLocaleString('ar-JO')} طرد
+                {quantitySummary}
               </p>
             </div>
           </div>
@@ -220,7 +220,7 @@ export function CartDrawer({
               </div>
               <h3 className="mt-5 font-black text-slate-900">السلة فارغة</h3>
               <p className="mt-2 text-xs leading-6 text-slate-500">
-                أضف طردًا من الكتالوج وسيبقى محفوظًا على هذا الجهاز.
+                أضف صنفًا من الكتالوج وسيبقى محفوظًا على هذا الجهاز.
               </p>
               <button
                 type="button"
@@ -442,7 +442,7 @@ export function CartDrawer({
                   </p>
                 </div>
                 <div className="rounded-2xl bg-emerald-100 px-3 py-2 text-[10px] font-extrabold text-emerald-700">
-                  {packagesCount.toLocaleString('ar-JO')} طرد
+                  {quantitySummary}
                 </div>
               </div>
 

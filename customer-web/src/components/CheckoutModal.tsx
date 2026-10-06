@@ -58,10 +58,11 @@ import {
   validateGuestCheckout,
 } from '../utils/checkout';
 import {
-  calculateCartPackages,
+  formatCartQuantitySummary,
   calculateCartSubtotal,
 } from '../utils/cart';
 import { formatJod } from '../utils/money';
+import {checkoutErrorMessage} from '../utils/checkoutErrorMessage';
 import { CheckoutProgress } from './CheckoutProgress';
 import { CheckoutReceiptPanel } from './CheckoutReceiptPanel';
 import { TurnstileWidget } from './TurnstileWidget';
@@ -180,7 +181,7 @@ export function CheckoutModal({
   const displayedItems = receipt || pendingAttempt?.serverState === 'UNKNOWN'
     ? submittedItems
     : items;
-  const packagesCount = calculateCartPackages(displayedItems);
+  const quantitySummary = formatCartQuantitySummary(displayedItems);
   const subtotal = calculateCartSubtotal(displayedItems);
   const currentPromotionContextKey = useMemo(
     () => createPromotionContextKey(form.phone, items),
@@ -506,7 +507,7 @@ export function CheckoutModal({
       return false;
     }
     if (items.length === 0) {
-      setSubmitError('السلة فارغة. أضف طردًا قبل إرسال الطلب.');
+      setSubmitError('السلة فارغة. أضف صنفًا قبل إرسال الطلب.');
       return false;
     }
 
@@ -749,7 +750,7 @@ export function CheckoutModal({
               <p className="mt-1 text-[10px] font-bold text-slate-500">
                 {settingsUnavailable && !receipt
                   ? 'إعدادات الطلب غير متاحة مؤقتًا'
-                  : `${packagesCount.toLocaleString('ar-JO')} طرد • ${formatJod(receipt?.totalInMinorUnits ?? checkoutTotal)}`}
+                  : `${quantitySummary} • ${formatJod(receipt?.totalInMinorUnits ?? checkoutTotal)}`}
               </p>
             </div>
           </div>
@@ -775,7 +776,7 @@ export function CheckoutModal({
             storeWhatsAppNumber={storeWhatsAppNumber}
             onClose={handleClose}
             onTrackOrder={onTrackOrder}
-            reconciliationNotice={submitError || undefined}
+            reconciliationNotice={submitError ? checkoutErrorMessage(submitError) : undefined}
           />
         ) : settingsUnavailable ? (
           <div className="p-6 text-center sm:p-10">
@@ -800,7 +801,7 @@ export function CheckoutModal({
                       <h3 className="mt-1 text-base font-black text-slate-950">مراجعة الأصناف والمبلغ</h3>
                     </div>
                     <span className="rounded-2xl bg-blue-100 px-3 py-2 text-[10px] font-black text-blue-800">
-                      {packagesCount.toLocaleString('ar-JO')} طرد
+                      {quantitySummary}
                     </span>
                   </div>
 
@@ -871,7 +872,7 @@ export function CheckoutModal({
               {submitError && (
                 <div role="alert" className="mt-5 flex items-start gap-2 rounded-2xl border border-rose-200 bg-rose-50 p-3 text-[11px] font-bold leading-5 text-rose-700">
                   <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
-                  {submitError}
+                  {checkoutErrorMessage(submitError)}
                 </div>
               )}
             </div>
@@ -914,7 +915,7 @@ export function CheckoutModal({
                     مراجعة الطلب
                   </span>
                   <span className="text-[10px] font-black text-blue-700">
-                    {packagesCount.toLocaleString('ar-JO')} طرد •{' '}
+                    {quantitySummary} •{' '}
                     {formatJod(checkoutTotal)}
                   </span>
                 </summary>
@@ -1335,7 +1336,7 @@ export function CheckoutModal({
                   className="mt-5 flex items-start gap-2 rounded-2xl border border-rose-200 bg-rose-50 p-3 text-[11px] font-bold leading-5 text-rose-700"
                 >
                   <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
-                  {submitError}
+                  {checkoutErrorMessage(submitError)}
                 </div>
               )}
             </div>

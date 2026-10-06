@@ -49,7 +49,7 @@ export function CheckoutReceiptPanel({
         <div className="rounded-3xl border border-blue-100 bg-blue-50 p-4">
           <p className="text-[10px] font-bold text-blue-500">رقم الطلب</p>
           <p className="mt-1 font-mono text-lg font-black text-blue-800">
-            {receipt.orderNumber}
+            <bdi dir="ltr">{receipt.orderNumber}</bdi>
           </p>
         </div>
         <div className="rounded-3xl border border-orange-100 bg-orange-50 p-4">

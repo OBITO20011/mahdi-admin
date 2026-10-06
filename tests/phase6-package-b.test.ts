@@ -1,0 +1,57 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import {readFileSync} from 'node:fs';
+import {allocateBaseReturn} from '../src/features/orders/aftercarePresentation';
+import {businessErrorMessage} from '../src/utils/businessError';
+import {formatCartQuantitySummary, calculateCartPackages} from '../customer-web/src/utils/cart';
+import {checkoutErrorMessage} from '../customer-web/src/utils/checkoutErrorMessage';
+import type {CartItem} from '../customer-web/src/types/catalog';
+import type {AftercarePhysicalRepresentative} from '../src/services/supabase/salesAftercare.service';
+
+const leaves: AftercarePhysicalRepresentative[] = [
+  {sourceKind: 'base_order_item', sourceId: 'a', productId: 'p', remainingQuantity: 2, parentReplacementItemId: null},
+  {sourceKind: 'replacement_item', sourceId: 'b', productId: 'p', remainingQuantity: 3, parentReplacementItemId: 'prior'},
+];
+test('partial base return allocates exact selected quantity over current physical leaves only', () => {
+  const physical = allocateBaseReturn('root', [...leaves].reverse(), 3, 'restock');
+  assert.deepEqual(physical.map(row => [row.source_id, row.quantity]), [['a', 2], ['b', 1]]);
+  assert.equal(physical.reduce((sum, row) => sum + row.sellable_restock_quantity, 0), 3);
+  assert.ok(physical.every(row => row.root_source_id === 'root' && row.product_id === 'p'));
+  assert.deepEqual(leaves.map(row => row.remainingQuantity), [2, 3]);
+  const damaged = allocateBaseReturn('root', leaves, 1, 'damaged');
+  assert.equal(damaged[0].defect_non_sellable_quantity, 1);
+  assert.equal(damaged[0].sellable_restock_quantity, 0);
+  for (const invalid of [0, -1, 1.5, 6, NaN, Infinity]) {
+    assert.throws(() => allocateBaseReturn('root', leaves, invalid, 'restock'));
+  }
+  assert.throws(() => allocateBaseReturn('root', [leaves[0], leaves[0]], 1, 'restock'));
+  assert.equal(allocateBaseReturn('root', leaves, 5, 'restock').length, 2);
+});
+test('cart display separates base units and parcels without changing commercial counting', () => {
+  const items = [{commercialLineKind: 'base_unit', quantity: 3},
+    {commercialLineKind: 'legacy_single_sku_parcel', quantity: 2},
+    {commercialLineKind: 'configurable_parcel', quantity: 1}] as CartItem[];
+  assert.equal(formatCartQuantitySummary(items), `${(3).toLocaleString('ar-JO')} طرد • ${(3).toLocaleString('ar-JO')} وحدة أساسية`);
+  assert.equal(calculateCartPackages(items), 6);
+  assert.equal(formatCartQuantitySummary([items[0]]), `${(3).toLocaleString('ar-JO')} وحدة أساسية`);
+  assert.equal(formatCartQuantitySummary([]), 'السلة فارغة');
+});
+test('Arabic messages keep ambiguous outcomes fail-closed and hide technical codes', () => {
+  assert.match(businessErrorMessage('AFTERCARE_OUTCOME_UNKNOWN'), /نفس المحاولة.*لا تبدأ/u);
+  assert.match(businessErrorMessage('PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED'), /الكمية المتبقية/u);
+  assert.match(businessErrorMessage('PHASE43_RETURN_ALLOCATION_INVALID'), /صنّف كامل/u);
+  assert.match(businessErrorMessage('Failed to fetch'), /تحقق من المحاولة السابقة/u);
+  assert.doesNotMatch(businessErrorMessage('PHASE43_UNRECOGNIZED'), /PHASE43/u);
+  assert.equal(businessErrorMessage('اختر كمية صحيحة'), 'اختر كمية صحيحة');
+  assert.match(checkoutErrorMessage('OUTCOME_UNKNOWN'), /نفس المحاولة/u);
+  assert.doesNotMatch(checkoutErrorMessage('PHASE3_UNKNOWN_ERROR'), /PHASE3/u);
+});
+test('desktop shell changes are md-only; mobile safe areas and locked-content exclusion remain', () => {
+  const shell = readFileSync('src/components/layout/IPhoneContainer.tsx', 'utf8');
+  assert.match(shell, /md:max-w-\[1600px\]/u);
+  assert.match(shell, /w-full h-\[100dvh\]/u);
+  assert.match(shell, /env\(safe-area-inset-bottom\)/u);
+  assert.match(shell, /!isApplicationLocked &&/u);
+  assert.match(shell, /get\('preview'\) === 'phone'/u);
+  assert.doesNotMatch(shell, /font-sans select-none/u);
+});
