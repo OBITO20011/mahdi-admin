@@ -10,7 +10,7 @@ test('Migration131 current contract is pinned and LF/CRLF portable', () => {
   const state = JSON.parse(read('docs/agent/project-state.json'));
   const canonical = migration.replace(/\r\n?/gu, '\n');
   const digest = createHash('sha256').update(canonical).digest('hex').toUpperCase();
-  assert.equal(state.migration131CanonicalLfSha256, '94F7702C89586E65C6BD855D9CA1B8365B7443D520CB3E698CEC346743CB3BD0');
+  assert.equal(state.migration131CanonicalLfSha256, 'F0CA79A2AAEED327B865884982D1D52BFCD72899AD2282DE4A59F55FACFBEEE9');
   assert.equal(digest, state.migration131CanonicalLfSha256);
   assert.equal(createHash('sha256').update(canonical.replaceAll('\n', '\r\n').replace(/\r\n?/gu, '\n')).digest('hex').toUpperCase(), digest);
 });
@@ -24,6 +24,10 @@ test('Phase6 A adds only Migration131 reader patches, not new authority/writers/
     'build_business_summary(text,date,date,timestamptz)', 'get_home_dashboard()',
     '_get_cash_shift_closing_report_before_snapshot(uuid)']);
   assert.match(migration, /source contract changed/u);
+  for(const target of ['v_report','v_result']) for(const field of ['sales','expenses','balances']) {
+    assert.ok(migration.includes(`(${target}->''${field}'') || (v_phase6->''${field}'')`),
+      'Parenthesize JSON operands: PostgreSQL operator precedence must not discard historical fields');
+  }
 });
 
 test('Report facts distinguish entitlement, debt, tender flow and immutable cost dimensions', () => {

@@ -171,14 +171,14 @@ BEGIN
   v_definition := REPLACE(v_definition,E'DECLARE\n',E'DECLARE\n  v_phase6 JSONB;\n');
   v_definition := REPLACE(v_definition,'RETURN jsonb_set(','v_report := jsonb_set(');
   v_patch := REPLACE(REPLACE(REPLACE(REPLACE(v_query,'$ZONE$','''Asia/Amman'''),'$BRANCH$','p_branch_id'),'$START$','v_period_start'),'$END$','v_period_end');
-  v_patch := v_patch || E'\n  v_report := jsonb_set(v_report,''{sales}'',v_report->''sales'' || v_phase6->''sales'');\n  v_report := jsonb_set(v_report,''{balances}'',v_report->''balances'' || v_phase6->''balances'');\n  v_report := jsonb_set(v_report,''{expenses}'',v_report->''expenses'' || v_phase6->''expenses'');\n  RETURN v_report || jsonb_build_object(''cashFlow'',v_phase6->''cashFlow'');';
+  v_patch := v_patch || E'\n  v_report := jsonb_set(v_report,''{sales}'',(v_report->''sales'') || (v_phase6->''sales''));\n  v_report := jsonb_set(v_report,''{balances}'',(v_report->''balances'') || (v_phase6->''balances''));\n  v_report := jsonb_set(v_report,''{expenses}'',(v_report->''expenses'') || (v_phase6->''expenses''));\n  RETURN v_report || jsonb_build_object(''cashFlow'',v_phase6->''cashFlow'');';
   EXECUTE REPLACE(v_definition,v_tail,v_patch || v_tail);
 
   SELECT REPLACE(REPLACE(pg_get_functiondef('public.build_business_summary(text,date,date,timestamptz)'::REGPROCEDURE),E'\r\n',E'\n'),E'\r',E'\n') INTO v_definition;
   IF POSITION('  IF jsonb_typeof(v_result)' IN v_definition)=0 THEN RAISE EXCEPTION 'Phase6 summary reader source contract changed'; END IF;
   v_definition := REPLACE(v_definition,E'DECLARE\n',E'DECLARE\n  v_phase6 JSONB;\n');
   v_patch := REPLACE(REPLACE(REPLACE(REPLACE(v_query,'$ZONE$','v_timezone'),'$BRANCH$','NULL::UUID'),'$START$','v_period_start'),'$END$','v_period_end');
-  v_patch := v_patch || E'\n  v_result := jsonb_set(v_result,''{sales}'',v_result->''sales'' || v_phase6->''sales'');\n  v_result := jsonb_set(v_result,''{balances}'',v_result->''balances'' || v_phase6->''balances'');\n  v_result := jsonb_set(v_result,''{expenses}'',v_result->''expenses'' || v_phase6->''expenses'');\n  v_result := v_result || jsonb_build_object(''cashFlow'',v_phase6->''cashFlow'',''dailyBreakdown'',v_phase6->''dailyBreakdown'');\n';
+  v_patch := v_patch || E'\n  v_result := jsonb_set(v_result,''{sales}'',(v_result->''sales'') || (v_phase6->''sales''));\n  v_result := jsonb_set(v_result,''{balances}'',(v_result->''balances'') || (v_phase6->''balances''));\n  v_result := jsonb_set(v_result,''{expenses}'',(v_result->''expenses'') || (v_phase6->''expenses''));\n  v_result := v_result || jsonb_build_object(''cashFlow'',v_phase6->''cashFlow'',''dailyBreakdown'',v_phase6->''dailyBreakdown'');\n';
   EXECUTE REPLACE(v_definition,'  IF jsonb_typeof(v_result)',v_patch || '  IF jsonb_typeof(v_result)');
 
   SELECT REPLACE(REPLACE(pg_get_functiondef('public.get_home_dashboard()'::REGPROCEDURE),E'\r\n',E'\n'),E'\r',E'\n') INTO v_definition;

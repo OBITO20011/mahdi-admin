@@ -24,7 +24,7 @@
   "phase6PlanningAllowed": true,
   "phase6ImplementationStarted": true,
   "phase6AuthorizedPackage": "A",
-  "phase6PackageALocalVerification": "PASS",
+  "phase6PackageALocalVerification": "REPORT_RUNTIME_AND_QUALITY_PASS_FULL_DB_CI_REQUIRED",
   "phase6NextPackageAllowed": false,
   "nextPermittedPhase": null,
   "phase43Started": true,
@@ -71,5 +71,5 @@
   "phase5Slice5ParkedBranch": "codex/phase5-slice5-wip",
   "migration129CanonicalLfSha256": "886AF35898E5AE73DF9427308CA322246330DDFB167814F44127D1E6C9CDB28E",
   "migration130CanonicalLfSha256": "46B830DBE2712F7E396DBA23C1971E33AB097DEC9E8BE95500B1074708CE496F",
-  "migration131CanonicalLfSha256": "94F7702C89586E65C6BD855D9CA1B8365B7443D520CB3E698CEC346743CB3BD0"
+  "migration131CanonicalLfSha256": "F0CA79A2AAEED327B865884982D1D52BFCD72899AD2282DE4A59F55FACFBEEE9"
 }

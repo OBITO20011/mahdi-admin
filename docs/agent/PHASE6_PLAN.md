@@ -69,9 +69,13 @@ Canonical/rebuild لمجرد تغيير نص أو CSS دون سبب متعلق �
 - تكلفة بديل 111.111111 minor units تبقى مصدر الاسترجاع رغم WAC 999 وسعر 7777؛ COGS الأصلي ثابت.
 - كميات الإغلاق المختلطة 1 سليم + 1 معيب (+ 1 ضرر عميل في المكوّن الثاني) محفوظة مستقلًا عن مبلغ الرد؛ لقطة الإغلاق ثابتة.
 - دوال الكتابة والصلاحيات الأخرى مطابقة لـ001–130؛ قراءات التقارير صفر كتابة، DB lint PASS.
-- Migration 131 canonical LF SHA-256: `94F7702C89586E65C6BD855D9CA1B8365B7443D520CB3E698CEC346743CB3BD0`.
+- Migration 131 candidate canonical LF SHA-256: `F0CA79A2AAEED327B865884982D1D52BFCD72899AD2282DE4A59F55FACFBEEE9`.
+- CI لأول commit `dc4ab2910e30fc357276facb4f0c359daf398e41` كشف إسقاط حقول الخصم القديمة بسبب أولوية عامل دمج JSON.
+  صحّحت أقواس الدمج داخل القارئ 131 المرشح نفسه، دون migration ثانية/writers؛ فحص الحقول القديمة وخصم فعلي 1 minor unit نجح على DB جديدة.
+  تجاوزت إعادة Phase3 المحلية فحص التقارير، لكنها تعثّرت لاحقًا عند حاجز `p3-complete-5 / p3-expire-5`؛ ليست PASS كاملة.
+  لم تُعدل writers أو اختبارات الأقفال أو timeouts. نجاح DB CI كاملة على SHA المصحح شرط التسليم، لا يُستبدل بالفحص المالي المركز.
 - تحقق الحزمة: Admin 678/678، المتجر 189/189، TypeScript وESLint strict وDB lint وquality PASS.
-- Browser QA: 216 passed، 51 conditional skips موجودة مسبقًا، واختبار قديم flaky مرة واحدة.
-  أعيد مع اختبارات الحزمة مركّزًا على خوادم جديدة دون retries: 12/12 PASS؛ لم يغيّر الاختبار أو timeouts/retries.
+- Browser QA الأولى: 216 passed، 51 conditional skips موجودة مسبقًا، واختبار قديم flaky مرة واحدة؛ الفحص المركز اللاحق دون retries: 12/12 PASS.
+  quality على التصحيح: 217 passed، 51 conditional skips، بلا retries أو flaky. Admin 678/678 والمتجر 189/189.
 - عزل المتصفح: external/Production requests escaped = 0. موارد DB والمتصفح المحلية أوقفت بعد الفحص.
 - لا Production/deploy؛ البند 8 وتغييرات إطار الموبايل خارج هذه الحزمة.

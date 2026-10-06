@@ -9,7 +9,7 @@ const report = {
     replacementCostInMinorUnits: 2333, restockRecoveryInMinorUnits: 2000,
     aftercareAdjustedMarginInMinorUnits: -333, cogsInMinorUnits: 6000,
     grossProfitInMinorUnits: 4000, netProfitInMinorUnits: -333,
-    collectedInMinorUnits: 6000, outstandingInMinorUnits: 1000},
+    collectedInMinorUnits: 6000, outstandingInMinorUnits: 1000, discountInMinorUnits: 0},
   cashFlow: {cashCollectedInMinorUnits: 0, cliqCollectedInMinorUnits: 6000,
     cashRefundedInMinorUnits: 1000, cliqRefundedInMinorUnits: 0,
     cashNetFlowInMinorUnits: -1000, cliqNetFlowInMinorUnits: 6000},

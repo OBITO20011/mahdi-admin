@@ -31,10 +31,10 @@ const report = (branch) => json(`${claims} SET ROLE authenticated;
   SELECT public.get_operational_business_report(${quote(branch)},CURRENT_DATE,CURRENT_DATE);`);
 const setCost = (cost) => sql(`UPDATE public.products SET wac_cost_in_minor_units_exact=${cost},
   cost_price_in_minor_units=ROUND(${cost}) WHERE id=${quote(product)};`);
-const makePos = async (location,lines,amount) => {
+const makePos = async (location,lines,amount,discount=0) => {
   const result=await json(`${claims} SET ROLE authenticated; SELECT public.create_pos_sale_v2(
     ${quote(location.warehouse)},${quote(location.branch)},NULL,'Phase6 report POS','cash',
-    ${quote(JSON.stringify(lines))}::jsonb,0,${amount},${quote(randomUUID())});`);
+    ${quote(JSON.stringify(lines))}::jsonb,${discount},${amount},${quote(randomUUID())});`);
   assert.equal(result.success,true);
   return json(`SELECT jsonb_build_object('id',o.id,'item',i.id,'branch',o.branch_id,'warehouse',o.warehouse_id)
     FROM public.orders o JOIN public.order_items i ON i.order_id=o.id WHERE o.id=${quote(result.orderId)};`);
@@ -95,6 +95,12 @@ try {
     ${quote(sale.id)},${quote(randomUUID())},'cliq',6000,1000,'P6-CLIQ','Phase6 acceptance completion');`);
   assert.equal(completion.success,true);
   const baseline=await report(sale.branch);
+  for(const payload of [beforeCompletion,baseline]){
+    for(const field of ['discountInMinorUnits','subtotalInMinorUnits','posOrderCount','websiteOrderCount'])
+      assert.ok(Number.isSafeInteger(payload.sales[field]),`Historical sales.${field} must not disappear`);
+    assert.ok(Array.isArray(payload.expenses.categories),'Historical expense categories remain present');
+    assert.ok(Number.isSafeInteger(payload.balances.supplierDueInMinorUnits),'Supplier balance remains present');
+  }
   if(!before){
     assert.equal(baseline.sales.grossSalesInMinorUnits-beforeCompletion.sales.grossSalesInMinorUnits,11000);
     assert.equal(baseline.sales.outstandingInMinorUnits-beforeCompletion.sales.outstandingInMinorUnits,5000);
@@ -146,6 +152,9 @@ try {
   await report(sale.branch);
   assert.deepEqual(await fingerprint(),stateBefore,'All report reads must be content-sensitive zero-write');
   if(!before){
+    for(const field of ['discountInMinorUnits','cashSalesInMinorUnits','cliqSalesInMinorUnits'])
+      assert.ok(Number.isSafeInteger(summary.sales[field]),`Summary ${field} remains present`);
+    assert.ok(Number.isSafeInteger(summary.balances.supplierDueInMinorUnits));
     assert.ok(summary.sales.returnEntitlementInMinorUnits>=5000+legacyTotal);
     assert.ok(home.summary.todayNetSalesInMinorUnits!==undefined);
     assert.ok(closing.returnQuantityBreakdown.some(r=>r.sellableQuantity===5));
@@ -206,6 +215,11 @@ try {
     const postDamage=await report(sale.branch);
     assert.equal(difference(postDamage,preDamage,'restockRecoveryInMinorUnits'),0);
     assert.equal(difference(postDamage,preDamage,'returnEntitlementInMinorUnits'),1000);
+    const beforeDiscount=await report(sale.branch);
+    await makePos(sale,baseLines(1),999,1);
+    const afterDiscount=await report(sale.branch);
+    assert.equal(difference(afterDiscount,beforeDiscount,'discountInMinorUnits'),1,
+      'Preserve the Phase3 discount reader contract; never replace missing discount with zero');
     // Mixed sellable/defect/damage inside one root. Its inspection disposition
     // alone is intentionally insufficient to infer the physical buckets.
     const productB='92400000-0000-0000-0000-000000000102';
