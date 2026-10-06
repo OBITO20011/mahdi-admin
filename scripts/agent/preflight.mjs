@@ -18,6 +18,11 @@ if (state.migrationCeiling >= 128 && (!state.migration128CanonicalLfSha256
   || migrations.migration128CanonicalLfSha256 !== state.migration128CanonicalLfSha256)) {
   failures.push('Migration 128 hash missing or mismatch');
 }
+if (state.migrationCeiling >= 129 && (!state.migration129CanonicalLfSha256
+  || !migrations.migration129Exists
+  || migrations.migration129CanonicalLfSha256 !== state.migration129CanonicalLfSha256)) {
+  failures.push('Migration 129 hash missing or mismatch');
+}
 if (migrations.unexpectedAboveCeiling.length) failures.push('Migration above approved ceiling');
 if (state.migration126CanonicalLfSha256
   && (!migrations.migration126Exists

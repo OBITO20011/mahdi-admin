@@ -63,7 +63,7 @@ test('closed Phase 4 and Phase 5 Slices 1-2 with inactive Migration 124 are expl
   assert.equal(state.nextPermittedPhase, null);
   assert.equal(state.phase43Started, true);
   assert.equal(state.phase44Started, true);
-  assert.equal(state.migrationCeiling, 128);
+  assert.equal(state.migrationCeiling, 129);
   assert.equal(state.phase5Slice3ImplementationStarted, true);
   assert.equal(state.phase5Slice3Closed, true);
   assert.equal(state.phase5Slice4Started, true);

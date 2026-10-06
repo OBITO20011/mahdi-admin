@@ -39,7 +39,7 @@
   "phase5Slice4ClosureExactShaCi": "PASS",
   "phase5Slice3AuthorizationBaseline": "6fac32ac422206a3b5e5716159304806f30d0aed",
   "phase5PublicActivationAllowed": false,
-  "migrationCeiling": 128,
+  "migrationCeiling": 129,
   "migration121Sha256": "9779212034A901DBB971A68EC485D16B0AA4BE329478B9DAF1A4263CE6989BDD",
   "migration122MustBeAbsent": false,
   "migration122HistoricalRawWindowsSha256": "DED829F8EF84F49EABD8D9AAA76D460632E36B86A8D041228DDB91692CA15C24",
@@ -55,5 +55,6 @@
   "updatedAt": "2026-10-06",
   "migration128CanonicalLfSha256": "F0F2648E6513BA9820C27B3D56B7222E3783378D07EA3189FC2616E32DE6F39D",
   "phase5RescopeContract": "docs/agent/PHASE5_RESCOPE.md",
-  "phase5Slice5ParkedBranch": "codex/phase5-slice5-wip"
+  "phase5Slice5ParkedBranch": "codex/phase5-slice5-wip",
+  "migration129CanonicalLfSha256": "886AF35898E5AE73DF9427308CA322246330DDFB167814F44127D1E6C9CDB28E"
 }
