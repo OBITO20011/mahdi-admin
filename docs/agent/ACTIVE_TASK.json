@@ -2,48 +2,35 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Approved Package D: D1 Migration132/before-after; then D2 POS, D3 Admin/Gateway, D4 removal; commit/push each",
-  "baselineSha": "54e669cb195b69af1536cf7bcf64f18bc36519c0",
+  "objective": "D1 exact-SHA CI correction: workflow assertion and strict DB lint output parsing; then authorized D2-D4",
+  "baselineSha": "349d84d62a56f9db14c2803162054b223eb09d19",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_D",
   "completed": [
     "Phase6 OWNER-CLOSED; closure commit 54e669cb195b69af1536cf7bcf64f18bc36519c0; exact-SHA CI quality37534064206 and secrets37534064164 PASS",
     "Package D plan approved with NULL-safe modern guards, V1 read-only and four delivery stages",
-    "D1 focused runtime PASS: fresh131/132, before/after guards, current Phase43 including 18 identity probes and deadlockDelta0; historical migrations unchanged"
+    "D1 focused runtime PASS: fresh131/132, before/after guards, current Phase43 including 18 identity probes and deadlockDelta0; historical migrations unchanged",
+    "D1 pushed 349d84d62a56f9db14c2803162054b223eb09d19; secrets37540471138 PASS; quality37540471021 failed stale workflow assertion and lint output shape"
   ],
   "inProgress": [
-    "D1 focused delivery commit/push; then D2 POS V2, parcel builder and recovery"
+    "D1 CI correction verified locally; commit/push and exact-SHA CI before D2"
   ],
   "notStarted": [
     "Phase 7"
   ],
   "filesTouched": [
-    ".github/workflows/quality.yml",
-    "docs/agent/PHASE_STATUS.md",
-    "docs/agent/PROJECT_OVERVIEW.md",
-    "docs/agent/project-state.json",
-    "scripts/agent/lib.mjs",
-    "scripts/agent/preflight.mjs",
-    "scripts/testing/run-phase43-admin-aftercare-runtime.mjs",
-    "tests/agent-continuity.test.ts",
-    "tests/phase36-admin-integration.test.ts",
-    "tests/phase5-canonical-payment-writers.test.ts",
-    "tests/phase5-operational-fixes.test.ts",
-    "tests/phase5-private-coordinator.test.ts",
-    "tests/phase5-private-financial-read.test.ts",
     "docs/agent/PACKAGE_D_PLAN.md",
-    "scripts/testing/package-d-aftercare-guard-probes.sql",
     "scripts/testing/run-package-d-database-runtime.mjs",
-    "supabase/migrations/132_package_d_system_unification.sql",
-    "tests/package-d-unification.test.ts"
+    "tests/phase43-admin-aftercare-integration.test.ts",
+    "scripts/testing/package-d-db-lint-policy.mjs",
+    "tests/package-d-db-lint.test.ts"
   ],
   "testsPassed": [
-    "Fresh 001-131 and 001-132; NULL guards before/after three real RPCs; policy/warehouse/ACL/aftercare/replay/capacity runtime",
-    "690/690 unit tests; typecheck and strict ESLint; DB lint no errors (unused compatibility arguments only)"
+    "Focused16/16; fresh001-132 PackageD runtime/DB lint PASS; full quality exit0: Admin693/693, Customer189/189, Browser243 PASS/51 existing conditional skips/retries0; strict ESLint; preflight PASS"
   ],
   "testsRemaining": [
-    "D1 staged Gitleaks/commit/push; D2-D4; final quality and exact-SHA CI"
+    "Staged Gitleaks exit0, correction commit/push/exact-SHA CI; then D2-D4"
   ],
   "findings": [],
   "blockers": [],
@@ -53,8 +40,8 @@
     "Historical migrations001-131; additional migrations; feature-state activation",
     "Phase7"
   ],
-  "nextExactAction": "Start authorized D2 from D1 committed baseline: POS V2, flexible-parcel builder and immutable recovery",
-  "workingTreeFingerprint": "47A0CE502DA77AF26F6FE63FC6D732A3DB9F4255507169FE2379A7208D7C6082",
-  "checkpointedAt": "2026-10-06T22:25:00.997Z",
-  "startedAt": "2026-10-06T21:40:31.981Z"
+  "nextExactAction": "Verify corrective exact-SHA CI; then start authorized D2 POS V2, parcel builder and immutable recovery",
+  "workingTreeFingerprint": "C2B47AD894B8D66EB49260A7AF520FCC9FE9A1F9A782699FD03213A1281A9F28",
+  "checkpointedAt": "2026-10-06T22:57:10.697Z",
+  "startedAt": "2026-10-06T22:43:07.439Z"
 }

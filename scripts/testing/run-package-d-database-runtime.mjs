@@ -3,6 +3,7 @@ import {execFile,spawn} from 'node:child_process';
 import {readFile} from 'node:fs/promises';
 import {promisify} from 'node:util';
 import path from 'node:path';
+import {assertPackageDDbLint} from './package-d-db-lint-policy.mjs';
 
 const exec=promisify(execFile);
 const root=path.resolve(import.meta.dirname,'../..');
@@ -172,17 +173,7 @@ try{
   }
   const {stdout:lint}=await exec(process.execPath,[cli,'db','lint','--local','--level','warning','--workdir',workdir],
     {cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024*1024});
-  const lintResult=JSON.parse(lint);
-  assert.ok(Array.isArray(lintResult.results));
-  for(const entry of lintResult.results){
-    for(const issue of entry.issues){
-      assert.match(issue.level,/^warning/u,'DB lint errors must fail');
-      assert.match(issue.message,/^unused parameter /u,'Unexpected DB warning requires investigation');
-      assert.ok(['public._transfer_inventory_between_warehouses_phase2_legacy',
-        'public.create_pos_sale','public.return_completed_website_order'].includes(entry.function),
-      'Only compatibility signatures may have unused parameters');
-    }
-  }
+  const lintResult=assertPackageDDbLint(lint);
   console.log(JSON.stringify({ok:true,mode:before?'before':'after',freshRebuild:`001-${ceiling}`,
     guards,featureStateUnchanged:true,outsidePrivateCallers:outsideCallers,configuration,
     transitionGuards,dbLint:lintResult},null,2));

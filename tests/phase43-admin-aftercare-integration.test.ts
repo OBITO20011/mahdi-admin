@@ -51,7 +51,7 @@ test('Migration 122 is bounded and preserves the approved Phase 4.2 migration', 
   assert.match(migration122, /^BEGIN;/u);
   assert.match(migration122, /COMMIT;\s*$/u);
   assert.match(canonicalRuntime, /run-phase42-atomic-return-runtime\.mjs/u);
-  assert.match(qualityWorkflow, /Run Phase 4\.3 Admin aftercare runtime contract[\s\S]*?npm run test:phase43-aftercare:runtime/u);
+  assert.match(qualityWorkflow, /- name: Run current Phase 4\.3 Admin aftercare and historical read-only contracts\s+run: npm run test:phase43-aftercare:runtime/u);
 });
 
 test('operational issuance is distinct from foundation settlement', () => {
