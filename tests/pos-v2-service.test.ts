@@ -35,6 +35,9 @@ test('V2 adapter submits one typed RPC request and returns the immutable result'
         operationId: '44444444-4444-4444-4444-444444444444',
         orderId: '55555555-5555-5555-5555-555555555555',
         orderNumber: 'POS-TEST',
+        warehouseId: input.warehouseId,
+        branchId: input.branchId,
+        customerName: 'زبون نقدي',
         idempotentReplay: false,
         subtotalInMinorUnits: 1000,
         discountInMinorUnits: 0,
@@ -43,7 +46,11 @@ test('V2 adapter submits one typed RPC request and returns the immutable result'
         changeDueInMinorUnits: 0,
         paymentMethod: 'cash',
         paymentStatus: 'paid',
-        items: [],
+        items: [{id: '66666666-6666-6666-6666-666666666666', productId: input.lines[0].commercial_line_kind === 'base_unit' ? input.lines[0].product_id : '',
+          productName: 'منتج', sku: 'TEST', salePackage: 'قطعة', commercialLineKind: 'base_unit',
+          quantity: 1, baseQuantity: 1, unitsPerSalePackage: 1, unitPriceInMinorUnits: 1000,
+          lineTotalInMinorUnits: 1000, allocatedDiscountInMinorUnits: 0, netRefundableAmountInMinorUnits: 1000,
+          cogsInMinorUnits: 300, profitInMinorUnits: 700, parcelInstances: []}],
       },
     };
   };

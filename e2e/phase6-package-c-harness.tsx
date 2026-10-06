@@ -4,6 +4,8 @@ import '../src/index.css';
 import {Modal} from '../src/components/common/Modal';
 import {KpiCards} from '../src/features/dashboard/KpiCards';
 import {PosView} from '../src/features/pos/PosView';
+import {storeEngine, type AppState} from '../src/stores/useAppStore';
+import {supabase} from '../src/lib/supabase';
 import type {DashboardKpis} from '../src/types/dashboard';
 import {RecordCustomerPaymentModal} from '../src/features/accounts/RecordCustomerPaymentModal';
 import {RecordSupplierPaymentModal} from '../src/features/directReceiving/RecordSupplierPaymentModal';
@@ -12,6 +14,19 @@ import type {CustomerOutstandingOrder} from '../src/services/supabase/customerAc
 import {CartDrawer} from '../customer-web/src/components/CartDrawer';
 import type {CartItem} from '../customer-web/src/types/catalog';
 const noop = () => undefined;
+if (new URLSearchParams(location.search).get('kind') === 'pos') {
+  // Explicit isolated location facts: never use an aggregate inventory fallback.
+  const store = storeEngine as unknown as {state: AppState; getState: () => AppState};
+  const branch = {id: '33333333-3333-4333-8333-333333333333', name: 'فرع الاختبار',
+    address: 'اختبار', city: 'اختبار', phone: ''};
+  store.state = {...store.getState(), activeBranch: branch, branches: [branch], warehouses: [{
+    id: '22222222-2222-4222-8222-222222222222', name: 'مستودع الاختبار', branchId: branch.id,
+    location: 'اختبار'}]};
+  const actorId = '11111111-1111-4111-8111-111111111111';
+  storeEngine.setCurrentUser({id: actorId, name: 'كاشير الاختبار', role: 'Owner', avatarUrl: ''});
+  if (supabase) supabase.auth.getUser = async () =>
+    (({data: {user: {id: actorId}}, error: null}) as Awaited<ReturnType<typeof supabase.auth.getUser>>);
+}
 const kpis = {todaySales: 0, todaySalesChangePercent: 0, weekSales: 0, monthSales: 0,
   totalRevenue: 0, netProfit: 0, profitMarginPercent: 0, todayOrdersCount: 0,
   activeCustomersCount: 0, totalProductsCount: 1, lowStockCount: 1, outOfStockCount: 1} as DashboardKpis;

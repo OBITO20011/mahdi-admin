@@ -8,7 +8,13 @@ import {
   useAppStoreActions,
   useAppStoreSelector,
 } from '../../stores/useAppStore';
-import { Invoice, Product, OrderItem, PaymentMethod } from '../../types';
+import { Invoice, Product, PaymentMethod } from '../../types';
+import {supabase} from '../../lib/supabase';
+import {runPosV2Attempt, readPosV2Recovery} from '../../services/supabase/posV2Recovery';
+import type {CreatePosSaleV2Input, PosV2ConfigurableParcelLine} from '../../services/supabase/posV2.service';
+import {PosParcelBuilder, type PosParcelOption} from './PosParcelBuilder';
+import {posCartLines, posStockDemand, posWarehouseAvailable, posV2Invoice, type PosCartItem} from './posV2Cart';
+import {jodToMinorUnits} from '../../utils/receivingCalculations';
 import { Modal } from '../../components/common/Modal';
 import {
   AddCustomerModalContent,
@@ -68,16 +74,25 @@ export const PosView: React.FC = () => {
     categories,
     activeBranch,
     productDataRevision,
+    warehouses,
+    branches,
+    currentUser,
   } = useAppStoreSelector(
     (state) => ({
       categories: state.categories,
       activeBranch: state.activeBranch,
       productDataRevision: state.productDataRevision,
+      warehouses: state.warehouses,
+      branches: state.branches,
+      currentUser: state.currentUser,
     }),
     shallowEqual
   );
   const {
-    createPosSale,
+    refreshProductsFromSupabase,
+    refreshOrdersFromSupabase,
+    refreshInventoryMovementsFromSupabase,
+    refreshStockNotificationsFromSupabase,
     cacheProductPage,
     setToast,
     setActiveTab,
@@ -88,7 +103,17 @@ export const PosView: React.FC = () => {
   const [posProducts, setPosProducts] = useState<Product[]>([]);
   const [isProductsLoading, setIsProductsLoading] = useState(true);
   const [productsError, setProductsError] = useState<string | null>(null);
-  const [cartItems, setCartItems] = useState<OrderItem[]>([]);
+  const [cartItems, setCartItems] = useState<PosCartItem[]>([]);
+  const [saleMode, setSaleMode] = useState<'base_unit' | 'legacy_single_sku_parcel'>('legacy_single_sku_parcel');
+  const [selectedWarehouseId, setSelectedWarehouseId] = useState('');
+  const branchWarehouses = warehouses.filter(w => w.branchId === activeBranch.id);
+  const warehouseId = branchWarehouses.find(w => w.id === selectedWarehouseId)?.id
+    || (branchWarehouses.length === 1 ? branchWarehouses[0].id : '');
+  const [parcelOptions, setParcelOptions] = useState<PosParcelOption[]>([]);
+  const [parcelOption, setParcelOption] = useState<PosParcelOption | null>(null);
+  const [editingParcelId, setEditingParcelId] = useState<string | null>(null);
+  const [recoveryStatus, setRecoveryStatus] = useState<string | null>(null);
+  const recoveryBlocked = recoveryStatus !== null && !['SUCCEEDED', 'DEFINITIVELY_REJECTED'].includes(recoveryStatus);
   const [posCustomers, setPosCustomers] = useState<PosCustomer[]>([]);
   const [customerSearch, setCustomerSearch] = useState('');
   const [posCustomerPage, setPosCustomerPage] = useState(1);
@@ -108,9 +133,48 @@ export const PosView: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [openPosShift, setOpenPosShift] = useState<OpenPosShift | null>(null);
   const [isShiftStatusLoading, setIsShiftStatusLoading] = useState(true);
-  const idempotencyKeyRef = useRef<string>(crypto.randomUUID());
   const knownProductsRef = useRef<Map<string, Product>>(new Map());
+  const cartWarehouseRef = useRef<string>('');
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const refreshRecovery = () => {
+    try {setRecoveryStatus(readPosV2Recovery(currentUser.id)?.status || null);}
+    catch {setRecoveryStatus('UNPROVEN');}
+  };
+  useEffect(() => {
+    const refresh = () => {
+      try {setRecoveryStatus(readPosV2Recovery(currentUser.id)?.status || null);}
+      catch {setRecoveryStatus('UNPROVEN');}
+    };
+    refresh(); window.addEventListener('storage', refresh);
+    return () => window.removeEventListener('storage', refresh);
+  }, [currentUser.id]);
+  useEffect(() => {
+    let active = true; setParcelOptions([]); setParcelOption(null);
+    if (warehouseId && supabase) void Promise.resolve(supabase.rpc('get_pos_configurable_parcel_options_v1', {p_warehouse_id: warehouseId}))
+      .then(({data, error}) => {
+        if (!active) return;
+        if (error || !data || !Array.isArray(data.options)) {setToast('تعذر قراءة إعداد طرود الكاشير.', 'error'); return;}
+        const options = data.options as PosParcelOption[];
+        if (options.some(o => !o.familyProductId || !o.parcelConfigurationId || !Number.isSafeInteger(o.configurationRevision)
+          || o.configurationRevision < 1 || !Number.isSafeInteger(o.unitsPerParcel) || o.unitsPerParcel < 1
+          || !Number.isSafeInteger(o.parcelPriceInMinorUnits) || o.parcelPriceInMinorUnits < 1 || !Array.isArray(o.components)
+          || !o.components.length || new Set(o.components.map(c => c.productId)).size !== o.components.length
+          || o.components.some(c => !c.productId || typeof c.nameAr !== 'string'
+            || !Number.isSafeInteger(c.availableQuantity) || c.availableQuantity < 0))) {
+          setToast('بيانات الطرود غير مكتملة؛ أعد تحميلها.', 'error'); return;
+        }
+        setParcelOptions(options);
+      }).catch(() => {if (active) setToast('تعذر تحميل طرود الكاشير. تحقق من الاتصال.', 'error');});
+    return () => {active = false;};
+  }, [warehouseId, productDataRevision, setToast]);
+
+  const cartFits = (next: PosCartItem[]) => [...posStockDemand(next)].every(([id, quantity]) => {
+    const product = knownProductsRef.current.get(id);
+    const component = parcelOptions.flatMap(p => p.components).find(c => c.productId === id);
+    const available = product ? posWarehouseAvailable(product, warehouseId) : component?.availableQuantity;
+    return Number.isSafeInteger(quantity) && quantity > 0 && available !== undefined && quantity <= available;
+  });
 
   useEffect(() => {
     let active = true;
@@ -235,16 +299,19 @@ export const PosView: React.FC = () => {
   };
 
   const addToCart = (prod: Product) => {
+    if (isSubmitting || recoveryBlocked || !warehouseId) {setToast('حدد المستودع واسترجع أي محاولة معلقة قبل البيع.', 'error'); return;}
+    if (cartItems.length && cartWarehouseRef.current !== warehouseId) {setToast('تغير مستودع البيع؛ أفرغ السلة ثم أعد تركيبها.', 'error'); return;}
+    cartWarehouseRef.current = warehouseId;
     knownProductsRef.current.set(prod.id, prod);
-    const unitsPerSalePackage = Math.max(
+    const unitsPerSalePackage = saleMode === 'base_unit' ? 1 : Math.max(
       1,
       Math.floor(prod.unitsPerSalePackage || 1)
     );
     const availableSalePackages = calculateAvailableSalePackages(
-      prod.availableQuantity,
+      posWarehouseAvailable(prod, warehouseId),
       unitsPerSalePackage
     );
-    const existingIndex = cartItems.findIndex((item) => item.productId === prod.id);
+    const existingIndex = cartItems.findIndex((item) => item.productId === prod.id && item.v2Line.commercial_line_kind === saleMode);
     const currentQuantity =
       existingIndex >= 0 ? cartItems[existingIndex].quantity : 0;
     if (!canSetPosQuantity(currentQuantity + 1, availableSalePackages)) {
@@ -253,43 +320,52 @@ export const PosView: React.FC = () => {
     }
 
     if (existingIndex >= 0) {
-      const updated = [...cartItems];
+      const updated = cartItems.map(item => ({...item}));
       updated[existingIndex].quantity += 1;
+      updated[existingIndex].baseQuantity = updated[existingIndex].quantity * unitsPerSalePackage;
       updated[existingIndex].totalPrice = updated[existingIndex].quantity * updated[existingIndex].unitPrice;
+      if (!cartFits(updated)) {setToast('الكمية المشتركة للقطع والطرود تتجاوز مخزون المستودع.', 'error'); return;}
       setCartItems(updated);
     } else {
-      const newItem: OrderItem = {
+      const unitPrice = saleMode === 'base_unit' ? prod.retailPrice : prod.salePackagePrice;
+      if (typeof unitPrice !== 'number' || !Number.isFinite(unitPrice) || unitPrice < 0) {setToast('سعر البيع غير متوفر.', 'error'); return;}
+      const newItem: PosCartItem = {
+        v2Line: saleMode === 'base_unit' ? {commercial_line_kind: saleMode, product_id: prod.id, base_quantity: 1}
+          : {commercial_line_kind: saleMode, product_id: prod.id, parcel_quantity: 1, units_per_parcel: unitsPerSalePackage},
         id: `cart-${Date.now()}-${Math.random()}`,
         productId: prod.id,
         productName: prod.nameAr,
         productImage: prod.imageUrl,
         sku: prod.sku,
-        unit: prod.salePackage || 'طرد',
-        unitPrice: prod.salePackagePrice || 0,
+        unit: saleMode === 'base_unit' ? prod.unit : prod.salePackage || 'طرد',
+        unitPrice,
         costPrice: prod.costPrice,
         quantity: 1,
         baseQuantity: unitsPerSalePackage,
         unitsPerSalePackage,
         salePackage: prod.salePackage || 'طرد',
         discount: 0,
-        totalPrice: prod.salePackagePrice || 0,
+        totalPrice: unitPrice,
       };
+      if (!cartFits([...cartItems, newItem])) {setToast('الكمية المشتركة تتجاوز مخزون المستودع.', 'error'); return;}
       setCartItems([...cartItems, newItem]);
     }
     searchInputRef.current?.focus({preventScroll: true});
   };
 
   const updateQuantity = (itemId: string, delta: number) => {
+    if (isSubmitting || recoveryBlocked) return;
     const updated = cartItems
       .map((item) => {
         if (item.id === itemId) {
           const newQty = item.quantity + delta;
           if (newQty <= 0) return null;
+          if (item.v2Line.commercial_line_kind === 'configurable_parcel') return item;
           const product = knownProductsRef.current.get(item.productId);
           const availableSalePackages = product
             ? calculateAvailableSalePackages(
-                product.availableQuantity,
-                product.unitsPerSalePackage || 1
+                posWarehouseAvailable(product, warehouseId),
+                item.unitsPerSalePackage || 1
               )
             : 0;
           if (
@@ -312,9 +388,26 @@ export const PosView: React.FC = () => {
         }
         return item;
       })
-      .filter(Boolean) as OrderItem[];
+      .filter(Boolean) as PosCartItem[];
 
+    if (!cartFits(updated)) {setToast('الكمية المشتركة تتجاوز مخزون المستودع.', 'error'); return;}
     setCartItems(updated);
+  };
+
+  const addParcel = (line: PosV2ConfigurableParcelLine) => {
+    if (!parcelOption || recoveryBlocked || isSubmitting) return;
+    const option = parcelOption;
+    const item: PosCartItem = {id: crypto.randomUUID(), productId: option.familyProductId,
+      productName: option.nameAr + ' — ' + line.parcel_instances[0].components.map(c =>
+        `${option.components.find(p => p.productId === c.product_id)?.flavorNameAr || option.components.find(p => p.productId === c.product_id)?.nameAr}: ${c.base_quantity}`).join('، '),
+      productImage: '', sku: '', unit: 'طرد مرن', unitPrice: option.parcelPriceInMinorUnits / 1000,
+      costPrice: 0, quantity: 1, baseQuantity: option.unitsPerParcel, unitsPerSalePackage: option.unitsPerParcel,
+      salePackage: 'طرد مرن', discount: 0, totalPrice: option.parcelPriceInMinorUnits / 1000, v2Line: line};
+    if (cartItems.length && cartWarehouseRef.current !== warehouseId) {setToast('تغير مستودع البيع؛ أعد تركيب السلة.', 'error'); return;}
+    const next = editingParcelId ? cartItems.map(c => c.id === editingParcelId ? {...item, id: c.id} : c) : [...cartItems, item];
+    if (!cartFits(next)) {setToast('مكونات السلة تتجاوز المخزون المتاح.', 'error'); return;}
+    cartWarehouseRef.current = warehouseId;
+    setCartItems(next); setParcelOption(null); setEditingParcelId(null); searchInputRef.current?.focus();
   };
 
   const posSummary = calculatePosSummary(
@@ -327,7 +420,9 @@ export const PosView: React.FC = () => {
   const changeDue = posSummary.changeDue;
 
   const handleCompleteSale = async () => {
+    if (isSubmitting || recoveryBlocked || !warehouseId) return;
     if (cartItems.length === 0) return;
+    if (cartWarehouseRef.current !== warehouseId || !cartFits(cartItems)) {setToast('تغير المستودع أو المخزون المتاح؛ راجع السلة قبل الإرسال.', 'error'); return;}
 
     if (!openPosShift) {
       setToast('افتح وردية الصندوق أولاً قبل إتمام البيع المباشر.', 'error');
@@ -358,36 +453,30 @@ export const PosView: React.FC = () => {
       (customer) => customer.id === selectedCustomerId
     );
 
+    const request: CreatePosSaleV2Input = {warehouseId, branchId: activeBranch.id,
+      customerId: selectedCustomer?.id, customerName: selectedCustomer?.name || 'زبون نقدي', paymentMethod,
+      lines: posCartLines(cartItems), discountInMinorUnits: jodToMinorUnits(discountAmount),
+      amountReceivedInMinorUnits: jodToMinorUnits(paymentMethod === 'debt' ? 0
+        : paymentMethod === 'cash' ? cashReceived || totalAmount : totalAmount), idempotencyKey: crypto.randomUUID()};
+    await executeSale('START_NEW', request);
+  };
+
+  const executeSale = async (intent: 'START_NEW' | 'RECOVER_EXISTING', request?: CreatePosSaleV2Input) => {
+    if (!supabase || isSubmitting) return;
     setIsSubmitting(true);
-    let result;
     try {
-      result = await createPosSale(
-        cartItems,
-        selectedCustomer?.id,
-        selectedCustomer?.name || 'زبون نقدي',
-        paymentMethod,
-        discountAmount,
-        paymentMethod === 'debt'
-          ? 0
-          : paymentMethod === 'cash'
-          ? cashReceived || totalAmount
-          : totalAmount,
-        idempotencyKeyRef.current
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
-
-    if (!result?.success || !result.data) return;
-
-    idempotencyKeyRef.current = crypto.randomUUID();
-    setLastInvoice(result.data);
-    setShowReceiptModal(true);
-    setCartItems([]);
-    setDiscountAmount(0);
-    setCashReceived(0);
-    setSelectedCustomerId('');
-    setPaymentMethod('cash');
+      const result = await runPosV2Attempt(supabase, currentUser.id, intent, request);
+      if (result.ok === false) {setToast(result.message, 'error'); return;}
+      const meta = await supabase.from('orders').select('created_at').eq('id', result.data.orderId).single();
+      const invoice = posV2Invoice(result.data, currentUser, typeof meta.data?.created_at === 'string' ? meta.data.created_at : '');
+      try {invoice.publicReceiptUrl = await getOrCreatePublicPosReceiptUrlFromSupabase(result.data.orderId);} catch {/* Committed sale is still recoverable. */}
+      setLastInvoice(invoice); setShowReceiptModal(true); setCartItems([]); setDiscountAmount(0);
+      setCashReceived(0); setSelectedCustomerId(''); setPaymentMethod('cash');
+      await Promise.allSettled([refreshProductsFromSupabase(), refreshOrdersFromSupabase(),
+        refreshInventoryMovementsFromSupabase(), refreshStockNotificationsFromSupabase()]);
+      setToast(`تم حفظ البيع V2: ${result.data.orderNumber}`);
+    } catch (error) {setToast(error instanceof Error ? error.message : 'تعذر استرجاع محاولة البيع.', 'error');}
+    finally {setIsSubmitting(false); refreshRecovery();}
   };
 
   const handleCustomerCreated = (customer: CreatedCustomer) => {
@@ -433,6 +522,7 @@ export const PosView: React.FC = () => {
   const selectedPosCustomer = posCustomers.find(
     (customer) => customer.id === selectedCustomerId
   );
+  const receiptBranch = lastInvoice ? branches.find(branch => branch.id === lastInvoice.branchId) : undefined;
 
   const handlePrintReceipt = () => window.print();
 
@@ -466,7 +556,7 @@ export const PosView: React.FC = () => {
 
     const text = buildReceiptShareText({
       businessName: 'محلات النواصرة',
-      branchName: activeBranch.name,
+      branchName: receiptBranch?.name || lastInvoice.branchId,
       invoiceNumber: lastInvoice.invoiceNumber,
       customerName: lastInvoice.customerName,
       createdAt: lastInvoice.createdAt,
@@ -582,6 +672,30 @@ export const PosView: React.FC = () => {
         </div>
       )}
 
+      <div className="flex flex-wrap items-center gap-2 text-xs">
+        <label htmlFor="pos-warehouse">مستودع البيع</label>
+        <select id="pos-warehouse" value={warehouseId} disabled={cartItems.length > 0 || isSubmitting || recoveryBlocked}
+          onChange={e => setSelectedWarehouseId(e.target.value)} className="rounded-lg bg-slate-800 p-2">
+          <option value="">اختر المستودع</option>
+          {branchWarehouses.map(w => <option key={w.id} value={w.id}>{w.name}</option>)}
+        </select>
+        <label htmlFor="pos-sale-unit">وحدة البيع</label>
+        <select id="pos-sale-unit" value={saleMode} disabled={isSubmitting || recoveryBlocked}
+          onChange={e => setSaleMode(e.target.value as typeof saleMode)} className="rounded-lg bg-slate-800 p-2">
+          <option value="base_unit">قطعة</option><option value="legacy_single_sku_parcel">طرد من صنف واحد</option>
+        </select>
+      </div>
+      {recoveryStatus && recoveryStatus !== 'DEFINITIVELY_REJECTED' && <div className="rounded-xl border border-amber-700 p-3 text-xs" role="status">
+        <p>{recoveryBlocked ? 'نتيجة بيع معلقة: لا تبدأ بيعاً جديداً. استرجع المحاولة الأصلية بنفس الطلب والمفتاح.' : 'آخر بيع محفوظ؛ يمكنك استرجاع إيصال العملية نفسها.'}</p>
+        <button type="button" disabled={isSubmitting} className="mt-2 rounded-lg bg-amber-600 p-2"
+          onClick={() => void executeSale('RECOVER_EXISTING')}>استرجاع محاولة البيع</button>
+      </div>}
+      {parcelOptions.length > 0 && <div className="flex flex-wrap gap-2">
+        {parcelOptions.map(option => <button type="button" key={option.parcelConfigurationId}
+          disabled={isSubmitting || recoveryBlocked || !warehouseId} className="rounded-xl bg-blue-700 p-3 text-xs"
+          onClick={() => {setEditingParcelId(null); setParcelOption(option);}}>تركيب طرد: {option.nameAr}</button>)}
+      </div>}
+
       {/* Search Input & Categories */}
       <div className="space-y-2">
         <div className="relative">
@@ -641,6 +755,7 @@ export const PosView: React.FC = () => {
           <button
             type="button"
             key={prod.id}
+            disabled={isSubmitting || recoveryBlocked || !warehouseId}
             data-pos-product-card={prod.id}
             onKeyDown={event => {
               if (event.key === 'Enter' && event.repeat) event.preventDefault();
@@ -667,15 +782,15 @@ export const PosView: React.FC = () => {
             </div>
             <div className="flex items-center justify-between border-t border-slate-800 pt-1 text-[11px]">
               <span className="font-extrabold text-emerald-400">
-                {(prod.salePackagePrice || 0).toFixed(3)} {CURRENCY}
+                {(saleMode === 'base_unit' ? prod.retailPrice : prod.salePackagePrice || 0).toFixed(3)} {CURRENCY}
               </span>
               <span className="text-[9px] text-slate-500 font-medium">
                 متاح:{' '}
                 {calculateAvailableSalePackages(
-                  prod.availableQuantity,
-                  prod.unitsPerSalePackage || 1
+                  posWarehouseAvailable(prod, warehouseId),
+                  saleMode === 'base_unit' ? 1 : prod.unitsPerSalePackage || 1
                 )}{' '}
-                {prod.salePackage || 'طرد'}
+                {saleMode === 'base_unit' ? prod.unit : prod.salePackage || 'طرد'}
               </span>
             </div>
           </button>
@@ -691,6 +806,7 @@ export const PosView: React.FC = () => {
           </div>
           {cartItems.length > 0 && (
             <button
+              disabled={isSubmitting || recoveryBlocked}
               onClick={() => setCartItems([])}
               className="text-[10px] text-red-400 hover:underline font-bold flex items-center gap-1"
             >
@@ -716,12 +832,22 @@ export const PosView: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
+                  {item.v2Line.commercial_line_kind === 'configurable_parcel' && <button type="button"
+                    disabled={isSubmitting || recoveryBlocked} className="rounded-lg bg-blue-700 p-2"
+                    onClick={() => {
+                      const line = item.v2Line;
+                      if (line.commercial_line_kind !== 'configurable_parcel') return;
+                      const option = parcelOptions.find(o => o.parcelConfigurationId === line.parcel_configuration_id
+                        && o.configurationRevision === line.configuration_revision);
+                      if (!option) {setToast('تغير إعداد الطرد؛ احذف هذا الطرد وأعد تركيبه.', 'error'); return;}
+                      setEditingParcelId(item.id); setParcelOption(option);
+                    }}>تعديل الطرد</button>}
                   <div className="flex items-center gap-1.5 bg-slate-900 px-2 py-1 rounded-lg border border-slate-700">
-                    <button onClick={() => updateQuantity(item.id, -1)} className="text-slate-400 hover:text-white">
+                    <button disabled={isSubmitting || recoveryBlocked} aria-label={`تقليل ${item.productName}`} onClick={() => updateQuantity(item.id, -1)} className="text-slate-400 hover:text-white">
                       <Minus className="w-3 h-3" />
                     </button>
                     <span className="font-bold text-white px-1">{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.id, 1)} className="text-slate-400 hover:text-white">
+                    <button disabled={isSubmitting || recoveryBlocked || item.v2Line.commercial_line_kind === 'configurable_parcel'} aria-label={`زيادة ${item.productName}`} onClick={() => updateQuantity(item.id, 1)} className="text-slate-400 hover:text-white">
                       <Plus className="w-3 h-3" />
                     </button>
                   </div>
@@ -807,11 +933,10 @@ export const PosView: React.FC = () => {
           </div>
 
           {/* Payment Method Selector */}
-          <div className="grid grid-cols-4 gap-1.5 pt-1">
+          <div className="grid grid-cols-3 gap-1.5 pt-1">
             {[
               { id: 'cash' as PaymentMethod, label: 'نقدي 💵' },
               { id: 'cliq' as PaymentMethod, label: 'CliQ 📱' },
-              { id: 'card' as PaymentMethod, label: 'بطاقة 💳' },
               { id: 'debt' as PaymentMethod, label: 'آجل 📝' },
             ].map((pm) => (
               <button
@@ -862,6 +987,7 @@ export const PosView: React.FC = () => {
               disabled={
                 cartItems.length === 0 ||
                 isSubmitting ||
+                recoveryBlocked || !warehouseId ||
                 isShiftStatusLoading
               }
               className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-black py-3 px-6 rounded-2xl shadow-lg transition active:scale-95 text-xs flex items-center gap-2"
@@ -926,13 +1052,13 @@ export const PosView: React.FC = () => {
             <div className="pos-receipt-print bg-white text-slate-900 p-4 rounded-xl shadow-inner text-[11px] leading-relaxed space-y-2">
               <div className="text-center border-b border-slate-300 pb-2">
                 <h4 className="font-extrabold text-xs">محلات النواصرة</h4>
-                <p className="text-[9px] text-slate-600">{activeBranch.name}</p>
+                <p className="text-[9px] text-slate-600">{receiptBranch?.name || lastInvoice.branchId}</p>
                 <p className="text-[9px] text-slate-600">
-                  {[activeBranch.address, activeBranch.phone].filter(Boolean).join(' | ')}
+                  {[receiptBranch?.address, receiptBranch?.phone].filter(Boolean).join(' | ')}
                 </p>
                 <p className="text-[9px] text-slate-500">رقم الفاتورة: {lastInvoice.invoiceNumber}</p>
                 <p className="text-[9px] text-slate-500">
-                  {new Date(lastInvoice.createdAt).toLocaleString('ar-JO')}
+                  {lastInvoice.createdAt ? new Date(lastInvoice.createdAt).toLocaleString('ar-JO') : 'التاريخ في الإيصال المحفوظ'}
                 </p>
               </div>
 
@@ -1005,6 +1131,10 @@ export const PosView: React.FC = () => {
         </div>
       )}
 
+      {parcelOption && <PosParcelBuilder option={parcelOption}
+        initialComponents={(() => {const line = cartItems.find(i => i.id === editingParcelId)?.v2Line;
+          return line?.commercial_line_kind === 'configurable_parcel' ? line.parcel_instances[0].components : undefined;})()}
+        onClose={() => {setParcelOption(null); setEditingParcelId(null);}} onAdd={addParcel}/>}
       {/* Live Barcode Camera Scanner Modal */}
       {isBarcodeScannerOpen && (
         <Suspense

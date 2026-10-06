@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "IDLE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "D1 exact-SHA CI correction: workflow assertion and strict DB lint output parsing; then authorized D2-D4",
-  "baselineSha": "349d84d62a56f9db14c2803162054b223eb09d19",
+  "objective": "Deliver verified D2; continue D3 Admin parcel settings and V2 Gateway, then D4 removal and final quality/CI",
+  "baselineSha": "79bb90b47ccc68922e66e694cb41982cc0a973c8",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_D",
@@ -11,26 +11,41 @@
     "Phase6 OWNER-CLOSED; closure commit 54e669cb195b69af1536cf7bcf64f18bc36519c0; exact-SHA CI quality37534064206 and secrets37534064164 PASS",
     "Package D plan approved with NULL-safe modern guards, V1 read-only and four delivery stages",
     "D1 focused runtime PASS: fresh131/132, before/after guards, current Phase43 including 18 identity probes and deadlockDelta0; historical migrations unchanged",
-    "D1 pushed 349d84d62a56f9db14c2803162054b223eb09d19; secrets37540471138 PASS; quality37540471021 failed stale workflow assertion and lint output shape"
+    "D1 correction79bb90b: exact push/main quality37543790792 and secrets37543790797 PASS",
+    "D2 focused16/16; Chromium/WebKit8/8 retries0; fresh132 real RPC recovery for all3 line kinds and content-sensitive zero-write PASS"
   ],
   "inProgress": [
-    "D1 CI correction verified locally; commit/push and exact-SHA CI before D2"
+    "D2 verified; explicit stage commit/push, then D3/D4 within approved scope"
   ],
   "notStarted": [
     "Phase 7"
   ],
   "filesTouched": [
     "docs/agent/PACKAGE_D_PLAN.md",
+    "e2e/phase6-package-c-harness.tsx",
+    "e2e/phase6-package-c.spec.ts",
     "scripts/testing/run-package-d-database-runtime.mjs",
-    "tests/phase43-admin-aftercare-integration.test.ts",
-    "scripts/testing/package-d-db-lint-policy.mjs",
-    "tests/package-d-db-lint.test.ts"
+    "scripts/testing/run-phase44-admin-recovery-fullstack.mjs",
+    "src/features/pos/PosView.tsx",
+    "src/services/supabase/posV2.service.ts",
+    "tests/pos-v2-service.test.ts",
+    "e2e/package-d-pos-fullstack.spec.ts",
+    "e2e/package-d-pos.spec.ts",
+    "scripts/testing/package-d-pos-recovery-runtime.ts",
+    "src/features/pos/PosParcelBuilder.tsx",
+    "src/features/pos/posV2Cart.ts",
+    "src/services/supabase/posV2Recovery.ts",
+    "src/services/supabase/posV2Validation.ts",
+    "tests/package-d-pos-recovery.test.ts"
   ],
   "testsPassed": [
-    "Focused16/16; fresh001-132 PackageD runtime/DB lint PASS; full quality exit0: Admin693/693, Customer189/189, Browser243 PASS/51 existing conditional skips/retries0; strict ESLint; preflight PASS"
+    "D2 focused16/16; browser8/8 plus tender recheck2/2 Chromium/WebKit retries0",
+    "Fresh132 DB runtime including real POS RPC lost-response/replay all3 modes and strict DB lint PASS",
+    "TypeScript, strict ESLint, diff check PASS; changed/untracked Gitleaks exit0"
   ],
   "testsRemaining": [
-    "Staged Gitleaks exit0, correction commit/push/exact-SHA CI; then D2-D4"
+    "D2 stage delivery; actual browser-to-DB recovery PASS 2/2 Chromium/WebKit, retries0, Production0",
+    "D3 Admin/Gateway; D4 RESTRICT removal; final quality and exact-SHA CI"
   ],
   "findings": [],
   "blockers": [],
@@ -40,8 +55,8 @@
     "Historical migrations001-131; additional migrations; feature-state activation",
     "Phase7"
   ],
-  "nextExactAction": "Verify corrective exact-SHA CI; then start authorized D2 POS V2, parcel builder and immutable recovery",
-  "workingTreeFingerprint": "C2B47AD894B8D66EB49260A7AF520FCC9FE9A1F9A782699FD03213A1281A9F28",
-  "checkpointedAt": "2026-10-06T22:57:10.697Z",
-  "startedAt": "2026-10-06T22:43:07.439Z"
+  "nextExactAction": "Commit verified D2 explicit allowlist after Gitleaks0, push; continue D3 owner Admin settings/Gateway then D4 RESTRICT removal, final quality/CI.",
+  "workingTreeFingerprint": "8E3D5AE98BD6C7DE2155464B6C4DEE43597B7FC62B958BA4D8C422C3107F724C",
+  "checkpointedAt": "2026-10-06T23:43:03.208Z",
+  "startedAt": "2026-10-06T22:59:55.808Z"
 }

@@ -152,6 +152,11 @@ try{
       '${JSON.stringify([{return_scope:'base_unit',order_item_id:item,quantity:2,stock_disposition:'damaged'}])}'::jsonb,
       '${physical(2)}'::jsonb,
       'D oversubscription','cash',NULL,NULL);`,'PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED');
+    const recovery = await exec(process.execPath, [path.join(root,'node_modules/tsx/dist/cli.mjs'),
+      path.join(root,'scripts/testing/package-d-pos-recovery-runtime.ts'), container,
+      preserved.configuration.id, String(revision)], {cwd: root, windowsHide: true, timeout: 120000,
+      maxBuffer: 1024*1024});
+    assert.equal(JSON.parse(recovery.stdout.trim()).ok, true);
     await sql(asOwner("SELECT set_configurable_parcel_feature_state_v1('OWNER_PILOT');"));
     const cashierClaims=claims.replaceAll(owner,'92400000-0000-0000-0000-000000000002');
     const cashier=await json(`${cashierClaims} SET ROLE authenticated; SELECT get_pos_configurable_parcel_options_v1('${warehouse}');`);

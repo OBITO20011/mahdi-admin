@@ -13,6 +13,7 @@ const projectRoot = path.resolve(here, '..', '..');
 const bootstrapPath = path.join(here, 'bootstrap-isolated-supabase.mjs');
 const phase3SqlPath = path.join(here, 'phase3-configurable-parcel-contracts-runtime.sql');
 const cliPath = path.join(projectRoot, 'node_modules', 'supabase', 'dist', 'supabase.js');
+const posOnly = process.env.NAWASRAH_PACKAGE_D_POS_FULLSTACK === '1';
 const projectId = `nawasrah-phase44-admin-${randomUUID().slice(0, 8)}-test`;
 const databaseContainer = `supabase_db_${projectId}`;
 const branchId = '92400000-0000-0000-0000-000000000200';
@@ -140,6 +141,18 @@ UPDATE public.inventory_balances SET on_hand_quantity=on_hand_quantity+7
 WHERE warehouse_id=${literal(warehouseId)} AND product_id=${literal(productId)};
 ${snapshotSql(orderId)}
 ROLLBACK;`;
+const posSnapshotSql = `WITH content AS (SELECT jsonb_build_object(
+  'orders',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM orders t),
+  'items',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM order_items t),
+  'operations',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM business_operations t),
+  'payments',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM customer_payments t),
+  'shifts',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM cash_shifts t),
+  'balances',(SELECT jsonb_agg(to_jsonb(t) ORDER BY warehouse_id,product_id) FROM inventory_balances t),
+  'movements',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM inventory_movements t),
+  'instances',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM order_parcel_instances t),
+  'components',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM order_parcel_components t)) value)
+  SELECT jsonb_build_object('sha256',encode(extensions.digest(convert_to(value::text,'UTF8'),'sha256'),'hex'),
+    'content',value) FROM content;`;
 
 const createSale = async (actorId, label, quantity = 1) => {
   const claims = `SELECT set_config('request.jwt.claims',
@@ -169,7 +182,16 @@ try {
   assert.equal(bootstrap.ok, true);
   isolatedProjectRoot = bootstrap.isolatedProjectRoot;
   const phase3 = await readFile(phase3SqlPath, 'utf8');
-  assert.equal((await json(phase3)).ok, true);
+  if (posOnly) {
+    const first = phase3.indexOf('\nDO $$'); const second = phase3.indexOf('\nDO $$', first + 1);
+    assert.ok(first >= 0 && second > first); await runSql(phase3.slice(0, second));
+    await runSql(`SELECT set_config('request.jwt.claims',
+      '{"sub":"92400000-0000-0000-0000-000000000001","role":"authenticated"}',false);
+      SET ROLE authenticated; SELECT save_product_parcel_configuration_v1(
+        '92400000-0000-0000-0000-000000000100','configurable_mix',true,5,
+        ARRAY['92400000-0000-0000-0000-000000000101','92400000-0000-0000-0000-000000000102']::uuid[]);
+      SELECT set_configurable_parcel_feature_state_v1('ENABLED');`);
+  } else assert.equal((await json(phase3)).ok, true);
 
   const {stdout: statusOutput} = await execFileAsync(process.execPath, [cliPath, 'status',
     '-o', 'json', '--workdir', isolatedProjectRoot], {cwd: projectRoot, windowsHide: true});
@@ -193,7 +215,7 @@ try {
     ON CONFLICT (user_id,role_id) DO NOTHING;`);
 
   const fixtures = {};
-  for (const project of ['desktop-chromium', 'mobile-webkit']) {
+  for (const project of posOnly ? [] : ['desktop-chromium', 'mobile-webkit']) {
     fixtures[project] = {};
     for (const scenario of ['lostReplacement', 'lostReturn', 'malformedReplacement',
       'sameContext', 'crossContext', 'timeoutBeforeCommit', 'staleResponse',
@@ -206,6 +228,10 @@ try {
   control = createServer(async (request, response) => {
     const url = new URL(request.url || '/', `http://127.0.0.1:${controlPort}`);
     if (url.pathname === '/health') { response.end('ok'); return; }
+    if (posOnly && url.pathname === '/pos-snapshot') {
+      try {response.setHeader('content-type','application/json'); response.end(JSON.stringify(await json(posSnapshotSql)));}
+      catch (error) {response.statusCode=500; response.end(String(error));} return;
+    }
     if (!['/snapshot', '/fingerprint-probe'].includes(url.pathname)) {
       response.statusCode = 404; response.end('not found'); return;
     }
@@ -232,7 +258,7 @@ try {
 
   const playwrightArgs = [
     path.join(projectRoot, 'node_modules', 'playwright', 'cli.js'), 'test',
-    'e2e/phase44-admin-recovery-fullstack.spec.ts', '--project=desktop-chromium',
+    posOnly ? 'e2e/package-d-pos-fullstack.spec.ts' : 'e2e/phase44-admin-recovery-fullstack.spec.ts', '--project=desktop-chromium',
     '--project=mobile-webkit', '--workers=1', '--retries=0'];
   if (process.env.PHASE44_PLAYWRIGHT_GREP) {
     playwrightArgs.push('--grep', process.env.PHASE44_PLAYWRIGHT_GREP);
@@ -247,7 +273,7 @@ try {
     });
   if (playwrightOutput.trim()) process.stdout.write(playwrightOutput);
   if (playwrightError.trim()) process.stderr.write(playwrightError);
-  console.log(JSON.stringify({ok: true, scenarios: 9,
+  console.log(JSON.stringify({ok: true, scenarios: posOnly ? 1 : 9,
     browsers: ['desktop-chromium', 'mobile-webkit'], realPublicRpc: true,
     realIsolatedDatabase: true, productionRequests: 0}, null, 2));
 } finally {

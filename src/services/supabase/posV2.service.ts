@@ -1,5 +1,6 @@
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
 import type { PaymentMethod } from '../../types';
+import {posV2ResultMatches} from './posV2Validation';
 
 export interface PosV2BaseUnitLine {
   commercial_line_kind: 'base_unit';
@@ -48,6 +49,9 @@ export interface CreatePosSaleV2Input {
 }
 
 export interface PosV2SaleResult {
+  warehouseId: string;
+  branchId: string;
+  customerName: string;
   operationId: string;
   orderId: string;
   orderNumber: string;
@@ -76,6 +80,7 @@ export type CreatePosSaleV2Outcome =
       status: 'rejected' | 'unknown';
       errorIdentity: string;
       message: string;
+      rejectionCode?: string;
       recovery: PosV2RecoveryInstruction;
     };
 
@@ -104,6 +109,8 @@ const knownErrors: Record<string, string> = {
     'أحد مكونات الطرد لا ينتمي إلى العائلة التجارية المحددة.',
   PARCEL_COMPONENT_NOT_STOCKED:
     'أحد مكونات البيع لا يملك رصيدًا في المستودع.',
+  PARCEL_COMPONENT_NOT_ALLOWED:
+    'إحدى النكهات غير مسموحة في إعداد الطرد الحالي. أعد تركيب الطرد.',
   PHASE3_POS_INSUFFICIENT_INVENTORY:
     'المخزون المتاح لأحد مكونات البيع غير كافٍ.',
   PHASE3_POS_OPEN_SHIFT_REQUIRED:
@@ -141,14 +148,15 @@ export async function submitPosSaleV2WithRpc(
   input: CreatePosSaleV2Input,
   executeRpc: PosV2RpcExecutor,
 ): Promise<CreatePosSaleV2Outcome> {
+  input = structuredClone(input);
   try {
     const { data, error } = await executeRpc(
       'create_pos_sale_v2',
-      rpcParameters(input),
+      rpcParameters(structuredClone(input)),
     );
     if (error) {
       const identity = extractStableIdentity(error.message);
-      if (isAmbiguousTransportFailure(error)) {
+      if (data != null || isAmbiguousTransportFailure(error)) {
         return {
           ok: false,
           status: 'unknown',
@@ -161,6 +169,7 @@ export async function submitPosSaleV2WithRpc(
       return {
         ok: false,
         status: 'rejected',
+        rejectionCode: error.code,
         errorIdentity: identity || 'PHASE3_POS_REQUEST_REJECTED',
         message:
           (identity && knownErrors[identity]) ||
@@ -170,7 +179,7 @@ export async function submitPosSaleV2WithRpc(
     }
 
     const payload = data as Partial<PosV2SaleResult> & { success?: boolean };
-    if (!payload?.success || !payload.orderId || !payload.operationId) {
+    if (!posV2ResultMatches(input, payload)) {
       return {
         ok: false,
         status: 'unknown',

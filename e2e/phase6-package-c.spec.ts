@@ -4,6 +4,7 @@ test('POS product keyboard activation adds once per Enter or Space and retains c
   await page.route('**/rest/v1/rpc/search_admin_products', route => route.fulfill({json: [
     {id: 'keyboard-product', sku: 'KB1', barcode: '123', name_ar: 'صنف لوحة المفاتيح',
       available_quantity: 2, on_hand_quantity: 2, units_per_sale_unit: 1,
+      warehouse_id: '22222222-2222-4222-8222-222222222222',
       sale_price_in_minor_units: 1000, default_sale_price_in_minor_units: 1000, is_active: true,
       sale_unit: {id: 'sale-unit', code: 'PACK', name_ar: 'طرد'}},
   ]}));
