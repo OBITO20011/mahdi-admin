@@ -23,11 +23,13 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 VS Code and dual-agent setup: `docs/agent/VS_CODE_SETUP.md`.
 
-Current owner-authorized task: deliver the Phase 5 closure documentation, then
-review Admin/store screens and write `PHASE6_PLAN.md` (at most 20 items).
+Current owner-authorized task: Phase 6 package A items 1,2,5,6,17 under
+`PHASE6_PLAN.md` and approved `PHASE6_A_REPORTS_SCOPE.md`.
 Phase 5 operational baseline is `bdea567562b1de8c64fe3aa286076258decf3d26`;
-exact-SHA push/main quality and secret-scanning CI passed. Phase 6 is planning
-only; no UI/business implementation, Production access or deploy is authorized.
+exact-SHA push/main quality and secret-scanning CI passed. Package A allows one
+Migration 131 for existing readers/closing detail, the listed UI corrections,
+tests, commit/push and exact-SHA CI. No writer/grant/historical snapshot changes,
+Production access, deploy or package B/C implementation is authorized.
 `ACTIVE_TASK.json` records only the current step; prior detailed continuity
 evidence is preserved in Git at that baseline and in the phase evidence files.
 
@@ -39,6 +41,6 @@ Phases 3, 4 and 5 are owner-closed. Phase 5 closes under `PHASE5_RESCOPE.md`,
 not the superseded private-layer activation plan. Migrations 123–127 stay
 historical, private and inactive; parked Slice 5 work is not merged or activated.
 Migrations 128–130 fix the operational paths. L9 remains a policy decision;
-L10 and legacy-only daily reporting are explicitly deferred to Phase 6 planning.
+L10 and legacy-only daily reporting are addressed by Phase 6 package A.
 No broad zero-findings or Production-readiness claim is implied by this closure.
-The approved migration ceiling is 130; fingerprints remain in `project-state.json`.
+The approved migration ceiling is 131; fingerprints remain in `project-state.json`.

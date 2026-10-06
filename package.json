@@ -41,6 +41,7 @@
     "test:phase5-slice3:runtime": "node scripts/testing/run-phase5-private-coordinator-runtime.mjs",
     "test:phase5-slice4:runtime": "node scripts/testing/run-phase5-private-financial-read-runtime.mjs",
     "test:phase5-operational-fixes:runtime": "node scripts/testing/run-phase5-operational-fixes-runtime.mjs",
+    "test:phase6-package-a:runtime": "node scripts/testing/run-phase6-package-a-runtime.mjs",
     "test:orders-pagination:runtime": "node scripts/testing/run-operational-orders-pagination-runtime.mjs",
     "quality": "npm run lint && npm test && npm --prefix customer-web run lint && npm --prefix customer-web test && npm run build && node scripts/testing/run-customer-isolated-build.mjs && npm run test:browser:isolation && npm run test:e2e",
     "backup:preflight": "node scripts/backup/preflight.mjs",

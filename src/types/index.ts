@@ -576,6 +576,14 @@ export interface ShiftClosingReport {
     count: number;
     amount: number;
   }>;
+  returnQuantityBreakdown?: Array<{
+    eventId: string;
+    productId: string;
+    productName: string;
+    sellableQuantity: number;
+    defectQuantity: number;
+    customerDamageQuantity: number;
+  }>;
 }
 
 export interface Account {

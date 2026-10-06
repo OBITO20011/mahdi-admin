@@ -453,14 +453,14 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                   <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800/60">
                     <span className="text-[10px] text-slate-400 block mb-0.5">خصم كلي على الطلب:</span>
                     <span className="font-bold text-slate-200 font-mono">
-                      {(po.discount || 0).toFixed(2)} {CURRENCY}
+                      {(po.discount || 0).toFixed(3)} {CURRENCY}
                     </span>
                   </div>
 
                   <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800/60">
                     <span className="text-[10px] text-slate-400 block mb-0.5">رسوم الشحن والتوصيل:</span>
                     <span className="font-bold text-slate-200 font-mono">
-                      {(po.deliveryFee || 0).toFixed(2)} {CURRENCY}
+                      {(po.deliveryFee || 0).toFixed(3)} {CURRENCY}
                     </span>
                   </div>
                 </div>
@@ -504,7 +504,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                 <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl text-center space-y-1">
                   <span className="text-[10px] text-slate-400 block font-medium">إجمالي أمر الشراء</span>
                   <span className="font-black text-xs text-slate-100 block font-mono">
-                    {po.totalAmount.toFixed(2)} {CURRENCY}
+                    {po.totalAmount.toFixed(3)} {CURRENCY}
                   </span>
                 </div>
 
@@ -512,7 +512,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                 <div className="bg-emerald-950/30 border border-emerald-500/20 p-3 rounded-2xl text-center space-y-1">
                   <span className="text-[10px] text-emerald-400 block font-medium">المدفوع للمورد</span>
                   <span className="font-black text-xs text-emerald-300 block font-mono">
-                    {po.amountPaid.toFixed(2)} {CURRENCY}
+                    {po.amountPaid.toFixed(3)} {CURRENCY}
                   </span>
                 </div>
 
@@ -520,7 +520,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                 <div className="bg-rose-950/30 border border-rose-500/20 p-3 rounded-2xl text-center space-y-1">
                   <span className="text-[10px] text-rose-400 block font-medium">المتبقي المستحق</span>
                   <span className="font-black text-xs text-rose-300 block font-mono">
-                    {po.amountDue.toFixed(2)} {CURRENCY}
+                    {po.amountDue.toFixed(3)} {CURRENCY}
                   </span>
                 </div>
               </div>
@@ -585,8 +585,8 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                           const remainingQty = Math.max(0, item.orderedQuantity - item.receivedQuantity);
                           const formulaText =
                             item.discount > 0
-                              ? `(${item.orderedQuantity} × ${item.purchasePrice.toFixed(2)}) - ${item.discount.toFixed(2)} = ${item.lineTotal.toFixed(2)} ${CURRENCY}`
-                              : `${item.orderedQuantity} × ${item.purchasePrice.toFixed(2)} = ${item.lineTotal.toFixed(2)} ${CURRENCY}`;
+                              ? `(${item.orderedQuantity} × ${item.purchasePrice.toFixed(3)}) - ${item.discount.toFixed(3)} = ${item.lineTotal.toFixed(3)} ${CURRENCY}`
+                              : `${item.orderedQuantity} × ${item.purchasePrice.toFixed(3)} = ${item.lineTotal.toFixed(3)} ${CURRENCY}`;
 
                           return (
                             <tr key={item.id} className="hover:bg-slate-800/40 transition">
@@ -635,15 +635,15 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                               </td>
 
                               <td className="p-3 text-center text-slate-300 font-mono">
-                                {item.purchasePrice.toFixed(2)} {CURRENCY}
+                                {item.purchasePrice.toFixed(3)} {CURRENCY}
                               </td>
 
                               <td className="p-3 text-center text-slate-400 font-mono">
-                                {item.discount.toFixed(2)} {CURRENCY}
+                                {item.discount.toFixed(3)} {CURRENCY}
                               </td>
 
                               <td className="p-3 text-center font-black text-slate-100">
-                                <div className="text-emerald-400 font-mono">{item.lineTotal.toFixed(2)} {CURRENCY}</div>
+                                <div className="text-emerald-400 font-mono">{item.lineTotal.toFixed(3)} {CURRENCY}</div>
                                 <div className="text-[9px] text-slate-400 font-mono mt-0.5">{formulaText}</div>
                               </td>
                             </tr>
@@ -694,7 +694,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                               >
                                 <span className="font-semibold text-slate-200">{ri.productName}</span>
                                 <span className="font-bold text-purple-300">
-                                  {ri.receivedQuantity} قطعة @ {ri.unitCost.toFixed(2)} {CURRENCY}
+                                  {ri.receivedQuantity} قطعة @ {ri.unitCost.toFixed(3)} {CURRENCY}
                                 </span>
                               </div>
                             ))}
@@ -739,7 +739,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
 
                         <div className="text-left">
                           <span className="font-black text-sm text-emerald-400">
-                            {sp.amount.toFixed(2)} {CURRENCY}
+                            {sp.amount.toFixed(3)} {CURRENCY}
                           </span>
                         </div>
                       </div>
@@ -753,28 +753,28 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                 <div className="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
                   <span className="text-[10px] text-slate-400 block mb-0.5">إجمالي الطلب:</span>
                   <span className="font-black text-sm text-slate-100">
-                    {po.totalAmount.toFixed(2)} {CURRENCY}
+                    {po.totalAmount.toFixed(3)} {CURRENCY}
                   </span>
                 </div>
 
                 <div className="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
                   <span className="text-[10px] text-slate-400 block mb-0.5">إجمالي الخصم والخصومات:</span>
                   <span className="font-black text-sm text-blue-400">
-                    {po.discount.toFixed(2)} {CURRENCY}
+                    {po.discount.toFixed(3)} {CURRENCY}
                   </span>
                 </div>
 
                 <div className="p-2.5 bg-emerald-950/30 rounded-xl border border-emerald-500/20">
                   <span className="text-[10px] text-emerald-400 block mb-0.5">إجمالي المسدد حتى الآن:</span>
                   <span className="font-black text-sm text-emerald-300">
-                    {po.amountPaid.toFixed(2)} {CURRENCY}
+                    {po.amountPaid.toFixed(3)} {CURRENCY}
                   </span>
                 </div>
 
                 <div className="p-2.5 bg-amber-950/30 rounded-xl border border-amber-500/20">
                   <span className="text-[10px] text-amber-400 block mb-0.5">المتبقي المستحق للمورد:</span>
                   <span className="font-black text-sm text-amber-300">
-                    {po.amountDue.toFixed(2)} {CURRENCY}
+                    {po.amountDue.toFixed(3)} {CURRENCY}
                   </span>
                 </div>
               </div>

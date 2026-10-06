@@ -63,6 +63,9 @@ test('summary messages are bounded Arabic aggregates with no customer PII', asyn
         period: {dateFrom: '2026-01-05', dateTo: '2026-01-11'},
         sales: {
           completedOrderCount: 3,
+          grossSalesInMinorUnits: 25000,
+          returnEntitlementInMinorUnits: 5000,
+          refundsInMinorUnits: 1000,
           netSalesInMinorUnits: 20000,
           cashSalesInMinorUnits: 9000,
           cliqSalesInMinorUnits: 5000,
@@ -71,6 +74,7 @@ test('summary messages are bounded Arabic aggregates with no customer PII', asyn
           grossProfitInMinorUnits: 14000,
           netProfitInMinorUnits: 12500,
         },
+        cashFlow: {cashCollectedInMinorUnits: 2000, cliqCollectedInMinorUnits: 6000},
         expenses: {totalInMinorUnits: 1500},
         inventory: {lowStockCount: 1, outOfStockCount: 1},
         balances: {
@@ -89,6 +93,9 @@ test('summary messages are bounded Arabic aggregates with no customer PII', asyn
     assert.match(message, /ملخص الأعمال الأسبوعي/u);
     assert.match(message, /المبيعات الصافية: 20\.000 د\.أ/u);
     assert.match(message, /صافي الربح: 12\.500 د\.أ/u);
+    assert.match(message, /المقبوض — كاش: 2\.000 د\.أ \| CliQ: 6\.000 د\.أ/u);
+    assert.match(message, /المصاري المرجّعة: 1\.000 د\.أ/u);
+    assert.doesNotMatch(message, /كاش: 9\.000|CliQ: 5\.000/u);
     assert.ok(message.length < 4096);
     assert.doesNotMatch(message, /هاتف|عنوان|0799999999/u);
   }

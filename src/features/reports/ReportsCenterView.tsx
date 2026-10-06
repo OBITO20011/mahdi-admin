@@ -15,7 +15,6 @@ import {
   RefreshCw,
   ShoppingCart,
   TrendingUp,
-  Truck,
   Users,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
@@ -287,14 +286,29 @@ export const ReportsCenterView: React.FC = () => {
           </header>
 
           <section className="grid grid-cols-2 gap-2">
-            <MetricCard label="صافي المبيعات" value={money(report.sales.netSales)} hint={`${report.sales.orderCount} طلب مكتمل`} icon={ShoppingCart} tone="blue" />
-            <MetricCard label="مجمل ربح البيع" value={money(report.sales.grossProfit)} hint={`تكلفة البضاعة ${money(report.sales.cogs)}`} icon={TrendingUp} tone="emerald" />
-            <MetricCard label="صافي النتيجة" value={money(report.sales.netProfit)} hint="بعد المرتجعات والمصروفات" icon={Banknote} tone={report.sales.netProfit >= 0 ? 'cyan' : 'rose'} />
-            <MetricCard label="المصروفات" value={money(report.expenses.total)} hint={`${report.expenses.count} حركة مصروف`} icon={ReceiptText} tone="amber" />
-            <MetricCard label="ذمم العملاء" value={money(report.balances.customerDue)} hint={`${report.balances.customerCount} عميل عليهم رصيد`} icon={Users} tone="rose" />
-            <MetricCard label="ذمم الموردين" value={money(report.balances.supplierDue)} hint={`${report.balances.supplierCount} مورد لهم رصيد`} icon={Truck} tone="violet" />
+            <MetricCard label="المبيعات" value={money(report.sales.grossSales)} hint="مبيعات الفترة بعد الخصم، قبل المرتجعات" icon={ShoppingCart} tone="blue" />
+            <MetricCard label="المرتجعات" value={money(report.sales.returnEntitlement)} hint="خفض الذمة والمبلغ المسترد معًا" icon={PackageCheck} tone="rose" />
+            <MetricCard label="صافي المبيعات" value={money(report.sales.netSales)} hint="المبيعات ناقص استحقاق المرتجعات" icon={ShoppingCart} tone="blue" />
+            <MetricCard label="المقبوض — كاش" value={money(report.cashFlow.cashCollected)} hint="تحصيل الفترة بعد عكس الدفعات، قبل الرد" icon={Banknote} tone="emerald" />
+            <MetricCard label="المقبوض — CliQ" value={money(report.cashFlow.cliqCollected)} hint="تحصيل الفترة بعد عكس الدفعات، قبل الرد" icon={Banknote} tone="cyan" />
+            <MetricCard label="المصاري المرجّعة" value={money(report.sales.refunds)} hint="كاش وCliQ؛ لا تشمل خفض الذمة" icon={HandCoins} tone="rose" />
+            <MetricCard label="الذمم" value={money(report.balances.customerDue)} hint="رصيد العملاء الحالي وقت قراءة التقرير" icon={Users} tone="rose" />
+            <MetricCard label="المصاريف" value={money(report.expenses.total)} hint="المصاريف غير المعكوسة خلال الفترة" icon={ReceiptText} tone="amber" />
+            <MetricCard label="الربح" value={money(report.sales.netProfit)} hint="بعد المرتجعات والاستبدال واسترجاع التكلفة والمصاريف" icon={TrendingUp} tone={report.sales.netProfit >= 0 ? 'emerald' : 'rose'} />
           </section>
 
+          <details className="space-y-4" data-testid="report-details">
+            <summary className="cursor-pointer rounded-xl border border-slate-700 bg-slate-900 p-3 font-bold text-slate-200">تفاصيل</summary>
+            <section className="grid grid-cols-2 gap-2 text-xs">
+              <MetricCard label="تكلفة البيع الأصلية" value={money(report.sales.cogs)} hint="COGS التاريخي لا يعاد تسعيره" icon={Boxes} tone="blue" />
+              <MetricCard label="تكلفة الاستبدال" value={money(report.sales.replacementCost)} hint="من تكلفة الإصدار المحفوظة" icon={Boxes} tone="amber" />
+              <MetricCard label="استرجاع التكلفة" value={money(report.sales.restockRecovery)} hint="للمخزون القابل للبيع فقط، بتكلفة القطعة الحالية التاريخية" icon={PackageCheck} tone="emerald" />
+              <MetricCard label="خفض الذمم بالمرتجعات" value={money(report.sales.debtReduction)} hint="ليس حركة كاش أو CliQ" icon={Users} tone="cyan" />
+              <MetricCard label="هامش البيع الأصلي" value={money(report.sales.grossProfit)} hint="البضاعة بعد الخصم ناقص تكلفتها؛ دون التوصيل" icon={TrendingUp} tone="emerald" />
+              <MetricCard label="هامش ما بعد البيع" value={money(report.sales.aftercareAdjustedMargin)} hint="يشمل التوصيل؛ قبل المصاريف" icon={TrendingUp} tone="violet" />
+              <MetricCard label="صافي حركة الكاش" value={money(report.cashFlow.cashNetFlow)} hint="المقبوض بعد العكس ناقص المصاري المرجّعة" icon={Banknote} tone="cyan" />
+              <MetricCard label="صافي حركة CliQ" value={money(report.cashFlow.cliqNetFlow)} hint="المقبوض بعد العكس ناقص المصاري المرجّعة" icon={Banknote} tone="cyan" />
+            </section>
           <section className="print-section space-y-3 rounded-2xl border border-slate-800 bg-slate-900 p-4">
             <div className="flex items-center justify-between gap-3">
               <h3 className="flex items-center gap-2 text-sm font-black text-slate-100">
@@ -358,11 +372,11 @@ export const ReportsCenterView: React.FC = () => {
             <h3 className="flex items-center gap-2 text-sm font-black text-slate-100"><ShoppingCart className="h-4 w-4 text-blue-400" />تفاصيل المبيعات والربح</h3>
             <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[11px]">
               <div className="flex justify-between"><span className="text-slate-400">إجمالي المبيعات</span><b>{money(report.sales.grossSales)}</b></div>
-              <div className="flex justify-between"><span className="text-slate-400">المرتجعات</span><b className="text-rose-300">{money(report.sales.refunds)}</b></div>
+              <div className="flex justify-between"><span className="text-slate-400">المصاري المرجّعة</span><b className="text-rose-300">{money(report.sales.refunds)}</b></div>
               <div className="flex justify-between"><span className="text-slate-400">الخصومات</span><b>{money(report.sales.discount)}</b></div>
               <div className="flex justify-between"><span className="text-slate-400">رسوم التوصيل</span><b>{money(report.sales.deliveryFees)}</b></div>
-              <div className="flex justify-between"><span className="text-slate-400">المبالغ المحصلة</span><b className="text-emerald-300">{money(report.sales.collected)}</b></div>
-              <div className="flex justify-between"><span className="text-slate-400">متبقي من مبيعات الفترة</span><b className="text-amber-300">{money(report.sales.outstanding)}</b></div>
+              <div className="flex justify-between"><span className="text-slate-400">تغطية تحصيل طلبات الفترة حاليًا</span><b className="text-emerald-300">{money(report.sales.collected)}</b></div>
+              <div className="flex justify-between"><span className="text-slate-400">الذمة الحالية لطلبات الفترة</span><b className="text-amber-300">{money(report.sales.outstanding)}</b></div>
             </div>
             <div className="grid grid-cols-4 gap-2 border-t border-slate-800 pt-3 text-center text-[10px]">
               <div><b className="block text-sm text-white">{report.sales.posOrderCount}</b><span className="text-slate-500">بيع مباشر</span></div>
@@ -427,8 +441,9 @@ export const ReportsCenterView: React.FC = () => {
           </section>
 
           <footer className="print-section rounded-xl border border-slate-800 p-3 text-center text-[9px] leading-5 text-slate-500">
-            التقرير محتسب من الحركات المحفوظة في Supabase. صافي النتيجة = ربح البيع - المرتجعات + تكلفة المرتجع المعاد للمخزون - المصروفات.
+            الربح = صافي المبيعات − تكلفة البيع الأصلية − تكلفة الاستبدال + استرجاع تكلفة المخزون − المصاريف. التوصيل مبيّن مستقلًا ولا يرد مع المرتجع الحديث. حركات الفترة لا تساوي بالضرورة تحصيل طلبات الفترة.
           </footer>
+          </details>
         </main>
       )}
     </div>

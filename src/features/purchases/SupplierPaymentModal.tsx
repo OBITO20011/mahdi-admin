@@ -219,7 +219,7 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
               </span>
               {selectedPo && (
                 <span className="text-amber-400 text-[11px] font-mono">
-                  المتبقي: {selectedPo.amountDue.toFixed(2)} {CURRENCY}
+                  المتبقي: {selectedPo.amountDue.toFixed(3)} {CURRENCY}
                 </span>
               )}
             </label>
@@ -231,7 +231,7 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
               <option value="">-- دفعة عامة على الحساب --</option>
               {pos.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.purchaseOrderNumber} | إجمالي: {p.totalAmount.toFixed(2)} | متبقي: {p.amountDue.toFixed(2)}{' '}
+                  {p.purchaseOrderNumber} | إجمالي: {p.totalAmount.toFixed(3)} | متبقي: {p.amountDue.toFixed(3)}{' '}
                   {CURRENCY}
                 </option>
               ))}

@@ -211,7 +211,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                 ) : (
                   <AlertCircle className="h-3 w-3" />
                 )}
-                {!productsError
+                {isProductsLoading ? 'جاري تحديث المنتجات…' : !productsError
                   ? 'متصل ومحدّث من Supabase'
                   : 'تحتاج البيانات إلى إعادة اتصال'}
               </div>

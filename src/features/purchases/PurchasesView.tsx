@@ -348,7 +348,7 @@ export const PurchasesView: React.FC = () => {
         <div className="bg-slate-900 border border-rose-500/30 p-3 rounded-2xl shadow-sm text-center space-y-1 bg-rose-950/20">
           <span className="text-[10px] text-rose-400 block font-medium">المستحق للموردين</span>
           <span className="text-xs font-black text-rose-300 block font-mono">
-            {totalOutstanding.toFixed(2)} {CURRENCY}
+            {totalOutstanding.toFixed(3)} {CURRENCY}
           </span>
         </div>
 
@@ -356,7 +356,7 @@ export const PurchasesView: React.FC = () => {
         <div className="bg-slate-900 border border-emerald-500/30 p-3 rounded-2xl shadow-sm text-center space-y-1 bg-emerald-950/20">
           <span className="text-[10px] text-emerald-400 block font-medium">إجمالي المسدد</span>
           <span className="text-xs font-black text-emerald-300 block font-mono">
-            {totalPaid.toFixed(2)} {CURRENCY}
+            {totalPaid.toFixed(3)} {CURRENCY}
           </span>
         </div>
       </div>
@@ -938,7 +938,7 @@ export const PurchasesView: React.FC = () => {
                     <div className="bg-rose-950/20 p-2 rounded-xl border border-rose-500/20 text-center text-xs">
                         <span className="text-[10px] text-rose-400 block">المستحق للمورد:</span>
                         <span className="font-bold text-rose-300 font-mono">
-                          {due.toFixed(2)} {CURRENCY}
+                          {due.toFixed(3)} {CURRENCY}
                         </span>
                     </div>
 
@@ -1076,7 +1076,7 @@ export const PurchasesView: React.FC = () => {
                           {p.purchaseOrderNumber ? `#${p.purchaseOrderNumber}` : 'سند غير مرتبط بأمر'}
                         </td>
                         <td className="p-3 text-center font-black text-rose-300 font-mono text-sm">
-                          {p.amount.toFixed(2)} {CURRENCY}
+                          {p.amount.toFixed(3)} {CURRENCY}
                         </td>
                         <td className="p-3 text-center">
                           <span className="bg-slate-800 text-slate-300 border border-slate-700 px-2.5 py-1 rounded-lg text-[10px] font-bold">
@@ -1162,7 +1162,7 @@ export const PurchasesView: React.FC = () => {
                       <div className="text-left">
                         <span className="text-[10px] text-slate-400 block">المتبقي:</span>
                         <span className="font-bold text-rose-400 font-mono">
-                          {due.toFixed(2)} {CURRENCY}
+                          {due.toFixed(3)} {CURRENCY}
                         </span>
                       </div>
                     </div>
@@ -1235,8 +1235,8 @@ export const PurchasesView: React.FC = () => {
                           orders
                             .filter((o) => o.status !== 'cancelled')
                             .reduce((sum, o) => sum + o.totalAmount, 0) / (totalOrdersCount || 1)
-                        ).toFixed(2)
-                      : '0.00'}{' '}
+                        ).toFixed(3)
+                      : '0.000'}{' '}
                     {CURRENCY}
                   </span>
                 </div>
@@ -1336,7 +1336,7 @@ export const PurchasesView: React.FC = () => {
                 <p>
                   <strong>مبلغ وقدره:</strong>{' '}
                   <span className="text-base font-black text-rose-600 font-mono">
-                    {printingVoucher.amount.toFixed(2)} {CURRENCY}
+                    {printingVoucher.amount.toFixed(3)} {CURRENCY}
                   </span>
                 </p>
                 {printingVoucher.purchaseOrderNumber && (

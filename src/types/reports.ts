@@ -20,6 +20,11 @@ export interface OperationalBusinessReport {
     deliveryFees: number;
     grossSales: number;
     refunds: number;
+    returnEntitlement: number;
+    debtReduction: number;
+    replacementCost: number;
+    restockRecovery: number;
+    aftercareAdjustedMargin: number;
     netSales: number;
     cogs: number;
     grossProfit: number;
@@ -27,6 +32,14 @@ export interface OperationalBusinessReport {
     collected: number;
     outstanding: number;
     returnCount: number;
+  };
+  cashFlow: {
+    cashCollected: number;
+    cliqCollected: number;
+    cashRefunded: number;
+    cliqRefunded: number;
+    cashNetFlow: number;
+    cliqNetFlow: number;
   };
   expenses: {
     count: number;

@@ -14,13 +14,13 @@
 | Phase 4.5 | OWNER-CLOSED | Lightweight phase-wide closure review and focused continuity re-sign-off passed with Critical/High/Medium/Low and material evidence gaps all zero. |
 | Phase 4 (overall) | OWNER-CLOSED | Returns, refunds, Replacement, Admin integration, cross-feature regression and independent closure are complete. |
 | Phase 5 | OWNER-CLOSED | Operational fixes in Migrations 128–130 delivered; owner closure after exact-SHA quality and secret-scanning CI PASS. Private Slices 1–4 remain inactive. |
-| Phase 6 | PLANNING ONLY | Owner authorized screen review and one plan of at most 20 items; implementation awaits approval. |
+| Phase 6 | IN PROGRESS — PACKAGE A IMPLEMENTED | Items 1,2,5,6,17 locally verified, reader-only Migration 131; delivery requires exact-SHA CI. B/C await approval; mobile shell unchanged. |
 | Phase 7 | NOT STARTED | Production/release work requires separate owner authorization. |
 
 Phase 5 closure evidence: `bdea567562b1de8c64fe3aa286076258decf3d26`, push/main,
 code-quality run `37408582997` and secret-scanning run `37408583034` both PASS.
-L9 remains an owner-policy decision; L10 and legacy-only daily reports enter the
-Phase 6 plan. These deferrals are not represented as zero unresolved findings.
+L9 remains an owner-policy decision. L10 and legacy-only daily reports are
+corrected in Phase 6 package A under its reader-only scope.
 Slice 1 private inactive financial evidence foundation is OWNER-CLOSED.
 Slice 2 private canonical collection and exact-payment-reversal writers are OWNER-CLOSED.
 Slice 4 private financial read/reconciliation in Migration 127 is OWNER-CLOSED.

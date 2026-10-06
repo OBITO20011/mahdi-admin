@@ -13,13 +13,15 @@ const state = JSON.parse(read('docs/agent/project-state.json')) as {
 };
 
 test('Slice4 authorization and hash are explicit and fail closed', () => {
-  assert.equal(state.migrationCeiling,130);
+  assert.equal(state.migrationCeiling,131);
   assert.equal(state.phase5Slice4Started,true);
   assert.equal(state.phase5PublicActivationAllowed,false);
   assert.equal(state.migration127CanonicalLfSha256,createHash('sha256').update(migration).digest('hex').toUpperCase());
   assert.equal(readdirSync('supabase/migrations').filter((name) => name.startsWith('128_')).join(','),
     '128_phase5_operational_payment_and_shift_refund_fixes.sql');
-  assert.equal(readdirSync('supabase/migrations').some((name) => name.startsWith('131_')),false);
+  assert.equal(readdirSync('supabase/migrations').filter((name) => name.startsWith('131_')).join(','),
+    '131_phase6_operational_report_readers.sql');
+  assert.equal(readdirSync('supabase/migrations').some((name) => name.startsWith('132_')),false);
   assert.equal(execFileSync('git',['diff','HEAD','--name-only','--','supabase/migrations/0*',
     'supabase/migrations/1[01]*','supabase/migrations/12[0-6]*'],{encoding:'utf8'}).trim(),'');
 });

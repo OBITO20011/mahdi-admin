@@ -639,7 +639,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                           <div className="flex items-center gap-3 shrink-0 text-left">
                             <div className="text-[10px]">
                               <div className="text-emerald-400 font-bold">
-                                تكلفة: {(p.costPrice || 0).toFixed(2)} {CURRENCY}
+                                تكلفة: {(p.costPrice || 0).toFixed(3)} {CURRENCY}
                               </div>
                               <div className="text-slate-400 font-sans">
                                 المخزون: <span className={(p.onHandQuantity || 0) > 0 ? 'text-slate-200 font-bold' : 'text-amber-400 font-bold'}>{p.onHandQuantity || 0}</span>
@@ -733,7 +733,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                               />
                             </td>
                             <td className="p-3 text-center font-black text-slate-100">
-                              {lineTotal.toFixed(2)}
+                              {lineTotal.toFixed(3)}
                             </td>
                             <td className="p-3 text-center">
                               <button
@@ -785,7 +785,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
               <div className="flex items-center justify-between font-semibold text-slate-300">
                 <span>المجموع الفرعي للأصناف:</span>
                 <span>
-                  {subtotal.toFixed(2)} {CURRENCY}
+                  {subtotal.toFixed(3)} {CURRENCY}
                 </span>
               </div>
 
@@ -822,7 +822,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
               <div className="pt-2 border-t border-slate-800 flex items-center justify-between font-black text-sm text-slate-100">
                 <span className="text-blue-400 text-base">المبلغ الإجمالي الكلي:</span>
                 <span className="text-lg text-emerald-400">
-                  {grandTotal.toFixed(2)} {CURRENCY}
+                  {grandTotal.toFixed(3)} {CURRENCY}
                 </span>
               </div>
             </div>

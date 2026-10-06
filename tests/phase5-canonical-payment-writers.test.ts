@@ -29,7 +29,9 @@ test('Migration 124 is one additive transaction above the immutable 001-123 base
     ['126_phase5_private_tender_coordinator.sql']);
   assert.deepEqual(migrations.filter((name) => name.startsWith('128_')),
     ['128_phase5_operational_payment_and_shift_refund_fixes.sql']);
-  assert.equal(migrations.some((name) => name.startsWith('131_')), false);
+  assert.deepEqual(migrations.filter((name) => name.startsWith('131_')),
+    ['131_phase6_operational_report_readers.sql']);
+  assert.equal(migrations.some((name) => name.startsWith('132_')), false);
   assert.match(migration, /^BEGIN;/u);
   assert.match(migration, /COMMIT;\s*$/u);
   assert.doesNotMatch(migration, /\bCREATE OR REPLACE\b|\bCREATE\s+[^;\n]+\s+IF NOT EXISTS\b/iu);

@@ -102,7 +102,7 @@ export async function fetchCustomerOutstandingOrders(params?: {
 export interface RecordCustomerPaymentInput {
   orderId: string;
   amount: number;
-  paymentMethod: 'cash' | 'cliq' | 'card' | 'bank_transfer' | 'cheque';
+  paymentMethod: 'cash' | 'cliq';
   referenceNumber?: string;
   notes?: string;
   idempotencyKey: string;
@@ -121,6 +121,12 @@ export async function recordCustomerOrderPayment(
   }
 
   const amountInMinorUnits = Math.round(input.amount * 1000);
+  if (!['cash', 'cliq'].includes(input.paymentMethod)) {
+    return {success: false, error: 'اختر كاش أو CliQ لتسجيل دفعة جديدة.'};
+  }
+  if (input.paymentMethod === 'cliq' && !input.referenceNumber?.trim()) {
+    return {success: false, error: 'رقم مرجع CliQ مطلوب لتسجيل الدفعة.'};
+  }
   if (!Number.isFinite(amountInMinorUnits) || amountInMinorUnits <= 0) {
     return { success: false, error: 'قيمة الدفعة يجب أن تكون أكبر من صفر.' };
   }

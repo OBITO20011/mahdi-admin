@@ -661,10 +661,11 @@ const buildDailyCard = (dashboard: DashboardPayload): AssistantCard => {
   const requiresAttention = asCount(summary.newOrdersCount) > 0 || outOfStock > 0;
   return {
     title: 'أداء اليوم',
-    subtitle: 'ملخص تشغيلي مباشر للفرع الحالي',
+    subtitle: 'ملخص تشغيلي مباشر لكل الفروع',
     tone: requiresAttention ? 'warning' : 'info',
     facts: [
-      { label: 'المبيعات المكتملة', value: formatJod(summary.todaySalesInMinorUnits ?? summary.salesToday ?? 0), tone: 'positive' },
+      { label: 'المبيعات قبل المرتجعات', value: formatJod(summary.todaySalesInMinorUnits ?? summary.salesToday ?? 0), tone: 'positive' },
+      ...(summary.todayNetSalesInMinorUnits !== undefined ? [{ label: 'صافي المبيعات بعد المرتجعات', value: formatJod(summary.todayNetSalesInMinorUnits) }] : []),
       { label: 'طلبات/فواتير مكتملة', value: String(asCount(summary.todayCompletedOrders ?? summary.ordersToday)) },
       { label: 'طلبات جديدة', value: String(asCount(summary.newOrdersCount)), tone: asCount(summary.newOrdersCount) > 0 ? 'warning' : 'positive' },
       { label: 'مخزون منخفض', value: String(lowStock), tone: lowStock > 0 ? 'warning' : 'positive' },
@@ -677,7 +678,7 @@ const buildDailyCard = (dashboard: DashboardPayload): AssistantCard => {
 const buildWeeklyCard = (dashboard: DashboardPayload): AssistantCard => {
   const sales = (dashboard.sevenDaySales || []).map((day) => ({
     date: String(day.date ?? ''),
-    amount: asMinorUnits(day.salesInMinorUnits ?? day.sales ?? day.totalSales ?? day.amount),
+    amount: Math.round(asJod(day.netSalesInMinorUnits ?? day.salesInMinorUnits ?? day.sales ?? day.totalSales ?? day.amount) * 1000),
   }));
   const total = sales.reduce((sum, day) => sum + day.amount, 0);
   const bestDay = sales.length > 0
@@ -685,10 +686,10 @@ const buildWeeklyCard = (dashboard: DashboardPayload): AssistantCard => {
     : undefined;
   return {
     title: `ملخص آخر ${sales.length || 7} أيام`,
-    subtitle: sales.length > 0 ? 'المبيعات المكتملة فقط' : 'لا توجد مبيعات مكتملة مسجلة في هذه الفترة',
+    subtitle: sales.length > 0 ? 'صافي المبيعات بعد مرتجعات الفترة؛ كل الفروع' : 'لا توجد مبيعات مسجلة في هذه الفترة',
     tone: sales.length > 0 ? 'info' : 'warning',
     facts: [
-      { label: 'إجمالي المبيعات', value: formatJod(total), tone: 'positive' },
+      { label: 'صافي المبيعات', value: formatJod(total), tone: 'positive' },
       ...(bestDay ? [{ label: 'أعلى يوم', value: `${bestDay.date || '—'} · ${formatJod(bestDay.amount)}` }] : []),
     ],
     suggestions: ['أعطني التقرير الشهري الحالي.', 'ما أهم الأمور التي تحتاج متابعة الآن؟'],
@@ -920,6 +921,8 @@ const buildSafeSnapshot = (dashboard: DashboardPayload, inventoryMatches: Invent
       salesThisMonth: asJod(
         summary.monthSalesInMinorUnits ?? summary.salesThisMonth ?? summary.monthSales,
       ),
+      netSalesToday: summary.todayNetSalesInMinorUnits === undefined ? null : asJod(summary.todayNetSalesInMinorUnits),
+      netSalesThisMonth: summary.monthNetSalesInMinorUnits === undefined ? null : asJod(summary.monthNetSalesInMinorUnits),
       receivables: asJod(
         summary.customerReceivablesInMinorUnits ?? summary.receivables ?? summary.customerReceivables,
       ),

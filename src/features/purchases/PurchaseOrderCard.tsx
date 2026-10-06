@@ -165,21 +165,21 @@ export const PurchaseOrderCard: React.FC<PurchaseOrderCardProps> = ({
         <div className="bg-slate-800/40 p-2 rounded-xl">
           <span className="text-[10px] text-slate-400 block mb-0.5">الإجمالي الصافي:</span>
           <span className="font-black text-slate-100">
-            {po.totalAmount.toFixed(2)} {CURRENCY}
+            {po.totalAmount.toFixed(3)} {CURRENCY}
           </span>
         </div>
 
         <div className="bg-emerald-950/30 border border-emerald-500/20 p-2 rounded-xl">
           <span className="text-[10px] text-emerald-400 block mb-0.5">المدفوع:</span>
           <span className="font-black text-emerald-300">
-            {po.amountPaid.toFixed(2)} {CURRENCY}
+            {po.amountPaid.toFixed(3)} {CURRENCY}
           </span>
         </div>
 
         <div className="bg-amber-950/30 border border-amber-500/20 p-2 rounded-xl">
           <span className="text-[10px] text-amber-400 block mb-0.5">المتبقي للمورد:</span>
           <span className="font-black text-amber-300">
-            {po.amountDue.toFixed(2)} {CURRENCY}
+            {po.amountDue.toFixed(3)} {CURRENCY}
           </span>
         </div>
       </div>

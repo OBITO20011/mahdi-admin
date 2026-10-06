@@ -89,7 +89,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                   fontSize: '11px',
                   color: '#FFF',
                 }}
-                formatter={(val: any) => [`${Number(val).toFixed(2)} ${CURRENCY}`, 'المبيعات']}
+                formatter={(val: any) => [`${Number(val).toFixed(3)} ${CURRENCY}`, 'المبيعات']}
               />
               <Area
                 type="monotone"
@@ -134,7 +134,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                   fontSize: '11px',
                   color: '#FFF',
                 }}
-                formatter={(val: any) => [`${Number(val).toFixed(2)} ${CURRENCY}`, 'الإيراد الشهري']}
+                formatter={(val: any) => [`${Number(val).toFixed(3)} ${CURRENCY}`, 'الإيراد الشهري']}
               />
               <Bar dataKey="revenue" fill="#10B981" radius={[6, 6, 0, 0]} />
             </BarChart>
@@ -235,7 +235,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
                 </div>
                 <div className="text-left">
                   <span className="font-extrabold text-amber-400 block">
-                    {p.totalRevenue.toFixed(2)} {CURRENCY}
+                    {p.totalRevenue.toFixed(3)} {CURRENCY}
                   </span>
                   <span className="text-[9px] text-slate-400">{p.totalQuantity} قطعة مباعة</span>
                 </div>
@@ -265,7 +265,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
               <div className="flex items-center justify-between font-bold">
                 <span className="text-slate-300">{wh.nameAr}</span>
                 <span className="text-cyan-400">
-                  {wh.sales.toFixed(2)} {CURRENCY} ({wh.ordersCount} طلب)
+                  {wh.sales.toFixed(3)} {CURRENCY} ({wh.ordersCount} طلب)
                 </span>
               </div>
               <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
@@ -299,7 +299,7 @@ export const ChartsSection: React.FC<ChartsSectionProps> = ({
               <div className="flex items-center justify-between font-bold">
                 <span className="text-slate-300">{br.nameAr}</span>
                 <span className="text-indigo-400">
-                  {br.sales.toFixed(2)} {CURRENCY} ({br.ordersCount} طلب)
+                  {br.sales.toFixed(3)} {CURRENCY} ({br.ordersCount} طلب)
                 </span>
               </div>
               <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-800">

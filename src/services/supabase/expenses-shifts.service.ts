@@ -355,6 +355,14 @@ export async function fetchCashShiftClosingReportFromSupabase(
           };
         })
       : [],
+    returnQuantityBreakdown: Array.isArray(payload.returnQuantityBreakdown)
+      ? payload.returnQuantityBreakdown.map((item) => {
+          const record = item as RpcRecord;
+          return {eventId: textValue(record.eventId), productId: textValue(record.productId),
+            productName: textValue(record.productName), sellableQuantity: Number(record.sellableQuantity),
+            defectQuantity: Number(record.defectQuantity), customerDamageQuantity: Number(record.customerDamageQuantity)};
+        })
+      : undefined,
     returnBreakdown: Array.isArray(payload.returnBreakdown)
       ? payload.returnBreakdown.map((item) => {
           const record = item as RpcRecord;

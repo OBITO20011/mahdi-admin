@@ -15,7 +15,7 @@ const state = JSON.parse(readFileSync('docs/agent/project-state.json', 'utf8')) 
 test('Migration 128 is one transaction pinned by the continuity state', () => {
   assert.match(migration, /^BEGIN;/u);
   assert.match(migration, /COMMIT;\s*$/u);
-  assert.equal(state.migrationCeiling, 130);
+  assert.equal(state.migrationCeiling, 131);
   assert.equal(
     state.migration128CanonicalLfSha256,
     createHash('sha256').update(migration).digest('hex').toUpperCase(),

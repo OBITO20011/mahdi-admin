@@ -42,7 +42,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
           </div>
         </div>
         <div className="text-base font-extrabold text-white">
-          {kpis.todaySales.toLocaleString('ar-JO', { minimumFractionDigits: 2 })}
+          {kpis.todaySales.toLocaleString('ar-JO', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
           <span className="text-[10px] font-normal text-slate-400 mr-1">{CURRENCY}</span>
         </div>
         <div
@@ -71,7 +71,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
           </div>
         </div>
         <div className="text-base font-extrabold text-white">
-          {kpis.weekSales.toLocaleString('ar-JO', { minimumFractionDigits: 2 })}
+          {kpis.weekSales.toLocaleString('ar-JO', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
           <span className="text-[10px] font-normal text-slate-400 mr-1">{CURRENCY}</span>
         </div>
         <div className="text-[10px] text-blue-400 font-semibold mt-1">حركة تراكمية أسبوعية</div>
@@ -86,7 +86,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
           </div>
         </div>
         <div className="text-base font-extrabold text-indigo-300">
-          {kpis.monthSales.toLocaleString('ar-JO', { minimumFractionDigits: 2 })}
+          {kpis.monthSales.toLocaleString('ar-JO', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
           <span className="text-[10px] font-normal text-slate-400 mr-1">{CURRENCY}</span>
         </div>
         <div className="text-[10px] text-indigo-400 font-semibold mt-1">إجمالي الشهر الحالي</div>
@@ -101,7 +101,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
           </div>
         </div>
         <div className="text-base font-extrabold text-teal-300">
-          {kpis.totalRevenue.toLocaleString('ar-JO', { minimumFractionDigits: 2 })}
+          {kpis.totalRevenue.toLocaleString('ar-JO', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
           <span className="text-[10px] font-normal text-slate-400 mr-1">{CURRENCY}</span>
         </div>
         <div className="text-[10px] text-teal-400 font-semibold mt-1">كافة المبيعات الصافية</div>
@@ -116,7 +116,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({
           </div>
         </div>
         <div className="text-base font-extrabold text-emerald-400">
-          {kpis.netProfit.toLocaleString('ar-JO', { minimumFractionDigits: 2 })}
+          {kpis.netProfit.toLocaleString('ar-JO', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}
           <span className="text-[10px] font-normal text-slate-400 mr-1">{CURRENCY}</span>
         </div>
         <div className="text-[10px] text-emerald-300 font-semibold mt-1">

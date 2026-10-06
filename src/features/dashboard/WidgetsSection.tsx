@@ -102,7 +102,7 @@ export const WidgetsSection: React.FC<WidgetsSectionProps> = ({
                   </div>
                   <div className="text-left">
                     <span className="font-extrabold text-emerald-400 text-xs block">
-                      {o.totalAmount.toFixed(2)} {CURRENCY}
+                      {o.totalAmount.toFixed(3)} {CURRENCY}
                     </span>
                     <span className="text-[9px] text-slate-500 flex items-center gap-0.5">
                       <Clock className="w-2.5 h-2.5" />

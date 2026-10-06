@@ -29,11 +29,12 @@ export const RecordCustomerPaymentModal: React.FC<
     initialOrder ? String(initialOrder.amountDue) : ''
   );
   const [paymentMethod, setPaymentMethod] = useState<
-    'cash' | 'cliq' | 'card' | 'bank_transfer' | 'cheque'
+    'cash' | 'cliq'
   >('cash');
   const [referenceNumber, setReferenceNumber] = useState('');
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(true);
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [orderSearch, setOrderSearch] = useState('');
@@ -43,6 +44,8 @@ export const RecordCustomerPaymentModal: React.FC<
 
   useEffect(() => {
     let mounted = true;
+    setLoading(true);
+    setError(null);
     fetchCustomerOutstandingOrders({
       page: orderPage,
       pageSize: 25,
@@ -60,6 +63,7 @@ export const RecordCustomerPaymentModal: React.FC<
         setError(result.error || 'تعذر تحميل الذمم.');
       }
       setLoading(false);
+      setHasLoaded(true);
     });
     return () => {
       mounted = false;
@@ -84,6 +88,10 @@ export const RecordCustomerPaymentModal: React.FC<
     const numericAmount = Number(amount);
     if (!selectedOrder) {
       setError('اختر طلبًا عليه مبلغ مستحق.');
+      return;
+    }
+    if (paymentMethod === 'cliq' && !referenceNumber.trim()) {
+      setError('رقم مرجع CliQ مطلوب لتسجيل الدفعة.');
       return;
     }
     if (
@@ -124,7 +132,7 @@ export const RecordCustomerPaymentModal: React.FC<
     onClose();
   };
 
-  if (loading) {
+  if (loading && !hasLoaded) {
     return (
       <div className="flex items-center justify-center gap-2 py-10 text-xs font-bold text-slate-400">
         <Loader2 className="h-5 w-5 animate-spin text-teal-400" />
@@ -133,20 +141,29 @@ export const RecordCustomerPaymentModal: React.FC<
     );
   }
 
-  if (!error && orders.length === 0 && !initialOrder) {
+  if (!loading && !error && orders.length === 0 && !initialOrder && !orderSearch.trim()) {
     return (
       <div className="rounded-2xl border border-emerald-800/50 bg-emerald-950/30 p-6 text-center">
         <CheckCircle2 className="mx-auto mb-2 h-9 w-9 text-emerald-400" />
-        <h3 className="text-sm font-black text-white">لا توجد ذمم مستحقة</h3>
+        <h3 className="text-sm font-black text-white">{orderSearch.trim() ? 'لا توجد نتائج لهذا البحث' : 'لا توجد ذمم مستحقة'}</h3>
         <p className="mt-1 text-[11px] text-slate-400">
-          كل الطلبات المكتملة مدفوعة حاليًا.
+          {orderSearch.trim() ? 'غيّر رقم الطلب أو اسم العميل أو الهاتف، أو امسح البحث.' : 'لا توجد مبالغ مستحقة ضمن الطلبات المتاحة لك.'}
         </p>
+        {orderSearch.trim() && <button type="button" onClick={() => { setOrderSearch(''); setOrderPage(1); }} className="mt-3 rounded-xl border border-slate-700 px-3 py-2 text-white">مسح البحث</button>}
       </div>
     );
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3 text-xs">
+      {loading && <p className="text-slate-400">جاري تحديث الذمم...</p>}
+      {!loading && !error && orders.length === 0 && orderSearch.trim() && (
+        <div className="rounded-xl border border-slate-700 p-3">
+          <h3 className="font-bold">لا توجد نتائج لهذا البحث</h3>
+          <p>غيّر رقم الطلب أو اسم العميل أو الهاتف، أو امسح البحث.</p>
+          <button type="button" onClick={() => {setOrderSearch(''); setOrderPage(1);}} className="mt-2 underline">مسح البحث</button>
+        </div>
+      )}
       {error && (
         <div className="rounded-xl border border-rose-800 bg-rose-950/60 p-3 text-rose-300">
           {error}
@@ -253,21 +270,19 @@ export const RecordCustomerPaymentModal: React.FC<
           >
             <option value="cash">نقدي</option>
             <option value="cliq">CliQ</option>
-            <option value="card">بطاقة</option>
-            <option value="bank_transfer">تحويل بنكي</option>
-            <option value="cheque">شيك</option>
           </select>
         </div>
       </div>
 
       <div>
         <label className="mb-1 block font-bold text-slate-300">
-          رقم المرجع (اختياري)
+          {paymentMethod === 'cliq' ? 'رقم مرجع CliQ *' : 'رقم المرجع (اختياري)'}
         </label>
         <input
           value={referenceNumber}
           onChange={(event) => setReferenceNumber(event.target.value)}
-          placeholder="رقم CliQ أو التحويل أو الشيك"
+          placeholder={paymentMethod === 'cliq' ? 'رقم مرجع CliQ' : 'مرجع داخلي إن وجد'}
+          required={paymentMethod === 'cliq'}
           className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-white"
         />
       </div>
@@ -286,7 +301,7 @@ export const RecordCustomerPaymentModal: React.FC<
 
       <button
         type="submit"
-        disabled={saving}
+        disabled={saving || loading || !selectedOrder}
         className="flex w-full items-center justify-center gap-2 rounded-2xl bg-teal-600 py-3 font-bold text-white transition hover:bg-teal-500 disabled:opacity-60"
       >
         {saving ? (

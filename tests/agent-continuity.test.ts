@@ -19,7 +19,7 @@ test('Codex and Claude resolve the same agent-neutral project contract', () => {
   assert.match(agents + claude, /Production/iu);
 });
 
-test('owner-closed Phases 4-5 and planning-only Phase 6 are explicit', () => {
+test('owner-closed Phases 4-5 and authorized Phase 6 package A are explicit', () => {
   const state = JSON.parse(read('docs/agent/project-state.json')) as {
     closedPhases: string[];
     phase4Closed: boolean;
@@ -29,6 +29,8 @@ test('owner-closed Phases 4-5 and planning-only Phase 6 are explicit', () => {
     phase5ClosureCiRuns: { codeQuality: number; secretScanning: number };
     phase6PlanningAllowed: boolean;
     phase6ImplementationStarted: boolean;
+    phase6AuthorizedPackage: string;
+    phase6NextPackageAllowed: boolean;
     currentPhase: string | null;
     nextPermittedPhase: null;
     phase43Started: boolean;
@@ -60,7 +62,7 @@ test('owner-closed Phases 4-5 and planning-only Phase 6 are explicit', () => {
   };
   assert.deepEqual(state.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5', '5']);
   assert.equal(state.phase4Closed, true);
-  assert.equal(state.currentPhase, null);
+  assert.equal(state.currentPhase, '6');
   assert.equal(state.phase5Closed, true);
   assert.equal(state.phase5ClosureBaseline, 'bdea567562b1de8c64fe3aa286076258decf3d26');
   assert.equal(state.phase5ClosureExactShaCi, 'PASS');
@@ -68,7 +70,9 @@ test('owner-closed Phases 4-5 and planning-only Phase 6 are explicit', () => {
     codeQuality: 37408582997, secretScanning: 37408583034,
   });
   assert.equal(state.phase6PlanningAllowed, true);
-  assert.equal(state.phase6ImplementationStarted, false);
+  assert.equal(state.phase6ImplementationStarted, true);
+  assert.equal(state.phase6AuthorizedPackage, 'A');
+  assert.equal(state.phase6NextPackageAllowed, false);
   assert.equal(state.phase45Started, true);
   assert.equal(state.phase5Started, true);
   assert.equal(state.phase5Slice1Closed, true);
@@ -77,7 +81,7 @@ test('owner-closed Phases 4-5 and planning-only Phase 6 are explicit', () => {
   assert.equal(state.nextPermittedPhase, null);
   assert.equal(state.phase43Started, true);
   assert.equal(state.phase44Started, true);
-  assert.equal(state.migrationCeiling, 130);
+  assert.equal(state.migrationCeiling, 131);
   assert.equal(state.phase5Slice3ImplementationStarted, true);
   assert.equal(state.phase5Slice3Closed, true);
   assert.equal(state.phase5Slice4Started, true);

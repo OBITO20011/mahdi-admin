@@ -267,7 +267,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
                 <div className="min-w-0">
                   <div className="font-extrabold text-white truncate">{lastScannedProduct.nameAr}</div>
                   <div className="text-[10px] text-emerald-400 font-bold">
-                    تمت الإضافة! السعر: {lastScannedProduct.retailPrice.toFixed(2)} د.أ
+                    تمت الإضافة! السعر: {lastScannedProduct.retailPrice.toFixed(3)} د.أ
                   </div>
                 </div>
               </div>

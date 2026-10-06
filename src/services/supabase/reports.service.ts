@@ -58,9 +58,26 @@ export async function fetchOperationalBusinessReportFromSupabase(
 
   const period = recordValue(payload.period);
   const sales = recordValue(payload.sales);
+  const cashFlow = recordValue(payload.cashFlow);
   const expenses = recordValue(payload.expenses);
   const purchases = recordValue(payload.purchases);
   const balances = recordValue(payload.balances);
+  for (const [source, fields] of [
+    [sales, ['returnEntitlementInMinorUnits', 'debtReductionInMinorUnits',
+      'replacementCostInMinorUnits', 'restockRecoveryInMinorUnits', 'aftercareAdjustedMarginInMinorUnits',
+      'grossSalesInMinorUnits', 'netSalesInMinorUnits', 'refundsInMinorUnits', 'cogsInMinorUnits',
+      'grossProfitInMinorUnits', 'netProfitInMinorUnits', 'collectedInMinorUnits', 'outstandingInMinorUnits']],
+    [expenses, ['totalInMinorUnits']],
+    [balances, ['customerDueInMinorUnits']],
+    [cashFlow, ['cashCollectedInMinorUnits', 'cliqCollectedInMinorUnits',
+      'cashRefundedInMinorUnits', 'cliqRefundedInMinorUnits', 'cashNetFlowInMinorUnits', 'cliqNetFlowInMinorUnits']],
+  ] as const) {
+    for (const field of fields) {
+      if (typeof source[field] !== 'number' || !Number.isSafeInteger(source[field])) {
+        throw new Error('بيانات التقرير غير مكتملة. يلزم إصدار تقارير الحزمة (أ) قبل عرض الأرقام.');
+      }
+    }
+  }
   const inventory = recordValue(payload.inventory);
   const inventoryMovements = recordValue(payload.inventoryMovements);
 
@@ -84,6 +101,11 @@ export async function fetchOperationalBusinessReportFromSupabase(
       deliveryFees: moneyValue(sales.deliveryFeesInMinorUnits),
       grossSales: moneyValue(sales.grossSalesInMinorUnits),
       refunds: moneyValue(sales.refundsInMinorUnits),
+      returnEntitlement: moneyValue(sales.returnEntitlementInMinorUnits),
+      debtReduction: moneyValue(sales.debtReductionInMinorUnits),
+      replacementCost: moneyValue(sales.replacementCostInMinorUnits),
+      restockRecovery: moneyValue(sales.restockRecoveryInMinorUnits),
+      aftercareAdjustedMargin: moneyValue(sales.aftercareAdjustedMarginInMinorUnits),
       netSales: moneyValue(sales.netSalesInMinorUnits),
       cogs: moneyValue(sales.cogsInMinorUnits),
       grossProfit: moneyValue(sales.grossProfitInMinorUnits),
@@ -91,6 +113,14 @@ export async function fetchOperationalBusinessReportFromSupabase(
       collected: moneyValue(sales.collectedInMinorUnits),
       outstanding: moneyValue(sales.outstandingInMinorUnits),
       returnCount: numberValue(sales.returnCount),
+    },
+    cashFlow: {
+      cashCollected: moneyValue(cashFlow.cashCollectedInMinorUnits),
+      cliqCollected: moneyValue(cashFlow.cliqCollectedInMinorUnits),
+      cashRefunded: moneyValue(cashFlow.cashRefundedInMinorUnits),
+      cliqRefunded: moneyValue(cashFlow.cliqRefundedInMinorUnits),
+      cashNetFlow: moneyValue(cashFlow.cashNetFlowInMinorUnits),
+      cliqNetFlow: moneyValue(cashFlow.cliqNetFlowInMinorUnits),
     },
     expenses: {
       count: numberValue(expenses.count),
