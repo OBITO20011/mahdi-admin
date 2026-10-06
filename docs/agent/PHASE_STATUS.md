@@ -15,12 +15,12 @@
 | Phase 4 (overall) | OWNER-CLOSED | Returns, refunds, Replacement, Admin integration, cross-feature regression and independent closure are complete. |
 | Phase 5 | OWNER-CLOSED | Operational fixes in Migrations 128–130 delivered; owner closure after exact-SHA quality and secret-scanning CI PASS. Private Slices 1–4 remain inactive. |
 | Phase 6 | OWNER-CLOSED | Owner accepted A/B/C and B+C correction on 2026-10-07. Baseline 5aaeab11e13c2be454af677ee176f77aa2d9cde4; exact-SHA quality 37531634141 and secrets 37531634136 PASS. Focused 32/32; quality 688 Admin + 189 Customer + 243 browser PASS, 51 existing conditional skips. |
-| Package D | PLAN ONLY | Owner authorized one-page system-unification plan before release; implementation and Migration 132 await plan approval. |
+| Package D | IN PROGRESS — D1 verified; D2 next | Fresh 131/132 and NULL-safe guard comparison PASS; current Phase43 runtime and 18 identity probes PASS, deadlockDelta 0; 690/690 unit tests. D2 POS, D3 Admin/Gateway and D4 removal remain. Feature state unchanged; no Production/Phase7. |
 | Phase 7 | NOT STARTED | Production/release work requires separate owner authorization. |
 
 Phase 5 closure evidence: `bdea567562b1de8c64fe3aa286076258decf3d26`, push/main,
 code-quality run `37408582997` and secret-scanning run `37408583034` both PASS.
-L9 remains an owner-policy decision. L10 and legacy-only daily reports are
+L9 source `pos` rejection is owner-approved in Package D; other unapproved source-policy changes remain outside scope. L10 and legacy-only daily reports are
 corrected in Phase 6 package A under its reader-only scope.
 Slice 1 private inactive financial evidence foundation is OWNER-CLOSED.
 Slice 2 private canonical collection and exact-payment-reversal writers are OWNER-CLOSED.

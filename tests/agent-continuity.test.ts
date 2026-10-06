@@ -19,7 +19,7 @@ test('Codex and Claude resolve the same agent-neutral project contract', () => {
   assert.match(agents + claude, /Production/iu);
 });
 
-test('owner-closed Phases 4-6 and plan-only Package D authorization are explicit', () => {
+test('owner-closed Phases 4-6 and bounded Package D implementation authorization are explicit', () => {
   const state = JSON.parse(read('docs/agent/project-state.json')) as {
     closedPhases: string[];
     phase4Closed: boolean;
@@ -76,7 +76,7 @@ test('owner-closed Phases 4-6 and plan-only Package D authorization are explicit
   assert.equal(state.phase6ClosureExactShaCi, 'PASS');
   assert.deepEqual(state.phase6ClosureCiRuns, {codeQuality: 37531634141, secretScanning: 37531634136});
   assert.equal(state.packageDPlanningAllowed, true);
-  assert.equal(state.packageDImplementationAllowed, false);
+  assert.equal(state.packageDImplementationAllowed, true);
   assert.equal(state.phase5Closed, true);
   assert.equal(state.phase5ClosureBaseline, 'bdea567562b1de8c64fe3aa286076258decf3d26');
   assert.equal(state.phase5ClosureExactShaCi, 'PASS');
@@ -97,7 +97,7 @@ test('owner-closed Phases 4-6 and plan-only Package D authorization are explicit
   assert.equal(state.nextPermittedPhase, null);
   assert.equal(state.phase43Started, true);
   assert.equal(state.phase44Started, true);
-  assert.equal(state.migrationCeiling, 131);
+  assert.equal(state.migrationCeiling, 132);
   assert.equal(state.phase5Slice3ImplementationStarted, true);
   assert.equal(state.phase5Slice3Closed, true);
   assert.equal(state.phase5Slice4Started, true);

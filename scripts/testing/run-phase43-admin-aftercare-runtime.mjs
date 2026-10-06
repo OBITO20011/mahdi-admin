@@ -177,6 +177,13 @@ const createLegacyWebsiteSale = async () => {
     ${literal(orderId)},'Legacy fixture acceptance');`, 'accept Legacy Website V1');
   await json(`${ownerClaims} SELECT public.update_order_status(
     ${literal(orderId)},'ready','Legacy fixture ready');`, 'ready Legacy Website V1');
+  await runSql(`INSERT INTO public.cash_shifts(
+      id,shift_number,branch_id,opened_by,opening_cash_in_minor_units
+    ) SELECT ${literal(randomUUID())},${literal(`P43-LEGACY-${phone}`)},sale.branch_id,
+      ${literal(ownerId)},0 FROM public.orders sale WHERE sale.id=${literal(orderId)}
+      AND NOT EXISTS(SELECT 1 FROM public.cash_shifts current_shift
+        WHERE current_shift.branch_id=sale.branch_id AND current_shift.status='open');`,
+  'historical fixture current open Shift');
   const total = Number((await runSql(`SELECT total_in_minor_units FROM public.orders
     WHERE id=${literal(orderId)};`, 'Legacy Website total')).stdout);
   const completed = await json(`${ownerClaims} SELECT public.complete_website_order_with_settlement(
@@ -190,6 +197,7 @@ try {
   const {stdout} = await execFileAsync(process.execPath, [bootstrapPath], {
     cwd: projectRoot,
     env: {...process.env, NAWASRAH_ISOLATED_PROJECT_ID: projectId,
+      NAWASRAH_MAX_MIGRATION: '131',
       NAWASRAH_SKIP_REDUNDANT_DB_RESET: 'true',
       NAWASRAH_SUPABASE_EXCLUDE:
         'realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'},
@@ -201,6 +209,20 @@ try {
   const phase3Sql = await readFile(phase3SqlPath, 'utf8');
   const prerequisite = await json(phase3Sql, 'Phase 3 prerequisite fixture');
   assert.equal(prerequisite.ok, true);
+  // Real historical entrypoints create historical rows BEFORE V1 retirement.
+  // All operational Phase4 probes below run against the current 132 schema.
+  await runSql(`UPDATE public.warehouses SET created_at='1900-01-01'
+    WHERE id=${literal(warehouseId)};`,'select the funded isolated storefront warehouse');
+  const legacyPosFixture = await createLegacyPosSale();
+  const legacyWebsiteFixture = await createLegacyWebsiteSale();
+  const historicalReturnedWebsite = await createLegacyWebsiteSale();
+  const historicalReturn = await json(`${ownerClaims}
+    SELECT public.return_completed_website_order(${literal(historicalReturnedWebsite)},
+      'Historical return before retirement','damaged','cash',NULL,NULL);`,
+  'historical Website return');
+  assert.equal(historicalReturn.success,true);
+  await runSql(await readFile(path.join(projectRoot,
+    'supabase/migrations/132_package_d_system_unification.sql'),'utf8'),'apply approved current schema');
   await verifyConsumptionIdentity({createParcelSale, runSql, json, literal,
     ownerClaims, productId, productBId});
 
@@ -711,7 +733,7 @@ try {
   );`, 'concurrency final state');
   assert.deepEqual(concurrentEvidence, {settled: 1, movements: 1});
 
-  const legacyPosOrderId = await createLegacyPosSale();
+  const legacyPosOrderId = legacyPosFixture;
   const legacyPosBefore = await json(`SELECT jsonb_build_object(
     'legacyReturns',(SELECT count(*) FROM public.sales_returns
       WHERE order_id=${literal(legacyPosOrderId)}),
@@ -739,27 +761,27 @@ try {
     SELECT public.return_completed_website_order(${literal(legacyPosOrderId)},
       'Legacy POS must not use Website Return','damaged','cash',NULL,NULL);`,
   'Legacy POS Website Return rejection', {failure: true});
-  assert.match(legacyPosWebsiteReturn.stderr, /مرتجع البيع المباشر يجب أن يتم من مسار نقطة البيع/u);
+  assert.match(legacyPosWebsiteReturn.stderr, /PACKAGE_D_MODERN_AFTERCARE_REQUIRED/u);
 
-  const legacyWebsiteOrderId = await createLegacyWebsiteSale();
+  const legacyWebsiteOrderId = legacyWebsiteFixture;
   const legacyWebsiteContext = await json(`${ownerClaims}
     SELECT public.get_admin_sales_aftercare_context_v1(${literal(legacyWebsiteOrderId)});`,
   'Legacy Website V1 aftercare context');
   assert.equal(legacyWebsiteContext.supported, false);
   assert.equal(legacyWebsiteContext.capability, 'legacy_website_return_v1');
   assert.equal(legacyWebsiteContext.financial, null);
-  const legacyWebsiteReturn = await json(`${ownerClaims}
+  const legacyWebsiteReturn = await runSql(`${ownerClaims}
     SELECT public.return_completed_website_order(${literal(legacyWebsiteOrderId)},
       'Legacy Website historical return','damaged','cash',NULL,
-      'Phase 4.3 Legacy compatibility fixture');`, 'return real Legacy Website V1');
-  assert.equal(legacyWebsiteReturn.success, true);
+      'Phase 4.3 Legacy read-only fixture');`, 'reject new Legacy Website return', {failure:true});
+  assert.match(legacyWebsiteReturn.stderr,/PACKAGE_D_MODERN_AFTERCARE_REQUIRED/u);
   const legacyWebsiteFinal = await json(`SELECT jsonb_build_object(
     'status',customer_order.status,'paymentStatus',customer_order.payment_status,
     'returnCount',(SELECT count(*) FROM public.sales_returns legacy_return
       WHERE legacy_return.order_id=customer_order.id),
     'phase4ReturnCount',(SELECT count(*) FROM public.sales_return_events event
       WHERE event.order_id=customer_order.id)
-  ) FROM public.orders customer_order WHERE customer_order.id=${literal(legacyWebsiteOrderId)};`,
+  ) FROM public.orders customer_order WHERE customer_order.id=${literal(historicalReturnedWebsite)};`,
   'Legacy Website historical return evidence');
   assert.deepEqual(legacyWebsiteFinal,
     {status: 'returned', paymentStatus: 'refunded', returnCount: 1, phase4ReturnCount: 0});
@@ -768,7 +790,8 @@ try {
     [cliPath, 'db', 'lint', '--local', '--level', 'warning', '--workdir', isolatedProjectRoot],
     {cwd: projectRoot, windowsHide: true, maxBuffer: 1024 * 1024, timeout: 120_000});
   if (/ERROR:/u.test(lint)) throw new Error(`DB lint failed:\n${lint}`);
-  console.log(JSON.stringify({ok: true, freshRebuild: '001-122', operationalReplacement: true,
+  console.log(JSON.stringify({ok: true, freshRebuild: '001-131',
+    operationalSchemaAfterMigration132: '001-132', operationalReplacement: true,
     replayZeroDuplicateEffects: true, physicalLineageReturn: true,
     changedPayloadConflict: true,
     customerV2: true, atomicRollback: true, foundationReplayBlocked: true,

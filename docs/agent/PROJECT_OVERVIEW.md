@@ -26,8 +26,10 @@ VS Code and dual-agent setup: `docs/agent/VS_CODE_SETUP.md`.
 Phase 6 is OWNER-CLOSED on 2026-10-07 at
 `5aaeab11e13c2be454af677ee176f77aa2d9cde4`: exact-SHA push/main quality
 37531634141 and secret scanning 37531634136 PASS. The current task is its
-documentation closure commit/push/CI, then Package D planning only.
-No Package D implementation, Migration 132, Production/deploy or Phase 7 is authorized yet.
+documentation closure delivered at `54e669cb195b69af1536cf7bcf64f18bc36519c0`,
+quality 37534064206 and secret scanning 37534064164 PASS.
+Package D implementation and explicit Migration132 are owner-authorized in four stages;
+feature state must remain unchanged. Production/deploy and Phase7 remain prohibited.
 Phase 5 operational baseline is `bdea567562b1de8c64fe3aa286076258decf3d26`;
 exact-SHA push/main quality and secret-scanning CI passed. Package A remediation
 at `0b31eec0949519eefdac398dd6a034f956d0b5f9` passed both exact-SHA CI workflows.
@@ -59,4 +61,4 @@ historical, private and inactive; parked Slice 5 work is not merged or activated
 Migrations 128–130 fix the operational paths. L9 remains a policy decision;
 L10 and legacy-only daily reporting are addressed by Phase 6 package A.
 No broad zero-findings or Production-readiness claim is implied by this closure.
-The approved migration ceiling is 131; fingerprints remain in `project-state.json`.
+The approved Package D migration ceiling is 132; fingerprints remain in `project-state.json`. Historical migrations 001–131 are immutable; feature activation remains an owner action in Phase 7.

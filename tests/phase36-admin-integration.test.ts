@@ -396,25 +396,31 @@ test('a stale response cannot overwrite a newer durable success generation', asy
   }
 });
 
-test('shared lock serializes same-input calls and preserves monotonic success', async () => {
+test('shared lock serializes same-input calls and preserves monotonic success', {timeout: 1_000}, async () => {
   const previous = globalThis.localStorage;
   const storage = new MemoryStorage();
   Object.defineProperty(globalThis, 'localStorage', {value: storage, configurable: true});
+  let release: () => void = () => {};
+  const pending: Promise<unknown>[] = [];
   try {
     let calls = 0;
-    let release!: () => void;
     const gate = new Promise<void>((resolve) => { release = resolve; });
+    let entered!: () => void;
+    const enteredRpc = new Promise<void>((resolve) => { entered = resolve; });
     const {client} = fakeClient();
     const originalRpc = client.rpc.bind(client);
     (client as any).rpc = async (...args: Parameters<typeof originalRpc>) => {
       calls++;
+      entered();
       await gate;
       return originalRpc(...args);
     };
     const request = {reason: 'سبب ثابت'};
     const first = runCustomerV2AdminAction(client, orderId, 'cancel', request);
     const second = runCustomerV2AdminAction(client, orderId, 'cancel', {...request});
-    await new Promise((resolve) => setTimeout(resolve, 10));
+    pending.push(first, second);
+    // Observe the real boundary, not a timing guess about async SHA-256 work.
+    await Promise.race([enteredRpc, first]);
     assert.equal(calls, 1, 'second context must wait for the shared action lock');
     release();
     const [left, right] = await Promise.all([first, second]);
@@ -423,6 +429,8 @@ test('shared lock serializes same-input calls and preserves monotonic success', 
     assert.equal(calls, 1, 'second context returns durable success without another RPC');
     assert.equal(JSON.parse([...storage.values.values()][0]).status, 'SUCCEEDED');
   } finally {
+    release();
+    await Promise.allSettled(pending);
     Object.defineProperty(globalThis, 'localStorage', {value: previous, configurable: true});
   }
 });

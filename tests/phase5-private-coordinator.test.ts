@@ -24,7 +24,9 @@ test('Slice 3 is additive, bounded and private with no public authority cutover'
     ['128_phase5_operational_payment_and_shift_refund_fixes.sql']);
   assert.deepEqual(readdirSync('supabase/migrations').filter((name) => name.startsWith('131_')),
     ['131_phase6_operational_report_readers.sql']);
-  assert.equal(readdirSync('supabase/migrations').some((name) => name.startsWith('132_')), false);
+  assert.deepEqual(readdirSync('supabase/migrations').filter((name) => name.startsWith('132_')),
+    ['132_package_d_system_unification.sql']);
+  assert.equal(readdirSync('supabase/migrations').some((name) => name.startsWith('133_')), false);
 });
 
 test('all new evidence is immutable, forced RLS and app role mutation is revoked', () => {
@@ -126,7 +128,7 @@ test('continuity pins the exact LF-safe candidate, never an arbitrary runtime ha
   const state = JSON.parse(readFileSync('docs/agent/project-state.json', 'utf8')) as {
     migration126CanonicalLfSha256: string; migrationCeiling: number;
   };
-  assert.equal(state.migrationCeiling, 131);
+  assert.equal(state.migrationCeiling, 132);
   const digest = createHash('sha256').update(migration).digest('hex').toUpperCase();
   assert.equal(state.migration126CanonicalLfSha256, digest);
   assert.equal(createHash('sha256').update(migration.replaceAll('\n', '\r\n').replace(/\r\n?/gu, '\n'))

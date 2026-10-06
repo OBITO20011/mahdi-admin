@@ -2,42 +2,59 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Owner Phase6 closure delivery; then Package D plan only; no implementation/Production",
-  "baselineSha": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
+  "objective": "Approved Package D: D1 Migration132/before-after; then D2 POS, D3 Admin/Gateway, D4 removal; commit/push each",
+  "baselineSha": "54e669cb195b69af1536cf7bcf64f18bc36519c0",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
-  "phase": "6",
+  "phase": "PACKAGE_D",
   "completed": [
-    "B+C UI correction; focused13/13, browser32/32, quality PASS"
+    "Phase6 OWNER-CLOSED; closure commit 54e669cb195b69af1536cf7bcf64f18bc36519c0; exact-SHA CI quality37534064206 and secrets37534064164 PASS",
+    "Package D plan approved with NULL-safe modern guards, V1 read-only and four delivery stages",
+    "D1 focused runtime PASS: fresh131/132, before/after guards, current Phase43 including 18 identity probes and deadlockDelta0; historical migrations unchanged"
   ],
-  "inProgress": [],
+  "inProgress": [
+    "D1 focused delivery commit/push; then D2 POS V2, parcel builder and recovery"
+  ],
   "notStarted": [
     "Phase 7"
   ],
   "filesTouched": [
+    ".github/workflows/quality.yml",
     "docs/agent/PHASE_STATUS.md",
-    "docs/agent/PHASE6_PLAN.md",
     "docs/agent/PROJECT_OVERVIEW.md",
     "docs/agent/project-state.json",
+    "scripts/agent/lib.mjs",
+    "scripts/agent/preflight.mjs",
+    "scripts/testing/run-phase43-admin-aftercare-runtime.mjs",
     "tests/agent-continuity.test.ts",
-    "tests/phase44-admin-recovery-fullstack.test.ts"
+    "tests/phase36-admin-integration.test.ts",
+    "tests/phase5-canonical-payment-writers.test.ts",
+    "tests/phase5-operational-fixes.test.ts",
+    "tests/phase5-private-coordinator.test.ts",
+    "tests/phase5-private-financial-read.test.ts",
+    "docs/agent/PACKAGE_D_PLAN.md",
+    "scripts/testing/package-d-aftercare-guard-probes.sql",
+    "scripts/testing/run-package-d-database-runtime.mjs",
+    "supabase/migrations/132_package_d_system_unification.sql",
+    "tests/package-d-unification.test.ts"
   ],
   "testsPassed": [
-    "Closure continuity 11/11; TypeScript and strict ESLint PASS; baseline exact-SHA CI PASS"
+    "Fresh 001-131 and 001-132; NULL guards before/after three real RPCs; policy/warehouse/ACL/aftercare/replay/capacity runtime",
+    "690/690 unit tests; typecheck and strict ESLint; DB lint no errors (unused compatibility arguments only)"
   ],
   "testsRemaining": [
-    "Closure commit exact-SHA CI"
+    "D1 staged Gitleaks/commit/push; D2-D4; final quality and exact-SHA CI"
   ],
   "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "Production/deploy",
-    "DB/migration changes; Package D implementation",
+    "Historical migrations001-131; additional migrations; feature-state activation",
     "Phase7"
   ],
-  "nextExactAction": "Push Phase6 closure commit and verify exact-SHA CI; then start authorized Package D one-page plan only",
-  "workingTreeFingerprint": "3B9A32C582FCCF2A2A5294770DA9C1F3F4FE68DEF38E79ABB2B04201B2FAA695",
-  "checkpointedAt": "2026-10-06T21:27:33.297Z",
-  "startedAt": "2026-10-06T21:22:54.249Z"
+  "nextExactAction": "Start authorized D2 from D1 committed baseline: POS V2, flexible-parcel builder and immutable recovery",
+  "workingTreeFingerprint": "47A0CE502DA77AF26F6FE63FC6D732A3DB9F4255507169FE2379A7208D7C6082",
+  "checkpointedAt": "2026-10-06T22:25:00.997Z",
+  "startedAt": "2026-10-06T21:40:31.981Z"
 }

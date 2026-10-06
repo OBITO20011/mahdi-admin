@@ -69,8 +69,13 @@ jobs:
       - name: Install admin dependencies
         run: npm ci
 
-      - name: Run sequential isolated database runtime suites
+      - name: Run historical 001-131 isolated compatibility regression
+        env:
+          NAWASRAH_MAX_MIGRATION: '131'
         run: npm run test:db:runtime
 
-      - name: Run Phase 4.3 Admin aftercare runtime contract
+      - name: Run current 001-132 Package D public contracts
+        run: node scripts/testing/run-package-d-database-runtime.mjs
+
+      - name: Run current Phase 4.3 Admin aftercare and historical read-only contracts
         run: npm run test:phase43-aftercare:runtime
