@@ -174,6 +174,9 @@ export interface HomeDashboardSalesDay {
 
 export interface HomeDashboardData {
   generatedAt: string;
+  // false when the server could not compute financial facts (corrupt evidence);
+  // money cards must then show "unavailable", never zero.
+  financialFactsAvailable: boolean;
   access: HomeDashboardAccess;
   summary: HomeDashboardSummary;
   latestOrders: HomeDashboardOrder[];

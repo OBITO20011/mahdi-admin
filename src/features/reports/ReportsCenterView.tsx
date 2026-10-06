@@ -15,6 +15,7 @@ import {
   RefreshCw,
   ShoppingCart,
   TrendingUp,
+  Truck,
   Users,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
@@ -146,11 +147,25 @@ export const ReportsCenterView: React.FC = () => {
     setDateTo(localDateValue(end));
   };
 
+  // A closed <details> is not printed by browsers. Open every report details
+  // section before printing, from the button and from the browser's own print.
+  const openReportDetails = () => {
+    document
+      .querySelectorAll<HTMLDetailsElement>('details[data-testid="report-details"]')
+      .forEach((details) => { details.open = true; });
+  };
+
+  useEffect(() => {
+    window.addEventListener('beforeprint', openReportDetails);
+    return () => window.removeEventListener('beforeprint', openReportDetails);
+  }, []);
+
   const handlePrint = () => {
     if (!report) {
       setToast('حمّل التقرير أولاً قبل الطباعة أو الحفظ PDF.', 'error');
       return;
     }
+    openReportDetails();
     window.print();
   };
 
@@ -300,6 +315,7 @@ export const ReportsCenterView: React.FC = () => {
           <details className="space-y-4" data-testid="report-details">
             <summary className="cursor-pointer rounded-xl border border-slate-700 bg-slate-900 p-3 font-bold text-slate-200">تفاصيل</summary>
             <section className="grid grid-cols-2 gap-2 text-xs">
+              <MetricCard label="ذمم الموردين" value={money(report.balances.supplierDue)} hint={`${report.balances.supplierCount} مورد لهم رصيد`} icon={Truck} tone="violet" />
               <MetricCard label="تكلفة البيع الأصلية" value={money(report.sales.cogs)} hint="COGS التاريخي لا يعاد تسعيره" icon={Boxes} tone="blue" />
               <MetricCard label="تكلفة الاستبدال" value={money(report.sales.replacementCost)} hint="من تكلفة الإصدار المحفوظة" icon={Boxes} tone="amber" />
               <MetricCard label="استرجاع التكلفة" value={money(report.sales.restockRecovery)} hint="للمخزون القابل للبيع فقط، بتكلفة القطعة الحالية التاريخية" icon={PackageCheck} tone="emerald" />

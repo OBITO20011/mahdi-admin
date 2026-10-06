@@ -340,7 +340,7 @@ export const DashboardView: React.FC = () => {
     summary.newOrdersCount +
     preparingCount +
     deliveryCount +
-    (summary.customerReceivablesInMinorUnits > 0 ? 1 : 0);
+    (data.financialFactsAvailable && summary.customerReceivablesInMinorUnits > 0 ? 1 : 0);
   const hasBusinessData =
     summary.activeProductsCount > 0 ||
     summary.activeCustomersCount > 0 ||
@@ -480,14 +480,18 @@ export const DashboardView: React.FC = () => {
                 ذمم العملاء
               </span>
               <span className="mt-0.5 block text-[9px] text-slate-400">
-                {summary.customerReceivablesInMinorUnits > 0
+                {!data.financialFactsAvailable
+                  ? 'تعذر حساب الذمم حالياً؛ راجع التقارير أو أعد المحاولة'
+                  : summary.customerReceivablesInMinorUnits > 0
                   ? 'اضغط لتسجيل سند قبض أو مراجعة العميل'
                   : 'لا توجد مبالغ مستحقة حالياً'}
               </span>
             </span>
           </span>
           <span className="flex shrink-0 items-center gap-1 text-[12px] font-black text-rose-200">
-            {formatMinorUnits(summary.customerReceivablesInMinorUnits)} {CURRENCY}
+            {data.financialFactsAvailable
+              ? `${formatMinorUnits(summary.customerReceivablesInMinorUnits)} ${CURRENCY}`
+              : 'غير متاح'}
             <ChevronLeft className="h-4 w-4" />
           </span>
         </button>

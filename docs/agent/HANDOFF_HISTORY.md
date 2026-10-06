@@ -24,3 +24,7 @@ Append only concise, secret-free handoff summaries here when a task materially c
 - Owner approved Phase 5 closure conditional on those results; recorded OWNER-CLOSED with existing deferrals retained.
 - Owner authorized closure commit/push/CI, followed by Phase 6 planning only (maximum 20 items). No UI implementation, Production or deploy.
 - Detailed former `ACTIVE_TASK.json` evidence remains in Git at the baseline above; current task is intentionally concise.
+
+## 2026-10-06 — Phase 6 package A review remediation (claude)
+
+- Independent review of package A: Critical 0, High 1, Medium 5. Migration 131 rewritten in place as explicit wrappers (owner-approved, never applied outside isolated DBs); remediation recorded at the end of `docs/agent/PHASE6_A_REPORTS_SCOPE.md`. Task returned to IDLE for codex package B.

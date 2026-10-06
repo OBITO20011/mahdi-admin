@@ -16,6 +16,8 @@ const owner = '92400000-0000-0000-0000-000000000001';
 const product = '92400000-0000-0000-0000-000000000101';
 const claims = `SELECT set_config('request.jwt.claims','{"sub":"${owner}","role":"authenticated","aal":"aal2"}',false);`;
 const quote = (v) => `'${String(v).replaceAll("'","''")}'`;
+// Business date in Asia/Amman: a UTC CURRENT_DATE fails between 21:00 and 24:00 UTC.
+const today = "(NOW() AT TIME ZONE 'Asia/Amman')::DATE";
 let workdir;
 let appliedHash;
 const sql = (text) => new Promise((resolve,reject) => {
@@ -28,7 +30,7 @@ const sql = (text) => new Promise((resolve,reject) => {
 });
 const json = async (text) => JSON.parse((await sql(text)).split(/\r?\n/u).at(-1));
 const report = (branch) => json(`${claims} SET ROLE authenticated;
-  SELECT public.get_operational_business_report(${quote(branch)},CURRENT_DATE,CURRENT_DATE);`);
+  SELECT public.get_operational_business_report(${quote(branch)},${today},${today});`);
 const setCost = (cost) => sql(`UPDATE public.products SET wac_cost_in_minor_units_exact=${cost},
   cost_price_in_minor_units=ROUND(${cost}) WHERE id=${quote(product)};`);
 const makePos = async (location,lines,amount,discount=0) => {
@@ -124,6 +126,14 @@ try {
     assert.equal(difference(afterReturn,beforeCompletion,'outstandingInMinorUnits'),1000);
     assert.equal(afterReturn.cashFlow.cliqNetFlowInMinorUnits-beforeCompletion.cashFlow.cliqNetFlowInMinorUnits,6000);
     assert.equal(afterReturn.cashFlow.cashNetFlowInMinorUnits-beforeCompletion.cashFlow.cashNetFlowInMinorUnits,-1000);
+    assert.equal(afterReturn.balances.customerDueInMinorUnits-beforeCompletion.balances.customerDueInMinorUnits,1000,
+      'Top-level receivable card: debt 11 - coverage 6 - debt reduction 4 = 1');
+    assert.equal(difference(afterReturn,beforeCompletion,'collectedInMinorUnits'),6000,'Coverage 6');
+    const netMoney=(x)=>x.cashFlow.cashNetFlowInMinorUnits+x.cashFlow.cliqNetFlowInMinorUnits;
+    assert.equal(netMoney(afterReturn)-netMoney(beforeCompletion),5000,'Net money 5');
+    const canonical=await json(`SELECT to_jsonb(outstanding_total_in_minor_units) FROM public.phase42_order_financial_position_internal(${quote(sale.id)});`);
+    assert.equal(canonical,afterReturn.balances.customerDueInMinorUnits-beforeCompletion.balances.customerDueInMinorUnits,
+      'Report due for the order equals the canonical Phase 4.2 financial position');
   }
   // Real historical Website V1 lifecycle, then real Legacy Return in same period.
   await sql('UPDATE public.storefront_settings SET inside_ramtha_delivery_fee_in_minor_units=0;');
@@ -145,7 +155,7 @@ try {
     assert.equal(difference(mixed,baseline,'returnEntitlementInMinorUnits'),5000+legacyTotal);
   }
   const stateBefore=await fingerprint();
-  const summary=await json(`SELECT public.build_business_summary('daily',CURRENT_DATE,CURRENT_DATE,NOW());`);
+  const summary=await json(`SELECT public.build_business_summary('daily',${today},${today},NOW());`);
   const home=await json(`${claims} SET ROLE authenticated; SELECT public.get_home_dashboard();`);
   const shiftId=await json(`SELECT to_jsonb(cash_shift_id) FROM public.orders WHERE id=${quote(sale.id)};`);
   const closing=await json(`${claims} SET ROLE authenticated; SELECT public.get_cash_shift_closing_report(${quote(shiftId)});`);
@@ -155,14 +165,37 @@ try {
     for(const field of ['discountInMinorUnits','cashSalesInMinorUnits','cliqSalesInMinorUnits'])
       assert.ok(Number.isSafeInteger(summary.sales[field]),`Summary ${field} remains present`);
     assert.ok(Number.isSafeInteger(summary.balances.supplierDueInMinorUnits));
+    const branches=await json(`SELECT COALESCE(jsonb_agg(id),'[]'::jsonb) FROM public.branches WHERE is_active;`);
+    let allNet=0,allEntitlement=0;
+    for(const branch of branches){ const one=await report(branch); allNet+=one.sales.netSalesInMinorUnits; allEntitlement+=one.sales.returnEntitlementInMinorUnits; }
+    assert.equal(summary.sales.netSalesInMinorUnits,allNet,'Daily summary equals the sum of branch reports');
+    assert.equal(summary.sales.returnEntitlementInMinorUnits,allEntitlement);
     assert.ok(summary.sales.returnEntitlementInMinorUnits>=5000+legacyTotal);
-    assert.ok(home.summary.todayNetSalesInMinorUnits!==undefined);
+    assert.ok(summary.dailyBreakdown.every(d=>Number.isSafeInteger(d.completedOrderCount)),'Summary keeps per-day completedOrderCount');
+    assert.equal(home.financialFactsStatus,'available');
+    assert.equal(home.summary.todayNetSalesInMinorUnits,summary.sales.netSalesInMinorUnits,'Home today net = summary today net');
+    assert.equal(home.summary.customerReceivablesInMinorUnits,summary.balances.customerDueInMinorUnits);
+    assert.equal(home.sevenDaySales.length,7);
+    assert.equal(home.sevenDaySales.at(-1).netSalesInMinorUnits,home.summary.todayNetSalesInMinorUnits);
     assert.ok(closing.returnQuantityBreakdown.some(r=>r.sellableQuantity===5));
+  }
+  if(!before){
+    const corrupt=`BEGIN; SET LOCAL session_replication_role=replica;
+      DELETE FROM public.phase42_return_settlement_evidence WHERE return_event_id=${quote(returned.returnId)};
+      SET LOCAL session_replication_role=origin; ${claims} SET LOCAL ROLE authenticated;`;
+    const degraded=await json(`${corrupt} SELECT public.get_home_dashboard(); ROLLBACK;`);
+    assert.equal(degraded.financialFactsStatus,'unavailable','Home degrades instead of failing for every role');
+    let strict='accepted';
+    try { await sql(`${corrupt} SELECT public.get_operational_business_report(${quote(sale.branch)},${today},${today}); ROLLBACK;`); }
+    catch { strict='rejected'; }
+    assert.equal(strict,'rejected','Reports stay strict on corrupt evidence');
+    assert.deepEqual(await fingerprint(),stateBefore,'Corruption probe rolled back');
   }
   const untouched=await json(`SELECT jsonb_build_object('surface',md5(string_agg(
     p.oid::regprocedure::text||replace(pg_get_functiondef(p.oid),chr(13),'')||COALESCE(p.proacl::text,''),'' ORDER BY p.oid::regprocedure::text)))
     FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='public' AND p.prokind='f'
-      AND p.proname NOT IN('get_operational_business_report','build_business_summary','get_home_dashboard','_get_cash_shift_closing_report_before_snapshot');`);
+      AND p.proname NOT IN('get_operational_business_report','build_business_summary','get_home_dashboard','_get_cash_shift_closing_report_before_snapshot',
+        'phase6_financial_facts_internal','_get_operational_business_report_before_phase6','_build_business_summary_before_phase6','_get_home_dashboard_before_phase6');`);
   assert.equal(untouched.surface,'7a84e3ebe04ea5858c6b00b86fc4345d','Writers/other functions/ACL must remain identical to 001-130');
   let extended='before-mode-not-applicable',lint='before-mode-not-applicable';
   if(!before){
@@ -202,7 +235,7 @@ try {
       UPDATE public.order_status_history SET created_at=created_at-INTERVAL '1 day'
         WHERE order_id=${quote(pos.id)} AND new_status='completed';
       ${claims} SET LOCAL ROLE authenticated;
-      SELECT public.get_operational_business_report(${quote(pos.branch)},CURRENT_DATE,CURRENT_DATE);
+      SELECT public.get_operational_business_report(${quote(pos.branch)},${today},${today});
       ROLLBACK;`);
     assert.equal(difference(priorDay,returnedReport,'grossSalesInMinorUnits'),-1000);
     assert.equal(priorDay.sales.returnEntitlementInMinorUnits,returnedReport.sales.returnEntitlementInMinorUnits);

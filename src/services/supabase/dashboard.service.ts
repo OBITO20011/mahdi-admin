@@ -145,6 +145,7 @@ export async function fetchHomeDashboardFromSupabase(): Promise<DashboardResult>
       source: 'rpc',
       data: {
         generatedAt: String(payload.generatedAt || new Date().toISOString()),
+        financialFactsAvailable: payload.financialFactsStatus !== 'unavailable',
         access: {
           canViewProfit: Boolean(access.canViewProfit),
         },

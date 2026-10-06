@@ -309,24 +309,15 @@ export const ShiftClosingReportModal: React.FC<
             </section>
           )}
 
-          {report.returnQuantityBreakdown !== undefined ? (
-            <section className="space-y-2 rounded-2xl border border-orange-900/60 bg-orange-950/20 p-3">
-              <h4 className="font-black text-orange-200">تفصيل كميات المرتجعات</h4>
-              <p className="text-[10px] text-slate-400">المبلغ المسترد محسوب لكل مرتجع، ولا يوزّع على أصنافه أو أسباب التلف.</p>
-              {report.returnQuantityBreakdown.map((item, index) => (
-                <div key={`${item.eventId}-${item.productId}-${index}`} className="rounded-lg bg-slate-950/60 p-2 text-slate-300">
-                  <b>{item.productName}</b>
-                  <p>قابل للبيع: {item.sellableQuantity} · عيب/غير قابل للبيع: {item.defectQuantity} · ضرر عميل: {item.customerDamageQuantity}</p>
-                </div>
-              ))}
-            </section>
-          ) : report.returnBreakdown.length > 0 && (
+          {report.returnBreakdown.length > 0 && (
             <section className="rounded-2xl border border-orange-900/70 bg-orange-950/20 p-3">
               <h4 className="mb-2 flex items-center gap-2 font-black text-orange-200">
                 <RotateCcw className="h-4 w-4" />
                 تفصيل المرتجعات
               </h4>
-              <p className="text-[10px] text-slate-400">تفصيل تاريخي على مستوى المرتجع؛ لا تتوفر كميات مكوّناته في لقطة الإغلاق.</p>
+              {report.returnQuantityBreakdown === undefined && (
+                <p className="text-[10px] text-slate-400">تفصيل تاريخي على مستوى المرتجع؛ لا تتوفر كميات مكوّناته في لقطة الإغلاق.</p>
+              )}
               <div className="space-y-2">
                 {report.returnBreakdown.map((item) => (
                   <div
@@ -344,6 +335,19 @@ export const ShiftClosingReportModal: React.FC<
                   </div>
                 ))}
               </div>
+            </section>
+          )}
+
+          {report.returnQuantityBreakdown !== undefined && report.returnQuantityBreakdown.length > 0 && (
+            <section className="space-y-2 rounded-2xl border border-orange-900/60 bg-orange-950/20 p-3">
+              <h4 className="font-black text-orange-200">تفصيل كميات المرتجعات</h4>
+              <p className="text-[10px] text-slate-400">المبلغ المسترد محسوب لكل مرتجع في التفصيل أعلاه، ولا يوزّع على أصنافه أو أسباب التلف.</p>
+              {report.returnQuantityBreakdown.map((item, index) => (
+                <div key={`${item.eventId}-${item.productId}-${index}`} className="rounded-lg bg-slate-950/60 p-2 text-slate-300">
+                  <b>{item.productName}</b>
+                  <p>قابل للبيع: {item.sellableQuantity} · عيب/غير قابل للبيع: {item.defectQuantity} · ضرر عميل: {item.customerDamageQuantity}</p>
+                </div>
+              ))}
             </section>
           )}
 

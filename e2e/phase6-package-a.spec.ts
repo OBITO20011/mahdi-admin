@@ -35,6 +35,7 @@ test('التقرير بسيط، والتكلفة في تفاصيل؛ الدقة 
   await details.locator('summary').click();
   await expect(main.getByText('تكلفة الاستبدال', {exact: true})).toBeVisible();
   await expect(main.getByText('استرجاع التكلفة', {exact: true})).toBeVisible();
+  await expect(main.getByText('ذمم الموردين', {exact: true})).toBeVisible();
 });
 
 test('لا يعرض التقرير القديم الناقص كأرقام صحيحة', async ({page}) => {
@@ -91,6 +92,7 @@ test('تفصيل الإغلاق يعرض كميات مختلطة دون نسبة
   await page.goto('/e2e/phase6-package-a-harness.html?kind=closing');
   await expect(page.getByText('تفصيل كميات المرتجعات', {exact: true})).toBeVisible();
   await expect(page.getByText('قابل للبيع: 1 · عيب/غير قابل للبيع: 2 · ضرر عميل: 3', {exact: true})).toBeVisible();
-  await expect(page.getByText('كاش • تالفة (1)', {exact: true})).toHaveCount(0);
+  // Event-level refund money stays visible next to the quantity detail.
+  await expect(page.getByText('كاش • تالفة (1)', {exact: true})).toBeVisible();
   await expect(page.getByText(/المبلغ المسترد محسوب لكل مرتجع/)).toBeVisible();
 });

@@ -1,40 +1,35 @@
 {
   "schemaVersion": 1,
   "status": "IDLE",
-  "owner": "codex",
-  "objective": "Phase6 A reader merge corrected; exact-SHA full DB and quality CI required before delivery",
-  "baselineSha": "dc4ab2910e30fc357276facb4f0c359daf398e41",
+  "owner": null,
+  "objective": "No active task. Phase 6 package A delivered and its review remediation completed by claude; next is owner approval of package B (codex).",
+  "baselineSha": "c0399eeeb31f0795cdbaefafd67daa2b13c66d75",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
-  "phase": "6-A",
+  "phase": "6",
   "completed": [
     "Package A items 1,2,5,6,17 implemented; one reader-only Migration131",
     "DB before001-130/after001-131 acceptance, Legacy+modern, historical replacement valuation, mixed closing detail, snapshots/ACL PASS",
-    "Quality PASS; final focused browser 12/12 without retries; Admin 678/678; Customer 189/189"
+    "Quality PASS; final focused browser 12/12 without retries; Admin 678/678; Customer 189/189",
+    "Phase 6 package A review remediation (explicit Migration 131, home performance/degraded state, print/supplier due, V2-only modern returns, stronger runtime proof) by claude"
   ],
   "inProgress": [],
   "notStarted": [
-    "Packages B/C await separate owner approval",
-    "Phase7",
-    "Deferred L9 policy"
+    "Phase 6 package B (items 3,4,7,8,12,13,16,18,19)",
+    "Phase 6 package C (items 9,10,11,14,15)",
+    "Phase 7"
   ],
-  "filesTouched": [
-    "docs/agent/PHASE6_PLAN.md",
-    "docs/agent/project-state.json",
-    "e2e/phase6-package-a.spec.ts",
-    "scripts/testing/run-phase6-package-a-runtime.mjs",
-    "src/services/supabase/reports.service.ts",
-    "supabase/migrations/131_phase6_operational_report_readers.sql",
-    "tests/phase6-package-a.test.ts"
-  ],
+  "filesTouched": [],
   "testsPassed": [
-    "TypeScript / ESLint strict / DB lint / quality",
-    "Browser isolation: zero external/Production escape"
+    "run-phase6-package-a-runtime after 001-131 PASS (acceptance exact incl. receivable card/coverage 6/net money 5/canonical per-order due; summary = sum of branch reports; home = summary; home degraded on corrupt evidence while report stays strict; untouched surface 7a84e3eb; DB lint); before 001-130 deltas 0",
+    "npm run quality PASS: admin 679/679, customer 189/189, browser 217 passed / 51 documented conditional skips, production requests escaped 0"
   ],
-  "testsRemaining": [
-    "Exact-SHA full DB CI required; standalone Phase3 timed out at a later lifecycle race barrier"
+  "testsRemaining": [],
+  "findings": [
+    "Migration 131 rewritten in place (never applied outside isolated DBs) as explicit wrappers + phase6_financial_facts_internal; no runtime text patching.",
+    "Open note: modern Return writer guard (121:1143, 122:679) does not reject orders with operation_id NULL; reader is protected (V2-only modern returns). Writer fix out of scope.",
+    "Phase 7 deploy notes: migrations 112-131 before frontend; deploy admin-ai-assistant Edge Function; re-import nawasrah-alerts.json in n8n."
   ],
-  "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
@@ -43,7 +38,8 @@
     "Second migration",
     "Packages B/C or Phase7"
   ],
-  "nextExactAction": "Verify corrected package A exact-SHA full DB and quality CI; stop for owner review before B",
-  "workingTreeFingerprint": "5D657AC38D2EEB71EB509B2808E4DC94CE0D3E3255AFEA83621861EA3D8AED40",
-  "checkpointedAt": "2026-10-06T06:08:51.799Z"
+  "nextExactAction": "Owner: approve Phase 6 package B; codex implements it per docs/agent/PHASE6_PLAN.md.",
+  "workingTreeFingerprint": null,
+  "checkpointedAt": "2026-10-06T07:09:28.019Z",
+  "startedAt": "2026-10-06T06:46:56.429Z"
 }

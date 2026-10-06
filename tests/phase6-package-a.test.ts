@@ -10,24 +10,41 @@ test('Migration131 current contract is pinned and LF/CRLF portable', () => {
   const state = JSON.parse(read('docs/agent/project-state.json'));
   const canonical = migration.replace(/\r\n?/gu, '\n');
   const digest = createHash('sha256').update(canonical).digest('hex').toUpperCase();
-  assert.equal(state.migration131CanonicalLfSha256, 'F0CA79A2AAEED327B865884982D1D52BFCD72899AD2282DE4A59F55FACFBEEE9');
   assert.equal(digest, state.migration131CanonicalLfSha256);
   assert.equal(createHash('sha256').update(canonical.replaceAll('\n', '\r\n').replace(/\r\n?/gu, '\n')).digest('hex').toUpperCase(), digest);
 });
 
-test('Phase6 A adds only Migration131 reader patches, not new authority/writers/grants', () => {
+test('Phase6 A readers are explicit wrappers, never runtime text patches', () => {
   assert.match(migration, /^BEGIN;/u);
   assert.match(migration, /COMMIT;\s*$/u);
-  assert.doesNotMatch(migration, /^\s*(?:CREATE|ALTER|DROP|GRANT|REVOKE|UPDATE|INSERT|DELETE)\s/imu);
-  const targets = [...migration.matchAll(/pg_get_functiondef\('public\.([^']+)'::REGPROCEDURE\)/gu)].map(m => m[1]);
-  assert.deepEqual(targets, ['get_operational_business_report(uuid,date,date)',
-    'build_business_summary(text,date,date,timestamptz)', 'get_home_dashboard()',
-    '_get_cash_shift_closing_report_before_snapshot(uuid)']);
-  assert.match(migration, /source contract changed/u);
-  for(const target of ['v_report','v_result']) for(const field of ['sales','expenses','balances']) {
-    assert.ok(migration.includes(`(${target}->''${field}'') || (v_phase6->''${field}'')`),
+  assert.doesNotMatch(migration, /pg_get_functiondef|\bEXECUTE\s+(?:REPLACE|v_)/u);
+  for (const [name, renamed] of [
+    ['get_operational_business_report(UUID, DATE, DATE)', '_get_operational_business_report_before_phase6'],
+    ['build_business_summary(TEXT, DATE, DATE, TIMESTAMPTZ)', '_build_business_summary_before_phase6'],
+    ['get_home_dashboard()', '_get_home_dashboard_before_phase6'],
+  ]) {
+    assert.ok(migration.includes(`ALTER FUNCTION public.${name}`) && migration.includes(`RENAME TO ${renamed}`), name);
+  }
+  assert.match(migration, /CREATE FUNCTION public\.phase6_financial_facts_internal\(/u);
+  assert.match(migration, /REVOKE ALL ON FUNCTION public\.phase6_financial_facts_internal\([^)]*\)\s+FROM PUBLIC, anon, authenticated, service_role;/u);
+  assert.match(migration, /GRANT EXECUTE ON FUNCTION public\.get_operational_business_report\(UUID, DATE, DATE\) TO authenticated;/u);
+  assert.match(migration, /GRANT EXECUTE ON FUNCTION public\.get_home_dashboard\(\) TO authenticated;/u);
+  assert.match(migration, /GRANT EXECUTE ON FUNCTION public\.build_business_summary\(TEXT, DATE, DATE, TIMESTAMPTZ\) TO service_role;/u);
+  assert.doesNotMatch(migration, /^\s*(?:DROP|UPDATE|INSERT|DELETE)\s/imu);
+  for (const target of ['v_report', 'v_result']) for (const field of ['sales', 'expenses', 'balances']) {
+    assert.ok(migration.includes(`(${target}->'${field}') || (v_facts->'${field}')`),
       'Parenthesize JSON operands: PostgreSQL operator precedence must not discard historical fields');
   }
+});
+
+test('Review remediation: V2-only modern returns, clamped dues, scoped evidence, degraded home', () => {
+  assert.match(migration, /modern_returns AS MATERIALIZED \([\s\S]*?o\.operation_type IN \('phase3_pos_sale_v1', 'phase3_customer_reservation_v1'\)/u);
+  assert.match(migration, /GREATEST\(o\.total_in_minor_units - COALESCE\(c\.coverage, 0\) - COALESCE\(d\.debt_reduction, 0\), 0\)/u);
+  assert.match(migration, /e\.settled_at >= p_period_start AND e\.settled_at < p_period_end/u);
+  assert.match(migration, /e\.issued_at >= p_period_start AND e\.issued_at < p_period_end;/u);
+  assert.match(migration, /EXCEPTION WHEN OTHERS THEN\s+RETURN v_home \|\| jsonb_build_object\('financialFactsStatus', 'unavailable'\)/u);
+  assert.match(migration, /'completedOrderCount', count/u);
+  assert.doesNotMatch(migration, /LEFT JOIN LATERAL \(\s*SELECT b\.result_snapshot/u, 'Completion lookup is one grouped pass');
 });
 
 test('Report facts distinguish entitlement, debt, tender flow and immutable cost dimensions', () => {
