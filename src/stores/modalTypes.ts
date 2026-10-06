@@ -32,6 +32,7 @@ export interface ModalPayloadMap {
   profile: ModalPayloadContract<null, 'none'>;
   profile_settings: ModalPayloadContract<null, 'none'>;
   storefront_settings: ModalPayloadContract<null, 'none'>;
+  parcel_configuration: ModalPayloadContract<null, 'none'>;
   inventory_opening_setup: ModalPayloadContract<null, 'none'>;
   promotion_codes: ModalPayloadContract<null, 'none'>;
   view_order: ModalPayloadContract<Order, 'required'>;

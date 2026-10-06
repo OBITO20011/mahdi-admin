@@ -1,0 +1,10 @@
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import '../src/index.css';
+import {authStoreEngine, type AuthState} from '../src/stores/useAuthStore';
+import {ParcelConfigurationModal} from '../src/features/more/ParcelConfigurationModal';
+import {Modal} from '../src/components/common/Modal';
+const engine=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
+engine.state={...engine.getState(),roleName:new URLSearchParams(location.search).get('role') ?? 'owner',isLoading:false};
+engine.initAuth=async()=>undefined;
+createRoot(document.getElementById('root')!).render(<Modal isOpen onClose={()=>undefined} title="إعداد الطرود المرنة"><ParcelConfigurationModal/></Modal>);

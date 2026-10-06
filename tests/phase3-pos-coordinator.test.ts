@@ -194,12 +194,15 @@ test('public surface is least privilege and internal reversal projection is priv
   assert.match(createV2, /SECURITY DEFINER[\s\S]*SET search_path = public, pg_temp/u);
 });
 
-test('Admin integration is an isolated adapter and does not move builder state into UI/store', () => {
+test('Package D activates POS V2 through its typed adapter and durable recovery, not the global store', () => {
   assert.match(service, /create_pos_sale_v2/u);
   assert.match(service, /automaticRetry: false/u);
   assert.match(service, /reuseOriginalIdempotencyKey: true/u);
   assert.match(service, /rotateIdempotencyKey: false/u);
-  assert.doesNotMatch(posView, /posV2\.service|configurable_parcel|parcel_instances/u);
+  assert.match(posView, /posV2\.service/u);
+  assert.match(posView, /runPosV2Attempt\(supabase, currentUser\.id, intent, request\)/u);
+  assert.match(posView, /PosParcelBuilder/u);
+  assert.doesNotMatch(posView, /createPosSaleFromSupabase|rpc\('create_pos_sale'\)/u);
   assert.doesNotMatch(appStore, /posV2\.service|parcel_instances/u);
 });
 

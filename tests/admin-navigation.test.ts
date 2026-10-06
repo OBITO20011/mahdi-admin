@@ -40,7 +40,7 @@ const expectedActiveTabs = [
 
 const expectedGroupDestinations = new Map([
   ['sales', ['pos', 'orders']],
-  ['products-inventory', ['products', 'inventory']],
+  ['products-inventory', ['parcel_configuration', 'products', 'inventory']],
   ['customers', ['accounts']],
   ['suppliers-purchases', ['purchases']],
   ['finance-reports', ['shifts', 'expenses', 'reports']],
@@ -174,7 +174,7 @@ test('role visibility and the independent assistant gate are unchanged', () => {
   const ownerOnlyItems = ADMIN_NAVIGATION_GROUPS.flatMap((group) => group.items).filter(
     (item) => item.visibility === 'owner',
   );
-  assert.deepEqual(ownerOnlyItems.map((item) => item.id), ['admin-users', 'admin-monitoring']);
+  assert.deepEqual(ownerOnlyItems.map((item) => item.id), ['parcel-configuration', 'admin-users', 'admin-monitoring']);
   assert.match(moreMenu, /item\.visibility !== 'owner' \|\| roleName === 'owner'/);
   assert.match(
     moreMenu,
@@ -201,6 +201,7 @@ test('modal dispatcher, quick actions and nested feature views retain their iden
     'manage_units',
     'monitoring_dashboard',
     'notifications',
+    'parcel_configuration',
     'profile',
     'profile_settings',
     'promotion_codes',

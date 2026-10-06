@@ -32,6 +32,7 @@ import { AddCustomerModalContent } from '../../features/crm/AddCustomerModalCont
 import { PromotionCodesModal } from '../../features/more/PromotionCodesModal';
 import {PushNotificationControls} from '../../features/more/PushNotificationControls';
 import { StorefrontSettingsModal } from '../../features/more/StorefrontSettingsModal';
+import { ParcelConfigurationModal } from '../../features/more/ParcelConfigurationModal';
 import { ExpenseFormModal } from '../../features/expenses/ExpenseFormModal';
 import { MonitoringDashboardModal } from '../../features/more/MonitoringDashboardModal';
 import {
@@ -200,6 +201,11 @@ export const AllModals: React.FC = () => {
       </Modal>
 
       {/* Bulk opening inventory setup */}
+      <Modal isOpen={currentModal === 'parcel_configuration'} onClose={closeModal}
+        title="إعداد الطرود المرنة" subtitle="الأصناف والعدد والنكهات وحالة الميزة — للمالك فقط">
+        <ParcelConfigurationModal />
+      </Modal>
+
       <Modal
         isOpen={currentModal === 'inventory_opening_setup'}
         onClose={closeModal}

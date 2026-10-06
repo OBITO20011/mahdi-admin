@@ -195,8 +195,8 @@ export async function handleGuestOrderRequest(
   const body = parsedRequest.body;
   const contractVersion = text(body.contractVersion, 80);
   const isCustomerV2 = contractVersion === 'phase3-customer-reservation-v2';
-  if (contractVersion && !isCustomerV2) {
-    return jsonResponse({error: 'إصدار الطلب غير مدعوم.', code: 'unsupported_contract'}, 400, origin);
+  if (!isCustomerV2) {
+    return jsonResponse({error: 'حدّث الصفحة وأعد المحاولة', code: 'unsupported_contract'}, 400, origin);
   }
 
   const idempotencyKey = text(body.idempotencyKey, 64);
@@ -292,10 +292,8 @@ export async function handleGuestOrderRequest(
   let orderResponse: Response;
   let orderResult: Record<string, unknown>;
   try {
-    const rpcName = isCustomerV2
-      ? 'submit_guest_customer_order_v2'
-      : 'submit_guest_customer_order';
-    const rpcPayload = isCustomerV2 ? {
+    const rpcName = 'submit_guest_customer_order_v2';
+    const rpcPayload = {
       p_idempotency_key: idempotencyKey,
       p_guest_phone_hash: phoneHash,
       p_guest_session_hash: sessionHash,
@@ -327,24 +325,6 @@ export async function handleGuestOrderRequest(
       p_expected_total_in_minor_units:
         typeof expectedQuote.totalInMinorUnits === 'number'
           ? expectedQuote.totalInMinorUnits : null,
-    } : {
-      p_idempotency_key: idempotencyKey,
-      p_customer_full_name: text(customer.fullName, 120),
-      p_customer_phone: phone,
-      p_governorate: text(customer.governorate, 80),
-      p_city: text(customer.city, 80),
-      p_area: text(customer.area, 120),
-      p_street: text(customer.street, 300),
-      p_building: text(customer.building, 120) || null,
-      p_address_notes: text(customer.addressNotes, 500) || null,
-      p_google_maps_url: text(customer.googleMapsUrl, 1000) || null,
-      p_latitude: typeof customer.latitude === 'number' ? customer.latitude : null,
-      p_longitude: typeof customer.longitude === 'number' ? customer.longitude : null,
-      p_customer_notes: text(customer.customerNotes, 1000) || null,
-      p_items: items,
-      p_promotion_code: text(body.promotionCode, 80) || null,
-      p_payment_method: text(body.paymentMethod, 30),
-      p_delivery_zone: text(body.deliveryZone, 30),
     };
     orderResponse = await callRpc(
       supabaseUrl,

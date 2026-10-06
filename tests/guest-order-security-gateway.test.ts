@@ -186,7 +186,8 @@ test('customer browser uses the Edge gateway instead of the mutation RPC', () =>
   assert.match(edgeFunction, /extractTrustedClientIp\(request\.headers/);
   assert.match(edgeFunction, /hmacSha256Hex\(hashSecret, 'phone'/);
   assert.match(edgeFunction, /'authorize_guest_order_gateway'/);
-  assert.match(edgeFunction, /'submit_guest_customer_order'/);
+  assert.match(edgeFunction, /'submit_guest_customer_order_v2'/);
+  assert.doesNotMatch(edgeFunction, /'submit_guest_customer_order'/);
   assert.match(
     edgeConfig,
     /\[functions\.submit-guest-order\]\s*\r?\nverify_jwt = false/
@@ -217,6 +218,7 @@ test('gateway logs contain request IDs and outcomes but no raw identifiers', () 
 });
 
 const gatewayBody = {
+  contractVersion: 'phase3-customer-reservation-v2',
   idempotencyKey: '11111111-1111-4111-8111-111111111111',
   turnstileToken: 'opaque-turnstile-token',
   clientSessionId: '22222222-2222-4222-8222-222222222222',
@@ -262,7 +264,7 @@ function gatewayRequest(overrides: Record<string, unknown> = {}): Request {
   });
 }
 
-test('cached V1-shaped runtime gateway request remains compatible after Migration 116', async () => {
+test('cached V1-shaped requests are blocked before every external or database call', async () => {
   const calls: string[] = [];
   const fetchImpl: typeof fetch = async (input) => {
     const url = String(input);
@@ -297,16 +299,15 @@ test('cached V1-shaped runtime gateway request remains compatible after Migratio
     throw new Error(`Unexpected isolated URL: ${url}`);
   };
 
-  const response = await handleGuestOrderRequest(gatewayRequest(), {
+  const response = await handleGuestOrderRequest(gatewayRequest({contractVersion:undefined}), {
     getEnv: testEnvironment,
     fetchImpl,
   });
   const payload = await response.json() as Record<string, unknown>;
-  assert.equal(response.status, 200);
-  assert.equal(payload.order_number, 'WEB-SECURITY-001');
-  assert.equal(calls.filter((url) => url.includes('/siteverify')).length, 1);
-  assert.equal(calls.filter((url) => url.endsWith('/submit_guest_customer_order')).length, 1);
-  assert.equal(calls.filter((url) => url.endsWith('/finalize_guest_order_gateway')).length, 1);
+  assert.equal(response.status, 400);
+  assert.equal(payload.error, 'حدّث الصفحة وأعد المحاولة');
+  assert.equal(payload.code, 'unsupported_contract');
+  assert.deepEqual(calls, []);
 });
 
 test('runtime gateway routes only the explicit Customer V2 contract and forwards privacy-safe actor hashes', async () => {
@@ -374,6 +375,16 @@ test('runtime gateway rejects unknown contract versions before abuse or database
   assert.equal(calls, 0);
 });
 
+test('missing, SQL/JSON-null-like and malformed request versions cannot reach any upstream call',async()=>{
+  for (const contractVersion of [undefined,null,'',17,{},'phase3-customer-reservation-v1']) {
+    let calls=0;
+    const response=await handleGuestOrderRequest(gatewayRequest({contractVersion}),{getEnv:testEnvironment,
+      fetchImpl:async()=>{calls++;throw Error('No upstream request permitted');}});
+    assert.equal(response.status,400);assert.equal(calls,0);
+    assert.deepEqual(await response.json(),{error:'حدّث الصفحة وأعد المحاولة',code:'unsupported_contract'});
+  }
+});
+
 test('runtime gateway accepts exactly 50 line items and preserves their variant identities', async () => {
   let submittedItems: unknown[] | null = null;
   const items = Array.from({length: 50}, (_, index) => ({
@@ -390,8 +401,8 @@ test('runtime gateway accepts exactly 50 line items and preserves their variant 
       if (url.endsWith('/authorize_guest_order_gateway')) {
         return new Response(JSON.stringify({allowed: true}), {status: 200});
       }
-      if (url.endsWith('/submit_guest_customer_order')) {
-        submittedItems = (JSON.parse(String(init?.body)) as {p_items: unknown[]}).p_items;
+      if (url.endsWith('/submit_guest_customer_order_v2')) {
+        submittedItems = (JSON.parse(String(init?.body)) as {p_lines: unknown[]}).p_lines;
         return new Response(JSON.stringify({
           success: true,
           order_id: '44444444-4444-4444-8444-444444444444',
@@ -537,7 +548,7 @@ test('runtime gateway retry keeps the same idempotency key and canonical order',
         idempotent_replay: authorizationCalls > 1,
       }), { status: 200 });
     }
-    if (url.endsWith('/submit_guest_customer_order')) {
+    if (url.endsWith('/submit_guest_customer_order_v2')) {
       orderCalls += 1;
       return new Response(JSON.stringify({
         success: true,

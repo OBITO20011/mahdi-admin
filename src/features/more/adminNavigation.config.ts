@@ -82,6 +82,9 @@ export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = [
     icon: Boxes,
     iconTone: 'border border-cyan-500/20 bg-cyan-500/10 text-cyan-300',
     items: [
+      {id:'parcel-configuration',label:'إعداد الطرود المرنة',description:'الأصناف وعدد القطع والنكهات وحالة الميزة',
+        icon:Package,tone:'bg-violet-500/10 text-violet-300',visibility:'owner',
+        action:{type:'modal',destination:'parcel_configuration'}},
       {
         id: 'catalog-products',
         label: 'المنتجات',
