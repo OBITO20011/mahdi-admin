@@ -19,7 +19,7 @@ test('Codex and Claude resolve the same agent-neutral project contract', () => {
   assert.match(agents + claude, /Production/iu);
 });
 
-test('owner-closed Phases 4-5 and authorized Phase 6 package C are explicit', () => {
+test('owner-closed Phases 4-6 and plan-only Package D authorization are explicit', () => {
   const state = JSON.parse(read('docs/agent/project-state.json')) as {
     closedPhases: string[];
     phase4Closed: boolean;
@@ -28,6 +28,12 @@ test('owner-closed Phases 4-5 and authorized Phase 6 package C are explicit', ()
     phase5ClosureExactShaCi: string;
     phase5ClosureCiRuns: { codeQuality: number; secretScanning: number };
     phase6PlanningAllowed: boolean;
+    phase6Closed: boolean;
+    phase6ClosureBaseline: string;
+    phase6ClosureExactShaCi: string;
+    phase6ClosureCiRuns: {codeQuality: number; secretScanning: number};
+    packageDPlanningAllowed: boolean;
+    packageDImplementationAllowed: boolean;
     phase6ImplementationStarted: boolean;
     phase6AuthorizedPackage: string;
     phase6PackageBLocalVerification: string;
@@ -62,16 +68,22 @@ test('owner-closed Phases 4-5 and authorized Phase 6 package C are explicit', ()
     phase5PublicActivationAllowed: boolean;
     migration126CanonicalLfSha256: string;
   };
-  assert.deepEqual(state.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5', '5']);
+  assert.deepEqual(state.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5', '5', '6']);
   assert.equal(state.phase4Closed, true);
-  assert.equal(state.currentPhase, '6');
+  assert.equal(state.currentPhase, 'PACKAGE_D');
+  assert.equal(state.phase6Closed, true);
+  assert.equal(state.phase6ClosureBaseline, '5aaeab11e13c2be454af677ee176f77aa2d9cde4');
+  assert.equal(state.phase6ClosureExactShaCi, 'PASS');
+  assert.deepEqual(state.phase6ClosureCiRuns, {codeQuality: 37531634141, secretScanning: 37531634136});
+  assert.equal(state.packageDPlanningAllowed, true);
+  assert.equal(state.packageDImplementationAllowed, false);
   assert.equal(state.phase5Closed, true);
   assert.equal(state.phase5ClosureBaseline, 'bdea567562b1de8c64fe3aa286076258decf3d26');
   assert.equal(state.phase5ClosureExactShaCi, 'PASS');
   assert.deepEqual(state.phase5ClosureCiRuns, {
     codeQuality: 37408582997, secretScanning: 37408583034,
   });
-  assert.equal(state.phase6PlanningAllowed, true);
+  assert.equal(state.phase6PlanningAllowed, false);
   assert.equal(state.phase6ImplementationStarted, true);
   assert.equal(state.phase6AuthorizedPackage, 'C');
   assert.equal(state.phase6PackageBLocalVerification, 'FOCUSED_UI_FULL_QUALITY_AND_EXACT_SHA_CI_PASS');

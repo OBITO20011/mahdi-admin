@@ -100,7 +100,7 @@ const assertPhase4Closed = (
   task: ActiveTaskContinuityState,
 ) => {
   assert.equal(projectState.approvedBaseline, closureSha);
-  assert.deepEqual(projectState.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5', '5']);
+  assert.deepEqual(projectState.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5', '5', '6']);
   assert.equal(projectState.phase4Closed, true);
   assert.equal(projectState.phase44Started, true);
   assert.equal(projectState.phase45Started, true);
@@ -125,7 +125,7 @@ const assertSlices12Closed = (
   phaseStatus: string,
   task: ActiveTaskContinuityState,
 ) => {
-  assert.equal(projectState.currentPhase, '6');
+  assert.equal(projectState.currentPhase, 'PACKAGE_D');
   assert.equal(projectState.phase5Closed, true);
   assert.equal(projectState.phase5ClosureBaseline, historySha);
   assert.equal(projectState.phase5ClosureExactShaCi, 'PASS');

@@ -14,7 +14,8 @@
 | Phase 4.5 | OWNER-CLOSED | Lightweight phase-wide closure review and focused continuity re-sign-off passed with Critical/High/Medium/Low and material evidence gaps all zero. |
 | Phase 4 (overall) | OWNER-CLOSED | Returns, refunds, Replacement, Admin integration, cross-feature regression and independent closure are complete. |
 | Phase 5 | OWNER-CLOSED | Operational fixes in Migrations 128–130 delivered; owner closure after exact-SHA quality and secret-scanning CI PASS. Private Slices 1–4 remain inactive. |
-| Phase 6 | IN PROGRESS — B+C CORRECTIVE PASS | A/B/C delivered with exact-SHA CI PASS (C: aab9c5b). Nine authorized UI corrections locally verified: focused browsers 32/32; quality 688 Admin + 189 Customer + 243 browser PASS, 51 existing conditional skips. Corrective commit/push/exact-SHA CI pending. No DB/migrations/Production/deploy or Phase 7. |
+| Phase 6 | OWNER-CLOSED | Owner accepted A/B/C and B+C correction on 2026-10-07. Baseline 5aaeab11e13c2be454af677ee176f77aa2d9cde4; exact-SHA quality 37531634141 and secrets 37531634136 PASS. Focused 32/32; quality 688 Admin + 189 Customer + 243 browser PASS, 51 existing conditional skips. |
+| Package D | PLAN ONLY | Owner authorized one-page system-unification plan before release; implementation and Migration 132 await plan approval. |
 | Phase 7 | NOT STARTED | Production/release work requires separate owner authorization. |
 
 Phase 5 closure evidence: `bdea567562b1de8c64fe3aa286076258decf3d26`, push/main,

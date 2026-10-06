@@ -23,9 +23,11 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 VS Code and dual-agent setup: `docs/agent/VS_CODE_SETUP.md`.
 
-Current owner-authorized task: Phase 6 bounded B+C corrective UI pass,
-locally verified after independent review, under `PHASE6_PLAN.md`.
-Corrective commit/push/exact-SHA CI remain the final delivery gate. No database changes.
+Phase 6 is OWNER-CLOSED on 2026-10-07 at
+`5aaeab11e13c2be454af677ee176f77aa2d9cde4`: exact-SHA push/main quality
+37531634141 and secret scanning 37531634136 PASS. The current task is its
+documentation closure commit/push/CI, then Package D planning only.
+No Package D implementation, Migration 132, Production/deploy or Phase 7 is authorized yet.
 Phase 5 operational baseline is `bdea567562b1de8c64fe3aa286076258decf3d26`;
 exact-SHA push/main quality and secret-scanning CI passed. Package A remediation
 at `0b31eec0949519eefdac398dd6a034f956d0b5f9` passed both exact-SHA CI workflows.
@@ -38,7 +40,7 @@ exact-SHA CI are authorized. No database/migration changes, Production, deploy
 or Phase 7 work.
 Package C delivered at `aab9c5b84fde34e6ab16039a9adf68cc6f77514e`;
 push/main quality 37509903035 and secret scanning 37509903022 passed.
-The current corrective scope covers dirty/busy Escape, dialog stack/Tab,
+The accepted B+C correction covers dirty/busy Escape, dialog stack/Tab,
 POS keyboard/scanner focus, fresh Return capacity checks, Arabic errors,
 self-contained Customer focus utility and replacement date chronology.
 The fresh UI capacity check is not an atomic server-side guarantee;
@@ -51,7 +53,7 @@ Repository architecture references remain useful: `ARCHITECTURE.md`, `DATABASE_D
 
 ## Current boundary
 
-Phases 3, 4 and 5 are owner-closed. Phase 5 closes under `PHASE5_RESCOPE.md`,
+Phases 3, 4, 5 and 6 are owner-closed. Phase 5 closes under `PHASE5_RESCOPE.md`,
 not the superseded private-layer activation plan. Migrations 123–127 stay
 historical, private and inactive; parked Slice 5 work is not merged or activated.
 Migrations 128–130 fix the operational paths. L9 remains a policy decision;
