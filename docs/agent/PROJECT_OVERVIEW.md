@@ -8,6 +8,10 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 ## Canonical reading order
 
+> **Current Phase 5 contract (2026-10-06): read `docs/agent/PHASE5_RESCOPE.md` first.**
+> Slice 5 is parked on branch `codex/phase5-slice5-wip`. Phase 5 now closes by
+> direct fixes of findings C, B, A, A+ in a new Migration 128.
+
 1. `AGENTS.md`
 2. `docs/agent/project-state.json`
 3. `docs/agent/PHASE_STATUS.md`
@@ -15,6 +19,7 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 5. `docs/agent/ARCHITECTURE.md`
 6. `docs/agent/VERIFICATION_GATES.md`
 7. `docs/agent/ACTIVE_TASK.json`
+8. `docs/agent/PHASE5_RESCOPE.md` (current Phase 5 contract)
 
 VS Code and dual-agent setup: `docs/agent/VS_CODE_SETUP.md`.
 

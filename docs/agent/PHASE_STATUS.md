@@ -1,5 +1,9 @@
 # Phase status
 
+> **Current Phase 5 contract (2026-10-06): read `docs/agent/PHASE5_RESCOPE.md` first.**
+> Slice 5 is parked on branch `codex/phase5-slice5-wip`. Phase 5 now closes by
+> direct fixes of findings C, B, A, A+ in a new Migration 128.
+
 | Phase | State | Durable outcome |
 | --- | --- | --- |
 | Phase 3 | OWNER-CLOSED | Configurable parcel receiving/sales, POS V2, Customer V2 lifecycle/checkout/recovery, Exact WAC and reporting integration verified. |
