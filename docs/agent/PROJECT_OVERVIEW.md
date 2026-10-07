@@ -57,8 +57,11 @@ Repository architecture references remain useful: `ARCHITECTURE.md`, `DATABASE_D
 
 Phases 3, 4, 5 and 6 are owner-closed. Phase 5 closes under `PHASE5_RESCOPE.md`,
 not the superseded private-layer activation plan. Migrations 123–127 stay
-historical, private and inactive; parked Slice 5 work is not merged or activated.
-Migrations 128–130 fix the operational paths. L9 remains a policy decision;
+historical and byte-identical. Package D132 retires their unused private schema
+with locked empty-state/caller guards and explicit RESTRICT drops; parked Slice 5
+work is not merged or activated. Superseded pre-implementation artifacts are
+archived in Git at `2238b102c8935b9d60d6c25c1f6fcb0c0a4178aa`, not active contracts.
+Migrations 128–130 fix the operational paths. L9 source-pos rejection is owner-approved in Package D;
 L10 and legacy-only daily reporting are addressed by Phase 6 package A.
 No broad zero-findings or Production-readiness claim is implied by this closure.
 The approved Package D migration ceiling is 132; fingerprints remain in `project-state.json`. Historical migrations 001–131 are immutable; feature activation remains an owner action in Phase 7.

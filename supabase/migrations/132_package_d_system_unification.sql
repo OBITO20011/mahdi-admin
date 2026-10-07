@@ -456,4 +456,66 @@ $$;
 REVOKE ALL ON FUNCTION public.get_public_configurable_parcel_options(UUID[]) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.get_public_configurable_parcel_options(UUID[]) TO anon,authenticated;
 
+-- D4: retire the never-activated private layer. Lock before checking for data;
+-- unexpected use aborts this entire migration, not just the DROP section.
+LOCK TABLE phase5_private.financial_operation_events, phase5_private.collection_events,
+  phase5_private.payment_reversal_events, phase5_private.reversal_coordinator_guards,
+  phase5_private.reversal_tender_movements, phase5_private.reversal_coordinator_completions
+  IN ACCESS EXCLUSIVE MODE;
+DO $private_retirement$
+BEGIN
+  IF EXISTS(SELECT 1 FROM phase5_private.financial_operation_events)
+    OR EXISTS(SELECT 1 FROM phase5_private.collection_events)
+    OR EXISTS(SELECT 1 FROM phase5_private.payment_reversal_events)
+    OR EXISTS(SELECT 1 FROM phase5_private.reversal_coordinator_guards)
+    OR EXISTS(SELECT 1 FROM phase5_private.reversal_tender_movements)
+    OR EXISTS(SELECT 1 FROM phase5_private.reversal_coordinator_completions) THEN
+    RAISE EXCEPTION 'PACKAGE_D_PRIVATE_DATA_PRESENT: owner review required before retirement';
+  END IF;
+  IF EXISTS(SELECT 1 FROM pg_catalog.pg_proc p JOIN pg_catalog.pg_namespace n ON n.oid=p.pronamespace
+    WHERE n.nspname NOT IN ('phase5_private','pg_catalog','information_schema')
+      AND p.prosrc LIKE '%phase5_private%')
+    OR EXISTS(SELECT 1 FROM cron.job WHERE command LIKE '%phase5_private%') THEN
+    RAISE EXCEPTION 'PACKAGE_D_PRIVATE_CALLER_PRESENT: owner review required before retirement';
+  END IF;
+END;
+$private_retirement$;
+
+-- Callers first, then leaf readers/writers. No generated SQL and no CASCADE.
+DROP FUNCTION phase5_private.reconcile_order_financial_position_v1(UUID) RESTRICT;
+DROP FUNCTION phase5_private.read_order_financial_position_v1(UUID) RESTRICT;
+DROP FUNCTION phase5_private.derive_financial_position_v1(JSONB) RESTRICT;
+DROP FUNCTION phase5_private.read_order_financial_facts_v1(UUID) RESTRICT;
+DROP FUNCTION phase5_private.return_entitlement_v1(UUID) RESTRICT;
+DROP FUNCTION phase5_private.discover_order_financial_graph_v1(UUID) RESTRICT;
+DROP FUNCTION phase5_private.financial_graph_nodes_v1() RESTRICT;
+DROP FUNCTION phase5_private.financial_node_links_v1(TEXT,JSONB) RESTRICT;
+DROP FUNCTION phase5_private.discovery_uuid_v1(JSONB) RESTRICT;
+DROP FUNCTION phase5_private.money_v1(JSONB) RESTRICT;
+DROP FUNCTION phase5_private.coordinate_payment_reversal_v1(UUID,UUID,UUID,UUID,TEXT,TEXT,TEXT,TEXT) RESTRICT;
+DROP FUNCTION phase5_private.validate_operational_reversal_v1(UUID) RESTRICT;
+DROP FUNCTION phase5_private.reversal_position_v1(UUID,JSONB,UUID[],UUID[],UUID,TIMESTAMPTZ) RESTRICT;
+DROP FUNCTION phase5_private.anchor_existing_collection_v1(UUID,UUID,UUID,TEXT) RESTRICT;
+DROP FUNCTION phase5_private.lock_coordinator_context_v1(UUID,UUID,BOOLEAN,UUID) RESTRICT;
+DROP FUNCTION phase5_private.coordinator_lock_plan_v1(UUID,BOOLEAN) RESTRICT;
+DROP FUNCTION phase5_private.discover_collection_population_v1(UUID) RESTRICT;
+DROP FUNCTION phase5_private.collection_source_v1(UUID,TEXT,UUID) RESTRICT;
+DROP FUNCTION phase5_private.authorize_coordinator_actor_v1(UUID,BOOLEAN) RESTRICT;
+DROP FUNCTION phase5_private.commit_customer_payment_reversal_v1(UUID,UUID,UUID,UUID,TEXT,TEXT,TEXT,TEXT) RESTRICT;
+DROP FUNCTION phase5_private.commit_customer_collection_v1(UUID,UUID,UUID,BIGINT,TEXT,TEXT,TEXT) RESTRICT;
+DROP FUNCTION phase5_private.validate_customer_payment_reversal_operation_v1(UUID) RESTRICT;
+DROP FUNCTION phase5_private.validate_customer_collection_operation_v1(UUID) RESTRICT;
+
+DROP TABLE phase5_private.reversal_coordinator_completions RESTRICT;
+DROP TABLE phase5_private.reversal_tender_movements RESTRICT;
+DROP TABLE phase5_private.reversal_coordinator_guards RESTRICT;
+DROP TABLE phase5_private.payment_reversal_events RESTRICT;
+DROP TABLE phase5_private.collection_events RESTRICT;
+DROP TABLE phase5_private.financial_operation_events RESTRICT;
+DROP FUNCTION phase5_private.assert_operational_completion_v1() RESTRICT;
+DROP FUNCTION phase5_private.assert_coordinator_insert_v1() RESTRICT;
+DROP FUNCTION phase5_private.assert_collection_source() RESTRICT;
+DROP FUNCTION phase5_private.reject_financial_evidence_mutation() RESTRICT;
+DROP SCHEMA phase5_private RESTRICT;
+
 COMMIT;

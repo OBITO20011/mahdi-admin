@@ -1,49 +1,60 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "IDLE",
   "owner": "codex",
-  "objective": "Deliver verified D3 owner parcel settings/V2 Gateway; D4 RESTRICT removal then final quality/CI",
-  "baselineSha": "871678624cb6157000dea4c2045a9bfa37783fc0",
+  "objective": "Package D implemented and locally verified; verify closing push CI, then owner review before Phase7",
+  "baselineSha": "2238b102c8935b9d60d6c25c1f6fcb0c0a4178aa",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_D",
   "completed": [
-    "Phase6 OWNER-CLOSED; closure commit 54e669cb195b69af1536cf7bcf64f18bc36519c0; exact-SHA CI quality37534064206 and secrets37534064164 PASS",
-    "Package D plan approved with NULL-safe modern guards, V1 read-only and four delivery stages",
-    "D1 focused runtime PASS: fresh131/132, before/after guards, current Phase43 including 18 identity probes and deadlockDelta0; historical migrations unchanged",
-    "D1 correction79bb90b: exact push/main quality37543790792 and secrets37543790797 PASS",
-    "D2 focused16/16; Chromium/WebKit8/8 retries0; fresh132 real RPC recovery for all3 line kinds and content-sensitive zero-write PASS"
+    "Phase6 owner-closed; D1 79bb90b, D2 8716786, D3 2238b10; D4 private retirement verified"
   ],
-  "inProgress": [
-    "D2 verified; explicit stage commit/push, then D3/D4 within approved scope"
-  ],
+  "inProgress": [],
   "notStarted": [
     "Phase 7"
   ],
   "filesTouched": [
+    "docs/agent/evidence/phase5-preimplementation/phase5_alter_function_ledger.json",
+    "docs/agent/evidence/phase5-preimplementation/phase5_authority_allowlists.json",
+    "docs/agent/evidence/phase5-preimplementation/phase5_evidence_manifest.json",
+    "docs/agent/evidence/phase5-preimplementation/PHASE5_EVIDENCE_README.md",
+    "docs/agent/evidence/phase5-preimplementation/phase5_function_authority_ledger.csv",
+    "docs/agent/evidence/phase5-preimplementation/phase5_function_authority_ledger.json",
+    "docs/agent/evidence/phase5-preimplementation/phase5_job_caller_ledger.json",
+    "docs/agent/evidence/phase5-preimplementation/phase5_non_function_writer_ledger.json",
+    "docs/agent/evidence/phase5-preimplementation/phase5_security_definer_owner_ledger.json",
+    "docs/agent/evidence/phase5-preimplementation/phase5_source_coverage_ledger.json",
+    "docs/agent/evidence/phase5-preimplementation/phase5_trigger_ledger.csv",
+    "docs/agent/evidence/phase5-preimplementation/phase5_trigger_ledger.json",
+    "scripts/testing/phase5-db-lint-policy.mjs",
+    "scripts/testing/run-phase5-canonical-payment-writers-runtime.mjs",
+    "scripts/testing/run-phase5-private-coordinator-runtime.mjs",
+    "scripts/testing/run-phase5-private-financial-read-runtime.mjs",
+    "scripts/testing/run-phase5-private-foundation-runtime.mjs",
+    "tests/phase5-canonical-payment-writers.test.ts",
+    "tests/phase5-collection-lint-correction.test.ts",
+    "tests/phase5-private-coordinator.test.ts",
+    "tests/phase5-private-financial-foundation.test.ts",
+    "tests/phase5-private-financial-read.test.ts",
     "docs/agent/PACKAGE_D_PLAN.md",
-    "src/components/modals/AllModals.tsx",
-    "src/features/more/adminNavigation.config.ts",
-    "src/stores/modalTypes.ts",
-    "supabase/functions/submit-guest-order/index.ts",
-    "tests/admin-navigation.test.ts",
-    "tests/guest-order-security-gateway.test.ts",
-    "tests/phase3-pos-coordinator.test.ts",
-    "e2e/package-d-settings-harness.html",
-    "e2e/package-d-settings-harness.tsx",
-    "e2e/package-d-settings.spec.ts",
-    "src/features/more/ParcelConfigurationModal.tsx",
-    "src/services/supabase/parcelConfiguration.service.ts",
-    "tests/package-d-parcel-configuration.test.ts"
+    "docs/agent/PHASE_STATUS.md",
+    "docs/agent/PROJECT_OVERVIEW.md",
+    "docs/agent/project-state.json",
+    "package.json",
+    "scripts/testing/package-d-pos-recovery-runtime.ts",
+    "scripts/testing/run-guest-order-edge-http.mjs",
+    "scripts/testing/run-package-d-database-runtime.mjs",
+    "supabase/migrations/132_package_d_system_unification.sql",
+    "tests/database-runtime-suite.ts",
+    "tests/package-d-private-retirement.test.ts"
   ],
   "testsPassed": [
-    "D2 focused16/16; browser8/8 plus tender recheck2/2 Chromium/WebKit retries0",
-    "Fresh132 DB runtime including real POS RPC lost-response/replay all3 modes and strict DB lint PASS",
-    "TypeScript, strict ESLint, diff check PASS; changed/untracked Gitleaks exit0"
+    "D2 real browser/DB2/2; D3 focused40/40 browser6/6; D4 before/after132 lint and Gateway PASS",
+    "Quality exit0: Admin669/669 Customer189/189 browser255 PASS,53 conditional skips,retries0; Production0"
   ],
   "testsRemaining": [
-    "D2 stage delivery; actual browser-to-DB recovery PASS 2/2 Chromium/WebKit, retries0, Production0",
-    "D3 Admin/Gateway; D4 RESTRICT removal; final quality and exact-SHA CI"
+    "Delivery exact-SHA CI is verified externally after the closing commit/push"
   ],
   "findings": [],
   "blockers": [],
@@ -53,8 +64,8 @@
     "Historical migrations001-131; additional migrations; feature-state activation",
     "Phase7"
   ],
-  "nextExactAction": "Commit/push verified D3 allowlist after Gitleaks0; perform D4 dependency/empty-state proof and explicit RESTRICT removal in132, then before/after and final gates.",
-  "workingTreeFingerprint": "06F22E4F2E37F9E1BF1B7FBE720662A41906CE4CBECF0735EE22654F5CE3ECB5",
-  "checkpointedAt": "2026-10-06T23:53:06.830Z",
+  "nextExactAction": "Observe closing Package D delivery exact-SHA CI; after both PASS stop for owner review before Phase7.",
+  "workingTreeFingerprint": "05924B17AE1571FF0CA14422A47779D32F2DF73964EA741E7E4E52EE203C174E",
+  "checkpointedAt": "2026-10-07T00:35:46.849Z",
   "startedAt": "2026-10-06T22:59:55.808Z"
 }

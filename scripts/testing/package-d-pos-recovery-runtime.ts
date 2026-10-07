@@ -19,7 +19,8 @@ const sql = (query: string): Promise<string> => new Promise((resolve, reject) =>
   child.on('error', reject); child.on('close', code => code === 0 ? resolve(output.trim()) : reject(Error(error)));
   child.stdin.end(`SET statement_timeout='60s'; SET lock_timeout='30s'; ${query}`);
 });
-const fingerprint = async () => createHash('sha256').update(await sql(`SELECT jsonb_build_object(
+const fingerprint = async () => {
+  const raw = await sql(`SELECT jsonb_build_object(
   'orders',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM orders t),
   'items',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM order_items t),
   'operations',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM business_operations t),
@@ -28,7 +29,10 @@ const fingerprint = async () => createHash('sha256').update(await sql(`SELECT js
   'balances',(SELECT jsonb_agg(to_jsonb(t) ORDER BY warehouse_id,product_id) FROM inventory_balances t),
   'movements',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM inventory_movements t),
   'instances',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM order_parcel_instances t),
-  'components',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM order_parcel_components t));`)).digest('hex');
+  'components',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM order_parcel_components t));`);
+  // Preserve the byte-sensitive proof and expose full content if it differs.
+  return {sha256: createHash('sha256').update(raw).digest('hex'), content: JSON.parse(raw)};
+};
 const storage = new Map<string, string>();
 Object.defineProperty(globalThis, 'localStorage', {value: {
   getItem: (key: string) => storage.get(key) ?? null, setItem: (key: string, value: string) => storage.set(key, value),
@@ -78,16 +82,17 @@ for (const lines of variants) {
   assert.equal(readPosV2Recovery(actor)?.status, 'OUTCOME_UNKNOWN');
   const committed = await fingerprint();
   await assert.rejects(runPosV2Attempt(client, actor, 'START_NEW', input));
-  assert.equal(await fingerprint(), committed);
+  assert.equal(calls.length, firstIndex + 1, 'Blocked new intent must not invoke any RPC');
+  assert.deepEqual(await fingerprint(), committed);
   const recovered = await runPosV2Attempt(client, actor, 'RECOVER_EXISTING');
   assert.equal(recovered.ok, true, JSON.stringify(recovered));
   assert.deepEqual(calls[firstIndex], calls[firstIndex + 1]);
-  assert.equal(await fingerprint(), committed, 'Recovery cannot write business state');
+  assert.deepEqual(await fingerprint(), committed, 'Recovery cannot write business state');
   assert.equal((await runPosV2Attempt(client, actor, 'RECOVER_EXISTING')).ok, true);
-  assert.equal(await fingerprint(), committed);
+  assert.deepEqual(await fingerprint(), committed);
   const saved = readPosV2Recovery(actor)!;
   const conflict = await submitPosSaleV2WithRpc({...saved.request, discountInMinorUnits: 1}, execute);
-  assert.equal(conflict.ok, false); assert.equal(await fingerprint(), committed);
+  assert.equal(conflict.ok, false); assert.deepEqual(await fingerprint(), committed);
   const next = await runPosV2Attempt(client, actor, 'START_NEW', input);
   assert.equal(next.ok, true, JSON.stringify(next));
   if (next.ok && recovered.ok) assert.notEqual(next.data.orderId, recovered.data.orderId);

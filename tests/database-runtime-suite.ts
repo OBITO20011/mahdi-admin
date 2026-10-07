@@ -1172,6 +1172,8 @@ test(
             reservation_count?: number;
           };
           customer_cross_version?: {
+            v1_rejected_before_v2_key_claim?: boolean;
+            v2_committed_v1_rejected_zero_write?: boolean;
             different_actor_privacy_safe?: boolean;
             different_actor_internal_cause?: boolean;
           };
@@ -1182,6 +1184,8 @@ test(
         assert.equal(result.parcel_v2_timeout_after_commit?.instance_count, 1);
         assert.equal(result.parcel_v2_timeout_after_commit?.component_count, 2);
         assert.equal(result.parcel_v2_timeout_after_commit?.reservation_count, 2);
+        assert.equal(result.customer_cross_version?.v1_rejected_before_v2_key_claim, true);
+        assert.equal(result.customer_cross_version?.v2_committed_v1_rejected_zero_write, true);
         assert.equal(result.customer_cross_version?.different_actor_privacy_safe, true);
         assert.equal(result.customer_cross_version?.different_actor_internal_cause, true);
       },

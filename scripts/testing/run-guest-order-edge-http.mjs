@@ -464,71 +464,76 @@ TRUNCATE public.guest_order_gateway_requests;
     }
   };
 
-  const invalidProductRequest = requestBody({
+  const invalidProductRequest = requestV2Body({
     idempotencyKey: uuidFor('8601', 94),
     sessionId: uuidFor('8602', 94),
     phone: '0797000094',
   });
   invalidProductRequest.items = [{
+    commercial_line_kind: 'base_unit', expected_unit_price_in_minor_units: 1275,
     product_id: '86000000-0000-4000-8600-999999999999',
-    quantity: 1,
+    base_quantity: 1,
   }];
-  const inactiveProductRequest = requestBody({
+  const inactiveProductRequest = requestV2Body({
     idempotencyKey: uuidFor('8601', 95),
     sessionId: uuidFor('8602', 95),
     phone: '0797000095',
   });
   inactiveProductRequest.items = [{
+    commercial_line_kind: 'base_unit', expected_unit_price_in_minor_units: 1275,
     product_id: '86000000-0000-4000-8600-000000000002',
-    quantity: 1,
+    base_quantity: 1,
   }];
-  const hiddenMasterRequest = requestBody({
+  const hiddenMasterRequest = requestV2Body({
     idempotencyKey: uuidFor('8601', 96),
     sessionId: uuidFor('8602', 96),
     phone: '0797000096',
   });
   hiddenMasterRequest.items = [{
+    commercial_line_kind: 'base_unit', expected_unit_price_in_minor_units: 1275,
     product_id: '86000000-0000-4000-8600-000000000003',
-    quantity: 1,
+    base_quantity: 1,
   }];
-  const overLineLimitRequest = requestBody({
+  const overLineLimitRequest = requestV2Body({
     idempotencyKey: uuidFor('8601', 97),
     sessionId: uuidFor('8602', 97),
     phone: '0797000097',
   });
   overLineLimitRequest.items = Array.from({ length: 51 }, (_, index) => ({
+    commercial_line_kind: 'base_unit', expected_unit_price_in_minor_units: 1275,
     product_id: uuidFor('8699', index + 1),
-    quantity: 1,
+    base_quantity: 1,
   }));
 
   const rejectedInputs = [
     await rawGatewayRequest({ body: '{}', origin: 'https://attacker.example' }),
     await rawGatewayRequest({ body: '{malformed' }),
     await rawGatewayRequest({ body: JSON.stringify({ large: 'x'.repeat(70 * 1024) }) }),
-    await browserRequest(requestBody({
+    await browserRequest(requestV2Body({
       idempotencyKey: 'invalid-idempotency-key',
       sessionId: uuidFor('8602', 90),
       phone: '0797000090',
     })),
-    await browserRequest(requestBody({
+    await browserRequest(requestV2Body({
       idempotencyKey: uuidFor('8601', 91),
       sessionId: 'invalid-session-id',
       phone: '0797000091',
     })),
-    await browserRequest(requestBody({
+    await browserRequest(requestV2Body({
       idempotencyKey: uuidFor('8601', 92),
       sessionId: uuidFor('8602', 92),
       phone: '123',
     })),
     await browserRequest({
-      ...requestBody({
+      ...requestV2Body({
         idempotencyKey: uuidFor('8601', 93),
         sessionId: uuidFor('8602', 93),
         phone: '0797000093',
       }),
       items: [{
+        commercial_line_kind: 'base_unit', expected_unit_price_in_minor_units: 1275,
         product_id: '86000000-0000-4000-8600-000000000001',
-        quantity: 0,
+        base_quantity: 0,
       }],
     }),
     await browserRequest(overLineLimitRequest),
@@ -553,11 +558,11 @@ TRUNCATE public.guest_order_gateway_requests;
   }
 
   const firstKey = uuidFor('8601', 1);
-  const firstBody = requestBody({
+  const firstBody = requestV2Body({
     idempotencyKey: firstKey,
     sessionId: uuidFor('8602', 1),
     phone: '0797000001',
-    street: '',
+    street: 'شارع الاختبار',
   });
   Object.assign(firstBody, {
     productPrice: 1,
@@ -581,11 +586,11 @@ TRUNCATE public.guest_order_gateway_requests;
     throw new Error(`Caller-controlled pricing affected the receipt: ${JSON.stringify(first.payload)}`);
   }
 
-  // Legacy V1 HTTP replay remains compatible on the full 001-119 database.
+  // Current V2 replay returns the exact immutable receipt, not a rewritten flag.
   const retry = await browserRequest(firstBody);
   if (
     retry.status !== 200 || retry.payload.order_id !== first.payload.order_id ||
-    retry.payload.idempotent_replay !== true
+    JSON.stringify(retry.payload) !== JSON.stringify(first.payload)
   ) {
     throw new Error('The committed order was not recoverable as one receipt after retry.');
   }
@@ -607,7 +612,7 @@ TRUNCATE public.guest_order_gateway_requests;
     replayReconciliation.orders !== 1 || replayReconciliation.customers !== 1 ||
     replayReconciliation.on_hand !== baseline.on_hand ||
     replayReconciliation.reserved !== baseline.reserved + 1 ||
-    replayReconciliation.gateway_rows !== 1 || replayReconciliation.stored_street !== null
+    replayReconciliation.gateway_rows !== 1 || replayReconciliation.stored_street !== 'شارع الاختبار'
   ) {
     throw new Error(`Retry reconciliation failed: ${JSON.stringify(replayReconciliation)}`);
   }
@@ -738,8 +743,8 @@ TRUNCATE public.guest_order_gateway_requests;
     throw new Error('Parcel retry performed a business or idempotency-metadata write.');
   }
 
-  // Customer V1/V2 cross-version raw-key ownership through the actual HTTP
-  // Gateway. A losing version must fail closed without business writes.
+  // V1 is read-only at the current Gateway even on a historical DB fixture.
+  // A blocked V1 request cannot claim the key or prevent legitimate V2 creation.
   await runSql('TRUNCATE public.guest_order_gateway_requests;');
   const v1WinsKey = uuidFor('8605', 2);
   const v1WinsBody = requestBody({
@@ -747,21 +752,24 @@ TRUNCATE public.guest_order_gateway_requests;
     sessionId: uuidFor('8606', 2),
     phone: '0797300002',
   });
+  const v1Before = await businessStateForKey(v1WinsKey);
   const v1Wins = await browserRequest(v1WinsBody);
-  if (v1Wins.status !== 200 || v1Wins.payload.success !== true) {
-    throw new Error(`V1-first setup failed: ${JSON.stringify(v1Wins)}`);
+  if (v1Wins.status !== 400 || v1Wins.payload.code !== 'unsupported_contract'
+    || v1Wins.payload.error !== 'حدّث الصفحة وأعد المحاولة') {
+    throw new Error(`Missing-version request was not rejected: ${JSON.stringify(v1Wins)}`);
   }
-  const v1WinsBeforeConflict = await businessStateForKey(v1WinsKey);
+  if (JSON.stringify(await businessStateForKey(v1WinsKey)) !== JSON.stringify(v1Before)
+    || Number(await runSql(`SELECT COUNT(*) FROM guest_order_gateway_requests WHERE idempotency_key='${v1WinsKey}';`)) !== 0) {
+    throw new Error('Blocked V1 request mutated business or Gateway ownership state.');
+  }
   const v2Loses = await browserRequest(requestV2Body({
     idempotencyKey: v1WinsKey,
     sessionId: uuidFor('8606', 2),
     phone: '0797300002',
   }));
-  if (v2Loses.status !== 400 || v2Loses.payload.code !== 'order_rejected') {
-    throw new Error(`V2 did not fail closed after V1 consumed the key: ${JSON.stringify(v2Loses)}`);
-  }
-  if (JSON.stringify(await businessStateForKey(v1WinsKey)) !== JSON.stringify(v1WinsBeforeConflict)) {
-    throw new Error('V1-first/V2-conflict mutated business state.');
+  if (v2Loses.status !== 200 || v2Loses.payload.success !== true
+    || (await businessStateForKey(v1WinsKey)).orders?.length !== 1) {
+    throw new Error(`Blocked V1 request incorrectly claimed the V2 key: ${JSON.stringify(v2Loses)}`);
   }
 
   await runSql('TRUNCATE public.guest_order_gateway_requests;');
@@ -781,7 +789,7 @@ TRUNCATE public.guest_order_gateway_requests;
     sessionId: uuidFor('8606', 3),
     phone: '0797300003',
   }));
-  if (v1Loses.status !== 400 || v1Loses.payload.code !== 'order_rejected') {
+  if (v1Loses.status !== 400 || v1Loses.payload.code !== 'unsupported_contract') {
     throw new Error(`V1 did not fail closed after V2 consumed the key: ${JSON.stringify(v1Loses)}`);
   }
   if (JSON.stringify(await businessStateForKey(v2WinsKey)) !== JSON.stringify(v2WinsBeforeConflict)) {
@@ -801,7 +809,7 @@ TRUNCATE public.guest_order_gateway_requests;
   const raceState = await businessStateForKey(raceKey);
   if (
     raceSuccesses.length !== 1 || raceFailures.length !== 1 ||
-    raceFailures[0].payload.code !== 'order_rejected' || raceState.orders?.length !== 1
+    raceFailures[0].payload.code !== 'unsupported_contract' || raceState.orders?.length !== 1
   ) {
     throw new Error(`Concurrent V1/V2 same-key race was not single-effect: ${JSON.stringify({raceResults, raceState})}`);
   }
@@ -839,7 +847,7 @@ TRUNCATE public.guest_order_gateway_requests;
 
   await runSql('TRUNCATE public.guest_order_gateway_requests;');
   const doubleClickKey = uuidFor('8603', 1);
-  const doubleClickBody = requestBody({
+  const doubleClickBody = requestV2Body({
     idempotencyKey: doubleClickKey,
     sessionId: uuidFor('8604', 1),
     phone: '0797000002',
@@ -869,7 +877,7 @@ TRUNCATE public.guest_order_gateway_requests;
   // Probe every caller-controlled forwarding header through the real local gateway.
   await runSql('TRUNCATE public.guest_order_gateway_requests;');
   const spoofResponses = await Promise.all(Array.from({ length: 10 }, (_, index) =>
-    browserRequest(requestBody({
+    browserRequest(requestV2Body({
       idempotencyKey: uuidFor('8610', index + 1),
       sessionId: uuidFor('8611', index + 1),
       phone: `07971${String(index + 1).padStart(5, '0')}`,
@@ -898,7 +906,7 @@ TRUNCATE public.guest_order_gateway_requests;
     "SELECT reserved_quantity FROM public.inventory_balances WHERE product_id='86000000-0000-4000-8600-000000000001';"
   ));
   const concurrent = await Promise.all(Array.from({ length: 50 }, (_, index) =>
-    browserRequest(requestBody({
+    browserRequest(requestV2Body({
       idempotencyKey: uuidFor('8620', index + 1),
       sessionId: uuidFor('8621', index + 1),
       phone: `07972${String(index + 1).padStart(5, '0')}`,
@@ -956,8 +964,8 @@ TRUNCATE public.guest_order_gateway_requests;
       exact_single_effect: JSON.stringify(afterParcelRetry) === JSON.stringify(afterParcelCommit),
     },
     customer_cross_version: {
-      v1_wins_v2_conflicts_zero_write: true,
-      v2_wins_v1_conflicts_zero_write: true,
+      v1_rejected_before_v2_key_claim: true,
+      v2_committed_v1_rejected_zero_write: true,
       simultaneous_single_order: raceState.orders?.length === 1,
       simultaneous_successes: raceSuccesses.length,
       different_actor_privacy_safe: true,

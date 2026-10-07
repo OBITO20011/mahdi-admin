@@ -167,7 +167,19 @@ try{
   }
   let transitionGuards;
   if(before){
-    await sql(await readFile(path.join(root,'supabase/migrations/132_package_d_system_unification.sql'),'utf8'));
+    const migration=await readFile(path.join(root,'supabase/migrations/132_package_d_system_unification.sql'),'utf8');
+    const catalog=()=>json(`SELECT jsonb_build_object('private',to_regnamespace('phase5_private'),
+      'newGuard',to_regprocedure('public.package_d_assert_modern_sale_internal(uuid,text)'),
+      'oldWriter',(SELECT md5(string_agg(prosrc,E'\\n' ORDER BY oid)) FROM pg_proc
+        WHERE proname='create_pos_sale' AND pronamespace='public'::regnamespace));`);
+    const oldCatalog=await catalog();
+    await assert.rejects(sql(`BEGIN; INSERT INTO phase5_private.reversal_coordinator_guards
+      VALUES('92400000-0000-0000-0000-000000009991',pg_current_xact_id());\n${migration}`),/PACKAGE_D_PRIVATE_DATA_PRESENT/u);
+    assert.deepEqual(await catalog(),oldCatalog,'Refused retirement must roll back earlier132 definitions');
+    await assert.rejects(sql(`BEGIN; CREATE FUNCTION public.package_d_test_private_dependency()
+      RETURNS BIGINT LANGUAGE sql AS 'SELECT phase5_private.money_v1(''1''::jsonb)';\n${migration}`),/PACKAGE_D_PRIVATE_CALLER_PRESENT/u);
+    assert.deepEqual(await catalog(),oldCatalog,'Caller refusal must roll back the complete migration');
+    await sql(migration);
     assert.equal(await sql('SELECT feature_state FROM configurable_parcel_feature_settings;'),'OFF');
     transitionGuards=await json("SET nawasrah.package_d_mode='after';\n"+
       await readFile(path.join(root,'scripts/testing/package-d-aftercare-guard-probes.sql'),'utf8'));
@@ -176,6 +188,7 @@ try{
       assert.equal(transitionGuards[scenario].modernContractRejected,true);
     }
   }
+  assert.equal(await sql("SELECT to_regnamespace('phase5_private') IS NULL;"),'t','Retired private schema must be absent');
   const {stdout:lint}=await exec(process.execPath,[cli,'db','lint','--local','--level','warning','--workdir',workdir],
     {cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024*1024});
   const lintResult=assertPackageDDbLint(lint);
