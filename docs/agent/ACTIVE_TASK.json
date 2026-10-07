@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Owner-approved bounded client CAS refresh correction; green delivery CI before134/E2",
-  "baselineSha": "c5c5e2ef0d76e966c6946fee90eedbb93794af88",
+  "objective": "Quality-only digest-pinned Playwright CI correction, then134/E2 measurement",
+  "baselineSha": "82b4b9b737a438471de8d967fe01458c37739851",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_E",
@@ -11,36 +11,32 @@
     "133 DB before21/after41 +3 historical policy PASS; product field invariance; DB lint16 compatibility warnings;697 unit/4 browser PASS"
   ],
   "inProgress": [
-    "Client correction localqualityPASS; authorized corrective commit/push and exact-SHA CI before134"
+    "Owner authorized quality-only Playwright container;82 CI left running;134 not started"
   ],
   "notStarted": [
     "134/E2;E3;Package F",
     "Phase 7"
   ],
   "filesTouched": [
-    "docs/agent/PACKAGE_E_133_CORRECTION.md",
-    "src/services/supabase/adminAftercareRecovery.ts",
-    "src/services/supabase/adminCustomerV2Lifecycle.ts",
-    "tests/admin-recovery-storage-propagation.test.ts"
+    ".github/workflows/quality.yml",
+    "docs/agent/PACKAGE_E_133_CORRECTION.md"
   ],
   "testsPassed": [
-    "Recovery58/58;two-tab120/120 retries0;substitution2/2;fullquality267 browser/59 existing skips;isolation escaped0;TypeScript/ESLint/GitleaksPASS"
+    "Recovery58/58;two-tab120/120 retries0;substitution2/2;quality267/59 existing skips;Gitleaks0;push/remote82b4b9b verified;exact-SHA secrets37691826947PASS"
   ],
   "testsRemaining": [
-    "Exact-SHA complete quality CI;then134/E2/E3;E2 draft6files preserved in named Git stash"
+    "Exact-SHA quality37691827047;then134/E2 measurement;monthly/daily p95>3s stop;E3 afterwards"
   ],
   "findings": [],
-  "blockers": [
-    "134 waits corrected client exact-SHA CI green; no workflow/migration changes in this corrective commit"
-  ],
+  "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "Production/deploy",
-    "001-132 immutable;133 approved correction only;134 after133;explicit SQL",
+    "001-133 immutable;134 after corrected CI green;only quality job container/version guard may change;other CI jobs unchanged",
     "No F/Phase7,automations;stop policy gap or monthly/daily p95>3s"
   ],
-  "nextExactAction": "Commit/push verified client CAS correction; wait exact-SHA quality/secrets then resume approved134/E2; no CI/migration edits before green",
-  "workingTreeFingerprint": "B145168A6CBAE969572A77BB23FFEA64F90076862F898C6A11B7FBE613B4A518",
-  "checkpointedAt": "2026-10-07T21:46:57.185Z",
-  "startedAt": "2026-10-07T20:57:12.760Z"
+  "nextExactAction": "CI-only delivery pending;verify full exact-SHA workflows and quality duration;then134/E2;never cancel or rerun37691827047",
+  "workingTreeFingerprint": "F29E46B357B3227A53F0FF18DB4CBD7DEC96AF8F14221F28C3277517A589B34D",
+  "checkpointedAt": "2026-10-07T21:59:57.896Z",
+  "startedAt": "2026-10-07T21:47:12.084Z"
 }

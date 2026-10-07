@@ -16,6 +16,8 @@ jobs:
     name: Lint, test, build and browser QA
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble@sha256:dcc5531e97840b9b5e794f2814476b21571c5124a3fca2267d73041f56e7580e
     steps:
       - name: Checkout repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -37,8 +39,24 @@ jobs:
       - name: Install customer store dependencies
         run: npm --prefix customer-web ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium webkit
+      - name: Verify pinned Playwright image matches lockfile
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { readFileSync } from 'node:fs';
+          const workflow = readFileSync('.github/workflows/quality.yml', 'utf8');
+          const quality = workflow.match(/^  quality:\r?\n([\s\S]*?)(?=^  [\w-]+:|$(?![\s\S]))/m)?.[1];
+          assert.ok(quality, 'Quality job must exist');
+          const image = quality.match(/^      image: (\S+)\r?$/m)?.[1];
+          const version = image?.match(/^mcr\.microsoft\.com\/playwright:v(\d+\.\d+\.\d+)-noble@sha256:[a-f0-9]{64}$/)?.[1];
+          assert.ok(version, 'Quality requires a versioned, digest-pinned Playwright image');
+          const lock = JSON.parse(readFileSync('package-lock.json', 'utf8'));
+          for (const name of ['@playwright/test', 'playwright', 'playwright-core']) {
+            assert.equal(lock.packages[`node_modules/${name}`]?.version, version,
+              `Update the pinned quality image together with ${name}`);
+          }
+          console.log(`Playwright image/lockfile version verified: ${version}`);
+          NODE
 
       - name: Run complete quality gate
         run: npm run quality
