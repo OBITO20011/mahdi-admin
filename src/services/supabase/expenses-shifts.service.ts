@@ -288,11 +288,26 @@ export async function fetchCashShiftClosingReportFromSupabase(
       grossSales: minorUnitsToJod(sales.grossSalesInMinorUnits),
       refunds: minorUnitsToJod(sales.refundsInMinorUnits),
       netSales: minorUnitsToJod(sales.netSalesInMinorUnits),
+      ...(sales.salesDefinitionVersion === 133 ? {
+        salesDefinitionVersion: 133 as const,
+        collectedDirectSales: minorUnitsToJod(sales.collectedDirectSalesInMinorUnits),
+        initialReceiptPayments: minorUnitsToJod(sales.initialReceiptPaymentsInMinorUnits),
+        initialReceiptCash: minorUnitsToJod(sales.initialReceiptCashInMinorUnits),
+        initialReceiptCliq: minorUnitsToJod(sales.initialReceiptCliqInMinorUnits),
+        creditSales: minorUnitsToJod(sales.creditSalesInMinorUnits),
+        returnEntitlement: minorUnitsToJod(sales.returnEntitlementInMinorUnits),
+        debtReduction: minorUnitsToJod(sales.debtReductionInMinorUnits),
+      } : {}),
     },
     collections: {
       count: Number(collections.count) || 0,
       cash: minorUnitsToJod(collections.cashInMinorUnits),
       cliq: minorUnitsToJod(collections.cliqInMinorUnits),
+      ...(sales.salesDefinitionVersion === 133 ? {
+        initialPayments: minorUnitsToJod(collections.initialPaymentsInMinorUnits),
+        initialCash: minorUnitsToJod(collections.initialCashInMinorUnits),
+        initialCliq: minorUnitsToJod(collections.initialCliqInMinorUnits),
+      } : {}),
     },
     outflows: {
       supplierPaymentCount: Number(outflows.supplierPaymentCount) || 0,

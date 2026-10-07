@@ -142,8 +142,8 @@ export const ShiftClosingReportModal: React.FC<
             <div className="grid grid-cols-3 gap-2">
               <Metric label="إجمالي المبيعات" value={money(report.sales.grossSales)} />
               <Metric
-                label="المبالغ المرتجعة"
-                value={money(report.sales.refunds)}
+                label={report.sales.returnEntitlement !== undefined ? 'المرتجعات' : 'المبالغ المرتجعة'}
+                value={money(report.sales.returnEntitlement ?? report.sales.refunds)}
                 tone="danger"
               />
               <Metric
@@ -163,6 +163,15 @@ export const ShiftClosingReportModal: React.FC<
             </p>
           </section>
 
+          {report.sales.returnEntitlement !== undefined && (
+            <section className="space-y-2 rounded-xl border border-orange-900/70 bg-orange-950/20 p-3">
+              <h4 className="font-black text-orange-200">توزيع استحقاق المرتجعات</h4>
+              <div className="flex justify-between text-slate-300"><span>مبالغ مرجعة</span><b>{money(report.sales.refunds)}</b></div>
+              <div className="flex justify-between text-slate-300"><span>تخفيض دين</span><b>{money(report.sales.debtReduction ?? 0)}</b></div>
+              <p className="text-[10px] text-slate-400">المرتجعات = المبالغ المرجعة + تخفيض الدين. تخفيض الدين يقلّل صافي المبيعات، ولا يخرج مصاري من الصندوق.</p>
+            </section>
+          )}
+
           <section className="grid grid-cols-3 gap-2">
             <div className="rounded-xl border border-emerald-900/70 bg-emerald-950/30 p-3">
               <Banknote className="mb-1 h-4 w-4 text-emerald-400" />
@@ -176,9 +185,37 @@ export const ShiftClosingReportModal: React.FC<
             </div>
             <div className="rounded-xl border border-indigo-900/70 bg-indigo-950/30 p-3">
               <WalletCards className="mb-1 h-4 w-4 text-indigo-400" />
-              <span className="block text-[10px] text-slate-400">مبيعات بطاقة</span>
-              <b className="text-indigo-300">{money(report.shift.totalCardSales)}</b>
+              <span className="block text-[10px] text-slate-400">
+                {report.sales.salesDefinitionVersion === 133 ? 'آجل متبقي' : 'مبيعات بطاقة'}
+              </span>
+              <b className="text-indigo-300">{money(report.sales.creditSales ?? report.shift.totalCardSales)}</b>
             </div>
+          </section>
+
+          {report.sales.salesDefinitionVersion === 133 && (
+            <section className="space-y-2 rounded-xl border border-indigo-900/70 bg-indigo-950/30 p-3">
+              <div className="flex justify-between text-indigo-200">
+                <span>دفعات أولى عند الاستلام (مسجلة ضمن سندات القبض)</span>
+                <b>{money(report.sales.initialReceiptPayments ?? 0)}</b>
+              </div>
+              <p className="text-[10px] text-slate-300">
+                كاش: {money(report.sales.initialReceiptCash ?? 0)} · CliQ: {money(report.sales.initialReceiptCliq ?? 0)}
+              </p>
+              <p className="text-[10px] text-slate-400">
+                الآجل هو غير المحصّل لحظة البيع، قبل السندات اللاحقة والمرتجعات. الدفعات الأولى ضمن السندات ولا تُضاف مرة أخرى إلى إجمالي الداخل.
+              </p>
+            </section>
+          )}
+
+          <section className="space-y-2 rounded-xl border border-slate-700 bg-slate-800/40 p-3">
+            <h4 className="font-black text-slate-200">سندات القبض ({report.collections.count})</h4>
+            <p className="text-slate-300">كاش: {money(report.collections.cash)} · CliQ: {money(report.collections.cliq)}</p>
+            {report.collections.initialPayments !== undefined && (
+              <p className="text-[10px] text-slate-400">
+                منها {money(report.collections.initialPayments)} دفعات أولى عند البيع
+                {' '} (كاش: {money(report.collections.initialCash ?? 0)} · CliQ: {money(report.collections.initialCliq ?? 0)})
+              </p>
+            )}
           </section>
 
           <section className="space-y-2 rounded-2xl border border-slate-700 bg-slate-800/40 p-3">
@@ -282,7 +319,7 @@ export const ShiftClosingReportModal: React.FC<
                 </b>
               </div>
               <div className="flex justify-between text-slate-300">
-                <span>المرتجعات ({report.outflows.returnCount})</span>
+                <span>{report.sales.returnEntitlement !== undefined ? 'المبالغ المرجعة' : 'المرتجعات'} ({report.outflows.returnCount})</span>
                 <b>
                   {money(
                     report.outflows.cashRefunds + report.outflows.cliqRefunds

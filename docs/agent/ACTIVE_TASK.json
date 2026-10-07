@@ -2,45 +2,69 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Record owner closure of Package D, deliver documentation commit and CI, then write Package E plan only",
-  "baselineSha": "f58c9556f55222698629d881a59ec1d387c5e978",
+  "objective": "Implement approved Package E: golden reconciliation CI, manual scale, test cleanup; deliver each part then quality/CI",
+  "baselineSha": "01eb6abb49aef9c05d6ae2e2de9538db127bafc7",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
-  "phase": "PACKAGE_D",
+  "phase": "PACKAGE_E",
   "completed": [
-    "Owner closed Package D at f58c955; exact push/main quality37576896581 12/12 and secrets37576896555 PASS",
-    "Closure state and two directly dependent continuity expectations synchronized"
+    "Owner approved133: explicit supplier direct+PO receipt/payments/advance/reversal/cancellation consistency; no live backfill",
+    "Before132 original18 cases reproduced; after133 35 cases PASS incl replay/concurrency/rollback; DB lint16 documented warnings",
+    "Closing gross/net before132-after133 PASS incl debt-only Return; old/new snapshots preserved; golden full day PASS all reports/movements/13 integrity checks after close"
   ],
   "inProgress": [
-    "Record owner closure of Package D, deliver documentation commit and CI, then write Package E plan only"
+    "Deliver verified E1: Gitleaks exit0, explicit scope commit/push and exact-SHA CI; then approved E2 scale"
   ],
   "notStarted": [
+    "E2 manual scale measurements; E3 test cleanup; Package F",
     "Phase 7"
   ],
   "filesTouched": [
-    "docs/agent/PACKAGE_D_PLAN.md",
+    ".github/workflows/quality.yml",
+    "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
     "docs/agent/PROJECT_OVERVIEW.md",
     "docs/agent/project-state.json",
+    "package.json",
+    "scripts/agent/lib.mjs",
+    "scripts/agent/preflight.mjs",
+    "src/features/shifts/ShiftClosingReportModal.tsx",
+    "src/services/supabase/expenses-shifts.service.ts",
+    "src/types/index.ts",
     "tests/agent-continuity.test.ts",
-    "tests/phase44-admin-recovery-fullstack.test.ts"
+    "tests/package-d-unification.test.ts",
+    "tests/phase5-operational-fixes.test.ts",
+    "docs/agent/PACKAGE_E_BLOCKER.md",
+    "docs/agent/PACKAGE_E_PLAN.md",
+    "e2e/package-e-closing-harness.html",
+    "e2e/package-e-closing-harness.tsx",
+    "e2e/package-e-closing.spec.ts",
+    "scripts/testing/package-e-golden-day-fixture.sql",
+    "scripts/testing/package-e-reconciliation.mjs",
+    "scripts/testing/run-package-e-closing-runtime.mjs",
+    "scripts/testing/run-package-e-golden-day-runtime.mjs",
+    "scripts/testing/run-package-e-supplier-runtime.mjs",
+    "supabase/migrations/133_package_e_supplier_po_financial_consistency.sql",
+    "tests/package-e-reconciliation.test.ts",
+    "tests/package-e-supplier.test.ts"
   ],
   "testsPassed": [
-    "Continuity11/11; TypeScript; strict ESLint; diff check"
+    "Admin688/688; focused24/24; TypeScript/strict ESLint/build; closing before/after public RPCs and lint PASS (16 documented warnings); browser4/4; supplier prior35/35",
+    "Golden current133 PASS incl post-close: gross67000, entitlement15000=refund12000+debt3000, net52000; inflows48000; drawer197300/discrepancy0; stock/WAC/movements/dues/replay/readers/13 integrity checks PASS"
   ],
   "testsRemaining": [
-    "Closure commit exact-SHA code quality and secret scanning CI"
+    "E1 full day and CI, E2 scale, E3 cleanup, final quality after owner-approved repair"
   ],
   "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "Production/deploy",
-    "Migrations001-132 or new migrations; feature-state activation",
-    "Package E implementation or test deletion before plan approval; Phase7; scheduled tasks"
+    "Migrations001-132 immutable;133 limited to supplier correction and approved closing sales reader; no index changes or134",
+    "Stop for another E1 numeric mismatch or E2 index need; Package F/Phase7; scheduled tasks; feature activation outside isolated tests"
   ],
-  "nextExactAction": "Deliver D closure commit and verify both exact-SHA CI workflows; then write one-page PACKAGE_E_PLAN.md and stop for owner approval",
-  "workingTreeFingerprint": "E60D43F56FDCF612AC4DE3F8CDCD2DE3088D6A3AB9625E018EB0C6603124E3FA",
-  "checkpointedAt": "2026-10-07T05:49:12.603Z",
-  "startedAt": "2026-10-07T05:46:52.976Z"
+  "nextExactAction": "Observe E1 exact push/main CI, then start authorized Package E2 scale measurements from the delivered clean baseline",
+  "workingTreeFingerprint": "7895ED80C2B87C2909AC5513A8BF802C5EB9893E5740E2A8A4994F9292AFD762",
+  "checkpointedAt": "2026-10-07T07:51:48.736Z",
+  "startedAt": "2026-10-07T06:04:15.371Z"
 }

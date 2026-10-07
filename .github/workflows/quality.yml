@@ -75,13 +75,13 @@ jobs:
         run: npm run test:db:runtime
 
   current-database-runtime:
-    name: Current132 runtime (${{ matrix.suite }})
+    name: Isolated current contracts (${{ matrix.suite }})
     runs-on: ubuntu-latest
     timeout-minutes: 35
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -105,6 +105,14 @@ jobs:
       - name: Run current 001-132 Package D public contracts
         if: matrix.suite == 'package-d'
         run: node scripts/testing/run-package-d-database-runtime.mjs
+
+      - name: Reconcile a complete business day through real public RPCs
+        if: matrix.suite == 'golden-day'
+        run: npm run test:package-e:golden
+
+      - name: Prove supplier PO financial paths before132 and after133
+        if: matrix.suite == 'supplier-ledger'
+        run: npm run test:package-e:supplier
 
       - name: Prove Package D before and after on real historical fixtures
         if: matrix.suite == 'before-after'

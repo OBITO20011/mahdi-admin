@@ -54,5 +54,31 @@ capacity, entitlement or current-leaf authority.
 
 ## Accounting scope
 
+### Package E closing sales presentation (owner clarified 2026-10-07)
+
+Cash/CliQ sales fields, shift counters, payment vouchers and drawer calculations
+remain unchanged. Show initial completion payments recorded as vouchers as a
+separate sales line (with tender), and annotate collections with its included
+amount. New credit sales are the portion unpaid at completion, not current debt
+after subsequent payments/returns. Gross = existing Cash/CliQ sales + initial
+voucher payments + unpaid-at-completion credit. Never add those initial payments
+again to total inflows. Closed historical snapshots stay byte-identical. The
+owner authorizes this live reader and Admin presentation in uncommitted133.
+
+Closing net sales = gross minus settled merchandise Return entitlement
+(monetary refunds + debt reduction). Present both components separately: the
+golden day is67 - (12 +3) =52. Debt reduction is never drawer outflow or a
+second refund. This reader-only correction in133 must preserve vouchers,
+reconciliation and every old closed snapshot. Stop at any fourth numeric gap.
+
+### Package E supplier balance (owner approved 2026-10-07)
+
+Supplier balance equals active direct and PO receipts minus every active payment.
+PO advance payment creates supplier credit (negative balance) until receiving.
+Payment, receiving-time payment, reversal and receipt cancellation must apply
+each committed movement once. Migration133 is authorized only for these actual
+operational paths and their monitoring reader. No live backfill is authorized;
+the owner states Production has no PO V2 receipts. Production remains off limits.
+
 - Planned Phase 5 scope is reversal, operational accounting integration, reports/profit/payment reconciliation.
 - Double-entry General Ledger and Balance Sheet are optional/deferred, not required to close the core project.

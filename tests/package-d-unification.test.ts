@@ -81,7 +81,12 @@ test('CI preserves the historical gate and separately runs current132 contract f
   const workflow=read('.github/workflows/quality.yml');
   assert.match(workflow,/NAWASRAH_MAX_MIGRATION: '131'\s+run: npm run test:db:runtime/u);
   assert.match(workflow,/NAWASRAH_PACKAGE_D_MODE: before/u);
-  assert.match(workflow,/suite: \[package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser\]/u);
+  const suites=workflow.match(/suite: \[([^\]]+)\]/u)?.[1].split(',').map(value=>value.trim());
+  assert.ok(suites);
+  for(const required of ['package-d','before-after','phase3','phase3-basic','phase42','phase43',
+    'phase44-financial','phase44-lineage','phase44-concurrency','pos-browser','golden-day','supplier-ledger']) {
+    assert.ok(suites.includes(required),`Required CI coverage missing: ${required}`);
+  }
   assert.match(workflow,/run: node scripts\/testing\/run-phase3-basic-current-runtime\.mjs/u);
   for(const family of ['phase3-contracts','phase42-return','phase43-aftercare','phase44-financial','phase44-lineage','phase44-concurrency']) {
     assert.ok(workflow.includes(`run: npm run test:${family}:runtime`));

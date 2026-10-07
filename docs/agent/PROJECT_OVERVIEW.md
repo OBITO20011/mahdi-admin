@@ -30,9 +30,18 @@ documentation closure delivered at `54e669cb195b69af1536cf7bcf64f18bc36519c0`,
 quality 37534064206 and secret scanning 37534064164 PASS.
 Package D is OWNER-CLOSED at `f58c9556f55222698629d881a59ec1d387c5e978`;
 push/main quality37576896581 (12/12) and secrets37576896555 PASS.
-Current authorization: record D closure, then Package E readiness planning only
-(full-day reconciliation, scale, test cleanup). E implementation and Migration133
-await owner approval. Feature activation, Production/deploy and Phase7 remain prohibited.
+Current authorization: implement Package E golden-day reconciliation as permanent CI,
+then manual scale measurements and test cleanup; each part permits commit/push.
+Owner approved133 for supplier direct/PO receipts minus active payments,
+including advances, reversals, cancellation and monitoring; no live backfill.
+The owner additionally approved133's closing reader/UI: preserve Cash/CliQ
+sales, vouchers, counters and reconciliation; show first voucher payments
+separately, sale-time remaining credit, and gross including both. Old closed
+snapshots remain unchanged. Prove inflows before/after, then resume the day.
+The third gap is now owner-approved: closing net deducts settled Return
+entitlement (money + debt), with separate displayed components, not just money.
+Any further numeric mismatch or index requirement stops for owner review.
+Feature activation outside isolated fixtures, Production/deploy and Phase7 remain prohibited.
 Phase 5 operational baseline is `bdea567562b1de8c64fe3aa286076258decf3d26`;
 exact-SHA push/main quality and secret-scanning CI passed. Package A remediation
 at `0b31eec0949519eefdac398dd6a034f956d0b5f9` passed both exact-SHA CI workflows.
@@ -67,4 +76,7 @@ archived in Git at `2238b102c8935b9d60d6c25c1f6fcb0c0a4178aa`, not active contra
 Migrations 128–130 fix the operational paths. L9 source-pos rejection is owner-approved in Package D;
 L10 and legacy-only daily reporting are addressed by Phase 6 package A.
 No broad zero-findings or Production-readiness claim is implied by this closure.
-The approved Package D migration ceiling is 132; fingerprints remain in `project-state.json`. Historical migrations 001–131 are immutable; feature activation remains an owner action in Phase 7.
+The current approved migration ceiling is133, limited to supplier consistency
+and the approved closing-sales reader. Fingerprints remain in `project-state.json`.
+Historical migrations001–132 are immutable; feature activation remains an owner
+action in Phase7.

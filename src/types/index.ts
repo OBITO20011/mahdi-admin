@@ -537,11 +537,22 @@ export interface ShiftClosingReport {
     grossSales: number;
     refunds: number;
     netSales: number;
+    salesDefinitionVersion?: 133;
+    collectedDirectSales?: number;
+    initialReceiptPayments?: number;
+    initialReceiptCash?: number;
+    initialReceiptCliq?: number;
+    creditSales?: number;
+    returnEntitlement?: number;
+    debtReduction?: number;
   };
   collections: {
     count: number;
     cash: number;
     cliq: number;
+    initialPayments?: number;
+    initialCash?: number;
+    initialCliq?: number;
   };
   outflows: {
     supplierPaymentCount: number;
