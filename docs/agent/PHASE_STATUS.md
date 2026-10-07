@@ -15,7 +15,8 @@
 | Phase 4 (overall) | OWNER-CLOSED | Returns, refunds, Replacement, Admin integration, cross-feature regression and independent closure are complete. |
 | Phase 5 | OWNER-CLOSED | Operational fixes in Migrations 128–130 delivered; owner closure after exact-SHA quality and secret-scanning CI PASS. Historical private Slices 1–4 are superseded; Package D132 retires their unused schema. |
 | Phase 6 | OWNER-CLOSED | Owner accepted A/B/C and B+C correction on 2026-10-07. Baseline 5aaeab11e13c2be454af677ee176f77aa2d9cde4; exact-SHA quality 37531634141 and secrets 37531634136 PASS. Focused 32/32; quality 688 Admin + 189 Customer + 243 browser PASS, 51 existing conditional skips. |
-| Package D | FINAL CORRECTION LOCALLY VERIFIED | Owner-authorized final correction: before/after131→132 and prior132 zero-price reproduction PASS; fresh basic SQL132 30/30; focused17/17 and Chromium/WebKit12/12. Full quality exit0: Admin681, Customer189, Browser261 PASS/59 existing conditional skips/retries0; DB lint PASS with documented compatibility warnings. Exact-SHA delivery CI remains the final gate, verified in GitHub Actions for the delivery commit. Feature state unchanged; no Production/Phase7; owner closure not claimed. |
+| Package D | OWNER-CLOSED | Owner accepted f58c9556f55222698629d881a59ec1d387c5e978 on 2026-10-07. Exact push/main quality37576896581 12/12 and secrets37576896555 PASS. Before/after DB, SQL132 30/30 and full quality PASS; evidence in PACKAGE_D_PLAN.md. Migration132 hash preserved; feature state unchanged. |
+| Package E | PLANNING ONLY | Owner authorized one-page readiness plan: full-day reconciliation, two-year scale measurements, and proposed test cleanup. Implementation and Migration133 require subsequent approval. |
 | Phase 7 | NOT STARTED | Production/release work requires separate owner authorization. |
 
 Phase 5 closure evidence: `bdea567562b1de8c64fe3aa286076258decf3d26`, push/main,

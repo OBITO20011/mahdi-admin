@@ -125,7 +125,7 @@ const assertSlices12Closed = (
   phaseStatus: string,
   task: ActiveTaskContinuityState,
 ) => {
-  assert.equal(projectState.currentPhase, 'PACKAGE_D');
+  assert.equal(projectState.currentPhase, 'PACKAGE_E');
   assert.equal(projectState.phase5Closed, true);
   assert.equal(projectState.phase5ClosureBaseline, historySha);
   assert.equal(projectState.phase5ClosureExactShaCi, 'PASS');
