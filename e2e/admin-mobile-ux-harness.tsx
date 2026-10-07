@@ -379,7 +379,8 @@ const content =
   ) : view === 'barcode-edit' ? (
     <main dir="rtl" className="mx-auto max-w-lg p-3">
       <ProductFormModal
-        initialProduct={baseProduct}
+        initialProduct={new URLSearchParams(window.location.search).get('missingPacketPrice')==='1'
+          ? {...baseProduct,retailPrice:0} : baseProduct}
         onClose={() => undefined}
         startBarcodeScanner={startBarcodeScanner}
       />

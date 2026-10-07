@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {execFile,spawn} from 'node:child_process';
+import {execFile,execFileSync,spawn} from 'node:child_process';
 import {readFile} from 'node:fs/promises';
 import {promisify} from 'node:util';
 import path from 'node:path';
@@ -20,6 +20,9 @@ const sql=text=>new Promise((resolve,reject)=>{
   const child=spawn('docker',['exec','-i',container,'psql','-U','postgres','-d','postgres','-X','-q','-At','-v','ON_ERROR_STOP=1'],
     {cwd:root,windowsHide:true,stdio:['pipe','pipe','pipe']});
   let out='',err='';
+  // Decode across chunk boundaries; Buffer-to-string per chunk corrupts split
+  // Arabic UTF-8 characters and fabricates durable fingerprint differences.
+  child.stdout.setEncoding('utf8');child.stderr.setEncoding('utf8');
   child.stdout.on('data',s=>{out+=s;});child.stderr.on('data',s=>{err+=s;});
   child.on('error',reject);child.on('close',code=>code===0?resolve(out.trim()):reject(Error(`${code}: ${err}`)));
   child.stdin.end(`SET statement_timeout='60s';SET lock_timeout='30s';\n${text}`);
@@ -170,6 +173,38 @@ try{
   let correctionBefore;
   if(before){
     correctionBefore=await proveBeforeCorrection({sql,json});
+    // Reproduce the specific zero-packet regression in the previously delivered
+    //132 as well as the approved131->132 transition. Read Git bytes only; run
+    // the former migration in one disposable rollback transaction, never edit it.
+    const prior=execFileSync('git',['show','d48eeddb71213544f1def4d9202f1ac01beff005:supabase/migrations/132_package_d_system_unification.sql'],
+      {cwd:root,encoding:'utf8',windowsHide:true}).replace(/\r\n?/gu,'\n');
+    assert.match(prior,/^BEGIN;\s/u);assert.match(prior,/COMMIT;\s*$/u);
+    const body=prior.slice(prior.indexOf(';')+1,prior.lastIndexOf('COMMIT;'));
+    await sql(`BEGIN;${body}
+      UPDATE products SET sale_price_in_minor_units=0 WHERE id='92400000-0000-0000-0000-000000000103';
+      DO $$ BEGIN
+        PERFORM set_config('request.jwt.claims','{"sub":"${owner}","role":"authenticated","aal":"aal2"}',true);
+        BEGIN
+          PERFORM create_pos_sale_v2('92400000-0000-0000-0000-000000000201','92400000-0000-0000-0000-000000000200',
+            NULL,'Former132 zero price','cash','[{"commercial_line_kind":"legacy_single_sku_parcel","product_id":"92400000-0000-0000-0000-000000000103","parcel_quantity":1,"units_per_parcel":5}]'::jsonb,
+            0,4500,'d-prior132-zero-pos');
+          RAISE EXCEPTION 'Prior132 unexpectedly accepted missing standalone evidence';
+        EXCEPTION WHEN SQLSTATE 'P0001' THEN
+          IF SQLERRM NOT LIKE 'PHASE4_STANDALONE_PRICE_UNPROVEN:%' THEN RAISE;END IF;
+        END;
+        PERFORM set_config('request.jwt.claims','{"role":"service_role"}',true);
+        BEGIN
+          PERFORM submit_guest_customer_order_v2('92513200-0000-4000-8000-000000000095',repeat('c',64),repeat('d',64),
+            'Former132 customer','0791320095','إربد','الرمثا','الحي','شارع الاختبار',NULL,NULL,NULL,NULL,NULL,NULL,
+            '[{"commercial_line_kind":"legacy_single_sku_parcel","product_id":"92400000-0000-0000-0000-000000000103","parcel_quantity":1,"units_per_parcel":5,"expected_unit_price_in_minor_units":4500}]'::jsonb,
+            NULL,'cash_on_delivery','inside_ramtha',4500,0,0,4500);
+          RAISE EXCEPTION 'Prior132 customer unexpectedly accepted missing standalone evidence';
+        EXCEPTION WHEN SQLSTATE 'P0001' THEN
+          IF SQLERRM NOT LIKE 'PHASE4_STANDALONE_PRICE_UNPROVEN:%' THEN RAISE;END IF;
+        END;
+      END;$$;ROLLBACK;`);
+    assert.equal(await sql("SELECT to_regprocedure('public.package_d_capture_single_sku_price_snapshot()') IS NULL;"),'t');
+    correctionBefore.prior132ZeroPacketDefect={posRejected:true,customerRejected:true,rollbackOnly:true};
     const migration=await readFile(path.join(root,'supabase/migrations/132_package_d_system_unification.sql'),'utf8');
     const catalog=()=>json(`SELECT jsonb_build_object('private',to_regnamespace('phase5_private'),
       'newGuard',to_regprocedure('public.package_d_assert_modern_sale_internal(uuid,text)'),

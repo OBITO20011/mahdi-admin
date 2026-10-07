@@ -2,6 +2,12 @@
 
 Append only concise, secret-free handoff summaries here when a task materially changes ownership. Machine-verifiable current state belongs in `ACTIVE_TASK.json`; Git remains the code history.
 
+## 2026-10-07 — final owner-authorized Package D correction (codex)
+
+- Baseline `d48eeddb71213544f1def4d9202f1ac01beff005`; bounded132 correction and normal commit/push/exact-SHA CI authorized, no Production/deploy/Phase7.
+- Nullable packet-price evidence, nonblocking warnings, active-only save, store error/UUID validation, fresh basic Phase3 SQL132 and real trigger races implemented. Accounting preserves original COGS for CUSTOMER_DAMAGE packets retained by the customer.
+- Before/after DB and prior132 defect reproduction PASS; SQL132 30/30, focused17/17, browser12/12. Quality exit0:681 Admin/189 Customer/261 Browser PASS,59 existing conditional skips,retries0,Production0. DB lint only documented compatibility warnings;001–131 unchanged/no133. Final exact-SHA CI is verified externally for this delivery commit before reporting completion.
+
 ## 2026-09-27 — continuity foundation
 
 - Baseline: `c7e68e1ce419dbad8463dae0083a71a35d410a43`

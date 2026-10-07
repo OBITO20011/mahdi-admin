@@ -2,63 +2,48 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Owner-approved Package D correction: POS non-commit cancellation, Cash/CliQ/debt, whole single-SKU parcel aftercare, current132 runtimes and ten review fixes; no Production/Phase7",
-  "baselineSha": "0c79191a7586ebf547b0065c9d1f8ff51828454e",
+  "objective": "Final bounded D correction: nullable packet price, active flavours, current schema probes, store errors and replay; verify and deliver before Phase7",
+  "baselineSha": "d48eeddb71213544f1def4d9202f1ac01beff005",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_D",
   "completed": [
-    "Package D corrections and approved carton damage implemented; all local gates PASS"
+    "Final D correction implemented; before/after DB and fresh SQL132 30/30 PASS; full quality exit0"
   ],
   "inProgress": [],
   "notStarted": [
     "Phase 7"
   ],
   "filesTouched": [
-    "scripts/analysis/build-phase5-authority-ledger.mjs",
-    "scripts/analysis/phase5-authority-policy.mjs",
-    "scripts/analysis/tests/phase5-evidence-builder.test.mjs",
     ".github/workflows/quality.yml",
+    "customer-web/src/components/CheckoutModal.tsx",
+    "customer-web/src/utils/checkoutErrorMessage.ts",
     "docs/agent/PACKAGE_D_PLAN.md",
     "docs/agent/PHASE_STATUS.md",
     "docs/agent/project-state.json",
-    "e2e/package-d-pos-fullstack.spec.ts",
-    "scripts/testing/package-d-db-lint-policy.mjs",
+    "e2e/admin-mobile-ux-harness.tsx",
+    "e2e/customer-checkout-simplification.spec.ts",
+    "e2e/package-d-settings.spec.ts",
+    "scripts/testing/package-d-correction-probes.mjs",
+    "scripts/testing/phase3-configurable-parcel-contracts-runtime.sql",
     "scripts/testing/run-package-d-database-runtime.mjs",
-    "scripts/testing/run-phase3-configurable-parcel-contracts-runtime.mjs",
-    "scripts/testing/run-phase42-atomic-return-runtime.mjs",
-    "scripts/testing/run-phase44-admin-recovery-fullstack.mjs",
-    "scripts/testing/run-phase44-concurrency-replay-runtime.mjs",
-    "scripts/testing/run-phase44-financial-integration-runtime.mjs",
-    "scripts/testing/run-phase44-lineage-valuation-runtime.mjs",
-    "src/features/orders/AdminAftercarePanel.tsx",
-    "src/features/orders/aftercarePresentation.ts",
-    "src/features/orders/OrderDetailModal.tsx",
-    "src/features/pos/PosView.tsx",
-    "src/services/supabase/adminAftercareRecovery.ts",
-    "src/services/supabase/posV2Recovery.ts",
-    "src/services/supabase/salesAftercare.service.ts",
-    "src/utils/businessError.ts",
+    "src/features/more/ParcelConfigurationModal.tsx",
+    "src/features/products/ProductFormModal.tsx",
+    "src/services/supabase/parcelConfiguration.service.ts",
     "supabase/migrations/132_package_d_system_unification.sql",
-    "tests/admin-navigation.test.ts",
-    "tests/package-d-pos-recovery.test.ts",
+    "tests/package-d-parcel-configuration.test.ts",
     "tests/package-d-unification.test.ts",
-    "tests/phase3-pos-coordinator.test.ts",
-    "tests/phase35b-reporting-corrections.test.ts",
-    "tests/phase43-admin-aftercare-integration.test.ts",
-    "tests/phase44-concurrency-replay.test.ts",
-    "tests/phase44-financial-integration.test.ts",
-    "tests/phase44-lineage-valuation.test.ts",
-    "tests/sales-returns.test.ts",
-    "scripts/testing/package-d-correction-probes.mjs"
+    "tests/phase6-package-b.test.ts",
+    "scripts/testing/run-phase3-basic-current-runtime.mjs"
   ],
   "testsPassed": [
-    "Quality exit0: Admin679/679, Customer189/189, Browser255PASS/59 conditional skips/retries0; strict ESLint PASS",
-    "Isolated131-to132 before/after and fresh001132PASS: carton damage/old NULL, debt/replay/capacity, deadlockDelta0, DB lint and36 function owners PASS",
-    "Current132 Phase3/42/43/44 PASS/deadlockDelta0; POS real RPC browsers8/8; focused58/58; continuity11/11; Gitleaks34files exit0; Production0;001131 unchanged/no133"
+    "Focused17/17; Chromium/WebKit12/12",
+    "Before/after131-132 and prior132 zero-price probes; trigger races deadlockDelta0; DB lint PASS",
+    "Quality681 Admin/189 Customer/261 Browser PASS;59 existing skips;retries0;Production0",
+    "Historical001-131 unchanged; no133; strict ESLint and changed-file Gitleaks exit0"
   ],
   "testsRemaining": [
-    "Authorized delivery: staged Gitleaks0, commit/push and exact-SHA CI"
+    "Both exact push/main delivery CI workflows; evidence recorded in GitHub Actions"
   ],
   "findings": [],
   "blockers": [],
@@ -68,8 +53,8 @@
     "Historical migrations001-131; additional migrations; feature-state activation",
     "Phase7"
   ],
-  "nextExactAction": "Local Package D implementation/gates complete. Authorized delivery: exact allowlist/Gitleaks0, commit/push and read-only exact-SHA CI; then owner review. No Phase7",
-  "workingTreeFingerprint": "C496987A4C7172CA736B85950F70DBF250D454C908195156E9C9A346104AF79A",
-  "checkpointedAt": "2026-10-07T04:07:45.784Z",
-  "startedAt": "2026-10-07T01:20:18.193Z"
+  "nextExactAction": "Verify both exact push/main CI workflows for the final correction commit; then STOP for owner review before Phase7",
+  "workingTreeFingerprint": "5AF5635FBE0ECF2241B59CD8F7BB6E2E1CBFD420C19A935EA4589DE779609086",
+  "checkpointedAt": "2026-10-07T05:32:34.132Z",
+  "startedAt": "2026-10-07T04:49:12.496Z"
 }

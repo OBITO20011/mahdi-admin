@@ -1,5 +1,8 @@
 /** Presentation only: recovery classification stays in CheckoutRecoveryCoordinator. */
 export function checkoutErrorMessage(message: string, hasAttempt = false): string {
+  if (/PARCEL_COMPONENT_NOT_ALLOWED/u.test(message)) {
+    return 'إحدى النكهات لم تعد مسموحة لهذا الطرد. حدّث الصفحة وأعد اختيار النكهات.';
+  }
   if (/IDEMPOTENCY.*(CONFLICT|MISMATCH)|REVIEW_REQUIRED/u.test(message)) {
     return hasAttempt ? 'تفاصيل المحاولة المحفوظة تحتاج مراجعة. لا تبدأ طلبًا جديدًا قبل التحقق من المحاولة السابقة.'
       : 'تعذر إتمام الطلب. راجع البيانات وحاول مجددًا.';

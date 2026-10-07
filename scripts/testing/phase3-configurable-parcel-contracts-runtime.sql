@@ -109,6 +109,12 @@ BEGIN
     id, family_product_id, composition_mode, configuration_revision
   ) VALUES (v_config, v_family, 'configurable_mix', 1);
 
+  IF current_setting('nawasrah.package_d_current',true)='1' THEN
+    -- The fixture is created AFTER132, not initialized by migration backfill.
+    INSERT INTO public.product_parcel_allowed_components(configuration_id,product_id)
+    VALUES(v_config,v_sku_a),(v_config,v_sku_b);
+  END IF;
+
   INSERT INTO phase3_contract_results VALUES ('fixture_setup', true);
 END;
 $$;
@@ -739,10 +745,28 @@ BEGIN
     RAISE EXCEPTION 'V1 accepted a key consumed by V2.';
   EXCEPTION WHEN SQLSTATE 'P0001' THEN
     GET STACKED DIAGNOSTICS v_error = MESSAGE_TEXT;
-    IF v_error NOT LIKE 'IDEMPOTENCY_CONFLICT:%' THEN RAISE; END IF;
+    IF current_setting('nawasrah.package_d_current',true)='1' THEN
+      IF v_error NOT LIKE 'PACKAGE_D_POS_V2_REQUIRED:%' THEN RAISE; END IF;
+    ELSIF v_error NOT LIKE 'IDEMPOTENCY_CONFLICT:%' THEN RAISE; END IF;
   END;
 
   -- V1-first likewise fails closed in V2 with zero additional effects.
+  IF current_setting('nawasrah.package_d_current',true)='1' THEN
+    SELECT jsonb_build_object('orders',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM orders t),
+      'operations',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM business_operations t),
+      'movements',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM inventory_movements t)) INTO v_before;
+    BEGIN
+      PERFORM public.create_pos_sale(v_warehouse,v_branch,NULL,'Retired V1 first','cash',
+        jsonb_build_array(jsonb_build_object('product_id',v_other,'quantity',1)),0,4500,'phase3-cross-version-v1-first-0001');
+      RAISE EXCEPTION 'Retired V1 created a new sale';
+    EXCEPTION WHEN SQLSTATE 'P0001' THEN
+      IF SQLERRM NOT LIKE 'PACKAGE_D_POS_V2_REQUIRED:%' THEN RAISE; END IF;
+    END;
+    SELECT jsonb_build_object('orders',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM orders t),
+      'operations',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM business_operations t),
+      'movements',(SELECT jsonb_agg(to_jsonb(t) ORDER BY id) FROM inventory_movements t)) INTO v_after;
+    IF v_before IS DISTINCT FROM v_after THEN RAISE EXCEPTION 'Retired V1 left writes'; END IF;
+  ELSE
   v_result := public.create_pos_sale(
     v_warehouse, v_branch, NULL, 'V1 first', 'cash',
     JSONB_BUILD_ARRAY(JSONB_BUILD_OBJECT('product_id', v_other, 'quantity', 1)),
@@ -779,6 +803,7 @@ BEGIN
   ) INTO v_after;
   IF v_before IS DISTINCT FROM v_after THEN
     RAISE EXCEPTION 'Cross-version V1-first conflict left business writes.';
+  END IF;
   END IF;
 
   -- OWNER_PILOT allows owner but rejects a non-owner sales employee.
@@ -874,8 +899,10 @@ BEGIN
     ('pos_v2_cross_actor_privacy', true),
     ('pos_v2_feature_matrix', true),
     ('pos_v2_base_unit_compatibility', true),
-    ('pos_v2_cross_version_v1_first', true),
-    ('pos_v2_cross_version_v2_first', true),
+    (CASE WHEN current_setting('nawasrah.package_d_current',true)='1'
+      THEN 'pos_v1_new_creation_retired_zero_write' ELSE 'pos_v2_cross_version_v1_first' END, true),
+    (CASE WHEN current_setting('nawasrah.package_d_current',true)='1'
+      THEN 'pos_v1_after_v2_retired' ELSE 'pos_v2_cross_version_v2_first' END, true),
     ('pos_v2_insufficient_rollback', true),
     ('pos_v2_stale_config', true),
     ('pos_v2_parcel_reversal', true),
@@ -899,6 +926,17 @@ BEGIN
     JSONB_BUILD_OBJECT('sub', v_owner, 'role', 'authenticated', 'aal', 'aal2')::TEXT,
     true
   );
+  IF current_setting('nawasrah.package_d_current',true)='1' THEN
+    BEGIN
+      PERFORM public.create_pos_sale(v_warehouse,v_branch,NULL,'Retired Legacy reverse','cash',
+        jsonb_build_array(jsonb_build_object('product_id',v_other,'quantity',1)),0,4500,'phase3-legacy-reversal-sale-0001');
+      RAISE EXCEPTION 'Retired V1 created reversal fixture';
+    EXCEPTION WHEN SQLSTATE 'P0001' THEN
+      IF SQLERRM NOT LIKE 'PACKAGE_D_POS_V2_REQUIRED:%' THEN RAISE; END IF;
+    END;
+    IF EXISTS(SELECT 1 FROM orders WHERE idempotency_key='phase3-legacy-reversal-sale-0001') THEN -- gitleaks:allow deterministic test fixture
+      RAISE EXCEPTION 'Retired V1 left a reversal fixture';END IF;
+  ELSE
   v_result := public.create_pos_sale(
     v_warehouse, v_branch, NULL, 'Legacy reverse', 'cash',
     JSONB_BUILD_ARRAY(JSONB_BUILD_OBJECT('product_id', v_other, 'quantity', 1)),
@@ -911,7 +949,10 @@ BEGIN
   IF NOT COALESCE((v_reversal->>'success')::BOOLEAN, false)
     OR (v_reversal #>> '{actual_effect,restored_base_units}')::INTEGER <> 5
   THEN RAISE EXCEPTION 'Legacy POS reversal regressed.'; END IF;
-  INSERT INTO phase3_contract_results VALUES ('pos_v2_legacy_reversal', true);
+  END IF;
+  INSERT INTO phase3_contract_results VALUES
+    (CASE WHEN current_setting('nawasrah.package_d_current',true)='1'
+      THEN 'pos_v1_reversal_fixture_creation_retired' ELSE 'pos_v2_legacy_reversal' END,true);
 END;
 $$;
 

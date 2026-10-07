@@ -71,6 +71,22 @@ async function mockStorefront(page: Page) {
   });
 }
 
+test('promotion preview shows disallowed parcel flavor error in Arabic',async({page})=>{
+  await mockStorefront(page);
+  await page.route('**/rest/v1/rpc/preview_guest_promotion_v2',route=>route.fulfill({status:400,
+    json:{code:'P0001',message:'PARCEL_COMPONENT_NOT_ALLOWED: component no longer allowed'}}));
+  await page.goto(`${customerBaseUrl}/#catalog`,{waitUntil:'domcontentloaded'});
+  await page.getByRole('button',{name:`إضافة ${product.nameAr} إلى السلة`}).click();
+  await page.getByRole('button',{name:/فتح السلة/}).click();
+  await page.getByRole('button',{name:'إتمام الطلب بدون تسجيل دخول'}).click();
+  const checkout=page.getByRole('dialog').filter({has:page.getByRole('heading',{name:'إتمام طلب الجملة'})});
+  await checkout.getByLabel('رقم الهاتف*').fill('0791234567');
+  await checkout.getByPlaceholder('مثال: WELCOME10').fill('TEST');
+  await checkout.getByRole('button',{name:'تطبيق',exact:true}).click();
+  await expect(checkout.getByText('إحدى النكهات لم تعد مسموحة لهذا الطرد. حدّث الصفحة وأعد اختيار النكهات.')).toBeVisible();
+  await expect(checkout.getByText('PARCEL_COMPONENT_NOT_ALLOWED',{exact:false})).toHaveCount(0);
+});
+
 test('checkout keeps all required delivery data while showing one non-duplicated details field', async ({ page }) => {
   await page.addInitScript(() => {
     const testWindow = window as typeof window & {

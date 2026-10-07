@@ -9,7 +9,7 @@ const claims=`SELECT set_config('request.jwt.claims','{"sub":"${actor}","role":"
 const sale=(key,kind='base_unit',quantity=1,method='cash')=>`SELECT create_pos_sale_v2('${warehouse}','${branch}',NULL,'D correction',${literal(method)},
   ${literal(JSON.stringify([{commercial_line_kind:kind,product_id:sku,
     ...(kind==='base_unit'?{base_quantity:quantity}:{parcel_quantity:quantity,units_per_parcel:5})}]))}::jsonb,0,20000,${literal(key)});`;
-const tables=['orders','order_items','business_operations','inventory_balances','inventory_movements','cash_shifts',
+const tables=['orders','order_items','products','business_operations','inventory_balances','inventory_movements','cash_shifts',
   'customer_payments','sales_return_events','sales_return_items','sales_replacement_events','sales_replacement_items',
   'sales_aftercare_consumptions','phase42_return_inventory_effects','phase43_replacement_inventory_effects',
   'phase42_return_settlement_evidence','phase43_replacement_settlement_evidence'];
@@ -107,7 +107,8 @@ export async function proveBeforeCorrection({sql,json}) {
   const oldDamageItem=await sql(`SELECT id FROM order_items WHERE order_id='${oldDamageSale.orderId}';`);
   await assert.rejects(sql(claims+cartonDamageQuery(oldDamageSale.orderId,oldDamageItem,'package-d-before-damage',1)),
     /PHASE42_BASE_RETURN_ITEM_INVALID/u);
-  return {cardAccepted:true,cardResult:card,oldDamageOrderId:oldDamageSale.orderId,
+  const zeroPacketPrice=await proveZeroPacketPrice({sql,json,modern:false});
+  return {cardAccepted:true,cardResult:card,oldDamageOrderId:oldDamageSale.orderId,zeroPacketPrice,
     singleSkuModernReplacementUnsupported:true,legacyServiceAuthority:'ALREADY_DENIED_IN_131',leafCapacity,returnRace};
 }
 
@@ -224,9 +225,12 @@ export async function proveAfterCorrection({sql,json,beforeMode,cardResult,oldDa
   const debtFirstCarton=await proveDebtFirstCarton({sql,json});
   const flavorPolicy=await proveFlavorPolicy({sql,json});
   const cartonDamage=await proveCartonDamage({sql,json,oldDamageOrderId});
+  const zeroPacketPrice=await proveZeroPacketPrice({sql,json,modern:true});
+  const returnReplacementTriggerRace=await proveReturnReplacementTriggerRace({sql,json});
   return {newCardRejected:true,historicalCardReplay:beforeMode?'PASS':'covered-in-before-mode',leafCapacity,returnRace,flavorPolicy,debtFirstCarton,
     serverAbsenceZeroWrite:true,cancellationImmutable:true,lateSaleRejected:true,committedRecoveryOnly:true,
-    cartonDamage,singleSkuCartons:{baseQuantity:15,originalCogs:1500,replacementCost:1500,returnCost:1500,refund:4500},
+    cartonDamage,zeroPacketPrice,returnReplacementTriggerRace,
+    singleSkuCartons:{baseQuantity:15,originalCogs:1500,replacementCost:1500,returnCost:1500,refund:4500},
     partialCartonRejected:true,nonSellableZeroRestock:true,currentPriceWacSizeIgnored:true,replayZeroWrite:true,legacyServiceRevoked:true};
 }
 
@@ -308,6 +312,138 @@ async function proveConcurrentReturns({sql,json,mode}) {
   return {directions,deadlockDelta:delta,realConcurrentSessions:true};
 }
 
+async function proveZeroPacketPrice({sql,json,modern}) {
+  console.error('[Package D] zero packet price: POS + Customer + aftercare');
+  const mode=modern?'after':'before';
+  await sql(`UPDATE products SET sale_price_in_minor_units=0,wholesale_price_in_minor_units=4500,
+    default_sale_price_in_minor_units=4500,units_per_sale_unit=5,
+    wac_cost_in_minor_units_exact=100,cost_price_in_minor_units=100 WHERE id='${sku}';`);
+  // Independent fixture stock for this matrix, not capacity inferred from
+  // earlier probes. Neither product pricing nor historic sale evidence is guessed.
+  await sql(`UPDATE inventory_balances SET on_hand_quantity=on_hand_quantity+100
+    WHERE warehouse_id='${warehouse}' AND product_id='${sku}';`);
+  const pos=await json(claims+sale(`package-d-zero-packet-pos-${mode}`,'legacy_single_sku_parcel',3));
+  assert.equal(pos.success,true);assert.equal(pos.totalInMinorUnits,13500);
+  const guest=await json(`SELECT set_config('request.jwt.claim.role','service_role',false);
+    SET ROLE service_role; SELECT submit_guest_customer_order_v2(
+    '${modern?'92513200-0000-4000-8000-000000000092':'92513200-0000-4000-8000-000000000091'}',repeat('c',64),repeat('d',64),'Zero packet customer',
+    '${modern?'0791320092':'0791320091'}','إربد','الرمثا','الحي','شارع الاختبار',
+    NULL,NULL,NULL,NULL,NULL,NULL,
+    '${JSON.stringify([{commercial_line_kind:'legacy_single_sku_parcel',product_id:sku,parcel_quantity:3,
+      units_per_parcel:5,expected_unit_price_in_minor_units:4500}])}'::jsonb,
+    NULL,'cash_on_delivery','inside_ramtha',13500,0,0,13500);`);
+  assert.ok(guest.order_id);
+  await sql(`UPDATE orders SET status='ready' WHERE id='${guest.order_id}';`);
+  const completed=await json(claims+`SELECT complete_website_order_with_settlement_v2('${guest.order_id}',
+    '${modern?'92513200-0000-4000-8000-000000000094':'92513200-0000-4000-8000-000000000093'}','cash',13500,0,NULL,'Zero packet completion');`);
+  assert.equal(completed.success,true);
+  for(const orderId of [pos.orderId,guest.order_id]) {
+    const item=await sql(`SELECT id FROM order_items WHERE order_id='${orderId}';`);
+    if(!modern) {
+      const previous=await json(fingerprintQuery(tables));
+      await assert.rejects(sql(claims+cartonDamageQuery(orderId,item,`zero-${item}-before-return`,0,5)),
+        /PHASE42_BASE_SALE_EVIDENCE_MISSING/u);
+      assert.deepEqual(await json(fingerprintQuery(tables)),previous);continue;
+    }
+    const original=await json(`SELECT to_jsonb(t) FROM order_items t WHERE id='${item}';`);
+    assert.equal(original.effective_standalone_unit_sale_price_snapshot_in_minor_units,null);
+    const previous=await json(fingerprintQuery(tables));
+    await assert.rejects(sql(claims+cartonDamageQuery(orderId,item,`zero-${item}-damage`,1)),
+      /PACKAGE_D_CARTON_DAMAGE_PRICE_MISSING/u);
+    assert.deepEqual(await json(fingerprintQuery(tables)),previous);
+    let lastQuery,lastResult;
+    for(const [key,restock] of [['sound',5],['defect',0]]) {
+      lastQuery=cartonDamageQuery(orderId,item,`zero-${item}-${key}`,0,restock);
+      lastResult=await json(claims+lastQuery);
+      assert.equal(lastResult.success,true);assert.equal(lastResult.merchandiseEntitlementInMinorUnits,4500);
+      assert.equal(await sql(`SELECT COALESCE(sum(sellable_quantity),0) FROM phase42_return_inventory_effects
+        WHERE operation_id='${lastResult.operationId}';`),String(restock));
+    }
+    assert.deepEqual(await json(`SELECT to_jsonb(t) FROM order_items t WHERE id='${item}';`),original);
+    // Test-only temporal fault injection into disposable DB. Re-enable the
+    // immutable guard in the same transaction, then exercise real public replay.
+    if(orderId===pos.orderId) {
+    await sql(`BEGIN; ALTER TABLE business_operations DISABLE TRIGGER trg_guard_business_operation_history;
+      UPDATE business_operations SET completed_at=clock_timestamp()-interval '49 hours' WHERE id='${await sql(`SELECT operation_id FROM orders WHERE id='${orderId}';`)}';
+      ALTER TABLE business_operations ENABLE TRIGGER trg_guard_business_operation_history; COMMIT;`);
+    const afterDeadline=await json(fingerprintQuery(tables));
+    assert.deepEqual(await json(claims+lastQuery),lastResult);
+    assert.deepEqual(await json(fingerprintQuery(tables)),afterDeadline);
+    await assert.rejects(sql(claims+cartonDamageQuery(orderId,item,`zero-${item}-expired-new`,0,5)),
+      /PHASE4_RETURN_WINDOW_EXPIRED/u);
+    assert.deepEqual(await json(fingerprintQuery(tables)),afterDeadline);
+    }
+  }
+  await sql(`UPDATE products SET sale_price_in_minor_units=900 WHERE id='${sku}';`);
+  return {posSale:true,customerSale:true,nullableSnapshot:modern,
+    soundAndDefectReturns:modern,damageRejectedZeroWrite:modern,
+    cartonReplayAfter49HoursZeroWrite:modern,originalCogsUnchanged:modern};
+}
+
+async function proveReturnReplacementTriggerRace({sql,json}) {
+  console.error('[Package D] Return x Replacement per-leaf trigger races');
+  const deadlocks=()=>json('SELECT to_jsonb(deadlocks) FROM pg_stat_database WHERE datname=current_database();');
+  const initial=await deadlocks();const directions=[];
+  for(const winnerKind of ['return','replacement']) {
+    const sold=await json(claims+sale(`d-trigger-race-sale-${winnerKind}`,'base_unit',4));
+    const item=await sql(`SELECT id FROM order_items WHERE order_id='${sold.orderId}';`);
+    const firstReplacement=await json(claims+`SELECT settle_sales_replacement_v1('${sold.orderId}',
+      'd-trigger-seed-${winnerKind}','${JSON.stringify([{sourceKind:'base_order_item',sourceId:item,quantity:1}])}'::jsonb,'Seed current leaf',NULL);`);
+    const leaf=await sql(`SELECT id FROM sales_replacement_items WHERE operation_id='${firstReplacement.operationId}';`);
+    const loserKey=`d-trigger-loser-${winnerKind}`,winnerKey=`d-trigger-winner-${winnerKind}`;
+    const query=(kind,quantity,key)=>kind==='replacement'
+      ? `SELECT settle_sales_replacement_v1('${sold.orderId}','${key}',
+        '${JSON.stringify([{sourceKind:'base_order_item',sourceId:item,quantity}])}'::jsonb,'Trigger race replacement',NULL);`
+      : `SELECT settle_admin_sales_return_v1('${sold.orderId}','${key}',
+        '${JSON.stringify([{return_scope:'base_unit',order_item_id:item,quantity,stock_disposition:'damaged'}])}'::jsonb,
+        '${JSON.stringify([{root_source_kind:'base_order_item',root_source_id:item,source_kind:'base_order_item',source_id:item,
+          product_id:sku,quantity,sellable_restock_quantity:0,defect_non_sellable_quantity:quantity,customer_damage_quantity:0}])}'::jsonb,
+        'Trigger race return','cash',NULL,NULL);`;
+    // Earlier public validators correctly reject normal stale allocations.
+    // This isolated fault trigger substitutes a physical leaf AFTER those
+    // validators, so the independent shared capacity trigger must reject it.
+    // Aggregate logical capacity is valid: 4 original - 1 winner = 3 >= 2;
+    // substituted physical leaf capacity is only 1. No production code guard
+    // is disabled. Fault is scoped to this exact losing operation key.
+    await sql(`CREATE FUNCTION public.package_d_test_substitute_leaf() RETURNS trigger LANGUAGE plpgsql AS $$
+      BEGIN IF EXISTS(SELECT 1 FROM business_operations WHERE id=NEW.operation_id AND idempotency_key='${loserKey}') THEN
+        NEW.source_kind:='replacement_item';NEW.source_id:='${leaf}';END IF;RETURN NEW;END;$$;
+      CREATE TRIGGER trg_zy_package_d_test_substitute_leaf BEFORE INSERT ON sales_aftercare_consumptions
+      FOR EACH ROW EXECUTE FUNCTION public.package_d_test_substitute_leaf();`);
+    try {
+      const name=`d-trigger-${winnerKind}`;
+      const first=sql(`SET application_name='${name}';BEGIN;${claims}
+        SELECT pg_advisory_xact_lock(hashtextextended('phase4-order|${sold.orderId}',0));
+        SELECT pg_sleep(2);${query(winnerKind,1,winnerKey)}COMMIT;`);
+      let observed=false;
+      for(let attempt=0;attempt<100;attempt++) {
+        observed=await json(`SELECT to_jsonb(EXISTS(SELECT 1 FROM pg_stat_activity
+          WHERE application_name='${name}' AND wait_event='PgSleep'));`);
+        if(observed)break;await new Promise(resolve=>setTimeout(resolve,10));
+      }
+      assert.equal(observed,true);
+      const loserKind=winnerKind==='return'?'replacement':'return';
+      const loser=query(loserKind,2,loserKey);
+      const results=await Promise.allSettled([first,sql(claims+loser)]);
+      assert.equal(results[0].status,'fulfilled');assert.equal(results[1].status,'rejected');
+      assert.match(String(results[1].reason),/PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED/u);
+      assert.match(String(results[1].reason),/package_d_guard_physical_capacity_internal\(\)/u);
+      assert.equal(await sql(`SELECT count(*) FROM business_operations WHERE idempotency_key='${loserKey}';`),'0');
+      const committed=await json(fingerprintQuery(tables));
+      await assert.rejects(sql(claims+loser),/package_d_guard_physical_capacity_internal\(\)/u);
+      assert.deepEqual(await json(fingerprintQuery(tables)),committed);
+      const replay=await json(claims+query(winnerKind,1,winnerKey));assert.equal(replay.success,true);
+      assert.deepEqual(await json(fingerprintQuery(tables)),committed);
+      directions.push({winnerKind,loserKind,logicalCapacity:3,requested:2,physicalCapacity:1,
+        triggerRejection:true,loserZeroWrites:true,winnerReplayZeroWrite:true});
+    } finally {
+      await sql('DROP TRIGGER trg_zy_package_d_test_substitute_leaf ON sales_aftercare_consumptions; DROP FUNCTION public.package_d_test_substitute_leaf();');
+    }
+  }
+  const deadlockDelta=await deadlocks()-initial;assert.equal(deadlockDelta,0);
+  return {directions,realConcurrentConnections:true,isolatedFaultInjection:true,deadlockDelta};
+}
+
 async function proveFlavorPolicy({sql,json}) {
   const family='92400000-0000-0000-0000-000000000100';
   const a='92400000-0000-0000-0000-000000000101';const b='92400000-0000-0000-0000-000000000102';
@@ -320,16 +456,27 @@ async function proveFlavorPolicy({sql,json}) {
   // former member must not cause an impossible save or silently widen the list.
   const saved=await json(claims+`SELECT save_product_parcel_configuration_v1('${family}','configurable_mix',true,5,ARRAY['${a}']::uuid[]);`);
   assert.deepEqual(saved.allowedProductIds,[a]);
+  // Challenge the preserved three-argument public signature independently.
+  await sql(`INSERT INTO product_parcel_allowed_components(configuration_id,product_id)
+    VALUES('${settings.configuration.id}','${b}');`);
+  const shortSaved=await json(claims+`SELECT save_product_parcel_configuration_v1('${family}','configurable_mix',true);`);
+  assert.deepEqual(shortSaved.allowedProductIds,[a]);
   await sql(`UPDATE products SET is_active=true WHERE id='${b}';`);
   await sql(claims+"SELECT set_configurable_parcel_feature_state_v1('ENABLED');");
   const forbidden=[{commercial_line_kind:'configurable_parcel',family_product_id:family,
-    parcel_configuration_id:settings.configuration.id,configuration_revision:saved.configuration.configuration_revision,
+    parcel_configuration_id:settings.configuration.id,configuration_revision:shortSaved.configuration.configuration_revision,
     expected_unit_price_in_minor_units:5000,
     parcel_instances:[{components:[{product_id:b,base_quantity:5}]}]}];
   const snapshot=await json(fingerprintQuery([...tables,'promotion_codes']));
   await assert.rejects(sql(`SET ROLE anon; SELECT preview_guest_promotion_v2(${literal(JSON.stringify(forbidden))}::jsonb,NULL,NULL);`),
     /PARCEL_COMPONENT_NOT_ALLOWED/u);
   assert.deepEqual(await json(fingerprintQuery([...tables,'promotion_codes'])),snapshot);
+  for(const badId of ['not-a-uuid','',null,42,'00000000-0000-0000-0000-00000000000Z']) {
+    const malformed=structuredClone(forbidden);malformed[0].parcel_instances[0].components[0].product_id=badId;
+    await assert.rejects(sql(`SET ROLE anon; SELECT preview_guest_promotion_v2(${literal(JSON.stringify(malformed))}::jsonb,NULL,NULL);`),
+      /PARCEL_COMPONENT_INVALID/u);
+    assert.deepEqual(await json(fingerprintQuery([...tables,'promotion_codes'])),snapshot);
+  }
   await json(claims+`SELECT save_product_parcel_configuration_v1('${family}','configurable_mix',true,5,ARRAY['${a}','${b}']::uuid[]);`);
   await sql(`UPDATE products SET flavor_name_ar=CASE id WHEN '${a}' THEN 'ز' ELSE 'أ' END,
     name_ar=CASE id WHEN '${a}' THEN 'ز نكهة' ELSE 'أ نكهة' END WHERE id IN ('${a}','${b}');`);

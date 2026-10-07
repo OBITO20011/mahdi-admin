@@ -7,7 +7,7 @@ export interface ParcelConfigurationProduct {
   unitsPerParcel: number; parcelPriceInMinorUnits: number;
   configuration: {id: string; composition_mode: ParcelMode; is_active: boolean; configuration_revision: number} | null;
   allowedProductIds: string[];
-  components: {productId: string; nameAr: string; sku: string; flavorNameAr: string | null}[];
+  components: {productId: string; nameAr: string; sku: string; flavorNameAr: string | null; packetPriceInMinorUnits?: number}[];
 }
 export interface ParcelConfigurationContext {featureState: ParcelFeatureState; products: ParcelConfigurationProduct[]}
 export interface ParcelConfigurationInput {familyProductId: string; mode: ParcelMode; active: boolean; units: number; allowed: string[]}
@@ -26,7 +26,9 @@ export function parseParcelConfigurationContext(value: unknown): ParcelConfigura
     ids.add(product.familyProductId);
     const components = new Set<string>();
     for (const component of product.components) {
-      if (!component || !uuid(component.productId) || components.has(component.productId) || typeof component.nameAr !== 'string') throw Error('بيانات النكهات غير مكتملة.');
+      if (!component || !uuid(component.productId) || components.has(component.productId) || typeof component.nameAr !== 'string'
+        || (component.packetPriceInMinorUnits !== undefined && (!Number.isSafeInteger(component.packetPriceInMinorUnits)
+          || component.packetPriceInMinorUnits<0))) throw Error('بيانات النكهات غير مكتملة.');
       components.add(component.productId);
     }
     if (new Set(product.allowedProductIds).size !== product.allowedProductIds.length

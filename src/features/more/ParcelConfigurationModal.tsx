@@ -52,8 +52,15 @@ export function ParcelConfigurationModal() {
   };
   if (role !== 'owner') return <p role="alert">إعداد الطرود متاح للمالك فقط.</p>;
   const product=context?.products.find(p=>p.familyProductId===form?.familyProductId);
+  const missingCandidates=context?.products.flatMap(p=>p.configuration?.is_active
+    ? p.components.filter(c=>p.allowedProductIds.includes(c.productId) && c.packetPriceInMinorUnits===0) : []) ?? [];
+  const missingPacketPrices=missingCandidates.filter((c,index)=>missingCandidates.findIndex(other=>other.productId===c.productId)===index);
   return <div dir="rtl" aria-busy={busy} className="space-y-4 text-slate-200">
     <p className="text-xs">إعدادات البيع الجديدة للمتجر والكاشير. لا تغيّر الطرود أو الأسعار التاريخية.</p>
+    {missingPacketPrices.length>0 && <aside role="status" className="rounded-lg border border-amber-500/40 p-3 text-amber-200">
+      <p>عبّي سعر الباكيت؛ بدونه لا يُحسب خصم ضرر العميل</p>
+      <ul>{missingPacketPrices.map(c=><li key={c.productId}>{c.nameAr} — {c.sku}</li>)}</ul>
+    </aside>}
     {error && <p role="alert" className="text-red-300">{error}</p>}
     {message && <p role="status" className="text-emerald-300">{message}</p>}
     <button type="button" disabled={busy} onClick={()=>void reload()} className="rounded-lg border p-2">إعادة تحميل الإعداد</button>

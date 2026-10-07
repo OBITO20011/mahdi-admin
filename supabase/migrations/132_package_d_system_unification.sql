@@ -327,8 +327,10 @@ BEGIN
   WHERE family_product_id=p_family_product_id FOR UPDATE;
   SELECT units_per_sale_unit INTO v_units FROM public.products WHERE id=p_family_product_id;
   IF v_configuration.id IS NOT NULL AND v_configuration.composition_mode=p_composition_mode THEN
-    SELECT array_agg(product_id ORDER BY product_id) INTO v_ids
-    FROM public.product_parcel_allowed_components WHERE configuration_id=v_configuration.id;
+    SELECT array_agg(allowed.product_id ORDER BY allowed.product_id) INTO v_ids
+    FROM public.product_parcel_allowed_components allowed
+    JOIN public.products component ON component.id=allowed.product_id AND component.is_active
+    WHERE allowed.configuration_id=v_configuration.id;
   ELSE
     SELECT array_agg(product.id ORDER BY product.id) INTO v_ids FROM public.products product
     WHERE product.is_active AND CASE WHEN p_composition_mode='single_sku'
@@ -384,7 +386,8 @@ BEGIN
       JOIN public.products active_component ON active_component.id=allowed.product_id AND active_component.is_active
       WHERE allowed.configuration_id=configuration.id),'[]'::JSONB),
     'components',COALESCE((SELECT jsonb_agg(jsonb_build_object('productId',component.id,
-      'nameAr',component.name_ar,'sku',component.sku,'flavorNameAr',component.flavor_name_ar) ORDER BY component.name_ar,component.id)
+      'nameAr',component.name_ar,'sku',component.sku,'flavorNameAr',component.flavor_name_ar,
+      'packetPriceInMinorUnits',component.sale_price_in_minor_units) ORDER BY component.name_ar,component.id)
       FROM public.products component WHERE component.is_active AND
         (component.flavor_master_product_id=family.id OR component.id=family.id)),'[]'::JSONB)
     ) ORDER BY family.name_ar,family.id),'[]'::JSONB) INTO v_products
@@ -2326,6 +2329,21 @@ BEGIN
   -- Reuse the approved Phase-3 canonical line grammar and all bounded input
   -- limits.  The synthetic actor/location fields are validation-only and are
   -- never returned or persisted.
+  IF jsonb_typeof(p_lines)='array' THEN
+    FOR v_raw_line IN SELECT value FROM jsonb_array_elements(p_lines) LOOP
+      IF jsonb_typeof(v_raw_line->'parcel_instances')='array' THEN
+        FOR v_instance IN SELECT value FROM jsonb_array_elements(v_raw_line->'parcel_instances') LOOP
+          IF jsonb_typeof(v_instance->'components')='array' AND EXISTS(
+            SELECT 1 FROM jsonb_array_elements(v_instance->'components') c
+            WHERE jsonb_typeof(c->'product_id') IS DISTINCT FROM 'string'
+              OR (c->>'product_id') !~* '^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$') THEN
+            RAISE EXCEPTION USING ERRCODE='22023',
+              MESSAGE='PARCEL_COMPONENT_INVALID: هوية النكهة غير صحيحة؛ حدّث الصفحة وأعد المحاولة.';
+          END IF;
+        END LOOP;
+      END IF;
+    END LOOP;
+  END IF;
   v_request := JSONB_BUILD_OBJECT(
     'contract_version', 'phase3-sale-v1',
     'actor_scope_type', 'guest_gateway',
@@ -2441,6 +2459,14 @@ BEGIN
         ORDER BY (value->>'instance_sequence')::INTEGER
       LOOP
         v_components := v_instance->'components';
+        -- Validate all identifiers before any UUID cast (including the policy
+        -- lookup below). SQL evaluation order is not a validation boundary.
+        IF EXISTS(SELECT 1 FROM jsonb_array_elements(v_components) c
+          WHERE jsonb_typeof(c->'product_id') IS DISTINCT FROM 'string'
+            OR (c->>'product_id') !~* '^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$') THEN
+          RAISE EXCEPTION USING ERRCODE='22023',
+            MESSAGE='PARCEL_COMPONENT_INVALID: هوية النكهة غير صحيحة؛ حدّث الصفحة وأعد المحاولة.';
+        END IF;
         IF EXISTS(SELECT 1 FROM jsonb_array_elements(v_components) c WHERE NOT EXISTS(
           SELECT 1 FROM public.product_parcel_allowed_components allowed
           WHERE allowed.configuration_id=v_configuration.id AND allowed.product_id=(c->>'product_id')::uuid)) THEN
@@ -2735,7 +2761,7 @@ COMMENT ON COLUMN public.order_items.effective_standalone_unit_sale_price_snapsh
 
 CREATE FUNCTION public.package_d_capture_single_sku_price_snapshot()
 RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
-DECLARE v_type TEXT; v_phone TEXT; v_code TEXT; v_frozen TIMESTAMPTZ;
+DECLARE v_type TEXT; v_phone TEXT; v_code TEXT; v_frozen TIMESTAMPTZ; v_packet_price BIGINT;
 BEGIN
   IF TG_OP='UPDATE' THEN
     IF NEW.effective_standalone_unit_sale_price_snapshot_in_minor_units IS DISTINCT FROM
@@ -2755,6 +2781,12 @@ BEGIN
       MESSAGE='PHASE4_STANDALONE_PRICE_SERVER_AUTHORITY_REQUIRED: Caller supplied snapshot forbidden.';
   END IF;
   IF NEW.commercial_line_kind='legacy_single_sku_parcel' THEN
+    SELECT sale_price_in_minor_units INTO v_packet_price FROM public.products
+    WHERE id=NEW.product_id AND is_active AND NOT is_flavor_master FOR SHARE;
+    -- A missing standalone packet price is not a missing carton price. Keep
+    -- the nullable evidence absent; only CUSTOMER_DAMAGE requires this fact.
+    -- Do not catch unrelated pricing/promotion/authority errors.
+    IF FOUND AND v_packet_price=0 THEN RETURN NEW; END IF;
     SELECT op.operation_type, c.phone, o.promotion_code_snapshot, op.completed_at
       INTO v_type,v_phone,v_code,v_frozen
     FROM public.orders o JOIN public.business_operations op ON op.id=o.operation_id

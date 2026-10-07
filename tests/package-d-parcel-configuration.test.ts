@@ -10,6 +10,10 @@ test('parcel settings retain authoritative identity, cost-independent price and 
   for(const value of [{...data,featureState:'on'},{...data,products:[product,product]},
     {...data,products:[{...product,allowedProductIds:[child,child]}]},
     {...data,products:[{...product,unitsPerParcel:null}]}]) assert.throws(()=>parseParcelConfigurationContext(value));
+  for(const price of [-1,1.5,NaN]) assert.throws(()=>parseParcelConfigurationContext({...data,products:[{
+    ...product,components:[{...product.components[0],packetPriceInMinorUnits:price}]}]}));
+  assert.doesNotThrow(()=>parseParcelConfigurationContext({...data,products:[{
+    ...product,components:[{...product.components[0],packetPriceInMinorUnits:0}]}]}));
 });
 test('configuration rejects wrong family, unknown or duplicate flavor, empty active capacity and invalid mode',()=>{
   const good={familyProductId:family,mode:'configurable_mix' as const,active:true,units:5,allowed:[child]};

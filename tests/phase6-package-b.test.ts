@@ -82,6 +82,8 @@ test('Arabic messages preserve recovery semantics and expose unknown diagnostic 
   assert.match(checkoutErrorMessage('OUTCOME_UNKNOWN', true), /نفس المحاولة/u);
   assert.doesNotMatch(checkoutErrorMessage('timeout', false), /نفس المحاولة|المحاولة المحفوظة/u);
   assert.match(checkoutErrorMessage('PHASE3_UNKNOWN_ERROR'), /رمز: PHASE3_UNKNOWN_ERROR/u);
+  assert.match(checkoutErrorMessage('PARCEL_COMPONENT_NOT_ALLOWED'), /النكهات.*مسموحة/u);
+  assert.doesNotMatch(checkoutErrorMessage('PARCEL_COMPONENT_NOT_ALLOWED'), /رمز:|المحاولة المحفوظة/u);
 });
 
 test('return draft rejects changed quantity, missing/replaced identity and product/parent drift', () => {

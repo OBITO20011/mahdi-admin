@@ -1318,7 +1318,8 @@ export function CheckoutModal({
                   </div>
                   {promotionError && (
                     <p className="mt-2 text-[10px] font-bold text-rose-600">
-                      {promotionError}
+                      {promotionError.includes('PARCEL_COMPONENT_NOT_ALLOWED')
+                        ? checkoutErrorMessage(promotionError) : promotionError}
                     </p>
                   )}
                   {activePromotionQuote && (

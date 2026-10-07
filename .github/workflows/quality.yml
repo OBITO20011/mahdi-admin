@@ -81,12 +81,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
       - name: Checkout repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          # The before-mode probe reads the reviewed prior132 Git bytes; keep
+          # this evidence available after later commits too, not just HEAD^.
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
@@ -111,6 +115,10 @@ jobs:
       - name: Run Phase 3 on current132 after historical fixtures
         if: matrix.suite == 'phase3'
         run: npm run test:phase3-contracts:runtime
+
+      - name: Rerun basic Phase 3 SQL fixture after132 on fresh schema
+        if: matrix.suite == 'phase3-basic'
+        run: node scripts/testing/run-phase3-basic-current-runtime.mjs
 
       - name: Run Phase 4.2 on current132 after historical fixtures
         if: matrix.suite == 'phase42'
