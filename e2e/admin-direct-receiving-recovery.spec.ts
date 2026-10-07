@@ -106,7 +106,7 @@ const installIsolatedBackend = async (
     if (path === '/rest/v1/branches') return fulfillJson(route, [branch]);
     if (path === '/rest/v1/rpc/search_admin_products') return fulfillJson(route, [product]);
 
-    if (path === '/rest/v1/rpc/create_direct_supplier_receipt') {
+    if (path === '/rest/v1/rpc/create_direct_supplier_receipt_v2') {
       createCallCount += 1;
       createBodies.push((request.postDataJSON() || {}) as Record<string, unknown>);
       return fulfillJson(route, {
@@ -170,6 +170,12 @@ const submitAndWaitForResolver = async (page: Page, backend: IsolatedBackend) =>
   expect(String(backend.createBodies[0]?.p_idempotency_key)).toMatch(
     /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/iu,
   );
+  const lines=backend.createBodies[0]?.p_lines as Array<Record<string,unknown>>;
+  expect(lines).toHaveLength(1);
+  expect(lines[0]).toMatchObject({line_kind:'base_unit',commercial_quantity:5});
+  expect(String(lines[0].client_line_id)).toMatch(/^[0-9a-f-]{36}$/iu);
+  expect(backend.createBodies[0]).not.toHaveProperty('p_items');
+  expect(lines[0]).not.toHaveProperty('update_product_defaults');
 };
 
 const expectBlockedReviewState = async (page: Page) => {

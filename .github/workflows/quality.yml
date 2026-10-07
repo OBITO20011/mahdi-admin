@@ -81,7 +81,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -113,6 +113,10 @@ jobs:
       - name: Prove supplier PO financial paths before132 and after133
         if: matrix.suite == 'supplier-ledger'
         run: npm run test:package-e:supplier
+
+      - name: Prove closing presentation and fallback before132 and after133
+        if: matrix.suite == 'closing'
+        run: npm run test:package-e:closing
 
       - name: Prove Package D before and after on real historical fixtures
         if: matrix.suite == 'before-after'

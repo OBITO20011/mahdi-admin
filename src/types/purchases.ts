@@ -131,6 +131,7 @@ export interface CreatePurchaseOrderInput {
 }
 
 export interface ReceivePurchaseOrderInput {
+  idempotencyKey: string;
   purchaseOrderId: string;
   warehouseId?: string;
   supplierDeliveryNote?: string;
@@ -140,6 +141,7 @@ export interface ReceivePurchaseOrderInput {
     productId: string;
     receivedQuantity: number;
     unitCost: number; // JOD
+    baseUnitName?: string;
   }[];
 }
 

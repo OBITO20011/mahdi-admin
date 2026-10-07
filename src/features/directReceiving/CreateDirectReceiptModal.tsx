@@ -225,6 +225,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       discountJod: number;
     } = {
       tempId: `${prod.id}-${Date.now()}`,
+      clientLineId: crypto.randomUUID(),
       productId: prod.id,
       productName: prod.nameAr,
       productSku: prod.sku,
@@ -236,7 +237,6 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       packageQuantity: 1, // Whole package INT
       unitsPerPackage: unitsPerPackage, // Whole package INT
       packagePriceInMinorUnits: jodToMinorUnits(defaultPkgPrice),
-      updateProductDefaults: true,
       discountInMinorUnits: 0,
       pkgPriceJod: defaultPkgPrice,
       discountJod: 0,
@@ -296,8 +296,6 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         const maxDiscount = item.packageQuantity * item.pkgPriceJod;
         item.discountJod = Math.min(maxDiscount, Math.max(0, Number(value) || 0));
         item.discountInMinorUnits = jodToMinorUnits(item.discountJod);
-      } else if (field === 'updateProductDefaults') {
-        item.updateProductDefaults = Boolean(value);
       } else if (field === 'batchNumber') {
         item.batchNumber = value;
       } else if (field === 'productionDate') {
@@ -446,6 +444,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         internalNotes: internalNotes.trim() || undefined,
         idempotencyKey: idempotencyKeyRef.current,
         items: items.map((item) => ({
+          clientLineId: item.clientLineId,
           productId: item.productId,
           purchaseUnitId: item.purchaseUnitId,
           baseUnitId: item.baseUnitId,
@@ -454,7 +453,6 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
           packageQuantity: Math.floor(item.packageQuantity), // Strict Integer
           unitsPerPackage: Math.floor(item.unitsPerPackage), // Strict Integer
           packagePriceInMinorUnits: jodToMinorUnits(item.pkgPriceJod),
-          updateProductDefaults: Boolean(item.updateProductDefaults),
           discountInMinorUnits: jodToMinorUnits(item.discountJod),
           batchNumber: item.batchNumber,
           productionDate: item.productionDate,
@@ -1048,24 +1046,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                       </div>
                     </div>
 
-                    {/* Checkbox: Update as new default purchase price */}
-                    <div className="flex items-center gap-2 text-[10px]">
-                      <input
-                        type="checkbox"
-                        id={`update-default-${item.tempId}`}
-                        checked={Boolean(item.updateProductDefaults)}
-                        onChange={(e) =>
-                          updateItemField(index, 'updateProductDefaults', e.target.checked)
-                        }
-                        className="w-3.5 h-3.5 rounded bg-slate-950 border-slate-700 text-blue-600 focus:ring-blue-500 cursor-pointer"
-                      />
-                      <label
-                        htmlFor={`update-default-${item.tempId}`}
-                        className="text-slate-300 cursor-pointer hover:text-white select-none"
-                      >
-                        حفظ وحدة الشراء ومحتوى الطرد وسعر الشراء كبيانات افتراضية للصنف
-                      </label>
-                    </div>
+                    <p className="text-[10px] text-slate-400">الاستلام لا يغيّر أسعار البيع أو افتراضيات الصنف. عدّلها من شاشة الصنف.</p>
                     </details>
                   </div>
                 </div>

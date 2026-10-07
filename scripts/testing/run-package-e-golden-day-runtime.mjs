@@ -14,6 +14,7 @@ const cli = path.join(root, 'node_modules/supabase/dist/supabase.js');
 const id = suffix => `92600000-0000-4000-8000-${String(suffix).padStart(12, '0')}`;
 const owner = id(1), branch = id(200), warehouse = id(201);
 const a = id(101), b = id(102), c = id(103), family = id(100);
+const cancelProduct=id(104);
 const q = value => value === null ? 'NULL' : `'${String(value).replaceAll("'", "''")}'`;
 const j = value => `${q(JSON.stringify(value))}::jsonb`;
 const today = "(NOW() AT TIME ZONE 'Asia/Amman')::date";
@@ -40,6 +41,8 @@ const ownerRpc = text => json(asOwner(`SELECT public.${text};`));
 const gatewayRpc = text => json(asGateway(`SELECT public.${text};`));
 const check = (field, expected, actual) => equalFact(field, expected, actual, stage);
 const report = () => ownerRpc(`get_operational_business_report(${q(branch)},${today},${today})`);
+const supplierDue=()=>[...ledger.suppliers.values()].reduce((sum,value)=>sum+Math.max(value,0),0);
+const supplierAdvances=()=>[...ledger.suppliers.values()].reduce((sum,value)=>sum+Math.max(-value,0),0);
 const purchaseLine = (productId, quantity, cost, poItemId = null) => ({client_line_id: randomUUID(),
   purchase_order_item_id: poItemId, line_kind: 'base_unit', commercial_quantity: quantity,
   base_unit_name: 'باكيت', gross_amount_in_minor_units: quantity * cost, line_discount_in_minor_units: 0,
@@ -83,7 +86,8 @@ async function verifyFinancial(label, withMonitoring = true) {
   check('operational.expenses.cliq', ledger.cliqExpense, actual.expenses.cliqInMinorUnits);
   check('operational.expenses.total', ledger.cashExpense + ledger.cliqExpense, actual.expenses.totalInMinorUnits);
   check('operational.customerDue', ledger.sales.outstandingInMinorUnits, actual.balances.customerDueInMinorUnits);
-  check('operational.supplierDue', [...ledger.suppliers.values()].reduce((sum,value)=>sum+value,0), actual.balances.supplierDueInMinorUnits);
+  check('operational.supplierDue',supplierDue(),actual.balances.supplierDueInMinorUnits);
+  check('operational.supplierAdvances',supplierAdvances(),actual.balances.supplierAdvancesInMinorUnits);
   const summary = await ownerRpc(`get_cash_shift_summary(${q(shiftId)})`);
   check('shift.summary.expectedCash', ledger.drawer, summary.expectedCashInMinorUnits);
   check('shift.summary.cashInflows', ledger.cash, summary.cashSalesInMinorUnits + summary.cashReceiptsInMinorUnits);
@@ -120,6 +124,7 @@ async function directReceive(supplier, lines, paid = 0) {
     {operationId:result.operation_id,referenceType:'supplier_receipt',referenceId:result.receipt_id});
   ledger.suppliers.set(supplier, (ledger.suppliers.get(supplier) ?? 0) + lines.reduce((sum,row) => sum + row.cost * row.quantity,0) - paid);
   ledger.cashSupplier += paid;
+  return result;
 }
 
 async function pos(format, method, configuration) {
@@ -242,6 +247,13 @@ try {
   assert.equal(supplierHash,state.migration133CanonicalLfSha256,'Golden day must exercise the actual approved133');
   stage = 'catalog setup';
   await sql(await readFile(path.join(root,'scripts/testing/package-e-golden-day-fixture.sql'),'utf8'));
+  await sql(`INSERT INTO suppliers(id,company_name,is_active) VALUES
+    (${q(id(303))},'مورد مقدّم دون استلام',true),(${q(id(304))},'مورد سند للإلغاء',true);
+    INSERT INTO products(id,sku,name_ar,category_id,unit_id,purchase_unit_id,sale_unit_id,
+      units_per_purchase_unit,units_per_sale_unit,default_purchase_price_in_minor_units,default_sale_price_in_minor_units,
+      cost_price_in_minor_units,sale_price_in_minor_units,wholesale_price_in_minor_units,min_stock_level,is_active,is_flavor_master,wac_cost_in_minor_units_exact)
+    SELECT ${q(cancelProduct)},'E-CANCEL','صنف إلغاء مستقل',category_id,unit_id,purchase_unit_id,sale_unit_id,
+      1,1,0,1000,0,1000,1000,0,true,false,0 FROM products WHERE id=${q(c)};`);
   const opened = await ownerRpc(`open_cash_shift(${q(branch)},${ledger.openingCash})`);
   shiftId = opened.id;assert.ok(shiftId);
   const configured = await ownerRpc(`save_product_parcel_configuration_v1(${q(family)},'configurable_mix',true,5,ARRAY[${q(a)},${q(b)}]::uuid[])`);
@@ -255,16 +267,42 @@ try {
     p_idempotency_key:=${q(`e-po-${randomUUID()}`)},p_lines:=${j([poLine])})`);
   await ownerRpc(`update_purchase_order_status(${q(po.purchase_order_id)},'sent')`);
   await ownerRpc(`update_purchase_order_status(${q(po.purchase_order_id)},'approved')`);
+  await ownerRpc(`record_supplier_payment(p_supplier_id:=${q(id(302))},p_purchase_order_id:=${q(po.purchase_order_id)},
+    p_amount_in_minor_units:=20000,p_payment_method:='cash',p_idempotency_key:=${q(`e-advance-${randomUUID()}`)})`);
+  ledger.suppliers.set(id(302),-20000);ledger.cashSupplier+=20000;
+  await verifyFinancial('supplier advance BEFORE receipt');
   const poItem = await json(`SELECT to_jsonb(id) FROM purchase_order_items WHERE purchase_order_id=${q(po.purchase_order_id)};`);
   const received = await ownerRpc(`receive_purchase_order_v2(p_purchase_order_id:=${q(po.purchase_order_id)},p_warehouse_id:=${q(warehouse)},
     p_idempotency_key:=${q(`e-po-receive-${randomUUID()}`)},p_payment_method:='deferred',
     p_lines:=${j([purchaseLine(a,100,600,poItem)])})`);
   check('po.received',true,received.success);
   ledger.acquire(a,100,60000n * 1000000n,{operationId:received.operation_id,referenceType:'purchase_receipt',referenceId:received.receipt_id});
-  ledger.suppliers.set(id(302),60000);
+  ledger.suppliers.set(id(302),40000);
   await ownerRpc(`record_supplier_payment(p_supplier_id:=${q(id(302))},p_purchase_order_id:=${q(po.purchase_order_id)},
     p_amount_in_minor_units:=5000,p_payment_method:='cash',p_idempotency_key:=${q(`e-supplier-${randomUUID()}`)})`);
-  ledger.suppliers.set(id(302),55000);ledger.cashSupplier += 5000;
+  ledger.suppliers.set(id(302),35000);ledger.cashSupplier += 5000;
+  stage='supplier with retained advance and no receipt';
+  const advancePo=await ownerRpc(`create_purchase_order_v2(p_supplier_id:=${q(id(303))},p_branch_id:=${q(branch)},p_warehouse_id:=${q(warehouse)},
+    p_idempotency_key:=${q(randomUUID())},p_lines:=${j([purchaseLine(b,50,600)])})`);
+  await ownerRpc(`update_purchase_order_status(${q(advancePo.purchase_order_id)},'sent')`);
+  await ownerRpc(`update_purchase_order_status(${q(advancePo.purchase_order_id)},'approved')`);
+  await ownerRpc(`record_supplier_payment(p_supplier_id:=${q(id(303))},p_purchase_order_id:=${q(advancePo.purchase_order_id)},
+    p_amount_in_minor_units:=10000,p_payment_method:='cash',p_idempotency_key:=${q(randomUUID())})`);
+  ledger.suppliers.set(id(303),-10000);ledger.cashSupplier+=10000;
+  stage='partially paid direct receipt cancellation';
+  const cancelled=await directReceive(id(304),[{id:cancelProduct,quantity:10,cost:200}],500);
+  await verifyFinancial('partially paid receipt BEFORE cancellation');
+  const cancellationCommand=`cancel_supplier_receipt(${q(cancelled.receipt_id)},'إلغاء سند مدفوع جزئياً')`;
+  const cancellation=await ownerRpc(cancellationCommand);
+  check('cancel.success',true,cancellation.success);
+  check('cancel.onlyActiveOwnedPayments',500,cancellation.payments_marked_reversed_in_minor_units);
+  ledger.consume(cancelProduct,10,{operationId:cancellation.reversal_operation_id,
+    referenceType:'supplier_receipt_cancellation',referenceId:cancelled.receipt_id});
+  ledger.stock(cancelProduct).costMicro=0n; // independent opening quantity/cost were zero.
+  ledger.suppliers.set(id(304),0);ledger.cashSupplier-=500;
+  const cancelFingerprint=await fingerprint();
+  assert.deepEqual(await ownerRpc(cancellationCommand),cancellation);
+  assert.deepEqual(await fingerprint(),cancelFingerprint,'Cancellation replay must be zero-write');
   await verifyFinancial('receiving and supplier payment');
 
   const sales = {};
@@ -340,7 +378,7 @@ try {
       WHERE balance.warehouse_id=${q(warehouse)} AND balance.product_id=${q(product)};`);
     check(`inventory.${product}.quantity`,expected.quantity,current.quantity);
     check(`inventory.${product}.reserved`,0,current.reserved);
-    check(`inventory.${product}.wac`,decimalMicro(expected.costMicro),current.wac);
+    check(`inventory.${product}.wac`,product===cancelProduct?null:decimalMicro(expected.costMicro),current.wac);
     const actualMoves = await json(`SELECT jsonb_agg(jsonb_build_object('quantity',quantity,'before',balance_before,'after',balance_after,
       'operationId',operation_id,'referenceType',reference_type,'referenceId',reference_id)
       ORDER BY mutation_sequence) FROM inventory_movements WHERE warehouse_id=${q(warehouse)} AND product_id=${q(product)};`);
@@ -356,10 +394,13 @@ try {
   assert.equal(inventoryValueMicro,ledger.movements.reduce((sum,move)=>sum+move.valueMicro,0n)+ledger.inventoryRoundingMicro,
     'Quantity/value ledger reconciliation includes the exact canonical six-decimal WAC rounding residual');
   check('operational.inventory.valueInMinorUnits',roundedMinor(inventoryValueMicro),finalReport.inventory.valueInMinorUnits);
-  check('report.supplierDue', [...ledger.suppliers.values()].reduce((sum,value) => sum + value,0),finalReport.balances.supplierDueInMinorUnits);
+  check('report.supplierDue',supplierDue(),finalReport.balances.supplierDueInMinorUnits);
+  check('report.supplierAdvances',supplierAdvances(),finalReport.balances.supplierAdvancesInMinorUnits);
   const daily = await gatewayRpc(`build_business_summary('daily',${today},${today},NOW())`);
   for (const [key,value] of Object.entries(ledger.sales)) check(`daily.sales.${key}`,value,daily.sales[key]);
   for (const [key,value] of Object.entries(ledger.flows)) check(`daily.cashFlow.${key}`,value,daily.cashFlow[key]);
+  check('daily.supplierDue',supplierDue(),daily.balances.supplierDueInMinorUnits);
+  check('daily.supplierAdvances',supplierAdvances(),daily.balances.supplierAdvancesInMinorUnits);
   const home = await ownerRpc('get_home_dashboard()');
   check('home.financialFactsStatus','available',home.financialFactsStatus);
   check('home.todayGross',ledger.sales.grossSalesInMinorUnits,home.summary.todaySalesInMinorUnits);
@@ -367,6 +408,8 @@ try {
   check('home.monthNet',ledger.sales.netSalesInMinorUnits,home.summary.monthNetSalesInMinorUnits);
   check('home.monthProfit',ledger.sales.netProfitInMinorUnits,home.summary.monthProfitInMinorUnits);
   check('home.customerDue',ledger.sales.outstandingInMinorUnits,home.summary.customerReceivablesInMinorUnits);
+  check('home.supplierDue',supplierDue(),home.summary.supplierPayablesInMinorUnits);
+  check('home.supplierAdvances',supplierAdvances(),home.summary.supplierAdvancesInMinorUnits);
   const readFingerprint = await fingerprint();
   await report();await ownerRpc('get_home_dashboard()');
   assert.deepEqual(await fingerprint(),readFingerprint,'Financial readers must not rewrite state');
@@ -392,8 +435,9 @@ try {
   assert.deepEqual(await ownerRpc(`get_cash_shift_closing_report(${q(shiftId)})`),closed,'Closed report is immutable');
   await verifyFinancial('closed shift, final reports and integrity');
   console.log(JSON.stringify({ok:true,freshRebuild:'001-133',migration132:hash,migration133:supplierHash,stage,
-    goldenDay:{sales:ledger.sales,cashFlow:ledger.flows,drawer:ledger.drawer,inventory:Object.fromEntries(
-      [...ledger.inventory].map(([key,value]) => [key,{quantity:value.quantity,wac:decimalMicro(value.costMicro),
+    goldenDay:{sales:ledger.sales,cashFlow:ledger.flows,drawer:ledger.drawer,
+      suppliers:{due:supplierDue(),advances:supplierAdvances(),balances:Object.fromEntries(ledger.suppliers)},inventory:Object.fromEntries(
+      [...ledger.inventory].map(([key,value]) => [key,{quantity:value.quantity,wac:key===cancelProduct?null:decimalMicro(value.costMicro),
         valueMicro:(value.costMicro*BigInt(value.quantity)).toString()}]))},
     milestones,publicRpc:true,committedReplayZeroWrite:true,readerZeroWrite:true,productionAccess:0},null,2));
 } catch (error) {

@@ -2,6 +2,11 @@
 
 Append only concise, secret-free handoff summaries here when a task materially changes ownership. Machine-verifiable current state belongs in `ACTIVE_TASK.json`; Git remains the code history.
 
+## 2026-10-07 — 133 corrective priority; E2 preserved (codex)
+
+- Owner authorized correcting133 in place before134/E2/E3; no Production/deploy.134 indexes and home-only verify-evidence=false approved afterward; monthly/daily remain strict and p95>3s stops.
+- Preflight/resume PASS, old E2 checkpoint preserved. Source review proved an existing receiving option saves product defaults (and V1 also sale price), absent fromV2. Owner explicitly requires stop on such a missing capability; decision recorded in PACKAGE_E_133_CORRECTION.md. No DB/business implementation started; no owned runtime resources.
+
 ## 2026-10-07 — Package D owner closure; Package E planning authorization
 
 - Owner closed D at `f58c9556f55222698629d881a59ec1d387c5e978`; exact push/main quality37576896581 (12/12) and secrets37576896555 independently rechecked PASS.
@@ -50,3 +55,9 @@ Append only concise, secret-free handoff summaries here when a task materially c
 - Final corrected-candidate quality: Admin 684/684, Customer 189/189, lint/build/SEO and isolation PASS; browser 234 PASS, 51 existing conditional skips, one WebKit timeout at `guided-store-assistant.spec.ts:50`. Trace: trigger stability wait about 42s; root cause unproven. Fresh isolated exact scenario passed 1/1 with retries0, without source changes; this does not turn the full gate into PASS. Commit/push/CI not performed; owner review before expanding beyond package C.
 - Owner-authorized comparison: exact first assistant scenario (definition line38, failed click line50) repeat10/WebKit/workers2/retries0: current 10/10 PASS (2.9m), detached b3eda6f baseline 10/10 PASS (3.4m), failure rates 0%/0%. Baseline tracked tree remained clean; dependencies were junctions to the same installed versions. Runs sequential, fresh owned servers, no source/test alteration. The two Escape presses belong to scenario2 and cart interaction to scenario3. Root cause remains unproven; no code/test fix is justified by this comparison. Owner authorized one subsequent complete quality run, with no commit until PASS.
 - Escape/cart scenarios passed 2/2 on WebKit. Owner-authorized final complete quality PASS (exit0): Admin684/684, Customer189/189, lint/build/SEO/isolation, Browser235 PASS/51 existing conditional skips/retries0 (6.1m). Previously failing assistant passed inside this complete run. No assistant code/test or timeout/retry changes. Diagnostic worktree removed cleanly; package C delivery/CI is the remaining authorized step.
+
+## 2026-10-07 — Package E133 correction (codex)
+
+- Owner V1 policy implemented without speculative invoice allocation; audited supplier recalculation, V2-only receiving/product invariance, payment caps/cancellation/lock wrapper, positive debt vs advance readers, safe closing fallback.133 LF hash `DFEC2F59FE9745B97ECAAB21904700445E81B70323E720A2B580984AC56B38D6`;001–132 unchanged.
+- DB before21/after41 +3 real historical fixtures PASS; closing/fallback and expanded golden day PASS; DB lint16 known compatibility warnings. Final quality exit0:697 Admin including4 E2 draft tests,267 browser/59 existing conditional skips/retries0, isolated builds/network escaped0. Focused closing6/6 and receiving4/4. Gitleaks42 files exit0. No owned DB/listeners, Production/deploy0.
+- E2's6 draft files preserved in named Git stash, not discarded, to keep133 commit separate. Deliver correction/exact-SHA CI, then official new task at the clean baseline, restore the draft and implement approved134/E2. Stop if monthly/daily p95>3s; E3/F/Phase7 not started.

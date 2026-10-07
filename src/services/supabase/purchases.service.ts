@@ -14,6 +14,7 @@ import {
   PurchaseReceipt,
 } from '../../types/purchases';
 import { Supplier } from '../../types';
+import {purchaseReceiptV2Lines} from '../../utils/receivingV2';
 
 // Helper: Convert minor units (fils) to JOD (1 JOD = 1000 fils)
 const minorToJod = (fils: number | null | undefined): number => {
@@ -750,26 +751,21 @@ export async function approvePurchaseOrderInSupabase(
  * Receive goods for purchase order via RPC receive_purchase_order
  */
 export async function receivePurchaseOrderInSupabase(
-  input: ReceivePurchaseOrderInput
+  request: ReceivePurchaseOrderInput
 ): Promise<{ success: boolean; receiptId?: string; receiptNumber?: string; message?: string; error?: string }> {
   if (!isSupabaseConfigured || !supabase) {
     return { success: false, error: 'Supabase is not configured' };
   }
 
   try {
-    const p_items = input.items.map((item) => ({
-      purchase_order_item_id: item.purchaseOrderItemId,
-      product_id: item.productId,
-      received_quantity: item.receivedQuantity,
-      unit_cost_in_minor_units: jodToMinor(item.unitCost),
-    }));
-
-    const { data, error } = await supabase.rpc('receive_purchase_order', {
+    const input = structuredClone(request);
+    const { data, error } = await supabase.rpc('receive_purchase_order_v2', {
       p_purchase_order_id: input.purchaseOrderId,
       p_warehouse_id: input.warehouseId || null,
       p_supplier_delivery_note: input.supplierDeliveryNote || null,
       p_notes: input.notes || null,
-      p_items,
+      p_idempotency_key: input.idempotencyKey,
+      p_lines: purchaseReceiptV2Lines(input.items),
     });
 
     if (error) {

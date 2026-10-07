@@ -33,7 +33,12 @@ push/main quality37576896581 (12/12) and secrets37576896555 PASS.
 Current authorization: implement Package E golden-day reconciliation as permanent CI,
 then manual scale measurements and test cleanup; each part permits commit/push.
 Owner approved133 for supplier direct/PO receipts minus active payments,
-including advances, reversals, cancellation and monitoring; no live backfill.
+including advances, reversals, cancellation and monitoring. The later owner
+correction authorizes one-time supplier balance recalculation with old/new audit,
+without rewriting historical invoices or inventory. Legacy PO V1 uses recorded
+receipt cost, except an exact fully received matching PO uses its final net total
+once; adjusted partial/mismatched POs retain recorded cost and manual-review evidence.
+Production access remains prohibited.
 The owner additionally approved133's closing reader/UI: preserve Cash/CliQ
 sales, vouchers, counters and reconciliation; show first voucher payments
 separately, sale-time remaining credit, and gross including both. Old closed

@@ -151,6 +151,8 @@ export async function fetchOperationalBusinessReportFromSupabase(
       customerDue: moneyValue(balances.customerDueInMinorUnits),
       supplierCount: numberValue(balances.supplierCount),
       supplierDue: moneyValue(balances.supplierDueInMinorUnits),
+      ...(balances.supplierAdvancesInMinorUnits !== undefined
+        ? {supplierAdvances: moneyValue(balances.supplierAdvancesInMinorUnits)} : {}),
     },
     inventory: {
       stockedProducts: numberValue(inventory.stockedProducts),

@@ -316,6 +316,7 @@ export const ReportsCenterView: React.FC = () => {
             <summary className="cursor-pointer rounded-xl border border-slate-700 bg-slate-900 p-3 font-bold text-slate-200">تفاصيل</summary>
             <section className="grid grid-cols-2 gap-2 text-xs">
               <MetricCard label="ذمم الموردين" value={money(report.balances.supplierDue)} hint={`${report.balances.supplierCount} مورد لهم رصيد`} icon={Truck} tone="violet" />
+              {report.balances.supplierAdvances !== undefined && <MetricCard label="دفعات مقدّمة للموردين" value={money(report.balances.supplierAdvances)} hint="أرصدة سالبة منفصلة؛ لا تُخصم من ذمم موردين آخرين" icon={Truck} tone="emerald" />}
               <MetricCard label="تكلفة البيع الأصلية" value={money(report.sales.cogs)} hint="COGS التاريخي لا يعاد تسعيره" icon={Boxes} tone="blue" />
               <MetricCard label="تكلفة الاستبدال" value={money(report.sales.replacementCost)} hint="من تكلفة الإصدار المحفوظة" icon={Boxes} tone="amber" />
               <MetricCard label="استرجاع التكلفة" value={money(report.sales.restockRecovery)} hint="للمخزون القابل للبيع فقط، بتكلفة القطعة الحالية التاريخية" icon={PackageCheck} tone="emerald" />

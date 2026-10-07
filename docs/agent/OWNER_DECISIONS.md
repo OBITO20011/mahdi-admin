@@ -75,10 +75,22 @@ reconciliation and every old closed snapshot. Stop at any fourth numeric gap.
 
 Supplier balance equals active direct and PO receipts minus every active payment.
 PO advance payment creates supplier credit (negative balance) until receiving.
-Payment, receiving-time payment, reversal and receipt cancellation must apply
-each committed movement once. Migration133 is authorized only for these actual
-operational paths and their monitoring reader. No live backfill is authorized;
-the owner states Production has no PO V2 receipts. Production remains off limits.
+Payment, receiving-time payment, reversal and receipt cancellation apply each
+movement once. Updated owner correction authorizes133 to recalculate every
+supplier once from receipt/payment evidence with old/new audit, replacing the
+earlier no-backfill limitation. Production remains off limits. Legacy PO V1
+without a payable snapshot uses recorded receipt cost only. Exact fully received,
+non-cancelled matching PO/item receipts use final net PO payable once, without
+per-receipt allocation. Partial/price-mismatched adjusted POs retain recorded
+cost and an audited manual-review flag/potential difference. V2 snapshot113
+is unchanged; the rehearsal count query is read-only and not run on Production.
+
+Owner option1: new receiving uses V2 only and never saves product defaults or
+sale/default-sale prices. Defaults stay in the existing product editor; WAC/cost
+changes remain in the existing helper. New PO payments are capped at PO payable.
+Positive supplier debts and negative advances are reported separately.134 is
+authorized after133 for the two operation_id indexes and home-only evidence
+verification=false; monthly/daily remain strict and p95>3s stops for review.
 
 - Planned Phase 5 scope is reversal, operational accounting integration, reports/profit/payment reconciliation.
 - Double-entry General Ledger and Balance Sheet are optional/deferred, not required to close the core project.

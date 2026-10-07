@@ -2,7 +2,7 @@
  * Nawasrah Business Manager - Goods Receiving (GRN) Modal Component
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
 import { useAppStoreSelector, storeEngine } from '../../stores/useAppStore';
 import { PurchaseOrder, ReceivePurchaseOrderInput } from '../../types/purchases';
@@ -49,7 +49,12 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({
   const [items, setItems] = useState<ReceiveRow[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const idempotencyKey = useRef(crypto.randomUUID());
   const panel = useDialogFocus(isOpen, () => { if (!isSubmitting) onClose(); }, true);
+
+  useEffect(() => {
+    if (isOpen && po?.id) idempotencyKey.current = crypto.randomUUID();
+  }, [isOpen, po?.id]);
 
   useEffect(() => {
     if (isOpen && po) {
@@ -122,6 +127,7 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({
     try {
 
       const input: ReceivePurchaseOrderInput = {
+        idempotencyKey: idempotencyKey.current,
         purchaseOrderId: po.id,
         warehouseId: selectedWarehouseId,
         supplierDeliveryNote: supplierDeliveryNote.trim() || undefined,
@@ -133,6 +139,7 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({
             productId: i.productId,
             receivedQuantity: i.thisReceiptQuantity,
             unitCost: i.unitCost,
+            baseUnitName: i.unit,
           })),
       };
 

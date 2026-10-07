@@ -172,6 +172,8 @@ export const ShiftClosingReportModal: React.FC<
             </section>
           )}
 
+          {report.salesDetailStatus === 'unavailable' && <p role="status" className="text-xs text-amber-300">تفصيل غير متاح؛ أرقام الصندوق والإغلاق محفوظة، ولا يُفترض توزيع مبيعات غير مثبت.</p>}
+
           <section className="grid grid-cols-3 gap-2">
             <div className="rounded-xl border border-emerald-900/70 bg-emerald-950/30 p-3">
               <Banknote className="mb-1 h-4 w-4 text-emerald-400" />
@@ -183,14 +185,16 @@ export const ShiftClosingReportModal: React.FC<
               <span className="block text-[10px] text-slate-400">مبيعات CliQ</span>
               <b className="text-cyan-300">{money(report.shift.totalCliqSales)}</b>
             </div>
-            <div className="rounded-xl border border-indigo-900/70 bg-indigo-950/30 p-3">
+            {(report.sales.salesDefinitionVersion === 133 || report.shift.totalCardSales !== 0) && <div className="rounded-xl border border-indigo-900/70 bg-indigo-950/30 p-3">
               <WalletCards className="mb-1 h-4 w-4 text-indigo-400" />
               <span className="block text-[10px] text-slate-400">
                 {report.sales.salesDefinitionVersion === 133 ? 'آجل متبقي' : 'مبيعات بطاقة'}
               </span>
               <b className="text-indigo-300">{money(report.sales.creditSales ?? report.shift.totalCardSales)}</b>
-            </div>
+            </div>}
           </section>
+
+          {report.sales.salesDefinitionVersion === 133 && report.shift.totalCardSales !== 0 && <p className="text-xs text-indigo-300">مبيعات بطاقة (تاريخية): {money(report.shift.totalCardSales)}</p>}
 
           {report.sales.salesDefinitionVersion === 133 && (
             <section className="space-y-2 rounded-xl border border-indigo-900/70 bg-indigo-950/30 p-3">

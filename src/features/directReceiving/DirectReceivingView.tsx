@@ -524,8 +524,8 @@ export const DirectReceivingView: React.FC = () => {
                 </div>
 
                 <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex items-center justify-between text-xs font-bold pt-2">
-                  <span className="text-slate-400">الرصيد/المستحقات الحالية:</span>
-                  <span className="text-rose-400 font-extrabold">{sup.currentBalance} {CURRENCY}</span>
+                  <span className="text-slate-400">{sup.currentBalance < 0 ? 'دفعة مقدّمة:' : 'المستحقات الحالية:'}</span>
+                  <span className={`font-extrabold ${sup.currentBalance < 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{Math.abs(sup.currentBalance).toFixed(3)} {CURRENCY}</span>
                 </div>
               </div>
             ))}

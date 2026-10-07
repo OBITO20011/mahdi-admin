@@ -1,6 +1,7 @@
 -- Owner-approved Package E correction. Active supplier balance:
 -- completed Direct + PO receipt payables minus every non-reversed payment.
--- A negative amount is a real supplier advance; no live backfill is performed.
+-- A negative amount is a real supplier advance. Owner-approved one-time
+-- evidence recalculation is audited below; no receipt/cost history is rewritten.
 -- Historical migrations001-132 and immutable receipt/cost snapshots remain intact.
 -- Full explicit SQL definitions preserve existing authority and lock hierarchy.
 BEGIN;
@@ -29,6 +30,8 @@ DECLARE
   v_key TEXT := NULLIF(TRIM(p_idempotency_key), '');
   v_existing public.supplier_payments%ROWTYPE;
   v_result JSONB;
+  v_po public.purchase_orders%ROWTYPE;
+  v_active_paid NUMERIC;
 BEGIN
   PERFORM public.assert_erp_role(
     ARRAY['owner', 'admin', 'manager', 'accountant'],
@@ -63,6 +66,12 @@ BEGIN
   FOR UPDATE;
 
   IF FOUND THEN
+    IF v_existing.supplier_id IS DISTINCT FROM p_supplier_id
+      OR v_existing.purchase_order_id IS DISTINCT FROM p_purchase_order_id
+      OR v_existing.amount_in_minor_units IS DISTINCT FROM p_amount_in_minor_units
+      OR v_existing.payment_method IS DISTINCT FROM p_payment_method
+      OR NULLIF(BTRIM(v_existing.reference_number),'') IS DISTINCT FROM NULLIF(BTRIM(p_reference_number),'')
+    THEN RAISE EXCEPTION 'SUPPLIER_PAYMENT_IDEMPOTENCY_CONFLICT: استُخدم مفتاح الدفعة لطلب مختلف.'; END IF;
     RETURN jsonb_build_object(
       'success', true,
       'idempotent', true,
@@ -78,6 +87,17 @@ BEGIN
     (SELECT branch_id FROM public.purchase_orders WHERE id = p_purchase_order_id),
     p_payment_method, p_amount_in_minor_units
   );
+  IF p_purchase_order_id IS NOT NULL THEN
+    SELECT * INTO v_po FROM public.purchase_orders WHERE id=p_purchase_order_id FOR UPDATE;
+    IF NOT FOUND OR v_po.supplier_id IS DISTINCT FROM p_supplier_id THEN
+      RAISE EXCEPTION 'أمر الشراء لا يتبع المورد المحدد.';
+    END IF;
+    SELECT COALESCE(SUM(amount_in_minor_units),0) INTO v_active_paid
+    FROM public.supplier_payments WHERE purchase_order_id=p_purchase_order_id AND NOT is_reversed;
+    IF v_active_paid+p_amount_in_minor_units > v_po.total_in_minor_units THEN
+      RAISE EXCEPTION 'SUPPLIER_PO_PAYMENT_EXCEEDS_PAYABLE: إجمالي دفعات أمر الشراء يتجاوز قيمته المستحقة.';
+    END IF;
+  END IF;
   v_result := public._record_supplier_payment_impl(
     p_supplier_id,
     p_purchase_order_id,
@@ -347,6 +367,11 @@ BEGIN
   END IF;
   IF v_po.status NOT IN ('approved', 'partially_received') THEN
     RAISE EXCEPTION 'PHASE2_PURCHASE_ORDER_STATUS_INVALID: أمر الشراء غير جاهز للاستلام.';
+  END IF;
+  IF COALESCE((SELECT SUM(payment.amount_in_minor_units) FROM public.supplier_payments payment
+       WHERE payment.purchase_order_id=p_purchase_order_id AND NOT payment.is_reversed),0)
+       +p_amount_paid_at_receipt_in_minor_units > v_po.total_in_minor_units THEN
+    RAISE EXCEPTION 'SUPPLIER_PO_PAYMENT_EXCEEDS_PAYABLE: إجمالي دفعات أمر الشراء يتجاوز قيمته المستحقة.';
   END IF;
   -- Existing PO payments have ALREADY reduced the supplier balance.
   -- No allocation/backfill into immutable receipt snapshots is needed.
@@ -724,7 +749,7 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION public.reverse_supplier_payment(
+CREATE OR REPLACE FUNCTION public._reverse_supplier_payment_before_phase4_lock(
   p_supplier_payment_id UUID,
   p_reason TEXT,
   p_idempotency_key TEXT
@@ -942,7 +967,7 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION public.cancel_purchase_receipt_v2(
+CREATE OR REPLACE FUNCTION public._cancel_purchase_receipt_v2_before_phase4_lock(
   p_purchase_receipt_id UUID,
   p_reason TEXT
 )
@@ -1129,6 +1154,73 @@ BEGIN
   RETURN v_result;
 END;
 $$;
+
+-- One evidence equation for the migration-time repair and ongoing monitoring.
+-- Direct V1 total already includes its actual invoice discount/freight/tax.
+-- V1 exception is PO-scoped, never an invented per-receipt allocation.
+-- Exact line coverage prevents duplicate lines masking a missing PO item.
+CREATE FUNCTION public.phase133_legacy_po_payables_internal()
+RETURNS TABLE(purchase_order_id UUID,supplier_id UUID,recorded_cost BIGINT,
+  final_po_total BIGINT,payable BIGINT,uses_final_po_total BOOLEAN,
+  needs_manual_review BOOLEAN,potential_difference BIGINT)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+  WITH legacy AS (
+    SELECT po.id,po.supplier_id,po.total_in_minor_units,
+      COALESCE((SELECT SUM(i.received_quantity::NUMERIC*i.unit_cost_in_minor_units)
+        FROM public.purchase_receipts r JOIN public.purchase_receipt_items i ON i.purchase_receipt_id=r.id
+        WHERE r.purchase_order_id=po.id AND r.status='completed' AND r.phase2_finalized_at IS NULL),0)::BIGINT recorded,
+      (po.discount_in_minor_units>0 OR po.delivery_fee_in_minor_units>0 OR EXISTS
+        (SELECT 1 FROM public.purchase_order_items i WHERE i.purchase_order_id=po.id AND i.discount_in_minor_units>0)) adjusted,
+      (po.status='received' AND po.cancelled_at IS NULL
+        AND EXISTS (SELECT 1 FROM public.purchase_order_items i WHERE i.purchase_order_id=po.id)
+        AND NOT EXISTS (SELECT 1 FROM public.purchase_receipts r WHERE r.purchase_order_id=po.id
+          AND (r.status<>'completed' OR r.phase2_finalized_at IS NOT NULL))
+        AND NOT EXISTS (SELECT 1 FROM public.purchase_order_items expected WHERE expected.purchase_order_id=po.id
+          AND (expected.received_quantity<>expected.ordered_quantity OR
+            (SELECT COUNT(*) FROM public.purchase_receipt_items actual
+              JOIN public.purchase_receipts r ON r.id=actual.purchase_receipt_id
+              WHERE r.purchase_order_id=po.id AND r.status='completed' AND r.phase2_finalized_at IS NULL
+                AND actual.purchase_order_item_id=expected.id)<>1))
+        AND NOT EXISTS (SELECT 1 FROM public.purchase_receipt_items actual
+          JOIN public.purchase_receipts r ON r.id=actual.purchase_receipt_id
+          LEFT JOIN public.purchase_order_items expected ON expected.id=actual.purchase_order_item_id
+          WHERE r.purchase_order_id=po.id AND r.status='completed' AND r.phase2_finalized_at IS NULL
+            AND (expected.purchase_order_id IS DISTINCT FROM po.id
+              OR actual.product_id IS DISTINCT FROM expected.product_id
+              OR actual.received_quantity IS DISTINCT FROM expected.ordered_quantity
+              OR actual.unit_cost_in_minor_units IS DISTINCT FROM expected.purchase_price_in_minor_units))) exact_full
+    FROM public.purchase_orders po
+    WHERE EXISTS (SELECT 1 FROM public.purchase_receipts r WHERE r.purchase_order_id=po.id
+      AND r.status='completed' AND r.phase2_finalized_at IS NULL)
+  )
+  SELECT id,supplier_id,recorded,total_in_minor_units,
+    CASE WHEN exact_full THEN total_in_minor_units ELSE recorded END,exact_full,
+    adjusted AND NOT exact_full,total_in_minor_units-recorded FROM legacy;
+$$;
+ALTER FUNCTION public.phase133_legacy_po_payables_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.phase133_legacy_po_payables_internal() FROM PUBLIC,anon,authenticated,service_role;
+
+-- PO V2 uses its immutable 113 payable; V1 uses the owner-approved rule above.
+CREATE FUNCTION public.phase133_supplier_balance_evidence_internal()
+RETURNS TABLE(supplier_id UUID,balance BIGINT)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+  WITH received AS (
+    SELECT supplier_id,total_in_minor_units::NUMERIC amount
+    FROM public.supplier_receipts WHERE status='completed'
+    UNION ALL
+    SELECT po.supplier_id,r.supplier_invoice_payable_total_snapshot_in_minor_units::NUMERIC
+    FROM public.purchase_receipts r JOIN public.purchase_orders po ON po.id=r.purchase_order_id
+    WHERE r.status='completed' AND r.phase2_finalized_at IS NOT NULL
+    UNION ALL
+    SELECT supplier_id,payable::NUMERIC FROM public.phase133_legacy_po_payables_internal()
+  ), invoices AS (SELECT supplier_id,SUM(amount) amount FROM received GROUP BY supplier_id),
+  payments AS (SELECT supplier_id,SUM(amount_in_minor_units::NUMERIC) amount
+    FROM public.supplier_payments WHERE NOT is_reversed GROUP BY supplier_id)
+  SELECT s.id,(COALESCE(i.amount,0)-COALESCE(p.amount,0))::BIGINT FROM public.suppliers s
+  LEFT JOIN invoices i ON i.supplier_id=s.id LEFT JOIN payments p ON p.supplier_id=s.id;
+$$;
+ALTER FUNCTION public.phase133_supplier_balance_evidence_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.phase133_supplier_balance_evidence_internal() FROM PUBLIC,anon,authenticated,service_role;
 
 CREATE OR REPLACE FUNCTION public.run_advanced_monitoring_checks(
   p_observed_at TIMESTAMPTZ DEFAULT NOW()
@@ -1414,27 +1506,9 @@ BEGIN
     'اكتمال بيانات العكوسات المالية',jsonb_build_object('mismatchCount',v_count),p_observed_at);
 
   -- Independent committed evidence, not mutable PO totals or supplier balance.
-  WITH received AS (
-    SELECT supplier_id, total_in_minor_units::BIGINT AS amount
-    FROM public.supplier_receipts WHERE status='completed'
-    UNION ALL
-    SELECT po.supplier_id,
-      CASE WHEN receipt.phase2_finalized_at IS NOT NULL
-        THEN receipt.supplier_invoice_payable_total_snapshot_in_minor_units
-        ELSE (SELECT COALESCE(SUM(item.received_quantity::NUMERIC * item.unit_cost_in_minor_units),0)::BIGINT
-          FROM public.purchase_receipt_items item WHERE item.purchase_receipt_id=receipt.id)
-      END AS amount
-    FROM public.purchase_receipts receipt JOIN public.purchase_orders po ON po.id=receipt.purchase_order_id
-    WHERE receipt.status='completed'
-  ), received_totals AS (
-    SELECT supplier_id, SUM(amount)::BIGINT AS total FROM received GROUP BY supplier_id
-  ), paid_totals AS (
-    SELECT supplier_id, SUM(amount_in_minor_units)::BIGINT AS total
-    FROM public.supplier_payments WHERE NOT is_reversed GROUP BY supplier_id
-  ) SELECT count(*) INTO v_count FROM public.suppliers supplier
-    LEFT JOIN received_totals received ON received.supplier_id=supplier.id
-    LEFT JOIN paid_totals paid ON paid.supplier_id=supplier.id
-    WHERE supplier.current_balance_in_minor_units<>COALESCE(received.total,0)-COALESCE(paid.total,0);
+  SELECT COUNT(*) INTO v_count FROM public.suppliers supplier
+  JOIN public.phase133_supplier_balance_evidence_internal() evidence ON evidence.supplier_id=supplier.id
+  WHERE supplier.current_balance_in_minor_units IS DISTINCT FROM evidence.balance;
   v_total_integrity := v_total_integrity + v_count;
   PERFORM public._set_advanced_monitoring_check('integrity:accounting:supplier-balances','accounting','database',
     CASE WHEN v_count=0 THEN 'healthy' ELSE 'critical' END,'critical',v_count,
@@ -1708,157 +1782,16 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION public.receive_purchase_order(
-  p_purchase_order_id UUID,
-  p_warehouse_id UUID DEFAULT NULL,
-  p_supplier_delivery_note TEXT DEFAULT NULL,
-  p_notes TEXT DEFAULT NULL,
-  p_items JSONB DEFAULT '[]'::JSONB
-)
-RETURNS JSONB
-LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path = public, pg_temp
-AS $$
-DECLARE
-  v_product_ids UUID[];
-  v_baselines JSONB;
-  v_result JSONB;
-  v_acquisition RECORD;
-  v_baseline JSONB;
-  v_opening_quantity INTEGER;
-  v_prior_exact NUMERIC(24, 6);
-  v_new_exact NUMERIC(24, 6);
-BEGIN
-  PERFORM public.assert_erp_role(
-    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],
-    'استلام أوامر الشراء'
-  );
-
-  -- Keep payload product_id UUID validation, but trust the PO item product.
-  PERFORM (item->>'product_id')::UUID
-  FROM jsonb_array_elements(COALESCE(p_items, '[]'::JSONB)) item;
-
-  -- The current UI sends an explicit non-negative receipt unit cost, and the
-  -- stored receipt schema treats zero as a real cost. Missing/NULL is not proof
-  -- of free inventory. Validate before the legacy implementation writes rows.
-  IF EXISTS (
-    SELECT 1 FROM jsonb_array_elements(COALESCE(p_items, '[]'::JSONB)) item
-    WHERE COALESCE((item->>'received_quantity')::INTEGER, 0) > 0
-      AND (NOT item ? 'unit_cost_in_minor_units'
-        OR item->>'unit_cost_in_minor_units' IS NULL)
-  ) THEN
-    RAISE EXCEPTION USING ERRCODE = '22023',
-      MESSAGE = 'PHASE2_LEGACY_COST_REQUIRED: يجب تحديد تكلفة الاستلام صراحةً.';
-  END IF;
-  IF EXISTS (
-    SELECT 1 FROM jsonb_array_elements(COALESCE(p_items, '[]'::JSONB)) item
-    WHERE COALESCE((item->>'received_quantity')::INTEGER, 0) > 0
-      AND CASE
-        WHEN item->>'unit_cost_in_minor_units' ~ '^[0-9]+$' THEN
-          (item->>'unit_cost_in_minor_units')::NUMERIC > 9223372036854775807::NUMERIC
-        ELSE true
-      END
-  ) THEN
-    RAISE EXCEPTION USING ERRCODE = '22023',
-      MESSAGE = 'PHASE2_LEGACY_COST_INVALID: تكلفة الاستلام يجب أن تكون عددًا صحيحًا غير سالب ضمن الحد المدعوم.';
-  END IF;
-
-  SELECT ARRAY_AGG(product_id ORDER BY product_id)
-  INTO v_product_ids
-  FROM (
-    SELECT DISTINCT po_item.product_id
-    FROM jsonb_array_elements(COALESCE(p_items, '[]'::JSONB)) item
-    JOIN public.purchase_order_items po_item
-      ON po_item.id = (item->>'purchase_order_item_id')::UUID
-     AND po_item.purchase_order_id = p_purchase_order_id
-  ) products;
-
-  PERFORM public.phase2_lock_inventory_products_internal(v_product_ids);
-
-  SELECT jsonb_object_agg(
-    product.id::TEXT,
-    jsonb_build_object(
-      'opening_quantity', COALESCE((
-        SELECT SUM(balance.on_hand_quantity)
-        FROM public.inventory_balances balance
-        WHERE balance.product_id = product.id
-      ), 0),
-      'prior_exact', COALESCE(
-        product.wac_cost_in_minor_units_exact,
-        product.cost_price_in_minor_units::NUMERIC
-      )
-    )
-  )
-  INTO v_baselines
-  FROM public.products product
-  WHERE product.id = ANY(v_product_ids);
-
-  v_result := public._receive_purchase_order_impl(
-    p_purchase_order_id,
-    p_warehouse_id,
-    p_supplier_delivery_note,
-    p_notes,
-    p_items
-  );
-
-  FOR v_acquisition IN
-    SELECT
-      po_item.product_id,
-      SUM((item->>'received_quantity')::INTEGER)::INTEGER AS received_quantity,
-      SUM(
-        (item->>'received_quantity')::NUMERIC
-        * (item->>'unit_cost_in_minor_units')::NUMERIC
-      ) AS received_cost
-    FROM jsonb_array_elements(p_items) item
-    JOIN public.purchase_order_items po_item
-      ON po_item.id = (item->>'purchase_order_item_id')::UUID
-     AND po_item.purchase_order_id = p_purchase_order_id
-    WHERE (item->>'received_quantity')::INTEGER > 0
-    GROUP BY po_item.product_id
-    ORDER BY po_item.product_id
-  LOOP
-    v_baseline := v_baselines -> (v_acquisition.product_id::TEXT);
-    v_opening_quantity := (v_baseline->>'opening_quantity')::INTEGER;
-    v_prior_exact := (v_baseline->>'prior_exact')::NUMERIC(24, 6);
-    v_new_exact := CASE
-      WHEN v_opening_quantity <= 0 THEN
-        ROUND(v_acquisition.received_cost / v_acquisition.received_quantity, 6)
-      ELSE
-        ROUND(
-          (
-            v_opening_quantity::NUMERIC * v_prior_exact
-            + v_acquisition.received_cost
-          ) / (v_opening_quantity + v_acquisition.received_quantity),
-          6
-        )
-    END;
-
-    UPDATE public.products
-    SET wac_cost_in_minor_units_exact = v_new_exact,
-      cost_price_in_minor_units = ROUND(v_new_exact)::BIGINT,
-      updated_at = NOW()
-    WHERE id = v_acquisition.product_id;
-  END LOOP;
-
-  -- Legacy receipt quantities/costs are explicit historical evidence too.
-  -- This updates only the NEW receipt; no old receipt or balance is backfilled.
-  UPDATE public.suppliers supplier
-  SET current_balance_in_minor_units = supplier.current_balance_in_minor_units + (
-      SELECT COALESCE(SUM(item.received_quantity::NUMERIC * item.unit_cost_in_minor_units),0)::BIGINT
-      FROM public.purchase_receipt_items item WHERE item.purchase_receipt_id=(v_result->>'receipt_id')::UUID
-    ), updated_at=NOW()
-  FROM public.purchase_orders purchase_order
-  WHERE purchase_order.id=p_purchase_order_id AND supplier.id=purchase_order.supplier_id;
-  RETURN v_result;
-END;
-$$;
 
 -- Existing public grants are retained by CREATE OR REPLACE. Helpers stay private.
 ALTER FUNCTION public.record_supplier_payment(UUID,UUID,BIGINT,TEXT,TEXT,TIMESTAMPTZ,TEXT,TEXT) OWNER TO postgres;
 ALTER FUNCTION public.receive_purchase_order_v2(UUID,UUID,TEXT,DATE,TIMESTAMPTZ,BIGINT,BIGINT,BIGINT,BIGINT,TEXT,TEXT,TEXT,TEXT,TEXT,JSONB) OWNER TO postgres;
 ALTER FUNCTION public.reverse_supplier_payment(UUID,TEXT,TEXT) OWNER TO postgres;
+ALTER FUNCTION public._reverse_supplier_payment_before_phase4_lock(UUID,TEXT,TEXT) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public._reverse_supplier_payment_before_phase4_lock(UUID,TEXT,TEXT) FROM PUBLIC,anon,authenticated,service_role;
 ALTER FUNCTION public.cancel_purchase_receipt_v2(UUID,TEXT) OWNER TO postgres;
+ALTER FUNCTION public._cancel_purchase_receipt_v2_before_phase4_lock(UUID,TEXT) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public._cancel_purchase_receipt_v2_before_phase4_lock(UUID,TEXT) FROM PUBLIC,anon,authenticated,service_role;
 ALTER FUNCTION public.run_advanced_monitoring_checks(TIMESTAMPTZ) OWNER TO postgres;
 ALTER FUNCTION public._record_supplier_receipt_payment_impl(UUID,BIGINT,TEXT,TEXT,TEXT) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public._record_supplier_receipt_payment_impl(UUID,BIGINT,TEXT,TEXT,TEXT) FROM PUBLIC,anon,authenticated,service_role;
@@ -1873,6 +1806,7 @@ SET search_path = public, pg_temp
 AS $$
 DECLARE
   v_report JSONB;
+  v_base_report JSONB;
   v_event_count INTEGER := 0;
   v_breakdown JSONB;
   v_quantity_breakdown JSONB;
@@ -1891,6 +1825,8 @@ BEGIN
   IF COALESCE(v_report->>'success', 'false') <> 'true' THEN
     RETURN v_report;
   END IF;
+  v_base_report:=v_report;
+  BEGIN
 
   SELECT COUNT(*)::INTEGER INTO v_event_count
   FROM public.sales_return_events
@@ -2004,7 +1940,7 @@ BEGIN
   -- newly-sold credit into a different sale. Existing cash/receipt/reconciliation
   -- fields in v_report are never rewritten by this presentation change.
   WITH first_completion AS MATERIALIZED (
-    SELECT order_id,MIN(created_at) AS at FROM public.order_status_history
+    SELECT order_id,MAX(created_at) AS at FROM public.order_status_history
     WHERE new_status='completed' GROUP BY order_id
   ), completions AS MATERIALIZED (
     SELECT DISTINCT ON (operation.result_snapshot->>'order_id')
@@ -2019,14 +1955,14 @@ BEGIN
     SELECT customer_order.*,creation.operation_type,creation.result_snapshot AS creation_result,
       completion.result_snapshot AS completion_result,completion.request_identity_snapshot AS completion_request
     FROM public.orders customer_order
-    JOIN first_completion ON first_completion.order_id=customer_order.id
+    LEFT JOIN first_completion ON first_completion.order_id=customer_order.id
     LEFT JOIN public.business_operations creation ON creation.id=customer_order.operation_id
     LEFT JOIN completions completion ON completion.order_key=customer_order.id::TEXT
     WHERE customer_order.branch_id=v_shift.branch_id
       AND customer_order.status IN('completed','returned')
       AND (customer_order.cash_shift_id=p_shift_id OR (
-        customer_order.cash_shift_id IS NULL AND first_completion.at>=v_shift.opened_at
-        AND first_completion.at<=COALESCE(v_shift.closed_at,NOW())
+        customer_order.cash_shift_id IS NULL AND COALESCE(first_completion.at,customer_order.updated_at)>=v_shift.opened_at
+        AND COALESCE(first_completion.at,customer_order.updated_at)<=COALESCE(v_shift.closed_at,NOW())
       ))
   ), anchors AS (
     SELECT selected.*,
@@ -2103,12 +2039,368 @@ BEGIN
     'initialCashInMinorUnits',v_first_cash,
     'initialCliqInMinorUnits',v_first_cliq
   ));
-  RETURN v_report || jsonb_build_object('returnQuantityBreakdown', v_quantity_breakdown);
+  RETURN v_report || jsonb_build_object('returnQuantityBreakdown', v_quantity_breakdown,'salesDetailStatus','available');
+  EXCEPTION WHEN query_canceled THEN
+    RETURN v_base_report || jsonb_build_object('salesDetailStatus','unavailable','salesDetailMessage','تفصيل غير متاح');
+  WHEN OTHERS THEN
+    RETURN v_base_report || jsonb_build_object('salesDetailStatus','unavailable','salesDetailMessage','تفصيل غير متاح');
+  END;
 END;
 $$;
 
 ALTER FUNCTION public._get_cash_shift_closing_report_before_snapshot(UUID) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public._get_cash_shift_closing_report_before_snapshot(UUID)
   FROM PUBLIC,anon,authenticated,service_role;
+
+-- Preserve the Phase4 public wrappers. Their private bodies above are replaced,
+-- not the lock-discovery authority at the public RPC boundary.
+CREATE OR REPLACE FUNCTION public.reverse_supplier_payment(
+  p_supplier_payment_id UUID,p_reason TEXT,p_idempotency_key TEXT
+) RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
+BEGIN
+  PERFORM public.assert_reversal_owner('عكس دفعة مورد');
+  PERFORM public.phase4_lock_supplier_context_internal(NULL,NULL,p_supplier_payment_id);
+  RETURN public._reverse_supplier_payment_before_phase4_lock(p_supplier_payment_id,p_reason,p_idempotency_key);
+END; $$;
+
+CREATE OR REPLACE FUNCTION public.cancel_purchase_receipt_v2(p_purchase_receipt_id UUID,p_reason TEXT)
+RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
+BEGIN
+  PERFORM public.assert_erp_role(ARRAY['owner','admin','manager','warehouse_keeper'],'إلغاء سند استلام أمر شراء');
+  PERFORM public.phase4_lock_supplier_context_internal(NULL,p_purchase_receipt_id,NULL);
+  RETURN public._cancel_purchase_receipt_v2_before_phase4_lock(p_purchase_receipt_id,p_reason);
+END; $$;
+
+-- Cancel a modern Direct receipt from the CURRENT active attached payments,
+-- not its initial outstanding snapshot. A reversed payment is not refunded twice.
+CREATE OR REPLACE FUNCTION public._cancel_supplier_receipt_before_phase4_lock(
+  p_supplier_receipt_id UUID,p_reason TEXT DEFAULT 'إلغاء سند استلام البضائع'
+) RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE
+  v_receipt public.supplier_receipts%ROWTYPE;
+  v_user UUID:=auth.uid(); v_reason TEXT:=NULLIF(BTRIM(p_reason),'');
+  v_operation UUID:=gen_random_uuid();v_paid BIGINT;v_result JSONB;v_inventory JSONB;
+BEGIN
+  PERFORM public.assert_erp_role(ARRAY['owner','admin','manager','warehouse_keeper'],'إلغاء سند استلام');
+  IF v_reason IS NULL THEN RAISE EXCEPTION 'سبب الإلغاء مطلوب.'; END IF;
+  PERFORM public.phase2_lock_receipt_payment_shifts_internal(p_supplier_receipt_id,NULL);
+  PERFORM public.phase2_lock_inventory_products_internal(ARRAY(
+    SELECT DISTINCT product_id FROM public.supplier_receipt_items WHERE supplier_receipt_id=p_supplier_receipt_id ORDER BY product_id));
+  SELECT * INTO v_receipt FROM public.supplier_receipts WHERE id=p_supplier_receipt_id FOR UPDATE;
+  IF NOT FOUND THEN RAISE EXCEPTION 'سند الاستلام غير موجود.'; END IF;
+  IF v_receipt.phase2_finalized_at IS NULL THEN
+    RETURN public._cancel_supplier_receipt_legacy_guarded_v2(p_supplier_receipt_id,p_reason);
+  END IF;
+  IF v_receipt.status='cancelled' THEN
+    SELECT result_snapshot INTO v_result FROM public.business_operations
+    WHERE operation_type='supplier_receipt_cancellation_v2'
+      AND result_snapshot->>'original_operation_id'=v_receipt.operation_id::TEXT
+      AND result_snapshot->>'supplier_balance_contract_version'='133'
+    ORDER BY completed_at,id LIMIT 1;
+    IF FOUND THEN RETURN v_result; END IF;
+    RAISE EXCEPTION 'السند ملغى مسبقاً.';
+  END IF;
+  IF v_receipt.status<>'completed' THEN RAISE EXCEPTION 'السند غير قابل للإلغاء.'; END IF;
+  SELECT COALESCE(SUM(amount_in_minor_units),0)::BIGINT INTO v_paid
+  FROM public.supplier_payments WHERE supplier_receipt_id=v_receipt.id AND NOT is_reversed;
+  v_result:=jsonb_build_object('success',true,'receipt_id',v_receipt.id,'receipt_number',v_receipt.receipt_number,
+    'original_operation_id',v_receipt.operation_id,'reversal_operation_id',v_operation,
+    'supplier_balance_contract_version',133,'payments_marked_reversed_in_minor_units',v_paid,
+    'reversed_base_units',(SELECT COALESCE(SUM(quantity),0)::INTEGER FROM public.inventory_movements
+      WHERE operation_id=v_receipt.operation_id AND movement_type='purchase_receipt'));
+  INSERT INTO public.business_operations(id,operation_type,initiated_by,result_snapshot,completed_at)
+  VALUES(v_operation,'supplier_receipt_cancellation_v2',v_user,v_result,NOW());
+  v_inventory:=public.phase2_reverse_inventory_and_wac_internal(v_receipt.operation_id,v_operation,
+    v_receipt.warehouse_id,'supplier_receipt',v_receipt.id,v_user,v_reason);
+  UPDATE public.suppliers SET current_balance_in_minor_units=current_balance_in_minor_units
+    -v_receipt.supplier_invoice_payable_total_snapshot_in_minor_units+v_paid,updated_at=NOW()
+  WHERE id=v_receipt.supplier_id;
+  UPDATE public.supplier_payments SET is_reversed=true,reversed_at=NOW(),reversed_by=v_user,reversal_reason=v_reason
+  WHERE supplier_receipt_id=v_receipt.id AND NOT is_reversed;
+  UPDATE public.supplier_financial_invoice_identities SET is_active=false,cancelled_at=NOW()
+  WHERE supplier_receipt_id=v_receipt.id AND is_active;
+  UPDATE public.supplier_receipts SET status='cancelled',is_archived=true,phase2_cancelled_at=NOW(),
+    phase2_cancelled_by=v_user,phase2_cancellation_reason=v_reason,updated_at=NOW() WHERE id=v_receipt.id;
+  INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details)
+  VALUES(v_user,'CANCEL_SUPPLIER_RECEIPT_V2','supplier_receipts',v_receipt.id,
+    v_result||jsonb_build_object('inventory',v_inventory,'supplier_outstanding_reversed_in_minor_units',
+      v_receipt.supplier_invoice_payable_total_snapshot_in_minor_units-v_paid));
+  IF v_inventory->>'reversed_base_units' IS DISTINCT FROM v_result->>'reversed_base_units'
+  THEN RAISE EXCEPTION 'SUPPLIER_CANCELLATION_RESULT_MISMATCH'; END IF;
+  RETURN v_result;
+END; $$;
+ALTER FUNCTION public._cancel_supplier_receipt_before_phase4_lock(UUID,TEXT) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public._cancel_supplier_receipt_before_phase4_lock(UUID,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+
+CREATE OR REPLACE FUNCTION public._cancel_supplier_receipt_impl(
+  p_supplier_receipt_id UUID,
+  p_reason TEXT DEFAULT 'إلغاء سند استلام البضائع'
+)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+DECLARE
+  v_user_id UUID := auth.uid();
+  v_receipt RECORD;
+  v_item RECORD;
+  v_old_on_hand INTEGER;
+  v_new_on_hand INTEGER;
+BEGIN
+  IF v_user_id IS NULL THEN
+    RAISE EXCEPTION 'يجب تسجيل الدخول لإلغاء سند استلام.';
+  END IF;
+
+  SELECT *
+  INTO v_receipt
+  FROM public.supplier_receipts
+  WHERE id = p_supplier_receipt_id
+  FOR UPDATE;
+
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'سند الاستلام غير موجود.';
+  END IF;
+  IF v_receipt.status <> 'completed' THEN
+    RAISE EXCEPTION 'لا يمكن إلغاء سند غير مكتمل.';
+  END IF;
+  IF v_receipt.amount_paid_in_minor_units > 0 THEN
+    RAISE EXCEPTION 'لا يمكن إلغاء سند عليه دفعات. استخدم مرتجع المورد وتسوية الدفعة.';
+  END IF;
+
+  FOR v_item IN
+    SELECT sri.*, p.name_ar AS product_name
+    FROM public.supplier_receipt_items sri
+    JOIN public.products p ON p.id = sri.product_id
+    WHERE sri.supplier_receipt_id = p_supplier_receipt_id
+  LOOP
+    SELECT on_hand_quantity
+    INTO v_old_on_hand
+    FROM public.inventory_balances
+    WHERE warehouse_id = v_receipt.warehouse_id
+      AND product_id = v_item.product_id
+    FOR UPDATE;
+
+    IF v_old_on_hand IS NULL
+      OR v_old_on_hand < v_item.total_base_units
+    THEN
+      RAISE EXCEPTION
+        'لا يمكن إلغاء السند لأن مخزون المنتج % أقل من الكمية المستلمة.',
+        v_item.product_name;
+    END IF;
+  END LOOP;
+
+  FOR v_item IN
+    SELECT *
+    FROM public.supplier_receipt_items
+    WHERE supplier_receipt_id = p_supplier_receipt_id
+  LOOP
+    SELECT on_hand_quantity
+    INTO v_old_on_hand
+    FROM public.inventory_balances
+    WHERE warehouse_id = v_receipt.warehouse_id
+      AND product_id = v_item.product_id
+    FOR UPDATE;
+
+    v_new_on_hand := v_old_on_hand - v_item.total_base_units;
+
+    UPDATE public.inventory_balances
+    SET
+      on_hand_quantity = v_new_on_hand,
+      updated_at = NOW()
+    WHERE warehouse_id = v_receipt.warehouse_id
+      AND product_id = v_item.product_id;
+
+    INSERT INTO public.inventory_movements (
+      warehouse_id,
+      product_id,
+      movement_type,
+      quantity,
+      balance_before,
+      balance_after,
+      reference_type,
+      reference_id,
+      notes,
+      created_by
+    ) VALUES (
+      v_receipt.warehouse_id,
+      v_item.product_id,
+      'return_out',
+      -v_item.total_base_units,
+      v_old_on_hand,
+      v_new_on_hand,
+      'supplier_receipt_cancellation',
+      p_supplier_receipt_id,
+      'إلغاء سند استلام ' || v_receipt.receipt_number,
+      v_user_id
+    );
+  END LOOP;
+
+  UPDATE public.suppliers
+  SET
+    current_balance_in_minor_units = current_balance_in_minor_units - v_receipt.total_in_minor_units,
+    updated_at = NOW()
+  WHERE id = v_receipt.supplier_id;
+
+  UPDATE public.supplier_receipts
+  SET
+    status = 'cancelled',
+    is_archived = true,
+    amount_due_in_minor_units = 0,
+    notes = CONCAT_WS(
+      E'\n',
+      NULLIF(notes, ''),
+      '[إلغاء ' || TO_CHAR(NOW(), 'YYYY-MM-DD HH24:MI') || '] ' ||
+        COALESCE(NULLIF(TRIM(p_reason), ''), 'بدون سبب')
+    ),
+    updated_at = NOW()
+  WHERE id = p_supplier_receipt_id;
+
+  INSERT INTO public.audit_logs (
+    user_id,
+    action,
+    entity_name,
+    entity_id,
+    details
+  ) VALUES (
+    v_user_id,
+    'CANCEL_SUPPLIER_RECEIPT',
+    'supplier_receipts',
+    p_supplier_receipt_id,
+    jsonb_build_object(
+      'receipt_number', v_receipt.receipt_number,
+      'reason', p_reason
+    )
+  );
+
+  RETURN jsonb_build_object(
+    'success', true,
+    'receipt_id', p_supplier_receipt_id,
+    'receipt_number', v_receipt.receipt_number
+  );
+END;
+$$;
+ALTER FUNCTION public._cancel_supplier_receipt_impl(UUID,TEXT) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public._cancel_supplier_receipt_impl(UUID,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+
+-- Explicit V1 creation guards. History/readers remain available; no delegation
+-- to the historical implementation is possible for a new receive request.
+CREATE OR REPLACE FUNCTION public.receive_purchase_order(
+  p_purchase_order_id UUID,p_warehouse_id UUID DEFAULT NULL,p_supplier_delivery_note TEXT DEFAULT NULL,
+  p_notes TEXT DEFAULT NULL,p_items JSONB DEFAULT '[]'::JSONB
+) RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
+BEGIN
+  PERFORM p_purchase_order_id,p_warehouse_id,p_supplier_delivery_note,p_notes,p_items;
+  RAISE EXCEPTION 'RECEIVING_V1_READ_ONLY: مسار الاستلام القديم للقراءة فقط؛ حدّث الصفحة وأعد المحاولة.';
+END; $$;
+CREATE OR REPLACE FUNCTION public.create_direct_supplier_receipt(
+  p_supplier_id UUID,p_warehouse_id UUID,p_branch_id UUID DEFAULT NULL,p_supplier_invoice_number TEXT DEFAULT NULL,
+  p_supplier_invoice_date DATE DEFAULT NULL,p_received_at TIMESTAMPTZ DEFAULT NULL,
+  p_delivery_fee_in_minor_units BIGINT DEFAULT 0,p_discount_in_minor_units BIGINT DEFAULT 0,
+  p_tax_in_minor_units BIGINT DEFAULT 0,p_amount_paid_in_minor_units BIGINT DEFAULT 0,
+  p_payment_method TEXT DEFAULT 'cash',p_payment_reference TEXT DEFAULT NULL,p_notes TEXT DEFAULT NULL,
+  p_internal_notes TEXT DEFAULT NULL,p_idempotency_key UUID DEFAULT NULL,p_items JSONB DEFAULT '[]'::JSONB
+) RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
+BEGIN
+  PERFORM p_supplier_id,p_warehouse_id,p_branch_id,p_supplier_invoice_number,p_supplier_invoice_date,p_received_at,
+    p_delivery_fee_in_minor_units,p_discount_in_minor_units,p_tax_in_minor_units,p_amount_paid_in_minor_units,
+    p_payment_method,p_payment_reference,p_notes,p_internal_notes,p_idempotency_key,p_items;
+  RAISE EXCEPTION 'RECEIVING_V1_READ_ONLY: مسار الاستلام القديم للقراءة فقط؛ حدّث الصفحة وأعد المحاولة.';
+END; $$;
+ALTER FUNCTION public.create_direct_supplier_receipt(UUID,UUID,UUID,TEXT,DATE,TIMESTAMPTZ,BIGINT,BIGINT,BIGINT,BIGINT,TEXT,TEXT,TEXT,TEXT,UUID,JSONB) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public._record_supplier_payment_impl(UUID,UUID,BIGINT,TEXT,TEXT,TIMESTAMPTZ,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+REVOKE ALL ON FUNCTION public._record_supplier_payment_idempotency_legacy(UUID,UUID,BIGINT,TEXT,TEXT,TIMESTAMPTZ,TEXT) FROM PUBLIC,anon,authenticated,service_role;
+
+-- Positive obligations and negative advances are never netted across suppliers.
+CREATE FUNCTION public.phase133_supplier_balances_internal()
+RETURNS JSONB LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+ SELECT jsonb_build_object('supplierDueInMinorUnits',COALESCE(SUM(current_balance_in_minor_units)
+   FILTER(WHERE current_balance_in_minor_units>0),0),
+   'supplierAdvancesInMinorUnits',COALESCE(-SUM(current_balance_in_minor_units)
+   FILTER(WHERE current_balance_in_minor_units<0),0),
+   'supplierCount',COUNT(*) FILTER(WHERE current_balance_in_minor_units>0)) FROM public.suppliers;
+$$;
+ALTER FUNCTION public.phase133_supplier_balances_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.phase133_supplier_balances_internal() FROM PUBLIC,anon,authenticated,service_role;
+
+ALTER FUNCTION public.get_operational_business_report(UUID,DATE,DATE) RENAME TO _get_operational_business_report_before133;
+REVOKE ALL ON FUNCTION public._get_operational_business_report_before133(UUID,DATE,DATE) FROM PUBLIC,anon,authenticated,service_role;
+CREATE FUNCTION public.get_operational_business_report(p_branch_id UUID,p_date_from DATE,p_date_to DATE)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE v_result JSONB; BEGIN
+  v_result:=public._get_operational_business_report_before133(p_branch_id,p_date_from,p_date_to);
+  RETURN jsonb_set(v_result,'{balances}',(v_result->'balances')||public.phase133_supplier_balances_internal());
+END; $$;
+REVOKE ALL ON FUNCTION public.get_operational_business_report(UUID,DATE,DATE) FROM PUBLIC,anon;
+GRANT EXECUTE ON FUNCTION public.get_operational_business_report(UUID,DATE,DATE) TO authenticated;
+ALTER FUNCTION public.get_operational_business_report(UUID,DATE,DATE) OWNER TO postgres;
+
+ALTER FUNCTION public.build_business_summary(TEXT,DATE,DATE,TIMESTAMPTZ) RENAME TO _build_business_summary_before133;
+REVOKE ALL ON FUNCTION public._build_business_summary_before133(TEXT,DATE,DATE,TIMESTAMPTZ) FROM PUBLIC,anon,authenticated,service_role;
+CREATE FUNCTION public.build_business_summary(p_summary_type TEXT,p_period_start DATE,p_period_end DATE,p_generated_at TIMESTAMPTZ DEFAULT NOW())
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE v_result JSONB; BEGIN
+  v_result:=public._build_business_summary_before133(p_summary_type,p_period_start,p_period_end,p_generated_at);
+  RETURN jsonb_set(v_result,'{balances}',(v_result->'balances')||public.phase133_supplier_balances_internal());
+END; $$;
+REVOKE ALL ON FUNCTION public.build_business_summary(TEXT,DATE,DATE,TIMESTAMPTZ) FROM PUBLIC,anon,authenticated;
+GRANT EXECUTE ON FUNCTION public.build_business_summary(TEXT,DATE,DATE,TIMESTAMPTZ) TO service_role;
+ALTER FUNCTION public.build_business_summary(TEXT,DATE,DATE,TIMESTAMPTZ) OWNER TO postgres;
+
+ALTER FUNCTION public.get_home_dashboard() RENAME TO _get_home_dashboard_before133;
+REVOKE ALL ON FUNCTION public._get_home_dashboard_before133() FROM PUBLIC,anon,authenticated,service_role;
+CREATE FUNCTION public.get_home_dashboard()
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE v_result JSONB;v_balances JSONB; BEGIN
+  v_result:=public._get_home_dashboard_before133();v_balances:=public.phase133_supplier_balances_internal();
+  RETURN jsonb_set(v_result,'{summary}',(v_result->'summary')||jsonb_build_object(
+    'supplierPayablesInMinorUnits',v_balances->'supplierDueInMinorUnits',
+    'supplierAdvancesInMinorUnits',v_balances->'supplierAdvancesInMinorUnits'));
+END; $$;
+REVOKE ALL ON FUNCTION public.get_home_dashboard() FROM PUBLIC,anon;
+GRANT EXECUTE ON FUNCTION public.get_home_dashboard() TO authenticated;
+ALTER FUNCTION public.get_home_dashboard() OWNER TO postgres;
+
+ALTER FUNCTION public._preview_cash_shift_full_reversal(UUID) RENAME TO _preview_cash_shift_full_reversal_before133;
+REVOKE ALL ON FUNCTION public._preview_cash_shift_full_reversal_before133(UUID) FROM PUBLIC,anon,authenticated,service_role;
+CREATE FUNCTION public._preview_cash_shift_full_reversal(p_shift_id UUID)
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE v_result JSONB;v_operations JSONB;v_supplier BIGINT; BEGIN
+  v_result:=public._preview_cash_shift_full_reversal_before133(p_shift_id);
+  SELECT COALESCE(jsonb_agg(CASE WHEN op->>'operationType'='supplier_payment' THEN
+    jsonb_set(op,'{expectedEffect}',(op->'expectedEffect')||jsonb_build_object(
+      'supplier_balance_in_minor_units',p.amount_in_minor_units)) ELSE op END ORDER BY n),'[]'::JSONB)
+  INTO v_operations FROM jsonb_array_elements(v_result->'operations') WITH ORDINALITY entry(op,n)
+  LEFT JOIN public.supplier_payments p ON p.id=(op->>'originalRecordId')::UUID AND op->>'operationType'='supplier_payment';
+  SELECT COALESCE(SUM((op#>>'{expectedEffect,supplier_balance_in_minor_units}')::BIGINT),0)
+  INTO v_supplier FROM jsonb_array_elements(v_operations) op;
+  RETURN jsonb_set(v_result||jsonb_build_object('operations',v_operations),'{summary,supplier_balance_in_minor_units}',to_jsonb(v_supplier));
+END; $$;
+ALTER FUNCTION public._preview_cash_shift_full_reversal(UUID) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public._preview_cash_shift_full_reversal(UUID) FROM PUBLIC,anon,authenticated,service_role;
+
+-- Repair every supplier once at this migration's atomic application boundary.
+-- The audit records old/new values even when unchanged. Historical invoices,
+-- item costs, payment identities and closed shift snapshots are untouched.
+LOCK TABLE public.supplier_receipts,public.purchase_orders,public.purchase_order_items,
+  public.purchase_receipts,public.purchase_receipt_items,public.supplier_payments IN SHARE ROW EXCLUSIVE MODE;
+DO $$ DECLARE v RECORD; BEGIN
+  FOR v IN SELECT s.id,s.current_balance_in_minor_units old_balance,e.balance new_balance
+    FROM public.suppliers s JOIN public.phase133_supplier_balance_evidence_internal() e ON e.supplier_id=s.id
+    ORDER BY s.id FOR UPDATE OF s
+  LOOP
+    UPDATE public.suppliers SET current_balance_in_minor_units=v.new_balance,updated_at=NOW() WHERE id=v.id;
+    INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details)
+    VALUES(NULL,'RECALCULATE_SUPPLIER_BALANCE_133','suppliers',v.id,jsonb_build_object(
+      'old_balance_in_minor_units',v.old_balance,'new_balance_in_minor_units',v.new_balance,'contract_version',133,
+      'legacy_po_review_status',CASE WHEN EXISTS (SELECT 1 FROM public.phase133_legacy_po_payables_internal() r
+        WHERE r.supplier_id=v.id AND r.needs_manual_review) THEN 'يحتاج مراجعة يدوية' ELSE 'لا يحتاج مراجعة' END,
+      'legacy_po_manual_review',COALESCE((SELECT jsonb_agg(jsonb_build_object(
+        'purchase_order_id',r.purchase_order_id,'recorded_cost_in_minor_units',r.recorded_cost,
+        'final_po_total_in_minor_units',r.final_po_total,'potential_difference_in_minor_units',r.potential_difference)
+        ORDER BY r.purchase_order_id) FROM public.phase133_legacy_po_payables_internal() r
+        WHERE r.supplier_id=v.id AND r.needs_manual_review),'[]'::JSONB)));
+  END LOOP;
+END; $$;
 
 COMMIT;

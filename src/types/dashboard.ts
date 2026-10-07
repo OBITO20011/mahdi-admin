@@ -131,6 +131,7 @@ export interface HomeDashboardSummary {
   newOrdersCount: number;
   customerReceivablesInMinorUnits: number;
   supplierPayablesInMinorUnits: number;
+  supplierAdvancesInMinorUnits?: number;
   inventoryValueInMinorUnits: number;
   activeProductsCount: number;
   activeCustomersCount: number;

@@ -90,13 +90,20 @@ try{
   assert.equal(before.reconciliation.totalInflowsInMinorUnits,12000);
   assert.equal(before.reconciliation.expectedCashInMinorUnits,11500);
   const beforeRows=await fingerprint();
+  const recalculationAuditsBefore=await json("SELECT to_jsonb(COUNT(*)::int) FROM audit_logs WHERE action='RECALCULATE_SUPPLIER_BALANCE_133';");
 
   stage='explicit133 activation of approved reader';
   const migration=await readFile(path.join(root,'supabase/migrations/133_package_e_supplier_po_financial_consistency.sql'),'utf8');
   const hash=createHash('sha256').update(migration.replace(/\r\n?/gu,'\n')).digest('hex').toUpperCase();
   const state=JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8'));
   assert.equal(hash,state.migration133CanonicalLfSha256);await sql(migration);
-  assert.deepEqual(await fingerprint(),beforeRows,'Migration has no historical backfill or monetary mutation');
+  const afterMigrationRows=await fingerprint();
+  const {audit_logs:beforeAudit,...beforeHistorical}=beforeRows;
+  const {audit_logs:afterAudit,...afterHistorical}=afterMigrationRows;
+  assert.deepEqual(afterHistorical,beforeHistorical,'Migration preserves historical orders/returns, inventory and monetary state');
+  assert.notEqual(beforeAudit,afterAudit,'Authorized one-time balance recalculation must be audited');
+  assert.equal(await json("SELECT to_jsonb(COUNT(*)::int) FROM audit_logs WHERE action='RECALCULATE_SUPPLIER_BALANCE_133';"),
+    recalculationAuditsBefore+await json('SELECT to_jsonb(COUNT(*)::int) FROM suppliers;'));
   const after=await ownerRpc(`get_cash_shift_closing_report(${q(shift)})`);
   assert.equal(after.sales.grossSalesInMinorUnits,19000);
   assert.equal(after.sales.collectedDirectSalesInMinorUnits,5000);
@@ -113,7 +120,7 @@ try{
   assert.deepEqual(moneyState(after),moneyState(before),'Cash/CliQ counters, vouchers, outflows, inflows and drawer stay EXACTLY unchanged');
   assert.deepEqual(await ownerRpc(`get_cash_shift_closing_report(${q(historicalShift)})`),historical);
   assert.equal(await json(`SELECT to_jsonb(md5(closing_report_snapshot::text)) FROM cash_shifts WHERE id=${q(historicalShift)};`),snapshotBefore);
-  assert.deepEqual(await fingerprint(),beforeRows,'Readers perform zero writes');
+  assert.deepEqual(await fingerprint(),afterMigrationRows,'Readers perform zero writes, including audit timestamps');
   const operational=await ownerRpc(`get_operational_business_report(${q(branch)},(NOW() AT TIME ZONE 'Asia/Amman')::date,(NOW() AT TIME ZONE 'Asia/Amman')::date)`);
   assert.equal(operational.sales.grossSalesInMinorUnits,after.sales.grossSalesInMinorUnits+1000,'Current closing sale-at-completion gross agrees with operational period, plus historical shift1000');
   assert.equal(operational.sales.returnEntitlementInMinorUnits,5500);
@@ -122,6 +129,25 @@ try{
   const daily=await gatewayRpc(`build_business_summary('daily',(NOW() AT TIME ZONE 'Asia/Amman')::date,(NOW() AT TIME ZONE 'Asia/Amman')::date,NOW())`);
   const home=await ownerRpc('get_home_dashboard()');
   assert.equal(daily.sales.netSalesInMinorUnits,14500);assert.equal(home.summary.todayNetSalesInMinorUnits,14500);
+  // Corrupt only optional presentation evidence in an isolated rollback-only
+  // transaction. Cash accounting must remain authoritative and close must work.
+  stage='optional detail failure must not block closing';
+  const fallbackBefore=await fingerprint();
+  const fallback=await json(`BEGIN;
+    ALTER TABLE public.business_operations DISABLE TRIGGER USER;
+    UPDATE public.business_operations SET request_identity_snapshot=jsonb_set(request_identity_snapshot,
+      '{physical_sources,0,sellable_restock_quantity}','"not-a-quantity"'::jsonb)
+    WHERE id=${q(mixedReturn.operationId)};
+    SELECT set_config('request.jwt.claims',${q(JSON.stringify({sub:owner,role:'authenticated',aal:'aal2'}))},true);
+    SET LOCAL ROLE authenticated;
+    SELECT public.close_cash_shift(${q(shift)},11500,NULL);
+    SELECT public.get_cash_shift_closing_report(${q(shift)});ROLLBACK;`);
+  assert.equal(fallback.salesDetailStatus,'unavailable');
+  assert.equal(Object.hasOwn(fallback.sales,'initialReceiptPaymentsInMinorUnits'),false);
+  assert.equal(fallback.reconciliation.expectedCashInMinorUnits,11500);
+  assert.equal(fallback.reconciliation.cashDiscrepancyInMinorUnits,0);
+  assert.deepEqual(await fingerprint(),fallbackBefore,'Rollback restores evidence, open shift and all financial state');
+  stage='clean closing after presentation-fault rollback';
   await ownerRpc(`close_cash_shift(${q(shift)},11500,NULL)`);
   const closed=await ownerRpc(`get_cash_shift_closing_report(${q(shift)})`);
   assert.deepEqual(closed.sales,after.sales);assert.equal(closed.reconciliation.cashDiscrepancyInMinorUnits,0);
@@ -134,6 +160,7 @@ try{
     after:{gross:19000,net:13500,refunds:1500,debtReduction:4000,returnEntitlement:5500,direct:5000,firstCliq:6000,credit:8000,inflows:12000,drawer:11500},
     debtOnlyWithoutShiftIncluded:true,operationalDailyHomeMatch:true,
     lateReceiptDoesNotReclassifyCredit:true,historicalSnapshotUnchanged:true,newSnapshotVerified:true,readerZeroWrite:true,
+    optionalPresentationFailureDoesNotBlockClose:true,rollbackRestoresState:true,
     actualPublicRpc:true,dbLint:parsed,migration133:hash,productionAccess:0},null,2));
 }catch(error){console.error(JSON.stringify({ok:false,stage,message:error.message},null,2));process.exitCode=1;}
 finally{if(workdir)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',workdir],{cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024*1024});}

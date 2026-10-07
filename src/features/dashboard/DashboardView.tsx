@@ -498,6 +498,13 @@ export const DashboardView: React.FC = () => {
       </section>
 
       <section aria-labelledby="next-actions-title" className="rounded-2xl border border-slate-800/90 bg-slate-900/70 p-3.5">
+        {summary.supplierAdvancesInMinorUnits !== undefined && (
+          <details className="mb-3 text-xs text-slate-300">
+            <summary className="cursor-pointer font-bold">أرصدة الموردين</summary>
+            <p className="mt-2">ذمم الموردين: {formatMinorUnits(summary.supplierPayablesInMinorUnits)} {CURRENCY}</p>
+            <p className="mt-1 text-emerald-300">دفعات مقدّمة للموردين: {formatMinorUnits(summary.supplierAdvancesInMinorUnits)} {CURRENCY}</p>
+          </details>
+        )}
         <div className="flex items-center justify-between gap-3">
           <div>
             <h3 id="next-actions-title" className="text-xs font-black text-white">الإجراء التالي</h3>

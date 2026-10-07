@@ -271,6 +271,8 @@ export async function fetchCashShiftClosingReportFromSupabase(
 
   return {
     generatedAt: textValue(payload.generatedAt),
+    ...(payload.salesDetailStatus === 'available' || payload.salesDetailStatus === 'unavailable'
+      ? {salesDetailStatus: payload.salesDetailStatus} : {}),
     snapshotStatus:
       payload.snapshotStatus === 'immutable' ||
       payload.snapshotStatus === 'legacy_recalculated' ||

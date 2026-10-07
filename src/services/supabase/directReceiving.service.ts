@@ -13,6 +13,7 @@ import {
 } from '../../types/directReceiving';
 import { Supplier, Unit, Warehouse, Branch, Product } from '../../types';
 import { searchAdminProducts } from './products.service';
+import {directReceiptV2Lines} from '../../utils/receivingV2';
 
 // Helper: Convert DB row to SupplierReceipt interface
 const mapSupplierReceiptRow = (row: any): SupplierReceipt => ({
@@ -312,10 +313,10 @@ export const buildLegacyReceiptFailClosedResult = async (
 };
 
 /**
- * Call create_direct_supplier_receipt RPC to save receipt, update inventory, record payment
+ * V2 receiving changes stock, WAC and supplier debt, never product defaults.
  */
 export const createDirectSupplierReceiptInSupabase = async (
-  form: DirectReceiptForm,
+  inputForm: DirectReceiptForm,
   recoveryOptions: LegacyReceiptRecoveryOptions = {}
 ): Promise<{
   success: boolean;
@@ -338,6 +339,7 @@ export const createDirectSupplierReceiptInSupabase = async (
   }
 
   try {
+    const form = structuredClone(inputForm);
     const payload = {
       p_supplier_id: form.supplierId,
       p_warehouse_id: form.warehouseId,
@@ -345,34 +347,19 @@ export const createDirectSupplierReceiptInSupabase = async (
       p_supplier_invoice_number: form.supplierInvoiceNumber || null,
       p_supplier_invoice_date: form.supplierInvoiceDate || null,
       p_received_at: form.receivedAt || null,
-      p_delivery_fee_in_minor_units: form.deliveryFeeInMinorUnits || 0,
-      p_discount_in_minor_units: form.discountInMinorUnits || 0,
-      p_tax_in_minor_units: form.taxInMinorUnits || 0,
-      p_amount_paid_in_minor_units: form.amountPaidInMinorUnits || 0,
+      p_supplier_freight_in_minor_units: form.deliveryFeeInMinorUnits || 0,
+      p_header_discount_in_minor_units: form.discountInMinorUnits || 0,
+      p_legacy_tax_in_minor_units: form.taxInMinorUnits || 0,
+      p_amount_paid_at_receipt_in_minor_units: form.amountPaidInMinorUnits || 0,
       p_payment_method: form.paymentMethod || 'cash',
       p_payment_reference: form.paymentReference || null,
       p_notes: form.notes || null,
       p_internal_notes: form.internalNotes || null,
       p_idempotency_key: form.idempotencyKey || null,
-      p_items: form.items.map((item) => ({
-        product_id: item.productId,
-        purchase_unit_id: item.purchaseUnitId || null,
-        base_unit_id: item.baseUnitId || null,
-        purchase_unit_name: item.purchaseUnitName || 'طرد',
-        base_unit_name: item.baseUnitName || 'حبة',
-        package_quantity: item.packageQuantity,
-        units_per_package: item.unitsPerPackage,
-        package_price_in_minor_units: item.packagePriceInMinorUnits,
-        update_product_defaults: Boolean(item.updateProductDefaults),
-        discount_in_minor_units: item.discountInMinorUnits || 0,
-        batch_number: item.batchNumber || null,
-        production_date: item.productionDate || null,
-        expiry_date: item.expiryDate || null,
-        notes: item.notes || null,
-      })),
+      p_lines: directReceiptV2Lines(form.items),
     };
 
-    const { data, error } = await supabase.rpc('create_direct_supplier_receipt', payload);
+    const { data, error } = await supabase.rpc('create_direct_supplier_receipt_v2', payload);
 
     if (error) {
       if (
@@ -392,11 +379,11 @@ export const createDirectSupplierReceiptInSupabase = async (
         data: {
           receiptId: data.receipt_id,
           receiptNumber: data.receipt_number,
-          total: data.total,
-          paid: data.paid,
-          due: data.due,
-          productsCount: data.products_count,
-          totalInventoryUnitsAdded: data.total_inventory_units_added,
+          total: Number(data.supplier_invoice_payable_total_in_minor_units),
+          paid: form.amountPaidInMinorUnits,
+          due: Number(data.supplier_outstanding_balance_effect_in_minor_units),
+          productsCount: new Set(form.items.map(item => item.productId)).size,
+          totalInventoryUnitsAdded: form.items.reduce((sum, item) => sum + item.packageQuantity * item.unitsPerPackage, 0),
         },
       };
     }

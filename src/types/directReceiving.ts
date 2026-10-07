@@ -93,6 +93,7 @@ export interface SupplierReceipt {
 }
 
 export interface DirectReceiptItemInput {
+  clientLineId?: string;
   productId: string;
   productName?: string;
   productSku?: string;
@@ -104,7 +105,6 @@ export interface DirectReceiptItemInput {
   packageQuantity: number; // INTEGER
   unitsPerPackage: number; // INTEGER
   packagePriceInMinorUnits: number;
-  updateProductDefaults?: boolean;
   discountInMinorUnits?: number;
   batchNumber?: string;
   productionDate?: string;

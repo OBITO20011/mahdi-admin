@@ -64,6 +64,7 @@ export interface OperationalBusinessReport {
     customerDue: number;
     supplierCount: number;
     supplierDue: number;
+    supplierAdvances?: number;
   };
   inventory: {
     stockedProducts: number;

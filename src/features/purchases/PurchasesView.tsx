@@ -936,9 +936,9 @@ export const PurchasesView: React.FC = () => {
 
                     {/* Balances */}
                     <div className="bg-rose-950/20 p-2 rounded-xl border border-rose-500/20 text-center text-xs">
-                        <span className="text-[10px] text-rose-400 block">المستحق للمورد:</span>
-                        <span className="font-bold text-rose-300 font-mono">
-                          {due.toFixed(3)} {CURRENCY}
+                        <span className="text-[10px] text-slate-400 block">{due < 0 ? 'دفعة مقدّمة:' : 'المستحق للمورد:'}</span>
+                        <span className={`font-bold font-mono ${due < 0 ? 'text-emerald-300' : 'text-rose-300'}`}>
+                          {Math.abs(due).toFixed(3)} {CURRENCY}
                         </span>
                     </div>
 
@@ -1160,9 +1160,9 @@ export const PurchasesView: React.FC = () => {
                         </span>
                       </div>
                       <div className="text-left">
-                        <span className="text-[10px] text-slate-400 block">المتبقي:</span>
-                        <span className="font-bold text-rose-400 font-mono">
-                          {due.toFixed(3)} {CURRENCY}
+                        <span className="text-[10px] text-slate-400 block">{due < 0 ? 'دفعة مقدّمة:' : 'المتبقي:'}</span>
+                        <span className={`font-bold font-mono ${due < 0 ? 'text-emerald-300' : 'text-rose-400'}`}>
+                          {Math.abs(due).toFixed(3)} {CURRENCY}
                         </span>
                       </div>
                     </div>

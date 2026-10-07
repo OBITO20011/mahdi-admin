@@ -44,6 +44,8 @@ const mapSummary = (value: Record<string, unknown>): HomeDashboardSummary => ({
   supplierPayablesInMinorUnits: numberValue(
     value.supplierPayablesInMinorUnits
   ),
+  ...(value.supplierAdvancesInMinorUnits !== undefined
+    ? {supplierAdvancesInMinorUnits: numberValue(value.supplierAdvancesInMinorUnits)} : {}),
   inventoryValueInMinorUnits: numberValue(value.inventoryValueInMinorUnits),
   activeProductsCount: numberValue(value.activeProductsCount),
   activeCustomersCount: numberValue(value.activeCustomersCount),
