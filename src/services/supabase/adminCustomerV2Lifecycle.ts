@@ -149,22 +149,31 @@ Promise<LifecycleAttempt> {
   if (value.status !== 'DEFINITIVELY_REJECTED' && value.rejectionCode !== undefined) throw reviewRequired();
   return value;
 }
-const sameIdentity = (left: LifecycleAttempt, right: LifecycleAttempt) =>
+const sameImmutableIdentity = (left: LifecycleAttempt, right: LifecycleAttempt) =>
   left.actorId === right.actorId && left.orderId === right.orderId && left.action === right.action
   && left.attemptId === right.attemptId && left.key === right.key
-  && left.executionGeneration === right.executionGeneration && sameRequest(left.request, right.request);
+  && sameRequest(left.request, right.request);
+const sameIdentity = (left: LifecycleAttempt, right: LifecycleAttempt) =>
+  sameImmutableIdentity(left, right) && left.executionGeneration === right.executionGeneration;
 async function readAttempt(storageKey: string, expected: LifecycleAttempt) {
   const raw = localStorage.getItem(storageKey);
   const fresh = await validateAttempt(raw === null ? null : JSON.parse(raw),
     expected.actorId, expected.orderId, expected.action);
-  if (localStorage.getItem(storageKey) !== raw || !sameIdentity(fresh, expected)
-    || (expected.hadUnknownOutcome && !fresh.hadUnknownOutcome)) throw reviewRequired();
+  const completedSameAttempt = fresh.status === 'SUCCEEDED' && sameImmutableIdentity(fresh, expected)
+    && fresh.executionGeneration <= expected.executionGeneration;
+  if (localStorage.getItem(storageKey) !== raw || (!completedSameAttempt && (!sameIdentity(fresh, expected)
+    || (expected.hadUnknownOutcome && !fresh.hadUnknownOutcome)))) throw reviewRequired();
   return {fresh, raw};
 }
-async function writeAttempt(storageKey: string, value: LifecycleAttempt, expectedRaw: string | null) {
+async function writeAttempt(storageKey: string, value: LifecycleAttempt, expectedRaw: string | null,
+  retryDecision = false) {
   await validateAttempt(value, value.actorId, value.orderId, value.action);
-  if (localStorage.getItem(storageKey) !== expectedRaw) throw reviewRequired();
+  if (localStorage.getItem(storageKey) !== expectedRaw) {
+    if (retryDecision) return false;
+    throw reviewRequired();
+  }
   persist(storageKey, value);
+  return true;
 }
 const sameCommercialResult = (action: Action, left: Record<string, unknown>, right: Record<string, unknown>) => {
   const fields = action === 'cancel'
@@ -239,53 +248,72 @@ export async function runCustomerV2AdminAction(
   return withAdminActionLock(lockName, async () => {
     const lockedAuth = await client.auth.getUser();
     if (lockedAuth.error || lockedAuth.data.user?.id !== actorId) throw reviewRequired();
-    let attempt: LifecycleAttempt;
+    let attempt!: LifecycleAttempt;
     try {
-      const raw = localStorage.getItem(storageKey);
-      if (raw === null) {
-        const attemptId = newAttemptId();
-        attempt = {version: 2, actorId, orderId, action, attemptId,
-          key: await actionKey(actorId, orderId, action, attemptId), request,
-          status: 'PREPARED', executionGeneration: 0, hadUnknownOutcome: false};
-      } else {
-        const parsed: unknown = JSON.parse(raw);
-        if (isLegacyAttempt(parsed)) {
-          if (parsed.actorId !== actorId || parsed.orderId !== orderId || parsed.action !== action
-            || !sameRequest(parsed.request, request)) {
-            throw new Error('المحاولة القديمة لا تملك دليل نتيجة كافيًا. راجع حالة الطلب قبل أي إجراء جديد.');
-          }
-          // The retained V1 record does not prove how its key was derived.
-          // Preserve its bytes rather than minting V2 evidence from a guess.
-          throw new Error('المحاولة القديمة لا تملك دليل هوية كافيًا. راجع حالة الطلب قبل أي إجراء جديد.');
+      let previousObservation: LifecycleAttempt | null | undefined;
+      // Bounded decision refresh only, with unchanged immutable identity. This
+      // handles localStorage propagation after Web Lock handoff, not RPC retry.
+      for (let decision = 0; decision < 3; decision += 1) {
+        const raw = localStorage.getItem(storageKey);
+        let existing: LifecycleAttempt | null = null;
+        if (raw === null) {
+          const attemptId = newAttemptId();
+          attempt = {version: 2, actorId, orderId, action, attemptId,
+            key: await actionKey(actorId, orderId, action, attemptId), request,
+            status: 'PREPARED', executionGeneration: 0, hadUnknownOutcome: false};
         } else {
-          attempt = await validateAttempt(parsed, actorId, orderId, action);
+          const parsed: unknown = JSON.parse(raw);
+          if (isLegacyAttempt(parsed)) {
+            if (parsed.actorId !== actorId || parsed.orderId !== orderId || parsed.action !== action
+              || !sameRequest(parsed.request, request)) {
+              throw new Error('المحاولة القديمة لا تملك دليل نتيجة كافيًا. راجع حالة الطلب قبل أي إجراء جديد.');
+            }
+            // The retained V1 record does not prove how its key was derived.
+            // Preserve its bytes rather than minting V2 evidence from a guess.
+            throw new Error('المحاولة القديمة لا تملك دليل هوية كافيًا. راجع حالة الطلب قبل أي إجراء جديد.');
+          } else {
+            attempt = await validateAttempt(parsed, actorId, orderId, action);
+            existing = structuredClone(attempt);
+          }
         }
-      }
-      if (localStorage.getItem(storageKey) !== raw) throw reviewRequired();
+        if (previousObservation !== undefined && (existing === null
+          ? previousObservation !== null
+          : previousObservation === null || !sameIdentity(existing, previousObservation))) throw reviewRequired();
+        if (localStorage.getItem(storageKey) !== raw) {
+          if (decision === 2) throw reviewRequired();
+          previousObservation = existing;
+          continue;
+        }
 
-      if (attempt.status === 'SUCCEEDED') {
-        if (!sameRequest(attempt.request, request) || !responseIsSuccess(action, orderId, attempt.result)) {
-          throw new Error('الطلب ناجح سابقًا لكن دليل النتيجة غير متطابق. راجع حالة الطلب.');
+        if (attempt.status === 'SUCCEEDED') {
+          if (!sameRequest(attempt.request, request) || !responseIsSuccess(action, orderId, attempt.result)) {
+            throw new Error('الطلب ناجح سابقًا لكن دليل النتيجة غير متطابق. راجع حالة الطلب.');
+          }
+          return {data: attempt.result, error: null};
         }
-        return {data: attempt.result, error: null};
-      }
-      if (attempt.status === 'OUTCOME_UNKNOWN' || attempt.status === 'IN_FLIGHT') {
-        if (!sameRequest(attempt.request, request)) {
-          throw new Error('نتيجة المحاولة السابقة غير محسومة. لا تغيّر المدخلات أو مفتاح المحاولة.');
+        if (attempt.status === 'OUTCOME_UNKNOWN' || attempt.status === 'IN_FLIGHT') {
+          if (!sameRequest(attempt.request, request)) {
+            throw new Error('نتيجة المحاولة السابقة غير محسومة. لا تغيّر المدخلات أو مفتاح المحاولة.');
+          }
+          attempt.hadUnknownOutcome = true;
+        } else if (attempt.status === 'DEFINITIVELY_REJECTED') {
+          const attemptId = newAttemptId();
+          attempt = {version: 2, actorId, orderId, action, attemptId,
+            key: await actionKey(actorId, orderId, action, attemptId), request,
+            status: 'PREPARED', executionGeneration: 0, hadUnknownOutcome: false};
+        } else if (!sameRequest(attempt.request, request)) {
+          throw new Error('توجد محاولة جارية بمدخلات مختلفة. انتظر نتيجتها أولًا.');
         }
-        attempt.hadUnknownOutcome = true;
-      } else if (attempt.status === 'DEFINITIVELY_REJECTED') {
-        const attemptId = newAttemptId();
-        attempt = {version: 2, actorId, orderId, action, attemptId,
-          key: await actionKey(actorId, orderId, action, attemptId), request,
-          status: 'PREPARED', executionGeneration: 0, hadUnknownOutcome: false};
-      } else if (!sameRequest(attempt.request, request)) {
-        throw new Error('توجد محاولة جارية بمدخلات مختلفة. انتظر نتيجتها أولًا.');
-      }
 
-      const executionGeneration = attempt.executionGeneration + 1;
-      attempt = {...attempt, status: 'IN_FLIGHT', executionGeneration, rejectionCode: undefined};
-      await writeAttempt(storageKey, attempt, raw);
+        const executionGeneration = attempt.executionGeneration + 1;
+        attempt = {...attempt, status: 'IN_FLIGHT', executionGeneration, rejectionCode: undefined};
+        if (!await writeAttempt(storageKey, attempt, raw, true)) {
+          if (decision === 2) throw reviewRequired();
+          previousObservation = existing;
+          continue;
+        }
+        break;
+      }
       let result: {data: any; error: any};
       try {
         result = action === 'cancel'

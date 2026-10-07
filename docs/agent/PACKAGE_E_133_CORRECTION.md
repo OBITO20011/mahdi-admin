@@ -43,3 +43,21 @@ PO V1 في008 يحفظ خصم السطر وخصم الفاتورة والتوص�
 - أولquality أخفق فقط فيassertion قديم واحد مضاعف على Chromium/WebKit: توقع بطاقة مبيعات قيمتها0 ظاهرة، خلاف قرار المالك. صُححfixture/الاختبار لإثبات الصفر مخفي والبطاقة التاريخية7000 ظاهرة، مع بقاء المبيعات39000 والداخل48000 وعدم اختراع آجل؛6/6 focused PASS، دون تغيير timeout/retries أو code/business/SQL لهذه المعالجة. quality الكامل التالي جارٍ.
 - quality التالي PASS/exit0:697 Admin (يشمل4 اختبارات مسودة الحجم المحفوظة)، وبناء/lint/tests المتجر، وعزل الشبكة Chromium/WebKit بصفر escaped/Production؛267 browser PASS،59 existing conditional skips،retries0. Gitleaks كامل42 ملف exit0، ولا DB/server تابع للفحص بعد التنظيف.
 - مسودة هـ2 محفوظة مؤقتاً في Git stash بعنوان `codex package-e scale draft preserved before133 correction delivery` لفصل commit التصحيح. تُستعاد عند الاستئناف الرسمي من baseline التصحيح، بعد exact-SHA CI؛ لا حذف للعمل. المتبقي: commit/push/CI ثم134/إعادة القياس/E3؛ لاProduction/deploy.
+
+## التسليم وحاجزCI
+
+### تصحيح العميل المصرح2026-10-08
+
+حُددت نافذةCAS قبل الكتابة: بعد منحWebLock يمكن أن تظهرIN_FLIGHT القديمة ثمSUCCEEDED منstorage event. سجلCI يثبتها لـaftercare فيretry0/1/2؛ لاLIFECYCLE diagnostics بالسجل. probe مستقل يشغّل جسمlifecycle الأصلي منHEAD فيVM مع قراءةIN_FLIGHT ثمSUCCEEDED أثبت رفضADMIN_LIFECYCLE_REVIEW_REQUIRED معreads2/RPC0/writes0؛ المصدر لم يتغير أثناءprobe.
+
+المعالجة المحدودة فيالخدمتين: إعادة تقييم القرار عندCASمتغير بحدإعادتين، داخلنفسالقفل ودونانتظارعشوائي/RPCretry. كلإعادةتلزمهويةمحاولةمطابقة؛START_NEWيبقىمحجوباًبالمعلقة. نجاحمحفوظبعدRPCيُقبللهوية/طلبمطابقينوبجيللايتجاوزالمرسل؛نجاحغيرصحيح/هويةمختلفةيرفضدونكتابة. تحققكمية/ماليةالنجاحوقواعدالرفضلمتُخفف. اختباراتالوحدةالجديدة25PASS؛الموجودة33PASS. تكراراتالتبويبينوالجودةوالتسليمقيدالتحقق؛134لمتبدأ.
+
+التحقق المركّز النهائي:58/58 وحدة، TypeScript وESLintstrict PASS. نفساختباريالتبويبيندونتعديل ×30لكلمنChromium/WebKit:120/120PASS،workers1/retries0،rpc-count1كماهو. اختبـار447للطلبالمستبدل2/2PASSورفضreview-requiredمحفوظ. Gitleaksللملفاتالمعدلةالجديدةexit0؛fullqualityهوالمتبقيقبلcommit/push/CI. migrations001–133وworkflowوكلe2eدونتعديل؛E2stashمحفوظ.
+
+FullqualityالمصححPASS/exit0:267browserPASS،59conditional skipsموجودة،retries0محلياً؛الاختبارانوالطلبالمستبدلنجحواداخلالحزمةالكاملةأيضاً. بناءالمتجر/SEOوالعزلPASS(external/Production escaped0). لامهاجرة/CI/e2eتغيرت؛التسليمالمصرحالتاليcommit/pushثمexact-SHAquality+secretsقبل134.
+
+2026-10-08: قرار المالك اللاحق يحل محل اقتراح تعديل تهيئةCI: لا تعديلworkflow ولاcommit جديد؛ أُعيدت الوظيفة الملغاة فقط على نفسSHA عبرrerun-failed-jobs (المحاولة2). إذا تكرر تجهيز المتصفحات بأكثر من5 دقائق نتوقف للمالك؛ إذا نجحCI نكمل134/القياس المعتمد ثمE3. فحص الأسرار علىSHA نفسه ناجح. لاProduction/deploy.
+
+نتيجة المحاولة2: FAIL، تجهيز المتصفحات57s وليس بطء تنزيل متكرراً. Quality انتهىexit1:265 browser PASS،59 existing skips،1failed (`admin-aftercare-recovery.spec.ts:488` Mobile WebKit؛ موضع الرفض531، `AFTERCARE_REVIEW_REQUIRED`)، و1flaky (`admin-lifecycle-recovery.spec.ts:7`؛ موضع77، نجح بإعادة المحاولة الموجودة مسبقاً). فشلaftercare تكرر في المحاولة الأصلية وretry1/2 الموجودة فيCI؛ لم نضفretries أوtimeouts. التشخيص المرفق يرصد قراءةIN_FLIGHT في التبويب الثاني بعد منحWebLock، ثمstorage event/قراءةSUCCEEDED، ثمreview-required؛ هذا دليل على ترتيب رؤية الحالة المحلية وليس إثباتاً نهائياً لسبب التطبيق/المتصفح/الاختبار. توقفنا دون إصلاح أو إعادة تشغيل أخرى؛134 لم تُنشأ، ومسودةE2 محفوظة. يلزم تشخيص مركّز بموافقة المالك قبل توسيع العمل.
+
+التصحيح36 ملفاً committed/pushed بـ`c5c5e2ef0d76e966c6946fee90eedbb93794af88`، parent413e32d؛ `ls-remote` يطابق، و001–132 دون تعديل. Gitleaks staged exit0. Secret scanning37682027888 PASS. Code quality37682027893 CANCELLED:14/15 jobs PASS؛ check-run annotation حرفياً `The job has exceeded the maximum execution time of 20m0s`. إعداد المتصفحات20:27:16→20:35:39 (8m23)، ثمquality20:35:39→20:46:57 أُلغي بحدjob20m. لم يحدث push أحدث، ولاassertion failure مسجل قبل الإلغاء؛ لا يُعتبر هذا CI PASS أو إثبات اكتمال browser علىGitHub. لا إعادة تشغيل يدوية أو رفعtimeouts أو تغيير تغطية؛ يلزم تصحيح محدود لتهيئةCI قبل134. مسودةE2 محفوظة، ولاProduction/deploy.

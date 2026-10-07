@@ -239,13 +239,19 @@ async function validateAttempt(
   return value;
 }
 
-const sameAttemptIdentity = (left: AftercareAttempt, right: AftercareAttempt) =>
+const sameImmutableIdentity = (left: AftercareAttempt, right: AftercareAttempt) =>
   left.version === right.version && left.actorId === right.actorId
   && left.orderId === right.orderId && left.action === right.action
   && left.intentId === right.intentId && left.attemptId === right.attemptId
   && left.idempotencyKey === right.idempotencyKey
   && left.requestFingerprint === right.requestFingerprint
-  && sameRequest(left.request, right.request) && left.generation === right.generation;
+  && sameRequest(left.request, right.request);
+const sameAttemptIdentity = (left: AftercareAttempt, right: AftercareAttempt) =>
+  sameImmutableIdentity(left, right) && left.generation === right.generation;
+const completedSameAttempt = (fresh: AftercareAttempt, sent: AftercareAttempt) =>
+  fresh.status === 'SUCCEEDED' && sameImmutableIdentity(fresh, sent)
+  && fresh.generation <= sent.generation
+  && successMatches(fresh.action, fresh.orderId, sent.request, fresh.result);
 
 async function currentActor(client: SupabaseClient) {
   const auth = await client.auth.getUser();
@@ -295,45 +301,65 @@ export async function runAdminAftercareMutation(
   return withAdminActionLock(lockName, async () => {
     const lockedActor = await currentActor(client);
     if (lockedActor !== actorId) throw reviewRequired();
-    const raw = localStorage.getItem(storageKey);
-    let attempt: AftercareAttempt;
+    let attempt!: AftercareAttempt;
+    let previousObservation: AftercareAttempt | null | undefined;
+    // A granted Web Lock does not flush WebKit's localStorage snapshot. Re-read
+    // at most twice on a pre-write CAS change, never retry the business RPC.
+    for (let decision = 0; decision < 3; decision += 1) {
+      const raw = localStorage.getItem(storageKey);
+      let existing: AftercareAttempt | null = null;
 
-    if (intent === 'RECOVER_EXISTING') {
-      if (raw === null) {
-        throw new Error('AFTERCARE_RECOVERY_NOT_FOUND: لا توجد محاولة معلقة للتعافي.');
-      }
-      attempt = await validateAttempt(JSON.parse(raw), actorId, orderId, action);
-      if (!['IN_FLIGHT', 'OUTCOME_UNKNOWN'].includes(attempt.status)) {
-        if (attempt.status === 'SUCCEEDED') return {data: attempt.result!, error: null};
-        throw new Error('AFTERCARE_RECOVERY_NOT_AVAILABLE: المحاولة الحالية ليست معلقة.');
-      }
-      if (capturedRequest !== null && !sameRequest(attempt.request, capturedRequest)) {
-        throw reviewRequired();
-      }
-    } else {
-      if (!isObject(capturedRequest)) throw reviewRequired();
-      if (raw !== null) {
-        const previous = await validateAttempt(JSON.parse(raw), actorId, orderId, action);
-        if (['IN_FLIGHT', 'OUTCOME_UNKNOWN'].includes(previous.status)) {
-          throw new Error('AFTERCARE_OUTCOME_UNKNOWN: عالج المحاولة السابقة قبل بدء إجراء جديد.');
+      if (intent === 'RECOVER_EXISTING') {
+        if (raw === null) {
+          throw new Error('AFTERCARE_RECOVERY_NOT_FOUND: لا توجد محاولة معلقة للتعافي.');
         }
+        attempt = await validateAttempt(JSON.parse(raw), actorId, orderId, action);
+        existing = attempt;
+        if (previousObservation !== undefined && (previousObservation === null
+          || !sameAttemptIdentity(existing, previousObservation))) throw reviewRequired();
+        if (capturedRequest !== null && !sameRequest(attempt.request, capturedRequest)) {
+          throw reviewRequired();
+        }
+        if (!['IN_FLIGHT', 'OUTCOME_UNKNOWN'].includes(attempt.status)) {
+          if (attempt.status === 'SUCCEEDED') return {data: attempt.result!, error: null};
+          throw new Error('AFTERCARE_RECOVERY_NOT_AVAILABLE: المحاولة الحالية ليست معلقة.');
+        }
+      } else {
+        if (!isObject(capturedRequest)) throw reviewRequired();
+        if (raw !== null) {
+          const previous = await validateAttempt(JSON.parse(raw), actorId, orderId, action);
+          existing = previous;
+          if (['IN_FLIGHT', 'OUTCOME_UNKNOWN'].includes(previous.status)) {
+            throw new Error('AFTERCARE_OUTCOME_UNKNOWN: عالج المحاولة السابقة قبل بدء إجراء جديد.');
+          }
+        }
+        if (previousObservation !== undefined && (existing === null
+          ? previousObservation !== null
+          : previousObservation === null || !sameAttemptIdentity(existing, previousObservation))) {
+          throw reviewRequired();
+        }
+        const request = capturedRequest;
+        const intentId = nextIdentity();
+        const attemptId = nextIdentity();
+        attempt = {
+          version: 2, actorId, orderId, action, intentId, attemptId,
+          idempotencyKey: await buildKey(actorId, orderId, action, intentId, attemptId),
+          requestFingerprint: await fingerprintRequest(request), request,
+          status: 'PREPARED', generation: 0, hadUnknownOutcome: false,
+        };
       }
-      const request = capturedRequest;
-      const intentId = nextIdentity();
-      const attemptId = nextIdentity();
-      attempt = {
-        version: 2, actorId, orderId, action, intentId, attemptId,
-        idempotencyKey: await buildKey(actorId, orderId, action, intentId, attemptId),
-        requestFingerprint: await fingerprintRequest(request), request,
-        status: 'PREPARED', generation: 0, hadUnknownOutcome: false,
-      };
-    }
 
-    if (localStorage.getItem(storageKey) !== raw) throw reviewRequired();
-    attempt = {...attempt, status: 'IN_FLIGHT', generation: attempt.generation + 1,
-      hadUnknownOutcome: attempt.hadUnknownOutcome
-        || attempt.status === 'IN_FLIGHT' || attempt.status === 'OUTCOME_UNKNOWN'};
-    save(storageKey, attempt);
+      if (localStorage.getItem(storageKey) !== raw) {
+        if (decision === 2) throw reviewRequired();
+        previousObservation = existing;
+        continue;
+      }
+      attempt = {...attempt, status: 'IN_FLIGHT', generation: attempt.generation + 1,
+        hadUnknownOutcome: attempt.hadUnknownOutcome
+          || attempt.status === 'IN_FLIGHT' || attempt.status === 'OUTCOME_UNKNOWN'};
+      save(storageKey, attempt);
+      break;
+    }
     const sentAttempt = structuredClone(attempt);
 
     let response: {data: unknown; error: any};
@@ -342,8 +368,8 @@ export async function runAdminAftercareMutation(
     } catch (error) {
       const fresh = await validateAttempt(JSON.parse(localStorage.getItem(storageKey) || 'null'),
         actorId, orderId, action);
+      if (completedSameAttempt(fresh, sentAttempt)) return {data: fresh.result!, error: null};
       if (!sameAttemptIdentity(fresh, sentAttempt)) throw reviewRequired();
-      if (fresh.status === 'SUCCEEDED') return {data: fresh.result!, error: null};
       if (fresh.status !== 'IN_FLIGHT') throw reviewRequired();
       save(storageKey, {...fresh, status: 'OUTCOME_UNKNOWN', hadUnknownOutcome: true});
       throw error;
@@ -351,8 +377,8 @@ export async function runAdminAftercareMutation(
 
     const fresh = await validateAttempt(JSON.parse(localStorage.getItem(storageKey) || 'null'),
       actorId, orderId, action);
+    if (completedSameAttempt(fresh, sentAttempt)) return {data: fresh.result!, error: null};
     if (!sameAttemptIdentity(fresh, sentAttempt)) throw reviewRequired();
-    if (fresh.status === 'SUCCEEDED') return {data: fresh.result!, error: null};
     if (fresh.status !== 'IN_FLIGHT') throw reviewRequired();
     if (!response.error && successMatches(action, orderId, fresh.request, response.data)) {
       const result = structuredClone(response.data);

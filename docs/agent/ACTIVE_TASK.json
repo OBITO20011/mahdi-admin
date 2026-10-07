@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "133 correction locally verified; deliver exact-SHA CI, then approved134/E2/E3",
-  "baselineSha": "413e32dee4a1e14e527e56aec2c7d4234291fedc",
+  "objective": "Owner-approved bounded client CAS refresh correction; green delivery CI before134/E2",
+  "baselineSha": "c5c5e2ef0d76e966c6946fee90eedbb93794af88",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_E",
@@ -11,64 +11,36 @@
     "133 DB before21/after41 +3 historical policy PASS; product field invariance; DB lint16 compatibility warnings;697 unit/4 browser PASS"
   ],
   "inProgress": [
-    "133 commit/push/exact-SHA CI delivery"
+    "Client correction localqualityPASS; authorized corrective commit/push and exact-SHA CI before134"
   ],
   "notStarted": [
-    "133 delivery;134/E2;E3;Package F",
+    "134/E2;E3;Package F",
     "Phase 7"
   ],
   "filesTouched": [
-    ".github/workflows/quality.yml",
-    "docs/agent/OWNER_DECISIONS.md",
-    "docs/agent/PACKAGE_E_PLAN.md",
-    "docs/agent/PHASE_STATUS.md",
-    "docs/agent/PROJECT_OVERVIEW.md",
-    "docs/agent/project-state.json",
-    "e2e/admin-direct-receiving-recovery.spec.ts",
-    "e2e/package-e-closing.spec.ts",
-    "scripts/testing/run-package-e-closing-runtime.mjs",
-    "scripts/testing/run-package-e-golden-day-runtime.mjs",
-    "scripts/testing/run-package-e-supplier-runtime.mjs",
-    "src/features/dashboard/DashboardView.tsx",
-    "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-    "src/features/directReceiving/DirectReceivingView.tsx",
-    "src/features/purchases/PurchasesView.tsx",
-    "src/features/purchases/ReceiveGoodsModal.tsx",
-    "src/features/reports/ReportsCenterView.tsx",
-    "src/features/shifts/ShiftClosingReportModal.tsx",
-    "src/services/supabase/dashboard.service.ts",
-    "src/services/supabase/directReceiving.service.ts",
-    "src/services/supabase/expenses-shifts.service.ts",
-    "src/services/supabase/purchases.service.ts",
-    "src/services/supabase/reports.service.ts",
-    "src/types/dashboard.ts",
-    "src/types/directReceiving.ts",
-    "src/types/index.ts",
-    "src/types/purchases.ts",
-    "src/types/reports.ts",
-    "supabase/migrations/133_package_e_supplier_po_financial_consistency.sql",
-    "tests/package-e-supplier.test.ts",
     "docs/agent/PACKAGE_E_133_CORRECTION.md",
-    "scripts/sql/package-e-legacy-po-review.sql",
-    "src/utils/receivingV2.ts",
-    "tests/receiving-v2-adapter.test.ts"
+    "src/services/supabase/adminAftercareRecovery.ts",
+    "src/services/supabase/adminCustomerV2Lifecycle.ts",
+    "tests/admin-recovery-storage-propagation.test.ts"
   ],
   "testsPassed": [
-    "133 before21/after41+3policy;closing/golden PASS;DB lint16 compatible;typecheck/ESLint;697 units;4 browser;Gitleaks0;E2 prior evidence preserved"
+    "Recovery58/58;two-tab120/120 retries0;substitution2/2;fullquality267 browser/59 existing skips;isolation escaped0;TypeScript/ESLint/GitleaksPASS"
   ],
   "testsRemaining": [
-    "133 exact-SHA CI;134/E2;E3;stop monthly/daily p95>3s"
+    "Exact-SHA complete quality CI;then134/E2/E3;E2 draft6files preserved in named Git stash"
   ],
   "findings": [],
-  "blockers": [],
+  "blockers": [
+    "134 waits corrected client exact-SHA CI green; no workflow/migration changes in this corrective commit"
+  ],
   "activeProcesses": [],
   "prohibitions": [
     "Production/deploy",
     "001-132 immutable;133 approved correction only;134 after133;explicit SQL",
     "No F/Phase7,automations;stop policy gap or monthly/daily p95>3s"
   ],
-  "nextExactAction": "Verify133 corrective push exact-SHA quality+secret CI; then agent:start approved134/E2 from clean HEAD and restore named scale draft stash",
-  "workingTreeFingerprint": "7BB0D5024F7E679470BD6E53205278430A0BA57C19E6FCB39EDD9C90007634FA",
-  "checkpointedAt": "2026-10-07T20:25:53.406Z",
-  "startedAt": "2026-10-07T08:09:41.777Z"
+  "nextExactAction": "Commit/push verified client CAS correction; wait exact-SHA quality/secrets then resume approved134/E2; no CI/migration edits before green",
+  "workingTreeFingerprint": "B145168A6CBAE969572A77BB23FFEA64F90076862F898C6A11B7FBE613B4A518",
+  "checkpointedAt": "2026-10-07T21:46:57.185Z",
+  "startedAt": "2026-10-07T20:57:12.760Z"
 }
