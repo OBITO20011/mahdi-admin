@@ -97,12 +97,15 @@ test('cash refunds reduce drawer expectation and are snapshotted on close', () =
   assert.match(shiftView, /currentShift\.cliqRefunds/);
 });
 
-test('admin return UI uses the guarded RPC and exposes stock disposition', () => {
+test('historical return service stays identifiable but Admin Legacy creation is read-only', () => {
   assert.match(orderService, /\.rpc\(\s*'return_completed_website_order'/);
-  assert.match(orderDetail, /تسجيل مرتجع كامل ورد المبلغ/);
-  assert.match(orderDetail, /سليمة — تعود للمخزون/);
-  assert.match(orderDetail, /تالفة — لا تعود للمخزون/);
-  assert.match(orderDetail, /اعتماد المرتجع ورد المبلغ/);
+  assert.match(orderDetail, /aftercareCapability === 'legacy_website_return_v1'/u);
+  assert.match(orderDetail, /للقراءة فقط/u);
+  assert.doesNotMatch(orderDetail, /تسجيل مرتجع كامل ورد المبلغ|اعتماد المرتجع ورد المبلغ|handleReturnCompletedOrder/u);
+  assert.match(orderDetail, /<AdminAftercarePanel/u);
+  const panel=readFileSync(new URL('../src/features/orders/AdminAftercarePanel.tsx',import.meta.url),'utf8');
+  assert.match(panel,/settleAdminReturn/u);
+  assert.match(panel,/غير قابل للبيع/u);
 });
 
 test('customer tracking explains a returned order', () => {

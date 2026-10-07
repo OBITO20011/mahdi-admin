@@ -56,8 +56,11 @@ test('Slice 3 proves operation-scoped loser state and deadlock integrity', () =>
 });
 
 test('Slice 3 remains compatible with private inactive Migration 123 and reserves broad gates', () => {
-  assert.match(runtime, /freshRebuild: '001-123'/u);
-  assert.match(runtime, /migration123: 'PRIVATE_INACTIVE'/u);
+  assert.match(runtime, /freshRebuild: currentPackageD \? '001-131' : '001-123'/u);
+  assert.match(runtime, /operationalSchema: currentPackageD \? '001-132' : 'historical'/u);
+  assert.match(runtime, /migration123: currentPackageD \? 'RETIRED_BY_132' : 'PRIVATE_INACTIVE'/u);
+  assert.match(runtime, /NAWASRAH_MAX_MIGRATION: '131'/u);
+  assert.match(runtime, /132_package_d_system_unification\.sql/u);
   assert.match(runtime, /slice: 'concurrency-replay'/u);
   assert.doesNotMatch(runtime, /123_/u);
 });

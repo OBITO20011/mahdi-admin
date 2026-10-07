@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { PackageCheck, PackageX, RefreshCw, RotateCcw } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 import type { Order } from '../../types';
-import {allocateBaseReturn, assertReturnCapacityUnchanged} from './aftercarePresentation';
+import {allocateBaseReturn, assertReturnCapacityUnchanged, singleSkuPhysicalQuantity} from './aftercarePresentation';
 import {businessErrorMessage} from '../../utils/businessError';
 import {
   fetchAdminAftercareContext,
@@ -31,7 +31,8 @@ interface LeafAllocation {
 }
 type ReturnDraft =
   | {kind: 'base'; orderItemId: string; productId: string;
-      representatives: AftercarePhysicalRepresentative[]; quantity: number; disposition: 'restock' | 'damaged'}
+      representatives: AftercarePhysicalRepresentative[]; quantity: number; unitsPerParcel: number; isSingleSkuParcel: boolean; disposition: 'restock' | 'damaged';
+      allocations?: Record<string, LeafAllocation>; standalonePrice?: number | null}
   | {kind: 'parcel'; parcel: AdminAftercareContext['parcelInstances'][number];
       allocations: Record<string, LeafAllocation>};
 
@@ -47,6 +48,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
   const [error, setError] = useState<string | null>(null);
   const [replacementSource, setReplacementSource] =
     useState<AftercarePhysicalRepresentative | null>(null);
+  const [replacementQuantity, setReplacementQuantity] = useState(1);
   const [returnDraft, setReturnDraft] = useState<ReturnDraft | null>(null);
   const [reason, setReason] = useState('');
   const [notes, setNotes] = useState('');
@@ -68,6 +70,13 @@ export const AdminAftercarePanel: React.FC<Props> = ({
       setError(result.error || 'تعذر تحميل سياق خدمات ما بعد البيع.');
       onContractResolved(null);
     } else {
+      if (result.data.baseItems.some(item => item.commercialLineKind === 'legacy_single_sku_parcel'
+        && (!Number.isSafeInteger(item.unitsPerParcel) || (item.unitsPerParcel || 0) < 1
+          || item.quantity % item.unitsPerParcel! !== 0
+          || item.physicalRepresentatives.some(source => source.remainingQuantity % item.unitsPerParcel! !== 0)))) {
+        setError('لقطات حجم الكرتونة أو كميتها غير متطابقة؛ لا يمكن إجراء مرتجع أو استبدال.');
+        onContractResolved(null); setLoading(false); return;
+      }
       setContext(result.data);
       onContractResolved(result.data.capability);
       try {
@@ -110,18 +119,23 @@ export const AdminAftercarePanel: React.FC<Props> = ({
   if (!context?.supported) return null;
 
   const resetForm = () => {
-    setReplacementSource(null); setReturnDraft(null); setReason(''); setNotes('');
+    setReplacementSource(null); setReplacementQuantity(1); setReturnDraft(null); setReason(''); setNotes('');
     setReference(''); setRefundMethod('cash');
   };
   const runReplacement = async () => {
     if (!replacementSource || reason.trim().length < 3) {
       notify('اكتب سبب الاستبدال وحدد الوحدة الحالية.', 'error'); return;
     }
+    const factor = replacementSource.unitsPerParcel || 1;
+    if (!Number.isSafeInteger(replacementQuantity) || replacementQuantity < 1
+      || replacementQuantity * factor > replacementSource.remainingQuantity) {
+      notify('اختر عدداً صحيحاً من الكراتين المتاحة.', 'error'); return;
+    }
     setBusy(true);
     try {
       const result = await settleAdminReplacement({orderId: order.id,
         items: [{sourceKind: replacementSource.sourceKind,
-          sourceId: replacementSource.sourceId, quantity: 1}],
+          sourceId: replacementSource.sourceId, quantity: replacementQuantity * factor}],
         reason, notes});
       if (!result.success) { notify(businessErrorMessage(result.error || 'تعذر إصدار البديل.'), 'error'); return; }
       notify('تم إصدار بديل من نفس الصنف والكمية مع حفظ سلسلة الأصل والتكلفة.');
@@ -136,12 +150,34 @@ export const AdminAftercarePanel: React.FC<Props> = ({
   const buildReturn = (): {items: ReturnRequestItem[]; physical: ReturnPhysicalSource[]} | null => {
     if (!returnDraft) return null;
     if (returnDraft.kind === 'base') {
-      const quantity = returnDraft.quantity;
+      const quantity = singleSkuPhysicalQuantity(returnDraft.quantity, returnDraft.unitsPerParcel);
+      const physical = allocateBaseReturn(returnDraft.orderItemId, returnDraft.representatives,
+        quantity, returnDraft.disposition, context.replacements, context.order.completedAt || undefined);
+      if (returnDraft.isSingleSkuParcel && returnDraft.allocations) {
+        let sellable = 0; let damage = 0;
+        for (const source of physical) {
+          const allocation = returnDraft.allocations[source.source_id];
+          if (!allocation || ![allocation.sellableRestock,allocation.defectNonSellable,allocation.customerDamage]
+            .every(value => Number.isSafeInteger(value) && value >= 0)
+            || allocation.sellableRestock + allocation.defectNonSellable + allocation.customerDamage !== source.quantity) {
+            throw new Error('PHASE43_RETURN_ALLOCATION_INVALID: صنّف كامل كمية الكرتونة.');
+          }
+          source.sellable_restock_quantity = allocation.sellableRestock;
+          source.defect_non_sellable_quantity = allocation.defectNonSellable;
+          source.customer_damage_quantity = allocation.customerDamage;
+          sellable += allocation.sellableRestock; damage += allocation.customerDamage;
+        }
+        if (damage > 0 && returnDraft.standalonePrice == null) throw new Error('PACKAGE_D_CARTON_DAMAGE_PRICE_MISSING');
+        if (damage > 0 && returnDraft.quantity !== 1) throw new Error(
+          'افحص ضرر العميل بمرتجع مستقل لكل كرتونة حتى لا يتجاوز الخصم استحقاقها الأصلي.');
+        return {items: [{return_scope: 'base_unit', order_item_id: returnDraft.orderItemId,
+          quantity, stock_disposition: sellable > 0 ? 'restock' : 'damaged',
+          ...(damage > 0 ? {customer_damage_quantity: damage} : {})}], physical};
+      }
       return {
         items: [{return_scope: 'base_unit', order_item_id: returnDraft.orderItemId,
           quantity, stock_disposition: returnDraft.disposition}],
-        physical: allocateBaseReturn(returnDraft.orderItemId, returnDraft.representatives,
-          quantity, returnDraft.disposition, context.replacements, context.order.completedAt || undefined),
+        physical,
       };
     }
     return {
@@ -283,15 +319,25 @@ export const AdminAftercarePanel: React.FC<Props> = ({
         <div className="space-y-2">
           <p className="text-sm font-bold text-slate-300">الأصناف والقطع الحالية المتاحة</p>
           {context.baseItems.map((item) => {
-            const quantity = rootQuantity(item.physicalRepresentatives);
+            const factor = item.commercialLineKind === 'legacy_single_sku_parcel' ? item.unitsPerParcel! : 1;
+            const quantity = rootQuantity(item.physicalRepresentatives) / factor;
             return quantity > 0 && <div key={item.orderItemId} className="rounded-xl border border-slate-700 bg-slate-950 p-2">
-              <div className="flex flex-wrap items-center justify-between gap-2"><span>{order.items.find(line => line.id === item.orderItemId)?.productName || 'وحدة أساسية'} · المتبقي {quantity} وحدة</span>
+              <div className="flex flex-wrap items-center justify-between gap-2"><span>{order.items.find(line => line.id === item.orderItemId)?.productName || 'وحدة أساسية'} · المتبقي {quantity} {item.commercialLineKind === 'legacy_single_sku_parcel' ? 'كرتونة كاملة' : 'وحدة'}</span>
                 <div className="flex gap-1">
                   <button type="button" onClick={() => setReturnDraft({kind: 'base', orderItemId: item.orderItemId,
-                    productId: item.productId, representatives: item.physicalRepresentatives, quantity: 1, disposition: 'restock'})}
+                    productId: item.productId, representatives: item.physicalRepresentatives, quantity: 1, unitsPerParcel: factor,
+                    isSingleSkuParcel: item.commercialLineKind === 'legacy_single_sku_parcel', disposition: 'restock',
+                    standalonePrice: item.standalonePriceInMinorUnits,
+                    allocations: item.commercialLineKind === 'legacy_single_sku_parcel'
+                      ? Object.fromEntries(allocateBaseReturn(item.orderItemId,item.physicalRepresentatives,factor,
+                        'restock',context.replacements,context.order.completedAt).map(source => [source.source_id,
+                          {sellableRestock:source.quantity,defectNonSellable:0,customerDamage:0}])) : undefined})}
                     className="min-h-11 rounded bg-orange-700 px-3 py-2 text-white">مرتجع</button>
-                  <button type="button" onClick={() => setReplacementSource(item.physicalRepresentatives.find(source => source.remainingQuantity > 0) || null)}
-                    className="min-h-11 rounded bg-indigo-700 px-3 py-2 text-white">استبدال وحدة</button>
+                  <button type="button" onClick={() => {
+                    const source = item.physicalRepresentatives.find(value => value.remainingQuantity >= factor);
+                    setReplacementSource(source ? {...source, unitsPerParcel: factor,
+                      isSingleSkuParcel: item.commercialLineKind === 'legacy_single_sku_parcel'} : null); setReplacementQuantity(1);
+                  }} className="min-h-11 rounded bg-indigo-700 px-3 py-2 text-white">{item.commercialLineKind === 'legacy_single_sku_parcel' ? 'استبدال كرتونة' : 'استبدال وحدة'}</button>
                 </div>
               </div>
             </div>;
@@ -321,7 +367,12 @@ export const AdminAftercarePanel: React.FC<Props> = ({
       )}
 
       {replacementSource && <div className="space-y-2 rounded-xl border border-indigo-700 bg-slate-950 p-3">
-        <b className="text-indigo-200">إصدار بديل من نفس الصنف — وحدة واحدة</b>
+        <b className="text-indigo-200">إصدار بديل من نفس الصنف — {replacementSource.isSingleSkuParcel ? 'كراتين كاملة' : 'وحدة واحدة'}</b>
+        {replacementSource.isSingleSkuParcel && <label className="block">عدد كراتين الاستبدال
+          <input aria-label="عدد كراتين الاستبدال" type="number" min={1} step={1}
+            max={replacementSource.remainingQuantity / replacementSource.unitsPerParcel!}
+            value={replacementQuantity} disabled={busy} onChange={e => setReplacementQuantity(Number(e.target.value))}
+            className="mt-1 w-full rounded bg-slate-900 p-2"/></label>}
         <textarea value={reason} onChange={(event) => setReason(event.target.value)} rows={2}
           placeholder="سبب العيب/الاستبدال" className="w-full rounded-lg border border-slate-700 bg-slate-900 p-2 text-white"/>
         <input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="ملاحظة داخلية"
@@ -332,18 +383,45 @@ export const AdminAftercarePanel: React.FC<Props> = ({
       </div>}
 
       {returnDraft && <div className="space-y-2 rounded-xl border border-orange-700 bg-slate-950 p-3">
-        <b className="text-orange-200">مرتجع من القطعة الحالية</b>
-        {returnDraft.kind === 'base' && <label className="block text-sm">كمية المرتجع (المتبقي {rootQuantity(returnDraft.representatives)})
-          <input aria-label="كمية المرتجع" type="number" min={1} step={1}
-            max={rootQuantity(returnDraft.representatives)} value={returnDraft.quantity}
-            disabled={busy} onChange={event => setReturnDraft({...returnDraft, quantity: Number(event.target.value)})}
+        <b className="text-orange-200">{returnDraft.kind === 'base' && returnDraft.isSingleSkuParcel ? 'مرتجع كراتين كاملة من الصنف الحالي' : 'مرتجع من القطعة الحالية'}</b>
+        {returnDraft.kind === 'base' && <label className="block text-sm">{returnDraft.isSingleSkuParcel ? 'عدد كراتين المرتجع' : 'كمية المرتجع'} (المتبقي {rootQuantity(returnDraft.representatives) / returnDraft.unitsPerParcel})
+          <input aria-label={returnDraft.isSingleSkuParcel ? 'عدد كراتين المرتجع' : 'كمية المرتجع'} type="number" min={1} step={1}
+            max={rootQuantity(returnDraft.representatives) / returnDraft.unitsPerParcel} value={returnDraft.quantity}
+            disabled={busy} onChange={event => {
+              const quantity = Number(event.target.value);
+              if (returnDraft.isSingleSkuParcel) {
+                try {
+                  const physical = allocateBaseReturn(returnDraft.orderItemId,returnDraft.representatives,
+                    singleSkuPhysicalQuantity(quantity,returnDraft.unitsPerParcel),'restock',
+                    context.replacements,context.order.completedAt);
+                  setReturnDraft({...returnDraft,quantity,allocations:Object.fromEntries(physical.map(source =>
+                    [source.source_id,{sellableRestock:source.quantity,defectNonSellable:0,customerDamage:0}]))});
+                } catch (quantityError) { notify(businessErrorMessage(quantityError),'error'); }
+              } else setReturnDraft({...returnDraft,quantity});
+            }}
             className="mt-1 min-h-11 w-full rounded-lg border border-slate-700 bg-slate-900 p-2"/>
         </label>}
-        {returnDraft.kind === 'base' && <div className="grid grid-cols-2 gap-2">
+        {returnDraft.kind === 'base' && !returnDraft.isSingleSkuParcel && <div className="grid grid-cols-2 gap-2">
           <button type="button" onClick={() => setReturnDraft({...returnDraft, disposition: 'restock'})}
             className={`rounded-lg border p-2 ${returnDraft.disposition === 'restock' ? 'bg-emerald-700' : 'border-slate-700'}`}><PackageCheck className="mx-auto h-4 w-4"/>سليم</button>
           <button type="button" onClick={() => setReturnDraft({...returnDraft, disposition: 'damaged'})}
             className={`rounded-lg border p-2 ${returnDraft.disposition === 'damaged' ? 'bg-rose-700' : 'border-slate-700'}`}><PackageX className="mx-auto h-4 w-4"/>غير قابل للبيع</button>
+        </div>}
+        {returnDraft.kind === 'base' && returnDraft.isSingleSkuParcel && <div className="space-y-2">
+          {returnDraft.standalonePrice == null && <p className="text-sm text-amber-200">
+            هذا البيع القديم بلا لقطة سعر القطعة؛ السليم وعيب المورد متاحان، وضرر العميل غير متاح.</p>}
+          {(Object.entries(returnDraft.allocations || {}) as Array<[string,LeafAllocation]>).map(([sourceId,allocation]) => {
+            const selected = allocation.sellableRestock + allocation.defectNonSellable + allocation.customerDamage;
+            return <div key={sourceId} className="grid grid-cols-3 gap-2 rounded-lg border border-slate-700 p-2">
+              {([['sellableRestock','سليم'],['defectNonSellable','عيب/غير قابل للبيع'],
+                ['customerDamage','ضرر عميل']] as const).map(([field,label]) => <label key={field}>{label}
+                <input type="number" min={0} value={allocation[field]} disabled={busy || (field==='customerDamage' && returnDraft.standalonePrice == null)}
+                  onChange={event => setReturnDraft({...returnDraft,allocations:{...returnDraft.allocations,
+                    [sourceId]:{...allocation,[field]:Number(event.target.value)}}})}
+                  className="mt-1 min-h-11 w-full rounded bg-slate-900 p-2"/></label>)}
+              <p className="col-span-3 text-sm text-slate-400">مجموع التصنيف: {selected} قطعة؛ يجب أن يطابق كمية الممثل المختار.</p>
+            </div>;
+          })}
         </div>}
         {returnDraft.kind === 'parcel' && <div className="space-y-2">
           {returnDraft.parcel.components.map((component, index) => <div key={component.parcelComponentId}

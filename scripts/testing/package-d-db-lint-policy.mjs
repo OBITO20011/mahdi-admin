@@ -34,7 +34,7 @@ export function assertPackageDDbLint(rawOutput) {
       && !Object.hasOwn(entry, 'results') && typeof entry.function === 'string');
     assert.ok(Array.isArray(entry.issues) && entry.issues.length > 0);
     const allowed = parameters.get(entry.function);
-    assert.ok(allowed, `Unexpected DB lint function: ${entry.function}`);
+    assert.ok(allowed, `Unexpected DB lint function: ${entry.function}: ${JSON.stringify(entry.issues)}`);
     for (const issue of entry.issues) {
       assert.ok(issue && typeof issue === 'object' && !Array.isArray(issue));
       assert.match(issue.level || '', /^warning(?: extra)?$/u, 'DB lint errors must fail');

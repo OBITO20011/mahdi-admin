@@ -5,11 +5,13 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
+import {assertPackageDDbLint} from './package-d-db-lint-policy.mjs';
 
 const execFileAsync = promisify(execFile);
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, '..', '..');
 const bootstrapPath = path.join(scriptDirectory, 'bootstrap-isolated-supabase.mjs');
+const currentPackageD = process.env.NAWASRAH_PACKAGE_D_CURRENT === '1';
 const phase3SqlPath = path.join(
   scriptDirectory,
   'phase3-configurable-parcel-contracts-runtime.sql',
@@ -105,7 +107,11 @@ const createBaseSale = async ({ key, quantity, paymentMethod, amountPaid, custom
   return fixture;
 };
 
-const replacementSettlementSql = ({ fixture, key, operationId, eventId, itemId }) => `
+const replacementSettlementSql = ({ fixture, key, operationId, eventId, itemId }) => currentPackageD
+  ? `${ownerClaims} SELECT public.settle_sales_replacement_v1(${sqlLiteral(fixture.orderId)},${sqlLiteral(key)},
+    ${sqlLiteral(JSON.stringify([{sourceKind:'base_order_item',sourceId:fixture.orderItemId,quantity:1}]))}::jsonb,
+    'Concurrent operational Replacement',NULL);`
+  : `
   BEGIN;
   INSERT INTO public.business_operations(
     id,operation_type,idempotency_key,request_fingerprint,initiated_by,
@@ -913,7 +919,7 @@ const runCoreMatrix = async () => {
   const legacyGuard = await expectSqlError(`${ownerClaims}
     SELECT public.return_completed_website_order(
       ${sqlLiteral(failureSale.orderId)},'Legacy bypass','restock','cash',NULL,NULL);`,
-  /PHASE42_COORDINATOR_REQUIRED/u, 'Modern-sale legacy guard');
+  currentPackageD ? /PACKAGE_D_MODERN_AFTERCARE_REQUIRED/u : /PHASE42_COORDINATOR_REQUIRED/u, 'Modern-sale legacy guard');
   assert.notEqual(legacyGuard.code, 0);
 
   const acl = await readJson(`SELECT jsonb_build_object(
@@ -1409,7 +1415,11 @@ const runReturnReplacementRace = async () => {
     replacementFirst.firstResult.stderr);
   assert.notEqual(replacementFirst.secondResult.code, 0);
   assert.match(replacementFirst.secondResult.stderr,
-    /PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED/u);
+    // Current operational issuance advances the physical leaf. A direct Return
+    // without that leaf must reject; historical foundation-only consumption
+    // used the logical-capacity rejection. Require the exact boundary per mode.
+    currentPackageD ? /PHASE43_RETURN_PHYSICAL_LINEAGE_REQUIRED/u
+      : /PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED/u);
 
   const returnFirstSale = await createBaseSale({
     key: 'phase42-return-first-replacement-sale', quantity: 1,
@@ -1438,7 +1448,7 @@ const runReturnReplacementRace = async () => {
 
   const state = await readJson(`SELECT jsonb_build_object(
     'replacementFirstSettled',(SELECT count(*) FROM public.sales_replacement_events
-      WHERE id=${sqlLiteral(replacementFirstIds.eventId)}
+      WHERE ${currentPackageD ? `root_order_id=${sqlLiteral(replacementFirstSale.orderId)}` : `id=${sqlLiteral(replacementFirstIds.eventId)}`}
         AND replacement_status='settled'),
     'replacementFirstReturns',(SELECT count(*) FROM public.sales_return_events
       WHERE order_id=${sqlLiteral(replacementFirstSale.orderId)}),
@@ -1446,11 +1456,11 @@ const runReturnReplacementRace = async () => {
       WHERE order_id=${sqlLiteral(returnFirstSale.orderId)}
         AND settlement_status='settled'),
     'returnFirstReplacementOperations',(SELECT count(*) FROM public.business_operations
-      WHERE id=${sqlLiteral(returnFirstIds.operationId)}),
+      WHERE ${currentPackageD ? "idempotency_key='phase42-return-first-replacement-operation'" : `id=${sqlLiteral(returnFirstIds.operationId)}`}),
     'returnFirstReplacementEvents',(SELECT count(*) FROM public.sales_replacement_events
-      WHERE id=${sqlLiteral(returnFirstIds.eventId)}),
+      WHERE ${currentPackageD ? `root_order_id=${sqlLiteral(returnFirstSale.orderId)}` : `id=${sqlLiteral(returnFirstIds.eventId)}`}),
     'returnFirstReplacementItems',(SELECT count(*) FROM public.sales_replacement_items
-      WHERE id=${sqlLiteral(returnFirstIds.itemId)})
+      WHERE ${currentPackageD ? `root_order_item_id=${sqlLiteral(returnFirstSale.orderItemId)}` : `id=${sqlLiteral(returnFirstIds.itemId)}`})
   );`);
   assert.deepEqual(state, {
     replacementFirstSettled: 1,
@@ -1564,6 +1574,7 @@ try {
     env: {
       ...process.env,
       NAWASRAH_ISOLATED_PROJECT_ID: projectId,
+      ...(currentPackageD ? {NAWASRAH_MAX_MIGRATION: '131'} : {}),
       NAWASRAH_SKIP_REDUNDANT_DB_RESET: 'true',
       NAWASRAH_SUPABASE_EXCLUDE:
         'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor',
@@ -1580,6 +1591,8 @@ try {
   const phase3Sql = await readFile(phase3SqlPath, 'utf8');
   const phase3 = await readJson(phase3Sql, 'Phase 3 prerequisite fixture');
   assert.equal(phase3.ok, true);
+  if(currentPackageD) await runSqlText(await readFile(path.join(projectRoot,
+    'supabase/migrations/132_package_d_system_unification.sql'),'utf8'),'Apply132 after historical prerequisite fixtures');
   const settlementEvidenceBinding = await runSettlementEvidenceBindingMatrix();
   const core = await runCoreMatrix();
   const temporalAndEvidence = await runTemporalAndEvidenceMatrix();
@@ -1592,10 +1605,12 @@ try {
     { cwd: projectRoot, windowsHide: true, maxBuffer: 1024 * 1024, timeout: 120_000 },
   );
   if (/ERROR:/u.test(lintOutput)) throw new Error(`Database lint failed:\n${lintOutput}`);
+  if(currentPackageD) assertPackageDDbLint(lintOutput);
 
   console.log(JSON.stringify({
     ok: true,
-    freshRebuild: '001-121',
+    freshRebuild: currentPackageD ? '001-131' : '001-121',
+    operationalSchema: currentPackageD ? '001-132' : 'historical',
     phase3PrerequisiteScenarios: phase3.scenarios.length,
     settlementEvidenceBinding,
     core,

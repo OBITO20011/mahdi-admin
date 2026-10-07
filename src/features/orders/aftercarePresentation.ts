@@ -1,7 +1,17 @@
 import type {AftercarePhysicalRepresentative, ReturnPhysicalSource} from '../../services/supabase/salesAftercare.service';
 
-/** UI allocation only. Refresh physical capacity before submission; an atomic
- * server-side capacity guard is a separate owner-authorized package D task. */
+/** Commercial cartons are converted only using immutable sale read facts. */
+export function singleSkuPhysicalQuantity(cartons: number, unitsPerParcel: number): number {
+  const quantity = cartons * unitsPerParcel;
+  if (!Number.isSafeInteger(cartons) || cartons < 1 || !Number.isSafeInteger(unitsPerParcel)
+    || unitsPerParcel < 1 || !Number.isSafeInteger(quantity) || quantity > 2147483647) {
+    throw new Error('اختر عدداً صحيحاً من الكراتين الكاملة؛ حجم الكرتونة من لقطة البيع الأصلية.');
+  }
+  return quantity;
+}
+
+/** UI allocation only. Refresh physical capacity before submission; Migration132
+ * enforces authoritative per-source capacity atomically under the order lock. */
 export function allocateBaseReturn(
   orderItemId: string, representatives: AftercarePhysicalRepresentative[],
   quantity: number, disposition: 'restock' | 'damaged',

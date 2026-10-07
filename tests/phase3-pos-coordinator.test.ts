@@ -227,5 +227,7 @@ test('runtime uses independent connections and verifies cross-version and stock 
   assert.match(runtime, /runFinancialReadSideTests/u);
   assert.match(runtime, /pg_blocking_pids/u);
   assert.match(runtime, /deadlockDelta/u);
-  assert.match(runtime, /migrationRebuild: '001-119'/u);
+  assert.match(runtime, /migrationRebuild: currentPackageD \? '001-131' : '001-119'/u);
+  assert.match(runtime, /operationalSchema: currentPackageD \? '001-132' : 'historical'/u);
+  assert.match(runtime, /historicalCompatibility/u);
 });

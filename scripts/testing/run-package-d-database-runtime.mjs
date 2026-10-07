@@ -4,6 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {promisify} from 'node:util';
 import path from 'node:path';
 import {assertPackageDDbLint} from './package-d-db-lint-policy.mjs';
+import {proveBeforeCorrection,proveAfterCorrection} from './package-d-correction-probes.mjs';
 
 const exec=promisify(execFile);
 const root=path.resolve(import.meta.dirname,'../..');
@@ -166,7 +167,9 @@ try{
     await sql(asOwner("SELECT set_configurable_parcel_feature_state_v1('OFF');"));
   }
   let transitionGuards;
+  let correctionBefore;
   if(before){
+    correctionBefore=await proveBeforeCorrection({sql,json});
     const migration=await readFile(path.join(root,'supabase/migrations/132_package_d_system_unification.sql'),'utf8');
     const catalog=()=>json(`SELECT jsonb_build_object('private',to_regnamespace('phase5_private'),
       'newGuard',to_regprocedure('public.package_d_assert_modern_sale_internal(uuid,text)'),
@@ -188,13 +191,25 @@ try{
       assert.equal(transitionGuards[scenario].modernContractRejected,true);
     }
   }
+  const correctionAfter=await proveAfterCorrection({sql,json,beforeMode:before,cardResult:correctionBefore?.cardResult,
+    oldDamageOrderId:correctionBefore?.oldDamageOrderId});
+  const currentSql=await readFile(path.join(root,'supabase/migrations/132_package_d_system_unification.sql'),'utf8');
+  const defined=[...currentSql.matchAll(/CREATE (?:OR REPLACE )?FUNCTION public\.([a-z0-9_]+)\([\s\S]*?\$\$;/gu)]
+    .filter(match=>/SECURITY DEFINER/u.test(match[0])).map(match=>match[1]);
+  const aliases=[...currentSql.matchAll(/RENAME TO ([a-z0-9_]+);/gu)].map(match=>match[1]);
+  const protectedNames=[...new Set([...defined,...aliases])];
+  const owners=await json(`SELECT jsonb_agg(jsonb_build_object('name',proname,'owner',pg_get_userbyid(proowner),
+    'definer',prosecdef) ORDER BY proname) FROM pg_proc WHERE pronamespace='public'::regnamespace
+    AND proname IN (${protectedNames.map(name=>`'${name}'`).join(',')});`);
+  for(const name of protectedNames) assert.ok(owners.some(fn=>fn.name===name),'Missing new function '+name);
+  for(const fn of owners) assert.equal(fn.owner,'postgres','New or renamed SECURITY DEFINER owner '+fn.name);
   assert.equal(await sql("SELECT to_regnamespace('phase5_private') IS NULL;"),'t','Retired private schema must be absent');
   const {stdout:lint}=await exec(process.execPath,[cli,'db','lint','--local','--level','warning','--workdir',workdir],
     {cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024*1024});
   const lintResult=assertPackageDDbLint(lint);
   console.log(JSON.stringify({ok:true,mode:before?'before':'after',freshRebuild:`001-${ceiling}`,
     guards,featureStateUnchanged:true,outsidePrivateCallers:outsideCallers,configuration,
-    transitionGuards,dbLint:lintResult},null,2));
+    transitionGuards,correctionBefore,correctionAfter,explicitOwnersVerified:owners.length,dbLint:lintResult},null,2));
 }finally{
   if(workdir)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',workdir],
     {cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024*1024});

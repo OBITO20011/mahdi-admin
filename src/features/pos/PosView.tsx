@@ -10,7 +10,7 @@ import {
 } from '../../stores/useAppStore';
 import { Invoice, Product, PaymentMethod } from '../../types';
 import {supabase} from '../../lib/supabase';
-import {runPosV2Attempt, readPosV2Recovery} from '../../services/supabase/posV2Recovery';
+import {runPosV2Attempt, readPosV2Recovery, inspectOrCancelPosV2Attempt} from '../../services/supabase/posV2Recovery';
 import type {CreatePosSaleV2Input, PosV2ConfigurableParcelLine} from '../../services/supabase/posV2.service';
 import {PosParcelBuilder, type PosParcelOption} from './PosParcelBuilder';
 import {posCartLines, posStockDemand, posWarehouseAvailable, posV2Invoice, type PosCartItem} from './posV2Cart';
@@ -113,7 +113,9 @@ export const PosView: React.FC = () => {
   const [parcelOption, setParcelOption] = useState<PosParcelOption | null>(null);
   const [editingParcelId, setEditingParcelId] = useState<string | null>(null);
   const [recoveryStatus, setRecoveryStatus] = useState<string | null>(null);
-  const recoveryBlocked = recoveryStatus !== null && !['SUCCEEDED', 'DEFINITIVELY_REJECTED'].includes(recoveryStatus);
+  const [absenceState, setAbsenceState] = useState<'ABSENT' | 'EXISTS' | 'CANCELLED_UNCOMMITTED' | null>(null);
+  const [cancelConfirmed, setCancelConfirmed] = useState(false);
+  const recoveryBlocked = recoveryStatus !== null && !['SUCCEEDED', 'DEFINITIVELY_REJECTED', 'CANCELLED_UNCOMMITTED'].includes(recoveryStatus);
   const [posCustomers, setPosCustomers] = useState<PosCustomer[]>([]);
   const [customerSearch, setCustomerSearch] = useState('');
   const [posCustomerPage, setPosCustomerPage] = useState(1);
@@ -138,11 +140,13 @@ export const PosView: React.FC = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const refreshRecovery = () => {
+    setAbsenceState(null); setCancelConfirmed(false);
     try {setRecoveryStatus(readPosV2Recovery(currentUser.id)?.status || null);}
     catch {setRecoveryStatus('UNPROVEN');}
   };
   useEffect(() => {
     const refresh = () => {
+      setAbsenceState(null); setCancelConfirmed(false);
       try {setRecoveryStatus(readPosV2Recovery(currentUser.id)?.status || null);}
       catch {setRecoveryStatus('UNPROVEN');}
     };
@@ -686,9 +690,36 @@ export const PosView: React.FC = () => {
         </select>
       </div>
       {recoveryStatus && recoveryStatus !== 'DEFINITIVELY_REJECTED' && <div className="rounded-xl border border-amber-700 p-3 text-xs" role="status">
-        <p>{recoveryBlocked ? 'نتيجة بيع معلقة: لا تبدأ بيعاً جديداً. استرجع المحاولة الأصلية بنفس الطلب والمفتاح.' : 'آخر بيع محفوظ؛ يمكنك استرجاع إيصال العملية نفسها.'}</p>
+        <p>{recoveryStatus === 'CANCELLED_UNCOMMITTED' ? 'ألغيت المحاولة بعد إثبات الخادم عدم تسجيلها. يمكنك بدء بيع جديد.'
+          : recoveryBlocked ? 'نتيجة بيع معلقة: لا تبدأ بيعاً جديداً. استرجع المحاولة الأصلية بنفس الطلب والمفتاح.' : 'آخر بيع محفوظ؛ يمكنك استرجاع إيصال العملية نفسها.'}</p>
+        {recoveryStatus !== 'CANCELLED_UNCOMMITTED' &&
         <button type="button" disabled={isSubmitting} className="mt-2 rounded-lg bg-amber-600 p-2"
-          onClick={() => void executeSale('RECOVER_EXISTING')}>استرجاع محاولة البيع</button>
+          onClick={() => void executeSale('RECOVER_EXISTING')}>استرجاع محاولة البيع</button>}
+        {recoveryBlocked && <button type="button" disabled={isSubmitting || !supabase}
+          className="m-2 rounded-lg border border-amber-500 p-2" onClick={async () => {
+            if (!supabase) return; setIsSubmitting(true);
+            try {setAbsenceState(await inspectOrCancelPosV2Attempt(supabase,currentUser.id));}
+            catch (error) {setToast(error instanceof Error ? error.message : 'تعذر إثبات حالة المحاولة؛ السجل محفوظ.', 'error');}
+            finally {setIsSubmitting(false);}
+          }}>التحقق من حالة المحاولة</button>}
+        {absenceState === 'EXISTS' && <p>العملية مسجلة. استرجاع المحاولة هو الطريق الوحيد.</p>}
+        {recoveryBlocked && (absenceState === 'ABSENT' || absenceState === 'CANCELLED_UNCOMMITTED') && <div>
+          <p>الخادم لا يجد بيعاً مسجلاً لهذه المحاولة. سيعيد التحقق عند الإلغاء.</p>
+          <label className="flex items-center gap-2 p-2"><input type="checkbox" checked={cancelConfirmed}
+            disabled={isSubmitting} onChange={e => setCancelConfirmed(e.target.checked)}/>
+            أؤكد إلغاء هذه المحاولة غير المسجلة وبدء بيع جديد</label>
+          <button type="button" disabled={!cancelConfirmed || isSubmitting || !supabase}
+            className="rounded-lg bg-red-700 p-2 disabled:opacity-50" onClick={async () => {
+              if (!supabase || !cancelConfirmed) return; setIsSubmitting(true);
+              try {
+                const outcome = await inspectOrCancelPosV2Attempt(supabase,currentUser.id,true);
+                if (outcome === 'EXISTS') {setAbsenceState(outcome); return;}
+                if (outcome !== 'CANCELLED_UNCOMMITTED') throw new Error('تعذر إثبات الإلغاء؛ السجل محفوظ.');
+                refreshRecovery(); setToast('ألغيت المحاولة غير المسجلة؛ يمكنك بدء بيع جديد.', 'success');
+              } catch (error) {setToast(error instanceof Error ? error.message : 'تعذر إثبات الإلغاء؛ السجل محفوظ.', 'error');}
+              finally {setIsSubmitting(false);}
+            }}>إلغاء المحاولة غير المسجلة</button>
+        </div>}
       </div>}
       {parcelOptions.length > 0 && <div className="flex flex-wrap gap-2">
         {parcelOptions.map(option => <button type="button" key={option.parcelConfigurationId}

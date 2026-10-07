@@ -74,8 +74,74 @@ jobs:
           NAWASRAH_MAX_MIGRATION: '131'
         run: npm run test:db:runtime
 
+  current-database-runtime:
+    name: Current132 runtime (${{ matrix.suite }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [package-d, before-after, phase3, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser]
+    env:
+      NAWASRAH_PACKAGE_D_CURRENT: '1'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install admin dependencies
+        run: npm ci
+
       - name: Run current 001-132 Package D public contracts
+        if: matrix.suite == 'package-d'
         run: node scripts/testing/run-package-d-database-runtime.mjs
 
+      - name: Prove Package D before and after on real historical fixtures
+        if: matrix.suite == 'before-after'
+        env:
+          NAWASRAH_PACKAGE_D_MODE: before
+        run: node scripts/testing/run-package-d-database-runtime.mjs
+
+      - name: Run Phase 3 on current132 after historical fixtures
+        if: matrix.suite == 'phase3'
+        run: npm run test:phase3-contracts:runtime
+
+      - name: Run Phase 4.2 on current132 after historical fixtures
+        if: matrix.suite == 'phase42'
+        run: npm run test:phase42-return:runtime
+
       - name: Run current Phase 4.3 Admin aftercare and historical read-only contracts
+        if: matrix.suite == 'phase43'
         run: npm run test:phase43-aftercare:runtime
+
+      - name: Run current132 financial integration
+        if: matrix.suite == 'phase44-financial'
+        run: npm run test:phase44-financial:runtime
+
+      - name: Run current132 lineage integration
+        if: matrix.suite == 'phase44-lineage'
+        run: npm run test:phase44-lineage:runtime
+
+      - name: Run current132 concurrency integration
+        if: matrix.suite == 'phase44-concurrency'
+        run: npm run test:phase44-concurrency:runtime
+
+      - name: Install customer browser dependencies
+        if: matrix.suite == 'pos-browser'
+        run: npm --prefix customer-web ci
+
+      - name: Install fullstack browsers
+        if: matrix.suite == 'pos-browser'
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Run POS132 browser RPC carton and cancellation evidence
+        if: matrix.suite == 'pos-browser'
+        env:
+          NAWASRAH_PACKAGE_D_POS_FULLSTACK: '1'
+        run: npm run test:phase44-admin-recovery:fullstack

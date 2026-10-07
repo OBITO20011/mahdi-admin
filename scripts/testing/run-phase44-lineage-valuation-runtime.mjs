@@ -10,6 +10,7 @@ const execFileAsync = promisify(execFile);
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, '..', '..');
 const bootstrapPath = path.join(scriptDirectory, 'bootstrap-isolated-supabase.mjs');
+const currentPackageD = process.env.NAWASRAH_PACKAGE_D_CURRENT === '1';
 const phase3SqlPath = path.join(
   scriptDirectory,
   'phase3-configurable-parcel-contracts-runtime.sql',
@@ -313,9 +314,11 @@ try {
     env: {
       ...process.env,
       NAWASRAH_ISOLATED_PROJECT_ID: projectId,
+      ...(currentPackageD ? {NAWASRAH_MAX_MIGRATION: '131'} : {}),
       NAWASRAH_SKIP_REDUNDANT_DB_RESET: 'true',
       NAWASRAH_SUPABASE_EXCLUDE:
-        'realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor',
+        (currentPackageD ? 'gotrue,kong,postgrest,' : '')
+        + 'realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor',
     },
     windowsHide: true,
     maxBuffer: 1024 * 1024,
@@ -329,6 +332,8 @@ try {
   const phase3Sql = await readFile(phase3SqlPath, 'utf8');
   const phase3 = await readJson(phase3Sql, 'Phase 3 prerequisite fixture');
   assert.equal(phase3.ok, true);
+  if (currentPackageD) await runSqlText(await readFile(path.join(projectRoot,
+    'supabase/migrations/132_package_d_system_unification.sql'),'utf8'), 'Activate current132 after historical fixtures');
 
   await setProductEconomics(productA, ORIGINAL_A_COST, 1000);
   await setProductEconomics(productB, ORIGINAL_B_COST, 1000);
@@ -500,8 +505,9 @@ try {
     ok: true,
     phase: '4.4',
     slice: 'lineage-valuation',
-    freshRebuild: '001-123',
-    migration123: 'PRIVATE_INACTIVE',
+    freshRebuild: currentPackageD ? '001-131' : '001-123',
+    operationalSchema: currentPackageD ? '001-132' : 'historical',
+    migration123: currentPackageD ? 'RETIRED_BY_132' : 'PRIVATE_INACTIVE',
     breakMatrix: SLICE_2_BREAK_MATRIX,
     scenarios: Object.fromEntries(Object.keys(SLICE_2_BREAK_MATRIX).map((key) => [key, true])),
     multiComponentWholeParcel: true,

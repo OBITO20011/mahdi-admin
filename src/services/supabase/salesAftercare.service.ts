@@ -12,6 +12,8 @@ export interface AftercarePhysicalRepresentative {
   productId: string;
   remainingQuantity: number;
   parentReplacementItemId: string | null;
+  unitsPerParcel?: number;
+  isSingleSkuParcel?: boolean;
 }
 export type AdminAftercareCapability =
   | 'phase43_modern'
@@ -23,6 +25,10 @@ interface AdminAftercareBaseItem {
   orderItemId: string; productId: string; quantity: number;
   remainingQuantity: number;
   physicalRepresentatives: AftercarePhysicalRepresentative[];
+  commercialLineKind?: 'base_unit' | 'legacy_single_sku_parcel';
+  unitsPerParcel?: number;
+  commercialQuantity?: number;
+  standalonePriceInMinorUnits?: number | null;
 }
 interface AdminAftercareParcelInstance {
   parcelInstanceId: string; orderItemId: string;
@@ -78,6 +84,7 @@ export interface ReturnRequestItem {
   order_item_id: string;
   quantity?: number;
   stock_disposition?: 'restock' | 'damaged';
+  customer_damage_quantity?: number;
   parcel_instance_id?: string;
   components?: Array<{
     parcel_component_id: string;

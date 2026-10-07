@@ -3,12 +3,17 @@ import {withAdminActionLock} from './adminCustomerV2Lifecycle';
 import {submitPosSaleV2WithRpc, type CreatePosSaleV2Input, type CreatePosSaleV2Outcome} from './posV2.service';
 import {posV2ResultMatches, posV2RequestValid} from './posV2Validation';
 
-type Status = 'PREPARED' | 'IN_FLIGHT' | 'OUTCOME_UNKNOWN' | 'SUCCEEDED' | 'DEFINITIVELY_REJECTED';
+type Status = 'PREPARED' | 'IN_FLIGHT' | 'OUTCOME_UNKNOWN' | 'SUCCEEDED' | 'DEFINITIVELY_REJECTED' | 'CANCELLED_UNCOMMITTED';
+interface CancellationProof {
+  state: 'CANCELLED_UNCOMMITTED'; actorId: string; idempotencyKey: string;
+  requestFingerprint: string; cancellationId: string;
+}
 interface Attempt {
   version: 1; actorId: string; attemptId: string; fingerprint: string;
   request: CreatePosSaleV2Input; status: Status; generation: number; hadUnknown: boolean;
   result?: Extract<CreatePosSaleV2Outcome, {ok: true}>['data'];
   rejectionIdentity?: string;
+  cancellationProof?: CancellationProof;
 }
 const prefix = 'nawasrah:pos-v2:attempt:v1:';
 const rejectionIdentities = new Set([
@@ -47,9 +52,55 @@ async function validate(raw: string, actorId: string): Promise<Attempt> {
     else if (a.status === 'OUTCOME_UNKNOWN') { if (a.generation < 1 || !a.hadUnknown) throw review(); }
     else if (a.status === 'DEFINITIVELY_REJECTED') {
       if (a.generation < 1 || a.hadUnknown || !rejectionIdentities.has(a.rejectionIdentity || '')) throw review();
+    } else if (a.status === 'CANCELLED_UNCOMMITTED') {
+      if (a.generation < 1 || !cancellationMatches(a.cancellationProof, a)) throw review();
     } else throw review();
   }
   return a;
+}
+const proofMatches = (value: unknown, a: Attempt): value is Record<string, unknown> => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const proof = value as Record<string, unknown>;
+  return proof.actorId === a.actorId && proof.idempotencyKey === a.request.idempotencyKey
+    && proof.requestFingerprint === a.fingerprint;
+};
+const cancellationMatches = (value: unknown, a: Attempt): value is CancellationProof =>
+  proofMatches(value, a) && value.state === 'CANCELLED_UNCOMMITTED'
+    && typeof value.cancellationId === 'string'
+    && /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(value.cancellationId);
+
+/** Never clears the attempt; only durable server proof permits a new key. */
+export async function inspectOrCancelPosV2Attempt(
+  client: SupabaseClient, actorId: string, confirmed = false,
+): Promise<'ABSENT' | 'EXISTS' | 'CANCELLED_UNCOMMITTED'> {
+  const storageKey = prefix + actorId;
+  const observedRaw = localStorage.getItem(storageKey);
+  if (observedRaw === null) throw review();
+  await validate(observedRaw, actorId);
+  const auth = await client.auth.getUser();
+  if (auth.error || auth.data.user?.id !== actorId) throw review();
+  return withAdminActionLock(prefix + 'lock:' + actorId, async () => {
+    const lockedAuth = await client.auth.getUser();
+    if (lockedAuth.error || lockedAuth.data.user?.id !== actorId
+      || localStorage.getItem(storageKey) !== observedRaw) throw review();
+    const a = await validate(observedRaw, actorId);
+    if (!['IN_FLIGHT', 'OUTCOME_UNKNOWN', 'CANCELLED_UNCOMMITTED'].includes(a.status)) throw review();
+    const args = {p_idempotency_key: a.request.idempotencyKey, p_request_fingerprint: a.fingerprint};
+    const {data, error} = await client.rpc('get_pos_sale_attempt_state_v1', args);
+    if (error || !proofMatches(data, a)
+      || !['ABSENT', 'EXISTS', 'CANCELLED_UNCOMMITTED'].includes(String(data.state))) throw review();
+    if (localStorage.getItem(storageKey) !== observedRaw) throw review();
+    await validate(observedRaw, actorId);
+    if (!confirmed || data.state === 'EXISTS') return data.state as 'ABSENT' | 'EXISTS' | 'CANCELLED_UNCOMMITTED';
+    // Recheck-and-cancel is atomic on the server; a stale ABSENT read is not sufficient.
+    const cancelled = await client.rpc('cancel_uncommitted_pos_sale_attempt_v1', {...args, p_confirmed: true});
+    if (cancelled.error || !cancellationMatches(cancelled.data, a)
+      || localStorage.getItem(storageKey) !== observedRaw) throw review();
+    await validate(observedRaw, actorId);
+    persist(storageKey, {...a, status: 'CANCELLED_UNCOMMITTED', result: undefined,
+      rejectionIdentity: undefined, cancellationProof: cancelled.data}, observedRaw);
+    return 'CANCELLED_UNCOMMITTED';
+  });
 }
 export function readPosV2Recovery(actorId: string): {status: Status; request: CreatePosSaleV2Input} | null {
   const raw = localStorage.getItem(prefix + actorId);
@@ -76,14 +127,14 @@ export async function runPosV2Attempt(
     let raw = localStorage.getItem(storageKey);
     let a = raw === null ? null : await validate(raw, actorId);
     if (intent === 'START_NEW') {
-      if (!captured || raw !== observedRaw || (a && !['SUCCEEDED', 'DEFINITIVELY_REJECTED'].includes(a.status))) throw review();
+      if (!captured || raw !== observedRaw || (a && !['SUCCEEDED', 'DEFINITIVELY_REJECTED', 'CANCELLED_UNCOMMITTED'].includes(a.status))) throw review();
       const attemptId = crypto.randomUUID();
       const fingerprint = await digest({...captured, idempotencyKey: undefined});
       const key = `pos-v2:${await digest([actorId, attemptId, fingerprint])}`;
       a = {version: 1, actorId, attemptId, fingerprint, request: {...captured, idempotencyKey: key},
         status: 'PREPARED', generation: 0, hadUnknown: false};
       raw = persist(storageKey, a, raw);
-    } else if (!a) throw review();
+    } else if (!a || a.status === 'CANCELLED_UNCOMMITTED') throw review();
     if (!a) throw review();
     const before = {...a};
     a = {...a, status: 'IN_FLIGHT', generation: a.generation + 1,

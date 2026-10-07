@@ -15,7 +15,7 @@
 | Phase 4 (overall) | OWNER-CLOSED | Returns, refunds, Replacement, Admin integration, cross-feature regression and independent closure are complete. |
 | Phase 5 | OWNER-CLOSED | Operational fixes in Migrations 128–130 delivered; owner closure after exact-SHA quality and secret-scanning CI PASS. Historical private Slices 1–4 are superseded; Package D132 retires their unused schema. |
 | Phase 6 | OWNER-CLOSED | Owner accepted A/B/C and B+C correction on 2026-10-07. Baseline 5aaeab11e13c2be454af677ee176f77aa2d9cde4; exact-SHA quality 37531634141 and secrets 37531634136 PASS. Focused 32/32; quality 688 Admin + 189 Customer + 243 browser PASS, 51 existing conditional skips. |
-| Package D | IMPLEMENTED — local verification PASS; delivery CI gate | D1 79bb90b, D2 8716786 (POS V2/parcel/recovery), D3 2238b10 (owner settings/Customer V2 Gateway). D4 retirement before/after and fresh132 PASS. Quality669 Admin/189 Customer/255 browser PASS,53 conditional skips,retries0. Exact delivery-SHA CI remains external GitHub evidence; owner review before Phase7. Feature state unchanged; no Production. |
+| Package D | CORRECTION IMPLEMENTED / LOCAL GATES PASS | Owner's13 corrections and historical carton-damage policy implemented in132. Before/after, fresh132, current Phase3/42/43/44 runtimes, real POS browsers8/8 and quality255 browser PASS (59 conditional skips) verified. Exact-SHA delivery CI remains required; no independent closure claim. Feature state unchanged; no Production/Phase7. |
 | Phase 7 | NOT STARTED | Production/release work requires separate owner authorization. |
 
 Phase 5 closure evidence: `bdea567562b1de8c64fe3aa286076258decf3d26`, push/main,

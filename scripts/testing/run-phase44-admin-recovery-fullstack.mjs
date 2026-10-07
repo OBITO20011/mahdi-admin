@@ -273,7 +273,7 @@ try {
     });
   if (playwrightOutput.trim()) process.stdout.write(playwrightOutput);
   if (playwrightError.trim()) process.stderr.write(playwrightError);
-  console.log(JSON.stringify({ok: true, scenarios: posOnly ? 1 : 9,
+  console.log(JSON.stringify({ok: true, scenarios: posOnly ? 4 : 9,
     browsers: ['desktop-chromium', 'mobile-webkit'], realPublicRpc: true,
     realIsolatedDatabase: true, productionRequests: 0}, null, 2));
 } finally {

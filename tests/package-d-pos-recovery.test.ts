@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import type {SupabaseClient} from '@supabase/supabase-js';
-import {runPosV2Attempt, readPosV2Recovery} from '../src/services/supabase/posV2Recovery';
+import {runPosV2Attempt, readPosV2Recovery, inspectOrCancelPosV2Attempt} from '../src/services/supabase/posV2Recovery';
 import {posV2ResultMatches, posV2RequestValid} from '../src/services/supabase/posV2Validation';
 import {posCartLines, posStockDemand, posWarehouseAvailable, type PosCartItem} from '../src/features/pos/posV2Cart';
 import type {Product} from '../src/types';
@@ -190,4 +190,91 @@ test('parcel success must preserve every requested composition and immutable ins
   item.parcelInstances[0].components[0].product_id = input().warehouseId;
   item.parcelInstances[0].configuration_revision = 4;
   assert.equal(posV2ResultMatches(request, sale), false);
+});
+
+const pendingBytes = () => [...storage.values()][0];
+const proofFor = (params: Record<string, unknown>, state: string) => ({state, actorId: actor,
+  idempotencyKey: params.p_idempotency_key, requestFingerprint: params.p_request_fingerprint});
+test('server ABSENT alone never clears unknown history or authorizes START_NEW', async () => {
+  const calls: string[] = [];
+  const client = setup(async (name, params) => {calls.push(name);
+    return name === 'create_pos_sale_v2' ? {data: null, error: {message: 'timeout'}}
+      : {data: proofFor(params, 'ABSENT'), error: null};});
+  await runPosV2Attempt(client, actor, 'START_NEW', input());
+  const before = pendingBytes();
+  assert.equal(await inspectOrCancelPosV2Attempt(client, actor), 'ABSENT');
+  assert.equal(pendingBytes(), before);
+  await assert.rejects(runPosV2Attempt(client, actor, 'START_NEW', input()));
+  assert.deepEqual(calls, ['create_pos_sale_v2', 'get_pos_sale_attempt_state_v1']);
+});
+test('explicit cancellation preserves the attempt and proof; new sale gets a different key', async () => {
+  const keys: unknown[] = []; let submitted = 0;
+  const client = setup(async (name, params) => {
+    if (name === 'create_pos_sale_v2') {keys.push(params.p_idempotency_key);
+      return ++submitted === 1 ? {data: null, error: {message: 'timeout'}} : {data: success(), error: null};}
+    if (name === 'get_pos_sale_attempt_state_v1') return {data: proofFor(params, 'ABSENT'), error: null};
+    assert.equal(name, 'cancel_uncommitted_pos_sale_attempt_v1'); assert.equal(params.p_confirmed, true);
+    return {data: {...proofFor(params, 'CANCELLED_UNCOMMITTED'), cancellationId: actor}, error: null};
+  });
+  await runPosV2Attempt(client, actor, 'START_NEW', input()); const previous = JSON.parse(pendingBytes());
+  assert.equal(await inspectOrCancelPosV2Attempt(client, actor, true), 'CANCELLED_UNCOMMITTED');
+  const cancelled = JSON.parse(pendingBytes());
+  assert.equal(cancelled.attemptId, previous.attemptId); assert.deepEqual(cancelled.request, previous.request);
+  assert.equal(cancelled.generation, previous.generation); assert.equal(cancelled.hadUnknown, true);
+  assert.equal(cancelled.cancellationProof.requestFingerprint, previous.fingerprint);
+  await assert.rejects(runPosV2Attempt(client, actor, 'RECOVER_EXISTING'));
+  assert.equal((await runPosV2Attempt(client, actor, 'START_NEW', input())).ok, true);
+  assert.notEqual(keys[0], keys[1]);
+});
+test('server EXISTS remains recovery-only even if cancellation was confirmed', async () => {
+  let cancelCalls = 0, submissions = 0;
+  const client = setup(async (name, params) => {
+    if (name === 'create_pos_sale_v2') return ++submissions === 1 ? {data: null, error: {message: 'timeout'}}
+      : {data: {...success(), idempotentReplay: true}, error: null};
+    if (name === 'cancel_uncommitted_pos_sale_attempt_v1') cancelCalls++;
+    return {data: proofFor(params, 'EXISTS'), error: null};});
+  await runPosV2Attempt(client, actor, 'START_NEW', input()); const before = pendingBytes();
+  assert.equal(await inspectOrCancelPosV2Attempt(client, actor, true), 'EXISTS');
+  assert.equal(cancelCalls, 0); assert.equal(pendingBytes(), before);
+  await assert.rejects(runPosV2Attempt(client, actor, 'START_NEW', input()));
+  assert.equal((await runPosV2Attempt(client, actor, 'RECOVER_EXISTING')).ok, true);
+});
+test('lost cancellation response preserves unknown; reinspection can recover its durable proof', async () => {
+  let cancelled = false;
+  const client = setup(async (name, params) => {
+    if (name === 'create_pos_sale_v2') return {data: null, error: {message: 'timeout'}};
+    if (name === 'get_pos_sale_attempt_state_v1') return {data: proofFor(params,
+      cancelled ? 'CANCELLED_UNCOMMITTED' : 'ABSENT'), error: null};
+    if (!cancelled) {cancelled = true; return {data: null, error: {message: 'timeout after cancellation'}};}
+    return {data: {...proofFor(params, 'CANCELLED_UNCOMMITTED'), cancellationId: actor}, error: null};});
+  await runPosV2Attempt(client, actor, 'START_NEW', input()); const before = pendingBytes();
+  await assert.rejects(inspectOrCancelPosV2Attempt(client, actor, true)); assert.equal(pendingBytes(), before);
+  await assert.rejects(runPosV2Attempt(client, actor, 'START_NEW', input()));
+  assert.equal(await inspectOrCancelPosV2Attempt(client, actor, true), 'CANCELLED_UNCOMMITTED');
+});
+test('wrong actor/key/fingerprint/cancellation identity and contradictory proof fail closed', async () => {
+  for (const field of ['actorId', 'idempotencyKey', 'requestFingerprint', 'cancellationId', 'state']) {
+    const client = setup(async (name, params) => {
+      if (name === 'create_pos_sale_v2') return {data: null, error: {message: 'timeout'}};
+      if (name === 'get_pos_sale_attempt_state_v1') return {data: proofFor(params, 'ABSENT'), error: null};
+      const proof = {...proofFor(params, 'CANCELLED_UNCOMMITTED'), cancellationId: actor, [field]: 'wrong'};
+      return {data: proof, error: null};});
+    await runPosV2Attempt(client, actor, 'START_NEW', input()); const before = pendingBytes();
+    await assert.rejects(inspectOrCancelPosV2Attempt(client, actor, true)); assert.equal(pendingBytes(), before);
+  }
+});
+test('post-read CAS substitution and a sale committing between read and cancel cannot clear history', async () => {
+  for (const substitute of [false, true]) {
+    const client = setup(async (name, params) => {
+      if (name === 'create_pos_sale_v2') return {data: null, error: {message: 'timeout'}};
+      if (name === 'get_pos_sale_attempt_state_v1') {
+        if (substitute) {const [key, raw] = [...storage][0];
+          storage.set(key, JSON.stringify({...JSON.parse(raw), generation: 10}));}
+        return {data: proofFor(params, 'ABSENT'), error: null};}
+      return {data: null, error: {code: 'P0001', message: 'PACKAGE_D_POS_ATTEMPT_COMMITTED'}};
+    });
+    await runPosV2Attempt(client, actor, 'START_NEW', input());
+    await assert.rejects(inspectOrCancelPosV2Attempt(client, actor, true));
+    assert.equal(readPosV2Recovery(actor)?.status, 'OUTCOME_UNKNOWN');
+  }
 });

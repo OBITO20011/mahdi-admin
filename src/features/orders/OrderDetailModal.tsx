@@ -9,7 +9,6 @@ import {
   Copy,
   MessageCircle,
   PackageCheck,
-  PackageX,
   Phone,
   ReceiptText,
   RotateCcw,
@@ -128,7 +127,6 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
     advanceOrderStatus,
     startOrUpdateOrderDelivery,
     completeWebsiteOrderWithSettlement,
-    returnCompletedWebsiteOrder,
     openCustomerProfile,
     setToast,
   } = useAppStoreActions();
@@ -151,18 +149,8 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   );
   const [paymentReference, setPaymentReference] = useState('');
   const [paymentNotes, setPaymentNotes] = useState('');
-  const [showReturnForm, setShowReturnForm] = useState(false);
   const [aftercareCapability, setAftercareCapability] =
     useState<AdminAftercareCapability | null>(null);
-  const [returnReason, setReturnReason] = useState('');
-  const [returnDisposition, setReturnDisposition] = useState<
-    'restock' | 'damaged'
-  >('restock');
-  const [refundMethod, setRefundMethod] = useState<'cash' | 'cliq'>(
-    order.paymentMethod === 'cliq' ? 'cliq' : 'cash'
-  );
-  const [refundReference, setRefundReference] = useState('');
-  const [returnNotes, setReturnNotes] = useState('');
   const [showDeliveryEtaForm, setShowDeliveryEtaForm] = useState(false);
   const [deliveryEtaMinutes, setDeliveryEtaMinutes] = useState(30);
   const [deliveryDriverPhone, setDeliveryDriverPhone] = useState(
@@ -324,34 +312,6 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
     }
   };
 
-  const handleReturnOrder = async () => {
-    if (returnReason.trim().length < 3) {
-      setToast('اكتب سبب المرتجع بوضوح.', 'error');
-      return;
-    }
-    if (refundMethod === 'cliq' && !refundReference.trim()) {
-      setToast('اكتب رقم مرجع CliQ لعملية رد المبلغ.', 'error');
-      return;
-    }
-
-    setBusy(true);
-    try {
-      const success = await returnCompletedWebsiteOrder({
-        orderId: order.id,
-        reason: returnReason.trim(),
-        stockDisposition: returnDisposition,
-        refundMethod,
-        referenceNumber: refundReference.trim(),
-        notes: returnNotes.trim(),
-      });
-      if (success) {
-        setShowReturnForm(false);
-        await onOrderChanged?.();
-      }
-    } finally {
-      setBusy(false);
-    }
-  };
 
   const phoneDigits = order.customerPhone.replace(/\D/g, '');
   const whatsappPhone = phoneDigits.startsWith('962')
@@ -1074,156 +1034,9 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           )}
 
         {['completed', 'delivered'].includes(order.status) &&
-          aftercareCapability === 'legacy_website_return_v1' &&
-          !showReturnForm && (
-            <button
-              type="button"
-              disabled={busy}
-              onClick={() => setShowReturnForm(true)}
-              className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-orange-700 bg-orange-950/30 py-2.5 font-bold text-orange-300 disabled:opacity-60"
-            >
-              <RotateCcw className="h-4 w-4" />
-              تسجيل مرتجع كامل ورد المبلغ
-            </button>
-          )}
-
-        {['completed', 'delivered'].includes(order.status) &&
-          aftercareCapability === 'legacy_website_return_v1' &&
-          showReturnForm && (
-            <div className="space-y-3 rounded-2xl border border-orange-700/60 bg-orange-950/30 p-3">
-              <div>
-                <h4 className="font-black text-orange-200">
-                  مرتجع كامل للطلب بقيمة {order.totalAmount.toFixed(3)}{' '}
-                  {CURRENCY}
-                </h4>
-                <p className="mt-1 text-[10px] leading-5 text-orange-100/70">
-                  العملية نهائية: ستُسجل كمرتجع ويُرد كامل المبلغ ويُحدّث الصندوق تلقائيًا.
-                </p>
-              </div>
-
-              <label className="block">
-                <span className="mb-1 block font-bold text-slate-300">
-                  سبب المرتجع *
-                </span>
-                <textarea
-                  rows={2}
-                  value={returnReason}
-                  onChange={(event) => setReturnReason(event.target.value)}
-                  placeholder="مثال: خطأ في الصنف أو طلب العميل الإرجاع"
-                  className="w-full resize-none rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-white"
-                />
-              </label>
-
-              <div>
-                <span className="mb-1 block font-bold text-slate-300">
-                  حالة البضاعة المرتجعة *
-                </span>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setReturnDisposition('restock')}
-                    className={`rounded-xl border p-2.5 font-bold ${
-                      returnDisposition === 'restock'
-                        ? 'border-emerald-500 bg-emerald-600 text-white'
-                        : 'border-slate-700 bg-slate-950 text-slate-300'
-                    }`}
-                  >
-                    <PackageCheck className="mx-auto mb-1 h-4 w-4" />
-                    سليمة — تعود للمخزون
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setReturnDisposition('damaged')}
-                    className={`rounded-xl border p-2.5 font-bold ${
-                      returnDisposition === 'damaged'
-                        ? 'border-rose-500 bg-rose-600 text-white'
-                        : 'border-slate-700 bg-slate-950 text-slate-300'
-                    }`}
-                  >
-                    <PackageX className="mx-auto mb-1 h-4 w-4" />
-                    تالفة — لا تعود للمخزون
-                  </button>
-                </div>
-              </div>
-
-              <div>
-                <span className="mb-1 block font-bold text-slate-300">
-                  طريقة رد المبلغ *
-                </span>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setRefundMethod('cash')}
-                    className={`flex items-center justify-center gap-1.5 rounded-xl border p-2.5 font-bold ${
-                      refundMethod === 'cash'
-                        ? 'border-emerald-500 bg-emerald-600 text-white'
-                        : 'border-slate-700 bg-slate-950 text-slate-300'
-                    }`}
-                  >
-                    <Banknote className="h-4 w-4" />
-                    رد كاش
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setRefundMethod('cliq')}
-                    className={`flex items-center justify-center gap-1.5 rounded-xl border p-2.5 font-bold ${
-                      refundMethod === 'cliq'
-                        ? 'border-blue-500 bg-blue-600 text-white'
-                        : 'border-slate-700 bg-slate-950 text-slate-300'
-                    }`}
-                  >
-                    <Smartphone className="h-4 w-4" />
-                    رد عبر CliQ
-                  </button>
-                </div>
-              </div>
-
-              {refundMethod === 'cliq' && (
-                <label className="block">
-                  <span className="mb-1 block font-bold text-slate-300">
-                    رقم مرجع CliQ *
-                  </span>
-                  <input
-                    value={refundReference}
-                    onChange={(event) =>
-                      setRefundReference(event.target.value)
-                    }
-                    maxLength={120}
-                    placeholder="رقم عملية رد المبلغ"
-                    className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-white"
-                  />
-                </label>
-              )}
-
-              <label className="block">
-                <span className="mb-1 block font-bold text-slate-300">
-                  ملاحظة داخلية (اختياري)
-                </span>
-                <input
-                  value={returnNotes}
-                  onChange={(event) => setReturnNotes(event.target.value)}
-                  className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-white"
-                />
-              </label>
-
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  disabled={busy}
-                  onClick={() => void handleReturnOrder()}
-                  className="flex-1 rounded-xl bg-orange-600 py-2.5 font-black text-white disabled:opacity-60"
-                >
-                  {busy ? 'جاري تسجيل المرتجع...' : 'اعتماد المرتجع ورد المبلغ'}
-                </button>
-                <button
-                  type="button"
-                  disabled={busy}
-                  onClick={() => setShowReturnForm(false)}
-                  className="rounded-xl bg-slate-800 px-4 py-2.5 font-bold text-slate-300"
-                >
-                  رجوع
-                </button>
-              </div>
+          aftercareCapability === 'legacy_website_return_v1' && (
+            <div className="rounded-xl border border-amber-700 p-3 text-sm text-amber-200">
+              طلب موقع تاريخي — للقراءة فقط. لا تُنشأ مرتجعات جديدة بهذا العقد.
             </div>
           )}
 

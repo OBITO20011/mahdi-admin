@@ -2,6 +2,10 @@
 export function businessErrorMessage(message: unknown): string {
   const text = message instanceof Error ? message.message : String(message ?? '');
   const known: Array<[RegExp, string]> = [
+    [/PACKAGE_D_CARTON_DAMAGE_PRICE_MISSING/u,
+      'هذا البيع القديم لا يحتوي سعر القطعة التاريخي؛ لا يمكن تسوية ضرر العميل. مرتجع السليم وعيب المورد متاحان.'],
+    [/PACKAGE_D_CARTON_DAMAGE_INSPECT_ONE/u,
+      'افحص ضرر العميل بمرتجع مستقل لكل كرتونة حتى يبقى الخصم ضمن استحقاقها الأصلي.'],
     [/AFTERCARE_(OUTCOME_UNKNOWN|RESPONSE_INVALID|RECOVERY_PERSIST_FAILED|RECOVERY_UNAVAILABLE)/u,
       'نتيجة المحاولة غير مؤكدة. استعد نفس المحاولة ولا تبدأ عملية جديدة حتى تتأكد من نتيجتها.'],
     [/AFTERCARE_REVIEW_REQUIRED/u, 'بيانات المحاولة غير متطابقة. أعد تحميل الطلب وراجع المحاولة المحفوظة قبل المتابعة.'],

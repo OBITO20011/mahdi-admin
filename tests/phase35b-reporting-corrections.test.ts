@@ -105,7 +105,9 @@ test('behavioral proof is permanently wired into the existing canonical suite', 
   assert.match(runtimeHarness, /legacySingleUnitPackagePreserved/u);
   assert.match(runtimeHarness, /reportReadsZeroWrite/u);
   assert.match(runtimeHarness, /topProductsCommercialQuantityNoFanOut/u);
-  assert.match(runtimeHarness, /migrationRebuild: '001-119'/u);
+  assert.match(runtimeHarness, /migrationRebuild: currentPackageD \? '001-131' : '001-119'/u);
+  assert.match(runtimeHarness, /historicalCompatibility\?\.phase35bReporting \?\? await runPhase35bReportingTests\(\)/u);
+  assert.match(runtimeHarness, /operationalSchema: currentPackageD \? '001-132' : 'historical'/u);
   assert.match(canonicalSuite, /phase35bReporting/u);
   assert.match(canonicalSuite, /baseUnits: 24/u);
   assert.match(canonicalSuite, /packages: 6/u);

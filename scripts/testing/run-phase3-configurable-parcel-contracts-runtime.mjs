@@ -5,11 +5,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import { observeOutcome, assertLifecycleRace } from './phase3-lifecycle-harness.mjs';
+import {assertPackageDDbLint} from './package-d-db-lint-policy.mjs';
 
 const execFileAsync = promisify(execFile);
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, '..', '..');
 const bootstrapPath = path.join(scriptDirectory, 'bootstrap-isolated-supabase.mjs');
+const currentPackageD = process.env.NAWASRAH_PACKAGE_D_CURRENT === '1';
 const runtimeSqlPath = path.join(
   scriptDirectory,
   'phase3-configurable-parcel-contracts-runtime.sql',
@@ -2127,7 +2129,7 @@ const runCustomerReservationCoordinatorTests = async () => {
     leftSql,
     rightSql,
     holderSql = `SELECT pg_advisory_xact_lock(hashtextextended('inventory-product:${SKU_A}',0))`,
-    { leftQueuesFirst = false } = {},
+    { leftQueuesFirst = false, rightRejectedBeforeLock = false } = {},
   ) => {
     const leftApplication = `phase3-customer-${label}-left`;
     const rightApplication = `phase3-customer-${label}-right`;
@@ -2144,7 +2146,14 @@ const runCustomerReservationCoordinatorTests = async () => {
         await waitForBlockedApplications([leftApplication]);
       }
       right = observeOutcome(readJson(`SET application_name='${rightApplication}'; ${rightSql}`));
-      await waitForBlockedApplications([leftApplication, rightApplication]);
+      if(rightRejectedBeforeLock) {
+        // A retired V1 entrypoint must reject before taking inventory locks.
+        // Verify its actual result; do not wait for a lock it must not acquire.
+        const rejected=await right;
+        assert.equal(rejected.status,'rejected');
+        assert.match(String(rejected.reason),/PACKAGE_D_POS_V2_REQUIRED/u);
+        await waitForBlockedApplications([leftApplication]);
+      } else await waitForBlockedApplications([leftApplication, rightApplication]);
       await holder.release();
       released = true;
       return await Promise.all([left, right]);
@@ -2926,7 +2935,9 @@ const runCustomerReservationCoordinatorTests = async () => {
         {product_id: SKU_A, base_quantity: 4},
         {product_id: OTHER, base_quantity: 1},
       ]}],
-    }], {sqlState: '23514', constraint: 'phase3_parcel_component_family_check'});
+    }], currentPackageD
+      ? {sqlState: 'P0001', applicationIdentity: 'PARCEL_COMPONENT_NOT_ALLOWED'}
+      : {sqlState: '23514', constraint: 'phase3_parcel_component_family_check'});
     await rejectPreviewUnchanged([{
       ...configurableLines[0], configuration_revision: 999,
     }], {sqlState: 'P0001', applicationIdentity: 'PARCEL_CONFIGURATION_STALE'});
@@ -3090,8 +3101,12 @@ const runCustomerReservationCoordinatorTests = async () => {
     false
   );`;
   const missingCustomerId = '92400000-0000-0000-0000-000000009999';
-  const unauthorizedMessage = 'ليس لديك صلاحية تنفيذ بيع نقطة البيع بالإصدار المحمي.';
-  const mfaMessage = 'يجب تأكيد رمز المصادقة الثنائية قبل تنفيذ بيع نقطة البيع بالإصدار المحمي.';
+  // Require the exact public guard wording for each schema, not a generic
+  // permission-error match. Both must reject before any customer/key lock.
+  const unauthorizedMessage = currentPackageD ? 'ليس لديك صلاحية تنفيذ بيع الكاشير.'
+    : 'ليس لديك صلاحية تنفيذ بيع نقطة البيع بالإصدار المحمي.';
+  const mfaMessage = currentPackageD ? 'يجب تأكيد رمز المصادقة الثنائية قبل تنفيذ بيع الكاشير.'
+    : 'يجب تأكيد رمز المصادقة الثنائية قبل تنفيذ بيع نقطة البيع بالإصدار المحمي.';
   const authGuardMetadata = await readJson(`SELECT jsonb_build_object(
     'hasBusinessLock', pg_get_functiondef(
       'public.assert_erp_role(text[],text)'::regprocedure
@@ -4480,8 +4495,15 @@ const runCustomerReservationCoordinatorTests = async () => {
     );`,
     `SELECT 1 FROM public.inventory_balances
       WHERE warehouse_id='${WAREHOUSE}' AND product_id='${SKU_A}' FOR UPDATE`,
+    {rightRejectedBeforeLock:currentPackageD},
   );
-  assert.ok(reservationVsPosV1.every((entry) => entry.status === 'fulfilled'));
+  if(currentPackageD) {
+    assert.equal(reservationVsPosV1[0].status,'fulfilled');
+    assert.equal(reservationVsPosV1[1].status,'rejected');
+    assert.match(String(reservationVsPosV1[1].reason),/PACKAGE_D_POS_V2_REQUIRED/u);
+    assert.equal(await readJson(`SELECT to_jsonb(count(*)) FROM orders
+      WHERE idempotency_key='phase3-customer-vs-pos-v1-sale-0001';`),0);
+  } else assert.ok(reservationVsPosV1.every((entry) => entry.status === 'fulfilled'));
   await readJson(`${ownerClaimsSql} SELECT public.cancel_customer_order_v2(
     '${reservationVsPosV1[0].value.order_id}',
     'phase3-customer-vs-pos-v1-cleanup-0001','تنظيف اختبار التزامن'
@@ -4737,7 +4759,12 @@ try {
     windowsHide: true,
     maxBuffer: 1024 * 1024,
     timeout: 420_000,
-    env: { ...process.env, NAWASRAH_ISOLATED_PROJECT_ID: projectId },
+    env: { ...process.env, NAWASRAH_ISOLATED_PROJECT_ID: projectId,
+      ...(currentPackageD ? {NAWASRAH_MAX_MIGRATION:'131',
+        // This runner exercises real PostgreSQL connections only. Keep the
+        // complete schema but avoid starting unrelated HTTP/Studio services.
+        NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
+        NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'} : {}) },
   });
   const bootstrap = JSON.parse(stdout);
   assert.equal(bootstrap.ok, true);
@@ -4751,6 +4778,18 @@ try {
   assert.equal(runtime.reservationRows, 2);
   assert.equal(runtime.featureState, 'ENABLED');
   assert.equal(runtime.scenarios.length, 30);
+
+  // V1 creation/location/reversal compatibility remains proved on the real
+  // historical schema. It cannot be invoked as a new writer after retirement.
+  const historicalCompatibility = currentPackageD ? {
+    schema:'001-131',
+    legacyLocationCompatibility:await runLegacyLocationCompatibilityTests(),
+    crossVersionConcurrency:await runCrossVersionConcurrencyTest(),
+    legacySaleAndReversal:await runLegacySaleAndReversalConcurrencyTest(),
+    phase35bReporting:await runPhase35bReportingTests(),
+  } : null;
+  if(currentPackageD) await runSql(await readFile(path.join(projectRoot,
+    'supabase/migrations/132_package_d_system_unification.sql'),'utf8'));
 
   const baseline = await targetedState();
   const actorHash = await readJson(`SELECT to_jsonb(public.phase3_actor_scope_hash_internal(
@@ -4903,17 +4942,17 @@ try {
 
   const coordinatorZeroWrites = await runCoordinatorZeroWriteTests();
   const discountAllocation = await runDiscountAllocationMatrix();
-  const legacyLocationCompatibility = await runLegacyLocationCompatibilityTests();
+  const legacyLocationCompatibility = historicalCompatibility?.legacyLocationCompatibility ?? await runLegacyLocationCompatibilityTests();
   const configurableRollback = await runConfigurableRollbackTest();
   const financialReadSide = await runFinancialReadSideTests();
   const concurrency = await runLockOrderTest();
-  const crossVersionConcurrency = await runCrossVersionConcurrencyTest();
+  const crossVersionConcurrency = historicalCompatibility?.crossVersionConcurrency ?? await runCrossVersionConcurrencyTest();
   const competingParcelSales = await runCompetingParcelSalesTest();
   const saleAndSupplierReceipt = await runSaleAndSupplierReceiptConcurrencyTest();
   const saleAndReversal = await runSaleAndReversalConcurrencyTest();
-  const legacySaleAndReversal = await runLegacySaleAndReversalConcurrencyTest();
+  const legacySaleAndReversal = historicalCompatibility?.legacySaleAndReversal ?? await runLegacySaleAndReversalConcurrencyTest();
   const customerReservationCoordinator = await runCustomerReservationCoordinatorTests();
-  const phase35bReporting = await runPhase35bReportingTests();
+  const phase35bReporting = historicalCompatibility?.phase35bReporting ?? await runPhase35bReportingTests();
 
   const { stdout: lintOutput, stderr: lintError } = await execFileAsync(
     process.execPath,
@@ -4928,7 +4967,8 @@ try {
   const rawDbLint = (lintOutput || lintError).trim();
   let dbLint = 'PASS';
   const acceptedDbLintWarnings = [];
-  if (rawDbLint && !/no schema errors found/iu.test(rawDbLint)) {
+  if(currentPackageD) assertPackageDDbLint(rawDbLint);
+  else if (rawDbLint && !/no schema errors found/iu.test(rawDbLint)) {
     const parsed = JSON.parse(rawDbLint);
     const results = Array.isArray(parsed) ? parsed : parsed.results;
     assert.ok(Array.isArray(results) && results.length > 0);
@@ -4949,7 +4989,9 @@ try {
 
   console.log(JSON.stringify({
     ok: true,
-    migrationRebuild: '001-119',
+    migrationRebuild: currentPackageD ? '001-131' : '001-119',
+    operationalSchema: currentPackageD ? '001-132' : 'historical',
+    historicalCompatibility,
     runtime,
     idempotency: {
       exactReplayZeroWrites: true,

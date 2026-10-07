@@ -44,6 +44,29 @@ async function mount(page: Page) {
   }, {loginEmail:email!,loginPassword:password!});
 }
 
+async function mountAftercare(page: Page, orderId: string) {
+  await page.goto(baseUrl!);
+  await page.evaluate(async id => {
+    const load = (p: string) => import(/* @vite-ignore */ p);
+    const refresh = await load('/@react-refresh');refresh.default.injectIntoGlobalHook(window);
+    Object.assign(window,{$RefreshReg$:()=>undefined,$RefreshSig$:()=>((t:unknown)=>t),
+      __vite_plugin_react_preamble_installed__:true});
+    const react=await load('/node_modules/.vite/deps/react.js');
+    const dom=await load('/node_modules/.vite/deps/react-dom_client.js');
+    const panel=await load('/src/features/orders/AdminAftercarePanel.tsx');
+    (dom.createRoot ?? dom.default.createRoot)(document.getElementById('root')).render(
+      // Only seed the committed sale identity. The panel obtains all eligibility,
+      // quantity, price and lineage facts through its authenticated public RPC.
+      // Do not grant direct table access just to prepare the browser harness.
+      (react.default ?? react).createElement(panel.AdminAftercarePanel,{order:{id,items:[]},
+        onContractResolved:()=>undefined,notify:()=>undefined}));
+  },orderId);
+}
+const aftercareSnapshot=async(orderId:string)=>{
+  const response=await fetch(`${controlUrl}/snapshot?orderId=${orderId}`);
+  expect(response.ok).toBe(true);return response.json();
+};
+
 test.describe('Package D POS browser to real isolated RPC', () => {
   test.skip(!enabled, 'Requires NAWASRAH_PACKAGE_D_POS_FULLSTACK=1 isolated runner.');
   test('committed lost response, reload and two-tab recovery never duplicate business writes', async ({page, context}) => {
@@ -99,5 +122,98 @@ test.describe('Package D POS browser to real isolated RPC', () => {
     await expect(second.getByText(`رقم الفاتورة: ${committedResponse!.orderNumber}`,{exact:true})).toBeVisible();
     expect((await state(page)).request).toEqual(unknown.request);
     expect(await snapshot()).toEqual(presented); await second.close();
+  });
+
+  test('POS single-SKU carton uses the real Admin Replacement and current-leaf Return RPCs',async({page})=>{
+    await mount(page);
+    await page.getByLabel('وحدة البيع',{exact:true}).selectOption('legacy_single_sku_parcel');
+    await page.locator('[data-pos-product-card="92400000-0000-0000-0000-000000000103"]').click();
+    await page.getByRole('button',{name:'إتمام البيع وطباعة'}).click();
+    await expect.poll(async()=>(await state(page))?.status).toBe('SUCCEEDED');
+    const sold=await state(page);const orderId=sold.result.orderId;
+    expect(sold.result.items[0].commercialLineKind).toBe('legacy_single_sku_parcel');
+    expect(sold.result.items[0].baseQuantity).toBe(5);
+    await mountAftercare(page,orderId);
+    await page.getByRole('button',{name:'استبدال كرتونة',exact:true}).click();
+    await expect(page.getByLabel('عدد كراتين الاستبدال')).toHaveValue('1');
+    await page.getByPlaceholder('سبب العيب/الاستبدال').fill('عيب كرتونة من بيع الكاشير');
+    const replacementResponse=page.waitForResponse(r=>r.url().endsWith('/rest/v1/rpc/settle_sales_replacement_v1'));
+    await page.getByRole('button',{name:'اعتماد الاستبدال',exact:true}).click();
+    const issued=await (await replacementResponse).json();expect(issued.success).toBe(true);
+    const replacementState=await aftercareSnapshot(orderId);
+    expect(replacementState.orderReplacements).toBe(1);
+    expect(replacementState.content.replacementItems[0].quantity).toBe(5);
+    await page.getByRole('button',{name:'مرتجع',exact:true}).click();
+    await expect(page.getByLabel('عدد كراتين المرتجع')).toHaveValue('1');
+    await page.getByPlaceholder('سبب المرتجع').fill('مرتجع الكرتونة البديلة كاملة');
+    await page.getByRole('button',{name:'كاش',exact:true}).click();
+    const returnResponse=page.waitForResponse(r=>r.url().endsWith('/rest/v1/rpc/settle_admin_sales_return_v1'));
+    await page.getByRole('button',{name:'اعتماد المرتجع',exact:true}).click();
+    const returned=await(await returnResponse).json();expect(returned.success).toBe(true);
+    const settled=await aftercareSnapshot(orderId);expect(settled.orderReturns).toBe(1);
+    expect(settled.content.returnEffects[0].sellable_quantity).toBe(5);
+    expect(settled.content.returns[0].money_refund_amount_in_minor_units).toBe(4500);
+    const consumed=settled.content.consumptions.filter((c:{consumption_kind:string})=>c.consumption_kind==='return');
+    expect(consumed).toHaveLength(1);expect(consumed[0].source_kind).toBe('replacement_item');
+    expect(consumed[0].source_id).toBe(replacementState.content.replacementItems[0].id);
+    const recovered=await page.evaluate(async id=>{
+      const p='/src/services/supabase/salesAftercare.service.ts';
+      const service=await import(/* @vite-ignore */ p);return service.recoverAdminAftercare(id,'return');
+    },orderId);
+    expect(recovered.success).toBe(true);expect(await aftercareSnapshot(orderId)).toEqual(settled);
+  });
+
+  test('carton customer damage uses frozen standalone price and restocks only accepted sellable units',async({page})=>{
+    await mount(page);
+    await page.getByLabel('وحدة البيع',{exact:true}).selectOption('legacy_single_sku_parcel');
+    await page.locator('[data-pos-product-card="92400000-0000-0000-0000-000000000103"]').click();
+    await page.getByRole('button',{name:'إتمام البيع وطباعة'}).click();
+    await expect.poll(async()=>(await state(page))?.status).toBe('SUCCEEDED');
+    const sold=await state(page); const orderId=sold.result.orderId;
+    await mountAftercare(page,orderId);
+    await page.getByRole('button',{name:'مرتجع',exact:true}).click();
+    await page.getByLabel('سليم',{exact:true}).fill('2');
+    await page.getByLabel('عيب/غير قابل للبيع',{exact:true}).fill('1');
+    await page.getByLabel('ضرر عميل',{exact:true}).fill('2');
+    await page.getByPlaceholder('سبب المرتجع').fill('فحص كرتونة: سليم وعيب وضرر عميل');
+    const response=page.waitForResponse(r=>r.url().endsWith('/rest/v1/rpc/settle_admin_sales_return_v1'));
+    await page.getByRole('button',{name:'اعتماد المرتجع',exact:true}).click();
+    const result=await(await response).json();expect(result.success).toBe(true);
+    // Independent fixture prices: carton4500 and standalone900, not returned evidence.
+    expect(result.merchandiseEntitlementInMinorUnits).toBe(2700);
+    expect(result.moneyRefundInMinorUnits).toBe(2700);
+    const committed=await aftercareSnapshot(orderId);
+    expect(committed.content.returnEffects[0].sellable_quantity).toBe(2);
+    expect(committed.content.returnItems[0].raw_customer_damage_deduction_in_minor_units).toBe(1800);
+    const recovered=await page.evaluate(async id=>{
+      const p='/src/services/supabase/salesAftercare.service.ts';
+      const service=await import(/* @vite-ignore */ p);return service.recoverAdminAftercare(id,'return');
+    },orderId);
+    expect(recovered.success).toBe(true);expect(await aftercareSnapshot(orderId)).toEqual(committed);
+  });
+
+  test('server absence and explicit confirmed cancellation unlock POS without erasing the attempt',async({page})=>{
+    await mount(page);await page.getByLabel('وحدة البيع',{exact:true}).selectOption('base_unit');
+    await page.locator(`[data-pos-product-card="${productId}"]`).click();
+    await page.route('**/rest/v1/rpc/create_pos_sale_v2',route=>route.abort('failed'));
+    const before=await snapshot();await page.getByRole('button',{name:'إتمام البيع وطباعة'}).click();
+    await expect.poll(async()=>(await state(page))?.status).toBe('OUTCOME_UNKNOWN');
+    const pending=await state(page);expect(await snapshot()).toEqual(before);
+    await page.getByRole('button',{name:'التحقق من حالة المحاولة',exact:true}).click();
+    await expect(page.getByText('الخادم لا يجد بيعاً مسجلاً لهذه المحاولة. سيعيد التحقق عند الإلغاء.')).toBeVisible();
+    expect((await state(page)).status).toBe('OUTCOME_UNKNOWN');
+    const cancel=page.getByRole('button',{name:'إلغاء المحاولة غير المسجلة',exact:true});await expect(cancel).toBeDisabled();
+    await page.getByRole('checkbox',{name:'أؤكد إلغاء هذه المحاولة غير المسجلة وبدء بيع جديد'}).check();
+    await cancel.click();await expect.poll(async()=>(await state(page))?.status).toBe('CANCELLED_UNCOMMITTED');
+    const cancelled=await state(page);expect(cancelled.request).toEqual(pending.request);
+    expect(cancelled.cancellationProof.idempotencyKey).toBe(pending.request.idempotencyKey);
+    expect(await snapshot()).toEqual(before);
+    await page.unroute('**/rest/v1/rpc/create_pos_sale_v2');
+    const late=await page.evaluate(async request=>{
+      const p='/src/services/supabase/posV2.service.ts';const service=await import(/* @vite-ignore */ p);
+      return service.createPosSaleV2InSupabase(request);
+    },pending.request);
+    expect(late.ok).toBe(false);expect(await snapshot()).toEqual(before);
+    await expect(page.locator(`[data-pos-product-card="${productId}"]`)).toBeEnabled();
   });
 });

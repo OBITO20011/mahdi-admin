@@ -235,7 +235,9 @@ test('modal dispatcher, quick actions and nested feature views retain their iden
   assert.match(directReceivingView, /'partially_paid'/);
   assert.match(directReceivingView, /'old_history'/);
   assert.match(profileModal, /'profile' \| 'edit' \| 'security' \| 'notifications'/);
-  assert.match(orderDetailModal, /returnCompletedWebsiteOrder/);
+  assert.match(orderDetailModal, /<AdminAftercarePanel/u);
+  assert.match(orderDetailModal, /legacy_website_return_v1[\s\S]*للقراءة فقط/u);
+  assert.doesNotMatch(orderDetailModal, /returnCompletedWebsiteOrder/u);
 });
 
 test('Phase 2 BottomTabs use the approved five destinations without changing identities', () => {
