@@ -67,3 +67,5 @@ FullqualityالمصححPASS/exit0:267browserPASS،59conditional skipsموجود�
 ### تعديل تهيئة quality المصرح2026-10-08
 
 قرار المالك اللاحق: إبقاء37691827047 دون إلغاء/إعادة تشغيل، وتصحيح quality وحدها بصـورة `mcr.microsoft.com/playwright:v1.62.1-noble` المثبتة بـindex digest `sha256:dcc5531e97840b9b5e794f2814476b21571c5124a3fca2267d73041f56e7580e`، المتحقق منه مباشرة منMCR. أُزيل install --with-deps لهذه الوظيفة فقط؛ مهلة20min والتغطية/retries ووظائفDB/pos-browser لم تتغير. حارسCI يقرأ image الفعلية منworkflow ويطابق نسخlock الثلاث؛6 حالات قبول/رفض محليةPASS، وكلوظائفCI الأخرى byte-identical. لا تغيير تطبيق/SQL؛next: Gitleaks0 ثمcommit/push منفصل،full exact-SHA CI ومدةquality قبل134/E2.
+
+التسليم الأول `0f8406588dd815f87a0df42294d4d6634a4ea0b7`: secrets37693287415PASS. Quality job113038562496 فيrun37693287281 فشل بعد89s فقط بسبب `fatal: detected dubious ownership` بأربع اختبارات Git، بعدنجاحsetup وحارسنسخة1.62.1. هذا الشرط كان ضمن موافقةالمالك؛أُضيف `git config --global --add safe.directory "$GITHUB_WORKSPACE"` فيquality وحدها بعدcheckout. لم تُغيّرassertions/تغطية أوtimeout أوretries، ولم يُلغَالتشغيلالقديم. يلزمCI جديد كامل؛134لمتبدأ.
