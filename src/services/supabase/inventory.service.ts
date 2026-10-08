@@ -2,15 +2,6 @@ import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import { InventoryMovement, MovementType, Product } from '../../types';
 import { mapAdminProductRecord } from './products.service';
 
-export interface ReceiveInventoryInput {
-  warehouseId: string;
-  productId: string;
-  quantity: number;
-  referenceType?: string;
-  referenceId?: string;
-  notes?: string;
-}
-
 export interface AdjustInventoryStockInput {
   warehouseId: string;
   productId: string;
@@ -146,37 +137,6 @@ export async function fetchInventoryProductPageFromSupabase(
   };
 }
 
-export async function receiveInventoryInSupabase(
-  input: ReceiveInventoryInput
-): Promise<SupabaseInventoryMutationResult> {
-  if (!isSupabaseConfigured || !supabase) {
-    throw new Error('Supabase client is not configured');
-  }
-
-  try {
-    const { data: res, error } = await supabase.rpc('receive_inventory', {
-      p_warehouse_id: input.warehouseId,
-      p_product_id: input.productId,
-      p_quantity: input.quantity,
-      p_reference_type: input.referenceType || 'purchase_receipt',
-      p_reference_id: input.referenceId || null,
-      p_notes: input.notes || 'استلام شحنة بضاعة جديدة للمخزن',
-    });
-
-    if (error) {
-      console.error('RPC receive_inventory error:', error);
-      return { success: false, error: error.message };
-    }
-
-    return {
-      success: true,
-      data: res,
-    };
-  } catch (err: any) {
-    console.error('Exception during receiveInventoryInSupabase:', err);
-    return { success: false, error: err?.message || 'تعذر التواصل مع قاعدة بيانات Supabase' };
-  }
-}
 
 export async function fetchInventoryBalancesFromSupabase() {
   if (!isSupabaseConfigured || !supabase) return [];

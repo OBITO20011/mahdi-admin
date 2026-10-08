@@ -8,13 +8,13 @@ test('Owner133 correction uses explicit functions and audited one-time balance r
   assert.match(sql,/^BEGIN;/mu);assert.match(sql,/COMMIT;\s*$/u);
   assert.doesNotMatch(sql,/pg_get_functiondef|^\s*EXECUTE\b|CREATE\s+(?:SCHEMA|TABLE)|CREATE\s+(?:UNIQUE\s+)?INDEX/imu);
   const functions=[...sql.matchAll(/CREATE(?: OR REPLACE)? FUNCTION public\.([a-z0-9_]+)\(/gu)].map(match=>match[1]);
-  assert.deepEqual(functions,['record_supplier_payment','receive_purchase_order_v2',
+  assert.deepEqual(functions,['_record_supplier_payment_impl','record_supplier_payment','receive_purchase_order_v2',
     '_reverse_supplier_payment_before_phase4_lock','_cancel_purchase_receipt_v2_before_phase4_lock',
     'phase133_legacy_po_payables_internal','phase133_supplier_balance_evidence_internal','run_advanced_monitoring_checks','_record_supplier_receipt_payment_impl',
     '_get_cash_shift_closing_report_before_snapshot','reverse_supplier_payment','cancel_purchase_receipt_v2',
     '_cancel_supplier_receipt_before_phase4_lock','_cancel_supplier_receipt_impl','receive_purchase_order',
     'create_direct_supplier_receipt','phase133_supplier_balances_internal','get_operational_business_report',
-    'build_business_summary','get_home_dashboard','_preview_cash_shift_full_reversal']);
+    'build_business_summary','get_home_dashboard','_preview_cash_shift_full_reversal','preview_supplier_receipt_cancellation']);
   const outside=sql.replace(/CREATE(?: OR REPLACE)? FUNCTION[\s\S]*?AS\s+\$\$[\s\S]*?\$\$;/gu,'');
   assert.doesNotMatch(outside,/\b(?:UPDATE|DELETE)\s+(?:public\.)?(?:products|supplier_receipts|purchase_receipts|business_operations|supplier_payments)\b/iu);
   assert.match(outside,/UPDATE public\.suppliers SET current_balance_in_minor_units=v\.new_balance/u);
@@ -39,19 +39,22 @@ test('New SECURITY DEFINER bodies retain pinned owners and the existing internal
   }
   assert.match(sql,/REVOKE ALL ON FUNCTION public\._record_supplier_receipt_payment_impl\([^;]+FROM PUBLIC,anon,authenticated,service_role;/u);
   const grants=[...sql.matchAll(/GRANT EXECUTE ON FUNCTION public\.([a-z0-9_]+)\(/gu)].map(match=>match[1]);
-  assert.deepEqual(grants,['get_operational_business_report','build_business_summary','get_home_dashboard']);
+  assert.deepEqual(grants,['get_operational_business_report','build_business_summary','get_home_dashboard','preview_supplier_receipt_cancellation']);
   assert.match(sql,/REVOKE ALL ON FUNCTION public\._record_supplier_payment_impl\([^;]+FROM PUBLIC,anon,authenticated,service_role;/u);
   assert.match(sql,/REVOKE ALL ON FUNCTION public\._record_supplier_payment_idempotency_legacy\([^;]+FROM PUBLIC,anon,authenticated,service_role;/u);
 });
 
 test('PO payment caps share locked PO evidence and supplier advances are not clamped or netted',()=>{
-  assert.match(sql,/v_active_paid\+p_amount_in_minor_units > v_po\.total_in_minor_units/u);
+  assert.match(sql,/v_active_paid\+p_amount_in_minor_units > v_actual_payable/u);
+  assert.match(sql,/GREATEST\(v_po\.total_in_minor_units::NUMERIC,/u);
+  assert.match(sql,/SUM\(r\.supplier_invoice_payable_total_snapshot_in_minor_units::NUMERIC\)/u);
+  assert.match(sql,/RECALCULATE_PO_PAYMENTS_133/u);
   assert.equal([...sql.matchAll(/SUPPLIER_PO_PAYMENT_EXCEEDS_PAYABLE:/gu)].length,2);
   assert.match(sql,/FILTER\(WHERE current_balance_in_minor_units>0\)/u);
   assert.match(sql,/FILTER\(WHERE current_balance_in_minor_units<0\)/u);
   const legacy=sql.slice(sql.indexOf('CREATE OR REPLACE FUNCTION public._cancel_supplier_receipt_impl('),sql.indexOf('-- Explicit V1 creation guards.'));
   assert.doesNotMatch(legacy,/GREATEST/iu);
-  assert.match(legacy,/current_balance_in_minor_units - v_receipt\.total_in_minor_units/u);
+  assert.match(legacy,/current_balance_in_minor_units\s*-\s*\(\s*v_receipt\.total_in_minor_units\s*-\s*v_payments_amount_reversed\s*\)/u);
   assert.match(sql,/public\.phase4_lock_supplier_context_internal\(NULL,NULL,p_supplier_payment_id\)/u);
   assert.match(sql,/WHEN query_canceled/u);assert.match(sql,/'salesDetailStatus','unavailable'/u);
   assert.match(sql,/SELECT order_id,MAX\(created_at\)/u);

@@ -15,6 +15,7 @@ import {
 } from '../../types/purchases';
 import { Supplier } from '../../types';
 import {purchaseReceiptV2Lines} from '../../utils/receivingV2';
+import {supplierPaymentLimit} from '../../utils/supplierPaymentLimit';
 
 // Helper: Convert minor units (fils) to JOD (1 JOD = 1000 fils)
 const minorToJod = (fils: number | null | undefined): number => {
@@ -825,7 +826,7 @@ export async function recordSupplierPaymentInSupabase(params: {
   paymentDate?: string;
   notes?: string;
   idempotencyKey: string;
-}): Promise<{ success: boolean; paymentId?: string; message?: string; error?: string }> {
+}): Promise<{ success: boolean; paymentId?: string; message?: string; error?: string; maxAllowedInMinorUnits?: number }> {
   if (!isSupabaseConfigured || !supabase) {
     return { success: false, error: 'Supabase is not configured' };
   }
@@ -844,6 +845,10 @@ export async function recordSupplierPaymentInSupabase(params: {
 
     if (error) {
       console.error('RPC record_supplier_payment error:', error);
+      if (error.message.includes('SUPPLIER_PO_PAYMENT_EXCEEDS_PAYABLE')) {
+        const limits = supplierPaymentLimit(error.details);
+        if (limits) return {success: false, ...limits};
+      }
       return { success: false, error: error.message };
     }
 

@@ -68,7 +68,9 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
   const loadSupplierOrders = useCallback(async (supId: string) => {
     const res = await fetchPurchaseOrdersFromSupabase({ supplierId: supId });
     if (res.success) {
-      const unpaid = res.data.filter((purchaseOrder) => purchaseOrder.amountDue > 0 && purchaseOrder.status !== 'cancelled');
+      // Actual receipt payable may exceed the planned PO total. The server
+      // determines remaining capacity; a planned balance must not hide the PO.
+      const unpaid = res.data.filter((purchaseOrder) => purchaseOrder.status !== 'cancelled');
       setPos(unpaid);
     }
   }, []);
@@ -131,11 +133,6 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
       return;
     }
 
-    if (selectedPo && amount > selectedPo.amountDue) {
-      setErrorMsg(`المبلغ المدخل (${amount} ${CURRENCY}) يتجاوز المبلغ المتبقي المستحق على طلب الشراء (${selectedPo.amountDue} ${CURRENCY}).`);
-      return;
-    }
-
     setIsSubmitting(true);
     try {
 
@@ -158,6 +155,7 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
         onClose();
       } else {
         setErrorMsg(res.error || 'حدث خطأ أثناء تسديد الدفعة');
+        if (res.maxAllowedInMinorUnits !== undefined) setAmount(res.maxAllowedInMinorUnits/1000);
       }
 
     } finally {
@@ -180,6 +178,9 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
             </div>
           </div>
           <button
+            type="button"
+            disabled={isSubmitting}
+            aria-label="إغلاق دفعة المورد"
             onClick={onClose}
             className="w-9 h-9 rounded-xl bg-slate-700/60 text-slate-300 hover:text-white flex items-center justify-center transition"
           >
@@ -226,7 +227,7 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
               </span>
               {selectedPo && (
                 <span className="text-amber-400 text-[11px] font-mono">
-                  المتبقي: {selectedPo.amountDue.toFixed(3)} {CURRENCY}
+                  المتبقي المخطط: {selectedPo.amountDue.toFixed(3)} {CURRENCY}
                 </span>
               )}
             </label>
@@ -238,7 +239,7 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
               <option value="">-- دفعة عامة على الحساب --</option>
               {pos.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.purchaseOrderNumber} | إجمالي: {p.totalAmount.toFixed(3)} | متبقي: {p.amountDue.toFixed(3)}{' '}
+                  {p.purchaseOrderNumber} | إجمالي مخطط: {p.totalAmount.toFixed(3)} | متبقي مخطط: {p.amountDue.toFixed(3)}{' '}
                   {CURRENCY}
                 </option>
               ))}
@@ -256,7 +257,7 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
                 }}
                 className="text-[10px] text-blue-400 hover:underline"
               >
-                دفع المتبقي بالكامل
+                اقتراح المتبقي المخطط
               </button>
             </label>
             <div className="relative">
@@ -330,6 +331,7 @@ export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
             <button
               type="button"
               onClick={onClose}
+              disabled={isSubmitting}
               className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 font-bold transition"
             >
               إلغاء

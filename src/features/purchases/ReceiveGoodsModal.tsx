@@ -181,6 +181,9 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({
             </div>
           </div>
           <button
+            type="button"
+            aria-label="إغلاق استلام البضائع"
+            disabled={isSubmitting}
             onClick={onClose}
             className="w-9 h-9 rounded-xl bg-slate-700/60 text-slate-300 hover:text-white flex items-center justify-center transition"
           >
@@ -310,6 +313,7 @@ export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({
           <div className="pt-3 border-t border-slate-800 flex items-center justify-end gap-3 shrink-0">
             <button
               type="button"
+              disabled={isSubmitting}
               onClick={onClose}
               className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 font-bold transition"
             >

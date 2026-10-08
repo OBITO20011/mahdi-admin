@@ -136,14 +136,17 @@ try{
   const fallback=await json(`BEGIN;
     ALTER TABLE public.business_operations DISABLE TRIGGER USER;
     UPDATE public.business_operations SET request_identity_snapshot=jsonb_set(request_identity_snapshot,
-      '{physical_sources,0,sellable_restock_quantity}','"not-a-quantity"'::jsonb)
-    WHERE id=${q(mixedReturn.operationId)};
+      '{payment_method}','"cash"'::jsonb)
+    WHERE operation_type='phase3_customer_completion_v1' AND request_identity_snapshot->>'order_id'=${q(order.order_id)};
     SELECT set_config('request.jwt.claims',${q(JSON.stringify({sub:owner,role:'authenticated',aal:'aal2'}))},true);
     SET LOCAL ROLE authenticated;
     SELECT public.close_cash_shift(${q(shift)},11500,NULL);
     SELECT public.get_cash_shift_closing_report(${q(shift)});ROLLBACK;`);
   assert.equal(fallback.salesDetailStatus,'unavailable');
   assert.equal(Object.hasOwn(fallback.sales,'initialReceiptPaymentsInMinorUnits'),false);
+  assert.deepEqual(fallback.returnBreakdown,after.returnBreakdown,'Sales fallback preserves full131 return breakdown');
+  assert.deepEqual(fallback.returnQuantityBreakdown,after.returnQuantityBreakdown,'Sales fallback preserves quantities/disposition');
+  assert.equal(fallback.outflows.returnCount,after.outflows.returnCount,'Sales fallback preserves modern return count');
   assert.equal(fallback.reconciliation.expectedCashInMinorUnits,11500);
   assert.equal(fallback.reconciliation.cashDiscrepancyInMinorUnits,0);
   assert.deepEqual(await fingerprint(),fallbackBefore,'Rollback restores evidence, open shift and all financial state');

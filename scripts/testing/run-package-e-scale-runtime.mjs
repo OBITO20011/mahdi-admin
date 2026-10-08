@@ -13,6 +13,7 @@ const projectId='nawasrah-package-e-scale-test',container=`supabase_db_${project
 const cli=path.join(root,'node_modules/supabase/dist/supabase.js');
 const smoke=process.argv.includes('--smoke'),params=smoke?smokeScale:fullScale;
 const resumeOwned=process.argv.includes('--resume-owned');
+const monitorOnly=process.argv.includes('--monitor-only');
 const id=(kind,n)=>`929${String(kind).padStart(5,'0')}-0000-4000-8000-${String(n).padStart(12,'0')}`;
 const owner=id(1,1),branch=id(10,2),warehouse=id(11,2);
 const q=value=>`'${String(value).replaceAll("'","''")}'`;
@@ -151,13 +152,30 @@ try{
   if(!resumeOwned){
     stage='full-scale literal JSON parity before134/after134';
     activeBench={name:'baseline-home-parity',command:'get_home_dashboard()',role:'authenticated'};
-    await homeParity({sql,root,owner,label:smoke?'smoke-NOT-full-volume':'full-volume'});
-    await reportParity({sql,root,owner,branch,label:smoke?'smoke-NOT-full-volume':'full-volume'});
+    if(!monitorOnly){
+      await homeParity({sql,root,owner,label:smoke?'smoke-NOT-full-volume':'full-volume'});
+      await reportParity({sql,root,owner,branch,label:smoke?'smoke-NOT-full-volume':'full-volume'});
+    }
     await sql(await readFile(path.join(root,'supabase/migrations/134_package_e_read_performance.sql'),'utf8'));
     activeBench=undefined;
   }
   const database=await json(`SELECT jsonb_build_object('postgres',version(),'databaseBytes',pg_database_size(current_database()),
     'sharedBuffers',current_setting('shared_buffers'),'workMem',current_setting('work_mem'));`);
+  if(monitorOnly){
+    stage='FULL recent-evidence monitoring timing';
+    const started=performance.now();
+    const cycle=await json('SELECT public.run_advanced_monitoring_checks(NOW());');
+    const wallMs=performance.now()-started;
+    assert.equal(cycle.ok,true);
+    const check=await json("SELECT to_jsonb(c) FROM advanced_monitoring_checks c WHERE check_key='integrity:aftercare:durable-evidence';");
+    assert.equal(check.status,'healthy');assert.equal(check.issue_count,0);
+    assert.equal(check.details.returnsChecked,params.modern);assert.equal(check.details.replacementsChecked,params.modern);
+    const cachedAt=performance.now();
+    await json(`SELECT public.run_advanced_monitoring_checks(${q(check.checked_at)}::timestamptz+INTERVAL '5 minutes');`);
+    assert.deepEqual(await json("SELECT to_jsonb(c) FROM advanced_monitoring_checks c WHERE check_key='integrity:aftercare:durable-evidence';"),check);
+    console.log(JSON.stringify({ok:true,profile:smoke?'SMOKE_ONLY':'FULL',monitorOnly:true,validated,database,
+      wallMs,scanMs:check.details.durationMs,cachedCycleMs:performance.now()-cachedAt,sixHourCache:true,productionAccess:0},null,2));
+  }else{
   const lastOffset=Math.max(0,(Math.ceil(params.families/24)-1)*24);
   // Fixture discovery is privileged harness setup, not a public table read.
   // The timed call uses the literal ID, just like the supported UI RPC.
@@ -236,6 +254,7 @@ try{
       environment:{host:JSON.parse(host),database,containerCpus:4,storage:'Docker desktop local volume; physical SSD not independently verified'},
       validated,results,migration133:immutableHash,migrationsModified:false,productionAccess:0},null,2));
     if(!smoke&&results.some(r=>r.result!=='PASS'))process.exitCode=1;
+  }
   }
 }catch(error){
   const diagnostics={};

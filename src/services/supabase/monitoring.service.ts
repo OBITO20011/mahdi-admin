@@ -1,5 +1,17 @@
 import {isSupabaseConfigured, supabase} from '../../lib/supabase';
-import type {MonitoringDashboard} from '../../types/monitoring';
+import type {AftercareIntegrityStatus,MonitoringDashboard} from '../../types/monitoring';
+
+export async function getAftercareIntegrityStatus(): Promise<AftercareIntegrityStatus> {
+  if (!isSupabaseConfigured || !supabase) throw new Error('حالة السلامة غير متاحة حالياً.');
+  const {data,error} = await supabase.rpc('get_aftercare_integrity_status');
+  if (error || !data || typeof data !== 'object') throw new Error('تعذر قراءة حالة سلامة التقارير.');
+  const value = data as unknown as AftercareIntegrityStatus;
+  if (!['healthy','warning','critical','unknown'].includes(value.status) ||
+    (value.checkedAt !== null && typeof value.checkedAt !== 'string')) {
+    throw new Error('حالة سلامة التقارير غير صالحة.');
+  }
+  return {status:value.status,checkedAt:value.checkedAt};
+}
 
 const emptyDashboard: MonitoringDashboard = {
   overallStatus: 'unknown',

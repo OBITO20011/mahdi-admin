@@ -50,7 +50,6 @@ import {
   fetchInventoryMovementsFromSupabase,
   type InventoryMovementPageInput,
   type InventoryMovementPage,
-  receiveInventoryInSupabase,
   transferInventoryBetweenWarehousesInSupabase,
 } from '../services/supabase/inventory.service';
 import {
@@ -1344,56 +1343,6 @@ class StoreEngine {
     return movement;
   }
 
-  public async receiveGoods(params: {
-    productId: string;
-    quantity: number;
-    branchId?: string;
-    warehouseId?: string;
-    supplierInvoiceNo?: string;
-    notes?: string;
-  }) {
-    if (!isSupabaseConfigured) {
-      const error = 'الاتصال بقاعدة بيانات Supabase غير متاح.';
-      this.setToast(error, 'error');
-      return { success: false, error };
-    }
-
-    const targetWarehouse =
-      params.warehouseId || this.state.warehouses[0]?.id;
-    if (!targetWarehouse) {
-      const error = 'المستودع مطلوب لاستلام البضاعة.';
-      this.setToast(error, 'error');
-      return { success: false, error };
-    }
-
-    const result = await receiveInventoryInSupabase({
-      productId: params.productId,
-      warehouseId: targetWarehouse,
-      quantity: params.quantity,
-      referenceType: 'purchase_receipt',
-      notes:
-        params.notes ||
-        `فاتورة مورد #${params.supplierInvoiceNo || ''}`,
-    });
-
-    if (!result.success) {
-      this.setToast(
-        result.error || 'تعذر تحديث المخزون في Supabase.',
-        'error'
-      );
-      return result;
-    }
-
-    await Promise.all([
-      this.refreshProductsFromSupabase(),
-      this.refreshInventoryMovementsFromSupabase(),
-      this.refreshStockNotificationsFromSupabase(),
-    ]);
-    this.setToast(
-      'تم استلام البضاعة وتحديث الرصيد في Supabase بنجاح.'
-    );
-    return result;
-  }
 
   public async transferWarehouse(params: {
     productId: string;
@@ -2359,7 +2308,6 @@ export function useAppStore() {
     duplicateProduct: (id: string) => storeEngine.duplicateProduct(id),
     adjustStock: (pId: string, newQty: number, reason: string) => storeEngine.adjustStock(pId, newQty, reason),
     recordStockMovement: (params: Parameters<StoreEngine['recordStockMovement']>[0]) => storeEngine.recordStockMovement(params),
-    receiveGoods: (params: Parameters<StoreEngine['receiveGoods']>[0]) => storeEngine.receiveGoods(params),
     transferWarehouse: (params: Parameters<StoreEngine['transferWarehouse']>[0]) => storeEngine.transferWarehouse(params),
     executeStockCount: (params: Parameters<StoreEngine['executeStockCount']>[0]) => storeEngine.executeStockCount(params),
     

@@ -3,7 +3,8 @@ import { AlertTriangle, Loader2, Trash2 } from 'lucide-react';
 import { SupplierReceipt } from '../../types/directReceiving';
 import { CURRENCY } from '../../constants';
 import { Modal } from '../../components/common/Modal';
-import { cancelSupplierReceiptInSupabase } from '../../services/supabase/directReceiving.service';
+import { cancelSupplierReceiptInSupabase, previewSupplierReceiptCancellation } from '../../services/supabase/directReceiving.service';
+import type {SupplierCancellationPreview} from '../../utils/supplierCancellationPreview';
 import { useAppStoreActions } from '../../stores/useAppStore';
 
 interface CancelSupplierReceiptDialogProps {
@@ -18,17 +19,31 @@ export const CancelSupplierReceiptDialog: React.FC<
   const { setToast, refreshProductsFromSupabase } = useAppStoreActions();
   const [reason, setReason] = useState('تم إدخال سند الاستلام بالخطأ');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [preview, setPreview] = useState<SupplierCancellationPreview | null>(null);
+  const [previewError, setPreviewError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    let active = true;
+    setPreview(null);
+    setPreviewError('');
     if (receipt) {
       setReason('تم إدخال سند الاستلام بالخطأ');
       setIsSubmitting(false);
+      setIsLoading(true);
+      void previewSupplierReceiptCancellation(receipt.id).then(data => {
+        if (active) setPreview(data);
+      }).catch((error: unknown) => {
+        if (active) setPreviewError(error instanceof Error ? error.message : 'تعذر تحميل معاينة الإلغاء.');
+      }).finally(() => { if (active) setIsLoading(false); });
     }
+    return () => { active = false; };
   }, [receipt]);
 
   if (!receipt) return null;
 
   const handleConfirm = async () => {
+    if (isSubmitting || !preview) return;
     const trimmedReason = reason.trim();
     if (!trimmedReason) {
       setToast('اكتب سبب إلغاء سند الاستلام.', 'error');
@@ -37,6 +52,12 @@ export const CancelSupplierReceiptDialog: React.FC<
 
     setIsSubmitting(true);
     try {
+      const fresh = await previewSupplierReceiptCancellation(receipt.id);
+      if (JSON.stringify(fresh) !== JSON.stringify(preview)) {
+        setPreview(fresh);
+        setPreviewError('تغيّرت الدفعات أو رصيد المورد. راجع الأرقام الجديدة ثم أكّد الإلغاء مجدداً.');
+        return;
+      }
       const result = await cancelSupplierReceiptInSupabase(
         receipt.id,
         trimmedReason
@@ -62,7 +83,9 @@ export const CancelSupplierReceiptDialog: React.FC<
       );
 
       onClose();
-
+    } catch (error: unknown) {
+      setPreview(null);
+      setPreviewError(error instanceof Error ? error.message : 'تعذر التحقق من الإلغاء. أعد فتح السند.');
     } finally {
       setIsSubmitting(false);
     }
@@ -74,8 +97,11 @@ export const CancelSupplierReceiptDialog: React.FC<
       onClose={isSubmitting ? () => undefined : onClose}
       title="تأكيد إلغاء سند الاستلام"
       subtitle="عملية عكس محاسبية ومخزنية موثقة، وليست حذفاً نهائياً للسجل"
+      closeDisabled={isSubmitting}
     >
       <div dir="rtl" aria-busy={isSubmitting} className="space-y-4 text-xs">
+        {isLoading && <p role="status">جارٍ تحميل الدفعات ورصيد المورد...</p>}
+        {previewError && <p role="alert" className="text-amber-300">{previewError}</p>}
         <div className="flex items-start gap-3 rounded-2xl border border-rose-500/30 bg-rose-950/40 p-4">
           <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-rose-400" />
           <div className="space-y-1">
@@ -97,7 +123,7 @@ export const CancelSupplierReceiptDialog: React.FC<
           <div>
             <span className="block text-[10px] text-slate-500">قيمة السند</span>
             <strong className="text-emerald-300">
-              {(receipt.totalInMinorUnits / 1000).toFixed(3)} {CURRENCY}
+              {preview ? (preview.total / 1000).toFixed(3) : '—'} {CURRENCY}
             </strong>
           </div>
           <div>
@@ -117,10 +143,21 @@ export const CancelSupplierReceiptDialog: React.FC<
               الدفعة التي ستُعكس
             </span>
             <strong className="text-rose-300">
-              {(receipt.amountPaidInMinorUnits / 1000).toFixed(3)} {CURRENCY}
+              {preview ? (preview.paymentsTotal / 1000).toFixed(3) : '—'} {CURRENCY}
             </strong>
           </div>
         </div>
+
+        {preview && <section aria-label="الدفعات التي ستُعكس" className="space-y-2 rounded-xl border border-slate-700 p-3">
+          <h4 className="font-bold">الدفعات التي ستُعكس</h4>
+          {preview.payments.length === 0 && <p>لا توجد دفعات فعالة لهذا السند.</p>}
+          {preview.payments.map(payment => <div key={payment.id} className="border-b border-slate-800 pb-2">
+            <p>{(payment.amount / 1000).toFixed(3)} {CURRENCY} — {({cash: 'نقداً', cliq: 'CliQ', bank_transfer: 'تحويل بنكي', check: 'شيك', card: 'بطاقة'} as Record<string, string>)[payment.method] || payment.method} — {new Date(payment.date).toLocaleString('ar-JO')}</p>
+            {payment.method === 'cash' && payment.cashShiftStatus === 'closed' && <p className="text-amber-300">هذه دفعة نقدية من وردية مغلقة؛ سيُسجّل عكسها، وليس دفع مبلغ جديد من تلك الوردية.</p>}
+          </div>)}
+          <p>رصيد المورد قبل: {(preview.supplierBalanceBefore / 1000).toFixed(3)} {CURRENCY}</p>
+          <p>رصيد المورد بعد: {(preview.supplierBalanceAfter / 1000).toFixed(3)} {CURRENCY}</p>
+        </section>}
 
         <div>
           <label className="mb-1 block font-bold text-slate-300">
@@ -153,7 +190,7 @@ export const CancelSupplierReceiptDialog: React.FC<
           <button
             type="button"
             onClick={handleConfirm}
-            disabled={isSubmitting || !reason.trim()}
+            disabled={isSubmitting || isLoading || !preview || !reason.trim()}
             className="flex items-center gap-1.5 rounded-xl border border-rose-500 bg-rose-600 px-4 py-2 font-extrabold text-white transition hover:bg-rose-500 disabled:opacity-50"
           >
             {isSubmitting ? (
@@ -161,7 +198,9 @@ export const CancelSupplierReceiptDialog: React.FC<
             ) : (
               <Trash2 className="h-4 w-4" />
             )}
-            <span>{isSubmitting ? 'جارٍ عكس السند...' : 'نعم، إلغاء السند'}</span>
+            <span>{isSubmitting ? 'جارٍ عكس السند...' : preview?.paymentsTotal
+              ? `إلغاء السند وعكس ${preview.payments.length === 1 ? 'دفعة' : 'دفعات'} ${(preview.paymentsTotal / 1000).toFixed(3)}`
+              : 'نعم، إلغاء السند'}</span>
           </button>
         </div>
       </div>

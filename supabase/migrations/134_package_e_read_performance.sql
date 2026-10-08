@@ -454,6 +454,9 @@ DECLARE
   v_return_count INTEGER := 0;
   v_replacement_count INTEGER := 0;
   v_evidence_issues INTEGER := 0;
+  v_cached_evidence public.advanced_monitoring_checks%ROWTYPE;
+  v_evidence_started TIMESTAMPTZ;
+  v_evidence_canceled BOOLEAN := false;
   v_settings public.advanced_monitoring_settings%ROWTYPE;
   v_count INTEGER;
   v_total_integrity INTEGER := 0;
@@ -846,8 +849,16 @@ BEGIN
   WHERE resolved_at IS NULL AND last_seen_at<p_observed_at-
     make_interval(mins=>v_settings.runtime_incident_window_minutes);
 
-  -- Seven-day operational evidence, checked independently by the write validators.
-  -- Preserve a CRITICAL check/incident even when an individual validator rejects.
+  -- Six-hour cadence: never refresh checked_at while reusing the persisted result.
+  -- The metrics UPDATE above serializes concurrent monitoring cycles.
+  SELECT * INTO v_cached_evidence FROM public.advanced_monitoring_checks
+  WHERE check_key='integrity:aftercare:durable-evidence';
+  IF FOUND AND v_cached_evidence.checked_at<=p_observed_at
+    AND v_cached_evidence.checked_at>p_observed_at-INTERVAL '6 hours' THEN
+    v_evidence_issues:=v_cached_evidence.issue_count;
+  ELSE
+  v_evidence_started:=clock_timestamp();
+  BEGIN
   FOR v_operation IN
     SELECT e.operation_id FROM public.sales_return_events e
     JOIN public.orders o ON o.id=e.order_id
@@ -859,7 +870,8 @@ BEGIN
     v_return_count := v_return_count + 1;
     BEGIN
       PERFORM public.phase42_assert_operational_return_evidence_internal(v_operation.operation_id,true);
-    EXCEPTION WHEN OTHERS THEN
+    EXCEPTION WHEN query_canceled THEN RAISE;
+    WHEN OTHERS THEN
       v_evidence_issues := v_evidence_issues + 1;
     END;
   END LOOP;
@@ -870,15 +882,22 @@ BEGIN
     v_replacement_count := v_replacement_count + 1;
     BEGIN
       PERFORM public.phase43_assert_operational_replacement_evidence_internal(v_operation.operation_id,true);
-    EXCEPTION WHEN OTHERS THEN
+    EXCEPTION WHEN query_canceled THEN RAISE;
+    WHEN OTHERS THEN
       v_evidence_issues := v_evidence_issues + 1;
     END;
   END LOOP;
+  EXCEPTION WHEN query_canceled THEN
+    v_evidence_canceled:=true;
+    v_evidence_issues:=v_evidence_issues+1;
+  END;
   PERFORM public._set_advanced_monitoring_check('integrity:aftercare:durable-evidence','accounting','database',
     CASE WHEN v_evidence_issues=0 THEN 'healthy' ELSE 'critical' END,'critical',v_evidence_issues,
     'سلامة أدلة المرتجعات والاستبدالات لآخر 7 أيام',
     jsonb_build_object('windowDays',7,'returnsChecked',v_return_count,
-      'replacementsChecked',v_replacement_count),p_observed_at);
+      'replacementsChecked',v_replacement_count,'queryCanceled',v_evidence_canceled,
+      'durationMs',ROUND(EXTRACT(EPOCH FROM clock_timestamp()-v_evidence_started)*1000,3)),p_observed_at);
+  END IF;
   v_total_integrity := v_total_integrity + v_evidence_issues;
 
   PERFORM public._transition_business_alert_incident(
@@ -909,6 +928,23 @@ ALTER FUNCTION public._get_operational_business_report_before133(UUID,DATE,DATE)
 ALTER FUNCTION public._build_business_summary_before133(TEXT,DATE,DATE,TIMESTAMPTZ) OWNER TO postgres;
 
 ALTER FUNCTION public.run_advanced_monitoring_checks(TIMESTAMPTZ) OWNER TO postgres;
+
+-- Report roles see only aftercare health and the real evidence scan time.
+-- No technical checks, incident details, quantities or authority are exposed.
+CREATE FUNCTION public.get_aftercare_integrity_status()
+RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER
+SET search_path=public,pg_temp AS $$
+DECLARE v_result JSONB;
+BEGIN
+  PERFORM public.assert_erp_role(ARRAY['owner','admin','manager','accountant'],
+    'عرض حالة سلامة أدلة التقارير');
+  SELECT jsonb_build_object('status',status,'checkedAt',checked_at) INTO v_result
+  FROM public.advanced_monitoring_checks WHERE check_key='integrity:aftercare:durable-evidence';
+  RETURN COALESCE(v_result,jsonb_build_object('status','unknown','checkedAt',NULL));
+END; $$;
+ALTER FUNCTION public.get_aftercare_integrity_status() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.get_aftercare_integrity_status() FROM PUBLIC,anon,authenticated,service_role;
+GRANT EXECUTE ON FUNCTION public.get_aftercare_integrity_status() TO authenticated;
 
 
 

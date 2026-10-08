@@ -25,8 +25,8 @@ import {
   useAppStoreSelector,
 } from '../../stores/useAppStore';
 import type { OperationalBusinessReport } from '../../types';
-import type {MonitoringDashboard} from '../../types/monitoring';
-import {getMonitoringDashboard} from '../../services/supabase/monitoring.service';
+import type {AftercareIntegrityStatus} from '../../types/monitoring';
+import {getAftercareIntegrityStatus} from '../../services/supabase/monitoring.service';
 import {aftercareIntegrityWarning} from '../../utils/aftercareIntegrity';
 
 const pad = (value: number) => String(value).padStart(2, '0');
@@ -107,7 +107,7 @@ export const ReportsCenterView: React.FC = () => {
   const [report, setReport] = useState<OperationalBusinessReport | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  const [integrity, setIntegrity] = useState<MonitoringDashboard | null>(null);
+  const [integrity, setIntegrity] = useState<AftercareIntegrityStatus | null>(null);
   const [integrityNow, setIntegrityNow] = useState(Date.now);
   const integrityWarning = aftercareIntegrityWarning(integrity, integrityNow);
 
@@ -128,7 +128,7 @@ export const ReportsCenterView: React.FC = () => {
     try {
       const [nextReport, monitoring] = await Promise.all([
         fetchOperationalBusinessReportFromSupabase(activeBranch.id, dateFrom, dateTo),
-        getMonitoringDashboard().catch(() => null),
+        getAftercareIntegrityStatus().catch(() => null),
       ]);
       setIntegrity(monitoring);
       setIntegrityNow(Date.now());

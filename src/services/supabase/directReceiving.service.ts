@@ -14,6 +14,14 @@ import {
 import { Supplier, Unit, Warehouse, Branch, Product } from '../../types';
 import { searchAdminProducts } from './products.service';
 import {directReceiptV2Lines} from '../../utils/receivingV2';
+import {parseSupplierCancellationPreview} from '../../utils/supplierCancellationPreview';
+
+export async function previewSupplierReceiptCancellation(receiptId: string) {
+  if (!isSupabaseConfigured || !supabase) throw new Error('الاتصال بقاعدة البيانات غير متاح.');
+  const {data, error} = await supabase.rpc('preview_supplier_receipt_cancellation', {p_receipt_id: receiptId});
+  if (error) throw new Error(error.message);
+  return parseSupplierCancellationPreview(data, receiptId);
+}
 
 // Helper: Convert DB row to SupplierReceipt interface
 const mapSupplierReceiptRow = (row: any): SupplierReceipt => ({

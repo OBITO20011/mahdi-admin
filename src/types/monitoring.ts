@@ -1,5 +1,10 @@
 export type MonitoringHealthStatus = 'healthy' | 'warning' | 'critical' | 'unknown';
 
+export interface AftercareIntegrityStatus {
+  status: MonitoringHealthStatus;
+  checkedAt: string | null;
+}
+
 export interface MonitoringCheck {
   key: string;
   category: string;

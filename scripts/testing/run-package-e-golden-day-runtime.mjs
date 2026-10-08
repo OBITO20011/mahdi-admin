@@ -241,6 +241,12 @@ async function monitorAftercareCorruption() {
   const healthy=await json("SELECT to_jsonb(c) FROM advanced_monitoring_checks c WHERE check_key='integrity:aftercare:durable-evidence';");
   assert.equal(healthy.status,'healthy');assert.equal(healthy.issue_count,0);
   assert.ok(healthy.details.returnsChecked>0 && healthy.details.replacementsChecked>0);
+  await json(`SELECT public.run_advanced_monitoring_checks(${q(healthy.checked_at)}::timestamptz+INTERVAL '5 minutes');`);
+  assert.deepEqual(await json("SELECT to_jsonb(c) FROM advanced_monitoring_checks c WHERE check_key='integrity:aftercare:durable-evidence';"),healthy,
+    'Five-minute cycle reuses exact result, retaining real scan time');
+  const boundary=await json(`BEGIN;SELECT public.run_advanced_monitoring_checks(${q(healthy.checked_at)}::timestamptz+INTERVAL '6 hours');
+    SELECT to_jsonb(c) FROM advanced_monitoring_checks c WHERE check_key='integrity:aftercare:durable-evidence';ROLLBACK;`);
+  assert.notEqual(boundary.checked_at,healthy.checked_at);assert.equal(boundary.status,'healthy');
   const probe=await json(`BEGIN;
     SELECT set_config('request.jwt.claims','{"sub":"${owner}","role":"authenticated","aal":"aal2"}',true);
     CREATE TEMP TABLE e2_corruption_report ON COMMIT DROP AS
@@ -249,6 +255,7 @@ async function monitorAftercareCorruption() {
     ALTER TABLE phase42_return_inventory_effects DISABLE TRIGGER trg_phase42_guard_inventory_effect_history;
     UPDATE phase42_return_inventory_effects SET sellable_quantity=sellable_quantity+1
       WHERE id=(SELECT id FROM phase42_return_inventory_effects ORDER BY id LIMIT 1);
+    DELETE FROM advanced_monitoring_checks WHERE check_key='integrity:aftercare:durable-evidence';
     SELECT public.run_advanced_monitoring_checks(NOW());
     DO $$ BEGIN
       IF NOT EXISTS(SELECT 1 FROM advanced_monitoring_checks
@@ -269,11 +276,35 @@ async function monitorAftercareCorruption() {
         RAISE EXCEPTION 'E2_CORRUPTION_CHANGED_FINANCIAL_JSON';
       END IF;
     END $$;
-    SELECT jsonb_build_object('dashboard',public.get_advanced_monitoring_dashboard(),
+    SELECT jsonb_build_object('dashboard',public.get_advanced_monitoring_dashboard(),'narrow',public.get_aftercare_integrity_status(),
       'report',public.get_operational_business_report(${q(branch)},${today},${today}));
     ROLLBACK;`);
   const check=probe.dashboard.checks.find(c=>c.key==='integrity:aftercare:durable-evidence');
   assert.equal(check.status,'critical');assert.ok(check.issueCount>0);
+  assert.deepEqual(Object.keys(probe.narrow).sort(),['checkedAt','status']);assert.equal(probe.narrow.status,'critical');
+  const canceled=await json(`BEGIN;
+    CREATE OR REPLACE FUNCTION public.phase42_assert_operational_return_evidence_internal(p_operation_id UUID,p_require_settled BOOLEAN DEFAULT true)
+      RETURNS VOID LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+      BEGIN RAISE EXCEPTION 'isolated query cancellation' USING ERRCODE='57014'; END; $$;
+    DELETE FROM advanced_monitoring_checks WHERE check_key='integrity:aftercare:durable-evidence';
+    SELECT public.run_advanced_monitoring_checks(NOW());
+    SELECT to_jsonb(c) FROM advanced_monitoring_checks c WHERE check_key='integrity:aftercare:durable-evidence';ROLLBACK;`);
+  assert.equal(canceled.status,'critical');assert.equal(canceled.details.queryCanceled,true);
+  const narrowRoles=[];
+  for(const role of ['admin','manager','accountant']){
+    const result=await json(`BEGIN;
+      DELETE FROM user_roles WHERE user_id=${q(owner)};
+      INSERT INTO user_roles(user_id,role_id) SELECT ${q(owner)},id FROM roles WHERE code=${q(role)};
+      DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM user_roles WHERE user_id=${q(owner)}) THEN RAISE EXCEPTION 'E_ROLE_FIXTURE_MISSING'; END IF; END $$;
+      SELECT set_config('request.jwt.claims','{"sub":"${owner}","role":"authenticated","aal":"aal2"}',true);
+      SET LOCAL ROLE authenticated;
+      SELECT public.get_aftercare_integrity_status();ROLLBACK;`);
+    assert.equal(result.status,'healthy');assert.deepEqual(Object.keys(result).sort(),['checkedAt','status']);narrowRoles.push(role);
+  }
+  await assert.rejects(sql('BEGIN;SET LOCAL ROLE anon;SELECT public.get_aftercare_integrity_status();ROLLBACK;'),/permission denied/u);
+  await assert.rejects(sql(`BEGIN;DELETE FROM user_roles WHERE user_id=${q(owner)};
+    SELECT set_config('request.jwt.claims','{"sub":"${owner}","role":"authenticated","aal":"aal2"}',true);
+    SET LOCAL ROLE authenticated;SELECT public.get_aftercare_integrity_status();ROLLBACK;`));
   assert.equal(probe.report.sales.netSalesInMinorUnits,ledger.sales.netSalesInMinorUnits);
   // Eight days after the fixture, the dedicated window contains no operations.
   const outside=await json(`BEGIN;SELECT public.run_advanced_monitoring_checks(NOW()+INTERVAL '8 days');
@@ -283,6 +314,7 @@ async function monitorAftercareCorruption() {
   assert.equal(outside.details.replacementsChecked,0);
   assert.deepEqual(await fingerprint(),before,'Corruption/probes roll back every business row and trigger');
   console.log(JSON.stringify({stage,healthy:true,corruptionCritical:true,alertQueued:true,
+    evidenceScanMs:healthy.details.durationMs,sixHourCache:true,queryCanceledContinues:true,narrowRoles,
     dashboardWarningEvidence:check,financialJsonPreserved:true,sevenDayWindow:true,rollback:true,
     externalNotificationsSent:0}));
 }

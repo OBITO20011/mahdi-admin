@@ -33,11 +33,11 @@ const fingerprint=()=>json(`SELECT jsonb_build_object(${['suppliers','supplier_p
   'purchase_orders','purchase_order_items','purchase_receipts','purchase_receipt_items','business_operations','products','inventory_balances',
   'inventory_movements','phase2_receipt_wac_snapshots','audit_logs','cash_shifts','cash_shift_reversals','cash_shift_reversal_operations'].map(table=>`${q(table)},
     (SELECT md5(COALESCE(string_agg(to_jsonb(t)::text,'|' ORDER BY to_jsonb(t)::text),'')) FROM public.${table} t)`).join(',')});`);
-const line=(product,quantity,poItem=null)=>({client_line_id:randomUUID(),purchase_order_item_id:poItem,line_kind:'base_unit',
-  commercial_quantity:quantity,base_unit_name:'باكيت',gross_amount_in_minor_units:quantity*6000,line_discount_in_minor_units:0,
+const line=(product,quantity,poItem=null,unitPrice=6000)=>({client_line_id:randomUUID(),purchase_order_item_id:poItem,line_kind:'base_unit',
+  commercial_quantity:quantity,base_unit_name:'باكيت',gross_amount_in_minor_units:quantity*unitPrice,line_discount_in_minor_units:0,
   components:[{product_id:product,base_quantity:quantity}]});
 
-async function fixture(name,quantity=10) {
+async function fixture(name,quantity=10,unitPrice=6000) {
   label=name;const supplier=randomUUID(),product=randomUUID();
   await sql(`INSERT INTO suppliers(id,company_name,is_active) VALUES(${q(supplier)},${q(name)},true);
     INSERT INTO products(id,sku,name_ar,category_id,unit_id,purchase_unit_id,sale_unit_id,units_per_purchase_unit,units_per_sale_unit,
@@ -46,17 +46,17 @@ async function fixture(name,quantity=10) {
     SELECT ${q(product)},${q(`E133-${product}`)},${q(name)},category_id,unit_id,purchase_unit_id,sale_unit_id,1,1,
       0,10000,0,10000,10000,0,true,false,0 FROM products WHERE id='92600000-0000-4000-8000-000000000103';`);
   const po=await rpc(`create_purchase_order_v2(p_supplier_id:=${q(supplier)},p_branch_id:=${q(branch)},p_warehouse_id:=${q(warehouse)},
-    p_idempotency_key:=${q(`e133-po-${randomUUID()}`)},p_lines:=${j([line(product,quantity)])})`);
+    p_idempotency_key:=${q(`e133-po-${randomUUID()}`)},p_lines:=${j([line(product,quantity,null,unitPrice)])})`);
   await rpc(`update_purchase_order_status(${q(po.purchase_order_id)},'sent')`);
   await rpc(`update_purchase_order_status(${q(po.purchase_order_id)},'approved')`);
   const item=await json(`SELECT to_jsonb(id) FROM purchase_order_items WHERE purchase_order_id=${q(po.purchase_order_id)};`);
   return {supplier,product,po:po.purchase_order_id,item};
 }
 
-function receiving(f,quantity=10,paid=0) {
+function receiving(f,quantity=10,paid=0,unitPrice=6000) {
   return `receive_purchase_order_v2(p_purchase_order_id:=${q(f.po)},p_warehouse_id:=${q(warehouse)},
     p_idempotency_key:=${q(`e133-receive-${randomUUID()}`)},p_amount_paid_at_receipt_in_minor_units:=${paid},
-    p_payment_method:=${q(paid?'cash':'deferred')},p_lines:=${j([line(f.product,quantity,f.item)])})`;
+    p_payment_method:=${q(paid?'cash':'deferred')},p_lines:=${j([line(f.product,quantity,f.item,unitPrice)])})`;
 }
 function payment(f,amount) {
   return `record_supplier_payment(p_supplier_id:=${q(f.supplier)},p_purchase_order_id:=${q(f.po)},
@@ -104,13 +104,33 @@ async function historicalPoPolicy() {
     assert.equal(recorded,quantity*cost);
     cases.push({name,supplier,po,payable,review,recorded});
   }
-  const history=()=>json(`SELECT jsonb_build_object(${['purchase_orders','purchase_order_items','purchase_receipts','purchase_receipt_items',
+  const legacy=await fixture('legacy direct1000 paid400',1,1000);
+  const legacyReceipt=await rpc(`create_direct_supplier_receipt(p_supplier_id:=${q(legacy.supplier)},p_warehouse_id:=${q(warehouse)},
+    p_branch_id:=${q(branch)},p_amount_paid_in_minor_units:=400,p_payment_method:='cash',p_idempotency_key:=${q(randomUUID())},
+    p_items:=${j([{product_id:legacy.product,package_quantity:1,units_per_package:1,package_price_in_minor_units:1000,update_product_defaults:false}])})`);
+  assert.equal(await balance(legacy),600);
+  await sql(`UPDATE purchase_orders SET amount_paid_in_minor_units=777 WHERE id=${q(legacy.po)};`);
+  const history=()=>json(`SELECT jsonb_build_object('purchase_orders',
+    (SELECT md5(COALESCE(string_agg((to_jsonb(t)-ARRAY['amount_paid_in_minor_units','updated_at'])::text,'|' ORDER BY t.id),'')) FROM purchase_orders t),
+    ${['purchase_order_items','purchase_receipts','purchase_receipt_items',
     'supplier_payments','products','inventory_balances','inventory_movements'].map(table=>`${q(table)},
     (SELECT md5(COALESCE(string_agg(to_jsonb(t)::text,'|' ORDER BY to_jsonb(t)::text),'')) FROM ${table} t)`).join(',')});`);
   const before=await history();
   label='apply133 to actual historical evidence';
   await sql(await readFile(path.join(root,'supabase/migrations/133_package_e_supplier_po_financial_consistency.sql'),'utf8'));
   assert.deepEqual(await history(),before,'Recalculation never rewrites historical receipts, prices, inventory or payments');
+  assert.equal(await poPaid(legacy),0);
+  assert.deepEqual(await json(`SELECT details FROM audit_logs WHERE action='RECALCULATE_PO_PAYMENTS_133' AND entity_id=${q(legacy.po)};`),
+    {old_amount_paid_in_minor_units:777,new_amount_paid_in_minor_units:0,contract_version:133});
+  const previewBefore=await fingerprint();
+  const preview=await rpc(`preview_supplier_receipt_cancellation(${q(legacyReceipt.receipt_id)})`);
+  assert.equal(preview.total,1000);assert.equal(preview.payable,1000);assert.equal(preview.paymentsTotal,400);
+  assert.equal(preview.payments.length,1);assert.equal(preview.supplierBalanceBefore,600);assert.equal(preview.supplierBalanceAfter,0);
+  assert.deepEqual(await fingerprint(),previewBefore,'Cancellation preview is read-only');
+  await rpc(`cancel_supplier_receipt(${q(legacyReceipt.receipt_id)},'إلغاء سند تاريخي مدفوع جزئياً')`);
+  assert.equal(await balance(legacy),0);
+  assert.equal(await json(`SELECT to_jsonb(COUNT(*)::int) FROM supplier_payments WHERE supplier_receipt_id=${q(legacyReceipt.receipt_id)} AND NOT is_reversed;`),0);
+  assert.equal(await json(`SELECT to_jsonb(on_hand_quantity) FROM inventory_balances WHERE product_id=${q(legacy.product)} AND warehouse_id=${q(warehouse)};`),0);
   for(const c of cases){
     assert.equal(await balance(c),c.payable,c.name);
     const evidence=await json(`SELECT to_jsonb(e) FROM phase133_legacy_po_payables_internal() e WHERE purchase_order_id=${q(c.po)};`);
@@ -137,13 +157,22 @@ async function historicalPoPolicy() {
   assert.equal(duplicate.uses_final_po_total,false,'Extra duplicate receipt line cannot prove full matching PO');
   assert.equal(duplicate.needs_manual_review,true);assert.equal(duplicate.payable,20000);
   assert.deepEqual(await fingerprint(),duplicateBefore,'Rollback-only duplicate probe leaves all durable history unchanged');
-  return cases.map(({name,payable,review})=>({name,payable,manualReview:review,passed:true}));
+  return [...cases.map(({name,payable,review})=>({name,payable,manualReview:review,passed:true})),
+    {name:'one-time PO payment projection audited777->0',passed:true},
+    {name:'legacy direct1000 paid400 preview and cancellation balance0/evidence healthy',passed:true}];
 }
 
 async function matrix(after) {
   const results=[];
   const check=(name,actual,beforeExpected,afterExpected)=>{assert.equal(actual,after?afterExpected:beforeExpected,name);
     results.push({name,actual,expected:after?afterExpected:beforeExpected});};
+
+  const actual=await fixture('planned1000 actual1050',1,1000);
+  await rpc(receiving(actual,1,0,1050));
+  await rejectedZeroWrite(payment(actual,1051),/يتجاوز الرصيد المستحق|SUPPLIER_PO_PAYMENT_EXCEEDS_PAYABLE/u);
+  if(after){await rpc(payment(actual,1050));assert.equal(await balance(actual),0);assert.equal(await poPaid(actual),1050);}
+  else await rejectedZeroWrite(payment(actual,1050),/يتجاوز الرصيد المستحق/u);
+  results.push({name:'planned1000 actual1050:1050 allowed only after133;1051 always rejected zero-write',passed:true});
 
   const post=await fixture('post-receipt payment');
   const postProductBefore=await productCommercialFields(post);

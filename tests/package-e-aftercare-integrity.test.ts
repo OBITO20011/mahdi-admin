@@ -16,10 +16,13 @@ test('fresh exact healthy check alone removes the integrity warning',()=>{
   assert.equal(aftercareIntegrityWarning(dashboard(),now),null);
   assert.equal(aftercareIntegrityWarning(dashboard('healthy',86400000),now),null);
   for(const value of [null,{...dashboard(),checks:[]},dashboard('critical'),dashboard('unknown'),
-    dashboard('healthy',86400001),dashboard('healthy',-1),dashboard('healthy',0,1),
+    dashboard('healthy',86400001),dashboard('healthy',-300001),dashboard('healthy',0,1),
     {...dashboard(),scanErrorCode:'P0001'}]) {
     if(value) assert.ok(aftercareIntegrityWarning(value,now));else assert.ok(aftercareIntegrityWarning(null,now));
   }
+  assert.equal(aftercareIntegrityWarning(dashboard('healthy',-300000),now),null);
+  assert.equal(aftercareIntegrityWarning({status:'healthy',checkedAt:new Date(now+300000).toISOString()},now),null);
+  assert.ok(aftercareIntegrityWarning({status:'healthy',checkedAt:new Date(now+300001).toISOString()},now));
 });
 test('invalid timestamp fails closed, including dashboard lookup failure',()=>{
   const value=dashboard();value.checks[0].checkedAt='not-a-date';
@@ -37,7 +40,10 @@ test('134 preserves writers/ACL and uses strict independent seven-day validators
   assert.match(sql,/v_total_integrity := v_total_integrity \+ v_evidence_issues/u);
   assert.match(sql,/'business-integrity:system','business_integrity_warning'/u);
   assert.match(sql,/'critical' END,'critical',v_evidence_issues/u);
-  assert.doesNotMatch(sql,/CREATE OR REPLACE FUNCTION public\.(?:settle_|phase42_assert|phase43_assert)|\bGRANT\b|\bREVOKE\b/u);
+  assert.doesNotMatch(sql,/CREATE OR REPLACE FUNCTION public\.(?:settle_|phase42_assert|phase43_assert)/u);
+  assert.match(sql,/checked_at>p_observed_at-INTERVAL '6 hours'/u);
+  assert.match(sql,/EXCEPTION WHEN query_canceled THEN\s+v_evidence_canceled:=true/u);
+  assert.match(sql,/GRANT EXECUTE ON FUNCTION public\.get_aftercare_integrity_status\(\) TO authenticated/u);
   const proof=readFileSync('scripts/testing/package-e-report-parity.mjs','utf8');
   assert.match(proof,/old_result::text IS DISTINCT FROM c.new_result::text/u);
   assert.match(proof,/excludedTimeFields','\[\]'::jsonb/u);

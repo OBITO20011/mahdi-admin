@@ -13,7 +13,8 @@ test('134 contains exactly the two approved non-unique operation indexes',()=>{
     ['idx_sales_replacement_items_operation_id','sales_replacement_items','operation_id'],
   ]);
   assert.equal((migration.match(/CREATE INDEX/gu)??[]).length,2);
-  assert.doesNotMatch(migration.replace(/^\s*--.*$/gmu,''),/\bCONCURRENTLY\b|\bGRANT\b|\bREVOKE\b|CREATE TABLE|CREATE TRIGGER|pg_get_functiondef|\bEXECUTE\b/iu);
+  const existingBody=migration.split('-- Report roles see only aftercare health')[0];
+  assert.doesNotMatch(existingBody.replace(/^\s*--.*$/gmu,''),/\bCONCURRENTLY\b|\bGRANT\b|\bREVOKE\b|CREATE TABLE|CREATE TRIGGER|pg_get_functiondef|\bEXECUTE\b/iu);
   assert.match(migration,/^BEGIN;$/mu);assert.match(migration,/COMMIT;\s*$/u);
 });
 
@@ -75,7 +76,7 @@ test('133 supplier wrappers remain; approved134 reads false while historical131 
 });
 
 test('134 candidate has a fixed fail-closed continuity fingerprint',()=>{
-  const expected='D82CF9B53C9B59300D085DEF941A74226090177237DE1E21A0CA7B4BFF84C7CD';
+  const expected='DE3A0F6FA2A52CC595A06F912FBB199470327E27459365A7FD0D49DBF536D3DD';
   assert.equal(createHash('sha256').update(migration).digest('hex').toUpperCase(),expected);
   const state=JSON.parse(read('docs/agent/project-state.json'));
   assert.equal(state.migration134CanonicalLfSha256,expected);

@@ -21,10 +21,7 @@ const debtOrder = {id: 'debt-order', order_number: 'P6-001', customer_name: 'ع�
 test('التقرير يحذر من أدلة فاشلة أو متقادمة دون تغيير أرقام التقرير', async ({page}) => {
   await page.route('**/rest/v1/rpc/get_operational_business_report', route => route.fulfill({json: report}));
   let status='healthy', checkedAt=new Date().toISOString();
-  await page.route('**/rest/v1/rpc/get_advanced_monitoring_dashboard', route => route.fulfill({json: {
-    overallStatus:status,counts:{healthy:1,warning:0,critical:0,unknown:0},lastScanAt:checkedAt,scanErrorCode:null,
-    checks:[{key:'integrity:aftercare:durable-evidence',status,issueCount:status==='critical'?1:0,checkedAt}],
-  }}));
+  await page.route('**/rest/v1/rpc/get_aftercare_integrity_status', route => route.fulfill({json: {status,checkedAt}}));
   await page.goto('/e2e/phase6-package-a-harness.html');
   await expect(page.locator('main')).toBeVisible();
   await expect(page.getByTestId('aftercare-integrity-warning')).toHaveCount(0);
