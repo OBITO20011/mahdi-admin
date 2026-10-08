@@ -8,6 +8,16 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 ## Canonical reading order
 
+**Current owner boundary — 2026-10-08:** Package E is OWNER-CLOSED at
+`5bb5c8877978ee4cb1b0a0de9d516d25d319d617`; exact push/main quality37786962873
+(15/15) and secrets37786962944 PASS. The current authorization is documentation
+closure only, not more implementation. Package F and Phase7 are NOT STARTED;
+Claude will supply F's tokens/font/AppShell/shared-component specifications.
+The deferredF B/C, post-deliveryA, Phase7 decisions and opening-balances/Excel/047
+startup scope are recorded in OWNER_DECISIONS.md and PACKAGE_E_PLAN.md.
+The older implementation/checkpoint descriptions below are historical, not
+current permission. No Production access or deploy in this task.
+
 > **Current Phase 5 contract (2026-10-06): read `docs/agent/PHASE5_RESCOPE.md` first.**
 > Slice 5 is parked on branch `codex/phase5-slice5-wip`. Phase 5 now closes by
 > direct operational fixes in Migrations 128–130, now owner-closed.
