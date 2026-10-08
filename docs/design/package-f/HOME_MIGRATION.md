@@ -55,3 +55,38 @@ screens, then owner approval. Do not begin another screen or Phase 7.
 - Chromium/WebKit isolation: external requests escaped0, Production escaped0.
 - Extra final Home build exit0 after the cash-voucher label was clarified.
 - Migrations001–134, workflow and shell files unchanged. No Production/deploy.
+
+## Owner-approved visual correction — 2026-10-09
+
+Claude approved Home at390/820/1440 in both themes on ea8e030. This follow-up
+only shortens visible chart labels to non-wrapping integers (full three-decimal
+amounts remain in title/aria-label), formats Arabic dates/times with Latin digits,
+and migrates the existing Header to tokens. Existing branch/notification/profile
+destinations and assistant role gate are unchanged; desktop title/profile hide
+because SideNav already owns them. Removed the obsolete light Header override.
+
+Shared UserAvatar removes all hardcoded external defaults from Header, More,
+Profile and local user creation. Profile retains the user's image URL input;
+the old remote preset choices become an explicit local-initial option.
+No other screen migration or money/RPC/database change is included.
+Tests extend the existing Home matrix to360px, check actual single-line chart
+labels and Latin text, include Header in axe, and exercise its existing actions.
+Existing shape/identity assertions remain intact; the new chart contract preserves
+full monetary precision in accessible attributes rather than the narrow label.
+
+Updated `e2e/phase6-package-b.spec.ts`'s old desktop Header profile expectation:
+phone/tablet profile remains visible, desktop profile is hidden at1024/1440,
+and role text is visible only at768–1023. All shell dimensions/preview/selection
+assertions remain;1024 is added as the exact boundary. The Home Header test
+also proves the existing SideNav profile remains accessible on desktop.
+The first focused axe run was interrupted by Vite reload while documentation
+was edited (22:58:20UTC; context lost22:58:22); its unchanged focused recheck
+passed. Browser runs thereafter use a frozen worktree, no masking retries.
+
+Final corrective verification: full quality exit0,757 Admin/189 Customer/307
+browser PASS,59 existing conditional skips,retries0;Home24/24 across Chromium
+and WebKit,360/390/820/1440,both themes. Typecheck/lint/build and network guards
+PASS;external/Production escaped0. The initial complete gate failed only the
+two obsolete desktop Header expectations described above; the corrected
+contract passed4/4 focused checks and then the entire unchanged quality gate.
+Migrations001–134,RPCs,workflow and other shell components unchanged.

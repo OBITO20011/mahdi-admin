@@ -11,6 +11,7 @@ import {
 import { subscribeToStockAlertChanges } from '../../services/supabase/stockAlerts.service';
 import { Building2, Bell, BotMessageSquare, ChevronDown, Check } from 'lucide-react';
 import { useAuthStore } from '../../stores/useAuthStore';
+import { UserAvatar } from '../ui';
 
 export const Header: React.FC = () => {
   const {
@@ -93,7 +94,7 @@ export const Header: React.FC = () => {
   }, [refreshStockNotificationsFromSupabase]);
 
   return (
-    <header className="admin-app-header z-20 flex items-center justify-between border-b border-slate-800 bg-slate-900 px-3 py-2 shadow-md">
+    <header className="admin-app-header z-20 flex items-center justify-between border-b border-nw-border bg-nw-surface px-3 py-2 text-nw-text shadow-sm">
       {/* Branch Selector Dropdown */}
       <div className="relative">
         <button
@@ -101,16 +102,16 @@ export const Header: React.FC = () => {
           aria-label="اختيار الفرع"
           aria-expanded={showBranchDropdown}
           onClick={() => setShowBranchDropdown(!showBranchDropdown)}
-          className="flex max-w-[118px] items-center gap-1.5 rounded-xl border border-slate-700/80 bg-slate-800/80 px-2 py-1.5 text-[10px] font-semibold text-slate-200 transition hover:bg-slate-800 active:scale-[0.98]"
+          className="flex min-h-11 max-w-[118px] items-center gap-1.5 rounded-xl border border-nw-border bg-nw-surface-2 px-2 py-1.5 text-[10px] font-semibold text-nw-text transition hover:bg-nw-track active:scale-[0.98]"
         >
-          <Building2 className="w-3.5 h-3.5 text-blue-400" />
+          <Building2 className="w-3.5 h-3.5 text-nw-primary" />
           <span className="truncate">{activeBranch?.name || 'الفرع الرئيسي'}</span>
-          <ChevronDown className="w-3 h-3 text-slate-400" />
+          <ChevronDown className="w-3 h-3 text-nw-muted" />
         </button>
 
         {showBranchDropdown && (
-          <div className="absolute top-full right-0 mt-1.5 w-56 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-1.5 z-50 text-xs">
-            <div className="px-2 py-1.5 text-[10px] font-bold text-slate-400 border-b border-slate-800">
+          <div className="absolute top-full right-0 mt-1.5 w-56 bg-nw-surface border border-nw-border rounded-2xl shadow-2xl p-1.5 z-50 text-xs">
+            <div className="px-2 py-1.5 text-[10px] font-bold text-nw-muted border-b border-nw-border">
               اختر الفرع للتنقل:
             </div>
             {branches.map((b) => (
@@ -120,17 +121,17 @@ export const Header: React.FC = () => {
                   setActiveBranch(b.id);
                   setShowBranchDropdown(false);
                 }}
-                className={`w-full text-right px-3 py-2 rounded-xl flex items-center justify-between transition ${
+                className={`min-h-11 w-full text-right px-3 py-2 rounded-xl flex items-center justify-between transition ${
                   activeBranch.id === b.id
-                    ? 'bg-blue-600/20 text-blue-300 font-bold border border-blue-500/30'
-                    : 'text-slate-300 hover:bg-slate-800'
+                    ? 'bg-nw-sel-row text-nw-primary font-bold border border-nw-border'
+                    : 'text-nw-text hover:bg-nw-surface-2'
                 }`}
               >
                 <div>
                   <div className="font-semibold">{b.name}</div>
-                  <div className="text-[10px] text-slate-400">{b.city}</div>
+                  <div className="text-[10px] text-nw-muted">{b.city}</div>
                 </div>
-                {activeBranch.id === b.id && <Check className="w-4 h-4 text-blue-400" />}
+                {activeBranch.id === b.id && <Check className="w-4 h-4 text-nw-primary" />}
               </button>
             ))}
           </div>
@@ -138,10 +139,9 @@ export const Header: React.FC = () => {
       </div>
 
       {/* Center Logo / Title */}
-      <div className="min-w-0 flex-1 px-2 text-center">
-        <h1 className="flex items-center justify-center gap-1 truncate text-[11px] font-black tracking-tight text-slate-100">
-          <span className="w-2 h-2 rounded-full bg-blue-500" />
-          <span className="truncate">نواصرة للمحاسبة</span>
+      <div className="min-w-0 flex-1 px-2 text-center lg:hidden">
+        <h1 className="flex items-center justify-center gap-1 truncate text-[11px] font-black tracking-tight text-nw-text">
+          <span className="truncate">النواصرة</span>
         </h1>
       </div>
 
@@ -153,7 +153,7 @@ export const Header: React.FC = () => {
             type="button"
             onClick={() => setActiveTab('assistant')}
             aria-label="فتح المساعد الإداري الذكي"
-            className="flex h-11 w-11 items-center justify-center rounded-xl border border-violet-500/30 bg-violet-500/10 text-violet-300 transition hover:text-white lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-nw-border bg-nw-surface-2 text-nw-primary transition hover:bg-nw-track lg:hidden"
           >
             <BotMessageSquare className="w-4 h-4" />
           </button>
@@ -164,11 +164,11 @@ export const Header: React.FC = () => {
           type="button"
           aria-label="الإشعارات"
           onClick={() => openModal('notifications')}
-          className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-slate-700/80 bg-slate-800 text-slate-300 transition hover:text-white"
+          className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-nw-border bg-nw-surface-2 text-nw-text transition hover:bg-nw-track"
         >
           <Bell className="w-4 h-4" />
           {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-bounce">
+            <span className="absolute -top-1 -right-1 bg-nw-accent text-nw-on-accent text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-bounce">
               {unreadCount}
             </span>
           )}
@@ -179,17 +179,13 @@ export const Header: React.FC = () => {
           type="button"
           aria-label={`الملف الشخصي: ${currentUserName}`}
           onClick={() => openModal('profile')}
-          className="flex min-h-11 items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 p-1 transition hover:bg-slate-750"
+          className="flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-xl border border-nw-border bg-nw-surface-2 p-1 transition hover:bg-nw-track lg:hidden"
           title={currentUserName}
         >
-          <img
-            src={currentUserAvatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200'}
-            alt={currentUserName}
-            className="w-6 h-6 rounded-lg object-cover border border-slate-600"
-          />
+          <UserAvatar name={currentUserName} src={currentUserAvatarUrl} className="h-6 w-6 text-xs" />
           <div className="text-right hidden sm:block">
-            <span className="text-[11px] font-bold text-slate-100 block leading-none">{currentUserName}</span>
-            <span className="text-[11px] font-medium text-blue-400 block mt-0.5">{{Owner: 'المالك', Admin: 'مدير تنفيذي', Accountant: 'محاسب', Cashier: 'كاشير', 'Sales Employee': 'موظف مبيعات', 'Warehouse Employee': 'مسؤول مستودع', 'Orders Employee': 'متابع الطلبات', 'Delivery Driver': 'سائق توصيل', 'View Only': 'مشاهدة فقط'}[currentUserRole] || 'موظف'}</span>
+            <span className="text-[11px] font-bold text-nw-text block leading-none">{currentUserName}</span>
+            <span className="text-[11px] font-medium text-nw-muted block mt-0.5">{{Owner: 'المالك', Admin: 'مدير تنفيذي', Accountant: 'محاسب', Cashier: 'كاشير', 'Sales Employee': 'موظف مبيعات', 'Warehouse Employee': 'مسؤول مستودع', 'Orders Employee': 'متابع الطلبات', 'Delivery Driver': 'سائق توصيل', 'View Only': 'مشاهدة فقط'}[currentUserRole] || 'موظف'}</span>
           </div>
         </button>
       </div>

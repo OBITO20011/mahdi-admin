@@ -1636,7 +1636,7 @@ class StoreEngine {
       phone: userData.phone || '',
       role: userData.role || 'Cashier',
       branchId: userData.branchId || this.state.activeBranch.id,
-      avatarUrl: userData.avatarUrl || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=200',
+      avatarUrl: userData.avatarUrl || '',
       permissions: ROLE_PERMISSIONS_MAP[userData.role || 'Cashier'] || [],
       isActive: true,
       lastLogin: new Date().toISOString(),

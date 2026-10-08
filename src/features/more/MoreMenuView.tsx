@@ -12,6 +12,7 @@ import { useAuthStore } from '../../stores/useAuthStore';
 import { isDeviceBiometricAvailable } from '../../services/deviceBiometrics.service';
 import { InstallAppPanel } from './InstallAppPanel';
 import { SECONDARY_QUICK_ACTIONS } from '../../components/layout/quickActions';
+import { UserAvatar } from '../../components/ui';
 import {
   ADMIN_NAVIGATION_GROUPS,
   getNextOpenNavigationGroup,
@@ -297,14 +298,7 @@ export const MoreMenuView: React.FC = () => {
                   className="mb-1 flex min-h-14 w-full items-center justify-between gap-3 rounded-xl px-2 py-2.5 text-right transition hover:bg-slate-800/75 active:scale-[0.99]"
                 >
                   <span className="flex min-w-0 items-center gap-3">
-                    <img
-                      src={
-                        currentUserAvatarUrl ||
-                        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200'
-                      }
-                      alt={currentUserName}
-                      className="h-10 w-10 shrink-0 rounded-xl border border-blue-500/50 object-cover"
-                    />
+                    <UserAvatar name={currentUserName} src={currentUserAvatarUrl} className="h-10 w-10" />
                     <span className="min-w-0">
                       <span className="block truncate text-xs font-black text-slate-100">
                         {currentUserName}

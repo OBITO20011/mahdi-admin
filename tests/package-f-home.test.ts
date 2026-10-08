@@ -2,9 +2,9 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { DashboardHome } from '../src/features/dashboard/DashboardHome.tsx';
-import { KpiGrid, SegmentedControl, SalesBarChart } from '../src/components/ui/index.ts';
+import { KpiGrid, SegmentedControl, SalesBarChart, UserAvatar, formatUiDate } from '../src/components/ui/index.ts';
 import { homeFixture, shiftFixture } from '../e2e/package-f-home.fixture.ts';
 
 const render = (data = homeFixture, shift = shiftFixture) => renderToStaticMarkup(React.createElement(DashboardHome, {
@@ -54,6 +54,37 @@ test('chart preserves negative, zero and current-day meaning without money infer
   assert.match(html, /0\.000/);
   assert.match(html, /bg-nw-bad/);
   assert.match(html, /height:0px/);
+});
+
+test('chart integers never wrap while accessible values preserve every fils', () => {
+  const html = renderToStaticMarkup(React.createElement(SalesBarChart, { label: 'صافي', points: [{ id: 'a', label: 'اليوم', amount: 1162.125 }] }));
+  assert.match(html, /whitespace-nowrap/);
+  assert.match(html, /title="اليوم: 1,162\.125 د.أ"/);
+  assert.match(html, /aria-label="اليوم: 1,162\.125 د.أ"/);
+  assert.match(html, />1,162<\/bdi>/);
+  assert.doesNotMatch(html, /break-all/);
+});
+
+test('Home dates and shift times use Latin digits, including the shared date helper', () => {
+  assert.doesNotMatch(render(), /[٠-٩]/);
+  const date = formatUiDate('2026-10-09T08:12:00+03:00', { day: 'numeric', month: 'long', year: 'numeric', numberingSystem: 'arab' });
+  assert.doesNotMatch(date, /[٠-٩]/);
+  assert.match(date, /9/);
+  assert.match(date, /2026/);
+  assert.match(formatUiDate('2026-10-09T08:12:00+03:00', { hour: '2-digit', minute: '2-digit' }), /08:12/);
+});
+
+test('shared avatar renders initials without a network default and preserves chosen photos', () => {
+  const fallback = renderToStaticMarkup(React.createElement(UserAvatar, { name: ' مهدي', src: '' }));
+  assert.match(fallback, /bg-nw-accent/);
+  assert.match(fallback, /text-nw-on-accent/);
+  assert.match(fallback, />م<\/span>/);
+  assert.doesNotMatch(fallback, /<img|https?:/);
+  const photo = renderToStaticMarkup(React.createElement(UserAvatar, { name: 'مهدي', src: '/my-photo.png' }));
+  assert.match(photo, /<img[^>]*src="\/my-photo.png"[^>]*alt="مهدي"/);
+  for (const file of readdirSync('src', { recursive: true }).filter((file) => /\.tsx?$/.test(String(file)))) {
+    assert.doesNotMatch(readFileSync(`src/${file}`, 'utf8'), /images\.unsplash\.com/, String(file));
+  }
 });
 
 test('live loader still uses the same RPC and maps existing canonical net facts only', () => {

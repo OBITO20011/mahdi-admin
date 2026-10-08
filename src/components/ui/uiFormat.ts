@@ -8,6 +8,13 @@ const jodFormatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 3,
 });
 
+/** Arabic date/time wording, with the same Latin digits used for money. */
+export function formatUiDate(value: Date | string, options: Intl.DateTimeFormatOptions): string {
+  return new Intl.DateTimeFormat('ar-JO-u-nu-latn', {
+    timeZone: 'Asia/Amman', ...options, numberingSystem: 'latn',
+  }).format(typeof value === 'string' ? new Date(value) : value);
+}
+
 /** Formats a dinar amount (e.g. 1284.5) as "1,284.500". */
 export function formatJod(amount: number): string {
   if (!Number.isFinite(amount)) return '—';

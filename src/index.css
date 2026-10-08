@@ -346,12 +346,6 @@ html.theme-light :is(
   color: var(--admin-text) !important;
 }
 
-html.theme-light .admin-app-header {
-  border-color: var(--admin-border) !important;
-  background-color: rgb(253 253 252 / 0.94) !important;
-  box-shadow: var(--admin-shadow-sm);
-}
-
 /* The phone bottom tabs (.admin-bottom-tabs) use Package F tokens directly. */
 
 html.theme-light [data-navigation-id="assistant-shortcut"] {

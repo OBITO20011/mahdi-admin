@@ -27,14 +27,26 @@ async function assertLayout(page: Page) {
 }
 
 for (const theme of ['light', 'dark']) {
-  for (const width of [390, 820, 1440]) {
+  for (const width of [360, 390, 820, 1440]) {
     test(`Home ${theme} ${width}: accessibility, text containment, layout and touch targets`, async ({ page }, testInfo) => {
       await page.setViewportSize({ width, height: width === 390 ? 844 : 1125 });
       await page.goto(url(`theme=${theme}&long`));
       await expect(page.getByRole('heading', { name: 'أهلاً مهدي النواصرة' })).toBeVisible();
       await page.evaluate(() => document.fonts.ready);
       await assertLayout(page);
-      const accessibility = await new AxeBuilder({ page }).include('[data-testid="dashboard-home"]').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+      await expect(page.getByTestId('dashboard-home')).not.toContainText(/[٠-٩]/);
+      const labels = page.locator('[data-chart-amount]');
+      await expect(labels).toHaveCount(7);
+      for (const label of await labels.all()) {
+        expect(await label.innerText()).toMatch(/^-?[\d,]+$/);
+        await expect(label).toHaveAttribute('title', /\d\.\d{3} د.أ$/);
+        expect(await label.getAttribute('aria-label')).toBe(await label.getAttribute('title'));
+        expect(await label.evaluate((element) => {
+          const range = document.createRange(); range.selectNodeContents(element);
+          return { lines: range.getClientRects().length, whitespace: getComputedStyle(element).whiteSpace };
+        })).toEqual({ lines: 1, whitespace: 'nowrap' });
+      }
+      const accessibility = await new AxeBuilder({ page }).include('[data-testid="dashboard-home"], .admin-app-header').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
       expect(accessibility.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => ({ id: v.id, targets: v.nodes.map((n) => n.target) }))).toEqual([]);
       const shortButtons = await page.getByTestId('dashboard-home').getByRole('button').evaluateAll((buttons) => buttons.filter((button) => button.getClientRects().length && button.getBoundingClientRect().height < 44).map((button) => button.textContent));
       expect(shortButtons).toEqual([]);
@@ -67,6 +79,39 @@ test('Home actions and period selector preserve existing intent; net is never gr
   await expect(page.getByTestId('home-action')).toHaveText('products');
   await page.getByRole('button', { name: 'تسجيل مصروف' }).click();
   await expect(page.getByTestId('home-action')).toHaveText('add_expense');
+});
+
+test('token Header keeps branch, notifications, profile and assistant actions and role gate', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(url('theme=light'));
+  const header = page.locator('.admin-app-header');
+  await expect(header.getByRole('heading', { name: 'النواصرة', exact: true })).toBeVisible();
+  const avatar = header.getByRole('img', { name: 'مهدي النواصرة' });
+  await expect(avatar).toHaveText('م');
+  expect(await avatar.evaluate((element) => element.tagName)).toBe('SPAN');
+  const bell = header.getByRole('button', { name: 'الإشعارات', exact: true });
+  await expect(bell).toContainText('1');
+  await expect(bell.locator('span')).toHaveClass(/bg-nw-accent text-nw-on-accent/);
+  await bell.click();
+  await expect(page.getByTestId('header-action')).toHaveText('notifications:home:branch-home');
+  await header.getByRole('button', { name: 'الملف الشخصي: مهدي النواصرة' }).click();
+  await expect(page.getByTestId('header-action')).toHaveText('profile:home:branch-home');
+  await header.getByRole('button', { name: 'اختيار الفرع' }).click();
+  await header.getByRole('button', { name: 'الفرع الثاني' }).click();
+  await expect(header.getByRole('button', { name: 'اختيار الفرع' })).toContainText('الفرع الثاني');
+  await expect(page.getByTestId('header-action')).toHaveText('profile:home:branch-second');
+  await header.getByRole('button', { name: 'فتح المساعد الإداري الذكي' }).click();
+  await expect(page.getByTestId('header-action')).toHaveText('profile:assistant:branch-second');
+  await expect(header.getByRole('button', { name: 'فتح المساعد الإداري الذكي' })).toHaveCount(0);
+  await page.goto(url('theme=dark&role=cashier'));
+  await expect(header.getByRole('button', { name: 'فتح المساعد الإداري الذكي' })).toHaveCount(0);
+  await page.goto(url('theme=dark'));
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await expect(header.getByRole('heading', { name: 'النواصرة', exact: true })).toBeHidden();
+  await expect(header.getByRole('button', { name: 'الملف الشخصي: مهدي النواصرة' })).toBeHidden();
+  await expect(page.getByRole('navigation', { name: 'القائمة الجانبية' }).getByRole('button', { name: 'الملف الشخصي: مهدي النواصرة' })).toBeVisible();
+  await expect(header.getByRole('button', { name: 'فتح المساعد الإداري الذكي' })).toBeHidden();
+  await expect(header.getByRole('button', { name: 'الإشعارات', exact: true })).toBeVisible();
 });
 
 test('unavailable financial facts and absent shift are explicit, not zeros', async ({ page }) => {

@@ -5,6 +5,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
+import { UserAvatar } from '../../components/ui';
 import { useAuthStore } from '../../stores/useAuthStore';
 import {
   translateAccountUpdateError,
@@ -250,17 +251,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
   const [timezone, setTimezone] = useState(currentUser.timezone || 'Asia/Amman');
   const [address, setAddress] = useState(currentUser.address || '');
   const [whatsapp, setWhatsapp] = useState(currentUser.whatsapp || '');
-  const [avatarUrl, setAvatarUrl] = useState(
-    currentUser.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200'
-  );
-
-  // Avatar presets option
-  const AVATAR_PRESETS = [
-    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200',
-    'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200',
-    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200',
-  ];
+  const [avatarUrl, setAvatarUrl] = useState(currentUser.avatarUrl || '');
 
   // Password state
   const [newPass, setNewPass] = useState('');
@@ -305,7 +296,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
     setTimezone(currentUser.timezone || 'Asia/Amman');
     setAddress(currentUser.address || '');
     setWhatsapp(currentUser.whatsapp || '');
-    setAvatarUrl(currentUser.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200');
+    setAvatarUrl(currentUser.avatarUrl || '');
   }, [currentUser, branches]);
 
   // Handle Safe Close
@@ -523,14 +514,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
           <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 p-4 rounded-2xl border border-slate-800 shadow-xl space-y-4">
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center gap-3.5">
-                <img
-                  src={
-                    currentUser.avatarUrl ||
-                    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200'
-                  }
-                  alt={currentUser.name}
-                  className="w-16 h-16 rounded-2xl object-cover border-2 border-blue-500 shadow-md"
-                />
+                <UserAvatar name={currentUser.name} src={currentUser.avatarUrl} className="h-16 w-16 text-2xl" />
                 <div>
                   <div className="flex items-center gap-1.5 mb-1">
                     <span className="text-[10px] font-black text-blue-400 bg-blue-950/80 px-2.5 py-0.5 rounded-full border border-blue-800">
@@ -621,27 +605,12 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
           <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 space-y-2">
             <label className="text-[11px] font-extrabold text-slate-200 block">الصورة الشخصية</label>
             <div className="flex items-center gap-3">
-              <img
-                src={avatarUrl}
-                alt="معاينة"
-                className="w-14 h-14 rounded-2xl object-cover border-2 border-blue-500 shadow"
-              />
+              <UserAvatar name={name} src={avatarUrl} className="h-14 w-14 text-2xl" />
               <div className="space-y-1.5 flex-1">
-                <span className="text-[10px] text-slate-400 block">اختر من الصور الجاهزة أو ادخل الرابط:</span>
-                <div className="flex items-center gap-2">
-                  {AVATAR_PRESETS.map((url, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => setAvatarUrl(url)}
-                      className={`w-7 h-7 rounded-xl overflow-hidden border-2 transition ${
-                        avatarUrl === url ? 'border-blue-500 scale-110' : 'border-slate-800 opacity-70'
-                      }`}
-                    >
-                      <img src={url} alt="" className="w-full h-full object-cover" />
-                    </button>
-                  ))}
-                </div>
+                <span className="text-[10px] text-slate-400 block">أدخل رابط صورتك، أو استخدم الحرف الأول من اسمك:</span>
+                <button type="button" onClick={() => setAvatarUrl('')} className="min-h-11 rounded-xl border border-nw-border bg-nw-surface-2 px-3 text-xs text-nw-text">
+                  استخدام الحرف الأول
+                </button>
               </div>
             </div>
             <input

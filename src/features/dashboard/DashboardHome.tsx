@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AlertTriangle, ChevronLeft, ClipboardList, PackagePlus, ReceiptText, RefreshCw, Truck, Boxes } from 'lucide-react';
-import { Card, KpiCard, KpiGrid, MoneyText, SalesBarChart, SectionHeader, SegmentedControl, StatusBadge, TableShell, Td, Th, Tr, UiButton } from '../../components/ui';
+import { Card, KpiCard, KpiGrid, MoneyText, SalesBarChart, SectionHeader, SegmentedControl, StatusBadge, TableShell, Td, Th, Tr, UiButton, formatUiDate } from '../../components/ui';
 import type { HomeDashboardData, HomeDashboardOrder } from '../../types/dashboard';
 import type { Shift } from '../../types';
 import type { UiTone } from '../../components/ui/uiFormat';
@@ -69,7 +69,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="min-w-0">
             <h1 id="home-title" className="m-0 break-words text-xl font-bold lg:text-2xl">أهلاً {currentUserName || 'بإدارة النواصرة'}</h1>
-            <p className="mt-1 text-xs text-nw-side-muted lg:text-nw-muted">{date.toLocaleDateString('ar-JO', { timeZone: 'Asia/Amman', weekday: 'long', day: 'numeric', month: 'long' })} · مركز اليوم</p>
+            <p className="mt-1 text-xs text-nw-side-muted lg:text-nw-muted">{formatUiDate(date, { weekday: 'long', day: 'numeric', month: 'long' })} · مركز اليوم</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <div className="hidden lg:block"><SegmentedControl touchSize label="فترة المبيعات" value={period} onChange={setPeriod} options={[{ value: 'day', label: 'اليوم' }, { value: 'week', label: 'الأسبوع' }, { value: 'month', label: 'الشهر' }]} /></div>
@@ -132,7 +132,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
                 <dl className="mt-3 grid grid-cols-3 gap-3 border-t border-nw-border pt-3 text-center text-xs">
                   <div><dt className="text-nw-muted">مبيعات كاش</dt><dd className="m-0 mt-1 font-bold"><MoneyText amount={shift.totalCashSales} /></dd></div>
                   <div><dt className="text-nw-muted">الرصيد الافتتاحي</dt><dd className="m-0 mt-1 font-bold"><MoneyText amount={shift.openingCash} /></dd></div>
-                  <div><dt className="text-nw-muted">بداية الوردية</dt><dd className="m-0 mt-1 font-bold">{new Date(shift.startTime).toLocaleTimeString('ar-JO', { timeZone: 'Asia/Amman', hour: '2-digit', minute: '2-digit' })}</dd></div>
+                  <div><dt className="text-nw-muted">بداية الوردية</dt><dd className="m-0 mt-1 font-bold"><bdi dir="ltr">{formatUiDate(shift.startTime, { hour: '2-digit', minute: '2-digit' })}</bdi></dd></div>
                 </dl>
               </div>
               <dl className="mt-4 hidden space-y-3 text-sm lg:block">
@@ -151,7 +151,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
         <div className="flex flex-wrap items-stretch gap-5">
           <Card aria-labelledby="home-sales-title" className="min-w-0 flex-[2_1_520px]">
             <SectionHeader id="home-sales-title" title="صافي المبيعات — آخر 7 أيام" hint="بعد استحقاق المرتجعات" />
-            <div className="mt-5">{netAvailable ? <SalesBarChart label="صافي المبيعات آخر 7 أيام" points={days.map((day) => ({ id: day.date, label: day.date === today ? 'اليوم' : new Date(`${day.date}T12:00:00+03:00`).toLocaleDateString('ar-JO', { weekday: 'long' }), amount: day.netSalesInMinorUnits! / 1000, current: day.date === today }))} /> : <p className="py-12 text-center text-nw-muted">غير متاح</p>}</div>
+            <div className="mt-5">{netAvailable ? <SalesBarChart label="صافي المبيعات آخر 7 أيام" points={days.map((day) => ({ id: day.date, label: day.date === today ? 'اليوم' : formatUiDate(`${day.date}T12:00:00+03:00`, { weekday: 'long' }), amount: day.netSalesInMinorUnits! / 1000, current: day.date === today }))} /> : <p className="py-12 text-center text-nw-muted">غير متاح</p>}</div>
           </Card>
           <Card aria-labelledby="home-stock-title" className="min-w-0 flex-[1_1_280px]">
             <SectionHeader id="home-stock-title" title="تنبيهات المخزون" action={<StatusBadge tone={stockIssues ? 'warn' : 'ok'}>{stockIssues}</StatusBadge>} hint="الجاهزية محسوبة حسب طرد البيع" />

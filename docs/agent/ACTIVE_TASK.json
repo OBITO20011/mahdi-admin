@@ -2,13 +2,14 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Migrate Home (DashboardView) to Package F design",
-  "baselineSha": "a81e0025627314299688738a4d4c90ab652db402",
+  "objective": "Home visual corrections only: chart labels, Latin dates, token Header and local avatar fallback",
+  "baselineSha": "ea8e030a01b9e140f8a4d8a7d5b5d342dd89c4c3",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Package F Home implementation and fixed light/dark harness completed; visual approval pending"
+    "Home ea8e030 visually approved by Claude/owner at390/820/1440 light/dark; exact-SHA CI PASS",
+    "Authorized chart/Latin-date/token-Header/local-avatar corrections complete"
   ],
   "inProgress": [],
   "notStarted": [
@@ -18,46 +19,44 @@
   "filesTouched": [
     "docs/agent/PHASE_STATUS.md",
     "docs/agent/PROJECT_OVERVIEW.md",
-    "docs/agent/project-state.json",
-    "src/components/ui/Controls.tsx",
-    "src/components/ui/DataDisplay.tsx",
-    "src/components/ui/index.ts",
-    "src/features/dashboard/DashboardView.tsx",
-    "src/index.css",
-    "src/services/supabase/dashboard.service.ts",
-    "src/types/dashboard.ts",
-    "tests/app-store-boundaries-characterization.test.ts",
-    "tests/dashboard-home.test.ts",
-    "tests/light-theme-contract.test.ts",
     "docs/design/package-f/HOME_MIGRATION.md",
-    "e2e/package-f-home-harness.html",
     "e2e/package-f-home-harness.tsx",
-    "e2e/package-f-home.fixture.ts",
     "e2e/package-f-home.spec.ts",
+    "e2e/phase6-package-b.spec.ts",
+    "src/components/common/Header.tsx",
+    "src/components/ui/index.ts",
     "src/components/ui/SalesBarChart.tsx",
+    "src/components/ui/uiFormat.ts",
     "src/features/dashboard/DashboardHome.tsx",
-    "tests/package-f-home.test.ts"
+    "src/features/more/MoreMenuView.tsx",
+    "src/features/more/ProfileModal.tsx",
+    "src/index.css",
+    "src/stores/useAppStore.ts",
+    "tests/package-f-home.test.ts",
+    "tests/package-f-shell.test.ts",
+    "src/components/ui/UserAvatar.tsx"
   ],
   "testsPassed": [
-    "Full quality exit0:753 Admin,189 Customer,301 browser PASS;59 existing conditional skips;retries0",
-    "Home18/18 Chromium/WebKit:axe,390/820/1440,text containment,44px targets,unavailable,real adapter refresh",
-    "Network isolation:external/Production escaped0;001-134 and shell unchanged"
+    "Final quality exit0:757 Admin,189 Customer,307 browser PASS;59 existing conditional skips;retries0",
+    "Home24/24 Chromium/WebKit:360/390/820/1440,both themes,axe,nowrap/Latin text,Header actions/role/desktop boundary",
+    "Focused units42/42,typecheck/strict lint0;updated desktop contract+Header browser4/4",
+    "Network isolation:external/Production escaped0;001-134,RPCs,workflow and other shell unchanged"
   ],
   "testsRemaining": [
-    "Push Home commit and verify exact-SHA CI",
-    "Claude visual review and owner approval before next screen"
+    "Gitleaks0,one corrective commit/push and exact-SHA quality+secret CI",
+    "Owner review before Orders screen"
   ],
   "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Production/deploy/Phase7/automations",
-    "Home only;no RPC/payload/grants/DB/migration changes;001-134 immutable/no135",
-    "No next screen before Claude visual review and owner approval;preserve shell",
+    "Home/Header/avatar corrections only;no RPC/payload/grants/DB/migration changes;001-134 immutable/no135",
+    "No Orders/next screen before owner review;preserve other shell components",
     ".claude/launch.json:preserve unchanged/unstaged;no .gitignore edit"
   ],
-  "nextExactAction": "Commit/push verified Home candidate, verify exact-SHA CI; then wait for Claude visual review and owner approval before the next screen.",
-  "workingTreeFingerprint": "0F584F54EB3F8EC765413A6CC4943CA28DE8D81CCE8C4EE23F2EA3F3579FC8C6",
-  "checkpointedAt": "2026-10-08T22:34:12.188Z",
+  "nextExactAction": "Gitleaks0 then one commit/push and exact-SHA CI; stop before Orders for owner review",
+  "workingTreeFingerprint": "5914E887A6B42631DB9DFC1621FCB38B9FAE4E1AB0F506E66BD744ED29C4AF15",
+  "checkpointedAt": "2026-10-08T23:38:31.045Z",
   "startedAt": "2026-10-08T22:04:02.501Z"
 }

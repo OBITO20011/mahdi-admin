@@ -5,3 +5,4 @@ export { FilterChips, SegmentedControl, SearchField, UiButton, type ChipOption }
 export { TableShell, Th, Tr, Td } from './TableShell';
 export * from './uiFormat';
 export { SalesBarChart, type SalesBarPoint } from './SalesBarChart';
+export { UserAvatar } from './UserAvatar';

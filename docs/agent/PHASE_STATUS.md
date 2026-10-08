@@ -1,13 +1,25 @@
 # Phase status
 
-## 2026-10-09 — Package F Home candidate
+## 2026-10-09 — Package F Home visual corrections
+
+Home ea8e030 exact-SHA quality37854405490(15/15)/secrets37854405491 PASS;
+Claude visual review accepted390/820/1440 light/dark. Owner authorized one bounded
+follow-up: non-wrapping chart integers with full accessible precision, Latin
+date/time digits, token Header and local avatar defaults. No next screen is
+authorized until owner review. Other shell components and migrations remain frozen.
+
+Corrective local quality PASS:757 Admin/189 Customer/307 browser,59 existing
+conditional skips,retries0;Home24/24;external/Production escaped0. One corrective
+commit/push and exact-SHA CI are the remaining delivery gates; stop before Orders.
+
+### Original Home implementation evidence
 
 Home only migrated under §6.1, with deterministic light/dark e2e harness.
 Local quality PASS:753 Admin/189 Customer/301 browser,59 existing conditional
 skips,retries0;Home18/18;external/Production escaped0. Migrations001–134 and
 shell unchanged. `docs/design/package-f/HOME_MIGRATION.md` records data limits
-and the three updated old contracts. Await exact-SHA CI, then Claude visual
-review and owner approval before another screen. Package F is not closed.
+and the three updated old contracts. That implementation's exact-SHA CI and
+Claude visual review passed as recorded above. Package F is not closed.
 
 > **Current Phase 5 contract (2026-10-06): read `docs/agent/PHASE5_RESCOPE.md` first.**
 > Slice 5 is parked on branch `codex/phase5-slice5-wip`. Phase 5 now closes by

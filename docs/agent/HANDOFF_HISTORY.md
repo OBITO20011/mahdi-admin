@@ -76,3 +76,9 @@ Append only concise, secret-free handoff summaries here when a task materially c
 - Shared token presentation plus fixed light/dark harness at `/e2e/package-f-home-harness.html`; existing Home RPC and realtime coalescing preserved. Already-returned net fields are mapped; daily collection/overdue counts remain explicitly unavailable.
 - Full local quality exit0:753 Admin/189 Customer/301 browser PASS,59 existing conditional skips,retries0;Home18/18 includes both engines,all3 widths,axe/text containment/44px and real adapter refresh. Extra final Home build PASS. Network external/Production escaped0;001–134 unchanged.
 - Old dashboard text/hook/receiving callback contracts updated without dropping payload/role/data assertions. Details in HOME_MIGRATION.md. Delivery exact-SHA CI pending; thereafter Claude visual review and owner approval only.
+
+## 2026-10-09 — Home visual correction delivery (codex)
+
+- Home ea8e030 exact-SHA CI and Claude visual review passed. Owner authorized chart integer/nowrap labels with full accessible precision, Latin date/time digits, token Header and local initial avatar defaults; no next screen.
+- Final full quality exit0:757 Admin/189 Customer/307 browser PASS,59 existing conditional skips,retries0;Home24/24 including360px and Header actions/role/desktop boundary. Updated the obsolete Package B desktop-profile expectation without removing identity/layout assertions; focused recheck4/4.
+- Hardcoded external avatar defaults removed; custom photo URL support retained. Other shell components,RPCs,migrations001–134 and workflow unchanged;network external/Production escaped0. Gitleaks and one commit/push/exact-SHA CI follow; thereafter owner visual review only, no Orders or Phase7.

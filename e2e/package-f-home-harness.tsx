@@ -11,7 +11,7 @@ import { SideNav } from '../src/components/layout/SideNav';
 import { Header } from '../src/components/common/Header';
 import { BottomTabs } from '../src/components/layout/BottomTabs';
 import { authStoreEngine, type AuthState } from '../src/stores/useAuthStore';
-import { storeEngine, type AppState } from '../src/stores/useAppStore';
+import { storeEngine, useAppStoreSelector, type AppState } from '../src/stores/useAppStore';
 import { homeFixture, shiftFixture } from './package-f-home.fixture';
 
 const params = new URLSearchParams(location.search);
@@ -20,16 +20,19 @@ document.documentElement.dataset.theme = theme;
 document.documentElement.classList.toggle('theme-light', theme === 'light');
 document.documentElement.classList.toggle('theme-dark', theme === 'dark');
 const auth = authStoreEngine as unknown as { state: AuthState; getState: () => AuthState; initAuth: () => Promise<void> };
-auth.state = { ...auth.getState(), roleName: 'owner', roles: ['owner'], isAuthenticated: true, isLoading: false };
+const role = params.get('role') === 'cashier' ? 'cashier' : 'owner';
+auth.state = { ...auth.getState(), roleName: role, roles: [role], isAuthenticated: true, isLoading: false };
 auth.initAuth = async () => undefined;
-storeEngine.setCurrentUser({ id: 'home-fixture-user', name: 'مهدي النواصرة', role: 'Owner', themeMode: theme, avatarUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==' });
-const engine = storeEngine as unknown as { state: AppState; refreshOrdersFromSupabase: () => Promise<void>; refreshStockNotificationsFromSupabase: () => Promise<[]> };
+storeEngine.setCurrentUser({ id: 'home-fixture-user', name: 'مهدي النواصرة', role: role === 'cashier' ? 'Cashier' : 'Owner', themeMode: theme, avatarUrl: '' });
+const engine = storeEngine as unknown as { state: AppState; refreshOrdersFromSupabase: () => Promise<void>; refreshStockNotificationsFromSupabase: () => Promise<[]>; refreshExpenseShiftCenterFromSupabase: () => Promise<void> };
 engine.state.newOrdersCount = 6;
 engine.state.activeBranch = { id: 'branch-home', name: 'الفرع الرئيسي', address: '', city: 'الرمثا', phone: '', isMain: true };
-engine.state.branches = [engine.state.activeBranch];
+engine.state.branches = [engine.state.activeBranch, { ...engine.state.activeBranch, id: 'branch-second', name: 'الفرع الثاني' }];
+engine.state.notifications = [{ id: 'home-notification', title: 'تنبيه', message: 'تنبيه محلي للاختبار', type: 'stock', read: false, createdAt: homeFixture.generatedAt }];
 engine.state.currentShift = params.has('noShift') ? null : shiftFixture;
 engine.refreshOrdersFromSupabase = async () => undefined;
 engine.refreshStockNotificationsFromSupabase = async () => [];
+engine.refreshExpenseShiftCenterFromSupabase = async () => undefined;
 storeEngine.setActiveTab('home');
 const data = structuredClone(homeFixture);
 if (params.has('unavailable')) data.financialFactsAvailable = false;
@@ -41,6 +44,7 @@ if (params.has('negative')) data.sevenDaySales[1].netSalesInMinorUnits = -150000
 
 const Harness = () => {
   const [action, setAction] = useState('');
+  const headerState = useAppStoreSelector((state) => `${state.currentModal ?? ''}:${state.activeTab}:${state.activeBranch.id}`);
   return <div dir="rtl" className="flex h-[100dvh] bg-nw-bg font-sans text-nw-text">
     <SideNav />
     <div className="flex min-w-0 flex-1 flex-col">
@@ -49,6 +53,7 @@ const Harness = () => {
         {params.has('live') ? <DashboardView /> : <DashboardHome data={data} currentUserName="مهدي النواصرة" currentShift={engine.state.currentShift} loading={false} error={null} realtimeConnected={true}
           onRefresh={() => setAction('refresh')} onOrders={() => setAction('orders')} onAccounts={() => setAction('accounts')} onInventory={() => setAction('inventory')} onProducts={() => setAction('products')} onShift={() => setAction('shifts')} onSell={() => setAction('pos')} onReceive={(id) => setAction(`receive_goods:${id ?? ''}`)} onExpense={() => setAction('add_expense')} />}
         <output className="sr-only" data-testid="home-action">{action}</output>
+        <output className="sr-only" data-testid="header-action">{headerState}</output>
       </main>
       <div className="lg:hidden"><BottomTabs /></div>
     </div>

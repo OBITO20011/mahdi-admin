@@ -83,7 +83,7 @@ test('partial return re-reads capacity immediately before submit and rejects cha
   expect(reads).toBe(2); expect(writes).toBe(0);
 });
 test('desktop/tablet expand; mobile shell dimensions and selectable operational identity remain', async ({page}, testInfo) => {
-  for (const width of [390, 768, 1440]) {
+  for (const width of [390, 768, 1024, 1440]) {
     await page.setViewportSize({width, height: 900});
     await page.goto(url);
     const screen = page.locator('[data-ui="admin-screen"]');
@@ -93,7 +93,10 @@ test('desktop/tablet expand; mobile shell dimensions and selectable operational 
     expect(box.height).toBeGreaterThanOrEqual(width < 768 ? 899 : 865);
     await expect(page.getByText('9:41', {exact: true})).toHaveCount(0);
     expect(await page.getByTestId('selectable-identity').evaluate(node => getComputedStyle(node).userSelect)).not.toBe('none');
-    if (width >= 768) await expect(page.getByText('المالك', {exact: true}).last()).toBeVisible();
+    const profile = page.locator('.admin-app-header').getByRole('button', {name: 'الملف الشخصي: المالك'});
+    if (width < 1024) await expect(profile).toBeVisible();
+    else await expect(profile).toBeHidden(); // Desktop profile belongs to the SideNav.
+    if (width >= 768 && width < 1024) await expect(page.getByText('المالك', {exact: true}).last()).toBeVisible();
     else await expect(page.getByText('المالك', {exact: true}).last()).toBeHidden();
     await page.screenshot({path: testInfo.outputPath(`shell-${width}.png`)});
   }

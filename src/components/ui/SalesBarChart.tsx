@@ -1,5 +1,7 @@
 import React from 'react';
-import { MoneyText } from './DataDisplay';
+import { formatJod } from './uiFormat';
+
+const wholeAmount = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
 
 export interface SalesBarPoint {
   id: string;
@@ -17,7 +19,11 @@ export const SalesBarChart: React.FC<{ points: readonly SalesBarPoint[]; label: 
         {points.map((point) => (
           <div key={point.id} className="min-w-0 flex-1 text-center">
             <div className="flex h-44 flex-col justify-end gap-2">
-              <MoneyText amount={point.amount} className="break-all text-[10px] text-nw-muted sm:text-xs" />
+              <bdi dir="ltr" data-chart-amount className="whitespace-nowrap text-[10px] tabular-nums text-nw-muted sm:text-xs"
+                title={`${point.label}: ${formatJod(point.amount)} د.أ`}
+                aria-label={`${point.label}: ${formatJod(point.amount)} د.أ`}>
+                {wholeAmount.format(point.amount === 0 ? 0 : point.amount)}
+              </bdi>
               <div
                 aria-hidden="true"
                 className={`mx-auto w-full max-w-11 rounded-t-lg ${point.amount < 0 ? 'bg-nw-bad' : point.current ? 'bg-nw-accent' : 'bg-nw-chart-bar'}`}

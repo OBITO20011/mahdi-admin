@@ -76,3 +76,18 @@ test('the assistant keeps its role gate on both shells', () => {
   assert.match(sideNav, /openModal\('profile'\)/);
   assert.doesNotMatch(sideNav, /\b(?:bg|text|border)-(?:slate|blue|gray|indigo)-\d/);
 });
+
+test('Header uses Package F tokens without overriding them, retaining existing destinations', () => {
+  assert.match(header, /border-nw-border bg-nw-surface/);
+  assert.match(header, /text-nw-text/);
+  assert.doesNotMatch(header, /(?:bg|text|border)-(?:slate|blue|gray|violet|red|white)-/);
+  assert.match(header, /bg-nw-accent text-nw-on-accent/);
+  assert.match(header, /className="min-w-0 flex-1 px-2 text-center lg:hidden"/);
+  assert.match(header, />النواصرة<\/span>/);
+  assert.match(header, /aria-label=\{`الملف الشخصي: \$\{currentUserName\}`\}[\s\S]*?lg:hidden/);
+  assert.match(header, /openModal\('notifications'\)/);
+  assert.match(header, /openModal\('profile'\)/);
+  assert.match(header, /aria-label="اختيار الفرع"/);
+  assert.match(header, /setActiveBranch\(b.id\)/);
+  assert.doesNotMatch(read('src/index.css'), /html\.theme-light \.admin-app-header/);
+});
