@@ -1,8 +1,76 @@
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {readFileSync, readdirSync} from 'node:fs';
 import test from 'node:test';
 
 const read = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
+const git = (args: string[]) => execFileSync('git', args, {encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe']}).trim();
+type State = {
+  branch: string; currentPhase: string | null; closedPhases: string[];
+  approvedBaseline: string; migrationCeiling: number; productionAccessAllowed: boolean;
+  [key: string]: unknown;
+};
+type Task = {
+  phase: string; status: string; owner: string; branch: string; baselineSha: string;
+  historyBaseline?: string; objective: string; prohibitions: string[];
+};
+const state = JSON.parse(read('docs/agent/project-state.json')) as State;
+const task = JSON.parse(read('docs/agent/ACTIVE_TASK.json')) as Task;
+const phaseStatus = read('docs/agent/PHASE_STATUS.md');
+const migrationNumbers = readdirSync(new URL('../supabase/migrations/', import.meta.url), {withFileTypes: true})
+  .filter(entry => entry.isFile() && /^\d{3}_.*\.sql$/u.test(entry.name))
+  .map(entry => Number(entry.name.slice(0, 3)));
+assert.ok(migrationNumbers.length > 0, 'Migration inventory must not be empty');
+const highestMigration = Math.max(...migrationNumbers);
+const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+
+function assertContinuity(candidate: State, current: Task, status: string, ceiling: number) {
+  assert.equal(candidate.migrationCeiling, ceiling);
+  assert.equal(current.branch, candidate.branch);
+  assert.ok(['ACTIVE', 'PAUSED', 'IDLE'].includes(current.status));
+  assert.ok(['codex', 'claude'].includes(current.owner));
+  assert.ok(current.objective.trim().length > 0);
+  assert.equal(new Set(candidate.closedPhases).size, candidate.closedPhases.length);
+  const documentedClosed = [...status.matchAll(/^\| Phase (\d+(?:\.\d+)?) \| OWNER-CLOSED \|/gmu)].map(match => match[1]);
+  assert.deepEqual([...candidate.closedPhases].sort(), documentedClosed.sort());
+  for (const phase of candidate.closedPhases) {
+    assert.match(status, new RegExp(`\\| Phase ${escape(phase)} \\| OWNER-CLOSED \\|`, 'u'));
+    const key = `phase${phase}Closed`;
+    if (key in candidate) assert.equal(candidate[key], true);
+  }
+  for (const [key, closed] of Object.entries(candidate)) {
+    const phase = key.match(/^phase(\d+)Closed$/u)?.[1];
+    if (phase && phase !== '4') assert.equal(closed, candidate.closedPhases.includes(phase));
+    const pkg = key.match(/^package([A-Z])Closed$/u)?.[1];
+    if (pkg) assert.equal(closed, new RegExp(`\\| Package ${pkg} \\| OWNER-CLOSED \\|`, 'u').test(status));
+    if (key.endsWith('ClosureBaseline') && candidate[key.replace(/ClosureBaseline$/u, 'Closed')] === true) {
+      assert.match(String(candidate[key]), /^[a-f0-9]{40}$/u);
+      assert.equal(candidate[key.replace(/Baseline$/u, 'ExactShaCi')], 'PASS');
+      const runs = candidate[key.replace(/Baseline$/u, 'CiRuns')];
+      if (runs) {
+        const ids = runs as {codeQuality: number; secretScanning: number};
+        assert.ok(Number.isSafeInteger(ids.codeQuality) && ids.codeQuality > 0);
+        assert.ok(Number.isSafeInteger(ids.secretScanning) && ids.secretScanning > 0);
+      }
+    }
+  }
+  assert.equal(candidate.phase4Closed, /\| Phase 4 \(overall\) \| OWNER-CLOSED \|/u.test(status));
+  if (candidate.phase4Closed === true) {
+    assert.match(status, /\| Phase 4 \(overall\) \| OWNER-CLOSED \|/u);
+    for (const child of ['4.1', '4.2', '4.3', '4.4', '4.5']) assert.ok(candidate.closedPhases.includes(child));
+  }
+  if (current.prohibitions.some(value => /Production/iu.test(value))) assert.equal(candidate.productionAccessAllowed, false);
+  if (candidate.packageDPrivateLayerRetiredByMigration132 === true) assert.equal(candidate.phase5PublicActivationAllowed, false);
+  if (current.status !== 'IDLE') {
+    assert.equal(current.phase, candidate.currentPhase);
+    assert.ok(!candidate.closedPhases.includes(current.phase), 'A closed phase is not active authority');
+    const pkg = current.phase.match(/^PACKAGE_([A-Z])$/u)?.[1];
+    const prefix = pkg ? `package${pkg}` : `phase${current.phase.replaceAll('.', '')}`;
+    assert.equal(candidate[`${prefix}ImplementationAllowed`], true, 'Explicit current-scope authorization required');
+    assert.notEqual(candidate[`${prefix}Closed`], true);
+    if (pkg) assert.match(status, new RegExp(`\\| Package ${pkg} \\| IN PROGRESS`, 'u'));
+  }
+}
 
 test('Codex and Claude resolve the same agent-neutral project contract', () => {
   const agents = read('AGENTS.md');
@@ -19,129 +87,50 @@ test('Codex and Claude resolve the same agent-neutral project contract', () => {
   assert.match(agents + claude, /Production/iu);
 });
 
-test('owner-closed Phases 4-6 and Package D preserve owner-approved Package E authorization', () => {
-  const state = JSON.parse(read('docs/agent/project-state.json')) as {
-    closedPhases: string[];
-    phase4Closed: boolean;
-    phase5Closed: boolean;
-    phase5ClosureBaseline: string;
-    phase5ClosureExactShaCi: string;
-    phase5ClosureCiRuns: { codeQuality: number; secretScanning: number };
-    phase6PlanningAllowed: boolean;
-    phase6Closed: boolean;
-    phase6ClosureBaseline: string;
-    phase6ClosureExactShaCi: string;
-    phase6ClosureCiRuns: {codeQuality: number; secretScanning: number};
-    packageDPlanningAllowed: boolean;
-    packageDImplementationAllowed: boolean;
-    packageDClosed: boolean;
-    packageDClosureBaseline: string;
-    packageDClosureExactShaCi: string;
-    packageDClosureCiRuns: {codeQuality: number; secretScanning: number};
-    packageEPlanningAllowed: boolean;
-    packageEImplementationAllowed: boolean;
-    phase6ImplementationStarted: boolean;
-    phase6AuthorizedPackage: string;
-    phase6PackageBLocalVerification: string;
-    phase6PackageBDeliverySha: string;
-    phase6NextPackageAllowed: boolean;
-    currentPhase: string | null;
-    nextPermittedPhase: null;
-    phase43Started: boolean;
-    phase44Started: boolean;
-    phase45Started: boolean;
-    phase5Started: boolean;
-    phase5Slice1Closed: boolean;
-    phase5Slice2Started: boolean;
-    phase5Slice2Closed: boolean;
-    migrationCeiling: number;
-    migration121Sha256: string;
-    migration122HistoricalRawWindowsSha256: string;
-    migration122CanonicalLfSha256: string;
-    migration123MustBeAbsent: boolean;
-    migration123Sha256: string;
-    migration124MustBeAbsent: boolean;
-    migration124CanonicalLfSha256: string;
-    migration125CanonicalLfSha256: string;
-    phase5Slice3ImplementationStarted: boolean;
-    phase5Slice3Closed: boolean;
-    phase5Slice4Started: boolean;
-    phase5Slice4Closed: boolean;
-    phase5Slice4ImplementationStatus: string;
-    phase5Slice4IndependentReSignOff: string;
-    phase5Slice4ClosureBaseline: string;
-    phase5Slice4ClosureExactShaCi: string;
-    phase5PublicActivationAllowed: boolean;
-    migration126CanonicalLfSha256: string;
-  };
-  assert.deepEqual(state.closedPhases, ['3', '4.1', '4.2', '4.3', '4.4', '4.5', '5', '6']);
-  assert.equal(state.phase4Closed, true);
-  assert.equal(state.currentPhase, 'PACKAGE_E');
-  assert.equal(state.phase6Closed, true);
-  assert.equal(state.phase6ClosureBaseline, '5aaeab11e13c2be454af677ee176f77aa2d9cde4');
-  assert.equal(state.phase6ClosureExactShaCi, 'PASS');
-  assert.deepEqual(state.phase6ClosureCiRuns, {codeQuality: 37531634141, secretScanning: 37531634136});
-  assert.equal(state.packageDPlanningAllowed, false);
-  assert.equal(state.packageDImplementationAllowed, false);
-  assert.equal(state.packageDClosed, true);
-  assert.equal(state.packageDClosureBaseline, 'f58c9556f55222698629d881a59ec1d387c5e978');
-  assert.equal(state.packageDClosureExactShaCi, 'PASS');
-  assert.deepEqual(state.packageDClosureCiRuns, {codeQuality: 37576896581, secretScanning: 37576896555});
-  assert.equal(state.packageEPlanningAllowed, true);
-  assert.equal(state.packageEImplementationAllowed, true);
-  assert.equal(state.phase5Closed, true);
-  assert.equal(state.phase5ClosureBaseline, 'bdea567562b1de8c64fe3aa286076258decf3d26');
-  assert.equal(state.phase5ClosureExactShaCi, 'PASS');
-  assert.deepEqual(state.phase5ClosureCiRuns, {
-    codeQuality: 37408582997, secretScanning: 37408583034,
-  });
-  assert.equal(state.phase6PlanningAllowed, false);
-  assert.equal(state.phase6ImplementationStarted, true);
-  assert.equal(state.phase6AuthorizedPackage, 'C');
-  assert.equal(state.phase6PackageBLocalVerification, 'FOCUSED_UI_FULL_QUALITY_AND_EXACT_SHA_CI_PASS');
-  assert.equal(state.phase6PackageBDeliverySha, 'b3eda6fffe2cd68e12e5464647bafd3ed75bee46');
-  assert.equal(state.phase6NextPackageAllowed, false);
-  assert.equal(state.phase45Started, true);
-  assert.equal(state.phase5Started, true);
-  assert.equal(state.phase5Slice1Closed, true);
-  assert.equal(state.phase5Slice2Started, true);
-  assert.equal(state.phase5Slice2Closed, true);
-  assert.equal(state.nextPermittedPhase, null);
-  assert.equal(state.phase43Started, true);
-  assert.equal(state.phase44Started, true);
-  const migrationNumbers = readdirSync(new URL('../supabase/migrations/', import.meta.url), {withFileTypes: true})
-    .filter(entry => entry.isFile() && /^\d{3}_.*\.sql$/u.test(entry.name))
-    .map(entry => Number(entry.name.slice(0, 3)));
-  assert.ok(migrationNumbers.length > 0, 'Migration inventory must not be empty');
-  assert.equal(state.migrationCeiling, Math.max(...migrationNumbers));
-  assert.equal(state.phase5Slice3ImplementationStarted, true);
-  assert.equal(state.phase5Slice3Closed, true);
-  assert.equal(state.phase5Slice4Started, true);
-  assert.equal(state.phase5Slice4Closed, true);
-  assert.equal(state.phase5Slice4ImplementationStatus, 'OWNER_CLOSED_PRIVATE_ONLY');
-  assert.equal(state.phase5Slice4IndependentReSignOff, 'PASS');
-  assert.equal(state.phase5Slice4ClosureBaseline, '5405ed7a17656e4e18587b4f07ff0825a1efa838');
-  assert.equal(state.phase5Slice4ClosureExactShaCi, 'PASS');
-  assert.equal(state.phase5PublicActivationAllowed, false);
-  assert.equal(state.migration126CanonicalLfSha256, '4C099804BA1D6B97DF6AF3FA0C0A8D514FD616397BDE1BC7F5E5DAE3EB8B1D21');
-  assert.equal(state.migration121Sha256, '9779212034A901DBB971A68EC485D16B0AA4BE329478B9DAF1A4263CE6989BDD');
-  assert.equal(state.migration122HistoricalRawWindowsSha256, 'DED829F8EF84F49EABD8D9AAA76D460632E36B86A8D041228DDB91692CA15C24');
-  assert.equal(state.migration122CanonicalLfSha256, 'DF991DE73F32931B81C9C4B9C2F611F44731E99044ACBC2F5F60F4FE1192C066');
-  assert.equal(state.migration123MustBeAbsent, false);
-  assert.equal(state.migration123Sha256, '3F5FE7554B17BBC6BE872175682C36D7F17B5F2B72F00BD32EAE0F6A97483E80');
-  assert.equal(state.migration124MustBeAbsent, false);
-  assert.equal(state.migration124CanonicalLfSha256, '4B6A50442DDF0DBEE24233CB9036469B428CE20991E0315EB6C1FAFE4BDD4F41');
-  assert.equal(state.migration125CanonicalLfSha256, 'D1CDA688B835C2791A0890F4E000A85FA7309B1A4E4DE02F21819491330A546B');
+
+test('current continuity matches declared authorization, closure evidence and actual migration inventory', () => {
+  assertContinuity(state, task, phaseStatus, highestMigration);
 });
 
-test('current task stays concise while historical evidence stays pinned in Git', () => {
-  const text = read('docs/agent/ACTIVE_TASK.json');
-  const task = JSON.parse(text) as { historyBaseline: string };
-  assert.equal(task.historyBaseline, 'bdea567562b1de8c64fe3aa286076258decf3d26');
-  assert.ok(Buffer.byteLength(text, 'utf8') <= 4096, 'Current task must not accumulate history');
-  for (const historicalField of ['slice3Closure', 'slice4Closure', 'slice3DesignProposal']) {
-    assert.equal(historicalField in task, false);
+test('continuity rejects scope drift, unauthorized progression, lost closure and fabricated CI state', () => {
+  // Synthetic contracts keep these negative probes independent of the live
+  // task's phase/status. They do not authorize or start any repository phase.
+  const fixture: State = {branch: 'main', currentPhase: 'PACKAGE_A', closedPhases: ['3'],
+    phase3Closed: true, phase4Closed: false, packageAImplementationAllowed: true,
+    phase3ClosureBaseline: '1'.repeat(40), phase3ClosureExactShaCi: 'PASS',
+    approvedBaseline: '1'.repeat(40), migrationCeiling: 3, productionAccessAllowed: false};
+  const attempt: Task = {phase: 'PACKAGE_A', status: 'ACTIVE', owner: 'codex', branch: 'main',
+    baselineSha: '1'.repeat(40), objective: 'Synthetic authorized scope', prohibitions: ['Production/deploy']};
+  const documented = '| Phase 3 | OWNER-CLOSED |\n| Package A | IN PROGRESS |';
+  assertContinuity(fixture, attempt, documented, 3);
+  assertContinuity(fixture, {...attempt, status: 'IDLE'}, documented, 3);
+  assert.throws(() => assertContinuity({...fixture, migrationCeiling: 2}, attempt, documented, 3));
+  assert.throws(() => assertContinuity(fixture, {...attempt, branch: 'unapproved-branch'}, documented, 3));
+  assert.throws(() => assertContinuity(fixture, {...attempt, phase: 'unauthorized-phase'}, documented, 3));
+  assert.throws(() => assertContinuity({...fixture, currentPhase: '7'}, {...attempt, phase: '7'}, documented, 3));
+  assert.throws(() => assertContinuity({...fixture, packageAImplementationAllowed: false}, attempt, documented, 3));
+  assert.throws(() => assertContinuity({...fixture, productionAccessAllowed: true}, attempt, documented, 3));
+  assert.throws(() => assertContinuity({...fixture, phase4Closed: true}, attempt, documented, 3));
+  assert.throws(() => assertContinuity({...fixture, closedPhases: []}, attempt, documented, 3));
+  assert.throws(() => assertContinuity({...fixture, phase3Closed: false}, attempt, documented, 3));
+  assert.throws(() => assertContinuity(fixture, attempt, documented.replace('OWNER-CLOSED', 'OPEN'), 3));
+  assert.throws(() => assertContinuity({...fixture, phase3ClosureBaseline: 'invalid-sha'}, attempt, documented, 3));
+  assert.throws(() => assertContinuity({...fixture, phase3ClosureExactShaCi: 'PENDING'}, attempt, documented, 3));
+});
+
+test('checkpoint history is concise and descends from the approved Git baseline', () => {
+  assert.ok(Buffer.byteLength(read('docs/agent/ACTIVE_TASK.json'), 'utf8') <= 4096);
+  for (const sha of [state.approvedBaseline, task.baselineSha]) assert.match(sha, /^[a-f0-9]{40}$/u);
+  git(['merge-base', '--is-ancestor', state.approvedBaseline, task.baselineSha]);
+  if ('historyBaseline' in task) {
+    assert.match(task.historyBaseline!, /^[a-f0-9]{40}$/u);
+    git(['merge-base', '--is-ancestor', task.historyBaseline!, task.baselineSha]);
   }
+  git(['merge-base', '--is-ancestor', task.baselineSha, 'HEAD']);
+  const parent = git(['rev-parse', `${task.baselineSha}^`]);
+  assert.throws(() => git(['merge-base', '--is-ancestor', task.baselineSha, parent]));
+  assert.throws(() => git(['merge-base', '--is-ancestor', '0'.repeat(40), task.baselineSha]));
+  for (const historicalField of ['slice3Closure', 'slice4Closure', 'slice3DesignProposal']) assert.equal(historicalField in task, false);
 });
 
 test('handoff tooling is fail-closed and never stores environment values', () => {

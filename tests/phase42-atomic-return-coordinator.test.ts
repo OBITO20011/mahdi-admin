@@ -1,17 +1,11 @@
 import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync } from 'node:fs';
 import test from 'node:test';
 
-const migration120Path = new URL(
-  '../supabase/migrations/120_phase4_returns_refunds_foundation.sql',
-  import.meta.url,
-);
 const migration121Path = new URL(
   '../supabase/migrations/121_phase42_atomic_return_coordinator.sql',
   import.meta.url,
 );
-const migration120Bytes = readFileSync(migration120Path);
 const migration121 = readFileSync(migration121Path, 'utf8');
 const migrationNames = readdirSync(
   new URL('../supabase/migrations/', import.meta.url),
@@ -21,23 +15,7 @@ const functionBody = (name: string): string => migration121.match(
   new RegExp(`CREATE (?:OR REPLACE )?FUNCTION public\\.${name}\\([\\s\\S]*?\\n\\$\\$;`, 'u'),
 )?.[0] ?? '';
 
-const canonicalizeTextBytes = (content: Uint8Array): Buffer => Buffer.from(
-  Buffer.from(content).toString('utf8').replaceAll('\r\n', '\n'),
-  'utf8',
-);
-
-const migrationContentHash = (filename: string, content: Uint8Array): string => createHash('sha256')
-  .update(Buffer.from(filename, 'utf8'))
-  .update(Buffer.from([0]))
-  .update(canonicalizeTextBytes(content))
-  .digest('hex')
-  .toUpperCase();
-
-test('Migration 121 preserves approved Migration 120 before Phase 4.3', () => {
-  assert.equal(
-    migrationContentHash('120_phase4_returns_refunds_foundation.sql', migration120Bytes),
-    '58C5E40E8E65D67440ACFFD6D6F11616CC3CD3C9434FD59CD5C980395B70F7FA',
-  );
+test('Migration 121 remains a transaction with one migration per adjacent version', () => {
   assert.equal(
     migrationNames.filter((name) => name.startsWith('121_')).length,
     1,
@@ -46,20 +24,6 @@ test('Migration 121 preserves approved Migration 120 before Phase 4.3', () => {
   assert.equal(migrationNames.filter((name) => name.startsWith('123_')).length, 1);
   assert.match(migration121, /^BEGIN;/u);
   assert.match(migration121, /COMMIT;\s*$/u);
-});
-
-test('Migration 120 integrity hash is portable but remains content-sensitive', () => {
-  const lf = Buffer.from('BEGIN;\nSELECT 120;\nCOMMIT;\n');
-  const crlf = Buffer.from('BEGIN;\r\nSELECT 120;\r\nCOMMIT;\r\n');
-  assert.equal(migrationContentHash('120_test.sql', lf), migrationContentHash('120_test.sql', crlf));
-  assert.notEqual(
-    migrationContentHash('120_test.sql', lf),
-    migrationContentHash('120_test.sql', Buffer.from('BEGIN;\nSELECT 121;\nCOMMIT;\n')),
-  );
-  assert.notEqual(
-    migrationContentHash('120_test.sql', lf),
-    migrationContentHash('121_test.sql', lf),
-  );
 });
 
 test('the atomic coordinator resolves replay before mutable eligibility and locks', () => {

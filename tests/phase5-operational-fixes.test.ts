@@ -1,29 +1,15 @@
 import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const migration = readFileSync(
   'supabase/migrations/128_phase5_operational_payment_and_shift_refund_fixes.sql',
   'utf8',
 ).replace(/\r\n?/gu, '\n');
-const state = JSON.parse(readFileSync('docs/agent/project-state.json', 'utf8')) as {
-  migrationCeiling: number;
-  migration128CanonicalLfSha256: string;
-};
-
-test('Migration 128 is one transaction pinned by the continuity state', () => {
+test('Migration 128 is one bounded transaction (fingerprint checked centrally)', () => {
   assert.match(migration, /^BEGIN;/u);
   assert.match(migration, /COMMIT;\s*$/u);
-  const migrationNumbers = readdirSync('supabase/migrations', {withFileTypes: true})
-    .filter(entry => entry.isFile() && /^\d{3}_.*\.sql$/u.test(entry.name))
-    .map(entry => Number(entry.name.slice(0, 3)));
-  assert.ok(migrationNumbers.length > 0, 'Migration inventory must not be empty');
-  assert.equal(state.migrationCeiling, Math.max(...migrationNumbers));
-  assert.equal(
-    state.migration128CanonicalLfSha256,
-    createHash('sha256').update(migration).digest('hex').toUpperCase(),
-  );
+
 });
 
 test('C: shift summary and closing report read settled Phase 4.2 refunds', () => {
@@ -56,17 +42,9 @@ const migration129 = readFileSync(
   'supabase/migrations/129_phase5_block_paid_order_receipt_reversal.sql',
   'utf8',
 ).replace(/\r\n?/gu, '\n');
-const state129 = JSON.parse(readFileSync('docs/agent/project-state.json', 'utf8')) as {
-  migration129CanonicalLfSha256: string;
-};
-
-test('A+: Migration 129 is one transaction pinned by the continuity state', () => {
+test('A+: Migration 129 is one bounded transaction (fingerprint checked centrally)', () => {
   assert.match(migration129, /^BEGIN;/u);
   assert.match(migration129, /COMMIT;\s*$/u);
-  assert.equal(
-    state129.migration129CanonicalLfSha256,
-    createHash('sha256').update(migration129).digest('hex').toUpperCase(),
-  );
 });
 
 test('A+: receipt reversal of a completed non-debt order is rejected at the table', () => {
@@ -87,17 +65,9 @@ const migration130 = readFileSync(
   'supabase/migrations/130_phase5_review_followup_shift_refund_guards.sql',
   'utf8',
 ).replace(/\r\n?/gu, '\n');
-const state130 = JSON.parse(readFileSync('docs/agent/project-state.json', 'utf8')) as {
-  migration130CanonicalLfSha256: string;
-};
-
-test('Migration 130 is one transaction pinned by the continuity state', () => {
+test('Migration 130 is one bounded transaction (fingerprint checked centrally)', () => {
   assert.match(migration130, /^BEGIN;/u);
   assert.match(migration130, /COMMIT;\s*$/u);
-  assert.equal(
-    state130.migration130CanonicalLfSha256,
-    createHash('sha256').update(migration130).digest('hex').toUpperCase(),
-  );
 });
 
 test('H1: cancelling an empty shift also checks Phase 4.2 refund events under the shift lock', () => {

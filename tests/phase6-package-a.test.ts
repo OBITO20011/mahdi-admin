@@ -1,18 +1,9 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {createHash} from 'node:crypto';
 import test from 'node:test';
 
 const read = (p: string) => readFileSync(p, 'utf8');
 const migration = read('supabase/migrations/131_phase6_operational_report_readers.sql');
-
-test('Migration131 current contract is pinned and LF/CRLF portable', () => {
-  const state = JSON.parse(read('docs/agent/project-state.json'));
-  const canonical = migration.replace(/\r\n?/gu, '\n');
-  const digest = createHash('sha256').update(canonical).digest('hex').toUpperCase();
-  assert.equal(digest, state.migration131CanonicalLfSha256);
-  assert.equal(createHash('sha256').update(canonical.replaceAll('\n', '\r\n').replace(/\r\n?/gu, '\n')).digest('hex').toUpperCase(), digest);
-});
 
 test('Phase6 A readers are explicit wrappers, never runtime text patches', () => {
   assert.match(migration, /^BEGIN;/u);

@@ -2,13 +2,18 @@
 
 ## النتيجة الحالية النهائية — 2026-10-08: الأداء مقبول بقرار المالك
 
+هـ2 سُلّمت في `84a1e220ea5f3cf10e4e0015f0488f6c63ecf4cb`،وتطابقremote main.
+Exact push/main: quality37754998475 (15/15) وsecret scanning37754998529 PASS.
+تنظيف هـ3 اللاحق موثق في PACKAGE_E_TEST_CLEANUP.md،ولا يغير هذه القياسات أوSQL134.
+
 **بوابات التسليم الحالية:** golden النهائي001–134 نجح، وكل14integrity healthy،
 JSON قبل/بعد ومعاملة الفساد متطابق؛CRITICAL/queued alert/rollback ناجحة.
 التوقع القديم للسقف صُحّح بموافقة المالك في phase5-operational-fixes.test.ts
 وagent-continuity.test.ts إلى أعلى ملفNNN_*.sql،دون تغيير بصمة128.
 Focused16/16؛quality كاملةPASS:732Admin،189Customer،269Browser،
 59حالة مشروطة موجودة سابقاً،retries0؛TypeScript/strictESLint/build/isolationPASS.
-طلبات خارجية/Production هاربة0. التسليم وexact-SHA CI ثم هـ3 هي الباقية.
+طلبات خارجية/Production هاربة0. تسليم هـ2 وexact-SHA CI مكتملان كما هو موثق أعلاه؛
+تنظيف هـ3 وبواباته موثقان في PACKAGE_E_TEST_CLEANUP.md.
 
 134 candidate LF SHA-256: D82CF9B53C9B59300D085DEF941A74226090177237DE1E21A0CA7B4BFF84C7CD.
 تم قياس جميع16مساراً في تشغيل FULL واحد:14PASS و2SLOW،لاUNPROVEN.
