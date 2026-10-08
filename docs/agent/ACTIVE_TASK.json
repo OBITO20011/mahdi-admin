@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "IDLE",
   "owner": "claude",
   "objective": "Package F foundation: spec and reference screens into docs, semantic color tokens light/dark, IBM Plex Sans Arabic, AppShell (desktop SideNav, phone BottomTabBar with center Sell, POS rail), shared UI components; no money/RPC/permission/migration changes",
-  "baselineSha": "aac87fc132339ed6f43b82f466e7187af6109bc7",
+  "baselineSha": "cf83bc3cb125c34ee111fd68324ad2599e6eec3f",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -17,26 +17,7 @@
     "Package F",
     "Phase 7"
   ],
-  "filesTouched": [
-    "docs/agent/PHASE_STATUS.md",
-    "e2e/admin-bottom-navigation-harness.tsx",
-    "e2e/admin-bottom-navigation.spec.ts",
-    "src/App.tsx",
-    "src/components/common/Header.tsx",
-    "src/components/layout/BottomTabs.tsx",
-    "src/components/layout/SideNav.tsx",
-    "src/features/more/MoreMenuView.tsx",
-    "src/index.css",
-    "tests/admin-ai-assistant.test.ts",
-    "tests/admin-navigation.test.ts",
-    "tests/admin-performance.test.ts",
-    "tests/app-store-boundaries-characterization.test.ts",
-    "tests/light-theme-contract.test.ts",
-    "tests/order-accounts.test.ts",
-    "tests/package-f-shell.test.ts",
-    "src/components/layout/quickActions.ts",
-    "src/components/layout/QuickActionButton.tsx"
-  ],
+  "filesTouched": [],
   "testsPassed": [],
   "testsRemaining": [],
   "findings": [],
@@ -48,8 +29,8 @@
     "No F implementation;Claude foundation/specifications pending;no startup package execution",
     ".claude/launch.json:preserve unchanged/unstaged;no .gitignore edit"
   ],
-  "nextExactAction": "Foundation F1-F3 delivered; verify F3 exact-SHA CI, then hand screen migration to Codex per docs/design/package-f spec §6/§8 starting with Home (DashboardView)",
-  "workingTreeFingerprint": "DEA4A253A47ADB31292E552E5A11F9EAC688A92C3FA4C4A5735DD79B6D35EA93",
-  "checkpointedAt": "2026-10-08T20:41:41.824Z",
+  "nextExactAction": "Package F foundation F1-F3 done (58093a0, aac87fc, cf83bc3; exact-SHA CI green). Codex: start a PACKAGE_F task and migrate Home (DashboardView) first per docs/design/package-f/PACKAGE_F_DESIGN_SPEC.md sections 6.1, 8, 9, using src/components/ui and --nw tokens; one screen per commit with quality, Gitleaks0, exact-SHA CI; Claude visually checks each screen. No money/RPC/permission/migration changes; no Production/deploy.",
+  "workingTreeFingerprint": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
+  "checkpointedAt": "2026-10-08T20:56:32.828Z",
   "startedAt": "2026-10-08T16:33:34.230Z"
 }
