@@ -85,8 +85,8 @@ export const KpiCard: React.FC<KpiCardProps> = ({ label, value, note, badge, val
 );
 
 /** Responsive KPI grid: as many 210px+ columns as fit. */
-export const KpiGrid: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({ className, children, ...rest }) => (
-  <div {...rest} className={join('grid grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-3.5', className)}>
+export const KpiGrid: React.FC<React.HTMLAttributes<HTMLDivElement> & { phonePairs?: boolean }> = ({ phonePairs = false, className, children, ...rest }) => (
+  <div {...rest} className={join('grid gap-3.5', phonePairs ? 'grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(210px,1fr))]' : 'grid-cols-[repeat(auto-fit,minmax(210px,1fr))]', className)}>
     {children}
   </div>
 );

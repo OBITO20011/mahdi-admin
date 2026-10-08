@@ -297,43 +297,6 @@ html.theme-light [class~="bg-slate-800"][class~="text-white"] {
 }
 
 /* Light mode surface hierarchy and component-specific contrast. */
-html.theme-light [data-testid="dashboard-hero"] {
-  background:
-    radial-gradient(circle at 8% 0%, rgb(96 165 250 / 0.14), transparent 16rem),
-    linear-gradient(135deg, #fdfdfc 0%, #f0f5fc 58%, #f0f8f5 100%) !important;
-  border-color: #cad9eb !important;
-  box-shadow: var(--admin-shadow-md) !important;
-}
-
-html.theme-light [data-testid="dashboard-hero"] [class~="text-white"] {
-  color: #14345f !important;
-}
-
-html.theme-light [data-testid="dashboard-hero"] [class~="border-white/8"],
-html.theme-light [data-testid="dashboard-hero"] [class~="border-white/10"] {
-  border-color: rgb(37 99 235 / 0.16) !important;
-}
-
-html.theme-light [data-ui="dashboard-status-card"],
-html.theme-light [data-ui="dashboard-quick-card"] {
-  background-color: rgb(255 255 255 / 0.82) !important;
-  box-shadow: var(--admin-shadow-sm);
-}
-
-html.theme-light [data-ui="dashboard-status-card"] [class~="text-white"],
-html.theme-light [data-ui="dashboard-quick-card"] [class~="text-white"] {
-  color: var(--admin-text) !important;
-}
-
-html.theme-light [data-ui="dashboard-receivables"] {
-  background: linear-gradient(135deg, #fff7f8, #fdfdfc 62%, #fdf5f8) !important;
-  border-color: #f3d3da !important;
-  box-shadow: var(--admin-shadow-sm);
-}
-
-html.theme-light [data-ui="dashboard-receivables"] [class~="text-white"] {
-  color: #4c1628 !important;
-}
 
 html.theme-light [data-ui="products-hero"],
 html.theme-light [data-ui="orders-header"],

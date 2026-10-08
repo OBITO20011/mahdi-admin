@@ -126,6 +126,8 @@ export interface HomeDashboardSummary {
   todaySalesInMinorUnits: number;
   todayCompletedOrders: number;
   monthSalesInMinorUnits: number;
+  /** Existing canonical RPC net fields; missing evidence is not gross or zero. */
+  monthNetSalesInMinorUnits?: number | null;
   monthProfitInMinorUnits: number | null;
   openOrdersCount: number;
   newOrdersCount: number;
@@ -171,6 +173,7 @@ export interface HomeDashboardSalesDay {
   date: string;
   dayLabel: string;
   salesInMinorUnits: number;
+  netSalesInMinorUnits?: number | null;
 }
 
 export interface HomeDashboardData {

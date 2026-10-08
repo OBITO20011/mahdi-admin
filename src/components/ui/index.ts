@@ -4,3 +4,4 @@ export { MoneyText, StatusBadge, KpiCard, KpiGrid, StockBar, AgingBar, type Agin
 export { FilterChips, SegmentedControl, SearchField, UiButton, type ChipOption } from './Controls';
 export { TableShell, Th, Tr, Td } from './TableShell';
 export * from './uiFormat';
+export { SalesBarChart, type SalesBarPoint } from './SalesBarChart';

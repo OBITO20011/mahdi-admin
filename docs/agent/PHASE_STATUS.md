@@ -1,5 +1,14 @@
 # Phase status
 
+## 2026-10-09 — Package F Home candidate
+
+Home only migrated under §6.1, with deterministic light/dark e2e harness.
+Local quality PASS:753 Admin/189 Customer/301 browser,59 existing conditional
+skips,retries0;Home18/18;external/Production escaped0. Migrations001–134 and
+shell unchanged. `docs/design/package-f/HOME_MIGRATION.md` records data limits
+and the three updated old contracts. Await exact-SHA CI, then Claude visual
+review and owner approval before another screen. Package F is not closed.
+
 > **Current Phase 5 contract (2026-10-06): read `docs/agent/PHASE5_RESCOPE.md` first.**
 > Slice 5 is parked on branch `codex/phase5-slice5-wip`. Phase 5 now closes by
 > direct operational fixes in Migrations 128–130; owner-closed on 2026-10-06.

@@ -61,6 +61,7 @@ export function FilterChips<T extends string>({ label, options, value, onChange 
 }
 
 interface SegmentedControlProps<T extends string> {
+  touchSize?: boolean;
   label: string;
   options: readonly ChipOption<T>[];
   value: T;
@@ -68,7 +69,7 @@ interface SegmentedControlProps<T extends string> {
 }
 
 /** Adjacent options in a track (day/week/month, packet/carton/parcel). */
-export function SegmentedControl<T extends string>({ label, options, value, onChange }: SegmentedControlProps<T>) {
+export function SegmentedControl<T extends string>({ label, options, value, onChange, touchSize = false }: SegmentedControlProps<T>) {
   return (
     <div role="radiogroup" aria-label={label} className="flex rounded-xl border border-nw-border bg-nw-surface-2 p-1">
       {options.map((option) => {
@@ -81,7 +82,8 @@ export function SegmentedControl<T extends string>({ label, options, value, onCh
             aria-checked={selected}
             onClick={() => onChange(option.value)}
             className={join(
-              'h-[38px] flex-1 rounded-[9px] px-3 text-[13px] font-semibold transition',
+              'flex-1 rounded-[9px] px-3 text-[13px] font-semibold transition',
+              touchSize ? 'h-11' : 'h-[38px]',
               selected ? 'bg-nw-surface text-nw-text shadow-sm' : 'text-nw-muted hover:text-nw-text',
             )}
           >

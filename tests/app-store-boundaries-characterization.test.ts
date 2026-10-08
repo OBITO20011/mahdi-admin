@@ -340,8 +340,9 @@ test('current UI entry points keep their modal names and payload shapes', () => 
   );
   assert.match(
     dashboardSource,
-    /openModal\('receive_goods', \{ productId: item\.id \}\)/,
+    /onReceive=\{\(productId\) => openModal\('receive_goods', productId \? \{ productId \} : undefined\)\}/,
   );
+  assert.match(readFileSync('src/features/dashboard/DashboardHome.tsx', 'utf8'), /onReceive\(item\.id\)/);
 });
 
 test('Quick Actions retain their existing tab and no-payload modal behavior', () => {

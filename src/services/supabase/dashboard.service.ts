@@ -35,6 +35,7 @@ const mapSummary = (value: Record<string, unknown>): HomeDashboardSummary => ({
   todaySalesInMinorUnits: numberValue(value.todaySalesInMinorUnits),
   todayCompletedOrders: numberValue(value.todayCompletedOrders),
   monthSalesInMinorUnits: numberValue(value.monthSalesInMinorUnits),
+  monthNetSalesInMinorUnits: nullableNumberValue(value.monthNetSalesInMinorUnits),
   monthProfitInMinorUnits: nullableNumberValue(value.monthProfitInMinorUnits),
   openOrdersCount: numberValue(value.openOrdersCount),
   newOrdersCount: numberValue(value.newOrdersCount),
@@ -98,6 +99,7 @@ const mapSalesDay = (
   date: String(value.date || ''),
   dayLabel: String(value.dayLabel || ''),
   salesInMinorUnits: numberValue(value.salesInMinorUnits),
+  netSalesInMinorUnits: nullableNumberValue(value.netSalesInMinorUnits),
 });
 
 export async function fetchHomeDashboardFromSupabase(): Promise<DashboardResult> {

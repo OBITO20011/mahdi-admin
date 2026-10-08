@@ -8,7 +8,13 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 ## Canonical reading order
 
-**Current owner boundary — 2026-10-08:** Package E is OWNER-CLOSED at
+**Current owner boundary — 2026-10-09:** Package F Home migration only is authorized,
+using `docs/design/package-f/PACKAGE_F_DESIGN_SPEC.md` §6.1 and its screenshots.
+Claude's foundation/handoff is `a81e002`. Preserve existing readers, RPCs,
+permissions and migrations; stop before the next screen for visual review.
+Tests, Gitleaks, commit/push and exact-SHA CI are authorized. No Production/deploy.
+
+**Previous owner boundary — 2026-10-08:** Package E is OWNER-CLOSED at
 `5bb5c8877978ee4cb1b0a0de9d516d25d319d617`; exact push/main quality37786962873
 (15/15) and secrets37786962944 PASS. The current authorization is documentation
 closure only, not more implementation. Package F and Phase7 are NOT STARTED;

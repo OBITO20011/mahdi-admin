@@ -19,6 +19,7 @@ const view = readFileSync(
   new URL('../src/features/dashboard/DashboardView.tsx', import.meta.url),
   'utf8'
 );
+const presentation = readFileSync('src/features/dashboard/DashboardHome.tsx', 'utf8');
 
 test('home dashboard is exposed only through one authenticated RPC', () => {
   assert.match(migration, /SECURITY DEFINER/);
@@ -46,7 +47,7 @@ test('stock alerts use configured wholesale sale packages', () => {
   assert.match(migration, /p\.units_per_sale_unit/);
   assert.match(migration, /p\.default_sale_price_in_minor_units/);
   assert.match(migration, /availableSalePackages/);
-  assert.match(view, /الجاهزية محسوبة حسب طرد البيع/);
+  assert.match(presentation, /الجاهزية محسوبة حسب طرد البيع/);
 });
 
 test('the operational home removes the legacy dashboard overload', () => {
@@ -57,11 +58,9 @@ test('the operational home removes the legacy dashboard overload', () => {
 });
 
 test('the home is a focused daily work center, not a reports shortcut', () => {
-  assert.match(view, /مركز اليوم/);
-  assert.match(view, /طلبات جديدة/);
-  assert.match(view, /قيد التجهيز/);
-  assert.match(view, /بالتوصيل/);
-  assert.match(view, /ذمم العملاء/);
-  assert.match(view, /الإجراء التالي/);
+  for (const label of ['مركز اليوم', 'طلبات جديدة', 'قيد التجهيز', 'بالتوصيل', 'ذمم العملاء', 'الإجراء التالي']) assert.ok(presentation.includes(label), label);
+  assert.match(view, /setActiveTab\('orders'\)/);
+  assert.match(view, /setActiveTab\('accounts'\)/);
+  assert.match(view, /openModal\('receive_goods'/);
   assert.doesNotMatch(view, /setActiveTab\('reports'\)/);
 });

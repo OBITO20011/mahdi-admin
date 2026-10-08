@@ -69,3 +69,10 @@ Append only concise, secret-free handoff summaries here when a task materially c
 - Current authorization: documentation-only closure commit/push and exact-SHA CI, then stop.133/134 fingerprints unchanged;no Production/deploy or scheduled tasks. Local preview `.claude/launch.json` preserved and excluded from commits.
 - DeferredF:B bind cancellation preview payment total/fingerprint insideRPC;C align receiving overpaymentDETAIL and record_supplier_payment message rounding. Deferred after delivery:A PO-id-filtered legacy payable calculation;not applicable to newSupabase with noPO V1. Existing read-performance follow-up remains.
 - Owner Phase7 decisions and the afterF/beforePhase7 opening-balances/Excel/047 package are recorded in OWNER_DECISIONS.md. Recording doesnot execute them. Package F and Phase7 NOT STARTED;Claude will supply the tokens/font/AppShell/shared-component foundation specifications. ACTIVE_TASK remains concise and the next agent must read the current docs and preflight before writing.
+
+## 2026-10-09 — Codex Package F Home only
+
+- Owner authorized Home §6.1 at Claude handoff a81e002; no next screen, DB/RPC/permission/shell changes or Production/deploy.
+- Shared token presentation plus fixed light/dark harness at `/e2e/package-f-home-harness.html`; existing Home RPC and realtime coalescing preserved. Already-returned net fields are mapped; daily collection/overdue counts remain explicitly unavailable.
+- Full local quality exit0:753 Admin/189 Customer/301 browser PASS,59 existing conditional skips,retries0;Home18/18 includes both engines,all3 widths,axe/text containment/44px and real adapter refresh. Extra final Home build PASS. Network external/Production escaped0;001–134 unchanged.
+- Old dashboard text/hook/receiving callback contracts updated without dropping payload/role/data assertions. Details in HOME_MIGRATION.md. Delivery exact-SHA CI pending; thereafter Claude visual review and owner approval only.

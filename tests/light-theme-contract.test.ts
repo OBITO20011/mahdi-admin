@@ -4,7 +4,7 @@ import test from 'node:test';
 
 const css = readFileSync(new URL('../src/index.css', import.meta.url), 'utf8');
 const dashboard = readFileSync(
-  new URL('../src/features/dashboard/DashboardView.tsx', import.meta.url),
+  new URL('../src/features/dashboard/DashboardHome.tsx', import.meta.url),
   'utf8'
 );
 const products = readFileSync(
@@ -32,13 +32,15 @@ test('light theme exposes a calm, high-contrast surface palette', () => {
   assert.match(css, /input:focus[\s\S]*0 0 0 3px/);
 });
 
-test('daily dashboard cards have semantic light-mode contrast hooks', () => {
+test('Package F Home uses shared token surfaces without legacy contrast overrides', () => {
   assert.match(dashboard, /data-testid="dashboard-hero"/);
-  assert.match(dashboard, /data-ui="dashboard-status-card"/);
-  assert.match(dashboard, /data-ui="dashboard-receivables"/);
-  assert.equal(dashboard.match(/data-ui="dashboard-quick-card"/g)?.length, 3);
-  assert.match(css, /\[data-testid="dashboard-hero"\]/);
-  assert.match(css, /\[data-ui="dashboard-status-card"\]/);
+  assert.match(dashboard, /<KpiGrid phonePairs/);
+  assert.equal(dashboard.match(/<KpiCard /g)?.length, 8); // four desktop and four phone cards
+  assert.match(dashboard, /bg-nw-hero/);
+  assert.match(dashboard, /text-nw-side-text/);
+  assert.match(dashboard, /<Card/);
+  assert.doesNotMatch(dashboard, /(?:bg|text|border)-(?:slate|blue|gray)-\d/);
+  assert.doesNotMatch(css, /\[data-testid="dashboard-hero"\]|\[data-ui="dashboard-(?:status-card|quick-card|receivables)"\]/);
 });
 
 test('light theme keeps modal backdrops visually separated', () => {

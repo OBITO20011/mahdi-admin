@@ -34,7 +34,7 @@
   "packageEClosureCiRuns": {"codeQuality": 37786962873, "secretScanning": 37786962944},
   "packageFPlanningAllowed": false,
   "packageFImplementationAllowed": true,
-  "packageFStarted": false,
+  "packageFStarted": true,
   "startupPackageStarted": false,
   "packageDLocalVerification": "FINAL_CORRECTION_BEFORE_AFTER_SQL132_AND_FULL_QUALITY_PASS",
   "packageDPrivateLayerRetiredByMigration132": true,

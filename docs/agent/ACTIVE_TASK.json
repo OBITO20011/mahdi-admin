@@ -1,36 +1,63 @@
 {
   "schemaVersion": 1,
   "status": "IDLE",
-  "owner": "claude",
-  "objective": "Package F foundation: spec and reference screens into docs, semantic color tokens light/dark, IBM Plex Sans Arabic, AppShell (desktop SideNav, phone BottomTabBar with center Sell, POS rail), shared UI components; no money/RPC/permission/migration changes",
-  "baselineSha": "cf83bc3cb125c34ee111fd68324ad2599e6eec3f",
+  "owner": "codex",
+  "objective": "Migrate Home (DashboardView) to Package F design",
+  "baselineSha": "a81e0025627314299688738a4d4c90ab652db402",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Owner closedE2026-10-08 at5bb5c88;closure docs facd733 pushed;exact-SHA quality37790472723 15/15+secrets37790472696PASS"
+    "Package F Home implementation and fixed light/dark harness completed; visual approval pending"
   ],
-  "inProgress": [
-    "Package F foundation: spec and reference screens into docs, semantic color tokens light/dark, IBM Plex Sans Arabic, AppShell (desktop SideNav, phone BottomTabBar with center Sell, POS rail), shared UI components; no money/RPC/permission/migration changes"
-  ],
+  "inProgress": [],
   "notStarted": [
-    "Package F",
+    "Remaining Package F screens pending visual review and owner approval",
     "Phase 7"
   ],
-  "filesTouched": [],
-  "testsPassed": [],
-  "testsRemaining": [],
+  "filesTouched": [
+    "docs/agent/PHASE_STATUS.md",
+    "docs/agent/PROJECT_OVERVIEW.md",
+    "docs/agent/project-state.json",
+    "src/components/ui/Controls.tsx",
+    "src/components/ui/DataDisplay.tsx",
+    "src/components/ui/index.ts",
+    "src/features/dashboard/DashboardView.tsx",
+    "src/index.css",
+    "src/services/supabase/dashboard.service.ts",
+    "src/types/dashboard.ts",
+    "tests/app-store-boundaries-characterization.test.ts",
+    "tests/dashboard-home.test.ts",
+    "tests/light-theme-contract.test.ts",
+    "docs/design/package-f/HOME_MIGRATION.md",
+    "e2e/package-f-home-harness.html",
+    "e2e/package-f-home-harness.tsx",
+    "e2e/package-f-home.fixture.ts",
+    "e2e/package-f-home.spec.ts",
+    "src/components/ui/SalesBarChart.tsx",
+    "src/features/dashboard/DashboardHome.tsx",
+    "tests/package-f-home.test.ts"
+  ],
+  "testsPassed": [
+    "Full quality exit0:753 Admin,189 Customer,301 browser PASS;59 existing conditional skips;retries0",
+    "Home18/18 Chromium/WebKit:axe,390/820/1440,text containment,44px targets,unavailable,real adapter refresh",
+    "Network isolation:external/Production escaped0;001-134 and shell unchanged"
+  ],
+  "testsRemaining": [
+    "Push Home commit and verify exact-SHA CI",
+    "Claude visual review and owner approval before next screen"
+  ],
   "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production/deploy/F/Phase7/automations",
-    "Documentation only;no code/tests/migrations changes;001-134 immutable/no135",
-    "No F implementation;Claude foundation/specifications pending;no startup package execution",
+    "No Production/deploy/Phase7/automations",
+    "Home only;no RPC/payload/grants/DB/migration changes;001-134 immutable/no135",
+    "No next screen before Claude visual review and owner approval;preserve shell",
     ".claude/launch.json:preserve unchanged/unstaged;no .gitignore edit"
   ],
-  "nextExactAction": "Package F foundation F1-F3 done (58093a0, aac87fc, cf83bc3; exact-SHA CI green). Codex: start a PACKAGE_F task and migrate Home (DashboardView) first per docs/design/package-f/PACKAGE_F_DESIGN_SPEC.md sections 6.1, 8, 9, using src/components/ui and --nw tokens; one screen per commit with quality, Gitleaks0, exact-SHA CI; Claude visually checks each screen. No money/RPC/permission/migration changes; no Production/deploy.",
-  "workingTreeFingerprint": "4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945",
-  "checkpointedAt": "2026-10-08T20:56:32.828Z",
-  "startedAt": "2026-10-08T16:33:34.230Z"
+  "nextExactAction": "Commit/push verified Home candidate, verify exact-SHA CI; then wait for Claude visual review and owner approval before the next screen.",
+  "workingTreeFingerprint": "0F584F54EB3F8EC765413A6CC4943CA28DE8D81CCE8C4EE23F2EA3F3579FC8C6",
+  "checkpointedAt": "2026-10-08T22:34:12.188Z",
+  "startedAt": "2026-10-08T22:04:02.501Z"
 }
