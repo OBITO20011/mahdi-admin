@@ -229,14 +229,14 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
   return (
     <div
       dir="rtl"
-      className="min-h-[100dvh] bg-slate-950 text-slate-100 flex flex-col items-center justify-center p-0 md:p-4 font-sans overflow-x-hidden"
+      className="min-h-[100dvh] bg-slate-950 text-slate-100 flex flex-col items-center justify-center p-0 md:p-4 lg:p-0 font-sans overflow-x-hidden"
     >
       {/* Main Device Outer Housing */}
       <div
         className={`relative transition-all duration-300 ${
           isFrameMode
             ? 'w-full max-w-[420px] h-[880px] rounded-[54px] border-[10px] border-slate-800 bg-slate-900 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] p-0 overflow-hidden ring-1 ring-slate-700'
-            : 'w-full h-[100dvh] bg-slate-900 overflow-hidden md:max-w-[1600px] md:h-[calc(100dvh-2rem)] md:rounded-3xl md:border md:border-slate-800 md:shadow-2xl'
+            : 'w-full h-[100dvh] bg-slate-900 overflow-hidden md:max-w-[1600px] md:h-[calc(100dvh-2rem)] md:rounded-3xl md:border md:border-slate-800 md:shadow-2xl lg:max-w-none lg:h-[100dvh] lg:rounded-none lg:border-0 lg:shadow-none'
         }`}
         style={
           isFrameMode

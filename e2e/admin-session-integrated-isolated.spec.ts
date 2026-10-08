@@ -1,4 +1,5 @@
 import {expect, test, type BrowserContext, type Page} from './isolated-test';
+import {anyShellTab, shellTab} from './admin-shell-navigation';
 
 const baseUrl = process.env.ADMIN_SESSION_E2E_BASE_URL;
 const email = process.env.ADMIN_SESSION_E2E_EMAIL;
@@ -38,7 +39,7 @@ const loginWithIsolatedUser = async (page: Page) => {
 };
 
 const openProfileSecurity = async (page: Page) => {
-  await page.locator('[data-bottom-tab="more"]').click();
+  await shellTab(page, 'more').click();
   await page.getByRole('button', {name: /الإدارة والمتجر/}).click();
   await page.locator('[data-navigation-id="profile-summary"]').click();
   const profileModal = page.locator('.fixed.inset-0.z-50');
@@ -107,21 +108,21 @@ test.describe('isolated integrated Admin session security', () => {
     await page.getByRole('button', {name: 'تسجيل الدخول', exact: true}).click();
     await expect(page.locator('main')).toBeVisible({timeout: 60_000});
 
-    await page.locator('[data-bottom-tab="orders"]').click();
-    await expect(page.locator('[data-bottom-tab="orders"]')).toHaveAttribute('aria-current', 'page');
-    await page.locator('[data-bottom-tab="home"]').click();
+    await shellTab(page, 'orders').click();
+    await expect(shellTab(page, 'orders')).toHaveAttribute('aria-current', 'page');
+    await shellTab(page, 'home').click();
     const beforeLock = await readSecuritySnapshot(page);
     expect(beforeLock).not.toBeNull();
 
     await ageSession(page, idleLockMs + 1);
     const expired = await readSecuritySnapshot(page);
-    const ordersTab = page.locator('[data-bottom-tab="orders"]');
+    const ordersTab = shellTab(page, 'orders');
     const box = await ordersTab.boundingBox();
     if (!box) throw new Error('The protected navigation action is missing.');
     await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
     await expect(page.getByRole('heading', {name: 'الدخول بكلمة المرور'})).toBeVisible();
     await expect(page.locator('main')).toHaveCount(0);
-    await expect(page.locator('[data-bottom-tab="orders"]')).toHaveCount(0);
+    await expect(anyShellTab(page, 'orders')).toHaveCount(0);
     expect((await readSecuritySnapshot(page))?.lastActivityAt).toBe(expired?.lastActivityAt);
 
     await unlock(page, 'wrong-isolated-password');
@@ -138,7 +139,7 @@ test.describe('isolated integrated Admin session security', () => {
     await otherTab.goto(baseUrl!);
     await expect(otherTab.locator('main')).toBeVisible({timeout: 60_000});
     await ageSession(page, idleLockMs - 1_000);
-    await page.locator('[data-bottom-tab="home"]').click();
+    await shellTab(page, 'home').click();
     await expect.poll(async () =>
       (await readSecuritySnapshot(otherTab))?.lastActivityAt,
     ).toBe((await readSecuritySnapshot(page))?.lastActivityAt);
@@ -152,7 +153,7 @@ test.describe('isolated integrated Admin session security', () => {
 
     await unlock(page, password!);
     await expect(page.locator('main')).toBeVisible({timeout: 60_000});
-    await page.locator('[data-bottom-tab="more"]').click();
+    await shellTab(page, 'more').click();
     await page.getByRole('button', {name: 'تسجيل الخروج', exact: true}).click();
     await expect(page.getByText('تسجيل الدخول للنظام')).toBeVisible({timeout: 30_000});
     await page.reload();

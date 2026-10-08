@@ -15,6 +15,7 @@ import { IPhoneContainer } from './components/layout/IPhoneContainer';
 import { Header } from './components/common/Header';
 import { BottomTabs } from './components/layout/BottomTabs';
 import { QuickActionButton } from './components/layout/QuickActionButton';
+import { SideNav } from './components/layout/SideNav';
 import { BotMessageSquare, Building2, Loader2 } from 'lucide-react';
 import { AppErrorBoundary } from './components/common/AppErrorBoundary';
 
@@ -222,6 +223,10 @@ export const App: React.FC = () => {
   // 3. Authenticated -> Full Application Interface
   return (
     <IPhoneContainer>
+      {/* Desktop: side navigation (POS collapses it to an icon rail). Phone: bottom tabs. */}
+      <div className="flex h-full min-h-0 w-full">
+      <SideNav collapsed={activeTab === 'pos'} />
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col">
       {/* Top Header Bar */}
       <Header />
 
@@ -234,6 +239,8 @@ export const App: React.FC = () => {
         </AppErrorBoundary>
       </main>
 
+      {/* Phone-only chrome: the desktop SideNav carries these destinations and shortcuts. */}
+      <div className="contents lg:hidden">
       {/* Reserved action dock keeps floating shortcuts clear of content and tabs. */}
       <div
         data-navigation-action-dock
@@ -257,6 +264,9 @@ export const App: React.FC = () => {
 
       {/* Bottom iOS Navigation Bar */}
       <BottomTabs />
+      </div>
+      </div>
+      </div>
 
       {/* All Modal Sheets Dispatcher */}
       {currentModal && (

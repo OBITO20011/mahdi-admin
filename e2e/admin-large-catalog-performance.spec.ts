@@ -1,4 +1,5 @@
 import {expect, test, type BrowserContext, type Page, type Route} from './isolated-test';
+import {openShellDestination, shellTab} from './admin-shell-navigation';
 
 const baseUrl = process.env.ADMIN_LARGE_CATALOG_BASE_URL;
 const email = process.env.ADMIN_LARGE_CATALOG_EMAIL;
@@ -28,17 +29,8 @@ const installTurnstileShim = async (context: BrowserContext) => {
   );
 };
 
-const openMoreDestination = async (
-  page: Page,
-  groupId: string,
-  destinationId: string,
-) => {
-  await page.locator('[data-bottom-tab="more"]').click();
-  const group = page.locator(`[data-navigation-group="${groupId}"]`);
-  const trigger = group.locator('button').first();
-  if ((await trigger.getAttribute('aria-expanded')) !== 'true') await trigger.click();
-  await page.locator(`[data-navigation-id="${destinationId}"]`).click();
-};
+const openMoreDestination = (page: Page, groupId: string, destinationId: string) =>
+  openShellDestination(page, groupId, destinationId);
 
 test.describe('isolated Admin 5k catalog performance', () => {
   test.skip(!enabled, 'Run through the isolated large-catalog runner.');
@@ -96,7 +88,7 @@ test.describe('isolated Admin 5k catalog performance', () => {
       .toHaveCount(0);
 
     const inventoryStartedAt = Date.now();
-    await page.locator('[data-bottom-tab="inventory"]').click();
+    await shellTab(page, 'inventory').click();
     await expect(page.locator('[data-inventory-product-card]')).toHaveCount(24, {timeout: 30_000});
     const inventoryMs = Date.now() - inventoryStartedAt;
     const inventoryDomNodes = await page.locator('*').count();
