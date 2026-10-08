@@ -14,7 +14,7 @@
     "6"
   ],
   "phase4Closed": true,
-  "currentPhase": null,
+  "currentPhase": "PACKAGE_F",
   "phase6Closed": true,
   "phase6ClosureBaseline": "5aaeab11e13c2be454af677ee176f77aa2d9cde4",
   "phase6ClosureExactShaCi": "PASS",
@@ -33,7 +33,7 @@
   "packageEClosureExactShaCi": "PASS",
   "packageEClosureCiRuns": {"codeQuality": 37786962873, "secretScanning": 37786962944},
   "packageFPlanningAllowed": false,
-  "packageFImplementationAllowed": false,
+  "packageFImplementationAllowed": true,
   "packageFStarted": false,
   "startupPackageStarted": false,
   "packageDLocalVerification": "FINAL_CORRECTION_BEFORE_AFTER_SQL132_AND_FULL_QUALITY_PASS",

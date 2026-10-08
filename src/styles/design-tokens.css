@@ -1,0 +1,116 @@
+/*
+ * Package F design tokens — the single source for admin colours.
+ * Spec: docs/design/package-f/PACKAGE_F_DESIGN_SPEC.md §1.
+ * Light values live on :root, dark values on html.theme-dark.
+ * Screens use the semantic utilities (bg-nw-surface, text-nw-muted, …),
+ * never raw slate/blue colours.
+ */
+
+:root {
+  --nw-bg: #f4f6f9;
+  --nw-surface: #ffffff;
+  --nw-surface-2: #f7f9fc;
+  --nw-border: #e3e8ef;
+  --nw-track: #eef1f5;
+  --nw-text: #0f1b2d;
+  --nw-muted: #55657a;
+  --nw-primary: #13294b;
+  --nw-on-primary: #ffffff;
+  --nw-accent: #e2731f;
+  --nw-on-accent: #1b1004;
+  --nw-side: #13294b;
+  --nw-side-text: #ffffff;
+  --nw-side-muted: #a9b8cf;
+  --nw-side-active: #ffffff;
+  --nw-side-active-text: #13294b;
+  --nw-side-border: #2a4170;
+  --nw-hero: #13294b;
+  --nw-sel-row: #fff6ee;
+  --nw-chart-bar: #13294b;
+  --nw-ok: #0f6b3d;
+  --nw-ok-bg: #e3f4ea;
+  --nw-warn: #8a5300;
+  --nw-warn-bg: #fdf0d9;
+  --nw-bad: #b42318;
+  --nw-bad-bg: #fde7e5;
+  --nw-info: #1d4ed8;
+  --nw-info-bg: #e3ecfd;
+  --nw-mute: #3b4a5e;
+  --nw-mute-bg: #eef1f5;
+  --nw-tab-active-bg: #e8edf5;
+}
+
+html.theme-dark {
+  --nw-bg: #0b1220;
+  --nw-surface: #121b2e;
+  --nw-surface-2: #0f172a;
+  --nw-border: #22304a;
+  --nw-track: #22304a;
+  --nw-text: #e6ebf2;
+  --nw-muted: #9aa8bc;
+  --nw-primary: #f08a3c;
+  --nw-on-primary: #1b1004;
+  --nw-accent: #e2731f;
+  --nw-on-accent: #1b1004;
+  --nw-side: #080e1a;
+  --nw-side-text: #e6ebf2;
+  --nw-side-muted: #8a99ae;
+  --nw-side-active: #1c2942;
+  --nw-side-active-text: #ffffff;
+  --nw-side-border: #22304a;
+  --nw-hero: #16243f;
+  --nw-sel-row: #1a2640;
+  --nw-chart-bar: #3a4d6e;
+  --nw-ok: #5dd39e;
+  --nw-ok-bg: #0e2e20;
+  --nw-warn: #f5b95c;
+  --nw-warn-bg: #33240a;
+  --nw-bad: #ff8f86;
+  --nw-bad-bg: #3a1515;
+  --nw-info: #8fb4ff;
+  --nw-info-bg: #14264a;
+  --nw-mute: #b8c4d6;
+  --nw-mute-bg: #1c2942;
+  --nw-tab-active-bg: #1c2942;
+}
+
+@theme inline {
+  --font-sans: "IBM Plex Sans Arabic", system-ui, sans-serif;
+
+  --color-nw-bg: var(--nw-bg);
+  --color-nw-surface: var(--nw-surface);
+  --color-nw-surface-2: var(--nw-surface-2);
+  --color-nw-border: var(--nw-border);
+  --color-nw-track: var(--nw-track);
+  --color-nw-text: var(--nw-text);
+  --color-nw-muted: var(--nw-muted);
+  --color-nw-primary: var(--nw-primary);
+  --color-nw-on-primary: var(--nw-on-primary);
+  --color-nw-accent: var(--nw-accent);
+  --color-nw-on-accent: var(--nw-on-accent);
+  --color-nw-side: var(--nw-side);
+  --color-nw-side-text: var(--nw-side-text);
+  --color-nw-side-muted: var(--nw-side-muted);
+  --color-nw-side-active: var(--nw-side-active);
+  --color-nw-side-active-text: var(--nw-side-active-text);
+  --color-nw-side-border: var(--nw-side-border);
+  --color-nw-hero: var(--nw-hero);
+  --color-nw-sel-row: var(--nw-sel-row);
+  --color-nw-chart-bar: var(--nw-chart-bar);
+  --color-nw-ok: var(--nw-ok);
+  --color-nw-ok-bg: var(--nw-ok-bg);
+  --color-nw-warn: var(--nw-warn);
+  --color-nw-warn-bg: var(--nw-warn-bg);
+  --color-nw-bad: var(--nw-bad);
+  --color-nw-bad-bg: var(--nw-bad-bg);
+  --color-nw-info: var(--nw-info);
+  --color-nw-info-bg: var(--nw-info-bg);
+  --color-nw-mute: var(--nw-mute);
+  --color-nw-mute-bg: var(--nw-mute-bg);
+  --color-nw-tab-active-bg: var(--nw-tab-active-bg);
+}
+
+/* Money and quantities line up in tables and KPI cards. */
+.nw-num {
+  font-variant-numeric: tabular-nums;
+}

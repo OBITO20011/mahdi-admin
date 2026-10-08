@@ -135,3 +135,16 @@ verification=false; monthly/daily remain strict and p95>3s stops for review.
 
 - Planned Phase 5 scope is reversal, operational accounting integration, reports/profit/payment reconciliation.
 - Double-entry General Ledger and Balance Sheet are optional/deferred, not required to close the core project.
+
+### Package F admin redesign (owner approved 2026-10-08)
+
+The owner approved the 14-screen design and Package F scope ("معتمد"):
+tokens/self-hosted IBM Plex Sans Arabic/light+dark, desktop SideNav, phone
+BottomTabBar with a centre Sell button (Customers moves to More), screens
+Home/Orders/POS/Inventory/Cash/Customers plus a read-only debt-aging reader,
+remaining screens on the same components. Deferred after handover: in-admin
+notification centre with routing matrix and customer WhatsApp reminders.
+Spec and reference screens: docs/design/package-f/. The owner authorized
+Claude to build and commit/push the foundation (F1–F3) after full quality,
+Gitleaks0 and exact-SHA CI; screen migration follows by Codex. No money,
+RPC, permission or migration change is part of the foundation.
