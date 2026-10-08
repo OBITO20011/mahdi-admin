@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import test from 'node:test';
 
 const read = (path: string) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
@@ -109,7 +109,11 @@ test('owner-closed Phases 4-6 and Package D preserve owner-approved Package E au
   assert.equal(state.nextPermittedPhase, null);
   assert.equal(state.phase43Started, true);
   assert.equal(state.phase44Started, true);
-  assert.equal(state.migrationCeiling, 133);
+  const migrationNumbers = readdirSync(new URL('../supabase/migrations/', import.meta.url), {withFileTypes: true})
+    .filter(entry => entry.isFile() && /^\d{3}_.*\.sql$/u.test(entry.name))
+    .map(entry => Number(entry.name.slice(0, 3)));
+  assert.ok(migrationNumbers.length > 0, 'Migration inventory must not be empty');
+  assert.equal(state.migrationCeiling, Math.max(...migrationNumbers));
   assert.equal(state.phase5Slice3ImplementationStarted, true);
   assert.equal(state.phase5Slice3Closed, true);
   assert.equal(state.phase5Slice4Started, true);

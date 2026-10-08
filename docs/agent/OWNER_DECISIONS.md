@@ -1,5 +1,23 @@
 # Approved owner decisions
 
+## Package E read performance — 2026-10-08
+
+تحقق أدلة المرتجعات والاستبدالات إلزامي عند الكتابة؛ القراءات (الرئيسية والتقارير والملخصات) بدون إعادة تحقق؛ بديل الأمان فحص مراقبة يومي لآخر 7 أيام مع تنبيه Telegram وشريط تحذير في التقارير.
+
+134 explicitly redefines report/summary readers with `p_verify_evidence=false`;
+write validation in121/122/132, equations and privileges remain unchanged.
+The existing monitoring scanner/incident/Telegram pipeline owns the strict
+seven-day check; report JSON remains unchanged and the report UI reads the
+existing monitoring dashboard (unavailable access fails closed to a warning).
+Missing, failed or older-than24h checks warn. Full-history verification is a
+manual Phase7 rehearsal requirement, not authorized to execute now.
+Final E2 stress performance is owner-accepted on 2026-10-08: home p95=2.367605s,
+monthly report=4.085672s and daily report=3.461212s on150k orders with5000 modern
+Returns concentrated in one day. Measured threshold misses remain documented;
+no further reader optimization or changes to131/the facts reader are authorized now.
+One deferred improvement, with targets and JSON-parity protection, is recorded in
+`POST_DELIVERY.md`. Final golden day, quality, Gitleaks0 and exact-SHA CI precede E3.
+
 These are business decisions, not implementation suggestions.
 
 ## Commerce vocabulary

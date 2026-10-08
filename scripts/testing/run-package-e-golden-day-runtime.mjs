@@ -5,6 +5,8 @@ import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {promisify} from 'node:util';
 import {GoldenDayLedger, ReconciliationMismatch, decimalMicro, equalFact, roundedMinor} from './package-e-reconciliation.mjs';
+import {homeParity} from './package-e-home-parity.mjs';
+import {reportParity} from './package-e-report-parity.mjs';
 
 const exec = promisify(execFile);
 const root = path.resolve(import.meta.dirname, '../..');
@@ -20,7 +22,7 @@ const j = value => `${q(JSON.stringify(value))}::jsonb`;
 const today = "(NOW() AT TIME ZONE 'Asia/Amman')::date";
 const ledger = new GoldenDayLedger(200000);
 const milestones = [];
-let workdir, shiftId, stage = 'fresh bootstrap', mismatchDetails;
+let workdir, shiftId, stage = 'fresh bootstrap', mismatchDetails, current134=false;
 
 const sql = text => new Promise((resolve, reject) => {
   const child = spawn('docker', ['exec', '-i', container, 'psql', '-U', 'postgres', '-d', 'postgres',
@@ -51,9 +53,10 @@ const purchaseLine = (productId, quantity, cost, poItemId = null) => ({client_li
 async function monitor() {
   await json('SELECT public.run_advanced_monitoring_checks(NOW());');
   const checks = await json("SELECT jsonb_agg(jsonb_build_object('key',check_key,'status',status,'issues',issue_count,'details',details) ORDER BY check_key) FROM advanced_monitoring_checks WHERE check_key LIKE 'integrity:%';");
-  const source = await readFile(path.join(root, 'supabase/migrations/130_phase5_review_followup_shift_refund_guards.sql'), 'utf8');
+  const source = await readFile(path.join(root, 'supabase/migrations',
+    current134?'134_package_e_read_performance.sql':'130_phase5_review_followup_shift_refund_guards.sql'), 'utf8');
   const expectedKeys = [...new Set([...source.matchAll(/_set_advanced_monitoring_check\('([^']*integrity:[^']+)'/gu)].map(match => match[1]))].sort();
-  assert.equal(expectedKeys.length, 13, 'Migration130 defines thirteen integrity checks; none may disappear');
+  assert.equal(expectedKeys.length,current134?14:13,'Every approved integrity check must remain present');
   assert.deepEqual(checks.map(item => item.key), expectedKeys, 'Missing integrity check is not a healthy result');
   for (const item of checks) {
     if (item.issues && item.key === 'integrity:accounting:supplier-balances') {
@@ -230,6 +233,58 @@ async function fingerprint() {
     'phase42_return_inventory_effects','phase43_replacement_settlement_evidence','phase43_replacement_inventory_effects'];
   return json(`SELECT jsonb_build_object(${tables.map(table => `${q(table)},
     (SELECT md5(COALESCE(string_agg(to_jsonb(t)::text,'|' ORDER BY to_jsonb(t)::text),'')) FROM public.${table} t)`).join(',')});`);
+}
+
+async function monitorAftercareCorruption() {
+  const before=await fingerprint();
+  await json('SELECT public.run_advanced_monitoring_checks(NOW());');
+  const healthy=await json("SELECT to_jsonb(c) FROM advanced_monitoring_checks c WHERE check_key='integrity:aftercare:durable-evidence';");
+  assert.equal(healthy.status,'healthy');assert.equal(healthy.issue_count,0);
+  assert.ok(healthy.details.returnsChecked>0 && healthy.details.replacementsChecked>0);
+  const probe=await json(`BEGIN;
+    SELECT set_config('request.jwt.claims','{"sub":"${owner}","role":"authenticated","aal":"aal2"}',true);
+    CREATE TEMP TABLE e2_corruption_report ON COMMIT DROP AS
+      SELECT public.get_operational_business_report(${q(branch)},${today},${today}) AS result;
+    GRANT SELECT ON e2_corruption_report TO authenticated;
+    ALTER TABLE phase42_return_inventory_effects DISABLE TRIGGER trg_phase42_guard_inventory_effect_history;
+    UPDATE phase42_return_inventory_effects SET sellable_quantity=sellable_quantity+1
+      WHERE id=(SELECT id FROM phase42_return_inventory_effects ORDER BY id LIMIT 1);
+    SELECT public.run_advanced_monitoring_checks(NOW());
+    DO $$ BEGIN
+      IF NOT EXISTS(SELECT 1 FROM advanced_monitoring_checks
+        WHERE check_key='integrity:aftercare:durable-evidence' AND status='critical'
+          AND severity='critical' AND issue_count>0) THEN
+        RAISE EXCEPTION 'E2_CORRUPTION_NOT_CRITICAL';
+      END IF;
+      IF NOT EXISTS(SELECT 1 FROM automation_events
+        WHERE event_type='business_integrity_warning' AND payload->>'state'='open') THEN
+        RAISE EXCEPTION 'E2_CORRUPTION_ALERT_NOT_QUEUED';
+      END IF;
+    END $$;
+    SELECT set_config('request.jwt.claims','{"sub":"${owner}","role":"authenticated","aal":"aal2"}',true);
+    SET LOCAL ROLE authenticated;
+    DO $$ BEGIN
+      IF public.get_operational_business_report(${q(branch)},${today},${today})::text
+        IS DISTINCT FROM (SELECT result::text FROM e2_corruption_report) THEN
+        RAISE EXCEPTION 'E2_CORRUPTION_CHANGED_FINANCIAL_JSON';
+      END IF;
+    END $$;
+    SELECT jsonb_build_object('dashboard',public.get_advanced_monitoring_dashboard(),
+      'report',public.get_operational_business_report(${q(branch)},${today},${today}));
+    ROLLBACK;`);
+  const check=probe.dashboard.checks.find(c=>c.key==='integrity:aftercare:durable-evidence');
+  assert.equal(check.status,'critical');assert.ok(check.issueCount>0);
+  assert.equal(probe.report.sales.netSalesInMinorUnits,ledger.sales.netSalesInMinorUnits);
+  // Eight days after the fixture, the dedicated window contains no operations.
+  const outside=await json(`BEGIN;SELECT public.run_advanced_monitoring_checks(NOW()+INTERVAL '8 days');
+    SELECT to_jsonb(c) FROM advanced_monitoring_checks c WHERE check_key='integrity:aftercare:durable-evidence';
+    ROLLBACK;`);
+  assert.equal(outside.status,'healthy');assert.equal(outside.details.returnsChecked,0);
+  assert.equal(outside.details.replacementsChecked,0);
+  assert.deepEqual(await fingerprint(),before,'Corruption/probes roll back every business row and trigger');
+  console.log(JSON.stringify({stage,healthy:true,corruptionCritical:true,alertQueued:true,
+    dashboardWarningEvidence:check,financialJsonPreserved:true,sevenDayWindow:true,rollback:true,
+    externalNotificationsSent:0}));
 }
 
 try {
@@ -434,7 +489,18 @@ try {
   check('closing.sales.netSalesInMinorUnits',ledger.sales.netSalesInMinorUnits,closed.sales.netSalesInMinorUnits);
   assert.deepEqual(await ownerRpc(`get_cash_shift_closing_report(${q(shiftId)})`),closed,'Closed report is immutable');
   await verifyFinancial('closed shift, final reports and integrity');
-  console.log(JSON.stringify({ok:true,freshRebuild:'001-133',migration132:hash,migration133:supplierHash,stage,
+  // Permanent CI gate: old133 truth and current134 must match, then monitor corruption.
+  {
+    stage='golden day literal home parity133/134 plus unavailable';
+    await homeParity({sql,root,owner,label:'golden-day'});
+    await reportParity({sql,root,owner,branch,label:'golden-day'});
+    await sql(await readFile(path.join(root,'supabase/migrations/134_package_e_read_performance.sql'),'utf8'));
+    current134=true;
+    await verifyFinancial('134 final reports and all fourteen integrity checks');
+    stage='134 recent evidence monitoring and rollback-only corruption';
+    await monitorAftercareCorruption();
+  }
+  console.log(JSON.stringify({ok:true,freshRebuild:'001-134',migration132:hash,migration133:supplierHash,stage,
     goldenDay:{sales:ledger.sales,cashFlow:ledger.flows,drawer:ledger.drawer,
       suppliers:{due:supplierDue(),advances:supplierAdvances(),balances:Object.fromEntries(ledger.suppliers)},inventory:Object.fromEntries(
       [...ledger.inventory].map(([key,value]) => [key,{quantity:value.quantity,wac:key===cancelProduct?null:decimalMicro(value.costMicro),

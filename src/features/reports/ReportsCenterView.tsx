@@ -25,6 +25,9 @@ import {
   useAppStoreSelector,
 } from '../../stores/useAppStore';
 import type { OperationalBusinessReport } from '../../types';
+import type {MonitoringDashboard} from '../../types/monitoring';
+import {getMonitoringDashboard} from '../../services/supabase/monitoring.service';
+import {aftercareIntegrityWarning} from '../../utils/aftercareIntegrity';
 
 const pad = (value: number) => String(value).padStart(2, '0');
 const localDateValue = (value: Date) =>
@@ -104,6 +107,14 @@ export const ReportsCenterView: React.FC = () => {
   const [report, setReport] = useState<OperationalBusinessReport | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [integrity, setIntegrity] = useState<MonitoringDashboard | null>(null);
+  const [integrityNow, setIntegrityNow] = useState(Date.now);
+  const integrityWarning = aftercareIntegrityWarning(integrity, integrityNow);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setIntegrityNow(Date.now()), 60_000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   const loadReport = useCallback(async () => {
     if (!activeBranch.id) return;
@@ -115,11 +126,12 @@ export const ReportsCenterView: React.FC = () => {
     setIsLoading(true);
     setError('');
     try {
-      const nextReport = await fetchOperationalBusinessReportFromSupabase(
-        activeBranch.id,
-        dateFrom,
-        dateTo
-      );
+      const [nextReport, monitoring] = await Promise.all([
+        fetchOperationalBusinessReportFromSupabase(activeBranch.id, dateFrom, dateTo),
+        getMonitoringDashboard().catch(() => null),
+      ]);
+      setIntegrity(monitoring);
+      setIntegrityNow(Date.now());
       setReport(nextReport);
     } catch (loadError) {
       setReport(null);
@@ -285,6 +297,12 @@ export const ReportsCenterView: React.FC = () => {
 
       {report && (
         <main className="operational-report-print space-y-4" dir="rtl">
+          {integrityWarning && (
+            <div role="alert" data-testid="aftercare-integrity-warning"
+              className="rounded-xl border border-amber-500/40 bg-amber-950/30 p-3 text-sm text-amber-200">
+              {integrityWarning}
+            </div>
+          )}
           <header className="print-section rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 p-4">
             <div className="flex items-start justify-between gap-3">
               <div>

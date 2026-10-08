@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "IDLE",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Verify quality-container exact-SHA CI and duration, then134/E2",
-  "baselineSha": "0f8406588dd815f87a0df42294d4d6634a4ea0b7",
+  "objective": "134 report read performance + seven-day integrity monitoring/warning; JSON parity, complete E2, then E3",
+  "baselineSha": "366bcd72de7e5f3ebcca676343f3586821f461ca",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_E",
@@ -11,28 +11,61 @@
     "133 DB before21/after41 +3 historical policy PASS; product field invariance; DB lint16 compatibility warnings;697 unit/4 browser PASS"
   ],
   "inProgress": [
-    "Verify quality-container exact-SHA CI and duration, then134/E2"
+    "E2 final gates green locally;Gitleaks/stage/commit/push/exact-SHA CI pending before E3"
   ],
   "notStarted": [
-    "134/E2;E3;Package F",
+    "E3;Package F",
     "Phase 7"
   ],
   "filesTouched": [
-    ".github/workflows/quality.yml",
-    "docs/agent/PACKAGE_E_133_CORRECTION.md"
+    "docs/agent/OWNER_DECISIONS.md",
+    "docs/agent/PACKAGE_E_133_CORRECTION.md",
+    "docs/agent/PHASE_STATUS.md",
+    "docs/agent/PROJECT_OVERVIEW.md",
+    "docs/agent/project-state.json",
+    "e2e/phase6-package-a.spec.ts",
+    "package.json",
+    "scripts/agent/lib.mjs",
+    "scripts/agent/preflight.mjs",
+    "scripts/testing/run-package-e-golden-day-runtime.mjs",
+    "src/features/reports/ReportsCenterView.tsx",
+    "tests/agent-continuity.test.ts",
+    "tests/phase5-operational-fixes.test.ts",
+    ".claude/launch.json",
+    "docs/agent/PACKAGE_E_SCALE_REPORT.md",
+    "docs/agent/POST_DELIVERY.md",
+    "scripts/testing/package-e-home-parity.mjs",
+    "scripts/testing/package-e-report-parity.mjs",
+    "scripts/testing/package-e-scale-contract.mjs",
+    "scripts/testing/package-e-scale-fixture.sql",
+    "scripts/testing/run-package-e-scale-runtime.mjs",
+    "src/utils/aftercareIntegrity.ts",
+    "supabase/migrations/134_package_e_read_performance.sql",
+    "tests/package-e-aftercare-integrity.test.ts",
+    "tests/package-e-read-performance.test.ts",
+    "tests/package-e-scale.test.ts"
   ],
-  "testsPassed": [],
-  "testsRemaining": [],
+  "testsPassed": [
+    "366bcd72 exact-SHA quality37693695537 15/15 +secrets37693695456PASS;quality13m04s;267 browser/59existing skips/no flaky;Gitleaks0;guard6/6;continuity11/11;typecheck/ESLintPASS",
+    "Focused18/18;TypeScript/strictESLint/diffPASS;browserChromium/WebKit2/2;monitor corruptionCRITICAL/queuedalert/rollback PASS;no externalnotifications",
+    "Golden/FULL home+month/day/summary literalJSON PASS;FULL16paths14PASS/2SLOW owneraccepted",
+    "Final golden001-134PASS;14integrity healthy;full corruption JSON unchanged;CRITICAL/queuedalert/7daywindow/rollbackPASS;replay/read zero-write;external sends0",
+    "Ceiling correction16/16;qualityPASS:732Admin/189Customer/269browser,59existing conditional skips,retries0;strict ESLintPASS;external/Production escaped0"
+  ],
+  "testsRemaining": [
+    "Gitleaks0;commit/push/exactCI;then E3"
+  ],
   "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "Production/deploy",
-    "001-133 immutable;134 after corrected CI green;only quality job container/version guard may change;other CI jobs unchanged",
-    "No F/Phase7,automations;stop policy gap or monthly/daily p95>3s"
+    ".claude/launch.json owner-approved preview config: do not modify/delete/stage;no .gitignore change",
+    "001-133 immutable;134 explicit readers/monitor only;no grants/writers/permanentsettings;baseline capture only15min if60stimeout;bench60s;extraindex needsEXPLAINproof",
+    "No F/Phase7/automations;no further reader optimization;no131/facts edits;stop test/CI failure,JSONdifference or unexpected evidence"
   ],
-  "nextExactAction": "Push authorized safe.directory quality-only follow-up;verify full exact-SHA CI and duration before134/E2",
-  "workingTreeFingerprint": "F29E46B357B3227A53F0FF18DB4CBD7DEC96AF8F14221F28C3277517A589B34D",
-  "checkpointedAt": "2026-10-07T22:03:41.064Z",
-  "startedAt": "2026-10-07T22:00:17.427Z"
+  "nextExactAction": "Local golden and quality PASS;explicit stage,Gitleaks0,commit/push/exactCI then E3",
+  "workingTreeFingerprint": "A494173C5471BF65992A18571C426958FE08E77CF147D6C0515505F11929DDE2",
+  "checkpointedAt": "2026-10-08T09:11:06.184Z",
+  "startedAt": "2026-10-07T22:03:49.580Z"
 }

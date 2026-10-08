@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import test from 'node:test';
 
 const migration = readFileSync(
@@ -15,7 +15,11 @@ const state = JSON.parse(readFileSync('docs/agent/project-state.json', 'utf8')) 
 test('Migration 128 is one transaction pinned by the continuity state', () => {
   assert.match(migration, /^BEGIN;/u);
   assert.match(migration, /COMMIT;\s*$/u);
-  assert.equal(state.migrationCeiling, 133);
+  const migrationNumbers = readdirSync('supabase/migrations', {withFileTypes: true})
+    .filter(entry => entry.isFile() && /^\d{3}_.*\.sql$/u.test(entry.name))
+    .map(entry => Number(entry.name.slice(0, 3)));
+  assert.ok(migrationNumbers.length > 0, 'Migration inventory must not be empty');
+  assert.equal(state.migrationCeiling, Math.max(...migrationNumbers));
   assert.equal(
     state.migration128CanonicalLfSha256,
     createHash('sha256').update(migration).digest('hex').toUpperCase(),

@@ -81,7 +81,24 @@ archived in Git at `2238b102c8935b9d60d6c25c1f6fcb0c0a4178aa`, not active contra
 Migrations 128–130 fix the operational paths. L9 source-pos rejection is owner-approved in Package D;
 L10 and legacy-only daily reporting are addressed by Phase 6 package A.
 No broad zero-findings or Production-readiness claim is implied by this closure.
-The current approved migration ceiling is133, limited to supplier consistency
-and the approved closing-sales reader. Fingerprints remain in `project-state.json`.
+The current approved migration ceiling is134:133 supplier/closing consistency,
+then134's two operation_id indexes and explicit existing home reader optimization:
+remove overwritten legacy financial calculations, reuse monthly daily facts only
+for a fully contained week, and keep the old unavailable response unchanged.
+Literal JSON parity on golden/full/unavailable is mandatory; no grants/writers
+or permanent DB-setting changes. Owner2026-10-08 now authorizes134 report/summary
+reads with evidence=false, preserving literal financial JSON. The existing
+scanner strictly checks last7days Return/Replacement evidence and queues the
+existing integrity alert; reports warn on failed/missing/>24h monitoring.
+No changes to write validation121/122/132 or monitoring/report authority.
+Full-history scan is a manual Phase7 rehearsal obligation. Owner permits
+baseline JSON capture only to use SET LOCAL15min after60s timeout in the disposable
+DB, with both readers using the same two approved indexes; all benchmarks stay60s.
+All E2 paths are measured
+before the final verdict. Owner2026-10-08 accepts the measured home2.367605s,
+monthly4.085672s and daily3.461212s on concentrated stress; no further reader
+optimization now. The single post-delivery improvement and <1s/<2s targets are
+in `POST_DELIVERY.md`. Final golden/quality/Gitleaks/commit/exact-SHA CI precede E3.
+Fingerprints remain in `project-state.json`.
 Historical migrations001–132 are immutable; feature activation remains an owner
 action in Phase7.
