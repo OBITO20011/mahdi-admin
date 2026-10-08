@@ -73,12 +73,11 @@ test('POS customer directory excludes inactive, blocked, and deleted customers',
   assert.match(migration, /c\.is_deleted = false/);
 });
 
-test('the quick sale action navigates to the real POS screen', () => {
-  const quickActions = readFileSync(
-    new URL('../src/components/layout/QuickActionButton.tsx', import.meta.url),
-    'utf8'
-  );
-
-  assert.match(quickActions, /id: 'pos-sale'[\s\S]*setActiveTab\('pos'\)/);
-  assert.doesNotMatch(quickActions, /openModal\('pos_sale'\)/);
+test('the quick sale action navigates to the real POS screen', async () => {
+  const { QUICK_ACTIONS } = await import('../src/components/layout/quickActions');
+  const quickSale = QUICK_ACTIONS.find((action) => action.id === 'pos-sale');
+  assert.deepEqual(quickSale?.action, { type: 'tab', destination: 'pos' });
+  const bottomTabs = readFileSync(new URL('../src/components/layout/BottomTabs.tsx', import.meta.url), 'utf8');
+  assert.match(bottomTabs, /{ id: 'pos', label: 'بيع', icon: Plus, centre: true }/);
+  assert.doesNotMatch(bottomTabs, /pos_sale/);
 });

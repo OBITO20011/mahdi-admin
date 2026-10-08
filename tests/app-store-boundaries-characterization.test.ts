@@ -57,10 +57,7 @@ const allModalsSource = readFileSync(
   'src/components/modals/AllModals.tsx',
   'utf8',
 );
-const quickActionsSource = readFileSync(
-  'src/components/layout/QuickActionButton.tsx',
-  'utf8',
-);
+const { QUICK_ACTIONS } = await import('../src/components/layout/quickActions');
 const dashboardSource = readFileSync(
   'src/features/dashboard/DashboardView.tsx',
   'utf8',
@@ -348,21 +345,15 @@ test('current UI entry points keep their modal names and payload shapes', () => 
 });
 
 test('Quick Actions retain their existing tab and no-payload modal behavior', () => {
-  assert.match(
-    quickActionsSource,
-    /id: 'pos-sale'[\s\S]*?setActiveTab\('pos'\)/,
-  );
-  assert.match(
-    quickActionsSource,
-    /id: 'goods-receipt'[\s\S]*?openModal\('receive_goods'\)/,
-  );
-  assert.match(
-    quickActionsSource,
-    /id: 'add-expense'[\s\S]*?openModal\('add_expense'\)/,
-  );
-  assert.match(
-    quickActionsSource,
-    /id: 'add-product'[\s\S]*?openModal\('add_product'\)/,
+  // Package F moved the shortcuts from the floating button into one shared list.
+  assert.deepEqual(
+    QUICK_ACTIONS.map(({ id, action }) => [id, action]),
+    [
+      ['pos-sale', { type: 'tab', destination: 'pos' }],
+      ['goods-receipt', { type: 'modal', destination: 'receive_goods' }],
+      ['add-expense', { type: 'modal', destination: 'add_expense' }],
+      ['add-product', { type: 'modal', destination: 'add_product' }],
+    ],
   );
 });
 

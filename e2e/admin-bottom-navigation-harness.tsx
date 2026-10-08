@@ -2,7 +2,6 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import '../src/index.css';
 import { BottomTabs } from '../src/components/layout/BottomTabs';
-import { QuickActionButton } from '../src/components/layout/QuickActionButton';
 import { AdminToast } from '../src/components/layout/AdminToast';
 import { MoreMenuView } from '../src/features/more/MoreMenuView';
 import {
@@ -18,7 +17,7 @@ import {
 declare global {
   interface Window {
     __ADMIN_BOTTOM_NAV_ACTIVE_TAB__: () => string;
-    __ADMIN_BOTTOM_NAV_QUICK_ACTION_OPEN__: () => boolean;
+    __ADMIN_BOTTOM_NAV_MODAL__: () => string | null;
   }
 }
 
@@ -59,6 +58,7 @@ storeEngine.setCurrentUser({
 const allowedStartTabs: readonly AppState['activeTab'][] = [
   'home',
   'orders',
+  'pos',
   'inventory',
   'accounts',
   'more',
@@ -72,8 +72,8 @@ if (
 
 window.__ADMIN_BOTTOM_NAV_ACTIVE_TAB__ = () =>
   storeEngine.getState().activeTab;
-window.__ADMIN_BOTTOM_NAV_QUICK_ACTION_OPEN__ = () =>
-  storeEngine.getState().isQuickActionOpen;
+window.__ADMIN_BOTTOM_NAV_MODAL__ = () =>
+  storeEngine.getState().currentModal ?? null;
 
 const BottomNavigationHarness: React.FC = () => {
   const activeTab = useAppStoreSelector((state) => state.activeTab);
@@ -103,12 +103,6 @@ const BottomNavigationHarness: React.FC = () => {
             : null
         }
       />
-      <div
-        data-navigation-action-dock
-        className="admin-action-dock relative h-16 shrink-0 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent pointer-events-none"
-      >
-        <QuickActionButton />
-      </div>
       <BottomTabs />
     </div>
   );

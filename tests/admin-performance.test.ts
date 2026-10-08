@@ -32,7 +32,7 @@ const selectorConsumers = [
   'src/components/common/Header.tsx',
   'src/components/layout/IPhoneContainer.tsx',
   'src/components/layout/BottomTabs.tsx',
-  'src/components/layout/QuickActionButton.tsx',
+  'src/components/layout/SideNav.tsx',
   'src/components/modals/AllModals.tsx',
   'src/features/dashboard/DashboardView.tsx',
   'src/features/orders/OrdersCenterView.tsx',

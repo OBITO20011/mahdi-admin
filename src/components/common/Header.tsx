@@ -9,7 +9,8 @@ import {
   useAppStoreSelector,
 } from '../../stores/useAppStore';
 import { subscribeToStockAlertChanges } from '../../services/supabase/stockAlerts.service';
-import { Building2, Bell, ChevronDown, Check } from 'lucide-react';
+import { Building2, Bell, BotMessageSquare, ChevronDown, Check } from 'lucide-react';
+import { useAuthStore } from '../../stores/useAuthStore';
 
 export const Header: React.FC = () => {
   const {
@@ -19,6 +20,7 @@ export const Header: React.FC = () => {
     currentUserName,
     currentUserRole,
     currentUserAvatarUrl,
+    activeTab,
   } = useAppStoreSelector(
     (state) => ({
       activeBranch: state.activeBranch,
@@ -27,6 +29,7 @@ export const Header: React.FC = () => {
       currentUserName: state.currentUser.name,
       currentUserRole: state.currentUser.role,
       currentUserAvatarUrl: state.currentUser.avatarUrl,
+      activeTab: state.activeTab,
     }),
     shallowEqual
   );
@@ -34,7 +37,13 @@ export const Header: React.FC = () => {
     setActiveBranch,
     refreshStockNotificationsFromSupabase,
     openModal,
+    setActiveTab,
   } = useAppStoreActions();
+  const { roleName } = useAuthStore();
+  // Same role gate as before; on desktop the SideNav carries the assistant.
+  const canUseAssistant = ['owner', 'admin', 'manager', 'accountant'].includes(
+    roleName || '',
+  );
 
   const [showBranchDropdown, setShowBranchDropdown] = useState(false);
   const unreadCount = (notifications || []).filter((n) => !n?.read).length;
@@ -138,6 +147,18 @@ export const Header: React.FC = () => {
 
       {/* Right Controls: Notifications & Profile */}
       <div className="flex shrink-0 items-center gap-1.5">
+        {/* Assistant launcher (phone): replaces the former floating button. */}
+        {canUseAssistant && activeTab !== 'assistant' && (
+          <button
+            type="button"
+            onClick={() => setActiveTab('assistant')}
+            aria-label="فتح المساعد الإداري الذكي"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-violet-500/30 bg-violet-500/10 text-violet-300 transition hover:text-white lg:hidden"
+          >
+            <BotMessageSquare className="w-4 h-4" />
+          </button>
+        )}
+
         {/* Notification Bell */}
         <button
           type="button"

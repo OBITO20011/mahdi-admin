@@ -9,7 +9,8 @@ import { VALID_ACTIVE_TABS } from '../src/stores/appStorePreferences';
 
 const app = readFileSync('src/App.tsx', 'utf8');
 const bottomTabs = readFileSync('src/components/layout/BottomTabs.tsx', 'utf8');
-const quickActions = readFileSync('src/components/layout/QuickActionButton.tsx', 'utf8');
+const quickActions = readFileSync('src/components/layout/quickActions.ts', 'utf8');
+const header = readFileSync('src/components/common/Header.tsx', 'utf8');
 const moreMenu = readFileSync('src/features/more/MoreMenuView.tsx', 'utf8');
 const allModals = readFileSync('src/components/modals/AllModals.tsx', 'utf8');
 const accountsView = readFileSync('src/features/accounts/AccountsView.tsx', 'utf8');
@@ -227,8 +228,8 @@ test('modal dispatcher, quick actions and nested feature views retain their iden
   ]) {
     assert.match(quickActions, new RegExp(`id: '${quickActionId}'`));
   }
-  assert.match(quickActions, /id: 'pos-sale'[\s\S]*setActiveTab\('pos'\)/);
-  assert.match(quickActions, /id: 'goods-receipt'[\s\S]*openModal\('receive_goods'\)/);
+  assert.match(quickActions, /id: 'pos-sale'[\s\S]*?destination: 'pos'/);
+  assert.match(quickActions, /id: 'goods-receipt'[\s\S]*?destination: 'receive_goods'/);
 
   assert.match(accountsView, /'directory' \| 'balances'/);
   assert.match(inventoryView, /'products' \| 'movements'/);
@@ -240,22 +241,31 @@ test('modal dispatcher, quick actions and nested feature views retain their iden
   assert.doesNotMatch(orderDetailModal, /returnCompletedWebsiteOrder/u);
 });
 
-test('Phase 2 BottomTabs use the approved five destinations without changing identities', () => {
+test('Package F bottom tabs: Home, Orders, centre Sell, Inventory, More; Customers via More', () => {
   for (const entry of [
     "{ id: 'home', label: 'الرئيسية'",
     "{ id: 'orders', label: 'الطلبات'",
+    "{ id: 'pos', label: 'بيع', icon: Plus, centre: true }",
     "{ id: 'inventory', label: 'المخزون'",
-    "{ id: 'accounts', label: 'العملاء والذمم'",
     "{ id: 'more', label: 'المزيد'",
   ]) {
-    assert.ok(bottomTabs.includes(entry));
+    assert.ok(bottomTabs.includes(entry), entry);
   }
-  assert.doesNotMatch(bottomTabs, /id: 'quick-action'/);
+  assert.doesNotMatch(bottomTabs, /id: 'accounts'/);
+  assert.ok(
+    ADMIN_NAVIGATION_GROUPS.flatMap((group) => group.items).some(
+      (item) => item.action.type === 'tab' && item.action.destination === 'accounts',
+    ),
+    'Customers & receivables stay reachable from More',
+  );
   assert.match(bottomTabs, /data-bottom-tab=\{tab\.id\}/);
   assert.match(bottomTabs, /aria-current=\{isActive \? 'page' : undefined\}/);
   assert.match(bottomTabs, /env\(safe-area-inset-bottom\)/);
   assert.match(bottomTabs, /min-h-14/);
-  assert.match(quickActions, /data-navigation-id="quick-action-trigger"/);
-  assert.match(quickActions, /aria-expanded=\{isQuickActionOpen\}/);
-  assert.match(quickActions, /setActiveTab\('more'\)/);
+  // The floating quick-action button is gone; its shortcuts live in More and the SideNav.
+  assert.doesNotMatch(app, /QuickActionButton|data-navigation-action-dock/);
+  assert.match(moreMenu, /SECONDARY_QUICK_ACTIONS\.map/);
+  assert.match(moreMenu, /data-navigation-id=\{quickAction\.id\}/);
+  assert.match(moreMenu, /handleNavigationAction\(quickAction\.action\)/);
+  assert.match(header, /aria-label="فتح المساعد الإداري الذكي"/);
 });

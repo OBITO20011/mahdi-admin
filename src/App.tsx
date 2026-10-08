@@ -14,9 +14,8 @@ import { LoginView } from './features/auth/LoginView';
 import { IPhoneContainer } from './components/layout/IPhoneContainer';
 import { Header } from './components/common/Header';
 import { BottomTabs } from './components/layout/BottomTabs';
-import { QuickActionButton } from './components/layout/QuickActionButton';
 import { SideNav } from './components/layout/SideNav';
-import { BotMessageSquare, Building2, Loader2 } from 'lucide-react';
+import { Building2, Loader2 } from 'lucide-react';
 import { AppErrorBoundary } from './components/common/AppErrorBoundary';
 
 const DashboardView = lazy(() =>
@@ -112,13 +111,9 @@ export const App: React.FC = () => {
   const {
     isAuthenticated,
     isLoading: isAuthLoading,
-    roleName,
     recordSessionActivity,
   } = useAuthStore();
   const mainScrollRef = useRef<HTMLElement>(null);
-  const canUseAssistant = ['owner', 'admin', 'manager', 'accountant'].includes(
-    roleName || '',
-  );
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -239,31 +234,9 @@ export const App: React.FC = () => {
         </AppErrorBoundary>
       </main>
 
-      {/* Phone-only chrome: the desktop SideNav carries these destinations and shortcuts. */}
+      {/* Phone-only bottom tabs with the centre "بيع"; desktop uses the SideNav. */}
       <div className="contents lg:hidden">
-      {/* Reserved action dock keeps floating shortcuts clear of content and tabs. */}
-      <div
-        data-navigation-action-dock
-        aria-label="اختصارات سريعة"
-        className="admin-action-dock relative z-20 h-16 shrink-0 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent pointer-events-none"
-      >
-        <QuickActionButton />
-        {canUseAssistant && activeTab !== 'assistant' && (
-          <button
-            type="button"
-            onClick={() => setActiveTab('assistant')}
-            aria-label="فتح المساعد الإداري الذكي"
-            className="admin-fab admin-fab-assistant pointer-events-auto absolute left-3 top-1 flex h-12 w-12 items-center justify-center rounded-2xl border border-violet-300/35 bg-gradient-to-br from-violet-500 to-indigo-700 text-white shadow-[0_14px_28px_-10px_rgba(139,92,246,0.95)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 hover:from-violet-400 hover:to-indigo-600 active:scale-95"
-          >
-            <BotMessageSquare className="h-5 w-5" />
-            <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-slate-950 bg-emerald-400" />
-            <span className="sr-only">اسأل مساعد الإدارة</span>
-          </button>
-        )}
-      </div>
-
-      {/* Bottom iOS Navigation Bar */}
-      <BottomTabs />
+        <BottomTabs />
       </div>
       </div>
       </div>

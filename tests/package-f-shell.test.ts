@@ -7,11 +7,13 @@ import {
   buildSideNavigation,
   isSideItemActive,
 } from '../src/components/layout/sideNavigationModel.ts';
+import { QUICK_ACTIONS, SECONDARY_QUICK_ACTIONS } from '../src/components/layout/quickActions.ts';
 
 const read = (path: string) => readFileSync(path, 'utf8');
 const app = read('src/App.tsx');
 const sideNav = read('src/components/layout/SideNav.tsx');
-const quickActions = read('src/components/layout/QuickActionButton.tsx');
+const bottomTabs = read('src/components/layout/BottomTabs.tsx');
+const header = read('src/components/common/Header.tsx');
 
 const ownerOnly = ['parcel-configuration', 'admin-users', 'admin-monitoring'];
 
@@ -46,23 +48,31 @@ test('active state follows activeTab, with dashboard treated as Home', () => {
   assert.equal(isSideItemActive(modalItem, 'home'), false);
 });
 
-test('desktop shows the SideNav (POS collapses it) while phone chrome is unchanged below lg', () => {
+test('desktop shows the SideNav (POS collapses it); phones get the bottom tabs only', () => {
   assert.match(app, /<SideNav collapsed=\{activeTab === 'pos'\} \/>/);
   const phoneChrome = app.slice(app.indexOf('className="contents lg:hidden"'));
-  assert.ok(phoneChrome.indexOf('data-navigation-action-dock') > 0, 'dock stays in phone chrome');
-  assert.ok(phoneChrome.indexOf('<BottomTabs />') > 0, 'bottom tabs stay in phone chrome');
+  assert.ok(phoneChrome.indexOf('<BottomTabs />') > 0, 'bottom tabs are phone chrome');
+  assert.doesNotMatch(app, /QuickActionButton|data-navigation-action-dock|admin-fab/);
   assert.match(sideNav, /hidden shrink-0 flex-col[^"]*lg:flex/);
   assert.match(sideNav, /aria-label="القائمة الجانبية"/);
 });
 
-test('SideNav keeps the phone quick actions and assistant gate on desktop', () => {
-  for (const destination of ['receive_goods', 'add_expense', 'add_product']) {
-    assert.match(quickActions, new RegExp(`openModal\\('${destination}'\\)`));
-    assert.match(sideNav, new RegExp(`openModal\\('${destination}'\\)`));
-  }
+test('one shared shortcut list feeds the SideNav and More; the centre tab is the sale', () => {
+  assert.deepEqual(QUICK_ACTIONS.map((action) => action.id), ['pos-sale', 'goods-receipt', 'add-expense', 'add-product']);
+  assert.deepEqual(SECONDARY_QUICK_ACTIONS.map((action) => action.id), ['goods-receipt', 'add-expense', 'add-product']);
+  assert.match(sideNav, /SECONDARY_QUICK_ACTIONS\.map/);
   assert.match(sideNav, /setActiveTab\('pos'\)/);
-  assert.match(sideNav, /\['owner', 'admin', 'manager', 'accountant'\]\.includes\(roleName \|\| ''\)/);
+  assert.match(bottomTabs, /\{ id: 'pos', label: 'بيع', icon: Plus, centre: true \}/);
+  assert.match(bottomTabs, /-mt-\[22px\]/);
+  assert.doesNotMatch(bottomTabs, /\b(?:bg|text|border)-(?:slate|blue|gray|indigo)-\d/);
+});
+
+test('the assistant keeps its role gate on both shells', () => {
+  for (const source of [sideNav, header]) {
+    assert.match(source, /\['owner', 'admin', 'manager', 'accountant'\]\.includes\(\s*roleName \|\| ''/);
+  }
   assert.match(sideNav, /setActiveTab\('assistant'\)/);
+  assert.match(header, /setActiveTab\('assistant'\)/);
   assert.match(sideNav, /openModal\('profile'\)/);
   assert.doesNotMatch(sideNav, /\b(?:bg|text|border)-(?:slate|blue|gray|indigo)-\d/);
 });

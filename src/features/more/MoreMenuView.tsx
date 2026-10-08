@@ -11,6 +11,7 @@ import {
 import { useAuthStore } from '../../stores/useAuthStore';
 import { isDeviceBiometricAvailable } from '../../services/deviceBiometrics.service';
 import { InstallAppPanel } from './InstallAppPanel';
+import { SECONDARY_QUICK_ACTIONS } from '../../components/layout/quickActions';
 import {
   ADMIN_NAVIGATION_GROUPS,
   getNextOpenNavigationGroup,
@@ -226,6 +227,25 @@ export const MoreMenuView: React.FC = () => {
           {activeBranch.name}
         </span>
       </header>
+
+      {/* Former floating quick actions (Package F §4.2); "بيع" is the centre tab. */}
+      <section aria-label="إجراءات سريعة" className="grid grid-cols-3 gap-2">
+        {SECONDARY_QUICK_ACTIONS.map((quickAction) => {
+          const QuickIcon = quickAction.icon;
+          return (
+            <button
+              key={quickAction.id}
+              type="button"
+              data-navigation-id={quickAction.id}
+              onClick={() => handleNavigationAction(quickAction.action)}
+              className="flex min-h-16 flex-col items-center justify-center gap-1.5 rounded-2xl border border-slate-800 bg-slate-900 p-2 text-center text-[11px] font-bold text-slate-100 transition hover:bg-slate-800 active:scale-[0.98]"
+            >
+              <QuickIcon className="h-5 w-5 text-amber-300" aria-hidden="true" />
+              {quickAction.shortLabel}
+            </button>
+          );
+        })}
+      </section>
 
       {canUseAssistant && (
         <button

@@ -5,7 +5,8 @@
  */
 
 import React from 'react';
-import { BotMessageSquare, DollarSign, PackagePlus, Truck, Plus } from 'lucide-react';
+import { BotMessageSquare, Plus } from 'lucide-react';
+import { SECONDARY_QUICK_ACTIONS } from './quickActions';
 import {
   shallowEqual,
   useAppStoreActions,
@@ -110,11 +111,12 @@ export const SideNav: React.FC<SideNavProps> = ({ collapsed = false }) => {
     );
   };
 
-  const quickActions = [
-    { id: 'goods-receipt', label: 'استلام بضاعة', icon: Truck, onClick: () => openModal('receive_goods') },
-    { id: 'add-expense', label: 'مصروف', icon: DollarSign, onClick: () => openModal('add_expense') },
-    { id: 'add-product', label: 'صنف جديد', icon: PackagePlus, onClick: () => openModal('add_product') },
-  ];
+  const quickActions = SECONDARY_QUICK_ACTIONS.map((action) => ({
+    id: action.id,
+    label: action.shortLabel,
+    icon: action.icon,
+    onClick: () => run(action.action),
+  }));
 
   return (
     <nav

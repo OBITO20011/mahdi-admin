@@ -47,10 +47,12 @@ test('light theme keeps modal backdrops visually separated', () => {
 });
 
 test('light theme has dedicated low-glare navigation, FAB and toast treatments', () => {
-  assert.match(css, /\.admin-action-dock/);
-  assert.match(css, /\.admin-fab-primary/);
-  assert.match(css, /\.admin-fab-assistant/);
-  assert.match(css, /\.admin-bottom-tabs \[aria-current="page"\]/);
+  // Package F: no legacy dock/FAB/bottom-tab overrides; the tabs read tokens directly.
+  assert.doesNotMatch(css, /\.admin-action-dock|\.admin-fab|\.admin-bottom-tabs \[aria-current/);
+  const bottomTabs = readFileSync('src/components/layout/BottomTabs.tsx', 'utf8');
+  assert.match(bottomTabs, /bg-nw-surface/);
+  assert.match(bottomTabs, /text-nw-primary/);
+  assert.match(bottomTabs, /bg-nw-accent/);
   assert.match(css, /\[data-ui="admin-toast"\]\[data-tone="success"\]/);
   assert.match(css, /\[data-ui="products-hero"\]/);
   assert.match(css, /--admin-solid-accent:/);

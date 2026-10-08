@@ -383,45 +383,13 @@ html.theme-light :is(
   color: var(--admin-text) !important;
 }
 
-html.theme-light .admin-app-header,
-html.theme-light .admin-bottom-tabs {
+html.theme-light .admin-app-header {
   border-color: var(--admin-border) !important;
   background-color: rgb(253 253 252 / 0.94) !important;
   box-shadow: var(--admin-shadow-sm);
 }
 
-html.theme-light .admin-bottom-tabs {
-  box-shadow: 0 -8px 22px -20px rgb(15 23 42 / 0.3);
-}
-
-html.theme-light .admin-bottom-tabs [aria-current="page"] {
-  background-color: var(--admin-primary-soft) !important;
-  color: var(--admin-primary) !important;
-  box-shadow: none !important;
-}
-
-html.theme-light .admin-action-dock {
-  background: linear-gradient(to top, rgb(247 248 250 / 0.98), rgb(247 248 250 / 0.78), transparent) !important;
-}
-
-html.theme-light .admin-fab {
-  box-shadow: 0 9px 20px -12px rgb(30 64 175 / 0.44), 0 2px 5px rgb(15 23 42 / 0.08) !important;
-}
-
-html.theme-light .admin-fab-primary {
-  border-color: #93b4e3 !important;
-  background: linear-gradient(135deg, #4778bd, #5669b6) !important;
-}
-
-html.theme-light .admin-fab-primary[data-open="true"] {
-  border-color: #e2a8b8 !important;
-  background: #b64d69 !important;
-}
-
-html.theme-light .admin-fab-assistant {
-  border-color: #b8afe0 !important;
-  background: linear-gradient(135deg, #7567b3, #4e68a8) !important;
-}
+/* The phone bottom tabs (.admin-bottom-tabs) use Package F tokens directly. */
 
 html.theme-light [data-navigation-id="assistant-shortcut"] {
   border-color: #ddd7ef !important;

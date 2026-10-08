@@ -196,10 +196,14 @@ test('Gemini key remains server-side and the UI does not persist conversations',
   assert.doesNotMatch(view, /localStorage/);
 });
 
-test('eligible staff can open the assistant from a fixed mobile launcher', () => {
-  assert.match(app, /aria-label="فتح المساعد الإداري الذكي"/);
-  assert.match(app, /data-navigation-action-dock/);
-  assert.match(app, /pointer-events-auto absolute left-3 top-1/);
-  assert.match(app, /activeTab !== 'assistant'/);
-  assert.match(app, /'owner', 'admin', 'manager', 'accountant'/);
+test('eligible staff can open the assistant from the header (phone) and SideNav (desktop)', () => {
+  const header = readFileSync('src/components/common/Header.tsx', 'utf8');
+  const sideNav = readFileSync('src/components/layout/SideNav.tsx', 'utf8');
+  assert.match(header, /aria-label="فتح المساعد الإداري الذكي"/);
+  assert.match(header, /canUseAssistant && activeTab !== 'assistant'/);
+  assert.match(header, /'owner', 'admin', 'manager', 'accountant'/);
+  assert.match(header, /setActiveTab\('assistant'\)[\s\S]*?lg:hidden/);
+  assert.match(sideNav, /'owner', 'admin', 'manager', 'accountant'/);
+  assert.match(sideNav, /data-side-nav="assistant"/);
+  assert.doesNotMatch(app, /data-navigation-action-dock/);
 });
