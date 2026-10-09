@@ -199,3 +199,22 @@ independent contrast commit/push/exact-SHA CI16/16 follow;no next stage yet.
 Owner also approved unknown-age fourth bucket (undated first for FIFO,no
 overdue alert),future opening balances with original debt date,and a separate
 empty-actualCash correction. No136/opening tool/actualCash change in this commit.
+
+667c63e pushed;Gitleaks0 and remote exact SHA match. CI37959641318 had15/16
+successful jobs,secrets37959641292 PASS;quality job113918890244 cancelled after
+20:03 (quality command19:06). NOT timeout-only:at16:44:37Z the new WebKit
+completion regression failed because reportHold stayed0 (expected>.75).
+The opacity-window control missed a frame transition on that runner;no
+color violation is proven by that log. No workflow/timeout/retry change.
+Correction makes the authored regression deterministic:pause native dialog
+animations and hold dialog RAF callbacks,release explicitly. Still requires
+opening state,unfinished translation,then exact open/opacity1/translation0
+and the complete original axe audit. Original report assertions unchanged.
+Deterministic version:Chromium/WebKit2/2;WebKit completion20/report20 PASS40/40
+(3.9m,workers1,retries0),typecheck and Cash unit/AST5/5 PASS. Full frozen-files
+quality and new exact-SHA CI remain required.
+Corrective frozen-files quality exit0:787Admin/189Customer units,lint/build,
+435Browser PASS/59 pre-existing conditional skips/retries0 (12.9m),network
+guard external/Production escaped0. No task-owned listeners remain. Correction
+touches only browser control/static regression/documentation;no product/RPC/
+payload/service/store/migration change after667c63e. New exact-SHA CI still pending.

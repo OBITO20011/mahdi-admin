@@ -43,20 +43,27 @@ async function axe(page:Page){
 test('report audit requires real opening-animation completion,not merely visible content',async({page})=>{
   await page.addInitScript(()=>{
     const original=window.requestAnimationFrame.bind(window);
-    let hold=true;const pending:FrameRequestCallback[]=[];
-    const state=window as typeof window & {reportHold?:number;releaseReport?:()=>void};
+    let hold=true;const pending:FrameRequestCallback[]=[],animations:Animation[]=[];
+    const state=window as typeof window & {reportHold?:boolean;releaseReport?:()=>void};
+    const animate=Element.prototype.animate;
+    Element.prototype.animate=function(keyframes,options){
+      const animation=animate.call(this,keyframes,options);
+      if(hold&&this.getAttribute('role')==='dialog'&&this.textContent?.includes('تفصيل كميات المرتجعات')){
+        animation.pause();animations.push(animation);state.reportHold=true;
+      }
+      return animation;
+    };
     window.requestAnimationFrame=callback=>original(time=>{
       const dialog=Array.from(document.querySelectorAll('[role="dialog"]')).find(el=>el.textContent?.includes('تفصيل كميات المرتجعات'));
-      const opacity=dialog?Number(getComputedStyle(dialog).opacity):1;
-      if(hold&&opacity>.75&&opacity<.99){state.reportHold=opacity;pending.push(callback);return;}
+      if(hold&&dialog){state.reportHold=true;pending.push(callback);return;}
       callback(time);
     });
-    state.releaseReport=()=>{hold=false;for(const cb of pending.splice(0))original(cb);};
+    state.releaseReport=()=>{hold=false;for(const animation of animations)animation.play();for(const cb of pending.splice(0))original(cb);};
   });
   await page.route('**/rest/v1/rpc/get_cash_shift_closing_report',route=>route.fulfill({json:cashReportFixture}));
   await page.goto(url('live=1&theme=light'));
   await page.getByRole('button',{name:'عرض التقرير المالي الحي',exact:true}).click();
-  await expect.poll(()=>page.evaluate(()=>(window as typeof window & {reportHold?:number}).reportHold??0)).toBeGreaterThan(.75);
+  await expect.poll(()=>page.evaluate(()=>(window as typeof window & {reportHold?:boolean}).reportHold??false)).toBe(true);
   const dialog=page.getByRole('dialog',{name:'تقرير الإغلاق اليومي',exact:true});
   await expect(dialog).toHaveAttribute('data-state','opening');
   expect(await dialog.evaluate(el=>Math.abs(new DOMMatrixReadOnly(getComputedStyle(el).transform).m42))).toBeGreaterThan(1);

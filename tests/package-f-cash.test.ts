@@ -94,6 +94,9 @@ test('dialog audit readiness comes from actual spring completion without hiding 
   assert.match(modal,/onAnimationComplete=\{\(\) => panel.current\?\.setAttribute\('data-state', isOpen \? 'open' : 'closed'\)\}/u);
   const browser=readFileSync('e2e/package-f-cash.spec.ts','utf8');
   assert.match(browser,/toHaveAttribute\('data-state','open'\)/u);
+  assert.match(browser,/animation\.pause\(\);animations\.push\(animation\)/u);
+  assert.match(browser,/for\(const animation of animations\)animation\.play\(\)/u);
+  assert.doesNotMatch(browser,/opacity>\.75|opacity<\.99/u);
   assert.match(browser,/v.impact==='serious'\|\|v.impact==='critical'/u);
   assert.doesNotMatch(browser,/waitForTimeout|disableRules|exclude\(|test\.skip/u);
 });
