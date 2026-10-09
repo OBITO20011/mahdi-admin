@@ -2,6 +2,18 @@ import AxeBuilder from '@axe-core/playwright';
 import {test,expect,type Page} from './isolated-test';
 import {cashIds,cashShift,shiftRpcFixture,cashReportFixture,recentCashShifts} from './package-f-cash.fixture';
 const url=(query='')=>'/e2e/package-f-cash-harness.html?'+query;
+for(const theme of ['light','dark'])test(`Arabic shift time ${theme} reads visually as 08:30 then ص`,async({page})=>{
+  await page.setViewportSize({width:390,height:844});await page.goto(url('theme='+theme));
+  const time=page.getByTestId('cash-start-time');await expect(time).toHaveText('08:30 ص');
+  await expect(time).toHaveAttribute('dir','auto');await page.evaluate(()=>document.fonts.ready);
+  const positions=await time.evaluate(element=>{
+    const text=element.firstChild!;
+    const number=document.createRange();number.setStart(text,0);number.setEnd(text,5);
+    const period=document.createRange();period.setStart(text,6);period.setEnd(text,7);
+    return {number:number.getBoundingClientRect().left,period:period.getBoundingClientRect().right};
+  });
+  expect(positions.number).toBeGreaterThan(positions.period);
+});
 async function checkLayout(page:Page){
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await expect(page.getByTestId('cash-workbench')).not.toContainText(/[٠-٩]/u);

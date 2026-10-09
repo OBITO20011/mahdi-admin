@@ -347,7 +347,7 @@ export const ShiftsView: React.FC = () => {
             <header className="flex flex-wrap items-center justify-between gap-4 bg-nw-hero p-5 text-nw-side-text [&_bdi_.text-nw-muted]:text-nw-side-muted">
               <div className="min-w-0 space-y-2">
                 <h2 className="m-0 flex flex-wrap items-center gap-2 text-lg font-bold">الوردية الحالية · {currentShift.cashierName}<StatusBadge tone="ok">مفتوحة</StatusBadge></h2>
-                <p className="m-0 text-xs text-nw-side-muted"><bdi dir="ltr">{currentShift.shiftNumber}</bdi> · بدأت <bdi dir="ltr">{formatUiTime(currentShift.startTime)}</bdi></p>
+                <p className="m-0 text-xs text-nw-side-muted"><bdi dir="ltr">{currentShift.shiftNumber}</bdi> · بدأت <bdi dir="auto" data-testid="cash-start-time">{formatUiTime(currentShift.startTime)}</bdi></p>
                 <p className="m-0 text-xs text-nw-side-muted">المدة: {elapsedMinutes===null?'غير متاح':<span>{Math.floor(elapsedMinutes/60)} ساعة و{elapsedMinutes%60} دقيقة</span>} · عدد العمليات: غير متاح</p>
               </div>
               <div data-testid="cash-expected"><p className="m-0 mb-1 text-xs text-nw-side-muted">النقد المتوقع بالدرج</p><strong className="text-4xl"><MoneyText amount={currentShift.expectedCash} currency/></strong></div>

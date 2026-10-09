@@ -2,63 +2,54 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Migrate ShiftsView/current cash/archive/closing presentation to Package F §6.5;preserve all calls,payloads,guards and input handlers;quality/Gitleaks/commit/CI then stop",
-  "baselineSha": "e122ad6efbf801f2b852f05345a7b6c4a2154b8a",
+  "objective": "Owner accepted Cash/Orders de879ae/57e53d4:fix Arabic shift time separately,then read-only debt aging136 and Customers UI;quality/Gitleaks/exact-SHA CI per commit",
+  "baselineSha": "de879ae9a68758039e3ac20c965dc886490dbf3b",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Owner/Claude accepted e122ad6/135;CI16/16",
-    "Cash/current shift/archive/report token migration implemented;financial paths unchanged",
-    "Owner-authorized Orders product focus fix committed separately57e53d4;WebKit before17/20,after20/20;old test unchanged"
+    "Cash/Orders de879ae/57e53d4 owner/Claude accepted;exact-SHA quality16/16 and secrets PASS",
+    "Baseline synchronized to de879ae;preflight/resume PASS",
+    "Arabic shift-time uses auto bdi;focused4/4 glyph-position browser;open actual-cash question recorded"
   ],
   "inProgress": [
-    "Final quality PASS;Gitleaks0,Cash commit/push/exact-SHA CI then stop for visual review"
+    "Gitleaks0,separate time commit/push/exact-SHA CI"
   ],
   "notStarted": [
+    "Debt-aging136 implementation and Customers UI pending source/date policy review",
     "Next screen/Phase7"
   ],
   "filesTouched": [
-    "docs/agent/PHASE_STATUS.md",
-    "docs/agent/PROJECT_OVERVIEW.md",
-    "src/components/ui/index.ts",
-    "src/features/shifts/ShiftArchiveSection.tsx",
-    "src/features/shifts/ShiftClosingReportModal.tsx",
-    "src/features/shifts/ShiftsView.tsx",
+    "docs/agent/OWNER_DECISIONS.md",
     "docs/design/package-f/CASH_MIGRATION.md",
-    "e2e/package-f-cash-harness.html",
-    "e2e/package-f-cash-harness.tsx",
-    "e2e/package-f-cash.fixture.ts",
     "e2e/package-f-cash.spec.ts",
-    "src/components/ui/cashCounting.ts",
-    "src/components/ui/CashDenominationCounter.tsx",
-    "src/components/ui/ResponsiveActionPanel.tsx",
+    "src/features/shifts/ShiftsView.tsx",
     "tests/package-f-cash.test.ts"
   ],
   "testsPassed": [
-    "48focused units incl existing financial/lock/snapshot gates and e122ad6 AST calls/input/handler parity",
-    "Focused Chromium/WebKit layout/axe/count/payload/filter/reversal/report proof;stable affected rerun6/6",
-    "Typecheck/changed-file strict ESLint PASS;001-135/services/stores/shell unchanged",
-    "Final Cash browser32/32 PASS;final quality420PASS/59existing skips/one Orders failure",
-    "Gitleaks changed/untracked scope exit0;AST parity3/3 PASS",
-    "Orders focus race/back-scroll browser12/12;old live search WebKit20/20;combined units14/14;AST calls/inputs unchanged;typecheck/ESLint PASS",
-    "Final full quality exit0:785Admin/189Customer/429Browser PASS,59existing conditional skips,retries0;Cash32/32;Production/external escaped0"
+    "Full quality exit0:786Admin;Customer lint/tests/build PASS;433Browser,59existing conditional skips,retries0;18.0m",
+    "Cash36/36 including visual Arabic time4/4;calls/input/handler AST parity retained;001-135/services/stores unchanged",
+    "External/Production escapes0"
   ],
   "testsRemaining": [
-    "Gitleaks0,Cash commit/push/exact-SHA CI and owner visual review"
+    "Gitleaks0,time commit/push/exact-SHA CI",
+    "Owner completion-date decision before136/Customers"
   ],
   "findings": [
-    "Orders pre-existing focus race CLOSED by owner-approved product fix57e53d4;deterministic regression failed before/passed after"
+    "Previous quality run invalidated by own docs/checkpoint HMR;stable-files repeat green with same assertions"
   ],
-  "blockers": [],
+  "blockers": [
+    "136 completion-date policy:legacy debt without proven completion;owner question pending"
+  ],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production/deploy/Phase7/automations/next screen",
-    "No RPC/payload/role/service/DB/migration changes;historical001-135 immutable",
+    "No Production/deploy/Phase7/automations;only approved time/136/Customers scope",
+    "No write RPC/payload/permission changes;001-135 immutable;136 only approved read addition",
+    "Actual-cash prefill question only,no implementation",
     "Preserve .claude/launch.json unchanged/unstaged"
   ],
-  "nextExactAction": "Final full quality PASS785Admin189Customer429Browser59existing skips;Gitleaks0. Commit Cash presentation only,push main including separate fix57e53d4,verify exact-SHA quality+secret CI,checkpoint and STOP for owner visual review",
-  "workingTreeFingerprint": "17657A21D9F2915433C7FE3188C10782D4E1D77835E99A83492F7D4047FA44E9",
-  "checkpointedAt": "2026-10-09T11:03:35.434Z",
+  "nextExactAction": "Full stable quality PASS786Admin/433Browser/59existing skips/retries0;time-only commit after Gitleaks0,then exact-SHA CI. Stop for136 missing-completion-date policy before migration/Customers. No Production/deploy.",
+  "workingTreeFingerprint": "A687D3574C5F57A342E1B9AE4AC64A0E8E525DC8B3631DA6366EB7531E4A42CA",
+  "checkpointedAt": "2026-10-09T12:03:02.718Z",
   "startedAt": "2026-10-08T22:04:02.501Z"
 }

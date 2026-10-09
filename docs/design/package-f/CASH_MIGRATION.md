@@ -122,3 +122,29 @@ inside that same uninterrupted run. Typecheck,ESLint,builds,isolatedSEO and
 Chromium/WebKit network isolation PASS;external/Production escapes0.
 No service,store,role,DB,migration,workflow or old test change. Await final
 Gitleaks0,Cash commit/push/exact-SHA CI,then stop for visual review.
+
+## Owner visual acceptance and Arabic time correction — 2026-10-09
+
+Owner/Claude accepted57e53d4 and de879ae;exact push/main quality37921517045
+16/16 and secrets37921516922 PASS. Cash start time now uses bdi dir=auto,
+not forced LTR,so the Arabic period follows the time visually (08:30 ص).
+Report/archive were reviewed:neither wraps formatUiTime in LTR;their existing
+Latin Arabic date/time formatting is unchanged. A permanent browser regression
+checks actual glyph positions,not just DOM text,in both themes/engines.
+No business calls,handlers,payloads or migrations change. Actual-cash prefill
+remains unchanged;the question is recorded only in OWNER_DECISIONS.md.
+
+Time-correction quality attempt was invalidated by this agent's documentation/
+checkpoint writes while Vite was serving browser tests. Open-shift Chromium
+test64 timed out after a full page reload reset the opening field. Trace records
+Cash document loads11:36:20.440Z and11:36:27.132Z;Vite logs docs reloads at
+14:36:21/14:36:25 Asia/Amman. Not a claimed product defect or passing gate.
+Stop old preview;repeat full quality once on frozen files,without test/code,
+assertion,timeout or retry changes. No other work/checkpoint write during gate.
+
+Frozen-files full quality exit0:786Admin units,Customer checks/build PASS,
+433Browser PASS/59 pre-existing conditional skips/retries0 (18.0m). New
+glyph-position tests4/4 and all existing Cash36/36 pass in the full run;
+open-shift case3.4s Chromium/4.9s WebKit with unchanged assertions. External/
+Production escaped0.001–135/services/stores untouched. Gitleaks0/commit/push/
+exact-SHA CI follow this evidence;136/Customers wait for completion-date policy.

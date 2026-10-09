@@ -159,3 +159,13 @@ valuation,remove quantity emoji,label reorder units. Explicit bodies,no new
 wrappers,identical grants/search_path/roles.001–134 unchanged,pinned135,real
 JSON/ACL/debt/payment/Return proof,p95<1s on E-scale,quality/Gitleaks0/exact-SHA
 CI and STOP for visual review. No Production/deploy or new screen.
+
+### أسئلة مفتوحة — 2026-10-09
+
+- هل يبقى حقل «الكاش الفعلي» معبّأً بالمتوقع أم يبدأ فارغاً ليجبر الكاشير على العدّ؟
+  السؤال فقط؛ السلوك الحالي لم يتغير، ولا قرار مفترض بشأنه.
+- عمر الدين: إذا احتسب قارئ الرصيد طلباً قديماً مكتملاً بلا تاريخ إكمال مثبت،
+  هل يُعرض الجزء غير المؤرّخ منفصلاً «عمر غير متاح»، أم تُرفض قراءة العمر
+  لهذا العميل؟ لا يُستخدم تاريخ الإنشاء/التعديل كتاريخ إكمال دون قرار.
+  مصدر الفجوة:121 يحتسب كل دين completed/delivered، بينما131 يؤرّخ بأول
+  حدث completed و120 يتطلب دليل الإكمال الحديث.136 لم تُكتب قبل القرار.

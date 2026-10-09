@@ -79,3 +79,11 @@ test('Cash surfaces use shared tokens and preserve explicit unavailable facts an
   assert.match(source,/!currentShift && recentHistory/u);
   assert.doesNotMatch(source,/shift\.cashDiscrepancy \|\| 0/u);
 });
+
+test('Arabic shift time is isolated with automatic direction,not forced LTR',()=>{
+  const source=readFileSync('src/features/shifts/ShiftsView.tsx','utf8');
+  assert.match(source,/<bdi dir="auto" data-testid="cash-start-time">\{formatUiTime\(currentShift.startTime\)\}<\/bdi>/u);
+  for(const {file} of baseline){
+    assert.doesNotMatch(readFileSync(file,'utf8'),/<bdi[^>]*dir="ltr"[^>]*>\s*\{formatUiTime/u);
+  }
+});
