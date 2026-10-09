@@ -139,3 +139,39 @@ Full additional-correction quality exit0:767Admin/189Customer/339Browser PASS,
 59 pre-existing conditional skips,retries0;Orders32/32 and Home24/24 in the
 uninterrupted full run. Lint/typecheck/build/SEO/network isolation PASS.
 Gitleaks0 and exact-SHA CI are the remaining delivery gates.
+
+## Owner-approved product focus race correction — 2026-10-09
+
+Cash's final quality exposed a pre-existing phone Orders race from70bb975.
+Before correction,the unchanged live-search test at236/262 failed3/20 on
+WebKit (workers2,retries0). A new controlled-response test reproduced the
+product defect directly: after Back,the user starts a word in search;the
+accepted list reload focuses the original card and interrupts their typing.
+The new test failed at search-focus retention before the product change.
+
+OrdersWorkbench now remembers the closing detail panel and restores card
+focus only while focus is body/unassigned or still in that closing panel
+(including its Back button). If the user moved to search/filters/another
+control,the pending restoration does not move their focus or scroll. If
+dialog cleanup already focused the exact original card,only scroll is
+restored;focus is not reassigned. No search state,value or reader is changed.
+
+Permanent light/dark tests use actual OrdersCenterView/adapter with a held
+post-Back RPC response;start typing before release,finish the full word,
+assert search focus/value and exact p_search after the accepted read. Also
+cover explicitly focused filters (focus+Enter on both engines;Safari pointer
+activation does not focus buttons). First new filter setup incorrectly assumed
+pointer click implied focus on WebKit;only that new setup was corrected,
+not the focus assertion. All existing Orders tests,including262 and both
+scroll/focus restoration tests,are byte-unchanged;no waits/retries/timeouts
+or selectors were relaxed. Focused browser12/12 and units14/14 PASS.
+
+Fixed pre-change AST comparison for the sole modified Orders product file:
+6 await/service calls,3 input-value callbacks,all arguments identical to
+e122ad6. Subscription/lifecycle handlers unchanged in diff;services/stores/
+RPC/payloads/roles/migrations/CI unchanged. Independent product-fix commit
+precedes Cash commit;final full quality and exact-SHA CI remain required.
+
+Unchanged live-search WebKit comparison after fix:20/20 PASS (56.2s),same
+workers2/retries0 command as before (17PASS/3FAIL). No old test byte changed.
+Typecheck/changed-file strict ESLint PASS;Gitleaks changed+untracked scope0.

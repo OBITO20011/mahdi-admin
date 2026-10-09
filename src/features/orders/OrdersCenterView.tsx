@@ -58,8 +58,10 @@ export const OrdersWorkbench: React.FC<OrdersWorkbenchProps> = (props) => {
   const { orders, activeFilter, counts, summary, searchQuery, sort, page, totalCount, totalPages, selectedOrderId, sourceFor, detail, loading, refreshing, error, listLoadVersion = 0, restoreAfterVersion = 0, onOpen, onFilter, onSearch, onSort, onPage, onRefresh } = props;
   const rootRef = useRef<HTMLDivElement>(null);
   const returnPointRef = useRef<{ orderId: string; container: HTMLElement; scrollTop: number } | null>(null);
+  const returnPanelRef = useRef<HTMLElement | null>(null);
   const openFromList = (orderId: string) => {
     returnPointRef.current = null;
+    returnPanelRef.current = null;
     if (window.matchMedia('(max-width: 767px)').matches) {
       let container = rootRef.current?.parentElement;
       while (container && !/^(auto|scroll)$/.test(getComputedStyle(container).overflowY)) container = container.parentElement;
@@ -69,14 +71,24 @@ export const OrdersWorkbench: React.FC<OrdersWorkbenchProps> = (props) => {
   };
   useLayoutEffect(() => {
     const point = returnPointRef.current;
+    if (point && selectedOrderId) {
+      returnPanelRef.current = rootRef.current?.querySelector<HTMLElement>('[data-testid="order-detail-panel"]') ?? null;
+    }
     // Close starts another real list read. Its accepted render, not the old
     // DOM or the opening request, is the restoration boundary.
     if (!point || selectedOrderId || loading || listLoadVersion < restoreAfterVersion) return;
     returnPointRef.current = null;
     if (!point.container.isConnected) return;
-    point.container.scrollTop = point.scrollTop;
     const card = rootRef.current?.querySelector<HTMLElement>(`[data-order-card="${CSS.escape(point.orderId)}"] button`);
-    card?.focus({ preventScroll: true });
+    const active = document.activeElement;
+    const restoreFocus = !active || active === document.body || returnPanelRef.current?.contains(active) === true;
+    returnPanelRef.current = null;
+    // The accepted read may arrive after the user has started searching or
+    // filtering. Their new interaction wins; never move its focus or scroll.
+    // If dialog cleanup already restored this same card, only restore scroll.
+    if (!restoreFocus && active !== card) return;
+    point.container.scrollTop = point.scrollTop;
+    if (restoreFocus) card?.focus({ preventScroll: true });
     if (card) {
       const bounds = card.getBoundingClientRect();
       const viewport = point.container.getBoundingClientRect();
