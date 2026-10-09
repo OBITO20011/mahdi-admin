@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
+import {databasePortsFromConfig, waitForDatabasePorts} from './isolated-db-port-guard.mjs';
 
 const execFileAsync = promisify(execFile);
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
@@ -150,6 +151,9 @@ await writeFile(
 );
 
 const cliPath = path.join(projectRoot, 'node_modules', 'supabase', 'dist', 'supabase.js');
+const dbPortGuard = await waitForDatabasePorts(databasePortsFromConfig(
+  await readFile(isolatedConfigPath, 'utf8'),
+));
 try {
   const startArguments = [cliPath, 'start', '--workdir', temporaryRoot];
   if (excludedServices) startArguments.push('--exclude', excludedServices);
@@ -178,6 +182,7 @@ console.log(JSON.stringify({
   resetSkipped,
   reusedDatabaseVolume,
   authBaselineEmpty: true,
+  dbPortGuard,
   excludedServices: excludedServices || null,
   note: 'This temporary copy is for local destructive integrity tests only. Production migration 034 remains unchanged.',
 }, null, 2));

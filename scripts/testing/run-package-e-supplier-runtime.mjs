@@ -357,6 +357,7 @@ try {
         NAWASRAH_ISOLATED_PROJECT_ID:projectId,NAWASRAH_MAX_MIGRATION:'132',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
         NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
     const built=JSON.parse(stdout);assert.equal(built.ok,true);workdir=built.isolatedProjectRoot;
+    console.log(JSON.stringify({stage:'DB port guard',mode,...built.dbPortGuard}));
     await sql(await readFile(path.join(root,'scripts/testing/package-e-golden-day-fixture.sql'),'utf8'));
     await rpc(`open_cash_shift(${q(branch)},1000000)`);
     const historicalPolicy=mode==='after'?await historicalPoPolicy():[];

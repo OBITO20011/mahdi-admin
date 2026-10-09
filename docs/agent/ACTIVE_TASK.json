@@ -1,61 +1,50 @@
 {
   "schemaVersion": 1,
-  "status": "IDLE",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Optimize136 with per-customer parity;then independent port guard;then Customers",
-  "baselineSha": "87110ae4f43bc472b8290e379727f12a7ac7865c",
+  "objective": "Independent actual DB port-bind guard;then Customers presentation",
+  "baselineSha": "1288db70c9d7462d86aed0534d61be8bc5615525",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "CI-only aa76121 exact-SHA quality37974334299 18/18 and secrets37974334247 PASS;core13:28/F8:57;delivery verified",
-    "Cash87110ae exact-SHA quality37981756833 attempt2 all18/18 and secrets37981756894 PASS;single supplier-ledger rerun succeeded;official delivery verified"
+    "1361288db70 exact-SHA quality38004164449 all19/19 and secrets38004164451 PASS;official delivery verified"
   ],
   "inProgress": [
-    "136 local gates PASS;commit/push and exact-SHA CI pending before port guard"
+    "Test-only actual port-bind guard verified;prepare independent commit/push/exact-SHA CI"
   ],
   "notStarted": [
-    "Independent test-infrastructure port guard commit after136 delivery",
     "Customers UI",
     "Phase7"
   ],
   "filesTouched": [
-    ".github/workflows/quality.yml",
-    "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
-    "docs/agent/PROJECT_OVERVIEW.md",
-    "docs/agent/project-state.json",
-    "package.json",
-    "scripts/agent/lib.mjs",
-    "scripts/agent/preflight.mjs",
-    "tests/migration-integrity.test.ts",
-    "docs/design/package-f/DEBT_AGING_136.md",
-    "scripts/testing/fixtures/package-f-debt-aging-136-baseline.sql",
-    "scripts/testing/run-package-f-debt-aging-runtime.mjs",
-    "supabase/migrations/136_package_f_customer_debt_aging.sql",
-    "tests/package-f-debt-aging.test.ts"
+    "scripts/testing/bootstrap-isolated-supabase.mjs",
+    "scripts/testing/run-package-e-supplier-runtime.mjs",
+    "scripts/testing/run-phase44-admin-recovery-fullstack.mjs",
+    "docs/design/package-f/ISOLATED_DB_PORT_GUARD.md",
+    "scripts/testing/isolated-db-port-guard.mjs",
+    "tests/isolated-db-port-guard.test.ts"
   ],
   "testsPassed": [
-    "136 focused real POS/payments/Return,FIFO balance245000 then255000,unknown first/separate,6Amman boundaries,all7 roles/ACL parity,excess rollback/content zero-write and DB lint PASS",
-    "136 full scale150k orders/200k payments/10k customers/1.2m movements;each canonical total,bucket sum and full before/after JSON10000/10000 PASS;aggregate JSON PASS;before/after p95 single44.699/33.464ms all4285.705/1645.011ms",
-    "Optimized136 actual writers/ACL/date/zero-write/DB lint PASS;static/continuity14/14 PASS;full quality exit0:445browserPASS/59existing conditional skips/retries0;build/SEO/isolationPASS escapedProduction0"
+    "Guard8/8 plus continuity/migration18/18 PASS;full Admin800/800/typecheck/changed-file strict ESLint PASS",
+    "Supplier actual before22/after42 and DB lint PASS;POS8/8 real Chromium/WebKit,retries0,Production0;all3 boots releaseWait0 (probe22/54/28ms);strict full ESLint PASS"
   ],
   "testsRemaining": [
-    "136 staged Gitleaks0/commit/push/exact-SHA CI;then independent port guard;then Customers"
+    "Gitleaks/independent infra commit/push/exact-SHA CI;then Customers after filter scope confirmed"
   ],
   "findings": [
-    "136 first scale count wrongly filtered random V2 row IDs;corrected to fixture customer/product identities,unchanged expected totals;second run counts/balance pass but aggregate p95 fails",
-    "Recurring CI infrastructure:54322 occupied before supplier SQL (second occurrence after POS);one supplier-ledger rerun authorized on87110ae only;no third retry/workflow change"
+    "Historical54322 holder unknown;failure was before supplier SQL,so stop/start hypothesis not proven;guard adds actual socket proof/diagnostics"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Production/deploy/Phase7/automations",
-    "001-135 immutable;no write RPC/payload/permission change;136 only approved read",
+    "001-136 immutable now;test-only port guard:no product/workflow/deadline/retry changes;Customers later adds136 read only",
     "No opening-balance tool;preserve .claude/launch.json unstaged"
   ],
-  "nextExactAction": "136 local gatesPASS;stage explicit136 allowlist,Gitleaks0,commit/push and verify exact-SHA CI;only then port guard.",
-  "workingTreeFingerprint": "B8011BDC23F1B8BCE5982E151B9D5529CC99CE4C026030C5833551CA927E7045",
-  "checkpointedAt": "2026-10-09T23:22:35.560Z",
+  "nextExactAction": "Gitleaks0;commit/push only approved test port-guard files;verify all exact-SHA CI jobs;then resolve Customers filter scope before UI.",
+  "workingTreeFingerprint": "473A13E590F05556737527327DEEB56C75D2124AD444D61C503F8FB90B03173D",
+  "checkpointedAt": "2026-10-09T23:50:34.472Z",
   "startedAt": "2026-10-09T17:34:23.990Z"
 }

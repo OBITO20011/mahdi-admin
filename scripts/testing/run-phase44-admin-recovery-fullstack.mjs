@@ -181,6 +181,7 @@ try {
   const bootstrap = JSON.parse(stdout);
   assert.equal(bootstrap.ok, true);
   isolatedProjectRoot = bootstrap.isolatedProjectRoot;
+  console.log(JSON.stringify({stage: 'DB port guard', ...bootstrap.dbPortGuard}));
   const phase3 = await readFile(phase3SqlPath, 'utf8');
   if (posOnly) {
     const first = phase3.indexOf('\nDO $$'); const second = phase3.indexOf('\nDO $$', first + 1);
