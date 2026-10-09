@@ -72,3 +72,20 @@ listeners remain. Migrations001–134,services,stores,roles,payloads and CI unch
 Gitleaks,one commit/push and exact-SHA CI are the remaining delivery gates;
 the post-delivery official checkpoint records their verified result. Then STOP
 for owner/Claude visual review;no next screen or Phase7.
+
+## Owner-resolved read extension — 2026-10-09
+
+The previously open available-filter/active-count decision is now explicitly
+approved via135. The same reader filters available_quantity>0 before pagination
+and adds active_items/available_stock over the complete scoped catalog.
+Existing total_items and every other old field stay unchanged. UI restores
+متوفر and أصناف نشطة;removes unsupported per-row value and decorative quantity
+emoji;labels reorder thresholds in the product's base unit. Cost visibility,
+movement history,all actions and mobile detail/back recovery remain unchanged.
+Proof:READ_EXTENSIONS_135.md. Existing AST7/31 business-call pins are retained.
+
+Authorized old-contract updates:package-f-inventory.test.ts/e2e spec now assert
+the added active/available facts and no value column;package-f-pos.test.ts
+allows the selected debt read rather than prohibiting currentBalance. Missing
+facts,original UI behavior,axe/containment,permissions and financial request
+assertions were not weakened. New read-extensions tests add both browser engines.

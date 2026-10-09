@@ -111,7 +111,7 @@ export function formatWholesaleInventory(
     }
   }
 
-  const cartonFormatted = `📦 ${cartons} ${cartonLabel} + ${remainingPieces} ${pieceLabel}`;
+  const cartonFormatted = `${cartons} ${cartonLabel} + ${remainingPieces} ${pieceLabel}`;
   const totalPiecesFormatted = `(${pieces} ${baseUnitName || 'قطعة'})`;
 
   return {

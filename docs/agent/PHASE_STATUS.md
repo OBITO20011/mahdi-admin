@@ -1,5 +1,19 @@
 # Phase status
 
+## 2026-10-09 — Owner-approved135 reader extensions
+
+Inventory f8d88ac visually accepted and quality15/15+secrets PASS. Current
+scope:135 explicit POS debt/limit from existing CRM source and inventory
+available/active facts;old JSON/ACL preserved. Small Inventory value-column,
+emoji/unit corrections only. Real134/135 runtime/parity/full-scale p95<1s,
+quality/Gitleaks0/one commit/push/CI then STOP for visual review.001–134 immutable,
+no writers/permissions/Production/deploy/Phase7 changes.
+
+135 local verification PASS:real debt45.000=CRM,old JSON/ACL identical,full-scale
+worst p95 POS94.540ms/Inventory170.449ms. Full quality389Browser PASS/59existing
+conditional skips/retries0;typecheck/lint/unit/build/SEO/isolation PASS. Final
+Gitleaks/commit/push/exact-SHA CI pending until recorded by official checkpoint.
+
 ## 2026-10-09 — Package F Inventory migration
 
 Owner/Claude accepted POS20910cb+faae71a visually and exact-SHA CI15/15.

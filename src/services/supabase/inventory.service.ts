@@ -55,7 +55,7 @@ export interface InventoryProductPageInput {
   branchId?: string;
   warehouseId?: string;
   categoryId?: string;
-  status?: 'all' | 'low_stock' | 'out_of_stock' | 'near_expiry' | 'damaged' | 'stagnant';
+  status?: 'all' | 'available' | 'low_stock' | 'out_of_stock' | 'near_expiry' | 'damaged' | 'stagnant';
 }
 
 export interface InventoryProductPage {
@@ -66,6 +66,8 @@ export interface InventoryProductPage {
   totalPages: number;
   metrics: {
     totalItems: number;
+    activeItems?: number;
+    availableStock?: number;
     totalCostValue: number;
     totalRetailValue: number;
     lowStock: number;
@@ -128,6 +130,8 @@ export async function fetchInventoryProductPageFromSupabase(
     totalPages: Math.max(1, Math.ceil(totalCount / pageSize)),
     metrics: {
       totalItems: Math.max(0, Math.floor(finiteNumber(metrics.total_items))),
+      activeItems: metrics.active_items == null ? undefined : Math.max(0, Math.floor(finiteNumber(metrics.active_items))),
+      availableStock: metrics.available_stock == null ? undefined : Math.max(0, Math.floor(finiteNumber(metrics.available_stock))),
       totalCostValue: finiteNumber(metrics.total_cost_in_minor_units) / 1000,
       totalRetailValue: finiteNumber(metrics.total_retail_in_minor_units) / 1000,
       lowStock: Math.max(0, Math.floor(finiteNumber(metrics.low_stock))),

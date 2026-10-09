@@ -2,61 +2,69 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Inventory §6.4 presentation plus POS count wording/railLabel;chips all/low/out,totalItems label includes inactive;no new readers;quality/Gitleaks/commit/push/CI then stop",
-  "baselineSha": "faae71afc83d32ae822ac40bb89c6691d61d661d",
+  "objective": "Owner-approved135 read-only POS debt/limit and inventory available/active facts plus three presentation corrections;one commit/quality/CI then stop",
+  "baselineSha": "f8d88acf4bc9f77297e6004c8b195f3cf1e2e6c9",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Owner/Claude accepted POS20910cb+faae71a visually and exact-SHA CI15/15;no product logic changed in tooling correction",
-    "Inventory UI,existing-controller harness/action/scroll/parity tests and POS count/rail labels implemented;no new readers",
-    "Owner clarification implemented:chips all/low/out;totalItems label includes inactive;available/active-count reader deferred"
+    "Inventory f8d88ac visually approved by owner/Claude;quality15/15 and secrets PASS"
   ],
   "inProgress": [
-    "Verified candidate delivery only:Gitleaks,one commit/push/exact-SHA CI;no further implementation"
+    "Gitleaks0,independent commit/push and exact-SHA CI;then stop for visual review"
   ],
   "notStarted": [
-    "Remaining screens and Phase7"
+    "Next screen/Phase7"
   ],
   "filesTouched": [
+    ".github/workflows/quality.yml",
+    "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
     "docs/agent/PROJECT_OVERVIEW.md",
-    "e2e/admin-large-catalog-performance.spec.ts",
-    "e2e/admin-mobile-ux.spec.ts",
-    "e2e/phase6-package-c.spec.ts",
-    "src/components/layout/SideNav.tsx",
-    "src/components/layout/sideNavigationModel.ts",
-    "src/components/ui/uiFormat.ts",
-    "src/features/inventory/InventoryView.tsx",
-    "src/features/pos/PosView.tsx",
-    "tests/admin-mobile-ux.test.ts",
+    "docs/agent/project-state.json",
     "docs/design/package-f/INVENTORY_MIGRATION.md",
-    "e2e/package-f-inventory-harness.html",
+    "docs/design/package-f/POS_MIGRATION.md",
     "e2e/package-f-inventory-harness.tsx",
     "e2e/package-f-inventory.fixture.ts",
     "e2e/package-f-inventory.spec.ts",
-    "tests/package-f-inventory.test.ts"
+    "e2e/package-f-pos-harness.tsx",
+    "package.json",
+    "scripts/agent/lib.mjs",
+    "scripts/agent/preflight.mjs",
+    "src/features/inventory/InventoryView.tsx",
+    "src/features/pos/PosView.tsx",
+    "src/services/supabase/inventory.service.ts",
+    "src/services/supabase/pos.service.ts",
+    "src/utils/inventoryFormatter.ts",
+    "tests/migration-integrity.test.ts",
+    "tests/package-f-inventory.test.ts",
+    "tests/package-f-pos.test.ts",
+    "docs/design/package-f/READ_EXTENSIONS_135.md",
+    "e2e/package-f-read-extensions.spec.ts",
+    "scripts/testing/run-package-f-read-extensions-runtime.mjs",
+    "supabase/migrations/135_package_f_pos_customer_inventory_reads.sql",
+    "tests/package-f-read-extensions.test.ts"
   ],
   "testsPassed": [
-    "Current preflight and resume PASS;baseline faae71a;dirty scope only prior official ACTIVE_TASK checkpoint",
-    "Focused50/50 Chromium+WebKit PASS;added movement/action coverage22PASS+corrected exact dialog-selector2/2 PASS,retries0",
-    "Focused units18/18,typecheck/ESLint strict PASS;Inventory7/POS31 traces identical to faae71a;services/stores/migrations unchanged",
-    "Final quality exit0:777Admin/189Customer/381Browser PASS,59existing skips,retries0;old POS count wording updated only,keyboard2/2 PASS;Production escaped0"
+    "Preflight,unit16/16 plus parser4/4,typecheck/strict ESLint PASS",
+    "Real sale/partial payments/Return debt45.000 equals CRM;old JSON/ACL identical;DB lint no new issue",
+    "Chromium/WebKit50/50 plus selected-debt axe8/8,retries0",
+    "Full canonical volume JSON/ACL/counts PASS;p95 POS94.54ms,Inventory170.449ms;owned DB cleaned",
+    "Full npm quality exit0:389Browser PASS/59existing skips/retries0;typecheck/lint/unit/build/SEO/isolation PASS"
   ],
   "testsRemaining": [
-    "Gitleaks0,one commit/push/exact-SHA CI;then STOP for visual review"
+    "Gitleaks0/independent commit/push/exact-SHA CI"
   ],
   "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production/deploy/Phase7/automations",
-    "No RPC/payload/role/grant/DB/migration/CI changes;001-134 unchanged/no135",
-    "Only Inventory plus approved POS count helper and collapsed rail labels;no next screen",
-    "Preserve .claude/launch.json unchanged/unstaged;no .gitignore edit"
+    "No Production/deploy/Phase7/automations/next screen",
+    "No writers/grants/policies/new wrappers;historical001-134 immutable",
+    "Preserve .claude/launch.json unchanged/unstaged"
   ],
-  "nextExactAction": "Implementation complete;deliver verified Inventory candidate and exact-SHA CI,then owner visual review only",
-  "workingTreeFingerprint": "E820D519B26B8B8FA55C3B8D5A04B541A8E953470C03724FA833EB98AB5D9A4A",
-  "checkpointedAt": "2026-10-09T06:53:41.536Z",
+  "nextExactAction": "135 local gates PASS;authorized independent commit/push and exact-SHA CI observation only;no next screen",
+  "workingTreeFingerprint": "9E21443D6D8BE5679DE44A0FB15C70AEC3214B8E70AD28E5D95BF7E75774E176",
+  "checkpointedAt": "2026-10-09T08:42:59.662Z",
   "startedAt": "2026-10-08T22:04:02.501Z"
 }

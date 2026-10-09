@@ -12,7 +12,9 @@ test('POS token presentation preserves V2,open shift,recovery and all authority 
     'idempotencyKey: crypto.randomUUID()', 'cartWarehouseRef.current !== warehouseId || !cartFits(cartItems)',
     'if (!openPosShift)', "paymentMethod === 'debt' && !selectedCustomerId", 'inspectOrCancelPosV2Attempt(supabase,currentUser.id,true)']) assert.ok(pos.includes(contract), contract);
   assert.doesNotMatch(pos, /(?:bg|text|border|outline)-(?:slate|blue|gray|emerald|amber|red|rose)-\d/);
-  assert.doesNotMatch(pos, /currentBalance|fetchCustomerDetails|الدين الحالي|بطاقة 💳/);
+  assert.doesNotMatch(pos, /fetchCustomerDetails|بطاقة 💳/);
+  assert.match(pos, /data-testid="pos-customer-debt"/);
+  assert.match(pos, /selectedPosCustomer\.currentBalance > selectedPosCustomer\.creditLimit/);
   assert.match(pos, /<SearchField emphasis ref=\{searchInputRef\}/);
   assert.match(pos, /<StickyActionBar tone="hero"/);
   assert.match(pos, /lg:grid-cols-\[repeat\(auto-fill,minmax\(190px,1fr\)\)\]/);

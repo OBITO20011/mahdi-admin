@@ -39,8 +39,9 @@ test('Inventory and POS business-call traces match the independently captured fa
 test('inventory presentation preserves server-wide facts, scope and all existing mutation destinations',()=>{
   const source=readFileSync('src/features/inventory/InventoryView.tsx','utf8');
   assert.doesNotMatch(source,/(?:bg|text|border)-(?:slate|blue|gray|indigo|rose|amber|emerald)-\d/u);
-  for(const fact of ['totalCostValue','totalItems','lowStock','outOfStock']) assert.ok(source.includes('inventoryProductPage.metrics.'+fact));
-  assert.match(source,/label="إجمالي الأصناف".*note="يشمل المتوقفة"/u);
-  assert.doesNotMatch(source,/value:'available'|filteredProducts.reduce|costPrice \*/u);
+  for(const fact of ['totalCostValue','totalItems','activeItems','availableStock','lowStock','outOfStock']) assert.ok(source.includes('inventoryProductPage.metrics.'+fact));
+  assert.match(source,/label="أصناف نشطة".*value=\{kpi\(activeItemCount\)\}/u);
+  assert.match(source,/value:'available',label:'متوفر',count:availableStockCount/u);
+  assert.doesNotMatch(source,/filteredProducts.reduce|costPrice \*/u);
   for(const contract of ["status: statusFilter","pageSize: 24","warehouseId: selectedWarehouseId === 'all'","productId: historyProductId","openModal('receive_goods')","openModal('stock_count', { productId: product.id })","openModal('inventory_opening_setup')",'ClearInventoryBalanceDialog','setClearInventoryProduct(product)','acceptedRevision !== productDataRevision','preventScroll:true']) assert.ok(source.includes(contract),contract);
 });

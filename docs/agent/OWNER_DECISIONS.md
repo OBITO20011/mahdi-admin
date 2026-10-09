@@ -148,3 +148,14 @@ Spec and reference screens: docs/design/package-f/. The owner authorized
 Claude to build and commit/push the foundation (F1–F3) after full quality,
 Gitleaks0 and exact-SHA CI; screen migration follows by Codex. No money,
 RPC, permission or migration change is part of the foundation.
+
+### Package F read extensions135 — owner2026-10-09
+
+After accepting Inventory f8d88ac,the owner approved135 as a separate read-only
+commit:POS balance/credit limit from the same CRM source,display-only warning
+without sale blocking;inventory available_quantity>0 across scoped whole catalog,
+active-SKU count as a new field preserving total_items. Hide unsupported row
+valuation,remove quantity emoji,label reorder units. Explicit bodies,no new
+wrappers,identical grants/search_path/roles.001–134 unchanged,pinned135,real
+JSON/ACL/debt/payment/Return proof,p95<1s on E-scale,quality/Gitleaks0/exact-SHA
+CI and STOP for visual review. No Production/deploy or new screen.

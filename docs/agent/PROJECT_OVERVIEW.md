@@ -8,7 +8,15 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 ## Canonical reading order
 
-**Current owner boundary — 2026-10-09:** POS20910cb+faae71a visually accepted;
+**Current owner boundary — 2026-10-09:** Inventory f8d88ac visually accepted.
+Only135 read extensions:POS customer debt/limit from CRM's existing helper,
+inventory whole-catalog available filter and active-item count. Old fields,
+signatures,roles/grants and all writers unchanged. Small value-column/emoji/unit
+presentation fixes approved. READ_EXTENSIONS_135.md is the current task contract;
+runtime/JSON/ACL/scale,quality,Gitleaks0,one commit/push/exact-SHA CI then STOP.
+No next screen,Production/deploy or Phase7.
+
+**Previous owner boundary — 2026-10-09:** POS20910cb+faae71a visually accepted;
 Inventory §6.4 presentation authorized, plus POS Arabic item count and short
 collapsed rail labels. Chips only all/low/out; totalItems labelled إجمالي الأصناف
 with يشمل المتوقفة. No new available filter, active count or readers. Preserve

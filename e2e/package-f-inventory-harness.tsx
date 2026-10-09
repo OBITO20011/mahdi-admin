@@ -40,7 +40,7 @@ client.rpc=(name,args)=>{
     if(params.has('unavailable')) return Promise.resolve({data:null,error:{message:'تعذر تحميل صفحة المخزون.'}});
     const search=String(args?.p_search??'').toLowerCase(),status=String(args?.p_status??'all');
     const rows=inventoryProducts.filter(p=>`${p.name_ar} ${p.sku} ${p.barcode}`.toLowerCase().includes(search)
-      &&(status==='all'||(status==='low_stock'&&p.available_quantity>0&&p.available_quantity<=p.min_stock_level)
+      &&(status==='all'||(status==='available'&&p.available_quantity>0)||(status==='low_stock'&&p.available_quantity>0&&p.available_quantity<=p.min_stock_level)
         ||(status==='out_of_stock'&&p.available_quantity<=0)));
     return Promise.resolve({data:{products:rows,total_count:rows.length,metrics:inventoryMetrics},error:null});
   }

@@ -809,6 +809,18 @@ export const PosView: React.FC = () => {
                 </option>
               ))}
             </select>
+            {selectedPosCustomer && <div data-testid="pos-customer-debt" className={
+              selectedPosCustomer.currentBalance !== undefined && selectedPosCustomer.creditLimit !== undefined
+                && selectedPosCustomer.currentBalance > selectedPosCustomer.creditLimit
+                ? 'flex flex-wrap items-center gap-2 text-xs text-nw-warn' : 'flex flex-wrap items-center gap-2 text-xs text-nw-muted'}>
+              <span>{selectedPosCustomer.name}</span>
+              {selectedPosCustomer.currentBalance !== undefined && Number.isFinite(selectedPosCustomer.currentBalance)
+                ? <span>عليه <MoneyText amount={selectedPosCustomer.currentBalance} /></span> : <span>الدين غير متاح</span>}
+              {selectedPosCustomer.creditLimit !== undefined && Number.isFinite(selectedPosCustomer.creditLimit) && <>
+                <span>حد الدين <MoneyText amount={selectedPosCustomer.creditLimit} /></span>
+                {selectedPosCustomer.currentBalance !== undefined && selectedPosCustomer.currentBalance > selectedPosCustomer.creditLimit && <span>تجاوز الحد</span>}
+              </>}
+            </div>}
             <div className="flex items-center justify-between gap-2 text-[9px] text-nw-muted">
               <span>
                 {isPosCustomersLoading

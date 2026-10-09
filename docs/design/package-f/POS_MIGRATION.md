@@ -126,3 +126,14 @@ original fullstack test bodies and120 assertion calls identical to20910cb.
 Only bootstrap styles/viewport/font changed in that spec. No owned test
 containers/listeners remain. Gitleaks/staged integrity and new exact-SHA CI
 must pass before visual-review delivery;no next screen is authorized.
+
+## Owner-resolved read extension — 2026-10-09
+
+The previously open customer-debt presentation decision is now explicitly
+approved via135. Existing get_pos_customer_page adds balance using the exact
+CRM phase42_customer_receivable_total_internal source and existing credit limit.
+Only the selected customer shows debt/limit and an over-limit warning;no sale
+block,no new request,no parallel balance,no mutation payload/recovery change.
+Proof and delivery:READ_EXTENSIONS_135.md. Historical POS call-parity evidence
+above remains valid;the previous no-added-financial-read prohibition applies
+to the original visual migration,not this separately authorized extension.

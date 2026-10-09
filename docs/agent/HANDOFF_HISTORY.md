@@ -145,3 +145,26 @@ Append only concise, secret-free handoff summaries here when a task materially c
 - No owned test listeners. Gitleaks0,one commit/push/exact-SHA CI are delivery
   gates,not yet a visual approval. Official post-delivery checkpoint records CI;
   STOP for owner/Claude visual review,no next screen,Production/deploy or Phase7.
+
+## 2026-10-09 — Owner-approved135 read extensions (codex)
+
+Inventory f8d88ac accepted visually.135 explicitly replaces the two existing
+POS/customer and inventory readers only;CRM-authoritative debt/credit limit,
+server-wide available filter and active count. Small selected-debt warning,
+value-column/emoji/unit UI corrections;no sale block/new call/writer/grant change.
+Historical001–134 unchanged;135 canonical fingerprint pinned in continuity
+and migration-integrity tests. Details:READ_EXTENSIONS_135.md.
+
+Real POS debt100.000−partial payments35.000−Return20.000=45.000 exactly CRM;
+zero debt0,scoped reserved stock unavailable,roles rejected as before. Old JSON,
+owners/ACL/search_path/signatures unchanged;DB lint no new issue. Browser50/50
+and additional selected-debt axe8/8 PASS,retries0. Full canonical volume5000SKU,
+10000customers,150000orders,5000 real modern RPC scenarios,1.2m movements:
+JSON/ACL/counts PASS;worst p95 POS94.540ms,Inventory170.449ms,both<1s.
+First benchmark failed only pretty-EXPLAIN JSON parsing;whole-output decoder
+and permanent regression fixed,full run repeated PASS. Owned DB cleaned.
+Full quality exit0:389Browser PASS/59existing skips/retries0,typecheck/lint/unit/
+build/isolatedSEO/isolation PASS,escaped Production0. Gitleaks0,one independent
+commit/push/exact-SHA CI remain delivery
+gates until the official checkpoint confirms them. STOP for visual review;
+no next screen,Production/deploy or Phase7.

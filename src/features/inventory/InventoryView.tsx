@@ -2,7 +2,7 @@
 import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {shallowEqual, useAppStoreActions, useAppStoreSelector} from '../../stores/useAppStore';
 import type {Product, InventoryMovement} from '../../types';
-import {formatProductInventory} from '../../utils/inventoryFormatter';
+import {formatProductInventory, formatWholesaleInventory} from '../../utils/inventoryFormatter';
 import {ClearInventoryBalanceDialog} from './ClearInventoryBalanceDialog';
 import {fetchInventoryProductPageFromSupabase, type InventoryProductPage} from '../../services/supabase/inventory.service';
 import {Card, PageHeader, SectionHeader, DetailLayout, MainColumn, DetailPanel, KpiGrid, KpiCard, MoneyText, StatusBadge, StockBar, FilterChips, SegmentedControl, SearchField, UiButton, ProductGlyph, formatUiDate, type UiTone} from '../../components/ui';
@@ -42,6 +42,7 @@ function InventoryMovements({items}: {items: InventoryMovement[]}) {
 }
 type InventoryStatusFilter =
   | 'all'
+  | 'available'
   | 'low_stock'
   | 'out_of_stock'
   | 'near_expiry'
@@ -212,6 +213,8 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
   const totalCostValue = inventoryProductPage.metrics.totalCostValue;
   const totalRetailValue = inventoryProductPage.metrics.totalRetailValue;
   const totalItemCount = inventoryProductPage.metrics.totalItems;
+  const activeItemCount = inventoryProductPage.metrics.activeItems;
+  const availableStockCount = inventoryProductPage.metrics.availableStock;
   const lowStockCount = inventoryProductPage.metrics.lowStock;
   const outOfStockCount = inventoryProductPage.metrics.outOfStock;
   const stagnantCount = inventoryProductPage.metrics.stagnant;
@@ -260,7 +263,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
   }, [historyProduct, isProductPageLoading, acceptedRevision, productDataRevision]);
   const product = filteredProducts.find(item => item.id === historyProductId) ?? historyProduct;
   const metricsReady = acceptedRevision !== null && !productPageError;
-  const kpi = (value: number) => metricsReady && Number.isFinite(value) ? value : 'غير متاح';
+  const kpi = (value: number | undefined) => metricsReady && Number.isFinite(value) ? value! : 'غير متاح';
   const movementPagination = <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-nw-muted">
     <UiButton onClick={() => setMovementPageNumber((current) => Math.max(1, current - 1))} disabled={movementPage.page <= 1}>الأحدث</UiButton>
     <span>صفحة {movementPage.page} من {movementPage.totalPages}</span>
@@ -280,7 +283,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
     <div className="space-y-5 p-4 pb-28 sm:p-6">
       <KpiGrid phonePairs>
         <KpiCard label="قيمة المخزون بالتكلفة" value={metricsReady && Number.isFinite(totalCostValue) ? <MoneyText amount={totalCostValue} /> : 'غير متاح'} note="د.أ · متوسط التكلفة" />
-        <KpiCard label="إجمالي الأصناف" value={kpi(totalItemCount)} note="يشمل المتوقفة" />
+        <KpiCard label="أصناف نشطة" value={kpi(activeItemCount)} note="الأصناف المفعّلة فقط" />
         <KpiCard label="تحت حد الطلب" value={kpi(lowStockCount)} valueTone="warn" note="يحتاج متابعة المخزون" />
         <KpiCard label="نفدت" value={kpi(outOfStockCount)} valueTone="bad" note="لا يوجد مخزون متاح" />
       </KpiGrid>
@@ -290,7 +293,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
         <MainColumn>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <FilterChips touchSize label="حالة المخزون" value={statusFilter} onChange={setStatusFilter}
-              options={[{value:'all',label:'الكل',count:totalItemCount},{value:'low_stock',label:'منخفض',count:lowStockCount},{value:'out_of_stock',label:'نفد',count:outOfStockCount}]} />
+              options={[{value:'all',label:'الكل',count:totalItemCount},{value:'available',label:'متوفر',count:availableStockCount},{value:'low_stock',label:'منخفض',count:lowStockCount},{value:'out_of_stock',label:'نفد',count:outOfStockCount}]} />
             <SearchField label="البحث في المخزون" placeholder="ابحث باسم المنتج، الكود SKU، أو الباركود..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="w-full md:max-w-sm" />
             <UiButton aria-label="تحديث المخزون" disabled={isProductPageLoading} onClick={() => setProductPageRefreshToken(value => value + 1)}><RefreshCw className="h-4 w-4" />تحديث</UiButton>
           </div>
@@ -304,7 +307,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
               <label className="text-xs text-nw-muted">القسم:<select aria-label="القسم" value={selectedCategoryId} onChange={e => setSelectedCategoryId(e.target.value)} className="mt-1 min-h-11 w-full rounded-xl border border-nw-border bg-nw-surface-2 px-2 text-nw-text">
                 <option value="all">جميع الأقسام ({categories.length})</option>{categories.map(c => <option key={c.id} value={c.id}>{c.nameAr}</option>)}</select></label>
               <label className="text-xs text-nw-muted">حالة المخزون:<select aria-label="حالة المخزون المتقدمة" value={statusFilter} onChange={e => setStatusFilter(e.target.value as InventoryStatusFilter)} className="mt-1 min-h-11 w-full rounded-xl border border-nw-border bg-nw-surface-2 px-2 text-nw-text">
-                <option value="all">الكل (جميع الحالات)</option><option value="low_stock">منخفض المخزون</option><option value="out_of_stock">نافد المخزون</option><option value="near_expiry">قريب انتهاء الصلاحية</option><option value="stagnant">منتجات راكدة</option></select></label>
+                <option value="all">الكل (جميع الحالات)</option><option value="available">متوفر</option><option value="low_stock">منخفض المخزون</option><option value="out_of_stock">نافد المخزون</option><option value="near_expiry">قريب انتهاء الصلاحية</option><option value="stagnant">منتجات راكدة</option></select></label>
             </div>
             <p className="text-xs text-nw-muted">المنتجات الراكدة: {stagnantCount} · قريب انتهاء الصلاحية: غير متاح</p>
             <p className="text-xs text-nw-muted">القيمة بسعر البيع: {metricsReady ? <MoneyText amount={totalRetailValue} currency /> : 'غير متاح'}</p>
@@ -314,19 +317,18 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
               isProductPageLoading && filteredProducts.length === 0 ? <Card role="status">جارٍ تحميل صفحة المخزون…</Card> :
               filteredProducts.length === 0 ? <Card className="space-y-3 text-center"><p>لا توجد منتجات تطابق الفلاتر المحددة</p><p className="text-xs text-nw-muted">جرب تغيير شروط البحث أو اختيار فرع ومستودع آخر</p>
                 <UiButton onClick={() => {setSearchQuery('');setSelectedBranchId('all');setSelectedWarehouseId('all');setSelectedCategoryId('all');setStatusFilter('all');}}>إعادة ضبط جميع الفلاتر</UiButton></Card> : <>
-              <div className="hidden md:block"><TableShell caption="أصناف المخزون" minWidth={730} head={<><Th>الصنف</Th><Th>القسم</Th><Th>المتوفر</Th><Th>حد الطلب</Th><Th>متوسط التكلفة / باكيت</Th><Th>القيمة</Th></>}>
+              <div className="hidden md:block"><TableShell caption="أصناف المخزون" minWidth={730} head={<><Th>الصنف</Th><Th>القسم</Th><Th>المتوفر</Th><Th>حد الطلب</Th><Th>متوسط التكلفة / باكيت</Th></>}>
                 {filteredProducts.map(product => <Tr key={product.id} data-inventory-product-row={product.id} selected={lastSelectedId === product.id}>
                   <Td><button type="button" className="min-h-11 text-right" aria-label={'تفاصيل المنتج والرصيد: ' + product.nameAr} onClick={() => openProduct(product)}><span className="block font-semibold">{product.nameAr}</span><span className="text-xs text-nw-muted">{product.purchasePackage || product.unit} = {product.unitsPerPackage || 1} {product.unit}</span></button></Td>
                   <Td>{categories.find(c => c.id === product.categoryId)?.nameAr || 'عام'}</Td>
-                  <Td><InventoryStock product={product} /></Td><Td>{product.reorderLevel}</Td>
+                  <Td><InventoryStock product={product} /></Td><Td>{product.reorderLevel} {product.unit}</Td>
                   <Td>{Number.isFinite(product.costPrice) ? <MoneyText amount={product.costPrice} /> : 'غير متاح'}</Td>
-                  <Td><span className="text-xs text-nw-muted" title="القارئ الحالي يرجع قيمة المخزون الإجمالية، ولا يرجع قيمة موثقة لكل صنف">غير متاح</span></Td>
                 </Tr>)}
               </TableShell></div>
               <div className="grid gap-3 md:hidden">{filteredProducts.map(product => <Card key={product.id} data-inventory-product-card={product.id} padded={false} className={lastSelectedId === product.id ? 'border-nw-primary bg-nw-sel-row' : ''}>
                 <button type="button" className="min-h-11 w-full space-y-3 p-4 text-right" aria-label={'تفاصيل المنتج والرصيد: ' + product.nameAr} onClick={() => openProduct(product)}>
                   <span className="block break-words text-sm font-bold">{product.nameAr}</span><InventoryStock product={product} />
-                  <span className="flex justify-between gap-2 text-xs text-nw-muted"><span>حد الطلب: {product.reorderLevel}</span><span>{product.purchasePackage || product.unit} × {product.unitsPerPackage || 1}</span></span>
+                  <span className="flex justify-between gap-2 text-xs text-nw-muted"><span>حد الطلب: {product.reorderLevel} {product.unit}</span><span>{product.purchasePackage || product.unit} × {product.unitsPerPackage || 1}</span></span>
                 </button>
               </Card>)}</div>
             </>}
@@ -347,7 +349,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
             <div className="grid grid-cols-2 gap-2 text-xs">
               <Card className="p-3"><span className="text-nw-muted">الفعلي</span><p className="mb-0 font-bold">{formatProductInventory(product, false).cartonFormatted}</p></Card>
               <Card className="p-3"><span className="text-nw-muted">المحجوز</span><p className="mb-0 font-bold">{product.reservedQuantity} {product.unit}</p></Card>
-              <Card className="p-3"><span className="text-nw-muted">حد التنبيه</span><p className="mb-0 font-bold">{product.reorderLevel}</p></Card>
+              <Card className="p-3"><span className="text-nw-muted">حد التنبيه</span><p className="mb-0 font-bold">{formatWholesaleInventory(product.reorderLevel, product.unitsPerPackage, product.purchasePackage, product.unit).cartonFormatted}</p></Card>
               <Card className="p-3"><span className="text-nw-muted">سعر الباكيت</span><p className="mb-0 font-bold"><MoneyText amount={product.retailPrice} /></p></Card>
               <Card className="p-3"><span className="text-nw-muted">سعر طرد البيع</span><p className="mb-0 font-bold"><MoneyText amount={product.salePackagePrice || 0} /></p></Card>
             </div>

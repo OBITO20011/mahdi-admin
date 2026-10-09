@@ -6,6 +6,8 @@ export interface PosCustomer {
   id: string;
   name: string;
   phone: string;
+  currentBalance?: number;
+  creditLimit?: number;
 }
 
 export interface PosCustomerPage {
@@ -97,6 +99,10 @@ export async function fetchPosCustomersFromSupabase(params?: {
       id: String(customer.id || ''),
       name: String(customer.full_name || 'عميل'),
       phone: String(customer.phone || ''),
+      currentBalance: customer.current_balance_in_minor_units == null || !Number.isSafeInteger(Number(customer.current_balance_in_minor_units))
+        ? undefined : minorUnitsToJod(Number(customer.current_balance_in_minor_units)),
+      creditLimit: customer.credit_limit_in_minor_units == null || !Number.isSafeInteger(Number(customer.credit_limit_in_minor_units))
+        ? undefined : minorUnitsToJod(Number(customer.credit_limit_in_minor_units)),
     }));
 
   return {

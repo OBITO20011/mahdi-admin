@@ -15,7 +15,7 @@ export const inventoryProducts = Array.from({length:24}, (_, index) => ({
   warehouse_balances:[],created_at:'2026-10-01T06:00:00Z',updated_at:'2026-10-09T05:00:00Z',
 }));
 // Deliberately not sums of the displayed page: prove KPIs stay server-wide.
-export const inventoryMetrics = {total_items:126,total_cost_in_minor_units:18642300,
+export const inventoryMetrics = {total_items:126,active_items:120,available_stock:124,total_cost_in_minor_units:18642300,
   total_retail_in_minor_units:23100000,low_stock:7,out_of_stock:2,stagnant:4};
 
 export const inventoryMovementRows = inventoryProducts.flatMap(product => [

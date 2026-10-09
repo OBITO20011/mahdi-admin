@@ -27,9 +27,13 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`Inve
   await page.setViewportSize({width,height:width<1024?844:1125});await page.goto(url('theme='+theme));
   await expect(page.getByTestId('inventory-workbench')).toContainText('18,642.300');
   await expect(page.getByTestId('inventory-workbench')).toContainText('126');
-  await expect(page.getByText('يشمل المتوقفة')).toBeVisible();
+  await expect(page.getByText('الأصناف المفعّلة فقط')).toBeVisible();
+  await expect(page.getByTestId('inventory-workbench')).toContainText('120');
   const chips=page.getByRole('tablist',{name:'حالة المخزون'});
-  await expect(chips.getByRole('tab')).toHaveCount(3);await expect(chips).not.toContainText('متوفر');
+  await expect(chips.getByRole('tab')).toHaveCount(4);
+  await expect(chips.getByRole('tab',{name:/متوفر/u})).toContainText('124');
+  await expect(page.getByTestId('inventory-workbench')).not.toContainText('📦');
+  if(width>=768)await expect(page.getByRole('columnheader',{name:'القيمة',exact:true})).toHaveCount(0);
   await page.evaluate(()=>document.fonts.ready);
   await page.screenshot({path:info.outputPath(`inventory-${theme}-${width}-list.png`),fullPage:false});
   if(width<768)await card(page).getByRole('button').click();

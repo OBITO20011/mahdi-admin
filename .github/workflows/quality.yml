@@ -102,7 +102,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -126,6 +126,10 @@ jobs:
       - name: Run current 001-132 Package D public contracts
         if: matrix.suite == 'package-d'
         run: node scripts/testing/run-package-d-database-runtime.mjs
+
+      - name: Prove135 reader JSON,roles and real payment/Return balance
+        if: matrix.suite == 'package-f-reads'
+        run: npm run test:package-f:reads
 
       - name: Reconcile a complete business day through real public RPCs
         if: matrix.suite == 'golden-day'
