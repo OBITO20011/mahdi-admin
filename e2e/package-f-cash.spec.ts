@@ -27,7 +27,45 @@ async function checkLayout(page:Page){
     }return bad;
   });expect(escaped).toEqual([]);
 }
-async function axe(page:Page){const result=await new AxeBuilder({page}).include('[data-testid="cash-workbench"]').withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();expect(result.violations.filter(v=>v.impact==='serious'||v.impact==='critical').map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))).toEqual([]);}
+async function axe(page:Page){
+  const dialogs=page.getByTestId('cash-workbench').getByRole('dialog');
+  for(let i=0;i<await dialogs.count();i++){
+    const dialog=dialogs.nth(i);
+    if(await dialog.getAttribute('data-state')!==null)await expect(dialog).toHaveAttribute('data-state','open');
+    await dialog.evaluate(async element=>{
+      await Promise.all(element.getAnimations().filter(animation=>animation.playState==='running').map(animation=>animation.finished));
+    });
+  }
+  const result=await new AxeBuilder({page}).include('[data-testid="cash-workbench"]').withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
+  expect(result.violations.filter(v=>v.impact==='serious'||v.impact==='critical').map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,checks:n.any.map(check=>({message:check.message,data:check.data}))}))}))).toEqual([]);
+}
+
+test('report audit requires real opening-animation completion,not merely visible content',async({page})=>{
+  await page.addInitScript(()=>{
+    const original=window.requestAnimationFrame.bind(window);
+    let hold=true;const pending:FrameRequestCallback[]=[];
+    const state=window as typeof window & {reportHold?:number;releaseReport?:()=>void};
+    window.requestAnimationFrame=callback=>original(time=>{
+      const dialog=Array.from(document.querySelectorAll('[role="dialog"]')).find(el=>el.textContent?.includes('تفصيل كميات المرتجعات'));
+      const opacity=dialog?Number(getComputedStyle(dialog).opacity):1;
+      if(hold&&opacity>.75&&opacity<.99){state.reportHold=opacity;pending.push(callback);return;}
+      callback(time);
+    });
+    state.releaseReport=()=>{hold=false;for(const cb of pending.splice(0))original(cb);};
+  });
+  await page.route('**/rest/v1/rpc/get_cash_shift_closing_report',route=>route.fulfill({json:cashReportFixture}));
+  await page.goto(url('live=1&theme=light'));
+  await page.getByRole('button',{name:'عرض التقرير المالي الحي',exact:true}).click();
+  await expect.poll(()=>page.evaluate(()=>(window as typeof window & {reportHold?:number}).reportHold??0)).toBeGreaterThan(.75);
+  const dialog=page.getByRole('dialog',{name:'تقرير الإغلاق اليومي',exact:true});
+  await expect(dialog).toHaveAttribute('data-state','opening');
+  expect(await dialog.evaluate(el=>Math.abs(new DOMMatrixReadOnly(getComputedStyle(el).transform).m42))).toBeGreaterThan(1);
+  await page.evaluate(()=>(window as typeof window & {releaseReport?:()=>void}).releaseReport?.());
+  await expect(dialog).toHaveAttribute('data-state','open');
+  expect(await dialog.evaluate(el=>getComputedStyle(el).opacity)).toBe('1');
+  expect(await dialog.evaluate(el=>new DOMMatrixReadOnly(getComputedStyle(el).transform).m42)).toBe(0);
+  await axe(page);
+});
 for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`Cash ${theme} ${width}: authoritative fixture,Latin digits,containment,axe and sticky close`,async({page},info)=>{
   await page.setViewportSize({width,height:width<1024?844:1100});await page.goto(url('theme='+theme));
   await expect(page.getByTestId('cash-expected')).toContainText('810.300');await page.evaluate(()=>document.fonts.ready);

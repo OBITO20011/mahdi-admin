@@ -148,3 +148,54 @@ glyph-position tests4/4 and all existing Cash36/36 pass in the full run;
 open-shift case3.4s Chromium/4.9s WebKit with unchanged assertions. External/
 Production escaped0.001–135/services/stores untouched. Gitleaks0/commit/push/
 exact-SHA CI follow this evidence;136/Customers wait for completion-date policy.
+
+## Focused contrast audit stability — owner2026-10-09
+
+e367889 CI37927592391/job113810157452 reported WebKit light real-report
+color-contrast before its20m cancellation. Prior log retained selectors only,
+not foreground/background/ratio. Local original WebKit20,workers1/retries0:
+20PASS,0FAIL (2.4m);this is NOT reproduction of the CI failure.
+
+Measured the same report nodes with axe in the isolated live-adapter harness:
+header #1d4ed8/#ffffff=6.70,employee/date #55657a/#ffffff=5.95;
+currency #55657a/#f7f9fc=5.64,refund #b42318/#f7f9fc=6.23,
+net #0f6b3d/#f7f9fc=6.24. No failing steady-state token found or changed.
+Controlled pause of native opening frames at opacity0.582888/0.870544/0.9043
+did not reproduce the color violation;one frame did yield axe background-
+overlap/partially-obscured incomplete checks. Timing remains a source-grounded
+hypothesis,not a measured explanation of the original CI colors.
+
+Modal now exposes opening/open/closing/closed from real Motion callbacks;
+Cash axe waits for actual open completion,not elapsed time or content presence.
+Detailed failure diagnostics preserve fg/bg/ratio. No rules/nodes excluded,
+assertions loosened,retries/timeouts/workflow edits or global token changes.
+Permanent response/frame-controlled regression holds the translation and
+proves opening persists until release,then exact opacity1 and translation0.
+It fails on the old Modal (missing opening state),not by a manufactured color.
+Initial new-test assumption opacity<1 failed13/20 because native opacity can
+finish while JS translation is held;replaced by unfinished translation>1,
+retaining exact final opacity1 and adding exact final translation0.
+Valid focused/quality/CI results follow separately;no false before-color claim.
+
+Corrected focused proof:WebKit report20/20 and controlled-completion20/20
+PASS together (40/40,3.8m,workers1,retries0). New completion regression also
+PASS on Chromium;typecheck and fixed-baseline Cash unit/AST5/5 PASS.
+Full quality and exact-SHA CI remain required;no runtime PASS inferred here.
+
+First full-quality attempt stopped after four Cash static-action-panel tests
+failed:the new readiness helper required Motion data-state on a non-animated
+ResponsiveActionPanel aside. Corrected helper waits for data-state only where
+provided,and awaits running native animations for every dialog. Axe still
+includes the entire workbench and all original rules/nodes. This was a new
+helper error,not a color failure;interrupted quality is NOT counted as PASS.
+Final helper:all Cash38/38 Chromium/WebKit PASS (1.8m),and original real-report
+light WebKit20/20 PASS again (2.2m,workers1,retries0). Cash unit/AST5/5 and strict
+ESLint PASS. Full frozen-files quality/exact-SHA CI are the next gates.
+Frozen-files full quality exit0:435 Browser PASS/59 pre-existing conditional
+skips/retries0 (12.8m),Admin/Customer lint/unit/build PASS,network guard external
+and Production escaped0.001–135/services/stores unchanged. Gitleaks and
+independent contrast commit/push/exact-SHA CI16/16 follow;no next stage yet.
+
+Owner also approved unknown-age fourth bucket (undated first for FIFO,no
+overdue alert),future opening balances with original debt date,and a separate
+empty-actualCash correction. No136/opening tool/actualCash change in this commit.

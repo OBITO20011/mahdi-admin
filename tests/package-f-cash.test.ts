@@ -87,3 +87,13 @@ test('Arabic shift time is isolated with automatic direction,not forced LTR',()=
     assert.doesNotMatch(readFileSync(file,'utf8'),/<bdi[^>]*dir="ltr"[^>]*>\s*\{formatUiTime/u);
   }
 });
+
+test('dialog audit readiness comes from actual spring completion without hiding contrast rules',()=>{
+  const modal=readFileSync('src/components/common/Modal.tsx','utf8');
+  assert.match(modal,/data-state="opening"/u);
+  assert.match(modal,/onAnimationComplete=\{\(\) => panel.current\?\.setAttribute\('data-state', isOpen \? 'open' : 'closed'\)\}/u);
+  const browser=readFileSync('e2e/package-f-cash.spec.ts','utf8');
+  assert.match(browser,/toHaveAttribute\('data-state','open'\)/u);
+  assert.match(browser,/v.impact==='serious'\|\|v.impact==='critical'/u);
+  assert.doesNotMatch(browser,/waitForTimeout|disableRules|exclude\(|test\.skip/u);
+});

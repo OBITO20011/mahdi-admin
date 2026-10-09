@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "IDLE",
   "owner": "codex",
-  "objective": "Owner accepted Cash/Orders de879ae/57e53d4:fix Arabic shift time separately,then read-only debt aging136 and Customers UI;quality/Gitleaks/exact-SHA CI per commit",
-  "baselineSha": "de879ae9a68758039e3ac20c965dc886490dbf3b",
+  "objective": "Owner2026-10-09:Cash contrast then empty actualCash then read-only136 then Customers;independent quality/Gitleaks0/commit/push/exact-SHA CI gates",
+  "baselineSha": "e367889f553be75d83a09a4bbe81c11090afc50a",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -13,43 +13,45 @@
     "Arabic shift-time uses auto bdi;focused4/4 glyph-position browser;open actual-cash question recorded"
   ],
   "inProgress": [
-    "Gitleaks0,separate time commit/push/exact-SHA CI"
+    "Contrast full quality passed;independent commit/push and exact-SHA CI next,before empty actualCash"
   ],
   "notStarted": [
-    "Debt-aging136 implementation and Customers UI pending source/date policy review",
+    "Separate empty actualCash commit,then136 with fourth unknown-age bucket,then Customers UI",
     "Next screen/Phase7"
   ],
   "filesTouched": [
     "docs/agent/OWNER_DECISIONS.md",
     "docs/design/package-f/CASH_MIGRATION.md",
     "e2e/package-f-cash.spec.ts",
-    "src/features/shifts/ShiftsView.tsx",
+    "src/components/common/Modal.tsx",
     "tests/package-f-cash.test.ts"
   ],
   "testsPassed": [
-    "Full quality exit0:786Admin;Customer lint/tests/build PASS;433Browser,59existing conditional skips,retries0;18.0m",
-    "Cash36/36 including visual Arabic time4/4;calls/input/handler AST parity retained;001-135/services/stores unchanged",
-    "External/Production escapes0"
+    "Baseline e367 full quality786Admin/433Browser/59existing skips PASS;CI cancelled after contrast failure,not green",
+    "Contrast original WebKit20/20 PASS before;not CI reproduction. Same-node stable axe ratios5.64-6.70,no token change",
+    "Corrected WebKit report20/20 and completion20/20 PASS;Chromium new regression PASS;typecheck/Cash AST5/5 PASS",
+    "Final readiness helper:Cash38/38 Chromium/WebKit and WebKit report20/20 PASS;strict ESLint PASS",
+    "Frozen full quality exit0:435Browser/59existing skips/retries0 (12.8m);Admin/Customer lint/unit/build PASS;external/Production escaped0"
   ],
   "testsRemaining": [
-    "Gitleaks0,time commit/push/exact-SHA CI",
-    "Owner completion-date decision before136/Customers"
+    "Gitleaks0/contrast commit/push and exact-SHA CI16/16",
+    "Empty field,explicit0,count helper/payload;then136 runtime/ACL/scale and Customers UI"
   ],
   "findings": [
-    "Previous quality run invalidated by own docs/checkpoint HMR;stable-files repeat green with same assertions"
+    "Previous local quality run invalidated by own docs/checkpoint HMR;stable-files repeat green with same assertions",
+    "New quality helper initially waited for Motion state on static panel;corrected without any axe node/rule exclusion;interrupted run is not PASS",
+    "Exact-SHA CI37927592391 job113810157452:WebKit real report adapter light color-contrast failure at12:18:24Z;operation cancelled12:23:44Z after20m. Not a PASS and not proven timeout-only"
   ],
-  "blockers": [
-    "136 completion-date policy:legacy debt without proven completion;owner question pending"
-  ],
+  "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production/deploy/Phase7/automations;only approved time/136/Customers scope",
+    "No Production/deploy/Phase7/automations;only approved contrast/actualCash/136/Customers scope",
     "No write RPC/payload/permission changes;001-135 immutable;136 only approved read addition",
-    "Actual-cash prefill question only,no implementation",
+    "No opening-balance tool;unknown-age separate,not overdue;no invented dates",
     "Preserve .claude/launch.json unchanged/unstaged"
   ],
-  "nextExactAction": "Full stable quality PASS786Admin/433Browser/59existing skips/retries0;time-only commit after Gitleaks0,then exact-SHA CI. Stop for136 missing-completion-date policy before migration/Customers. No Production/deploy.",
-  "workingTreeFingerprint": "A687D3574C5F57A342E1B9AE4AC64A0E8E525DC8B3631DA6366EB7531E4A42CA",
-  "checkpointedAt": "2026-10-09T12:03:02.718Z",
+  "nextExactAction": "Contrast full quality PASS435Browser/59existing skips/retries0. Gitleaks0 then independent commit/push and exact-SHA CI16/16;only after green begin separate empty actualCash,then136/Customers. No Production/deploy.",
+  "workingTreeFingerprint": "283FC6AC878434E9CE1EF7B5DE998BB333E935FBA7E1C1FE4C608473AB076A09",
+  "checkpointedAt": "2026-10-09T16:30:01.993Z",
   "startedAt": "2026-10-08T22:04:02.501Z"
 }

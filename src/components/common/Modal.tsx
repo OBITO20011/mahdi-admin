@@ -46,6 +46,7 @@ export const Modal: React.FC<ModalProps> = ({
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
+            data-state="opening"
             tabIndex={-1}
             onInputCapture={() => { edited.current = true; }}
             onChangeCapture={() => { edited.current = true; }}
@@ -53,6 +54,8 @@ export const Modal: React.FC<ModalProps> = ({
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: '100%', opacity: 0 }}
             transition={{ type: 'spring', damping: 26, stiffness: 220 }}
+            onAnimationStart={() => panel.current?.setAttribute('data-state', isOpen ? 'opening' : 'closing')}
+            onAnimationComplete={() => panel.current?.setAttribute('data-state', isOpen ? 'open' : 'closed')}
             className={`w-full ${maxWidth} bg-slate-900 border border-slate-800 rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col ${maxHeight} overflow-hidden`}
           >
             {/* Sheet Drag Handle Indicator */}
