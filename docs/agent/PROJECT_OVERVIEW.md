@@ -8,7 +8,15 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 ## Canonical reading order
 
-**Current owner boundary — 2026-10-09:** Orders70bb975 visually accepted;
+**Current owner boundary — 2026-10-09:** POS20910cb+faae71a visually accepted;
+Inventory §6.4 presentation authorized, plus POS Arabic item count and short
+collapsed rail labels. Chips only all/low/out; totalItems labelled إجمالي الأصناف
+with يشمل المتوقفة. No new available filter, active count or readers. Preserve
+all existing readers/actions/roles/migrations. See INVENTORY_MIGRATION.md.
+Full quality/Gitleaks0/one commit/push/exact-SHA CI then STOP for visual review.
+No next screen, Production/deploy, DB changes or Phase7.
+
+**Previous owner boundary — 2026-10-09:** Orders70bb975 visually accepted;
 POS §6.3/4.1/4.2 presentation authorized. Customer selector name/phone only,no
 debt line or extra read. Preserve all V2/recovery/shift/price/payload/role paths,
 migrations and shell. Read POS_MIGRATION.md for parity,harness/test changes and

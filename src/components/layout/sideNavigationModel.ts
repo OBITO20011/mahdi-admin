@@ -15,6 +15,7 @@ import type { AppState } from '../../stores/useAppStore';
 export interface SideNavItem {
   id: string;
   label: string;
+  railLabel: string;
   icon: LucideIcon;
   action: AdminNavigationAction;
 }
@@ -28,9 +29,20 @@ export interface SideNavGroup {
 const toSideItem = (item: AdminNavigationItem): SideNavItem => ({
   id: item.id,
   label: item.label,
+  railLabel: RAIL_LABELS[item.id],
   icon: item.icon,
   action: item.action,
 });
+
+const RAIL_LABELS: Readonly<Record<string, string>> = {
+  'sales-pos': 'بيع', 'sales-orders': 'الطلبات', 'parcel-configuration': 'الطرود',
+  'catalog-products': 'المنتجات', 'inventory-current': 'المخزون',
+  'customer-accounts': 'العملاء', 'supplier-receiving': 'الاستلام',
+  'finance-shifts': 'الصندوق', 'finance-expenses': 'المصروفات',
+  'finance-reports': 'التقارير', 'admin-users': 'الفريق',
+  'admin-monitoring': 'المراقبة', 'admin-storefront': 'المتجر',
+  'admin-promotions': 'الخصم', 'admin-profile': 'حسابي',
+};
 
 /** Same rule as MoreMenuView: owner-only items are shown to the owner only. */
 export const isVisibleToRole = (item: AdminNavigationItem, roleName: string | null | undefined) =>
@@ -39,6 +51,7 @@ export const isVisibleToRole = (item: AdminNavigationItem, roleName: string | nu
 export const SIDE_NAV_HOME: SideNavItem = {
   id: 'home',
   label: 'الرئيسية',
+  railLabel: 'الرئيسية',
   icon: Home,
   action: { type: 'tab', destination: 'home' },
 };
@@ -47,6 +60,7 @@ export const SIDE_NAV_HOME: SideNavItem = {
 export const SIDE_NAV_MORE: SideNavItem = {
   id: 'more',
   label: 'الإعدادات والمزيد',
+  railLabel: 'المزيد',
   icon: Settings2,
   action: { type: 'tab', destination: 'more' },
 };

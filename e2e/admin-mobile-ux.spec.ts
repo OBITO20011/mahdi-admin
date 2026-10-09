@@ -47,10 +47,11 @@ for (const viewport of [
       waitUntil: 'domcontentloaded',
     });
 
-    const cards = page.locator('[data-inventory-product-card]');
+    const cards = page.locator('[data-inventory-product-card]:visible, [data-inventory-product-row]:visible');
     await expect(cards).toHaveCount(4);
     const card = cards.first();
-    await expect(card.getByText('المتاح في المخزون')).toBeVisible();
+    await expect(card.getByRole('meter')).toBeVisible();
+    await expect(card.getByRole('meter')).toHaveAttribute('aria-valuenow','157');
     await expectNoOverflow(page);
 
     if (viewport.width <= 430) {
@@ -58,12 +59,13 @@ for (const viewport of [
       const secondBox = await cards.nth(1).boundingBox();
       expect(firstBox).not.toBeNull();
       expect(secondBox).not.toBeNull();
-      expect(Math.abs((firstBox?.y ?? 0) - (secondBox?.y ?? 0))).toBeLessThan(2);
-      expect(firstBox?.width ?? viewport.width).toBeLessThan(viewport.width / 2);
+      expect(secondBox!.y).toBeGreaterThan(firstBox!.y + firstBox!.height);
+      expect(firstBox!.width).toBeGreaterThan(viewport.width * 0.85);
     }
 
+    await card.getByRole('button').click();
     for (const label of ['استلام', 'جرد']) {
-      const box = await card.getByRole('button', { name: label }).boundingBox();
+      const box = await page.getByTestId('inventory-detail-panel').getByRole('button', { name: label,exact:true }).boundingBox();
       expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
     }
   });
@@ -157,16 +159,18 @@ test('inventory secondary data and actions stay reachable', async ({ page }) => 
 
   const card = page.locator('[data-inventory-product-card]').first();
   const compactBox = await card.boundingBox();
-  await card.getByText('تفاصيل المنتج والرصيد').click();
-  const expandedBox = await card.boundingBox();
-  expect(expandedBox?.width ?? 0).toBeGreaterThan((compactBox?.width ?? 0) * 1.8);
-  await expect(card.getByText(/6251234567890/)).toBeVisible();
-  await expect(card.getByText(/طرد الشراء: كرتونة × 30/)).toBeVisible();
-  await expect(card.getByText(/طرد البيع: شرنك × 6/)).toBeVisible();
+  await card.getByRole('button').click();
+  const panel=page.getByTestId('inventory-detail-panel');
+  const expandedBox = await panel.boundingBox();
+  expect(expandedBox!.width).toBe(390);
+  expect(expandedBox!.height).toBe(844);
+  expect(expandedBox!.height).toBeGreaterThan(compactBox!.height);
+  await expect(panel.getByText(/6251234567890/)).toBeVisible();
+  await expect(panel.getByText(/طرد الشراء: كرتونة × 30/)).toBeVisible();
+  await expect(panel.getByText(/طرد البيع: شرنك × 6/)).toBeVisible();
 
-  await card.getByText('سجل الحركات وإدارة الرصيد').click();
-  await expect(card.getByRole('button', { name: /سجل الحركات/ })).toBeVisible();
-  await expect(card.getByRole('button', { name: /حذف الرصيد/ })).toBeVisible();
+  await expect(panel.getByRole('button', { name: /سجل الحركات/ })).toBeVisible();
+  await expect(panel.getByRole('button', { name: /حذف الرصيد/ })).toBeVisible();
   await expectNoSeriousAccessibilityViolations(page);
 });
 

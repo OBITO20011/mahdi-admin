@@ -1,5 +1,22 @@
 # Phase status
 
+## 2026-10-09 — Package F Inventory migration
+
+Owner/Claude accepted POS20910cb+faae71a visually and exact-SHA CI15/15.
+Inventory §6.4 only plus POS count wording/short rail labels authorized.
+Existing server-wide metrics and all reader/action/permission paths retained;
+chips all/low/out only, totalItems includes inactive. No new available/active
+reader or per-item exact valuation invented. Phone detail/back preserves
+selected card/scroll after actual accepted list reload. Details/test contracts:
+docs/design/package-f/INVENTORY_MIGRATION.md. Full quality/Gitleaks0/one
+commit/push/exact-SHA CI then STOP for visual review; no next screen or Phase7.
+Migrations001–134 unchanged; no Production/deploy.
+
+Inventory final local quality exit0:777Admin/189Customer/381Browser PASS,
+59existing conditional skips,retries0. Inventory24/24 and POS18/18 in full run;
+ESLint strict/build/SEO/isolation PASS,external/Production escaped0. Gitleaks,
+one commit/push/exact-SHA CI precede the visual-review stop. No next screen.
+
 ## 2026-10-09 — Package F POS migration
 
 Orders70bb975 exact-SHA quality37876499951(15/15)/secrets37876499829 PASS,

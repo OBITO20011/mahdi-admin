@@ -89,14 +89,14 @@ test.describe('isolated Admin 5k catalog performance', () => {
 
     const inventoryStartedAt = Date.now();
     await shellTab(page, 'inventory').click();
-    await expect(page.locator('[data-inventory-product-card]')).toHaveCount(24, {timeout: 30_000});
+    await expect(page.locator('[data-inventory-product-card]:visible, [data-inventory-product-row]:visible')).toHaveCount(24, {timeout: 30_000});
     const inventoryMs = Date.now() - inventoryStartedAt;
     const inventoryDomNodes = await page.locator('*').count();
     expect(inventoryDomNodes).toBeLessThan(7_000);
 
     const inventorySearch = page.getByPlaceholder('ابحث باسم المنتج، الكود SKU، أو الباركود...');
     await inventorySearch.fill('LCAT-005000');
-    await expect(page.locator('[data-inventory-product-card]:visible').filter({hasText: 'LCAT-005000'}))
+    await expect(page.locator('[data-inventory-product-card]:visible, [data-inventory-product-row]:visible').filter({hasText: 'LCAT-005000'}))
       .toHaveCount(1, {timeout: 15_000});
 
     const posStartedAt = Date.now();

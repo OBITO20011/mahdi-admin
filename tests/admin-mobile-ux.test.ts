@@ -44,10 +44,10 @@ test('inventory cards prioritize available stock and keep compact accessible act
   assert.match(inventoryView, /تفاصيل المنتج والرصيد/);
   assert.match(
     inventoryView,
-    /grid grid-cols-2 gap-2 md:grid-cols-2 xl:grid-cols-3/,
+    /className="grid gap-3 md:hidden"/,
   );
-  assert.match(inventoryView, /\[&:has\(details\[open\]\)\]:col-span-2/);
-  assert.match(inventoryView, /grid-cols-2 sm:grid-cols-4/);
+  assert.match(inventoryView, /<DetailPanel[\s\S]*?fixed inset-0[\s\S]*?md:static/);
+  assert.match(inventoryView, /grid grid-cols-2 gap-3 py-3 sm:grid-cols-4/);
   assert.match(inventoryView, /min-h-11/);
   assert.match(inventoryView, /openModal\('receive_goods'\)/);
   assert.match(inventoryView, /openModal\('stock_count'/);

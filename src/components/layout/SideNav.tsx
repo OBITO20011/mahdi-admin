@@ -92,7 +92,7 @@ export const SideNav: React.FC<SideNavProps> = ({ collapsed = false }) => {
       >
         <Icon className={collapsed ? 'h-5 w-5' : 'h-[18px] w-[18px] shrink-0'} aria-hidden="true" />
         {collapsed ? (
-          <span className="max-w-full truncate">{item.label.split(' ')[0]}</span>
+          <span data-rail-label className="max-w-full whitespace-nowrap">{item.railLabel}</span>
         ) : (
           <span className="min-w-0 flex-1 truncate">{item.label}</span>
         )}

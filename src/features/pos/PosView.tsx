@@ -15,7 +15,7 @@ import type {CreatePosSaleV2Input, PosV2ConfigurableParcelLine} from '../../serv
 import {PosParcelBuilder, type PosParcelOption} from './PosParcelBuilder';
 import {posCartLines, posStockDemand, posWarehouseAvailable, posV2Invoice, type PosCartItem} from './posV2Cart';
 import {jodToMinorUnits} from '../../utils/receivingCalculations';
-import { Card, PageHeader, StatusBadge, MoneyText, SearchField, FilterChips, SegmentedControl, UiButton, StickyActionBar, ResponsiveCartPanel, ProductGlyph } from '../../components/ui';
+import { Card, PageHeader, StatusBadge, MoneyText, SearchField, FilterChips, SegmentedControl, UiButton, StickyActionBar, ResponsiveCartPanel, ProductGlyph, formatItemCount } from '../../components/ui';
 import { useDialogFocus } from '../../hooks/useDialogFocus';
 import { Modal } from '../../components/common/Modal';
 import {
@@ -653,7 +653,7 @@ export const PosView: React.FC = () => {
             </UiButton>
 );
   const cartTotals = <div className="flex flex-wrap items-center justify-between gap-2">
-    <span className="text-xs text-nw-muted">{cartItems.length} أصناف · <bdi dir="ltr">{cartItems.reduce((sum, item) => sum + item.quantity, 0)}</bdi> وحدات بيع</span>
+    <span className="text-xs text-nw-muted">{formatItemCount(cartItems.length)} · <bdi dir="ltr">{cartItems.reduce((sum, item) => sum + item.quantity, 0)}</bdi> وحدات بيع</span>
     <span className="text-xs text-nw-muted"><bdi dir="ltr">{cartItems.reduce((sum, item) => sum + item.baseQuantity, 0)}</bdi> باكيت</span>
     <strong className="w-full text-2xl"><MoneyText amount={totalAmount} currency /></strong>
   </div>;
@@ -913,7 +913,7 @@ export const PosView: React.FC = () => {
       <StickyActionBar tone="hero" hidden={isCartOpen} data-testid="pos-sticky-checkout">
         <div className="flex min-w-0 items-center justify-between gap-2">
           <strong className="text-xl"><MoneyText amount={totalAmount} currency /></strong>
-          <UiButton aria-label="مراجعة السلة والعميل" onClick={() => setIsCartOpen(true)} className="px-2 text-xs"><ShoppingBag className="h-4 w-4" />{cartItems.length} أصناف · السلة</UiButton>
+          <UiButton aria-label="مراجعة السلة والعميل" onClick={() => setIsCartOpen(true)} className="px-2 text-xs"><ShoppingBag className="h-4 w-4" />{formatItemCount(cartItems.length)} · السلة</UiButton>
         </div>
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">{paymentControl}{completeSaleButton}</div>
       </StickyActionBar>

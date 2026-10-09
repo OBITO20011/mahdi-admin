@@ -127,3 +127,21 @@ Append only concise, secret-free handoff summaries here when a task materially c
 - Final POS quality exit0:771Admin/189Customer/357Browser PASS,59existing
   conditional skips,retries0;POS18/18,Orders32/32,Home24/24 in full run.
   Lint/build/SEO/isolation PASS,external/Production escaped0;Gitleaks/CI follow.
+
+## 2026-10-09 — Package F Inventory migration (codex)
+
+- Owner/Claude accepted POS20910cb+faae71a. Inventory §6.4 plus POS Arabic count
+  and explicit short rail labels only;all/low/out,totalItems includes inactive.
+  No new readers or invented per-product exact valuation. Deferred filter/count
+  question and changed shape contracts are in INVENTORY_MIGRATION.md.
+- Actual controller/adapter harness,phone full-screen detail/back after accepted
+  reload,stock/history/actions/role/layout/axe/Latin tests. Business-call traces
+  Inventory7/POS31/PosParcelBuilder0 identical to faae71a;services/stores/DB/CI unchanged.
+- Focused50/50 and unit18/18 PASS;added history/action tests PASS. Full quality
+  first exposed only old `1 أصناف` expectation;exact wording updated,no other
+  keyboard/scanner/capacity assertion changed. Final quality exit0:777Admin,
+  189Customer,381Browser PASS/59existing skips/retries0;Inventory24/24,POS18/18,
+  Orders32/32,Home24/24. Strict ESLint/build/SEO/isolation PASS;Production escaped0.
+- No owned test listeners. Gitleaks0,one commit/push/exact-SHA CI are delivery
+  gates,not yet a visual approval. Official post-delivery checkpoint records CI;
+  STOP for owner/Claude visual review,no next screen,Production/deploy or Phase7.

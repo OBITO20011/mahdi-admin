@@ -1,46 +1,45 @@
-/**
- * Nawasrah Business Manager - Independent Inventory Management View (شاشة إدارة المخزون)
- */
+/** Package F inventory presentation; all existing reader/mutation boundaries retained. */
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {shallowEqual, useAppStoreActions, useAppStoreSelector} from '../../stores/useAppStore';
+import type {Product, InventoryMovement} from '../../types';
+import {formatProductInventory} from '../../utils/inventoryFormatter';
+import {ClearInventoryBalanceDialog} from './ClearInventoryBalanceDialog';
+import {fetchInventoryProductPageFromSupabase, type InventoryProductPage} from '../../services/supabase/inventory.service';
+import {Card, PageHeader, SectionHeader, DetailLayout, MainColumn, DetailPanel, KpiGrid, KpiCard, MoneyText, StatusBadge, StockBar, FilterChips, SegmentedControl, SearchField, UiButton, ProductGlyph, formatUiDate, type UiTone} from '../../components/ui';
+import {TableShell, Th, Tr, Td} from '../../components/ui';
+import {useDialogFocus} from '../../hooks/useDialogFocus';
+import {Truck, ClipboardCheck, FileSpreadsheet, ChevronLeft, ChevronRight, RefreshCw, History, Trash2, ArrowRight} from 'lucide-react';
 
-import React, { useEffect, useState } from 'react';
-import {
-  shallowEqual,
-  useAppStoreActions,
-  useAppStoreSelector,
-} from '../../stores/useAppStore';
-import { Product } from '../../types';
-import { formatProductInventory } from '../../utils/inventoryFormatter';
-import { ClearInventoryBalanceDialog } from './ClearInventoryBalanceDialog';
-import {
-  Boxes,
-  Search,
-  Filter,
-  Building2,
-  Warehouse as WarehouseIcon,
-  Layers,
-  Truck,
-  Plus,
-  Minus,
-  ClipboardCheck,
-  History,
-  AlertTriangle,
-  XCircle,
-  Clock,
-  CheckCircle2,
-  DollarSign,
-  Package,
-  Calendar,
-  ChevronLeft,
-  ChevronRight,
-  Trash2,
-  FileSpreadsheet,
-} from 'lucide-react';
-import { CURRENCY } from '../../constants';
-import {
-  fetchInventoryProductPageFromSupabase,
-  type InventoryProductPage,
-} from '../../services/supabase/inventory.service';
+const stockState = (product: Product): {tone: UiTone; label: string} =>
+  product.availableQuantity <= 0 ? {tone:'bad',label:'نفد'} :
+    product.availableQuantity <= product.reorderLevel ? {tone:'warn',label:'منخفض'} : {tone:'ok',label:'متوفر'};
 
+function InventoryStock({product}: {product: Product}) {
+  const status = stockState(product);
+  const invAvailable = formatProductInventory(product, true);
+  return <div className="min-w-0 space-y-2 text-xs">
+    <div className="flex flex-wrap items-center justify-between gap-2"><span className="sr-only">المتاح في المخزون</span>
+      <span className="break-words font-semibold">{invAvailable.cartonFormatted}</span><StatusBadge tone={status.tone}>{status.label}</StatusBadge></div>
+    <StockBar label={'المتاح في المخزون: ' + product.nameAr} value={product.availableQuantity}
+      max={Math.max(product.maxStockLevel ?? 0, product.availableQuantity, product.reorderLevel, 1)} tone={status.tone} />
+  </div>;
+}
+function InventoryMovements({items}: {items: InventoryMovement[]}) {
+  return <div className="space-y-2">{items.map(mov => {
+    const adjustment = ['Stock Count','Manual Adjustment','Damage','Expired'].includes(mov.movementType);
+    const tone: UiTone = adjustment ? 'warn' : mov.quantityChange >= 0 ? 'ok' : 'info';
+    const glyph = adjustment ? '±' : mov.quantityChange >= 0 ? '+' : '−';
+    return <div key={mov.id} className="flex min-w-0 items-start gap-3 border-b border-nw-border py-3 text-xs">
+      <StatusBadge tone={tone}>{glyph}</StatusBadge><div className="min-w-0 flex-1 space-y-1">
+        <p className="m-0 break-words font-semibold">{mov.productName}</p><p className="m-0 break-words">{mov.reason}</p>
+        <p className="m-0 break-words text-nw-muted">{mov.movementType} · {mov.performedByUserName}</p>
+        <bdi dir="ltr" className="block text-nw-muted">{formatUiDate(mov.timestamp,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</bdi>
+        <p className="m-0 text-nw-muted">القبل: {mov.previousQuantity} ← النتيجة: {mov.newQuantity}</p>
+      </div><bdi dir="ltr" className={'nw-num shrink-0 font-bold ' + (adjustment ? 'text-nw-warn' : mov.quantityChange >= 0 ? 'text-nw-ok' : 'text-nw-info')}>
+        {mov.quantityChange >= 0 ? '+' : '−'}{Math.abs(mov.quantityChange)}</bdi>
+    </div>;
+  })}</div>;
+}
 type InventoryStatusFilter =
   | 'all'
   | 'low_stock'
@@ -108,6 +107,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
       stagnant: 0,
     },
   });
+  const [acceptedRevision, setAcceptedRevision] = useState<number | null>(null);
   const [movementPageNumber, setMovementPageNumber] = useState(1);
   const movementPageSize = 25;
 
@@ -152,6 +152,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
       .then((result) => {
         if (!active) return;
         setInventoryProductPage(result);
+        setAcceptedRevision(productDataRevision);
         cacheProductPage(result.products);
       })
       .catch((error: unknown) => {
@@ -213,7 +214,6 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
   const totalItemCount = inventoryProductPage.metrics.totalItems;
   const lowStockCount = inventoryProductPage.metrics.lowStock;
   const outOfStockCount = inventoryProductPage.metrics.outOfStock;
-  const nearExpiryCount = 0;
   const stagnantCount = inventoryProductPage.metrics.stagnant;
 
   // Filtered Movements List
@@ -223,838 +223,154 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
   const getProductMovements = (productId: string) =>
     movementPage.productId === productId ? movements : [];
 
-  return (
-    <div className="p-4 space-y-4 pb-28">
-      {/* Top Bar / Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h2 className="text-lg font-black text-slate-100 flex items-center gap-2">
-            <Boxes className="w-6 h-6 text-indigo-400" />
-            <span>المخزون</span>
-          </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
-            استلم البضاعة أو راقب المتاح؛ كل تعديل محفوظ بحركة موثقة.
-          </p>
-        </div>
+  const rootRef = useRef<HTMLDivElement>(null);
+  const returnPoint = useRef<{id: string; container: HTMLElement; top: number} | null>(null);
+  const [lastSelectedId, setLastSelectedId] = useState<string | null>(null);
+  const [phone, setPhone] = useState(false);
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 767px)');
+    const update = () => setPhone(media.matches);
+    update(); media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+  const closeDetail = () => setHistoryProduct(null);
+  const detailRef = useDialogFocus(Boolean(historyProduct && phone), closeDetail);
+  const openProduct = (product: Product) => {
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      let container = rootRef.current?.parentElement ?? null;
+      while (container && !/^(auto|scroll)$/.test(getComputedStyle(container).overflowY)) container = container.parentElement;
+      container ??= document.scrollingElement as HTMLElement;
+      returnPoint.current = {id: product.id, container, top: container.scrollTop};
+    }
+    setLastSelectedId(product.id);
+    setHistoryProduct(product);
+  };
+  useLayoutEffect(() => {
+    const point = returnPoint.current;
+    if (!point || historyProduct || isProductPageLoading || acceptedRevision !== productDataRevision) return;
+    returnPoint.current = null;
+    if (!point.container.isConnected) return;
+    point.container.scrollTop = point.top;
+    const card = rootRef.current?.querySelector<HTMLElement>('[data-inventory-product-card="' + CSS.escape(point.id) + '"] button');
+    card?.focus({preventScroll:true});
+    if (card) {
+      const bounds = card.getBoundingClientRect(), viewport = point.container.getBoundingClientRect();
+      if (bounds.bottom <= viewport.top || bounds.top >= viewport.bottom) card.scrollIntoView({block:'nearest'});
+    }
+  }, [historyProduct, isProductPageLoading, acceptedRevision, productDataRevision]);
+  const product = filteredProducts.find(item => item.id === historyProductId) ?? historyProduct;
+  const metricsReady = acceptedRevision !== null && !productPageError;
+  const kpi = (value: number) => metricsReady && Number.isFinite(value) ? value : 'غير متاح';
+  const movementPagination = <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-nw-muted">
+    <UiButton onClick={() => setMovementPageNumber((current) => Math.max(1, current - 1))} disabled={movementPage.page <= 1}>الأحدث</UiButton>
+    <span>صفحة {movementPage.page} من {movementPage.totalPages}</span>
+    <UiButton onClick={() => setMovementPageNumber((current) => Math.min(movementPage.totalPages, current + 1))} disabled={movementPage.page >= movementPage.totalPages}>الأقدم</UiButton>
+  </div>;
 
-        {/* Action Buttons Header */}
-        <div className="flex items-center gap-2 flex-wrap">
-          <button
-            onClick={() => openModal('receive_goods')}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow"
-          >
-            <Truck className="w-4 h-4" />
-            <span>استلام بضاعة</span>
-          </button>
-          <details className="group relative">
-            <summary className="flex cursor-pointer list-none items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-xs font-bold text-slate-300 marker:hidden">
-              إدارة
-              <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
-            </summary>
-            <div className="absolute left-0 z-20 mt-2 w-52 space-y-1 rounded-2xl border border-slate-700 bg-slate-900 p-2 shadow-2xl">
-              <button
-                onClick={() => openModal('stock_count')}
-                className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-right text-xs font-bold text-slate-200 hover:bg-slate-800"
-              >
-                <ClipboardCheck className="h-4 w-4 text-purple-400" />
-                جرد منتج
-              </button>
-              <button
-                onClick={() => openModal('inventory_opening_setup')}
-                className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-right text-xs font-bold text-emerald-300 hover:bg-slate-800"
-              >
-                <FileSpreadsheet className="h-4 w-4" />
-                تهيئة المخزون الافتتاحي
-              </button>
+  return <div ref={rootRef} dir="rtl" data-testid="inventory-workbench" className="min-w-0 bg-nw-bg text-nw-text">
+    <PageHeader title="المخزون الفعلي" description="راقب المتاح بالكراتين والباكيتات؛ كل تعديل محفوظ بحركة موثقة." actions={<>
+      <UiButton variant="primary" onClick={() => openModal('receive_goods')}><Truck className="h-4 w-4" />استلام بضاعة</UiButton>
+      <UiButton onClick={() => openModal('stock_count')}><ClipboardCheck className="h-4 w-4" />بدء جرد</UiButton>
+      <details className="relative"><summary className="flex min-h-11 cursor-pointer items-center rounded-xl border border-nw-border px-3 text-sm">إدارة</summary>
+        <Card className="absolute left-0 z-20 mt-2 w-64 max-w-[80vw]">
+          <UiButton className="w-full text-xs" onClick={() => openModal('inventory_opening_setup')}><FileSpreadsheet className="h-4 w-4" />تهيئة المخزون الافتتاحي</UiButton>
+        </Card>
+      </details>
+    </>} />
+    <div className="space-y-5 p-4 pb-28 sm:p-6">
+      <KpiGrid phonePairs>
+        <KpiCard label="قيمة المخزون بالتكلفة" value={metricsReady && Number.isFinite(totalCostValue) ? <MoneyText amount={totalCostValue} /> : 'غير متاح'} note="د.أ · متوسط التكلفة" />
+        <KpiCard label="إجمالي الأصناف" value={kpi(totalItemCount)} note="يشمل المتوقفة" />
+        <KpiCard label="تحت حد الطلب" value={kpi(lowStockCount)} valueTone="warn" note="يحتاج متابعة المخزون" />
+        <KpiCard label="نفدت" value={kpi(outOfStockCount)} valueTone="bad" note="لا يوجد مخزون متاح" />
+      </KpiGrid>
+      <SegmentedControl touchSize label="عرض المخزون" value={activeTab} onChange={value => {setActiveTab(value); if(value === 'movements') setHistoryProduct(null);}}
+        options={[{value:'products',label:'المتاح الآن',count:inventoryProductPage.totalCount},{value:'movements',label:'سجل الحركات',count:movementPage.totalCount}]} />
+      <DetailLayout>
+        <MainColumn>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <FilterChips touchSize label="حالة المخزون" value={statusFilter} onChange={setStatusFilter}
+              options={[{value:'all',label:'الكل',count:totalItemCount},{value:'low_stock',label:'منخفض',count:lowStockCount},{value:'out_of_stock',label:'نفد',count:outOfStockCount}]} />
+            <SearchField label="البحث في المخزون" placeholder="ابحث باسم المنتج، الكود SKU، أو الباركود..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="w-full md:max-w-sm" />
+            <UiButton aria-label="تحديث المخزون" disabled={isProductPageLoading} onClick={() => setProductPageRefreshToken(value => value + 1)}><RefreshCw className="h-4 w-4" />تحديث</UiButton>
+          </div>
+          <details className="rounded-xl border border-nw-border bg-nw-surface px-4">
+            <summary className="flex min-h-11 cursor-pointer items-center text-sm text-nw-muted">تصفية وبحث متقدم</summary>
+            <div className="grid grid-cols-2 gap-3 py-3 sm:grid-cols-4">
+              <label className="text-xs text-nw-muted">الفرع:<select aria-label="الفرع" value={selectedBranchId} onChange={e => setSelectedBranchId(e.target.value)} className="mt-1 min-h-11 w-full rounded-xl border border-nw-border bg-nw-surface-2 px-2 text-nw-text">
+                <option value="all">جميع الفروع ({branches.length})</option>{branches.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}</select></label>
+              <label className="text-xs text-nw-muted">المستودع:<select aria-label="المستودع" value={selectedWarehouseId} onChange={e => setSelectedWarehouseId(e.target.value)} className="mt-1 min-h-11 w-full rounded-xl border border-nw-border bg-nw-surface-2 px-2 text-nw-text">
+                <option value="all">جميع المستودعات ({warehouses.length})</option>{warehouses.map(w => <option key={w.id} value={w.id}>{w.name}</option>)}</select></label>
+              <label className="text-xs text-nw-muted">القسم:<select aria-label="القسم" value={selectedCategoryId} onChange={e => setSelectedCategoryId(e.target.value)} className="mt-1 min-h-11 w-full rounded-xl border border-nw-border bg-nw-surface-2 px-2 text-nw-text">
+                <option value="all">جميع الأقسام ({categories.length})</option>{categories.map(c => <option key={c.id} value={c.id}>{c.nameAr}</option>)}</select></label>
+              <label className="text-xs text-nw-muted">حالة المخزون:<select aria-label="حالة المخزون المتقدمة" value={statusFilter} onChange={e => setStatusFilter(e.target.value as InventoryStatusFilter)} className="mt-1 min-h-11 w-full rounded-xl border border-nw-border bg-nw-surface-2 px-2 text-nw-text">
+                <option value="all">الكل (جميع الحالات)</option><option value="low_stock">منخفض المخزون</option><option value="out_of_stock">نافد المخزون</option><option value="near_expiry">قريب انتهاء الصلاحية</option><option value="stagnant">منتجات راكدة</option></select></label>
             </div>
+            <p className="text-xs text-nw-muted">المنتجات الراكدة: {stagnantCount} · قريب انتهاء الصلاحية: غير متاح</p>
+            <p className="text-xs text-nw-muted">القيمة بسعر البيع: {metricsReady ? <MoneyText amount={totalRetailValue} currency /> : 'غير متاح'}</p>
           </details>
-        </div>
-      </div>
-
-      <div className="flex items-start gap-3 rounded-2xl border border-cyan-500/25 bg-cyan-950/20 p-3 text-xs">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-cyan-500/30 bg-cyan-500/10 text-cyan-300">
-          <CheckCircle2 className="h-4 w-4" />
-        </div>
-        <div>
-          <strong className="text-cyan-200">الرصيد يتغير تلقائيًا</strong>
-          <p className="mt-1 leading-5 text-slate-400">
-            الاستلام يزيده، تسليم الطلب ينقصه، والجرد وحده يصحح أي فرق مع حفظ السبب.
-          </p>
-        </div>
-      </div>
-
-      {/* 1. Metrics Grid (7 Dashboard Cards) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
-        {/* Total Value */}
-        <div className="bg-slate-900 border border-slate-800 p-2.5 rounded-2xl col-span-2 sm:col-span-2 lg:col-span-2 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
-            <DollarSign className="w-5 h-5" />
-          </div>
-          <div>
-            <span className="text-[10px] text-slate-400 font-bold block">إجمالي قيمة المخزون والتكلفة</span>
-            <div className="flex items-baseline gap-2">
-              <strong className="text-sm font-extrabold text-emerald-400">
-                {totalCostValue.toLocaleString('ar-JO')} {CURRENCY}
-              </strong>
-              <span className="text-[9px] text-slate-400">
-                (البيع: {totalRetailValue.toLocaleString('ar-JO')} {CURRENCY})
-              </span>
+          {activeTab === 'products' ? <>
+            {productPageError ? <Card className="text-center"><p role="alert" className="text-nw-bad">{productPageError}</p><UiButton onClick={() => setProductPageRefreshToken((value) => value + 1)}>إعادة المحاولة</UiButton></Card> :
+              isProductPageLoading && filteredProducts.length === 0 ? <Card role="status">جارٍ تحميل صفحة المخزون…</Card> :
+              filteredProducts.length === 0 ? <Card className="space-y-3 text-center"><p>لا توجد منتجات تطابق الفلاتر المحددة</p><p className="text-xs text-nw-muted">جرب تغيير شروط البحث أو اختيار فرع ومستودع آخر</p>
+                <UiButton onClick={() => {setSearchQuery('');setSelectedBranchId('all');setSelectedWarehouseId('all');setSelectedCategoryId('all');setStatusFilter('all');}}>إعادة ضبط جميع الفلاتر</UiButton></Card> : <>
+              <div className="hidden md:block"><TableShell caption="أصناف المخزون" minWidth={730} head={<><Th>الصنف</Th><Th>القسم</Th><Th>المتوفر</Th><Th>حد الطلب</Th><Th>متوسط التكلفة / باكيت</Th><Th>القيمة</Th></>}>
+                {filteredProducts.map(product => <Tr key={product.id} data-inventory-product-row={product.id} selected={lastSelectedId === product.id}>
+                  <Td><button type="button" className="min-h-11 text-right" aria-label={'تفاصيل المنتج والرصيد: ' + product.nameAr} onClick={() => openProduct(product)}><span className="block font-semibold">{product.nameAr}</span><span className="text-xs text-nw-muted">{product.purchasePackage || product.unit} = {product.unitsPerPackage || 1} {product.unit}</span></button></Td>
+                  <Td>{categories.find(c => c.id === product.categoryId)?.nameAr || 'عام'}</Td>
+                  <Td><InventoryStock product={product} /></Td><Td>{product.reorderLevel}</Td>
+                  <Td>{Number.isFinite(product.costPrice) ? <MoneyText amount={product.costPrice} /> : 'غير متاح'}</Td>
+                  <Td><span className="text-xs text-nw-muted" title="القارئ الحالي يرجع قيمة المخزون الإجمالية، ولا يرجع قيمة موثقة لكل صنف">غير متاح</span></Td>
+                </Tr>)}
+              </TableShell></div>
+              <div className="grid gap-3 md:hidden">{filteredProducts.map(product => <Card key={product.id} data-inventory-product-card={product.id} padded={false} className={lastSelectedId === product.id ? 'border-nw-primary bg-nw-sel-row' : ''}>
+                <button type="button" className="min-h-11 w-full space-y-3 p-4 text-right" aria-label={'تفاصيل المنتج والرصيد: ' + product.nameAr} onClick={() => openProduct(product)}>
+                  <span className="block break-words text-sm font-bold">{product.nameAr}</span><InventoryStock product={product} />
+                  <span className="flex justify-between gap-2 text-xs text-nw-muted"><span>حد الطلب: {product.reorderLevel}</span><span>{product.purchasePackage || product.unit} × {product.unitsPerPackage || 1}</span></span>
+                </button>
+              </Card>)}</div>
+            </>}
+            {inventoryProductPage.totalPages > 1 && <nav aria-label="صفحات منتجات المخزون" className="flex items-center justify-center gap-3 rounded-xl border border-nw-border bg-nw-surface p-3 text-xs">
+              <UiButton onClick={() => setProductPageNumber((page) => Math.max(1, page - 1))} disabled={productPageNumber <= 1 || isProductPageLoading}><ChevronRight className="h-4 w-4" />السابق</UiButton>
+              <span>{inventoryProductPage.page} من {inventoryProductPage.totalPages}</span>
+              <UiButton onClick={() => setProductPageNumber((page) => Math.min(inventoryProductPage.totalPages, page + 1))} disabled={productPageNumber >= inventoryProductPage.totalPages || isProductPageLoading}>التالي<ChevronLeft className="h-4 w-4" /></UiButton>
+            </nav>}
+          </> : <Card><SectionHeader title="سجل الحركات" />{filteredMovements.length ? <InventoryMovements items={filteredMovements} /> : <p className="text-sm text-nw-muted">لا توجد حركات مخزون مطابقة للبحث حالياً</p>}{movementPage.totalPages > 1 && movementPagination}</Card>}
+        </MainColumn>
+        {product && historyProduct && <DetailPanel ref={detailRef as React.Ref<HTMLElement>} data-testid="inventory-detail-panel" role={phone ? 'dialog' : 'region'} aria-modal={phone || undefined} aria-label={'تفاصيل المنتج والرصيد: ' + product.nameAr} tabIndex={-1}
+          className="fixed inset-0 z-40 w-full max-md:rounded-none max-md:border-0 max-md:bg-nw-bg md:static md:z-auto">
+          <div className="flex shrink-0 items-center justify-between gap-2 border-b border-nw-border p-4"><h2 className="m-0 break-words text-base font-bold">{product.nameAr}</h2>
+            <UiButton aria-label="رجوع للمخزون" onClick={closeDetail} className="shrink-0 text-xs"><ArrowRight className="h-4 w-4" /><span className="md:hidden">رجوع للمخزون</span><span className="hidden md:inline">إغلاق</span></UiButton></div>
+          <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain p-4 pb-28 md:overflow-visible md:pb-4">
+            <div className="flex items-start gap-3"><ProductGlyph name={product.nameAr} image={product.imageUrl} /><div className="min-w-0 space-y-1 text-xs text-nw-muted"><p className="m-0 break-all">SKU: <bdi dir="ltr">{product.sku}</bdi></p><p className="m-0 break-all">الباركود: <bdi dir="ltr">{product.barcode || 'غير محدد'}</bdi></p></div></div>
+            <InventoryStock product={product} />
+            <div className="grid grid-cols-2 gap-2 text-xs">
+              <Card className="p-3"><span className="text-nw-muted">الفعلي</span><p className="mb-0 font-bold">{formatProductInventory(product, false).cartonFormatted}</p></Card>
+              <Card className="p-3"><span className="text-nw-muted">المحجوز</span><p className="mb-0 font-bold">{product.reservedQuantity} {product.unit}</p></Card>
+              <Card className="p-3"><span className="text-nw-muted">حد التنبيه</span><p className="mb-0 font-bold">{product.reorderLevel}</p></Card>
+              <Card className="p-3"><span className="text-nw-muted">سعر الباكيت</span><p className="mb-0 font-bold"><MoneyText amount={product.retailPrice} /></p></Card>
+              <Card className="p-3"><span className="text-nw-muted">سعر طرد البيع</span><p className="mb-0 font-bold"><MoneyText amount={product.salePackagePrice || 0} /></p></Card>
             </div>
-          </div>
-        </div>
-
-        {/* Total Items */}
-        <div className="bg-slate-900 border border-slate-800 p-2.5 rounded-2xl flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center shrink-0">
-            <Package className="w-4 h-4" />
-          </div>
-          <div>
-            <span className="text-[10px] text-slate-400 block font-bold">عدد المنتجات</span>
-            <strong className="text-sm font-extrabold text-slate-100">{totalItemCount} منتج</strong>
-          </div>
-        </div>
-
-        {/* Low Stock */}
-        <button
-          onClick={() => setStatusFilter(statusFilter === 'low_stock' ? 'all' : 'low_stock')}
-          className={`p-2.5 rounded-2xl border text-right transition flex items-center gap-2.5 ${
-            statusFilter === 'low_stock'
-              ? 'bg-amber-950/60 border-amber-600 text-amber-200'
-              : 'bg-slate-900 border-slate-800 hover:border-amber-500/50'
-          }`}
-        >
-          <div className="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0">
-            <AlertTriangle className="w-4 h-4" />
-          </div>
-          <div>
-            <span className="text-[10px] text-slate-400 block font-bold">منخفض المخزون</span>
-            <strong className="text-sm font-extrabold text-amber-400">{lowStockCount}</strong>
-          </div>
-        </button>
-
-        {/* Out of Stock */}
-        <button
-          onClick={() => setStatusFilter(statusFilter === 'out_of_stock' ? 'all' : 'out_of_stock')}
-          className={`p-2.5 rounded-2xl border text-right transition flex items-center gap-2.5 ${
-            statusFilter === 'out_of_stock'
-              ? 'bg-rose-950/60 border-rose-600 text-rose-200'
-              : 'bg-slate-900 border-slate-800 hover:border-rose-500/50'
-          }`}
-        >
-          <div className="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center shrink-0">
-            <XCircle className="w-4 h-4" />
-          </div>
-          <div>
-            <span className="text-[10px] text-slate-400 block font-bold">نافد المخزون</span>
-            <strong className="text-sm font-extrabold text-rose-400">{outOfStockCount}</strong>
-          </div>
-        </button>
-
-        <details className="col-span-2 group rounded-2xl border border-slate-800 bg-slate-900 p-2.5">
-          <summary className="flex cursor-pointer list-none items-center justify-between text-[10px] font-bold text-slate-400 marker:hidden">
-            تنبيهات إضافية: صلاحية وركود
-            <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
-          </summary>
-          <div className="mt-2 grid grid-cols-2 gap-2">
-        {/* Near Expiry */}
-        <button
-          onClick={() => setStatusFilter(statusFilter === 'near_expiry' ? 'all' : 'near_expiry')}
-          className={`p-2.5 rounded-2xl border text-right transition flex items-center gap-2.5 ${
-            statusFilter === 'near_expiry'
-              ? 'bg-orange-950/60 border-orange-600 text-orange-200'
-              : 'bg-slate-900 border-slate-800 hover:border-orange-500/50'
-          }`}
-        >
-          <div className="w-9 h-9 rounded-xl bg-orange-500/10 text-orange-400 flex items-center justify-center shrink-0">
-            <Calendar className="w-4 h-4" />
-          </div>
-          <div>
-            <span className="text-[10px] text-slate-400 block font-bold">قريب انتهاء الصلاحية</span>
-            <strong className="text-sm font-extrabold text-orange-400">{nearExpiryCount}</strong>
-          </div>
-        </button>
-
-        {/* Damaged & Stagnant */}
-        <button
-          onClick={() => setStatusFilter(statusFilter === 'stagnant' ? 'all' : 'stagnant')}
-          className={`p-2.5 rounded-2xl border text-right transition flex items-center gap-2.5 ${
-            statusFilter === 'stagnant'
-              ? 'bg-purple-950/60 border-purple-600 text-purple-200'
-              : 'bg-slate-900 border-slate-800 hover:border-purple-500/50'
-          }`}
-        >
-          <div className="w-9 h-9 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0">
-            <Clock className="w-4 h-4" />
-          </div>
-          <div>
-            <span className="text-[10px] text-slate-400 block font-bold">المنتجات الراكدة</span>
-            <strong className="text-sm font-extrabold text-purple-300">{stagnantCount}</strong>
-          </div>
-        </button>
-          </div>
-        </details>
-      </div>
-
-      {/* 2. Main Navigation Tabs */}
-      <div className="flex bg-slate-900 p-1 rounded-2xl border border-slate-800">
-        <button
-          onClick={() => setActiveTab('products')}
-          className={`flex-1 py-2.5 rounded-xl font-bold text-xs transition flex items-center justify-center gap-2 ${
-            activeTab === 'products'
-              ? 'bg-indigo-600 text-white shadow-md'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <Boxes className="w-4 h-4" />
-          <span>المتاح الآن ({inventoryProductPage.totalCount})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('movements')}
-          className={`flex-1 py-2.5 rounded-xl font-bold text-xs transition flex items-center justify-center gap-2 ${
-            activeTab === 'movements'
-              ? 'bg-indigo-600 text-white shadow-md'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <History className="w-4 h-4" />
-          <span>سجل الحركات ({movementPage.totalCount})</span>
-        </button>
-      </div>
-
-      {/* 3. Search & Filter Bar */}
-      <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl space-y-3">
-        {/* Search input */}
-        <div className="relative">
-          <Search className="w-4 h-4 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="ابحث باسم المنتج، الكود SKU، أو الباركود..."
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl pr-9 pl-3 py-2.5 text-slate-100 text-xs focus:outline-none focus:border-indigo-500 font-semibold"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 text-xs font-bold"
-            >
-              إلغاء
-            </button>
-          )}
-        </div>
-
-        <details className="group rounded-xl border border-slate-800 bg-slate-950/40 p-2.5">
-          <summary className="flex cursor-pointer list-none items-center justify-between text-[11px] font-bold text-slate-400 marker:hidden">
-            تصفية وبحث متقدم
-            <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
-          </summary>
-        {/* Dropdown Filters */}
-        <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-          {/* Branch Filter */}
-          <div className="space-y-1">
-            <label className="text-[10px] text-slate-400 font-bold block flex items-center gap-1">
-              <Building2 className="w-3 h-3 text-blue-400" />
-              <span>الفرع:</span>
-            </label>
-            <select
-              value={selectedBranchId}
-              onChange={(e) => setSelectedBranchId(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-slate-200 text-xs focus:outline-none"
-            >
-              <option value="all">جميع الفروع ({branches.length})</option>
-              {branches.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Warehouse Filter */}
-          <div className="space-y-1">
-            <label className="text-[10px] text-slate-400 font-bold block flex items-center gap-1">
-              <WarehouseIcon className="w-3 h-3 text-indigo-400" />
-              <span>المستودع:</span>
-            </label>
-            <select
-              value={selectedWarehouseId}
-              onChange={(e) => setSelectedWarehouseId(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-slate-200 text-xs focus:outline-none"
-            >
-              <option value="all">جميع المستودعات ({warehouses.length})</option>
-              {warehouses.map((w) => (
-                <option key={w.id} value={w.id}>
-                  {w.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Category Filter */}
-          <div className="space-y-1">
-            <label className="text-[10px] text-slate-400 font-bold block flex items-center gap-1">
-              <Layers className="w-3 h-3 text-teal-400" />
-              <span>القسم:</span>
-            </label>
-            <select
-              value={selectedCategoryId}
-              onChange={(e) => setSelectedCategoryId(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-slate-200 text-xs focus:outline-none"
-            >
-              <option value="all">جميع الأقسام ({categories.length})</option>
-              {categories.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.nameAr}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Status Quick Filter Tabs */}
-          <div className="space-y-1">
-            <label className="text-[10px] text-slate-400 font-bold block flex items-center gap-1">
-              <Filter className="w-3 h-3 text-amber-400" />
-              <span>حالة المخزون:</span>
-            </label>
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value as InventoryStatusFilter)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-slate-200 text-xs focus:outline-none font-bold"
-            >
-              <option value="all">الكل (جميع الحالات)</option>
-              <option value="low_stock">منخفض المخزون ⚠️</option>
-              <option value="out_of_stock">نافد المخزون ❌</option>
-              <option value="near_expiry">قريب انتهاء الصلاحية 📅</option>
-              <option value="stagnant">منتجات راكدة 💤</option>
-            </select>
-          </div>
-        </div>
-        </details>
-      </div>
-
-      {/* TAB 1: PRODUCTS INVENTORY TAB */}
-      {activeTab === 'products' && (
-        <div className="space-y-3">
-          {productPageError ? (
-            <div className="rounded-2xl border border-rose-800 bg-rose-950/30 p-6 text-center">
-              <p className="text-xs font-bold text-rose-300">{productPageError}</p>
-              <button
-                type="button"
-                onClick={() => setProductPageRefreshToken((value) => value + 1)}
-                className="mt-3 rounded-xl bg-rose-700 px-4 py-2 text-xs font-bold text-white transition hover:bg-rose-600"
-              >
-                إعادة المحاولة
-              </button>
+            <p className="m-0 text-xs text-nw-muted">طرد الشراء: {product.purchasePackage || product.unit} × {product.unitsPerPackage || 1}</p>
+            <p className="m-0 text-xs text-nw-muted">طرد البيع: {product.salePackage || 'غير مضبوط'} × {product.unitsPerSalePackage || 1}</p>
+            <p className="m-0 text-xs text-nw-muted">{branches.find(b => b.id === product.branchId)?.name || activeBranch.name} · {warehouses.find(w => w.id === product.warehouseId)?.name || 'المستودع الرئيسي'}{product.warehouseLocation && ' · رف: ' + product.warehouseLocation}</p>
+            <div className="grid grid-cols-2 gap-2">
+              <UiButton variant="primary" onClick={() => openModal('receive_goods', { productId: product.id })}><Truck className="h-4 w-4" />استلام</UiButton>
+              <UiButton onClick={() => openModal('stock_count', { productId: product.id })}><ClipboardCheck className="h-4 w-4" />جرد</UiButton>
+              <UiButton onClick={() => setHistoryProduct(product)} className="col-span-2 text-xs"><History className="h-4 w-4" />سجل الحركات ({product.movementCount ?? 0})</UiButton>
+              <UiButton variant="danger" onClick={() => setClearInventoryProduct(product)} title={product.onHandQuantity > 0 ? 'تصفير الرصيد مع حفظ حركة تدقيق' : 'الرصيد صفر بالفعل'} className="col-span-2 text-xs">{product.onHandQuantity > 0 ? 'حذف الرصيد' : 'الرصيد صفر'}<Trash2 className="h-4 w-4" /></UiButton>
             </div>
-          ) : isProductPageLoading && filteredProducts.length === 0 ? (
-            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-10 text-center text-xs font-bold text-slate-400">
-              جارٍ تحميل صفحة المخزون…
-            </div>
-          ) : filteredProducts.length === 0 ? (
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-10 text-center space-y-3">
-              <Package className="w-10 h-10 text-slate-600 mx-auto" />
-              <h4 className="font-bold text-slate-300 text-sm">لا توجد منتجات تطابق الفلاتر المحددة</h4>
-              <p className="text-xs text-slate-500">جرب تغيير شروط البحث أو اختيار فرع ومستودع آخر</p>
-              <button
-                onClick={() => {
-                  setSearchQuery('');
-                  setSelectedBranchId('all');
-                  setSelectedWarehouseId('all');
-                  setSelectedCategoryId('all');
-                  setStatusFilter('all');
-                }}
-                className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition inline-block"
-              >
-                إعادة ضبط جميع الفلاتر
-              </button>
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 gap-2 md:grid-cols-2 xl:grid-cols-3">
-              {filteredProducts.map((product) => {
-                const branchName =
-                  branches.find((b) => b.id === product.branchId)?.name ||
-                  activeBranch.name;
-                const warehouseName =
-                  warehouses.find((w) => w.id === product.warehouseId)?.name || 'المستودع الرئيسي';
-                const categoryName =
-                  categories.find((c) => c.id === product.categoryId)?.nameAr || 'عام';
-
-                const isLow =
-                  product.availableQuantity > 0 &&
-                  product.availableQuantity <= product.reorderLevel;
-                const isOut = product.availableQuantity <= 0;
-
-                return (
-                  <div
-                    key={product.id}
-                    data-inventory-product-card={product.id}
-                    className="flex min-w-0 flex-col justify-between gap-2 rounded-2xl border border-slate-800 bg-slate-900 p-2 shadow transition-[border-color,box-shadow] hover:border-slate-700 sm:p-3 [&:has(details[open])]:col-span-2"
-                  >
-                    {/* Header: Product Info */}
-                    <div className="space-y-1.5">
-                      <div className="flex flex-col gap-1.5 sm:flex-row sm:items-start sm:justify-between sm:gap-2">
-                        <div className="flex min-w-0 items-center gap-2">
-                          {product.imageUrl ? (
-                            <img
-                              src={product.imageUrl}
-                              alt=""
-                              className="h-10 w-10 shrink-0 rounded-xl border border-slate-800 object-cover"
-                            />
-                          ) : (
-                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-800 bg-slate-950">
-                              <Package className="h-4 w-4 text-slate-600" />
-                            </div>
-                          )}
-                          <div className="min-w-0">
-                            <h4 className="line-clamp-2 text-[11px] font-extrabold leading-4 text-slate-100 sm:text-xs">
-                              {product.nameAr}
-                            </h4>
-                            <div className="mt-0.5 flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[9px] text-slate-400">
-                              <span className="max-w-full truncate font-mono">
-                                SKU: {product.sku}
-                              </span>
-                              <span aria-hidden="true">•</span>
-                              <span className="truncate">{categoryName}</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Status Badge */}
-                        <div className="self-start sm:self-auto">
-                          {isOut ? (
-                            <span className="bg-rose-950 text-rose-300 border border-rose-800 px-2 py-0.5 rounded-full text-[9px] font-extrabold block whitespace-nowrap">
-                              نافد المخزون
-                            </span>
-                          ) : isLow ? (
-                            <span className="bg-amber-950 text-amber-300 border border-amber-800 px-2 py-0.5 rounded-full text-[9px] font-extrabold block whitespace-nowrap">
-                              منخفض
-                            </span>
-                          ) : (
-                            <span className="bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded-full text-[9px] font-bold block whitespace-nowrap">
-                              متوفر
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      {(() => {
-                        const invAvailable = formatProductInventory(product, true);
-                        return (
-                          <div className="flex min-h-11 flex-col items-start justify-center gap-1 rounded-xl border border-emerald-500/25 bg-emerald-950/20 px-2 py-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-2 sm:px-2.5">
-                            <div className="min-w-0">
-                              <span className="block text-[9px] font-bold text-emerald-200/70">المتاح في المخزون</span>
-                              <strong className="mt-0.5 line-clamp-2 text-[11px] font-black leading-4 text-emerald-300 sm:text-xs">
-                                {invAvailable.cartonFormatted}
-                              </strong>
-                            </div>
-                            {product.reservedQuantity > 0 && (
-                              <span className="shrink-0 rounded-lg bg-amber-500/10 px-2 py-1 text-[9px] font-bold text-amber-300">
-                                محجوز: {product.reservedQuantity}
-                              </span>
-                            )}
-                          </div>
-                        );
-                      })()}
-
-                      <details className="group rounded-xl border border-slate-800 bg-slate-950/40 px-2">
-                        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-[10px] font-bold text-slate-400 marker:hidden">
-                          تفاصيل المنتج والرصيد
-                          <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
-                        </summary>
-                        <div className="space-y-2 pb-2">
-                      <div className="grid grid-cols-1 gap-1.5 text-[9px] sm:grid-cols-3">
-                        <span className="truncate rounded-lg border border-slate-800 bg-slate-900 px-2 py-1.5 font-mono text-slate-400">
-                          الباركود: {product.barcode || 'غير محدد'}
-                        </span>
-                        <span className="truncate rounded-lg border border-slate-800 bg-slate-900 px-2 py-1.5 text-slate-400">
-                          طرد الشراء: {product.purchasePackage || product.unit} × {product.unitsPerPackage || 1}
-                        </span>
-                        <span className="truncate rounded-lg border border-slate-800 bg-slate-900 px-2 py-1.5 text-slate-400">
-                          طرد البيع: {product.salePackage || 'غير مضبوط'} × {product.unitsPerSalePackage || 1}
-                        </span>
-                      </div>
-                      {/* Branch & Warehouse Tags */}
-                      <div className="flex flex-wrap items-center justify-between gap-1.5 rounded-xl border border-slate-800/80 bg-slate-950 p-2 text-[10px]">
-                        <div className="flex items-center gap-1 text-slate-300">
-                          <Building2 className="w-3.5 h-3.5 text-blue-400" />
-                          <span>{branchName}</span>
-                        </div>
-                        <div className="flex items-center gap-1 text-slate-300">
-                          <WarehouseIcon className="w-3.5 h-3.5 text-indigo-400" />
-                          <span>{warehouseName}</span>
-                        </div>
-                        {product.warehouseLocation && (
-                          <span className="text-slate-400 font-mono">
-                            رف: {product.warehouseLocation}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Quantities Table Breakdown */}
-                      <div className="grid grid-cols-2 gap-1.5 rounded-xl border border-slate-800 bg-slate-950/60 p-2 text-center sm:grid-cols-4">
-                        {/* Actual Stock */}
-                        {(() => {
-                          const invOnHand = formatProductInventory(product, false);
-                          const invAvail = formatProductInventory(product, true);
-                          return (
-                            <>
-                              <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
-                                <span className="text-[9px] text-slate-400 block font-bold">الفعلي</span>
-                                <strong className="text-[11px] font-black text-amber-300 block">
-                                  {invOnHand.cartonFormatted}
-                                </strong>
-                                <span className="text-[10px] text-slate-400 font-bold block">{invOnHand.totalPiecesFormatted}</span>
-                              </div>
-
-                              {/* Reserved Stock */}
-                              <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
-                                <span className="text-[9px] text-amber-400 block font-bold">المحجوز</span>
-                                <strong className="text-xs font-black text-amber-400 block">
-                                  {product.reservedQuantity} قطعة
-                                </strong>
-                              </div>
-
-                              {/* Available Stock */}
-                              <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
-                                <span className="text-[9px] text-emerald-400 block font-bold">المتاح</span>
-                                <strong className="text-[11px] font-black text-emerald-400 block">
-                                  {invAvail.cartonFormatted}
-                                </strong>
-                                <span className="text-[10px] text-emerald-300/80 font-bold block">{invAvail.totalPiecesFormatted}</span>
-                              </div>
-                            </>
-                          );
-                        })()}
-
-                        {/* Reorder Level */}
-                        <div className="bg-slate-900 p-1.5 rounded-lg border border-slate-800">
-                          <span className="text-[9px] text-slate-400 block font-bold">حد التنبيه</span>
-                          <strong className="text-xs font-bold text-slate-300">
-                            {product.reorderLevel}
-                          </strong>
-                        </div>
-                      </div>
-                        </div>
-                      </details>
-                    </div>
-
-                    {/* Action Bar per Product */}
-                    <div className="space-y-1.5 border-t border-slate-800 pt-1.5">
-                      <div className="grid grid-cols-2 gap-1.5">
-                        {/* 1. Receive Goods */}
-                        <button
-                          onClick={() => openModal('receive_goods', { productId: product.id })}
-                          className="flex min-h-11 items-center justify-center gap-1.5 rounded-lg border border-indigo-800/80 bg-indigo-950/60 px-2 py-1.5 text-[10px] font-bold text-indigo-300 transition hover:bg-indigo-900/80"
-                          title="استلام بضاعة جديدة"
-                        >
-                          <Truck className="w-3.5 h-3.5" />
-                          <span>استلام</span>
-                        </button>
-
-                        {/* 2. Stock Count: the only controlled correction path */}
-                        <button
-                          onClick={() => openModal('stock_count', { productId: product.id })}
-                          className="flex min-h-11 items-center justify-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800 px-2 py-1.5 text-[10px] font-bold text-slate-200 transition hover:bg-slate-700"
-                          title="جرد مطابقة المخزون"
-                        >
-                          <ClipboardCheck className="w-3.5 h-3.5 text-purple-400" />
-                          <span>جرد</span>
-                        </button>
-                      </div>
-
-                      <details className="group rounded-xl border border-slate-800 bg-slate-950/40 px-2">
-                        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-[10px] font-bold text-slate-400 marker:hidden">
-                          سجل الحركات وإدارة الرصيد
-                          <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
-                        </summary>
-                      <div className="grid grid-cols-1 gap-1.5 pb-2 sm:grid-cols-[1fr_auto]">
-                        {/* View Movement Log */}
-                        <button
-                          onClick={() => setHistoryProduct(product)}
-                          className="flex min-h-11 items-center justify-center gap-1.5 rounded-xl border border-slate-800 bg-slate-950 px-2 py-1.5 text-[10px] font-bold text-slate-300 transition hover:bg-slate-800"
-                        >
-                          <History className="w-3.5 h-3.5 text-indigo-400" />
-                          <span>
-                            سجل الحركات ({product.movementCount})
-                          </span>
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() => setClearInventoryProduct(product)}
-                          className="min-h-11 min-w-[92px] rounded-xl border border-rose-800/70 bg-rose-950/40 px-2 py-1.5 text-[10px] font-black text-rose-300 transition hover:bg-rose-950/70 disabled:cursor-not-allowed disabled:opacity-45"
-                          title={
-                            product.onHandQuantity > 0
-                              ? 'تصفير الرصيد مع حفظ حركة تدقيق'
-                              : 'الرصيد صفر بالفعل'
-                          }
-                        >
-                          <span className="flex items-center justify-center gap-1">
-                            <Trash2 className="h-3.5 w-3.5" />
-                            {product.onHandQuantity > 0
-                              ? 'حذف الرصيد'
-                              : 'الرصيد صفر'}
-                          </span>
-                        </button>
-                      </div>
-                      </details>
-                  </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-          {inventoryProductPage.totalPages > 1 && (
-            <nav
-              aria-label="صفحات منتجات المخزون"
-              className="flex items-center justify-center gap-3 rounded-2xl border border-slate-800 bg-slate-900 p-3"
-            >
-              <button
-                type="button"
-                onClick={() => setProductPageNumber((page) => Math.max(1, page - 1))}
-                disabled={productPageNumber <= 1 || isProductPageLoading}
-                className="flex min-h-10 items-center gap-1 rounded-xl border border-slate-700 px-3 text-xs font-bold text-slate-200 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                <ChevronRight className="h-4 w-4" />
-                السابق
-              </button>
-              <span className="text-xs font-bold text-slate-300">
-                {inventoryProductPage.page} من {inventoryProductPage.totalPages}
-              </span>
-              <button
-                type="button"
-                onClick={() =>
-                  setProductPageNumber((page) =>
-                    Math.min(inventoryProductPage.totalPages, page + 1),
-                  )
-                }
-                disabled={
-                  productPageNumber >= inventoryProductPage.totalPages ||
-                  isProductPageLoading
-                }
-                className="flex min-h-10 items-center gap-1 rounded-xl border border-slate-700 px-3 text-xs font-bold text-slate-200 disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                التالي
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-            </nav>
-          )}
-        </div>
-      )}
-
-      {clearInventoryProduct && (
-        <ClearInventoryBalanceDialog
-          product={clearInventoryProduct}
-          warehouseName={
-            warehouses.find(
-              (warehouse) =>
-                warehouse.id === clearInventoryProduct.warehouseId
-            )?.name || 'المستودع الرئيسي'
-          }
-          movementCount={
-            inventoryProductPage.products.find(
-              (product) => product.id === clearInventoryProduct.id,
-            )?.movementCount || 0
-          }
-          onClose={() => setClearInventoryProduct(null)}
-        />
-      )}
-
-      {/* TAB 2: LIVE MOVEMENTS FEED TAB */}
-      {activeTab === 'movements' && (
-        <div className="space-y-2">
-          {filteredMovements.length === 0 ? (
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 text-center text-slate-500 text-xs">
-              لا توجد حركات مخزون مطابقة للبحث حالياً
-            </div>
-          ) : (
-            filteredMovements.map((mov) => {
-              const isPositive = mov.quantityChange >= 0;
-              return (
-                <div
-                  key={mov.id}
-                  className="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl shadow text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2"
-                >
-                  <div className="flex items-start gap-3">
-                    <div
-                      className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                        isPositive ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'
-                      }`}
-                    >
-                      {isPositive ? <Plus className="w-4 h-4" /> : <Minus className="w-4 h-4" />}
-                    </div>
-
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-extrabold text-slate-100">{mov.productName}</span>
-                        <span className="bg-slate-800 border border-slate-700/80 text-indigo-300 text-[10px] px-2 py-0.5 rounded-md font-bold">
-                          {mov.movementType}
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-slate-300">{mov.reason}</p>
-                      <div className="flex items-center gap-3 text-[10px] text-slate-500">
-                        <span>المستخدم: {mov.performedByUserName}</span>
-                        <span>•</span>
-                        <span>
-                          {new Date(mov.timestamp).toLocaleDateString('ar-JO')} -{' '}
-                          {new Date(mov.timestamp).toLocaleTimeString('ar-JO', {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="text-left sm:text-left pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-800">
-                    <span
-                      className={`text-sm font-black dir-ltr block ${
-                        isPositive ? 'text-emerald-400' : 'text-rose-400'
-                      }`}
-                    >
-                      {isPositive ? `+${mov.quantityChange}` : mov.quantityChange}
-                    </span>
-                    <span className="text-[10px] text-slate-400 block font-mono">
-                      (القبل: {mov.previousQuantity} ← النتيجة: {mov.newQuantity})
-                    </span>
-                  </div>
-                </div>
-              );
-            })
-          )}
-          {movementPage.totalPages > 1 && (
-            <div className="flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-900 p-3 text-xs">
-              <button
-                type="button"
-                onClick={() =>
-                  setMovementPageNumber((current) => Math.max(1, current - 1))
-                }
-                disabled={movementPage.page <= 1}
-                className="inline-flex items-center gap-1 rounded-xl border border-slate-700 px-3 py-2 font-bold text-slate-200 disabled:opacity-40"
-              >
-                <ChevronRight className="h-4 w-4" />
-                الأحدث
-              </button>
-              <span className="font-bold text-slate-400">
-                صفحة {movementPage.page} من {movementPage.totalPages}
-              </span>
-              <button
-                type="button"
-                onClick={() =>
-                  setMovementPageNumber((current) =>
-                    Math.min(movementPage.totalPages, current + 1)
-                  )
-                }
-                disabled={movementPage.page >= movementPage.totalPages}
-                className="inline-flex items-center gap-1 rounded-xl border border-slate-700 px-3 py-2 font-bold text-slate-200 disabled:opacity-40"
-              >
-                الأقدم
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* PRODUCT MOVEMENT HISTORY MODAL */}
-      {historyProduct && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full max-h-[85vh] overflow-hidden flex flex-col shadow-2xl">
-            {/* Modal Header */}
-            <div className="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <img
-                  src={historyProduct.imageUrl}
-                  alt=""
-                  className="w-10 h-10 rounded-xl object-cover border border-slate-800"
-                />
-                <div>
-                  <h3 className="font-extrabold text-slate-100 text-xs">{historyProduct.nameAr}</h3>
-                  <p className="text-[10px] text-slate-400">
-                    الرمز: <span className="font-mono">{historyProduct.sku}</span> | المخزون الحالي: <strong className="text-amber-300 font-bold">{formatProductInventory(historyProduct).fullFormatted}</strong>
-                  </p>
-                </div>
-              </div>
-
-              <button
-                onClick={() => setHistoryProduct(null)}
-                className="w-8 h-8 bg-slate-800 hover:bg-slate-700 rounded-xl text-slate-300 font-bold flex items-center justify-center text-xs"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Modal Body: Movements list */}
-            <div className="p-4 overflow-y-auto space-y-2 flex-1 text-xs">
-              <h4 className="font-bold text-slate-300 text-xs mb-2">سجل حركات هذا المنتج:</h4>
-              {movementPage.productId !== historyProduct.id ? (
-                <div className="bg-slate-950 p-6 rounded-xl border border-slate-800 text-center text-slate-500">
-                  جارِ تحميل سجل حركات هذا المنتج…
-                </div>
-              ) : getProductMovements(historyProduct.id).length === 0 ? (
-                <div className="bg-slate-950 p-6 rounded-xl border border-slate-800 text-center text-slate-500">
-                  لا توجد حركات مسجلة لهذا المنتج بعد
-                </div>
-              ) : (
-                getProductMovements(historyProduct.id).map((m) => (
-                  <div key={m.id} className="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-indigo-400 text-xs">{m.movementType}</span>
-                      <strong className={`font-black ${m.quantityChange >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                        {m.quantityChange >= 0 ? `+${m.quantityChange}` : m.quantityChange}
-                      </strong>
-                    </div>
-                    <p className="text-slate-300 text-[11px]">{m.reason}</p>
-                    <div className="flex items-center justify-between text-[9px] text-slate-500 pt-1 border-t border-slate-900">
-                      <span>القبل: {m.previousQuantity} → البعد: {m.newQuantity}</span>
-                      <span>بواسطة: {m.performedByUserName} | {new Date(m.timestamp).toLocaleString('ar-JO')}</span>
-                    </div>
-                  </div>
-                ))
-              )}
-              {movementPage.productId === historyProduct.id &&
-                movementPage.totalPages > 1 && (
-                  <div className="flex items-center justify-between pt-2 text-[10px] text-slate-400">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setMovementPageNumber((current) => Math.max(1, current - 1))
-                      }
-                      disabled={movementPage.page <= 1}
-                      className="rounded-lg border border-slate-700 px-2.5 py-1.5 disabled:opacity-40"
-                    >
-                      الأحدث
-                    </button>
-                    <span>صفحة {movementPage.page} من {movementPage.totalPages}</span>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setMovementPageNumber((current) =>
-                          Math.min(movementPage.totalPages, current + 1)
-                        )
-                      }
-                      disabled={movementPage.page >= movementPage.totalPages}
-                      className="rounded-lg border border-slate-700 px-2.5 py-1.5 disabled:opacity-40"
-                    >
-                      الأقدم
-                    </button>
-                  </div>
-                )}
-            </div>
-
-            {/* Footer */}
-            <div className="p-3 bg-slate-950 border-t border-slate-800 flex justify-end">
-              <button
-                onClick={() => setHistoryProduct(null)}
-                className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2 rounded-xl text-xs"
-              >
-                إغلاق
-              </button>
-            </div>
+            <SectionHeader title="آخر الحركات" />
+            {movementPage.productId !== product.id ? <p role="status" className="text-xs text-nw-muted">جارِ تحميل سجل حركات هذا المنتج…</p> :
+              getProductMovements(product.id).length ? <InventoryMovements items={getProductMovements(product.id)} /> : <p className="text-xs text-nw-muted">لا توجد حركات مسجلة لهذا المنتج بعد</p>}
+            {movementPage.productId === product.id && movementPage.totalPages > 1 && movementPagination}
           </div>
-        </div>
-      )}
+        </DetailPanel>}
+      </DetailLayout>
     </div>
-  );
+    {clearInventoryProduct && <ClearInventoryBalanceDialog product={clearInventoryProduct}
+      warehouseName={warehouses.find(warehouse => warehouse.id === clearInventoryProduct.warehouseId)?.name || 'المستودع الرئيسي'}
+      movementCount={inventoryProductPage.products.find(product => product.id === clearInventoryProduct.id)?.movementCount || 0}
+      onClose={() => setClearInventoryProduct(null)} />}
+  </div>;
 };

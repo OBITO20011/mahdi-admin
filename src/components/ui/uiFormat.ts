@@ -8,6 +8,14 @@ const jodFormatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 3,
 });
 
+/** Cashier line count; only wording, never quantity or pricing policy. */
+export function formatItemCount(count: number): string {
+  if (count === 0) return 'لا أصناف';
+  if (count === 1) return 'صنف واحد';
+  if (count === 2) return 'صنفان';
+  return `${count} ${count <= 10 ? 'أصناف' : 'صنفاً'}`;
+}
+
 /** Arabic date/time wording, with the same Latin digits used for money. */
 export function formatUiDate(value: Date | string, options: Intl.DateTimeFormatOptions): string {
   return new Intl.DateTimeFormat('ar-JO-u-nu-latn', {
