@@ -8,6 +8,21 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 ## Canonical reading order
 
+**Latest owner boundary — 2026-10-10:** optimize136 only with EXPLAIN and literal
+every-customer/bucket parity,then full quality/commit/exact-SHA CI;after delivery,
+independent test-only actual port-bind guard commit,then Customers presentation.
+Full-size136 parity10000/10000 and p95 all1645.011ms passed. No new indexes,
+parallel authority/cache,001–135 edits or financial policy changes. Details:
+DEBT_AGING_136.md. No Production/deploy/Phase7 or automations.
+
+**Latest owner boundary — 2026-10-09:** CI split and blank counted-Cash87110ae
+delivered with exact-SHA quality/secrets PASS. Owner authorizes136 read-only
+aging first,then Customers presentation;read DEBT_AGING_136.md and Package F
+spec §6.6/§7. Unknown age is separate/FIFO-first/not overdue. New opening tool
+is not in scope.001–135 immutable,no other financial writers/readers/roles
+changed;136 verification/quality/CI precedes Customers. No Production/deploy/
+Phase7. The former Cash-only boundaries below are historical checkpoints.
+
 **Current owner boundary — 2026-10-09:** e122ad6/135 visually/read-contract accepted,
 CI16/16. Only Cash/Shifts §6.5 presentation,archive and closing report,shared
 denomination input and accessible phone count panel. CASH_MIGRATION.md records

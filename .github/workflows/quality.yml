@@ -158,7 +158,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -186,6 +186,10 @@ jobs:
       - name: Prove135 reader JSON,roles and real payment/Return balance
         if: matrix.suite == 'package-f-reads'
         run: npm run test:package-f:reads
+
+      - name: Prove136 read-only FIFO aging,canonical balance and role boundaries
+        if: matrix.suite == 'package-f-aging'
+        run: npm run test:package-f:aging
 
       - name: Reconcile a complete business day through real public RPCs
         if: matrix.suite == 'golden-day'

@@ -1,5 +1,22 @@
 # Agent handoff history
 
+## 2026-10-10 —136 optimized read-only candidate verified
+
+Only136 rewritten set-based after source-grounded EXPLAIN:50000 per-order
+financial helper calls plus135000-row FIFO/sort. No new index/cache/existing
+function changes. Same150k-order/200k-payment/10k-customer/1.2m-movement fixture:
+10000/10000 full customer JSON/buckets match baseline and each canonical121
+balance;aggregate JSON/top50 identical. p95 before/after single44.699/33.464ms,
+all4285.705/1645.011ms,unchanged targets/settings. B324874E… final136 hash pinned.
+Optimized actual sale/payment/Return/date/unknown/roles/zero-write/DB lint PASS;
+focused14/14 and full quality PASS:445browser,59existing conditional skips,
+retries0,Production/external escaped0.001–135 unchanged;test DB and owned
+browser servers stopped. Gitleaks/commit/push/exact-SHA CI precede delivery.
+Then separately approved test-only port-bind guard,then Customers presentation.
+Historical supplier CI log113993757143 failed in before bootstrap,not after:
+before→after release hypothesis is not proven;no port-holder diagnostic existed.
+No Production/deploy/Phase7/automations.
+
 Append only concise, secret-free handoff summaries here when a task materially changes ownership. Machine-verifiable current state belongs in `ACTIVE_TASK.json`; Git remains the code history.
 
 ## 2026-10-07 — 133 corrective priority; E2 preserved (codex)

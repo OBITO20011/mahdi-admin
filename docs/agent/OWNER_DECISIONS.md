@@ -1,5 +1,23 @@
 # Approved owner decisions
 
+## 2026-10-10 —136 performance,then isolated DB port guard,then Customers
+
+Owner authorizes EXPLAIN(ANALYZE,BUFFERS) before136 optimization;set-based/CTEs
+and proven needed IF NOT EXISTS indexes inside136 only. No001–135/existing
+function changes,cache tables/materialized views,parallel balance source,
+semantic/category/role change or relaxation of<3s. Prove canonical balance
+and unchanged buckets/full JSON for each10000-fixture customer;before/after
+single/global p95. If impossible without changed meaning,stop with options.
+Full quality/Gitleaks0/one136 commit/push/exact-SHA CI precedes the next stage.
+
+Then separate test-infrastructure-only commit:explicit actual bind checks
+before Supabase start,deadline<=60s,periodic condition checks,PORT_STILL_BOUND
+with docker-published-port/ss diagnostics,never kill another owner. Verify
+before/after-stop hypothesis from logs;do not call it proven merely from
+source sequence. No product/workflow/timeouts/retries changes. Unit/runtime
+proof and exact-SHA CI including observed real wait duration. Then Customers
+per approved Package F UI/read-only contracts. No Production/deploy/Phase7.
+
 ## Package E closure and next boundaries — 2026-10-08
 
 - **Package E = OWNER-CLOSED** بقرار المالك بعد مراجعة التصحيحات: البنود1–10 وإضافاتUX FIXED، لا Critical/High جديد،001–132 unchanged. الأساس `5bb5c8877978ee4cb1b0a0de9d516d25d319d617`؛ exact push/main code quality37786962873 ناجح15/15 وsecret scanning37786962944 ناجح. لا إعادة فتحها بسبب المؤجلات أدناه.

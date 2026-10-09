@@ -1,42 +1,51 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "IDLE",
   "owner": "codex",
-  "objective": "Deliver approved empty counted Cash independently;then136 and Customers",
-  "baselineSha": "aa76121c10a190fede6fa6943b5a97a841f61dff",
+  "objective": "Optimize136 with per-customer parity;then independent port guard;then Customers",
+  "baselineSha": "87110ae4f43bc472b8290e379727f12a7ac7865c",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "CI-only aa76121 exact-SHA quality37974334299 18/18 and secrets37974334247 PASS;core13:28/F8:57;delivery verified"
+    "CI-only aa76121 exact-SHA quality37974334299 18/18 and secrets37974334247 PASS;core13:28/F8:57;delivery verified",
+    "Cash87110ae exact-SHA quality37981756833 attempt2 all18/18 and secrets37981756894 PASS;single supplier-ledger rerun succeeded;official delivery verified"
   ],
   "inProgress": [
-    "Empty counted Cash:per-shift blank state,valid0,unchanged close payload;final frozen quality before independent commit/CI"
+    "136 local gates PASS;commit/push and exact-SHA CI pending before port guard"
   ],
   "notStarted": [
-    "136 read-only debt aging",
+    "Independent test-infrastructure port guard commit after136 delivery",
     "Customers UI",
     "Phase7"
   ],
   "filesTouched": [
+    ".github/workflows/quality.yml",
     "docs/agent/OWNER_DECISIONS.md",
-    "docs/design/package-f/CASH_MIGRATION.md",
-    "e2e/package-f-cash.spec.ts",
-    "src/features/shifts/ShiftsView.tsx",
-    "tests/expenses-shifts.test.ts",
-    "tests/package-f-cash.test.ts",
-    "docs/design/package-f/DEBT_AGING_136.md"
+    "docs/agent/PHASE_STATUS.md",
+    "docs/agent/PROJECT_OVERVIEW.md",
+    "docs/agent/project-state.json",
+    "package.json",
+    "scripts/agent/lib.mjs",
+    "scripts/agent/preflight.mjs",
+    "tests/migration-integrity.test.ts",
+    "docs/design/package-f/DEBT_AGING_136.md",
+    "scripts/testing/fixtures/package-f-debt-aging-136-baseline.sql",
+    "scripts/testing/run-package-f-debt-aging-runtime.mjs",
+    "supabase/migrations/136_package_f_customer_debt_aging.sql",
+    "tests/package-f-debt-aging.test.ts"
   ],
   "testsPassed": [
-    "Cash48/48 Chromium/WebKit,retries0;unit/AST18/18;dynamic partition504=350+154",
-    "Pre-cycle full quality788Admin/189Customer/443Browser PASS;59existing skips;escaped external/Production0",
-    "Final frozen full quality445Browser PASS/59existing skips,retries0 (16.6m);lint/unit/build/SEO/isolation PASS;external/Production escaped0"
+    "136 focused real POS/payments/Return,FIFO balance245000 then255000,unknown first/separate,6Amman boundaries,all7 roles/ACL parity,excess rollback/content zero-write and DB lint PASS",
+    "136 full scale150k orders/200k payments/10k customers/1.2m movements;each canonical total,bucket sum and full before/after JSON10000/10000 PASS;aggregate JSON PASS;before/after p95 single44.699/33.464ms all4285.705/1645.011ms",
+    "Optimized136 actual writers/ACL/date/zero-write/DB lint PASS;static/continuity14/14 PASS;full quality exit0:445browserPASS/59existing conditional skips/retries0;build/SEO/isolationPASS escapedProduction0"
   ],
   "testsRemaining": [
-    "Gitleaks0;independent Cash commit/push/exact-SHA CI;then136 and Customers"
+    "136 staged Gitleaks0/commit/push/exact-SHA CI;then independent port guard;then Customers"
   ],
   "findings": [
-    "Live cycle before reset retained809.800 in new shift;per-id reset now passes both browsers;old prefill test updated to owner-approved blank contract"
+    "136 first scale count wrongly filtered random V2 row IDs;corrected to fixture customer/product identities,unchanged expected totals;second run counts/balance pass but aggregate p95 fails",
+    "Recurring CI infrastructure:54322 occupied before supplier SQL (second occurrence after POS);one supplier-ledger rerun authorized on87110ae only;no third retry/workflow change"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -45,8 +54,8 @@
     "001-135 immutable;no write RPC/payload/permission change;136 only approved read",
     "No opening-balance tool;preserve .claude/launch.json unstaged"
   ],
-  "nextExactAction": "Final Cash quality PASS445Browser/59existing skips,retries0. Review7file scope,Gitleaks0,Cash commit/push/exact-SHA CI;then136 and Customers.",
-  "workingTreeFingerprint": "4A846BB79165973649D0EEDA28F81FB7923C3ACFEA535022652F0E52320DEE0B",
-  "checkpointedAt": "2026-10-09T19:39:25.375Z",
+  "nextExactAction": "136 local gatesPASS;stage explicit136 allowlist,Gitleaks0,commit/push and verify exact-SHA CI;only then port guard.",
+  "workingTreeFingerprint": "B8011BDC23F1B8BCE5982E151B9D5529CC99CE4C026030C5833551CA927E7045",
+  "checkpointedAt": "2026-10-09T23:22:35.560Z",
   "startedAt": "2026-10-09T17:34:23.990Z"
 }

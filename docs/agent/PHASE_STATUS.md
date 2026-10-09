@@ -1,5 +1,33 @@
 # Phase status
 
+## 2026-10-10 — Package F136 optimized runtime verified
+
+Same isolated full-size fixture:150000 orders,200000 payments,10000 customers,
+1.2m movements. Every customer's total equals121's canonical receivable;
+every full customer JSON and aggregate JSON matches the immutable136 baseline.
+Measured p95 before/after:single44.699/33.464ms,all4285.705/1645.011ms.
+Set-based136 only;no new index/cache/existing function or001–135 change.
+Optimized focused runtime/DB lint and full quality PASS:445 browser tests,
+59 unchanged conditional skips,retries0,zero Production escape. Staged
+Gitleaks/commit/exact-SHA CI delivery follows;no premature CI claim.
+Then separately deliver the authorized port-bind test guard,then Customers UI.
+Earlier performance stop is superseded by this owner-approved correction;
+no Production/deploy/Phase7. See DEBT_AGING_136.md.
+
+## 2026-10-09 — Package F approved debt-aging reader136
+
+CI split aa76121 and blank counted-Cash87110ae delivered;exact-SHA Cash
+quality37981756833 attempt2 all18/18 and secrets37981756894 PASS. The single
+owner-approved supplier-ledger rerun passed after54322 bootstrap collision;
+no infrastructure code/retry/timeout change. Current stage:read-only136,
+then Customers UI only after136 quality/Gitleaks/commit/push/CI. Unknown age
+is final-approved,separate/not overdue,FIFO first;opening dates approved but
+startup tool not implemented. Details:DEBT_AGING_136.md. Focused real RPC/date/
+ACL/read-only/DB lint passed;full-scale balances match. Client p95=42.784ms
+PASS;aggregate p95=3243.608ms FAIL against<3000ms. Paused for owner direction
+before quality/commit/Customers;candidate136 remains uncommitted.001–135 frozen;
+no Production/deploy/Phase7. Older Cash pending paragraphs are historical.
+
 ## 2026-10-09 — Package F Cash / Shifts presentation
 
 Owner/Claude accepted e122ad6/135 and exact-SHA CI16/16. Only ShiftsView §6.5,
