@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFile, spawn } from 'node:child_process';
+import {decodeProcessUtf8} from './process-utf8.mjs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -111,6 +112,7 @@ const runCoordinatedPair = async (firstSql, secondSql, { settled = false } = {})
     '-v', 'ON_ERROR_STOP=1'],
   { windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] });
   let gateOutput = '';
+  decodeProcessUtf8(gate);
   gate.stdout.on('data', (chunk) => { gateOutput += chunk; });
   const gateClosed = new Promise((resolve, reject) => {
     gate.on('error', reject);
@@ -504,6 +506,7 @@ const createGateConnection = async (label, lockSql) => {
     '-d','postgres','-X','-q','-t','-A','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose'],
   { windowsHide: true, stdio: ['pipe','pipe','pipe'] });
   let stdout = ''; let stderr = '';
+  decodeProcessUtf8(child);
   child.stdout.on('data', (chunk) => { stdout += chunk; });
   child.stderr.on('data', (chunk) => { stderr += chunk; });
   const closed = new Promise((resolve, reject) => {

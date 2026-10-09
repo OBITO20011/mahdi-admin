@@ -86,3 +86,43 @@ Final full local quality exit0:771Admin/189Customer/357Browser PASS,
 59 pre-existing conditional skips,retries0. POS18/18,Orders32/32,Home24/24
 inside the uninterrupted full run;typecheck/ESLint/build/SEO/isolation PASS.
 External/Production requests escaped0. Gitleaks/exact-SHA CI follow.
+
+## Approved test-tool correction — 2026-10-09
+
+20910cb CI exposed two harness defects, not a proven POS business defect.
+Exact package-d job113664368296 log at04:07:40.0996666Z/0997061Z:
+`+ productName: 'نكهة أ'` / `- productName: 'نكهة ��'`, followed by
+`package-d-pos-recovery-runtime.ts:86:10`. Separate Buffer coercion at a
+UTF8 chunk boundary fabricated a content/hash difference. The shared
+process-utf8.mjs decoder now sets stdout/stderr UTF8 before listeners.
+Permanent regression splits `نكهة أ` at every byte boundary on both streams;
+the original exact content/SHA assertions remain unchanged.
+
+All previously unsafe captures found in testing runners were corrected:
+- package-d-pos-recovery-runtime.ts (SQL capture);
+- run-canonical-schema-runtime.mjs (SQL capture);
+- run-phase6-package-a-runtime.mjs (SQL capture);
+- run-phase2-configurable-receiving-runtime.mjs (two gate captures).
+Other runners already use stream UTF8 decoding, buffered execFile decoding,
+or raw inherited output; they were inspected and not unnecessarily changed.
+
+pos-browser job113664368298 failed before mutations: bare fullstack HTML
+had no CSS, so both responsive radio copies were visible. The harness now
+loads src/index.css, self-hosted IBM Plex Arabic400/500/600/700 and an explicit
+viewport, including its aftercare remount. No selector or existing test name,
+case count, assertion, retry or timeout changed in this correction. No product
+logic, RPC, service, migration, permission or workflow changes.
+Fresh real-runtime/full-quality/exact-SHA proof follows before delivery.
+
+Fresh focused proof:UTF8 regression2/2,typecheck and changed-file ESLint PASS;
+package-d fresh001-132 exit0,including the exact recovery fingerprint and
+real concurrent trigger races(deadlockDelta0). Styled pos-browser8/8 PASS
+in1.9m,Chromium+Mobile WebKit,workers1/retries0,real authenticated RPC/DB,
+Production requests0. Both owned isolated stacks cleaned after their runs.
+
+Fresh full quality exit0:773Admin/189Customer/357Browser PASS,59existing
+conditional skips,retries0;browser run14.0m. AST comparison proves all4
+original fullstack test bodies and120 assertion calls identical to20910cb.
+Only bootstrap styles/viewport/font changed in that spec. No owned test
+containers/listeners remain. Gitleaks/staged integrity and new exact-SHA CI
+must pass before visual-review delivery;no next screen is authorized.

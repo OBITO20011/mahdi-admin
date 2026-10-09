@@ -1,45 +1,38 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "PAUSED",
   "owner": "codex",
-  "objective": "Migrate POS to Package F design;customer name/phone only,no debt read;preserve all sale/recovery/RPC contracts",
-  "baselineSha": "70bb9754c6974556cc8950050760dd4104612468",
+  "objective": "Approved POS test-tool correction only:shared UTF8 regression/fullstack CSS/font/viewport;real gates,quality,Gitleaks,commit/push/exact-SHA15/15 then stop",
+  "baselineSha": "20910cbb2af3efe11378e74bcad88bfe1cf66877",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "Orders70bb975 CI/visual accepted;POS migration authorized,name/phone only,no debt line/read",
     "POS desktop grid/cart,below-lg list/sticky checkout,one cart sheet and fixed read-fixture harness implemented",
-    "AST27 await/service/RPC/run/openModal expressions identical;source trace86f24afae716457dfe8c837d5c814ceab61d1d66cb30cde060ba01e3ff4b2d6c"
+    "AST27 await/service/RPC/run/openModal expressions identical;source trace86f24afae716457dfe8c837d5c814ceab61d1d66cb30cde060ba01e3ff4b2d6c",
+    "POS20910cbb2af3efe11378e74bcad88bfe1cf66877 committed/pushed;origin/main exact match;Gitleaks staged exit0"
   ],
-  "inProgress": [
-    "Gitleaks0,one commit/push/exact-SHA CI and visual-review stop"
-  ],
+  "inProgress": [],
   "notStarted": [
     "Remaining Package F screens pending separate approval",
     "Phase 7"
   ],
   "filesTouched": [
     "docs/design/package-f/POS_MIGRATION.md",
-    "e2e/package-f-pos-harness.html",
-    "e2e/package-f-pos-harness.tsx",
-    "e2e/package-f-pos.fixture.ts",
-    "e2e/package-f-pos.spec.ts",
-    "src/components/ui/ProductGlyph.tsx",
-    "src/components/ui/ResponsiveCartPanel.tsx",
-    "tests/package-f-pos.test.ts",
-    "docs/agent/PHASE_STATUS.md",
-    "docs/agent/PROJECT_OVERVIEW.md",
     "e2e/package-d-pos-fullstack.spec.ts",
-    "e2e/package-d-pos.spec.ts",
-    "e2e/phase6-package-c.spec.ts",
-    "src/components/ui/Controls.tsx",
-    "src/components/ui/index.ts",
-    "src/components/ui/Surface.tsx",
-    "src/features/pos/PosParcelBuilder.tsx",
-    "src/features/pos/PosView.tsx"
+    "scripts/testing/package-d-pos-recovery-runtime.ts",
+    "scripts/testing/run-canonical-schema-runtime.mjs",
+    "scripts/testing/run-phase2-configurable-receiving-runtime.mjs",
+    "scripts/testing/run-phase6-package-a-runtime.mjs",
+    "scripts/testing/process-utf8.mjs",
+    "tests/process-utf8.test.ts"
   ],
   "testsPassed": [
+    "Fresh full quality exit0:773Admin/189Customer/357Browser PASS,59existing conditional skips,retries0;fullstack4bodies/120assertions identical;owned containers/listeners cleaned",
+    "Fresh styled pos-browser8/8 Chromium/WebKit PASS(1.9m),workers1/retries0,real public RPC/DB,Production0;owned stack cleaned",
+    "Tool correction:UTF8 every-byte split stdout/stderr2/2,typecheck,changed ESLint PASS;all testing-runner captures inspected,no unprotected text aggregation remains",
+    "Fresh package-d001-132 exit0;real POS lost-response/replay exact fingerprints retained;Return/Replacement races deadlockDelta0;DB cleaned",
     "Focused POS/related units54/54;typecheck and changed-file ESLint strict PASS",
     "Focused browser36/36 Chromium/WebKit PASS,retries0;axe/containment/Latin390/820/1440,sticky checkout/focus,exact3-kind payload,shift/unknown/keyboard/capacity",
     "Old POS selectors/navigation updated only;all financial/recovery/capacity/real-DB assertions retained",
@@ -47,10 +40,12 @@
     "Full quality exit0:771Admin/189Customer/357Browser PASS,59existing conditional skips,retries0;POS18/18,Orders32/32,Home24/24;lint/build/SEO/isolation PASS,escaped0"
   ],
   "testsRemaining": [
-    "Gitleaks0,one commit/push/exact-SHA CI;owner/Claude visual review before next screen"
+    "Gitleaks0,commit/push/exact-SHA15/15 then stop for owner visual review"
   ],
   "findings": [],
-  "blockers": [],
+  "blockers": [
+    "No current blocker;focused real gates and full quality PASS;new exact-SHA CI pending"
+  ],
   "activeProcesses": [],
   "prohibitions": [
     "No Production/deploy/Phase7/automations",
@@ -58,8 +53,8 @@
     "No next screen before owner review;preserve shell components",
     ".claude/launch.json:preserve unchanged/unstaged;no .gitignore edit"
   ],
-  "nextExactAction": "POS qualityPASS771/189/357 and27-call parity;Gitleaks staged0 then one commit/push/exact-SHA CI;stop for visual review",
-  "workingTreeFingerprint": "08FE4EFD9FA4FE5EC4588DA418D6960C073D17A9AB83DC4F50272C1C40AB30CE",
-  "checkpointedAt": "2026-10-09T04:04:31.846Z",
+  "nextExactAction": "Focused+quality PASS;explicit-stage9 tool/report files,Gitleaks0,commit/push then verify exact-SHA all15/15+secrets and stop",
+  "workingTreeFingerprint": "24329ACBF095F9118E168C78854460F2AD8F1B86D0EDF8465DB4C158D1DF7B25",
+  "checkpointedAt": "2026-10-09T04:51:44.464Z",
   "startedAt": "2026-10-08T22:04:02.501Z"
 }

@@ -16,10 +16,14 @@ const snapshot = async () => {const response = await fetch(`${controlUrl}/pos-sn
 
 async function mount(page: Page) {
   await page.route(`${baseUrl}/`, route => route.fulfill({contentType:'text/html',
-    body:'<html lang="ar" dir="rtl"><body><div id="root"></div></body></html>'}));
+    body:'<html lang="ar" dir="rtl"><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body><div id="root"></div></body></html>'}));
   await page.goto(baseUrl!);
   return page.evaluate(async ({loginEmail, loginPassword}) => {
     const runtimeImport = (p: string) => import(/* @vite-ignore */ p);
+    await runtimeImport('/src/index.css');
+    for (const weight of [400,500,600,700]) {
+      await runtimeImport(`/node_modules/@fontsource/ibm-plex-sans-arabic/${weight}.css`);
+    }
     const lib = await runtimeImport('/src/lib/supabase.ts');
     const login = await lib.supabase.auth.signInWithPassword({email:loginEmail,password:loginPassword,
       options:{captchaToken:'XXXX.DUMMY.TOKEN.XXXX'}});
@@ -48,6 +52,10 @@ async function mountAftercare(page: Page, orderId: string) {
   await page.goto(baseUrl!);
   await page.evaluate(async id => {
     const load = (p: string) => import(/* @vite-ignore */ p);
+    await load('/src/index.css');
+    for (const weight of [400,500,600,700]) {
+      await load(`/node_modules/@fontsource/ibm-plex-sans-arabic/${weight}.css`);
+    }
     const refresh = await load('/@react-refresh');refresh.default.injectIntoGlobalHook(window);
     Object.assign(window,{$RefreshReg$:()=>undefined,$RefreshSig$:()=>((t:unknown)=>t),
       __vite_plugin_react_preamble_installed__:true});

@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
+import {decodeProcessUtf8} from './process-utf8.mjs';
 import {createHash} from 'node:crypto';
 import type {SupabaseClient} from '@supabase/supabase-js';
 import {runPosV2Attempt, readPosV2Recovery} from '../../src/services/supabase/posV2Recovery';
@@ -15,6 +16,7 @@ const sql = (query: string): Promise<string> => new Promise((resolve, reject) =>
   const child = spawn('docker', ['exec', '-i', container, 'psql', '-U', 'postgres', '-d', 'postgres',
     '-X', '-q', '-At', '-v', 'ON_ERROR_STOP=1'], {windowsHide: true, stdio: ['pipe', 'pipe', 'pipe']});
   let output = '', error = '';
+  decodeProcessUtf8(child);
   child.stdout.on('data', data => {output += data;}); child.stderr.on('data', data => {error += data;});
   child.on('error', reject); child.on('close', code => code === 0 ? resolve(output.trim()) : reject(Error(error)));
   child.stdin.end(`SET statement_timeout='60s'; SET lock_timeout='30s'; ${query}`);

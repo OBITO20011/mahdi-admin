@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {execFile, spawn} from 'node:child_process';
+import {decodeProcessUtf8} from './process-utf8.mjs';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import {promisify} from 'node:util';
@@ -14,6 +15,7 @@ assert.match(container, /^supabase_db_nawasrah-[a-z0-9-]+-test$/);
 const sql = (input) => new Promise((resolve, reject) => {
   const child = spawn('docker', ['exec', '-i', container, 'psql', '-X', '-q', '-t', '-A', '-v', 'ON_ERROR_STOP=1', '-U', 'postgres', '-d', 'postgres'], {windowsHide: true});
   let out = ''; let err = '';
+  decodeProcessUtf8(child);
   child.stdout.on('data', b => { out += b; });
   child.stderr.on('data', b => { err += b; });
   child.on('error', reject);

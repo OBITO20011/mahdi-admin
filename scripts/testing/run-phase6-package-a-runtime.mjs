@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {execFile, spawn} from 'node:child_process';
+import {decodeProcessUtf8} from './process-utf8.mjs';
 import {readFile} from 'node:fs/promises';
 import {promisify} from 'node:util';
 import {randomUUID,createHash} from 'node:crypto';
@@ -24,6 +25,7 @@ const sql = (text) => new Promise((resolve,reject) => {
   const child = spawn('docker',['exec','-i',container,'psql','-U','postgres','-d','postgres','-X','-q','-At','-v','ON_ERROR_STOP=1'],
     {cwd:root,windowsHide:true,stdio:['pipe','pipe','pipe']});
   let out='',err='';
+  decodeProcessUtf8(child);
   child.stdout.on('data',(s)=>{out+=s;}); child.stderr.on('data',(s)=>{err+=s;});
   child.on('error',reject); child.on('close',(code)=>code===0?resolve(out.trim()):reject(Error(`${code}: ${err}`)));
   child.stdin.end(`SET statement_timeout='60s'; SET lock_timeout='30s';\n${text}`);
