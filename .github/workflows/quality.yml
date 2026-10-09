@@ -16,6 +16,9 @@ jobs:
     name: Lint, test, build and browser QA
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: browser-core
     container:
       image: mcr.microsoft.com/playwright:v1.62.1-noble@sha256:dcc5531e97840b9b5e794f2814476b21571c5124a3fca2267d73041f56e7580e
     steps:
@@ -23,9 +26,10 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
+          path: browser-core
 
       - name: Trust the checked-out workspace in this container
-        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE/browser-core"
 
       - name: Set up Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
@@ -33,8 +37,8 @@ jobs:
           node-version: 24
           cache: npm
           cache-dependency-path: |
-            package-lock.json
-            customer-web/package-lock.json
+            browser-core/package-lock.json
+            browser-core/customer-web/package-lock.json
 
       - name: Install admin dependencies
         run: npm ci
@@ -43,34 +47,86 @@ jobs:
         run: npm --prefix customer-web ci
 
       - name: Verify pinned Playwright image matches lockfile
-        run: |
-          node --input-type=module <<'NODE'
-          import assert from 'node:assert/strict';
-          import { readFileSync } from 'node:fs';
-          const workflow = readFileSync('.github/workflows/quality.yml', 'utf8');
-          const quality = workflow.match(/^  quality:\r?\n([\s\S]*?)(?=^  [\w-]+:|$(?![\s\S]))/m)?.[1];
-          assert.ok(quality, 'Quality job must exist');
-          const image = quality.match(/^      image: (\S+)\r?$/m)?.[1];
-          const version = image?.match(/^mcr\.microsoft\.com\/playwright:v(\d+\.\d+\.\d+)-noble@sha256:[a-f0-9]{64}$/)?.[1];
-          assert.ok(version, 'Quality requires a versioned, digest-pinned Playwright image');
-          const lock = JSON.parse(readFileSync('package-lock.json', 'utf8'));
-          for (const name of ['@playwright/test', 'playwright', 'playwright-core']) {
-            assert.equal(lock.packages[`node_modules/${name}`]?.version, version,
-              `Update the pinned quality image together with ${name}`);
-          }
-          console.log(`Playwright image/lockfile version verified: ${version}`);
-          NODE
+        run: node scripts/testing/verify-ci-playwright-image.mjs
+
+      - name: Prove dynamic browser partition has no missing or duplicate cases
+        run: node scripts/testing/verify-browser-ci-partition.mjs
 
       - name: Run complete quality gate
-        run: npm run quality
+        run: node scripts/testing/run-quality-ci.mjs core
 
       - name: Upload Playwright report on failure
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: playwright-report
-          path: playwright-report/
+          name: playwright-report-core
+          path: browser-core/playwright-report/
           retention-days: 14
+
+  package-f-browser:
+    name: Package F browser QA
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: browser-package-f
+    # Separate job containers have independent filesystems and network namespaces.
+    # No host ports/DB are published; identical localhost ports cannot collide.
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble@sha256:dcc5531e97840b9b5e794f2814476b21571c5124a3fca2267d73041f56e7580e
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          path: browser-package-f
+
+      - name: Trust the checked-out workspace in this container
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE/browser-package-f"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            browser-package-f/package-lock.json
+            browser-package-f/customer-web/package-lock.json
+
+      - name: Install admin dependencies
+        run: npm ci
+
+      - name: Install customer store dependencies
+        run: npm --prefix customer-web ci
+
+      - name: Verify pinned Playwright image matches lockfile
+        run: node scripts/testing/verify-ci-playwright-image.mjs
+
+      - name: Prove dynamic browser partition has no missing or duplicate cases
+        run: node scripts/testing/verify-browser-ci-partition.mjs
+
+      - name: Run Package F browser gate
+        run: node scripts/testing/run-quality-ci.mjs package-f
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: playwright-report-package-f
+          path: browser-package-f/playwright-report/
+          retention-days: 14
+
+  quality-delivery:
+    name: Complete quality delivery gate
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [quality, package-f-browser, database-runtime, current-database-runtime]
+    steps:
+      - name: Require every quality branch to succeed
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: |
+          node -e 'const jobs=JSON.parse(process.env.NEEDS_JSON);const required=["quality","package-f-browser","database-runtime","current-database-runtime"];if(Object.keys(jobs).length!==required.length||required.some(name=>jobs[name]?.result!=="success"))process.exit(1);'
 
   database-runtime:
     name: Isolated database runtime regression

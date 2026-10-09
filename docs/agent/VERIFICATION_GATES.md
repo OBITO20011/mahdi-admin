@@ -33,4 +33,17 @@ Select gates proportionate to the task; phase closure requires all gates named b
 - migration immutability and final migration hash
 - zero stale test-owned servers/processes/containers
 
+## Exact-SHA delivery after the Package F browser split
+
+Local `npm run quality` remains the complete unsplit gate. CI selects browser
+files automatically: `e2e/package-f-*.spec.ts` in Package F, all others in core.
+Dynamic Playwright discovery must prove the disjoint union equals full discovery
+by test identity and browser project (no fixed count). Both independent pinned
+containers retain the original configuration and20m limit. The CI aggregate
+requires both browser jobs and all DB jobs to succeed, never skip/cancel.
+Before declaring delivery run `npm run agent:verify-handoff -- --delivery`:
+this additionally verifies HEAD=remote main and successful exact-SHA quality,
+both browser branches, the aggregate/all DB jobs and secret scanning via GitHub.
+Plain verify-handoff checks continuity only and reports deliveryReady=false.
+
 A passing corrective suite is a claim until an independent read-only re-sign-off verifies it. A phase is closed only by owner decision after that sign-off.
