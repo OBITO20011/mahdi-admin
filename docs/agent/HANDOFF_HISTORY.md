@@ -95,3 +95,19 @@ Append only concise, secret-free handoff summaries here when a task materially c
 - Owner/Claude accepted a390011 visually and confirmed unchanged actions. Follow-up limited to full-screen phone detail/back, desktop single-line number/time and employee-facing hint. BottomTabs are covered while phone detail is open;return restores the same card position/focus. Desktop panel/readers/actions unchanged.
 - Focused units20/20,browser28/28 PASS. One obsolete live-browser sequence now returns from phone detail before searching;all exact RPC/paging/search assertions remain. No relaxed assertions,timeouts or retries.
 - Full quality exit0:766Admin/189Customer/335Browser PASS,59existing conditional skips,retries0;Orders28/28/Home24/24 inside complete run. ESLint strict/build/SEO/isolation PASS. Gitleaks0 and one corrective commit/push/exact-SHA CI are delivery gates;then STOP for owner visual review. No DB/migrations,Production/deploy or next screen.
+
+## 2026-10-09 — Orders real-list return-position correction (codex)
+
+- Owner approved an extra corrective commit after3becc46;real controller lost
+  scroll857→0 when list reload unmounted cards. The permanent live test proved
+  failure before the fix using explicit response barriers,no random waits.
+- Capture pre-open scroll/card;restore after accepted post-close list render,
+  re-find the card and focus without scrolling. Existing reader calls/arguments
+  unchanged;desktop/service/store/migrations/CI untouched.
+- Focused Orders32/32 Chromium/WebKit and units21/21 PASS,retries0. Full quality,
+  Gitleaks0 and exact-SHA CI remain before delivery and visual-review stop.
+- On new-SHA54322 boot failure rerun only failed job once;if third occurrence
+  stop with logs. No Production/deploy,next screen or CI change authorized.
+- Final additional-correction quality exit0:767Admin/189Customer/339Browser,
+  59existing conditional skips,retries0;Orders32/32 and Home24/24 inside full run.
+  Lint/typecheck/build/SEO/isolation PASS;Gitleaks0 and exact-SHA CI follow.

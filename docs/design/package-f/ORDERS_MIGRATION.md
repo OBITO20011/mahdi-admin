@@ -107,3 +107,35 @@ retries0;Home24/24 and Orders28/28 in the complete run. ESLint strict/typecheck,
 builds/SEO/network isolation PASS. AST comparison confirms all existing reader
 and action calls/arguments are unchanged. Gitleaks/exact-SHA CI follow; no DB,
 services, stores, workflow or shell changes.
+
+## Real-reader return-position correction — 2026-10-09
+
+The earlier fixture-only return test did not exercise controller list reloads.
+The real controller reproduced scroll857→0: selection and close each start the
+existing paginated read;loading unmounts cards and clamps the scroll container.
+Owner authorized this additional presentation-only commit after3becc46.
+
+- Capture the phone card identity and actual ancestor scrollTop before opening.
+  On close, wait for an accepted list request newer than the close boundary,
+  then restore in the layout effect after cards render. Re-find the card by
+  identity and restore focus without scrolling;keep it visible if rows moved.
+  Stale reads cannot satisfy the boundary. Desktop presentation is unchanged.
+- Permanent light/dark390px `&live` tests use the actual OrdersCenterView and
+  services over isolated loopback RPC/REST fixtures. Explicit response barriers
+  force loading on both open and back;no sleeps,retries or random latency.
+  Assert the same scroll/card offset within2px,card in viewport/focused,axe,
+  and exactly4 list calls. Before the fix the new test failed by857px.
+- Focused browser32/32 across Chromium/WebKit and units21/21 PASS,retries0;
+  typecheck/changed-file ESLint PASS. AST reader/subscription calls and arguments
+  are identical to3becc46. No RPC,payload,service,store,DB,migration or CI change.
+  Full quality/Gitleaks/exact-SHA CI are required before delivery.
+- Previous POS CI failure was before tests at DB boot,54322 already in use.
+  For this new SHA only,if it repeats,rerun that failed job once;on a third
+  occurrence stop with logs before any workflow change. No CI edit authorized.
+
+Stop for owner/Claude visual review;no next screen,Production or deploy.
+
+Full additional-correction quality exit0:767Admin/189Customer/339Browser PASS,
+59 pre-existing conditional skips,retries0;Orders32/32 and Home24/24 in the
+uninterrupted full run. Lint/typecheck/build/SEO/network isolation PASS.
+Gitleaks0 and exact-SHA CI are the remaining delivery gates.

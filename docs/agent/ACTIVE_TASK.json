@@ -2,18 +2,18 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner-approved Orders usability correction: mobile full-screen detail/back, nowrap table identity/time, nontechnical hint",
-  "baselineSha": "a39001113bbf4756535d5c5fda6fe37883241e1d",
+  "objective": "Owner-approved corrective commit: restore Orders scroll/card after real list reload; permanent live regression and exact-SHA CI",
+  "baselineSha": "3becc46fd957829c77c378372a7f5a3180fb6563",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "Orders a390011 exact-SHA CI and owner/Claude visual/action review accepted",
-    "Three approved usability corrections complete;same readers/actions and desktop panel",
-    "Full corrective quality exit0;only delivery commit/push/exact-SHA CI remain"
+    "Previous phone detail/nowrap/hint committed3becc46;owner authorized additional real-list scroll correction",
+    "New live regression proved failure857px before fix;accepted-render restoration now passes32/32 browser"
   ],
   "inProgress": [
-    "One corrective commit/push after Gitleaks0;exact-SHA CI,then stop for owner visual review"
+    "Gitleaks0,one corrective commit/push/exact-SHA CI;then stop for owner visual review"
   ],
   "notStarted": [
     "Remaining Package F screens pending visual review and owner approval",
@@ -24,31 +24,30 @@
     "docs/agent/PROJECT_OVERVIEW.md",
     "docs/design/package-f/ORDERS_MIGRATION.md",
     "e2e/package-f-orders.spec.ts",
-    "src/features/orders/OrderDetailModal.tsx",
     "src/features/orders/OrdersCenterView.tsx",
     "tests/package-f-orders.test.ts"
   ],
   "testsPassed": [
-    "Corrective focused units20/20;typecheck and changed-file ESLint strict PASS",
-    "Corrective Orders28/28 Chromium/WebKit,light/dark,retries0;phone viewport/back/scroll/axe and1280 nowrap PASS",
-    "Full quality exit0:766Admin/189Customer/335Browser PASS;59existing conditional skips,retries0;build/SEO/isolation PASS",
-    "Original live-test navigation updated to return from phone detail before search;all reader/action assertions preserved",
-    "AST comparison:existing reader/action calls and arguments identical;001-134,services,stores,workflow,shell unchanged"
+    "Focused units21/21;typecheck and changed-file ESLint strict PASS",
+    "Orders32/32 Chromium/WebKit light/dark PASS,retries0;real controller barriers on open/back,scroll/card offset within2px,focus/viewport/axe and4list calls",
+    "AST reader/subscription calls/arguments identical to3becc46;001-134,services,stores,workflow,shell unchanged",
+    "Full quality exit0:767Admin/189Customer/339Browser PASS;59existing conditional skips,retries0;lint/build/SEO/isolation PASS",
+    "Diffcheck0;Production/deploy0"
   ],
   "testsRemaining": [
-    "Gitleaks0;one commit/push/exact-SHA CI;then owner visual review only"
+    "Gitleaks0;one corrective commit/push and exact-SHA CI;then owner visual review"
   ],
   "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Production/deploy/Phase7/automations",
-    "Three approved Orders presentation corrections only;no RPC/payload/grants/DB/migration changes;001-134 immutable/no135",
+    "Orders scroll restoration only;no RPC/payload/grants/DB/migration/CI changes;001-134 immutable/no135",
     "No next screen before owner review;preserve shell components",
     ".claude/launch.json:preserve unchanged/unstaged;no .gitignore edit"
   ],
-  "nextExactAction": "Full quality PASS;Gitleaks staged exit0 then commit/push and verify exact-SHA CI",
-  "workingTreeFingerprint": "2B6D0F559F1163D907B6DAB4EAD10D2486DD6370342E1D433EAAACC1F1BC6CC5",
-  "checkpointedAt": "2026-10-09T02:09:25.730Z",
+  "nextExactAction": "Full quality PASS767/189/339;Gitleaks staged0 required then commit/push and exact-SHA CI;no CI edit",
+  "workingTreeFingerprint": "735E9FD0A079C2DD6EE96CD256A70F2371CE8225CB401EDDC8528514900A1C8F",
+  "checkpointedAt": "2026-10-09T02:50:28.701Z",
   "startedAt": "2026-10-08T22:04:02.501Z"
 }

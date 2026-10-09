@@ -66,6 +66,17 @@ test('all lifecycle, contact, address, settlement and Aftercare destinations rem
   for (const capability of ['legacy_pos_v1_unsupported', 'unsupported_contract', 'legacy_website_return_v1']) assert.ok(detail.includes(capability));
   assert.match(detail, /finally\s*\{\s*setBusy\(false\)/);
 });
+
+test('phone return captures before opening and waits for the accepted post-close list render', () => {
+  assert.match(center, /returnPointRef\.current = \{ orderId, container, scrollTop: container\.scrollTop \};[\s\S]*?onOpen\(orderId\)/);
+  assert.match(center, /selectedOrderId \|\| loading \|\| listLoadVersion < restoreAfterVersion/);
+  assert.match(center, /setRestoreAfterVersion\(requestVersionRef\.current \+ 1\);\s*setSelectedOrderId\(null\)/);
+  assert.match(center, /if \(requestVersion !== requestVersionRef\.current\) return;[\s\S]*?setOrders\(result\.orders\)[\s\S]*?setListLoadVersion\(requestVersion\)/);
+  assert.match(center, /point\.container\.scrollTop = point\.scrollTop/);
+  assert.match(center, /CSS\.escape\(point\.orderId\)/);
+  assert.match(center, /card\?\.focus\(\{ preventScroll: true \}\)/);
+  assert.match(center, /onOpen=\{openFromList\}/);
+});
 test('migrated order presentation and subpanels use tokens without old light override', () => {
   for (const path of ['OrdersCenterView', 'OrderDetailModal', 'OrderCommercialSummary', 'CustomerLocationCard', 'EditAddressModal', 'AdminAftercarePanel']) {
     const source = readFileSync(`src/features/orders/${path}.tsx`, 'utf8');

@@ -169,6 +169,70 @@ test('detail preserves contact/address tools, parcel composition and print', asy
   await panel.getByRole('button', { name: 'طباعة الطلب', exact: true }).click();
   await expect(page.locator('body')).toHaveAttribute('data-printed', 'true');
 });
+for (const theme of ['light', 'dark']) {
+  test(`live phone ${theme}: back restores lower card after actual list reload completes`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    let listReads = 0;
+    let releaseList: (() => void) | undefined;
+    await page.route('http://127.0.0.1:4176/rest/v1/**', async (route) => {
+      const request = route.request(); const parsed = new URL(request.url());
+      const path = parsed.pathname.split('/').pop()!;
+      if (path === 'get_operational_orders_page') {
+        listReads += 1;
+        // Explicit response barrier: exercise the loading/remount, not a lucky fast fixture.
+        if (listReads > 2) await new Promise<void>((resolve) => { releaseList = resolve; });
+        const visible = request.postDataJSON().p_filter === 'all' ? ordersFixture : [ordersFixture[0]];
+        await route.fulfill({ json: { order_ids: visible.map((order) => order.id), total_count: visible.length, summary: { review_count: 1, active_count: 3, due_in_minor_units: 0 } } }); return;
+      }
+      if (path === 'orders') {
+        const id = parsed.searchParams.get('id');
+        const rows = ordersFixture.filter((order) => id?.startsWith('eq.') ? id === `eq.${order.id}` : id?.includes(order.id)).map((order) => ({
+          id: order.id, order_number: order.orderNumber, source: 'website', customer_name_snapshot: order.customerName,
+          customers: { id: order.customerId, full_name: order.customerName, phone: '0791234567' }, customer_addresses: { governorate: 'الرمثا', area: 'الحي الشرقي' },
+          status: order.status, payment_method: order.paymentMethod, payment_status: order.paymentStatus,
+          subtotal_in_minor_units: 90200, delivery_fee_in_minor_units: 2000, discount_in_minor_units: 0, total_in_minor_units: 92200,
+          amount_paid_in_minor_units: 0, branch_id: 'orders-branch', created_at: order.createdAt, updated_at: order.updatedAt,
+          order_items: id?.startsWith('eq.') ? [] : [{ count: 3 }], order_status_history: [],
+        }));
+        await route.fulfill({ json: request.headers().accept?.includes('object') ? rows[0] : rows }); return;
+      }
+      await route.fulfill({ json: [] });
+    });
+    await page.goto(url(`theme=${theme}&live`));
+    await expect(page.locator('[data-order-card]')).toHaveCount(1);
+    await page.getByRole('tab', { name: /الكل/ }).click();
+    await expect.poll(() => listReads).toBe(2);
+    await expect(page.locator('[data-order-card]')).toHaveCount(6);
+    await page.evaluate(() => document.fonts.ready);
+    const card = page.getByRole('button', { name: 'فتح الطلب W-10477', exact: true });
+    await card.scrollIntoViewIfNeeded();
+    const scroll = page.getByTestId('orders-scroll');
+    const before = await scroll.evaluate((element) => element.scrollTop);
+    const cardTop = (await card.boundingBox())!.y;
+    expect(before).toBeGreaterThan(500);
+    await card.click();
+    await expect.poll(() => listReads).toBe(3);
+    await expect(page.getByText('جاري تحميل الطلبات...', { exact: true })).toBeAttached();
+    await expect(page.locator('[data-order-card]')).toHaveCount(0);
+    await expect(page.getByTestId('order-detail-panel').getByText('طباعة الطلب', { exact: true })).toBeVisible();
+    releaseList!();
+    await expect(page.locator('[data-order-card]')).toHaveCount(6);
+    await page.getByRole('button', { name: 'رجوع للطلبات', exact: true }).click();
+    await expect.poll(() => listReads).toBe(4);
+    await expect(page.getByText('جاري تحميل الطلبات...', { exact: true })).toBeVisible();
+    await expect(page.locator('[data-order-card]')).toHaveCount(0);
+    releaseList!();
+    await expect(page.locator('[data-order-card]')).toHaveCount(6);
+    await expect(page.getByTestId('order-detail-panel')).toHaveCount(0);
+    await expect.poll(async () => Math.abs(await scroll.evaluate((element) => element.scrollTop) - before)).toBeLessThanOrEqual(2);
+    await expect(card).toBeInViewport();
+    await expect(card).toBeFocused();
+    expect(Math.abs((await card.boundingBox())!.y - cardTop)).toBeLessThanOrEqual(2);
+    expect(listReads).toBe(4); // no additional RPC introduced by restoration
+    await accessibility(page);
+  });
+}
+
 test('live controller retains bounded RPC paging/search and selected-only detail reader', async ({ page }) => {
   const requests: Array<{ path: string; body: Record<string, unknown> }> = [];
   await page.route('http://127.0.0.1:4176/rest/v1/**', async (route) => {

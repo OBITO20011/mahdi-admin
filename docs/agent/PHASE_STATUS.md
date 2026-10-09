@@ -1,5 +1,19 @@
 # Phase status
 
+## 2026-10-09 — Orders real-reader scroll correction
+
+Owner authorized one additional corrective commit after3becc46:preserve phone
+list scroll/card after actual controller reload. New controlled-response live
+test failed before fix by857px;focused browser32/32 and units21/21 PASS after
+fix. No reader/payload/migration/CI change. Full quality,Gitleaks0,commit/push
+and exact-SHA CI remain;then STOP for visual review,not another screen.
+If the new SHA repeats54322 bootstrap failure,only that failed job may be
+rerun once;third occurrence requires owner review before workflow changes.
+
+Additional-correction full quality PASS:767Admin/189Customer/339Browser,
+59existing conditional skips,retries0;Orders32/32 and Home24/24 inside that run.
+Gitleaks0,one commit/push/exact-SHA CI remain before visual-review handoff.
+
 ## 2026-10-09 — Package F Orders migration
 
 Orders a390011 delivered with exact push/main quality37869322054(15/15) and
