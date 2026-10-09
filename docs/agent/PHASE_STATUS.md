@@ -1,5 +1,34 @@
 # Phase status
 
+## 2026-10-09 — Package F Cash / Shifts presentation
+
+Owner/Claude accepted e122ad6/135 and exact-SHA CI16/16. Only ShiftsView §6.5,
+archive/report surfaces and shared local count/phone-panel presentation.
+All existing RPC/service/await traces,onChange values and financial handler
+bodies remain baseline-pinned. Operation count/credit sales absent from the
+current center reader stay unavailable. Manual close/denomination input keep
+the same actualCash/required reason guards. No DB/services/stores/roles changes.
+Focused browser/full quality/Gitleaks0/one commit/push/exact-SHA CI then STOP
+for visual review. See CASH_MIGRATION.md;no next screen/Production/deploy/Phase7.
+
+Cash delivery blocked before commit:final quality420Browser PASS/59existing
+skips/one unchanged Orders WebKit search failure at236/262;Cash32/32 PASS.
+Same search failure independently reproduced on accepted e122ad6(1/10) and
+current candidate(2/10),workers2/retries0. See CASH_MIGRATION.md for discarded
+environment runs and trace. No Cash commit/push;owner scope decision needed
+before unrelated Orders fix,no timeout/retry change.001–135 unchanged.
+
+Owner subsequently approved the product-only Orders correction. Independent
+commit57e53d4 preserves every call/input payload;old262 test untouched.
+WebKit20 before17PASS/3FAIL,after20PASS;new deterministic race and unchanged
+back/scroll tests12/12 PASS across Chromium/WebKit. Final Cash quality runs
+before Cash commit;then Gitleaks0,push/exact-SHA CI and visual-review STOP.
+
+Final Cash+fix local quality exit0:785Admin/189Customer/429Browser PASS,
+59 pre-existing conditional skips/retries0;Cash32/32,new focus8/8 and old
+Orders32/32 PASS. Builds/SEO/isolation PASS,external/Production escaped0.
+Gitleaks0,Cash commit/push/exact-SHA CI remain before visual-review STOP.
+
 ## 2026-10-09 — Owner-approved135 reader extensions
 
 Inventory f8d88ac visually accepted and quality15/15+secrets PASS. Current

@@ -168,3 +168,39 @@ build/isolatedSEO/isolation PASS,escaped Production0. Gitleaks0,one independent
 commit/push/exact-SHA CI remain delivery
 gates until the official checkpoint confirms them. STOP for visual review;
 no next screen,Production/deploy or Phase7.
+
+## 2026-10-09 — Cash presentation ready; delivery blocked (codex)
+
+Cash/current shift/archive/report migrated to Package F tokens/components;
+local denomination input and full-screen phone closing panel. All e122ad6
+financial calls,value callbacks and handler bodies fixed-baseline identical.
+Existing financial units48/48,new parity3/3 and Cash browser32/32 PASS.
+Final quality exit1:420Browser PASS/59existing skips,one Orders mobile-WebKit
+live search failure at test236/assertion262 (expectedالأمل,actualnull).
+Current isolated10 repeats:2fail/8pass;independent accepted e122ad6 with its
+own dependencies:1fail/9pass,same assertion,workers2/retries0. Initial baseline
+environment failures excluded explicitly in CASH_MIGRATION.md. Trace suggests
+accepted reload focus restoration interrupts search;no Orders code/test edit.
+Gitleaks scope exit0;001–135/services/stores/Orders/shell unchanged. No commit,
+push,new CI,Production or deploy. Owner decision needed for a narrow Orders
+correction before Cash delivery. Official checkpoint is the exact resumption
+boundary;do not restart implementation or claim the earlier candidate's green
+quality covers the final candidate.
+
+## 2026-10-09 — Owner-approved focus fix and final Cash local verification
+
+Owner approved a narrow Orders product correction,not a test workaround.
+Independent commit57e53d4 restores card focus only from body/closing detail;
+user search/filter interaction wins. No query/value reset or service change.
+Unchanged live-search WebKit20 before17PASS/3FAIL,after20PASS,retries0.
+New controlled post-Back read proves search focus/value/full p_search and
+filters;old back/scroll tests unchanged. Focused browser12/12,units14/14,
+typecheck/strict changed-file ESLint PASS. Six Orders business calls/three
+value callbacks identical to e122ad6. Cash business handlers remain pinned.
+
+Final full quality exit0:785Admin/189Customer/429Browser PASS,59existing
+conditional skips,retries0;Cash32/32,new focus8/8,Orders32/32. Builds/SEO/
+isolation PASS;external/Production escaped0.001–135/services/stores/shell/
+roles/workflow unchanged. Final Gitleaks0,Cash commit,push both commits and
+exact-SHA CI remain before official visual-review checkpoint. No next screen,
+Production/deploy or Phase7.

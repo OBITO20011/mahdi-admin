@@ -8,3 +8,6 @@ export { SalesBarChart, type SalesBarPoint } from './SalesBarChart';
 export { UserAvatar } from './UserAvatar';
 export { ResponsiveCartPanel } from './ResponsiveCartPanel';
 export { ProductGlyph } from './ProductGlyph';
+export { CashDenominationCounter } from './CashDenominationCounter';
+export { countedCashMinorUnits, cashDenominations } from './cashCounting';
+export { ResponsiveActionPanel } from './ResponsiveActionPanel';

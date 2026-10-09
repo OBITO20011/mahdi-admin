@@ -5,13 +5,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   AlertCircle,
-  Banknote,
   CheckCircle2,
-  Clock,
   FileText,
   RefreshCw,
   ShieldAlert,
-  Smartphone,
   XCircle,
 } from 'lucide-react';
 import {
@@ -19,7 +16,7 @@ import {
   useAppStoreActions,
   useAppStoreSelector,
 } from '../../stores/useAppStore';
-import { CURRENCY } from '../../constants';
+import {Card, PageHeader, SectionHeader, DetailLayout, MainColumn, StickyActionBar, StatusBadge, MoneyText, UiButton, ResponsiveActionPanel, CashDenominationCounter, formatUiDate, formatUiTime, TableShell, Th, Tr, Td} from '../../components/ui';
 import {
   fetchCashShiftClosingReportFromSupabase,
   previewCashShiftFullReversalFromSupabase,
@@ -29,7 +26,7 @@ import type { ShiftClosingReport } from '../../types';
 import { ShiftClosingReportModal } from './ShiftClosingReportModal';
 import { ShiftArchiveSection } from './ShiftArchiveSection';
 
-const money = (value: number) => `${value.toFixed(3)} ${CURRENCY}`;
+const money = (value: number) => <MoneyText amount={value} currency/>;
 
 export const ShiftsView: React.FC = () => {
   const {
@@ -55,6 +52,7 @@ export const ShiftsView: React.FC = () => {
     reverseCashShiftWithOperations,
     refreshExpenseShiftCenterFromSupabase,
   } = useAppStoreActions();
+  const [showClosePanel, setShowClosePanel] = useState(false);
   const [openingCashInput, setOpeningCashInput] = useState('');
   const [actualCashInput, setActualCashInput] = useState('');
   const [discrepancyReason, setDiscrepancyReason] = useState('');
@@ -241,160 +239,161 @@ export const ShiftsView: React.FC = () => {
   }[operationType] ?? operationType);
   const isOwner = currentUser.role === 'Owner';
 
-  return (
-    <div className="space-y-4 p-4 pb-24">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <h2 className="flex items-center gap-2 text-base font-black text-slate-100">
-            <Clock className="h-5 w-5 text-blue-400" />
-            الصندوق والورديات
-          </h2>
-          <p className="mt-1 text-[11px] text-slate-400">
-            مطابقة الكاش الفعلي مع المبيعات والمقبوضات والمدفوعات الحقيقية
-          </p>
-        </div>
-        <button
-          type="button"
-          disabled={isRefreshing}
-          onClick={() => void handleRefresh()}
-          className="rounded-xl border border-slate-700 bg-slate-900 p-2 text-slate-300 disabled:opacity-50"
-          aria-label="تحديث حسابات الوردية"
-        >
-          <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-        </button>
-      </div>
-
-      {currentShift ? (
-        <div className="space-y-4 rounded-2xl border border-slate-800 bg-slate-900 p-4 text-xs shadow-xl">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <div>
-              <span className="text-[10px] font-bold text-emerald-400">وردية مفتوحة الآن</span>
-              <h3 className="text-sm font-extrabold text-slate-100">{currentShift.shiftNumber}</h3>
-            </div>
-            <div className="text-left text-[10px] text-slate-400">
-              <span className="block">{currentShift.cashierName}</span>
-              <span>{new Date(currentShift.startTime).toLocaleString('ar-JO')}</span>
-            </div>
-          </div>
-
-          <div className="space-y-2 rounded-xl border border-slate-700/60 bg-slate-800/50 p-3">
-            <div className="flex justify-between text-slate-300">
-              <span>العهدة الافتتاحية</span>
-              <b>{money(currentShift.openingCash)}</b>
-            </div>
-            <div className="flex justify-between text-emerald-400">
-              <span>مبيعات الكاش (+)</span>
-              <b>{money(currentShift.totalCashSales)}</b>
-            </div>
-            <div className="flex justify-between text-emerald-300">
-              <span>سندات قبض كاش (+)</span>
-              <b>{money(currentShift.cashReceipts)}</b>
-            </div>
-            <div className="flex justify-between text-rose-400">
-              <span>دفعات الموردين كاش (−)</span>
-              <b>{money(currentShift.cashSupplierPayments)}</b>
-            </div>
-            <div className="flex justify-between text-rose-300">
-              <span>مصروفات كاش (−)</span>
-              <b>{money(currentShift.cashExpenses)}</b>
-            </div>
-            <div className="flex justify-between text-orange-300">
-              <span>مبالغ مرتجعات كاش (−)</span>
-              <b>{money(currentShift.cashRefunds)}</b>
-            </div>
-            <div className="flex justify-between border-t border-slate-700 pt-2 text-sm font-extrabold text-white">
-              <span>الكاش المتوقع في الصندوق</span>
-              <span className="text-blue-400">{money(currentShift.expectedCash)}</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2">
-            <div className="rounded-xl border border-cyan-900/70 bg-cyan-950/30 p-3">
-              <Smartphone className="mb-1 h-4 w-4 text-cyan-400" />
-              <span className="block text-[10px] text-slate-400">صافي حركة CliQ</span>
-              <b className="text-cyan-300">
-                {money(
-                    currentShift.totalCliqSales +
-                    currentShift.cliqReceipts -
-                    currentShift.cliqSupplierPayments -
-                    currentShift.cliqExpenses -
-                    currentShift.cliqRefunds
-                )}
-              </b>
-            </div>
-            <div className="rounded-xl border border-indigo-900/70 bg-indigo-950/30 p-3">
-              <Banknote className="mb-1 h-4 w-4 text-indigo-400" />
-              <span className="block text-[10px] text-slate-400">مبيعات البطاقة</span>
-              <b className="text-indigo-300">{money(currentShift.totalCardSales)}</b>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => void handleOpenReport(currentShift.id)}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-blue-800 bg-blue-950/40 py-2.5 font-black text-blue-300 transition hover:bg-blue-900/50"
-          >
-            <FileText className="h-4 w-4" />
-            عرض التقرير المالي الحي
-          </button>
-
-          <div className="space-y-2 border-t border-slate-800 pt-3">
-            <label className="block font-bold text-slate-300">
-              الكاش الفعلي بعد عدّ الصندوق
-            </label>
-            <input
-              type="number"
-              min="0"
-              step="0.001"
-              value={actualCashInput}
-              onChange={(event) => setActualCashInput(event.target.value)}
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-sm font-bold text-slate-100 focus:border-blue-500 focus:outline-none"
-            />
-
-            {needsReason && (
-              <div className="space-y-2 rounded-xl border border-amber-800 bg-amber-950/60 p-3 text-amber-300">
-                <div className="flex items-center gap-2 font-bold">
-                  <AlertCircle className="h-4 w-4" />
-                  فرق الصندوق: {money(discrepancy)}
-                </div>
-                <input
-                  type="text"
-                  value={discrepancyReason}
-                  onChange={(event) => setDiscrepancyReason(event.target.value)}
-                  placeholder="اكتب سبب النقص أو الزيادة (إجباري)"
-                  className="w-full rounded-lg border border-amber-800 bg-slate-900 p-2 text-xs text-white placeholder:text-amber-600 focus:outline-none"
-                />
-              </div>
-            )}
-
-            <button
-              type="button"
-              disabled={
-                isSubmitting ||
-                !Number.isFinite(actualCash) ||
-                actualCash < 0 ||
-                (needsReason && discrepancyReason.trim().length < 2)
-              }
-              onClick={() => void handleClose()}
-              className="w-full rounded-2xl bg-blue-600 py-3 font-black text-white shadow-lg transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-40"
+  const closeDisabled = isSubmitting || !Number.isFinite(actualCash) || actualCash < 0 || (needsReason && discrepancyReason.trim().length < 2);
+  const started = currentShift ? new Date(currentShift.startTime) : null;
+  const elapsedMinutes = started && Number.isFinite(started.getTime()) ? Math.max(0, Math.floor((Date.now()-started.getTime())/60000)) : null;
+  const recentHistory = <>
+{recentShifts.length>0&&<Card padded={false} className="hidden overflow-hidden md:block">
+            <div className="p-4"><SectionHeader title="الورديات السابقة" hint="آخر الورديات المغلقة والملغاة والمعكوسة"/></div>
+            <TableShell caption="الورديات السابقة" minWidth={630} head={<><Th>الوردية</Th><Th>الكاشير</Th><Th>الحالة</Th><Th>المتوقع</Th><Th>المعدود</Th><Th>الفرق</Th><Th>التقرير</Th></>}>
+              {recentShifts.map(shift=><Tr key={shift.id}>
+                <Td><bdi dir="ltr" className="whitespace-nowrap font-semibold">{shift.shiftNumber}</bdi><p className="mt-1 text-xs text-nw-muted">{formatUiDate(shift.endTime||shift.startTime,{hour:'2-digit',minute:'2-digit'})}</p>
+                  {shift.cancellationReason&&<p className="text-xs text-nw-bad">{shift.cancellationReason}</p>}{shift.reversalReason&&<p className="text-xs text-nw-warn">{shift.reversalReason}</p>}
+                  {shift.cancelledByName&&<p className="text-xs text-nw-muted">أُلغي بواسطة: {shift.cancelledByName}</p>}{shift.reversedByName&&<p className="text-xs text-nw-muted">عُكست بواسطة: {shift.reversedByName}</p>}
+                  {shift.reversalId&&<p className="break-all text-xs text-nw-muted">مرجع العكس: {shift.reversalId}</p>}</Td>
+                <Td>{shift.cashierName}</Td><Td><StatusBadge tone={shift.status==='closed'?'ok':shift.status==='reversed'?'warn':'bad'}>{shift.status==='closed'?'مغلقة':shift.status==='reversed'?'معكوسة':'ملغاة'}</StatusBadge></Td>
+                <Td><MoneyText amount={shift.expectedCash}/></Td><Td>{shift.actualCash===undefined?'غير متاح':<MoneyText amount={shift.actualCash}/>}</Td>
+                <Td>{shift.status!=='closed'||shift.cashDiscrepancy===undefined?'غير متاح':<StatusBadge tone={Math.abs(shift.cashDiscrepancy)<0.001?'ok':'warn'}>{Math.abs(shift.cashDiscrepancy)<0.001?'مطابق':shift.cashDiscrepancy<0?'عجز':'زيادة'} <MoneyText amount={Math.abs(shift.cashDiscrepancy)}/></StatusBadge>}</Td>
+                <Td>{shift.status==='closed'&&<UiButton aria-label={'تقرير '+shift.shiftNumber} onClick={()=>void handleOpenReport(shift.id)}><FileText className="h-4 w-4"/>التقرير</UiButton>}</Td>
+              </Tr>)}
+            </TableShell>
+          </Card>}
+      {recentShifts.length > 0 && (
+        <section className="space-y-2 md:hidden">
+          <h3 className="text-xs font-black text-nw-text">
+            آخر الورديات المغلقة والملغاة والمعكوسة
+          </h3>
+          {recentShifts.map((shift) => (
+            <article
+              key={shift.id}
+              className="rounded-2xl border border-nw-border bg-nw-surface-2 p-3 text-xs"
             >
-              {isSubmitting ? 'جاري الإغلاق...' : 'اعتماد الجرد وإغلاق الوردية'}
-            </button>
-          </div>
-
-          <div className="space-y-2 border-t border-slate-800 pt-3">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <b className="text-nw-text">{shift.shiftNumber}</b>
+                    {shift.status === 'cancelled' && (
+                      <span className="rounded-full border border-nw-border bg-nw-bad-bg px-2 py-0.5 text-[9px] font-black text-nw-bad">
+                        ملغاة
+                      </span>
+                    )}
+                    {shift.status === 'reversed' && (
+                      <span className="rounded-full border border-nw-border bg-nw-warn-bg px-2 py-0.5 text-[9px] font-black text-nw-warn">
+                        معكوسة
+                      </span>
+                    )}
+                  </div>
+                  <span className="mt-0.5 block text-[10px] text-nw-muted">
+                    {shift.endTime ? formatUiDate(shift.endTime, {hour:'2-digit',minute:'2-digit'}) : ''}
+                  </span>
+                </div>
+                {shift.status === 'closed' && (
+                  <div className="text-left">
+                    <span className="block text-[10px] text-nw-muted">فرق الصندوق</span>
+                    <b
+                      className={
+                        shift.cashDiscrepancy === undefined ? 'text-nw-muted' : Math.abs(shift.cashDiscrepancy) < 0.001
+                          ? 'text-nw-ok'
+                          : 'text-nw-warn'
+                      }
+                    >
+                      {shift.cashDiscrepancy === undefined ? 'غير متاح' : money(shift.cashDiscrepancy)}
+                    </b>
+                  </div>
+                )}
+              </div>
+              {shift.status === 'cancelled' ? (
+                <div className="mt-3 rounded-xl border border-nw-border bg-nw-bad-bg p-2.5 text-[10px] leading-5 text-nw-muted">
+                  <span className="font-bold text-nw-bad">سبب الإلغاء: </span>
+                  {shift.cancellationReason || 'غير متاح'}
+                  {shift.cancelledByName && (
+                    <span className="mt-1 block">أُلغي بواسطة: {shift.cancelledByName}</span>
+                  )}
+                </div>
+              ) : shift.status === 'reversed' ? (
+                <div className="mt-3 rounded-xl border border-nw-border bg-nw-warn-bg p-2.5 text-[10px] leading-5 text-nw-muted">
+                  <span className="font-bold text-nw-warn">سبب العكس: </span>
+                  {shift.reversalReason || 'غير متاح'}
+                  {shift.reversedByName && (
+                    <span className="mt-1 block">عُكست بواسطة: {shift.reversedByName}</span>
+                  )}
+                  {shift.reversalId && (
+                    <span className="mt-1 block">مرجع العكس: {shift.reversalId}</span>
+                  )}
+                </div>
+              ) : (
+                <UiButton
+                  type="button"
+                  onClick={() => void handleOpenReport(shift.id)}
+                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-nw-border bg-nw-surface-2 py-2 text-[11px] font-black text-nw-info transition hover:border-nw-border"
+                >
+                  <FileText className="h-3.5 w-3.5" />
+                  عرض تقرير الإغلاق الكامل
+                </UiButton>
+              )}
+            </article>
+          ))}
+        </section>
+      )}
+  </>;
+  return (
+    <div data-testid="cash-workbench" className="text-nw-text">
+      <PageHeader title="الصندوق والورديات" description="كل حركة نقدية مرتبطة بوردية؛ طابق العدّ الفعلي قبل الإغلاق"
+        actions={<UiButton disabled={isRefreshing} onClick={() => void handleRefresh()} aria-label="تحديث حسابات الوردية"><RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`}/>تحديث</UiButton>}/>
+      <div className="space-y-5 p-4 pb-36 sm:p-6">
+      {currentShift ? <DetailLayout>
+        <MainColumn>
+          <Card padded={false} className="overflow-hidden">
+            <header className="flex flex-wrap items-center justify-between gap-4 bg-nw-hero p-5 text-nw-side-text [&_bdi_.text-nw-muted]:text-nw-side-muted">
+              <div className="min-w-0 space-y-2">
+                <h2 className="m-0 flex flex-wrap items-center gap-2 text-lg font-bold">الوردية الحالية · {currentShift.cashierName}<StatusBadge tone="ok">مفتوحة</StatusBadge></h2>
+                <p className="m-0 text-xs text-nw-side-muted"><bdi dir="ltr">{currentShift.shiftNumber}</bdi> · بدأت <bdi dir="ltr">{formatUiTime(currentShift.startTime)}</bdi></p>
+                <p className="m-0 text-xs text-nw-side-muted">المدة: {elapsedMinutes===null?'غير متاح':<span>{Math.floor(elapsedMinutes/60)} ساعة و{elapsedMinutes%60} دقيقة</span>} · عدد العمليات: غير متاح</p>
+              </div>
+              <div data-testid="cash-expected"><p className="m-0 mb-1 text-xs text-nw-side-muted">النقد المتوقع بالدرج</p><strong className="text-4xl"><MoneyText amount={currentShift.expectedCash} currency/></strong></div>
+            </header>
+            <div className="p-4">
+              <SectionHeader title="حركة الدرج"/>
+              <div className="mt-3 grid gap-0 divide-y divide-nw-border lg:grid-cols-3">
+                {[
+                  ['رصيد افتتاحي',currentShift.openingCash,'text-nw-text'],
+                  ['مبيعات كاش (+)',currentShift.totalCashSales,'text-nw-ok'],
+                  ['سندات قبض كاش (+)',currentShift.cashReceipts,'text-nw-ok'],
+                  ['مبالغ مرتجعات كاش (−)',currentShift.cashRefunds,'text-nw-bad'],
+                  ['مصروفات من الدرج (−)',currentShift.cashExpenses,'text-nw-bad'],
+                  ['دفعات الموردين كاش (−)',currentShift.cashSupplierPayments,'text-nw-bad'],
+                ].map(([label,value,tone])=><div key={label} className="flex min-w-0 items-center justify-between gap-2 py-3 lg:px-3"><span className="text-xs text-nw-muted">{label}</span><strong className={String(tone)}><MoneyText amount={Number(value)}/></strong></div>)}
+              </div>
+              <div className="flex items-center justify-between gap-2 border-t border-nw-border pt-3 text-sm font-bold"><span>المتوقع</span><MoneyText amount={currentShift.expectedCash}/></div>
+            </div>
+            <div className="space-y-3 border-t border-nw-border bg-nw-surface-2 p-4">
+              <SectionHeader title="خارج الدرج" hint="CliQ للحساب البنكي؛ المبيعات الآجلة للذمم"/>
+              <div className="grid gap-2 text-sm sm:grid-cols-2">
+                <div className="flex justify-between gap-2"><span className="text-nw-muted">مبيعات CliQ</span><MoneyText amount={currentShift.totalCliqSales}/></div>
+                <div className="flex justify-between gap-2"><span className="text-nw-muted">سندات قبض CliQ</span><MoneyText amount={currentShift.cliqReceipts}/></div>
+                <div className="flex justify-between gap-2"><span className="text-nw-muted">دفعات الموردين CliQ</span><MoneyText amount={currentShift.cliqSupplierPayments}/></div>
+                <div className="flex justify-between gap-2"><span className="text-nw-muted">مصروفات CliQ</span><MoneyText amount={currentShift.cliqExpenses}/></div>
+                <div className="flex justify-between gap-2"><span className="text-nw-muted">مبالغ مرتجعات CliQ</span><MoneyText amount={currentShift.cliqRefunds}/></div>
+                <div className="flex justify-between gap-2"><span className="text-nw-muted">مبيعات الدين للذمم</span><span>غير متاح</span></div>
+                {currentShift.totalCardSales!==0&&<div className="flex justify-between gap-2"><span className="text-nw-muted">مبيعات بطاقة (تاريخية)</span><MoneyText amount={currentShift.totalCardSales}/></div>}
+              </div>
+            </div>
+          </Card>
+          <UiButton onClick={() => void handleOpenReport(currentShift.id)}><FileText className="h-4 w-4"/>عرض التقرير المالي الحي</UiButton>
+          {recentHistory}
+          <div className="space-y-2 border-t border-nw-border pt-3">
             {!showCancelPanel ? (
-              <button
+              <UiButton
                 type="button"
                 onClick={() => setShowCancelPanel(true)}
-                className="flex w-full items-center justify-center gap-2 rounded-xl border border-rose-900/80 bg-rose-950/20 py-2.5 font-bold text-rose-300 transition hover:bg-rose-950/50"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-nw-border bg-nw-bad-bg py-2.5 font-bold text-nw-bad transition hover:bg-nw-bad-bg"
               >
                 <XCircle className="h-4 w-4" />
                 إلغاء وردية فُتحت بالخطأ
-              </button>
+              </UiButton>
             ) : (
-              <div className="space-y-3 rounded-xl border border-rose-900/80 bg-rose-950/30 p-3">
-                <div className="flex items-start gap-2 text-rose-200">
+              <div className="space-y-3 rounded-xl border border-nw-border bg-nw-bad-bg p-3">
+                <div className="flex items-start gap-2 text-nw-bad">
                   <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" />
                   <p className="leading-5">
                     يُسمح بالإلغاء فقط إذا لم تُسجل أي عملية بيع أو قبض أو دفع أو
@@ -406,218 +405,131 @@ export const ShiftsView: React.FC = () => {
                   onChange={(event) => setCancelReason(event.target.value)}
                   maxLength={500}
                   rows={2}
-                  placeholder="اكتب سبب الإلغاء (إجباري)"
-                  className="w-full resize-none rounded-lg border border-rose-900 bg-slate-950 p-2.5 text-xs text-white placeholder:text-rose-700 focus:border-rose-600 focus:outline-none"
+                  aria-label="سبب إلغاء الوردية" placeholder="اكتب سبب الإلغاء (إجباري)"
+                  className="w-full resize-none rounded-lg border border-nw-border bg-nw-surface-2 p-2.5 text-xs text-nw-text placeholder:text-nw-bad focus:border-nw-border focus:outline-none min-h-11"
                 />
                 <div className="grid grid-cols-2 gap-2">
-                  <button
+                  <UiButton
                     type="button"
                     disabled={isCancelling || cancelReason.trim().length < 2}
                     onClick={() => void handleCancelEmptyShift()}
-                    className="rounded-lg bg-rose-700 py-2.5 font-black text-white transition hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="rounded-lg bg-nw-bad-bg py-2.5 font-black text-nw-text transition hover:bg-nw-bad-bg disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     {isCancelling ? 'جاري التحقق...' : 'نعم، إلغاء الوردية'}
-                  </button>
-                  <button
+                  </UiButton>
+                  <UiButton
                     type="button"
                     disabled={isCancelling}
                     onClick={() => {
                       setShowCancelPanel(false);
                       setCancelReason('');
                     }}
-                    className="rounded-lg border border-slate-700 bg-slate-900 py-2.5 font-bold text-slate-300"
+                    className="rounded-lg border border-nw-border bg-nw-surface-2 py-2.5 font-bold text-nw-text"
                   >
                     تراجع
-                  </button>
+                  </UiButton>
                 </div>
               </div>
             )}
           </div>
 
           {isOwner && (
-            <div className="space-y-2 border-t border-slate-800 pt-3">
+            <div className="space-y-2 border-t border-nw-border pt-3">
               {!showFullReversalPanel ? (
-                <button
+                <UiButton
                   type="button"
                   onClick={() => setShowFullReversalPanel(true)}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-amber-800/80 bg-amber-950/30 py-2.5 font-black text-amber-200 transition hover:bg-amber-950/50"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-nw-border bg-nw-warn-bg py-2.5 font-black text-nw-warn transition hover:bg-nw-warn-bg"
                 >
                   <ShieldAlert className="h-4 w-4" />
                   إلغاء الوردية وعكس جميع عملياتها
-                </button>
+                </UiButton>
               ) : (
-                <div className="space-y-3 rounded-xl border border-amber-800/80 bg-amber-950/20 p-3">
-                  <div className="flex items-start gap-2 text-amber-100">
+                <div className="space-y-3 rounded-xl border border-nw-border bg-nw-warn-bg p-3">
+                  <div className="flex items-start gap-2 text-nw-warn">
                     <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" />
                     <p className="leading-5">
                       عملية مالك النظام فقط وتتطلب MFA. يتم فحص كل عملية أولًا؛ إذا ظهر مانع فلن يُنفذ أي تعديل.
                     </p>
                   </div>
                   {!fullReversalPreview && !fullReversalReference && (
-                    <button type="button" disabled={isFullReversalLoading} onClick={() => void handlePreviewFullReversal()} className="w-full rounded-lg bg-amber-700 py-2.5 font-black text-white disabled:opacity-50">
+                    <UiButton type="button" disabled={isFullReversalLoading} onClick={() => void handlePreviewFullReversal()} className="w-full rounded-lg bg-nw-warn-bg py-2.5 font-black text-nw-text disabled:opacity-50">
                       {isFullReversalLoading ? 'جاري الفحص...' : 'معاينة العمليات والأثر المالي'}
-                    </button>
+                    </UiButton>
                   )}
-                  {fullReversalError && <p className="rounded-lg border border-rose-800 bg-rose-950/40 p-2 text-[11px] text-rose-200">{fullReversalError}</p>}
+                  {fullReversalError && <p className="rounded-lg border border-nw-border bg-nw-bad-bg p-2 text-[11px] text-nw-bad">{fullReversalError}</p>}
                   {fullReversalPreview && (
                     <>
                       <div className="grid grid-cols-2 gap-2 text-[10px]">
-                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">الكاش: {money(effectValue('cash_in_minor_units') / 1000)}</div>
-                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">CliQ: {money(effectValue('cliq_in_minor_units') / 1000)}</div>
-                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">ذمم العملاء: {money(effectValue('customer_balance_in_minor_units') / 1000)}</div>
-                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">ذمم الموردين: {money(effectValue('supplier_balance_in_minor_units') / 1000)}</div>
-                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">المخزون: {effectValue('inventory_base_units_delta')} وحدة أساسية</div>
-                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">المبيعات: {money(effectValue('sales_in_minor_units') / 1000)}</div>
-                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">الخصم: {money(effectValue('discount_in_minor_units') / 1000)}</div>
-                        <div className="rounded-lg bg-slate-950/70 p-2 text-slate-300">تكلفة البضاعة: {money(effectValue('cogs_in_minor_units') / 1000)}</div>
-                        <div className="col-span-2 rounded-lg bg-slate-950/70 p-2 text-slate-300">الربح: {money(effectValue('profit_in_minor_units') / 1000)}</div>
+                        <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">الكاش: {money(effectValue('cash_in_minor_units') / 1000)}</div>
+                        <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">CliQ: {money(effectValue('cliq_in_minor_units') / 1000)}</div>
+                        <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">ذمم العملاء: {money(effectValue('customer_balance_in_minor_units') / 1000)}</div>
+                        <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">ذمم الموردين: {money(effectValue('supplier_balance_in_minor_units') / 1000)}</div>
+                        <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">المخزون: {effectValue('inventory_base_units_delta')} وحدة أساسية</div>
+                        <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">المبيعات: {money(effectValue('sales_in_minor_units') / 1000)}</div>
+                        <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">الخصم: {money(effectValue('discount_in_minor_units') / 1000)}</div>
+                        <div className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">تكلفة البضاعة: {money(effectValue('cogs_in_minor_units') / 1000)}</div>
+                        <div className="col-span-2 rounded-lg bg-nw-surface-2 p-2 text-nw-text">الربح: {money(effectValue('profit_in_minor_units') / 1000)}</div>
                       </div>
-                      <div className="max-h-48 space-y-1 overflow-y-auto rounded-lg border border-slate-700 bg-slate-950/60 p-2 text-[10px]">
+                      <div className="max-h-48 space-y-1 overflow-y-auto rounded-lg border border-nw-border bg-nw-surface-2 p-2 text-[10px]">
                         {fullReversalPreview.operations.map((operation) => (
-                          <div key={`${operation.operationType}-${operation.originalRecordId}`} className="rounded border border-slate-800 p-2">
-                            <b className={operation.status === 'SUPPORTED' || operation.status === 'ALREADY_REVERSED' ? 'text-emerald-300' : 'text-rose-300'}>{operation.status}</b>{' '}
-                            <span className="text-slate-300">{reversalOperationLabel(operation.operationType)}</span>
-                            <span className="mt-1 block break-all text-slate-500">المرجع: {operation.originalRecordId}</span>
-                            {operation.reason && <span className="mt-1 block text-slate-400">{operation.reason}</span>}
+                          <div key={`${operation.operationType}-${operation.originalRecordId}`} className="rounded border border-nw-border p-2">
+                            <b className={operation.status === 'SUPPORTED' || operation.status === 'ALREADY_REVERSED' ? 'text-nw-ok' : 'text-nw-bad'}>{operation.status}</b>{' '}
+                            <span className="text-nw-text">{reversalOperationLabel(operation.operationType)}</span>
+                            <span className="mt-1 block break-all text-nw-muted">المرجع: {operation.originalRecordId}</span>
+                            {operation.reason && <span className="mt-1 block text-nw-muted">{operation.reason}</span>}
                           </div>
                         ))}
                       </div>
-                      {fullReversalPreview.scopeNote && <p className="text-[10px] leading-5 text-slate-400">{fullReversalPreview.scopeNote}</p>}
+                      {fullReversalPreview.scopeNote && <p className="text-[10px] leading-5 text-nw-muted">{fullReversalPreview.scopeNote}</p>}
                       {fullReversalPreview.canExecute ? (
                         <>
-                          <textarea value={fullReversalReason} onChange={(event) => setFullReversalReason(event.target.value)} maxLength={500} rows={2} placeholder="سبب عكس الوردية (إجباري)" className="w-full resize-none rounded-lg border border-amber-800 bg-slate-950 p-2.5 text-xs text-white placeholder:text-amber-700 focus:outline-none" />
-                          <input type="text" value={fullReversalConfirmation} onChange={(event) => setFullReversalConfirmation(event.target.value)} placeholder="اكتب: إلغاء الوردية" className="w-full rounded-lg border border-amber-800 bg-slate-950 p-2.5 text-xs text-white placeholder:text-amber-700 focus:outline-none" />
-                          <button type="button" disabled={isFullReversalLoading || fullReversalReason.trim().length < 3 || fullReversalConfirmation.trim() !== 'إلغاء الوردية'} onClick={() => void handleExecuteFullReversal()} className="w-full rounded-lg bg-rose-700 py-2.5 font-black text-white disabled:cursor-not-allowed disabled:opacity-40">
+                          <textarea value={fullReversalReason} onChange={(event) => setFullReversalReason(event.target.value)} maxLength={500} rows={2} aria-label="سبب عكس الوردية" placeholder="سبب عكس الوردية (إجباري)" className="w-full resize-none rounded-lg border border-nw-border bg-nw-surface-2 p-2.5 text-xs text-nw-text placeholder:text-nw-warn focus:outline-none min-h-11" />
+                          <input type="text" value={fullReversalConfirmation} onChange={(event) => setFullReversalConfirmation(event.target.value)} aria-label="تأكيد عكس الوردية" placeholder="اكتب: إلغاء الوردية" className="w-full rounded-lg border border-nw-border bg-nw-surface-2 p-2.5 text-xs text-nw-text placeholder:text-nw-warn focus:outline-none min-h-11" />
+                          <UiButton type="button" disabled={isFullReversalLoading || fullReversalReason.trim().length < 3 || fullReversalConfirmation.trim() !== 'إلغاء الوردية'} onClick={() => void handleExecuteFullReversal()} className="w-full rounded-lg bg-nw-bad-bg py-2.5 font-black text-nw-text disabled:cursor-not-allowed disabled:opacity-40">
                             {isFullReversalLoading ? 'جاري العكس الذرّي...' : 'تأكيد عكس الوردية بالكامل'}
-                          </button>
+                          </UiButton>
                         </>
-                      ) : <p className="rounded-lg border border-rose-900 bg-rose-950/40 p-2 text-[11px] text-rose-200">لا يمكن التأكيد: يجب إزالة جميع الموانع أولًا، ولم يُنفذ أي تعديل.</p>}
+                      ) : <p className="rounded-lg border border-nw-border bg-nw-bad-bg p-2 text-[11px] text-nw-bad">لا يمكن التأكيد: يجب إزالة جميع الموانع أولًا، ولم يُنفذ أي تعديل.</p>}
                     </>
                   )}
-                  {fullReversalReference && <p className="rounded-lg border border-emerald-800 bg-emerald-950/40 p-2 text-[11px] text-emerald-200">تم العكس بنجاح. مرجع العملية: {fullReversalReference}</p>}
-                  <button type="button" disabled={isFullReversalLoading} onClick={resetFullReversalPanel} className="w-full rounded-lg border border-slate-700 bg-slate-900 py-2 text-xs font-bold text-slate-300">إغلاق</button>
+                  {fullReversalReference && <p className="rounded-lg border border-nw-border bg-nw-ok-bg p-2 text-[11px] text-nw-ok">تم العكس بنجاح. مرجع العملية: {fullReversalReference}</p>}
+                  <UiButton type="button" disabled={isFullReversalLoading} onClick={resetFullReversalPanel} className="w-full rounded-lg border border-nw-border bg-nw-surface-2 py-2 text-xs font-bold text-nw-text">إغلاق</UiButton>
                 </div>
               )}
             </div>
           )}
+        </MainColumn>
+        <ResponsiveActionPanel open={showClosePanel} onClose={()=>setShowClosePanel(false)} busy={isSubmitting} title="إغلاق الوردية" backLabel="رجوع للصندوق"
+          footer={<UiButton data-testid="cash-close-submit" variant="accent" size="large" className="w-full" disabled={closeDisabled} onClick={() => void handleClose()}>{isSubmitting?'جاري الإغلاق...':'إغلاق الوردية وطباعة التقرير'}</UiButton>}>
+          <p className="text-xs text-nw-muted">عدّ النقد بالدرج وأدخل العدد حسب الفئة، أو أدخل المبلغ مباشرة.</p>
+          <CashDenominationCounter disabled={isSubmitting} onApply={setActualCashInput}/>
+          <Card className="space-y-2 text-sm">
+            <div className="flex justify-between gap-2"><span>المعدود</span><strong><MoneyText amount={actualCash}/></strong></div>
+            <div className="flex justify-between gap-2"><span>المتوقع</span><MoneyText amount={currentShift.expectedCash}/></div>
+            <div className="flex justify-between gap-2 border-t border-nw-border pt-2"><span>الفرق</span><StatusBadge tone={needsReason?'warn':'ok'}>{!needsReason?'مطابق':discrepancy<0?'عجز':'زيادة'} <MoneyText amount={Math.abs(discrepancy)}/></StatusBadge></div>
+          </Card>
+          <label className="block space-y-2 text-xs text-nw-muted"><span>الكاش الفعلي بعد عدّ الصندوق</span>
+            <input type="number" min="0" step="0.001" value={actualCashInput} onChange={(event) => setActualCashInput(event.target.value)}
+              className="h-11 w-full rounded-xl border border-nw-border bg-nw-surface-2 px-3 text-sm font-bold text-nw-text" /></label>
+          {needsReason&&<div className="space-y-2 rounded-xl border border-nw-border bg-nw-warn-bg p-3 text-nw-warn">
+            <div className="flex flex-wrap items-center gap-2 text-sm font-bold"><AlertCircle className="h-4 w-4"/>فرق الصندوق: <MoneyText amount={discrepancy}/></div>
+            <label className="block space-y-1 text-xs"><span>سبب النقص أو الزيادة (إجباري)</span><input type="text" value={discrepancyReason}
+              onChange={(event) => setDiscrepancyReason(event.target.value)} placeholder="اكتب سبب النقص أو الزيادة (إجباري)" required
+              className="h-11 w-full rounded-xl border border-nw-border bg-nw-surface px-3 text-sm text-nw-text placeholder:text-nw-muted"/></label>
+          </div>}
+        </ResponsiveActionPanel>
+        <StickyActionBar><UiButton data-testid="cash-count-open" variant="accent" size="large" disabled={isSubmitting} onClick={()=>setShowClosePanel(true)}>عدّ الدرج وإغلاق الوردية</UiButton></StickyActionBar>
+      </DetailLayout> : <Card className="space-y-4 text-center">
+        <CheckCircle2 className="mx-auto h-10 w-10 text-nw-muted"/><SectionHeader title="لا توجد وردية مفتوحة حاليًا" hint="أدخل الكاش الموجود فعليًا في الدرج عند بداية العمل."/>
+        <div className="mx-auto max-w-xs space-y-3"><label className="block space-y-2 text-right text-xs text-nw-muted"><span>العهدة الافتتاحية (د.أ)</span>
+          <input type="number" min="0" step="0.001" value={openingCashInput} onChange={(event) => setOpeningCashInput(event.target.value)} placeholder="0.000"
+            className="h-11 w-full rounded-xl border border-nw-border bg-nw-surface-2 px-3 text-center font-bold text-nw-text"/></label>
+          <UiButton variant="accent" className="w-full" disabled={isSubmitting||openingCashInput===''||!Number.isFinite(Number(openingCashInput))||Number(openingCashInput)<0}
+            onClick={() => void handleOpen()}>{isSubmitting?'جاري الفتح...':'فتح وردية جديدة'}</UiButton>
         </div>
-      ) : (
-        <div className="space-y-4 rounded-2xl border border-slate-800 bg-slate-900 p-6 text-center text-xs shadow">
-          <CheckCircle2 className="mx-auto h-10 w-10 text-slate-600" />
-          <div>
-            <h3 className="font-bold text-slate-200">لا توجد وردية مفتوحة حاليًا</h3>
-            <p className="mt-1 text-[11px] text-slate-400">
-              أدخل الكاش الموجود فعليًا في الدرج عند بداية العمل.
-            </p>
-          </div>
-          <div className="mx-auto max-w-xs space-y-2">
-            <label className="block text-right font-bold text-slate-400">
-              العهدة الافتتاحية (د.أ)
-            </label>
-            <input
-              type="number"
-              min="0"
-              step="0.001"
-              value={openingCashInput}
-              onChange={(event) => setOpeningCashInput(event.target.value)}
-              placeholder="0.000"
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-center font-bold text-white"
-            />
-            <button
-              type="button"
-              disabled={
-                isSubmitting ||
-                openingCashInput === '' ||
-                !Number.isFinite(Number(openingCashInput)) ||
-                Number(openingCashInput) < 0
-              }
-              onClick={() => void handleOpen()}
-              className="w-full rounded-xl bg-emerald-600 py-3 font-bold text-white shadow transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {isSubmitting ? 'جاري الفتح...' : 'فتح وردية جديدة'}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {recentShifts.length > 0 && (
-        <section className="space-y-2">
-          <h3 className="text-xs font-black text-slate-300">
-            آخر الورديات المغلقة والملغاة والمعكوسة
-          </h3>
-          {recentShifts.map((shift) => (
-            <article
-              key={shift.id}
-              className="rounded-2xl border border-slate-800 bg-slate-900 p-3 text-xs"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <b className="text-slate-100">{shift.shiftNumber}</b>
-                    {shift.status === 'cancelled' && (
-                      <span className="rounded-full border border-rose-800 bg-rose-950/60 px-2 py-0.5 text-[9px] font-black text-rose-300">
-                        ملغاة
-                      </span>
-                    )}
-                    {shift.status === 'reversed' && (
-                      <span className="rounded-full border border-amber-800 bg-amber-950/60 px-2 py-0.5 text-[9px] font-black text-amber-200">
-                        معكوسة
-                      </span>
-                    )}
-                  </div>
-                  <span className="mt-0.5 block text-[10px] text-slate-500">
-                    {shift.endTime ? new Date(shift.endTime).toLocaleString('ar-JO') : ''}
-                  </span>
-                </div>
-                {shift.status === 'closed' && (
-                  <div className="text-left">
-                    <span className="block text-[10px] text-slate-500">فرق الصندوق</span>
-                    <b
-                      className={
-                        Math.abs(shift.cashDiscrepancy || 0) < 0.001
-                          ? 'text-emerald-400'
-                          : 'text-amber-400'
-                      }
-                    >
-                      {money(shift.cashDiscrepancy || 0)}
-                    </b>
-                  </div>
-                )}
-              </div>
-              {shift.status === 'cancelled' ? (
-                <div className="mt-3 rounded-xl border border-rose-950 bg-rose-950/20 p-2.5 text-[10px] leading-5 text-slate-400">
-                  <span className="font-bold text-rose-300">سبب الإلغاء: </span>
-                  {shift.cancellationReason || 'غير متاح'}
-                  {shift.cancelledByName && (
-                    <span className="mt-1 block">أُلغي بواسطة: {shift.cancelledByName}</span>
-                  )}
-                </div>
-              ) : shift.status === 'reversed' ? (
-                <div className="mt-3 rounded-xl border border-amber-950 bg-amber-950/20 p-2.5 text-[10px] leading-5 text-slate-400">
-                  <span className="font-bold text-amber-200">سبب العكس: </span>
-                  {shift.reversalReason || 'غير متاح'}
-                  {shift.reversedByName && (
-                    <span className="mt-1 block">عُكست بواسطة: {shift.reversedByName}</span>
-                  )}
-                  {shift.reversalId && (
-                    <span className="mt-1 block">مرجع العكس: {shift.reversalId}</span>
-                  )}
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => void handleOpenReport(shift.id)}
-                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-950/60 py-2 text-[11px] font-black text-blue-300 transition hover:border-blue-700"
-                >
-                  <FileText className="h-3.5 w-3.5" />
-                  عرض تقرير الإغلاق الكامل
-                </button>
-              )}
-            </article>
-          ))}
-        </section>
-      )}
-
+      </Card>}
+      {!currentShift && recentHistory}
       <ShiftArchiveSection
         branches={branches}
         initialBranchId={activeBranch?.id || ''}
@@ -638,6 +550,7 @@ export const ShiftsView: React.FC = () => {
           if (reportShiftId) void handleOpenReport(reportShiftId);
         }}
       />
+      </div>
     </div>
   );
 };

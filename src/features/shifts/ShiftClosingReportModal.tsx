@@ -14,7 +14,7 @@ import {
   WalletCards,
 } from 'lucide-react';
 import { Modal } from '../../components/common/Modal';
-import { CURRENCY } from '../../constants';
+import {UiButton, MoneyText} from '../../components/ui';
 import type { ShiftClosingReport } from '../../types';
 
 interface ShiftClosingReportModalProps {
@@ -26,24 +26,24 @@ interface ShiftClosingReportModalProps {
   onRetry: () => void;
 }
 
-const money = (value: number) => `${value.toFixed(3)} ${CURRENCY}`;
+const money = (value: number) => <MoneyText amount={value} currency/>;
 
 const Metric: React.FC<{
   label: string;
-  value: string;
+  value: React.ReactNode;
   tone?: 'default' | 'success' | 'danger' | 'info';
 }> = ({ label, value, tone = 'default' }) => {
   const toneClass = {
-    default: 'text-slate-100',
-    success: 'text-emerald-300',
-    danger: 'text-rose-300',
-    info: 'text-cyan-300',
+    default: 'text-nw-text',
+    success: 'text-nw-ok',
+    danger: 'text-nw-bad',
+    info: 'text-nw-info',
   }[tone];
 
   return (
-    <div className="rounded-xl border border-slate-700/70 bg-slate-950/60 p-3">
-      <span className="block text-[10px] font-bold text-slate-500">{label}</span>
-      <strong className={`mt-1 block text-sm ${toneClass}`}>{value}</strong>
+    <div className="min-w-0 rounded-xl border border-nw-border bg-nw-surface-2 p-3">
+      <span className="block text-[10px] font-bold text-nw-muted">{label}</span>
+      <strong className={`mt-1 block break-words text-sm ${toneClass}`}>{value}</strong>
     </div>
   );
 };
@@ -62,22 +62,22 @@ export const ShiftClosingReportModal: React.FC<
       maxHeight="max-h-[94vh]"
     >
       {isLoading ? (
-        <div className="flex min-h-64 flex-col items-center justify-center gap-3 text-slate-400">
-          <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
+        <div className="flex min-h-64 flex-col items-center justify-center gap-3 text-nw-muted">
+          <Loader2 className="h-8 w-8 animate-spin text-nw-info" />
           <span className="text-xs font-bold">جاري احتساب التقرير من قاعدة البيانات...</span>
         </div>
       ) : error ? (
         <div className="flex min-h-64 flex-col items-center justify-center gap-3 text-center">
-          <TriangleAlert className="h-9 w-9 text-rose-400" />
-          <p className="max-w-sm text-xs leading-6 text-slate-300">{error}</p>
-          <button
+          <TriangleAlert className="h-9 w-9 text-nw-bad" />
+          <p className="max-w-sm text-xs leading-6 text-nw-text">{error}</p>
+          <UiButton
             type="button"
             onClick={onRetry}
-            className="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-xs font-black text-white"
+            className="flex items-center gap-2 rounded-xl bg-nw-info-bg px-4 py-2 text-xs font-black text-nw-text"
           >
             <RefreshCw className="h-4 w-4" />
             إعادة المحاولة
-          </button>
+          </UiButton>
         </div>
       ) : report ? (
         <div className="shift-closing-report space-y-4 text-xs">
@@ -90,37 +90,37 @@ export const ShiftClosingReportModal: React.FC<
             }
           `}</style>
 
-          <section className="rounded-2xl border border-blue-800/60 bg-gradient-to-br from-blue-950/90 to-slate-950 p-4">
+          <section className="rounded-2xl border border-nw-border bg-nw-surface p-4">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <div className="flex items-center gap-2 text-blue-300">
+                <div className="flex items-center gap-2 text-nw-info">
                   <FileText className="h-5 w-5" />
                   <strong className="text-sm">{report.shift.shiftNumber}</strong>
                 </div>
-                <p className="mt-1 text-[10px] text-slate-400">
+                <p className="mt-1 text-[10px] text-nw-muted">
                   الموظف: {report.shift.cashierName}
                 </p>
               </div>
-              <div className="text-left text-[10px] leading-5 text-slate-400">
+              <div className="text-left text-[10px] leading-5 text-nw-muted">
                 <span className="block">
-                  الفتح: {new Date(report.shift.startTime).toLocaleString('ar-JO')}
+                  الفتح: {new Date(report.shift.startTime).toLocaleString('ar-JO-u-nu-latn')}
                 </span>
                 <span className="block">
                   {report.shift.endTime
-                    ? `الإغلاق: ${new Date(report.shift.endTime).toLocaleString('ar-JO')}`
+                    ? `الإغلاق: ${new Date(report.shift.endTime).toLocaleString('ar-JO-u-nu-latn')}`
                     : 'الوردية ما زالت مفتوحة'}
                 </span>
               </div>
             </div>
-            <div className="mt-3 flex items-center gap-2 rounded-xl bg-slate-900/70 p-2.5">
+            <div className="mt-3 flex items-center gap-2 rounded-xl bg-nw-surface-2 p-2.5">
               {report.shift.status === 'open' ? (
-                <RefreshCw className="h-4 w-4 text-blue-400" />
+                <RefreshCw className="h-4 w-4 text-nw-info" />
               ) : report.reconciliation.isBalanced ? (
-                <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                <CheckCircle2 className="h-4 w-4 text-nw-ok" />
               ) : (
-                <TriangleAlert className="h-4 w-4 text-amber-400" />
+                <TriangleAlert className="h-4 w-4 text-nw-warn" />
               )}
-              <span className="font-bold text-slate-200">
+              <span className="font-bold text-nw-text">
                 {report.shift.status === 'open'
                   ? 'تقرير حي — الأرقام تتحدث حتى هذه اللحظة'
                   : report.snapshotStatus === 'immutable'
@@ -135,11 +135,11 @@ export const ShiftClosingReportModal: React.FC<
           </section>
 
           <section>
-            <h4 className="mb-2 flex items-center gap-2 font-black text-slate-200">
-              <ShoppingCart className="h-4 w-4 text-emerald-400" />
+            <h4 className="mb-2 flex items-center gap-2 font-black text-nw-text">
+              <ShoppingCart className="h-4 w-4 text-nw-ok" />
               ملخص المبيعات
             </h4>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
               <Metric label="إجمالي المبيعات" value={money(report.sales.grossSales)} />
               <Metric
                 label={report.sales.returnEntitlement !== undefined ? 'المرتجعات' : 'المبالغ المرتجعة'}
@@ -152,119 +152,119 @@ export const ShiftClosingReportModal: React.FC<
                 tone="success"
               />
             </div>
-            <div className="mt-2 grid grid-cols-4 gap-2">
+            <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
               <Metric label="الطلبات" value={`${report.sales.orderCount}`} />
               <Metric label="بيع مباشر" value={`${report.sales.posOrderCount}`} />
               <Metric label="طلبات الموقع" value={`${report.sales.websiteOrderCount}`} />
               <Metric label="الطرود المباعة" value={`${report.sales.packageCount}`} />
             </div>
-            <p className="mt-2 text-[10px] text-slate-500">
+            <p className="mt-2 text-[10px] text-nw-muted">
               عدد الأصناف المختلفة المباعة: {report.sales.uniqueProductCount}
             </p>
           </section>
 
           {report.sales.returnEntitlement !== undefined && (
-            <section className="space-y-2 rounded-xl border border-orange-900/70 bg-orange-950/20 p-3">
-              <h4 className="font-black text-orange-200">توزيع استحقاق المرتجعات</h4>
-              <div className="flex justify-between text-slate-300"><span>مبالغ مرجعة</span><b>{money(report.sales.refunds)}</b></div>
-              <div className="flex justify-between text-slate-300"><span>تخفيض دين</span><b>{money(report.sales.debtReduction ?? 0)}</b></div>
-              <p className="text-[10px] text-slate-400">المرتجعات = المبالغ المرجعة + تخفيض الدين. تخفيض الدين يقلّل صافي المبيعات، ولا يخرج مصاري من الصندوق.</p>
+            <section className="space-y-2 rounded-xl border border-nw-border bg-nw-warn-bg p-3">
+              <h4 className="font-black text-nw-warn">توزيع استحقاق المرتجعات</h4>
+              <div className="flex justify-between text-nw-text"><span>مبالغ مرجعة</span><b>{money(report.sales.refunds)}</b></div>
+              <div className="flex justify-between text-nw-text"><span>تخفيض دين</span><b>{money(report.sales.debtReduction ?? 0)}</b></div>
+              <p className="text-[10px] text-nw-muted">المرتجعات = المبالغ المرجعة + تخفيض الدين. تخفيض الدين يقلّل صافي المبيعات، ولا يخرج مصاري من الصندوق.</p>
             </section>
           )}
 
-          {report.salesDetailStatus === 'unavailable' && <p role="status" className="text-xs text-amber-300">تفصيل غير متاح؛ أرقام الصندوق والإغلاق محفوظة، ولا يُفترض توزيع مبيعات غير مثبت.</p>}
+          {report.salesDetailStatus === 'unavailable' && <p role="status" className="text-xs text-nw-warn">تفصيل غير متاح؛ أرقام الصندوق والإغلاق محفوظة، ولا يُفترض توزيع مبيعات غير مثبت.</p>}
 
           <section className="grid grid-cols-3 gap-2">
-            <div className="rounded-xl border border-emerald-900/70 bg-emerald-950/30 p-3">
-              <Banknote className="mb-1 h-4 w-4 text-emerald-400" />
-              <span className="block text-[10px] text-slate-400">مبيعات كاش</span>
-              <b className="text-emerald-300">{money(report.shift.totalCashSales)}</b>
+            <div className="rounded-xl border border-nw-border bg-nw-ok-bg p-3">
+              <Banknote className="mb-1 h-4 w-4 text-nw-ok" />
+              <span className="block text-[10px] text-nw-muted">مبيعات كاش</span>
+              <b className="text-nw-ok">{money(report.shift.totalCashSales)}</b>
             </div>
-            <div className="rounded-xl border border-cyan-900/70 bg-cyan-950/30 p-3">
-              <Smartphone className="mb-1 h-4 w-4 text-cyan-400" />
-              <span className="block text-[10px] text-slate-400">مبيعات CliQ</span>
-              <b className="text-cyan-300">{money(report.shift.totalCliqSales)}</b>
+            <div className="rounded-xl border border-nw-border bg-nw-info-bg p-3">
+              <Smartphone className="mb-1 h-4 w-4 text-nw-info" />
+              <span className="block text-[10px] text-nw-muted">مبيعات CliQ</span>
+              <b className="text-nw-info">{money(report.shift.totalCliqSales)}</b>
             </div>
-            {(report.sales.salesDefinitionVersion === 133 || report.shift.totalCardSales !== 0) && <div className="rounded-xl border border-indigo-900/70 bg-indigo-950/30 p-3">
-              <WalletCards className="mb-1 h-4 w-4 text-indigo-400" />
-              <span className="block text-[10px] text-slate-400">
+            {(report.sales.salesDefinitionVersion === 133 || report.shift.totalCardSales !== 0) && <div className="rounded-xl border border-nw-border bg-nw-info-bg p-3">
+              <WalletCards className="mb-1 h-4 w-4 text-nw-info" />
+              <span className="block text-[10px] text-nw-muted">
                 {report.sales.salesDefinitionVersion === 133 ? 'آجل متبقي' : 'مبيعات بطاقة'}
               </span>
-              <b className="text-indigo-300">{money(report.sales.creditSales ?? report.shift.totalCardSales)}</b>
+              <b className="text-nw-info">{money(report.sales.creditSales ?? report.shift.totalCardSales)}</b>
             </div>}
           </section>
 
-          {report.sales.salesDefinitionVersion === 133 && report.shift.totalCardSales !== 0 && <p className="text-xs text-indigo-300">مبيعات بطاقة (تاريخية): {money(report.shift.totalCardSales)}</p>}
+          {report.sales.salesDefinitionVersion === 133 && report.shift.totalCardSales !== 0 && <p className="text-xs text-nw-info">مبيعات بطاقة (تاريخية): {money(report.shift.totalCardSales)}</p>}
 
           {report.sales.salesDefinitionVersion === 133 && (
-            <section className="space-y-2 rounded-xl border border-indigo-900/70 bg-indigo-950/30 p-3">
-              <div className="flex justify-between text-indigo-200">
+            <section className="space-y-2 rounded-xl border border-nw-border bg-nw-info-bg p-3">
+              <div className="flex justify-between text-nw-info">
                 <span>دفعات أولى عند الاستلام (مسجلة ضمن سندات القبض)</span>
                 <b>{money(report.sales.initialReceiptPayments ?? 0)}</b>
               </div>
-              <p className="text-[10px] text-slate-300">
+              <p className="text-[10px] text-nw-text">
                 كاش: {money(report.sales.initialReceiptCash ?? 0)} · CliQ: {money(report.sales.initialReceiptCliq ?? 0)}
               </p>
-              <p className="text-[10px] text-slate-400">
+              <p className="text-[10px] text-nw-muted">
                 الآجل هو غير المحصّل لحظة البيع، قبل السندات اللاحقة والمرتجعات. الدفعات الأولى ضمن السندات ولا تُضاف مرة أخرى إلى إجمالي الداخل.
               </p>
             </section>
           )}
 
-          <section className="space-y-2 rounded-xl border border-slate-700 bg-slate-800/40 p-3">
-            <h4 className="font-black text-slate-200">سندات القبض ({report.collections.count})</h4>
-            <p className="text-slate-300">كاش: {money(report.collections.cash)} · CliQ: {money(report.collections.cliq)}</p>
+          <section className="space-y-2 rounded-xl border border-nw-border bg-nw-surface-2 p-3">
+            <h4 className="font-black text-nw-text">سندات القبض ({report.collections.count})</h4>
+            <p className="text-nw-text">كاش: {money(report.collections.cash)} · CliQ: {money(report.collections.cliq)}</p>
             {report.collections.initialPayments !== undefined && (
-              <p className="text-[10px] text-slate-400">
+              <p className="text-[10px] text-nw-muted">
                 منها {money(report.collections.initialPayments)} دفعات أولى عند البيع
                 {' '} (كاش: {money(report.collections.initialCash ?? 0)} · CliQ: {money(report.collections.initialCliq ?? 0)})
               </p>
             )}
           </section>
 
-          <section className="space-y-2 rounded-2xl border border-slate-700 bg-slate-800/40 p-3">
-            <h4 className="font-black text-slate-200">الحركة المالية خلال الوردية</h4>
-            <div className="flex justify-between text-emerald-300">
+          <section className="space-y-2 rounded-2xl border border-nw-border bg-nw-surface-2 p-3">
+            <h4 className="font-black text-nw-text">الحركة المالية خلال الوردية</h4>
+            <div className="flex justify-between text-nw-ok">
               <span>إجمالي الداخل</span>
               <b>{money(report.reconciliation.totalInflows)}</b>
             </div>
-            <div className="flex justify-between text-rose-300">
+            <div className="flex justify-between text-nw-bad">
               <span>إجمالي الخارج</span>
               <b>{money(report.reconciliation.totalOutflows)}</b>
             </div>
-            <div className="flex justify-between border-t border-slate-700 pt-2 font-black text-white">
+            <div className="flex justify-between border-t border-nw-border pt-2 font-black text-nw-text">
               <span>صافي الحركة</span>
               <b>{money(report.reconciliation.netMovement)}</b>
             </div>
           </section>
 
-          <section className="space-y-2 rounded-2xl border border-blue-900/70 bg-blue-950/30 p-3">
-            <h4 className="flex items-center gap-2 font-black text-blue-200">
+          <section className="space-y-2 rounded-2xl border border-nw-border bg-nw-info-bg p-3">
+            <h4 className="flex items-center gap-2 font-black text-nw-info">
               <Banknote className="h-4 w-4" />
               مطابقة درج الكاش
             </h4>
-            <div className="flex justify-between text-slate-300">
+            <div className="flex justify-between text-nw-text">
               <span>العهدة الافتتاحية</span>
               <b>{money(report.reconciliation.openingCash)}</b>
             </div>
-            <div className="flex justify-between text-blue-300">
+            <div className="flex justify-between text-nw-info">
               <span>الكاش المتوقع</span>
               <b>{money(report.reconciliation.expectedCash)}</b>
             </div>
             {report.reconciliation.actualCash !== undefined && (
-              <div className="flex justify-between text-white">
+              <div className="flex justify-between text-nw-text">
                 <span>الكاش المعدود فعليًا</span>
                 <b>{money(report.reconciliation.actualCash)}</b>
               </div>
             )}
             {report.reconciliation.cashDiscrepancy !== undefined && (
-              <div className="flex justify-between border-t border-blue-900 pt-2 font-black">
+              <div className="flex justify-between border-t border-nw-border pt-2 font-black">
                 <span>فرق الصندوق</span>
                 <b
                   className={
                     Math.abs(report.reconciliation.cashDiscrepancy) < 0.001
-                      ? 'text-emerald-300'
-                      : 'text-amber-300'
+                      ? 'text-nw-ok'
+                      : 'text-nw-warn'
                   }
                 >
                   {money(report.reconciliation.cashDiscrepancy)}
@@ -272,40 +272,40 @@ export const ShiftClosingReportModal: React.FC<
               </div>
             )}
             {report.shift.discrepancyReason && (
-              <p className="rounded-lg bg-slate-950/60 p-2 text-[10px] text-amber-200">
+              <p className="rounded-lg bg-nw-surface-2 p-2 text-[10px] text-nw-warn">
                 سبب الفرق: {report.shift.discrepancyReason}
               </p>
             )}
           </section>
 
           <section className="grid grid-cols-2 gap-2">
-            <div className="space-y-2 rounded-2xl border border-cyan-900/60 bg-cyan-950/20 p-3">
-              <h4 className="font-black text-cyan-200">CliQ</h4>
-              <div className="flex justify-between text-slate-300">
+            <div className="space-y-2 rounded-2xl border border-nw-border bg-nw-info-bg p-3">
+              <h4 className="font-black text-nw-info">CliQ</h4>
+              <div className="flex justify-between text-nw-text">
                 <span>سندات قبض</span>
                 <b>{money(report.collections.cliq)}</b>
               </div>
-              <div className="flex justify-between text-slate-300">
+              <div className="flex justify-between text-nw-text">
                 <span>دفعات موردين</span>
                 <b>{money(report.outflows.cliqSupplierPayments)}</b>
               </div>
-              <div className="flex justify-between text-slate-300">
+              <div className="flex justify-between text-nw-text">
                 <span>مصروفات</span>
                 <b>{money(report.outflows.cliqExpenses)}</b>
               </div>
-              <div className="flex justify-between text-slate-300">
+              <div className="flex justify-between text-nw-text">
                 <span>مرتجعات</span>
                 <b>{money(report.outflows.cliqRefunds)}</b>
               </div>
-              <div className="flex justify-between border-t border-cyan-900 pt-2 font-black text-cyan-200">
+              <div className="flex justify-between border-t border-nw-border pt-2 font-black text-nw-info">
                 <span>صافي CliQ</span>
                 <b>{money(report.reconciliation.netCliqMovement)}</b>
               </div>
             </div>
 
-            <div className="space-y-2 rounded-2xl border border-rose-900/60 bg-rose-950/20 p-3">
-              <h4 className="font-black text-rose-200">المدفوعات الخارجة</h4>
-              <div className="flex justify-between text-slate-300">
+            <div className="space-y-2 rounded-2xl border border-nw-border bg-nw-bad-bg p-3">
+              <h4 className="font-black text-nw-bad">المدفوعات الخارجة</h4>
+              <div className="flex justify-between text-nw-text">
                 <span>دفعات الموردين ({report.outflows.supplierPaymentCount})</span>
                 <b>
                   {money(
@@ -314,7 +314,7 @@ export const ShiftClosingReportModal: React.FC<
                   )}
                 </b>
               </div>
-              <div className="flex justify-between text-slate-300">
+              <div className="flex justify-between text-nw-text">
                 <span>المصروفات ({report.outflows.expenseCount})</span>
                 <b>
                   {money(
@@ -322,7 +322,7 @@ export const ShiftClosingReportModal: React.FC<
                   )}
                 </b>
               </div>
-              <div className="flex justify-between text-slate-300">
+              <div className="flex justify-between text-nw-text">
                 <span>{report.sales.returnEntitlement !== undefined ? 'المبالغ المرجعة' : 'المرتجعات'} ({report.outflows.returnCount})</span>
                 <b>
                   {money(
@@ -334,13 +334,13 @@ export const ShiftClosingReportModal: React.FC<
           </section>
 
           {report.expenseBreakdown.length > 0 && (
-            <section className="rounded-2xl border border-slate-700 p-3">
-              <h4 className="mb-2 font-black text-slate-200">تفصيل المصروفات حسب الفئة</h4>
+            <section className="rounded-2xl border border-nw-border p-3">
+              <h4 className="mb-2 font-black text-nw-text">تفصيل المصروفات حسب الفئة</h4>
               <div className="space-y-2">
                 {report.expenseBreakdown.map((item) => (
                   <div
                     key={item.category}
-                    className="flex items-center justify-between rounded-lg bg-slate-950/60 p-2 text-slate-300"
+                    className="flex items-center justify-between rounded-lg bg-nw-surface-2 p-2 text-nw-text"
                   >
                     <span>{item.category} ({item.count})</span>
                     <b>{money(item.amount)}</b>
@@ -351,19 +351,19 @@ export const ShiftClosingReportModal: React.FC<
           )}
 
           {report.returnBreakdown.length > 0 && (
-            <section className="rounded-2xl border border-orange-900/70 bg-orange-950/20 p-3">
-              <h4 className="mb-2 flex items-center gap-2 font-black text-orange-200">
+            <section className="rounded-2xl border border-nw-border bg-nw-warn-bg p-3">
+              <h4 className="mb-2 flex items-center gap-2 font-black text-nw-warn">
                 <RotateCcw className="h-4 w-4" />
                 تفصيل المرتجعات
               </h4>
               {report.returnQuantityBreakdown === undefined && (
-                <p className="text-[10px] text-slate-400">تفصيل تاريخي على مستوى المرتجع؛ لا تتوفر كميات مكوّناته في لقطة الإغلاق.</p>
+                <p className="text-[10px] text-nw-muted">تفصيل تاريخي على مستوى المرتجع؛ لا تتوفر كميات مكوّناته في لقطة الإغلاق.</p>
               )}
               <div className="space-y-2">
                 {report.returnBreakdown.map((item) => (
                   <div
                     key={`${item.refundMethod}-${item.stockDisposition}`}
-                    className="flex items-center justify-between rounded-lg bg-slate-950/60 p-2 text-slate-300"
+                    className="flex items-center justify-between rounded-lg bg-nw-surface-2 p-2 text-nw-text"
                   >
                     <span>
                       {item.refundMethod === 'cliq' ? 'CliQ' : 'كاش'} •{' '}
@@ -380,11 +380,11 @@ export const ShiftClosingReportModal: React.FC<
           )}
 
           {report.returnQuantityBreakdown !== undefined && report.returnQuantityBreakdown.length > 0 && (
-            <section className="space-y-2 rounded-2xl border border-orange-900/60 bg-orange-950/20 p-3">
-              <h4 className="font-black text-orange-200">تفصيل كميات المرتجعات</h4>
-              <p className="text-[10px] text-slate-400">المبلغ المسترد محسوب لكل مرتجع في التفصيل أعلاه، ولا يوزّع على أصنافه أو أسباب التلف.</p>
+            <section className="space-y-2 rounded-2xl border border-nw-border bg-nw-warn-bg p-3">
+              <h4 className="font-black text-nw-warn">تفصيل كميات المرتجعات</h4>
+              <p className="text-[10px] text-nw-muted">المبلغ المسترد محسوب لكل مرتجع في التفصيل أعلاه، ولا يوزّع على أصنافه أو أسباب التلف.</p>
               {report.returnQuantityBreakdown.map((item, index) => (
-                <div key={`${item.eventId}-${item.productId}-${index}`} className="rounded-lg bg-slate-950/60 p-2 text-slate-300">
+                <div key={`${item.eventId}-${item.productId}-${index}`} className="rounded-lg bg-nw-surface-2 p-2 text-nw-text">
                   <b>{item.productName}</b>
                   <p>قابل للبيع: {item.sellableQuantity} · عيب/غير قابل للبيع: {item.defectQuantity} · ضرر عميل: {item.customerDamageQuantity}</p>
                 </div>
@@ -392,19 +392,19 @@ export const ShiftClosingReportModal: React.FC<
             </section>
           )}
 
-          <div className="flex items-center gap-2 rounded-xl bg-slate-950/70 p-3 text-[10px] text-slate-500">
-            <PackageCheck className="h-4 w-4 shrink-0 text-emerald-400" />
+          <div className="flex items-center gap-2 rounded-xl bg-nw-surface-2 p-3 text-[10px] text-nw-muted">
+            <PackageCheck className="h-4 w-4 shrink-0 text-nw-ok" />
             جميع الأرقام محسوبة داخل PostgreSQL من المبيعات وسندات القبض ودفعات الموردين والمصروفات والمرتجعات المرتبطة بهذه الوردية.
           </div>
 
-          <button
+          <UiButton
             type="button"
             onClick={handlePrint}
-            className="shift-report-actions flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 py-3 font-black text-white shadow-lg hover:bg-blue-500"
+            className="shift-report-actions flex w-full items-center justify-center gap-2 rounded-2xl bg-nw-info-bg py-3 font-black text-nw-text shadow-lg hover:bg-nw-info-bg"
           >
             <Printer className="h-4 w-4" />
             طباعة أو حفظ التقرير PDF
-          </button>
+          </UiButton>
         </div>
       ) : null}
     </Modal>

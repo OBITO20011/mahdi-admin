@@ -8,7 +8,21 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 ## Canonical reading order
 
-**Current owner boundary — 2026-10-09:** Inventory f8d88ac visually accepted.
+**Current owner boundary — 2026-10-09:** e122ad6/135 visually/read-contract accepted,
+CI16/16. Only Cash/Shifts §6.5 presentation,archive and closing report,shared
+denomination input and accessible phone count panel. CASH_MIGRATION.md records
+facts/missing-read fields,baseline business-call/input/handler parity and gates.
+No DB/migration/service/store/RPC/payload/permission change. Full quality,
+Gitleaks0,one commit/push/exact-SHA CI,then STOP for owner visual review.
+No next screen/Production/deploy/Phase7.
+
+Approved narrow exception:pre-existing Orders post-Back restoration must not
+steal user search/filter focus. Product-only fix57e53d4,permanent controlled
+race tests;existing262/scroll tests unchanged,WebKit before17/20 after20/20.
+No reader/payload/permission change. It precedes the Cash presentation commit;
+final full quality and exact-SHA CI still required before delivery.
+
+**Previous owner boundary — 2026-10-09:** Inventory f8d88ac visually accepted.
 Only135 read extensions:POS customer debt/limit from CRM's existing helper,
 inventory whole-catalog available filter and active-item count. Old fields,
 signatures,roles/grants and all writers unchanged. Small value-column/emoji/unit
