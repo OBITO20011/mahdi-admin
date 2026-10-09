@@ -69,6 +69,16 @@ test('denomination counting is exact minor-unit local input,never a server expec
   assert.equal(countedCashMinorUnits(['9007199254740991','','','',''],''),undefined);
   assert.equal(countedCashMinorUnits(['1'],''),undefined);
 });
+test('counted Cash starts unentered,never coerces empty to zero or preloads expected Cash',()=>{
+  const source=readFileSync(baseline[0].file,'utf8');
+  assert.match(source,/\[actualCashInput, setActualCashInput\] = useState\(''\)/u);
+  assert.doesNotMatch(source,/setActualCashInput\(currentShift\.expectedCash/u);
+  assert.match(source,/useEffect\(\(\) => \{\s*setActualCashInput\(''\);\s*\}, \[currentShift\?\.id\]\)/u);
+  assert.match(source,/actualCashInput\.trim\(\) === '' \? Number\.NaN : Number\(actualCashInput\)/u);
+  assert.match(source,/hasCountedCash = Number\.isFinite\(actualCash\) && actualCash >= 0/u);
+  assert.match(source,/hasCountedCash\?<div[^\n]+<span>الفرق<\/span>/u);
+  assert.match(source,/أدخل المبلغ المعدود/u);
+});
 test('Cash surfaces use shared tokens and preserve explicit unavailable facts and all safety gates',()=>{
   for(const {file} of baseline){const source=readFileSync(file,'utf8');assert.doesNotMatch(source,/(?:bg|text|border)-(?:slate|blue|gray|rose|emerald|amber|cyan|orange|indigo)-\d/u);}
   const source=readFileSync(baseline[0].file,'utf8');

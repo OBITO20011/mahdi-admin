@@ -1,65 +1,52 @@
 {
   "schemaVersion": 1,
-  "status": "PAUSED",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Approved CI-only dynamic PackageF browser split;independent commit and exact-SHA green,then emptyCash/136/Customers",
-  "baselineSha": "8a70526ac9fe502d114adc9627db7b84894dfa87",
+  "objective": "Deliver approved empty counted Cash independently;then136 and Customers",
+  "baselineSha": "aa76121c10a190fede6fa6943b5a97a841f61dff",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Cash/Orders de879ae/57e53d4 owner/Claude accepted;exact-SHA quality16/16 and secrets PASS",
-    "Baseline synchronized to de879ae;preflight/resume PASS",
-    "667c63e contrast readiness delivered;owner decisions on unknown-age/original opening date/empty cash recorded;CI not green",
-    "2026-10-09 docs: original opening-debt date,unknown-age bucket and empty counted Cash approved finally;no opening tool/136/actualCash implementation",
-    "Live GitHub recheck:8a70526 quality37964732622 attempt1 cancelled;secrets37964732809 success;green gate still missing"
+    "CI-only aa76121 exact-SHA quality37974334299 18/18 and secrets37974334247 PASS;core13:28/F8:57;delivery verified"
   ],
   "inProgress": [
-    "Implement approved pattern-based CI split,identity completeness and exact-SHA delivery verification;no product/tests changes in CI commit"
+    "Empty counted Cash:per-shift blank state,valid0,unchanged close payload;final frozen quality before independent commit/CI"
   ],
   "notStarted": [
-    "Separate empty actualCash commit,then136 with fourth unknown-age bucket,then Customers UI",
-    "Next screen/Phase7"
+    "136 read-only debt aging",
+    "Customers UI",
+    "Phase7"
   ],
   "filesTouched": [
-    ".github/workflows/quality.yml",
     "docs/agent/OWNER_DECISIONS.md",
-    "docs/agent/VERIFICATION_GATES.md",
     "docs/design/package-f/CASH_MIGRATION.md",
-    "scripts/agent/verify-handoff.mjs",
-    "docs/design/package-f/DEBT_AGING_136.md",
-    "playwright.ci.config.ts",
-    "scripts/agent/verify-delivery-ci.mjs",
-    "scripts/testing/run-quality-ci.mjs",
-    "scripts/testing/verify-browser-ci-partition.mjs",
-    "scripts/testing/verify-ci-playwright-image.mjs"
+    "e2e/package-f-cash.spec.ts",
+    "src/features/shifts/ShiftsView.tsx",
+    "tests/expenses-shifts.test.ts",
+    "tests/package-f-cash.test.ts",
+    "docs/design/package-f/DEBT_AGING_136.md"
   ],
   "testsPassed": [
-    "CI split local:dynamic list494=350core+144PackageF;negative partition self-check PASS;image version/typecheck/ESLint PASS;core291pass+59existing skips8.2m;PackageF144/1449.1m;retries0;escaped external/Production0",
-    "8a70526:WebKit completion20/report20 PASS40/40;Chromium control PASS;Cash AST5/5;strict ESLint/typecheck PASS",
-    "Frozen quality787Admin/189Customer/435Browser PASS,59existing conditional skips/retries0 (12.9m);external/Production escaped0",
-    "Gitleaks staged0 before both commits;HEAD/remote8a70526 exact;CI37964732622 other15/16 jobs PASS;secrets37964732809 PASS;no owned listeners;001-135/writers/RPC unchanged"
+    "Cash48/48 Chromium/WebKit,retries0;unit/AST18/18;dynamic partition504=350+154",
+    "Pre-cycle full quality788Admin/189Customer/443Browser PASS;59existing skips;escaped external/Production0",
+    "Final frozen full quality445Browser PASS/59existing skips,retries0 (16.6m);lint/unit/build/SEO/isolation PASS;external/Production escaped0"
   ],
   "testsRemaining": [
-    "Exact-SHA complete quality CI;then approved separate empty actualCash,136,Customers stages"
+    "Gitleaks0;independent Cash commit/push/exact-SHA CI;then136 and Customers"
   ],
   "findings": [
-    "667c63e CI cancelled after authored opacity-window regression failure;fixed deterministic pause/release in8a70526",
-    "8a70526 CI37964732622/job113936128926 cancelled20:05;quality command19:01,browser started17:15:33Z,cancel17:33:30Z;no logged assertion/color failure. Incomplete is NOT PASS",
-    "Authorized attempt2/job113949033375 cancelled20:04 (17:45:56-18:06:00Z);quality19:08;browser494/worker1 at17:47:52Z,cancel18:05:57Z;no logged assertion failure;artifact skipped"
+    "Live cycle before reset retained809.800 in new shift;per-id reset now passes both browsers;old prefill test updated to owner-approved blank contract"
   ],
-  "blockers": [
-    "CI-only split must pass complete exact-SHA gate before emptyCash/136/Customers"
-  ],
+  "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production/deploy/Phase7/automations;only approved contrast/actualCash/136/Customers scope",
-    "No write RPC/payload/permission changes;001-135 immutable;136 only approved read addition",
-    "No opening-balance tool;unknown-age separate,not overdue;no invented dates",
-    "Preserve .claude/launch.json unchanged/unstaged"
+    "No Production/deploy/Phase7/automations",
+    "001-135 immutable;no write RPC/payload/permission change;136 only approved read",
+    "No opening-balance tool;preserve .claude/launch.json unstaged"
   ],
-  "nextExactAction": "Local CI split gates PASS:explicit CI-only stage,Gitleaks0,commit/push and verify full exact-SHA CI. Then emptyCash/136/Customers;no Production/deploy.",
-  "workingTreeFingerprint": "197735AC028A7A13EFA1169AF2826E70011E159F516603FB9FE9DDB449611F65",
-  "checkpointedAt": "2026-10-09T18:34:49.591Z",
+  "nextExactAction": "Final Cash quality PASS445Browser/59existing skips,retries0. Review7file scope,Gitleaks0,Cash commit/push/exact-SHA CI;then136 and Customers.",
+  "workingTreeFingerprint": "4A846BB79165973649D0EEDA28F81FB7923C3ACFEA535022652F0E52320DEE0B",
+  "checkpointedAt": "2026-10-09T19:39:25.375Z",
   "startedAt": "2026-10-09T17:34:23.990Z"
 }

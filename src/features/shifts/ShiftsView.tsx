@@ -82,18 +82,22 @@ export const ShiftsView: React.FC = () => {
 
   useEffect(() => {
     if (currentShift) {
-      setActualCashInput(currentShift.expectedCash.toFixed(3));
       setDiscrepancyReason('');
     }
   }, [currentShift]);
 
-  const actualCash = Number(actualCashInput);
+  useEffect(() => {
+    setActualCashInput('');
+  }, [currentShift?.id]);
+
+  const actualCash = actualCashInput.trim() === '' ? Number.NaN : Number(actualCashInput);
+  const hasCountedCash = Number.isFinite(actualCash) && actualCash >= 0;
   const discrepancy = useMemo(
     () =>
-      currentShift && Number.isFinite(actualCash)
+      currentShift && hasCountedCash
         ? Number((actualCash - currentShift.expectedCash).toFixed(3))
         : 0,
-    [actualCash, currentShift]
+    [actualCash, currentShift, hasCountedCash]
   );
   const needsReason = Math.abs(discrepancy) >= 0.001;
 
@@ -505,9 +509,9 @@ export const ShiftsView: React.FC = () => {
           <p className="text-xs text-nw-muted">عدّ النقد بالدرج وأدخل العدد حسب الفئة، أو أدخل المبلغ مباشرة.</p>
           <CashDenominationCounter disabled={isSubmitting} onApply={setActualCashInput}/>
           <Card className="space-y-2 text-sm">
-            <div className="flex justify-between gap-2"><span>المعدود</span><strong><MoneyText amount={actualCash}/></strong></div>
+            <div className="flex justify-between gap-2"><span>المعدود</span><strong>{hasCountedCash?<MoneyText amount={actualCash}/>:<span className="text-nw-muted">غير مُدخل</span>}</strong></div>
             <div className="flex justify-between gap-2"><span>المتوقع</span><MoneyText amount={currentShift.expectedCash}/></div>
-            <div className="flex justify-between gap-2 border-t border-nw-border pt-2"><span>الفرق</span><StatusBadge tone={needsReason?'warn':'ok'}>{!needsReason?'مطابق':discrepancy<0?'عجز':'زيادة'} <MoneyText amount={Math.abs(discrepancy)}/></StatusBadge></div>
+            {hasCountedCash?<div className="flex justify-between gap-2 border-t border-nw-border pt-2"><span>الفرق</span><StatusBadge tone={needsReason?'warn':'ok'}>{!needsReason?'مطابق':discrepancy<0?'عجز':'زيادة'} <MoneyText amount={Math.abs(discrepancy)}/></StatusBadge></div>:<p className="border-t border-nw-border pt-2 text-nw-muted">أدخل المبلغ المعدود</p>}
           </Card>
           <label className="block space-y-2 text-xs text-nw-muted"><span>الكاش الفعلي بعد عدّ الصندوق</span>
             <input type="number" min="0" step="0.001" value={actualCashInput} onChange={(event) => setActualCashInput(event.target.value)}

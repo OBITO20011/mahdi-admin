@@ -121,7 +121,9 @@ test('stale shift state becomes an actionable message instead of a generic error
 test('shift screen has no fake opening or actual cash defaults', () => {
   assert.doesNotMatch(shiftsView, /useState<number>\(250\)/);
   assert.doesNotMatch(shiftsView, /useState<number>\(1665\.5\)/);
-  assert.match(shiftsView, /currentShift\.expectedCash\.toFixed\(3\)/);
+  assert.match(shiftsView, /\[actualCashInput, setActualCashInput\] = useState\(''\)/);
+  assert.doesNotMatch(shiftsView, /setActualCashInput\(currentShift\.expectedCash/);
+  assert.match(shiftsView, /actualCashInput\.trim\(\) === '' \? Number\.NaN : Number\(actualCashInput\)/);
 });
 
 test('every new direct POS sale is atomically attached to an open shift', () => {

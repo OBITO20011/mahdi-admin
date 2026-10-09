@@ -87,6 +87,52 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`Cash
   await page.screenshot({path:info.outputPath(`cash-${theme}-${width}.png`),fullPage:true});
 });
 
+test('blank or invalid counted Cash is unentered,never a zero match or closable',async({page})=>{
+  await page.setViewportSize({width:390,height:844});await page.goto(url('theme=light'));
+  await page.getByTestId('cash-count-open').click();
+  const panel=page.getByRole('dialog',{name:'إغلاق الوردية',exact:true});
+  const input=page.getByLabel('الكاش الفعلي بعد عدّ الصندوق',{exact:true}),submit=page.getByTestId('cash-close-submit');
+  await expect(input).toHaveValue('');await expect(submit).toBeDisabled();
+  await expect(panel).toContainText('أدخل المبلغ المعدود');await expect(panel).not.toContainText('مطابق');
+  await expect(panel.getByText('الفرق',{exact:true})).toHaveCount(0);await expect(panel).toContainText('810.300');
+  await input.fill('-1');await expect(submit).toBeDisabled();await expect(panel).toContainText('أدخل المبلغ المعدود');
+  await expect(panel.getByText('الفرق',{exact:true})).toHaveCount(0);
+  await input.fill('810.300');await expect(submit).toBeEnabled();await expect(panel).toContainText('مطابق');
+  await input.fill('');await expect(submit).toBeDisabled();await expect(panel).not.toContainText('مطابق');
+  await axe(page);
+});
+for(const [inputCash,minor] of [['0',0],['810.300',810300],['809.800',809800]] as const)test(`explicit counted Cash ${inputCash} preserves close RPC payload and discrepancy reason guard`,async({page})=>{
+  await page.setViewportSize({width:390,height:844});const sent:Record<string,unknown>[]=[];
+  await page.route('**/rest/v1/rpc/close_cash_shift',async route=>{sent.push(route.request().postDataJSON());await route.fulfill({json:{success:false,message:'اختبار الحمولة دون إغلاق'}});});
+  await page.goto(url('theme=dark'));await page.getByTestId('cash-count-open').click();
+  const input=page.getByLabel('الكاش الفعلي بعد عدّ الصندوق',{exact:true}),submit=page.getByTestId('cash-close-submit');
+  await expect(input).toHaveValue('');await input.fill(inputCash);
+  const reason=minor===810300?'':'عدّ فعلي';
+  if(reason){await expect(submit).toBeDisabled();await page.getByLabel('سبب النقص أو الزيادة (إجباري)',{exact:true}).fill(reason);}
+  await expect(submit).toBeEnabled();await submit.click();await expect.poll(()=>sent.length).toBe(1);
+  expect(sent[0]).toEqual({p_shift_id:cashIds.shift,p_actual_cash_in_minor_units:minor,p_discrepancy_reason:reason||null});
+});
+test('same-shift reader refresh preserves counted Cash but a new shift starts unentered',async({page})=>{
+  await page.setViewportSize({width:1440,height:1100});
+  let current={...cashShift},reads=0;
+  await page.route('**/rest/v1/rpc/get_expense_shift_center',async route=>{
+    reads++;await route.fulfill({json:{success:true,currentShift:shiftRpcFixture(current),recentShifts:recentCashShifts.map(shiftRpcFixture),expenses:[]}});
+  });
+  await page.goto(url('live=1&theme=light'));await expect.poll(()=>reads).toBe(1);
+  const input=page.getByLabel('الكاش الفعلي بعد عدّ الصندوق',{exact:true});
+  await input.fill('809.800');
+  current={...cashShift,expectedCash:810.301};
+  await page.getByRole('button',{name:'تحديث حسابات الوردية',exact:true}).click();
+  await expect(page.getByTestId('cash-expected')).toContainText('810.301');
+  await expect(input).toHaveValue('809.800');
+  current={...cashShift,id:'92700000-0000-4000-8000-000000000099',shiftNumber:'SHIFT-NEW'};
+  await page.getByRole('button',{name:'تحديث حسابات الوردية',exact:true}).click();
+  await expect(page.getByText('SHIFT-NEW',{exact:true})).toBeVisible();
+  await expect(input).toHaveValue('');await expect(page.getByTestId('cash-close-submit')).toBeDisabled();
+  await expect(page.getByTestId('cash-workbench')).toContainText('أدخل المبلغ المعدود');
+  expect(reads).toBe(3);
+});
+
 test('denomination count retains exact old close payload,reason guard,busy close guard and existing report print',async({page})=>{
   await page.setViewportSize({width:390,height:844});const sent:Record<string,unknown>[]=[];
   let release!:()=>void;const gate=new Promise<void>(resolve=>{release=resolve;});

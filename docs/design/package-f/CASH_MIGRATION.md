@@ -218,3 +218,60 @@ Corrective frozen-files quality exit0:787Admin/189Customer units,lint/build,
 guard external/Production escaped0. No task-owned listeners remain. Correction
 touches only browser control/static regression/documentation;no product/RPC/
 payload/service/store/migration change after667c63e. New exact-SHA CI still pending.
+
+## Owner decision2026-10-09: actual counted Cash starts empty
+
+Approved separate product commit after the contrast exact-SHA CI gate and
+before136. Remove expected-Cash prefilling; expected Cash stays visible.
+Blank/invalid input means not entered (never Number('')=0): disable closing,
+show «أدخل المبلغ المعدود», and hide difference/matching status. Explicit0
+remains valid; denomination «اعتماد العد» still fills the existing field.
+Preserve current discrepancy/reason rules and closeShift(actualCash,
+discrepancyReason) payload for identical entered values; no RPC/reader changes.
+Permanent proof: initially empty/disabled, difference and required reason
+after entry, explicit0 valid, denomination adoption and identical payload.
+Full quality/Gitleaks0/separate commit/exact-SHA CI required; NOT implemented
+by this documentation update. Current8a70526 quality37964732622 remains
+cancelled; secrets37964732809 succeeded, as rechecked on2026-10-09.
+
+## Empty counted Cash implementation —2026-10-09
+
+CI-only split aa76121 passed exact-SHA quality37974334299 (18/18) and
+secrets37974334247. Core13:28/PackageF8:57;dynamic494=350+144 with no lost
+or duplicated identity. This opens the approved separate counted-Cash stage.
+
+Removed only expected-Cash prefilling. Empty input parses as NaN,negative/
+nonfinite input remains unentered in the panel; expected Cash stays visible,
+and difference/match appear only for valid counted Cash. Explicit0 and the
+denomination adoption remain valid. All business calls, onChange callbacks
+and handler bodies including handleClose retain the fixed e122ad6 AST hashes.
+No service/store/RPC/payload/migration change.
+
+New permanent browser probes cover empty/invalid input,match/reason gates,
+explicit0 and exact RPC payload for0/810.300/809.800. Initial authored test
+mistakenly expected an empty reason string;existing service intentionally
+sends null when no reason. Corrected the new expectation to that unchanged
+contract,without changing any existing assertion or product behavior.
+Focused Cash46/46 Chromium/WebKit PASS (2.7m,retries0);unit/AST6/6,
+typecheck and strict ESLint PASS. First full quality stopped at the old
+expenses-shifts.test.ts prefill expectation (currentShift.expectedCash.toFixed).
+Replaced only that obsolete expectation with explicit blank-state/no-prefill/
+empty-as-NaN assertions;all other assertions retained. This implements the
+owner's new Cash contract,not a financial failure. Full-quality/exact-SHA follow.
+
+The pre-delivery full quality passed788Admin/189Customer/443Browser,59existing
+conditional skips,retries0 (16.8m);external/Production escaped0. A new live
+reader identity-cycle probe then independently showed counted809.800 survived
+into SHIFT-NEW (WebKit failed at cash.spec.ts131). Added a local reset keyed
+only by currentShift.id:refreshing the same shift preserves the count;changing
+shift clears it. No handler,reason guard,RPC or payload changes. Permanent
+Chromium/WebKit probe covers both cases;final frozen quality follows this fix.
+
+Post-cycle focused Cash48/48 Chromium/WebKit PASS (2.7m),unit/AST18/18 PASS;
+dynamic split504=350core+154PackageF automatically includes the new cases.
+
+Final frozen npm run quality exit0:445Browser PASS/59existing conditional
+skips/retries0 (16.6m);Admin/Customer lint,units,build/SEO and network guard PASS,
+escaped external/Production0. Cash48/48 and exact old business-call/onChange/
+handler hashes PASS. No001–135,service/store,RPC or permission changes.
+Gitleaks0,independent commit/push and exact-SHA CI remain delivery gates.
