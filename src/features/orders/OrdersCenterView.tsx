@@ -65,23 +65,25 @@ export const OrdersWorkbench: React.FC<OrdersWorkbenchProps> = (props) => {
         <MainColumn>
           <FilterChips touchSize label="حالات الطلبات" value={activeFilter} onChange={onFilter} options={FILTERS.map((filter) => ({ value: filter.id, label: filter.label, count: counts[filter.id] }))} />
           <SearchField label="البحث في الطلبات" placeholder="ابحث برقم الطلب أو اسم العميل أو الهاتف" value={searchQuery} onChange={(event) => onSearch(event.target.value)} className="w-full sm:max-w-md" />
-          <p className="m-0 text-xs text-nw-muted">بحاجة لمراجعة: {summary.review} · قيد التنفيذ: {summary.active} · ذمم الطلبات المكتملة: <MoneyText amount={summary.due} />. العدّادات المتاحة من القارئ؛ عدّاد القسم الآخر يظهر عند فتحه.</p>
+          <p className="m-0 text-xs text-nw-muted">بحاجة لمراجعة: {summary.review} · قيد التنفيذ: {summary.active} · ذمم الطلبات المكتملة: <MoneyText amount={summary.due} />. تتحدث القائمة تلقائياً.</p>
           {error && <Card role="alert" className="flex items-center gap-2 text-nw-bad"><AlertCircle className="h-4 w-4 shrink-0" />{error}</Card>}
           {loading ? <Card role="status" className="text-center text-nw-muted"><RefreshCw className="mx-auto mb-2 h-6 w-6 animate-spin" />جاري تحميل الطلبات...</Card> : orders.length === 0 ? <Card className="text-center"><h2 className="text-base font-bold">لا توجد طلبات في هذا القسم</h2><p className="text-sm text-nw-muted">غيّر القسم أو البحث لعرض الطلبات.</p></Card> : <>
             <div className="space-y-3 md:hidden">{orders.map((order) => <OperationalOrderCard key={order.id} order={order} onOpen={onOpen} selected={selectedOrderId === order.id} source={sourceFor(order.id)} />)}</div>
             <div className="hidden md:block"><TableShell caption="قائمة الطلبات" minWidth={650} head={<>{['رقم الطلب', 'العميل', 'المصدر', 'الدفع', 'الحالة', 'الوقت', 'الإجمالي'].map((label) => <Th key={label}>{label}</Th>)}</>}>
               {orders.map((order) => { const status = getOrderStatus(order.status); const payment = getPaymentLabel(order); return <Tr key={order.id} selected={selectedOrderId === order.id}>
-                <Td><UiButton onClick={() => onOpen(order.id)} aria-label={`فتح الطلب ${order.orderNumber}`} className="px-1"><bdi dir="ltr" className="font-bold">{order.orderNumber}</bdi></UiButton></Td>
+                <Td className="whitespace-nowrap"><UiButton onClick={() => onOpen(order.id)} aria-label={`فتح الطلب ${order.orderNumber}`} className="whitespace-nowrap px-1"><bdi dir="ltr" data-order-number className="whitespace-nowrap font-bold">{order.orderNumber}</bdi></UiButton></Td>
                 <Td className="max-w-[180px] break-words">{order.customerName}</Td><Td className="text-xs text-nw-muted">{orderSourceLabel(sourceFor(order.id))}</Td>
                 <Td><span className="text-xs">{PAYMENT_LABELS[order.paymentMethod] ?? order.paymentMethod}</span><div className="mt-1"><StatusBadge tone={payment.tone}>{payment.label}</StatusBadge></div></Td>
-                <Td><StatusBadge tone={status.tone}>{status.label}</StatusBadge></Td><Td><bdi dir="ltr" className="whitespace-nowrap text-xs text-nw-muted">{formatUiDate(order.createdAt, { hour: '2-digit', minute: '2-digit', hour12: false })}</bdi></Td>
+                <Td><StatusBadge tone={status.tone}>{status.label}</StatusBadge></Td><Td className="whitespace-nowrap"><bdi dir="ltr" data-order-time className="whitespace-nowrap text-xs text-nw-muted">{formatUiDate(order.createdAt, { hour: '2-digit', minute: '2-digit', hour12: false })}</bdi></Td>
                 <Td><MoneyText amount={order.totalAmount} className="font-bold" /></Td>
               </Tr>; })}
             </TableShell></div>
           </>}
           {!loading && totalCount > 0 && <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-nw-muted"><span><bdi dir="ltr">{page} / {totalPages}</bdi> · {totalCount} طلب</span><div className="flex gap-2"><UiButton onClick={() => onPage(Math.max(1, page - 1))} disabled={page <= 1}><ChevronRight className="h-4 w-4" />السابق</UiButton><UiButton onClick={() => onPage(Math.min(totalPages, page + 1))} disabled={page >= totalPages}>التالي<ChevronLeft className="h-4 w-4" /></UiButton></div></div>}
         </MainColumn>
-        {selectedOrderId && <DetailPanel data-testid="order-detail-panel" className="w-full p-4">{detail}</DetailPanel>}
+        {selectedOrderId && <DetailPanel data-testid="order-detail-panel" className="fixed inset-0 z-40 w-full max-md:rounded-none max-md:border-0 max-md:bg-nw-bg md:static md:z-auto md:p-4">
+          <div data-testid="order-detail-scroll" className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:overflow-visible md:p-0">{detail}</div>
+        </DetailPanel>}
       </DetailLayout>
     </div>
   </div>;
@@ -235,8 +237,8 @@ export const OrdersCenterView: React.FC = () => {
     selectedOrderId={selectedOrderId} sourceFor={(id) => selectedOrder?.id === id ? selectedOrder.source : undefined} loading={loading} refreshing={refreshing} error={error}
     onOpen={openOrderDetails} onFilter={(value) => { setActiveFilter(value); setPage(1); }}
     onSearch={(value) => { setSearchQuery(value); setCounts({}); setPage(1); }} onSort={(value) => { setSort(value); setPage(1); }} onPage={setPage} onRefresh={() => void handleRefresh()}
-    detail={selectedOrderLoading ? <div role="status" className="space-y-3 text-center text-nw-muted"><RefreshCw className="mx-auto h-6 w-6 animate-spin" />جاري تحميل تفاصيل الطلب...<UiButton onClick={closeOrderDetails}>إغلاق</UiButton></div>
-      : selectedOrderError || !selectedOrder ? <div role="alert" className="space-y-3 text-nw-bad"><p>{selectedOrderError || 'تعذر تحميل تفاصيل الطلب.'}</p><UiButton onClick={() => selectedOrderId && void loadOrderDetails(selectedOrderId)}>إعادة المحاولة</UiButton><UiButton onClick={closeOrderDetails}>إغلاق</UiButton></div>
+    detail={selectedOrderLoading ? <div className="space-y-3 text-center text-nw-muted"><UiButton aria-label="رجوع للطلبات" onClick={closeOrderDetails} className="md:hidden"><ChevronRight className="h-4 w-4" />رجوع للطلبات</UiButton><div role="status"><RefreshCw className="mx-auto h-6 w-6 animate-spin" />جاري تحميل تفاصيل الطلب...</div><UiButton onClick={closeOrderDetails} className="hidden md:inline-flex">إغلاق</UiButton></div>
+      : selectedOrderError || !selectedOrder ? <div className="space-y-3 text-nw-bad"><UiButton aria-label="رجوع للطلبات" onClick={closeOrderDetails} className="md:hidden"><ChevronRight className="h-4 w-4" />رجوع للطلبات</UiButton><p role="alert">{selectedOrderError || 'تعذر تحميل تفاصيل الطلب.'}</p><UiButton onClick={() => selectedOrderId && void loadOrderDetails(selectedOrderId)}>إعادة المحاولة</UiButton><UiButton onClick={closeOrderDetails} className="hidden md:inline-flex">إغلاق</UiButton></div>
       : <OrderDetailModal key={selectedOrder.id} embedded order={selectedOrder} onOrderChanged={refreshSelectedOrder} onClose={closeOrderDetails} />}
   />;
 };

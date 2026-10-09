@@ -48,6 +48,16 @@ test('compact details retain immutable sale kind, parcel components and financia
   assert.match(html, /<details[^>]*><summary[^>]*>[\s\S]*?تفاصيل الطلب والحساب/);
   assert.doesNotMatch(html, /[٠-٩]/);
 });
+test('phone detail is a full-screen scroll surface with guarded back; desktop table identities stay on one line', () => {
+  assert.match(center, /fixed inset-0 z-40[\s\S]*?md:static/);
+  assert.match(center, /data-testid="order-detail-scroll"[^>]*overflow-y-auto overscroll-contain/);
+  assert.match(detail, /aria-label="رجوع للطلبات" onClick=\{onClose\} disabled=\{busy\}/);
+  assert.match(detail, /useDialogFocus\(!embedded \|\| fullScreenDetail,[\s\S]*?true\)/);
+  assert.match(center, /data-order-number className="whitespace-nowrap font-bold"/);
+  assert.match(center, /data-order-time className="whitespace-nowrap/);
+  assert.match(center, /تتحدث القائمة تلقائياً/);
+  assert.doesNotMatch(center, /العدّادات المتاحة من القارئ/);
+});
 test('all lifecycle, contact, address, settlement and Aftercare destinations remain wired', () => {
   for (const call of ['confirmOrder(order.id)', 'advanceOrderStatus(order.id, nextStep.status)', 'cancelOrder(order.id, cancelReason.trim())', 'startOrUpdateOrderDelivery(', 'completeWebsiteOrderWithSettlement({', 'openCustomerProfile(order.customerId!)']) assert.ok(detail.includes(call), call);
   assert.match(detail, /<AdminAftercarePanel[\s\S]*onChanged=\{onOrderChanged\}[\s\S]*onContractResolved=\{handleAftercareContract\}/);

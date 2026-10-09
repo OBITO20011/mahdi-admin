@@ -1,10 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useSyncExternalStore } from 'react';
 import {
   AlertTriangle,
   Banknote,
   BookUser,
   CheckCircle2,
   ChevronLeft,
+  ChevronRight,
   Clock3,
   Copy,
   MessageCircle,
@@ -100,6 +101,13 @@ function normalizeJordanianPhone(value: string): string | null {
   return /^07[789]\d{7}$/.test(local) ? local : null;
 }
 
+const subscribePhoneViewport = (notify: () => void) => {
+  const query = window.matchMedia('(max-width: 767px)');
+  query.addEventListener('change', notify);
+  return () => query.removeEventListener('change', notify);
+};
+const isPhoneViewport = () => window.matchMedia('(max-width: 767px)').matches;
+
 export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   order,
   onClose,
@@ -143,7 +151,9 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   );
   const [latestTrackingUrl, setLatestTrackingUrl] = useState('');
   const nextStep = nextOrderStep(order.status);
-  const detailFocus = useDialogFocus(!embedded, () => { if (!busy) onClose(); }, true);
+  const phoneViewport = useSyncExternalStore(subscribePhoneViewport, isPhoneViewport, () => false);
+  const fullScreenDetail = embedded && phoneViewport;
+  const detailFocus = useDialogFocus(!embedded || fullScreenDetail, () => { if (!busy) onClose(); }, true);
   const handleAftercareContract = useCallback((capability: AdminAftercareCapability | null) => {
     setAftercareCapability(capability);
   }, []);
@@ -349,7 +359,10 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   };
 
   return (
-    <div ref={detailFocus as React.RefObject<HTMLDivElement>} role={embedded ? undefined : 'dialog'} aria-modal={embedded ? undefined : true} aria-label={`تفاصيل الطلب ${order.orderNumber}`} aria-busy={busy} className="order-detail space-y-4 break-words text-sm text-nw-text">
+    <div ref={detailFocus as React.RefObject<HTMLDivElement>} role={!embedded || fullScreenDetail ? 'dialog' : undefined} aria-modal={!embedded || fullScreenDetail ? true : undefined} aria-label={`تفاصيل الطلب ${order.orderNumber}`} aria-busy={busy} className="order-detail space-y-4 break-words text-sm text-nw-text">
+      {embedded && <header className="sticky top-0 z-10 -mx-4 -mt-4 border-b border-nw-border bg-nw-bg p-4 pt-[max(1rem,env(safe-area-inset-top))] md:hidden">
+        <UiButton aria-label="رجوع للطلبات" onClick={onClose} disabled={busy}><ChevronRight className="h-4 w-4" />رجوع للطلبات</UiButton>
+      </header>}
       <div className="flex items-start justify-between border-b border-nw-border pb-3">
         <div>
           <bdi dir="ltr" className="select-text font-mono text-[11px] font-black text-nw-info">

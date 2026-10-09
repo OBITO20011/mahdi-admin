@@ -1,17 +1,20 @@
 {
   "schemaVersion": 1,
-  "status": "IDLE",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Migrate OrdersCenterView to Package F 6.2; preserve all current readers/actions and fix Home shift time ordering",
-  "baselineSha": "c0f0a5471c63377fa1fe33f34407c9e18ac757e2",
+  "objective": "Owner-approved Orders usability correction: mobile full-screen detail/back, nowrap table identity/time, nontechnical hint",
+  "baselineSha": "a39001113bbf4756535d5c5fda6fe37883241e1d",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Home c0f0a54 visually accepted by owner/Claude; exact-SHA CI PASS",
-    "Orders §6.2 token presentation and same reader/actions complete;Home time-first fix complete"
+    "Orders a390011 exact-SHA CI and owner/Claude visual/action review accepted",
+    "Three approved usability corrections complete;same readers/actions and desktop panel",
+    "Full corrective quality exit0;only delivery commit/push/exact-SHA CI remain"
   ],
-  "inProgress": [],
+  "inProgress": [
+    "One corrective commit/push after Gitleaks0;exact-SHA CI,then stop for owner visual review"
+  ],
   "notStarted": [
     "Remaining Package F screens pending visual review and owner approval",
     "Phase 7"
@@ -19,47 +22,33 @@
   "filesTouched": [
     "docs/agent/PHASE_STATUS.md",
     "docs/agent/PROJECT_OVERVIEW.md",
-    "src/components/ui/Controls.tsx",
-    "src/components/ui/uiFormat.ts",
-    "src/features/dashboard/DashboardHome.tsx",
-    "src/features/orders/AdminAftercarePanel.tsx",
-    "src/features/orders/CustomerLocationCard.tsx",
-    "src/features/orders/EditAddressModal.tsx",
+    "docs/design/package-f/ORDERS_MIGRATION.md",
+    "e2e/package-f-orders.spec.ts",
     "src/features/orders/OrderDetailModal.tsx",
     "src/features/orders/OrdersCenterView.tsx",
-    "src/index.css",
-    "tests/admin-mobile-ux-characterization.test.ts",
-    "tests/orders-pagination.test.ts",
-    "docs/design/package-f/ORDERS_MIGRATION.md",
-    "e2e/package-f-orders-harness.html",
-    "e2e/package-f-orders-harness.tsx",
-    "e2e/package-f-orders.fixture.ts",
-    "e2e/package-f-orders.spec.ts",
-    "src/features/orders/OrderCommercialSummary.tsx",
-    "src/features/orders/orderStatus.ts",
     "tests/package-f-orders.test.ts"
   ],
   "testsPassed": [
-    "Focused Orders20/20 Chromium/WebKit;units46/46;characterization13/13",
-    "Full quality exit0:765 Admin;Customer checks PASS;327 browser PASS/59 existing conditional skips;retries0",
-    "Orders20/20 and Home24/24 inside complete quality run;external/Production escaped0",
-    "001-134,services,stores,workflow,shell unchanged;no135;owned test listeners0"
+    "Corrective focused units20/20;typecheck and changed-file ESLint strict PASS",
+    "Corrective Orders28/28 Chromium/WebKit,light/dark,retries0;phone viewport/back/scroll/axe and1280 nowrap PASS",
+    "Full quality exit0:766Admin/189Customer/335Browser PASS;59existing conditional skips,retries0;build/SEO/isolation PASS",
+    "Original live-test navigation updated to return from phone detail before search;all reader/action assertions preserved",
+    "AST comparison:existing reader/action calls and arguments identical;001-134,services,stores,workflow,shell unchanged"
   ],
   "testsRemaining": [
-    "Gitleaks0 before one commit/push;exact-SHA quality and secret CI",
-    "Owner/Claude Orders visual review before another screen"
+    "Gitleaks0;one commit/push/exact-SHA CI;then owner visual review only"
   ],
   "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Production/deploy/Phase7/automations",
-    "Orders presentation and Home shift-time correction only;no RPC/payload/grants/DB/migration changes;001-134 immutable/no135",
+    "Three approved Orders presentation corrections only;no RPC/payload/grants/DB/migration changes;001-134 immutable/no135",
     "No next screen before owner review;preserve shell components",
     ".claude/launch.json:preserve unchanged/unstaged;no .gitignore edit"
   ],
-  "nextExactAction": "Gitleaks0;commit/push Orders only;verify exact-SHA quality+secret CI;then stop for owner visual review",
-  "workingTreeFingerprint": "9316CCE3C24F0C5F6D1C26DEF834587377008DED5C934D4F03F1052B75805DA6",
-  "checkpointedAt": "2026-10-09T01:19:51.466Z",
+  "nextExactAction": "Full quality PASS;Gitleaks staged exit0 then commit/push and verify exact-SHA CI",
+  "workingTreeFingerprint": "2B6D0F559F1163D907B6DAB4EAD10D2486DD6370342E1D433EAAACC1F1BC6CC5",
+  "checkpointedAt": "2026-10-09T02:09:25.730Z",
   "startedAt": "2026-10-08T22:04:02.501Z"
 }

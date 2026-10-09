@@ -2,6 +2,16 @@
 
 ## 2026-10-09 — Package F Orders migration
 
+Orders a390011 delivered with exact push/main quality37869322054(15/15) and
+secrets37869322139 PASS; owner/Claude accepted its visual/server-action review.
+Current follow-up is only mobile full-screen detail/back, table nowrap and
+nontechnical hint; preserve readers/actions and desktop panel, then quality,
+Gitleaks0, one corrective commit/push/CI and STOP for visual review.
+The original implementation gate below is historical, not pending work.
+Corrective full quality PASS:766Admin/189Customer/335Browser,59existing skips,
+retries0;focused Orders28/28 and units20/20. Gitleaks/commit/exact-SHA CI remain
+before delivery;then only owner visual review, not another screen.
+
 Owner/Claude accepted Home correction c0f0a54 visually; exact-SHA
 quality37860604049(15/15)/secrets37860604046 PASS. Current authorization is
 Orders §6.2 only plus Home shift-time ordering. Shared token table/phone cards

@@ -89,3 +89,9 @@ Append only concise, secret-free handoff summaries here when a task materially c
 - Shared token table/selected detail and phone status-border cards; historical sale kinds and complete parcel composition, all existing lifecycle/settlement/contact/address/Aftercare actions preserved. Current reader still excludes POS; missing list source/counters are not guessed. Two old shape contracts updated as detailed in ORDERS_MIGRATION.md.
 - Focused Orders20/20 Chromium/WebKit;existing/new units46/46;characterization13/13. Full quality exit0:765Admin,Customer lint/tests/build/SEO PASS,327browser PASS/59 existing conditional skips/retries0;Orders20/20 and Home24/24 in the complete run. External/Production escaped0;no owned test listeners remain.
 - Services,stores,RPCs,workflow,shell and migrations001–134 unchanged. Gitleaks,one commit/push and exact-SHA CI follow;then stop for owner/Claude visual review before another screen or Phase7. No Production/deploy.
+
+## 2026-10-09 — Orders usability correction (codex)
+
+- Owner/Claude accepted a390011 visually and confirmed unchanged actions. Follow-up limited to full-screen phone detail/back, desktop single-line number/time and employee-facing hint. BottomTabs are covered while phone detail is open;return restores the same card position/focus. Desktop panel/readers/actions unchanged.
+- Focused units20/20,browser28/28 PASS. One obsolete live-browser sequence now returns from phone detail before searching;all exact RPC/paging/search assertions remain. No relaxed assertions,timeouts or retries.
+- Full quality exit0:766Admin/189Customer/335Browser PASS,59existing conditional skips,retries0;Orders28/28/Home24/24 inside complete run. ESLint strict/build/SEO/isolation PASS. Gitleaks0 and one corrective commit/push/exact-SHA CI are delivery gates;then STOP for owner visual review. No DB/migrations,Production/deploy or next screen.

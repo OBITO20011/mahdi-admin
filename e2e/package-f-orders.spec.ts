@@ -48,6 +48,67 @@ for (const theme of ['light', 'dark']) for (const width of [390, 820, 1440]) {
     expect(shortButtons).toEqual([]);
   });
 }
+for (const theme of ['light', 'dark']) {
+  test(`phone detail ${theme}: immediate full viewport, sticky back, original card scroll and axe`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(url(`theme=${theme}`));
+    const card = page.getByRole('button', { name: 'فتح الطلب W-10477', exact: true });
+    await card.scrollIntoViewIfNeeded();
+    const scroll = page.getByTestId('orders-scroll');
+    const before = await scroll.evaluate((element) => element.scrollTop);
+    expect(before).toBeGreaterThan(0); // challenge a card below the initial viewport
+    const cardTop = (await card.boundingBox())!.y;
+    await card.click();
+    const panel = page.getByTestId('order-detail-panel');
+    await expect(panel).toBeInViewport();
+    const bounds = (await panel.boundingBox())!;
+    expect(bounds.x).toBe(0); expect(bounds.y).toBe(0);
+    expect(bounds.width).toBe(390); expect(bounds.height).toBe(844);
+    await expect(panel.getByRole('dialog', { name: 'تفاصيل الطلب W-10477' })).toBeVisible();
+    await expect(panel.getByTestId('order-commercial-summary')).toBeInViewport();
+    const back = panel.getByRole('button', { name: 'رجوع للطلبات', exact: true });
+    await expect(back).toBeInViewport();
+    expect(await page.evaluate(() => !document.elementFromPoint(20, innerHeight - 20)?.closest('.admin-bottom-tabs'))).toBe(true);
+    await accessibility(page);
+    await layout(page);
+    await page.getByTestId('order-detail-scroll').evaluate((element) => { element.scrollTop = element.scrollHeight; });
+    await expect(back).toBeInViewport();
+    await back.click();
+    await expect(panel).toHaveCount(0);
+    await expect(card).toBeInViewport();
+    await expect(card).toBeFocused();
+    expect(await scroll.evaluate((element) => element.scrollTop)).toBeCloseTo(before, 0);
+    expect((await card.boundingBox())!.y).toBeCloseTo(cardTop, 0);
+    await expect(page.locator('.admin-bottom-tabs')).toBeInViewport();
+    await accessibility(page);
+  });
+
+  test(`desktop table ${theme} 1280: selected detail with single-line order numbers/times and contained scrolling`, async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto(url(`theme=${theme}&select&long`));
+    await page.evaluate(() => document.fonts.ready);
+    await expect(page.getByTestId('order-detail-panel')).toBeVisible();
+    const table = page.getByRole('table', { name: 'قائمة الطلبات' });
+    for (const selector of ['[data-order-number]', '[data-order-time]']) {
+      const cells = table.locator(selector);
+      await expect(cells).toHaveCount(6);
+      const rows = await cells.evaluateAll((elements) => elements.map((element) => {
+        const range = document.createRange(); range.selectNodeContents(element);
+        const lines = new Set([...range.getClientRects()].filter((rect) => rect.width > 0).map((rect) => Math.round(rect.top)));
+        return { text: element.textContent, lines: lines.size, whitespace: getComputedStyle(element).whiteSpace };
+      }));
+      for (const row of rows) { expect(row.lines, row.text!).toBe(1); expect(row.whitespace).toBe('nowrap'); }
+    }
+    expect(await table.evaluate((element) => {
+      const container = element.parentElement!;
+      return getComputedStyle(container).overflowX === 'auto' && container.scrollWidth > container.clientWidth;
+    })).toBe(true);
+    await layout(page);
+    await accessibility(page);
+    await expect(page.getByTestId('orders-workbench')).not.toContainText('العدّادات المتاحة من القارئ');
+    await expect(page.getByText('تتحدث القائمة تلقائياً.', { exact: false })).toBeVisible();
+  });
+}
 test('search, filters, sort, selection and refresh preserve intent without clearing another order', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1125 });
   await page.goto(url());
@@ -131,6 +192,8 @@ test('live controller retains bounded RPC paging/search and selected-only detail
   await page.getByRole('button', { name: 'فتح الطلب W-10482', exact: true }).click();
   await expect(page.getByTestId('order-detail-panel').getByText('طباعة الطلب', { exact: true })).toBeVisible();
   expect(requests.some((r) => r.path === 'orders' && r.body.id === `eq.${ordersFixture[0].id}`)).toBe(true);
+  // Phone details now cover the list; return through the real navigation before searching.
+  if (page.viewportSize()!.width < 768) await page.getByRole('button', { name: 'رجوع للطلبات', exact: true }).click();
   await page.getByRole('searchbox', { name: 'البحث في الطلبات' }).fill('الأمل');
   await expect.poll(() => requests.filter((r) => r.path === 'get_operational_orders_page').at(-1)?.body.p_search).toBe('الأمل');
 });

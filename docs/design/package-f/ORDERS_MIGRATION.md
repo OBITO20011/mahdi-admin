@@ -70,3 +70,40 @@ Final full quality exit0:765 Admin tests, Customer suite/lint/build/SEO PASS,
 Home24/24 pass in that same uninterrupted run. Isolation:external/Production
 escaped0;no owned test listeners remain. Gitleaks and exact-SHA CI follow.
 Migrations001–134, services, stores, workflow and shell stay unchanged.
+
+## Owner-approved usability correction — 2026-10-09
+
+Claude/owner visually accepted `a390011` on desktop/phone in both themes and
+confirmed identical server calls/actions. Only these follow-up changes are
+authorized before another screen:
+
+- Below md, the same detail instance is fixed to the full viewport. Its own
+  scroll surface covers the underlying BottomTabs consistently; the sticky
+  “رجوع للطلبات” button uses the existing close action/busy guard. Existing
+  dialog-stack and dirty-Escape protection also apply to phone details. Closing
+  restores focus without scrolling the underlying card; no list remount or
+  altered reader/action. Loading/error states also offer a phone back button.
+- Desktop remains the existing side panel. Number/time cells do not wrap;
+  TableShell retains its internal horizontal scroll instead of page overflow.
+- Reader/filter counters remain untouched. Only the technical explanation is
+  replaced with “تتحدث القائمة تلقائياً”.
+- New e2e assertions (both themes/engines) prove a lower-list card opens inside
+  390px viewport immediately, sticky back after scrolling, exact list position
+  and focus restoration, hidden-while-open/reachable-after-close bottom tabs,
+  axe, plus each number/time on one line at1280 with a selected detail panel.
+  Existing browser/reader/business assertions are not removed or relaxed.
+  The existing live-controller browser test now navigates back on phone before
+  searching the underlying list; its bounded paging, selected-only reader and
+  exact debounced search payload expectations are unchanged. First focused run
+  exposed that obsolete test sequence (27/28); no timeout/retry change.
+
+Focused/full quality, Gitleaks and one corrective commit/push/exact-SHA CI are
+the delivery gates. Stop for the next owner visual review; no next screen,
+migrations, Production or deploy.
+
+Corrective focused units20/20 and browser28/28 PASS. Full quality exit0:
+766 Admin/189 Customer/335 browser PASS,59 pre-existing conditional skips,
+retries0;Home24/24 and Orders28/28 in the complete run. ESLint strict/typecheck,
+builds/SEO/network isolation PASS. AST comparison confirms all existing reader
+and action calls/arguments are unchanged. Gitleaks/exact-SHA CI follow; no DB,
+services, stores, workflow or shell changes.
