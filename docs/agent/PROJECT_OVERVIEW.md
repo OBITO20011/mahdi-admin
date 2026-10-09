@@ -8,12 +8,13 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 ## Canonical reading order
 
-**Current owner boundary — 2026-10-09:** Home ea8e030 passed exact-SHA CI and
-Claude visual review. Only the owner's three visual corrections are authorized:
-chart labels, Latin date/time digits, and Header tokens/local avatar defaults
-under Package F §4/§6.1. Preserve existing readers/RPCs/permissions/migrations
-and the other shell components. One corrective commit/push after quality and
-Gitleaks0, exact-SHA CI, then stop before Orders for owner review. No Production/deploy.
+**Current owner boundary — 2026-10-09:** Home c0f0a54 corrections passed exact-SHA
+CI and Claude/owner visual review. Orders §6.2 is now authorized, plus Home's
+time-first shift label only. Read PACKAGE_F_DESIGN_SPEC.md and ORDERS_MIGRATION.md
+under docs/design/package-f. Preserve readers/RPCs/payloads/permissions/migrations
+and shell components. One Orders commit/push after full quality and Gitleaks0,
+exact-SHA CI, then stop for owner visual review before another screen.
+No Production/deploy or Phase7.
 
 **Previous owner boundary — 2026-10-08:** Package E is OWNER-CLOSED at
 `5bb5c8877978ee4cb1b0a0de9d516d25d319d617`; exact push/main quality37786962873

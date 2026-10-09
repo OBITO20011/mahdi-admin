@@ -1,3 +1,4 @@
+import { UiButton } from '../../components/ui';
 import React, { useRef, useState } from 'react';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
 import {
@@ -126,43 +127,44 @@ export const EditAddressModal: React.FC<EditAddressModalProps> = ({
 
   return (
     <div ref={panel as React.RefObject<HTMLDivElement>} onInputCapture={() => { edited.current = true; }}
-      onChangeCapture={() => { edited.current = true; }} tabIndex={-1} role="dialog" aria-modal="true" aria-label="تعديل عنوان التوصيل" aria-busy={saving} className="fixed inset-0 z-[60] flex items-end justify-center bg-slate-950/85 backdrop-blur-sm sm:items-center sm:p-4">
-      <div className="max-h-[94vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border border-slate-800 bg-slate-900 p-5 shadow-2xl sm:rounded-3xl">
-        <div className="mb-4 flex items-start justify-between border-b border-slate-800 pb-3">
+      onChangeCapture={() => { edited.current = true; }} tabIndex={-1} role="dialog" aria-modal="true" aria-label="تعديل عنوان التوصيل" aria-busy={saving} className="fixed inset-0 z-[60] flex items-end justify-center bg-nw-surface-2 backdrop-blur-sm sm:items-center sm:p-4">
+      <div className="max-h-[94vh] w-full max-w-lg overflow-y-auto rounded-t-3xl border border-nw-border bg-nw-surface p-5 shadow-2xl sm:rounded-3xl">
+        <div className="mb-4 flex items-start justify-between border-b border-nw-border pb-3">
           <div>
-            <h3 className="text-sm font-black text-white">
+            <h3 className="text-sm font-black text-nw-text">
               تعديل عنوان التوصيل
             </h3>
-            <p className="text-[10px] text-slate-400">
+            <p className="text-[10px] text-nw-muted">
               الطلب {order.orderNumber} — يُحفظ مباشرة في Supabase
             </p>
           </div>
-          <button
+          <UiButton
             type="button"
             onClick={onClose}
-            className="rounded-full bg-slate-800 p-2 text-slate-400"
+            aria-label="إغلاق"
+            className="rounded-full bg-nw-surface-2 p-2 text-nw-muted"
           >
             <X className="h-4 w-4" />
-          </button>
+          </UiButton>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-3 text-xs">
           {error && (
-            <div className="rounded-xl border border-rose-800 bg-rose-950/50 p-3 text-rose-300">
+            <div className="rounded-xl border border-nw-bad bg-nw-bad-bg p-3 text-nw-text">
               {error}
             </div>
           )}
 
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="mb-1 block font-bold text-slate-300">
+              <label className="mb-1 block font-bold text-nw-text">
                 المحافظة *
               </label>
               <select
                 value={governorate}
                 onChange={(event) => setGovernorate(event.target.value)}
                 required
-                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
+                className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
               >
                 <option value="">اختر المحافظة</option>
                 {JORDAN_GOVERNORATES.map((item) => (
@@ -173,88 +175,88 @@ export const EditAddressModal: React.FC<EditAddressModalProps> = ({
               </select>
             </div>
             <div>
-              <label className="mb-1 block font-bold text-slate-300">
+              <label className="mb-1 block font-bold text-nw-text">
                 المدينة / البلدة
               </label>
               <input
                 value={city}
                 onChange={(event) => setCity(event.target.value)}
-                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
+                className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="mb-1 block font-bold text-slate-300">
+              <label className="mb-1 block font-bold text-nw-text">
                 المنطقة / الحي *
               </label>
               <input
                 value={area}
                 onChange={(event) => setArea(event.target.value)}
                 required
-                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
+                className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
               />
             </div>
             <div>
-              <label className="mb-1 block font-bold text-slate-300">
+              <label className="mb-1 block font-bold text-nw-text">
                 الشارع
               </label>
               <input
                 value={street}
                 onChange={(event) => setStreet(event.target.value)}
-                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
+                className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-2">
             <div>
-              <label className="mb-1 block font-bold text-slate-300">
+              <label className="mb-1 block font-bold text-nw-text">
                 المبنى
               </label>
               <input
                 value={building}
                 onChange={(event) => setBuilding(event.target.value)}
-                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
+                className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
               />
             </div>
             <div>
-              <label className="mb-1 block font-bold text-slate-300">
+              <label className="mb-1 block font-bold text-nw-text">
                 الطابق
               </label>
               <input
                 value={floor}
                 onChange={(event) => setFloor(event.target.value)}
-                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
+                className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
               />
             </div>
             <div>
-              <label className="mb-1 block font-bold text-slate-300">
+              <label className="mb-1 block font-bold text-nw-text">
                 الشقة
               </label>
               <input
                 value={apartment}
                 onChange={(event) => setApartment(event.target.value)}
-                className="w-full rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
+                className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
               />
             </div>
           </div>
 
-          <div className="space-y-2 rounded-2xl border border-slate-800 bg-slate-950 p-3">
+          <div className="space-y-2 rounded-2xl border border-nw-border bg-nw-surface-2 p-3">
             <div className="flex items-center justify-between">
-              <span className="flex items-center gap-1 font-bold text-slate-300">
-                <Compass className="h-3.5 w-3.5 text-blue-400" />
+              <span className="flex items-center gap-1 font-bold text-nw-text">
+                <Compass className="h-3.5 w-3.5 text-nw-info" />
                 إحداثيات الموقع (اختياري)
               </span>
-              <button
+              <UiButton variant="primary"
                 type="button"
                 onClick={getCurrentLocation}
-                className="flex items-center gap-1 rounded-lg border border-blue-500/30 bg-blue-500/10 px-2 py-1 text-[10px] font-bold text-blue-300"
+                className="flex items-center gap-1 rounded-lg border border-nw-info bg-nw-primary px-2 py-1 text-[10px] font-bold text-nw-on-primary"
               >
                 <MapPin className="h-3 w-3" />
                 جلب GPS
-              </button>
+              </UiButton>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <input
@@ -263,7 +265,7 @@ export const EditAddressModal: React.FC<EditAddressModalProps> = ({
                 value={latitude}
                 onChange={(event) => setLatitude(event.target.value)}
                 placeholder="خط العرض"
-                className="rounded-xl border border-slate-800 bg-slate-900 p-2 text-white"
+                className="rounded-xl border border-nw-border bg-nw-surface p-2 text-nw-text"
               />
               <input
                 type="number"
@@ -271,7 +273,7 @@ export const EditAddressModal: React.FC<EditAddressModalProps> = ({
                 value={longitude}
                 onChange={(event) => setLongitude(event.target.value)}
                 placeholder="خط الطول"
-                className="rounded-xl border border-slate-800 bg-slate-900 p-2 text-white"
+                className="rounded-xl border border-nw-border bg-nw-surface p-2 text-nw-text"
               />
             </div>
           </div>
@@ -285,42 +287,43 @@ export const EditAddressModal: React.FC<EditAddressModalProps> = ({
                 )
               }
               disabled={!latitude || !longitude}
-              className="rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white disabled:opacity-50"
+              className="rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text disabled:opacity-50"
             >
               <option value="manual">عنوان يدوي</option>
               <option value="gps">GPS مباشر</option>
               <option value="map_pin">دبوس خريطة</option>
             </select>
-            <button
+            <UiButton
               type="button"
               disabled={!latitude || !longitude}
               onClick={() => setLocationConfirmed((value) => !value)}
+              variant="primary"
               className={`rounded-xl border p-2.5 font-bold disabled:opacity-50 ${
                 locationConfirmed
-                  ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
-                  : 'border-amber-500/30 bg-amber-500/10 text-amber-300'
+                  ? 'border-nw-ok bg-nw-primary text-nw-on-primary'
+                  : 'border-nw-warn bg-nw-primary text-nw-on-primary'
               }`}
             >
               {locationConfirmed ? 'الموقع مؤكد' : 'الموقع غير مؤكد'}
-            </button>
+            </UiButton>
           </div>
 
           <div>
-            <label className="mb-1 block font-bold text-slate-300">
+            <label className="mb-1 block font-bold text-nw-text">
               ملاحظات التوصيل
             </label>
             <textarea
               rows={2}
               value={notes}
               onChange={(event) => setNotes(event.target.value)}
-              className="w-full resize-none rounded-xl border border-slate-800 bg-slate-950 p-2.5 text-white"
+              className="w-full resize-none rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
             />
           </div>
 
-          <button
+          <UiButton variant="primary"
             type="submit"
             disabled={saving}
-            className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-emerald-600 py-3 font-bold text-white disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-nw-primary py-3 font-bold text-nw-on-primary disabled:opacity-60"
           >
             {saving ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -328,7 +331,7 @@ export const EditAddressModal: React.FC<EditAddressModalProps> = ({
               <CheckCircle2 className="h-4 w-4" />
             )}
             {saving ? 'جاري الحفظ...' : 'حفظ العنوان في قاعدة البيانات'}
-          </button>
+          </UiButton>
         </form>
       </div>
     </div>

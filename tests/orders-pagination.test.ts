@@ -10,6 +10,7 @@ const ordersCenter = readFileSync(
   'src/features/orders/OrdersCenterView.tsx',
   'utf8'
 );
+const orderStatus = readFileSync('src/features/orders/orderStatus.ts', 'utf8');
 const orderDetail = readFileSync(
   'src/features/orders/OrderDetailModal.tsx',
   'utf8'
@@ -72,10 +73,10 @@ test('orders center pages summaries and loads heavy details only for the opened 
 
 test('cancelled and expired orders are not presented as collectible receivables', () => {
   assert.match(
-    ordersCenter,
+    orderStatus,
     /order\.status === 'cancelled' \|\| order\.status === 'expired'/
   );
-  assert.match(ordersCenter, /label: 'لا مبلغ للتحصيل'/);
+  assert.match(orderStatus, /label: 'لا مبلغ للتحصيل'/);
   assert.match(ordersCenter, /ذمم الطلبات المكتملة/);
 });
 

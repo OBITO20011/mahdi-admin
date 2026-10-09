@@ -16,6 +16,7 @@ export interface ChipOption<T extends string> {
 }
 
 interface FilterChipsProps<T extends string> {
+  touchSize?: boolean;
   label: string;
   options: readonly ChipOption<T>[];
   value: T;
@@ -23,7 +24,7 @@ interface FilterChipsProps<T extends string> {
 }
 
 /** Pill tabs with counters; the selected chip uses the primary token. */
-export function FilterChips<T extends string>({ label, options, value, onChange }: FilterChipsProps<T>) {
+export function FilterChips<T extends string>({ label, options, value, onChange, touchSize = false }: FilterChipsProps<T>) {
   return (
     <div role="tablist" aria-label={label} className="flex flex-wrap gap-1.5">
       {options.map((option) => {
@@ -36,7 +37,8 @@ export function FilterChips<T extends string>({ label, options, value, onChange 
             aria-selected={selected}
             onClick={() => onChange(option.value)}
             className={join(
-              'inline-flex h-[38px] items-center gap-2 rounded-full border px-3.5 text-[13px] font-semibold transition',
+              'inline-flex items-center gap-2 rounded-full border px-3.5 text-[13px] font-semibold transition',
+              touchSize ? 'h-11' : 'h-[38px]',
               selected
                 ? 'border-nw-primary bg-nw-primary text-nw-on-primary'
                 : 'border-nw-border bg-nw-surface text-nw-text hover:bg-nw-surface-2',

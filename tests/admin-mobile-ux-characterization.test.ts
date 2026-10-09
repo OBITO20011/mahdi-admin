@@ -68,14 +68,16 @@ test('inventory card keeps every existing capability and canonical formatter', (
 
 test('order list preserves page navigation, statuses, payment state, and detail loading', () => {
   assert.match(ordersCenter, /const PAGE_SIZE = 25/);
-  assert.match(ordersCenter, /getStatusBadge\(order\.status\)/);
+  assert.match(ordersCenter, /getOrderStatus\(order\.status\)/);
   assert.match(ordersCenter, /getPaymentLabel\(order\)/);
   assert.match(ordersCenter, /order\.orderNumber/);
   assert.match(ordersCenter, /order\.itemCount/);
   assert.match(ordersCenter, /order\.totalAmount/);
   assert.match(ordersCenter, /onClick=\{\(\) => onOpen\(order\.id\)\}/);
   assert.match(ordersCenter, /onOpen=\{openOrderDetails\}/);
-  assert.match(ordersCenter, /setPage\(\(currentPage\)/);
+  assert.match(ordersCenter, /onPage\(Math\.max\(1, page - 1\)\)/);
+  assert.match(ordersCenter, /onPage\(Math\.min\(totalPages, page \+ 1\)\)/);
+  assert.match(ordersCenter, /onPage=\{setPage\}/);
 });
 
 test('historical product names are available from snapshots without live product lookup', () => {

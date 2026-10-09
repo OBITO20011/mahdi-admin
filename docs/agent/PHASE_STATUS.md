@@ -1,6 +1,18 @@
 # Phase status
 
-## 2026-10-09 — Package F Home visual corrections
+## 2026-10-09 — Package F Orders migration
+
+Owner/Claude accepted Home correction c0f0a54 visually; exact-SHA
+quality37860604049(15/15)/secrets37860604046 PASS. Current authorization is
+Orders §6.2 only plus Home shift-time ordering. Shared token table/phone cards
+and selected detail preserve existing readers/actions/Aftercare. Details and
+updated old test contracts: docs/design/package-f/ORDERS_MIGRATION.md.
+Full quality PASS:765Admin/327Browser,Customer checks PASS;59 existing conditional
+skips,retries0;Orders20/20;external/Production escaped0. Gitleaks, one commit/push
+and exact-SHA CI remain before delivery;
+then STOP for owner visual review. No next screen, DB changes or Production/deploy.
+
+## Historical — Package F Home visual corrections
 
 Home ea8e030 exact-SHA quality37854405490(15/15)/secrets37854405491 PASS;
 Claude visual review accepted390/820/1440 light/dark. Owner authorized one bounded

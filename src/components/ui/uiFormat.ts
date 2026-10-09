@@ -15,6 +15,15 @@ export function formatUiDate(value: Date | string, options: Intl.DateTimeFormatO
   }).format(typeof value === 'string' ? new Date(value) : value);
 }
 
+/** Explicit time-first wording: 08:12 ص, independent of locale part order. */
+export function formatUiTime(value: Date | string): string {
+  const parts = new Intl.DateTimeFormat('ar-JO-u-nu-latn', {
+    timeZone: 'Asia/Amman', hour: '2-digit', minute: '2-digit', hour12: true,
+  }).formatToParts(typeof value === 'string' ? new Date(value) : value);
+  const part = (type: Intl.DateTimeFormatPartTypes) => parts.find((entry) => entry.type === type)?.value ?? '';
+  return `${part('hour')}:${part('minute')} ${part('dayPeriod')}`.trim();
+}
+
 /** Formats a dinar amount (e.g. 1284.5) as "1,284.500". */
 export function formatJod(amount: number): string {
   if (!Number.isFinite(amount)) return '—';

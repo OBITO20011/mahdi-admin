@@ -82,3 +82,10 @@ Append only concise, secret-free handoff summaries here when a task materially c
 - Home ea8e030 exact-SHA CI and Claude visual review passed. Owner authorized chart integer/nowrap labels with full accessible precision, Latin date/time digits, token Header and local initial avatar defaults; no next screen.
 - Final full quality exit0:757 Admin/189 Customer/307 browser PASS,59 existing conditional skips,retries0;Home24/24 including360px and Header actions/role/desktop boundary. Updated the obsolete Package B desktop-profile expectation without removing identity/layout assertions; focused recheck4/4.
 - Hardcoded external avatar defaults removed; custom photo URL support retained. Other shell components,RPCs,migrations001–134 and workflow unchanged;network external/Production escaped0. Gitleaks and one commit/push/exact-SHA CI follow; thereafter owner visual review only, no Orders or Phase7.
+
+## 2026-10-09 — Package F Orders delivery (codex)
+
+- Owner/Claude accepted c0f0a54 Home corrections;exact-SHA quality37860604049(15/15) and secrets37860604046 PASS. Orders §6.2 and Home time-first label only authorized.
+- Shared token table/selected detail and phone status-border cards; historical sale kinds and complete parcel composition, all existing lifecycle/settlement/contact/address/Aftercare actions preserved. Current reader still excludes POS; missing list source/counters are not guessed. Two old shape contracts updated as detailed in ORDERS_MIGRATION.md.
+- Focused Orders20/20 Chromium/WebKit;existing/new units46/46;characterization13/13. Full quality exit0:765Admin,Customer lint/tests/build/SEO PASS,327browser PASS/59 existing conditional skips/retries0;Orders20/20 and Home24/24 in the complete run. External/Production escaped0;no owned test listeners remain.
+- Services,stores,RPCs,workflow,shell and migrations001–134 unchanged. Gitleaks,one commit/push and exact-SHA CI follow;then stop for owner/Claude visual review before another screen or Phase7. No Production/deploy.

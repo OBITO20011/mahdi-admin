@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AlertTriangle, ChevronLeft, ClipboardList, PackagePlus, ReceiptText, RefreshCw, Truck, Boxes } from 'lucide-react';
-import { Card, KpiCard, KpiGrid, MoneyText, SalesBarChart, SectionHeader, SegmentedControl, StatusBadge, TableShell, Td, Th, Tr, UiButton, formatUiDate } from '../../components/ui';
+import { Card, KpiCard, KpiGrid, MoneyText, SalesBarChart, SectionHeader, SegmentedControl, StatusBadge, TableShell, Td, Th, Tr, UiButton, formatUiDate, formatUiTime } from '../../components/ui';
 import type { HomeDashboardData, HomeDashboardOrder } from '../../types/dashboard';
 import type { Shift } from '../../types';
 import type { UiTone } from '../../components/ui/uiFormat';
@@ -132,7 +132,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
                 <dl className="mt-3 grid grid-cols-3 gap-3 border-t border-nw-border pt-3 text-center text-xs">
                   <div><dt className="text-nw-muted">مبيعات كاش</dt><dd className="m-0 mt-1 font-bold"><MoneyText amount={shift.totalCashSales} /></dd></div>
                   <div><dt className="text-nw-muted">الرصيد الافتتاحي</dt><dd className="m-0 mt-1 font-bold"><MoneyText amount={shift.openingCash} /></dd></div>
-                  <div><dt className="text-nw-muted">بداية الوردية</dt><dd className="m-0 mt-1 font-bold"><bdi dir="ltr">{formatUiDate(shift.startTime, { hour: '2-digit', minute: '2-digit' })}</bdi></dd></div>
+                  <div><dt className="text-nw-muted">بداية الوردية</dt><dd className="m-0 mt-1 font-bold"><bdi dir="ltr">{formatUiTime(shift.startTime)}</bdi></dd></div>
                 </dl>
               </div>
               <dl className="mt-4 hidden space-y-3 text-sm lg:block">
