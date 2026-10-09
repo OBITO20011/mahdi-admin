@@ -1,5 +1,20 @@
 # Phase status
 
+## 2026-10-09 — Package F POS migration
+
+Orders70bb975 exact-SHA quality37876499951(15/15)/secrets37876499829 PASS,
+then forwarded Claude visual review accepted it. POS §6.3/4.1/4.2 authorized;
+customer name/phone only,no debt line or extra read. Desktop grid/cart and
+below-lg list/sticky checkout preserve existing V2/recovery/shift contracts.
+27 await/service/RPC/run/openModal traces identical to70bb975;no migrations,
+services,stores or shell changes. Focused36browser/54units PASS,retries0.
+Full quality/Gitleaks0/one commit/push/exact-SHA CI then STOP for visual review.
+Details/open owner debt-read question:docs/design/package-f/POS_MIGRATION.md.
+
+Final POS quality PASS:771Admin/189Customer/357Browser,59existing conditional
+skips,retries0;POS18/18 plus Orders32/32/Home24/24 in full run. External/
+Production escaped0. Gitleaks0 and one commit/push/exact-SHA CI remain.
+
 ## 2026-10-09 — Orders real-reader scroll correction
 
 Owner authorized one additional corrective commit after3becc46:preserve phone

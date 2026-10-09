@@ -15,6 +15,8 @@ import type {CreatePosSaleV2Input, PosV2ConfigurableParcelLine} from '../../serv
 import {PosParcelBuilder, type PosParcelOption} from './PosParcelBuilder';
 import {posCartLines, posStockDemand, posWarehouseAvailable, posV2Invoice, type PosCartItem} from './posV2Cart';
 import {jodToMinorUnits} from '../../utils/receivingCalculations';
+import { Card, PageHeader, StatusBadge, MoneyText, SearchField, FilterChips, SegmentedControl, UiButton, StickyActionBar, ResponsiveCartPanel, ProductGlyph } from '../../components/ui';
+import { useDialogFocus } from '../../hooks/useDialogFocus';
 import { Modal } from '../../components/common/Modal';
 import {
   AddCustomerModalContent,
@@ -38,12 +40,9 @@ import {
   Printer,
   Share2,
   CheckCircle2,
-  Package,
   Loader2,
   UserPlus,
   CircleAlert,
-  Clock3,
-  LockKeyhole,
   Copy,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
@@ -98,6 +97,8 @@ export const PosView: React.FC = () => {
     setActiveTab,
   } = useAppStoreActions();
 
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [showParcelCatalog, setShowParcelCatalog] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [posProducts, setPosProducts] = useState<Product[]>([]);
@@ -130,6 +131,8 @@ export const PosView: React.FC = () => {
   const [lastInvoice, setLastInvoice] = useState<
     (Invoice & { changeDue: number }) | null
   >(null);
+  const receiptFocus = useDialogFocus(showReceiptModal, () => setShowReceiptModal(false));
+  useEffect(() => { if (showReceiptModal) setIsCartOpen(false); }, [showReceiptModal]);
   const [isBarcodeScannerOpen, setIsBarcodeScannerOpen] = useState<boolean>(false);
   const [isAddCustomerOpen, setIsAddCustomerOpen] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -613,90 +616,68 @@ export const PosView: React.FC = () => {
     }
   };
 
+
+  const saleModeControl = <SegmentedControl touchSize disabled={isSubmitting || recoveryBlocked} label="وحدة البيع"
+ options={[{value: 'base_unit', label: 'باكيت'}, {value: 'legacy_single_sku_parcel', label: 'كرتونة'}, {value: 'configurable_parcel', label: 'طرد مشكّل'}]}
+ value={showParcelCatalog ? 'configurable_parcel' : saleMode}
+ onChange={value => {setShowParcelCatalog(value === 'configurable_parcel'); if (value !== 'configurable_parcel') setSaleMode(value);}} />;
+  const paymentControl = <SegmentedControl touchSize label="طريقة الدفع" value={paymentMethod}
+ options={[{value: 'cash' as PaymentMethod, label: 'كاش'}, {value: 'cliq' as PaymentMethod, label: 'CliQ'}, {value: 'debt' as PaymentMethod, label: 'دين'}]}
+ onChange={value => setPaymentMethod(value)} />;
+  const completeSaleButton = (            <UiButton data-testid="pos-complete-sale" variant="accent" size="large"
+              onClick={() =>
+                openPosShift
+                  ? void handleCompleteSale()
+                  : setActiveTab('shifts')
+              }
+              disabled={
+                cartItems.length === 0 ||
+                isSubmitting ||
+                recoveryBlocked || !warehouseId ||
+                isShiftStatusLoading
+              }
+              className="w-full min-w-0 whitespace-nowrap px-2 text-xs sm:text-sm"
+            >
+              {isSubmitting ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Receipt className="w-4 h-4" />
+              )}
+              <span>
+                {isSubmitting
+                  ? 'جاري حفظ البيع...'
+                  : openPosShift
+                  ? 'إتمام البيع · ' + totalAmount.toFixed(3)
+                  : 'فتح وردية للمتابعة'}
+              </span>
+            </UiButton>
+);
+  const cartTotals = <div className="flex flex-wrap items-center justify-between gap-2">
+    <span className="text-xs text-nw-muted">{cartItems.length} أصناف · <bdi dir="ltr">{cartItems.reduce((sum, item) => sum + item.quantity, 0)}</bdi> وحدات بيع</span>
+    <span className="text-xs text-nw-muted"><bdi dir="ltr">{cartItems.reduce((sum, item) => sum + item.baseQuantity, 0)}</bdi> باكيت</span>
+    <strong className="w-full text-2xl"><MoneyText amount={totalAmount} currency /></strong>
+  </div>;
+
   return (
-    <div className="p-4 space-y-4 pb-24">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-base font-black text-slate-100 flex items-center gap-2">
-            <Receipt className="w-5 h-5 text-emerald-400" />
-            <span>نقطة البيع السريعة (POS)</span>
-          </h2>
-          <p className="text-[11px] text-slate-400">إصدار الفواتير وطباعة الإيصالات المباشرة</p>
-        </div>
-
-        {/* Barcode Camera Scanner Button */}
-        <button
-          onClick={() => setIsBarcodeScannerOpen(true)}
-          className="bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-950/50 border border-emerald-500/40 px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-2 active:scale-95"
-        >
-          <Camera className="w-4 h-4 animate-pulse" />
-          <span>مسح بالباركود (الكاميرا)</span>
-        </button>
-      </div>
-
-      {isShiftStatusLoading ? (
-        <div className="flex items-center gap-2 rounded-2xl border border-slate-800 bg-slate-900 p-3 text-xs text-slate-400">
-          <Loader2 className="h-4 w-4 animate-spin text-blue-400" />
-          جاري التحقق من وردية الصندوق...
-        </div>
-      ) : openPosShift ? (
-        <div className="flex items-center justify-between gap-3 rounded-2xl border border-emerald-700/60 bg-emerald-950/30 p-3 text-xs">
-          <div className="flex items-center gap-2">
-            <Clock3 className="h-5 w-5 text-emerald-400" />
-            <div>
-              <b className="block text-emerald-300">البيع مربوط بالوردية المفتوحة</b>
-              <span className="text-[10px] text-slate-400">
-                {openPosShift.shiftNumber} • {activeBranch.name}
-              </span>
-            </div>
-          </div>
-          <span className="rounded-full border border-emerald-700 bg-emerald-950 px-2 py-1 text-[10px] font-black text-emerald-300">
-            جاهز للبيع
-          </span>
-        </div>
-      ) : (
-        <div className="flex items-center justify-between gap-3 rounded-2xl border border-amber-700/60 bg-amber-950/40 p-3 text-xs">
-          <div className="flex items-center gap-2">
-            <LockKeyhole className="h-5 w-5 shrink-0 text-amber-400" />
-            <div>
-              <b className="block text-amber-200">البيع المباشر متوقف مؤقتًا</b>
-              <span className="text-[10px] leading-5 text-slate-400">
-                افتح وردية الصندوق حتى تُربط الفاتورة والحسابات بها تلقائيًا.
-              </span>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={() => setActiveTab('shifts')}
-            className="shrink-0 rounded-xl bg-amber-500 px-3 py-2 text-[10px] font-black text-slate-950 transition hover:bg-amber-400"
-          >
-            فتح وردية
-          </button>
-        </div>
-      )}
-
-      <div className="flex flex-wrap items-center gap-2 text-xs">
-        <label htmlFor="pos-warehouse">مستودع البيع</label>
-        <select id="pos-warehouse" value={warehouseId} disabled={cartItems.length > 0 || isSubmitting || recoveryBlocked}
-          onChange={e => setSelectedWarehouseId(e.target.value)} className="rounded-lg bg-slate-800 p-2">
-          <option value="">اختر المستودع</option>
-          {branchWarehouses.map(w => <option key={w.id} value={w.id}>{w.name}</option>)}
-        </select>
-        <label htmlFor="pos-sale-unit">وحدة البيع</label>
-        <select id="pos-sale-unit" value={saleMode} disabled={isSubmitting || recoveryBlocked}
-          onChange={e => setSaleMode(e.target.value as typeof saleMode)} className="rounded-lg bg-slate-800 p-2">
-          <option value="base_unit">قطعة</option><option value="legacy_single_sku_parcel">طرد من صنف واحد</option>
-        </select>
-      </div>
-      {recoveryStatus && recoveryStatus !== 'DEFINITIVELY_REJECTED' && <div className="rounded-xl border border-amber-700 p-3 text-xs" role="status">
+    <div dir="rtl" data-testid="pos-workbench" className="min-w-0 bg-nw-bg text-nw-text">
+      <PageHeader title="نقطة البيع" actions={<>
+        <StatusBadge tone={isShiftStatusLoading ? 'mute' : openPosShift ? 'ok' : 'warn'}>
+          {isShiftStatusLoading ? 'جاري التحقق من الوردية' : openPosShift ? 'الوردية مفتوحة' : 'لا توجد وردية مفتوحة'} · {currentUser.name}
+        </StatusBadge>
+      </>} />
+      <div className="space-y-4 p-4 pb-64 sm:p-6 sm:pb-64 lg:pb-6">
+        {!isShiftStatusLoading && !openPosShift && <Card role="status" className="flex flex-wrap items-center justify-between gap-3">
+          <div><strong className="block text-sm text-nw-warn">البيع المباشر متوقف مؤقتًا</strong><p className="m-0 text-sm text-nw-muted">افتح وردية الصندوق حتى تُربط الفاتورة والحسابات بها تلقائيًا.</p></div>
+          <UiButton onClick={() => setActiveTab('shifts')}>فتح وردية</UiButton>
+        </Card>}
+              {recoveryStatus && recoveryStatus !== 'DEFINITIVELY_REJECTED' && <div className="rounded-xl border border-nw-warn p-3 text-xs" role="status">
         <p>{recoveryStatus === 'CANCELLED_UNCOMMITTED' ? 'ألغيت المحاولة بعد إثبات الخادم عدم تسجيلها. يمكنك بدء بيع جديد.'
           : recoveryBlocked ? 'نتيجة بيع معلقة: لا تبدأ بيعاً جديداً. استرجع المحاولة الأصلية بنفس الطلب والمفتاح.' : 'آخر بيع محفوظ؛ يمكنك استرجاع إيصال العملية نفسها.'}</p>
         {recoveryStatus !== 'CANCELLED_UNCOMMITTED' &&
-        <button type="button" disabled={isSubmitting} className="mt-2 rounded-lg bg-amber-600 p-2"
+        <button type="button" disabled={isSubmitting} className="mt-2 min-h-11 rounded-lg bg-nw-warn-bg p-2"
           onClick={() => void executeSale('RECOVER_EXISTING')}>استرجاع محاولة البيع</button>}
         {recoveryBlocked && <button type="button" disabled={isSubmitting || !supabase}
-          className="m-2 rounded-lg border border-amber-500 p-2" onClick={async () => {
+          className="m-2 min-h-11 rounded-lg border border-nw-warn p-2" onClick={async () => {
             if (!supabase) return; setIsSubmitting(true);
             try {setAbsenceState(await inspectOrCancelPosV2Attempt(supabase,currentUser.id));}
             catch (error) {setToast(error instanceof Error ? error.message : 'تعذر إثبات حالة المحاولة؛ السجل محفوظ.', 'error');}
@@ -709,7 +690,7 @@ export const PosView: React.FC = () => {
             disabled={isSubmitting} onChange={e => setCancelConfirmed(e.target.checked)}/>
             أؤكد إلغاء هذه المحاولة غير المسجلة وبدء بيع جديد</label>
           <button type="button" disabled={!cancelConfirmed || isSubmitting || !supabase}
-            className="rounded-lg bg-red-700 p-2 disabled:opacity-50" onClick={async () => {
+            className="min-h-11 rounded-lg bg-nw-warn-bg text-nw-warn p-2 disabled:opacity-50" onClick={async () => {
               if (!supabase || !cancelConfirmed) return; setIsSubmitting(true);
               try {
                 const outcome = await inspectOrCancelPosV2Attempt(supabase,currentUser.id,true);
@@ -721,206 +702,104 @@ export const PosView: React.FC = () => {
             }}>إلغاء المحاولة غير المسجلة</button>
         </div>}
       </div>}
-      {parcelOptions.length > 0 && <div className="flex flex-wrap gap-2">
+
+        <div className="grid min-w-0 items-start gap-5 lg:grid-cols-[minmax(0,1fr)_380px]">
+          <section className="min-w-0 space-y-4" aria-label="منتجات نقطة البيع">
+            <div className="flex min-w-0 items-center gap-2">
+              <SearchField emphasis ref={searchInputRef} label="البحث في منتجات نقطة البيع"
+                placeholder="ابحث باسم المنتج أو الباركود أو SKU..." value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)} className="min-w-0 flex-1" />
+              <UiButton aria-label="مسح بالباركود (الكاميرا)" onClick={() => setIsBarcodeScannerOpen(true)} className="shrink-0 px-3">
+                <Camera className="h-5 w-5" /><span className="hidden sm:inline">مسح الباركود</span>
+              </UiButton>
+            </div>
+            <div className="lg:hidden">{saleModeControl}</div>
+            <FilterChips touchSize label="أقسام المنتجات" value={selectedCategory} onChange={value => setSelectedCategory(value)}
+              options={[{value: 'all',label: 'جميع الأقسام'},...categories.map(category=>({value:category.id,label:category.nameAr}))]} />
+            <div className="flex flex-wrap items-center gap-2 text-sm">
+              <label htmlFor="pos-warehouse">مستودع البيع</label>
+              <select id="pos-warehouse" value={warehouseId} disabled={cartItems.length > 0 || isSubmitting || recoveryBlocked}
+                onChange={e => setSelectedWarehouseId(e.target.value)} className="min-h-11 max-w-full rounded-xl border border-nw-border bg-nw-surface px-3 text-nw-text">
+                <option value="">اختر المستودع</option>
+                {branchWarehouses.map(w => <option key={w.id} value={w.id}>{w.name}</option>)}
+              </select>
+            </div>
+            <div className={showParcelCatalog ? '' : 'hidden'}>      {parcelOptions.length > 0 && <div className="flex flex-wrap gap-2">
         {parcelOptions.map(option => <button type="button" key={option.parcelConfigurationId}
-          disabled={isSubmitting || recoveryBlocked || !warehouseId} className="rounded-xl bg-blue-700 p-3 text-xs"
+          disabled={isSubmitting || recoveryBlocked || !warehouseId} className="min-h-11 rounded-xl bg-nw-info-bg text-nw-info p-3 text-sm"
           onClick={() => {setEditingParcelId(null); setParcelOption(option);}}>تركيب طرد: {option.nameAr}</button>)}
       </div>}
 
-      {/* Search Input & Categories */}
-      <div className="space-y-2">
-        <div className="relative">
-          <Search className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="ابحث باسم المنتج أو الباركود أو SKU..."
-            ref={searchInputRef}
-            className="w-full bg-slate-900 border border-slate-800 rounded-2xl pr-9 pl-4 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
-          />
-        </div>
-
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar text-xs font-bold">
-          {[
-            { id: 'all', nameAr: 'جميع الأقسام' },
-            ...categories.map((category) => ({
-              id: category.id,
-              nameAr: category.nameAr,
-            })),
-          ].map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`px-3 py-1.5 rounded-xl shrink-0 transition border ${
-                selectedCategory === category.id
-                  ? 'bg-emerald-600 text-white border-emerald-500 shadow-md'
-                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              {category.nameAr}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Products Grid Picker */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-56 overflow-y-auto p-1 bg-slate-900/40 rounded-2xl border border-slate-800/80">
-        {productsError && (
-          <div className="col-span-full rounded-xl border border-rose-800 bg-rose-950/30 p-4 text-center text-xs font-bold text-rose-300">
-            {productsError}
-          </div>
-        )}
-        {isProductsLoading && filteredProducts.length === 0 && !productsError && (
-          <div className="col-span-full flex items-center justify-center gap-2 p-5 text-xs font-bold text-slate-400">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            جارٍ تحميل المنتجات…
-          </div>
-        )}
-        {!isProductsLoading && filteredProducts.length === 0 && !productsError && (
-          <div className="col-span-full p-5 text-center text-xs font-bold text-slate-500">
-            لا توجد منتجات مطابقة.
-          </div>
-        )}
-        {filteredProducts.map((prod) => (
-          <button
-            type="button"
-            key={prod.id}
-            disabled={isSubmitting || recoveryBlocked || !warehouseId}
-            data-pos-product-card={prod.id}
-            onKeyDown={event => {
-              if (event.key === 'Enter' && event.repeat) event.preventDefault();
-            }}
-            onClick={() => addToCart(prod)}
-            className="bg-slate-900 border border-slate-800 hover:border-emerald-500/50 p-2.5 rounded-2xl shadow transition cursor-pointer active:scale-95 text-right flex flex-col justify-between focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-400"
-          >
-            <div className="flex items-center gap-2 mb-1.5">
-              {prod.imageUrl ? (
-                <img
-                  src={prod.imageUrl}
-                  alt={prod.nameAr}
-                  className="w-8 h-8 rounded-lg object-cover border border-slate-700"
-                />
-              ) : (
-                <div className="w-8 h-8 rounded-lg border border-slate-700 bg-slate-800 flex items-center justify-center">
-                  <Package className="w-4 h-4 text-slate-500" />
-                </div>
-              )}
-              <div className="min-w-0 flex-1">
-                <h4 className="text-[11px] font-bold text-slate-100 truncate">{prod.nameAr}</h4>
-                <span className="text-[9px] text-slate-400 block">{prod.barcode}</span>
-              </div>
-            </div>
-            <div className="flex items-center justify-between border-t border-slate-800 pt-1 text-[11px]">
-              <span className="font-extrabold text-emerald-400">
-                {(saleMode === 'base_unit' ? prod.retailPrice : prod.salePackagePrice || 0).toFixed(3)} {CURRENCY}
-              </span>
-              <span className="text-[9px] text-slate-500 font-medium">
-                متاح:{' '}
-                {calculateAvailableSalePackages(
-                  posWarehouseAvailable(prod, warehouseId),
-                  saleMode === 'base_unit' ? 1 : prod.unitsPerSalePackage || 1
-                )}{' '}
-                {saleMode === 'base_unit' ? prod.unit : prod.salePackage || 'طرد'}
-              </span>
-            </div>
-          </button>
-        ))}
-      </div>
-
-      {/* Cart Summary & Item List */}
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3 shadow-xl">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-          <div className="flex items-center gap-2">
-            <ShoppingBag className="w-4 h-4 text-emerald-400" />
-            <h3 className="text-xs font-bold text-slate-100">سلة المبيعات الحالية ({cartItems.length})</h3>
-          </div>
-          {cartItems.length > 0 && (
-            <button
-              disabled={isSubmitting || recoveryBlocked}
-              onClick={() => setCartItems([])}
-              className="text-[10px] text-red-400 hover:underline font-bold flex items-center gap-1"
-            >
-              <Trash2 className="w-3 h-3" />
-              <span>إفراغ السلة</span>
-            </button>
-          )}
-        </div>
-
-        {cartItems.length === 0 ? (
-          <div className="py-6 text-center text-slate-500 text-xs">
-            انقر على أي منتج أعلاه لإضافته إلى الفاتورة
-          </div>
-        ) : (
-          <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
-            {cartItems.map((item) => (
-              <div key={item.id} className="flex items-center justify-between bg-slate-800/60 p-2 rounded-xl border border-slate-700/60 text-xs">
-                <div className="min-w-0 flex-1 pl-2">
-                  <h5 className="font-bold text-slate-200 truncate">{item.productName}</h5>
-                  <span className="text-[10px] text-slate-400">
-                    {item.unitPrice.toFixed(3)} {CURRENCY} / {item.unit}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2 shrink-0">
-                  {item.v2Line.commercial_line_kind === 'configurable_parcel' && <button type="button"
-                    disabled={isSubmitting || recoveryBlocked} className="rounded-lg bg-blue-700 p-2"
-                    onClick={() => {
-                      const line = item.v2Line;
-                      if (line.commercial_line_kind !== 'configurable_parcel') return;
-                      const option = parcelOptions.find(o => o.parcelConfigurationId === line.parcel_configuration_id
-                        && o.configurationRevision === line.configuration_revision);
-                      if (!option) {setToast('تغير إعداد الطرد؛ احذف هذا الطرد وأعد تركيبه.', 'error'); return;}
-                      setEditingParcelId(item.id); setParcelOption(option);
-                    }}>تعديل الطرد</button>}
-                  <div className="flex items-center gap-1.5 bg-slate-900 px-2 py-1 rounded-lg border border-slate-700">
-                    <button disabled={isSubmitting || recoveryBlocked} aria-label={`تقليل ${item.productName}`} onClick={() => updateQuantity(item.id, -1)} className="text-slate-400 hover:text-white">
-                      <Minus className="w-3 h-3" />
-                    </button>
-                    <span className="font-bold text-white px-1">{item.quantity}</span>
-                    <button disabled={isSubmitting || recoveryBlocked || item.v2Line.commercial_line_kind === 'configurable_parcel'} aria-label={`زيادة ${item.productName}`} onClick={() => updateQuantity(item.id, 1)} className="text-slate-400 hover:text-white">
-                      <Plus className="w-3 h-3" />
-                    </button>
+</div>
+            {!showParcelCatalog && <div data-testid="pos-product-list" className="grid min-w-0 gap-3 lg:grid-cols-[repeat(auto-fill,minmax(190px,1fr))]">
+              {productsError && <Card role="alert" className="col-span-full text-nw-bad">{productsError}</Card>}
+              {isProductsLoading && filteredProducts.length === 0 && !productsError && <Card role="status" className="col-span-full text-nw-muted"><Loader2 className="h-5 w-5 animate-spin" />جارٍ تحميل المنتجات…</Card>}
+              {!isProductsLoading && filteredProducts.length === 0 && !productsError && <Card className="col-span-full text-nw-muted">لا توجد منتجات مطابقة.</Card>}
+              {filteredProducts.map(prod => {
+                const currentItem = cartItems.find(item => item.productId === prod.id && item.v2Line.commercial_line_kind === saleMode);
+                const inCart = cartItems.some(item => item.productId === prod.id);
+                const stock = posWarehouseAvailable(prod, warehouseId);
+                const lowStock = stock <= prod.reorderLevel;
+                return <div key={prod.id} className={'flex min-w-0 items-center gap-2 rounded-2xl border bg-nw-surface p-3 lg:block lg:p-4 ' + (inCart ? 'border-nw-primary ring-1 ring-nw-primary' : 'border-nw-border')}>
+                  <button type="button" data-pos-product-card={prod.id} aria-label={'إضافة ' + prod.nameAr}
+                    disabled={isSubmitting || recoveryBlocked || !warehouseId}
+                    onKeyDown={event => { if (event.key === 'Enter' && event.repeat) event.preventDefault(); }}
+                    onClick={() => addToCart(prod)}
+                    className="flex min-h-11 min-w-0 flex-1 items-center gap-3 text-right focus-visible:outline focus-visible:outline-2 focus-visible:outline-nw-primary disabled:opacity-60 lg:w-full lg:flex-col lg:items-stretch">
+                    <ProductGlyph name={prod.nameAr} image={prod.imageUrl} className="h-14 w-14 shrink-0 lg:h-20 lg:w-full" />
+                    <div className="min-w-0 flex-1 space-y-2">
+                      <h3 className="m-0 break-words text-sm font-bold">{prod.nameAr}</h3>
+                      <bdi dir="ltr" className="block break-all text-xs text-nw-muted">{prod.barcode}</bdi>
+                      <div className="flex flex-wrap justify-between gap-2 text-xs">
+                        <span>باكيت <MoneyText amount={prod.retailPrice} className="font-bold text-nw-text" /></span>
+                        <span>كرتونة {typeof prod.salePackagePrice === 'number' && Number.isFinite(prod.salePackagePrice) ? <MoneyText amount={prod.salePackagePrice} className="font-bold text-nw-text" /> : 'غير متاح'}</span>
+                      </div>
+                      <p className={'m-0 text-xs ' + (lowStock ? 'text-nw-warn' : 'text-nw-muted')}><bdi dir="ltr">{stock}</bdi> باكيت · {stock === 0 ? 'نفد' : lowStock ? 'منخفض' : 'متوفر'}</p>
+                    </div>
+                  </button>
+                  <div className="flex shrink-0 items-center gap-1 lg:hidden">
+                    {currentItem && <><UiButton aria-label={'تقليل ' + prod.nameAr + ' من القائمة'} disabled={isSubmitting || recoveryBlocked}
+                      className="w-11 px-0" onClick={() => updateQuantity(currentItem.id, -1)}><Minus className="h-4 w-4" /></UiButton>
+                      <bdi dir="ltr" data-pos-product-quantity={prod.id} className="nw-num min-w-4 text-center font-bold">{currentItem.quantity}</bdi></>}
+                    <UiButton aria-label={'زيادة ' + prod.nameAr + ' من القائمة'} disabled={isSubmitting || recoveryBlocked || !warehouseId}
+                      className="w-11 px-0" onClick={() => addToCart(prod)}><Plus className="h-4 w-4" /></UiButton>
                   </div>
-                  <span className="font-black text-emerald-400 w-16 text-left">
-                    {item.totalPrice.toFixed(3)} {CURRENCY}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Payment Configuration Controls */}
-        <div className="pt-2 border-t border-slate-800 space-y-2 text-xs">
-          {/* Customer Picker */}
-          <div className="space-y-2 rounded-2xl border border-slate-800 bg-slate-950/35 p-3">
+                </div>;
+              })}
+            </div>}
+          </section>
+          <ResponsiveCartPanel open={isCartOpen} onClose={() => setIsCartOpen(false)} busy={isSubmitting}
+            title={'سلة المبيعات الحالية (' + cartItems.length + ')'}
+            action={cartItems.length > 0 && <UiButton variant="danger" disabled={isSubmitting || recoveryBlocked} onClick={() => setCartItems([])} className="px-2 text-xs"><Trash2 className="h-4 w-4" />إفراغ السلة</UiButton>}
+            footer={<>{cartTotals}{paymentControl}{completeSaleButton}</>}>
+                      {/* Customer Picker */}
+          <div className="space-y-2 rounded-2xl border border-nw-border bg-nw-bg/35 p-3">
             <div className="flex items-center justify-between gap-2">
-              <span className="font-bold text-slate-300">العميل المستلم</span>
+              <span className="font-bold text-nw-text">العميل المستلم</span>
               <button
                 type="button"
                 onClick={() => setIsAddCustomerOpen(true)}
-                className="flex items-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1.5 text-[10px] font-extrabold text-emerald-300 transition hover:bg-emerald-500/20"
+                className="min-h-11 flex items-center gap-1.5 rounded-xl border border-nw-ok/30 bg-nw-ok-bg/10 px-2.5 py-1.5 text-[10px] font-extrabold text-nw-ok transition hover:bg-nw-ok-bg/20"
               >
                 <UserPlus className="h-3.5 w-3.5" />
                 إضافة عميل جديد
               </button>
             </div>
             <div className="relative">
-              <Search className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-500" />
+              <Search className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-nw-muted" />
               <input
                 type="search"
                 value={customerSearch}
                 onChange={(event) => setCustomerSearch(event.target.value)}
                 placeholder="ابحث بالاسم أو الهاتف أو معرف العميل"
                 aria-label="البحث عن عميل للبيع"
-                className="w-full rounded-xl border border-slate-700 bg-slate-800 py-2 pl-3 pr-9 text-xs text-slate-100 placeholder:text-slate-500 focus:border-emerald-500 focus:outline-none"
+                className="w-full rounded-xl border border-nw-border bg-nw-surface-2 min-h-11 py-2 pl-3 pr-9 text-xs text-nw-text placeholder:text-nw-muted focus:border-nw-ok focus:outline-none"
               />
             </div>
-            <select
+            <select aria-label="اختيار العميل"
               value={selectedCustomerId}
               onChange={(e) => setSelectedCustomerId(e.target.value)}
-              className="w-full rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-slate-100 focus:border-emerald-500 focus:outline-none"
+              className="w-full rounded-xl border border-nw-border bg-nw-surface-2 px-3 min-h-11 py-2 text-sm text-nw-text focus:border-nw-ok focus:outline-none"
             >
               <option value="">زبون نقدي - مباشر</option>
               {posCustomers.map((customer) => (
@@ -930,7 +809,7 @@ export const PosView: React.FC = () => {
                 </option>
               ))}
             </select>
-            <div className="flex items-center justify-between gap-2 text-[9px] text-slate-500">
+            <div className="flex items-center justify-between gap-2 text-[9px] text-nw-muted">
               <span>
                 {isPosCustomersLoading
                   ? 'جاري البحث...'
@@ -941,108 +820,106 @@ export const PosView: React.FC = () => {
                   type="button"
                   onClick={loadMorePosCustomers}
                   disabled={isPosCustomersLoading}
-                  className="rounded-lg border border-slate-700 bg-slate-800 px-2 py-1 font-bold text-slate-300 disabled:opacity-60"
+                  className="min-h-11 rounded-lg border border-nw-border bg-nw-surface-2 px-2 py-1 font-bold text-nw-text disabled:opacity-60"
                 >
                   تحميل المزيد
                 </button>
               )}
             </div>
             {paymentMethod === 'debt' && !selectedCustomerId ? (
-              <p className="flex items-start gap-1.5 text-[10px] leading-5 text-amber-300">
+              <p className="flex items-start gap-1.5 text-[10px] leading-5 text-nw-warn">
                 <CircleAlert className="mt-0.5 h-3.5 w-3.5 shrink-0" />
                 اختر عميلاً مسجلاً؛ لا يمكن حفظ دين على زبون نقدي مباشر.
               </p>
             ) : selectedPosCustomer ? (
-              <p className="text-[10px] leading-5 text-emerald-300">
+              <p className="text-[10px] leading-5 text-nw-ok">
                 ستُحفظ الفاتورة في سجل {selectedPosCustomer.name} وحسابه.
               </p>
             ) : (
-              <p className="text-[10px] leading-5 text-slate-500">
+              <p className="text-[10px] leading-5 text-nw-muted">
                 للبيع النقدي العابر اترك الخيار على «زبون نقدي - مباشر».
               </p>
             )}
           </div>
 
-          {/* Payment Method Selector */}
-          <div className="grid grid-cols-3 gap-1.5 pt-1">
-            {[
-              { id: 'cash' as PaymentMethod, label: 'نقدي 💵' },
-              { id: 'cliq' as PaymentMethod, label: 'CliQ 📱' },
-              { id: 'debt' as PaymentMethod, label: 'آجل 📝' },
-            ].map((pm) => (
-              <button
-                key={pm.id}
-                onClick={() => setPaymentMethod(pm.id)}
-                className={`py-2 rounded-xl text-[11px] font-bold border transition ${
-                  paymentMethod === pm.id
-                    ? 'bg-emerald-600 text-white border-emerald-500 shadow'
-                    : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-750'
-                }`}
-              >
-                {pm.label}
-              </button>
+
+            <div className="hidden lg:block">{saleModeControl}</div>
+                    {cartItems.length === 0 ? (
+          <div className="py-6 text-center text-nw-muted text-xs">
+            انقر على أي منتج أعلاه لإضافته إلى الفاتورة
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {cartItems.map((item) => (
+              <div key={item.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-nw-border py-3 text-sm">
+                <div className="min-w-0 w-full">
+                  <h5 className="font-bold text-nw-text break-words">{item.productName}</h5>
+                  <StatusBadge tone={item.v2Line.commercial_line_kind === 'configurable_parcel' ? 'warn' : 'info'}>{item.v2Line.commercial_line_kind === 'base_unit' ? 'باكيت' : item.v2Line.commercial_line_kind === 'legacy_single_sku_parcel' ? 'كرتونة' : 'طرد مشكّل'}</StatusBadge><span className="nw-num text-xs text-nw-muted">
+                    {item.unitPrice.toFixed(3)} {CURRENCY} / {item.unit}
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  {item.v2Line.commercial_line_kind === 'configurable_parcel' && <button type="button"
+                    disabled={isSubmitting || recoveryBlocked} className="min-h-11 rounded-lg bg-nw-info-bg text-nw-info p-2"
+                    onClick={() => {
+                      const line = item.v2Line;
+                      if (line.commercial_line_kind !== 'configurable_parcel') return;
+                      const option = parcelOptions.find(o => o.parcelConfigurationId === line.parcel_configuration_id
+                        && o.configurationRevision === line.configuration_revision);
+                      if (!option) {setToast('تغير إعداد الطرد؛ احذف هذا الطرد وأعد تركيبه.', 'error'); return;}
+                      setEditingParcelId(item.id); setParcelOption(option);
+                    }}>تعديل الطرد</button>}
+                  <div className="flex items-center gap-1.5 bg-nw-surface px-2 py-1 rounded-lg border border-nw-border">
+                    <button disabled={isSubmitting || recoveryBlocked} aria-label={`تقليل ${item.productName}`} onClick={() => updateQuantity(item.id, -1)} className="flex h-11 w-11 items-center justify-center text-nw-text">
+                      <Minus className="w-3 h-3" />
+                    </button>
+                    <span data-pos-quantity={item.id} className="nw-num font-bold text-nw-text px-1">{item.quantity}</span>
+                    <button disabled={isSubmitting || recoveryBlocked || item.v2Line.commercial_line_kind === 'configurable_parcel'} aria-label={`زيادة ${item.productName}`} onClick={() => updateQuantity(item.id, 1)} className="min-h-11 text-nw-muted hover:text-nw-text">
+                      <Plus className="w-3 h-3" />
+                    </button>
+                  </div>
+                  <span className="nw-num whitespace-nowrap font-bold text-nw-text text-left">
+                    {item.totalPrice.toFixed(3)} {CURRENCY}
+                  </span>
+                </div>
+              </div>
             ))}
           </div>
+        )}
 
-          {/* Received Cash Input */}
+
+                      {/* Received Cash Input */}
           {paymentMethod === 'cash' && cartItems.length > 0 && (
-            <div className="flex items-center justify-between bg-slate-800/80 p-2.5 rounded-xl border border-slate-700">
+            <div className="flex items-center justify-between bg-nw-surface-2/80 p-2.5 rounded-xl border border-nw-border">
               <div>
-                <span className="text-[11px] text-slate-300 font-bold block">المبلغ المستلم:</span>
-                <span className="text-[10px] text-emerald-400">الباقي: {changeDue.toFixed(3)} {CURRENCY}</span>
+                <span className="text-[11px] text-nw-text font-bold block">المبلغ المستلم:</span>
+                <span className="text-[10px] text-nw-ok">الباقي: {changeDue.toFixed(3)} {CURRENCY}</span>
               </div>
-              <input
+              <input aria-label="المبلغ المستلم"
                 type="number"
                 value={cashReceived || ''}
                 onChange={(e) => setCashReceived(parseFloat(e.target.value) || 0)}
                 placeholder={totalAmount.toFixed(3)}
-                className="w-24 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-left font-bold text-white text-xs focus:outline-none focus:border-emerald-500"
+                className="min-h-11 w-28 bg-nw-surface border border-nw-border rounded-lg px-2 py-1 text-left font-bold text-nw-text text-xs focus:outline-none focus:border-nw-ok"
               />
             </div>
           )}
 
-          {/* Total & Execute Button */}
-          <div className="pt-2 flex items-center justify-between">
-            <div>
-              <span className="text-[10px] text-slate-400 block">الإجمالي النهائي:</span>
-              <span className="text-base font-black text-emerald-400">
-                {totalAmount.toFixed(3)} {CURRENCY}
-              </span>
-            </div>
-            <button
-              onClick={() =>
-                openPosShift
-                  ? void handleCompleteSale()
-                  : setActiveTab('shifts')
-              }
-              disabled={
-                cartItems.length === 0 ||
-                isSubmitting ||
-                recoveryBlocked || !warehouseId ||
-                isShiftStatusLoading
-              }
-              className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-black py-3 px-6 rounded-2xl shadow-lg transition active:scale-95 text-xs flex items-center gap-2"
-            >
-              {isSubmitting ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Receipt className="w-4 h-4" />
-              )}
-              <span>
-                {isSubmitting
-                  ? 'جاري حفظ البيع...'
-                  : openPosShift
-                  ? 'إتمام البيع وطباعة'
-                  : 'فتح وردية للمتابعة'}
-              </span>
-            </button>
-          </div>
+
+          </ResponsiveCartPanel>
         </div>
       </div>
-
+      <StickyActionBar tone="hero" hidden={isCartOpen} data-testid="pos-sticky-checkout">
+        <div className="flex min-w-0 items-center justify-between gap-2">
+          <strong className="text-xl"><MoneyText amount={totalAmount} currency /></strong>
+          <UiButton aria-label="مراجعة السلة والعميل" onClick={() => setIsCartOpen(true)} className="px-2 text-xs"><ShoppingBag className="h-4 w-4" />{cartItems.length} أصناف · السلة</UiButton>
+        </div>
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">{paymentControl}{completeSaleButton}</div>
+      </StickyActionBar>
       {/* Print Receipt Modal Sheet */}
       {showReceiptModal && lastInvoice && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
+        <div ref={receiptFocus as React.RefObject<HTMLDivElement>} role="dialog" aria-modal="true" aria-label="إيصال البيع" className="fixed inset-0 z-50 flex items-center justify-center bg-nw-side/80 backdrop-blur-md p-4">
           <style>{`
             @media print {
               @page { size: 80mm auto; margin: 4mm; }
@@ -1065,39 +942,39 @@ export const PosView: React.FC = () => {
               }
             }
           `}</style>
-          <div className="w-full max-w-sm bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-5 text-right font-sans space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
+          <div className="w-full max-w-sm bg-nw-surface border border-nw-border rounded-3xl shadow-2xl p-5 text-right font-sans space-y-4">
+            <div className="flex items-center justify-between border-b border-nw-border pb-3">
+              <div className="flex items-center gap-2 text-nw-ok font-bold text-xs">
                 <CheckCircle2 className="w-5 h-5" />
                 <span>تم إتمام العملية بنجاح!</span>
               </div>
               <button
-                onClick={() => setShowReceiptModal(false)}
-                className="w-7 h-7 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center hover:text-white"
+                aria-label="إغلاق الإيصال" onClick={() => setShowReceiptModal(false)}
+                className="h-11 w-11 rounded-full bg-nw-surface-2 text-nw-muted flex items-center justify-center hover:text-nw-text"
               >
                 ✕
               </button>
             </div>
 
             {/* Receipt Preview */}
-            <div className="pos-receipt-print bg-white text-slate-900 p-4 rounded-xl shadow-inner text-[11px] leading-relaxed space-y-2">
-              <div className="text-center border-b border-slate-300 pb-2">
+            <div className="pos-receipt-print bg-nw-surface text-nw-muted p-4 rounded-xl shadow-inner text-[11px] leading-relaxed space-y-2">
+              <div className="text-center border-b border-nw-border pb-2">
                 <h4 className="font-extrabold text-xs">محلات النواصرة</h4>
-                <p className="text-[9px] text-slate-600">{receiptBranch?.name || lastInvoice.branchId}</p>
-                <p className="text-[9px] text-slate-600">
+                <p className="text-[9px] text-nw-muted">{receiptBranch?.name || lastInvoice.branchId}</p>
+                <p className="text-[9px] text-nw-muted">
                   {[receiptBranch?.address, receiptBranch?.phone].filter(Boolean).join(' | ')}
                 </p>
-                <p className="text-[9px] text-slate-500">رقم الفاتورة: {lastInvoice.invoiceNumber}</p>
-                <p className="text-[9px] text-slate-500">
-                  {lastInvoice.createdAt ? new Date(lastInvoice.createdAt).toLocaleString('ar-JO') : 'التاريخ في الإيصال المحفوظ'}
+                <p className="text-[9px] text-nw-muted">رقم الفاتورة: {lastInvoice.invoiceNumber}</p>
+                <p className="text-[9px] text-nw-muted">
+                  {lastInvoice.createdAt ? new Date(lastInvoice.createdAt).toLocaleString('ar-JO-u-nu-latn') : 'التاريخ في الإيصال المحفوظ'}
                 </p>
               </div>
 
-              <div className="border-b border-slate-300 pb-2 text-[10px]">
+              <div className="border-b border-nw-border pb-2 text-[10px]">
                 العميل: {lastInvoice.customerName || 'زبون نقدي'}
               </div>
 
-              <div className="border-b border-slate-300 pb-2 space-y-1">
+              <div className="border-b border-nw-border pb-2 space-y-1">
                 {(lastInvoice.items || []).map((i: any) => (
                   <div key={i.id} className="flex justify-between">
                     <span>{i.productName} ({i.quantity})</span>
@@ -1106,30 +983,30 @@ export const PosView: React.FC = () => {
                 ))}
               </div>
 
-              <div className="space-y-1 text-left font-bold border-b border-slate-300 pb-2">
+              <div className="space-y-1 text-left font-bold border-b border-nw-border pb-2">
                 <div className="flex justify-between">
                   <span>الإجمالي:</span>
                   <span>{lastInvoice.totalAmount.toFixed(3)} د.أ</span>
                 </div>
-                <div className="flex justify-between text-[10px] text-slate-600">
+                <div className="flex justify-between text-[10px] text-nw-muted">
                   <span>طريقة الدفع:</span>
                   <span>{paymentMethodLabel(lastInvoice.paymentMethod)}</span>
                 </div>
                 {lastInvoice.remainingAmount > 0 && (
-                  <div className="flex justify-between text-[10px] text-rose-700">
+                  <div className="flex justify-between text-[10px] text-nw-bad">
                     <span>المتبقي على العميل:</span>
                     <span>{lastInvoice.remainingAmount.toFixed(3)} د.أ</span>
                   </div>
                 )}
                 {lastInvoice.changeDue > 0 && (
-                  <div className="flex justify-between text-[10px] text-slate-600">
+                  <div className="flex justify-between text-[10px] text-nw-muted">
                     <span>الباقي للزبون:</span>
                     <span>{lastInvoice.changeDue.toFixed(3)} د.أ</span>
                   </div>
                 )}
               </div>
 
-              <div className="text-center pt-1 text-[9px] text-slate-500">
+              <div className="text-center pt-1 text-[9px] text-nw-muted">
                 شكراً لتسوقكم من نواصرة!
               </div>
             </div>
@@ -1138,21 +1015,21 @@ export const PosView: React.FC = () => {
             <div className="grid grid-cols-3 gap-2">
               <button
                 onClick={handlePrintReceipt}
-                className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow"
+                className="min-h-11 bg-nw-info-bg hover:bg-nw-info-bg text-nw-text font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow"
               >
                 <Printer className="w-3.5 h-3.5" />
                 <span>طباعة / PDF</span>
               </button>
               <button
                 onClick={() => void handleShareReceipt()}
-                className="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 border border-slate-700"
+                className="min-h-11 bg-nw-surface-2 hover:bg-nw-surface-2 text-nw-text font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 border border-nw-border"
               >
                 <Share2 className="w-3.5 h-3.5" />
                 <span>مشاركة الإيصال</span>
               </button>
               <button
                 onClick={() => void handleCopyReceiptLink()}
-                className="bg-emerald-950/50 hover:bg-emerald-900/60 text-emerald-200 font-bold py-2.5 rounded-xl text-[10px] flex items-center justify-center gap-1 border border-emerald-700/50"
+                className="min-h-11 bg-nw-ok-bg/50 hover:bg-nw-ok-bg/60 text-nw-ok font-bold py-2.5 rounded-xl text-[10px] flex items-center justify-center gap-1 border border-nw-ok/50"
               >
                 <Copy className="w-3.5 h-3.5" />
                 <span>نسخ الرابط</span>
@@ -1170,9 +1047,9 @@ export const PosView: React.FC = () => {
       {isBarcodeScannerOpen && (
         <Suspense
           fallback={
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 p-4" dir="rtl">
-              <div className="flex items-center gap-2 rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 text-xs font-bold text-slate-200 shadow-2xl">
-                <Loader2 className="h-4 w-4 animate-spin text-emerald-400" />
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-nw-bg/85 p-4" dir="rtl">
+              <div className="flex items-center gap-2 rounded-2xl border border-nw-border bg-nw-surface px-4 py-3 text-xs font-bold text-nw-text shadow-2xl">
+                <Loader2 className="h-4 w-4 animate-spin text-nw-ok" />
                 <span>جاري فتح قارئ الباركود...</span>
               </div>
             </div>

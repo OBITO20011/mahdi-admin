@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {Modal} from '../../components/common/Modal';
+import {UiButton} from '../../components/ui';
 import type {PosV2ConfigurableParcelLine} from '../../services/supabase/posV2.service';
 
 export interface PosParcelOption {
@@ -24,14 +25,14 @@ export function PosParcelBuilder({option, initialComponents, onClose, onAdd}: {o
       {option.components.map(c => <label key={c.productId} className="flex items-center justify-between gap-3">
         <span>{c.flavorNameAr || c.nameAr} <small>المتاح: {c.availableQuantity}</small></span>
         <input type="number" min={0} max={c.availableQuantity} step={1} value={quantities[c.productId] || 0}
-          aria-label={`كمية ${c.flavorNameAr || c.nameAr}`} className="w-20 rounded-lg bg-slate-800 p-2"
+          aria-label={`كمية ${c.flavorNameAr || c.nameAr}`} className="min-h-11 w-20 rounded-xl border border-nw-border bg-nw-surface-2 p-2 text-nw-text"
           onChange={e => setQuantities(q => ({...q, [c.productId]: Number(e.target.value)}))}/>
       </label>)}
-      <button type="button" disabled={!valid} className="rounded-xl bg-emerald-600 p-3 disabled:opacity-50"
+      <UiButton type="button" disabled={!valid} variant="primary"
         onClick={() => onAdd({commercial_line_kind: 'configurable_parcel', family_product_id: option.familyProductId,
           parcel_configuration_id: option.parcelConfigurationId, configuration_revision: option.configurationRevision,
           parcel_instances: [{components: option.components.filter(c => (quantities[c.productId] || 0) > 0)
-            .map(c => ({product_id: c.productId, base_quantity: quantities[c.productId]}))}]})}>إضافة الطرد المكتمل</button>
+            .map(c => ({product_id: c.productId, base_quantity: quantities[c.productId]}))}]})}>إضافة الطرد المكتمل</UiButton>
     </div>
   </Modal>;
 }

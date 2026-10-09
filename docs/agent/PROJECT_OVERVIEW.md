@@ -8,7 +8,14 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 ## Canonical reading order
 
-**Current owner boundary — 2026-10-09:** Additional Orders scroll correction
+**Current owner boundary — 2026-10-09:** Orders70bb975 visually accepted;
+POS §6.3/4.1/4.2 presentation authorized. Customer selector name/phone only,no
+debt line or extra read. Preserve all V2/recovery/shift/price/payload/role paths,
+migrations and shell. Read POS_MIGRATION.md for parity,harness/test changes and
+deferred debt-read question. Full quality/Gitleaks0/one commit/push/exact-SHA CI
+then STOP for visual review. No next screen,Production/deploy,DB or Phase7.
+
+**Previous owner boundary — 2026-10-09:** Additional Orders scroll correction
 after3becc46 is authorized:restore the chosen phone card/scroll after the actual
 controller list reload,permanent live regression,full quality,Gitleaks0 and one
 commit/push/exact-SHA CI. No CI edits;only one failed-job rerun if the new SHA

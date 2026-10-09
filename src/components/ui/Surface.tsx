@@ -100,11 +100,12 @@ export const MainColumn: React.FC<DivProps> = ({ className, children, ...rest })
  * Floating bar pinned above the phone tab bar (cart, customer payment,
  * close shift). Sits 90px from the bottom so the tab bar stays reachable.
  */
-export const StickyActionBar: React.FC<DivProps> = ({ className, children, ...rest }) => (
+export const StickyActionBar: React.FC<DivProps & { tone?: 'surface' | 'hero' }> = ({ className, children, tone = 'surface', ...rest }) => (
   <div
     {...rest}
     className={join(
-      'fixed inset-x-3 bottom-[calc(90px+env(safe-area-inset-bottom))] z-30 flex flex-col gap-2.5 rounded-[18px] border border-nw-border bg-nw-surface p-3 text-nw-text shadow-[0_12px_30px_rgba(11,18,32,0.18)] lg:hidden',
+      'fixed inset-x-3 bottom-[calc(90px+env(safe-area-inset-bottom))] z-30 flex flex-col gap-2.5 rounded-[18px] border border-nw-border p-3 shadow-[0_12px_30px_rgba(11,18,32,0.18)] lg:hidden',
+      tone === 'hero' ? 'bg-nw-hero text-nw-side-text [&_bdi_.text-nw-muted]:text-nw-side-muted' : 'bg-nw-surface text-nw-text',
       className,
     )}
   >

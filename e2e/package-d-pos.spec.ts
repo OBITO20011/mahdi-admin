@@ -1,5 +1,14 @@
 import {test, expect} from './isolated-test';
 
+async function openCart(page: import('@playwright/test').Page) {
+  const button = page.getByRole('button', {name: 'مراجعة السلة والعميل', exact: true});
+  if (await button.isVisible()) await button.click();
+}
+async function closeCart(page: import('@playwright/test').Page) {
+  const button = page.getByRole('button', {name: 'رجوع للبيع', exact: true});
+  if (await button.isVisible()) await button.click();
+}
+
 const warehouseId = '22222222-2222-4222-8222-222222222222';
 const productId = '44444444-4444-4444-8444-444444444444';
 const flavorId = '99999999-9999-4999-8999-999999999999';
@@ -17,14 +26,18 @@ test('POS base and single-SKU parcel share physical capacity in the selected war
   await expect(page.getByRole('button', {name: 'بطاقة 💳'})).toHaveCount(0);
   const card = page.locator(`[data-pos-product-card="${productId}"]`);
   await card.click(); // Three physical units.
-  await page.getByLabel('وحدة البيع', {exact: true}).selectOption('base_unit');
+  await page.getByRole('radio', {name: 'باكيت', exact: true}).click();
   await card.click(); await card.click(); // Two additional physical units.
+  await openCart(page);
   await expect(page.getByRole('heading', {name: 'سلة المبيعات الحالية (2)'})).toBeVisible();
   const rows = page.getByRole('heading', {name: 'منتج الاختبار', level: 5});
   await expect(rows).toHaveCount(2);
+  await closeCart(page);
   await card.click(); // Over capacity: neither line can grow.
-  const quantities = rows.locator('..').locator('..').locator('span.font-bold.text-white');
+  await openCart(page);
+  const quantities = rows.locator('..').locator('..').locator('[data-pos-quantity]');
   await expect(quantities).toHaveText(['1', '2']);
+  await closeCart(page);
   await expect(page.getByLabel('مستودع البيع', {exact: true})).toBeDisabled();
 });
 
@@ -37,6 +50,7 @@ test('POS parcel builder requires exact allowed composition and edits one instan
       {productId: flavorId, nameAr: 'نكهة ب', sku: 'B', availableQuantity: 5}],
   }]}}));
   await page.goto(url);
+  await page.getByRole('radio', {name: 'طرد مشكّل', exact: true}).click();
   await page.getByRole('button', {name: 'تركيب طرد: عائلة الاختبار'}).click();
   const dialog = page.getByRole('dialog', {name: 'تركيب طرد: عائلة الاختبار'});
   const add = dialog.getByRole('button', {name: 'إضافة الطرد المكتمل'});
@@ -45,6 +59,7 @@ test('POS parcel builder requires exact allowed composition and edits one instan
   await dialog.getByLabel('كمية نكهة ب').fill('2'); await expect(add).toBeDisabled();
   await dialog.getByLabel('كمية نكهة ب').fill('1'); await expect(add).toBeEnabled();
   await add.click(); await expect(dialog).toHaveCount(0);
+  await openCart(page);
   await expect(page.getByRole('heading', {name: 'سلة المبيعات الحالية (1)'})).toBeVisible();
   await page.getByRole('button', {name: 'تعديل الطرد'}).click();
   await expect(dialog.getByLabel('كمية نكهة أ')).toHaveValue('2');
@@ -83,7 +98,7 @@ test('POS unknown response reload recovers the immutable request instead of star
     }});
   });
   await page.goto(url); await page.locator(`[data-pos-product-card="${productId}"]`).click();
-  await page.getByRole('button', {name: 'إتمام البيع وطباعة'}).click();
+  await page.getByRole('button', {name: /^إتمام البيع ·/}).click();
   const state = () => page.evaluate(() => JSON.parse(localStorage.getItem(
     'nawasrah:pos-v2:attempt:v1:11111111-1111-4111-8111-111111111111') || 'null'));
   await expect.poll(async () => (await state())?.status).toBe('OUTCOME_UNKNOWN');

@@ -111,3 +111,19 @@ Append only concise, secret-free handoff summaries here when a task materially c
 - Final additional-correction quality exit0:767Admin/189Customer/339Browser,
   59existing conditional skips,retries0;Orders32/32 and Home24/24 inside full run.
   Lint/typecheck/build/SEO/isolation PASS;Gitleaks0 and exact-SHA CI follow.
+
+## 2026-10-09 — Package F POS migration (codex)
+
+- Orders70bb975 quality37876499951(15/15)/secrets37876499829 PASS;forwarded
+  Claude visual review accepts it. POS only authorized;name/phone,no debt line
+  or extra read. Open owner debt-read question recorded in POS_MIGRATION.md.
+- Desktop product grid/side cart;phone/tablet list,sticky checkout and cart
+  sheet. Existing V2/pricing/shift/recovery paths preserved:27 AST await/service/
+  RPC/run/openModal expressions identical. No service/store/migration/shell edits.
+- Focused browser36/36,units54/54,typecheck/ESLint PASS,retries0. Old POS tests
+  received selector/navigation updates only;all financial/capacity/recovery and
+  real DB zero-write assertions retained. Full quality,Gitleaks0 and one commit/
+  push/exact-SHA CI remain;then visual review only,no next screen or deploy.
+- Final POS quality exit0:771Admin/189Customer/357Browser PASS,59existing
+  conditional skips,retries0;POS18/18,Orders32/32,Home24/24 in full run.
+  Lint/build/SEO/isolation PASS,external/Production escaped0;Gitleaks/CI follow.

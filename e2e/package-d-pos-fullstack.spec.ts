@@ -71,7 +71,7 @@ test.describe('Package D POS browser to real isolated RPC', () => {
   test.skip(!enabled, 'Requires NAWASRAH_PACKAGE_D_POS_FULLSTACK=1 isolated runner.');
   test('committed lost response, reload and two-tab recovery never duplicate business writes', async ({page, context}) => {
     await mount(page);
-    await page.getByLabel('وحدة البيع',{exact:true}).selectOption('base_unit');
+    await page.getByRole('radio',{name:'باكيت',exact:true}).click();
     await page.locator(`[data-pos-product-card="${productId}"]`).click();
     let committedResponse: Record<string, unknown> | undefined;
     const requests: unknown[] = [];
@@ -82,7 +82,7 @@ test.describe('Package D POS browser to real isolated RPC', () => {
       await route.abort('failed');
     });
     const before = await snapshot();
-    await page.getByRole('button',{name:'إتمام البيع وطباعة'}).click();
+    await page.getByRole('button',{name:/^إتمام البيع ·/}).click();
     await expect.poll(async () => (await state(page))?.status).toBe('OUTCOME_UNKNOWN');
     const unknown = await state(page); const committed = await snapshot();
     expect(committed.sha256).not.toBe(before.sha256); expect(requests).toHaveLength(1);
@@ -115,7 +115,7 @@ test.describe('Package D POS browser to real isolated RPC', () => {
       row.id === originalOrder.id ? originalOrder : row)}).toEqual(committed.content);
     replayBaseline = presented;
     const second = await context.newPage(); await mount(second);
-    await page.getByRole('button',{name:'✕',exact:true}).click();
+    await page.getByRole('button',{name:'إغلاق الإيصال',exact:true}).click();
     await Promise.all([page.getByRole('button',{name:'استرجاع محاولة البيع'}).click(),
       second.getByRole('button',{name:'استرجاع محاولة البيع'}).click()]);
     await expect(page.getByText(`رقم الفاتورة: ${committedResponse!.orderNumber}`,{exact:true})).toBeVisible();
@@ -126,9 +126,9 @@ test.describe('Package D POS browser to real isolated RPC', () => {
 
   test('POS single-SKU carton uses the real Admin Replacement and current-leaf Return RPCs',async({page})=>{
     await mount(page);
-    await page.getByLabel('وحدة البيع',{exact:true}).selectOption('legacy_single_sku_parcel');
+    await page.getByRole('radio',{name:'كرتونة',exact:true}).click();
     await page.locator('[data-pos-product-card="92400000-0000-0000-0000-000000000103"]').click();
-    await page.getByRole('button',{name:'إتمام البيع وطباعة'}).click();
+    await page.getByRole('button',{name:/^إتمام البيع ·/}).click();
     await expect.poll(async()=>(await state(page))?.status).toBe('SUCCEEDED');
     const sold=await state(page);const orderId=sold.result.orderId;
     expect(sold.result.items[0].commercialLineKind).toBe('legacy_single_sku_parcel');
@@ -165,9 +165,9 @@ test.describe('Package D POS browser to real isolated RPC', () => {
 
   test('carton customer damage uses frozen standalone price and restocks only accepted sellable units',async({page})=>{
     await mount(page);
-    await page.getByLabel('وحدة البيع',{exact:true}).selectOption('legacy_single_sku_parcel');
+    await page.getByRole('radio',{name:'كرتونة',exact:true}).click();
     await page.locator('[data-pos-product-card="92400000-0000-0000-0000-000000000103"]').click();
-    await page.getByRole('button',{name:'إتمام البيع وطباعة'}).click();
+    await page.getByRole('button',{name:/^إتمام البيع ·/}).click();
     await expect.poll(async()=>(await state(page))?.status).toBe('SUCCEEDED');
     const sold=await state(page); const orderId=sold.result.orderId;
     await mountAftercare(page,orderId);
@@ -193,10 +193,10 @@ test.describe('Package D POS browser to real isolated RPC', () => {
   });
 
   test('server absence and explicit confirmed cancellation unlock POS without erasing the attempt',async({page})=>{
-    await mount(page);await page.getByLabel('وحدة البيع',{exact:true}).selectOption('base_unit');
+    await mount(page);await page.getByRole('radio',{name:'باكيت',exact:true}).click();
     await page.locator(`[data-pos-product-card="${productId}"]`).click();
     await page.route('**/rest/v1/rpc/create_pos_sale_v2',route=>route.abort('failed'));
-    const before=await snapshot();await page.getByRole('button',{name:'إتمام البيع وطباعة'}).click();
+    const before=await snapshot();await page.getByRole('button',{name:/^إتمام البيع ·/}).click();
     await expect.poll(async()=>(await state(page))?.status).toBe('OUTCOME_UNKNOWN');
     const pending=await state(page);expect(await snapshot()).toEqual(before);
     await page.getByRole('button',{name:'التحقق من حالة المحاولة',exact:true}).click();
