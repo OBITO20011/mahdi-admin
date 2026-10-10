@@ -84,9 +84,12 @@ export interface CrmCustomer {
   orderHistoryHasMore?: boolean;
 }
 
+export type CrmCustomerStatus = 'all' | 'vip' | 'active' | 'inactive' | 'blocked'
+  | 'has_debt' | 'overdue' | 'over_limit' | 'wholesale';
+
 export interface CrmCustomerFilterParams {
   searchQuery?: string;
-  statusFilter?: 'all' | 'vip' | 'active' | 'inactive' | 'blocked';
+  statusFilter?: CrmCustomerStatus;
   sortBy?: CustomerSortOption;
   page?: number;
   pageSize?: number;

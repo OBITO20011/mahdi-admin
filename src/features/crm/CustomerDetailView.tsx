@@ -12,7 +12,6 @@ import {
   UserRound,
   WalletCards,
 } from 'lucide-react';
-import { CURRENCY } from '../../constants';
 import {
   fetchCustomerDetailsCrmFromSupabase,
   subscribeToCrmRealtime,
@@ -21,7 +20,7 @@ import { CrmCustomer } from '../../types/crm';
 import { AddAddressModal } from './AddAddressModal';
 import { CustomerEditModal } from './CustomerEditModal';
 import {CustomerAgingDetail} from './CustomerAging';
-import {MoneyText, StatusBadge, StickyActionBar, UiButton} from '../../components/ui';
+import {MoneyText, StatusBadge, StickyActionBar, UiButton, formatUiDate} from '../../components/ui';
 import {Modal} from '../../components/common/Modal';
 import {RecordCustomerPaymentModal} from '../accounts/RecordCustomerPaymentModal';
 
@@ -163,7 +162,7 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
   };
 
   return (
-    <div dir="rtl" className="min-w-0 space-y-4 p-4 pb-48 text-sm md:pb-4" data-testid="customer-detail">
+    <div dir="rtl" className="min-w-0 space-y-4 p-4 pb-[calc(120px+env(safe-area-inset-bottom))] text-sm md:pb-4" data-testid="customer-detail">
       <div className="flex items-start justify-between gap-2">
         <button
           type="button"
@@ -244,7 +243,9 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
       </div>
       <CustomerAgingDetail customerId={customer.id} revision={customer} />
       <div className="hidden md:block"><UiButton variant="accent" onClick={() => setPaymentOpen(true)}>تسجيل دفعة · اختيار الطلب</UiButton></div>
-      <StickyActionBar className="z-50 md:hidden" data-testid="customer-payment-sticky"><UiButton variant="accent" size="large" onClick={() => setPaymentOpen(true)}>تسجيل دفعة · اختيار الطلب</UiButton></StickyActionBar>
+      <div style={{margin:0}} className="fixed inset-x-0 bottom-0 z-50 bg-nw-bg px-3 pt-3 pb-[calc(12px+env(safe-area-inset-bottom))] md:hidden" data-testid="customer-payment-footer">
+        <StickyActionBar style={{position:'static'}} data-testid="customer-payment-sticky"><UiButton variant="accent" size="large" onClick={() => setPaymentOpen(true)}>تسجيل دفعة · اختيار الطلب</UiButton></StickyActionBar>
+      </div>
 
       <div className="grid grid-cols-3 gap-2">
         <div className="rounded-2xl border border-nw-info bg-nw-info-bg p-3">
@@ -255,14 +256,14 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
         <div className="rounded-2xl border border-nw-ok bg-nw-ok-bg p-3">
           <span className="block text-[9px] text-nw-muted">مبيعات مكتملة</span>
           <b className="text-nw-ok">
-            {stats.totalSpending.toFixed(3)}
+            <MoneyText amount={stats.totalSpending} />
           </b>
         </div>
         <div className="rounded-2xl border border-nw-bad bg-nw-bad-bg p-3">
           <WalletCards className="mb-1 h-4 w-4 text-nw-bad" />
           <span className="block text-[9px] text-nw-muted">الذمة الحالية</span>
           <b className={stats.outstandingBalance > 0 ? 'text-nw-bad' : 'text-nw-ok'}>
-            {stats.outstandingBalance.toFixed(3)}
+            <MoneyText amount={stats.outstandingBalance} />
           </b>
         </div>
       </div>
@@ -359,17 +360,17 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
                     </span>
                     <p className="text-[10px] text-nw-muted">
                       {ORDER_STATUS_LABELS[order.status] || order.status} —{' '}
-                      {new Date(order.createdAt).toLocaleDateString('ar-JO-u-nu-latn')}
+                      {formatUiDate(order.createdAt, {day:'numeric',month:'short',year:'numeric'})}
                     </p>
                   </div>
                   <strong className="text-nw-text">
-                    {order.totalAmount.toFixed(3)} {CURRENCY}
+                    <MoneyText amount={order.totalAmount} currency />
                   </strong>
                 </div>
                 {order.amountDue > 0 && (
                   <div className="mt-2 rounded-lg bg-nw-bad-bg px-2 py-1 text-[10px] text-nw-bad">
-                    مدفوع {order.amountPaid.toFixed(3)} — متبقي{' '}
-                    {order.amountDue.toFixed(3)} {CURRENCY}
+                    مدفوع <MoneyText amount={order.amountPaid} /> — متبقي{' '}
+                    <MoneyText amount={order.amountDue} currency />
                   </div>
                 )}
               </div>

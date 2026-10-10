@@ -44,10 +44,30 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440]) {
     await expect(page.getByRole('heading',{name:'العملاء والذمم',exact:true})).toBeVisible();
     await expect(page.getByTestId('customer-aging-summary')).toContainText('5,611.000');
     await expect(page.getByRole('tab',{name:'كل العملاء',exact:true})).toBeVisible();
-    await expect(page.getByRole('tab',{name:'عليهم دين',exact:true})).toHaveCount(0);
+    await expect(page.getByRole('tablist',{name:'فئات العملاء'}).getByRole('tab')).toHaveText([
+      'كل العملاء','النشطون','VIP','غير النشطين','المحظورون','عليهم دين','متأخرون','تجاوز الحد','جملة',
+    ]);
+    await expect(page.getByTestId('customers-workbench')).toContainText('8 عملاء');
+    await expect(page.getByTestId('customers-workbench')).toContainText('يومان');
+    await expect(page.getByTestId('customers-workbench')).not.toContainText('البيانات والعناوين والطلبات من Supabase');
+    if(width===390){
+      const add=page.getByRole('button',{name:'إضافة عميل',exact:true});
+      expect(await add.evaluate(button=>{const walker=document.createTreeWalker(button,NodeFilter.SHOW_TEXT),tops:number[]=[];
+        while(walker.nextNode())if(walker.currentNode.textContent?.trim()){const range=document.createRange();range.selectNodeContents(walker.currentNode);for(const box of range.getClientRects())tops.push(box.top);}
+        return new Set(tops).size;})).toBe(1);
+    }
+    if(width===820){
+      const actions=page.locator('[data-customer-actions]').filter({visible:true}).first();
+      const positions=await actions.locator('a,button').evaluateAll(nodes=>nodes.map(node=>{const box=node.getBoundingClientRect();return {top:box.top,width:box.width,height:box.height,label:node.getAttribute('aria-label')};}));
+      expect(positions).toHaveLength(4);expect(new Set(positions.map(row=>row.top)).size).toBe(1);
+      for(const row of positions){expect(row.width).toBeGreaterThanOrEqual(44);expect(row.height).toBeGreaterThanOrEqual(44);expect(row.label).toBeTruthy();}
+    }
     await audit(page);
     await page.getByRole('button',{name:'فتح ملف بقالة أبو خالد',exact:true}).filter({visible:true}).click();
     await expect(page.getByTestId('customer-detail')).toContainText('860.500');
+    await expect(page.getByTestId('customer-detail')).toContainText('4,500.000');
+    await expect(page.getByTestId('customer-detail')).toContainText('1,000.000');
+    await expect(page.getByTestId('customer-detail')).toContainText('9 تشرين الأول 2026');
     await expect(page.getByTestId('customer-aging-detail')).toContainText('عمر غير متاح');
     await expect(page.getByTestId('customer-aging-detail')).toContainText('50.000');
     if(width===390) {
@@ -86,6 +106,63 @@ test('existing real CRM adapter preserves every status/search/sort/page request;
     'get_crm_customer_page','get_customer_debt_aging','get_operational_orders_page','get_stock_alert_notifications',
   ]);
   expect(calls.filter(row=>shellRequests.some(shell=>shell.name===row.name)).sort((a,b)=>a.name.localeCompare(b.name))).toEqual(shellRequests);
+});
+
+test('four financial chips use the existing RPC,server total and off-page identities,not visible-page filtering',async({page})=>{
+  const calls:Array<{name:string;args:Record<string,unknown>}>=[];
+  const financial=[['عليهم دين','has_debt'],['متأخرون','overdue'],['تجاوز الحد','over_limit'],['جملة','wholesale']] as const;
+  const serverName=(status:string,index:number)=>`نتيجة ${status} خارج الصفحة ${index}`;
+  await page.route('**/rest/v1/rpc/**',route=>{
+    const name=route.request().url().split('/').at(-1)!,args=route.request().postDataJSON();calls.push({name,args});
+    if(name==='get_crm_customer_page'){
+      if(!financial.some(([,status])=>status===args.p_status))return route.fulfill({json:{customers:customersFixture,total_count:8}});
+      const offset=(Number(args.p_page)-1)*8,total=args.p_search?1:17;
+      const rows=Array.from({length:Math.min(8,Math.max(0,total-offset))},(_,n)=>({...customersFixture[0],
+        id:`fb000000-0000-4000-8000-${String(offset+n+1).padStart(12,'0')}`,full_name:serverName(String(args.p_status),offset+n+1),
+        current_balance_in_minor_units:201000,credit_limit_in_minor_units:200000,customer_type:'wholesale'}));
+      return route.fulfill({json:{customers:rows,total_count:total}});
+    }
+    if(name==='get_customer_debt_aging')return route.fulfill({json:null}); // unavailable,not invented age evidence.
+    return route.fulfill({json:{items:[],unreadCount:0}});
+  });
+  await page.setViewportSize({width:390,height:900});await page.goto(url('live&theme=dark'));
+  await expect(page.getByRole('button',{name:'فتح ملف سوبرماركت الأمل',exact:true}).filter({visible:true})).toBeVisible();
+  for(const [label,status] of financial){
+    await page.getByRole('tab',{name:label,exact:true}).click();
+    await expect.poll(()=>calls.filter(row=>row.name==='get_crm_customer_page').at(-1)?.args).toEqual({p_page:1,p_page_size:8,p_search:null,p_status:status,p_sort:'latest'});
+    await expect(page.getByRole('button',{name:`فتح ملف ${serverName(status,1)}`,exact:true}).filter({visible:true})).toBeVisible();
+    await expect(page.getByTestId('customers-workbench')).toContainText('17 عميلاً');
+    await page.getByRole('button',{name:'التالي',exact:true}).click();
+    await expect.poll(()=>calls.filter(row=>row.name==='get_crm_customer_page').at(-1)?.args).toEqual({p_page:2,p_page_size:8,p_search:null,p_status:status,p_sort:'latest'});
+    await expect(page.getByRole('button',{name:`فتح ملف ${serverName(status,9)}`,exact:true}).filter({visible:true})).toBeVisible();
+    await expect(page.getByRole('button',{name:`فتح ملف ${serverName(status,1)}`,exact:true})).toHaveCount(0);
+  }
+  await page.getByRole('searchbox',{name:'البحث في العملاء'}).fill('079-special');
+  await expect.poll(()=>calls.filter(row=>row.name==='get_crm_customer_page').at(-1)?.args).toEqual({p_page:1,p_page_size:8,p_search:'079-special',p_status:'wholesale',p_sort:'latest'});
+  await expect(page.getByTestId('customers-workbench')).toContainText('عميل واحد');
+  await page.getByRole('combobox',{name:'ترتيب العملاء'}).selectOption('highest_spending');
+  await expect.poll(()=>calls.filter(row=>row.name==='get_crm_customer_page').at(-1)?.args).toEqual({p_page:1,p_page_size:8,p_search:'079-special',p_status:'wholesale',p_sort:'highest_spending'});
+  expect([...new Set(calls.map(row=>row.name))].sort()).toEqual(['get_crm_customer_page','get_customer_debt_aging','get_operational_orders_page','get_stock_alert_notifications']);
+});
+
+for(const theme of ['light','dark'])test(`phone ${theme}: payment sits12px above safe bottom,opaque footer and last content stays uncovered`,async({page})=>{
+  await page.setViewportSize({width:390,height:900});await page.goto(url(`theme=${theme}`));
+  await page.getByRole('button',{name:'فتح ملف بقالة أبو خالد',exact:true}).filter({visible:true}).click();
+  const dialog=page.getByRole('dialog',{name:'ملف العميل',exact:true}),footer=page.getByTestId('customer-payment-footer'),bar=page.getByTestId('customer-payment-sticky');
+  await expect(bar).toBeInViewport();
+  const before=await bar.boundingBox();expect(before).not.toBeNull();
+  const placement=await footer.evaluate(element=>{const bar=element.querySelector('[data-testid="customer-payment-sticky"]')!,style=getComputedStyle(element),panel=element.closest('[data-customer-detail]')!;
+    return {gap:innerHeight-bar.getBoundingClientRect().bottom,padding:parseFloat(style.paddingBottom),bottom:element.getBoundingClientRect().bottom,
+      covered:element.contains(document.elementFromPoint(innerWidth/2,innerHeight-1)),background:style.backgroundColor,panelBackground:getComputedStyle(panel).backgroundColor};});
+  expect(placement.gap).toBeCloseTo(placement.padding,1);expect(placement.padding).toBeGreaterThanOrEqual(12);
+  expect(placement.gap).toBeLessThan(40);expect(placement.bottom).toBe(900);expect(placement.covered).toBe(true);expect(placement.background).toBe(placement.panelBackground);
+  await dialog.evaluate(element=>element.scrollTo({top:element.scrollHeight,behavior:'instant'}));
+  const last=page.getByTestId('customer-detail').locator('section').last();await expect(last).toBeInViewport();
+  await expect.poll(async()=>{const end=await last.boundingBox(),bottom=await footer.boundingBox();return Boolean(end&&bottom&&end.y+end.height<=bottom.y);}).toBe(true);
+  expect((await bar.boundingBox())!.y).toBeCloseTo(before!.y,1);
+  const padding=await page.getByTestId('customer-detail').evaluate(element=>parseFloat(getComputedStyle(element).paddingBottom));
+  expect(padding).toBeGreaterThanOrEqual((await footer.boundingBox())!.height);
+  await audit(page);
 });
 
 test('missing or incoherent aging is unavailable,never a zero balance or invented age',async({page})=>{

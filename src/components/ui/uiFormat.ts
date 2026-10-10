@@ -16,6 +16,21 @@ export function formatItemCount(count: number): string {
   return `${count} ${count <= 10 ? 'أصناف' : 'صنفاً'}`;
 }
 
+/** Directory result count; display wording only,not a client-side filter. */
+export function formatCustomerCount(count: number): string {
+  if (count === 0) return 'لا عملاء';
+  if (count === 1) return 'عميل واحد';
+  if (count === 2) return 'عميلان';
+  return `${count} ${count <= 10 ? 'عملاء' : 'عميلاً'}`;
+}
+
+/** Same count-wording pattern for the already-authoritative debt age. */
+export function formatDayCount(count: number): string {
+  if (count === 1) return 'يوم واحد';
+  if (count === 2) return 'يومان';
+  return `${count} ${count >= 3 && count <= 10 ? 'أيام' : 'يوماً'}`;
+}
+
 /** Arabic date/time wording, with the same Latin digits used for money. */
 export function formatUiDate(value: Date | string, options: Intl.DateTimeFormatOptions): string {
   return new Intl.DateTimeFormat('ar-JO-u-nu-latn', {

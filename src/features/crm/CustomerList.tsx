@@ -1,6 +1,6 @@
 import React from 'react';
-import {Phone, MessageCircle} from 'lucide-react';
-import {Card, TableShell, Th, Tr, Td, StatusBadge, StockBar, MoneyText, UiButton, formatUiDate, type UiTone} from '../../components/ui';
+import {Phone, MessageCircle, Ban, ShieldCheck, Trash2} from 'lucide-react';
+import {Card, TableShell, Th, Tr, Td, StatusBadge, StockBar, MoneyText, UiButton, formatUiDate, formatDayCount, type UiTone} from '../../components/ui';
 import {CrmCustomer} from '../../types/crm';
 import type {CustomerDebtAging} from '../../services/supabase/customerDebtAging.service';
 
@@ -32,18 +32,18 @@ export const CustomerList: React.FC<CustomerListProps> = ({customers, onSelectCu
       <span className="text-xs text-nw-muted">/ {customer.creditLimit > 0 ? <MoneyText amount={customer.creditLimit} /> : 'بلا حد محدد'}</span></p>
     {customer.creditLimit > 0 && <StockBar label={`الدين مقابل حد ${customer.fullName}`} value={customer.currentBalance} max={customer.creditLimit} tone={customer.currentBalance > customer.creditLimit ? 'bad' : 'ok'} />}
   </div>;
-  const actions = (customer: CrmCustomer) => <div className="flex flex-wrap items-center gap-2">
+  const actions = (customer: CrmCustomer) => <div className="flex w-max flex-nowrap items-center gap-2" data-customer-actions={customer.id}>
     {customer.phone && <><a href={`tel:${customer.phone}`} aria-label={`اتصال ${customer.fullName}`} className="flex h-11 w-11 items-center justify-center rounded-xl border border-nw-border text-nw-primary"><Phone className="h-4 w-4" /></a>
       <a href={`https://wa.me/${jordanWhatsappNumber(customer.whatsapp || customer.phone)}`} target="_blank" rel="noreferrer" aria-label={`واتساب ${customer.fullName}`} className="flex h-11 w-11 items-center justify-center rounded-xl border border-nw-border text-nw-ok"><MessageCircle className="h-4 w-4" /></a></>}
-    <UiButton onClick={() => onBlockToggle(customer)}>{customer.isBlocked ? 'إلغاء الحظر' : 'حظر'}</UiButton>
-    <UiButton onClick={() => onSoftDelete(customer)} variant="danger">حذف</UiButton>
+    <UiButton onClick={() => onBlockToggle(customer)} aria-label={`${customer.isBlocked ? 'إلغاء الحظر' : 'حظر'} ${customer.fullName}`} title={customer.isBlocked ? 'إلغاء الحظر' : 'حظر'} className="w-11 shrink-0 px-0">{customer.isBlocked ? <ShieldCheck className="h-4 w-4" /> : <Ban className="h-4 w-4" />}</UiButton>
+    <UiButton onClick={() => onSoftDelete(customer)} variant="danger" aria-label={`حذف ${customer.fullName}`} title="حذف" className="w-11 shrink-0 px-0"><Trash2 className="h-4 w-4" /></UiButton>
   </div>;
   const ageLabel = (customer: CrmCustomer) => {
     const row = aging[customer.id];
     if (!row) return 'غير متاح';
     if (row.total_in_minor_units === 0) return 'لا يوجد دين';
     if (row.oldest_debt_age_days == null) return 'عمر غير متاح';
-    return `${row.oldest_debt_age_days} يوم`;
+    return formatDayCount(row.oldest_debt_age_days);
   };
   return <>
     <div className="space-y-3 md:hidden">{customers.map(customer => {

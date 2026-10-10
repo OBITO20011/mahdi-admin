@@ -28,9 +28,15 @@ client.rpc=(name,args)=>{
   if(params.has('live'))return original(name,args);
   if(name==='get_crm_customer_page'){
     const status=String(args?.p_status??'all'),search=String(args?.p_search??'');
-    const rows=customersFixture.filter(row=>row.full_name.includes(search)||row.phone.includes(search));
-    return Promise.resolve({data:{customers:rows.filter(row=>status==='all'||status==='active'&&row.is_active&&!row.is_blocked
-      ||status==='vip'&&row.is_vip||status==='inactive'&&!row.is_active||status==='blocked'&&row.is_blocked),total_count:rows.length},error:null});
+    const rows=customersFixture.filter(row=>(row.full_name.includes(search)||row.phone.includes(search))&&(
+      status==='all'||status==='active'&&row.is_active&&!row.is_blocked
+      ||status==='vip'&&row.is_vip||status==='inactive'&&!row.is_active&&!row.is_blocked||status==='blocked'&&row.is_blocked
+      ||status==='has_debt'&&row.current_balance_in_minor_units>0
+      ||status==='overdue'&&customerAgingFixture(row.id).days_over_30_in_minor_units>0
+      ||status==='over_limit'&&row.credit_limit_in_minor_units>0&&row.current_balance_in_minor_units>row.credit_limit_in_minor_units
+      ||status==='wholesale'&&row.customer_type==='wholesale'));
+    const size=Number(args?.p_page_size??8),offset=(Number(args?.p_page??1)-1)*size;
+    return Promise.resolve({data:{customers:rows.slice(offset,offset+size),total_count:rows.length},error:null});
   }
   if(name==='get_customer_debt_aging')return Promise.resolve({data:params.has('unavailable')?null:customerAgingFixture(args?.p_customer_id as string|null),error:null});
   if(name==='get_crm_customer_detail_page'){

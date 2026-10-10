@@ -2,42 +2,45 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Add approved read-only CRM financial filters in137;preserve all existing JSON,roles,paging and writers",
-  "baselineSha": "4db3af1975ae1e70206b2632bb076160d1bb0903",
+  "objective": "Add approved CRM financial chips and five Customers visual corrections;no RPC/payload/validation/migration changes",
+  "baselineSha": "4a8f395c2afd6847c233cb7852cfa60d69144dce",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Customers4db3af1 exact quality38016271763 all19/19,secrets38016271790;official delivery PASS"
+    "Customers4db3af1 exact quality38016271763 all19/19,secrets38016271790;official delivery PASS",
+    "137 delivered4a8f395c2afd6847c233cb7852cfa60d69144dce;Gitleaks0;exact quality38032453378 all19/19,secrets38032453376 PASS"
   ],
-  "inProgress": [],
+  "inProgress": [
+    "Deliver completed Customers follow-up after Gitleaks0 and exact-SHA CI"
+  ],
   "notStarted": [
-    "Financial UI chips after137 delivery",
     "Phase7"
   ],
   "filesTouched": [
-    "docs/design/package-f/CRM_FILTERS_137.md",
-    "scripts/testing/crm-debt-cte-contract.mjs",
-    "scripts/testing/run-package-f-crm-filters-runtime.mjs",
-    "supabase/migrations/137_package_f_crm_financial_filters.sql",
-    "tests/package-f-crm-filters.test.ts",
-    ".github/workflows/quality.yml",
     "docs/agent/PHASE_STATUS.md",
     "docs/agent/PROJECT_OVERVIEW.md",
-    "docs/agent/project-state.json",
+    "docs/design/package-f/CRM_FILTERS_137.md",
     "docs/design/package-f/CUSTOMERS_MIGRATION.md",
-    "package.json",
-    "scripts/agent/lib.mjs",
-    "scripts/agent/preflight.mjs",
-    "tests/migration-integrity.test.ts"
+    "e2e/package-f-customers-harness.tsx",
+    "e2e/package-f-customers.spec.ts",
+    "src/components/ui/uiFormat.ts",
+    "src/features/crm/CrmView.tsx",
+    "src/features/crm/CustomerDetailView.tsx",
+    "src/features/crm/CustomerFilters.tsx",
+    "src/features/crm/CustomerList.tsx",
+    "src/types/crm.ts",
+    "tests/package-f-customers.test.ts"
   ],
   "testsPassed": [
     "137 full-size:all10k136/phase42 oracle,exact4filter sets before/after,33oldJSON/ACL;p95all<1s(overdue836.295ms)",
     "Final optimized137 manual6cases,33oldJSON,roles/ACL/zero-write/DB lint PASS;static/continuity14/14,strict lint0",
-    "Full quality exit0:815Admin/465browser PASS,59existing conditional skips,retries0;builds/isolation PASS,Production escaped0"
+    "137 local quality exit0:815Admin/465browser PASS,59existing conditional skips,retries0;builds/isolation PASS,Production escaped0",
+    "Customers follow-up:focused26/26 Chromium/WebKit,retries0;AST12business/33bindings/static6/6;TypeScript/strict lint0",
+    "UI full quality exit0:817Admin/189Customer units/471browser PASS,59existing conditional skips,retries0;builds/isolation PASS;static20/20"
   ],
   "testsRemaining": [
-    "Gitleaks/137 exact CI;then financial chips/quality/CI and visualSTOP"
+    "Gitleaks0,UI commit/push/exactCI,visualSTOP"
   ],
   "findings": [
     "Original count-only scale expectation repaired by owner-approved full136/phase42 identity oracle;no confirmed financial defect"
@@ -45,11 +48,11 @@
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production/deploy/Phase7/automations;001-136 unchanged",
+    "No Production/deploy/Phase7/automations;001-137 unchanged",
     "No next screen;preserve .claude/launch.json unstaged"
   ],
-  "nextExactAction": "Owner-approved staged137 unchanged:resume,Gitleaks0,commit137/push/exactCI without rerunning unchanged local quality.Then financial chips plus approved visual corrections,quality/CI and visualSTOP.",
-  "workingTreeFingerprint": "7257F3052FF9310B61D40045F32F52DBD3AD4A824D96FA534450DAC2668D8FF8",
-  "checkpointedAt": "2026-10-10T06:51:35.671Z",
+  "nextExactAction": "UI follow-up staged;full quality/staticPASS.Gitleaks staged0 required,then commit/push/wait exactCI.Update checkpoint actual SHA after commit;STOP for visual review after green.",
+  "workingTreeFingerprint": "6CF594F5B545DA5D5AF8422ECECD34A97010E1EB44F26CD7D6215D62B5AA386B",
+  "checkpointedAt": "2026-10-10T07:45:37.448Z",
   "startedAt": "2026-10-10T02:28:31.421Z"
 }

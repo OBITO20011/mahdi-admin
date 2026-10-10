@@ -1,5 +1,59 @@
 # Customers / receivables — candidate,2026-10-10
 
+## Current approved follow-up (visual review still required)
+
+137 delivered in4a8f395c2afd6847c233cb7852cfa60d69144dce:quality38032453378
+all19/19,secrets38032453376 PASS;official delivery verified. Local quality was
+not rerun on owner-approved unchanged staged code/HEAD;only official checkpoint
+was synchronized. CRM_FILTERS_137.md records the accepted836.295ms overdue
+p95 monitoring constraint;no further SQL/performance change.
+
+Only Customers UI follow-up:four new chips forward approved p_status values
+has_debt/overdue/over_limit/wholesale through the SAME existing reader. All5old
+filters and search/sort/paging remain;no loaded-page financial filtering/counts.
+Types share the exact9-value contract;no service/store/RPC/migration/role edits.
+
+Five visual corrections:full-screen phone payment has an opaque viewport-bottom
+footer (12px+safe-area),shared StickyActionBar inside it,and120px+safe-area content
+padding;desktop payment unchanged. All existing amounts use MoneyText and order
+dates use formatUiDate. Arabic customer/day count helpers follow the existing
+count-wording pattern;technical subtitle removed. Add-customer text is nowrap.
+Four row actions are44px icons in one row with complete accessible names/titles;
+contact/block/delete callbacks and confirmations unchanged.
+
+Permanent AST compares all12 existing business calls/load-financial handlers
+against the original accepted baseline,and all33action/value/modal bindings
+against4a8f395;both PASS. No onChange/payment/validation exception added.
+Static/AST/helpers6/6,TypeScript and strict affected ESLint PASS.
+
+Test contracts explicitly updated (not loosened):old absent-financial-chip
+expectation becomes exact9labels/values. Existing API/required-reference/busy/
+unavailable/axe/containment checks stay. New live-adapter proof shows each filter
+with17server results,8-row pages and disjoint page1/page2 identities,then exact
+search/sort/reset payloads;no added RPC names. Harness applies the approved
+filters before paging and reports filtered total,not its original-page count.
+New phone geometry/hit-testing checks both themes:bottom gap12+safe-area,opaque
+gap,last content uncovered,stable bar while scrolling.820 checks four44px
+actions share a row;390 checks Add Customer one line;amount/date/plural checks
+added to all existing theme/viewport cases. No removed assertions/retries/waits.
+Initial focused run20/26:four new footer geometry failures correctly detect
+space-y-4's16px outer margin (gap28vs12) in both browsers/themes. Product footer
+sets margin0;the exact geometry assertions remain untouched. Other2failures:
+WebKit Cash harness missing after resource-load timeout (trace console at71354ms
+"Failed to load resource: Timeout was reached");Chromium axe lost execution
+context with a new Vite connection at88393ms after its first at84850ms. These
+are observed loading/navigation failures,not a fabricated contrast PASS. Avoid
+editing even docs/checkpoint while browser servers run;do not suppress these
+tests or increase their limits. Final focused recheck26/26 PASS,Chromium/WebKit,
+both themes and390/820/1440,retries0. Footer geometry passes unchanged in all4
+cases;opaque bottom and last content visibility proven. Original Cash/axe cases
+also pass unchanged (Cash5.2/5.4s) with frozen repo. No stronger root-cause claim
+for the transient loading failures than the recorded trace. Full quality exit0:
+817Admin/189Customer units,471browser PASS,59existing conditional skips,retries0;
+TypeScript/ESLint,Admin/isolated Customer builds and network isolation PASS.
+No001–137,service,store,permission or CI edits. Static/continuity20/20 PASS.
+Gitleaks/UI commit/exactCI remain pending,then STOP for owner visual review.
+
 Customers presentation delivered in4db3af1975ae1e70206b2632bb076160d1bb0903:
 exact quality38016271763 all19/19 and secrets38016271790 PASS;official delivery
 verification PASS. PackageF449s/core749s. No visual approval claimed yet.

@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import ts from 'typescript';
 import {readCustomerDebtAging} from '../src/utils/customerDebtAging';
+import {formatCustomerCount,formatDayCount} from '../src/components/ui/uiFormat';
 
 const baseline=[
   {
@@ -117,6 +118,23 @@ test('aging hooks and segment conversion were literally moved without logic chan
   assert.doesNotMatch(readFileSync('src/features/crm/CustomerAging.tsx','utf8'),/export (?:function use|const agingSegments)|eslint-disable/u);
 });
 
+test('Customers all33 action/value/modal bindings are AST-identical to delivered4a8f395',()=>{
+  const interactions=[
+    ['src/features/crm/CrmView.tsx',12,'5071e7610203881e91dcc2366cc25e22dfdaaab60caccb7dbcfc29db7fba478f'],
+    ['src/features/crm/CustomerDetailView.tsx',13,'16986ef632f0e046e6361fa7de21ab85154e5c1048166a0554cdb9b23e881a9e'],
+    ['src/features/crm/CustomerList.tsx',4,'25972c02b1f27e96221d794c8170ad21f13ff1e66e0a81bad1040d86bfa85cea'],
+    ['src/features/crm/CustomerFilters.tsx',4,'7204a107dde1c0d7968a735882f13008cf641e99f912a99269ec73dd372713be'],
+  ] as const;
+  for(const [file,count,fingerprint] of interactions){
+    const ast=ts.createSourceFile(file,readFileSync(file,'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),attrs:string[]=[];
+    function visit(n:ts.Node){
+      if(ts.isJsxAttribute(n)&&/^(onClick|onChange|onClose|onSuccess|onBack|onRefreshList|onSelectCustomer|onBlockToggle|onSoftDelete|onStatusFilterChange|onSearchChange|onSortByChange)$/u.test(n.name.getText(ast))&&n.initializer)attrs.push(printer.printNode(ts.EmitHint.Unspecified,n,ast));
+      ts.forEachChild(n,visit);
+    }
+    visit(ast);assert.equal(attrs.length,count,file);assert.equal(hash(attrs.sort()),fingerprint,file);
+  }
+});
+
 test('aging read evidence rejects missing/incoherent financial amounts rather than inventing zero or dates',()=>{
   const valid={total_in_minor_units:1000,days_0_7_in_minor_units:400,days_8_30_in_minor_units:200,days_over_30_in_minor_units:300,age_unavailable_in_minor_units:100,oldest_debt_at:null};
   assert.deepEqual(readCustomerDebtAging(valid),valid);
@@ -127,6 +145,20 @@ test('aging read evidence rejects missing/incoherent financial amounts rather th
 test('Customers migrated surfaces use tokens,never fake financial filters or unavailable balances',()=>{
   for(const {file} of baseline)assert.doesNotMatch(readFileSync(file,'utf8'),/(?:bg|text|border)-(?:slate|gray|blue|emerald|rose|amber|indigo|cyan|orange)-\d/u);
   const filters=readFileSync('src/features/crm/CustomerFilters.tsx','utf8');
-  assert.doesNotMatch(filters,/عليهم دين|متأخرين|تجاوز الحد|الجملة/u);
+  assert.deepEqual([...filters.matchAll(/value:'([^']+)'/gu)].map(match=>match[1]),
+    ['all','active','vip','inactive','blocked','has_debt','overdue','over_limit','wholesale']);
+  const types=readFileSync('src/types/crm.ts','utf8');
+  const status=types.match(/export type CrmCustomerStatus = ([\s\S]+?);/u)?.[1];assert.ok(status);
+  assert.deepEqual([...status.matchAll(/'([^']+)'/gu)].map(match=>match[1]).sort(),
+    ['all','vip','active','inactive','blocked','has_debt','overdue','over_limit','wholesale'].sort());
+  const directory=readFileSync('src/features/crm/CrmView.tsx','utf8');
+  assert.doesNotMatch(directory,/customers\.filter|البيانات والعناوين والطلبات من Supabase/u);
+  assert.match(directory,/statusFilter,\s+sortBy,\s+page,\s+pageSize/u);
+  assert.match(readFileSync('src/services/supabase/crm.service.ts','utf8'),/p_status: statusFilter/u);
   assert.match(readFileSync('src/features/crm/CustomerDetailView.tsx','utf8'),/سجل طلبات المتجر/u);
+});
+
+test('Customers count and authoritative day age use Arabic count wording without changing values',()=>{
+  for(const [count,label] of [[0,'لا عملاء'],[1,'عميل واحد'],[2,'عميلان'],[8,'8 عملاء'],[10,'10 عملاء'],[11,'11 عميلاً']] as const)assert.equal(formatCustomerCount(count),label);
+  for(const [count,label] of [[0,'0 يوماً'],[1,'يوم واحد'],[2,'يومان'],[3,'3 أيام'],[10,'10 أيام'],[31,'31 يوماً']] as const)assert.equal(formatDayCount(count),label);
 });

@@ -22,11 +22,12 @@ import {
   CrmCustomer,
   CrmCustomerFilterParams,
   CustomerSortOption,
+  CrmCustomerStatus,
 } from '../../types/crm';
 import { CustomerDetailView } from './CustomerDetailView';
 import { CustomerFilters } from './CustomerFilters';
 import { CustomerList } from './CustomerList';
-import {DetailLayout, DetailPanel, MainColumn} from '../../components/ui';
+import {DetailLayout, DetailPanel, MainColumn, formatCustomerCount} from '../../components/ui';
 import {CustomerAgingSummary} from './CustomerAging';
 import {useDirectoryAging} from '../../hooks/useCustomerAccounts';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
@@ -44,9 +45,7 @@ export const CrmView: React.FC = () => {
   const { openModal, setToast, clearCustomerNavigationTarget } =
     useAppStoreActions();
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<
-    'all' | 'vip' | 'active' | 'inactive' | 'blocked'
-  >('all');
+  const [statusFilter, setStatusFilter] = useState<CrmCustomerStatus>('all');
   const [sortBy, setSortBy] = useState<CustomerSortOption>('latest');
   const [page, setPage] = useState(1);
   const pageSize = 8;
@@ -171,10 +170,10 @@ export const CrmView: React.FC = () => {
             دليل العملاء
           </h3>
           <p className="mt-0.5 text-[11px] text-nw-muted">
-            {totalCount} عميل — البيانات والعناوين والطلبات من Supabase
+            {formatCustomerCount(totalCount)}
           </p>
         </div>
-        <div className="flex gap-1.5">
+        <div className="flex shrink-0 gap-1.5">
           <button
             type="button"
             onClick={() => loadCustomers()}
@@ -188,7 +187,7 @@ export const CrmView: React.FC = () => {
           <button
             type="button"
             onClick={() => openModal('add_customer')}
-            className="flex min-h-11 items-center gap-1.5 rounded-xl bg-nw-primary px-3 py-2.5 font-bold text-nw-on-primary"
+            className="flex min-h-11 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-xl bg-nw-primary px-3 py-2.5 font-bold text-nw-on-primary"
           >
             <UserPlus className="h-4 w-4" />
             إضافة عميل
