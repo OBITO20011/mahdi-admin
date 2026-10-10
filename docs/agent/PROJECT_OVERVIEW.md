@@ -8,6 +8,18 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 ## Canonical reading order
 
+**Current owner boundary —2026-10-10:**8195f87 visual review accepts batch2
+subject to bounded phone clipping correction with permanent shared layout
+guard and neutral status copy. Separate correction commit/CI,then batch3
+suppliers/purchases/direct receiving tokens/shared UI only. Per-file business
+AST parity,fixtures/axe/layout,quality/Gitleaks0/commit/exact CI. No migrations,
+Production/deploy/Phase7 or batch4. See remaining-screens report/spec§6.7/§9.
+
+Latest bounded addition:md+ Orders panel internal scroll/title containment,
+phone unchanged. Commit Orders(A) then Products/guard(B),full final quality
+once/exact CI before batch3. Closed-details false-positive diagnosis is corrected
+in ORDERS_MIGRATION.md;all non-className Orders AST nodes remain pinned.
+
 **Current owner boundary —2026-10-10:** ed7772f batch1 visually accepted.
 Only Package F batch2 ProductsView/ProductDetailModal/ProductFormModal/
 StockAdjustmentModal/ParcelConfigurationModal plus Profile Arabic role/email

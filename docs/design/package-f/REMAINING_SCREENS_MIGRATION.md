@@ -149,3 +149,211 @@ TypeScript/ESLint and network isolation PASS;external/Production escapes0.
 All final batch2 cases pass on Chromium/WebKit,including the unchanged delayed
 reader indicator. Migrations001–137,services/stores/customer-web unchanged.
 Gitleaks/commit/push/exact-SHA CI next;visual acceptance not claimed.
+
+## Batch2 phone clipping correction —2026-10-10
+
+Owner/Claude accepts8195f87 subject to phone product-header containment.
+Header is now flex/w-full/min-w-0/justify-start/text-right;its inner row
+is explicitly min-w-0/w-full. Existing line-clamp,actions and 2-column grid
+remain unchanged. Reader success copy is now «محدّث الآن»,with the exact
+held-read pre/post assertion updated only for that approved wording.
+Shared additive checkLayout walks all clipping ancestors,not just the
+immediate text parent;intentional truncate/line-clamp/sr-only are distinguished
+from an entire clamped box escaping its ancestor. All9Package F specs call
+the guard;existing containment/axe checks are retained unchanged.
+Before product correction:new390WebKit regression FAIL(header scrollWidth
+exceeds clientWidth). After:14/14both browsers,360/390/430,both themes,
+including deliberate hidden-clipping/intentional-clamp guard probes PASS.
+AST79calls/149bindings/279native properties and five full component prefixes
+still match;001–137 fingerprints PASS. Quality/exact CI pending;then batch3.
+No RPC/payload/permission/migration/Production/deploy changes.
+
+The additive all-screen run stopped early when the first guard version confused
+offscreen scrollable report content with hidden clipping. The guard now projects
+ink through actual auto/scroll viewports only after checking local hidden clips.
+Permanent positive/negative nested-scroller probes prevent broad exemptions.
+Affected report/guard6/6 Chromium/WebKit PASS,retries0;no product/report changes.
+
+### Initial stop — Orders diagnostic,subsequently corrected below
+
+Full quality passed825Admin units,Customer checks,both builds/isolated SEO and
+network guard(external/Production escapes0),then stopped early on desktop
+Orders layout at820/1440(light/dark) and1280 selected table. No commit/push.
+Minimal reproduction:playwright package-f-orders.spec.ts --grep
+"Orders light 820:" --project=desktop-chromium --retries=0 FAIL.
+Initial geometry diagnostic:DetailPanel bottom1960.78125,first delivery-title ink
+top1987.109375/bottom2005.109375;overflowX/Y both hidden. Child detail content
+uses md:overflow-visible/min-h-0/flex-1 inside the hidden outer panel.
+Orders product files are byte-identical to8195f87;the defect was exposed by
+the additive ancestor guard,not introduced by the Products presentation fix.
+Phone Orders cases passed;no timeout/retry/assertion workaround was used.
+Owner approval is required before expanding the product correction to Orders
+desktop/tablet panel sizing/scrolling. Batch3 remains unstarted. All owned
+test servers are stopped;no DB was started;owner n8n is untouched.
+
+### Owner-approved A/B correction —2026-10-10
+
+Important diagnostic correction:the address-title warning above measured content
+inside closed native details,not painted/visible content. Explicitly opening all
+sections BEFORE product changes found no visible title/action/amount/lower-section
+clipping at820/1024/1440,both themes. The absent internal scroll was confirmed.
+Orders now has md-only bounded height/internal scrolling and sticky next-step
+actions;phone and every non-className AST node remain identical to8195f87.
+See ORDERS_MIGRATION.md for the baseline geometry and permanent reachability test.
+
+Shared guard now respects closed-disclosure painting while still checking its
+summary and all content once expanded. Permanent probes prove closed content
+passes,expanded clipped content fails,and a clipped visible summary still fails.
+No broad details/scroll exclusions;all existing assertions are retained.
+Focused panel/product/live-reload suite32/32PASS on both engines,retries0.
+Commit order:Orders(A),Products/general guard(B);one full final quality run,
+Gitleaks0 before each commit,exact final-SHA CI,then batch3 presentation.
+
+The final full run stopped with five WebKit More cases (552PASS/59existing
+skips) because Motion's JS height animation was measured before completion:
+e.g.1440light customers-panel height1px while its title ink was668–689px.
+This is transient intentional animation clipping,not a settled layout defect.
+No More product change:the audit now waits for actual height='auto',opacity1
+and removal of closing panels before the unchanged clipping/axe assertions.
+Existing getAnimations alone cannot observe Motion's JS height frames.
+All12 More width/theme/engine cases then PASS,retries0. A permanent negative
+probe forces settled text outside the clipping ancestor;it must still fail.
+No timeout increase,retry,arbitrary sleep,node exclusion or weaker assertion.
+Full quality must be rerun successfully before either authorized commit.
+
+### Final quality blocker —2026-10-10
+
+The next full quality run passed Admin827/827,Customer189/189,typecheck,lint,
+builds and isolated network checks,but WebKit failed the unchanged
+customer-checkout-simplification.spec.ts:202 Turnstile-retry case at line249.
+It expected the security-error alert in the review dialog;the review dialog
+never opened. The failure snapshot instead shows an empty full-name input
+and its required-field alert,although the trace records fill('عميل إعادة تحقق')
+before review. This does not yet prove why the name was lost,or a Turnstile
+failure. Customer source and this spec have no diff from the task baseline.
+No checkout/security/test fix,commit or push;batch3 remains unstarted.
+Owner direction is needed for bounded diagnosis outside these display fixes.
+Final browser result:558PASS,59existing conditional skips,1FAIL,28.2minutes,
+retries0. All Package F cases and Orders reachability/focus/search cases passed.
+No false-green claim:full npm quality exit1 prevents both commits and batch3.
+
+### Owner-approved checkout diagnosis —2026-10-10 (no fix)
+
+Preflight/resume PASS;HEAD remains8195f8761f543ff99d899e6f8d3ac7ce4c17f702.
+A separate detached worktree at that exact SHA was used;no stash/reset/source
+change in either checkout. Dependencies were shared by ignored junctions only.
+
+#### Storefront reachability of every pending file
+
+Static traversal from customer-web/src/main.tsx covers65 local source/style
+files,including relative imports,re-exports and literal dynamic imports.
+There are no imports outside customer-web. All65 files match the baseline
+after LF normalization (the detached Windows checkout uses CRLF).
+Every pending file listed below is **neither directly nor transitively imported
+by the storefront**;the three product files belong to Admin only.
+
+| Pending file | Storefront import |
+| --- | --- |
+| docs/agent/ACTIVE_TASK.json | None |
+| docs/agent/PHASE_STATUS.md | None |
+| docs/agent/PROJECT_OVERVIEW.md | None |
+| docs/design/package-f/ORDERS_MIGRATION.md | None |
+| docs/design/package-f/REMAINING_SCREENS_MIGRATION.md | None |
+| e2e/package-f-cash.spec.ts | None |
+| e2e/package-f-customers.spec.ts | None |
+| e2e/package-f-home.spec.ts | None |
+| e2e/package-f-inventory.spec.ts | None |
+| e2e/package-f-more.spec.ts | None |
+| e2e/package-f-orders.spec.ts | None |
+| e2e/package-f-pos.spec.ts | None |
+| e2e/package-f-products.spec.ts | None |
+| e2e/package-f-read-extensions.spec.ts | None |
+| e2e/phase6-package-a.spec.ts | None |
+| src/features/orders/OrderDetailModal.tsx | None |
+| src/features/orders/OrdersCenterView.tsx | None |
+| src/features/products/ProductsView.tsx | None |
+| e2e/orders-panel-clipping.spec.ts | None |
+| e2e/package-f-layout.ts | None |
+| tests/orders-panel-presentation.test.ts | None |
+| tests/package-f-layout-guard.test.ts | None |
+
+Admin src/components/common/Modal.tsx,src/components/ui/* (including
+form-fields.css) and src/index.css are unchanged and not storefront imports.
+Customer uses its own index.css and dialogFocus. The failing checkout spec
+does not import the Package F layout guard. Its isolated fixture,Playwright
+config and Vite runner are unchanged after LF normalization.
+
+To challenge indirect CSS generation as well,the actual served customer CSS
+was captured on both isolated servers:136722 characters,exact same SHA-256
+8bb990da53701ee784d8a653cf76e4223547b16001b855440c36ddb3556a5068.
+Thus no changed imported source or served stylesheet was found in this path.
+
+#### Exact requested repeat comparison
+
+Same command in the baseline worktree first,then in the current checkout:
+`npx.cmd playwright test e2e/customer-checkout-simplification.spec.ts:202 --grep "Turnstile retry requires" --project=mobile-webkit --repeat-each=20 --workers=2 --retries=0`
+Line249 is an assertion inside the test beginning at202,not a separate test.
+
+| Checkout | Pass | Fail | Failure rate | Duration |
+| --- | --- | --- | --- | --- |
+| Detached8195f87 baseline | 20 | 0 | 0/20 (0%) | 2.5min |
+| Current pending changes | 20 | 0 | 0/20 (0%) | 2.9min |
+
+Both use the unchanged mobile-webkit/iPhone13 project,locale ar-JO,
+Asia/Amman,workers2,and the same loopback isolation. No retry,timeout,assertion
+or product change. All20 cases were executed in each comparison (an initial
+anchored CLI grep selected zero tests;that setup attempt is not a test result).
+These results do NOT prove an intermittent baseline failure or its absence.
+The earlier full-quality558PASS/59skips/1FAIL is not overwritten as PASS.
+
+#### Original failure trace/video:what is actually proven
+
+The app mounts via createRoot,not hydrateRoot;index.html has an empty root.
+There is no SSR hydration in this path. Original trace times are milliseconds:
+
+| Snapshot/action | Time | Observed full-name state |
+| --- | --- | --- |
+| fill start | 655151.518 | Targets the full-name input |
+| before fill snapshot | 655158.223 | Empty;Cart still open,Checkout scale95/opacity0 |
+| input snapshot | 655235.509 | Empty;Checkout open,Cart closing |
+| fill returned / after snapshot | 655274.497 / 655282.074 | Still empty |
+| next phone-fill snapshot | 655290.998 | Name still empty |
+| after phone fill | 655378.591 | Phone0791234567 accepted;name empty |
+| after review click | 657757.130 | Required-name error;review never opens |
+
+The video supports the Cart-to-Checkout transition and the subsequent empty-name
+validation. No captured snapshot proves the name was successfully accepted and
+then erased. The trace has no input/focus-event or React-setter log;therefore
+it cannot distinguish missed insertion/focus interference from a transient
+state change between snapshots. Existing useEffect focus-stack handover is a
+candidate,not a confirmed root cause. Saved-customer restoration,UNKNOWN-attempt
+restoration and receipt-close reset are source-defined paths,but none is proved
+to have executed/reset this field in the recorded failure.
+Original trace/video/screenshot/context retained in ignored
+test-results/checkout-diagnosis/original-failure for owner review.
+
+Conclusion:pending changes do not reach the storefront,40/40 focused runs pass,
+but the prior failure is not reproduced and its cause remains unresolved.
+The owner's commit condition (intermittent failure proven on baseline too) is
+not established. No checkout fix,A/B commit,push or batch3. A narrowly scoped
+focus/input/React-commit diagnostic is the suggested next owner decision;
+no assertion weakening or random wait. Owned worktree/servers are cleaned up.
+
+#### Owner decision 2026-10-10 — A/B delivery authorized;store issue remains OPEN
+
+The owner accepts the no-import-path proof,identical served storefront CSS and
+baseline/current20/20 WebKit runs as sufficient separation from this Package F
+work. This supersedes the preceding pending-owner commit condition;it does not
+convert the earlier full-quality failure into a pass or close the store issue.
+Commit Orders A,then Products/guard B;push and require exact final-SHA CI green
+before batch3. If the same checkout case fails in CI,report its log and rerun
+at most once. No test weakening,retries or increased timeout.
+
+Independent OPEN issue:
+"اسم العميل يظهر فارغاً بعد fill أثناء الانتقال من السلة لنافذة الإتمام
+(WebKit، نادر، موجود قبل Package F الحالي على الأرجح)".
+Deferred hypothesis,not proven:an effect on checkout opening (draft/saved-data
+restoration/form initialization) writes state after typing begins;this may
+affect a real customer typing quickly. Temporary input/focus-event and React
+commit instrumentation is owner-authorized ONLY after batch7 and before final
+delivery regression. No storefront fix or instrumentation in A/B or batch3.

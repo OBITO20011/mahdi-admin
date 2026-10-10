@@ -1,5 +1,25 @@
 # Phase status
 
+2026-10-10 owner update: A/B commits authorized after isolated storefront
+diagnosis (baseline/current20/20;unchanged import graph and served CSS).
+Independent WebKit checkout empty-name issue stays OPEN;instrumentation deferred
+after batch7 before final regression. Exact A/B CI must pass before batch3.
+
+## 2026-10-10 — Products clipping correction then batch3 authorized
+
+Owner/Claude accepts8195f87 with one phone clipping defect. Correct header
+containment and neutral reader status in a separate verified commit,extend
+all Package F layout checks to detect unintended hidden-overflow clipping.
+Then batch3 suppliers/purchases/direct receiving presentation only;per-file
+AST call/payload/guard/confirmation/value parity required.001–137 immutable;
+no Production/deploy/Phase7 or batch4. Stop for visual review after delivery.
+
+Owner additionally approves md+ Orders internal scrolling/title containment,
+with phone/business logic unchanged. Commit Orders first,Products/shared guard
+second;one full final quality run and exact final-SHA CI,then batch3. The initial
+Orders warning was unpainted closed-details geometry,not proven visible clipping;
+expanded baseline proof and corrective tests are in ORDERS_MIGRATION.md.
+
 ## 2026-10-10 — Batch1 visually approved;Package F batch2 authorized
 
 ed7772f exact quality38050122538 all19/19 and secrets38050122503 PASS;

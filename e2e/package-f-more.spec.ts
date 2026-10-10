@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {checkLayout} from './package-f-layout';
 import {test,expect,type Page} from './isolated-test';
 
 const url=(theme:string,view='more',extra='')=>`/e2e/package-f-more-harness.html?theme=${theme}&view=${view}${extra}`;
@@ -23,7 +24,19 @@ async function stableDialog(page:Page,name:string){
   await dialog.evaluate(async element=>{await Promise.all(element.getAnimations({subtree:true}).filter(a=>a.effect instanceof KeyframeEffect&&a.effect.getComputedTiming().iterations!==Infinity).map(a=>a.finished.catch(()=>undefined)));});
   return dialog;
 }
+async function stableNavigation(page:Page){
+  // Motion animates height with JS frames,not necessarily a native Animation.
+  // Wait for its real final height/opacity and for closing panels to unmount;
+  // the subsequent clipping check still inspects every visible text node.
+  await expect.poll(()=>page.locator('[id^="admin-navigation-panel-"]').evaluateAll(panels=>panels.filter(panel=>{
+    const trigger=document.getElementById(panel.getAttribute('aria-labelledby')??'');
+    return trigger?.getAttribute('aria-expanded')!=='true'
+      ||(panel as HTMLElement).style.height!=='auto'||getComputedStyle(panel).opacity!=='1';
+  }).map(panel=>panel.id)),{message:'Navigation expand/collapse must finish before layout/axe audit'}).toEqual([]);
+}
 async function audit(page:Page){
+  await stableNavigation(page);
+  await checkLayout(page,page.getByTestId('more-workbench'));
   await page.evaluate(()=>document.fonts.ready);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await expect(page.getByTestId('more-workbench')).not.toContainText(/[٠-٩]/u);
@@ -49,6 +62,16 @@ async function audit(page:Page){
     return failed;
   });expect(overflow).toEqual([]);
 }
+test('More layout audit waits for actual JS height completion and still rejects settled clipping',async({page})=>{
+  await page.goto(url('light'));
+  await page.locator('#admin-navigation-trigger-products-inventory').click();
+  await stableNavigation(page);
+  const panel=page.locator('#admin-navigation-panel-products-inventory');
+  expect(await panel.evaluate(element=>({height:(element as HTMLElement).style.height,opacity:getComputedStyle(element).opacity}))).toEqual({height:'auto',opacity:'1'});
+  await checkLayout(page,page.getByTestId('more-workbench'));
+  await panel.evaluate(element=>{const text=document.createElement('span');text.style.cssText='display:block;width:2000px;white-space:nowrap;text-align:left';text.textContent='unintended settled navigation clipping';element.append(text);});
+  await expect(checkLayout(page,page.getByTestId('more-workbench'))).rejects.toThrow('Unintended text clipping');
+});
 for(const theme of ['light','dark'])for(const width of [390,820,1440]){
   test(`More ${theme} ${width}: all groups,roles,token contrast and containment`,async({page})=>{
     await page.setViewportSize({width,height:900});await page.goto(url(theme));

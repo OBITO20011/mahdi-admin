@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {checkLayout} from './package-f-layout';
 import { expect, test, type Page } from './isolated-test';
 import { homeFixture } from './package-f-home.fixture';
 
@@ -6,6 +7,7 @@ const base = process.env.ADMIN_BASE_URL ?? 'http://127.0.0.1:4173';
 const url = (query = '') => `${base}/e2e/package-f-home-harness.html?${query}`;
 
 async function assertLayout(page: Page) {
+  await checkLayout(page,page.getByTestId('dashboard-home'));
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   const escaped = await page.getByTestId('dashboard-home').evaluate((root) => {
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);

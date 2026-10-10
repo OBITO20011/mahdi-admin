@@ -1,10 +1,12 @@
 import AxeBuilder from '@axe-core/playwright';
+import {checkLayout} from './package-f-layout';
 import {test,expect,type Page} from './isolated-test';
 import {inventoryProducts,inventoryMetrics} from './package-f-inventory.fixture';
 
 const url=(query='')=>'/e2e/package-f-inventory-harness.html?'+query;
 const card=(page:Page,index=0)=>page.locator(`[data-inventory-product-card="${inventoryProducts[index].id}"]:visible`);
 async function layout(page:Page){
+  await checkLayout(page,page.getByTestId('inventory-workbench'));
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await expect(page.getByTestId('inventory-workbench')).not.toContainText(/[٠-٩]/u);
   const escaped=await page.getByTestId('inventory-workbench').evaluate(root=>{

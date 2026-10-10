@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {checkLayout as checkClipping} from './package-f-layout';
 import {test,expect,type Page} from './isolated-test';
 import {cashIds,cashShift,shiftRpcFixture,cashReportFixture,recentCashShifts} from './package-f-cash.fixture';
 const url=(query='')=>'/e2e/package-f-cash-harness.html?'+query;
@@ -15,6 +16,7 @@ for(const theme of ['light','dark'])test(`Arabic shift time ${theme} reads visua
   expect(positions.number).toBeGreaterThan(positions.period);
 });
 async function checkLayout(page:Page){
+  await checkClipping(page,page.getByTestId('cash-workbench'));
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await expect(page.getByTestId('cash-workbench')).not.toContainText(/[٠-٩]/u);
   const escaped=await page.getByTestId('cash-workbench').evaluate(root=>{

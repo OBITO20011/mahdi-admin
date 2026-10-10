@@ -202,7 +202,7 @@ export const ProductsView: React.FC<ProductsViewProps> = ({
                   <AlertCircle className="h-3 w-3" />
                 )}
                 {isProductsLoading ? 'جاري تحديث المنتجات…' : !productsError
-                  ? 'متصل ومحدّث من Supabase'
+                  ? 'محدّث الآن'
                   : 'تحتاج البيانات إلى إعادة اتصال'}
               </div>
             </div>
@@ -561,9 +561,9 @@ const ProductCatalogCard: React.FC<{
       <UiButton variant="plain"
         type="button"
         onClick={onView}
-        className="w-full p-2 text-right sm:p-3"
+        className="flex w-full min-w-0 justify-start p-2 text-right sm:p-3"
       >
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:gap-3">
+        <div className="flex min-w-0 w-full flex-col gap-2 sm:flex-row sm:items-start sm:gap-3">
           <div className="flex h-20 w-full shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-nw-border bg-nw-surface-2 sm:h-16 sm:w-16">
             {product.imageUrl && !imageFailed ? (
               <img

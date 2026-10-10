@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {checkLayout} from './package-f-layout';
 import { test, expect, type Page } from './isolated-test';
 import { posFixtureIds, posFixtureProducts, posFixtureParcel } from './package-f-pos.fixture';
 
@@ -6,6 +7,7 @@ const url = (query = '') => `/e2e/package-f-pos-harness.html?${query}`;
 const submit = (page: Page) => page.locator('[data-testid="pos-complete-sale"]:visible');
 const product = (page: Page, index: number) => page.locator(`[data-pos-product-card="${posFixtureProducts[index].id}"]`);
 async function layout(page: Page) {
+  await checkLayout(page,page.getByTestId('pos-workbench'));
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await expect(page.getByTestId('pos-workbench')).not.toContainText(/[٠-٩]/);
   const overflow = await page.getByTestId('pos-workbench').evaluate(root => {

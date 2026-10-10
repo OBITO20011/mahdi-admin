@@ -1,10 +1,12 @@
 import AxeBuilder from '@axe-core/playwright';
+import {checkLayout} from './package-f-layout';
 import { expect, test, type Page } from './isolated-test';
 import { ordersFixture } from './package-f-orders.fixture';
 
 const base = process.env.ADMIN_BASE_URL ?? 'http://127.0.0.1:4173';
 const url = (query = '') => `${base}/e2e/package-f-orders-harness.html?${query}`;
 async function layout(page: Page) {
+  await checkLayout(page,page.getByTestId('orders-workbench'));
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   const escaped = await page.getByTestId('orders-workbench').evaluate((root) => {
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);

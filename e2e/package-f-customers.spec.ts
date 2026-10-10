@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {checkLayout} from './package-f-layout';
 import {expect,test,type Page} from './isolated-test';
 import {customersFixture} from './package-f-customers.fixture';
 
@@ -19,6 +20,7 @@ test('accepted Cash harness makes the exact two pre-existing shell requests with
   await expect.poll(()=>[...calls].sort((a,b)=>a.name.localeCompare(b.name))).toEqual(shellRequests);
 });
 async function audit(page:Page) {
+  await checkLayout(page,page.getByTestId('customers-workbench'));
   await page.evaluate(()=>document.fonts.ready);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await expect(page.getByTestId('customers-workbench')).not.toContainText(/[٠-٩]/u);

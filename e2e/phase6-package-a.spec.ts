@@ -92,9 +92,9 @@ test('حالة المنتجات لا تدّعي التحديث قبل انتها
   });
   await page.goto('/e2e/phase6-package-a-harness.html?kind=products');
   await expect(page.getByText('جاري تحديث المنتجات…', {exact: true})).toBeVisible();
-  await expect(page.getByText('متصل ومحدّث من Supabase', {exact: true})).not.toBeVisible();
+  await expect(page.getByText('محدّث الآن', {exact: true})).not.toBeVisible();
   release();
-  await expect(page.getByText('متصل ومحدّث من Supabase', {exact: true})).toBeVisible();
+  await expect(page.getByText('محدّث الآن', {exact: true})).toBeVisible();
 });
 
 test('تفصيل الإغلاق يعرض كميات مختلطة دون نسبة مال المرتجع كله للتلف', async ({page}) => {

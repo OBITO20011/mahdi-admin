@@ -1,4 +1,5 @@
 import {test,expect} from './isolated-test';
+import {checkLayout} from './package-f-layout';
 import AxeBuilder from '@axe-core/playwright';
 import {inventoryProducts} from './package-f-inventory.fixture';
 
@@ -10,6 +11,7 @@ for(const width of [390,1440])test(`POS selected customer debt is a read-only wa
   const debt=page.getByTestId('pos-customer-debt').filter({visible:true});
   await expect(debt).toContainText('عليه 45.000');await expect(debt).toContainText('حد الدين 40.000');
   await expect(debt).toContainText('تجاوز الحد');await expect(debt).toHaveClass(/text-nw-warn/u);
+  await checkLayout(page,page.getByTestId('pos-workbench'));
   const accessibility=await new AxeBuilder({page}).include('[data-testid="pos-workbench"]').analyze();
   expect(accessibility.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
   if(width<1024)await page.getByRole('button',{name:'رجوع للبيع',exact:true}).click();
@@ -20,6 +22,7 @@ test('POS zero debt remains zero and does not show a limit warning',async({page}
   await page.getByLabel('اختيار العميل',{exact:true}).selectOption('55555555-5555-4555-8555-555555555555');
   await expect(page.getByTestId('pos-customer-debt')).toContainText('عليه 0.000');
   await expect(page.getByTestId('pos-customer-debt')).not.toContainText('تجاوز الحد');
+  await checkLayout(page,page.getByTestId('pos-workbench'));
 });
 test('available stock filter crosses the existing RPC adapter instead of filtering a visible page',async({page})=>{
   await page.setViewportSize({width:1440,height:1000});
@@ -36,4 +39,5 @@ test('available stock filter crosses the existing RPC adapter instead of filteri
   await expect(page.locator('[data-inventory-product-row]')).toHaveCount(23);
   await expect(page.getByRole('columnheader',{name:'القيمة',exact:true})).toHaveCount(0);
   await expect(page.locator('[data-inventory-product-row]').first()).toContainText('48 باكيت');
+  await checkLayout(page,page.getByTestId('inventory-workbench'));
 });
