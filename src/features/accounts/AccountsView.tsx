@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BookUser, ReceiptText, Users } from 'lucide-react';
+import {PageHeader, SegmentedControl} from '../../components/ui';
 import { useAppStoreSelector } from '../../stores/useAppStore';
 import { CrmView } from '../crm/CrmView';
 import { CustomerBalancesView } from './CustomerBalancesView';
@@ -19,49 +19,10 @@ export const AccountsView: React.FC = () => {
   }, [customerNavigationTarget]);
 
   return (
-    <div dir="rtl" className="space-y-3 pb-24">
-      <div data-ui="accounts-header" className="mx-3 mt-3 rounded-2xl border border-slate-800 bg-gradient-to-l from-teal-950/80 to-slate-900 p-4">
-        <div className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-teal-500/30 bg-teal-500/10 text-teal-300">
-            <Users className="h-5 w-5" />
-          </div>
-          <div>
-            <h2 className="text-base font-black text-white">
-              العملاء والذمم
-            </h2>
-            <p className="text-[11px] text-slate-400">
-              ملف العميل في الدليل، والمبالغ المستحقة في التحصيل
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="mx-3 grid grid-cols-2 gap-1 rounded-2xl border border-slate-800 bg-slate-900 p-1 text-xs font-bold">
-        <button
-          type="button"
-          onClick={() => setSection('directory')}
-          className={`flex items-center justify-center gap-1.5 rounded-xl py-2.5 transition ${
-            section === 'directory'
-              ? 'bg-teal-600 text-white shadow'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <BookUser className="h-4 w-4" />
-          دليل العملاء
-        </button>
-        <button
-          type="button"
-          onClick={() => setSection('balances')}
-          className={`flex items-center justify-center gap-1.5 rounded-xl py-2.5 transition ${
-            section === 'balances'
-              ? 'bg-teal-600 text-white shadow'
-              : 'text-slate-400 hover:text-slate-200'
-          }`}
-        >
-          <ReceiptText className="h-4 w-4" />
-          الذمم والتحصيل
-        </button>
-      </div>
+    <div dir="rtl" className="min-w-0 space-y-4 bg-nw-bg pb-28 text-nw-text" data-testid="customers-workbench">
+      <div data-ui="accounts-header"><PageHeader title="العملاء والذمم" description="ملف العميل وعمر الدين وتسجيل الدفعات على الطلبات المستحقة." /></div>
+      <div className="px-4 sm:px-6"><SegmentedControl label="أقسام العملاء" touchSize value={section} onChange={setSection}
+        options={[{value:'directory',label:'دليل العملاء'},{value:'balances',label:'الذمم والتحصيل'}]} /></div>
 
       {section === 'directory' ? <CrmView /> : <CustomerBalancesView />}
     </div>

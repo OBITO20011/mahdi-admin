@@ -1,5 +1,30 @@
 # Phase status
 
+## 2026-10-10 — Customers local final gates PASS
+
+Focused20/20,AST/parser4/4,strict affected lint0;full quality exit0:
+811Admin/465browser PASS,59existing conditional skips,retries0. Builds/network
+isolation PASS,Production escaped0;001–136 unchanged. Exact-SHA Customers CI
+must pass before approved137/financial chips. Not visually approved or closed.
+
+## 2026-10-10 — Customers bounded correction authorized
+
+Owner approves exact named shell-request proof and literal hook separation.
+Accepted Cash harness proves the same order/stock-alert requests2/2 browsers;
+exact list/count/payload checks now permanent. Existing business calls/handlers
+and moved hook bodies match by AST. Full quality/Customers commit/CI precedes
+137 and financial chips. No Production/deploy/Phase7;136 unchanged.
+
+## 2026-10-10 — infrastructure delivered;Customers candidate stopped on test failure
+
+412a5ac/d70cd575 delivered:test-only ports/Vite cache,Gitleaks0,exact quality
+38012446691 all19/19,secrets38012446732 and official handoff-delivery PASS.
+CI port-release wait0. Customers candidate focused14/16:all12visual/accessibility
+cases and2unavailable cases PASS;2live-adapter final RPC-set expectations omit
+existing shell order/stock-alert readers. Strict ESLint3mixed-export warnings;
+final typecheck/diff-check PASS. No customer commit/137/chips/Production/deploy.
+Paused at owner's failure boundary;see CUSTOMERS_MIGRATION.md for exact evidence.
+
 ## 2026-10-10 — isolated ephemeral-port correction
 
 Owner approves test-only low-port config25430–25439 and ss-tanp LOCAL diagnostics.

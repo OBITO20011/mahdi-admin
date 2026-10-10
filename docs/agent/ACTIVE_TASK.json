@@ -2,55 +2,57 @@
   "schemaVersion": 1,
   "status": "IDLE",
   "owner": "codex",
-  "objective": "Deliver approved isolated port and Vite cache corrections;then Customers and137",
-  "baselineSha": "412a5ac579d53d2c7996c83b314a0d09b8dafe81",
+  "objective": "Customers UI delivered locally;exact-SHA CI required before approved137 filters and chips",
+  "baselineSha": "d70cd575b0372e7746c774bec828ab744e9c5b0b",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "1361288db70 exact-SHA quality38004164449 all19/19 and secrets38004164451 PASS;official delivery verified"
+    "136 and independent port/cache infrastructure exact-SHA delivered"
   ],
   "inProgress": [
-    "Test-only Vite isolation and low ports verified;full quality PASS;Gitleaks and independent infra commit/CI before Customers"
+    "Customers commit/push/exact-SHA CI"
   ],
   "notStarted": [
-    "Customers UI",
-    "Owner-approved137 financial CRM filters only after Customers UI exact-SHA CI",
+    "137 financial filters and UI chips",
     "Phase7"
   ],
   "filesTouched": [
-    "scripts/testing/playwright-global-teardown.mjs",
-    "scripts/testing/run-admin-large-catalog-browser.mjs",
-    "scripts/testing/run-admin-session-browser-e2e.mjs",
-    "scripts/testing/run-customer-checkout-browser-e2e.mjs",
-    "scripts/testing/run-isolated-vite.mjs",
-    "scripts/testing/run-phase44-admin-recovery-fullstack.mjs",
-    "docs/design/package-f/ISOLATED_VITE_CACHE.md",
-    "scripts/testing/isolated-vite-server.mjs",
-    "scripts/testing/stop-isolated-vite.mjs",
-    "tests/isolated-vite-cache.test.ts"
+    "docs/agent/PHASE_STATUS.md",
+    "src/features/accounts/AccountsView.tsx",
+    "src/features/accounts/CustomerBalancesView.tsx",
+    "src/features/accounts/RecordCustomerPaymentModal.tsx",
+    "src/features/crm/CrmView.tsx",
+    "src/features/crm/CustomerDetailView.tsx",
+    "src/features/crm/CustomerFilters.tsx",
+    "src/features/crm/CustomerList.tsx",
+    "docs/design/package-f/CUSTOMERS_MIGRATION.md",
+    "e2e/package-f-customers-harness.html",
+    "e2e/package-f-customers-harness.tsx",
+    "e2e/package-f-customers.fixture.ts",
+    "e2e/package-f-customers.spec.ts",
+    "src/features/crm/CustomerAging.tsx",
+    "src/hooks/useCustomerAccounts.ts",
+    "src/services/supabase/customerDebtAging.service.ts",
+    "src/utils/customerDebtAging.ts",
+    "tests/package-f-customers.test.ts"
   ],
   "testsPassed": [
-    "Low-port units12/12 Windows/Linux;continuity/migrations/stability29/29;Admin804/804;typecheck/full strict ESLint PASS",
-    "Vite units3/3;shared-cache504 reproduced;real POS8/8 and uninterrupted parallel POS/Home40/40 repeat10/workers2/retries0,no504,zero Production;all owned caches/servers/DB stopped",
-    "Final full quality exit0:445Browser PASS/59existing conditional skips/retries0;typecheck/lint/unit/build/SEO/isolation PASS",
-    "Historical001–131 supplier actual idempotency/direct-write/POS/transfer/lint PASS;CLIstatus API25431/Studio25433/Mail25434;Linux automatic outbound34032 blocks wildcard bind without listener"
+    "Customers focused20/20;AST/parser4/4;affected strict ESLint0",
+    "Full quality PASS:811Admin,465browser,59existing conditional skips,retries0;builds/isolation PASS,Production escaped0",
+    "001-136 unchanged;git diff --check PASS;only owner n8n container remains"
   ],
   "testsRemaining": [
-    "Exact-SHA infrastructure CI;then Customers current filters,then137 and financial chips"
+    "Staged Gitleaks0,Customers commit/push/exact-SHA CI,then137/chips"
   ],
-  "findings": [
-    "Historical collision details preserved in ISOLATED_DB_PORT_GUARD.md/ISOLATED_VITE_CACHE.md;fresh mechanism proofs and final quality passed"
-  ],
+  "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production/deploy/Phase7/automations",
-    "001-136 immutable now;test-only port guard:no product/workflow/deadline/retry changes;Customers later adds136 read only",
-    "No opening-balance tool;preserve .claude/launch.json unstaged"
+    "No Production/deploy/Phase7/automations;001-136 unchanged",
+    "No next screen;preserve .claude/launch.json unstaged"
   ],
-  "nextExactAction": "Observe exact push/main infrastructure CI after both independent commits;verify all jobs and port-release log,then start approved Customers UI",
-  "workingTreeFingerprint": "07CFE51DD2920065682D7546D3BA8C4D8723CA83AAD1715444D50F4506F3EC89",
-  "checkpointedAt": "2026-10-10T01:15:01.970Z",
-  "startedAt": "2026-10-09T17:34:23.990Z"
+  "nextExactAction": "Customers local quality PASS;stage explicit UI/test/docs allowlist,Gitleaks0,commit/push,verify exact-SHA CI before137/chips.",
+  "workingTreeFingerprint": "8E71B59D338A6CB26B5D81BE3438133F1660C65689BDBBE3FC097BC23AE6868D",
+  "checkpointedAt": "2026-10-10T02:13:37.471Z"
 }

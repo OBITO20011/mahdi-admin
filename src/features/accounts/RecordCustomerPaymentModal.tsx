@@ -141,8 +141,8 @@ export const RecordCustomerPaymentModal: React.FC<
 
   if (loading && !hasLoaded) {
     return (
-      <div className="flex items-center justify-center gap-2 py-10 text-xs font-bold text-slate-400">
-        <Loader2 className="h-5 w-5 animate-spin text-teal-400" />
+      <div className="flex items-center justify-center gap-2 py-10 text-xs font-bold text-nw-muted">
+        <Loader2 className="h-5 w-5 animate-spin text-nw-ok" />
         جاري تحميل الذمم الحقيقية...
       </div>
     );
@@ -150,36 +150,36 @@ export const RecordCustomerPaymentModal: React.FC<
 
   if (!loading && !error && orders.length === 0 && !initialOrder && !orderSearch.trim()) {
     return (
-      <div className="rounded-2xl border border-emerald-800/50 bg-emerald-950/30 p-6 text-center">
-        <CheckCircle2 className="mx-auto mb-2 h-9 w-9 text-emerald-400" />
-        <h3 className="text-sm font-black text-white">{orderSearch.trim() ? 'لا توجد نتائج لهذا البحث' : 'لا توجد ذمم مستحقة'}</h3>
-        <p className="mt-1 text-[11px] text-slate-400">
+      <div className="rounded-2xl border border-nw-ok bg-nw-ok-bg p-6 text-center">
+        <CheckCircle2 className="mx-auto mb-2 h-9 w-9 text-nw-ok" />
+        <h3 className="text-sm font-black text-nw-text">{orderSearch.trim() ? 'لا توجد نتائج لهذا البحث' : 'لا توجد ذمم مستحقة'}</h3>
+        <p className="mt-1 text-[11px] text-nw-muted">
           {orderSearch.trim() ? 'غيّر رقم الطلب أو اسم العميل أو الهاتف، أو امسح البحث.' : 'لا توجد مبالغ مستحقة ضمن الطلبات المتاحة لك.'}
         </p>
-        {orderSearch.trim() && <button type="button" onClick={() => { setOrderSearch(''); setOrderPage(1); }} className="mt-3 rounded-xl border border-slate-700 px-3 py-2 text-white">مسح البحث</button>}
+        {orderSearch.trim() && <button type="button" onClick={() => { setOrderSearch(''); setOrderPage(1); }} className="mt-3 rounded-xl border border-nw-border px-3 py-2 text-nw-text">مسح البحث</button>}
       </div>
     );
   }
 
   return (
     <form onSubmit={handleSubmit} aria-busy={saving} className="space-y-3 text-xs">
-      {loading && <p className="text-slate-400">جاري تحديث الذمم...</p>}
+      {loading && <p className="text-nw-muted">جاري تحديث الذمم...</p>}
       {!loading && !error && orders.length === 0 && orderSearch.trim() && (
-        <div className="rounded-xl border border-slate-700 p-3">
+        <div className="rounded-xl border border-nw-border p-3">
           <h3 className="font-bold">لا توجد نتائج لهذا البحث</h3>
           <p>غيّر رقم الطلب أو اسم العميل أو الهاتف، أو امسح البحث.</p>
           <button type="button" onClick={() => {setOrderSearch(''); setOrderPage(1);}} className="mt-2 underline">مسح البحث</button>
         </div>
       )}
       {error && (
-        <div className="rounded-xl border border-rose-800 bg-rose-950/60 p-3 text-rose-300">
+        <div className="rounded-xl border border-nw-bad bg-nw-bad-bg p-3 text-nw-bad">
           {error}
         </div>
       )}
 
       <div>
         {!initialOrder && (
-          <label className="mb-2 flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-slate-400">
+          <label className="mb-2 flex items-center gap-2 rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2 text-nw-muted">
             <Search className="h-3.5 w-3.5" />
             <input
               aria-label="البحث عن طلب أو عميل أو هاتف"
@@ -189,11 +189,11 @@ export const RecordCustomerPaymentModal: React.FC<
                 setOrderPage(1);
               }}
               placeholder="ابحث برقم الطلب أو العميل أو الهاتف"
-              className="w-full bg-transparent text-xs text-white outline-none placeholder:text-slate-600"
+              className="w-full bg-transparent text-xs text-nw-text outline-none placeholder:text-nw-muted"
             />
           </label>
         )}
-        <label htmlFor={`${fieldId}-order`} className="mb-1 block font-bold text-slate-300">
+        <label htmlFor={`${fieldId}-order`} className="mb-1 block font-bold text-nw-text">
           الطلب والعميل *
         </label>
         <select
@@ -201,7 +201,7 @@ export const RecordCustomerPaymentModal: React.FC<
           value={orderId}
           onChange={(event) => handleOrderChange(event.target.value)}
           disabled={Boolean(initialOrder)}
-          className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-white disabled:opacity-70"
+          className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text disabled:opacity-70"
         >
           <option value="">اختر الطلب</option>
           {(initialOrder
@@ -215,12 +215,12 @@ export const RecordCustomerPaymentModal: React.FC<
           ))}
         </select>
         {!initialOrder && orderTotalPages > 1 && (
-          <div className="mt-2 flex items-center justify-between text-[10px] text-slate-400">
-            <button type="button" onClick={() => setOrderPage((current) => Math.max(1, current - 1))} disabled={orderPage <= 1} className="rounded-lg border border-slate-700 px-2 py-1 disabled:opacity-40">
+          <div className="mt-2 flex items-center justify-between text-[10px] text-nw-muted">
+            <button type="button" onClick={() => setOrderPage((current) => Math.max(1, current - 1))} disabled={orderPage <= 1} className="rounded-lg border border-nw-border px-2 py-1 disabled:opacity-40">
               <ChevronRight className="inline h-3 w-3" /> السابق
             </button>
             <span>{orderPage} / {orderTotalPages}</span>
-            <button type="button" onClick={() => setOrderPage((current) => Math.min(orderTotalPages, current + 1))} disabled={orderPage >= orderTotalPages} className="rounded-lg border border-slate-700 px-2 py-1 disabled:opacity-40">
+            <button type="button" onClick={() => setOrderPage((current) => Math.min(orderTotalPages, current + 1))} disabled={orderPage >= orderTotalPages} className="rounded-lg border border-nw-border px-2 py-1 disabled:opacity-40">
               التالي <ChevronLeft className="inline h-3 w-3" />
             </button>
           </div>
@@ -228,22 +228,22 @@ export const RecordCustomerPaymentModal: React.FC<
       </div>
 
       {selectedOrder && (
-        <div className="grid grid-cols-3 gap-2 rounded-2xl border border-slate-800 bg-slate-950 p-3 text-center">
+        <div className="grid grid-cols-3 gap-2 rounded-2xl border border-nw-border bg-nw-surface-2 p-3 text-center">
           <div>
-            <span className="block text-[10px] text-slate-500">الإجمالي</span>
-            <strong className="text-slate-200">
+            <span className="block text-[10px] text-nw-muted">الإجمالي</span>
+            <strong className="text-nw-text">
               {selectedOrder.totalAmount.toFixed(3)}
             </strong>
           </div>
           <div>
-            <span className="block text-[10px] text-slate-500">المدفوع</span>
-            <strong className="text-emerald-400">
+            <span className="block text-[10px] text-nw-muted">المدفوع</span>
+            <strong className="text-nw-ok">
               {selectedOrder.amountPaid.toFixed(3)}
             </strong>
           </div>
           <div>
-            <span className="block text-[10px] text-slate-500">المتبقي</span>
-            <strong className="text-rose-400">
+            <span className="block text-[10px] text-nw-muted">المتبقي</span>
+            <strong className="text-nw-bad">
               {selectedOrder.amountDue.toFixed(3)}
             </strong>
           </div>
@@ -252,7 +252,7 @@ export const RecordCustomerPaymentModal: React.FC<
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label htmlFor={`${fieldId}-amount`} className="mb-1 block font-bold text-slate-300">
+          <label htmlFor={`${fieldId}-amount`} className="mb-1 block font-bold text-nw-text">
             مبلغ الدفعة ({CURRENCY}) *
           </label>
           <input
@@ -263,12 +263,12 @@ export const RecordCustomerPaymentModal: React.FC<
             max={selectedOrder?.amountDue}
             value={amount}
             onChange={(event) => setAmount(event.target.value)}
-            className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 font-bold text-teal-300"
+            className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 font-bold text-nw-ok"
             required
           />
         </div>
         <div>
-          <label htmlFor={`${fieldId}-method`} className="mb-1 block font-bold text-slate-300">
+          <label htmlFor={`${fieldId}-method`} className="mb-1 block font-bold text-nw-text">
             طريقة الدفع *
           </label>
           <select
@@ -277,7 +277,7 @@ export const RecordCustomerPaymentModal: React.FC<
             onChange={(event) =>
               setPaymentMethod(event.target.value as typeof paymentMethod)
             }
-            className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-white"
+            className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
           >
             <option value="cash">نقدي</option>
             <option value="cliq">CliQ</option>
@@ -286,7 +286,7 @@ export const RecordCustomerPaymentModal: React.FC<
       </div>
 
       <div>
-        <label htmlFor={`${fieldId}-reference`} className="mb-1 block font-bold text-slate-300">
+        <label htmlFor={`${fieldId}-reference`} className="mb-1 block font-bold text-nw-text">
           {paymentMethod === 'cliq' ? 'رقم مرجع CliQ *' : 'رقم المرجع (اختياري)'}
         </label>
         <input
@@ -295,12 +295,12 @@ export const RecordCustomerPaymentModal: React.FC<
           onChange={(event) => setReferenceNumber(event.target.value)}
           placeholder={paymentMethod === 'cliq' ? 'رقم مرجع CliQ' : 'مرجع داخلي إن وجد'}
           required={paymentMethod === 'cliq'}
-          className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-white"
+          className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
         />
       </div>
 
       <div>
-        <label htmlFor={`${fieldId}-notes`} className="mb-1 block font-bold text-slate-300">
+        <label htmlFor={`${fieldId}-notes`} className="mb-1 block font-bold text-nw-text">
           ملاحظات (اختياري)
         </label>
         <textarea
@@ -308,14 +308,14 @@ export const RecordCustomerPaymentModal: React.FC<
           rows={2}
           value={notes}
           onChange={(event) => setNotes(event.target.value)}
-          className="w-full resize-none rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-white"
+          className="w-full resize-none rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
         />
       </div>
 
       <button
         type="submit"
         disabled={saving || loading || !selectedOrder}
-        className="flex w-full items-center justify-center gap-2 rounded-2xl bg-teal-600 py-3 font-bold text-white transition hover:bg-teal-500 disabled:opacity-60"
+        className="flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-nw-accent py-3 font-bold text-nw-on-accent transition hover:brightness-105 disabled:opacity-60"
       >
         {saving ? (
           <Loader2 className="h-4 w-4 animate-spin" />
@@ -325,7 +325,7 @@ export const RecordCustomerPaymentModal: React.FC<
         {saving ? 'جاري حفظ السند...' : 'حفظ سند القبض وتحديث الذمة'}
       </button>
 
-      <p className="flex items-center gap-1 text-[10px] text-slate-500">
+      <p className="flex items-center gap-1 text-[10px] text-nw-muted">
         <Banknote className="h-3 w-3" />
         تُربط الدفعة بالطلب وتُحدّث الذمة تلقائيًا من قاعدة البيانات.
       </p>
