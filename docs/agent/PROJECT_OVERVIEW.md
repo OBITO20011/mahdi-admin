@@ -8,6 +8,15 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 ## Canonical reading order
 
+**Latest owner boundary —2026-10-10:** Customers4db3af1 delivered with exact-SHA
+quality19/19/secrets PASS,visual review pending. Only137 read-only CRM filters:
+every-customer136/phase42 oracle sets versus all137 pages,independent manual6
+cases,pinned normalized balance/FIFO CTE guard,all old filters/sorts literal JSON.
+Full-scale financial filter p95<1s;EXPLAIN and optimization inside137 only if slow,
+same136 constraints,no historical migration/source/permission/settings change.
+137 quality/Gitleaks0/commit/CI precedes financial chips/CI,then STOP for visual
+review. CRM_FILTERS_137.md is the current contract;no Production/deploy/Phase7.
+
 **Latest owner boundary — 2026-10-10:** optimize136 only with EXPLAIN and literal
 every-customer/bucket parity,then full quality/commit/exact-SHA CI;after delivery,
 independent test-only actual port-bind guard commit,then Customers presentation.

@@ -1,58 +1,55 @@
 {
   "schemaVersion": 1,
-  "status": "IDLE",
+  "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Customers UI delivered locally;exact-SHA CI required before approved137 filters and chips",
-  "baselineSha": "d70cd575b0372e7746c774bec828ab744e9c5b0b",
+  "objective": "Add approved read-only CRM financial filters in137;preserve all existing JSON,roles,paging and writers",
+  "baselineSha": "4db3af1975ae1e70206b2632bb076160d1bb0903",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "136 and independent port/cache infrastructure exact-SHA delivered"
+    "Customers4db3af1 exact quality38016271763 all19/19,secrets38016271790;official delivery PASS"
   ],
-  "inProgress": [
-    "Customers commit/push/exact-SHA CI"
-  ],
+  "inProgress": [],
   "notStarted": [
-    "137 financial filters and UI chips",
+    "Financial UI chips after137 delivery",
     "Phase7"
   ],
   "filesTouched": [
+    "docs/design/package-f/CRM_FILTERS_137.md",
+    "scripts/testing/crm-debt-cte-contract.mjs",
+    "scripts/testing/run-package-f-crm-filters-runtime.mjs",
+    "supabase/migrations/137_package_f_crm_financial_filters.sql",
+    "tests/package-f-crm-filters.test.ts",
+    ".github/workflows/quality.yml",
     "docs/agent/PHASE_STATUS.md",
-    "src/features/accounts/AccountsView.tsx",
-    "src/features/accounts/CustomerBalancesView.tsx",
-    "src/features/accounts/RecordCustomerPaymentModal.tsx",
-    "src/features/crm/CrmView.tsx",
-    "src/features/crm/CustomerDetailView.tsx",
-    "src/features/crm/CustomerFilters.tsx",
-    "src/features/crm/CustomerList.tsx",
+    "docs/agent/PROJECT_OVERVIEW.md",
+    "docs/agent/project-state.json",
     "docs/design/package-f/CUSTOMERS_MIGRATION.md",
-    "e2e/package-f-customers-harness.html",
-    "e2e/package-f-customers-harness.tsx",
-    "e2e/package-f-customers.fixture.ts",
-    "e2e/package-f-customers.spec.ts",
-    "src/features/crm/CustomerAging.tsx",
-    "src/hooks/useCustomerAccounts.ts",
-    "src/services/supabase/customerDebtAging.service.ts",
-    "src/utils/customerDebtAging.ts",
-    "tests/package-f-customers.test.ts"
+    "package.json",
+    "scripts/agent/lib.mjs",
+    "scripts/agent/preflight.mjs",
+    "tests/migration-integrity.test.ts"
   ],
   "testsPassed": [
-    "Customers focused20/20;AST/parser4/4;affected strict ESLint0",
-    "Full quality PASS:811Admin,465browser,59existing conditional skips,retries0;builds/isolation PASS,Production escaped0",
-    "001-136 unchanged;git diff --check PASS;only owner n8n container remains"
+    "137 full-size:all10k136/phase42 oracle,exact4filter sets before/after,33oldJSON/ACL;p95all<1s(overdue836.295ms)",
+    "Final optimized137 manual6cases,33oldJSON,roles/ACL/zero-write/DB lint PASS;static/continuity14/14,strict lint0",
+    "Full quality exit0:815Admin/465browser PASS,59existing conditional skips,retries0;builds/isolation PASS,Production escaped0"
   ],
   "testsRemaining": [
-    "Staged Gitleaks0,Customers commit/push/exact-SHA CI,then137/chips"
+    "Gitleaks/137 exact CI;then financial chips/quality/CI and visualSTOP"
   ],
-  "findings": [],
+  "findings": [
+    "Original count-only scale expectation repaired by owner-approved full136/phase42 identity oracle;no confirmed financial defect"
+  ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Production/deploy/Phase7/automations;001-136 unchanged",
     "No next screen;preserve .claude/launch.json unstaged"
   ],
-  "nextExactAction": "Customers local quality PASS;stage explicit UI/test/docs allowlist,Gitleaks0,commit/push,verify exact-SHA CI before137/chips.",
-  "workingTreeFingerprint": "8E71B59D338A6CB26B5D81BE3438133F1660C65689BDBBE3FC097BC23AE6868D",
-  "checkpointedAt": "2026-10-10T02:13:37.471Z"
+  "nextExactAction": "Owner-approved staged137 unchanged:resume,Gitleaks0,commit137/push/exactCI without rerunning unchanged local quality.Then financial chips plus approved visual corrections,quality/CI and visualSTOP.",
+  "workingTreeFingerprint": "7257F3052FF9310B61D40045F32F52DBD3AD4A824D96FA534450DAC2668D8FF8",
+  "checkpointedAt": "2026-10-10T06:51:35.671Z",
+  "startedAt": "2026-10-10T02:28:31.421Z"
 }

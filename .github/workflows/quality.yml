@@ -187,6 +187,10 @@ jobs:
         if: matrix.suite == 'package-f-reads'
         run: npm run test:package-f:reads
 
+      - name: Prove137 CRM financial filters,old JSON,paging and permissions
+        if: matrix.suite == 'package-f-reads'
+        run: npm run test:package-f:crm-filters
+
       - name: Prove136 read-only FIFO aging,canonical balance and role boundaries
         if: matrix.suite == 'package-f-aging'
         run: npm run test:package-f:aging

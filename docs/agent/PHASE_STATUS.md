@@ -1,5 +1,49 @@
 # Phase status
 
+## 2026-10-10 —137 independent runtime/scale proofs PASS
+
+Every10000customer136/phase42 oracle matches;all4full-page identity sets match
+before/after137-only optimization.33old filter/sort JSON cases and ACL identical.
+Final manual6cases/roles/zero-write/DB lint PASS;static/continuity14/14 PASS.
+EXPLAIN justified pruning only zero-principal/zero-coverage rows and deferring
+page-only display;no old migration/index/settings/writer/role changes. Full-scale
+p95 financial filters:has_debt222.262ms,overdue836.295ms,over_limit251.517ms,
+wholesale64.403ms;all below1s. Full quality exit0:815Admin/465browser PASS,
+59existing conditional skips,retries0;builds/isolation PASS.137 commit/exact CI
+pending,then chips.
+No Production/deploy/Phase7 or visual approval;see CRM_FILTERS_137.md.
+
+## 2026-10-10 —137 expanded owner-approved proof resumed
+
+Independent manual6cases,33old-filter JSON comparisons,all roles/ACL/zero-write
+PASS. Normalized/pinned136-vs137 balance/FIFO CTE guard and mutation tests PASS.
+Full-scale proof compares every customer's136/phase42 oracle against all pages
+of each137 filter by exact identity set;then p95<1s for every financial filter.
+EXPLAIN/optimization inside137 only authorized if slow,without threshold/settings
+or001–136 changes.137 CI precedes financial chips;no visual approval claimed,
+Production/deploy/Phase7/automations prohibited.
+
+## 2026-10-10 —137 paused at new scale-test expectation failure
+
+Customers4db3af1 delivered,quality19/19 and secrets PASS.137 focused DB33JSON/
+roles/identities/ACL/zero-write and static13/13 PASS. Full-scale fixture completed;
+existing JSON parity passed,but new test expects overdue0 and reader returns10000.
+This expectation was written incorrectly by Codex:unchanged scale fixture96–110
+supplies actual completion dates;independent136 FIFO trace yields10000 overdue,
+oldest remaining51–101days,total50000000. No confirmed product defect.
+No expectation/SQL correction made after failure;owner review required. p95 not
+measured yet;137 uncommitted,financial chips not started. Owned DB cleaned,
+only owner n8n remains.001–136 unchanged;no Production/deploy/Phase7.
+
+## 2026-10-10 — Customers delivered;137 read filters in progress
+
+Customers4db3af1975ae1e70206b2632bb076160d1bb0903 exact quality38016271763
+all19/19 and secrets38016271790 PASS;official delivery verified.
+137 focused DB proofs PASS:33literal old JSON cases,whole-directory filter
+identities/counts/paging,all roles,identical ACL and zero-write reads.
+Full-scale p95<1s gate precedes quality/137 delivery,then financial UI chips.
+001–136 unchanged;no visual approval/new screen/Production/deploy/Phase7.
+
 ## 2026-10-10 — Customers local final gates PASS
 
 Focused20/20,AST/parser4/4,strict affected lint0;full quality exit0:
