@@ -579,3 +579,30 @@ productionRequestsEscaped=0. No timeout,retry,skip or axe exclusion added.
 Migrations001–137,services,stores,CI and root dependency/compiler files unchanged.
 Gitleaks0,commit/push/exact CI then STOP for visual approval.
 No batch5,Production/deploy or Phase7;the independent checkout issue stays OPEN.
+
+### 2026-10-10 — approved CI-only Package F sharding
+
+Batch4 b06adacfdf8757a4b0f779332e43f6f6fcc14664 contains the accepted
+presentation work. Its Package F CI job114305650120 was cancelled after1204s
+(20:25:35–20:45:39UTC);the browser gate occupied19m and the last log says
+"The operation was canceled". Secrets passed;17 other quality jobs succeeded.
+No product failure is inferred from that cancellation.
+
+Owner approves three real Playwright shards (1/3,2/3,3/3),not fewer tests.
+Automatic package-f-*.spec.ts selection,base browser settings,network guard,
+image digest,retries and20m limit are unchanged. Each shard has its own job
+container/filesystem/network namespace and uniquely named failure artifact.
+fail-fast=false lets all shards finish;the aggregate requires the matrix's
+success,and exact-SHA delivery verifies each of the three unique job names.
+
+Dynamic --list proof at this checkout:674 total =362 core +113+106+93 Package F.
+These are observed counts,NOT pinned acceptance constants. Every future
+matching spec enters the partition automatically. Permanent tests reject
+missing/empty/duplicate/substituted/misrouted cases and failed/skipped/cancelled
+shards. Focused CI tests4/4,all Admin units838/838,typecheck and strict ESLint PASS.
+CI-mode discovery returns the same674 identities and113/106/93 partition. Final CI pending;
+report each shard's actual duration (target <12m) after the push. No source UI,
+browser assertions,dependencies,compiler files or migrations modified.
+Full local quality already passed on b06adac;CI-only changes are verified by
+focused tools and full exact-SHA CI rather than repeating the30m local browser leg.
+After green CI/checkpoint STOP for visual review;no batch5 or Production/deploy.

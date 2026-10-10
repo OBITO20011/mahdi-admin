@@ -64,9 +64,13 @@ jobs:
           retention-days: 14
 
   package-f-browser:
-    name: Package F browser QA
+    name: Package F browser QA (${{ matrix.shard }}/3)
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
     defaults:
       run:
         working-directory: browser-package-f
@@ -106,13 +110,13 @@ jobs:
         run: node scripts/testing/verify-browser-ci-partition.mjs
 
       - name: Run Package F browser gate
-        run: node scripts/testing/run-quality-ci.mjs package-f
+        run: node scripts/testing/run-quality-ci.mjs package-f --shard=${{ matrix.shard }}/3
 
       - name: Upload Playwright report on failure
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: playwright-report-package-f
+          name: playwright-report-package-f-${{ matrix.shard }}
           path: browser-package-f/playwright-report/
           retention-days: 14
 
@@ -123,6 +127,7 @@ jobs:
     needs: [quality, package-f-browser, database-runtime, current-database-runtime]
     steps:
       - name: Require every quality branch to succeed
+        # GitHub's matrix result is success only when every shard succeeds.
         env:
           NEEDS_JSON: ${{ toJSON(needs) }}
         run: |

@@ -2,62 +2,54 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Package F batch4 expenses/reports presentation and3 purchasing visual notes;React types measurement only",
-  "baselineSha": "47c958dac0019f28d21d9ac53881b2838fdd304c",
+  "objective": "Owner-approved CI-only Package F browser 3-shard split;exact-SHA delivery then visual STOP before batch5",
+  "baselineSha": "b06adacfdf8757a4b0f779332e43f6f6fcc14664",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "A/B a7d2a70 delivered;wiring/type0b9cf91 and batch3 UI47c958d pushedmain,Gitleaks staged0 each;final quality38077822586 19/19 and secrets38077822799 PASS"
+    "Batch4 b06adac committed/pushedmain;Gitleaks staged exit0;local full quality exit0;baseline report in REMAINING_SCREENS_MIGRATION.md"
   ],
   "inProgress": [
-    "Batch4 local gates complete;Gitleaks/commit/push/exact CI then visual handoff"
+    "Implement 3 Playwright shards, exact discovery union and required delivery checks;preserve config/tests/retries/20m limit"
   ],
   "notStarted": [
     "Batch5-7;full React type repair after7;Phase7;checkout investigation after7"
   ],
   "filesTouched": [
-    "docs/design/package-f/TYPES_MEASUREMENT.md",
-    "e2e/package-f-financial-harness.html",
-    "e2e/package-f-financial-harness.tsx",
-    "e2e/package-f-financial.fixture.ts",
-    "e2e/package-f-financial.spec.ts",
-    "scripts/testing/package-f-financial-ui-contract.mjs",
-    "tests/package-f-remaining-batch4.test.ts",
-    "docs/agent/PHASE_STATUS.md",
-    "docs/agent/PROJECT_OVERVIEW.md",
+    ".github/workflows/quality.yml",
+    "docs/agent/VERIFICATION_GATES.md",
     "docs/design/package-f/REMAINING_SCREENS_MIGRATION.md",
-    "e2e/phase6-package-a.spec.ts",
-    "src/components/ui/form-fields.css",
-    "src/features/expenses/ExpenseFormModal.tsx",
-    "src/features/expenses/ExpensesView.tsx",
-    "src/features/purchases/PurchaseOrderCard.tsx",
-    "src/features/purchases/PurchasesView.tsx",
-    "src/features/reports/ReportsCenterView.tsx"
+    "scripts/agent/verify-delivery-ci.mjs",
+    "scripts/testing/run-quality-ci.mjs",
+    "scripts/testing/verify-browser-ci-partition.mjs",
+    "tests/package-f-ci-shards.test.ts"
   ],
   "testsPassed": [
+    "CI-shard tools4/4;all Admin units838/838;typecheck/strict ESLint/diff-check PASS;actual full and CI discovery674=core362+shards113/106/93;no fixed-count gate",
     "Batch3 exact CI19/19 and secrets PASS;visual owner acceptance47c958d",
     "Batch4 financial AST5/5 identical;focused units23/23,typecheck/affected ESLint PASS",
     "Focused40/40 Chromium/WebKit;after preview metadata type fix final28/28,retries0,axe/layout/Latin digits/payment payloads PASS",
-    "Single full quality exit0:615 browsers/59existing skips,retries0;Admin units/Customer189,typecheck/ESLint/builds/SEO/isolation PASS,Production escaped0"
+    "Single full quality exit0:615 browsers/59existing skips,retries0;Admin units/Customer189,typecheck/ESLint/builds/SEO/isolation PASS,Production escaped0",
+    "ExactSHA secrets38083694847 PASS;quality38083694858:17 jobs success,Package F cancelled1204s,aggregate failure due cancellation;no test failure detail in log"
   ],
   "testsRemaining": [
-    "Gitleaks0,commit/push/exact CI,visual STOP"
+    "Exact-SHA full CI green required before delivery;visual review then STOP"
   ],
   "findings": [
     "OPEN independent WebKit checkout empty name after fill;investigate after batch7 before final regression. Exact wording/evidence in remaining report.",
     "React19 isolated type measurement11 diagnostics/8files;no confirmed active financial/inventory behavior defect;full typing fixes AFTERbatch7. TYPES_MEASUREMENT.md"
   ],
-  "blockers": [
-    "None;STOP on new actual financial/inventory behavioral defect"
+  "blockers": [],
+  "activeProcesses": [
+    "Isolated Admin preview4173,session82648,loopback only;financial harness ready.HTTP200;stop via exported stopIsolatedVite(4173).No DB containers/Production."
   ],
-  "activeProcesses": [],
   "prohibitions": [
     "No Production/deploy/Phase7/automations;001-137 unchanged;no batch5",
-    "Presentation only;no RPC/payload/validation/confirmation/role/DB changes;no React types/compiler repair;preserve .claude/launch.json unstaged"
+    "CI infrastructure only;no product/spec assertions/RPC/payload/role/DB changes;no React types/compiler repair;preserve .claude/launch.json unstaged"
   ],
-  "nextExactAction": "Commit approved batch4 staged scope then push/exact CI;quality615PASS/Gitleaks before commit;visual STOP",
-  "workingTreeFingerprint": "2ADB3DB64DED1484CCBE5CBD520CE7266BF14F5DEE5B37DCEF74C33A34E03120",
-  "checkpointedAt": "2026-10-10T20:25:09.289Z",
+  "nextExactAction": "Stage CI-only approved files, Gitleaks0, commit ci: shard Package F browser job;push and await all exact-SHA CI jobs",
+  "workingTreeFingerprint": "9373FFA668C3C4BDD3E0348E0B8C4A2E6D1EADEFF5EA50519E14710A888F487C",
+  "checkpointedAt": "2026-10-10T20:53:45.449Z",
   "startedAt": "2026-10-10T02:28:31.421Z"
 }
