@@ -4,6 +4,7 @@ import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {promisify} from 'node:util';
+import {startIsolatedVite} from './isolated-vite-server.mjs';
 
 const execFileAsync = promisify(execFile);
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -130,18 +131,12 @@ try {
     await grantTestOwnerAccess(createdUser.id);
   }
 
-  vite = spawn(process.execPath, [
-    path.join(projectRoot, 'node_modules', 'vite', 'bin', 'vite.js'),
-    '--host', '127.0.0.1', '--port', String(vitePort), '--strictPort',
-  ], {
-    cwd: projectRoot,
-    windowsHide: true,
+  vite = await startIsolatedVite({root: projectRoot, port: vitePort,
     env: {
       ...process.env,
       VITE_SUPABASE_URL: apiUrl.replace('127.0.0.1', 'localhost'),
       VITE_SUPABASE_PUBLISHABLE_KEY: anonKey,
     },
-    stdio: 'ignore',
   });
   await waitForHttp(`http://127.0.0.1:${vitePort}`);
 
@@ -168,7 +163,7 @@ try {
     productionWrites: false,
   }, null, 2));
 } finally {
-  if (vite) vite.kill();
+  await vite?.close();
   if (ownsProject && isolatedRoot) {
     await execFileAsync(process.execPath, [
       cliPath, 'stop', '--no-backup', '--workdir', isolatedRoot,

@@ -3,6 +3,7 @@ import {randomBytes, randomUUID} from 'node:crypto';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {promisify} from 'node:util';
+import {startIsolatedVite} from './isolated-vite-server.mjs';
 
 const execFileAsync = promisify(execFile);
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -114,18 +115,12 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO authenticated;
     'receipts', (SELECT COUNT(*) FROM public.supplier_receipts)
   );`);
 
-  vite = spawn(process.execPath, [
-    path.join(projectRoot, 'node_modules', 'vite', 'bin', 'vite.js'),
-    '--host', '127.0.0.1', '--port', String(vitePort), '--strictPort',
-  ], {
-    cwd: projectRoot,
-    windowsHide: true,
+  vite = await startIsolatedVite({root: projectRoot, port: vitePort,
     env: {
       ...process.env,
       VITE_SUPABASE_URL: apiUrl,
       VITE_SUPABASE_PUBLISHABLE_KEY: anonKey,
     },
-    stdio: 'ignore',
   });
   await waitForHttp(`http://127.0.0.1:${vitePort}`);
 
@@ -163,7 +158,7 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO authenticated;
     businessDataUnchanged: true,
   }, null, 2));
 } finally {
-  vite?.kill();
+  await vite?.close();
   if (isolatedProjectRoot) {
     await execFileAsync(process.execPath, [
       cliPath, 'stop', '--no-backup', '--workdir', isolatedProjectRoot,

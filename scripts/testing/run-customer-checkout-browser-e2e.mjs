@@ -3,6 +3,7 @@ import { randomBytes } from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
+import {startIsolatedVite} from './isolated-vite-server.mjs';
 import { isExpectedGatewayReadinessRejection } from './gateway-readiness-contract.mjs';
 
 const execFileAsync = promisify(execFile);
@@ -285,19 +286,13 @@ END $$;
   await assertPublicCatalogFixtures(apiUrl, anonKey);
   await waitForGatewayTurnstileReadiness(apiUrl, anonKey);
 
-  vite = spawn(process.execPath, [
-    path.join(projectRoot, 'node_modules', 'vite', 'bin', 'vite.js'),
-    '--host', '127.0.0.1', '--port', String(vitePort), '--strictPort',
-  ], {
-    cwd: path.join(projectRoot, 'customer-web'),
-    windowsHide: true,
+  vite = await startIsolatedVite({root: path.join(projectRoot, 'customer-web'), port: vitePort,
     env: {
       ...process.env,
       VITE_SUPABASE_URL: publicSupabaseUrl,
       VITE_SUPABASE_PUBLISHABLE_KEY: anonKey,
       VITE_TURNSTILE_SITE_KEY: testSiteKey,
     },
-    stdio: 'ignore',
   });
   await waitForHttp(`http://127.0.0.1:${vitePort}`);
 
@@ -333,7 +328,7 @@ END $$;
   }
   console.log(JSON.stringify({ ok: true, desktop_and_mobile_orders: 11, ...summary }, null, 2));
 } finally {
-  vite?.kill();
+  await vite?.close();
   if (isolatedProjectRoot) {
     await execFileAsync(process.execPath, [cliPath, 'stop', '--no-backup', '--workdir', isolatedProjectRoot], {
       cwd: projectRoot, windowsHide: true, maxBuffer: 1024 * 1024,

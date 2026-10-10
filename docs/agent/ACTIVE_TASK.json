@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "status": "ACTIVE",
+  "status": "IDLE",
   "owner": "codex",
-  "objective": "Independent actual DB port-bind guard;then Customers presentation",
-  "baselineSha": "1288db70c9d7462d86aed0534d61be8bc5615525",
+  "objective": "Deliver approved isolated port and Vite cache corrections;then Customers and137",
+  "baselineSha": "412a5ac579d53d2c7996c83b314a0d09b8dafe81",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -11,30 +11,36 @@
     "1361288db70 exact-SHA quality38004164449 all19/19 and secrets38004164451 PASS;official delivery verified"
   ],
   "inProgress": [
-    "Test-only actual port-bind guard verified;prepare independent commit/push/exact-SHA CI"
+    "Test-only Vite isolation and low ports verified;full quality PASS;Gitleaks and independent infra commit/CI before Customers"
   ],
   "notStarted": [
     "Customers UI",
+    "Owner-approved137 financial CRM filters only after Customers UI exact-SHA CI",
     "Phase7"
   ],
   "filesTouched": [
-    "docs/agent/PHASE_STATUS.md",
-    "scripts/testing/bootstrap-isolated-supabase.mjs",
-    "scripts/testing/run-package-e-supplier-runtime.mjs",
+    "scripts/testing/playwright-global-teardown.mjs",
+    "scripts/testing/run-admin-large-catalog-browser.mjs",
+    "scripts/testing/run-admin-session-browser-e2e.mjs",
+    "scripts/testing/run-customer-checkout-browser-e2e.mjs",
+    "scripts/testing/run-isolated-vite.mjs",
     "scripts/testing/run-phase44-admin-recovery-fullstack.mjs",
-    "docs/design/package-f/ISOLATED_DB_PORT_GUARD.md",
-    "scripts/testing/isolated-db-port-guard.mjs",
-    "tests/isolated-db-port-guard.test.ts"
+    "docs/design/package-f/ISOLATED_VITE_CACHE.md",
+    "scripts/testing/isolated-vite-server.mjs",
+    "scripts/testing/stop-isolated-vite.mjs",
+    "tests/isolated-vite-cache.test.ts"
   ],
   "testsPassed": [
-    "Guard8/8 plus continuity/migration18/18 PASS;full Admin800/800/typecheck/changed-file strict ESLint PASS",
-    "Supplier actual before22/after42 and DB lint PASS;POS8/8 real Chromium/WebKit,retries0,Production0;all3 boots releaseWait0 (probe22/54/28ms);strict full ESLint PASS"
+    "Low-port units12/12 Windows/Linux;continuity/migrations/stability29/29;Admin804/804;typecheck/full strict ESLint PASS",
+    "Vite units3/3;shared-cache504 reproduced;real POS8/8 and uninterrupted parallel POS/Home40/40 repeat10/workers2/retries0,no504,zero Production;all owned caches/servers/DB stopped",
+    "Final full quality exit0:445Browser PASS/59existing conditional skips/retries0;typecheck/lint/unit/build/SEO/isolation PASS",
+    "Historical001–131 supplier actual idempotency/direct-write/POS/transfer/lint PASS;CLIstatus API25431/Studio25433/Mail25434;Linux automatic outbound34032 blocks wildcard bind without listener"
   ],
   "testsRemaining": [
-    "Gitleaks/independent infra commit/push/exact-SHA CI;then Customers after filter scope confirmed"
+    "Exact-SHA infrastructure CI;then Customers current filters,then137 and financial chips"
   ],
   "findings": [
-    "Historical54322 holder unknown;failure was before supplier SQL,so stop/start hypothesis not proven;guard adds actual socket proof/diagnostics"
+    "Historical collision details preserved in ISOLATED_DB_PORT_GUARD.md/ISOLATED_VITE_CACHE.md;fresh mechanism proofs and final quality passed"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -43,8 +49,8 @@
     "001-136 immutable now;test-only port guard:no product/workflow/deadline/retry changes;Customers later adds136 read only",
     "No opening-balance tool;preserve .claude/launch.json unstaged"
   ],
-  "nextExactAction": "Gitleaks0;commit/push only approved test port-guard files;verify all exact-SHA CI jobs;then resolve Customers filter scope before UI.",
-  "workingTreeFingerprint": "473A13E590F05556737527327DEEB56C75D2124AD444D61C503F8FB90B03173D",
-  "checkpointedAt": "2026-10-09T23:50:34.472Z",
+  "nextExactAction": "Observe exact push/main infrastructure CI after both independent commits;verify all jobs and port-release log,then start approved Customers UI",
+  "workingTreeFingerprint": "07CFE51DD2920065682D7546D3BA8C4D8723CA83AAD1715444D50F4506F3EC89",
+  "checkpointedAt": "2026-10-10T01:15:01.970Z",
   "startedAt": "2026-10-09T17:34:23.990Z"
 }

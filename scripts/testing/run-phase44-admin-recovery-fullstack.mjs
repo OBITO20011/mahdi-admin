@@ -6,6 +6,7 @@ import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {promisify} from 'node:util';
+import {startIsolatedVite} from './isolated-vite-server.mjs';
 
 const execFileAsync = promisify(execFile);
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -14,6 +15,8 @@ const bootstrapPath = path.join(here, 'bootstrap-isolated-supabase.mjs');
 const phase3SqlPath = path.join(here, 'phase3-configurable-parcel-contracts-runtime.sql');
 const cliPath = path.join(projectRoot, 'node_modules', 'supabase', 'dist', 'supabase.js');
 const posOnly = process.env.NAWASRAH_PACKAGE_D_POS_FULLSTACK === '1';
+const cacheStress = process.argv.includes('--cache-stress');
+assert.ok(!cacheStress || posOnly, 'Cache stress uses the isolated POS fixtures.');
 const projectId = `nawasrah-phase44-admin-${randomUUID().slice(0, 8)}-test`;
 const databaseContainer = `supabase_db_${projectId}`;
 const branchId = '92400000-0000-0000-0000-000000000200';
@@ -181,7 +184,7 @@ try {
   const bootstrap = JSON.parse(stdout);
   assert.equal(bootstrap.ok, true);
   isolatedProjectRoot = bootstrap.isolatedProjectRoot;
-  console.log(JSON.stringify({stage: 'DB port guard', ...bootstrap.dbPortGuard}));
+  console.log(JSON.stringify({stage: 'DB port guard', ...bootstrap.dbPortGuard, ephemeralPortRange: bootstrap.ephemeralPortRange}));
   const phase3 = await readFile(phase3SqlPath, 'utf8');
   if (posOnly) {
     const first = phase3.indexOf('\nDO $$'); const second = phase3.indexOf('\nDO $$', first + 1);
@@ -250,17 +253,19 @@ try {
   await new Promise((resolve, reject) => control.listen(controlPort, '127.0.0.1', resolve)
     .once('error', reject));
 
-  vite = spawn(process.execPath, [path.join(projectRoot, 'node_modules', 'vite', 'bin', 'vite.js'),
-    '--host', '127.0.0.1', '--port', String(vitePort), '--strictPort'], {
-    cwd: projectRoot, windowsHide: true, stdio: 'ignore', env: {...process.env,
-      VITE_SUPABASE_URL: apiUrl, VITE_SUPABASE_PUBLISHABLE_KEY: anonKey},
+  vite = await startIsolatedVite({root: projectRoot, port: vitePort, env: {
+    VITE_SUPABASE_URL: apiUrl, VITE_SUPABASE_PUBLISHABLE_KEY: anonKey},
   });
   await waitForHttp(`http://127.0.0.1:${vitePort}`);
 
   const playwrightArgs = [
     path.join(projectRoot, 'node_modules', 'playwright', 'cli.js'), 'test',
     posOnly ? 'e2e/package-d-pos-fullstack.spec.ts' : 'e2e/phase44-admin-recovery-fullstack.spec.ts', '--project=desktop-chromium',
-    '--project=mobile-webkit', '--workers=1', '--retries=0'];
+    '--project=mobile-webkit', cacheStress ? '--workers=2' : '--workers=1', '--retries=0'];
+  if (cacheStress) {
+    playwrightArgs.push('e2e/package-f-home.spec.ts', '--repeat-each=10', '--grep',
+      'server absence and explicit confirmed cancellation|Home light 390:');
+  }
   if (process.env.PHASE44_PLAYWRIGHT_GREP) {
     playwrightArgs.push('--grep', process.env.PHASE44_PLAYWRIGHT_GREP);
   }
@@ -274,12 +279,13 @@ try {
     });
   if (playwrightOutput.trim()) process.stdout.write(playwrightOutput);
   if (playwrightError.trim()) process.stderr.write(playwrightError);
-  console.log(JSON.stringify({ok: true, scenarios: posOnly ? 4 : 9,
+  console.log(JSON.stringify({ok: true, scenarios: cacheStress ? 2 : posOnly ? 4 : 9,
+    ...(cacheStress ? {cacheStress: true, repeatEach: 10, workers: 2} : {}),
     browsers: ['desktop-chromium', 'mobile-webkit'], realPublicRpc: true,
     realIsolatedDatabase: true, productionRequests: 0}, null, 2));
 } finally {
   if (control) await new Promise((resolve) => control.close(resolve));
-  vite?.kill();
+  await vite?.close();
   if (isolatedProjectRoot) await execFileAsync(process.execPath, [cliPath, 'stop', '--no-backup',
     '--workdir', isolatedProjectRoot], {cwd: projectRoot, windowsHide: true,
     maxBuffer: 1024 * 1024}).catch(() => undefined);
