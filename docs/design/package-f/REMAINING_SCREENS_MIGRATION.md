@@ -606,3 +606,185 @@ browser assertions,dependencies,compiler files or migrations modified.
 Full local quality already passed on b06adac;CI-only changes are verified by
 focused tools and full exact-SHA CI rather than repeating the30m local browser leg.
 After green CI/checkpoint STOP for visual review;no batch5 or Production/deploy.
+
+## Batch5 — users,monitoring,storefront settings and promotions (2026-10-11)
+
+Owner visually accepts batch4 b06adac without notes. Sharding dca6e9c is
+delivered:quality38085542982 SUCCESS21/21,secrets38085542967 SUCCESS.
+Shard job durations7:32/9:05/10:53,all below12m. This batch does not alter CI.
+
+Presentation-only scope:UsersView,UserFormModal,MonitoringDashboardModal,
+StorefrontSettingsModal,PromotionCodesModal and scoped shared field CSS.
+All5 now use nw tokens,Card/FormFields/UiButton,native fields >=44px,
+accessible field/button names,Latin-date formatUiDate and grouped three-decimal
+MoneyText for fixed promotion amounts. Native number inputs intentionally keep
+their numeric editing values;no formatting changes the value sent to a writer.
+User email has deliberate truncation/full title/LTR. Permission chips wrap and
+scroll internally. Existing form save actions stick inside their dialog;all
+fields,role options,status toggles and cancellation actions remain reachable.
+No new data reads,roles,policies,financial calculations or business decisions.
+
+### Per-file baseline AST proof — dca6e9c
+
+| File | Calls/payloads | Event/onChange bindings | Native input/guard properties | Result |
+|---|---:|---:|---:|---|
+| UsersView.tsx | 8 | 15 | 21 | Identical |
+| UserFormModal.tsx | 4 | 9 | 25 | Identical |
+| MonitoringDashboardModal.tsx | 1 | 2 | 2 | Identical |
+| StorefrontSettingsModal.tsx | 5 | 19 | 30 | Identical |
+| PromotionCodesModal.tsx | 7 | 16 | 40 | Identical |
+
+Permanent baseline hashes live in package-f-remaining-batch5.test.ts,using
+administrationUiContract and the existing financial UI extractor. It also pins
+roleLabels/defaultRole/isOwner/isEditing/currentRolePermissions declarations.
+Full non-render handlers preserve validation,owner-grant confirmation,password
+constraints,exact forwarding,and try/finally. Only the named pure formatDate
+display helper is normalized;its complete NEW implementation is independently
+asserted. Other non-render functions remain pinned. No staff service,auth/store,
+Edge Function,grant,migration or storefront/promotion service changed.
+
+### Harness and focused verification
+
+/e2e/package-f-administration-harness.html?theme=light|dark
+view=users(default)|monitoring|settings|promotions;role=cashier and
+monitoring=error are explicit preview scenarios. Only loopback URLs are accepted.
+Existing components/services consume fixture reads;writes use the original
+transport and the tests reject them deliberately,never fabricate committed success.
+
+Initial fixture failed because Supabase's functions getter creates a fresh
+client on each access;the local fixture client is now pinned ONLY in the harness.
+No staff API implementation was patched. A real light-theme presentation issue
+was caught by axe:active Users tab text#0f1b2d over#13294b gave1.19:1. It now
+uses text-nw-on-primary;390px Chromium/WebKit all-screen probes both PASS.
+No global token,timeout,retry or contrast exemption was changed.
+
+Focused static/behavioral contracts21/21 PASS (staff ownership,monitoring,
+delivery fees plus batch5 AST). Permanent browser suite covers both themes,
+390/820/1440,axe serious/critical zero,horizontal containment,shared clipping
+guard,Latin dates,44px fields,phone save visibility,last policy reachability,
+full staff creation/edit/password/activation payloads,owner-grant cancellation,
+busy Escape guards,non-owner denial,storefront exact monetary/policy/toggle
+payload,promotion percentage rejection/save/disable,and monitoring read retry.
+No previous test assertion or selector changed in this batch.
+Focused probe corrections (new tests only):HTTP400 staff failures display the
+existing exact FunctionsHttpError text,not its unparsed JSON body;the disabled
+Storefront submit is named "جارٍ الحفظ..." while busy. Dialog probes wait for
+the real data-state=open before interactions. Diagnostic success screenshots
+were removed from the spec after Chromium stalled inside page.screenshot;
+all axe/layout/field/action assertions remain and failure traces stay enabled.
+The existing promotion input min=.001/step=.01 rejects101 with stepMismatch
+before submit. A permanent probe now proves that native rejection AND reaches
+the unchanged >100 guard with101.001. No constraint or financial validation
+changed;the old percentage step alignment remains a separately noted concern.
+Focused final probes:23/24 PASS;the remaining Chromium390 case lost its
+execution context during Monitoring layout audit. The SAME case rerun twice
+with Vite dependency diagnostics passed2/2,no code/assertion/retry/timeout
+change. No late dependency rediscovery/504 occurred in that diagnostic run.
+All WebKit12/12 passed,including the six layout and six behavior cases.
+Typecheck,strict ESLint and focused contracts21/21 PASS.
+Quality attempt1 stopped before browser/build stages:Admin839/840,the sole
+failure was the unchanged ACTIVE_TASK <=4096-byte guard. Old task results were
+removed from the current-only continuity record;the same guard now PASS5/5.
+No assertion or business file was changed for this correction. Full quality
+is rerun after that metadata correction;Gitleaks/commit/exact CI pending.
+Quality attempt2:Admin840/840 and Customer189/189,typecheck/ESLint PASS.
+Admin Vite emitted "built in13.23s",then the Windows Node process aborted:
+Assertion failed: !(handle->flags & UV_HANDLE_CLOSING),file src\\win\\async.c,line94.
+Local runtime Nodev24.18.0,libuv1.52.1 at C:\\Program Files\\nodejs\\node.exe.
+Exit1 occurred before Customer build/isolation/full browser stages;therefore
+FULL QUALITY IS NOT PASS. No product/test/workflow/runtime adjustment was made
+for this native failure;exact root cause not proven. STOP pending owner direction
+before another full quality attempt. No staging/commit/push/new CI yet.
+001–137 immutable;no138,Production/deploy,Phase7,automations or batch6.
+React typing repair and independent checkout investigation remain after batch7.
+
+### Owner-authorized single Windows quality retry —2026-10-11
+
+Pre-retry node -v=v24.18.0 (libuv1.52.1). Exact observed failing leg:
+npm run quality -> npm run build -> vite build,at native process shutdown
+after Vite's success line. The following run-customer-isolated-build.mjs leg
+had NOT started in the saved output;neither Playwright webServer nor the
+isolated Vite preview runner was running at this failure boundary.
+Only one new full quality attempt is authorized;no product/spec/CI/runtime
+change. If the native abort repeats,STOP and propose orderly child exit only.
+The exact40 stdout lines BEFORE the assertion (retained from attempt2):
+
+```text
+dist/assets/productCalculations-BjPc5x3P.js                             0.51 kB │ gzip:   0.26 kB
+dist/assets/ProductGlyph-DlXV7v6i.js                                    0.52 kB │ gzip:   0.35 kB
+dist/assets/monitoring.service-B9bdQ41B.js                              1.05 kB │ gzip:   0.56 kB
+dist/assets/inventoryFormatter-BJqmzQHi.js                              1.44 kB │ gzip:   0.63 kB
+dist/assets/TableShell-7r9JYwsp.js                                      1.54 kB │ gzip:   0.64 kB
+dist/assets/uiFormat-DT5WccmT.js                                        1.58 kB │ gzip:   0.72 kB
+dist/assets/Surface-CIwaY5rx.js                                         1.97 kB │ gzip:   0.75 kB
+dist/assets/Modal-jwXXakcG.js                                           2.32 kB │ gzip:   1.11 kB
+dist/assets/DataDisplay-DmYMJFjX.js                                     2.42 kB │ gzip:   1.04 kB
+dist/assets/barcodeCamera-DYvxwwcT.js                                   2.58 kB │ gzip:   1.28 kB
+dist/assets/businessError-BBOW7EvD.js                                   2.65 kB │ gzip:   1.36 kB
+dist/assets/ExpensesView-ITaFqryo.js                                    4.71 kB │ gzip:   1.91 kB
+dist/assets/productIdentifiers-BMthA7Z-.js                              5.63 kB │ gzip:   2.22 kB
+dist/assets/BarcodeScannerModal-aoIDZrCZ.js                             8.10 kB │ gzip:   2.96 kB
+dist/assets/crm.service-CWfW2ZvE.js                                     8.34 kB │ gzip:   2.92 kB
+dist/assets/vendor-BXB0Orlr.js                                         10.02 kB │ gzip:   3.49 kB
+dist/assets/AdminAssistantView-BJQskJt7.js                             10.34 kB │ gzip:   3.69 kB
+dist/assets/RecordCustomerPaymentModal-DMH9TUT5.js                     10.89 kB │ gzip:   3.74 kB
+dist/assets/OrdersCenterView-MNntoDt7.js                               12.34 kB │ gzip:   4.76 kB
+dist/assets/MoreMenuView-D6EfreXc.js                                   13.98 kB │ gzip:   4.12 kB
+dist/assets/ProductsView-Sj6lA3J7.js                                   19.66 kB │ gzip:   5.33 kB
+dist/assets/DashboardView-DMCsB5Bu.js                                  22.02 kB │ gzip:   7.03 kB
+dist/assets/UsersView-DkWlbQOe.js                                      22.70 kB │ gzip:   6.39 kB
+dist/assets/InventoryView-DoVfVBxP.js                                  26.11 kB │ gzip:   7.81 kB
+dist/assets/ReportsCenterView-BF7u4rx_.js                              30.08 kB │ gzip:   7.67 kB
+dist/assets/AccountsView-BxNc1iPH.js                                   43.47 kB │ gzip:  10.90 kB
+dist/assets/ShiftsView-CKSQX6YS.js                                     52.11 kB │ gzip:  11.99 kB
+dist/assets/DirectReceivingView-CxGOV778.js                            54.96 kB │ gzip:  11.45 kB
+dist/assets/PosView-bWW35l94.js                                        55.32 kB │ gzip:  16.97 kB
+dist/assets/icons-CqMuOrz5.js                                          58.91 kB │ gzip:  11.78 kB
+dist/assets/CreateDirectReceiptModal-BnqCXMsx.js                       62.02 kB │ gzip:  14.49 kB
+dist/assets/OrderDetailModal-5kwOKVGS.js                               92.80 kB │ gzip:  22.88 kB
+dist/assets/motion-BOkrvcQP.js                                        128.87 kB │ gzip:  42.38 kB
+dist/assets/react-ChRHXLzJ.js                                         189.95 kB │ gzip:  59.24 kB
+dist/assets/supabase-DLbJaTt8.js                                      209.62 kB │ gzip:  54.43 kB
+dist/assets/AllModals-CECjGgW-.js                                     222.39 kB │ gzip:  50.74 kB
+dist/assets/index-Eq4-fXJp.js                                         227.67 kB │ gzip:  59.25 kB
+dist/assets/scanner-mT7gTMOQ.js                                       375.21 kB │ gzip: 110.59 kB
+dist/assets/monitoring-D4oDJTUm.js                                    494.03 kB │ gzip: 163.17 kB
+✓ built in 13.23s
+```
+
+### Single retry interrupted before final browser result —2026-10-11
+
+The ONE authorized retry used unchanged product/spec/CI files. Admin840/840
+and Customer189/189,typecheck/lint passed. Admin build14.84s and Customer
+isolated build8.59s,SEO and browser isolation passed. The native Windows abort
+did not recur in the observed output. Full Playwright discovery was698 cases;
+the last retained output reached case595,with no observed test failure.
+The waiting execution was interrupted;on continuation cell366 and process
+session14427 were absent. Read-only process inventory found no surviving
+quality/Playwright/Vite child. No current .last-run.json or completed report
+exists:playwright-report/index.html timestamp21:33:11UTC predates the retry
+checkpoint21:41:19UTC and cannot prove this retry completed.
+Therefore no aggregate quality exit0 or complete browser PASS is claimed.
+No third full quality attempt,product/CI correction,staging,commit or push.
+Owner direction is needed to complete the interrupted browser leg without
+repeating the successful lint/unit/build legs.001–137 and owner launch file
+remain unchanged;no Production/deploy,batch6 or Phase7.
+
+### Approved detached browser completion —2026-10-11
+
+Owner approved ONLY the full browser leg with its original command/settings:
+npm.cmd run test:e2e,no selected files,retries or timeout changes. A temporary
+supervisor outside the repository launched the original npm command and wrote
+raw stdout/stderr to browser.log plus exit.json after child close. Evidence:
+C:/Users/TOP/AppData/Local/Temp/nawasrah-batch5-browser-4561746ef9944f3faeb52ad12223f1fc.
+Started22:15:59UTC,ended22:48:15UTC:639 passed,59 known conditional skips,
+698 total,32.2m;BROWSER_EXIT_CODE=0,signal=null,.last-run.json passed with
+failedTests=[]. Batch5 permanent spec24/24 PASS across Chromium/WebKit.
+No product/spec/CI changes during this continuation. Final network-audit
+teardown passed (unexpected denied attempts0,escaped external requests0).
+Read-only process inventory confirms no surviving owned test runner/server.
+All quality component gates are complete:previous Admin840/840,Customer189/189,
+lint/typecheck,builds/SEO/isolation PASS plus this complete browser leg. The
+interrupted quality parent itself is NOT claimed to have returned exit0.
+Next:Gitleaks staged exit0,authorized batch5 commit/push,all exact-SHA CI jobs
+and secrets green,checkpoint,STOP for visual review. No batch6/Production.

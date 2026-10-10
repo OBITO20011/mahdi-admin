@@ -1,3 +1,4 @@
+import {Card, FormFields, UiButton, MoneyText, formatUiDate} from '../../components/ui';
 import React, { FormEvent, useEffect, useState } from 'react';
 import {
   BadgePercent,
@@ -54,7 +55,7 @@ const EMPTY_FORM: PromotionFormState = {
 };
 
 const inputClassName =
-  'w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2.5 text-xs font-bold text-slate-100 outline-none transition placeholder:text-slate-600 focus:border-violet-500';
+  'w-full rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2.5 text-xs font-bold text-nw-text outline-none transition placeholder:text-nw-muted focus:border-nw-primary';
 
 function toLocalDateTimeValue(value?: string): string {
   if (!value) return '';
@@ -66,7 +67,7 @@ function toLocalDateTimeValue(value?: string): string {
 
 function formatDate(value?: string): string {
   if (!value) return 'مفتوح';
-  return new Date(value).toLocaleString('ar-JO', {
+  return formatUiDate(value, {
     dateStyle: 'short',
     timeStyle: 'short',
   });
@@ -248,40 +249,40 @@ export const PromotionCodesModal: React.FC = () => {
   };
 
   return (
-    <div aria-busy={isSaving || busyCodeId !== null} className="space-y-4 text-xs">
+    <FormFields aria-busy={isSaving || busyCodeId !== null} className="nw-batch5-fields space-y-4 text-sm">
       <form
         onSubmit={handleSubmit}
-        className="space-y-3 rounded-2xl border border-violet-800/50 bg-violet-950/20 p-3"
+        className="space-y-3 rounded-2xl border border-nw-info bg-nw-info-bg p-3"
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-2">
-            <div className="grid h-9 w-9 place-items-center rounded-xl bg-violet-600/20 text-violet-400">
+            <div className="grid h-9 w-9 place-items-center rounded-xl bg-nw-info-bg text-nw-info">
               <TicketPercent className="h-4 w-4" />
             </div>
             <div>
-              <h4 className="font-black text-slate-100">
+              <h4 className="font-black text-nw-text">
                 {form.id ? 'تعديل رمز الخصم' : 'إنشاء رمز خصم'}
               </h4>
-              <p className="text-[10px] text-slate-500">
+              <p className="text-xs text-nw-muted">
                 يُحسب الخصم من قاعدة البيانات عند الطلب
               </p>
             </div>
           </div>
           {form.id && (
-            <button
+            <UiButton variant="plain"
               type="button"
               onClick={() => setForm(EMPTY_FORM)}
-              className="inline-flex items-center gap-1 rounded-lg border border-slate-700 px-2 py-1 text-[10px] font-bold text-slate-400"
+              className="inline-flex items-center gap-1 rounded-lg border border-nw-border px-2 py-1 text-xs font-bold text-nw-muted"
             >
               <X className="h-3 w-3" />
               إلغاء التعديل
-            </button>
+            </UiButton>
           )}
         </div>
 
         <div className="grid grid-cols-2 gap-2">
           <label className="col-span-2 sm:col-span-1">
-            <span className="mb-1 block font-bold text-slate-400">الرمز *</span>
+            <span className="mb-1 block font-bold text-nw-muted">الرمز *</span>
             <input
               dir="ltr"
               value={form.code}
@@ -294,7 +295,7 @@ export const PromotionCodesModal: React.FC = () => {
             />
           </label>
           <label className="col-span-2 sm:col-span-1">
-            <span className="mb-1 block font-bold text-slate-400">النوع *</span>
+            <span className="mb-1 block font-bold text-nw-muted">النوع *</span>
             <select
               value={form.discountType}
               onChange={(event) =>
@@ -310,7 +311,7 @@ export const PromotionCodesModal: React.FC = () => {
             </select>
           </label>
           <label>
-            <span className="mb-1 block font-bold text-slate-400">
+            <span className="mb-1 block font-bold text-nw-muted">
               {form.discountType === 'fixed'
                 ? 'قيمة الخصم (د.أ) *'
                 : 'نسبة الخصم % *'}
@@ -327,7 +328,7 @@ export const PromotionCodesModal: React.FC = () => {
             />
           </label>
           <label>
-            <span className="mb-1 block font-bold text-slate-400">
+            <span className="mb-1 block font-bold text-nw-muted">
               أقل طلب (د.أ)
             </span>
             <input
@@ -343,7 +344,7 @@ export const PromotionCodesModal: React.FC = () => {
           </label>
           {form.discountType === 'percentage' && (
             <label className="col-span-2">
-              <span className="mb-1 block font-bold text-slate-400">
+              <span className="mb-1 block font-bold text-nw-muted">
                 أعلى خصم (د.أ) — اختياري
               </span>
               <input
@@ -359,7 +360,7 @@ export const PromotionCodesModal: React.FC = () => {
             </label>
           )}
           <label className="col-span-2">
-            <span className="mb-1 block font-bold text-slate-400">الوصف</span>
+            <span className="mb-1 block font-bold text-nw-muted">الوصف</span>
             <input
               value={form.description}
               onChange={(event) =>
@@ -370,7 +371,7 @@ export const PromotionCodesModal: React.FC = () => {
             />
           </label>
           <label>
-            <span className="mb-1 block font-bold text-slate-400">يبدأ</span>
+            <span className="mb-1 block font-bold text-nw-muted">يبدأ</span>
             <input
               type="datetime-local"
               value={form.startsAt}
@@ -381,7 +382,7 @@ export const PromotionCodesModal: React.FC = () => {
             />
           </label>
           <label>
-            <span className="mb-1 block font-bold text-slate-400">ينتهي</span>
+            <span className="mb-1 block font-bold text-nw-muted">ينتهي</span>
             <input
               type="datetime-local"
               value={form.expiresAt}
@@ -392,7 +393,7 @@ export const PromotionCodesModal: React.FC = () => {
             />
           </label>
           <label>
-            <span className="mb-1 block font-bold text-slate-400">
+            <span className="mb-1 block font-bold text-nw-muted">
               أقصى استخدام إجمالي
             </span>
             <input
@@ -411,7 +412,7 @@ export const PromotionCodesModal: React.FC = () => {
             />
           </label>
           <label>
-            <span className="mb-1 block font-bold text-slate-400">
+            <span className="mb-1 block font-bold text-nw-muted">
               لكل رقم هاتف
             </span>
             <input
@@ -430,12 +431,12 @@ export const PromotionCodesModal: React.FC = () => {
           </label>
         </div>
 
-        <label className="flex items-start justify-between gap-3 rounded-xl border border-violet-800/60 bg-violet-950/30 p-3">
+        <label className="flex items-start justify-between gap-3 rounded-xl border border-nw-info bg-nw-info-bg p-3">
           <span>
-            <span className="block font-black text-violet-200">
+            <span className="block font-black text-nw-info">
               فعال ويظهر في عروض الموقع
             </span>
-            <span className="mt-1 block text-[10px] font-bold leading-5 text-violet-400">
+            <span className="mt-1 block text-xs font-bold leading-5 text-nw-info">
               تفعيل هذا الخيار ينشر الرمز نفسه فقط. وإذا كان تاريخ بدايته لاحقًا يظهر كعرض مجدول.
             </span>
           </span>
@@ -445,20 +446,20 @@ export const PromotionCodesModal: React.FC = () => {
             onChange={(event) =>
               setFormField('isActive', event.target.checked)
             }
-            className="mt-1 h-4 w-4 shrink-0 accent-violet-600"
+            className="mt-1 h-4 w-4 shrink-0 accent-nw-primary"
           />
         </label>
 
         {error && (
-          <div className="rounded-xl border border-rose-800 bg-rose-950/40 p-2.5 font-bold text-rose-300">
+          <div className="rounded-xl border border-nw-bad bg-nw-bad-bg p-2.5 font-bold text-nw-bad">
             {error}
           </div>
         )}
 
-        <button
+        <UiButton variant="plain"
           type="submit"
           disabled={isSaving}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-violet-600 py-3 font-black text-white disabled:opacity-50"
+          className="sticky bottom-0 z-10 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-nw-primary py-3 font-black text-nw-on-primary disabled:opacity-50"
         >
           {isSaving ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -466,106 +467,103 @@ export const PromotionCodesModal: React.FC = () => {
             <Save className="h-4 w-4" />
           )}
           {form.id ? 'حفظ تعديل الرمز' : 'إنشاء رمز الخصم'}
-        </button>
+        </UiButton>
       </form>
 
       <div className="flex items-center justify-between">
         <div>
-          <h4 className="font-black text-slate-100">الرموز الحالية</h4>
-          <p className="text-[10px] text-slate-500">
+          <h4 className="font-black text-nw-text">الرموز الحالية</h4>
+          <p className="text-xs text-nw-muted">
             الإيقاف يحفظ سجل الطلبات والاستخدامات السابقة
           </p>
         </div>
-        <button
+        <UiButton variant="plain"
           type="button"
           onClick={() => void loadCodes()}
           disabled={isLoading}
-          className="grid h-8 w-8 place-items-center rounded-lg border border-slate-700 text-slate-400"
+          className="grid h-11 w-11 place-items-center rounded-lg border border-nw-border text-nw-muted"
           aria-label="تحديث رموز الخصم"
         >
           <RefreshCw className={`h-3.5 w-3.5 ${isLoading ? 'animate-spin' : ''}`} />
-        </button>
+        </UiButton>
       </div>
 
       {isLoading ? (
-        <div className="flex items-center justify-center gap-2 py-8 text-slate-500">
+        <div className="flex items-center justify-center gap-2 py-8 text-nw-muted">
           <Loader2 className="h-4 w-4 animate-spin" />
           جارٍ تحميل الرموز...
         </div>
       ) : codes.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-slate-700 p-6 text-center text-slate-500">
+        <div className="rounded-2xl border border-dashed border-nw-border p-6 text-center text-nw-muted">
           <BadgePercent className="mx-auto mb-2 h-7 w-7" />
           لا توجد رموز خصم حتى الآن.
         </div>
       ) : (
         <div className="space-y-2">
           {codes.map((code) => (
-            <div
-              key={code.id}
-              className="rounded-2xl border border-slate-800 bg-slate-950 p-3"
-            >
+            <Card key={code.id}>
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <div className="flex items-center gap-2">
-                    <strong className="font-mono text-sm text-violet-300">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <strong className="font-mono text-sm text-nw-info">
                       {code.code}
                     </strong>
                     <span
-                      className={`rounded-full px-2 py-0.5 text-[9px] font-black ${
+                      className={`rounded-full px-2 py-0.5 text-xs font-black ${
                         code.isActive
-                          ? 'bg-emerald-950 text-emerald-300'
-                          : 'bg-slate-800 text-slate-500'
+                          ? 'bg-nw-ok-bg text-nw-ok'
+                          : 'bg-nw-surface text-nw-muted'
                       }`}
                     >
                       {code.isActive ? 'فعال' : 'متوقف'}
                     </span>
                     {code.isActive && code.isPublicOffer && (
-                      <span className="rounded-full bg-violet-950 px-2 py-0.5 text-[9px] font-black text-violet-300">
+                      <span className="rounded-full bg-nw-info-bg px-2 py-0.5 text-xs font-black text-nw-info">
                         يظهر في العروض
                       </span>
                     )}
                   </div>
-                  <p className="mt-1 text-[10px] text-slate-500">
+                  <p className="mt-1 text-xs text-nw-muted">
                     {code.description || 'بدون وصف'}
                   </p>
                 </div>
-                <strong className="text-emerald-400">
+                <strong className="text-nw-ok">
                   {code.discountType === 'percentage'
                     ? `${code.discountValue}%`
-                    : `${code.discountValue.toFixed(3)} د.أ`}
+                    : <MoneyText amount={code.discountValue} />}
                 </strong>
               </div>
 
-              <div className="mt-3 grid grid-cols-2 gap-2 text-[10px]">
-                <div className="rounded-xl bg-slate-900 p-2 text-slate-400">
-                  <Users className="mb-1 h-3.5 w-3.5 text-blue-400" />
+              <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                <div className="rounded-xl bg-nw-surface p-2 text-nw-muted">
+                  <Users className="mb-1 h-3.5 w-3.5 text-nw-info" />
                   {code.redemptionCount}
                   {code.maximumTotalRedemptions
                     ? ` / ${code.maximumTotalRedemptions}`
                     : ''}{' '}
                   استخدام
                 </div>
-                <div className="rounded-xl bg-slate-900 p-2 text-slate-400">
-                  <CalendarClock className="mb-1 h-3.5 w-3.5 text-amber-400" />
+                <div className="rounded-xl bg-nw-surface p-2 text-nw-muted">
+                  <CalendarClock className="mb-1 h-3.5 w-3.5 text-nw-warn" />
                   ينتهي: {formatDate(code.expiresAt)}
                 </div>
               </div>
 
               <div className="mt-3 flex gap-2">
-                <button
+                <UiButton variant="plain"
                   type="button"
                   onClick={() => setForm(editForm(code))}
-                  className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-slate-700 py-2 font-bold text-slate-300"
+                  className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-nw-border py-2 font-bold text-nw-text"
                 >
                   <Edit3 className="h-3.5 w-3.5" />
                   تعديل
-                </button>
-                <button
+                </UiButton>
+                <UiButton variant="plain"
                   type="button"
                   onClick={() => void handleToggle(code)}
                   disabled={busyCodeId === code.id}
-                  className={`inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2 font-bold text-white disabled:opacity-50 ${
-                    code.isActive ? 'bg-rose-700' : 'bg-emerald-700'
+                  className={`inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2 font-bold text-nw-text disabled:opacity-50 ${
+                    code.isActive ? 'bg-nw-bad-bg' : 'bg-nw-ok-bg'
                   }`}
                 >
                   {busyCodeId === code.id ? (
@@ -574,12 +572,12 @@ export const PromotionCodesModal: React.FC = () => {
                     <Power className="h-3.5 w-3.5" />
                   )}
                   {code.isActive ? 'إيقاف' : 'تفعيل'}
-                </button>
+                </UiButton>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
       )}
-    </div>
+    </FormFields>
   );
 };

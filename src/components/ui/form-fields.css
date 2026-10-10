@@ -25,6 +25,11 @@
   border-color: var(--nw-bad) !important;
 }
 .nw-form-fields button { min-height: 44px; }
+.nw-batch5-fields { min-width: 0; line-height: 1.75; }
+.nw-batch5-fields :is(p,h1,h2,h3,h4,span,label,strong,form) { min-width: 0; }
+.nw-batch5-fields :is(input:not([type="checkbox"]),select,textarea) { min-height:44px; font-size:14px; }
+.nw-batch5-fields button { min-height:44px; height:auto; }
+.nw-batch5-fields :is(input[type="datetime-local"]) { font-size:13px; }
 .nw-profile-fields button { height: auto; }
 .nw-products-fields { line-height: 1.75; }
 .nw-products-fields :is(p,h1,h2,h3,h4,span,label,strong) { line-height: 1.75; }

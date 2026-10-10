@@ -1,5 +1,26 @@
 # Phase status
 
+2026-10-11 batch5 local gates COMPLETE. Owner-approved detached full browser
+leg exit0:639 PASS+59 existing conditional skips=698,retries0,batch5 24/24.
+Prior unchanged lint/unit/build/SEO/isolation legs PASS;no aggregate exit0
+claimed for interrupted quality parent. AST5/5 business parity,001–137 and
+CI unchanged,no138,owned test processes stopped. Gitleaks/commit/exact CI next,
+then visual STOP;no batch6/Production/deploy/Phase7.
+
+2026-10-11 batch5 authorized Windows quality retry reached browser case595/698
+without observed failure. Admin840/840,Customer189/189,typecheck/lint,builds,
+SEO/isolation passed;native abort did not recur through observed output.
+Execution session disappeared before a final browser summary/exit status;
+FULL QUALITY NOT PASS. No third full rerun,code/CI change,commit/push.
+Checkpoint preserves current scope pending direction on interrupted browser leg.
+
+2026-10-11 owner:batch4 b06adac visually accepted without notes;CI dca6e9c
+quality21/21+secrets PASS,3shards7:32/9:05/10:53. Batch5 authorized:users,
+user form,monitoring,storefront settings,promotion codes presentation only.
+Role/permission/policy/fee behavior unchanged;001–137 immutable. AST parity,
+focused browsers,quality once/Gitleaks0/commit/exact CI then visual STOP.
+No batch6,Production/deploy,Phase7 or types repair.
+
 2026-10-10 batch4 local gates COMPLETE:financial AST5/5 identical;units23/23,
 focused40/40 then preview-final28/28 Chromium/WebKit,retries0. Single full
 quality invocation exit0:615 browser PASS/59 existing conditional skips,

@@ -1,3 +1,4 @@
+import {Card, FormFields, UiButton} from '../../components/ui';
 import {
   Banknote,
   Clock3,
@@ -43,7 +44,7 @@ const EMPTY_SETTINGS: StorefrontSettingsInput = {
 };
 
 const inputClass =
-  'w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2.5 text-xs font-bold text-slate-100 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20';
+  'w-full rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2.5 text-xs font-bold text-nw-text outline-none transition focus:border-nw-primary focus:ring-2 focus:ring-nw-primary';
 
 function TextArea({
   label,
@@ -58,8 +59,8 @@ function TextArea({
 }) {
   return (
     <label className="block">
-      <span className="mb-2 flex items-center gap-2 text-[11px] font-black text-slate-300">
-        <Icon className="h-4 w-4 text-blue-400" />
+      <span className="mb-2 flex items-center gap-2 text-xs font-black text-nw-text">
+        <Icon className="h-4 w-4 text-nw-info" />
         {label}
       </span>
       <textarea
@@ -88,19 +89,19 @@ function SectionToggle({
   onToggle: () => void;
 }) {
   return (
-    <button
+    <UiButton variant="plain"
       type="button"
       role="switch"
       aria-checked={enabled}
       onClick={onToggle}
-      className={`flex items-center justify-between gap-3 rounded-xl border p-3 text-right transition ${enabled ? 'border-blue-700/60 bg-blue-950/30' : 'border-slate-800 bg-slate-950/70 opacity-70'}`}
+      className={`flex items-center justify-between gap-3 rounded-xl border p-3 text-right transition ${enabled ? 'border-nw-info bg-nw-info-bg' : 'border-nw-border bg-nw-surface-2 '}`}
     >
       <span className="flex min-w-0 items-start gap-3">
-        <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-xl ${enabled ? 'bg-blue-500/15 text-blue-400' : 'bg-slate-800 text-slate-500'}`}><Icon className="h-4 w-4" /></span>
-        <span><strong className="block text-xs font-black text-slate-100">{label}</strong><span className="mt-1 block text-[9px] font-bold leading-4 text-slate-400">{description}</span></span>
+        <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-xl ${enabled ? 'bg-nw-info-bg text-nw-info' : 'bg-nw-surface text-nw-muted'}`}><Icon className="h-4 w-4" /></span>
+        <span><strong className="block text-xs font-black text-nw-text">{label}</strong><span className="mt-1 block text-xs font-bold leading-4 text-nw-muted">{description}</span></span>
       </span>
-      <span className={`relative h-6 w-10 shrink-0 rounded-full transition ${enabled ? 'bg-blue-500' : 'bg-slate-700'}`}><span className={`absolute top-1 h-4 w-4 rounded-full bg-white transition ${enabled ? 'right-1' : 'right-5'}`} /></span>
-    </button>
+      <span className={`relative h-6 w-10 shrink-0 rounded-full transition ${enabled ? 'bg-nw-primary' : 'bg-nw-mute-bg'}`}><span className={`absolute top-1 h-4 w-4 rounded-full bg-nw-on-primary transition ${enabled ? 'right-1' : 'right-5'}`} /></span>
+    </UiButton>
   );
 }
 
@@ -156,64 +157,64 @@ export function StorefrontSettingsModal() {
   };
 
   if (loading) {
-    return <div className="flex items-center justify-center gap-2 py-16 text-xs font-bold text-slate-400"><LoaderCircle className="h-5 w-5 animate-spin" /> جارٍ تحميل إعدادات المتجر من Supabase...</div>;
+    return <div className="flex items-center justify-center gap-2 py-16 text-xs font-bold text-nw-muted"><LoaderCircle className="h-5 w-5 animate-spin" /> جارٍ تحميل إعدادات المتجر...</div>;
   }
 
   return (
-    <form aria-busy={saving} onSubmit={handleSubmit} className="space-y-4" dir="rtl">
-      <div className={`rounded-2xl border p-4 ${form.ordersEnabled ? 'border-emerald-700/60 bg-emerald-950/30' : 'border-rose-700/60 bg-rose-950/30'}`}>
+    <FormFields className="nw-batch5-fields"><form aria-busy={saving} onSubmit={handleSubmit} className="space-y-4" dir="rtl">
+      <div className={`rounded-2xl border p-4 ${form.ordersEnabled ? 'border-nw-ok bg-nw-ok-bg' : 'border-nw-bad bg-nw-bad-bg'}`}>
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-start gap-3">
-            <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${form.ordersEnabled ? 'bg-emerald-500/15 text-emerald-400' : 'bg-rose-500/15 text-rose-400'}`}><Globe2 className="h-5 w-5" /></div>
-            <div><h4 className="text-sm font-black text-white">استقبال طلبات الموقع</h4><p className="mt-1 text-[10px] font-bold leading-5 text-slate-400">الإيقاف يمنع حفظ أي طلب جديد من الموقع داخل قاعدة البيانات.</p></div>
+            <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${form.ordersEnabled ? 'bg-nw-ok-bg text-nw-ok' : 'bg-nw-bad-bg text-nw-bad'}`}><Globe2 className="h-5 w-5" /></div>
+            <div><h4 className="text-sm font-black text-nw-text">استقبال طلبات الموقع</h4><p className="mt-1 text-xs font-bold leading-5 text-nw-muted">الإيقاف يمنع حفظ أي طلب جديد من الموقع داخل قاعدة البيانات.</p></div>
           </div>
-          <button type="button" role="switch" aria-checked={form.ordersEnabled} onClick={() => update('ordersEnabled', !form.ordersEnabled)} className={`relative h-7 w-12 shrink-0 rounded-full transition ${form.ordersEnabled ? 'bg-emerald-500' : 'bg-slate-700'}`}><span className={`absolute top-1 h-5 w-5 rounded-full bg-white transition ${form.ordersEnabled ? 'right-1' : 'right-6'}`} /></button>
+          <UiButton variant="plain" type="button" role="switch" aria-label="استقبال طلبات الموقع" aria-checked={form.ordersEnabled} onClick={() => update('ordersEnabled', !form.ordersEnabled)} className={`relative h-11 w-12 shrink-0 rounded-full transition ${form.ordersEnabled ? 'bg-nw-ok-bg' : 'bg-nw-mute-bg'}`}><span className={`absolute top-3 h-5 w-5 rounded-full bg-nw-text transition ${form.ordersEnabled ? 'right-1' : 'right-6'}`} /></UiButton>
         </div>
       </div>
 
-      <section className="rounded-2xl border border-slate-800 bg-slate-950/35 p-4">
-        <h4 className="mb-4 flex items-center gap-2 text-xs font-black text-white"><Store className="h-4 w-4 text-orange-400" />هوية المتجر والتواصل</h4>
+      <Card>
+        <h4 className="mb-4 flex items-center gap-2 text-xs font-black text-nw-text"><Store className="h-4 w-4 text-nw-warn" />هوية المتجر والتواصل</h4>
         <div className="grid gap-3 sm:grid-cols-2">
-          <label className="text-[11px] font-black text-slate-300">اسم المتجر<input required minLength={2} maxLength={120} value={form.storeNameAr} onChange={(event) => update('storeNameAr', event.target.value)} className={`${inputClass} mt-2`} /></label>
-          <label className="text-[11px] font-black text-slate-300">رقم واتساب<input required dir="ltr" inputMode="tel" value={form.whatsappNumber} onChange={(event) => update('whatsappNumber', event.target.value)} className={`${inputClass} mt-2 text-left`} /></label>
-          <label className="text-[11px] font-black text-slate-300 sm:col-span-2">اسم أو رقم CliQ (اختياري)<input dir="ltr" maxLength={120} value={form.cliqAlias} onChange={(event) => update('cliqAlias', event.target.value)} placeholder="مثال: NAWASRAH" className={`${inputClass} mt-2 text-left`} /></label>
+          <label className="text-xs font-black text-nw-text">اسم المتجر<input required minLength={2} maxLength={120} value={form.storeNameAr} onChange={(event) => update('storeNameAr', event.target.value)} className={`${inputClass} mt-2`} /></label>
+          <label className="text-xs font-black text-nw-text">رقم واتساب<input required dir="ltr" inputMode="tel" value={form.whatsappNumber} onChange={(event) => update('whatsappNumber', event.target.value)} className={`${inputClass} mt-2 text-left`} /></label>
+          <label className="text-xs font-black text-nw-text sm:col-span-2">اسم أو رقم CliQ (اختياري)<input dir="ltr" maxLength={120} value={form.cliqAlias} onChange={(event) => update('cliqAlias', event.target.value)} placeholder="مثال: NAWASRAH" className={`${inputClass} mt-2 text-left`} /></label>
         </div>
-      </section>
+      </Card>
 
-      <section className="rounded-2xl border border-slate-800 bg-slate-950/35 p-4">
-        <h4 className="mb-4 flex items-center gap-2 text-xs font-black text-white"><Banknote className="h-4 w-4 text-emerald-400" />قواعد الطلب والتوصيل</h4>
+      <Card>
+        <h4 className="mb-4 flex items-center gap-2 text-xs font-black text-nw-text"><Banknote className="h-4 w-4 text-nw-ok" />قواعد الطلب والتوصيل</h4>
         <div className="grid gap-3 sm:grid-cols-3">
-          <label className="text-[11px] font-black text-slate-300">الحد الأدنى للطلب (د.أ)<input type="number" min="0" step="0.001" value={form.minimumOrder} onChange={(event) => update('minimumOrder', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
-          <label className="text-[11px] font-black text-slate-300">توصيل داخل الرمثا (د.أ)<input type="number" min="0" step="0.001" value={form.insideRamthaDeliveryFee} onChange={(event) => update('insideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
-          <label className="text-[11px] font-black text-slate-300">توصيل خارج الرمثا (د.أ)<input type="number" min="0" step="0.001" value={form.outsideRamthaDeliveryFee} onChange={(event) => update('outsideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
+          <label className="text-xs font-black text-nw-text">الحد الأدنى للطلب (د.أ)<input type="number" min="0" step="0.001" value={form.minimumOrder} onChange={(event) => update('minimumOrder', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
+          <label className="text-xs font-black text-nw-text">توصيل داخل الرمثا (د.أ)<input type="number" min="0" step="0.001" value={form.insideRamthaDeliveryFee} onChange={(event) => update('insideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
+          <label className="text-xs font-black text-nw-text">توصيل خارج الرمثا (د.أ)<input type="number" min="0" step="0.001" value={form.outsideRamthaDeliveryFee} onChange={(event) => update('outsideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
         </div>
-        <p className="mt-3 flex items-start gap-2 rounded-xl border border-emerald-900/60 bg-emerald-950/25 p-3 text-[10px] font-bold leading-5 text-emerald-300"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" />العميل يختار داخل أو خارج الرمثا، وقاعدة البيانات تضيف السعر المحفوظ هنا إلى إجمالي الطلب؛ لا يمكن تغييره من المتصفح.</p>
-      </section>
+        <p className="mt-3 flex items-start gap-2 rounded-xl border border-nw-ok bg-nw-ok-bg p-3 text-xs font-bold leading-5 text-nw-ok"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" />العميل يختار داخل أو خارج الرمثا، وقاعدة البيانات تضيف السعر المحفوظ هنا إلى إجمالي الطلب؛ لا يمكن تغييره من المتصفح.</p>
+      </Card>
 
-      <section className="rounded-2xl border border-slate-800 bg-slate-950/35 p-4">
-        <div className="mb-4"><h4 className="flex items-center gap-2 text-xs font-black text-white"><Sparkles className="h-4 w-4 text-violet-400" />أقسام الصفحة الرئيسية</h4><p className="mt-1 text-[10px] font-bold leading-5 text-slate-400">اختر الأقسام التي تريد إظهارها. محتواها يُحسب تلقائيًا من المنتجات والمبيعات الحقيقية.</p></div>
+      <Card>
+        <div className="mb-4"><h4 className="flex items-center gap-2 text-xs font-black text-nw-text"><Sparkles className="h-4 w-4 text-nw-info" />أقسام الصفحة الرئيسية</h4><p className="mt-1 text-xs font-bold leading-5 text-nw-muted">اختر الأقسام التي تريد إظهارها. محتواها يُحسب تلقائيًا من المنتجات والمبيعات الحقيقية.</p></div>
         <div className="grid gap-2 sm:grid-cols-2">
           <SectionToggle label="وصل حديثًا" description="أحدث الأصناف المضافة من تطبيق الإدارة." icon={Sparkles} enabled={form.showNewestProducts} onToggle={() => update('showNewestProducts', !form.showNewestProducts)} />
           <SectionToggle label="الأكثر طلبًا" description="من الطلبات المكتملة خلال آخر 90 يومًا." icon={Flame} enabled={form.showBestSellers} onToggle={() => update('showBestSellers', !form.showBestSellers)} />
           <SectionToggle label="عروض الجملة" description="الأصناف التابعة لقسم العروض الخاصة." icon={BadgePercent} enabled={form.showOffers} onToggle={() => update('showOffers', !form.showOffers)} />
           <SectionToggle label="قارب على النفاد" description="الأصناف المتاحة التي وصلت إلى حد التنبيه." icon={PackageOpen} enabled={form.showLowStock} onToggle={() => update('showLowStock', !form.showLowStock)} />
         </div>
-      </section>
+      </Card>
 
-      <section className="space-y-3 rounded-2xl border border-slate-800 bg-slate-950/35 p-4">
+      <Card className="space-y-3">
         <TextArea label="الشريط الإعلاني" icon={MessageCircle} value={form.announcementText} onChange={(value) => update('announcementText', value)} />
         <TextArea label="مناطق التوصيل" icon={MapPinned} value={form.deliveryAreasText} onChange={(value) => update('deliveryAreasText', value)} />
         <TextArea label="أوقات الدوام والتجهيز" icon={Clock3} value={form.businessHoursText} onChange={(value) => update('businessHoursText', value)} />
         <TextArea label="مدة التوصيل" icon={Truck} value={form.deliveryEtaText} onChange={(value) => update('deliveryEtaText', value)} />
         <TextArea label="سياسة الاستبدال والاسترجاع" icon={ShieldCheck} value={form.exchangePolicyText} onChange={(value) => update('exchangePolicyText', value)} />
-      </section>
+      </Card>
 
-      {error && <div role="alert" className="rounded-xl border border-rose-800 bg-rose-950/40 p-3 text-[11px] font-bold text-rose-300">{error}</div>}
+      {error && <div role="alert" className="rounded-xl border border-nw-bad bg-nw-bad-bg p-3 text-xs font-bold text-nw-bad">{error}</div>}
 
-      <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
-        <button type="submit" disabled={saving} className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-xs font-black text-white transition hover:bg-blue-500 disabled:opacity-50">{saving ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}{saving ? 'جارٍ الحفظ...' : 'حفظ وتطبيق على الموقع'}</button>
-        <a href="https://alnawasreh.com/" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-xs font-black text-slate-200"><ExternalLink className="h-4 w-4" />معاينة الموقع</a>
+      <div className="sticky bottom-0 z-10 grid gap-2 bg-nw-surface py-2 sm:grid-cols-[1fr_auto]">
+        <UiButton variant="plain" type="submit" disabled={saving} className="flex items-center justify-center gap-2 rounded-xl bg-nw-primary px-4 py-3 text-xs font-black text-nw-on-primary transition hover:bg-nw-primary disabled:opacity-50">{saving ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}{saving ? 'جارٍ الحفظ...' : 'حفظ وتطبيق على الموقع'}</UiButton>
+        <a href="https://alnawasreh.com/" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 rounded-xl border border-nw-border bg-nw-surface px-4 py-3 text-xs font-black text-nw-text"><ExternalLink className="h-4 w-4" />معاينة الموقع</a>
       </div>
-    </form>
+    </form></FormFields>
   );
 }

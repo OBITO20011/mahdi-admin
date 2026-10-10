@@ -8,6 +8,13 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 ## Canonical reading order
 
+**Current owner boundary —2026-10-11:** batch4 b06adac visually accepted;
+dca6e9c sharding delivered21/21+secrets. Only batch5 UsersView/UserFormModal,
+MonitoringDashboardModal,StorefrontSettingsModal and PromotionCodesModal
+presentation. Read PackageF§6.7/§9 and remaining-screens report. Pin all
+business ASTs including role assignment and policy/fee inputs. Quality once,
+Gitleaks0/commit/push/exact CI then visual STOP. No batch6,DB,Production/deploy.
+
 **Current owner boundary —2026-10-10:**47c958d batch3 visually accepted.
 Only batch4 expenses+reports presentation and3 purchasing layout/tone notes.
 Read PackageF spec§6.7/§9 and REMAINING_SCREENS_MIGRATION.md.Type measurement
