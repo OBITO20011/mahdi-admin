@@ -4,7 +4,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import {databasePortsFromConfig, waitForDatabasePorts} from './isolated-db-port-guard.mjs';
+import {databasePortsFromConfig, readLinuxEphemeralPortRange, waitForDatabasePorts} from './isolated-db-port-guard.mjs';
+import {isolatedSupabasePortSettings, withIsolatedSupabasePorts} from './isolated-supabase-ports.mjs';
 
 const execFileAsync = promisify(execFile);
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
@@ -125,7 +126,7 @@ if (isolatedTurnstileSecret && !/^[A-Za-z0-9_-]+$/.test(isolatedTurnstileSecret)
 
 await writeFile(
   isolatedConfigPath,
-  sourceConfig.replace(
+  withIsolatedSupabasePorts(sourceConfig.replace(
     /^project_id\s*=\s*"[^"]+"\s*$/mu,
     `project_id = "${isolatedProjectId}"`,
   ).replace(
@@ -133,7 +134,7 @@ await writeFile(
     isolatedTurnstileSecret
       ? `secret = "${isolatedTurnstileSecret}"`
       : 'secret = "env(TURNSTILE_SECRET)"',
-  ),
+  )),
   'utf8',
 );
 
@@ -151,6 +152,10 @@ await writeFile(
 );
 
 const cliPath = path.join(projectRoot, 'node_modules', 'supabase', 'dist', 'supabase.js');
+const ephemeralPortRange = await readLinuxEphemeralPortRange();
+if ('first' in ephemeralPortRange && isolatedSupabasePortSettings.some(
+  ({port}) => port >= ephemeralPortRange.first && port <= ephemeralPortRange.last,
+)) throw new Error('ISOLATED_PORT_IN_EPHEMERAL_RANGE');
 const dbPortGuard = await waitForDatabasePorts(databasePortsFromConfig(
   await readFile(isolatedConfigPath, 'utf8'),
 ));
@@ -183,6 +188,8 @@ console.log(JSON.stringify({
   reusedDatabaseVolume,
   authBaselineEmpty: true,
   dbPortGuard,
+  isolatedPorts: isolatedSupabasePortSettings,
+  ephemeralPortRange,
   excludedServices: excludedServices || null,
   note: 'This temporary copy is for local destructive integrity tests only. Production migration 034 remains unchanged.',
 }, null, 2));

@@ -1,5 +1,15 @@
 # Phase status
 
+## 2026-10-10 — isolated ephemeral-port correction
+
+Owner approves test-only low-port config25430–25439 and ss-tanp LOCAL diagnostics.
+Linux actual range32768–60999;automatic outbound34032 blocked wildcard bind with
+no listener;mechanism reproduced,historical holder still unknown. Windows range
+49152–65535. Original config/product/001–136/workflow/timeouts/retries unchanged.
+Focused real historical supplier/POS and exact-SHA CI precede Customers;see
+ISOLATED_DB_PORT_GUARD.md.136 delivered p95single33.464ms/all1645.011ms PASS.
+No Production/deploy/Phase7.
+
 ## 2026-10-10 —136 delivered;independent test port guard
 
 1288db70c9d7462d86aed0534d61be8bc5615525 exact-SHA quality38004164449 all19/19,

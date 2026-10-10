@@ -2,12 +2,23 @@ import {createServer} from 'node:net';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {setTimeout as delay} from 'node:timers/promises';
+import {readFile} from 'node:fs/promises';
 
 const exec = promisify(execFile);
 const runDiagnostic = async (command, args, options) => {
   const {stdout} = await exec(command, args, options);
   return {stdout: String(stdout)};
 };
+
+export async function readLinuxEphemeralPortRange(read = file => readFile(file, 'utf8')) {
+  const source = '/proc/sys/net/ipv4/ip_local_port_range';
+  try {
+    const values = (await read(source)).trim().split(/\s+/u).map(Number);
+    if (values.length !== 2 || values.some(port => !Number.isInteger(port) || port < 1 || port > 65535)
+      || values[0] > values[1]) throw new Error('INVALID_EPHEMERAL_RANGE');
+    return {source, first: values[0], last: values[1]};
+  } catch (error) {return {source, unavailable: error.code || error.message};}
+}
 function validPort(port) {
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('INVALID_DB_PORT');
   return port;
@@ -64,10 +75,17 @@ export async function describePortHolders(ports, run = runDiagnostic) {
     report.push(entry);
   }
   try {
-    const {stdout} = await run('ss', ['-ltnp'], {windowsHide: true, timeout: 5000, maxBuffer: 64 * 1024});
+    const {stdout} = await run('ss', ['-tanp'], {windowsHide: true, timeout: 5000, maxBuffer: 64 * 1024});
     for (const entry of report) entry.ss = stdout.split(/\r?\n/u)
-      .filter(line => new RegExp(`:${entry.port}\\s`, 'u').test(line)).join('\n') || 'No listener found';
+      // ss -tanp:State,Recv-Q,Send-Q,LOCAL endpoint,peer endpoint,process.
+      // A peer port match must not impersonate a local-port owner.
+      .filter(line => {
+        const local = line.trim().split(/\s+/u)[3];
+        return local && new RegExp(`:${entry.port}$`, 'u').test(local);
+      }).join('\n') || 'No local socket found';
   } catch (error) {for (const entry of report) entry.ss = `Diagnostic unavailable: ${error.code}`;}
+  const ephemeralPortRange = await readLinuxEphemeralPortRange();
+  for (const entry of report) entry.ephemeralPortRange = ephemeralPortRange;
   return report;
 }
 
