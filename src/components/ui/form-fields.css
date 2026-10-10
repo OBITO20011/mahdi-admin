@@ -1,0 +1,32 @@
+/* Scoped to shared dialogs; overrides historical field colours without touching
+ * their state, disabled/required attributes or submit/value forwarding. */
+.nw-form-fields.nw-form-fields :is(input,select,textarea):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]) {
+  min-height: 44px;
+  min-width: 0;
+  max-width: 100%;
+  background-color: var(--nw-surface) !important;
+  border-color: var(--nw-border) !important;
+  color: var(--nw-text) !important;
+  caret-color: var(--nw-text);
+  box-shadow: none;
+}
+.nw-form-fields.nw-form-fields :is(input,textarea)::placeholder {
+  color: var(--nw-muted);
+  opacity: 1;
+}
+.nw-form-fields.nw-form-fields :is(input,select,textarea):focus {
+  border-color: var(--nw-primary) !important;
+  box-shadow: 0 0 0 2px var(--nw-primary) !important;
+}
+.nw-form-fields.nw-form-fields :is(input,select,textarea)[aria-invalid="true"] {
+  border-color: var(--nw-bad) !important;
+}
+.nw-form-fields.nw-form-fields :is(input,select,textarea):is([class~="border-rose-500"],[class~="border-red-500"],[class~="border-nw-bad"]) {
+  border-color: var(--nw-bad) !important;
+}
+.nw-form-fields button { min-height: 44px; }
+.nw-profile-fields button { height: auto; }
+.nw-profile-fields :is(p,h2,h3,h4,span,label) { line-height: 1.75; }
+.nw-profile-fields form > button[type="submit"] { position: sticky; bottom: 0; z-index: 10; }
+.nw-form-fields label:has(input[type="checkbox"]) { min-height: 44px; gap: 12px; }
+.nw-form-fields :is(input[type="checkbox"],input[type="radio"]) { accent-color: var(--nw-primary); flex-shrink: 0; }

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./styles/design-tokens.css";
+@import "./components/ui/form-fields.css";
 
 :root {
   color-scheme: dark;
@@ -346,19 +347,6 @@ html.theme-light :is(
 }
 
 /* The phone bottom tabs (.admin-bottom-tabs) use Package F tokens directly. */
-
-html.theme-light [data-navigation-id="assistant-shortcut"] {
-  border-color: #ddd7ef !important;
-  background: linear-gradient(135deg, #faf8ff, #f4f6fb) !important;
-  box-shadow: var(--admin-shadow-sm) !important;
-}
-
-html.theme-light [data-navigation-id="sign-out"] {
-  border-color: #efcbd3 !important;
-  background-color: var(--admin-danger-soft) !important;
-  color: var(--admin-danger) !important;
-  box-shadow: none !important;
-}
 
 html.theme-light [data-ui="admin-toast"][data-tone] {
   box-shadow: 0 10px 26px -20px rgb(15 23 42 / 0.3) !important;

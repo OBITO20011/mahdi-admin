@@ -2,57 +2,60 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Add approved CRM financial chips and five Customers visual corrections;no RPC/payload/validation/migration changes",
-  "baselineSha": "4a8f395c2afd6847c233cb7852cfa60d69144dce",
+  "objective": "Package F batch1: shared Modal/form tokens,More,Profile,Install,Push presentation only",
+  "baselineSha": "891c9a460294d983952c3563a46c6804eedf0fe5",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "Customers4db3af1 exact quality38016271763 all19/19,secrets38016271790;official delivery PASS",
-    "137 delivered4a8f395c2afd6847c233cb7852cfa60d69144dce;Gitleaks0;exact quality38032453378 all19/19,secrets38032453376 PASS"
+    "137 delivered4a8f395c2afd6847c233cb7852cfa60d69144dce;Gitleaks0;exact quality38032453378 all19/19,secrets38032453376 PASS",
+    "Customers UI follow-up891c9a460294d983952c3563a46c6804eedf0fe5 delivered;Gitleaks0;exact quality38035561062 all19/19,secrets38035561067 PASS"
   ],
   "inProgress": [
-    "Deliver completed Customers follow-up after Gitleaks0 and exact-SHA CI"
+    "Batch1 implementation and full quality PASS;Gitleaks0,commit/push/exact CI next;STOP for visual review"
   ],
   "notStarted": [
     "Phase7"
   ],
   "filesTouched": [
+    "docs/design/package-f/REMAINING_SCREENS_MIGRATION.md",
+    "e2e/package-f-more-harness.html",
+    "e2e/package-f-more-harness.tsx",
+    "e2e/package-f-more.spec.ts",
+    "src/components/ui/form-fields.css",
+    "src/components/ui/FormFields.tsx",
+    "tests/package-f-remaining-batch1.test.ts",
     "docs/agent/PHASE_STATUS.md",
     "docs/agent/PROJECT_OVERVIEW.md",
-    "docs/design/package-f/CRM_FILTERS_137.md",
-    "docs/design/package-f/CUSTOMERS_MIGRATION.md",
-    "e2e/package-f-customers-harness.tsx",
-    "e2e/package-f-customers.spec.ts",
-    "src/components/ui/uiFormat.ts",
-    "src/features/crm/CrmView.tsx",
-    "src/features/crm/CustomerDetailView.tsx",
-    "src/features/crm/CustomerFilters.tsx",
-    "src/features/crm/CustomerList.tsx",
-    "src/types/crm.ts",
-    "tests/package-f-customers.test.ts"
+    "src/components/common/Modal.tsx",
+    "src/components/ui/Controls.tsx",
+    "src/components/ui/index.ts",
+    "src/features/more/adminNavigation.config.ts",
+    "src/features/more/InstallAppPanel.tsx",
+    "src/features/more/MoreMenuView.tsx",
+    "src/features/more/ProfileModal.tsx",
+    "src/features/more/PushNotificationControls.tsx",
+    "src/index.css"
   ],
   "testsPassed": [
-    "137 full-size:all10k136/phase42 oracle,exact4filter sets before/after,33oldJSON/ACL;p95all<1s(overdue836.295ms)",
-    "Final optimized137 manual6cases,33oldJSON,roles/ACL/zero-write/DB lint PASS;static/continuity14/14,strict lint0",
-    "137 local quality exit0:815Admin/465browser PASS,59existing conditional skips,retries0;builds/isolation PASS,Production escaped0",
-    "Customers follow-up:focused26/26 Chromium/WebKit,retries0;AST12business/33bindings/static6/6;TypeScript/strict lint0",
-    "UI full quality exit0:817Admin/189Customer units/471browser PASS,59existing conditional skips,retries0;builds/isolation PASS;static20/20"
+    "Batch1 AST:25business calls,59event/value bindings,100native validation/busy properties and handlers unchanged",
+    "Batch1 Chromium/WebKit matrix and old navigation regression PASS,retries0;focused continuity/migrations/AST14/14 PASS",
+    "Final full quality exit0:821Admin/189Customer units,513browser PASS,59existing conditional skips,retries0;builds/SEO/isolation PASS;external/Production escaped0",
+    "More light contrast5.50:1;existing assertions untouched;no services/stores/customer-web/migrations changed"
   ],
   "testsRemaining": [
-    "Gitleaks0,UI commit/push/exactCI,visualSTOP"
+    "Gitleaks0,commit/push/exact CI;then owner visual review of batch1"
   ],
-  "findings": [
-    "Original count-only scale expectation repaired by owner-approved full136/phase42 identity oracle;no confirmed financial defect"
-  ],
+  "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Production/deploy/Phase7/automations;001-137 unchanged",
-    "No next screen;preserve .claude/launch.json unstaged"
+    "No batch2 or later;preserve .claude/launch.json unstaged"
   ],
-  "nextExactAction": "UI follow-up staged;full quality/staticPASS.Gitleaks staged0 required,then commit/push/wait exactCI.Update checkpoint actual SHA after commit;STOP for visual review after green.",
-  "workingTreeFingerprint": "6CF594F5B545DA5D5AF8422ECECD34A97010E1EB44F26CD7D6215D62B5AA386B",
-  "checkpointedAt": "2026-10-10T07:45:37.448Z",
+  "nextExactAction": "Batch1 staged;Gitleaks0 then commit/push and verify exact-SHA CI;STOP for visual review",
+  "workingTreeFingerprint": "A6A60036191062018E7550119860339F4CCF52A43F9D9D271EFD925CBBE91C8B",
+  "checkpointedAt": "2026-10-10T11:53:38.776Z",
   "startedAt": "2026-10-10T02:28:31.421Z"
 }

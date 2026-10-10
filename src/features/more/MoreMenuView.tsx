@@ -12,7 +12,7 @@ import { useAuthStore } from '../../stores/useAuthStore';
 import { isDeviceBiometricAvailable } from '../../services/deviceBiometrics.service';
 import { InstallAppPanel } from './InstallAppPanel';
 import { SECONDARY_QUICK_ACTIONS } from '../../components/layout/quickActions';
-import { UserAvatar } from '../../components/ui';
+import { UserAvatar, Card, PageHeader, UiButton } from '../../components/ui';
 import {
   ADMIN_NAVIGATION_GROUPS,
   getNextOpenNavigationGroup,
@@ -47,27 +47,27 @@ const MenuItem: React.FC<MenuItemProps> = ({
   tone,
   onClick,
 }) => (
-  <button
+  <UiButton variant="plain"
     type="button"
     data-navigation-id={id}
     onClick={onClick}
-    className="flex min-h-12 w-full items-center justify-between gap-3 rounded-xl px-2 py-2.5 text-right transition hover:bg-slate-800/75 active:scale-[0.99]"
+    className="!h-auto flex min-h-12 w-full items-center justify-between gap-3 rounded-xl px-2 py-2.5 text-right transition hover:bg-nw-surface active:scale-[0.99]"
   >
     <span className="flex min-w-0 items-center gap-3">
       <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${tone}`}>
         <Icon className="h-4 w-4" />
       </span>
       <span className="min-w-0">
-        <span className="block truncate text-[11px] font-black text-slate-100">
+        <span className="block break-words text-sm font-black text-nw-text">
           {title}
         </span>
-        <span className="mt-0.5 block truncate text-[10px] leading-4 text-slate-400">
+        <span className="mt-0.5 block break-words text-xs leading-4 text-nw-muted">
           {description}
         </span>
       </span>
     </span>
-    <ChevronLeft className="h-4 w-4 shrink-0 text-slate-600" />
-  </button>
+    <ChevronLeft className="h-4 w-4 shrink-0 text-nw-muted" />
+  </UiButton>
 );
 
 interface MenuSectionProps {
@@ -96,35 +96,35 @@ const MenuSection: React.FC<MenuSectionProps> = ({
   const panelId = `admin-navigation-panel-${id}`;
 
   return (
-    <section
+    <Card padded={false}
       data-navigation-group={id}
-      className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 shadow-sm"
+      className="overflow-hidden rounded-2xl border border-nw-border bg-nw-surface shadow-sm"
     >
-      <button
+      <UiButton variant="plain"
         id={triggerId}
         type="button"
         onClick={onToggle}
         aria-expanded={isOpen}
         aria-controls={panelId}
-        className="flex min-h-14 w-full items-center justify-between gap-3 p-3 text-right transition hover:bg-slate-800/50 active:scale-[0.995]"
+        className="!h-auto flex min-h-14 w-full items-center justify-between gap-3 p-3 text-right transition hover:bg-nw-surface active:scale-[0.995]"
       >
         <span className="flex min-w-0 items-center gap-3">
           <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${iconTone}`}>
             <Icon className="h-4 w-4" />
           </span>
           <span className="min-w-0">
-            <span className="block text-xs font-black text-slate-100">{title}</span>
-            <span className="mt-0.5 block truncate text-[10px] leading-4 text-slate-400">
+            <span className="block text-xs font-black text-nw-text">{title}</span>
+            <span className="mt-0.5 block break-words text-xs leading-4 text-nw-muted">
               {description}
             </span>
           </span>
         </span>
         <ChevronDown
-          className={`h-4 w-4 shrink-0 text-slate-500 transition-transform motion-reduce:transition-none ${
+          className={`h-4 w-4 shrink-0 text-nw-muted transition-transform motion-reduce:transition-none ${
             isOpen ? 'rotate-180' : ''
           }`}
         />
-      </button>
+      </UiButton>
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
@@ -135,13 +135,13 @@ const MenuSection: React.FC<MenuSectionProps> = ({
             animate={{ height: 'auto', opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
             transition={reduceMotion ? { duration: 0 } : { duration: 0.16, ease: 'easeOut' }}
-            className="overflow-hidden border-t border-slate-800"
+            className="overflow-hidden border-t border-nw-border"
           >
             <div className="px-2 py-1">{children}</div>
           </motion.div>
         )}
       </AnimatePresence>
-    </section>
+    </Card>
   );
 };
 
@@ -216,60 +216,51 @@ export const MoreMenuView: React.FC = () => {
     activeBranch.name;
 
   return (
-    <div dir="rtl" className="mx-auto max-w-2xl space-y-3 p-3 pb-6 sm:p-4 sm:pb-8">
-      <header className="flex items-center justify-between gap-3 px-1 pt-1">
-        <div>
-          <h2 className="text-base font-black text-white">إدارة التطبيق</h2>
-          <p className="mt-0.5 text-[10px] text-slate-400">
-            اختر ما تحتاجه فقط، دون ازدحام القوائم
-          </p>
-        </div>
-        <span className="rounded-full border border-blue-500/20 bg-blue-500/10 px-2.5 py-1 text-[9px] font-black text-blue-300">
-          {activeBranch.name}
-        </span>
-      </header>
+    <div dir="rtl" className="mx-auto max-w-2xl space-y-3 bg-nw-bg p-3 pb-6 text-nw-text sm:p-4 sm:pb-8">
+      <PageHeader title="إدارة التطبيق" description="اختر ما تحتاجه فقط، دون ازدحام القوائم"
+        actions={<span className="rounded-full bg-nw-info-bg px-3 py-1 text-xs font-bold text-nw-info">{activeBranch.name}</span>} />
 
       {/* Former floating quick actions (Package F §4.2); "بيع" is the centre tab. */}
       <section aria-label="إجراءات سريعة" className="grid grid-cols-3 gap-2">
         {SECONDARY_QUICK_ACTIONS.map((quickAction) => {
           const QuickIcon = quickAction.icon;
           return (
-            <button
+            <UiButton variant="plain"
               key={quickAction.id}
               type="button"
               data-navigation-id={quickAction.id}
               onClick={() => handleNavigationAction(quickAction.action)}
-              className="flex min-h-16 flex-col items-center justify-center gap-1.5 rounded-2xl border border-slate-800 bg-slate-900 p-2 text-center text-[11px] font-bold text-slate-100 transition hover:bg-slate-800 active:scale-[0.98]"
+              className="flex min-h-16 flex-col items-center justify-center gap-1.5 rounded-2xl border border-nw-border bg-nw-surface p-2 text-center text-sm font-bold text-nw-text transition hover:bg-nw-surface active:scale-[0.98]"
             >
-              <QuickIcon className="h-5 w-5 text-amber-300" aria-hidden="true" />
+              <QuickIcon className="h-5 w-5 text-nw-warn" aria-hidden="true" />
               {quickAction.shortLabel}
-            </button>
+            </UiButton>
           );
         })}
       </section>
 
       {canUseAssistant && (
-        <button
+        <UiButton variant="plain"
           type="button"
           data-navigation-id="assistant-shortcut"
           onClick={() => setActiveTab('assistant')}
-          className="flex min-h-14 w-full items-center justify-between gap-3 rounded-2xl border border-violet-500/25 bg-gradient-to-l from-violet-950/70 to-slate-900 p-3 text-right shadow-sm transition hover:border-violet-400/40 active:scale-[0.99]"
+          className="flex min-h-14 w-full items-center justify-between gap-3 rounded-2xl border border-nw-info bg-nw-surface-2 p-3 text-right shadow-sm transition hover:border-nw-info active:scale-[0.99]"
         >
           <span className="flex min-w-0 items-center gap-3">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-violet-500/15 text-violet-300">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-nw-info-bg text-nw-info">
               <BotMessageSquare className="h-4 w-4" />
             </span>
             <span className="min-w-0">
-              <span className="block text-xs font-black text-slate-100">
+              <span className="block text-xs font-black text-nw-text">
                 المساعد الإداري الذكي
               </span>
-              <span className="mt-0.5 block truncate text-[10px] leading-4 text-slate-400">
+              <span className="mt-0.5 block break-words text-xs leading-4 text-nw-muted">
                 وصول سريع مستقل بنفس الصلاحيات الحالية
               </span>
             </span>
           </span>
-          <ChevronLeft className="h-4 w-4 shrink-0 text-violet-300" />
-        </button>
+          <ChevronLeft className="h-4 w-4 shrink-0 text-nw-info" />
+        </UiButton>
       )}
 
       <div className="space-y-2" aria-label="أقسام التنقل الإداري">
@@ -291,27 +282,27 @@ export const MoreMenuView: React.FC = () => {
               onToggle={() => toggleSection(group.id)}
             >
               {group.id === 'administration-store' && (
-                <button
+                <UiButton variant="plain"
                   type="button"
                   data-navigation-id="profile-summary"
                   onClick={() => openModal('profile')}
-                  className="mb-1 flex min-h-14 w-full items-center justify-between gap-3 rounded-xl px-2 py-2.5 text-right transition hover:bg-slate-800/75 active:scale-[0.99]"
+                  className="!h-auto mb-1 flex min-h-14 w-full items-center justify-between gap-3 rounded-xl px-2 py-2.5 text-right transition hover:bg-nw-surface active:scale-[0.99]"
                 >
                   <span className="flex min-w-0 items-center gap-3">
                     <UserAvatar name={currentUserName} src={currentUserAvatarUrl} className="h-10 w-10" />
                     <span className="min-w-0">
-                      <span className="block truncate text-xs font-black text-slate-100">
+                      <span className="block break-words text-xs font-black text-nw-text">
                         {currentUserName}
                       </span>
-                      <span className="mt-0.5 block truncate text-[10px] leading-4 text-slate-400">
+                      <span className="mt-0.5 block break-words text-xs leading-4 text-nw-muted">
                         {currentUserRole} · {userBranch}
                       </span>
                     </span>
                   </span>
-                  <span className="flex items-center gap-1 rounded-lg bg-blue-500/10 px-2 py-1 text-[9px] font-bold text-blue-300">
+                  <span className="flex items-center gap-1 rounded-lg bg-nw-info-bg px-2 py-1 text-xs font-bold text-nw-info">
                     الملف <ChevronLeft className="h-3 w-3" />
                   </span>
-                </button>
+                </UiButton>
               )}
 
               {visibleItems.map((item) => (
@@ -332,45 +323,45 @@ export const MoreMenuView: React.FC = () => {
 
               {group.id === 'administration-store' && (
                 <>
-                  <div data-navigation-id="install-app" className="border-t border-slate-800 py-2">
+                  <div data-navigation-id="install-app" className="border-t border-nw-border py-2">
                     <InstallAppPanel />
                   </div>
 
                   <div
                     data-navigation-id="theme-toggle"
-                    className="flex min-h-12 items-center justify-between gap-3 border-t border-slate-800 px-2 py-2.5"
+                    className="flex min-h-12 items-center justify-between gap-3 border-t border-nw-border px-2 py-2.5"
                   >
                     <span className="flex min-w-0 items-center gap-3">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-amber-300">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-nw-warn-bg text-nw-warn">
                         {isDarkMode ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
                       </span>
                       <span className="min-w-0">
-                        <span className="block text-[11px] font-black text-slate-100">مظهر التطبيق</span>
-                        <span className="mt-0.5 block text-[10px] leading-4 text-slate-400">
+                        <span className="block text-sm font-black text-nw-text">مظهر التطبيق</span>
+                        <span className="mt-0.5 block text-xs leading-4 text-nw-muted">
                           {isDarkMode ? 'الوضع الداكن مفعّل' : 'الوضع الفاتح مفعّل'}
                         </span>
                       </span>
                     </span>
-                    <button
+                    <UiButton variant="plain"
                       type="button"
                       onClick={() => toggleThemeMode()}
-                      className="min-h-10 shrink-0 rounded-lg border border-slate-700 bg-slate-950 px-3 py-1.5 text-[9px] font-black text-slate-200 transition hover:bg-slate-800"
+                      className="min-h-11 shrink-0 rounded-lg border border-nw-border bg-nw-surface-2 px-3 py-1.5 text-xs font-black text-nw-text transition hover:bg-nw-surface"
                     >
                       {isDarkMode ? 'فاتح' : 'داكن'}
-                    </button>
+                    </UiButton>
                   </div>
 
                   <div
                     data-navigation-id="biometric-toggle"
-                    className="flex min-h-12 items-center justify-between gap-3 border-t border-slate-800 px-2 py-2.5"
+                    className="flex min-h-12 items-center justify-between gap-3 border-t border-nw-border px-2 py-2.5"
                   >
                     <span className="flex min-w-0 items-center gap-3">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-300">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-nw-info-bg text-nw-info">
                         <Scan className="h-4 w-4" />
                       </span>
                       <span className="min-w-0">
-                        <span className="block text-[11px] font-black text-slate-100">قفل Face ID</span>
-                        <span className="mt-0.5 block truncate text-[10px] leading-4 text-slate-400">
+                        <span className="block text-sm font-black text-nw-text">قفل Face ID</span>
+                        <span className="mt-0.5 block break-words text-xs leading-4 text-nw-muted">
                           {isBiometricSupported === null
                             ? 'جاري التحقق من دعم الجهاز'
                             : isBiometricSupported
@@ -388,7 +379,7 @@ export const MoreMenuView: React.FC = () => {
                         isUpdatingBiometrics ||
                         (!isBiometricsEnabled && isBiometricSupported !== true)
                       }
-                      className="h-5 w-5 shrink-0 cursor-pointer rounded accent-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="h-11 w-11 shrink-0 cursor-pointer rounded accent-nw-primary disabled:cursor-not-allowed disabled:opacity-50"
                     />
                   </div>
                 </>
@@ -398,18 +389,18 @@ export const MoreMenuView: React.FC = () => {
         })}
       </div>
 
-      <button
+      <UiButton variant="plain"
         type="button"
         data-navigation-id="sign-out"
         onClick={() => signOut()}
-        className="flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl border border-red-800/60 bg-red-950/35 p-3 text-[11px] font-black text-red-300 transition hover:bg-red-900/55 active:scale-[0.99]"
+        className="flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl border border-nw-bad bg-nw-bad-bg p-3 text-sm font-black text-nw-bad transition hover:bg-nw-bad-bg active:scale-[0.99]"
       >
         <LogOut className="h-4 w-4" />
         تسجيل الخروج
-      </button>
+      </UiButton>
 
-      <p className="pb-1 text-center text-[10px] leading-4 text-slate-400">
-        نواصرة للمحاسبة وإدارة الأعمال · بياناتك محفوظة بأمان في Supabase
+      <p className="pb-1 text-center text-xs leading-4 text-nw-muted">
+        النواصرة · إدارة الأعمال
       </p>
     </div>
   );

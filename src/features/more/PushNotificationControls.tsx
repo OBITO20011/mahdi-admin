@@ -1,3 +1,4 @@
+import {UiButton} from '../../components/ui';
 import React, {useEffect, useState} from 'react';
 import {
   BellOff,
@@ -44,8 +45,8 @@ export const PushNotificationControls: React.FC = () => {
 
   if (!state) {
     return (
-      <div className="flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-950/60 p-3 text-slate-400">
-        <Loader2 className="h-4 w-4 animate-spin text-blue-400" />
+      <div className="flex items-center gap-2 rounded-xl border border-nw-border bg-nw-surface-2 p-3 text-nw-muted">
+        <Loader2 className="h-4 w-4 animate-spin text-nw-info" />
         جاري فحص إشعارات هذا الجهاز...
       </div>
     );
@@ -53,15 +54,15 @@ export const PushNotificationControls: React.FC = () => {
 
   if (!state.supported) {
     return (
-      <div className="flex items-start gap-3 rounded-xl border border-amber-500/25 bg-amber-950/30 p-3">
-        <Smartphone className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" />
+      <div className="flex items-start gap-3 rounded-xl border border-nw-warn bg-nw-warn-bg p-3">
+        <Smartphone className="mt-0.5 h-5 w-5 shrink-0 text-nw-warn" />
         <div>
-          <h4 className="font-black text-amber-200">
+          <h4 className="font-black text-nw-warn">
             {state.requiresInstall
               ? 'ثبّت التطبيق أولاً على iPhone'
               : 'الإشعارات غير مدعومة على هذا الجهاز'}
           </h4>
-          <p className="mt-1 text-[10px] leading-5 text-amber-100/70">
+          <p className="mt-1 text-xs leading-5 text-nw-warn">
             من Safari اختر مشاركة ← إضافة إلى الشاشة الرئيسية، ثم افتح التطبيق من
             الأيقونة واضغط تفعيل الإشعارات.
           </p>
@@ -74,14 +75,14 @@ export const PushNotificationControls: React.FC = () => {
   const isDenied = state.permission === 'denied';
 
   return (
-    <div className="space-y-3 rounded-2xl border border-blue-500/20 bg-blue-950/20 p-3">
+    <div className="space-y-3 rounded-2xl border border-nw-info bg-nw-info-bg p-3">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-2.5">
           <div
             className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
               isEnabled
-                ? 'bg-emerald-500/15 text-emerald-400'
-                : 'bg-blue-500/15 text-blue-400'
+                ? 'bg-nw-ok-bg text-nw-ok'
+                : 'bg-nw-info-bg text-nw-info'
             }`}
           >
             {isEnabled ? (
@@ -91,12 +92,12 @@ export const PushNotificationControls: React.FC = () => {
             )}
           </div>
           <div>
-            <h4 className="font-black text-slate-100">
+            <h4 className="font-black text-nw-text">
               {isEnabled
                 ? 'إشعارات الطلبات مفعّلة'
                 : 'إشعارات الطلبات على iPhone'}
             </h4>
-            <p className="mt-1 text-[10px] leading-5 text-slate-400">
+            <p className="mt-1 text-xs leading-5 text-nw-muted">
               {isDenied
                 ? 'الإذن مرفوض. فعّله من إعدادات iPhone ← الإشعارات ← إدارة النواصرة.'
                 : isEnabled
@@ -109,21 +110,21 @@ export const PushNotificationControls: React.FC = () => {
 
       <div className="grid grid-cols-2 gap-2">
         {isEnabled ? (
-          <button
+          <UiButton variant="plain"
             type="button"
             disabled={isWorking}
             onClick={() => void runAction(disableOrderPushNotifications)}
-            className="col-span-2 flex items-center justify-center gap-1.5 rounded-xl border border-rose-500/30 bg-rose-950/30 px-3 py-2.5 font-black text-rose-300 transition hover:bg-rose-950/50 disabled:opacity-50"
+            className="col-span-2 flex items-center justify-center gap-1.5 rounded-xl border border-nw-bad bg-nw-bad-bg px-3 py-2.5 font-black text-nw-bad transition hover:bg-nw-bad-bg disabled:opacity-50"
           >
             <BellOff className="h-3.5 w-3.5" />
             إيقاف الإشعارات على هذا الجهاز
-          </button>
+          </UiButton>
         ) : (
-          <button
+          <UiButton variant="plain"
             type="button"
             disabled={isWorking || isDenied}
             onClick={() => void runAction(enableOrderPushNotifications)}
-            className="col-span-2 flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-3 py-3 font-black text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
+            className="col-span-2 flex items-center justify-center gap-2 rounded-xl bg-nw-primary px-3 py-3 font-black text-nw-on-primary transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isWorking ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -131,7 +132,7 @@ export const PushNotificationControls: React.FC = () => {
               <BellRing className="h-4 w-4" />
             )}
             تفعيل إشعارات الطلبات
-          </button>
+          </UiButton>
         )}
       </div>
     </div>

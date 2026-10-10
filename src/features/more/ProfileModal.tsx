@@ -5,7 +5,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
-import { UserAvatar } from '../../components/ui';
+import { UserAvatar, FormFields, UiButton } from '../../components/ui';
 import { useAuthStore } from '../../stores/useAuthStore';
 import {
   translateAccountUpdateError,
@@ -411,186 +411,186 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
   };
 
   return (
-    <div aria-busy={isSaving || isUpdatingMfa || isUpdatingBiometrics} data-unsaved={isDirty} className="space-y-4 text-xs font-sans">
+    <FormFields aria-busy={isSaving || isUpdatingMfa || isUpdatingBiometrics} data-unsaved={isDirty} className="nw-profile-fields space-y-4 text-sm font-sans text-nw-text">
       {/* Unsaved Changes Dialog Modal Overlay */}
       {showUnsavedPrompt && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-nw-side/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div ref={unsavedPanel as React.RefObject<HTMLDivElement>} tabIndex={-1}
             role="dialog" aria-modal="true" aria-label="تغييرات غير محفوظة"
-            className="bg-slate-900 border border-slate-800 p-5 rounded-2xl max-w-sm w-full space-y-4 shadow-2xl animate-scaleUp text-right">
-            <div className="flex items-center gap-3 text-amber-400">
-              <div className="p-2.5 bg-amber-500/20 rounded-xl">
+            className="bg-nw-surface border border-nw-border p-5 rounded-2xl max-w-sm w-full space-y-4 shadow-2xl animate-scaleUp text-right">
+            <div className="flex items-center gap-3 text-nw-warn">
+              <div className="p-2.5 bg-nw-warn-bg rounded-xl">
                 <AlertTriangle className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-extrabold text-slate-100 text-sm">لديك تغييرات غير محفوظة!</h3>
-                <p className="text-[11px] text-slate-400">هل أنت تأكد من الخروج وإلغاء التعديلات؟</p>
+                <h3 className="font-extrabold text-nw-text text-sm">لديك تغييرات غير محفوظة!</h3>
+                <p className="text-sm text-nw-muted">هل أنت تأكد من الخروج وإلغاء التعديلات؟</p>
               </div>
             </div>
             <div className="flex gap-2 pt-2">
-              <button
+              <UiButton variant="plain"
                 onClick={() => {
                   setShowUnsavedPrompt(false);
                   onClose();
                 }}
-                className="flex-1 bg-rose-600 hover:bg-rose-500 text-white font-bold py-2 rounded-xl text-xs transition"
+                className="flex-1 bg-nw-bad-bg hover:bg-nw-bad-bg text-nw-bad font-bold py-2 rounded-xl text-xs transition"
               >
                 تجاهل الخروج
-              </button>
-              <button
+              </UiButton>
+              <UiButton variant="plain"
                 onClick={() => setShowUnsavedPrompt(false)}
-                className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2 rounded-xl text-xs transition"
+                className="flex-1 bg-nw-surface hover:bg-nw-mute-bg text-nw-text font-bold py-2 rounded-xl text-xs transition"
               >
                 متابعة التعديل
-              </button>
+              </UiButton>
             </div>
           </div>
         </div>
       )}
 
       {/* Main Tab Navigation Bar */}
-      <div className="grid grid-cols-4 gap-1 bg-slate-950 p-1 rounded-2xl border border-slate-800 shadow">
-        <button
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1 bg-nw-surface-2 p-1 rounded-2xl border border-nw-border shadow">
+        <UiButton variant="plain"
           type="button"
           onClick={() => setActiveTab('profile')}
           className={`py-2 px-1 rounded-xl font-extrabold transition flex items-center justify-center gap-1.5 ${
             activeTab === 'profile'
-              ? 'bg-blue-600 text-white shadow-md'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+              ? 'bg-nw-primary text-nw-on-primary shadow-md'
+              : 'text-nw-muted hover:text-nw-text hover:bg-nw-surface'
           }`}
         >
           <UserIcon className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">الملف الشخصي</span>
           <span className="sm:hidden">الملف</span>
-        </button>
+        </UiButton>
 
-        <button
+        <UiButton variant="plain"
           type="button"
           onClick={() => setActiveTab('edit')}
           className={`py-2 px-1 rounded-xl font-extrabold transition flex items-center justify-center gap-1.5 relative ${
             activeTab === 'edit'
-              ? 'bg-blue-600 text-white shadow-md'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+              ? 'bg-nw-primary text-nw-on-primary shadow-md'
+              : 'text-nw-muted hover:text-nw-text hover:bg-nw-surface'
           }`}
         >
           <Camera className="w-3.5 h-3.5" />
           <span>تعديل البيانات</span>
           {isDirty && (
-            <span className="absolute top-1 left-1 w-2 h-2 bg-amber-400 rounded-full animate-ping" />
+            <span className="absolute top-1 left-1 w-2 h-2 bg-nw-warn-bg rounded-full animate-ping" />
           )}
-        </button>
+        </UiButton>
 
-        <button
+        <UiButton variant="plain"
           type="button"
           onClick={() => setActiveTab('security')}
           className={`py-2 px-1 rounded-xl font-extrabold transition flex items-center justify-center gap-1.5 ${
             activeTab === 'security'
-              ? 'bg-blue-600 text-white shadow-md'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+              ? 'bg-nw-primary text-nw-on-primary shadow-md'
+              : 'text-nw-muted hover:text-nw-text hover:bg-nw-surface'
           }`}
         >
           <Lock className="w-3.5 h-3.5" />
           <span>الأمان والجلسات</span>
-        </button>
+        </UiButton>
 
-        <button
+        <UiButton variant="plain"
           type="button"
           onClick={() => setActiveTab('notifications')}
           className={`py-2 px-1 rounded-xl font-extrabold transition flex items-center justify-center gap-1.5 ${
             activeTab === 'notifications'
-              ? 'bg-blue-600 text-white shadow-md'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+              ? 'bg-nw-primary text-nw-on-primary shadow-md'
+              : 'text-nw-muted hover:text-nw-text hover:bg-nw-surface'
           }`}
         >
           <Bell className="w-3.5 h-3.5" />
           <span>الإشعارات</span>
-        </button>
+        </UiButton>
       </div>
 
       {/* --- TAB 1: Profile Summary Card --- */}
       {activeTab === 'profile' && (
         <div className="space-y-4 animate-fadeIn">
           {/* Main Hero Card */}
-          <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 p-4 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-            <div className="flex items-start justify-between gap-3">
+          <div className="bg-nw-surface-2 p-4 rounded-2xl border border-nw-border shadow-xl space-y-4">
+            <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="flex items-center gap-3.5">
                 <UserAvatar name={currentUser.name} src={currentUser.avatarUrl} className="h-16 w-16 text-2xl" />
                 <div>
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <span className="text-[10px] font-black text-blue-400 bg-blue-950/80 px-2.5 py-0.5 rounded-full border border-blue-800">
+                  <div className="flex flex-wrap items-center gap-1.5 mb-1">
+                    <span className="text-xs font-black text-nw-info bg-nw-info-bg px-2.5 py-0.5 rounded-full border border-nw-info">
                       {currentUser.role}
                     </span>
-                    <span className="text-[10px] font-bold text-slate-300 bg-slate-950 px-2 py-0.5 rounded-full border border-slate-800">
+                    <span className="text-xs font-bold text-nw-text bg-nw-surface-2 px-2 py-0.5 rounded-full border border-nw-border">
                       {branches.find((b) => b.id === currentUser.branchId)?.name || 'الفرع الرئيسي'}
                     </span>
                   </div>
-                  <h2 className="font-black text-slate-100 text-base">{currentUser.name}</h2>
-                  <p className="text-[11px] text-slate-400 font-medium">
+                  <h2 className="font-black text-nw-text text-base">{currentUser.name}</h2>
+                  <p className="text-sm text-nw-muted font-medium">
                     {currentUser.jobTitle || 'مدير النظام والتطبيقات'}
                   </p>
                 </div>
               </div>
 
-              <button
+              <UiButton variant="plain"
                 type="button"
                 onClick={() => setActiveTab('edit')}
-                className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3 py-1.5 rounded-xl text-[11px] transition flex items-center gap-1 shadow"
+                className="bg-nw-primary hover:brightness-105 text-nw-on-primary font-bold px-3 py-1.5 rounded-xl text-sm transition flex items-center gap-1 shadow"
               >
                 <span>تعديل</span>
-              </button>
+              </UiButton>
             </div>
 
             {/* Quick Details Grid */}
-            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800/80">
-              <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 space-y-0.5">
-                <span className="text-[10px] text-slate-400 flex items-center gap-1">
-                  <Mail className="w-3 h-3 text-blue-400" /> البريد الإلكتروني
+            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-nw-border">
+              <div className="bg-nw-surface-2 p-2.5 rounded-xl border border-nw-border space-y-0.5">
+                <span className="text-xs text-nw-muted flex items-center gap-1">
+                  <Mail className="w-3 h-3 text-nw-info" /> البريد الإلكتروني
                 </span>
-                <p className="font-mono text-slate-200 text-[11px] truncate">{currentUser.email}</p>
+                <p dir="ltr" className="break-all font-mono text-nw-text text-sm">{currentUser.email}</p>
               </div>
 
-              <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 space-y-0.5">
-                <span className="text-[10px] text-slate-400 flex items-center gap-1">
-                  <Phone className="w-3 h-3 text-emerald-400" /> رقم الهاتف
+              <div className="bg-nw-surface-2 p-2.5 rounded-xl border border-nw-border space-y-0.5">
+                <span className="text-xs text-nw-muted flex items-center gap-1">
+                  <Phone className="w-3 h-3 text-nw-ok" /> رقم الهاتف
                 </span>
-                <p className="font-mono text-slate-200 text-[11px] truncate">{currentUser.phone}</p>
+                <p className="font-mono text-nw-text text-sm break-words">{currentUser.phone}</p>
               </div>
 
-              <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 space-y-0.5">
-                <span className="text-[10px] text-slate-400 flex items-center gap-1">
-                  <Globe className="w-3 h-3 text-purple-400" /> اللغة والمنطقة
+              <div className="bg-nw-surface-2 p-2.5 rounded-xl border border-nw-border space-y-0.5">
+                <span className="text-xs text-nw-muted flex items-center gap-1">
+                  <Globe className="w-3 h-3 text-nw-info" /> اللغة والمنطقة
                 </span>
-                <p className="text-slate-200 text-[11px]">
+                <p className="text-nw-text text-sm">
                   {currentUser.language === 'en' ? 'English' : 'العربية (الأردن)'} | {currentUser.timezone || 'Asia/Amman'}
                 </p>
               </div>
 
-              <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 space-y-0.5">
-                <span className="text-[10px] text-slate-400 flex items-center gap-1">
-                  <MessageSquare className="w-3 h-3 text-teal-400" /> واتساب
+              <div className="bg-nw-surface-2 p-2.5 rounded-xl border border-nw-border space-y-0.5">
+                <span className="text-xs text-nw-muted flex items-center gap-1">
+                  <MessageSquare className="w-3 h-3 text-nw-info" /> واتساب
                 </span>
-                <p className="font-mono text-slate-200 text-[11px]">
+                <p className="font-mono text-nw-text text-sm">
                   {currentUser.whatsapp || currentUser.phone || 'غير محدد'}
                 </p>
               </div>
             </div>
 
             {currentUser.address && (
-              <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 space-y-0.5">
-                <span className="text-[10px] text-slate-400 flex items-center gap-1">
-                  <MapPin className="w-3 h-3 text-rose-400" /> العنوان المسجل
+              <div className="bg-nw-surface-2 p-2.5 rounded-xl border border-nw-border space-y-0.5">
+                <span className="text-xs text-nw-muted flex items-center gap-1">
+                  <MapPin className="w-3 h-3 text-nw-bad" /> العنوان المسجل
                 </span>
-                <p className="text-slate-200 text-[11px]">{currentUser.address}</p>
+                <p className="text-nw-text text-sm">{currentUser.address}</p>
               </div>
             )}
           </div>
 
           {/* Role & Permissions Banner */}
-          <div className="bg-purple-950/40 border border-purple-800/60 p-3 rounded-2xl flex items-start gap-2.5 text-purple-300">
-            <ShieldCheck className="w-5 h-5 text-purple-400 shrink-0 mt-0.5" />
+          <div className="bg-nw-info-bg border border-nw-info p-3 rounded-2xl flex items-start gap-2.5 text-nw-info">
+            <ShieldCheck className="w-5 h-5 text-nw-info shrink-0 mt-0.5" />
             <div className="space-y-0.5">
-              <h4 className="font-bold text-slate-100 text-[11px]">صلاحيات الحساب الحالية: {currentUser.role}</h4>
-              <p className="text-[10px] text-purple-200 leading-relaxed">
+              <h4 className="font-bold text-nw-text text-sm">صلاحيات الحساب الحالية: {currentUser.role}</h4>
+              <p className="text-xs text-nw-info leading-relaxed">
                 يتم إدارة وتعيين الصلاحيات وأدوار الموظفين حصراً من شاشة إدارة المستخدمين وصلاحيات الفروع.
               </p>
             </div>
@@ -602,30 +602,30 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
       {activeTab === 'edit' && (
         <form onSubmit={handleSaveProfile} className="space-y-3 animate-fadeIn">
           {/* Avatar Choice & Upload Preview */}
-          <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 space-y-2">
-            <label className="text-[11px] font-extrabold text-slate-200 block">الصورة الشخصية</label>
+          <div className="bg-nw-surface-2 p-3 rounded-2xl border border-nw-border space-y-2">
+            <label htmlFor="profile-avatar" className="text-sm font-extrabold text-nw-text block">الصورة الشخصية</label>
             <div className="flex items-center gap-3">
               <UserAvatar name={name} src={avatarUrl} className="h-14 w-14 text-2xl" />
               <div className="space-y-1.5 flex-1">
-                <span className="text-[10px] text-slate-400 block">أدخل رابط صورتك، أو استخدم الحرف الأول من اسمك:</span>
-                <button type="button" onClick={() => setAvatarUrl('')} className="min-h-11 rounded-xl border border-nw-border bg-nw-surface-2 px-3 text-xs text-nw-text">
+                <span className="text-xs text-nw-muted block">أدخل رابط صورتك، أو استخدم الحرف الأول من اسمك:</span>
+                <UiButton variant="plain" type="button" onClick={() => setAvatarUrl('')} className="min-h-11 rounded-xl border border-nw-border bg-nw-surface-2 px-3 text-xs text-nw-text">
                   استخدام الحرف الأول
-                </button>
+                </UiButton>
               </div>
             </div>
-            <input
+            <input id="profile-avatar"
               type="url"
               placeholder="رابط الصورة الشخصية المباشر (URL)"
               value={avatarUrl}
               onChange={(e) => setAvatarUrl(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-slate-200 font-mono text-[11px] focus:outline-none focus:border-blue-500"
+              className="w-full bg-nw-surface border border-nw-border rounded-xl px-3 py-1.5 text-nw-text font-mono text-sm focus:outline-none focus:border-nw-info"
             />
           </div>
 
           {/* Full Name */}
           <div className="space-y-1">
-            <label className="text-[11px] font-bold text-slate-300 block">الاسم الكامل *</label>
-            <input
+            <label htmlFor="profile-name" className="text-sm font-bold text-nw-text block">الاسم الكامل *</label>
+            <input id="profile-name" aria-invalid={Boolean(fieldErrors.name)}
               type="text"
               required
               value={name}
@@ -633,20 +633,20 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                 setName(e.target.value);
                 if (fieldErrors.name) setFieldErrors((p) => ({ ...p, name: '' }));
               }}
-              className={`w-full bg-slate-950 border ${
-                fieldErrors.name ? 'border-rose-500' : 'border-slate-800'
-              } rounded-xl px-3 py-2 text-slate-100 font-bold focus:outline-none focus:border-blue-500`}
+              className={`w-full bg-nw-surface-2 border ${
+                fieldErrors.name ? 'border-nw-bad' : 'border-nw-border'
+              } rounded-xl px-3 py-2 text-nw-text font-bold focus:outline-none focus:border-nw-info`}
             />
             {fieldErrors.name && (
-              <p className="text-[10px] text-rose-400 font-bold">{fieldErrors.name}</p>
+              <p className="text-xs text-nw-bad font-bold">{fieldErrors.name}</p>
             )}
           </div>
 
           {/* Phone & Email Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-slate-300 block">رقم الهاتف *</label>
-              <input
+              <label htmlFor="profile-phone" className="text-sm font-bold text-nw-text block">رقم الهاتف *</label>
+              <input id="profile-phone" aria-invalid={Boolean(fieldErrors.phone)}
                 type="tel"
                 required
                 value={phone}
@@ -654,18 +654,18 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                   setPhoneVal(e.target.value);
                   if (fieldErrors.phone) setFieldErrors((p) => ({ ...p, phone: '' }));
                 }}
-                className={`w-full bg-slate-950 border ${
-                  fieldErrors.phone ? 'border-rose-500' : 'border-slate-800'
-                } rounded-xl px-3 py-2 text-slate-100 font-mono focus:outline-none focus:border-blue-500`}
+                className={`w-full bg-nw-surface-2 border ${
+                  fieldErrors.phone ? 'border-nw-bad' : 'border-nw-border'
+                } rounded-xl px-3 py-2 text-nw-text font-mono focus:outline-none focus:border-nw-info`}
               />
               {fieldErrors.phone && (
-                <p className="text-[10px] text-rose-400 font-bold">{fieldErrors.phone}</p>
+                <p className="text-xs text-nw-bad font-bold">{fieldErrors.phone}</p>
               )}
             </div>
 
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-slate-300 block">البريد الإلكتروني *</label>
-              <input
+              <label htmlFor="profile-email" className="text-sm font-bold text-nw-text block">البريد الإلكتروني *</label>
+              <input id="profile-email" aria-invalid={Boolean(fieldErrors.email)}
                 type="email"
                 required
                 value={email}
@@ -673,12 +673,12 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                   setEmailVal(e.target.value);
                   if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: '' }));
                 }}
-                className={`w-full bg-slate-950 border ${
-                  fieldErrors.email ? 'border-rose-500' : 'border-slate-800'
-                } rounded-xl px-3 py-2 text-slate-100 font-mono focus:outline-none focus:border-blue-500`}
+                className={`w-full bg-nw-surface-2 border ${
+                  fieldErrors.email ? 'border-nw-bad' : 'border-nw-border'
+                } rounded-xl px-3 py-2 text-nw-text font-mono focus:outline-none focus:border-nw-info`}
               />
               {fieldErrors.email && (
-                <p className="text-[10px] text-rose-400 font-bold">{fieldErrors.email}</p>
+                <p className="text-xs text-nw-bad font-bold">{fieldErrors.email}</p>
               )}
             </div>
           </div>
@@ -686,22 +686,22 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
           {/* Job Title & Default Branch */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-slate-300 block">المسمى الوظيفي</label>
-              <input
+              <label htmlFor="profile-job-title" className="text-sm font-bold text-nw-text block">المسمى الوظيفي</label>
+              <input id="profile-job-title"
                 type="text"
                 value={jobTitle}
                 readOnly
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-400 cursor-not-allowed"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-muted cursor-not-allowed"
               />
-              <p className="text-[9px] text-slate-500">يديره مالك النظام من المستخدمين والصلاحيات.</p>
+              <p className="text-xs text-nw-muted">يديره مالك النظام من المستخدمين والصلاحيات.</p>
             </div>
 
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-slate-300 block">الفرع الافتراضي</label>
-              <select
+              <label htmlFor="profile-branch" className="text-sm font-bold text-nw-text block">الفرع الافتراضي</label>
+              <select id="profile-branch"
                 value={branchId}
                 disabled
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 disabled:opacity-60 focus:outline-none focus:border-blue-500"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text disabled:opacity-60 focus:outline-none focus:border-nw-info"
               >
                 {branches.map((b) => (
                   <option key={b.id} value={b.id}>
@@ -709,18 +709,18 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                   </option>
                 ))}
               </select>
-              <p className="text-[9px] text-amber-400">تغيير الفرع من إدارة المستخدمين والصلاحيات فقط.</p>
+              <p className="text-xs text-nw-warn">تغيير الفرع من إدارة المستخدمين والصلاحيات فقط.</p>
             </div>
           </div>
 
           {/* Language & Timezone */}
           <div className="grid grid-cols-2 gap-2">
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-slate-300 block">اللغة المفضلة</label>
-              <select
+              <label htmlFor="profile-language" className="text-sm font-bold text-nw-text block">اللغة المفضلة</label>
+              <select id="profile-language"
                 value={language}
                 onChange={(e) => setLanguage(e.target.value as 'ar' | 'en')}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-blue-500"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text focus:outline-none focus:border-nw-info"
               >
                 <option value="ar">العربية (Arabic)</option>
                 <option value="en">English (الانجليزية)</option>
@@ -728,11 +728,11 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
             </div>
 
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-slate-300 block">المنطقة الزمنية</label>
-              <select
+              <label htmlFor="profile-timezone" className="text-sm font-bold text-nw-text block">المنطقة الزمنية</label>
+              <select id="profile-timezone"
                 value={timezone}
                 onChange={(e) => setTimezone(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 font-mono text-[11px] focus:outline-none focus:border-blue-500"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text font-mono text-sm focus:outline-none focus:border-nw-info"
               >
                 <option value="Asia/Amman">Asia/Amman (عمّان - GMT+3)</option>
                 <option value="Asia/Riyadh">Asia/Riyadh (الرياض - GMT+3)</option>
@@ -745,34 +745,34 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
           {/* Optional Address & WhatsApp */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-slate-300 block">العنوان (اختياري)</label>
-              <input
+              <label htmlFor="profile-address" className="text-sm font-bold text-nw-text block">العنوان (اختياري)</label>
+              <input id="profile-address"
                 type="text"
                 placeholder="مثال: عمّان - شارع وصفي التل"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-blue-500"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text focus:outline-none focus:border-nw-info"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-slate-300 block">رقم الواتساب (اختياري)</label>
-              <input
+              <label htmlFor="profile-whatsapp" className="text-sm font-bold text-nw-text block">رقم الواتساب (اختياري)</label>
+              <input id="profile-whatsapp"
                 type="tel"
                 placeholder="079xxxxxxx"
                 value={whatsapp}
                 onChange={(e) => setWhatsapp(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 font-mono focus:outline-none focus:border-blue-500"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text font-mono focus:outline-none focus:border-nw-info"
               />
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-2 pt-2">
-            <button
+          <div className="sticky bottom-0 z-10 flex gap-2 rounded-xl border-t border-nw-border bg-nw-surface py-3">
+            <UiButton variant="plain"
               type="submit"
               disabled={isSaving}
-              className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-black py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg disabled:opacity-50"
+              className="flex-1 bg-nw-primary hover:brightness-105 text-nw-on-primary font-black py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg disabled:opacity-50"
             >
               {isSaving ? (
                 <RefreshCw className="w-4 h-4 animate-spin" />
@@ -782,15 +782,15 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                   <span>حفظ التعديلات</span>
                 </>
               )}
-            </button>
+            </UiButton>
 
-            <button
+            <UiButton variant="plain"
               type="button"
               onClick={handleAttemptClose}
-              className="px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition"
+              className="px-4 bg-nw-surface hover:bg-nw-mute-bg text-nw-text font-bold py-2.5 rounded-xl text-xs transition"
             >
               إلغاء
-            </button>
+            </UiButton>
           </div>
         </form>
       )}
@@ -799,26 +799,26 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
       {activeTab === 'security' && (
         <div className="space-y-4 animate-fadeIn">
           {/* Server-side MFA (TOTP) */}
-          <div className="space-y-3 rounded-2xl border border-blue-800/70 bg-blue-950/20 p-4">
-            <div className="flex items-start justify-between gap-3 border-b border-blue-900/70 pb-3">
+          <div className="space-y-3 rounded-2xl border border-nw-info bg-nw-info-bg p-4">
+            <div className="flex items-start justify-between gap-3 border-b border-nw-info pb-3">
               <div className="flex items-center gap-3">
-                <div className="rounded-xl bg-blue-600/20 p-2.5 text-blue-300">
+                <div className="rounded-xl bg-nw-primary p-2.5 text-nw-info">
                   <QrCode className="h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-extrabold text-slate-100">
+                  <h4 className="text-xs font-extrabold text-nw-text">
                     المصادقة الثنائية عبر تطبيق Authenticator
                   </h4>
-                  <p className="mt-0.5 text-[10px] leading-relaxed text-slate-400">
+                  <p className="mt-0.5 text-xs leading-relaxed text-nw-muted">
                     حماية حقيقية من Supabase تتطلب كلمة المرور ورمزًا متغيرًا عند كل دخول جديد.
                   </p>
                 </div>
               </div>
               <span
-                className={`shrink-0 rounded-full border px-2 py-1 text-[9px] font-black ${
+                className={`shrink-0 rounded-full border px-2 py-1 text-xs font-black ${
                   mfaStatus?.verifiedTotpFactor
-                    ? 'border-emerald-700 bg-emerald-950/70 text-emerald-300'
-                    : 'border-amber-800 bg-amber-950/60 text-amber-300'
+                    ? 'border-nw-ok bg-nw-ok-bg text-nw-ok'
+                    : 'border-nw-warn bg-nw-warn-bg text-nw-warn'
                 }`}
               >
                 {mfaStatusState === 'loading'
@@ -833,34 +833,34 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
 
             {mfaStatusState === 'error' && (
               <div
-                className="space-y-2 rounded-xl border border-rose-800 bg-rose-950/40 p-3 text-[10px] text-rose-200"
+                className="space-y-2 rounded-xl border border-nw-bad bg-nw-bad-bg p-3 text-xs text-nw-bad"
                 role="alert"
               >
                 <p>{mfaStatusError}</p>
-                <button
+                <UiButton variant="plain"
                   type="button"
                   onClick={() => void refreshMfaStatus()}
-                  className="flex items-center gap-1.5 rounded-lg border border-rose-700 px-2.5 py-1.5 font-bold transition hover:bg-rose-900/50"
+                  className="flex items-center gap-1.5 rounded-lg border border-nw-bad px-2.5 py-1.5 font-bold transition hover:bg-nw-bad-bg"
                 >
                   <RefreshCw className="h-3.5 w-3.5" />
                   <span>إعادة المحاولة</span>
-                </button>
+                </UiButton>
               </div>
             )}
 
             {mfaStatusState === 'ready' && mfaStatus?.verifiedTotpFactor ? (
               <div className="space-y-3">
-                <div className="flex items-center gap-2 rounded-xl border border-emerald-900/70 bg-emerald-950/30 p-3 text-[10px] text-emerald-200">
+                <div className="flex items-center gap-2 rounded-xl border border-nw-ok bg-nw-ok-bg p-3 text-xs text-nw-ok">
                   <CheckCircle2 className="h-4 w-4 shrink-0" />
                   <span>
                     الحساب محمي الآن بطبقتين. مستوى الجلسة الحالية: {mfaStatus.currentLevel || 'غير معروف'}.
                   </span>
                 </div>
-                <button
+                <UiButton variant="plain"
                   type="button"
                   onClick={() => void handleDisableMfa()}
                   disabled={isUpdatingMfa}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-rose-800 bg-rose-950/50 py-2.5 text-[11px] font-bold text-rose-300 transition hover:bg-rose-900/60 disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-nw-bad bg-nw-bad-bg py-2.5 text-sm font-bold text-nw-bad transition hover:bg-nw-bad-bg disabled:opacity-50"
                 >
                   {isUpdatingMfa ? (
                     <RefreshCw className="h-4 w-4 animate-spin" />
@@ -868,7 +868,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                     <Trash2 className="h-4 w-4" />
                   )}
                   <span>إلغاء المصادقة الثنائية</span>
-                </button>
+                </UiButton>
               </div>
             ) : mfaEnrollment ? (
               <div className="space-y-3">
@@ -885,23 +885,23 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                     />
                   </div>
                   <div className="space-y-2">
-                    <ol className="list-decimal space-y-1 pr-4 text-[10px] leading-relaxed text-slate-300">
+                    <ol className="list-decimal space-y-1 pr-4 text-xs leading-relaxed text-nw-text">
                       <li>افتح Google Authenticator أو Microsoft Authenticator.</li>
                       <li>امسح رمز QR، ثم أدخل الرمز الظاهر في التطبيق.</li>
                       <li>لا تشارك صورة QR أو مفتاح الإعداد مع أي شخص.</li>
                     </ol>
-                    <button
+                    <UiButton variant="plain"
                       type="button"
                       onClick={() => void handleCopyMfaSecret()}
-                      className="flex w-full items-center justify-between gap-2 rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 font-mono text-[10px] text-slate-300"
+                      className="flex w-full items-center justify-between gap-2 rounded-xl border border-nw-border bg-nw-surface px-3 py-2 font-mono text-xs text-nw-text"
                     >
-                      <span className="truncate" dir="ltr">{mfaEnrollment.secret}</span>
-                      <Copy className="h-3.5 w-3.5 shrink-0 text-blue-400" />
-                    </button>
+                      <span className="break-words" dir="ltr">{mfaEnrollment.secret}</span>
+                      <Copy className="h-3.5 w-3.5 shrink-0 text-nw-info" />
+                    </UiButton>
                   </div>
                 </div>
 
-                <input
+                <input id="profile-mfa-code" aria-label="رمز تطبيق المصادقة"
                   type="text"
                   inputMode="numeric"
                   autoComplete="one-time-code"
@@ -911,34 +911,34 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                   }
                   placeholder="000000"
                   dir="ltr"
-                  className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2.5 text-center font-mono text-xl font-black tracking-[0.35em] text-slate-100 focus:border-blue-500 focus:outline-none"
+                  className="w-full rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2.5 text-center font-mono text-xl font-black tracking-[0.35em] text-nw-text focus:border-nw-info focus:outline-none"
                 />
                 <div className="grid grid-cols-2 gap-2">
-                  <button
+                  <UiButton variant="plain"
                     type="button"
                     onClick={() => void handleVerifyMfaEnrollment()}
                     disabled={isUpdatingMfa || mfaCode.length !== 6}
-                    className="flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 py-2.5 text-[11px] font-black text-white transition hover:bg-blue-500 disabled:opacity-50"
+                    className="flex items-center justify-center gap-1.5 rounded-xl bg-nw-primary py-2.5 text-sm font-black text-nw-on-primary transition hover:brightness-105 disabled:opacity-50"
                   >
                     {isUpdatingMfa && <RefreshCw className="h-3.5 w-3.5 animate-spin" />}
                     <span>تأكيد وتفعيل</span>
-                  </button>
-                  <button
+                  </UiButton>
+                  <UiButton variant="plain"
                     type="button"
                     onClick={() => void handleCancelMfaEnrollment()}
                     disabled={isUpdatingMfa}
-                    className="rounded-xl border border-slate-700 bg-slate-800 py-2.5 text-[11px] font-bold text-slate-300 disabled:opacity-50"
+                    className="rounded-xl border border-nw-border bg-nw-surface py-2.5 text-sm font-bold text-nw-text disabled:opacity-50"
                   >
                     إلغاء
-                  </button>
+                  </UiButton>
                 </div>
               </div>
             ) : mfaStatusState === 'ready' ? (
-              <button
+              <UiButton variant="plain"
                 type="button"
                 onClick={() => void handleBeginMfaEnrollment()}
                 disabled={isUpdatingMfa}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-2.5 text-[11px] font-black text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500 disabled:opacity-50"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-nw-primary py-2.5 text-sm font-black text-nw-on-primary shadow-lg  transition hover:brightness-105 disabled:opacity-50"
               >
                 {isUpdatingMfa ? (
                   <RefreshCw className="h-4 w-4 animate-spin" />
@@ -946,21 +946,21 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                   <ShieldCheck className="h-4 w-4" />
                 )}
                 <span>تفعيل تطبيق المصادقة</span>
-              </button>
+              </UiButton>
             ) : null}
           </div>
 
           {/* Biometrics Face ID Switch */}
-          <div className="bg-slate-950 p-3.5 rounded-2xl border border-slate-800 flex items-center justify-between">
+          <div className="bg-nw-surface-2 p-3.5 rounded-2xl border border-nw-border flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-blue-600/20 text-blue-400 rounded-xl">
+              <div className="p-2.5 bg-nw-primary text-nw-info rounded-xl">
                 <Smartphone className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-extrabold text-slate-100 text-xs">
+                <h4 className="font-extrabold text-nw-text text-xs">
                   حماية التطبيق ببصمة الجهاز (Face ID)
                 </h4>
-                <p className="text-[10px] text-slate-400">
+                <p className="text-xs text-nw-muted">
                   {isBiometricSupported === null
                     ? 'جاري فحص دعم بصمة الجهاز...'
                     : isBiometricSupported
@@ -969,7 +969,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                 </p>
               </div>
             </div>
-            <input
+            <input id="profile-biometric" aria-label="تفعيل قفل Face ID"
               type="checkbox"
               checked={isBiometricsEnabled}
               onChange={() => void handleBiometricToggle()}
@@ -977,72 +977,72 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                 isUpdatingBiometrics ||
                 (!isBiometricsEnabled && isBiometricSupported !== true)
               }
-              className="w-5 h-5 accent-blue-600 rounded cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+              className="w-5 h-5 accent-nw-primary rounded cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
             />
           </div>
 
           {/* Password Change Box */}
           <form
             onSubmit={handleSavePassword}
-            className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3"
+            className="bg-nw-surface-2 p-4 rounded-2xl border border-nw-border space-y-3"
           >
-            <div className="flex items-center gap-2 text-blue-400 pb-1 border-b border-slate-800">
+            <div className="flex items-center gap-2 text-nw-info pb-1 border-b border-nw-border">
               <Key className="w-4 h-4" />
-              <h4 className="font-extrabold text-slate-100 text-xs">تغيير كلمة المرور</h4>
+              <h4 className="font-extrabold text-nw-text text-xs">تغيير كلمة المرور</h4>
             </div>
 
-            <p className="text-[10px] leading-relaxed text-slate-400">
+            <p className="text-xs leading-relaxed text-nw-muted">
               سيتم تغيير كلمة المرور للحساب الحالي مباشرة عبر Supabase Auth. لا نخزن كلمة المرور أو نتحقق منها محليًا.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div className="space-y-1">
-                <label className="text-[10px] text-slate-400 block">كلمة المرور الجديدة *</label>
-                <input
+                <label htmlFor="profile-new-password" className="text-xs text-nw-muted block">كلمة المرور الجديدة *</label>
+                <input id="profile-new-password"
                   type="password"
                   required
                   value={newPass}
                   onChange={(e) => setNewPass(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 font-mono focus:outline-none focus:border-blue-500"
+                  className="w-full bg-nw-surface border border-nw-border rounded-xl px-3 py-2 text-nw-text font-mono focus:outline-none focus:border-nw-info"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-[10px] text-slate-400 block">تأكيد كلمة المرور الجديدة *</label>
-                <input
+                <label htmlFor="profile-confirm-password" className="text-xs text-nw-muted block">تأكيد كلمة المرور الجديدة *</label>
+                <input id="profile-confirm-password"
                   type="password"
                   required
                   value={confirmPass}
                   onChange={(e) => setConfirmPass(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 font-mono focus:outline-none focus:border-blue-500"
+                  className="w-full bg-nw-surface border border-nw-border rounded-xl px-3 py-2 text-nw-text font-mono focus:outline-none focus:border-nw-info"
                 />
               </div>
             </div>
 
-            <button
+            <UiButton variant="plain"
               type="submit"
               disabled={isSaving}
-              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow"
+              className="w-full bg-nw-primary hover:brightness-105 text-nw-on-primary font-extrabold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow"
             >
               {isSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <span>تحديث كلمة المرور</span>}
-            </button>
+            </UiButton>
           </form>
 
           {/* Active Sessions List */}
-          <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-              <div className="flex items-center gap-2 text-emerald-400">
+          <div className="bg-nw-surface-2 p-4 rounded-2xl border border-nw-border space-y-3">
+            <div className="flex items-center justify-between border-b border-nw-border pb-2">
+              <div className="flex items-center gap-2 text-nw-ok">
                 <ShieldCheck className="w-4 h-4" />
-                <h4 className="font-extrabold text-slate-100 text-xs">إدارة الجلسات والأجهزة النشطة</h4>
+                <h4 className="font-extrabold text-nw-text text-xs">إدارة الجلسات والأجهزة النشطة</h4>
               </div>
-              <button
+              <UiButton variant="plain"
                 type="button"
                 onClick={logoutOtherSessions}
-                className="bg-rose-950/80 hover:bg-rose-900 border border-rose-800 text-rose-300 text-[10px] font-bold px-2.5 py-1 rounded-lg transition flex items-center gap-1"
+                className="bg-nw-bad-bg hover:bg-nw-bad-bg border border-nw-bad text-nw-bad text-xs font-bold px-2.5 py-1 rounded-lg transition flex items-center gap-1"
               >
                 <LogOut className="w-3 h-3" />
                 <span>تسجيل الخروج من بقية الأجهزة</span>
-              </button>
+              </UiButton>
             </div>
 
             <div className="space-y-2">
@@ -1051,20 +1051,20 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                   key={session.id}
                   className={`p-2.5 rounded-xl border flex items-center justify-between ${
                     session.isCurrent
-                      ? 'bg-blue-950/40 border-blue-800/80'
-                      : 'bg-slate-900 border-slate-800/80'
+                      ? 'bg-nw-info-bg border-nw-info'
+                      : 'bg-nw-surface border-nw-border'
                   }`}
                 >
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-slate-100 text-[11px]">{session.device}</span>
+                      <span className="font-bold text-nw-text text-sm">{session.device}</span>
                       {session.isCurrent && (
-                        <span className="text-[9px] font-extrabold bg-blue-600 text-white px-2 py-0.2 rounded-full">
+                        <span className="text-xs font-extrabold bg-nw-primary text-nw-on-primary px-2 py-0.2 rounded-full">
                           الجلسة الحالية
                         </span>
                       )}
                     </div>
-                    <p className="text-[10px] text-slate-400 font-mono">
+                    <p className="text-xs text-nw-muted font-mono">
                       IP: {session.ip} | نشط: {session.lastActive}
                     </p>
                   </div>
@@ -1074,100 +1074,100 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
           </div>
 
           {/* Direct Supabase Sign Out Button */}
-          <button
+          <UiButton variant="plain"
             type="button"
             onClick={async () => {
               onClose();
               await signOut();
             }}
-            className="w-full bg-red-950/60 hover:bg-red-900/80 border border-red-800 text-red-300 font-bold py-3 rounded-2xl transition flex items-center justify-center gap-2 text-xs active:scale-98 shadow-lg"
+            className="w-full bg-nw-bad-bg hover:bg-nw-bad-bg border border-nw-bad text-nw-bad font-bold py-3 rounded-2xl transition flex items-center justify-center gap-2 text-xs active:scale-98 shadow-lg"
           >
-            <LogOut className="w-4 h-4 text-red-400" />
+            <LogOut className="w-4 h-4 text-nw-bad" />
             <span>تسجيل الخروج النهائي من الحساب</span>
-          </button>
+          </UiButton>
         </div>
       )}
 
       {/* --- TAB 4: Notifications Preferences --- */}
       {activeTab === 'notifications' && (
         <form onSubmit={handleSaveNotifications} className="space-y-3 animate-fadeIn">
-          <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
-            <h4 className="font-extrabold text-slate-100 text-xs border-b border-slate-800 pb-2">
+          <div className="bg-nw-surface-2 p-4 rounded-2xl border border-nw-border space-y-3">
+            <h4 className="font-extrabold text-nw-text text-xs border-b border-nw-border pb-2">
               إعدادات التنبيهات والإشعارات الفورية
             </h4>
 
             <div className="space-y-2 text-xs">
-              <label className="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-800/80 cursor-pointer">
+              <label className="flex items-center justify-between p-2.5 bg-nw-surface rounded-xl border border-nw-border cursor-pointer">
                 <div>
-                  <span className="font-bold text-slate-200 block">إشعارات الطلبات المباشرة</span>
-                  <span className="text-[10px] text-slate-400 block">عند ورود طلب جديد عبر الموقع الإلكتروني</span>
+                  <span className="font-bold text-nw-text block">إشعارات الطلبات المباشرة</span>
+                  <span className="text-xs text-nw-muted block">عند ورود طلب جديد عبر الموقع الإلكتروني</span>
                 </div>
-                <input
+                <input id="profile-notification-15"
                   type="checkbox"
                   checked={notifs.newOrders}
                   onChange={(e) => setNotifs((p) => ({ ...p, newOrders: e.target.checked }))}
-                  className="w-4 h-4 accent-blue-600 rounded"
+                  className="w-4 h-4 accent-nw-primary rounded"
                 />
               </label>
 
-              <label className="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-800/80 cursor-pointer">
+              <label className="flex items-center justify-between p-2.5 bg-nw-surface rounded-xl border border-nw-border cursor-pointer">
                 <div>
-                  <span className="font-bold text-slate-200 block">تنبيهات انخفاض المخزون</span>
-                  <span className="text-[10px] text-slate-400 block">عند الوصول لحد إعادة الطلب الأدنى</span>
+                  <span className="font-bold text-nw-text block">تنبيهات انخفاض المخزون</span>
+                  <span className="text-xs text-nw-muted block">عند الوصول لحد إعادة الطلب الأدنى</span>
                 </div>
-                <input
+                <input id="profile-notification-16"
                   type="checkbox"
                   checked={notifs.stockAlerts}
                   onChange={(e) => setNotifs((p) => ({ ...p, stockAlerts: e.target.checked }))}
-                  className="w-4 h-4 accent-blue-600 rounded"
+                  className="w-4 h-4 accent-nw-primary rounded"
                 />
               </label>
 
-              <label className="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-800/80 cursor-pointer">
+              <label className="flex items-center justify-between p-2.5 bg-nw-surface rounded-xl border border-nw-border cursor-pointer">
                 <div>
-                  <span className="font-bold text-slate-200 block">تنبيهات الصلاحية والتلف</span>
-                  <span className="text-[10px] text-slate-400 block">قبل 30 يوماً من انتهاء صلاحية المواد</span>
+                  <span className="font-bold text-nw-text block">تنبيهات الصلاحية والتلف</span>
+                  <span className="text-xs text-nw-muted block">قبل 30 يوماً من انتهاء صلاحية المواد</span>
                 </div>
-                <input
+                <input id="profile-notification-17"
                   type="checkbox"
                   checked={notifs.expiryAlerts}
                   onChange={(e) => setNotifs((p) => ({ ...p, expiryAlerts: e.target.checked }))}
-                  className="w-4 h-4 accent-blue-600 rounded"
+                  className="w-4 h-4 accent-nw-primary rounded"
                 />
               </label>
 
-              <label className="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-800/80 cursor-pointer">
+              <label className="flex items-center justify-between p-2.5 bg-nw-surface rounded-xl border border-nw-border cursor-pointer">
                 <div>
-                  <span className="font-bold text-slate-200 block">تنبيهات الذمم والديون المستحقة</span>
-                  <span className="text-[10px] text-slate-400 block">متابعة تحصيل ذمم العملاء المتأخرة</span>
+                  <span className="font-bold text-nw-text block">تنبيهات الذمم والديون المستحقة</span>
+                  <span className="text-xs text-nw-muted block">متابعة تحصيل ذمم العملاء المتأخرة</span>
                 </div>
-                <input
+                <input id="profile-notification-18"
                   type="checkbox"
                   checked={notifs.debtAlerts}
                   onChange={(e) => setNotifs((p) => ({ ...p, debtAlerts: e.target.checked }))}
-                  className="w-4 h-4 accent-blue-600 rounded"
+                  className="w-4 h-4 accent-nw-primary rounded"
                 />
               </label>
 
-              <label className="flex items-center justify-between p-2.5 bg-slate-900 rounded-xl border border-slate-800/80 cursor-pointer">
+              <label className="flex items-center justify-between p-2.5 bg-nw-surface rounded-xl border border-nw-border cursor-pointer">
                 <div>
-                  <span className="font-bold text-slate-200 block">إشعارات البريد الإلكتروني</span>
-                  <span className="text-[10px] text-slate-400 block">إرسال تقارير الملخص اليومي والإقفال</span>
+                  <span className="font-bold text-nw-text block">إشعارات البريد الإلكتروني</span>
+                  <span className="text-xs text-nw-muted block">إرسال تقارير الملخص اليومي والإقفال</span>
                 </div>
-                <input
+                <input id="profile-notification-19"
                   type="checkbox"
                   checked={notifs.emailAlerts}
                   onChange={(e) => setNotifs((p) => ({ ...p, emailAlerts: e.target.checked }))}
-                  className="w-4 h-4 accent-blue-600 rounded"
+                  className="w-4 h-4 accent-nw-primary rounded"
                 />
               </label>
             </div>
           </div>
 
-          <button
+          <UiButton variant="plain"
             type="submit"
             disabled={isSaving}
-            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-extrabold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg"
+            className="w-full bg-nw-primary hover:brightness-105 text-nw-on-primary font-extrabold py-2.5 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg"
           >
             {isSaving ? (
               <RefreshCw className="w-4 h-4 animate-spin" />
@@ -1177,9 +1177,9 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                 <span>حفظ تفضيلات الإشعارات</span>
               </>
             )}
-          </button>
+          </UiButton>
         </form>
       )}
-    </div>
+    </FormFields>
   );
 };

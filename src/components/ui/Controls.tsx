@@ -128,9 +128,11 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
 );
 SearchField.displayName = 'SearchField';
 
-type ButtonVariant = 'primary' | 'accent' | 'secondary' | 'danger';
+type ButtonVariant = 'primary' | 'accent' | 'secondary' | 'danger' | 'plain';
 
 const buttonVariants: Readonly<Record<ButtonVariant, string>> = {
+  // Token-composed navigation/cards supply their own surface, not a second button surface.
+  plain: '',
   primary: 'border-0 bg-nw-primary text-nw-on-primary hover:opacity-95',
   accent: 'border-0 bg-nw-accent text-nw-on-accent hover:brightness-105',
   secondary: 'border border-nw-border bg-nw-surface text-nw-text hover:bg-nw-surface-2',

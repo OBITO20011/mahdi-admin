@@ -1,5 +1,19 @@
 # Phase status
 
+## 2026-10-10 — Customers accepted;Package F batch1 authorized
+
+Owner/Claude visually accepted891c9a4;exact CI quality38035561062 all19/19
+and secrets38035561067 PASS. Batch1 only:shared Modal/form tokens,More,
+Profile,Install and Push. Preserve services,payloads,roles,auth and closure
+guards;001–137 immutable. Focused tests,full quality,Gitleaks0,commit/push
+and exact CI,then STOP for visual review. No batch2/Production/deploy/Phase7.
+See docs/design/package-f/REMAINING_SCREENS_MIGRATION.md.
+
+Batch1 final local quality PASS:821 Admin/189 Customer units,513 browser,
+59 existing conditional skips,retries0;builds/isolation PASS,Production0.
+AST25 calls/59 bindings/100 native properties unchanged;focused14/14 PASS.
+Gitleaks,commit/push and exact-SHA CI pending;STOP after delivery for visual review.
+
 ## 2026-10-10 —137 delivered;Customers chips/visual follow-up
 
 4a8f395c2afd6847c233cb7852cfa60d69144dce exact quality38032453378 all19/19
