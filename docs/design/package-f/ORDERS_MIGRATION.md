@@ -175,3 +175,31 @@ precedes Cash commit;final full quality and exact-SHA CI remain required.
 Unchanged live-search WebKit comparison after fix:20/20 PASS (56.2s),same
 workers2/retries0 command as before (17PASS/3FAIL). No old test byte changed.
 Typecheck/changed-file strict ESLint PASS;Gitleaks changed+untracked scope0.
+
+## Owner-approved desktop/tablet panel correction —2026-10-10
+
+The first additive clipping diagnostic was not a confirmed visible-content
+defect:it measured unpainted descendants of closed native details. With every
+disclosure expanded,before-change measurements found no clipped visible title,
+action,amount or lower section at820/1024/1440 in either theme. Expanded panel
+heights were3093/3325/3448px respectively;overflow-y was visible rather than an
+internal scroller. The initial address-title warning is superseded by this proof.
+
+Implemented the approved internal-scroll presentation:md+ panel has bounded
+viewport height/min-h-0;the flex child retains overflow-y-auto. The primary
+next-step section is sticky inside that scroller,with an opaque surface token.
+The title's flex column can shrink/wrap. All new styles are md-prefixed except
+removal of the md:overflow-visible override;phone behavior remains unchanged.
+
+Permanent tests at820/1024/1440,light/dark,Chromium/WebKit expand every section,
+check all text's horizontal containment,scroll to the final status-history row,
+and prove that row and primary action are in the viewport. AST snapshots strip
+only className and otherwise pin the entire two modified files to8195f87:
+all calls,arguments,payloads,validation,confirmations,value callbacks,focus and
+scroll restoration are unchanged. Focused panel/product/live reload tests32/32
+PASS,retries0. Existing focus/search tests remain unchanged. Full quality and
+exact-SHA delivery gates remain required before committing A then B.
+
+Complete existing Orders and controlled focus/search/filter suite40/40 PASS
+Chromium/WebKit,retries0,unchanged assertions. Focused units27/27 including
+full Orders AST,continuity and immutable001–137 fingerprints;typecheck/ESLint0.

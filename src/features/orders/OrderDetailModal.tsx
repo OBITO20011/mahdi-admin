@@ -364,7 +364,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         <UiButton aria-label="رجوع للطلبات" onClick={onClose} disabled={busy}><ChevronRight className="h-4 w-4" />رجوع للطلبات</UiButton>
       </header>}
       <div className="flex items-start justify-between border-b border-nw-border pb-3">
-        <div>
+        <div className="md:min-w-0 md:flex-1">
           <bdi dir="ltr" className="select-text font-mono text-[11px] font-black text-nw-info">
             {order.orderNumber}
           </bdi>
@@ -391,7 +391,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
       <UiButton onClick={() => window.print()} className="w-full print:hidden"><Printer className="h-4 w-4" />طباعة الطلب</UiButton>
       {embedded && <OrderCommercialSummary order={order} />}
 
-      <section className="rounded-2xl border border-nw-info    p-3">
+      <section className="rounded-2xl border border-nw-info p-3 md:sticky md:top-0 md:z-10 md:bg-nw-surface">
         <div className="flex items-start justify-between gap-3">
           <div>
             <span className="text-[9px] font-bold text-nw-text">

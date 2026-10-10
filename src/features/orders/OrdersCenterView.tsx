@@ -121,8 +121,8 @@ export const OrdersWorkbench: React.FC<OrdersWorkbenchProps> = (props) => {
           </>}
           {!loading && totalCount > 0 && <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-nw-muted"><span><bdi dir="ltr">{page} / {totalPages}</bdi> · {totalCount} طلب</span><div className="flex gap-2"><UiButton onClick={() => onPage(Math.max(1, page - 1))} disabled={page <= 1}><ChevronRight className="h-4 w-4" />السابق</UiButton><UiButton onClick={() => onPage(Math.min(totalPages, page + 1))} disabled={page >= totalPages}>التالي<ChevronLeft className="h-4 w-4" /></UiButton></div></div>}
         </MainColumn>
-        {selectedOrderId && <DetailPanel data-testid="order-detail-panel" className="fixed inset-0 z-40 w-full max-md:rounded-none max-md:border-0 max-md:bg-nw-bg md:static md:z-auto md:p-4">
-          <div data-testid="order-detail-scroll" className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:overflow-visible md:p-0">{detail}</div>
+        {selectedOrderId && <DetailPanel data-testid="order-detail-panel" className="fixed inset-0 z-40 w-full max-md:rounded-none max-md:border-0 max-md:bg-nw-bg md:static md:z-auto md:h-[calc(100dvh-8rem)] md:min-h-0 md:p-4">
+          <div data-testid="order-detail-scroll" className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:p-0">{detail}</div>
         </DetailPanel>}
       </DetailLayout>
     </div>
