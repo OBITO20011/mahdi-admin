@@ -1,3 +1,4 @@
+import {FormFields, UiButton, formatJod, Card} from '../../components/ui';
 /**
  * Nawasrah Business Manager - Create Direct Goods Receipt Modal
  * Wholesale Store Goods Receiving Form (Direct receiving bypassing PO approval)
@@ -497,64 +498,64 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
   if (isLoadingRefData) {
     return (
-      <div className="p-8 text-center text-slate-300 space-y-3">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-500 mx-auto" />
+      <FormFields className="nw-purchasing-fields p-8 text-center text-nw-text space-y-3">
+        <Loader2 className="w-8 h-8 animate-spin text-nw-info mx-auto" />
         <p className="text-xs font-bold">جاري تحميل بيانات الموردين والمستودعات...</p>
-      </div>
+      </FormFields>
     );
   }
 
   if (referenceDataError) {
     return (
-      <div
+      <FormFields
         dir="rtl"
-        className="m-2 rounded-2xl border border-rose-500/30 bg-rose-950/30 p-6 text-center"
+        className="nw-purchasing-fields m-2 rounded-2xl border border-nw-border bg-nw-bad-bg p-6 text-center"
       >
-        <AlertCircle className="mx-auto mb-3 h-9 w-9 text-rose-400" />
-        <h3 className="text-sm font-extrabold text-rose-100">
+        <AlertCircle className="mx-auto mb-3 h-9 w-9 text-nw-bad" />
+        <h3 className="text-sm font-extrabold text-nw-bad">
           تعذر تحميل بيانات الاستلام
         </h3>
-        <p className="mx-auto mt-2 max-w-md text-xs leading-6 text-rose-200/80">
+        <p className="mx-auto mt-2 max-w-md text-xs leading-6 text-nw-bad">
           {referenceDataError}
         </p>
-        <button
+        <UiButton variant="plain"
           type="button"
           onClick={loadReferenceData}
-          className="mt-4 rounded-xl bg-rose-500 px-4 py-2 text-xs font-extrabold text-white transition hover:bg-rose-400"
+          className="mt-4 rounded-xl bg-nw-bad-bg px-4 py-2 text-xs font-extrabold text-nw-text transition hover:bg-nw-bad-bg h-auto min-h-11 min-w-0 whitespace-normal"
         >
           إعادة المحاولة
-        </button>
-      </div>
+        </UiButton>
+      </FormFields>
     );
   }
 
   return (
-    <div dir="rtl" aria-busy={isSubmitting} className="space-y-4 max-h-[80vh] overflow-y-auto p-1 pr-2 text-xs text-slate-200">
+    <FormFields dir="rtl" aria-busy={isSubmitting} className="nw-purchasing-fields space-y-4 max-h-[80vh] overflow-y-auto p-1 pr-2 text-xs text-nw-text">
       {legacyReplayResolution && (
         <div
           role="alert"
-          className="rounded-2xl border border-amber-500/40 bg-amber-950/30 p-4 text-amber-100"
+          className="rounded-2xl border border-nw-border bg-nw-warn-bg p-4 text-nw-warn"
         >
           <div className="flex items-start gap-3">
-            <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" />
+            <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-nw-warn" />
             <div className="space-y-1.5">
               <p className="font-extrabold">توقفت إعادة الإرسال لحماية المخزون والحسابات</p>
               {legacyReplayResolution.found && legacyReplayResolution.receiptNumber ? (
-                <p className="leading-6 text-amber-100/90">
+                <p className="leading-6 text-nw-warn">
                   المفتاح مرتبط بسند الاستلام{' '}
                   <span className="font-extrabold">{legacyReplayResolution.receiptNumber}</span>
                   {typeof legacyReplayResolution.totalInMinorUnits === 'number'
-                    ? ` بقيمة ${minorUnitsToJod(legacyReplayResolution.totalInMinorUnits).toFixed(3)} ${CURRENCY}`
+                    ? ` بقيمة ${formatJod(minorUnitsToJod(legacyReplayResolution.totalInMinorUnits))} ${CURRENCY}`
                     : ''}
                   . راجع السند الموجود قبل إنشاء عملية مستقلة.
                 </p>
               ) : (
-                <p className="leading-6 text-amber-100/90">
+                <p className="leading-6 text-nw-warn">
                   تعذر إثبات أن الطلب الحالي مطابق لعملية تاريخية. راجع سندات الاستلام
                   قبل إنشاء عملية مستقلة.
                 </p>
               )}
-              <p className="text-[11px] leading-5 text-amber-200/75">
+              <p className="text-[11px] leading-5 text-nw-warn">
                 لن يعيد النظام الإرسال تلقائيًا، ولن يغيّر المخزون أو رصيد المورد من هذه المحاولة.
               </p>
             </div>
@@ -562,31 +563,31 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         </div>
       )}
       {/* Supplier & Location Info Section */}
-      <div className="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl space-y-3">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+      <Card padded={false} className="bg-nw-surface border border-nw-border p-3.5 rounded-2xl space-y-3">
+        <div className="flex items-center justify-between border-b border-nw-border pb-2">
           <div className="flex items-center gap-2">
-            <Building2 className="w-4 h-4 text-blue-400" />
-            <span className="font-bold text-slate-100">ابدأ بالمورد والمستودع</span>
+            <Building2 className="w-4 h-4 text-nw-info" />
+            <span className="font-bold text-nw-text">ابدأ بالمورد والمستودع</span>
           </div>
-          <button
+          <UiButton variant="plain" type="button"
             onClick={() => setShowAddSupplierModal(true)}
-            className="bg-blue-600/20 text-blue-300 border border-blue-500/30 px-2.5 py-1 rounded-xl font-bold text-[11px] hover:bg-blue-600/30 transition flex items-center gap-1"
+            className="bg-nw-info-bg text-nw-info border border-nw-border px-2.5 py-1 rounded-xl font-bold text-[11px] hover:bg-nw-info-bg transition flex items-center gap-1 h-auto min-h-11 min-w-0 whitespace-normal"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>إضافة مورد جديد</span>
-          </button>
+          </UiButton>
         </div>
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {/* Supplier Dropdown */}
           <div className="space-y-1">
-            <label className="text-[11px] font-bold text-slate-400">
-              المورد المستلم منه <span className="text-rose-400">*</span>
+            <label className="text-[11px] font-bold text-nw-muted">
+              المورد المستلم منه <span className="text-nw-bad">*</span>
             </label>
-            <select
+            <select aria-label="المورد"
               value={selectedSupplierId}
               onChange={(e) => setSelectedSupplierId(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-bold text-slate-100 focus:border-blue-500 outline-none"
+              className="w-full bg-nw-bg border border-nw-border rounded-xl px-3 py-2 text-xs font-bold text-nw-text focus:border-nw-border outline-none"
             >
               <option value="">-- اختر المورد --</option>
               {suppliers.map((sup) => (
@@ -599,13 +600,13 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
           {/* Warehouse Dropdown */}
           <div className="space-y-1">
-            <label className="text-[11px] font-bold text-slate-400">
-              المستودع المستلم <span className="text-rose-400">*</span>
+            <label className="text-[11px] font-bold text-nw-muted">
+              المستودع المستلم <span className="text-nw-bad">*</span>
             </label>
-            <select
+            <select aria-label="المستودع"
               value={selectedWarehouseId}
               onChange={(e) => setSelectedWarehouseId(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-bold text-slate-100 focus:border-blue-500 outline-none"
+              className="w-full bg-nw-bg border border-nw-border rounded-xl px-3 py-2 text-xs font-bold text-nw-text focus:border-nw-border outline-none"
             >
               <option value="">-- اختر المستودع --</option>
               {warehouses.map((wh) => (
@@ -618,12 +619,12 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
           {/* Branch is derived from the warehouse to prevent mismatches */}
           <div className="space-y-1">
-            <label className="text-[11px] font-bold text-slate-400">موقع الاستلام المعتمد</label>
-            <div className="min-h-[34px] rounded-xl border border-emerald-500/25 bg-emerald-950/20 px-3 py-2">
-              <p className="text-xs font-extrabold text-emerald-300">
+            <label className="text-[11px] font-bold text-nw-muted">موقع الاستلام المعتمد</label>
+            <div className="min-h-[34px] rounded-xl border border-nw-border bg-nw-ok-bg px-3 py-2">
+              <p className="text-xs font-extrabold text-nw-ok">
                 {selectedWarehouse?.nameAr || 'اختر المستودع'}
               </p>
-              <p className="mt-0.5 text-[10px] text-slate-400">
+              <p className="mt-0.5 text-[10px] text-nw-muted">
                 {selectedWarehouse?.location || selectedBranch?.nameAr || 'سيتم تحديد الفرع تلقائياً'}
               </p>
             </div>
@@ -631,101 +632,101 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
         </div>
 
-        <details className="group rounded-xl border border-slate-800 bg-slate-950/40 p-2.5">
-          <summary className="flex cursor-pointer list-none items-center justify-between text-[11px] font-bold text-slate-400 marker:hidden">
+        <details className="group rounded-xl border border-nw-border bg-nw-bg p-2.5">
+          <summary className="flex cursor-pointer list-none items-center justify-between text-[11px] font-bold text-nw-muted marker:hidden">
             معلومات سند إضافية (اختياري)
             <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
           </summary>
           <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
           {/* Supplier Invoice Number */}
           <div className="space-y-1">
-            <label className="text-[11px] font-bold text-slate-400">رقم فاتورة/إذن المورد</label>
-            <input
+            <label className="text-[11px] font-bold text-nw-muted">رقم فاتورة/إذن المورد</label>
+            <input aria-label="مثال: INV-9908"
               type="text"
               value={supplierInvoiceNumber}
               onChange={(e) => setSupplierInvoiceNumber(e.target.value)}
               placeholder="مثال: INV-9908"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-bold text-slate-100 focus:border-blue-500 outline-none"
+              className="w-full bg-nw-bg border border-nw-border rounded-xl px-3 py-2 text-xs font-bold text-nw-text focus:border-nw-border outline-none"
             />
           </div>
 
           {/* Supplier Invoice Date */}
           <div className="space-y-1">
-            <label className="text-[11px] font-bold text-slate-400">تاريخ فاتورة المورد</label>
-            <input
+            <label className="text-[11px] font-bold text-nw-muted">تاريخ فاتورة المورد</label>
+            <input aria-label="تاريخ فاتورة المورد"
               type="date"
               value={supplierInvoiceDate}
               onChange={(e) => setSupplierInvoiceDate(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-bold text-slate-100 focus:border-blue-500 outline-none"
+              className="w-full bg-nw-bg border border-nw-border rounded-xl px-3 py-2 text-xs font-bold text-nw-text focus:border-nw-border outline-none"
             />
           </div>
 
           {/* Receiving Date & Time */}
           <div className="space-y-1">
-            <label className="text-[11px] font-bold text-slate-400">تاريخ ووقت الاستلام الفعلي</label>
-            <input
+            <label className="text-[11px] font-bold text-nw-muted">تاريخ ووقت الاستلام الفعلي</label>
+            <input aria-label="تاريخ ووقت الاستلام الفعلي"
               type="datetime-local"
               value={receivedAt}
               onChange={(e) => setReceivedAt(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-bold text-slate-100 focus:border-blue-500 outline-none"
+              className="w-full bg-nw-bg border border-nw-border rounded-xl px-3 py-2 text-xs font-bold text-nw-text focus:border-nw-border outline-none"
             />
           </div>
         </div>
         </details>
-      </div>
+      </Card>
 
       {/* Product Search & Addition Section */}
-      <div className="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl space-y-3 relative">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+      <Card padded={false} className="bg-nw-surface border border-nw-border p-3.5 rounded-2xl space-y-3 relative">
+        <div className="flex items-center justify-between border-b border-nw-border pb-2">
           <div className="flex items-center gap-2">
-            <PackageCheck className="w-4 h-4 text-emerald-400" />
-            <span className="font-bold text-slate-100">إضافة البضائع المستلمة (الطرود والأصناف)</span>
+            <PackageCheck className="w-4 h-4 text-nw-ok" />
+            <span className="font-bold text-nw-text">إضافة البضائع المستلمة (الطرود والأصناف)</span>
           </div>
-          <span className="text-[10px] text-slate-400 font-bold">
+          <span className="text-[10px] text-nw-muted font-bold">
             عدد الأصناف المضافة: {items.length}
           </span>
         </div>
 
-        <div className="rounded-xl border border-blue-900/70 bg-blue-950/30 px-3 py-2 text-[11px] font-bold leading-5 text-blue-200">
+        <div className="rounded-xl border border-nw-border bg-nw-info-bg px-3 py-2 text-[11px] font-bold leading-5 text-nw-info">
           اختر الصنف، ثم أدخل عدد الطرود التي وصلت فعليًا ومحتوى كل طرد.
           مثال: 3 كراتين × 5 حبات = 15 حبة تُضاف للمخزون.
         </div>
 
         {/* Product Search Box */}
         <div className="relative">
-          <div className="flex items-center bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs focus-within:border-blue-500 transition">
-            <Search className="w-4 h-4 text-slate-400 ml-2" />
-            <input
+          <div className="flex items-center bg-nw-bg border border-nw-border rounded-xl px-3 py-2 text-xs focus-within:border-nw-border transition">
+            <Search className="w-4 h-4 text-nw-muted ml-2" />
+            <input aria-label="ابحث باسم المنتج، SKU، أو الباركود لإضافته لسند الاستلام..."
               type="text"
               value={productSearch}
               onChange={(e) => setProductSearch(e.target.value)}
               onFocus={() => setIsSearchFocused(true)}
               placeholder="ابحث باسم المنتج، SKU، أو الباركود لإضافته لسند الاستلام..."
-              className="w-full bg-transparent text-slate-100 placeholder-slate-500 outline-none font-bold"
+              className="w-full bg-transparent text-nw-text placeholder-nw-muted outline-none font-bold"
             />
             {productSearch && (
-              <button onClick={() => setProductSearch('')} className="text-slate-500 hover:text-slate-300">
+              <UiButton variant="plain" type="button" onClick={() => setProductSearch('')} className="text-nw-muted hover:text-nw-text h-auto min-h-11 min-w-0 whitespace-normal">
                 <X className="w-3.5 h-3.5" />
-              </button>
+              </UiButton>
             )}
           </div>
 
           {/* Search Dropdown Results */}
           {isSearchFocused && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-slate-950 border border-slate-800 rounded-2xl shadow-2xl z-50 max-h-60 overflow-y-auto p-1.5 space-y-1">
+            <div className="absolute top-full left-0 right-0 mt-1 bg-nw-bg border border-nw-border rounded-2xl shadow-2xl z-50 max-h-60 overflow-y-auto p-1.5 space-y-1">
               {isLoadingProducts ? (
-                <div className="flex items-center justify-center gap-2 p-4 text-xs font-bold text-slate-400">
+                <div className="flex items-center justify-center gap-2 p-4 text-xs font-bold text-nw-muted">
                   <Loader2 className="h-4 w-4 animate-spin" />
                   جارٍ البحث في المنتجات…
                 </div>
               ) : productsFetchError ? (
-                <div className="p-4 text-center text-xs font-bold text-rose-300">
+                <div className="p-4 text-center text-xs font-bold text-nw-bad">
                   {productsFetchError}
                 </div>
               ) : filteredProducts.length === 0 ? (
-                <div className="p-4 text-center text-slate-500 space-y-1">
+                <div className="p-4 text-center text-nw-muted space-y-1">
                   <p>لم يتم العثور على نتائج متطابقة.</p>
-                  <p className="text-[10px] text-blue-400 font-bold">
+                  <p className="text-[10px] text-nw-info font-bold">
                     أضف المنتج من قسم المنتجات أولاً
                   </p>
                 </div>
@@ -737,21 +738,21 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                   const warehouseAvailable = warehouseBalance?.availableQuantity ?? 0;
 
                   return (
-                    <div
+                    <FormFields
                       key={prod.id}
                       data-receiving-product-result={prod.id}
                       onClick={() => handleSelectProduct(prod)}
-                      className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-900 border border-transparent hover:border-slate-800 transition cursor-pointer"
+                      className="nw-purchasing-fields flex items-center justify-between p-2.5 rounded-xl hover:bg-nw-surface border border-transparent hover:border-nw-border transition cursor-pointer"
                     >
                       <div>
-                        <h4 className="font-bold text-slate-100 text-xs">{prod.nameAr}</h4>
-                        <div className="flex items-center gap-2 text-[10px] text-slate-400">
+                        <h4 className="font-bold text-nw-text text-xs">{prod.nameAr}</h4>
+                        <div className="flex items-center gap-2 text-[10px] text-nw-muted">
                           <span>SKU: {prod.sku}</span>
                           {prod.barcode && <span>| الباركود: {prod.barcode}</span>}
                           <span>| الوحدة الأساسية: {prod.baseUnitName}</span>
                           <span>| طرد الشراء: {prod.purchaseUnitName} × {prod.unitsPerPackage}</span>
                         </div>
-                        <p className="mt-1 text-[10px] font-bold text-cyan-300">
+                        <p className="mt-1 text-[10px] font-bold text-nw-info">
                           المتاح الآن في {selectedWarehouse?.nameAr || 'المستودع'}:{' '}
                           {formatWholesaleInventory(
                             warehouseAvailable,
@@ -762,22 +763,22 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                         </p>
                       </div>
                       <div className="text-left">
-                        <span className="text-emerald-400 font-extrabold text-xs block">
-                          {minorUnitsToJod(prod.costPriceInMinorUnits).toFixed(3)} {CURRENCY}
+                        <span className="text-nw-ok font-extrabold text-xs block">
+                          {formatJod(minorUnitsToJod(prod.costPriceInMinorUnits))} {CURRENCY}
                         </span>
-                        <span className="text-[10px] text-slate-500 font-semibold">اضغط للإضافة +</span>
+                        <span className="text-[10px] text-nw-muted font-semibold">اضغط للإضافة +</span>
                       </div>
-                    </div>
+                    </FormFields>
                   );
                 })
               )}
-              <div className="p-2 border-t border-slate-900 text-center">
-                <button
+              <div className="p-2 border-t border-nw-border text-center">
+                <UiButton variant="plain" type="button"
                   onClick={() => setIsSearchFocused(false)}
-                  className="text-[10px] font-bold text-slate-400 hover:text-slate-200"
+                  className="text-[10px] font-bold text-nw-muted hover:text-nw-text h-auto min-h-11 min-w-0 whitespace-normal"
                 >
                   إغلاق القائمة ✕
-                </button>
+                </UiButton>
               </div>
             </div>
           )}
@@ -785,10 +786,10 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
         {/* Selected Product Rows */}
         {items.length === 0 ? (
-          <div className="border border-dashed border-slate-800 rounded-2xl p-6 text-center text-slate-500 space-y-2">
-            <PackageCheck className="w-8 h-8 text-slate-600 mx-auto" />
+          <div className="border border-dashed border-nw-border rounded-2xl p-6 text-center text-nw-muted space-y-2">
+            <PackageCheck className="w-8 h-8 text-nw-muted mx-auto" />
             <p className="font-bold text-xs">لم تقم بإضافة أي بضاعة بعد.</p>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-[11px] text-nw-muted">
               استخدم مربع البحث أعلاه لإضافة المنتجات والطرود الواردة من المورد.
             </p>
           </div>
@@ -819,38 +820,38 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
               const availableAfter = availableBefore + totalBaseUnits;
 
               return (
-                <div
+                <FormFields
                   key={item.tempId}
-                  className="bg-slate-950 border border-slate-800 p-3 rounded-2xl space-y-2 relative group hover:border-slate-700 transition"
+                  className="nw-purchasing-fields bg-nw-bg border border-nw-border p-3 rounded-2xl space-y-2 relative group hover:border-nw-border transition"
                 >
                   {/* Row Header */}
-                  <div className="flex items-center justify-between border-b border-slate-900 pb-1.5">
+                  <div className="flex items-center justify-between border-b border-nw-border pb-1.5">
                     <div className="flex items-center gap-2">
-                      <span className="w-5 h-5 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center text-[10px] font-bold">
+                      <span className="w-5 h-5 rounded-full bg-nw-info-bg text-nw-info flex items-center justify-center text-[10px] font-bold">
                         {index + 1}
                       </span>
-                      <h4 className="font-extrabold text-slate-100 text-xs">{item.productName}</h4>
-                      <span className="text-[10px] text-slate-500 font-mono">({item.productSku})</span>
+                      <h4 className="font-extrabold text-nw-text text-xs">{item.productName}</h4>
+                      <span className="text-[10px] text-nw-muted font-mono">({item.productSku})</span>
                     </div>
 
-                    <button
+                    <UiButton variant="plain" type="button"
                       onClick={() => handleRemoveItem(index)}
-                      className="text-rose-400 hover:text-rose-300 p-1 rounded-lg hover:bg-rose-950/50 transition flex items-center gap-1 text-[10px] font-bold"
+                      className="text-nw-bad hover:text-nw-bad p-1 rounded-lg hover:bg-nw-bad-bg transition flex items-center gap-1 text-[10px] font-bold h-auto min-h-11 min-w-0 whitespace-normal"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                       <span>حذف الصنف</span>
-                    </button>
+                    </UiButton>
                   </div>
 
                   {/* Quantity & Unit Configurations */}
                   <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6">
                     {/* Purchase Unit Name */}
                     <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-400">وحدة الشراء (الطرد)</label>
-                      <select
+                      <label className="text-[10px] font-bold text-nw-muted">وحدة الشراء (الطرد)</label>
+                      <select aria-label="وحدة الشراء"
                         value={item.purchaseUnitName}
                         onChange={(e) => updateItemField(index, 'purchaseUnitName', e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 text-xs font-bold text-slate-200"
+                        className="w-full bg-nw-surface border border-nw-border rounded-lg px-2 py-1 text-xs font-bold text-nw-text"
                       >
                         {PURCHASE_PACKAGE_OPTIONS.map((unitOption) => (
                           <option key={unitOption.code} value={unitOption.nameAr}>
@@ -861,12 +862,12 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                     </div>
 
                     {/* Received Package Quantity - INTEGER ONLY */}
-                    <div className="col-span-2 space-y-1 rounded-xl border border-amber-500/40 bg-amber-950/20 p-2">
-                      <label className="block text-[11px] font-black text-amber-300">
+                    <div className="col-span-2 space-y-1 rounded-xl border border-nw-border bg-nw-warn-bg p-2">
+                      <label className="block text-[11px] font-black text-nw-warn">
                         عدد الطرود المستلمة ({item.purchaseUnitName})
                       </label>
                       <div className="grid grid-cols-[2.25rem_1fr_2.25rem] gap-1.5">
-                        <button
+                        <UiButton variant="plain"
                           type="button"
                           aria-label={`إنقاص عدد طرود ${item.productName}`}
                           disabled={item.packageQuantity <= 1}
@@ -877,10 +878,10 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                               item.packageQuantity - 1
                             )
                           }
-                          className="flex items-center justify-center rounded-lg border border-slate-700 bg-slate-950 text-slate-200 transition hover:border-amber-500 hover:text-amber-300 disabled:cursor-not-allowed disabled:opacity-35"
+                          className="flex items-center justify-center rounded-lg border border-nw-border bg-nw-bg text-nw-text transition hover:border-nw-border hover:text-nw-warn disabled:cursor-not-allowed disabled:opacity-35 h-auto min-h-11 min-w-0 whitespace-normal"
                         >
                           <Minus className="h-4 w-4" />
-                        </button>
+                        </UiButton>
                         <input
                           aria-label={`عدد الطرود المستلمة للصنف ${item.productName}`}
                           type="number"
@@ -891,9 +892,9 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                           onChange={(e) =>
                             updateItemField(index, 'packageQuantity', e.target.value)
                           }
-                          className="w-full rounded-lg border border-amber-500/50 bg-slate-950 px-2 py-2 text-center text-base font-black text-white outline-none focus:border-amber-300"
+                          className="w-full rounded-lg border border-nw-border bg-nw-bg px-2 py-2 text-center text-base font-black text-nw-text outline-none focus:border-nw-border"
                         />
-                        <button
+                        <UiButton variant="plain"
                           type="button"
                           aria-label={`زيادة عدد طرود ${item.productName}`}
                           onClick={() =>
@@ -903,89 +904,89 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                               item.packageQuantity + 1
                             )
                           }
-                          className="flex items-center justify-center rounded-lg border border-amber-600/60 bg-amber-600/20 text-amber-200 transition hover:bg-amber-600/30"
+                          className="flex items-center justify-center rounded-lg border border-nw-border bg-nw-warn-bg text-nw-warn transition hover:bg-nw-warn-bg h-auto min-h-11 min-w-0 whitespace-normal"
                         >
                           <Plus className="h-4 w-4" />
-                        </button>
+                        </UiButton>
                       </div>
-                      <p className="text-[9px] font-bold text-amber-200/70">
+                      <p className="text-[9px] font-bold text-nw-warn">
                         اكتب عدد الكراتين أو الصناديق التي وصلت، وليس عدد الحبات.
                       </p>
                     </div>
 
                     {/* Units Per Package - INTEGER ONLY */}
                     <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-400">محتوى الطرد ({item.baseUnitName})</label>
-                      <input
+                      <label className="text-[10px] font-bold text-nw-muted">محتوى الطرد ({item.baseUnitName})</label>
+                      <input aria-label="محتوى الطرد ( )"
                         type="number"
                         min="1"
                         step="1"
                         value={item.unitsPerPackage}
                         onChange={(e) => updateItemField(index, 'unitsPerPackage', e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 text-xs font-bold text-slate-100 text-center"
+                        className="w-full bg-nw-surface border border-nw-border rounded-lg px-2 py-1 text-xs font-bold text-nw-text text-center"
                       />
                     </div>
 
                     {/* Price Per Package (JOD) */}
                     <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-400">سعر الطرد ({CURRENCY})</label>
-                      <input
+                      <label className="text-[10px] font-bold text-nw-muted">سعر الطرد ({CURRENCY})</label>
+                      <input aria-label="سعر الطرد ( )"
                         type="number"
                         min="0"
                         step="0.001"
                         value={item.pkgPriceJod}
                         onChange={(e) => updateItemField(index, 'pkgPriceJod', e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 text-xs font-bold text-emerald-400 text-center"
+                        className="w-full bg-nw-surface border border-nw-border rounded-lg px-2 py-1 text-xs font-bold text-nw-ok text-center"
                       />
                     </div>
 
                     {/* Discount (JOD) */}
                     <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-slate-400">خصم الصنف ({CURRENCY})</label>
-                      <input
+                      <label className="text-[10px] font-bold text-nw-muted">خصم الصنف ({CURRENCY})</label>
+                      <input aria-label="خصم الصنف ( )"
                         type="number"
                         min="0"
                         step="0.001"
                         value={item.discountJod}
                         onChange={(e) => updateItemField(index, 'discountJod', e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 text-xs font-bold text-rose-400 text-center"
+                        className="w-full bg-nw-surface border border-nw-border rounded-lg px-2 py-1 text-xs font-bold text-nw-bad text-center"
                       />
                     </div>
                   </div>
 
                   {/* Calculations breakdown banner */}
-                  <div className="bg-slate-900/90 border border-slate-800 p-2 rounded-xl space-y-1.5 text-[11px] font-bold">
-                    <div className="flex items-center justify-between gap-2 flex-wrap border-b border-slate-800/80 pb-1">
-                      <div className="text-blue-400 flex items-center gap-1.5 flex-wrap">
+                  <Card padded={false} className="bg-nw-surface border border-nw-border p-2 rounded-xl space-y-1.5 text-[11px] font-bold">
+                    <div className="flex items-center justify-between gap-2 flex-wrap border-b border-nw-border pb-1">
+                      <div className="text-nw-info flex items-center gap-1.5 flex-wrap">
                         <Info className="w-3.5 h-3.5 shrink-0" />
                         <span>
                           الكمية التي ستدخل المخزون: {item.packageQuantity}{' '}
                           {item.purchaseUnitName} × {item.unitsPerPackage}{' '}
                           {item.baseUnitName} ={' '}
-                          <strong className="font-extrabold text-white">
+                          <strong className="font-extrabold text-nw-text">
                             {totalBaseUnits} {item.baseUnitName}
                           </strong>
-                          <span className="text-slate-400">
+                          <span className="text-nw-muted">
                             {' '}({formatWholesaleInventory(totalBaseUnits, item.unitsPerPackage, item.purchaseUnitName, item.baseUnitName).fullFormatted})
                           </span>
                         </span>
                       </div>
 
-                      <div className="text-slate-300 flex items-center gap-3 flex-wrap text-[10px]">
-                        <span>تكلفة {item.baseUnitName} المحسوبة: <strong className="text-amber-400">{costPerPieceJod.toFixed(3)} {CURRENCY}</strong></span>
-                        <span>الإجمالي: <strong className="text-emerald-400 text-xs">{lineTotalJod.toFixed(3)} {CURRENCY}</strong></span>
+                      <div className="text-nw-text flex items-center gap-3 flex-wrap text-[10px]">
+                        <span>تكلفة {item.baseUnitName} المحسوبة: <strong className="text-nw-warn">{formatJod(costPerPieceJod)} {CURRENCY}</strong></span>
+                        <span>الإجمالي: <strong className="text-nw-ok text-xs">{formatJod(lineTotalJod)} {CURRENCY}</strong></span>
                       </div>
                     </div>
 
-                    <details className="group rounded-lg border border-slate-800 bg-slate-950/30 p-2">
-                      <summary className="flex cursor-pointer list-none items-center justify-between text-[10px] text-slate-400 marker:hidden">
+                    <details className="group rounded-lg border border-nw-border bg-nw-bg p-2">
+                      <summary className="flex cursor-pointer list-none items-center justify-between text-[10px] text-nw-muted marker:hidden">
                         تفاصيل الرصيد قبل/بعد وخيارات الصنف
                         <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
                       </summary>
                     <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-5">
-                      <div className="rounded-lg border border-slate-800 bg-slate-950/60 px-2 py-1">
-                        <span className="block text-[9px] text-slate-500">المخزون الفعلي قبل</span>
-                        <strong className="text-slate-200">
+                      <div className="rounded-lg border border-nw-border bg-nw-bg px-2 py-1">
+                        <span className="block text-[9px] text-nw-muted">المخزون الفعلي قبل</span>
+                        <strong className="text-nw-text">
                           {formatWholesaleInventory(
                             stockBefore,
                             item.unitsPerPackage,
@@ -994,9 +995,9 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                           ).fullFormatted}
                         </strong>
                       </div>
-                      <div className="rounded-lg border border-slate-800 bg-slate-950/60 px-2 py-1">
-                        <span className="block text-[9px] text-slate-500">المحجوز للطلبات</span>
-                        <strong className="text-amber-300">
+                      <div className="rounded-lg border border-nw-border bg-nw-bg px-2 py-1">
+                        <span className="block text-[9px] text-nw-muted">المحجوز للطلبات</span>
+                        <strong className="text-nw-warn">
                           {formatWholesaleInventory(
                             reservedBefore,
                             item.unitsPerPackage,
@@ -1005,9 +1006,9 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                           ).fullFormatted}
                         </strong>
                       </div>
-                      <div className="rounded-lg border border-slate-800 bg-slate-950/60 px-2 py-1">
-                        <span className="block text-[9px] text-slate-500">المتاح للبيع قبل</span>
-                        <strong className="text-cyan-300">
+                      <div className="rounded-lg border border-nw-border bg-nw-bg px-2 py-1">
+                        <span className="block text-[9px] text-nw-muted">المتاح للبيع قبل</span>
+                        <strong className="text-nw-info">
                           {formatWholesaleInventory(
                             availableBefore,
                             item.unitsPerPackage,
@@ -1016,9 +1017,9 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                           ).fullFormatted}
                         </strong>
                       </div>
-                      <div className="rounded-lg border border-emerald-500/20 bg-emerald-950/20 px-2 py-1">
-                        <span className="block text-[9px] text-emerald-300/70">الكمية الداخلة</span>
-                        <strong className="text-emerald-300">
+                      <div className="rounded-lg border border-nw-border bg-nw-ok-bg px-2 py-1">
+                        <span className="block text-[9px] text-nw-ok">الكمية الداخلة</span>
+                        <strong className="text-nw-ok">
                           +{formatWholesaleInventory(
                             totalBaseUnits,
                             item.unitsPerPackage,
@@ -1027,9 +1028,9 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                           ).fullFormatted}
                         </strong>
                       </div>
-                      <div className="col-span-2 rounded-lg border border-blue-500/30 bg-blue-950/25 px-2 py-1 sm:col-span-1">
-                        <span className="block text-[9px] text-blue-300/70">بعد الاستلام / المتاح</span>
-                        <strong className="text-blue-200">
+                      <div className="col-span-2 rounded-lg border border-nw-border bg-nw-info-bg px-2 py-1 sm:col-span-1">
+                        <span className="block text-[9px] text-nw-info">بعد الاستلام / المتاح</span>
+                        <strong className="text-nw-info">
                           {formatWholesaleInventory(
                             stockAfter,
                             item.unitsPerPackage,
@@ -1046,42 +1047,42 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                       </div>
                     </div>
 
-                    <p className="text-[10px] text-slate-400">الاستلام لا يغيّر أسعار البيع أو افتراضيات الصنف. عدّلها من شاشة الصنف.</p>
+                    <p className="text-[10px] text-nw-muted">الاستلام لا يغيّر أسعار البيع أو افتراضيات الصنف. عدّلها من شاشة الصنف.</p>
                     </details>
-                  </div>
-                </div>
+                  </Card>
+                </FormFields>
               );
             })}
           </div>
         )}
-      </div>
+      </Card>
 
       {/* Financial Summary & Direct Payment Section */}
-      <div className="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl space-y-3">
-        <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
-          <DollarSign className="w-4 h-4 text-emerald-400" />
-          <span className="font-bold text-slate-100">ملخص الاستلام</span>
+      <Card padded={false} className="bg-nw-surface border border-nw-border p-3.5 rounded-2xl space-y-3">
+        <div className="flex items-center gap-2 border-b border-nw-border pb-2">
+          <DollarSign className="w-4 h-4 text-nw-ok" />
+          <span className="font-bold text-nw-text">ملخص الاستلام</span>
         </div>
 
-        <div className="grid grid-cols-3 gap-2 rounded-xl border border-slate-800 bg-slate-950/60 p-2.5 text-center">
+        <div className="grid grid-cols-3 gap-2 rounded-xl border border-nw-border bg-nw-bg p-2.5 text-center">
           <div>
-            <span className="block text-[9px] text-slate-500">إجمالي السند</span>
-            <strong className="text-slate-100">{grandTotalJod.toFixed(3)}</strong>
+            <span className="block text-[9px] text-nw-muted">إجمالي السند</span>
+            <strong className="text-nw-text">{formatJod(grandTotalJod)}</strong>
           </div>
           <div>
-            <span className="block text-[9px] text-slate-500">المدفوع</span>
-            <strong className="text-emerald-300">{amountPaidJod.toFixed(3)}</strong>
+            <span className="block text-[9px] text-nw-muted">المدفوع</span>
+            <strong className="text-nw-ok">{formatJod(amountPaidJod)}</strong>
           </div>
           <div>
-            <span className="block text-[9px] text-slate-500">ذمة المورد</span>
-            <strong className={amountDueJod > 0 ? 'text-rose-300' : 'text-emerald-300'}>
-              {amountDueJod.toFixed(3)}
+            <span className="block text-[9px] text-nw-muted">ذمة المورد</span>
+            <strong className={amountDueJod > 0 ? 'text-nw-bad' : 'text-nw-ok'}>
+              {formatJod(amountDueJod)}
             </strong>
           </div>
         </div>
 
-        <details className="group rounded-xl border border-slate-800 bg-slate-950/40 p-2.5">
-          <summary className="flex cursor-pointer list-none items-center justify-between text-[11px] font-bold text-slate-400 marker:hidden">
+        <details className="group rounded-xl border border-nw-border bg-nw-bg p-2.5">
+          <summary className="flex cursor-pointer list-none items-center justify-between text-[11px] font-bold text-nw-muted marker:hidden">
             الدفعة وأجور النقل والضريبة والملاحظات
             <ChevronLeft className="h-3.5 w-3.5 transition group-open:-rotate-90" />
           </summary>
@@ -1090,122 +1091,122 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
           {/* Financial Breakdown Inputs */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-400 font-bold">مجموع الأصناف المستلمة:</span>
-              <span className="font-mono font-extrabold text-slate-200">{itemsSubtotalJod.toFixed(3)} {CURRENCY}</span>
+              <span className="text-nw-muted font-bold">مجموع الأصناف المستلمة:</span>
+              <span className="font-mono font-extrabold text-nw-text">{formatJod(itemsSubtotalJod)} {CURRENCY}</span>
             </div>
 
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="text-[10px] font-bold text-slate-400">أجور التوصيل/النقل</label>
-                <input
+                <label className="text-[10px] font-bold text-nw-muted">أجور التوصيل/النقل</label>
+                <input aria-label="أجور التوصيل/النقل"
                   type="number"
                   min="0"
                   step="0.001"
                   value={deliveryFeeJod}
                   onChange={(e) => setDeliveryFeeJod(Math.max(0, Number(e.target.value) || 0))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2 py-1 text-xs font-bold text-slate-200 text-center"
+                  className="w-full bg-nw-bg border border-nw-border rounded-xl px-2 py-1 text-xs font-bold text-nw-text text-center"
                 />
               </div>
 
               <div>
-                <label className="text-[10px] font-bold text-slate-400">الضريبة ({CURRENCY})</label>
-                <input
+                <label className="text-[10px] font-bold text-nw-muted">الضريبة ({CURRENCY})</label>
+                <input aria-label="الضريبة ( )"
                   type="number"
                   min="0"
                   step="0.001"
                   value={taxJod}
                   onChange={(e) => setTaxJod(Math.max(0, Number(e.target.value) || 0))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2 py-1 text-xs font-bold text-slate-200 text-center"
+                  className="w-full bg-nw-bg border border-nw-border rounded-xl px-2 py-1 text-xs font-bold text-nw-text text-center"
                 />
               </div>
             </div>
 
-            <div className="bg-slate-950 border border-slate-800 p-2.5 rounded-xl flex items-center justify-between">
-              <span className="font-extrabold text-slate-100">صافي المباشر المستحق للمورد:</span>
-              <span className="font-extrabold text-emerald-400 text-sm">
-                {grandTotalJod.toFixed(3)} {CURRENCY}
+            <div className="bg-nw-bg border border-nw-border p-2.5 rounded-xl flex items-center justify-between">
+              <span className="font-extrabold text-nw-text">صافي المباشر المستحق للمورد:</span>
+              <span className="font-extrabold text-nw-ok text-sm">
+                {formatJod(grandTotalJod)} {CURRENCY}
               </span>
             </div>
           </div>
 
           {/* Payment Method & Paid Amount */}
-          <div className="space-y-2 bg-slate-950 p-3 rounded-xl border border-slate-800">
+          <div className="space-y-2 bg-nw-bg p-3 rounded-xl border border-nw-border">
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-400">طريقة الدفع للمورد</label>
+              <label className="text-[10px] font-bold text-nw-muted">طريقة الدفع للمورد</label>
               <div className="grid grid-cols-2 gap-1 text-[10px] font-bold">
-                <button
+                <UiButton variant="plain"
                   type="button"
                   onClick={() => setPaymentMethod('cash')}
                   className={`py-1.5 rounded-lg border transition ${
                     paymentMethod === 'cash'
-                      ? 'bg-emerald-600 text-white border-emerald-500 shadow'
-                      : 'bg-slate-900 border-slate-800 text-slate-400'
+                      ? 'bg-nw-ok-bg text-nw-text border-nw-border shadow'
+                      : 'bg-nw-surface border-nw-border text-nw-muted'
                   }`}
                 >
                   نقدي (Cash)
-                </button>
-                <button
+                </UiButton>
+                <UiButton variant="plain"
                   type="button"
                   onClick={() => setPaymentMethod('cliq')}
                   className={`py-1.5 rounded-lg border transition ${
                     paymentMethod === 'cliq'
-                      ? 'bg-purple-600 text-white border-purple-500 shadow'
-                      : 'bg-slate-900 border-slate-800 text-slate-400'
+                      ? 'bg-nw-info-bg text-nw-text border-nw-border shadow'
+                      : 'bg-nw-surface border-nw-border text-nw-muted'
                   }`}
                 >
                   CliQ / تحويل
-                </button>
+                </UiButton>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="text-[10px] font-bold text-slate-400">المبلغ المدفوع الآن ({CURRENCY})</label>
-                <input
+                <label className="text-[10px] font-bold text-nw-muted">المبلغ المدفوع الآن ({CURRENCY})</label>
+                <input aria-label="المبلغ المدفوع الآن ( )"
                   type="number"
                   min="0"
                   max={grandTotalJod}
                   step="0.001"
                   value={amountPaidJod}
                   onChange={(e) => setAmountPaidJod(Math.max(0, Number(e.target.value) || 0))}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-2 py-1.5 text-xs font-bold text-emerald-400 text-center"
+                  className="w-full bg-nw-surface border border-nw-border rounded-xl px-2 py-1.5 text-xs font-bold text-nw-ok text-center"
                 />
                 <div className="mt-1 flex items-center gap-1">
-                  <button
+                  <UiButton variant="plain"
                     type="button"
                     onClick={() => setAmountPaidJod(grandTotalJod)}
-                    className="rounded-lg bg-emerald-600/15 px-2 py-1 text-[9px] font-bold text-emerald-300"
+                    className="rounded-lg bg-nw-ok-bg px-2 py-1 text-[9px] font-bold text-nw-ok h-auto min-h-11 min-w-0 whitespace-normal"
                   >
                     دفع كامل
-                  </button>
-                  <button
+                  </UiButton>
+                  <UiButton variant="plain"
                     type="button"
                     onClick={() => setAmountPaidJod(0)}
-                    className="rounded-lg bg-slate-800 px-2 py-1 text-[9px] font-bold text-slate-300"
+                    className="rounded-lg bg-nw-surface-2 px-2 py-1 text-[9px] font-bold text-nw-text h-auto min-h-11 min-w-0 whitespace-normal"
                   >
                     بدون دفعة الآن
-                  </button>
+                  </UiButton>
                 </div>
               </div>
 
               <div>
-                <label className="text-[10px] font-bold text-slate-400">رقم الحوالة/المرجع</label>
-                <input
+                <label className="text-[10px] font-bold text-nw-muted">رقم الحوالة/المرجع</label>
+                <input aria-label="رقم المرجع اختياري"
                   type="text"
                   value={paymentReference}
                   onChange={(e) => setPaymentReference(e.target.value)}
                   placeholder="رقم المرجع اختياري"
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-2 py-1.5 text-xs text-slate-200"
+                  className="w-full bg-nw-surface border border-nw-border rounded-xl px-2 py-1.5 text-xs text-nw-text"
                 />
               </div>
             </div>
 
-            <div className="flex items-center justify-between gap-2 text-[11px] pt-1 border-t border-slate-900">
-              <span className="text-slate-400 font-bold">
+            <div className="flex items-center justify-between gap-2 text-[11px] pt-1 border-t border-nw-border">
+              <span className="text-nw-muted font-bold">
                 المتبقي يُسجل تلقائياً كذمة للمورد:
               </span>
-              <span className={`font-extrabold ${amountDueJod > 0 ? 'text-rose-400' : 'text-emerald-400'}`}>
-                {amountDueJod.toFixed(3)} {CURRENCY}
+              <span className={`font-extrabold ${amountDueJod > 0 ? 'text-nw-bad' : 'text-nw-ok'}`}>
+                {formatJod(amountDueJod)} {CURRENCY}
               </span>
             </div>
           </div>
@@ -1213,59 +1214,59 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
         {/* Notes */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <input
+          <input aria-label="ملاحظات عامة على الشحنة..."
             type="text"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             placeholder="ملاحظات عامة على الشحنة..."
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-200"
+            className="w-full bg-nw-bg border border-nw-border rounded-xl px-3 py-1.5 text-xs text-nw-text"
           />
-          <input
+          <input aria-label="ملاحظات إدارية داخلية (غير مطبوعة)..."
             type="text"
             value={internalNotes}
             onChange={(e) => setInternalNotes(e.target.value)}
             placeholder="ملاحظات إدارية داخلية (غير مطبوعة)..."
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-200"
+            className="w-full bg-nw-bg border border-nw-border rounded-xl px-3 py-1.5 text-xs text-nw-text"
           />
         </div>
           </div>
         </details>
-      </div>
+      </Card>
 
       {/* Main Action Button */}
-      <div className="pt-2 flex items-center justify-end gap-2 border-t border-slate-800">
-        <button
+      <div className="pt-2 flex items-center justify-end gap-2 border-t border-nw-border">
+        <UiButton variant="plain"
           type="button"
           onClick={onClose}
           disabled={isSubmitting}
-          className="bg-slate-800 text-slate-300 border border-slate-700 px-4 py-2.5 rounded-xl font-bold hover:bg-slate-700 transition"
+          className="bg-nw-surface-2 text-nw-text border border-nw-border px-4 py-2.5 rounded-xl font-bold hover:bg-nw-surface-2 transition h-auto min-h-11 min-w-0 whitespace-normal"
         >
           إلغاء
-        </button>
+        </UiButton>
 
-        <button
+        <UiButton variant="plain"
           type="button"
           onClick={handleSubmitReceipt}
           disabled={isSubmitting || items.length === 0 || legacyReplayResolution !== null}
-          className="bg-gradient-to-r from-emerald-600 via-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold px-6 py-2.5 rounded-xl shadow-lg shadow-emerald-900/30 transition flex items-center gap-2 text-xs disabled:opacity-50"
+          className="bg-nw-accent text-nw-on-accent font-extrabold px-6 py-2.5 rounded-xl shadow-lg shadow-nw-border transition flex items-center gap-2 text-xs disabled:opacity-50 h-auto min-h-11 min-w-0 whitespace-normal"
         >
           {isSubmitting ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin text-white" />
+              <Loader2 className="w-4 h-4 animate-spin text-nw-text" />
               <span>جاري حفظ سند الاستلام وتحديث المخزون...</span>
             </>
           ) : legacyReplayResolution ? (
             <>
-              <AlertCircle className="w-4 h-4 text-white" />
+              <AlertCircle className="w-4 h-4 text-nw-text" />
               <span>راجع السند الموجود أولًا</span>
             </>
           ) : (
             <>
-              <PackageCheck className="w-4 h-4 text-white" />
+              <PackageCheck className="w-4 h-4 text-nw-text" />
               <span>حفظ واستلام البضاعة</span>
             </>
           )}
-        </button>
+        </UiButton>
       </div>
 
       <CreateSupplierModal
@@ -1273,6 +1274,6 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         onClose={() => setShowAddSupplierModal(false)}
         onSuccess={handleSupplierCreated}
       />
-    </div>
+    </FormFields>
   );
 };

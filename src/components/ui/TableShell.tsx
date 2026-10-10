@@ -8,6 +8,16 @@ import React from 'react';
 const join = (...parts: Array<string | false | null | undefined>) =>
   parts.filter(Boolean).join(' ');
 
+/** Native table composition for existing forms; preserves head/body and field handlers. */
+export const DataTable: React.FC<React.TableHTMLAttributes<HTMLTableElement> & {caption:string}> =
+  ({caption,className,children,style,...rest}) => (
+    <div tabIndex={0} role="region" aria-label={caption} className="min-w-0 max-w-full overflow-x-auto rounded-xl border border-nw-border bg-nw-surface">
+      <table {...rest} style={{minWidth:720,...style}} className={join('w-full text-right text-sm text-nw-text',className)}>
+        <caption className="sr-only">{caption}</caption>{children}
+      </table>
+    </div>
+  );
+
 interface TableShellProps {
   caption: string;
   /** Minimum table width before it scrolls inside the box. */

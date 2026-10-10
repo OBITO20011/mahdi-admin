@@ -45,3 +45,26 @@
 .nw-profile-fields form > button[type="submit"] { position: sticky; bottom: 0; z-index: 10; }
 .nw-form-fields label:has(input[type="checkbox"]) { min-height: 44px; gap: 12px; }
 .nw-form-fields :is(input[type="checkbox"],input[type="radio"]) { accent-color: var(--nw-primary); flex-shrink: 0; }
+
+/* Purchasing presentation only; fields keep native values/constraints/events. */
+.nw-purchasing-fields { min-width: 0; line-height: 1.75; }
+.nw-purchasing-fields :is(p,h1,h2,h3,h4,span,label,strong) { line-height: 1.75; }
+.nw-purchasing-fields button { min-height: 44px; height: auto; }
+.nw-purchasing-fields form > div:last-child:has(> button[type="submit"]) {
+  position: sticky; bottom: 0; z-index: 10; background: var(--nw-surface); padding-bottom: 8px;
+}
+@media print {
+  .nw-purchasing-fields {
+    --nw-bg: var(--nw-print-surface);
+    --nw-surface: var(--nw-print-surface);
+    --nw-surface-2: var(--nw-print-surface);
+    --nw-mute-bg: var(--nw-print-surface);
+    --nw-text: var(--nw-print-text);
+    --nw-muted: var(--nw-print-muted);
+    --nw-border: var(--nw-print-border);
+    --nw-info: var(--nw-print-text);
+    --nw-ok: var(--nw-print-text);
+    --nw-bad: var(--nw-print-text);
+    --nw-warn: var(--nw-print-text);
+  }
+}

@@ -7,6 +7,11 @@
  */
 
 :root {
+  /* Paper is a fixed light surface,independent of the active screen theme. */
+  --nw-print-surface: #ffffff;
+  --nw-print-text: #0f1b2d;
+  --nw-print-muted: #55657a;
+  --nw-print-border: #e3e8ef;
   --nw-bg: #f4f6f9;
   --nw-surface: #ffffff;
   --nw-surface-2: #f7f9fc;
@@ -41,6 +46,10 @@
 }
 
 html.theme-dark {
+  --nw-print-surface: #ffffff;
+  --nw-print-text: #0f1b2d;
+  --nw-print-muted: #55657a;
+  --nw-print-border: #e3e8ef;
   --nw-bg: #0b1220;
   --nw-surface: #121b2e;
   --nw-surface-2: #0f172a;
@@ -75,6 +84,10 @@ html.theme-dark {
 }
 
 @theme inline {
+  --color-nw-print-surface: var(--nw-print-surface);
+  --color-nw-print-text: var(--nw-print-text);
+  --color-nw-print-muted: var(--nw-print-muted);
+  --color-nw-print-border: var(--nw-print-border);
   --font-sans: "IBM Plex Sans Arabic", system-ui, sans-serif;
 
   --color-nw-bg: var(--nw-bg);

@@ -2,60 +2,70 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Orders A then Products/guard B corrections;quality/exact CI,then batch3 presentation",
-  "baselineSha": "0b5564ee61ec1c7144b4433a8aa755be170b6611",
+  "objective": "Bounded purchase-dialog wiring/type contracts,then Package F batch3 presentation",
+  "baselineSha": "0b9cf9103c08f14c4b2aeea901b1586520632978",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Batch2 baseline8195f87 delivered:quality38057168802 all19/19,secrets38057168785 PASS. Prior deliveries documented in migration reports."
+    "A/B a7d2a70 delivered19/19+secrets;wiring/type0b9cf91 committed separately,Gitleaks0;push after batch3 gates"
   ],
   "inProgress": [
-    "Owner approved A/B commits now;batch3 starts only after exact final-SHA CI green"
+    "Wiring0b9cf91 committed;batch3 gates complete,then Gitleaks/commit/push/exact CI"
   ],
   "notStarted": [
-    "Batch3 pending corrective CI;batch4 and later;Phase7"
+    "Batch4 and later;Phase7;checkout investigation after batch7"
   ],
   "filesTouched": [
     "docs/agent/PHASE_STATUS.md",
-    "docs/agent/PROJECT_OVERVIEW.md",
     "docs/design/package-f/REMAINING_SCREENS_MIGRATION.md",
-    "e2e/package-f-cash.spec.ts",
-    "e2e/package-f-customers.spec.ts",
-    "e2e/package-f-home.spec.ts",
-    "e2e/package-f-inventory.spec.ts",
-    "e2e/package-f-more.spec.ts",
-    "e2e/package-f-orders.spec.ts",
-    "e2e/package-f-pos.spec.ts",
-    "e2e/package-f-products.spec.ts",
-    "e2e/package-f-read-extensions.spec.ts",
-    "e2e/phase6-package-a.spec.ts",
-    "src/features/products/ProductsView.tsx",
-    "e2e/package-f-layout.ts",
-    "tests/package-f-layout-guard.test.ts"
+    "src/components/ui/form-fields.css",
+    "src/components/ui/FormFields.tsx",
+    "src/components/ui/index.ts",
+    "src/components/ui/TableShell.tsx",
+    "src/features/directReceiving/CancelSupplierReceiptDialog.tsx",
+    "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+    "src/features/directReceiving/DirectReceivingView.tsx",
+    "src/features/directReceiving/RecordSupplierPaymentModal.tsx",
+    "src/features/directReceiving/SupplierReceiptDetailView.tsx",
+    "src/features/purchases/CreatePurchaseOrderModal.tsx",
+    "src/features/purchases/CreateSupplierModal.tsx",
+    "src/features/purchases/PurchaseOrderCard.tsx",
+    "src/features/purchases/PurchaseOrderDetailView.tsx",
+    "src/features/purchases/PurchasesView.tsx",
+    "src/features/purchases/ReceiveGoodsModal.tsx",
+    "src/features/purchases/SupplierPaymentModal.tsx",
+    "src/styles/design-tokens.css",
+    "tests/phase6-package-a.test.ts",
+    "tests/types/purchase-dialog-props.tsx",
+    "e2e/package-f-purchasing-harness.html",
+    "e2e/package-f-purchasing-harness.tsx",
+    "e2e/package-f-purchasing.fixture.ts",
+    "e2e/package-f-purchasing.spec.ts",
+    "tests/package-f-remaining-batch3.test.ts"
   ],
   "testsPassed": [
-    "Focused panels/products32/32;unchanged Orders40/40;units27/27;typecheck/ESLint0;retries0",
-    "More settled-layout12/12 plus negative guard2/2;AST/guard units10/10 PASS;001-137 unchanged"
+    "A/B delivery19/19 and secrets PASS;prior evidence in reports",
+    "Batch3 financial AST4/4;negative props fixtures;focused purchasing28/28 Chromium/WebKit,retries0;units15/15",
+    "Quality lint/typecheck,Admin831/831,Customer189/189,builds/SEO/isolation PASS;interrupted browser leg resumed unchanged:587PASS/59existing skips,retries0,exit0"
   ],
   "testsRemaining": [
-    "Gitleaks per commit;A/B exact CI then batch3 presentation gates"
+    "Gitleaks0,UI commit/push,exact quality+secrets CI,visual STOP"
   ],
   "findings": [
-    "Orders original warning was unpainted closed-details content;missing internal scroll corrected. Exact geometry in ORDERS_MIGRATION.",
-    "Final quality:827Admin/189Customer PASS;browser558PASS/59existing skips/1WebKit checkout FAIL,line249,retries0. More animation audit now passes.",
-    "OPEN مستقل: اسم العميل يظهر فارغاً بعد fill أثناء الانتقال من السلة لنافذة الإتمام (WebKit، نادر، موجود قبل Package F الحالي على الأرجح). Investigation after batch7 before final regression;cause unproven."
+    "OPEN independent WebKit checkout empty name after fill;investigate after batch7 before final regression. Exact wording/evidence in remaining report.",
+    "Old wiring defect introduced0279479 2026-07-25. Admin lacks React types;explicit two-component props now checked. No Production verification."
   ],
   "blockers": [
-    "No current delivery blocker:owner accepts unchanged storefront import/CSS and baseline/current20/20;checkout investigation deferred,not fixed."
+    "None;exact CI must pass before delivery"
   ],
   "activeProcesses": [],
   "prohibitions": [
     "No Production/deploy/Phase7/automations;001-137 unchanged",
-    "Batch3 authorized after product correction CI;no batch4 or later;no RPC/payload/validation/confirmation/role changes;preserve .claude/launch.json unstaged"
+    "Only approved isOpen/supplierId props and explicit props types exempt AST parity;no RPC/payload/guard/role/DB changes;no batch4;preserve .claude/launch.json unstaged"
   ],
-  "nextExactAction": "Commit Products/shared clipping guard B;push A+B and require exact CI before batch3",
-  "workingTreeFingerprint": "6770FECE42CF95A49CD1FCFBD583B7B46F61CD07D4CFCFF6130A6D6989139038",
-  "checkpointedAt": "2026-10-10T16:53:35.438Z",
+  "nextExactAction": "Gitleaks staged0,commit batch3 UI,push wiring+UI,verify final exact-SHA quality+secrets,checkpoint STOP for visual review;no batch4",
+  "workingTreeFingerprint": "DBCD30D53389B511E847E401C41E0E110CA4A7C260DB23BE57DE57B6723A05AF",
+  "checkpointedAt": "2026-10-10T18:56:27.697Z",
   "startedAt": "2026-10-10T02:28:31.421Z"
 }

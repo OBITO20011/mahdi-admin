@@ -1,3 +1,4 @@
+import {FormFields, Card, UiButton, DataTable, Tr, Th, Td} from '../../components/ui';
 /**
  * Nawasrah Business Manager - Goods Receiving (GRN) Modal Component
  */
@@ -160,60 +161,60 @@ export const ReceiveGoodsModal = ({
   };
 
   return (
-    <div ref={panel as React.RefObject<HTMLDivElement>} tabIndex={-1} role="dialog" aria-modal="true" aria-label="استلام البضائع" aria-busy={isSubmitting} className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-3xl shadow-2xl overflow-hidden my-auto flex flex-col max-h-[90vh]">
+    <FormFields ref={panel as React.RefObject<HTMLDivElement>} tabIndex={-1} role="dialog" aria-modal="true" aria-label="استلام البضائع" aria-busy={isSubmitting} className="nw-purchasing-fields fixed inset-0 z-50 flex items-center justify-center bg-nw-overlay backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
+      <Card padded={false} className="bg-nw-surface border border-nw-border rounded-3xl w-full max-w-3xl shadow-2xl overflow-hidden my-auto flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="bg-slate-800/80 px-5 py-4 border-b border-slate-700/80 flex items-center justify-between shrink-0">
+        <div className="bg-nw-surface-2 px-5 py-4 border-b border-nw-border flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold">
+            <div className="w-10 h-10 rounded-2xl bg-nw-info-bg border border-nw-border flex items-center justify-center text-nw-info font-bold">
               <Truck className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-100 flex items-center gap-2">
+              <h2 className="text-base font-bold text-nw-text flex items-center gap-2">
                 <span>استلام بضائع لمخزن (Goods Receipt Note)</span>
-                <span className="text-xs bg-slate-800 px-2 py-0.5 rounded border border-slate-700 text-blue-400">
+                <span className="text-xs bg-nw-surface-2 px-2 py-0.5 rounded border border-nw-border text-nw-info">
                   {po.purchaseOrderNumber}
                 </span>
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-nw-muted">
                 تسجيل الكميات الموردة فعلياً لزيادة رصيد المستودع وتحديث متوسط التكلفة
               </p>
             </div>
           </div>
-          <button
+          <UiButton variant="plain"
             type="button"
             aria-label="إغلاق استلام البضائع"
             disabled={isSubmitting}
             onClick={onClose}
-            className="w-9 h-9 rounded-xl bg-slate-700/60 text-slate-300 hover:text-white flex items-center justify-center transition"
+            className="w-11 h-11 rounded-xl bg-nw-surface-2 text-nw-text hover:text-nw-text flex items-center justify-center transition h-auto min-h-11 min-w-0 whitespace-normal"
           >
             <X className="w-5 h-5" />
-          </button>
+          </UiButton>
         </div>
 
         {/* Body Form */}
         <form onSubmit={handleSubmit} className="p-5 space-y-4 overflow-y-auto flex-1 text-xs">
           {errorMsg && (
-            <div className="bg-rose-950/50 border border-rose-500/30 p-3 rounded-2xl text-rose-300 flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
+            <div className="bg-nw-bad-bg border border-nw-border p-3 rounded-2xl text-nw-bad flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 shrink-0 text-nw-bad" />
               <span>{errorMsg}</span>
             </div>
           )}
 
           {/* Supplier Info & Warehouse Header */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-950/50 p-3.5 rounded-2xl border border-slate-800">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-nw-bg p-3.5 rounded-2xl border border-nw-border">
             <div>
-              <span className="text-slate-400 block mb-0.5">المورد:</span>
-              <span className="font-bold text-slate-100 text-sm">{po.supplierName}</span>
+              <span className="text-nw-muted block mb-0.5">المورد:</span>
+              <span className="font-bold text-nw-text text-sm">{po.supplierName}</span>
             </div>
 
             <div>
-              <label className="font-bold text-slate-300 block mb-1">المستودع المستلم:</label>
-              <select
+              <label className="font-bold text-nw-text block mb-1">المستودع المستلم:</label>
+              <select aria-label="المستودع"
                 value={selectedWarehouseId}
                 onChange={(e) => setSelectedWarehouseId(e.target.value)}
                 required
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-1.5 text-slate-100 font-semibold focus:outline-none focus:border-purple-500"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-2.5 py-1.5 text-nw-text font-semibold focus:outline-none focus:border-nw-border"
               >
                 {warehouses.map((w) => (
                   <option key={w.id} value={w.id}>
@@ -224,105 +225,105 @@ export const ReceiveGoodsModal = ({
             </div>
 
             <div>
-              <label className="font-bold text-slate-300 block mb-1">إشعار تسليم المورد (Delivery Note):</label>
-              <input
+              <label className="font-bold text-nw-text block mb-1">إشعار تسليم المورد (Delivery Note):</label>
+              <input aria-label="رقم بوليصة / وصل السائق"
                 type="text"
                 value={supplierDeliveryNote}
                 onChange={(e) => setSupplierDeliveryNote(e.target.value)}
                 placeholder="رقم بوليصة / وصل السائق"
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-1.5 text-slate-100 focus:outline-none focus:border-purple-500"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-2.5 py-1.5 text-nw-text focus:outline-none focus:border-nw-border"
               />
             </div>
           </div>
 
           {/* Items Table */}
           <div className="space-y-2">
-            <h3 className="font-bold text-slate-200 text-sm flex items-center justify-between">
+            <h3 className="font-bold text-nw-text text-sm flex items-center justify-between">
               <span>جدول فحص واستلام الأصناف:</span>
-              <span className="text-xs text-purple-400 font-normal">
+              <span className="text-xs text-nw-info font-normal">
                 إجمالي قطع الاستلام الحالي: {totalReceivingNow} قطعة
               </span>
             </h3>
 
-            <div className="border border-slate-800 rounded-2xl overflow-hidden bg-slate-950/40">
+            <div className="border border-nw-border rounded-2xl overflow-hidden bg-nw-bg">
               <div className="overflow-x-auto">
-                <table className="w-full text-right text-xs">
-                  <thead className="bg-slate-800/80 text-slate-300 font-bold border-b border-slate-700/80">
-                    <tr>
-                      <th className="p-3">اسم المنتج</th>
-                      <th className="p-3 w-20 text-center">المطلوب</th>
-                      <th className="p-3 w-20 text-center">المستلم سابقاً</th>
-                      <th className="p-3 w-20 text-center text-amber-400">المتبقي</th>
-                      <th className="p-3 w-28 text-center text-purple-300">الكمية المستلمة الآن</th>
-                      <th className="p-3 w-32 text-center">تكلفة الوحدة ({CURRENCY})</th>
-                    </tr>
+                <DataTable caption="كميات الاستلام" className="w-full text-right text-xs">
+                  <thead className="bg-nw-surface-2 text-nw-text font-bold border-b border-nw-border">
+                    <Tr>
+                      <Th className="p-3">اسم المنتج</Th>
+                      <Th className="p-3 w-20 text-center">المطلوب</Th>
+                      <Th className="p-3 w-20 text-center">المستلم سابقاً</Th>
+                      <Th className="p-3 w-20 text-center text-nw-warn">المتبقي</Th>
+                      <Th className="p-3 w-28 text-center text-nw-info">الكمية المستلمة الآن</Th>
+                      <Th className="p-3 w-32 text-center">تكلفة الوحدة ({CURRENCY})</Th>
+                    </Tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800">
+                  <tbody className="divide-y divide-nw-border">
                     {items.map((item, index) => (
-                      <tr key={index} className="hover:bg-slate-800/40 transition">
-                        <td className="p-3 font-semibold text-slate-100">
+                      <Tr key={index} className="hover:bg-nw-surface-2 transition">
+                        <Td className="p-3 font-semibold text-nw-text">
                           <div>{item.productName}</div>
-                          <div className="text-[10px] text-slate-400 font-mono">
+                          <div className="text-[10px] text-nw-muted font-mono">
                             SKU: {item.sku} ({item.unit})
                           </div>
-                        </td>
-                        <td className="p-3 text-center font-bold text-slate-300">{item.orderedQuantity}</td>
-                        <td className="p-3 text-center text-slate-400">{item.previouslyReceivedQuantity}</td>
-                        <td className="p-3 text-center font-black text-amber-400">{item.remainingQuantity}</td>
-                        <td className="p-3">
-                          <input
+                        </Td>
+                        <Td className="p-3 text-center font-bold text-nw-text">{item.orderedQuantity}</Td>
+                        <Td className="p-3 text-center text-nw-muted">{item.previouslyReceivedQuantity}</Td>
+                        <Td className="p-3 text-center font-black text-nw-warn">{item.remainingQuantity}</Td>
+                        <Td className="p-3">
+                          <input aria-label="الكمية المستلمة الآن"
                             type="number"
                             min="0"
                             max={item.remainingQuantity}
                             value={item.thisReceiptQuantity}
                             onChange={(e) => handleQuantityChange(index, parseInt(e.target.value) || 0)}
-                            className="w-full bg-slate-800 border border-purple-500/50 rounded-xl px-2 py-1.5 text-center font-black text-purple-300 focus:outline-none focus:border-purple-400 text-sm"
+                            className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-2 py-1.5 text-center font-black text-nw-info focus:outline-none focus:border-nw-border text-sm"
                           />
-                        </td>
-                        <td className="p-3">
-                          <input
+                        </Td>
+                        <Td className="p-3">
+                          <input aria-label="تكلفة الوحدة"
                             type="number"
                             step="0.001"
                             min="0"
                             value={item.unitCost}
                             onChange={(e) => handleUnitCostChange(index, parseFloat(e.target.value) || 0)}
-                            className="w-full bg-slate-800 border border-slate-700 rounded-xl px-2 py-1.5 text-center font-bold text-slate-100 focus:outline-none focus:border-purple-500"
+                            className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-2 py-1.5 text-center font-bold text-nw-text focus:outline-none focus:border-nw-border"
                           />
-                        </td>
-                      </tr>
+                        </Td>
+                      </Tr>
                     ))}
                   </tbody>
-                </table>
+                </DataTable>
               </div>
             </div>
           </div>
 
           {/* Receipt Notes */}
           <div>
-            <label className="font-bold text-slate-300 block mb-1">ملاحظات سند الاستلام:</label>
-            <input
+            <label className="font-bold text-nw-text block mb-1">ملاحظات سند الاستلام:</label>
+            <input aria-label="حالة الشحنة، ملاحظات الجودة والتلف إن وجد..."
               type="text"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="حالة الشحنة، ملاحظات الجودة والتلف إن وجد..."
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-slate-100 focus:outline-none focus:border-purple-500"
+              className="w-full bg-nw-surface-2 border border-nw-border rounded-xl p-2.5 text-nw-text focus:outline-none focus:border-nw-border"
             />
           </div>
 
           {/* Submit Action */}
-          <div className="pt-3 border-t border-slate-800 flex items-center justify-end gap-3 shrink-0">
-            <button
+          <div className="pt-3 border-t border-nw-border flex items-center justify-end gap-3 shrink-0">
+            <UiButton variant="plain"
               type="button"
               disabled={isSubmitting}
               onClick={onClose}
-              className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 font-bold transition"
+              className="px-4 py-2 rounded-xl bg-nw-surface-2 text-nw-text hover:bg-nw-surface-2 font-bold transition h-auto min-h-11 min-w-0 whitespace-normal"
             >
               إلغاء
-            </button>
-            <button
+            </UiButton>
+            <UiButton variant="plain"
               type="submit"
               disabled={isSubmitting || totalReceivingNow <= 0}
-              className="px-6 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold transition shadow-lg disabled:opacity-50 flex items-center gap-2"
+              className="px-6 py-2 rounded-xl bg-nw-accent text-nw-on-accent font-bold transition shadow-lg disabled:opacity-50 flex items-center gap-2 h-auto min-h-11 min-w-0 whitespace-normal"
             >
               {isSubmitting ? (
                 <span>جاري تحديث المخزون...</span>
@@ -332,10 +333,10 @@ export const ReceiveGoodsModal = ({
                   <span>تأكيد الاستلام وزيادة المخزون</span>
                 </>
               )}
-            </button>
+            </UiButton>
           </div>
         </form>
-      </div>
-    </div>
+      </Card>
+    </FormFields>
   );
 };

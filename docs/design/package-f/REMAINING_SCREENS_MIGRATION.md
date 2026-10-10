@@ -357,3 +357,149 @@ restoration/form initialization) writes state after typing begins;this may
 affect a real customer typing quickly. Temporary input/focus-event and React
 commit instrumentation is owner-authorized ONLY after batch7 and before final
 delivery regression. No storefront fix or instrumentation in A/B or batch3.
+
+### Batch3 —2026-10-10 partial presentation;STOP for existing action wiring
+
+A/B delivered in order:0b5564ee61ec1c7144b4433a8aa755be170b6611,
+then a7d2a704aebeae976cc3405b6f2c52f0b21a03ce. Gitleaks staged exit0
+before each commit;push/main matches. Exact quality38069513080 all19/19,
+secrets38069513089 PASS;official verify-handoff --delivery PASS. No rerun.
+
+Twelve purchasing/direct-receiving screens now use tokens,Card,UiButton,
+DataTable and FormFields. DataTable scrolls internally and is keyboard-focusable;
+FormFields forwards the existing dialog ref. All calls/payloads,event bindings,
+constraints/effective button types and non-render functions are pinned against
+a7d2a70 in package-f-remaining-batch3.test.ts:AST2/2 PASS. Pure colour literals
+alone are normalized;money strings and guards are NOT excluded. Typecheck0.
+
+| File | calls | events |
+| --- | ---: | ---: |
+| CreatePurchaseOrderModal |11|24|
+| CreateSupplierModal |4|12|
+| PurchaseOrderCard |0|4|
+| PurchaseOrderDetailView |10|25|
+| PurchasesView |7|55|
+| ReceiveGoodsModal |2|8|
+| SupplierPaymentModal |7|11|
+| CancelSupplierReceiptDialog |8|4|
+| CreateDirectReceiptModal |16|34|
+| DirectReceivingView |10|38|
+| RecordSupplierPaymentModal |2|8|
+| SupplierReceiptDetailView |2|9|
+
+Loopback-only harness covers open/partial/received POs,partial payment,direct
+receipt and cancellation preview including Cash from a closed shift. Display
+reads are fixtures;mutation RPCs retain original isolated transport (no fake
+committed success). Initial Chromium4/8 revealed390 receipt action overflow,
+unnamed close buttons and table keyboard access. Presentation-only fixes
+then7/8 PASS;one dark audit timed out awaiting a finite dialog animation.
+That audit remains OPEN;no retries/timeouts/assertions weakened. WebKit and
+full quality are not yet run for batch3. No batch3 commit/push.
+
+#### Confirmed pre-existing product defect requiring authorization
+
+Baseline a7d2a70 and current PurchasesView both omit isOpen when mounting
+ReceiveGoodsModal and SupplierPaymentModal. Their unchanged guards return
+null when isOpen is missing. The caller also passes preselectedSupplier,but
+SupplierPaymentModal accepts supplierId instead. PurchaseOrderDetailView
+passes supported isOpen values correctly;the V2 RPC itself is not the defect.
+
+Permanent real-controller Chromium probes,retries0:quick receive and new
+voucher both FAIL `dialog ... element(s) not found` after button clicks,
+at purchasing.spec.ts:51/56. No monetary mutation in these probes. Source
+before/after confirms the same missing/unsupported props;not a token regression.
+
+Proposed owner decision:authorize existing dialog prop wiring only (isOpen
+for both;selected supplier id via supported supplierId). No SQL,service
+payload,equation,guard or confirmation change. This activates existing reads
+and actions previously unreachable here,so it is not silently included in
+the presentation-only AST contract. After approval,prove only intended prop
+changes,resolve animation audit,run both browsers/full quality/Gitleaks0,
+commit/push/exact CI and STOP for visual review. Checkout instrumentation
+stays deferred after batch7. Package E B/C follow-ups are not implemented.
+
+#### Owner-approved purchase-list wiring/type correction —2026-10-10
+
+Separate wiring commit changes only ReceiveGoodsModal.isOpen,
+SupplierPaymentModal.isOpen and supported supplierId (selected supplier id).
+Both dialog exports now type their destructured parameter explicitly instead
+of relying on React.FC. No handler,validation,request builder,idempotency key,
+service call,financial equation or permission change.
+
+TypeScript cause verified:all three files are in the root tsconfig;Admin has
+no node_modules/@types/react or root React dev-type dependencies (Customer
+has its own). noImplicitAny is unset/false. The unresolved React.FC annotation
+therefore did not enforce these props;baseline tsc reported zero diagnostics.
+A source-grounded in-memory compiler probe with explicit parameter types and
+the OLD callers reports TS2741 missing isOpen and TS2322 unsupported
+preselectedSupplier. Compile-only tests/types/purchase-dialog-props.tsx locks
+non-any parameter contracts and negative required/unsupported props. Expected
+errors exist only in test fixtures;no application errors are suppressed.
+This hardens the TWO approved components;it does not claim Admin-wide React
+declaration completeness or alter global TS rules/dependencies.
+
+History:817c98f (2026-07-24) passed isOpen correctly;0279479
+(2026-07-25T03:57:25+03:00,feat(purchases):enhance purchase order management)
+removed both isOpen props and introduced unsupported preselectedSupplier.
+git show/blame confirms the defect predates Package F and remains on8195f87.
+It is LIKELY present in an older deployed release containing this file version,
+not verified Production truth:no live access,bundle or deployment inspection.
+The owner can use this evidence to notify the shop owner without claiming a
+live reproduction. PurchaseOrderDetailView's existing supported wiring remains
+unchanged. Runtime payload comparison uses identical committed read fixtures,
+rejects intercepted submissions without fake success,and checks ALL business
+fields;only independently generated attempt keys may differ (valid,distinct).
+
+#### Batch3 final local presentation evidence
+
+Wiring/type-contract commit:0b9cf9103c08f14c4b2aeea901b1586520632978,
+four files only (three scoped component sources + compile-negative fixture).
+Staged AST/erased-runtime proof:after removing ONLY approved wiring props,
+all three runtime ASTs are identical to a7d2a70. Gitleaks staged exit0.
+Additional negative fixtures cover EVERY required prop in both dialogs.
+No root TS/compiler/dependency rules were disabled or changed.
+
+Final purchasing focused run28/28 PASS,Chromium+WebKit,width390/820/1440,
+light/dark,retries0:four-screen geometry (lists/direct/receipt/PO details),
+all seven dialogs,axe serious/critical zero,Latin digits,44px fields,
+phone submit visibility,Cancel preview Cash/closed-shift warning,actual list
+open/close/supplier selection,full business-payload equality with Details.
+Print assertions prove paper stays light/readable regardless of screen theme.
+New four print tokens leave existing palette values unchanged and obey the
+existing same-theme-set/Tailwind-export foundation contract. No foundation
+assertion changed. Native DataTable + FormFields forwarding has a permanent
+server-render contract test;all financial/event/native contracts remain pinned.
+
+Earlier27/28 run failed axe with `Execution context was destroyed` while
+editing a compile fixture during a running dev server;trace shows Vite
+connecting again on the same page. Exact initiating cause is not proved.
+After freezing ALL files for the complete rerun,28/28 PASS. No retries,
+random wait,timeout increase or axe exclusion. Modal audits wait for its real
+data-state=open before existing finite-animation completion (no product change).
+
+Old presentation contract updated:tests/phase6-package-a.test.ts no longer
+requires local toFixed(3) spelling in four migrated purchasing displays;
+it requires shared formatJod import+use and proves negative,zero,and grouped
+three-decimal values. Existing no-cent-rounding and all reader/financial
+assertions retained;non-migrated displays still require their old formatter.
+Full quality is run ONCE after these focused gates;delivery remains pending.
+Harness:/e2e/package-f-purchasing-harness.html?theme=light|dark,views:
+purchases,direct,po-detail,receipt,create-po,supplier,receive,payment,
+create-direct,receipt-payment,cancel. Fixture reads only;no fabricated writes.
+
+#### Batch3 quality completion —2026-10-10
+
+The single npm run quality invocation passed typecheck/ESLint,831/831 Admin
+units,189/189 Customer units,both builds/SEO and isolation(external escaped0,
+Production escaped0),then its terminal session disappeared during browser
+execution. There was no final exit code or completed full-browser report.
+The saved HTML report was the earlier focused28/28 report,NOT full quality.
+No assertion was changed and no aggregate exit0 is claimed for that process.
+
+Resumed ONLY the final command(npm run test:e2e),not the preceding gates,on
+the exact unchanged checkpoint fingerprint.646 cases:587 PASS,59 existing
+conditional skips,retries0,29.3m,exit0;last-run status passed/failedTests[].
+The final global network audit also completed;QA ports4173–4176 no longer
+listen. agent:resume safeToResume=true proves the worktree stayed unchanged.
+The independent intermittent checkout issue remains OPEN despite passing
+this run.001–137 unchanged,no138,no Production/deploy. Commit/exact CI next.

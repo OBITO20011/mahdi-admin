@@ -2,7 +2,7 @@
 export { Card, SectionHeader, PageHeader, DetailPanel, DetailLayout, MainColumn, StickyActionBar } from './Surface';
 export { MoneyText, StatusBadge, KpiCard, KpiGrid, StockBar, AgingBar, type AgingSegment } from './DataDisplay';
 export { FilterChips, SegmentedControl, SearchField, UiButton, type ChipOption } from './Controls';
-export { TableShell, Th, Tr, Td } from './TableShell';
+export { TableShell, DataTable, Th, Tr, Td } from './TableShell';
 export * from './uiFormat';
 export { SalesBarChart, type SalesBarPoint } from './SalesBarChart';
 export { UserAvatar } from './UserAvatar';

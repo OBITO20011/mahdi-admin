@@ -1,3 +1,4 @@
+import {FormFields, Card, UiButton, formatJod} from '../../components/ui';
 /**
  * Nawasrah Business Manager - Supplier Payment Voucher (سند صرف) Modal
  */
@@ -164,50 +165,50 @@ export const SupplierPaymentModal = ({
   };
 
   return (
-    <div ref={panel as React.RefObject<HTMLDivElement>} tabIndex={-1} role="dialog" aria-modal="true" aria-label="دفعة المورد" aria-busy={isSubmitting} className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden my-auto flex flex-col">
+    <FormFields ref={panel as React.RefObject<HTMLDivElement>} tabIndex={-1} role="dialog" aria-modal="true" aria-label="دفعة المورد" aria-busy={isSubmitting} className="nw-purchasing-fields fixed inset-0 z-50 flex items-center justify-center bg-nw-overlay backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
+      <Card padded={false} className="bg-nw-surface border border-nw-border rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden my-auto flex flex-col">
         {/* Header */}
-        <div className="bg-slate-800/80 px-5 py-4 border-b border-slate-700/80 flex items-center justify-between shrink-0">
+        <div className="bg-nw-surface-2 px-5 py-4 border-b border-nw-border flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-rose-600/20 border border-rose-500/30 flex items-center justify-center text-rose-400 font-bold">
+            <div className="w-10 h-10 rounded-2xl bg-nw-bad-bg border border-nw-border flex items-center justify-center text-nw-bad font-bold">
               <ArrowUpRight className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-100">تسجيل دفعة مورد (سند صرف)</h2>
-              <p className="text-xs text-slate-400">توثيق تسديد مستحقات مالية للموردين وإصدار سند صرف رسمي</p>
+              <h2 className="text-base font-bold text-nw-text">تسجيل دفعة مورد (سند صرف)</h2>
+              <p className="text-xs text-nw-muted">توثيق تسديد مستحقات مالية للموردين وإصدار سند صرف رسمي</p>
             </div>
           </div>
-          <button
+          <UiButton variant="plain"
             type="button"
             disabled={isSubmitting}
             aria-label="إغلاق دفعة المورد"
             onClick={onClose}
-            className="w-9 h-9 rounded-xl bg-slate-700/60 text-slate-300 hover:text-white flex items-center justify-center transition"
+            className="w-11 h-11 rounded-xl bg-nw-surface-2 text-nw-text hover:text-nw-text flex items-center justify-center transition h-auto min-h-11 min-w-0 whitespace-normal"
           >
             <X className="w-5 h-5" />
-          </button>
+          </UiButton>
         </div>
 
         {/* Body Form */}
         <form onSubmit={handleSubmit} className="p-5 space-y-4 text-xs">
           {errorMsg && (
-            <div className="bg-rose-950/50 border border-rose-500/30 p-3 rounded-2xl text-rose-300 flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
+            <div className="bg-nw-bad-bg border border-nw-border p-3 rounded-2xl text-nw-bad flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 shrink-0 text-nw-bad" />
               <span>{errorMsg}</span>
             </div>
           )}
 
           {/* Supplier Selector */}
           <div className="space-y-1">
-            <label className="font-bold text-slate-300 flex items-center gap-1">
-              <Building className="w-3.5 h-3.5 text-teal-400" />
-              المورد المستفيد: <span className="text-rose-400">*</span>
+            <label className="font-bold text-nw-text flex items-center gap-1">
+              <Building className="w-3.5 h-3.5 text-nw-ok" />
+              المورد المستفيد: <span className="text-nw-bad">*</span>
             </label>
-            <select
+            <select aria-label="المورد"
               value={selectedSupplierId}
               onChange={(e) => handleSupplierChange(e.target.value)}
               required
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 font-bold focus:outline-none focus:border-rose-500"
+              className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text font-bold focus:outline-none focus:border-nw-border"
             >
               <option value="">-- اختر المورد --</option>
               {suppliers.map((s) => (
@@ -220,26 +221,26 @@ export const SupplierPaymentModal = ({
 
           {/* Purchase Order Selector */}
           <div className="space-y-1">
-            <label className="font-bold text-slate-300 flex items-center justify-between">
+            <label className="font-bold text-nw-text flex items-center justify-between">
               <span className="flex items-center gap-1">
-                <FileText className="w-3.5 h-3.5 text-blue-400" />
+                <FileText className="w-3.5 h-3.5 text-nw-info" />
                 تخصيص لطلب شراء معين (اختياري):
               </span>
               {selectedPo && (
-                <span className="text-amber-400 text-[11px] font-mono">
-                  المتبقي المخطط: {selectedPo.amountDue.toFixed(3)} {CURRENCY}
+                <span className="text-nw-warn text-[11px] font-mono">
+                  المتبقي المخطط: {formatJod(selectedPo.amountDue)} {CURRENCY}
                 </span>
               )}
             </label>
-            <select
+            <select aria-label="أمر الشراء"
               value={selectedPoId}
               onChange={(e) => handlePoChange(e.target.value)}
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-rose-500"
+              className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text focus:outline-none focus:border-nw-border"
             >
               <option value="">-- دفعة عامة على الحساب --</option>
               {pos.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.purchaseOrderNumber} | إجمالي مخطط: {p.totalAmount.toFixed(3)} | متبقي مخطط: {p.amountDue.toFixed(3)}{' '}
+                  {p.purchaseOrderNumber} | إجمالي مخطط: {formatJod(p.totalAmount)} | متبقي مخطط: {formatJod(p.amountDue)}{' '}
                   {CURRENCY}
                 </option>
               ))}
@@ -248,20 +249,20 @@ export const SupplierPaymentModal = ({
 
           {/* Amount Input */}
           <div className="space-y-1">
-            <label className="font-bold text-slate-300 flex items-center justify-between">
-              <span>مبلغ الدفعة ({CURRENCY}): <span className="text-rose-400">*</span></span>
-              <button
+            <label className="font-bold text-nw-text flex items-center justify-between">
+              <span>مبلغ الدفعة ({CURRENCY}): <span className="text-nw-bad">*</span></span>
+              <UiButton variant="plain"
                 type="button"
                 onClick={() => {
                   if (selectedPo) setAmount(selectedPo.amountDue);
                 }}
-                className="text-[10px] text-blue-400 hover:underline"
+                className="text-[10px] text-nw-info hover:underline h-auto min-h-11 min-w-0 whitespace-normal"
               >
                 اقتراح المتبقي المخطط
-              </button>
+              </UiButton>
             </label>
             <div className="relative">
-              <input
+              <input aria-label="0.000"
                 type="number"
                 step="0.001"
                 min="0.001"
@@ -269,20 +270,20 @@ export const SupplierPaymentModal = ({
                 onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
                 required
                 placeholder="0.000"
-                className="w-full bg-slate-800 border border-rose-500/50 rounded-xl px-3 py-2.5 text-slate-100 font-black text-lg focus:outline-none focus:border-rose-400 text-center"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2.5 text-nw-text font-black text-lg focus:outline-none focus:border-nw-border text-center"
               />
-              <span className="absolute left-3 top-3 font-bold text-slate-400">{CURRENCY}</span>
+              <span className="absolute left-3 top-3 font-bold text-nw-muted">{CURRENCY}</span>
             </div>
           </div>
 
           {/* Payment Method & Date */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="font-bold text-slate-300">طريقة الدفع:</label>
-              <select
+              <label className="font-bold text-nw-text">طريقة الدفع:</label>
+              <select aria-label="طريقة الدفع"
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 font-bold focus:outline-none focus:border-rose-500"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text font-bold focus:outline-none focus:border-nw-border"
               >
                 <option value="cash">نقداً (Cash)</option>
                 <option value="bank_transfer">تحويل بنكي</option>
@@ -292,54 +293,54 @@ export const SupplierPaymentModal = ({
             </div>
 
             <div className="space-y-1">
-              <label className="font-bold text-slate-300">تاريخ الدفع:</label>
-              <input
+              <label className="font-bold text-nw-text">تاريخ الدفع:</label>
+              <input aria-label="تاريخ الدفع:"
                 type="date"
                 value={paymentDate}
                 onChange={(e) => setPaymentDate(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-rose-500"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text focus:outline-none focus:border-nw-border"
               />
             </div>
           </div>
 
           {/* Reference Number */}
           <div className="space-y-1">
-            <label className="font-bold text-slate-300">رقم المرجع / رقم الشيك / رقم الحوالة:</label>
-            <input
+            <label className="font-bold text-nw-text">رقم المرجع / رقم الشيك / رقم الحوالة:</label>
+            <input aria-label="مثال: CHK-90214 أو TRF-88102"
               type="text"
               value={referenceNumber}
               onChange={(e) => setReferenceNumber(e.target.value)}
               placeholder="مثال: CHK-90214 أو TRF-88102"
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-rose-500"
+              className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text focus:outline-none focus:border-nw-border"
             />
           </div>
 
           {/* Notes */}
           <div className="space-y-1">
-            <label className="font-bold text-slate-300">ملاحظات وقيد سند الصرف:</label>
-            <input
+            <label className="font-bold text-nw-text">ملاحظات وقيد سند الصرف:</label>
+            <input aria-label="بيان سند الصرف..."
               type="text"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="بيان سند الصرف..."
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-rose-500"
+              className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text focus:outline-none focus:border-nw-border"
             />
           </div>
 
           {/* Footer Actions */}
-          <div className="pt-3 border-t border-slate-800 flex items-center justify-end gap-3 shrink-0">
-            <button
+          <div className="pt-3 border-t border-nw-border flex items-center justify-end gap-3 shrink-0">
+            <UiButton variant="plain"
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 font-bold transition"
+              className="px-4 py-2 rounded-xl bg-nw-surface-2 text-nw-text hover:bg-nw-surface-2 font-bold transition h-auto min-h-11 min-w-0 whitespace-normal"
             >
               إلغاء
-            </button>
-            <button
+            </UiButton>
+            <UiButton variant="plain"
               type="submit"
               disabled={isSubmitting || !amount || amount <= 0}
-              className="px-6 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold transition shadow-lg disabled:opacity-50 flex items-center gap-2"
+              className="px-6 py-2 rounded-xl bg-nw-accent text-nw-on-accent font-bold transition shadow-lg disabled:opacity-50 flex items-center gap-2 h-auto min-h-11 min-w-0 whitespace-normal"
             >
               {isSubmitting ? (
                 <span>جاري حفظ السند...</span>
@@ -349,10 +350,10 @@ export const SupplierPaymentModal = ({
                   <span>تأكيد وطباعة سند الصرف</span>
                 </>
               )}
-            </button>
+            </UiButton>
           </div>
         </form>
-      </div>
-    </div>
+      </Card>
+    </FormFields>
   );
 };

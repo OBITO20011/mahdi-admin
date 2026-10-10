@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
+import {formatJod} from '../src/components/ui/uiFormat';
 
 const read = (p: string) => readFileSync(p, 'utf8');
 const migration = read('supabase/migrations/131_phase6_operational_report_readers.sql');
@@ -52,12 +53,18 @@ test('Report facts distinguish entitlement, debt, tender flow and immutable cost
 });
 
 test('Package A precision changes preserve signs and do not round Jordanian money to cents', () => {
-  for (const p of ['src/features/purchases/PurchasesView.tsx', 'src/features/purchases/PurchaseOrderCard.tsx',
-    'src/features/purchases/PurchaseOrderDetailView.tsx', 'src/features/purchases/SupplierPaymentModal.tsx',
-    'src/features/dashboard/WidgetsSection.tsx', 'src/features/pos/BarcodeScannerModal.tsx']) {
+  const migrated=['src/features/purchases/PurchasesView.tsx','src/features/purchases/PurchaseOrderCard.tsx',
+    'src/features/purchases/PurchaseOrderDetailView.tsx','src/features/purchases/SupplierPaymentModal.tsx'];
+  for (const p of [...migrated,'src/features/dashboard/WidgetsSection.tsx','src/features/pos/BarcodeScannerModal.tsx']) {
     assert.doesNotMatch(read(p), /toFixed\(2\)/u);
-    assert.match(read(p), /toFixed\(3\)/u);
+    if(migrated.includes(p)) {
+      assert.match(read(p), /import \{[^}]*formatJod[^}]*\} from '..\/..\/components\/ui'/u);
+      assert.match(read(p), /formatJod\(/u);
+    } else assert.match(read(p), /toFixed\(3\)/u);
   }
+  assert.equal(formatJod(-12.345),'-12.345');
+  assert.equal(formatJod(1050.001),'1,050.001');
+  assert.equal(formatJod(0),'0.000');
   assert.match(read('src/features/dashboard/KpiCards.tsx'), /minimumFractionDigits: 3/u);
   assert.match(read('src/services/supabase/reports.service.ts'), /Number\.isSafeInteger/u);
   assert.match(read('src/features/reports/ReportsCenterView.tsx'), /<details[\s\S]*تفاصيل/u);

@@ -1,3 +1,4 @@
+import {FormFields, Card, UiButton, formatJod, formatUiDate} from '../../components/ui';
 /**
  * Nawasrah Business Manager - Direct Goods Receiving Main View
  * Module Name: "استلام البضائع من الموردين"
@@ -256,7 +257,7 @@ export const DirectReceivingView: React.FC = () => {
   // Handle Detail View
   if (selectedReceipt) {
     return (
-      <div className="p-2 sm:p-4 pb-24 max-w-7xl mx-auto">
+      <FormFields className="nw-purchasing-fields p-2 sm:p-4 pb-24 max-w-7xl mx-auto">
         <SupplierReceiptDetailView
           receipt={selectedReceipt}
           onBack={() => setSelectedReceipt(null)}
@@ -285,193 +286,193 @@ export const DirectReceivingView: React.FC = () => {
             />
           </Modal>
         )}
-      </div>
+      </FormFields>
     );
   }
 
   return (
-    <div dir="rtl" className="p-2 sm:p-4 space-y-4 pb-24 max-w-7xl mx-auto">
+    <FormFields dir="rtl" className="nw-purchasing-fields p-2 sm:p-4 space-y-4 pb-24 max-w-7xl mx-auto">
       {/* Module Title Header */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border border-slate-800 p-4 rounded-2xl shadow-lg flex flex-wrap items-center justify-between gap-3">
+      <Card padded={false} className="bg-nw-surface    border border-nw-border p-4 rounded-2xl shadow-lg flex flex-wrap items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-nw-info-bg text-nw-info border border-nw-border flex items-center justify-center">
               <PackageCheck className="w-5 h-5" />
             </div>
-            <h1 className="text-base font-black text-slate-100">استلام البضائع من الموردين</h1>
+            <h1 className="text-base font-black text-nw-text">استلام البضائع من الموردين</h1>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">
+          <p className="text-[11px] text-nw-muted mt-1">
             تسجيل البضاعة الواردة، تحديث المخزون، وحساب مستحقات الموردين مباشرة
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <button
+          <UiButton variant="plain" type="button"
             onClick={() => setShowCreateModal(true)}
-            className="bg-gradient-to-r from-emerald-600 via-emerald-600 to-teal-600 text-white font-extrabold px-4 py-2 rounded-xl text-xs hover:from-emerald-500 hover:to-teal-500 transition shadow-lg shadow-emerald-900/30 flex items-center gap-1.5"
+            className="bg-nw-surface    text-nw-text font-extrabold px-4 py-2 rounded-xl text-xs   transition shadow-lg shadow-nw-border flex items-center gap-1.5 h-auto min-h-11 min-w-0 whitespace-normal"
           >
             <Plus className="w-4 h-4" />
             <span>استلام بضاعة جديد</span>
-          </button>
+          </UiButton>
 
-          <button
+          <UiButton variant="plain" type="button"
             onClick={() => setShowSupplierModal(true)}
-            className="bg-slate-800 text-slate-300 border border-slate-700 px-3 py-2 rounded-xl font-bold text-xs hover:bg-slate-700 transition flex items-center gap-1"
+            className="bg-nw-surface-2 text-nw-text border border-nw-border px-3 py-2 rounded-xl font-bold text-xs hover:bg-nw-surface-2 transition flex items-center gap-1 h-auto min-h-11 min-w-0 whitespace-normal"
           >
-            <Building2 className="w-3.5 h-3.5 text-blue-400" />
+            <Building2 className="w-3.5 h-3.5 text-nw-info" />
             <span>إضافة مورد</span>
-          </button>
+          </UiButton>
 
-          <button
+          <UiButton variant="plain" type="button"
             onClick={() => loadData()}
-            className="bg-slate-800 text-slate-400 p-2 rounded-xl hover:text-slate-200 transition"
+            className="bg-nw-surface-2 text-nw-muted p-2 rounded-xl hover:text-nw-text transition h-auto min-h-11 min-w-0 whitespace-normal"
             title="تحديث البيانات"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          </button>
+          </UiButton>
         </div>
-      </div>
+      </Card>
 
       {/* KPI Summary Cards Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
-        <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl shadow space-y-1">
-          <span className="text-[10px] text-slate-400 font-bold block">استلامات اليوم</span>
-          <span className="font-extrabold text-white text-base block">{kpiMetrics.todayCount} شحنات</span>
-        </div>
+        <Card padded={false} className="bg-nw-surface border border-nw-border p-3 rounded-2xl shadow space-y-1">
+          <span className="text-[10px] text-nw-muted font-bold block">استلامات اليوم</span>
+          <span className="font-extrabold text-nw-text text-base block">{kpiMetrics.todayCount} شحنات</span>
+        </Card>
 
-        <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl shadow space-y-1">
-          <span className="text-[10px] text-slate-400 font-bold block">قيمة بضاعة اليوم</span>
-          <span className="font-extrabold text-emerald-400 text-sm block">
-            {kpiMetrics.todayValueJod} {CURRENCY}
+        <Card padded={false} className="bg-nw-surface border border-nw-border p-3 rounded-2xl shadow space-y-1">
+          <span className="text-[10px] text-nw-muted font-bold block">قيمة بضاعة اليوم</span>
+          <span className="font-extrabold text-nw-ok text-sm block">
+            {formatJod(Number(kpiMetrics.todayValueJod))} {CURRENCY}
           </span>
-        </div>
+        </Card>
 
-        <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl shadow space-y-1">
-          <span className="text-[10px] text-slate-400 font-bold block">المدفوع اليوم</span>
-          <span className="font-extrabold text-teal-300 text-sm block">
-            {kpiMetrics.todayPaidJod} {CURRENCY}
+        <Card padded={false} className="bg-nw-surface border border-nw-border p-3 rounded-2xl shadow space-y-1">
+          <span className="text-[10px] text-nw-muted font-bold block">المدفوع اليوم</span>
+          <span className="font-extrabold text-nw-ok text-sm block">
+            {formatJod(Number(kpiMetrics.todayPaidJod))} {CURRENCY}
           </span>
-        </div>
+        </Card>
 
-        <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl shadow space-y-1">
-          <span className="text-[10px] text-slate-400 font-bold block">المتبقي للموردين (ذمم)</span>
-          <span className="font-extrabold text-rose-400 text-sm block">
-            {kpiMetrics.outstandingDueJod} {CURRENCY}
+        <Card padded={false} className="bg-nw-surface border border-nw-border p-3 rounded-2xl shadow space-y-1">
+          <span className="text-[10px] text-nw-muted font-bold block">المتبقي للموردين (ذمم)</span>
+          <span className="font-extrabold text-nw-bad text-sm block">
+            {formatJod(Number(kpiMetrics.outstandingDueJod))} {CURRENCY}
           </span>
-        </div>
+        </Card>
 
-        <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl shadow space-y-1">
-          <span className="text-[10px] text-slate-400 font-bold block">عدد الموردين</span>
-          <span className="font-extrabold text-blue-400 text-base block">{kpiMetrics.suppliersCount} مورد</span>
-        </div>
+        <Card padded={false} className="bg-nw-surface border border-nw-border p-3 rounded-2xl shadow space-y-1">
+          <span className="text-[10px] text-nw-muted font-bold block">عدد الموردين</span>
+          <span className="font-extrabold text-nw-info text-base block">{kpiMetrics.suppliersCount} مورد</span>
+        </Card>
 
-        <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl shadow space-y-1">
-          <span className="text-[10px] text-slate-400 font-bold block">الأصناف المستلمة</span>
-          <span className="font-extrabold text-purple-400 text-base block">{kpiMetrics.receivedItemsCount} صنف</span>
-        </div>
+        <Card padded={false} className="bg-nw-surface border border-nw-border p-3 rounded-2xl shadow space-y-1">
+          <span className="text-[10px] text-nw-muted font-bold block">الأصناف المستلمة</span>
+          <span className="font-extrabold text-nw-info text-base block">{kpiMetrics.receivedItemsCount} صنف</span>
+        </Card>
       </div>
 
       {/* Main Filter Tabs */}
-      <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-900 border border-slate-800 p-1.5 rounded-2xl text-xs font-bold">
+      <Card padded={false} className="flex flex-wrap items-center justify-between gap-2 bg-nw-surface border border-nw-border p-1.5 rounded-2xl text-xs font-bold">
         <div className="flex items-center gap-1 overflow-x-auto">
-          <button
+          <UiButton variant="plain" type="button"
             onClick={() => { setActiveTab('all'); setReceiptPage(1); }}
             className={`px-3 py-1.5 rounded-xl transition ${
-              activeTab === 'all' ? 'bg-blue-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+              activeTab === 'all' ? 'bg-nw-info-bg text-nw-text shadow' : 'text-nw-muted hover:text-nw-text'
             }`}
           >
             جميع الاستلامات
-          </button>
-          <button
+          </UiButton>
+          <UiButton variant="plain" type="button"
             onClick={() => { setActiveTab('unpaid'); setReceiptPage(1); }}
             className={`px-3 py-1.5 rounded-xl transition ${
-              activeTab === 'unpaid' ? 'bg-rose-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+              activeTab === 'unpaid' ? 'bg-nw-bad-bg text-nw-text shadow' : 'text-nw-muted hover:text-nw-text'
             }`}
           >
             غير مدفوع (ذمم)
-          </button>
-          <button
+          </UiButton>
+          <UiButton variant="plain" type="button"
             onClick={() => { setActiveTab('partially_paid'); setReceiptPage(1); }}
             className={`px-3 py-1.5 rounded-xl transition ${
-              activeTab === 'partially_paid' ? 'bg-amber-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+              activeTab === 'partially_paid' ? 'bg-nw-warn-bg text-nw-text shadow' : 'text-nw-muted hover:text-nw-text'
             }`}
           >
             مدفوع جزئيًا
-          </button>
-          <button
+          </UiButton>
+          <UiButton variant="plain" type="button"
             onClick={() => { setActiveTab('paid'); setReceiptPage(1); }}
             className={`px-3 py-1.5 rounded-xl transition ${
-              activeTab === 'paid' ? 'bg-emerald-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+              activeTab === 'paid' ? 'bg-nw-ok-bg text-nw-text shadow' : 'text-nw-muted hover:text-nw-text'
             }`}
           >
             مدفوع بالكامل
-          </button>
-          <button
+          </UiButton>
+          <UiButton variant="plain" type="button"
             onClick={() => { setActiveTab('archived'); setReceiptPage(1); }}
             className={`px-3 py-1.5 rounded-xl transition ${
-              activeTab === 'archived' ? 'bg-slate-800 text-amber-300 shadow' : 'text-slate-400 hover:text-slate-200'
+              activeTab === 'archived' ? 'bg-nw-surface-2 text-nw-warn shadow' : 'text-nw-muted hover:text-nw-text'
             }`}
           >
             المؤرشفة
-          </button>
+          </UiButton>
         </div>
 
         <div className="flex items-center gap-1">
-          <button
+          <UiButton variant="plain" type="button"
             onClick={() => setActiveTab('inventory')}
             className={`px-3 py-1.5 rounded-xl border transition flex items-center gap-1 ${
               activeTab === 'inventory'
-                ? 'bg-slate-800 text-cyan-300 border-cyan-500/50'
-                : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
+                ? 'bg-nw-surface-2 text-nw-info border-nw-border'
+                : 'bg-nw-bg text-nw-muted border-nw-border hover:text-nw-text'
             }`}
           >
             <Boxes className="w-3.5 h-3.5" />
             <span>المخزون ({products.length})</span>
-          </button>
-          <button
+          </UiButton>
+          <UiButton variant="plain" type="button"
             onClick={() => setActiveTab('suppliers')}
             className={`px-3 py-1.5 rounded-xl border transition ${
               activeTab === 'suppliers'
-                ? 'bg-slate-800 text-blue-400 border-blue-500/50'
-                : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
+                ? 'bg-nw-surface-2 text-nw-info border-nw-border'
+                : 'bg-nw-bg text-nw-muted border-nw-border hover:text-nw-text'
             }`}
           >
             دليل الموردين ({suppliers.length})
-          </button>
-          <button
+          </UiButton>
+          <UiButton variant="plain" type="button"
             onClick={() => setActiveTab('old_history')}
             className={`px-3 py-1.5 rounded-xl border transition flex items-center gap-1 ${
               activeTab === 'old_history'
-                ? 'bg-slate-800 text-purple-400 border-purple-500/50'
-                : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
+                ? 'bg-nw-surface-2 text-nw-info border-nw-border'
+                : 'bg-nw-bg text-nw-muted border-nw-border hover:text-nw-text'
             }`}
           >
-            <History className="w-3.5 h-3.5 text-purple-400" />
+            <History className="w-3.5 h-3.5 text-nw-info" />
             <span>سجل المشتريات القديم</span>
-          </button>
+          </UiButton>
         </div>
-      </div>
+      </Card>
 
       {/* Search & Secondary Filters */}
       {activeTab !== 'suppliers' &&
         activeTab !== 'inventory' &&
         activeTab !== 'old_history' && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-900 border border-slate-800 p-2.5 rounded-2xl">
-          <div className="flex items-center bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs">
-            <Search className="w-3.5 h-3.5 text-slate-400 ml-2" />
-            <input
+        <Card padded={false} className="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-nw-surface border border-nw-border p-2.5 rounded-2xl">
+          <div className="flex items-center bg-nw-bg border border-nw-border rounded-xl px-3 py-1.5 text-xs">
+            <Search className="w-3.5 h-3.5 text-nw-muted ml-2" />
+            <input aria-label="ابحث برقم السند أو فاتورة المورد..."
               type="text"
               value={searchTerm}
               onChange={(e) => { setSearchTerm(e.target.value); setReceiptPage(1); }}
               placeholder="ابحث برقم السند أو فاتورة المورد..."
-              className="w-full bg-transparent text-slate-100 placeholder-slate-500 outline-none font-bold"
+              className="w-full bg-transparent text-nw-text placeholder-nw-muted outline-none font-bold"
             />
           </div>
 
-          <select
+          <select aria-label="فلتر المورد"
             value={selectedSupplierFilter}
             onChange={(e) => { setSelectedSupplierFilter(e.target.value); setReceiptPage(1); }}
-            className="bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-1.5 text-xs font-bold outline-none"
+            className="bg-nw-bg border border-nw-border text-nw-text rounded-xl px-3 py-1.5 text-xs font-bold outline-none"
           >
             <option value="">جميع الموردين</option>
             {suppliers.map((s) => (
@@ -481,10 +482,10 @@ export const DirectReceivingView: React.FC = () => {
             ))}
           </select>
 
-          <select
+          <select aria-label="فلتر المستودع"
             value={selectedWarehouseFilter}
             onChange={(e) => { setSelectedWarehouseFilter(e.target.value); setReceiptPage(1); }}
-            className="bg-slate-950 border border-slate-800 text-slate-200 rounded-xl px-3 py-1.5 text-xs font-bold outline-none"
+            className="bg-nw-bg border border-nw-border text-nw-text rounded-xl px-3 py-1.5 text-xs font-bold outline-none"
           >
             <option value="">جميع المستودعات</option>
             {warehouses.map((w) => (
@@ -493,41 +494,41 @@ export const DirectReceivingView: React.FC = () => {
               </option>
             ))}
           </select>
-        </div>
+        </Card>
       )}
 
       {/* Suppliers Tab Content */}
       {activeTab === 'suppliers' && (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-300">قائمة الموردين النشطين والمستحقات:</span>
-            <button
+            <span className="text-xs font-bold text-nw-text">قائمة الموردين النشطين والمستحقات:</span>
+            <UiButton variant="plain" type="button"
               onClick={() => setShowSupplierModal(true)}
-              className="bg-blue-600/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-xl text-xs font-bold hover:bg-blue-600/30 transition flex items-center gap-1"
+              className="bg-nw-info-bg text-nw-info border border-nw-border px-3 py-1 rounded-xl text-xs font-bold hover:bg-nw-info-bg transition flex items-center gap-1 h-auto min-h-11 min-w-0 whitespace-normal"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>إضافة مورد جديد</span>
-            </button>
+            </UiButton>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {suppliers.map((sup) => (
-              <div key={sup.id} className="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow space-y-2">
+              <Card padded={false} key={sup.id} className="bg-nw-surface border border-nw-border p-4 rounded-2xl shadow space-y-2">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-extrabold text-slate-100 text-sm">{sup.companyName}</h3>
-                  <span className="text-[10px] text-slate-400">مسؤول التواصل: {sup.contactPerson || 'غير محدد'}</span>
+                  <h3 className="font-extrabold text-nw-text text-sm">{sup.companyName}</h3>
+                  <span className="text-[10px] text-nw-muted">مسؤول التواصل: {sup.contactPerson || 'غير محدد'}</span>
                 </div>
 
-                <div className="text-xs text-slate-400 flex items-center justify-between">
+                <div className="text-xs text-nw-muted flex items-center justify-between">
                   <span>هاتف: {sup.phone || 'بدون هاتف'}</span>
                   <span>العنوان: {sup.address || 'غير محدد'}</span>
                 </div>
 
-                <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex items-center justify-between text-xs font-bold pt-2">
-                  <span className="text-slate-400">{sup.currentBalance < 0 ? 'دفعة مقدّمة:' : 'المستحقات الحالية:'}</span>
-                  <span className={`font-extrabold ${sup.currentBalance < 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{Math.abs(sup.currentBalance).toFixed(3)} {CURRENCY}</span>
+                <div className="bg-nw-bg p-2.5 rounded-xl border border-nw-border flex items-center justify-between text-xs font-bold pt-2">
+                  <span className="text-nw-muted">{sup.currentBalance < 0 ? 'دفعة مقدّمة:' : 'المستحقات الحالية:'}</span>
+                  <span className={`font-extrabold ${sup.currentBalance < 0 ? 'text-nw-ok' : 'text-nw-bad'}`}>{formatJod(Math.abs(sup.currentBalance))} {CURRENCY}</span>
                 </div>
-              </div>
+              </Card>
             ))}
           </div>
         </div>
@@ -536,28 +537,28 @@ export const DirectReceivingView: React.FC = () => {
       {/* Live Inventory Tab */}
       {activeTab === 'inventory' && (
         <div className="space-y-3">
-          <div className="rounded-2xl border border-cyan-500/20 bg-gradient-to-l from-cyan-950/25 via-slate-900 to-slate-900 p-4">
+          <Card padded={false} className="rounded-2xl border border-nw-border bg-nw-surface    p-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <div className="flex items-center gap-2">
-                  <Boxes className="h-5 w-5 text-cyan-300" />
-                  <h2 className="text-sm font-extrabold text-slate-100">
+                  <Boxes className="h-5 w-5 text-nw-info" />
+                  <h2 className="text-sm font-extrabold text-nw-text">
                     المخزون الفعلي بعد الاستلام والبيع
                   </h2>
                 </div>
-                <p className="mt-1 text-[11px] text-slate-400">
+                <p className="mt-1 text-[11px] text-nw-muted">
                   النتائج الحالية مباشرة من أرصدة Supabase ومحدودة إلى 50 صنفًا؛
                   استخدم البحث للوصول السريع إلى أي صنف.
                 </p>
               </div>
 
-              <div className="flex min-w-[240px] items-center rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 text-xs">
-                <Search className="ml-2 h-4 w-4 text-slate-500" />
-                <input
+              <div className="flex min-w-[240px] items-center rounded-xl border border-nw-border bg-nw-bg px-3 py-2 text-xs">
+                <Search className="ml-2 h-4 w-4 text-nw-muted" />
+                <input aria-label="ابحث باسم الصنف أو SKU أو الباركود..."
                   value={inventorySearchTerm}
                   onChange={(event) => setInventorySearchTerm(event.target.value)}
                   placeholder="ابحث باسم الصنف أو SKU أو الباركود..."
-                  className="w-full bg-transparent font-bold text-slate-100 outline-none placeholder:text-slate-600"
+                  className="w-full bg-transparent font-bold text-nw-text outline-none placeholder:text-nw-muted"
                 />
               </div>
             </div>
@@ -566,43 +567,43 @@ export const DirectReceivingView: React.FC = () => {
               {[
                 {
                   label: 'الأصناف',
-                  value: products.length.toLocaleString('ar-JO'),
-                  tone: 'text-white',
+                  value: products.length.toLocaleString('en-US'),
+                  tone: 'text-nw-text',
                 },
                 {
                   label: 'المخزون الفعلي',
-                  value: inventoryMetrics.onHandQuantity.toLocaleString('ar-JO'),
-                  tone: 'text-blue-300',
+                  value: inventoryMetrics.onHandQuantity.toLocaleString('en-US'),
+                  tone: 'text-nw-info',
                 },
                 {
                   label: 'المحجوز للطلبات',
-                  value: inventoryMetrics.reservedQuantity.toLocaleString('ar-JO'),
-                  tone: 'text-amber-300',
+                  value: inventoryMetrics.reservedQuantity.toLocaleString('en-US'),
+                  tone: 'text-nw-warn',
                 },
                 {
                   label: 'المتاح للبيع',
-                  value: inventoryMetrics.availableQuantity.toLocaleString('ar-JO'),
-                  tone: 'text-cyan-300',
+                  value: inventoryMetrics.availableQuantity.toLocaleString('en-US'),
+                  tone: 'text-nw-info',
                 },
                 {
                   label: 'قيمة التكلفة',
-                  value: `${minorToJod(inventoryMetrics.costValueInMinorUnits)} ${CURRENCY}`,
-                  tone: 'text-emerald-300',
+                  value: `${formatJod(Number(minorToJod(inventoryMetrics.costValueInMinorUnits)))} ${CURRENCY}`,
+                  tone: 'text-nw-ok',
                 },
                 {
                   label: 'قريب من النفاد',
-                  value: inventoryMetrics.lowStockCount.toLocaleString('ar-JO'),
+                  value: inventoryMetrics.lowStockCount.toLocaleString('en-US'),
                   tone:
                     inventoryMetrics.lowStockCount > 0
-                      ? 'text-rose-300'
-                      : 'text-emerald-300',
+                      ? 'text-nw-bad'
+                      : 'text-nw-ok',
                 },
               ].map((metric) => (
                 <div
                   key={metric.label}
-                  className="rounded-xl border border-slate-800 bg-slate-950/70 p-2.5"
+                  className="rounded-xl border border-nw-border bg-nw-bg p-2.5"
                 >
-                  <span className="block text-[9px] font-bold text-slate-500">
+                  <span className="block text-[9px] font-bold text-nw-muted">
                     {metric.label}
                   </span>
                   <strong className={`mt-1 block text-xs ${metric.tone}`}>
@@ -611,19 +612,19 @@ export const DirectReceivingView: React.FC = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </Card>
 
           {inventoryProductsLoading ? (
-            <div className="p-12 text-center text-slate-400">
-              <Loader2 className="mx-auto h-6 w-6 animate-spin text-cyan-400" />
+            <div className="p-12 text-center text-nw-muted">
+              <Loader2 className="mx-auto h-6 w-6 animate-spin text-nw-info" />
             </div>
           ) : filteredInventoryProducts.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-slate-800 bg-slate-900 p-10 text-center">
-              <Boxes className="mx-auto h-9 w-9 text-slate-600" />
-              <p className="mt-2 text-xs font-bold text-slate-300">
+            <Card padded={false} className="rounded-2xl border border-dashed border-nw-border bg-nw-surface p-10 text-center">
+              <Boxes className="mx-auto h-9 w-9 text-nw-muted" />
+              <p className="mt-2 text-xs font-bold text-nw-text">
                 لا توجد أصناف مطابقة للبحث
               </p>
-            </div>
+            </Card>
           ) : (
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
               {filteredInventoryProducts.map((product) => {
@@ -650,18 +651,18 @@ export const DirectReceivingView: React.FC = () => {
                 return (
                   <article
                     key={product.id}
-                    className={`space-y-3 rounded-2xl border bg-slate-900 p-4 shadow ${
+                    className={`space-y-3 rounded-2xl border bg-nw-surface p-4 shadow ${
                       isLowStock
-                        ? 'border-rose-500/35'
-                        : 'border-slate-800 hover:border-slate-700'
+                        ? 'border-nw-border'
+                        : 'border-nw-border hover:border-nw-border'
                     }`}
                   >
-                    <div className="flex items-start justify-between gap-3 border-b border-slate-800 pb-2">
+                    <div className="flex items-start justify-between gap-3 border-b border-nw-border pb-2">
                       <div>
-                        <h3 className="text-sm font-extrabold text-slate-100">
+                        <h3 className="text-sm font-extrabold text-nw-text">
                           {product.nameAr}
                         </h3>
-                        <p className="mt-0.5 text-[10px] text-slate-500">
+                        <p className="mt-0.5 text-[10px] text-nw-muted">
                           SKU: {product.sku}
                           {product.barcode ? ` · باركود: ${product.barcode}` : ''}
                         </p>
@@ -669,8 +670,8 @@ export const DirectReceivingView: React.FC = () => {
                       <span
                         className={`rounded-full border px-2.5 py-1 text-[9px] font-extrabold ${
                           isLowStock
-                            ? 'border-rose-500/30 bg-rose-950/50 text-rose-300'
-                            : 'border-emerald-500/30 bg-emerald-950/40 text-emerald-300'
+                            ? 'border-nw-border bg-nw-bad-bg text-nw-bad'
+                            : 'border-nw-border bg-nw-ok-bg text-nw-ok'
                         }`}
                       >
                         {isLowStock ? 'قريب من النفاد' : 'المخزون جيد'}
@@ -678,19 +679,19 @@ export const DirectReceivingView: React.FC = () => {
                     </div>
 
                     <div className="grid grid-cols-3 gap-2">
-                      <div className="rounded-xl border border-blue-500/20 bg-blue-950/20 p-2.5">
-                        <span className="block text-[9px] text-slate-500">
+                      <div className="rounded-xl border border-nw-border bg-nw-info-bg p-2.5">
+                        <span className="block text-[9px] text-nw-muted">
                           الفعلي
                         </span>
-                        <strong className="mt-1 block text-[11px] text-blue-200">
+                        <strong className="mt-1 block text-[11px] text-nw-info">
                           {stockFormat.fullFormatted}
                         </strong>
                       </div>
-                      <div className="rounded-xl border border-amber-500/20 bg-amber-950/15 p-2.5">
-                        <span className="block text-[9px] text-slate-500">
+                      <div className="rounded-xl border border-nw-border bg-nw-warn-bg p-2.5">
+                        <span className="block text-[9px] text-nw-muted">
                           المحجوز
                         </span>
-                        <strong className="mt-1 block text-[11px] text-amber-300">
+                        <strong className="mt-1 block text-[11px] text-nw-warn">
                           {formatWholesaleInventory(
                             product.reservedQuantity,
                             product.unitsPerPackage,
@@ -699,54 +700,54 @@ export const DirectReceivingView: React.FC = () => {
                           ).fullFormatted}
                         </strong>
                       </div>
-                      <div className="rounded-xl border border-cyan-500/20 bg-cyan-950/20 p-2.5">
-                        <span className="block text-[9px] text-slate-500">
+                      <div className="rounded-xl border border-nw-border bg-nw-info-bg p-2.5">
+                        <span className="block text-[9px] text-nw-muted">
                           المتاح للبيع
                         </span>
-                        <strong className="mt-1 block text-[11px] text-cyan-200">
+                        <strong className="mt-1 block text-[11px] text-nw-info">
                           {availableFormat.fullFormatted}
                         </strong>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-2 text-[10px]">
-                      <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-2">
-                        <span className="text-slate-500">تكلفة الحبة: </span>
-                        <strong className="text-amber-300">
-                          {minorToJod(product.costPriceInMinorUnits)} {CURRENCY}
+                      <div className="rounded-xl border border-nw-border bg-nw-bg p-2">
+                        <span className="text-nw-muted">تكلفة الحبة: </span>
+                        <strong className="text-nw-warn">
+                          {formatJod(Number(minorToJod(product.costPriceInMinorUnits)))} {CURRENCY}
                         </strong>
-                        <span className="mt-1 block text-slate-500">
+                        <span className="mt-1 block text-nw-muted">
                           قيمة المخزون بالتكلفة:{' '}
-                          <strong className="text-slate-200">
-                            {minorToJod(
+                          <strong className="text-nw-text">
+                            {formatJod(Number(minorToJod(
                               product.onHandQuantity *
                                 product.costPriceInMinorUnits
-                            )}{' '}
+                            )))}{' '}
                             {CURRENCY}
                           </strong>
                         </span>
                       </div>
-                      <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-2">
-                        <span className="text-slate-500">سعر بيع الحبة: </span>
-                        <strong className="text-emerald-300">
-                          {minorToJod(product.salePriceInMinorUnits)} {CURRENCY}
+                      <div className="rounded-xl border border-nw-border bg-nw-bg p-2">
+                        <span className="text-nw-muted">سعر بيع الحبة: </span>
+                        <strong className="text-nw-ok">
+                          {formatJod(Number(minorToJod(product.salePriceInMinorUnits)))} {CURRENCY}
                         </strong>
-                        <span className="mt-1 block text-slate-500">
+                        <span className="mt-1 block text-nw-muted">
                           قيمة البيع المتوقعة:{' '}
-                          <strong className="text-slate-200">
-                            {minorToJod(
+                          <strong className="text-nw-text">
+                            {formatJod(Number(minorToJod(
                               product.onHandQuantity *
                                 product.salePriceInMinorUnits
-                            )}{' '}
+                            )))}{' '}
                             {CURRENCY}
                           </strong>
                         </span>
                       </div>
                     </div>
 
-                    <div className="space-y-1.5 rounded-xl border border-slate-800 bg-slate-950/50 p-2.5">
+                    <div className="space-y-1.5 rounded-xl border border-nw-border bg-nw-bg p-2.5">
                       {product.inventoryBalances.length === 0 ? (
-                        <p className="text-[10px] text-slate-500">
+                        <p className="text-[10px] text-nw-muted">
                           لا يوجد رصيد في أي مستودع بعد.
                         </p>
                       ) : (
@@ -755,47 +756,45 @@ export const DirectReceivingView: React.FC = () => {
                             (item) => item.id === balance.warehouseId
                           );
                           return (
-                            <div
+                            <FormFields
                               key={balance.warehouseId}
-                              className="flex flex-wrap items-center justify-between gap-2 text-[10px]"
+                              className="nw-purchasing-fields flex flex-wrap items-center justify-between gap-2 text-[10px]"
                             >
-                              <span className="font-bold text-slate-300">
+                              <span className="font-bold text-nw-text">
                                 {warehouse?.nameAr || 'مستودع غير معروف'}
                               </span>
-                              <span className="text-slate-500">
+                              <span className="text-nw-muted">
                                 فعلي{' '}
-                                <strong className="text-blue-300">
+                                <strong className="text-nw-info">
                                   {balance.onHandQuantity}
                                 </strong>{' '}
                                 · محجوز{' '}
-                                <strong className="text-amber-300">
+                                <strong className="text-nw-warn">
                                   {balance.reservedQuantity}
                                 </strong>{' '}
                                 · متاح{' '}
-                                <strong className="text-cyan-300">
+                                <strong className="text-nw-info">
                                   {balance.availableQuantity}
                                 </strong>
                               </span>
-                            </div>
+                            </FormFields>
                           );
                         })
                       )}
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] text-slate-500">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] text-nw-muted">
                       <span>
                         الموردون في سجل الاستلام:{' '}
-                        <strong className="text-slate-300">{supplierNames}</strong>
+                        <strong className="text-nw-text">{supplierNames}</strong>
                       </span>
                       <span>
                         حد التنبيه:{' '}
-                        <strong className="text-rose-300">
+                        <strong className="text-nw-bad">
                           {product.minStockLevel} {product.baseUnitName}
                         </strong>
                         {lastReceipt
-                          ? ` · آخر استلام ${new Date(
-                              lastReceipt.receivedAt
-                            ).toLocaleDateString('ar-JO')}`
+                          ? ` · آخر استلام ${formatUiDate(lastReceipt.receivedAt, {year:'numeric',month:'numeric',day:'numeric'})}`
                           : ''}
                       </span>
                     </div>
@@ -809,19 +808,19 @@ export const DirectReceivingView: React.FC = () => {
 
       {/* Old Purchase Orders History Read-Only Screen */}
       {activeTab === 'old_history' && (
-        <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl text-center space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-purple-600/20 text-purple-400 border border-purple-500/30 flex items-center justify-center mx-auto">
+        <Card padded={false} className="bg-nw-surface border border-nw-border p-6 rounded-2xl text-center space-y-3">
+          <div className="w-12 h-12 rounded-2xl bg-nw-info-bg text-nw-info border border-nw-border flex items-center justify-center mx-auto">
             <History className="w-6 h-6" />
           </div>
-          <h3 className="font-extrabold text-slate-100 text-sm">سجل طلبيات الشراء القديمة (للعرض فقط)</h3>
-          <p className="text-xs text-slate-400 max-w-lg mx-auto">
+          <h3 className="font-extrabold text-nw-text text-sm">سجل طلبيات الشراء القديمة (للعرض فقط)</h3>
+          <p className="text-xs text-nw-muted max-w-lg mx-auto">
             تم إيقاف نظام طلبات الشراء والموافقات بناءً على سياسة العمل المباشر. يتم استلام البضائع الواردة فوراً عبر قسم
             "استلام البضائع من الموردين".
           </p>
-          <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl text-[11px] text-slate-400 max-w-md mx-auto">
+          <div className="p-3 bg-nw-bg border border-nw-border rounded-xl text-[11px] text-nw-muted max-w-md mx-auto">
             السجلات القديمة محفوظة بأمان في الأرشيف للأغراض المحاسبية والقانونية.
           </div>
-        </div>
+        </Card>
       )}
 
       {/* Primary Receipts List Cards */}
@@ -830,23 +829,23 @@ export const DirectReceivingView: React.FC = () => {
         activeTab !== 'old_history' && (
         <div className="space-y-3">
           {loading ? (
-            <div className="p-12 text-center text-slate-400 space-y-2">
-              <Loader2 className="w-6 h-6 animate-spin text-blue-500 mx-auto" />
+            <div className="p-12 text-center text-nw-muted space-y-2">
+              <Loader2 className="w-6 h-6 animate-spin text-nw-info mx-auto" />
               <p className="text-xs font-bold">جاري تحميل سندات استلام البضائع...</p>
             </div>
           ) : receipts.length === 0 ? (
-            <div className="bg-slate-900 border border-dashed border-slate-800 p-12 rounded-2xl text-center space-y-3">
-              <PackageCheck className="w-10 h-10 text-slate-600 mx-auto" />
-              <h3 className="font-bold text-slate-200 text-xs">لا توجد سندات استلام بضائع مطابقة</h3>
-              <p className="text-[11px] text-slate-500">اضغط على زر "استلام بضاعة جديد" لتسجيل الشحنة الواردة فوراً.</p>
-              <button
+            <Card padded={false} className="bg-nw-surface border border-dashed border-nw-border p-12 rounded-2xl text-center space-y-3">
+              <PackageCheck className="w-10 h-10 text-nw-muted mx-auto" />
+              <h3 className="font-bold text-nw-text text-xs">لا توجد سندات استلام بضائع مطابقة</h3>
+              <p className="text-[11px] text-nw-muted">اضغط على زر "استلام بضاعة جديد" لتسجيل الشحنة الواردة فوراً.</p>
+              <UiButton variant="plain" type="button"
                 onClick={() => setShowCreateModal(true)}
-                className="bg-emerald-600 text-white font-bold px-4 py-2 rounded-xl text-xs inline-flex items-center gap-1.5"
+                className="bg-nw-ok-bg text-nw-text font-bold px-4 py-2 rounded-xl text-xs inline-flex items-center gap-1.5 h-auto min-h-11 min-w-0 whitespace-normal"
               >
                 <Plus className="w-4 h-4" />
                 <span>استلام بضاعة جديد</span>
-              </button>
-            </div>
+              </UiButton>
+            </Card>
           ) : (
             <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -856,17 +855,17 @@ export const DirectReceivingView: React.FC = () => {
                 const isCancelled = r.status === 'cancelled';
 
                 return (
-                  <div
+                  <FormFields
                     key={r.id}
-                    className="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-md space-y-3 hover:border-slate-700 transition"
+                    className="nw-purchasing-fields bg-nw-surface border border-nw-border p-4 rounded-2xl shadow-md space-y-3 hover:border-nw-border transition"
                   >
                     {/* Header */}
-                    <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                    <div className="flex items-center justify-between border-b border-nw-border pb-2">
                       <div>
-                        <span className="font-mono font-extrabold text-blue-400 text-xs block">
+                        <span className="font-mono font-extrabold text-nw-info text-xs block">
                           {r.receiptNumber}
                         </span>
-                        <span className="text-[10px] text-slate-400 font-bold block mt-0.5">
+                        <span className="text-[10px] text-nw-muted font-bold block mt-0.5">
                           {r.supplierName}
                         </span>
                       </div>
@@ -874,12 +873,12 @@ export const DirectReceivingView: React.FC = () => {
                       <span
                         className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${
                           isCancelled
-                            ? 'bg-rose-500/20 text-rose-300 border-rose-500/30'
+                            ? 'bg-nw-bad-bg text-nw-bad border-nw-border'
                             : isPaid
-                            ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+                            ? 'bg-nw-ok-bg text-nw-ok border-nw-border'
                             : isPartial
-                            ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-                            : 'bg-rose-500/20 text-rose-300 border-rose-500/30'
+                            ? 'bg-nw-warn-bg text-nw-warn border-nw-border'
+                            : 'bg-nw-bad-bg text-nw-bad border-nw-border'
                         }`}
                       >
                         {isCancelled
@@ -893,107 +892,107 @@ export const DirectReceivingView: React.FC = () => {
                     </div>
 
                     {/* Metadata */}
-                    <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-400">
+                    <div className="grid grid-cols-2 gap-2 text-[11px] text-nw-muted">
                       <div>
                         <span>المستودع: </span>
-                        <strong className="text-slate-200">{r.warehouseName}</strong>
+                        <strong className="text-nw-text">{r.warehouseName}</strong>
                       </div>
                       <div>
                         <span>فاتورة المورد: </span>
-                        <strong className="text-slate-200">{r.supplierInvoiceNumber || 'غير متاح'}</strong>
+                        <strong className="text-nw-text">{r.supplierInvoiceNumber || 'غير متاح'}</strong>
                       </div>
                       <div>
                         <span>عدد الأصناف: </span>
-                        <strong className="text-slate-200">{r.items?.length || 0} صنف</strong>
+                        <strong className="text-nw-text">{r.items?.length || 0} صنف</strong>
                       </div>
                       <div>
                         <span>التاريخ: </span>
-                        <strong className="text-slate-200">
-                          {new Date(r.receivedAt).toLocaleDateString('ar-JO')}
+                        <strong className="text-nw-text">
+                          {formatUiDate(r.receivedAt, {year:'numeric',month:'numeric',day:'numeric'})}
                         </strong>
                       </div>
                     </div>
 
                     {/* Financial Numbers */}
-                    <div className="bg-slate-950 p-2.5 rounded-xl border border-slate-800/80 space-y-1 text-xs">
+                    <div className="bg-nw-bg p-2.5 rounded-xl border border-nw-border space-y-1 text-xs">
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-400 font-bold">الإجمالي:</span>
-                        <span className="font-extrabold text-slate-100 font-mono">
-                          {minorToJod(r.totalInMinorUnits)} {CURRENCY}
+                        <span className="text-nw-muted font-bold">الإجمالي:</span>
+                        <span className="font-extrabold text-nw-text font-mono">
+                          {formatJod(Number(minorToJod(r.totalInMinorUnits)))} {CURRENCY}
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-400 font-bold">المدفوع:</span>
-                        <span className="font-bold text-emerald-400 font-mono">
-                          {minorToJod(r.amountPaidInMinorUnits)} {CURRENCY}
+                        <span className="text-nw-muted font-bold">المدفوع:</span>
+                        <span className="font-bold text-nw-ok font-mono">
+                          {formatJod(Number(minorToJod(r.amountPaidInMinorUnits)))} {CURRENCY}
                         </span>
                       </div>
-                      <div className="flex items-center justify-between border-t border-slate-900 pt-1">
-                        <span className="text-slate-400 font-bold">المتبقي للمورد:</span>
-                        <span className="font-extrabold text-rose-400 font-mono">
-                          {minorToJod(r.amountDueInMinorUnits)} {CURRENCY}
+                      <div className="flex items-center justify-between border-t border-nw-border pt-1">
+                        <span className="text-nw-muted font-bold">المتبقي للمورد:</span>
+                        <span className="font-extrabold text-nw-bad font-mono">
+                          {formatJod(Number(minorToJod(r.amountDueInMinorUnits)))} {CURRENCY}
                         </span>
                       </div>
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center justify-between gap-1 pt-1 border-t border-slate-800/80">
-                      <button
+                    <div className="flex items-center justify-between gap-1 pt-1 border-t border-nw-border">
+                      <UiButton variant="plain" type="button"
                         onClick={() => void handleViewReceiptDetails(r)}
-                        className="bg-slate-800 text-blue-300 hover:bg-slate-700 px-3 py-1.5 rounded-xl text-[11px] font-bold transition flex items-center gap-1"
+                        className="bg-nw-surface-2 text-nw-info hover:bg-nw-surface-2 px-3 py-1.5 rounded-xl text-[11px] font-bold transition flex items-center gap-1 h-auto min-h-11 min-w-0 whitespace-normal"
                       >
                         <Eye className="w-3.5 h-3.5" />
                         <span>عرض التفاصيل</span>
-                      </button>
+                      </UiButton>
 
                       <div className="flex items-center gap-1">
                         {r.status === 'completed' && (
-                          <button
+                          <UiButton variant="plain" type="button"
                             onClick={() => setCancellationReceipt(r)}
-                            className="flex items-center gap-1 rounded-xl border border-rose-500/30 bg-rose-600/15 px-2.5 py-1.5 text-[10px] font-bold text-rose-300 transition hover:bg-rose-600/25"
+                            className="flex items-center gap-1 rounded-xl border border-nw-border bg-nw-bad-bg px-2.5 py-1.5 text-[10px] font-bold text-nw-bad transition hover:bg-nw-bad-bg h-auto min-h-11 min-w-0 whitespace-normal"
                             title="إلغاء السند وعكس المخزون"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
                             <span>حذف</span>
-                          </button>
+                          </UiButton>
                         )}
 
                         {r.status === 'completed' &&
                           r.amountDueInMinorUnits > 0 && (
-                            <button
+                            <UiButton variant="plain" type="button"
                               onClick={() => setPaymentModalReceipt(r)}
-                              className="bg-emerald-600/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-600/30 px-3 py-1.5 rounded-xl text-[11px] font-bold transition flex items-center gap-1"
+                              className="bg-nw-ok-bg text-nw-ok border border-nw-border hover:bg-nw-ok-bg px-3 py-1.5 rounded-xl text-[11px] font-bold transition flex items-center gap-1 h-auto min-h-11 min-w-0 whitespace-normal"
                             >
-                              <DollarSign className="w-3.5 h-3.5 text-emerald-400" />
+                              <DollarSign className="w-3.5 h-3.5 text-nw-ok" />
                               <span>سداد دفعة</span>
-                            </button>
+                            </UiButton>
                           )}
                       </div>
                     </div>
-                  </div>
+                  </FormFields>
                 );
               })}
             </div>
             {receiptTotalCount > 0 && (
-              <div className="flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-900 p-2 text-[11px] font-bold text-slate-400">
-                <button
+              <Card padded={false} className="flex items-center justify-between rounded-2xl border border-nw-border bg-nw-surface p-2 text-[11px] font-bold text-nw-muted">
+                <UiButton variant="plain"
                   type="button"
                   onClick={() => setReceiptPage((current) => Math.max(1, current - 1))}
                   disabled={receiptPage <= 1 || loading}
-                  className="inline-flex items-center gap-1 rounded-xl bg-slate-800 px-3 py-2 text-slate-200 disabled:opacity-40"
+                  className="inline-flex items-center gap-1 rounded-xl bg-nw-surface-2 px-3 py-2 text-nw-text disabled:opacity-40 h-auto min-h-11 min-w-0 whitespace-normal"
                 >
                   <ChevronRight className="h-4 w-4" /> السابق
-                </button>
+                </UiButton>
                 <span>{receiptPage} / {receiptTotalPages} · {receiptTotalCount} سند</span>
-                <button
+                <UiButton variant="plain"
                   type="button"
                   onClick={() => setReceiptPage((current) => Math.min(receiptTotalPages, current + 1))}
                   disabled={receiptPage >= receiptTotalPages || loading}
-                  className="inline-flex items-center gap-1 rounded-xl bg-slate-800 px-3 py-2 text-slate-200 disabled:opacity-40"
+                  className="inline-flex items-center gap-1 rounded-xl bg-nw-surface-2 px-3 py-2 text-nw-text disabled:opacity-40 h-auto min-h-11 min-w-0 whitespace-normal"
                 >
                   التالي <ChevronLeft className="h-4 w-4" />
-                </button>
-              </div>
+                </UiButton>
+              </Card>
             )}
             </>
           )}
@@ -1051,6 +1050,6 @@ export const DirectReceivingView: React.FC = () => {
           />
         </Modal>
       )}
-    </div>
+    </FormFields>
   );
 };

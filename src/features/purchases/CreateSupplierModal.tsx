@@ -1,3 +1,4 @@
+import {FormFields, Card, UiButton} from '../../components/ui';
 /**
  * Nawasrah Business Manager - Create Supplier Modal Component (إضافة مورد جديد)
  */
@@ -140,86 +141,86 @@ export const CreateSupplierModal: React.FC<CreateSupplierModalProps> = ({
   };
 
   return (
-    <div ref={panel as React.RefObject<HTMLDivElement>} tabIndex={-1} role="dialog" aria-modal="true" aria-label="بيانات المورد" aria-busy={isSubmitting} className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden my-auto flex flex-col max-h-[90vh]">
+    <FormFields ref={panel as React.RefObject<HTMLDivElement>} tabIndex={-1} role="dialog" aria-modal="true" aria-label="بيانات المورد" aria-busy={isSubmitting} className="nw-purchasing-fields fixed inset-0 z-[60] flex items-center justify-center bg-nw-overlay backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
+      <Card padded={false} className="bg-nw-surface border border-nw-border rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden my-auto flex flex-col max-h-[90vh]">
         {/* Modal Header */}
-        <div className="bg-slate-800/80 px-5 py-4 border-b border-slate-700/80 flex items-center justify-between shrink-0">
+        <div className="bg-nw-surface-2 px-5 py-4 border-b border-nw-border flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-teal-600/20 border border-teal-500/30 flex items-center justify-center text-teal-400 font-bold">
+            <div className="w-10 h-10 rounded-2xl bg-nw-ok-bg border border-nw-border flex items-center justify-center text-nw-ok font-bold">
               <Building className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-100">
+              <h2 className="text-base font-bold text-nw-text">
                 {supplierToEdit ? 'تعديل بيانات المورد' : 'إضافة مورد جديد'}
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-nw-muted">
                 {supplierToEdit
                   ? 'تحديث بيانات وسجل معلومات المورد'
                   : 'إدخال بيانات المورد لإتاحته في أوامر الشراء'}
               </p>
             </div>
           </div>
-          <button
+          <UiButton aria-label="إغلاق بيانات المورد" variant="plain"
             type="button"
             onClick={onClose}
-            className="w-9 h-9 rounded-xl bg-slate-700/60 text-slate-300 hover:text-white flex items-center justify-center transition"
+            className="w-11 h-11 rounded-xl bg-nw-surface-2 text-nw-text hover:text-nw-text flex items-center justify-center transition h-auto min-h-11 min-w-0 whitespace-normal"
           >
             <X className="w-5 h-5" />
-          </button>
+          </UiButton>
         </div>
 
         {/* Modal Form Body */}
         <form onSubmit={handleSubmit} className="p-5 space-y-4 overflow-y-auto flex-1 text-xs">
           {errorMsg && (
-            <div className="bg-rose-950/50 border border-rose-500/30 p-3 rounded-2xl text-rose-300 flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
+            <div className="bg-nw-bad-bg border border-nw-border p-3 rounded-2xl text-nw-bad flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 shrink-0 text-nw-bad" />
               <span>{errorMsg}</span>
             </div>
           )}
 
           {/* Company Name (Required) */}
           <div className="space-y-1">
-            <label className="font-bold text-slate-300 flex items-center gap-1">
-              <Building className="w-3.5 h-3.5 text-teal-400" />
-              اسم الشركة / المورد: <span className="text-rose-400">*</span>
+            <label className="font-bold text-nw-text flex items-center gap-1">
+              <Building className="w-3.5 h-3.5 text-nw-ok" />
+              اسم الشركة / المورد: <span className="text-nw-bad">*</span>
             </label>
-            <input
+            <input aria-label="مثال: شركة النوارس التجارية"
               type="text"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
               required
               placeholder="مثال: شركة النوارس التجارية"
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 font-bold focus:outline-none focus:border-teal-500"
+              className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text font-bold focus:outline-none focus:border-nw-border"
             />
           </div>
 
           {/* Contact Person & Phone */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="font-bold text-slate-300 flex items-center gap-1">
-                <User className="w-3.5 h-3.5 text-blue-400" />
+              <label className="font-bold text-nw-text flex items-center gap-1">
+                <User className="w-3.5 h-3.5 text-nw-info" />
                 الشخص المسؤول:
               </label>
-              <input
+              <input aria-label="مثال: أحمد النواصرة"
                 type="text"
                 value={contactPerson}
                 onChange={(e) => setContactPerson(e.target.value)}
                 placeholder="مثال: أحمد النواصرة"
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-teal-500"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text focus:outline-none focus:border-nw-border"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="font-bold text-slate-300 flex items-center gap-1">
-                <Phone className="w-3.5 h-3.5 text-emerald-400" />
+              <label className="font-bold text-nw-text flex items-center gap-1">
+                <Phone className="w-3.5 h-3.5 text-nw-ok" />
                 رقم الهاتف:
               </label>
-              <input
+              <input aria-label="0791234567"
                 type="text"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="0791234567"
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-teal-500 font-mono"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text focus:outline-none focus:border-nw-border font-mono"
               />
             </div>
           </div>
@@ -227,30 +228,30 @@ export const CreateSupplierModal: React.FC<CreateSupplierModalProps> = ({
           {/* WhatsApp & Email */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="font-bold text-slate-300 flex items-center gap-1">
-                <MessageSquare className="w-3.5 h-3.5 text-emerald-500" />
+              <label className="font-bold text-nw-text flex items-center gap-1">
+                <MessageSquare className="w-3.5 h-3.5 text-nw-ok" />
                 رقم الواتساب:
               </label>
-              <input
+              <input aria-label="0791234567"
                 type="text"
                 value={whatsapp}
                 onChange={(e) => setWhatsapp(e.target.value)}
                 placeholder="0791234567"
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-teal-500 font-mono"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text focus:outline-none focus:border-nw-border font-mono"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="font-bold text-slate-300 flex items-center gap-1">
-                <Mail className="w-3.5 h-3.5 text-indigo-400" />
+              <label className="font-bold text-nw-text flex items-center gap-1">
+                <Mail className="w-3.5 h-3.5 text-nw-info" />
                 البريد الإلكتروني:
               </label>
-              <input
+              <input aria-label="البريد الإلكتروني"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="supplier@example.com"
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-teal-500 font-mono"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text focus:outline-none focus:border-nw-border font-mono"
               />
             </div>
           </div>
@@ -258,46 +259,46 @@ export const CreateSupplierModal: React.FC<CreateSupplierModalProps> = ({
           {/* Address & Tax Number */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="font-bold text-slate-300 flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-amber-400" />
+              <label className="font-bold text-nw-text flex items-center gap-1">
+                <MapPin className="w-3.5 h-3.5 text-nw-warn" />
                 العنوان:
               </label>
-              <input
+              <input aria-label="عمان - المقابلين"
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="عمان - المقابلين"
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-teal-500"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text focus:outline-none focus:border-nw-border"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="font-bold text-slate-300 flex items-center gap-1">
-                <CreditCard className="w-3.5 h-3.5 text-purple-400" />
+              <label className="font-bold text-nw-text flex items-center gap-1">
+                <CreditCard className="w-3.5 h-3.5 text-nw-info" />
                 الرقم الضريبي:
               </label>
-              <input
+              <input aria-label="123456789"
                 type="text"
                 value={taxNumber}
                 onChange={(e) => setTaxNumber(e.target.value)}
                 placeholder="123456789"
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-teal-500 font-mono"
+                className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text focus:outline-none focus:border-nw-border font-mono"
               />
             </div>
           </div>
 
           {/* Notes */}
           <div className="space-y-1">
-            <label className="font-bold text-slate-300 flex items-center gap-1">
-              <FileText className="w-3.5 h-3.5 text-slate-400" />
+            <label className="font-bold text-nw-text flex items-center gap-1">
+              <FileText className="w-3.5 h-3.5 text-nw-muted" />
               ملاحظات المورد:
             </label>
-            <textarea
+            <textarea aria-label="شروط التوريد، مواعيد التسليم، خصومات إضافية..."
               rows={2}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="شروط التوريد، مواعيد التسليم، خصومات إضافية..."
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-slate-100 focus:outline-none focus:border-teal-500 resize-none"
+              className="w-full bg-nw-surface-2 border border-nw-border rounded-xl px-3 py-2 text-nw-text focus:outline-none focus:border-nw-border resize-none"
             />
           </div>
 
@@ -308,27 +309,27 @@ export const CreateSupplierModal: React.FC<CreateSupplierModalProps> = ({
               id="supplierIsActive"
               checked={isActive}
               onChange={(e) => setIsActive(e.target.checked)}
-              className="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 bg-slate-800 border-slate-700 cursor-pointer"
+              className="w-4 h-4 rounded text-nw-ok focus:ring-nw-primary bg-nw-surface-2 border-nw-border cursor-pointer"
             />
-            <label htmlFor="supplierIsActive" className="text-slate-300 font-bold cursor-pointer">
+            <label htmlFor="supplierIsActive" className="text-nw-text font-bold cursor-pointer">
               مورد نشط (متاح للاختيار في طلبات الشراء)
             </label>
           </div>
 
           {/* Footer Actions */}
-          <div className="pt-3 border-t border-slate-800 flex items-center justify-end gap-3 shrink-0">
-            <button
+          <div className="pt-3 border-t border-nw-border flex items-center justify-end gap-3 shrink-0">
+            <UiButton variant="plain"
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 font-bold transition disabled:opacity-50"
+              className="px-4 py-2 rounded-xl bg-nw-surface-2 text-nw-text hover:bg-nw-surface-2 font-bold transition disabled:opacity-50 h-auto min-h-11 min-w-0 whitespace-normal"
             >
               إلغاء
-            </button>
-            <button
+            </UiButton>
+            <UiButton variant="plain"
               type="submit"
               disabled={isSubmitting || !companyName.trim()}
-              className="px-6 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-white font-bold transition shadow-lg disabled:opacity-50 flex items-center gap-2"
+              className="px-6 py-2 rounded-xl bg-nw-ok-bg hover:bg-nw-ok-bg text-nw-text font-bold transition shadow-lg disabled:opacity-50 flex items-center gap-2 h-auto min-h-11 min-w-0 whitespace-normal"
             >
               {isSubmitting ? (
                 <span>جاري حفظ المورد...</span>
@@ -338,10 +339,10 @@ export const CreateSupplierModal: React.FC<CreateSupplierModalProps> = ({
                   <span>حفظ المورد واختياره</span>
                 </>
               )}
-            </button>
+            </UiButton>
           </div>
         </form>
-      </div>
-    </div>
+      </Card>
+    </FormFields>
   );
 };
