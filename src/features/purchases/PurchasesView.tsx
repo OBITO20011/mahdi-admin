@@ -1282,6 +1282,7 @@ export const PurchasesView: React.FC = () => {
       {/* 3. Receive Goods Modal */}
       {selectedPoForReceive && (
         <ReceiveGoodsModal
+          isOpen={Boolean(selectedPoForReceive)}
           po={selectedPoForReceive}
           onClose={() => setSelectedPoForReceive(null)}
           onSuccess={() => {
@@ -1293,8 +1294,9 @@ export const PurchasesView: React.FC = () => {
       {/* 4. Supplier Payment Modal (Linked to PO or General) */}
       {(selectedPoForPayment || isGeneralPaymentModalOpen) && (
         <SupplierPaymentModal
+          isOpen={Boolean(selectedPoForPayment || isGeneralPaymentModalOpen)}
           po={selectedPoForPayment}
-          preselectedSupplier={preselectedSupplierForPayment}
+          supplierId={preselectedSupplierForPayment?.id}
           onClose={() => {
             setSelectedPoForPayment(null);
             setIsGeneralPaymentModalOpen(false);

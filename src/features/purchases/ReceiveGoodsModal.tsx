@@ -35,12 +35,12 @@ interface ReceiveRow {
   unitCost: number; // JOD
 }
 
-export const ReceiveGoodsModal: React.FC<ReceiveGoodsModalProps> = ({
+export const ReceiveGoodsModal = ({
   isOpen,
   po,
   onClose,
   onSuccess,
-}) => {
+}: ReceiveGoodsModalProps) => {
   const warehouses = useAppStoreSelector((state) => state.warehouses);
 
   const [selectedWarehouseId, setSelectedWarehouseId] = useState<string>('');

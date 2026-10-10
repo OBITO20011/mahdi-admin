@@ -35,13 +35,13 @@ const createSupplierPaymentIdempotencyKey = () =>
     ? crypto.randomUUID()
     : `supplier-payment-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-export const SupplierPaymentModal: React.FC<SupplierPaymentModalProps> = ({
+export const SupplierPaymentModal = ({
   isOpen,
   supplierId: initialSupplierId,
   po: initialPo,
   onClose,
   onSuccess,
-}) => {
+}: SupplierPaymentModalProps) => {
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [selectedSupplierId, setSelectedSupplierId] = useState<string>('');
   const [pos, setPos] = useState<PurchaseOrder[]>([]);
