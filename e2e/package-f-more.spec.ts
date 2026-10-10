@@ -34,6 +34,14 @@ async function audit(page:Page){
     while(walker.nextNode()){
       const node=walker.currentNode,parent=node.parentElement;
       if(!node.textContent?.trim()||!parent||parent.closest('.sr-only,option')||!parent.getClientRects().length||getComputedStyle(parent).visibility==='hidden')continue;
+      // Owner-approved email ellipsis is a display contract,not escaping text.
+      // This one named field must expose its full value and remain inside its card.
+      if(parent.matches('p[data-field="profile-email"]')){
+        const style=getComputedStyle(parent),bounds=parent.getBoundingClientRect(),card=parent.parentElement!.getBoundingClientRect();
+        if(parent.dir!=='ltr'||parent.title!==node.textContent.trim()||style.overflow!=='hidden'||style.textOverflow!=='ellipsis'||style.whiteSpace!=='nowrap'
+          ||bounds.left<card.left-1||bounds.right>card.right+1)failed.push('invalid Profile email ellipsis contract');
+        continue;
+      }
       const box=parent.closest('p,h1,h2,h3,h4,h5,button,label,li')??parent;
       const bounds=box.getBoundingClientRect(),range=document.createRange();range.selectNodeContents(node);
       for(const r of range.getClientRects())if(r.width&&(r.left<bounds.left-1||r.right>bounds.right+1||r.top<bounds.top-1||r.bottom>bounds.bottom+1))failed.push(node.textContent.trim());

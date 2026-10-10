@@ -1,3 +1,4 @@
+import {FormFields,UiButton} from '../../components/ui';
 /**
  * Nawasrah Business Manager - Stock Adjustment Modal
  */
@@ -76,58 +77,58 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
   };
 
   return (
-    <form onSubmit={handleSave} aria-busy={isSubmitting} className="space-y-4 text-xs">
+    <FormFields className="nw-products-fields min-w-0"><form onSubmit={handleSave} aria-busy={isSubmitting} className="nw-products-fields min-w-0 space-y-4 text-nw-text text-sm">
       {/* Product Card Header */}
-      <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex items-center gap-3">
+      <div className="bg-nw-surface p-3 rounded-2xl border border-nw-border flex items-center gap-3">
         <img
           src={product.imageUrl}
           alt={product.nameAr}
-          className="w-12 h-12 rounded-xl object-cover border border-slate-800"
+          className="w-12 h-12 rounded-xl object-cover border border-nw-border"
         />
         <div className="flex-1 min-w-0">
-          <h4 className="font-extrabold text-slate-100 truncate text-xs">{product.nameAr}</h4>
-          <p className="text-[10px] text-slate-400">
-            المخزون الحالي: <strong className="text-emerald-400 font-bold">{formatProductInventory(product).fullFormatted}</strong>
+          <h4 className="font-extrabold text-nw-text truncate text-sm">{product.nameAr}</h4>
+          <p className="text-xs text-nw-muted">
+            المخزون الحالي: <strong className="text-nw-ok font-bold">{formatProductInventory(product).fullFormatted}</strong>
           </p>
         </div>
       </div>
 
       {/* Adjust Mode Selection Toggle */}
-      <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-800">
-        <button
+      <div className="flex bg-nw-surface p-1 rounded-xl border border-nw-border">
+        <UiButton variant="plain"
           type="button"
           onClick={() => {
             setIsDeduct(false);
             setReason('تسوية زيادة ظهرت أثناء الجرد');
           }}
           className={`flex-1 py-2 rounded-lg font-bold flex items-center justify-center gap-1.5 transition ${
-            !isDeduct ? 'bg-emerald-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+            !isDeduct ? 'bg-nw-ok text-nw-on-primary shadow' : 'text-nw-muted hover:text-nw-text'
           }`}
         >
           <Plus className="w-3.5 h-3.5" />
           <span>تسوية زيادة جرد (+)</span>
-        </button>
+        </UiButton>
 
-        <button
+        <UiButton variant="plain"
           type="button"
           onClick={() => {
             setIsDeduct(true);
             setReason('خصم بسبب تلف / نقص جرد');
           }}
           className={`flex-1 py-2 rounded-lg font-bold flex items-center justify-center gap-1.5 transition ${
-            isDeduct ? 'bg-red-600 text-white shadow' : 'text-slate-400 hover:text-slate-200'
+            isDeduct ? 'bg-nw-bad text-nw-on-primary shadow' : 'text-nw-muted hover:text-nw-text'
           }`}
         >
           <Minus className="w-3.5 h-3.5" />
           <span>خصم من المخزون (-)</span>
-        </button>
+        </UiButton>
       </div>
 
       {/* Adjustment Method: Delta vs Exact Stock */}
       <div className="space-y-1.5">
-        <label className="text-[11px] font-bold text-slate-300 block">طريقة التعديل</label>
+        <label className="text-xs font-bold text-nw-text block">طريقة التعديل</label>
         <div className="grid grid-cols-2 gap-2">
-          <button
+          <UiButton variant="plain"
             type="button"
             onClick={() => {
               setAdjustType('delta');
@@ -135,15 +136,15 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
             }}
             className={`p-2.5 rounded-xl border text-right transition ${
               adjustType === 'delta'
-                ? 'bg-blue-600/20 border-blue-500 text-blue-300'
-                : 'bg-slate-950 border-slate-800 text-slate-400'
+                ? 'bg-nw-info-bg border-nw-primary text-nw-info'
+                : 'bg-nw-surface border-nw-border text-nw-muted'
             }`}
           >
-            <strong className="block text-xs font-extrabold">كمية مضافة / مخصومة</strong>
-            <span className="text-[9px] opacity-75">مثال: إضافة +10 قطع</span>
-          </button>
+            <strong className="block text-sm font-extrabold">كمية مضافة / مخصومة</strong>
+            <span className="text-xs ">مثال: إضافة +10 قطع</span>
+          </UiButton>
 
-          <button
+          <UiButton variant="plain"
             type="button"
             onClick={() => {
               setAdjustType('exact');
@@ -151,19 +152,19 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
             }}
             className={`p-2.5 rounded-xl border text-right transition ${
               adjustType === 'exact'
-                ? 'bg-blue-600/20 border-blue-500 text-blue-300'
-                : 'bg-slate-950 border-slate-800 text-slate-400'
+                ? 'bg-nw-info-bg border-nw-primary text-nw-info'
+                : 'bg-nw-surface border-nw-border text-nw-muted'
             }`}
           >
-            <strong className="block text-xs font-extrabold">تحديد الجرد الفعلي المباشر</strong>
-            <span className="text-[9px] opacity-75">مثال: المخزون الفعلي هو 25</span>
-          </button>
+            <strong className="block text-sm font-extrabold">تحديد الجرد الفعلي المباشر</strong>
+            <span className="text-xs ">مثال: المخزون الفعلي هو 25</span>
+          </UiButton>
         </div>
       </div>
 
       {/* Quantity Input */}
       <div className="space-y-1">
-        <label className="text-[11px] font-bold text-slate-300 block">
+        <label className="text-xs font-bold text-nw-text block">
           {adjustType === 'delta'
             ? isDeduct
               ? 'الكمية المراد خصمها:'
@@ -171,37 +172,37 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
             : 'الكمية الفعلية الصحيحة بالرف:'}
         </label>
         <div className="flex items-center gap-2">
-          <button
+          <UiButton variant="plain"
             type="button"
             onClick={() => setQuantityValue((prev) => Math.max(1, prev - 1))}
-            className="w-10 h-10 bg-slate-900 border border-slate-800 hover:bg-slate-800 rounded-xl font-bold text-slate-200 text-base"
+            className="w-11 h-11 bg-nw-surface-2 border border-nw-border hover:bg-nw-mute-bg rounded-xl font-bold text-nw-text text-base"
           >
             -
-          </button>
-          <input
+          </UiButton>
+          <input aria-label="الكمية"
             type="number"
             min="0"
             value={quantityValue}
             onChange={(e) => setQuantityValue(Math.max(0, parseInt(e.target.value) || 0))}
-            className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-center text-sm font-extrabold text-slate-100 focus:outline-none focus:border-blue-500"
+            className="flex-1 bg-nw-surface border border-nw-border rounded-xl px-3 py-2.5 text-center text-sm font-extrabold text-nw-text focus:outline-none focus:border-nw-border"
           />
-          <button
+          <UiButton variant="plain"
             type="button"
             onClick={() => setQuantityValue((prev) => prev + 1)}
-            className="w-10 h-10 bg-slate-900 border border-slate-800 hover:bg-slate-800 rounded-xl font-bold text-slate-200 text-base"
+            className="w-11 h-11 bg-nw-surface-2 border border-nw-border hover:bg-nw-mute-bg rounded-xl font-bold text-nw-text text-base"
           >
             +
-          </button>
+          </UiButton>
         </div>
       </div>
 
       {/* Outcome Preview */}
-      <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex items-center justify-between">
-        <span className="text-slate-400 text-[11px]">النتيجة النهائية للمخزون:</span>
-        <div className="flex items-center gap-2">
-          <span className="text-slate-400 line-through text-[11px]">{formatProductInventory(product).fullFormatted}</span>
-          <span className="text-slate-500">←</span>
-          <span className="text-xs font-extrabold text-emerald-400">
+      <div className="bg-nw-surface p-3 rounded-2xl border border-nw-border flex flex-wrap gap-2 items-center justify-between">
+        <span className="text-nw-muted text-xs">النتيجة النهائية للمخزون:</span>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-nw-muted line-through text-xs">{formatProductInventory(product).fullFormatted}</span>
+          <span className="text-nw-muted">←</span>
+          <span className="text-sm font-extrabold text-nw-ok">
             {formatWholesaleInventory(calculatedNewOnHand, product.unitsPerPackage, product.purchasePackage, product.unit).fullFormatted}
           </span>
         </div>
@@ -209,7 +210,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
 
       {/* Reason Quick Chips */}
       <div className="space-y-1.5">
-        <label className="text-[11px] font-bold text-slate-300 block">سبب الحركة والتسوية:</label>
+        <label className="text-xs font-bold text-nw-text block">سبب الحركة والتسوية:</label>
         <div className="flex flex-wrap gap-1.5">
           {[
             'تسوية زيادة ظهرت أثناء الجرد',
@@ -218,40 +219,40 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
             'عينة مجانية / تسويق',
             'خطأ في التسجيل السابق',
           ].map((r) => (
-            <button
+            <UiButton variant="plain"
               key={r}
               type="button"
               onClick={() => setReason(r)}
-              className={`px-2.5 py-1 rounded-full text-[10px] font-bold border transition ${
+              className={`px-2.5 py-1 rounded-full text-xs font-bold border transition ${
                 reason === r
-                  ? 'bg-blue-600 text-white border-blue-500'
-                  : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700'
+                  ? 'bg-nw-primary text-nw-on-primary border-nw-border'
+                  : 'bg-nw-surface text-nw-muted border-nw-border hover:border-nw-border'
               }`}
             >
               {r}
-            </button>
+            </UiButton>
           ))}
         </div>
       </div>
 
       {/* Additional Notes */}
       <div className="space-y-1">
-        <label className="text-[11px] font-bold text-slate-300 block">ملاحظات إضافية (اختياري):</label>
-        <input
+        <label className="text-xs font-bold text-nw-text block">ملاحظات إضافية (اختياري):</label>
+        <input aria-label="ملاحظات إضافية"
           type="text"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="أدخل رقم إذن التوريد أو اسم المراقب..."
-          className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+          className="w-full bg-nw-surface border border-nw-border rounded-xl px-3 py-2 text-nw-text text-sm focus:outline-none focus:border-nw-border"
         />
       </div>
 
       {/* Modal Actions */}
       <div className="flex gap-2 pt-2">
-        <button
+        <UiButton variant="plain"
           type="submit"
           disabled={isSubmitting || product.isFlavorMaster}
-          className="flex-1 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-bold py-2.5 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5"
+          className="flex-1 bg-nw-primary hover:opacity-95 disabled:opacity-50 text-nw-on-primary font-bold py-2.5 rounded-xl text-sm transition active:scale-95 flex items-center justify-center gap-1.5"
         >
           {isSubmitting ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -261,16 +262,16 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
           <span>
             {isSubmitting ? 'جاري الحفظ...' : 'تأكيد تعديل المخزون'}
           </span>
-        </button>
+        </UiButton>
 
-        <button
+        <UiButton variant="plain"
           type="button"
           onClick={onClose}
-          className="px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs transition"
+          className="px-4 bg-nw-mute-bg hover:bg-nw-mute-bg text-nw-text font-bold py-2.5 rounded-xl text-sm transition"
         >
           إلغاء
-        </button>
+        </UiButton>
       </div>
-    </form>
+    </form></FormFields>
   );
 };

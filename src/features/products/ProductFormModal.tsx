@@ -1,3 +1,4 @@
+import {Card,FormFields,UiButton,formatJod} from '../../components/ui';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   AlertTriangle,
@@ -73,10 +74,10 @@ const toSalePackageCount = (
   );
 
 const inputClass =
-  'w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 text-xs font-semibold text-slate-100 outline-none transition placeholder:text-slate-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10';
+  'w-full rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2.5 text-sm font-semibold text-nw-text outline-none transition placeholder:text-nw-muted focus:border-nw-border focus:ring-2 focus:ring-nw-primary';
 
 const numberInputClass =
-  'w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 text-center text-xs font-extrabold text-slate-100 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10';
+  'w-full rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2.5 text-center text-sm font-extrabold text-nw-text outline-none transition focus:border-nw-border focus:ring-2 focus:ring-nw-primary';
 
 export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   initialProduct,
@@ -702,33 +703,33 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} aria-busy={isSubmitting} data-unsaved={hasFlavors} dir="rtl" className="space-y-4 text-xs">
+    <FormFields className="nw-products-fields min-w-0"><form onSubmit={handleSubmit} aria-busy={isSubmitting} data-unsaved={hasFlavors} dir="rtl" className="nw-products-fields min-w-0 space-y-4 text-nw-text text-sm">
       {(validUnitsPerSalePackage>1 || isFlavorMaster || initialProduct?.flavorMasterProductId) &&
         (initialProduct?.retailPrice ?? derivedSalePricePerUnit)===0 &&
-        <p role="status" className="rounded-lg border border-amber-500/40 p-3 text-amber-200">
+        <p role="status" className="rounded-lg border border-nw-border p-3 text-nw-warn">
           عبّي سعر الباكيت؛ بدونه لا يُحسب خصم ضرر العميل
         </p>}
-      <section className="overflow-hidden rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-950/50 via-slate-950 to-slate-950">
-        <div className="flex items-center justify-between border-b border-white/5 px-3.5 py-3">
+      <Card padded={false} className="overflow-hidden rounded-2xl border border-nw-border    ">
+        <div className="flex items-center justify-between border-b border-nw-border px-3.5 py-3">
           <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-500/15 text-blue-400">
+            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-nw-info-bg text-nw-info">
               <Package className="h-4 w-4" />
             </span>
             <div>
-              <h4 className="font-black text-slate-100">هوية المنتج</h4>
-              <p className="text-[10px] text-slate-500">
+              <h4 className="font-black text-nw-text">هوية المنتج</h4>
+              <p className="text-xs text-nw-muted">
                 الاسم والقسم والوصف الظاهر للفريق
               </p>
             </div>
           </div>
-          <span className="rounded-full bg-blue-500/10 px-2 py-1 text-[9px] font-bold text-blue-300">
+          <span className="rounded-full bg-nw-info-bg px-2 py-1 text-xs font-bold text-nw-info">
             أساسي
           </span>
         </div>
 
         <div className="space-y-3 p-3.5">
           <div className="flex items-start gap-3">
-            <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-slate-800 bg-slate-900">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-nw-border bg-nw-surface-2">
               {imagePreviewSource && !imageFailed ? (
                 <img
                   src={imagePreviewSource}
@@ -737,14 +738,14 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <Image className="h-6 w-6 text-slate-600" />
+                <Image className="h-6 w-6 text-nw-muted" />
               )}
             </div>
             <div className="flex-1 space-y-1.5">
-              <label className="block text-[10px] font-bold text-slate-300">
+              <label className="block text-xs font-bold text-nw-text">
                 اسم المنتج *
               </label>
-              <input
+              <input aria-label="اسم المنتج"
                 required
                 value={nameAr}
                 onChange={(event) => setNameAr(event.target.value)}
@@ -756,22 +757,22 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
           <div>
             <div className="mb-1.5 flex items-center justify-between">
-              <label className="text-[10px] font-bold text-slate-300">
+              <label className="text-xs font-bold text-nw-text">
                 القسم *
               </label>
-              <button
+              <UiButton variant="plain"
                 type="button"
                 onClick={() => {
                   setShowNewCategory((value) => !value);
                   setCategoryError('');
                 }}
-                className="flex items-center gap-1 text-[10px] font-bold text-blue-400"
+                className="flex items-center gap-1 text-xs font-bold text-nw-info"
               >
                 <Plus className="h-3 w-3" />
                 قسم جديد
-              </button>
+              </UiButton>
             </div>
-            <select
+            <select aria-label="القسم"
               required
               value={categoryId}
               onChange={(event) => setCategoryId(event.target.value)}
@@ -786,9 +787,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             </select>
 
             {showNewCategory && (
-              <div className="mt-2 rounded-xl border border-blue-500/25 bg-blue-500/5 p-2">
+              <div className="mt-2 rounded-xl border border-nw-border bg-nw-info-bg p-2">
                 <div className="flex gap-2">
-                  <input
+                  <input aria-label="اسم القسم الجديد"
                     value={newCategoryName}
                     onChange={(event) => {
                       setNewCategoryName(event.target.value);
@@ -797,17 +798,17 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                     placeholder="اسم القسم الجديد"
                     className={inputClass}
                   />
-                  <button
+                  <UiButton variant="plain"
                     type="button"
                     onClick={createCategoryInline}
                     disabled={isCreatingCategory}
-                    className="shrink-0 rounded-xl bg-blue-600 px-3 font-bold text-white disabled:opacity-50"
+                    className="shrink-0 rounded-xl bg-nw-primary px-3 font-bold text-nw-on-primary disabled:opacity-50"
                   >
                     {isCreatingCategory ? '...' : 'إضافة'}
-                  </button>
+                  </UiButton>
                 </div>
                 {categoryError && (
-                  <p className="mt-1.5 text-[10px] font-bold text-rose-400">
+                  <p className="mt-1.5 text-xs font-bold text-nw-bad">
                     {categoryError}
                   </p>
                 )}
@@ -816,10 +817,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </div>
 
           <div>
-            <label className="mb-1.5 block text-[10px] font-bold text-slate-300">
+            <label className="mb-1.5 block text-xs font-bold text-nw-text">
               العلامة التجارية
             </label>
-            <select
+            <select aria-label="العلامة التجارية"
               value={brandId}
               onChange={(event) => setBrandId(event.target.value)}
               className={inputClass}
@@ -834,10 +835,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </div>
 
           <div>
-            <label className="mb-1.5 block text-[10px] font-bold text-slate-300">
+            <label className="mb-1.5 block text-xs font-bold text-nw-text">
               وصف مختصر
             </label>
-            <textarea
+            <textarea aria-label="وصف المنتج"
               value={description}
               onChange={(event) => setDescription(event.target.value)}
               placeholder="الحجم أو النكهة أو أي وصف يساعد الفريق على تمييز المنتج"
@@ -846,17 +847,17 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             />
           </div>
 
-          <div className="rounded-xl border border-dashed border-blue-500/30 bg-blue-500/5 p-3">
+          <div className="rounded-xl border border-dashed border-nw-border bg-nw-info-bg p-3">
             <div className="flex items-center justify-between gap-2">
               <div>
-                <p className="font-black text-slate-200">صورة المنتج</p>
-                <p className="mt-0.5 text-[9px] text-slate-500">
+                <p className="font-black text-nw-text">صورة المنتج</p>
+                <p className="mt-0.5 text-xs text-nw-muted">
                   JPG أو PNG أو WebP — بحد أقصى 5 ميجابايت
                 </p>
               </div>
               <label
                 htmlFor="product-image-upload"
-                className="flex cursor-pointer items-center gap-1.5 rounded-xl bg-blue-600 px-3 py-2 text-[10px] font-black text-white transition hover:bg-blue-500"
+                className="flex cursor-pointer items-center gap-1.5 rounded-xl bg-nw-primary px-3 py-2 text-xs font-black text-nw-on-primary transition hover:opacity-95"
               >
                 <Upload className="h-3.5 w-3.5" />
                 {selectedImageFile || imageUrl
@@ -873,46 +874,46 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             </div>
 
             {selectedImageFile && (
-              <div className="mt-2 flex items-center justify-between rounded-lg bg-slate-950/60 px-2.5 py-2">
+              <div className="mt-2 flex items-center justify-between rounded-lg bg-nw-surface px-2.5 py-2">
                 <span
-                  className="min-w-0 truncate text-[9px] font-bold text-emerald-300"
+                  className="min-w-0 truncate text-xs font-bold text-nw-ok"
                   title={selectedImageFile.name}
                 >
                   جاهزة للرفع: {selectedImageFile.name}
                 </span>
-                <button
+                <UiButton variant="plain"
                   type="button"
                   onClick={() => {
                     setSelectedImageFile(null);
                     setImageError('');
                     setImageFailed(false);
                   }}
-                  className="mr-2 flex shrink-0 items-center gap-1 text-[9px] font-bold text-slate-400 hover:text-rose-300"
+                  className="mr-2 flex shrink-0 items-center gap-1 text-xs font-bold text-nw-muted hover:text-nw-bad"
                 >
                   <X className="h-3 w-3" />
                   إلغاء
-                </button>
+                </UiButton>
               </div>
             )}
 
             {imageError && (
-              <p className="mt-2 text-[10px] font-bold text-rose-400">
+              <p className="mt-2 text-xs font-bold text-nw-bad">
                 {imageError}
               </p>
             )}
 
-            <button
+            <UiButton variant="plain"
               type="button"
               onClick={() => setShowImageUrlInput((value) => !value)}
-              className="mt-2 text-[9px] font-bold text-slate-500 hover:text-blue-300"
+              className="mt-2 text-xs font-bold text-nw-muted hover:text-nw-info"
             >
               {showImageUrlInput
                 ? 'إخفاء خيار الرابط'
                 : 'أو استخدام رابط صورة مباشر'}
-            </button>
+            </UiButton>
 
             {showImageUrlInput && (
-              <input
+              <input aria-label="رابط صورة المنتج"
                 type="url"
                 value={imageUrl}
                 onChange={(event) => {
@@ -927,14 +928,14 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             )}
           </div>
         </div>
-      </section>
+      </Card>
 
       {!isEditing && (
-        <section
+        <Card padded={false}
           className={`overflow-hidden rounded-2xl border transition-colors ${
             hasFlavors
-              ? 'border-indigo-500/30 bg-slate-950'
-              : 'border-slate-800 bg-slate-950'
+              ? 'border-nw-border bg-nw-surface'
+              : 'border-nw-border bg-nw-surface'
           }`}
         >
           <div className="flex items-center justify-between gap-3 p-3.5">
@@ -942,60 +943,60 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               <span
                 className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
                   hasFlavors
-                    ? 'bg-indigo-500/15 text-indigo-300'
-                    : 'bg-slate-800 text-slate-400'
+                    ? 'bg-nw-info-bg text-nw-info'
+                    : 'bg-nw-mute-bg text-nw-muted'
                 }`}
               >
                 <Palette className="h-4 w-4" />
               </span>
               <div className="min-w-0">
-                <h4 className="font-black text-slate-100">
+                <h4 className="font-black text-nw-text">
                   هل لهذا المنتج نكهات؟
                 </h4>
-                <p className="mt-0.5 text-[10px] leading-4 text-slate-500">
+                <p className="mt-0.5 text-xs leading-4 text-nw-muted">
                   السعر والطرد موحّدان، والمخزون يُتابع لكل نكهة وحدها
                 </p>
               </div>
             </div>
 
-            <button
+            <UiButton variant="plain"
               type="button"
               role="switch"
               aria-checked={hasFlavors}
               onClick={toggleFlavorMode}
               className={`flex shrink-0 items-center gap-2 rounded-full border px-2.5 py-1.5 font-black transition ${
                 hasFlavors
-                  ? 'border-indigo-400/30 bg-indigo-500/15 text-indigo-200'
-                  : 'border-slate-700 bg-slate-900 text-slate-400'
+                  ? 'border-nw-border bg-nw-info-bg text-nw-info'
+                  : 'border-nw-border bg-nw-surface-2 text-nw-muted'
               }`}
             >
               <span>{hasFlavors ? 'نعم' : 'لا'}</span>
               <span
                 className={`relative h-5 w-9 rounded-full transition ${
-                  hasFlavors ? 'bg-indigo-500' : 'bg-slate-700'
+                  hasFlavors ? 'bg-nw-info-bg' : 'bg-nw-mute-bg'
                 }`}
               >
                 <span
-                  className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-all ${
+                  className={`absolute top-0.5 h-4 w-4 rounded-full bg-nw-surface shadow transition-all ${
                     hasFlavors ? 'right-0.5' : 'right-[18px]'
                   }`}
                 />
               </span>
-            </button>
+            </UiButton>
           </div>
 
           {hasFlavors && (
-            <div className="space-y-3 border-t border-indigo-500/15 p-3.5">
+            <div className="space-y-3 border-t border-nw-border p-3.5">
               <div className="flex items-center justify-between gap-2">
                 <div>
-                  <strong className="text-[11px] text-indigo-200">
+                  <strong className="text-xs text-nw-info">
                     النكهات الحالية عند الإنشاء
                   </strong>
-                  <p className="mt-0.5 text-[9px] text-slate-500">
+                  <p className="mt-0.5 text-xs text-nw-muted">
                     مثال: جبنة، حار، ملح وخل
                   </p>
                 </div>
-                <span className="rounded-full bg-indigo-500/10 px-2 py-1 text-[9px] font-black text-indigo-300">
+                <span className="rounded-full bg-nw-info-bg px-2 py-1 text-xs font-black text-nw-info">
                   {flavorDrafts.length} نكهة
                 </span>
               </div>
@@ -1004,27 +1005,27 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                 {flavorDrafts.map((draft, index) => (
                   <div
                     key={draft.id}
-                    className="rounded-2xl border border-slate-800 bg-slate-900/80 p-3"
+                    className="rounded-2xl border border-nw-border bg-nw-surface-2 p-3"
                   >
                     <div className="mb-2.5 flex items-center justify-between">
-                      <span className="flex h-6 min-w-6 items-center justify-center rounded-lg bg-indigo-500/15 px-1.5 text-[10px] font-black text-indigo-300">
+                      <span className="flex h-6 min-w-6 items-center justify-center rounded-lg bg-nw-info-bg px-1.5 text-xs font-black text-nw-info">
                         {index + 1}
                       </span>
                       {flavorDrafts.length > 1 && (
-                        <button
+                        <UiButton variant="plain"
                           type="button"
                           onClick={() => removeFlavorDraft(draft.id)}
                           aria-label={`حذف النكهة ${index + 1}`}
-                          className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-500 transition hover:bg-rose-500/10 hover:text-rose-400"
+                          className="flex h-7 w-7 items-center justify-center rounded-lg text-nw-muted transition hover:bg-nw-bad-bg hover:text-nw-bad"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
-                        </button>
+                        </UiButton>
                       )}
                     </div>
 
                     <div className="grid grid-cols-[minmax(0,1fr)_52px] gap-2 max-[390px]:grid-cols-[minmax(0,1fr)_48px]">
                       <div>
-                        <label className="mb-1.5 block text-[9px] font-bold text-slate-400">
+                        <label className="mb-1.5 block text-xs font-bold text-nw-muted">
                           اسم النكهة *
                         </label>
                         <input
@@ -1042,10 +1043,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                       </div>
 
                       <div>
-                        <label className="mb-1.5 block text-center text-[9px] font-bold text-slate-500">
+                        <label className="mb-1.5 block text-center text-xs font-bold text-nw-muted">
                           صورة
                         </label>
-                        <label className="flex h-[38px] cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-dashed border-slate-700 bg-slate-950 text-slate-500 transition hover:border-indigo-500/50 hover:text-indigo-300">
+                        <label className="flex h-11 cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-dashed border-nw-border bg-nw-surface text-nw-muted transition hover:border-nw-border hover:text-nw-info">
                           {draft.imagePreview ? (
                             <img
                               src={draft.imagePreview}
@@ -1073,7 +1074,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                 ))}
               </div>
 
-              <button
+              <UiButton variant="plain"
                 type="button"
                 disabled={flavorDrafts.length >= 30}
                 onClick={() =>
@@ -1082,84 +1083,84 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                     createFlavorDraft(),
                   ])
                 }
-                className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-indigo-500/30 bg-indigo-500/5 py-2.5 font-black text-indigo-300 transition hover:bg-indigo-500/10 disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-nw-border bg-nw-info-bg py-2.5 font-black text-nw-info transition hover:bg-nw-info-bg disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <Plus className="h-3.5 w-3.5" />
                 إضافة نكهة أخرى
-              </button>
+              </UiButton>
 
-              <div className="flex items-start gap-2 rounded-xl border border-emerald-500/15 bg-emerald-500/5 p-2.5 text-[10px] leading-5 text-slate-400">
-                <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400" />
+              <div className="flex items-start gap-2 rounded-xl border border-nw-border bg-nw-ok-bg p-2.5 text-xs leading-5 text-nw-muted">
+                <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-ok" />
                 عند الحفظ يُنشأ تعريف المنتج ونكهاته معًا برصيد صفر. تدخل
                 البضاعة لاحقًا من الاستلام، ولكل نكهة مخزونها وتكلفتها.
               </div>
             </div>
           )}
-        </section>
+        </Card>
       )}
 
       {isEditing &&
         (initialProduct?.isFlavorMaster || currentFlavors.length > 0) && (
-          <section className="rounded-2xl border border-violet-500/25 bg-violet-950/15 p-3.5">
+          <Card padded={false} className="rounded-2xl border border-nw-border bg-nw-info-bg p-3.5">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <Palette className="h-4 w-4 shrink-0 text-violet-300" />
-                  <h4 className="font-black text-slate-100">
+                  <Palette className="h-4 w-4 shrink-0 text-nw-info" />
+                  <h4 className="font-black text-nw-text">
                     النكهات الحالية
                   </h4>
                 </div>
-                <p className="mt-1 text-[9px] leading-4 text-slate-500">
+                <p className="mt-1 text-xs leading-4 text-nw-muted">
                   كل نكهة SKU مستقل وله مخزون وتكلفة خاصة به.
                 </p>
               </div>
-              <button
+              <UiButton variant="plain"
                 type="button"
                 onClick={() => {
                   if (!initialProduct) return;
                   openModal('view_product', initialProduct);
                 }}
-                className="shrink-0 rounded-xl bg-violet-600 px-3 py-2 text-[10px] font-black text-white"
+                className="shrink-0 rounded-xl bg-nw-primary px-3 py-2 text-xs font-black text-nw-on-primary"
               >
                 إدارة النكهات
-              </button>
+              </UiButton>
             </div>
             <div className="mt-3 grid gap-2 sm:grid-cols-2">
               {currentFlavors.map((flavor) => (
                 <div
                   key={flavor.id}
-                  className="rounded-xl border border-slate-800 bg-slate-950/80 p-2.5"
+                  className="rounded-xl border border-nw-border bg-nw-surface p-2.5"
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <strong className="truncate text-[10px] text-slate-100">
+                    <strong className="truncate text-xs text-nw-text">
                       {flavor.flavorNameAr || flavor.nameAr}
                     </strong>
                     <span
-                      className={`rounded-full px-2 py-0.5 text-[8px] font-black ${
+                      className={`rounded-full px-2 py-0.5 text-xs font-black ${
                         flavor.status === 'hidden'
-                          ? 'bg-slate-700 text-slate-300'
-                          : 'bg-emerald-500/15 text-emerald-300'
+                          ? 'bg-nw-mute-bg text-nw-text'
+                          : 'bg-nw-ok-bg text-nw-ok'
                       }`}
                     >
                       {flavor.status === 'hidden' ? 'متوقفة' : 'نشطة'}
                     </span>
                   </div>
-                  <p className="mt-1 truncate font-mono text-[8px] text-slate-500">
+                  <p className="mt-1 truncate font-mono text-xs text-nw-muted">
                     SKU: {flavor.sku}
                     {flavor.barcode ? ` • ${flavor.barcode}` : ''}
                   </p>
                 </div>
               ))}
             </div>
-          </section>
+          </Card>
         )}
 
-      <section className="rounded-2xl border border-slate-800 bg-slate-950 p-3.5">
+      <Card padded={false} className="rounded-2xl border border-nw-border bg-nw-surface p-3.5">
         <div className="mb-3 flex items-center gap-2">
-          <Barcode className="h-4 w-4 text-cyan-400" />
+          <Barcode className="h-4 w-4 text-nw-info" />
           <div>
-            <h4 className="font-black text-slate-100">التعريف والتتبع</h4>
-            <p className="text-[10px] text-slate-500">
+            <h4 className="font-black text-nw-text">التعريف والتتبع</h4>
+            <p className="text-xs text-nw-muted">
               SKU داخلي، والباركود اختياري
             </p>
           </div>
@@ -1167,20 +1168,20 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         <div className="grid grid-cols-2 gap-2">
           <div>
             <div className="mb-1.5 flex items-center justify-between">
-              <label className="text-[10px] font-bold text-slate-300">
+              <label className="text-xs font-bold text-nw-text">
                 SKU *
               </label>
               {!isEditing && (
-                <button
+                <UiButton variant="plain"
                   type="button"
                   onClick={generateSku}
-                  className="text-[9px] font-bold text-cyan-400"
+                  className="text-xs font-bold text-nw-info"
                 >
                   توليد
-                </button>
+                </UiButton>
               )}
             </div>
-            <input
+            <input aria-label="SKU"
               required
               value={sku}
               onChange={(event) => setSku(event.target.value)}
@@ -1189,7 +1190,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-[10px] font-bold text-slate-300">
+            <label className="mb-1.5 block text-xs font-bold text-nw-text">
               الباركود
             </label>
             <div className="flex gap-1.5">
@@ -1204,32 +1205,32 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                 disabled={isFlavorMaster}
                 className={`${inputClass} min-w-0 font-mono`}
               />
-              <button
+              <UiButton variant="plain"
                 type="button"
                 onClick={() => setIsBarcodeCameraOpen(true)}
                 disabled={isFlavorMaster}
                 aria-label="مسح باركود المنتج بالكاميرا"
                 title="مسح الباركود بالكاميرا"
-                className="flex h-[38px] w-10 shrink-0 items-center justify-center rounded-xl border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 transition hover:bg-cyan-500/20 disabled:cursor-not-allowed disabled:border-slate-800 disabled:bg-slate-900 disabled:text-slate-600"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-nw-border bg-nw-info-bg text-nw-info transition hover:bg-nw-info-bg disabled:cursor-not-allowed disabled:border-nw-border disabled:bg-nw-surface-2 disabled:text-nw-muted"
               >
                 <Camera className="h-4 w-4" />
-              </button>
+              </UiButton>
             </div>
             {isFlavorMaster && (
-              <p className="mt-1 text-[9px] leading-4 text-slate-500">
+              <p className="mt-1 text-xs leading-4 text-nw-muted">
                 المنتج الأساسي للتجميع فقط؛ أضف الباركود لكل نكهة قابلة للبيع.
               </p>
             )}
           </div>
         </div>
-      </section>
+      </Card>
 
-      <section className="rounded-2xl border border-amber-500/20 bg-gradient-to-br from-amber-950/20 to-slate-950 p-3.5">
+      <Card padded={false} className="rounded-2xl border border-nw-border    p-3.5">
         <div className="mb-3 flex items-center gap-2">
-          <Layers3 className="h-4 w-4 text-amber-400" />
+          <Layers3 className="h-4 w-4 text-nw-warn" />
           <div>
-            <h4 className="font-black text-slate-100">شراء المورد</h4>
-            <p className="text-[10px] text-slate-500">
+            <h4 className="font-black text-nw-text">شراء المورد</h4>
+            <p className="text-xs text-nw-muted">
               عرّف الطرد مرة واحدة، والتكلفة تُحسب للحبة
             </p>
           </div>
@@ -1237,10 +1238,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="mb-1.5 block text-[9px] font-bold text-slate-400">
+            <label className="mb-1.5 block text-xs font-bold text-nw-muted">
               نوع الطرد
             </label>
-            <select
+            <select aria-label="نوع طرد الشراء"
               value={purchasePackage}
               onChange={(event) => setPurchasePackage(event.target.value)}
               className={inputClass}
@@ -1253,10 +1254,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             </select>
           </div>
           <div>
-            <label className="mb-1.5 block text-[9px] font-bold text-slate-400">
+            <label className="mb-1.5 block text-xs font-bold text-nw-muted">
               عدد الحبات في الطرد *
             </label>
-            <input
+            <input aria-label="عدد الباكيتات في طرد الشراء"
               type="number"
               min="1"
               step="1"
@@ -1269,10 +1270,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-[9px] font-bold text-slate-400">
+            <label className="mb-1.5 block text-xs font-bold text-nw-muted">
               سعر شراء الطرد *
             </label>
-            <input
+            <input aria-label="سعر شراء الطرد"
               type="number"
               min="0.001"
               step="0.001"
@@ -1285,10 +1286,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-[9px] font-bold text-amber-300">
+            <label className="mb-1.5 block text-xs font-bold text-nw-warn">
               سعر شراء الحبة *
             </label>
-            <input
+            <input aria-label="سعر شراء الباكيت"
               type="number"
               min="0.001"
               step="0.001"
@@ -1297,31 +1298,31 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               onChange={(event) =>
                 changeUnitPurchasePrice(event.target.value)
               }
-              className={`${numberInputClass} border-amber-500/25 text-amber-200 focus:border-amber-400`}
+              className={`${numberInputClass} border-nw-border text-nw-warn focus:border-nw-border`}
             />
           </div>
         </div>
 
-        <div className="mt-3 flex items-center justify-between rounded-xl border border-amber-500/15 bg-amber-500/5 px-3 py-2">
-          <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400">
-            <ArrowLeftRight className="h-3.5 w-3.5 text-amber-400" />
+        <div className="mt-3 flex items-center justify-between rounded-xl border border-nw-border bg-nw-warn-bg px-3 py-2">
+          <span className="flex items-center gap-1.5 text-xs font-bold text-nw-muted">
+            <ArrowLeftRight className="h-3.5 w-3.5 text-nw-warn" />
             السعران مربوطان تلقائيًا
           </span>
-          <strong className="text-[10px] text-amber-300">
-            {validUnitsPerPackage} حبة × {costPerUnit.toFixed(3)} ={' '}
-            {validPackagePrice.toFixed(3)} {CURRENCY}
+          <strong className="text-xs text-nw-warn">
+            {validUnitsPerPackage} حبة × {formatJod(costPerUnit)} ={' '}
+            {formatJod(validPackagePrice)} {CURRENCY}
           </strong>
         </div>
-      </section>
+      </Card>
 
-      <section className="rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-950/25 to-slate-950 p-3.5">
+      <Card padded={false} className="rounded-2xl border border-nw-border    p-3.5">
         <div className="mb-3 flex items-center gap-2">
-          <Tag className="h-4 w-4 text-emerald-400" />
+          <Tag className="h-4 w-4 text-nw-ok" />
           <div>
-            <h4 className="font-black text-slate-100">
+            <h4 className="font-black text-nw-text">
               طرد بيع الجملة والربح
             </h4>
-            <p className="text-[10px] text-slate-500">
+            <p className="text-xs text-nw-muted">
               لا يوجد بيع بالحبة؛ السعر المدخل للطرد كاملًا
             </p>
           </div>
@@ -1329,10 +1330,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
         <div className="grid grid-cols-3 gap-2">
           <div>
-            <label className="mb-1.5 block text-[9px] font-bold text-emerald-300">
+            <label className="mb-1.5 block text-xs font-bold text-nw-ok">
               نوع طرد البيع
             </label>
-            <select
+            <select aria-label="نوع طرد البيع"
               value={salePackage}
               onChange={(event) => setSalePackage(event.target.value)}
               className={inputClass}
@@ -1347,10 +1348,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             </select>
           </div>
           <div>
-            <label className="mb-1.5 block text-[9px] font-bold text-slate-300">
+            <label className="mb-1.5 block text-xs font-bold text-nw-text">
               الحبات في طرد البيع *
             </label>
-            <input
+            <input aria-label="عدد الباكيتات في طرد البيع"
               type="number"
               min="1"
               step="1"
@@ -1367,10 +1368,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-[9px] font-bold text-emerald-300">
+            <label className="mb-1.5 block text-xs font-bold text-nw-ok">
               سعر بيع الطرد *
             </label>
-            <input
+            <input aria-label="سعر بيع الطرد"
               type="number"
               min="0.001"
               step="0.001"
@@ -1401,26 +1402,26 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           />
         </div>
 
-        <div className="mt-2 flex items-start gap-2 rounded-xl border border-emerald-500/15 bg-emerald-500/5 p-2.5 text-[10px] leading-5 text-slate-400">
-          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400" />
+        <div className="mt-2 flex items-start gap-2 rounded-xl border border-nw-border bg-nw-ok-bg p-2.5 text-xs leading-5 text-nw-muted">
+          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-ok" />
           الزبون يطلب عدد طرود؛ كل {salePackage} يخصم{' '}
           {validUnitsPerSalePackage} {unit} من المخزون.
         </div>
 
         {salePackageProfit.isLoss && (
-          <div className="mt-2 flex items-start gap-2 rounded-xl border border-rose-500/30 bg-rose-500/10 p-2.5 text-[10px] font-bold text-rose-300">
+          <div className="mt-2 flex items-start gap-2 rounded-xl border border-nw-border bg-nw-bad-bg p-2.5 text-xs font-bold text-nw-bad">
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
             سعر بيع الطرد أقل من تكلفته؛ سيظهر بيع هذا الطرد كخسارة.
           </div>
         )}
-      </section>
+      </Card>
 
-      <section className="rounded-2xl border border-slate-800 bg-slate-950 p-3.5">
+      <Card padded={false} className="rounded-2xl border border-nw-border bg-nw-surface p-3.5">
         <div className="mb-3 flex items-center gap-2">
-          <Warehouse className="h-4 w-4 text-indigo-400" />
+          <Warehouse className="h-4 w-4 text-nw-info" />
           <div>
-            <h4 className="font-black text-slate-100">ضبط المخزون</h4>
-            <p className="text-[10px] text-slate-500">
+            <h4 className="font-black text-nw-text">ضبط المخزون</h4>
+            <p className="text-xs text-nw-muted">
               الرصيد يتحرك لاحقًا من الاستلام والطلبات تلقائيًا
             </p>
           </div>
@@ -1428,10 +1429,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
         {!isEditing && (
           <div className="mb-3">
-            <label className="mb-1.5 block text-[10px] font-bold text-slate-300">
+            <label className="mb-1.5 block text-xs font-bold text-nw-text">
               المستودع الافتراضي للصنف *
             </label>
-            <select
+            <select aria-label="المستودع"
               required
               value={warehouseId}
               onChange={(event) => setWarehouseId(event.target.value)}
@@ -1448,7 +1449,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         )}
 
         {!isEditing && (
-          <div className="mb-3 flex items-center gap-2 rounded-xl border border-emerald-500/15 bg-emerald-500/5 px-3 py-2 text-[10px] font-bold text-emerald-200">
+          <div className="mb-3 flex items-center gap-2 rounded-xl border border-nw-border bg-nw-ok-bg px-3 py-2 text-xs font-bold text-nw-ok">
             <Package className="h-3.5 w-3.5 shrink-0" />
             يُنشأ الصنف برصيد صفر؛ أدخل البضاعة الفعلية من شاشة الاستلام.
           </div>
@@ -1456,10 +1457,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="mb-1.5 block text-[9px] font-bold text-amber-300">
+            <label className="mb-1.5 block text-xs font-bold text-nw-warn">
               تنبيه عند ({salePackage})
             </label>
-            <input
+            <input aria-label="حد الطلب"
               type="number"
               min="0"
               step="1"
@@ -1476,10 +1477,10 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-[9px] font-bold text-slate-400">
+            <label className="mb-1.5 block text-xs font-bold text-nw-muted">
               سقف المستودع ({salePackage})
             </label>
-            <input
+            <input aria-label="سقف المستودع"
               type="number"
               min="0"
               step="1"
@@ -1494,26 +1495,26 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               placeholder="اختياري"
               className={numberInputClass}
             />
-            <p className="mt-1 text-[8px] leading-4 text-slate-500">
+            <p className="mt-1 text-xs leading-4 text-nw-muted">
               اختياري: كمية لا تريد تجاوزها عند الشراء، ولا تمنع البيع.
             </p>
           </div>
         </div>
 
-        <div className="mt-3 flex items-start gap-2 rounded-xl border border-indigo-500/15 bg-indigo-500/5 p-2.5 text-[10px] leading-5 text-slate-400">
-          <Boxes className="mt-0.5 h-3.5 w-3.5 shrink-0 text-indigo-300" />
+        <div className="mt-3 flex items-start gap-2 rounded-xl border border-nw-border bg-nw-info-bg p-2.5 text-xs leading-5 text-nw-muted">
+          <Boxes className="mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-info" />
           كل القيم هنا بعدد {salePackage}؛ كل {salePackage} ={' '}
           {validUnitsPerSalePackage} {unit}. النظام يحولها تلقائيًا للحبات
           عند الحفظ والحساب.
         </div>
 
         {isEditing && (
-          <div className="mt-3 flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900 px-3 py-2">
-            <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-400">
-              <Boxes className="h-3.5 w-3.5 text-indigo-400" />
+          <div className="mt-3 flex items-center justify-between rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2">
+            <span className="flex items-center gap-1.5 text-xs font-bold text-nw-muted">
+              <Boxes className="h-3.5 w-3.5 text-nw-info" />
               الرصيد الحالي لا يُعدل من بطاقة المنتج
             </span>
-            <strong className="text-amber-300">
+            <strong className="text-nw-warn">
               {currentStockSalePackages} {salePackage}
               {currentStockLooseUnits > 0
                 ? ` + ${currentStockLooseUnits} ${unit}`
@@ -1522,33 +1523,33 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </div>
         )}
 
-        <div className="mt-3 flex items-start gap-2 rounded-xl bg-slate-900/70 p-2.5 text-[10px] leading-5 text-slate-400">
-          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-400" />
+        <div className="mt-3 flex items-start gap-2 rounded-xl bg-nw-surface-2 p-2.5 text-xs leading-5 text-nw-muted">
+          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-info" />
           تاريخ الصلاحية ورقم التشغيلة يُسجلان عند استلام شحنة المورد،
           لأن كل شحنة قد تحمل صلاحية مختلفة.
         </div>
-      </section>
+      </Card>
 
       {submitError && (
-        <div className="rounded-2xl border border-rose-500/30 bg-rose-500/10 p-3 text-rose-200">
-          <div className="flex items-center gap-2 font-black text-rose-400">
+        <div className="rounded-2xl border border-nw-border bg-nw-bad-bg p-3 text-nw-bad">
+          <div className="flex items-center gap-2 font-black text-nw-bad">
             <AlertTriangle className="h-4 w-4" />
             تعذر حفظ المنتج
           </div>
           <p className="mt-1.5 font-bold">{submitError.message}</p>
           {submitError.code && (
-            <p className="mt-1 font-mono text-[10px] text-rose-300/80">
+            <p className="mt-1 font-mono text-xs text-nw-bad">
               {submitError.code}
             </p>
           )}
         </div>
       )}
 
-      <div className="sticky bottom-0 z-10 -mx-1 flex gap-2 border-t border-slate-800 bg-slate-900/95 px-1 pt-3 backdrop-blur">
-        <button
+      <div className="sticky bottom-0 z-10 -mx-1 flex gap-2 border-t border-nw-border bg-nw-surface-2 px-1 pt-3 backdrop-blur">
+        <UiButton variant="plain"
           type="submit"
           disabled={isSubmitting}
-          className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-blue-600 py-3 font-black text-white shadow-lg shadow-blue-600/20 transition active:scale-[0.98] disabled:opacity-50"
+          className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-nw-primary py-3 font-black text-nw-on-primary shadow-lg shadow-none transition active:scale-[0.98] disabled:opacity-50"
         >
           <CheckCircle2
             className={`h-4 w-4 ${isSubmitting ? 'animate-spin' : ''}`}
@@ -1560,15 +1561,15 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               : hasFlavors
                 ? `إنشاء المنتج و${flavorDrafts.length} نكهة`
                 : 'إنشاء المنتج'}
-        </button>
-        <button
+        </UiButton>
+        <UiButton variant="plain"
           type="button"
           onClick={onClose}
           disabled={isSubmitting}
-          className="rounded-xl bg-slate-800 px-5 font-bold text-slate-300"
+          className="rounded-xl bg-nw-mute-bg px-5 font-bold text-nw-text"
         >
           إلغاء
-        </button>
+        </UiButton>
       </div>
 
       <BarcodeCameraCaptureModal
@@ -1577,7 +1578,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         onCapture={captureBarcode}
         startScanner={startBarcodeScanner}
       />
-    </form>
+    </form></FormFields>
   );
 };
 
@@ -1586,17 +1587,17 @@ const ProfitCard: React.FC<{
   profit: number;
   margin: number;
 }> = ({ label, profit, margin }) => (
-  <div className="rounded-xl border border-slate-800 bg-slate-900/80 p-2.5">
-    <span className="text-[9px] font-bold text-slate-500">{label}</span>
+  <div className="rounded-xl border border-nw-border bg-nw-surface-2 p-2.5">
+    <span className="text-xs font-bold text-nw-muted">{label}</span>
     <div
       className={`mt-0.5 flex items-end justify-between ${
-        profit >= 0 ? 'text-emerald-400' : 'text-rose-400'
+        profit >= 0 ? 'text-nw-ok' : 'text-nw-bad'
       }`}
     >
-      <strong className="text-xs">
-        {profit.toFixed(3)} {CURRENCY}
+      <strong className="text-sm">
+        {formatJod(profit)} {CURRENCY}
       </strong>
-      <span className="font-mono text-[10px]">%{margin.toFixed(1)}</span>
+      <span className="font-mono text-xs">%{margin.toFixed(1)}</span>
     </div>
   </div>
 );
@@ -1606,14 +1607,14 @@ const WholesaleMetric: React.FC<{
   value: number;
   tone: 'amber' | 'slate';
 }> = ({ label, value, tone }) => (
-  <div className="rounded-xl border border-slate-800 bg-slate-900/80 p-2.5">
-    <span className="text-[9px] font-bold text-slate-500">{label}</span>
+  <div className="rounded-xl border border-nw-border bg-nw-surface-2 p-2.5">
+    <span className="text-xs font-bold text-nw-muted">{label}</span>
     <strong
-      className={`mt-1 block text-[11px] ${
-        tone === 'amber' ? 'text-amber-300' : 'text-slate-300'
+      className={`mt-1 block text-xs ${
+        tone === 'amber' ? 'text-nw-warn' : 'text-nw-text'
       }`}
     >
-      {value.toFixed(3)} {CURRENCY}
+      {formatJod(value)} {CURRENCY}
     </strong>
   </div>
 );

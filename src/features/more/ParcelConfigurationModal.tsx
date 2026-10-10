@@ -1,9 +1,10 @@
+import {FormFields,UiButton,formatJod} from '../../components/ui';
 import {useEffect, useState, type FormEvent} from 'react';
 import {useAuthStore} from '../../stores/useAuthStore';
 import {fetchParcelConfigurationContext, saveParcelConfiguration, setParcelFeatureState,
   type ParcelConfigurationContext, type ParcelConfigurationInput, type ParcelFeatureState} from '../../services/supabase/parcelConfiguration.service';
 
-const inputClass = 'mt-1 w-full rounded-lg border border-slate-700 bg-slate-950 p-2 text-sm';
+const inputClass = 'mt-1 w-full rounded-lg border border-nw-border bg-nw-surface p-2 text-sm';
 const labels = {OFF:'متوقفة',OWNER_PILOT:'تجربة المالك فقط',ENABLED:'مفعّلة للجميع'};
 export function ParcelConfigurationModal() {
   const {roleName:role} = useAuthStore();
@@ -55,24 +56,24 @@ export function ParcelConfigurationModal() {
   const missingCandidates=context?.products.flatMap(p=>p.configuration?.is_active
     ? p.components.filter(c=>p.allowedProductIds.includes(c.productId) && c.packetPriceInMinorUnits===0) : []) ?? [];
   const missingPacketPrices=missingCandidates.filter((c,index)=>missingCandidates.findIndex(other=>other.productId===c.productId)===index);
-  return <div dir="rtl" aria-busy={busy} className="space-y-4 text-slate-200">
-    <p className="text-xs">إعدادات البيع الجديدة للمتجر والكاشير. لا تغيّر الطرود أو الأسعار التاريخية.</p>
-    {missingPacketPrices.length>0 && <aside role="status" className="rounded-lg border border-amber-500/40 p-3 text-amber-200">
+  return <FormFields dir="rtl" aria-busy={busy} className="nw-products-fields min-w-0 space-y-4 text-nw-text">
+    <p className="text-sm">إعدادات البيع الجديدة للمتجر والكاشير. لا تغيّر الطرود أو الأسعار التاريخية.</p>
+    {missingPacketPrices.length>0 && <aside role="status" className="rounded-lg border border-nw-border p-3 text-nw-warn">
       <p>عبّي سعر الباكيت؛ بدونه لا يُحسب خصم ضرر العميل</p>
       <ul>{missingPacketPrices.map(c=><li key={c.productId}>{c.nameAr} — {c.sku}</li>)}</ul>
     </aside>}
-    {error && <p role="alert" className="text-red-300">{error}</p>}
-    {message && <p role="status" className="text-emerald-300">{message}</p>}
-    <button type="button" disabled={busy} onClick={()=>void reload()} className="rounded-lg border p-2">إعادة تحميل الإعداد</button>
+    {error && <p role="alert" className="text-nw-bad">{error}</p>}
+    {message && <p role="status" className="text-nw-ok">{message}</p>}
+    <UiButton variant="plain" type="button" disabled={busy} onClick={()=>void reload()} className="rounded-lg border p-2">إعادة تحميل الإعداد</UiButton>
     {!context ? <p>جارٍ تحميل إعداد الطرود...</p> : <>
-      <fieldset disabled={busy || uncertain} className="space-y-3 rounded-xl border border-slate-700 p-3">
+      <fieldset disabled={busy || uncertain} className="space-y-3 rounded-xl border border-nw-border p-3">
         <legend>حالة الطرود المرنة — {labels[context.featureState]}</legend>
         <label>حالة الميزة<select aria-label="حالة الميزة" className={inputClass} value={nextState} onChange={e=>{setNextState(e.target.value as ParcelFeatureState);setConfirm(false);}}>
           {Object.entries(labels).map(([value,label])=><option key={value} value={value}>{label}</option>)}
         </select></label>
         {nextState!==context.featureState && <><p>التغيير يؤثر على عمليات البيع الجديدة. إيقاف الميزة لا يلغي الطلبات السابقة.</p>
           <label className="flex gap-2"><input type="checkbox" checked={confirm} onChange={e=>setConfirm(e.target.checked)}/>أؤكد تغيير الحالة إلى {labels[nextState]}</label>
-          <button type="button" disabled={!confirm} onClick={()=>void changeState()} className="rounded-lg bg-amber-700 p-2">تأكيد تغيير حالة الميزة</button></>}
+          <UiButton variant="primary" type="button" disabled={!confirm} onClick={()=>void changeState()} className="rounded-lg p-2">تأكيد تغيير حالة الميزة</UiButton></>}
       </fieldset>
       {!context.products.length ? <p>لا توجد أصناف مؤهلة؛ عرّف وحدة بيع للمنتج أولاً.</p> : <form onSubmit={event=>void save(event)} aria-busy={busy} className="space-y-3">
         <fieldset disabled={busy || uncertain} className="space-y-3">
@@ -91,11 +92,11 @@ export function ParcelConfigurationModal() {
                 {component.flavorNameAr || component.nameAr}
               </label>)}
             </fieldset>}
-            <p className="text-xs">سعر الطرد: {(product.parcelPriceInMinorUnits/1000).toFixed(3)} د.أ — يُعدّل من شاشة المنتج. نسخة الإعداد: {product.configuration?.configuration_revision ?? 'جديد'}.</p>
-            <button type="submit" className="rounded-lg bg-blue-600 p-3">{busy?'جارٍ الحفظ...':'حفظ إعداد الطرد'}</button>
+            <p className="text-sm">سعر الطرد: {formatJod(product.parcelPriceInMinorUnits/1000)} — يُعدّل من شاشة المنتج. نسخة الإعداد: {product.configuration?.configuration_revision ?? 'جديد'}.</p>
+            <UiButton variant="primary" type="submit" className="rounded-lg p-3">{busy?'جارٍ الحفظ...':'حفظ إعداد الطرد'}</UiButton>
           </>}
         </fieldset>
       </form>}
     </>}
-  </div>;
+  </FormFields>;
 }

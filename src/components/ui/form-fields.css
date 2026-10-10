@@ -26,6 +26,21 @@
 }
 .nw-form-fields button { min-height: 44px; }
 .nw-profile-fields button { height: auto; }
+.nw-products-fields { line-height: 1.75; }
+.nw-products-fields :is(p,h1,h2,h3,h4,span,label,strong) { line-height: 1.75; }
+.nw-products-fields button { height: auto; min-height: 44px; }
+.nw-products-fields [data-product-catalog-card] > div:last-child button {
+  min-width: 0; padding-inline: 4px; gap: 4px; font-size: 12px;
+}
+.nw-products-fields input:not([type="checkbox"]):not([type="radio"]),
+.nw-products-fields select, .nw-products-fields textarea { min-width: 0; }
+.nw-products-fields form > div:last-of-type:has(> button[type="submit"]) {
+  position: sticky; bottom: 0; z-index: 10; padding-bottom: 8px;
+  background: var(--nw-surface);
+}
+.nw-products-fields fieldset > button[type="submit"] {
+  position: sticky; bottom: 0; z-index: 10;
+}
 .nw-profile-fields :is(p,h2,h3,h4,span,label) { line-height: 1.75; }
 .nw-profile-fields form > button[type="submit"] { position: sticky; bottom: 0; z-index: 10; }
 .nw-form-fields label:has(input[type="checkbox"]) { min-height: 44px; gap: 12px; }

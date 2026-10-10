@@ -1,3 +1,4 @@
+import {Card,FormFields,UiButton,formatJod} from '../../components/ui';
 import React, { useCallback, useState } from 'react';
 import {
   AlertTriangle,
@@ -373,9 +374,9 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   };
 
   return (
-    <div dir="rtl" className="space-y-3 text-xs">
-      <section className="overflow-hidden rounded-3xl border border-slate-800 bg-slate-950">
-        <div className="relative flex h-40 items-center justify-center bg-gradient-to-br from-slate-900 to-slate-950">
+    <FormFields dir="rtl" className="nw-products-fields min-w-0 space-y-4 text-nw-text text-sm">
+      <Card padded={false} className="overflow-hidden rounded-3xl border border-nw-border bg-nw-surface">
+        <div className="relative flex h-40 items-center justify-center   ">
           {product.imageUrl && !imageFailed ? (
             <img
               src={product.imageUrl}
@@ -384,17 +385,17 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               className="h-full w-full object-cover"
             />
           ) : (
-            <Image className="h-10 w-10 text-slate-700" />
+            <Image className="h-11 w-11 text-nw-muted" />
           )}
           <span
-            className={`absolute right-3 top-3 rounded-full border px-2.5 py-1 text-[9px] font-black ${
+            className={`absolute right-3 top-3 rounded-full border px-2.5 py-1 text-xs font-black ${
               product.status === 'hidden'
-                ? 'border-slate-700 bg-slate-900/90 text-slate-400'
+                ? 'border-nw-border bg-nw-surface-2 text-nw-muted'
                 : isOutOfStock
-                  ? 'border-rose-500/30 bg-rose-950/90 text-rose-400'
+                  ? 'border-nw-border bg-nw-bad-bg text-nw-bad'
                   : isLowStock
-                    ? 'border-amber-500/30 bg-amber-950/90 text-amber-400'
-                    : 'border-emerald-500/30 bg-emerald-950/90 text-emerald-400'
+                    ? 'border-nw-border bg-nw-warn-bg text-nw-warn'
+                    : 'border-nw-border bg-nw-ok-bg text-nw-ok'
             }`}
           >
             {product.status === 'hidden'
@@ -409,66 +410,66 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
         <div className="space-y-2.5 p-4">
           <div>
-            <p className="mb-1 text-[10px] font-bold text-blue-400">
+            <p className="mb-1 text-xs font-bold text-nw-info">
               {category?.nameAr || 'بدون قسم'}
             </p>
-            <h3 className="text-base font-black text-slate-100">
+            <h3 className="text-base font-black text-nw-text">
               {product.nameAr}
             </h3>
             {product.description && (
-              <p className="mt-1 text-[10px] leading-5 text-slate-400">
+              <p className="mt-1 text-xs leading-5 text-nw-muted">
                 {product.description}
               </p>
             )}
           </div>
-          <div className="flex flex-wrap gap-1.5 border-t border-slate-800 pt-2.5 font-mono text-[9px] text-slate-300">
-            <span className="rounded-lg bg-slate-900 px-2 py-1">
+          <div className="flex flex-wrap gap-1.5 border-t border-nw-border pt-2.5 font-mono text-xs text-nw-text">
+            <span className="rounded-lg bg-nw-surface-2 px-2 py-1">
               SKU: {product.sku}
             </span>
             {product.barcode && (
-              <span className="rounded-lg bg-slate-900 px-2 py-1">
+              <span className="rounded-lg bg-nw-surface-2 px-2 py-1">
                 Barcode: {product.barcode}
               </span>
             )}
           </div>
         </div>
-      </section>
+      </Card>
 
       {!product.flavorMasterProductId && (
-        <section className="rounded-2xl border border-violet-500/20 bg-gradient-to-br from-violet-950/25 to-slate-950 p-3.5">
+        <Card padded={false} className="rounded-2xl border border-nw-border    p-3.5">
           <div className="flex items-start justify-between gap-3">
             <div className="flex min-w-0 items-start gap-2">
-              <Palette className="mt-0.5 h-4 w-4 shrink-0 text-violet-400" />
+              <Palette className="mt-0.5 h-4 w-4 shrink-0 text-nw-info" />
               <div>
-                <h4 className="font-black text-slate-100">النكهات</h4>
-                <p className="mt-0.5 text-[9px] leading-4 text-slate-500">
+                <h4 className="font-black text-nw-text">النكهات</h4>
+                <p className="mt-0.5 text-xs leading-4 text-nw-muted">
                   السعر والطرد من المنتج الأساسي، والمخزون مستقل لكل نكهة.
                 </p>
               </div>
             </div>
-            <button
+            <UiButton variant="plain"
               type="button"
               onClick={() => setShowFlavorForm((value) => !value)}
-              className="flex shrink-0 items-center gap-1 rounded-xl bg-violet-600 px-2.5 py-2 text-[9px] font-black text-white"
+              className="flex shrink-0 items-center gap-1 rounded-xl bg-nw-primary px-2.5 py-2 text-xs font-black text-nw-on-primary"
             >
               {showFlavorForm ? <X className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
               {showFlavorForm ? 'إغلاق' : 'إضافة نكهة'}
-            </button>
+            </UiButton>
           </div>
 
           {showFlavorForm && (
-            <div className="mt-3 space-y-2 rounded-2xl border border-violet-500/20 bg-slate-950/80 p-3">
+            <div className="mt-3 space-y-2 rounded-2xl border border-nw-border bg-nw-surface p-3">
               <label className="block">
-                <span className="mb-1 block text-[9px] font-bold text-slate-400">اسم النكهة *</span>
+                <span className="mb-1 block text-xs font-bold text-nw-muted">اسم النكهة *</span>
                 <input
                   value={flavorName}
                   onChange={(event) => setFlavorName(event.target.value)}
                   placeholder="مثال: جبنة"
-                  className="w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 text-xs font-bold text-slate-100 outline-none focus:border-violet-500"
+                  className="w-full rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2.5 text-sm font-bold text-nw-text outline-none focus:border-nw-border"
                 />
               </label>
               <label className="block">
-                <span className="mb-1 block text-[9px] font-bold text-slate-400">الباركود (اختياري)</span>
+                <span className="mb-1 block text-xs font-bold text-nw-muted">الباركود (اختياري)</span>
                 <span className="flex gap-1.5">
                   <input
                     value={flavorBarcode}
@@ -476,23 +477,23 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     inputMode="text"
                     aria-label="باركود النكهة الجديدة"
                     placeholder="أدخله يدويًا أو امسحه بالكاميرا"
-                    className="min-w-0 flex-1 rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 text-xs font-bold text-slate-100 outline-none focus:border-violet-500"
+                    className="min-w-0 flex-1 rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2.5 text-sm font-bold text-nw-text outline-none focus:border-nw-border"
                   />
-                  <button
+                  <UiButton variant="plain"
                     type="button"
                     onClick={() => setBarcodeCameraTarget('new')}
                     aria-label="مسح باركود النكهة الجديدة بالكاميرا"
                     title="مسح الباركود بالكاميرا"
-                    className="flex h-[38px] w-10 shrink-0 items-center justify-center rounded-xl border border-violet-500/30 bg-violet-500/10 text-violet-300"
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-nw-border bg-nw-info-bg text-nw-info"
                   >
                     <Camera className="h-4 w-4" />
-                  </button>
+                  </UiButton>
                 </span>
               </label>
               <div className="grid gap-2">
                 <label className="flex cursor-pointer flex-col justify-end">
-                  <span className="mb-1 block text-[9px] font-bold text-slate-400">صورة النكهة (اختياري)</span>
-                  <span className="flex h-[38px] items-center justify-center gap-1.5 rounded-xl border border-dashed border-slate-700 bg-slate-900 text-[9px] font-bold text-slate-300">
+                  <span className="mb-1 block text-xs font-bold text-nw-muted">صورة النكهة (اختياري)</span>
+                  <span className="flex h-11 items-center justify-center gap-1.5 rounded-xl border border-dashed border-nw-border bg-nw-surface-2 text-xs font-bold text-nw-text">
                     <Upload className="h-3.5 w-3.5" />
                     {flavorImage ? 'تغيير الصورة' : 'اختر صورة'}
                   </span>
@@ -505,24 +506,24 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 </label>
               </div>
               {flavorImagePreview && (
-                <img src={flavorImagePreview} alt="معاينة النكهة" className="h-20 w-full rounded-xl bg-slate-900 object-contain" />
+                <img src={flavorImagePreview} alt="معاينة النكهة" className="h-20 w-full rounded-xl bg-nw-surface-2 object-contain" />
               )}
-              <p className="rounded-xl border border-emerald-500/15 bg-emerald-500/5 p-2 text-[9px] font-bold leading-4 text-emerald-200">
+              <p className="rounded-xl border border-nw-border bg-nw-ok-bg p-2 text-xs font-bold leading-4 text-nw-ok">
                 تُنشأ النكهة برصيد صفر. استلم كميتها الفعلية لاحقًا من شاشة الاستلام.
               </p>
               {!isFlavorFamily && product.onHandQuantity > 0 && (
-                <p className="rounded-xl border border-amber-500/25 bg-amber-500/10 p-2 text-[9px] font-bold leading-4 text-amber-300">
+                <p className="rounded-xl border border-nw-border bg-nw-warn-bg p-2 text-xs font-bold leading-4 text-nw-warn">
                   رصيد المنتج الأساسي حاليًا ليس صفرًا. صفّر رصيده بالجرد أولًا، ثم وزّع الرصيد على النكهات حتى لا تختلط الكميات.
                 </p>
               )}
-              <button
+              <UiButton variant="plain"
                 type="button"
                 onClick={() => void saveFlavor()}
                 disabled={isSavingFlavor}
-                className="w-full rounded-xl bg-violet-600 py-2.5 text-[10px] font-black text-white disabled:opacity-50"
+                className="w-full rounded-xl bg-nw-primary py-2.5 text-xs font-black text-nw-on-primary disabled:opacity-50"
               >
                 {isSavingFlavor ? 'جاري الحفظ...' : 'حفظ تعريف النكهة'}
-              </button>
+              </UiButton>
             </div>
           )}
 
@@ -536,51 +537,51 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 return (
                   <div
                     key={flavor.id}
-                    className={`rounded-2xl border bg-slate-900/70 p-2.5 ${
+                    className={`rounded-2xl border bg-nw-surface-2 p-2.5 ${
                       isEditingFlavor
-                        ? 'border-indigo-500/35'
-                        : 'border-slate-800'
+                        ? 'border-nw-border'
+                        : 'border-nw-border'
                     }`}
                   >
                     <div className="flex items-center gap-2">
-                      <div className="h-11 w-11 shrink-0 overflow-hidden rounded-xl bg-slate-950">
+                      <div className="h-11 w-11 shrink-0 overflow-hidden rounded-xl bg-nw-surface">
                         {flavor.imageUrl ? (
                           <img src={flavor.imageUrl} alt={flavor.flavorNameAr} className="h-full w-full object-cover" />
                         ) : (
-                          <Palette className="m-3 h-5 w-5 text-slate-600" />
+                          <Palette className="m-3 h-5 w-5 text-nw-muted" />
                         )}
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-1.5">
-                          <strong className="truncate text-[10px] text-slate-100">{flavor.flavorNameAr}</strong>
-                          <span className={`rounded-full px-2 py-0.5 text-[8px] font-black ${
+                          <strong className="truncate text-xs text-nw-text">{flavor.flavorNameAr}</strong>
+                          <span className={`rounded-full px-2 py-0.5 text-xs font-black ${
                             isHidden
-                              ? 'bg-slate-700/70 text-slate-300'
+                              ? 'bg-nw-mute-bg text-nw-text'
                               : out
-                                ? 'bg-rose-500/15 text-rose-300'
-                                : 'bg-emerald-500/15 text-emerald-300'
+                                ? 'bg-nw-bad-bg text-nw-bad'
+                                : 'bg-nw-ok-bg text-nw-ok'
                           }`}>
                             {isHidden ? 'متوقفة' : out ? 'نافدة' : 'متوفرة'}
                           </span>
                         </div>
-                        <p className="mt-1 text-[9px] font-bold text-slate-400">
+                        <p className="mt-1 text-xs font-bold text-nw-muted">
                           المتاح: {flavorAvailable.cartonFormatted}
                           {flavor.barcode ? ` • ${flavor.barcode}` : ''}
                         </p>
                       </div>
 
                       <div className="flex shrink-0 items-center gap-1">
-                        <div className="grid grid-cols-2 overflow-hidden rounded-lg border border-slate-800">
-                          <button
+                        <div className="grid grid-cols-2 overflow-hidden rounded-lg border border-nw-border">
+                          <UiButton variant="plain"
                             type="button"
                             aria-label="تحريك النكهة للأعلى"
                             disabled={index === 0 || isReorderingFlavors}
                             onClick={() => void moveFlavor(index, -1)}
-                            className="p-1.5 text-slate-500 transition hover:text-indigo-300 disabled:opacity-25"
+                            className="p-1.5 text-nw-muted transition hover:text-nw-info disabled:opacity-25"
                           >
                             <ArrowUp className="h-3 w-3" />
-                          </button>
-                          <button
+                          </UiButton>
+                          <UiButton variant="plain"
                             type="button"
                             aria-label="تحريك النكهة للأسفل"
                             disabled={
@@ -588,19 +589,19 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                               isReorderingFlavors
                             }
                             onClick={() => void moveFlavor(index, 1)}
-                            className="border-r border-slate-800 p-1.5 text-slate-500 transition hover:text-indigo-300 disabled:opacity-25"
+                            className="border-r border-nw-border p-1.5 text-nw-muted transition hover:text-nw-info disabled:opacity-25"
                           >
                             <ArrowDown className="h-3 w-3" />
-                          </button>
+                          </UiButton>
                         </div>
-                        <button
+                        <UiButton variant="plain"
                           type="button"
                           onClick={() =>
                             isEditingFlavor
                               ? cancelFlavorEdit()
                               : startFlavorEdit(flavor)
                           }
-                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-500/20 bg-indigo-500/10 text-indigo-300"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg border border-nw-border bg-nw-info-bg text-nw-info"
                           aria-label={isEditingFlavor ? 'إغلاق التعديل' : 'تعديل النكهة'}
                         >
                           {isEditingFlavor ? (
@@ -608,15 +609,15 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                           ) : (
                             <Edit3 className="h-3.5 w-3.5" />
                           )}
-                        </button>
+                        </UiButton>
                       </div>
                     </div>
 
                     {isEditingFlavor && (
-                      <div className="mt-2.5 space-y-2 border-t border-slate-800 pt-2.5">
+                      <div className="mt-2.5 space-y-2 border-t border-nw-border pt-2.5">
                         <div className="grid grid-cols-2 gap-2">
                           <label>
-                            <span className="mb-1 block text-[8px] font-bold text-slate-500">
+                            <span className="mb-1 block text-xs font-bold text-nw-muted">
                               اسم النكهة *
                             </span>
                             <input
@@ -624,11 +625,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                               onChange={(event) =>
                                 setEditFlavorName(event.target.value)
                               }
-                              className="w-full rounded-xl border border-slate-800 bg-slate-950 px-2.5 py-2 text-[10px] font-bold text-slate-100 outline-none focus:border-indigo-500"
+                              className="w-full rounded-xl border border-nw-border bg-nw-surface px-2.5 py-2 text-xs font-bold text-nw-text outline-none focus:border-nw-border"
                             />
                           </label>
                           <label>
-                            <span className="mb-1 block text-[8px] font-bold text-slate-500">
+                            <span className="mb-1 block text-xs font-bold text-nw-muted">
                               الباركود (اختياري)
                             </span>
                             <span className="flex gap-1">
@@ -639,23 +640,23 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                                 }
                                 inputMode="text"
                                 aria-label={`باركود نكهة ${flavor.flavorNameAr || flavor.nameAr}`}
-                                className="min-w-0 flex-1 rounded-xl border border-slate-800 bg-slate-950 px-2.5 py-2 text-[10px] font-bold text-slate-100 outline-none focus:border-indigo-500"
+                                className="min-w-0 flex-1 rounded-xl border border-nw-border bg-nw-surface px-2.5 py-2 text-xs font-bold text-nw-text outline-none focus:border-nw-border"
                               />
-                              <button
+                              <UiButton variant="plain"
                                 type="button"
                                 onClick={() => setBarcodeCameraTarget('edit')}
                                 aria-label={`مسح باركود نكهة ${flavor.flavorNameAr || flavor.nameAr} بالكاميرا`}
                                 title="مسح الباركود بالكاميرا"
-                                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-indigo-500/30 bg-indigo-500/10 text-indigo-300"
+                                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-nw-border bg-nw-info-bg text-nw-info"
                               >
                                 <Camera className="h-3.5 w-3.5" />
-                              </button>
+                              </UiButton>
                             </span>
                           </label>
                         </div>
 
                         <div className="grid grid-cols-2 gap-2">
-                          <label className="flex cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-dashed border-slate-700 bg-slate-950 px-2 py-2 text-[9px] font-bold text-slate-300">
+                          <label className="flex cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-dashed border-nw-border bg-nw-surface px-2 py-2 text-xs font-bold text-nw-text">
                             <Upload className="h-3.5 w-3.5" />
                             {editFlavorImage ? 'تم اختيار صورة جديدة' : 'تغيير الصورة'}
                             <input
@@ -667,88 +668,88 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                               }
                             />
                           </label>
-                          <button
+                          <UiButton variant="plain"
                             type="button"
                             role="switch"
                             aria-checked={editFlavorActive}
                             onClick={() =>
                               setEditFlavorActive((current) => !current)
                             }
-                            className={`rounded-xl border px-2 py-2 text-[9px] font-black ${
+                            className={`rounded-xl border px-2 py-2 text-xs font-black ${
                               editFlavorActive
-                                ? 'border-emerald-500/25 bg-emerald-500/10 text-emerald-300'
-                                : 'border-slate-700 bg-slate-950 text-slate-400'
+                                ? 'border-nw-border bg-nw-ok-bg text-nw-ok'
+                                : 'border-nw-border bg-nw-surface text-nw-muted'
                             }`}
                           >
                             {editFlavorActive ? 'ظاهرة ومتاحة' : 'متوقفة مؤقتًا'}
-                          </button>
+                          </UiButton>
                         </div>
 
                         {editFlavorImagePreview && (
                           <img
                             src={editFlavorImagePreview}
                             alt="معاينة صورة النكهة الجديدة"
-                            className="h-20 w-full rounded-xl bg-slate-950 object-contain"
+                            className="h-20 w-full rounded-xl bg-nw-surface object-contain"
                           />
                         )}
 
                         {!editFlavorActive && flavor.onHandQuantity > 0 && (
-                          <p className="rounded-xl bg-amber-500/10 p-2 text-[8px] font-bold leading-4 text-amber-300">
+                          <p className="rounded-xl bg-nw-warn-bg p-2 text-xs font-bold leading-4 text-nw-warn">
                             إيقاف النكهة يخفيها عن العملاء فقط؛ رصيدها وحركاتها سيبقيان محفوظين.
                           </p>
                         )}
 
                         <div className="grid grid-cols-2 gap-2">
-                          <button
+                          <UiButton variant="plain"
                             type="button"
                             disabled={isUpdatingFlavor}
                             onClick={() => void saveFlavorChanges(flavor)}
-                            className="rounded-xl bg-indigo-600 py-2.5 text-[9px] font-black text-white disabled:opacity-50"
+                            className="rounded-xl bg-nw-primary py-2.5 text-xs font-black text-nw-on-primary disabled:opacity-50"
                           >
                             {isUpdatingFlavor ? 'جاري الحفظ...' : 'حفظ التعديل'}
-                          </button>
-                          <button
+                          </UiButton>
+                          <UiButton variant="plain"
                             type="button"
                             disabled={isUpdatingFlavor}
                             onClick={cancelFlavorEdit}
-                            className="rounded-xl bg-slate-800 py-2.5 text-[9px] font-bold text-slate-300"
+                            className="rounded-xl bg-nw-mute-bg py-2.5 text-xs font-bold text-nw-text"
                           >
                             إلغاء
-                          </button>
+                          </UiButton>
                         </div>
                       </div>
                     )}
 
                     {!isEditingFlavor && (
-                      <button
+                      <UiButton variant="plain"
                         type="button"
                         onClick={() => {
                           onClose();
                           openModal('receive_goods', { productId: flavor.id });
                         }}
-                        className="mt-2 w-full rounded-xl border border-indigo-500/20 bg-indigo-500/5 py-2 text-[9px] font-black text-indigo-300"
+                        className="mt-2 w-full rounded-xl border border-nw-border bg-nw-info-bg py-2 text-xs font-black text-nw-info"
                       >
                         استلام مخزون لهذه النكهة
-                      </button>
+                      </UiButton>
                     )}
                   </div>
                 );
               })}
             </div>
           ) : (
-            <p className="mt-3 rounded-xl border border-dashed border-slate-800 p-3 text-center text-[9px] font-bold text-slate-500">
+            <p className="mt-3 rounded-xl border border-dashed border-nw-border p-3 text-center text-xs font-bold text-nw-muted">
               لا توجد نكهات بعد. أضف الأولى وسيبقى السعر موحدًا تلقائيًا.
             </p>
           )}
-        </section>
+        </Card>
       )}
 
-      <section className="rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-950/20 to-slate-950 p-3.5">
+      <Card padded={false} className="rounded-2xl border border-nw-border    p-3.5">
         <div className="mb-3 flex items-center gap-2">
-          <ReceiptText className="h-4 w-4 text-emerald-400" />
+          <ReceiptText className="h-4 w-4 text-nw-ok" />
           <div>
-            <h4 className="font-black text-slate-100">الأسعار والربحية</h4>
-            <p className="text-[9px] text-slate-500">
+            <h4 className="font-black text-nw-text">الأسعار والربحية</h4>
+            <p className="text-xs text-nw-muted">
               البيع بالجملة للطرد كاملًا، وليس للحبة
             </p>
           </div>
@@ -758,12 +759,12 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           <PriceMetric
             label={`تكلفة ${product.salePackage || 'الطرد'}`}
             value={salePackageCost}
-            color="text-amber-300"
+            color="text-nw-warn"
           />
           <PriceMetric
             label="سعر بيع الطرد"
             value={salePackagePrice}
-            color="text-violet-300"
+            color="text-nw-info"
           />
           <TextMetric
             label="طرد البيع الأدنى"
@@ -774,14 +775,14 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             }
             color={
               needsSalePackageSetup
-                ? 'text-rose-300'
-                : 'text-blue-300'
+                ? 'text-nw-bad'
+                : 'text-nw-info'
             }
           />
         </div>
 
         {needsSalePackageSetup ? (
-          <div className="mt-2 rounded-xl border border-amber-500/25 bg-amber-500/10 p-2.5 text-[10px] font-bold text-amber-300">
+          <div className="mt-2 rounded-xl border border-nw-border bg-nw-warn-bg p-2.5 text-xs font-bold text-nw-warn">
             حدّد طرد بيع الجملة وعدد الحبات وسعر الطرد قبل إظهار
             المنتج للزبائن.
           </div>
@@ -796,19 +797,19 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         )}
 
         {!needsSalePackageSetup && salePackageProfit.isLoss && (
-          <div className="mt-2 flex items-start gap-2 rounded-xl border border-rose-500/25 bg-rose-500/10 p-2.5 text-[10px] font-bold text-rose-300">
+          <div className="mt-2 flex items-start gap-2 rounded-xl border border-nw-border bg-nw-bad-bg p-2.5 text-xs font-bold text-nw-bad">
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
             سعر بيع الطرد أقل من تكلفته الحالية.
           </div>
         )}
-      </section>
+      </Card>
 
-      <section className="rounded-2xl border border-blue-500/15 bg-slate-950 p-3.5">
+      <Card padded={false} className="rounded-2xl border border-nw-border bg-nw-surface p-3.5">
         <div className="mb-3 flex items-center gap-2">
-          <Layers3 className="h-4 w-4 text-blue-400" />
+          <Layers3 className="h-4 w-4 text-nw-info" />
           <div>
-            <h4 className="font-black text-slate-100">طرد شراء المورد</h4>
-            <p className="text-[9px] text-slate-500">
+            <h4 className="font-black text-nw-text">طرد شراء المورد</h4>
+            <p className="text-xs text-nw-muted">
               التحويل المعتمد إلى وحدة البيع
             </p>
           </div>
@@ -821,30 +822,30 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           <TextMetric
             label="محتوى الطرد"
             value={`${product.unitsPerPackage || 1} ${product.unit}`}
-            color="text-amber-300"
+            color="text-nw-warn"
           />
           <TextMetric
             label="سعر الشراء"
-            value={`${(
+            value={`${formatJod(
               product.defaultPurchasePrice ||
               product.costPrice * (product.unitsPerPackage || 1)
-            ).toFixed(3)} ${CURRENCY}`}
-            color="text-emerald-300"
+            )} ${CURRENCY}`}
+            color="text-nw-ok"
           />
         </div>
-      </section>
+      </Card>
 
-      <section
-        className="rounded-2xl border border-slate-800 bg-slate-950 p-3.5"
+      <Card padded={false}
+        className="rounded-2xl border border-nw-border bg-nw-surface p-3.5"
         data-flavor-family-stock-summary={isFlavorFamily ? 'true' : undefined}
       >
         <div className="mb-3 flex items-center gap-2">
-          <Boxes className="h-4 w-4 text-indigo-400" />
+          <Boxes className="h-4 w-4 text-nw-info" />
           <div>
-            <h4 className="font-black text-slate-100">
+            <h4 className="font-black text-nw-text">
               {isFlavorFamily ? 'إجمالي مخزون النكهات' : 'الرصيد الحالي'}
             </h4>
-            <p className="text-[9px] text-slate-500">
+            <p className="text-xs text-nw-muted">
               {isFlavorFamily
                 ? 'محسوب للعرض فقط من أرصدة النكهات المستقلة'
                 : 'يتغير من الاستلام والطلبات والجرد المعتمد'}
@@ -852,7 +853,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           </div>
         </div>
         {isFlavorFamily && !familyInventorySummary.hasCompatiblePackaging ? (
-          <p className="rounded-xl border border-amber-500/25 bg-amber-500/10 p-2.5 text-[9px] font-bold leading-4 text-amber-300">
+          <p className="rounded-xl border border-nw-border bg-nw-warn-bg p-2.5 text-xs font-bold leading-4 text-nw-warn">
             أحجام طرود النكهات غير متطابقة؛ راجع رصيد كل نكهة بدل عرض مجموع مضلل.
           </p>
         ) : (
@@ -860,7 +861,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             <TextMetric
               label="الموجود"
               value={inventoryOnHand.cartonFormatted}
-              color="text-amber-300"
+              color="text-nw-warn"
             />
             <TextMetric
               label="المحجوز"
@@ -874,90 +875,90 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             <TextMetric
               label={isFlavorFamily ? 'إجمالي المتاح' : 'المتاح'}
               value={inventoryAvailable.cartonFormatted}
-              color="text-emerald-300"
+              color="text-nw-ok"
             />
           </div>
         )}
-        <div className="mt-2 grid grid-cols-2 gap-2 rounded-xl border border-slate-800 bg-slate-900/70 p-2.5">
+        <div className="mt-2 grid grid-cols-2 gap-2 rounded-xl border border-nw-border bg-nw-surface-2 p-2.5">
           <div>
-            <span className="block text-[8px] font-bold text-slate-400">
+            <span className="block text-xs font-bold text-nw-muted">
               تنبيه النقص
             </span>
-            <strong className="text-[10px] text-amber-300">
+            <strong className="text-xs text-nw-warn">
               {reorderSalePackages} {product.salePackage || 'طرد'}
             </strong>
           </div>
           <div>
-            <span className="block text-[8px] font-bold text-slate-400">
+            <span className="block text-xs font-bold text-nw-muted">
               سقف المستودع
             </span>
-            <strong className="text-[10px] text-slate-300">
+            <strong className="text-xs text-nw-text">
               {maxStockSalePackages === undefined
                 ? 'غير محدد'
                 : `${maxStockSalePackages} ${product.salePackage || 'طرد'}`}
             </strong>
           </div>
         </div>
-      </section>
+      </Card>
 
       <div className="grid grid-cols-2 gap-2">
-        <button
+        <UiButton variant="plain"
           type="button"
           onClick={() => {
             onClose();
             openModal('edit_product', product);
           }}
-          className="flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 py-3 font-black text-white"
+          className="flex items-center justify-center gap-1.5 rounded-xl bg-nw-primary py-3 font-black text-nw-on-primary"
         >
           <Edit3 className="h-4 w-4" />
           تعديل البيانات
-        </button>
-        <button
+        </UiButton>
+        <UiButton variant="plain"
           type="button"
           onClick={() => setShowVisibilityConfirm(true)}
-          className="flex items-center justify-center gap-1.5 rounded-xl border border-slate-800 bg-slate-950 py-3 font-bold text-slate-300"
+          className="flex items-center justify-center gap-1.5 rounded-xl border border-nw-border bg-nw-surface py-3 font-bold text-nw-text"
         >
           {product.status === 'hidden' ? (
-            <Eye className="h-4 w-4 text-emerald-400" />
+            <Eye className="h-4 w-4 text-nw-ok" />
           ) : (
-            <EyeOff className="h-4 w-4 text-amber-400" />
+            <EyeOff className="h-4 w-4 text-nw-warn" />
           )}
           {product.status === 'hidden' ? 'إظهار المنتج' : 'إخفاء المنتج'}
-        </button>
+        </UiButton>
       </div>
 
       {showVisibilityConfirm && (
-        <div className="rounded-2xl border border-amber-500/25 bg-amber-500/10 p-3.5">
+        <div className="rounded-2xl border border-nw-border bg-nw-warn-bg p-3.5">
           <div className="flex items-start gap-2">
-            <Tag className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
+            <Tag className="mt-0.5 h-4 w-4 shrink-0 text-nw-warn" />
             <div>
-              <h4 className="font-black text-amber-200">
+              <h4 className="font-black text-nw-warn">
                 {product.status === 'hidden'
                   ? 'إعادة إظهار المنتج؟'
                   : 'هل تريد إخفاء المنتج؟'}
               </h4>
-              <p className="mt-1 text-[10px] leading-5 text-slate-400">
+              <p className="mt-1 text-xs leading-5 text-nw-muted">
                 لن نحذف حركاته أو رصيده. سيتم فقط تغيير حالة ظهوره في
                 الكتالوج.
               </p>
             </div>
           </div>
           <div className="mt-3 flex gap-2">
-            <button
+            <UiButton variant="plain"
               type="button"
               onClick={changeVisibility}
               disabled={isUpdatingVisibility}
-              className="flex-1 rounded-xl bg-amber-500 py-2.5 font-black text-slate-950 disabled:opacity-50"
+              className="flex-1 rounded-xl bg-nw-warn-bg py-2.5 font-black text-nw-muted disabled:opacity-50"
             >
               {isUpdatingVisibility ? 'جاري الحفظ...' : 'نعم، تأكيد'}
-            </button>
-            <button
+            </UiButton>
+            <UiButton variant="plain"
               type="button"
               onClick={() => setShowVisibilityConfirm(false)}
-              className="flex-1 rounded-xl bg-slate-800 py-2.5 font-bold text-slate-300"
+              className="flex-1 rounded-xl bg-nw-mute-bg py-2.5 font-bold text-nw-text"
             >
               إلغاء
-            </button>
+            </UiButton>
           </div>
         </div>
       )}
@@ -968,7 +969,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         onCapture={captureFlavorBarcode}
         startScanner={startBarcodeScanner}
       />
-    </div>
+    </FormFields>
   );
 };
 
@@ -977,10 +978,10 @@ const PriceMetric: React.FC<{
   value: number;
   color: string;
 }> = ({ label, value, color }) => (
-  <div className="rounded-xl border border-slate-800 bg-slate-900/80 p-2 text-center">
-    <span className="block text-[8px] font-bold text-slate-400">{label}</span>
-    <strong className={`mt-1 block text-[10px] ${color}`}>
-      {value.toFixed(3)} {CURRENCY}
+  <div className="rounded-xl border border-nw-border bg-nw-surface-2 p-2 text-center">
+    <span className="block text-xs font-bold text-nw-muted">{label}</span>
+    <strong className={`mt-1 block text-xs ${color}`}>
+      {formatJod(value)} {CURRENCY}
     </strong>
   </div>
 );
@@ -990,17 +991,17 @@ const ProfitMetric: React.FC<{
   profit: number;
   margin: number;
 }> = ({ label, profit, margin }) => (
-  <div className="rounded-xl border border-slate-800 bg-slate-900/80 p-2.5">
-    <span className="text-[8px] font-bold text-slate-500">{label}</span>
+  <div className="rounded-xl border border-nw-border bg-nw-surface-2 p-2.5">
+    <span className="text-xs font-bold text-nw-muted">{label}</span>
     <div
       className={`mt-1 flex items-center justify-between ${
-        profit >= 0 ? 'text-emerald-400' : 'text-rose-400'
+        profit >= 0 ? 'text-nw-ok' : 'text-nw-bad'
       }`}
     >
-      <strong className="text-[10px]">
-        {profit.toFixed(3)} {CURRENCY}
+      <strong className="text-xs">
+        {formatJod(profit)} {CURRENCY}
       </strong>
-      <span className="font-mono text-[9px]">%{margin.toFixed(1)}</span>
+      <span className="font-mono text-xs">%{margin.toFixed(1)}</span>
     </div>
   </div>
 );
@@ -1009,10 +1010,10 @@ const TextMetric: React.FC<{
   label: string;
   value: string;
   color?: string;
-}> = ({ label, value, color = 'text-slate-200' }) => (
-  <div className="min-w-0 rounded-xl border border-slate-800 bg-slate-900/70 p-2 text-center">
-    <span className="block text-[8px] font-bold text-slate-400">{label}</span>
-    <strong className={`mt-1 block break-words text-[9px] ${color}`}>
+}> = ({ label, value, color = 'text-nw-text' }) => (
+  <div className="min-w-0 rounded-xl border border-nw-border bg-nw-surface-2 p-2 text-center">
+    <span className="block text-xs font-bold text-nw-muted">{label}</span>
+    <strong className={`mt-1 block break-words text-xs ${color}`}>
       {value}
     </strong>
   </div>

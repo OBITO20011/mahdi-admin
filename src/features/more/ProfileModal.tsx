@@ -6,6 +6,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppStore } from '../../stores/useAppStore';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
 import { UserAvatar, FormFields, UiButton } from '../../components/ui';
+import {ROLE_LABELS} from '../../utils/roleLabels';
 import { useAuthStore } from '../../stores/useAuthStore';
 import {
   translateAccountUpdateError,
@@ -518,7 +519,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                 <div>
                   <div className="flex flex-wrap items-center gap-1.5 mb-1">
                     <span className="text-xs font-black text-nw-info bg-nw-info-bg px-2.5 py-0.5 rounded-full border border-nw-info">
-                      {currentUser.role}
+                      {ROLE_LABELS[currentUser.role] || 'موظف'}
                     </span>
                     <span className="text-xs font-bold text-nw-text bg-nw-surface-2 px-2 py-0.5 rounded-full border border-nw-border">
                       {branches.find((b) => b.id === currentUser.branchId)?.name || 'الفرع الرئيسي'}
@@ -546,7 +547,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
                 <span className="text-xs text-nw-muted flex items-center gap-1">
                   <Mail className="w-3 h-3 text-nw-info" /> البريد الإلكتروني
                 </span>
-                <p dir="ltr" className="break-all font-mono text-nw-text text-sm">{currentUser.email}</p>
+                <p data-field="profile-email" dir="ltr" title={currentUser.email} className="truncate font-mono text-nw-text text-sm">{currentUser.email}</p>
               </div>
 
               <div className="bg-nw-surface-2 p-2.5 rounded-xl border border-nw-border space-y-0.5">
@@ -589,7 +590,7 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
           <div className="bg-nw-info-bg border border-nw-info p-3 rounded-2xl flex items-start gap-2.5 text-nw-info">
             <ShieldCheck className="w-5 h-5 text-nw-info shrink-0 mt-0.5" />
             <div className="space-y-0.5">
-              <h4 className="font-bold text-nw-text text-sm">صلاحيات الحساب الحالية: {currentUser.role}</h4>
+              <h4 className="font-bold text-nw-text text-sm">صلاحيات الحساب الحالية: {ROLE_LABELS[currentUser.role] || 'موظف'}</h4>
               <p className="text-xs text-nw-info leading-relaxed">
                 يتم إدارة وتعيين الصلاحيات وأدوار الموظفين حصراً من شاشة إدارة المستخدمين وصلاحيات الفروع.
               </p>

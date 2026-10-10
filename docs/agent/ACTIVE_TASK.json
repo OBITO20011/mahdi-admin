@@ -2,60 +2,66 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Package F batch1: shared Modal/form tokens,More,Profile,Install,Push presentation only",
-  "baselineSha": "891c9a460294d983952c3563a46c6804eedf0fe5",
+  "objective": "Package F batch2: Products/detail/form/stock adjustment/parcel configuration presentation;Arabic role/email fixes",
+  "baselineSha": "ed7772f349befb87cc8e2ec5cfb9c8841256c76e",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "Customers4db3af1 exact quality38016271763 all19/19,secrets38016271790;official delivery PASS",
     "137 delivered4a8f395c2afd6847c233cb7852cfa60d69144dce;Gitleaks0;exact quality38032453378 all19/19,secrets38032453376 PASS",
-    "Customers UI follow-up891c9a460294d983952c3563a46c6804eedf0fe5 delivered;Gitleaks0;exact quality38035561062 all19/19,secrets38035561067 PASS"
+    "Customers UI follow-up891c9a460294d983952c3563a46c6804eedf0fe5 delivered;Gitleaks0;exact quality38035561062 all19/19,secrets38035561067 PASS",
+    "Batch1 ed7772f349befb87cc8e2ec5cfb9c8841256c76e delivered;Gitleaks0;exact quality38050122538 all19/19,secrets38050122503 PASS;official delivery verified"
   ],
   "inProgress": [
-    "Batch1 implementation and full quality PASS;Gitleaks0,commit/push/exact CI next;STOP for visual review"
+    "Batch2 final full quality PASS;Gitleaks0/commit/push/exact CI then STOP for visual review"
   ],
   "notStarted": [
-    "Phase7"
+    "Batch3 and later;Phase7"
   ],
   "filesTouched": [
-    "docs/design/package-f/REMAINING_SCREENS_MIGRATION.md",
-    "e2e/package-f-more-harness.html",
-    "e2e/package-f-more-harness.tsx",
-    "e2e/package-f-more.spec.ts",
-    "src/components/ui/form-fields.css",
-    "src/components/ui/FormFields.tsx",
-    "tests/package-f-remaining-batch1.test.ts",
+    "e2e/package-f-products-harness.html",
+    "e2e/package-f-products-harness.tsx",
+    "e2e/package-f-products.spec.ts",
+    "src/utils/roleLabels.ts",
+    "tests/package-f-remaining-batch2.test.ts",
     "docs/agent/PHASE_STATUS.md",
     "docs/agent/PROJECT_OVERVIEW.md",
-    "src/components/common/Modal.tsx",
-    "src/components/ui/Controls.tsx",
-    "src/components/ui/index.ts",
-    "src/features/more/adminNavigation.config.ts",
-    "src/features/more/InstallAppPanel.tsx",
-    "src/features/more/MoreMenuView.tsx",
+    "docs/design/package-f/REMAINING_SCREENS_MIGRATION.md",
+    "e2e/admin-mobile-ux.spec.ts",
+    "e2e/package-f-more.spec.ts",
+    "src/components/layout/SideNav.tsx",
+    "src/components/ui/form-fields.css",
+    "src/features/more/ParcelConfigurationModal.tsx",
     "src/features/more/ProfileModal.tsx",
-    "src/features/more/PushNotificationControls.tsx",
-    "src/index.css"
+    "src/features/products/ProductDetailModal.tsx",
+    "src/features/products/ProductFormModal.tsx",
+    "src/features/products/ProductsView.tsx",
+    "src/features/products/StockAdjustmentModal.tsx",
+    "src/index.css",
+    "tests/light-theme-contract.test.ts"
   ],
   "testsPassed": [
-    "Batch1 AST:25business calls,59event/value bindings,100native validation/busy properties and handlers unchanged",
-    "Batch1 Chromium/WebKit matrix and old navigation regression PASS,retries0;focused continuity/migrations/AST14/14 PASS",
-    "Final full quality exit0:821Admin/189Customer units,513browser PASS,59existing conditional skips,retries0;builds/SEO/isolation PASS;external/Production escaped0",
-    "More light contrast5.50:1;existing assertions untouched;no services/stores/customer-web/migrations changed"
+    "Batch2 AST79calls/149bindings/279native properties and five full pre-render prefixes unchanged from ed7772f;Stock arithmetic/guards/payload/finally exact",
+    "Focused static55/55 then final contracts/continuity/migrations22/22 PASS;TypeScript0 and strict lint0",
+    "Focused browsers:parcel contrast corrected in product;WebKit390 light/dark2/2 PASS;original two-column360/390/430 and final phone matrix16/16 PASS,retries0",
+    "Partial quality824Admin/189Customer/builds/isolation PASS;stopped early on phone-grid then owner-approved email ellipsis contracts;original grid restored",
+    "Exact email/More/Profile/install/push phone subset14/14 both browsers/themes PASS;batch1/batch2 AST7/7 PASS;no broad overflow exception/retry",
+    "Unmodified delayed product-read indicator2/2 Chromium/WebKit PASS;original success wording restored",
+    "Final complete quality exit0:824Admin/189Customer units,531browser PASS,59existing conditional skips,retries0;builds/SEO/isolation PASS;external/Production escaped0"
   ],
   "testsRemaining": [
-    "Gitleaks0,commit/push/exact CI;then owner visual review of batch1"
+    "Gitleaks0,commit/push/exact CI;then batch2 visual review"
   ],
   "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Production/deploy/Phase7/automations;001-137 unchanged",
-    "No batch2 or later;preserve .claude/launch.json unstaged"
+    "No batch3 or later;no RPC/payload/validation/confirmation/role changes;preserve .claude/launch.json unstaged"
   ],
-  "nextExactAction": "Batch1 staged;Gitleaks0 then commit/push and verify exact-SHA CI;STOP for visual review",
-  "workingTreeFingerprint": "A6A60036191062018E7550119860339F4CCF52A43F9D9D271EFD925CBBE91C8B",
-  "checkpointedAt": "2026-10-10T11:53:38.776Z",
+  "nextExactAction": "Batch2 staged;Gitleaks0 then commit/push/exact CI;no source changes or quality rerun needed",
+  "workingTreeFingerprint": "5DC8D5C5667990F89080BF8CEBB6B2F5E53ABEF52E56D53C2FE262BD6D697E5E",
+  "checkpointedAt": "2026-10-10T13:48:25.341Z",
   "startedAt": "2026-10-10T02:28:31.421Z"
 }

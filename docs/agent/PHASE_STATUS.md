@@ -1,5 +1,19 @@
 # Phase status
 
+## 2026-10-10 — Batch1 visually approved;Package F batch2 authorized
+
+ed7772f exact quality38050122538 all19/19 and secrets38050122503 PASS;
+owner/Claude visual review accepted. Batch2 only:Products,detail/form,stock
+adjustment and parcel configuration;Arabic Profile role/email presentation.
+Preserve all business calls,payloads,validation/confirmations/permissions and
+001–137. Focused/quality/Gitleaks0/commit/push/exact CI,then visual STOP.
+No batch3/Production/deploy/Phase7.
+
+Batch2 final local quality PASS:824 Admin/189 Customer units,531 browser,
+59 existing conditional skips,retries0;builds/SEO/isolation PASS,Production0.
+AST79 calls/149 bindings/279 native properties and full Stock prefix identical
+to ed7772f. Gitleaks/commit/push/exact CI next,then STOP for visual review.
+
 ## 2026-10-10 — Customers accepted;Package F batch1 authorized
 
 Owner/Claude visually accepted891c9a4;exact CI quality38035561062 all19/19

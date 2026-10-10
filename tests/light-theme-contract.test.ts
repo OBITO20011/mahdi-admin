@@ -56,7 +56,11 @@ test('light theme has dedicated low-glare navigation, FAB and toast treatments',
   assert.match(bottomTabs, /text-nw-primary/);
   assert.match(bottomTabs, /bg-nw-accent/);
   assert.match(css, /\[data-ui="admin-toast"\]\[data-tone="success"\]/);
-  assert.match(css, /\[data-ui="products-hero"\]/);
+  // Products now owns shared token surfaces; no forced light-only gradient.
+  assert.doesNotMatch(css, /html.theme-light \[data-ui="products-hero"\]/);
+  assert.match(products, /<Card padded=\{false\} data-ui="products-hero"/);
+  assert.match(products, /bg-nw-bg/);
+  assert.match(products, /<PageHeader title="دليل المنتجات"/);
   assert.match(css, /--admin-solid-accent:/);
   assert.match(products, /data-ui="products-hero"/);
 });

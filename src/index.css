@@ -299,7 +299,6 @@ html.theme-light [class~="bg-slate-800"][class~="text-white"] {
 
 /* Light mode surface hierarchy and component-specific contrast. */
 
-html.theme-light [data-ui="products-hero"],
 html.theme-light [data-ui="accounts-header"] {
   background: linear-gradient(135deg, #fdfdfc, #f0f5fb) !important;
   border-color: #cbd9e9 !important;

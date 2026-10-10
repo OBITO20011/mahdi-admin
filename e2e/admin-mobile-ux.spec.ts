@@ -127,7 +127,7 @@ test('flavor master shows a compact read-only family stock summary', async ({ pa
   );
   await expect(familyCard.getByText('إجمالي المتاح في النكهات')).toBeVisible();
   await expect(familyCard.getByText(/8 كراتين/)).toBeVisible();
-  await familyCard.getByRole('button', { name: /٢ نكهات/ }).click();
+  await familyCard.getByRole('button', { name: /2 نكهات/ }).click();
   await expect(familyCard.getByText(/تفاح/)).toBeVisible();
   await expect(familyCard.getByText(/فراولة/)).toBeVisible();
   await expectNoOverflow(page);

@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import {ROLE_LABELS} from '../../utils/roleLabels';
 import { BotMessageSquare, Plus } from 'lucide-react';
 import { SECONDARY_QUICK_ACTIONS } from './quickActions';
 import {
@@ -23,18 +24,6 @@ import {
 
 const join = (...parts: Array<string | false | null | undefined>) =>
   parts.filter(Boolean).join(' ');
-
-const ROLE_LABELS: Readonly<Record<string, string>> = {
-  Owner: 'المالك',
-  Admin: 'مدير تنفيذي',
-  Accountant: 'محاسب',
-  Cashier: 'كاشير',
-  'Sales Employee': 'موظف مبيعات',
-  'Warehouse Employee': 'مسؤول مستودع',
-  'Orders Employee': 'متابع الطلبات',
-  'Delivery Driver': 'سائق توصيل',
-  'View Only': 'مشاهدة فقط',
-};
 
 interface SideNavProps {
   collapsed?: boolean;
