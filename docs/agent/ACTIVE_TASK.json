@@ -2,70 +2,62 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Bounded purchase-dialog wiring/type contracts,then Package F batch3 presentation",
-  "baselineSha": "0b9cf9103c08f14c4b2aeea901b1586520632978",
+  "objective": "Package F batch4 expenses/reports presentation and3 purchasing visual notes;React types measurement only",
+  "baselineSha": "47c958dac0019f28d21d9ac53881b2838fdd304c",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "A/B a7d2a70 delivered19/19+secrets;wiring/type0b9cf91 committed separately,Gitleaks0;push after batch3 gates"
+    "A/B a7d2a70 delivered;wiring/type0b9cf91 and batch3 UI47c958d pushedmain,Gitleaks staged0 each;final quality38077822586 19/19 and secrets38077822799 PASS"
   ],
   "inProgress": [
-    "Wiring0b9cf91 committed;batch3 gates complete,then Gitleaks/commit/push/exact CI"
+    "Batch4 local gates complete;Gitleaks/commit/push/exact CI then visual handoff"
   ],
   "notStarted": [
-    "Batch4 and later;Phase7;checkout investigation after batch7"
+    "Batch5-7;full React type repair after7;Phase7;checkout investigation after7"
   ],
   "filesTouched": [
+    "docs/design/package-f/TYPES_MEASUREMENT.md",
+    "e2e/package-f-financial-harness.html",
+    "e2e/package-f-financial-harness.tsx",
+    "e2e/package-f-financial.fixture.ts",
+    "e2e/package-f-financial.spec.ts",
+    "scripts/testing/package-f-financial-ui-contract.mjs",
+    "tests/package-f-remaining-batch4.test.ts",
     "docs/agent/PHASE_STATUS.md",
+    "docs/agent/PROJECT_OVERVIEW.md",
     "docs/design/package-f/REMAINING_SCREENS_MIGRATION.md",
+    "e2e/phase6-package-a.spec.ts",
     "src/components/ui/form-fields.css",
-    "src/components/ui/FormFields.tsx",
-    "src/components/ui/index.ts",
-    "src/components/ui/TableShell.tsx",
-    "src/features/directReceiving/CancelSupplierReceiptDialog.tsx",
-    "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-    "src/features/directReceiving/DirectReceivingView.tsx",
-    "src/features/directReceiving/RecordSupplierPaymentModal.tsx",
-    "src/features/directReceiving/SupplierReceiptDetailView.tsx",
-    "src/features/purchases/CreatePurchaseOrderModal.tsx",
-    "src/features/purchases/CreateSupplierModal.tsx",
+    "src/features/expenses/ExpenseFormModal.tsx",
+    "src/features/expenses/ExpensesView.tsx",
     "src/features/purchases/PurchaseOrderCard.tsx",
-    "src/features/purchases/PurchaseOrderDetailView.tsx",
     "src/features/purchases/PurchasesView.tsx",
-    "src/features/purchases/ReceiveGoodsModal.tsx",
-    "src/features/purchases/SupplierPaymentModal.tsx",
-    "src/styles/design-tokens.css",
-    "tests/phase6-package-a.test.ts",
-    "tests/types/purchase-dialog-props.tsx",
-    "e2e/package-f-purchasing-harness.html",
-    "e2e/package-f-purchasing-harness.tsx",
-    "e2e/package-f-purchasing.fixture.ts",
-    "e2e/package-f-purchasing.spec.ts",
-    "tests/package-f-remaining-batch3.test.ts"
+    "src/features/reports/ReportsCenterView.tsx"
   ],
   "testsPassed": [
-    "A/B delivery19/19 and secrets PASS;prior evidence in reports",
-    "Batch3 financial AST4/4;negative props fixtures;focused purchasing28/28 Chromium/WebKit,retries0;units15/15",
-    "Quality lint/typecheck,Admin831/831,Customer189/189,builds/SEO/isolation PASS;interrupted browser leg resumed unchanged:587PASS/59existing skips,retries0,exit0"
+    "Batch3 exact CI19/19 and secrets PASS;visual owner acceptance47c958d",
+    "Batch4 financial AST5/5 identical;focused units23/23,typecheck/affected ESLint PASS",
+    "Focused40/40 Chromium/WebKit;after preview metadata type fix final28/28,retries0,axe/layout/Latin digits/payment payloads PASS",
+    "Single full quality exit0:615 browsers/59existing skips,retries0;Admin units/Customer189,typecheck/ESLint/builds/SEO/isolation PASS,Production escaped0"
   ],
   "testsRemaining": [
-    "Gitleaks0,UI commit/push,exact quality+secrets CI,visual STOP"
+    "Gitleaks0,commit/push/exact CI,visual STOP"
   ],
   "findings": [
     "OPEN independent WebKit checkout empty name after fill;investigate after batch7 before final regression. Exact wording/evidence in remaining report.",
-    "Old wiring defect introduced0279479 2026-07-25. Admin lacks React types;explicit two-component props now checked. No Production verification."
+    "React19 isolated type measurement11 diagnostics/8files;no confirmed active financial/inventory behavior defect;full typing fixes AFTERbatch7. TYPES_MEASUREMENT.md"
   ],
   "blockers": [
-    "None;exact CI must pass before delivery"
+    "None;STOP on new actual financial/inventory behavioral defect"
   ],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production/deploy/Phase7/automations;001-137 unchanged",
-    "Only approved isOpen/supplierId props and explicit props types exempt AST parity;no RPC/payload/guard/role/DB changes;no batch4;preserve .claude/launch.json unstaged"
+    "No Production/deploy/Phase7/automations;001-137 unchanged;no batch5",
+    "Presentation only;no RPC/payload/validation/confirmation/role/DB changes;no React types/compiler repair;preserve .claude/launch.json unstaged"
   ],
-  "nextExactAction": "Gitleaks staged0,commit batch3 UI,push wiring+UI,verify final exact-SHA quality+secrets,checkpoint STOP for visual review;no batch4",
-  "workingTreeFingerprint": "DBCD30D53389B511E847E401C41E0E110CA4A7C260DB23BE57DE57B6723A05AF",
-  "checkpointedAt": "2026-10-10T18:56:27.697Z",
+  "nextExactAction": "Commit approved batch4 staged scope then push/exact CI;quality615PASS/Gitleaks before commit;visual STOP",
+  "workingTreeFingerprint": "2ADB3DB64DED1484CCBE5CBD520CE7266BF14F5DEE5B37DCEF74C33A34E03120",
+  "checkpointedAt": "2026-10-10T20:25:09.289Z",
   "startedAt": "2026-10-10T02:28:31.421Z"
 }

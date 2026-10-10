@@ -1,5 +1,20 @@
 # Phase status
 
+2026-10-10 batch4 local gates COMPLETE:financial AST5/5 identical;units23/23,
+focused40/40 then preview-final28/28 Chromium/WebKit,retries0. Single full
+quality invocation exit0:615 browser PASS/59 existing conditional skips,
+Customer189/189,Admin units,typecheck/ESLint/builds/SEO/isolation PASS.
+External/Production escaped0;001–137 unchanged,no138. Gitleaks/commit/push/
+exact CI pending,then visual STOP;no batch5/Production/deploy/Phase7.
+
+2026-10-10 owner:batch3 47c958d visually accepted;exact CI19/19+secrets PASS.
+Batch4 authorized:ExpensesView/ExpenseFormModal/ReportsCenterView presentation
+plus3 purchasing visual notes.No business/RPC/guard/migration changes.
+Isolated React19 types11 diagnostics/8files,no confirmed active financial or
+inventory behavioral defect;worktree removed,primary unchanged during measure.
+See TYPES_MEASUREMENT.md;full type repair AFTERbatch7.Focused gates,quality
+once,Gitleaks0/commit/push/exact CI then visual STOP.No batch5/Production/Phase7.
+
 2026-10-10 update: corrections0b5564e/a7d2a70 delivered19/19+secrets.
 Owner-approved list-dialog wiring/type contracts committed separately0b9cf91.
 Batch3 twelve financial UI screens remain presentation-only;focused28/28

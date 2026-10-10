@@ -28,6 +28,7 @@ import type { OperationalBusinessReport } from '../../types';
 import type {AftercareIntegrityStatus} from '../../types/monitoring';
 import {getAftercareIntegrityStatus} from '../../services/supabase/monitoring.service';
 import {aftercareIntegrityWarning} from '../../utils/aftercareIntegrity';
+import {Card, FormFields, UiButton, DataTable, Th, Tr, Td, formatJod, formatUiDate} from '../../components/ui';
 
 const pad = (value: number) => String(value).padStart(2, '0');
 const localDateValue = (value: Date) =>
@@ -39,11 +40,7 @@ const monthStartValue = () => {
   return localDateValue(new Date(today.getFullYear(), today.getMonth(), 1));
 };
 
-const money = (value: number) =>
-  `${value.toLocaleString('ar-JO', {
-    minimumFractionDigits: 3,
-    maximumFractionDigits: 3,
-  })} ${CURRENCY}`;
+const money = (value: number) => `${formatJod(value)} ${CURRENCY}`;
 
 const paymentLabel = (method: string) =>
   ({
@@ -77,24 +74,26 @@ const MetricCard: React.FC<{
   tone: 'blue' | 'emerald' | 'amber' | 'rose' | 'cyan' | 'violet';
 }> = ({ label, value, hint, icon: Icon, tone }) => {
   const tones = {
-    blue: 'border-blue-500/30 bg-blue-950/30 text-blue-300',
-    emerald: 'border-emerald-500/30 bg-emerald-950/30 text-emerald-300',
-    amber: 'border-amber-500/30 bg-amber-950/30 text-amber-300',
-    rose: 'border-rose-500/30 bg-rose-950/30 text-rose-300',
-    cyan: 'border-cyan-500/30 bg-cyan-950/30 text-cyan-300',
-    violet: 'border-violet-500/30 bg-violet-950/30 text-violet-300',
+    blue: 'border-nw-border bg-nw-info-bg text-nw-info',
+    emerald: 'border-nw-border bg-nw-ok-bg text-nw-ok',
+    amber: 'border-nw-border bg-nw-warn-bg text-nw-warn',
+    rose: 'border-nw-border bg-nw-bad-bg text-nw-bad',
+    cyan: 'border-nw-border bg-nw-info-bg text-nw-info',
+    violet: 'border-nw-border bg-nw-info-bg text-nw-info',
   };
 
   return (
-    <article className={`print-card rounded-2xl border p-3 ${tones[tone]}`}>
+    <article className="print-card min-w-0">
+      <Card className="h-full">
       <div className="flex items-start justify-between gap-2">
         <div>
-          <span className="block text-[10px] font-bold text-slate-400">{label}</span>
-          <strong className="mt-1 block text-sm font-black">{value}</strong>
+          <span className="block text-[10px] font-bold text-nw-muted">{label}</span>
+          <strong className="nw-num mt-1 block text-xl font-bold"><bdi dir="ltr">{value}</bdi></strong>
         </div>
-        <Icon className="h-4 w-4 shrink-0" />
+        <Icon className={`h-4 w-4 shrink-0 ${tones[tone]}`} />
       </div>
-      <p className="mt-1 text-[9px] leading-4 text-slate-500">{hint}</p>
+      <p className="mt-1 text-[9px] leading-4 text-nw-muted">{hint}</p>
+      </Card>
     </article>
   );
 };
@@ -182,11 +181,11 @@ export const ReportsCenterView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-4 p-4 pb-24">
+    <div data-testid="reports-screen" className="nw-batch4-report space-y-4 p-4 pb-24 text-nw-text">
       <style>{`
         @media print {
           @page { size: A4 portrait; margin: 11mm; }
-          html, body { background: #ffffff !important; }
+          html, body { background: var(--nw-print-surface) !important; }
           body * { visibility: hidden !important; }
           .operational-report-print,
           .operational-report-print * { visibility: visible !important; }
@@ -195,19 +194,19 @@ export const ReportsCenterView: React.FC = () => {
             inset: 0 !important;
             width: 100% !important;
             padding: 0 !important;
-            color: #0f172a !important;
-            background: #ffffff !important;
-            font-family: Arial, Tahoma, sans-serif !important;
+            color: var(--nw-print-text) !important;
+            background: var(--nw-print-surface) !important;
+            font-family: var(--font-sans) !important;
             direction: rtl !important;
           }
           .operational-report-print * {
-            color: #0f172a !important;
+            color: var(--nw-print-text) !important;
             background: transparent !important;
             box-shadow: none !important;
           }
           .operational-report-print .print-card,
           .operational-report-print .print-section {
-            border: 1px solid #cbd5e1 !important;
+            border: 1px solid var(--nw-print-border) !important;
             break-inside: avoid;
           }
           .report-screen-actions { display: none !important; }
@@ -215,40 +214,41 @@ export const ReportsCenterView: React.FC = () => {
       `}</style>
 
       <div className="report-screen-actions space-y-3">
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h2 className="flex items-center gap-2 text-base font-black text-slate-100">
-              <BarChart3 className="h-5 w-5 text-violet-400" />
+            <h2 className="flex items-center gap-2 text-base font-black text-nw-text">
+              <BarChart3 className="h-5 w-5 text-nw-info" />
               التقارير والحسابات
             </h2>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-nw-muted">
               أرقام فعلية من المبيعات والمخزون والمصروفات والموردين
             </p>
           </div>
-          <button
+          <UiButton variant="primary"
             type="button"
             onClick={handlePrint}
             disabled={!report || isLoading}
-            className="flex shrink-0 items-center gap-1.5 rounded-xl border border-violet-500/30 bg-violet-600/20 px-3 py-2 text-[11px] font-black text-violet-200 disabled:opacity-40"
+            className="shrink-0 whitespace-nowrap text-xs"
           >
             <FileDown className="h-4 w-4" />
             طباعة / PDF
-          </button>
+          </UiButton>
         </div>
 
-        <section className="space-y-3 rounded-2xl border border-slate-800 bg-slate-900 p-3">
+        <Card>
+        <FormFields className="nw-batch4-fields space-y-3">
           <div className="grid grid-cols-2 gap-2">
-            <label className="space-y-1 text-[10px] font-bold text-slate-400">
+            <label className="space-y-1 text-[10px] font-bold text-nw-muted">
               <span>من تاريخ</span>
               <input
                 type="date"
                 value={dateFrom}
                 max={dateTo}
                 onChange={(event) => setDateFrom(event.target.value)}
-                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-2 py-2 text-xs text-slate-100"
+                className="w-full rounded-xl border border-nw-border bg-nw-surface-2 px-2 py-2 text-xs text-nw-text"
               />
             </label>
-            <label className="space-y-1 text-[10px] font-bold text-slate-400">
+            <label className="space-y-1 text-[10px] font-bold text-nw-muted">
               <span>إلى تاريخ</span>
               <input
                 type="date"
@@ -256,42 +256,43 @@ export const ReportsCenterView: React.FC = () => {
                 min={dateFrom}
                 max={todayValue()}
                 onChange={(event) => setDateTo(event.target.value)}
-                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-2 py-2 text-xs text-slate-100"
+                className="w-full rounded-xl border border-nw-border bg-nw-surface-2 px-2 py-2 text-xs text-nw-text"
               />
             </label>
           </div>
-          <div className="flex gap-1.5 overflow-x-auto pb-1">
-            <button type="button" onClick={() => setPreset(1)} className="shrink-0 rounded-lg bg-slate-800 px-2.5 py-1.5 text-[10px] font-bold text-slate-300">اليوم</button>
-            <button type="button" onClick={() => setPreset(7)} className="shrink-0 rounded-lg bg-slate-800 px-2.5 py-1.5 text-[10px] font-bold text-slate-300">آخر 7 أيام</button>
-            <button type="button" onClick={() => setPreset(30)} className="shrink-0 rounded-lg bg-slate-800 px-2.5 py-1.5 text-[10px] font-bold text-slate-300">آخر 30 يومًا</button>
-            <button type="button" onClick={() => setPreset('month')} className="shrink-0 rounded-lg bg-slate-800 px-2.5 py-1.5 text-[10px] font-bold text-slate-300">هذا الشهر</button>
+          <div className="flex flex-wrap gap-1.5">
+            <UiButton variant="plain" type="button" onClick={() => setPreset(1)} className="shrink-0 rounded-lg bg-nw-surface px-2.5 py-1.5 text-[10px] font-bold text-nw-muted">اليوم</UiButton>
+            <UiButton variant="plain" type="button" onClick={() => setPreset(7)} className="shrink-0 rounded-lg bg-nw-surface px-2.5 py-1.5 text-[10px] font-bold text-nw-muted">آخر 7 أيام</UiButton>
+            <UiButton variant="plain" type="button" onClick={() => setPreset(30)} className="shrink-0 rounded-lg bg-nw-surface px-2.5 py-1.5 text-[10px] font-bold text-nw-muted">آخر 30 يومًا</UiButton>
+            <UiButton variant="plain" type="button" onClick={() => setPreset('month')} className="shrink-0 rounded-lg bg-nw-surface px-2.5 py-1.5 text-[10px] font-bold text-nw-muted">هذا الشهر</UiButton>
           </div>
-          <button
+          <UiButton variant="accent"
             type="button"
             onClick={() => void loadReport()}
             disabled={isLoading}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-2.5 text-xs font-black text-white disabled:opacity-50"
+            className="w-full text-sm"
           >
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
             {isLoading ? 'جاري احتساب التقرير...' : 'تحديث التقرير'}
-          </button>
-        </section>
+          </UiButton>
+        </FormFields>
+        </Card>
       </div>
 
       {error && (
-        <section className="flex items-start gap-2 rounded-2xl border border-rose-500/30 bg-rose-950/30 p-4 text-xs leading-6 text-rose-200">
+        <section className="flex items-start gap-2 rounded-2xl border border-nw-border bg-nw-bad-bg p-4 text-xs leading-6 text-nw-bad">
           <CircleAlert className="mt-1 h-4 w-4 shrink-0" />
           <div className="flex-1">
             <p>{error}</p>
-            <button type="button" onClick={() => void loadReport()} className="mt-2 font-black underline">إعادة المحاولة</button>
+            <UiButton variant="plain" type="button" onClick={() => void loadReport()} className="mt-2 font-black underline">إعادة المحاولة</UiButton>
           </div>
         </section>
       )}
 
       {isLoading && !report && !error && (
-        <div className="flex min-h-52 flex-col items-center justify-center gap-3 text-slate-400">
-          <Loader2 className="h-8 w-8 animate-spin text-violet-400" />
-          <span className="text-xs font-bold">يتم جمع الحسابات من Supabase...</span>
+        <div className="flex min-h-52 flex-col items-center justify-center gap-3 text-nw-muted">
+          <Loader2 className="h-8 w-8 animate-spin text-nw-info" />
+          <span className="text-xs font-bold">جاري تحميل التقرير...</span>
         </div>
       )}
 
@@ -299,26 +300,26 @@ export const ReportsCenterView: React.FC = () => {
         <main className="operational-report-print space-y-4" dir="rtl">
           {integrityWarning && (
             <div role="alert" data-testid="aftercare-integrity-warning"
-              className="rounded-xl border border-amber-500/40 bg-amber-950/30 p-3 text-sm text-amber-200">
+              className="rounded-xl border border-nw-border bg-nw-warn-bg p-3 text-sm text-nw-warn">
               {integrityWarning}
             </div>
           )}
-          <header className="print-section rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 p-4">
+          <header className="print-section rounded-2xl border border-nw-border bg-nw-surface p-4">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-[10px] font-black text-violet-300">مؤسسة نواصرة التجارية</p>
-                <h1 className="mt-1 text-base font-black text-white">التقرير المالي والتشغيلي</h1>
-                <p className="mt-1 text-[10px] text-slate-400">{report.period.branchName}</p>
+                <p className="text-[10px] font-black text-nw-info">مؤسسة نواصرة التجارية</p>
+                <h1 className="mt-1 text-base font-black text-nw-text">التقرير المالي والتشغيلي</h1>
+                <p className="mt-1 text-[10px] text-nw-muted">{report.period.branchName}</p>
               </div>
-              <div className="text-left text-[10px] leading-5 text-slate-400">
-                <span className="block">من {report.period.dateFrom}</span>
-                <span className="block">إلى {report.period.dateTo}</span>
-                <span className="block">أنشئ: {new Date(report.generatedAt).toLocaleString('ar-JO')}</span>
+              <div className="text-left text-[10px] leading-5 text-nw-muted">
+                <span className="block">من {formatUiDate(report.period.dateFrom, {year:'numeric',month:'short',day:'numeric'})}</span>
+                <span className="block">إلى {formatUiDate(report.period.dateTo, {year:'numeric',month:'short',day:'numeric'})}</span>
+                <span className="block">أنشئ: {formatUiDate(report.generatedAt, {dateStyle:'medium',timeStyle:'short'})}</span>
               </div>
             </div>
           </header>
 
-          <section className="grid grid-cols-2 gap-2">
+          <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
             <MetricCard label="المبيعات" value={money(report.sales.grossSales)} hint="مبيعات الفترة بعد الخصم، قبل المرتجعات" icon={ShoppingCart} tone="blue" />
             <MetricCard label="المرتجعات" value={money(report.sales.returnEntitlement)} hint="خفض الذمة والمبلغ المسترد معًا" icon={PackageCheck} tone="rose" />
             <MetricCard label="صافي المبيعات" value={money(report.sales.netSales)} hint="المبيعات ناقص استحقاق المرتجعات" icon={ShoppingCart} tone="blue" />
@@ -331,8 +332,8 @@ export const ReportsCenterView: React.FC = () => {
           </section>
 
           <details className="space-y-4" data-testid="report-details">
-            <summary className="cursor-pointer rounded-xl border border-slate-700 bg-slate-900 p-3 font-bold text-slate-200">تفاصيل</summary>
-            <section className="grid grid-cols-2 gap-2 text-xs">
+            <summary className="cursor-pointer rounded-xl border border-nw-border bg-nw-surface p-3 font-bold text-nw-text">تفاصيل</summary>
+            <section className="grid grid-cols-1 gap-3 text-xs sm:grid-cols-2 xl:grid-cols-3">
               <MetricCard label="ذمم الموردين" value={money(report.balances.supplierDue)} hint={`${report.balances.supplierCount} مورد لهم رصيد`} icon={Truck} tone="violet" />
               {report.balances.supplierAdvances !== undefined && <MetricCard label="دفعات مقدّمة للموردين" value={money(report.balances.supplierAdvances)} hint="أرصدة سالبة منفصلة؛ لا تُخصم من ذمم موردين آخرين" icon={Truck} tone="emerald" />}
               <MetricCard label="تكلفة البيع الأصلية" value={money(report.sales.cogs)} hint="COGS التاريخي لا يعاد تسعيره" icon={Boxes} tone="blue" />
@@ -344,58 +345,53 @@ export const ReportsCenterView: React.FC = () => {
               <MetricCard label="صافي حركة الكاش" value={money(report.cashFlow.cashNetFlow)} hint="المقبوض بعد العكس ناقص المصاري المرجّعة" icon={Banknote} tone="cyan" />
               <MetricCard label="صافي حركة CliQ" value={money(report.cashFlow.cliqNetFlow)} hint="المقبوض بعد العكس ناقص المصاري المرجّعة" icon={Banknote} tone="cyan" />
             </section>
-          <section className="print-section space-y-3 rounded-2xl border border-slate-800 bg-slate-900 p-4">
+          <section className="print-section space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-4">
             <div className="flex items-center justify-between gap-3">
-              <h3 className="flex items-center gap-2 text-sm font-black text-slate-100">
-                <Activity className="h-4 w-4 text-cyan-400" />
+              <h3 className="flex items-center gap-2 text-sm font-black text-nw-text">
+                <Activity className="h-4 w-4 text-nw-info" />
                 حركة المخزون خلال الفترة
               </h3>
-              <span className="text-[9px] font-bold text-slate-500">
+              <span className="text-[9px] font-bold text-nw-muted">
                 {report.inventoryMovements.affectedProducts} صنف متأثر
               </span>
             </div>
             <div className="grid grid-cols-3 gap-2 text-center">
-              <div className="print-card rounded-xl border border-emerald-500/20 bg-emerald-950/20 p-2">
-                <ArrowDownToLine className="mx-auto h-4 w-4 text-emerald-400" />
-                <b className="mt-1 block text-sm text-emerald-300">+{report.inventoryMovements.unitsIn}</b>
-                <span className="text-[8px] text-slate-500">وحدات داخلة</span>
+              <div className="print-card rounded-xl border border-nw-border bg-nw-ok-bg p-2">
+                <ArrowDownToLine className="mx-auto h-4 w-4 text-nw-ok" />
+                <b className="mt-1 block text-sm text-nw-ok">+{report.inventoryMovements.unitsIn}</b>
+                <span className="text-[8px] text-nw-muted">وحدات داخلة</span>
               </div>
-              <div className="print-card rounded-xl border border-rose-500/20 bg-rose-950/20 p-2">
-                <ArrowUpFromLine className="mx-auto h-4 w-4 text-rose-400" />
-                <b className="mt-1 block text-sm text-rose-300">-{report.inventoryMovements.unitsOut}</b>
-                <span className="text-[8px] text-slate-500">وحدات خارجة</span>
+              <div className="print-card rounded-xl border border-nw-border bg-nw-bad-bg p-2">
+                <ArrowUpFromLine className="mx-auto h-4 w-4 text-nw-bad" />
+                <b className="mt-1 block text-sm text-nw-bad">-{report.inventoryMovements.unitsOut}</b>
+                <span className="text-[8px] text-nw-muted">وحدات خارجة</span>
               </div>
-              <div className="print-card rounded-xl border border-cyan-500/20 bg-cyan-950/20 p-2">
-                <Activity className="mx-auto h-4 w-4 text-cyan-400" />
-                <b className="mt-1 block text-sm text-cyan-300">{report.inventoryMovements.netUnits > 0 ? '+' : ''}{report.inventoryMovements.netUnits}</b>
-                <span className="text-[8px] text-slate-500">صافي التغير</span>
+              <div className="print-card rounded-xl border border-nw-border bg-nw-info-bg p-2">
+                <Activity className="mx-auto h-4 w-4 text-nw-info" />
+                <b className="mt-1 block text-sm text-nw-info">{report.inventoryMovements.netUnits > 0 ? '+' : ''}{report.inventoryMovements.netUnits}</b>
+                <span className="text-[8px] text-nw-muted">صافي التغير</span>
               </div>
             </div>
             {report.inventoryMovements.types.length === 0 ? (
-              <p className="text-[10px] text-slate-500">لا توجد حركات مخزون خلال الفترة المحددة.</p>
+              <p className="text-[10px] text-nw-muted">لا توجد حركات مخزون خلال الفترة المحددة.</p>
             ) : (
-              <div className="overflow-hidden rounded-xl border border-slate-800">
-                <div className="grid grid-cols-[1fr_42px_52px_52px] bg-slate-950 px-2 py-2 text-[8px] font-bold text-slate-500">
-                  <span>نوع الحركة</span><span>العدد</span><span>داخل</span><span>خارج</span>
-                </div>
+              <DataTable caption="تفصيل حركات المخزون">
+                <thead><Tr><Th>نوع الحركة</Th><Th>العدد</Th><Th>داخل</Th><Th>خارج</Th></Tr></thead>
+                <tbody>
                 {report.inventoryMovements.types.map((movement) => (
-                  <div key={movement.movementType} className="grid grid-cols-[1fr_42px_52px_52px] border-t border-slate-800 px-2 py-2 text-[9px]">
-                    <b>{movementLabel(movement.movementType)}</b>
-                    <span>{movement.movementCount}</span>
-                    <span className="text-emerald-400">{movement.unitsIn}</span>
-                    <span className="text-rose-400">{movement.unitsOut}</span>
-                  </div>
+                  <Tr key={movement.movementType}><Td>{movementLabel(movement.movementType)}</Td><Td>{movement.movementCount}</Td><Td className="text-nw-ok">{movement.unitsIn}</Td><Td className="text-nw-bad">{movement.unitsOut}</Td></Tr>
                 ))}
-              </div>
+                </tbody>
+              </DataTable>
             )}
             {report.inventoryMovements.topProducts.length > 0 && (
               <div>
-                <h4 className="mb-2 text-[10px] font-black text-slate-300">أكثر الأصناف حركة</h4>
+                <h4 className="mb-2 text-[10px] font-black text-nw-muted">أكثر الأصناف حركة</h4>
                 <div className="grid gap-1.5">
                   {report.inventoryMovements.topProducts.slice(0, 5).map((product) => (
-                    <div key={`${product.sku}-${product.productName}`} className="flex items-center justify-between rounded-lg border border-slate-800 px-2 py-1.5 text-[9px]">
-                      <span className="min-w-0 truncate"><b>{product.productName}</b> <small className="text-slate-500">{product.sku}</small></span>
-                      <span className="shrink-0 text-slate-400">+{product.unitsIn} / -{product.unitsOut}</span>
+                    <div key={`${product.sku}-${product.productName}`} className="flex items-center justify-between rounded-lg border border-nw-border px-2 py-1.5 text-[9px]">
+                      <span className="min-w-0 truncate"><b>{product.productName}</b> <small className="text-nw-muted">{product.sku}</small></span>
+                      <span className="shrink-0 text-nw-muted">+{product.unitsIn} / -{product.unitsOut}</span>
                     </div>
                   ))}
                 </div>
@@ -403,79 +399,76 @@ export const ReportsCenterView: React.FC = () => {
             )}
           </section>
 
-          <section className="print-section space-y-3 rounded-2xl border border-slate-800 bg-slate-900 p-4">
-            <h3 className="flex items-center gap-2 text-sm font-black text-slate-100"><ShoppingCart className="h-4 w-4 text-blue-400" />تفاصيل المبيعات والربح</h3>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[11px]">
-              <div className="flex justify-between"><span className="text-slate-400">إجمالي المبيعات</span><b>{money(report.sales.grossSales)}</b></div>
-              <div className="flex justify-between"><span className="text-slate-400">المصاري المرجّعة</span><b className="text-rose-300">{money(report.sales.refunds)}</b></div>
-              <div className="flex justify-between"><span className="text-slate-400">الخصومات</span><b>{money(report.sales.discount)}</b></div>
-              <div className="flex justify-between"><span className="text-slate-400">رسوم التوصيل</span><b>{money(report.sales.deliveryFees)}</b></div>
-              <div className="flex justify-between"><span className="text-slate-400">تغطية تحصيل طلبات الفترة حاليًا</span><b className="text-emerald-300">{money(report.sales.collected)}</b></div>
-              <div className="flex justify-between"><span className="text-slate-400">الذمة الحالية لطلبات الفترة</span><b className="text-amber-300">{money(report.sales.outstanding)}</b></div>
+          <section className="print-section space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-4">
+            <h3 className="flex items-center gap-2 text-sm font-black text-nw-text"><ShoppingCart className="h-4 w-4 text-nw-info" />تفاصيل المبيعات والربح</h3>
+            <div className="grid grid-cols-1 gap-x-4 gap-y-3 text-sm md:grid-cols-2">
+              <div className="flex justify-between"><span className="text-nw-muted">إجمالي المبيعات</span><b>{money(report.sales.grossSales)}</b></div>
+              <div className="flex justify-between"><span className="text-nw-muted">المصاري المرجّعة</span><b className="text-nw-bad">{money(report.sales.refunds)}</b></div>
+              <div className="flex justify-between"><span className="text-nw-muted">الخصومات</span><b>{money(report.sales.discount)}</b></div>
+              <div className="flex justify-between"><span className="text-nw-muted">رسوم التوصيل</span><b>{money(report.sales.deliveryFees)}</b></div>
+              <div className="flex justify-between"><span className="text-nw-muted">تغطية تحصيل طلبات الفترة حاليًا</span><b className="text-nw-ok">{money(report.sales.collected)}</b></div>
+              <div className="flex justify-between"><span className="text-nw-muted">الذمة الحالية لطلبات الفترة</span><b className="text-nw-warn">{money(report.sales.outstanding)}</b></div>
             </div>
-            <div className="grid grid-cols-4 gap-2 border-t border-slate-800 pt-3 text-center text-[10px]">
-              <div><b className="block text-sm text-white">{report.sales.posOrderCount}</b><span className="text-slate-500">بيع مباشر</span></div>
-              <div><b className="block text-sm text-white">{report.sales.websiteOrderCount}</b><span className="text-slate-500">طلبات موقع</span></div>
-              <div><b className="block text-sm text-white">{report.sales.packageCount}</b><span className="text-slate-500">طرد مباع</span></div>
-              <div><b className="block text-sm text-white">{report.sales.uniqueProductCount}</b><span className="text-slate-500">صنف مختلف</span></div>
+            <div className="grid grid-cols-2 gap-3 border-t border-nw-border pt-3 text-center text-xs md:grid-cols-4">
+              <div><b className="block text-sm text-nw-text">{report.sales.posOrderCount}</b><span className="text-nw-muted">بيع مباشر</span></div>
+              <div><b className="block text-sm text-nw-text">{report.sales.websiteOrderCount}</b><span className="text-nw-muted">طلبات موقع</span></div>
+              <div><b className="block text-sm text-nw-text">{report.sales.packageCount}</b><span className="text-nw-muted">طرد مباع</span></div>
+              <div><b className="block text-sm text-nw-text">{report.sales.uniqueProductCount}</b><span className="text-nw-muted">صنف مختلف</span></div>
             </div>
           </section>
 
-          <section className="grid grid-cols-2 gap-2">
-            <article className="print-card space-y-2 rounded-2xl border border-slate-800 bg-slate-900 p-3">
-              <h3 className="flex items-center gap-2 text-xs font-black text-slate-100"><PackageCheck className="h-4 w-4 text-cyan-400" />المخزون الحالي</h3>
-              <div className="flex justify-between text-[10px]"><span className="text-slate-400">قيمة التكلفة</span><b>{money(report.inventory.value)}</b></div>
-              <div className="flex justify-between text-[10px]"><span className="text-slate-400">أصناف لها رصيد</span><b>{report.inventory.stockedProducts}</b></div>
-              <div className="flex justify-between text-[10px]"><span className="text-slate-400">حبات فعلية / محجوزة</span><b>{report.inventory.baseUnitsOnHand} / {report.inventory.baseUnitsReserved}</b></div>
-              <div className="flex justify-between text-[10px]"><span className="text-slate-400">قربت تنفد</span><b className="text-amber-300">{report.inventory.lowStockProducts}</b></div>
+          <section className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <article className="print-card space-y-2 rounded-2xl border border-nw-border bg-nw-surface p-3">
+              <h3 className="flex items-center gap-2 text-xs font-black text-nw-text"><PackageCheck className="h-4 w-4 text-nw-info" />المخزون الحالي</h3>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">قيمة التكلفة</span><b>{money(report.inventory.value)}</b></div>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">أصناف لها رصيد</span><b>{report.inventory.stockedProducts}</b></div>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">حبات فعلية / محجوزة</span><b>{report.inventory.baseUnitsOnHand} / {report.inventory.baseUnitsReserved}</b></div>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">قربت تنفد</span><b className="text-nw-warn">{report.inventory.lowStockProducts}</b></div>
             </article>
-            <article className="print-card space-y-2 rounded-2xl border border-slate-800 bg-slate-900 p-3">
-              <h3 className="flex items-center gap-2 text-xs font-black text-slate-100"><Boxes className="h-4 w-4 text-violet-400" />مشتريات الموردين</h3>
-              <div className="flex justify-between text-[10px]"><span className="text-slate-400">سندات الاستلام</span><b>{report.purchases.receiptCount}</b></div>
-              <div className="flex justify-between text-[10px]"><span className="text-slate-400">إجمالي البضاعة</span><b>{money(report.purchases.total)}</b></div>
-              <div className="flex justify-between text-[10px]"><span className="text-slate-400">المدفوع</span><b className="text-emerald-300">{money(report.purchases.paid)}</b></div>
-              <div className="flex justify-between text-[10px]"><span className="text-slate-400">المتبقي</span><b className="text-rose-300">{money(report.purchases.due)}</b></div>
+            <article className="print-card space-y-2 rounded-2xl border border-nw-border bg-nw-surface p-3">
+              <h3 className="flex items-center gap-2 text-xs font-black text-nw-text"><Boxes className="h-4 w-4 text-nw-info" />مشتريات الموردين</h3>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">سندات الاستلام</span><b>{report.purchases.receiptCount}</b></div>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">إجمالي البضاعة</span><b>{money(report.purchases.total)}</b></div>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">المدفوع</span><b className="text-nw-ok">{money(report.purchases.paid)}</b></div>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">المتبقي</span><b className="text-nw-bad">{money(report.purchases.due)}</b></div>
             </article>
           </section>
 
-          <section className="grid grid-cols-2 gap-2">
-            <article className="print-card rounded-2xl border border-slate-800 bg-slate-900 p-3">
-              <h3 className="mb-2 flex items-center gap-2 text-xs font-black text-slate-100"><HandCoins className="h-4 w-4 text-emerald-400" />طرق الدفع</h3>
-              {report.paymentMethods.length === 0 ? <p className="text-[10px] text-slate-500">لا توجد مبيعات في الفترة.</p> : report.paymentMethods.map((method) => (
-                <div key={method.method} className="flex justify-between border-t border-slate-800 py-1.5 text-[10px] first:border-0">
+          <section className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <article className="print-card rounded-2xl border border-nw-border bg-nw-surface p-3">
+              <h3 className="mb-2 flex items-center gap-2 text-xs font-black text-nw-text"><HandCoins className="h-4 w-4 text-nw-ok" />طرق الدفع</h3>
+              {report.paymentMethods.length === 0 ? <p className="text-[10px] text-nw-muted">لا توجد مبيعات في الفترة.</p> : report.paymentMethods.map((method) => (
+                <div key={method.method} className="flex justify-between border-t border-nw-border py-1.5 text-[10px] first:border-0">
                   <span>{paymentLabel(method.method)} ({method.orderCount})</span><b>{money(method.amount)}</b>
                 </div>
               ))}
             </article>
-            <article className="print-card rounded-2xl border border-slate-800 bg-slate-900 p-3">
-              <h3 className="mb-2 flex items-center gap-2 text-xs font-black text-slate-100"><ReceiptText className="h-4 w-4 text-amber-400" />المصروفات حسب التصنيف</h3>
-              {report.expenses.categories.length === 0 ? <p className="text-[10px] text-slate-500">لا توجد مصروفات في الفترة.</p> : report.expenses.categories.map((category) => (
-                <div key={category.category} className="flex justify-between border-t border-slate-800 py-1.5 text-[10px] first:border-0">
+            <article className="print-card rounded-2xl border border-nw-border bg-nw-surface p-3">
+              <h3 className="mb-2 flex items-center gap-2 text-xs font-black text-nw-text"><ReceiptText className="h-4 w-4 text-nw-warn" />المصروفات حسب التصنيف</h3>
+              {report.expenses.categories.length === 0 ? <p className="text-[10px] text-nw-muted">لا توجد مصروفات في الفترة.</p> : report.expenses.categories.map((category) => (
+                <div key={category.category} className="flex justify-between border-t border-nw-border py-1.5 text-[10px] first:border-0">
                   <span>{category.category} ({category.count})</span><b>{money(category.amount)}</b>
                 </div>
               ))}
             </article>
           </section>
 
-          <section className="print-section rounded-2xl border border-slate-800 bg-slate-900 p-4">
-            <h3 className="mb-3 flex items-center gap-2 text-sm font-black text-slate-100"><TrendingUp className="h-4 w-4 text-emerald-400" />الأصناف الأكثر بيعًا</h3>
+          <section className="print-section rounded-2xl border border-nw-border bg-nw-surface p-4">
+            <h3 className="mb-3 flex items-center gap-2 text-sm font-black text-nw-text"><TrendingUp className="h-4 w-4 text-nw-ok" />الأصناف الأكثر بيعًا</h3>
             {report.topProducts.length === 0 ? (
-              <p className="text-[10px] text-slate-500">لا توجد أصناف مباعة خلال الفترة المحددة.</p>
+              <p className="text-[10px] text-nw-muted">لا توجد أصناف مباعة خلال الفترة المحددة.</p>
             ) : (
-              <div className="overflow-hidden rounded-xl border border-slate-800">
-                <div className="grid grid-cols-[1fr_52px_78px] bg-slate-950 px-2 py-2 text-[9px] font-bold text-slate-500"><span>الصنف</span><span>الطرود</span><span>المبيعات</span></div>
+              <DataTable caption="الأصناف الأكثر بيعاً">
+                <thead><Tr><Th>الصنف</Th><Th>الطرود</Th><Th>المبيعات</Th></Tr></thead><tbody>
                 {report.topProducts.map((product) => (
-                  <div key={`${product.sku}-${product.productName}`} className="grid grid-cols-[1fr_52px_78px] border-t border-slate-800 px-2 py-2 text-[10px]">
-                    <span className="min-w-0 truncate"><b className="block text-slate-200">{product.productName}</b><small className="text-[8px] text-slate-500">{product.sku}</small></span>
-                    <b>{product.packageCount}</b>
-                    <span><b className="block">{money(product.revenue)}</b><small className="text-[8px] text-emerald-400">ربح {money(product.profit)}</small></span>
-                  </div>
+                  <Tr key={`${product.sku}-${product.productName}`}><Td><b className="block text-nw-text">{product.productName}</b><small className="text-xs text-nw-muted">{product.sku}</small></Td><Td>{product.packageCount}</Td><Td><bdi dir="ltr" className="nw-num block whitespace-nowrap">{money(product.revenue)}</bdi><small className="text-xs text-nw-ok">ربح <bdi dir="ltr" className="nw-num">{money(product.profit)}</bdi></small></Td></Tr>
                 ))}
-              </div>
+                </tbody>
+              </DataTable>
             )}
           </section>
 
-          <footer className="print-section rounded-xl border border-slate-800 p-3 text-center text-[9px] leading-5 text-slate-500">
+          <footer className="print-section rounded-xl border border-nw-border p-3 text-center text-[9px] leading-5 text-nw-muted">
             الربح = صافي المبيعات − تكلفة البيع الأصلية − تكلفة الاستبدال + استرجاع تكلفة المخزون − المصاريف. التوصيل مبيّن مستقلًا ولا يرد مع المرتجع الحديث. حركات الفترة لا تساوي بالضرورة تحصيل طلبات الفترة.
           </footer>
           </details>

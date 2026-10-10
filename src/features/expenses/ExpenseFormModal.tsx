@@ -4,6 +4,7 @@ import {
   useAppStoreActions,
   useAppStoreSelector,
 } from '../../stores/useAppStore';
+import {FormFields, UiButton} from '../../components/ui';
 
 interface ExpenseFormModalProps {
   onClose: () => void;
@@ -41,26 +42,26 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
 
   if (!currentShift) {
     return (
-      <div className="space-y-4 text-center text-xs">
-        <div className="rounded-2xl border border-amber-700/60 bg-amber-950/40 p-5">
-          <AlertTriangle className="mx-auto mb-2 h-8 w-8 text-amber-400" />
-          <h3 className="font-black text-amber-200">افتح وردية الصندوق أولًا</h3>
-          <p className="mt-1 leading-5 text-slate-400">
+      <FormFields className="space-y-4 text-center text-xs nw-batch4-fields">
+        <div className="rounded-2xl border border-nw-border bg-nw-warn-bg p-5">
+          <AlertTriangle className="mx-auto mb-2 h-8 w-8 text-nw-warn" />
+          <h3 className="font-black text-nw-warn">افتح وردية الصندوق أولًا</h3>
+          <p className="mt-1 leading-5 text-nw-muted">
             كل مصروف يجب أن يرتبط بالوردية المفتوحة حتى تبقى حركة الكاش وCliQ
             قابلة للمراجعة.
           </p>
         </div>
-        <button
+        <UiButton variant="primary"
           type="button"
           onClick={() => {
             onClose();
             setActiveTab('shifts');
           }}
-          className="w-full rounded-2xl bg-blue-600 py-3 font-black text-white transition hover:bg-blue-500"
+          className="w-full text-xs"
         >
           الانتقال إلى الورديات
-        </button>
-      </div>
+        </UiButton>
+      </FormFields>
     );
   }
 
@@ -84,17 +85,18 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
   };
 
   return (
-    <div aria-busy={isSaving} className="space-y-4 text-xs">
-      <div className="rounded-xl border border-emerald-800/70 bg-emerald-950/30 px-3 py-2 text-emerald-300">
+    <FormFields aria-busy={isSaving} className="nw-batch4-fields space-y-4 text-sm text-nw-text">
+      <div className="rounded-xl border border-nw-border bg-nw-ok-bg px-3 py-2 text-nw-ok">
         سيرتبط المصروف بالوردية <b>{currentShift.shiftNumber}</b> تلقائيًا.
       </div>
 
       <div>
-        <label className="mb-1 block font-bold text-slate-300">فئة المصروف</label>
+        <label htmlFor="expense-category" className="mb-1 block font-bold text-nw-muted">فئة المصروف</label>
         <select
+          id="expense-category"
           value={category}
           onChange={(event) => setCategory(event.target.value)}
-          className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-white"
+          className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
         >
           {EXPENSE_CATEGORIES.map((item) => (
             <option key={item} value={item}>
@@ -105,76 +107,80 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
       </div>
 
       <div>
-        <label className="mb-1 block font-bold text-slate-300">المبلغ (د.أ) *</label>
+        <label htmlFor="expense-amount" className="mb-1 block font-bold text-nw-muted">المبلغ (د.أ) *</label>
         <input
+          id="expense-amount"
           type="number"
           min="0.001"
           step="0.001"
           value={amount}
           onChange={(event) => setAmount(event.target.value)}
           placeholder="0.000"
-          className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 font-bold text-amber-400"
+          className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 font-bold text-nw-warn"
         />
       </div>
 
       <div>
-        <label className="mb-1 block font-bold text-slate-300">طريقة الدفع *</label>
+        <label className="mb-1 block font-bold text-nw-muted">طريقة الدفع *</label>
         <div className="grid grid-cols-2 gap-2">
           {([
             ['cash', 'كاش', Banknote],
             ['cliq', 'CliQ', Smartphone],
           ] as const).map(([value, label, Icon]) => (
-            <button
+            <UiButton variant="plain"
+              aria-pressed={paymentMethod === value}
               key={value}
               type="button"
               onClick={() => setPaymentMethod(value)}
               className={`flex items-center justify-center gap-2 rounded-xl border p-2.5 font-black transition ${
                 paymentMethod === value
-                  ? 'border-emerald-500 bg-emerald-950/60 text-emerald-300'
-                  : 'border-slate-700 bg-slate-950 text-slate-400'
+                  ? 'border-nw-border bg-nw-ok-bg text-nw-ok'
+                  : 'border-nw-border bg-nw-surface-2 text-nw-muted'
               }`}
             >
               <Icon className="h-4 w-4" />
               {label}
-            </button>
+            </UiButton>
           ))}
         </div>
       </div>
 
       {paymentMethod === 'cliq' && (
         <div>
-          <label className="mb-1 block font-bold text-slate-300">
+          <label htmlFor="expense-reference" className="mb-1 block font-bold text-nw-muted">
             رقم مرجع CliQ *
           </label>
           <input
+            id="expense-reference"
             type="text"
             value={referenceNumber}
             onChange={(event) => setReferenceNumber(event.target.value)}
             placeholder="رقم الحركة أو المرجع"
-            className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-white"
+            className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
           />
         </div>
       )}
 
       <div>
-        <label className="mb-1 block font-bold text-slate-300">البيان / الوصف *</label>
+        <label htmlFor="expense-description" className="mb-1 block font-bold text-nw-muted">البيان / الوصف *</label>
         <input
+          id="expense-description"
           type="text"
           value={description}
           onChange={(event) => setDescription(event.target.value)}
           placeholder="مثال: فاتورة كهرباء الفرع"
-          className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-white"
+          className="w-full rounded-xl border border-nw-border bg-nw-surface-2 p-2.5 text-nw-text"
         />
       </div>
 
-      <button
+      <UiButton variant="accent"
         type="button"
         disabled={!isValid || isSaving}
         onClick={() => void handleSubmit()}
-        className="w-full rounded-2xl bg-amber-600 py-3 font-black text-white shadow transition hover:bg-amber-500 disabled:cursor-not-allowed disabled:opacity-40"
+        className="sticky bottom-0 z-10 w-full text-sm shadow-lg"
       >
-        {isSaving ? 'جاري الحفظ في Supabase...' : 'اعتماد وتسجيل المصروف'}
-      </button>
-    </div>
+        {isSaving ? 'جاري تسجيل المصروف...' : 'اعتماد وتسجيل المصروف'}
+      </UiButton>
+    </FormFields>
   );
 };

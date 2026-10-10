@@ -207,9 +207,9 @@ export const PurchaseOrderCard: React.FC<PurchaseOrderCardProps> = ({
 
           {/* Quick Record Payment Button */}
           {po.amountDue > 0 && po.status !== 'cancelled' && onRecordPayment && (
-            <UiButton variant="plain" type="button"
+            <UiButton variant="primary" type="button"
               onClick={() => onRecordPayment(po)}
-              className="bg-nw-bad-bg text-nw-bad border border-nw-border hover:bg-nw-bad-bg px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 transition text-[11px] h-auto min-h-11 min-w-0 whitespace-normal"
+              className="px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 transition text-[11px] h-auto min-h-11 min-w-0 whitespace-nowrap"
             >
               <ArrowUpRight className="w-3 h-3" />
               <span>دفع</span>

@@ -17,8 +17,9 @@ import {
   useAppStoreSelector,
 } from '../../stores/useAppStore';
 import { CURRENCY } from '../../constants';
+import {Card, KpiCard, KpiGrid, MoneyText, UiButton, formatJod, formatUiDate} from '../../components/ui';
 
-const money = (value: number) => `${value.toFixed(3)} ${CURRENCY}`;
+const money = (value: number) => `${formatJod(value)} ${CURRENCY}`;
 
 export const ExpensesView: React.FC = () => {
   const {
@@ -47,32 +48,32 @@ export const ExpensesView: React.FC = () => {
     .reduce((total, expense) => total + expense.amount, 0);
 
   return (
-    <div className="space-y-4 p-4 pb-24">
-      <div className="flex items-start justify-between gap-3">
+    <div data-testid="expenses-screen" className="space-y-4 p-4 pb-24 text-nw-text">
+      <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="flex items-center gap-2 text-base font-black text-slate-100">
-            <DollarSign className="h-5 w-5 text-amber-400" />
+          <h2 className="flex items-center gap-2 text-base font-black text-nw-text">
+            <DollarSign className="h-5 w-5 text-nw-warn" />
             المصروفات التشغيلية
           </h2>
-          <p className="mt-1 text-[11px] text-slate-400">
-            سجل حقيقي مرتبط بالوردية والفرع ومحفوظ في Supabase
+          <p className="mt-1 text-[11px] text-nw-muted">
+            سجل المصروفات وحركاتها حسب الوردية والفرع
           </p>
         </div>
-        <button
+        <UiButton variant="accent"
           type="button"
           onClick={() => openModal('add_expense')}
-          className="flex shrink-0 items-center gap-1 rounded-xl bg-amber-600 px-3 py-2 text-xs font-bold text-white shadow transition hover:bg-amber-500"
+          className="shrink-0 whitespace-nowrap text-xs"
         >
           <Plus className="h-3.5 w-3.5" />
           مصروف جديد
-        </button>
+        </UiButton>
       </div>
 
       <div
         className={`rounded-2xl border p-3 text-xs ${
           currentShift
-            ? 'border-emerald-800/70 bg-emerald-950/30 text-emerald-300'
-            : 'border-amber-800/70 bg-amber-950/30 text-amber-300'
+            ? 'border-nw-border bg-nw-ok-bg text-nw-ok'
+            : 'border-nw-border bg-nw-warn-bg text-nw-warn'
         }`}
       >
         {currentShift
@@ -80,64 +81,52 @@ export const ExpensesView: React.FC = () => {
           : 'لا توجد وردية مفتوحة. افتح وردية الصندوق قبل تسجيل أي مصروف.'}
       </div>
 
-      <div className="grid grid-cols-3 gap-2 text-xs">
-        <div className="rounded-2xl border border-slate-800 bg-slate-900 p-3">
-          <WalletCards className="mb-2 h-4 w-4 text-amber-400" />
-          <span className="block text-[10px] text-slate-500">الإجمالي</span>
-          <b className="text-amber-300">{money(cashTotal + cliqTotal)}</b>
-        </div>
-        <div className="rounded-2xl border border-slate-800 bg-slate-900 p-3">
-          <Banknote className="mb-2 h-4 w-4 text-emerald-400" />
-          <span className="block text-[10px] text-slate-500">كاش</span>
-          <b className="text-emerald-300">{money(cashTotal)}</b>
-        </div>
-        <div className="rounded-2xl border border-slate-800 bg-slate-900 p-3">
-          <Smartphone className="mb-2 h-4 w-4 text-cyan-400" />
-          <span className="block text-[10px] text-slate-500">CliQ</span>
-          <b className="text-cyan-300">{money(cliqTotal)}</b>
-        </div>
-      </div>
+      <KpiGrid>
+        <KpiCard label="الإجمالي" value={<MoneyText amount={cashTotal + cliqTotal} currency />} badge={<WalletCards className="h-4 w-4 text-nw-primary" />} />
+        <KpiCard label="كاش" value={<MoneyText amount={cashTotal} currency />} valueTone="ok" badge={<Banknote className="h-4 w-4" />} />
+        <KpiCard label="CliQ" value={<MoneyText amount={cliqTotal} currency />} valueTone="info" badge={<Smartphone className="h-4 w-4" />} />
+      </KpiGrid>
 
       <div className="space-y-2.5">
         {expenses.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-slate-700 bg-slate-900/50 p-8 text-center">
-            <CheckCircle2 className="mx-auto mb-2 h-8 w-8 text-emerald-400" />
-            <h3 className="text-sm font-black text-slate-200">لا توجد مصروفات مسجلة</h3>
-            <p className="mt-1 text-[11px] text-slate-500">
-              لا توجد بيانات تجريبية؛ ستظهر هنا المصروفات الحقيقية فقط.
+          <div className="rounded-2xl border border-dashed border-nw-border bg-nw-surface p-8 text-center">
+            <CheckCircle2 className="mx-auto mb-2 h-8 w-8 text-nw-ok" />
+            <h3 className="text-sm font-black text-nw-text">لا توجد مصروفات مسجلة</h3>
+            <p className="mt-1 text-[11px] text-nw-muted">
+              ستظهر المصروفات هنا بعد تسجيلها من الوردية المفتوحة.
             </p>
           </div>
         ) : (
           expenses.map((expense) => (
-            <article
+            <Card padded={false}
               key={expense.id}
               className={`space-y-2 rounded-2xl border p-3.5 text-xs shadow ${
                 expense.isReversed
-                  ? 'border-rose-900/70 bg-rose-950/20 opacity-75'
-                  : 'border-slate-800 bg-slate-900'
+                  ? 'border-nw-border bg-nw-bad-bg'
+                  : 'border-nw-border bg-nw-surface'
               }`}
             >
-              <div className="flex items-center justify-between gap-2">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex min-w-0 items-center gap-2">
-                  <span className="rounded border border-amber-900 bg-amber-950/80 px-2 py-0.5 font-mono font-bold text-amber-400">
+                  <span className="rounded border border-nw-border bg-nw-warn-bg px-2 py-0.5 font-mono font-bold text-nw-warn">
                     {expense.expenseNumber}
                   </span>
-                  <h4 className="truncate font-bold text-slate-100">{expense.category}</h4>
+                  <h4 className="truncate font-bold text-nw-text">{expense.category}</h4>
                 </div>
-                <strong className="shrink-0 text-sm text-amber-400">
+                <strong className="shrink-0 text-sm text-nw-warn">
                   {money(expense.amount)}
                 </strong>
               </div>
-              <p className="text-[11px] text-slate-400">{expense.description}</p>
-              <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-800 pt-2 text-[10px] text-slate-500">
+              <p className="text-[11px] text-nw-muted">{expense.description}</p>
+              <div className="flex flex-wrap items-center justify-between gap-2 border-t border-nw-border pt-2 text-[10px] text-nw-muted">
                 <span>
-                  {new Date(expense.createdAt).toLocaleString('ar-JO')} — {expense.createdByName}
+                  {formatUiDate(expense.createdAt, {dateStyle:'medium',timeStyle:'short'})} — {expense.createdByName}
                 </span>
                 <span
                   className={
                     expense.paymentMethod === 'cash'
-                      ? 'font-bold text-emerald-400'
-                      : 'font-bold text-cyan-400'
+                      ? 'font-bold text-nw-ok'
+                      : 'font-bold text-nw-info'
                   }
                 >
                   {expense.paymentMethod === 'cash' ? 'كاش' : 'CliQ'}
@@ -145,12 +134,12 @@ export const ExpensesView: React.FC = () => {
                 </span>
               </div>
               {expense.isReversed ? (
-                <p className="rounded-xl border border-rose-900/60 bg-rose-950/30 p-2 text-[10px] text-rose-300">
+                <p className="rounded-xl border border-nw-border bg-nw-bad-bg p-2 text-[10px] text-nw-bad">
                   تم العكس{expense.reversalReason ? `: ${expense.reversalReason}` : ''}
                   {expense.reversedByName ? ` — ${expense.reversedByName}` : ''}
                 </p>
               ) : currentShift?.id === expense.shiftId ? (
-                <button
+                <UiButton variant="danger"
                   type="button"
                   disabled={reversingExpenseId === expense.id}
                   onClick={async () => {
@@ -160,12 +149,12 @@ export const ExpensesView: React.FC = () => {
                     await reverseExpense(expense.id, reason);
                     setReversingExpenseId(null);
                   }}
-                  className="w-full rounded-xl border border-rose-900/70 bg-rose-950/30 py-2 font-bold text-rose-300 transition hover:bg-rose-950/60 disabled:opacity-60"
+                  className="w-full text-xs"
                 >
                   {reversingExpenseId === expense.id ? 'جاري العكس...' : 'عكس المصروف مع حفظ السجل'}
-                </button>
+                </UiButton>
               ) : null}
-            </article>
+            </Card>
           ))
         )}
       </div>

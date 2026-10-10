@@ -68,3 +68,11 @@
     --nw-warn: var(--nw-print-text);
   }
 }
+.nw-batch4-fields :is(input:not([type="checkbox"]):not([type="radio"]),select,textarea) {
+  min-height:44px;
+  font-size:14px;
+}
+.nw-batch4-fields button { min-height:44px; }
+.nw-batch4-report :is(h1,h2,h3,h4,p,span,div) { min-width:0; }
+.nw-batch4-report details > section > div.flex { gap:8px; flex-wrap:wrap; }
+.nw-batch4-report :is(.text-\[8px\],.text-\[9px\],.text-\[10px\],.text-\[11px\]) { font-size:12px; line-height:1.6; }

@@ -257,9 +257,9 @@ export const PurchasesView: React.FC = () => {
             <ShoppingBag className="w-6 h-6" />
           </Card>
           <div>
-            <h1 className="text-base font-black text-nw-text flex items-center gap-2">
+            <h1 className="text-base font-black text-nw-text flex flex-wrap items-center gap-2">
               <span>مركز إدارة المشتريات والموردين</span>
-              <span className="text-[10px] bg-nw-info-bg text-nw-info border border-nw-border px-2 py-0.5 rounded-full">
+              <span className="whitespace-nowrap text-[10px] bg-nw-info-bg text-nw-info border border-nw-border px-2 py-0.5 rounded-full">
                 نظام بالجملة والتوريد
               </span>
             </h1>
@@ -270,39 +270,39 @@ export const PurchasesView: React.FC = () => {
         </div>
 
         {/* Global Action Buttons */}
-        <div className="flex items-center gap-2">
-          <UiButton variant="plain" type="button"
+        <div data-testid="purchase-header-actions" className="grid grid-cols-3 gap-1.5 sm:flex sm:items-center sm:gap-2">
+          <UiButton variant="plain" type="button" aria-label="مورد جديد"
             onClick={() => {
               setSupplierToEdit(null);
               setIsSupplierModalOpen(true);
             }}
-            className="flex-1 sm:flex-initial bg-nw-ok-bg text-nw-ok border border-nw-border hover:bg-nw-ok-bg px-3.5 py-2 rounded-xl font-bold flex items-center justify-center gap-1.5 transition active:scale-95 h-auto min-h-11 min-w-0 whitespace-normal"
+            className="bg-nw-ok-bg text-nw-ok border border-nw-border px-1.5 sm:px-3.5 rounded-xl font-bold flex items-center justify-center gap-1 sm:gap-1.5 h-11 min-w-0 whitespace-nowrap text-[11px] sm:text-sm"
           >
-            <Building className="w-4 h-4" />
-            <span>مورد جديد</span>
+            <Building className="w-3.5 h-3.5 shrink-0" />
+            <span className="sm:hidden">مورد</span><span className="hidden sm:inline">مورد جديد</span>
           </UiButton>
 
-          <UiButton variant="plain" type="button"
+          <UiButton variant="plain" type="button" aria-label="سند صرف جديد"
             onClick={() => {
               setPreselectedSupplierForPayment(undefined);
               setSelectedPoForPayment(null);
               setIsGeneralPaymentModalOpen(true);
             }}
-            className="flex-1 sm:flex-initial bg-nw-bad-bg text-nw-bad border border-nw-border hover:bg-nw-bad-bg px-3.5 py-2 rounded-xl font-bold flex items-center justify-center gap-1.5 transition active:scale-95 h-auto min-h-11 min-w-0 whitespace-normal"
+            className="bg-nw-primary text-nw-on-primary border border-nw-border px-1.5 sm:px-3.5 rounded-xl font-bold flex items-center justify-center gap-1 sm:gap-1.5 h-11 min-w-0 whitespace-nowrap text-[11px] sm:text-sm"
           >
-            <ArrowUpRight className="w-4 h-4" />
-            <span>سند صرف جديد</span>
+            <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
+            <span className="sm:hidden">سند صرف</span><span className="hidden sm:inline">سند صرف جديد</span>
           </UiButton>
 
-          <UiButton variant="plain" type="button"
+          <UiButton variant="plain" type="button" aria-label="أمر شراء جديد"
             onClick={() => {
               setPoToEdit(null);
               setIsCreateModalOpen(true);
             }}
-            className="flex-1 sm:flex-initial bg-nw-surface     text-nw-text px-4 py-2 rounded-xl font-bold flex items-center justify-center gap-1.5 transition shadow-lg active:scale-95 h-auto min-h-11 min-w-0 whitespace-normal"
+            className="bg-nw-primary text-nw-on-primary px-1.5 sm:px-4 rounded-xl font-bold flex items-center justify-center gap-1 sm:gap-1.5 h-11 min-w-0 whitespace-nowrap text-[11px] sm:text-sm"
           >
-            <Plus className="w-4 h-4" />
-            <span>أمر شراء جديد</span>
+            <Plus className="w-3.5 h-3.5 shrink-0" />
+            <span className="sm:hidden">أمر شراء</span><span className="hidden sm:inline">أمر شراء جديد</span>
           </UiButton>
         </div>
       </Card>
@@ -346,7 +346,7 @@ export const PurchasesView: React.FC = () => {
         </Card>
 
         {/* 7. Outstanding Balance */}
-        <Card padded={false} className="bg-nw-surface border border-nw-border p-3 rounded-2xl shadow-sm text-center space-y-1 bg-nw-bad-bg">
+        <Card padded={false} className="border border-nw-border p-3 rounded-2xl shadow-sm text-center space-y-1">
           <span className="text-[10px] text-nw-bad block font-medium">المستحق للموردين</span>
           <span className="text-xs font-black text-nw-bad block font-mono">
             {formatJod(totalOutstanding)} {CURRENCY}

@@ -46,7 +46,7 @@ test('التقرير بسيط، والتكلفة في تفاصيل؛ الدقة 
   await expect(details).not.toHaveAttribute('open', '');
   await expect(main.getByText('تكلفة الاستبدال', {exact: true})).not.toBeVisible();
   const profit = main.locator(':scope > section > article').filter({has: page.getByText('الربح', {exact: true})});
-  const signed = (-0.333).toLocaleString('ar-JO', {minimumFractionDigits: 3, maximumFractionDigits: 3});
+  const signed = (-0.333).toLocaleString('en-US', {minimumFractionDigits: 3, maximumFractionDigits: 3});
   await expect(profit).toContainText(signed);
   await details.locator('summary').click();
   await expect(main.getByText('تكلفة الاستبدال', {exact: true})).toBeVisible();

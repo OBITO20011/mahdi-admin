@@ -503,3 +503,79 @@ The final global network audit also completed;QA ports4173–4176 no longer
 listen. agent:resume safeToResume=true proves the worktree stayed unchanged.
 The independent intermittent checkout issue remains OPEN despite passing
 this run.001–137 unchanged,no138,no Production/deploy. Commit/exact CI next.
+
+## Batch4 — expenses and reports;2026-10-10
+
+Baseline47c958dac0019f28d21d9ac53881b2838fdd304c,visually accepted batch3.
+Presentation only:ExpensesView/ExpenseFormModal/ReportsCenterView,plus the
+three purchasing phone/header/payment-tone notes. No services,stores,readers,
+writers,roles,confirmations,financial equations or migrations changed.
+
+Expenses use shared KPI/Card/MoneyText,Latin grouped three-decimal amounts,
+formatUiDate and semantic tokens. Expense forms retain Cash/CliQ,reference,
+open-shift,validity and busy/dirty close guards;fields are44px with labels.
+Reports keep the9 simple financial cards,expandable details,integrity warning,
+date/preset requests and print behavior. Tables scroll inside their containers;
+printing uses existing print tokens,not screen dark colours.
+Purchasing phone actions occupy3 compact one-line columns with unchanged
+accessible full names/actions;payment is primary,not danger. Supplier dues
+card has one surface background,not conflicting good/bad backgrounds.
+
+### Permanent baseline AST contracts
+
+| File | Business calls | Event bindings | Native/value/validity properties | Result |
+|---|---:|---:|---:|---|
+| ExpensesView.tsx | 5 | 2 | 3 | Identical |
+| ExpenseFormModal.tsx | 1 | 7 | 15 | Identical |
+| ReportsCenterView.tsx | 3 | 9 | 35 | Identical |
+| PurchasesView.tsx | 8 | 55 | 59 | Identical |
+| PurchaseOrderCard.tsx | 0 | 4 | 2 | Identical |
+
+scripts/testing/package-f-financial-ui-contract.mjs records normalized AST
+hashes from the baseline in tests/package-f-remaining-batch4.test.ts. Includes
+await/service/RPC/run/openModal calls,payloads,onChange and other handlers,
+native validation/busy/value properties,non-render functions and monetary
+guards. Normalization excludes ONLY display colour literals and the named
+money display formatter;it does not exclude financial calculations/requests.
+New KPI display value is not treated as an input binding. UiButton effective
+button type is compared to native button type,including form defaults.
+
+### Focused evidence
+
+40/40 Chromium+WebKit,retries0,3.5m:financial harness28 cases plus existing
+Phase6A12. Both themes,width390/820/1440,axe serious/critical zero,shared
+layout/clipping checks,Latin numbers,form labels44px and phone submit visibility.
+Cash/CliQ submissions assert exact existing payloads and reference validation;
+reversal asserts original expense identity and explicit trimmed reason.
+No-shift,busy Escape,error retry,integrity warning,9 main report cards,
+detail-before-print and purchasing visual notes remain covered. Fixtures
+intercept rejected mutations;they never fabricate a committed business result.
+Initial19 focused unit assertions passed;final focused units23/23 passed.
+After preview-only metadata type correction,financial28/28 rerun passed,
+2.7m,retries0;typecheck and affected ESLint passed. Full quality pending.
+
+Old presentation expectation changed ONLY in e2e/phase6-package-a.spec.ts:
+negative refund amount uses the shared en-US grouped Latin three-decimal
+display instead of old ar-JO digit formatting. Same exact signed amount and
+precision asserted;all reader/financial assertions remain unchanged.
+Preview fixture currentUser inherits existing required metadata;no product
+store code changed for fixture typing. Final typecheck/focused gates rerun
+after this preview-only correction before full quality.
+
+React19 typing measurement:11 diagnostics/8files,0 confirmed active
+financial/inventory behavioral defects. Exact diagnostics/source triage and
+primary-tree equality/removal of the separate worktree:TYPES_MEASUREMENT.md.
+This is NOT a strict-mode audit or proof of no runtime defects. Full typing
+repair remains AFTERbatch7,not hidden inside this presentation commit.
+
+Harness:/e2e/package-f-financial-harness.html?theme=light|dark,
+view=expenses|reports|expense-form;shift=closed,integrity=critical,report=error
+are explicit fixture scenarios. All traffic is isolated/loopback.
+Full npm run quality completed in ONE invocation,exit0:typecheck/ESLint,
+Admin and Customer units(Customer189/189),both builds/SEO,isolation and
+615 browser PASS/59 existing conditional skips,retries0,30.2m browser leg.
+The global network isolation audit reported externalRequestsEscaped=0 and
+productionRequestsEscaped=0. No timeout,retry,skip or axe exclusion added.
+Migrations001–137,services,stores,CI and root dependency/compiler files unchanged.
+Gitleaks0,commit/push/exact CI then STOP for visual approval.
+No batch5,Production/deploy or Phase7;the independent checkout issue stays OPEN.
