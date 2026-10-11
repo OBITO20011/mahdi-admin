@@ -6,6 +6,8 @@ import path from 'node:path';
 import {createInterface} from 'node:readline/promises';
 import {fullScale,timingSummary,expectedCounts} from './package-e-scale-contract.mjs';
 import {assertPackageDDbLint} from './package-d-db-lint-policy.mjs';
+import {openAgingFixtureTransaction} from './aging-fixture-transaction.mjs';
+import {proveAgingMidnight} from './aging-midnight-proof.mjs';
 
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
 const scale=process.argv.includes('--scale'),projectId='nawasrah-package-f-crm-filters-test';
@@ -16,9 +18,9 @@ const id=n=>'92600000-0000-4000-8000-'+String(n).padStart(12,'0');
 const sid=(kind,n)=>'929'+String(kind).padStart(5,'0')+'-0000-4000-8000-'+String(n).padStart(12,'0');
 const owner=scale?sid(1,1):id(1),customer=id(401),branch=id(200),warehouse=id(201),product=id(101);
 const q=v=>"'"+String(v).replaceAll("'","''")+"'",j=v=>q(JSON.stringify(v))+'::jsonb';
-let workdir,stage='bootstrap001-136';
+let workdir,fixtureTransaction,stage='bootstrap001-136';
 const reportDirectory=path.join(root,'test-results/package-f-crm-filters');
-const sql=(text,{variables={},seed=false}={})=>new Promise((resolve,reject)=>{
+const sql=(text,{variables={},seed=false}={})=>fixtureTransaction?fixtureTransaction.sql(text,{variables,seed}):new Promise((resolve,reject)=>{
   const child=spawn('docker',['exec','-i',container,'psql','-U','postgres','-d','postgres','-X','-q','-At','-v','ON_ERROR_STOP=1',
     ...Object.entries(variables).flatMap(([k,v])=>['-v',k+'='+v])],{cwd:root,windowsHide:true,stdio:['pipe','pipe','pipe']});
   let out='',err='';child.stdout.setEncoding('utf8');child.stderr.setEncoding('utf8');
@@ -210,9 +212,11 @@ try{
     for(const [table,key] of [['orders','orders'],['customers','customers'],['customer_payments','payments']])
       assert.equal(await json('SELECT to_jsonb(COUNT(*)) FROM '+table+';'),expectedCounts(fullScale)[key]);
     await sql("UPDATE customers SET customer_type=CASE WHEN RIGHT(id::text,1) IN('0','2','4','6','8') THEN 'wholesale' ELSE 'retail' END,credit_limit_in_minor_units=4000;");
+    fixtureTransaction=await openAgingFixtureTransaction(container,{cwd:root});
   }else{
     stage='real POS/debt/payment/Return fixture';
     await sql(await readFile(path.join(root,'scripts/testing/package-e-golden-day-fixture.sql'),'utf8'));
+    fixtureTransaction=await openAgingFixtureTransaction(container,{cwd:root});
     await sql('UPDATE products SET sale_price_in_minor_units=20000,default_sale_price_in_minor_units=100000 WHERE id='+q(id(100))+';');
     await rpc('open_cash_shift('+q(branch)+',1000000)',{write:true});
     const line={client_line_id:id(900),line_kind:'base_unit',commercial_quantity:100,base_unit_name:'باكيت',gross_amount_in_minor_units:50000,
@@ -256,6 +260,7 @@ try{
     stage='exact whole-directory membership,paging and canonical balances';
     await membership({has_debt:[401,403,404,405,406].map(id),overdue:[401,405].map(id),over_limit:[401].map(id),wholesale:[401,406].map(id)},'0796600');
     await manualProof();
+    await proveAgingMidnight({sql,root,owner});
     assert.equal((await rpc(aging(id(403)))).age_unavailable_in_minor_units,50000);
     assert.equal((await rpc(crm('overdue',1,'latest','0796600403'))).total_count,0);
     assert.equal((await rpc(crm('has_debt',1,'latest','0796600403'))).total_count,1);
@@ -271,6 +276,7 @@ try{
     for(const command of [crm('invented'),crm('all',0),crm('all',1,'invented'),crm('all',1,'latest','x'.repeat(101)),crm('all',1,'latest',null,101)])
       await assert.rejects(()=>rpc(command),/غير صالح|بين 1 و100|طويلة/u);
     assert.deepEqual(await fingerprint(),frozen,'Every read preserves durable content');
+    await fixtureTransaction.close();fixtureTransaction=undefined;
     stage='DB lint';const {stdout:lint}=await exec(process.execPath,[cli,'db','lint','--local','--level','warning','--workdir',workdir],
       {cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024*1024});assertPackageDDbLint(lint);
     console.log(JSON.stringify({stage:'focused proofs',passed:true,literalJsonCases:existingCases.length,aclIdentical:true,
@@ -298,4 +304,4 @@ try{
   }
   console.log(JSON.stringify({ok:true,mode:scale?'FULL_SCALE':'FOCUSED_RUNTIME',historicalMigrationsChanged:false,productionAccess:0}));
 }catch(error){console.error(JSON.stringify({ok:false,stage,message:error.message,productionAccess:0}));process.exitCode=1;}
-finally{if(workdir)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',workdir],{cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024*1024});}
+finally{try{if(fixtureTransaction)await fixtureTransaction.close();}finally{if(workdir)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',workdir],{cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024*1024});}}

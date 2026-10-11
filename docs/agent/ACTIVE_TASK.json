@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Approved receiving base-unit/package UX and POS/receipt unit labels;no DB changes",
-  "baselineSha": "ec1145dd79e9f38915a5fae02ed9f57373ac936f",
+  "objective": "Approved TEST-ONLY aging fixture clock correction;then receiving9435ebd visual STOP",
+  "baselineSha": "9435ebd86a268f0ec8ca9b52cbcd26706582b24e",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -13,54 +13,41 @@
     "Independent TEST-ONLY ec1145d;Gitleaks0;motion20/20+528/528;485expectations unchanged"
   ],
   "inProgress": [
-    "Full quality exit0;stage receiving/Gitleaks0/commit/push/exactCI then visual STOP"
+    "136/137 clock fix DB+static+898unit/lint PASS;independent commit/push/exactCI then receiving visual STOP"
   ],
   "notStarted": [
     "Types/checkout after7;Phase7;assistant small-phone text"
   ],
   "filesTouched": [
-    "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
-    "e2e/package-d-pos-fullstack.spec.ts",
-    "e2e/package-d-pos.spec.ts",
-    "e2e/package-f-purchasing-harness.tsx",
-    "package.json",
-    "src/components/ui/index.ts",
-    "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-    "src/features/pos/PosView.tsx",
-    "src/features/purchases/ReceiveGoodsModal.tsx",
-    "src/types/purchases.ts",
-    "src/utils/receipt.ts",
-    "src/utils/receivingV2.ts",
-    "tests/package-f-remaining-batch3.test.ts",
-    "tests/pos-receipt.test.ts",
-    "tests/supplier-receiving.test.ts",
-    "docs/design/package-f/RECEIVING_UNITS_MIGRATION.md",
-    "e2e/package-f-receiving-units.spec.ts",
-    "scripts/testing/run-receiving-unit-runtime.mjs",
-    "src/components/ui/ReceivingUnitFields.tsx",
-    "tests/receiving-unit-pricing.test.ts"
+    "scripts/testing/run-package-f-crm-filters-runtime.mjs",
+    "scripts/testing/run-package-f-debt-aging-runtime.mjs",
+    "docs/design/package-f/AGING_FIXTURE_CLOCK.md",
+    "scripts/testing/aging-fixture-transaction.mjs",
+    "scripts/testing/aging-midnight-proof.mjs",
+    "tests/aging-fixture-clock.test.ts"
   ],
   "testsPassed": [
     "DB6 PO/direct cases PASS;browser16/16;focused units19/19+contracts14/14;typecheck/ESLint",
-    "Final full quality exit0:Admin895/895,Customer189/189,browser695PASS/59knownskips,0failures/0retries;lints/builds/SEO/isolation PASS"
+    "Final full quality exit0:Admin895/895,Customer189/189,browser695PASS/59knownskips,0failures/0retries;lints/builds/SEO/isolation PASS",
+    "Clock fix:DB136+137 PASS;midnight projection/realRPC30/31;99old assertions unchanged;Admin898/typecheck/ESLint"
   ],
   "testsRemaining": [
-    "Receiving staged Gitleaks/commit/push/exactCI then visual STOP"
+    "Staged Gitleaks0/independent test-only commit/push/full exactCI then visual STOP"
   ],
   "findings": [
     "Direct receipt supports exact package totals;PO adapter rounds per-unit first;receipt share label priority also wrong"
   ],
   "blockers": [
-    "None;full local quality passed;exact-SHA delivery CI pending"
+    "None;old9435ebd CI137 midnight fixture fixed/verified locally;fresh exact-SHA CI pending"
   ],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production/deploy/DB/CI/automations/Phase7;001–137 unchanged",
+    "No Production/deploy/migration/product/CI-workflow/automations/Phase7;001–137 unchanged;only isolated aging fixture tests allowed",
     "No RPC/permission/idempotency changes;preserve payload fields/meaning;only approved unit-mode UI conversion;.claude/launch.json untouched"
   ],
-  "nextExactAction": "Final full quality PASS;staged receiving Gitleaks0 then commit/push and follow all exactSHA CI to completion;visual STOP",
-  "workingTreeFingerprint": "4476FC0DD99D1807868AB73DB9A9AF127C65AD6EAAAB4B2FFD586CE7DC34E28D",
-  "checkpointedAt": "2026-10-11T20:57:42.133Z",
+  "nextExactAction": "Clock proof and DB136/137/lint898units PASS;Gitleaks0/test-only commit/push/full exactCI;STOP for visual receiving9435ebd",
+  "workingTreeFingerprint": "6AB7562B7A5600B7BC3C5DF4E7EDB4AD2D65638B0EEE6FD0C4FB819C466A24CE",
+  "checkpointedAt": "2026-10-11T21:24:05.931Z",
   "startedAt": "2026-10-11"
 }

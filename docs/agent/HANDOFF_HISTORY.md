@@ -422,3 +422,35 @@ or listeners4173–4176 remain. DB runtime six cases verified again from saved
 exit0 evidence;PO/direct payable+WAC exactly equal. No further product/test
 edits after completed quality;001–137/services/customer-web/.github unchanged.
 Next receiving stagedGitleaks0/commit/push/all exactSHA CI,checkpoint/visual STOP.
+
+2026-10-11 receiving commit9435ebd86a268f0ec8ca9b52cbcd26706582b24e after
+staged Gitleaks exit0;both tools ec1145d and receiving pushed normally to main.
+Tree clean immediately after push;baseline now synchronized to own final SHA.
+Only continuity checkpoint changes follow;no product/tests/RPC/migrations/CI
+edits. Monitor all exact push/main quality jobs+secrets,then delivery verifier
+and visual STOP. No long-running local test processes remain.
+
+2026-10-12 local/2026-10-11 UTC:exact9435ebd quality38174379530 FAILED job
+114573508731 (package-f-reads),step Prove137 CRM filters. Log21:00:00.576Z:
+stage exact whole-directory membership,paging and canonical balances,
+overdue actual3 != expected2. Job20:57:50Z–21:00:15Z crosses Amman midnight;
+fixture bootstrap20:59:56.514Z. Existing runner seeds customer404 age30 from
+CURRENT_TIMESTAMP Amman DATE then performs multiple separately timed reads;
+likely30→31 rollover adds404. Actual extra identity not logged,so root-cause
+confirmation is pending;no repair/rerun/CI cancellation attempted. 136/137 and
+runner byte-identical to d293ec3. Secrets38174379551 PASS;other quality jobs
+still running at stop. HEAD=remote9435ebd. Local full quality895/189/695PASS,
+59conditional skips;DB6PO/direct parity PASS. No owned local tests/listeners.
+Checkpoint PAUSED for owner direction;no Production/deploy/new phase.
+
+2026-10-12 owner approves fixture-only clock correction. CI old job timestamps
+bound23:59:56.514–00:00:00.576 Amman;per-INSERT timestamps absent. Deterministic
+exact CTE projections from136/137 show30→31 across midnight identically;real
+authenticated RPC fixtures30/31 agree. No installed function/migration patched.
+Both aging/CRM runners now pin fixture+oracles/paging/baseline-after to one
+real backend/transaction,retaining READ ONLY guards and error rollback. All
+99old assertion ASTs identical;clock backend/time equality and forbidden-write
+probe PASS. Serial DB136/137 exit0,all6boundaries+manual6cases+33JSON/ACL/roles/
+fingerprints/DBlint PASS. Static11/11,Admin898/898,typecheck/ESLint PASS.
+Owned DBs/processes stopped;only unrelated n8n remains. Next independent
+test-only commit/Gitleaks0/push/full exactSHA CI then receiving visual STOP.

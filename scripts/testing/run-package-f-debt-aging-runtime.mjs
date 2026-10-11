@@ -7,6 +7,7 @@ import {fullScale,timingSummary,expectedCounts} from './package-e-scale-contract
 import {assertPackageDDbLint} from './package-d-db-lint-policy.mjs';
 import {createHash} from 'node:crypto';
 import {createInterface} from 'node:readline/promises';
+import {openAgingFixtureTransaction} from './aging-fixture-transaction.mjs';
 
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
 const scale=process.argv.includes('--scale'),inspect=process.argv.includes('--inspect'),projectId='nawasrah-package-f-aging-test';
@@ -17,8 +18,8 @@ const id=n=>`92600000-0000-4000-8000-${String(n).padStart(12,'0')}`;
 const sid=(kind,n)=>`929${String(kind).padStart(5,'0')}-0000-4000-8000-${String(n).padStart(12,'0')}`;
 const q=v=>`'${String(v).replaceAll("'","''")}'`,j=v=>q(JSON.stringify(v))+'::jsonb';
 const owner=scale?sid(1,1):id(1),customer=id(401),branch=id(200),warehouse=id(201),product=id(101);
-let workdir,stage='fresh001-135';
-const sql=(text,{variables={},seed=false,diagnostic=false}={})=>new Promise((resolve,reject)=>{
+let workdir,fixtureTransaction,stage='fresh001-135';
+const sql=(text,{variables={},seed=false,diagnostic=false}={})=>fixtureTransaction?fixtureTransaction.sql(text,{variables,seed}):new Promise((resolve,reject)=>{
   const child=spawn('docker',['exec','-i',container,'psql','-U','postgres','-d','postgres','-X','-q','-At','-v','ON_ERROR_STOP=1',
     ...Object.entries(variables).flatMap(([key,value])=>['-v',`${key}=${value}`])],{cwd:root,windowsHide:true,stdio:['pipe','pipe','pipe']});
   let out='',err='';child.stdout.setEncoding('utf8');child.stderr.setEncoding('utf8');
@@ -117,6 +118,7 @@ try{
       ['customer_payments','payments','customer_id'],['inventory_movements','movements','product_id']]){
       assert.equal(await json(`SELECT to_jsonb(COUNT(*)) FROM public.${table} WHERE ${column}::text LIKE '929%';`),counts[key]);
     }
+    fixtureTransaction=await openAgingFixtureTransaction(container,{cwd:root});
     stage='full-scale canonical totals';const global=await rpc(aging());
     assert.equal(global.total_in_minor_units,50000000);assert.equal(fields.reduce((sum,k)=>sum+global[k],0),50000000);
     assert.ok(global.top_overdue.length<=50);assert.equal(global.top_overdue_limit,50);
@@ -166,6 +168,7 @@ try{
     }
   }else{
     stage='real sale/payments/Return';await sql(await readFile(path.join(root,'scripts/testing/package-e-golden-day-fixture.sql'),'utf8'));
+    fixtureTransaction=await openAgingFixtureTransaction(container,{cwd:root});
     await sql(`UPDATE products SET sale_price_in_minor_units=20000,default_sale_price_in_minor_units=100000 WHERE id=${q(id(100))};`);
     const shift=await rpc(`open_cash_shift(${q(branch)},1000000)`,{write:true});assert.ok(shift.id);
     const line={client_line_id:id(900),line_kind:'base_unit',commercial_quantity:100,base_unit_name:'باكيت',gross_amount_in_minor_units:50000,
@@ -252,9 +255,10 @@ try{
     stage='final read-only fingerprint';const frozen=await fingerprint();await rpc(aging());await rpc(aging(customer));assert.deepEqual(await fingerprint(),frozen);
     console.log(JSON.stringify({stage:'focused proofs',passed:true,canonical:255000,fifo:true,unknownAgeSeparate:true,
       undatedRemainingCount:1,midnightBoundaries:cases.length,roles,aclIdentical:true,zeroWrites:true}));
+    await fixtureTransaction.close();fixtureTransaction=undefined;
     stage='DB lint';const {stdout:lint}=await exec(process.execPath,[cli,'db','lint','--local','--level','warning','--workdir',workdir],
       {cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024*1024});assertPackageDDbLint(lint);
   }
   console.log(JSON.stringify({ok:true,mode:scale?'FULL_SCALE':'FOCUSED_RUNTIME',productionAccess:0}));
 }catch(error){console.error(JSON.stringify({ok:false,stage,message:error.message,productionAccess:0}));process.exitCode=1;}
-finally{if(workdir)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',workdir],{cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024*1024});}
+finally{try{if(fixtureTransaction)await fixtureTransaction.close();}finally{if(workdir)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',workdir],{cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024*1024});}}

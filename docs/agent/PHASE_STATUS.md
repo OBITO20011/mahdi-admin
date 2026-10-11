@@ -1,5 +1,12 @@
 # Phase status
 
+2026-10-12 owner-approved TEST-ONLY aging clock correction locally verified:
+136/137 fixture+oracle one real DB transaction;midnight projection reproduction
+and actual RPC30/31 agree;all old99assertion ASTs unchanged. DB136/137,static11,
+full898Admin/typecheck/ESLint PASS;source001–137/UI unchanged. Independent
+commit/Gitleaks0/push/full exactCI then receiving9435ebd visual STOP. Details:
+AGING_FIXTURE_CLOCK.md. No Production/deploy/new phase or financial-rule change.
+
 2026-10-11 receiving candidate local gates COMPLETE:isolated001–137 six PO/
 direct payable/WAC parity cases PASS;browser16/16,focused19/19+14/14;fresh FULL
 quality exit0(Admin895/895,Customer189/189,browser695+59knownskips,0fail/retries).
