@@ -72,7 +72,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
             <p className="mt-1 text-xs text-nw-side-muted lg:text-nw-muted">{formatUiDate(date, { weekday: 'long', day: 'numeric', month: 'long' })} · مركز اليوم</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <div className="hidden lg:block"><SegmentedControl touchSize label="فترة المبيعات" value={period} onChange={setPeriod} options={[{ value: 'day', label: 'اليوم' }, { value: 'week', label: 'الأسبوع' }, { value: 'month', label: 'الشهر' }]} /></div>
+            <div className="hidden lg:block"><SegmentedControl<'day' | 'week' | 'month'> touchSize label="فترة المبيعات" value={period} onChange={setPeriod} options={[{ value: 'day', label: 'اليوم' }, { value: 'week', label: 'الأسبوع' }, { value: 'month', label: 'الشهر' }]} /></div>
             <UiButton aria-label="تحديث مركز اليوم" disabled={loading} onClick={onRefresh}><RefreshCw aria-hidden="true" className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} /></UiButton>
           </div>
         </div>

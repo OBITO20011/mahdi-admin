@@ -2,48 +2,60 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner approved receiving explanation display correction, React19 types, strict measurement only",
-  "baselineSha": "d2e5b0eaf2229695bc844e4b3baf28a1fe7c232c",
+  "objective": "Owner approved types delivery via exact CI despite known local checkout symptom;then temporary checkout diagnosis only",
+  "baselineSha": "7361d5cbc87ffdfe40bcee59a6bc8a8369b1c7af",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Package F screens owner accepted;d293ec3 exact quality21/21+secrets verified",
-    "Receiving UI/adapter implemented;DB6 parity/browser16/16 PASS;preflight/resume PASS",
-    "Independent TEST-ONLY ec1145d;Gitleaks0;motion20/20+528/528;485expectations unchanged",
-    "TEST-ONLY clock d2e5b0e delivered;exact quality38176216575 21/21+secrets38176216566 PASS;HEAD=remote"
+    "Local display7361d5c;Gitleaks0;source11/browser16 PASS",
+    "React19 types11 corrected;negative/runtime-AST3 PASS;strict70 in41 files measured only"
   ],
   "inProgress": [
-    "Separate receiving display commit;then React types remediation and strict measurement"
+    "Push display7361d5c;Gitleaks/types commit/push/exact CI;then diagnose checkout hypotheses A-D without repair"
   ],
   "notStarted": [
-    "Strict remediation;checkout;Phase7;assistant small-phone text"
+    "Strict remediation;checkout repair;Phase7"
   ],
   "filesTouched": [
+    "src/features/dashboard/SmartLowStockAlertBar.tsx",
     "docs/design/package-f/RECEIVING_UNITS_MIGRATION.md",
-    "e2e/package-f-receiving-units.spec.ts",
-    "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-    "tests/supplier-receiving.test.ts"
+    "docs/design/package-f/REMAINING_SCREENS_MIGRATION.md",
+    "package-lock.json",
+    "package.json",
+    "src/components/common/AppErrorBoundary.tsx",
+    "src/components/ui/Surface.tsx",
+    "src/features/accounts/AccountsView.tsx",
+    "src/features/dashboard/DashboardHome.tsx",
+    "src/features/inventory/InventoryView.tsx",
+    "src/stores/useAppStore.ts",
+    "tests/package-f-auth-assistant.test.ts",
+    "tests/package-f-colour-retirement.test.ts",
+    "tests/package-f-remaining-batch1.test.ts",
+    "tests/package-f-remaining-batch3.test.ts",
+    "docs/design/package-f/TYPES_REMEDIATION.md",
+    "docs/design/package-f/TYPES_STRICT_MEASUREMENT.md",
+    "scripts/testing/measure-types-strict.mjs",
+    "tests/react-types-contract.test.ts",
+    "tests/types/required-props.tsx"
   ],
   "testsPassed": [
-    "DB6 PO/direct cases PASS;browser16/16;focused units19/19+contracts14/14;typecheck/ESLint",
-    "Final full quality exit0:Admin895/895,Customer189/189,browser695PASS/59knownskips,0failures/0retries;lints/builds/SEO/isolation PASS",
-    "Clock fix:DB136+137 PASS;midnight projection/realRPC30/31;99old assertions unchanged;Admin898/typecheck/ESLint"
+    "Final quality:typecheck/ESLint/Admin900/Customer189/builds/SEO/isolation PASS;browser694 PASS/59knownskips"
   ],
   "testsRemaining": [
-    "Focused display/types tests;full quality;Gitleaks before each commit;exact-SHA CI;owner review"
+    "Types Gitleaks/commit/push/full exact CI;temporary checkout source/value/time/mount diagnosis removed afterward"
   ],
   "findings": [
-    "99 old aging assertions intact;one DB clock per suite;controlled CTE midpoint and real RPC30/31 agree;CI per-INSERT times unavailable"
+    "WebKit customer-presentational-characterization:114 fails at195;successful name fill then required name empty;mechanism unproven"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production/deploy/migrations/CI-workflow/automations/Phase7;001–137 unchanged;strict measurement only",
-    "No RPC/permission/idempotency changes;preserve payload fields/meaning;only approved unit-mode UI conversion;.claude/launch.json untouched"
+    "No Production/deploy/migrations/RPC/payload/permissions/CI-workflow/automations/Phase7;001–137 unchanged",
+    "No strict or checkout repair;temporary isolated diagnosis only after green CI;.claude/launch.json untouched"
   ],
-  "nextExactAction": "Receiving display source11/browser16/typecheck/strict ESLint PASS;commit display correction then install React19 types",
-  "workingTreeFingerprint": "5F05359EE82C51BFB753CEE9118AF96358101CB1EFF330BAAE70A391A4907993",
-  "checkpointedAt": "2026-10-11T21:47:31.954Z",
+  "nextExactAction": "Push7361d5c;stage approved React types files,Gitleaks0,commit/push,wait exact full CI;then temporary CheckoutModal diagnosis A-D only",
+  "workingTreeFingerprint": "776CA5C265D03871BEF892566149A0763303901E83EEE2B64B9C56AEFB5C8118",
+  "checkpointedAt": "2026-10-11T22:32:35.896Z",
   "startedAt": "2026-10-11"
 }

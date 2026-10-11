@@ -4,7 +4,7 @@ import {shallowEqual, useAppStoreActions, useAppStoreSelector} from '../../store
 import type {Product, InventoryMovement} from '../../types';
 import {formatProductInventory, formatWholesaleInventory} from '../../utils/inventoryFormatter';
 import {ClearInventoryBalanceDialog} from './ClearInventoryBalanceDialog';
-import {fetchInventoryProductPageFromSupabase, type InventoryProductPage} from '../../services/supabase/inventory.service';
+import {fetchInventoryProductPageFromSupabase, type InventoryProductPage, type InventoryProduct} from '../../services/supabase/inventory.service';
 import {Card, PageHeader, SectionHeader, DetailLayout, MainColumn, DetailPanel, KpiGrid, KpiCard, MoneyText, StatusBadge, StockBar, FilterChips, SegmentedControl, SearchField, UiButton, ProductGlyph, formatUiDate, type UiTone} from '../../components/ui';
 import {TableShell, Th, Tr, Td} from '../../components/ui';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
@@ -113,7 +113,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
   const movementPageSize = 25;
 
   // Selected product for movement history modal inside this view
-  const [historyProduct, setHistoryProduct] = useState<Product | null>(null);
+  const [historyProduct, setHistoryProduct] = useState<InventoryProduct | null>(null);
   const historyProductId = historyProduct?.id;
   const [clearInventoryProduct, setClearInventoryProduct] =
     useState<Product | null>(null);
@@ -238,7 +238,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
   }, []);
   const closeDetail = () => setHistoryProduct(null);
   const detailRef = useDialogFocus(Boolean(historyProduct && phone), closeDetail);
-  const openProduct = (product: Product) => {
+  const openProduct = (product: InventoryProduct) => {
     if (window.matchMedia('(max-width: 767px)').matches) {
       let container = rootRef.current?.parentElement ?? null;
       while (container && !/^(auto|scroll)$/.test(getComputedStyle(container).overflowY)) container = container.parentElement;
@@ -292,7 +292,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
       <DetailLayout>
         <MainColumn>
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <FilterChips touchSize label="حالة المخزون" value={statusFilter} onChange={setStatusFilter}
+            <FilterChips<InventoryStatusFilter> touchSize label="حالة المخزون" value={statusFilter} onChange={setStatusFilter}
               options={[{value:'all',label:'الكل',count:totalItemCount},{value:'available',label:'متوفر',count:availableStockCount},{value:'low_stock',label:'منخفض',count:lowStockCount},{value:'out_of_stock',label:'نفد',count:outOfStockCount}]} />
             <SearchField label="البحث في المخزون" placeholder="ابحث باسم المنتج، الكود SKU، أو الباركود..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="w-full md:max-w-sm" />
             <UiButton aria-label="تحديث المخزون" disabled={isProductPageLoading} onClick={() => setProductPageRefreshToken(value => value + 1)}><RefreshCw className="h-4 w-4" />تحديث</UiButton>

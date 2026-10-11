@@ -70,7 +70,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({ title, description, acti
  * Side detail panel next to a table. Wraps under the table on narrow
  * screens because its parent row uses flex-wrap (see DetailLayout).
  */
-export const DetailPanel: React.FC<DivProps> = ({ className, children, ...rest }) => (
+export const DetailPanel: React.FC<React.ComponentPropsWithRef<'aside'>> = ({ className, children, ...rest }) => (
   <aside
     {...rest}
     className={join(

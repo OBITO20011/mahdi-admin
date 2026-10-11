@@ -156,7 +156,8 @@ test('purchase list wiring changes exactly the approved dialog props;typed signa
 });
 
 test('shared native table/form composition preserves field values,constraints and accessible scrolling',()=>{
- const table=renderToStaticMarkup(React.createElement(DataTable,{caption:'سند الاختبار','data-probe':'table'},
+ const tableProps = {caption:'سند الاختبار','data-probe':'table'} satisfies React.ComponentProps<typeof DataTable> & {'data-probe': string};
+ const table=renderToStaticMarkup(React.createElement(DataTable,tableProps,
   React.createElement('thead',null,React.createElement(Tr,null,React.createElement(Th,null,'الكمية'))),
   React.createElement('tbody',null,React.createElement(Tr,null,React.createElement(Td,null,
    React.createElement('input',{type:'number',defaultValue:2,min:0,max:36,step:1,required:true,'aria-label':'كمية'}))))));
@@ -164,7 +165,8 @@ test('shared native table/form composition preserves field values,constraints an
  assert.match(table,/<caption class="sr-only">سند الاختبار<\/caption>/u);
  assert.match(table,/data-probe="table"/u);assert.match(table,/min-width:720px/u);
  assert.match(table,/type="number" min="0" max="36" step="1" required="" aria-label="كمية" value="2"/u);
- const form=renderToStaticMarkup(React.createElement(FormFields,{'aria-busy':true,'data-unsaved':'true',role:'dialog'},'محتوى'));
+ const formProps = {'aria-busy':true,'data-unsaved':'true',role:'dialog'} satisfies React.ComponentProps<typeof FormFields> & {'data-unsaved': string};
+ const form=renderToStaticMarkup(React.createElement(FormFields,formProps,'محتوى'));
  assert.match(form,/aria-busy="true" data-unsaved="true" role="dialog"/u);
  assert.match(form,/nw-form-fields/u);
 });

@@ -21,7 +21,7 @@ export const AccountsView: React.FC = () => {
   return (
     <div dir="rtl" className="min-w-0 space-y-4 bg-nw-bg pb-28 text-nw-text" data-testid="customers-workbench">
       <div data-ui="accounts-header"><PageHeader title="العملاء والذمم" description="ملف العميل وعمر الدين وتسجيل الدفعات على الطلبات المستحقة." /></div>
-      <div className="px-4 sm:px-6"><SegmentedControl label="أقسام العملاء" touchSize value={section} onChange={setSection}
+      <div className="px-4 sm:px-6"><SegmentedControl<CustomerSection> label="أقسام العملاء" touchSize value={section} onChange={setSection}
         options={[{value:'directory',label:'دليل العملاء'},{value:'balances',label:'الذمم والتحصيل'}]} /></div>
 
       {section === 'directory' ? <CrmView /> : <CustomerBalancesView />}

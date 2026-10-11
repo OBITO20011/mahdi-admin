@@ -43,7 +43,6 @@ export class AppErrorBoundary extends React.Component<
   AppErrorBoundaryState
 > {
   declare readonly props: AppErrorBoundaryProps;
-  declare setState: (state: Partial<AppErrorBoundaryState>) => void;
 
   state: AppErrorBoundaryState = { error: null };
 

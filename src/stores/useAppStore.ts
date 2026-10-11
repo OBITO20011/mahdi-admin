@@ -2212,7 +2212,7 @@ export function useAppStore() {
   const [state, setState] = useState<AppState>(storeEngine.getState());
 
   useEffect(() => {
-    const unsubscribe = storeEngine.subscribe(() => {
+    const unsubscribe: () => void = storeEngine.subscribe(() => {
       setState({ ...storeEngine.getState() });
     });
     return unsubscribe;

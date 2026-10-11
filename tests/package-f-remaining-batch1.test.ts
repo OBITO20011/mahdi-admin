@@ -111,7 +111,8 @@ test('batch1 surfaces use semantic tokens;QR retains white scanner backing only'
   assert.doesNotMatch(readFileSync('src/index.css','utf8'),/html.theme-light \[data-navigation-id="(?:assistant-shortcut|sign-out)"\]/u);
 });
 test('shared fields and plain button retain native values,disabled,submit and accessibility props',()=>{
-  const html=renderToStaticMarkup(React.createElement(FormFields,{'aria-busy':true,'data-unsaved':'true',className:'fixture'},
+  const formProps = {'aria-busy':true,'data-unsaved':'true',className:'fixture'} satisfies React.ComponentProps<typeof FormFields> & {'data-unsaved': string};
+  const html=renderToStaticMarkup(React.createElement(FormFields,formProps,
     React.createElement('input',{defaultValue:'اسم',required:true,readOnly:true,'aria-label':'الاسم'}),
     React.createElement(UiButton,{variant:'plain',type:'submit',disabled:true,'aria-label':'حفظ'},'حفظ')));
   assert.match(html,/nw-form-fields fixture/u);assert.match(html,/aria-busy="true"/u);assert.match(html,/data-unsaved="true"/u);

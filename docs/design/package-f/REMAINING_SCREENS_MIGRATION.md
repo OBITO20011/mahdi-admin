@@ -1173,3 +1173,6 @@ lint/typecheck,builds/SEO/isolation PASS plus this complete browser leg. The
 interrupted quality parent itself is NOT claimed to have returned exit0.
 Next:Gitleaks staged exit0,authorized batch5 commit/push,all exact-SHA CI jobs
 and secrets green,checkpoint,STOP for visual review. No batch6/Production.
+# Checkout input symptom observed again during React types gate — 2026-10-12
+
+Full local quality final process exit1:Admin900/900,Customer189/189,builds/lints/typecheck/isolation PASS;browser694 passed/59 conditional skips/1 failed,no retries. WebKit customer-presentational-characterization.spec.ts:114 failed at195:review dialog security-ready text not found. Trace name fill8433 completed successfully at700929.024ms;review click8441 began701123.103ms. Failure snapshot:required name empty,"اكتب اسمك الكامل",other entered fields retained. Same symptom as the deferred customer-checkout-simplification issue;root cause and causal relationship to prior failure remain unproven. No checkout changes or rerun;types not committed/pushed. Evidence in Temp/nawasrah-react-types-20261012/quality-final.log/exit and test-results/customer-presentational-ch-8c854--and-direct-tracking-action-mobile-webkit. Owner decision required before any checkout repair.
