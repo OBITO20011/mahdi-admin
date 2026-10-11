@@ -37,7 +37,10 @@ client.rpc=(name,args)=>{
  if(name==='get_purchase_orders_page'){const rows=poRows.filter(p=>!args?.p_status||args.p_status==='all'||p.status===args.p_status);return response({orders:rows,total_count:rows.length,summary:{draft_count:1,sent_count:0,approved_count:0,partially_received_count:1,received_count:1,total_in_minor_units:3000000,paid_in_minor_units:800000,due_in_minor_units:2200000}});}
  if(name==='get_supplier_receipts_page')return response({receipts:[receiptRow],total_count:1,summary:{due_in_minor_units:600000,today_count:1,today_total_in_minor_units:1000000,today_paid_in_minor_units:400000,item_count:1}});
  if(name==='get_supplier_payments_page')return response({payments:[],total_count:0});
- if(name==='search_admin_products')return response(inventoryProducts.slice(0,3).map(p=>({...p,warehouse_balances:[{warehouse_id:warehouseRow.id,on_hand_quantity:100,available_quantity:100,reserved_quantity:0}]})));
+ if(name==='search_admin_products')return response(inventoryProducts.slice(0,3).map((p,index)=>({...p,
+  ...(params.has('receivingUnits')?{base_unit:{...p.base_unit,name_ar:index===1?'قنينة':'شوال'},units_per_purchase_unit:index===1?1:24,
+    default_purchase_price_in_minor_units:index===1?50:1000,cost_price_in_minor_units:index===1?50:42}:{}),
+  warehouse_balances:[{warehouse_id:warehouseRow.id,on_hand_quantity:100,available_quantity:100,reserved_quantity:0}]})));
  if(name==='preview_supplier_receipt_cancellation')return response({receiptId:receipt.id,receiptNumber:receipt.receiptNumber,total:1000000,payable:1000000,paymentsTotal:400000,supplierBalanceBefore:600000,supplierBalanceAfter:0,
  payments:[{id:receipt.payments![0].id,amount:400000,method:'cash',date:receipt.receivedAt,cashShiftId:'fixture-closed-shift',cashShiftStatus:'closed'}]});
  return originalRpc(name,args); // Writes always retain the original isolated transport.
@@ -55,7 +58,9 @@ client.channel=()=>{const c={on:()=>c,subscribe:()=>c,unsubscribe:async()=>undef
 const noop=()=>undefined;
 function Harness(){
  const [view,setView]=useState(params.get('view')??'purchases'),close=()=>setView('purchases');
- const selected=purchaseOrders[params.get('po')==='received'?2:1],direct=view==='create-direct'||view==='receipt-payment';
+ const originalSelected=purchaseOrders[params.get('po')==='received'?2:1];
+ const selected=params.has('receivingUnits')?{...originalSelected,items:originalSelected.items.map(item=>({...item,unit:'شوال'}))}:originalSelected;
+ const direct=view==='create-direct'||view==='receipt-payment';
  return <main dir="rtl" data-testid="purchasing-workbench" className="min-h-[100dvh] min-w-0 bg-nw-bg font-sans text-nw-text">
   <nav aria-label="شاشات المعاينة" className="flex flex-wrap gap-2 p-4">{['purchases','direct','po-detail','receipt','create-po','supplier','receive','payment','create-direct','receipt-payment','cancel'].map((key,i)=><UiButton key={key} onClick={()=>setView(key)}>{['المشتريات','الاستلام المباشر','تفاصيل أمر','تفاصيل سند','أمر جديد','مورد جديد','استلام أمر','دفعة مورد','سند جديد','دفعة سند','إلغاء سند'][i]}</UiButton>)}</nav>
   {view==='purchases'?<PurchasesView/>:view==='direct'?<DirectReceivingView/>:view==='po-detail'?<PurchaseOrderDetailView poId={selected.id} onClose={close} onRefresh={noop}/>:view==='receipt'?<div className="p-4"><SupplierReceiptDetailView receipt={receipt} onBack={close} onRefresh={noop} onRecordPayment={()=>setView('receipt-payment')}/></div>:view==='create-po'?<CreatePurchaseOrderModal isOpen onClose={close} onSuccess={noop}/>:view==='supplier'?<CreateSupplierModal isOpen onClose={close} onSuccess={noop}/>:view==='receive'?<ReceiveGoodsModal isOpen po={selected} onClose={close} onSuccess={noop}/>:view==='payment'?<SupplierPaymentModal isOpen po={selected} onClose={close} onSuccess={noop}/>:null}

@@ -1,5 +1,39 @@
 # Phase status
 
+2026-10-11 receiving candidate local gates COMPLETE:isolated001–137 six PO/
+direct payable/WAC parity cases PASS;browser16/16,focused19/19+14/14;fresh FULL
+quality exit0(Admin895/895,Customer189/189,browser695+59knownskips,0fail/retries).
+Independent test-only motion ec1145d/Gitleaks0;target20/20+all5specs528/528 PASS.
+Stage receiving,Gitleaks0,commit/push/all exactCI then visual STOP. All owned
+processes stopped;001–137 unchanged,no138/Production/deploy/new phase.
+
+2026-10-11 approved test-only local motion waits now use the existing shared
+finite5s frame-state gate. Static3/3;failed purchasing dark Chromium20/20;
+ALL5changed specs both browsers/themes repeat3 PASS528/528,retries0. Independent
+ec1145d committed after staged Gitleaks0;not pushed yet. Receiving implementation
+and DB6parity retained;fresh complete quality/receiving commit/exactCI pending.
+
+2026-10-11 fresh receiving quality STOPPED on an actual browser failure:
+package-f-purchasing.spec.ts:44 dark Chromium;unchanged audit line12 awaits
+finite getAnimations().finished and times out90s in ReceiveGoodsModal before
+axe. Trace/error-context preserved. Admin894/894,Customer189/189,lints/builds/
+SEO/isolation PASS;386 browser PASS,1FAIL before controlled shutdown. Exit1 is
+NOT full-suite completion. No repair/retry/commit/push;owned processes stopped.
+Owner direction required;DB six-case PO/direct parity proof remains PASS.
+
+2026-10-11 receiving-unit implementation and isolated DB/browser proofs complete.
+Owner authorizes a fresh FULL quality run after the detached corrected run was
+interrupted by the Codex restart;no final exit result exists for that run and
+no task-owned test processes/listeners remain. No aggregate PASS claimed.
+Resume/preflight PASS;current own pending files preserved. Next:full quality,
+Gitleaks0,commit/push,all exact-SHA CI,checkpoint and visual STOP. No DB/deploy.
+
+2026-10-11 owner ACCEPTS Package F screen migration06f3ab8/ace8fe7/d293ec3.
+Exact verifier:quality38156327908 21/21,secrets38156327919 PASS. New approved
+receiving-unit/POS-label scope is read-inspected only;PO unit-cost rounding can
+turn package1.000/24 into1.008. Owner pricing direction required before product
+edits;see RECEIVING_UNITS_MIGRATION.md. No DB/Production/deploy/Phase7.
+
 2026-10-11 owner ACCEPTS local lid-standby interruption as environment stop,
 NOT test defect or load. No further full local quality rerun authorized/needed:
 completed other gates plus current/baseline40/40 stand;exact Linux CI is final.

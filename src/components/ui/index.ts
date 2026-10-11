@@ -13,3 +13,4 @@ export { countedCashMinorUnits, cashDenominations } from './cashCounting';
 export { ResponsiveActionPanel } from './ResponsiveActionPanel';
 export { FormFields } from './FormFields';
 export {SwitchTrack} from './SwitchTrack';
+export {ReceivingUnitFields,type ReceivingUnitMode} from './ReceivingUnitFields';

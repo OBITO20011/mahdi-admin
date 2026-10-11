@@ -134,7 +134,7 @@ test.describe('Package D POS browser to real isolated RPC', () => {
 
   test('POS single-SKU carton uses the real Admin Replacement and current-leaf Return RPCs',async({page})=>{
     await mount(page);
-    await page.getByRole('radio',{name:'كرتونة',exact:true}).click();
+    await page.getByRole('radio',{name:'طرد',exact:true}).click();
     await page.locator('[data-pos-product-card="92400000-0000-0000-0000-000000000103"]').click();
     await page.getByRole('button',{name:/^إتمام البيع ·/}).click();
     await expect.poll(async()=>(await state(page))?.status).toBe('SUCCEEDED');
@@ -173,7 +173,7 @@ test.describe('Package D POS browser to real isolated RPC', () => {
 
   test('carton customer damage uses frozen standalone price and restocks only accepted sellable units',async({page})=>{
     await mount(page);
-    await page.getByRole('radio',{name:'كرتونة',exact:true}).click();
+    await page.getByRole('radio',{name:'طرد',exact:true}).click();
     await page.locator('[data-pos-product-card="92400000-0000-0000-0000-000000000103"]').click();
     await page.getByRole('button',{name:/^إتمام البيع ·/}).click();
     await expect.poll(async()=>(await state(page))?.status).toBe('SUCCEEDED');

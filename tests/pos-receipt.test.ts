@@ -52,3 +52,12 @@ test('POS buttons print and share instead of showing simulated alerts', () => {
   assert.doesNotMatch(view, /جاري إرسال الأمر لطابعة/);
   assert.doesNotMatch(view, /تم إنشاء رابط الإيصال الإلكتروني/);
 });
+
+test('saved base-unit name wins over product package label in print/share',()=>{
+ const text=buildReceiptShareText({businessName:'النواصرة',branchName:'اختبار',invoiceNumber:'POS-UNIT',customerName:'',createdAt:'2026-10-11T12:00:00Z',
+   items:[{productName:'مياه',quantity:2,unit:'قنينة',salePackage:'صندوق',totalPrice:1},{productName:'رز',quantity:1,unit:'شوال',salePackage:'طرد',totalPrice:10}],
+   subtotal:11,discount:0,totalAmount:11,paymentMethod:'cash',paidAmount:11,remainingAmount:0,changeDue:0});
+ assert.match(text,/مياه: 2 قنينة/);assert.match(text,/رز: 1 شوال/);
+ const view=readFileSync('src/features/pos/PosView.tsx','utf8');
+ assert.match(view,/i\.quantity\} \{i\.unit \|\| i\.salePackage \|\| 'طرد'/);
+});

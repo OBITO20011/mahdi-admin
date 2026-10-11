@@ -27,6 +27,7 @@
     "test:pos-idempotency:runtime": "node scripts/testing/run-pos-idempotency-runtime.mjs",
     "test:parcel-foundation:runtime": "node scripts/testing/run-configurable-parcel-foundation-runtime.mjs",
     "test:phase2-receiving:runtime": "node scripts/testing/run-phase2-configurable-receiving-runtime.mjs",
+    "test:receiving:units:runtime": "node --import tsx scripts/testing/run-receiving-unit-runtime.mjs",
     "test:phase3-contracts:runtime": "node scripts/testing/run-phase3-configurable-parcel-contracts-runtime.mjs",
     "test:phase3-v1-location:runtime": "node scripts/testing/run-phase3-v1-location-compatibility-runtime.mjs",
     "test:phase4-foundation:runtime": "node scripts/testing/run-phase4-returns-foundation-runtime.mjs",

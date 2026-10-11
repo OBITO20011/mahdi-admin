@@ -59,13 +59,13 @@ const baseline=[
   },
   {
     "file": "src/features/purchases/ReceiveGoodsModal.tsx",
-    "calls": 2,
-    "callHash": "135a5af92ee8d5c25c575c7c54012fa67d06de49598194e4213947a715fbbce0",
-    "bindings": 8,
-    "bindingHash": "c725ec273352e1db250968cc00ca5983508fc5a82b2c9a2cf622948fa6221b92",
-    "native": 22,
-    "nativeHash": "2b6abc6801a2bffbfe1c220f3b3d3554f8281a6731a1b4b467f8dd6a8bd4307f",
-    "functionHash": "580157318052579bec202a1b89c735bf62f7d79b145832ff5454a9bcf9f2adf0"
+    "calls": 6,
+    "callHash": "589b9e78689e2e444803988e17b08ffec7a06bad7455b5618882dfc70f782cfa",
+    "bindings": 13,
+    "bindingHash": "21288f34e0c406fad2f2fe6ef1b746ad8474f1a5fb180a33ab34d55dd0bdcba1",
+    "native": 25,
+    "nativeHash": "81f9420c4b10ec01d47f5c7962844c6cef5d6ba69fc0f870897c7291265311df",
+    "functionHash": "68f11223a5451b897297967b44e4b39e8d4f4c1a9288eacd606e5afcfe939c7e"
   },
   {
     "file": "src/features/purchases/SupplierPaymentModal.tsx",
@@ -91,11 +91,11 @@ const baseline=[
     "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
     "calls": 16,
     "callHash": "673011b4b7961ce86fc4d7a53455bf959234057dfcb422ed569fac6edd0fe479",
-    "bindings": 34,
-    "bindingHash": "e9d5438a1eaf1680ef284752c0f083947f3099e218b65502571c69b423464d7e",
-    "native": 69,
-    "nativeHash": "71056681d270d6a9f7799cb9777ddf4d7d3fa39e6c02b4d08e4c902593bcc579",
-    "functionHash": "c1887234ec1cd365fa56d542fdb558333990bbc9a4114b49b855357da65c6e25"
+    "bindings": 33,
+    "bindingHash": "865f9515784dec222c207745a2f3cf8b6154aec8874a45c159fa509db7045b7c",
+    "native": 52,
+    "nativeHash": "48a7dfcee14f4a87fe77e0df95393f9a751b51559056461ae0fa75c6a9f3187e",
+    "functionHash": "b6700bc44ba2be46ac49a763fbc9d85438bd7a387a7fa91aeaab1195c54a400b"
   },
   {
     "file": "src/features/directReceiving/DirectReceivingView.tsx",
@@ -129,7 +129,9 @@ const baseline=[
   }
 ];
 const snapshotScript="\nconst fs=require('fs'),ts=require('typescript'),c=require('crypto');\nconst files=[...fs.readdirSync('src/features/purchases').filter(n=>n.endsWith('.tsx')).map(n=>'src/features/purchases/'+n),...fs.readdirSync('src/features/directReceiving').filter(n=>n.endsWith('.tsx')).map(n=>'src/features/directReceiving/'+n)];\nconst printer=ts.createPrinter({removeComments:true}),hash=v=>c.createHash('sha256').update(JSON.stringify(v)).digest('hex');\n\nfunction snapshot(file){\nconst ast=ts.createSourceFile(file,fs.readFileSync(file,'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),calls=[],bindings=[],native=[],functions=[];\nconst print=n=>printer.printNode(ts.EmitHint.Unspecified,n,ast);\nconst hasJsx=n=>{let yes=false;function v(p){if(ts.isJsxElement(p)||ts.isJsxSelfClosingElement(p)||ts.isJsxFragment(p)){yes=true;return;}ts.forEachChild(p,v)}v(n);return yes;};\nfunction v(n){\nif(ts.isAwaitExpression(n)||ts.isCallExpression(n)&&/(?:FromSupabase|InSupabase|Service|\\.rpc$|^run[A-Z]|^openModal$|^fetch[A-Z]|^previewSupplierReceiptCancellation$)/u.test(n.expression.getText(ast)))calls.push(print(n));\nif(ts.isJsxAttribute(n)&&/^on[A-Z]/u.test(n.name.getText(ast))&&n.initializer)bindings.push(print(n));\nif(ts.isJsxAttribute(n)&&/^(value|checked|disabled|required|readOnly|inputMode|autoComplete|min|max|step|pattern|aria-busy|data-unsaved)$/u.test(n.name.getText(ast)))native.push(print(n));\nif((ts.isJsxOpeningElement(n)||ts.isJsxSelfClosingElement(n))){\nconst tag=n.tagName.getText(ast),type=n.attributes.properties.find(a=>ts.isJsxAttribute(a)&&a.name.getText(ast)==='type');\nif(tag==='button'||tag==='UiButton'){\nlet inForm=false;for(let p=n.parent;p;p=p.parent)if(ts.isJsxElement(p)&&p.openingElement.tagName.getText(ast)==='form'){inForm=true;break;}\nnative.push('button-effective-type:'+ (type?type.initializer.getText(ast):JSON.stringify(inForm?'submit':'button')));\n}else if(type)native.push(print(type));\n}\nif((ts.isArrowFunction(n)||ts.isFunctionExpression(n)||ts.isFunctionDeclaration(n))&&n.body&&!hasJsx(n.body)){\n// Pure display colour maps are the only changed non-render functions.\nlet text=print(n);text=text.replace(/(['\"])([^'\"]*(?:bg|text|border)-(?:nw-[\\w-]+|(?:slate|gray|blue|indigo|purple|violet|emerald|green|teal|amber|orange|rose|pink|red|cyan|yellow)-\\d+)[^'\"]*)\\1/g,'\"<presentation-colours>\"');\nfunctions.push(text);\n}ts.forEachChild(n,v);}v(ast);\nreturn {file,calls:calls.length,callHash:hash(calls.sort()),bindings:bindings.length,bindingHash:hash(bindings.sort()),native:native.length,nativeHash:hash(native.sort()),functionHash:hash(functions.sort())};\n}\nconsole.log(JSON.stringify(files.map(snapshot)));\n";
-test('batch3 exact financial calls/payloads,events,validation,confirmation and effective button semantics match a7d2a70',()=>{
+// Only the two receiving forms have owner-approved unit-mode semantics and
+// PO metadata reads. Pin those exact new ASTs;all other batch3 pins unchanged.
+test('batch3 authority pins remain exact with approved receiving-unit form contracts',()=>{
  assert.deepEqual(JSON.parse(execFileSync(process.execPath,['-e',snapshotScript],{encoding:'utf8'})),baseline);
 });
 test('all twelve purchasing screens use tokens/shared forms and buttons',()=>{

@@ -38,6 +38,26 @@ export function directReceiptV2Lines(items: DirectReceiptItemInput[]) {
 export function purchaseReceiptV2Lines(items: ReceivePurchaseOrderInput['items']) {
   return items.map(item => {
     const quantity = integer(item.receivedQuantity, 'الكمية المستلمة', true);
+    if (item.packagePricing) {
+      const quote = item.packagePricing;
+      const packages = integer(quote.packageQuantity, 'عدد الطرود', true);
+      const units = integer(quote.unitsPerPackage, 'محتوى الطرد', true);
+      const price = integer(quote.packagePriceInMinorUnits, 'سعر الطرد');
+      if (integer(packages * units, 'عدد الوحدات', true) !== quantity) {
+        throw new Error('كمية الطرد لا تطابق الوحدات المستلمة.');
+      }
+      const gross = integer(packages * price, 'إجمالي الاستلام');
+      const discount = integer(quote.discountInMinorUnits ?? 0, 'خصم السطر');
+      if (discount > gross) throw new Error('خصم السطر يتجاوز إجمالي الاستلام.');
+      // Gross is the money authority; the database derives exact WAC from it.
+      // Never divide/round a package price to a per-unit price in this branch.
+      return {client_line_id: uuid(item.purchaseOrderItemId),
+        purchase_order_item_id: item.purchaseOrderItemId, line_kind: 'base_unit',
+        commercial_quantity: quantity, base_unit_name: item.baseUnitName || 'باكيت',
+        gross_amount_in_minor_units: gross, line_discount_in_minor_units: discount,
+        components: [{product_id: uuid(item.productId), base_quantity: quantity}],
+      };
+    }
     if (!Number.isFinite(item.unitCost) || item.unitCost < 0) throw new Error('تكلفة الباكيت غير صالحة.');
     const cost = integer(Math.round(item.unitCost * 1000), 'تكلفة الباكيت');
     return {client_line_id: uuid(item.purchaseOrderItemId),

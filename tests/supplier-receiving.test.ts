@@ -77,12 +77,14 @@ test('receiving UI keeps package contents and removes retail selling fields', ()
     'utf8'
   );
 
-  assert.match(modal, /محتوى الطرد/);
-  assert.match(modal, /عدد الطرود المستلمة/);
+  const fields=fs.readFileSync('src/components/ui/ReceivingUnitFields.tsx','utf8');
+  assert.match(modal, /<ReceivingUnitFields/);
+  assert.match(fields, /كم \{p\.unitName\} بالطرد/);
+  assert.match(fields, /كم \{label\}/);
   assert.match(modal, /3 كراتين × 5 حبات = 15 حبة/);
   assert.match(modal, /الكمية التي ستدخل المخزون/);
-  assert.match(modal, /إنقاص عدد طرود/);
-  assert.match(modal, /زيادة عدد طرود/);
+  assert.match(fields, /onChange=\{e=>p\.onQuantity\(Number\(e\.target\.value\)\)\}/);
+  assert.match(fields, /step="1" min=\{p\.minimum\?\?1\}/);
   assert.match(modal, /تكلفة .* المحسوبة/);
   assert.doesNotMatch(modal, /سعر بيع القطعة/);
   assert.doesNotMatch(modal, /sellingPriceJod/);

@@ -1,5 +1,16 @@
 # Approved owner decisions
 
+## 2026-10-11 — receiving packages: exact gross, database-derived WAC
+
+Owner approves PO package lines sending gross_amount_in_minor_units = package
+quantity × integer package price,commercial/base_quantity = quantity × contents.
+No client rounded-unit-cost derivation for packages;total is debt authority and
+database derives exact WAC. Existing base-unit payloads remain literal unchanged.
+No RPC/migration changes. Required isolated runtime proves PO/direct parity for
+1.000/24,100packages,1.000/7,line discount,sameSKU package+base units,partialPO.
+Then named-unit UI/POS/receipt corrections,quality/Gitleaks0/commit/exactCI,
+checkpoint and visual STOP. No Production/deploy/new phase.
+
 ## 2026-10-10 —136 performance,then isolated DB port guard,then Customers
 
 Owner authorizes EXPLAIN(ANALYZE,BUFFERS) before136 optimization;set-based/CTEs

@@ -617,8 +617,11 @@ export const PosView: React.FC = () => {
   };
 
 
+  const currentProductUnit=knownProductsRef.current.get(cartItems.at(-1)?.productId??'')?.unit;
+  const visibleUnitNames=Array.from(new Set(posProducts.map(product=>product.unit)));
+  const saleUnitLabel=currentProductUnit||(visibleUnitNames.length===1?visibleUnitNames[0]:'وحدة الصنف');
   const saleModeControl = <SegmentedControl touchSize disabled={isSubmitting || recoveryBlocked} label="وحدة البيع"
- options={[{value: 'base_unit', label: 'باكيت'}, {value: 'legacy_single_sku_parcel', label: 'كرتونة'}, {value: 'configurable_parcel', label: 'طرد مشكّل'}]}
+ options={[{value: 'base_unit', label: saleUnitLabel}, {value: 'legacy_single_sku_parcel', label: 'طرد'}, {value: 'configurable_parcel', label: 'طرد مشكّل'}]}
  value={showParcelCatalog ? 'configurable_parcel' : saleMode}
  onChange={value => {setShowParcelCatalog(value === 'configurable_parcel'); if (value !== 'configurable_parcel') setSaleMode(value);}} />;
   const paymentControl = <SegmentedControl touchSize label="طريقة الدفع" value={paymentMethod}
@@ -654,7 +657,7 @@ export const PosView: React.FC = () => {
 );
   const cartTotals = <div className="flex flex-wrap items-center justify-between gap-2">
     <span className="text-xs text-nw-muted">{formatItemCount(cartItems.length)} · <bdi dir="ltr">{cartItems.reduce((sum, item) => sum + item.quantity, 0)}</bdi> وحدات بيع</span>
-    <span className="text-xs text-nw-muted"><bdi dir="ltr">{cartItems.reduce((sum, item) => sum + item.baseQuantity, 0)}</bdi> باكيت</span>
+    <span className="text-xs text-nw-muted"><bdi dir="ltr">{cartItems.reduce((sum, item) => sum + item.baseQuantity, 0)}</bdi> وحدات صغرى</span>
     <strong className="w-full text-2xl"><MoneyText amount={totalAmount} currency /></strong>
   </div>;
 
@@ -751,10 +754,10 @@ export const PosView: React.FC = () => {
                       <h3 className="m-0 break-words text-sm font-bold">{prod.nameAr}</h3>
                       <bdi dir="ltr" className="block break-all text-xs text-nw-muted">{prod.barcode}</bdi>
                       <div className="flex flex-wrap justify-between gap-2 text-xs">
-                        <span>باكيت <MoneyText amount={prod.retailPrice} className="font-bold text-nw-text" /></span>
-                        <span>كرتونة {typeof prod.salePackagePrice === 'number' && Number.isFinite(prod.salePackagePrice) ? <MoneyText amount={prod.salePackagePrice} className="font-bold text-nw-text" /> : 'غير متاح'}</span>
+                        <span>{prod.unit} <MoneyText amount={prod.retailPrice} className="font-bold text-nw-text" /></span>
+                        <span>طرد {typeof prod.salePackagePrice === 'number' && Number.isFinite(prod.salePackagePrice) ? <MoneyText amount={prod.salePackagePrice} className="font-bold text-nw-text" /> : 'غير متاح'}</span>
                       </div>
-                      <p className={'m-0 text-xs ' + (lowStock ? 'text-nw-warn' : 'text-nw-muted')}><bdi dir="ltr">{stock}</bdi> باكيت · {stock === 0 ? 'نفد' : lowStock ? 'منخفض' : 'متوفر'}</p>
+                      <p className={'m-0 text-xs ' + (lowStock ? 'text-nw-warn' : 'text-nw-muted')}><bdi dir="ltr">{stock}</bdi> {prod.unit} · {stock === 0 ? 'نفد' : lowStock ? 'منخفض' : 'متوفر'}</p>
                     </div>
                   </button>
                   <div className="flex shrink-0 items-center gap-1 lg:hidden">
@@ -866,7 +869,7 @@ export const PosView: React.FC = () => {
               <div key={item.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-nw-border py-3 text-sm">
                 <div className="min-w-0 w-full">
                   <h5 className="font-bold text-nw-text break-words">{item.productName}</h5>
-                  <StatusBadge tone={item.v2Line.commercial_line_kind === 'configurable_parcel' ? 'warn' : 'info'}>{item.v2Line.commercial_line_kind === 'base_unit' ? 'باكيت' : item.v2Line.commercial_line_kind === 'legacy_single_sku_parcel' ? 'كرتونة' : 'طرد مشكّل'}</StatusBadge><span className="nw-num text-xs text-nw-muted">
+                  <StatusBadge tone={item.v2Line.commercial_line_kind === 'configurable_parcel' ? 'warn' : 'info'}>{item.v2Line.commercial_line_kind === 'base_unit' ? item.unit : item.v2Line.commercial_line_kind === 'legacy_single_sku_parcel' ? 'طرد' : 'طرد مشكّل'}</StatusBadge><span className="nw-num text-xs text-nw-muted">
                     {item.unitPrice.toFixed(3)} {CURRENCY} / {item.unit}
                   </span>
                 </div>
@@ -989,7 +992,7 @@ export const PosView: React.FC = () => {
               <div className="border-b border-nw-border pb-2 space-y-1">
                 {(lastInvoice.items || []).map((i: any) => (
                   <div key={i.id} className="flex justify-between">
-                    <span>{i.productName} ({i.quantity})</span>
+                    <span>{i.productName} ({i.quantity} {i.unit || i.salePackage || 'طرد'})</span>
                     <span>{i.totalPrice.toFixed(3)} د.أ</span>
                   </div>
                 ))}

@@ -142,6 +142,13 @@ export interface ReceivePurchaseOrderInput {
     receivedQuantity: number;
     unitCost: number; // JOD
     baseUnitName?: string;
+    /** UI package quote only. RPC still receives physical units and exact gross. */
+    packagePricing?: {
+      packageQuantity: number;
+      unitsPerPackage: number;
+      packagePriceInMinorUnits: number;
+      discountInMinorUnits?: number;
+    };
   }[];
 }
 

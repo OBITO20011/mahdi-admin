@@ -1,4 +1,4 @@
-import {FormFields, UiButton, formatJod, Card} from '../../components/ui';
+import {FormFields, UiButton, formatJod, Card,ReceivingUnitFields,type ReceivingUnitMode} from '../../components/ui';
 /**
  * Nawasrah Business Manager - Create Direct Goods Receipt Modal
  * Wholesale Store Goods Receiving Form (Direct receiving bypassing PO approval)
@@ -36,7 +36,6 @@ import {
   PackageCheck,
   Search,
   Plus,
-  Minus,
   Trash2,
   DollarSign,
   Loader2,
@@ -94,6 +93,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       tempId: string;
       pkgPriceJod: number;
       discountJod: number;
+      receivingMode:ReceivingUnitMode;
     })[]
   >([]);
 
@@ -224,6 +224,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       tempId: string;
       pkgPriceJod: number;
       discountJod: number;
+      receivingMode:ReceivingUnitMode;
     } = {
       tempId: `${prod.id}-${Date.now()}`,
       clientLineId: crypto.randomUUID(),
@@ -241,6 +242,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       discountInMinorUnits: 0,
       pkgPriceJod: defaultPkgPrice,
       discountJod: 0,
+      receivingMode:unitsPerPackage>1?'package':'base_unit',
     };
 
     setItems((prev) => [...prev, newItem]);
@@ -276,7 +278,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         item.packageQuantity = normalizeIntegerQuantity(Number(value));
       } else if (field === 'unitsPerPackage') {
         // MUST BE INTEGER >= 1
-        item.unitsPerPackage = normalizeIntegerQuantity(Number(value));
+        item.unitsPerPackage = item.receivingMode==='base_unit'?1:normalizeIntegerQuantity(Number(value));
       } else if (field === 'purchaseUnitName') {
         item.purchaseUnitName = String(value);
         const selectedOption = PURCHASE_PACKAGE_OPTIONS.find(
@@ -310,6 +312,22 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       updated[index] = item;
       return updated;
     });
+  };
+
+  const changeReceivingMode=(index:number,mode:ReceivingUnitMode)=>{
+    setItems(current=>current.map((item,i)=>{
+      if(i!==index)return item;
+      const product=selectedProductsRef.current.get(item.productId);
+      if(!product)return item;
+      const contents=normalizeIntegerQuantity(product.unitsPerPackage);
+      if(mode==='package'&&contents<=1)return item;
+      const packagePrice=product.defaultPackagePriceInMinorUnits||product.costPriceInMinorUnits*contents;
+      const price=mode==='base_unit'?Math.round(packagePrice/contents):packagePrice;
+      return {...item,receivingMode:mode,unitsPerPackage:mode==='base_unit'?1:contents,
+        purchaseUnitName:mode==='base_unit'?product.baseUnitName:product.purchaseUnitName,
+        purchaseUnitId:mode==='base_unit'?product.baseUnitId:product.purchaseUnitId,
+        pkgPriceJod:minorUnitsToJod(price),packagePriceInMinorUnits:price};
+    }));
   };
 
   // Remove Item row
@@ -452,7 +470,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
           purchaseUnitName: item.purchaseUnitName,
           baseUnitName: item.baseUnitName,
           packageQuantity: Math.floor(item.packageQuantity), // Strict Integer
-          unitsPerPackage: Math.floor(item.unitsPerPackage), // Strict Integer
+          unitsPerPackage: item.receivingMode==='base_unit'?1:Math.floor(item.unitsPerPackage), // Strict Integer
           packagePriceInMinorUnits: jodToMinorUnits(item.pkgPriceJod),
           discountInMinorUnits: jodToMinorUnits(item.discountJod),
           batchNumber: item.batchNumber,
@@ -822,6 +840,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
               return (
                 <FormFields
                   key={item.tempId}
+                  data-receiving-line={item.clientLineId}
                   className="nw-purchasing-fields bg-nw-bg border border-nw-border p-3 rounded-2xl space-y-2 relative group hover:border-nw-border transition"
                 >
                   {/* Row Header */}
@@ -843,103 +862,16 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                     </UiButton>
                   </div>
 
-                  {/* Quantity & Unit Configurations */}
-                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6">
-                    {/* Purchase Unit Name */}
-                    <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-nw-muted">وحدة الشراء (الطرد)</label>
-                      <select aria-label="وحدة الشراء"
-                        value={item.purchaseUnitName}
-                        onChange={(e) => updateItemField(index, 'purchaseUnitName', e.target.value)}
-                        className="w-full bg-nw-surface border border-nw-border rounded-lg px-2 py-1 text-xs font-bold text-nw-text"
-                      >
-                        {PURCHASE_PACKAGE_OPTIONS.map((unitOption) => (
-                          <option key={unitOption.code} value={unitOption.nameAr}>
-                            {unitOption.nameAr}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Received Package Quantity - INTEGER ONLY */}
-                    <div className="col-span-2 space-y-1 rounded-xl border border-nw-border bg-nw-warn-bg p-2">
-                      <label className="block text-[11px] font-black text-nw-warn">
-                        عدد الطرود المستلمة ({item.purchaseUnitName})
-                      </label>
-                      <div className="grid grid-cols-[2.25rem_1fr_2.25rem] gap-1.5">
-                        <UiButton variant="plain"
-                          type="button"
-                          aria-label={`إنقاص عدد طرود ${item.productName}`}
-                          disabled={item.packageQuantity <= 1}
-                          onClick={() =>
-                            updateItemField(
-                              index,
-                              'packageQuantity',
-                              item.packageQuantity - 1
-                            )
-                          }
-                          className="flex items-center justify-center rounded-lg border border-nw-border bg-nw-bg text-nw-text transition hover:border-nw-border hover:text-nw-warn disabled:cursor-not-allowed disabled:opacity-35 h-auto min-h-11 min-w-0 whitespace-normal"
-                        >
-                          <Minus className="h-4 w-4" />
-                        </UiButton>
-                        <input
-                          aria-label={`عدد الطرود المستلمة للصنف ${item.productName}`}
-                          type="number"
-                          min="1"
-                          step="1"
-                          inputMode="numeric"
-                          value={item.packageQuantity}
-                          onChange={(e) =>
-                            updateItemField(index, 'packageQuantity', e.target.value)
-                          }
-                          className="w-full rounded-lg border border-nw-border bg-nw-bg px-2 py-2 text-center text-base font-black text-nw-text outline-none focus:border-nw-border"
-                        />
-                        <UiButton variant="plain"
-                          type="button"
-                          aria-label={`زيادة عدد طرود ${item.productName}`}
-                          onClick={() =>
-                            updateItemField(
-                              index,
-                              'packageQuantity',
-                              item.packageQuantity + 1
-                            )
-                          }
-                          className="flex items-center justify-center rounded-lg border border-nw-border bg-nw-warn-bg text-nw-warn transition hover:bg-nw-warn-bg h-auto min-h-11 min-w-0 whitespace-normal"
-                        >
-                          <Plus className="h-4 w-4" />
-                        </UiButton>
-                      </div>
-                      <p className="text-[9px] font-bold text-nw-warn">
-                        اكتب عدد الكراتين أو الصناديق التي وصلت، وليس عدد الحبات.
-                      </p>
-                    </div>
-
-                    {/* Units Per Package - INTEGER ONLY */}
-                    <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-nw-muted">محتوى الطرد ({item.baseUnitName})</label>
-                      <input aria-label="محتوى الطرد ( )"
-                        type="number"
-                        min="1"
-                        step="1"
-                        value={item.unitsPerPackage}
-                        onChange={(e) => updateItemField(index, 'unitsPerPackage', e.target.value)}
-                        className="w-full bg-nw-surface border border-nw-border rounded-lg px-2 py-1 text-xs font-bold text-nw-text text-center"
-                      />
-                    </div>
-
-                    {/* Price Per Package (JOD) */}
-                    <div className="space-y-0.5">
-                      <label className="text-[10px] font-bold text-nw-muted">سعر الطرد ({CURRENCY})</label>
-                      <input aria-label="سعر الطرد ( )"
-                        type="number"
-                        min="0"
-                        step="0.001"
-                        value={item.pkgPriceJod}
-                        onChange={(e) => updateItemField(index, 'pkgPriceJod', e.target.value)}
-                        className="w-full bg-nw-surface border border-nw-border rounded-lg px-2 py-1 text-xs font-bold text-nw-ok text-center"
-                      />
-                    </div>
-
+                  <ReceivingUnitFields unitName={item.baseUnitName} mode={item.receivingMode}
+                    hasPackage={(sourceProduct?.unitsPerPackage??1)>1} quantity={item.packageQuantity}
+                    unitsPerPackage={item.unitsPerPackage} priceJod={item.pkgPriceJod}
+                    packageName={item.purchaseUnitName} disabled={isSubmitting}
+                    onMode={mode=>changeReceivingMode(index,mode)}
+                    onQuantity={value=>updateItemField(index,'packageQuantity',value)}
+                    onContents={value=>updateItemField(index,'unitsPerPackage',value)}
+                    onPrice={value=>updateItemField(index,'pkgPriceJod',value)}
+                    onPackageName={value=>updateItemField(index,'purchaseUnitName',value)}/>
+                  <div>
                     {/* Discount (JOD) */}
                     <div className="space-y-0.5">
                       <label className="text-[10px] font-bold text-nw-muted">خصم الصنف ({CURRENCY})</label>
@@ -1063,6 +995,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
           <DollarSign className="w-4 h-4 text-nw-ok" />
           <span className="font-bold text-nw-text">ملخص الاستلام</span>
         </div>
+        <p role="status" className="text-sm text-nw-info">إجمالي الوحدات الداخلة: <bdi>{items.reduce((sum,item)=>sum+item.packageQuantity*item.unitsPerPackage,0)}</bdi> وحدة — {Array.from(new Set(items.map(item=>item.baseUnitName))).map(name=>`${items.filter(item=>item.baseUnitName===name).reduce((sum,item)=>sum+item.packageQuantity*item.unitsPerPackage,0)} ${name}`).join('، ')}</p>
 
         <div className="grid grid-cols-3 gap-2 rounded-xl border border-nw-border bg-nw-bg p-2.5 text-center">
           <div>

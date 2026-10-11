@@ -365,3 +365,60 @@ Chromium dark/WebKit light+dark;diagnostics prove axe called while paused5000ms.
 Fourth Chromium light cold-render failure not counted as proof,no retry. All
 temporary source edits removed,detached git diff clean;main helper unchanged.
 Static2/2 PASS;independent fixture commit/Gitleaks/exactCI next,then visual STOP.
+
+2026-10-11:typecheck/targeted ESLint PASS;Gitleaks staged exit0,no leaks.
+Independent fixture/docs commit d293ec38d29ba7d3dd74e0c4b732edf9e01ad469 pushed
+normally to main;tree clean immediately after push. Task baseline synchronized
+to own delivered SHA via continuity procedure;wait exact quality+secrets only.
+No further local browser run/product edits/Production/deploy/new phase.
+
+2026-10-11:owner accepts Package F transfer;exact delivery verifier PASS for
+d293ec38 (quality38156327908 21/21,secrets38156327919). New owner-approved
+receiving-unit and POS/receipt label task inspected before code. PO receives
+base units and rounds unit cost first;1.000/24 produces1.008 via current adapter.
+Stopped for owner choice:base-unit-only PO display or approved exact-package
+gross client adapter extension. No product/tests/RPC/migration edits. New scope
+and presentation findings in RECEIVING_UNITS_MIGRATION.md;checkpoint PAUSED.
+
+2026-10-11 owner approves exact package gross;implemented adapter branch without
+client per-unit-cost rounding;old base-unit branch unchanged. Isolated001–137
+runtime six PO/direct parity cases PASS (including1000/24,100000/2400,1000/7,
+discount,sameSKU rows,partialPO). DB stopped;no defaults/selling-price changes.
+Shared receiving-unit fields/direct+PO UI,POS labels and saved-unit print/share
+implemented;browser16/16 and focused units19/19/contracts14/14 PASS. Only two
+approved form AST pins/legacy UI labels/two POS radio selectors updated;writer
+RPC/service source and POS action ASTs unchanged. Full quality/delivery next.
+
+2026-10-11 owner confirms corrected detached quality was interrupted by the
+Codex restart,not completed. Fresh resume/preflight PASS;no task-owned processes
+or listeners4173–4176 remain. Authorized full quality rerun with distinct
+external log/exit file;follow through completion in the same turn. On failure
+report before product repair;on success Gitleaks0/commit/push/exactCI/visual STOP.
+
+2026-10-11 fresh FULL quality-resumed run failed:Chromium purchasing forms dark
+spec44,unchanged audit12 Promise.all(finite animation.finished) wait90s in
+ReceiveGoodsModal before axe. Trace/error-context retained under test-results/
+package-f-purchasing-purch-a0ad1--guarded-confirmations-dark-desktop-chromium.
+Admin894/894,Customer189/189,lints/builds/SEO/isolation PASS;386 browser PASS/1FAIL.
+Task-owned process26060 and descendants verified then stopped;supervisor closed
+exit1 at19:41:57.946Z (started19:28:00.427Z). NOT aggregate browser completion.
+No product/test repair,retry,Gitleaks delivery,commit or push. No listeners
+4173–4176/owned test processes remain. Owner review before further correction.
+
+2026-10-11 owner approved7 local finished waits consolidated into existing
+5s frame-state helper across5specs;data-state/485expectation AST nodes unchanged.
+Customer category-grid waits are geometry-only,no axe,so untouched. Static3/3,
+targeted purchasing dark Chromium20/20(2.6m,maxgate125.5ms),all5specs both
+browsers/themes repeat3 PASS528/528(31.7m),retries0. Separate TEST-ONLY commit
+ec1145dd79e9f38915a5fae02ed9f57373ac936f,Gitleaks staged0,not yet pushed.
+Baseline synchronized to own commit;remaining receiving files retained ACTIVE.
+Next detached fresh FULL quality,receiving commit/Gitleaks0/push/exactCI/visual STOP.
+
+2026-10-11 final receiving FULL quality completed exit0 at20:56:15.158Z;
+started20:26:51.573Z. Admin895/895,Customer189/189,typecheck/lint/builds/SEO/
+network isolation PASS;browser695PASS+59knownconditional skips,0fail/retries.
+Same-turn detached runner followed through final exit,no live test processes
+or listeners4173–4176 remain. DB runtime six cases verified again from saved
+exit0 evidence;PO/direct payable+WAC exactly equal. No further product/test
+edits after completed quality;001–137/services/customer-web/.github unchanged.
+Next receiving stagedGitleaks0/commit/push/all exactSHA CI,checkpoint/visual STOP.

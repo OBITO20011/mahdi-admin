@@ -1,4 +1,4 @@
-import {FormFields, Card, UiButton, DataTable, Tr, Th, Td} from '../../components/ui';
+import {FormFields, Card, UiButton, DataTable, Tr, Th, Td,ReceivingUnitFields,type ReceivingUnitMode} from '../../components/ui';
 /**
  * Nawasrah Business Manager - Goods Receiving (GRN) Modal Component
  */
@@ -8,6 +8,9 @@ import {useDialogFocus} from '../../hooks/useDialogFocus';
 import { useAppStoreSelector, storeEngine } from '../../stores/useAppStore';
 import { PurchaseOrder, ReceivePurchaseOrderInput } from '../../types/purchases';
 import { receivePurchaseOrderInSupabase } from '../../services/supabase/purchases.service';
+import {fetchProductsForReceivingFromSupabase} from '../../services/supabase/directReceiving.service';
+import type {ReceivingProduct} from '../../types/directReceiving';
+import {jodToMinorUnits,minorUnitsToJod,normalizeIntegerQuantity} from '../../utils/receivingCalculations';
 import {
   X,
   Truck,
@@ -34,6 +37,9 @@ interface ReceiveRow {
   remainingQuantity: number;
   thisReceiptQuantity: number;
   unitCost: number; // JOD
+  receivingMode:ReceivingUnitMode;
+  packageQuantity:number;unitsPerPackage:number;packagePriceJod:number;packageName:string;
+  productDefaults?:ReceivingProduct;
 }
 
 export const ReceiveGoodsModal = ({
@@ -78,12 +84,26 @@ export const ReceiveGoodsModal = ({
           remainingQuantity: remaining,
           thisReceiptQuantity: remaining, // default receive all remaining
           unitCost: item.purchasePrice,
+          receivingMode:'base_unit' as ReceivingUnitMode,
+          packageQuantity:0,unitsPerPackage:1,packagePriceJod:0,packageName:'طرد',
         };
       });
 
       setItems(mapped);
     }
   }, [isOpen, po, warehouses]);
+
+  useEffect(()=>{
+    if(!isOpen||!po)return;
+    let active=true;
+    Promise.all(Array.from(new Set(po.items.map(item=>item.productId))).map(async productId=>{
+      const [product]=await fetchProductsForReceivingFromSupabase({productId,limit:1});
+      return product;
+    })).then(products=>{
+      if(active)setItems(current=>current.map(item=>({...item,productDefaults:products.find(product=>product?.id===item.productId)})));
+    }).catch(()=>{if(active)setErrorMsg('تعذر تحميل بيانات طرود الأصناف؛ الاستلام بالوحدة الصغرى ما زال متاحاً.');});
+    return ()=>{active=false;};
+  },[isOpen,po]);
 
   if (!isOpen || !po) return null;
 
@@ -102,6 +122,34 @@ export const ReceiveGoodsModal = ({
   };
 
   const totalReceivingNow = items.reduce((sum, i) => sum + i.thisReceiptQuantity, 0);
+
+  const changeMode=(index:number,mode:ReceivingUnitMode)=>{
+    setItems(current=>current.map((item,i)=>{
+      if(i!==index)return item;
+      const product=item.productDefaults;
+      if(mode==='package'&&(!product||product.unitsPerPackage<=1))return item;
+      const units=normalizeIntegerQuantity(product?.unitsPerPackage??1);
+      const price=product?(product.defaultPackagePriceInMinorUnits||product.costPriceInMinorUnits*units):jodToMinorUnits(item.unitCost);
+      const count=Math.floor(item.thisReceiptQuantity/units);
+      return {...item,receivingMode:mode,unitsPerPackage:mode==='base_unit'?1:units,
+        packageQuantity:count,packagePriceJod:minorUnitsToJod(price),packageName:product?.purchaseUnitName??item.packageName,
+        thisReceiptQuantity:mode==='package'?count*units:item.thisReceiptQuantity,
+        unitCost:mode==='base_unit'?minorUnitsToJod(Math.round(price/units)):item.unitCost};
+    }));
+  };
+  const changePackage=(index:number,field:'quantity'|'contents'|'price'|'name',value:number|string)=>{
+    setItems(current=>current.map((item,i)=>{
+      if(i!==index||item.receivingMode!=='package')return item;
+      const updated={...item};
+      if(field==='contents')updated.unitsPerPackage=normalizeIntegerQuantity(Number(value));
+      if(field==='quantity')updated.packageQuantity=Math.max(0,Math.floor(Number(value)||0));
+      if(field==='price')updated.packagePriceJod=Math.max(0,Number(value)||0);
+      if(field==='name')updated.packageName=String(value);
+      updated.packageQuantity=Math.min(updated.packageQuantity,Math.floor(updated.remainingQuantity/updated.unitsPerPackage));
+      updated.thisReceiptQuantity=updated.packageQuantity*updated.unitsPerPackage;
+      return updated;
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -141,6 +189,8 @@ export const ReceiveGoodsModal = ({
             receivedQuantity: i.thisReceiptQuantity,
             unitCost: i.unitCost,
             baseUnitName: i.unit,
+            ...(i.receivingMode==='package'?{packagePricing:{packageQuantity:i.packageQuantity,
+              unitsPerPackage:i.unitsPerPackage,packagePriceInMinorUnits:jodToMinorUnits(i.packagePriceJod)}}:{}),
           })),
       };
 
@@ -237,6 +287,26 @@ export const ReceiveGoodsModal = ({
           </div>
 
           {/* Items Table */}
+          <div className="space-y-3">
+            {items.map((item,index)=><Card key={item.purchaseOrderItemId} data-receiving-line={item.purchaseOrderItemId}>
+              <h3 className="mb-2 text-sm font-bold text-nw-text">{item.productName}</h3>
+              <p className="text-sm text-nw-muted">المطلوب: {item.orderedQuantity} {item.unit} · المستلم: {item.previouslyReceivedQuantity} · المتبقي: {item.remainingQuantity} {item.unit}</p>
+              <ReceivingUnitFields unitName={item.unit} mode={item.receivingMode}
+                hasPackage={(item.productDefaults?.unitsPerPackage??1)>1} minimum={0} disabled={isSubmitting}
+                quantity={item.receivingMode==='package'?item.packageQuantity:item.thisReceiptQuantity}
+                unitsPerPackage={item.receivingMode==='package'?item.unitsPerPackage:1}
+                priceJod={item.receivingMode==='package'?item.packagePriceJod:item.unitCost}
+                packageName={item.packageName} maximum={item.receivingMode==='package'?Math.floor(item.remainingQuantity/item.unitsPerPackage):item.remainingQuantity}
+                onMode={mode=>changeMode(index,mode)}
+                onQuantity={value=>item.receivingMode==='package'?changePackage(index,'quantity',value):handleQuantityChange(index,value)}
+                onContents={value=>changePackage(index,'contents',value)}
+                onPrice={value=>item.receivingMode==='package'?changePackage(index,'price',value):handleUnitCostChange(index,value)}
+                onPackageName={value=>changePackage(index,'name',value)}/>
+            </Card>)}
+            <p role="status" className="text-sm font-semibold text-nw-info">إجمالي الوحدات الداخلة: {totalReceivingNow} وحدة</p>
+          </div>
+          <details>
+          <summary className="text-sm text-nw-muted">تفاصيل أمر الشراء بالوحدات الصغرى</summary>
           <div className="space-y-2">
             <h3 className="font-bold text-nw-text text-sm flex items-center justify-between">
               <span>جدول فحص واستلام الأصناف:</span>
@@ -271,7 +341,7 @@ export const ReceiveGoodsModal = ({
                         <Td className="p-3 text-center text-nw-muted">{item.previouslyReceivedQuantity}</Td>
                         <Td className="p-3 text-center font-black text-nw-warn">{item.remainingQuantity}</Td>
                         <Td className="p-3">
-                          <input aria-label="الكمية المستلمة الآن"
+                          <input aria-label="الكمية المستلمة الآن" disabled={item.receivingMode==='package'||isSubmitting}
                             type="number"
                             min="0"
                             max={item.remainingQuantity}
@@ -281,7 +351,7 @@ export const ReceiveGoodsModal = ({
                           />
                         </Td>
                         <Td className="p-3">
-                          <input aria-label="تكلفة الوحدة"
+                          <input aria-label="تكلفة الوحدة" disabled={item.receivingMode==='package'||isSubmitting}
                             type="number"
                             step="0.001"
                             min="0"
@@ -297,6 +367,7 @@ export const ReceiveGoodsModal = ({
               </div>
             </div>
           </div>
+          </details>
 
           {/* Receipt Notes */}
           <div>

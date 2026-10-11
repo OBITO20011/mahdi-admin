@@ -44,7 +44,7 @@ const money = (value: number) => `${value.toFixed(3)} د.أ`;
 export function buildReceiptShareText(input: ReceiptShareInput): string {
   const lines = input.items.map(
     (item) =>
-      `• ${item.productName}: ${item.quantity} ${item.salePackage || item.unit || 'طرد'} - ${money(item.totalPrice)}`
+      `• ${item.productName}: ${item.quantity} ${item.unit || item.salePackage || 'طرد'} - ${money(item.totalPrice)}`
   );
 
   return [

@@ -2,44 +2,65 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Package F batch7: retire fixed colour utilities and compatibility CSS;presentation only",
-  "baselineSha": "06f3ab835c3c08ca51a5deb0af422cf020334733",
+  "objective": "Approved receiving base-unit/package UX and POS/receipt unit labels;no DB changes",
+  "baselineSha": "ec1145dd79e9f38915a5fae02ed9f57373ac936f",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Batch6 accepted;preflight/resume PASS;inventory1197 utilities/24files,43CSS rules",
-    "Recursive empty-exception guard and23full non-presentation ASTs PASS"
+    "Package F screens owner accepted;d293ec3 exact quality21/21+secrets verified",
+    "Receiving UI/adapter implemented;DB6 parity/browser16/16 PASS;preflight/resume PASS",
+    "Independent TEST-ONLY ec1145d;Gitleaks0;motion20/20+528/528;485expectations unchanged"
   ],
   "inProgress": [
-    "Local coverage complete;mutation detected and restored;prepare fixture-only commit/exact CI"
+    "Full quality exit0;stage receiving/Gitleaks0/commit/push/exactCI then visual STOP"
   ],
   "notStarted": [
     "Types/checkout after7;Phase7;assistant small-phone text"
   ],
   "filesTouched": [
-    "docs/design/package-f/REMAINING_SCREENS_MIGRATION.md",
-    "e2e/package-f-accessibility.spec.ts"
+    "docs/agent/OWNER_DECISIONS.md",
+    "docs/agent/PHASE_STATUS.md",
+    "e2e/package-d-pos-fullstack.spec.ts",
+    "e2e/package-d-pos.spec.ts",
+    "e2e/package-f-purchasing-harness.tsx",
+    "package.json",
+    "src/components/ui/index.ts",
+    "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+    "src/features/pos/PosView.tsx",
+    "src/features/purchases/ReceiveGoodsModal.tsx",
+    "src/types/purchases.ts",
+    "src/utils/receipt.ts",
+    "src/utils/receivingV2.ts",
+    "tests/package-f-remaining-batch3.test.ts",
+    "tests/pos-receipt.test.ts",
+    "tests/supplier-receiving.test.ts",
+    "docs/design/package-f/RECEIVING_UNITS_MIGRATION.md",
+    "e2e/package-f-receiving-units.spec.ts",
+    "scripts/testing/run-receiving-unit-runtime.mjs",
+    "src/components/ui/ReceivingUnitFields.tsx",
+    "tests/receiving-unit-pricing.test.ts"
   ],
   "testsPassed": [
-    "244 retained+failed case5/5+missing5/5;all250 slots covered;static2/2;mutation direct3FAIL across both browsers"
+    "DB6 PO/direct cases PASS;browser16/16;focused units19/19+contracts14/14;typecheck/ESLint",
+    "Final full quality exit0:Admin895/895,Customer189/189,browser695PASS/59knownskips,0failures/0retries;lints/builds/SEO/isolation PASS"
   ],
   "testsRemaining": [
-    "Gitleaks0/commit/push/exact CI;visual review STOP"
+    "Receiving staged Gitleaks/commit/push/exactCI then visual STOP"
   ],
   "findings": [
-    "Typecheck/ESLint PASS;Users/other-button controls pass both browsers;5s helper unchanged;max wait1879ms"
+    "Direct receipt supports exact package totals;PO adapter rounds per-unit first;receipt share label priority also wrong"
   ],
   "blockers": [
-    "No current blocker;negative Chromium light pre-control loading failure recorded,not mutation proof"
+    "None;full local quality passed;exact-SHA delivery CI pending"
   ],
   "activeProcesses": [],
   "prohibitions": [
     "No Production/deploy/DB/CI/automations/Phase7;001–137 unchanged",
-    "No RPC,payload,permission,state,event,guard or confirmation change;.claude/launch.json untouched"
+    "No RPC/permission/idempotency changes;preserve payload fields/meaning;only approved unit-mode UI conversion;.claude/launch.json untouched"
   ],
-  "nextExactAction": "Local coverage/mutation proof complete;Gitleaks0,independent fixture commit/push,all exact-SHA CI then visual STOP",
-  "workingTreeFingerprint": "090706D3F72E5130F2E9A063C2DDD704C86B93D5AAAD90D91A6FA31EF076B8F8",
-  "checkpointedAt": "2026-10-11T16:38:28.534Z",
+  "nextExactAction": "Final full quality PASS;staged receiving Gitleaks0 then commit/push and follow all exactSHA CI to completion;visual STOP",
+  "workingTreeFingerprint": "4476FC0DD99D1807868AB73DB9A9AF127C65AD6EAAAB4B2FFD586CE7DC34E28D",
+  "checkpointedAt": "2026-10-11T20:57:42.133Z",
   "startedAt": "2026-10-11"
 }

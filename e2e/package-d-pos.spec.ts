@@ -26,7 +26,7 @@ test('POS base and single-SKU parcel share physical capacity in the selected war
   await expect(page.getByRole('button', {name: 'بطاقة 💳'})).toHaveCount(0);
   const card = page.locator(`[data-pos-product-card="${productId}"]`);
   await card.click(); // Three physical units.
-  await page.getByRole('radio', {name: 'باكيت', exact: true}).click();
+  await page.getByRole('radio', {name: 'قطعة', exact: true}).click();
   await card.click(); await card.click(); // Two additional physical units.
   await openCart(page);
   await expect(page.getByRole('heading', {name: 'سلة المبيعات الحالية (2)'})).toBeVisible();
