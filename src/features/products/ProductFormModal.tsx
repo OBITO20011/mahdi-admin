@@ -1,4 +1,4 @@
-import {Card,FormFields,UiButton,formatJod} from '../../components/ui';
+import {Card,FormFields,SwitchTrack,UiButton,formatJod} from '../../components/ui';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   AlertTriangle,
@@ -971,17 +971,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               }`}
             >
               <span>{hasFlavors ? 'نعم' : 'لا'}</span>
-              <span
-                className={`relative h-5 w-9 rounded-full transition ${
-                  hasFlavors ? 'bg-nw-info-bg' : 'bg-nw-mute-bg'
-                }`}
-              >
-                <span
-                  className={`absolute top-0.5 h-4 w-4 rounded-full bg-nw-surface shadow transition-all ${
-                    hasFlavors ? 'right-0.5' : 'right-[18px]'
-                  }`}
-                />
-              </span>
+              <SwitchTrack enabled={hasFlavors} />
             </UiButton>
           </div>
 

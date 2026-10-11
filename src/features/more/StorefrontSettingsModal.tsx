@@ -1,4 +1,4 @@
-import {Card, FormFields, UiButton} from '../../components/ui';
+import {Card, FormFields, SwitchTrack, UiButton} from '../../components/ui';
 import {
   Banknote,
   Clock3,
@@ -100,7 +100,7 @@ function SectionToggle({
         <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-xl ${enabled ? 'bg-nw-info-bg text-nw-info' : 'bg-nw-surface text-nw-muted'}`}><Icon className="h-4 w-4" /></span>
         <span><strong className="block text-xs font-black text-nw-text">{label}</strong><span className="mt-1 block text-xs font-bold leading-4 text-nw-muted">{description}</span></span>
       </span>
-      <span className={`relative h-6 w-10 shrink-0 rounded-full transition ${enabled ? 'bg-nw-primary' : 'bg-nw-mute-bg'}`}><span className={`absolute top-1 h-4 w-4 rounded-full bg-nw-on-primary transition ${enabled ? 'right-1' : 'right-5'}`} /></span>
+      <span className="flex shrink-0 flex-col items-center gap-1"><SwitchTrack enabled={enabled} /><span className="text-xs text-nw-text">{enabled ? 'مفعّل' : 'متوقف'}</span></span>
     </UiButton>
   );
 }
@@ -168,8 +168,9 @@ export function StorefrontSettingsModal() {
             <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${form.ordersEnabled ? 'bg-nw-ok-bg text-nw-ok' : 'bg-nw-bad-bg text-nw-bad'}`}><Globe2 className="h-5 w-5" /></div>
             <div><h4 className="text-sm font-black text-nw-text">استقبال طلبات الموقع</h4><p className="mt-1 text-xs font-bold leading-5 text-nw-muted">الإيقاف يمنع حفظ أي طلب جديد من الموقع داخل قاعدة البيانات.</p></div>
           </div>
-          <UiButton variant="plain" type="button" role="switch" aria-label="استقبال طلبات الموقع" aria-checked={form.ordersEnabled} onClick={() => update('ordersEnabled', !form.ordersEnabled)} className={`relative h-11 w-12 shrink-0 rounded-full transition ${form.ordersEnabled ? 'bg-nw-ok-bg' : 'bg-nw-mute-bg'}`}><span className={`absolute top-3 h-5 w-5 rounded-full bg-nw-text transition ${form.ordersEnabled ? 'right-1' : 'right-6'}`} /></UiButton>
+          <UiButton variant="plain" type="button" role="switch" aria-label="استقبال طلبات الموقع" aria-checked={form.ordersEnabled} onClick={() => update('ordersEnabled', !form.ordersEnabled)} className="h-11 w-12 shrink-0 p-0"><SwitchTrack enabled={form.ordersEnabled} /></UiButton>
         </div>
+        <p className="mt-2 text-xs font-bold text-nw-text">{form.ordersEnabled ? 'يستقبل الطلبات' : 'متوقف'}</p>
       </div>
 
       <Card>

@@ -91,8 +91,8 @@ const AllModals = lazy(() =>
 
 const ViewLoadingFallback: React.FC = () => (
   <div className="flex min-h-[50vh] items-center justify-center" dir="rtl">
-    <div className="flex items-center gap-2 rounded-2xl border border-slate-800 bg-slate-900 px-4 py-3 text-xs font-bold text-slate-300 shadow-lg">
-      <Loader2 className="h-4 w-4 animate-spin text-blue-400" />
+    <div className="flex items-center gap-2 rounded-2xl border border-nw-border bg-nw-surface px-4 py-3 text-xs font-bold text-nw-muted shadow-lg">
+      <Loader2 className="h-4 w-4 animate-spin text-nw-info" />
       <span>جاري فتح الشاشة...</span>
     </div>
   </div>
@@ -193,12 +193,12 @@ export const App: React.FC = () => {
   if (isAuthLoading) {
     return (
       <IPhoneContainer>
-        <div dir="rtl" className="min-h-full flex flex-col items-center justify-center p-6 text-slate-100 space-y-4">
-          <div className="w-16 h-16 rounded-2xl bg-blue-600/20 text-blue-400 border border-blue-500/30 flex items-center justify-center shadow-lg animate-pulse">
+        <div dir="rtl" className="min-h-full flex flex-col items-center justify-center p-6 text-nw-text space-y-4">
+          <div className="w-16 h-16 rounded-2xl bg-nw-info-bg text-nw-info border border-nw-border flex items-center justify-center shadow-lg animate-pulse">
             <Building2 className="w-8 h-8" />
           </div>
-          <div className="flex items-center gap-2.5 text-xs font-bold text-slate-300 bg-slate-900 border border-slate-800 px-4 py-2 rounded-2xl shadow">
-            <Loader2 className="w-4 h-4 animate-spin text-blue-400" />
+          <div className="flex items-center gap-2.5 text-xs font-bold text-nw-muted bg-nw-surface border border-nw-border px-4 py-2 rounded-2xl shadow">
+            <Loader2 className="w-4 h-4 animate-spin text-nw-info" />
             <span>جاري التحقق من جلسة الدخول والمصادقة...</span>
           </div>
         </div>

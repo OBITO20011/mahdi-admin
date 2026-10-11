@@ -3,6 +3,7 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
+import {FormFields, UiButton} from '../ui';
 import {
   shallowEqual,
   useAppStoreActions,
@@ -229,14 +230,14 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
   return (
     <div
       dir="rtl"
-      className="min-h-[100dvh] bg-slate-950 text-slate-100 flex flex-col items-center justify-center p-0 md:p-4 lg:p-0 font-sans overflow-x-hidden"
+      className="min-h-[100dvh] bg-nw-bg text-nw-text flex flex-col items-center justify-center p-0 md:p-4 lg:p-0 font-sans overflow-x-hidden"
     >
       {/* Main Device Outer Housing */}
       <div
         className={`relative transition-all duration-300 ${
           isFrameMode
-            ? 'w-full max-w-[420px] h-[880px] rounded-[54px] border-[10px] border-slate-800 bg-slate-900 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] p-0 overflow-hidden ring-1 ring-slate-700'
-            : 'w-full h-[100dvh] bg-slate-900 overflow-hidden md:max-w-[1600px] md:h-[calc(100dvh-2rem)] md:rounded-3xl md:border md:border-slate-800 md:shadow-2xl lg:max-w-none lg:h-[100dvh] lg:rounded-none lg:border-0 lg:shadow-none'
+            ? 'w-full max-w-[420px] h-[880px] rounded-[54px] border-[10px] border-nw-border bg-nw-surface shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] p-0 overflow-hidden ring-1 ring-nw-border'
+            : 'w-full h-[100dvh] bg-nw-surface overflow-hidden md:max-w-[1600px] md:h-[calc(100dvh-2rem)] md:rounded-3xl md:border md:border-nw-border md:shadow-2xl lg:max-w-none lg:h-[100dvh] lg:rounded-none lg:border-0 lg:shadow-none'
         }`}
         style={
           isFrameMode
@@ -251,25 +252,25 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
       >
         {/* Dynamic Island / iPhone Notch */}
         {isFrameMode && (
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-32 h-7 bg-black rounded-full z-50 flex items-center justify-between px-3 text-white pointer-events-none shadow-md">
-            <div className="w-2.5 h-2.5 bg-blue-500 rounded-full animate-pulse" />
-            <div className="w-3.5 h-3.5 bg-slate-800 rounded-full border border-slate-700 flex items-center justify-center">
-              <div className="w-1.5 h-1.5 bg-slate-900 rounded-full" />
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-32 h-7 bg-nw-side rounded-full z-50 flex items-center justify-between px-3 text-nw-text pointer-events-none shadow-md">
+            <div className="w-2.5 h-2.5 bg-nw-primary rounded-full animate-pulse" />
+            <div className="w-3.5 h-3.5 bg-nw-surface-2 rounded-full border border-nw-border flex items-center justify-center">
+              <div className="w-1.5 h-1.5 bg-nw-surface rounded-full" />
             </div>
           </div>
         )}
 
         {/* iOS Top Status Bar */}
-        {isFrameMode && <div className="bg-slate-900 text-slate-200 px-6 pt-3 pb-1 flex items-center justify-between text-xs font-semibold z-40 select-none border-b border-slate-800/50">
+        {isFrameMode && <div className="bg-nw-surface text-nw-text px-6 pt-3 pb-1 flex items-center justify-between text-xs font-semibold z-40 select-none border-b border-nw-border">
           <span>9:41</span>
           <div className="flex items-center gap-2">
-            <Wifi className="w-3.5 h-3.5 text-slate-300" />
-            <Battery className="w-4 h-4 text-emerald-400" />
+            <Wifi className="w-3.5 h-3.5 text-nw-muted" />
+            <Battery className="w-4 h-4 text-nw-ok" />
           </div>
         </div>}
 
         {/* Screen Content Wrapper */}
-        <div data-ui="admin-screen" className={`relative w-full bg-slate-950 text-slate-100 overflow-hidden flex flex-col ${isFrameMode ? 'h-[calc(100%-28px)]' : 'h-full'}`}>
+        <div data-ui="admin-screen" className={`relative w-full bg-nw-bg text-nw-text overflow-hidden flex flex-col ${isFrameMode ? 'h-[calc(100%-28px)]' : 'h-full'}`}>
           {!isApplicationLocked && (
             <>
               {children}
@@ -284,25 +285,25 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 z-50 bg-slate-950/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center"
+                className="absolute inset-0 z-50 bg-nw-bg overflow-y-auto flex flex-col items-center justify-center p-6 text-center"
               >
                 {unlockMethod === 'biometric' && canUseBiometricUnlock ? (
                   <>
-                    <div className="w-20 h-20 bg-blue-600/20 rounded-full border border-blue-500/40 flex items-center justify-center mb-6 shadow-inner">
-                      <Scan className="w-10 h-10 text-blue-400 animate-pulse" />
+                    <div className="w-20 h-20 bg-nw-info-bg rounded-full border border-nw-border flex items-center justify-center mb-6 shadow-inner">
+                      <Scan className="w-10 h-10 text-nw-info animate-pulse" />
                     </div>
-                    <h3 className="text-lg font-bold text-slate-100 mb-1">
+                    <h3 className="text-lg font-bold text-nw-text mb-1">
                       جلسة الإدارة مقفلة
                     </h3>
-                    <p className="text-xs text-slate-400 mb-8 max-w-xs leading-relaxed">
+                    <p className="text-xs text-nw-muted mb-8 max-w-xs leading-relaxed">
                       استخدم Face ID على iPhone أو بصمة الجهاز وWindows Hello
                       للمتابعة.
                     </p>
-                    <button
+                    <UiButton variant="plain"
                       type="button"
                       onClick={() => void handleBiometricUnlock()}
                       disabled={isVerifyingBiometric}
-                      className="w-full max-w-xs bg-blue-600 hover:bg-blue-500 disabled:cursor-wait disabled:opacity-60 text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg transition active:scale-98 flex items-center justify-center gap-2 text-sm"
+                      className="w-full max-w-xs bg-nw-primary hover:bg-nw-primary disabled:cursor-wait disabled:opacity-60 text-nw-on-primary font-bold py-3.5 px-6 rounded-2xl shadow-lg transition active:scale-98 flex items-center justify-center gap-2 text-sm"
                     >
                       {isVerifyingBiometric ? (
                         <RefreshCw className="w-4 h-4 animate-spin" />
@@ -314,42 +315,42 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
                           ? 'جاري التحقق من الجهاز...'
                           : 'فتح بواسطة بصمة الجهاز'}
                       </span>
-                    </button>
-                    <button
+                    </UiButton>
+                    <UiButton variant="plain"
                       type="button"
                       onClick={showPasswordUnlock}
                       disabled={isVerifyingBiometric}
-                      className="mt-3 w-full max-w-xs border border-slate-700 bg-slate-900/80 hover:bg-slate-800 disabled:opacity-60 text-slate-100 font-bold py-3.5 px-6 rounded-2xl transition active:scale-98 flex items-center justify-center gap-2 text-sm"
+                      className="mt-3 w-full max-w-xs border border-nw-border bg-nw-surface hover:bg-nw-surface-2 disabled:opacity-60 text-nw-text font-bold py-3.5 px-6 rounded-2xl transition active:scale-98 flex items-center justify-center gap-2 text-sm"
                     >
-                      <KeyRound className="w-4 h-4 text-amber-400" />
+                      <KeyRound className="w-4 h-4 text-nw-warn" />
                       <span>الدخول بالبريد وكلمة المرور</span>
-                    </button>
+                    </UiButton>
                   </>
                 ) : (
-                  <form
+                  <FormFields className="w-full max-w-xs"><form
                     onSubmit={isPasswordMfaPending ? handlePasswordMfaUnlock : handlePasswordUnlock}
-                    className="w-full max-w-xs rounded-3xl border border-slate-800 bg-slate-900/90 p-5 text-right shadow-2xl"
+                    className="w-full max-w-xs rounded-3xl border border-nw-border bg-nw-surface p-5 text-right shadow-2xl"
                   >
                     {canUseBiometricUnlock && (
-                      <button
+                      <UiButton variant="plain"
                         type="button"
                         onClick={showBiometricUnlock}
                         disabled={isVerifyingPassword}
-                        className="mb-5 flex items-center gap-1 text-xs font-bold text-blue-300 hover:text-blue-200 disabled:opacity-50"
+                        className="mb-5 flex items-center gap-1 text-xs font-bold text-nw-info hover:text-nw-info disabled:opacity-50"
                       >
                         <ChevronRight className="h-4 w-4" />
                         <span>الرجوع إلى Face ID</span>
-                      </button>
+                      </UiButton>
                     )}
 
                     <div className="mb-5 text-center">
-                      <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-amber-500/30 bg-amber-500/10">
-                        <LockKeyhole className="h-7 w-7 text-amber-400" />
+                      <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-nw-border bg-nw-warn-bg">
+                        <LockKeyhole className="h-7 w-7 text-nw-warn" />
                       </div>
-                      <h3 className="text-base font-black text-white">
+                      <h3 className="text-base font-black text-nw-text">
                         {isPasswordMfaPending ? 'رمز تطبيق المصادقة' : 'الدخول بكلمة المرور'}
                       </h3>
-                      <p className="mt-1 text-[10px] leading-relaxed text-slate-400">
+                      <p className="mt-1 text-[10px] leading-relaxed text-nw-muted">
                         {isPasswordMfaPending
                           ? 'أكمل العامل الثاني للحساب قبل فتح التطبيق.'
                           : 'تحقق من حساب الموظف نفسه لفتح الجلسة بأمان.'}
@@ -357,30 +358,32 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
                     </div>
 
                     {(passwordError || authError) && (
-                      <div className="mb-4 rounded-2xl border border-red-500/30 bg-red-500/10 p-3 text-[11px] font-semibold leading-relaxed text-red-200">
+                      <div className="mb-4 rounded-2xl border border-nw-border bg-nw-bad-bg p-3 text-[11px] font-semibold leading-relaxed text-nw-bad">
                         {passwordError || authError}
                       </div>
                     )}
 
-                    {!isPasswordMfaPending && <><label className="mb-1.5 block text-[11px] font-bold text-slate-300">
+                    {!isPasswordMfaPending && <><label htmlFor="unlock-email" className="mb-1.5 block text-[11px] font-bold text-nw-muted">
                       البريد الإلكتروني
                     </label>
                     <div className="relative mb-4">
                       <input
+                        id="unlock-email"
                         type="email"
                         value={passwordEmail}
                         readOnly
                         dir="ltr"
-                        className="w-full rounded-2xl border border-slate-800 bg-slate-950 px-3.5 py-3 pl-10 text-xs text-slate-300 outline-none"
+                        className="w-full rounded-2xl border border-nw-border bg-nw-bg px-3.5 py-3 pl-10 text-xs text-nw-muted outline-none"
                       />
-                      <Mail className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-slate-500" />
+                      <Mail className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-nw-muted" />
                     </div>
 
-                    <label className="mb-1.5 block text-[11px] font-bold text-slate-300">
+                    <label htmlFor="unlock-password" className="mb-1.5 block text-[11px] font-bold text-nw-muted">
                       كلمة المرور
                     </label>
                     <div className="relative mb-5">
                       <input
+                        id="unlock-password"
                         type={showPassword ? 'text' : 'password'}
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
@@ -389,12 +392,12 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
                         autoComplete="current-password"
                         dir="ltr"
                         placeholder="••••••••"
-                        className="w-full rounded-2xl border border-slate-800 bg-slate-950 px-3.5 py-3 pl-10 text-xs text-white outline-none transition focus:border-blue-500 disabled:opacity-50"
+                        className="w-full rounded-2xl border border-nw-border bg-nw-bg px-3.5 py-3 pl-10 text-xs text-nw-text outline-none transition focus:border-nw-border disabled:opacity-50"
                       />
-                      <button
+                      <UiButton variant="plain"
                         type="button"
                         onClick={() => setShowPassword((visible) => !visible)}
-                        className="absolute left-3 top-3 text-slate-500 hover:text-slate-300"
+                        className="absolute left-0 top-0 h-11 w-11 p-0 text-nw-muted hover:text-nw-text"
                         aria-label={showPassword ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}
                       >
                         {showPassword ? (
@@ -402,7 +405,7 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
                         ) : (
                           <Eye className="h-4 w-4" />
                         )}
-                      </button>
+                      </UiButton>
                     </div>
 
                     <TurnstileWidget
@@ -417,6 +420,7 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
 
                     {isPasswordMfaPending && (
                       <input
+                        aria-label="رمز تطبيق المصادقة"
                         type="text"
                         inputMode="numeric"
                         autoComplete="one-time-code"
@@ -427,11 +431,11 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
                         placeholder="000000"
                         dir="ltr"
                         autoFocus
-                        className="mb-5 w-full rounded-2xl border border-slate-800 bg-slate-950 px-4 py-3 text-center font-mono text-2xl font-black tracking-[0.35em] text-white outline-none focus:border-blue-500"
+                        className="mb-5 w-full rounded-2xl border border-nw-border bg-nw-bg px-4 py-3 text-center font-mono text-2xl font-black tracking-[0.35em] text-nw-text outline-none focus:border-nw-border"
                       />
                     )}
 
-                    <button
+                    <UiButton variant="plain"
                       type="submit"
                       disabled={
                         isVerifyingPassword ||
@@ -439,7 +443,7 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
                           ? passwordMfaCode.length !== 6
                           : !passwordCaptchaToken)
                       }
-                      className="flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-6 py-3.5 text-sm font-bold text-white shadow-lg transition hover:bg-blue-500 disabled:cursor-wait disabled:opacity-60"
+                      className="flex w-full items-center justify-center gap-2 rounded-2xl bg-nw-primary px-6 py-3.5 text-sm font-bold text-nw-on-primary shadow-lg transition hover:bg-nw-primary disabled:cursor-wait disabled:opacity-60"
                     >
                       {isVerifyingPassword ? (
                         <RefreshCw className="h-4 w-4 animate-spin" />
@@ -453,8 +457,8 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
                           ? 'تأكيد الرمز وفتح التطبيق'
                           : 'فتح التطبيق'}
                       </span>
-                    </button>
-                  </form>
+                    </UiButton>
+                  </form></FormFields>
                 )}
               </motion.div>
             )}
@@ -463,7 +467,7 @@ export const IPhoneContainer: React.FC<IPhoneContainerProps> = ({ children }) =>
 
         {/* iOS Home Indicator Bar */}
         {isFrameMode && (
-          <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-slate-500 rounded-full z-50 pointer-events-none" />
+          <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-nw-surface-2 rounded-full z-50 pointer-events-none" />
         )}
       </div>
     </div>

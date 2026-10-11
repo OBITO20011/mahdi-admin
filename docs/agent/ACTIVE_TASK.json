@@ -2,60 +2,62 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Package F batch5: Users/UserForm, Monitoring, StorefrontSettings and PromotionCodes presentation only",
-  "baselineSha": "dca6e9c329813f1723f393215ab691d5b96186c7",
+  "objective": "Package F batch6: switches,assistant,login/lock presentation only",
+  "baselineSha": "13d7db7dcbb3677aa87a408c5f31a6e9b78bb78c",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Batch4 visually approved;baseline dca6e9c exact CI21/21 and secrets PASS",
-    "Batch5 five presentation files migrated;all calls/payloads/events/guards/role policies identical to baseline AST"
+    "Batch5 visually accepted;batch6 presentation implemented",
+    "Auth/business AST7/7 identical;5 security sources Git-blob identical;001–137 and CI unchanged",
+    "Focused contracts51/51,typecheck/strict ESLint PASS;Chromium/WebKit38/38,retries0"
   ],
   "inProgress": [
-    "Batch5 validation and delivery;STOP for visual review before batch6"
+    "Local quality complete;Gitleaks0 and authorized commit/push/exact CI next"
   ],
   "notStarted": [
-    "Batch6-7;full React type repair after7;Phase7;checkout investigation after7"
+    "Batch7;types repair and checkout investigation after7;Phase7"
   ],
   "filesTouched": [
     "docs/agent/PHASE_STATUS.md",
     "docs/agent/PROJECT_OVERVIEW.md",
     "docs/design/package-f/REMAINING_SCREENS_MIGRATION.md",
-    "src/components/ui/form-fields.css",
-    "src/features/more/MonitoringDashboardModal.tsx",
-    "src/features/more/PromotionCodesModal.tsx",
+    "src/App.tsx",
+    "src/components/layout/IPhoneContainer.tsx",
+    "src/components/ui/index.ts",
+    "src/features/assistant/AdminAssistantView.tsx",
+    "src/features/auth/LoginView.tsx",
+    "src/features/auth/TurnstileWidget.tsx",
     "src/features/more/StorefrontSettingsModal.tsx",
-    "src/features/users/UserFormModal.tsx",
-    "src/features/users/UsersView.tsx",
-    "e2e/package-f-administration-harness.html",
-    "e2e/package-f-administration-harness.tsx",
-    "e2e/package-f-administration.fixture.ts",
-    "e2e/package-f-administration.spec.ts",
-    "scripts/testing/package-f-administration-ui-contract.mjs",
-    "tests/package-f-remaining-batch5.test.ts"
+    "src/features/products/ProductFormModal.tsx",
+    "e2e/package-f-auth-assistant-harness.html",
+    "e2e/package-f-auth-assistant-harness.tsx",
+    "e2e/package-f-auth-assistant.spec.ts",
+    "scripts/testing/package-f-auth-ui-contract.mjs",
+    "src/components/ui/SwitchTrack.tsx",
+    "tests/package-f-auth-assistant.test.ts"
   ],
   "testsPassed": [
-    "AST5/5 identical;focused contracts21/21;typecheck/strict ESLint PASS",
-    "WebKit12/12;Chromium11/12 plus unchanged lost-context case2/2;payload/security probes PASS",
-    "Authorized retry:Admin840/840,Customer189/189,typecheck/lint,Admin14.84s and Customer8.59s builds,SEO/isolation PASS",
-    "Owner-approved full browser leg exit0:639 PASS+59 existing skips=698;batch5 24/24,retries0;all quality component gates complete"
+    "Focused contracts51/51;AST7/7;security sources5/5;typecheck/ESLint",
+    "Browser38/38;axe/clipping/Latin/44px/viewport;switch contrast≥3;session-security unchanged",
+    "ONE full quality exit0:Admin854/854,Customer189/189,browser663+59known skips=722,retries0;lint/build/SEO/isolation PASS"
   ],
   "testsRemaining": [
-    "Gitleaks0;batch5 commit/push;exact-SHA full CI;visual owner review"
+    "Gitleaks0,commit/push/exact CI,visual approval"
   ],
   "findings": [
-    "OPEN independent checkout name-after-fill;investigate after7",
-    "React19 typing repair after7;no confirmed financial behavior defect",
-    "Existing promotion min=.001/step=.01 native alignment unchanged;not part of this presentation pass"
+    "Existing checkout-name investigation after7;no auth/session/biometric/role/payload change"
   ],
   "blockers": [],
-  "activeProcesses": [],
-  "prohibitions": [
-    "No Production/deploy/Phase7/automations;001-137 unchanged;no batch6",
-    "Presentation only;no RPC/payload/validation/confirmation/roles/policies/DB or CI changes;no type repair;preserve .claude/launch.json unstaged"
+  "activeProcesses": [
+    "None;quality supervisor11528 and owned test servers exited;temp log/exit retained"
   ],
-  "nextExactAction": "Local quality component gates complete:browser639PASS+59known skips,exit0;Gitleaks staged0 then batch5 commit/push/exact full CI;visual STOP",
-  "workingTreeFingerprint": "21559CC8301CFC711DE4783C1A0593003AE1C15A2815BE60461E37D597C6C3F9",
-  "checkpointedAt": "2026-10-10T22:49:00.010Z",
-  "startedAt": "2026-10-10T02:28:31.421Z"
+  "prohibitions": [
+    "No Production/deploy/automations/DB/CI/batch7/Phase7;001–137 immutable",
+    "No business/auth/session/biometric/token/idle/roles/payload/confirmation changes;owner .claude/launch.json untouched"
+  ],
+  "nextExactAction": "Local full quality exit0;stage only19authorized files,Gitleaks0,commit/push,verify all exact-SHA CI,then visual STOP",
+  "workingTreeFingerprint": "000CB65CE110C30A8B3C559551419D78EB75A309F6062241BD7FACC58999B644",
+  "checkpointedAt": "2026-10-11T00:01:31.848Z",
+  "startedAt": "2026-10-11"
 }

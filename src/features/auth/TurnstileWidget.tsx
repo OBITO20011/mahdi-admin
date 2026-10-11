@@ -145,9 +145,9 @@ export const TurnstileWidget: React.FC<TurnstileWidgetProps> = ({
   }, [resetKey]);
 
   return (
-    <div className="relative min-h-[68px] overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/70 p-1">
+    <div className="relative min-h-[68px] overflow-hidden rounded-2xl border border-nw-border bg-nw-bg p-1">
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-slate-950 text-[10px] font-bold text-slate-300">
+        <div className="absolute inset-0 flex items-center justify-center bg-nw-bg text-[10px] font-bold text-nw-muted">
           جاري تجهيز التحقق الآمن...
         </div>
       )}

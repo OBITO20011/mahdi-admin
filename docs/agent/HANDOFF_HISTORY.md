@@ -1,5 +1,20 @@
 # Agent handoff history
 
+## 2026-10-11 — Package F batch6 local candidate verified
+
+Baseline13d7db7. Assistant/login/MFA/biometric-password lock display migrated
+to semantic tokens/shared controls;storefront/product tracks solid ON/OFF,
+text state and measured surrounding contrast≥3:1. Auth/business AST7/7,
+all event/native guards and5security source Git-blob pins identical.
+No roles,Edge payloads,session/token/idle/biometric logic or RPC changes.
+Focused38/38 Chromium/WebKit;contracts51/51;single detached npm quality exit0:
+Admin854/854,Customer189/189,browser663+59known conditional skips=722,
+retries0,all lint/type/build/SEO/isolation gates PASS. Whole run35m03s;
+temp batch6-quality-0e7991feccf5469fa3eca1236aa4fdc4 retains log and exit.json.
+Owned test servers stopped;001–137/CI/owner launch file unchanged.
+Next Gitleaks0/commit/push/exact-SHA full CI,checkpoint,STOP visual review.
+No batch7,types repair,checkout investigation,Production/deploy or Phase7.
+
 ## 2026-10-10 —136 optimized read-only candidate verified
 
 Only136 rewritten set-based after source-grounded EXPLAIN:50000 per-order

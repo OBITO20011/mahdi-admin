@@ -1,5 +1,66 @@
 # Package F — remaining screens
 
+## Batch 6 — assistant,login and lock (2026-10-11)
+
+Owner visually accepted batch5 13d7db7 and authorized this batch only.
+Baseline:13d7db7dcbb3677aa87a408c5f31a6e9b78bb78c.
+Scope:LoginView,TurnstileWidget,IPhoneContainer,AdminAssistantView and App's
+loading surfaces;shared SwitchTrack repairs storefront and product switches.
+Semantic tokens/shared Card,FormFields and UiButton;associated field labels,
+44px controls,scrollable auth surfaces. Existing credentials,disabled/required,
+CAPTCHA/MFA/biometric/session/idle behavior and assistant payload remain intact.
+Third-party Turnstile keeps its original explicit dark theme/flexible size and
+all existing callbacks/reset/retry options;only its surrounding surface changes.
+
+### Per-file AST evidence (baseline13d7db7)
+
+| File | Calls/await | Event/value handlers | Native business props | Result |
+| --- | ---: | ---: | ---: | --- |
+| auth/LoginView.tsx | 3 | 10 | 24 | Identical |
+| auth/TurnstileWidget.tsx | 0 | 0 | 0 | Identical;effects/widget API unchanged |
+| layout/IPhoneContainer.tsx | 4 | 9 | 20 | Identical;protected DOM guards unchanged |
+| assistant/AdminAssistantView.tsx | 1 | 5 | 11 | Identical;Edge payload/context/SKU unchanged |
+| App.tsx | 0 | 0 | 0 | Identical;routing/session/theme effect unchanged |
+| more/StorefrontSettingsModal.tsx | 5 | 19 | 30 | Identical;switch/save payload unchanged |
+| products/ProductFormModal.tsx | 13 | 36 | 85 | Identical;flavour switch handler unchanged |
+
+Permanent auth contract additionally pins component state/effects/handlers,
+rendered security conditions,and complete useAuthStore/useAppStore/session
+security/assistant service/navigation-model Git-blob contents (only CRLF→LF
+normalized for Windows/Linux). Class-only presentation in
+early-return loading markup is excluded explicitly;no business AST exclusion.
+Existing batch2/batch5/light-theme/auth/Turnstile/assistant tests remain unchanged.
+No old assertion removed,relaxed or renamed;new tests are additive.
+
+SwitchTrack is a visual span only:solid nw-ok ON,nw-muted OFF,nw-surface knob.
+The original owning role=switch,aria-checked,handlers and busy rules remain.
+Visible storefront state:"يستقبل الطلبات"/"متوقف";section toggles also name state.
+Permanent browser test checks each real storefront switch in both states/themes,
+different solid colours and measured surrounding contrast≥3:1.
+
+Preview:/e2e/package-f-auth-assistant-harness.html?view=login|mfa|lock|biometric|assistant&theme=light|dark.
+Harness uses only loopback,test-only auth/CAPTCHA fixtures and original loopback
+Edge transport;no successful real login,external CAPTCHA or Production access.
+Browser proofs cover390/820/1440,axe serious/critical=0,shared clipping guard,
+Latin digits,44px fields,primary actions in viewport,CAPTCHA gating,known-email
+unlock/MFA,protected DOM removal,and exact assistant context/SKU request flow.
+Existing session-security/integrated browser tests remain required by quality.
+
+Focused contracts51/51,typecheck/ESLint PASS;final focused browsers38/38
+(batch6 24/24 + unchanged session-security14/14),Chromium/WebKit,retries0,
+all6theme/size combinations and measured switch contrast PASS.
+One new lock-MFA fixture initially returned success=false with mfaRequired=true;
+the existing rejection guard correctly refused it. Fixture now uses the actual
+store contract success=true,mfaRequired=true;no product/auth correction needed.
+Single full quality returned exit0:Admin854/854,Customer189/189,typecheck/ESLint,
+both builds10.35s/8.70s,SEO and network isolation PASS;browser663 PASS+59 existing
+conditional skips=722,retries0,33.0m. Whole supervisor35m03s,started
+2026-10-10T23:24:54.013Z,ended23:59:57.080Z,signal=null,no native abort.
+Detached log/exit:C:/Users/TOP/AppData/Local/Temp/nawasrah-batch6-quality-0e7991feccf5469fa3eca1236aa4fdc4.
+No product/spec/CI edits during quality;no surviving owned test server/runner.
+001–137,services/stores/CI and owner launch file unchanged. Next authorized
+Gitleaks0/commit/push/exact-SHA CI then checkpoint/visual STOP;no batch7.
+
 ## Batch 1 — shared dialogs and More (2026-10-10)
 
 Owner approved Customers891c9a4 and authorized this batch only.
