@@ -2,30 +2,28 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Approved TEST-ONLY aging fixture clock correction;then receiving9435ebd visual STOP",
-  "baselineSha": "9435ebd86a268f0ec8ca9b52cbcd26706582b24e",
+  "objective": "Owner approved receiving explanation display correction, React19 types, strict measurement only",
+  "baselineSha": "d2e5b0eaf2229695bc844e4b3baf28a1fe7c232c",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "Package F screens owner accepted;d293ec3 exact quality21/21+secrets verified",
     "Receiving UI/adapter implemented;DB6 parity/browser16/16 PASS;preflight/resume PASS",
-    "Independent TEST-ONLY ec1145d;Gitleaks0;motion20/20+528/528;485expectations unchanged"
+    "Independent TEST-ONLY ec1145d;Gitleaks0;motion20/20+528/528;485expectations unchanged",
+    "TEST-ONLY clock d2e5b0e delivered;exact quality38176216575 21/21+secrets38176216566 PASS;HEAD=remote"
   ],
   "inProgress": [
-    "136/137 clock fix DB+static+898unit/lint PASS;independent commit/push/exactCI then receiving visual STOP"
+    "Separate receiving display commit;then React types remediation and strict measurement"
   ],
   "notStarted": [
-    "Types/checkout after7;Phase7;assistant small-phone text"
+    "Strict remediation;checkout;Phase7;assistant small-phone text"
   ],
   "filesTouched": [
-    "docs/agent/PHASE_STATUS.md",
-    "scripts/testing/run-package-f-crm-filters-runtime.mjs",
-    "scripts/testing/run-package-f-debt-aging-runtime.mjs",
-    "docs/design/package-f/AGING_FIXTURE_CLOCK.md",
-    "scripts/testing/aging-fixture-transaction.mjs",
-    "scripts/testing/aging-midnight-proof.mjs",
-    "tests/aging-fixture-clock.test.ts"
+    "docs/design/package-f/RECEIVING_UNITS_MIGRATION.md",
+    "e2e/package-f-receiving-units.spec.ts",
+    "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+    "tests/supplier-receiving.test.ts"
   ],
   "testsPassed": [
     "DB6 PO/direct cases PASS;browser16/16;focused units19/19+contracts14/14;typecheck/ESLint",
@@ -33,21 +31,19 @@
     "Clock fix:DB136+137 PASS;midnight projection/realRPC30/31;99old assertions unchanged;Admin898/typecheck/ESLint"
   ],
   "testsRemaining": [
-    "Staged Gitleaks0/independent test-only commit/push/full exactCI then visual STOP"
+    "Focused display/types tests;full quality;Gitleaks before each commit;exact-SHA CI;owner review"
   ],
   "findings": [
-    "Direct receipt supports exact package totals;PO adapter rounds per-unit first;receipt share label priority also wrong"
+    "99 old aging assertions intact;one DB clock per suite;controlled CTE midpoint and real RPC30/31 agree;CI per-INSERT times unavailable"
   ],
-  "blockers": [
-    "None;old9435ebd CI137 midnight fixture fixed/verified locally;fresh exact-SHA CI pending"
-  ],
+  "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production/deploy/migration/product/CI-workflow/automations/Phase7;001–137 unchanged;only isolated aging fixture tests allowed",
+    "No Production/deploy/migrations/CI-workflow/automations/Phase7;001–137 unchanged;strict measurement only",
     "No RPC/permission/idempotency changes;preserve payload fields/meaning;only approved unit-mode UI conversion;.claude/launch.json untouched"
   ],
-  "nextExactAction": "Clock proof and DB136/137/lint898units PASS;Gitleaks0/test-only commit/push/full exactCI;STOP for visual receiving9435ebd",
-  "workingTreeFingerprint": "6AB7562B7A5600B7BC3C5DF4E7EDB4AD2D65638B0EEE6FD0C4FB819C466A24CE",
-  "checkpointedAt": "2026-10-11T21:24:05.931Z",
+  "nextExactAction": "Receiving display source11/browser16/typecheck/strict ESLint PASS;commit display correction then install React19 types",
+  "workingTreeFingerprint": "5F05359EE82C51BFB753CEE9118AF96358101CB1EFF330BAAE70A391A4907993",
+  "checkpointedAt": "2026-10-11T21:47:31.954Z",
   "startedAt": "2026-10-11"
 }

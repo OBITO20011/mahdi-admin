@@ -11,6 +11,8 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`rece
  await page.setViewportSize({width,height:900});
  await page.goto(url(theme,'create-direct'));await addProduct(page);
  const row=page.locator('[data-receiving-line]').first();
+ await expect(page.getByText(/الكمية التي ستدخل المخزون/)).toHaveCount(0);
+ await expect(row.getByText(/تكلفة شوال المحسوبة/)).toBeVisible();
  await expect(row.getByRole('radio',{name:'طرد',exact:true})).toHaveAttribute('aria-checked','true');
  await expect(row.getByLabel('كم شوال بالطرد؟',{exact:true})).toHaveValue('24');
  await row.getByRole('radio',{name:'شوال',exact:true}).click();
@@ -18,6 +20,7 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`rece
  await expect(row.getByLabel('كم شوال؟',{exact:true})).toHaveValue('1');
  await expect(row.getByLabel('سعر شوال',{exact:true})).toHaveValue('0.042');
  await expect(row.getByText('سيدخل المخزون: 1 شوال',{exact:true})).toBeVisible();
+ await expect(page.getByText(/الكمية التي ستدخل المخزون/)).toHaveCount(0);
  await checkLayout(page,page.getByTestId('purchasing-workbench'));
  const audit=await analyzePackageFAccessibility(page,new AxeBuilder({page}));
  expect(audit.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
@@ -25,6 +28,7 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`rece
  await expect(row.getByLabel('كم شوال بالطرد؟',{exact:true})).toHaveValue('24');
  await page.goto(url(theme,'receive'));
  const po=page.locator('[data-receiving-line]').first();await expect(po.getByRole('radio',{name:'طرد',exact:true})).toBeVisible();
+ await expect(page.getByText(/الكمية التي ستدخل المخزون/)).toHaveCount(0);
  await po.getByRole('radio',{name:'طرد',exact:true}).click();
  await expect(po.getByLabel('كم شوال بالطرد؟',{exact:true})).toHaveValue('24');
  await expect(po.getByLabel('سعر طرد',{exact:true})).toHaveValue('1');

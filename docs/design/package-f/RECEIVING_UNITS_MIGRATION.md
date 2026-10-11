@@ -158,3 +158,7 @@ External quality-final-motion.log/quality-final-motion-exit.json beside runtime
 six-case logs re-read before delivery. All six direct/PO payable/WAC pairs are
 exactly equal as in the table above;no base-price rounding creates supplier debt.
 Receipt commit/Gitleaks/push/exact-SHA CI and owner visual review follow.
+# Owner-approved explanation cleanup — 2026-10-12
+
+Removed the old duplicated "الكمية التي ستدخل المخزون" sentence from the direct receipt banner. The single ReceivingUnitFields stock preview remains; calculated unit cost, total and before/after detail remain unchanged. ReceiveGoodsModal has no duplicate sentence. Permanent source/browser assertions reject its return in either form. No RPC, payload, validation or stock calculation changed.
+

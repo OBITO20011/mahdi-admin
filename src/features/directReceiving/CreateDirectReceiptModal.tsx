@@ -40,7 +40,6 @@ import {
   DollarSign,
   Loader2,
   AlertCircle,
-  Info,
   X,
 } from 'lucide-react';
 
@@ -889,21 +888,6 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                   {/* Calculations breakdown banner */}
                   <Card padded={false} className="bg-nw-surface border border-nw-border p-2 rounded-xl space-y-1.5 text-[11px] font-bold">
                     <div className="flex items-center justify-between gap-2 flex-wrap border-b border-nw-border pb-1">
-                      <div className="text-nw-info flex items-center gap-1.5 flex-wrap">
-                        <Info className="w-3.5 h-3.5 shrink-0" />
-                        <span>
-                          الكمية التي ستدخل المخزون: {item.packageQuantity}{' '}
-                          {item.purchaseUnitName} × {item.unitsPerPackage}{' '}
-                          {item.baseUnitName} ={' '}
-                          <strong className="font-extrabold text-nw-text">
-                            {totalBaseUnits} {item.baseUnitName}
-                          </strong>
-                          <span className="text-nw-muted">
-                            {' '}({formatWholesaleInventory(totalBaseUnits, item.unitsPerPackage, item.purchaseUnitName, item.baseUnitName).fullFormatted})
-                          </span>
-                        </span>
-                      </div>
-
                       <div className="text-nw-text flex items-center gap-3 flex-wrap text-[10px]">
                         <span>تكلفة {item.baseUnitName} المحسوبة: <strong className="text-nw-warn">{formatJod(costPerPieceJod)} {CURRENCY}</strong></span>
                         <span>الإجمالي: <strong className="text-nw-ok text-xs">{formatJod(lineTotalJod)} {CURRENCY}</strong></span>
