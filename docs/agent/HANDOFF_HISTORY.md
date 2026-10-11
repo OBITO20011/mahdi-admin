@@ -315,3 +315,53 @@ Motion helper delivered independently as ace8fe7 (3test-only files),staged
 Gitleaks exit0. Native frame-state5s fail-closed diagnostics/Infinity exclusion
 and unmodified axe retained;controls200/200,Orders20/20 per browser,max308ms.
 Batch7 palette/guard/docs commit follows;exact Linux CI still pending.
+
+Delivery06f3ab835c3c08ca51a5deb0af422cf020334733 pushed after independent
+ace8fe7 helper commit;Gitleaks0 before both. Local full quality NOT rerun per
+owner exception. Exact secrets38146321448 PASS. Linux quality38146321350 shards
+1/2 FAIL:Users paused-motion controls light/dark on Chromium/WebKit,spec:33,
+PACKAGE_F_MOTION_STUCK at5s for running BUTTON color/background transitions.
+Source-grounded cause:fixture applies10s to ALL buttons but captures/finishes
+only the team button. Other buttons continue beyond the new5s deadline. The
+200case bounded local run did not include these two old Users control titles;
+prior complete local suite was before adding the deadline. No Linux delivery
+PASS claimed. This is a test-fixture incompatibility,NOT Windows lid standby.
+Proposed owner-approved next step:scope10s fixture CSS to the controlled button,
+retain paused-before-release,exact properties,axe count/contrast assertions and
+5s gate. No correction/retry/new commit or workflow change attempted. STOP.
+
+Owner authorizes fixture-only scoped10s correction,permanent unintended-button
+failure control and proof removing wait breaks the original assertion. Resume
+baseline mismatch is our own ace8fe7/06f3ab8 commits,not another writer;current
+HEAD verified06f3ab8 and only continuity docs dirty. Task baseline synchronized
+to accepted06f3ab8,original batch7 AST oracle remains1272a786. No product repair.
+
+2026-10-11:scoped10s fixture and light/dark unintended-button guard controls
+implemented,all old assertions preserved,shared helper byte-unchanged. Static2/2
+PASS. Focused250-case repeat5 both-browser run STOPPED after35PASS/2FAIL:
+Users light goto90s before test control;switch light missing dialog after local
+proxy502 for harness/client. Trace harness74.816s. Concurrent independent npm ci
+may contribute,but root cause not proven. No further repair/retry/staging/commit.
+Owned runner39492 and descendants stopped;no listener4173–4176. Evidence and
+pending isolated negative mutation are documented in REMAINING_SCREENS_MIGRATION.
+Checkpoint PAUSED for owner direction;no product/CI/migration/Production/deploy.
+
+2026-10-11 owner authorized one serial fresh verification/no installs or parallel
+worktrees/servers. Ports free;preflight/resume/static2/2 PASS. Detached250cases
+stopped244PASS/1FAIL/5uncompleted,no502. Failure Profile WebKit light820 repeat4
+is page setup:newPage1910s,matching Windows Battery hibernation1913.423s from
+15:50:08.525Z to16:22:01.948Z (Power-Troubleshooter event1/Kernel-Power42).
+Test body/axe not reached. Environment stop,not product/motion/test defect.
+Owned runner9064 stopped,no4173–4176 listener. Max successful wait1879ms;Users
+and unintended-button controls PASS both browsers. Negative experiment not run;
+no commit/push/newCI. Evidence:motion-scope-serial-20261011 external logs/traces.
+Checkpoint PAUSED for owner direction;keep device awake/on power for completion.
+
+2026-10-11 owner approved completion only while awake/on power. Preflight/resume
+PASS,ports free. Interrupted Profile WebKit light820 repeat5 PASS5/5;five missing
+repeat4 cases PASS5/5,244 successful cases not rerun. All250 slots covered.
+Negative wait-bypass experiment:three direct gate-assertion failures across
+Chromium dark/WebKit light+dark;diagnostics prove axe called while paused5000ms.
+Fourth Chromium light cold-render failure not counted as proof,no retry. All
+temporary source edits removed,detached git diff clean;main helper unchanged.
+Static2/2 PASS;independent fixture commit/Gitleaks/exactCI next,then visual STOP.

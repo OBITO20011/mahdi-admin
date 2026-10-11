@@ -11,14 +11,16 @@ for(const theme of ['light','dark'])test(`axe waits for paused native Users CSS 
  await checkLayout(page,page.getByTestId('administration-workbench'));
  // Fixture-only duration control allows deterministic pausing in both browsers.
  // No product,timeout,retry or contrast-rule change.
- await page.addStyleTag({content:'button {transition-duration: 10s !important}'});
+ await page.getByRole('button',{name:`فريق العمل (${staffRows.length})`,exact:true}).evaluate(button=>button.setAttribute('data-motion-control','users'));
+ await page.addStyleTag({content:'button[data-motion-control="users"] {transition-duration: 10s !important}'});
  const evidence=await page.evaluate(async()=>{
   const button=Array.from(document.querySelectorAll('button')).find(e=>e.textContent?.includes('فريق العمل ('))!;
   const audit=Array.from(document.querySelectorAll('button')).find(e=>e.textContent?.includes('سجل الأمان ('))!;
   void getComputedStyle(button).color;
   audit.click();await new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve())));
   const animations=button.getAnimations();
-  const state=window as typeof window & {waitObserved?:boolean;releaseTransitions?:()=>void};
+  const state=window as typeof window & {waitObserved?:boolean;releaseTransitions?:()=>void;nativeTransitions?:Animation[]};
+  state.nativeTransitions=animations;
   for(const animation of animations){
    animation.pause();animation.currentTime=Number(animation.effect!.getTiming().duration)*.5;
   }
@@ -36,6 +38,7 @@ for(const theme of ['light','dark'])test(`axe waits for paused native Users CSS 
  await page.evaluate(()=>(window as typeof window & {releaseTransitions?:()=>void}).releaseTransitions?.());
  const result=await pending;
  expect(analyses).toBe(1);
+ expect(await page.evaluate(()=>(window as typeof window & {nativeTransitions?:Animation[]}).nativeTransitions!.every(animation=>animation.playState==='finished'))).toBe(true);
  expect(result.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
  const final=await page.getByRole('button',{name:`فريق العمل (${staffRows.length})`,exact:true}).evaluate(button=>{
   const fg=getComputedStyle(button).color,bg=getComputedStyle(button.parentElement!).backgroundColor;
@@ -44,6 +47,21 @@ for(const theme of ['light','dark'])test(`axe waits for paused native Users CSS 
  });
  console.info('USERS_SETTLED_CONTRAST '+JSON.stringify({theme,held:evidence,final}));
  expect(final.ratio).toBeGreaterThanOrEqual(4.5);
+});
+
+for(const theme of ['light','dark'])test(`unintended button with long running motion fails the guard ${theme}`,async({page})=>{
+ await page.setContent('<!doctype html><html lang="en"><head><title>Unintended motion control</title><style>#unintended-motion{color:#111;transition:color 10s}#unintended-motion.changed{color:#222}</style></head><body><main><h1>Control</h1><button id="asserted-control">Intended control</button><button id="unintended-motion">Other control</button></main></body></html>');
+ await waitForPackageFMotion(page);
+ await page.evaluate(async()=>{
+  const button=document.getElementById('unintended-motion')!;
+  void getComputedStyle(button).color;button.classList.add('changed');
+  await new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve())));
+  if(!button.getAnimations().some(animation=>animation instanceof CSSTransition&&animation.transitionProperty==='color'&&animation.playState==='running'))throw new Error('MISSING_UNINTENDED_RUNNING_TRANSITION');
+ });
+ const builder=new AxeBuilder({page}),original=builder.analyze.bind(builder);let analyses=0;
+ builder.analyze=async()=>{analyses++;return original();};
+ await expect(analyzePackageFAccessibility(page,builder)).rejects.toThrow(/PACKAGE_F_MOTION_STUCK.*"limitMs":5000.*BUTTON#unintended-motion.*"property":"color".*"playState":"running"/u);
+ expect(analyses,'unintended long motion must fail closed without running axe').toBe(0);
 });
 
 for(const theme of ['light','dark'])test(`axe waits for native state despite a stale finished promise ${theme}`,async({page})=>{

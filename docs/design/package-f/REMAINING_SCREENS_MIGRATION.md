@@ -2,6 +2,93 @@
 
 ## Batch 7 — legacy palette retirement (2026-10-11)
 
+### Scoped-motion correction — local evidence complete (2026-10-11)
+
+Owner authorized completion only,device awake/on power. Preflight/resume PASS,
+ports4173–4176 free,no parallel installs/worktrees/tests. Interrupted Profile
+WebKit light820 repeated5:5/5 PASS,90.151s including server lifecycle. Only five
+not-completed repeat4 cases ran once (Profile dark390;More/Profile dark820;
+More/Profile dark1440):5/5 PASS,102.926s. Original244 PASS retained,not rerun:
+all250 selected repeat slots now covered plus4 explicitly authorized additional
+Profile light820 confirmations. No new502/sleep/hibernation. Original interrupted
+supervisor exit1 is retained,NOT rewritten as complete exit0.
+
+Temporary negative experiment bypassed only analyzePackageFAccessibility's wait
+in existing detached06f3ab8 checkout. Original assertions unchanged;temporary
+diagnostics show axe started with both native transitions paused/currentTime5000.
+Three direct mutation failures:Chromium dark and WebKit light/dark,spec:36,
+waitObserved expectedtrue/actualfalse. Fourth Chromium light failed before the
+control at staff-name visibility after cold loading;NOT counted as mutation
+proof,no retry. Exit1,81.523s. Both browsers prove missing wait is detected,not
+an always-passing test. All temporary source changes/diagnostic removed;detached
+git diff --exit-code PASS. Main shared helper/product/CI/001–137 unchanged.
+
+Evidence:C:/Users/TOP/AppData/Local/Temp/nawasrah-motion-tail-20261011/{failed,
+tail,negative}.log and exit.json files;negative traces preserved for review.
+Static gate2/2,typecheck and targeted ESLint PASS. Gitleaks0
+before independent fixture-only commit;exact-SHA Linux CI required before visual
+STOP. No full local quality rerun (owner exception),Production/deploy/new phase.
+
+### Authorized serial verification — battery hibernation interruption (2026-10-11)
+
+Preflight/resume/static2/2 PASS. Before start,no listener on4173–4176 and no
+previous owned node/Vite/Playwright server. One detached250-case focused run,
+same two projects/two workers/repeat5/retries0/original deadlines. No installs,
+worktree creation,other tests or repo edits ran alongside it. Observed244 PASS,
+1FAIL,5 uncompleted when stopped:NOT250/250. No502 recurred. Both original
+Users light/dark controls and both unintended-button controls passed on both
+browsers;the guard/helper remained unchanged. Max logged successful motion wait
+1879ms (below unchanged5000ms). No changed assertion or product repair.
+
+Only failure:mobile-webkit Profile light820,repeat4,package-f-more.spec.ts:98,
+timeout while setting up page. Trace newPage call@3516 start1467939.160ms;
+fixture timeout end3378171.409ms,gap1910232.249ms. Test body/axe never began.
+Windows Power-Troubleshooter event1 at16:22:06.180Z explicitly records SleepTime
+15:50:08.5251358Z and WakeTime16:22:01.9477508Z:1913.423s hibernation.
+Kernel-Power42 at15:50:12.8878289Z reports Battery/TargetState5;hibernate write/
+read is recorded. This is proven LOCAL ENVIRONMENT INTERRUPTION,not concurrent
+install,proxy502,motion/contrast failure or product defect. Owned runner9064
+and descendants stopped after inspection;no listener4173–4176. Supervisor exit1
+includes deliberate stop;start15:25:47.844Z/end16:23:17.351Z.
+
+Evidence:C:/Users/TOP/AppData/Local/Temp/nawasrah-motion-scope-serial-20261011/
+positive.log,positive-exit.json,positive-results/PackageF Profile repeat4 trace.
+Negative wait-removal proof remains prepared/not run;no staging/commit/push or
+new CI. PAUSED for owner direction on completing interrupted verification while
+device remains awake/on power. No Production/deploy/DB/CI changes.
+
+### Owner-approved motion-fixture correction — verification blocked (2026-10-11)
+
+Only e2e/package-f-accessibility.spec.ts changed:10s CSS now targets the
+asserted Users button via a fixture-only data attribute. All original assertions
+remain;an additional assertion proves captured native transitions finished.
+New light/dark controls start a real10s color transition on another button:
+the unchanged5s guard must reject with BUTTON#unintended-motion/property=color/
+playState=running and axe analyses=0. Product,shared helper,CI,001–137 unchanged.
+
+Preflight/resume and static gate contracts2/2 PASS. Detached focused verification
+selected250 cases in accessibility/cash/auth-assistant/more,Chromium+WebKit,
+both themes,repeat5,retries0,original configuration. STOPPED after35 passed and
+2 failed;not a complete repeat5 PASS. Both new long-motion controls passed in
+the observed Chromium execution. Initial Users light failed at spec:8 page.goto,
+before fixture manipulation,90s test deadline. Trace:harness TSX200 took74.816s;
+Vite client12.065s,env15.946s. Initial switch light failed at auth-assistant:54:
+dialog not found;harness TSX and Vite client returned502 from the loopback proxy.
+No motion/contrast assertion caused those two observed failures. Independent
+negative-worktree npm installs ran concurrently;resource contention is a possible
+contributor,NOT a proven root cause. No product/test/timeout repair or retry.
+
+Evidence:C:/Users/TOP/AppData/Local/Temp/nawasrah-motion-scope-20261011/
+positive.log,positive-exit.json and positive-results traces. Owned Playwright
+process tree39492 was explicitly stopped after failure inspection;ports4173–4176
+have no listener. Exit1 includes deliberate termination;250 cases were not run
+to completion. No staged files,commit or push. Wait-bypass mutation proof is
+prepared ONLY in detached06f3ab8 worktree nawasrah-motion-negative-20261011;
+independent root/customer npm ci PASS,but mutation browser run NOT started.
+Owner direction required for one fresh focused run without concurrent installs,
+then negative proof/Gitleaks/commit/exact-SHA CI. Batch7 visual review remains
+pending;no further batch/Production/deploy.
+
 ### Read-only WebKit diagnosis — completed 2026-10-11
 
 Owner decision following this diagnosis:classify as LOCAL ENVIRONMENT STOP
