@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {test,expect,type Page} from './isolated-test';
 import {checkLayout} from './package-f-layout';
 const url=(view:string,theme='light',extra='')=>`/e2e/package-f-auth-assistant-harness.html?view=${view}&theme=${theme}&${extra}`;
@@ -7,7 +8,7 @@ async function audit(page:Page){
  await checkLayout(page,page.getByTestId('auth-assistant-workbench'));
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await expect(page.getByTestId('auth-assistant-workbench')).not.toContainText(/[٠-٩]/u);
- const result=await new AxeBuilder({page}).analyze();expect(result.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
+ const result=await analyzePackageFAccessibility(page,new AxeBuilder({page}));expect(result.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
 }
 for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`auth/assistant ${theme} ${width}:login,MFA,password and biometric lock,assistant layout and axe`,async({page})=>{
  await page.setViewportSize({width,height:900});

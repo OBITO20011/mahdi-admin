@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {test,expect,type Page} from './isolated-test';
 import {checkLayout} from './package-f-layout';
 import {purchaseOrders,supplierId,warehouseId,productId,otherSupplierRow} from './package-f-purchasing.fixture';
@@ -14,7 +15,7 @@ async function audit(page:Page){
  await checkLayout(page,root);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await expect(root).not.toContainText(/[٠-٩]/u);
- const axe=await new AxeBuilder({page}).analyze();
+ const axe=await analyzePackageFAccessibility(page,new AxeBuilder({page}));
  expect(axe.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
 }
 for(const theme of ['light','dark'])for(const width of [390,820,1440]){

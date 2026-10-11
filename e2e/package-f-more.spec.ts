@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {checkLayout} from './package-f-layout';
 import {test,expect,type Page} from './isolated-test';
 
@@ -10,7 +11,7 @@ test('standalone More pairs footer tokens with its own canvas even before theme 
     const root=element.parentElement!,probe=document.createElement('span');probe.style.backgroundColor='var(--nw-bg)';document.body.append(probe);
     const expected=getComputedStyle(probe).backgroundColor;probe.remove();return getComputedStyle(root).backgroundColor===expected;
   })).toBe(true);
-  const results=await new AxeBuilder({page}).analyze();
+  const results=await analyzePackageFAccessibility(page,new AxeBuilder({page}));
   expect(results.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
   const measured=await footer.evaluate(element=>{
     const fg=getComputedStyle(element).color,bg=getComputedStyle(element.parentElement!).backgroundColor;
@@ -40,7 +41,7 @@ async function audit(page:Page){
   await page.evaluate(()=>document.fonts.ready);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await expect(page.getByTestId('more-workbench')).not.toContainText(/[٠-٩]/u);
-  const results=await new AxeBuilder({page}).analyze();
+  const results=await analyzePackageFAccessibility(page,new AxeBuilder({page}));
   expect(results.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
   const overflow=await page.getByTestId('more-workbench').evaluate(root=>{
     const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),failed:string[]=[];

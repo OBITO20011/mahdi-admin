@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {test,expect,type Page} from './isolated-test';
 import {checkLayout} from './package-f-layout';
 import {cashIds} from './package-f-cash.fixture';
@@ -10,7 +11,7 @@ async function audit(page:Page){
  await checkLayout(page,page.getByTestId('financial-workbench'));
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await expect(page.getByTestId('financial-workbench')).not.toContainText(/[٠-٩]/u);
- const a=await new AxeBuilder({page}).analyze();
+ const a=await analyzePackageFAccessibility(page,new AxeBuilder({page}));
  expect(a.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
 }
 for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`expenses and report ${theme} ${width}:real readers,Latin money,details,axe and layout`,async({page})=>{

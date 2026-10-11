@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {test,expect,type Page} from './isolated-test';
 import {checkLayout} from './package-f-layout';
 import {administrationIds,storefrontSettings,promotionRows} from './package-f-administration.fixture';
@@ -9,7 +10,7 @@ async function audit(page:Page){
  await checkLayout(page,page.getByTestId('administration-workbench'));
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await expect(page.getByTestId('administration-workbench')).not.toContainText(/[٠-٩]/u);
- const axe=await new AxeBuilder({page}).analyze();expect(axe.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
+ const axe=await analyzePackageFAccessibility(page,new AxeBuilder({page}));expect(axe.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
 }
 for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`administration ${theme} ${width}:all five screens,fields,Latin dates,axe and clipping`,async({page})=>{
  await page.setViewportSize({width,height:900});await page.goto(`/e2e/package-f-administration-harness.html?theme=${theme}`);

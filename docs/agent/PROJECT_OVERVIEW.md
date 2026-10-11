@@ -8,6 +8,12 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 ## Canonical reading order
 
+**Current owner addition —2026-10-11:** bound batch6 CI correction to shared
+Package F axe native-motion stabilization after measured settled Users contrast
+PASS. Preserve all product/tokens/CI,selectors/tags/assertions;paused-transition
+and real-invalid-contrast controls,detached quality/Gitleaks/independent commit/
+exactCI,then batch6 visual STOP. No batch7/Production/deploy/Phase7.
+
 **Current owner boundary —2026-10-11:** batch5 13d7db7 visually accepted.
 Only batch6 assistant/auth/lock presentation and visible switch tracks. Read
 PackageF§6.7/§9 and remaining-screens report. Preserve all auth/session/biometric/

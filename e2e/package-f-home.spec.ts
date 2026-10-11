@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {checkLayout} from './package-f-layout';
 import { expect, test, type Page } from './isolated-test';
 import { homeFixture } from './package-f-home.fixture';
@@ -48,7 +49,7 @@ for (const theme of ['light', 'dark']) {
           return { lines: range.getClientRects().length, whitespace: getComputedStyle(element).whiteSpace };
         })).toEqual({ lines: 1, whitespace: 'nowrap' });
       }
-      const accessibility = await new AxeBuilder({ page }).include('[data-testid="dashboard-home"], .admin-app-header').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+      const accessibility = await analyzePackageFAccessibility(page,new AxeBuilder({ page }).include('[data-testid="dashboard-home"], .admin-app-header').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']));
       expect(accessibility.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => ({ id: v.id, targets: v.nodes.map((n) => n.target) }))).toEqual([]);
       const shortButtons = await page.getByTestId('dashboard-home').getByRole('button').evaluateAll((buttons) => buttons.filter((button) => button.getClientRects().length && button.getBoundingClientRect().height < 44).map((button) => button.textContent));
       expect(shortButtons).toEqual([]);

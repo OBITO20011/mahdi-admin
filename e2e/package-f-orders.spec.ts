@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {checkLayout} from './package-f-layout';
 import { expect, test, type Page } from './isolated-test';
 import { ordersFixture } from './package-f-orders.fixture';
@@ -26,7 +27,7 @@ async function layout(page: Page) {
   await expect(page.getByTestId('orders-workbench')).not.toContainText(/[٠-٩]/);
 }
 async function accessibility(page: Page) {
-  const result = await new AxeBuilder({ page }).include('[data-testid="orders-workbench"]').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+  const result = await analyzePackageFAccessibility(page,new AxeBuilder({ page }).include('[data-testid="orders-workbench"]').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']));
   expect(result.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => ({ id: v.id, targets: v.nodes.map((node) => node.target) }))).toEqual([]);
 }
 for (const theme of ['light', 'dark']) for (const width of [390, 820, 1440]) {

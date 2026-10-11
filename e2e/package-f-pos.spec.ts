@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {checkLayout} from './package-f-layout';
 import { test, expect, type Page } from './isolated-test';
 import { posFixtureIds, posFixtureProducts, posFixtureParcel } from './package-f-pos.fixture';
@@ -24,7 +25,7 @@ async function layout(page: Page) {
   expect(overflow).toEqual([]);
 }
 async function axe(page: Page) {
-  const result = await new AxeBuilder({ page }).include('[data-testid="pos-workbench"]').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+  const result = await analyzePackageFAccessibility(page,new AxeBuilder({ page }).include('[data-testid="pos-workbench"]').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']));
   expect(result.violations.filter(v => v.impact === 'serious' || v.impact === 'critical').map(v => ({ id: v.id, nodes: v.nodes.map(node => node.target) }))).toEqual([]);
 }
 for (const theme of ['light', 'dark']) for (const width of [390, 820, 1440]) {

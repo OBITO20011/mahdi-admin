@@ -1,6 +1,7 @@
 import {test,expect} from './isolated-test';
 import {checkLayout} from './package-f-layout';
 import AxeBuilder from '@axe-core/playwright';
+import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {inventoryProducts} from './package-f-inventory.fixture';
 
 for(const width of [390,1440])test(`POS selected customer debt is a read-only warning,not a sale block ${width}`,async({page})=>{
@@ -12,7 +13,7 @@ for(const width of [390,1440])test(`POS selected customer debt is a read-only wa
   await expect(debt).toContainText('عليه 45.000');await expect(debt).toContainText('حد الدين 40.000');
   await expect(debt).toContainText('تجاوز الحد');await expect(debt).toHaveClass(/text-nw-warn/u);
   await checkLayout(page,page.getByTestId('pos-workbench'));
-  const accessibility=await new AxeBuilder({page}).include('[data-testid="pos-workbench"]').analyze();
+  const accessibility=await analyzePackageFAccessibility(page,new AxeBuilder({page}).include('[data-testid="pos-workbench"]'));
   expect(accessibility.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
   if(width<1024)await page.getByRole('button',{name:'رجوع للبيع',exact:true}).click();
   await expect(page.locator('[data-testid="pos-complete-sale"]:visible')).toBeEnabled();

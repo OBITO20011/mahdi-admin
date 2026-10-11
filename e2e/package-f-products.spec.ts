@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {test,expect,type Page} from './isolated-test';
 import {checkLayout} from './package-f-layout';
 type Locator = ReturnType<Page['locator']>;
@@ -65,7 +66,7 @@ test('shared layout guard detects hidden ancestor clipping but permits intention
  await expect(checkLayout(page,root)).rejects.toThrow('Unintended text clipping');
 });
 async function accessibility(page:Page){
- const results=await new AxeBuilder({page}).analyze();expect(results.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
+ const results=await analyzePackageFAccessibility(page,new AxeBuilder({page}));expect(results.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
 }
 for(const theme of ['light','dark'])for(const width of [390,820,1440]){
  test('products batch2 '+theme+' '+width+': catalogue and four dialogs stay contained,Latin and operable',async({page})=>{

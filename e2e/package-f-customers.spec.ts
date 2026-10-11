@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {checkLayout} from './package-f-layout';
 import {expect,test,type Page} from './isolated-test';
 import {customersFixture} from './package-f-customers.fixture';
@@ -24,7 +25,7 @@ async function audit(page:Page) {
   await page.evaluate(()=>document.fonts.ready);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await expect(page.getByTestId('customers-workbench')).not.toContainText(/[٠-٩]/u);
-  const result=await new AxeBuilder({page}).analyze();
+  const result=await analyzePackageFAccessibility(page,new AxeBuilder({page}));
   expect(result.violations.filter(row=>row.impact==='serious'||row.impact==='critical')).toEqual([]);
   const escaped=await page.getByTestId('customers-workbench').evaluate(root=>{
     const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),failures:string[]=[];

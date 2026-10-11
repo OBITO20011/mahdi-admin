@@ -2,18 +2,19 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Package F batch6: switches,assistant,login/lock presentation only",
-  "baselineSha": "13d7db7dcbb3677aa87a408c5f31a6e9b78bb78c",
+  "objective": "Package F batch6 CI correction: measure Users transitions;bounded shared axe stabilization",
+  "baselineSha": "dd014f54ef5dcb8d70ee27ed084229d913ba7d8c",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "Batch5 visually accepted;batch6 presentation implemented",
     "Auth/business AST7/7 identical;5 security sources Git-blob identical;001–137 and CI unchanged",
-    "Focused contracts51/51,typecheck/strict ESLint PASS;Chromium/WebKit38/38,retries0"
+    "Focused contracts51/51,typecheck/strict ESLint PASS;Chromium/WebKit38/38,retries0",
+    "Gitleaks staged exit0;19-file commitdd014f54 pushed;HEAD=remote main;only post-commit continuity checkpoint dirty"
   ],
   "inProgress": [
-    "Local quality complete;Gitleaks0 and authorized commit/push/exact CI next"
+    "Current correction all local gates PASS;Gitleaks0/one commit/push/all exactCI next"
   ],
   "notStarted": [
     "Batch7;types repair and checkout investigation after7;Phase7"
@@ -22,42 +23,46 @@
     "docs/agent/PHASE_STATUS.md",
     "docs/agent/PROJECT_OVERVIEW.md",
     "docs/design/package-f/REMAINING_SCREENS_MIGRATION.md",
-    "src/App.tsx",
-    "src/components/layout/IPhoneContainer.tsx",
-    "src/components/ui/index.ts",
-    "src/features/assistant/AdminAssistantView.tsx",
-    "src/features/auth/LoginView.tsx",
-    "src/features/auth/TurnstileWidget.tsx",
-    "src/features/more/StorefrontSettingsModal.tsx",
-    "src/features/products/ProductFormModal.tsx",
-    "e2e/package-f-auth-assistant-harness.html",
-    "e2e/package-f-auth-assistant-harness.tsx",
+    "e2e/package-f-administration.spec.ts",
     "e2e/package-f-auth-assistant.spec.ts",
-    "scripts/testing/package-f-auth-ui-contract.mjs",
-    "src/components/ui/SwitchTrack.tsx",
-    "tests/package-f-auth-assistant.test.ts"
+    "e2e/package-f-cash.spec.ts",
+    "e2e/package-f-customers.spec.ts",
+    "e2e/package-f-financial.spec.ts",
+    "e2e/package-f-home.spec.ts",
+    "e2e/package-f-inventory.spec.ts",
+    "e2e/package-f-more.spec.ts",
+    "e2e/package-f-orders.spec.ts",
+    "e2e/package-f-pos.spec.ts",
+    "e2e/package-f-products.spec.ts",
+    "e2e/package-f-purchasing.spec.ts",
+    "e2e/package-f-read-extensions.spec.ts",
+    "e2e/package-f-accessibility.spec.ts",
+    "e2e/package-f-accessibility.ts",
+    "tests/package-f-accessibility.test.ts"
   ],
   "testsPassed": [
     "Focused contracts51/51;AST7/7;security sources5/5;typecheck/ESLint",
     "Browser38/38;axe/clipping/Latin/44px/viewport;switch contrast≥3;session-security unchanged",
-    "ONE full quality exit0:Admin854/854,Customer189/189,browser663+59known skips=722,retries0;lint/build/SEO/isolation PASS"
+    "Corrected complete quality exit0:Admin856/856,Customer189/189,browser669+59existing skips=728,retries0;lint/build/SEO/isolation PASS"
   ],
   "testsRemaining": [
-    "Gitleaks0,commit/push/exact CI,visual approval"
+    "Gitleaks0,independent commit/push/all exactCI;STOP batch6 visual before7"
   ],
   "findings": [
-    "Existing checkout-name investigation after7;no auth/session/biometric/role/payload change"
+    "Existing checkout-name investigation after7;no auth/session/biometric/role/payload change",
+    "Native transition proven:light midway2.197949/final5.642425,dark3.350328/final7.397092;Users/tokens unchanged;13specs14axe calls preserve original selectors/tags/assertions",
+    "Current focused:original administration24/24;corrected paused-transition/negative controls6/6;static/auth16/16,continuity7/7;typecheck/lint PASS"
   ],
   "blockers": [],
   "activeProcesses": [
-    "None;quality supervisor11528 and owned test servers exited;temp log/exit retained"
+    "None;quality exited0,all isolated4173–4176 listeners stopped by normal teardown;external log/exit retained"
   ],
   "prohibitions": [
     "No Production/deploy/automations/DB/CI/batch7/Phase7;001–137 immutable",
     "No business/auth/session/biometric/token/idle/roles/payload/confirmation changes;owner .claude/launch.json untouched"
   ],
-  "nextExactAction": "Local full quality exit0;stage only19authorized files,Gitleaks0,commit/push,verify all exact-SHA CI,then visual STOP",
-  "workingTreeFingerprint": "000CB65CE110C30A8B3C559551419D78EB75A309F6062241BD7FACC58999B644",
-  "checkpointedAt": "2026-10-11T00:01:31.848Z",
+  "nextExactAction": "All corrected local gates PASS;stage exact21test/docs files only,Gitleaks staged exit0,one independent fix(test) commit/push;verify all exactCI then batch6 visual STOP",
+  "workingTreeFingerprint": "40C896EC4430F9F5711F027750061A2287C8E262206BB5A7DF500E3C8E5EE45F",
+  "checkpointedAt": "2026-10-11T01:16:20.877Z",
   "startedAt": "2026-10-11"
 }

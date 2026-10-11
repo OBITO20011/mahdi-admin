@@ -1,5 +1,56 @@
 # Package F — remaining screens
 
+## Batch 6 — exact-CI Users transition correction (2026-10-11)
+
+Owner-authorized correction baseline dd014f54ef5dcb8d70ee27ed084229d913ba7d8c.
+Exact CI38097042768/job114344969045 failed3 light Chromium Users audits at
+390/820/1440,immediately after switching to Security log. Target:inactive
+Users button `.hover:text-nw-text` inside `bg-nw-surface-2`;CI measured
+foreground#627185/background#e5e8ee,ratio4.05:1 (<4.5).
+
+Actual native CSS color/background transitions were paused and sampled in
+Chromium without altering product styles. Light halfway:foreground#7b8898,
+composited background approximately#c4cad4,ratio2.197949:1. Final after
+document.getAnimations().finished:foreground#55657a/background#f7f9fc,
+ratio5.642425:1. Dark halfway:#7d8693 on approximately#41312e,3.350328:1;
+final#9aa8bc on#0f172a,7.397092:1. Therefore this failure was transitional,
+not an invalid final token pair. No product or global token edit.
+
+`e2e/package-f-accessibility.ts` waits for real finite running,pending and
+paused document animations,including CSS transitions,then re-discovers after
+actual completion/cancellation. Uses animation.finished and animation frames,
+not timers/retries. Infinite loading indicators cannot finish and are not
+waited on;their DOM nodes/rules remain audited. Existing dialog data-state
+and Motion-specific stabilization remain intact.
+All13 existing Package F specs/14 axe calls use this one helper;existing
+include selectors,tags,assertions,case names/timeouts/retries remain unchanged.
+Permanent control pauses REAL Users CSS transitions (fixture-only duration
+extended for deterministic capture),observes the helper awaiting finished,
+asserts axe calls0 before release and1 after. A settled deliberately invalid
+contrast fixture must still produce a serious color-contrast violation.
+Static coverage guard prevents new Package F specs bypassing the shared gate.
+
+Early diagnosis WebKit missed the short150ms transition;the final control
+captures it deterministically. First regression fixture incorrectly named
+the Users button count2 instead of its actual3;corrected selector derives
+the count from staffRows. No old selector/assertion or product logic changed.
+Focused controls6/6 (both browsers/themes),unchanged administration24/24,
+static/auth16/16 and continuity7/7 PASS. Literal reverse-normalization of
+all13 modified old specs recovers their accepted contents exactly:only the
+shared import and analysis invocation changed,no old assertion/tag/selector.
+First detached quality stopped at Admin units855/856:the new control spec
+omitted the mandatory shared clipping guard. Added the real layout check to
+the new spec (including its negative fixture);existing guard unchanged.
+No financial/auth/runtime defect and no browser leg from that aborted run.
+Corrected complete quality exit0,signal=null:Admin856/856,Customer189/189,
+browser669PASS+59existing conditional skips=728,retries0,37.2m. Lint/typecheck,
+Admin13.57s/Customer9.02s builds,SEO/network isolation PASS;no listeners on
+4173–4176 after normal teardown. Started2026-10-11T00:35:32.991Z,
+ended01:14:53.053Z,total39m20s. External log/exit proof:
+C:/Users/TOP/AppData/Local/Temp/nawasrah-batch6-contrast-quality-16a39824a4c448fe9ac74b476434feeb.
+Gitleaks0/independent correction commit/push/all exact-SHA CI precede visual STOP.
+001–137,src/services/stores/CI,owner launch file unchanged;no batch7/Production.
+
 ## Batch 6 — assistant,login and lock (2026-10-11)
 
 Owner visually accepted batch5 13d7db7 and authorized this batch only.
