@@ -21,9 +21,9 @@ for(const theme of ['light','dark'])test(`axe waits for paused native Users CSS 
   const state=window as typeof window & {waitObserved?:boolean;releaseTransitions?:()=>void};
   for(const animation of animations){
    animation.pause();animation.currentTime=Number(animation.effect!.getTiming().duration)*.5;
-   const finished=animation.finished;
-   Object.defineProperty(animation,'finished',{get(){state.waitObserved=true;return finished;}});
   }
+  const getAnimations=document.getAnimations.bind(document);
+  document.getAnimations=()=>{state.waitObserved=true;return getAnimations();};
   state.releaseTransitions=()=>{for(const animation of animations)animation.finish();};
   return {properties:animations.map(a=>a instanceof CSSTransition?a.transitionProperty:'animation'),color:getComputedStyle(button).color,background:getComputedStyle(button).backgroundColor};
  });
@@ -44,6 +44,56 @@ for(const theme of ['light','dark'])test(`axe waits for paused native Users CSS 
  });
  console.info('USERS_SETTLED_CONTRAST '+JSON.stringify({theme,held:evidence,final}));
  expect(final.ratio).toBeGreaterThanOrEqual(4.5);
+});
+
+for(const theme of ['light','dark'])test(`axe waits for native state despite a stale finished promise ${theme}`,async({page})=>{
+ await page.setContent('<!doctype html><html lang="en"><head><title>Native motion control</title><style>button{color:#eee;background:#fff;transition:color 10s}button.settled{color:#111}</style></head><body><main><h1>Control</h1><button>Native transition</button></main></body></html>');
+ await waitForPackageFMotion(page);
+ await page.evaluate(async()=>{
+  const button=document.querySelector('button')!;
+  void getComputedStyle(button).color;
+  button.classList.add('settled');
+  await new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve())));
+  const animations=button.getAnimations();
+  if(!animations.some(animation=>animation instanceof CSSTransition&&animation.transitionProperty==='color'))throw new Error('MISSING_NATIVE_COLOR_TRANSITION');
+  const state=window as typeof window & {waitObserved?:boolean;releaseTransitions?:()=>void;nativeTransitions?:Animation[]};
+  state.nativeTransitions=animations;
+  for(const animation of animations){
+   animation.pause();animation.currentTime=Number(animation.effect!.getTiming().duration)*.5;
+   Object.defineProperty(animation,'finished',{get:()=>new Promise<Animation>(()=>{})});
+  }
+  const getAnimations=document.getAnimations.bind(document);
+  document.getAnimations=()=>{state.waitObserved=true;return getAnimations();};
+  state.releaseTransitions=()=>{for(const animation of animations)animation.finish();};
+ });
+ const builder=new AxeBuilder({page}),original=builder.analyze.bind(builder);let analyses=0;
+ builder.analyze=async()=>{analyses++;return original();};
+ const pending=analyzePackageFAccessibility(page,builder);
+ await expect.poll(()=>page.evaluate(()=>(window as typeof window & {waitObserved?:boolean}).waitObserved??false)).toBe(true);
+ expect(analyses,'a stale promise must not permit analysis of paused motion').toBe(0);
+ await page.evaluate(()=>(window as typeof window & {releaseTransitions?:()=>void}).releaseTransitions?.());
+ const result=await pending;
+ expect(analyses).toBe(1);
+ expect(await page.evaluate(()=>(window as typeof window & {nativeTransitions?:Animation[]}).nativeTransitions!.every(animation=>animation.playState==='finished'))).toBe(true);
+ expect(await page.locator('button').evaluate(button=>getComputedStyle(button).color)).toBe('rgb(17, 17, 17)');
+ expect(result.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
+});
+
+test('paused native motion fails closed at the frame deadline with actionable evidence',async({page})=>{
+ await page.setContent('<!doctype html><html lang="en"><head><title>Paused motion</title><style>button{color:#111;transition:color 10s}button.changed{color:#222}</style></head><body><main><h1>Control</h1><button id="paused-control">Paused transition</button></main></body></html>');
+ await waitForPackageFMotion(page);
+ await page.evaluate(async()=>{
+  const button=document.querySelector('button')!;
+  void getComputedStyle(button).color;button.classList.add('changed');
+  await new Promise<void>(resolve=>requestAnimationFrame(()=>requestAnimationFrame(()=>resolve())));
+  const transitions=button.getAnimations();
+  if(!transitions.some(animation=>animation instanceof CSSTransition&&animation.transitionProperty==='color'))throw new Error('MISSING_NATIVE_COLOR_TRANSITION');
+  for(const animation of transitions){animation.pause();animation.currentTime=500;}
+ });
+ const builder=new AxeBuilder({page}),original=builder.analyze.bind(builder);let analyses=0;
+ builder.analyze=async()=>{analyses++;return original();};
+ await expect(analyzePackageFAccessibility(page,builder)).rejects.toThrow(/PACKAGE_F_MOTION_STUCK.*"limitMs":5000.*BUTTON#paused-control.*"property":"color".*"playState":"paused".*"currentTime":"500"/u);
+ expect(analyses,'deadline failure must never silently run axe').toBe(0);
 });
 
 test('settled real low contrast is still reported,never excluded by the shared helper',async({page})=>{

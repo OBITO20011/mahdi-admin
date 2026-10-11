@@ -20,7 +20,12 @@ test('shared gate observes finite running,paused and pending Animations before u
  assert.match(source,/animation\.pending/u);
  assert.match(source,/playState==='running'/u);
  assert.match(source,/playState==='paused'/u);
- assert.match(source,/animation\.finished/u);
- assert.match(source,/await waitForPackageFMotion\(page\);\s*return builder\.analyze\(\)/u);
+ assert.match(source,/requestAnimationFrame\(\(\)=>requestAnimationFrame/u);
+ assert.doesNotMatch(source,/animation\.finished|Promise\.all/u);
+ assert.match(source,/const waitedMs=await waitForPackageFMotion\(page\)/u);
+ assert.match(source,/return builder\.analyze\(\)/u);
+ assert.match(source,/limitMs=5000/u);
+ assert.match(source,/if\(waitedMs>=limitMs\)/u);
+ assert.match(source,/throw new Error\('PACKAGE_F_MOTION_STUCK '/u);
  assert.doesNotMatch(source,/waitForTimeout|setTimeout|disableRules|\.exclude\(/u);
 });
