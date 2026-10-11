@@ -64,15 +64,15 @@ export class AppErrorBoundary extends React.Component<
     return (
       <div
         dir="rtl"
-        className="m-4 rounded-2xl border border-rose-800 bg-rose-950/60 p-5 text-xs text-rose-200"
+        className="m-4 rounded-2xl border border-nw-bad bg-nw-bad-bg p-5 text-xs text-nw-bad"
       >
-        <AlertTriangle className="mb-2 h-6 w-6 text-rose-400" />
-        <h2 className="font-black text-white">تعذر عرض هذه الشاشة</h2>
+        <AlertTriangle className="mb-2 h-6 w-6 text-nw-bad" />
+        <h2 className="font-black text-nw-text">تعذر عرض هذه الشاشة</h2>
         <p className="mt-1 leading-5">{this.state.error.message}</p>
         <button
           type="button"
           onClick={() => this.setState({ error: null })}
-          className="mt-3 flex items-center gap-1.5 rounded-xl bg-slate-800 px-3 py-2 font-bold text-slate-200"
+          className="mt-3 flex items-center gap-1.5 rounded-xl bg-nw-surface-2 px-3 py-2 font-bold text-nw-text"
         >
           <RefreshCw className="h-3.5 w-3.5" />
           إعادة المحاولة

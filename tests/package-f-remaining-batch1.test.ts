@@ -106,7 +106,7 @@ test('batch1 surfaces use semantic tokens;QR retains white scanner backing only'
   assert.match(modal,/bg-nw-side\/80/u);assert.match(modal,/data-state="opening"/u);assert.match(modal,/onAnimationComplete/u);
   assert.match(modal,/!edited.current && !closeDisabled/u);assert.match(modal,/data-unsaved/u);assert.match(modal,/<FormFields/u);
   const fields=readFileSync('src/components/ui/form-fields.css','utf8');assert.match(fields,/min-height: 44px/u);
-  assert.match(fields,/var\(--nw-text\)/u);assert.match(fields,/aria-invalid/u);assert.match(fields,/border-rose-500/u);
+  assert.match(fields,/var\(--nw-text\)/u);assert.match(fields,/aria-invalid/u);assert.match(fields,/\[class~="border-nw-bad"\]\s*\{\s*border-color:\s*var\(--nw-bad\)\s*!important/u);
   assert.match(readFileSync('src/components/ui/Controls.tsx','utf8'),/plain: ''/u);
   assert.doesNotMatch(readFileSync('src/index.css','utf8'),/html.theme-light \[data-navigation-id="(?:assistant-shortcut|sign-out)"\]/u);
 });

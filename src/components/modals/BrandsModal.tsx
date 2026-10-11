@@ -120,8 +120,8 @@ export const BrandsModal: React.FC<{ onClose: () => void }> = () => {
     <div className="space-y-3 text-xs">
       <div className="flex items-center justify-between">
         <div>
-          <p className="font-black text-slate-200">العلامات التجارية</p>
-          <p className="mt-0.5 text-[9px] text-slate-500">
+          <p className="font-black text-nw-text">العلامات التجارية</p>
+          <p className="mt-0.5 text-[9px] text-nw-muted">
             {activeCount} نشطة من أصل {visibleBrands.length}
           </p>
         </div>
@@ -132,7 +132,7 @@ export const BrandsModal: React.FC<{ onClose: () => void }> = () => {
               resetForm();
               setMode('add');
             }}
-            className="flex items-center gap-1 rounded-xl bg-blue-600 px-3 py-2 font-black text-white"
+            className="flex items-center gap-1 rounded-xl bg-nw-primary px-3 py-2 font-black text-nw-on-primary"
           >
             <Plus className="h-3.5 w-3.5" />
             إضافة علامة
@@ -143,27 +143,27 @@ export const BrandsModal: React.FC<{ onClose: () => void }> = () => {
       {mode !== 'idle' && (
         <form
           onSubmit={handleSave}
-          className="space-y-2 rounded-2xl border border-blue-500/35 bg-slate-950 p-3"
+          className="space-y-2 rounded-2xl border border-nw-info/35 bg-nw-bg p-3"
         >
           <input
             required
             value={nameAr}
             onChange={(event) => setNameAr(event.target.value)}
             placeholder="اسم العلامة التجارية *"
-            className="w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-blue-500"
+            className="w-full rounded-xl border border-nw-border bg-nw-surface px-3 py-2 text-nw-text outline-none focus:border-nw-info"
           />
           <input
             value={logoUrl}
             onChange={(event) => setLogoUrl(event.target.value)}
             placeholder="رابط الشعار — اختياري"
-            className="w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2 text-slate-100 outline-none focus:border-blue-500"
+            className="w-full rounded-xl border border-nw-border bg-nw-surface px-3 py-2 text-nw-text outline-none focus:border-nw-info"
           />
-          {error && <p className="font-bold text-rose-400">{error}</p>}
+          {error && <p className="font-bold text-nw-bad">{error}</p>}
           <div className="flex gap-2">
             <button
               type="submit"
               disabled={isSaving}
-              className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-blue-600 py-2 font-black text-white disabled:opacity-50"
+              className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-nw-primary py-2 font-black text-nw-on-primary disabled:opacity-50"
             >
               {isSaving ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -176,7 +176,7 @@ export const BrandsModal: React.FC<{ onClose: () => void }> = () => {
               type="button"
               onClick={resetForm}
               disabled={isSaving}
-              className="rounded-xl bg-slate-800 px-3 py-2 font-bold text-slate-300"
+              className="rounded-xl bg-nw-surface-2 px-3 py-2 font-bold text-nw-text"
             >
               إلغاء
             </button>
@@ -185,7 +185,7 @@ export const BrandsModal: React.FC<{ onClose: () => void }> = () => {
       )}
 
       {mode === 'idle' && error && (
-        <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-2.5 font-bold text-rose-300">
+        <div className="rounded-xl border border-nw-bad/30 bg-nw-bad-bg p-2.5 font-bold text-nw-bad">
           {error}
         </div>
       )}
@@ -197,12 +197,12 @@ export const BrandsModal: React.FC<{ onClose: () => void }> = () => {
           return (
             <div
               key={brand.id}
-              className={`flex items-center justify-between rounded-2xl border border-slate-800 p-3 ${
-                brand.isHidden ? 'bg-slate-950/50 opacity-65' : 'bg-slate-950'
+              className={`flex items-center justify-between rounded-2xl border border-nw-border p-3 ${
+                brand.isHidden ? 'bg-nw-bg opacity-65' : 'bg-nw-bg'
               }`}
             >
               <div className="flex min-w-0 items-center gap-2.5">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-amber-500/10 text-amber-400">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-nw-warn-bg text-nw-warn">
                   {brand.logoUrl ? (
                     <img
                       src={brand.logoUrl}
@@ -215,16 +215,16 @@ export const BrandsModal: React.FC<{ onClose: () => void }> = () => {
                 </span>
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <h5 className="truncate font-black text-slate-200">
+                    <h5 className="truncate font-black text-nw-text">
                       {brand.nameAr}
                     </h5>
                     {brand.isHidden && (
-                      <span className="rounded-full bg-slate-800 px-1.5 py-0.5 text-[8px] font-bold text-slate-500">
+                      <span className="rounded-full bg-nw-surface-2 px-1.5 py-0.5 text-[8px] font-bold text-nw-muted">
                         مخفية
                       </span>
                     )}
                   </div>
-                  <p className="mt-0.5 text-[9px] text-slate-500">
+                  <p className="mt-0.5 text-[9px] text-nw-muted">
                     {brand.productsCount || 0} صنف مرتبط
                   </p>
                 </div>
@@ -235,7 +235,7 @@ export const BrandsModal: React.FC<{ onClose: () => void }> = () => {
                   <button
                     type="button"
                     onClick={() => startEdit(brand)}
-                    className="rounded-lg p-2 text-slate-500 hover:bg-blue-500/10 hover:text-blue-400"
+                    className="rounded-lg p-2 text-nw-muted hover:bg-nw-info-bg hover:text-nw-info"
                     title="تعديل العلامة"
                   >
                     <Edit3 className="h-3.5 w-3.5" />
@@ -247,8 +247,8 @@ export const BrandsModal: React.FC<{ onClose: () => void }> = () => {
                   disabled={isBusy || (!brand.isHidden && hasProducts)}
                   className={`rounded-lg p-2 disabled:cursor-not-allowed disabled:opacity-25 ${
                     brand.isHidden
-                      ? 'text-emerald-400 hover:bg-emerald-500/10'
-                      : 'text-slate-500 hover:bg-amber-500/10 hover:text-amber-400'
+                      ? 'text-nw-ok hover:bg-nw-ok-bg'
+                      : 'text-nw-muted hover:bg-nw-warn-bg hover:text-nw-warn'
                   }`}
                   title={
                     brand.isHidden

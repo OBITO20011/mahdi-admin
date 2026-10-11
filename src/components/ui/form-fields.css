@@ -21,7 +21,7 @@
 .nw-form-fields.nw-form-fields :is(input,select,textarea)[aria-invalid="true"] {
   border-color: var(--nw-bad) !important;
 }
-.nw-form-fields.nw-form-fields :is(input,select,textarea):is([class~="border-rose-500"],[class~="border-red-500"],[class~="border-nw-bad"]) {
+.nw-form-fields.nw-form-fields :is(input,select,textarea)[class~="border-nw-bad"] {
   border-color: var(--nw-bad) !important;
 }
 .nw-form-fields button { min-height: 44px; }

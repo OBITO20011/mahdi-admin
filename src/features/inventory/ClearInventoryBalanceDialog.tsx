@@ -94,22 +94,22 @@ export const ClearInventoryBalanceDialog: React.FC<
       role="dialog"
       aria-modal="true"
       aria-labelledby="clear-inventory-title"
-      className="fixed inset-0 z-[90] flex items-end justify-center bg-slate-950/85 p-2 backdrop-blur-sm sm:items-center"
+      className="fixed inset-0 z-[90] flex items-end justify-center bg-nw-side/80 p-2 backdrop-blur-sm sm:items-center"
     >
-      <div className="max-h-[92vh] w-full max-w-md overflow-y-auto rounded-3xl border border-rose-500/30 bg-slate-950 shadow-2xl shadow-rose-950/50">
-        <header className="sticky top-0 z-10 flex items-start justify-between gap-3 border-b border-slate-800 bg-slate-950/95 p-4 backdrop-blur">
+      <div className="max-h-[92vh] w-full max-w-md overflow-y-auto rounded-3xl border border-nw-bad/30 bg-nw-bg shadow-2xl shadow-nw-bad/50">
+        <header className="sticky top-0 z-10 flex items-start justify-between gap-3 border-b border-nw-border bg-nw-bg p-4 backdrop-blur">
           <div className="flex items-start gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-rose-500/30 bg-rose-500/10 text-rose-400">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-nw-bad/30 bg-nw-bad-bg text-nw-bad">
               <Trash2 className="h-5 w-5" />
             </div>
             <div>
               <h3
                 id="clear-inventory-title"
-                className="text-sm font-black text-slate-100"
+                className="text-sm font-black text-nw-text"
               >
                 حذف الرصيد الحالي؟
               </h3>
-              <p className="mt-1 text-[10px] leading-5 text-slate-400">
+              <p className="mt-1 text-[10px] leading-5 text-nw-muted">
                 سيتم تصفير الكمية في المستودع، وليس حذف المنتج أو تاريخه.
               </p>
             </div>
@@ -119,41 +119,41 @@ export const ClearInventoryBalanceDialog: React.FC<
             onClick={onClose}
             disabled={isSubmitting}
             aria-label="إغلاق"
-            className="rounded-xl border border-slate-800 bg-slate-900 p-2 text-slate-400 transition hover:text-slate-100 disabled:opacity-50"
+            className="rounded-xl border border-nw-border bg-nw-surface p-2 text-nw-muted transition hover:text-nw-text disabled:opacity-50"
           >
             <X className="h-4 w-4" />
           </button>
         </header>
 
         <div className="space-y-3 p-4 text-xs">
-          <section className="rounded-2xl border border-slate-800 bg-slate-900/80 p-3">
+          <section className="rounded-2xl border border-nw-border bg-nw-surface p-3">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-black text-slate-100">{product.nameAr}</p>
-                <p className="mt-1 font-mono text-[10px] text-blue-300">
+                <p className="font-black text-nw-text">{product.nameAr}</p>
+                <p className="mt-1 font-mono text-[10px] text-nw-info">
                   SKU: {product.sku}
                 </p>
               </div>
-              <span className="rounded-full border border-rose-500/30 bg-rose-500/10 px-2.5 py-1 text-[9px] font-black text-rose-300">
+              <span className="rounded-full border border-nw-bad/30 bg-nw-bad-bg px-2.5 py-1 text-[9px] font-black text-nw-bad">
                 {inventory.totalPiecesFormatted}
               </span>
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2">
-              <div className="rounded-xl border border-slate-800 bg-slate-950 p-2.5">
-                <div className="flex items-center gap-1 text-[9px] text-slate-500">
-                  <Warehouse className="h-3 w-3 text-indigo-400" />
+              <div className="rounded-xl border border-nw-border bg-nw-bg p-2.5">
+                <div className="flex items-center gap-1 text-[9px] text-nw-muted">
+                  <Warehouse className="h-3 w-3 text-nw-info" />
                   المستودع
                 </div>
-                <strong className="mt-1 block text-[10px] text-slate-200">
+                <strong className="mt-1 block text-[10px] text-nw-text">
                   {warehouseName}
                 </strong>
               </div>
-              <div className="rounded-xl border border-slate-800 bg-slate-950 p-2.5">
-                <div className="flex items-center gap-1 text-[9px] text-slate-500">
-                  <Boxes className="h-3 w-3 text-violet-400" />
+              <div className="rounded-xl border border-nw-border bg-nw-bg p-2.5">
+                <div className="flex items-center gap-1 text-[9px] text-nw-muted">
+                  <Boxes className="h-3 w-3 text-nw-info" />
                   الحركات المحفوظة
                 </div>
-                <strong className="mt-1 block text-[10px] text-slate-200">
+                <strong className="mt-1 block text-[10px] text-nw-text">
                   {movementCount} حركة
                 </strong>
               </div>
@@ -161,18 +161,18 @@ export const ClearInventoryBalanceDialog: React.FC<
           </section>
 
           {hasReservedStock ? (
-            <section className="flex items-start gap-2 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3 text-amber-200">
+            <section className="flex items-start gap-2 rounded-2xl border border-nw-warn/30 bg-nw-warn-bg p-3 text-nw-warn">
               <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" />
               <div>
                 <strong className="font-black">لا يمكن التصفير الآن</strong>
-                <p className="mt-1 text-[10px] leading-5 text-amber-100/75">
+                <p className="mt-1 text-[10px] leading-5 text-nw-warn">
                   يوجد {product.reservedQuantity} {product.unit} محجوزاً لطلبات
                   زبائن. أكمل الطلبات أو ألغِها أولاً حتى يتحرر الحجز.
                 </p>
               </div>
             </section>
           ) : (
-            <section className="flex items-start gap-2 rounded-2xl border border-rose-500/25 bg-rose-500/10 p-3 text-rose-200">
+            <section className="flex items-start gap-2 rounded-2xl border border-nw-bad/25 bg-nw-bad-bg p-3 text-nw-bad">
               <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
               <p className="text-[10px] leading-5">
                 سيُسجّل النظام حركة طرح بقيمة{' '}
@@ -184,18 +184,18 @@ export const ClearInventoryBalanceDialog: React.FC<
           )}
 
           <label className="block space-y-1.5">
-            <span className="font-bold text-slate-300">سبب تصفير الرصيد</span>
+            <span className="font-bold text-nw-text">سبب تصفير الرصيد</span>
             <textarea
               value={reason}
               onChange={(event) => setReason(event.target.value)}
               disabled={hasReservedStock || isSubmitting}
               rows={2}
-              className="w-full resize-none rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 text-xs text-slate-100 outline-none transition focus:border-rose-500 disabled:opacity-50"
+              className="w-full resize-none rounded-xl border border-nw-border bg-nw-surface px-3 py-2.5 text-xs text-nw-text outline-none transition focus:border-nw-bad disabled:opacity-50"
             />
           </label>
 
           <label className="block space-y-1.5">
-            <span className="font-bold text-slate-300">
+            <span className="font-bold text-nw-text">
               للتأكيد اكتب رمز الصنف: {product.sku}
             </span>
             <input
@@ -204,12 +204,12 @@ export const ClearInventoryBalanceDialog: React.FC<
               disabled={hasReservedStock || !hasStock || isSubmitting}
               autoComplete="off"
               placeholder={product.sku}
-              className="w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 font-mono text-xs text-slate-100 outline-none transition focus:border-rose-500 disabled:opacity-50"
+              className="w-full rounded-xl border border-nw-border bg-nw-surface px-3 py-2.5 font-mono text-xs text-nw-text outline-none transition focus:border-nw-bad disabled:opacity-50"
             />
           </label>
 
           {!hasStock && (
-            <p className="rounded-xl border border-slate-800 bg-slate-900 p-3 text-center text-[10px] text-slate-400">
+            <p className="rounded-xl border border-nw-border bg-nw-surface p-3 text-center text-[10px] text-nw-muted">
               رصيد هذا المنتج صفر بالفعل ولا توجد كمية لحذفها.
             </p>
           )}
@@ -219,7 +219,7 @@ export const ClearInventoryBalanceDialog: React.FC<
               type="button"
               onClick={handleClear}
               disabled={!canClear}
-              className="flex items-center justify-center gap-1.5 rounded-xl bg-rose-600 py-3 font-black text-white transition hover:bg-rose-500 disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex items-center justify-center gap-1.5 rounded-xl bg-nw-bad-bg py-3 font-black text-nw-bad transition hover:bg-nw-bad-bg disabled:cursor-not-allowed disabled:opacity-40"
             >
               <Trash2 className="h-4 w-4" />
               {isSubmitting ? 'جاري التصفير...' : 'نعم، صفّر الرصيد'}
@@ -228,7 +228,7 @@ export const ClearInventoryBalanceDialog: React.FC<
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="rounded-xl border border-slate-800 bg-slate-900 py-3 font-bold text-slate-300 transition hover:bg-slate-800 disabled:opacity-50"
+              className="rounded-xl border border-nw-border bg-nw-surface py-3 font-bold text-nw-text transition hover:bg-nw-surface-2 disabled:opacity-50"
             >
               إلغاء
             </button>

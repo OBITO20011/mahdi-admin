@@ -130,13 +130,13 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
   return (
     <form onSubmit={handleSubmit} aria-busy={isSubmitting} className="space-y-4 text-xs">
       {/* Header Banner */}
-      <div className="bg-blue-950/60 border border-blue-800 p-3 rounded-2xl flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center shrink-0">
+      <div className="bg-nw-info-bg border border-nw-info p-3 rounded-2xl flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl bg-nw-info-bg text-nw-info flex items-center justify-center shrink-0">
           <ArrowLeftRight className="w-5 h-5" />
         </div>
         <div>
-          <h4 className="font-extrabold text-blue-200 text-xs">نقل كميات بين المستودعات والفروع</h4>
-          <p className="text-[10px] text-blue-300 opacity-80">
+          <h4 className="font-extrabold text-nw-info text-xs">نقل كميات بين المستودعات والفروع</h4>
+          <p className="text-[10px] text-nw-info opacity-80">
             تأكيد حركة تحويل خروج من المستودع المصدر ودخول للمستودع المستهدف مع توثيق الحركة
           </p>
         </div>
@@ -144,18 +144,18 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
 
       {/* Select Product */}
       <div className="space-y-1">
-        <label className="text-[11px] font-bold text-slate-200 block flex items-center gap-1">
-          <Package className="w-3.5 h-3.5 text-blue-400" />
+        <label className="text-[11px] font-bold text-nw-text block flex items-center gap-1">
+          <Package className="w-3.5 h-3.5 text-nw-info" />
           <span>اختر المنتج المراد تحويله *</span>
         </label>
         <div className="relative mb-2">
-          <Search className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-500" />
+          <Search className="pointer-events-none absolute right-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-nw-muted" />
           <input
             type="search"
             value={productSearch}
             onChange={(event) => setProductSearch(event.target.value)}
             placeholder="ابحث بالاسم أو SKU أو الباركود"
-            className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2.5 pl-3 pr-9 text-xs text-slate-100 outline-none focus:border-blue-500"
+            className="w-full rounded-xl border border-nw-border bg-nw-bg py-2.5 pl-3 pr-9 text-xs text-nw-text outline-none focus:border-nw-info"
           />
         </div>
         <select
@@ -165,7 +165,7 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
             selectedProductRef.current =
               stockableProducts.find((product) => product.id === e.target.value) || null;
           }}
-          className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-slate-100 text-xs font-semibold focus:outline-none focus:border-blue-500"
+          className="w-full bg-nw-bg border border-nw-border rounded-xl px-3 py-2.5 text-nw-text text-xs font-semibold focus:outline-none focus:border-nw-info"
         >
           {stockableProducts.map((p) => (
             <option key={p.id} value={p.id}>
@@ -177,21 +177,21 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
 
       {/* Selected Product Card */}
       {selectedProduct && (
-        <div className="bg-slate-950 p-3 rounded-2xl border border-slate-800 flex items-center justify-between">
+        <div className="bg-nw-bg p-3 rounded-2xl border border-nw-border flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <img
               src={selectedProduct.imageUrl}
               alt=""
-              className="w-10 h-10 rounded-lg object-cover border border-slate-800"
+              className="w-10 h-10 rounded-lg object-cover border border-nw-border"
             />
             <div>
-              <h5 className="font-bold text-slate-200 text-xs">{selectedProduct.nameAr}</h5>
-              <p className="text-[10px] text-slate-400 font-mono">SKU: {selectedProduct.sku}</p>
+              <h5 className="font-bold text-nw-text text-xs">{selectedProduct.nameAr}</h5>
+              <p className="text-[10px] text-nw-muted font-mono">SKU: {selectedProduct.sku}</p>
             </div>
           </div>
           <div className="text-left">
-            <span className="text-[10px] text-slate-400 block">المخزون المتوفر</span>
-            <strong className="text-emerald-400 text-xs font-extrabold block">
+            <span className="text-[10px] text-nw-muted block">المخزون المتوفر</span>
+            <strong className="text-nw-ok text-xs font-extrabold block">
               {formatProductInventory(selectedProduct).fullFormatted}
             </strong>
           </div>
@@ -201,14 +201,14 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
       {/* From & To Warehouse Selectors */}
       <div className="grid grid-cols-2 gap-2.5">
         <div className="space-y-1">
-          <label className="text-[11px] font-bold text-slate-200 block flex items-center gap-1">
-            <WarehouseIcon className="w-3.5 h-3.5 text-rose-400" />
+          <label className="text-[11px] font-bold text-nw-text block flex items-center gap-1">
+            <WarehouseIcon className="w-3.5 h-3.5 text-nw-bad" />
             <span>من مستودع (المصدر) *</span>
           </label>
           <select
             value={fromWarehouseId}
             onChange={(e) => setFromWarehouseId(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-slate-100 text-xs focus:outline-none focus:border-rose-500"
+            className="w-full bg-nw-bg border border-nw-border rounded-xl px-2.5 py-2 text-nw-text text-xs focus:outline-none focus:border-nw-bad"
           >
             {warehouses.map((w) => (
               <option key={w.id} value={w.id}>
@@ -219,14 +219,14 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
         </div>
 
         <div className="space-y-1">
-          <label className="text-[11px] font-bold text-slate-200 block flex items-center gap-1">
-            <WarehouseIcon className="w-3.5 h-3.5 text-emerald-400" />
+          <label className="text-[11px] font-bold text-nw-text block flex items-center gap-1">
+            <WarehouseIcon className="w-3.5 h-3.5 text-nw-ok" />
             <span>إلى مستودع (الوجهة) *</span>
           </label>
           <select
             value={toWarehouseId}
             onChange={(e) => setToWarehouseId(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-slate-100 text-xs focus:outline-none focus:border-emerald-500"
+            className="w-full bg-nw-bg border border-nw-border rounded-xl px-2.5 py-2 text-nw-text text-xs focus:outline-none focus:border-nw-ok"
           >
             {warehouses.map((w) => (
               <option key={w.id} value={w.id}>
@@ -239,14 +239,14 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
 
       {/* Transfer Quantity */}
       <div className="space-y-1">
-        <label className="text-[11px] font-bold text-slate-200 block">
+        <label className="text-[11px] font-bold text-nw-text block">
           الكمية المراد نقلها ({selectedProduct?.unit || 'قطعة'}) *
         </label>
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => setTransferQty((prev) => Math.max(1, prev - 1))}
-            className="w-10 h-10 bg-slate-900 border border-slate-800 hover:bg-slate-800 rounded-xl font-bold text-slate-200 text-base"
+            className="w-10 h-10 bg-nw-surface border border-nw-border hover:bg-nw-surface-2 rounded-xl font-bold text-nw-text text-base"
           >
             -
           </button>
@@ -256,12 +256,12 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
             required
             value={transferQty}
             onChange={(e) => setTransferQty(Math.max(1, parseInt(e.target.value) || 1))}
-            className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-center text-sm font-extrabold text-blue-400 focus:outline-none focus:border-blue-500"
+            className="flex-1 bg-nw-bg border border-nw-border rounded-xl px-3 py-2.5 text-center text-sm font-extrabold text-nw-info focus:outline-none focus:border-nw-info"
           />
           <button
             type="button"
             onClick={() => setTransferQty((prev) => prev + 1)}
-            className="w-10 h-10 bg-slate-900 border border-slate-800 hover:bg-slate-800 rounded-xl font-bold text-slate-200 text-base"
+            className="w-10 h-10 bg-nw-surface border border-nw-border hover:bg-nw-surface-2 rounded-xl font-bold text-nw-text text-base"
           >
             +
           </button>
@@ -270,22 +270,22 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
 
       {/* Reason */}
       <div className="space-y-1">
-        <label className="text-[11px] font-bold text-slate-200 block">سبب النقل والتوزيع:</label>
+        <label className="text-[11px] font-bold text-nw-text block">سبب النقل والتوزيع:</label>
         <input
           type="text"
           value={reason}
           onChange={(e) => setReason(e.target.value)}
           placeholder="مثال: تغطية نقص مخزون الفرع الثاني..."
-          className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100 text-xs focus:outline-none focus:border-blue-500"
+          className="w-full bg-nw-bg border border-nw-border rounded-xl px-3 py-2 text-nw-text text-xs focus:outline-none focus:border-nw-info"
         />
       </div>
 
       {/* Actions */}
-      <div className="flex gap-2 pt-3 border-t border-slate-800">
+      <div className="flex gap-2 pt-3 border-t border-nw-border">
         <button
           type="submit"
           disabled={isSubmitting}
-          className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5 shadow-lg shadow-blue-600/20"
+          className="flex-1 bg-nw-primary hover:bg-nw-primary text-nw-on-primary font-bold py-3 rounded-xl text-xs transition active:scale-95 flex items-center justify-center gap-1.5 shadow-lg shadow-nw-info/20"
         >
           {isProductsLoading && <option value="">جارٍ تحميل المنتجات…</option>}
           {isSubmitting ? (
@@ -300,7 +300,7 @@ export const WarehouseTransferModal: React.FC<WarehouseTransferModalProps> = ({
           type="button"
           onClick={onClose}
           disabled={isSubmitting}
-          className="px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 rounded-xl text-xs transition"
+          className="px-4 bg-nw-surface-2 hover:bg-nw-track text-nw-text font-bold py-3 rounded-xl text-xs transition"
         >
           إلغاء
         </button>

@@ -82,7 +82,7 @@ const BottomNavigationHarness: React.FC = () => {
     <div
       dir="rtl"
       data-ui="admin-screen"
-      className="relative mx-auto flex h-[100dvh] w-full max-w-4xl flex-col overflow-hidden bg-slate-950 text-slate-100"
+      className="relative mx-auto flex h-[100dvh] w-full max-w-4xl flex-col overflow-hidden bg-nw-bg text-nw-text"
     >
       <main data-navigation-content className="min-h-0 flex-1 overflow-y-auto">
         <output data-testid="active-tab" className="sr-only">
@@ -91,7 +91,7 @@ const BottomNavigationHarness: React.FC = () => {
         {activeTab === 'more' ? (
           <MoreMenuView />
         ) : (
-          <div className="flex h-full items-center justify-center text-sm text-slate-300">
+          <div className="flex h-full items-center justify-center text-sm text-nw-muted">
             الوجهة الحالية: {activeTab}
           </div>
         )}

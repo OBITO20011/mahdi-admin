@@ -68,7 +68,7 @@ export const BarcodeCameraCaptureModal: React.FC<
 
   return (
     <div
-      className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/85 p-3 backdrop-blur-md"
+      className="fixed inset-0 z-[80] flex items-center justify-center bg-nw-side/80 p-3 backdrop-blur-md"
       role="dialog"
       ref={dialogRef as React.RefObject<HTMLDivElement>}
       tabIndex={-1}
@@ -76,17 +76,17 @@ export const BarcodeCameraCaptureModal: React.FC<
       aria-labelledby={`${regionId}-title`}
       dir="rtl"
     >
-      <div className="w-full max-w-md overflow-hidden rounded-3xl border border-slate-700 bg-slate-900 shadow-2xl">
-        <div className="flex items-center justify-between border-b border-slate-800 p-4">
+      <div className="w-full max-w-md overflow-hidden rounded-3xl border border-nw-border bg-nw-surface shadow-2xl">
+        <div className="flex items-center justify-between border-b border-nw-border p-4">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-500/35 bg-emerald-500/15 text-emerald-300">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-nw-ok/35 bg-nw-ok-bg text-nw-ok">
               <Camera className="h-5 w-5" />
             </span>
             <div>
-              <h3 id={`${regionId}-title`} className="text-sm font-black text-white">
+              <h3 id={`${regionId}-title`} className="text-sm font-black text-nw-text">
                 مسح باركود المنتج
               </h3>
-              <p className="mt-0.5 text-[10px] text-slate-400">
+              <p className="mt-0.5 text-[10px] text-nw-muted">
                 تُغلق الكاميرا تلقائيًا بعد قراءة باركود واحد.
               </p>
             </div>
@@ -96,7 +96,7 @@ export const BarcodeCameraCaptureModal: React.FC<
             type="button"
             onClick={onClose}
             aria-label="إلغاء مسح الباركود وإغلاق الكاميرا"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-700 bg-slate-800 text-slate-300 transition hover:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-nw-border bg-nw-surface-2 text-nw-text transition hover:text-nw-text"
           >
             <X className="h-4 w-4" />
           </button>
@@ -104,15 +104,15 @@ export const BarcodeCameraCaptureModal: React.FC<
 
         <div className="relative flex min-h-[280px] items-center justify-center overflow-hidden bg-black">
           {cameraError ? (
-            <div className="max-w-xs space-y-4 p-6 text-center">
-              <AlertCircle className="mx-auto h-10 w-10 text-rose-400" />
-              <p role="alert" className="text-xs font-bold leading-6 text-rose-200">
+            <div className="max-w-xs space-y-4 rounded-2xl bg-nw-bad-bg p-6 text-center">
+              <AlertCircle className="mx-auto h-10 w-10 text-nw-bad" />
+              <p role="alert" className="text-xs font-bold leading-6 text-nw-bad">
                 {cameraError}
               </p>
               <button
                 type="button"
                 onClick={() => setAttempt((value) => value + 1)}
-                className="mx-auto flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-4 py-2 text-xs font-black text-slate-200"
+                className="mx-auto flex items-center gap-2 rounded-xl border border-nw-border bg-nw-surface-2 px-4 py-2 text-xs font-black text-nw-text"
               >
                 <RefreshCw className="h-3.5 w-3.5" />
                 إعادة المحاولة
@@ -122,20 +122,20 @@ export const BarcodeCameraCaptureModal: React.FC<
             <>
               <div id={regionId} className="h-full min-h-[280px] w-full" />
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-6">
-                <div className="h-36 w-64 rounded-2xl border-2 border-dashed border-emerald-400/80 shadow-[0_0_22px_rgba(16,185,129,0.3)]" />
+                <div className="h-36 w-64 rounded-2xl border-2 border-dashed border-nw-ok/80 shadow-lg shadow-nw-ok/30" />
               </div>
             </>
           )}
         </div>
 
-        <div className="border-t border-slate-800 p-4">
-          <p className="mb-3 text-center text-[10px] font-bold text-slate-400">
+        <div className="border-t border-nw-border p-4">
+          <p className="mb-3 text-center text-[10px] font-bold text-nw-muted">
             لا تُحفظ صورة أو فيديو؛ تُستخدم فقط قيمة الباركود المقروءة.
           </p>
           <button
             type="button"
             onClick={onClose}
-            className="w-full rounded-2xl border border-slate-700 bg-slate-800 py-2.5 text-xs font-black text-slate-200"
+            className="w-full rounded-2xl border border-nw-border bg-nw-surface-2 py-2.5 text-xs font-black text-nw-text"
           >
             إلغاء والمتابعة بالإدخال اليدوي
           </button>

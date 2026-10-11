@@ -21,15 +21,16 @@ const adminToast = readFileSync(
   'utf8'
 );
 
-test('light theme exposes a calm, high-contrast surface palette', () => {
-  assert.match(css, /--admin-canvas:\s*#e9eef4/);
-  assert.match(css, /--admin-screen:\s*#f7f8fa/);
-  assert.match(css, /--admin-surface:\s*#fdfdfc/);
-  assert.match(css, /--admin-text:\s*#182235/);
-  assert.match(css, /--admin-primary-soft:\s*#eaf2ff/);
-  assert.match(css, /--admin-success-soft:\s*#ecfdf3/);
-  assert.match(css, /--admin-shadow-md:/);
-  assert.match(css, /input:focus[\s\S]*0 0 0 3px/);
+test('both themes expose the shared calm, high-contrast Package F palette', () => {
+  const tokens=readFileSync('src/styles/design-tokens.css','utf8');
+  assert.match(tokens,/--nw-bg:\s*#f4f6f9/i);
+  assert.match(tokens,/--nw-surface:\s*#ffffff/i);
+  assert.match(tokens,/--nw-text:\s*#0f1b2d/i);
+  assert.match(tokens,/--nw-info-bg:\s*#e3ecfd/i);
+  assert.match(tokens,/--nw-ok-bg:\s*#e3f4ea/i);
+  assert.match(css,/:root\s*\{\s*color-scheme:\s*light/);
+  assert.match(css,/html.theme-dark\s*\{\s*color-scheme:\s*dark/);
+  assert.match(readFileSync('src/components/ui/form-fields.css','utf8'),/:focus[\s\S]*0 0 0 2px var\(--nw-primary\)/);
 });
 
 test('Package F Home uses shared token surfaces without legacy contrast overrides', () => {
@@ -44,8 +45,8 @@ test('Package F Home uses shared token surfaces without legacy contrast override
 });
 
 test('light theme keeps modal backdrops visually separated', () => {
-  assert.match(css, /bg-slate-950\/80/);
-  assert.match(css, /rgb\(15 23 42 \/ 0\.52\)/);
+  assert.match(readFileSync('src/components/common/Modal.tsx','utf8'),/bg-nw-side\/80/);
+  assert.doesNotMatch(css,/\[class~=/);
 });
 
 test('light theme has dedicated low-glare navigation, FAB and toast treatments', () => {
@@ -55,13 +56,15 @@ test('light theme has dedicated low-glare navigation, FAB and toast treatments',
   assert.match(bottomTabs, /bg-nw-surface/);
   assert.match(bottomTabs, /text-nw-primary/);
   assert.match(bottomTabs, /bg-nw-accent/);
-  assert.match(css, /\[data-ui="admin-toast"\]\[data-tone="success"\]/);
+  assert.match(adminToast,/border-nw-ok bg-nw-ok-bg text-nw-ok/);
+  assert.match(adminToast,/border-nw-info bg-nw-info-bg text-nw-info/);
+  assert.match(adminToast,/border-nw-bad bg-nw-bad-bg text-nw-bad/);
   // Products now owns shared token surfaces; no forced light-only gradient.
   assert.doesNotMatch(css, /html.theme-light \[data-ui="products-hero"\]/);
   assert.match(products, /<Card padded=\{false\} data-ui="products-hero"/);
   assert.match(products, /bg-nw-bg/);
   assert.match(products, /<PageHeader title="دليل المنتجات"/);
-  assert.match(css, /--admin-solid-accent:/);
+  assert.doesNotMatch(css, /--admin-solid-accent:/);
   assert.match(products, /data-ui="products-hero"/);
 });
 

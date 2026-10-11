@@ -1,5 +1,50 @@
 # Phase status
 
+2026-10-11 owner ACCEPTS local lid-standby interruption as environment stop,
+NOT test defect or load. No further full local quality rerun authorized/needed:
+completed other gates plus current/baseline40/40 stand;exact Linux CI is final.
+Deliver separate motion-helper commit then batch7,Gitleaks0 before each,push,
+all exact-SHA CI green,checkpoint and visual STOP. No product repair/new phase.
+
+2026-10-11 WebKit diagnosis COMPLETE:current About10/10(65.779s),SideNav10/10
+(39.342s);clean1272a786 About10/10(119.895s),SideNav10/10(37.562s),same2workers/
+retries0/config. Kernel-Power proves lid standby157.539s exactly across viewport/
+newPage stalls;NOT CPU-load diagnosis. No repair.33256 absent,4175 free after
+runs. Detailed remaining-screens report. Owner confirmation requested for
+standby delivery exception;no commit/push/newCI/full-quality PASS claim.
+
+2026-10-11 final batch7 quality BLOCKED:884Admin/189Customer units and builds/
+SEO/isolation PASS;browser has two WebKit90s timeouts:About navigation at
+customer-accessibility.spec.ts:33 and SideNav page-fixture setup for spec:50.
+Both precede accessibility analysis;root cause unproven. Runner stopped after
+failure evidence;aggregate exit1 is NOT a completed browser-suite result.
+Traces/log preserved externally;no owned processes/listeners4173–4176 remain.
+No commit/push/newCI. Owner review before diagnosis/rerun;no product repair.
+
+2026-10-11 latest owner:5s fail-closed native-motion frame deadline and separate
+test-tool commit before batch7. Updated controls/Orders repeat20:200/200 PASS;
+Orders20/20 each Chromium/WebKit,max successful motion wait308ms. Prior complete
+quality exit0:884Admin/189Customer/673browser+59skips. Final quality after deadline
+addition still required,Gitleaks0/both commits/exactCI then visual STOP.
+No Production/deploy/DB/CI/deferred-task changes;001–137 immutable.
+
+2026-10-11 batch7 bounded continuation:frame-state motion gate implemented;
+finite pending/running/paused motion still blocks axe;Infinity remains excluded
+from waiting only. Original Orders Chromium repeat20:14PASS/6TIMEOUT;after repair
+20/20 on each browser. Combined controls/Orders repeat20:240/240 PASS,retries0.
+Static39/39 and full23source+1fixture ASTs PASS. First control run9PASS/1FAIL
+was localhost React-module502 before render;preserved trace,no product repair.
+Detached final full quality/Gitleaks0/commit/exactCI still required before visual
+STOP.001–137/DB/CI/customer-web unchanged;no Production/deploy/new phase.
+
+2026-10-11 owner/Claude accepts batch6 dd014f5 and1272a78. Only batch7:
+retire remaining legacy fixed colours and light class-compatibility rules.
+Inventory1197 lexical utilities/24files and43CSS blocks;no old-family exceptions.
+Shared motion helper already ignores infinite pulses for WAIT,not axe analysis.
+23 full non-presentation ASTs/recursive colour guard precede all harnesses,
+detached full quality/Gitleaks0/commit/exactCI and visual STOP.001–137 immutable;
+no business/auth/DB/CI/Production/deploy/Phase7 or deferred types/checkout work.
+
 2026-10-11 correction local gates COMPLETE:shared finite native-motion axe gate
 across13old specs,old assertions/tags/selectors literally preserved. Focused
 controls6/6,admin24/24,static/auth16/16,continuity7/7. Complete corrected quality

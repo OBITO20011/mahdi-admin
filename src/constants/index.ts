@@ -25,20 +25,20 @@ export const APP_NAME = 'Nawasrah Business Manager';
 export const APP_NAME_AR = 'نواصرة للمحاسبة والإدارة';
 
 export const COLORS = {
-  navyDark: '#002B66',
-  navyPrimary: '#0F2C59',
-  bluePrimary: '#1055C9',
-  blueLight: '#EFF6FF',
-  greenSuccess: '#10B981',
-  greenLight: '#ECFDF5',
-  amberWarning: '#F59E0B',
-  amberLight: '#FEF3C7',
-  redDanger: '#EF4444',
-  redLight: '#FEF2F2',
-  slateDark: '#1E293B',
-  slateMuted: '#64748B',
-  slateLight: '#F8FAFC',
-  border: '#E2E8F0',
+  navyDark: 'var(--nw-side)',
+  navyPrimary: 'var(--nw-primary)',
+  bluePrimary: 'var(--nw-info)',
+  blueLight: 'var(--nw-info-bg)',
+  greenSuccess: 'var(--nw-ok)',
+  greenLight: 'var(--nw-ok-bg)',
+  amberWarning: 'var(--nw-warn)',
+  amberLight: 'var(--nw-warn-bg)',
+  redDanger: 'var(--nw-bad)',
+  redLight: 'var(--nw-bad-bg)',
+  slateDark: 'var(--nw-surface-2)',
+  slateMuted: 'var(--nw-muted)',
+  slateLight: 'var(--nw-surface)',
+  border: 'var(--nw-border)',
 };
 
 export const JORDAN_GOVERNORATES = [

@@ -55,11 +55,11 @@ test.describe('شريط تنقل الإدارة السفلي (Package F)', () =>
     await expect(page.locator('html')).toHaveClass(/theme-light/);
     await expect(page.locator('[data-ui="admin-screen"]')).toHaveCSS(
       'background-color',
-      'rgb(247, 248, 250)',
+      'rgb(244, 246, 249)',
     );
     await expect(page.locator('[data-ui="admin-toast"]')).toHaveCSS(
       'color',
-      'rgb(22, 101, 52)',
+      'rgb(15, 107, 61)',
     );
     await expect(page.locator('.admin-bottom-tabs')).toHaveCSS('background-color', 'rgb(255, 255, 255)');
     await expect(page.locator('[data-bottom-tab="more"]')).toHaveCSS('color', 'rgb(19, 41, 75)');
@@ -81,12 +81,12 @@ test.describe('شريط تنقل الإدارة السفلي (Package F)', () =>
     await expect(page.locator('html')).toHaveClass(/theme-dark/);
     await expect(page.locator('[data-ui="admin-screen"]')).toHaveCSS(
       'background-color',
-      'rgb(2, 6, 23)',
+      'rgb(11, 18, 32)',
     );
     const darkToastColor = await page
       .locator('[data-ui="admin-toast"]')
       .evaluate((element) => getComputedStyle(element).color);
-    expect(darkToastColor).not.toBe('rgb(22, 101, 52)');
+    expect(darkToastColor).toBe('rgb(93, 211, 158)');
     await expect(page.locator('.admin-bottom-tabs')).toHaveCSS('background-color', 'rgb(18, 27, 46)');
     await expect(page.locator('[data-bottom-tab="more"]')).toHaveCSS('color', 'rgb(240, 138, 60)');
     await expectNoSeriousAccessibilityViolations(page);

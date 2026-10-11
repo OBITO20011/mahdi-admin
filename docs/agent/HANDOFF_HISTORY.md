@@ -252,3 +252,66 @@ isolation PASS;external/Production escaped0.001–135/services/stores/shell/
 roles/workflow unchanged. Final Gitleaks0,Cash commit,push both commits and
 exact-SHA CI remain before official visual-review checkpoint. No next screen,
 Production/deploy or Phase7.
+
+## 2026-10-11 — owner resumes Package F batch7
+
+Batch6/1272a786 accepted by owner/Claude;only legacy palette/compatibility
+retirement authorized. Preflight/resume PASS;single writer,no owned processes.
+Inventory and full23file non-presentation AST/recursive guard recorded in
+BATCH7_COLOR_INVENTORY.md and REMAINING_SCREENS_MIGRATION.md. One focused
+continuity check caught task JSON over4096bytes after file-list checkpoint;
+current-step task was shortened,assertion retained. No Product/DB/CI policy
+change or types/checkout investigation. Detached quality thenGitleaks0/exactCI
+and visual STOP required;no Production/deploy/Phase7.
+
+Batch7 delivery blocked before commit:static37/37 and full23source+1fixture ASTs
+PASS;quality883/189unit PASS,662browserPASS/59skips/7FAIL. Corrected navigation
+fixture19PASS/2skips. Orders Chromium dark1440 original repeat20:14PASS/6TIMEOUT.
+Telemetry proves native150ms colour transition finished while finished promise
+stays pending. Telemetry removed/helper unchanged;evidence/report preserved.
+No owned processes;owner review needed for bounded motion-gate correction.
+No commit/push/newCI/Production/deploy;no types/checkout/Phase7 started.
+
+2026-10-11 owner says continue:bounded test-only native-motion correction now
+observes actual frames/state,not a stale finished promise. Users paused control
+keeps all assertions;new permanent stale-promise control added. Original Orders
+repeat20 14PASS/6TIMEOUT;after20/20 each Chromium/WebKit. Combined controls and
+Orders240/240 PASS,retries0. Preliminary control failure traced to localhost
+React-module502 before render,not axe. Static39/39/full23source+1fixture ASTs
+PASS. Next:detached full quality thenGitleaks0/commit/push/exactCI and visual STOP.
+No business,DB,CI,Production/deploy or deferred task changes.
+Latest owner addition:5s explicit frame deadline with stuck-animation diagnostics,
+separate helper commit before batch7. Updated controls+Orders repeat20:200/200
+PASS,Orders20/20 each,max successful motion wait308ms. Prior full quality exit0
+884/189units,673browser+59existing skips. Repeat final quality after this addition,
+then staged Gitleaks0 before each commit,push/exactCI and visual STOP.
+
+2026-10-11 final bounded-helper quality BLOCKED:units884/189 and builds/SEO/
+isolation PASS;WebKit About goto:33 and SideNav:50 page fixture timed out90s
+before axe/test body. No root cause established. Owned runner stopped after
+preserving both traces/contexts;aggregate exit1,not a full suite result.
+External evidence:nawasrah-batch7-quality-bounded-293c7bfa648643cc9f83c2dc3c0b623f
+in user Local/Temp. No remaining owned processes/listeners4173–4176,no commit/
+push/newCI/customer repair. Owner review before further diagnosis/rerun.
+
+2026-10-11 owner-authorized diagnosis only:About/SideNav current10/10 each,
+clean detached1272a78610/10 each,2workers/retries0/same config. Elapsed current
+65.779/39.342s,baseline119.895/37.562s. Linked-dependency baseline excluded due
+font serving restriction;fresh npm-ci worktree used. Kernel-Power506/507 shows
+lid standby12:53:59.177–12:56:36.715Z,157.539s;About viewport157.006s and SideNav
+newPage fixture156.781s coincide. No product/test/timeout repair. Exact historical
+process counts not recorded;33256 now absent. No owned listeners/processes.
+Delivery exception confirmation requested:actual cause standby,not load.
+No commit/push/CI/Production/deploy/deferred work performed.
+
+2026-10-11 owner approves delivery exception:Windows lid standby157.539s is a
+LOCAL ENVIRONMENT INTERRUPTION,not an automated-test defect or load failure.
+System506/507 and viewport/newPage traces plus current/baseline40/40 accepted.
+Do not rerun full local quality;other completed gates remain valid. Separate
+motion-helper commit then batch7,Gitleaks0 per commit,push,all exact Linux CI
+required,checkpoint then visual STOP. No source/customer repair or CI change.
+
+Motion helper delivered independently as ace8fe7 (3test-only files),staged
+Gitleaks exit0. Native frame-state5s fail-closed diagnostics/Infinity exclusion
+and unmodified axe retained;controls200/200,Orders20/20 per browser,max308ms.
+Batch7 palette/guard/docs commit follows;exact Linux CI still pending.

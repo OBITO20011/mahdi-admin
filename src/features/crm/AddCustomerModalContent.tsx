@@ -68,24 +68,24 @@ export const AddCustomerModalContent: React.FC<
 
   return (
     <form aria-busy={saving} onSubmit={handleSubmit} className="space-y-3 text-xs">
-      <div className="flex items-start gap-2 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-3">
-        <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />
+      <div className="flex items-start gap-2 rounded-2xl border border-nw-ok/20 bg-nw-ok-bg p-3">
+        <BadgeCheck className="mt-0.5 h-4 w-4 shrink-0 text-nw-ok" />
         <div>
-          <p className="font-extrabold text-emerald-300">عميل جملة مسجل</p>
-          <p className="mt-0.5 text-[10px] leading-5 text-slate-400">
+          <p className="font-extrabold text-nw-ok">عميل جملة مسجل</p>
+          <p className="mt-0.5 text-[10px] leading-5 text-nw-muted">
             سيظهر في نقطة البيع، وسجل المشتريات، والحسابات المدينة.
           </p>
         </div>
       </div>
 
       {error && (
-        <div className="rounded-xl border border-rose-800 bg-rose-950/60 p-3 text-rose-300">
+        <div className="rounded-xl border border-nw-bad bg-nw-bad-bg p-3 text-nw-bad">
           {error}
         </div>
       )}
 
       <div>
-        <label className="mb-1 block font-bold text-slate-300">
+        <label className="mb-1 block font-bold text-nw-text">
           اسم العميل أو المحل *
         </label>
         <input
@@ -94,12 +94,12 @@ export const AddCustomerModalContent: React.FC<
           value={fullName}
           onChange={(event) => setFullName(event.target.value)}
           placeholder="مثال: سوبرماركت الرمثا"
-          className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-white focus:border-emerald-500 focus:outline-none"
+          className="w-full rounded-xl border border-nw-border bg-nw-bg p-2.5 text-nw-text focus:border-nw-ok focus:outline-none"
         />
       </div>
 
       <div>
-        <label className="mb-1 block font-bold text-slate-300">
+        <label className="mb-1 block font-bold text-nw-text">
           رقم الهاتف *
         </label>
         <input
@@ -110,12 +110,12 @@ export const AddCustomerModalContent: React.FC<
           value={phone}
           onChange={(event) => setPhone(event.target.value)}
           placeholder="079XXXXXXX"
-          className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-left text-white focus:border-emerald-500 focus:outline-none"
+          className="w-full rounded-xl border border-nw-border bg-nw-bg p-2.5 text-left text-nw-text focus:border-nw-ok focus:outline-none"
         />
       </div>
 
       <div>
-        <label className="mb-1 block font-bold text-slate-300">
+        <label className="mb-1 block font-bold text-nw-text">
           رقم الواتساب (اختياري)
         </label>
         <input
@@ -125,16 +125,16 @@ export const AddCustomerModalContent: React.FC<
           value={whatsapp}
           onChange={(event) => setWhatsapp(event.target.value)}
           placeholder="اتركه فارغاً إذا كان نفس رقم الهاتف"
-          className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-left text-white focus:border-emerald-500 focus:outline-none"
+          className="w-full rounded-xl border border-nw-border bg-nw-bg p-2.5 text-left text-nw-text focus:border-nw-ok focus:outline-none"
         />
       </div>
 
       <div>
-        <label className="mb-1 block font-bold text-slate-300">المحافظة</label>
+        <label className="mb-1 block font-bold text-nw-text">المحافظة</label>
         <select
           value={governorate}
           onChange={(event) => setGovernorate(event.target.value)}
-          className="w-full rounded-xl border border-slate-700 bg-slate-950 p-2.5 text-white focus:border-emerald-500 focus:outline-none"
+          className="w-full rounded-xl border border-nw-border bg-nw-bg p-2.5 text-nw-text focus:border-nw-ok focus:outline-none"
         >
           <option value="">غير محددة</option>
           {JORDAN_GOVERNORATES.map((item) => (
@@ -148,7 +148,7 @@ export const AddCustomerModalContent: React.FC<
       <button
         type="submit"
         disabled={saving}
-        className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 py-3 font-bold text-white shadow transition hover:bg-emerald-500 disabled:opacity-60"
+        className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-nw-ok-bg py-3 font-bold text-nw-ok shadow transition hover:bg-nw-ok-bg disabled:opacity-60"
       >
         {saving && <Loader2 className="h-4 w-4 animate-spin" />}
         {saving ? 'جاري الحفظ...' : 'حفظ واختيار العميل'}

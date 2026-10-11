@@ -50,40 +50,40 @@ export const SmartLowStockAlertBar: React.FC<SmartLowStockAlertBarProps> = ({
   return (
     <div
       dir="rtl"
-      className="bg-gradient-to-r from-amber-950/90 via-slate-900 to-rose-950/90 border border-amber-600/50 rounded-2xl p-3.5 sm:p-4 shadow-xl relative overflow-hidden transition-all duration-300"
+      className="bg-nw-surface-2 from-nw-warn-bg via-nw-border to-nw-bad-bg border border-nw-warn/50 rounded-2xl p-3.5 sm:p-4 shadow-xl relative overflow-hidden transition-all duration-300"
     >
       {/* Background glow effects */}
-      <div className="absolute -top-12 -right-12 w-36 h-36 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />
-      <div className="absolute -bottom-12 -left-12 w-36 h-36 bg-rose-500/10 rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute -top-12 -right-12 w-36 h-36 bg-nw-warn-bg rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute -bottom-12 -left-12 w-36 h-36 bg-nw-bad-bg rounded-full blur-2xl pointer-events-none" />
 
       {/* Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 relative z-10">
         <div className="flex items-start sm:items-center gap-3">
           <div className="relative shrink-0 mt-0.5 sm:mt-0">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center shadow-inner">
+            <div className="w-10 h-10 rounded-xl bg-nw-warn-bg border border-nw-warn/40 text-nw-warn flex items-center justify-center shadow-inner">
               <AlertTriangle className="w-5 h-5 animate-pulse" />
             </div>
-            <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-rose-500 rounded-full border-2 border-slate-900 animate-ping" />
-            <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-rose-500 rounded-full border-2 border-slate-900" />
+            <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-nw-bad-bg rounded-full border-2 border-nw-border animate-ping" />
+            <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-nw-bad-bg rounded-full border-2 border-nw-border" />
           </div>
 
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="text-xs sm:text-sm font-extrabold text-white flex items-center gap-1.5">
+              <h3 className="text-xs sm:text-sm font-extrabold text-nw-text flex items-center gap-1.5">
                 <span>تنبيه ذكي: نواقص واقتراب نفاذ المخزون</span>
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                <Sparkles className="w-3.5 h-3.5 text-nw-warn" />
               </h3>
 
               {/* Badges Count */}
               <div className="flex items-center gap-1.5">
                 {outOfStockItems.length > 0 && (
-                  <span className="bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[10px] font-extrabold px-2 py-0.5 rounded-full flex items-center gap-1">
+                  <span className="bg-nw-bad-bg text-nw-bad border border-nw-bad/40 text-[10px] font-extrabold px-2 py-0.5 rounded-full flex items-center gap-1">
                     <PackageX className="w-3 h-3" />
                     <span>{outOfStockItems.length} نفذت بالكامل</span>
                   </span>
                 )}
                 {lowStockItems.length > 0 && (
-                  <span className="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-extrabold px-2 py-0.5 rounded-full flex items-center gap-1">
+                  <span className="bg-nw-warn-bg text-nw-warn border border-nw-warn/40 text-[10px] font-extrabold px-2 py-0.5 rounded-full flex items-center gap-1">
                     <Zap className="w-3 h-3" />
                     <span>{lowStockItems.length} حرجة جداً</span>
                   </span>
@@ -91,8 +91,8 @@ export const SmartLowStockAlertBar: React.FC<SmartLowStockAlertBarProps> = ({
               </div>
             </div>
 
-            <p className="text-[11px] text-amber-200/80 mt-0.5">
-              هناك <strong className="text-amber-300 font-bold">{alerts.length} أصناف</strong> تتطلب إعادة التوريد فوراً لتجنب توقف المبيعات.
+            <p className="text-[11px] text-nw-warn mt-0.5">
+              هناك <strong className="text-nw-warn font-bold">{alerts.length} أصناف</strong> تتطلب إعادة التوريد فوراً لتجنب توقف المبيعات.
             </p>
           </div>
         </div>
@@ -101,7 +101,7 @@ export const SmartLowStockAlertBar: React.FC<SmartLowStockAlertBarProps> = ({
         <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
           <button
             onClick={() => onReceiveGoods?.()}
-            className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs px-3.5 py-1.5 rounded-xl shadow-lg transition active:scale-95 flex items-center gap-1.5"
+            className="bg-nw-surface-2 from-nw-warn-bg to-nw-warn-bg hover:from-nw-warn-bg hover:to-nw-warn-bg text-nw-text font-black text-xs px-3.5 py-1.5 rounded-xl shadow-lg transition active:scale-95 flex items-center gap-1.5"
           >
             <PackagePlus className="w-4 h-4" />
             <span>طلب توريد سريع</span>
@@ -109,7 +109,7 @@ export const SmartLowStockAlertBar: React.FC<SmartLowStockAlertBarProps> = ({
 
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="bg-slate-800/80 hover:bg-slate-700 text-slate-200 p-1.5 rounded-xl border border-slate-700 transition"
+            className="bg-nw-surface-2 hover:bg-nw-track text-nw-text p-1.5 rounded-xl border border-nw-border transition"
             title={isExpanded ? 'إخفاء التفاصيل' : 'عرض التفاصيل'}
           >
             {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -117,7 +117,7 @@ export const SmartLowStockAlertBar: React.FC<SmartLowStockAlertBarProps> = ({
 
           <button
             onClick={() => setDismissed(true)}
-            className="bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-slate-200 p-1.5 rounded-xl border border-slate-700 transition"
+            className="bg-nw-surface-2 hover:bg-nw-track text-nw-muted hover:text-nw-text p-1.5 rounded-xl border border-nw-border transition"
             title="تجاهل المؤقت"
           >
             <X className="w-4 h-4" />
@@ -127,7 +127,7 @@ export const SmartLowStockAlertBar: React.FC<SmartLowStockAlertBarProps> = ({
 
       {/* Expanded Details Section */}
       {isExpanded && (
-        <div className="mt-3.5 pt-3 border-t border-amber-500/20 space-y-3 relative z-10">
+        <div className="mt-3.5 pt-3 border-t border-nw-warn/20 space-y-3 relative z-10">
           {/* Filter Pills & Navigation */}
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <div className="flex items-center gap-1.5">
@@ -135,8 +135,8 @@ export const SmartLowStockAlertBar: React.FC<SmartLowStockAlertBarProps> = ({
                 onClick={() => setFilter('all')}
                 className={`text-[10px] font-bold px-2.5 py-1 rounded-lg border transition ${
                   filter === 'all'
-                    ? 'bg-amber-500 text-slate-950 border-amber-400 font-extrabold'
-                    : 'bg-slate-900/80 text-slate-300 border-slate-800 hover:border-slate-700'
+                    ? 'bg-nw-warn-bg text-nw-text border-nw-warn font-extrabold'
+                    : 'bg-nw-surface text-nw-text border-nw-border hover:border-nw-border'
                 }`}
               >
                 الكل ({alerts.length})
@@ -146,8 +146,8 @@ export const SmartLowStockAlertBar: React.FC<SmartLowStockAlertBarProps> = ({
                   onClick={() => setFilter('out_of_stock')}
                   className={`text-[10px] font-bold px-2.5 py-1 rounded-lg border transition ${
                     filter === 'out_of_stock'
-                      ? 'bg-rose-600 text-white border-rose-500 font-extrabold'
-                      : 'bg-slate-900/80 text-rose-300 border-rose-950 hover:border-rose-800'
+                      ? 'bg-nw-bad-bg text-nw-bad border-nw-bad font-extrabold'
+                      : 'bg-nw-surface text-nw-bad border-nw-bad hover:border-nw-bad'
                   }`}
                 >
                   نفذت الكمية ({outOfStockItems.length})
@@ -158,8 +158,8 @@ export const SmartLowStockAlertBar: React.FC<SmartLowStockAlertBarProps> = ({
                   onClick={() => setFilter('low_stock')}
                   className={`text-[10px] font-bold px-2.5 py-1 rounded-lg border transition ${
                     filter === 'low_stock'
-                      ? 'bg-amber-600 text-white border-amber-500 font-extrabold'
-                      : 'bg-slate-900/80 text-amber-300 border-amber-950 hover:border-amber-800'
+                      ? 'bg-nw-warn-bg text-nw-warn border-nw-warn font-extrabold'
+                      : 'bg-nw-surface text-nw-warn border-nw-warn hover:border-nw-warn'
                   }`}
                 >
                   وشكت على النفاذ ({lowStockItems.length})
@@ -169,7 +169,7 @@ export const SmartLowStockAlertBar: React.FC<SmartLowStockAlertBarProps> = ({
 
             <button
               onClick={onNavigateToProducts}
-              className="text-[11px] text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1 transition"
+              className="text-[11px] text-nw-warn hover:text-nw-warn font-bold flex items-center gap-1 transition"
             >
               <span>عرض إدارة المخزون الكاملة</span>
               <ArrowLeft className="w-3.5 h-3.5" />
@@ -185,16 +185,16 @@ export const SmartLowStockAlertBar: React.FC<SmartLowStockAlertBarProps> = ({
                   key={item.id}
                   className={`p-2.5 rounded-xl border flex items-center justify-between gap-2.5 transition ${
                     isZero
-                      ? 'bg-rose-950/40 border-rose-800/80 hover:border-rose-700'
-                      : 'bg-slate-950/60 border-amber-800/50 hover:border-amber-600/80'
+                      ? 'bg-nw-bad-bg border-nw-bad/80 hover:border-nw-bad'
+                      : 'bg-nw-bg border-nw-warn/50 hover:border-nw-warn/80'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 min-w-0 flex-1">
                     <div
                       className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 border ${
                         isZero
-                          ? 'bg-rose-500/20 border-rose-500/40 text-rose-400'
-                          : 'bg-amber-500/20 border-amber-500/40 text-amber-400'
+                          ? 'bg-nw-bad-bg border-nw-bad/40 text-nw-bad'
+                          : 'bg-nw-warn-bg border-nw-warn/40 text-nw-warn'
                       }`}
                     >
                       {item.imageUrl ? (
@@ -212,9 +212,9 @@ export const SmartLowStockAlertBar: React.FC<SmartLowStockAlertBarProps> = ({
 
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1">
-                        <h4 className="text-xs font-extrabold text-white truncate">{item.nameAr}</h4>
+                        <h4 className="text-xs font-extrabold text-nw-text truncate">{item.nameAr}</h4>
                       </div>
-                      <div className="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5">
+                      <div className="flex items-center gap-2 text-[10px] text-nw-muted mt-0.5">
                         <span>الرمز: {item.sku || 'N/A'}</span>
                         <span>•</span>
                         <span>الحد الأدنى: {item.reorderLevel}</span>
@@ -227,8 +227,8 @@ export const SmartLowStockAlertBar: React.FC<SmartLowStockAlertBarProps> = ({
                     <span
                       className={`text-[10px] font-black px-2 py-0.5 rounded-md border text-right ${
                         isZero
-                          ? 'bg-rose-600/30 border-rose-500/50 text-rose-300'
-                          : 'bg-amber-600/30 border-amber-500/50 text-amber-300'
+                          ? 'bg-nw-bad-bg border-nw-bad/50 text-nw-bad'
+                          : 'bg-nw-warn-bg border-nw-warn/50 text-nw-warn'
                       }`}
                     >
                       {isZero ? (
@@ -253,7 +253,7 @@ export const SmartLowStockAlertBar: React.FC<SmartLowStockAlertBarProps> = ({
 
                     <button
                       onClick={() => onReceiveGoods?.(item.id)}
-                      className="text-[9px] font-bold text-amber-400 hover:text-amber-300 bg-amber-950/80 hover:bg-amber-900/80 border border-amber-800/80 px-2 py-0.5 rounded-md transition"
+                      className="text-[9px] font-bold text-nw-warn hover:text-nw-warn bg-nw-warn-bg hover:bg-nw-warn-bg border border-nw-warn/80 px-2 py-0.5 rounded-md transition"
                     >
                       + توريد
                     </button>

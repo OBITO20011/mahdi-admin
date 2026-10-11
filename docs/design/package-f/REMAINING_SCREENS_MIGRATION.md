@@ -1,5 +1,191 @@
 # Package F — remaining screens
 
+## Batch 7 — legacy palette retirement (2026-10-11)
+
+### Read-only WebKit diagnosis — completed 2026-10-11
+
+Owner decision following this diagnosis:classify as LOCAL ENVIRONMENT STOP
+(Windows lid standby),NOT test defect or CPU-load issue. Current/baseline40/40
+accepted. Full local quality will NOT be rerun;other passed legs retained.
+Separate motion-helper commit followed by batch7,Gitleaks0 for each and exact
+Linux CI100% are required before visual review. No product/test repair for this
+environment stop;no timeout/retry/CI changes.
+
+Independent motion-gate commit ace8fe7 contains only3test/helper files;staged
+Gitleaks0. Batch7 changes below are separate. Exact final-SHA Linux CI must
+still prove all delivery jobs,not merely the local standalone diagnosis.
+
+Owner authorized each failing case alone,current and detached1272a786 worktree,
+mobile-webkit repeat10,same90s/config/2workers,retries0;no repair.
+
+| Case | Current | Clean baseline1272a786 | Elapsed including server lifecycle |
+| --- | --- | --- | --- |
+| About customer-accessibility.spec.ts:28 | 10/10 | 10/10 | 65.779s /119.895s |
+| Dark SideNav admin-side-navigation.spec.ts:50 | 10/10 | 10/10 | 39.342s /37.562s |
+
+Baseline first attempt with linked dependencies also passed20/20 but logged
+Vite font allow-list rejections;NOT used as final comparison. Fresh detached
+worktree with npm ci in both packages eliminated those rejections. Identical
+locked versions,source unchanged. Logs/results:user Local/Temp/
+nawasrah-batch7-webkit-diagnosis-20261011.
+
+Root evidence is WINDOWS MODERN STANDBY,NOT proven CPU contention:
+Kernel-Power506 at12:53:59.1770993Z enters standby,Reason=Lid,LidOpenState=false;
+507 at12:56:36.7145240Z exits,Reason=Lid,LidOpenState=true;DurationInUs157539005.
+Local Asia/Amman15:53:59–15:56:36. Both simultaneous stalls match this interval:
+- About context24.010ms,page242.445ms;first goto733.225ms,second536.531ms.
+  Third viewport change157005.861ms spans standby;next goto12.078s occurs after
+  the90s whole-test budget expired and overlaps teardown. This is NOT evidence
+  that Vite spent90s serving About. Prior HTML responses49.367/12.436ms,HTTP200.
+- SideNav context24.065ms;native newPage has no completed response and page
+  fixture ends156780.919ms later. Test body/goto/fonts/axe never began.
+No font/server/motion-gate wait explains the157s gap. No product,test,config,
+timeout or retry repair made. Both failures align with the OS power event.
+
+Original full run used2workers. Exact machine-wide Node/WebKit counts or CPU
+snapshot AT the old failure were not captured and cannot be reconstructed.
+During diagnosis an owned-process snapshot showed8node.exe (supervisor,CLI,
+4servers,2workers),2Playwright.exe and6WebKit children (2GPU/2Network/2Web);
+this is NOT a historical failure snapshot. PID33256 is no longer alive;4175
+free before/after diagnosis. Historic ownership of dead33256 is unverified.
+Diagnostic4175 listeners were run-browser-network-guard children,exited normally.
+
+customer-web,two specs,isolation fixture,Playwright config/server tools unchanged.
+About does not import modified Admin CSS/code. SideNav DOES consume index.css/
+adminNavigation presentation changes,but old failure occurred before newPage
+completed/before those resources execute. Neither imports Package F motion gate.
+No batch7 behavioral cause found;full non-presentation parity verified separately.
+
+40/40 is NOT a full quality/CI pass. Conditional permission named local load;
+actual cause is lid standby,so confirmation requested before delivery exception.
+No commit/push/newCI. Two clean-source temporary detached worktrees retained for
+reproducibility;no task-owned processes/listeners remain. Await owner decision.
+
+Latest delivery gate BLOCKED (2026-10-11):final bounded-helper quality started
+12:37:28.899Z and ended12:57:54.210Z,exit1 after stopping the owned runner on
+observed failures. Admin884/Customer189 units,builds/SEO/isolation passed.
+Two WebKit failures were preserved:
+- customer-accessibility.spec.ts:28 (line33):page.goto About at4174 waiting for
+  domcontentloaded exceeded90s,before axe. Earlier two width navigations returned
+  HTTP200;the later navigation stalled. No confirmed root cause or flaky claim.
+- admin-side-navigation.spec.ts:50:90s timeout while SETTING UP page fixture,
+  before the test body/contrast assertion. Adjacent cases passed. No root cause
+  conclusion follows from that fact.
+Neither test imports the Package F motion helper;both specs/customer-web remain
+unchanged. No retries,timeout changes,customer repair or CI change attempted.
+Log,exit.json,About trace/context and SideNav setup trace/context preserved in
+C:/Users/TOP/AppData/Local/Temp/nawasrah-batch7-quality-bounded-293c7bfa648643cc9f83c2dc3c0b623f.
+Only verified owned runner32040 and descendants stopped;owned processes and
+listeners4173–4176 absent afterward. This interrupted failed suite is NOT a
+complete browser pass. Controls200/200,Orders20/20 per browser,max motion308ms
+remain valid focused evidence,not a substitute for final quality.
+No commits/push/new exact-SHA CI;owner review required before further work.
+
+Owner/Claude visually approved dd014f5 and1272a78. Baseline1272a786.
+Pre-change inventory: BATCH7_COLOR_INVENTORY.md (all24files,1197 lexical utility
+occurrences;134 direct compatibility selectors/43CSS blocks). All old families
+migrate to existing semantic tokens,no token values changed/no old-family
+exceptions. Retained legacy dashboard/chart components and auxiliary inventory,
+CRM,category/brand/unit/barcode/notification surfaces are recoloured,not removed.
+Existing unused COLORS export preserved with semantic CSS variables;chart paints
+read variables,not fixed RGB. Index CSS now only imports,geometry,theme scheme,
+body/selection token colours and original body transition;obsolete global field,
+shadow,toast and class-based light overrides are gone. Invalid-field selector
+now names only border-nw-bad;existing field state/validation unchanged.
+
+Permanent recursive src guard rejects all old Tailwind colour families and light
+class patches;empty explicit exception list. Full-source non-presentation AST
+compares23 TS/TSX files with1272a786,including every handler,payload,value,disabled,
+required/isOpen and condition. Mutation probes reject money/handler/disabled
+changes. Initial JSX AST output differed only CRLF/LF;parser input now normalizes
+line endings and preserves the full comparison. Focused32/32 and auth pins PASS.
+The five old light-theme contracts now assert approved palette/modal/toast/field
+semantics directly instead of depending on deleted legacy compatibility rules;
+no accessibility/single-toast behavior assertion removed.
+
+Infinite lock pulse was ALREADY handled in1272a78:
+effect.getTiming().iterations!==Infinity excludes it from awaiting,not from axe.
+No helper edit. Assistant9–10px phone text remains deferred to phone review.
+Focused Products/More browser run:75PASS/1 interrupted Products light1440.
+Preserved trace proves Vite reloaded the fixture at01:44:50.202Z when this
+writer saved HANDOFF_HISTORY.md (01:44:50Z):second harness GET/script timestamp
+and second Vite/React boot reset the opening dialog. No product/test repair,
+retry,timeout or assertion change. Frozen-tree unchanged Chromium Products
+light/dark1440 recheck2/2PASS. Full quality then ran with repository writes
+frozen;external log only. First full quality stopped at the batch1 static colour
+contract requiring removed border-rose-500. Updated that one assertion to the
+exact border-nw-bad selector AND var(--nw-bad)!important declaration;all other
+assertions unchanged. No validation/event/SQL change.
+Full quality after that correction:883Admin/189Customer PASS;both builds/SEO/
+network isolation PASS;browser662PASS/59existing skips/7FAIL,retries0,exit1.
+Six failures are the original Bottom Navigation fixture's bg-slate-950 wrapper
+and exact legacy RGB expectations (both themes/all3projects),not source policy.
+Fixture now uses bg-nw-bg/text-nw-text/muted;light canvas/toast and dark canvas/
+toast expectations name exact approved token RGB values. Dark toast exclusion
+became a stronger exact-value assertion. All actions/counts/axe rules retained.
+Added full AST parity for this one fixture alongside23 source files.
+Seventh failure:Chromium Orders dark1440 timed out90s inside the unchanged
+waitForPackageFMotion page.evaluate,BEFORE axe. Trace fonts all200/complete;
+no Vite reload. Same WebKit case PASS18.7s. Diagnostic3 loads observed only
+Infinity pulse,correctly excluded. Root cause NOT yet proven;no helper repair
+or blind timeout/retry. Original-case stress diagnosis and final gates follow.
+Corrected Bottom Navigation focused19PASS/2existing conditional skips across
+Chromium/WebKit/mobileChromium;all21original cases/axe retained. Recursive colour
+guard additionally rejects legacy classes in that fixture;its full AST unchanged
+outside presentation. No screen-next/Production/DB/CI authorization is inferred.
+Final bounded diagnosis:original unchanged Orders dark1440 repeat20 =14PASS/
+6TIMEOUT (same2workers,retries0). Temporary phase instrumentation repeat10
+=8PASS/2TIMEOUT;readonly frame observer repeat6=5PASS/1TIMEOUT. Both retained
+the original predicate and awaited native finished promises;no product edits.
+The observer isolated a CSSTransition on BUTTON,property color,duration150ms.
+At frame4 currentTime183.234ms and at frame60 currentTime1116.534ms:
+playState=finished,pending=false,but captured finished promise still unresolved.
+Computed foreground rgb(27,16,4),background rgb(240,138,60),opacity1 already
+match final dark primary tokens. Thus native finished-promise dependency can
+stall AFTER real rendering completes;this is NOT the excluded Infinity pulse.
+Temporary diagnostics removed;helper git diff against1272a786 is empty.
+External preserved evidence:motion-observer.log/helper.ts/trace.zip in the
+nawasrah-batch7-quality-final-ec153db38f7b40eea3211c658ea1108d temp directory.
+Suggested separately approved correction:re-discover finite running/pending/
+paused animations after actual frames until none remain,instead of unbounded
+waiting on an already-finished transition promise. Add a real CSS-transition
+regression with an unresolved finished promise;retain paused-transition waiting,
+Infinity exclusion and all axe/contrast rules. NO correction implemented here.
+Focused static+AST contracts now37/37;staged Gitleaks exit0/no leaks. Batch7
+delivery BLOCKED:quality not green;
+no commit/push/new exact-SHA CI/visual closure. No owned processes remain.
+No RPC/auth/session/role/permission/migration/CI/customer-app change.
+
+Owner continuation (2026-10-11):implemented the bounded motion-gate correction
+in the TEST helper only. Each double requestAnimationFrame re-discovers finite
+pending/running/paused state;no captured finished-promise wait. Infinite-pulse
+condition unchanged;paused transitions still block;all axe rules/nodes retained.
+Existing Users control observes native getAnimations rather than finished getter;
+all zero-before-release/one-after/contrast assertions retained. New permanent
+real-CSS control substitutes an unresolved finished promise,pauses motion,proves
+no premature audit,finishes natively and checks final state/colour before axe.
+Original helper Orders dark1440 repeat20:14PASS/6TIMEOUT;corrected helper20/20
+Chromium AND20/20 WebKit. Combined controls+Orders repeat20:240/240 PASS(19.8m),
+2workers/retries0. A preliminary control run9PASS/1FAIL traced to localhost
+React/react_jsx-dev-runtime502 before rendering at spec:9;no test/product edit
+for that failure. Preserved accessibility-react-502-trace.zip with earlier logs.
+Static39/39 PASS. Final detached full quality,staged Gitleaks0,commit/push and
+exact-SHA all CI remain mandatory;no completion claimed until those gates pass.
+Final-gate first invocation stopped at TypeScript:the test-only getAnimations
+observer incorrectly declared a required argument while Document accepts none.
+Corrected only that signature/call (zero arguments);all behavior/assertions
+unchanged. No browser leg ran in that failed invocation;full quality follows.
+That full quality completed exit0:884Admin/189Customer,673browser PASS and59
+existing conditional skips,retries0. Owner then explicitly added a5s frame
+deadline and a separate helper commit BEFORE batch7. Final helper throws
+PACKAGE_F_MOTION_STUCK with element/property/playState/pending/currentTime;
+no silent success,no timers/retries/rule exclusions. Permanent paused control
+expects failure at the deadline and zero axe calls. Updated real-transition,
+paused-failure,invalid-contrast and unchanged Orders repeat20:200/200 PASS across
+Chromium/WebKit;Orders20/20 each. Maximum successful measured frame wait308ms
+(200 samples),not total test duration. One sandbox-restricted start interrupted
+before tests;no code/workflow change. Final full quality must cover this addition.
+
 ## Batch 6 — exact-CI Users transition correction (2026-10-11)
 
 Owner-authorized correction baseline dd014f54ef5dcb8d70ee27ed084229d913ba7d8c.

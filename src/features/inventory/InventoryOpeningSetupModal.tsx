@@ -419,14 +419,14 @@ export const InventoryOpeningSetupModal: React.FC<
 
   return (
     <div aria-busy={isSubmitting} className="space-y-4 text-xs">
-      <div className="rounded-2xl border border-indigo-500/30 bg-gradient-to-l from-indigo-950/80 to-slate-950 p-4">
+      <div className="rounded-2xl border border-nw-info/30 bg-nw-surface-2 from-nw-info-bg to-nw-border p-4">
         <div className="flex items-start gap-3">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-500/15 text-indigo-300">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-nw-info-bg text-nw-info">
             <Boxes className="h-5 w-5" />
           </div>
           <div>
-            <h4 className="font-black text-indigo-100">إدخال البضاعة الموجودة قبل تشغيل النظام</h4>
-            <p className="mt-1 leading-5 text-slate-400">
+            <h4 className="font-black text-nw-info">إدخال البضاعة الموجودة قبل تشغيل النظام</h4>
+            <p className="mt-1 leading-5 text-nw-muted">
               أدخل العدد الفعلي مرة واحدة. لن ينشئ النظام فاتورة مورد أو مديونية،
               وستُحفظ كل الكميات كحركات افتتاحية مدققة.
             </p>
@@ -436,14 +436,14 @@ export const InventoryOpeningSetupModal: React.FC<
 
       <div className="grid gap-3 lg:grid-cols-[1fr_auto]">
         <label className="space-y-1.5">
-          <span className="flex items-center gap-1.5 font-bold text-slate-300">
-            <WarehouseIcon className="h-3.5 w-3.5 text-indigo-400" />
+          <span className="flex items-center gap-1.5 font-bold text-nw-text">
+            <WarehouseIcon className="h-3.5 w-3.5 text-nw-info" />
             المستودع الذي تم جرده
           </span>
           <select
             value={warehouseId}
             onChange={(event) => setWarehouseId(event.target.value)}
-            className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2.5 font-bold text-white focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-xl border border-nw-border bg-nw-bg px-3 py-2.5 font-bold text-nw-text focus:border-nw-info focus:outline-none"
           >
             {warehouseOptions.map((warehouse) => (
               <option key={warehouse.id} value={warehouse.id}>
@@ -458,7 +458,7 @@ export const InventoryOpeningSetupModal: React.FC<
             type="button"
             onClick={downloadTemplate}
             disabled={!setup || isLoading}
-            className="flex items-center gap-1.5 rounded-xl border border-emerald-800 bg-emerald-950/30 px-3 py-2.5 font-bold text-emerald-300 disabled:opacity-40"
+            className="flex items-center gap-1.5 rounded-xl border border-nw-ok bg-nw-ok-bg px-3 py-2.5 font-bold text-nw-ok disabled:opacity-40"
           >
             <Download className="h-4 w-4" />
             تنزيل قالب Excel
@@ -467,7 +467,7 @@ export const InventoryOpeningSetupModal: React.FC<
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={!setup || isLoading}
-            className="flex items-center gap-1.5 rounded-xl bg-indigo-600 px-3 py-2.5 font-bold text-white disabled:opacity-40"
+            className="flex items-center gap-1.5 rounded-xl bg-nw-primary px-3 py-2.5 font-bold text-nw-on-primary disabled:opacity-40"
           >
             <Upload className="h-4 w-4" />
             استيراد الملف
@@ -485,7 +485,7 @@ export const InventoryOpeningSetupModal: React.FC<
         </div>
       </div>
 
-      <div className="rounded-xl border border-amber-500/20 bg-amber-950/20 p-3 text-[11px] leading-5 text-amber-200">
+      <div className="rounded-xl border border-nw-warn/20 bg-nw-warn-bg p-3 text-[11px] leading-5 text-nw-warn">
         <FileSpreadsheet className="ml-1 inline h-4 w-4" />
         القالب بصيغة CSV المتوافقة مع Excel. لا تغيّر SKU؛ عبّئ فقط عدد الطرود
         والحبات المتبقية ثم احفظ الملف بصيغة CSV.
@@ -493,12 +493,12 @@ export const InventoryOpeningSetupModal: React.FC<
 
       <div className="flex flex-col gap-2 sm:flex-row">
         <label className="relative flex-1">
-          <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+          <Search className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-nw-muted" />
           <input
             value={searchQuery}
             onChange={(event) => setSearchQuery(event.target.value)}
             placeholder="ابحث باسم الصنف أو SKU أو الباركود..."
-            className="w-full rounded-xl border border-slate-700 bg-slate-950 py-2.5 pr-9 pl-3 text-white focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-xl border border-nw-border bg-nw-bg py-2.5 pr-9 pl-3 text-nw-text focus:border-nw-info focus:outline-none"
           />
         </label>
         <button
@@ -506,8 +506,8 @@ export const InventoryOpeningSetupModal: React.FC<
           onClick={() => setEligibleOnly((current) => !current)}
           className={`rounded-xl border px-3 py-2.5 font-bold transition ${
             eligibleOnly
-              ? 'border-emerald-600 bg-emerald-950/50 text-emerald-300'
-              : 'border-slate-700 bg-slate-900 text-slate-300'
+              ? 'border-nw-ok bg-nw-ok-bg text-nw-ok'
+              : 'border-nw-border bg-nw-surface text-nw-text'
           }`}
         >
           المؤهل للتهيئة فقط
@@ -515,18 +515,18 @@ export const InventoryOpeningSetupModal: React.FC<
       </div>
 
       {isLoading ? (
-        <div className="flex min-h-52 items-center justify-center rounded-2xl border border-slate-800 bg-slate-950/40 text-slate-400">
-          <Loader2 className="ml-2 h-5 w-5 animate-spin text-indigo-400" />
+        <div className="flex min-h-52 items-center justify-center rounded-2xl border border-nw-border bg-nw-bg text-nw-muted">
+          <Loader2 className="ml-2 h-5 w-5 animate-spin text-nw-info" />
           جاري تحميل الأصناف من Supabase...
         </div>
       ) : loadError ? (
-        <div className="rounded-2xl border border-rose-800 bg-rose-950/30 p-5 text-center text-rose-300">
+        <div className="rounded-2xl border border-nw-bad bg-nw-bad-bg p-5 text-center text-nw-bad">
           <AlertTriangle className="mx-auto mb-2 h-6 w-6" />
           <p>{loadError}</p>
           <button
             type="button"
             onClick={() => void loadSetup()}
-            className="mt-3 rounded-lg bg-rose-700 px-4 py-2 font-bold text-white"
+            className="mt-3 rounded-lg bg-nw-bad-bg px-4 py-2 font-bold text-nw-bad"
           >
             إعادة المحاولة
           </button>
@@ -553,39 +553,39 @@ export const InventoryOpeningSetupModal: React.FC<
                 className={`rounded-2xl border p-3 transition ${
                   isSelected
                     ? rowErrors.length > 0
-                      ? 'border-rose-700 bg-rose-950/20'
-                      : 'border-indigo-600 bg-indigo-950/20'
-                    : 'border-slate-800 bg-slate-950/50'
+                      ? 'border-nw-bad bg-nw-bad-bg'
+                      : 'border-nw-info bg-nw-info-bg'
+                    : 'border-nw-border bg-nw-bg'
                 } ${!product.eligible ? 'opacity-75' : ''}`}
               >
                 <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h5 className="truncate font-black text-slate-100">
+                      <h5 className="truncate font-black text-nw-text">
                         {product.productName}
                       </h5>
-                      <span className="rounded-md bg-slate-800 px-1.5 py-0.5 font-mono text-[9px] text-slate-400">
+                      <span className="rounded-md bg-nw-surface-2 px-1.5 py-0.5 font-mono text-[9px] text-nw-muted">
                         {product.sku}
                       </span>
                       {!product.eligible && (
-                        <span className="rounded-full bg-rose-950 px-2 py-0.5 text-[9px] font-bold text-rose-300">
+                        <span className="rounded-full bg-nw-bad-bg px-2 py-0.5 text-[9px] font-bold text-nw-bad">
                           استخدم الجرد
                         </span>
                       )}
                       {product.costPriceInMinorUnits <= 0 && (
-                        <span className="rounded-full bg-amber-950 px-2 py-0.5 text-[9px] font-bold text-amber-300">
+                        <span className="rounded-full bg-nw-warn-bg px-2 py-0.5 text-[9px] font-bold text-nw-warn">
                           التكلفة ناقصة
                         </span>
                       )}
                     </div>
-                    <p className="mt-1 text-[10px] text-slate-500">
+                    <p className="mt-1 text-[10px] text-nw-muted">
                       النظام الآن: {Math.floor(product.currentQuantity / product.unitsPerPackage)}{' '}
                       {product.purchasePackageName} +{' '}
                       {product.currentQuantity % product.unitsPerPackage}{' '}
                       {product.baseUnitName} ({product.currentQuantity} إجمالي)
                     </p>
                     {!product.eligible && (
-                      <p className="mt-1 text-[10px] leading-4 text-rose-300">
+                      <p className="mt-1 text-[10px] leading-4 text-nw-bad">
                         {product.blockReason}
                       </p>
                     )}
@@ -593,7 +593,7 @@ export const InventoryOpeningSetupModal: React.FC<
 
                   <div className="grid shrink-0 grid-cols-[1fr_1fr_auto] items-end gap-2">
                     <label className="space-y-1">
-                      <span className="block text-[9px] font-bold text-slate-400">
+                      <span className="block text-[9px] font-bold text-nw-muted">
                         عدد {product.purchasePackageName}
                       </span>
                       <input
@@ -610,11 +610,11 @@ export const InventoryOpeningSetupModal: React.FC<
                           )
                         }
                         placeholder="0"
-                        className="w-full min-w-20 rounded-lg border border-slate-700 bg-slate-900 px-2 py-2 text-center font-black text-white disabled:cursor-not-allowed disabled:opacity-40"
+                        className="w-full min-w-20 rounded-lg border border-nw-border bg-nw-surface px-2 py-2 text-center font-black text-nw-text disabled:cursor-not-allowed disabled:opacity-40"
                       />
                     </label>
                     <label className="space-y-1">
-                      <span className="block text-[9px] font-bold text-slate-400">
+                      <span className="block text-[9px] font-bold text-nw-muted">
                         باقي {product.baseUnitName}
                       </span>
                       <input
@@ -632,14 +632,14 @@ export const InventoryOpeningSetupModal: React.FC<
                           )
                         }
                         placeholder="0"
-                        className="w-full min-w-20 rounded-lg border border-slate-700 bg-slate-900 px-2 py-2 text-center font-black text-white disabled:cursor-not-allowed disabled:opacity-40"
+                        className="w-full min-w-20 rounded-lg border border-nw-border bg-nw-surface px-2 py-2 text-center font-black text-nw-text disabled:cursor-not-allowed disabled:opacity-40"
                       />
                     </label>
                     <button
                       type="button"
                       disabled={!isSelected}
                       onClick={() => clearEntry(product.productId)}
-                      className="mb-0.5 rounded-lg border border-slate-700 p-2 text-slate-500 transition hover:text-rose-400 disabled:opacity-20"
+                      className="mb-0.5 rounded-lg border border-nw-border p-2 text-nw-muted transition hover:text-nw-bad disabled:opacity-20"
                       aria-label={`مسح إدخال ${product.productName}`}
                     >
                       <X className="h-4 w-4" />
@@ -648,22 +648,22 @@ export const InventoryOpeningSetupModal: React.FC<
                 </div>
 
                 {isSelected && (
-                  <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-800 pt-2 text-[10px]">
-                    <span className="font-bold text-indigo-300">
+                  <div className="mt-2 flex flex-wrap items-center justify-between gap-2 border-t border-nw-border pt-2 text-[10px]">
+                    <span className="font-bold text-nw-info">
                       الإجمالي المحسوب: {actual} {product.baseUnitName}
                     </span>
                     <span
                       className={
                         actual - product.currentQuantity >= 0
-                          ? 'text-emerald-400'
-                          : 'text-rose-400'
+                          ? 'text-nw-ok'
+                          : 'text-nw-bad'
                       }
                     >
                       الفرق عن النظام: {actual - product.currentQuantity > 0 ? '+' : ''}
                       {actual - product.currentQuantity}
                     </span>
                     {rowErrors.map((error) => (
-                      <span key={error} className="w-full text-rose-300">
+                      <span key={error} className="w-full text-nw-bad">
                         {error}
                       </span>
                     ))}
@@ -674,7 +674,7 @@ export const InventoryOpeningSetupModal: React.FC<
           })}
 
           {filteredProducts.length === 0 && (
-            <div className="rounded-2xl border border-slate-800 p-8 text-center text-slate-500">
+            <div className="rounded-2xl border border-nw-border p-8 text-center text-nw-muted">
               لا توجد أصناف مطابقة.
             </div>
           )}
@@ -682,24 +682,24 @@ export const InventoryOpeningSetupModal: React.FC<
       ) : null}
 
       {setup && setup.recentSessions.length > 0 && (
-        <details className="rounded-2xl border border-slate-800 bg-slate-950/40 p-3">
-          <summary className="flex cursor-pointer list-none items-center gap-2 font-bold text-slate-300">
-            <History className="h-4 w-4 text-indigo-400" />
+        <details className="rounded-2xl border border-nw-border bg-nw-bg p-3">
+          <summary className="flex cursor-pointer list-none items-center gap-2 font-bold text-nw-text">
+            <History className="h-4 w-4 text-nw-info" />
             آخر جلسات المخزون الافتتاحي
           </summary>
           <div className="mt-3 space-y-2">
             {setup.recentSessions.map((session) => (
               <div
                 key={session.id}
-                className="flex items-center justify-between gap-3 rounded-xl border border-slate-800 bg-slate-900 p-2.5"
+                className="flex items-center justify-between gap-3 rounded-xl border border-nw-border bg-nw-surface p-2.5"
               >
                 <div>
-                  <b className="text-indigo-300">{session.sessionNumber}</b>
-                  <span className="mt-0.5 block text-[9px] text-slate-500">
+                  <b className="text-nw-info">{session.sessionNumber}</b>
+                  <span className="mt-0.5 block text-[9px] text-nw-muted">
                     {session.itemCount} صنف • {session.createdByName}
                   </span>
                 </div>
-                <div className="text-left text-[9px] text-slate-500">
+                <div className="text-left text-[9px] text-nw-muted">
                   <span className="block">
                     {new Date(session.createdAt).toLocaleString('ar-JO')}
                   </span>
@@ -712,34 +712,34 @@ export const InventoryOpeningSetupModal: React.FC<
       )}
 
       <label className="block space-y-1.5">
-        <span className="font-bold text-slate-300">ملاحظة جلسة التهيئة *</span>
+        <span className="font-bold text-nw-text">ملاحظة جلسة التهيئة *</span>
         <input
           value={notes}
           maxLength={500}
           onChange={(event) => setNotes(event.target.value)}
-          className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2.5 text-white focus:border-indigo-500 focus:outline-none"
+          className="w-full rounded-xl border border-nw-border bg-nw-bg px-3 py-2.5 text-nw-text focus:border-nw-info focus:outline-none"
         />
       </label>
 
-      <div className="sticky bottom-0 -mx-5 -mb-5 border-t border-slate-800 bg-slate-900/95 px-5 py-3 backdrop-blur">
+      <div className="sticky bottom-0 -mx-5 -mb-5 border-t border-nw-border bg-nw-surface px-5 py-3 backdrop-blur">
         <div className="mb-2 grid grid-cols-3 gap-2 text-center">
-          <div className="rounded-xl bg-slate-950 p-2">
-            <span className="block text-[9px] text-slate-500">الأصناف المدخلة</span>
-            <b className="text-slate-200">{selectedRows.length}</b>
+          <div className="rounded-xl bg-nw-bg p-2">
+            <span className="block text-[9px] text-nw-muted">الأصناف المدخلة</span>
+            <b className="text-nw-text">{selectedRows.length}</b>
           </div>
-          <div className="rounded-xl bg-slate-950 p-2">
-            <span className="block text-[9px] text-slate-500">إجمالي الحبات</span>
-            <b className="text-indigo-300">{totalActualQuantity}</b>
+          <div className="rounded-xl bg-nw-bg p-2">
+            <span className="block text-[9px] text-nw-muted">إجمالي الحبات</span>
+            <b className="text-nw-info">{totalActualQuantity}</b>
           </div>
-          <div className="rounded-xl bg-slate-950 p-2">
-            <span className="block text-[9px] text-slate-500">فرق النظام</span>
-            <b className={totalDifference >= 0 ? 'text-emerald-400' : 'text-rose-400'}>
+          <div className="rounded-xl bg-nw-bg p-2">
+            <span className="block text-[9px] text-nw-muted">فرق النظام</span>
+            <b className={totalDifference >= 0 ? 'text-nw-ok' : 'text-nw-bad'}>
               {totalDifference > 0 ? '+' : ''}{totalDifference}
             </b>
           </div>
         </div>
         {invalidRows.length > 0 && (
-          <p className="mb-2 text-center text-[10px] font-bold text-rose-300">
+          <p className="mb-2 text-center text-[10px] font-bold text-nw-bad">
             صحح {invalidRows.length} صف قبل المتابعة.
           </p>
         )}
@@ -752,7 +752,7 @@ export const InventoryOpeningSetupModal: React.FC<
             isLoading
           }
           onClick={() => setShowReview(true)}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 py-3 font-black text-white shadow-lg transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-40"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-nw-primary py-3 font-black text-nw-on-primary shadow-lg transition hover:bg-nw-primary disabled:cursor-not-allowed disabled:opacity-40"
         >
           <ClipboardCheck className="h-4 w-4" />
           مراجعة واعتماد المخزون الافتتاحي
@@ -760,17 +760,17 @@ export const InventoryOpeningSetupModal: React.FC<
       </div>
 
       {showReview && (
-        <div className="fixed inset-0 z-[70] flex items-end justify-center bg-slate-950/90 p-0 backdrop-blur-sm sm:items-center sm:p-4">
+        <div className="fixed inset-0 z-[70] flex items-end justify-center bg-nw-side/80 p-0 backdrop-blur-sm sm:items-center sm:p-4">
           <div ref={reviewPanel as React.RefObject<HTMLDivElement>} tabIndex={-1}
             role="dialog" aria-modal="true" aria-label="تأكيد الجرد الافتتاحي" aria-busy={isSubmitting}
-            className="w-full max-w-lg space-y-4 rounded-t-3xl border border-slate-700 bg-slate-900 p-5 shadow-2xl sm:rounded-3xl">
+            className="w-full max-w-lg space-y-4 rounded-t-3xl border border-nw-border bg-nw-surface p-5 shadow-2xl sm:rounded-3xl">
             <div className="flex items-start gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-400">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-nw-ok-bg text-nw-ok">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <div>
-                <h4 className="font-black text-white">تأكيد الجرد الافتتاحي</h4>
-                <p className="mt-1 text-[11px] leading-5 text-slate-400">
+                <h4 className="font-black text-nw-text">تأكيد الجرد الافتتاحي</h4>
+                <p className="mt-1 text-[11px] leading-5 text-nw-muted">
                   سيتم ضبط الكمية الفعلية لـ{selectedRows.length} صنف داخل{' '}
                   {setup?.warehouse.name}. العملية ذرية ومسجلة ولا تنشئ حساب مورد.
                 </p>
@@ -778,19 +778,19 @@ export const InventoryOpeningSetupModal: React.FC<
             </div>
 
             <div className="grid grid-cols-2 gap-2">
-              <div className="rounded-xl border border-slate-800 bg-slate-950 p-3 text-center">
-                <span className="block text-[10px] text-slate-500">الإجمالي بعد الاعتماد</span>
-                <b className="text-lg text-indigo-300">{totalActualQuantity}</b>
+              <div className="rounded-xl border border-nw-border bg-nw-bg p-3 text-center">
+                <span className="block text-[10px] text-nw-muted">الإجمالي بعد الاعتماد</span>
+                <b className="text-lg text-nw-info">{totalActualQuantity}</b>
               </div>
-              <div className="rounded-xl border border-slate-800 bg-slate-950 p-3 text-center">
-                <span className="block text-[10px] text-slate-500">صافي التغيير</span>
-                <b className={totalDifference >= 0 ? 'text-lg text-emerald-400' : 'text-lg text-rose-400'}>
+              <div className="rounded-xl border border-nw-border bg-nw-bg p-3 text-center">
+                <span className="block text-[10px] text-nw-muted">صافي التغيير</span>
+                <b className={totalDifference >= 0 ? 'text-lg text-nw-ok' : 'text-lg text-nw-bad'}>
                   {totalDifference > 0 ? '+' : ''}{totalDifference}
                 </b>
               </div>
             </div>
 
-            <div className="rounded-xl border border-amber-700/40 bg-amber-950/30 p-3 text-[11px] leading-5 text-amber-200">
+            <div className="rounded-xl border border-nw-warn/40 bg-nw-warn-bg p-3 text-[11px] leading-5 text-nw-warn">
               <AlertTriangle className="ml-1 inline h-4 w-4" />
               هل أنهيتم العد الفعلي؟ بعد بدء المبيعات أو الاستلام تصبح أي فروقات
               لاحقة من خلال شاشة الجرد المعتادة.
@@ -801,7 +801,7 @@ export const InventoryOpeningSetupModal: React.FC<
                 type="button"
                 disabled={isSubmitting}
                 onClick={() => void handleApply()}
-                className="flex items-center justify-center gap-2 rounded-xl bg-emerald-600 py-3 font-black text-white disabled:opacity-50"
+                className="flex items-center justify-center gap-2 rounded-xl bg-nw-ok-bg py-3 font-black text-nw-ok disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -814,7 +814,7 @@ export const InventoryOpeningSetupModal: React.FC<
                 type="button"
                 disabled={isSubmitting}
                 onClick={() => setShowReview(false)}
-                className="rounded-xl border border-slate-700 bg-slate-800 py-3 font-bold text-slate-300"
+                className="rounded-xl border border-nw-border bg-nw-surface-2 py-3 font-bold text-nw-text"
               >
                 عودة للمراجعة
               </button>
@@ -823,10 +823,10 @@ export const InventoryOpeningSetupModal: React.FC<
         </div>
       )}
 
-      <div className="flex items-center justify-center gap-2 text-[10px] text-slate-500">
-        <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+      <div className="flex items-center justify-center gap-2 text-[10px] text-nw-muted">
+        <CheckCircle2 className="h-3.5 w-3.5 text-nw-ok" />
         محفوظ عبر PostgreSQL RPC وسجل التدقيق
-        <button type="button" onClick={onClose} className="text-slate-400 underline">
+        <button type="button" onClick={onClose} className="text-nw-muted underline">
           إغلاق
         </button>
       </div>

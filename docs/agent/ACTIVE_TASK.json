@@ -2,67 +2,75 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Package F batch6 CI correction: measure Users transitions;bounded shared axe stabilization",
-  "baselineSha": "dd014f54ef5dcb8d70ee27ed084229d913ba7d8c",
+  "objective": "Package F batch7: retire fixed colour utilities and compatibility CSS;presentation only",
+  "baselineSha": "1272a786583842afac01957287bff72c1b6510c2",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Batch5 visually accepted;batch6 presentation implemented",
-    "Auth/business AST7/7 identical;5 security sources Git-blob identical;001–137 and CI unchanged",
-    "Focused contracts51/51,typecheck/strict ESLint PASS;Chromium/WebKit38/38,retries0",
-    "Gitleaks staged exit0;19-file commitdd014f54 pushed;HEAD=remote main;only post-commit continuity checkpoint dirty"
+    "Batch6 accepted;preflight/resume PASS;inventory1197 utilities/24files,43CSS rules",
+    "Recursive empty-exception guard and23full non-presentation ASTs PASS"
   ],
   "inProgress": [
-    "Current correction all local gates PASS;Gitleaks0/one commit/push/all exactCI next"
+    "Helper ace8fe7 committed,Gitleaks0;batch7 commit then exact Linux CI"
   ],
   "notStarted": [
-    "Batch7;types repair and checkout investigation after7;Phase7"
+    "Types/checkout after7;Phase7;assistant small-phone text"
   ],
   "filesTouched": [
     "docs/agent/PHASE_STATUS.md",
     "docs/agent/PROJECT_OVERVIEW.md",
     "docs/design/package-f/REMAINING_SCREENS_MIGRATION.md",
-    "e2e/package-f-administration.spec.ts",
-    "e2e/package-f-auth-assistant.spec.ts",
-    "e2e/package-f-cash.spec.ts",
-    "e2e/package-f-customers.spec.ts",
-    "e2e/package-f-financial.spec.ts",
-    "e2e/package-f-home.spec.ts",
-    "e2e/package-f-inventory.spec.ts",
-    "e2e/package-f-more.spec.ts",
-    "e2e/package-f-orders.spec.ts",
-    "e2e/package-f-pos.spec.ts",
-    "e2e/package-f-products.spec.ts",
-    "e2e/package-f-purchasing.spec.ts",
-    "e2e/package-f-read-extensions.spec.ts",
-    "e2e/package-f-accessibility.spec.ts",
-    "e2e/package-f-accessibility.ts",
-    "tests/package-f-accessibility.test.ts"
+    "e2e/admin-bottom-navigation-harness.tsx",
+    "e2e/admin-bottom-navigation.spec.ts",
+    "src/components/common/AppErrorBoundary.tsx",
+    "src/components/layout/AdminToast.tsx",
+    "src/components/modals/AllModals.tsx",
+    "src/components/modals/BrandsModal.tsx",
+    "src/components/modals/CategoriesModal.tsx",
+    "src/components/modals/UnitsModal.tsx",
+    "src/components/ui/form-fields.css",
+    "src/constants/index.ts",
+    "src/features/barcode/BarcodeCameraCaptureModal.tsx",
+    "src/features/crm/AddAddressModal.tsx",
+    "src/features/crm/AddCustomerModalContent.tsx",
+    "src/features/crm/CustomerEditModal.tsx",
+    "src/features/dashboard/ChartsSection.tsx",
+    "src/features/dashboard/KpiCards.tsx",
+    "src/features/dashboard/QuickActions.tsx",
+    "src/features/dashboard/SmartLowStockAlertBar.tsx",
+    "src/features/dashboard/WidgetsSection.tsx",
+    "src/features/inventory/ClearInventoryBalanceDialog.tsx",
+    "src/features/inventory/InventoryOpeningSetupModal.tsx",
+    "src/features/inventory/StockCountModal.tsx",
+    "src/features/inventory/WarehouseTransferModal.tsx",
+    "src/features/more/adminNavigation.config.ts",
+    "src/features/pos/BarcodeScannerModal.tsx",
+    "src/features/products/ProductDetailModal.tsx",
+    "src/index.css",
+    "tests/light-theme-contract.test.ts",
+    "tests/package-f-remaining-batch1.test.ts",
+    "docs/design/package-f/BATCH7_COLOR_INVENTORY.md",
+    "scripts/testing/package-f-colour-contract.mjs",
+    "tests/package-f-colour-retirement.test.ts"
   ],
   "testsPassed": [
-    "Focused contracts51/51;AST7/7;security sources5/5;typecheck/ESLint",
-    "Browser38/38;axe/clipping/Latin/44px/viewport;switch contrast≥3;session-security unchanged",
-    "Corrected complete quality exit0:Admin856/856,Customer189/189,browser669+59existing skips=728,retries0;lint/build/SEO/isolation PASS"
+    "Static40;controls200/200;current/base WebKit40/40;prior quality884/189units,673browser+59skips"
   ],
   "testsRemaining": [
-    "Gitleaks0,independent commit/push/all exactCI;STOP batch6 visual before7"
+    "Gitleaks0 per commit,push,all exact-SHA CI,visual STOP;no local full rerun"
   ],
   "findings": [
-    "Existing checkout-name investigation after7;no auth/session/biometric/role/payload change",
-    "Native transition proven:light midway2.197949/final5.642425,dark3.350328/final7.397092;Users/tokens unchanged;13specs14axe calls preserve original selectors/tags/assertions",
-    "Current focused:original administration24/24;corrected paused-transition/negative controls6/6;static/auth16/16,continuity7/7;typecheck/lint PASS"
+    "Power506/507:lid standby157.539s matches viewport/newPage stalls;33256 absent"
   ],
   "blockers": [],
-  "activeProcesses": [
-    "None;quality exited0,all isolated4173–4176 listeners stopped by normal teardown;external log/exit retained"
-  ],
+  "activeProcesses": [],
   "prohibitions": [
-    "No Production/deploy/automations/DB/CI/batch7/Phase7;001–137 immutable",
-    "No business/auth/session/biometric/token/idle/roles/payload/confirmation changes;owner .claude/launch.json untouched"
+    "No Production/deploy/DB/CI/automations/Phase7;001–137 unchanged",
+    "No RPC,payload,permission,state,event,guard or confirmation change;.claude/launch.json untouched"
   ],
-  "nextExactAction": "All corrected local gates PASS;stage exact21test/docs files only,Gitleaks staged exit0,one independent fix(test) commit/push;verify all exactCI then batch6 visual STOP",
-  "workingTreeFingerprint": "40C896EC4430F9F5711F027750061A2287C8E262206BB5A7DF500E3C8E5EE45F",
-  "checkpointedAt": "2026-10-11T01:16:20.877Z",
+  "nextExactAction": "Commit approved batch7 after staged Gitleaks0;push both commits;all exact Linux CI then checkpoint/visual STOP",
+  "workingTreeFingerprint": "5418EB8F76314B68F99F1CB88F141EE70034430A72B691014DEE3354FD57BC90",
+  "checkpointedAt": "2026-10-11T14:13:20.218Z",
   "startedAt": "2026-10-11"
 }

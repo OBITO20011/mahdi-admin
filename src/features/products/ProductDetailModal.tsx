@@ -870,7 +870,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   ? familyReserved.cartonFormatted
                   : `${familyInventoryProduct.reservedQuantity} ${product.unit}`
               }
-              color="text-orange-300"
+              color="text-nw-warn"
             />
             <TextMetric
               label={isFlavorFamily ? 'إجمالي المتاح' : 'المتاح'}

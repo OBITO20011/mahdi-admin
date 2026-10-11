@@ -8,6 +8,20 @@ Nawasrah ERP is an Arabic RTL commerce system with:
 
 ## Canonical reading order
 
+**Owner delivery exception —2026-10-11:** proven Windows lid standby interrupted
+final local browser suite;current/baseline40/40 accepted,no full local rerun.
+Separate motion-helper and batch7 commits,Gitleaks0 each,all exact Linux CI,
+checkpoint then visual STOP. Environment interruption,not product/test defect.
+
+**Current owner boundary —2026-10-11:** batch6 visually accepted;batch7 only:
+remaining src fixed colours to semantic tokens,retire index.css compatibility,
+recursive permanent guard/full AST parity,all PackageF harnesses and detached
+quality/Gitleaks0/commit/exactCI,then visual STOP. See BATCH7_COLOR_INVENTORY.md
+and REMAINING_SCREENS_MIGRATION.md. No business/DB/CI/Production/Phase7 work.
+Owner continuation also covers the proven native finished-promise test-gate
+stall:re-discover actual finite motion on frames;retain paused/Infinity/axe
+contracts. Repeat20 controls+Orders240/240 PASS;final full gates still required.
+
 **Current owner addition —2026-10-11:** bound batch6 CI correction to shared
 Package F axe native-motion stabilization after measured settled Users contrast
 PASS. Preserve all product/tokens/CI,selectors/tags/assertions;paused-transition

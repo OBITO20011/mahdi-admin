@@ -27,15 +27,15 @@ export const AdminToast: React.FC<AdminToastProps> = ({ toast }) => (
           aria-atomic="true"
           className={`flex items-center gap-3 rounded-2xl border p-3.5 text-xs font-semibold shadow-2xl backdrop-blur-md ${
             toast.type === 'error'
-              ? 'border-red-800 bg-red-950/95 text-red-200'
+              ? 'border-nw-bad bg-nw-bad-bg text-nw-bad'
               : toast.type === 'info'
-                ? 'border-blue-800 bg-blue-950/95 text-blue-200'
-                : 'border-emerald-800 bg-emerald-950/95 text-emerald-200'
+                ? 'border-nw-info bg-nw-info-bg text-nw-info'
+                : 'border-nw-ok bg-nw-ok-bg text-nw-ok'
           }`}
         >
-          {toast.type === 'error' && <XCircle className="h-5 w-5 shrink-0 text-red-400" />}
-          {toast.type === 'info' && <Info className="h-5 w-5 shrink-0 text-blue-400" />}
-          {toast.type === 'success' && <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400" />}
+          {toast.type === 'error' && <XCircle className="h-5 w-5 shrink-0 text-nw-bad" />}
+          {toast.type === 'info' && <Info className="h-5 w-5 shrink-0 text-nw-info" />}
+          {toast.type === 'success' && <CheckCircle2 className="h-5 w-5 shrink-0 text-nw-ok" />}
           <span className="flex-1 whitespace-pre-line">{toast.message}</span>
         </div>
       </motion.div>

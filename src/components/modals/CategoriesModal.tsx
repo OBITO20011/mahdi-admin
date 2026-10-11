@@ -205,17 +205,17 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
 
   return (
     <div aria-busy={isSaving || busyId !== null} dir="rtl" className="space-y-3 text-xs">
-      <div className="rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-950/40 to-slate-950 p-3.5">
+      <div className="rounded-2xl border border-nw-info/20 bg-nw-surface-2 from-nw-info-bg to-nw-border p-3.5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/15 text-blue-400">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-nw-info-bg text-nw-info">
               <FolderTree className="h-4 w-4" />
             </span>
             <div>
-              <h4 className="font-black text-slate-100">
+              <h4 className="font-black text-nw-text">
                 أقسام مرنة للكتالوج
               </h4>
-              <p className="text-[10px] text-slate-500">
+              <p className="text-[10px] text-nw-muted">
                 {activeCount} نشط من أصل {categories.length}
               </p>
             </div>
@@ -224,14 +224,14 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
             <button
               type="button"
               onClick={startAdd}
-              className="flex items-center gap-1 rounded-xl bg-blue-600 px-3 py-2 font-black text-white"
+              className="flex items-center gap-1 rounded-xl bg-nw-primary px-3 py-2 font-black text-nw-on-primary"
             >
               <Plus className="h-3.5 w-3.5" />
               قسم جديد
             </button>
           )}
         </div>
-        <p className="mt-3 border-t border-white/5 pt-2.5 text-[10px] leading-5 text-slate-400">
+        <p className="mt-3 border-t border-white/5 pt-2.5 text-[10px] leading-5 text-nw-muted">
           يمكنك إنشاء أي قسم يناسب بضاعتكم. القسم المرتبط بأصناف لا يُحذف
           لحماية التقارير؛ انقل أصنافه أولًا ثم أخفه.
         </p>
@@ -240,16 +240,16 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
       {mode !== 'idle' && (
         <form
           onSubmit={handleSubmit}
-          className="space-y-2.5 rounded-2xl border border-blue-500/30 bg-slate-950 p-3.5"
+          className="space-y-2.5 rounded-2xl border border-nw-info/30 bg-nw-bg p-3.5"
         >
           <div className="flex items-center justify-between">
-            <h4 className="font-black text-blue-300">
+            <h4 className="font-black text-nw-info">
               {mode === 'edit' ? 'تعديل القسم' : 'إضافة قسم جديد'}
             </h4>
             <button
               type="button"
               onClick={resetForm}
-              className="rounded-lg p-1 text-slate-500 hover:text-slate-200"
+              className="rounded-lg p-1 text-nw-muted hover:text-nw-text"
             >
               <X className="h-4 w-4" />
             </button>
@@ -263,18 +263,18 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
                 setError('');
               }}
               placeholder="اسم القسم بالعربية *"
-              className="rounded-xl border border-slate-800 bg-slate-900 px-3 py-2.5 font-bold text-slate-100 outline-none focus:border-blue-500"
+              className="rounded-xl border border-nw-border bg-nw-surface px-3 py-2.5 font-bold text-nw-text outline-none focus:border-nw-info"
             />
             <input
               value={code}
               onChange={(event) => setCode(event.target.value)}
               placeholder="رمز اختياري"
-              className="rounded-xl border border-slate-800 bg-slate-900 px-2 py-2.5 text-center font-mono text-[10px] text-slate-300 outline-none focus:border-blue-500"
+              className="rounded-xl border border-nw-border bg-nw-surface px-2 py-2.5 text-center font-mono text-[10px] text-nw-text outline-none focus:border-nw-info"
             />
           </div>
-          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-2.5">
+          <div className="rounded-xl border border-nw-border bg-nw-surface p-2.5">
             <div className="flex items-center gap-2.5">
-              <div className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-700 bg-slate-900 text-slate-500">
+              <div className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-nw-border bg-nw-surface text-nw-muted">
                 <span className="text-lg font-black">
                   {nameAr.trim().charAt(0) || 'ق'}
                 </span>
@@ -288,8 +288,8 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
                 )}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="font-bold text-slate-200">صورة القسم</p>
-                <p className="mt-1 text-[9px] leading-4 text-slate-500">
+                <p className="font-bold text-nw-text">صورة القسم</p>
+                <p className="mt-1 text-[9px] leading-4 text-nw-muted">
                   تظهر تلقائيًا للعميل في صفحة الأقسام والرئيسية.
                 </p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
@@ -303,7 +303,7 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
                   <button
                     type="button"
                     onClick={() => imageInputRef.current?.click()}
-                    className="inline-flex items-center gap-1 rounded-lg bg-blue-500/15 px-2 py-1.5 text-[10px] font-black text-blue-300 transition hover:bg-blue-500/25"
+                    className="inline-flex items-center gap-1 rounded-lg bg-nw-info-bg px-2 py-1.5 text-[10px] font-black text-nw-info transition hover:bg-nw-info-bg"
                   >
                     <ImagePlus className="h-3.5 w-3.5" />
                     اختر صورة
@@ -312,7 +312,7 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
                     <button
                       type="button"
                       onClick={clearCategoryImage}
-                      className="inline-flex items-center gap-1 rounded-lg bg-rose-500/10 px-2 py-1.5 text-[10px] font-black text-rose-300 transition hover:bg-rose-500/20"
+                      className="inline-flex items-center gap-1 rounded-lg bg-nw-bad-bg px-2 py-1.5 text-[10px] font-black text-nw-bad transition hover:bg-nw-bad-bg"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                       إزالة
@@ -322,20 +322,20 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
               </div>
             </div>
             {imageError && (
-              <p className="mt-2 rounded-lg bg-rose-500/10 px-2 py-1.5 text-[10px] font-bold text-rose-400">
+              <p className="mt-2 rounded-lg bg-nw-bad-bg px-2 py-1.5 text-[10px] font-bold text-nw-bad">
                 {imageError}
               </p>
             )}
           </div>
           {error && (
-            <p className="rounded-lg bg-rose-500/10 px-2.5 py-1.5 font-bold text-rose-400">
+            <p className="rounded-lg bg-nw-bad-bg px-2.5 py-1.5 font-bold text-nw-bad">
               {error}
             </p>
           )}
           <button
             type="submit"
             disabled={isSaving}
-            className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-blue-600 py-2.5 font-black text-white disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-nw-primary py-2.5 font-black text-nw-on-primary disabled:opacity-50"
           >
             <Check className="h-3.5 w-3.5" />
             {isSaving ? 'جاري الحفظ...' : 'حفظ القسم'}
@@ -353,16 +353,16 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
               key={category.id}
               className={`flex items-center justify-between rounded-2xl border p-3 transition ${
                 category.isHidden
-                  ? 'border-slate-800 bg-slate-950/50 opacity-65'
-                  : 'border-slate-800 bg-slate-950'
+                  ? 'border-nw-border bg-nw-bg opacity-65'
+                  : 'border-nw-border bg-nw-bg'
               }`}
             >
               <div className="flex min-w-0 items-center gap-2.5">
                 <span
                   className={`relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl font-black ${
                     category.isHidden
-                      ? 'bg-slate-800 text-slate-500'
-                      : 'bg-blue-500/10 text-blue-400'
+                      ? 'bg-nw-surface-2 text-nw-muted'
+                      : 'bg-nw-info-bg text-nw-info'
                   }`}
                 >
                   {category.nameAr.trim().charAt(0)}
@@ -379,16 +379,16 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
                 </span>
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5">
-                    <h5 className="truncate font-black text-slate-200">
+                    <h5 className="truncate font-black text-nw-text">
                       {category.nameAr}
                     </h5>
                     {category.isHidden && (
-                      <span className="rounded-full bg-slate-800 px-1.5 py-0.5 text-[8px] font-bold text-slate-500">
+                      <span className="rounded-full bg-nw-surface-2 px-1.5 py-0.5 text-[8px] font-bold text-nw-muted">
                         مخفي
                       </span>
                     )}
                   </div>
-                  <p className="mt-0.5 text-[9px] text-slate-500">
+                  <p className="mt-0.5 text-[9px] text-nw-muted">
                     {category.productsCount || 0} صنف
                     {category.code ? ` • ${category.code}` : ''}
                   </p>
@@ -400,7 +400,7 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
                   <button
                     type="button"
                     onClick={() => startEdit(category)}
-                    className="rounded-lg p-2 text-slate-500 transition hover:bg-blue-500/10 hover:text-blue-400"
+                    className="rounded-lg p-2 text-nw-muted transition hover:bg-nw-info-bg hover:text-nw-info"
                     title="تعديل القسم"
                   >
                     <Edit3 className="h-3.5 w-3.5" />
@@ -412,8 +412,8 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
                   disabled={isBusy || (!category.isHidden && hasProducts)}
                   className={`rounded-lg p-2 transition disabled:cursor-not-allowed disabled:opacity-25 ${
                     category.isHidden
-                      ? 'text-emerald-400 hover:bg-emerald-500/10'
-                      : 'text-slate-500 hover:bg-amber-500/10 hover:text-amber-400'
+                      ? 'text-nw-ok hover:bg-nw-ok-bg'
+                      : 'text-nw-muted hover:bg-nw-warn-bg hover:text-nw-warn'
                   }`}
                   title={
                     category.isHidden
@@ -440,7 +440,7 @@ export const CategoriesModal: React.FC<{ onClose: () => void }> = ({
       <button
         type="button"
         onClick={onClose}
-        className="w-full rounded-xl bg-slate-800 py-2.5 font-bold text-slate-300"
+        className="w-full rounded-xl bg-nw-surface-2 py-2.5 font-bold text-nw-text"
       >
         تم
       </button>

@@ -274,7 +274,7 @@ export const AllModals: React.FC = () => {
               <button
                 type="button"
                 onClick={() => markAllNotificationsRead()}
-                className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 font-bold text-slate-300 transition hover:bg-slate-700"
+                className="flex items-center gap-1.5 rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2 font-bold text-nw-text transition hover:bg-nw-track"
               >
                 <CheckCheck className="h-3.5 w-3.5" />
                 تحديد الكل كمقروء
@@ -283,12 +283,12 @@ export const AllModals: React.FC = () => {
           </div>
 
           {notifications.length === 0 ? (
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-7 text-center">
-              <PackageOpen className="mx-auto mb-2 h-8 w-8 text-emerald-400" />
-              <h4 className="font-extrabold text-slate-200">
+            <div className="rounded-2xl border border-nw-border bg-nw-surface p-7 text-center">
+              <PackageOpen className="mx-auto mb-2 h-8 w-8 text-nw-ok" />
+              <h4 className="font-extrabold text-nw-text">
                 المخزون بحالة جيدة
               </h4>
-              <p className="mt-1 text-[11px] text-slate-500">
+              <p className="mt-1 text-[11px] text-nw-muted">
                 سيظهر هنا أي منتج يصل إلى حد التنبيه المحدد.
               </p>
             </div>
@@ -300,26 +300,26 @@ export const AllModals: React.FC = () => {
                 onClick={() => markNotificationRead(notification.id)}
                 className={`w-full space-y-1 rounded-xl border p-3 text-right transition ${
                   notification.read
-                    ? 'border-slate-800 bg-slate-900/50 opacity-75'
-                    : 'border-amber-500/30 bg-amber-950/30 hover:bg-amber-950/45'
+                    ? 'border-nw-border bg-nw-surface opacity-75'
+                    : 'border-nw-warn/30 bg-nw-warn-bg hover:bg-nw-warn-bg'
                 }`}
               >
                 <div className="flex items-center justify-between gap-2">
                   <h5
                     className={`font-bold ${
-                      notification.read ? 'text-slate-300' : 'text-amber-300'
+                      notification.read ? 'text-nw-text' : 'text-nw-warn'
                     }`}
                   >
                     {notification.title}
                   </h5>
                   {!notification.read && (
-                    <span className="h-2 w-2 rounded-full bg-rose-500" />
+                    <span className="h-2 w-2 rounded-full bg-nw-bad-bg" />
                   )}
                 </div>
-                <p className="text-[11px] text-slate-300">
+                <p className="text-[11px] text-nw-text">
                   {notification.message}
                 </p>
-                <span className="block text-[9px] text-slate-500">
+                <span className="block text-[9px] text-nw-muted">
                   {new Date(notification.createdAt).toLocaleString('ar-JO', {
                     dateStyle: 'short',
                     timeStyle: 'short',

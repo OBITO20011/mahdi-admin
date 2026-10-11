@@ -175,7 +175,7 @@ export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = [
     label: 'الإدارة والمتجر',
     description: 'الحساب والصلاحيات والمتجر وحماية التطبيق',
     icon: Store,
-    iconTone: 'border border-orange-500/20 bg-orange-500/10 text-orange-300',
+    iconTone: 'border border-nw-warn/20 bg-nw-warn-bg text-nw-warn',
     items: [
       {
         id: 'admin-users',
@@ -200,7 +200,7 @@ export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = [
         label: 'إعدادات المتجر والتوصيل',
         description: 'واتساب وCliQ والحد الأدنى ورسوم التوصيل',
         icon: Store,
-        tone: 'bg-orange-500/10 text-orange-300',
+        tone: 'bg-nw-warn-bg text-nw-warn',
         action: { type: 'modal', destination: 'storefront_settings' },
       },
       {
