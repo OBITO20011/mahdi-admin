@@ -1,10 +1,10 @@
 import AxeBuilder from '@axe-core/playwright';
-import {analyzePackageFAccessibility} from './package-f-accessibility';
+import {analyzePackageFAccessibility,waitForPackageFMotion} from './package-f-accessibility';
 import {test,expect,type Page} from './isolated-test';
 import {checkLayout} from './package-f-layout';
 const url=(view:string,theme='light',extra='')=>`/e2e/package-f-auth-assistant-harness.html?view=${view}&theme=${theme}&${extra}`;
 async function audit(page:Page){
- await page.evaluate(async()=>{await document.fonts.ready;await Promise.all(document.getAnimations().filter(a=>a.effect instanceof KeyframeEffect&&a.effect.getTiming().iterations!==Infinity).map(a=>a.finished.catch(()=>undefined)));});
+ await waitForPackageFMotion(page);
  await checkLayout(page,page.getByTestId('auth-assistant-workbench'));
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await expect(page.getByTestId('auth-assistant-workbench')).not.toContainText(/[٠-٩]/u);

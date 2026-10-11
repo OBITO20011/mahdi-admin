@@ -1,6 +1,25 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync,readdirSync} from 'node:fs';
+import ts from 'typescript';
+
+test('Package F specs cannot wait directly on native Animation.finished promises',()=>{
+ const specs=readdirSync('e2e').filter(name=>/^package-f-.*\.spec\.ts$/u.test(name));
+ assert.ok(specs.length>0);
+ for(const name of specs){
+  const source=ts.createSourceFile(name,readFileSync(`e2e/${name}`,'utf8'),ts.ScriptTarget.Latest,true);
+  const forbidden:string[]=[];
+  const visit=(node:ts.Node)=>{
+   if((ts.isPropertyAccessExpression(node)&&node.name.text==='finished')
+    ||(ts.isElementAccessExpression(node)&&ts.isStringLiteral(node.argumentExpression)&&node.argumentExpression.text==='finished')){
+    forbidden.push(node.getText(source));
+   }
+   ts.forEachChild(node,visit);
+  };
+  visit(source);
+  assert.deepEqual(forbidden,[],`${name}: use waitForPackageFMotion,not a captured finished promise`);
+ }
+});
 
 test('every Package F axe analysis uses the shared native-animation gate',()=>{
  const specs=readdirSync('e2e').filter(name=>/^package-f-.*\.spec\.ts$/u.test(name));

@@ -1,5 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
-import {analyzePackageFAccessibility} from './package-f-accessibility';
+import {analyzePackageFAccessibility,waitForPackageFMotion} from './package-f-accessibility';
 import {checkLayout as checkClipping} from './package-f-layout';
 import {test,expect,type Page} from './isolated-test';
 import {cashIds,cashShift,shiftRpcFixture,cashReportFixture,recentCashShifts} from './package-f-cash.fixture';
@@ -35,9 +35,7 @@ async function axe(page:Page){
   for(let i=0;i<await dialogs.count();i++){
     const dialog=dialogs.nth(i);
     if(await dialog.getAttribute('data-state')!==null)await expect(dialog).toHaveAttribute('data-state','open');
-    await dialog.evaluate(async element=>{
-      await Promise.all(element.getAnimations().filter(animation=>animation.playState==='running').map(animation=>animation.finished));
-    });
+    await waitForPackageFMotion(page);
   }
   const result=await analyzePackageFAccessibility(page,new AxeBuilder({page}).include('[data-testid="cash-workbench"]').withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']));
   expect(result.violations.filter(v=>v.impact==='serious'||v.impact==='critical').map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,checks:n.any.map(check=>({message:check.message,data:check.data}))}))}))).toEqual([]);

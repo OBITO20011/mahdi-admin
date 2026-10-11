@@ -1,5 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
-import {analyzePackageFAccessibility} from './package-f-accessibility';
+import {analyzePackageFAccessibility,waitForPackageFMotion} from './package-f-accessibility';
 import {checkLayout} from './package-f-layout';
 import {test,expect,type Page} from './isolated-test';
 
@@ -22,7 +22,7 @@ test('standalone More pairs footer tokens with its own canvas even before theme 
 async function stableDialog(page:Page,name:string){
   const dialog=page.getByRole('dialog',{name,exact:true});
   await expect(dialog).toHaveAttribute('data-state','open');
-  await dialog.evaluate(async element=>{await Promise.all(element.getAnimations({subtree:true}).filter(a=>a.effect instanceof KeyframeEffect&&a.effect.getComputedTiming().iterations!==Infinity).map(a=>a.finished.catch(()=>undefined)));});
+  await waitForPackageFMotion(page);
   return dialog;
 }
 async function stableNavigation(page:Page){
@@ -88,7 +88,7 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440]){
     for(const id of ['products-inventory','customers','suppliers-purchases','finance-reports','administration-store']){
       await page.locator(`#admin-navigation-trigger-${id}`).click();
       await expect(page.locator(`#admin-navigation-trigger-${id}`)).toHaveAttribute('aria-expanded','true');
-      await page.locator(`#admin-navigation-panel-${id}`).evaluate(async element=>{await Promise.all(element.getAnimations({subtree:true}).map(a=>a.finished.catch(()=>undefined)));});
+      await waitForPackageFMotion(page);
       await audit(page);
     }
     await expect(page.locator('[data-navigation-id="profile-summary"]')).toBeVisible();
@@ -108,7 +108,7 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440]){
     await expect(dialog).toBeVisible();await expect(dialog.getByLabel('الاسم الكامل *',{exact:true})).toHaveValue('اسم معدل');
     await dialog.getByRole('button',{name:'إلغاء',exact:true}).click();
     const warning=page.getByRole('dialog',{name:'تغييرات غير محفوظة',exact:true});await expect(warning).toBeVisible();
-    await warning.evaluate(async element=>{await Promise.all(element.getAnimations({subtree:true}).map(a=>a.finished.catch(()=>undefined)));});await audit(page);
+    await waitForPackageFMotion(page);await audit(page);
     await warning.getByRole('button',{name:'متابعة التعديل',exact:true}).click();
     await dialog.getByRole('button',{name:'الإشعارات',exact:true}).click();await audit(page);
     await dialog.getByRole('button',{name:'الأمان والجلسات',exact:true}).click();

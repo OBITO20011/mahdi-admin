@@ -1,11 +1,11 @@
 import AxeBuilder from '@axe-core/playwright';
-import {analyzePackageFAccessibility} from './package-f-accessibility';
+import {analyzePackageFAccessibility,waitForPackageFMotion} from './package-f-accessibility';
 import {test,expect,type Page} from './isolated-test';
 import {checkLayout} from './package-f-layout';
 type Locator = ReturnType<Page['locator']>;
 async function stable(page:Page){
  const dialog=page.getByRole('dialog');await expect(dialog).toHaveAttribute('data-state','open');
- await dialog.evaluate(async e=>{await Promise.all(e.getAnimations({subtree:true}).filter(a=>a.effect instanceof KeyframeEffect&&a.effect.getComputedTiming().iterations!==Infinity).map(a=>a.finished.catch(()=>undefined)));});return dialog;
+ await waitForPackageFMotion(page);return dialog;
 }
 async function geometry(page:Page,root:Locator){
  await checkLayout(page,root);

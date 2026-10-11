@@ -1,5 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
-import {analyzePackageFAccessibility} from './package-f-accessibility';
+import {analyzePackageFAccessibility,waitForPackageFMotion} from './package-f-accessibility';
 import {test,expect,type Page} from './isolated-test';
 import {checkLayout} from './package-f-layout';
 import {purchaseOrders,supplierId,warehouseId,productId,otherSupplierRow} from './package-f-purchasing.fixture';
@@ -9,7 +9,7 @@ async function audit(page:Page){
  if(await dialogs.count()){
   const dialog=dialogs.last();
   if(await dialog.getAttribute('data-state')!==null)await expect(dialog).toHaveAttribute('data-state','open');
-  await dialog.evaluate(async e=>{await Promise.all(e.getAnimations({subtree:true}).filter(a=>a.effect instanceof KeyframeEffect&&a.effect.getComputedTiming().iterations!==Infinity).map(a=>a.finished.catch(()=>undefined)));});
+  await waitForPackageFMotion(page);
  }
  const root=page.getByTestId('purchasing-workbench');
  await checkLayout(page,root);
