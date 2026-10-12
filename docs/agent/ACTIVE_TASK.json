@@ -2,60 +2,44 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner approved types delivery via exact CI despite known local checkout symptom;then temporary checkout diagnosis only",
-  "baselineSha": "7361d5cbc87ffdfe40bcee59a6bc8a8369b1c7af",
+  "objective": "Commit checkout diagnosis docs only;then approved Package F phone presentation round",
+  "baselineSha": "1807f93a5f9439f4a6eba768ae9e3de02d17b8c7",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Local display7361d5c;Gitleaks0;source11/browser16 PASS",
-    "React19 types11 corrected;negative/runtime-AST3 PASS;strict70 in41 files measured only"
+    "1807f93 pushed;exact quality21/21+secrets PASS",
+    "Original WebKit100 completed;temporary tracing removed;store/specs restored"
   ],
   "inProgress": [
-    "Push display7361d5c;Gitleaks/types commit/push/exact CI;then diagnose checkout hypotheses A-D without repair"
+    "Owner authorizes docs-only commit/push;checkout focus repair remains pending owner"
   ],
   "notStarted": [
-    "Strict remediation;checkout repair;Phase7"
+    "Phone items1–5;strict;checkout focus repair;Phase7"
   ],
   "filesTouched": [
-    "src/features/dashboard/SmartLowStockAlertBar.tsx",
-    "docs/design/package-f/RECEIVING_UNITS_MIGRATION.md",
     "docs/design/package-f/REMAINING_SCREENS_MIGRATION.md",
-    "package-lock.json",
-    "package.json",
-    "src/components/common/AppErrorBoundary.tsx",
-    "src/components/ui/Surface.tsx",
-    "src/features/accounts/AccountsView.tsx",
-    "src/features/dashboard/DashboardHome.tsx",
-    "src/features/inventory/InventoryView.tsx",
-    "src/stores/useAppStore.ts",
-    "tests/package-f-auth-assistant.test.ts",
-    "tests/package-f-colour-retirement.test.ts",
-    "tests/package-f-remaining-batch1.test.ts",
-    "tests/package-f-remaining-batch3.test.ts",
-    "docs/design/package-f/TYPES_REMEDIATION.md",
-    "docs/design/package-f/TYPES_STRICT_MEASUREMENT.md",
-    "scripts/testing/measure-types-strict.mjs",
-    "tests/react-types-contract.test.ts",
-    "tests/types/required-props.tsx"
+    "docs/design/package-f/CHECKOUT_NAME_DIAGNOSIS.md"
   ],
   "testsPassed": [
-    "Final quality:typecheck/ESLint/Admin900/Customer189/builds/SEO/isolation PASS;browser694 PASS/59knownskips"
+    "Receipt50/50;earlier natural20/20;preflight/resume PASS",
+    "DOM identity100/100 unchanged;no saved/UNKNOWN restore/remount during fill"
   ],
   "testsRemaining": [
-    "Types Gitleaks/commit/push/full exact CI;temporary checkout source/value/time/mount diagnosis removed afterward"
+    "Phone presentation/AST/browser/full quality/exact CI"
   ],
   "findings": [
-    "WebKit customer-presentational-characterization:114 fails at195;successful name fill then required name empty;mechanism unproven"
+    "Fresh-token46/50,4FAIL:old Cart focus trap/restore then Checkout close focus prevent name insertion",
+    "No node replacement or accepted-name state erasure;see CHECKOUT_NAME_DIAGNOSIS.md"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production/deploy/migrations/RPC/payload/permissions/CI-workflow/automations/Phase7;001–137 unchanged",
-    "No strict or checkout repair;temporary isolated diagnosis only after green CI;.claude/launch.json untouched"
+    "No checkout focus repair;no Production/deploy/RPC/payload/validation/confirmations/DB/migrations/strict/Phase7",
+    "No phone function removal;desktop >=1024 presentation preserved;.claude/launch.json untouched"
   ],
-  "nextExactAction": "Push7361d5c;stage approved React types files,Gitleaks0,commit/push,wait exact full CI;then temporary CheckoutModal diagnosis A-D only",
-  "workingTreeFingerprint": "776CA5C265D03871BEF892566149A0763303901E83EEE2B64B9C56AEFB5C8118",
-  "checkpointedAt": "2026-10-11T22:32:35.896Z",
+  "nextExactAction": "Gitleaks0 and docs-only diagnosis commit/push;then phone presentation items1–5,checkout repair forbidden",
+  "workingTreeFingerprint": "BBCFB40CE9BEEC3F4733BF2A84EC09F0256969A90FEBDA3FCCA1C0A27519EAF6",
+  "checkpointedAt": "2026-10-12T02:05:24.317Z",
   "startedAt": "2026-10-11"
 }
