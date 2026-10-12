@@ -2,47 +2,36 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Approved phone presentation items1–5;three customer tabs;statement scope docs only",
-  "baselineSha": "6189a5728d98b282e31c8228bb0177202d3aaa95",
+  "objective": "Approved sequence:isolated QA snapshot,local workers,storefront focus handover,phone12px;separate delivery gates",
+  "baselineSha": "61e6590010838a8acabe9df323bb9d38a54d0c24",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Docs-only diagnosis289f398 committed/pushed;Gitleaks staged0",
-    "Checkout source/two original specs restored1807f93;only approved Admin phone presentation changes",
-    "Phone1+2 delivered6189a57:quality38198947003 all21/21,secrets38198946981 PASS"
+    "Phone1+2 delivered6189a57:quality38198947003 all21/21,secrets38198946981 PASS",
+    "Phone3+4 delivered61e6590010838a8acabe9df323bb9d38a54d0c24;Gitleaks staged0;quality38207929147 21/21,secrets38207929144 PASS"
   ],
   "inProgress": [
-    "Phone3+4 ready for owner-authorized environment-exception delivery after bounded diagnosis;no product repair"
+    "Step1 full quality-snapshot exit0;stage/Gitleaks/independent commit/push/exact CI"
   ],
   "notStarted": [
-    "Approved checkout focus repair AFTER current phone3+4 safe commit;then phone5;statement reader docs only;strict;Phase7"
+    "Step2 adaptive local worker limit;Step3 approved storefront focus repair;Step4 phone12px;statement reader docs only;strict/Phase7 prohibited"
   ],
   "filesTouched": [
-    "docs/design/package-f/PHONE_QUALITY_INTERRUPTION_DIAGNOSIS.md",
-    "docs/agent/OWNER_DECISIONS.md",
-    "docs/design/package-f/PHONE_POLISH_MIGRATION.md",
-    "e2e/package-f-administration.spec.ts",
-    "e2e/package-f-auth-assistant.spec.ts",
-    "e2e/package-f-financial.spec.ts",
-    "e2e/package-f-phone-polish.spec.ts",
-    "src/components/ui/index.ts",
-    "src/components/ui/PhonePresentation.tsx",
-    "src/features/more/StorefrontSettingsModal.tsx",
-    "src/features/purchases/PurchasesView.tsx",
-    "tests/package-f-phone-polish.test.ts"
+    "docs/agent/OPERATING_RULES.md",
+    "scripts/testing/isolated-vite-server.mjs",
+    "docs/design/package-f/TEST_SNAPSHOT_AND_MEMORY.md",
+    "tests/isolated-vite-watch.test.ts"
   ],
   "testsPassed": [
-    "Source15+newAST8 PASS;typecheck/affected strict ESLint0",
-    "Chromium/WebKit Customers42/42+expense6/6+receipt/staff6/6;axe/clipping/keyboard PASS",
-    "Full quality12 exit0:Admin908/Customer189/browser719+59knownskips,retries0",
     "Phone3+4 focused32/32;existing batches4/5+new8-file parity PASS",
     "Selector correction4/4 both browsers/themes;no product change;newAST11/11 PASS",
     "Corrected full gate pre-browser checks PASS;browser743PASS+59knownskips,but2FAIL means quality NOT PASS",
-    "Original current20/20 and clean289f39820/20 Chromium repeat10/2workers/retries0;controlled unchanged-document touch reproduces Vite full-reload+lost form"
+    "Original current20/20 and clean289f39820/20 Chromium repeat10/2workers/retries0;controlled unchanged-document touch reproduces Vite full-reload+lost form",
+    "Exact61e6590 Linux CI all21/21 plus secret scanning PASS;no retries/timeouts/test/product repair introduced"
   ],
   "testsRemaining": [
-    "Quality34/Gitleaks/commit/exact CI;then independent approved checkout focus repair;then phone5/final visual STOP"
+    "Each step focused proofs/full detached quality/Gitleaks0/commit/push/exact CI;then final visual STOP"
   ],
   "findings": [
     "Three existing customer tabs approved;statement future scope documented only",
@@ -57,8 +46,8 @@
     "Checkout focus-only correction approved2026-10-12 after phone3+4 safe commit;no form/state/RPC/payload/validation/financial change;no Production/deploy/DB/migrations/strict/Phase7",
     "No phone function removal;desktop >=1024 presentation preserved;.claude/launch.json untouched;freeze ALL watched files including docs/checkpoints while browser servers run"
   ],
-  "nextExactAction": "Phone3+4 environment-interruption exception delivery:commit/push and exact Linux CI;freeze watched files during browser gates;checkout focus and phone5 remain later",
-  "workingTreeFingerprint": "90A9936FB52831EE84620F8DD7ECDD6BFD4BF117E4399030B0DE490135DF3C4D",
-  "checkpointedAt": "2026-10-12T05:26:14.508Z",
+  "nextExactAction": "Step1 quality exit0;Gitleaks then independent immutable-QA commit/push/exact CI;only then Step2 local workers",
+  "workingTreeFingerprint": "30DE559409FC05489A2778FFC894C7239A65E30F201E282B86ACB318FC5D3CF7",
+  "checkpointedAt": "2026-10-12T06:41:26.559Z",
   "startedAt": "2026-10-11"
 }

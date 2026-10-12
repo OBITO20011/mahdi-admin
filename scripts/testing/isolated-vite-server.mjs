@@ -29,7 +29,10 @@ export async function startIsolatedVite({root, port, env = {}, logger = undefine
       optimizeDeps: {...config.optimizeDeps, include: [...new Set([
         ...isolatedViteDependencies, ...(config.optimizeDeps?.include ?? []),
       ])]},
-      server: {...config.server, host: '127.0.0.1', port, strictPort: true,
+      // A QA server is an immutable snapshot, not an interactive dev session.
+      // Tailwind watches scanned JSON/Markdown too; filtering HMR paths alone
+      // would still let its plugin send a full reload. Disable both mechanisms.
+      server: {...config.server, hmr: false, watch: null, host: '127.0.0.1', port, strictPort: true,
         fs: {...config.server?.fs, allow: [searchForWorkspaceRoot(root), cacheDir]}},
       plugins: [...(config.plugins ?? []), {
         name: 'isolated-harness-cache',

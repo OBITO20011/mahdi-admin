@@ -26,6 +26,10 @@ This captures the exact task baseline. Do not run it merely to explore an unappr
 - Use isolated test databases and fail-closed browser network guards.
 - Preserve unrelated changes. Do not use destructive Git commands.
 - Record verified facts separately from claims and remaining evidence gaps.
+- Do not edit tracked files (including docs, task logs, and checkpoints) while
+  verification processes are running. Keep live logs outside the checkout and
+  checkpoint between completed gates. Isolated QA Vite servers disable HMR and
+  file watching; ordinary development servers are unchanged.
 
 ## Handoff
 
