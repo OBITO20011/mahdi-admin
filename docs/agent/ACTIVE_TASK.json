@@ -2,51 +2,55 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Deliver phone round item5:minimum12px presentation-only;STOP for visual review",
-  "baselineSha": "95058f7849c860f6953f07e8fd848dc57f4298d2",
+  "objective": "Customer statement138 read-only then separate UI;owner-approved2026-10-12",
+  "baselineSha": "6b631b866942a0d79c58258845bba19e1afda614",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Focus95058f7 owner accepted;exact quality38242137444 21/21,secrets38242137405PASS",
-    "Phone floor72/72 Chromium/WebKit both themes;literal desktop/print parity;no small functional exceptions",
-    "Full quality-phone-type-final exit0,2026-10-12 11:53:32.175–13:21:08.723UTC:917Admin/191Customer/843browser+59knownskips,retries0",
-    "Post-gate resume/preflightPASS;source fingerprint unchanged;business/customer-web/migrations unchanged;owned test listeners closed"
+    "Phone round owner visually closed;6b631b8 exactquality21/21+secretsPASS",
+    "Preflight/resumePASS;source unchanged;owner focused-local/full-CI gate recorded"
   ],
   "inProgress": [
-    "Gitleaks0;explicit phone-only commit;push;all exact-SHA CI;visual STOP"
-  ],
-  "notStarted": [
-    "Customer statement reader docs only;Admin handover measurement later only;strict/Phase7 prohibited"
-  ],
-  "filesTouched": [
-    "docs/design/package-f/CHECKOUT_FOCUS_HANDOVER.md",
-    "docs/design/package-f/PHONE_POLISH_MIGRATION.md",
-    "src/index.css",
-    "e2e/package-f-phone-type.spec.ts",
-    "src/components/ui/phone-type.css",
-    "tests/package-f-phone-type.test.ts"
-  ],
-  "testsPassed": [
-    "Static1/1/types/strictlintPASS;business/features/stores/services/migrations/customer-web unchanged",
-    "All68real390screen/theme/engine audits PASS with12px/axe/no clipping;Chromium2boundaryPASS;WebKit390/820 assertionsPASS",
-    "Corrected4boundariesPASS;no product edit,no tolerance/browserspecific expectations;68screen proofs retained"
+    "138 local gatesPASS;Gitleaks/explicit DBcommit/push/full exactCI before UI"
   ],
   "testsRemaining": [
-    "Staged Gitleaks and exact-SHA GitHub quality/secret workflows"
+    "138 Gitleaks0;commit/push/full exactCI",
+    "Separate statementUI both-engine focused specs/same local gates/Gitleaks0/fullCI;visual STOP"
+  ],
+  "notStarted": [
+    "Statement UI waits for migration138 exact CI;print/share/strict/Phase7 not authorized"
+  ],
+  "testsPassed": [
+    "Static138/migration8/8;focused real DB/ACL/READONLY/pages3PASS;canonical10500",
+    "Fullscale10000/10000 canonical balancesPASS;p95 55.516ms;p50 32.950/max96.501ms",
+    "Local typecheck/lint920Admin+191Customer unitsPASS;source fingerprint unchanged;ownedDBclosed"
   ],
   "findings": [
-    "No smaller functional-text phone exception;hidden/inert/sr-only/closed disclosure not painted;print unchanged",
-    "Existing three purchasing sm:text-sm controls remain14px at640–1023;minimum12px below640"
+    "Explicit statement candidate fails closed on canonical mismatch;no synthetic adjustment"
   ],
-  "blockers": [],
   "activeProcesses": [],
+  "blockers": [],
   "prohibitions": [
-    "Checkout focus-only correction approved2026-10-12 after phone3+4 safe commit;no form/state/RPC/payload/validation/financial change;no Production/deploy/DB/migrations/strict/Phase7",
-    "No phone function removal;desktop >=1024 presentation preserved;.claude/launch.json untouched;freeze ALL watched files including docs/checkpoints while browser servers run"
+    "No historical001–137 edits;138 read-only only;no writers/parallel balance/cache/new financial policy",
+    "No Production/deploy/Phase7/print-share/opening tool;explicit staging;no retries/force-push;freeze tracked files during verification"
   ],
-  "nextExactAction": "Gitleaks0;commit/push phone12px;verify all exactCI;STOP owner/Claude visual review of complete phone round",
-  "workingTreeFingerprint": "8294C9858599409430C198F903AFD01905C8A6EF77BD2E60DC3324695DC6D2EA",
-  "checkpointedAt": "2026-10-12T13:24:03.645Z",
-  "startedAt": "2026-10-11"
+  "nextExactAction": "StagedGitleaks0;138 read-only DBcommit/push;monitor exact fullCI;only then statement UI",
+  "checkpointedAt": "2026-10-12T14:21:44.858Z",
+  "filesTouched": [
+    ".github/workflows/quality.yml",
+    "docs/agent/OWNER_DECISIONS.md",
+    "docs/agent/PHASE_STATUS.md",
+    "docs/agent/project-state.json",
+    "docs/agent/VERIFICATION_GATES.md",
+    "package.json",
+    "scripts/agent/lib.mjs",
+    "scripts/agent/preflight.mjs",
+    "tests/migration-integrity.test.ts",
+    "docs/design/package-f/CUSTOMER_STATEMENT_138.md",
+    "scripts/testing/run-customer-statement-runtime.mjs",
+    "supabase/migrations/138_package_f_customer_statement.sql",
+    "tests/customer-statement.test.ts"
+  ],
+  "workingTreeFingerprint": "E8C128173CF513845C9019707B00BAAE3DF93766D6DCC598E44754CBCCF20808"
 }

@@ -98,6 +98,7 @@ export function migrationInventory() {
   const migration135 = resolve(root, 'supabase/migrations/135_package_f_pos_customer_inventory_reads.sql');
   const migration136 = resolve(root, 'supabase/migrations/136_package_f_customer_debt_aging.sql');
   const migration137 = resolve(root, 'supabase/migrations/137_package_f_crm_financial_filters.sql');
+  const migration138 = resolve(root, 'supabase/migrations/138_package_f_customer_statement.sql');
   const migrationFiles = readdirSync(resolve(root, 'supabase/migrations'));
   return {
     ceiling: state.migrationCeiling,
@@ -157,6 +158,9 @@ export function migrationInventory() {
     migration137Exists: existsSync(migration137),
     migration137CanonicalLfSha256: existsSync(migration137)
       ? fileCanonicalTextSha256(migration137) : null,
+    migration138Exists: existsSync(migration138),
+    migration138CanonicalLfSha256: existsSync(migration138)
+      ? fileCanonicalTextSha256(migration138) : null,
   };
 }
 

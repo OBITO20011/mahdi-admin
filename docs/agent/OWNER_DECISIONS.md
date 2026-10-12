@@ -1,5 +1,29 @@
 # Approved owner decisions
 
+## 2026-10-12 — local verification and exact-SHA delivery gate
+
+Before every commit:local typecheck,lint,all unit tests,all browser specs and
+isolated DB runtimes affected by the changed files (both engines where
+applicable),and Gitleaks exit0. Full GitHub CI (all quality jobs/current21/21
+plus secret scanning) is mandatory for every delivered step. Local FULL quality
+is reserved for major milestones (before Frankfurt project creation/before
+release) or diagnosing an unexplained CI failure. If CI fails after push,fix
+in a subsequent ordinary commit;no force-push,retries or weakened checks.
+Applies immediately to the customer statement138 and its separate UI commit.
+
+## 2026-10-12 — phone round accepted;customer statement138 approved
+
+Owner/Claude visually accepted6189a57/61e6590/6b631b8 on390;phone round closed.
+Next:explicit read-only get_customer_statement(UUID,INT,INT) in138,from the
+same phase42 receivable evidence;stable chronological running balance,undated
+first,no invented date,latest-first paging25/max100,exact canonical closing
+balance,identical debt-read roles/grants. Real mixed movements/per-customer
+scale equality/page boundaries/ACL/zero-write/p95<1s proofs. Separate migration
+then UI commits,each passing local applicable gates/Gitleaks/full exact CI.
+Fourth phone tab and desktop statement section only;no print/share,opening
+tool,writers,Production/deploy or Phase7. A new movement-display policy needs
+owner decision before implementation.
+
 ## 2026-10-11 — receiving packages: exact gross, database-derived WAC
 
 Owner approves PO package lines sending gross_amount_in_minor_units = package

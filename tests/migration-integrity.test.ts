@@ -77,9 +77,10 @@ const fingerprints = [
   ['135_package_f_pos_customer_inventory_reads.sql', '2F699CAC9EB167C1A44838EE9CF72894C0F7D47846125F698C211E2592EE3B52'],
   ['136_package_f_customer_debt_aging.sql', 'B324874E401CCDE88084314841F9F75DC64562C40ECBFB780B177F531FC40E24'],
   ['137_package_f_crm_financial_filters.sql', '4FEE1C389F81D204BD6E781A968D0C7388D398847C6EADCB1B40253C1A609794'],
+  ['138_package_f_customer_statement.sql', 'AB01B7A1E2FFDB57404DF92A6EB637F6CA0278EAEFD9C02B685D27FABE6AD6B3'],
 ] as const;
 
-test('121-137 bytes and continuity references agree with fixed approved fingerprints', () => {
+test('121-138 bytes and continuity references agree with fixed approved fingerprints', () => {
   for (const [name, expected] of fingerprints) {
     const content = canonical(readFileSync(new URL(name, directory)));
     const actual = createHash('sha256').update(content).digest('hex').toUpperCase();

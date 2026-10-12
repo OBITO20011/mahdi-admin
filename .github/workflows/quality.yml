@@ -200,6 +200,10 @@ jobs:
         if: matrix.suite == 'package-f-aging'
         run: npm run test:package-f:aging
 
+      - name: Prove138 customer statement movements,canonical balance,paging and ACL
+        if: matrix.suite == 'package-f-aging'
+        run: npm run test:package-f:statement
+
       - name: Reconcile a complete business day through real public RPCs
         if: matrix.suite == 'golden-day'
         run: npm run test:package-e:golden

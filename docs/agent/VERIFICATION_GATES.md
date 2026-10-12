@@ -2,6 +2,18 @@
 
 Select gates proportionate to the task; phase closure requires all gates named by its approved contract.
 
+## Owner gate decision — 2026-10-12 (current)
+
+Before EACH commit run typecheck,lint,ALL unit tests,and ALL browser/isolated DB
+runtime specs affected by the changed files,with both browsers where applicable.
+Gitleaks must exit0. Complete exact-SHA GitHub quality plus secret scanning is
+the mandatory acceptance gate for EVERY step;local focused PASS is not delivery.
+Local unsplit full quality runs only before major milestones (Frankfurt project
+creation/release) or an unexplained CI failure. This supersedes ordinary-step
+local full-quality requirements below,not the full CI coverage. Repair a pushed
+CI failure in a subsequent ordinary commit:no force-push,retries or weakened
+checks. No Production/release authorization is conferred by this gate decision.
+
 ## Always
 
 - `npm run agent:preflight`

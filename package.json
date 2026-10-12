@@ -47,6 +47,8 @@
     "test:package-f:reads:scale": "node scripts/testing/run-package-f-read-extensions-runtime.mjs --scale",
     "test:package-f:aging": "node scripts/testing/run-package-f-debt-aging-runtime.mjs",
     "test:package-f:aging:scale": "node scripts/testing/run-package-f-debt-aging-runtime.mjs --scale",
+    "test:package-f:statement": "node scripts/testing/run-customer-statement-runtime.mjs",
+    "test:package-f:statement:scale": "node scripts/testing/run-customer-statement-runtime.mjs --scale",
     "test:package-f:crm-filters": "node scripts/testing/run-package-f-crm-filters-runtime.mjs",
     "test:package-f:crm-filters:scale": "node scripts/testing/run-package-f-crm-filters-runtime.mjs --scale",
     "test:orders-pagination:runtime": "node scripts/testing/run-operational-orders-pagination-runtime.mjs",
