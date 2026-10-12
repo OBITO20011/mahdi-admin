@@ -4,6 +4,8 @@ import path from 'node:path';
 import {parseTechnicalJson, runIncidentCycle, sendTelegramMessage} from './developer-alert-core.mjs';
 import {DEPLOYMENT_FRESHNESS, evaluateCloudflareDeployment, resolveRepositoryMainSha} from './deployment-impact.mjs';
 import {scheduledTaskStatus} from './scheduled-task-status.mjs';
+import {parse as parseEnv} from 'dotenv';
+import {collectDailySupabase} from './supabase-daily-health.mjs';
 
 const root = process.env.NAWASRAH_DEVELOPER_MONITOR_ROOT || 'C:\\ProgramData\\NawasrahDeveloperMonitoring';
 const statePath = path.join(root, 'incidents.json');
@@ -450,7 +452,29 @@ async function main() {
     return;
   }
   try {
+    const state = await loadState();
+    const dailyEnabled = process.env.NAWASRAH_SUPABASE_DAILY_CHECKS === 'true';
+    let dailyEnv = {};
+    if (dailyEnabled) {
+      // Existing application configuration, memory only. Never print parsed values.
+      const project = process.env.NAWASRAH_PROJECT_ROOT;
+      if (project) for (const name of ['.env', '.env.local']) {
+        try { dailyEnv = {...dailyEnv, ...parseEnv(await readFile(path.join(project, name), 'utf8'))}; } catch { /* Missing config is reported by the read check. */ }
+      }
+    }
+    const daily = await collectDailySupabase({enabled: dailyEnabled, now, previous: state.supabaseDaily,
+      url: process.env.VITE_SUPABASE_URL || dailyEnv.VITE_SUPABASE_URL,
+      publishableKey: process.env.VITE_SUPABASE_PUBLISHABLE_KEY || dailyEnv.VITE_SUPABASE_PUBLISHABLE_KEY
+        || process.env.VITE_SUPABASE_ANON_KEY || dailyEnv.VITE_SUPABASE_ANON_KEY,
+      readDatabaseSize: async sql => {
+        const result = runMonitoringSql(sql);
+        if (!result.ok) throw new Error('Read unavailable');
+        const numbers = result.stdout.split(/\r?\n/u).filter(line => /^\d+$/u.test(line.trim()));
+        return numbers.length === 1 ? numbers[0].trim() : null;
+      },
+    });
     const checks = [
+      ...daily.checks,
       ...await collectLocalChecks(),
       ...await collectBackupChecks(),
       ...collectSupabaseChecks(),
@@ -470,7 +494,6 @@ async function main() {
       })}\n`);
       return;
     }
-    const state = await loadState();
     const result = await runIncidentCycle({
       checks,
       state,
@@ -481,6 +504,7 @@ async function main() {
         message,
       }),
     });
+    if (daily.state) result.state.supabaseDaily = daily.state;
     await saveState(result.state);
     process.stdout.write(`${JSON.stringify({ok: result.notifications.every((item) => item.delivered), checks: checks.length, notifications: result.notifications.length})}\n`);
     if (result.notifications.some((item) => !item.delivered)) process.exitCode = 1;

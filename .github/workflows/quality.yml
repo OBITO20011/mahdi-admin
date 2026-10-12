@@ -204,6 +204,10 @@ jobs:
         if: matrix.suite == 'package-f-aging'
         run: npm run test:package-f:statement
 
+      - name: Prove daily Supabase REST read and database-size read on isolated schema
+        if: matrix.suite == 'package-f-aging'
+        run: npm run test:monitoring:daily:runtime
+
       - name: Reconcile a complete business day through real public RPCs
         if: matrix.suite == 'golden-day'
         run: npm run test:package-e:golden

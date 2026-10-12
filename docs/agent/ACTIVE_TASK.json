@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Operational stability:Scheduler running-state fix;isolated Supabase daily health/size;public uptime headers",
-  "baselineSha": "47441ad2657b8d0836ef42dba9531654bc112c1e",
+  "baselineSha": "904222740f035e5dfa38596c0de63af119738a67",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -11,18 +11,18 @@
     "Statement138/47441ad owner accepted;preflight/resumePASS"
   ],
   "inProgress": [
-    "Step1 local gatesPASS;stage/Gitleaks/commit/push/exactCI"
+    "Vite diagnosis20/20 PASS;step2 isolatedPASS;local gates sequential then commit/fullCI"
   ],
   "notStarted": [
-    "Step2 opt-in Supabase daily checks;step3 existing uptime strengthening;startup postponed;Phase7 not started"
+    "Step3 existing uptime strengthening;startup postponed;Phase7 not started"
   ],
   "testsPassed": [
     "Focused Scheduler/backup/monitoring32/32;real PS5/5 synthetic cases/noScheduler access",
     "Local typecheck/lint929Admin+191Customer unitsPASS;no UI/DB mutation;source fingerprint unchanged"
   ],
   "testsRemaining": [
-    "PS5-case proof;typecheck/lint/all units;Gitleaks;step1 commit/fullCI",
-    "Step2 isolatedDB+unit/local gates+CI;step3 HTTP/unit/local gates+CI"
+    "Resolve/review existing isolated-vite-cache optimizer readiness failure before commit;Customer gates not reached",
+    "Step2 Gitleaks/commit/fullCI;step3 HTTP/unit/local gates/fullCI"
   ],
   "findings": [
     "Watchdog itself has same backup/n8n nonzero-result defect;public probes exist but omit security headers"
@@ -33,19 +33,17 @@
     "No Production/deploy/secrets/config activation/new schedules/migrations/startup/Phase7",
     "One writer;no add-A/force-push/test retries;freeze trackedfiles duringverification"
   ],
-  "nextExactAction": "Step1 stagedGitleaks0;commit/push running-state fix;all exactCI then step2",
-  "checkpointedAt": "2026-10-12T16:28:32.662Z",
+  "nextExactAction": "Vite current/baseline10/10;concurrentunitserver evidenced;finish all local units serial(noCI/test changes),Gitleaks,step2 commit/fullCI then step3",
+  "checkpointedAt": "2026-10-12T17:04:53.419Z",
   "filesTouched": [
-    "docs/agent/OWNER_DECISIONS.md",
-    "docs/agent/PHASE_STATUS.md",
-    "scripts/backup/get-backup-status.ps1",
-    "scripts/monitoring/get-developer-monitoring-status.ps1",
-    "scripts/monitoring/run-developer-watchdog.mjs",
+    ".github/workflows/quality.yml",
     "docs/operations/OPERATIONAL_STABILITY.md",
-    "scripts/monitoring/scheduled-task-status.mjs",
-    "scripts/monitoring/scheduled-task-status.ps1",
-    "scripts/testing/prove-scheduled-task-status.ps1",
-    "tests/scheduled-task-status.test.ts"
+    "package.json",
+    "scripts/monitoring/run-developer-watchdog.mjs",
+    "scripts/monitoring/run-developer-watchdog.ps1",
+    "scripts/monitoring/supabase-daily-health.mjs",
+    "scripts/testing/run-supabase-daily-health-runtime.mjs",
+    "tests/supabase-daily-health.test.ts"
   ],
-  "workingTreeFingerprint": "1DA179FA6C836F89D5927C6642C48F633A563EB4A7A737B8E22C3B85034D0342"
+  "workingTreeFingerprint": "D48F919736205D508659ECACC7B6275F8172DACDDBC334F8FC7A18CBDB44D6DE"
 }

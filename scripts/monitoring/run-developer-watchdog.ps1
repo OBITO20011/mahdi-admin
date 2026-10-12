@@ -72,6 +72,8 @@ try {
   $env:NAWASRAH_PSQL_PATH = $psqlPath
   $env:NAWASRAH_SUPABASE_DATABASE_URL = $databaseUrl
   $env:SUPABASE_DB_PASSWORD = $databasePassword
+  # Opt-in only at Phase7. No credentials or configuration are written here.
+  if ($config.supabaseDailyChecksEnabled -eq $true) { $env:NAWASRAH_SUPABASE_DAILY_CHECKS = 'true' }
 
   $node = Resolve-NodeExecutable
   $output = & $node (Join-Path $PSScriptRoot 'run-developer-watchdog.mjs') 2>&1
@@ -91,7 +93,8 @@ finally {
     'NAWASRAH_DEV_TELEGRAM_CHAT_ID', 'CLOUDFLARE_API_TOKEN',
     'CLOUDFLARE_ACCOUNT_ID', 'NAWASRAH_PROJECT_ROOT', 'NAWASRAH_BACKUP_ROOT',
     'NAWASRAH_N8N_BACKUP_STATUS_ROOT', 'NAWASRAH_OFFSITE_STATUS_ROOT',
-    'NAWASRAH_PSQL_PATH', 'NAWASRAH_SUPABASE_DATABASE_URL', 'SUPABASE_DB_PASSWORD'
+    'NAWASRAH_PSQL_PATH', 'NAWASRAH_SUPABASE_DATABASE_URL', 'SUPABASE_DB_PASSWORD',
+    'NAWASRAH_SUPABASE_DAILY_CHECKS'
   )) {
     Remove-Item "Env:$name" -ErrorAction SilentlyContinue
   }
