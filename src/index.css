@@ -2,6 +2,7 @@
 @import "./styles/design-tokens.css";
 @import "./components/ui/form-fields.css";
 @import "./components/ui/phone-presentation.css";
+@import "./components/ui/phone-type.css";
 
 /* Package F: both themes read the same semantic palette; no class-name patches. */
 :root { color-scheme: light; }

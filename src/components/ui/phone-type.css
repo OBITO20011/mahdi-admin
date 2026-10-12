@@ -1,0 +1,17 @@
+/* Screen-only portrait minimum. Desktop and print preserve existing typography.
+   Known arbitrary 8–11px utilities are raised,never existing larger values.
+   At sm the three purchasing buttons already use text-sm (14px). */
+@media screen and (max-width: 1023px) {
+  :is(.text-\[8px\], .text-\[9px\], .text-\[10px\], .text-\[11px\]):not(.sm\:text-sm) {
+    font-size: 12px;
+  }
+  .text-\[0\.55em\] { font-size: max(12px, 0.55em); }
+  .recharts-text { font-size: 12px; }
+  /* Existing chart tooltip font sizes are inline; this floor is screen-only. */
+  .recharts-default-tooltip { font-size: 12px !important; }
+}
+@media screen and (max-width: 639px) {
+  :is(.text-\[8px\], .text-\[9px\], .text-\[10px\], .text-\[11px\]).sm\:text-sm {
+    font-size: 12px;
+  }
+}

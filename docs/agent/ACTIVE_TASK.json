@@ -2,46 +2,42 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Approved shared Admin/Customer behavioral dialog contract,storefront focus delivery,then phone12px",
-  "baselineSha": "1473410f20bcc9184fbd4f2f95a2ae59999136b7",
+  "objective": "Deliver phone round item5:minimum12px presentation-only;STOP for visual review",
+  "baselineSha": "95058f7849c860f6953f07e8fd848dc57f4298d2",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Step1 deliveredba1d0f0:Gitleaks0,localquality912Admin/189Customer/745browser+59skips;exactquality38213772814 21/21,secrets38213773098 PASS",
-    "Step2 delivered1473410:Gitleaks0,quality916Admin/189Customer/745browser+59skips;exactquality38223824050 all21/21,secrets38223824077 PASS"
+    "Focus95058f7 owner accepted;exact quality38242137444 21/21,secrets38242137405PASS",
+    "Phone floor72/72 Chromium/WebKit both themes;literal desktop/print parity;no small functional exceptions",
+    "Full quality-phone-type-final exit0,2026-10-12 11:53:32.175–13:21:08.723UTC:917Admin/191Customer/843browser+59knownskips,retries0",
+    "Post-gate resume/preflightPASS;source fingerprint unchanged;business/customer-web/migrations unchanged;owned test listeners closed"
   ],
   "inProgress": [
-    "Focus finalquality exit0:916Admin/191Customer/771browser+59knownskips,retries0;fingerprint unchanged;shared26/26+original200/200;Gitleaks/commit/exactCI next"
+    "Gitleaks0;explicit phone-only commit;push;all exact-SHA CI;visual STOP"
   ],
   "notStarted": [
-    "Step4 phone12px;statement reader docs only;strict/Phase7 prohibited"
+    "Customer statement reader docs only;Admin handover measurement later only;strict/Phase7 prohibited"
   ],
   "filesTouched": [
-    "customer-web/src/hooks/useDialogFocus.ts",
-    "customer-web/src/utils/dialogFocus.ts",
-    "docs/agent/OWNER_DECISIONS.md",
-    "docs/design/package-f/TEST_SNAPSHOT_AND_MEMORY.md",
-    "tests/phase6-bc-dialog-safety.test.ts",
-    "customer-web/tests/dialog-focus-handover.test.ts",
     "docs/design/package-f/CHECKOUT_FOCUS_HANDOVER.md",
-    "e2e/customer-dialog-handover.spec.ts",
-    "e2e/dialog-focus-contract.spec.ts",
-    "e2e/helpers/dialog-focus-contract.ts"
+    "docs/design/package-f/PHONE_POLISH_MIGRATION.md",
+    "src/index.css",
+    "e2e/package-f-phone-type.spec.ts",
+    "src/components/ui/phone-type.css",
+    "tests/package-f-phone-type.test.ts"
   ],
   "testsPassed": [
-    "Both types/affected strict ESLint and Customer units4/4 PASS",
-    "New deterministic focus6/6 plus existing20nested/Escape and native2PASS",
-    "Unchanged originals Chromium100/100+WebKit100/100,repeat50 per case,retries0"
+    "Static1/1/types/strictlintPASS;business/features/stores/services/migrations/customer-web unchanged",
+    "All68real390screen/theme/engine audits PASS with12px/axe/no clipping;Chromium2boundaryPASS;WebKit390/820 assertionsPASS",
+    "Corrected4boundariesPASS;no product edit,no tolerance/browserspecific expectations;68screen proofs retained"
   ],
   "testsRemaining": [
-    "Owner-approved shared runtime26cases;then fullquality/Gitleaks0/focuscommit/push/exactCI",
-    "Phone functional12px step after focus delivery;final visual STOP"
+    "Staged Gitleaks and exact-SHA GitHub quality/secret workflows"
   ],
   "findings": [
-    "Initial new fixture saleUnitId empty:4fail before Checkout;corrected fixture ONLY,all6PASS",
-    "Quality Admin915PASS/1FAIL of916 on Customer/Admin literal utility equality;no aggregatePASS",
-    "Admin/Checkout/App/components/services/original specs byte-identical to1473410;no form/state/RPC/DB edits"
+    "No smaller functional-text phone exception;hidden/inert/sr-only/closed disclosure not painted;print unchanged",
+    "Existing three purchasing sm:text-sm controls remain14px at640–1023;minimum12px below640"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -49,8 +45,8 @@
     "Checkout focus-only correction approved2026-10-12 after phone3+4 safe commit;no form/state/RPC/payload/validation/financial change;no Production/deploy/DB/migrations/strict/Phase7",
     "No phone function removal;desktop >=1024 presentation preserved;.claude/launch.json untouched;freeze ALL watched files including docs/checkpoints while browser servers run"
   ],
-  "nextExactAction": "Gitleaks0;commit focus repair+sharedbehavior contract,push;all exactCI green;then phone12px",
-  "workingTreeFingerprint": "78E0E6F86B0C43B23AAA3FC8D4FBA1C35A24CC40577B178BD1DC2CA3E39E94D5",
-  "checkpointedAt": "2026-10-12T11:21:20.126Z",
+  "nextExactAction": "Gitleaks0;commit/push phone12px;verify all exactCI;STOP owner/Claude visual review of complete phone round",
+  "workingTreeFingerprint": "8294C9858599409430C198F903AFD01905C8A6EF77BD2E60DC3324695DC6D2EA",
+  "checkpointedAt": "2026-10-12T13:24:03.645Z",
   "startedAt": "2026-10-11"
 }
