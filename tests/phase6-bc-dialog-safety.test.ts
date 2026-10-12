@@ -4,9 +4,17 @@ import test from 'node:test';
 import ts from 'typescript';
 
 const read = (path: string) => readFileSync(path, 'utf8');
-test('Customer dialog stack is self-contained and preserves the same Tab and top-dialog safety', () => {
-  assert.equal(read('customer-web/src/utils/dialogFocus.ts').replace(/\r\n/g, '\n'),
-    read('src/utils/dialogFocus.ts').replace(/\r\n/g, '\n'));
+test('both standalone dialog implementations run the identical behavioral safety contract', () => {
+  const spec=read('e2e/dialog-focus-contract.spec.ts');
+  const contract=read('e2e/helpers/dialog-focus-contract.ts');
+  assert.match(spec,/registerDialogFocusContract\('Admin','http:\/\/127\.0\.0\.1:4173'\)/u);
+  assert.match(spec,/registerDialogFocusContract\('Customer',process\.env\.CUSTOMER_BASE_URL\?\?'http:\/\/127\.0\.0\.1:4174'\)/u);
+  assert.equal((spec.match(/registerDialogFocusContract\(/gu)||[]).length,2);
+  for(const behavior of ['Tab wraps both directions','nested dialog owns Tab',
+    'Escape closes only the top dialog','ordinary close restores the external opener',
+    'programmatic focus cannot reach a lower dialog']) assert.ok(contract.includes(behavior),behavior);
+  assert.doesNotMatch(contract,/if\s*\(\s*name\s*===|test\.skip|test\.fixme|waitForTimeout/u);
+  assert.match(contract,/const path='\/src\/utils\/dialogFocus\.ts'/u);
   assert.doesNotMatch(read('customer-web/src/hooks/useDialogFocus.ts'), /\.\.\/\.\.\/\.\.\/src/u);
   for (const name of ['GuidedStoreAssistant', 'OrderTrackingModal']) {
     const source = read(`customer-web/src/components/${name}.tsx`);

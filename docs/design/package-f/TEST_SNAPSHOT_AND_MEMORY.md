@@ -48,4 +48,6 @@ using1worker. Source remained frozen;test ports4173–4176/4197–4198 closed.
 Free-memory samples ranged382619648–3723816960bytes (about0.356–3.468GiB);
 one worker reduces test contention but cannot reserve RAM against other apps.
 This is not a controlled before/after performance or memory-benefit comparison.
-Gitleaks/commit/exactCI still required;Step3 focus and Step4 text remain pending.
+Step2 delivered1473410f20bcc9184fbd4f2f95a2ae59999136b7 after stagedGitleaks0;
+exact quality38223824050 all21/21 and secrets38223824077 PASS.
+Step3 focus and Step4 text remain pending.

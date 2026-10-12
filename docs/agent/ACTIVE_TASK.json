@@ -2,44 +2,46 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Approved sequence:isolated QA snapshot,local workers,storefront focus handover,phone12px;separate delivery gates",
-  "baselineSha": "ba1d0f059b896bcd367562e45fb5eee1ca3a5338",
+  "objective": "Approved shared Admin/Customer behavioral dialog contract,storefront focus delivery,then phone12px",
+  "baselineSha": "1473410f20bcc9184fbd4f2f95a2ae59999136b7",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Phone1+2 delivered6189a57:quality38198947003 all21/21,secrets38198946981 PASS",
-    "Phone3+4 delivered61e6590010838a8acabe9df323bb9d38a54d0c24;Gitleaks staged0;quality38207929147 21/21,secrets38207929144 PASS",
-    "Step1 deliveredba1d0f0:Gitleaks0,localquality912Admin/189Customer/745browser+59skips;exactquality38213772814 21/21,secrets38213773098 PASS"
+    "Step1 deliveredba1d0f0:Gitleaks0,localquality912Admin/189Customer/745browser+59skips;exactquality38213772814 21/21,secrets38213773098 PASS",
+    "Step2 delivered1473410:Gitleaks0,quality916Admin/189Customer/745browser+59skips;exactquality38223824050 all21/21,secrets38223824077 PASS"
   ],
   "inProgress": [
-    "Step2 complete local quality exit0:916Admin/189Customer/745browser+59knownskips,1worker,retries0;Gitleaks/commit/exactCI next"
+    "Focus finalquality exit0:916Admin/191Customer/771browser+59knownskips,retries0;fingerprint unchanged;shared26/26+original200/200;Gitleaks/commit/exactCI next"
   ],
   "notStarted": [
-    "Step3 approved storefront focus repair;Step4 phone12px;statement reader docs only;strict/Phase7 prohibited"
+    "Step4 phone12px;statement reader docs only;strict/Phase7 prohibited"
   ],
   "filesTouched": [
+    "customer-web/src/hooks/useDialogFocus.ts",
+    "customer-web/src/utils/dialogFocus.ts",
+    "docs/agent/OWNER_DECISIONS.md",
     "docs/design/package-f/TEST_SNAPSHOT_AND_MEMORY.md",
-    "playwright.config.ts",
-    "scripts/testing/local-browser-workers.mjs",
-    "tests/local-browser-workers.test.ts"
+    "tests/phase6-bc-dialog-safety.test.ts",
+    "customer-web/tests/dialog-focus-handover.test.ts",
+    "docs/design/package-f/CHECKOUT_FOCUS_HANDOVER.md",
+    "e2e/customer-dialog-handover.spec.ts",
+    "e2e/dialog-focus-contract.spec.ts",
+    "e2e/helpers/dialog-focus-contract.ts"
   ],
   "testsPassed": [
-    "Phone3+4 focused32/32;existing batches4/5+new8-file parity PASS",
-    "Selector correction4/4 both browsers/themes;no product change;newAST11/11 PASS",
-    "Corrected full gate pre-browser checks PASS;browser743PASS+59knownskips,but2FAIL means quality NOT PASS",
-    "Original current20/20 and clean289f39820/20 Chromium repeat10/2workers/retries0;controlled unchanged-document touch reproduces Vite full-reload+lost form",
-    "Exact61e6590 Linux CI all21/21 plus secret scanning PASS;no retries/timeouts/test/product repair introduced"
+    "Both types/affected strict ESLint and Customer units4/4 PASS",
+    "New deterministic focus6/6 plus existing20nested/Escape and native2PASS",
+    "Unchanged originals Chromium100/100+WebKit100/100,repeat50 per case,retries0"
   ],
   "testsRemaining": [
-    "Each step focused proofs/full detached quality/Gitleaks0/commit/push/exact CI;then final visual STOP"
+    "Owner-approved shared runtime26cases;then fullquality/Gitleaks0/focuscommit/push/exactCI",
+    "Phone functional12px step after focus delivery;final visual STOP"
   ],
   "findings": [
-    "Three existing customer tabs approved;statement future scope documented only",
-    "Existing business/event/value/confirmation ASTs retained in6 files;UI-only portrait breakpoint and tab IDs explicit",
-    "quality34 initial selector failure corrected additively;focused4/4",
-    "quality34-corrected exit1 interrupted by synchronized Vite document reload;Codex changed ACTIVE_TASK during browser gate,Tailwind scan caused full-reload;not product defect;controlled proof/docs retained",
-    "Owner2026-10-12 approves independent storefront focus-only repair after current safe commit,before phone5;decision recorded,not implemented"
+    "Initial new fixture saleUnitId empty:4fail before Checkout;corrected fixture ONLY,all6PASS",
+    "Quality Admin915PASS/1FAIL of916 on Customer/Admin literal utility equality;no aggregatePASS",
+    "Admin/Checkout/App/components/services/original specs byte-identical to1473410;no form/state/RPC/DB edits"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -47,8 +49,8 @@
     "Checkout focus-only correction approved2026-10-12 after phone3+4 safe commit;no form/state/RPC/payload/validation/financial change;no Production/deploy/DB/migrations/strict/Phase7",
     "No phone function removal;desktop >=1024 presentation preserved;.claude/launch.json untouched;freeze ALL watched files including docs/checkpoints while browser servers run"
   ],
-  "nextExactAction": "Gitleaks0;commit/push independent local-worker policy;verify all exact CI;checkpoint then approved storefront focus-only repair",
-  "workingTreeFingerprint": "44EA78D33A8B7AF0A7648CC35F488C3724EA0783D23B257ACF705A8D9B27D60F",
-  "checkpointedAt": "2026-10-12T08:28:43.410Z",
+  "nextExactAction": "Gitleaks0;commit focus repair+sharedbehavior contract,push;all exactCI green;then phone12px",
+  "workingTreeFingerprint": "78E0E6F86B0C43B23AAA3FC8D4FBA1C35A24CC40577B178BD1DC2CA3E39E94D5",
+  "checkpointedAt": "2026-10-12T11:21:20.126Z",
   "startedAt": "2026-10-11"
 }
