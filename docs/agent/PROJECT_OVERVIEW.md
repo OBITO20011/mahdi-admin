@@ -1,5 +1,10 @@
 # Project overview
 
+Maintenance entry points(owner2026-10-12):`docs/MAINTENANCE_GUIDE_AR.md`,
+`docs/MONTHLY_CHECKLIST_AR.md`,`docs/generated/DB_FUNCTIONS.md`. Documentation/
+isolated extractor/future migration guards only;current ceiling from
+project-state.json is138. No Production/deploy/product/startup authorization.
+
 Nawasrah ERP is an Arabic RTL commerce system with:
 
 - Admin React/TypeScript application for POS, orders, inventory, purchasing, payments, shifts, returns, reporting, and operations.

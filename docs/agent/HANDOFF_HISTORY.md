@@ -1,5 +1,19 @@
 # Agent handoff history
 
+## 2026-10-12 — maintenance documentation candidate
+
+Owner-approved docs only:MAINTENANCE_GUIDE_AR/MONTHLY_CHECKLIST_AR and generated
+DB_FUNCTIONS (410public routines incl.extensions;full bodies,owner/config/ACL).
+Fresh isolated001–138 generation and independent full byte regeneration PASS;
+metadata freshness checks names/content;future fixed>138 policy rejects new
+before layers and definition text-patching;negative controls5/5 PASS. New
+--check CI step uses existing aging job;no product/RPC/ACL/migration changes.
+Initial945-unit pass944 had only ACTIVE_TASK phase label mismatch:corrected to
+canonicalPACKAGE_F without changing any existing assertion. Final local gate
+18:33:19.872–18:35:48.475UTC exit0:typecheck/ESLint,945Admin+191Customer units.
+No UI/browser behavior modified;all exact-SHA CI remains required after push.
+No Production/deploy/config activation/startup;stop for owner review after CI.
+
 ## 2026-10-11 — Owner-authorized batch6 CI accessibility stabilization
 
 Resumed dd014f54,preflight/resume PASS. CI failed inactive Users tab while

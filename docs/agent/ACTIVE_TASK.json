@@ -2,30 +2,31 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Operational stability:Scheduler running-state fix;isolated Supabase daily health/size;public uptime headers",
-  "baselineSha": "52b74f1fd869973ea4016bb57a24528f7dbe1737",
+  "objective": "Owner-approved maintenance documentation;isolated public function reference;future migration CI guards only",
+  "baselineSha": "73c8b662f955666918178b2bc9245125d7b7a5be",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "Step1 9042227 exactquality38277650959 21/21,secrets38277651163PASS",
-    "Step2 52b74f1 exactquality38282232339 21/21,secrets38282232293PASS;isolatedREST/sizePASS"
+    "Step2 52b74f1 exactquality38282232339 21/21,secrets38282232293PASS;isolatedREST/sizePASS",
+    "Step3 73c8b66 exactquality38284278964 21/21,secrets38284278913PASS;Gitleaks0 before each commit"
   ],
   "inProgress": [
-    "Step3 localHTTP/securityheaders and local940Admin/191CustomerPASS;commit/fullCI next"
+    "Guides+410function reference and future guard ready;Gitleaks/commit/fullCI next"
   ],
   "notStarted": [
-    "Real activation Phase7 only;startup postponed;no next package authorized"
+    "No product/139/Production/deploy/activation/startup package"
   ],
   "testsPassed": [
-    "Vite current10/10 and baseline90410/10,no retries;concurrent unit-server load evidenced,no DB overlap",
-    "Finaltypecheck/ESLint;Admin940/940(serial local only),Customer191/191;HTTP16/16 focused;existing assertions unchanged"
+    "Isolated001-138 full reference410functions regeneration byte-identical;policy/freshness5/5 negative controlsPASS",
+    "Finaltypecheck/ESLint;945Admin/191Customer unitsPASS;no product/SQL changes"
   ],
   "testsRemaining": [
-    "Step3 Gitleaks0/commit/push/full exactCI then STOP owner review"
+    "Gitleaks0/commit/fullCI then STOP owner review"
   ],
   "findings": [
-    "Watchdog itself has same backup/n8n nonzero-result defect;public probes exist but omit security headers"
+    "Initialmetadata-only phase mismatch corrected to canonicalPACKAGE_F;existing tests unchanged"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -33,13 +34,20 @@
     "No Production/deploy/secrets/config activation/new schedules/migrations/startup/Phase7",
     "One writer;no add-A/force-push/test retries;freeze trackedfiles duringverification"
   ],
-  "nextExactAction": "Step3 local gates940Admin/191CustomerPASS;52b74f1 exactCI pending15/20(no failures);after green document and Gitleaks/commit/push step3/fullCI",
-  "checkpointedAt": "2026-10-12T17:17:17.833Z",
+  "nextExactAction": "Metadata phase corrected to canonicalPACKAGE_F(no test change);isolated410 parityPASS;run fresh final maintenance2-serial-local gates then Gitleaks/commit/fullCI",
+  "checkpointedAt": "2026-10-12T18:33:19.359Z",
   "filesTouched": [
-    "docs/operations/OPERATIONAL_STABILITY.md",
-    "scripts/monitoring/run-developer-watchdog.mjs",
-    "scripts/monitoring/public-availability.mjs",
-    "tests/public-availability.test.ts"
+    ".github/workflows/quality.yml",
+    "docs/agent/OWNER_DECISIONS.md",
+    "docs/agent/PHASE_STATUS.md",
+    "docs/agent/PROJECT_OVERVIEW.md",
+    "package.json",
+    "docs/generated/DB_FUNCTIONS.md",
+    "docs/MAINTENANCE_GUIDE_AR.md",
+    "docs/MONTHLY_CHECKLIST_AR.md",
+    "scripts/testing/generate-db-functions.mjs",
+    "scripts/testing/maintenance-db-contract.mjs",
+    "tests/maintenance-guide.test.ts"
   ],
-  "workingTreeFingerprint": "F53C27FB6A6949FE56EBAB77479AE6F8CD2DCE53521DE1818D24425E659FBC5D"
+  "workingTreeFingerprint": "E12F031D19FBF1E3957E4CB56F2C2C2EA2C045D8EC5721BF26A86EE633A20A25"
 }

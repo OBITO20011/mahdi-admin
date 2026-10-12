@@ -1,5 +1,15 @@
 # Approved owner decisions
 
+## 2026-10-12 — maintenance documentation only
+
+Owner authorizes Arabic developer maintenance guide and short shop-owner
+daily/weekly/monthly checklist;mechanically generated current public function
+reference from isolated001–138 with migration freshness and full CI rebuild
+comparison. Future migrations(after fixed138 history) must not add/rename
+new_before layers or text-patch function definitions. No historical migration,
+product/RPC/grants/Production/deploy/activation/startup changes. Focused-local
+gates/all units/Gitleaks0/commit/push/exact fullCI then owner review STOP.
+
 ## 2026-10-12 — operational stability;startup package deferred
 
 138/d75f609 and statementUI47441ad owner/Claude accepted. Startup balances/
