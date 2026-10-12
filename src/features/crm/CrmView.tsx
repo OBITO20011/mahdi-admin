@@ -33,7 +33,7 @@ import {useDirectoryAging} from '../../hooks/useCustomerAccounts';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
 
 const subscribePhone = (listener: () => void) => {
-  const media = window.matchMedia('(max-width: 767px)');
+  const media = window.matchMedia('(max-width: 1023px)');
   media.addEventListener('change', listener);
   return () => media.removeEventListener('change', listener);
 };
@@ -95,7 +95,7 @@ export const CrmView: React.FC = () => {
   }, [loadCustomers]);
 
   const aging = useDirectoryAging(customers.map(customer => customer.id).join(','), customers);
-  const phone = useSyncExternalStore(subscribePhone, () => window.matchMedia('(max-width: 767px)').matches, () => false);
+  const phone = useSyncExternalStore(subscribePhone, () => window.matchMedia('(max-width: 1023px)').matches, () => false);
   const detailFocus = useDialogFocus(phone && Boolean(selectedCustomerId), () => setSelectedCustomerId(null));
   const root = useRef<HTMLDivElement>(null);
   const returnPoint = useRef<{container: HTMLElement; scrollTop: number; id: string} | null>(null);
@@ -270,7 +270,7 @@ export const CrmView: React.FC = () => {
           </button>
         </div>
       )}
-      </MainColumn>{selectedCustomerId && <div ref={detailFocus as React.RefObject<HTMLDivElement>} role={phone ? 'dialog' : undefined} aria-modal={phone || undefined} aria-label="ملف العميل" tabIndex={phone ? -1 : undefined} className="fixed inset-0 z-40 h-[100dvh] overflow-y-auto bg-nw-bg md:contents" data-customer-detail><DetailPanel className="min-h-full rounded-none md:min-h-0 md:rounded-2xl">
+      </MainColumn>{selectedCustomerId && <div ref={detailFocus as React.RefObject<HTMLDivElement>} role={phone ? 'dialog' : undefined} aria-modal={phone || undefined} aria-label="ملف العميل" tabIndex={phone ? -1 : undefined} className="fixed inset-0 z-40 h-[100dvh] overflow-y-auto bg-nw-bg lg:contents" data-customer-detail><DetailPanel className="min-h-full rounded-none lg:min-h-0 lg:rounded-2xl">
         <CustomerDetailView customerId={selectedCustomerId} onBack={() => setSelectedCustomerId(null)} onRefreshList={() => loadCustomers(true)} />
       </DetailPanel></div>}</DetailLayout>
     </div>

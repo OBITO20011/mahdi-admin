@@ -61,16 +61,19 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440]) {
     }
     if(width===820){
       const actions=page.locator('[data-customer-actions]').filter({visible:true}).first();
-      const positions=await actions.locator('a,button').evaluateAll(nodes=>nodes.map(node=>{const box=node.getBoundingClientRect();return {top:box.top,width:box.width,height:box.height,label:node.getAttribute('aria-label')};}));
-      expect(positions).toHaveLength(4);expect(new Set(positions.map(row=>row.top)).size).toBe(1);
+      const positions=await actions.locator('a,button').filter({visible:true}).evaluateAll(nodes=>nodes.map(node=>{const box=node.getBoundingClientRect();return {top:box.top,width:box.width,height:box.height,label:node.getAttribute('aria-label')};}));
+      expect(positions).toHaveLength(3);expect(new Set(positions.map(row=>row.top)).size).toBe(1);
+      expect(positions.map(row=>row.label)).toEqual(['اتصال سوبرماركت الأمل','واتساب سوبرماركت الأمل','إجراءات سوبرماركت الأمل']);
       for(const row of positions){expect(row.width).toBeGreaterThanOrEqual(44);expect(row.height).toBeGreaterThanOrEqual(44);expect(row.label).toBeTruthy();}
     }
     await audit(page);
     await page.getByRole('button',{name:'فتح ملف بقالة أبو خالد',exact:true}).filter({visible:true}).click();
     await expect(page.getByTestId('customer-detail')).toContainText('860.500');
     await expect(page.getByTestId('customer-detail')).toContainText('4,500.000');
+    if(width<1024)await page.getByRole('tablist',{name:'تفاصيل العميل'}).getByRole('tab',{name:'الطلبات',exact:true}).click();
     await expect(page.getByTestId('customer-detail')).toContainText('1,000.000');
     await expect(page.getByTestId('customer-detail')).toContainText('9 تشرين الأول 2026');
+    if(width<1024)await page.getByRole('tablist',{name:'تفاصيل العميل'}).getByRole('tab',{name:'الملخص',exact:true}).click();
     await expect(page.getByTestId('customer-aging-detail')).toContainText('عمر غير متاح');
     await expect(page.getByTestId('customer-aging-detail')).toContainText('50.000');
     if(width===390) {
@@ -159,8 +162,9 @@ for(const theme of ['light','dark'])test(`phone ${theme}: payment sits12px above
       covered:element.contains(document.elementFromPoint(innerWidth/2,innerHeight-1)),background:style.backgroundColor,panelBackground:getComputedStyle(panel).backgroundColor};});
   expect(placement.gap).toBeCloseTo(placement.padding,1);expect(placement.padding).toBeGreaterThanOrEqual(12);
   expect(placement.gap).toBeLessThan(40);expect(placement.bottom).toBe(900);expect(placement.covered).toBe(true);expect(placement.background).toBe(placement.panelBackground);
+  await page.getByRole('tablist',{name:'تفاصيل العميل'}).getByRole('tab',{name:'الطلبات',exact:true}).click();
   await dialog.evaluate(element=>element.scrollTo({top:element.scrollHeight,behavior:'instant'}));
-  const last=page.getByTestId('customer-detail').locator('section').last();await expect(last).toBeInViewport();
+  const last=page.getByTestId('customer-detail').locator('section').filter({visible:true}).last();await expect(last).toContainText('سجل طلبات المتجر');await expect(last).toBeInViewport();
   await expect.poll(async()=>{const end=await last.boundingBox(),bottom=await footer.boundingBox();return Boolean(end&&bottom&&end.y+end.height<=bottom.y);}).toBe(true);
   expect((await bar.boundingBox())!.y).toBeCloseTo(before!.y,1);
   const padding=await page.getByTestId('customer-detail').evaluate(element=>parseFloat(getComputedStyle(element).paddingBottom));

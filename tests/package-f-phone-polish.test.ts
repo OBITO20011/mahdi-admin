@@ -1,0 +1,51 @@
+import assert from 'node:assert/strict';
+import {test} from 'node:test';
+import {readFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {financialUiContract} from '../scripts/testing/package-f-financial-ui-contract.mjs';
+
+const baseline = '289f398989ca92dfdc32387d349c20a116aee515';
+const files = [
+  'src/features/crm/CustomerDetailView.tsx', 'src/features/crm/CustomerList.tsx',
+  'src/features/crm/CrmView.tsx', 'src/features/expenses/ExpensesView.tsx',
+  'src/features/users/UsersView.tsx', 'src/features/directReceiving/DirectReceivingView.tsx',
+];
+for (const file of files) test(`phone presentation exact business/event/value/confirmation parity: ${file}`, () => {
+  const before = execFileSync('git', ['show', `${baseline}:${file}`], {encoding: 'utf8'});
+  let after = readFileSync(file, 'utf8');
+  if (file.endsWith('/CustomerDetailView.tsx')) {
+    // Five new presentation-only section identifiers; every native/form value stays pinned.
+    const values = [...after.matchAll(/<MobileTabSection value="([^"]+)"/g)].map(match => match[1]);
+    assert.deepEqual(values, ['summary', 'summary', 'addresses', 'orders', 'summary']);
+    after = after.replace(/<MobileTabSection value="(?:summary|addresses|orders)"/g, '<MobileTabSection');
+  }
+  if (file.endsWith('/CrmView.tsx')) {
+    // Only the authorized portrait-shell breakpoint changes, not business functions.
+    assert.equal([...after.matchAll(/max-width: 1023px/g)].length, 2);
+    after = after.replaceAll('max-width: 1023px', 'max-width: 767px');
+  }
+  assert.deepEqual(financialUiContract(file, after), financialUiContract(file, before));
+});
+
+test('phone tabs preserve mounted children/readers; no fabricated statement or financial authority', () => {
+  const source = readFileSync('src/components/ui/PhonePresentation.tsx', 'utf8');
+  assert.match(source, /lg:contents/);
+  assert.match(source, /aria-controls=/);
+  assert.match(source, /role="tablist"/);
+  assert.match(source, /role="tab"/);
+  assert.match(source, /role="dialog" aria-modal="true"/);
+  assert.doesNotMatch(source, /\.rpc\(|FromSupabase|localStorage|confirm\(|prompt\(/);
+  const profile = readFileSync('src/features/crm/CustomerDetailView.tsx', 'utf8');
+  assert.match(profile, /defaultValue="summary"/);
+  assert.doesNotMatch(profile, /label:'كشف الحساب'|fetchCustomerStatement|statement/);
+  assert.match(profile, /data-testid="customer-fixed-header"/);
+});
+
+test('named action sheet remains44px and forwards existing children instead of new mutations', () => {
+  const source = readFileSync('src/components/ui/PhonePresentation.tsx', 'utf8');
+  assert.match(source, /\{children\}<\/div>/);
+  assert.match(source, /useDialogFocus\(open && phone/);
+  const css = readFileSync('src/components/ui/phone-presentation.css', 'utf8');
+  assert.match(css, /min-height: 44px/);
+  assert.match(css, /content: attr\(aria-label\)/);
+});

@@ -74,7 +74,9 @@ test('expense reversal keeps exact explicit reason and original expense identity
  await page.route('**/rest/v1/rpc/reverse_operational_expense',route=>{captured.push(route.request().postDataJSON());return route.fulfill({status:400,json:{message:'ISOLATED_PROBE_REJECTION',code:'P0001'}});});
  page.on('dialog',dialog=>dialog.accept('  تصحيح فاتورة  '));
  await page.goto('/e2e/package-f-financial-harness.html');
- await page.getByRole('button',{name:'عكس المصروف مع حفظ السجل',exact:true}).first().click();
+ const menu=page.getByRole('button',{name:`إجراءات المصروف ${expenseRows[0].expenseNumber}`,exact:true});
+ if(await menu.isVisible())await menu.click();
+ await page.getByRole('button',{name:'عكس المصروف مع حفظ السجل',exact:true}).filter({visible:true}).first().click();
  await expect.poll(()=>captured.length).toBe(1);
  expect(captured).toEqual([{p_expense_id:expenseRows[0].id,p_reason:'تصحيح فاتورة'}]);
 });

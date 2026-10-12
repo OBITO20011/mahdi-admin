@@ -2,35 +2,51 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Commit checkout diagnosis docs only;then approved Package F phone presentation round",
-  "baselineSha": "1807f93a5f9439f4a6eba768ae9e3de02d17b8c7",
+  "objective": "Approved phone presentation items1–5;three customer tabs;statement scope docs only",
+  "baselineSha": "289f398989ca92dfdc32387d349c20a116aee515",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "1807f93 pushed;exact quality21/21+secrets PASS",
-    "Original WebKit100 completed;temporary tracing removed;store/specs restored"
+    "Docs-only diagnosis289f398 committed/pushed;Gitleaks staged0",
+    "Checkout source/two original specs restored1807f93;only approved Admin phone presentation changes"
   ],
   "inProgress": [
-    "Owner authorizes docs-only commit/push;checkout focus repair remains pending owner"
+    "Phone1+2 full quality12 exit0;Gitleaks/commit/push/exact CI"
   ],
   "notStarted": [
-    "Phone items1–5;strict;checkout focus repair;Phase7"
+    "Phone items3–5;customer statement reader;checkout focus repair;strict;Phase7"
   ],
   "filesTouched": [
-    "docs/design/package-f/REMAINING_SCREENS_MIGRATION.md",
-    "docs/design/package-f/CHECKOUT_NAME_DIAGNOSIS.md"
+    "e2e/package-f-administration.spec.ts",
+    "e2e/package-f-customers.spec.ts",
+    "e2e/package-f-financial.spec.ts",
+    "src/components/ui/index.ts",
+    "src/features/crm/CrmView.tsx",
+    "src/features/crm/CustomerDetailView.tsx",
+    "src/features/crm/CustomerList.tsx",
+    "src/features/directReceiving/DirectReceivingView.tsx",
+    "src/features/expenses/ExpensesView.tsx",
+    "src/features/users/UsersView.tsx",
+    "src/index.css",
+    "docs/design/package-f/CUSTOMER_STATEMENT_SCOPE_DRAFT.md",
+    "docs/design/package-f/PHONE_POLISH_MIGRATION.md",
+    "e2e/package-f-phone-polish.spec.ts",
+    "src/components/ui/phone-presentation.css",
+    "src/components/ui/PhonePresentation.tsx",
+    "tests/package-f-phone-polish.test.ts"
   ],
   "testsPassed": [
-    "Receipt50/50;earlier natural20/20;preflight/resume PASS",
-    "DOM identity100/100 unchanged;no saved/UNKNOWN restore/remount during fill"
+    "Source15+newAST8 PASS;typecheck/affected strict ESLint0",
+    "Chromium/WebKit Customers42/42+expense6/6+receipt/staff6/6;axe/clipping/keyboard PASS",
+    "Full quality12 exit0:Admin908/Customer189/browser719+59knownskips,retries0"
   ],
   "testsRemaining": [
-    "Phone presentation/AST/browser/full quality/exact CI"
+    "Phone1+2 Gitleaks/commit/push/exact CI;then phone3–5"
   ],
   "findings": [
-    "Fresh-token46/50,4FAIL:old Cart focus trap/restore then Checkout close focus prevent name insertion",
-    "No node replacement or accepted-name state erasure;see CHECKOUT_NAME_DIAGNOSIS.md"
+    "Three existing customer tabs approved;statement future scope documented only",
+    "Existing business/event/value/confirmation ASTs retained in6 files;UI-only portrait breakpoint and tab IDs explicit"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -38,8 +54,8 @@
     "No checkout focus repair;no Production/deploy/RPC/payload/validation/confirmations/DB/migrations/strict/Phase7",
     "No phone function removal;desktop >=1024 presentation preserved;.claude/launch.json untouched"
   ],
-  "nextExactAction": "Gitleaks0 and docs-only diagnosis commit/push;then phone presentation items1–5,checkout repair forbidden",
-  "workingTreeFingerprint": "BBCFB40CE9BEEC3F4733BF2A84EC09F0256969A90FEBDA3FCCA1C0A27519EAF6",
-  "checkpointedAt": "2026-10-12T02:05:24.317Z",
+  "nextExactAction": "Full quality12 exit0;Gitleaks0,commit phone1+2,push/exact CI;then phone3–5",
+  "workingTreeFingerprint": "E49B77556AF9E635CDA2DBCE32B11416D52B7259F79D30AECE64FAB3466E8D3D",
+  "checkpointedAt": "2026-10-12T03:13:21.036Z",
   "startedAt": "2026-10-11"
 }

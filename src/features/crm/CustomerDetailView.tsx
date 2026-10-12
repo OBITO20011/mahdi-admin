@@ -20,7 +20,7 @@ import { CrmCustomer } from '../../types/crm';
 import { AddAddressModal } from './AddAddressModal';
 import { CustomerEditModal } from './CustomerEditModal';
 import {CustomerAgingDetail} from './CustomerAging';
-import {MoneyText, StatusBadge, StickyActionBar, UiButton, formatUiDate} from '../../components/ui';
+import {MobileTabs, MobileTabsBar, MobileTabSection, MoneyText, StatusBadge, StickyActionBar, UiButton, formatUiDate} from '../../components/ui';
 import {Modal} from '../../components/common/Modal';
 import {RecordCustomerPaymentModal} from '../accounts/RecordCustomerPaymentModal';
 
@@ -162,7 +162,9 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
   };
 
   return (
-    <div dir="rtl" className="min-w-0 space-y-4 p-4 pb-[calc(120px+env(safe-area-inset-bottom))] text-sm md:pb-4" data-testid="customer-detail">
+    <MobileTabs defaultValue="summary" options={[{value:'summary',label:'الملخص'},{value:'orders',label:'الطلبات'},{value:'addresses',label:'العناوين'}]}>
+    <div dir="rtl" className="min-w-0 space-y-4 p-4 pb-[calc(120px+env(safe-area-inset-bottom))] text-sm lg:pb-4" data-testid="customer-detail">
+      <div data-testid="customer-fixed-header" className="sticky top-0 z-20 space-y-4 bg-nw-bg lg:static lg:z-auto">
       <div className="flex items-start justify-between gap-2">
         <button
           type="button"
@@ -241,13 +243,12 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
         <span className="text-xs text-nw-side-muted">الدين الحالي</span><p className="m-0 text-3xl font-bold"><MoneyText amount={stats.outstandingBalance} currency /></p>
         {customer.creditLimit > 0 && customer.currentBalance > customer.creditLimit && <StatusBadge tone="bad">تجاوز حد الدين <MoneyText amount={customer.creditLimit} /></StatusBadge>}
       </div>
-      <CustomerAgingDetail customerId={customer.id} revision={customer} />
-      <div className="hidden md:block"><UiButton variant="accent" onClick={() => setPaymentOpen(true)}>تسجيل دفعة · اختيار الطلب</UiButton></div>
-      <div style={{margin:0}} className="fixed inset-x-0 bottom-0 z-50 bg-nw-bg px-3 pt-3 pb-[calc(12px+env(safe-area-inset-bottom))] md:hidden" data-testid="customer-payment-footer">
-        <StickyActionBar style={{position:'static'}} data-testid="customer-payment-sticky"><UiButton variant="accent" size="large" onClick={() => setPaymentOpen(true)}>تسجيل دفعة · اختيار الطلب</UiButton></StickyActionBar>
+      <MobileTabsBar label="تفاصيل العميل" />
       </div>
+      <MobileTabSection value="summary"><CustomerAgingDetail customerId={customer.id} revision={customer} /></MobileTabSection>
+      <div className="hidden lg:block"><UiButton variant="accent" onClick={() => setPaymentOpen(true)}>تسجيل دفعة · اختيار الطلب</UiButton></div>
 
-      <div className="grid grid-cols-3 gap-2">
+      <MobileTabSection value="summary" primary={false}><div className="grid grid-cols-3 gap-2">
         <div className="rounded-2xl border border-nw-info bg-nw-info-bg p-3">
           <ShoppingBag className="mb-1 h-4 w-4 text-nw-info" />
           <span className="block text-[9px] text-nw-muted">كل الطلبات</span>
@@ -266,9 +267,9 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
             <MoneyText amount={stats.outstandingBalance} />
           </b>
         </div>
-      </div>
+      </div></MobileTabSection>
 
-      <section className="rounded-2xl border border-nw-border bg-nw-surface p-4">
+      <MobileTabSection value="addresses"><section className="rounded-2xl border border-nw-border bg-nw-surface p-4">
         <div className="mb-3 flex items-center justify-between">
           <div>
             <h3 className="flex items-center gap-1.5 font-black text-nw-text">
@@ -337,9 +338,9 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
             لا توجد عناوين مسجلة.
           </div>
         )}
-      </section>
+      </section></MobileTabSection>
 
-      <section className="rounded-2xl border border-nw-border bg-nw-surface p-4">
+      <MobileTabSection value="orders"><section className="rounded-2xl border border-nw-border bg-nw-surface p-4">
         <div className="mb-3 flex items-center justify-between gap-2">
           <h3 className="font-black text-nw-text">سجل طلبات المتجر</h3>
           <span className="text-[9px] text-nw-muted">
@@ -397,14 +398,17 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
             لا توجد طلبات متجر لهذا العميل.
           </div>
         )}
-      </section>
+      </section></MobileTabSection>
 
       {customer.notes && (
-        <section className="rounded-2xl border border-nw-border bg-nw-surface p-4">
+        <MobileTabSection value="summary" primary={false}><section className="rounded-2xl border border-nw-border bg-nw-surface p-4">
           <h3 className="mb-2 font-black text-nw-text">ملاحظات داخلية</h3>
           <p className="leading-5 text-nw-muted">{customer.notes}</p>
-        </section>
+        </section></MobileTabSection>
       )}
+      <div style={{margin:0}} className="fixed inset-x-0 bottom-0 z-50 bg-nw-bg px-3 pt-3 pb-[calc(12px+env(safe-area-inset-bottom))] lg:hidden" data-testid="customer-payment-footer">
+        <StickyActionBar style={{position:'static'}} data-testid="customer-payment-sticky"><UiButton variant="accent" size="large" onClick={() => setPaymentOpen(true)}>تسجيل دفعة · اختيار الطلب</UiButton></StickyActionBar>
+      </div>
       <Modal isOpen={paymentOpen} title="تسجيل دفعة على طلب مستحق" onClose={() => setPaymentOpen(false)}>
         <RecordCustomerPaymentModal onClose={() => setPaymentOpen(false)} onSuccess={refresh} />
       </Modal>
@@ -426,6 +430,6 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
           onAddressAdded={refresh}
         />
       )}
-    </div>
+    </div></MobileTabs>
   );
 };

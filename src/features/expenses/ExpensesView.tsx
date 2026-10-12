@@ -17,7 +17,7 @@ import {
   useAppStoreSelector,
 } from '../../stores/useAppStore';
 import { CURRENCY } from '../../constants';
-import {Card, KpiCard, KpiGrid, MoneyText, UiButton, formatJod, formatUiDate} from '../../components/ui';
+import {MobileActionMenu, Card, KpiCard, KpiGrid, MoneyText, UiButton, formatJod, formatUiDate} from '../../components/ui';
 
 const money = (value: number) => `${formatJod(value)} ${CURRENCY}`;
 
@@ -139,7 +139,7 @@ export const ExpensesView: React.FC = () => {
                   {expense.reversedByName ? ` — ${expense.reversedByName}` : ''}
                 </p>
               ) : currentShift?.id === expense.shiftId ? (
-                <UiButton variant="danger"
+                <MobileActionMenu label={`إجراءات المصروف ${expense.expenseNumber}`}><UiButton variant="danger"
                   type="button"
                   disabled={reversingExpenseId === expense.id}
                   onClick={async () => {
@@ -152,7 +152,7 @@ export const ExpensesView: React.FC = () => {
                   className="w-full text-xs"
                 >
                   {reversingExpenseId === expense.id ? 'جاري العكس...' : 'عكس المصروف مع حفظ السجل'}
-                </UiButton>
+                </UiButton></MobileActionMenu>
               ) : null}
             </Card>
           ))

@@ -1,4 +1,4 @@
-import {FormFields, Card, UiButton, formatJod, formatUiDate} from '../../components/ui';
+import {MobileActionMenu, FormFields, Card, UiButton, formatJod, formatUiDate} from '../../components/ui';
 /**
  * Nawasrah Business Manager - Direct Goods Receiving Main View
  * Module Name: "استلام البضائع من الموردين"
@@ -947,14 +947,14 @@ export const DirectReceivingView: React.FC = () => {
 
                       <div className="flex items-center gap-1">
                         {r.status === 'completed' && (
-                          <UiButton variant="plain" type="button"
+                          <MobileActionMenu label="إجراءات سند الاستلام"><UiButton variant="plain" type="button"
                             onClick={() => setCancellationReceipt(r)}
                             className="flex items-center gap-1 rounded-xl border border-nw-border bg-nw-bad-bg px-2.5 py-1.5 text-[10px] font-bold text-nw-bad transition hover:bg-nw-bad-bg h-auto min-h-11 min-w-0 whitespace-normal"
                             title="إلغاء السند وعكس المخزون"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
-                            <span>حذف</span>
-                          </UiButton>
+                            <span>إلغاء السند وعكس المخزون</span>
+                          </UiButton></MobileActionMenu>
                         )}
 
                         {r.status === 'completed' &&

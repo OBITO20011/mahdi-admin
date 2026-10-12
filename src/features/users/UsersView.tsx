@@ -1,4 +1,4 @@
-import {Card, FormFields, UiButton, formatUiDate} from '../../components/ui';
+import {MobileActionMenu, Card, FormFields, UiButton, formatUiDate} from '../../components/ui';
 /** Owner-only staff accounts and permission management. */
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -299,7 +299,7 @@ export const UsersView: React.FC = () => {
                           >
                             <Edit3 className="h-3.5 w-3.5" />
                           </UiButton>
-                          <UiButton variant="plain"
+                          <MobileActionMenu label={`إجراءات حساب ${user.name}`}><UiButton variant="plain"
                             type="button"
                             onClick={() => {
                               setNewPassword('');
@@ -324,7 +324,7 @@ export const UsersView: React.FC = () => {
                             aria-label={user.isActive ? 'تعطيل الحساب' : 'تفعيل الحساب'}
                           >
                             {isPending ? <LoaderCircle className="h-3.5 w-3.5 animate-spin" /> : user.isActive ? <XCircle className="h-3.5 w-3.5" /> : <CheckCircle2 className="h-3.5 w-3.5" />}
-                          </UiButton>
+                          </UiButton></MobileActionMenu>
                         </div>
                       )}
                     </div>
