@@ -3,25 +3,26 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Approved sequence:isolated QA snapshot,local workers,storefront focus handover,phone12px;separate delivery gates",
-  "baselineSha": "61e6590010838a8acabe9df323bb9d38a54d0c24",
+  "baselineSha": "ba1d0f059b896bcd367562e45fb5eee1ca3a5338",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "Phone1+2 delivered6189a57:quality38198947003 all21/21,secrets38198946981 PASS",
-    "Phone3+4 delivered61e6590010838a8acabe9df323bb9d38a54d0c24;Gitleaks staged0;quality38207929147 21/21,secrets38207929144 PASS"
+    "Phone3+4 delivered61e6590010838a8acabe9df323bb9d38a54d0c24;Gitleaks staged0;quality38207929147 21/21,secrets38207929144 PASS",
+    "Step1 deliveredba1d0f0:Gitleaks0,localquality912Admin/189Customer/745browser+59skips;exactquality38213772814 21/21,secrets38213773098 PASS"
   ],
   "inProgress": [
-    "Step1 full quality-snapshot exit0;stage/Gitleaks/independent commit/push/exact CI"
+    "Step2 complete local quality exit0:916Admin/189Customer/745browser+59knownskips,1worker,retries0;Gitleaks/commit/exactCI next"
   ],
   "notStarted": [
-    "Step2 adaptive local worker limit;Step3 approved storefront focus repair;Step4 phone12px;statement reader docs only;strict/Phase7 prohibited"
+    "Step3 approved storefront focus repair;Step4 phone12px;statement reader docs only;strict/Phase7 prohibited"
   ],
   "filesTouched": [
-    "docs/agent/OPERATING_RULES.md",
-    "scripts/testing/isolated-vite-server.mjs",
     "docs/design/package-f/TEST_SNAPSHOT_AND_MEMORY.md",
-    "tests/isolated-vite-watch.test.ts"
+    "playwright.config.ts",
+    "scripts/testing/local-browser-workers.mjs",
+    "tests/local-browser-workers.test.ts"
   ],
   "testsPassed": [
     "Phone3+4 focused32/32;existing batches4/5+new8-file parity PASS",
@@ -46,8 +47,8 @@
     "Checkout focus-only correction approved2026-10-12 after phone3+4 safe commit;no form/state/RPC/payload/validation/financial change;no Production/deploy/DB/migrations/strict/Phase7",
     "No phone function removal;desktop >=1024 presentation preserved;.claude/launch.json untouched;freeze ALL watched files including docs/checkpoints while browser servers run"
   ],
-  "nextExactAction": "Step1 quality exit0;Gitleaks then independent immutable-QA commit/push/exact CI;only then Step2 local workers",
-  "workingTreeFingerprint": "30DE559409FC05489A2778FFC894C7239A65E30F201E282B86ACB318FC5D3CF7",
-  "checkpointedAt": "2026-10-12T06:41:26.559Z",
+  "nextExactAction": "Gitleaks0;commit/push independent local-worker policy;verify all exact CI;checkpoint then approved storefront focus-only repair",
+  "workingTreeFingerprint": "44EA78D33A8B7AF0A7648CC35F488C3724EA0783D23B257ACF705A8D9B27D60F",
+  "checkpointedAt": "2026-10-12T08:28:43.410Z",
   "startedAt": "2026-10-11"
 }

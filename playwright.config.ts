@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import {localBrowserWorkerLimit} from './scripts/testing/local-browser-workers.mjs';
 
 const isCi = Boolean(process.env.CI);
 
@@ -8,7 +9,7 @@ export default defineConfig({
   fullyParallel: false,
   forbidOnly: isCi,
   retries: isCi ? 2 : 0,
-  workers: isCi ? 1 : 2,
+  workers: isCi ? 1 : localBrowserWorkerLimit(),
   reporter: isCi
     ? [['github'], ['html', { open: 'never' }]]
     : [['list'], ['html', { open: 'never' }]],
