@@ -3,6 +3,7 @@ import {readFile, rename, writeFile, mkdir, open, unlink, stat} from 'node:fs/pr
 import path from 'node:path';
 import {parseTechnicalJson, runIncidentCycle, sendTelegramMessage} from './developer-alert-core.mjs';
 import {DEPLOYMENT_FRESHNESS, evaluateCloudflareDeployment, resolveRepositoryMainSha} from './deployment-impact.mjs';
+import {scheduledTaskStatus} from './scheduled-task-status.mjs';
 
 const root = process.env.NAWASRAH_DEVELOPER_MONITOR_ROOT || 'C:\\ProgramData\\NawasrahDeveloperMonitoring';
 const statePath = path.join(root, 'incidents.json');
@@ -72,22 +73,34 @@ async function collectBackupChecks() {
   const checks = [];
   const backupRoot = process.env.NAWASRAH_BACKUP_ROOT;
   if (!backupRoot) return [check('developer:backup:configuration', 'Backup', 'critical', false, 'مسار النسخ الاحتياطية غير متاح للـwatchdog.')];
-  const tasks = run('powershell.exe', ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command', "$a=Get-ScheduledTaskInfo -TaskName 'Nawasrah ERP Nightly Backup' -ErrorAction Stop; $b=Get-ScheduledTaskInfo -TaskName 'Nawasrah ERP Quarterly Restore Drill' -ErrorAction Stop; [pscustomobject]@{backup=$a.LastTaskResult;restore=$b.LastTaskResult}|ConvertTo-Json -Compress"]);
+  const tasks = run('powershell.exe', ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command', "$a=Get-ScheduledTaskInfo -TaskName 'Nawasrah ERP Nightly Backup' -ErrorAction Stop; $b=Get-ScheduledTaskInfo -TaskName 'Nawasrah ERP Quarterly Restore Drill' -ErrorAction Stop; [pscustomobject]@{backup=@{lastTaskResult=$a.LastTaskResult;lastRunTime=([DateTimeOffset]$a.LastRunTime).ToUniversalTime().ToString('o')};restore=@{lastTaskResult=$b.LastTaskResult;lastRunTime=([DateTimeOffset]$b.LastRunTime).ToUniversalTime().ToString('o')}}|ConvertTo-Json -Compress -Depth 4"]);
   try {
     const taskResults = JSON.parse(tasks.stdout);
-    checks.push(check('developer:backup:scheduled-tasks', 'Windows Task Scheduler', 'high', tasks.ok && taskResults.backup === 0 && [0, 267011].includes(taskResults.restore), tasks.ok && taskResults.backup === 0 && [0, 267011].includes(taskResults.restore) ? 'مهام Backup وRestore Drill لم تسجل فشلًا.' : 'إحدى مهام Backup أوRestore Drill سجلت فشلًا.', {backupResult: taskResults.backup, restoreResult: taskResults.restore}));
+    const normalDuration=async(file)=>{try{const value=await readJson(file);return value.ok===true?
+      (value.durationSeconds??(Date.parse(value.finishedAt)-Date.parse(value.startedAt))/1000):null;}catch{return null;}};
+    const backup=scheduledTaskStatus({...taskResults.backup,normalDurationSeconds:await normalDuration(path.join(backupRoot,'last-backup-status.json'))},now);
+    const restore=scheduledTaskStatus({...taskResults.restore,normalDurationSeconds:await normalDuration(path.join(backupRoot,'last-restore-drill-status.json'))},now);
+    const healthy=tasks.ok&&backup.healthy&&restore.healthy;
+    checks.push(check('developer:backup:scheduled-tasks', 'Windows Task Scheduler', 'high', healthy,
+      healthy?'مهام Backup وRestore Drill سليمة أو قيد التشغيل ضمن حدها.':'مهمة Backup أوRestore Drill فاشلة أو عالقة.',
+      {backupResult:backup.status,restoreResult:restore.status}));
   } catch {
     checks.push(check('developer:backup:scheduled-tasks', 'Windows Task Scheduler', 'high', false, 'تعذر قراءة نتائج مهام Backup وRestore Drill.'));
   }
-  const n8nTask = run('powershell.exe', ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command', "$i=Get-ScheduledTaskInfo -TaskName 'Nawasrah n8n Daily Backup' -ErrorAction Stop; [string]$i.LastTaskResult"]);
-  const n8nTaskResult = Number(n8nTask.stdout);
+  const n8nTask = run('powershell.exe', ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command', "$i=Get-ScheduledTaskInfo -TaskName 'Nawasrah n8n Daily Backup' -ErrorAction Stop; @{lastTaskResult=$i.LastTaskResult;lastRunTime=([DateTimeOffset]$i.LastRunTime).ToUniversalTime().ToString('o')}|ConvertTo-Json -Compress"]);
+  let n8nTaskStatus={healthy:false,status:'unavailable'};
+  try {
+    const previous=await readJson(path.join(process.env.NAWASRAH_N8N_BACKUP_STATUS_ROOT||'C:\\ProgramData\\NawasrahN8nBackup','last-status.json')).catch(()=>null);
+    const normalDurationSeconds=previous?.ok===true?(Date.parse(previous.finishedAt)-Date.parse(previous.startedAt))/1000:null;
+    n8nTaskStatus=scheduledTaskStatus({...JSON.parse(n8nTask.stdout),normalDurationSeconds},now);
+  }catch{ /* Malformed/missing Scheduler evidence remains unhealthy. */ }
   checks.push(check(
     'developer:backup:n8n-task',
     'Windows Task Scheduler',
     'high',
-    n8nTask.ok && n8nTaskResult === 0,
-    n8nTask.ok && n8nTaskResult === 0 ? 'مهمة n8n Backup المجدولة ناجحة.' : 'مهمة n8n Backup المجدولة فاشلة أو غير متاحة.',
-    {lastTaskResult: Number.isFinite(n8nTaskResult) ? n8nTaskResult : 'unavailable'},
+    n8nTask.ok && n8nTaskStatus.healthy,
+    n8nTask.ok && n8nTaskStatus.healthy ? 'مهمة n8n Backup سليمة أو قيد التشغيل ضمن حدها.' : 'مهمة n8n Backup فاشلة أو عالقة أو غير متاحة.',
+    {resultStatus:n8nTaskStatus.status,elapsedSeconds:n8nTaskStatus.elapsedSeconds??'none',maxRunningSeconds:n8nTaskStatus.maxRunningSeconds??'none'},
   ));
   try {
     const status = await readJson(path.join(backupRoot, 'last-backup-status.json'));

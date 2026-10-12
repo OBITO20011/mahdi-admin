@@ -10,6 +10,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot '..\monitoring\scheduled-task-status.ps1')
 Add-Type -AssemblyName System.Security -ErrorAction Stop
 $configFound = Test-Path -LiteralPath $ConfigPath
 $backupRoot = $null
@@ -77,6 +78,12 @@ $taskInfo = if ($task) { Get-ScheduledTaskInfo -TaskName $TaskName } else { $nul
 $restoreDrillTask = Get-ScheduledTask -TaskName $RestoreDrillTaskName -ErrorAction SilentlyContinue
 $restoreDrillTaskInfo = if ($restoreDrillTask) { Get-ScheduledTaskInfo -TaskName $RestoreDrillTaskName } else { $null }
 $actionRequired = @()
+$normalBackupSeconds = 0
+if ($latestStatus -and $latestStatus.ok -eq $true -and $latestStatus.startedAt -and $latestStatus.finishedAt) {
+  try { $normalBackupSeconds = ([DateTimeOffset]::Parse($latestStatus.finishedAt) - [DateTimeOffset]::Parse($latestStatus.startedAt)).TotalSeconds } catch { $normalBackupSeconds = 0 }
+}
+$backupTaskStatus = Get-NawasrahScheduledTaskStatus -TaskInfo $taskInfo -NormalDurationSeconds $normalBackupSeconds
+$restoreTaskStatus = Get-NawasrahScheduledTaskStatus -TaskInfo $restoreDrillTaskInfo -NormalDurationSeconds ([double]$latestRestoreDrillStatus.durationSeconds)
 
 if (-not $configFound) {
   $actionRequired += 'Backup setup has not been completed.'
@@ -87,8 +94,8 @@ if (-not $task) {
 elseif (($task.Principal.UserId -notin @('SYSTEM', 'S-1-5-18')) -or ($task.Principal.LogonType -ne 'ServiceAccount')) {
   $actionRequired += 'The daily backup task is not using the unattended SYSTEM service account.'
 }
-if ($taskInfo -and $taskInfo.LastTaskResult -ne 0) {
-  $actionRequired += 'The latest Windows task attempt did not return 0. Review backup.log.'
+if ($taskInfo -and -not $backupTaskStatus.healthy) {
+  $actionRequired += "The backup task is failed, overdue or its runtime is unverified ($($backupTaskStatus.status)). Review backup.log."
 }
 if ($latestStatus -and $latestStatus.ok -ne $true) {
   $actionRequired += 'The latest backup report was not successful. Review backup.log before relying on it.'
@@ -120,8 +127,8 @@ if (-not $restoreDrillTask) {
 # registered task that has not run yet. A manual restore report can already be
 # valid at that point, so it must not be presented as a failed scheduled run.
 $taskHasNotRunYetResult = 267011
-if ($restoreDrillTaskInfo -and $restoreDrillTaskInfo.LastTaskResult -notin @(0, $taskHasNotRunYetResult)) {
-  $actionRequired += 'The latest restore drill task attempt did not return 0. Review restore-drill-runner.log.'
+if ($restoreDrillTaskInfo -and -not $restoreTaskStatus.healthy) {
+  $actionRequired += "The restore drill task is failed, overdue or its runtime is unverified ($($restoreTaskStatus.status)). Review restore-drill-runner.log."
 }
 if (-not $latestRestoreDrillStatus) {
   $actionRequired += 'No restore drill report exists yet. Run backup:restore-test once now to verify recovery safely.'
@@ -146,6 +153,7 @@ elseif ($latestRestoreDrillStatus.ok -ne $true -or $latestRestoreDrillStatus.liv
       lastRunTime = $taskInfo.LastRunTime
       nextRunTime = $taskInfo.NextRunTime
       lastTaskResult = $taskInfo.LastTaskResult
+      resultStatus = $backupTaskStatus
       restartCount = $task.Settings.RestartCount
       restartInterval = [string]$task.Settings.RestartInterval
     }
@@ -168,6 +176,7 @@ elseif ($latestRestoreDrillStatus.ok -ne $true -or $latestRestoreDrillStatus.liv
       lastRunTime = $restoreDrillTaskInfo.LastRunTime
       nextRunTime = $restoreDrillTaskInfo.NextRunTime
       lastTaskResult = $restoreDrillTaskInfo.LastTaskResult
+      resultStatus = $restoreTaskStatus
     }
   } else { $null }
   latestRestoreDrill = if ($latestRestoreDrillStatus) {

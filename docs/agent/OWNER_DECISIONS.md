@@ -1,5 +1,17 @@
 # Approved owner decisions
 
+## 2026-10-12 — operational stability;startup package deferred
+
+138/d75f609 and statementUI47441ad owner/Claude accepted. Startup balances/
+Excel/opening stock deferred until the last step before actual opening;do not
+start now. Approved three independent stability commits:Scheduler267009
+running state with evidenced bounded duration,then daily read-only Supabase
+keepalive/400MB alert (isolated proof;real activation Frankfurt Phase7),then
+local public uptime200+same four security headers. Existing developer Telegram
+dedup/recovery pipeline;no secrets/config activation/Production/deploy/migration.
+Keep public-uptime.yml until private transition;document later schedule removal.
+Focused-local+all units/full exact-SHA CI decision remains mandatory.
+
 ## 2026-10-12 — local verification and exact-SHA delivery gate
 
 Before every commit:local typecheck,lint,all unit tests,all browser specs and

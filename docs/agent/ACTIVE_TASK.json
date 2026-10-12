@@ -2,55 +2,50 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Customer statement138 read-only then separate UI;owner-approved2026-10-12",
-  "baselineSha": "d75f60932634c7966e45c8ea67f7fad55bd28bee",
+  "objective": "Operational stability:Scheduler running-state fix;isolated Supabase daily health/size;public uptime headers",
+  "baselineSha": "47441ad2657b8d0836ef42dba9531654bc112c1e",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Phone round owner visually closed;6b631b8 exactquality21/21+secretsPASS",
-    "Preflight/resumePASS;source unchanged;owner focused-local/full-CI gate recorded",
-    "138 delivered d75f609:Gitleaks0;exactquality38262386987 21/21,secrets38262386880PASS;fullscale10000 canonical equality,p95 55.516ms"
+    "Statement138/47441ad owner accepted;preflight/resumePASS"
   ],
   "inProgress": [
-    "Statement UI166/166 bothengine browsers,922Admin/191Customer units,typecheck/lintPASS;Gitleaks/UIcommit/fullCI pending"
-  ],
-  "testsRemaining": [
-    "UI staged Gitleaks0;commit/push/full exactCI;visual STOP"
+    "Step1 local gatesPASS;stage/Gitleaks/commit/push/exactCI"
   ],
   "notStarted": [
-    "Print/share/strict/Phase7 not authorized"
+    "Step2 opt-in Supabase daily checks;step3 existing uptime strengthening;startup postponed;Phase7 not started"
   ],
   "testsPassed": [
-    "Static138/migration8/8;focused real DB/ACL/READONLY/pages3PASS;canonical10500",
-    "Fullscale10000/10000 canonical balancesPASS;p95 55.516ms;p50 32.950/max96.501ms",
-    "Local typecheck/lint922Admin+191Customer unitsPASS;source fingerprint unchanged;ownedDBclosed",
-    "UI166/166 bothengines/retries0;read-only service exactly138;old CRM AST calls/events/values/confirmations identical"
+    "Focused Scheduler/backup/monitoring32/32;real PS5/5 synthetic cases/noScheduler access",
+    "Local typecheck/lint929Admin+191Customer unitsPASS;no UI/DB mutation;source fingerprint unchanged"
+  ],
+  "testsRemaining": [
+    "PS5-case proof;typecheck/lint/all units;Gitleaks;step1 commit/fullCI",
+    "Step2 isolatedDB+unit/local gates+CI;step3 HTTP/unit/local gates+CI"
   ],
   "findings": [
-    "Explicit statement candidate fails closed on canonical mismatch;no synthetic adjustment"
+    "Watchdog itself has same backup/n8n nonzero-result defect;public probes exist but omit security headers"
   ],
-  "activeProcesses": [],
   "blockers": [],
+  "activeProcesses": [],
   "prohibitions": [
-    "No historical001–137 edits;138 read-only only;no writers/parallel balance/cache/new financial policy",
-    "No Production/deploy/Phase7/print-share/opening tool;explicit staging;no retries/force-push;freeze tracked files during verification"
+    "No Production/deploy/secrets/config activation/new schedules/migrations/startup/Phase7",
+    "One writer;no add-A/force-push/test retries;freeze trackedfiles duringverification"
   ],
-  "nextExactAction": "Gitleaks0;commit/push statement UI;all exactCI;final delivery checkpoint and visual STOP",
-  "checkpointedAt": "2026-10-12T15:18:16.473Z",
+  "nextExactAction": "Step1 stagedGitleaks0;commit/push running-state fix;all exactCI then step2",
+  "checkpointedAt": "2026-10-12T16:28:32.662Z",
   "filesTouched": [
-    "docs/design/package-f/CUSTOMER_STATEMENT_138.md",
-    "e2e/package-f-customers-harness.tsx",
-    "e2e/package-f-phone-polish.spec.ts",
-    "src/features/crm/CustomerDetailView.tsx",
-    "tests/package-f-phone-polish.test.ts",
-    "e2e/customer-statement.fixture.ts",
-    "e2e/package-f-customer-statement.spec.ts",
-    "src/features/crm/CustomerStatement.tsx",
-    "src/hooks/useCustomerStatement.ts",
-    "src/services/supabase/customerStatement.service.ts",
-    "src/utils/customerStatement.ts",
-    "tests/customer-statement-ui.test.ts"
+    "docs/agent/OWNER_DECISIONS.md",
+    "docs/agent/PHASE_STATUS.md",
+    "scripts/backup/get-backup-status.ps1",
+    "scripts/monitoring/get-developer-monitoring-status.ps1",
+    "scripts/monitoring/run-developer-watchdog.mjs",
+    "docs/operations/OPERATIONAL_STABILITY.md",
+    "scripts/monitoring/scheduled-task-status.mjs",
+    "scripts/monitoring/scheduled-task-status.ps1",
+    "scripts/testing/prove-scheduled-task-status.ps1",
+    "tests/scheduled-task-status.test.ts"
   ],
-  "workingTreeFingerprint": "8C7F265F191240B7739C5329E83E0507FF710FBED4586DA8D114E20EFC0403AE"
+  "workingTreeFingerprint": "1DA179FA6C836F89D5927C6642C48F633A563EB4A7A737B8E22C3B85034D0342"
 }

@@ -4,10 +4,13 @@ param(
   [string]$TaskName = 'Nawasrah Developer Watchdog'
 )
 
+. (Join-Path $PSScriptRoot 'scheduled-task-status.ps1')
+
 $monitorRoot = Split-Path -Parent $ConfigPath
 $statePath = Join-Path $monitorRoot 'incidents.json'
 $task = Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue
 $taskInfo = if ($task) { Get-ScheduledTaskInfo -TaskName $TaskName } else { $null }
+$taskStatus = Get-NawasrahScheduledTaskStatus -TaskInfo $taskInfo -MaxRunningSeconds 300
 $state = if (Test-Path -LiteralPath $statePath -PathType Leaf) {
   try { Get-Content -LiteralPath $statePath -Raw -Encoding UTF8 | ConvertFrom-Json }
   catch { $null }
@@ -33,6 +36,7 @@ $activeIncidents = if ($state -and $state.incidents) {
       lastRunTime = $taskInfo.LastRunTime.ToString('o')
       nextRunTime = $taskInfo.NextRunTime.ToString('o')
       lastTaskResult = $taskInfo.LastTaskResult
+      resultStatus = $taskStatus
     }
   } else { $null }
   stateUpdatedAt = if ($state) { $state.updatedAt } else { $null }
