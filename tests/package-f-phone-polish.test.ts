@@ -15,9 +15,11 @@ for (const file of files) test(`phone presentation exact business/event/value/co
   const before = execFileSync('git', ['show', `${baseline}:${file}`], {encoding: 'utf8'});
   let after = readFileSync(file, 'utf8');
   if (file.endsWith('/CustomerDetailView.tsx')) {
-    // Five new presentation-only section identifiers; every native/form value stays pinned.
+    // Original five sections plus approved138 read-only section; old financial values stay pinned.
     const values = [...after.matchAll(/<MobileTabSection value="([^"]+)"/g)].map(match => match[1]);
-    assert.deepEqual(values, ['summary', 'summary', 'addresses', 'orders', 'summary']);
+    assert.deepEqual(values, ['summary', 'statement', 'summary', 'addresses', 'orders', 'summary']);
+    assert.equal([...after.matchAll(/<MobileTabSection value="statement"><CustomerStatement customerId=\{customer\.id\} revision=\{customer\} \/><\/MobileTabSection>/g)].length,1);
+    after=after.replace(/<MobileTabSection value="statement"><CustomerStatement customerId=\{customer\.id\} revision=\{customer\} \/><\/MobileTabSection>/g,'');
     after = after.replace(/<MobileTabSection value="(?:summary|addresses|orders)"/g, '<MobileTabSection');
   }
   if (file.endsWith('/CrmView.tsx')) {
@@ -38,7 +40,9 @@ test('phone tabs preserve mounted children/readers; no fabricated statement or f
   assert.doesNotMatch(source, /\.rpc\(|FromSupabase|localStorage|confirm\(|prompt\(/);
   const profile = readFileSync('src/features/crm/CustomerDetailView.tsx', 'utf8');
   assert.match(profile, /defaultValue="summary"/);
-  assert.doesNotMatch(profile, /label:'كشف الحساب'|fetchCustomerStatement|statement/);
+  assert.match(profile, /value:'statement',label:'كشف الحساب'/);
+  assert.match(profile, /<CustomerStatement customerId=\{customer\.id\} revision=\{customer\} \/>/);
+  assert.doesNotMatch(profile, /fetchCustomerStatement|\.rpc\(/);
   assert.match(profile, /data-testid="customer-fixed-header"/);
 });
 

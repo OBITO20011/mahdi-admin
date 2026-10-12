@@ -3,28 +3,29 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Customer statement138 read-only then separate UI;owner-approved2026-10-12",
-  "baselineSha": "6b631b866942a0d79c58258845bba19e1afda614",
+  "baselineSha": "d75f60932634c7966e45c8ea67f7fad55bd28bee",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "Phone round owner visually closed;6b631b8 exactquality21/21+secretsPASS",
-    "Preflight/resumePASS;source unchanged;owner focused-local/full-CI gate recorded"
+    "Preflight/resumePASS;source unchanged;owner focused-local/full-CI gate recorded",
+    "138 delivered d75f609:Gitleaks0;exactquality38262386987 21/21,secrets38262386880PASS;fullscale10000 canonical equality,p95 55.516ms"
   ],
   "inProgress": [
-    "138 local gatesPASS;Gitleaks/explicit DBcommit/push/full exactCI before UI"
+    "Statement UI166/166 bothengine browsers,922Admin/191Customer units,typecheck/lintPASS;Gitleaks/UIcommit/fullCI pending"
   ],
   "testsRemaining": [
-    "138 Gitleaks0;commit/push/full exactCI",
-    "Separate statementUI both-engine focused specs/same local gates/Gitleaks0/fullCI;visual STOP"
+    "UI staged Gitleaks0;commit/push/full exactCI;visual STOP"
   ],
   "notStarted": [
-    "Statement UI waits for migration138 exact CI;print/share/strict/Phase7 not authorized"
+    "Print/share/strict/Phase7 not authorized"
   ],
   "testsPassed": [
     "Static138/migration8/8;focused real DB/ACL/READONLY/pages3PASS;canonical10500",
     "Fullscale10000/10000 canonical balancesPASS;p95 55.516ms;p50 32.950/max96.501ms",
-    "Local typecheck/lint920Admin+191Customer unitsPASS;source fingerprint unchanged;ownedDBclosed"
+    "Local typecheck/lint922Admin+191Customer unitsPASS;source fingerprint unchanged;ownedDBclosed",
+    "UI166/166 bothengines/retries0;read-only service exactly138;old CRM AST calls/events/values/confirmations identical"
   ],
   "findings": [
     "Explicit statement candidate fails closed on canonical mismatch;no synthetic adjustment"
@@ -35,22 +36,21 @@
     "No historical001–137 edits;138 read-only only;no writers/parallel balance/cache/new financial policy",
     "No Production/deploy/Phase7/print-share/opening tool;explicit staging;no retries/force-push;freeze tracked files during verification"
   ],
-  "nextExactAction": "StagedGitleaks0;138 read-only DBcommit/push;monitor exact fullCI;only then statement UI",
-  "checkpointedAt": "2026-10-12T14:21:44.858Z",
+  "nextExactAction": "Gitleaks0;commit/push statement UI;all exactCI;final delivery checkpoint and visual STOP",
+  "checkpointedAt": "2026-10-12T15:18:16.473Z",
   "filesTouched": [
-    ".github/workflows/quality.yml",
-    "docs/agent/OWNER_DECISIONS.md",
-    "docs/agent/PHASE_STATUS.md",
-    "docs/agent/project-state.json",
-    "docs/agent/VERIFICATION_GATES.md",
-    "package.json",
-    "scripts/agent/lib.mjs",
-    "scripts/agent/preflight.mjs",
-    "tests/migration-integrity.test.ts",
     "docs/design/package-f/CUSTOMER_STATEMENT_138.md",
-    "scripts/testing/run-customer-statement-runtime.mjs",
-    "supabase/migrations/138_package_f_customer_statement.sql",
-    "tests/customer-statement.test.ts"
+    "e2e/package-f-customers-harness.tsx",
+    "e2e/package-f-phone-polish.spec.ts",
+    "src/features/crm/CustomerDetailView.tsx",
+    "tests/package-f-phone-polish.test.ts",
+    "e2e/customer-statement.fixture.ts",
+    "e2e/package-f-customer-statement.spec.ts",
+    "src/features/crm/CustomerStatement.tsx",
+    "src/hooks/useCustomerStatement.ts",
+    "src/services/supabase/customerStatement.service.ts",
+    "src/utils/customerStatement.ts",
+    "tests/customer-statement-ui.test.ts"
   ],
-  "workingTreeFingerprint": "E8C128173CF513845C9019707B00BAAE3DF93766D6DCC598E44754CBCCF20808"
+  "workingTreeFingerprint": "8C7F265F191240B7739C5329E83E0507FF710FBED4586DA8D114E20EFC0403AE"
 }

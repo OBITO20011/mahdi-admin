@@ -12,12 +12,12 @@ async function audit(page: Page) {
 }
 
 for (const theme of ['light', 'dark']) {
-  test(`phone profile ${theme}: three keyboard tabs, sticky header, unchanged reads and payment`, async ({page}) => {
+  test(`phone profile ${theme}: four keyboard tabs, sticky header, unchanged reads and payment`, async ({page}) => {
     await page.setViewportSize({width: 390, height: 900});
     await page.goto(`/e2e/package-f-customers-harness.html?theme=${theme}`);
     await page.getByRole('button', {name: 'فتح ملف بقالة أبو خالد', exact: true}).filter({visible: true}).click();
     const detail = page.getByTestId('customer-detail'), tabs = page.getByRole('tablist', {name: 'تفاصيل العميل'});
-    await expect(tabs.getByRole('tab')).toHaveText(['الملخص', 'الطلبات', 'العناوين']);
+    await expect(tabs.getByRole('tab')).toHaveText(['الملخص', 'كشف الحساب', 'الطلبات', 'العناوين']);
     await expect(tabs.getByRole('tab', {name: 'الملخص'})).toHaveAttribute('aria-selected', 'true');
     await expect(page.getByTestId('customer-aging-detail')).toBeVisible();
     await expect(detail.getByRole('heading', {name: 'سجل طلبات المتجر'})).toBeHidden();

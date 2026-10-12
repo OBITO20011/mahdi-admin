@@ -20,6 +20,7 @@ import { CrmCustomer } from '../../types/crm';
 import { AddAddressModal } from './AddAddressModal';
 import { CustomerEditModal } from './CustomerEditModal';
 import {CustomerAgingDetail} from './CustomerAging';
+import {CustomerStatement} from './CustomerStatement';
 import {MobileTabs, MobileTabsBar, MobileTabSection, MoneyText, StatusBadge, StickyActionBar, UiButton, formatUiDate} from '../../components/ui';
 import {Modal} from '../../components/common/Modal';
 import {RecordCustomerPaymentModal} from '../accounts/RecordCustomerPaymentModal';
@@ -162,7 +163,7 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
   };
 
   return (
-    <MobileTabs defaultValue="summary" options={[{value:'summary',label:'الملخص'},{value:'orders',label:'الطلبات'},{value:'addresses',label:'العناوين'}]}>
+    <MobileTabs defaultValue="summary" options={[{value:'summary',label:'الملخص'},{value:'statement',label:'كشف الحساب'},{value:'orders',label:'الطلبات'},{value:'addresses',label:'العناوين'}]}>
     <div dir="rtl" className="min-w-0 space-y-4 p-4 pb-[calc(120px+env(safe-area-inset-bottom))] text-sm lg:pb-4" data-testid="customer-detail">
       <div data-testid="customer-fixed-header" className="sticky top-0 z-20 space-y-4 bg-nw-bg lg:static lg:z-auto">
       <div className="flex items-start justify-between gap-2">
@@ -246,6 +247,7 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
       <MobileTabsBar label="تفاصيل العميل" />
       </div>
       <MobileTabSection value="summary"><CustomerAgingDetail customerId={customer.id} revision={customer} /></MobileTabSection>
+      <MobileTabSection value="statement"><CustomerStatement customerId={customer.id} revision={customer} /></MobileTabSection>
       <div className="hidden lg:block"><UiButton variant="accent" onClick={() => setPaymentOpen(true)}>تسجيل دفعة · اختيار الطلب</UiButton></div>
 
       <MobileTabSection value="summary" primary={false}><div className="grid grid-cols-3 gap-2">

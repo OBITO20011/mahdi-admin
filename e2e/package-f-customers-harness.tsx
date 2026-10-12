@@ -13,6 +13,7 @@ import {storeEngine} from '../src/stores/useAppStore';
 import {authStoreEngine, type AuthState} from '../src/stores/useAuthStore';
 import {supabase} from '../src/lib/supabase';
 import {customersFixture,customerAgingFixture} from './package-f-customers.fixture';
+import {customerStatementFixture} from './customer-statement.fixture';
 
 const params=new URLSearchParams(location.search),theme=params.get('theme')==='dark'?'dark':'light';
 document.documentElement.classList.toggle('theme-light',theme==='light');
@@ -39,6 +40,12 @@ client.rpc=(name,args)=>{
     return Promise.resolve({data:{customers:rows.slice(offset,offset+size),total_count:rows.length},error:null});
   }
   if(name==='get_customer_debt_aging')return Promise.resolve({data:params.has('unavailable')?null:customerAgingFixture(args?.p_customer_id as string|null),error:null});
+  if(name==='get_customer_statement'){
+    if(params.has('statementLive'))return original(name,args);
+    const customer=customersFixture.find(row=>row.id===args?.p_customer_id);
+    return Promise.resolve({data:customer&&!params.has('unavailable')?
+      customerStatementFixture(customer.id,customer.current_balance_in_minor_units,Number(args?.p_page??1),Number(args?.p_page_size??25)):null,error:null});
+  }
   if(name==='get_crm_customer_detail_page'){
     const customer=customersFixture.find(row=>row.id===args?.p_customer_id);
     return Promise.resolve({data:{customer,addresses:[],stats:{total_orders:24,total_spending_in_minor_units:4500000,
