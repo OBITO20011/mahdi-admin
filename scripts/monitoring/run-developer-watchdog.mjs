@@ -6,6 +6,7 @@ import {DEPLOYMENT_FRESHNESS, evaluateCloudflareDeployment, resolveRepositoryMai
 import {scheduledTaskStatus} from './scheduled-task-status.mjs';
 import {parse as parseEnv} from 'dotenv';
 import {collectDailySupabase} from './supabase-daily-health.mjs';
+import {collectPublicAvailability} from './public-availability.mjs';
 
 const root = process.env.NAWASRAH_DEVELOPER_MONITOR_ROOT || 'C:\\ProgramData\\NawasrahDeveloperMonitoring';
 const statePath = path.join(root, 'incidents.json');
@@ -314,13 +315,9 @@ async function collectPublicServiceChecks() {
     {key: 'admin', url: 'https://admin.alnawasreh.com'},
     {key: 'customer', url: 'https://alnawasreh.com'},
   ]) {
-    try {
-      const response = await fetch(service.url, {redirect: 'follow', signal: AbortSignal.timeout(15_000)});
-      checks.push(check(`developer:uptime:${service.key}`, 'Public Uptime', 'high', response.ok,
-        response.ok ? `${service.key} endpoint متاح.` : `${service.key} endpoint أعاد حالة غير ناجحة.`, {httpStatus: response.status}));
-    } catch {
-      checks.push(check(`developer:uptime:${service.key}`, 'Public Uptime', 'high', false, `${service.key} endpoint غير متاح.`));
-    }
+    const [availability] = await collectPublicAvailability({now, services: [service]});
+    checks.push(check(`developer:uptime:${service.key}`, 'Public Uptime', 'high',
+      availability.healthy, availability.summary, availability.details));
   }
   return checks;
 }
