@@ -9,6 +9,7 @@ const files = [
   'src/features/crm/CustomerDetailView.tsx', 'src/features/crm/CustomerList.tsx',
   'src/features/crm/CrmView.tsx', 'src/features/expenses/ExpensesView.tsx',
   'src/features/users/UsersView.tsx', 'src/features/directReceiving/DirectReceivingView.tsx',
+  'src/features/purchases/PurchasesView.tsx', 'src/features/more/StorefrontSettingsModal.tsx',
 ];
 for (const file of files) test(`phone presentation exact business/event/value/confirmation parity: ${file}`, () => {
   const before = execFileSync('git', ['show', `${baseline}:${file}`], {encoding: 'utf8'});
@@ -48,4 +49,16 @@ test('named action sheet remains44px and forwards existing children instead of n
   const css = readFileSync('src/components/ui/phone-presentation.css', 'utf8');
   assert.match(css, /min-height: 44px/);
   assert.match(css, /content: attr\(aria-label\)/);
+});
+
+test('phone disclosures keep native fields mounted and reveal invalid controls without bypassing validation', () => {
+  const source = readFileSync('src/components/ui/PhonePresentation.tsx', 'utf8');
+  assert.match(source, /visible = !phone \|\| expanded/);
+  assert.match(source, /className=\{visible \? 'space-y-3' : 'hidden'\}/);
+  assert.match(source, /onInvalidCapture=/);
+  assert.match(source, /querySelector<HTMLElement>\(':invalid'\)/);
+  const settings = readFileSync('src/features/more/StorefrontSettingsModal.tsx', 'utf8');
+  assert.match(settings, /title="هوية المتجر والتواصل" defaultOpen/);
+  assert.equal([...settings.matchAll(/<MobileDisclosure /g)].length, 4);
+  assert.match(readFileSync('src/features/purchases/PurchasesView.tsx', 'utf8'), /approvedOrdersCount \+ partiallyReceivedCount/);
 });

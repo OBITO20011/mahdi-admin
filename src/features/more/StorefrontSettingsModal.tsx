@@ -1,4 +1,4 @@
-import {Card, FormFields, SwitchTrack, UiButton} from '../../components/ui';
+import {MobileDisclosure, Card, FormFields, SwitchTrack, UiButton} from '../../components/ui';
 import {
   Banknote,
   Clock3,
@@ -174,40 +174,45 @@ export function StorefrontSettingsModal() {
       </div>
 
       <Card>
-        <h4 className="mb-4 flex items-center gap-2 text-xs font-black text-nw-text"><Store className="h-4 w-4 text-nw-warn" />هوية المتجر والتواصل</h4>
+        <MobileDisclosure title="هوية المتجر والتواصل" defaultOpen header={<h4 className="mb-4 flex items-center gap-2 text-xs font-black text-nw-text"><Store className="h-4 w-4 text-nw-warn" />هوية المتجر والتواصل</h4>}>
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="text-xs font-black text-nw-text">اسم المتجر<input required minLength={2} maxLength={120} value={form.storeNameAr} onChange={(event) => update('storeNameAr', event.target.value)} className={`${inputClass} mt-2`} /></label>
           <label className="text-xs font-black text-nw-text">رقم واتساب<input required dir="ltr" inputMode="tel" value={form.whatsappNumber} onChange={(event) => update('whatsappNumber', event.target.value)} className={`${inputClass} mt-2 text-left`} /></label>
           <label className="text-xs font-black text-nw-text sm:col-span-2">اسم أو رقم CliQ (اختياري)<input dir="ltr" maxLength={120} value={form.cliqAlias} onChange={(event) => update('cliqAlias', event.target.value)} placeholder="مثال: NAWASRAH" className={`${inputClass} mt-2 text-left`} /></label>
         </div>
+        </MobileDisclosure>
       </Card>
 
       <Card>
-        <h4 className="mb-4 flex items-center gap-2 text-xs font-black text-nw-text"><Banknote className="h-4 w-4 text-nw-ok" />قواعد الطلب والتوصيل</h4>
+        <MobileDisclosure title="قواعد الطلب والتوصيل" header={<h4 className="mb-4 flex items-center gap-2 text-xs font-black text-nw-text"><Banknote className="h-4 w-4 text-nw-ok" />قواعد الطلب والتوصيل</h4>}>
         <div className="grid gap-3 sm:grid-cols-3">
           <label className="text-xs font-black text-nw-text">الحد الأدنى للطلب (د.أ)<input type="number" min="0" step="0.001" value={form.minimumOrder} onChange={(event) => update('minimumOrder', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
           <label className="text-xs font-black text-nw-text">توصيل داخل الرمثا (د.أ)<input type="number" min="0" step="0.001" value={form.insideRamthaDeliveryFee} onChange={(event) => update('insideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
           <label className="text-xs font-black text-nw-text">توصيل خارج الرمثا (د.أ)<input type="number" min="0" step="0.001" value={form.outsideRamthaDeliveryFee} onChange={(event) => update('outsideRamthaDeliveryFee', Number(event.target.value))} className={`${inputClass} mt-2`} /></label>
         </div>
         <p className="mt-3 flex items-start gap-2 rounded-xl border border-nw-ok bg-nw-ok-bg p-3 text-xs font-bold leading-5 text-nw-ok"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" />العميل يختار داخل أو خارج الرمثا، وقاعدة البيانات تضيف السعر المحفوظ هنا إلى إجمالي الطلب؛ لا يمكن تغييره من المتصفح.</p>
+        </MobileDisclosure>
       </Card>
 
       <Card>
-        <div className="mb-4"><h4 className="flex items-center gap-2 text-xs font-black text-nw-text"><Sparkles className="h-4 w-4 text-nw-info" />أقسام الصفحة الرئيسية</h4><p className="mt-1 text-xs font-bold leading-5 text-nw-muted">اختر الأقسام التي تريد إظهارها. محتواها يُحسب تلقائيًا من المنتجات والمبيعات الحقيقية.</p></div>
+        <MobileDisclosure title="أقسام الصفحة الرئيسية" header={<div className="mb-4"><h4 className="flex items-center gap-2 text-xs font-black text-nw-text"><Sparkles className="h-4 w-4 text-nw-info" />أقسام الصفحة الرئيسية</h4><p className="mt-1 text-xs font-bold leading-5 text-nw-muted">اختر الأقسام التي تريد إظهارها. محتواها يُحسب تلقائيًا من المنتجات والمبيعات الحقيقية.</p></div>}>
         <div className="grid gap-2 sm:grid-cols-2">
           <SectionToggle label="وصل حديثًا" description="أحدث الأصناف المضافة من تطبيق الإدارة." icon={Sparkles} enabled={form.showNewestProducts} onToggle={() => update('showNewestProducts', !form.showNewestProducts)} />
           <SectionToggle label="الأكثر طلبًا" description="من الطلبات المكتملة خلال آخر 90 يومًا." icon={Flame} enabled={form.showBestSellers} onToggle={() => update('showBestSellers', !form.showBestSellers)} />
           <SectionToggle label="عروض الجملة" description="الأصناف التابعة لقسم العروض الخاصة." icon={BadgePercent} enabled={form.showOffers} onToggle={() => update('showOffers', !form.showOffers)} />
           <SectionToggle label="قارب على النفاد" description="الأصناف المتاحة التي وصلت إلى حد التنبيه." icon={PackageOpen} enabled={form.showLowStock} onToggle={() => update('showLowStock', !form.showLowStock)} />
         </div>
+        </MobileDisclosure>
       </Card>
 
       <Card className="space-y-3">
+        <MobileDisclosure title="النصوص والسياسات">
         <TextArea label="الشريط الإعلاني" icon={MessageCircle} value={form.announcementText} onChange={(value) => update('announcementText', value)} />
         <TextArea label="مناطق التوصيل" icon={MapPinned} value={form.deliveryAreasText} onChange={(value) => update('deliveryAreasText', value)} />
         <TextArea label="أوقات الدوام والتجهيز" icon={Clock3} value={form.businessHoursText} onChange={(value) => update('businessHoursText', value)} />
         <TextArea label="مدة التوصيل" icon={Truck} value={form.deliveryEtaText} onChange={(value) => update('deliveryEtaText', value)} />
         <TextArea label="سياسة الاستبدال والاسترجاع" icon={ShieldCheck} value={form.exchangePolicyText} onChange={(value) => update('exchangePolicyText', value)} />
+        </MobileDisclosure>
       </Card>
 
       {error && <div role="alert" className="rounded-xl border border-nw-bad bg-nw-bad-bg p-3 text-xs font-bold text-nw-bad">{error}</div>}

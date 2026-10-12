@@ -14,4 +14,4 @@ export { ResponsiveActionPanel } from './ResponsiveActionPanel';
 export { FormFields } from './FormFields';
 export {SwitchTrack} from './SwitchTrack';
 export {ReceivingUnitFields,type ReceivingUnitMode} from './ReceivingUnitFields';
-export {MobileTabs, MobileTabsBar, MobileTabSection, MobileActionMenu} from './PhonePresentation';
+export {MobileTabs, MobileTabsBar, MobileTabSection, MobileActionMenu, MobileDisclosure} from './PhonePresentation';

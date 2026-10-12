@@ -3,59 +3,62 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Approved phone presentation items1–5;three customer tabs;statement scope docs only",
-  "baselineSha": "289f398989ca92dfdc32387d349c20a116aee515",
+  "baselineSha": "6189a5728d98b282e31c8228bb0177202d3aaa95",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "Docs-only diagnosis289f398 committed/pushed;Gitleaks staged0",
-    "Checkout source/two original specs restored1807f93;only approved Admin phone presentation changes"
+    "Checkout source/two original specs restored1807f93;only approved Admin phone presentation changes",
+    "Phone1+2 delivered6189a57:quality38198947003 all21/21,secrets38198946981 PASS"
   ],
   "inProgress": [
-    "Phone1+2 full quality12 exit0;Gitleaks/commit/push/exact CI"
+    "Phone3+4 ready for owner-authorized environment-exception delivery after bounded diagnosis;no product repair"
   ],
   "notStarted": [
-    "Phone items3–5;customer statement reader;checkout focus repair;strict;Phase7"
+    "Approved checkout focus repair AFTER current phone3+4 safe commit;then phone5;statement reader docs only;strict;Phase7"
   ],
   "filesTouched": [
-    "e2e/package-f-administration.spec.ts",
-    "e2e/package-f-customers.spec.ts",
-    "e2e/package-f-financial.spec.ts",
-    "src/components/ui/index.ts",
-    "src/features/crm/CrmView.tsx",
-    "src/features/crm/CustomerDetailView.tsx",
-    "src/features/crm/CustomerList.tsx",
-    "src/features/directReceiving/DirectReceivingView.tsx",
-    "src/features/expenses/ExpensesView.tsx",
-    "src/features/users/UsersView.tsx",
-    "src/index.css",
-    "docs/design/package-f/CUSTOMER_STATEMENT_SCOPE_DRAFT.md",
+    "docs/design/package-f/PHONE_QUALITY_INTERRUPTION_DIAGNOSIS.md",
+    "docs/agent/OWNER_DECISIONS.md",
     "docs/design/package-f/PHONE_POLISH_MIGRATION.md",
+    "e2e/package-f-administration.spec.ts",
+    "e2e/package-f-auth-assistant.spec.ts",
+    "e2e/package-f-financial.spec.ts",
     "e2e/package-f-phone-polish.spec.ts",
-    "src/components/ui/phone-presentation.css",
+    "src/components/ui/index.ts",
     "src/components/ui/PhonePresentation.tsx",
+    "src/features/more/StorefrontSettingsModal.tsx",
+    "src/features/purchases/PurchasesView.tsx",
     "tests/package-f-phone-polish.test.ts"
   ],
   "testsPassed": [
     "Source15+newAST8 PASS;typecheck/affected strict ESLint0",
     "Chromium/WebKit Customers42/42+expense6/6+receipt/staff6/6;axe/clipping/keyboard PASS",
-    "Full quality12 exit0:Admin908/Customer189/browser719+59knownskips,retries0"
+    "Full quality12 exit0:Admin908/Customer189/browser719+59knownskips,retries0",
+    "Phone3+4 focused32/32;existing batches4/5+new8-file parity PASS",
+    "Selector correction4/4 both browsers/themes;no product change;newAST11/11 PASS",
+    "Corrected full gate pre-browser checks PASS;browser743PASS+59knownskips,but2FAIL means quality NOT PASS",
+    "Original current20/20 and clean289f39820/20 Chromium repeat10/2workers/retries0;controlled unchanged-document touch reproduces Vite full-reload+lost form"
   ],
   "testsRemaining": [
-    "Phone1+2 Gitleaks/commit/push/exact CI;then phone3–5"
+    "Quality34/Gitleaks/commit/exact CI;then independent approved checkout focus repair;then phone5/final visual STOP"
   ],
   "findings": [
     "Three existing customer tabs approved;statement future scope documented only",
-    "Existing business/event/value/confirmation ASTs retained in6 files;UI-only portrait breakpoint and tab IDs explicit"
+    "Existing business/event/value/confirmation ASTs retained in6 files;UI-only portrait breakpoint and tab IDs explicit",
+    "quality34 initial selector failure corrected additively;focused4/4",
+    "quality34-corrected exit1 interrupted by synchronized Vite document reload;Codex changed ACTIVE_TASK during browser gate,Tailwind scan caused full-reload;not product defect;controlled proof/docs retained",
+    "Owner2026-10-12 approves independent storefront focus-only repair after current safe commit,before phone5;decision recorded,not implemented"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No checkout focus repair;no Production/deploy/RPC/payload/validation/confirmations/DB/migrations/strict/Phase7",
-    "No phone function removal;desktop >=1024 presentation preserved;.claude/launch.json untouched"
+    "Checkout focus-only correction approved2026-10-12 after phone3+4 safe commit;no form/state/RPC/payload/validation/financial change;no Production/deploy/DB/migrations/strict/Phase7",
+    "No phone function removal;desktop >=1024 presentation preserved;.claude/launch.json untouched;freeze ALL watched files including docs/checkpoints while browser servers run"
   ],
-  "nextExactAction": "Full quality12 exit0;Gitleaks0,commit phone1+2,push/exact CI;then phone3–5",
-  "workingTreeFingerprint": "E49B77556AF9E635CDA2DBCE32B11416D52B7259F79D30AECE64FAB3466E8D3D",
-  "checkpointedAt": "2026-10-12T03:13:21.036Z",
+  "nextExactAction": "Phone3+4 environment-interruption exception delivery:commit/push and exact Linux CI;freeze watched files during browser gates;checkout focus and phone5 remain later",
+  "workingTreeFingerprint": "90A9936FB52831EE84620F8DD7ECDD6BFD4BF117E4399030B0DE490135DF3C4D",
+  "checkpointedAt": "2026-10-12T05:26:14.508Z",
   "startedAt": "2026-10-11"
 }

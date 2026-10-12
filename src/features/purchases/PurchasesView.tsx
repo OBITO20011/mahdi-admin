@@ -1,4 +1,4 @@
-import {FormFields, UiButton, Card, formatJod, formatUiDate, DataTable, Tr, Th, Td} from '../../components/ui';
+import {MobileDisclosure, MobileActionMenu, FormFields, UiButton, Card, formatJod, formatUiDate, DataTable, Tr, Th, Td} from '../../components/ui';
 /**
  * Nawasrah Business Manager - Complete Purchasing Management Center
  * Includes Dashboard, Purchase Orders, Goods Receiving, Supplier Management, Payments, and Reports
@@ -307,6 +307,11 @@ export const PurchasesView: React.FC = () => {
         </div>
       </Card>
 
+      <div className="grid grid-cols-2 gap-2.5 lg:hidden" data-testid="purchase-primary-kpis">
+        <Card padded={false} className="space-y-1 p-3 text-center"><span className="block text-xs text-nw-bad">المستحق للموردين</span><span className="block text-sm font-bold text-nw-bad">{formatJod(totalOutstanding)} {CURRENCY}</span></Card>
+        <Card padded={false} className="space-y-1 p-3 text-center"><span className="block text-xs text-nw-muted">أوامر بانتظار الاستلام</span><span className="block text-sm font-bold">{approvedOrdersCount + partiallyReceivedCount}</span></Card>
+      </div>
+      <MobileDisclosure title="مؤشرات المشتريات" triggerLabel="عرض المزيد">
       {/* Main Top 8 KPI Metrics Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5">
         {/* 1. Total POs */}
@@ -361,6 +366,8 @@ export const PurchasesView: React.FC = () => {
           </span>
         </Card>
       </div>
+
+      </MobileDisclosure>
 
       {/* Main Module Tabs Switcher */}
       <Card padded={false} className="flex items-center gap-1.5 bg-nw-surface p-1.5 rounded-2xl border border-nw-border text-xs font-bold overflow-x-auto scrollbar-none">
@@ -958,12 +965,12 @@ export const PurchasesView: React.FC = () => {
                           <span>تعديل</span>
                         </UiButton>
 
-                        <UiButton variant="plain" type="button"
+                        <MobileActionMenu label={`إجراءات المورد ${supp.companyName}`}><UiButton variant="plain" type="button"
                           onClick={() => handleToggleSupplierActive(supp)}
                           className="bg-nw-surface-2 hover:bg-nw-surface-2 text-nw-text px-2 py-1 rounded-lg font-medium transition h-auto min-h-11 min-w-0 whitespace-normal"
                         >
                           {isActive ? 'تعطيل' : 'تفعيل'}
-                        </UiButton>
+                        </UiButton></MobileActionMenu>
                       </div>
 
                       {due > 0 && (

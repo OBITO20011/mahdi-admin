@@ -107,3 +107,72 @@ for (const width of [1024, 1440]) for (const theme of ['light', 'dark']) {
     await audit(page);
   });
 }
+
+for (const theme of ['light', 'dark']) for (const width of [390, 1024, 1440]) {
+  test(`purchases metrics disclosure ${theme} ${width}: existing global numbers and all metrics reachable`, async ({page}) => {
+    await page.setViewportSize({width, height: 900});
+    await page.goto(`/e2e/package-f-purchasing-harness.html?theme=${theme}`);
+    const primary = page.getByTestId('purchase-primary-kpis'), more = page.getByRole('button', {name: 'عرض المزيد', exact: true});
+    if (width < 1024) {
+      await expect(primary).toBeVisible();
+      await expect(primary).toContainText('المستحق للموردين');
+      await expect(primary).toContainText('أوامر بانتظار الاستلام');
+      await expect(primary).toContainText('2,200.000');
+      await expect(primary.locator('span.font-bold').last()).toHaveText('1');
+      await expect(more).toHaveAttribute('aria-expanded', 'false');
+      await expect(page.getByRole('region', {name: 'مؤشرات المشتريات'})).toBeHidden();
+      await more.focus(); await page.keyboard.press('Enter');
+      await expect(page.getByRole('button', {name: 'عرض أقل', exact: true})).toHaveAttribute('aria-expanded', 'true');
+    } else {
+      await expect(primary).toBeHidden(); await expect(more).toBeHidden();
+    }
+    const metrics = page.getByRole('region', {name: 'مؤشرات المشتريات'});
+    await expect(metrics).toBeVisible();
+    for (const label of ['إجمالي الأوامر', 'مسودة', 'مرسل للمورد', 'معتمد', 'مستلم جزئياً', 'مستلم بالكامل', 'إجمالي المسدد']) await expect(metrics.getByText(label, {exact: true})).toBeVisible();
+    await audit(page);
+  });
+
+  test(`settings native fields disclosure ${theme} ${width}: defaults, keyboard access, values retained, save visible`, async ({page}) => {
+    await page.setViewportSize({width, height: 900});
+    await page.goto(`/e2e/package-f-administration-harness.html?view=settings&theme=${theme}`);
+    const dialog = page.getByRole('dialog', {name: 'إعدادات المتجر', exact: true});
+    await expect(dialog).toHaveAttribute('data-state', 'open');
+    await expect(dialog.getByLabel('اسم المتجر', {exact: true})).toBeVisible();
+    if (width < 1024) {
+      await expect(dialog.getByRole('button', {name: 'طي هوية المتجر والتواصل', exact: true})).toHaveAttribute('aria-expanded', 'true');
+      const toggle = dialog.getByRole('button', {name: 'فتح قواعد الطلب والتوصيل', exact: true});
+      await expect(dialog.getByLabel('الحد الأدنى للطلب (د.أ)')).toBeHidden();
+      await toggle.focus(); await page.keyboard.press('Enter');
+      await dialog.getByLabel('الحد الأدنى للطلب (د.أ)').fill('7.125');
+      await dialog.getByRole('button', {name: 'طي قواعد الطلب والتوصيل', exact: true}).click();
+      await expect(dialog.getByLabel('الحد الأدنى للطلب (د.أ)')).toHaveValue('7.125');
+      await expect(dialog.getByLabel('الحد الأدنى للطلب (د.أ)')).toBeHidden();
+      await dialog.getByRole('button', {name: 'فتح قواعد الطلب والتوصيل', exact: true}).click();
+      await expect(dialog.getByLabel('الحد الأدنى للطلب (د.أ)')).toHaveValue('7.125');
+      await dialog.getByRole('button', {name: 'فتح النصوص والسياسات', exact: true}).click();
+    } else {
+      await expect(dialog.getByRole('button', {name: 'فتح قواعد الطلب والتوصيل', exact: true})).toBeHidden();
+    }
+    await expect(dialog.getByLabel('الحد الأدنى للطلب (د.أ)')).toBeVisible();
+    await expect(dialog.getByLabel('سياسة الاستبدال والاسترجاع')).toBeVisible();
+    await dialog.getByLabel('سياسة الاستبدال والاسترجاع').scrollIntoViewIfNeeded();
+    await expect(dialog.getByRole('button', {name: 'حفظ وتطبيق على الموقع', exact: true})).toBeInViewport();
+    await audit(page);
+  });
+}
+
+test('collapsed invalid setting is revealed and native validation still prevents the original write', async ({page}) => {
+  const writes: unknown[] = [];
+  await page.route('**/rest/v1/rpc/save_storefront_settings_v3', route => {writes.push(route.request().postDataJSON()); return route.fulfill({status: 400, json: {message: 'ISOLATED_PROBE_REJECTION'}});});
+  await page.setViewportSize({width: 390, height: 900});
+  await page.goto('/e2e/package-f-administration-harness.html?view=settings');
+  const dialog = page.getByRole('dialog', {name: 'إعدادات المتجر', exact: true});
+  await expect(dialog).toHaveAttribute('data-state', 'open');
+  await dialog.getByRole('button', {name: 'فتح قواعد الطلب والتوصيل', exact: true}).click();
+  await dialog.getByLabel('الحد الأدنى للطلب (د.أ)').fill('-1');
+  await dialog.getByRole('button', {name: 'طي قواعد الطلب والتوصيل', exact: true}).click();
+  await dialog.getByRole('button', {name: 'حفظ وتطبيق على الموقع', exact: true}).click();
+  await expect(dialog.getByRole('button', {name: 'طي قواعد الطلب والتوصيل', exact: true})).toHaveAttribute('aria-expanded', 'true');
+  await expect(dialog.getByLabel('الحد الأدنى للطلب (د.أ)')).toBeFocused();
+  expect(writes).toEqual([]);
+});

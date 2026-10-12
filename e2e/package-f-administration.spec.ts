@@ -27,6 +27,7 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`admi
   await expect(dialog).toHaveAttribute('data-state','open');await audit(page);
   if(name==='إعدادات المتجر'){
    await expect(dialog.getByRole('button',{name:'حفظ وتطبيق على الموقع',exact:true})).toBeInViewport();
+   for(const section of ['قواعد الطلب والتوصيل','أقسام الصفحة الرئيسية','النصوص والسياسات']){const toggle=dialog.getByRole('button',{name:`فتح ${section}`,exact:true});if(await toggle.isVisible())await toggle.click();}
    expect(await dialog.locator('input,textarea').evaluateAll(es=>es.every(e=>e.getBoundingClientRect().height>=44))).toBe(true);
    await dialog.getByText('سياسة الاستبدال والاسترجاع',{exact:true}).scrollIntoViewIfNeeded();await expect(dialog.getByText('سياسة الاستبدال والاسترجاع',{exact:true})).toBeInViewport();await audit(page);
   }
@@ -68,6 +69,7 @@ test('non-owner Users remains denied with no staff reads or mutation actions',as
 test('storefront monetary fields,toggles,policy and full save payload stay exact;busy Escape blocked',async({page})=>{
  const requests:unknown[]=[];let release!:()=>void;await page.route('**/rest/v1/rpc/save_storefront_settings_v3',async route=>{requests.push(route.request().postDataJSON());await new Promise<void>(r=>{release=r;});await route.fulfill({status:400,json:{message:'ISOLATED_PROBE_REJECTION',code:'P0001'}});});
  await page.goto('/e2e/package-f-administration-harness.html?view=settings');const dialog=page.getByRole('dialog');await expect(dialog).toHaveAttribute('data-state','open');await expect(dialog.getByLabel('اسم المتجر',{exact:true})).toHaveValue(storefrontSettings.storeNameAr);
+ for(const section of ['قواعد الطلب والتوصيل','النصوص والسياسات']){const toggle=dialog.getByRole('button',{name:`فتح ${section}`,exact:true});if(await toggle.isVisible())await toggle.click();}
  await dialog.getByLabel('الحد الأدنى للطلب (د.أ)').fill('7.125');await dialog.getByLabel('توصيل داخل الرمثا (د.أ)').fill('2.345');await dialog.getByLabel('توصيل خارج الرمثا (د.أ)').fill('5.678');
  await dialog.getByRole('switch',{name:'استقبال طلبات الموقع',exact:true}).click();await dialog.getByLabel('سياسة الاستبدال والاسترجاع').fill('  السياسة المحددة  ');await dialog.getByRole('button',{name:'حفظ وتطبيق على الموقع',exact:true}).click();await expect.poll(()=>requests.length).toBe(1);
  expect(requests).toEqual([{p_store_name_ar:storefrontSettings.storeNameAr,p_whatsapp_number:storefrontSettings.whatsappNumber,p_cliq_alias:storefrontSettings.cliqAlias,p_orders_enabled:false,p_announcement_text:storefrontSettings.announcementText,p_business_hours_text:storefrontSettings.businessHoursText,p_delivery_areas_text:storefrontSettings.deliveryAreasText,p_delivery_eta_text:storefrontSettings.deliveryEtaText,p_exchange_policy_text:'السياسة المحددة',p_minimum_order_in_minor_units:7125,p_inside_ramtha_delivery_fee_in_minor_units:2345,p_outside_ramtha_delivery_fee_in_minor_units:5678,p_show_newest_products:true,p_show_best_sellers:true,p_show_offers:true,p_show_low_stock:false}]);

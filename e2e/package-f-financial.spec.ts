@@ -98,6 +98,8 @@ for(const theme of ['light','dark'])test(`purchasing phone ${theme} compact one-
  expect(await actions.locator('button').evaluateAll(es=>es.map(e=>({height:e.getBoundingClientRect().height,fits:e.scrollWidth<=e.clientWidth})))).toEqual([{height:44,fits:true},{height:44,fits:true},{height:44,fits:true}]);
  await expect(page.getByText('نظام بالجملة والتوريد',{exact:true})).toHaveCSS('white-space','nowrap');
  await expect(page.getByRole('button',{name:'دفع',exact:true}).first()).toHaveClass(/bg-nw-primary/u);
- const due=page.getByText('المستحق للموردين',{exact:true}).locator('..');await expect(due).not.toHaveClass(/bg-nw-bad-bg/u);
+ const primaryDue=page.getByTestId('purchase-primary-kpis').getByText('المستحق للموردين',{exact:true}).locator('..');await expect(primaryDue).not.toHaveClass(/bg-nw-bad-bg/u);
+ await page.getByRole('button',{name:'عرض المزيد',exact:true}).click();
+ const due=page.getByRole('region',{name:'مؤشرات المشتريات'}).getByText('المستحق للموردين',{exact:true}).locator('..');await expect(due).not.toHaveClass(/bg-nw-bad-bg/u);
  await checkLayout(page,page.getByTestId('purchasing-workbench'));
 });

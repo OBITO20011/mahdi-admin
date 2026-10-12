@@ -52,6 +52,7 @@ test('failed biometric verification cannot call session unlock or expose protect
 });
 for(const theme of ['light','dark'])test(`switch tracks ${theme}:distinct solid ON/OFF,3:1 surrounding contrast and unchanged checked state`,async({page})=>{
  await page.goto(`/e2e/package-f-administration-harness.html?view=settings&theme=${theme}`);await expect(page.getByRole('dialog')).toHaveAttribute('data-state','open');
+ const section=page.getByRole('button',{name:'فتح أقسام الصفحة الرئيسية',exact:true});if(await section.isVisible())await section.click();
  const switches=page.getByRole('switch');expect(await switches.count()).toBe(5);
  for(let i=0;i<5;i++){
   const control=switches.nth(i),initial=await control.getAttribute('aria-checked');let first='';

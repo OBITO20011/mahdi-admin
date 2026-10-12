@@ -1,6 +1,6 @@
 # Phone presentation round — 2026-10-12
 
-Owner-approved scope:phone/tablet portrait<1024 only;no missing phone function,no RPC/payload/validation/confirmation/permission/migration change. Desktop>=1024 keeps its existing content and controls. Checkout focus correction and strict remediation remain forbidden. Commit one or two items at a time;detached logged full quality,Gitleaks0,push,exact CI,then final visual stop.
+Owner-approved scope:phone/tablet portrait<1024 only;no missing phone function,no RPC/payload/validation/confirmation/permission/migration change. Desktop>=1024 keeps its existing content and controls. Strict remediation remains forbidden. Owner2026-10-12 separately approves storefront focus-only correction AFTER the current phone step reaches a safe commit,before item5. Commit one or two items at a time;detached logged full quality,Gitleaks0,push,exact CI,then final visual stop.
 
 ## Items1–2 — customer profile and rare row actions
 
@@ -14,12 +14,24 @@ Focused browser:Customers+profile/menu42/42;expense-menu/reversal6/6;receipt-men
 
 Detached full quality12 COMPLETE exit0,02:31:03.693–03:11:28.884UTC:Admin908/908,Customer189/189,typecheck/strict lint/builds/isolation PASS;browser719PASS+59existing conditional skips,retries0. Log/exit:C:/Users/TOP/AppData/Local/Temp/nawasrah-phone-polish-20261012/quality12*. No Production/deploy or migration change. Gitleaks/commit/exactCI required before declaring delivery.
 
+Delivered6189a5728d98b282e31c8228bb0177202d3aaa95 after staged Gitleaks0;exact quality38198947003 all21/21 and secrets38198946981 PASS. No checkout fix or new reader. Full phone round still pending3–5 and final visual review.
+
 Test presentation updates:Customers<1024 explicitly selects Orders before checking its original money/date text,then Summary for aging;footer test selects Orders and measures its last visible section. At820 row controls become phone/WhatsApp/more,with the two original destructive buttons reachable inside the named44px sheet. Existing expense/staff mutation assertions are retained;phone tests open the action sheet before selecting their unchanged controls. No retries,timeout increase,assertion removal or financial count relaxation.
 
 ## Items3–4
 
-Approved and not started:Purchases two primary KPIs plus mobile disclosure;Storefront settings identity open/other sections collapsed,all native fields mounted and save control unchanged.
+Implemented:Purchases two portrait KPIs (existing totalOutstanding;waiting=approved+partiallyReceived from the existing GLOBAL reader summary,not the visible page),all8old metrics behind Show More. Desktop keeps old8metrics. Supplier enable/disable joins the rare-action sheet;its old handler/authority stays exact.
+
+Storefront sections:identity/contact open by default;order/delivery rules,home sections and copy/policies collapsed. Existing fields stay mounted and values survive collapsing;desktop shows all. Native validation still blocks the same invalid amount and automatically reveals/focuses its section;no prevention/suppression of validation or altered save payload. Sticky save stays unchanged. Eight live files have full business/event/value/confirmation parity;existing batches4/5 pins PASS. Focused32/32 Chromium/WebKit,390/1024/1440,both themes,axe/clipping/keyboard,exact save payload/switch5controls and invalid-hidden-field proof PASS. Final quality34 still required.
+
+Selectors only:existing settings tests open the corresponding portrait sections before interacting/height measuring. All native field,5switch,full payload,required-reference and busy-escape assertions retained;no retries or timeout changes.
+
+First quality34 STOPPED exit1 at04:07:29.191UTC after four instances of the same presentation-selector failure:financial.spec purchasing phone light/dark in Chromium/WebKit. Both the new primary KPI and retained hidden More KPI have the exact caption,total2,200.000 and clean background;the old unscoped locator matches both. No financial/type/ACL failure. Owned test tree stopped;temporary test listeners closed. The test now explicitly asserts the SAME no-bad-background condition on the primary card,opens Show More,then asserts it on the original card too. All header/payment/layout assertions retained. This is an additive selector-contract correction,not product or expected-number change. Corrective targeted proof/full quality still required;no aggregate PASS claimed.
 
 ## Item5
 
+Corrective focused selector4/4 and full8-file AST11/11 PASS. Fresh FULL quality34-corrected ran04:10:20.856–04:57:13.931UTC and exited1:743browserPASS,59existing conditional skips,2FAIL,retries0. All pre-browser units/types/lints/build/isolation gates passed. Failures are Chromium products dark1440(spec72,stable line7 called85:dialog remains data-state=opening then is not found) and purchasing forms light(spec44,audit18 called54:axe execution context destroyed). Root cause NOT established;no retry,fix,commit,push or aggregate PASS. Modal/products sources and these two specs are unchanged in the phone3+4 candidate. Trace/video/error-context retained in test-results/package-f-products-product-ffd39-ontained-Latin-and-operable-desktop-chromium and package-f-purchasing-purch-70e13-guarded-confirmations-light-desktop-chromium;full log/exit external quality34-corrected*. Owned processes35960/33700 ended and test ports4173–4176 are free. STOP before any repair pending owner diagnosis direction. Checkout focus correction is now approved in OWNER_DECISIONS.md,but its predecessor safe-commit gate has not passed.
+
 Approved and not started:minimum12px functional phone text,including Assistant. Responsive desktop sizes remain unchanged;list any intentionally smaller nonfunctional exceptions only with evidence.
+
+Owner-approved bounded interruption diagnosis COMPLETE:current20/20 and clean289f39820/20,Chromium2workers/retries0. Both original traces show synchronized document reload07:26:11Amman. Controlled unchanged-content ACTIVE_TASK mtime touch makes Tailwind/Vite emit full-reload and remove the product form. Codex's mid-gate task-document update caused this operational interruption;not a proven callback/phone-state defect. Windows has no sleep/resource-exhaustion/crash events around it;memory pressure sampled down to0.162GiB remains a risk,not the cause claim. Detailed timings/import paths/invalid-junction exclusion in PHONE_QUALITY_INTERRUPTION_DIAGNOSIS.md. Owner's environment exception:retain prior gates/repeats,then Gitleaks/commit/exact Linux CI as final judge;NO full-quality PASS claim and no source/test/timeout/retry repair. Freeze all watched files,including docs/checkpoints,until test servers stop. Phone5 and independent storefront focus correction not implemented.

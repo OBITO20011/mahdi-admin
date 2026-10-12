@@ -1,6 +1,6 @@
-import React, {createContext, useContext, useId, useState, useSyncExternalStore} from 'react';
+import React, {createContext, useContext, useId, useLayoutEffect, useRef, useState, useSyncExternalStore} from 'react';
 import {createPortal} from 'react-dom';
-import {MoreHorizontal, X} from 'lucide-react';
+import {ChevronDown, ChevronUp, MoreHorizontal, X} from 'lucide-react';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
 
 const subscribePhone = (listener: () => void) => {
@@ -91,4 +91,39 @@ export function MobileActionMenu({label, children}: {label: string; children: Re
       </div>
     </div>, document.body)}
   </>;
+}
+
+/** Existing form controls stay mounted; desktop always shows their contents. */
+export function MobileDisclosure({title, header, defaultOpen = false, triggerLabel, children}: {
+  title: string; header?: React.ReactNode; defaultOpen?: boolean; triggerLabel?: string; children: React.ReactNode;
+}) {
+  const phone = usePhone(), id = useId(), [expanded, setExpanded] = useState(defaultOpen);
+  const invalid = useRef<HTMLElement | null>(null), visible = !phone || expanded;
+  useLayoutEffect(() => {
+    if (!expanded || !invalid.current) return;
+    const form = invalid.current.closest('form');
+    const first = form?.querySelector<HTMLElement>(':invalid') ?? invalid.current;
+    invalid.current = null;
+    first.focus();
+    first.scrollIntoView({block: 'nearest'});
+  }, [expanded]);
+  return <div className="lg:contents">
+    <div className="flex items-start justify-between gap-3 lg:contents">
+      {header}
+      <button type="button" aria-expanded={visible} aria-controls={id}
+        aria-label={triggerLabel ? (expanded ? 'عرض أقل' : triggerLabel) : `${expanded ? 'طي' : 'فتح'} ${title}`}
+        onClick={() => setExpanded(current => !current)}
+        className="flex min-h-11 shrink-0 items-center justify-between gap-2 rounded-xl border border-nw-border bg-nw-surface px-3 text-xs font-bold text-nw-text lg:hidden">
+        {triggerLabel ? (expanded ? 'عرض أقل' : triggerLabel) : header ? (expanded ? 'طي' : 'فتح') : title}
+        {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+      </button>
+    </div>
+    <div id={id} role="region" aria-label={title} className={visible ? 'space-y-3' : 'hidden'}
+      onInvalidCapture={event => {
+        if (phone && !expanded && event.target instanceof HTMLElement) {
+          invalid.current = event.target;
+          setExpanded(true);
+        }
+      }}>{children}</div>
+  </div>;
 }
