@@ -1,5 +1,12 @@
 # Phase status
 
+2026-10-13 owner task:two MEASUREMENTS only,docs-only local commit;no push or
+product repair authorized. Admin focus report confirms distinct customer child
+Tab/Escape defects and product-edit Enter closes,without claiming a reproduced
+Cart→Checkout race. Strict83/44 (source21 unchanged;test-only+13). See
+docs/design/package-f/ADMIN_FOCUS_HANDOVER_MEASUREMENT.md and
+TYPES_STRICT_MEASUREMENT.md. Plans are not implementation authorization.
+
 2026-10-13 owner-approved privateCI readiness only,NOT activated:full current
 public push gates retained;future affected push and weekly/manual full prepared
 behind single variable and private visibility. Last10 counterfactual Linux

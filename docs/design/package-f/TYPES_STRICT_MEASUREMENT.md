@@ -1,4 +1,100 @@
-# Strict TypeScript measurement — 2026-10-12
+# Strict TypeScript measurement — 2026-10-13
+
+قياس فقط على `63406f29d9baddd0734e524c154d535e4ff71303`، بلا تغيير tsconfig أو المنتج.
+الأمر الموجود `node scripts/testing/measure-types-strict.mjs` يفعّل strict في ذاكرة
+برنامج المترجم فقط. النطاق هو root/Admin كما في قياس70 السابق؛
+customer-web وsupabase/functions مستثنيان من هذا المشروع، وليسا مشمولين بهذا الرقم.
+
+## النتيجة الحالية
+
+**83 تشخيصاً في44 ملفاً**: src21، e2e17، tests45.
+خط الأساس70/41: src21، e2e17، tests32. الزيادة13 كلها في3 ملفات اختبارات
+جديدة، لا زيادة عدد تشخيصات المنتج. لا يعني ثبات العدد انتفاء عيوب التشغيل.
+strict غير مفعّل ولم يُصلح أي تشخيص. السجل الخام المحلي:
+`%TEMP%/nawasrah-strict-measurement-20261013.json`.
+
+| الملف | العدد |
+|---|---:|
+| e2e/admin-aftercare-recovery.spec.ts | 1 |
+| e2e/customer-checkout-isolated.spec.ts | 1 |
+| e2e/customer-presentational-characterization.spec.ts | 1 |
+| e2e/package-f-administration-harness.tsx | 1 |
+| e2e/package-f-auth-assistant-harness.tsx | 1 |
+| e2e/package-f-cash-harness.tsx | 1 |
+| e2e/package-f-customers-harness.tsx | 1 |
+| e2e/package-f-financial-harness.tsx | 1 |
+| e2e/package-f-inventory-harness.tsx | 1 |
+| e2e/package-f-more-harness.tsx | 2 |
+| e2e/package-f-pos-harness.tsx | 2 |
+| e2e/package-f-products-harness.tsx | 1 |
+| e2e/package-f-purchasing-harness.tsx | 1 |
+| e2e/phase6-package-b-harness.tsx | 1 |
+| e2e/phase6-package-c-harness.tsx | 1 |
+| src/features/crm/CustomerDetailView.tsx | 1 |
+| src/features/directReceiving/DirectReceivingView.tsx | 1 |
+| src/features/pos/PosView.tsx | 1 |
+| src/features/products/ProductFormModal.tsx | 2 |
+| src/features/purchases/CreatePurchaseOrderModal.tsx | 1 |
+| src/services/supabase/adminAssistant.service.ts | 1 |
+| src/services/supabase/auth.service.ts | 1 |
+| src/services/supabase/crm.service.ts | 1 |
+| src/services/supabase/dashboard.service.ts | 2 |
+| src/services/supabase/directReceiving.service.ts | 1 |
+| src/services/supabase/orders.service.ts | 1 |
+| src/services/supabase/posV2.service.ts | 1 |
+| src/services/supabase/purchases.service.ts | 1 |
+| src/services/supabase/salesAftercare.service.ts | 4 |
+| src/services/supabase/stockAlerts.service.ts | 1 |
+| src/stores/useAppStore.ts | 1 |
+| tests/database-runtime-suite.ts | 1 |
+| tests/developer-monitoring.test.ts | 3 |
+| tests/guest-order-security-gateway.test.ts | 4 |
+| tests/isolated-db-port-guard.test.ts | 10 |
+| tests/isolated-vite-cache.test.ts | 5 |
+| tests/offsite-backup.test.ts | 4 |
+| tests/package-f-home.test.ts | 2 |
+| tests/phase3-harness-stability.test.ts | 1 |
+| tests/phase36-isolated-seo-build.test.ts | 1 |
+| tests/phase6-bc-dialog-safety.test.ts | 1 |
+| tests/private-ci-budget.test.ts | 3 |
+| tests/scheduled-task-status.test.ts | 5 |
+| tests/supabase-daily-health.test.ts | 5 |
+
+## التشخيصات الجديدة منذ قياس70
+
+- tests/private-ci-budget.test.ts:36 TS2322: Type 'typeof import("C:/Users/TOP/mahdi-admin/node_modules/typescript/lib/typescript.d.ts")' is not assignable to type 'null | undefined'.
+- tests/private-ci-budget.test.ts:38 TS2322: Type 'typeof import("C:/Users/TOP/mahdi-admin/node_modules/typescript/lib/typescript.d.ts")' is not assignable to type 'null | undefined'.
+- tests/private-ci-budget.test.ts:43 TS2322: Type 'string[]' is not assignable to type 'null | undefined'.
+- tests/scheduled-task-status.test.ts:23 TS2345: Argument of type '{ lastTaskResult: number; lastRunTime: string; normalDurationSeconds: number; }' is not assignable to parameter of type '{ lastTaskResult: any; lastRunTime: any; normalDurationSeconds?: null | undefined; maxRunningSeconds?: number | undefined; }'.   Types of property 'normalDurationSeconds' are incompatible.     Type 'number' is not assignable to type 'null | undefined'.
+- tests/scheduled-task-status.test.ts:24 TS2345: Argument of type '{ lastRunTime: string; lastTaskResult: number; normalDurationSeconds: number; }' is not assignable to parameter of type '{ lastTaskResult: any; lastRunTime: any; normalDurationSeconds?: null | undefined; maxRunningSeconds?: number | undefined; }'.   Types of property 'normalDurationSeconds' are incompatible.     Type 'number' is not assignable to type 'null | undefined'.
+- tests/scheduled-task-status.test.ts:25 TS2345: Argument of type '{ lastRunTime: string; lastTaskResult: number; normalDurationSeconds: number; }' is not assignable to parameter of type '{ lastTaskResult: any; lastRunTime: any; normalDurationSeconds?: null | undefined; maxRunningSeconds?: number | undefined; }'.   Types of property 'normalDurationSeconds' are incompatible.     Type 'number' is not assignable to type 'null | undefined'.
+- tests/scheduled-task-status.test.ts:26 TS2322: Type 'number' is not assignable to type 'null | undefined'.
+- tests/scheduled-task-status.test.ts:27 TS2345: Argument of type '{ maxRunningSeconds: number; lastTaskResult: number; lastRunTime: string; normalDurationSeconds: number; }' is not assignable to parameter of type '{ lastTaskResult: any; lastRunTime: any; normalDurationSeconds?: null | undefined; maxRunningSeconds?: number | undefined; }'.   Types of property 'normalDurationSeconds' are incompatible.     Type 'number' is not assignable to type 'null | undefined'.
+- tests/supabase-daily-health.test.ts:18 TS2322: Type '(url: URL, init: RequestInit) => Promise<Response>' is not assignable to type '{ (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: string | URL | Request, init?: RequestInit | undefined): Promise<...>; }'.   Types of parameters 'url' and 'input' are incompatible.     Type 'URL | RequestInfo' is not assignable to type 'URL'.       Type 'string' is not assignable to type 'URL'.
+- tests/supabase-daily-health.test.ts:30 TS2322: Type '{ checkedAt: any; keepalive: { httpStatus?: any; status: any; healthy: any; }; size: { status: string; healthy: boolean; databaseBytes?: undefined; } | { status: string; healthy: boolean; databaseBytes: any; }; } | null' is not assignable to type 'null | undefined'.   Type '{ checkedAt: any; keepalive: { httpStatus?: any; status: any; healthy: any; }; size: { status: string; healthy: boolean; databaseBytes?: undefined; } | { status: string; healthy: boolean; databaseBytes: any; }; }' is not assignable to type 'null | undefined'.
+- tests/supabase-daily-health.test.ts:33 TS2322: Type '{ checkedAt: any; keepalive: { httpStatus?: any; status: any; healthy: any; }; size: { status: string; healthy: boolean; databaseBytes?: undefined; } | { status: string; healthy: boolean; databaseBytes: any; }; } | null' is not assignable to type 'null | undefined'.   Type '{ checkedAt: any; keepalive: { httpStatus?: any; status: any; healthy: any; }; size: { status: string; healthy: boolean; databaseBytes?: undefined; } | { status: string; healthy: boolean; databaseBytes: any; }; }' is not assignable to type 'null | undefined'.
+- tests/supabase-daily-health.test.ts:34 TS2322: Type '{ checkedAt: any; keepalive: { httpStatus?: any; status: any; healthy: any; }; size: { status: string; healthy: boolean; databaseBytes?: undefined; } | { status: string; healthy: boolean; databaseBytes: any; }; } | null' is not assignable to type 'null | undefined'.   Type '{ checkedAt: any; keepalive: { httpStatus?: any; status: any; healthy: any; }; size: { status: string; healthy: boolean; databaseBytes?: undefined; } | { status: string; healthy: boolean; databaseBytes: any; }; }' is not assignable to type 'null | undefined'.
+- tests/supabase-daily-health.test.ts:35 TS2322: Type '{ size: { healthy: true; status: string; databaseBytes: number; }; checkedAt?: any; keepalive?: { httpStatus?: any; status: any; healthy: any; } | undefined; }' is not assignable to type 'null | undefined'.
+
+## خطة دفعات مقترحة — غير منفذة وتحتاج اعتماداً
+
+| الدفعة | التشخيصات الحالية | النطاق والضابط |
+|---|---:|---|
+| 1 | 45 | الاختبارات وأدواتها: تعريف mock/fixture/callback والنتائج، وضبط أنواع خيارات أدوات JS بـJSDoc أو توقيع صحيح. لا any أو تجاهل أخطاء أو تخفيف assertions. |
+| 2 | 17 | e2e/harness: تضييق env/client nullable وتوثيق الأنواع للقيم المستلمة؛ لا defaults تخفي غياب الحقائق أو تغيير حالات المتصفح. |
+| 3 | 14 | 13 nullable-client diagnostics في الخدمات + تشخيص notification settings بالـstore: التقاط client مثبت بعد الحارس القائم، ومراجعة عقد الحقول المطلوبة. مقارنة AST للعقود والحمولات والتحقق؛ لا مصدر بيانات جديد. |
+| 4 | 7 | 6 في CRM/POS/product/PO forms + email في auth: narrowing ومراجعة File null/result unions/baseQuantity. أي تصحيح سلوك أو سياسة يستدعي قراراً مستقلاً؛ لا تخمين سعر/كمية ولا non-null assertion لتغطية السبب. |
+| 5 | 0 مطلوب | بعد وصول strict إلى صفر: تفعيله في commit إعدادات مستقل، typecheck/الوحدات والحراس السلبية والاختبارات المتعلقة وCI الكامل. customer-web/Edge لهما نطاق مستقل، لا ادعاء تغطيتهما هنا. |
+
+قبل دفعات المنتج: إثبات سلوك الحالات الاختيارية أولاً، خصوصاً email غير الموجود
+في auth وbaseQuantity الاختياري في POS. هذان تحذيران قديمان محتملان، لا
+عيبان مثبتان بجلسة القياس هذه. لا تغيّر سلوك المصادقة أو المال لتسكين المترجم.
+كل دفعة: اذكر العدد قبل/بعد، typecheck/lint/كل الوحدات والفحوص المتعلقة،
+Gitleaks0، وموافقة المالك على push ثم CI الكامل قبل قبولها. لا تفعيل strict
+جزئياً بصورة تُخفي الملفات الصعبة، ولا ts-ignore/ts-expect-error أو تعطيل قواعد.
+
+## القياس السابق — أرشيف2026-10-12 (ليس العدد الحالي)
+
 
 Measurement only after owner-approved React19 type remediation, baseline 7361d5cbc87ffdfe40bcee59a6bc8a8369b1c7af plus this working diff. React/ReactDOM 19.2.8; @types/react and @types/react-dom 19.3.0; TypeScript 5.8.3.
 

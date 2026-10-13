@@ -1,5 +1,21 @@
 # Agent handoff history
 
+## 2026-10-13 — Admin focus / strict measurements, documentation only
+
+Owner authorizes two measurements only on63406f2;no repair/push/Production.
+Strict in-memory83 diagnostics/44files:src21,e2e17,tests45;previous70/41.
+All13 additional diagnostics are new test files;four-batch plan plus final
+strict enablement proposal in TYPES_STRICT_MEASUREMENT.md,not executed.
+Actual Admin components measured on isolated loopback fixtures;both engines,
+themes,phone390. No Cart-like typed-input stealing proven in sampled paths.
+Confirmed separate defects:customer edit/address absent upper focus registration
+and role;Tab leaves child8/8;Escape from dirty input closes parent+child8/8.
+Product details→edit initially focuses close;immediateEnter closes4/4.
+56 completed observations including8expandedTab/8Escape,not56claimedPASS.
+Fixture/temporary-locator setup failures disclosed,not product failures or test
+weakening. No app/hook/form/RPC/config/migration/permanent-test edits. Next
+local documentation gates/Gitleaks0/docs-only localcommit,checkpoint STOP.
+
 ## 2026-10-13 — Dormant private CI preparation candidate
 
 Owner-authorized cadence only;repo remains public and PRIVATE_CI_BUDGET_MODE
