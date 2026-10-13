@@ -1,5 +1,10 @@
 # Project overview
 
+Owner2026-10-13 task:prepare dormant private CI budget routing and read-only
+last10 job-minute evidence. See docs/operations/PRIVATE_CI_BUDGET.md;single flag
+requires actual private visibility. No activation/repo conversion/test weakening/
+Production/deploy;full current CI before owner review STOP.
+
 Maintenance entry points(owner2026-10-12):`docs/MAINTENANCE_GUIDE_AR.md`,
 `docs/MONTHLY_CHECKLIST_AR.md`,`docs/generated/DB_FUNCTIONS.md`. Documentation/
 isolated extractor/future migration guards only;current ceiling from

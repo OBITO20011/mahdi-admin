@@ -12,9 +12,42 @@ permissions:
   contents: read
 
 jobs:
+  scope:
+    name: CI full or affected scope
+    if: ${{ github.event_name != 'schedule' || (github.event.repository.private && vars.PRIVATE_CI_BUDGET_MODE == 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      mode: ${{ steps.plan.outputs.mode }}
+      full: ${{ steps.plan.outputs.full }}
+      core_files: ${{ steps.plan.outputs.core_files }}
+      package_f_files: ${{ steps.plan.outputs.package_f_files }}
+      package_f_needed: ${{ steps.plan.outputs.package_f_needed }}
+      shards: ${{ steps.plan.outputs.shards }}
+    steps:
+      - name: Checkout complete diff history
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+      - name: Install discovery dependencies only for opt-in affected mode
+        if: ${{ github.event.repository.private && vars.PRIVATE_CI_BUDGET_MODE == 'true' && github.event_name != 'schedule' && github.event_name != 'workflow_dispatch' }}
+        run: npm ci && npm --prefix customer-web ci
+      - name: Plan unchanged full suite or fail-closed affected partition
+        id: plan
+        env:
+          PRIVATE_CI_BUDGET_MODE: ${{ vars.PRIVATE_CI_BUDGET_MODE }}
+          CI_REPOSITORY_PRIVATE: ${{ github.event.repository.private }}
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: node scripts/testing/plan-private-ci.mjs
+
   quality:
     name: Lint, test, build and browser QA
     runs-on: ubuntu-latest
+    needs: scope
     timeout-minutes: 20
     defaults:
       run:
@@ -53,7 +86,14 @@ jobs:
         run: node scripts/testing/verify-browser-ci-partition.mjs
 
       - name: Run complete quality gate
+        if: needs.scope.outputs.full == 'true'
         run: node scripts/testing/run-quality-ci.mjs core
+
+      - name: Run opt-in private push gates and every affected core spec
+        if: needs.scope.outputs.full != 'true'
+        env:
+          PRIVATE_CI_FILES: ${{ needs.scope.outputs.core_files }}
+        run: node scripts/testing/run-private-ci.mjs core
 
       - name: Upload Playwright report on failure
         if: failure()
@@ -66,11 +106,13 @@ jobs:
   package-f-browser:
     name: Package F browser QA (${{ matrix.shard }}/3)
     runs-on: ubuntu-latest
+    needs: scope
+    if: ${{ needs.scope.outputs.full == 'true' || needs.scope.outputs.package_f_needed == 'true' }}
     timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3]
+        shard: ${{ fromJSON(needs.scope.outputs.shards) }}
     defaults:
       run:
         working-directory: browser-package-f
@@ -110,7 +152,14 @@ jobs:
         run: node scripts/testing/verify-browser-ci-partition.mjs
 
       - name: Run Package F browser gate
+        if: needs.scope.outputs.full == 'true'
         run: node scripts/testing/run-quality-ci.mjs package-f --shard=${{ matrix.shard }}/3
+
+      - name: Run every affected Package F spec on its non-empty original shard
+        if: needs.scope.outputs.full != 'true'
+        env:
+          PRIVATE_CI_FILES: ${{ needs.scope.outputs.package_f_files }}
+        run: node scripts/testing/run-private-ci.mjs package-f --shard=${{ matrix.shard }}/3
 
       - name: Upload Playwright report on failure
         if: failure()
@@ -123,19 +172,23 @@ jobs:
   quality-delivery:
     name: Complete quality delivery gate
     runs-on: ubuntu-latest
-    if: always()
-    needs: [quality, package-f-browser, database-runtime, current-database-runtime]
+    if: ${{ always() && needs.scope.result != 'skipped' }}
+    needs: [scope, quality, package-f-browser, database-runtime, current-database-runtime]
     steps:
-      - name: Require every quality branch to succeed
-        # GitHub's matrix result is success only when every shard succeeds.
+      - name: Checkout routed gate
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Verify all routed branches without weakening full delivery
         env:
           NEEDS_JSON: ${{ toJSON(needs) }}
-        run: |
-          node -e 'const jobs=JSON.parse(process.env.NEEDS_JSON);const required=["quality","package-f-browser","database-runtime","current-database-runtime"];if(Object.keys(jobs).length!==required.length||required.some(name=>jobs[name]?.result!=="success"))process.exit(1);'
+          CI_MODE: ${{ needs.scope.outputs.mode }}
+          CI_PACKAGE_F_NEEDED: ${{ needs.scope.outputs.package_f_needed }}
+        run: node scripts/testing/verify-private-ci-gate.mjs
 
   database-runtime:
     name: Isolated database runtime regression
     runs-on: ubuntu-latest
+    needs: scope
+    if: needs.scope.outputs.full == 'true'
     timeout-minutes: 35
     steps:
       - name: Checkout repository
@@ -159,6 +212,8 @@ jobs:
   current-database-runtime:
     name: Isolated current contracts (${{ matrix.suite }})
     runs-on: ubuntu-latest
+    needs: scope
+    if: needs.scope.outputs.full == 'true'
     timeout-minutes: 35
     strategy:
       fail-fast: false

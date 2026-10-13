@@ -1,0 +1,2802 @@
+{
+  "collectedAt": "2026-10-13T02:03:16.492Z",
+  "method": "Last10 completed push/main quality runs;all attempts;ceil per standard Linux job;paired secret workflows;excludes uptime/notifications",
+  "summary": {
+    "total": 1143,
+    "mean": 114.3,
+    "max": 123,
+    "min": 105
+  },
+  "runs": [
+    {
+      "id": 38292180927,
+      "sha": "a6c3b027050a05d208a740c60d5bcf2df1b67034",
+      "startedAt": "2026-10-12T18:37:36Z",
+      "conclusion": "success",
+      "attempts": 1,
+      "wallMinutes": 17.083333333333332,
+      "qualityMinutes": 122,
+      "secretMinutes": 1,
+      "secretRun": 38292180217,
+      "jobs": [
+        {
+          "attempt": 1,
+          "name": "Lint, test, build and browser QA",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:52:03Z",
+          "seconds": 865,
+          "roundedMinutes": 15,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-aging)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:42:02Z",
+          "seconds": 264,
+          "roundedMinutes": 5,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated database runtime regression",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:45:50Z",
+          "seconds": 492,
+          "roundedMinutes": 9,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (closing)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:39Z",
+          "completedAt": "2026-10-12T18:39:46Z",
+          "seconds": 127,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase43)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:40:00Z",
+          "seconds": 142,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (1/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:50:09Z",
+          "seconds": 751,
+          "roundedMinutes": 13,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (3/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:54:37Z",
+          "seconds": 1019,
+          "roundedMinutes": 17,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-d)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:40:02Z",
+          "seconds": 144,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (2/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:39Z",
+          "completedAt": "2026-10-12T18:52:09Z",
+          "seconds": 870,
+          "roundedMinutes": 15,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-reads)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:40:51Z",
+          "seconds": 193,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (supplier-ledger)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:40:55Z",
+          "seconds": 197,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (golden-day)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:39:52Z",
+          "seconds": 134,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (pos-browser)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:39Z",
+          "completedAt": "2026-10-12T18:42:04Z",
+          "seconds": 265,
+          "roundedMinutes": 5,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:40:46Z",
+          "seconds": 188,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-concurrency)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:39:43Z",
+          "seconds": 125,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3-basic)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:39:28Z",
+          "seconds": 110,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase42)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:39:44Z",
+          "seconds": 126,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-lineage)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:41:34Z",
+          "seconds": 236,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (before-after)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:40:05Z",
+          "seconds": 147,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-financial)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:39:45Z",
+          "seconds": 127,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Complete quality delivery gate",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:54:39Z",
+          "completedAt": "2026-10-12T18:54:41Z",
+          "seconds": 2,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ],
+      "secretJobs": [
+        {
+          "attempt": 1,
+          "name": "Detect committed secrets",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T18:37:38Z",
+          "completedAt": "2026-10-12T18:37:47Z",
+          "seconds": 9,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 38284278964,
+      "sha": "73c8b662f955666918178b2bc9245125d7b7a5be",
+      "startedAt": "2026-10-12T17:27:02Z",
+      "conclusion": "success",
+      "attempts": 1,
+      "wallMinutes": 17.65,
+      "qualityMinutes": 117,
+      "secretMinutes": 1,
+      "secretRun": 38284278913,
+      "jobs": [
+        {
+          "attempt": 1,
+          "name": "Lint, test, build and browser QA",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:39:08Z",
+          "seconds": 723,
+          "roundedMinutes": 13,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (2/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:39:19Z",
+          "seconds": 734,
+          "roundedMinutes": 13,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (1/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:39:36Z",
+          "seconds": 751,
+          "roundedMinutes": 13,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (golden-day)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:29:19Z",
+          "seconds": 134,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-concurrency)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:29:19Z",
+          "seconds": 134,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (3/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:44:36Z",
+          "seconds": 1051,
+          "roundedMinutes": 18,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated database runtime regression",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:38:27Z",
+          "seconds": 682,
+          "roundedMinutes": 12,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-aging)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:30:47Z",
+          "seconds": 222,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase42)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:29:16Z",
+          "seconds": 131,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-d)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:29:36Z",
+          "seconds": 151,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:30:12Z",
+          "seconds": 187,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-lineage)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:29:08Z",
+          "seconds": 123,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (supplier-ledger)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:30:12Z",
+          "seconds": 187,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase43)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:29:15Z",
+          "seconds": 130,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (closing)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:29:07Z",
+          "seconds": 122,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3-basic)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:28:55Z",
+          "seconds": 110,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (pos-browser)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:30:32Z",
+          "seconds": 207,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (before-after)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:29:52Z",
+          "seconds": 167,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-financial)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:29:01Z",
+          "seconds": 116,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-reads)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:29:41Z",
+          "seconds": 156,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Complete quality delivery gate",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:44:38Z",
+          "completedAt": "2026-10-12T17:44:41Z",
+          "seconds": 3,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ],
+      "secretJobs": [
+        {
+          "attempt": 1,
+          "name": "Detect committed secrets",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:27:05Z",
+          "completedAt": "2026-10-12T17:27:14Z",
+          "seconds": 9,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 38282232339,
+      "sha": "52b74f1fd869973ea4016bb57a24528f7dbe1737",
+      "startedAt": "2026-10-12T17:08:29Z",
+      "conclusion": "success",
+      "attempts": 1,
+      "wallMinutes": 17.083333333333332,
+      "qualityMinutes": 120,
+      "secretMinutes": 1,
+      "secretRun": 38282232293,
+      "jobs": [
+        {
+          "attempt": 1,
+          "name": "Isolated database runtime regression",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:31Z",
+          "completedAt": "2026-10-12T17:17:54Z",
+          "seconds": 563,
+          "roundedMinutes": 10,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (2/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:23:48Z",
+          "seconds": 916,
+          "roundedMinutes": 16,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:11:35Z",
+          "seconds": 183,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (3/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:25:29Z",
+          "seconds": 1017,
+          "roundedMinutes": 17,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-aging)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:12:09Z",
+          "seconds": 217,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Lint, test, build and browser QA",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:23:02Z",
+          "seconds": 870,
+          "roundedMinutes": 15,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (1/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:21:08Z",
+          "seconds": 756,
+          "roundedMinutes": 13,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-reads)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:11:16Z",
+          "seconds": 164,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3-basic)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:11:16Z",
+          "seconds": 164,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (supplier-ledger)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:11:38Z",
+          "seconds": 186,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (before-after)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:11:02Z",
+          "seconds": 150,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-lineage)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:10:31Z",
+          "seconds": 119,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (closing)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:10:33Z",
+          "seconds": 121,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-concurrency)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:11:10Z",
+          "seconds": 158,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (golden-day)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:10:39Z",
+          "seconds": 127,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (pos-browser)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:12:25Z",
+          "seconds": 233,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase42)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:10:33Z",
+          "seconds": 121,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-financial)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:10:36Z",
+          "seconds": 124,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-d)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:10:52Z",
+          "seconds": 140,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase43)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:10:58Z",
+          "seconds": 146,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Complete quality delivery gate",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:25:31Z",
+          "completedAt": "2026-10-12T17:25:34Z",
+          "seconds": 3,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ],
+      "secretJobs": [
+        {
+          "attempt": 1,
+          "name": "Detect committed secrets",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T17:08:32Z",
+          "completedAt": "2026-10-12T17:08:42Z",
+          "seconds": 10,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 38277650959,
+      "sha": "904222740f035e5dfa38596c0de63af119738a67",
+      "startedAt": "2026-10-12T16:28:38Z",
+      "conclusion": "success",
+      "attempts": 1,
+      "wallMinutes": 14.8,
+      "qualityMinutes": 111,
+      "secretMinutes": 1,
+      "secretRun": 38277651163,
+      "jobs": [
+        {
+          "attempt": 1,
+          "name": "Isolated database runtime regression",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:36:59Z",
+          "seconds": 498,
+          "roundedMinutes": 9,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase43)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:30:59Z",
+          "seconds": 138,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (2/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:42:50Z",
+          "seconds": 849,
+          "roundedMinutes": 15,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Lint, test, build and browser QA",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:43:20Z",
+          "seconds": 879,
+          "roundedMinutes": 15,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (3/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:40:13Z",
+          "seconds": 692,
+          "roundedMinutes": 12,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (1/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:41:42Z",
+          "seconds": 781,
+          "roundedMinutes": 14,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (golden-day)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:30:53Z",
+          "seconds": 132,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-reads)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:31:07Z",
+          "seconds": 146,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-concurrency)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:30:56Z",
+          "seconds": 135,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (pos-browser)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:32:30Z",
+          "seconds": 229,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-lineage)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:30:34Z",
+          "seconds": 113,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-financial)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:30:50Z",
+          "seconds": 129,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (closing)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:42Z",
+          "completedAt": "2026-10-12T16:30:46Z",
+          "seconds": 124,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase42)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:30:44Z",
+          "seconds": 123,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:31:43Z",
+          "seconds": 182,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-aging)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:31:01Z",
+          "seconds": 140,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3-basic)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:30:36Z",
+          "seconds": 115,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (before-after)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:31:10Z",
+          "seconds": 149,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (supplier-ledger)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:31:38Z",
+          "seconds": 177,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-d)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:31:15Z",
+          "seconds": 154,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Complete quality delivery gate",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:43:22Z",
+          "completedAt": "2026-10-12T16:43:26Z",
+          "seconds": 4,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ],
+      "secretJobs": [
+        {
+          "attempt": 1,
+          "name": "Detect committed secrets",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T16:28:41Z",
+          "completedAt": "2026-10-12T16:28:52Z",
+          "seconds": 11,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 38269262636,
+      "sha": "47441ad2657b8d0836ef42dba9531654bc112c1e",
+      "startedAt": "2026-10-12T15:18:26Z",
+      "conclusion": "success",
+      "attempts": 1,
+      "wallMinutes": 13.933333333333334,
+      "qualityMinutes": 104,
+      "secretMinutes": 1,
+      "secretRun": 38269262782,
+      "jobs": [
+        {
+          "attempt": 1,
+          "name": "Lint, test, build and browser QA",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:29Z",
+          "completedAt": "2026-10-12T15:31:13Z",
+          "seconds": 764,
+          "roundedMinutes": 13,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (2/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:28Z",
+          "completedAt": "2026-10-12T15:28:57Z",
+          "seconds": 629,
+          "roundedMinutes": 11,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (3/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:29Z",
+          "completedAt": "2026-10-12T15:32:17Z",
+          "seconds": 828,
+          "roundedMinutes": 14,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated database runtime regression",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:28Z",
+          "completedAt": "2026-10-12T15:26:45Z",
+          "seconds": 497,
+          "roundedMinutes": 9,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-financial)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:28Z",
+          "completedAt": "2026-10-12T15:20:22Z",
+          "seconds": 114,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-d)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:28Z",
+          "completedAt": "2026-10-12T15:20:44Z",
+          "seconds": 136,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase43)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:29Z",
+          "completedAt": "2026-10-12T15:20:56Z",
+          "seconds": 147,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (closing)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:29Z",
+          "completedAt": "2026-10-12T15:20:23Z",
+          "seconds": 114,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-lineage)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:28Z",
+          "completedAt": "2026-10-12T15:20:08Z",
+          "seconds": 100,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (pos-browser)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:29Z",
+          "completedAt": "2026-10-12T15:22:33Z",
+          "seconds": 244,
+          "roundedMinutes": 5,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (before-after)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:29Z",
+          "completedAt": "2026-10-12T15:20:47Z",
+          "seconds": 138,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (1/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:28Z",
+          "completedAt": "2026-10-12T15:30:45Z",
+          "seconds": 737,
+          "roundedMinutes": 13,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-aging)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:29Z",
+          "completedAt": "2026-10-12T15:21:06Z",
+          "seconds": 157,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:28Z",
+          "completedAt": "2026-10-12T15:21:11Z",
+          "seconds": 163,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase42)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:29Z",
+          "completedAt": "2026-10-12T15:20:47Z",
+          "seconds": 138,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3-basic)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:29Z",
+          "completedAt": "2026-10-12T15:20:26Z",
+          "seconds": 117,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-reads)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:28Z",
+          "completedAt": "2026-10-12T15:21:06Z",
+          "seconds": 158,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-concurrency)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:29Z",
+          "completedAt": "2026-10-12T15:20:24Z",
+          "seconds": 115,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (supplier-ledger)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:29Z",
+          "completedAt": "2026-10-12T15:21:35Z",
+          "seconds": 186,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (golden-day)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:29Z",
+          "completedAt": "2026-10-12T15:20:51Z",
+          "seconds": 142,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Complete quality delivery gate",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:32:19Z",
+          "completedAt": "2026-10-12T15:32:22Z",
+          "seconds": 3,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ],
+      "secretJobs": [
+        {
+          "attempt": 1,
+          "name": "Detect committed secrets",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T15:18:28Z",
+          "completedAt": "2026-10-12T15:18:36Z",
+          "seconds": 8,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 38262386987,
+      "sha": "d75f60932634c7966e45c8ea67f7fad55bd28bee",
+      "startedAt": "2026-10-12T14:22:04Z",
+      "conclusion": "success",
+      "attempts": 1,
+      "wallMinutes": 15.766666666666667,
+      "qualityMinutes": 119,
+      "secretMinutes": 1,
+      "secretRun": 38262386880,
+      "jobs": [
+        {
+          "attempt": 1,
+          "name": "Isolated database runtime regression",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:07Z",
+          "completedAt": "2026-10-12T14:32:48Z",
+          "seconds": 641,
+          "roundedMinutes": 11,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-reads)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:07Z",
+          "completedAt": "2026-10-12T14:24:53Z",
+          "seconds": 166,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Lint, test, build and browser QA",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:07Z",
+          "completedAt": "2026-10-12T14:37:14Z",
+          "seconds": 907,
+          "roundedMinutes": 16,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-aging)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:07Z",
+          "completedAt": "2026-10-12T14:24:57Z",
+          "seconds": 170,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase43)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:07Z",
+          "completedAt": "2026-10-12T14:24:24Z",
+          "seconds": 137,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (1/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:07Z",
+          "completedAt": "2026-10-12T14:35:10Z",
+          "seconds": 783,
+          "roundedMinutes": 14,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (3/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:07Z",
+          "completedAt": "2026-10-12T14:37:45Z",
+          "seconds": 938,
+          "roundedMinutes": 16,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (pos-browser)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:08Z",
+          "completedAt": "2026-10-12T14:26:14Z",
+          "seconds": 246,
+          "roundedMinutes": 5,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (closing)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:08Z",
+          "completedAt": "2026-10-12T14:24:46Z",
+          "seconds": 158,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3-basic)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:07Z",
+          "completedAt": "2026-10-12T14:24:00Z",
+          "seconds": 113,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-d)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:08Z",
+          "completedAt": "2026-10-12T14:24:46Z",
+          "seconds": 158,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (2/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:07Z",
+          "completedAt": "2026-10-12T14:35:19Z",
+          "seconds": 792,
+          "roundedMinutes": 14,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:07Z",
+          "completedAt": "2026-10-12T14:25:16Z",
+          "seconds": 189,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-financial)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:08Z",
+          "completedAt": "2026-10-12T14:24:14Z",
+          "seconds": 126,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (supplier-ledger)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:08Z",
+          "completedAt": "2026-10-12T14:25:29Z",
+          "seconds": 201,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase42)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:07Z",
+          "completedAt": "2026-10-12T14:25:03Z",
+          "seconds": 176,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-concurrency)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:07Z",
+          "completedAt": "2026-10-12T14:23:56Z",
+          "seconds": 109,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-lineage)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:08Z",
+          "completedAt": "2026-10-12T14:24:23Z",
+          "seconds": 135,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (golden-day)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:07Z",
+          "completedAt": "2026-10-12T14:24:17Z",
+          "seconds": 130,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (before-after)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:08Z",
+          "completedAt": "2026-10-12T14:24:44Z",
+          "seconds": 156,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Complete quality delivery gate",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:37:47Z",
+          "completedAt": "2026-10-12T14:37:50Z",
+          "seconds": 3,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ],
+      "secretJobs": [
+        {
+          "attempt": 1,
+          "name": "Detect committed secrets",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T14:22:07Z",
+          "completedAt": "2026-10-12T14:22:13Z",
+          "seconds": 6,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 38255479859,
+      "sha": "6b631b866942a0d79c58258845bba19e1afda614",
+      "startedAt": "2026-10-12T13:24:31Z",
+      "conclusion": "success",
+      "attempts": 1,
+      "wallMinutes": 16.066666666666666,
+      "qualityMinutes": 116,
+      "secretMinutes": 1,
+      "secretRun": 38255479775,
+      "jobs": [
+        {
+          "attempt": 1,
+          "name": "Lint, test, build and browser QA",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:38:40Z",
+          "seconds": 846,
+          "roundedMinutes": 15,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (pos-browser)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:28:41Z",
+          "seconds": 247,
+          "roundedMinutes": 5,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-reads)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:27:12Z",
+          "seconds": 158,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-lineage)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:26:42Z",
+          "seconds": 128,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated database runtime regression",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:35:16Z",
+          "seconds": 642,
+          "roundedMinutes": 11,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-aging)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:26:57Z",
+          "seconds": 143,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase42)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:26:44Z",
+          "seconds": 130,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3-basic)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:26:38Z",
+          "seconds": 124,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-financial)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:27:23Z",
+          "seconds": 169,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (supplier-ledger)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:27:30Z",
+          "seconds": 176,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (golden-day)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:26:51Z",
+          "seconds": 137,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (closing)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:26:27Z",
+          "seconds": 113,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (3/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:40:28Z",
+          "seconds": 954,
+          "roundedMinutes": 16,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (before-after)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:27:06Z",
+          "seconds": 152,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (2/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:37:55Z",
+          "seconds": 801,
+          "roundedMinutes": 14,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-concurrency)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:26:50Z",
+          "seconds": 136,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:27:48Z",
+          "seconds": 194,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (1/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:36:09Z",
+          "seconds": 695,
+          "roundedMinutes": 12,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-d)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:35Z",
+          "completedAt": "2026-10-12T13:27:07Z",
+          "seconds": 152,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase43)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:26:47Z",
+          "seconds": 133,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Complete quality delivery gate",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:40:30Z",
+          "completedAt": "2026-10-12T13:40:35Z",
+          "seconds": 5,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ],
+      "secretJobs": [
+        {
+          "attempt": 1,
+          "name": "Detect committed secrets",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T13:24:34Z",
+          "completedAt": "2026-10-12T13:24:44Z",
+          "seconds": 10,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 38242137444,
+      "sha": "95058f7849c860f6953f07e8fd848dc57f4298d2",
+      "startedAt": "2026-10-12T11:21:36Z",
+      "conclusion": "success",
+      "attempts": 1,
+      "wallMinutes": 14.5,
+      "qualityMinutes": 107,
+      "secretMinutes": 1,
+      "secretRun": 38242137405,
+      "jobs": [
+        {
+          "attempt": 1,
+          "name": "Isolated database runtime regression",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:38Z",
+          "completedAt": "2026-10-12T11:30:59Z",
+          "seconds": 561,
+          "roundedMinutes": 10,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-lineage)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:38Z",
+          "completedAt": "2026-10-12T11:23:31Z",
+          "seconds": 113,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Lint, test, build and browser QA",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:38Z",
+          "completedAt": "2026-10-12T11:36:01Z",
+          "seconds": 863,
+          "roundedMinutes": 15,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (closing)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:38Z",
+          "completedAt": "2026-10-12T11:23:39Z",
+          "seconds": 121,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (1/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:38Z",
+          "completedAt": "2026-10-12T11:33:40Z",
+          "seconds": 722,
+          "roundedMinutes": 13,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (3/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:38Z",
+          "completedAt": "2026-10-12T11:32:14Z",
+          "seconds": 636,
+          "roundedMinutes": 11,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (before-after)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:39Z",
+          "completedAt": "2026-10-12T11:24:08Z",
+          "seconds": 149,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase42)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:39Z",
+          "completedAt": "2026-10-12T11:23:49Z",
+          "seconds": 130,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (2/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:38Z",
+          "completedAt": "2026-10-12T11:31:36Z",
+          "seconds": 598,
+          "roundedMinutes": 10,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3-basic)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:38Z",
+          "completedAt": "2026-10-12T11:23:31Z",
+          "seconds": 113,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (golden-day)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:38Z",
+          "completedAt": "2026-10-12T11:24:06Z",
+          "seconds": 148,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:39Z",
+          "completedAt": "2026-10-12T11:24:46Z",
+          "seconds": 187,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-financial)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:39Z",
+          "completedAt": "2026-10-12T11:23:42Z",
+          "seconds": 123,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-d)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:38Z",
+          "completedAt": "2026-10-12T11:23:55Z",
+          "seconds": 137,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-reads)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:39Z",
+          "completedAt": "2026-10-12T11:24:10Z",
+          "seconds": 151,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (pos-browser)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:39Z",
+          "completedAt": "2026-10-12T11:26:43Z",
+          "seconds": 304,
+          "roundedMinutes": 6,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-concurrency)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:39Z",
+          "completedAt": "2026-10-12T11:23:50Z",
+          "seconds": 131,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-aging)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:38Z",
+          "completedAt": "2026-10-12T11:23:33Z",
+          "seconds": 115,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (supplier-ledger)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:39Z",
+          "completedAt": "2026-10-12T11:24:58Z",
+          "seconds": 199,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase43)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:39Z",
+          "completedAt": "2026-10-12T11:23:59Z",
+          "seconds": 140,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Complete quality delivery gate",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:36:03Z",
+          "completedAt": "2026-10-12T11:36:06Z",
+          "seconds": 3,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ],
+      "secretJobs": [
+        {
+          "attempt": 1,
+          "name": "Detect committed secrets",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T11:21:38Z",
+          "completedAt": "2026-10-12T11:21:46Z",
+          "seconds": 8,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 38223824050,
+      "sha": "1473410f20bcc9184fbd4f2f95a2ae59999136b7",
+      "startedAt": "2026-10-12T08:28:58Z",
+      "conclusion": "success",
+      "attempts": 1,
+      "wallMinutes": 15.65,
+      "qualityMinutes": 105,
+      "secretMinutes": 1,
+      "secretRun": 38223824077,
+      "jobs": [
+        {
+          "attempt": 1,
+          "name": "Lint, test, build and browser QA",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:00Z",
+          "completedAt": "2026-10-12T08:42:53Z",
+          "seconds": 833,
+          "roundedMinutes": 14,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated database runtime regression",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:00Z",
+          "completedAt": "2026-10-12T08:38:48Z",
+          "seconds": 588,
+          "roundedMinutes": 10,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (3/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:01Z",
+          "completedAt": "2026-10-12T08:44:32Z",
+          "seconds": 931,
+          "roundedMinutes": 16,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (1/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:01Z",
+          "completedAt": "2026-10-12T08:40:57Z",
+          "seconds": 716,
+          "roundedMinutes": 12,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-d)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:01Z",
+          "completedAt": "2026-10-12T08:31:32Z",
+          "seconds": 151,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (2/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:00Z",
+          "completedAt": "2026-10-12T08:38:05Z",
+          "seconds": 545,
+          "roundedMinutes": 10,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase43)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:01Z",
+          "completedAt": "2026-10-12T08:31:27Z",
+          "seconds": 146,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-reads)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:01Z",
+          "completedAt": "2026-10-12T08:31:41Z",
+          "seconds": 160,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-financial)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:04Z",
+          "completedAt": "2026-10-12T08:30:56Z",
+          "seconds": 112,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (supplier-ledger)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:01Z",
+          "completedAt": "2026-10-12T08:32:06Z",
+          "seconds": 185,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (before-after)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:01Z",
+          "completedAt": "2026-10-12T08:31:49Z",
+          "seconds": 168,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-lineage)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:00Z",
+          "completedAt": "2026-10-12T08:30:54Z",
+          "seconds": 114,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (closing)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:01Z",
+          "completedAt": "2026-10-12T08:31:07Z",
+          "seconds": 126,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3-basic)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:00Z",
+          "completedAt": "2026-10-12T08:30:40Z",
+          "seconds": 100,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase42)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:00Z",
+          "completedAt": "2026-10-12T08:31:03Z",
+          "seconds": 123,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-concurrency)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:00Z",
+          "completedAt": "2026-10-12T08:31:00Z",
+          "seconds": 120,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:01Z",
+          "completedAt": "2026-10-12T08:31:50Z",
+          "seconds": 169,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (pos-browser)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:02Z",
+          "completedAt": "2026-10-12T08:32:14Z",
+          "seconds": 192,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (golden-day)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:01Z",
+          "completedAt": "2026-10-12T08:31:15Z",
+          "seconds": 134,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-aging)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:01Z",
+          "completedAt": "2026-10-12T08:30:47Z",
+          "seconds": 106,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Complete quality delivery gate",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:44:34Z",
+          "completedAt": "2026-10-12T08:44:37Z",
+          "seconds": 3,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ],
+      "secretJobs": [
+        {
+          "attempt": 1,
+          "name": "Detect committed secrets",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T08:29:00Z",
+          "completedAt": "2026-10-12T08:29:08Z",
+          "seconds": 8,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 38213772814,
+      "sha": "ba1d0f059b896bcd367562e45fb5eee1ca3a5338",
+      "startedAt": "2026-10-12T06:41:34Z",
+      "conclusion": "success",
+      "attempts": 1,
+      "wallMinutes": 15.566666666666666,
+      "qualityMinutes": 112,
+      "secretMinutes": 1,
+      "secretRun": 38213773098,
+      "jobs": [
+        {
+          "attempt": 1,
+          "name": "Isolated database runtime regression",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:52:14Z",
+          "seconds": 637,
+          "roundedMinutes": 11,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (2/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:53:33Z",
+          "seconds": 716,
+          "roundedMinutes": 12,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Lint, test, build and browser QA",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:55:47Z",
+          "seconds": 850,
+          "roundedMinutes": 15,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (3/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:57:02Z",
+          "seconds": 925,
+          "roundedMinutes": 16,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (before-after)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:44:12Z",
+          "seconds": 155,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Package F browser QA (1/3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:53:22Z",
+          "seconds": 705,
+          "roundedMinutes": 12,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (pos-browser)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:45:54Z",
+          "seconds": 257,
+          "roundedMinutes": 5,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-financial)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:43:37Z",
+          "seconds": 120,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-reads)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:44:27Z",
+          "seconds": 170,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (golden-day)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:44:02Z",
+          "seconds": 145,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-lineage)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:43:40Z",
+          "seconds": 123,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase43)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:43:54Z",
+          "seconds": 137,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3-basic)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:43:42Z",
+          "seconds": 125,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase44-concurrency)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:43:36Z",
+          "seconds": 119,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase3)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:44:38Z",
+          "seconds": 181,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-d)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:43:55Z",
+          "seconds": 138,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (closing)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:43:36Z",
+          "seconds": 119,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (package-f-aging)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:43:35Z",
+          "seconds": 118,
+          "roundedMinutes": 2,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (phase42)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:43:40Z",
+          "seconds": 123,
+          "roundedMinutes": 3,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Isolated current contracts (supplier-ledger)",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:44:43Z",
+          "seconds": 186,
+          "roundedMinutes": 4,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        },
+        {
+          "attempt": 1,
+          "name": "Complete quality delivery gate",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:57:05Z",
+          "completedAt": "2026-10-12T06:57:08Z",
+          "seconds": 3,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ],
+      "secretJobs": [
+        {
+          "attempt": 1,
+          "name": "Detect committed secrets",
+          "conclusion": "success",
+          "startedAt": "2026-10-12T06:41:37Z",
+          "completedAt": "2026-10-12T06:41:46Z",
+          "seconds": 9,
+          "roundedMinutes": 1,
+          "labels": [
+            "ubuntu-latest"
+          ]
+        }
+      ]
+    }
+  ]
+}

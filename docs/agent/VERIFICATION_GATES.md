@@ -1,5 +1,16 @@
 # Verification gates
 
+## Prepared private cadence — owner2026-10-13 (NOT activated)
+
+Only private visibility + PRIVATE_CI_BUDGET_MODE=true enables affected push/PR:
+types/lint/all units/secrets/all affected browser cases. Full DB+browser gates
+remain unchanged for manual and weekly dispatch. No light-only release:delivery
+verifier requires complete exact-SHA full jobs and secrets,including every DB
+matrix. Weekly dispatcher dormant while public/unset. Current public mode still
+runs complete CI on every push. Scope job adds one mandatory branch(current22
+quality jobs),not a fixed-count acceptance assertion. Activation/uptime disable
+and workload arithmetic in docs/operations/PRIVATE_CI_BUDGET.md;not executed.
+
 Select gates proportionate to the task; phase closure requires all gates named by its approved contract.
 
 ## Owner gate decision — 2026-10-12 (current)

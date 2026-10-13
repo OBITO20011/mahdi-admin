@@ -1,5 +1,27 @@
 # Agent handoff history
 
+## 2026-10-13 — Dormant private CI preparation candidate
+
+Owner-authorized cadence only;repo remains public and PRIVATE_CI_BUDGET_MODE
+GET404/unset. Last10 exact push/main quality+secret runs total1143 job-minutes,
+mean114.3,max123. Sanitized snapshots and conditional1975min/month arithmetic:
+docs/operations/PRIVATE_CI_BUDGET.md and CI_MINUTES_2026-10-13.json. Private
+runner2CPU/8GB versus public4CPU/16GB means activation needs remeasurement;
+no unverified guarantee/no quota skipping. Uptime byte-identical;future disable
+documented,not performed. Weekly dispatcher dormant behind private+singleflag.
+
+Full dispatch/weekly/predeployment keep all existing suites;push affected mode
+is opt-in only. Fail-closed dependency closure and native disjoint case union;
+exact-SHA release verifier rejects light-only/skipped/missing DB evidence.
+Local routing12/12,native full and broad affected partitions920 cases,actual
+affected accessibility16/16 across Chromium/WebKit;YAML valid. Final serial
+local gate02:20:34.114–02:24:07.107UTC exit0:typecheck/ESLint both applications,
+953Admin/191Customer units. No product/001–138/timeouts/retries changes. Existing
+static shard wiring expectations updated for scope/dynamic matrix only;all
+coverage/failure/duplicate assertions retained. Next staged Gitleaks0,commit,
+normal push and unchanged public FULL CI (22 quality jobs including planner).
+No Production/deploy/visibility/settings activation or next task authorized.
+
 ## 2026-10-12 — maintenance documentation candidate
 
 Owner-approved docs only:MAINTENANCE_GUIDE_AR/MONTHLY_CHECKLIST_AR and generated

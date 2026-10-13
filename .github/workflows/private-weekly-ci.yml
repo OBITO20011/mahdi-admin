@@ -1,0 +1,34 @@
+name: Nawasrah dormant private weekly CI
+
+on:
+  schedule:
+    - cron: '17 2 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dispatch-full:
+    name: Dispatch full private weekly gates
+    if: ${{ github.event.repository.private && vars.PRIVATE_CI_BUDGET_MODE == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Dispatch complete quality and secrets on current main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          for workflow in quality.yml secrets.yml; do
+            curl --fail --silent --show-error \
+              -H "Authorization: Bearer $GITHUB_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              -X POST "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/workflows/$workflow/dispatches" \
+              --data '{"ref":"main"}'
+          done

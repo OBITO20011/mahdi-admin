@@ -1,5 +1,17 @@
 # Approved owner decisions
 
+## 2026-10-13 — dormant private CI budget preparation
+
+Owner authorizes read-only last10 job-minute measurement and preparation only:
+single PRIVATE_CI_BUDGET_MODE variable PLUS private visibility required. Future
+push/PR retains types/lint/all units/secrets/every affected browser spec;full
+unchanged DB/browser suite via dispatch and dormant weekly dispatcher,and
+before release on exact SHA. No test/retry/timeout/fixture weakening. Unknown
+dependency falls back conservatively;no quota-based skip. public-uptime file
+kept byte-identical,disable step documented for later conversion. Do not set
+variable/change visibility/secrets/Production/deploy. Full CI current mode
+remains mandatory for this commit;conditional1975-minute workload documented.
+
 ## 2026-10-12 — maintenance documentation only
 
 Owner authorizes Arabic developer maintenance guide and short shop-owner
