@@ -3,6 +3,7 @@ import {test} from 'node:test';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {financialUiContract} from '../scripts/testing/package-f-financial-ui-contract.mjs';
+import {strictProductLegacySource} from './strict-product-legacy-source';
 
 const baseline = '289f398989ca92dfdc32387d349c20a116aee515';
 const files = [
@@ -13,7 +14,7 @@ const files = [
 ];
 for (const file of files) test(`phone presentation exact business/event/value/confirmation parity: ${file}`, () => {
   const before = execFileSync('git', ['show', `${baseline}:${file}`], {encoding: 'utf8'});
-  let after = readFileSync(file, 'utf8');
+  let after = strictProductLegacySource(file,readFileSync(file, 'utf8'));
   if (file.endsWith('/CustomerDetailView.tsx')) {
     // Original five sections plus approved138 read-only section; old financial values stay pinned.
     const values = [...after.matchAll(/<MobileTabSection value="([^"]+)"/g)].map(match => match[1]);

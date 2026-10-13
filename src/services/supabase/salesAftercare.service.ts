@@ -153,16 +153,17 @@ export async function settleAdminReplacement(input: {
   reason: string;
   notes?: string;
 }) {
-  if (!isSupabaseConfigured || !supabase) return unavailable();
+  const client = supabase;
+  if (!isSupabaseConfigured || !client) return unavailable();
   const orderId = input.orderId;
   const request = {items: input.items, reason: input.reason.trim(), notes: input.notes?.trim() || null};
-  return runAdminAftercareMutation(supabase, orderId, 'replacement', 'START_NEW', request,
+  return runAdminAftercareMutation(client, orderId, 'replacement', 'START_NEW', request,
     async (key, immutable) => {
       const payload = immutable as unknown as ReplacementMutationRequest;
       if (!Array.isArray(payload.items) || typeof payload.reason !== 'string') {
         throw new Error('AFTERCARE_REVIEW_REQUIRED: طلب الاستبدال المحفوظ غير صالح.');
       }
-      return await supabase.rpc('settle_sales_replacement_v1', {
+      return await client.rpc('settle_sales_replacement_v1', {
           p_order_id: orderId,
       p_idempotency_key: key,
         p_items: payload.items,
@@ -182,7 +183,8 @@ export async function settleAdminReturn(input: {
   referenceNumber?: string;
   notes?: string;
 }) {
-  if (!isSupabaseConfigured || !supabase) return unavailable();
+  const client = supabase;
+  if (!isSupabaseConfigured || !client) return unavailable();
   const orderId = input.orderId;
   const request = {
     items: input.items,
@@ -192,14 +194,14 @@ export async function settleAdminReturn(input: {
     referenceNumber: input.referenceNumber?.trim() || null,
     notes: input.notes?.trim() || null,
   };
-  return runAdminAftercareMutation(supabase, orderId, 'return', 'START_NEW', request,
+  return runAdminAftercareMutation(client, orderId, 'return', 'START_NEW', request,
     async (key, immutable) => {
       const payload = immutable as unknown as ReturnMutationRequest;
       if (!Array.isArray(payload.items) || !Array.isArray(payload.physicalSources)
         || typeof payload.reason !== 'string') {
         throw new Error('AFTERCARE_REVIEW_REQUIRED: طلب المرتجع المحفوظ غير صالح.');
       }
-      return await supabase.rpc('settle_admin_sales_return_v1', {
+      return await client.rpc('settle_admin_sales_return_v1', {
       p_order_id: orderId,
       p_idempotency_key: key,
         p_items: payload.items,
@@ -231,15 +233,16 @@ export async function recoverAdminAftercare(
   orderId: string,
   action: AdminAftercareAction,
 ) {
-  if (!isSupabaseConfigured || !supabase) return unavailable();
-  return runAdminAftercareMutation(supabase, orderId, action, 'RECOVER_EXISTING', null,
+  const client = supabase;
+  if (!isSupabaseConfigured || !client) return unavailable();
+  return runAdminAftercareMutation(client, orderId, action, 'RECOVER_EXISTING', null,
     async (key, immutable) => {
       if (action === 'replacement') {
         const payload = immutable as unknown as ReplacementMutationRequest;
         if (!Array.isArray(payload.items) || typeof payload.reason !== 'string') {
           throw new Error('AFTERCARE_REVIEW_REQUIRED: طلب الاستبدال المحفوظ غير صالح.');
         }
-        return await supabase.rpc('settle_sales_replacement_v1', {
+        return await client.rpc('settle_sales_replacement_v1', {
           p_order_id: orderId, p_idempotency_key: key,
           p_items: payload.items, p_reason: payload.reason, p_notes: payload.notes,
         });
@@ -249,7 +252,7 @@ export async function recoverAdminAftercare(
         || typeof payload.reason !== 'string') {
         throw new Error('AFTERCARE_REVIEW_REQUIRED: طلب المرتجع المحفوظ غير صالح.');
       }
-      return await supabase.rpc('settle_admin_sales_return_v1', {
+      return await client.rpc('settle_admin_sales_return_v1', {
         p_order_id: orderId, p_idempotency_key: key,
         p_items: payload.items, p_physical_sources: payload.physicalSources,
         p_reason: payload.reason, p_refund_method: payload.refundMethod,

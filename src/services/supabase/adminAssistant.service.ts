@@ -82,6 +82,10 @@ export const askAdminAssistant = async (
     throw new Error('اكتب سؤالاً بين 1 و750 حرفاً.');
   }
 
+  if (!supabase) {
+    throw new Error('تعذر التواصل مع المساعد الآن.');
+  }
+
   const { data, error } = await supabase.functions.invoke<AdminAssistantResponse>(
     'admin-ai-assistant',
     { body: { message: normalizedMessage, context, productSku } },

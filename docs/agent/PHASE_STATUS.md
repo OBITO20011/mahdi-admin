@@ -1,5 +1,13 @@
 # Phase status
 
+2026-10-13 owner resumes strict remediation:product20 first,tests62 next,
+then strict=true with independent gated commits. Product in-memory strict
+diagnostics now0;runtime AST parity across15changed product files PASS.
+No sensitive behavior defect established;001–138 unchanged. Type-only old
+pins updated without deleting assertions. Local related/full unit gates,
+Gitleaks0 and full exact CI pending;not yet delivered or strict-enabled.
+No Production/deploy/new phase. Earlier docs-only boundary is historical.
+
 2026-10-13 current scope is DOCUMENTATION ONLY:Frankfurt checklist from repo,
 001–138 ordered manifest/Auth/5Edge env names/cron/Storage/Turnstile/CORS/Pages/
 backup/watchdog/privateCI/rollback. Old-target bindings and managed034 build

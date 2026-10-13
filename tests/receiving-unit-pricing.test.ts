@@ -7,6 +7,7 @@ import {renderToStaticMarkup} from 'react-dom/server';
 import ts from 'typescript';
 import {ReceivingUnitFields} from '../src/components/ui';
 import {purchaseReceiptV2Lines,directReceiptV2Lines} from '../src/utils/receivingV2';
+import {strictProductLegacySource} from './strict-product-legacy-source';
 const product='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',item='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
 test('existing base-unit PO payload remains literally unchanged',()=>{
  const input={purchaseOrderItemId:item,productId:product,receivedQuantity:7,unitCost:.143,baseUnitName:'قنينة'};
@@ -39,7 +40,7 @@ test('shared named-unit control hides contents/package kind when receiving base 
 });
 test('all existing receiving service RPC payload definitions remain source-identical',()=>{
  for(const file of ['src/services/supabase/purchases.service.ts','src/services/supabase/directReceiving.service.ts'])
-  assert.equal(readFileSync(file,'utf8').replace(/\r\n/g,'\n'),execFileSync('git',['show',`d293ec38d29ba7d3dd74e0c4b732edf9e01ad469:${file}`],{encoding:'utf8'}).replace(/\r\n/g,'\n'));
+  assert.equal(strictProductLegacySource(file,readFileSync(file,'utf8')),execFileSync('git',['show',`d293ec38d29ba7d3dd74e0c4b732edf9e01ad469:${file}`],{encoding:'utf8'}).replace(/\r\n/g,'\n'));
 });
 test('POS sale/recovery/payment/print/share action bodies remain AST-identical',()=>{
  const file='src/features/pos/PosView.tsx',names=['addToCart','updateQuantity','handleCompleteSale','executeSale','handlePrintReceipt','handleShareReceipt','ensurePublicReceiptUrl'];

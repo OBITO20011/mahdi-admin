@@ -1,7 +1,7 @@
 import type {Invoice, OrderItem, Product} from '../../types';
 import type {PosV2Line, PosV2SaleResult} from '../../services/supabase/posV2.service';
 
-export interface PosCartItem extends OrderItem {v2Line: PosV2Line}
+export interface PosCartItem extends OrderItem {v2Line: PosV2Line; baseQuantity: number}
 export function posCartLines(items: PosCartItem[]): PosV2Line[] {
   return items.map(item => item.v2Line.commercial_line_kind === 'base_unit'
     ? {...item.v2Line, base_quantity: item.quantity}

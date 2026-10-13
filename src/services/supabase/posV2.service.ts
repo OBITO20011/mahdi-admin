@@ -205,7 +205,8 @@ export async function submitPosSaleV2WithRpc(
 export async function createPosSaleV2InSupabase(
   input: CreatePosSaleV2Input,
 ): Promise<CreatePosSaleV2Outcome> {
-  if (!isSupabaseConfigured || !supabase) {
+  const client = supabase;
+  if (!isSupabaseConfigured || !client) {
     return {
       ok: false,
       status: 'rejected',
@@ -216,6 +217,6 @@ export async function createPosSaleV2InSupabase(
   }
 
   return submitPosSaleV2WithRpc(input, (functionName, parameters) =>
-    supabase.rpc(functionName, parameters),
+    client.rpc(functionName, parameters),
   );
 }

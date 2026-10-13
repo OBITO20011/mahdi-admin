@@ -1,7 +1,8 @@
 # تفعيل strict — سجل العائق والإصلاح المستقل
 
-الحالة الحالية: المالك اعتمد إصلاح نتيجة حفظ الملف الشخصي، ونُفّذ واختُبر
-محلياً. strict لم يُفعّل؛ تبقى20 تشخيصاً في المنتج و62 في الاختبارات.
+الحالة الحالية: المالك اعتمد استكمال strict بعد تسليم إصلاح الملف الشخصي
+وتوثيق فرانكفورت. تصحيح المنتج محلي قيد الفحص:20→0؛تبقى62 في الاختبارات.
+strict لم يُفعّل،ولم تُسلّم دفعة المنتج قبل اكتمال CI.
 الأقسام الأولى أدناه سجل التشخيص والتوقف السابق؛ نتائج الإصلاح في النهاية.
 
 2026-10-13،الأساسf1743075e68fa93f53d092fbd75dd77b6375e95f.
@@ -83,3 +84,58 @@ refreshCurrentUser الموجود ثم يعرض«تم الحفظ؛ تعذر ال
   جديدفيالاختبارينالجديدين. باقيتفعيلstrict مؤجل،لا ادعاءإكمالدفعةالمنتج.
 - عزلالمتصفحناجح وصفرطلباتProduction/خارجية وdiffcheckناجح؛بوابات
   Gitleaks/commit/push/full exactCI لازمةقبلالتسليم ثمcheckpointوتوقف.
+
+## 2026-10-13 — الدفعة الأولى: أنواع المنتج فقط
+
+الأساسf2c37bd0e4ebec9f525b426e66e67df66b36fdbe؛resume/preflight PASS.
+قياس جديد82=src20+e2e17+tests45. بعد التعديلات src0+tests/e2e62.
+
+- CustomerDetailView:مرجع const لنتيجة customer بعد الحارس قبل callback،
+  دون تغيير صفحة القراءة أو دمج السجل أو شروطه.
+- DirectReceivingView:مجموعة أسماء الموردين تقبل undefined الذي يسمح
+  به عقد SupplierReceipt؛join كما هو،لا اختراع اسم أو قيمة مالية.
+- posV2Cart:baseQuantity مطلوب لعناصر سلة POS. كل منشئ في PosView
+  (قطعة/طرد من صنف واحد/طرد مشكل) وكل تحديث كمية يملؤه بالفعل.
+  لم تُضف قيمة بديلة ولم يتغير الجمع أو payload.
+- ProductFormModal:نتيجة الحفظ بعقد SupabaseRpcResult الموجود،ومعامل
+  صورة النكهة يقبل null الذي يمرره المستدعي والحارس يرفضه كما كان.
+- CreatePurchaseOrderModal:res بعقد الإنشاء الموجود،الذي يضم الحقول
+  الاختيارية ويغطي عقد التحديث أيضاً؛لا إضافة ID لرد الخادم.
+- useAppStore:معامل تفضيلات الإشعارات NonNullable؛المستدعي الحالي
+  يمرر النموذج الكامل. الدمج والتدقيق والإشعار كما هي،لا افتراض إعدادات.
+- الخدمات crm/dashboard/directReceiving/orders/posV2/purchases/
+  salesAftercare/stockAlerts:const client=supabase بعد أخذ المرجع وقبل
+  حارس الاتصال؛callbacks تستخدم المرجع المثبت،نفس RPC والقنوات والمعاملات.
+- adminAssistant:حارس عميل غير مهيأ فقط برسالة فشل التواصل العامة
+  الموجودة في الواجهة؛لا تغيير أدوار أو Edge invocation أو body.
+
+strict-product-parity.test.ts يقارن كل عقد AST للـJavaScript المترجم
+وكافة الاستدعاءات مع الأساس لكل15ملفاً،لا مجرد قائمة RPC مختارة.
+التطبيع محصور في محو الأنواع وconst aliases المثبتة بنفس initializer
+وbranch المساعد غير المهيأ المحدد حرفياً؛guards/حمولات/onChange/التأكيدات
+والحسابات كاملة محفوظة. مجموع الاستدعاءات2770 بعد محو أنواع JSX.
+
+العقود القديمة المعدلة،بلا إزالة أي assertion:
+package-f-home:client.rpc مرة واحدة+إثبات alias؛package-f-customers:
+بصمة loadMoreHistory فقط؛remaining-batch2:prefix ProductFormModal لفرق
+أنواع result/File|null؛remaining-batch3:بصمتا CreatePurchaseOrderModal
+وDirectReceivingView لفرق الأنواع فقط. بقية بصمات الحمولات/المعالجـات ثابتة.
+الفحص المركّز36/36،ومن قبله18/18 POS recovery/capacity PASS.
+لا تعديل DB/RPC/صلاحيات/auth أو001–138/tsconfig. بوابات الدفعة مستمرة.
+
+جولة الوحدات الأولى981حالة:973PASS/8 توقعات قديمة لم تعد تطابق نص
+الأنواع/aliases. customer-statement-ui،dashboard-home،auth-assistant،
+phone-polish،receiving-unit-pricing إضافة إلى الأربعة أعلاه حُدّثت
+بلا حذف تأكيدات. strict-product-legacy-source يستعيد فقط التهجئة السابقة
+للأنواع وaliases لهذه البصمات التاريخية،مع بقاء حارس AST الكامل مستقلاً
+على الملفات الحقيقية. لا normalization لمعادلة مالية أو مقدار أو صلاحية.
+
+البوابات النهائية للمنتج:981/981 Admin و191/191 Customer،typecheck/lint
+للتطبيقين وبناء الإدارة وعزل الشبكة PASS. تشغيل المتصفح الكامل المحافظ
+(useAppStore مشترك وخريطة الاعتمادات ترجع unmapped-change)907PASS+59
+تخطيات شرطية قديمة،retries0،بالمتصفحين ومشروع Chromium للهاتف. انتهى
+السجل المستقل14:57:11.099–16:22:41.708UTC،exit0 وunchanged=true لكل
+الملفات المتتبعة والحارسين الجديدين. لا إعادة أو رفع مهلات أو أي تعديل
+متتبّع أثناء البوابات. ملفات DB/حمولات الخدمات لم تتغير؛اختبارات SQL
+لا تعتمد على تعديلات الأنواع،والـCI الكامل يظل بوابة runtime الإلزامية.
+Gitleaks/commit/push/full exactCI لازمة قبل تسليم دفعة المنتج.

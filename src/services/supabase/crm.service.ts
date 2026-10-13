@@ -495,7 +495,8 @@ function customerIdFromRealtimePayload(
 export function subscribeToCrmRealtime(
   onChange: (change: CrmRealtimeChange) => void
 ): () => void {
-  if (!isSupabaseConfigured || !supabase) return () => {};
+  const client = supabase;
+  if (!isSupabaseConfigured || !client) return () => {};
 
   let refreshTimer: ReturnType<typeof setTimeout> | null = null;
   const affectedCustomerIds = new Set<string>();
@@ -514,7 +515,7 @@ export function subscribeToCrmRealtime(
     }, 350);
   };
 
-  const channel = supabase
+  const channel = client
     .channel(`crm-realtime-${crypto.randomUUID()}`)
     .on(
       'postgres_changes',
@@ -535,6 +536,6 @@ export function subscribeToCrmRealtime(
 
   return () => {
     if (refreshTimer) clearTimeout(refreshTimer);
-    void supabase.removeChannel(channel);
+    void client.removeChannel(channel);
   };
 }

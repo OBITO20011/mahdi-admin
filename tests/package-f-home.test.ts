@@ -92,8 +92,9 @@ test('live loader still uses the same RPC and maps existing canonical net facts 
   assert.match(service, /monthNetSalesInMinorUnits: nullableNumberValue\(value\.monthNetSalesInMinorUnits\)/);
   assert.match(service, /netSalesInMinorUnits: nullableNumberValue\(value\.netSalesInMinorUnits\)/);
   assert.match(service, /financialFactsAvailable: payload\.financialFactsStatus !== 'unavailable'/);
-  assert.equal(service.match(/supabase\.rpc\(/g)?.length, 1);
-  assert.match(service, /supabase\.rpc\('get_home_dashboard'\)/);
+  assert.match(service, /const client = supabase;/);
+  assert.equal(service.match(/client\.rpc\(/g)?.length, 1);
+  assert.match(service, /client\.rpc\('get_home_dashboard'\)/);
   const home = readFileSync('src/features/dashboard/DashboardHome.tsx', 'utf8');
   const live = readFileSync('src/features/dashboard/DashboardView.tsx', 'utf8');
   assert.doesNotMatch(home + live, /(?:bg|text|border)-(?:slate|blue|gray)-\d/);

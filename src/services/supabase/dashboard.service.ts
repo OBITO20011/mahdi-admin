@@ -103,7 +103,8 @@ const mapSalesDay = (
 });
 
 export async function fetchHomeDashboardFromSupabase(): Promise<DashboardResult> {
-  if (!isSupabaseConfigured || !supabase) {
+  const client = supabase;
+  if (!isSupabaseConfigured || !client) {
     return {
       success: false,
       error: 'اتصال Supabase غير مضبوط لهذا التطبيق.',
@@ -113,7 +114,7 @@ export async function fetchHomeDashboardFromSupabase(): Promise<DashboardResult>
 
   try {
     const { data, error } = await runWithTimeout(
-      (signal) => supabase.rpc('get_home_dashboard').abortSignal(signal),
+      (signal) => client.rpc('get_home_dashboard').abortSignal(signal),
       12_000,
       'استغرق تحميل مركز اليوم وقتًا أطول من المتوقع.',
     );
@@ -194,7 +195,8 @@ export function subscribeToDashboardRealtime(
   onRealtimeUpdate: () => void,
   onConnectionChange?: (connected: boolean) => void
 ): () => void {
-  if (!isSupabaseConfigured || !supabase) {
+  const client = supabase;
+  if (!isSupabaseConfigured || !client) {
     onConnectionChange?.(false);
     return () => {};
   }
@@ -205,7 +207,7 @@ export function subscribeToDashboardRealtime(
     refreshTimer = setTimeout(onRealtimeUpdate, 250);
   };
 
-  const channel = supabase
+  const channel = client
     .channel('operational_home_dashboard')
     .on(
       'postgres_changes',
@@ -239,6 +241,6 @@ export function subscribeToDashboardRealtime(
   return () => {
     if (refreshTimer) clearTimeout(refreshTimer);
     onConnectionChange?.(false);
-    void supabase.removeChannel(channel);
+    void client.removeChannel(channel);
   };
 }

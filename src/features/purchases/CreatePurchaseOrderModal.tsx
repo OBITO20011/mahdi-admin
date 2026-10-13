@@ -372,7 +372,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
         })),
       };
 
-      let res;
+      let res: Awaited<ReturnType<typeof createPurchaseOrderInSupabase>>;
       if (poToEdit) {
         res = await updatePurchaseOrderInSupabase(poToEdit.id, input);
       } else {

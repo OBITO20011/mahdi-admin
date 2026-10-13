@@ -1107,7 +1107,8 @@ export async function fetchSupplierPurchaseSummaryFromSupabase(
  * Subscribe to realtime updates for purchasing tables
  */
 export function subscribeToPurchasesRealtime(callback: () => void): () => void {
-  if (!isSupabaseConfigured || !supabase) {
+  const client = supabase;
+  if (!isSupabaseConfigured || !client) {
     return () => {};
   }
 
@@ -1120,7 +1121,7 @@ export function subscribeToPurchasesRealtime(callback: () => void): () => void {
     }, 350);
   };
 
-  const channel = supabase
+  const channel = client
     .channel('purchases_realtime_changes')
     .on(
       'postgres_changes',
@@ -1156,6 +1157,6 @@ export function subscribeToPurchasesRealtime(callback: () => void): () => void {
 
   return () => {
     if (refreshTimer) clearTimeout(refreshTimer);
-    void supabase.removeChannel(channel);
+    void client.removeChannel(channel);
   };
 }

@@ -448,7 +448,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     );
   };
 
-  const selectFlavorImage = (id: string, file?: File) => {
+  const selectFlavorImage = (id: string, file?: File | null) => {
     if (!file) return;
     const validationError = validateProductImage(file);
     if (validationError) {
@@ -613,7 +613,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         payload.imageUrl = uploadResult.publicUrl;
       }
 
-      let result;
+      let result: Awaited<ReturnType<typeof createProductFamilyWithFlavorsInSupabase>>;
       if (hasFlavors && !isEditing) {
         const uploadedFlavors = [];
         for (const draft of flavorDrafts) {

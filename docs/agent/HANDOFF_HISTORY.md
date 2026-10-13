@@ -1,5 +1,20 @@
 # Agent handoff history
 
+## 2026-10-13 — strict product20 local gates complete
+
+Owner resumes strict product20/test62/config sequence from f2c37bd.
+Product diagnostics20→0 with no sensitive behavior defect established;
+tests62/config remain pending. Fifteen product files:erased type contracts
+and guarded immutable aliases;assistant unconfigured-client generic error
+only. Whole emitted AST+2770calls match baseline after bounded normalization.
+Nine historic pin tests updated without deleting assertions;independent
+strict-product-parity protects actual code/guards/payloads/onChange.
+Final serial local type/lint/Admin981/Customer191/build/isolation and complete
+conservative browser907PASS+59knownskips,retries0 exit0. External gate
+14:57:11.099–16:22:41.708UTC proves tracked files+new guards unchanged.
+No DB/migration/auth/permissions/Production/deploy edits. Stage explicit
+scope,Gitleaks0,commit/push/full exact CI then test batch;not delivered yet.
+
 ## 2026-10-13 — Frankfurt preparation checklist,repository-only documentation
 
 Owner approves documentation only;read source not provider dashboards/env

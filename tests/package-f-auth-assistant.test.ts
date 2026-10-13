@@ -3,6 +3,7 @@ import test from 'node:test';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {authUiContract} from '../scripts/testing/package-f-auth-ui-contract.mjs';
+import {strictProductLegacySource} from './strict-product-legacy-source';
 const baseline=[
  {
   "file": "src/features/auth/LoginView.tsx",
@@ -119,10 +120,10 @@ const security=[
  }
 ];
 for(const expected of baseline)test('Batch6 presentation preserves all business/auth AST: '+expected.file,()=>{
- assert.deepEqual(authUiContract(expected.file,readFileSync(expected.file,'utf8')),expected);
+ assert.deepEqual(authUiContract(expected.file,strictProductLegacySource(expected.file,readFileSync(expected.file,'utf8'))),expected);
 });
 for(const expected of security)test('Batch6 security source remains exact except approved erased cleanup type: '+expected.file,()=>{
- let source=readFileSync(expected.file,'utf8').replace(/\r\n/g,'\n');
+ let source=strictProductLegacySource(expected.file,readFileSync(expected.file,'utf8'));
  if(expected.file==='src/stores/useAppStore.ts'){
   const annotation='const unsubscribe: () => void = storeEngine.subscribe';
   assert.equal(source.split(annotation).length-1,1);

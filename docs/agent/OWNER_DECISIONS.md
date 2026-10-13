@@ -1,5 +1,14 @@
 # Approved owner decisions
 
+## 2026-10-13 — resume strict remediation
+
+Owner approves product20 then test/e2e62 diagnostics,then strict=true;
+independent gated commits with AST call/payload comparison. No new any,
+suppression,double cast or rule disabling. Stop before correcting any
+behavior defect involving money,inventory,permissions or authentication.
+Applicable local gates/Gitleaks0/full exact-SHA CI/checkpoint per batch.
+No Production/deploy or migration changes.
+
 ## 2026-10-13 — Frankfurt checklist only;Gemini key deliberately absent
 
 Owner authorizes repository-only docs/operations/PHASE7_FRANKFURT_CHECKLIST.md,

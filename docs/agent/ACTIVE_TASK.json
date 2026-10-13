@@ -2,48 +2,64 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Repository-only Phase7 Frankfurt checklist documentation;no real Supabase/Cloudflare/secret access;docs commit/full CI then STOP",
-  "baselineSha": "b211c332c4723e39be481fa227f8f28a6a2cfccc",
+  "objective": "Strict batches: product20 then tests62 then strict=true;stop before sensitive behavior repairs",
+  "baselineSha": "f2c37bd0e4ebec9f525b426e66e67df66b36fdbe",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "d8bc619 pushed;quality38341069716 FULL22/22 and secrets38341069695 PASS",
-    "Approved Admin focus and POS opener repair f174307 committed/pushed after Gitleaks staged0;AST33/55+forms unchanged",
-    "Exact f174307 quality38356916632 FULL22/22 and secrets38356916840 PASS;STOP visual review",
-    "Profile saved/unknown-email correction b211c33 committed/pushed after stagedGitleaks0;local gatesPASS",
-    "Exact b211c33 quality38401429899 FULL22/22 and secrets38401429913 PASS;STOP before remaining strict batch"
+    "resume/preflight PASS;product20 resolved;strict src0/tests62;AST15 files/2770 calls PASS"
   ],
   "inProgress": [
-    "Checklist source/manifest/links and all local doc gatesPASS;Gitleaks/docs commit/public exactCI then STOP"
+    "Stage product batch,Gitleaks0,commit/push and full exact CI"
   ],
   "notStarted": [
-    "Remaining20product/62test strict diagnostics/config deferred;no implementation in docs task",
-    "No139/Production/deploy/activation/startup package"
+    "Test batch62;strict=true"
   ],
   "testsPassed": [
-    "Checklist verifierPASS:138ordered unique migrations,5Edge functions,21env name occurrences,13local links,no key values",
-    "Final966Admin/191Customer units,type/lint PASS;docs-only,no related product/DB/browser change"
+    "981Admin/191Customer units,type/lint/build/isolation PASS;907browser+59known skips,retries0;gate exit0/frozen fingerprintPASS"
   ],
   "testsRemaining": [
-    "Gitleaks0/docs commit/push/full exact CI using public API without credentials"
+    "Gitleaks0;full exact-SHA CI for product batch;tests62/config batches next"
   ],
-  "findings": [
-    "Old-target bindings documented:CSP,SEO config,push webhook,backup guard+manifest;no repairs authorized",
-    "Auth first-owner/managed034/project dashboard settings need confirmation;Gemini key intentionally absent"
-  ],
+  "findings": ["Historic text/type alias pins updated narrowly;independent whole emitted-runtime AST parity retains full behavior contract"],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "Docs-only;no product/config/migrations/strict/Production/deploy/phase activation",
-    "No real Supabase/Cloudflare or secret access;no credential-fill for CI;freeze trackedfiles during local gates"
+    "No Production/deploy/DB/migrations;no any/type suppression/double cast/rule disable;stop before sensitive behavior repair;freeze tracked files during gates"
   ],
-  "nextExactAction": "Gitleaks0 then explicit docs-only commit/push;public exact-SHA fullCI check without credentials;checkpoint STOP, no real provider access",
-  "checkpointedAt": "2026-10-13T14:03:27.191Z",
+  "nextExactAction": "Product0+permanent AST parity15 ready;freeze files for final local gates in Temp/nawasrah-strict-product-final-20261013;poll log+exit then commit/CI.",
+  "checkpointedAt": "2026-10-13T14:57:09.359Z",
   "filesTouched": [
     "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
-    "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md"
+    "docs/design/package-f/TYPES_STRICT_IMPLEMENTATION.md",
+    "src/features/crm/CustomerDetailView.tsx",
+    "src/features/directReceiving/DirectReceivingView.tsx",
+    "src/features/pos/posV2Cart.ts",
+    "src/features/products/ProductFormModal.tsx",
+    "src/features/purchases/CreatePurchaseOrderModal.tsx",
+    "src/services/supabase/adminAssistant.service.ts",
+    "src/services/supabase/crm.service.ts",
+    "src/services/supabase/dashboard.service.ts",
+    "src/services/supabase/directReceiving.service.ts",
+    "src/services/supabase/orders.service.ts",
+    "src/services/supabase/posV2.service.ts",
+    "src/services/supabase/purchases.service.ts",
+    "src/services/supabase/salesAftercare.service.ts",
+    "src/services/supabase/stockAlerts.service.ts",
+    "src/stores/useAppStore.ts",
+    "tests/customer-statement-ui.test.ts",
+    "tests/dashboard-home.test.ts",
+    "tests/package-f-auth-assistant.test.ts",
+    "tests/package-f-customers.test.ts",
+    "tests/package-f-home.test.ts",
+    "tests/package-f-phone-polish.test.ts",
+    "tests/package-f-remaining-batch2.test.ts",
+    "tests/package-f-remaining-batch3.test.ts",
+    "tests/receiving-unit-pricing.test.ts",
+    "tests/strict-product-legacy-source.ts",
+    "tests/strict-product-parity.test.ts"
   ],
-  "workingTreeFingerprint": "51DE724CF555986A4855D39AF55AD89AC273645A834BBD69ACA00C3A3BDB9941"
+  "workingTreeFingerprint": "5AFCAC6B8B497A1A7FE1627CCC6AB00A7AD22FAFECF26633B70354B12208A379"
 }

@@ -5,6 +5,7 @@ import {execFileSync} from 'node:child_process';
 import {financialUiContract} from '../scripts/testing/package-f-financial-ui-contract.mjs';
 import {readCustomerStatement,appendCustomerStatementPage} from '../src/utils/customerStatement';
 import {customerStatementFixture} from '../e2e/customer-statement.fixture';
+import {strictProductLegacySource} from './strict-product-legacy-source';
 
 test('statement adapter validates balance evidence and joins only consistent chronological pages',()=>{
   const first=customerStatementFixture('customer',860500,1),second=customerStatementFixture('customer',860500,2);
@@ -23,7 +24,7 @@ test('statement adapter validates balance evidence and joins only consistent chr
 test('statement addition leaves every original CRM business/event/value/confirmation AST unchanged',()=>{
   const file='src/features/crm/CustomerDetailView.tsx';
   const before=execFileSync('git',['show',`d75f60932634c7966e45c8ea67f7fad55bd28bee:${file}`],{encoding:'utf8'});
-  const after=readFileSync(file,'utf8');
+  const after=strictProductLegacySource(file,readFileSync(file,'utf8'));
   assert.equal([...after.matchAll(/<CustomerStatement customerId=\{customer\.id\} revision=\{customer\} \/>/g)].length,1);
   const normalized=after.replace(/<MobileTabSection value="statement"><CustomerStatement customerId=\{customer\.id\} revision=\{customer\} \/><\/MobileTabSection>/g,'');
   assert.deepEqual(financialUiContract(file,normalized),financialUiContract(file,before));

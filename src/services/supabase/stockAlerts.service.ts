@@ -119,7 +119,8 @@ export async function markAllStockAlertsReadInSupabase(): Promise<{
 export function subscribeToStockAlertChanges(
   onChange: () => void
 ): () => void {
-  if (!isSupabaseConfigured || !supabase) return () => {};
+  const client = supabase;
+  if (!isSupabaseConfigured || !client) return () => {};
 
   let refreshTimer: ReturnType<typeof setTimeout> | undefined;
   const scheduleRefresh = () => {
@@ -127,7 +128,7 @@ export function subscribeToStockAlertChanges(
     refreshTimer = setTimeout(onChange, 250);
   };
 
-  const channel = supabase
+  const channel = client
     .channel('stock-alert-notifications')
     .on(
       'postgres_changes',
@@ -143,7 +144,7 @@ export function subscribeToStockAlertChanges(
 
   return () => {
     if (refreshTimer) clearTimeout(refreshTimer);
-    supabase.removeChannel(channel);
+    client.removeChannel(channel);
   };
 }
 

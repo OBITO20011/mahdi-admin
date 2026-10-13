@@ -89,16 +89,17 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
       historyPageSize: customer.orderHistoryPageSize || 25,
     });
     if (result.success && result.customer) {
+      const loadedCustomer = result.customer;
       setCustomer((current) => {
-        if (!current) return result.customer;
+        if (!current) return loadedCustomer;
         const existingIds = new Set(
           (current.orderHistory || []).map((order) => order.id)
         );
         return {
-          ...result.customer,
+          ...loadedCustomer,
           orderHistory: [
             ...(current.orderHistory || []),
-            ...(result.customer?.orderHistory || []).filter(
+            ...(loadedCustomer?.orderHistory || []).filter(
               (order) => !existingIds.has(order.id)
             ),
           ],

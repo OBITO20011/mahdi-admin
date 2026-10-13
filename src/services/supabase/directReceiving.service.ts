@@ -658,7 +658,8 @@ export const fetchBranchesForReceivingFromSupabase = async (): Promise<Branch[]>
  * Realtime subscription listener for direct receiving changes
  */
 export const subscribeToSupplierReceiptsRealtime = (callback: () => void) => {
-  if (!isSupabaseConfigured || !supabase) return () => {};
+  const client = supabase;
+  if (!isSupabaseConfigured || !client) return () => {};
 
   let refreshTimer: ReturnType<typeof setTimeout> | null = null;
   const scheduleRefresh = () => {
@@ -669,7 +670,7 @@ export const subscribeToSupplierReceiptsRealtime = (callback: () => void) => {
     }, 350);
   };
 
-  const channel = supabase
+  const channel = client
     .channel('supplier-receipts-changes')
     .on('postgres_changes', { event: '*', schema: 'public', table: 'supplier_receipts' }, scheduleRefresh)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'supplier_receipt_items' }, scheduleRefresh)
@@ -678,6 +679,6 @@ export const subscribeToSupplierReceiptsRealtime = (callback: () => void) => {
 
   return () => {
     if (refreshTimer) clearTimeout(refreshTimer);
-    void supabase.removeChannel(channel);
+    void client.removeChannel(channel);
   };
 };

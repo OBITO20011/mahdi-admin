@@ -1569,7 +1569,7 @@ class StoreEngine {
     return this.toggleBiometrics();
   }
 
-  public updateNotificationPreferences(settings: User['notificationSettings']) {
+  public updateNotificationPreferences(settings: NonNullable<User['notificationSettings']>) {
     this.state.currentUser.notificationSettings = {
       ...this.state.currentUser.notificationSettings,
       ...settings,
@@ -2337,8 +2337,8 @@ export function useAppStore() {
     updateEmail: (newEmail: string) => storeEngine.updateEmail(newEmail),
     changePassword: (oldPass: string, newPass: string) => storeEngine.changePassword(oldPass, newPass),
     toggleFaceId: () => storeEngine.toggleFaceId(),
-    updateNotificationPreferences: (settings: User['notificationSettings']) => storeEngine.updateNotificationPreferences(settings),
-    updateNotificationSettings: (settings: User['notificationSettings']) => storeEngine.updateNotificationPreferences(settings),
+    updateNotificationPreferences: (settings: NonNullable<User['notificationSettings']>) => storeEngine.updateNotificationPreferences(settings),
+    updateNotificationSettings: (settings: NonNullable<User['notificationSettings']>) => storeEngine.updateNotificationPreferences(settings),
     updateDefaultBranch: (branchId: string) => storeEngine.updateDefaultBranch(branchId),
     logoutOtherSessions: () => storeEngine.logoutOtherSessions(),
     toggleThemeMode: (mode?: 'dark' | 'light') => storeEngine.toggleThemeMode(mode),

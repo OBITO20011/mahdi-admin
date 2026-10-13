@@ -32,7 +32,8 @@ test('home dashboard is exposed only through one authenticated RPC', () => {
     migration,
     /REVOKE ALL ON FUNCTION public\.get_home_dashboard\(\)\s+FROM PUBLIC, anon/
   );
-  assert.match(service, /supabase\.rpc\('get_home_dashboard'\)/);
+  assert.match(service, /const client = supabase;/);
+  assert.match(service, /client\.rpc\('get_home_dashboard'\)/);
   assert.doesNotMatch(service, /\.from\(/);
 });
 

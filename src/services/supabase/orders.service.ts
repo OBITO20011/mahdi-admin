@@ -1180,7 +1180,8 @@ export interface OrderRealtimeChange {
 export function subscribeToOrdersInSupabase(
   onNewOrUpdatedOrder: (payload: OrderRealtimeChange) => void
 ) {
-  if (!isSupabaseConfigured || !supabase) {
+  const client = supabase;
+  if (!isSupabaseConfigured || !client) {
     return () => {};
   }
 
@@ -1213,7 +1214,7 @@ export function subscribeToOrdersInSupabase(
     }, 350);
   };
 
-  const channel = supabase
+  const channel = client
     .channel(`public-orders-changes-${crypto.randomUUID()}`)
     .on(
       'postgres_changes',
@@ -1241,6 +1242,6 @@ export function subscribeToOrdersInSupabase(
 
   return () => {
     if (refreshTimer) clearTimeout(refreshTimer);
-    void supabase.removeChannel(channel);
+    void client.removeChannel(channel);
   };
 }

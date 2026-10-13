@@ -34,7 +34,7 @@ const baseline=[
     "bindingHash": "ee4d3a4b6bda3d9557bf721c61af6830ac4e605900dcf9c137ddd61b07aaf8f0",
     "native": 84,
     "nativeHash": "2eff202792da44d5c71320006a406a6d9e8425fb8bbc06a7fe0eefd901e72403",
-    "prefixHash": "884d89f7c323629f74494bd158f450b7e9620c693602fbefd0b39dfcb8ab9dbf"
+    "prefixHash": "19fe72a6dd51eec8f56c1d11b798c9be70c24f6a3992a1ed0ea3eeaf01bdd57b"
   },
   {
     "file": "src/features/products/StockAdjustmentModal.tsx",

@@ -205,7 +205,7 @@ export const DirectReceivingView: React.FC = () => {
     const context = new Map<
       string,
       {
-        supplierNames: Set<string>;
+        supplierNames: Set<string | undefined>;
         lastReceipt: SupplierReceipt | null;
       }
     >();
@@ -213,7 +213,7 @@ export const DirectReceivingView: React.FC = () => {
     receipts.forEach((receipt) => {
       receipt.items?.forEach((item) => {
         const current = context.get(item.productId) ?? {
-          supplierNames: new Set<string>(),
+          supplierNames: new Set<string | undefined>(),
           lastReceipt: null,
         };
         current.supplierNames.add(receipt.supplierName);
