@@ -1,5 +1,14 @@
 # Approved owner decisions
 
+## 2026-10-14 — Vite failure-only evidence and one strict gate
+
+Owner approves capturing optimizer/logger evidence on the existing readiness
+failure only,then one strict configuration gate. Preserve original15s/10ms
+and all assertions;no product repair,retry,deadline or port change. Original
+strict delivery still requires local gates,Gitleaks0,normal commit/push and
+full exact-SHA CI. Do not claim the previous unobserved root cause repaired.
+No Production/deploy/migrations/new phase.
+
 ## 2026-10-13 — resume strict remediation
 
 Owner approves product20 then test/e2e62 diagnostics,then strict=true;

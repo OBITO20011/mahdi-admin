@@ -1,5 +1,58 @@
 # Agent handoff history
 
+## 2026-10-14 — approved strict gate PASS;delivery pending
+
+Owner approves failure-only Vite evidence and ONE config gate after diagnosis.
+Original15s/10ms/assertions retained;logger methods forwarded,same assertion
+error rethrown. Three diagnostic contracts+32old assertion/runtime guards PASS.
+Gate21:21:09.879–21:24:29.508UTC13Oct (14OctAmman) exit0/frozen files:
+Admin1019/Customer191,type/lints/build/isolation/strict0 PASS. Original504
+reproduction2.832s PASS,correct isolation PASS;no fresh failure telemetry,
+previous exact cause still unproven. No src/customer/SQL/CI changes. Original
+strict delivery remains authorized:explicit stage/Gitleaks0/commit/push/full
+exact CI,then STOP. Do not restart product/test batches or any next phase.
+
+## Vite readiness diagnosis only — owner-approved,complete
+
+Resume/preflight PASS from bf0ef2b and current owned strict candidate.
+Original failing shared-cache case run sequentially10 times on current and
+10 on clean bf0ef2b:allPASS with exact504 proof;49.404s/46.640s. No test,
+product,config,timeout,assertion or dependency modification. Main tracked
+fingerprint frozen. System events42/107/2004 absent during original failure.
+Two external timing/logger probes PASS:requests-idle precedes optimized B
+metadata by339.63ms/381.39ms. Original silent logger omits optimizer errors;
+no original underlying exception recovered. Root cause still unproven,not
+an accepted full gate or proof of memory causality. Full evidence and next
+failure-only diagnostics proposal in VITE_OPTIMIZER_READINESS_DIAGNOSIS.md.
+Probe servers closed;baseline worktree archived after safe junction unlink.
+STOP for owner approval,no repair/commit/push/DB/Production/deploy.
+
+## 2026-10-13 — STOP:strict config gate failed before delivery
+
+bf0ef2b test batch remains delivered FULL22/22+secrets;config candidate only
+adds strict=true/negative compiler guard/docs. True strict typecheck+ESLint
+PASS;units1015PASS/1FAIL of1016. Existing shared-cache Vite reproduction
+fails at isolated-vite-cache.test.ts:48 waiting for second optimizer's
+lucide-react metadata within its unchanged15s limit,beforeHTTP504 assertion;
+case23.339s. Correct isolated-cache case PASS. Same spec passed bf0ef2b
+local/CI;root cause unproven. No retry/timeout/assertion/product repair.
+Gate18:54:58.458–18:59:11.825UTC exit1 and tracked files frozen. Later
+customer/build/measurement gates never ran. Postfailure snapshot18:58:38UTC:
+3254MB free/9node processes,not exact failure-time evidence. Owned gate/Vite
+processes stopped,no isolatedDB remains;unrelatedn8n untouched. Config stays
+uncommitted,not pushed/noCI;checkpoint PAUSED for owner review. No Production,
+deploy,SQL/RPC/auth change or new phase.
+
+## 2026-10-13 — test62 delivered;strict activation candidate
+
+bf0ef2b27f2385eb33b1aacf2f9026335b69eb23 pushed after Gitleaks staged0;
+quality38447970858 FULL22/22 and secrets38447970805 PASS,HEAD=remote.
+Owner-approved third batch now adds only strict=true to root config and
+permanent compiler-negative/config-scope tests. No src/customer/SQL/tooling
+runtime change;customer already strict,Edge exclusion unchanged. Applicable
+local compiler/lint/all units/build and real negative guards,then Gitleaks0/
+commit/full exact CI. Do not begin any new task after delivery.
+
 ## 2026-10-13 — strict test62 local gates complete;delivery pending
 
 Product batch d7e0e8c delivered:full quality38430511595 22/22 and secrets

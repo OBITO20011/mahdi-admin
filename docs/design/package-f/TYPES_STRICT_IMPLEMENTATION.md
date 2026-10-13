@@ -184,3 +184,54 @@ daily-health على001–138:REST حقيقي+حجم DB،إعادة استخدا�
 حاويات الفحص أُغلقت،لم تُمس حاويةn8n غير التابعة للمهمة. لا Supabase حقيقي.
 Gitleaks/commit/push/full exactCI التالية قبل تسليم هذه الدفعة؛strict
 في tsconfig لم يُفعّل بعد.
+
+تم تسليم الاختباراتbf0ef2b27f2385eb33b1aacf2f9026335b69eb23 بعدGitleaks
+staged exit0:quality38447970858 كامل22/22 وsecrets38447970805 PASS.
+HEAD=remote؛checkpoint ACTIVE للدفعة الثالثة المعتمدة.
+
+## الدفعة الثالثة —تفعيلstrict فقط
+
+tsconfig الجذر:strict=true،لا تغيير في أي خيار أو نطاقinclude/exclude.
+هذا يغطّي الإدارة واختبارات/e2e الجذر؛customer-web كانstrict=true أصلاً،
+وEdge Functions خارجtsconfig الجذر كما كانت،لا ادعاء تغيير مترجمDeno.
+حارس دائمstrict-configuration:strict وكل العائلة غيرمعطلة،مترجم حقيقي
+يرفض implicit-any(7006) وnull→string(2322)،وباقيJSON مطابقة لـbf0ef2b.
+حارسPageHeader المطلوب الحقيقي يبقى يفشل بـ2741 عند حذفtitle.
+لا ملفاتمنتج/SQL/RPC/حمولات/صلاحيات معدلة في دفعةالإعدادات. لذلك لاspec
+متصفح أوDBruntime جديد متأثر محلياً؛إثبات البوابات المتصلة منbf0ef2b
+مكتمل،وCIالكامل يعيد الجميع علىSHAالتفعيل قبل التسليم. المحلي النهائي:
+type/lint/all units للتطبيقين،build الإدارة وstrict measurement وحراس
+الأنواع السلبية؛Gitleaks/commit/push/full exactCI لازمة،لم تُسلّم بعد.
+
+توقف الدفعة الثالثة قبلcommit:السجل18:54:58.458–18:59:11.825UTC انتهى
+exit1 وunchanged=true. typecheck الحقيقي معstrict وESLint PASS(الثلاث
+warnings القديمة فقط)،حارسstrict3/3PASS،الوحدات1015PASS/1FAIL من1016.
+الفشل القديم فيisolated-vite-cache.test.ts:48،حالةtwo real shared-cache
+servers reproduce HTTP504:خادمB لم يُظهر optimized['lucide-react'] ضمن
+حدuntil الأصلي15s،فشلReal optimizer state must become ready؛مدةالحالة
+23.339s،قبلassert HTTP504. حالة الكاش المعزول الصحيحة نجحت. نفس ملف
+الاختبار نجح محلياً وعلىCI لـbf0ef2b؛سبب هذا التشغيل لم يُثبت،لا ادعاء
+أنهstrict أوضغط ذاكرة. لقطة بعدالفشل18:58:38UTC:3254MB حرة،9عملياتnode
+على الجهاز،ليست قياساً لحظةالفشل نفسها. لا إعادة/مهلة/assertion تعديل.
+بقيةبواباتcustomer/build/measurement لم تعمل بسببالخروج المبكر؛لا استنتاج
+نجاحها. لا config commit/push/CI،كل العمليات التابعةانتهت،checkpoint
+PAUSED بانتظارمراجعةالمالك للتشخيص المنفصل. المنتج والاختبارات مسلّمان
+وأخضران؛strict=true محلي فقط حتىنجاحبوابةالإعدادات.
+
+## بوابةالموافقة النهائية —2026-10-14
+
+المالك وافق علىتسجيلفشلVite فقط وإعادةبوابةstrict مرةواحدة. التسجيل
+يسبقإعادةرمي نفسخطأassert الأصلي،بنفس15s/10ms؛warn/error الأصلية تُمرر
+كماكانت. snapshots تعرضمعرّفاتالتبعيات/المنافذ/حالةscan/رسائل محدودة
+والذاكرةفقط،بلاenv أوoptions/credentials. لا إصلاحمنتج أوport/مهلة/retry.
+حارساندائمان:strict-configuration3،vite-readiness-diagnostics3؛الحارس
+الأخيريثبتصمتالنجاحونفسخطأالفشل والمهلة. معحارسالمطابقة32:35/35PASS.
+
+بوابةالموافقة21:21:09.879–21:24:29.508UTC في2026-10-13(ليلة14عمّان)
+نجحت exit0 وunchanged=true:Admin1019/1019،Customer191/191،type/lint
+للتطبيقين،build الإدارة،عزلشبكةالمتصفح وstrict measurement total0.
+اختبار504 الأصلي اجتازضمنالوحدات الكاملة في2.832s؛الكاشالمعزولPASS.
+لم يحدثفشلجاهزية لذا لم يظهرتشخيصفعلي جديد؛لا ادعاءمعرفة أوإصلاحسبب
+الفشل السابق. مصدرالمنتج/SQL/CI لم يتغير. لاspec متصفح أوDBruntime جديد
+يتأثرمنالتسجيل داخلunit؛بوابةCIالكاملة علىSHAالتسليم إلزامية.
+Gitleaks/commit/push/full exactCI التالية قبلإعلانالتسليم.

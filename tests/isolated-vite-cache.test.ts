@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {access, mkdtemp, rm} from 'node:fs/promises';
-import {tmpdir} from 'node:os';
+import {freemem, tmpdir} from 'node:os';
 import path from 'node:path';
 import {setTimeout as poll} from 'node:timers/promises';
 import test from 'node:test';
@@ -9,10 +9,15 @@ import {startIsolatedVite} from '../scripts/testing/isolated-vite-server.mjs';
 import {stopIsolatedVite} from '../scripts/testing/stop-isolated-vite.mjs';
 
 const root = path.resolve('.');
-const until = async (condition: () => boolean) => {
+const until = async (condition: () => boolean, onFailure?: () => void) => {
   const deadline = Date.now() + 15000;
   while (!condition()) {
-    assert.ok(Date.now() < deadline, 'Real optimizer state must become ready');
+    try {
+      assert.ok(Date.now() < deadline, 'Real optimizer state must become ready');
+    } catch (error) {
+      onFailure?.();
+      throw error;
+    }
     await poll(10);
   }
 };
@@ -34,18 +39,46 @@ test('two real shared-cache servers reproduce HTTP504 Outdated Optimize Dep befo
   const logger = createLogger('silent');
   const logs: string[] = [];
   logger.info = message => {logs.push(message);};
+  const optimizerMessages: {level: 'warn' | 'error'; message: string}[] = [];
+  const originalWarn = logger.warn.bind(logger), originalError = logger.error.bind(logger);
+  logger.warn = (message, options) => {
+    optimizerMessages.push({level: 'warn', message: message.slice(0, 8000)});
+    originalWarn(message, options);
+  };
+  logger.error = (message, options) => {
+    optimizerMessages.push({level: 'error', message: message.slice(0, 8000)});
+    originalError(message, options);
+  };
   const common = {root, cacheDir, configFile: false as const, customLogger: logger,
     plugins: [fixture], server: {host: '127.0.0.1', port: 0, fs: {allow: [root, cacheDir]}}};
   const a = await createServer({...common, optimizeDeps: {entries: [], include: ['react', 'react-dom/client']}});
   let b: ViteDevServer | undefined;
+  const snapshot = (server: ViteDevServer | undefined) => {
+    const optimizer = server?.environments.client.depsOptimizer;
+    const address = server?.httpServer?.address();
+    return {
+      configuredPort: server?.config.server.port,
+      actualPort: address && typeof address !== 'string' ? address.port : null,
+      optimized: Object.keys(optimizer?.metadata.optimized ?? {}),
+      discovered: Object.keys(optimizer?.metadata.discovered ?? {}),
+      scanPending: Boolean(optimizer?.scanProcessing),
+      holdUntilCrawlEnd: server?.environments.client.config.optimizeDeps.holdUntilCrawlEnd,
+    };
+  };
+  const readinessFailure = (phase: string) => context.diagnostic(JSON.stringify({
+    kind: 'VITE_OPTIMIZER_READINESS_FAILURE', phase, node: process.version,
+    freeMemoryMB: Math.round(freemem() / 1024 / 1024),
+    a: snapshot(a), b: snapshot(b), info: logs.slice(-20),
+    optimizerMessages: optimizerMessages.slice(-20),
+  }));
   try {
     await a.listen(); await fetch(`${origin(a)}/cache-test-a.js`); await a.waitForRequestsIdle();
     const optimizer = a.environments.client.depsOptimizer!;
-    await until(() => Boolean(optimizer.metadata.optimized['react-dom/client']));
+    await until(() => Boolean(optimizer.metadata.optimized['react-dom/client']), () => readinessFailure('A-react-dom/client'));
     const old = optimizer.metadata.optimized['react-dom/client'];
     b = await createServer({...common, optimizeDeps: {entries: [], include: ['lucide-react'], force: true}});
     await b.listen(); await fetch(`${origin(b)}/cache-test-b.js`); await b.waitForRequestsIdle();
-    await until(() => Boolean(b!.environments.client.depsOptimizer!.metadata.optimized['lucide-react']));
+    await until(() => Boolean(b!.environments.client.depsOptimizer!.metadata.optimized['lucide-react']), () => readinessFailure('B-lucide-react'));
     const response = await fetch(`${origin(a)}/@fs/${normalizePath(old.file)}?v=${old.browserHash}`);
     assert.equal(response.status, 504); assert.equal(response.statusText, 'Outdated Optimize Dep');
     assert.ok(logs.some(message => message.includes('Forced re-optimization')));
