@@ -6,10 +6,11 @@ import test from 'node:test';
 const generator = new URL('../customer-web/scripts/generate-seo-pages.mjs', import.meta.url);
 
 test('SEO audit override rejects non-loopback and partial configuration before any fetch', () => {
-  for (const overrides of [
+  const fixtures: Record<string,string>[] = [
     {NAWASRAH_SEO_AUDIT_API_URL: 'https://example.invalid', NAWASRAH_SEO_AUDIT_API_KEY: 'audit-key'},
     {NAWASRAH_SEO_AUDIT_API_URL: 'http://127.0.0.1:54321'},
-  ]) {
+  ];
+  for (const overrides of fixtures) {
     const result = spawnSync(process.execPath, [fileURLToPath(generator)], {
       env: {...process.env, NAWASRAH_SEO_AUDIT_API_URL: '', NAWASRAH_SEO_AUDIT_API_KEY: '', ...overrides},
       encoding: 'utf8', windowsHide: true,

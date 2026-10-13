@@ -15,7 +15,8 @@ test('daily opt-in disabled never reads REST or database', async () => {
     {checks: [], state: null, sampled: false});
 });
 test('real read contract uses existing stable RPC and stores only technical status', async () => {
-  const result = await collectDailySupabase({...config, fetchImpl: async (url: URL, init: RequestInit) => {
+  const result = await collectDailySupabase({...config, fetchImpl: async (url, init) => {
+    assert.ok(url instanceof URL);assert.ok(init);
     assert.equal(url.pathname, '/rest/v1/rpc/get_public_storefront_settings');
     assert.equal(init.method, 'POST'); assert.equal(init.body, '{}'); assert.equal(init.redirect, 'error');
     assert.deepEqual(init.headers, {'content-type': 'application/json', apikey: config.publishableKey});
@@ -26,6 +27,7 @@ test('real read contract uses existing stable RPC and stores only technical stat
 });
 test('daily cadence reuses technical result until exactly24h, rejects future/malformed cache', async () => {
   const first = await collectDailySupabase(config);
+  assert.ok(first.state);
   const fail = async () => { throw new Error('must not read'); };
   const reused = await collectDailySupabase({...config, previous: first.state, now: new Date(now.getTime() + 86_399_999),
     fetchImpl: fail, readDatabaseSize: fail});

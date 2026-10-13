@@ -13,6 +13,11 @@ export const isPackageFSpec = file => /(?:^|\/)package-f-[^/]+\.spec\.ts$/u.test
 
 // Resolve literal imports AND runtime harness/HTML links. Unresolved local
 // paths / computed runtime imports fall back to the complete browser set.
+/**
+ * @param {Record<string,string>} files
+ * @param {string[]} changed
+ * @param {{typescript?:typeof import('typescript')|null,discoveredSpecs?:string[]|null}} [options]
+ */
 export function selectAffectedSpecs(files, changed, {typescript: ts = null, discoveredSpecs = null} = {}) {
   const entries = new Map(Object.entries(files).map(([name, content]) => [normalize(name), content]));
   const specs = discoveredSpecs ? discoveredSpecs.map(normalize).sort()

@@ -41,7 +41,7 @@ test('actual outbound TCP source socket blocks bind without being a listening se
     assert.equal(await probeTcpPort(client.localPort),false,'Established outbound source port is not available for DB bind');
     assert.equal(client.destroyed,false,'Guard cannot terminate outbound owner');
     const range=await readLinuxEphemeralPortRange();
-    if('first' in range)assert.ok(client.localPort>=range.first&&client.localPort<=range.last);
+    if('first' in range){assert.ok(range.first!==undefined&&range.last!==undefined);assert.ok(client.localPort>=range.first&&client.localPort<=range.last);}
     context.diagnostic(JSON.stringify({sourcePort:client.localPort,listenerPort:address.port,ephemeralPortRange:range}));
   } finally {
     client.destroy();accepted?.destroy();
@@ -62,7 +62,7 @@ test('actual bind detects an occupied socket and never closes its owner', async 
   const address=server.address();assert.ok(address&&typeof address!=='string');
   try {
     assert.equal(await probeTcpPort(address.port),false);
-    await assert.rejects(waitForDatabasePorts([address.port],{timeoutMs:0,holders:async ports=>ports.map(port=>({port,owner:'unit listener'}))}),
+    await assert.rejects(waitForDatabasePorts([address.port],{timeoutMs:0,holders:async (ports:number[])=>ports.map(port=>({port,owner:'unit listener'}))}),
       error=>{assert.match(String(error),/PORT_STILL_BOUND.*unit listener/u);return true;});
     assert.equal(server.listening,true,'Guard cannot kill/release a foreign listener');
   } finally {await new Promise<void>((resolve,reject)=>server.close(error=>error?reject(error):resolve()));}

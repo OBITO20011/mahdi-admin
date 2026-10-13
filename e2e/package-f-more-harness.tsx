@@ -19,7 +19,7 @@ import {supabase} from '../src/lib/supabase';
 const params=new URLSearchParams(location.search),theme=params.get('theme')==='dark'?'dark':'light';
 document.documentElement.classList.toggle('theme-light',theme==='light');
 document.documentElement.classList.toggle('theme-dark',theme==='dark');document.documentElement.dataset.theme=theme;
-if(!supabase||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL).hostname))throw Error('More harness requires loopback');
+if(!supabase||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL ?? '').hostname))throw Error('More harness requires loopback');
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
 const role=params.get('role')==='cashier'?'cashier':'owner';
 auth.state={...auth.getState(),roleName:role,roles:[role],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
@@ -47,7 +47,7 @@ const original=supabase.rpc.bind(supabase);
 const client=supabase as unknown as {rpc:(name:string,args?:Record<string,unknown>)=>unknown};
 client.rpc=(name,args)=>name==='get_push_subscription_status'?Promise.resolve({data:{active_device_count:2},error:null}):original(name,args);
 // MFA read fixture only; mutation implementations remain unchanged.
-supabase.auth.getSession=async()=>({data:{session:{user:{id:'more-fixture-user'},expires_at:2000000000}},error:null}) as Awaited<ReturnType<typeof supabase.auth.getSession>>;
+supabase.auth.getSession=async()=>({data:{session:{user:{id:'more-fixture-user'},expires_at:2000000000}},error:null}) as Awaited<ReturnType<NonNullable<typeof supabase>['auth']['getSession']>>;
 supabase.auth.mfa.listFactors=async()=>({data:{all:[],totp:[],phone:[],webauthn:[]},error:null});
 supabase.auth.mfa.getAuthenticatorAssuranceLevel=async()=>({data:{currentLevel:'aal1',nextLevel:'aal1',currentAuthenticationMethods:[]},error:null});
 

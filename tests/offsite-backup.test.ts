@@ -149,9 +149,9 @@ test('off-site incident emits one failure, no duplicate, and one recovery', asyn
     key: 'developer:backup:offsite:erp', source: 'ERP Off-site Backup', severity: 'critical',
     healthy: false, summary: 'Remote verification failed.', observedAt: '2026-09-09T10:00:00Z',
   };
-  const first = await runIncidentCycle({checks: [check], send: async ({kind}) => { sent.push(kind); return true; }, now: new Date('2026-09-09T10:00:00Z')});
-  const duplicate = await runIncidentCycle({checks: [check], state: first.state, send: async ({kind}) => { sent.push(kind); return true; }, now: new Date('2026-09-09T10:05:00Z')});
-  const recovery = await runIncidentCycle({checks: [{...check, healthy: true}], state: duplicate.state, send: async ({kind}) => { sent.push(kind); return true; }, now: new Date('2026-09-09T10:10:00Z')});
+  const first = await runIncidentCycle({checks: [check], send: async ({kind}: {kind:string}) => { sent.push(kind); return true; }, now: new Date('2026-09-09T10:00:00Z')});
+  const duplicate = await runIncidentCycle({checks: [check], state: first.state, send: async ({kind}: {kind:string}) => { sent.push(kind); return true; }, now: new Date('2026-09-09T10:05:00Z')});
+  const recovery = await runIncidentCycle({checks: [{...check, healthy: true}], state: duplicate.state, send: async ({kind}: {kind:string}) => { sent.push(kind); return true; }, now: new Date('2026-09-09T10:10:00Z')});
   assert.deepEqual(sent, ['incident', 'recovery']);
-  assert.equal(recovery.state.incidents[check.key].active, false);
+  assert.equal((recovery.state.incidents as Record<string,{active:boolean}>)[check.key].active, false);
 });

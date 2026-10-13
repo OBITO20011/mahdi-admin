@@ -18,7 +18,7 @@ import {customerStatementFixture} from './customer-statement.fixture';
 const params=new URLSearchParams(location.search),theme=params.get('theme')==='dark'?'dark':'light';
 document.documentElement.classList.toggle('theme-light',theme==='light');
 document.documentElement.classList.toggle('theme-dark',theme==='dark');document.documentElement.dataset.theme=theme;
-if(!supabase || !['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL).hostname))throw Error('Customers harness requires loopback');
+if(!supabase || !['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL ?? '').hostname))throw Error('Customers harness requires loopback');
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
 auth.state={...auth.getState(),roleName:'owner',roles:['owner'],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
 storeEngine.setCurrentUser({id:'customers-actor',name:'مهدي',role:'Owner',themeMode:theme,avatarUrl:''});

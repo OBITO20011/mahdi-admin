@@ -71,7 +71,7 @@ test('submitting forms own a finally cleanup instead of only clearing busy after
         for (const setter of setters) {
           const name = (setter as ts.ExpressionStatement).expression as ts.CallExpression;
           const setterName = name.expression.getText(ast);
-          const cleanup = node.body.statements.some(statement => ts.isTryStatement(statement)
+          const cleanup: boolean = node.body.statements.some(statement => ts.isTryStatement(statement)
             && statement.finallyBlock?.getText(ast).includes(`${setterName}(false)`));
           assert.equal(cleanup, true, `${path}: ${setterName} needs finally`);
           checked++;

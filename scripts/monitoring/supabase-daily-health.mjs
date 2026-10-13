@@ -43,6 +43,7 @@ export async function readKeepalive({url, publishableKey, fetchImpl = fetch}) {
   } catch { return {status: 'unreachable', healthy: false}; }
 }
 
+/** @param {{enabled?:boolean,now?:Date,previous?:unknown,url:string,publishableKey:string,fetchImpl?:typeof fetch,readDatabaseSize:(sql:string)=>Promise<unknown>}} options */
 export async function collectDailySupabase({enabled = false, now = new Date(), previous = null, url, publishableKey,
   fetchImpl = fetch, readDatabaseSize}) {
   if (!enabled) return {checks: [], state: null, sampled: false};

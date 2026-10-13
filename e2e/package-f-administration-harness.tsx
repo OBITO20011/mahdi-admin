@@ -18,7 +18,7 @@ import {cashIds} from './package-f-cash.fixture';
 import {auditRows,staffRows,storefrontSettings,promotionRows,monitoringDashboard} from './package-f-administration.fixture';
 const params=new URLSearchParams(location.search),theme=params.get('theme')==='dark'?'dark':'light';
 document.documentElement.classList.toggle('theme-light',theme==='light');document.documentElement.classList.toggle('theme-dark',theme==='dark');
-if(!supabase||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL).hostname))throw Error('Administration preview requires loopback');
+if(!supabase||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL ?? '').hostname))throw Error('Administration preview requires loopback');
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
 auth.state={...auth.getState(),roleName:params.get('role')==='cashier'?'cashier':'owner',roles:params.get('role')==='cashier'?['cashier']:['owner'],user:{id:cashIds.actor} as NonNullable<AuthState['user']>,isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
 const app=storeEngine as unknown as {state:AppState;getState:()=>AppState};

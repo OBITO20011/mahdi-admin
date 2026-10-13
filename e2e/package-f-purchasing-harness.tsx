@@ -25,7 +25,7 @@ import {purchaseOrders,poRows,receipt,receiptRow,supplierRow,otherSupplierRow,wa
 import {inventoryProducts} from './package-f-inventory.fixture';
 const params=new URLSearchParams(location.search),theme=params.get('theme')==='dark'?'dark':'light';
 document.documentElement.classList.toggle('theme-light',theme==='light');document.documentElement.classList.toggle('theme-dark',theme==='dark');document.documentElement.dataset.theme=theme;
-if(!supabase||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL).hostname))throw Error('Purchasing preview requires loopback');
+if(!supabase||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL ?? '').hostname))throw Error('Purchasing preview requires loopback');
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
 auth.state={...auth.getState(),roleName:'owner',roles:['owner'],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
 const store=storeEngine as unknown as {state:AppState;getState:()=>AppState};store.state={...store.getState(),warehouses:[{id:warehouseRow.id,name:warehouseRow.name,branchId:branchRow.id,location:'الرمثا'}],branches:[{id:branchRow.id,name:'فرع الرمثا',address:'وسط البلد',city:'الرمثا',phone:''}],activeBranch:{id:branchRow.id,name:'فرع الرمثا',address:'وسط البلد',city:'الرمثا',phone:''}};

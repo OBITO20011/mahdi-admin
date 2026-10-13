@@ -25,7 +25,7 @@ if (new URLSearchParams(location.search).get('kind') === 'pos') {
   const actorId = '11111111-1111-4111-8111-111111111111';
   storeEngine.setCurrentUser({id: actorId, name: 'كاشير الاختبار', role: 'Owner', avatarUrl: ''});
   if (supabase) supabase.auth.getUser = async () =>
-    (({data: {user: {id: actorId}}, error: null}) as Awaited<ReturnType<typeof supabase.auth.getUser>>);
+    (({data: {user: {id: actorId}}, error: null}) as Awaited<ReturnType<NonNullable<typeof supabase>['auth']['getUser']>>);
 }
 const kpis = {todaySales: 0, todaySalesChangePercent: 0, weekSales: 0, monthSales: 0,
   totalRevenue: 0, netProfit: 0, profitMarginPercent: 0, todayOrdersCount: 0,

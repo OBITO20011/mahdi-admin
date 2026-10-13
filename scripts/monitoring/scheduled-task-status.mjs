@@ -2,6 +2,7 @@ import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 
 /** Scheduler results are state,not all nonzero values are failures. */
+/** @param {{lastTaskResult?:unknown,lastRunTime?:unknown,normalDurationSeconds?:number|null,maxRunningSeconds?:number}} task */
 export function scheduledTaskStatus({lastTaskResult,lastRunTime,normalDurationSeconds=null,maxRunningSeconds=8100},now=new Date()) {
   const result=Number(lastTaskResult);
   if((typeof lastTaskResult!=='number'&&!(typeof lastTaskResult==='string'&&/^\d+$/u.test(lastTaskResult)))||!Number.isSafeInteger(result))

@@ -676,6 +676,7 @@ test.describe('M10 isolated browser checkout', () => {
     expect(blocked.proofRaw).toBeNull();
 
     await page.evaluate(({ proofKey, proofRaw }) => {
+      if (proofRaw === null) throw new Error('Expected protocol-produced reconciliation proof');
       localStorage.setItem(proofKey, proofRaw);
     }, { proofKey: reconciliationEvidenceStorageKey, proofRaw: protocolState.proofRaw });
     await page.reload({ waitUntil: 'domcontentloaded' });

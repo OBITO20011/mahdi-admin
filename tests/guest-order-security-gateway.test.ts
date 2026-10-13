@@ -311,7 +311,7 @@ test('cached V1-shaped requests are blocked before every external or database ca
 });
 
 test('runtime gateway routes only the explicit Customer V2 contract and forwards privacy-safe actor hashes', async () => {
-  let submittedPayload: Record<string, unknown> | null = null;
+  const capture: {submittedPayload: Record<string, unknown> | null} = {submittedPayload: null};
   const v2Items = [{
     commercial_line_kind: 'base_unit',
     product_id: '33333333-3333-4333-8333-333333333333',
@@ -338,7 +338,7 @@ test('runtime gateway routes only the explicit Customer V2 contract and forwards
         return new Response(JSON.stringify({allowed: true}), {status: 200});
       }
       if (url.endsWith('/submit_guest_customer_order_v2')) {
-        submittedPayload = JSON.parse(String(init?.body)) as Record<string, unknown>;
+        capture.submittedPayload = JSON.parse(String(init?.body)) as Record<string, unknown>;
         return new Response(JSON.stringify({
           success: true,
           order_id: '44444444-4444-4444-8444-444444444444',
@@ -352,6 +352,7 @@ test('runtime gateway routes only the explicit Customer V2 contract and forwards
     },
   });
   assert.equal(response.status, 200);
+  const submittedPayload = capture.submittedPayload;
   assert.ok(submittedPayload);
   assert.deepEqual(submittedPayload.p_lines, v2Items);
   assert.match(String(submittedPayload.p_guest_phone_hash), /^[0-9a-f]{64}$/u);

@@ -18,7 +18,7 @@ const params = new URLSearchParams(location.search), theme = params.get('theme')
 document.documentElement.classList.toggle('theme-light',theme === 'light');
 document.documentElement.classList.toggle('theme-dark',theme === 'dark');
 document.documentElement.dataset.theme = theme;
-if (!supabase || !['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL).hostname)) throw Error('Inventory harness requires loopback only.');
+if (!supabase || !['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL ?? '').hostname)) throw Error('Inventory harness requires loopback only.');
 const auth = authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
 const role = params.has('viewOnly') ? 'view_only' : 'owner';
 auth.state = {...auth.getState(),roleName:role,roles:[role],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;

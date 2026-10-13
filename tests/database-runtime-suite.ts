@@ -27,6 +27,10 @@ const runSharedSql = async (query: string) => {
 type MonitoringScheduler = {
   jobid: number; jobname: string; schedule: string; command: string;
 };
+type CompletionExpiryEvidence = {
+  initialStatus: string; queueOrder: string; winner: string;
+  oneTerminalEffect: boolean; immutableReplay: boolean;
+};
 const pauseSharedMonitoringScheduler = async (): Promise<MonitoringScheduler> => {
   const scheduler = JSON.parse(await runSharedSql(`SELECT row_to_json(job)::text
     FROM (SELECT jobid,jobname,schedule,command FROM cron.job
@@ -618,10 +622,7 @@ test(
             paymentRowsCreated?: number;
           };
           customerReservationCoordinator?: {
-            completionExpiryEvidence?: Array<{
-              initialStatus: string; queueOrder: string; winner: string;
-              oneTerminalEffect: boolean; immutableReplay: boolean;
-            }>;
+            completionExpiryEvidence?: CompletionExpiryEvidence[];
             legacyV1CompletionCompatible?: boolean;
             legacyV1CancellationCompatible?: boolean;
             legacyV2CompletionRejectedZeroWrites?: boolean;
@@ -848,7 +849,7 @@ test(
         assert.equal(raceEvidence?.length, 9);
         for (const state of ['new', 'ready', 'out_for_delivery']) {
           for (const queue of ['completion-first', 'expiry-first', 'simultaneous']) {
-            const matches = raceEvidence!.filter((row) => row.initialStatus === state && row.queueOrder === queue);
+            const matches: CompletionExpiryEvidence[] = raceEvidence!.filter((row) => row.initialStatus === state && row.queueOrder === queue);
             assert.equal(matches.length, 1);
             assert.equal(matches[0].winner, state === 'new' ? 'expired' : 'completed');
             assert.equal(matches[0].oneTerminalEffect, true);

@@ -15,7 +15,7 @@ declare global {interface Window {
  __PACKAGE_F_AUTH_CALLS__:Array<{method:string;args:unknown[]}>;
  __PACKAGE_F_VERIFY_CAPTCHA__:()=>void;
 }}
-if(!['localhost','127.0.0.1','[::1]'].includes(location.hostname)||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL).hostname))throw Error('Auth preview requires isolated loopback');
+if(!['localhost','127.0.0.1','[::1]'].includes(location.hostname)||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL ?? '').hostname))throw Error('Auth preview requires isolated loopback');
 const params=new URLSearchParams(location.search),view=params.get('view')??'login',theme=params.get('theme')==='dark'?'dark':'light';
 document.documentElement.classList.toggle('theme-dark',theme==='dark');document.documentElement.classList.toggle('theme-light',theme==='light');
 const locked=view==='lock'||view==='biometric'||view==='lock-mfa';

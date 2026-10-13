@@ -184,7 +184,7 @@ test('request is captured before authentication or lock waits', async ({page}) =
     let sentQuantity = 0;
     const pending = runAdminAftercareMutation({auth: {getUser: async () => {
       await waiting; return {data: {user: {id: actor}}, error: null};
-    }}} as never, order, 'replacement', 'START_NEW', mutable, async (_key: string, sent) => {
+    }}} as never, order, 'replacement', 'START_NEW', mutable, async (_key: string, sent: typeof mutable) => {
       sentQuantity = Number((sent.items as Array<{quantity: number}>)[0].quantity);
       return {data: resultValue, error: null};
     });

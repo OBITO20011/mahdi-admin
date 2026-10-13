@@ -7,7 +7,7 @@ import { DashboardHome } from '../src/features/dashboard/DashboardHome.tsx';
 import { KpiGrid, SegmentedControl, SalesBarChart, UserAvatar, formatUiDate } from '../src/components/ui/index.ts';
 import { homeFixture, shiftFixture } from '../e2e/package-f-home.fixture.ts';
 
-const render = (data = homeFixture, shift = shiftFixture) => renderToStaticMarkup(React.createElement(DashboardHome, {
+const render = (data = homeFixture, shift: React.ComponentProps<typeof DashboardHome>['currentShift'] = shiftFixture) => renderToStaticMarkup(React.createElement(DashboardHome, {
   data, currentUserName: 'مهدي', currentShift: shift, loading: false, error: null, realtimeConnected: false,
   onRefresh() {}, onOrders() {}, onAccounts() {}, onInventory() {}, onProducts() {}, onShift() {}, onSell() {}, onReceive() {}, onExpense() {},
 }));

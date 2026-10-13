@@ -136,11 +136,11 @@ test('successful checkout preserves the complete receipt presentation and direct
   });
   await mockStorefront(page);
 
-  let submittedBody: Record<string, unknown> | null = null;
+  const capture: {submittedBody: Record<string, unknown> | null} = {submittedBody: null};
   let releaseResponse!: () => void;
   const responseReady = new Promise<void>(resolve => { releaseResponse = resolve; });
   await page.route('**/functions/v1/submit-guest-order', async (route) => {
-    submittedBody = route.request().postDataJSON() as Record<string, unknown>;
+    capture.submittedBody = route.request().postDataJSON() as Record<string, unknown>;
     await responseReady;
     await route.fulfill({
       contentType: 'application/json',
@@ -197,7 +197,7 @@ test('successful checkout preserves the complete receipt presentation and direct
     .getByRole('button', { name: 'تأكيد وحفظ الطلب في الإدارة' })
     .click();
 
-  await expect.poll(() => submittedBody !== null).toBe(true);
+  await expect.poll(() => capture.submittedBody !== null).toBe(true);
   await expect(review).toHaveAttribute('aria-busy', 'true');
   await page.keyboard.press('Escape');
   await expect(review).toBeVisible();
@@ -217,6 +217,7 @@ test('successful checkout preserves the complete receipt presentation and direct
     receipt.getByRole('link', { name: /إرسال الملخص لمتجرنا/ }),
   ).toBeVisible();
   await expect(receipt.getByRole('button', { name: 'متابعة الطلب' })).toBeVisible();
+  const submittedBody = capture.submittedBody;
   expect(submittedBody).not.toBeNull();
   expect(submittedBody?.turnstileToken).toBe('l3-characterization-token');
 });

@@ -52,7 +52,7 @@ test('one incident is deduplicated and followed by one recovery', async () => {
 
   assert.deepEqual(deliveries.map(({kind}) => kind), ['incident', 'recovery']);
   assert.equal(stillHealthy.notifications.length, 0);
-  assert.equal(stillHealthy.state.incidents[failedCheck.key].active, false);
+  assert.equal((stillHealthy.state.incidents as Record<string,{active:boolean}>)[failedCheck.key].active, false);
 });
 
 test('persistent incidents observe a severity cooldown before one reminder', async () => {
@@ -79,13 +79,13 @@ test('failed delivery is retried on the next cycle and recovery is not fabricate
     checks: [failedCheck], state: {version: 1, incidents: {}}, send: async () => false,
     now: new Date('2026-09-06T10:00:00.000Z'),
   });
-  assert.equal(first.state.incidents[failedCheck.key].lastNotifiedAt, null);
+  assert.equal((first.state.incidents as Record<string,{lastNotifiedAt:string|null}>)[failedCheck.key].lastNotifiedAt, null);
   const recovered = await runIncidentCycle({
     checks: [{...failedCheck, healthy: true}], state: first.state, send: async () => true,
     now: new Date('2026-09-06T10:05:00.000Z'),
   });
   assert.equal(recovered.notifications.length, 0);
-  assert.equal(recovered.state.incidents[failedCheck.key].active, false);
+  assert.equal((recovered.state.incidents as Record<string,{active:boolean}>)[failedCheck.key].active, false);
 });
 
 test('technical payload sanitizer drops business and credential fields', () => {

@@ -194,7 +194,7 @@ test('race assertions reject double effects, wrong winner and unrelated SQL erro
     'cogs', 'profit', 'revenue', 'paymentRows', 'onHand', 'reserved'] as const) {
     const changed = fixture();
     changed.after[field] += 1;
-    assert.throws(() => assertLifecycleRace(changed), undefined, field);
+    assert.throws(() => assertLifecycleRace(changed), field);
   }
   const unrelated = fixture();
   unrelated.results[1].reason!.message = 'ERROR: 42501: permission denied';

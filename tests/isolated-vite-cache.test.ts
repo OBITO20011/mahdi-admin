@@ -57,7 +57,7 @@ test('unique temporary caches preserve existing harness imports across two live 
   const original = process.env.VITE_SUPABASE_URL;
   const a = await startIsolatedVite({root, port: 4191, env: {VITE_SUPABASE_URL: 'http://127.0.0.1:4176'},
     config: {configFile: false, plugins: [fixture], optimizeDeps: {entries: []}}});
-  let b;
+  let b: Awaited<ReturnType<typeof startIsolatedVite>> | undefined;
   try {
     b = await startIsolatedVite({root, port: 4192,
       config: {configFile: false, plugins: [fixture], optimizeDeps: {entries: [], include: ['recharts']}}});
@@ -66,10 +66,16 @@ test('unique temporary caches preserve existing harness imports across two live 
     assert.equal(process.env.VITE_SUPABASE_URL, original, 'Temporary server env cannot leak to another server');
     await Promise.all([fetch(`${origin(a.server)}/cache-test-a.js`), fetch(`${origin(b.server)}/cache-test-b.js`)]);
     await Promise.all([a.server.waitForRequestsIdle(), b.server.waitForRequestsIdle()]);
-    await until(() => Boolean(a.server.environments.client.depsOptimizer.metadata.optimized['react-dom/client'])
-      && Boolean(b.server.environments.client.depsOptimizer.metadata.optimized.recharts));
+    const activeB=b;
+    await until(() => {
+      const aOptimizer=a.server.environments.client.depsOptimizer;
+      const bOptimizer=activeB.server.environments.client.depsOptimizer;
+      assert.ok(aOptimizer);assert.ok(bOptimizer);
+      return Boolean(aOptimizer.metadata.optimized['react-dom/client'])
+        && Boolean(bOptimizer.metadata.optimized.recharts);
+    });
     for (let request = 0; request < 10; request++) {
-      const responses = await Promise.all([a, b].map(instance =>
+      const responses: Response[] = await Promise.all([a, b].map(instance =>
         fetch(`${origin(instance.server)}/node_modules/.vite/deps/react-dom_client.js`)));
       for (const response of responses) {
         assert.equal(response.status, 200); assert.match(response.headers.get('content-type') ?? '', /javascript/u);

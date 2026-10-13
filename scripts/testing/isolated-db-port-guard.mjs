@@ -62,6 +62,10 @@ export async function probeTcpPort(port) {
   return true;
 }
 
+/**
+ * @param {number[]} ports
+ * @returns {Promise<Array<{port:number,docker:string,ss:string,ephemeralPortRange:Awaited<ReturnType<typeof readLinuxEphemeralPortRange>>}>>}
+ */
 export async function describePortHolders(ports, run = runDiagnostic) {
   const report = [];
   for (const port of ports) {
@@ -89,6 +93,10 @@ export async function describePortHolders(ports, run = runDiagnostic) {
   return report;
 }
 
+/**
+ * @param {number[]} ports
+ * @param {{timeoutMs?:number,pollMs?:number,probe?:(port:number)=>Promise<boolean>,holders?:(ports:number[])=>Promise<unknown>,now?:()=>number,pause?:(ms:number)=>Promise<unknown>}} [options]
+ */
 export async function waitForDatabasePorts(ports, {
   timeoutMs = 60000, pollMs = 250, probe = probeTcpPort, holders = describePortHolders,
   now = () => performance.now(), pause = ms => delay(ms),

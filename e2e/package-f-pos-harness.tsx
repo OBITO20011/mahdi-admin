@@ -19,7 +19,7 @@ const theme = params.get('theme') === 'dark' ? 'dark' : 'light';
 document.documentElement.dataset.theme = theme;
 document.documentElement.classList.toggle('theme-light', theme === 'light');
 document.documentElement.classList.toggle('theme-dark', theme === 'dark');
-if (!supabase || !['127.0.0.1', 'localhost', '[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL).hostname)) {
+if (!supabase || !['127.0.0.1', 'localhost', '[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL ?? '').hostname)) {
   throw Error('POS preview requires the isolated loopback API;no external backend allowed.');
 }
 const auth = authStoreEngine as unknown as { state: AuthState; getState: () => AuthState; initAuth: () => Promise<void> };
@@ -32,7 +32,7 @@ engine.state = { ...engine.state, activeBranch: branch, branches: [branch], cate
 ], warehouses: [{ id: posFixtureIds.warehouse, name: 'المستودع الرئيسي', branchId: branch.id, location: 'الرمثا' }] };
 storeEngine.setCurrentUser({ id: posFixtureIds.actor, name: 'أحمد', role: 'Owner', themeMode: theme, avatarUrl: '' });
 storeEngine.setActiveTab('pos');
-supabase.auth.getUser = async () => ({ data: { user: { id: posFixtureIds.actor } }, error: null }) as Awaited<ReturnType<typeof supabase.auth.getUser>>;
+supabase.auth.getUser = async () => ({ data: { user: { id: posFixtureIds.actor } }, error: null }) as Awaited<ReturnType<NonNullable<typeof supabase>['auth']['getUser']>>;
 const originalRpc = supabase.rpc.bind(supabase);
 const client = supabase as unknown as { rpc: (name: string, args?: Record<string, unknown>) => unknown };
 // Fixed READ fixtures only. Mutations still traverse the real service to the

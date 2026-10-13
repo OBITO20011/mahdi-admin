@@ -17,7 +17,7 @@ import {cashIds} from './package-f-cash.fixture';
 import {expenseCenter,financialReport} from './package-f-financial.fixture';
 const params=new URLSearchParams(location.search),theme=params.get('theme')==='dark'?'dark':'light';
 document.documentElement.classList.toggle('theme-light',theme==='light');document.documentElement.classList.toggle('theme-dark',theme==='dark');
-if(!supabase||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL).hostname))throw Error('Financial preview requires loopback');
+if(!supabase||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL ?? '').hostname))throw Error('Financial preview requires loopback');
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
 auth.state={...auth.getState(),roleName:'owner',roles:['owner'],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
 const app=storeEngine as unknown as {state:AppState;getState:()=>AppState};
