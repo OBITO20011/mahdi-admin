@@ -1,5 +1,13 @@
 # Storefront focus-only handover — 2026-10-12
 
+## Admin follow-up authorized2026-10-13
+
+Measurement d8bc619 complete;see ADMIN_FOCUS_HANDOVER_MEASUREMENT.md. Owner
+authorizes Admin display/focus correction;ADMIN_FOCUS_HANDOVER_FIX.md records
+the current repair and invariants. The old five shared cases are retained and
+two neutral/handover cases now run IDENTICALLY on both utilities. Customer
+product files remain unchanged;this is not a new Customer checkout repair.
+
 Owner decision:repair the proven CHECKOUT_NAME_DIAGNOSIS.md race,not a form
 reset or a test-readiness workaround. Only two product files change:
 customer-web/src/hooks/useDialogFocus.ts and src/utils/dialogFocus.ts.

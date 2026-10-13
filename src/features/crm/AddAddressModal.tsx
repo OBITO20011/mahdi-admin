@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Loader2, MapPin, Plus, X } from 'lucide-react';
+import { Loader2, MapPin, Plus } from 'lucide-react';
+import {Modal} from '../../components/common/Modal';
 import { JORDAN_GOVERNORATES } from '../../constants';
 import { addCustomerAddressInSupabase } from '../../services/supabase/crm.service';
 
@@ -103,21 +104,9 @@ export const AddAddressModal: React.FC<AddAddressModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-nw-side/80 backdrop-blur-sm sm:items-center sm:p-4">
-      <div className="max-h-[94vh] w-full max-w-md overflow-y-auto rounded-t-3xl border border-nw-border bg-nw-surface p-5 sm:rounded-3xl">
-        <div className="mb-4 flex items-start justify-between border-b border-nw-border pb-3">
-          <div>
-            <h3 className="text-sm font-black text-nw-text">إضافة عنوان توصيل</h3>
-            <p className="text-[10px] text-nw-muted">{customerName}</p>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-full bg-nw-surface-2 p-2 text-nw-muted"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
+    <Modal isOpen={isOpen} onClose={onClose} title="إضافة عنوان توصيل"
+      subtitle={customerName} maxWidth="max-w-md" maxHeight="max-h-[94vh]"
+      closeDisabled={loading} confirmUnsavedClose>
 
         <form onSubmit={submit} aria-busy={loading} className="space-y-3 text-xs">
           {error && (
@@ -272,7 +261,6 @@ export const AddAddressModal: React.FC<AddAddressModalProps> = ({
             {loading ? 'جاري الحفظ...' : 'حفظ العنوان'}
           </button>
         </form>
-      </div>
-    </div>
+    </Modal>
   );
 };

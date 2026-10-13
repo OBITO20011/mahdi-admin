@@ -2,44 +2,60 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Measure real Admin dialog handover and refresh strict TypeScript count/plan;docs-only commit;no product repair",
-  "baselineSha": "63406f29d9baddd0734e524c154d535e4ff71303",
+  "objective": "Repair measured Admin focus handover only:top Tab/Escape,dirty discard confirmation,neutral Enter;tests/AST/full CI",
+  "baselineSha": "d8bc6194c23bf4f7888b3571facffc14565856c6",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Measurements complete at63406f2;strict83/44 (src21,e2e17,tests45);docs-only localcommit pending"
+    "d8bc619 pushed;quality38341069716 FULL22/22 and secrets38341069695 PASS",
+    "Approved Admin focus and POS hidden-opener repair complete locally;business AST33/55+forms unchanged"
   ],
   "inProgress": [
-    "Stage documentation only;Gitleaks0;localcommit then checkpoint STOP"
+    "Stage explicit files,Gitleaks0,normal commit/push,full exact-SHA CI;STOP visual review"
   ],
   "notStarted": [
-    "No product/139/Production/deploy/activation/startup package"
+    "No139/Production/deploy/activation/startup package"
   ],
   "testsPassed": [
-    "Admin focus56 completed observations across both engines/themes;confirmed child Tab/Escape and initial Enter issues documented,not fixed",
-    "In-memory strict83/44;no config change;final typecheck/ESLint bothapps and953Admin/191Customer unitsPASS"
+    "Final focused100/100;expanded both-engine726PASS+4knownskips=730,retries0",
+    "Final typecheck/lint bothapps;956Admin/191Customer unitsPASS;business AST33/55+formsPASS"
   ],
   "testsRemaining": [
-    "Gitleaks0/docs-only LOCAL commit"
+    "Gitleaks0/commit/push/full exact CI and delivery verifier"
   ],
   "findings": [
-    "Customer edit/address:Tab escapes8/8;Escape closes dirty parent+child8/8",
-    "Product details->edit:initialclose focus;Enter closes4/4",
-    "No same storefront typed-input stealing proven in bounded sample;strict test-only increase13"
+    "POS failure proved hidden opener at capture+cleanup,visible after sibling commit;corrected without new-interaction stealing",
+    "No RPC/payload/validation/SQL/Customer source changes;earlier failed gates documented"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "Measurements/docs only;no product/auth/RPC/SQL/config/test changes or repairs",
-    "No push/Production/deploy/activation/new phase;single writer;freeze trackedfiles during gates"
+    "No business RPC/payload/validation/permission/state/SQL changes;no strict enablement",
+    "No Production/deploy/activation/new phase;single writer;freeze trackedfiles during gates"
   ],
-  "nextExactAction": "Gitleaks0;docs-only LOCAL commit;checkpoint PAUSED then STOP for owner review",
-  "checkpointedAt": "2026-10-13T03:08:58.565Z",
+  "nextExactAction": "Stage explicit approved focus files;Gitleaks staged exit0;normal commit/push;verify full exact-SHA CI;STOP visual review",
+  "checkpointedAt": "2026-10-13T06:28:05.604Z",
   "filesTouched": [
+    "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
-    "docs/design/package-f/TYPES_STRICT_MEASUREMENT.md",
-    "docs/design/package-f/ADMIN_FOCUS_HANDOVER_MEASUREMENT.md"
+    "docs/agent/PROJECT_OVERVIEW.md",
+    "docs/design/package-f/CHECKOUT_FOCUS_HANDOVER.md",
+    "e2e/helpers/dialog-focus-contract.ts",
+    "e2e/package-f-products-harness.tsx",
+    "e2e/phase6-package-c.spec.ts",
+    "src/components/common/Modal.tsx",
+    "src/features/crm/AddAddressModal.tsx",
+    "src/features/crm/CustomerEditModal.tsx",
+    "src/hooks/useDialogFocus.ts",
+    "src/utils/dialogFocus.ts",
+    "tests/package-f-colour-retirement.test.ts",
+    "tests/package-f-remaining-batch1.test.ts",
+    "tests/phase6-bc-dialog-safety.test.ts",
+    "docs/design/package-f/ADMIN_FOCUS_HANDOVER_FIX.md",
+    "e2e/admin-hidden-opener.spec.ts",
+    "e2e/package-f-admin-focus-handover.spec.ts",
+    "tests/admin-focus-business-parity.test.ts"
   ],
-  "workingTreeFingerprint": "B1727F7959274DB01605C542C7317CE954376099E39286A6DB3D54AA9E1A226C"
+  "workingTreeFingerprint": "4CC2C4C5FA8A0553B13E3DD3864ACC317224DB69A58FD7B31E2DF040947861DF"
 }

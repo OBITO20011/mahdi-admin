@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Loader2, Save, X } from 'lucide-react';
+import { Loader2, Save } from 'lucide-react';
+import {Modal} from '../../components/common/Modal';
 import { updateCustomerCrmInSupabase } from '../../services/supabase/crm.service';
 import { CrmCustomer } from '../../types/crm';
 
@@ -62,23 +63,9 @@ export const CustomerEditModal: React.FC<CustomerEditModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-nw-side/80 backdrop-blur-sm sm:items-center sm:p-4">
-      <div className="max-h-[94vh] w-full max-w-md overflow-y-auto rounded-t-3xl border border-nw-border bg-nw-surface p-5 sm:rounded-3xl">
-        <div className="mb-4 flex items-start justify-between border-b border-nw-border pb-3">
-          <div>
-            <h3 className="text-sm font-black text-nw-text">تعديل ملف العميل</h3>
-            <p className="text-[10px] text-nw-muted">
-              الحفظ يتم عبر إجراء قاعدة البيانات المعتمد
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-full bg-nw-surface-2 p-2 text-nw-muted"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
+    <Modal isOpen={isOpen} onClose={onClose} title="تعديل ملف العميل"
+      subtitle="الحفظ يتم عبر إجراء قاعدة البيانات المعتمد" maxWidth="max-w-md"
+      maxHeight="max-h-[94vh]" closeDisabled={loading} confirmUnsavedClose>
         <form onSubmit={submit} aria-busy={loading} className="space-y-3 text-xs">
           {error && (
             <div className="rounded-xl border border-nw-bad bg-nw-bad-bg p-3 text-nw-bad">
@@ -181,7 +168,6 @@ export const CustomerEditModal: React.FC<CustomerEditModalProps> = ({
             {loading ? 'جاري الحفظ...' : 'حفظ التعديلات'}
           </button>
         </form>
-      </div>
-    </div>
+    </Modal>
   );
 };

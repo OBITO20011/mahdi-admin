@@ -8,15 +8,15 @@ import {renderToStaticMarkup} from 'react-dom/server';
 import {FormFields} from '../src/components/ui/FormFields';
 import {UiButton} from '../src/components/ui/Controls';
 
-// Captured from delivered891c9a4 BEFORE any batch1 source edits.
+// Captured from891c9a4;ONLY Modal UI bindings updated by owner focus decision2026-10-13.
 const baseline=[
   {"file":"src/components/ui/Controls.tsx","calls":0,"callHash":"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945","bindings":2,"bindingHash":"25883aa9cdeb12c2472812cddac7e7324c1fc7ad888a2a8e78eb3267bf047d57","handlers":{}},
   {
     "file": "src/components/common/Modal.tsx",
     "calls": 0,
     "callHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-    "bindings": 5,
-    "bindingHash": "16ac7506d5de38b1586373350b8fc286d4471d92752e5f04c67157271b2e01b7",
+    "bindings": 7,
+    "bindingHash": "6ffd91ec5bd2a7b4bf031b139d342a4d1bf3630d1c8495806b08719596285f2a",
     "handlers": {}
   },
   {
@@ -85,7 +85,7 @@ const baseline=[
 ] as const;
 const printer=ts.createPrinter({removeComments:true});
 const hash=(value:unknown)=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
-test('batch1 business calls,handlers and ALL event/value bindings match891c9a4 exactly',()=>{
+test('batch1 business contracts retain891c9a4;only Modal focus bindings use approved2026-10-13 contract',()=>{
   for(const expected of baseline){
     const ast=ts.createSourceFile(expected.file,readFileSync(expected.file,'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
     const calls:string[]=[],bindings:string[]=[],handlers:Record<string,{sha256:string}>={};
@@ -104,7 +104,10 @@ test('batch1 surfaces use semantic tokens;QR retains white scanner backing only'
   for(const {file} of baseline)assert.doesNotMatch(readFileSync(file,'utf8'),/(?:bg|text|border|accent|from|via|to|shadow)-(?:slate|blue|gray|red|rose|emerald|amber|purple|violet|indigo|cyan|teal)-\d/u,file);
   const modal=readFileSync('src/components/common/Modal.tsx','utf8');
   assert.match(modal,/bg-nw-side\/80/u);assert.match(modal,/data-state="opening"/u);assert.match(modal,/onAnimationComplete/u);
-  assert.match(modal,/!edited.current && !closeDisabled/u);assert.match(modal,/data-unsaved/u);assert.match(modal,/<FormFields/u);
+  assert.match(modal,/if \(closeDisabled \|\| panel.current\?\.querySelector\('\[aria-busy="true"\]'\)\) return/u);
+  assert.match(modal,/if \(edited.current \|\| panel.current\?\.querySelector\('\[data-unsaved="true"\]'\)\)/u);
+  assert.match(modal,/if \(confirmUnsavedClose\) setShowDiscard\(true\);\s*return;/u);
+  assert.match(modal,/confirmUnsavedClose = false/u);assert.match(modal,/<FormFields/u);
   const fields=readFileSync('src/components/ui/form-fields.css','utf8');assert.match(fields,/min-height: 44px/u);
   assert.match(fields,/var\(--nw-text\)/u);assert.match(fields,/aria-invalid/u);assert.match(fields,/\[class~="border-nw-bad"\]\s*\{\s*border-color:\s*var\(--nw-bad\)\s*!important/u);
   assert.match(readFileSync('src/components/ui/Controls.tsx','utf8'),/plain: ''/u);
@@ -120,8 +123,8 @@ test('shared fields and plain button retain native values,disabled,submit and ac
   assert.match(html,/type="submit"/u);assert.match(html,/disabled=""/u);assert.match(html,/aria-label="حفظ"/u);
   assert.doesNotMatch(html,/bg-nw-primary|bg-nw-surface/u);
 });
-test('all100 native input/validation/busy properties are AST-identical to891c9a4',()=>{
-  const fields=[{"file":"src/components/common/Modal.tsx","count":2,"hash":"6ac2ca616dd4f6da86c49af1d3a9700fbadb653ebd9b07df66ab9b65d23f9838"},{"file":"src/components/ui/Controls.tsx","count":5,"hash":"1437bb43486f0a47e3de40b33ea084a7b946a36efde3e52eef0b4b42212e80f2"},{"file":"src/features/more/MoreMenuView.tsx","count":10,"hash":"980d42d1599a2370eda464d2dcaa1fc33e8e1eb36d4385fc73e035cd1e49c56d"},{"file":"src/features/more/ProfileModal.tsx","count":77,"hash":"ef9c906272c1db0bb6311fd5b5a81406886c610455607dc5ca214f9bef044b97"},{"file":"src/features/more/InstallAppPanel.tsx","count":2,"hash":"2dc5426f1c8b3b354876670a63f36aeeef649b40e4d6e1b8425016295e8f1e0b"},{"file":"src/features/more/PushNotificationControls.tsx","count":4,"hash":"1f93d466baa82cb58f6ddfa12461afe905e9eb547a1beab5ed2faa6276960194"}] as const;
+test('original100 native properties retained;only2 new confirmation button types added by owner focus decision',()=>{
+  const fields=[{"file":"src/components/common/Modal.tsx","count":4,"hash":"38db827d592f4595d1d523dcc07f6d1971f95bba23fc2da4f87a37b321a8a446"},{"file":"src/components/ui/Controls.tsx","count":5,"hash":"1437bb43486f0a47e3de40b33ea084a7b946a36efde3e52eef0b4b42212e80f2"},{"file":"src/features/more/MoreMenuView.tsx","count":10,"hash":"980d42d1599a2370eda464d2dcaa1fc33e8e1eb36d4385fc73e035cd1e49c56d"},{"file":"src/features/more/ProfileModal.tsx","count":77,"hash":"ef9c906272c1db0bb6311fd5b5a81406886c610455607dc5ca214f9bef044b97"},{"file":"src/features/more/InstallAppPanel.tsx","count":2,"hash":"2dc5426f1c8b3b354876670a63f36aeeef649b40e4d6e1b8425016295e8f1e0b"},{"file":"src/features/more/PushNotificationControls.tsx","count":4,"hash":"1f93d466baa82cb58f6ddfa12461afe905e9eb547a1beab5ed2faa6276960194"}] as const;
   for(const expected of fields){
     const ast=ts.createSourceFile(expected.file,readFileSync(expected.file,'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),attrs:string[]=[];
     function visit(n:ts.Node){

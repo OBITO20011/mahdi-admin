@@ -1,5 +1,40 @@
 # Agent handoff history
 
+## 2026-10-13 — Approved hidden-opener follow-up, final local gates PASS
+
+Owner YES authorizes proof/correction only. Deterministic pre-fix case2/2FAIL;
+capture-only fix2casesPASS but originalPOS8FAIL/other78PASS. Real-path temporary
+diagnostics both engines prove previous opener rects0 at capture+layout cleanup,
+rects1 after sibling commit. Final Admin-only correction retains identity then
+checks availability once after commit,without overriding new input/dialog.
+Permanent negative hidden/disabled/inert and new-interaction tests;temporary
+logs removed;POS specs/source and customer-web source unchanged.
+
+Focused100/100 both engines;after callback extraction final type/lint and
+956Admin/191Customer units exit0 05:05:59.186–05:09:14.844UTC. Expanded related
+gate05:10:07.757–06:25:57.244UTC exit0:726PASS+4known conditionalskips=730,
+retries0. Source frozen/checkpoint resumePASS;AST all33/55calls+complete forms
+match d8bc619;no Services/stores/DB/CI change or surviving owned QA listeners.
+Gitleaks/normal repair commit/push/full exact-SHA CI then checkpoint STOP next.
+
+## 2026-10-13 — Admin focus repair verification stopped, not delivered
+
+Owner authorized push d8bc619 first (completed;quality38341069716 FULL22/22,
+secrets38341069695 PASS), then bounded Admin focus repair. Current own edits
+remain uncommitted. Shared/top/dirty/Enter regressions66/66 both engines passed;
+final typecheck/lint and all956Admin/191Customer units PASS. Business AST33/55
+and complete CRM forms match d8bc619. No source edits during gates.
+
+Expanded related browser gate04:18:03.916–04:42:28.879UTC stopped after280PASS
+and4FAIL,not a full676-case result. All four:package-f-pos.spec.ts:58 Chromium
+390/820 light/dark fails return-focus to cart opener (inactive after back).
+Suspected capture visibility guard rejects opener hidden by StickyActionBar;
+not yet runtime-proven or repaired. Original assertions/timeouts/retries intact.
+Owned Playwright16884 descendants stopped,4173–4176 no listeners. External logs
+Temp/nawasrah-admin-focus-related.*,trace/error-context under test-results.
+No repair commit/push/newCI/DB/Production/deploy. Checkpoint preserves own edits;
+next:owner-approved focused cause proof and opener retention correction.
+
 ## 2026-10-13 — Admin focus / strict measurements, documentation only
 
 Owner authorizes two measurements only on63406f2;no repair/push/Production.

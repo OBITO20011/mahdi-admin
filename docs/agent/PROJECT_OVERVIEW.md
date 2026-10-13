@@ -1,5 +1,11 @@
 # Project overview
 
+Current owner task2026-10-13:bounded Admin focus repair and approved POS
+return-focus follow-up only. See ADMIN_FOCUS_HANDOVER_FIX.md. Local related
+both-engine726PASS+4knownskips,956Admin/191Customer/type/lint and business AST
+PASS;Gitleaks/normalcommit/push/full exactCI then visual STOP. No RPC/migration/
+strict/Production/deploy/new phase/private-mode activation authorized.
+
 Owner2026-10-13 task:prepare dormant private CI budget routing and read-only
 last10 job-minute evidence. See docs/operations/PRIVATE_CI_BUDGET.md;single flag
 requires actual private visibility. No activation/repo conversion/test weakening/

@@ -1,5 +1,20 @@
 # Phase status
 
+2026-10-13 Admin focus repair final LOCAL gates PASS,not delivered until CI:
+owner-approved POS follow-up proved hidden opener capture plus pre-sibling
+cleanup visibility. Single post-commit availability check preserves new focus.
+Original POS unchanged;focused100/100,expanded726PASS+4knownskips,no retries;
+final956Admin/191Customer/type/lint PASS. Business33/55+forms match d8bc619.
+Gitleaks/commit/push/full exactCI next,then visual STOP. No DB/Production/deploy.
+The stopped-gate paragraph below records the earlier failure,not current status.
+
+2026-10-13 owner-authorized Admin focus repair is NOT DELIVERED. d8bc619 was
+pushed first and exact full CI22/22+secrets passed. Focus contracts66/66 and
+final956Admin/191Customer units/type/lint passed. Expanded related browser gate
+stopped280PASS/4FAIL:POS390/820 both themes fails opener focus restoration.
+No repair commit/push;owned test processes stopped. Evidence/proposed cause in
+ADMIN_FOCUS_HANDOVER_FIX.md;await bounded root-cause follow-up. No DB/Production/deploy.
+
 2026-10-13 owner task:two MEASUREMENTS only,docs-only local commit;no push or
 product repair authorized. Admin focus report confirms distinct customer child
 Tab/Escape defects and product-edit Enter closes,without claiming a reproduced

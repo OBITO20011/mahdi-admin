@@ -4,6 +4,20 @@ import test from 'node:test';
 import ts from 'typescript';
 
 const read = (path: string) => readFileSync(path, 'utf8');
+test('animated Admin Modal opts into synchronous inert teardown and dirty customer confirmation only', () => {
+  const hook=read('src/hooks/useDialogFocus.ts'),modal=read('src/components/common/Modal.tsx');
+  assert.match(hook,/useLayoutEffect/u);
+  assert.ok(hook.indexOf('element.inert = true')<hook.indexOf('deactivate();'));
+  assert.ok(hook.indexOf('element.inert = false')<hook.indexOf('activateDialog(element'));
+  assert.match(modal,/\}, false, true\)/u);
+  assert.match(modal,/confirmUnsavedClose = false/u);
+  assert.match(modal,/تجاهل التعديلات؟/u);
+  for(const file of ['CustomerEditModal','AddAddressModal']){
+    const source=read(`src/features/crm/${file}.tsx`);
+    assert.match(source,/<Modal isOpen=\{isOpen\} onClose=\{onClose\}/u);
+    assert.match(source,/closeDisabled=\{loading\} confirmUnsavedClose/u);
+  }
+});
 test('both standalone dialog implementations run the identical behavioral safety contract', () => {
   const spec=read('e2e/dialog-focus-contract.spec.ts');
   const contract=read('e2e/helpers/dialog-focus-contract.ts');
@@ -12,7 +26,8 @@ test('both standalone dialog implementations run the identical behavioral safety
   assert.equal((spec.match(/registerDialogFocusContract\(/gu)||[]).length,2);
   for(const behavior of ['Tab wraps both directions','nested dialog owns Tab',
     'Escape closes only the top dialog','ordinary close restores the external opener',
-    'programmatic focus cannot reach a lower dialog']) assert.ok(contract.includes(behavior),behavior);
+    'programmatic focus cannot reach a lower dialog','initial focus is a named neutral panel',
+    'handover preserves an active input']) assert.ok(contract.includes(behavior),behavior);
   assert.doesNotMatch(contract,/if\s*\(\s*name\s*===|test\.skip|test\.fixme|waitForTimeout/u);
   assert.match(contract,/const path='\/src\/utils\/dialogFocus\.ts'/u);
   assert.doesNotMatch(read('customer-web/src/hooks/useDialogFocus.ts'), /\.\.\/\.\.\/\.\.\/src/u);

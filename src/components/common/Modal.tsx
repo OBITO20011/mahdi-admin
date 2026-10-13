@@ -2,7 +2,7 @@
  * Nawasrah Business Manager - iOS Sheet Modal Component
  */
 
-import React, {useEffect, useId, useRef} from 'react';
+import React, {useLayoutEffect, useId, useRef, useState} from 'react';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
 import {FormFields, UiButton} from '../ui';
 import { X } from 'lucide-react';
@@ -17,6 +17,7 @@ interface ModalProps {
   maxHeight?: string;
   maxWidth?: string;
   closeDisabled?: boolean;
+  confirmUnsavedClose?: boolean;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -28,16 +29,25 @@ export const Modal: React.FC<ModalProps> = ({
   maxHeight = 'max-h-[90vh]',
   maxWidth = 'max-w-lg',
   closeDisabled = false,
+  confirmUnsavedClose = false,
 }) => {
   const titleId = useId();
   const edited = useRef(false);
-  useEffect(() => { edited.current = false; }, [isOpen]);
+  const [showDiscard, setShowDiscard] = useState(false);
+  useLayoutEffect(() => { edited.current = false; setShowDiscard(false); }, [isOpen]);
+  const discardTitleId = useId();
+  // Cleanup is LIFO: release the question before its form if both unmount.
+  const discardPanel = useDialogFocus(isOpen && showDiscard, () => setShowDiscard(false));
   const panel = useDialogFocus(isOpen, () => {
     // Escape must not silently discard input or interrupt a submitting child.
     // Explicit Cancel/Save actions retain their existing workflow authority.
-    if (!edited.current && !closeDisabled
-      && !panel.current?.querySelector('[aria-busy="true"], [data-unsaved="true"]')) onClose();
-  });
+    if (closeDisabled || panel.current?.querySelector('[aria-busy="true"]')) return;
+    if (edited.current || panel.current?.querySelector('[data-unsaved="true"]')) {
+      if (confirmUnsavedClose) setShowDiscard(true);
+      return;
+    }
+    onClose();
+  }, false, true);
   return (
     <AnimatePresence>
       {isOpen && (
@@ -72,7 +82,10 @@ export const Modal: React.FC<ModalProps> = ({
                 type="button"
                 disabled={closeDisabled}
                 onClick={() => {
-                  if (!closeDisabled && !panel.current?.querySelector('[aria-busy="true"]')) onClose();
+                  if (!closeDisabled && !panel.current?.querySelector('[aria-busy="true"]')) {
+                    if (confirmUnsavedClose && edited.current) setShowDiscard(true);
+                    else onClose();
+                  }
                 }}
                 aria-label="إغلاق"
                 className="h-11 w-11 shrink-0 !px-0 rounded-full bg-nw-surface hover:bg-nw-mute-bg text-nw-muted hover:text-nw-text flex items-center justify-center transition"
@@ -83,6 +96,23 @@ export const Modal: React.FC<ModalProps> = ({
 
             {/* Modal Scrollable Body */}
             <FormFields className="min-h-0 min-w-0 p-5 overflow-y-auto flex-1">{children}</FormFields>
+            {showDiscard && (
+              <div className="fixed inset-0 z-[70] flex items-center justify-center bg-nw-side/80 p-4">
+                <section ref={discardPanel as React.RefObject<HTMLElement>} role="dialog" aria-modal="true"
+                  aria-labelledby={discardTitleId} tabIndex={-1}
+                  className="w-full max-w-sm rounded-2xl border border-nw-border bg-nw-surface p-5 text-nw-text shadow-2xl">
+                  <h3 id={discardTitleId} className="text-base font-bold">تجاهل التعديلات؟</h3>
+                  <p className="mt-2 text-sm text-nw-muted">التعديلات غير محفوظة. يمكنك الرجوع لإكمالها.</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <UiButton type="button" onClick={() => setShowDiscard(false)}>متابعة التعديل</UiButton>
+                    <UiButton type="button" variant="danger" onClick={() => {
+                      if (closeDisabled || panel.current?.querySelector('[aria-busy="true"]')) return;
+                      setShowDiscard(false); onClose();
+                    }}>تجاهل التعديلات</UiButton>
+                  </div>
+                </section>
+              </div>
+            )}
           </motion.div>
         </div>
       )}

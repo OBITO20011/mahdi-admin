@@ -70,7 +70,8 @@ test('Admin dialog traps Tab, protects busy close, isolates nested Escape and re
   await opener.click();
   const dialog = page.getByRole('dialog', {name: 'نافذة الاختبار', exact: true});
   const close = dialog.getByRole('button', {name: 'إغلاق', exact: true});
-  await expect(close).toBeFocused();
+  await expect(dialog).toBeFocused();
+  await page.keyboard.press('Enter'); await expect(dialog).toBeVisible();
   await page.keyboard.press('Shift+Tab');
   await expect(dialog.getByRole('button', {name: 'آخر زر'})).toBeFocused();
   await page.keyboard.press('Tab'); await expect(close).toBeFocused();

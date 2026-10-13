@@ -1,5 +1,23 @@
 # Approved owner decisions
 
+## 2026-10-13 — POS opener focus regression follow-up approved
+
+Owner answers YES to focused proof/correction of the Admin focus repair's POS
+return-focus regression. Keep sale logic/RPC/payloads/validators unchanged;
+retain hidden opener identity and restore only after it becomes available,
+without stealing a valid new interaction. No retries/timeouts/Production/deploy.
+
+## 2026-10-13 — measured Admin focus repair authorized
+
+Owner authorizes pushing docs d8bc619 first,then display/focus-only repair of
+measured defects:customer/address top-only Tab/Escape;dirty discard question
+using shared Modal edited tracking;neutral initial product-edit focus so
+Enter does not close it. Apply Customer95058f7 handover principles to Admin,
+retain and extend same behavioral contract for both implementations;permanent
+real-path regressions both engines and AST comparison. No business validation,
+RPC/payload/roles/DB/strict/Production/deploy change. Approved local gates,
+Gitleaks0,normal commit/push and exact-SHA full CI before checkpoint STOP.
+
 ## 2026-10-13 — dormant private CI budget preparation
 
 Owner authorizes read-only last10 job-minute measurement and preparation only:

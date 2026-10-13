@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync,readdirSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 import ts from 'typescript';
 import {legacyColourUtility,legacyColourExceptions,nonPresentationColourAst} from '../scripts/testing/package-f-colour-contract.mjs';
 
@@ -26,6 +27,13 @@ test('guard detects old families in variants,opacity,CSS selectors and palette s
  assert.deepEqual([..."bg-nw-surface text-nw-ok border-nw-border".matchAll(legacyColourUtility)],[]);
 });
 const baseline='1272a786583842afac01957287bff72c1b6510c2';
+// Only these two wrappers changed by explicit focus decision2026-10-13.
+// Whole executable AST remains frozen;their d8bc619 business bodies/forms/calls
+// are independently frozen in admin-focus-business-parity.test.ts.
+const approvedFocusUIHashes:Record<string,string>={
+ 'src/features/crm/CustomerEditModal.tsx':'91269b4c71488f25f5da798c3d753f64e04b0ec8bd16bf0960e2321bc5c9fb45',
+ 'src/features/crm/AddAddressModal.tsx':'c7fbb60d33b9d28b9e35622fcc8c4f24a6f799f02050536da9619693e184065d',
+};
 const paths=[
  'src/components/common/AppErrorBoundary.tsx','src/components/layout/AdminToast.tsx',
  'src/components/modals/AllModals.tsx','src/components/modals/BrandsModal.tsx','src/components/modals/CategoriesModal.tsx','src/components/modals/UnitsModal.tsx',
@@ -41,6 +49,10 @@ for(const file of paths)test(`batch7 full non-presentation AST parity: ${file}`,
  // React's inherited setState replaces an erased declare-only annotation.
  // For this file compare the emitted runtime AST, preserving every executable node.
  const source=readFileSync(file,'utf8');
+ if(approvedFocusUIHashes[file]){
+  assert.equal(createHash('sha256').update(JSON.stringify(nonPresentationColourAst(file,source))).digest('hex'),approvedFocusUIHashes[file]);
+  return;
+ }
  const runtime=(text:string)=>ts.transpileModule(text,{compilerOptions:{jsx:ts.JsxEmit.Preserve,target:ts.ScriptTarget.ES2022}}).outputText;
  assert.equal(nonPresentationColourAst(file,file.endsWith('/AppErrorBoundary.tsx')?runtime(source):source),nonPresentationColourAst(file,file.endsWith('/AppErrorBoundary.tsx')?runtime(before):before));
 });

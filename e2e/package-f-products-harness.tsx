@@ -11,6 +11,7 @@ import {ProductFormModal} from '../src/features/products/ProductFormModal';
 import {StockAdjustmentModal} from '../src/features/products/StockAdjustmentModal';
 import {ParcelConfigurationModal} from '../src/features/more/ParcelConfigurationModal';
 import {Modal} from '../src/components/common/Modal';
+import {AllModals} from '../src/components/modals/AllModals';
 import {UiButton} from '../src/components/ui';
 import {storeEngine,type AppState,useAppStoreSelector} from '../src/stores/useAppStore';
 import {authStoreEngine,type AuthState} from '../src/stores/useAuthStore';
@@ -70,10 +71,11 @@ function Harness(){
   <nav aria-label="شاشات المعاينة" className="flex flex-wrap gap-2 p-4">
    {['products','detail','form','stock','parcel'].map((key,i)=><UiButton key={key} onClick={()=>{storeEngine.closeModal();setView(key);}}>{['المنتجات','تفاصيل','نموذج المنتج','تعديل مخزون','إعداد الطرود'][i]}</UiButton>)}
   </nav>
+  {params.has('realDialogs') && <UiButton onClick={()=>storeEngine.openModal('view_product',chosen)}>تفاصيل الصنف الفعلية</UiButton>}
   <ProductsView/>
-  <Modal isOpen={Boolean(form||detail||stock||parcel)} onClose={close} title={title} maxWidth="max-w-2xl">
+  {params.has('realDialogs') ? <AllModals/> : <Modal isOpen={Boolean(form||detail||stock||parcel)} onClose={close} title={title} maxWidth="max-w-2xl">
    {form?<ProductFormModal initialProduct={modal==='edit_product'?target:undefined} onClose={close}/>:detail?<ProductDetailModal product={target} onClose={close}/>:stock?<StockAdjustmentModal product={chosen} onClose={close}/>:parcel?<ParcelConfigurationModal/>:null}
-  </Modal>
+  </Modal>}
  </main>;
 }
 createRoot(document.getElementById('root')!).render(<Harness/>);

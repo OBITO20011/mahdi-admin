@@ -93,5 +93,29 @@ export function registerDialogFocusContract(name:string,origin:string) {
       expect(await page.locator('#inner').evaluate(panel=>panel.contains(document.activeElement))).toBe(true);
       await expect(page.locator('#opener')).not.toBeFocused();
     });
+
+    test('initial focus is a named neutral panel; immediate Enter cannot activate a control',async({page})=>{
+      await page.locator('#opener').click();await expect(page.locator('#outer')).toBeFocused();
+      await expect(page.locator('#outer')).toHaveAccessibleName('النافذة الرئيسية');
+      await page.keyboard.press('Enter');await expect(page.locator('#outer')).toBeVisible();
+      await expect(page.locator('#outer-first')).not.toBeFocused();
+      await page.keyboard.press('Tab');await expect(page.locator('#outer-first')).toBeFocused();
+    });
+
+    test('handover preserves an active input and ignores an inert predecessor',async({page})=>{
+      await page.locator('#opener').click();
+      await page.evaluate(async()=>{
+        const path='/src/utils/dialogFocus.ts';const {activateDialog}=await import(/* @vite-ignore */path);
+        const next=document.createElement('section');next.setAttribute('role','dialog');next.setAttribute('aria-label','النافذة الجديدة');next.tabIndex=-1;
+        next.innerHTML='<button id="next-close">إغلاق جديدة</button><input id="next-input" aria-label="اسم جديد">';document.body.append(next);
+        document.getElementById('outer')!.inert=true;
+        const input=document.getElementById('next-input') as HTMLInputElement;input.focus();
+        activateDialog(document.getElementById('outer')!,()=>{throw Error('INERT_GUARD');});
+        activateDialog(next,()=>{next.remove();});
+      });
+      await expect(page.locator('#next-input')).toBeFocused();await page.keyboard.type('اسم محفوظ');
+      await expect(page.locator('#next-input')).toHaveValue('اسم محفوظ');
+      await expect(page.locator('#next-input')).toBeFocused();
+    });
   });
 }
