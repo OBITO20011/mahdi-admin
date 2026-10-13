@@ -1,5 +1,28 @@
 # Agent handoff history
 
+## 2026-10-13 — Frankfurt preparation checklist,repository-only documentation
+
+Owner approves documentation only;read source not provider dashboards/env
+credentials. PHASE7_FRANKFURT_CHECKLIST.md covers138migration manifest,Auth,
+all5Edge functions and21env name occurrences(no values),5cron jobs,product-images,
+CORS/Turnstile,Pages env,nightly/SYSTEM/R2/watchdog keepalive+400MB,privateCI,
+per-section acceptance and rollback. Gemini key deliberately absent by owner.
+VerifierPASS138unique/contiguous and13valid links,no key values.
+
+Documented future blockers:034 compatibility is test-temp-only;push URL/CSP/
+backup expectedProjectRef+manifest and SEO config still target old project;
+first-owner/provisioning and live platform settings need confirmation. None
+repaired/executed. Local doc gates then stagedGitleaks0/docs-only commit/push,
+exact fullCI public metadata WITHOUT git credential-fill,checkpoint STOP.
+No product/test/workflow/config/SQL/strict change or Phase7 activation.
+
+Local docs gates13:59:35.779–14:02:16.861UTC exit0:966Admin/191Customer
+units,type/lint both apps;no product browser/DB path affected. No builds,
+backup setup/watchdog/real provider checks executed. Document validator also
+checks exact source manifest/Edge env names/links/no key values. Public GitHub
+metadata monitor uses no token/credential-fill and reuses verifyFullDeliveryJobs
+for all required exact-SHA gates;no verifier-secret access is authorized here.
+
 ## 2026-10-13 — Profile saved/unknown-email repair locally verified
 
 Owner approves behavioral correction:service boolean|null outcome;existing

@@ -2,52 +2,48 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Approved profile saved/unknown-email correction only;preserve auth/roles/payloads;tests/Gitleaks/commit/fullCI then STOP",
-  "baselineSha": "f1743075e68fa93f53d092fbd75dd77b6375e95f",
+  "objective": "Repository-only Phase7 Frankfurt checklist documentation;no real Supabase/Cloudflare/secret access;docs commit/full CI then STOP",
+  "baselineSha": "b211c332c4723e39be481fa227f8f28a6a2cfccc",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "d8bc619 pushed;quality38341069716 FULL22/22 and secrets38341069695 PASS",
     "Approved Admin focus and POS opener repair f174307 committed/pushed after Gitleaks staged0;AST33/55+forms unchanged",
-    "Exact f174307 quality38356916632 FULL22/22 and secrets38356916840 PASS;STOP visual review"
+    "Exact f174307 quality38356916632 FULL22/22 and secrets38356916840 PASS;STOP visual review",
+    "Profile saved/unknown-email correction b211c33 committed/pushed after stagedGitleaks0;local gatesPASS",
+    "Exact b211c33 quality38401429899 FULL22/22 and secrets38401429913 PASS;STOP before remaining strict batch"
   ],
   "inProgress": [
-    "All local profile gates PASS;Gitleaks/commit/push/full exactCI then STOP"
+    "Checklist source/manifest/links and all local doc gatesPASS;Gitleaks/docs commit/public exactCI then STOP"
   ],
   "notStarted": [
-    "Remaining20product/62test strict diagnostics and strict configuration not implemented",
+    "Remaining20product/62test strict diagnostics/config deferred;no implementation in docs task",
     "No139/Production/deploy/activation/startup package"
   ],
   "testsPassed": [
-    "Final966Admin/191Customer units,type/lint;238related browsers both engines,retries0;focused14/14",
-    "AST50service/196UI parity except approved alias/message;isolation zeroProduction;memory strict82(src20/test62),no config change"
+    "Checklist verifierPASS:138ordered unique migrations,5Edge functions,21env name occurrences,13local links,no key values",
+    "Final966Admin/191Customer units,type/lint PASS;docs-only,no related product/DB/browser change"
   ],
   "testsRemaining": [
-    "Gitleaks/commit/push/full exactCI;remaining strict batches deferred"
+    "Gitleaks0/docs commit/push/full exact CI using public API without credentials"
   ],
   "findings": [
-    "Approved missing-email result repaired;actual errors remain rejected;existing account refresh runs",
-    "No Production occurrence claimed;auth/roles/payloads/SQL/config unchanged"
+    "Old-target bindings documented:CSP,SEO config,push webhook,backup guard+manifest;no repairs authorized",
+    "Auth first-owner/managed034/project dashboard settings need confirmation;Gemini key intentionally absent"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No silent business/auth behavior changes;no any/ignores/double casts;strict config only after remediation batches",
-    "No Production/deploy/activation/new phase;single writer;freeze trackedfiles during gates"
+    "Docs-only;no product/config/migrations/strict/Production/deploy/phase activation",
+    "No real Supabase/Cloudflare or secret access;no credential-fill for CI;freeze trackedfiles during local gates"
   ],
-  "nextExactAction": "Stage explicit approved profile repair files,Gitleaks0,commit/push,verify full exactCI then STOP;no remaining strict implementation now",
-  "checkpointedAt": "2026-10-13T12:59:04.222Z",
+  "nextExactAction": "Gitleaks0 then explicit docs-only commit/push;public exact-SHA fullCI check without credentials;checkpoint STOP, no real provider access",
+  "checkpointedAt": "2026-10-13T14:03:27.191Z",
   "filesTouched": [
     "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
-    "e2e/package-f-more-harness.tsx",
-    "src/features/more/ProfileModal.tsx",
-    "src/services/supabase/auth.service.ts",
-    "tests/package-f-remaining-batch1.test.ts",
-    "docs/design/package-f/TYPES_STRICT_IMPLEMENTATION.md",
-    "e2e/profile-save-outcome.spec.ts",
-    "tests/profile-save-outcome.test.ts"
+    "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md"
   ],
-  "workingTreeFingerprint": "1EC57CA6DA6B33E98A894C80C7D92DFEC5CD14F6FF5E6433D07DFBB404230C2C"
+  "workingTreeFingerprint": "51DE724CF555986A4855D39AF55AD89AC273645A834BBD69ACA00C3A3BDB9941"
 }

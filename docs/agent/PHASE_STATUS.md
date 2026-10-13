@@ -1,5 +1,13 @@
 # Phase status
 
+2026-10-13 current scope is DOCUMENTATION ONLY:Frankfurt checklist from repo,
+001–138 ordered manifest/Auth/5Edge env names/cron/Storage/Turnstile/CORS/Pages/
+backup/watchdog/privateCI/rollback. Old-target bindings and managed034 build
+uncertainty are blockers for future activation,not repaired here. No Gemini
+key by owner decision. No real services/secrets/Production/deploy/config access.
+Local docs verification,Gitleaks0/docs commit/full CI then checkpoint STOP;
+this does NOT start operational Phase7 or remaining strict implementation.
+
 2026-10-13 approved profile unknown-email repair LOCAL gates PASS:explicit
 saved/null result,existing refresh and saved/unknown UI message;real failures
 still rejected. Auth/roles/RPC/guards/payloads unchanged;50service/196UI calls

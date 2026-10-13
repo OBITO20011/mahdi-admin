@@ -1,5 +1,14 @@
 # Approved owner decisions
 
+## 2026-10-13 — Frankfurt checklist only;Gemini key deliberately absent
+
+Owner authorizes repository-only docs/operations/PHASE7_FRANKFURT_CHECKLIST.md,
+documentation commit/Gitleaks0/full exactCI/checkpoint then STOP. No real
+Supabase/Cloudflare/secret access or project creation/deploy. Future admin-ai-
+assistant deployment deliberately WITHOUT GEMINI_API_KEY;verify deterministic
+paths and expected503 model-required path,not invented assistant availability.
+Unknown dashboard settings explicitly need confirmation. No strict work now.
+
 ## 2026-10-13 — profile save with unavailable returned email
 
 Owner approves the measured optional-email fix:after confirmed Auth+ERP saves,
