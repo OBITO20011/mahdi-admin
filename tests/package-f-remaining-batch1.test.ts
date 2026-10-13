@@ -8,7 +8,7 @@ import {renderToStaticMarkup} from 'react-dom/server';
 import {FormFields} from '../src/components/ui/FormFields';
 import {UiButton} from '../src/components/ui/Controls';
 
-// Captured from891c9a4;ONLY Modal UI bindings updated by owner focus decision2026-10-13.
+// Captured from891c9a4;Modal focus and profile success-message branches updated by owner decisions2026-10-13.
 const baseline=[
   {"file":"src/components/ui/Controls.tsx","calls":0,"callHash":"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945","bindings":2,"bindingHash":"25883aa9cdeb12c2472812cddac7e7324c1fc7ad888a2a8e78eb3267bf047d57","handlers":{}},
   {
@@ -45,7 +45,7 @@ const baseline=[
       "handleDisableMfa": {"sha256":"adc2b326b88a3310d264d5ae6c6a0c302b8965be8f6d110d0aa686422bbce82a"},
       "handleCopyMfaSecret": {"sha256":"a8d8072ba970dc138660e0c50831d2787937046ec171daca19970de016c7220b"},
       "handleAttemptClose": {"sha256":"ebca89a26ac47b08c49974c22e334736412366192df6bdd07c8b96e73bfd0e41"},
-      "handleSaveProfile": {"sha256":"5c4102f982a2a52602149f62461b7b912f89c0e3b2234e8558ad1adec6235707"},
+      "handleSaveProfile": {"sha256":"04a2c79b6d9388d36a93449799206ba2fec6f6d13e71660d34712ca3956e4f39"},
       "refreshResult": {"sha256":"781b3b5a24c625bb48bebe7e48a0dc9474f3c3fdd6ef9c1a49c7794ae6aee1ab"},
       "handleSavePassword": {"sha256":"2751523925dbfc771937a1a03dc0cf8a0330b830f1900f728f5abf20659185a6"},
       "handleSaveNotifications": {"sha256":"7702021bd7bb54bf78a19beddb936a5dca949cccb7d7f9cd5bc7d7bc3489e658"}

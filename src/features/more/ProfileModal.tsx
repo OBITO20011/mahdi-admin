@@ -356,7 +356,9 @@ export const ProfileModal: React.FC<{ onClose: () => void }> = ({ onClose }) => 
 
       setActiveTab('profile');
       setToast(
-        result.emailConfirmationRequired
+        result.emailConfirmationRequired === null
+          ? 'تم الحفظ؛ تعذر التحقق من حالة تأكيد البريد.'
+          : result.emailConfirmationRequired
           ? 'تم حفظ بيانات الملف الشخصي. أرسل Supabase رسالة لتأكيد البريد الإلكتروني الجديد.'
           : 'تم تحديث بيانات ملفك الشخصي بنجاح.',
       );

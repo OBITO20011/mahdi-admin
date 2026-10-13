@@ -62,7 +62,8 @@ export interface UpdateMyProfileInput {
 }
 
 export interface UpdateMyProfileResult {
-  emailConfirmationRequired: boolean;
+  /** null: saved successfully, but the response cannot establish email confirmation. */
+  emailConfirmationRequired: boolean | null;
 }
 
 function getErrorMessage(error: unknown, fallback: string): string {
@@ -178,10 +179,13 @@ export async function updateMyProfileInSupabase(
     throw new Error('لم تؤكد قاعدة البيانات حفظ الملف الشخصي.');
   }
 
+  const updatedEmail = authUpdateData.user.email;
   return {
-    emailConfirmationRequired:
-      emailChanged &&
-      authUpdateData.user.email.toLocaleLowerCase() !== email.toLocaleLowerCase(),
+    emailConfirmationRequired: !emailChanged
+      ? false
+      : updatedEmail
+      ? updatedEmail.toLocaleLowerCase() !== email.toLocaleLowerCase()
+      : null,
   };
 }
 

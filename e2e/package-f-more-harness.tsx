@@ -10,6 +10,7 @@ import {ProfileModal} from '../src/features/more/ProfileModal';
 import {InstallAppPanel} from '../src/features/more/InstallAppPanel';
 import {PushNotificationControls} from '../src/features/more/PushNotificationControls';
 import {Modal} from '../src/components/common/Modal';
+import {AdminToast} from '../src/components/layout/AdminToast';
 import {Card,PageHeader,UiButton} from '../src/components/ui';
 import {storeEngine,type AppState,useAppStoreSelector} from '../src/stores/useAppStore';
 import {authStoreEngine,type AuthState} from '../src/stores/useAuthStore';
@@ -53,6 +54,7 @@ supabase.auth.mfa.getAuthenticatorAssuranceLevel=async()=>({data:{currentLevel:'
 function Harness(){
   const view=params.get('view')??'more';
   const currentModal=useAppStoreSelector(state=>state.currentModal);
+  const toast=useAppStoreSelector(state=>state.toast);
   const [profile,setProfile]=useState(view==='profile'),[form,setForm]=useState(view==='form');
   const [busy,setBusy]=useState(false);
   const close=()=>{setProfile(false);storeEngine.closeModal();};
@@ -73,6 +75,7 @@ function Harness(){
         <UiButton onClick={()=>setForm(false)}>إلغاء النموذج</UiButton>
       </div>
     </Modal>
+    <AdminToast toast={toast}/>
   </main>;
 }
 createRoot(document.getElementById('root')!).render(<Harness/>);

@@ -1,5 +1,13 @@
 # Approved owner decisions
 
+## 2026-10-13 — profile save with unavailable returned email
+
+Owner approves the measured optional-email fix:after confirmed Auth+ERP saves,
+absent returned email must not turn success into an exception. Refresh account
+through the existing path and show “تم الحفظ؛ تعذر التحقق من حالة تأكيد البريد”.
+Do not claim a confirmation email was sent,change auth/roles/payloads or enable
+strict now. Separate bounded behavior correction with local gates/full exact CI.
+
 ## 2026-10-13 — POS opener focus regression follow-up approved
 
 Owner answers YES to focused proof/correction of the Admin focus repair's POS

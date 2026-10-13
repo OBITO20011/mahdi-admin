@@ -1,5 +1,35 @@
 # Agent handoff history
 
+## 2026-10-13 — Profile saved/unknown-email repair locally verified
+
+Owner approves behavioral correction:service boolean|null outcome;existing
+account refresh and saved/unknown message. Real auth/RPC/evidence failures
+remain rejected;no AuthStore/roles/session/RPC/payload/config/SQL change.
+Permanent9outcome+1AST units;only profile success-message handler hash updated,
+other contracts retained.50service/196UI calls match f174307 except approved
+alias/message. VM prototype expectation fixed without dropping any value.
+
+Final type/lint966Admin/191Customer PASS;focused14/14,newbrowser4/4 then ALL
+related browsers238/238,retries0,12:30:09.990–12:54:49.613UTC,source frozen.
+More harness renders existing AdminToast;actual refresh reads profiles/roles
+and shows refreshed name. Isolation zeroProduction;memory strict82(src20,test62)
+and no newtest errors. No strict enablement/remaining batch implementation.
+Next:Gitleaks0/normalcommit/push/full exactCI then checkpoint STOP.
+
+## 2026-10-13 — Strict product-first authorization; behavioral blocker, STOP
+
+Owner authorizes product21 then tests62 then strict=true,each bounded commit
+and full CI. Resume/preflightPASS;fresh in-memory measurement83/44 unchanged.
+Before source edits,auth.service.ts:184 optional email diagnosis reproduced
+using current transpiled source and in-memory Supabase stub:auth.updateUser
+and update_my_erp_profile succeed,then absent user.email throws;present email
+control returns normally. ProfileModal awaits this before refreshCurrentUser.
+No actual Supabase/network/data access;no proved role/security breach or live
+occurrence. Requires owner policy for successful-save/unknown-email result;
+no silent fallback/assertion or product fix applied. Source/config/test/SQL
+unchanged;docs and task checkpoint only. No new commit/push/CI/Production/deploy.
+Evidence/proposal in TYPES_STRICT_IMPLEMENTATION.md;await owner decision.
+
 ## 2026-10-13 — Approved hidden-opener follow-up, final local gates PASS
 
 Owner YES authorizes proof/correction only. Deterministic pre-fix case2/2FAIL;
