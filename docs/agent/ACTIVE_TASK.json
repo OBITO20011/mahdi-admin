@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Pre-Frankfurt QA only:one full local quality,clean isolated001-138/DB_FUNCTIONS check,readiness docs and gated docs delivery",
-  "baselineSha": "6dc59478c7cc3715128ffc0b130db5537f271c6c",
+  "baselineSha": "f243746667eb16c74ee6475160b3f9d07acf3c5b",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -11,7 +11,7 @@
     "DBrehearsal b285c0c pushed:138raw/officialrepair/dryrun0/catalog0/functions410 accepted;Gitleaks0"
   ],
   "inProgress": [
-    "6dc5947 fullCI24/24+secrets PASS;goal17:02shard1 fixedbyfile+engineinterleave/union966;correctiveCIcommit then fullQA"
+    "f243746 fullCI24/24+secrets PASS/shards<12;finallocalQAfailedisolatedcachepositive116;truthfuldocsdelivery thenSTOP"
   ],
   "notStarted": [
     "Frankfurt project creation,Production/deploy and startup tools remain unauthorized/deferred"
@@ -21,28 +21,27 @@
     "Vite cold10/liveDB5 allready;deterministicfixture20/20 PASS;no assertion/deadline/retry weakening"
   ],
   "testsRemaining": [
-    "Related gates/Gitleaks and separateCI,Vite commits;full exactCI metrics;then localstation/finalreport"
+    "Docs-onlyGitleaks/commit/fullCI;ownerdiagnosisofisolatedpositivecache;full localstation remains incomplete"
   ],
   "findings": [
     "DB138/officialhistory/dryrun0/catalog0/functions410 accepted;historicalSQL/product untouched",
     "Local finalQA7/8 PASS:Admin1027/Customer191/type/lints/builds/isolation;browser966 manually aborted on CI stop,not fullPASS"
   ],
-  "blockers": [],
+  "blockers": [
+    "Finallocalqualityexit1:isolated-vite-cache positive116 readiness;1028/1029,no rerun/fix;ownerdecision"
+  ],
   "activeProcesses": [],
   "prohibitions": [
     "Approved DBrehearsal/docs,Vite test and CIbalancedshards only;no product/historicalSQL/realservices/Production/deploy",
     "Only isolated test DB allowed;stop on any failure;no retry/timeout change;freeze tracked files during gates"
   ],
-  "nextExactAction": "Gitleaks0/commit CIcaseinterleave correction;push and verify all24+secrets/shards<12;then full detached localquality/readinessSTOP.",
-  "checkpointedAt": "2026-10-14T18:56:27.421Z",
+  "nextExactAction": "Deliver truthful final readiness docs only afterGitleaks0/full exactCI;remaining localpositivecache failure requiresownerdiagnosis;no repair/rerun/Production/deploy.",
+  "checkpointedAt": "2026-10-14T19:18:44.226Z",
   "filesTouched": [
     "docs/agent/PHASE_STATUS.md",
     "docs/operations/PACKAGE_F_CI_REBALANCE.md",
-    "docs/operations/PRIVATE_CI_BUDGET.md",
-    "scripts/testing/ci-browser-discovery.mjs",
-    "scripts/testing/run-private-ci.mjs",
-    "scripts/testing/run-quality-ci.mjs",
-    "tests/package-f-ci-shards.test.ts"
+    "docs/operations/PRE_FRANKFURT_READINESS.md",
+    "docs/operations/PRIVATE_CI_BUDGET.md"
   ],
-  "workingTreeFingerprint": "E6BE0456449902A2BBA14F6573EFCB6E651383C66C8FB639BEE25867010546AA"
+  "workingTreeFingerprint": "B74854AA5917096E27C92D7DA7D9FDD116C2F27CCD7662142534308D675BA08B"
 }

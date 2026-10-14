@@ -1,5 +1,19 @@
 # Agent handoff history
 
+## 2026-10-14 —CIbalancedgreen;final localstationSTOPonisolatedcachepositive
+
+Exactf243746667eb16c74ee6475160b3f9d07acf3c5b=originmain atcheck:
+quality38619456055 all24/24+secrets38619455916PASS.552Funique/attempts0retry,
+shards593/597/579/612/431s all<12. SafeCItop10/timing documented;128rounded
+jobminutesincludingsecrets,privateflagoff. CI/product/SQLscopepreserved.
+ThenONEfinalstandalonequality19:10:46.547–19:15:07.213UTCexit1/260.666s.
+Type/lintPASS100.381s,Admin1028/1029fail1/0skip157.054s;positiveisolatedcache
+test116 waitsreact-domclient/recharts;whichone/rootcauseUNKNOWN,no snapshot.
+Shared-cache504andstoptestsPASS. Customer/build/browserNOTRUN. No rerun/fix.
+Frozenhasha0cfb4.../RAM2771357696B/worker1planned;Tempfinal-complete.log/exit.
+Allownedprocesses/Viteports/DBgone,n8nuntouched. Finaldocs-onlyupdate/gated
+commit thenPAUSEDownerboundeddiagnosis. Readinessnotclosed,noFrankfurt/deploy.
+
 ## 2026-10-14 —6dc5947 fullgreen24/24;measured imbalance corrected before finalQA
 
 Exactquality38608313272 all24PASS+secrets38608313264PASS,HEADremote6dc5947.

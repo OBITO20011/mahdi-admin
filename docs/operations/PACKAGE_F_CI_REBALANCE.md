@@ -1,5 +1,64 @@
 # إعادة توازن Package F في CI — 2026-10-14
 
+## النتيجة المعتمدة بالفحص —f243746
+
+[CI38619456055](https://github.com/OBITO20011/mahdi-admin/actions/runs/38619456055)
+**24/24 ناجحة**،والأسرار38619455916 ناجحة؛HEAD=origin/main عندالتحقق.
+الإصلاحاتcommitsمستقلة:669eb26توزيعأولي،6dc5947fixtureVite،f243746
+تصحيحالتوزيعالمتناوبالفعلي. Gitleaks0قبلكلcommit،لاforce-push أوrerun.
+
+| الشارد | الحالات | كامل المهمة | قبل خطوة المتصفح | الهدف<12دقيقة |
+|---|---:|---:|---:|---|
+|1/5|112|9:53|1:03|PASS|
+|2/5|110|9:57|1:05|PASS|
+|3/5|110|9:39|1:27|PASS|
+|4/5|110|10:12|1:02|PASS|
+|5/5|110|7:11|0:59|PASS|
+
+552حالةفريدة/552محاولة/retry0؛الاختبارات/المهلات/عددالworkers كماهي.
+49job-minuteللشاردات؛127لـquality+1للأسرار=128دقيقةتقريبيةprivate-equivalent.
+ليستفاتورةللعام،ولا ضماناًلأداءprivate2CPU/8GB. أطولshard10:12،هامش
+1:48إلىهدف12 و9:48إلىالحد20؛النموالمستقبلي يستدعيإعادةالقياس.
+
+### أثقل10ملفات من تقريرCIالجديد
+
+الزمنجمعمددالحالاتبالمتصفحين،لاالزمنالجداري؛لاpayloadأوrawlogsمحفوظة.
+
+| الملف داخلe2e | عددالمحاولات | مجموعثوانيالحالات |
+|---|---:|---:|
+|package-f-more.spec.ts|44|386.084|
+|package-f-administration.spec.ts|24|213.106|
+|package-f-products.spec.ts|32|181.297|
+|package-f-phone-type.spec.ts|72|165.935|
+|package-f-phone-polish.spec.ts|50|164.469|
+|package-f-auth-assistant.spec.ts|24|149.181|
+|package-f-purchasing.spec.ts|28|147.549|
+|package-f-cash.spec.ts|48|119.913|
+|package-f-financial.spec.ts|28|116.928|
+|package-f-customers.spec.ts|26|103.632|
+
+### أثقل10حالات من التقريرنفسه
+
+كلهاmobile-webkit/retry0/passed؛لمتُجمعفيشاردواحدبعدالتصحيح.
+
+| الحالة | الثواني | الشارد |
+|---|---:|---:|
+|More dark1440:allgroups/roles/contrast/containment|20.965|4|
+|administration dark1440:five screens/axe/clipping|20.726|4|
+|administration light1440:five screens/axe/clipping|20.335|1|
+|More light820:allgroups/roles/contrast/containment|20.140|2|
+|More dark820:allgroups/roles/contrast/containment|18.891|1|
+|administration dark820:five screens/axe/clipping|18.279|3|
+|Profile light1440:nativefields44px/dirty/contrast|17.698|1|
+|administration light390:five screens/axe/clipping|16.260|4|
+|administration dark390:five screens/axe/clipping|15.816|2|
+|products light1440:catalogue/four dialogs|15.743|4|
+
+الأدلة:Temp/nawasrah-shard-timings-f243746.jsonومetadataالمهمةالأصلية.
+**توزيعCIمحقق؛محطةماقبلفرانكفورتليستمغلقة**:الجودةالمحليةاللاحقة
+فشلتفيحالةViteالمعزولة1028/1029كمافيPRE_FRANKFURT_READINESS.md؛لاخلط
+بيننجاحبوابةCIوفشلمحليلاحق. الأقسامأدناهتاريخالتشخيصوالتصحيح.
+
 موافقة المالك: بنية CI فقط، لا تغيير منتج أو assertions أو مهلات أو retries.
 الهدف كل shard أقل من12دقيقة، والمهلة الحالية20دقيقة باقية.
 
