@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {access, mkdtemp, rm} from 'node:fs/promises';
+import {access, mkdir, mkdtemp, rm, writeFile} from 'node:fs/promises';
 import {freemem, tmpdir} from 'node:os';
 import path from 'node:path';
 import {setTimeout as poll} from 'node:timers/promises';
@@ -35,7 +35,18 @@ const origin = (server: ViteDevServer) => {
 };
 
 test('two real shared-cache servers reproduce HTTP504 Outdated Optimize Dep before isolation', async context => {
-  const cacheDir = await mkdtemp(path.join(tmpdir(), 'nawasrah-vite-shared-proof-'));
+  const proofRoot = await mkdtemp(path.join(tmpdir(), 'nawasrah-vite-shared-proof-'));
+  const cacheDir = path.join(proofRoot, 'node_modules', '.vite');
+  // Real, tiny CommonJS packages: the regression is cache invalidation, not
+  // cold compilation of thousands of icon modules. No optimizer is mocked.
+  for (const name of ['cache-proof-a', 'cache-proof-b']) {
+    const directory = path.join(proofRoot, 'node_modules', name);
+    await mkdir(directory, {recursive: true});
+    await writeFile(path.join(directory, 'package.json'), JSON.stringify({name, version: '1.0.0', main: 'index.cjs'}));
+    await writeFile(path.join(directory, 'index.cjs'), `module.exports = ${JSON.stringify(name)};`);
+    await writeFile(path.join(proofRoot, `${name}.js`), `import value from '${name}'; export default value;`);
+    await writeFile(path.join(proofRoot, `${name}.html`), `<script type="module" src="/${name}.js"></script>`);
+  }
   const logger = createLogger('silent');
   const logs: string[] = [];
   logger.info = message => {logs.push(message);};
@@ -49,9 +60,11 @@ test('two real shared-cache servers reproduce HTTP504 Outdated Optimize Dep befo
     optimizerMessages.push({level: 'error', message: message.slice(0, 8000)});
     originalError(message, options);
   };
-  const common = {root, cacheDir, configFile: false as const, customLogger: logger,
-    plugins: [fixture], server: {host: '127.0.0.1', port: 0, fs: {allow: [root, cacheDir]}}};
-  const a = await createServer({...common, optimizeDeps: {entries: [], include: ['react', 'react-dom/client']}});
+  const common = {root: proofRoot, cacheDir, configFile: false as const, customLogger: logger,
+    // Request the old bundle only after B invalidates the disk cache; otherwise
+    // background pre-transform can serve A's in-memory response instead.
+    server: {host: '127.0.0.1', port: 0, preTransformRequests: false, fs: {allow: [proofRoot, cacheDir]}}};
+  const a = await createServer({...common, optimizeDeps: {entries: ['cache-proof-a.html'], include: ['cache-proof-a']}});
   let b: ViteDevServer | undefined;
   const snapshot = (server: ViteDevServer | undefined) => {
     const optimizer = server?.environments.client.depsOptimizer;
@@ -72,18 +85,18 @@ test('two real shared-cache servers reproduce HTTP504 Outdated Optimize Dep befo
     optimizerMessages: optimizerMessages.slice(-20),
   }));
   try {
-    await a.listen(); await fetch(`${origin(a)}/cache-test-a.js`); await a.waitForRequestsIdle();
+    await a.listen(); await fetch(`${origin(a)}/cache-proof-a.js`); await a.waitForRequestsIdle();
     const optimizer = a.environments.client.depsOptimizer!;
-    await until(() => Boolean(optimizer.metadata.optimized['react-dom/client']), () => readinessFailure('A-react-dom/client'));
-    const old = optimizer.metadata.optimized['react-dom/client'];
-    b = await createServer({...common, optimizeDeps: {entries: [], include: ['lucide-react'], force: true}});
-    await b.listen(); await fetch(`${origin(b)}/cache-test-b.js`); await b.waitForRequestsIdle();
-    await until(() => Boolean(b!.environments.client.depsOptimizer!.metadata.optimized['lucide-react']), () => readinessFailure('B-lucide-react'));
+    await until(() => Boolean(optimizer.metadata.optimized['cache-proof-a']), () => readinessFailure('A-cache-proof-a'));
+    const old = optimizer.metadata.optimized['cache-proof-a'];
+    b = await createServer({...common, optimizeDeps: {entries: ['cache-proof-b.html'], include: ['cache-proof-b'], force: true}});
+    await b.listen(); await fetch(`${origin(b)}/cache-proof-b.js`); await b.waitForRequestsIdle();
+    await until(() => Boolean(b!.environments.client.depsOptimizer!.metadata.optimized['cache-proof-b']), () => readinessFailure('B-cache-proof-b'));
     const response = await fetch(`${origin(a)}/@fs/${normalizePath(old.file)}?v=${old.browserHash}`);
     assert.equal(response.status, 504); assert.equal(response.statusText, 'Outdated Optimize Dep');
     assert.ok(logs.some(message => message.includes('Forced re-optimization')));
     context.diagnostic(`Vite: Forced re-optimization of dependencies; HTTP ${response.status} ${response.statusText}`);
-  } finally {await b?.close(); await a.close(); await rm(cacheDir, {recursive: true, force: true});}
+  } finally {await b?.close(); await a.close(); await rm(proofRoot, {recursive: true, force: true});}
 });
 
 test('unique temporary caches preserve existing harness imports across two live servers and clean on stop', async () => {

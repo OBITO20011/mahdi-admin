@@ -1,5 +1,13 @@
 # Agent handoff history
 
+## 2026-10-14 — independent CIrebalance commit669eb26,cache candidate gate next
+
+Explicit19 CI/tool/docs files committed669eb267581732f7868ff2efa2739630b42fc232
+after stagedGitleaksEXIT0. Not yet pushed;orderedVitefixturecommit follows then
+one normal push/fullCIlastSHA. No product/migration/testassertion changes in
+this commit. Current fixture20/20 and allunit1028 PASS;fresh precommit fast
+gates next. Baseline synchronized to owncommit;statusACTIVE,notIDLE.
+
 ## 2026-10-14 — owner-approved CIrebalance locally verified,candidates next
 
 Resume/preflightPASS;own existing Vite/docs preserved. OldCIshards13m15/

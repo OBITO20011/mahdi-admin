@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Pre-Frankfurt QA only:one full local quality,clean isolated001-138/DB_FUNCTIONS check,readiness docs and gated docs delivery",
-  "baselineSha": "b285c0c5c7c22fcaf1b2c8f0a6635e879023aedf",
+  "baselineSha": "669eb267581732f7868ff2efa2739630b42fc232",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -11,7 +11,7 @@
     "DBrehearsal b285c0c pushed:138raw/officialrepair/dryrun0/catalog0/functions410 accepted;Gitleaks0"
   ],
   "inProgress": [
-    "Approved rebalance5/CIcase-level/per-engine shares;CI13guards/discovery966 PASS;separateCI/Vite commits next"
+    "CIrebalance committed669eb26/Gitleaks0;Vitefixture20/20 ready;related finalgates then separate Vitecommit/push"
   ],
   "notStarted": [
     "Frankfurt project creation,Production/deploy and startup tools remain unauthorized/deferred"
@@ -33,29 +33,12 @@
     "Approved DBrehearsal/docs,Vite test and CIbalancedshards only;no product/historicalSQL/realservices/Production/deploy",
     "Only isolated test DB allowed;stop on any failure;no retry/timeout change;freeze tracked files during gates"
   ],
-  "nextExactAction": "Gitleaks0 explicit CI files and commit ci: rebalance Package F browser shards;then isolated Vite repair commit and push both;full exactCI metrics;final quality/readinessSTOP.",
-  "checkpointedAt": "2026-10-14T17:32:15.047Z",
+  "nextExactAction": "Run Vitefixture precommit fastgates on frozenfiles;Gitleaks0/independent Vitecommit;push ordered669eb26+Vite;monitor fullCI24jobs plussecrets and timing;then final localstation.",
+  "checkpointedAt": "2026-10-14T17:33:26.210Z",
   "filesTouched": [
-    ".github/workflows/quality.yml",
-    ".gitignore",
-    "docs/agent/OWNER_DECISIONS.md",
-    "docs/agent/PHASE_STATUS.md",
     "docs/operations/PRE_FRANKFURT_READINESS.md",
-    "docs/operations/PRIVATE_CI_BUDGET.md",
-    "playwright.ci.config.ts",
-    "scripts/agent/verify-delivery-ci.mjs",
-    "scripts/testing/plan-private-ci.mjs",
-    "scripts/testing/run-private-ci.mjs",
-    "scripts/testing/run-quality-ci.mjs",
-    "scripts/testing/verify-browser-ci-partition.mjs",
     "tests/isolated-vite-cache.test.ts",
-    "tests/package-f-ci-shards.test.ts",
-    "tests/private-ci-budget.test.ts",
-    "tests/vite-readiness-diagnostics.test.ts",
-    "docs/operations/PACKAGE_F_CI_REBALANCE.md",
-    "scripts/testing/ci-browser-discovery.mjs",
-    "scripts/testing/ci-browser-timing-reporter.mjs",
-    "scripts/testing/package-f-ci-shards.mjs"
+    "tests/vite-readiness-diagnostics.test.ts"
   ],
-  "workingTreeFingerprint": "CE8C0AD5CE1FCE0E05AB3965EF5E332662475F658E3BA9FD0AC2B03F3F551AE0"
+  "workingTreeFingerprint": "F55BA6D1FDC52A66BA26B3E60DD941EED844B65A36E2E0B36C7761DFF71C203C"
 }

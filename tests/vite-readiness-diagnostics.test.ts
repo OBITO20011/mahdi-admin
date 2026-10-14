@@ -45,3 +45,18 @@ test('readiness diagnostics retain original limits and forward silent logger beh
   assert.match(source,/kind: 'VITE_OPTIMIZER_READINESS_FAILURE'/u);
   assert.doesNotMatch(source,/JSON\.stringify\((?:server|common|process\.env)/u);
 });
+
+test('shared-cache reproducer uses real fixed tiny packages without losing HTTP regression assertions',()=>{
+  const shared=source.slice(source.indexOf("test('two real shared-cache"),source.indexOf("test('unique temporary"));
+  assert.match(shared,/\['cache-proof-a', 'cache-proof-b'\]/u);
+  assert.match(shared,/main: 'index\.cjs'/u);
+  assert.match(shared,/preTransformRequests: false/u);
+  assert.match(shared,/entries: \['cache-proof-a\.html'\]/u);
+  assert.match(shared,/entries: \['cache-proof-b\.html'\]/u);
+  assert.doesNotMatch(shared,/include: \['(?:lucide-react|recharts)'\]/u);
+  assert.match(shared,/assert\.equal\(response\.status, 504\)/u);
+  assert.match(shared,/assert\.equal\(response\.statusText, 'Outdated Optimize Dep'\)/u);
+  assert.match(source,/for \(let request = 0; request < 10; request\+\+\)/u);
+  assert.match(source,/assert\.equal\(response\.status, 200\)/u);
+  assert.match(source,/await assert\.rejects\(access\(a\.cacheDir\)\); await assert\.rejects\(access\(b\.cacheDir\)\)/u);
+});
