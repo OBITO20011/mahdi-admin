@@ -21,24 +21,10 @@ const until = async (condition: () => boolean, onFailure?: () => void) => {
     await poll(10);
   }
 };
-const fixture = {
-  name: 'cache-test-entry',
-  resolveId(id: string) {if (id.startsWith('/cache-test-')) return id;},
-  load(id: string) {
-    if (id === '/cache-test-a.js') return 'import React from "react"; export default React';
-    if (id === '/cache-test-b.js') return 'import {Plus} from "lucide-react"; export default Plus';
-  },
-};
-const origin = (server: ViteDevServer) => {
-  const address = server.httpServer?.address(); assert.ok(address && typeof address !== 'string');
-  return `http://127.0.0.1:${address.port}`;
-};
-
-test('two real shared-cache servers reproduce HTTP504 Outdated Optimize Dep before isolation', async context => {
-  const proofRoot = await mkdtemp(path.join(tmpdir(), 'nawasrah-vite-shared-proof-'));
-  const cacheDir = path.join(proofRoot, 'node_modules', '.vite');
-  // Real, tiny CommonJS packages: the regression is cache invalidation, not
-  // cold compilation of thousands of icon modules. No optimizer is mocked.
+const createCacheProof = async (prefix: string) => {
+  const proofRoot = await mkdtemp(path.join(tmpdir(), prefix));
+  // Real CommonJS packages, real HTML entry scans and real Vite optimizer.
+  // Cache isolation does not depend on cold React/icon/chart compilation.
   for (const name of ['cache-proof-a', 'cache-proof-b']) {
     const directory = path.join(proofRoot, 'node_modules', name);
     await mkdir(directory, {recursive: true});
@@ -47,6 +33,16 @@ test('two real shared-cache servers reproduce HTTP504 Outdated Optimize Dep befo
     await writeFile(path.join(proofRoot, `${name}.js`), `import value from '${name}'; export default value;`);
     await writeFile(path.join(proofRoot, `${name}.html`), `<script type="module" src="/${name}.js"></script>`);
   }
+  return proofRoot;
+};
+const origin = (server: ViteDevServer) => {
+  const address = server.httpServer?.address(); assert.ok(address && typeof address !== 'string');
+  return `http://127.0.0.1:${address.port}`;
+};
+
+test('two real shared-cache servers reproduce HTTP504 Outdated Optimize Dep before isolation', async context => {
+  const proofRoot = await createCacheProof('nawasrah-vite-shared-proof-');
+  const cacheDir = path.join(proofRoot, 'node_modules', '.vite');
   const logger = createLogger('silent');
   const logs: string[] = [];
   logger.info = message => {logs.push(message);};
@@ -101,40 +97,52 @@ test('two real shared-cache servers reproduce HTTP504 Outdated Optimize Dep befo
 
 test('unique temporary caches preserve existing harness imports across two live servers and clean on stop', async () => {
   const original = process.env.VITE_SUPABASE_URL;
-  const a = await startIsolatedVite({root, port: 4191, env: {VITE_SUPABASE_URL: 'http://127.0.0.1:4176'},
-    config: {configFile: false, plugins: [fixture], optimizeDeps: {entries: []}}});
+  const proofRoot = await createCacheProof('nawasrah-vite-isolated-proof-');
+  const a = await startIsolatedVite({root: proofRoot, port: 4191, env: {VITE_SUPABASE_URL: 'http://127.0.0.1:4176'},
+    prebundleDependencies: ['cache-proof-a'],
+    config: {configFile: false, optimizeDeps: {entries: ['cache-proof-a.html']}}});
   let b: Awaited<ReturnType<typeof startIsolatedVite>> | undefined;
   try {
-    b = await startIsolatedVite({root, port: 4192,
-      config: {configFile: false, plugins: [fixture], optimizeDeps: {entries: [], include: ['recharts']}}});
+    b = await startIsolatedVite({root: proofRoot, port: 4192,
+      prebundleDependencies: ['cache-proof-b'],
+      config: {configFile: false, optimizeDeps: {entries: ['cache-proof-b.html']}}});
     assert.notEqual(a.cacheDir, b.cacheDir);
     assert.ok(a.cacheDir.startsWith(tmpdir())); assert.ok(!a.cacheDir.startsWith(root + path.sep));
+    assert.ok(b.cacheDir.startsWith(tmpdir())); assert.ok(!b.cacheDir.startsWith(root + path.sep));
     assert.equal(process.env.VITE_SUPABASE_URL, original, 'Temporary server env cannot leak to another server');
-    await Promise.all([fetch(`${origin(a.server)}/cache-test-a.js`), fetch(`${origin(b.server)}/cache-test-b.js`)]);
+    await Promise.all([fetch(`${origin(a.server)}/cache-proof-a.js`), fetch(`${origin(b.server)}/cache-proof-b.js`)]);
     await Promise.all([a.server.waitForRequestsIdle(), b.server.waitForRequestsIdle()]);
     const activeB=b;
     await until(() => {
       const aOptimizer=a.server.environments.client.depsOptimizer;
       const bOptimizer=activeB.server.environments.client.depsOptimizer;
       assert.ok(aOptimizer);assert.ok(bOptimizer);
-      return Boolean(aOptimizer.metadata.optimized['react-dom/client'])
-        && Boolean(bOptimizer.metadata.optimized.recharts);
+      return Boolean(aOptimizer.metadata.optimized['cache-proof-a'])
+        && Boolean(bOptimizer.metadata.optimized['cache-proof-b']);
     });
     for (let request = 0; request < 10; request++) {
-      const responses: Response[] = await Promise.all([a, b].map(instance =>
-        fetch(`${origin(instance.server)}/node_modules/.vite/deps/react-dom_client.js`)));
+      const responses: Response[] = await Promise.all([a, b].map((instance, index) =>
+        fetch(`${origin(instance.server)}/node_modules/.vite/deps/cache-proof-${index === 0 ? 'a' : 'b'}.js`)));
       for (const response of responses) {
         assert.equal(response.status, 200); assert.match(response.headers.get('content-type') ?? '', /javascript/u);
       }
     }
-  } finally {await Promise.all([a.close(), b?.close()]);}
+  } finally {await Promise.all([a.close(), b?.close()]); await rm(proofRoot, {recursive: true, force: true});}
   await assert.rejects(access(a.cacheDir)); await assert.rejects(access(b.cacheDir));
   await a.close(); // Stop must be idempotent.
 });
 
 test('QA shutdown proves cache deletion before forced Windows process teardown', async () => {
-  const instance = await startIsolatedVite({root, port: 4193, controlledStop: true,
-    config: {configFile: false, optimizeDeps: {entries: []}}});
-  try {await stopIsolatedVite(4193); await assert.rejects(access(instance.cacheDir));}
-  finally {await instance.close();}
+  const proofRoot = await createCacheProof('nawasrah-vite-shutdown-proof-');
+  const instance = await startIsolatedVite({root: proofRoot, port: 4193, controlledStop: true,
+    prebundleDependencies: ['cache-proof-a'],
+    config: {configFile: false, optimizeDeps: {entries: ['cache-proof-a.html']}}});
+  try {
+    // Close a ready server, not an esbuild process still creating its output.
+    await fetch(`${origin(instance.server)}/cache-proof-a.js`);
+    await instance.server.waitForRequestsIdle();
+    await until(() => Boolean(instance.server.environments.client.depsOptimizer?.metadata.optimized['cache-proof-a']));
+    await stopIsolatedVite(4193); await assert.rejects(access(instance.cacheDir));
+  }
+  finally {await instance.close(); await rm(proofRoot, {recursive: true, force: true});}
 });

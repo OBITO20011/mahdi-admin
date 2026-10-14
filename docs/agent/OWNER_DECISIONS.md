@@ -1,5 +1,16 @@
 # Approved owner decisions
 
+## 2026-10-14 — remaining Vite positive cache fixture correction approved
+
+Owner/authorizedClaude acceptsdb51455 fullCI24/shards<12 and authorizes ONLY
+test infrastructure correction:second isolatedcache proof tiny real fixed
+packages instead of react-dom/recharts coldcompilation. Preserve temporary
+unique caches/env isolation/10parallel200JavaScriptrequests per server/cleanup.
+Searchsameheavy readiness pattern throughouttests. Wholefile20consecutive
+PASS plus oncewith liveisolatedDB;no retries/timeout/skip/weakening. Separate
+commit/Gitleaks0/full exactCI,thencomplete full localstation/finalreadiness
+andcheckpointSTOP. No product/historicalSQL/Production/deploy/realservice.
+
 ## 2026-10-14 — rebalance Package F CI,then independent Vite repair delivery
 
 Owner/authorizedClaude approves CI-only balanced case-level sharding via

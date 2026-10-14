@@ -48,8 +48,8 @@ test('readiness diagnostics retain original limits and forward silent logger beh
 
 test('shared-cache reproducer uses real fixed tiny packages without losing HTTP regression assertions',()=>{
   const shared=source.slice(source.indexOf("test('two real shared-cache"),source.indexOf("test('unique temporary"));
-  assert.match(shared,/\['cache-proof-a', 'cache-proof-b'\]/u);
-  assert.match(shared,/main: 'index\.cjs'/u);
+  assert.match(source,/\['cache-proof-a', 'cache-proof-b'\]/u);
+  assert.match(source,/main: 'index\.cjs'/u);
   assert.match(shared,/preTransformRequests: false/u);
   assert.match(shared,/entries: \['cache-proof-a\.html'\]/u);
   assert.match(shared,/entries: \['cache-proof-b\.html'\]/u);
@@ -59,4 +59,21 @@ test('shared-cache reproducer uses real fixed tiny packages without losing HTTP 
   assert.match(source,/for \(let request = 0; request < 10; request\+\+\)/u);
   assert.match(source,/assert\.equal\(response\.status, 200\)/u);
   assert.match(source,/await assert\.rejects\(access\(a\.cacheDir\)\); await assert\.rejects\(access\(b\.cacheDir\)\)/u);
+});
+
+test('positive cache readiness uses only tiny fixtures and keeps both-server request and isolation proofs',()=>{
+  const positive=source.slice(source.indexOf("test('unique temporary"),source.indexOf("test('QA shutdown"));
+  assert.match(positive,/prebundleDependencies: \['cache-proof-a'\]/u);
+  assert.match(positive,/prebundleDependencies: \['cache-proof-b'\]/u);
+  assert.doesNotMatch(source,/['"](?:react-dom(?:\/client)?|recharts|lucide-react)['"]/u);
+  assert.match(positive,/await Promise\.all\(\[a, b\]\.map/u);
+  assert.match(positive,/for \(let request = 0; request < 10; request\+\+\)/u);
+  assert.match(positive,/assert\.equal\(response\.status, 200\); assert\.match\(response\.headers\.get\('content-type'\)/u);
+  assert.match(positive,/assert\.notEqual\(a\.cacheDir, b\.cacheDir\)/u);
+  assert.match(positive,/assert\.equal\(process\.env\.VITE_SUPABASE_URL, original/u);
+  assert.match(positive,/await assert\.rejects\(access\(a\.cacheDir\)\); await assert\.rejects\(access\(b\.cacheDir\)\)/u);
+  const server=readFileSync('scripts/testing/isolated-vite-server.mjs','utf8');
+  assert.match(server,/prebundleDependencies = isolatedViteDependencies/u);
+  assert.match(server,/'react', 'react-dom\/client', 'react\/jsx-runtime', 'react\/jsx-dev-runtime', 'lucide-react'/u);
+  assert.match(server,/\.\.\.prebundleDependencies, \.\.\.\(config\.optimizeDeps\?\.include \?\? \[\]\)/u);
 });

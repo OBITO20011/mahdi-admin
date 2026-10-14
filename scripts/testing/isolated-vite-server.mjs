@@ -8,7 +8,10 @@ export const isolatedViteDependencies = Object.freeze([
   'react', 'react-dom/client', 'react/jsx-runtime', 'react/jsx-dev-runtime', 'lucide-react',
 ]);
 
-export async function startIsolatedVite({root, port, env = {}, logger = undefined, config = {}, controlledStop = false}) {
+export async function startIsolatedVite({root, port, env = {}, logger = undefined, config = {}, controlledStop = false,
+  // Infrastructure-only fixture servers may prebundle their tiny real packages.
+  // Application harnesses retain the complete existing dependency list by default.
+  prebundleDependencies = isolatedViteDependencies}) {
   if (!Number.isInteger(port) || port < 0 || port > 65535) throw new Error('INVALID_VITE_TEST_PORT');
   const ownedDirectory = await mkdtemp(path.join(tmpdir(), `nawasrah-vite-${port}-`));
   // Keep generated bundles under node_modules so React/Babel excludes prebundles
@@ -27,7 +30,7 @@ export async function startIsolatedVite({root, port, env = {}, logger = undefine
     server = await createServer({
       ...config, root, cacheDir, ...(logger ? {customLogger: logger} : {}),
       optimizeDeps: {...config.optimizeDeps, include: [...new Set([
-        ...isolatedViteDependencies, ...(config.optimizeDeps?.include ?? []),
+        ...prebundleDependencies, ...(config.optimizeDeps?.include ?? []),
       ])]},
       // A QA server is an immutable snapshot, not an interactive dev session.
       // Tailwind watches scanned JSON/Markdown too; filtering HMR paths alone
