@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Pre-Frankfurt QA only:one full local quality,clean isolated001-138/DB_FUNCTIONS check,readiness docs and gated docs delivery",
-  "baselineSha": "669eb267581732f7868ff2efa2739630b42fc232",
+  "baselineSha": "6dc59478c7cc3715128ffc0b130db5537f271c6c",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -11,7 +11,7 @@
     "DBrehearsal b285c0c pushed:138raw/officialrepair/dryrun0/catalog0/functions410 accepted;Gitleaks0"
   ],
   "inProgress": [
-    "CIrebalance committed669eb26/Gitleaks0;Vitefixture20/20 ready;related finalgates then separate Vitecommit/push"
+    "6dc5947 fullCI24/24+secrets PASS;goal17:02shard1 fixedbyfile+engineinterleave/union966;correctiveCIcommit then fullQA"
   ],
   "notStarted": [
     "Frankfurt project creation,Production/deploy and startup tools remain unauthorized/deferred"
@@ -33,12 +33,16 @@
     "Approved DBrehearsal/docs,Vite test and CIbalancedshards only;no product/historicalSQL/realservices/Production/deploy",
     "Only isolated test DB allowed;stop on any failure;no retry/timeout change;freeze tracked files during gates"
   ],
-  "nextExactAction": "Run Vitefixture precommit fastgates on frozenfiles;Gitleaks0/independent Vitecommit;push ordered669eb26+Vite;monitor fullCI24jobs plussecrets and timing;then final localstation.",
-  "checkpointedAt": "2026-10-14T17:33:26.210Z",
+  "nextExactAction": "Gitleaks0/commit CIcaseinterleave correction;push and verify all24+secrets/shards<12;then full detached localquality/readinessSTOP.",
+  "checkpointedAt": "2026-10-14T18:56:27.421Z",
   "filesTouched": [
-    "docs/operations/PRE_FRANKFURT_READINESS.md",
-    "tests/isolated-vite-cache.test.ts",
-    "tests/vite-readiness-diagnostics.test.ts"
+    "docs/agent/PHASE_STATUS.md",
+    "docs/operations/PACKAGE_F_CI_REBALANCE.md",
+    "docs/operations/PRIVATE_CI_BUDGET.md",
+    "scripts/testing/ci-browser-discovery.mjs",
+    "scripts/testing/run-private-ci.mjs",
+    "scripts/testing/run-quality-ci.mjs",
+    "tests/package-f-ci-shards.test.ts"
   ],
-  "workingTreeFingerprint": "F55BA6D1FDC52A66BA26B3E60DD941EED844B65A36E2E0B36C7761DFF71C203C"
+  "workingTreeFingerprint": "E6BE0456449902A2BBA14F6573EFCB6E651383C66C8FB639BEE25867010546AA"
 }

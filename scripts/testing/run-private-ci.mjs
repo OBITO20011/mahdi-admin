@@ -22,7 +22,10 @@ if (group === 'core') {
 }
 node(['scripts/testing/verify-browser-network-isolation.mjs']);
 if (files.length) {
-  if(group==='package-f')for(const command of packageFShardCommands(shard[0],files))node(command);
+  if(group==='package-f'){
+    const commands=packageFShardCommands(shard[0],files);
+    try{for(const command of commands)node(command.args);}finally{for(const command of commands)command.dispose();}
+  }
   else node(['node_modules/@playwright/test/cli.js', 'test', '--config', 'playwright.ci.config.ts', ...files]);
 }
 else console.log('No browser specs affected;all type/lint/unit gates completed. Full suite remains manual/weekly/release.');

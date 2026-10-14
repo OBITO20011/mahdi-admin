@@ -5,6 +5,7 @@ import {execFileSync} from 'node:child_process';
 import {verifyBrowserDeliveryJobs} from '../scripts/agent/verify-delivery-ci.mjs';
 import {packageFShardCount,packageFShards} from '../scripts/testing/package-f-ci-shards.mjs';
 import {summarizeTimings,timingRecord} from '../scripts/testing/ci-browser-timing-reporter.mjs';
+import {balanceBrowserCases} from '../scripts/testing/ci-browser-discovery.mjs';
 
 test('discovery rejects absent, duplicate, misrouted and substituted shard identities',()=>{
   assert.match(execFileSync(process.execPath,
@@ -64,4 +65,16 @@ test('case-level sharding is restricted to Package F CI and timing contains no p
   assert.equal(summary.topCases[0].durationMs,1100);assert.equal(summary.topCases[0].retry,1);
   assert.equal(summary.topFiles[0].durationMs,3600);
   assert.deepEqual(Object.keys(records[0]).sort(),['durationMs','file','id','project','retry','status','title']);
+});
+
+test('each future file and engine is interleaved without lost or duplicated identities',()=>{
+  const cases=Array.from({length:14},(_,i)=>({file:'e2e/package-f-heavy.spec.ts',project:'webkit',key:`w${i}`}));
+  cases.push(...Array.from({length:8},(_,i)=>({file:'e2e/package-f-future.spec.ts',project:'chromium',key:`c${i}`})));
+  const bins=balanceBrowserCases(cases);
+  assert.deepEqual(bins.flat().map(r=>r.key).sort(),cases.map(r=>r.key).sort());
+  assert.equal(new Set(bins.flat().map(r=>r.key)).size,cases.length);
+  for(const project of ['webkit','chromium']){
+    const counts=bins.map(bin=>bin.filter(row=>row.project===project).length);
+    assert.ok(Math.max(...counts)-Math.min(...counts)<=1);
+  }
 });

@@ -32,5 +32,8 @@ if(group==='core'){
     else{assert.ok(command.startsWith('node '),'Unknown quality command; review explicitly');run(command.split(' ').slice(1));}
   }
 }else run(['scripts/testing/verify-browser-network-isolation.mjs']);
-if(group==='package-f')for(const command of packageFShardCommands(shardArgs[0]))run(command);
+if(group==='package-f'){
+  const commands=packageFShardCommands(shardArgs[0]);
+  try{for(const command of commands)run(command.args);}finally{for(const command of commands)command.dispose();}
+}
 else run(['node_modules/@playwright/test/cli.js','test','--config','playwright.ci.config.ts']);

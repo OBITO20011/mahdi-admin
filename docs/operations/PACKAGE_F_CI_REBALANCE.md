@@ -50,6 +50,44 @@ SHA `b285c0c5c7c22fcaf1b2c8f0a6635e879023aedf`. البيانات/logs من GitHu
 
 ## نتيجة التحقق
 
+### قياس6dc5947:نجاح البوابة،تصحيح التوازن مطلوب
+
+[CI38608313272](https://github.com/OBITO20011/mahdi-admin/actions/runs/38608313272)
+نجح24/24،والأسرار38608313264نجحت.552/552هوية ومحاولةF,retry0 كلها.
+المدد1–5:17:02/8:24/10:03/5:22/10:31. عندالتوزيعالترتيبي تجمعت أثقل
+10حالات في1/5؛العددالمتساوي وحده لايكفي. هذه ليست إعادةCIبلقياسللتسليم
+الجديدالذيكشف فشلهدف12دقيقة رغمgreen100%.
+
+| أثقل ملف (جمع كل حالاته بالمتصفحين،لا زمنجداري) | ثانية |
+|---|---:|
+|package-f-more.spec.ts|339.334|
+|package-f-administration.spec.ts|312.943|
+|package-f-auth-assistant.spec.ts|242.902|
+|package-f-products.spec.ts|188.068|
+|package-f-cash.spec.ts|187.340|
+|package-f-purchasing.spec.ts|156.705|
+|package-f-phone-type.spec.ts|143.158|
+|package-f-phone-polish.spec.ts|133.900|
+|package-f-admin-focus-handover.spec.ts|113.211|
+|package-f-financial.spec.ts|112.265|
+
+أثقل10حالات،كلهاWebKit/retry0:
+administration light82028.930ث،dark144028.420ث،dark82028.181ث،
+light144027.869ث،light39023.121ث،dark39022.246ث؛auth/assistant
+light82019.874ث،dark144019.843ث،dark82019.744ث،light144018.909ث.
+المصدرTemp/nawasrah-shard-timings-6dc5947.json،logmetadataلاpayload.
+
+**التصحيحالحقيقي:**استمرارخمسةshards/fullyParallelCI،لكن توزيعحالات كل
+ملف وكلengine بالتناوب بدلاًمنكتلترتيبية. discoveryيولدقائمةtest-list
+مؤقتة خارجالمستودع؛Playwrightالأصلييعيداكتشافها ويقارنكلالهوياتقبلRun.
+لاregexواسع/أسماءcasesيدوية/عدديثبت/استبعاد؛قائمةكلالمستقبلياتتُكتشف
+تلقائياً. كلقائمةملكالمشغلتحذففيfinally/exit؛لاcacheلمصادرالحقيقة.
+runواجهة--shard=n/5باقية،والاختيارالداخليnative--test-list بدل
+الـcontiguousshard؛حارسالاتحاديفحصالقوائمنفسهابلا ضعف.
+بتوزيعأزمنةCIالمثبتةحسابياً:543.406/515.528/489.573/529.257/490.324ث
+اختبارلكلshard،قبلالإعداد؛ليستمدةCIالجديد. Type/lint/1029units/10smoke
+حالات5لكلengine ناجحة/retry0. بوابةCIالفعليةللـcommitالتاليتثبت<12دقيقة.
+
 الحارس الحقيقي:اتحاد966بلا نقص/تكرار،13/13حارسCI/خصوصية/بوابات PASS،
 typecheck وlintexit0(3تحذيرات سابقة)،كلالوحدات1028/1028 PASS. smoke للـrunner
 الجديد باستخدامcashspecبالفلاترالأصلية:Chromium24/24(1.6د)،WebKit24/24

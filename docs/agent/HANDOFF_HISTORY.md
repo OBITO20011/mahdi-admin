@@ -1,5 +1,17 @@
 # Agent handoff history
 
+## 2026-10-14 —6dc5947 fullgreen24/24;measured imbalance corrected before finalQA
+
+Exactquality38608313272 all24PASS+secrets38608313264PASS,HEADremote6dc5947.
+F552records/identities/retry0;shards1022/504/603/322/631s;top10allshard1
+provesordinalblocks insufficient. SafeCIreporttop10 inPACKAGE_F_CI_REBALANCE.
+Ownerapprovedtruebalancecontinues:roundrobin withinfile+engine,native
+temporarytest-list/actualidentityparity;5jobs/20m/workers/retries unchanged.
+Union966balancePASS,type/lint/all1029units/smoke5Chromium+5WebKitPASS.
+No product/SQL/testassertion change. SeparateCIcorrectivecommit/Gitleaks0/
+fullgreen then localstation. Budget132observedincludingsecrets,estimate1993
+withinexplicitusageassumptions;privateflag remainsunset.
+
 ## 2026-10-14 — independent CIrebalance commit669eb26,cache candidate gate next
 
 Explicit19 CI/tool/docs files committed669eb267581732f7868ff2efa2739630b42fc232
