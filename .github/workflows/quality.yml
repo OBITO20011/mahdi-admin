@@ -104,7 +104,7 @@ jobs:
           retention-days: 14
 
   package-f-browser:
-    name: Package F browser QA (${{ matrix.shard }}/3)
+    name: Package F browser QA (${{ matrix.shard }}/5)
     runs-on: ubuntu-latest
     needs: scope
     if: ${{ needs.scope.outputs.full == 'true' || needs.scope.outputs.package_f_needed == 'true' }}
@@ -153,20 +153,22 @@ jobs:
 
       - name: Run Package F browser gate
         if: needs.scope.outputs.full == 'true'
-        run: node scripts/testing/run-quality-ci.mjs package-f --shard=${{ matrix.shard }}/3
+        run: node scripts/testing/run-quality-ci.mjs package-f --shard=${{ matrix.shard }}/5
 
-      - name: Run every affected Package F spec on its non-empty original shard
+      - name: Run every affected Package F case on its non-empty shard
         if: needs.scope.outputs.full != 'true'
         env:
           PRIVATE_CI_FILES: ${{ needs.scope.outputs.package_f_files }}
-        run: node scripts/testing/run-private-ci.mjs package-f --shard=${{ matrix.shard }}/3
+        run: node scripts/testing/run-private-ci.mjs package-f --shard=${{ matrix.shard }}/5
 
-      - name: Upload Playwright report on failure
-        if: failure()
+      - name: Upload Package F timing and Playwright report
+        if: ${{ always() && !cancelled() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: playwright-report-package-f-${{ matrix.shard }}
-          path: browser-package-f/playwright-report/
+          path: |
+            browser-package-f/playwright-report/
+            browser-package-f/ci-browser-metrics/
           retention-days: 14
 
   quality-delivery:

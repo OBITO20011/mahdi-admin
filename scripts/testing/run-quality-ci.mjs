@@ -2,14 +2,16 @@ import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {readFileSync} from 'node:fs';
 import path from 'node:path';
+import {isPackageFShardArgument} from './package-f-ci-shards.mjs';
+import {packageFShardCommands} from './ci-browser-discovery.mjs';
 
 const root=path.resolve(import.meta.dirname,'../..');
 const group=process.argv[2];
 assert.ok(['core','package-f'].includes(group),'Expected core or package-f');
 const shardArgs=process.argv.slice(3);
 assert.ok(group==='core'?shardArgs.length===0:
-  shardArgs.length===1&&/^--shard=[123]\/3$/u.test(shardArgs[0]),
-  'Core is unsharded; Package F requires exactly --shard=1/3, 2/3 or 3/3');
+  shardArgs.length===1&&isPackageFShardArgument(shardArgs[0]),
+  'Core is unsharded; Package F requires exactly one approved shard argument');
 function execute(command,args){
   const result=spawnSync(command,args,{cwd:root,env:{...process.env,NAWASRAH_BROWSER_GROUP:group},stdio:'inherit'});
   if(result.error)throw result.error;
@@ -30,4 +32,5 @@ if(group==='core'){
     else{assert.ok(command.startsWith('node '),'Unknown quality command; review explicitly');run(command.split(' ').slice(1));}
   }
 }else run(['scripts/testing/verify-browser-network-isolation.mjs']);
-run(['node_modules/@playwright/test/cli.js','test','--config','playwright.ci.config.ts',...shardArgs]);
+if(group==='package-f')for(const command of packageFShardCommands(shardArgs[0]))run(command);
+else run(['node_modules/@playwright/test/cli.js','test','--config','playwright.ci.config.ts']);

@@ -15,3 +15,4 @@ customer-web/.wrangler/
 supabase/.branches/
 supabase/.temp/
 customer-web/.wrangler/
+ci-browser-metrics/

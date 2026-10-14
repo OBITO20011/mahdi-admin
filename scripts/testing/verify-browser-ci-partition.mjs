@@ -1,33 +1,11 @@
 import assert from 'node:assert/strict';
-import {spawnSync} from 'node:child_process';
-import path from 'node:path';
+import {packageFShardCount,packageFShards} from './package-f-ci-shards.mjs';
+import {listBrowserTests} from './ci-browser-discovery.mjs';
 
-const root=path.resolve(import.meta.dirname,'../..');
 const packageF=/(?:^|\/)package-f-[^/]+\.spec\.ts$/u;
-function list(group,shard){
-  const result=spawnSync(process.execPath,[path.join(root,'node_modules/@playwright/test/cli.js'),
-    'test','--list','--reporter=json','--config',group?'playwright.ci.config.ts':'playwright.config.ts',
-    ...(shard?[`--shard=${shard}/3`]:[])],{
-    cwd:root,env:{...process.env,NAWASRAH_BROWSER_GROUP:group??''},
-    encoding:'utf8',maxBuffer:32*1024*1024,
-  });
-  assert.equal(result.status,0,`Playwright list ${group??'full'} failed: ${result.stderr}`);
-  const report=JSON.parse(result.stdout);
-  assert.deepEqual(report.errors,[],`Discovery errors in ${group??'full'}`);
-  const entries=[];
-  function visit(suite,parents=[]){
-    const titles=[...parents,suite.title];
-    for(const spec of suite.specs??[]){
-      const file=path.relative(root,path.isAbsolute(spec.file)?spec.file:path.resolve(root,'e2e',spec.file)).replaceAll('\\','/');
-      for(const test of spec.tests)entries.push({file,key:JSON.stringify([test.projectName,file,spec.line,spec.column,titles,spec.title])});
-    }
-    for(const child of suite.suites??[])visit(child,titles);
-  }
-  for(const suite of report.suites)visit(suite);
-  return entries;
-}
+const list=(group,shard)=>listBrowserTests(group,{shard,ci:true});
 function verify(full,core,shards){
-  assert.equal(shards.length,3,'Exactly three actual Playwright shard lists required');
+  assert.equal(shards.length,packageFShardCount,'Every approved actual Playwright shard list required');
   const extra=shards.flat();
   const keys=rows=>rows.map(r=>r.key);
   for(const rows of [full,core,...shards,extra])assert.equal(new Set(keys(rows)).size,rows.length,'Duplicate test identity');
@@ -35,18 +13,22 @@ function verify(full,core,shards){
   assert.ok(core.every(r=>!packageF.test(r.file)),'Package F leaked into core');
   assert.ok(extra.every(r=>packageF.test(r.file)),'Non-Package F leaked into Package F');
   assert.deepEqual(keys([...core,...extra]).sort(),keys(full).sort(),'Partition union differs from full discovery');
+  for(const project of new Set(extra.map(row=>row.project))){
+    const counts=shards.map(rows=>rows.filter(row=>row.project===project).length);
+    assert.ok(Math.max(...counts)-Math.min(...counts)<=1,'Per-project cases must be evenly distributed across shards');
+  }
   return {full:full.length,core:core.length,packageF:extra.length,shards:shards.map(rows=>rows.length)};
 }
 if(process.argv.includes('--self-test')){
-  const a={file:'e2e/regular.spec.ts',key:'a'},b={file:'e2e/package-f-future.spec.ts',key:'b'},
-    c={...b,key:'c'},d={...b,key:'d'};
-  const full=[a,b,c,d],shards=[[b],[c],[d]];
-  assert.deepEqual(verify(full,[a],shards),{full:4,core:1,packageF:3,shards:[1,1,1]});
-  assert.throws(()=>verify(full,[a],shards.slice(0,2)));
-  assert.throws(()=>verify(full,[a],[[b],[c],[]]));
-  assert.throws(()=>verify(full,[a],[[b],[c],[b,d]]));
-  assert.throws(()=>verify(full,[a,b],shards));
-  assert.throws(()=>verify(full,[a],[[b],[c],[{...d,key:'substituted-project'}]]));
-  assert.throws(()=>verify(full,[a],[[b],[c],[d,{...d,key:'unexpected'}]]));
+  const a={file:'e2e/regular.spec.ts',key:'a'};
+  const cases=packageFShards.map(shard=>({file:'e2e/package-f-future.spec.ts',key:`f${shard}`}));
+  const full=[a,...cases],shards=cases.map(row=>[row]);
+  assert.deepEqual(verify(full,[a],shards),{full:1+packageFShardCount,core:1,packageF:packageFShardCount,shards:packageFShards.map(()=>1)});
+  assert.throws(()=>verify(full,[a],shards.slice(0,-1)));
+  assert.throws(()=>verify(full,[a],shards.map((rows,index)=>index===0?[]:rows)));
+  assert.throws(()=>verify(full,[a],shards.map((rows,index)=>index===0?[...rows,cases[1]]:rows)));
+  assert.throws(()=>verify(full,[a,cases[0]],shards));
+  assert.throws(()=>verify(full,[a],shards.map((rows,index)=>index===0?[{...cases[0],key:'substituted-project'}]:rows)));
+  assert.throws(()=>verify(full,[a],shards.map((rows,index)=>index===0?[...rows,{...cases[0],key:'unexpected'}]:rows)));
   console.log('Partition rejects missing,duplicate,misrouted and substituted identities');
-}else console.log(JSON.stringify(verify(list(),list('core'),[1,2,3].map(shard=>list('package-f',shard)))));
+}else console.log(JSON.stringify(verify(list(),list('core'),packageFShards.map(shard=>list('package-f',shard)))));

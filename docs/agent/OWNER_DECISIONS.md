@@ -1,5 +1,15 @@
 # Approved owner decisions
 
+## 2026-10-14 — rebalance Package F CI,then independent Vite repair delivery
+
+Owner/authorizedClaude approves CI-only balanced case-level sharding via
+fullyParallel in CI and4/5 shards,targeteach<12m;retain20m/alltests/retries/
+images/engines/isolation. Dynamic completeness and fullgate require all shards.
+Measure old durations/top10 from realCI where available,disclose evidence gaps;
+update dormant private budget. SeparateCIcommit then separateVite-testcommit,
+full exactSHAgreen,then complete localstation/finalreadiness/checkpointSTOP.
+No Production/deploy/realservices/historicalSQL/product/test weakening.
+
 ## 2026-10-14 — deliver DBrehearsal independently,deterministic Vite-test correction
 
 Owner/authorizedClaude accepts138/officialhistory/dryrun0/catalog0/reference410.

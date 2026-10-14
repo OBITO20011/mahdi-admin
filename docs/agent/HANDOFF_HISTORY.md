@@ -1,5 +1,46 @@
 # Agent handoff history
 
+## 2026-10-14 — owner-approved CIrebalance locally verified,candidates next
+
+Resume/preflightPASS;own existing Vite/docs preserved. OldCIshards13m15/
+12m25/20m08cancelled;logs have no per-case timings and no artifacts,so old
+top10 unavailable. New5 case-levelCI-only shards eachengine share;actual
+union966=414core+552F,counts112/110/110/110/110.13guards/type/lint/
+Admin1028/48cashrunner smoke PASS,0retries/skip. Same20m/image/workers/
+retries/policies/product/historicalSQL. Safe timing reporter/newartifacts;
+dormant privatebudget1993 estimate,not activation. Separate CIthenVitecommit/
+Gitleaks0/push/fullCIlastSHA;thenfull localquality/readiness/checkpointSTOP.
+
+## 2026-10-14 — STOP:DBcandidate fullCI shard3 cancelled at20m
+
+Exactb285c0c quality38599807780 completedcancelled20/22:PackageFbrowser3/3
+cancelled;deliverygatefailure. Secret38599807641PASS. Check115975914833
+annotation:The job has exceeded the maximum execution time of20m0s.
+Job16:38:47–16:58:55UTC(20m08s),browserstep16:40:12–16:58:50(18m38s).
+No detailedCIlogs/rootcause inference,rereun,workflow/deadline change.
+Final localQA16:49:36.165–17:02:17.889UTC frozenhash17374090... PASS7/8:
+type/lints/Admin1027/Customer191/builds/isolation.966browser gate underway
+with2workers;stopped at CI-failure boundary,manualabort130/not productFAIL
+or fullPASS. Exact filehash unchanged. Tempfinalquality.log/aborted.json.
+Own Vites graceful shutdown plus verified904tree termination;all owned
+processes/listeners/DB gone,n8n untouched. Cache fixture and20proof uncommitted.
+No finalcommit/fullgreen/closedreadiness. Next owner approval for bounded
+shard3duration diagnosis before any CI/product change;resume preserved work.
+
+## 2026-10-14 — DBrehearsal delivered candidate;deterministic Vite proof20 PASS
+
+DB/tool/docs commit b285c0c5c7c22fcaf1b2c8f0a6635e879023aedf pushed main;
+related22/type/lint/Gitleaks0 PASS;exactquality38599807780/secrets38599807641
+pending. No historicalSQL/product/realservices touched. Coldlucide10 alone
+2.369–3.522s;5 idle-live isolatedDB2.187–2.578s;allready. RAM1549–2634MiB
+alone/2753–2866withDB;no claim DBload caused old failure. Small real CJS
+shared-cache fixture plus explicit entries/preTransformRequestsfalse makes
+old-disk request deterministic;504/statusText preserved,positive200/env/
+cachecleanup unchanged. New source contract protects proof.20consecutive
+runs7/7each exit0/retries0,finished16:47:45.762UTC. All owned measurementDB/
+Vites stopped. Next full local canonical quality detached/frozenfiles,final
+readiness/Gitleaks/commit/fullCI STOP. No Production/deploy.
+
 ## 2026-10-14 — owner accepts DBproof,authorizes independent commit and Vite test fix
 
 Resume/preflightPASS. Owner confirms138/officialrepair/dryrun0/catalog0/410ref

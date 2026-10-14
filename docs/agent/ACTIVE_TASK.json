@@ -3,49 +3,59 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Pre-Frankfurt QA only:one full local quality,clean isolated001-138/DB_FUNCTIONS check,readiness docs and gated docs delivery",
-  "baselineSha": "5eb737fd266a4c97f0750ef00bf9fb2ee3a46601",
+  "baselineSha": "b285c0c5c7c22fcaf1b2c8f0a6635e879023aedf",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Product20 delivered d7e0e8c:Gitleaks0/fullCI38430511595 22/22,secrets38430511631 PASS;src0/tests62;AST15/2770calls PASS",
-    "Tests62 delivered bf0ef2b:Gitleaks staged0;fullCI38447970858 22/22,secrets38447970805 PASS",
-    "Strict delivered5eb737f:Gitleaks0;fullCI38470713781 22/22,secrets38470713856 PASS;HEAD=remote"
+    "DBrehearsal b285c0c pushed:138raw/officialrepair/dryrun0/catalog0/functions410 accepted;Gitleaks0"
   ],
   "inProgress": [
-    "Owner permits DBrehearsal commit now with relatedgates;then measure/fix Vite-test determinism and fullquality"
+    "Approved rebalance5/CIcase-level/per-engine shares;CI13guards/discovery966 PASS;separateCI/Vite commits next"
   ],
   "notStarted": [
     "Frankfurt project creation,Production/deploy and startup tools remain unauthorized/deferred"
   ],
   "testsPassed": [
-    "Product/test batches delivered full22/22+secrets;related browser671PASS+52known skips and isolated runtimes PASS",
-    "Config type/lints/Admin1019/Customer191/build/isolation/strict0 PASS;35focused guards PASS;approved gate exit0/frozen files"
+    "CI13guards/type/lint/Admin1028;union966=414core+552F;balanced112/110/110/110/110;cashsmoke48 PASS/retries0",
+    "Vite cold10/liveDB5 allready;deterministicfixture20/20 PASS;no assertion/deadline/retry weakening"
   ],
   "testsRemaining": [
-    "DBcommit/Gitleaks/fullCI;Vitecold10/liveDB5 measurements and deterministic20/20;then fullquality/delivery"
+    "Related gates/Gitleaks and separateCI,Vite commits;full exactCI metrics;then localstation/finalreport"
   ],
   "findings": [
-    "Phase correctedPACKAGE_F;continuity5/5 PASS;exact5eb737f quality38470713781 22/22+secrets38470713856 PASS live",
-    "Raw001-033 PASS;034 exit3 supplier_returns->supplier_receipts FK;zero rows;frozen files/owned DB stopped"
+    "DB138/officialhistory/dryrun0/catalog0/functions410 accepted;historicalSQL/product untouched",
+    "Local finalQA7/8 PASS:Admin1027/Customer191/type/lints/builds/isolation;browser966 manually aborted on CI stop,not fullPASS"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "Approved DBrehearsal/tools/docs and Vite-test infrastructure only;no product/historicalSQL/realservices/Production/deploy",
+    "Approved DBrehearsal/docs,Vite test and CIbalancedshards only;no product/historicalSQL/realservices/Production/deploy",
     "Only isolated test DB allowed;stop on any failure;no retry/timeout change;freeze tracked files during gates"
   ],
-  "nextExactAction": "Run related DBbuilder/maintenance/migration/continuity/type/lint gates;Gitleaks0,explicit DBrehearsal commit/push/fullCI. Then authorized Vite measurement/fix20/fullQA.",
-  "checkpointedAt": "2026-10-14T16:35:14.342Z",
+  "nextExactAction": "Gitleaks0 explicit CI files and commit ci: rebalance Package F browser shards;then isolated Vite repair commit and push both;full exactCI metrics;final quality/readinessSTOP.",
+  "checkpointedAt": "2026-10-14T17:32:15.047Z",
   "filesTouched": [
+    ".github/workflows/quality.yml",
+    ".gitignore",
     "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
-    "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md",
     "docs/operations/PRE_FRANKFURT_READINESS.md",
-    "scripts/operations/build-empty-supabase.mjs",
-    "scripts/testing/run-empty-project-build-runtime.mjs",
-    "scripts/testing/schema-catalog.mjs",
-    "tests/empty-project-build.test.ts"
+    "docs/operations/PRIVATE_CI_BUDGET.md",
+    "playwright.ci.config.ts",
+    "scripts/agent/verify-delivery-ci.mjs",
+    "scripts/testing/plan-private-ci.mjs",
+    "scripts/testing/run-private-ci.mjs",
+    "scripts/testing/run-quality-ci.mjs",
+    "scripts/testing/verify-browser-ci-partition.mjs",
+    "tests/isolated-vite-cache.test.ts",
+    "tests/package-f-ci-shards.test.ts",
+    "tests/private-ci-budget.test.ts",
+    "tests/vite-readiness-diagnostics.test.ts",
+    "docs/operations/PACKAGE_F_CI_REBALANCE.md",
+    "scripts/testing/ci-browser-discovery.mjs",
+    "scripts/testing/ci-browser-timing-reporter.mjs",
+    "scripts/testing/package-f-ci-shards.mjs"
   ],
-  "workingTreeFingerprint": "5450C5B45E6A817F4440AACF2EB5E9715D1A498BC1BA05AC0FDAAF2FD976EE48"
+  "workingTreeFingerprint": "CE8C0AD5CE1FCE0E05AB3965EF5E332662475F658E3BA9FD0AC2B03F3F551AE0"
 }

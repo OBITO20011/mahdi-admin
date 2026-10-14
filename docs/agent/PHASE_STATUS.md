@@ -1,5 +1,29 @@
 # Phase status
 
+2026-10-14 owner approves CIrebalance only:5case-level/per-project shares,
+same20m/retries/workers/image/engines;all5 required bydynamicunion/fullgate.
+966exact=414core+552F;per-project balanced112/110/110/110/110.13CIguards/
+type/lint/allAdmin1028/smokeChromium24+WebKit24 PASS,retries0. Timings streamed
+without payloads,old CI has no case-timing report;future top10 required.
+Separate CIcommit then Vitefixturecommit/fullgreen,then finaldetachedquality.
+Dormant privatebudget updated1993 for declared lowerdocfrequency;notactivated.
+Historical STOP below superseded only within this bounded infrastructure scope.
+
+2026-10-14 STOP at exact b285c0c CI38599807780:20/22 success,shard3
+cancelled20m deadline(check115975914833),deliverygate failed;secrets38599807641
+PASS. No rerun/workflow/deadline change. Local finalQA7/8 stages PASS:
+Admin1027/Customer191/type/lints/builds/isolation;full966browser gate manually
+interrupted at CIstop boundary,not fullPASS. Frozenfiles confirmed;all owned
+testprocesses/listeners/DB stopped. Vite fixture20/20 proof remains uncommitted.
+Readiness NOT CLOSED;owner scope for shard-duration diagnosis required.
+
+2026-10-14 DBrehearsal/tool/docs b285c0c pushed after related22/type/lint/
+Gitleaks0;exact fullCI pending. Authorized Vite cold10/liveDB5 allready;
+no proven DB-contention cause. Deterministic tiny real shared-cache fixture
+keeps504 plus isolated-cache200/cleanup/env guards;20consecutive7/7 PASS.
+Only test infrastructure changed;full frozen local quality/finalCI next.
+PACKAGE_F only;no historicalSQL/product/Production/deploy/newproject.
+
 2026-10-14 owner accepts complete DBrehearsal and permits independent delivery
 with related localgates/Gitleaks/fullCI despite unrelated Vite unit failure.
 Then authorized cold10/liveDB5 optimizer measurement and deterministic cache

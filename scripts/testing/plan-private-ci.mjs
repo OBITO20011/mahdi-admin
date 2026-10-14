@@ -3,6 +3,8 @@ import {execFileSync} from 'node:child_process';
 import {readFileSync, appendFileSync} from 'node:fs';
 import path from 'node:path';
 import {ciRoute, isPackageFSpec, selectAffectedSpecs} from './private-ci-scope.mjs';
+import {packageFShards} from './package-f-ci-shards.mjs';
+import {listBrowserTests} from './ci-browser-discovery.mjs';
 
 const root = path.resolve(import.meta.dirname, '../..');
 const git = args => execFileSync('git', args, {cwd: root, encoding: 'utf8'}).trim();
@@ -35,24 +37,16 @@ if (mode === 'affected') {
 const core = selected.filter(file => !isPackageFSpec(file)), packageF = selected.filter(isPackageFSpec);
 const list = (group, files, shard) => {
   if (!files.length) return [];
-  const stdout = execFileSync(process.execPath, ['node_modules/@playwright/test/cli.js', 'test', '--list', '--reporter=json',
-    '--config', 'playwright.ci.config.ts', ...(shard ? [`--shard=${shard}/3`] : []), ...files], {
-    cwd: root, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, env: {...process.env, NAWASRAH_BROWSER_GROUP: group}});
-  const report = JSON.parse(stdout); assert.deepEqual(report.errors, []); const ids = [];
-  const walk = (suite, parents = []) => {
-    const titles = [...parents, suite.title];
-    for (const spec of suite.specs ?? []) for (const test of spec.tests) ids.push(JSON.stringify([test.projectName, spec.file, spec.line, spec.column, titles, spec.title]));
-    for (const child of suite.suites ?? []) walk(child, titles);
-  }; for (const suite of report.suites) walk(suite); return ids;
+  return listBrowserTests(group,{files,shard,ci:true}).map(row=>row.key);
 };
-let shards = [1, 2, 3], cases = null;
+let shards = [...packageFShards], cases = null;
 if (mode === 'affected') {
   const fullIds = [...list('core', core), ...list('package-f', packageF)];
-  const perShard = [1, 2, 3].map(shard => list('package-f', packageF, shard));
+  const perShard = packageFShards.map(shard => list('package-f', packageF, shard));
   const partition = [...list('core', core), ...perShard.flat()];
   assert.equal(new Set(partition).size, partition.length, 'Duplicate affected test identity');
   assert.deepEqual(partition.sort(), fullIds.sort(), 'Affected shard union loses/substitutes tests');
-  shards = [1, 2, 3].filter(shard => perShard[shard - 1].length > 0); cases = fullIds.length;
+  shards = packageFShards.filter(shard => perShard[shard - 1].length > 0); cases = fullIds.length;
 }
 const outputs = {mode, full: String(mode === 'full'), core_files: JSON.stringify(core), package_f_files: JSON.stringify(packageF),
   package_f_needed: String(packageF.length > 0), shards: JSON.stringify(shards.length ? shards : [1])};

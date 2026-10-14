@@ -3,16 +3,17 @@ import {execFileSync} from 'node:child_process';
 import {readFileSync} from 'node:fs';
 import path from 'node:path';
 import {git,root} from './lib.mjs';
+import {packageFShardCount,packageFShards} from '../testing/package-f-ci-shards.mjs';
 
 export function verifyBrowserDeliveryJobs(jobs){
   for(const name of ['Lint, test, build and browser QA',
-    ...[1,2,3].map(shard=>`Package F browser QA (${shard}/3)`)]){
+    ...packageFShards.map(shard=>`Package F browser QA (${shard}/${packageFShardCount})`)]){
     const matches=jobs.filter(j=>j.name===name);
     assert.equal(matches.length,1,`Required CI job missing/duplicated: ${name}`);
     assert.equal(matches[0].conclusion,'success',`Required CI job not green: ${name}`);
   }
-  assert.equal(jobs.filter(j=>j.name.startsWith('Package F browser QA')).length,3,
-    'Exactly the three approved Package F shards required');
+  assert.equal(jobs.filter(j=>j.name.startsWith('Package F browser QA')).length,packageFShardCount,
+    'Exactly all approved Package F shards required');
 }
 
 export function verifyFullDeliveryJobs(jobs){
