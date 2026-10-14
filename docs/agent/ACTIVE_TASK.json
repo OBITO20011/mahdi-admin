@@ -2,48 +2,50 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Deliver approved strict configuration after local gates;full exact CI then STOP",
-  "baselineSha": "bf0ef2b27f2385eb33b1aacf2f9026335b69eb23",
+  "objective": "Pre-Frankfurt QA only:one full local quality,clean isolated001-138/DB_FUNCTIONS check,readiness docs and gated docs delivery",
+  "baselineSha": "5eb737fd266a4c97f0750ef00bf9fb2ee3a46601",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "Product20 delivered d7e0e8c:Gitleaks0/fullCI38430511595 22/22,secrets38430511631 PASS;src0/tests62;AST15/2770calls PASS",
-    "Tests62 delivered bf0ef2b:Gitleaks staged0;fullCI38447970858 22/22,secrets38447970805 PASS"
+    "Tests62 delivered bf0ef2b:Gitleaks staged0;fullCI38447970858 22/22,secrets38447970805 PASS",
+    "Strict delivered5eb737f:Gitleaks0;fullCI38470713781 22/22,secrets38470713856 PASS;HEAD=remote"
   ],
   "inProgress": [
-    "Strict config gates PASS;explicit stage/Gitleaks0/commit/push/full exact CI pending"
+    "Owner permits DBrehearsal commit now with relatedgates;then measure/fix Vite-test determinism and fullquality"
   ],
   "notStarted": [
-    "No further task or phase authorized after strict delivery"
+    "Frankfurt project creation,Production/deploy and startup tools remain unauthorized/deferred"
   ],
   "testsPassed": [
     "Product/test batches delivered full22/22+secrets;related browser671PASS+52known skips and isolated runtimes PASS",
     "Config type/lints/Admin1019/Customer191/build/isolation/strict0 PASS;35focused guards PASS;approved gate exit0/frozen files"
   ],
   "testsRemaining": [
-    "Config staged Gitleaks0/commit/push/full exact-SHA CI then checkpoint STOP"
+    "DBcommit/Gitleaks/fullCI;Vitecold10/liveDB5 measurements and deterministic20/20;then fullquality/delivery"
   ],
   "findings": [
-    "Prior Vite timeout root cause unproven;approved failure-only diagnostics preserve deadlines/assertions;one full gate now PASS"
+    "Phase correctedPACKAGE_F;continuity5/5 PASS;exact5eb737f quality38470713781 22/22+secrets38470713856 PASS live",
+    "Raw001-033 PASS;034 exit3 supplier_returns->supplier_receipts FK;zero rows;frozen files/owned DB stopped"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Production/deploy/DB/migrations;no any/type suppression/double cast/rule disable;stop before sensitive behavior repair;freeze tracked files during gates",
-    "Only approved failure logging in Vite test;no product or timing/port/retry/assertion changes;no unapproved repair"
+    "Approved DBrehearsal/tools/docs and Vite-test infrastructure only;no product/historicalSQL/realservices/Production/deploy",
+    "Only isolated test DB allowed;stop on any failure;no retry/timeout change;freeze tracked files during gates"
   ],
-  "nextExactAction": "Final strict local gate PASS;stage explicit ten-file scope,Gitleaks0,commit/push and require full exact-SHA CI;then STOP.",
-  "checkpointedAt": "2026-10-13T21:26:46.171Z",
+  "nextExactAction": "Run related DBbuilder/maintenance/migration/continuity/type/lint gates;Gitleaks0,explicit DBrehearsal commit/push/fullCI. Then authorized Vite measurement/fix20/fullQA.",
+  "checkpointedAt": "2026-10-14T16:35:14.342Z",
   "filesTouched": [
     "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
-    "docs/design/package-f/TYPES_STRICT_IMPLEMENTATION.md",
-    "tests/isolated-vite-cache.test.ts",
-    "tsconfig.json",
-    "docs/design/package-f/VITE_OPTIMIZER_READINESS_DIAGNOSIS.md",
-    "tests/strict-configuration.test.ts",
-    "tests/vite-readiness-diagnostics.test.ts"
+    "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md",
+    "docs/operations/PRE_FRANKFURT_READINESS.md",
+    "scripts/operations/build-empty-supabase.mjs",
+    "scripts/testing/run-empty-project-build-runtime.mjs",
+    "scripts/testing/schema-catalog.mjs",
+    "tests/empty-project-build.test.ts"
   ],
-  "workingTreeFingerprint": "7C9B3E76EC441FF453E5B776FC958B29D71093DEAA35E9A54D767A628164F708"
+  "workingTreeFingerprint": "5450C5B45E6A817F4440AACF2EB5E9715D1A498BC1BA05AC0FDAAF2FD976EE48"
 }

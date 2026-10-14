@@ -1,5 +1,59 @@
 # Approved owner decisions
 
+## 2026-10-14 — deliver DBrehearsal independently,deterministic Vite-test correction
+
+Owner/authorizedClaude accepts138/officialhistory/dryrun0/catalog0/reference410.
+Approve DBscript/docs commit after related localgates/Gitleaks,fullCI acceptance;
+do not wait for unrelated fragile Vite test. Then measure lucidecold10 standalone
+and5 with live isolatedDB/freeRAM,fix ONLY testing infrastructure to remove
+heavy cold-dependency timing while preserving independent caches/no504 proof.
+No deadline/retry/skip/assertion weakening;20consecutive PASS,then full localQA
+and finalreport/Gitleaks/commit/fullCI/checkpointSTOP. No Production/deploy.
+
+## 2026-10-14 — truthful CLI migration bookkeeping approved
+
+Owner/authorizedClaude prefers official migration repair applied for each file
+only after actual SQLsuccess,in order;034 genuine success with documented
+environment preparation. If CLI cannot target the explicit connection,use the
+captured CLI catalog structure and disclose why. Never record unexecuted seed.
+Require migrationlist138 applied and dbpushdryrun no pending;fullcatalog zero
+differences without exclusion,then reference/fullQA/Gitleaks/fullCI/checkpoint.
+No Production/deploy/real connection/secret or historicalSQL change authorized.
+
+## 2026-10-14 — exact post034 audit accepted,not later-history zero check
+
+Owner/authorizedClaude confirms:immediately after original034 every business
+TRUNCATE target zero;exactly one audit row emitted by03461,matching fixed
+action/entity/NULLs and captured preTRUNCATE counters,including008 suppliers2.
+No extra rows or differing summary;reject. Do not apply this one-row rule
+after035-138;wholecatalog/reference comparison covers subsequent legitimate
+history. Prior seed allowlist/four-empty-table guards/immutable034/FK catalogs/
+fullQA and CI required. No manual deletion/historicalSQL/product/Production/deploy.
+
+## 2026-10-14 —034 pre-cleanup historical seed allowlist approved
+
+Owner/authorizedClaude approves NO manual deletion:four referencing movement
+tables strictly empty;TRUNCATE targets may hold only exact predefined rows
+seeded by earlier migrations,including the two008 suppliers;all other rows/
+counts reject by table. Original034 bytes/FK capture/restore/fullcatalog and
+reference/fullQA gates unchanged. Requested post034 all-targets-zero conflicts
+with034's own single PRELAUNCH_TEST_DATA_CLEANUP audit insert(lines61-73).
+Clarification pending:retain and exactly verify that single audit row while
+all business targets are empty. This audit exception is NOT approved/executed.
+
+## 2026-10-14 — empty-project034 environment preparation only
+
+Owner approves one deterministic script shared by isolated rehearsal and future
+Frankfurt build:empty affected tables only,capture exact4FK catalog/drop4,
+verify SHA256 of original034 bytes/apply without editing,recreate from captured
+definitions and literal catalog equality/validated=true,then original035-138.
+Atomic where possible;immutable034 BEGIN/COMMIT boundary must be disclosed.
+Require whole schema catalog parity with standard bootstrap and DB_FUNCTIONS
+check,then detached fullquality/Gitleaks/fullCI/checkpoint. Git-only investigation
+of original034 application must not claim live evidence. No historicalSQL edit,
+real Supabase/Production/deploy or startup tools. New script execution on an
+external project remains Phase7-authorized later,not authorized by this rehearsal.
+
 ## 2026-10-14 — Vite failure-only evidence and one strict gate
 
 Owner approves capturing optimizer/logger evidence on the existing readiness

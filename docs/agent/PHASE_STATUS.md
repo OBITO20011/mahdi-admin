@@ -1,5 +1,100 @@
 # Phase status
 
+2026-10-14 owner accepts complete DBrehearsal and permits independent delivery
+with related localgates/Gitleaks/fullCI despite unrelated Vite unit failure.
+Then authorized cold10/liveDB5 optimizer measurement and deterministic cache
+test-only correction with20consecutive proofs/full localQA/final exactCI.
+No deadline/retry/skip/weakening/product/historicalSQL/Production/deploy changes.
+
+2026-10-14 readiness STOP after successful DBproof:138raw/officialrepair,
+list/dryrun0/seed0/fullcatalog0diff PASS;DB_FUNCTIONS410 PASS75.471s. ONE
+detached local fullquality:type/lintPASS88.063s,Admin1025/1026PASS/1FAIL,
+139.012s. Existing shared-cache reproduction failed readinessB-lucide-react
+at15s;diagnostics discoveredlucide/unoptimized,scanfalse/holdUntilCrawlEndtrue,
+memory2002MB/no optimizererrors. Rootcauseunproven,no retry/fix/timeoutchange.
+Customer/build/browser NOT RUN. Frozenfiles/ownedserversstopped. No commit/
+push/newCI;await owner focuseddiagnosis approval. No historicalSQL/product/
+real services/Production/deploy;withinPACKAGE_F.
+
+2026-10-14 approved builder/history/fullcatalog PASS:138raw+138official local
+repairs ordered;exact4FK/audit/negative guards PASS,list/equivalent138,dryrun0,
+seed0. Fullcatalog0diff with bootstrap including CLItracking.153relations/
+470indexes/950constraints/527functions/13schemas,ACL/RLS unchanged. Empty
+seed_files structure only ifrepair did not create it;no seed registration.
+Reference/ONE detachedfullquality/Gitleaks/commit/fullCI pending,no deliveryyet.
+
+2026-10-14 owner-approved bookkeeping implemented:official localrepair after
+each successful file,matching workdir/rawfiles,ordered;no unexecutedseed record.
+Empty seed history structure fallback only if officialrepair did not create it;
+PGSERVICE future fallback avoids linked/URL credentials. List138/dryrun0/full
+catalog/reference/fullQA still pending;no new historySQL/product/deploy access.
+
+2026-10-14 latest rehearsal STOP at fullcatalog:raw138/138 PASS,exact4FKs/
+validated/audit PASS;6negative guard/recovery outcomes PASS. Seven differences
+ONLY CLI tracking schema/tables/PKs/indexes(supabase_migrations) absent inpsql
+build,present inbootstrap;all other measured catalog/ACL/functions unchanged.
+No exclusion or metadata repair;owner decision required. Reference/fullquality/
+commit/push NOT RUN. Owned teststacks stopped,files frozen,SQLhistory untouched.
+
+2026-10-14 owner-approved preseed/postaudit guards IMPLEMENTED:four empty
+referencing tables;exact008 supplier2 only;all other pretargets zero. Post034
+businesszero+one exact audit/captured counters/time,only beforeFKrestore/035.
+Focused6/6/typecheck/lint PASS. Rehearsal/catalog/reference/fullQA/fullCI pending.
+No historicalSQL/product/Production/deploy change;earlier holds are historical.
+
+2026-10-14 owner approves exact008 seed allowlist(no manual deletion) while
+four referencing tables remain strictly empty. Implementation/rehearsal HOLD:
+post034 all-targets-zero conflicts with original034 audit_logs insert61-73.
+Need owner confirmation of exactly one verified cleanup-audit row exception.
+Source proof only,no new SQL/product/test changes or DB/fullQA runs. List/source
+documented in Frankfurt checklist;existing builder remains unaccepted/uncommitted.
+
+2026-10-14 approved builder rehearsal STOP:001-033 rawPASS,28table guard
+rejects ENV034_NOT_EMPTY:suppliers before any4FK snapshot/drop. Historical008
+itself inserts two sample suppliers on empty DB(no seed.sql). No fixture
+deletion/guard exception authorized or performed. Typecheck/focusedlint/5unit
+guards PASS;initial newrunner EOF obscured SQL diagnostics,corrected only
+transport close capture,tested. Catalog/reference/fullQA NOT RUN. Owned DB
+stopped/no-backup,frozen files. Await owner fixture008 preparation decision.
+
+2026-10-14 owner approves deterministic empty-project034 environment builder
+within PACKAGE_F:28table zero guards/exact4FK snapshots/immutable bytes/drop/
+restore/catalog match then035-138. Existing034 COMMIT means explicit two-phase
+transaction boundary,automatic SQL-failure recovery but no crash guarantee.
+Focused guards4/4/typecheck/lint PASS;fresh runtime/catalog/reference/fullQA
+pending. Historical001-138 untouched;no real service/Production/deploy access.
+
+2026-10-14 literal build STOP:empty local Supabase/no seed,raw001-033 PASS;
+034 fails FK supplier_returns->supplier_receipts even with zero rows. No
+SQL modification;tracked files frozen;owned DB stopped,no-backup. Exact
+5eb737f full22/22+secrets verified live;no workflow change needed. Task phase
+PACKAGE_F corrected,continuity5/5 PASS. Full local QA/reference still pending
+owner-approved environment remedy;no repair/commit/push after literal failure.
+See PRE_FRANKFURT_READINESS.md for exact evidence/proposed temporary FK step.
+
+2026-10-14 owner authorizes bounded resumption WITHIN PACKAGE_F (not a new
+phase):ACTIVE_TASK aligned,continuity test unchanged. Fresh public GitHub API
+confirms exact5eb737f push/main quality38470713781 FULL22/22 and secrets
+38470713856 PASS;remote main exact. No absent-run/workflow cause established,
+so no speculative CI edit. Literal isolated001-138 build now prerequisite to
+the remaining full quality/reference gates;stop on failure with proposal only.
+
+2026-10-14 pre-Frankfurt QA STOPPED (no repair):Admin type/lint PASS42.111s,
+all Admin units1018/1019 PASS,one continuity failure90.595s. Codex task setup
+declared phasePRE_FRANKFURT_QA while project-state remainsPACKAGE_F;assertion
+tests/agent-continuity.test.ts65/92 rejects mismatch correctly. Files frozen
+during gate;exit1. Customer/build/browser/freshDB/reference NOT RUN. Readiness
+report uncommitted;no Gitleaks/commit/push/CI initiated after failure. Await owner
+direction on task-record alignment and resumption;no product/SQL/Production/deploy.
+
+2026-10-14 current owner milestone:PRE_FRANKFURT_QA CHECK ONLY. Strict5eb737f
+delivered full quality38470713781 22/22/secrets38470713856 PASS. One full
+local quality with memory-bounded workers,then clean isolated001-138 and
+DB_FUNCTIONS check;document results/open items without repair. Stop on failure.
+Docs-only commit/Gitleaks0/full exact CI/checkpoint. No managed project creation,
+Production/deploy or startup-tools implementation. Temporary034 bootstrap
+compatibility must be disclosed,not claimed as unmodified managed build proof.
+
 Strict product batch d7e0e8c delivered:quality38430511595 FULL22/22 and
 secrets38430511631 PASS. Tests62 local gates complete:strict diagnostics0,
 type/lints/Admin1013/Customer191/browser671+52known skips PASS,exit0/files

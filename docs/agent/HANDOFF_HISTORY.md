@@ -1,5 +1,158 @@
 # Agent handoff history
 
+## 2026-10-14 — owner accepts DBproof,authorizes independent commit and Vite test fix
+
+Resume/preflightPASS. Owner confirms138/officialrepair/dryrun0/catalog0/410ref
+accepted. Related localgates/Gitleaks then commit DBrehearsal now/fullCI;
+explicit exception to waiting for fragile shared-cache unit. Next cold10 plus
+liveisolatedDB5 measurements/freeRAM;deterministic test fixture or explicit
+prebundle with original cache/isolation/no504 protection,20consecutive PASS.
+Then complete fullQA/finalreport/gated deliverySTOP. No product/SQLhistory/
+realservices/Production/deploy,no retries/deadline/skip/assertion reduction.
+
+## 2026-10-14 — final DBproof PASS;single fullQA stopped at existing Vite readiness
+
+Builder gate406.244s/raw138/officialrepair138/list/equivalent138/dryrun0/seed0/
+fullcatalog0 PASS,Temp1y4TZf. Referencecheck410PASS75.471s. Detachedquality
+16:20:51.880–16:26:01.298UTC(19:20–19:26Amman),filesfrozen/exit1. Type/lint
+PASS88.063s;Admin1025/1026PASS,onecache-reproduction readinessfail139.012s.
+Tests/isolated-vite-cache.ts81/16:B-lucide discovered but optimizedempty at
+original15s,scanPendingfalse,holdUntilCrawlEndtrue,memory2002MB,no loggererrors.
+Exactrootcauseunproven;no rerun or repair afterfullQA. Customer/build/browser
+notstarted. AlltestownedDB/Vites stopped,n8n untouched. LogsTemp/nawasrah-
+frankfurt-full-quality-20261014.log/exit.json. Await focuseddiagnosis decision,
+no commit/push/newCI/Production/deploy. InitialCLIlist-text parser failure was
+tool-only;equivalentSQL matchesallversions and officiallist/dryrun succeeded.
+
+## 2026-10-14 — original138/officialhistory/fullcatalog PASS,reference/fullQA next
+
+Successful finalgate16:10:08.768–16:16:55.012UTC,406.244s,exit0/frozenfiles.
+138raw/138officialrepair(success-before-record,nextfileafterrepair);034genuine
+hash/FK/audit PASS;6negative/recovery outcomes PASS. CLIlist succeeds/equivalent
+historyexact138,dryrun0,seed0.0catalogdiff,includingCLItracking. Seed_files empty
+structure observedmissing afterofficialrepair,addedcapturedDDLonly,no fakerows.
+Earlier CLIhumanlistparser failure fixed byexact authorized catalog equivalent,
+no lost assertions. Allownedstacks stopped/no-backup. EvidenceTemp1y4TZf.
+Nextreferencecheck then ONE detachedfullquality/Gitleaks/normalcommit/fullCI.
+No historicalSQL/product/realservice/Production/deploy;withinPACKAGE_F.
+
+## 2026-10-14 — owner-approved official per-file CLI bookkeeping candidate
+
+Resume/preflightPASS. Originalunits execute separately,034 preparation+original
+bytes+restore stay in one psqlsession;repair --local runs only on success before
+nextunit. CLI workdir target and every rawfilehash checked. Unexecutedseed never
+registered;seed_files empty structure only if missing after officialrepair.
+Future explicitPGSERVICE can't infer CLIlink/URL,uses documentedcapturedDDL
+fallback,not executed now. Verify migrationlist/dryrun/fullcatalog/reference,
+then ONE frozen detached fullquality/Gitleaks/fullCI. No historicalSQL/product/
+real services/Production/deploy. Prior metadata difference was not excluded.
+
+## 2026-10-14 —138/FKs/audit PASS;wholecatalog CLI metadata difference STOP
+
+Latest gate15:44:48.656–15:47:36.901UTC,168.245s,frozenfiles,exit1 only at
+fullcatalog. Raw138/138 PASS,original034hash/exact4FK+validated/cleanupaudit
+PASS. Negative wrongseed/extrarow/movement/extraaudit/usedproject/recovery PASS.
+Earlier added runtime probe mistakenly ran after107's table retirement;fixed
+fixture stage only,before034,no lost assertions. Finaldiff7onlyCLI tracking
+schema supabase_migrations plus2tables/2PKs/2indexes. Other catalog unchanged:
+527functions/86policies/111triggers/30defaultACL. No filtering/metadata creation.
+Await owner decision to create CLI tracking and record only actualsuccess;
+reference/fullQA/commit/push NOT RUN. Ownedstacks stopped/no-backup,n8n untouched.
+EvidenceTemp/nawasrah-empty-build-evidence-2Qk9hT report/catalogs/differences.
+
+## 2026-10-14 — all owner034 safety decisions implemented;fresh proof pending
+
+Resume/preflight PASS. Exact008 supplier objects include source6fields plus
+defaults/nulls/zero balance;count2/distinct2/no other rows. Four referencing
+tables and other targets zero. PreTRUNCATE counters/time captured under locks;
+post034 checks businesszero and exactly the historicalaudit,then FK restore.
+No audit-one check after035-138.6focusedguards/typecheck/lint PASS;SQLbuffers
+historicalunchanged. Freeze files for fresh build/fullcatalog/bootstrap/reference
+proof,then ONE detached fullquality. No real providers/Production/deploy.
+
+## 2026-10-14 — approved seed allowlist;post034 audit clarification hold
+
+Resume/preflight PASS and same owned tree. New owner decision allows only
+literal prior-migration seeds in034 targets;four referencing tables zero.
+Documented exact008 two supplier rows/source206-212,no manual cleanup.
+Read-only source proves03461-73 inserts cleanup audit afterTRUNCATE;the
+requested all-targets-zero postcondition would reject intended historical
+audit. No script/test/SQL changes or new runtime/fullQA attempt in this turn.
+Await exact cleanup-audit exception before implementing/rehearsing. No
+commit/push/Production/deploy;checkpoint preserves approved code draft.
+
+## 2026-10-14 — strict empty guard detects008 fixture;stop before FK changes
+
+New builder initialEOF was transport-diagnostic loss;wait close for EOF/EPIPE
+now retains originalSQLexit/stderr,permanent early-child-exit testPASS.5units
+typecheck/focusedlint PASS. Fresh diagnostic run15:27:28.297–15:28:04.442UTC,
+raw001-033 PASS,psql3 ENV034_NOT_EMPTY:suppliers BEFORE snapshot/drop.
+008 lines206-212 seed two sample suppliers directly;seed.sql disabled. Files
+frozen,ownedDBstopped-no-backup. No cleanup of these rows or guard exemption.
+Suggested exact008-row/zero-balance/no-reference preparation requires OWNER
+approval. Catalog/DB_FUNCTIONS/fullQA/commit/push NOT RUN after blocked guard.
+Git010 predates034,not evidence of oldProduction application method.
+
+## 2026-10-14 — owner-approved empty-project builder implemented,proof pending
+
+One builder uses original138 buffers/pinned034 SHA;empty baseline and28table
+guards before exact4FK drop;captured catalog/definitions restored and compared.
+Immutable034 owns COMMIT;restore is secondtransaction,SQL failure recovery
+compensates but crash/connection loss cannot promise atomicity. Explicit future
+PGSERVICE-only mode is not authorized now. Git proves010 FKs predating034,
+not how oldProduction actually ran it.4new guards/typecheck/focusedlint PASS.
+Freeze files for fresh build/negative/catalog parity then DB_FUNCTIONS/fullQA.
+
+## 2026-10-14 — literal034 blocker proven;await environment decision
+
+Fresh local literal138 test/no seed/publicTables0/authUsers0;psql original
+bytes001-033 PASS,034 exit3(FK supplier_returns references supplier_receipts).
+All four omitted movement tables empty;FK rule structural.62.451s including
+cleanup;files unchanged;owned stack stopped/no-backup,n8n untouched. No raw
+history changed,035-138/reference/fullQA NOT RUN after owner-mandated stop.
+Readiness report documents existing temp034 four-table TRUNCATE extension;
+proposes ONLY a future empty-project preparation step temporarily removing
+four crossing FKs/restoring exact definitions before035. NOT implemented.
+Later migration alone cannot run ahead of034. Exact5eb737f CI22/22+secrets
+already verified public API;phasePACKAGE_F alignment/continuity5/5 PASS.
+No commit/push after blocker;Gitleaks/checkpoint only then owner direction.
+
+## 2026-10-14 — owner permits metadata alignment and literal build proof
+
+Resume/preflight PASS;correct only ACTIVE_TASK phase toPACKAGE_F,not tests or
+project-state. Public API/official delivery job verifier and gitls-remote prove
+exact5eb737f full quality38470713781 22/22 and secrets38470713856 success.
+Both are push/main;no credential read. Workflow push filters include main;
+private affected mode requires private visibility AND opt-in flag. No CI
+change justified by current evidence. Prove literal fresh001-138 first as
+readiness prerequisite;standard bootstrap modifies temp034 TRUNCATE list.
+If literal failure,report exact cause/proposal and stop before repair/fullQA.
+
+## 2026-10-14 — pre-Frankfurt gate stopped on task metadata mismatch
+
+One independent gate22:01:23.905–22:03:40.589UTC13Oct (14OctAmman),exit1,
+tracked files unchanged. Node24.18.0/free3.13GiB,serial units/browser1planned.
+Admin type/lint PASS42.111s(3warnings);units1018PASS/1FAIL/1019,90.595s.
+Failure tests/agent-continuity.test.ts65/92:Codex setup phasePRE_FRANKFURT_QA
+does not match project-statePACKAGE_F. No assertion/product/metadata repair,
+retry or further gates;Customer/build/browser/DB/reference NOT RUN. External
+runner initially failed ESM Windows path before any gate,corrected only inTemp.
+PRE_FRANKFURT_READINESS.md records cause/counts/open items/034 limitation.
+Report/checkpoint only;no commit/push/CI after owner-mandated failure stop.
+
+## 2026-10-14 — owner authorizes pre-Frankfurt QA milestone only
+
+Resume/preflight PASS from delivered strict5eb737f;dirty ACTIVE_TASK only is
+the owned post-delivery checkpoint. Owner authorizes one full local quality,
+fresh isolated001-138/DB_FUNCTIONS comparison,and PRE_FRANKFURT_READINESS.md
+with counts/timing/open items;docs-only commit/Gitleaks0/full exact CI then STOP.
+No repair/product/test/config/CI/migration/Production/deploy changes. Existing
+memory policy chooses1browser worker below4GiB;all units serialized per local
+maintenance guidance. Canonical quality stages retained;no partial selection,
+retries or timeout changes. DB stage sequential after quality;known temporary
+034 compatibility explicitly limits managed-build readiness. Startup tools
+remain deferred to immediately before operation by owner decision.
+
 ## 2026-10-14 — approved strict gate PASS;delivery pending
 
 Owner approves failure-only Vite evidence and ONE config gate after diagnosis.
