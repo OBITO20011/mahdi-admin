@@ -1,5 +1,22 @@
 # Agent handoff history
 
+## 2026-10-15 — full local pre-Frankfurt station PASS;docs delivery next
+
+Resume/preflightPASS;8ed121e exactpush/main quality38627093815 FULL24/24 and
+secrets38627093689PASS;HEADremote match. Five shards600/417/565/520/433s.
+Owner authorized ONE independent full local quality,followed inside same turn
+to actualexit0;no trackedfiles edited while running. Eightcanonical stages
+PASS:Admin1030/Customer191/type/lints/builds/isolation/all966browser cases
+(907PASS/59existingconditional skips/retries0). Started14Oct21:40:44.259UTC,
+ended23:15:56.614UTC (=15Oct00:40–02:15Amman),5712.355s;Node24.18.0,
+free3701960704B/worker1. Frozenhash36f96cb2ffa4ecd680f830945e9e0889fe33cf670902f78d8e2c0c51baa76911.
+EvidenceTemp/nawasrah-frankfurt-complete-fixtures-20261014.log/.exit.json.
+Accepted DBb285c0c138raw/officialrepair/list/dryrun0/fullcatalog0/410functions
+unchanged,not falsely claimed rerun today or managedFrankfurt proof. Allowned
+QAservers/processes/DB stopped;n8n untouched. Readiness accepted CHECK scope;
+startup-tools deferred and Phase7/realservices/Production/deploy unauthorized.
+Docs-only relatedprecommit/Gitleaks/full exactCI then checkpointSTOP next.
+
 ## 2026-10-14 — positive cache fixture proof21 complete,delivery gates next
 
 Resume/preflightPASS. Owner acceptsdb51455/CI24/shards<12 and approves
