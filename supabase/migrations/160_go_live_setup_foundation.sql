@@ -5,12 +5,17 @@ BEGIN;
 -- only the UI) rejects every opening write: opening stock sessions (047),
 -- customer opening debts (161), supplier opening balances (162) and the
 -- setup product import. The lock is one-way; no RPC or update can reopen it.
+-- Owner decision 2026-10-15: an owner-only, reasoned reversal of an existing
+-- opening entry stays allowed after finish; NEW opening entries never are.
+-- Opening customer debt is attributed to the main branch (main_branch_id),
+-- chosen before finish or, with exactly one active branch, that branch.
 -- Explicit full definitions only; no historical function body is copied.
 
 CREATE TABLE public.go_live_setup_state (
   id BOOLEAN PRIMARY KEY DEFAULT true CHECK (id),
   finished_at TIMESTAMPTZ,
   finished_by UUID REFERENCES public.profiles(id) ON DELETE RESTRICT,
+  main_branch_id UUID REFERENCES public.branches(id) ON DELETE RESTRICT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   CONSTRAINT go_live_setup_state_finish_pair
     CHECK ((finished_at IS NULL) = (finished_by IS NULL))
@@ -415,6 +420,44 @@ ALTER FUNCTION public.import_go_live_products_v1(TEXT, JSONB, BOOLEAN) OWNER TO 
 REVOKE ALL ON FUNCTION public.import_go_live_products_v1(TEXT, JSONB, BOOLEAN) FROM PUBLIC, anon;
 GRANT EXECUTE ON FUNCTION public.import_go_live_products_v1(TEXT, JSONB, BOOLEAN) TO authenticated;
 
+-- Main branch for opening-debt attribution: the stored choice, else the only
+-- active branch. NULL when several active branches exist and none was chosen.
+CREATE FUNCTION public.go_live_main_branch_internal()
+RETURNS UUID
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+  SELECT COALESCE(
+    (SELECT main_branch_id FROM public.go_live_setup_state WHERE id),
+    (SELECT CASE WHEN COUNT(*) = 1 THEN MIN(id::TEXT)::UUID END FROM public.branches WHERE is_active));
+$$;
+ALTER FUNCTION public.go_live_main_branch_internal() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.go_live_main_branch_internal() FROM PUBLIC, anon, authenticated, service_role;
+
+CREATE FUNCTION public.set_go_live_main_branch_v1(p_branch_id UUID)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+BEGIN
+  PERFORM public.assert_erp_role(ARRAY['owner'], 'تحديد الفرع الرئيسي لبداية التشغيل');
+  PERFORM public.go_live_assert_setup_open_internal();
+  IF NOT EXISTS (SELECT 1 FROM public.branches WHERE id = p_branch_id AND is_active) THEN
+    RAISE EXCEPTION 'الفرع المحدد غير موجود أو غير نشط.';
+  END IF;
+  UPDATE public.go_live_setup_state SET main_branch_id = p_branch_id WHERE id;
+  INSERT INTO public.audit_logs(user_id, action, entity_name, entity_id, details)
+  VALUES (auth.uid(), 'GO_LIVE_MAIN_BRANCH_SET', 'branches', p_branch_id, '{}'::JSONB);
+  RETURN jsonb_build_object('success', true, 'mainBranchId', p_branch_id);
+END;
+$$;
+ALTER FUNCTION public.set_go_live_main_branch_v1(UUID) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.set_go_live_main_branch_v1(UUID) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.set_go_live_main_branch_v1(UUID) TO authenticated;
+
 -- One-way finish. Requires the exact Arabic confirmation phrase. A repeat
 -- call after finish is a read-only replay that reports the original finish.
 CREATE FUNCTION public.finish_go_live_setup_v1(p_confirmation TEXT)
@@ -426,6 +469,7 @@ AS $$
 DECLARE
   v_user_id UUID := auth.uid();
   v_state public.go_live_setup_state%ROWTYPE;
+  v_main_branch UUID;
 BEGIN
   PERFORM public.assert_erp_role(ARRAY['owner'], 'إنهاء بداية التشغيل');
   SELECT * INTO STRICT v_state FROM public.go_live_setup_state WHERE id FOR UPDATE;
@@ -437,11 +481,17 @@ BEGIN
     RAISE EXCEPTION USING ERRCODE = 'P0001',
       MESSAGE = 'GO_LIVE_CONFIRMATION_REQUIRED: اكتب عبارة التأكيد "إنهاء بداية التشغيل" حرفياً.';
   END IF;
-  UPDATE public.go_live_setup_state SET finished_at = NOW(), finished_by = v_user_id
+  v_main_branch := public.go_live_main_branch_internal();
+  IF v_main_branch IS NULL THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'GO_LIVE_MAIN_BRANCH_REQUIRED: اختر الفرع الرئيسي الذي تُنسب إليه الديون الافتتاحية قبل الإنهاء.';
+  END IF;
+  UPDATE public.go_live_setup_state
+  SET finished_at = NOW(), finished_by = v_user_id, main_branch_id = v_main_branch
   WHERE id RETURNING * INTO v_state;
   INSERT INTO public.audit_logs(user_id, action, entity_name, entity_id, details)
   VALUES (v_user_id, 'GO_LIVE_SETUP_FINISHED', 'go_live_setup_state', NULL,
-    jsonb_build_object('finished_at', v_state.finished_at,
+    jsonb_build_object('finished_at', v_state.finished_at, 'main_branch_id', v_state.main_branch_id,
       'status', public.go_live_setup_counts_internal()));
   RETURN jsonb_build_object('success', true, 'idempotentReplay', false,
     'finishedAt', v_state.finished_at, 'finishedBy', v_state.finished_by);
@@ -489,7 +539,11 @@ BEGIN
   RETURN jsonb_build_object('success', true,
     'finished', v_state.finished_at IS NOT NULL,
     'finishedAt', v_state.finished_at,
-    'finishedByName', (SELECT full_name FROM public.profiles WHERE id = v_state.finished_by))
+    'finishedByName', (SELECT full_name FROM public.profiles WHERE id = v_state.finished_by),
+    'mainBranchId', public.go_live_main_branch_internal(),
+    'mainBranchName', (SELECT name_ar FROM public.branches WHERE id = public.go_live_main_branch_internal()),
+    'branches', COALESCE((SELECT jsonb_agg(jsonb_build_object('id', id, 'name', name_ar) ORDER BY name_ar, id)
+      FROM public.branches WHERE is_active), '[]'::JSONB))
     || public.go_live_setup_counts_internal();
 END;
 $$;

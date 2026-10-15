@@ -8,7 +8,8 @@ BEGIN;
 -- evidence equation below includes the same active opening rows, so the
 -- integrity check remains exact. Later settlement uses the existing supplier
 -- payment/receiving paths unchanged. Not a receipt, purchase, cost, stock,
--- cash or shift event. Immutable rows; one audited reversal before finish.
+-- cash or shift event. Immutable rows; one owner reversal with reason, audited
+-- (also after go-live finish, owner decision 3). Cash/CliQ settlement: 163.
 
 CREATE SEQUENCE public.supplier_opening_balance_number_seq START 1001;
 REVOKE ALL ON SEQUENCE public.supplier_opening_balance_number_seq FROM PUBLIC, anon, authenticated;
@@ -77,14 +78,19 @@ CREATE TRIGGER trg_supplier_opening_balances_no_truncate
 BEFORE TRUNCATE ON public.supplier_opening_balances
 FOR EACH STATEMENT EXECUTE FUNCTION public.go_live_reject_truncate();
 CREATE TRIGGER trg_supplier_opening_balances_go_live_lock
-BEFORE INSERT OR UPDATE ON public.supplier_opening_balances
+BEFORE INSERT ON public.supplier_opening_balances
 FOR EACH ROW EXECUTE FUNCTION public.go_live_reject_opening_write_after_finish();
 
--- Supplier matched by id or by exact active company name (trimmed).
+-- Owner decision 7 (same rule as customers): match an active supplier by
+-- phone first, then by an exactly equal company name. A doubtful match
+-- (equal/similar name with a different phone, or a similar name without
+-- phone) is a blocking per-row warning. Unmatched suppliers are created only
+-- when the caller confirms the listed names. One net line per supplier.
 CREATE FUNCTION public.record_supplier_opening_balances_v1(
   p_idempotency_key TEXT,
   p_rows JSONB,
-  p_dry_run BOOLEAN DEFAULT false
+  p_dry_run BOOLEAN DEFAULT false,
+  p_confirm_new_suppliers BOOLEAN DEFAULT false
 )
 RETURNS JSONB
 LANGUAGE plpgsql
@@ -100,6 +106,13 @@ DECLARE
   v_error TEXT;
   v_supplier_id UUID;
   v_count INTEGER;
+  v_warning BOOLEAN;
+  v_name TEXT;
+  v_phone TEXT;
+  v_other TEXT;
+  v_new_key TEXT;
+  v_new JSONB := '{}'::JSONB;
+  v_created_suppliers JSONB := '[]'::JSONB;
   v_date DATE;
   v_direction TEXT;
   v_notes TEXT;
@@ -129,7 +142,9 @@ BEGIN
   FOR v_row IN SELECT value FROM jsonb_array_elements(p_rows)
   LOOP
     v_n := v_n + 1;
-    v_error := NULL; v_supplier_id := NULL; v_date := NULL;
+    v_error := NULL; v_warning := false; v_supplier_id := NULL; v_date := NULL; v_new_key := NULL; v_other := NULL;
+    v_name := NULLIF(BTRIM(v_row->>'supplier_name'), '');
+    v_phone := NULLIF(public.normalize_customer_phone(COALESCE(v_row->>'supplier_phone', '')), '');
     v_direction := v_row->>'direction';
     v_notes := NULLIF(BTRIM(v_row->>'notes'), '');
     IF jsonb_typeof(v_row) <> 'object' THEN
@@ -155,34 +170,67 @@ BEGIN
     ELSIF v_error IS NULL AND v_date < DATE '2000-01-01' THEN
       v_error := 'تاريخ الرصيد الأصلي أقدم من المسموح (2000-01-01).';
     END IF;
-    IF v_error IS NULL THEN
-      IF COALESCE(v_row->>'supplier_id', '') ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' THEN
+    IF v_error IS NULL AND v_name IS NOT NULL AND CHAR_LENGTH(v_name) > 150 THEN
+      v_error := 'اسم المورد أطول من المسموح.';
+    END IF;
+    IF v_error IS NULL AND COALESCE(v_row->>'supplier_id', '') <> '' THEN
+      IF v_row->>'supplier_id' ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' THEN
         SELECT id INTO v_supplier_id FROM public.suppliers
         WHERE id = (v_row->>'supplier_id')::UUID AND is_active;
-        IF NOT FOUND THEN v_error := 'المورد غير موجود أو غير نشط.'; END IF;
-      ELSIF NULLIF(BTRIM(v_row->>'supplier_name'), '') IS NULL THEN
-        v_error := 'اسم المورد مطلوب لمطابقته.';
+      END IF;
+      IF v_supplier_id IS NULL THEN v_error := 'المورد غير موجود أو غير نشط.'; END IF;
+    ELSIF v_error IS NULL AND v_name IS NULL AND v_phone IS NULL THEN
+      v_error := 'اسم المورد أو هاتفه مطلوب لمطابقته.';
+    ELSIF v_error IS NULL THEN
+      IF v_phone IS NOT NULL THEN
+        SELECT COUNT(*), MIN(id::TEXT)::UUID INTO v_count, v_supplier_id FROM public.suppliers
+        WHERE is_active AND NULLIF(public.normalize_customer_phone(COALESCE(phone, '')), '') = v_phone;
+        IF v_count > 1 THEN
+          v_supplier_id := NULL;
+          v_error := 'يوجد أكثر من مورد بهذا الهاتف؛ أدخل الرصيد يدوياً باختيار المورد.';
+        ELSIF v_count = 0 THEN
+          v_supplier_id := NULL;
+        END IF;
       ELSE
         SELECT COUNT(*), MIN(id::TEXT)::UUID INTO v_count, v_supplier_id FROM public.suppliers
-        WHERE is_active AND BTRIM(company_name) = BTRIM(v_row->>'supplier_name');
-        IF v_count = 0 THEN
-          v_supplier_id := NULL;
-          v_error := 'لا يوجد مورد نشط بهذا الاسم؛ أضف المورد أولاً من شاشة الموردين.';
-        ELSIF v_count > 1 THEN
+        WHERE is_active AND BTRIM(company_name) = v_name;
+        IF v_count > 1 THEN
           v_supplier_id := NULL;
           v_error := 'يوجد أكثر من مورد بهذا الاسم؛ أدخل الرصيد يدوياً باختيار المورد.';
+        ELSIF v_count = 0 THEN
+          v_supplier_id := NULL;
+        END IF;
+      END IF;
+      IF v_error IS NULL AND v_supplier_id IS NULL THEN
+        SELECT company_name || COALESCE(' — ' || NULLIF(phone, ''), '') INTO v_other FROM public.suppliers
+        WHERE is_active AND v_name IS NOT NULL
+          AND public.go_live_normalize_name_internal(company_name) = public.go_live_normalize_name_internal(v_name)
+        ORDER BY created_at LIMIT 1;
+        IF v_other IS NOT NULL THEN
+          v_warning := true;
+          v_error := 'تحذير: يوجد مورد باسم مطابق أو مشابه '
+            || CASE WHEN v_phone IS NULL THEN 'والسطر بلا هاتف' ELSE 'وهاتف مختلف' END
+            || ' (' || v_other || ')؛ صحّح السطر أو أدخل الرصيد يدوياً. لن يُنشأ مورد مكرر.';
+        ELSIF v_name IS NULL THEN
+          v_error := 'لا يوجد مورد بهذا الهاتف، واسم المورد مطلوب لإضافته كمورد جديد.';
+        ELSE
+          v_new_key := public.go_live_normalize_name_internal(v_name);
         END IF;
       END IF;
     END IF;
     IF v_error IS NULL AND EXISTS (
       SELECT 1 FROM jsonb_array_elements(v_valid) prior
-      WHERE (prior->>'supplier_id')::UUID = v_supplier_id) THEN
+      WHERE COALESCE(prior->>'supplier_id', prior->>'new_key') = COALESCE(v_supplier_id::TEXT, v_new_key)) THEN
       v_error := 'المورد مكرر داخل الملف؛ اجعل لكل مورد سطراً واحداً بصافي رصيده.';
     END IF;
     IF v_error IS NOT NULL THEN
-      v_errors := v_errors || jsonb_build_object('row', v_n, 'message', v_error);
+      v_errors := v_errors || jsonb_build_object('row', v_n, 'message', v_error,
+        'kind', CASE WHEN v_warning THEN 'warning' ELSE 'error' END);
     ELSE
-      v_valid := v_valid || jsonb_build_object('row', v_n, 'supplier_id', v_supplier_id,
+      IF v_new_key IS NOT NULL THEN
+        v_new := v_new || jsonb_build_object(v_new_key, jsonb_build_object('row', v_n, 'name', v_name, 'phone', v_phone));
+      END IF;
+      v_valid := v_valid || jsonb_build_object('row', v_n, 'supplier_id', v_supplier_id, 'new_key', v_new_key,
         'direction', v_direction, 'amount_in_minor_units', (v_row->>'amount_in_minor_units')::BIGINT,
         'original_balance_date', v_date, 'notes', v_notes);
       IF v_direction = 'payable' THEN
@@ -196,13 +244,37 @@ BEGIN
   IF COALESCE(p_dry_run, false) THEN
     RETURN jsonb_build_object('success', true, 'dryRun', true, 'rowCount', v_n,
       'validCount', jsonb_array_length(v_valid), 'errors', v_errors,
+      'newSuppliers', COALESCE((SELECT jsonb_agg(value ORDER BY (value->>'row')::INTEGER)
+        FROM jsonb_each(v_new)), '[]'::JSONB),
       'payableTotalInMinorUnits', v_payable, 'advanceTotalInMinorUnits', v_advance);
   END IF;
   IF jsonb_array_length(v_errors) > 0 THEN
     RAISE EXCEPTION USING ERRCODE = 'P0001',
-      MESSAGE = 'GO_LIVE_BATCH_INVALID: الملف يحتوي أسطراً غير صالحة؛ لم يُحفظ أي سطر.',
+      MESSAGE = 'GO_LIVE_BATCH_INVALID: الملف يحتوي أسطراً غير صالحة أو تحذيرات؛ لم يُحفظ أي سطر.',
       DETAIL = v_errors::TEXT;
   END IF;
+  IF v_new <> '{}'::JSONB AND NOT COALESCE(p_confirm_new_suppliers, false) THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'GO_LIVE_NEW_PARTIES_CONFIRMATION_REQUIRED: سيُضاف ' || (SELECT COUNT(*) FROM jsonb_object_keys(v_new))
+        || ' مورد جديد؛ أكّد إضافتهم قبل الحفظ.';
+  END IF;
+
+  FOR v_new_key IN SELECT key FROM jsonb_each(v_new) ORDER BY (value->>'row')::INTEGER
+  LOOP
+    INSERT INTO public.suppliers(company_name, phone, is_active)
+    VALUES (v_new->v_new_key->>'name', v_new->v_new_key->>'phone', true)
+    RETURNING id INTO v_supplier_id;
+    v_new := jsonb_set(v_new, ARRAY[v_new_key, 'supplier_id'], to_jsonb(v_supplier_id));
+    v_created_suppliers := v_created_suppliers || jsonb_build_object('supplierId', v_supplier_id,
+      'name', v_new->v_new_key->>'name', 'phone', v_new->v_new_key->>'phone');
+    INSERT INTO public.audit_logs(user_id, action, entity_name, entity_id, details)
+    VALUES (v_user_id, 'GO_LIVE_SUPPLIER_CREATED', 'suppliers', v_supplier_id,
+      jsonb_build_object('company_name', v_new->v_new_key->>'name', 'phone', v_new->v_new_key->>'phone'));
+  END LOOP;
+  v_valid := (SELECT COALESCE(jsonb_agg(CASE WHEN v->>'supplier_id' IS NULL
+      THEN jsonb_set(v, '{supplier_id}', v_new->(v->>'new_key')->'supplier_id') ELSE v END
+      ORDER BY (v->>'row')::INTEGER), '[]'::JSONB)
+    FROM jsonb_array_elements(v_valid) v);
 
   -- Lock suppliers in a stable order before changing their stored balances.
   FOR v_supplier IN SELECT DISTINCT (v->>'supplier_id')::UUID FROM jsonb_array_elements(v_valid) v ORDER BY 1
@@ -231,13 +303,15 @@ BEGIN
   END LOOP;
   v_result := jsonb_build_object('success', true, 'dryRun', false, 'idempotentReplay', false,
     'kind', 'supplier_opening', 'batchId', v_batch_id, 'rowCount', v_n,
-    'payableTotalInMinorUnits', v_payable, 'advanceTotalInMinorUnits', v_advance, 'created', v_created);
+    'payableTotalInMinorUnits', v_payable, 'advanceTotalInMinorUnits', v_advance, 'created', v_created,
+    'createdSuppliers', v_created_suppliers);
   INSERT INTO public.go_live_import_batches(id, batch_kind, idempotency_key, request_hash, row_count, result, created_by)
   VALUES (v_batch_id, 'supplier_opening', BTRIM(p_idempotency_key), md5(p_rows::TEXT), v_n, v_result, v_user_id);
   INSERT INTO public.audit_logs(user_id, action, entity_name, entity_id, details)
   VALUES (v_user_id, 'GO_LIVE_SUPPLIER_OPENING_BALANCES', 'go_live_import_batches', v_batch_id,
     jsonb_build_object('idempotency_key', BTRIM(p_idempotency_key), 'row_count', v_n,
       'payable_total_in_minor_units', v_payable, 'advance_total_in_minor_units', v_advance,
+      'created_suppliers', v_created_suppliers,
       'entries', (SELECT jsonb_agg(jsonb_build_object('entry_number', c->>'entryNumber',
         'supplier_id', c->>'supplierId', 'direction', c->>'direction',
         'amount_in_minor_units', (c->>'amountInMinorUnits')::BIGINT,
@@ -245,9 +319,9 @@ BEGIN
   RETURN v_result;
 END;
 $$;
-ALTER FUNCTION public.record_supplier_opening_balances_v1(TEXT, JSONB, BOOLEAN) OWNER TO postgres;
-REVOKE ALL ON FUNCTION public.record_supplier_opening_balances_v1(TEXT, JSONB, BOOLEAN) FROM PUBLIC, anon;
-GRANT EXECUTE ON FUNCTION public.record_supplier_opening_balances_v1(TEXT, JSONB, BOOLEAN) TO authenticated;
+ALTER FUNCTION public.record_supplier_opening_balances_v1(TEXT, JSONB, BOOLEAN, BOOLEAN) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.record_supplier_opening_balances_v1(TEXT, JSONB, BOOLEAN, BOOLEAN) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.record_supplier_opening_balances_v1(TEXT, JSONB, BOOLEAN, BOOLEAN) TO authenticated;
 
 CREATE FUNCTION public.reverse_supplier_opening_balance_v1(p_entry_id UUID, p_reason TEXT)
 RETURNS JSONB
@@ -261,8 +335,8 @@ DECLARE
   v_entry public.supplier_opening_balances%ROWTYPE;
   v_supplier_id UUID;
 BEGIN
+  -- Owner decision 3: allowed also after go-live finish (owner, reason, audit).
   PERFORM public.assert_erp_role(ARRAY['owner'], 'عكس رصيد مورد افتتاحي');
-  PERFORM public.go_live_assert_setup_open_internal();
   IF v_reason IS NULL OR CHAR_LENGTH(v_reason) NOT BETWEEN 5 AND 300 THEN
     RAISE EXCEPTION 'اكتب سبب العكس (5 إلى 300 حرف).';
   END IF;

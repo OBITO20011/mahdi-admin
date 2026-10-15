@@ -7,7 +7,9 @@ BEGIN;
 -- receivable readers named by the owner: phase42 canonical total (121), debt
 -- aging (136), CRM financial filters (137) and the customer statement (138),
 -- each redefined below with a complete explicit body. Rows are immutable;
--- the only correction is a one-time reversal, audited, before go-live finish.
+-- the only correction is a one-time owner reversal with reason, audited
+-- (also after go-live finish, owner decision 3). Unified collections (163)
+-- allocate to entries oldest-first and reduce every reader here.
 
 CREATE SEQUENCE public.customer_opening_balance_number_seq START 1001;
 REVOKE ALL ON SEQUENCE public.customer_opening_balance_number_seq FROM PUBLIC, anon, authenticated;
@@ -83,17 +85,39 @@ FOR EACH ROW EXECUTE FUNCTION public.go_live_guard_customer_opening_balance();
 CREATE TRIGGER trg_customer_opening_balances_no_truncate
 BEFORE TRUNCATE ON public.customer_opening_balances
 FOR EACH STATEMENT EXECUTE FUNCTION public.go_live_reject_truncate();
+-- New entries only: an owner reversal (UPDATE) stays possible after finish.
 CREATE TRIGGER trg_customer_opening_balances_go_live_lock
-BEFORE INSERT OR UPDATE ON public.customer_opening_balances
+BEFORE INSERT ON public.customer_opening_balances
 FOR EACH ROW EXECUTE FUNCTION public.go_live_reject_opening_write_after_finish();
 
--- Writer. Dry run returns per-row Arabic errors without writing; a real run
--- validates the whole batch again and writes atomically or not at all.
--- Customer is matched by id or by exact phone (spaces/dashes/brackets/+ ignored).
+-- Name comparison for doubtful-match warnings only (never for matching):
+-- case, spaces, tashkeel/tatweel and common letter variants are ignored.
+CREATE FUNCTION public.go_live_normalize_name_internal(p_name TEXT)
+RETURNS TEXT
+LANGUAGE sql
+IMMUTABLE
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+  SELECT translate(lower(BTRIM(COALESCE(p_name, ''))),
+    'أإآٱةىؤئ ' || chr(1600) || chr(1611) || chr(1612) || chr(1613) || chr(1614)
+      || chr(1615) || chr(1616) || chr(1617) || chr(1618),
+    'ااااهيوي');
+$$;
+ALTER FUNCTION public.go_live_normalize_name_internal(TEXT) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.go_live_normalize_name_internal(TEXT) FROM PUBLIC, anon, authenticated, service_role;
+
+-- Owner decision 7: match by phone first, then by an exactly equal name.
+-- A doubtful match (similar or equal name with a different phone, or a
+-- similar name without phone) is a blocking per-row warning and never a
+-- silent duplicate. Unmatched rows create new customers through the existing
+-- save_customer contract, only when the caller confirms the listed names.
+-- Dry run returns errors, warnings, matches and the new customers to create.
 CREATE FUNCTION public.record_customer_opening_balances_v1(
   p_idempotency_key TEXT,
   p_rows JSONB,
-  p_dry_run BOOLEAN DEFAULT false
+  p_dry_run BOOLEAN DEFAULT false,
+  p_confirm_new_customers BOOLEAN DEFAULT false
 )
 RETURNS JSONB
 LANGUAGE plpgsql
@@ -107,18 +131,24 @@ DECLARE
   v_n INTEGER := 0;
   v_errors JSONB := '[]'::JSONB;
   v_error TEXT;
+  v_warning BOOLEAN;
   v_customer_id UUID;
   v_phone TEXT;
+  v_name TEXT;
   v_count INTEGER;
+  v_other TEXT;
   v_date DATE;
   v_notes TEXT;
   v_today DATE := (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Amman')::DATE;
   v_valid JSONB := '[]'::JSONB;
+  v_new JSONB := '{}'::JSONB;
+  v_new_key TEXT;
   v_batch_id UUID;
   v_created JSONB := '[]'::JSONB;
   v_entry public.customer_opening_balances%ROWTYPE;
   v_total BIGINT := 0;
   v_result JSONB;
+  v_created_customers JSONB := '[]'::JSONB;
 BEGIN
   PERFORM public.assert_erp_role(ARRAY['owner'], 'إدخال ديون العملاء الافتتاحية');
   PERFORM public.go_live_assert_setup_open_internal();
@@ -135,8 +165,10 @@ BEGIN
   FOR v_row IN SELECT value FROM jsonb_array_elements(p_rows)
   LOOP
     v_n := v_n + 1;
-    v_error := NULL; v_customer_id := NULL; v_date := NULL;
+    v_error := NULL; v_warning := false; v_customer_id := NULL; v_date := NULL; v_new_key := NULL;
     v_notes := NULLIF(BTRIM(v_row->>'notes'), '');
+    v_name := NULLIF(BTRIM(v_row->>'customer_name'), '');
+    v_phone := NULLIF(public.normalize_customer_phone(COALESCE(v_row->>'customer_phone', '')), '');
     IF jsonb_typeof(v_row) <> 'object' THEN
       v_error := 'بيانات السطر غير صحيحة.';
     ELSIF COALESCE(v_row->>'amount_in_minor_units', '') !~ '^[1-9][0-9]{0,11}$' THEN
@@ -145,6 +177,8 @@ BEGIN
       v_error := 'تاريخ الدين الأصلي مطلوب بصيغة YYYY-MM-DD.';
     ELSIF v_notes IS NOT NULL AND CHAR_LENGTH(v_notes) > 300 THEN
       v_error := 'الملاحظة أطول من 300 حرف.';
+    ELSIF v_name IS NOT NULL AND CHAR_LENGTH(v_name) > 150 THEN
+      v_error := 'اسم العميل أطول من المسموح.';
     END IF;
     IF v_error IS NULL THEN
       BEGIN
@@ -158,39 +192,83 @@ BEGIN
     ELSIF v_error IS NULL AND v_date < DATE '2000-01-01' THEN
       v_error := 'تاريخ الدين الأصلي أقدم من المسموح (2000-01-01).';
     END IF;
-    IF v_error IS NULL THEN
-      IF COALESCE(v_row->>'customer_id', '') ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' THEN
+    IF v_error IS NULL AND COALESCE(v_row->>'customer_id', '') <> '' THEN
+      IF v_row->>'customer_id' ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' THEN
         SELECT id INTO v_customer_id FROM public.customers
         WHERE id = (v_row->>'customer_id')::UUID AND NOT is_deleted;
-        IF NOT FOUND THEN v_error := 'العميل غير موجود.'; END IF;
-      ELSE
-        v_phone := translate(BTRIM(COALESCE(v_row->>'customer_phone', '')), ' -()+', '');
-        IF v_phone = '' THEN
-          v_error := 'رقم هاتف العميل مطلوب لمطابقته.';
+      END IF;
+      IF v_customer_id IS NULL THEN v_error := 'العميل غير موجود.'; END IF;
+    ELSIF v_error IS NULL AND v_phone IS NOT NULL THEN
+      SELECT COUNT(*), MIN(id::TEXT)::UUID INTO v_count, v_customer_id FROM public.customers
+      WHERE NOT is_deleted AND public.normalize_customer_phone(phone) = v_phone;
+      IF v_count > 1 THEN
+        v_customer_id := NULL;
+        v_error := 'يوجد أكثر من عميل بهذا الهاتف؛ أدخل الدين يدوياً باختيار العميل.';
+      ELSIF v_count = 0 THEN
+        v_customer_id := NULL;
+        SELECT full_name || ' — ' || phone INTO v_other FROM public.customers
+        WHERE NOT is_deleted AND v_name IS NOT NULL
+          AND public.go_live_normalize_name_internal(full_name) = public.go_live_normalize_name_internal(v_name)
+        ORDER BY created_at LIMIT 1;
+        IF v_other IS NOT NULL THEN
+          v_warning := true;
+          v_error := 'تحذير: يوجد عميل باسم مطابق أو مشابه وهاتف مختلف (' || v_other
+            || ')؛ صحّح الهاتف في الملف أو أدخل الدين يدوياً. لن يُنشأ عميل مكرر.';
+        ELSIF v_name IS NULL THEN
+          v_error := 'لا يوجد عميل بهذا الهاتف، واسم العميل مطلوب لإضافته كعميل جديد.';
+        ELSIF v_phone !~ '^[0-9]{9,15}$' THEN
+          v_error := 'رقم هاتف العميل غير صحيح.';
         ELSE
-          SELECT COUNT(*), MIN(id::TEXT)::UUID INTO v_count, v_customer_id FROM public.customers
-          WHERE NOT is_deleted AND translate(BTRIM(phone), ' -()+', '') = v_phone;
-          IF v_count = 0 THEN
-            v_customer_id := NULL;
-            v_error := 'لا يوجد عميل بهذا الهاتف؛ أضف العميل أولاً من شاشة العملاء.';
-          ELSIF v_count > 1 THEN
-            v_customer_id := NULL;
-            v_error := 'يوجد أكثر من عميل بهذا الهاتف؛ أدخل الدين يدوياً باختيار العميل.';
+          v_new_key := v_phone;
+        END IF;
+      END IF;
+    ELSIF v_error IS NULL THEN
+      IF v_name IS NULL THEN
+        v_error := 'هاتف العميل أو اسمه مطلوب لمطابقته.';
+      ELSE
+        SELECT COUNT(*), MIN(id::TEXT)::UUID INTO v_count, v_customer_id FROM public.customers
+        WHERE NOT is_deleted AND BTRIM(full_name) = v_name;
+        IF v_count > 1 THEN
+          v_customer_id := NULL;
+          v_error := 'يوجد أكثر من عميل بهذا الاسم؛ أضف الهاتف في الملف.';
+        ELSIF v_count = 0 THEN
+          v_customer_id := NULL;
+          SELECT full_name || ' — ' || phone INTO v_other FROM public.customers
+          WHERE NOT is_deleted
+            AND public.go_live_normalize_name_internal(full_name) = public.go_live_normalize_name_internal(v_name)
+          ORDER BY created_at LIMIT 1;
+          IF v_other IS NOT NULL THEN
+            v_warning := true;
+            v_error := 'تحذير: لا هاتف في السطر ويوجد عميل باسم مشابه (' || v_other
+              || ')؛ أضف الهاتف أو أدخل الدين يدوياً. لن يُنشأ عميل مكرر.';
+          ELSE
+            v_error := 'لا يوجد عميل بهذا الاسم؛ أضف رقم الهاتف ليُنشأ عميل جديد.';
           END IF;
         END IF;
       END IF;
     END IF;
+    IF v_error IS NULL AND v_new_key IS NOT NULL AND v_new ? v_new_key
+      AND public.go_live_normalize_name_internal(v_new->v_new_key->>'name')
+        <> public.go_live_normalize_name_internal(v_name) THEN
+      v_warning := true;
+      v_error := 'تحذير: نفس الهاتف الجديد ورد في الملف باسم آخر (' || (v_new->v_new_key->>'name')
+        || ')؛ وحّد الاسم أو الهاتف.';
+    END IF;
     IF v_error IS NULL AND EXISTS (
       SELECT 1 FROM jsonb_array_elements(v_valid) prior
-      WHERE (prior->>'customer_id')::UUID = v_customer_id
+      WHERE COALESCE(prior->>'customer_id', prior->>'new_key') = COALESCE(v_customer_id::TEXT, v_new_key)
         AND (prior->>'original_debt_date')::DATE = v_date
         AND (prior->>'amount_in_minor_units')::BIGINT = (v_row->>'amount_in_minor_units')::BIGINT) THEN
       v_error := 'سطر مكرر لنفس العميل والتاريخ والمبلغ داخل الملف؛ اجمعهما في سطر واحد.';
     END IF;
     IF v_error IS NOT NULL THEN
-      v_errors := v_errors || jsonb_build_object('row', v_n, 'message', v_error);
+      v_errors := v_errors || jsonb_build_object('row', v_n, 'message', v_error,
+        'kind', CASE WHEN v_warning THEN 'warning' ELSE 'error' END);
     ELSE
-      v_valid := v_valid || jsonb_build_object('row', v_n, 'customer_id', v_customer_id,
+      IF v_new_key IS NOT NULL AND NOT v_new ? v_new_key THEN
+        v_new := v_new || jsonb_build_object(v_new_key, jsonb_build_object('row', v_n, 'name', v_name, 'phone', v_phone));
+      END IF;
+      v_valid := v_valid || jsonb_build_object('row', v_n, 'customer_id', v_customer_id, 'new_key', v_new_key,
         'amount_in_minor_units', (v_row->>'amount_in_minor_units')::BIGINT,
         'original_debt_date', v_date, 'notes', v_notes);
       v_total := v_total + (v_row->>'amount_in_minor_units')::BIGINT;
@@ -201,22 +279,40 @@ BEGIN
     RETURN jsonb_build_object('success', true, 'dryRun', true, 'rowCount', v_n,
       'validCount', jsonb_array_length(v_valid), 'errors', v_errors,
       'validTotalInMinorUnits', v_total,
-      'customerCount', (SELECT COUNT(DISTINCT v->>'customer_id') FROM jsonb_array_elements(v_valid) v));
+      'newCustomers', COALESCE((SELECT jsonb_agg(value ORDER BY (value->>'row')::INTEGER)
+        FROM jsonb_each(v_new)), '[]'::JSONB),
+      'customerCount', (SELECT COUNT(DISTINCT COALESCE(v->>'customer_id', v->>'new_key'))
+        FROM jsonb_array_elements(v_valid) v));
   END IF;
   IF jsonb_array_length(v_errors) > 0 THEN
     RAISE EXCEPTION USING ERRCODE = 'P0001',
-      MESSAGE = 'GO_LIVE_BATCH_INVALID: الملف يحتوي أسطراً غير صالحة؛ لم يُحفظ أي سطر.',
+      MESSAGE = 'GO_LIVE_BATCH_INVALID: الملف يحتوي أسطراً غير صالحة أو تحذيرات؛ لم يُحفظ أي سطر.',
       DETAIL = v_errors::TEXT;
   END IF;
+  IF v_new <> '{}'::JSONB AND NOT COALESCE(p_confirm_new_customers, false) THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'GO_LIVE_NEW_PARTIES_CONFIRMATION_REQUIRED: سيُضاف ' || (SELECT COUNT(*) FROM jsonb_object_keys(v_new))
+        || ' عميل جديد؛ أكّد إضافتهم قبل الحفظ.';
+  END IF;
+
+  -- New customers first, through the existing customer contract.
+  FOR v_new_key IN SELECT key FROM jsonb_each(v_new) ORDER BY (value->>'row')::INTEGER
+  LOOP
+    v_result := public.save_customer(v_new->v_new_key->>'name', v_new->v_new_key->>'phone');
+    v_new := jsonb_set(v_new, ARRAY[v_new_key, 'customer_id'], to_jsonb(v_result->>'customer_id'));
+    v_created_customers := v_created_customers || jsonb_build_object('customerId', v_result->>'customer_id',
+      'name', v_new->v_new_key->>'name', 'phone', v_new->v_new_key->>'phone');
+  END LOOP;
 
   v_batch_id := gen_random_uuid();
   FOR v_row IN SELECT value FROM jsonb_array_elements(v_valid)
   LOOP
     v_date := (v_row->>'original_debt_date')::DATE;
+    v_customer_id := COALESCE((v_row->>'customer_id')::UUID, (v_new->(v_row->>'new_key')->>'customer_id')::UUID);
     INSERT INTO public.customer_opening_balances(entry_number, customer_id, amount_in_minor_units,
       original_debt_date, occurred_at, notes, batch_id, created_by)
     VALUES ('COB-' || LPAD(nextval('public.customer_opening_balance_number_seq')::TEXT, 6, '0'),
-      (v_row->>'customer_id')::UUID, (v_row->>'amount_in_minor_units')::BIGINT, v_date,
+      v_customer_id, (v_row->>'amount_in_minor_units')::BIGINT, v_date,
       v_date::TIMESTAMP AT TIME ZONE 'Asia/Amman', v_row->>'notes', v_batch_id, v_user_id)
     RETURNING * INTO v_entry;
     v_created := v_created || jsonb_build_object('row', (v_row->>'row')::INTEGER,
@@ -225,24 +321,158 @@ BEGIN
   END LOOP;
   v_result := jsonb_build_object('success', true, 'dryRun', false, 'idempotentReplay', false,
     'kind', 'customer_opening', 'batchId', v_batch_id, 'rowCount', v_n,
-    'totalInMinorUnits', v_total, 'created', v_created);
+    'totalInMinorUnits', v_total, 'created', v_created, 'createdCustomers', v_created_customers);
   INSERT INTO public.go_live_import_batches(id, batch_kind, idempotency_key, request_hash, row_count, result, created_by)
   VALUES (v_batch_id, 'customer_opening', BTRIM(p_idempotency_key), md5(p_rows::TEXT), v_n, v_result, v_user_id);
   INSERT INTO public.audit_logs(user_id, action, entity_name, entity_id, details)
   VALUES (v_user_id, 'GO_LIVE_CUSTOMER_OPENING_BALANCES', 'go_live_import_batches', v_batch_id,
     jsonb_build_object('idempotency_key', BTRIM(p_idempotency_key), 'row_count', v_n,
-      'total_in_minor_units', v_total,
+      'total_in_minor_units', v_total, 'created_customers', v_created_customers,
       'entries', (SELECT jsonb_agg(jsonb_build_object('entry_number', c->>'entryNumber',
         'customer_id', c->>'customerId', 'amount_in_minor_units', (c->>'amountInMinorUnits')::BIGINT,
         'original_debt_date', c->>'originalDebtDate')) FROM jsonb_array_elements(v_created) c)));
   RETURN v_result;
 END;
 $$;
-ALTER FUNCTION public.record_customer_opening_balances_v1(TEXT, JSONB, BOOLEAN) OWNER TO postgres;
-REVOKE ALL ON FUNCTION public.record_customer_opening_balances_v1(TEXT, JSONB, BOOLEAN) FROM PUBLIC, anon;
-GRANT EXECUTE ON FUNCTION public.record_customer_opening_balances_v1(TEXT, JSONB, BOOLEAN) TO authenticated;
+ALTER FUNCTION public.record_customer_opening_balances_v1(TEXT, JSONB, BOOLEAN, BOOLEAN) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.record_customer_opening_balances_v1(TEXT, JSONB, BOOLEAN, BOOLEAN) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.record_customer_opening_balances_v1(TEXT, JSONB, BOOLEAN, BOOLEAN) TO authenticated;
 
--- The only correction: one reversal per entry, with reason, before finish.
+-- Unified customer collection ("تحصيل من الزبون", writer in 163). One
+-- operation allocates a lump sum oldest-first: opening debts by original
+-- date, then open orders oldest-first through the existing order payment
+-- path. Opening parts are recorded here; order parts are ordinary
+-- customer_payments linked to the operation. Reversal reverses the whole
+-- operation (163); only the reversal fields of an operation may ever change.
+CREATE SEQUENCE public.customer_collection_operation_number_seq START 1001;
+REVOKE ALL ON SEQUENCE public.customer_collection_operation_number_seq FROM PUBLIC, anon, authenticated;
+
+CREATE TABLE public.customer_collection_operations (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  operation_number TEXT NOT NULL UNIQUE,
+  customer_id UUID NOT NULL REFERENCES public.customers(id) ON DELETE RESTRICT,
+  amount_in_minor_units BIGINT NOT NULL CHECK (amount_in_minor_units > 0 AND amount_in_minor_units <= 999999999999),
+  opening_amount_in_minor_units BIGINT NOT NULL CHECK (opening_amount_in_minor_units >= 0),
+  orders_amount_in_minor_units BIGINT NOT NULL CHECK (orders_amount_in_minor_units >= 0),
+  payment_method TEXT NOT NULL CHECK (payment_method IN ('cash', 'cliq', 'bank_transfer')),
+  reference_number TEXT CHECK (reference_number IS NULL OR CHAR_LENGTH(reference_number) <= 100),
+  notes TEXT CHECK (notes IS NULL OR CHAR_LENGTH(notes) <= 300),
+  -- Drawer/shift of the OPENING part. Order parts follow the existing
+  -- customer_payments shift attachment of each order's branch.
+  branch_id UUID REFERENCES public.branches(id) ON DELETE RESTRICT,
+  cash_shift_id UUID REFERENCES public.cash_shifts(id) ON DELETE RESTRICT,
+  idempotency_key TEXT NOT NULL UNIQUE CHECK (CHAR_LENGTH(idempotency_key) BETWEEN 16 AND 120),
+  created_by UUID NOT NULL REFERENCES public.profiles(id) ON DELETE RESTRICT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  is_reversed BOOLEAN NOT NULL DEFAULT false,
+  reversed_at TIMESTAMPTZ,
+  reversed_by UUID REFERENCES public.profiles(id) ON DELETE RESTRICT,
+  reversal_reason TEXT,
+  CONSTRAINT customer_collection_operations_parts_sum
+    CHECK (opening_amount_in_minor_units + orders_amount_in_minor_units = amount_in_minor_units),
+  CONSTRAINT customer_collection_operations_opening_shift CHECK (
+    NOT (payment_method IN ('cash', 'cliq') AND opening_amount_in_minor_units > 0)
+    OR (cash_shift_id IS NOT NULL AND branch_id IS NOT NULL)),
+  CONSTRAINT customer_collection_operations_reversal_complete CHECK (
+    (NOT is_reversed AND reversed_at IS NULL AND reversed_by IS NULL AND reversal_reason IS NULL)
+    OR (is_reversed AND reversed_at IS NOT NULL AND reversed_by IS NOT NULL
+      AND CHAR_LENGTH(BTRIM(reversal_reason)) BETWEEN 5 AND 500))
+);
+CREATE INDEX idx_customer_collection_operations_customer
+  ON public.customer_collection_operations(customer_id, created_at);
+CREATE INDEX idx_customer_collection_operations_shift
+  ON public.customer_collection_operations(cash_shift_id) WHERE cash_shift_id IS NOT NULL;
+
+CREATE TABLE public.customer_collection_opening_allocations (
+  operation_id UUID NOT NULL REFERENCES public.customer_collection_operations(id) ON DELETE RESTRICT,
+  opening_balance_id UUID NOT NULL REFERENCES public.customer_opening_balances(id) ON DELETE RESTRICT,
+  amount_in_minor_units BIGINT NOT NULL CHECK (amount_in_minor_units > 0),
+  PRIMARY KEY (operation_id, opening_balance_id)
+);
+CREATE INDEX idx_customer_collection_opening_allocations_opening
+  ON public.customer_collection_opening_allocations(opening_balance_id);
+
+CREATE TABLE public.customer_collection_order_payments (
+  operation_id UUID NOT NULL REFERENCES public.customer_collection_operations(id) ON DELETE RESTRICT,
+  customer_payment_id UUID NOT NULL UNIQUE REFERENCES public.customer_payments(id) ON DELETE RESTRICT,
+  order_id UUID NOT NULL REFERENCES public.orders(id) ON DELETE RESTRICT,
+  amount_in_minor_units BIGINT NOT NULL CHECK (amount_in_minor_units > 0),
+  PRIMARY KEY (operation_id, customer_payment_id)
+);
+
+ALTER TABLE public.customer_collection_operations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.customer_collection_opening_allocations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.customer_collection_order_payments ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON TABLE public.customer_collection_operations FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON TABLE public.customer_collection_opening_allocations FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON TABLE public.customer_collection_order_payments FROM PUBLIC, anon, authenticated;
+ALTER TABLE public.customer_collection_operations OWNER TO postgres;
+ALTER TABLE public.customer_collection_opening_allocations OWNER TO postgres;
+ALTER TABLE public.customer_collection_order_payments OWNER TO postgres;
+
+CREATE FUNCTION public.go_live_reject_collection_mutation()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+BEGIN
+  RAISE EXCEPTION USING ERRCODE = 'P0001',
+    MESSAGE = 'GO_LIVE_COLLECTION_IMMUTABLE: سجل التحصيل دائم؛ التصحيح بعكس العملية كاملة فقط.';
+END;
+$$;
+ALTER FUNCTION public.go_live_reject_collection_mutation() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.go_live_reject_collection_mutation() FROM PUBLIC, anon, authenticated, service_role;
+
+CREATE FUNCTION public.go_live_guard_collection_operation()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+BEGIN
+  IF TG_OP = 'DELETE' OR OLD.is_reversed OR NOT NEW.is_reversed
+    OR (NEW.id, NEW.operation_number, NEW.customer_id, NEW.amount_in_minor_units,
+      NEW.opening_amount_in_minor_units, NEW.orders_amount_in_minor_units, NEW.payment_method,
+      NEW.reference_number, NEW.notes, NEW.branch_id, NEW.cash_shift_id, NEW.idempotency_key,
+      NEW.created_by, NEW.created_at)
+      IS DISTINCT FROM
+      (OLD.id, OLD.operation_number, OLD.customer_id, OLD.amount_in_minor_units,
+      OLD.opening_amount_in_minor_units, OLD.orders_amount_in_minor_units, OLD.payment_method,
+      OLD.reference_number, OLD.notes, OLD.branch_id, OLD.cash_shift_id, OLD.idempotency_key,
+      OLD.created_by, OLD.created_at)
+  THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'GO_LIVE_COLLECTION_IMMUTABLE: سجل التحصيل دائم؛ التصحيح بعكس العملية كاملة فقط.';
+  END IF;
+  RETURN NEW;
+END;
+$$;
+ALTER FUNCTION public.go_live_guard_collection_operation() OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.go_live_guard_collection_operation() FROM PUBLIC, anon, authenticated, service_role;
+
+CREATE TRIGGER trg_customer_collection_operations_guard
+BEFORE UPDATE OR DELETE ON public.customer_collection_operations
+FOR EACH ROW EXECUTE FUNCTION public.go_live_guard_collection_operation();
+CREATE TRIGGER trg_customer_collection_operations_no_truncate
+BEFORE TRUNCATE ON public.customer_collection_operations
+FOR EACH STATEMENT EXECUTE FUNCTION public.go_live_reject_truncate();
+CREATE TRIGGER trg_customer_collection_opening_allocations_immutable
+BEFORE UPDATE OR DELETE ON public.customer_collection_opening_allocations
+FOR EACH ROW EXECUTE FUNCTION public.go_live_reject_collection_mutation();
+CREATE TRIGGER trg_customer_collection_opening_allocations_no_truncate
+BEFORE TRUNCATE ON public.customer_collection_opening_allocations
+FOR EACH STATEMENT EXECUTE FUNCTION public.go_live_reject_truncate();
+CREATE TRIGGER trg_customer_collection_order_payments_immutable
+BEFORE UPDATE OR DELETE ON public.customer_collection_order_payments
+FOR EACH ROW EXECUTE FUNCTION public.go_live_reject_collection_mutation();
+CREATE TRIGGER trg_customer_collection_order_payments_no_truncate
+BEFORE TRUNCATE ON public.customer_collection_order_payments
+FOR EACH STATEMENT EXECUTE FUNCTION public.go_live_reject_truncate();
+
+-- Owner decision 3: the owner may reverse an entry also after finish, with a
+-- mandatory reason, audited. An entry with active collections allocated to it
+-- cannot be reversed until that collection operation is reversed first.
 -- A repeated call for an already reversed entry is a replay without writes.
 CREATE FUNCTION public.reverse_customer_opening_balance_v1(p_entry_id UUID, p_reason TEXT)
 RETURNS JSONB
@@ -254,9 +484,9 @@ DECLARE
   v_user_id UUID := auth.uid();
   v_reason TEXT := NULLIF(BTRIM(p_reason), '');
   v_entry public.customer_opening_balances%ROWTYPE;
+  v_allocated BIGINT;
 BEGIN
   PERFORM public.assert_erp_role(ARRAY['owner'], 'عكس دين عميل افتتاحي');
-  PERFORM public.go_live_assert_setup_open_internal();
   IF v_reason IS NULL OR CHAR_LENGTH(v_reason) NOT BETWEEN 5 AND 300 THEN
     RAISE EXCEPTION 'اكتب سبب العكس (5 إلى 300 حرف).';
   END IF;
@@ -268,6 +498,14 @@ BEGIN
     RETURN jsonb_build_object('success', true, 'idempotentReplay', true, 'entryId', v_entry.id,
       'entryNumber', v_entry.entry_number, 'reversedAt', v_entry.reversed_at);
   END IF;
+  SELECT COALESCE(SUM(a.amount_in_minor_units), 0) INTO v_allocated
+  FROM public.customer_collection_opening_allocations a
+  JOIN public.customer_collection_operations op ON op.id = a.operation_id
+  WHERE a.opening_balance_id = p_entry_id AND NOT op.is_reversed;
+  IF v_allocated > 0 THEN
+    RAISE EXCEPTION USING ERRCODE = 'P0001',
+      MESSAGE = 'GO_LIVE_OPENING_HAS_COLLECTIONS: لا يمكن عكس دين قديم حُصّل منه مبلغ؛ اعكس عملية التحصيل أولاً.';
+  END IF;
   UPDATE public.customer_opening_balances
   SET is_reversed = true, reversed_at = NOW(), reversed_by = v_user_id, reversal_reason = v_reason
   WHERE id = p_entry_id RETURNING * INTO v_entry;
@@ -275,7 +513,8 @@ BEGIN
   VALUES (v_user_id, 'GO_LIVE_CUSTOMER_OPENING_REVERSED', 'customer_opening_balances', v_entry.id,
     jsonb_build_object('entry_number', v_entry.entry_number, 'customer_id', v_entry.customer_id,
       'amount_in_minor_units', v_entry.amount_in_minor_units,
-      'original_debt_date', v_entry.original_debt_date, 'reason', v_reason));
+      'original_debt_date', v_entry.original_debt_date, 'reason', v_reason,
+      'after_go_live_finish', (SELECT finished_at IS NOT NULL FROM public.go_live_setup_state WHERE id)));
   RETURN jsonb_build_object('success', true, 'idempotentReplay', false, 'entryId', v_entry.id,
     'entryNumber', v_entry.entry_number, 'reversedAt', v_entry.reversed_at);
 END;
@@ -283,6 +522,27 @@ $$;
 ALTER FUNCTION public.reverse_customer_opening_balance_v1(UUID, TEXT) OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.reverse_customer_opening_balance_v1(UUID, TEXT) FROM PUBLIC, anon;
 GRANT EXECUTE ON FUNCTION public.reverse_customer_opening_balance_v1(UUID, TEXT) TO authenticated;
+
+-- One source for every receivable reader: active opening entries with their
+-- principal and the part still outstanding after allocated collections.
+CREATE FUNCTION public.go_live_customer_opening_positions_internal(p_customer_id UUID DEFAULT NULL)
+RETURNS TABLE(id UUID, customer_id UUID, entry_number TEXT, principal BIGINT, outstanding BIGINT, occurred_at TIMESTAMPTZ)
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public, pg_temp
+AS $$
+  SELECT b.id, b.customer_id, b.entry_number, b.amount_in_minor_units,
+    (b.amount_in_minor_units - COALESCE((SELECT SUM(a.amount_in_minor_units)
+      FROM public.customer_collection_opening_allocations a
+      JOIN public.customer_collection_operations op ON op.id = a.operation_id
+      WHERE a.opening_balance_id = b.id AND NOT op.is_reversed), 0))::BIGINT,
+    b.occurred_at
+  FROM public.customer_opening_balances b
+  WHERE NOT b.is_reversed AND (p_customer_id IS NULL OR b.customer_id = p_customer_id);
+$$;
+ALTER FUNCTION public.go_live_customer_opening_positions_internal(UUID) OWNER TO postgres;
+REVOKE ALL ON FUNCTION public.go_live_customer_opening_positions_internal(UUID) FROM PUBLIC, anon, authenticated, service_role;
 
 CREATE FUNCTION public.get_go_live_customer_openings_v1(p_page INTEGER DEFAULT 1, p_page_size INTEGER DEFAULT 25)
 RETURNS JSONB
@@ -302,14 +562,20 @@ BEGIN
   RETURN jsonb_build_object(
     'page', v_page, 'pageSize', v_size,
     'totalCount', (SELECT COUNT(*) FROM public.customer_opening_balances),
-    'activeTotalInMinorUnits', (SELECT COALESCE(SUM(amount_in_minor_units), 0)
-      FROM public.customer_opening_balances WHERE NOT is_reversed),
+    'activeTotalInMinorUnits', (SELECT COALESCE(SUM(principal), 0)
+      FROM public.go_live_customer_opening_positions_internal(NULL)),
+    'outstandingTotalInMinorUnits', (SELECT COALESCE(SUM(outstanding), 0)
+      FROM public.go_live_customer_opening_positions_internal(NULL)),
     'entries', COALESCE((SELECT jsonb_agg(jsonb_build_object(
       'id', b.id, 'entryNumber', b.entry_number, 'customerId', b.customer_id,
       'customerName', c.full_name, 'customerPhone', c.phone,
       'amountInMinorUnits', b.amount_in_minor_units, 'originalDebtDate', b.original_debt_date,
       'notes', b.notes, 'createdAt', b.created_at, 'isReversed', b.is_reversed,
-      'reversedAt', b.reversed_at, 'reversalReason', b.reversal_reason)
+      'reversedAt', b.reversed_at, 'reversalReason', b.reversal_reason,
+      'collectedInMinorUnits', COALESCE((SELECT SUM(a.amount_in_minor_units)
+        FROM public.customer_collection_opening_allocations a
+        JOIN public.customer_collection_operations op ON op.id = a.operation_id
+        WHERE a.opening_balance_id = b.id AND NOT op.is_reversed), 0))
       ORDER BY b.created_at DESC, b.entry_number DESC)
       FROM (SELECT * FROM public.customer_opening_balances
         ORDER BY created_at DESC, entry_number DESC
@@ -321,7 +587,7 @@ ALTER FUNCTION public.get_go_live_customer_openings_v1(INTEGER, INTEGER) OWNER T
 REVOKE ALL ON FUNCTION public.get_go_live_customer_openings_v1(INTEGER, INTEGER) FROM PUBLIC, anon;
 GRANT EXECUTE ON FUNCTION public.get_go_live_customer_openings_v1(INTEGER, INTEGER) TO authenticated;
 
--- Canonical receivable (121) + active opening debts. Same signature, owner,
+-- Canonical receivable (121) + outstanding active opening debts. Same signature, owner,
 -- security and private ACL as before.
 CREATE OR REPLACE FUNCTION public.phase42_customer_receivable_total_internal(
   p_customer_id UUID
@@ -347,10 +613,8 @@ AS $$
         )
     ), 0)
     + COALESCE((
-      SELECT SUM(opening.amount_in_minor_units)
-      FROM public.customer_opening_balances opening
-      WHERE opening.customer_id = p_customer_id
-        AND NOT opening.is_reversed
+      SELECT SUM(opening.outstanding)
+      FROM public.go_live_customer_opening_positions_internal(p_customer_id) opening
     ), 0)
   )::BIGINT;
 $$;
@@ -433,14 +697,12 @@ BEGIN
     LEFT JOIN completion_operations c ON c.order_id = o.id
     LEFT JOIN public.business_operations creation ON creation.id = o.operation_id
     UNION ALL
-    -- 161: an active opening debt is a principal with its original date and
-    -- nothing paid on it directly; FIFO coverage from later vouchers still
-    -- presents against the oldest principal first, as for any order.
-    SELECT opening.id, opening.customer_id, opening.amount_in_minor_units,
-      opening.amount_in_minor_units, opening.occurred_at
-    FROM public.customer_opening_balances opening
-    WHERE NOT opening.is_reversed
-      AND (p_customer_id IS NULL OR opening.customer_id = p_customer_id)
+    -- 161: an active opening debt is a principal at its original date; its
+    -- allocated opening collections (163) are coverage like vouchers, and
+    -- FIFO still presents all coverage against the oldest principal first.
+    SELECT opening.id, opening.customer_id, opening.outstanding,
+      opening.principal, opening.occurred_at
+    FROM public.go_live_customer_opening_positions_internal(p_customer_id) opening
   ), ordered AS (
     SELECT *,
       SUM(principal - outstanding) OVER (PARTITION BY customer_id) AS coverage,
@@ -470,11 +732,17 @@ BEGIN
         ELSE MAX(age_days) FILTER (WHERE remaining > 0) END AS oldest_debt_age_days
     FROM allocated GROUP BY customer_id
   ), payment_dates AS (
-    SELECT p.customer_id, MAX(p.created_at) AS last_payment_at
-    FROM public.customer_payments p
-    WHERE NOT p.is_reversed
-      AND (p_customer_id IS NULL OR p.customer_id = p_customer_id)
-    GROUP BY p.customer_id
+    SELECT customer_id, MAX(at) AS last_payment_at FROM (
+      SELECT p.customer_id, p.created_at AS at
+      FROM public.customer_payments p
+      WHERE NOT p.is_reversed
+        AND (p_customer_id IS NULL OR p.customer_id = p_customer_id)
+      UNION ALL
+      SELECT c.customer_id, c.created_at FROM public.customer_collection_operations c
+      WHERE NOT c.is_reversed AND c.opening_amount_in_minor_units > 0
+        AND (p_customer_id IS NULL OR c.customer_id = p_customer_id)
+    ) paid
+    GROUP BY customer_id
   ), customers AS (
     SELECT c.id AS customer_id, c.full_name, c.phone, c.credit_limit_in_minor_units,
       COALESCE(b.total, 0) AS total_in_minor_units,
@@ -594,10 +862,11 @@ BEGIN
       FROM eligible o LEFT JOIN prior_debt d ON d.order_id = o.id
     ), opening_debts AS MATERIALIZED (
       -- 161: active opening debts of candidate customers, original date kept.
-      SELECT opening.id, opening.customer_id, opening.amount_in_minor_units AS amount,
+      SELECT opening.id, opening.customer_id, opening.principal, opening.outstanding AS amount,
         opening.occurred_at
-      FROM public.customer_opening_balances opening JOIN candidates c ON c.id = opening.customer_id
-      WHERE v_status IN ('has_debt', 'overdue', 'over_limit') AND NOT opening.is_reversed
+      FROM public.go_live_customer_opening_positions_internal(NULL) opening
+      JOIN candidates c ON c.id = opening.customer_id
+      WHERE v_status IN ('has_debt', 'overdue', 'over_limit')
     ), balances AS (
       SELECT customer_id, SUM(amount)::BIGINT AS amount
       FROM (SELECT customer_id, outstanding AS amount FROM financial_positions
@@ -638,7 +907,7 @@ BEGIN
       LEFT JOIN public.business_operations creation ON creation.id = o.operation_id
       WHERE v_status = 'overdue'
       UNION ALL
-      SELECT opening.id, opening.customer_id, opening.amount, opening.amount, opening.occurred_at
+      SELECT opening.id, opening.customer_id, opening.amount, opening.principal, opening.occurred_at
       FROM opening_debts opening WHERE v_status = 'overdue'
     ), ordered AS (
       SELECT *, SUM(principal - outstanding) OVER (PARTITION BY customer_id) AS coverage,
@@ -823,6 +1092,18 @@ BEGIN
       NULL::UUID, b.entry_number, b.reversed_at, 0, b.amount_in_minor_units
     FROM public.customer_opening_balances b
     WHERE b.customer_id = p_customer_id AND b.is_reversed
+    UNION ALL
+    -- 163: the opening part of a unified collection, and its reversal. Order
+    -- parts are ordinary customer_payments and appear as payments above.
+    SELECT 'opening_collection:' || c.id::TEXT, 'opening_collection', 'تحصيل دين قديم',
+      NULL::UUID, c.operation_number, c.created_at, 0, c.opening_amount_in_minor_units
+    FROM public.customer_collection_operations c
+    WHERE c.customer_id = p_customer_id AND c.opening_amount_in_minor_units > 0
+    UNION ALL
+    SELECT 'opening_collection_reversal:' || c.id::TEXT, 'opening_collection_reversal', 'عكس تحصيل دين قديم',
+      NULL::UUID, c.operation_number, c.reversed_at, c.opening_amount_in_minor_units, 0
+    FROM public.customer_collection_operations c
+    WHERE c.customer_id = p_customer_id AND c.opening_amount_in_minor_units > 0 AND c.is_reversed
   ), running AS MATERIALIZED (
     SELECT m.*, ROW_NUMBER() OVER (
       ORDER BY occurred_at NULLS FIRST, movement_id COLLATE "C") AS sequence,
