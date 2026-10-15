@@ -176,10 +176,10 @@ export function executorFor(args) {
  return {command:'psql',args:['-X','-q','-At','-v','ON_ERROR_STOP=1']};
 }
 
-/** @param {{command:string,args:string[]}} executor @param {Buffer|string} input */
+/** @param {{command:string,args:string[],env?:NodeJS.ProcessEnv}} executor @param {Buffer|string} input */
 export async function executeInput(executor,input) {
  return await new Promise((resolve,reject)=>{
-  const child=spawn(executor.command,executor.args,{windowsHide:true,stdio:['pipe','pipe','pipe']});
+  const child=spawn(executor.command,executor.args,{env:executor.env??process.env,windowsHide:true,stdio:['pipe','pipe','pipe']});
   let stdout='',stderr='';child.stdout.setEncoding('utf8');child.stderr.setEncoding('utf8');
   child.stdout.on('data',s=>stdout+=s);child.stderr.on('data',s=>stderr+=s);
   child.on('error',reject);

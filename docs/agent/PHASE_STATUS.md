@@ -1,5 +1,56 @@
 # Phase status
 
+2026-10-15 prep precommit gates PASS frozenfiles01:26:11.852–01:29:07.641UTC:
+Admin type/lint(3existingwarnings),1043/1043 Admin units and191/191 Customer
+units,exit0. New rehearsal dWqeAt + freshreference PASS asbelow. Gitleaks0,
+normalcommit/push/full exactCI thenownerSTOP;no Frankfurt apply/cutover.
+
+2026-10-15 latest Frankfurt prep local PASS dWqeAt:001–138 ORIGINAL138/official
+repair138/list138/dryrun0/seed0/034guards PASS;post138 officialcron.alter_job
+SERIALIZABLE hold/restore/rehold exact PASS,no cron.job lock or extra grants.
+Fullcatalog one approvedtriggerbit O→D only,unexpected0/all13schemas;410public
+functions exactDB_FUNCTIONS.442.275s;reference/literal readygap36.559s.
+Fresh externalreference dry80.428s/138/410/PG17.6/targetmetadata17.11 PASS;
+no managedSQL/link/password oroldbackup changes. All ownedDBs stopped.
+Type/lint/allunits/Gitleaks/commit/push/fullCI/checkpointSTOP remain;historical
+failures below superseded,not managed-build/cutover proof.139 proposal ONLY.
+
+2026-10-15 latest local rehearsal HOLD LFroMJ: original138/138 SQL and official
+repair succeeded;034 seed/audit/FK guards PASS,reference/literal init gap35.917s.
+New post138 notification hold FAILED (psql exit3/NOTIFICATION_HOLD_FAILED),
+before restore/catalog/functions gates. Runtime stopped owned stacks,no-backup.
+Catalog evidence:cron.job ownedsupabase_admin;postgres SELECT only,whereas
+cron.alter_job EXECUTE granted. New SQL attempts SHARE ROW EXCLUSIVE cron.job
+lock before ALTER trigger;this requires privileges postgres does not have.
+No SQL stderr retained by new transition helper,so exact server diagnostic
+not captured. Proposed bounded fix:SERIALIZABLE transaction plus supported
+cron.alter_job and pre/post snapshots,not tablelock or new grants. STOP for
+review before fix/rerun/commit/push. No managedSQL/link/password/deploy.
+
+2026-10-15 latest Frankfurt PREPARATION HOLD: owner approved relative UTC-day
+realtime partition comparison (all other catalog facts literal) and original
+migration cron/storage effects. Normalization/structural tests PASS; full new
+two-build comparison NOT RUN yet. Audit found four cron outbox producers and
+033 website-order insert HTTP targeting OLD project independently of cron.
+Owner condition requires STOP on potential external effect: proposed temporary
+four-job/033-trigger disable NOT executed. No managed SQL/link/password, old
+project mutation, notification, commit/push/newCI; draft apply gated before
+password with EXTERNAL_EFFECT_REVIEW_REQUIRED. Prior entries below historical.
+
+2026-10-15 Frankfurt PREPARATION HOLD:dry externalcopy/reference PASS138/410,
+but relatedlocal originalbuilder runtimeFAIL fullcatalog10 realtime daily
+partition differences acrossUTCmidnight;SQL138/officialrepair/list/dryrun0 PASS.
+No source/history repair,exclusion,rerun,commit/push/CI afterfailure. No managed
+SQL/link/passwordrequest;oldbackup retained. Draftapply NOTaccepted:needs owner
+scope for deterministic fullcatalog proof and historicalcron/storage boundary.
+
+2026-10-15 owner-createdFrankfurt target confirmedCLI metadataonly;authorized
+prep only thisturn,notapplication/newoperationalphase. Externalworkdir and
+dry-first owner-run script readyforlocalgates:dry/reference138/410/PG17.6 PASS,
+same major17 asmanaged17.11;remoteSQL/link/passwordrequest0;oldbackup untouched.
+HistoricalSQL,product,Edge,secrets/cron/storage activation/deploy unchanged.
+Relatedfullunits/type/lint/localbuilderruntime/Gitleaks/commit/fullCI thenSTOP.
+
 2026-10-15 Amman:pre-Frankfurt CHECK milestone locally PASS after exact8ed121e
 quality38627093815 FULL24/24+secrets38627093689 PASS. ONE standalone canonical
 quality8/8 exit0:Admin1030/Customer191/browser907PASS+59knownconditional skips,

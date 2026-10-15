@@ -1,5 +1,93 @@
 # Agent handoff history
 
+## 2026-10-15 — prep precommit gates complete;delivery CI next
+
+Standalone log Temp/nw-frankfurt-prep-delivery-20261015.log/result.json:
+01:26:11.852–01:29:07.641UTC exit0,frozenhash unchanged. Admin type/lint
+60.916s(3oldwarnings),all1043units serial106.699s,all191Customerunits4.568s.
+No browser/product/RPC/DBhistory/backupchanges. Related20/20 andfull138 local
+hold/restore/catalog/functions proof alreadyPASS. Ownerguide consolidated;
+history retained above/below. Explicitstage/Gitleaks/normalcommit/push then
+exactfullCI andcheckpointSTOP next. No realFrankfurt link/apply/password.
+
+## 2026-10-15 — corrected notification hold and full rehearsal PASS
+
+Owner approved cron.alter_job only,without cron.job lock/extra grants.
+SERIALIZABLE/exactfullsnapshots implemented;safe SQLSTATE-only diagnostic on
+failure retained. Related20/20 PASS. New runtime dWqeAt01:15:17.760–01:22:40.035
+UTC/442.275s exit0:138literal/138officialrepair/list138/dryrun0/unexecutedseed0,
+all034guards/validatedFKs PASS;hold/restore-exact/rehold PASS. All13schemas,
+153tables/470indexes/950constraints/111triggers/527functions included;410public
+definitions DB_FUNCTIONS exact. Expectedtrigger enabledO→D only,unexpected0.
+Reference/literalgap36.559s;midnightrelative-normalization/staticstructural
+tests PASS;no blanketexclusion. OwnedDBs stopped/no-backup.
+Externalreference regenerated dry01:22:55.189–01:24:15.617/80.428s exit0,
+138manifest/410functions/PG17.6;read-onlyCLI targetFrankfurt17.11 main17.
+No managedSQL/link/password/HTTPprobe/secretread/oldlink orbackup mutations.
+139proposal documented only;no migration139/cutover. Precommitunit/type/lint/
+Gitleaks/fullCI thenSTOP next. Current dirtyfiles allthisowner task.
+
+## 2026-10-15 — approved post138 hold implemented;local rehearsal failed
+
+Owner resume approval accepted current owned edits;checkpointACTIVE/resumePASS.
+Related20/20,typecheck/focusedESLint PASS. Original literal001–138+official
+repair138 PASS on clean localDB,034 guards PASS. Local runtime LFroMJ ran
+01:03:47.595–01:11:12.773UTC(445.178s),failedpost138-notification-hold:
+psqlexit3/NOTIFICATION_HOLD_FAILED. No restore/finalcatalog/DB_FUNCTIONS proof
+claimed. Bootstrap snapshot01:05:45.654;literalbase01:06:21.571(gap35.917s).
+Saved exactnotification-before.json andrestore-notifications.sql before attempt.
+Helper omitted SQLstderr fromevidence;do not invent servererror. Catalogshows
+cron.job owner=supabase_admin,postgres SELECTonly;cron.alter_job EXECUTEallowed.
+SHARE ROW EXCLUSIVE cron.job lock innewtransaction is unauthorized bythatACL.
+Propose SERIALIZABLE+supportedalter_job+exactsnapshots,not new grants/superuser.
+STOP beforefix/rerun/commit/push pending review. OwnedDBstopped/no-backup;
+onlyunrelatedn8n remains. NoFrankfurt/oldSQL,link,password,networkprobe/deploy.
+139proposal+searchdocumented:only033 enqueue function oldproject reference in
+all138/410publicdefinitions;fivecroncommands nooldreference.033autoVaultsecret,
+and directtestpushcallbypassestrigger documented;nocutover/139implementation.
+
+## 2026-10-15 — approved catalog normalization; external-effect owner STOP
+
+Relative realtime partition dates implemented without dropping objects/schemas;
+parent metadata now captured, strict structural/bounds/ACL changes still fail.
+Focused guards18/18 PASS after final expiry classification correction;
+typecheck/focused ESLint PASS earlier this turn. Full new two-build
+rehearsal/reference regeneration pending; previous local reference is stale.
+Catalog DB initialization reordered closer together; no managed build executed.
+Five original jobs inventoried: cleanup local only; expiry (097 status trigger),
+core alerts, summaries and monitoring enqueue outbox events. Consumer required
+for external delivery. Separately033 auto-creates webhook secret and website
+insert trigger makes HTTP to OLD project's send-order-push: missing NEW Edge
+does not prevent that request. No secret read, job run/disable or HTTP probe.
+Propose owner-approved temporary four-job disable and separate033-trigger
+disable before any order probe; neither implemented. STOP per explicit owner
+condition, no commit/push/newCI. All work retained in PAUSED checkpoint.
+
+## 2026-10-15 — Frankfurt preparation only,not managed application
+
+STOP beforedelivery:related originalbuilderruntime23:56:10–00:03:39UTC crossed
+UTCmidnight;138/officialrepair/list/dryrun0/seed0/034guards PASS,but fullcatalog
+FAIL10diff onlyrealtime messages_2026_10_13 vs2026_10_18/two tables+4indexes+
+4constraints. Correlateswithdate-dependent platform partitions;creation path
+not diagnosed yet. No exclusions/retry/fix/commit/push/CI afterfailure.
+EvidenceTemp/nawasrah-empty-build-evidence-BQFfZB;ownedDBs stopped/oldlinkunchanged.
+Futureapply draft NOT ACCEPTED:owner review required for deterministic full
+catalog proof and clarification ofhistoricalcron/storage effects vsprohibition.
+
+Owner created nawasrah-fra/kzevmysfydaslxcerogt.Free/Nano/settings fromowner;
+CLI2.114 projects metadata confirmsname/eu-central-1/ACTIVE_HEALTHY/PG17.11.0.003.
+Local image17.6.1.158 actualpostgres17.6:same major17,no minor-version exclusion.
+Externalworkdir C:/Users/TOP/NawasrahFrankfurt/nawasrah-fra-001-138 copiestracked
+Supabase sources only,excludinghistoricallytracked.temp;oldbackuplinkunchanged.
+Dryprepare+isolatedbootstrapreference PASS82.743s/138files/functions410/PG17.6;
+remoteWritesfalse/applied0/recorded0/linkfalse/passwordRequestedfalse.
+No externalSQL,link,Edge,secrets/config,cron/storage activation/deploy oroldtarget
+access;historicalSQL unchanged. Futureowner-run entry requiresTTY/refconfirmation,
+hiddenmemory-only password,transientchildenv/pinnedsessionpooler/emptyguard lock;
+literal034 guards,per-success officialrepair/list/dryrun/fullcatalog0/reference.
+No auto-recovery onmanagedfailure;historicalcron/storage effects disclosed.
+Relatedlocalgates/fullCI/Gitleaks/commit thencheckpointSTOP next.
+
 ## 2026-10-15 — full local pre-Frankfurt station PASS;docs delivery next
 
 Resume/preflightPASS;8ed121e exactpush/main quality38627093815 FULL24/24 and

@@ -10,7 +10,10 @@ SELECT jsonb_build_object(
  'tables',(SELECT jsonb_agg(jsonb_build_object('schema',r.nspname,'name',r.relname,'kind',r.relkind,
  'owner',pg_get_userbyid(r.relowner),'acl',r.relacl,'rls',r.relrowsecurity,'forceRls',r.relforcerowsecurity,
  'persistence',r.relpersistence,'options',r.reloptions,'replicaIdentity',r.relreplident,
- 'partition',pg_get_expr(r.relpartbound,r.oid),'view',CASE WHEN r.relkind IN('v','m') THEN pg_get_viewdef(r.oid,false) END,
+ 'partition',pg_get_expr(r.relpartbound,r.oid),
+ 'parents',COALESCE((SELECT jsonb_agg(jsonb_build_object('schema',pn.nspname,'name',pc.relname) ORDER BY pn.nspname,pc.relname)
+ FROM pg_inherits inh JOIN pg_class pc ON pc.oid=inh.inhparent JOIN pg_namespace pn ON pn.oid=pc.relnamespace
+ WHERE inh.inhrelid=r.oid),'[]'::jsonb),'view',CASE WHEN r.relkind IN('v','m') THEN pg_get_viewdef(r.oid,false) END,
  'columns',(SELECT jsonb_agg(jsonb_build_object('name',a.attname,'number',a.attnum,'type',format_type(a.atttypid,a.atttypmod),
  'notNull',a.attnotnull,'identity',a.attidentity,'generated',a.attgenerated,'acl',a.attacl,
  'collation',(SELECT collname FROM pg_collation WHERE oid=a.attcollation),
@@ -44,7 +47,47 @@ SELECT jsonb_build_object(
  'extensions',(SELECT jsonb_agg(jsonb_build_object('name',e.extname,'version',e.extversion,'schema',n.nspname,'owner',pg_get_userbyid(e.extowner)) ORDER BY e.extname) FROM pg_extension e JOIN pg_namespace n ON n.oid=e.extnamespace)
 );ROLLBACK;`;
 
-export function catalogDifference(before,after) {
+const dayMs=86400000;
+function utcDay(value){
+ if(!/^\d{4}-\d{2}-\d{2}$/u.test(value)||new Date(value+'T00:00:00Z').toISOString().slice(0,10)!==value)
+  throw new Error('EXACT_UTC_BUILD_DATE_REQUIRED');
+ return Date.parse(value+'T00:00:00Z')/dayMs;
+}
+// Owner2026-10-15: rename daily *partition identifiers* relative to each
+// database's recorded UTC build date. No schema/row/privilege is excluded.
+export function normalizeRealtimePartitions(catalog,buildDate){
+ const anchor=utcDay(buildDate),copy=structuredClone(catalog),names=new Map();
+ for(const row of copy.tables??[]){
+  const date=row.name?.match(/^messages_(\d{4})_(\d{2})_(\d{2})$/u);
+  if(row.schema==='realtime'&&date&&row.partition){
+   if(!Array.isArray(row.parents))throw new Error('PARENT_CATALOG_REQUIRED');
+   const offset=utcDay(date.slice(1).join('-'))-anchor;
+   names.set(row.name,'messages_BUILD_DAY_'+offset);
+  }
+ }
+ const rewrite=text=>typeof text!=='string'?text:text.replace(
+  /\bmessages_\d{4}_\d{2}_\d{2}(?=\b|_)/gu,name=>names.get(name)??name);
+ const rewriteSql=text=>typeof text!=='string'?text:text.replace(
+  /'(?:''|[^'])*'|\bmessages_\d{4}_\d{2}_\d{2}(?:\b|_[a-zA-Z0-9_]*)/gu,
+  token=>token.startsWith("'")?token:rewrite(token));
+ for(const section of ['tables','indexes','constraints','policies','triggers','sequences']){
+  for(const row of copy[section]??[]){
+   if(row.schema!=='realtime'||!names.has(section==='tables'?row.name:row.table))continue;
+   for(const key of ['name','table'])if(key in row)row[key]=rewrite(row[key]);
+   for(const key of ['definition','using','check'])if(key in row)row[key]=rewriteSql(row[key]);
+   if(section==='tables'){
+    row.partition=row.partition.replace(/\b\d{4}-\d{2}-\d{2}\b/gu,date=>'BUILD_DAY_'+(utcDay(date)-anchor));
+   }
+  }
+ }
+ return copy;
+}
+/** @param {{beforeBuildDate:string,afterBuildDate:string}} [buildDates] */
+export function catalogDifference(before,after,buildDates=undefined){
+ if(buildDates){
+  before=normalizeRealtimePartitions(before,buildDates.beforeBuildDate);
+  after=normalizeRealtimePartitions(after,buildDates.afterBuildDate);
+ }
  const differences=[];
  for(const section of new Set([...Object.keys(before),...Object.keys(after)])){
   if(JSON.stringify(before[section])===JSON.stringify(after[section]))continue;

@@ -1,5 +1,14 @@
 # قائمة تجهيز Phase 7 — مشروع فرانكفورت
 
+**تحديث المالك2026-10-15:** أنشأ `nawasrah-fra`، المرجع
+`kzevmysfydaslxcerogt` فيeu-central-1، Free/Nano؛ Data API وauto-expose
+مفعّلان وautomatic RLS مطفأ، بلا GitHub link. تحقق CLI قراءة فقط من
+الاسم/المنطقة/ACTIVE_HEALTHY وPG17.11.0.003 (البروفةPG17.6، نفس الرئيسي17).
+ليس هذا تطبيقDB أو نشر. تجهيز المجلد الخارجي وأمر المالك وحراس034 والتتبع
+والكتالوج والمرجع في [FRANKFURT_OWNER_BUILD_AR](FRANKFURT_OWNER_BUILD_AR.md).
+لا تربط هذا المستودع بالجديد؛ يظل ربط النسخ القديم كما هو. عبارة «لم يُنشأ
+مشروع» أدناه تصف حالة كتابة القائمة الأصلية فقط، لا الحالة الحالية.
+
 تاريخ التوثيق: 2026-10-13. مرجع القراءة: commit `b211c33`، والسقف
 في [project-state.json](../agent/project-state.json) هو **138**.
 هذه قائمة عمل مستقبلية، لا إذن بتنفيذها: لم يُنشأ مشروع، ولم تُقرأ لوحة
@@ -242,6 +251,66 @@ contractVersion مرفوضة؛ staff بلا JWT/دور كاف مرفوض؛ AI ي
 ترجع401؛ اختبارات claim/complete مع event synthetic فقط في البروفة.
 
 ## 4. cron والتنبيهات
+
+### قرار2026-10-15: حجز مؤقت بعد138 قبل cutover
+
+المعتمد في سكربت بناء **فرانكفورت الجديد فقط**: حفظ `notification-before.json`
+و`restore-notifications.sql` خارج المستودع قبل التغيير. في transaction واحدة
+SERIALIZABLE يقفلorders لتعديل trigger فقط، ويعيد فحص التعريفات والحالات
+الملتقطة. لا قفل مباشر علىcron.job ولا زيادة صلاحيات؛ يستخدم الواجهة الرسمية:
+
+```sql
+ALTER TABLE public.orders DISABLE TRIGGER trg_notify_new_website_order_push;
+-- لكل jobid محفوظ من الأسماء الأربعة أدناه:
+-- SELECT cron.alter_job(<saved_jobid>, active := false);
+```
+
+الأسماء: expire-stale-new-website-orders، scan-core-business-alerts،
+scan-business-summaries، run-advanced-monitoring. تبقى cleanup فعالة؛ لا
+unschedule ولا تغيير schedule/command/owner/host/port أو صلاحية. التحقق
+يقارن كل صفوف cron.job كاملة قبل/بعد، مع تبديلactive للأربع فقط؛ كتالوج
+البناء كله يبقى مطابقاً سوى `enabled:O→D` للتريغر المحدد. لا استبعاد مخطط.
+
+**العكس الدقيق (ليس الآن، وليس تلقائياً):** بعد قرار المالك واختبار139
+وتجهيز الوجهة الجديدة والمستهلك، شغّل الملف المولد بنفس اتصال PostgreSQL
+17 الموثق، من مجلد العمل الخارجي، وكلمة السر تفاعلية:
+
+```powershell
+& "$env:LOCALAPPDATA/NawasrahBackup/postgresql-17.11/bin/psql.exe" -h <نفس-session-pooler> -p 5432 -U postgres.kzevmysfydaslxcerogt -d postgres -W -X -v ON_ERROR_STOP=1 -f C:/Users/TOP/NawasrahFrankfurt/nawasrah-fra-001-138/restore-notifications.sql
+```
+
+لا تكتب كلمة السر في السطر أو env دائم. الملف محروس: يتأكد أن التريغر
+ومهامcron ما زالت مطابقة لحالة الحجز، ثم ENABLE TRIGGER ويعيدactive=true
+للمعرفات الأصلية الأربعة، ويتحقق منsnapshot الأصلي حرفياً ويعملCOMMIT؛
+أي اختلاف يوقفtransaction بلا تصحيح. إذا غيّرت139 نفس التريغر أو تعريفات
+cron، يفشل الحارس عمداً ويحتاج اعتماد مسار عكس مطابق للحالة الجديدة.
+
+**مقترح139 فقط، لا تنفيذ:** CREATE OR REPLACE صريح لجسم
+`enqueue_order_push_webhook(jsonb)` ليقرأ HTTPS endpoint من إعداد موثوق
+مقيد للمالك/خدمة النشر (مثلاًVault باسم إعداد مستقل)، دون كشف السر أو
+التغيير في الأدوار/grants/search_path/حمولةالتنبيه. غياب/عدمصلاحيةالإعداد
+يرفض enqueue ولا يعود للقديم. يُحفظ wrapper trigger المبتلع للأخطاء كما
+هو حتىلايفشلالطلب. اختباراتمعزولة: إعدادناقص/وجهةخاطئة→لاHTTP، وجهة
+اختبارمحلية→نفسbody/headers/grants، anon/authenticatedمرفوضان للدالة
+الداخلية، وزرالاختباروالتريغر يستخدماننفسالوجهة. لا cutover قبل قرار139.
+
+بحث جميع001–138 وكل410تعريفاتpublic فيDB_FUNCTIONS وجد الرابط/مرجع
+القديم فقط في033/`enqueue_order_push_webhook`; لا مرجعقديم في أوامرcron
+الخمسة (تُقرأأيضاًفيالبروفة). روابطGoogleMaps ليستمراجعSupabase ولا
+استدعاءاتHTTPمنقاعدةالبيانات. `send_test_push_notification()` يستدعي
+دالةenqueue مباشرة؛ تعطيلtriggerلايعطله: ممنوعاختبارPush/فتحالتشغيل
+الفعليقبل139.033تنشئسرWebhookتلقائياً،فلايعتمدالأمانعلىغيابالإعداداليدوي.
+
+النص التالي يسجل وقفة ما قبل اعتماد الحجز، وقد حُسمت بهذا القرار:
+
+**وقفة تجهيز 2026-10-15:** آثار migrations الأصلية معتمدة، لكن تدقيق
+الأثر الخارجي يستلزم قراراً قبل اعتماد البناء. أربع مهام أدناه (كلها عدا
+cleanup) تنتج طابور تنبيهات، بما فيها expiry عبر trigger097؛ لا HTTP مباشر
+منها. اقتراح تعطيلها مؤقتاً قبل ربط المستهلك لم يُنفذ. خطر033 مستقل:
+trigger إدراج طلب متجر يستهدف Edge في المشروع القديم عبر HTTP وسر مولّد
+داخل migration؛ عدم نشر Edge الجديد ليس حاجزاً له. يلزم قرار تعطيل هذا
+trigger مؤقتاً قبل اختبار طلب متجر. لا تعديل تاريخي أو تعطيل فعلي الآن.
+راجع [دليل المالك](FRANKFURT_OWNER_BUILD_AR.md)؛ لا تشغّل --apply حالياً.
 
 هذه الوظائف تضيفها migrations؛ لا تنشئ نسخاً ثانية يدوياً:
 

@@ -1,0 +1,244 @@
+// Owner-operated preparation/build. Default is read-only against the managed project.
+import assert from 'node:assert/strict';
+import {spawn,execFile} from 'node:child_process';
+import {promisify} from 'node:util';
+import {createHash} from 'node:crypto';
+import {readFile,writeFile,mkdir,copyFile,realpath} from 'node:fs/promises';
+import {createInterface} from 'node:readline/promises';
+import path from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {buildEmptyProjectInput,executeInput,seedHistoryStructureSql} from './build-empty-supabase.mjs';
+import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
+import {migrationManifest,canonicalLf,renderFunctionReference} from '../testing/maintenance-db-contract.mjs';
+import {cronInventorySql,assessBuildCron} from './build-cron-report.mjs';
+import {readNotificationSnapshot,validateOriginalNotifications,transitionNotifications,notificationTransitionSql,assertHeldCatalog} from './frankfurt-notification-hold.mjs';
+
+export const TARGET=Object.freeze({id:'kzevmysfydaslxcerogt',name:'nawasrah-fra',region:'eu-central-1'});
+export const OLD_REF='acjtabdqqnpwhdvbvnyw';
+export const DEFAULT_WORKDIR='C:/Users/TOP/NawasrahFrankfurt/nawasrah-fra-001-138';
+const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile);
+const cli=path.join(root,'node_modules/supabase/dist/supabase.js');
+const digest=bytes=>createHash('sha256').update(bytes).digest('hex');
+export function assertOutsideRepository(workdir,repository=root){
+ const relative=path.relative(repository,workdir);
+ assert.ok(relative.startsWith('..'+path.sep)||path.isAbsolute(relative),'EXTERNAL_WORKDIR_REQUIRED');
+}
+export function checkProject(project,localMajor=17){
+ assert.ok(project,'TARGET_PROJECT_NOT_VISIBLE');
+ for(const key of ['id','name','region'])assert.equal(project[key],TARGET[key],'TARGET_METADATA_MISMATCH:'+key);
+ assert.equal(project.status,'ACTIVE_HEALTHY','TARGET_NOT_HEALTHY');
+ assert.equal(Number(project.database.postgres_engine),localMajor,'POSTGRES_MAJOR_MISMATCH');
+ return {id:project.id,name:project.name,region:project.region,status:project.status,
+  postgresVersion:project.database.version,postgresMajor:localMajor,createdAt:project.created_at};
+}
+export function connectionFromLink(text){
+ const url=new URL(text.trim());
+ assert.equal(url.password,'','LINK_MUST_NOT_PERSIST_PASSWORD');
+ assert.equal(decodeURIComponent(url.username),'postgres.'+TARGET.id,'POOLER_TARGET_MISMATCH');
+ assert.match(url.hostname,/^aws-[a-z0-9-]+-eu-central-1\.pooler\.supabase\.com$/u,'POOLER_REGION_MISMATCH');
+ assert.equal(url.port,'5432','SESSION_POOLER_REQUIRED');
+ assert.equal(url.pathname,'/postgres','EXPECTED_DATABASE_REQUIRED');
+ return ['-h',url.hostname,'-p',url.port,'-U',decodeURIComponent(url.username),'-d','postgres'];
+}
+async function cliCall(args,workdir,env=process.env){
+ try{return await exec(process.execPath,[cli,...args,'--workdir',workdir,'--agent','no'],
+  {cwd:workdir,env,windowsHide:true,maxBuffer:32*1024**2});}
+ catch{throw new Error('CLI_STEP_FAILED:'+args.slice(0,2).join('-'));} // Never emit captured CLI bodies.
+}
+async function ownerPassword(){
+ assert.ok(process.stdin.isTTY,'OWNER_INTERACTIVE_TERMINAL_REQUIRED');
+ process.stdout.write('أدخل كلمة سر قاعدة فرانكفورت (مخفية، في الذاكرة فقط):\n');
+ return await new Promise((resolve,reject)=>{
+  const command='[Console]::OutputEncoding=New-Object Text.UTF8Encoding($false); $fraSecret=New-Object Security.SecureString; try { while($true) { $fraKey=[Console]::ReadKey($true); if($fraKey.Key -eq "Enter") { break }; if($fraKey.Key -eq "Backspace") { if($fraSecret.Length -gt 0) { $fraSecret.RemoveAt($fraSecret.Length-1) }; continue }; if([int]$fraKey.KeyChar -ge 32) { $fraSecret.AppendChar($fraKey.KeyChar) } }; $fraPtr=[Runtime.InteropServices.Marshal]::SecureStringToBSTR($fraSecret); try { [Console]::Out.Write([Runtime.InteropServices.Marshal]::PtrToStringBSTR($fraPtr)) } finally { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($fraPtr) } } finally { $fraSecret.Dispose() }';
+  const child=spawn('powershell.exe',['-NoProfile','-Command',command],{stdio:['inherit','pipe','inherit']});
+  let value='';child.stdout.setEncoding('utf8');child.stdout.on('data',s=>value+=s);
+  child.on('error',()=>reject(new Error('PASSWORD_PROMPT_FAILED')));
+  child.on('close',code=>code===0&&value?resolve(value):reject(new Error('PASSWORD_PROMPT_FAILED')));
+ });
+}
+export async function holdBuildGuard(executor,input){
+ const child=spawn(executor.command,executor.args,{env:executor.env,windowsHide:true,stdio:['pipe','pipe','pipe']});
+ let ready=false,output='',diagnostic='';
+ const closed=new Promise(resolve=>child.once('close',resolve));
+ const opened=new Promise((resolve,reject)=>{
+  child.stdout.setEncoding('utf8');child.stdout.on('data',s=>{
+   output+=s;if(!ready&&output.includes('FRA_GUARD_READY')){ready=true;resolve();}
+  });
+  child.stderr.setEncoding('utf8');child.stderr.on('data',s=>diagnostic+=s); // Memory only.
+  child.once('error',()=>reject(new Error('EMPTY_GUARD_START_FAILED')));
+  child.once('close',()=>{if(!ready)reject(new Error(diagnostic.includes('EMPTY_PROJECT_REQUIRED')?
+   'EMPTY_PROJECT_REQUIRED':diagnostic.includes('EMPTY_BUILD_ALREADY_RUNNING')?'EMPTY_BUILD_ALREADY_RUNNING':'EMPTY_TARGET_GUARD_FAILED'));});
+  child.stdin.on('error',()=>{});
+  child.stdin.write(Buffer.concat([input,Buffer.from('\n\\echo FRA_GUARD_READY\n')]));
+ });
+ await opened;
+ return {assertHeld:()=>{assert.equal(child.exitCode,null,'BUILD_GUARD_LOST');assert.equal(child.signalCode,null,'BUILD_GUARD_LOST');},close:async()=>{
+  child.stdin.end();await closed;
+ }};
+}
+// Exact read-only query used by the existing isolated DB_FUNCTIONS generator.
+// Verify its source shape before extracting it; never execute a migration-derived body.
+export async function functionReference(executor){
+ const source=await readFile(path.join(root,'scripts/testing/generate-db-functions.mjs'),'utf8');
+ const query=source.match(/const query = `(BEGIN READ ONLY;[\s\S]+?ROLLBACK;)`;/u)?.[1];
+ assert.ok(query&&query.includes("n.nspname='public'")&&!query.includes('${'),'FUNCTION_REFERENCE_QUERY_CHANGED');
+ const read=await executeInput(executor,query);assert.equal(read.code,0,'FUNCTION_REFERENCE_READ_FAILED');
+ const functions=JSON.parse(read.stdout.trim()).map(row=>({...row,definition:canonicalLf(row.definition)}));
+ const rendered=renderFunctionReference(await migrationManifest(root),functions);
+ assert.equal(rendered,canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8')),'DB_FUNCTIONS_STALE');
+ return functions.length;
+}
+async function prepare(workdir){
+ assertOutsideRepository(workdir);await mkdir(workdir,{recursive:true});
+ assertOutsideRepository(await realpath(workdir),await realpath(root));
+ const old=await readFile(path.join(root,'supabase/.temp/project-ref'));
+ assert.equal(old.toString().trim(),OLD_REF,'OLD_BACKUP_LINK_CHANGED');
+ const listing=await exec('git',['ls-files','-z','--','supabase'],{cwd:root,encoding:'utf8'});
+ for(const file of listing.stdout.split('\0').filter(file=>file&&!file.startsWith('supabase/.temp/'))){
+  assert.ok(!/(?:^|\/)\.temp\/|(?:^|\/)\.env|secret/iu.test(file),'UNSAFE_COPY_PATH');
+  const target=path.join(workdir,file);await mkdir(path.dirname(target),{recursive:true});
+  assertOutsideRepository(await realpath(path.dirname(target)),await realpath(root));
+  try{assert.equal(digest(await readFile(target)),digest(await readFile(path.join(root,file))),'WORKDIR_EXISTING_BYTES_MISMATCH');}
+  catch(error){if(error.code!=='ENOENT')throw error;await copyFile(path.join(root,file),target);}
+ }
+ const original=await buildEmptyProjectInput(root),copy=await buildEmptyProjectInput(workdir);
+ assert.deepEqual(copy.manifest,original.manifest,'WORKDIR_HISTORY_MISMATCH');
+ const tempRoot=path.join(workdir,'supabase/.temp');
+ const realTemp=await realpath(tempRoot).catch(e=>{if(e.code==='ENOENT')return null;throw e;});
+ if(realTemp){assertOutsideRepository(realTemp,await realpath(root));
+  assert.ok(!path.relative(await realpath(workdir),realTemp).startsWith('..'),'EXTERNAL_TEMP_ESCAPE');}
+ assert.equal((await readFile(path.join(workdir,'supabase/.temp/project-ref'),'utf8').catch(e=>{
+  if(e.code==='ENOENT')return TARGET.id;throw e;})).trim(),TARGET.id,'EXTERNAL_LINK_TARGET_MISMATCH');
+ return {old,build:copy};
+}
+async function localReference(workdir){
+ const project='nawasrah-frankfurt-owner-reference-test',container='supabase_db_'+project;
+ let local;
+ try{
+  const {stdout}=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],
+   {cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,NAWASRAH_ISOLATED_PROJECT_ID:project,
+    NAWASRAH_MAX_MIGRATION:'138',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
+    NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
+  local=JSON.parse(stdout).isolatedProjectRoot;
+  const executor={command:'docker',args:['exec','-i',container,'psql','-U','postgres','-d','postgres','-X','-q','-At','-v','ON_ERROR_STOP=1']};
+  const read=await executeInput(executor,schemaCatalogSql);assert.equal(read.code,0,'LOCAL_CATALOG_FAILED');
+  const version=await executeInput(executor,"SELECT current_setting('server_version');");
+  assert.equal(version.code,0,'LOCAL_VERSION_FAILED');
+  assert.equal(Number(version.stdout.trim().split('.')[0]),17,'LOCAL_POSTGRES_MAJOR_CHANGED');
+  const functions=await functionReference(executor);
+  const cron=await executeInput(executor,cronInventorySql);assert.equal(cron.code,0,'CRON_INVENTORY_FAILED');
+  const buildDate=await executeInput(executor,"SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;");
+  assert.equal(buildDate.code,0,'LOCAL_BUILD_DATE_FAILED');
+  const reference={manifest:(await buildEmptyProjectInput(root)).manifest,postgresVersion:version.stdout.trim(),
+   buildUtcDate:buildDate.stdout.trim(),catalogQuerySha256:digest(schemaCatalogSql),
+   catalog:JSON.parse(read.stdout.trim()),functions,cronAudit:assessBuildCron(JSON.parse(cron.stdout.trim()))};
+  reference.notificationSnapshot=validateOriginalNotifications(await readNotificationSnapshot(executor));
+  await writeFile(path.join(workdir,'local-reference.json'),JSON.stringify(reference,null,2)+'\n');
+  return reference;
+ }catch(error){if(error.code&&error.code!=='ERR_ASSERTION')throw new Error('LOCAL_REFERENCE_FAILED',{cause:error});throw error;}
+ finally{if(local)await cliCall(['stop','--no-backup'],local);}
+}
+export async function run(args){
+ const mode=args.includes('--apply')?'apply':'dry-run';
+ assert.ok(args.every((v,i)=>['--apply','--dry-run','--local-reference','--workdir'].includes(v)||args[i-1]==='--workdir'),'UNKNOWN_OPTION');
+ assert.ok(!(args.includes('--apply')&&args.includes('--dry-run')),'ONE_MODE_REQUIRED');
+ const at=args.indexOf('--workdir'),workdir=path.resolve(at<0?DEFAULT_WORKDIR:args[at+1]);
+ assert.ok(!process.env.SUPABASE_CLI_BINARY_OVERRIDE,'CLI_OVERRIDE_NOT_ALLOWED');
+ const {old,build}=await prepare(workdir);
+ const report={mode,startedAt:new Date().toISOString(),workdir,applied:[],recorded:[],remoteWrites:false};
+ let stage='project-metadata',childEnv,guard;
+ try{
+  const projects=JSON.parse((await cliCall(['projects','list','--output','json'],workdir)).stdout);
+  report.project=checkProject(projects.find(p=>p.id===TARGET.id));
+  report.history=build.manifest;
+  if(args.includes('--local-reference')){assert.equal(mode,'dry-run','LOCAL_REFERENCE_BEFORE_APPLY');await localReference(workdir);}
+  if(mode==='dry-run'){
+   report.ok=true;report.linked=false;report.passwordRequested=false;
+   report.historicalEffects={storageMigration:'020',cronMigrations:['091','092','097','098','099'],seedExecuted:false};
+   return report;
+  }
+  stage='local-reference-check';
+  const reference=JSON.parse(await readFile(path.join(workdir,'local-reference.json'),'utf8'));
+  assert.equal(reference.catalogQuerySha256,digest(schemaCatalogSql),'REFERENCE_NEEDS_REBUILD');
+  assert.match(reference.buildUtcDate,/^\d{4}-\d{2}-\d{2}$/u,'REFERENCE_BUILD_DATE_REQUIRED');
+  assert.ok(report.project.createdAt,'MANAGED_PLATFORM_BUILD_DATE_REQUIRED');
+  assert.deepEqual(reference.manifest,build.manifest,'REFERENCE_HISTORY_CHANGED');
+  assert.equal(reference.cronAudit?.requiresOwnerReview,false,'EXTERNAL_EFFECT_REVIEW_REQUIRED');
+  validateOriginalNotifications(reference.notificationSnapshot);
+  checkProject(projects.find(p=>p.id===TARGET.id),Number(reference.postgresVersion.split('.')[0]));
+  assert.ok(process.stdin.isTTY,'OWNER_INTERACTIVE_TERMINAL_REQUIRED');
+  const terminal=createInterface({input:process.stdin,output:process.stdout});
+  try{assert.equal(await terminal.question('الوضع الجاف ناجح. التطبيق ينشئ أيضاً cron/storage التاريخية. للتأكيد اكتب '+TARGET.id+': '),TARGET.id,'OWNER_CONFIRMATION_REQUIRED');}
+  finally{terminal.close();}
+  const password=await ownerPassword();
+  const env={...process.env,SUPABASE_PROJECT_ID:TARGET.id,SUPABASE_DB_PASSWORD:password,
+   PGPASSWORD:password,PGSSLMODE:'require',PGCONNECT_TIMEOUT:'10',PGPASSFILE:path.join(workdir,'NO_PASSWORD_FILE')};
+  childEnv=env;
+  stage='external-link';await cliCall(['link','--project-ref',TARGET.id],workdir,env);
+  assert.equal((await readFile(path.join(workdir,'supabase/.temp/project-ref'),'utf8')).trim(),TARGET.id,'LINK_TARGET_MISMATCH');
+  const connection=connectionFromLink(await readFile(path.join(workdir,'supabase/.temp/pooler-url'),'utf8'));
+  const psql=process.env.NAWASRAH_PG_BIN?path.join(process.env.NAWASRAH_PG_BIN,'psql.exe'):
+   path.join(process.env.LOCALAPPDATA,'NawasrahBackup/postgresql-17.11/bin/psql.exe');
+  const executor={command:psql,args:[...connection,'-X','-q','-At','-w','-v','ON_ERROR_STOP=1'],env};
+  // Credentials go to the child in memory,never global env/argv/files.
+  // No automatic SQL recovery or changes to the historical migration buffers.
+  const sql=input=>new Promise((resolve,reject)=>{
+   const child=spawn(executor.command,executor.args,{env,windowsHide:true,stdio:['pipe','pipe','pipe']});
+   let stdout='',stderr='';child.stdout.setEncoding('utf8');child.stderr.setEncoding('utf8');
+   child.stdout.on('data',s=>stdout+=s);child.stderr.on('data',s=>stderr+=s);
+   child.on('error',()=>reject(new Error('PSQL_START_FAILED')));child.stdin.on('error',()=>{});
+   child.on('close',code=>resolve({code,stdout,stderr}));child.stdin.end(input);
+  });
+  stage='connected-version';const version=await sql("SELECT current_setting('server_version');");
+  assert.equal(version.code,0,'SERVER_VERSION_READ_FAILED');
+  report.connectedPostgresVersion=version.stdout.trim();
+  assert.equal(Number(report.connectedPostgresVersion.split('.')[0]),17,'POSTGRES_MAJOR_MISMATCH');
+  stage='empty-target-guard';guard=await holdBuildGuard(executor,build.initial);
+  for(const unit of build.units){
+   guard.assertHeld();
+   assert.equal(digest(await readFile(path.join(workdir,'supabase/migrations',unit.name))),
+    build.manifest.find(m=>m.name===unit.name).sha256,'WORKDIR_HISTORY_CHANGED');
+   stage='apply-'+unit.name.slice(0,3);report.remoteWrites=true;
+   const result=await sql(Buffer.concat([Buffer.from('SET search_path=public,pg_temp;\n'),unit.input]));
+   if(result.code!==0)report.sqlFailure=result.stderr.match(/ENV034_[A-Z_]+(?::[a-z_]+)?|EMPTY_PROJECT_REQUIRED/u)?.[0]??'MIGRATION_SQL_FAILURE';
+   assert.equal(result.code,0,'MIGRATION_SQL_FAILURE:'+unit.name);report.applied.push(unit.name);
+   stage='repair-'+unit.name.slice(0,3);
+   await cliCall(['migration','repair','--linked','--status','applied',unit.name.slice(0,3)],workdir,env);
+   report.recorded.push(unit.name.slice(0,3));
+  }
+  stage='post138-notification-hold';guard.assertHeld();
+  const originalNotifications=validateOriginalNotifications(await readNotificationSnapshot(executor));
+  // Save nonsecret exact scheduler/trigger metadata BEFORE disabling anything.
+  await writeFile(path.join(workdir,'notification-before.json'),JSON.stringify(originalNotifications,null,2)+'\n');
+  await writeFile(path.join(workdir,'restore-notifications.sql'),notificationTransitionSql(originalNotifications,true)+'\n');
+  report.notificationHold={originalFile:'notification-before.json',restoreFile:'restore-notifications.sql',
+   state:await transitionNotifications(executor,originalNotifications),implemented:true};
+  stage='empty-seed-history';assert.equal((await sql(seedHistoryStructureSql)).code,0,'SEED_STRUCTURE_FAILED');
+  stage='history-list';await cliCall(['migration','list','--linked'],workdir,env);
+  const history=await sql("SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;");
+  assert.equal(history.code,0,'HISTORY_READ_FAILED');assert.deepEqual(JSON.parse(history.stdout.trim()),report.recorded);
+  assert.equal((await sql('SELECT count(*) FROM supabase_migrations.seed_files;')).stdout.trim(),'0','SEED_NOT_ALLOWED');
+  stage='dry-run';const dry=await cliCall(['db','push','--linked','--dry-run','--skip-vault'],workdir,env);
+  assert.match(dry.stdout+dry.stderr,/up to date/iu,'PENDING_MIGRATIONS');
+  stage='full-catalog';const catalog=await sql(schemaCatalogSql);assert.equal(catalog.code,0,'REMOTE_CATALOG_FAILED');
+  report.catalogExpectedHold=assertHeldCatalog(reference.catalog,JSON.parse(catalog.stdout.trim()),{
+   beforeBuildDate:reference.buildUtcDate,afterBuildDate:new Date(report.project.createdAt).toISOString().slice(0,10)});
+  report.catalogDifferences=[]; // No UNEXPECTED differences;expected trigger delta above.
+  stage='cron-inventory';const cron=await sql(cronInventorySql);assert.equal(cron.code,0,'CRON_INVENTORY_FAILED');
+  report.cronAudit=assessBuildCron(JSON.parse(cron.stdout.trim()));
+  assert.equal(report.cronAudit.requiresOwnerReview,false,'EXTERNAL_EFFECT_REVIEW_REQUIRED');
+  stage='DB_FUNCTIONS-check';report.functions=await functionReference({...executor,env});
+  report.ok=true;return report;
+ }catch(error){report.ok=false;report.stage=stage;report.error=error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:error.message.startsWith('CLI_STEP_FAILED:')?error.message:'PREPARATION_OR_BUILD_FAILED';return report;}
+ finally{
+  if(guard)await guard.close(); // Releases only our read-only advisory-lock session.
+  if(childEnv){delete childEnv.PGPASSWORD;delete childEnv.SUPABASE_DB_PASSWORD;}
+  report.endedAt=new Date().toISOString();
+  assert.equal(digest(await readFile(path.join(root,'supabase/.temp/project-ref'))),digest(old),'OLD_BACKUP_LINK_CHANGED');
+  await writeFile(path.join(workdir,'last-report.json'),JSON.stringify(report,null,2)+'\n');
+ }
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
+ try{const report=await run(process.argv.slice(2));console.log(JSON.stringify(report));if(!report.ok)process.exitCode=1;}
+ catch(error){console.error(error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'FRANKFURT_PREPARATION_FAILED');process.exitCode=1;}
+}

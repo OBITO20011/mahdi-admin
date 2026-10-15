@@ -2,27 +2,29 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Pre-Frankfurt QA only:one full local quality,clean isolated001-138/DB_FUNCTIONS check,readiness docs and gated docs delivery",
-  "baselineSha": "8ed121e0e61391ea9e9c2e9bf5512222b164c44a",
+  "objective": "Frankfurt preparation only:external workdir,read-only CLI metadata,safe owner-run builder;no remote apply/link tonight",
+  "baselineSha": "c27dcae474824dd6e8b48fd32eb45bf68017bbcd",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "DBrehearsal b285c0c:138raw/officialrepair/dryrun0/catalog0/functions410 accepted;Gitleaks0",
-    "8ed121e exactCI38627093815 FULL24/24+secrets38627093689 PASS;ONE full localquality8/8 exit0 frozenfiles 15OctAmman"
+    "8ed121e exactCI38627093815 FULL24/24+secrets38627093689 PASS;ONE full localquality8/8 exit0 frozenfiles 15OctAmman",
+    "Finalreadiness docsc27dcae delivered:quality38653723282 FULL24/24+secrets38653722904 PASS;Gitleaks0"
   ],
   "inProgress": [
-    "Final readiness accepted CHECK scope;docs-only relatedgates/Gitleaks/commit/push/exactfullCI delivery"
+    "Local full rehearsal/fresh externalreference PASS;type/lint/all1043Admin+191Customerunits frozenfiles PASS;Gitleaks/commit/push/fullCI next"
   ],
   "notStarted": [
-    "Frankfurt project creation,Production/deploy and startup tools remain unauthorized/deferred"
+    "Ownercreated newproject;remote apply/link/deploy/Edge/secrets/cron/storage/backup changes forbidden tonight;startup deferred"
   ],
   "testsPassed": [
     "Full localquality:Admin1030/Customer191/browser907PASS+59knownskips(966total)/retries0;type/lints/builds/isolation PASS",
-    "8ed exactCI24+secrets/HEADremote PASS;shards600/417/565/520/433s all<12;Vite20alone+1liveDB PASS"
+    "8ed exactCI24+secrets/HEADremote PASS;shards600/417/565/520/433s all<12;Vite20alone+1liveDB PASS",
+    "Docsprecommit type/lint/Admin1030/Gitleaks0 PASS;exactc27 CI24+secrets PASS;shards602/582/564/436/528s all<12"
   ],
   "testsRemaining": [
-    "Finaldocs relatedprecommit/Gitleaks0/commit/push/full exactCI/checkpointSTOP"
+    "Gitleaks0/commit/push/fullCI thenSTOP;no managed apply tonight"
   ],
   "findings": [
     "DB138/officialhistory/dryrun0/catalog0/functions410 accepted;historicalSQL/product untouched",
@@ -31,14 +33,26 @@
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "Approved DBrehearsal/docs,Vite test and CIbalancedshards only;no product/historicalSQL/realservices/Production/deploy",
+    "Frankfurt prep and target CLI metadata only;no remote SQL/link tonight,oldtarget/backup mutations,product/history changes or deploy",
     "Only isolated test DB allowed;stop on any failure;no retry/timeout change;freeze tracked files during gates"
   ],
-  "nextExactAction": "Final readiness docs only:relatedprecommit/Gitleaks0/commit/push/exactfullCI then checkpointSTOP;full localquality alreadyPASS,no rerun.",
-  "checkpointedAt": "2026-10-14T23:17:46.255Z",
+  "nextExactAction": "Local full rehearsal and fresh dry externalreference PASS;freeze files for type/lint/allunits,then Gitleaks/commit/push/exact fullCI/checkpointSTOP. No Frankfurt apply.",
+  "checkpointedAt": "2026-10-15T01:25:39.585Z",
   "filesTouched": [
+    "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
-    "docs/operations/PRE_FRANKFURT_READINESS.md"
+    "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md",
+    "scripts/operations/build-empty-supabase.mjs",
+    "scripts/testing/run-empty-project-build-runtime.mjs",
+    "scripts/testing/schema-catalog.mjs",
+    "docs/operations/FRANKFURT_OWNER_BUILD_AR.md",
+    "scripts/operations/build-cron-report.mjs",
+    "scripts/operations/frankfurt-notification-hold.mjs",
+    "scripts/operations/frankfurt-owner-build.mjs",
+    "tests/build-cron-report.test.ts",
+    "tests/frankfurt-notification-hold.test.ts",
+    "tests/frankfurt-preparation.test.ts",
+    "tests/realtime-catalog-normalization.test.ts"
   ],
-  "workingTreeFingerprint": "FBA6B82C7778DFC70320A96DE142F1DB1A80391D70901EEEB938EE6AC10D1300"
+  "workingTreeFingerprint": "3AB13F1BB760CBB2C69FB7B3931052B6A4C6CCAC66F381C7E997D516D21161ED"
 }

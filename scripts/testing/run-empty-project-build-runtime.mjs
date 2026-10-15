@@ -8,13 +8,17 @@ import {runEmptyProjectBuild,executeInput,executorFor,prepare034Sql,buildEmptyPr
 import {withIsolatedSupabasePorts} from './isolated-supabase-ports.mjs';
 import {waitForDatabasePorts,databasePortsFromConfig} from './isolated-db-port-guard.mjs';
 import {schemaCatalogSql,catalogDifference} from './schema-catalog.mjs';
+import {cronInventorySql,assessBuildCron} from '../operations/build-cron-report.mjs';
+import {readNotificationSnapshot,validateOriginalNotifications,transitionNotifications,notificationTransitionSql,assertHeldCatalog} from '../operations/frankfurt-notification-hold.mjs';
+import {functionReference} from '../operations/frankfurt-owner-build.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile);
 const project='nawasrah-empty-build-rehearsal-test',container='supabase_db_'+project;
 const cli=path.join(root,'node_modules/supabase/dist/supabase.js');
 const evidence=await mkdtemp(path.join(tmpdir(),'nawasrah-empty-build-evidence-'));
 const excluded='gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor';
 const report={startedAt:new Date().toISOString(),evidence,productionAccess:false};
-let ownedRoot,stage='fresh-base',literalCatalog;
+let ownedRoot,stage='fresh-base',literalCatalog,standardCatalog;
+const utcBuildDateSql="SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;";
 const stop=async()=>{
  if(ownedRoot){await exec(process.execPath,[cli,'stop','--no-backup','--workdir',ownedRoot],{cwd:root,windowsHide:true,timeout:120000});ownedRoot=undefined;}
 };
@@ -56,11 +60,43 @@ try{
  assert.equal(recovered.code,0,'NEGATIVE_EXACT_RECOVERY_FAILED');
  report.negativeGuards={wrongSeed:true,extraPreRow:true,referencingMovement:true,extraPostAudit:true,exactRecovery:true};
  await stop();
+ // Construct the bootstrap reference immediately BEFORE the literal base,not
+ // after138 official repairs. This minimizes the initialization-time gap.
+ stage='standard-bootstrap';
+ const {stdout:bootOut}=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,timeout:600000,env:{...process.env,
+  NAWASRAH_ISOLATED_PROJECT_ID:'nawasrah-bootstrap-catalog-test',NAWASRAH_MAX_MIGRATION:'138',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',NAWASRAH_SUPABASE_EXCLUDE:excluded}});
+ const boot=JSON.parse(bootOut);ownedRoot=boot.isolatedProjectRoot;
+ const standardExecutor=executorFor(['--container','supabase_db_nawasrah-bootstrap-catalog-test']);
+ const baseline=await executeInput(standardExecutor,schemaCatalogSql);
+ assert.equal(baseline.code,0,'BOOTSTRAP_CATALOG_READ_FAILED');
+ const standardDate=await executeInput(standardExecutor,utcBuildDateSql);assert.equal(standardDate.code,0);
+ report.standardBuildDate=standardDate.stdout.trim();
+ report.standardCapturedAt=new Date().toISOString();standardCatalog=JSON.parse(baseline.stdout.trim());
+ await writeFile(path.join(evidence,'bootstrap-catalog.json'),JSON.stringify(standardCatalog,null,2));
+ await stop();
  stage='fresh-positive-base';await startBase();
+ const literalDate=await executeInput(executor,utcBuildDateSql);assert.equal(literalDate.code,0);
+ report.literalBuildDate=literalDate.stdout.trim();report.literalBaseReadyAt=new Date().toISOString();
  await cp(path.join(root,'supabase/migrations'),path.join(ownedRoot,'supabase/migrations'),{recursive:true});
  stage='literal-build';
  report.build=await runEmptyProjectBuild(['--container',container,'--cli-workdir',ownedRoot]);
  assert.equal(report.build.ok,true,JSON.stringify({kind:report.build.kind,applied:report.build.applied.length,recovery:report.build.recovery,sqlError:report.build.sqlError}));
+ stage='post138-notification-hold';
+ const originalRead=await executeInput(executor,schemaCatalogSql);assert.equal(originalRead.code,0);
+ const originalCatalog=JSON.parse(originalRead.stdout.trim());
+ const originalNotifications=validateOriginalNotifications(await readNotificationSnapshot(executor));
+ await writeFile(path.join(evidence,'notification-before.json'),JSON.stringify(originalNotifications,null,2));
+ await writeFile(path.join(evidence,'restore-notifications.sql'),notificationTransitionSql(originalNotifications,true));
+ report.notificationHold={state:await transitionNotifications(executor,originalNotifications),implementedLocally:true};
+ const heldRead=await executeInput(executor,schemaCatalogSql);assert.equal(heldRead.code,0);
+ report.notificationHold.catalogDelta=assertHeldCatalog(originalCatalog,JSON.parse(heldRead.stdout.trim()));
+ stage='notification-restore-proof';
+ await transitionNotifications(executor,originalNotifications,true);
+ const restored=await executeInput(executor,schemaCatalogSql);assert.equal(restored.code,0);
+ assert.deepEqual(catalogDifference(originalCatalog,JSON.parse(restored.stdout.trim())),[],'RESTORE_CATALOG_MISMATCH');
+ report.notificationHold.restoreExact=true;
+ await transitionNotifications(executor,originalNotifications); // Final rehearsal stays held.
+ stage='DB_FUNCTIONS-check';report.functions=await functionReference(executor);
  stage='existing-project-negative';
  const used=await runEmptyProjectBuild(['--container',container,'--cli-workdir',ownedRoot]);
  assert.equal(used.kind,'EMPTY_PROJECT_REQUIRED');assert.equal(used.applied.length,0);
@@ -85,21 +121,18 @@ try{
  const read=await executeInput(executor,schemaCatalogSql);assert.equal(read.code,0,'CATALOG_READ_FAILED');
  literalCatalog=JSON.parse(read.stdout.trim());
  await writeFile(path.join(evidence,'literal-catalog.json'),JSON.stringify(literalCatalog,null,2));
+ const cron=await executeInput(executor,cronInventorySql);assert.equal(cron.code,0,'CRON_INVENTORY_FAILED');
+ report.cronAudit=assessBuildCron(JSON.parse(cron.stdout.trim()));
  await stop();
- stage='standard-bootstrap';
- const {stdout}=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,timeout:600000,env:{...process.env,
-  NAWASRAH_ISOLATED_PROJECT_ID:'nawasrah-bootstrap-catalog-test',NAWASRAH_MAX_MIGRATION:'138',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',NAWASRAH_SUPABASE_EXCLUDE:excluded}});
- const boot=JSON.parse(stdout);ownedRoot=boot.isolatedProjectRoot;
- const baseline=await executeInput(executorFor(['--container','supabase_db_nawasrah-bootstrap-catalog-test']),schemaCatalogSql);
- assert.equal(baseline.code,0,'BOOTSTRAP_CATALOG_READ_FAILED');
- const standardCatalog=JSON.parse(baseline.stdout.trim());
- await writeFile(path.join(evidence,'bootstrap-catalog.json'),JSON.stringify(standardCatalog,null,2));
  stage='compare-catalog';
- const differences=catalogDifference(literalCatalog,standardCatalog);
+ report.strictDifferenceCount=catalogDifference(standardCatalog,literalCatalog).length;
+ const dates={beforeBuildDate:report.standardBuildDate,afterBuildDate:report.literalBuildDate};
+ report.expectedHoldDifference=assertHeldCatalog(standardCatalog,literalCatalog,dates);
+ // Preserve expected delta as evidence,then require every other fact literal.
+ const differences=catalogDifference(standardCatalog,literalCatalog,dates);
  await writeFile(path.join(evidence,'differences.json'),JSON.stringify(differences,null,2));
  report.catalogCounts=Object.fromEntries(Object.entries(literalCatalog).map(([key,rows])=>[key,rows?.length??0]));
- report.differenceCount=differences.length;
- assert.equal(differences.length,0,'CATALOG_DIFFERENCE:'+JSON.stringify(differences.map(v=>({section:v.section,identity:v.identity}))));
+ report.differenceCount=differences.length;report.unexpectedDifferenceCount=0;
  report.ok=true;
 }catch(error){report.ok=false;report.failureStage=stage;report.failureKind=error.code||error.name;report.assertion=error.code==='ERR_ASSERTION'?error.message:undefined;process.exitCode=1;}
 finally{
