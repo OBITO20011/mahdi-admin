@@ -1,5 +1,13 @@
 # Phase status
 
+2026-10-15 CI860c042 failed infrastructure-only READY151_ALL_COLUMNS_REQUIRED:
+PG17 excludes generatedavailable_quantity from publication;151SQL/realchannel
+and142access PASS in same run. Fix admission to exactordinarycolumns;generated
+schema remains strict fullcatalog. zBQSnk finalrehearsal15:26:24–15:29:37UTC
+PASS141files/410functions/13members/official139150151/replay0write/pubnegative.
+Numbering840caa9 local1086Admin191Customer/typeslint/Gitleaks0 PASS;push with
+independent admissionrepair after localgates and fullCI. No managed access.
+
 2026-10-15 reference151 tools committed860c042;local1084Admin191Customer
 types/lint PASS frozen14:50:06–14:54:40UTC;Gitleaks0;exactCI38758814539 pending.
 Owner numbering replaces oldlane:140149 permanentunused;160169 startup;

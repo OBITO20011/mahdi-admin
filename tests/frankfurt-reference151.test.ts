@@ -18,7 +18,7 @@ const root=fileURLToPath(new URL('..',import.meta.url));
 test('151 admission rejects138/150,unproved membership,stale manifests and permission drift',async()=>{
  const manifest=await migrationManifest(root),source=await inventory();
  const proofText=await readFile('docs/operations/TABLE_ACCESS_AFTER_150.json','utf8'),proof=JSON.parse(proofText);
- const catalog={tables:readTables150.map(name=>({name,schema:'public',owner:'postgres',kind:'r',rls:true,columns:[{name:'id'}],
+ const catalog={tables:readTables150.map(name=>({name,schema:'public',owner:'postgres',kind:'r',rls:true,columns:[{name:'id',generated:''},{name:'computed_fixture',generated:'s'}],
   acl:['postgres=arwdDxtm/postgres','authenticated=r/postgres',...(name==='orders'?['service_role=r/postgres']:[])]})),
   defaultPrivileges:[{schema:'public',role:'postgres',type:'r',acl:['postgres=arwdDxtm/postgres']}]};
  const realtimePublication={publication:{name:'supabase_realtime',owner:'postgres',allTables:false,insert:true,update:true,delete:true,truncate:true,viaRoot:false},
@@ -36,6 +36,8 @@ test('151 admission rejects138/150,unproved membership,stale manifests and permi
   (r:typeof reference)=>{r.appliedVersions.pop();},
   (r:typeof reference)=>{r.realtimeQuerySha256='stale';},
   (r:typeof reference)=>{r.realtimePublication.tables.pop();r.realtimeSha256=sha256(JSON.stringify(r.realtimePublication));},
+  (r:typeof reference)=>{r.realtimePublication.tables[0]!.columns=[];r.realtimeSha256=sha256(JSON.stringify(r.realtimePublication));},
+  (r:typeof reference)=>{r.realtimePublication.tables[0]!.columns.push('computed_fixture');r.realtimeSha256=sha256(JSON.stringify(r.realtimePublication));},
   (r:typeof reference)=>{r.realtimePublication.publication.allTables=true;r.realtimeSha256=sha256(JSON.stringify(r.realtimePublication));},
   (r:typeof reference)=>{r.catalog.tables[0]!.acl.push('anon=r/postgres');r.catalogSha256=sha256(JSON.stringify(r.catalog));},
  ]){const changed=structuredClone(reference);alter(changed);assert.throws(()=>assertReference151(changed,manifest,proofText,source));}

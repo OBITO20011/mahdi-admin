@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Finish151/reference/owner-command delivery;record permanent140149 gap and startup160169 reservation;NO managed or next designs",
-  "baselineSha": "860c0427b713456512189be4a048193b86751305",
+  "baselineSha": "840caa9cd166fb007b9492570252d7edc9bf4ae2",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -37,22 +37,13 @@
     "No retries/timeouts/skips/weakened assertions;freeze files during gates",
     "140149 permanently unused;160169 startup branch only;no branch edit/merge;no agent owner-apply;no next designs until current delivery"
   ],
-  "nextExactAction": "Numbering localtypeslint1086Admin191Customer PASS15:19:09-15:23:24UTC frozen. Reference860c042 exactCI waiting. Commit numbering/decisions now;pushONLY after reference FULLPASS. No next designs or managed",
-  "checkpointedAt": "2026-10-15T15:24:06.609Z",
+  "nextExactAction": "zBQSnk runtime PASS and frozen15:30:02-15:33:44UTC1086Admin191Customer/typeslint PASS. Commit PG17generatedcolumn admissionfix;pushwithnumbering840caa9 then exactfullCI;STOP before newdesigns. NO managed",
+  "checkpointedAt": "2026-10-15T15:34:19.735Z",
   "filesTouched": [
-    "docs/agent/OPERATING_RULES.md",
-    "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
-    "docs/agent/project-state.json",
-    "docs/operations/FRANKFURT_ACL_ALIGNMENT_AR.md",
     "docs/operations/FRANKFURT_REFERENCE_151_AR.md",
-    "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md",
-    "scripts/agent/lib.mjs",
-    "scripts/agent/preflight.mjs",
-    "tests/migration-integrity.test.ts",
-    "docs/operations/MIGRATION_ORDER_151_160_AR.md",
-    "scripts/agent/migration-numbering.mjs",
-    "tests/migration-numbering.test.ts"
+    "scripts/operations/frankfurt-reference151.mjs",
+    "tests/frankfurt-reference151.test.ts"
   ],
-  "workingTreeFingerprint": "1958A2C8725531AE77459F3AD9547BDAC5C39474129FEC746A91780AF92AA790"
+  "workingTreeFingerprint": "095D5A46E02A65FDEE05EAA218C1CCE99E549EB3E9ACA76E0804F5726DBB828C"
 }

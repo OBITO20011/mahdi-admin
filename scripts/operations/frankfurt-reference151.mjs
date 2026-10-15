@@ -26,7 +26,10 @@ export function assertReference151(reference,manifest,proofText,source){
  for(const member of publication.tables){
   const table=reference.catalog.tables.find(t=>t.schema===member.schema&&t.name===member.name);
   assert.ok(table,'READY151_PUBLICATION_TABLE_REQUIRED');
-  assert.deepEqual(member.columns,table.columns.map(c=>c.name),'READY151_ALL_COLUMNS_REQUIRED');
+  // PostgreSQL17 logical replication omits stored generated columns. Their
+  // definitions remain strictly checked in the full table catalog;publication
+  // membership must contain ALL and ONLY ordinary columns,in ordinal order.
+  assert.deepEqual(member.columns,table.columns.filter(c=>!c.generated).map(c=>c.name),'READY151_ALL_COLUMNS_REQUIRED');
  }
  assertReadiness150(reference,manifest.filter(m=>Number(m.name.slice(0,3))<=150),proofText,source);
  return reference;
