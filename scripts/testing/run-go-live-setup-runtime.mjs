@@ -5,7 +5,7 @@ import {promisify} from 'node:util';
 import path from 'node:path';
 import {assertPackageDDbLint} from './package-d-db-lint-policy.mjs';
 
-// Go-live setup (140-142) on an isolated DB built from every migration:
+// Go-live setup (160-162) on an isolated DB built from every migration:
 // permissions, idempotency, atomic batches, reversal, the one-way DB lock,
 // receivable parity (aging=phase42=statement), unchanged sales/profit/shift,
 // opening stock packages/loose units/flavors and exact WAC after receiving,

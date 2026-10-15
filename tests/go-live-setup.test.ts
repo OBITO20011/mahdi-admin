@@ -8,8 +8,8 @@ import {
 } from '../src/features/goLive/goLiveImport.ts';
 import {futureMigrationViolations} from '../scripts/testing/maintenance-db-contract.mjs';
 
-const migrations = ['140_go_live_setup_foundation.sql', '141_go_live_customer_opening_balances.sql',
-  '142_go_live_supplier_opening_balances.sql'].map(name => [name, readFileSync(`supabase/migrations/${name}`, 'utf8')] as const);
+const migrations = ['160_go_live_setup_foundation.sql', '161_go_live_customer_opening_balances.sql',
+  '162_go_live_supplier_opening_balances.sql'].map(name => [name, readFileSync(`supabase/migrations/${name}`, 'utf8')] as const);
 
 test('crc32 and stored zip round-trip through the xlsx reader', async () => {
   assert.equal(crc32(new TextEncoder().encode('123456789')), 0xcbf43926);
@@ -113,7 +113,7 @@ test('opening stock matches barcode/SKU, packages and loose units, and flavor ma
   assert.deepEqual(mapServerErrors([{sourceRow: 9}, {sourceRow: 12}], [{row: 2, message: 'x'}]), [{row: 12, message: 'x'}]);
 });
 
-test('migrations 140-142 are explicit, definer-safe and keep every new table closed to clients', () => {
+test('migrations 160+ are explicit, definer-safe and keep every new table closed to clients', () => {
   for (const [name, sql] of migrations) {
     assert.deepEqual(futureMigrationViolations(sql), [], name);
     assert.match(sql, /^BEGIN;/u, name); assert.match(sql.trimEnd(), /COMMIT;$/u, name);

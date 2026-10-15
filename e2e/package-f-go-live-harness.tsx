@@ -13,7 +13,7 @@ import {authStoreEngine,type AuthState} from '../src/stores/useAuthStore';
 import {storeEngine,type AppState} from '../src/stores/useAppStore';
 import {supabase} from '../src/lib/supabase';
 
-// In-memory stand-in for the go-live RPC contracts (140-142). Database rules
+// In-memory stand-in for the go-live RPC contracts (160-162). Database rules
 // themselves are proven by scripts/testing/run-go-live-setup-runtime.mjs.
 const params=new URLSearchParams(location.search),theme=params.get('theme')==='dark'?'dark':'light';
 document.documentElement.classList.toggle('theme-light',theme==='light');document.documentElement.classList.toggle('theme-dark',theme==='dark');document.documentElement.dataset.theme=theme;

@@ -3,7 +3,7 @@ BEGIN;
 -- Go-live setup ("بداية التشغيل"), owner-approved 2026-10-15.
 -- One singleton lock row. After the owner finishes setup, the DATABASE (not
 -- only the UI) rejects every opening write: opening stock sessions (047),
--- customer opening debts (141), supplier opening balances (142) and the
+-- customer opening debts (161), supplier opening balances (162) and the
 -- setup product import. The lock is one-way; no RPC or update can reopen it.
 -- Explicit full definitions only; no historical function body is copied.
 

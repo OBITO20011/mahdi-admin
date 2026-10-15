@@ -261,7 +261,7 @@ jobs:
         if: matrix.suite == 'package-f-aging'
         run: npm run test:package-f:statement
 
-      - name: Prove140-142 go-live setup lock,opening balances parity,WAC and permissions
+      - name: Prove160+ go-live setup lock,opening balances parity,WAC and permissions
         if: matrix.suite == 'package-f-aging'
         run: npm run test:go-live:runtime
 

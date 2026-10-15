@@ -353,7 +353,7 @@ LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
     UNION ALL
     SELECT supplier_id,payable::NUMERIC FROM public.phase133_legacy_po_payables_internal()
     UNION ALL
-    -- 142: active go-live opening balances; an advance is a negative amount.
+    -- 162: active go-live opening balances; an advance is a negative amount.
     SELECT supplier_id,CASE WHEN direction='payable' THEN amount_in_minor_units
       ELSE -amount_in_minor_units END::NUMERIC
     FROM public.supplier_opening_balances WHERE NOT is_reversed
@@ -366,7 +366,7 @@ $$;
 ALTER FUNCTION public.phase133_supplier_balance_evidence_internal() OWNER TO postgres;
 REVOKE ALL ON FUNCTION public.phase133_supplier_balance_evidence_internal() FROM PUBLIC,anon,authenticated,service_role;
 
--- 140 progress counters, complete explicit body extended with both ledgers.
+-- 160 progress counters, complete explicit body extended with both ledgers.
 CREATE OR REPLACE FUNCTION public.go_live_setup_counts_internal()
 RETURNS JSONB
 LANGUAGE sql

@@ -433,7 +433,7 @@ BEGIN
     LEFT JOIN completion_operations c ON c.order_id = o.id
     LEFT JOIN public.business_operations creation ON creation.id = o.operation_id
     UNION ALL
-    -- 141: an active opening debt is a principal with its original date and
+    -- 161: an active opening debt is a principal with its original date and
     -- nothing paid on it directly; FIFO coverage from later vouchers still
     -- presents against the oldest principal first, as for any order.
     SELECT opening.id, opening.customer_id, opening.amount_in_minor_units,
@@ -593,7 +593,7 @@ BEGIN
           - COALESCE(d.amount, 0), 0)::BIGINT END AS outstanding
       FROM eligible o LEFT JOIN prior_debt d ON d.order_id = o.id
     ), opening_debts AS MATERIALIZED (
-      -- 141: active opening debts of candidate customers, original date kept.
+      -- 161: active opening debts of candidate customers, original date kept.
       SELECT opening.id, opening.customer_id, opening.amount_in_minor_units AS amount,
         opening.occurred_at
       FROM public.customer_opening_balances opening JOIN candidates c ON c.id = opening.customer_id
@@ -813,7 +813,7 @@ BEGIN
     FROM public.pos_sale_reversals r JOIN scoped o ON o.id = r.order_id
     WHERE (r.actual_effect->>'customer_receivable_in_minor_units')::BIGINT > 0
     UNION ALL
-    -- 141: pre-system balance at its original date; a reversal keeps the
+    -- 161: pre-system balance at its original date; a reversal keeps the
     -- original debit and adds its own credit, like a voucher reversal.
     SELECT 'opening:' || b.id::TEXT, 'opening_balance', 'رصيد سابق قبل النظام',
       NULL::UUID, b.entry_number, b.occurred_at, b.amount_in_minor_units, 0
