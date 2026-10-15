@@ -12,7 +12,8 @@ import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {generateAclPlan,alignmentTransaction,publicAclSnapshot} from './frankfurt-acl-plan.mjs';
 import {compareManagedCatalog} from './managed-catalog-policy.mjs';
 import {verifyCatalogReadOnly} from './frankfurt-catalog-verification.mjs';
-import {readReference150,readyReferenceName} from './frankfurt-reference150.mjs';
+import {readReference151,readyReference151Name} from './frankfurt-reference151.mjs';
+import {forecast150} from './forecast-grants150.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),hash=b=>createHash('sha256').update(b).digest('hex');
 export function serviceAclSnapshot(catalog){return Object.fromEntries(Object.entries(publicAclSnapshot(catalog)).map(([k,v])=>[k,v.acl.filter(e=>e.grantee==='service_role')]));}
 export async function alignWithExecutor(executor,reference,observed,original,dates,output,report){
@@ -54,13 +55,14 @@ export async function run(args){
  const observedBytes=await readFile(path.join(workdir,'catalog-observed.json'));
  const observed=JSON.parse(observedBytes),previous=JSON.parse(await readFile(path.join(workdir,'catalog-differences.json'),'utf8'));
  const original=JSON.parse(await readFile(path.join(workdir,'notification-before.json'),'utf8'));
- const reference=await readReference150(root,path.join(workdir,readyReferenceName));
+ const reference=await readReference151(root,path.join(workdir,readyReference151Name));
  const dates={...previous.dates,beforeBuildDate:reference.buildUtcDate};
  const output=path.join(workdir,'acl-alignment-'+new Date().toISOString().replaceAll(/[:.]/gu,'-'));await mkdir(output);
  const report={mode:args.includes('--apply')?'owner-apply':'offline-dry-run',startedAt:new Date().toISOString(),remoteWriteAttempted:false,
   projectRef:TARGET.id,sourceCatalogSha256:hash(observedBytes),objects:0,commands:0,output,
-  reference:readyReferenceName,referenceCeiling:150,applicationReady:false,ownerApplyHold:true,
-  pendingMigration139:[],requiresFreshObservedAfterOwnerMigrations:['139','150']};
+  reference:readyReference151Name,referenceCeiling:151,applicationReady:false,ownerApplyHold:true,
+  realtimeMembership:{certified:false,reason:'SAVED_OBSERVED_CATALOG_HAS_NO_PUBLICATION_SNAPSHOT'},
+  pendingMigration139:[],requiresFreshObservedAfterOwnerMigrations:['139','150','151']};
  let env;
  try{
   // Persist the complete classified input comparison BEFORE a strict planner
@@ -68,6 +70,10 @@ export async function run(args){
   await writeFile(path.join(output,'catalog-comparison-before.json'),JSON.stringify(compareManagedCatalog(reference.catalog,observed,dates),null,2)+'\n');
   const plan=generateAclPlan(reference.catalog,observed,{offlinePending139:true});
   report.objects=plan.objectCount;report.commands=plan.commandCount;report.pendingMigration139=plan.prerequisites;
+  const forecast=generateAclPlan(reference.catalog,forecast150(observed),{offlinePending139:true});
+  report.afterLiteral150Forecast={commands:forecast.commandCount,objects:forecast.objectCount,notApplied:true,
+   note:'ACL-only forecast;139 still pending;publication unknown until owner live verification'};
+  await writeFile(path.join(output,'after150-preview.sql'),forecast.commands.join('\n')+'\n');
   await writeFile(path.join(output,'preview.sql'),plan.commands.join('\n')+'\n');
   await writeFile(path.join(output,'source-catalog.json'),observedBytes);
   console.log('معاينة أوفلاين فقط؛التطبيق محظور. service_role ومخططات المنصة لا تتغير:\n'+plan.commands.join('\n'));

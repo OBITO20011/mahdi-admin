@@ -20,6 +20,11 @@ export function assertReference150(reference,manifest,proofText,source){
  assert.deepEqual(reference.appliedVersions,manifest.map(m=>m.name.slice(0,3)),'READY150_HISTORY_MISMATCH');
  assert.equal(reference.catalogQuerySha256,sha256(schemaCatalogSql),'READY150_CATALOG_QUERY_MISMATCH');
  assert.equal(reference.catalogSha256,sha256(JSON.stringify(reference.catalog)),'READY150_CATALOG_DIGEST_MISMATCH');
+ return assertReadiness150(reference,manifest,proofText,source);
+}
+// Reused by151: its unchanged table/RPC read evidence is pinned to the actual
+// <=150 manifest,not relabelled as a151 runtime audit.
+export function assertReadiness150(reference,manifest,proofText,source){
  const proof=JSON.parse(proofText);
  assert.equal(proof.migrationCeiling,150,'READY150_ACCESS_PROOF_REQUIRED');
  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);

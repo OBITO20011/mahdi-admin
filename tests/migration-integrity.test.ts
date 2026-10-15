@@ -80,6 +80,7 @@ const fingerprints = [
   ['138_package_f_customer_statement.sql', 'AB01B7A1E2FFDB57404DF92A6EB637F6CA0278EAEFD9C02B685D27FABE6AD6B3'],
   ['139_project_order_push_webhook_url.sql', 'C193211C782E4375092EB93AA74655F67F3429832010B7E0036E1DB18847F262'],
   ['150_explicit_application_table_read_privileges.sql', '747E19115C0CCD5FF050159555D429DE5933078CB5F94E63C8DF2B6656A4C5B0'],
+  ['151_explicit_application_realtime_publication.sql', 'FD7F12E6FF97FEC97E35FD04BA43B6954CD2A841ACCD8C2BEBD6186DB6823F62'],
 ] as const;
 
 test('121-150 delivered bytes and continuity references agree with fixed approved fingerprints', () => {

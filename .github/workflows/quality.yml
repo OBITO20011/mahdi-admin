@@ -289,6 +289,13 @@ jobs:
         if: matrix.suite == 'package-f-reads'
         run: node scripts/audit/run-table-access-diagnostic.mjs --require-access
 
+      - name: Prove151 real Realtime channel delivery and role isolation
+        if: matrix.suite == 'package-f-reads'
+        run: npm run test:realtime151:runtime
+      - name: Rehearse owner139-150-151 upgrade and strict publication verification locally
+        if: matrix.suite == 'package-f-reads'
+        run: npm run test:frankfurt151:runtime
+
       - name: Reconcile a complete business day through real public RPCs
         if: matrix.suite == 'golden-day'
         run: npm run test:package-e:golden

@@ -46,7 +46,7 @@ async function cliCall(args,workdir,env=process.env){
   {cwd:workdir,env,windowsHide:true,maxBuffer:32*1024**2});}
  catch{throw new Error('CLI_STEP_FAILED:'+args.slice(0,2).join('-'));} // Never emit captured CLI bodies.
 }
-async function ownerPassword(){
+export async function ownerPassword(){
  assert.ok(process.stdin.isTTY,'OWNER_INTERACTIVE_TERMINAL_REQUIRED');
  process.stdout.write('أدخل كلمة سر قاعدة فرانكفورت (مخفية، في الذاكرة فقط):\n');
  return await new Promise((resolve,reject)=>{
@@ -92,7 +92,7 @@ export async function functionReference(executor,ceiling=139){
   const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);
   assert.equal(digest(JSON.stringify(ordered)),'edc400709df70e238245eb5233042e236fb763e95290a1fc3643d61f7e59ac4b','FROZEN138_FUNCTIONS_CHANGED');
  }else{
-  assert.ok([139,150].includes(ceiling),'UNAPPROVED_FUNCTION_REFERENCE');
+  assert.ok([139,150,151].includes(ceiling),'UNAPPROVED_FUNCTION_REFERENCE');
   const rendered=renderFunctionReference(await migrationManifest(root),functions);
   assert.equal(rendered,canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8')),'DB_FUNCTIONS_STALE');
  }
