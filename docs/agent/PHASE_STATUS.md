@@ -1,5 +1,17 @@
 # Phase status
 
+2026-10-15 FK local final PASS12:46:41–12:56:02UTC frozenfiles:
+1072Admin+191Customer/type/lint and60/60Orders/Purchasing bothengines.
+Real150SDK142/142+fullfileAST parity PASS;Gitleaks/commit/exactCI next.
+Then permanent require-access CI and150 offline reference/plan;no managed.
+
+2026-10-15 150 independently delivered204f1ed:quality38730973077 FULL24/24
++secrets38730973130 PASS,Gitleaks0;139 separately3a3893b exactFULL PASS.
+FK-only next:5hints/4queries,all3 ENTIRE_AST comparisons PASS;real150 SDK
+142/142success,0denied/0other,coveragecomplete2WNBGu. Negative138 aBTtdp:
+127denied+15success/0ambiguous. RPC372/0denied IeYULP refreshedsourcehashes.
+See TABLE_FK_EMBED_FIX.md;local full related gates/browser then commit/exactCI.
+
 2026-10-15 139 committed/pushed3a3893b;local1065Admin+191Customer/type/lint,
 six real139 cases and frozen138 verify-only PASS;Gitleaks0. ExactCI FULL24/24
 38729342063+secrets38729342030 PASS at3a3893b;139 independently delivered.

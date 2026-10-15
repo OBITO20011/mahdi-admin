@@ -3,13 +3,14 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Approved150 table reads/revokes,FK fixes,real access CI,new offline reference;NO managed/apply",
-  "baselineSha": "3a3893be5e9488c2ed99f16944c40ab53255a0b3",
+  "baselineSha": "204f1ed3975f6f4ec3dc6b3ed3236b7576d5760d",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "21c8bd4+6f5e5a6 audit deliveredFULL24+secrets;HOLDapply;142SDK15PASS/112denied/15ambiguous",
-    "139 delivered3a3893b quality38729342063 FULL24/24 +secrets38729342030 PASS;Gitleaks0;no managed"
+    "139 delivered3a3893b quality38729342063 FULL24/24 +secrets38729342030 PASS;Gitleaks0;no managed",
+    "150 delivered204f1ed quality38730973077 FULL24/24 +secrets38730973130 PASS;Gitleaks0"
   ],
   "inProgress": [],
   "notStarted": [
@@ -19,7 +20,7 @@
     "1396/6+verify-only PASS;150real138/139 catalog/idempotency/defaults PASS;16focused;1066Admin+191Customer/type/lint;frozen11:47:49-11:52:47UTC;150Gitleaks0"
   ],
   "testsRemaining": [
-    "139 exactCI pending;150 full local gate then Gitleaks/commit/exactCI;FK separate;accessCI;new reference/offline plan"
+    "FK local full units/types/lint+Orders/Purchasing bothengines;commit/Gitleaks/exactCI;thenaccessCI+newreference/offline plan"
   ],
   "findings": [
     "26read grants150proposal;4PGRST201;localpublicationempty;remote bucketrow/membership unknown"
@@ -31,23 +32,31 @@
     "No retries/timeouts/skips/weakened assertions;freeze files during gates",
     "139 separate commit BEFORE150;do not use140-149;NO frankfurt-align-acl --apply"
   ],
-  "nextExactAction": "139 delivered3a3893b FULL24+secrets PASS;150 alllocal gates+Gitleaks0 PASS;commit/push150 and exactCI;then4explicitFK fixes/real access. No managed/apply.",
-  "checkpointedAt": "2026-10-15T11:56:39.548Z",
+  "nextExactAction": "Commit approved five FK hints and fresh real access evidence after local1072+191+60PASS;push/exactCI,then permanentaccessCI and150offline reference/plan;NO managed/apply",
+  "checkpointedAt": "2026-10-15T12:56:53.946Z",
   "filesTouched": [
-    "docs/operations/TABLE_READ_PRIVILEGES_150.md",
-    "scripts/testing/run-table-read-privileges150-runtime.mjs",
-    "scripts/testing/table-read-privileges150-contract.mjs",
-    "supabase/migrations/150_explicit_application_table_read_privileges.sql",
-    "tests/table-read-privileges150.test.ts",
-    ".github/workflows/quality.yml",
-    "docs/agent/POST_DELIVERY.md",
-    "docs/agent/project-state.json",
-    "docs/generated/DB_FUNCTIONS.md",
-    "package.json",
-    "scripts/agent/lib.mjs",
-    "scripts/agent/preflight.mjs",
-    "tests/migration-integrity.test.ts",
-    "docs/agent/PHASE_STATUS.md"
+    "docs/agent/PHASE_STATUS.md",
+    "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md",
+    "docs/operations/SERVICE_ACCESS_AUDIT.md",
+    "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json",
+    "docs/operations/SERVICE_ACCESS_INVENTORY.json",
+    "docs/operations/TABLE_ACCESS_DIAGNOSTIC.json",
+    "docs/operations/TABLE_ACCESS_INVENTORY.json",
+    "docs/operations/TABLE_ACCESS_INVENTORY.md",
+    "scripts/audit/run-table-access-diagnostic.mjs",
+    "scripts/audit/service-access-report.mjs",
+    "scripts/audit/table-access-probes.mjs",
+    "scripts/audit/table-access-report.mjs",
+    "src/services/supabase/directReceiving.service.ts",
+    "src/services/supabase/orders.service.ts",
+    "src/services/supabase/purchases.service.ts",
+    "tests/receiving-unit-pricing.test.ts",
+    "tests/strict-product-parity.test.ts",
+    "tests/table-access-inventory.test.ts",
+    "docs/operations/TABLE_ACCESS_AFTER_150.json",
+    "docs/operations/TABLE_ACCESS_AFTER_150.md",
+    "docs/operations/TABLE_FK_EMBED_FIX.md",
+    "tests/table-embed-fk-parity.test.ts"
   ],
-  "workingTreeFingerprint": "3180C81E74BF836D408B847B1A97C6AF22E4AF7136BED0CCE734A18ADACA66E0"
+  "workingTreeFingerprint": "2D345D99C87E78765D4B26FF04C5F3153CBC81E57C91BE5CAC646CDF898FAD05"
 }

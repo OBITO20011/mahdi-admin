@@ -3,16 +3,19 @@
 import assert from 'node:assert/strict';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
-import {readFile,writeFile,mkdtemp} from 'node:fs/promises';
+import {readFile,writeFile,mkdtemp,readdir} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {randomBytes} from 'node:crypto';
 import path from 'node:path';
 import {inventory} from './table-access-inventory.mjs';
-import {replay,scopes,fixtureId as id} from './table-access-probes.mjs';
+import {replay,scopes,fixtureId as id,verifyProbeCoverage} from './table-access-probes.mjs';
 import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
 const option=n=>process.argv.includes(n)?process.argv[process.argv.indexOf(n)+1]:null;
+const ceiling=process.argv.includes('--require-access')?150:Number(option('--migration-ceiling')||138);
+assert.ok([138,150].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');
+const manifest=(await readdir(path.join(root,'supabase/migrations'))).filter(n=>/^\d{3}_.+\.sql$/u.test(n)&&Number(n.slice(0,3))<=ceiling).sort();
 const project=option('--local-project')||'nawasrah-table-audit-'+randomBytes(4).toString('hex')+'-test';
 assert.match(project,/^nawasrah-table-audit(?:-[a-f0-9]+)?-test$/u);
 const container='supabase_db_'+project,rest='nawasrah-table-access-rest-'+randomBytes(4).toString('hex');
@@ -23,14 +26,14 @@ const sql=async text=>{const r=await executeInput(executor,text);assert.equal(r.
 const json=async text=>JSON.parse(await sql(text));
 const ownerRpc=command=>json(`BEGIN;SET LOCAL ROLE authenticated;DO $$BEGIN PERFORM set_config('request.jwt.claims',${q(JSON.stringify({sub:id(1),role:'authenticated',aal:'aal2'}))},true);END$$;
  SELECT public.${command};COMMIT;`);
-const report={schemaVersion:1,startedAt:new Date().toISOString(),managedAccess:false,migrationCeiling:138,output,stage:'bootstrap',results:[]};
+const report={schemaVersion:1,startedAt:new Date().toISOString(),managedAccess:false,migrationCeiling:ceiling,manifest,output,stage:'bootstrap',results:[]};
 let workdir=option('--workdir'),restStarted=false;
 try{
  if(!workdir){const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
-  NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'138',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
+  NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:String(ceiling),NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
   NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
   workdir=JSON.parse(boot.stdout).isolatedProjectRoot;}
- assert.equal(await sql('SELECT max(version)||\':\'||count(*) FROM supabase_migrations.schema_migrations;'),'138:138');
+ assert.deepEqual(await json('SELECT jsonb_agg(version ORDER BY version) FROM supabase_migrations.schema_migrations;'),manifest.map(n=>n.slice(0,3)),'EXACT_APPROVED_HISTORY_REQUIRED');
  const catalog=JSON.parse(await sql(schemaCatalogSql));report.catalog=catalog;
  const source=await inventory();report.sourceTotals=source.totals;report.sourceHashes=source.sources;
  report.stage='fixture';
@@ -110,6 +113,7 @@ try{
  }
  // Source files may not drift while this evidence is collected.
  assert.deepEqual((await inventory()).sources,source.sources,'SOURCE_CHANGED_DURING_DIAGNOSTIC');
+ report.coverage=verifyProbeCoverage(source,report.results);
  report.infrastructureOk=true;report.applicationReady=report.results.every(r=>!['permission_denied','other_error'].includes(r.outcome));
  report.counts=Object.fromEntries(['success','permission_denied','zero_rows','other_error'].map(k=>[k,report.results.filter(r=>r.outcome===k).length]));
  if(process.argv.includes('--require-access')&&!report.applicationReady){process.exitCode=1;report.accessGate='FAILED_DIRECT_TABLE_ACCESS';}

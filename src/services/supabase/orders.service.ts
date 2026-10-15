@@ -140,7 +140,7 @@ const ORDER_DETAIL_SELECT = `
     units_per_sale_package,
     sale_package_name_snapshot,
     sale_package_price_in_minor_units,
-    products (
+    products!order_items_product_id_fkey (
       id,
       cost_price_in_minor_units,
       base_unit:units!products_unit_id_fkey (

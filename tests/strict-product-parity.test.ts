@@ -30,6 +30,15 @@ function tree(node:ts.Node,ast:ts.SourceFile):AstTree {
   return [node.kind,children.length?children:node.getText(ast)];
 }
 function normalized(source:string,file:string) {
+  // Owner-approved2026-10-15 FK-only follow-up,not a new strict/type exception.
+  // ENTIRE body/call assertions below stay intact; the independent full-file
+  // hash guard and real PostgREST gate also pin these precise five hints.
+  const approvedHints:Record<string,string[]>={
+    'src/services/supabase/orders.service.ts':['order_items_product_id_fkey'],
+    'src/services/supabase/purchases.service.ts':['purchase_order_items_product_id_fkey','purchase_receipt_items_purchase_receipt_id_fkey'],
+    'src/services/supabase/directReceiving.service.ts':['supplier_receipts_received_by_fkey'],
+  };
+  for(const hint of approvedHints[file]??[])source=source.replaceAll('!'+hint,'');
   const ast=ts.createSourceFile(file,source.replaceAll('\r\n','\n'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
   const transformed=ts.transform(ast,[context=>{
     const visit:ts.Visitor=node=>{
@@ -69,4 +78,14 @@ for(const file of files)test(`strict product: all emitted calls, payloads, guard
   const after=normalized(readFileSync(file,'utf8'),file);
   assert.deepEqual(after.calls,before.calls,'All calls, including nested callback bodies');
   assert.deepEqual(after.body,before.body,'All runtime AST nodes, not only selected RPCs');
+});
+
+test('approved FK normalization never ignores fields,payloads,guards or unknown relationship changes',()=>{
+  const file='src/services/supabase/orders.service.ts';
+  const before="export function read(){return supabase.from('orders').select('order_items(products(id))');} export function pay(){return supabase.rpc('pay',{amount:1000});}";
+  const approved=before.replace('products(id)','products!order_items_product_id_fkey(id)');
+  assert.deepEqual(normalized(approved,file),normalized(before,file));
+  for(const changed of [approved.replace('(id))','(id,cost))'),approved.replace('amount:1000','amount:1001'),
+    approved.replace('order_items_product_id_fkey','other_fk'),approved.replace('return supabase.rpc',"if(blocked)throw Error('blocked');return supabase.rpc")])
+    assert.notDeepEqual(normalized(changed,file),normalized(before,file));
 });

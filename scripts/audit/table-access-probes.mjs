@@ -5,6 +5,16 @@ import assert from 'node:assert/strict';
 import {createClient} from '@supabase/supabase-js';
 import {createHmac} from 'node:crypto';
 export const fixtureId=n=>'92600000-0000-4000-8000-'+String(n).padStart(12,'0');
+export function verifyProbeCoverage(source,results){
+ assert.ok(source.entries.length>0,'EMPTY_QUERY_INVENTORY');
+ const expected=source.entries.flatMap(e=>(e.role==='service_role'?['service_role']:['owner','admin','cashier'])
+  .flatMap(appRole=>(e.extensions.length?['original-chain','with-query-extensions']:['original-chain'])
+   .map(variant=>JSON.stringify([e.id,appRole,variant])))).sort();
+ const actual=results.map(r=>JSON.stringify([r.id,r.appRole,r.variant])).sort();
+ assert.equal(new Set(actual).size,actual.length,'DUPLICATE_QUERY_PROBE');
+ assert.deepEqual(actual,expected,'INCOMPLETE_QUERY_PROBE_COVERAGE');
+ return {complete:true,sourceSites:source.entries.length,expected:expected.length,actual:actual.length};
+}
 export function evaluateArgument(expression,scope){return vm.runInNewContext('('+expression+')',scope,{timeout:1000});}
 export function testJwt(role,actor,secret){const b=v=>Buffer.from(JSON.stringify(v)).toString('base64url');
  const unsigned=b({alg:'HS256',typ:'JWT'})+'.'+b({role,sub:actor,aal:'aal2',exp:Math.floor(Date.now()/1000)+3600});

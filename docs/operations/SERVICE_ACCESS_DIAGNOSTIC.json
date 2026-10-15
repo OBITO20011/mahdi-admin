@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-15T10:45:10.863Z",
+  "startedAt": "2026-10-15T12:17:00.218Z",
   "migrationCeiling": 138,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-i4Ny7M",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-IeYULP",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -511,7 +511,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "sha256": "70a3229a1726408e7d2676875c7b8376be39381a94f88d009777067f280e6c4b"
+      "sha256": "bc629a8b8b6740624cd48ca32c3f81dc7cb660221e373151d32af321c0427817"
     },
     {
       "file": "src/services/supabase/expenses-shifts.service.ts",
@@ -543,7 +543,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "sha256": "d7a060c64e422aa5e98724043a70564e4d097f2273af77aaccf2609e358d73b3"
+      "sha256": "319c2b273983b853ebd372000bee2b38380a657b2c6e78ada783abc5be24a868"
     },
     {
       "file": "src/services/supabase/parcelConfiguration.service.ts",
@@ -579,7 +579,7 @@
     },
     {
       "file": "src/services/supabase/purchases.service.ts",
-      "sha256": "eb3a66553c7c2ffb4bcc7da75fb2a2cf7b3216bd7b99b60c1ad2be294f83dfd9"
+      "sha256": "e1fa00d0562f3c7e3d5dccd8b505dd1f8866b3eb5ee8eae1b02e780962242e9a"
     },
     {
       "file": "src/services/supabase/reference-data.service.ts",
@@ -29872,7 +29872,7 @@
     "enqueue_order_push_webhook(jsonb)"
   ],
   "ok": true,
-  "endedAt": "2026-10-15T10:46:46.901Z",
+  "endedAt": "2026-10-15T12:18:17.008Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -30243,14 +30243,14 @@
     {
       "file": "docs/agent/HANDOFF_HISTORY.md",
       "lines": [
-        166
+        217
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        160
+        183
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
@@ -30306,7 +30306,7 @@
     {
       "file": "scripts/testing/run-order-push-url-runtime.mjs",
       "lines": [
-        47
+        56
       ],
       "category": "BUILD_GUARD_OR_AUDIT"
     },

@@ -209,8 +209,8 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 | automation/n8n/workflows/nawasrah-alerts.json | 32, 89, 175, 228 | EXTERNAL_CONSUMER |
 | customer-web/public/_headers | 7 | CSP_CONNECT_SRC |
 | customer-web/src/config/supabase-public-config.ts | 13 | APP_FALLBACK |
-| docs/agent/HANDOFF_HISTORY.md | 166 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 160 | HISTORICAL_DOCUMENTATION |
+| docs/agent/HANDOFF_HISTORY.md | 217 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 183 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
 | public/_headers | 8 | CSP_CONNECT_SRC |
 | scripts/backup/README.md | 28 | PRESERVE_OLD_BACKUP_LINK |
@@ -218,7 +218,7 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 | scripts/backup/preflight.mjs | 14 | PRESERVE_OLD_BACKUP_LINK |
 | scripts/operations/build-cron-report.mjs | 29 | BUILD_GUARD_OR_AUDIT |
 | scripts/operations/frankfurt-owner-build.mjs | 18 | BUILD_GUARD_OR_AUDIT |
-| scripts/testing/run-order-push-url-runtime.mjs | 47 | BUILD_GUARD_OR_AUDIT |
+| scripts/testing/run-order-push-url-runtime.mjs | 56 | BUILD_GUARD_OR_AUDIT |
 | src/config/supabase-public-config.ts | 13 | APP_FALLBACK |
 | supabase/.temp/linked-project.json | 1 | PRESERVE_OLD_BACKUP_LINK |
 | supabase/.temp/pooler-url | 1 | PRESERVE_OLD_BACKUP_LINK |
@@ -263,7 +263,7 @@ SUPABASE_URL/ANON_KEY/SERVICE_ROLE_KEY أسماؤهافقط؛توفّرهاون�
 
 1. إبقاء `--apply` موقوفاً؛اعتماد 150 ونطاق الأعمدة/العمليات وRLS،وحل العلاقات الأربع `PGRST201` أولاً. بعدها مرجع جديد وفحص وصول حقيقي؛لا تطبيق لخطة 279 REVOKE القديمة.
 2. تأكيد أن Data API مفعّلة وأن Automatically expose new tables مطفأة ومحفوظة بعد إعادة التحميل. هذا قرار المالك الحالي،ولا يسحب المنح القديمة. لا تفعيل عشوائي لـautomatic RLS يغيّر العقود.
-3. Auth: اعتماد Site URL للإدارة وredirect URLs وسياسة إنشاء الحسابات دون تسجيل عام. config يضع localhost:3000 وredirects فارغة،وفيه إعدادا signup العام وemail؛الحالة الفعلية تحتاج تأكيد Dashboard. تأكيد email/password والمزودين المفعّلين؛لا دليل على اعتماد مزود OAuth آخر. قوالب البريد وSMTP والمرسل واستعادة كلمة المرور والتأكيد ومهل JWT/refresh وربط المجالات وrate limits: تحتاج تأكيد لوحة Supabase،ولا تُستنتج من الكتالوج.
+3. Auth إلزامياً: أطفئ **Allow new users to sign up** واحفظ ثمأعدتحميلاللوحةللتحقق؛التسجيلالذاتي ممنوع والموظفونينشئهمالمالك فقط. اضبط **Site URL وredirect URLs** للنطاقات النهائية **admin.alnawasreh.com وalnawasreh.com** وبالمساراتالمعتمدةمنالكود،لاlocalhost أوروابطpreview عامة. config المحلي يضعlocalhost:3000 وredirects فارغة؛ليسإثباتاًللإعدادالبعيد. تأكيدemail/password والمزودين وقوالبالبريد وSMTP والمرسل والاستعادة والتأكيد ومهلJWT/refresh وrate limits يحتاجلوحةSupabase؛لامزودOAuthمفترض ولاوصولمنالوكيل.
 4. تأسيس المالك الأول وprofile/role/branch بإجراء مدعوم ومعتمد؛اختبار موظف نشط ومتوقف وبلا دور،وTOTP/AAL2 والبصمة على المجالات المعتمدة. لا نقل جلسات أو عوامل قديمة،ولا تنفيذ أدوات أرصدة البداية المؤجلة.
 5. نشر Edge Functions الخمس عند إذن النشر المنفصل،ومطابقة verify_jwt في config وإعداد الأسماء المذكورة أعلاه خارج Git. `admin-ai-assistant` دون `GEMINI_API_KEY` بقرار المالك. اختبار CORS وJWT والأدوار،وليس نجاح النشر فقط.
 6. Turnstile: مطابقة site keys وsecrets ومجالات الإدارة والمتجر لكل مسار. ضبط TURNSTILE_ALLOWED_HOSTNAMES،وإطفاء test-mode،ورفض hostname/action الخاطئين. لا قيم اختبار في staging المعتمد.
@@ -284,4 +284,4 @@ node scripts/audit/run-service-access-diagnostic.mjs
 node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>
 ```
 
-لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. baselineمحلية138باختبارها؛جردالعمل139يبقىخارجcommitالإضافة.
+لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على138 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.

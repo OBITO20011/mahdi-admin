@@ -90,7 +90,7 @@ export function renderServiceAudit(source,evidence,observed,seven,refs,tableSour
  '### ما يجب إعداده يدوياً في فرانكفورت قبل staging', '',
  '1. إبقاء `--apply` موقوفاً؛اعتماد 150 ونطاق الأعمدة/العمليات وRLS،وحل العلاقات الأربع `PGRST201` أولاً. بعدها مرجع جديد وفحص وصول حقيقي؛لا تطبيق لخطة 279 REVOKE القديمة.',
  '2. تأكيد أن Data API مفعّلة وأن Automatically expose new tables مطفأة ومحفوظة بعد إعادة التحميل. هذا قرار المالك الحالي،ولا يسحب المنح القديمة. لا تفعيل عشوائي لـautomatic RLS يغيّر العقود.',
- '3. Auth: اعتماد Site URL للإدارة وredirect URLs وسياسة إنشاء الحسابات دون تسجيل عام. config يضع localhost:3000 وredirects فارغة،وفيه إعدادا signup العام وemail؛الحالة الفعلية تحتاج تأكيد Dashboard. تأكيد email/password والمزودين المفعّلين؛لا دليل على اعتماد مزود OAuth آخر. قوالب البريد وSMTP والمرسل واستعادة كلمة المرور والتأكيد ومهل JWT/refresh وربط المجالات وrate limits: تحتاج تأكيد لوحة Supabase،ولا تُستنتج من الكتالوج.',
+ '3. Auth إلزامياً: أطفئ **Allow new users to sign up** واحفظ ثمأعدتحميلاللوحةللتحقق؛التسجيلالذاتي ممنوع والموظفونينشئهمالمالك فقط. اضبط **Site URL وredirect URLs** للنطاقات النهائية **admin.alnawasreh.com وalnawasreh.com** وبالمساراتالمعتمدةمنالكود،لاlocalhost أوروابطpreview عامة. config المحلي يضعlocalhost:3000 وredirects فارغة؛ليسإثباتاًللإعدادالبعيد. تأكيدemail/password والمزودين وقوالبالبريد وSMTP والمرسل والاستعادة والتأكيد ومهلJWT/refresh وrate limits يحتاجلوحةSupabase؛لامزودOAuthمفترض ولاوصولمنالوكيل.',
  '4. تأسيس المالك الأول وprofile/role/branch بإجراء مدعوم ومعتمد؛اختبار موظف نشط ومتوقف وبلا دور،وTOTP/AAL2 والبصمة على المجالات المعتمدة. لا نقل جلسات أو عوامل قديمة،ولا تنفيذ أدوات أرصدة البداية المؤجلة.',
  '5. نشر Edge Functions الخمس عند إذن النشر المنفصل،ومطابقة verify_jwt في config وإعداد الأسماء المذكورة أعلاه خارج Git. `admin-ai-assistant` دون `GEMINI_API_KEY` بقرار المالك. اختبار CORS وJWT والأدوار،وليس نجاح النشر فقط.',
  '6. Turnstile: مطابقة site keys وsecrets ومجالات الإدارة والمتجر لكل مسار. ضبط TURNSTILE_ALLOWED_HOSTNAMES،وإطفاء test-mode،ورفض hostname/action الخاطئين. لا قيم اختبار في staging المعتمد.',
@@ -104,7 +104,7 @@ export function renderServiceAudit(source,evidence,observed,seven,refs,tableSour
  '14. بوابة staging: full CI والأسرار على نفس SHA،وتجربة واجهة حقيقية بلا mocks للجداول وRPC وStorage وRealtime وAuth وEdge،ثم golden day ومطابقة الأرصدة والمراقبة والنسخ. كل بند غير مثبت من اللوحة يبقى «يحتاج تأكيد المالك من لوحة Supabase»،لا نجاحاً افتراضياً.', '',
  '### إعادة إنتاج الإضافة', '', '```powershell','node scripts/audit/service-access-inventory.mjs','node scripts/audit/run-service-access-diagnostic.mjs',
  'node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>','```', '',
- 'لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. baselineمحلية138باختبارها؛جردالعمل139يبقىخارجcommitالإضافة.',
+ 'لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على138 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.',
  ];return rows.join('\n')+'\n';
 }
 export async function generateServiceReport(diagnostic,referenceFile,observedFile){

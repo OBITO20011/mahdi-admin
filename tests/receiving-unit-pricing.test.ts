@@ -39,8 +39,16 @@ test('shared named-unit control hides contents/package kind when receiving base 
  assert.match(packageHtml,/كم شوال بالطرد/);assert.match(packageHtml,/<bdi>72<\/bdi> شوال/);
 });
 test('all existing receiving service RPC payload definitions remain source-identical',()=>{
- for(const file of ['src/services/supabase/purchases.service.ts','src/services/supabase/directReceiving.service.ts'])
-  assert.equal(strictProductLegacySource(file,readFileSync(file,'utf8')),execFileSync('git',['show',`d293ec38d29ba7d3dd74e0c4b732edf9e01ad469:${file}`],{encoding:'utf8'}).replace(/\r\n/g,'\n'));
+ for(const file of ['src/services/supabase/purchases.service.ts','src/services/supabase/directReceiving.service.ts']){
+  // Only the owner-approved read-relationship hints changed after this pin.
+  // Entire-source equality still protects every RPC payload/body/validation.
+  const hints=file.endsWith('/purchases.service.ts')
+   ?['purchase_order_items_product_id_fkey','purchase_receipt_items_purchase_receipt_id_fkey']
+   :['supplier_receipts_received_by_fkey'];
+  let current=strictProductLegacySource(file,readFileSync(file,'utf8'));
+  for(const hint of hints)current=current.replaceAll('!'+hint,'');
+  assert.equal(current,execFileSync('git',['show',`d293ec38d29ba7d3dd74e0c4b732edf9e01ad469:${file}`],{encoding:'utf8'}).replace(/\r\n/g,'\n'));
+ }
 });
 test('POS sale/recovery/payment/print/share action bodies remain AST-identical',()=>{
  const file='src/features/pos/PosView.tsx',names=['addToCart','updateQuantity','handleCompleteSale','executeSale','handlePrintReceipt','handleShareReceipt','ensurePublicReceiptUrl'];

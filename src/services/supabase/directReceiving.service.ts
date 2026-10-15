@@ -212,7 +212,7 @@ export const fetchSupplierReceiptByIdFromSupabase = async (
         suppliers ( company_name, phone, contact_person ),
         warehouses ( name_ar ),
         branches ( name_ar ),
-        profiles ( full_name ),
+        profiles!supplier_receipts_received_by_fkey ( full_name ),
         supplier_receipt_items (
           *,
           products ( name_ar, sku, barcode )

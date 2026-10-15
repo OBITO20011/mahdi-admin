@@ -32,8 +32,8 @@ export function renderReport(source,evidence){
    .filter(([p,yes])=>yes&&['TRUNCATE','REFERENCES','TRIGGER','MAINTAIN','INSERT','UPDATE','DELETE'].includes(p))
    .map(([privilege])=>({table:a.table,role:a.role,privilege})));
  const rows=[
- '# جرد الوصول المباشر للجداول — المرحلة أ،2026-10-15',
- '', '**قرار مانع: لا تشغّل `frankfurt-align-acl.mjs --apply`. هذا تحقيق وليس إصلاحاً للصلاحيات. لا migration150 ولا اتصال بفرانكفورت/Production.139 منفصلة وغير مسلّمة بهذا العمل؛140–149 محجوزة.**',
+ '# دليل المرجع138 قبل المنح — تاريخي،2026-10-15',
+ '', '**هذه نتائج138 السلبية،وليست حالة الشجرة بعد150. اعتُمدت150 لاحقاً؛راجع TABLE_ACCESS_AFTER_150.md للإثبات الحالي. لا تشغّل `frankfurt-align-acl.mjs --apply`؛لا اتصال بفرانكفورت/Production و140–149 محجوزة.**',
  '', '## النتيجة والنطاق', '',
  `- ${source.totals.queries} موضع استعلام: ${source.totals.authenticated} authenticated في الإدارة،${source.totals.service_role} service_role في send-order-push،${source.totals.anon} anon. المتجر لا يقرأ الجداول مباشرة؛RPC/Gateway خارج جرد الجداول.`,
  `- ${source.totals.tableNames.length} جدولاً مع الموارد المضمّنة؛${source.totals.subscriptions} اشتراك Realtime موثّق منفصلاً. Storage وArray.from مستبعدان بأسباب صريحة فيJSON.`,
@@ -52,11 +52,13 @@ export function renderReport(source,evidence){
  '|---|---|---|---|',
  ...source.entries.map(e=>{const results=evidence.results.filter(r=>r.id===e.id);return `| ${e.table} / ${e.operation}${e.embeddedTables.length?'؛ embeds:'+e.embeddedTables.join(','):''} | ${e.id} / ${e.function} | ${e.role}; ${inline(e.screenPaths.join(',')||e.screen)}; ${inline(e.callers.join(',')||e.reachability)} | ${inline(results.map(r=>r.appRole+':'+(r.sqlstate||r.outcome)+(r.variant==='with-query-extensions'?'/extended':'')).join('؛ '))} |`;}),
  '', 'عدم وجود مستدعي ثابت لا يعني حذف الدالة:الجرد يذكرها ولا يختلق شاشة. منحة مقترحة لدالة غير مستخدمة تحتاج مراجعة قبل اعتماد150. أسماء المسارات هنا مفاتيح شاشات الإدارة (?screen=...) ومستهلكو الوحدات فيsrc،لا تخمين لمسار HTTP مستقل.',
- '', '## عائق إضافي: علاقات مضمّنة ملتبسة (بلا إصلاح)', '',
- 'خطأ PostgREST201 يحدث أثناء تحليل select قبل الوصول لفحص بعض المنح. لا نُحوّله إلى42501 ولا نفترض أنGRANT سيصلحه. لم يتغير أي استعلام منتج. تكراره على الأدوار الثلاثة لا يدل على اختلافصلاحياتها. تفاصيلdetails/hint الأصلية محفوظة فيJSON:',
+ '', '## فحص العلاقات المضمّنة في المرجع138', '',
+ other.length?'PostgREST201 يسبق فحص بعض المنح. لا نحوله إلى42501 ولا نفترض أنGRANT يصلحه؛details/hint محفوظة فيJSON.':
+  'بعد تصحيحFK المعتمد،لاPGRST201 فيمصدرالاستعلاماتالحالي حتىعلى138؛لكن42501 تبقىدون150. الإثباتالإيجابيبعد150 فيTABLE_ACCESS_AFTER_150.md. لمتتغيرحقول أوإجراءات المنتج،فقطخمسةhints لأربعسلاسل.',
  '', '| المصدر | الخطأ | العلاقات التي يعرضها PostgREST |', '|---|---|---|',
  ...[...new Set(other.map(r=>r.id))].map(id=>{const r=other.find(r=>r.id===id);return `| ${id} | ${inline(r.sqlstate+': '+r.message)} | ${inline(JSON.stringify(r.details))}; ${inline(r.hint)} |`;}),
- '', 'هذا يحتاج اعتماد تصحيح مستقل لاختيار FK الصحيح فيعرضالتفاصيل،خارجتحقيقACL الحالي. وحتىاعتماد150 واجتياز42501 لن يعني قبولاً للشاشات قبل إغلاقهذاالعائق. فحصSQLالجدولي المنفصل يثبت نقصالمنح حتى عندما يسبقهاPGRST201 فيالاستعلامالمضمّن.',
+ '', other.length?'العلاقة الملتبسة تحتاجFK صريحة لا تخميناً،ومنحSELECT وحدها لاتصلحها. فحصSQL الجدولي يثبت نقص المنح مستقلاً.':
+  'اختبارAST المثبت يقارن ملفات الخدمات الثلاثة كاملةً بالأساس بعد إزالةأسماءFK المعتمدة فقط. رفض127سلسلةعلى138مقابلنجاح142على150 يحفظ الفحص السلبي ولايخفي نقصACL أوالتباس العلاقة.',
  '', '## RLS والمنح الدنيا المقترحة150 — للمراجعة فقط', '',
  `المقترح:${newGrants.length} منحة جدول/عملية/دور جديدة. ${redFlags.length} علامة حمراء:منحة يحتاجها التطبيق على جدول بلا RLS (service_role لديهBYPASSRLS بطبيعته،مذكور ولا يُفترض أنه يحميهRLS). لا منح anon مقترحة. لا INSERT/UPDATE/DELETE من المتصفح:تظل الكتابات عبرRPC. لا نوسّع منح الأعمدة الحالية فيbusiness_operations إلىSELECT كامل.`,
  '', '| الجدول | الدور/العملية | المطلوب | RLS | السياسات |', '|---|---|---|---|---|',
@@ -82,7 +84,7 @@ export function renderReport(source,evidence){
  'node scripts/audit/table-access-inventory.mjs', 'node scripts/audit/run-table-access-diagnostic.mjs',
  'node scripts/audit/table-access-report.mjs <مسار-diagnostic.json-المطبوع>', '```',
  '', 'الأمرالثاني يشغّل قاعدةDocker محلية جديدة001–138 وخادمPostgREST على127.0.0.1:25421،ويغلقملكَه فيالنهاية. لايعرفعنوانفرانكفورت أوكلمةسرها،ولايفتحملفاتenv. تقريرJSON الخارجي يحفظكتالوجالفحص فقط؛نسخةالمستودع تحذفكتالوجالدوالغيرالمتعلق وتبقيأدلةالوصول. سكربتالجرد يولّدJSON وMarkdown؛سكربتالتقرير يضيفنتيجةالقياس الحقيقية بعدانتهائها.',
- '', '**القرار المطلوب:** اعتماد نطاق150 بعد مراجعة قائمةGRANT/REVOKE وشروطRLS أعلاه. توقف؛لا تطبيق ولاmigrationفيهذهالمرحلة.',
+ '', '**سجل تاريخي:** هذه القائمة أساس اعتماد150 في OWNER_DECISIONS.md؛لا تستخدم مرجع138 لمواءمةACL الآن. إثبات ما بعد الإصلاح منفصل،وتطبيق فرانكفورت يبقى أمراً لاحقاً للمالك.',
  ];return rows.join('\n')+'\n';
 }
 export async function saveReport(source,evidence){
@@ -92,10 +94,38 @@ export async function saveReport(source,evidence){
 }
 export async function reportWithSupplement(source,evidence){let extra='';
  try{extra=await readFile(path.join(root,'docs/operations/SERVICE_ACCESS_AUDIT.md'),'utf8');}catch(error){if(error.code!=='ENOENT')throw error;}
- return renderReport(source,evidence)+(extra?'\n---\n\n'+extra.replace(/^# .*\n\n/u,''):'');}
+ let current='';try{
+  const proof=JSON.parse(await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_150.json'),'utf8'));
+  if(proof.applicationReady&&JSON.stringify(proof.sourceHashes)===JSON.stringify(source.sources))
+   current='# جرد الوصول — الحالة بعد150\n\n**الوصول المباشر المحلي ناجح: '+proof.results.length+' سلسلةفعلية،صفر42501/PGRST2xx،والتغطيةكاملة.** [الدليل الإيجابي](TABLE_ACCESS_AFTER_150.md). --apply موقوف؛Auth/Storage/Realtime والإعداداتبواباتمنفصلة،لاادعاءقبولstaging. أدناهدليل138السلبي للمقارنة،لاهدفالمواءمة.\n\n---\n\n';
+ }catch(error){if(error.code!=='ENOENT')throw error;}
+ return current+renderReport(source,evidence)+(extra?'\n---\n\n'+extra.replace(/^# .*\n\n/u,''):'');}
+export async function saveAfter150(source,evidence){
+ assert.equal(evidence.migrationCeiling,150);assert.equal(evidence.infrastructureOk,true);
+ assert.equal(evidence.applicationReady,true);assert.equal(evidence.coverage.complete,true);
+ assert.deepEqual(evidence.sourceHashes,source.sources,'STALE_SOURCE_EVIDENCE');
+ assert.ok(evidence.results.every(r=>r.sqlstate===null),'NO_QUERY_ERROR_ALLOWED');
+ const copy={...evidence};delete copy.catalog;
+ await writeFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_150.json'),JSON.stringify(copy,null,2)+'\n');
+ const lines=['# الوصول المباشر بعد150 وتصحيحFK', '',
+  '**PASS محلياً للوصول المباشر؛ليس إذناً بالمواءمة أو قبولstaging. لا اتصال مُدار.**', '',
+  `قاعدة جديدة001–139+150،دون140–149. ${evidence.coverage.sourceSites} موضعاً،${evidence.results.length} سلسلةSDK فعلية: ${evidence.counts.success} نجاح،صفر42501 وصفرPGRST2xx وصفرأخطاءأخرى. تغطية كل الأدوار والمتغيرات كاملة بلا تكرار.`, '',
+  `الوقت:${evidence.startedAt} إلى${evidence.endedAt}. أسماءmigrationsالمطبقة:${evidence.manifest.length} ملفاً،وأعلىرقم150. منح/RLS/أعمدة/صفوفكلدورفيJSON؛منحأعمدةbusiness_operations بقيتضيقة،وفحصcount(*)المرفوض لايُلغي نجاحقراءةالأعمدةالمسموحة الأصلية.`, '',
+  '## الاستعلامات الأربعة', '', '| المصدر | النتائج الفعلية |', '|---|---|',
+  ...['orders.service.ts:569','purchases.service.ts:381','purchases.service.ts:979','directReceiving.service.ts:209'].map(s=>{
+   const rows=evidence.results.filter(r=>r.id.endsWith(s));assert.ok(rows.length>=3,'MISSING_FIXED_QUERY:'+s);
+   return `| ${s} | ${rows.map(r=>r.appRole+'/'+r.variant+':'+r.outcome).join('؛ ')} |`;
+  }), '',
+  'اختير product_id للصنف الفعلي،وreceived_by لاسم الموظف المستلم. purchase_receipt_items ترتبطبالسند بمفتاحpurchase_receipt_id في موضعين (تفاصيلPO وقائمةالسندات)،لاoperation_chain الذييسقطlegacyNULLoperation_id. لاaliasغيرمستهلك أوعمودإضافي. خمس hints لأربعسلاسل،وبقيةASTلكلملفمطابقةلبصمة204f1ed قبلالتصحيح.', '',
+  'المقارنةقبلالمنحعلى138 محفوظة فيTABLE_ACCESS_DIAGNOSTIC.json؛يبقى اختبار42501 السلبي قائماً. العقد الجديد لايُعدّيأخطاءSQLأوPostgREST،ولاينقصتغطيةالأدوار/الصفحات. --require-access يبني150 ولايصللمشروعحقيقي. المصادقةوStorageوRealtimeوالإعداداليدويمازالتبواباتstaging منفصلة.', '',
+ ];
+ await writeFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_150.md'),lines.join('\n')+'\n');
+}
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  const {inventory,writeInventory}=await import('./table-access-inventory.mjs');
  const evidence=JSON.parse(await readFile(process.argv[2],'utf8')),source=await inventory();
  assert.equal(evidence.infrastructureOk,true,'DIAGNOSTIC_INCOMPLETE');assert.deepEqual(evidence.sourceHashes,source.sources,'STALE_SOURCE_EVIDENCE');
- await writeInventory(source);await saveReport(source,evidence);console.log(JSON.stringify({ok:true,counts:evidence.counts}));
+ await writeInventory(source);
+ if(evidence.migrationCeiling===150)await saveAfter150(source,evidence);else await saveReport(source,evidence);
+ console.log(JSON.stringify({ok:true,counts:evidence.counts}));
 }

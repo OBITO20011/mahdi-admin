@@ -1,9 +1,149 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-15T08:52:23.080Z",
+  "startedAt": "2026-10-15T12:12:37.260Z",
   "managedAccess": false,
   "migrationCeiling": 138,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-r66uGh",
+  "manifest": [
+    "001_initial_schema.sql",
+    "002_rls_policies.sql",
+    "003_inventory_functions.sql",
+    "004_customers_orders.sql",
+    "005_order_status_transitions.sql",
+    "006_test_system_rpcs.sql",
+    "007_dashboard_analytics_rpc.sql",
+    "008_purchase_orders.sql",
+    "009_direct_goods_receiving.sql",
+    "010_warehouse_completion.sql",
+    "011_supplier_receiving_hardening.sql",
+    "012_supplier_purchasing_rbac.sql",
+    "013_public_product_catalog.sql",
+    "014_simple_inventory_operations.sql",
+    "015_ramtha_receiving_location.sql",
+    "016_safe_paid_supplier_receipt_reversal.sql",
+    "017_orders_customers_accounts.sql",
+    "018_customer_order_linking.sql",
+    "019_product_catalog_experience.sql",
+    "020_product_image_storage.sql",
+    "021_wholesale_sale_packages.sql",
+    "022_operational_home_dashboard.sql",
+    "023_wholesale_order_accounting.sql",
+    "024_supplier_receiving_wholesale_guard.sql",
+    "025_product_reference_data_management.sql",
+    "026_remove_production_test_rpcs.sql",
+    "027_require_customer_for_debt_sales.sql",
+    "028_guest_order_submission_safety.sql",
+    "029_guest_promotions_and_gps.sql",
+    "030_secure_order_entrypoints.sql",
+    "031_public_catalog_categories.sql",
+    "032_require_active_erp_staff.sql",
+    "033_order_web_push_notifications.sql",
+    "034_prelaunch_test_data_cleanup.sql",
+    "035_remove_push_test_controls.sql",
+    "036_storefront_experience_and_payment.sql",
+    "037_storefront_management.sql",
+    "038_storefront_home_sections.sql",
+    "039_storefront_home_sections_lint.sql",
+    "040_operational_expenses_and_cash_shifts.sql",
+    "041_require_open_shift_for_pos_sales.sql",
+    "042_website_order_payment_settlement.sql",
+    "043_sales_returns_and_refunds.sql",
+    "044_daily_shift_closing_report.sql",
+    "045_secure_delivery_map_links.sql",
+    "046_cancel_empty_cash_shift.sql",
+    "047_inventory_opening_setup.sql",
+    "048_public_storefront_promotion_offers.sql",
+    "049_active_promotions_are_storefront_offers.sql",
+    "050_admin_api_security_hardening.sql",
+    "051_enrolled_staff_mfa_enforcement.sql",
+    "052_owner_only_tagged_e2e_cleanup.sql",
+    "053_remove_tagged_e2e_cleanup_rpc.sql",
+    "054_confirm_google_maps_coordinates.sql",
+    "055_operational_business_reports.sql",
+    "056_inventory_movement_reports_and_public_pos_receipts.sql",
+    "057_secure_n8n_automation_events.sql",
+    "058_secure_order_delivery_tracking.sql",
+    "059_delivery_driver_contact.sql",
+    "060_simplified_order_settlement_and_receivables.sql",
+    "061_delivery_zone_pricing.sql",
+    "062_finalize_automation_order_alerts.sql",
+    "063_category_cover_images.sql",
+    "064_secure_staff_account_management.sql",
+    "065_multiple_system_owners.sql",
+    "066_secure_admin_ai_assistant.sql",
+    "067_admin_ai_inventory_lookup.sql",
+    "068_admin_ai_operational_reports.sql",
+    "069_admin_ai_product_price_lookup.sql",
+    "070_product_flavor_variants.sql",
+    "071_atomic_product_family_creation.sql",
+    "072_manage_product_flavors.sql",
+    "073_admin_dashboard_performance_indexes.sql",
+    "074_secure_warehouse_rpcs_and_self_profile.sql",
+    "075_operational_orders_pagination.sql",
+    "076_admin_product_listing_read_model.sql",
+    "077_paginated_inventory_and_crm_read_models.sql",
+    "078_operational_accounting_integrity.sql",
+    "079_remove_retired_warehouse_rpcs.sql",
+    "080_supplier_payment_idempotency.sql",
+    "081_storefront_catalog_server_pagination.sql",
+    "082_admin_historical_read_models.sql",
+    "083_shift_reversal_primitives.sql",
+    "084_full_cash_shift_reversal.sql",
+    "085_admin_customer_receivables_and_scalability.sql",
+    "086_guest_order_abuse_gateway.sql",
+    "087_guest_order_line_item_limit.sql",
+    "088_storefront_merchandising_rpc.sql",
+    "089_customer_order_tracking_receipt.sql",
+    "090_optional_guest_delivery_details.sql",
+    "091_expire_stale_new_website_orders.sql",
+    "092_cleanup_guest_order_gateway_rate_limits.sql",
+    "093_cash_shift_archive.sql",
+    "094_immutable_cash_shift_closing_report_snapshot.sql",
+    "095_remove_unused_transfer_product_name.sql",
+    "096_harden_automation_delivery_lifecycle.sql",
+    "097_core_business_alerts.sql",
+    "098_business_summaries.sql",
+    "099_advanced_monitoring_and_business_integrity.sql",
+    "100_fix_cancelled_supplier_receipt_monitoring.sql",
+    "101_scope_core_business_incident_recovery.sql",
+    "102_privacy_minimize_business_alert_payload.sql",
+    "103_flavor_receiving_hardening.sql",
+    "104_remove_unused_receive_purchase_order_product_id.sql",
+    "105_harden_business_alert_rules_and_thresholds.sql",
+    "106_align_monitoring_owner_mfa_policy.sql",
+    "107_canonical_schema_reconciliation.sql",
+    "108_harden_product_sku_barcode_integrity.sql",
+    "109_admin_large_catalog_read_models.sql",
+    "110_fix_deferred_cash_shift_snapshot_guard_privileges.sql",
+    "111_harden_pos_sale_idempotency_replays.sql",
+    "112_configurable_parcel_foundation.sql",
+    "113_configurable_parcel_receiving_and_exact_wac.sql",
+    "114_configurable_parcel_sales_contracts_and_safety_primitives.sql",
+    "115_configurable_parcel_pos_sale_coordinator.sql",
+    "116_configurable_parcel_customer_reservation_coordinator.sql",
+    "117_customer_public_configurable_parcel_read_contract.sql",
+    "118_customer_guest_promotion_preview_v2.sql",
+    "119_exact_wac_and_commercial_quantity_reporting.sql",
+    "120_phase4_returns_refunds_foundation.sql",
+    "121_phase42_atomic_return_coordinator.sql",
+    "122_phase43_admin_aftercare_integration.sql",
+    "123_phase5_private_financial_evidence_foundation.sql",
+    "124_phase5_canonical_collection_reversal_writers.sql",
+    "125_phase5_collection_lock_lint_correction.sql",
+    "126_phase5_private_tender_coordinator.sql",
+    "127_phase5_private_financial_read_model.sql",
+    "128_phase5_operational_payment_and_shift_refund_fixes.sql",
+    "129_phase5_block_paid_order_receipt_reversal.sql",
+    "130_phase5_review_followup_shift_refund_guards.sql",
+    "131_phase6_operational_report_readers.sql",
+    "132_package_d_system_unification.sql",
+    "133_package_e_supplier_po_financial_consistency.sql",
+    "134_package_e_read_performance.sql",
+    "135_package_f_pos_customer_inventory_reads.sql",
+    "136_package_f_customer_debt_aging.sql",
+    "137_package_f_crm_financial_filters.sql",
+    "138_package_f_customer_statement.sql"
+  ],
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-aBTtdp",
   "stage": "rls-and-acl",
   "results": [
     {
@@ -31,7 +171,7 @@
           "method": "eq",
           "args": [
             "id",
-            "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+            "9bff5098-272d-485d-a8a5-f9da37100899"
           ]
         },
         {
@@ -66,7 +206,7 @@
           "method": "eq",
           "args": [
             "id",
-            "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+            "9bff5098-272d-485d-a8a5-f9da37100899"
           ]
         },
         {
@@ -101,7 +241,7 @@
           "method": "eq",
           "args": [
             "id",
-            "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+            "9bff5098-272d-485d-a8a5-f9da37100899"
           ]
         },
         {
@@ -136,7 +276,7 @@
           "method": "eq",
           "args": [
             "id",
-            "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+            "9bff5098-272d-485d-a8a5-f9da37100899"
           ]
         },
         {
@@ -171,7 +311,7 @@
           "method": "eq",
           "args": [
             "id",
-            "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+            "9bff5098-272d-485d-a8a5-f9da37100899"
           ]
         },
         {
@@ -206,7 +346,7 @@
           "method": "eq",
           "args": [
             "id",
-            "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+            "9bff5098-272d-485d-a8a5-f9da37100899"
           ]
         },
         {
@@ -241,7 +381,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c9cd035c-91ff-47ec-80f2-4c35f7ce72ca"
+            "7bd17321-205e-47c8-bbf6-1e872e5333c5"
           ]
         },
         {
@@ -276,7 +416,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c9cd035c-91ff-47ec-80f2-4c35f7ce72ca"
+            "7bd17321-205e-47c8-bbf6-1e872e5333c5"
           ]
         },
         {
@@ -311,7 +451,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c9cd035c-91ff-47ec-80f2-4c35f7ce72ca"
+            "7bd17321-205e-47c8-bbf6-1e872e5333c5"
           ]
         },
         {
@@ -526,36 +666,25 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
       "variant": "original-chain",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'supplier_receipts' and 'profiles'",
-      "details": [
-        {
-          "cardinality": "many-to-one",
-          "embedding": "supplier_receipts with profiles",
-          "relationship": "supplier_receipts_phase2_cancelled_by_fkey using supplier_receipts(phase2_cancelled_by) and profiles(id)"
-        },
-        {
-          "cardinality": "many-to-one",
-          "embedding": "supplier_receipts with profiles",
-          "relationship": "supplier_receipts_received_by_fkey using supplier_receipts(received_by) and profiles(id)"
-        }
-      ],
-      "hint": "Try changing 'profiles' to one of the following: 'profiles!supplier_receipts_phase2_cancelled_by_fkey', 'profiles!supplier_receipts_received_by_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table supplier_receipts",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.supplier_receipts TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n        *,\n        suppliers ( company_name, phone, contact_person ),\n        warehouses ( name_ar ),\n        branches ( name_ar ),\n        profiles ( full_name ),\n        supplier_receipt_items (\n          *,\n          products ( name_ar, sku, barcode )\n        ),\n        supplier_payments ( * )\n      "
+            "\n        *,\n        suppliers ( company_name, phone, contact_person ),\n        warehouses ( name_ar ),\n        branches ( name_ar ),\n        profiles!supplier_receipts_received_by_fkey ( full_name ),\n        supplier_receipt_items (\n          *,\n          products ( name_ar, sku, barcode )\n        ),\n        supplier_payments ( * )\n      "
           ]
         },
         {
           "method": "eq",
           "args": [
             "id",
-            "e9252e88-327b-4117-986d-d5263bf4f47a"
+            "47a8b5c0-8a39-4fc1-85d7-58d79b499dc4"
           ]
         },
         {
@@ -572,36 +701,25 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "variant": "original-chain",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'supplier_receipts' and 'profiles'",
-      "details": [
-        {
-          "cardinality": "many-to-one",
-          "embedding": "supplier_receipts with profiles",
-          "relationship": "supplier_receipts_phase2_cancelled_by_fkey using supplier_receipts(phase2_cancelled_by) and profiles(id)"
-        },
-        {
-          "cardinality": "many-to-one",
-          "embedding": "supplier_receipts with profiles",
-          "relationship": "supplier_receipts_received_by_fkey using supplier_receipts(received_by) and profiles(id)"
-        }
-      ],
-      "hint": "Try changing 'profiles' to one of the following: 'profiles!supplier_receipts_phase2_cancelled_by_fkey', 'profiles!supplier_receipts_received_by_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table supplier_receipts",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.supplier_receipts TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n        *,\n        suppliers ( company_name, phone, contact_person ),\n        warehouses ( name_ar ),\n        branches ( name_ar ),\n        profiles ( full_name ),\n        supplier_receipt_items (\n          *,\n          products ( name_ar, sku, barcode )\n        ),\n        supplier_payments ( * )\n      "
+            "\n        *,\n        suppliers ( company_name, phone, contact_person ),\n        warehouses ( name_ar ),\n        branches ( name_ar ),\n        profiles!supplier_receipts_received_by_fkey ( full_name ),\n        supplier_receipt_items (\n          *,\n          products ( name_ar, sku, barcode )\n        ),\n        supplier_payments ( * )\n      "
           ]
         },
         {
           "method": "eq",
           "args": [
             "id",
-            "e9252e88-327b-4117-986d-d5263bf4f47a"
+            "47a8b5c0-8a39-4fc1-85d7-58d79b499dc4"
           ]
         },
         {
@@ -618,36 +736,25 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
       "variant": "original-chain",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'supplier_receipts' and 'profiles'",
-      "details": [
-        {
-          "cardinality": "many-to-one",
-          "embedding": "supplier_receipts with profiles",
-          "relationship": "supplier_receipts_phase2_cancelled_by_fkey using supplier_receipts(phase2_cancelled_by) and profiles(id)"
-        },
-        {
-          "cardinality": "many-to-one",
-          "embedding": "supplier_receipts with profiles",
-          "relationship": "supplier_receipts_received_by_fkey using supplier_receipts(received_by) and profiles(id)"
-        }
-      ],
-      "hint": "Try changing 'profiles' to one of the following: 'profiles!supplier_receipts_phase2_cancelled_by_fkey', 'profiles!supplier_receipts_received_by_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table supplier_receipts",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.supplier_receipts TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n        *,\n        suppliers ( company_name, phone, contact_person ),\n        warehouses ( name_ar ),\n        branches ( name_ar ),\n        profiles ( full_name ),\n        supplier_receipt_items (\n          *,\n          products ( name_ar, sku, barcode )\n        ),\n        supplier_payments ( * )\n      "
+            "\n        *,\n        suppliers ( company_name, phone, contact_person ),\n        warehouses ( name_ar ),\n        branches ( name_ar ),\n        profiles!supplier_receipts_received_by_fkey ( full_name ),\n        supplier_receipt_items (\n          *,\n          products ( name_ar, sku, barcode )\n        ),\n        supplier_payments ( * )\n      "
           ]
         },
         {
           "method": "eq",
           "args": [
             "id",
-            "e9252e88-327b-4117-986d-d5263bf4f47a"
+            "47a8b5c0-8a39-4fc1-85d7-58d79b499dc4"
           ]
         },
         {
@@ -1178,7 +1285,7 @@
           "args": [
             "id",
             [
-              "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+              "9bff5098-272d-485d-a8a5-f9da37100899"
             ]
           ]
         }
@@ -1211,7 +1318,7 @@
           "args": [
             "id",
             [
-              "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+              "9bff5098-272d-485d-a8a5-f9da37100899"
             ]
           ]
         }
@@ -1244,7 +1351,7 @@
           "args": [
             "id",
             [
-              "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+              "9bff5098-272d-485d-a8a5-f9da37100899"
             ]
           ]
         }
@@ -1277,7 +1384,7 @@
           "args": [
             "order_id",
             [
-              "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+              "9bff5098-272d-485d-a8a5-f9da37100899"
             ]
           ]
         },
@@ -1343,7 +1450,7 @@
           "args": [
             "order_id",
             [
-              "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+              "9bff5098-272d-485d-a8a5-f9da37100899"
             ]
           ]
         },
@@ -1409,7 +1516,7 @@
           "args": [
             "order_id",
             [
-              "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+              "9bff5098-272d-485d-a8a5-f9da37100899"
             ]
           ]
         },
@@ -1456,36 +1563,25 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
       "variant": "original-chain",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'order_items' and 'products'",
-      "details": [
-        {
-          "cardinality": "many-to-one",
-          "embedding": "order_items with products",
-          "relationship": "order_items_family_product_id_fkey using order_items(family_product_id) and products(id)"
-        },
-        {
-          "cardinality": "many-to-one",
-          "embedding": "order_items with products",
-          "relationship": "order_items_product_id_fkey using order_items(product_id) and products(id)"
-        }
-      ],
-      "hint": "Try changing 'products' to one of the following: 'products!order_items_family_product_id_fkey', 'products!order_items_product_id_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table orders",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.orders TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n"
+            "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products!order_items_product_id_fkey (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n"
           ]
         },
         {
           "method": "eq",
           "args": [
             "id",
-            "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+            "9bff5098-272d-485d-a8a5-f9da37100899"
           ]
         },
         {
@@ -1502,36 +1598,25 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "variant": "original-chain",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'order_items' and 'products'",
-      "details": [
-        {
-          "cardinality": "many-to-one",
-          "embedding": "order_items with products",
-          "relationship": "order_items_family_product_id_fkey using order_items(family_product_id) and products(id)"
-        },
-        {
-          "cardinality": "many-to-one",
-          "embedding": "order_items with products",
-          "relationship": "order_items_product_id_fkey using order_items(product_id) and products(id)"
-        }
-      ],
-      "hint": "Try changing 'products' to one of the following: 'products!order_items_family_product_id_fkey', 'products!order_items_product_id_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table orders",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.orders TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n"
+            "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products!order_items_product_id_fkey (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n"
           ]
         },
         {
           "method": "eq",
           "args": [
             "id",
-            "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+            "9bff5098-272d-485d-a8a5-f9da37100899"
           ]
         },
         {
@@ -1548,36 +1633,25 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
       "variant": "original-chain",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'order_items' and 'products'",
-      "details": [
-        {
-          "cardinality": "many-to-one",
-          "embedding": "order_items with products",
-          "relationship": "order_items_family_product_id_fkey using order_items(family_product_id) and products(id)"
-        },
-        {
-          "cardinality": "many-to-one",
-          "embedding": "order_items with products",
-          "relationship": "order_items_product_id_fkey using order_items(product_id) and products(id)"
-        }
-      ],
-      "hint": "Try changing 'products' to one of the following: 'products!order_items_family_product_id_fkey', 'products!order_items_product_id_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table orders",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.orders TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n"
+            "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products!order_items_product_id_fkey (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n"
           ]
         },
         {
           "method": "eq",
           "args": [
             "id",
-            "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+            "9bff5098-272d-485d-a8a5-f9da37100899"
           ]
         },
         {
@@ -1612,7 +1686,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+            "9bff5098-272d-485d-a8a5-f9da37100899"
           ]
         },
         {
@@ -1649,7 +1723,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+            "9bff5098-272d-485d-a8a5-f9da37100899"
           ]
         },
         {
@@ -1686,7 +1760,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+            "9bff5098-272d-485d-a8a5-f9da37100899"
           ]
         },
         {
@@ -1724,7 +1798,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "aa6ed396-a56a-4f2b-be68-f1ebb56f0f71"
+              "4045ca20-452d-4e0a-9d71-e47868cc9e22"
             ]
           ]
         }
@@ -1757,7 +1831,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "aa6ed396-a56a-4f2b-be68-f1ebb56f0f71"
+              "4045ca20-452d-4e0a-9d71-e47868cc9e22"
             ]
           ]
         }
@@ -1790,7 +1864,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "aa6ed396-a56a-4f2b-be68-f1ebb56f0f71"
+              "4045ca20-452d-4e0a-9d71-e47868cc9e22"
             ]
           ]
         }
@@ -3640,36 +3714,25 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
       "variant": "original-chain",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'purchase_order_items' and 'products'",
-      "details": [
-        {
-          "cardinality": "many-to-one",
-          "embedding": "purchase_order_items with products",
-          "relationship": "purchase_order_items_family_product_id_fkey using purchase_order_items(family_product_id) and products(id)"
-        },
-        {
-          "cardinality": "many-to-one",
-          "embedding": "purchase_order_items with products",
-          "relationship": "purchase_order_items_product_id_fkey using purchase_order_items(product_id) and products(id)"
-        }
-      ],
-      "hint": "Try changing 'products' to one of the following: 'products!purchase_order_items_family_product_id_fkey', 'products!purchase_order_items_product_id_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table purchase_orders",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.purchase_orders TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n        *,\n        suppliers (id, company_name, contact_person, phone, email, address),\n        branches (id, name_ar),\n        warehouses (id, name_ar),\n        purchase_order_items (\n          id,\n          purchase_order_id,\n          product_id,\n          ordered_quantity,\n          received_quantity,\n          purchase_price_in_minor_units,\n          discount_in_minor_units,\n          line_total_in_minor_units,\n          products (\n            id,\n            name_ar,\n            sku,\n            barcode,\n            unit_id,\n            base_unit:units!products_unit_id_fkey(name_ar)\n          )\n        ),\n        purchase_receipts (\n          id,\n          receipt_number,\n          received_at,\n          supplier_delivery_note,\n          notes,\n          purchase_receipt_items (\n            id,\n            product_id,\n            received_quantity,\n            unit_cost_in_minor_units,\n            products (name_ar)\n          )\n        ),\n        supplier_payments (\n          id,\n          amount_in_minor_units,\n          payment_method,\n          reference_number,\n          payment_date,\n          notes,\n          created_at\n        )\n      "
+            "\n        *,\n        suppliers (id, company_name, contact_person, phone, email, address),\n        branches (id, name_ar),\n        warehouses (id, name_ar),\n        purchase_order_items (\n          id,\n          purchase_order_id,\n          product_id,\n          ordered_quantity,\n          received_quantity,\n          purchase_price_in_minor_units,\n          discount_in_minor_units,\n          line_total_in_minor_units,\n          products!purchase_order_items_product_id_fkey (\n            id,\n            name_ar,\n            sku,\n            barcode,\n            unit_id,\n            base_unit:units!products_unit_id_fkey(name_ar)\n          )\n        ),\n        purchase_receipts (\n          id,\n          receipt_number,\n          received_at,\n          supplier_delivery_note,\n          notes,\n          purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey (\n            id,\n            product_id,\n            received_quantity,\n            unit_cost_in_minor_units,\n            products (name_ar)\n          )\n        ),\n        supplier_payments (\n          id,\n          amount_in_minor_units,\n          payment_method,\n          reference_number,\n          payment_date,\n          notes,\n          created_at\n        )\n      "
           ]
         },
         {
           "method": "eq",
           "args": [
             "id",
-            "e05acc04-83b9-4361-a63a-87a0f6de5d67"
+            "6f93fd16-1fd8-4452-89b4-f8be6f1457a0"
           ]
         },
         {
@@ -3686,36 +3749,25 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "variant": "original-chain",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'purchase_order_items' and 'products'",
-      "details": [
-        {
-          "cardinality": "many-to-one",
-          "embedding": "purchase_order_items with products",
-          "relationship": "purchase_order_items_family_product_id_fkey using purchase_order_items(family_product_id) and products(id)"
-        },
-        {
-          "cardinality": "many-to-one",
-          "embedding": "purchase_order_items with products",
-          "relationship": "purchase_order_items_product_id_fkey using purchase_order_items(product_id) and products(id)"
-        }
-      ],
-      "hint": "Try changing 'products' to one of the following: 'products!purchase_order_items_family_product_id_fkey', 'products!purchase_order_items_product_id_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table purchase_orders",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.purchase_orders TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n        *,\n        suppliers (id, company_name, contact_person, phone, email, address),\n        branches (id, name_ar),\n        warehouses (id, name_ar),\n        purchase_order_items (\n          id,\n          purchase_order_id,\n          product_id,\n          ordered_quantity,\n          received_quantity,\n          purchase_price_in_minor_units,\n          discount_in_minor_units,\n          line_total_in_minor_units,\n          products (\n            id,\n            name_ar,\n            sku,\n            barcode,\n            unit_id,\n            base_unit:units!products_unit_id_fkey(name_ar)\n          )\n        ),\n        purchase_receipts (\n          id,\n          receipt_number,\n          received_at,\n          supplier_delivery_note,\n          notes,\n          purchase_receipt_items (\n            id,\n            product_id,\n            received_quantity,\n            unit_cost_in_minor_units,\n            products (name_ar)\n          )\n        ),\n        supplier_payments (\n          id,\n          amount_in_minor_units,\n          payment_method,\n          reference_number,\n          payment_date,\n          notes,\n          created_at\n        )\n      "
+            "\n        *,\n        suppliers (id, company_name, contact_person, phone, email, address),\n        branches (id, name_ar),\n        warehouses (id, name_ar),\n        purchase_order_items (\n          id,\n          purchase_order_id,\n          product_id,\n          ordered_quantity,\n          received_quantity,\n          purchase_price_in_minor_units,\n          discount_in_minor_units,\n          line_total_in_minor_units,\n          products!purchase_order_items_product_id_fkey (\n            id,\n            name_ar,\n            sku,\n            barcode,\n            unit_id,\n            base_unit:units!products_unit_id_fkey(name_ar)\n          )\n        ),\n        purchase_receipts (\n          id,\n          receipt_number,\n          received_at,\n          supplier_delivery_note,\n          notes,\n          purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey (\n            id,\n            product_id,\n            received_quantity,\n            unit_cost_in_minor_units,\n            products (name_ar)\n          )\n        ),\n        supplier_payments (\n          id,\n          amount_in_minor_units,\n          payment_method,\n          reference_number,\n          payment_date,\n          notes,\n          created_at\n        )\n      "
           ]
         },
         {
           "method": "eq",
           "args": [
             "id",
-            "e05acc04-83b9-4361-a63a-87a0f6de5d67"
+            "6f93fd16-1fd8-4452-89b4-f8be6f1457a0"
           ]
         },
         {
@@ -3732,36 +3784,25 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
       "variant": "original-chain",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'purchase_order_items' and 'products'",
-      "details": [
-        {
-          "cardinality": "many-to-one",
-          "embedding": "purchase_order_items with products",
-          "relationship": "purchase_order_items_family_product_id_fkey using purchase_order_items(family_product_id) and products(id)"
-        },
-        {
-          "cardinality": "many-to-one",
-          "embedding": "purchase_order_items with products",
-          "relationship": "purchase_order_items_product_id_fkey using purchase_order_items(product_id) and products(id)"
-        }
-      ],
-      "hint": "Try changing 'products' to one of the following: 'products!purchase_order_items_family_product_id_fkey', 'products!purchase_order_items_product_id_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table purchase_orders",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.purchase_orders TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n        *,\n        suppliers (id, company_name, contact_person, phone, email, address),\n        branches (id, name_ar),\n        warehouses (id, name_ar),\n        purchase_order_items (\n          id,\n          purchase_order_id,\n          product_id,\n          ordered_quantity,\n          received_quantity,\n          purchase_price_in_minor_units,\n          discount_in_minor_units,\n          line_total_in_minor_units,\n          products (\n            id,\n            name_ar,\n            sku,\n            barcode,\n            unit_id,\n            base_unit:units!products_unit_id_fkey(name_ar)\n          )\n        ),\n        purchase_receipts (\n          id,\n          receipt_number,\n          received_at,\n          supplier_delivery_note,\n          notes,\n          purchase_receipt_items (\n            id,\n            product_id,\n            received_quantity,\n            unit_cost_in_minor_units,\n            products (name_ar)\n          )\n        ),\n        supplier_payments (\n          id,\n          amount_in_minor_units,\n          payment_method,\n          reference_number,\n          payment_date,\n          notes,\n          created_at\n        )\n      "
+            "\n        *,\n        suppliers (id, company_name, contact_person, phone, email, address),\n        branches (id, name_ar),\n        warehouses (id, name_ar),\n        purchase_order_items (\n          id,\n          purchase_order_id,\n          product_id,\n          ordered_quantity,\n          received_quantity,\n          purchase_price_in_minor_units,\n          discount_in_minor_units,\n          line_total_in_minor_units,\n          products!purchase_order_items_product_id_fkey (\n            id,\n            name_ar,\n            sku,\n            barcode,\n            unit_id,\n            base_unit:units!products_unit_id_fkey(name_ar)\n          )\n        ),\n        purchase_receipts (\n          id,\n          receipt_number,\n          received_at,\n          supplier_delivery_note,\n          notes,\n          purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey (\n            id,\n            product_id,\n            received_quantity,\n            unit_cost_in_minor_units,\n            products (name_ar)\n          )\n        ),\n        supplier_payments (\n          id,\n          amount_in_minor_units,\n          payment_method,\n          reference_number,\n          payment_date,\n          notes,\n          created_at\n        )\n      "
           ]
         },
         {
           "method": "eq",
           "args": [
             "id",
-            "e05acc04-83b9-4361-a63a-87a0f6de5d67"
+            "6f93fd16-1fd8-4452-89b4-f8be6f1457a0"
           ]
         },
         {
@@ -3778,29 +3819,18 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
       "variant": "original-chain",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'purchase_receipts' and 'purchase_receipt_items'",
-      "details": [
-        {
-          "cardinality": "one-to-many",
-          "embedding": "purchase_receipts with purchase_receipt_items",
-          "relationship": "purchase_receipt_items_operation_chain_fk using purchase_receipts(id, operation_id) and purchase_receipt_items(purchase_receipt_id, operation_id)"
-        },
-        {
-          "cardinality": "one-to-many",
-          "embedding": "purchase_receipts with purchase_receipt_items",
-          "relationship": "purchase_receipt_items_purchase_receipt_id_fkey using purchase_receipts(id) and purchase_receipt_items(purchase_receipt_id)"
-        }
-      ],
-      "hint": "Try changing 'purchase_receipt_items' to one of the following: 'purchase_receipt_items!purchase_receipt_items_operation_chain_fk', 'purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table purchase_receipts",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.purchase_receipts TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n        *,\n        purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),\n        warehouses (id, name_ar),\n        purchase_receipt_items (\n          id,\n          purchase_receipt_id,\n          purchase_order_item_id,\n          product_id,\n          received_quantity,\n          unit_cost_in_minor_units,\n          products (id, name_ar)\n        )\n      ",
+            "\n        *,\n        purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),\n        warehouses (id, name_ar),\n        purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey (\n          id,\n          purchase_receipt_id,\n          purchase_order_item_id,\n          product_id,\n          received_quantity,\n          unit_cost_in_minor_units,\n          products (id, name_ar)\n        )\n      ",
             {
               "count": "exact"
             }
@@ -3825,29 +3855,18 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
       "variant": "with-query-extensions",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'purchase_receipts' and 'purchase_receipt_items'",
-      "details": [
-        {
-          "cardinality": "one-to-many",
-          "embedding": "purchase_receipts with purchase_receipt_items",
-          "relationship": "purchase_receipt_items_operation_chain_fk using purchase_receipts(id, operation_id) and purchase_receipt_items(purchase_receipt_id, operation_id)"
-        },
-        {
-          "cardinality": "one-to-many",
-          "embedding": "purchase_receipts with purchase_receipt_items",
-          "relationship": "purchase_receipt_items_purchase_receipt_id_fkey using purchase_receipts(id) and purchase_receipt_items(purchase_receipt_id)"
-        }
-      ],
-      "hint": "Try changing 'purchase_receipt_items' to one of the following: 'purchase_receipt_items!purchase_receipt_items_operation_chain_fk', 'purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table purchase_receipts",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.purchase_receipts TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n        *,\n        purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),\n        warehouses (id, name_ar),\n        purchase_receipt_items (\n          id,\n          purchase_receipt_id,\n          purchase_order_item_id,\n          product_id,\n          received_quantity,\n          unit_cost_in_minor_units,\n          products (id, name_ar)\n        )\n      ",
+            "\n        *,\n        purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),\n        warehouses (id, name_ar),\n        purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey (\n          id,\n          purchase_receipt_id,\n          purchase_order_item_id,\n          product_id,\n          received_quantity,\n          unit_cost_in_minor_units,\n          products (id, name_ar)\n        )\n      ",
             {
               "count": "exact"
             }
@@ -3879,29 +3898,18 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "variant": "original-chain",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'purchase_receipts' and 'purchase_receipt_items'",
-      "details": [
-        {
-          "cardinality": "one-to-many",
-          "embedding": "purchase_receipts with purchase_receipt_items",
-          "relationship": "purchase_receipt_items_operation_chain_fk using purchase_receipts(id, operation_id) and purchase_receipt_items(purchase_receipt_id, operation_id)"
-        },
-        {
-          "cardinality": "one-to-many",
-          "embedding": "purchase_receipts with purchase_receipt_items",
-          "relationship": "purchase_receipt_items_purchase_receipt_id_fkey using purchase_receipts(id) and purchase_receipt_items(purchase_receipt_id)"
-        }
-      ],
-      "hint": "Try changing 'purchase_receipt_items' to one of the following: 'purchase_receipt_items!purchase_receipt_items_operation_chain_fk', 'purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table purchase_receipts",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.purchase_receipts TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n        *,\n        purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),\n        warehouses (id, name_ar),\n        purchase_receipt_items (\n          id,\n          purchase_receipt_id,\n          purchase_order_item_id,\n          product_id,\n          received_quantity,\n          unit_cost_in_minor_units,\n          products (id, name_ar)\n        )\n      ",
+            "\n        *,\n        purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),\n        warehouses (id, name_ar),\n        purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey (\n          id,\n          purchase_receipt_id,\n          purchase_order_item_id,\n          product_id,\n          received_quantity,\n          unit_cost_in_minor_units,\n          products (id, name_ar)\n        )\n      ",
             {
               "count": "exact"
             }
@@ -3926,29 +3934,18 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
       "variant": "with-query-extensions",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'purchase_receipts' and 'purchase_receipt_items'",
-      "details": [
-        {
-          "cardinality": "one-to-many",
-          "embedding": "purchase_receipts with purchase_receipt_items",
-          "relationship": "purchase_receipt_items_operation_chain_fk using purchase_receipts(id, operation_id) and purchase_receipt_items(purchase_receipt_id, operation_id)"
-        },
-        {
-          "cardinality": "one-to-many",
-          "embedding": "purchase_receipts with purchase_receipt_items",
-          "relationship": "purchase_receipt_items_purchase_receipt_id_fkey using purchase_receipts(id) and purchase_receipt_items(purchase_receipt_id)"
-        }
-      ],
-      "hint": "Try changing 'purchase_receipt_items' to one of the following: 'purchase_receipt_items!purchase_receipt_items_operation_chain_fk', 'purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table purchase_receipts",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.purchase_receipts TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n        *,\n        purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),\n        warehouses (id, name_ar),\n        purchase_receipt_items (\n          id,\n          purchase_receipt_id,\n          purchase_order_item_id,\n          product_id,\n          received_quantity,\n          unit_cost_in_minor_units,\n          products (id, name_ar)\n        )\n      ",
+            "\n        *,\n        purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),\n        warehouses (id, name_ar),\n        purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey (\n          id,\n          purchase_receipt_id,\n          purchase_order_item_id,\n          product_id,\n          received_quantity,\n          unit_cost_in_minor_units,\n          products (id, name_ar)\n        )\n      ",
             {
               "count": "exact"
             }
@@ -3980,29 +3977,18 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
       "variant": "original-chain",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'purchase_receipts' and 'purchase_receipt_items'",
-      "details": [
-        {
-          "cardinality": "one-to-many",
-          "embedding": "purchase_receipts with purchase_receipt_items",
-          "relationship": "purchase_receipt_items_operation_chain_fk using purchase_receipts(id, operation_id) and purchase_receipt_items(purchase_receipt_id, operation_id)"
-        },
-        {
-          "cardinality": "one-to-many",
-          "embedding": "purchase_receipts with purchase_receipt_items",
-          "relationship": "purchase_receipt_items_purchase_receipt_id_fkey using purchase_receipts(id) and purchase_receipt_items(purchase_receipt_id)"
-        }
-      ],
-      "hint": "Try changing 'purchase_receipt_items' to one of the following: 'purchase_receipt_items!purchase_receipt_items_operation_chain_fk', 'purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table purchase_receipts",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.purchase_receipts TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n        *,\n        purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),\n        warehouses (id, name_ar),\n        purchase_receipt_items (\n          id,\n          purchase_receipt_id,\n          purchase_order_item_id,\n          product_id,\n          received_quantity,\n          unit_cost_in_minor_units,\n          products (id, name_ar)\n        )\n      ",
+            "\n        *,\n        purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),\n        warehouses (id, name_ar),\n        purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey (\n          id,\n          purchase_receipt_id,\n          purchase_order_item_id,\n          product_id,\n          received_quantity,\n          unit_cost_in_minor_units,\n          products (id, name_ar)\n        )\n      ",
             {
               "count": "exact"
             }
@@ -4027,29 +4013,18 @@
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
       "variant": "with-query-extensions",
-      "status": 300,
-      "sqlstate": "PGRST201",
-      "message": "Could not embed because more than one relationship was found for 'purchase_receipts' and 'purchase_receipt_items'",
-      "details": [
-        {
-          "cardinality": "one-to-many",
-          "embedding": "purchase_receipts with purchase_receipt_items",
-          "relationship": "purchase_receipt_items_operation_chain_fk using purchase_receipts(id, operation_id) and purchase_receipt_items(purchase_receipt_id, operation_id)"
-        },
-        {
-          "cardinality": "one-to-many",
-          "embedding": "purchase_receipts with purchase_receipt_items",
-          "relationship": "purchase_receipt_items_purchase_receipt_id_fkey using purchase_receipts(id) and purchase_receipt_items(purchase_receipt_id)"
-        }
-      ],
-      "hint": "Try changing 'purchase_receipt_items' to one of the following: 'purchase_receipt_items!purchase_receipt_items_operation_chain_fk', 'purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey'. Find the desired relationship in the 'details' key.",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table purchase_receipts",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.purchase_receipts TO authenticated;",
       "rows": 0,
-      "outcome": "other_error",
+      "outcome": "permission_denied",
       "evaluated": [
         {
           "method": "select",
           "args": [
-            "\n        *,\n        purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),\n        warehouses (id, name_ar),\n        purchase_receipt_items (\n          id,\n          purchase_receipt_id,\n          purchase_order_item_id,\n          product_id,\n          received_quantity,\n          unit_cost_in_minor_units,\n          products (id, name_ar)\n        )\n      ",
+            "\n        *,\n        purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),\n        warehouses (id, name_ar),\n        purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey (\n          id,\n          purchase_receipt_id,\n          purchase_order_item_id,\n          product_id,\n          received_quantity,\n          unit_cost_in_minor_units,\n          products (id, name_ar)\n        )\n      ",
             {
               "count": "exact"
             }
@@ -4977,7 +4952,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "638b0ed0-1f41-4615-aa8d-c4dc85043efa",
+              "entity_id": "9bff5098-272d-485d-a8a5-f9da37100899",
               "status": "processing"
             }
           ]
@@ -5010,7 +4985,7 @@
           "method": "eq",
           "args": [
             "id",
-            "638b0ed0-1f41-4615-aa8d-c4dc85043efa"
+            "9bff5098-272d-485d-a8a5-f9da37100899"
           ]
         },
         {
@@ -5049,7 +5024,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-10-15T08:53:47.788Z"
+              "completed_at": "2026-10-15T12:14:02.322Z"
             }
           ]
         },
@@ -5085,7 +5060,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-10-15T08:53:47.819Z"
+              "completed_at": "2026-10-15T12:14:02.358Z"
             }
           ]
         },
@@ -5119,9 +5094,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-10-15T08:53:47.846Z",
+              "last_success_at": "2026-10-15T12:14:02.384Z",
               "last_failure_message": null,
-              "updated_at": "2026-10-15T08:53:47.846Z"
+              "updated_at": "2026-10-15T12:14:02.384Z"
             }
           ]
         },
@@ -5156,9 +5131,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-10-15T08:53:47.879Z",
+              "last_failure_at": "2026-10-15T12:14:02.417Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-10-15T08:53:47.879Z"
+              "updated_at": "2026-10-15T12:14:02.417Z"
             }
           ]
         },
@@ -5195,7 +5170,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-10-15T08:53:47.908Z"
+              "completed_at": "2026-10-15T12:14:02.446Z"
             }
           ]
         },
@@ -5756,7 +5731,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "sha256": "70a3229a1726408e7d2676875c7b8376be39381a94f88d009777067f280e6c4b"
+      "sha256": "bc629a8b8b6740624cd48ca32c3f81dc7cb660221e373151d32af321c0427817"
     },
     {
       "file": "src/services/supabase/expenses-shifts.service.ts",
@@ -5788,7 +5763,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "sha256": "d7a060c64e422aa5e98724043a70564e4d097f2273af77aaccf2609e358d73b3"
+      "sha256": "319c2b273983b853ebd372000bee2b38380a657b2c6e78ada783abc5be24a868"
     },
     {
       "file": "src/services/supabase/parcelConfiguration.service.ts",
@@ -5824,7 +5799,7 @@
     },
     {
       "file": "src/services/supabase/purchases.service.ts",
-      "sha256": "eb3a66553c7c2ffb4bcc7da75fb2a2cf7b3216bd7b99b60c1ad2be294f83dfd9"
+      "sha256": "e1fa00d0562f3c7e3d5dccd8b505dd1f8866b3eb5ee8eae1b02e780962242e9a"
     },
     {
       "file": "src/services/supabase/reference-data.service.ts",
@@ -6276,13 +6251,13 @@
     }
   ],
   "fixture": {
-    "orderId": "638b0ed0-1f41-4615-aa8d-c4dc85043efa",
-    "operationId": "c9cd035c-91ff-47ec-80f2-4c35f7ce72ca",
-    "receiptId": "e9252e88-327b-4117-986d-d5263bf4f47a",
-    "poId": "e05acc04-83b9-4361-a63a-87a0f6de5d67",
+    "orderId": "9bff5098-272d-485d-a8a5-f9da37100899",
+    "operationId": "7bd17321-205e-47c8-bbf6-1e872e5333c5",
+    "receiptId": "47a8b5c0-8a39-4fc1-85d7-58d79b499dc4",
+    "poId": "6f93fd16-1fd8-4452-89b4-f8be6f1457a0",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "aa6ed396-a56a-4f2b-be68-f1ebb56f0f71"
+      "4045ca20-452d-4e0a-9d71-e47868cc9e22"
     ]
   },
   "access": [
@@ -11548,15 +11523,21 @@
       ]
     }
   ],
+  "coverage": {
+    "complete": true,
+    "sourceSites": 50,
+    "expected": 142,
+    "actual": 142
+  },
   "infrastructureOk": true,
   "applicationReady": false,
   "counts": {
     "success": 15,
-    "permission_denied": 112,
+    "permission_denied": 127,
     "zero_rows": 0,
-    "other_error": 15
+    "other_error": 0
   },
-  "endedAt": "2026-10-15T08:56:33.165Z",
+  "endedAt": "2026-10-15T12:16:50.409Z",
   "proposal": [
     {
       "table": "branches",

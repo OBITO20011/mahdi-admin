@@ -393,7 +393,7 @@ export async function fetchPurchaseOrderByIdFromSupabase(
           purchase_price_in_minor_units,
           discount_in_minor_units,
           line_total_in_minor_units,
-          products (
+          products!purchase_order_items_product_id_fkey (
             id,
             name_ar,
             sku,
@@ -408,7 +408,7 @@ export async function fetchPurchaseOrderByIdFromSupabase(
           received_at,
           supplier_delivery_note,
           notes,
-          purchase_receipt_items (
+          purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey (
             id,
             product_id,
             received_quantity,
@@ -981,7 +981,7 @@ export async function fetchGoodsReceiptsFromSupabase(params?: {
         *,
         purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),
         warehouses (id, name_ar),
-        purchase_receipt_items (
+        purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey (
           id,
           purchase_receipt_id,
           purchase_order_item_id,

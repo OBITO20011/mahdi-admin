@@ -1,14 +1,20 @@
-# جرد الوصول المباشر للجداول — المرحلة أ،2026-10-15
+# جرد الوصول — الحالة بعد150
 
-**قرار مانع: لا تشغّل `frankfurt-align-acl.mjs --apply`. هذا تحقيق وليس إصلاحاً للصلاحيات. لا migration150 ولا اتصال بفرانكفورت/Production.139 منفصلة وغير مسلّمة بهذا العمل؛140–149 محجوزة.**
+**الوصول المباشر المحلي ناجح: 142 سلسلةفعلية،صفر42501/PGRST2xx،والتغطيةكاملة.** [الدليل الإيجابي](TABLE_ACCESS_AFTER_150.md). --apply موقوف؛Auth/Storage/Realtime والإعداداتبواباتمنفصلة،لاادعاءقبولstaging. أدناهدليل138السلبي للمقارنة،لاهدفالمواءمة.
+
+---
+
+# دليل المرجع138 قبل المنح — تاريخي،2026-10-15
+
+**هذه نتائج138 السلبية،وليست حالة الشجرة بعد150. اعتُمدت150 لاحقاً؛راجع TABLE_ACCESS_AFTER_150.md للإثبات الحالي. لا تشغّل `frankfurt-align-acl.mjs --apply`؛لا اتصال بفرانكفورت/Production و140–149 محجوزة.**
 
 ## النتيجة والنطاق
 
 - 50 موضع استعلام: 43 authenticated في الإدارة،7 service_role في send-order-push،0 anon. المتجر لا يقرأ الجداول مباشرة؛RPC/Gateway خارج جرد الجداول.
 - 30 جدولاً مع الموارد المضمّنة؛20 اشتراك Realtime موثّق منفصلاً. Storage وArray.from مستبعدان بأسباب صريحة فيJSON.
-- قاعدة جديدة001–138،138 سجلاً رسمياً. 142 إعادة تشغيل فعلية لسلاسل SDK الأصلية عبر PostgREST16.1/PostgreSQL17.6: 15 نجاح،112 رفض42501 في37 موضعاً،0 نتيجة صفرية،15 أخطاء أخرى.
+- قاعدة جديدة001–138،138 سجلاً رسمياً. 142 إعادة تشغيل فعلية لسلاسل SDK الأصلية عبر PostgREST16.1/PostgreSQL17.6: 15 نجاح،127 رفض42501 في41 موضعاً،0 نتيجة صفرية،0 أخطاء أخرى.
 - جاهزية وصول التطبيق: **غير مقبول — المنح الحالية تعطل الوصول المباشر**. نجاح أداة التشخيص يعني جمع الأدلة فقط،لا قبول المنتج.
-- زمن الفحص:250.085ث؛2026-10-15T08:52:23.080Z إلى2026-10-15T08:56:33.165Z.
+- زمن الفحص:253.149ث؛2026-10-15T12:12:37.260Z إلى2026-10-15T12:16:50.409Z.
 
 ## طريقة الإثبات وحدودها
 
@@ -31,7 +37,7 @@
 | business_operations / select | src/services/supabase/adminCustomerV2Lifecycle.ts:227 / isCustomerV2Order | authenticated; adminCustomerV2Lifecycle.ts; src/services/supabase/orders.service.ts | owner:success؛ admin:success؛ cashier:success |
 | profiles / select | src/services/supabase/auth.service.ts:222 / fetchUserProfileAndRole | authenticated; shared-store/auth-bootstrap; src/stores/useAuthStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
 | user_roles / select؛ embeds:roles | src/services/supabase/auth.service.ts:252 / fetchUserProfileAndRole | authenticated; shared-store/auth-bootstrap; src/stores/useAuthStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| supplier_receipts / select؛ embeds:branches,products,profiles,supplier_payments,supplier_receipt_items,suppliers,warehouses | src/services/supabase/directReceiving.service.ts:209 / fetchSupplierReceiptByIdFromSupabase | authenticated; directReceiving; src/features/directReceiving/DirectReceivingView.tsx | owner:PGRST201؛ admin:PGRST201؛ cashier:PGRST201 |
+| supplier_receipts / select؛ embeds:branches,products,profiles,supplier_payments,supplier_receipt_items,suppliers,warehouses | src/services/supabase/directReceiving.service.ts:209 / fetchSupplierReceiptByIdFromSupabase | authenticated; directReceiving; src/features/directReceiving/DirectReceivingView.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
 | suppliers / select | src/services/supabase/directReceiving.service.ts:533 / fetchSuppliersForReceivingFromSupabase | authenticated; directReceiving; src/features/directReceiving/CreateDirectReceiptModal.tsx,src/features/directReceiving/DirectReceivingView.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
 | units / select | src/services/supabase/directReceiving.service.ts:606 / fetchUnitsForReceivingFromSupabase | authenticated; directReceiving; src/features/directReceiving/CreateDirectReceiptModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
 | warehouses / select | src/services/supabase/directReceiving.service.ts:621 / fetchWarehousesForReceivingFromSupabase | authenticated; directReceiving; src/features/directReceiving/CreateDirectReceiptModal.tsx,src/features/directReceiving/DirectReceivingView.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
@@ -39,7 +45,7 @@
 | inventory_balances / select؛ embeds:products,warehouses | src/services/supabase/inventory.service.ts:150 / fetchInventoryBalancesFromSupabase | authenticated; inventory; no-static-consumer-found | owner:42501؛ admin:42501؛ cashier:42501 |
 | orders / select؛ embeds:customer_addresses,customers,order_items | src/services/supabase/orders.service.ts:274 / fetchOperationalOrderListRows | authenticated; orders; no-static-consumer-found | owner:42501؛ admin:42501؛ cashier:42501 |
 | order_items / select | src/services/supabase/orders.service.ts:278 / fetchOperationalOrderListRows | authenticated; orders; no-static-consumer-found | owner:42501؛ admin:42501؛ cashier:42501 |
-| orders / select؛ embeds:customer_addresses,customers,order_items,order_status_history,product_images,products,sales_returns,units | src/services/supabase/orders.service.ts:569 / fetchOrderByIdFromSupabase | authenticated; orders; src/features/orders/OrdersCenterView.tsx | owner:PGRST201؛ admin:PGRST201؛ cashier:PGRST201 |
+| orders / select؛ embeds:customer_addresses,customers,order_items,order_status_history,product_images,products,sales_returns,units | src/services/supabase/orders.service.ts:569 / fetchOrderByIdFromSupabase | authenticated; orders; src/features/orders/OrdersCenterView.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
 | order_parcel_instances / select | src/services/supabase/orders.service.ts:590 / fetchOrderByIdFromSupabase | authenticated; orders; src/features/orders/OrdersCenterView.tsx | owner:success؛ admin:success؛ cashier:success |
 | order_parcel_components / select | src/services/supabase/orders.service.ts:596 / fetchOrderByIdFromSupabase | authenticated; orders; src/features/orders/OrdersCenterView.tsx | owner:success؛ admin:success؛ cashier:success |
 | warehouses / select | src/services/supabase/products.service.ts:553 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
@@ -58,8 +64,8 @@
 | units / select | src/services/supabase/products.service.ts:994 / updateProductInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
 | units / select | src/services/supabase/products.service.ts:1006 / updateProductInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
 | suppliers / select | src/services/supabase/purchases.service.ts:62 / fetchSuppliersFromSupabase | authenticated; purchases; src/features/purchases/CreatePurchaseOrderModal.tsx,src/features/purchases/PurchasesView.tsx,src/features/purchases/SupplierPaymentModal.tsx | owner:42501؛ owner:42501/extended؛ admin:42501؛ admin:42501/extended؛ cashier:42501؛ cashier:42501/extended |
-| purchase_orders / select؛ embeds:branches,products,purchase_order_items,purchase_receipt_items,purchase_receipts,supplier_payments,suppliers,units,warehouses | src/services/supabase/purchases.service.ts:381 / fetchPurchaseOrderByIdFromSupabase | authenticated; purchases; src/features/purchases/PurchaseOrderDetailView.tsx | owner:PGRST201؛ admin:PGRST201؛ cashier:PGRST201 |
-| purchase_receipts / select؛ embeds:products,purchase_orders,purchase_receipt_items,suppliers,warehouses | src/services/supabase/purchases.service.ts:979 / fetchGoodsReceiptsFromSupabase | authenticated; purchases; src/features/purchases/PurchasesView.tsx | owner:PGRST201؛ owner:PGRST201/extended؛ admin:PGRST201؛ admin:PGRST201/extended؛ cashier:PGRST201؛ cashier:PGRST201/extended |
+| purchase_orders / select؛ embeds:branches,products,purchase_order_items,purchase_receipt_items,purchase_receipts,supplier_payments,suppliers,units,warehouses | src/services/supabase/purchases.service.ts:381 / fetchPurchaseOrderByIdFromSupabase | authenticated; purchases; src/features/purchases/PurchaseOrderDetailView.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
+| purchase_receipts / select؛ embeds:products,purchase_orders,purchase_receipt_items,suppliers,warehouses | src/services/supabase/purchases.service.ts:979 / fetchGoodsReceiptsFromSupabase | authenticated; purchases; src/features/purchases/PurchasesView.tsx | owner:42501؛ owner:42501/extended؛ admin:42501؛ admin:42501/extended؛ cashier:42501؛ cashier:42501/extended |
 | purchase_orders / select | src/services/supabase/purchases.service.ts:1061 / fetchSupplierPurchaseSummaryFromSupabase | authenticated; purchases; no-static-consumer-found | owner:42501؛ admin:42501؛ cashier:42501 |
 | categories / select | src/services/supabase/reference-data.service.ts:49 / fetchCategoriesFromSupabase | authenticated; shared-store/auth-bootstrap; src/stores/referenceData.storeSlice.ts,src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
 | products / select | src/services/supabase/reference-data.service.ts:53 / fetchCategoriesFromSupabase | authenticated; shared-store/auth-bootstrap; src/stores/referenceData.storeSlice.ts,src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
@@ -79,18 +85,14 @@
 
 عدم وجود مستدعي ثابت لا يعني حذف الدالة:الجرد يذكرها ولا يختلق شاشة. منحة مقترحة لدالة غير مستخدمة تحتاج مراجعة قبل اعتماد150. أسماء المسارات هنا مفاتيح شاشات الإدارة (?screen=...) ومستهلكو الوحدات فيsrc،لا تخمين لمسار HTTP مستقل.
 
-## عائق إضافي: علاقات مضمّنة ملتبسة (بلا إصلاح)
+## فحص العلاقات المضمّنة في المرجع138
 
-خطأ PostgREST201 يحدث أثناء تحليل select قبل الوصول لفحص بعض المنح. لا نُحوّله إلى42501 ولا نفترض أنGRANT سيصلحه. لم يتغير أي استعلام منتج. تكراره على الأدوار الثلاثة لا يدل على اختلافصلاحياتها. تفاصيلdetails/hint الأصلية محفوظة فيJSON:
+بعد تصحيحFK المعتمد،لاPGRST201 فيمصدرالاستعلاماتالحالي حتىعلى138؛لكن42501 تبقىدون150. الإثباتالإيجابيبعد150 فيTABLE_ACCESS_AFTER_150.md. لمتتغيرحقول أوإجراءات المنتج،فقطخمسةhints لأربعسلاسل.
 
 | المصدر | الخطأ | العلاقات التي يعرضها PostgREST |
 |---|---|---|
-| src/services/supabase/directReceiving.service.ts:209 | PGRST201: Could not embed because more than one relationship was found for 'supplier_receipts' and 'profiles' | [{"cardinality":"many-to-one","embedding":"supplier_receipts with profiles","relationship":"supplier_receipts_phase2_cancelled_by_fkey using supplier_receipts(phase2_cancelled_by) and profiles(id)"},{"cardinality":"many-to-one","embedding":"supplier_receipts with profiles","relationship":"supplier_receipts_received_by_fkey using supplier_receipts(received_by) and profiles(id)"}]; Try changing 'profiles' to one of the following: 'profiles!supplier_receipts_phase2_cancelled_by_fkey', 'profiles!supplier_receipts_received_by_fkey'. Find the desired relationship in the 'details' key. |
-| src/services/supabase/orders.service.ts:569 | PGRST201: Could not embed because more than one relationship was found for 'order_items' and 'products' | [{"cardinality":"many-to-one","embedding":"order_items with products","relationship":"order_items_family_product_id_fkey using order_items(family_product_id) and products(id)"},{"cardinality":"many-to-one","embedding":"order_items with products","relationship":"order_items_product_id_fkey using order_items(product_id) and products(id)"}]; Try changing 'products' to one of the following: 'products!order_items_family_product_id_fkey', 'products!order_items_product_id_fkey'. Find the desired relationship in the 'details' key. |
-| src/services/supabase/purchases.service.ts:381 | PGRST201: Could not embed because more than one relationship was found for 'purchase_order_items' and 'products' | [{"cardinality":"many-to-one","embedding":"purchase_order_items with products","relationship":"purchase_order_items_family_product_id_fkey using purchase_order_items(family_product_id) and products(id)"},{"cardinality":"many-to-one","embedding":"purchase_order_items with products","relationship":"purchase_order_items_product_id_fkey using purchase_order_items(product_id) and products(id)"}]; Try changing 'products' to one of the following: 'products!purchase_order_items_family_product_id_fkey', 'products!purchase_order_items_product_id_fkey'. Find the desired relationship in the 'details' key. |
-| src/services/supabase/purchases.service.ts:979 | PGRST201: Could not embed because more than one relationship was found for 'purchase_receipts' and 'purchase_receipt_items' | [{"cardinality":"one-to-many","embedding":"purchase_receipts with purchase_receipt_items","relationship":"purchase_receipt_items_operation_chain_fk using purchase_receipts(id, operation_id) and purchase_receipt_items(purchase_receipt_id, operation_id)"},{"cardinality":"one-to-many","embedding":"purchase_receipts with purchase_receipt_items","relationship":"purchase_receipt_items_purchase_receipt_id_fkey using purchase_receipts(id) and purchase_receipt_items(purchase_receipt_id)"}]; Try changing 'purchase_receipt_items' to one of the following: 'purchase_receipt_items!purchase_receipt_items_operation_chain_fk', 'purchase_receipt_items!purchase_receipt_items_purchase_receipt_id_fkey'. Find the desired relationship in the 'details' key. |
 
-هذا يحتاج اعتماد تصحيح مستقل لاختيار FK الصحيح فيعرضالتفاصيل،خارجتحقيقACL الحالي. وحتىاعتماد150 واجتياز42501 لن يعني قبولاً للشاشات قبل إغلاقهذاالعائق. فحصSQLالجدولي المنفصل يثبت نقصالمنح حتى عندما يسبقهاPGRST201 فيالاستعلامالمضمّن.
+اختبارAST المثبت يقارن ملفات الخدمات الثلاثة كاملةً بالأساس بعد إزالةأسماءFK المعتمدة فقط. رفض127سلسلةعلى138مقابلنجاح142على150 يحفظ الفحص السلبي ولايخفي نقصACL أوالتباس العلاقة.
 
 ## RLS والمنح الدنيا المقترحة150 — للمراجعة فقط
 
@@ -243,7 +245,7 @@ node scripts/audit/table-access-report.mjs <مسار-diagnostic.json-المطب�
 
 الأمرالثاني يشغّل قاعدةDocker محلية جديدة001–138 وخادمPostgREST على127.0.0.1:25421،ويغلقملكَه فيالنهاية. لايعرفعنوانفرانكفورت أوكلمةسرها،ولايفتحملفاتenv. تقريرJSON الخارجي يحفظكتالوجالفحص فقط؛نسخةالمستودع تحذفكتالوجالدوالغيرالمتعلق وتبقيأدلةالوصول. سكربتالجرد يولّدJSON وMarkdown؛سكربتالتقرير يضيفنتيجةالقياس الحقيقية بعدانتهائها.
 
-**القرار المطلوب:** اعتماد نطاق150 بعد مراجعة قائمةGRANT/REVOKE وشروطRLS أعلاه. توقف؛لا تطبيق ولاmigrationفيهذهالمرحلة.
+**سجل تاريخي:** هذه القائمة أساس اعتماد150 في OWNER_DECISIONS.md؛لا تستخدم مرجع138 لمواءمةACL الآن. إثبات ما بعد الإصلاح منفصل،وتطبيق فرانكفورت يبقى أمراً لاحقاً للمالك.
 
 ---
 
@@ -456,8 +458,8 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 | automation/n8n/workflows/nawasrah-alerts.json | 32, 89, 175, 228 | EXTERNAL_CONSUMER |
 | customer-web/public/_headers | 7 | CSP_CONNECT_SRC |
 | customer-web/src/config/supabase-public-config.ts | 13 | APP_FALLBACK |
-| docs/agent/HANDOFF_HISTORY.md | 166 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 160 | HISTORICAL_DOCUMENTATION |
+| docs/agent/HANDOFF_HISTORY.md | 217 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 183 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
 | public/_headers | 8 | CSP_CONNECT_SRC |
 | scripts/backup/README.md | 28 | PRESERVE_OLD_BACKUP_LINK |
@@ -465,7 +467,7 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 | scripts/backup/preflight.mjs | 14 | PRESERVE_OLD_BACKUP_LINK |
 | scripts/operations/build-cron-report.mjs | 29 | BUILD_GUARD_OR_AUDIT |
 | scripts/operations/frankfurt-owner-build.mjs | 18 | BUILD_GUARD_OR_AUDIT |
-| scripts/testing/run-order-push-url-runtime.mjs | 47 | BUILD_GUARD_OR_AUDIT |
+| scripts/testing/run-order-push-url-runtime.mjs | 56 | BUILD_GUARD_OR_AUDIT |
 | src/config/supabase-public-config.ts | 13 | APP_FALLBACK |
 | supabase/.temp/linked-project.json | 1 | PRESERVE_OLD_BACKUP_LINK |
 | supabase/.temp/pooler-url | 1 | PRESERVE_OLD_BACKUP_LINK |
@@ -510,7 +512,7 @@ SUPABASE_URL/ANON_KEY/SERVICE_ROLE_KEY أسماؤهافقط؛توفّرهاون�
 
 1. إبقاء `--apply` موقوفاً؛اعتماد 150 ونطاق الأعمدة/العمليات وRLS،وحل العلاقات الأربع `PGRST201` أولاً. بعدها مرجع جديد وفحص وصول حقيقي؛لا تطبيق لخطة 279 REVOKE القديمة.
 2. تأكيد أن Data API مفعّلة وأن Automatically expose new tables مطفأة ومحفوظة بعد إعادة التحميل. هذا قرار المالك الحالي،ولا يسحب المنح القديمة. لا تفعيل عشوائي لـautomatic RLS يغيّر العقود.
-3. Auth: اعتماد Site URL للإدارة وredirect URLs وسياسة إنشاء الحسابات دون تسجيل عام. config يضع localhost:3000 وredirects فارغة،وفيه إعدادا signup العام وemail؛الحالة الفعلية تحتاج تأكيد Dashboard. تأكيد email/password والمزودين المفعّلين؛لا دليل على اعتماد مزود OAuth آخر. قوالب البريد وSMTP والمرسل واستعادة كلمة المرور والتأكيد ومهل JWT/refresh وربط المجالات وrate limits: تحتاج تأكيد لوحة Supabase،ولا تُستنتج من الكتالوج.
+3. Auth إلزامياً: أطفئ **Allow new users to sign up** واحفظ ثمأعدتحميلاللوحةللتحقق؛التسجيلالذاتي ممنوع والموظفونينشئهمالمالك فقط. اضبط **Site URL وredirect URLs** للنطاقات النهائية **admin.alnawasreh.com وalnawasreh.com** وبالمساراتالمعتمدةمنالكود،لاlocalhost أوروابطpreview عامة. config المحلي يضعlocalhost:3000 وredirects فارغة؛ليسإثباتاًللإعدادالبعيد. تأكيدemail/password والمزودين وقوالبالبريد وSMTP والمرسل والاستعادة والتأكيد ومهلJWT/refresh وrate limits يحتاجلوحةSupabase؛لامزودOAuthمفترض ولاوصولمنالوكيل.
 4. تأسيس المالك الأول وprofile/role/branch بإجراء مدعوم ومعتمد؛اختبار موظف نشط ومتوقف وبلا دور،وTOTP/AAL2 والبصمة على المجالات المعتمدة. لا نقل جلسات أو عوامل قديمة،ولا تنفيذ أدوات أرصدة البداية المؤجلة.
 5. نشر Edge Functions الخمس عند إذن النشر المنفصل،ومطابقة verify_jwt في config وإعداد الأسماء المذكورة أعلاه خارج Git. `admin-ai-assistant` دون `GEMINI_API_KEY` بقرار المالك. اختبار CORS وJWT والأدوار،وليس نجاح النشر فقط.
 6. Turnstile: مطابقة site keys وsecrets ومجالات الإدارة والمتجر لكل مسار. ضبط TURNSTILE_ALLOWED_HOSTNAMES،وإطفاء test-mode،ورفض hostname/action الخاطئين. لا قيم اختبار في staging المعتمد.
@@ -531,4 +533,4 @@ node scripts/audit/run-service-access-diagnostic.mjs
 node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>
 ```
 
-لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. baselineمحلية138باختبارها؛جردالعمل139يبقىخارجcommitالإضافة.
+لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على138 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
