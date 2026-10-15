@@ -24,7 +24,7 @@ export async function buildReference150(args=[]){
  // existing150 reference. A rebuild must use a new external directory.
  await assert.rejects(()=>readFile(target),{code:'ENOENT'},'REFERENCE_ALREADY_EXISTS');
  const proofText=await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_150.json'),'utf8'),proof=JSON.parse(proofText);
- const source=await inventory(),manifest=await migrationManifest(root);
+ const source=await inventory(),manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=150);
  const report={startedAt:new Date().toISOString(),managedAccess:false,target};
  const output=await mkdtemp(path.join(tmpdir(),'nawasrah-reference150-ready-'));
  const project='nawasrah-reference150-ready-test';let local;
@@ -43,7 +43,7 @@ export async function buildReference150(args=[]){
    notificationSnapshot:validateOriginalNotifications(await readNotificationSnapshot(executor)),
    readiness:{sourceHashes:source.sources,accessEvidenceSha256:sha256(canonicalLf(proofText)),coverage:proof.coverage,queries:proof.results.length,errors:0}};
   assertReference150(reference,manifest,proofText,source);
-  assert.deepEqual(await migrationManifest(root),manifest,'SOURCE_HISTORY_CHANGED_DURING_REBUILD');
+  assert.deepEqual((await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=150),manifest,'SOURCE_HISTORY_CHANGED_DURING_REBUILD');
   assert.deepEqual((await inventory()).sources,source.sources,'SOURCE_CHANGED_DURING_REBUILD');
   await writeFile(target,JSON.stringify(reference,null,2)+'\n',{flag:'wx'});
   report.ok=true;report.migrations=manifest.length;report.manifestDigest=reference.manifestDigest;

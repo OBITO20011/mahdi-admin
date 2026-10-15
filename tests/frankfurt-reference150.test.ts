@@ -15,7 +15,9 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('..',import.meta.url));
 
 test('150 reference admission rejects the old138 target,missing reads,stale evidence and tampered history',async()=>{
- const manifest=await migrationManifest(root),source=await inventory();
+ // Frozen150 admission remains tested against its actual historical manifest,
+ // not a future ceiling's metadata. The public CLI moves to151 separately.
+ const manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=150),source=await inventory();
  const proofText=await readFile('docs/operations/TABLE_ACCESS_AFTER_150.json','utf8'),proof=JSON.parse(proofText);
  const catalog={tables:readTables150.map(name=>({name,schema:'public',owner:'postgres',kind:'r',rls:true,
   acl:['postgres=arwdDxtm/postgres','authenticated=r/postgres',...(name==='orders'?['service_role=r/postgres']:[])]})),

@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Approved150 table reads/revokes,FK fixes,real access CI,new offline reference;NO managed/apply",
-  "baselineSha": "24f6d2a81e2cdc06b26cffb243ce311b646176d1",
+  "objective": "Approved151 real Realtime proof,151 offline reference/owner upgrade tool,go-live ACL proposal ONLY;NO managed access",
+  "baselineSha": "966e0b0fd7f8ef28f5dd4f09058df2ae44e36794",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -12,9 +12,12 @@
     "139 delivered3a3893b quality38729342063 FULL24/24 +secrets38729342030 PASS;Gitleaks0;no managed",
     "150 delivered204f1ed quality38730973077 FULL24/24 +secrets38730973130 PASS;Gitleaks0",
     "FK746d6bc FULL24 quality38738635291+secrets38738635324;AST3entirefiles/142SDK/60browserPASS",
-    "AccessCI24f6d2a FULL24 quality38740956806+secrets38740956741;mandatory150 realSDKgate"
+    "AccessCI24f6d2a FULL24 quality38740956806+secrets38740956741;mandatory150 realSDKgate",
+    "Reference966e0b0 FULL24 quality38744064639+secrets38744064794 PASS;Gitleaks0;ownerreviewSTOP"
   ],
-  "inProgress": [],
+  "inProgress": [
+    "Owner151 approved13publicationtables only;real channels then151reference;140-149 branch read-only proposal"
+  ],
   "notStarted": [],
   "testsPassed": [
     "1396/6;150real138/139catalog/replay/defaults;142SDK/372RPCdispatch0denied;60bothbrowserPASS",
@@ -22,7 +25,7 @@
     "Final1077Admin+191Customer/type/lint PASS13:30:21-13:34:35UTC frozenfiles"
   ],
   "testsRemaining": [
-    "Gitleaks/commit/push/exactFULLCI final150reference/tooling thencheckpoint STOP"
+    "151 real channel/ACL/RLS/idempotency;local gates/CI eachcommit;151reference+offline preview;owner command local rehearsal"
   ],
   "findings": [
     "26explicit150grants(25auth+1service);FKresolved;localpublicationempty;remote bucketrow/membership unknown;NO stagingclaim"
@@ -30,25 +33,28 @@
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No managed/oldtarget/secrets/deploy/history changes;local tests only",
+    "No agent managed/oldtarget/secrets/deploy/history changes;local tests only;owner command preparation approved",
     "No retries/timeouts/skips/weakened assertions;freeze files during gates",
-    "139 separate commit BEFORE150;do not use140-149;NO frankfurt-align-acl --apply"
+    "Do not use140-149 or modifygo-live branch;ACL convergence proposal ONLY;no agent owner-apply execution"
   ],
-  "nextExactAction": "Commit final ready150reference/offline preview after1077+191/type/lint andrealtoolgates PASS;Gitleaks/push/exactCI thenSTOP;NO managed/apply",
-  "checkpointedAt": "2026-10-15T13:35:37.387Z",
+  "nextExactAction": "151 realchannel PASS;frozenlocaltypes/lint/allunits PASS. Commit151 and fullCI;then151reference/ownerupgrade localonly",
+  "checkpointedAt": "2026-10-15T14:30:18.733Z",
   "filesTouched": [
+    ".github/workflows/quality.yml",
     "docs/agent/OWNER_DECISIONS.md",
-    "docs/agent/PHASE_STATUS.md",
-    "docs/operations/FRANKFURT_ACL_ALIGNMENT_AR.md",
-    "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md",
-    "scripts/operations/build-cron-report.mjs",
-    "scripts/operations/frankfurt-acl-plan.mjs",
-    "scripts/operations/frankfurt-align-acl.mjs",
-    "scripts/operations/frankfurt-owner-build.mjs",
+    "docs/agent/project-state.json",
+    "docs/generated/DB_FUNCTIONS.md",
+    "package.json",
+    "scripts/agent/lib.mjs",
+    "scripts/agent/preflight.mjs",
     "scripts/operations/build-acl-reference150.mjs",
-    "scripts/operations/frankfurt-reference150.mjs",
-    "tests/fixtures/enqueue-order-push-before139.sql",
-    "tests/frankfurt-reference150.test.ts"
+    "tests/frankfurt-reference150.test.ts",
+    "tests/migration-integrity.test.ts",
+    "docs/operations/REALTIME_151.md",
+    "scripts/testing/realtime151-contract.mjs",
+    "scripts/testing/run-realtime151-runtime.mjs",
+    "supabase/migrations/151_explicit_application_realtime_publication.sql",
+    "tests/realtime151.test.ts"
   ],
-  "workingTreeFingerprint": "7492901FE26FF61D6ABCFDC4727E105085738FCDC2C72BCCCB35448B130AB818"
+  "workingTreeFingerprint": "C9F86ED3669A018482852F1BC61E8DBAD44EE974EB266DC97F9A35599CC0EA65"
 }

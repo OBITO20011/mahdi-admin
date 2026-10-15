@@ -82,6 +82,7 @@
     "docs:db-functions:check": "node scripts/testing/generate-db-functions.mjs --check",
     "test:order-push:runtime": "node scripts/testing/run-order-push-url-runtime.mjs",
     "test:table-reads150:runtime": "node scripts/testing/run-table-read-privileges150-runtime.mjs",
+    "test:realtime151:runtime": "node scripts/testing/run-realtime151-runtime.mjs",
     "test:automation-delivery:runtime": "node scripts/testing/run-automation-delivery-hardening-runtime.mjs",
     "test:business-alerts:runtime": "node scripts/testing/run-core-business-alerts-runtime.mjs",
     "test:advanced-monitoring:runtime": "node scripts/testing/run-advanced-monitoring-runtime.mjs",
