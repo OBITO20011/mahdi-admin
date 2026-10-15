@@ -277,6 +277,10 @@ jobs:
         if: matrix.suite == 'package-f-aging'
         run: npm run test:order-push:runtime
 
+      - name: Verify exact table privileges150 above138 and139
+        if: matrix.suite == 'package-f-reads'
+        run: npm run test:table-reads150:runtime
+
       - name: Reconcile a complete business day through real public RPCs
         if: matrix.suite == 'golden-day'
         run: npm run test:package-e:golden

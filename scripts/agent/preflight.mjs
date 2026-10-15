@@ -8,6 +8,11 @@ const repoRoot = git(['rev-parse', '--show-toplevel']).replaceAll('\\', '/');
 const migrations = migrationInventory();
 const productionNames = productionEnvironmentNames();
 const failures = [];
+if (state.migrationCeiling >= 150 && (!state.migration150CanonicalLfSha256
+  || !migrations.migration150Exists
+  || migrations.migration150CanonicalLfSha256 !== state.migration150CanonicalLfSha256)) {
+  failures.push('Migration 150 hash missing or mismatch');
+}
 if (state.migrationCeiling >= 139 && (!state.migration139CanonicalLfSha256
   || !migrations.migration139Exists
   || migrations.migration139CanonicalLfSha256 !== state.migration139CanonicalLfSha256)) {

@@ -3,22 +3,23 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Approved150 table reads/revokes,FK fixes,real access CI,new offline reference;NO managed/apply",
-  "baselineSha": "6f5e5a66a8589b2a369131a6712d2c3fd0b9e287",
+  "baselineSha": "3a3893be5e9488c2ed99f16944c40ab53255a0b3",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "21c8bd4+6f5e5a6 audit deliveredFULL24+secrets;HOLDapply;142SDK15PASS/112denied/15ambiguous"
+    "21c8bd4+6f5e5a6 audit deliveredFULL24+secrets;HOLDapply;142SDK15PASS/112denied/15ambiguous",
+    "139 delivered3a3893b quality38729342063 FULL24/24 +secrets38729342030 PASS;Gitleaks0;no managed"
   ],
   "inProgress": [],
   "notStarted": [
     "139 independent delivery approved before150;140-149 reserved;150 local138/139 proofs PASS"
   ],
   "testsPassed": [
-    "1396/6 realprobes+fullcatalog rollback+410functions;verify-only positive/write/negative PASS;12focused;1065Admin+191Customer;type/lint;frozen11:37-11:42UTC;150proof138/139 PASS parked"
+    "1396/6+verify-only PASS;150real138/139 catalog/idempotency/defaults PASS;16focused;1066Admin+191Customer/type/lint;frozen11:47:49-11:52:47UTC;150Gitleaks0"
   ],
   "testsRemaining": [
-    "150 runtime/related units/types/lint/Gitleaks/exactCI;FK separate;accessCI;new reference/offline plan"
+    "139 exactCI pending;150 full local gate then Gitleaks/commit/exactCI;FK separate;accessCI;new reference/offline plan"
   ],
   "findings": [
     "26read grants150proposal;4PGRST201;localpublicationempty;remote bucketrow/membership unknown"
@@ -30,31 +31,23 @@
     "No retries/timeouts/skips/weakened assertions;freeze files during gates",
     "139 separate commit BEFORE150;do not use140-149;NO frankfurt-align-acl --apply"
   ],
-  "nextExactAction": "139 local gates+Gitleaks0 PASS;commit139/push and exactFULL CI;150 files parked Temp/nawasrah-pending150-20261015-1129,proof lAAQ8S PASS. No managed/apply.",
-  "checkpointedAt": "2026-10-15T11:43:10.287Z",
+  "nextExactAction": "139 delivered3a3893b FULL24+secrets PASS;150 alllocal gates+Gitleaks0 PASS;commit/push150 and exactCI;then4explicitFK fixes/real access. No managed/apply.",
+  "checkpointedAt": "2026-10-15T11:56:39.548Z",
   "filesTouched": [
-    "docs/agent/POST_DELIVERY.md",
-    "docs/operations/ORDER_PUSH_URL_139.md",
-    "scripts/operations/frankfurt-migration139.mjs",
-    "scripts/testing/order-push-url-runtime.sql",
-    "scripts/testing/run-order-push-url-runtime.mjs",
-    "supabase/migrations/139_project_order_push_webhook_url.sql",
-    "tests/order-push-url139.test.ts",
+    "docs/operations/TABLE_READ_PRIVILEGES_150.md",
+    "scripts/testing/run-table-read-privileges150-runtime.mjs",
+    "scripts/testing/table-read-privileges150-contract.mjs",
+    "supabase/migrations/150_explicit_application_table_read_privileges.sql",
+    "tests/table-read-privileges150.test.ts",
     ".github/workflows/quality.yml",
-    "docs/agent/OWNER_DECISIONS.md",
-    "docs/agent/PHASE_STATUS.md",
+    "docs/agent/POST_DELIVERY.md",
     "docs/agent/project-state.json",
     "docs/generated/DB_FUNCTIONS.md",
-    "docs/operations/FRANKFURT_OWNER_BUILD_AR.md",
-    "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md",
     "package.json",
     "scripts/agent/lib.mjs",
     "scripts/agent/preflight.mjs",
-    "scripts/operations/build-empty-supabase.mjs",
-    "scripts/operations/frankfurt-owner-build.mjs",
-    "tests/frankfurt-preparation.test.ts",
-    "tests/frankfurt-verify-only.test.ts",
-    "tests/migration-integrity.test.ts"
+    "tests/migration-integrity.test.ts",
+    "docs/agent/PHASE_STATUS.md"
   ],
-  "workingTreeFingerprint": "11D964057C62FACDA6B3CDA75B4766A1BD29B596093586CF9481853C3B50637A"
+  "workingTreeFingerprint": "3180C81E74BF836D408B847B1A97C6AF22E4AF7136BED0CCE734A18ADACA66E0"
 }
