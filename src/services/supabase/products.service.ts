@@ -1,5 +1,10 @@
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import { Product } from '../../types';
+import {
+  PRODUCT_EDIT_CONFLICT_MESSAGE,
+  readProductEditSnapshot,
+  type ProductEditSnapshot,
+} from '../../utils/productEditConflict';
 
 export interface CreateProductInput {
   sku: string;
@@ -45,6 +50,10 @@ export interface SupabaseRpcResult {
     hint?: string;
     status?: number | string;
   };
+  /** Present when the save was refused because the product changed since it was opened (migration 170). */
+  conflict?: ProductEditSnapshot;
+  /** products.updated_at after a successful versioned save. */
+  updatedAt?: string;
 }
 
 function readErrorStatus(error: unknown): number | string | undefined {
@@ -90,7 +99,22 @@ export function toProductMutationFailure(
   let code: string | undefined;
   let message: string | undefined;
 
-  if (
+  if (searchable.includes('product_edit_conflict')) {
+    return {
+      success: false,
+      error: PRODUCT_EDIT_CONFLICT_MESSAGE,
+      errorDetails: {
+        code: 'PRODUCT_EDIT_CONFLICT',
+        message: PRODUCT_EDIT_CONFLICT_MESSAGE,
+        status: 409,
+      },
+      conflict: readProductEditSnapshot(source.details) ?? undefined,
+    };
+  }
+  if (searchable.includes('product_edit_version_required')) {
+    code = 'PRODUCT_EDIT_VERSION_REQUIRED';
+    message = 'أعد فتح المنتج ثم احفظ التعديل.';
+  } else if (
     searchable.includes('product_identifier_cross_collision') ||
     searchable.includes('نفس الرقم كـsku') ||
     searchable.includes('مستخدم بالفعل كـباركود') ||
@@ -169,6 +193,8 @@ export interface UpdateProductInput {
   maxStockLevel?: number;
   isActive: boolean;
   imageUrl?: string;
+  /** products.updated_at as it was when the editor opened the product. */
+  expectedUpdatedAt: string;
 }
 
 export interface CreateProductFlavorInput {
@@ -192,6 +218,8 @@ export interface UpdateProductFlavorInput {
   barcode?: string;
   imageUrl?: string;
   isActive: boolean;
+  /** products.updated_at of the flavor row as it was when editing started. */
+  expectedUpdatedAt: string;
 }
 
 function isValidUuid(id?: string | null): boolean {
@@ -895,8 +923,9 @@ export async function updateProductFlavorInSupabase(
   }
 
   try {
-    const { data, error } = await supabase.rpc('update_product_flavor_v1', {
+    const { data, error } = await supabase.rpc('update_product_flavor_v2', {
       p_flavor_product_id: input.flavorProductId,
+      p_expected_updated_at: input.expectedUpdatedAt,
       p_flavor_name_ar: input.flavorNameAr.trim(),
       p_barcode: input.barcode?.trim() || null,
       p_image_url: input.imageUrl?.trim() || null,
@@ -913,6 +942,7 @@ export async function updateProductFlavorInSupabase(
       message:
         data?.message ||
         'تم تحديث النكهة مع الحفاظ على مخزونها وسجلها.',
+      updatedAt: data?.updatedAt,
     };
   } catch (error: any) {
     return toProductMutationFailure(error, 'تعذر تحديث النكهة.');
@@ -1013,8 +1043,9 @@ export async function updateProductInSupabase(
     saleUnitIdToUse =
       saleUnitIdToUse || purchaseUnitIdToUse || unitIdToUse;
 
-    const { data, error } = await supabase.rpc('update_product_master_v3', {
+    const { data, error } = await supabase.rpc('update_product_master_v4', {
       p_product_id: input.productId,
+      p_expected_updated_at: input.expectedUpdatedAt,
       p_sku: input.sku.trim(),
       p_barcode: input.barcode?.trim() || null,
       p_name_ar: input.nameAr.trim(),
@@ -1061,6 +1092,7 @@ export async function updateProductInSupabase(
       success: Boolean(data?.success),
       productId: data?.productId || input.productId,
       message: data?.message || 'تم تحديث المنتج بنجاح.',
+      updatedAt: data?.updatedAt,
     };
   } catch (error: any) {
     return toProductMutationFailure(

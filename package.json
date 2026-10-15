@@ -44,6 +44,7 @@
     "test:package-e:closing": "node scripts/testing/run-package-e-closing-runtime.mjs",
     "test:package-e:scale": "node scripts/testing/run-package-e-scale-runtime.mjs",
     "test:package-f:reads": "node scripts/testing/run-package-f-read-extensions-runtime.mjs",
+    "test:product-edit:runtime": "node scripts/testing/run-product-edit-conflict-runtime.mjs",
     "test:package-f:reads:scale": "node scripts/testing/run-package-f-read-extensions-runtime.mjs --scale",
     "test:package-f:aging": "node scripts/testing/run-package-f-debt-aging-runtime.mjs",
     "test:package-f:aging:scale": "node scripts/testing/run-package-f-debt-aging-runtime.mjs --scale",

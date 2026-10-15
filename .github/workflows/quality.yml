@@ -253,6 +253,10 @@ jobs:
         if: matrix.suite == 'package-f-reads'
         run: npm run test:package-f:crm-filters
 
+      - name: Prove170 product edit conflict between two real sessions,ACL and v3 parity
+        if: matrix.suite == 'package-f-reads'
+        run: npm run test:product-edit:runtime
+
       - name: Prove136 read-only FIFO aging,canonical balance and role boundaries
         if: matrix.suite == 'package-f-aging'
         run: npm run test:package-f:aging
