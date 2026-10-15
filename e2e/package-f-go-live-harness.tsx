@@ -137,7 +137,9 @@ client.rpc=(name,args={})=>{
 client.from=(table)=>{
   if(table!=='suppliers')return originalFrom(table);
   const result={data:suppliers,error:null};
-  const chain={select:()=>chain,eq:()=>chain,order:()=>chain,limit:()=>Promise.resolve(result)};
+  // fetchSuppliersFromSupabase awaits the builder itself after select/order/eq.
+  const chain={select:()=>chain,eq:()=>chain,order:()=>chain,limit:()=>chain,
+    then:(resolve:(value:typeof result)=>unknown,reject?:(reason:unknown)=>unknown)=>Promise.resolve(result).then(resolve,reject)};
   return chain;
 };
 createRoot(document.getElementById('root')!).render(<div dir="rtl" className="flex h-[100dvh] bg-nw-bg font-sans text-nw-text"><SideNav/><div className="flex min-w-0 flex-1 flex-col"><Header/>
