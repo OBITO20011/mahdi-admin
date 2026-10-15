@@ -249,6 +249,10 @@ jobs:
         if: matrix.suite == 'operations-reset'
         run: node scripts/testing/run-trial-reset-runtime.mjs
 
+      - name: Prove first owner guarded binding and real TOTP AAL2 without managed access
+        if: matrix.suite == 'operations-reset'
+        run: node scripts/testing/run-first-owner-runtime.mjs
+
       - name: Prove135 reader JSON,roles and real payment/Return balance
         if: matrix.suite == 'package-f-reads'
         run: npm run test:package-f:reads
