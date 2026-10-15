@@ -30,7 +30,7 @@ try{
  const date=await executeInput(executor,"SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;");assert.equal(date.code,0);
  const reference={manifest:(await buildEmptyProjectInput(root)).manifest,postgresVersion:'17.6',buildUtcDate:date.stdout.trim(),
   catalogQuerySha256:createHash('sha256').update(schemaCatalogSql).digest('hex'),catalog,
-  functions:await functionReference(executor),notificationSnapshot:snapshot,cronAudit:assessBuildCron(snapshot.jobs)};
+  functions:await functionReference(executor,138),notificationSnapshot:snapshot,cronAudit:assessBuildCron(snapshot.jobs)};
  await mkdir(path.join(workdir,'supabase/.temp'),{recursive:true});
  await writeFile(path.join(workdir,'local-reference.json'),JSON.stringify(reference));
  await writeFile(path.join(workdir,'notification-before.json'),JSON.stringify(snapshot));
@@ -67,7 +67,7 @@ try{
  const changed=await executeInput(executor,'ALTER TABLE public.products ADD COLUMN verify_evidence_probe integer;');assert.equal(changed.code,0);
  const negativeBefore=await readCatalog(executor);
  const mismatch=await run(['--verify-only','--workdir',workdir],io);
- assert.equal(mismatch.ok,false);assert.equal(mismatch.error,'HOLD_CATALOG_EXPECTS_EXACTLY_ONE_DELTA');
+ assert.equal(mismatch.ok,false);assert.equal(mismatch.error,'UNEXPECTED_APPLICATION_CATALOG_DIFFERENCES');
  const saved=JSON.parse(await readFile(path.join(workdir,'catalog-differences.json'),'utf8'));
  assert.equal(saved.differences.length,2);assert.equal(saved.differences.filter(d=>d.expected).length,1);
  const table=saved.differences.find(d=>d.schema==='public'&&d.object==='products');

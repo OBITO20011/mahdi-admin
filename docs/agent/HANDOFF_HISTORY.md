@@ -1,5 +1,89 @@
 # Agent handoff history
 
+## 2026-10-15 — ACL tool local gates PASS;explicit index excludes139
+
+Admin type/lint PASS3oldwarnings;frozen07:15:27–07:19:01UTC all1056Admin+
+191Customerunits andCustomerlint PASS. InitialunitfailurewasACTIVE_TASK>4096;
+shortenedlog,keptassertion,reranallunits. LatefailurelabelONLY corrected to
+ACL_TRANSACTION_NOT_CONFIRMED forambiguousconnectionloss;related11 PASS.
+RuntimePsoO0N atomic/stale/serviceguard/rollback andVjxQO0 verify regression
+PASS. Stage toolfilesonly;workflow/checklist indexexclude pending139sections.
+Gitleaks/commit/push/full exactCI thenSTOP;no managed execution or password.
+
+## 2026-10-15 — owner-only ACL alignment and managed comparison ready for gates
+
+Owner attributes48ACLdrifts toauto-expose,nowoff perowner;existing grantsremain.
+Newstandalone defaultofflinepreview279preciseREVOKEs/48objects;ownerapplyfixed
+targetconfirmbeforehiddennewpassword,staleCAS,SERIALIZABLEpre/postACLguard,
+service_role exactpreservation,sharedstrictmanagedpolicy. No managed execution.
+CRLF34exact/serviceonlyexception/platforminfo/allRLS+customschemas strict,
+namedtriggerhold/netAPI signature. PsoO0N actualisolatedtransaction PASS101.393s
+includingstale+atomicrollback;VjxQO0 realverify-only regression PASS103.375s.
+Allgates/Gitleaks/tool-onlycommit/exactCI remain.139 dirtywork mustNOT be staged
+withthisdelivery;140–149reserved. No product/migration/oldproject changeshere.
+
+## 2026-10-15 — offline518 review HOLD:non-service-role ACL drift
+
+Read only owner savedcatalog files,no managedCLI/SQL/password access. Assertions
+prove34 public definitions LF-identical,48 raw non-service ACL differences:
+31tables+7sequences+7functions+3defaultPrivileges. Examples audit_logs/orders/
+products/customers anon/auth Dxtm→arwdDxtm;assistant authorization addsanonX.
+SixfunctionnullACL cases may include redundant inheritedPUBLIC grants;no
+exploitability claim. RLS flags remaintrue for31tables. pg_net0.20.4 namespace
+extensions→public,not absent-local;exacthttp_post signature/bigint present both.
+Evidence hash/details inFRANKFURT_ACL_REVIEW_20261015.md. Cannot return zero
+unexpected deltas under owner service_role-only exception. STOP before widening
+policy or permission/DB repair.139 dirtywork preserved,not delivered;no commit/
+push/newCI claimed for this incomplete tool task. No secrets read or persisted.
+
+## 2026-10-15 — standing bounded delegation and migration reservations recorded
+
+Owner authorized documented non-product test/tool/CI repair without weakened
+assertions/retries/skips/timeout increases;one proven environment rerun;known
+own-delivery checkpoint/baseline synchronization;presentation-only corrections
+without call/payload changes. Money/stock/balance/ACL/auth,unapproved DB work,
+managed/Frankfurt/secrets/password access,deploy and business choices still
+need specific owner approval.139 remains local-only approved task;140–149
+reserved for separate startup branch,not used here. No new test rerun,DB
+operation,commit or push in this documentation-only permission update.
+
+## 2026-10-15 —139 local implementation paused on device standby,not delivered
+
+Owner approved139 after1370f59 verify-only delivery. Explicit single Vault URL
+body/pin and generated139 reference410 ready;old001–138 unchanged. Later owner
+--apply-139 gated by successful138 catalog check,exact138history,officialrepair,
+onefunctiondelta/unchangedmetadata+notificationhold. No managedSQL/link/config.
+Frozen138 hash comparison now uses generator's lexical ordering,not SQL
+collation;approved hash unchanged. Old repair-order textual assertion scoped
+to138 loop with separate139 contract. Runtime proof still REQUIRED.
+Second runtime stopped in bootstrap138: Modern Standby506/Lid06:13:57UTC and
+507/Lid06:23:05UTC,with intermediate battery-drain cycle06:19:14;failure report
+06:19:17. DockerlocalDBkill06:13:59;no SQLcause claimed. No exhaustion events;
+free~2.4GiB/ACfalse/battery80%. Evidence Temp/nawasrah-push139-ELUPEv/report.json.
+No repeat,timeout change,commit or push. AllownedDBcontainers stopped;rootold
+link unchanged. Resume when AC/awake:139runtime,138verify-only regression,
+type/lint/allunits/Gitleaks/commit/push/exactFULLCI,then checkpoint+STOP.
+
+## 2026-10-15 — verify-only delivered1370f59;owner diagnostic STOP
+
+Commit/push1370f5938f554655b16b73ad26e8743a848dc7fd,13explicitfiles only;
+Gitleaksstaged0/~33.90KB/no leaks. Exactpush/main quality38688534980 FULL24/24
+andsecret38688534982 PASS;canonicalverify-handoff--delivery valid/readytrue,
+HEADremote match. No workflow/timeout/retry/product/history/backup edits.
+Finalcheckpoint baseline advancedto THIS own deliveredHEAD so resume reflects
+known1370f59,not stale precommit1336;initialsync1336was explicitlyownerapproved.
+As4SWH held-bootstrap verify-only positive/writeguard/detailednegative PASS,
+all1046Admin+191Customer/type/lint PASS asbelow. No realFrankfurtSQL/link,
+password/APIsecrets orOldDB access byagent;externalrefkze retained,rootrefacj
+unchanged;ownerlast-report length31933/mtime05:17:25UTC retained. AllownedQA
+stacks/processes stopped,unrelatedn8n untouched. Finaltasklogcheckpointonly.
+STOP:owner runs node scripts/operations/frankfurt-owner-build.mjs --verify-only
+inTerminal;existingexternalconnection/refconfirmation/hiddenpassword;report
+last-verify-report.json+catalog-differences.json+catalog-observed.json. Noapply,
+repair/link/DDL/cronchanges;no originalreport overwrite. Actualmanagedcatalog
+failure cause stillUNKNOWN pending owner's detailed evidence,not guessed or
+accepted viaexclusions.139 stillproposal only;no further action/deploy.
+
 ## 2026-10-15 — verify-only local precommit PASS
 
 Temp/nw-frankfurt-verify-delivery-20261015-r2 log/result:05:38:35.790–05:43:17.984

@@ -10,7 +10,7 @@ Only one agent may write in a worktree at a time. Codex and Claude may not edit,
 2. Run `npm run agent:preflight`.
 3. For an active handoff, run `npm run agent:resume`.
 4. Confirm task scope, prohibitions, baseline, dirty files, and active processes before editing.
-5. If baseline, branch, migration ceiling/hash, or working-tree fingerprint differs, stop for owner review.
+5. If baseline, branch, migration ceiling/hash, or working-tree fingerprint differs, stop for owner review, except the owner's bounded2026-10-15 permission to synchronize task baseline/checkpoint to our known delivered commits. Unknown/other-writer changes still require review; no migration/hash authorization is implied.
 
 For a newly authorized task starting from a clean tree:
 
@@ -44,5 +44,15 @@ Before another agent continues:
 Chat context is helpful but non-authoritative. Git, migrations, canonical docs, test evidence, and `ACTIVE_TASK.json` are the durable handoff.
 
 ## Authorization boundaries
+
+Owner2026-10-15 standing delegation is recorded in `OWNER_DECISIONS.md`:
+within approved scope,diagnose failures and repair non-product test/tool/CI
+infrastructure without weakening assertions,retries,skips or increased timeouts;
+one evidence-backed environmental rerun;known-own-delivery baseline/checkpoint
+sync;presentation-only corrections without call/payload changes. Document each.
+Money/inventory/balance/permission/auth logic,new or unapproved DB changes,
+Production/Frankfurt/secrets/password access,deploy and new business decisions
+still require specific approval. Existing139 local-only approval is unchanged;
+140–149 belong to the separate startup branch,not this writer.
 
 No Production access, deploy, commit, push, new migration, or phase transition is implied by ordinary implementation or handoff requests. Each requires explicit owner authorization in the current task.

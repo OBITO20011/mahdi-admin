@@ -4,7 +4,8 @@ import {writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {executeInput} from './build-empty-supabase.mjs';
 import {schemaCatalogSql,catalogDifference} from '../testing/schema-catalog.mjs';
-import {readNotificationSnapshot,expectedHeldNotifications,assertHeldCatalog,isExpectedHeldTriggerDifference,heldJobNames,heldTrigger} from './frankfurt-notification-hold.mjs';
+import {readNotificationSnapshot,expectedHeldNotifications,isExpectedHeldTriggerDifference,heldJobNames,heldTrigger} from './frankfurt-notification-hold.mjs';
+import {compareManagedCatalog,assertManagedCatalog as assertHeldCatalog} from './managed-catalog-policy.mjs';
 
 // Configure each actual psql session,not a startup option a pooler may ignore.
 // -c runs first,then -f - consumes only the read queries on the SAME connection.
@@ -32,7 +33,11 @@ export async function persistCatalogComparison(workdir,reference,observed,dates,
  await writeFile(path.join(workdir,'catalog-observed.json'),JSON.stringify(observed,null,2)+'\n');
  await writeFile(filename,JSON.stringify(artifact,null,2)+'\n');
  try{
-  artifact.differences=catalogDifference(reference,observed,dates).map(d=>detail(d,isExpectedHeldTriggerDifference(d)));
+  const classified=compareManagedCatalog(reference,observed,dates);
+  artifact.differences=[...classified.expected,...classified.unexpected].map(d=>detail(d,isExpectedHeldTriggerDifference(d)));
+  artifact.platformInformation=classified.platform.map(d=>detail(d));
+  artifact.netHttpPost=classified.netHttpPost;
+  artifact.unexpectedDifferenceCount=classified.unexpected.length;
  }catch{
   artifact.normalizationError='CATALOG_NORMALIZATION_FAILED';
   await writeFile(filename,JSON.stringify(artifact,null,2)+'\n');
@@ -58,7 +63,7 @@ export async function verifyCatalogReadOnly(executor,workdir,reference,originalN
  // Evidence is also in the standalone file on EVERY later comparison failure.
  comparison.notificationComparison=report.notificationComparison;
  await writeFile(report.catalogDifferencesFile,JSON.stringify(comparison,null,2)+'\n');
- // Still exactly ONE catalog bit. cron.job rows are DATA,checked separately.
+ // Named trigger state,not a difference count;cron rows remain exact DATA checks.
  report.catalogExpectedHold=assertHeldCatalog(reference.catalog,observed,dates);
  assert.equal(differences.length,0,'NOTIFICATION_STATE_MISMATCH');
  report.catalogUnexpectedDifferenceCount=0;
