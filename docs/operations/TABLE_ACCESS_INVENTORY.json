@@ -1,0 +1,3544 @@
+{
+  "schemaVersion": 1,
+  "migrationCeiling": 138,
+  "managedAccess": false,
+  "sources": [
+    {
+      "file": "src/App.tsx",
+      "sha256": "2c424b1848c80aa0bbfba9b9048bca1108bb6a0206615cb4dc727b658341ff98"
+    },
+    {
+      "file": "src/components/common/AppErrorBoundary.tsx",
+      "sha256": "c17546abe154dda9cc109163b7d266b2214149b631839b44ec856bede29e9eae"
+    },
+    {
+      "file": "src/components/common/Header.tsx",
+      "sha256": "b8ef037e7cb94cc85860b67d3f6da2dd21fb85425deaf6d8722e2c8ab5786b0f"
+    },
+    {
+      "file": "src/components/common/Modal.tsx",
+      "sha256": "73e6249c50ad01304b0f4519ce01b4fc4a35bf88cd14351dd4ce0782a549ce32"
+    },
+    {
+      "file": "src/components/layout/AdminToast.tsx",
+      "sha256": "b49370de28d33b69b374813b93e8868fbd49928aab4ed5ab2ea29c0327cc9c67"
+    },
+    {
+      "file": "src/components/layout/BottomTabs.tsx",
+      "sha256": "f1e4215060fa9e5f0d7a8f9c0094405c9d1b4aee962e1f3667d51c30ba746f22"
+    },
+    {
+      "file": "src/components/layout/IPhoneContainer.tsx",
+      "sha256": "6a87422b8f8e20f925ac0506f579e1e25bfd47b8b684a996a22a76de268a69c2"
+    },
+    {
+      "file": "src/components/layout/quickActions.ts",
+      "sha256": "dfe2f87fcf0433aac9549fcd1631bae7b366ee55e4f5bd65ffa6859c9a26d734"
+    },
+    {
+      "file": "src/components/layout/SideNav.tsx",
+      "sha256": "7cdaba3b3e8e875e5422bdf92bc5aaf65b8bea9cbb476d764816013dbfc7a023"
+    },
+    {
+      "file": "src/components/layout/sideNavigationModel.ts",
+      "sha256": "171e7d4c3effd0039fd72f0c50902ff7c2a77e92fa1f22225767b8ccce266bb5"
+    },
+    {
+      "file": "src/components/modals/AllModals.tsx",
+      "sha256": "f2e7be83f5342315b49098844dfba78c8dfb55b00c089172a091912b56bc4a1f"
+    },
+    {
+      "file": "src/components/modals/BrandsModal.tsx",
+      "sha256": "b43ebc1e0b010c9ef4f64e03b7abde8e0f05d951d419bf374644c23c0f224f1d"
+    },
+    {
+      "file": "src/components/modals/CategoriesModal.tsx",
+      "sha256": "695094f396749c8d57f553e39cf3789cce7a10790d6c070828a49f17141707be"
+    },
+    {
+      "file": "src/components/modals/UnitsModal.tsx",
+      "sha256": "dd0a557d7d8afa247e304978fd30958929d97f0fa276599952211f30f72cb619"
+    },
+    {
+      "file": "src/components/ui/cashCounting.ts",
+      "sha256": "e3ff0e7851ea4e4de5ae723127f6f17d7d3803fde07383a7a42e81502d7059a3"
+    },
+    {
+      "file": "src/components/ui/CashDenominationCounter.tsx",
+      "sha256": "442e829d8da9327b440cba99ba303e9eb4aeef74eddbfa982162a3c3576309cf"
+    },
+    {
+      "file": "src/components/ui/Controls.tsx",
+      "sha256": "ab6dcf83db41030519ab8971dbb5b12d5dc2378cc6de5b4d29d4fe42d5bcf04c"
+    },
+    {
+      "file": "src/components/ui/DataDisplay.tsx",
+      "sha256": "d798defdcdec05c7d96426e3b08752f4b2df0c542af6cedf39416a9a018a459c"
+    },
+    {
+      "file": "src/components/ui/FormFields.tsx",
+      "sha256": "197f4419c26abbb67772e522edd791ea2ca80e02f3524281274fc589a37f7224"
+    },
+    {
+      "file": "src/components/ui/index.ts",
+      "sha256": "edfad1adeb0b974541f2a585aa6e03cc1e62efc654f3c1864425674ee6f6e9e4"
+    },
+    {
+      "file": "src/components/ui/PhonePresentation.tsx",
+      "sha256": "139b65b9c1a0953890c932dde6fe6795dcd503bfdc7d88c760c501e774a12f92"
+    },
+    {
+      "file": "src/components/ui/ProductGlyph.tsx",
+      "sha256": "b28f37c9dd12ce880dd9c18b22697261b2017b0606b44ba4a25e43ac36df39e4"
+    },
+    {
+      "file": "src/components/ui/ReceivingUnitFields.tsx",
+      "sha256": "93eadaba327adc7b8a0236322d3cf48cfd82cb225c3a557da30c8eb0db6fde55"
+    },
+    {
+      "file": "src/components/ui/ResponsiveActionPanel.tsx",
+      "sha256": "00e00e7544d8a615e6712bf482c286aead0b510a50e2e2c25442b29af69e00bb"
+    },
+    {
+      "file": "src/components/ui/ResponsiveCartPanel.tsx",
+      "sha256": "03ccf18ffa0967a985cbe4de19372af178f5c82012ef4955856a31f95cae8a5a"
+    },
+    {
+      "file": "src/components/ui/SalesBarChart.tsx",
+      "sha256": "2d3b4a8013a9bddb6dcce29300749c88f0eb70579cd40bc9473825a1420bfc70"
+    },
+    {
+      "file": "src/components/ui/Surface.tsx",
+      "sha256": "3d8991706e103362b48fc0f9994d1313363eae2c369003e2c6db99ccfd61d542"
+    },
+    {
+      "file": "src/components/ui/SwitchTrack.tsx",
+      "sha256": "e31c26cc5fd6819556c9de43f03024caa4c0946ec9aefed377208f2c387a1508"
+    },
+    {
+      "file": "src/components/ui/TableShell.tsx",
+      "sha256": "becc45ae07fa25e7eeece98c6fa43c9d1bb0d718b0f7c6a9758a49147db2fe1d"
+    },
+    {
+      "file": "src/components/ui/uiFormat.ts",
+      "sha256": "f5933fcafa8dca20ba5adf496af2c6f62cfc2bad9cd5acac3ce0e67d99c373da"
+    },
+    {
+      "file": "src/components/ui/UserAvatar.tsx",
+      "sha256": "39bd80d9a937d22555450472799cc74030c7657236ca2624a70c3f1783f0cc71"
+    },
+    {
+      "file": "src/config/supabase-public-config.ts",
+      "sha256": "35f06dc43da3677958e91878303b7787d4352f68e0d7eec66c49df70e295826f"
+    },
+    {
+      "file": "src/constants/index.ts",
+      "sha256": "7eb74f4cd45bae7e626900b3d3360d811466a676f11d41502cfcabb415ebf821"
+    },
+    {
+      "file": "src/features/accounts/AccountsView.tsx",
+      "sha256": "14a184c739301a70f44a023a5ed129fe27cd37f9d65dbc26a478a111f208f215"
+    },
+    {
+      "file": "src/features/accounts/CustomerBalancesView.tsx",
+      "sha256": "cb04e0ece2fe16113dc3fcd77621ba1440a0b374fa496cee1a0751e16d89fd07"
+    },
+    {
+      "file": "src/features/accounts/RecordCustomerPaymentModal.tsx",
+      "sha256": "af24b481a68c0a80dbe4f025d9cb7b86527f576857a8fd1170af10a9563a34c5"
+    },
+    {
+      "file": "src/features/assistant/AdminAssistantView.tsx",
+      "sha256": "10d5ae256fe5c7dafe1900e7e18ee870221491498f08dc16f82432e9d7a80072"
+    },
+    {
+      "file": "src/features/auth/LoginView.tsx",
+      "sha256": "8d719f108cdbbfc766f6621fbb98f96a2f81eb40c5b851a4340d580e60fdac54"
+    },
+    {
+      "file": "src/features/auth/TurnstileWidget.tsx",
+      "sha256": "e6039b4cfe49f7c6a423866ac245fba0d2616f428d2b5310983c85fab8351909"
+    },
+    {
+      "file": "src/features/barcode/barcodeCamera.ts",
+      "sha256": "c99b574022197d2ee734f0a131c8426f1d48e58511aa9a3394132922a009f343"
+    },
+    {
+      "file": "src/features/barcode/BarcodeCameraCaptureModal.tsx",
+      "sha256": "a8d450922953f7f7b2956a7dc53c22ea5f9f4ae5ec64832dc0eb777e52b8693b"
+    },
+    {
+      "file": "src/features/crm/AddAddressModal.tsx",
+      "sha256": "b02d0cf1447a02eee4e97d7fbe41840054548f179e12e95613dd1d5cc495e6fa"
+    },
+    {
+      "file": "src/features/crm/AddCustomerModalContent.tsx",
+      "sha256": "40b16302c959171699d0d89b4dcc94f97113e0020d683c7738341e8b9ff7f179"
+    },
+    {
+      "file": "src/features/crm/CrmView.tsx",
+      "sha256": "cf38a0a9771f46d14f4b2ec804c02fd54d3a1b6414e0797b242a479eb228b571"
+    },
+    {
+      "file": "src/features/crm/CustomerAging.tsx",
+      "sha256": "462d9b7025bff41b6622f16f8a5b808ff21e998bafd2dc6b3b26e67f30a41068"
+    },
+    {
+      "file": "src/features/crm/CustomerDetailView.tsx",
+      "sha256": "84962a4bb66b1b047b33960d56a24ce21658dd0a23a3b36a80167876693608c8"
+    },
+    {
+      "file": "src/features/crm/CustomerEditModal.tsx",
+      "sha256": "f13d589c31beebe0ba53d8b3d3a3de59201cf4f9e2ddd66ab110ffc583ff5a35"
+    },
+    {
+      "file": "src/features/crm/CustomerFilters.tsx",
+      "sha256": "34e7f8fc633fd13d1147313d2a66bbe13bb11c99ecf528748ac846d65f44bac1"
+    },
+    {
+      "file": "src/features/crm/CustomerList.tsx",
+      "sha256": "48d1d022ed2f7665e21a3e50ccf38dff0a783f08f7cd186c9287031f944be97d"
+    },
+    {
+      "file": "src/features/crm/CustomerStatement.tsx",
+      "sha256": "924279a135b5ed4ca3dc6ae3c36f6ee9295229d9349fbea8642cff3c8b3d47a3"
+    },
+    {
+      "file": "src/features/dashboard/ChartsSection.tsx",
+      "sha256": "2e03f3458252b50ed337c8ac79265285992078c72b6fa311c5921d07a8f9ba0f"
+    },
+    {
+      "file": "src/features/dashboard/DashboardHome.tsx",
+      "sha256": "1f9f36f5f02e377f64523b0fccb972777abca90e765f9a850d8cf11f9250b483"
+    },
+    {
+      "file": "src/features/dashboard/DashboardView.tsx",
+      "sha256": "4718b264281fc35b2a05346fc015ae5b22dba3f64f309425a46605b64acd8612"
+    },
+    {
+      "file": "src/features/dashboard/KpiCards.tsx",
+      "sha256": "384566b25aaa2d7f9bf7e7e3b101a5e26e54bc158882b0ff2a5ca3de1cc0edf9"
+    },
+    {
+      "file": "src/features/dashboard/QuickActions.tsx",
+      "sha256": "344fe408df348787d4b492a21d375c0b00585e32c86efeb58070d8a682fa3594"
+    },
+    {
+      "file": "src/features/dashboard/WidgetsSection.tsx",
+      "sha256": "9b79e41c71c24bf87c1387da7758d79940429be522dae2a12bf51149b2c7599c"
+    },
+    {
+      "file": "src/features/directReceiving/CancelSupplierReceiptDialog.tsx",
+      "sha256": "3c8cde5d57e5cf9b3b8fec6e3572a03507d617ab50590505b0df490baf4eb280"
+    },
+    {
+      "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+      "sha256": "9689e3bb7b1ccaad4279bb0a15b8fe157b9a170d7cf0ed5f8056e9f9d77c763f"
+    },
+    {
+      "file": "src/features/directReceiving/DirectReceivingView.tsx",
+      "sha256": "6294dbbfe37dc080469162a0f941c3ffb90cacbd44184e9d13882d36ebc42fd3"
+    },
+    {
+      "file": "src/features/directReceiving/RecordSupplierPaymentModal.tsx",
+      "sha256": "40d457a1691a84b9b4f66bcfa903758da369d1fefe18cc46f7ba9b3da658d944"
+    },
+    {
+      "file": "src/features/directReceiving/SupplierReceiptDetailView.tsx",
+      "sha256": "de6a5ea6db5266ab46df73ff954ac16cbea6e7a6817548ac5e895e8471ee086a"
+    },
+    {
+      "file": "src/features/expenses/ExpenseFormModal.tsx",
+      "sha256": "0ae14ca5455d1d7dc0dfab1b4f0db4d785378efc406ea307b8350f42927b1948"
+    },
+    {
+      "file": "src/features/expenses/ExpensesView.tsx",
+      "sha256": "6510c4039c2d22b393060c26959fb729b9fa330291d7c6f67c784c98a1a5bbda"
+    },
+    {
+      "file": "src/features/inventory/ClearInventoryBalanceDialog.tsx",
+      "sha256": "88decb6f8157e71ce393d3de87e505208b016b9eb0c44d9cc0f36e1d9d557e46"
+    },
+    {
+      "file": "src/features/inventory/InventoryOpeningSetupModal.tsx",
+      "sha256": "8d24e2036ba9949dd50be843b47b459388beda3c0cf0d8a0d4055fa040033034"
+    },
+    {
+      "file": "src/features/inventory/InventoryView.tsx",
+      "sha256": "c7dd4c5f8e0d5899dfd0cf7b4ec9dd4260db6ee8ea32d369582b2acbfb52eeaf"
+    },
+    {
+      "file": "src/features/inventory/StockCountModal.tsx",
+      "sha256": "2b97d4b0f0bb3a30a326bfdc5c0f9543a3bd329e36a55bf56beb99fa609bd892"
+    },
+    {
+      "file": "src/features/inventory/WarehouseTransferModal.tsx",
+      "sha256": "430c2c42b470eb329ad67e900c8c1d0af31b18f83248dfcf6f08e2d87a0a7a33"
+    },
+    {
+      "file": "src/features/more/adminNavigation.config.ts",
+      "sha256": "dd6c601d8eb0e815aa70955a20d66f3141fbfea9c6330805a1f7559d3ec5454c"
+    },
+    {
+      "file": "src/features/more/InstallAppPanel.tsx",
+      "sha256": "343014c3e3eee60dc59b83b642179889cf6347d5d2905c386f7ce95ea3a26fe4"
+    },
+    {
+      "file": "src/features/more/MonitoringDashboardModal.tsx",
+      "sha256": "0f6b7d09803ce634a7e70b0f2a670873dcf9e59d5063befd5a1dfb14fdee1f5a"
+    },
+    {
+      "file": "src/features/more/MoreMenuView.tsx",
+      "sha256": "1c4a46386f7b078ad22c38919cde7b67fe6992d0044c574887f6e32b26e1d32a"
+    },
+    {
+      "file": "src/features/more/ParcelConfigurationModal.tsx",
+      "sha256": "641c6160e9c1d56f8c8e51b2fd6f40c1e7e340f2bac325e64881204b0d6d6dd6"
+    },
+    {
+      "file": "src/features/more/ProfileModal.tsx",
+      "sha256": "007a5bb78dee403bc97a974206a415240906026389ff190dae24d2938a1a9878"
+    },
+    {
+      "file": "src/features/more/PromotionCodesModal.tsx",
+      "sha256": "1ea417320c1d21d7de8798fc5082268d6f45a1b195c09dbb6700228496a5fe0f"
+    },
+    {
+      "file": "src/features/more/PushNotificationControls.tsx",
+      "sha256": "4d9d225de721c1d24b096ea50f6b6da9685d3c4cbf7899e00e1402a8fffdadde"
+    },
+    {
+      "file": "src/features/more/StorefrontSettingsModal.tsx",
+      "sha256": "c752cb8a20d96a02c1b09c2956beb2f0e86967aa20f42874dacf64e348e61630"
+    },
+    {
+      "file": "src/features/orders/AdminAftercarePanel.tsx",
+      "sha256": "766be706748bf5241e69b733cad0d87462198ef8fd9719ee29f509bb0a511390"
+    },
+    {
+      "file": "src/features/orders/aftercarePresentation.ts",
+      "sha256": "4e5bf8faa1fce7d06a5d5600f6b863759f732b0a6f62e1e946f2c4c194b7bded"
+    },
+    {
+      "file": "src/features/orders/CustomerLocationCard.tsx",
+      "sha256": "e1e23d7cec1fe066ef6e58aff5cbb8e5243e36cb7304515133feeea6c4200af1"
+    },
+    {
+      "file": "src/features/orders/EditAddressModal.tsx",
+      "sha256": "109a32038531e6236fd1293a954a85415eb97941ab212fc61320b1bbdd7b24c0"
+    },
+    {
+      "file": "src/features/orders/OrderCommercialSummary.tsx",
+      "sha256": "b324c808c946fcc56e3119f0bbc0be258d86448ce97a1798cc62c198fe5bf6b1"
+    },
+    {
+      "file": "src/features/orders/OrderDetailModal.tsx",
+      "sha256": "49899aa8b91ae4a875833a6ee308d770b7a76adba611a07d5ce7a207f8216dd1"
+    },
+    {
+      "file": "src/features/orders/OrdersCenterView.tsx",
+      "sha256": "ddeb45cdcbe71aeca4e4a4b47de721c3e9c605e081b0c98563a367198b2f9ca6"
+    },
+    {
+      "file": "src/features/orders/orderStatus.ts",
+      "sha256": "8bfa3800d5f227cb14f8be13a04004f77d1106c7026ed521ed6956587fe127ea"
+    },
+    {
+      "file": "src/features/pos/BarcodeScannerModal.tsx",
+      "sha256": "32ee8ec8e6f954724d9320156a228f2635240c1c7e7e88c5399ec97a35694e98"
+    },
+    {
+      "file": "src/features/pos/PosParcelBuilder.tsx",
+      "sha256": "29f358a6c1b316d0c3f537e2cd69c0a7a23397c3a9103e0955490b0ab1e0cd72"
+    },
+    {
+      "file": "src/features/pos/posV2Cart.ts",
+      "sha256": "5a36e9503a04097189b36b0968733aded26b93f320c7ad67df289d349db8b828"
+    },
+    {
+      "file": "src/features/pos/PosView.tsx",
+      "sha256": "09661c0cefa1888acab711e310c7c5c7e435984e159a6a8b3cb6866b2fd6c5b3"
+    },
+    {
+      "file": "src/features/products/ProductDetailModal.tsx",
+      "sha256": "3a6b9064ba200e10f48951e829da1322a4f364f73521e2b2ea03063f11a9d3c2"
+    },
+    {
+      "file": "src/features/products/ProductFormModal.tsx",
+      "sha256": "220eb64470d0843e913721cc256aa8d092201ffec31eee89bf93029508553d18"
+    },
+    {
+      "file": "src/features/products/ProductsView.tsx",
+      "sha256": "d12d1c86b4b45ae971105b49c393d3ab41ec9f477f1ce2fdea3dda65c24d4f01"
+    },
+    {
+      "file": "src/features/products/StockAdjustmentModal.tsx",
+      "sha256": "e082cddd06381a90ba3bc740c6b154350c6f61e324d81f53345c661f7b97e84e"
+    },
+    {
+      "file": "src/features/purchases/CreatePurchaseOrderModal.tsx",
+      "sha256": "1b8181f06849c81d9ecff92686131ea01cf7063f3aeb81efadfca4f693cced79"
+    },
+    {
+      "file": "src/features/purchases/CreateSupplierModal.tsx",
+      "sha256": "0b33d931694c4b8504094dc163626bdbcc1c45097d60353bfdba0fe0f54612b0"
+    },
+    {
+      "file": "src/features/purchases/PurchaseOrderCard.tsx",
+      "sha256": "63213d76926a18ee2dc6b1c2ecc1b755749e636a982239d8cc50351931678b5d"
+    },
+    {
+      "file": "src/features/purchases/PurchaseOrderDetailView.tsx",
+      "sha256": "ff7a831d2daaaa87cbbd302ee3006d5e248a7274dd551b097869060842a3a52f"
+    },
+    {
+      "file": "src/features/purchases/PurchasesView.tsx",
+      "sha256": "e482ee5f2f0efa11a5767cf4f4bcff8acba35438efafdb10acb45d0f0d6c631a"
+    },
+    {
+      "file": "src/features/purchases/ReceiveGoodsModal.tsx",
+      "sha256": "5116072ac522527e14c23f1acad06258019abd13d86f7b1aa8aa5c13df800d30"
+    },
+    {
+      "file": "src/features/purchases/SupplierPaymentModal.tsx",
+      "sha256": "0ca52cf1f3e4fe5da5a67e1d5a2832061bf673f53e250d2a425250e3d62c59be"
+    },
+    {
+      "file": "src/features/reports/ReportsCenterView.tsx",
+      "sha256": "d52e52eeee5db05fe42ce4cbc4e9199a9659fc9c78a3187a83635a3aa36efa34"
+    },
+    {
+      "file": "src/features/shifts/ShiftArchiveSection.tsx",
+      "sha256": "4962eb1077cdf79e4e210a8e6d9c3448a71b68996209d487e29206da6bc5ad93"
+    },
+    {
+      "file": "src/features/shifts/ShiftClosingReportModal.tsx",
+      "sha256": "df05c66e7770d6599b953a69085b6cd841c95a69e1c41cf45d52201e91ad540b"
+    },
+    {
+      "file": "src/features/shifts/ShiftsView.tsx",
+      "sha256": "bda5cd44cea389f21ffda72c9136de30be1c1d1c6b85a4b06701b702f2d267c8"
+    },
+    {
+      "file": "src/features/users/UserFormModal.tsx",
+      "sha256": "10da1d6a3e0ea4044fa618c14fe0eabe2ff8041cca53a12a355151446aa6be1c"
+    },
+    {
+      "file": "src/features/users/UsersView.tsx",
+      "sha256": "3d8942f23587f1197bbc606de03358d6c1fee4ddd30b527c18b470a67e14b686"
+    },
+    {
+      "file": "src/hooks/useCustomerAccounts.ts",
+      "sha256": "30f5987987187b0616c08a815d4f33855048cd7e9bcca771476d6256c99d9eed"
+    },
+    {
+      "file": "src/hooks/useCustomerStatement.ts",
+      "sha256": "539132e422b2e392b597a44dec0cd72b330907b1f61a61e0c95697d1783b9435"
+    },
+    {
+      "file": "src/hooks/useDialogFocus.ts",
+      "sha256": "89a29a5cc60cf49879949ef2a0dbbe9eab6c3f8c6e53539be319b1135d063a44"
+    },
+    {
+      "file": "src/lib/async.ts",
+      "sha256": "f30ad527a2e25ca01062d5ef07b2d16029bf143a817a01f84fe565e70246b55e"
+    },
+    {
+      "file": "src/lib/errorMonitoring.ts",
+      "sha256": "07b16712a33cebef7743acc3e0abfa6eed630d5b00c66d2b8761980bf3638a7d"
+    },
+    {
+      "file": "src/lib/supabase.ts",
+      "sha256": "a666d78ed706ae86d111b5bef993200e34a490910b3bfec203ec678e3d8691f2"
+    },
+    {
+      "file": "src/main.tsx",
+      "sha256": "3de4c6f3bdf938c537cc4f941520d31448b59670cd68e10737a2ecb1b434906c"
+    },
+    {
+      "file": "src/pwa/pwa.ts",
+      "sha256": "7a92f8b181c89d5cc9107729efbb0e2702b6a0b60c781f461ec6d9c60bc9ef63"
+    },
+    {
+      "file": "src/services/deviceBiometrics.service.ts",
+      "sha256": "d4f593e3f969645e9f5c5e20000559ba3bceaca0e11c48c18e17141fd5b769f7"
+    },
+    {
+      "file": "src/services/pushNotifications.service.ts",
+      "sha256": "fe32d849c68ae0db127c3f919180752e750f3d23bbcfb653c543d49b502a3be4"
+    },
+    {
+      "file": "src/services/sessionSecurity.service.ts",
+      "sha256": "923504f53fe0cace7485fbae008ac4e6896191dc5f02263677d35d15f80c2744"
+    },
+    {
+      "file": "src/services/supabase/adminAftercareRecovery.ts",
+      "sha256": "335fba4cb8092d76118731948931a1fe3887d9de8af7858eb08834bec5f7ac45"
+    },
+    {
+      "file": "src/services/supabase/adminAssistant.service.ts",
+      "sha256": "90f7942e07a6d2f198cc3900b4b550319f535de2bc5ada037b8088e1479a9134"
+    },
+    {
+      "file": "src/services/supabase/adminCustomerV2Lifecycle.ts",
+      "sha256": "bd6aff97de10b49f68b7afc2cca789040e63b324fdcc8874cffb8f47dee2d054"
+    },
+    {
+      "file": "src/services/supabase/auth.service.ts",
+      "sha256": "54f4b09369865e042f375d2507ba67b429e1dc7e7cae20a387870eb6d617b3ea"
+    },
+    {
+      "file": "src/services/supabase/crm.service.ts",
+      "sha256": "a2067c5a078cf8bf69606aa07c3625935bbcc2693f10c0ca9db489d71138b3af"
+    },
+    {
+      "file": "src/services/supabase/customerAccounts.service.ts",
+      "sha256": "f39aa12377d95475fb7dfc276f0373bc795ac9f23fbf451b5513f4cf360c7264"
+    },
+    {
+      "file": "src/services/supabase/customerDebtAging.service.ts",
+      "sha256": "f9b3e95c290fd777d03da877ee3fae818d586d0dbd18c9dc6059d58ebd7771cb"
+    },
+    {
+      "file": "src/services/supabase/customerStatement.service.ts",
+      "sha256": "6d029b95c2abde98d6291e41e1383a707271306d6807dfef21b73e49ac442a58"
+    },
+    {
+      "file": "src/services/supabase/dashboard.service.ts",
+      "sha256": "af3e3f4c31966681a680607642152053ca80d110acbaed4eade28cf015264707"
+    },
+    {
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "sha256": "70a3229a1726408e7d2676875c7b8376be39381a94f88d009777067f280e6c4b"
+    },
+    {
+      "file": "src/services/supabase/expenses-shifts.service.ts",
+      "sha256": "a12e3778b5a0d997aa7fe08479353874a858e96c76fee19ca13e241ce50a1836"
+    },
+    {
+      "file": "src/services/supabase/historicalParcelComposition.ts",
+      "sha256": "8c79715e2f63930044203db59b06b322bdbea1a929efa0b4ca1a3fa0870e8200"
+    },
+    {
+      "file": "src/services/supabase/inventory-opening.service.ts",
+      "sha256": "75f15fe9f0f056416eb4cd872b219394c706e9560347987e30cdce3a373ea145"
+    },
+    {
+      "file": "src/services/supabase/inventory.service.ts",
+      "sha256": "01fb51715644b7f6f0ef0fb22519dfd3dd6e8d9ad79e760de864420516b5ab0d"
+    },
+    {
+      "file": "src/services/supabase/mfa.service.ts",
+      "sha256": "9189039e3885d08c1460d3bf5a2c72659f10ad187e9264eeea53c46ed6e302ac"
+    },
+    {
+      "file": "src/services/supabase/mfaStatusRequest.ts",
+      "sha256": "c5f92a93263e1c7ab16326fe835b5b202756512a2abfaf9f053a7bba2e5a918a"
+    },
+    {
+      "file": "src/services/supabase/monitoring.service.ts",
+      "sha256": "a3a2600ef2fcd5330a5e90f4e73906833e6076a7f7c5633615a82951c2101241"
+    },
+    {
+      "file": "src/services/supabase/orders.service.ts",
+      "sha256": "d7a060c64e422aa5e98724043a70564e4d097f2273af77aaccf2609e358d73b3"
+    },
+    {
+      "file": "src/services/supabase/parcelConfiguration.service.ts",
+      "sha256": "4552ef2f7d960bf2a4486f48f929154d01d579e4ab9e7941d23602b8e29ca44b"
+    },
+    {
+      "file": "src/services/supabase/pos.service.ts",
+      "sha256": "b215a66371b57ed40bf640750eb3dc9efd29c72aae4f7e2f689f794c933da841"
+    },
+    {
+      "file": "src/services/supabase/posV2.service.ts",
+      "sha256": "92a4031fb6fe3cdfa3007352dde60f93a4d18ca12f005d6669fc790325a3c1ba"
+    },
+    {
+      "file": "src/services/supabase/posV2Recovery.ts",
+      "sha256": "615902519112cb8a8d74357ad70ffc9cdcc4c4d61ddabc403b73324092c2cb34"
+    },
+    {
+      "file": "src/services/supabase/posV2Validation.ts",
+      "sha256": "52d31f0ab8d97d93337533b303bcca3aefb41e94cc32ce55d185bf15f147b226"
+    },
+    {
+      "file": "src/services/supabase/product-images.service.ts",
+      "sha256": "c7e8576deb642c40a7b0a1b660288d0e4b29f40633f5fb9aae3d8aa1c61f648a"
+    },
+    {
+      "file": "src/services/supabase/products.service.ts",
+      "sha256": "34a4b351de86a35ed8c7c44de72896cbbb7765b896e79241b71cd577c0ab0208"
+    },
+    {
+      "file": "src/services/supabase/promotions.service.ts",
+      "sha256": "888ad5466f6e21c497344866de3ed016fbb220b282aba44e8fb872bc68c5b03a"
+    },
+    {
+      "file": "src/services/supabase/purchases.service.ts",
+      "sha256": "eb3a66553c7c2ffb4bcc7da75fb2a2cf7b3216bd7b99b60c1ad2be294f83dfd9"
+    },
+    {
+      "file": "src/services/supabase/reference-data.service.ts",
+      "sha256": "dc966701d358ca7e3f4f2fd6fa0f94560a693c095b12955f98e4b5462249341f"
+    },
+    {
+      "file": "src/services/supabase/reports.service.ts",
+      "sha256": "52dd328d40a420cb899755f6b6e96ecf5633a3a77390191fcf5a7829f25060d9"
+    },
+    {
+      "file": "src/services/supabase/salesAftercare.service.ts",
+      "sha256": "ade5738d66af92e957111d2f5d5a8e0128ee0541bf5d23574908795ef7d4f276"
+    },
+    {
+      "file": "src/services/supabase/staffAccounts.service.ts",
+      "sha256": "a3f441aaa5f5c168e156f12c70e0805886f454446887a378f692fac1373249ae"
+    },
+    {
+      "file": "src/services/supabase/stockAlerts.service.ts",
+      "sha256": "03459626090d256eef30cbdd93deb10ec4f29896c6ddea69646533c5acdbe804"
+    },
+    {
+      "file": "src/services/supabase/storefront-settings.service.ts",
+      "sha256": "ea2ea5e5d41b0f024055ccab9932dd12a343464256a458edcfe2047322148470"
+    },
+    {
+      "file": "src/stores/appStorePreferences.ts",
+      "sha256": "7cdfc800388b5c7827eaf47cd0463cd6fc8b28443218d3d9e72ad41c012d7e1d"
+    },
+    {
+      "file": "src/stores/modalTypes.ts",
+      "sha256": "03f61fede8590f9a1407bb8780b4d4f2e9c471434cf5cc445de54c16c56dd919"
+    },
+    {
+      "file": "src/stores/referenceData.storeSlice.ts",
+      "sha256": "b540915774ff04272b66e5572baf146dfefef10abbe1ccf12a8b56df7d78798e"
+    },
+    {
+      "file": "src/stores/stockNotifications.storeSlice.ts",
+      "sha256": "6328f30888c884f4d4a7201c244af89a9e7032a800d17c2d861fabc64b1a5490"
+    },
+    {
+      "file": "src/stores/storeSelectors.ts",
+      "sha256": "c0e774bed8ac615769c5bef22e8d0aa4bc7b03bf0a90595bb20a4a61eb6b28b8"
+    },
+    {
+      "file": "src/stores/useAppStore.ts",
+      "sha256": "c231103d574ce1b0b1155eda5cc74994be3796d1130289be6b79076d57e2f44d"
+    },
+    {
+      "file": "src/stores/useAuthStore.ts",
+      "sha256": "148ffcd627c153c4afbec1516ca9c51190fffccaf6f3e5c75d7804594a1775a4"
+    },
+    {
+      "file": "src/types/adminAssistant.ts",
+      "sha256": "6d38d968f69042ae27cddd89a41310c0ff56ab8288d2c27149f7c29a33d1698e"
+    },
+    {
+      "file": "src/types/crm.ts",
+      "sha256": "96a6d8d3088f9016c5a85f376adc8fb74739a514b92084770e549127016229db"
+    },
+    {
+      "file": "src/types/dashboard.ts",
+      "sha256": "1388e23e1a775ed9cb2eeddebe92317eb606d32f5f904ad927146225ede1cb58"
+    },
+    {
+      "file": "src/types/directReceiving.ts",
+      "sha256": "9940403a4abce232e6678a8bb28b20bccc066dba75a9052c0808e072320f163f"
+    },
+    {
+      "file": "src/types/index.ts",
+      "sha256": "a73a0090cf20d6c6e47cfc85929bd41138771dce51f132de28196c12ad4b04b1"
+    },
+    {
+      "file": "src/types/monitoring.ts",
+      "sha256": "be62777a32b350fb8d349f475f178d6c062185a91ec87f12c47bf5010210f627"
+    },
+    {
+      "file": "src/types/promotions.ts",
+      "sha256": "f91b52645ed617cabd01f203347dfe1e82c19e8b4ccfd5dc807da20afe95eb9b"
+    },
+    {
+      "file": "src/types/purchases.ts",
+      "sha256": "d2864d3985f4aea65cee6aab8d33810e2c90dcb2adec3f1eafef862bcb2b147a"
+    },
+    {
+      "file": "src/types/reports.ts",
+      "sha256": "1cc4d9c1dce70be44decbd49bfc8d0a27b050f8f7b242b2517e939be4ab5f3c2"
+    },
+    {
+      "file": "src/types/storefront.ts",
+      "sha256": "423091593984a88126b60644d823acf7e679ae8bc242a9f5a2ff42e44b20fcbb"
+    },
+    {
+      "file": "src/utils/aftercareIntegrity.ts",
+      "sha256": "f43f57360672f030839a4d6f58309e75058aa4e695cc9f56c76769fd87041b09"
+    },
+    {
+      "file": "src/utils/businessError.ts",
+      "sha256": "a5874bdbad120aedd2a1e6edb3c352e70de8c92d1aee1edc4db936cb6d3d8103"
+    },
+    {
+      "file": "src/utils/customerDebtAging.ts",
+      "sha256": "c4fc66800d84ffeb20cb20bc23087d5febd0acef9d2eb191c7e93fb111d6a39c"
+    },
+    {
+      "file": "src/utils/customerStatement.ts",
+      "sha256": "925056bc697873cc9af19fa19fa0633a93561d82014407f9906aad3be1d4ab24"
+    },
+    {
+      "file": "src/utils/dialogFocus.ts",
+      "sha256": "61ff87896a628125b2a74b33f04eb060407e7ca1e7b5eedbfa44dd68cb4a9e25"
+    },
+    {
+      "file": "src/utils/inventoryFormatter.ts",
+      "sha256": "cfe9bf0bd998f856f3d65b9526ae1d798dbdac53d7b2127eb77e9f6649eb1101"
+    },
+    {
+      "file": "src/utils/orderCalculations.ts",
+      "sha256": "db2ba662bea92fb169b5d5adb03726d5d87112c2fabb47f51a7890dc65e0cfd0"
+    },
+    {
+      "file": "src/utils/orderPresentation.ts",
+      "sha256": "f05d5c0efccca8ac7d3f6bc6770a18a4c5ad6222923060bb2cd02aab6d9c2edd"
+    },
+    {
+      "file": "src/utils/posCalculations.ts",
+      "sha256": "183639642a22347fe9b8f8ed3ff24da451fd81f0fd4e4bdd187f8f5bea0fc59e"
+    },
+    {
+      "file": "src/utils/productCalculations.ts",
+      "sha256": "b8a02fd49d6e3344556f26bcbd009106041320280fa6405eaa17a87a43a851c0"
+    },
+    {
+      "file": "src/utils/productIdentifiers.ts",
+      "sha256": "9af6616db1f5051d3880488a2fde149710f22e16e1b266b5ff5b02d01a2150d5"
+    },
+    {
+      "file": "src/utils/productImage.ts",
+      "sha256": "795a153eba33933cf6fcd7b28faed58020a821ad40205ff8753aec27fc87d8b8"
+    },
+    {
+      "file": "src/utils/receipt.ts",
+      "sha256": "ba63d6de59b70fac5d10ee838081b9a32012aaf3102ae34aff6a49d46ad8eae6"
+    },
+    {
+      "file": "src/utils/receivingCalculations.ts",
+      "sha256": "996ed8e06d7be777fce82e49e8746c4931ac2c67e055e3745e04e29e89932dde"
+    },
+    {
+      "file": "src/utils/receivingV2.ts",
+      "sha256": "1fcb7262d6e1d58eddd19d16cf600e001385922f4d57c050a4f2a52b5962579b"
+    },
+    {
+      "file": "src/utils/roleLabels.ts",
+      "sha256": "bc19440ecf8a4dfa5bb5489283118024a3cec09ba7cf84a151657aa325edd091"
+    },
+    {
+      "file": "src/utils/supplierCancellationPreview.ts",
+      "sha256": "ef8874db2352ef148615e92202d8211d89db48f756d0e8ed634ed547519abc31"
+    },
+    {
+      "file": "src/utils/supplierPaymentLimit.ts",
+      "sha256": "7ec4b5cf0ec390087c4ee37506d5644570c3840a83a1ab37e1682683fc103769"
+    },
+    {
+      "file": "src/vite-env.d.ts",
+      "sha256": "8f554758a8fd30b190025fa27153a59d27f833393e8bd2c622418d85d0e45697"
+    },
+    {
+      "file": "customer-web/src/App.tsx",
+      "sha256": "98d0d5698e677a61fef5788097d56cd17a4d8dbda22e9bfbfae87f889adc4c91"
+    },
+    {
+      "file": "customer-web/src/components/AboutStorePage.tsx",
+      "sha256": "520f9c6cf741f9229bb8ec2b6721d46ddcc0821e1503821cb98861ee47a05fca"
+    },
+    {
+      "file": "customer-web/src/components/CargoAddButton.tsx",
+      "sha256": "b6d104ecaf688bc6cf4b208a0cea4624e4318335c02034411c12ab0fb39234a0"
+    },
+    {
+      "file": "customer-web/src/components/CartDrawer.tsx",
+      "sha256": "75e187a81b2d92793c73884d6361ef26f2b94faddae69d8a251194862a3bf8fc"
+    },
+    {
+      "file": "customer-web/src/components/CategoryDrawer.tsx",
+      "sha256": "7f577988947367fd548284ed5a34ff3405317d1a6faf8944f3451e1c7915935e"
+    },
+    {
+      "file": "customer-web/src/components/CategoryShowcase.tsx",
+      "sha256": "05ed255ca079dc77ad9c5d173a6be0a25145ceaf7d05c7e5d262cf9b84cf0f1f"
+    },
+    {
+      "file": "customer-web/src/components/categoryVisuals.ts",
+      "sha256": "aec26f41b506e0f2cb072474fb11ed5e656e52492ab1ba08657c4b59634e2719"
+    },
+    {
+      "file": "customer-web/src/components/CheckoutModal.tsx",
+      "sha256": "ece5d99813f74941a7384fab7671d8dfae687e78f9e78612e5a9ac6501fcb412"
+    },
+    {
+      "file": "customer-web/src/components/CheckoutProgress.tsx",
+      "sha256": "2a0de8146a0ff0fd0d26df6e056017fa3e62da27d24fbe1aaee33a9506042fb1"
+    },
+    {
+      "file": "customer-web/src/components/CheckoutReceiptPanel.tsx",
+      "sha256": "d1c9f687c7e639af4b10bea4180c26b187d69dc72a6d94958273aa25e02461f2"
+    },
+    {
+      "file": "customer-web/src/components/FloatingContactActions.tsx",
+      "sha256": "9f050de465b08f20d5b92c7aa1e12500ea5194bbe6e565064cbe3cc9938ad531"
+    },
+    {
+      "file": "customer-web/src/components/GuidedStoreAssistant.tsx",
+      "sha256": "d7128bc9fd91e9ae9de98c277328e099183e916c7ad9d9f129c3adc67765fa18"
+    },
+    {
+      "file": "customer-web/src/components/HomeCategoryMosaic.tsx",
+      "sha256": "fc2bf3e1e855b4affd43b843c8db7c941899b4ec9d143282857ce48346ef05a8"
+    },
+    {
+      "file": "customer-web/src/components/MerchandisingSections.tsx",
+      "sha256": "fea2f315575b6b52ddd9b8e0bcf390f815bfdeec9818e3a83dc3543656f7bc81"
+    },
+    {
+      "file": "customer-web/src/components/MobileStoreNav.tsx",
+      "sha256": "aa2fccbb21159d7f8b154a4196bdcc21f294c3881ad7aea4d4a05175db121961"
+    },
+    {
+      "file": "customer-web/src/components/NetworkStatusBanner.tsx",
+      "sha256": "ac8312df98ba6b1f5c168beb2aa96166706e111cdbf2106cf39fb15d1af4051d"
+    },
+    {
+      "file": "customer-web/src/components/OffersPage.tsx",
+      "sha256": "3f58f999951223cc0d2b2ed7d77e10a0b6d57898c31cbcec0d0fd6a699c3e1b9"
+    },
+    {
+      "file": "customer-web/src/components/OrderTrackingModal.tsx",
+      "sha256": "122ff2f7535ac8e0897b60ba9051ddf3e9a175028326e874cb440e274b174549"
+    },
+    {
+      "file": "customer-web/src/components/orderTrackingPresentation.ts",
+      "sha256": "b9a47eda700c1add33c82ffb94c6cdf1c88e9807827fc1461e6af25a6b58ad54"
+    },
+    {
+      "file": "customer-web/src/components/OrderTrackingTimeline.tsx",
+      "sha256": "bf343cdc56f36850ed12eceb40177e316c4f7e002c6e2da1c89b93218008824a"
+    },
+    {
+      "file": "customer-web/src/components/ParcelBuilderModal.tsx",
+      "sha256": "108ec9fd4cb6d7f294508561c25b508ed3f52042e16e8753e0492960bac91f9d"
+    },
+    {
+      "file": "customer-web/src/components/PrivacyPolicyModal.tsx",
+      "sha256": "88fb34bfd4f38b6a7e31aa218ef657f1881aa538a2c2668d273e678148ddcd8f"
+    },
+    {
+      "file": "customer-web/src/components/ProductCard.tsx",
+      "sha256": "beb96950d28df5e1cfe96ce1baaff1438bc8caf85b2b80b96e0b0253cf977efa"
+    },
+    {
+      "file": "customer-web/src/components/ProductDetailsModal.tsx",
+      "sha256": "2473caa64b11331c166965e3d542c90c76b653b298d0e1a365ff9d6ca06480cb"
+    },
+    {
+      "file": "customer-web/src/components/ProductImage.tsx",
+      "sha256": "2d581a7599faa0924b0aa01b9f8870ac9fe55cc97e31a53984d63925e11aeac6"
+    },
+    {
+      "file": "customer-web/src/components/PromotionOffers.tsx",
+      "sha256": "4d08c5a6589feb3418118dc2a0c87ad0de3488c89db04a4a5672486593de0a45"
+    },
+    {
+      "file": "customer-web/src/components/PublicPosReceiptPage.tsx",
+      "sha256": "ae31fd2500894a418bfac62fd2d2318c2f4552a67f0c42ecd52a483946617adc"
+    },
+    {
+      "file": "customer-web/src/components/StoreErrorBoundary.tsx",
+      "sha256": "c7137411d9875807dc35646387294094a2800b944cfcf0bb9ce46ec6c6d62f98"
+    },
+    {
+      "file": "customer-web/src/components/StoreFooter.tsx",
+      "sha256": "bd860d282b43e81107cd7c66e7fdbdc9a3988648f09bbe8d84bb9a09b9b3aed0"
+    },
+    {
+      "file": "customer-web/src/components/StoreHeader.tsx",
+      "sha256": "de8be80ad1afb379d295bf3512ffae109780702e73326b55c1ddd169bf5e330f"
+    },
+    {
+      "file": "customer-web/src/components/StoreHero.tsx",
+      "sha256": "fafc86281fd5dcb42bdc82d2dc5c1f5d430d2fdbb7c8f22cbe4aabcb2f0a841b"
+    },
+    {
+      "file": "customer-web/src/components/StoreInfoSection.tsx",
+      "sha256": "977c93c13802d38ad8ebc91724991e818d97bc96abe05eea553a16036571445c"
+    },
+    {
+      "file": "customer-web/src/components/StoreLogoMark.tsx",
+      "sha256": "a39beaa46805cab2a2f43be6227da2a501b781a8b3c551bec229d6d22bd2eb7f"
+    },
+    {
+      "file": "customer-web/src/components/TurnstileWidget.tsx",
+      "sha256": "37d639422e84c97f19ece80609aecf63330edf9f2b9f2ec105a939cb377d291b"
+    },
+    {
+      "file": "customer-web/src/config/publicSite.ts",
+      "sha256": "ebad7c0e78ce66481c82dbe4ab6816627fc7706d856beb26ac7927f5f05181f2"
+    },
+    {
+      "file": "customer-web/src/config/seoBrand.ts",
+      "sha256": "b662649550cebbfc0bf8c4f89f5634481d6e95b63b4782681ce97ac0abd162c6"
+    },
+    {
+      "file": "customer-web/src/config/store.ts",
+      "sha256": "b32b3ea3e24c0189489a480a214c4805beb63135bcbd88f9f1053a779ae1d8ea"
+    },
+    {
+      "file": "customer-web/src/config/supabase-public-config.ts",
+      "sha256": "47bb4a4f235b8d83d1742ce44141fad42ab30910ae4cd1fc1868fa114529807b"
+    },
+    {
+      "file": "customer-web/src/hooks/useCustomerCommerce.ts",
+      "sha256": "e66bd9afb1dfc159721da60fbd154bf1896a0ca2659f60c9a7eee1b35bb9a89a"
+    },
+    {
+      "file": "customer-web/src/hooks/useDialogFocus.ts",
+      "sha256": "d0ec02cc98cbbb0669f40d09c806aa995f15d3f0add937427fc4dfd0d4372be1"
+    },
+    {
+      "file": "customer-web/src/lib/errorMonitoring.ts",
+      "sha256": "56c03352e3ca19bb49e878a8fa881119efb7d88170a172e3a73c920162ed9d27"
+    },
+    {
+      "file": "customer-web/src/lib/supabase.ts",
+      "sha256": "b4bc81ec8573b9f813b2117a772c636a2f2cd21a2314c310088f400aecca5178"
+    },
+    {
+      "file": "customer-web/src/main.tsx",
+      "sha256": "123ea144a5d9c07e89696a0e4393b775dbd9f29d8008fb3c87ac63da1fe95ba9"
+    },
+    {
+      "file": "customer-web/src/services/catalog.service.ts",
+      "sha256": "635f4660986be0432d6c07d237e97a147c9424a8ac02fddd9694ec46fd4e80f5"
+    },
+    {
+      "file": "customer-web/src/services/checkoutRecoveryCoordinator.ts",
+      "sha256": "1a6fe01c8a2364c6168c4494be33c5b89eb34dd3e86819a2029a11326c641690"
+    },
+    {
+      "file": "customer-web/src/services/commerceStorage.ts",
+      "sha256": "08ac8012afdc1cd02631e2ebcc52f53c035e279a0e8ca7c2a60b3a201a1ebeb3"
+    },
+    {
+      "file": "customer-web/src/services/offers.service.ts",
+      "sha256": "0a6bbe7145146a7bd5d525110a07f032baa8436bacae913a3cff175b9eea779f"
+    },
+    {
+      "file": "customer-web/src/services/orders.service.ts",
+      "sha256": "dcfe32b02c18de9a861d95a8ce00478621e14dacfad4a7664b02c7d020354785"
+    },
+    {
+      "file": "customer-web/src/services/receipts.service.ts",
+      "sha256": "1feadd0aff5cc3496a64f3398fadb4ffc90b2f91559212e029cc0b6cc92402af"
+    },
+    {
+      "file": "customer-web/src/services/storefront-settings.service.ts",
+      "sha256": "a46ca638890c6c4e127a1d0a4f7938a4805c423b503762ee5530298991bcf5e9"
+    },
+    {
+      "file": "customer-web/src/types/catalog.ts",
+      "sha256": "5ec3b91eaa3e01c499258fdcbb2ead70f391fc38c80f15bf9f9c78e2e05905fc"
+    },
+    {
+      "file": "customer-web/src/types/checkout.ts",
+      "sha256": "21ddde950b3ccd6c690b769d490206f483e4ba133f0539cfb5403ae91c0ece28"
+    },
+    {
+      "file": "customer-web/src/types/offers.ts",
+      "sha256": "096195d022c61cb84baf1b6421996c267632b7bc74559f0aaf69841230c3d0e2"
+    },
+    {
+      "file": "customer-web/src/types/receipt.ts",
+      "sha256": "c55a282643737a574cf0807fd47e2c463e7d903ab77c24d53ca5e0bc91008dc3"
+    },
+    {
+      "file": "customer-web/src/types/storefront.ts",
+      "sha256": "b6efb2f7a0e5514a9de186550597302681c8d843e0517cbb000b8860f2d7b175"
+    },
+    {
+      "file": "customer-web/src/utils/cart.ts",
+      "sha256": "ec82cf1b1a43e69ec57d7ad75aa26565b726c1fd21198f4e54948e2bf081df6c"
+    },
+    {
+      "file": "customer-web/src/utils/catalogView.ts",
+      "sha256": "02744d68143facc4a919243a345f40cedb13bc97daab0fc7ec008d6b073503c1"
+    },
+    {
+      "file": "customer-web/src/utils/checkout.ts",
+      "sha256": "fbad2d9937858d45edfa3db1c46de808a8d6439ddfaf3a8ae32b24dd189f969b"
+    },
+    {
+      "file": "customer-web/src/utils/checkoutErrorMessage.ts",
+      "sha256": "af108f77db1b37e59a3c9059e7dd59382d2139111fd979c9fcfdc607e4386f40"
+    },
+    {
+      "file": "customer-web/src/utils/dialogFocus.ts",
+      "sha256": "245e78a39c65e917015fa146ef52d209ecd4f7b1bb8ec2f80d7e94dfbdd7db8b"
+    },
+    {
+      "file": "customer-web/src/utils/money.ts",
+      "sha256": "22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e"
+    },
+    {
+      "file": "customer-web/src/utils/productDetails.ts",
+      "sha256": "eed0f30e37703310dc7a0346d4a8ec0dbe56cb63756da932840db5bdc06b5f14"
+    },
+    {
+      "file": "customer-web/src/utils/publicRoutes.ts",
+      "sha256": "ba934021602b4d460055d89bcf5b3bdc6c29279d1ae7ca3c59e834720c150224"
+    },
+    {
+      "file": "customer-web/src/utils/storefrontSeo.ts",
+      "sha256": "f26c18b84b28ea7cdb7f95f4d7c78ddc49c76839e8566fb2e6ae12ad4ede3bee"
+    },
+    {
+      "file": "supabase/functions/admin-ai-assistant/index.ts",
+      "sha256": "b7663a899b5fbf868066716d5f3431fb9947dd04688b52878b2967276cd5dc5f"
+    },
+    {
+      "file": "supabase/functions/manage-staff-users/index.ts",
+      "sha256": "65fed77a0253920adb1a52ad68d6bb28c7df021f761f2adfc840b9cb8057e109"
+    },
+    {
+      "file": "supabase/functions/n8n-alert-feed/index.ts",
+      "sha256": "30bab3af0da1ced5c9001f1d3e0a925c79b994e077ab8e1f67dd137fc75e001d"
+    },
+    {
+      "file": "supabase/functions/send-order-push/index.ts",
+      "sha256": "b1f587cce14da734d4575a03dfefa5ef61a9a78663c8a9ccc13fdafebd7d53f2"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "sha256": "1af19700fd850058e89602bc112161985d2656af2994e2e5733e552800c5a9d2"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/security.ts",
+      "sha256": "2ff2d8cd464d0f8d5f2d664124d0ad7c76f17bb07c99eb2d7e18e0a8a2d50f92"
+    }
+  ],
+  "entries": [
+    {
+      "id": "src/features/pos/PosView.tsx:477",
+      "file": "src/features/pos/PosView.tsx",
+      "line": 477,
+      "table": "orders",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "POS",
+      "function": "executeSale",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'created_at'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'id'",
+            "result.data.orderId"
+          ]
+        },
+        {
+          "method": "single",
+          "args": []
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase.from('orders').select('created_at').eq('id', result.data.orderId).single()",
+      "embeddedTables": [],
+      "callers": [],
+      "screenPaths": [
+        "pos"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/adminCustomerV2Lifecycle.ts:221",
+      "file": "src/services/supabase/adminCustomerV2Lifecycle.ts",
+      "line": 221,
+      "table": "orders",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "adminCustomerV2Lifecycle.ts",
+      "function": "isCustomerV2Order",
+      "receiver": "client",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'operation_id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'id'",
+            "orderId"
+          ]
+        },
+        {
+          "method": "single",
+          "args": []
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "pendingPrefix": "nawasrah:admin:customer-v2-lifecycle:v1:",
+        "adminActionLockWaitMs": "5000"
+      },
+      "source": "client.from('orders').select('operation_id').eq('id', orderId).single()",
+      "embeddedTables": [],
+      "callers": [
+        "src/services/supabase/orders.service.ts"
+      ],
+      "screenPaths": [],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/adminCustomerV2Lifecycle.ts:227",
+      "file": "src/services/supabase/adminCustomerV2Lifecycle.ts",
+      "line": 227,
+      "table": "business_operations",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "adminCustomerV2Lifecycle.ts",
+      "function": "isCustomerV2Order",
+      "receiver": "client",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'operation_type'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'id'",
+            "operationId"
+          ]
+        },
+        {
+          "method": "single",
+          "args": []
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "pendingPrefix": "nawasrah:admin:customer-v2-lifecycle:v1:",
+        "adminActionLockWaitMs": "5000"
+      },
+      "source": "client.from('business_operations')\n    .select('operation_type').eq('id', operationId).single()",
+      "embeddedTables": [],
+      "callers": [
+        "src/services/supabase/orders.service.ts"
+      ],
+      "screenPaths": [],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/auth.service.ts:222",
+      "file": "src/services/supabase/auth.service.ts",
+      "line": 222,
+      "table": "profiles",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "auth",
+      "function": "fetchUserProfileAndRole",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id, full_name, phone, avatar_url, branch_id, job_title, is_active'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'id'",
+            "userId"
+          ]
+        },
+        {
+          "method": "maybeSingle",
+          "args": []
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n      .from('profiles')\n      .select('id, full_name, phone, avatar_url, branch_id, job_title, is_active')\n      .eq('id', userId)\n      .maybeSingle()",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/useAuthStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/auth.service.ts:252",
+      "file": "src/services/supabase/auth.service.ts",
+      "line": 252,
+      "table": "user_roles",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "auth",
+      "function": "fetchUserProfileAndRole",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'role_id, roles(id, name_ar, code)'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'user_id'",
+            "userId"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n      .from('user_roles')\n      .select('role_id, roles(id, name_ar, code)')\n      .eq('user_id', userId)",
+      "embeddedTables": [
+        "roles"
+      ],
+      "callers": [
+        "src/stores/useAuthStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/directReceiving.service.ts:209",
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 209,
+      "table": "supplier_receipts",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "directReceiving",
+      "function": "fetchSupplierReceiptByIdFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "`\n        *,\n        suppliers ( company_name, phone, contact_person ),\n        warehouses ( name_ar ),\n        branches ( name_ar ),\n        profiles ( full_name ),\n        supplier_receipt_items (\n          *,\n          products ( name_ar, sku, barcode )\n        ),\n        supplier_payments ( * )\n      `"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'id'",
+            "receiptId"
+          ]
+        },
+        {
+          "method": "single",
+          "args": []
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "LEGACY_RECEIPT_RESOLVER_TIMEOUT_MS": "4000"
+      },
+      "source": "supabase\n      .from('supplier_receipts')\n      .select(`\n        *,\n        suppliers ( company_name, phone, contact_person ),\n        warehouses ( name_ar ),\n        branches ( name_ar ),\n        profiles ( full_name ),\n        supplier_receipt_items (\n          *,\n          products ( name_ar, sku, barcode )\n        ),\n        supplier_payments ( * )\n      `)\n      .eq('id', receiptId)\n      .single()",
+      "embeddedTables": [
+        "branches",
+        "products",
+        "profiles",
+        "supplier_payments",
+        "supplier_receipt_items",
+        "suppliers",
+        "warehouses"
+      ],
+      "callers": [
+        "src/features/directReceiving/DirectReceivingView.tsx"
+      ],
+      "screenPaths": [
+        "directReceiving"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/directReceiving.service.ts:533",
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 533,
+      "table": "suppliers",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "directReceiving",
+      "function": "fetchSuppliersForReceivingFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'*'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'is_active'",
+            "true"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'company_name'"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "LEGACY_RECEIPT_RESOLVER_TIMEOUT_MS": "4000"
+      },
+      "source": "supabase\n    .from('suppliers')\n    .select('*')\n    .eq('is_active', true)\n    .order('company_name')",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+        "src/features/directReceiving/DirectReceivingView.tsx"
+      ],
+      "screenPaths": [
+        "directReceiving"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/directReceiving.service.ts:606",
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 606,
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "directReceiving",
+      "function": "fetchUnitsForReceivingFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'*'"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'name_ar'"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "LEGACY_RECEIPT_RESOLVER_TIMEOUT_MS": "4000"
+      },
+      "source": "supabase.from('units').select('*').order('name_ar')",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/directReceiving/CreateDirectReceiptModal.tsx"
+      ],
+      "screenPaths": [
+        "directReceiving"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/directReceiving.service.ts:621",
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 621,
+      "table": "warehouses",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "directReceiving",
+      "function": "fetchWarehousesForReceivingFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'*'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'is_active'",
+            "true"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'name_ar'"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "LEGACY_RECEIPT_RESOLVER_TIMEOUT_MS": "4000"
+      },
+      "source": "supabase\n    .from('warehouses')\n    .select('*')\n    .eq('is_active', true)\n    .order('name_ar')",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+        "src/features/directReceiving/DirectReceivingView.tsx"
+      ],
+      "screenPaths": [
+        "directReceiving"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/directReceiving.service.ts:641",
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 641,
+      "table": "branches",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "directReceiving",
+      "function": "fetchBranchesForReceivingFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'*'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'is_active'",
+            "true"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'name_ar'"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "LEGACY_RECEIPT_RESOLVER_TIMEOUT_MS": "4000"
+      },
+      "source": "supabase\n    .from('branches')\n    .select('*')\n    .eq('is_active', true)\n    .order('name_ar')",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/directReceiving/CreateDirectReceiptModal.tsx"
+      ],
+      "screenPaths": [
+        "directReceiving"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/inventory.service.ts:150",
+      "file": "src/services/supabase/inventory.service.ts",
+      "line": 150,
+      "table": "inventory_balances",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "inventory",
+      "function": "fetchInventoryBalancesFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "`\n        id,\n        warehouse_id,\n        product_id,\n        on_hand_quantity,\n        reserved_quantity,\n        available_quantity,\n        updated_at,\n        products ( name_ar, sku, barcode ),\n        warehouses ( name_ar )\n      `"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n      .from('inventory_balances')\n      .select(`\n        id,\n        warehouse_id,\n        product_id,\n        on_hand_quantity,\n        reserved_quantity,\n        available_quantity,\n        updated_at,\n        products ( name_ar, sku, barcode ),\n        warehouses ( name_ar )\n      `)",
+      "embeddedTables": [
+        "products",
+        "warehouses"
+      ],
+      "callers": [],
+      "screenPaths": [],
+      "reachability": "no-static-consumer-found"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:274",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 274,
+      "table": "orders",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "orders",
+      "function": "fetchOperationalOrderListRows",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "OPERATIONAL_ORDER_LIST_SELECT"
+          ]
+        },
+        {
+          "method": "in",
+          "args": [
+            "'id'",
+            "[...orderIds]"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "ORDER_DETAIL_SELECT": "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n",
+        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
+        "OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT": "\n  id,\n  order_id,\n  product_name_snapshot,\n  created_at\n",
+        "MAX_OPERATIONAL_ORDER_ITEMS": "50"
+      },
+      "source": "supabase\n        .from('orders')\n        .select(OPERATIONAL_ORDER_LIST_SELECT)\n        .in('id', [...orderIds])",
+      "embeddedTables": [
+        "customer_addresses",
+        "customers",
+        "order_items"
+      ],
+      "callers": [],
+      "screenPaths": [],
+      "reachability": "no-static-consumer-found"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:278",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 278,
+      "table": "order_items",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "orders",
+      "function": "fetchOperationalOrderListRows",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT"
+          ]
+        },
+        {
+          "method": "in",
+          "args": [
+            "'order_id'",
+            "[...orderIds]"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'order_id'",
+            "{ ascending: true }"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'created_at'",
+            "{ ascending: true }"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'id'",
+            "{ ascending: true }"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "previewLimit"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "ORDER_DETAIL_SELECT": "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n",
+        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
+        "OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT": "\n  id,\n  order_id,\n  product_name_snapshot,\n  created_at\n",
+        "MAX_OPERATIONAL_ORDER_ITEMS": "50"
+      },
+      "source": "supabase\n        .from('order_items')\n        .select(OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT)\n        .in('order_id', [...orderIds])\n        .order('order_id', { ascending: true })\n        .order('created_at', { ascending: true })\n        .order('id', { ascending: true })\n        .limit(previewLimit)",
+      "embeddedTables": [],
+      "callers": [],
+      "screenPaths": [],
+      "reachability": "no-static-consumer-found"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:569",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 569,
+      "table": "orders",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "orders",
+      "function": "fetchOrderByIdFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "ORDER_DETAIL_SELECT"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'id'",
+            "orderId"
+          ]
+        },
+        {
+          "method": "single",
+          "args": []
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "ORDER_DETAIL_SELECT": "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n",
+        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
+        "OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT": "\n  id,\n  order_id,\n  product_name_snapshot,\n  created_at\n",
+        "MAX_OPERATIONAL_ORDER_ITEMS": "50"
+      },
+      "source": "supabase\n      .from('orders')\n      .select(ORDER_DETAIL_SELECT)\n      .eq('id', orderId)\n      .single()",
+      "embeddedTables": [
+        "customer_addresses",
+        "customers",
+        "order_items",
+        "order_status_history",
+        "product_images",
+        "products",
+        "sales_returns",
+        "units"
+      ],
+      "callers": [
+        "src/features/orders/OrdersCenterView.tsx"
+      ],
+      "screenPaths": [
+        "orders"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:590",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 590,
+      "table": "order_parcel_instances",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "orders",
+      "function": "fetchOrderByIdFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id,order_item_id,instance_sequence,units_per_parcel_snapshot,parcel_unit_name_snapshot'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'order_id'",
+            "orderId"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'instance_sequence'"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "ORDER_DETAIL_SELECT": "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n",
+        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
+        "OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT": "\n  id,\n  order_id,\n  product_name_snapshot,\n  created_at\n",
+        "MAX_OPERATIONAL_ORDER_ITEMS": "50"
+      },
+      "source": "supabase.from('order_parcel_instances')\n        .select('id,order_item_id,instance_sequence,units_per_parcel_snapshot,parcel_unit_name_snapshot')\n        .eq('order_id', orderId).order('instance_sequence')",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/orders/OrdersCenterView.tsx"
+      ],
+      "screenPaths": [
+        "orders"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:596",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 596,
+      "table": "order_parcel_components",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "orders",
+      "function": "fetchOrderByIdFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id,parcel_instance_id,product_id,base_quantity,product_name_snapshot,sku_snapshot,base_unit_name_snapshot'"
+          ]
+        },
+        {
+          "method": "in",
+          "args": [
+            "'parcel_instance_id'",
+            "instances.map((instance) => instance.id)"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {
+        "ORDER_DETAIL_SELECT": "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n",
+        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
+        "OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT": "\n  id,\n  order_id,\n  product_name_snapshot,\n  created_at\n",
+        "MAX_OPERATIONAL_ORDER_ITEMS": "50"
+      },
+      "source": "supabase.from('order_parcel_components')\n          .select('id,parcel_instance_id,product_id,base_quantity,product_name_snapshot,sku_snapshot,base_unit_name_snapshot')\n          .in('parcel_instance_id', instances.map((instance) => instance.id))",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/orders/OrdersCenterView.tsx"
+      ],
+      "screenPaths": [
+        "orders"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:553",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 553,
+      "table": "warehouses",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "createProductWithOpeningStockInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'is_active'",
+            "true"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase.from('warehouses').select('id').eq('is_active', true).limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:561",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 561,
+      "table": "categories",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "createProductWithOpeningStockInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'is_active'",
+            "true"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase.from('categories').select('id').eq('is_active', true).limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:569",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 569,
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "createProductWithOpeningStockInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase.from('units').select('id').limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:578",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 578,
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "createProductWithOpeningStockInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'name_ar'",
+            "input.purchasePackage.trim()"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n      .from('units')\n      .select('id')\n      .eq('name_ar', input.purchasePackage.trim())\n      .limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:591",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 591,
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "createProductWithOpeningStockInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'name_ar'",
+            "input.salePackage.trim()"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n      .from('units')\n      .select('id')\n      .eq('name_ar', input.salePackage.trim())\n      .limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:671",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 671,
+      "table": "products",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "createProductWithOpeningStockInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id, name_ar, sku'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'id'",
+            "createdProdId"
+          ]
+        },
+        {
+          "method": "single",
+          "args": []
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n      .from('products')\n      .select('id, name_ar, sku')\n      .eq('id', createdProdId)\n      .single()",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:766",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 766,
+      "table": "warehouses",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "createProductFamilyWithFlavorsInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'is_active'",
+            "true"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n        .from('warehouses')\n        .select('id')\n        .eq('is_active', true)\n        .limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/products/ProductFormModal.tsx"
+      ],
+      "screenPaths": [
+        "products"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:778",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 778,
+      "table": "categories",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "createProductFamilyWithFlavorsInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'is_active'",
+            "true"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n        .from('categories')\n        .select('id')\n        .eq('is_active', true)\n        .limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/products/ProductFormModal.tsx"
+      ],
+      "screenPaths": [
+        "products"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:790",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 790,
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "createProductFamilyWithFlavorsInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'name_ar'",
+            "input.unitName.trim()"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n        .from('units')\n        .select('id')\n        .eq('name_ar', input.unitName.trim())\n        .limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/products/ProductFormModal.tsx"
+      ],
+      "screenPaths": [
+        "products"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:797",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 797,
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "createProductFamilyWithFlavorsInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase.from('units').select('id').limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/products/ProductFormModal.tsx"
+      ],
+      "screenPaths": [
+        "products"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:804",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 804,
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "createProductFamilyWithFlavorsInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'name_ar'",
+            "input.purchasePackage.trim()"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n        .from('units')\n        .select('id')\n        .eq('name_ar', input.purchasePackage.trim())\n        .limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/products/ProductFormModal.tsx"
+      ],
+      "screenPaths": [
+        "products"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:815",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 815,
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "createProductFamilyWithFlavorsInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'name_ar'",
+            "input.salePackage.trim()"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n        .from('units')\n        .select('id')\n        .eq('name_ar', input.salePackage.trim())\n        .limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/products/ProductFormModal.tsx"
+      ],
+      "screenPaths": [
+        "products"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:983",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 983,
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "updateProductInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'name_ar'",
+            "input.unitName.trim()"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n        .from('units')\n        .select('id')\n        .eq('name_ar', input.unitName.trim())\n        .limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:994",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 994,
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "updateProductInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'name_ar'",
+            "input.purchasePackage.trim()"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n        .from('units')\n        .select('id')\n        .eq('name_ar', input.purchasePackage.trim())\n        .limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:1006",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 1006,
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "products",
+      "function": "updateProductInSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'name_ar'",
+            "input.salePackage.trim()"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            "1"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n        .from('units')\n        .select('id')\n        .eq('name_ar', input.salePackage.trim())\n        .limit(1)",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:62",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 62,
+      "table": "suppliers",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "purchases",
+      "function": "fetchSuppliersFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'*'"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'company_name'",
+            "{ ascending: true }"
+          ]
+        }
+      ],
+      "extensions": [
+        {
+          "method": "eq",
+          "args": [
+            "'is_active'",
+            "true"
+          ],
+          "conditional": true,
+          "line": 67
+        }
+      ],
+      "constants": {},
+      "source": "supabase\n      .from('suppliers')\n      .select('*')\n      .order('company_name', { ascending: true })",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/purchases/CreatePurchaseOrderModal.tsx",
+        "src/features/purchases/PurchasesView.tsx",
+        "src/features/purchases/SupplierPaymentModal.tsx"
+      ],
+      "screenPaths": [
+        "purchases"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:381",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 381,
+      "table": "purchase_orders",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "purchases",
+      "function": "fetchPurchaseOrderByIdFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "`\n        *,\n        suppliers (id, company_name, contact_person, phone, email, address),\n        branches (id, name_ar),\n        warehouses (id, name_ar),\n        purchase_order_items (\n          id,\n          purchase_order_id,\n          product_id,\n          ordered_quantity,\n          received_quantity,\n          purchase_price_in_minor_units,\n          discount_in_minor_units,\n          line_total_in_minor_units,\n          products (\n            id,\n            name_ar,\n            sku,\n            barcode,\n            unit_id,\n            base_unit:units!products_unit_id_fkey(name_ar)\n          )\n        ),\n        purchase_receipts (\n          id,\n          receipt_number,\n          received_at,\n          supplier_delivery_note,\n          notes,\n          purchase_receipt_items (\n            id,\n            product_id,\n            received_quantity,\n            unit_cost_in_minor_units,\n            products (name_ar)\n          )\n        ),\n        supplier_payments (\n          id,\n          amount_in_minor_units,\n          payment_method,\n          reference_number,\n          payment_date,\n          notes,\n          created_at\n        )\n      `"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'id'",
+            "poId"
+          ]
+        },
+        {
+          "method": "single",
+          "args": []
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n      .from('purchase_orders')\n      .select(`\n        *,\n        suppliers (id, company_name, contact_person, phone, email, address),\n        branches (id, name_ar),\n        warehouses (id, name_ar),\n        purchase_order_items (\n          id,\n          purchase_order_id,\n          product_id,\n          ordered_quantity,\n          received_quantity,\n          purchase_price_in_minor_units,\n          discount_in_minor_units,\n          line_total_in_minor_units,\n          products (\n            id,\n            name_ar,\n            sku,\n            barcode,\n            unit_id,\n            base_unit:units!products_unit_id_fkey(name_ar)\n          )\n        ),\n        purchase_receipts (\n          id,\n          receipt_number,\n          received_at,\n          supplier_delivery_note,\n          notes,\n          purchase_receipt_items (\n            id,\n            product_id,\n            received_quantity,\n            unit_cost_in_minor_units,\n            products (name_ar)\n          )\n        ),\n        supplier_payments (\n          id,\n          amount_in_minor_units,\n          payment_method,\n          reference_number,\n          payment_date,\n          notes,\n          created_at\n        )\n      `)\n      .eq('id', poId)\n      .single()",
+      "embeddedTables": [
+        "branches",
+        "products",
+        "purchase_order_items",
+        "purchase_receipt_items",
+        "purchase_receipts",
+        "supplier_payments",
+        "suppliers",
+        "units",
+        "warehouses"
+      ],
+      "callers": [
+        "src/features/purchases/PurchaseOrderDetailView.tsx"
+      ],
+      "screenPaths": [
+        "purchases"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:979",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 979,
+      "table": "purchase_receipts",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "purchases",
+      "function": "fetchGoodsReceiptsFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "`\n        *,\n        purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),\n        warehouses (id, name_ar),\n        purchase_receipt_items (\n          id,\n          purchase_receipt_id,\n          purchase_order_item_id,\n          product_id,\n          received_quantity,\n          unit_cost_in_minor_units,\n          products (id, name_ar)\n        )\n      `",
+            "{ count: 'exact' }"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'received_at'",
+            "{ ascending: false }"
+          ]
+        }
+      ],
+      "extensions": [
+        {
+          "method": "range",
+          "args": [
+            "from",
+            "from + pageSize - 1"
+          ],
+          "conditional": true,
+          "line": 997
+        }
+      ],
+      "constants": {},
+      "source": "supabase\n      .from('purchase_receipts')\n      .select(`\n        *,\n        purchase_orders (id, purchase_order_number, supplier_id, suppliers (id, company_name)),\n        warehouses (id, name_ar),\n        purchase_receipt_items (\n          id,\n          purchase_receipt_id,\n          purchase_order_item_id,\n          product_id,\n          received_quantity,\n          unit_cost_in_minor_units,\n          products (id, name_ar)\n        )\n      `, { count: 'exact' })\n      .order('received_at', { ascending: false })",
+      "embeddedTables": [
+        "products",
+        "purchase_orders",
+        "purchase_receipt_items",
+        "suppliers",
+        "warehouses"
+      ],
+      "callers": [
+        "src/features/purchases/PurchasesView.tsx"
+      ],
+      "screenPaths": [
+        "purchases"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:1061",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 1061,
+      "table": "purchase_orders",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "purchases",
+      "function": "fetchSupplierPurchaseSummaryFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id, purchase_order_number, status, total_in_minor_units, amount_paid_in_minor_units, created_at'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'supplier_id'",
+            "supplierId"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'created_at'",
+            "{ ascending: false }"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n      .from('purchase_orders')\n      .select('id, purchase_order_number, status, total_in_minor_units, amount_paid_in_minor_units, created_at')\n      .eq('supplier_id', supplierId)\n      .order('created_at', { ascending: false })",
+      "embeddedTables": [],
+      "callers": [],
+      "screenPaths": [],
+      "reachability": "no-static-consumer-found"
+    },
+    {
+      "id": "src/services/supabase/reference-data.service.ts:49",
+      "file": "src/services/supabase/reference-data.service.ts",
+      "line": 49,
+      "table": "categories",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "reference-data",
+      "function": "fetchCategoriesFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'*'"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'name_ar'",
+            "{ ascending: true }"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n          .from('categories')\n          .select('*')\n          .order('name_ar', { ascending: true })",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/referenceData.storeSlice.ts",
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/reference-data.service.ts:53",
+      "file": "src/services/supabase/reference-data.service.ts",
+      "line": 53,
+      "table": "products",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "reference-data",
+      "function": "fetchCategoriesFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'category_id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'is_active'",
+            "true"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n          .from('products')\n          .select('category_id')\n          .eq('is_active', true)",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/referenceData.storeSlice.ts",
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/reference-data.service.ts:184",
+      "file": "src/services/supabase/reference-data.service.ts",
+      "line": 184,
+      "table": "brands",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "reference-data",
+      "function": "fetchBrandsFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'*'"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'name_ar'",
+            "{ ascending: true }"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n          .from('brands')\n          .select('*')\n          .order('name_ar', { ascending: true })",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/referenceData.storeSlice.ts",
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/reference-data.service.ts:188",
+      "file": "src/services/supabase/reference-data.service.ts",
+      "line": 188,
+      "table": "products",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "reference-data",
+      "function": "fetchBrandsFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'brand_id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'is_active'",
+            "true"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n          .from('products')\n          .select('brand_id')\n          .eq('is_active', true)",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/referenceData.storeSlice.ts",
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/reference-data.service.ts:309",
+      "file": "src/services/supabase/reference-data.service.ts",
+      "line": 309,
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "reference-data",
+      "function": "fetchUnitsFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'*'"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'name_ar'",
+            "{ ascending: true }"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n          .from('units')\n          .select('*')\n          .order('name_ar', { ascending: true })",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/referenceData.storeSlice.ts",
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/reference-data.service.ts:313",
+      "file": "src/services/supabase/reference-data.service.ts",
+      "line": 313,
+      "table": "products",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "reference-data",
+      "function": "fetchUnitsFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id, unit_id, purchase_unit_id, sale_unit_id'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'is_active'",
+            "true"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n          .from('products')\n          .select('id, unit_id, purchase_unit_id, sale_unit_id')\n          .eq('is_active', true)",
+      "embeddedTables": [],
+      "callers": [
+        "src/stores/referenceData.storeSlice.ts",
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/reference-data.service.ts:450",
+      "file": "src/services/supabase/reference-data.service.ts",
+      "line": 450,
+      "table": "branches",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "reference-data",
+      "function": "fetchBranchesFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'*'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'is_active'",
+            "true"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n      .from('branches')\n      .select('*')\n      .eq('is_active', true)",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/purchases/CreatePurchaseOrderModal.tsx",
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "purchases",
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "src/services/supabase/reference-data.service.ts:480",
+      "file": "src/services/supabase/reference-data.service.ts",
+      "line": 480,
+      "table": "warehouses",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "reference-data",
+      "function": "fetchWarehousesFromSupabase",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'*'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'is_active'",
+            "true"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n      .from('warehouses')\n      .select('*')\n      .eq('is_active', true)",
+      "embeddedTables": [],
+      "callers": [
+        "src/features/purchases/CreatePurchaseOrderModal.tsx",
+        "src/stores/useAppStore.ts"
+      ],
+      "screenPaths": [
+        "purchases",
+        "shared-store/auth-bootstrap"
+      ],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "supabase/functions/send-order-push/index.ts:87",
+      "file": "supabase/functions/send-order-push/index.ts",
+      "line": 87,
+      "table": "push_dispatches",
+      "operation": "insert",
+      "role": "service_role",
+      "roleEvidence": "send-order-push createClient(SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY)",
+      "screen": "Edge send-order-push",
+      "function": "<module>",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "insert",
+          "args": [
+            "{\n      event_key: body.eventKey,\n      event_type: body.type,\n      entity_id: body.orderId,\n      status: 'processing',\n    }"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n    .from('push_dispatches')\n    .insert({\n      event_key: body.eventKey,\n      event_type: body.type,\n      entity_id: body.orderId,\n      status: 'processing',\n    })",
+      "embeddedTables": [],
+      "callers": [],
+      "screenPaths": [],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "supabase/functions/send-order-push/index.ts:103",
+      "file": "supabase/functions/send-order-push/index.ts",
+      "line": 103,
+      "table": "orders",
+      "operation": "select",
+      "role": "service_role",
+      "roleEvidence": "send-order-push createClient(SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY)",
+      "screen": "Edge send-order-push",
+      "function": "<module>",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "'id, order_number, status, source'"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'id'",
+            "body.orderId"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'source'",
+            "'website'"
+          ]
+        },
+        {
+          "method": "single",
+          "args": []
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n    .from('orders')\n    .select(\n      'id, order_number, status, source',\n    )\n    .eq('id', body.orderId)\n    .eq('source', 'website')\n    .single()",
+      "embeddedTables": [],
+      "callers": [],
+      "screenPaths": [],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "supabase/functions/send-order-push/index.ts:113",
+      "file": "supabase/functions/send-order-push/index.ts",
+      "line": 113,
+      "table": "push_dispatches",
+      "operation": "update",
+      "role": "service_role",
+      "roleEvidence": "send-order-push createClient(SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY)",
+      "screen": "Edge send-order-push",
+      "function": "<module>",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "update",
+          "args": [
+            "{\n        status: 'failed',\n        failed_count: 1,\n        last_error: orderError?.message || 'Order not found',\n        completed_at: new Date().toISOString(),\n      }"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'event_key'",
+            "body.eventKey"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n      .from('push_dispatches')\n      .update({\n        status: 'failed',\n        failed_count: 1,\n        last_error: orderError?.message || 'Order not found',\n        completed_at: new Date().toISOString(),\n      })\n      .eq('event_key', body.eventKey)",
+      "embeddedTables": [],
+      "callers": [],
+      "screenPaths": [],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "supabase/functions/send-order-push/index.ts:136",
+      "file": "supabase/functions/send-order-push/index.ts",
+      "line": 136,
+      "table": "push_dispatches",
+      "operation": "update",
+      "role": "service_role",
+      "roleEvidence": "send-order-push createClient(SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY)",
+      "screen": "Edge send-order-push",
+      "function": "<module>",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "update",
+          "args": [
+            "{\n        status: 'failed',\n        failed_count: 1,\n        last_error: targetsError.message,\n        completed_at: new Date().toISOString(),\n      }"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'event_key'",
+            "body.eventKey"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n      .from('push_dispatches')\n      .update({\n        status: 'failed',\n        failed_count: 1,\n        last_error: targetsError.message,\n        completed_at: new Date().toISOString(),\n      })\n      .eq('event_key', body.eventKey)",
+      "embeddedTables": [],
+      "callers": [],
+      "screenPaths": [],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "supabase/functions/send-order-push/index.ts:173",
+      "file": "supabase/functions/send-order-push/index.ts",
+      "line": 173,
+      "table": "push_subscriptions",
+      "operation": "update",
+      "role": "service_role",
+      "roleEvidence": "send-order-push createClient(SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY)",
+      "screen": "Edge send-order-push",
+      "function": "<module>",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "update",
+          "args": [
+            "{\n          failure_count: 0,\n          last_success_at: new Date().toISOString(),\n          last_failure_message: null,\n          updated_at: new Date().toISOString(),\n        }"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'id'",
+            "target.subscription_id"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n        .from('push_subscriptions')\n        .update({\n          failure_count: 0,\n          last_success_at: new Date().toISOString(),\n          last_failure_message: null,\n          updated_at: new Date().toISOString(),\n        })\n        .eq('id', target.subscription_id)",
+      "embeddedTables": [],
+      "callers": [],
+      "screenPaths": [],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "supabase/functions/send-order-push/index.ts:188",
+      "file": "supabase/functions/send-order-push/index.ts",
+      "line": 188,
+      "table": "push_subscriptions",
+      "operation": "update",
+      "role": "service_role",
+      "roleEvidence": "send-order-push createClient(SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY)",
+      "screen": "Edge send-order-push",
+      "function": "<module>",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "update",
+          "args": [
+            "{\n          is_active: ![404, 410].includes(statusCode),\n          failure_count: 1,\n          last_failure_at: new Date().toISOString(),\n          last_failure_message: failureMessage,\n          updated_at: new Date().toISOString(),\n        }"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'id'",
+            "target.subscription_id"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n        .from('push_subscriptions')\n        .update({\n          is_active: ![404, 410].includes(statusCode),\n          failure_count: 1,\n          last_failure_at: new Date().toISOString(),\n          last_failure_message: failureMessage,\n          updated_at: new Date().toISOString(),\n        })\n        .eq('id', target.subscription_id)",
+      "embeddedTables": [],
+      "callers": [],
+      "screenPaths": [],
+      "reachability": "has-source-consumer"
+    },
+    {
+      "id": "supabase/functions/send-order-push/index.ts:208",
+      "file": "supabase/functions/send-order-push/index.ts",
+      "line": 208,
+      "table": "push_dispatches",
+      "operation": "update",
+      "role": "service_role",
+      "roleEvidence": "send-order-push createClient(SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY)",
+      "screen": "Edge send-order-push",
+      "function": "<module>",
+      "receiver": "supabase",
+      "calls": [
+        {
+          "method": "update",
+          "args": [
+            "{\n      status,\n      delivered_count: deliveredCount,\n      failed_count: failedCount,\n      last_error:\n        deliveredCount === 0 && failedCount === 0\n          ? 'No active push subscriptions'\n          : null,\n      completed_at: new Date().toISOString(),\n    }"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'event_key'",
+            "body.eventKey"
+          ]
+        }
+      ],
+      "extensions": [],
+      "constants": {},
+      "source": "supabase\n    .from('push_dispatches')\n    .update({\n      status,\n      delivered_count: deliveredCount,\n      failed_count: failedCount,\n      last_error:\n        deliveredCount === 0 && failedCount === 0\n          ? 'No active push subscriptions'\n          : null,\n      completed_at: new Date().toISOString(),\n    })\n    .eq('event_key', body.eventKey)",
+      "embeddedTables": [],
+      "callers": [],
+      "screenPaths": [],
+      "reachability": "has-source-consumer"
+    }
+  ],
+  "subscriptions": [
+    {
+      "file": "src/services/supabase/crm.service.ts",
+      "line": 518,
+      "event": "*",
+      "schema": "public",
+      "table": "orders",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToCrmRealtime"
+    },
+    {
+      "file": "src/services/supabase/crm.service.ts",
+      "line": 518,
+      "event": "*",
+      "schema": "public",
+      "table": "customer_addresses",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToCrmRealtime"
+    },
+    {
+      "file": "src/services/supabase/crm.service.ts",
+      "line": 518,
+      "event": "*",
+      "schema": "public",
+      "table": "customers",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToCrmRealtime"
+    },
+    {
+      "file": "src/services/supabase/dashboard.service.ts",
+      "line": 210,
+      "event": "*",
+      "schema": "public",
+      "table": "suppliers",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToDashboardRealtime"
+    },
+    {
+      "file": "src/services/supabase/dashboard.service.ts",
+      "line": 210,
+      "event": "*",
+      "schema": "public",
+      "table": "customers",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToDashboardRealtime"
+    },
+    {
+      "file": "src/services/supabase/dashboard.service.ts",
+      "line": 210,
+      "event": "*",
+      "schema": "public",
+      "table": "products",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToDashboardRealtime"
+    },
+    {
+      "file": "src/services/supabase/dashboard.service.ts",
+      "line": 210,
+      "event": "*",
+      "schema": "public",
+      "table": "inventory_balances",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToDashboardRealtime"
+    },
+    {
+      "file": "src/services/supabase/dashboard.service.ts",
+      "line": 210,
+      "event": "*",
+      "schema": "public",
+      "table": "orders",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToDashboardRealtime"
+    },
+    {
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 673,
+      "event": "*",
+      "schema": "public",
+      "table": "supplier_payments",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToSupplierReceiptsRealtime"
+    },
+    {
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 673,
+      "event": "*",
+      "schema": "public",
+      "table": "supplier_receipt_items",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToSupplierReceiptsRealtime"
+    },
+    {
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 673,
+      "event": "*",
+      "schema": "public",
+      "table": "supplier_receipts",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToSupplierReceiptsRealtime"
+    },
+    {
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 1217,
+      "event": "*",
+      "schema": "public",
+      "table": "orders",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToOrdersInSupabase"
+    },
+    {
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 1124,
+      "event": "*",
+      "schema": "public",
+      "table": "inventory_movements",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToPurchasesRealtime"
+    },
+    {
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 1124,
+      "event": "*",
+      "schema": "public",
+      "table": "inventory_balances",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToPurchasesRealtime"
+    },
+    {
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 1124,
+      "event": "*",
+      "schema": "public",
+      "table": "supplier_payments",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToPurchasesRealtime"
+    },
+    {
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 1124,
+      "event": "*",
+      "schema": "public",
+      "table": "purchase_receipts",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToPurchasesRealtime"
+    },
+    {
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 1124,
+      "event": "*",
+      "schema": "public",
+      "table": "purchase_order_items",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToPurchasesRealtime"
+    },
+    {
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 1124,
+      "event": "*",
+      "schema": "public",
+      "table": "purchase_orders",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToPurchasesRealtime"
+    },
+    {
+      "file": "src/services/supabase/stockAlerts.service.ts",
+      "line": 131,
+      "event": "UPDATE",
+      "schema": "public",
+      "table": "products",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToStockAlertChanges"
+    },
+    {
+      "file": "src/services/supabase/stockAlerts.service.ts",
+      "line": 131,
+      "event": "*",
+      "schema": "public",
+      "table": "inventory_movements",
+      "operation": "select",
+      "role": "authenticated",
+      "function": "subscribeToStockAlertChanges"
+    }
+  ],
+  "excluded": [
+    {
+      "file": "src/components/ui/ReceivingUnitFields.tsx",
+      "line": 21,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+      "line": 982,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/features/directReceiving/DirectReceivingView.tsx",
+      "line": 635,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/features/pos/PosView.tsx",
+      "line": 621,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/features/purchases/ReceiveGoodsModal.tsx",
+      "line": 99,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/lib/errorMonitoring.ts",
+      "line": 28,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/services/deviceBiometrics.service.ts",
+      "line": 39,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/services/pushNotifications.service.ts",
+      "line": 19,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/services/supabase/adminAftercareRecovery.ts",
+      "line": 179,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/services/supabase/adminCustomerV2Lifecycle.ts",
+      "line": 79,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/services/supabase/crm.service.ts",
+      "line": 511,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/services/supabase/posV2Recovery.ts",
+      "line": 30,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/services/supabase/product-images.service.ts",
+      "line": 67,
+      "reason": "Storage bucket API, not table/view",
+      "expression": "supabase.storage\n    .from(PRODUCT_IMAGE_BUCKET)"
+    },
+    {
+      "file": "src/services/supabase/product-images.service.ts",
+      "line": 83,
+      "reason": "Storage bucket API, not table/view",
+      "expression": "supabase.storage\n    .from(PRODUCT_IMAGE_BUCKET)"
+    },
+    {
+      "file": "src/services/supabase/product-images.service.ts",
+      "line": 88,
+      "reason": "Storage bucket API, not table/view",
+      "expression": "supabase.storage\n      .from(PRODUCT_IMAGE_BUCKET)"
+    },
+    {
+      "file": "src/services/supabase/product-images.service.ts",
+      "line": 125,
+      "reason": "Storage bucket API, not table/view",
+      "expression": "supabase.storage\n    .from(PRODUCT_IMAGE_BUCKET)"
+    },
+    {
+      "file": "customer-web/src/App.tsx",
+      "line": 1056,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "customer-web/src/App.tsx",
+      "line": 1062,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "customer-web/src/App.tsx",
+      "line": 1808,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "customer-web/src/App.tsx",
+      "line": 1962,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "customer-web/src/components/MerchandisingSections.tsx",
+      "line": 112,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "customer-web/src/components/OffersPage.tsx",
+      "line": 38,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "customer-web/src/services/catalog.service.ts",
+      "line": 158,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "customer-web/src/services/catalog.service.ts",
+      "line": 333,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "customer-web/src/services/catalog.service.ts",
+      "line": 339,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "customer-web/src/utils/cart.ts",
+      "line": 326,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "supabase/functions/admin-ai-assistant/index.ts",
+      "line": 163,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/security.ts",
+      "line": 80,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    }
+  ],
+  "totals": {
+    "queries": 50,
+    "tableNames": [
+      "branches",
+      "brands",
+      "business_operations",
+      "categories",
+      "customer_addresses",
+      "customers",
+      "inventory_balances",
+      "order_items",
+      "order_parcel_components",
+      "order_parcel_instances",
+      "order_status_history",
+      "orders",
+      "product_images",
+      "products",
+      "profiles",
+      "purchase_order_items",
+      "purchase_orders",
+      "purchase_receipt_items",
+      "purchase_receipts",
+      "push_dispatches",
+      "push_subscriptions",
+      "roles",
+      "sales_returns",
+      "supplier_payments",
+      "supplier_receipt_items",
+      "supplier_receipts",
+      "suppliers",
+      "units",
+      "user_roles",
+      "warehouses"
+    ],
+    "authenticated": 43,
+    "service_role": 7,
+    "anon": 0,
+    "subscriptions": 20
+  }
+}

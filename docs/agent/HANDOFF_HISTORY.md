@@ -1,5 +1,44 @@
 # Agent handoff history
 
+## 2026-10-15 — Phase A direct-table access investigation;ACL apply HOLD
+
+Latest owner stops frankfurt-align-acl --apply. No managed access or product/
+migration/grant correction. Read/resume/preflight PASS atc4c90ee. New AST
+inventory50 sites(43Admin/7service/0anon),30tables+20Realtime subscriptions.
+Fresh isolated001–138/PostgREST16.1 proofr66uGh:142original builder replays,
+15success/112SQLSTATE42501/15PGRST201;186additional real SETROLE/JWT probes.
+Four distinct ambiguous-embed sites are reported,not silently repaired.
+No required client table lacks RLS;three modern tables hide rows from no-role
+user. Existing business_operations column grants preserved inproposal150:
+25authenticated SELECT+1service_role orders SELECT,0anon;200excess table/
+role/privilege pairs for review only. No150 file;no139 staged. Source/product
+trees unchanged. Current reference is NOT application-ready;green tooling
+tests do not cure findings. All own DB/PostgREST stopped;unrelated n8n untouched.
+
+Local frozen gates r2 10:26:35.927–10:29:54.324UTC:types/lint(3oldwarnings),
+1060Admin+191Customer units PASS;four diagnostic tests included. Local tree
+retains known139 draft(2units);diagnostic commit excludes it,CI tests its own
+exact tree. Tool-only initial REST mount PGRST125 corrected to forward real
+requests(/rest/v1 mount only);one implicit test callback type annotated,no
+assertion weakened. LF-normalized source inventory is portable toLinux.
+Gitleaks0 and exact-SHA fullCI required before final owner review STOP.
+
+## 2026-10-15 — ACL tool deliveredc4c90ee,exactFULL24+secrets green;STOP
+
+Normalcommit/push c4c90ee6c2a19dba0b511d25db699855ecab61cd,16tool/docsfiles,
+no source/RPC/migration/state/DB_FUNCTIONS changes incommit. Explicitindex
+excludedpending139CI/checklistsections and139draftfiles. StagedGitleaks0.
+Quality38698253462 FULL24/24+secrets38698253323 PASS,remoteHEADmatch;newLinux
+ACLtransaction/stale/rollback stepgreen. LocalPsoO0N/VjxQO0,all1056Admin+
+191Customer/type/lint/related11 PASS (3oldlintwarnings). Logsize guard retained,
+ACTIVEcompacted aftersizefailure;no assertion/retry/timeout relaxation.
+Ownercommand:node scripts/operations/frankfurt-align-acl.mjs --apply;preview
+279REVOKEs/48objects,confirmnewref,hiddennewpassword,oneatomictransaction,
+service_role unchanged,sharedverifyunexpected0/namedtriggerD/cronhold. Agent
+has NOT connected/applied toFrankfurt. Results there remainowner-run pending.
+139draftstilluncommitted/unfinished,separate;140–149reserved. Baselinesyncedto
+ourknownc4c90ee understandingapproval;checkpointSTOP,no autoprogression.
+
 ## 2026-10-15 — ACL tool local gates PASS;explicit index excludes139
 
 Admin type/lint PASS3oldwarnings;frozen07:15:27–07:19:01UTC all1056Admin+

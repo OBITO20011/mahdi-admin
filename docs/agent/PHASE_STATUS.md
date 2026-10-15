@@ -1,5 +1,21 @@
 # Phase status
 
+2026-10-15 PhaseA proof:r66uGh isolated138,142realSDK queries(15PASS/112denied/
+15PGRST201),186SQL roleprobes.26read grants proposed150 only,noanon;4ambiguous
+details queries await separate approval. Type/lint/1060Admin+191Customer PASS.
+Report TABLE_ACCESS_INVENTORY.md;no source/RPC/grants/migration changed.
+
+2026-10-15 OWNER HOLD:frankfurt-align-acl --apply is NOT authorized. Phase A
+direct-table access audit only on isolated001–138;reference ACL equality does
+not prove application readiness.150 proposal only;139 separate/uncommitted,
+140–149 reserved. No managed access/product/grants/migration change.
+
+2026-10-15 ACL-tool deliveredc4c90ee:exactpushquality38698253462 FULL24/24
+andsecrets38698253323 PASS,Gitleaks0. Offline279/48 forecastunexpected0;
+actualisolatedtransaction/stale/rollback+verify-only regression PASS. No agent
+Frankfurt access/application. Ownerinteractivecommand in
+docs/operations/FRANKFURT_ACL_ALIGNMENT_AR.md;139 remainsseparateunfinished.
+
 2026-10-15 verify-only precommit gates PASS frozenfiles05:38:35.790–05:43:17.984
 UTC:Admin type/lint(3oldwarnings),all1046Admin+191Customerunits exit0. Typed
 empty-detail-array inference corrected,no assertion weakened/no SQLbehavior
