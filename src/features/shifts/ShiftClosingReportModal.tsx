@@ -236,6 +236,18 @@ export const ShiftClosingReportModal: React.FC<
               <span>صافي الحركة</span>
               <b>{money(report.reconciliation.netMovement)}</b>
             </div>
+            {report.ownerWithdrawals && (
+              <>
+                <div className="flex justify-between text-nw-bad">
+                  <span>سحوبات المالك (صافي)</span>
+                  <b>{money(report.ownerWithdrawals.withdrawn - report.ownerWithdrawals.returned)}</b>
+                </div>
+                <div className="flex justify-between border-t border-nw-border pt-2 font-black text-nw-text">
+                  <span>صافي الحركة بعد السحوبات</span>
+                  <b>{money(report.reconciliation.netMovement - (report.ownerWithdrawals.withdrawn - report.ownerWithdrawals.returned))}</b>
+                </div>
+              </>
+            )}
           </section>
 
           <section className="space-y-2 rounded-2xl border border-nw-border bg-nw-info-bg p-3">
@@ -332,6 +344,28 @@ export const ShiftClosingReportModal: React.FC<
               </div>
             </div>
           </section>
+
+          {report.ownerWithdrawals && (
+            <section className="space-y-2 rounded-2xl border border-nw-border bg-nw-warn-bg p-3" data-testid="closing-owner-withdrawals">
+              <h4 className="font-black text-nw-text">سحوبات المالك من الدرج</h4>
+              <p className="m-0 text-[11px] text-nw-muted">حركة نقدية مستقلة، ليست مصروفاً ولا تغيّر الربح.</p>
+              <div className="flex justify-between text-nw-bad"><span>سحوبات (−)</span><b>{money(report.ownerWithdrawals.withdrawn)}</b></div>
+              {report.ownerWithdrawals.returned !== 0 && (
+                <div className="flex justify-between text-nw-ok"><span>إرجاع سحوبات (+)</span><b>{money(report.ownerWithdrawals.returned)}</b></div>
+              )}
+              <ul className="m-0 list-none space-y-1 p-0">
+                {report.ownerWithdrawals.items.map((item) => (
+                  <li key={`${item.kind}-${item.withdrawalNumber}-${item.at}`} className="flex items-center justify-between gap-2 rounded-lg bg-nw-surface-2 p-2 text-nw-text">
+                    <span>
+                      {item.kind === 'return' ? 'إرجاع ' : ''}<bdi dir="ltr">{item.withdrawalNumber}</bdi>
+                      {item.kind === 'return' && item.originalShiftNumber && <> · من <bdi dir="ltr">{item.originalShiftNumber}</bdi></>}
+                    </span>
+                    <b className={item.kind === 'return' ? 'text-nw-ok' : 'text-nw-bad'}>{item.kind === 'return' ? '+' : '−'}{money(item.amount)}</b>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
 
           {report.expenseBreakdown.length > 0 && (
             <section className="rounded-2xl border border-nw-border p-3">

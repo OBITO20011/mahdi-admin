@@ -6,6 +6,7 @@ import {FormFields, Card, UiButton, formatJod} from '../../components/ui';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
 import { storeEngine } from '../../stores/useAppStore';
+import { useDrawerShortfallConfirm } from '../../hooks/useDrawerShortfallConfirm';
 import { PurchaseOrder } from '../../types/purchases';
 import { Supplier } from '../../types';
 import {
@@ -57,6 +58,7 @@ export const SupplierPaymentModal = ({
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const panel = useDialogFocus(isOpen, () => { if (!isSubmitting) onClose(); }, true);
   const paymentIdempotencyKey = useRef(createSupplierPaymentIdempotencyKey());
+  const drawer = useDrawerShortfallConfirm();
   const wasOpen = useRef(false);
 
   useEffect(() => {
@@ -133,6 +135,8 @@ export const SupplierPaymentModal = ({
       setErrorMsg('يرجى إدخال مبلغ الدفعة بشكل صحيح أكبر من صفر.');
       return;
     }
+
+    if (!drawer.confirmCash(Number(amount), paymentMethod === 'cash')) return;
 
     setIsSubmitting(true);
     try {
@@ -327,6 +331,7 @@ export const SupplierPaymentModal = ({
             />
           </div>
 
+          {drawer.warningNode}
           {/* Footer Actions */}
           <div className="pt-3 border-t border-nw-border flex items-center justify-end gap-3 shrink-0">
             <UiButton variant="plain"

@@ -509,6 +509,9 @@ export interface Shift {
   cliqExpenses: number;
   cashRefunds: number;
   cliqRefunds: number;
+  /** Owner withdrawals out of this drawer and returns booked into it (migration 180). */
+  ownerWithdrawals?: number;
+  ownerWithdrawalReturns?: number;
   expectedCash: number;
   actualCash?: number;
   cashDiscrepancy?: number;
@@ -588,6 +591,12 @@ export interface ShiftClosingReport {
     count: number;
     amount: number;
   }>;
+  /** Owner withdrawals booked in this shift's drawer (migration 181). */
+  ownerWithdrawals?: {
+    withdrawn: number;
+    returned: number;
+    items: Array<{ kind: 'withdrawal' | 'return'; withdrawalNumber: string; amount: number; at: string; originalShiftNumber?: string }>;
+  };
   returnQuantityBreakdown?: Array<{
     eventId: string;
     productId: string;

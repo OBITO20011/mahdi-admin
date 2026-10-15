@@ -129,6 +129,10 @@ export interface HomeDashboardSummary {
   /** Existing canonical RPC net fields; missing evidence is not gross or zero. */
   monthNetSalesInMinorUnits?: number | null;
   monthProfitInMinorUnits: number | null;
+  /** Owner only (migration 181): net owner withdrawals this month, same scope as profit. */
+  monthOwnerWithdrawalsInMinorUnits?: number;
+  /** Owner only: month profit minus net withdrawals — not drawer, bank or cash. */
+  monthRemainingAfterWithdrawalsInMinorUnits?: number | null;
   openOrdersCount: number;
   newOrdersCount: number;
   customerReceivablesInMinorUnits: number;

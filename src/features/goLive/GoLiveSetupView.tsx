@@ -3,6 +3,7 @@ import { AlertTriangle, Boxes, CheckCircle2, Download, FileSpreadsheet, Lock, Pa
 import { Card, PageHeader, SectionHeader, StatusBadge, StockBar, UiButton, FormFields, formatMinorUnits } from '../../components/ui';
 import { useAppStoreActions, useAppStoreSelector } from '../../stores/useAppStore';
 import { useAuthStore } from '../../stores/useAuthStore';
+import { useDrawerShortfallConfirm } from '../../hooks/useDrawerShortfallConfirm';
 import { readXlsxFirstSheet, writeXlsx, XLSX_MIME, XlsxError } from '../../lib/xlsx';
 import { fetchInventoryOpeningSetupFromSupabase, applyInventoryOpeningSetupInSupabase } from '../../services/supabase/inventory-opening.service';
 import {
@@ -319,6 +320,7 @@ const SupplierOpeningPayForm: React.FC<{ entry: OpeningEntry; onDone: () => void
   const [key] = useState(() => newIdempotencyKey('supplier-opening'));
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const drawer = useDrawerShortfallConfirm();
   useEffect(() => {
     let live = true;
     fetchSupplierOpeningPayable(entry.partyId).then(r => { if (live) setRemaining(r.remainingInMinorUnits); })
@@ -328,6 +330,7 @@ const SupplierOpeningPayForm: React.FC<{ entry: OpeningEntry; onDone: () => void
   const pay = async () => {
     const minor = parseJodToMinor(amount);
     if (!minor || minor === '0') { setError('أدخل مبلغاً أكبر من صفر.'); return; }
+    if (!drawer.confirmCash(Number(minor) / 1000, method === 'cash', branchId)) return;
     setBusy(true); setError('');
     try {
       await paySupplierOpeningBalance({ supplierId: entry.partyId, branchId, amountInMinorUnits: Number(minor), method,
@@ -357,6 +360,7 @@ const SupplierOpeningPayForm: React.FC<{ entry: OpeningEntry; onDone: () => void
           <input id={ids.reference} className={fieldClass} dir="ltr" maxLength={100} value={reference} onChange={event => setReference(event.target.value)} />
         </div>
       )}
+      {drawer.warningNode && <div className="sm:col-span-2">{drawer.warningNode}</div>}
       <div className="flex flex-wrap gap-2 sm:col-span-2">
         <UiButton variant="primary" disabled={busy} onClick={() => void pay()}>تأكيد السداد</UiButton>
         <UiButton onClick={onCancel} disabled={busy}>تراجع</UiButton>

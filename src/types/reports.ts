@@ -6,6 +6,15 @@ export interface OperationalReportPeriod {
 }
 
 export interface OperationalBusinessReport {
+  /** Owner only: withdrawals of the period next to the unchanged net profit. */
+  ownerWithdrawals?: {
+    withdrawn: number;
+    returned: number;
+    net: number;
+    netProfit: number;
+    /** Profit after withdrawals — not drawer, bank or available cash. */
+    remainingAfterWithdrawals: number;
+  };
   generatedAt: string;
   period: OperationalReportPeriod;
   sales: {
