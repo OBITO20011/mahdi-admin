@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
+import {assertMigrationNumbering} from './migration-numbering.mjs';
 
 export const root = resolve(import.meta.dirname, '../..');
 export const statePath = resolve(root, 'docs/agent/project-state.json');
@@ -103,7 +104,11 @@ export function migrationInventory() {
   const migration150 = resolve(root, 'supabase/migrations/150_explicit_application_table_read_privileges.sql');
   const migration151 = resolve(root, 'supabase/migrations/151_explicit_application_realtime_publication.sql');
   const migrationFiles = readdirSync(resolve(root, 'supabase/migrations'));
+  let numbering;
+  try{numbering={ok:true,...assertMigrationNumbering(migrationFiles.filter(n=>/^\d+_.*\.sql$/u.test(n)).sort(),state)};}
+  catch(error){numbering={ok:false,error:error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'MIGRATION_NUMBERING_FAILED'};}
   return {
+    numbering,
     ceiling: state.migrationCeiling,
     unexpectedAboveCeiling: migrationFiles.filter((name) => /^\d+_.*\.sql$/u.test(name)
       && Number(name.split('_')[0]) > state.migrationCeiling),

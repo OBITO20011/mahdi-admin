@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Approved151 real Realtime proof,151 offline reference/owner upgrade tool,go-live ACL proposal ONLY;NO managed access",
-  "baselineSha": "83871bca69a3585ce32f004ad9a9ba8ecb317f60",
+  "objective": "Finish151/reference/owner-command delivery;record permanent140149 gap and startup160169 reservation;NO managed or next designs",
+  "baselineSha": "860c0427b713456512189be4a048193b86751305",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -16,7 +16,7 @@
     "Reference966e0b0 FULL24 quality38744064639+secrets38744064794 PASS;Gitleaks0;ownerreviewSTOP"
   ],
   "inProgress": [
-    "Owner151 approved13publicationtables only;real channels then151reference;140-149 branch read-only proposal"
+    "Reference860c042 exactCI pending;numbering policy permanent140149/startup160169;no branch edits"
   ],
   "notStarted": [],
   "testsPassed": [
@@ -35,27 +35,24 @@
   "prohibitions": [
     "No agent managed/oldtarget/secrets/deploy/history changes;local tests only;owner command preparation approved",
     "No retries/timeouts/skips/weakened assertions;freeze files during gates",
-    "Do not use140-149 or modifygo-live branch;ACL convergence proposal ONLY;no agent owner-apply execution"
+    "140149 permanently unused;160169 startup branch only;no branch edit/merge;no agent owner-apply;no next designs until current delivery"
   ],
-  "nextExactAction": "Reference151 frozen gates1084Admin191Customer typeslint PASS;E3ftnq runtime outerlock/officialrepair/forecast/publicationnegative/replay0write PASS. Commit reference151 then fullCI. Afterwards owner numbering gap140149 reserved160169;no new designs yet",
-  "checkpointedAt": "2026-10-15T15:15:49.891Z",
+  "nextExactAction": "Numbering localtypeslint1086Admin191Customer PASS15:19:09-15:23:24UTC frozen. Reference860c042 exactCI waiting. Commit numbering/decisions now;pushONLY after reference FULLPASS. No next designs or managed",
+  "checkpointedAt": "2026-10-15T15:24:06.609Z",
   "filesTouched": [
-    ".github/workflows/quality.yml",
+    "docs/agent/OPERATING_RULES.md",
+    "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
-    "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md",
-    "package.json",
-    "scripts/operations/frankfurt-acl-plan.mjs",
-    "scripts/operations/frankfurt-align-acl.mjs",
-    "scripts/operations/frankfurt-catalog-verification.mjs",
-    "scripts/operations/frankfurt-owner-build.mjs",
-    "scripts/operations/frankfurt-reference150.mjs",
+    "docs/agent/project-state.json",
+    "docs/operations/FRANKFURT_ACL_ALIGNMENT_AR.md",
     "docs/operations/FRANKFURT_REFERENCE_151_AR.md",
-    "scripts/operations/build-acl-reference151.mjs",
-    "scripts/operations/forecast-grants150.mjs",
-    "scripts/operations/frankfurt-owner-upgrade.mjs",
-    "scripts/operations/frankfurt-reference151.mjs",
-    "scripts/testing/run-frankfurt-upgrade151-runtime.mjs",
-    "tests/frankfurt-reference151.test.ts"
+    "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md",
+    "scripts/agent/lib.mjs",
+    "scripts/agent/preflight.mjs",
+    "tests/migration-integrity.test.ts",
+    "docs/operations/MIGRATION_ORDER_151_160_AR.md",
+    "scripts/agent/migration-numbering.mjs",
+    "tests/migration-numbering.test.ts"
   ],
-  "workingTreeFingerprint": "821A6F4CF920FCD99399E018EED17AD83BD24A0A3F2D05812C2FCEF7F7B2A853"
+  "workingTreeFingerprint": "1958A2C8725531AE77459F3AD9547BDAC5C39474129FEC746A91780AF92AA790"
 }

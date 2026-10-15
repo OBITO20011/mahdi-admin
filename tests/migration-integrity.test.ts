@@ -101,10 +101,12 @@ test('121-150 delivered bytes and continuity references agree with fixed approve
 test('migration numbers are unique and contiguous from001 to the approved ceiling', () => {
   const numbers = names.map(name => Number(name.slice(0, 3)));
   assert.equal(new Set(numbers).size, numbers.length, 'duplicate migration number');
-  // Owner-approved parallel lane140-149 may be absent,not any arbitrary gap.
-  // No placeholder migration is introduced;150 explicitly does not depend on it.
-  const reserved = Array.from({length:10}, (_, index) => index + 140);
-  assert.deepEqual(state.reservedMigrationNumbers,reserved);
+  // Owner2026-10-15:140-149 are permanently UNUSED,not a parallel lane.
+  const unused = Array.from({length:10}, (_, index) => index + 140);
+  assert.deepEqual(state.unusedMigrationNumbers,unused);
+  assert.deepEqual(state.reservedMigrationNumbers,Array.from({length:10},(_,i)=>160+i));
+  assert.deepEqual(state.codexMigrationNumbers,Array.from({length:8},(_,i)=>152+i));
+  assert.ok(!numbers.some(n=>unused.includes(n)),'retired140-149 must remain empty');
   assert.deepEqual(numbers, Array.from({length: state.migrationCeiling}, (_, index) => index + 1)
-    .filter(n => !reserved.includes(n) || numbers.includes(n)));
+    .filter(n => !unused.includes(n)));
 });

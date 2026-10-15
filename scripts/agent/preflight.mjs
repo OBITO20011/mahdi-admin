@@ -84,6 +84,7 @@ if (state.migrationCeiling >= 130 && (!state.migration130CanonicalLfSha256
   failures.push('Migration 130 hash missing or mismatch');
 }
 if (migrations.unexpectedAboveCeiling.length) failures.push('Migration above approved ceiling');
+if (!migrations.numbering.ok) failures.push('Migration numbering: '+migrations.numbering.error);
 if (state.migration126CanonicalLfSha256
   && (!migrations.migration126Exists
     || migrations.migration126CanonicalLfSha256 !== state.migration126CanonicalLfSha256)) {

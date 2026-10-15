@@ -53,6 +53,10 @@ sync;presentation-only corrections without call/payload changes. Document each.
 Money/inventory/balance/permission/auth logic,new or unapproved DB changes,
 Production/Frankfurt/secrets/password access,deploy and new business decisions
 still require specific approval. Existing139 local-only approval is unchanged;
-140–149 belong to the separate startup branch,not this writer.
+140–149 are a permanent unused gap(owner2026-10-15);152–159 are this writer's
+approved numbering lane ONLY,not approval to implement new migrations.
+160–169 are reserved for the separate startup branch,which renumbers140–142
+to160–162 itself. Do not touch that branch. Integration/ceiling/reference/CI
+is a later explicit owner task;never use --include-all to backfill the old gap.
 
 No Production access, deploy, commit, push, new migration, or phase transition is implied by ordinary implementation or handoff requests. Each requires explicit owner authorization in the current task.
