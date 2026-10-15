@@ -13,7 +13,7 @@ import {fixtureId as id} from './table-access-probes.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),
  project='nawasrah-service-audit-'+randomBytes(4).toString('hex')+'-test',container='supabase_db_'+project;
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-service-access-')),
- report={schemaVersion:1,startedAt:new Date().toISOString(),migrationCeiling:164,managedAccess:false,output};
+ report={schemaVersion:1,startedAt:new Date().toISOString(),migrationCeiling:171,managedAccess:false,output};
 const q=v=>"'"+String(v).replaceAll("'","''")+"'";
 const sql=async text=>{const r=await executeInput(executorFor(['--container',container]),text);assert.equal(r.code,0,r.stderr);return r.stdout.trim();};
 const json=async text=>JSON.parse(await sql(text));let workdir;
@@ -32,7 +32,7 @@ export function probeValue(name,type){
 try{
  const source=await serviceInventory();report.sourceHashes=source.sourceHashes;
  const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
-  NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'164',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
+  NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'171',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
   NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
  workdir=JSON.parse(boot.stdout).isolatedProjectRoot;
  await sql(`ALTER TABLE orders DISABLE TRIGGER trg_notify_new_website_order_push;SELECT cron.alter_job(jobid,active:=false) FROM cron.job;`);

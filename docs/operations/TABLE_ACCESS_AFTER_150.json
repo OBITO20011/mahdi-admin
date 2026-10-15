@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-15T16:35:23.700Z",
+  "startedAt": "2026-10-15T20:25:33.169Z",
   "managedAccess": false,
   "migrationCeiling": 150,
   "manifest": [
@@ -145,7 +145,7 @@
     "139_project_order_push_webhook_url.sql",
     "150_explicit_application_table_read_privileges.sql"
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-G9a4Zb",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-7lOUYG",
   "stage": "rls-and-acl",
   "results": [
     {
@@ -173,7 +173,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+            "57e9ebb4-15be-40ff-b613-22132711e488"
           ]
         },
         {
@@ -208,7 +208,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+            "57e9ebb4-15be-40ff-b613-22132711e488"
           ]
         },
         {
@@ -243,7 +243,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+            "57e9ebb4-15be-40ff-b613-22132711e488"
           ]
         },
         {
@@ -278,7 +278,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+            "57e9ebb4-15be-40ff-b613-22132711e488"
           ]
         },
         {
@@ -313,7 +313,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+            "57e9ebb4-15be-40ff-b613-22132711e488"
           ]
         },
         {
@@ -348,7 +348,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+            "57e9ebb4-15be-40ff-b613-22132711e488"
           ]
         },
         {
@@ -383,7 +383,7 @@
           "method": "eq",
           "args": [
             "id",
-            "418072c0-bc04-4a86-9cb7-d9c0dc0b5f0c"
+            "4a4696ab-4c49-427b-adb3-bade05eb049f"
           ]
         },
         {
@@ -418,7 +418,7 @@
           "method": "eq",
           "args": [
             "id",
-            "418072c0-bc04-4a86-9cb7-d9c0dc0b5f0c"
+            "4a4696ab-4c49-427b-adb3-bade05eb049f"
           ]
         },
         {
@@ -453,7 +453,7 @@
           "method": "eq",
           "args": [
             "id",
-            "418072c0-bc04-4a86-9cb7-d9c0dc0b5f0c"
+            "4a4696ab-4c49-427b-adb3-bade05eb049f"
           ]
         },
         {
@@ -686,7 +686,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c3f0340d-dc03-45a2-a293-c76f62955e69"
+            "dcd3da3d-d1f3-4fd9-bb24-2d76a50160fe"
           ]
         },
         {
@@ -721,7 +721,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c3f0340d-dc03-45a2-a293-c76f62955e69"
+            "dcd3da3d-d1f3-4fd9-bb24-2d76a50160fe"
           ]
         },
         {
@@ -756,7 +756,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c3f0340d-dc03-45a2-a293-c76f62955e69"
+            "dcd3da3d-d1f3-4fd9-bb24-2d76a50160fe"
           ]
         },
         {
@@ -1287,7 +1287,7 @@
           "args": [
             "id",
             [
-              "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+              "57e9ebb4-15be-40ff-b613-22132711e488"
             ]
           ]
         }
@@ -1320,7 +1320,7 @@
           "args": [
             "id",
             [
-              "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+              "57e9ebb4-15be-40ff-b613-22132711e488"
             ]
           ]
         }
@@ -1353,7 +1353,7 @@
           "args": [
             "id",
             [
-              "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+              "57e9ebb4-15be-40ff-b613-22132711e488"
             ]
           ]
         }
@@ -1386,7 +1386,7 @@
           "args": [
             "order_id",
             [
-              "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+              "57e9ebb4-15be-40ff-b613-22132711e488"
             ]
           ]
         },
@@ -1452,7 +1452,7 @@
           "args": [
             "order_id",
             [
-              "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+              "57e9ebb4-15be-40ff-b613-22132711e488"
             ]
           ]
         },
@@ -1518,7 +1518,7 @@
           "args": [
             "order_id",
             [
-              "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+              "57e9ebb4-15be-40ff-b613-22132711e488"
             ]
           ]
         },
@@ -1583,7 +1583,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+            "57e9ebb4-15be-40ff-b613-22132711e488"
           ]
         },
         {
@@ -1618,7 +1618,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+            "57e9ebb4-15be-40ff-b613-22132711e488"
           ]
         },
         {
@@ -1653,7 +1653,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+            "57e9ebb4-15be-40ff-b613-22132711e488"
           ]
         },
         {
@@ -1688,7 +1688,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+            "57e9ebb4-15be-40ff-b613-22132711e488"
           ]
         },
         {
@@ -1725,7 +1725,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+            "57e9ebb4-15be-40ff-b613-22132711e488"
           ]
         },
         {
@@ -1762,7 +1762,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+            "57e9ebb4-15be-40ff-b613-22132711e488"
           ]
         },
         {
@@ -1800,7 +1800,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "257eca26-e311-4372-8c90-95718a09d7b5"
+              "6b2630cb-d939-46c3-a2a2-ee5473e94499"
             ]
           ]
         }
@@ -1833,7 +1833,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "257eca26-e311-4372-8c90-95718a09d7b5"
+              "6b2630cb-d939-46c3-a2a2-ee5473e94499"
             ]
           ]
         }
@@ -1866,7 +1866,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "257eca26-e311-4372-8c90-95718a09d7b5"
+              "6b2630cb-d939-46c3-a2a2-ee5473e94499"
             ]
           ]
         }
@@ -1874,7 +1874,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:553",
+      "id": "src/services/supabase/products.service.ts:581",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -1911,7 +1911,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:553",
+      "id": "src/services/supabase/products.service.ts:581",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -1948,7 +1948,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:553",
+      "id": "src/services/supabase/products.service.ts:581",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -1985,7 +1985,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:561",
+      "id": "src/services/supabase/products.service.ts:589",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2022,7 +2022,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:561",
+      "id": "src/services/supabase/products.service.ts:589",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2059,7 +2059,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:561",
+      "id": "src/services/supabase/products.service.ts:589",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2096,7 +2096,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:569",
+      "id": "src/services/supabase/products.service.ts:597",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2126,7 +2126,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:569",
+      "id": "src/services/supabase/products.service.ts:597",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2156,7 +2156,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:569",
+      "id": "src/services/supabase/products.service.ts:597",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2186,118 +2186,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:578",
-      "table": "units",
-      "operation": "select",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "variant": "original-chain",
-      "status": 200,
-      "sqlstate": null,
-      "message": null,
-      "details": null,
-      "hint": null,
-      "rows": 1,
-      "outcome": "success",
-      "evaluated": [
-        {
-          "method": "select",
-          "args": [
-            "id"
-          ]
-        },
-        {
-          "method": "eq",
-          "args": [
-            "name_ar",
-            "باكيت"
-          ]
-        },
-        {
-          "method": "limit",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "appRole": "owner"
-    },
-    {
-      "id": "src/services/supabase/products.service.ts:578",
-      "table": "units",
-      "operation": "select",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "variant": "original-chain",
-      "status": 200,
-      "sqlstate": null,
-      "message": null,
-      "details": null,
-      "hint": null,
-      "rows": 1,
-      "outcome": "success",
-      "evaluated": [
-        {
-          "method": "select",
-          "args": [
-            "id"
-          ]
-        },
-        {
-          "method": "eq",
-          "args": [
-            "name_ar",
-            "باكيت"
-          ]
-        },
-        {
-          "method": "limit",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "appRole": "admin"
-    },
-    {
-      "id": "src/services/supabase/products.service.ts:578",
-      "table": "units",
-      "operation": "select",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "variant": "original-chain",
-      "status": 200,
-      "sqlstate": null,
-      "message": null,
-      "details": null,
-      "hint": null,
-      "rows": 1,
-      "outcome": "success",
-      "evaluated": [
-        {
-          "method": "select",
-          "args": [
-            "id"
-          ]
-        },
-        {
-          "method": "eq",
-          "args": [
-            "name_ar",
-            "باكيت"
-          ]
-        },
-        {
-          "method": "limit",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "appRole": "cashier"
-    },
-    {
-      "id": "src/services/supabase/products.service.ts:591",
+      "id": "src/services/supabase/products.service.ts:606",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2334,7 +2223,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:591",
+      "id": "src/services/supabase/products.service.ts:606",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2371,7 +2260,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:591",
+      "id": "src/services/supabase/products.service.ts:606",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2408,7 +2297,118 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:671",
+      "id": "src/services/supabase/products.service.ts:619",
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 1,
+      "outcome": "success",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "name_ar",
+            "باكيت"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "appRole": "owner"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:619",
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 1,
+      "outcome": "success",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "name_ar",
+            "باكيت"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "appRole": "admin"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:619",
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 1,
+      "outcome": "success",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "name_ar",
+            "باكيت"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "appRole": "cashier"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:699",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -2443,7 +2443,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:671",
+      "id": "src/services/supabase/products.service.ts:699",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -2478,7 +2478,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:671",
+      "id": "src/services/supabase/products.service.ts:699",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -2513,7 +2513,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:766",
+      "id": "src/services/supabase/products.service.ts:794",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -2550,7 +2550,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:766",
+      "id": "src/services/supabase/products.service.ts:794",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -2587,7 +2587,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:766",
+      "id": "src/services/supabase/products.service.ts:794",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -2624,7 +2624,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:778",
+      "id": "src/services/supabase/products.service.ts:806",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2661,7 +2661,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:778",
+      "id": "src/services/supabase/products.service.ts:806",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2698,7 +2698,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:778",
+      "id": "src/services/supabase/products.service.ts:806",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2735,7 +2735,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:790",
+      "id": "src/services/supabase/products.service.ts:818",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2772,7 +2772,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:790",
+      "id": "src/services/supabase/products.service.ts:818",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2809,7 +2809,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:790",
+      "id": "src/services/supabase/products.service.ts:818",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2846,7 +2846,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:797",
+      "id": "src/services/supabase/products.service.ts:825",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2876,7 +2876,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:797",
+      "id": "src/services/supabase/products.service.ts:825",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2906,7 +2906,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:797",
+      "id": "src/services/supabase/products.service.ts:825",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2936,7 +2936,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:804",
+      "id": "src/services/supabase/products.service.ts:832",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2973,7 +2973,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:804",
+      "id": "src/services/supabase/products.service.ts:832",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3010,118 +3010,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:804",
-      "table": "units",
-      "operation": "select",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "variant": "original-chain",
-      "status": 200,
-      "sqlstate": null,
-      "message": null,
-      "details": null,
-      "hint": null,
-      "rows": 1,
-      "outcome": "success",
-      "evaluated": [
-        {
-          "method": "select",
-          "args": [
-            "id"
-          ]
-        },
-        {
-          "method": "eq",
-          "args": [
-            "name_ar",
-            "باكيت"
-          ]
-        },
-        {
-          "method": "limit",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "appRole": "cashier"
-    },
-    {
-      "id": "src/services/supabase/products.service.ts:815",
-      "table": "units",
-      "operation": "select",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "variant": "original-chain",
-      "status": 200,
-      "sqlstate": null,
-      "message": null,
-      "details": null,
-      "hint": null,
-      "rows": 1,
-      "outcome": "success",
-      "evaluated": [
-        {
-          "method": "select",
-          "args": [
-            "id"
-          ]
-        },
-        {
-          "method": "eq",
-          "args": [
-            "name_ar",
-            "باكيت"
-          ]
-        },
-        {
-          "method": "limit",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "appRole": "owner"
-    },
-    {
-      "id": "src/services/supabase/products.service.ts:815",
-      "table": "units",
-      "operation": "select",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "variant": "original-chain",
-      "status": 200,
-      "sqlstate": null,
-      "message": null,
-      "details": null,
-      "hint": null,
-      "rows": 1,
-      "outcome": "success",
-      "evaluated": [
-        {
-          "method": "select",
-          "args": [
-            "id"
-          ]
-        },
-        {
-          "method": "eq",
-          "args": [
-            "name_ar",
-            "باكيت"
-          ]
-        },
-        {
-          "method": "limit",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "appRole": "admin"
-    },
-    {
-      "id": "src/services/supabase/products.service.ts:815",
+      "id": "src/services/supabase/products.service.ts:832",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3158,7 +3047,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:983",
+      "id": "src/services/supabase/products.service.ts:843",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3195,7 +3084,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:983",
+      "id": "src/services/supabase/products.service.ts:843",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3232,7 +3121,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:983",
+      "id": "src/services/supabase/products.service.ts:843",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3269,7 +3158,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:994",
+      "id": "src/services/supabase/products.service.ts:1013",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3306,7 +3195,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:994",
+      "id": "src/services/supabase/products.service.ts:1013",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3343,7 +3232,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:994",
+      "id": "src/services/supabase/products.service.ts:1013",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3380,7 +3269,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:1006",
+      "id": "src/services/supabase/products.service.ts:1024",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3417,7 +3306,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:1006",
+      "id": "src/services/supabase/products.service.ts:1024",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3454,7 +3343,118 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:1006",
+      "id": "src/services/supabase/products.service.ts:1024",
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 1,
+      "outcome": "success",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "name_ar",
+            "باكيت"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "appRole": "cashier"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:1036",
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 1,
+      "outcome": "success",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "name_ar",
+            "باكيت"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "appRole": "owner"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:1036",
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "variant": "original-chain",
+      "status": 200,
+      "sqlstate": null,
+      "message": null,
+      "details": null,
+      "hint": null,
+      "rows": 1,
+      "outcome": "success",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "name_ar",
+            "باكيت"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "appRole": "admin"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:1036",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3734,7 +3734,7 @@
           "method": "eq",
           "args": [
             "id",
-            "7a587471-9047-431e-bea5-c7b6111df766"
+            "24a0bddf-b919-49eb-821e-c4c04ce48af6"
           ]
         },
         {
@@ -3769,7 +3769,7 @@
           "method": "eq",
           "args": [
             "id",
-            "7a587471-9047-431e-bea5-c7b6111df766"
+            "24a0bddf-b919-49eb-821e-c4c04ce48af6"
           ]
         },
         {
@@ -3804,7 +3804,7 @@
           "method": "eq",
           "args": [
             "id",
-            "7a587471-9047-431e-bea5-c7b6111df766"
+            "24a0bddf-b919-49eb-821e-c4c04ce48af6"
           ]
         },
         {
@@ -4954,7 +4954,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "b366f7b3-d45d-434c-8772-bba0c4cdc300",
+              "entity_id": "57e9ebb4-15be-40ff-b613-22132711e488",
               "status": "processing"
             }
           ]
@@ -4987,7 +4987,7 @@
           "method": "eq",
           "args": [
             "id",
-            "b366f7b3-d45d-434c-8772-bba0c4cdc300"
+            "57e9ebb4-15be-40ff-b613-22132711e488"
           ]
         },
         {
@@ -5026,7 +5026,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-10-15T16:36:52.169Z"
+              "completed_at": "2026-10-15T20:27:07.010Z"
             }
           ]
         },
@@ -5062,7 +5062,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-10-15T16:36:52.203Z"
+              "completed_at": "2026-10-15T20:27:07.044Z"
             }
           ]
         },
@@ -5096,9 +5096,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-10-15T16:36:52.234Z",
+              "last_success_at": "2026-10-15T20:27:07.070Z",
               "last_failure_message": null,
-              "updated_at": "2026-10-15T16:36:52.234Z"
+              "updated_at": "2026-10-15T20:27:07.070Z"
             }
           ]
         },
@@ -5133,9 +5133,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-10-15T16:36:52.250Z",
+              "last_failure_at": "2026-10-15T20:27:07.104Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-10-15T16:36:52.250Z"
+              "updated_at": "2026-10-15T20:27:07.105Z"
             }
           ]
         },
@@ -5172,7 +5172,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-10-15T16:36:52.281Z"
+              "completed_at": "2026-10-15T20:27:07.137Z"
             }
           ]
         },
@@ -57773,12 +57773,20 @@
       "sha256": "09661c0cefa1888acab711e310c7c5c7e435984e159a6a8b3cb6866b2fd6c5b3"
     },
     {
+      "file": "src/features/products/ProductCostCorrectionPanel.tsx",
+      "sha256": "526c286cff7473219b7a30e262db761941e3a2fc40126a9d3dced8fec5aa8934"
+    },
+    {
       "file": "src/features/products/ProductDetailModal.tsx",
-      "sha256": "3a6b9064ba200e10f48951e829da1322a4f364f73521e2b2ea03063f11a9d3c2"
+      "sha256": "5e46fecfab444c40905284671db18a65ad82ee661a3beb59f1345bc503b156da"
+    },
+    {
+      "file": "src/features/products/ProductEditConflictPanel.tsx",
+      "sha256": "85090ffb2e51c87e13f6dfffed4231565cd3ecd4663121e536475a473a17943b"
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "220eb64470d0843e913721cc256aa8d092201ffec31eee89bf93029508553d18"
+      "sha256": "126cf5b9bbdc66cda35da05d81cacad2bbff1de911f21b14d9d065db6b8eb9f8"
     },
     {
       "file": "src/features/products/ProductsView.tsx",
@@ -57989,8 +57997,12 @@
       "sha256": "c7e8576deb642c40a7b0a1b660288d0e4b29f40633f5fb9aae3d8aa1c61f648a"
     },
     {
+      "file": "src/services/supabase/productCost.service.ts",
+      "sha256": "02cdd9752c28d3d6355845fd6a00a1a073a12c9159176cc8d0b70a1bee76aa29"
+    },
+    {
       "file": "src/services/supabase/products.service.ts",
-      "sha256": "34a4b351de86a35ed8c7c44de72896cbbb7765b896e79241b71cd577c0ab0208"
+      "sha256": "fea104f47ee0bb355d9c58591dcc4ff1e8a4ade18bb2be5edbd266e8feb2b269"
     },
     {
       "file": "src/services/supabase/promotions.service.ts",
@@ -58046,7 +58058,7 @@
     },
     {
       "file": "src/stores/useAppStore.ts",
-      "sha256": "c231103d574ce1b0b1155eda5cc74994be3796d1130289be6b79076d57e2f44d"
+      "sha256": "f6cbe1059ce7c4f3282d8f85f540bba7905c3265abc65d07831ee2fcdd5197c2"
     },
     {
       "file": "src/stores/useAuthStore.ts",
@@ -58131,6 +58143,10 @@
     {
       "file": "src/utils/productCalculations.ts",
       "sha256": "b8a02fd49d6e3344556f26bcbd009106041320280fa6405eaa17a87a43a851c0"
+    },
+    {
+      "file": "src/utils/productEditConflict.ts",
+      "sha256": "2e997f07ecd0ff1f3fc565954f063aa0aa4a17319c09135ace082b3301a16945"
     },
     {
       "file": "src/utils/productIdentifiers.ts",
@@ -58450,13 +58466,13 @@
     }
   ],
   "fixture": {
-    "orderId": "b366f7b3-d45d-434c-8772-bba0c4cdc300",
-    "operationId": "418072c0-bc04-4a86-9cb7-d9c0dc0b5f0c",
-    "receiptId": "c3f0340d-dc03-45a2-a293-c76f62955e69",
-    "poId": "7a587471-9047-431e-bea5-c7b6111df766",
+    "orderId": "57e9ebb4-15be-40ff-b613-22132711e488",
+    "operationId": "4a4696ab-4c49-427b-adb3-bade05eb049f",
+    "receiptId": "dcd3da3d-d1f3-4fd9-bb24-2d76a50160fe",
+    "poId": "24a0bddf-b919-49eb-821e-c4c04ce48af6",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "257eca26-e311-4372-8c90-95718a09d7b5"
+      "6b2630cb-d939-46c3-a2a2-ee5473e94499"
     ]
   },
   "access": [
@@ -64217,5 +64233,5 @@
     "zero_rows": 0,
     "other_error": 0
   },
-  "endedAt": "2026-10-15T16:39:23.883Z"
+  "endedAt": "2026-10-15T20:29:51.879Z"
 }

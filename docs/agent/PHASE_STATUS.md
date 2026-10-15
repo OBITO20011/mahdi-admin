@@ -1,7 +1,19 @@
 # Phase status
 
+2026-10-15 currentowner taskPR2 product-edit-conflict71b9469 genuine merge;
+170/171 accepted byClaude,ceiling171/reference/access/functions/strictparity.
+Cloud170–179,next180–189;165–169 remain unused,no backfill. Productsource
+from reviewedbranch only;no additionalmoney/inventory/auth logic changes.
+No hostedaccess. Designimplementation deferred;localdocs36c9803 joins push.
+
+2026-10-16Amman final171localgates PASS(20:42:18–21:10:36UTC15Oct):
+1119Admin191Customer/typeslint/build/DB_FUNCTIONS454,66/66bothengines,
+148filefresh=incremental0catalogdelta,ownerofficialrepair/dryrun/replay0,
+RPC-only+legacywritersclosed.429RPC0denied,142SDK0errors;offline246nohost.
+Gitleaks/merge/push/exactFULLCI+secrets next;NOT delivered before CI.
+
 2026-10-15 owner reports Claude accepted withdrawals/cheques design documents.
-Save docs-only independent localcommit;NO implementation,assignedtoanother
+Saved36c9803 docs-only independent localcommit;NO implementation,assignedtoanother
 session after ownerdecisions. Integrationa8a90b5 alreadyFULL24/24+secretsPASS;
 ceiling164 unchanged. Historical draftlane152–159 not available for backfill.
 Currenttaskonlydesignpreservation thenSTOP;no push/managed/deploy requested.

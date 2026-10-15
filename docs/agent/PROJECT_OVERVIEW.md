@@ -1,5 +1,10 @@
 # Project overview
 
+Current owner integration2026-10-15 PR2:approved170/171 from71b9469,
+genuine merge/ceiling171/current access evidence/function reference/owner CLI.
+See PRODUCT_INTEGRATION_171.md. No managedaccess or designs implementation.
+Earlier integration paragraphs are historical,not current ceiling authority.
+
 Current owner integration2026-10-15:PR1 b32102a160–164 real merge into main,
 ceiling164/access evidence/fresh-incremental catalog/reference/owner command
 and full exact-SHA CI. See GO_LIVE_INTEGRATION_164.md. All managed access is

@@ -2,54 +2,45 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Save Claude-reviewed withdrawals/cheques designs in independent docs-only localcommit;NO implementation or push;report delivered164 integration thenSTOP",
-  "baselineSha": "a8a90b58dc1ffac58a04b07b2ba38efe3383c0a7",
+  "objective": "Merge approved PR2 71b9469 (170/171) into main;171 reference/access/strictparity/closedlegacywriters;fullCI;NO hosted/designimplementation",
+  "baselineSha": "36c980394143a2ce8033162b4326cf0d32fe670e",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR1 b32102a genuine2-parent merge a8a90b5 pushedmain",
-    "164 pins/146files/446functions;real access142/142 andRPC423/0denied PASS",
-    "DB gates8/8/frozen;fresh=incremental0delta;owner rehearsal official/replay0 PASS",
-    "Independent cash114000 closed/openfinancialparity;statussetdiagnostic documented",
-    "Exact quality38794500613 FULL24/24 andsecrets38794500611 PASS;Gitleaks0"
+    "Design docs36c9803 preserved;PR1a8a90b5 exactFULL24/24+secretsPASS",
+    "PR2 merge in progress71b9469;both approved parity mappings PASS",
+    "170171realruntime;454functions;142SDK/0error429RPC/0denied;freshincremental0diff",
+    "Final frozen7/7:1119Admin191Customer/typeslint/build/66bothenginebrowser PASS"
   ],
   "inProgress": [
-    "Docs preservation gates and independent localcommit"
+    "Finalstaging/Gitleaks,genuinemergecommit,push/exactFULLCI"
   ],
   "notStarted": [
     "Withdrawals/cheques implementation assigned to another session after ownerdecisions;no managed access"
   ],
   "testsPassed": [
-    "GO_LIVE runtime + independent164cash+RPC-only PASS",
-    "phase42,136,137,138,closing133 PASS;164reference/prefix/drift guards PASS",
-    "Final1099Admin191Customer/typeslint;build/DB_FUNCTIONS;88/88bothengines PASS;CLIpreview246 nohost",
-    "Exact mergeSHA24/24+secrets;one approvednpmECONNRESET environmentrerun only",
-    "Design-docs frozen19:54:34–19:58:00UTC typeslint1099Admin191Customer PASS"
+    "Initialpreflight/resume PASS;entirefileparity3files+mutationcontrolsPASS",
+    "171reference148files454functions/13members;official/replay0/driftnegativePASS",
+    "Final1119Admin191Customer/typeslint/build/DB_FUNCTIONS;66/66bothenginesPASS",
+    "Offlineowner171+publicACL246commands47objects/nohostPASS"
   ],
   "testsRemaining": [
-    "Docs-only stagedGitleaks,localcommit,checkpoint;no newpush authorized"
+    "Gitleaks,merge/push,exactFULLCI+secrets"
   ],
-  "findings": [
-    "Returned legacy due7000:facts7000 vsphase42=0;completed pathmatches;deliveredinvalidCHECK;reportonly",
-    "Known-own merge baseline synchronized under standingpermission;no unknownsourcechanges"
-  ],
+  "findings": [],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No agent managed/oldtarget/secrets/deploy/history changes;local tests only;owner command preparation approved",
-    "No retries/timeouts/skips/weakened assertions;freeze files during gates",
-    "Merge PR1 b32102a160164 specifically approved;no branch rewriting or forcepush;no newunapproved migration",
-    "Owner approves reviewed design docs preservation only;no implementation,newmigration or businessdecisions",
-    "No agent Frankfurt/Production/owner command execution,secrets or deploy"
+    "No Frankfurt/Production/secrets/deploy orownercommandexecution",
+    "No historicalSQL edits or additionalbusinesschanges;approved170171 unchanged",
+    "No retries/timeouts/skips/assertionweakening;freeze trackedfiles duringgates",
+    "Withdrawals/cheques deferred;cloud170179 next180189 onlymetadata"
   ],
-  "nextExactAction": "Run docs-only types/lint/allunits andGitleaks;commit designs andnotes locally withoutpush;checkpointthenSTOP,no implementation.",
-  "checkpointedAt": "2026-10-15T19:54:33.711Z",
+  "nextExactAction": "Finish approved171 integration in currentmerge;validate locally,pushgenuine merge,exactFULLCI thenSTOP.",
+  "checkpointedAt": "2026-10-15T19:59:07.185Z",
   "filesTouched": [
-    "docs/agent/OWNER_DECISIONS.md",
-    "docs/agent/PHASE_STATUS.md",
-    "docs/design/DEFERRED_CHEQUES_DESIGN_AR.md",
-    "docs/design/OWNER_WITHDRAWALS_DESIGN_AR.md"
+    "docs/agent/PHASE_STATUS.md"
   ],
-  "workingTreeFingerprint": "EFE90306420FD7286D83D2A44377FFD3572962CE1049A2507313EEB4E72AC1A5"
+  "workingTreeFingerprint": "835244406F0522D059DD9921BE2ACEB671883366CD3CED1D1ADBD64C900542F4"
 }

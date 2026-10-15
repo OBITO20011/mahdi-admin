@@ -253,6 +253,14 @@ jobs:
         if: matrix.suite == 'package-f-reads'
         run: npm run test:package-f:crm-filters
 
+      - name: Prove170 product edit conflict between two real sessions,ACL and v3 parity
+        if: matrix.suite == 'package-f-reads'
+        run: npm run test:product-edit:runtime
+
+      - name: Prove171 product edits keep stock cost,sale COGS at the true average and owner-only correction
+        if: matrix.suite == 'package-f-reads'
+        run: npm run test:product-cost:runtime
+
       - name: Prove136 read-only FIFO aging,canonical balance and role boundaries
         if: matrix.suite == 'package-f-aging'
         run: npm run test:package-f:aging
@@ -272,6 +280,10 @@ jobs:
       - name: Prove164 fresh versus incremental catalog and owner upgrade without managed access
         if: matrix.suite == 'package-f-reads'
         run: node scripts/testing/run-frankfurt-upgrade164-runtime.mjs
+
+      - name: Prove171 fresh versus incremental catalog,closed legacy writers and owner upgrade locally
+        if: matrix.suite == 'package-f-reads'
+        run: node scripts/testing/run-frankfurt-upgrade171-runtime.mjs
 
       - name: Prove daily Supabase REST read and database-size read on isolated schema
         if: matrix.suite == 'package-f-aging'
@@ -293,7 +305,7 @@ jobs:
         if: matrix.suite == 'package-f-reads'
         run: npm run test:table-reads150:runtime
 
-      - name: Require real application table access through164
+      - name: Require real application table access through171
         if: matrix.suite == 'package-f-reads'
         run: node scripts/audit/run-table-access-diagnostic.mjs --require-access
 

@@ -52,7 +52,7 @@ export function assertReference164(reference,manifest,proofText,source,baseProof
  return reference;
 }
 export async function readReference164(root,filename){
- return assertReference164(JSON.parse(await readFile(filename,'utf8')),await migrationManifest(root),
+ return assertReference164(JSON.parse(await readFile(filename,'utf8')),(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=164),
   await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_164.json'),'utf8'),await inventory(),
   await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_150.json'),'utf8'));
 }

@@ -1,5 +1,10 @@
 # Multi-agent operating rules
 
+Current explicit owner integration2026-10-15 supersedes historical reservations
+below:merge PR2 accepted170/171,ceiling171;cloud170–179,next180–189 reserved.
+140–149 permanent unused;152–159 and165–169 deferred,no backfill. No implied
+permission for another migration or hosted access. Designs are docs-only.
+
 ## Single writer
 
 Only one agent may write in a worktree at a time. Codex and Claude may not edit, stage, run mutating DB tests, or operate long-lived servers concurrently in the same checkout. A reviewer may inspect read-only after confirming no writer-owned process will mutate shared state.

@@ -1150,7 +1150,15 @@ class StoreEngine {
     };
   }
 
-  public async updateProduct(id: string, updates: Partial<Product>) {
+  /**
+   * Versioned save (migration 170): expectedUpdatedAt is the products.updated_at
+   * the editor opened. Without it the store's copy is used (quick actions).
+   */
+  public async updateProduct(
+    id: string,
+    updates: Partial<Product>,
+    options: { expectedUpdatedAt?: string } = {}
+  ) {
     const prodIndex = this.state.products.findIndex((p) => p.id === id);
     if (prodIndex === -1) {
       return { success: false, error: 'المنتج غير موجود.' };
@@ -1203,10 +1211,15 @@ class StoreEngine {
       maxStockLevel: updates.maxStockLevel ?? current.maxStockLevel,
       isActive: (updates.status || current.status) !== 'hidden',
       imageUrl: updates.imageUrl ?? current.imageUrl,
+      expectedUpdatedAt: options.expectedUpdatedAt ?? current.updatedAt,
     });
 
     if (!result.success) {
       this.setToast(result.error || 'فشل تحديث المنتج في Supabase.', 'error');
+      if (result.errorDetails?.code === 'PRODUCT_EDIT_CONFLICT') {
+        // Show the other user's values everywhere; the next save starts from them.
+        await this.refreshProductsFromSupabase();
+      }
       return result;
     }
 
@@ -2302,7 +2315,8 @@ export function useAppStore() {
       storeEngine.markNotificationRead(notificationId),
     markAllNotificationsRead: () => storeEngine.markAllNotificationsRead(),
     addProduct: (data: Partial<Product>) => storeEngine.addProduct(data),
-    updateProduct: (id: string, updates: Partial<Product>) => storeEngine.updateProduct(id, updates),
+    updateProduct: (id: string, updates: Partial<Product>, options?: { expectedUpdatedAt?: string }) =>
+      storeEngine.updateProduct(id, updates, options),
     deleteProduct: (id: string) => storeEngine.deleteProduct(id),
     hideProduct: (id: string) => storeEngine.hideProduct(id),
     duplicateProduct: (id: string) => storeEngine.duplicateProduct(id),

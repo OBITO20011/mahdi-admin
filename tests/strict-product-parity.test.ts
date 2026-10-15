@@ -3,7 +3,7 @@ import {test} from 'node:test';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import ts from 'typescript';
-import {approvedUnifiedCollectionSource} from './strict-product-legacy-source';
+import {approvedUnifiedCollectionSource,approvedProductEditConflictSource} from './strict-product-legacy-source';
 
 const baseline='f2c37bd0e4ebec9f525b426e66e67df66b36fdbe';
 const files=[
@@ -76,7 +76,7 @@ function normalized(source:string,file:string) {
 }
 for(const file of files)test(`strict product: all emitted calls, payloads, guards and bindings match baseline: ${file}`,()=>{
   const before=normalized(execFileSync('git',['show',`${baseline}:${file}`],{encoding:'utf8'}),file);
-  const after=normalized(approvedUnifiedCollectionSource(file,readFileSync(file,'utf8')),file);
+  const after=normalized(approvedUnifiedCollectionSource(file,approvedProductEditConflictSource(file,readFileSync(file,'utf8'))),file);
   assert.deepEqual(after.calls,before.calls,'All calls, including nested callback bodies');
   assert.deepEqual(after.body,before.body,'All runtime AST nodes, not only selected RPCs');
 });

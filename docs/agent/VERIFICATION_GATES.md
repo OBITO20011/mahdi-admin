@@ -45,7 +45,7 @@ checks. No Production/release authorization is conferred by this gate decision.
 
 The mandatory `package-f-reads` full-CI matrix also executes
 `node scripts/audit/run-table-access-diagnostic.mjs --require-access` on a fresh
-001–139+150–151+160–164 database (140–149 permanent gap;152–159 deferred).
+001–139+150–151+160–164+170–171 database (140–149 permanent gap;152–159 and165–169 deferred).
 Historical138 and150 evidence remain separately labelled and immutable SQL.
 It replays the actual source SDK chains
 as real JWT roles against local PostgREST, rejects42501/other SQL or PGRST2xx,

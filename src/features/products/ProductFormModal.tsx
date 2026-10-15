@@ -27,6 +27,20 @@ import {
   uploadProductImageToSupabase,
 } from '../../services/supabase/product-images.service';
 import { createProductFamilyWithFlavorsInSupabase } from '../../services/supabase/products.service';
+import {
+  compareProductEdits,
+  reapplyProductEdits,
+  snapshotToEditFields,
+  type ProductEditComparisonRow,
+  type ProductEditFields,
+  type ProductEditSnapshot,
+} from '../../utils/productEditConflict';
+import { ProductEditConflictPanel } from './ProductEditConflictPanel';
+import {
+  currentUnitCostInMinorUnits,
+  fetchProductCostState,
+  type ProductCostState,
+} from '../../services/supabase/productCost.service';
 import { useAppStore } from '../../stores/useAppStore';
 import { Product } from '../../types';
 import { validateProductImage } from '../../utils/productImage';
@@ -63,6 +77,9 @@ const createFlavorDraft = (): ProductFlavorDraft => ({
   imageFile: null,
   imagePreview: '',
 });
+
+// Marks a picked-but-not-yet-uploaded image in the conflict comparison.
+const NEW_IMAGE_SELECTED = '\u0000new-image';
 
 const toSalePackageCount = (
   baseQuantity: number | undefined,
@@ -206,6 +223,28 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     details?: string;
     hint?: string;
   } | null>(null);
+  // Optimistic concurrency (migration 170): the version and values this form
+  // opened, independent of later store refreshes.
+  const [openedVersion, setOpenedVersion] = useState(initialProduct?.updatedAt || '');
+  const [openedActive, setOpenedActive] = useState(initialProduct?.status !== 'hidden');
+  const [openedFields, setOpenedFields] = useState<ProductEditFields | null>(null);
+  const [editConflict, setEditConflict] = useState<{
+    snapshot: ProductEditSnapshot;
+    current: ProductEditFields;
+  } | null>(null);
+  const [reappliedNotice, setReappliedNotice] = useState(false);
+  // Migration 171: once a product has stock history its average cost comes
+  // only from receiving (or an owner correction); the form shows it read-only.
+  const [costState, setCostState] = useState<ProductCostState | null>(null);
+  useEffect(() => {
+    if (!initialProduct?.id) return;
+    let live = true;
+    fetchProductCostState(initialProduct.id)
+      .then((state) => { if (live) setCostState(state); })
+      .catch(() => undefined);
+    return () => { live = false; };
+  }, [initialProduct?.id]);
+  const costIsFromStock = Boolean(isEditing && costState?.hasCostHistory);
   const currentFlavors = useMemo(
     () =>
       initialProduct?.id
@@ -289,8 +328,12 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     0,
     Number(salePackagePrice) || 0
   );
+  // The cost a sale books today: the stock average once the product has history.
+  const effectiveUnitCost = costIsFromStock && costState
+    ? currentUnitCostInMinorUnits(costState) / 1000
+    : costPerUnit;
   const salePackageCost = calculatePackagePrice(
-    costPerUnit,
+    effectiveUnitCost,
     validUnitsPerSalePackage
   );
   const salePackageProfit = calculateProductProfit(
@@ -477,6 +520,86 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     });
   };
 
+  const readFormFields = (): ProductEditFields => ({
+    nameAr: nameAr.trim(),
+    description: description.trim(),
+    sku: sku.trim().toUpperCase(),
+    barcode: isFlavorMaster ? '' : barcode.trim(),
+    categoryId,
+    brandId,
+    imageUrl: selectedImageFile ? NEW_IMAGE_SELECTED : imageUrl.trim(),
+    purchasePackage,
+    unitsPerPackage: validUnitsPerPackage,
+    defaultPurchasePrice: validPackagePrice,
+    salePackage,
+    unitsPerSalePackage: validUnitsPerSalePackage,
+    salePackagePrice: validSalePackagePrice,
+    reorderPackages: Math.max(0, Math.floor(Number(reorderLevel) || 0)),
+    maxPackages:
+      maxStockLevel === '' ? '' : Math.max(0, Math.floor(Number(maxStockLevel) || 0)),
+  });
+
+  // Capture the values exactly as the form initialised them, once.
+  useEffect(() => {
+    if (isEditing) setOpenedFields(readFormFields());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const applyFormFields = (fields: ProductEditFields, currentImageUrl: string) => {
+    setNameAr(fields.nameAr);
+    setDescription(fields.description);
+    setSku(fields.sku);
+    if (!isFlavorMaster) setBarcode(fields.barcode);
+    setCategoryId(fields.categoryId);
+    setBrandId(fields.brandId);
+    // A newly picked image stays selected and is uploaded again on save.
+    setImageUrl(fields.imageUrl === NEW_IMAGE_SELECTED ? currentImageUrl : fields.imageUrl);
+    setPurchasePackage(fields.purchasePackage);
+    setUnitsPerPackage(fields.unitsPerPackage);
+    setDefaultPurchasePrice(fields.defaultPurchasePrice);
+    setUnitPurchasePrice(calculateUnitCost(fields.defaultPurchasePrice, fields.unitsPerPackage));
+    setLastPurchasePriceEdited('package');
+    setSalePackage(fields.salePackage);
+    setUnitsPerSalePackage(fields.unitsPerSalePackage);
+    setSalePackagePrice(fields.salePackagePrice);
+    setReorderLevel(fields.reorderPackages);
+    setMaxStockLevel(fields.maxPackages);
+  };
+
+  const conflictRows = editConflict && openedFields
+    ? compareProductEdits(openedFields, readFormFields(), editConflict.current)
+    : [];
+
+  const formatConflictValue = (
+    row: ProductEditComparisonRow,
+    value: ProductEditComparisonRow['mine']
+  ) => {
+    if (row.field === 'imageUrl') {
+      return value === NEW_IMAGE_SELECTED ? 'صورة جديدة مختارة' : value ? 'صورة محفوظة' : 'بدون صورة';
+    }
+    if (row.field === 'categoryId') {
+      return categories.find((category) => category.id === value)?.nameAr || '—';
+    }
+    if (row.field === 'brandId') {
+      return brands.find((brand) => brand.id === value)?.nameAr || 'بدون ماركة';
+    }
+    if (row.field === 'defaultPurchasePrice' || row.field === 'salePackagePrice') {
+      return `${formatJod(Number(value) || 0)} ${CURRENCY}`;
+    }
+    return value === '' || value === null || value === undefined ? '—' : String(value);
+  };
+
+  const reapplyMyEdits = () => {
+    if (!editConflict || !openedFields) return;
+    const merged = reapplyProductEdits(openedFields, readFormFields(), editConflict.current);
+    applyFormFields(merged, editConflict.current.imageUrl);
+    setOpenedFields(editConflict.current);
+    setOpenedVersion(editConflict.snapshot.updatedAt);
+    setOpenedActive(editConflict.snapshot.isActive);
+    setEditConflict(null);
+    setReappliedNotice(true);
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -554,6 +677,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
     setIsSubmitting(true);
     setSubmitError(null);
+    setReappliedNotice(false);
 
     const payload: Partial<Product> = {
       nameAr: nameAr.trim(),
@@ -580,7 +704,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       onHandQuantity: 0,
       reorderLevel: minLevel,
       maxStockLevel: maxLevel,
-      status: 'active',
+      // The form has no visibility control: an edit keeps the visibility it
+      // opened with (or the current one after re-applying a conflict).
+      status: isEditing && !openedActive ? 'hidden' : 'active',
     };
 
     const uploadedStoragePaths: string[] = [];
@@ -661,7 +787,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       } else {
         result =
           isEditing && initialProduct?.id
-            ? await updateProduct(initialProduct.id, payload)
+            ? await updateProduct(initialProduct.id, payload, {
+                expectedUpdatedAt: openedVersion,
+              })
             : await addProduct(payload);
       }
 
@@ -680,6 +808,14 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       }
 
       await cleanupUploadedImages();
+
+      if (result?.errorDetails?.code === 'PRODUCT_EDIT_CONFLICT' && 'conflict' in result && result.conflict) {
+        setEditConflict({
+          snapshot: result.conflict,
+          current: snapshotToEditFields(result.conflict),
+        });
+        return;
+      }
 
       setSubmitError({
         message: result?.error || 'فشل حفظ المنتج في Supabase.',
@@ -1303,6 +1439,20 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             {formatJod(validPackagePrice)} {CURRENCY}
           </strong>
         </div>
+
+        {costIsFromStock && costState && (
+          <div data-testid="product-average-cost" className="mt-3 rounded-xl border border-nw-border bg-nw-info-bg px-3 py-2">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs font-bold text-nw-info">متوسط التكلفة الحالي — يتحدّث من الاستلام</span>
+              <strong className="text-sm text-nw-text">
+                <bdi dir="ltr">{formatJod(currentUnitCostInMinorUnits(costState) / 1000)}</bdi> {CURRENCY} للحبة
+              </strong>
+            </div>
+            <p className="mt-1 text-xs text-nw-muted">
+              سعرا الشراء أعلاه افتراضيان لأوامر الشراء فقط، وحفظ المنتج لا يغيّر متوسط التكلفة.
+            </p>
+          </div>
+        )}
       </Card>
 
       <Card padded={false} className="rounded-2xl border border-nw-border    p-3.5">
@@ -1519,6 +1669,25 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           لأن كل شحنة قد تحمل صلاحية مختلفة.
         </div>
       </Card>
+
+      {editConflict && (
+        <ProductEditConflictPanel
+          rows={conflictRows}
+          statusChange={
+            editConflict.snapshot.isActive !== openedActive
+              ? { mine: openedActive, current: editConflict.snapshot.isActive }
+              : undefined
+          }
+          formatValue={formatConflictValue}
+          onReapply={reapplyMyEdits}
+        />
+      )}
+
+      {reappliedNotice && (
+        <p role="status" data-testid="product-edit-reapplied" className="rounded-2xl border border-nw-border bg-nw-info-bg p-3 text-sm font-bold text-nw-info">
+          طُبّقت تعديلاتك فوق القيم الحالية. راجعها ثم اضغط «حفظ التعديلات».
+        </p>
+      )}
 
       {submitError && (
         <div className="rounded-2xl border border-nw-border bg-nw-bad-bg p-3 text-nw-bad">

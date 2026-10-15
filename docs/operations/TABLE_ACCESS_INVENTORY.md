@@ -1,8 +1,8 @@
-# تكامل164 —أدلة وصول حقيقية
+# تكامل171 —أدلة وصول حقيقية
 
-قاعدة164:142 استعلامSDK،صفر42501 وصفرPGRST2xx،تغطية كاملة.
+قاعدة171: 142 استعلامSDK،0 رفض42501،0 خطأ،تغطية كاملة.
 
-الأقسام التاريخية138/150 ضوابط منفصلة بنفس المصدر الحالي وليست إعادة تسمية لدليل164.
+الأقسام التاريخية138/150 أدناه ضوابط منفصلة أُعيد قياسها بنفس المصدر الحالي؛لا تعاد تسميتها كدليل171.
 
 # جرد الوصول — الحالة بعد150
 
@@ -20,7 +20,7 @@
 - 30 جدولاً مع الموارد المضمّنة؛20 اشتراك Realtime موثّق منفصلاً. Storage وArray.from مستبعدان بأسباب صريحة فيJSON.
 - قاعدة جديدة001–138،138 سجلاً رسمياً. 142 إعادة تشغيل فعلية لسلاسل SDK الأصلية عبر PostgREST16.1/PostgreSQL17.6: 15 نجاح،127 رفض42501 في41 موضعاً،0 نتيجة صفرية،0 أخطاء أخرى.
 - جاهزية وصول التطبيق: **غير مقبول — المنح الحالية تعطل الوصول المباشر**. نجاح أداة التشخيص يعني جمع الأدلة فقط،لا قبول المنتج.
-- زمن الفحص:233.197ث؛2026-10-15T16:31:29.743Z إلى2026-10-15T16:35:22.940Z.
+- زمن الفحص:273.432ث؛2026-10-15T20:20:56.571Z إلى2026-10-15T20:25:30.003Z.
 
 ## طريقة الإثبات وحدودها
 
@@ -54,21 +54,21 @@
 | orders / select؛ embeds:customer_addresses,customers,order_items,order_status_history,product_images,products,sales_returns,units | src/services/supabase/orders.service.ts:569 / fetchOrderByIdFromSupabase | authenticated; orders; src/features/orders/OrdersCenterView.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
 | order_parcel_instances / select | src/services/supabase/orders.service.ts:590 / fetchOrderByIdFromSupabase | authenticated; orders; src/features/orders/OrdersCenterView.tsx | owner:success؛ admin:success؛ cashier:success |
 | order_parcel_components / select | src/services/supabase/orders.service.ts:596 / fetchOrderByIdFromSupabase | authenticated; orders; src/features/orders/OrdersCenterView.tsx | owner:success؛ admin:success؛ cashier:success |
-| warehouses / select | src/services/supabase/products.service.ts:553 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| categories / select | src/services/supabase/products.service.ts:561 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:569 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:578 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:591 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| products / select | src/services/supabase/products.service.ts:671 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| warehouses / select | src/services/supabase/products.service.ts:766 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| categories / select | src/services/supabase/products.service.ts:778 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:790 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:797 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:804 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:815 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:983 / updateProductInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:994 / updateProductInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
-| units / select | src/services/supabase/products.service.ts:1006 / updateProductInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
+| warehouses / select | src/services/supabase/products.service.ts:581 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
+| categories / select | src/services/supabase/products.service.ts:589 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
+| units / select | src/services/supabase/products.service.ts:597 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
+| units / select | src/services/supabase/products.service.ts:606 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
+| units / select | src/services/supabase/products.service.ts:619 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
+| products / select | src/services/supabase/products.service.ts:699 / createProductWithOpeningStockInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
+| warehouses / select | src/services/supabase/products.service.ts:794 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
+| categories / select | src/services/supabase/products.service.ts:806 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
+| units / select | src/services/supabase/products.service.ts:818 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
+| units / select | src/services/supabase/products.service.ts:825 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
+| units / select | src/services/supabase/products.service.ts:832 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
+| units / select | src/services/supabase/products.service.ts:843 / createProductFamilyWithFlavorsInSupabase | authenticated; products; src/features/products/ProductFormModal.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
+| units / select | src/services/supabase/products.service.ts:1013 / updateProductInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
+| units / select | src/services/supabase/products.service.ts:1024 / updateProductInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
+| units / select | src/services/supabase/products.service.ts:1036 / updateProductInSupabase | authenticated; shared-store/auth-bootstrap; src/stores/useAppStore.ts | owner:42501؛ admin:42501؛ cashier:42501 |
 | suppliers / select | src/services/supabase/purchases.service.ts:62 / fetchSuppliersFromSupabase | authenticated; purchases; src/features/purchases/CreatePurchaseOrderModal.tsx,src/features/purchases/PurchasesView.tsx,src/features/purchases/SupplierPaymentModal.tsx,src/services/supabase/goLive.service.ts | owner:42501؛ owner:42501/extended؛ admin:42501؛ admin:42501/extended؛ cashier:42501؛ cashier:42501/extended |
 | purchase_orders / select؛ embeds:branches,products,purchase_order_items,purchase_receipt_items,purchase_receipts,supplier_payments,suppliers,units,warehouses | src/services/supabase/purchases.service.ts:381 / fetchPurchaseOrderByIdFromSupabase | authenticated; purchases; src/features/purchases/PurchaseOrderDetailView.tsx | owner:42501؛ admin:42501؛ cashier:42501 |
 | purchase_receipts / select؛ embeds:products,purchase_orders,purchase_receipt_items,suppliers,warehouses | src/services/supabase/purchases.service.ts:979 / fetchGoodsReceiptsFromSupabase | authenticated; purchases; src/features/purchases/PurchasesView.tsx | owner:42501؛ owner:42501/extended؛ admin:42501؛ admin:42501/extended؛ cashier:42501؛ cashier:42501/extended |
@@ -261,9 +261,9 @@ node scripts/audit/table-access-report.mjs <مسار-diagnostic.json-المطب�
 
 ### أ. RPC — EXECUTE الفعلي،لا افتراض نجاح من mock
 
-145 موضعSDK .rpc و4 موضعRESTGateway،139 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
+147 موضعSDK .rpc و4 موضعRESTGateway،141 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
 
-قاعدة164 محلية جديدة: 423 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،111 نجاحمعrollback،312 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
+قاعدة171 محلية جديدة: 429 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،111 نجاحمعrollback،318 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
 
 حدالقياسصريح:أُرسلتقيممحليةمحايدةمُنمّطةحسبتوقيعSQL(معرفعميل/فرع/مستودعfixtureحيثيوجد،NULL/JSONفارغلغيره)،وليستجميعحمولاتالتدفّقاتالصحيحةمنواجهةالتطبيق. النصالأصليلكلاستدعاءومعاملاتهفيSERVICE_ACCESS_INVENTORY.json؛قيمةكلprobeوأثرهفيSERVICE_ACCESS_DIAGNOSTIC.json. لا نسمّي274خطأتحققنجاحاًوظيفياً ولا42501. كلنجاحوكلخطأداخلsubtransactionأُرجع؛لاأثرماليأومخزنيباقٍ. اختباراتالمساراتالمتكاملةالقائمةتبقىمطلوبة؛هذهالإضافةتثبتEXECUTE/dispatchوليسإتمامكلسيناريو.
 
@@ -350,15 +350,17 @@ node scripts/audit/table-access-report.mjs <مسار-diagnostic.json-المطب�
 | get_pos_sale_attempt_state_v1؛src/services/supabase/posV2Recovery.ts:89 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | cancel_uncommitted_pos_sale_attempt_v1؛src/services/supabase/posV2Recovery.ts:96 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | create_pos_sale_v2؛src/services/supabase/posV2Recovery.ts:145 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| get_admin_product_page؛src/services/supabase/products.service.ts:350 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
-| search_admin_products؛src/services/supabase/products.service.ts:391 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
-| search_admin_products؛src/services/supabase/products.service.ts:447 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
-| create_product_with_opening_stock_v4؛src/services/supabase/products.service.ts:643 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| create_product_flavor_v1؛src/services/supabase/products.service.ts:713 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| create_product_family_with_flavors_v1؛src/services/supabase/products.service.ts:823 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| update_product_flavor_v1؛src/services/supabase/products.service.ts:898 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| reorder_product_flavors_v1؛src/services/supabase/products.service.ts:931 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| update_product_master_v3؛src/services/supabase/products.service.ts:1016 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_product_cost_state_v1؛src/services/supabase/productCost.service.ts:51 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| correct_product_cost_v1؛src/services/supabase/productCost.service.ts:70 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_admin_product_page؛src/services/supabase/products.service.ts:378 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
+| search_admin_products؛src/services/supabase/products.service.ts:419 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
+| search_admin_products؛src/services/supabase/products.service.ts:475 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
+| create_product_with_opening_stock_v4؛src/services/supabase/products.service.ts:671 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| create_product_flavor_v1؛src/services/supabase/products.service.ts:741 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| create_product_family_with_flavors_v1؛src/services/supabase/products.service.ts:851 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| update_product_flavor_v2؛src/services/supabase/products.service.ts:926 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| reorder_product_flavors_v1؛src/services/supabase/products.service.ts:961 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| update_product_master_v4؛src/services/supabase/products.service.ts:1046 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_promotion_codes؛src/services/supabase/promotions.service.ts:80 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | upsert_promotion_code؛src/services/supabase/promotions.service.ts:102 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | set_promotion_code_active؛src/services/supabase/promotions.service.ts:145 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
@@ -481,8 +483,8 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 | automation/n8n/workflows/nawasrah-alerts.json | 32, 89, 175, 228 | EXTERNAL_CONSUMER |
 | customer-web/public/_headers | 7 | CSP_CONNECT_SRC |
 | customer-web/src/config/supabase-public-config.ts | 13 | APP_FALLBACK |
-| docs/agent/HANDOFF_HISTORY.md | 263 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 259 | HISTORICAL_DOCUMENTATION |
+| docs/agent/HANDOFF_HISTORY.md | 324 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 295 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
 | docs/operations/TABLE_ACCESS_DIAGNOSTIC.json | 37409 | HISTORICAL_DOCUMENTATION |
 | public/_headers | 8 | CSP_CONNECT_SRC |
@@ -559,4 +561,4 @@ node scripts/audit/run-service-access-diagnostic.mjs
 node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>
 ```
 
-لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على164 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
+لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على171 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.

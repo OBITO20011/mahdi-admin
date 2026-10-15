@@ -1,6 +1,26 @@
 # Agent handoff history
 
+## 2026-10-15 — PR2 integration171 in progress;realDB/access PASS
+
+Owner authorizes genuine merge71b9469 into main36c9803;170171 SQL and all
+productfiles match reviewedbranch. Onlytestconflicts composed oldcollection
+and newexactproducthunks;independent whole-file negativecontrols added.
+148actualfiles/ceiling171,cloud170179/next180189,explicit165169gap.
+4textualCRLF-only failures normalized in testinputs;all12thenPASS.
+170runtimefirst timedproxyfb.ms>=1000 failed AFTER realconflict wasreturned;
+fixed infrastructure with Aheldopen untilpg_blocking_pids observesBblocked,
+thenCOMMIT;no SQL/product/timeouts/retries/assertionweakening.
+Frozen20:15:21–20:40:26UTC4/4PASS:170171realruntime,454functions,
+realTABLE138negative and150164171each142/142,429RPCdispatch0denied.
+New171reference/prefix/ownerCLI prepared,rehearsal andfinalgates next.
+No managedaccess;neverrunownerapply. Designimplementationremainsdeferred.
+
 ## 2026-10-15 — حفظ التصميمين المقبولين،لا تنفيذ
+
+Savedlocal36c980394143a2ce8033162b4326cf0d32fe670e:6docs-onlyfiles;
+designs committed,implementation deferred toanother session. Gitleaks0.
+No push requested/performed;remoteCI evidence is fora8a90b5,NOT thislocalHEAD.
+FinalcheckpointPAUSED;plainhandoff continuity only,no newdeliveryCI claim.
 
 resume/preflightPASS on a8a90b5;onlyknowncheckpointnotes andtwolocaldesigns.
 Owner reports Claude accepted bothdesigns;authorizes independent docs-only

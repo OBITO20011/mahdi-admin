@@ -59,7 +59,7 @@ test('checked-in access inventory exactly covers current production-source queri
 test('diagnostic uses real HTTP/local roles,no temporary grants or managed credentials',async()=>{
  const runner=await readFile('scripts/audit/run-table-access-diagnostic.mjs','utf8'),probes=await readFile('scripts/audit/table-access-probes.mjs','utf8');
  assert.match(runner,/NAWASRAH_MAX_MIGRATION:String\(ceiling\)/u);
- assert.match(runner,/process\.argv\.includes\('--require-access'\)\?164/u);
+ assert.match(runner,/process\.argv\.includes\('--require-access'\)\?171/u);
  assert.match(runner,/ONLY_APPROVED_AUDIT_CEILINGS/u);assert.match(runner,/EXACT_APPROVED_HISTORY_REQUIRED/u);
  assert.match(runner,/SET LOCAL ROLE/u);assert.match(runner,/request\.jwt\.claims/u);
  assert.match(runner,/--require-access/u);assert.match(runner,/FAILED_DIRECT_TABLE_ACCESS/u);

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-15T16:31:29.743Z",
+  "startedAt": "2026-10-15T20:20:56.571Z",
   "managedAccess": false,
   "migrationCeiling": 138,
   "manifest": [
@@ -143,7 +143,7 @@
     "137_package_f_crm_financial_filters.sql",
     "138_package_f_customer_statement.sql"
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-0vQVtI",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-yBzD1A",
   "stage": "rls-and-acl",
   "results": [
     {
@@ -171,7 +171,7 @@
           "method": "eq",
           "args": [
             "id",
-            "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+            "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
           ]
         },
         {
@@ -206,7 +206,7 @@
           "method": "eq",
           "args": [
             "id",
-            "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+            "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
           ]
         },
         {
@@ -241,7 +241,7 @@
           "method": "eq",
           "args": [
             "id",
-            "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+            "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
           ]
         },
         {
@@ -276,7 +276,7 @@
           "method": "eq",
           "args": [
             "id",
-            "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+            "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
           ]
         },
         {
@@ -311,7 +311,7 @@
           "method": "eq",
           "args": [
             "id",
-            "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+            "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
           ]
         },
         {
@@ -346,7 +346,7 @@
           "method": "eq",
           "args": [
             "id",
-            "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+            "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
           ]
         },
         {
@@ -381,7 +381,7 @@
           "method": "eq",
           "args": [
             "id",
-            "6ce0b716-b905-4a39-8ccf-573ceee5b529"
+            "d5dcac8c-12a3-4b86-a5d2-39010aa33b83"
           ]
         },
         {
@@ -416,7 +416,7 @@
           "method": "eq",
           "args": [
             "id",
-            "6ce0b716-b905-4a39-8ccf-573ceee5b529"
+            "d5dcac8c-12a3-4b86-a5d2-39010aa33b83"
           ]
         },
         {
@@ -451,7 +451,7 @@
           "method": "eq",
           "args": [
             "id",
-            "6ce0b716-b905-4a39-8ccf-573ceee5b529"
+            "d5dcac8c-12a3-4b86-a5d2-39010aa33b83"
           ]
         },
         {
@@ -684,7 +684,7 @@
           "method": "eq",
           "args": [
             "id",
-            "a1ddd367-a68c-4321-b827-1a49e7b23c01"
+            "cd3f9f88-dbe4-478b-9407-662f29864040"
           ]
         },
         {
@@ -719,7 +719,7 @@
           "method": "eq",
           "args": [
             "id",
-            "a1ddd367-a68c-4321-b827-1a49e7b23c01"
+            "cd3f9f88-dbe4-478b-9407-662f29864040"
           ]
         },
         {
@@ -754,7 +754,7 @@
           "method": "eq",
           "args": [
             "id",
-            "a1ddd367-a68c-4321-b827-1a49e7b23c01"
+            "cd3f9f88-dbe4-478b-9407-662f29864040"
           ]
         },
         {
@@ -1285,7 +1285,7 @@
           "args": [
             "id",
             [
-              "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+              "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
             ]
           ]
         }
@@ -1318,7 +1318,7 @@
           "args": [
             "id",
             [
-              "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+              "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
             ]
           ]
         }
@@ -1351,7 +1351,7 @@
           "args": [
             "id",
             [
-              "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+              "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
             ]
           ]
         }
@@ -1384,7 +1384,7 @@
           "args": [
             "order_id",
             [
-              "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+              "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
             ]
           ]
         },
@@ -1450,7 +1450,7 @@
           "args": [
             "order_id",
             [
-              "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+              "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
             ]
           ]
         },
@@ -1516,7 +1516,7 @@
           "args": [
             "order_id",
             [
-              "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+              "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
             ]
           ]
         },
@@ -1581,7 +1581,7 @@
           "method": "eq",
           "args": [
             "id",
-            "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+            "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
           ]
         },
         {
@@ -1616,7 +1616,7 @@
           "method": "eq",
           "args": [
             "id",
-            "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+            "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
           ]
         },
         {
@@ -1651,7 +1651,7 @@
           "method": "eq",
           "args": [
             "id",
-            "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+            "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
           ]
         },
         {
@@ -1686,7 +1686,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+            "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
           ]
         },
         {
@@ -1723,7 +1723,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+            "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
           ]
         },
         {
@@ -1760,7 +1760,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+            "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
           ]
         },
         {
@@ -1798,7 +1798,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "a3fa8420-1462-4e53-92f5-7034de9241ad"
+              "7aa5653c-a8c9-4cdc-8beb-9da91bbb3a3f"
             ]
           ]
         }
@@ -1831,7 +1831,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "a3fa8420-1462-4e53-92f5-7034de9241ad"
+              "7aa5653c-a8c9-4cdc-8beb-9da91bbb3a3f"
             ]
           ]
         }
@@ -1864,7 +1864,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "a3fa8420-1462-4e53-92f5-7034de9241ad"
+              "7aa5653c-a8c9-4cdc-8beb-9da91bbb3a3f"
             ]
           ]
         }
@@ -1872,7 +1872,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:553",
+      "id": "src/services/supabase/products.service.ts:581",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -1909,7 +1909,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:553",
+      "id": "src/services/supabase/products.service.ts:581",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -1946,7 +1946,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:553",
+      "id": "src/services/supabase/products.service.ts:581",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -1983,7 +1983,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:561",
+      "id": "src/services/supabase/products.service.ts:589",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2020,7 +2020,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:561",
+      "id": "src/services/supabase/products.service.ts:589",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2057,7 +2057,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:561",
+      "id": "src/services/supabase/products.service.ts:589",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2094,7 +2094,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:569",
+      "id": "src/services/supabase/products.service.ts:597",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2124,7 +2124,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:569",
+      "id": "src/services/supabase/products.service.ts:597",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2154,7 +2154,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:569",
+      "id": "src/services/supabase/products.service.ts:597",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2184,118 +2184,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:578",
-      "table": "units",
-      "operation": "select",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "variant": "original-chain",
-      "status": 403,
-      "sqlstate": "42501",
-      "message": "permission denied for table units",
-      "details": null,
-      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.units TO authenticated;",
-      "rows": 0,
-      "outcome": "permission_denied",
-      "evaluated": [
-        {
-          "method": "select",
-          "args": [
-            "id"
-          ]
-        },
-        {
-          "method": "eq",
-          "args": [
-            "name_ar",
-            "باكيت"
-          ]
-        },
-        {
-          "method": "limit",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "appRole": "owner"
-    },
-    {
-      "id": "src/services/supabase/products.service.ts:578",
-      "table": "units",
-      "operation": "select",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "variant": "original-chain",
-      "status": 403,
-      "sqlstate": "42501",
-      "message": "permission denied for table units",
-      "details": null,
-      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.units TO authenticated;",
-      "rows": 0,
-      "outcome": "permission_denied",
-      "evaluated": [
-        {
-          "method": "select",
-          "args": [
-            "id"
-          ]
-        },
-        {
-          "method": "eq",
-          "args": [
-            "name_ar",
-            "باكيت"
-          ]
-        },
-        {
-          "method": "limit",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "appRole": "admin"
-    },
-    {
-      "id": "src/services/supabase/products.service.ts:578",
-      "table": "units",
-      "operation": "select",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "variant": "original-chain",
-      "status": 403,
-      "sqlstate": "42501",
-      "message": "permission denied for table units",
-      "details": null,
-      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.units TO authenticated;",
-      "rows": 0,
-      "outcome": "permission_denied",
-      "evaluated": [
-        {
-          "method": "select",
-          "args": [
-            "id"
-          ]
-        },
-        {
-          "method": "eq",
-          "args": [
-            "name_ar",
-            "باكيت"
-          ]
-        },
-        {
-          "method": "limit",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "appRole": "cashier"
-    },
-    {
-      "id": "src/services/supabase/products.service.ts:591",
+      "id": "src/services/supabase/products.service.ts:606",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2332,7 +2221,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:591",
+      "id": "src/services/supabase/products.service.ts:606",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2369,7 +2258,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:591",
+      "id": "src/services/supabase/products.service.ts:606",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2406,7 +2295,118 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:671",
+      "id": "src/services/supabase/products.service.ts:619",
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "variant": "original-chain",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table units",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.units TO authenticated;",
+      "rows": 0,
+      "outcome": "permission_denied",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "name_ar",
+            "باكيت"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "appRole": "owner"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:619",
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "variant": "original-chain",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table units",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.units TO authenticated;",
+      "rows": 0,
+      "outcome": "permission_denied",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "name_ar",
+            "باكيت"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "appRole": "admin"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:619",
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "variant": "original-chain",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table units",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.units TO authenticated;",
+      "rows": 0,
+      "outcome": "permission_denied",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "name_ar",
+            "باكيت"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "appRole": "cashier"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:699",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -2441,7 +2441,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:671",
+      "id": "src/services/supabase/products.service.ts:699",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -2476,7 +2476,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:671",
+      "id": "src/services/supabase/products.service.ts:699",
       "table": "products",
       "operation": "select",
       "role": "authenticated",
@@ -2511,7 +2511,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:766",
+      "id": "src/services/supabase/products.service.ts:794",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -2548,7 +2548,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:766",
+      "id": "src/services/supabase/products.service.ts:794",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -2585,7 +2585,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:766",
+      "id": "src/services/supabase/products.service.ts:794",
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -2622,7 +2622,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:778",
+      "id": "src/services/supabase/products.service.ts:806",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2659,7 +2659,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:778",
+      "id": "src/services/supabase/products.service.ts:806",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2696,7 +2696,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:778",
+      "id": "src/services/supabase/products.service.ts:806",
       "table": "categories",
       "operation": "select",
       "role": "authenticated",
@@ -2733,7 +2733,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:790",
+      "id": "src/services/supabase/products.service.ts:818",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2770,7 +2770,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:790",
+      "id": "src/services/supabase/products.service.ts:818",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2807,7 +2807,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:790",
+      "id": "src/services/supabase/products.service.ts:818",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2844,7 +2844,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:797",
+      "id": "src/services/supabase/products.service.ts:825",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2874,7 +2874,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:797",
+      "id": "src/services/supabase/products.service.ts:825",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2904,7 +2904,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:797",
+      "id": "src/services/supabase/products.service.ts:825",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2934,7 +2934,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:804",
+      "id": "src/services/supabase/products.service.ts:832",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -2971,7 +2971,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:804",
+      "id": "src/services/supabase/products.service.ts:832",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3008,118 +3008,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:804",
-      "table": "units",
-      "operation": "select",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "variant": "original-chain",
-      "status": 403,
-      "sqlstate": "42501",
-      "message": "permission denied for table units",
-      "details": null,
-      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.units TO authenticated;",
-      "rows": 0,
-      "outcome": "permission_denied",
-      "evaluated": [
-        {
-          "method": "select",
-          "args": [
-            "id"
-          ]
-        },
-        {
-          "method": "eq",
-          "args": [
-            "name_ar",
-            "باكيت"
-          ]
-        },
-        {
-          "method": "limit",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "appRole": "cashier"
-    },
-    {
-      "id": "src/services/supabase/products.service.ts:815",
-      "table": "units",
-      "operation": "select",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "variant": "original-chain",
-      "status": 403,
-      "sqlstate": "42501",
-      "message": "permission denied for table units",
-      "details": null,
-      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.units TO authenticated;",
-      "rows": 0,
-      "outcome": "permission_denied",
-      "evaluated": [
-        {
-          "method": "select",
-          "args": [
-            "id"
-          ]
-        },
-        {
-          "method": "eq",
-          "args": [
-            "name_ar",
-            "باكيت"
-          ]
-        },
-        {
-          "method": "limit",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "appRole": "owner"
-    },
-    {
-      "id": "src/services/supabase/products.service.ts:815",
-      "table": "units",
-      "operation": "select",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "variant": "original-chain",
-      "status": 403,
-      "sqlstate": "42501",
-      "message": "permission denied for table units",
-      "details": null,
-      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.units TO authenticated;",
-      "rows": 0,
-      "outcome": "permission_denied",
-      "evaluated": [
-        {
-          "method": "select",
-          "args": [
-            "id"
-          ]
-        },
-        {
-          "method": "eq",
-          "args": [
-            "name_ar",
-            "باكيت"
-          ]
-        },
-        {
-          "method": "limit",
-          "args": [
-            1
-          ]
-        }
-      ],
-      "appRole": "admin"
-    },
-    {
-      "id": "src/services/supabase/products.service.ts:815",
+      "id": "src/services/supabase/products.service.ts:832",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3156,7 +3045,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:983",
+      "id": "src/services/supabase/products.service.ts:843",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3193,7 +3082,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:983",
+      "id": "src/services/supabase/products.service.ts:843",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3230,7 +3119,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:983",
+      "id": "src/services/supabase/products.service.ts:843",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3267,7 +3156,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:994",
+      "id": "src/services/supabase/products.service.ts:1013",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3304,7 +3193,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:994",
+      "id": "src/services/supabase/products.service.ts:1013",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3341,7 +3230,7 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:994",
+      "id": "src/services/supabase/products.service.ts:1013",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3378,7 +3267,7 @@
       "appRole": "cashier"
     },
     {
-      "id": "src/services/supabase/products.service.ts:1006",
+      "id": "src/services/supabase/products.service.ts:1024",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3415,7 +3304,7 @@
       "appRole": "owner"
     },
     {
-      "id": "src/services/supabase/products.service.ts:1006",
+      "id": "src/services/supabase/products.service.ts:1024",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3452,7 +3341,118 @@
       "appRole": "admin"
     },
     {
-      "id": "src/services/supabase/products.service.ts:1006",
+      "id": "src/services/supabase/products.service.ts:1024",
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "variant": "original-chain",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table units",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.units TO authenticated;",
+      "rows": 0,
+      "outcome": "permission_denied",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "name_ar",
+            "باكيت"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "appRole": "cashier"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:1036",
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "variant": "original-chain",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table units",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.units TO authenticated;",
+      "rows": 0,
+      "outcome": "permission_denied",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "name_ar",
+            "باكيت"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "appRole": "owner"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:1036",
+      "table": "units",
+      "operation": "select",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "variant": "original-chain",
+      "status": 403,
+      "sqlstate": "42501",
+      "message": "permission denied for table units",
+      "details": null,
+      "hint": "Grant the required privileges to the current role with: GRANT SELECT ON public.units TO authenticated;",
+      "rows": 0,
+      "outcome": "permission_denied",
+      "evaluated": [
+        {
+          "method": "select",
+          "args": [
+            "id"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "name_ar",
+            "باكيت"
+          ]
+        },
+        {
+          "method": "limit",
+          "args": [
+            1
+          ]
+        }
+      ],
+      "appRole": "admin"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:1036",
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -3732,7 +3732,7 @@
           "method": "eq",
           "args": [
             "id",
-            "be9ca0ae-b0c9-4e3d-9532-df191bdae2ad"
+            "a0f5a259-1025-44ff-9352-7eca9fccef62"
           ]
         },
         {
@@ -3767,7 +3767,7 @@
           "method": "eq",
           "args": [
             "id",
-            "be9ca0ae-b0c9-4e3d-9532-df191bdae2ad"
+            "a0f5a259-1025-44ff-9352-7eca9fccef62"
           ]
         },
         {
@@ -3802,7 +3802,7 @@
           "method": "eq",
           "args": [
             "id",
-            "be9ca0ae-b0c9-4e3d-9532-df191bdae2ad"
+            "a0f5a259-1025-44ff-9352-7eca9fccef62"
           ]
         },
         {
@@ -4952,7 +4952,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "4fdc229e-510f-4caf-bc38-54ce7ed9ead3",
+              "entity_id": "f98e29be-f6f0-433a-9a34-2706c5ad00d7",
               "status": "processing"
             }
           ]
@@ -4985,7 +4985,7 @@
           "method": "eq",
           "args": [
             "id",
-            "4fdc229e-510f-4caf-bc38-54ce7ed9ead3"
+            "f98e29be-f6f0-433a-9a34-2706c5ad00d7"
           ]
         },
         {
@@ -5024,7 +5024,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-10-15T16:32:51.935Z"
+              "completed_at": "2026-10-15T20:22:49.399Z"
             }
           ]
         },
@@ -5060,7 +5060,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-10-15T16:32:51.967Z"
+              "completed_at": "2026-10-15T20:22:49.449Z"
             }
           ]
         },
@@ -5094,9 +5094,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-10-15T16:32:51.997Z",
+              "last_success_at": "2026-10-15T20:22:49.508Z",
               "last_failure_message": null,
-              "updated_at": "2026-10-15T16:32:51.997Z"
+              "updated_at": "2026-10-15T20:22:49.508Z"
             }
           ]
         },
@@ -5131,9 +5131,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-10-15T16:32:52.029Z",
+              "last_failure_at": "2026-10-15T20:22:49.546Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-10-15T16:32:52.029Z"
+              "updated_at": "2026-10-15T20:22:49.546Z"
             }
           ]
         },
@@ -5170,7 +5170,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-10-15T16:32:52.063Z"
+              "completed_at": "2026-10-15T20:22:49.567Z"
             }
           ]
         },
@@ -57798,12 +57798,20 @@
       "sha256": "09661c0cefa1888acab711e310c7c5c7e435984e159a6a8b3cb6866b2fd6c5b3"
     },
     {
+      "file": "src/features/products/ProductCostCorrectionPanel.tsx",
+      "sha256": "526c286cff7473219b7a30e262db761941e3a2fc40126a9d3dced8fec5aa8934"
+    },
+    {
       "file": "src/features/products/ProductDetailModal.tsx",
-      "sha256": "3a6b9064ba200e10f48951e829da1322a4f364f73521e2b2ea03063f11a9d3c2"
+      "sha256": "5e46fecfab444c40905284671db18a65ad82ee661a3beb59f1345bc503b156da"
+    },
+    {
+      "file": "src/features/products/ProductEditConflictPanel.tsx",
+      "sha256": "85090ffb2e51c87e13f6dfffed4231565cd3ecd4663121e536475a473a17943b"
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "220eb64470d0843e913721cc256aa8d092201ffec31eee89bf93029508553d18"
+      "sha256": "126cf5b9bbdc66cda35da05d81cacad2bbff1de911f21b14d9d065db6b8eb9f8"
     },
     {
       "file": "src/features/products/ProductsView.tsx",
@@ -58014,8 +58022,12 @@
       "sha256": "c7e8576deb642c40a7b0a1b660288d0e4b29f40633f5fb9aae3d8aa1c61f648a"
     },
     {
+      "file": "src/services/supabase/productCost.service.ts",
+      "sha256": "02cdd9752c28d3d6355845fd6a00a1a073a12c9159176cc8d0b70a1bee76aa29"
+    },
+    {
       "file": "src/services/supabase/products.service.ts",
-      "sha256": "34a4b351de86a35ed8c7c44de72896cbbb7765b896e79241b71cd577c0ab0208"
+      "sha256": "fea104f47ee0bb355d9c58591dcc4ff1e8a4ade18bb2be5edbd266e8feb2b269"
     },
     {
       "file": "src/services/supabase/promotions.service.ts",
@@ -58071,7 +58083,7 @@
     },
     {
       "file": "src/stores/useAppStore.ts",
-      "sha256": "c231103d574ce1b0b1155eda5cc74994be3796d1130289be6b79076d57e2f44d"
+      "sha256": "f6cbe1059ce7c4f3282d8f85f540bba7905c3265abc65d07831ee2fcdd5197c2"
     },
     {
       "file": "src/stores/useAuthStore.ts",
@@ -58156,6 +58168,10 @@
     {
       "file": "src/utils/productCalculations.ts",
       "sha256": "b8a02fd49d6e3344556f26bcbd009106041320280fa6405eaa17a87a43a851c0"
+    },
+    {
+      "file": "src/utils/productEditConflict.ts",
+      "sha256": "2e997f07ecd0ff1f3fc565954f063aa0aa4a17319c09135ace082b3301a16945"
     },
     {
       "file": "src/utils/productIdentifiers.ts",
@@ -58475,13 +58491,13 @@
     }
   ],
   "fixture": {
-    "orderId": "4fdc229e-510f-4caf-bc38-54ce7ed9ead3",
-    "operationId": "6ce0b716-b905-4a39-8ccf-573ceee5b529",
-    "receiptId": "a1ddd367-a68c-4321-b827-1a49e7b23c01",
-    "poId": "be9ca0ae-b0c9-4e3d-9532-df191bdae2ad",
+    "orderId": "f98e29be-f6f0-433a-9a34-2706c5ad00d7",
+    "operationId": "d5dcac8c-12a3-4b86-a5d2-39010aa33b83",
+    "receiptId": "cd3f9f88-dbe4-478b-9407-662f29864040",
+    "poId": "a0f5a259-1025-44ff-9352-7eca9fccef62",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "a3fa8420-1462-4e53-92f5-7034de9241ad"
+      "7aa5653c-a8c9-4cdc-8beb-9da91bbb3a3f"
     ]
   },
   "access": [
@@ -63761,7 +63777,7 @@
     "zero_rows": 0,
     "other_error": 0
   },
-  "endedAt": "2026-10-15T16:35:22.940Z",
+  "endedAt": "2026-10-15T20:25:30.003Z",
   "proposal": [
     {
       "table": "branches",
@@ -63893,8 +63909,8 @@
       "role": "authenticated",
       "operation": "select",
       "reasons": [
-        "src/services/supabase/products.service.ts:561",
-        "src/services/supabase/products.service.ts:778",
+        "src/services/supabase/products.service.ts:589",
+        "src/services/supabase/products.service.ts:806",
         "src/services/supabase/reference-data.service.ts:49"
       ],
       "rls": true,
@@ -64396,7 +64412,7 @@
         "embedded in src/services/supabase/directReceiving.service.ts:209",
         "embedded in src/services/supabase/inventory.service.ts:150",
         "embedded in src/services/supabase/orders.service.ts:569",
-        "src/services/supabase/products.service.ts:671",
+        "src/services/supabase/products.service.ts:699",
         "embedded in src/services/supabase/purchases.service.ts:381",
         "embedded in src/services/supabase/purchases.service.ts:979",
         "src/services/supabase/reference-data.service.ts:53",
@@ -64942,16 +64958,16 @@
       "reasons": [
         "src/services/supabase/directReceiving.service.ts:606",
         "embedded in src/services/supabase/orders.service.ts:569",
-        "src/services/supabase/products.service.ts:569",
-        "src/services/supabase/products.service.ts:578",
-        "src/services/supabase/products.service.ts:591",
-        "src/services/supabase/products.service.ts:790",
-        "src/services/supabase/products.service.ts:797",
-        "src/services/supabase/products.service.ts:804",
-        "src/services/supabase/products.service.ts:815",
-        "src/services/supabase/products.service.ts:983",
-        "src/services/supabase/products.service.ts:994",
-        "src/services/supabase/products.service.ts:1006",
+        "src/services/supabase/products.service.ts:597",
+        "src/services/supabase/products.service.ts:606",
+        "src/services/supabase/products.service.ts:619",
+        "src/services/supabase/products.service.ts:818",
+        "src/services/supabase/products.service.ts:825",
+        "src/services/supabase/products.service.ts:832",
+        "src/services/supabase/products.service.ts:843",
+        "src/services/supabase/products.service.ts:1013",
+        "src/services/supabase/products.service.ts:1024",
+        "src/services/supabase/products.service.ts:1036",
         "embedded in src/services/supabase/purchases.service.ts:381",
         "src/services/supabase/reference-data.service.ts:309"
       ],
@@ -65042,8 +65058,8 @@
         "embedded in src/services/supabase/directReceiving.service.ts:209",
         "src/services/supabase/directReceiving.service.ts:621",
         "embedded in src/services/supabase/inventory.service.ts:150",
-        "src/services/supabase/products.service.ts:553",
-        "src/services/supabase/products.service.ts:766",
+        "src/services/supabase/products.service.ts:581",
+        "src/services/supabase/products.service.ts:794",
         "embedded in src/services/supabase/purchases.service.ts:381",
         "embedded in src/services/supabase/purchases.service.ts:979",
         "src/services/supabase/reference-data.service.ts:480"

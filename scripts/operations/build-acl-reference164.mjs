@@ -24,7 +24,7 @@ export async function buildReference164(args=[]){
  await assert.rejects(()=>readFile(target),{code:'ENOENT'},'REFERENCE_ALREADY_EXISTS');
  const output=await mkdtemp(path.join(tmpdir(),'nawasrah-reference164-'));
  const report={startedAt:new Date().toISOString(),managedAccess:false,output,target};let local,stage='base151';
- const manifest=await migrationManifest(root),source=await inventory();
+ const manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=164),source=await inventory();
  const proofText=canonicalLf(await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_164.json'),'utf8')),proof=JSON.parse(proofText);
  const baseProofText=await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_150.json'),'utf8');
  const project='nawasrah-reference164-test',executor=executorFor(['--container','supabase_db_'+project]);
@@ -64,7 +64,7 @@ export async function buildReference164(args=[]){
    notificationSnapshot:base151.notificationSnapshot,cronAudit:base151.cronAudit,
    readiness:{sourceHashes:source.sources,accessEvidenceSha256:sha256(proofText),coverage:proof.coverage,queries:proof.results.length,errors:0}};
   assertReference164(reference,manifest,proofText,source,baseProofText);
-  assert.deepEqual(await migrationManifest(root),manifest);assert.deepEqual((await inventory()).sources,source.sources);
+  assert.deepEqual((await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=164),manifest);assert.deepEqual((await inventory()).sources,source.sources);
   await writeFile(target,JSON.stringify(reference,null,2)+'\n',{flag:'wx'});
   Object.assign(report,{ok:true,migrations:manifest.length,functions,manifestDigest:reference.manifestDigest,catalogSha256:reference.catalogSha256,
    realtimeMembers:reference.realtimePublication.tables.length,freshIncrementalDifferenceCount:0,officialApplied:final.appliedVersions,queries:proof.results.length});

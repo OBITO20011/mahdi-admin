@@ -109,7 +109,7 @@ export function migrationInventory() {
   catch(error){numbering={ok:false,error:error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'MIGRATION_NUMBERING_FAILED'};}
   return {
     numbering,
-    integrationPins: Object.fromEntries([160,161,162,163,164].map(number => {
+    integrationPins: Object.fromEntries([160,161,162,163,164,170,171].map(number => {
       const name=migrationFiles.find(n=>n.startsWith(number+'_')&&n.endsWith('.sql'));
       return [number,name?fileCanonicalTextSha256(resolve(root,'supabase/migrations',name)):null];
     })),

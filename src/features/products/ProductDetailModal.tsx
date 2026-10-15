@@ -31,6 +31,10 @@ import {
   updateProductFlavorInSupabase,
 } from '../../services/supabase/products.service';
 import { useAppStore } from '../../stores/useAppStore';
+import { useAuthStore } from '../../stores/useAuthStore';
+import { ProductCostCorrectionPanel } from './ProductCostCorrectionPanel';
+import type { ProductEditComparisonRow, ProductEditSnapshot } from '../../utils/productEditConflict';
+import { ProductEditConflictPanel } from './ProductEditConflictPanel';
 import { Product } from '../../types';
 import {
   formatProductInventory,
@@ -60,6 +64,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     refreshProductsFromSupabase,
     setToast,
   } = useAppStore();
+  const { roleName } = useAuthStore();
+  const [showCostCorrection, setShowCostCorrection] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
   const [showVisibilityConfirm, setShowVisibilityConfirm] = useState(false);
   const [isUpdatingVisibility, setIsUpdatingVisibility] = useState(false);
@@ -75,6 +81,14 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   const [editFlavorActive, setEditFlavorActive] = useState(true);
   const [editFlavorImage, setEditFlavorImage] = useState<File | null>(null);
   const [editFlavorImagePreview, setEditFlavorImagePreview] = useState('');
+  // Version and values the flavor edit started from (migration 170).
+  const [flavorOpened, setFlavorOpened] = useState<{
+    version: string;
+    name: string;
+    barcode: string;
+    active: boolean;
+  } | null>(null);
+  const [flavorConflict, setFlavorConflict] = useState<ProductEditSnapshot | null>(null);
   const [isUpdatingFlavor, setIsUpdatingFlavor] = useState(false);
   const [isReorderingFlavors, setIsReorderingFlavors] = useState(false);
   const [barcodeCameraTarget, setBarcodeCameraTarget] = useState<
@@ -227,6 +241,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     setEditFlavorActive(true);
     setEditFlavorImage(null);
     setEditFlavorImagePreview('');
+    setFlavorOpened(null);
+    setFlavorConflict(null);
     setBarcodeCameraTarget((target) => (target === 'edit' ? null : target));
   };
 
@@ -236,6 +252,39 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     setEditFlavorName(flavor.flavorNameAr || '');
     setEditFlavorBarcode(flavor.barcode || '');
     setEditFlavorActive(flavor.status !== 'hidden');
+    setFlavorOpened({
+      version: flavor.updatedAt,
+      name: flavor.flavorNameAr || '',
+      barcode: flavor.barcode || '',
+      active: flavor.status !== 'hidden',
+    });
+  };
+
+  const flavorConflictRows = (): ProductEditComparisonRow[] => {
+    if (!flavorConflict || !flavorOpened) return [];
+    const rows: ProductEditComparisonRow[] = [
+      { field: 'nameAr', label: 'اسم النكهة', mine: editFlavorName.trim(), current: flavorConflict.flavorNameAr,
+        changedByMe: editFlavorName.trim() !== flavorOpened.name, changedByOther: flavorConflict.flavorNameAr !== flavorOpened.name },
+      { field: 'barcode', label: 'الباركود', mine: editFlavorBarcode.trim(), current: flavorConflict.barcode,
+        changedByMe: editFlavorBarcode.trim() !== flavorOpened.barcode, changedByOther: flavorConflict.barcode !== flavorOpened.barcode },
+    ];
+    return rows.filter((row) => row.changedByMe || row.changedByOther);
+  };
+
+  const reapplyFlavorEdits = () => {
+    if (!flavorConflict || !flavorOpened) return;
+    // My changed fields over the current values; untouched fields take the current value.
+    if (editFlavorName.trim() === flavorOpened.name) setEditFlavorName(flavorConflict.flavorNameAr);
+    if (editFlavorBarcode.trim() === flavorOpened.barcode) setEditFlavorBarcode(flavorConflict.barcode);
+    if (editFlavorActive === flavorOpened.active) setEditFlavorActive(flavorConflict.isActive);
+    setFlavorOpened({
+      version: flavorConflict.updatedAt,
+      name: flavorConflict.flavorNameAr,
+      barcode: flavorConflict.barcode,
+      active: flavorConflict.isActive,
+    });
+    setFlavorConflict(null);
+    setToast('طُبّقت تعديلاتك فوق القيم الحالية. راجعها ثم احفظ.', 'success');
   };
 
   const selectEditFlavorImage = (file?: File) => {
@@ -287,11 +336,17 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         barcode: editFlavorBarcode,
         imageUrl,
         isActive: editFlavorActive,
+        expectedUpdatedAt: flavorOpened?.version || flavor.updatedAt,
       });
 
       if (!result.success) {
         if (uploadedStoragePath) {
           await removeUploadedProductImage(uploadedStoragePath);
+        }
+        if (result.errorDetails?.code === 'PRODUCT_EDIT_CONFLICT' && result.conflict) {
+          setFlavorConflict(result.conflict);
+          setToast(result.error || 'عدّل مستخدم آخر هذا المنتج قبل قليل.', 'error');
+          return;
         }
         setToast(result.error || 'تعذر تحديث النكهة.', 'error');
         return;
@@ -699,6 +754,19 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                           </p>
                         )}
 
+                        {flavorConflict && (
+                          <ProductEditConflictPanel
+                            rows={flavorConflictRows()}
+                            statusChange={
+                              flavorOpened && flavorConflict.isActive !== flavorOpened.active
+                                ? { mine: editFlavorActive, current: flavorConflict.isActive }
+                                : undefined
+                            }
+                            formatValue={(_row, value) => (value === '' || value == null ? '—' : String(value))}
+                            onReapply={reapplyFlavorEdits}
+                          />
+                        )}
+
                         <div className="grid grid-cols-2 gap-2">
                           <UiButton variant="plain"
                             type="button"
@@ -926,6 +994,27 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           {product.status === 'hidden' ? 'إظهار المنتج' : 'إخفاء المنتج'}
         </UiButton>
       </div>
+
+      {/* Owner only; the database refuses every other role as well. */}
+      {roleName === 'owner' && (isFlavorFamily ? flavors.length > 0 : true) && (
+        showCostCorrection ? (
+          <ProductCostCorrectionPanel
+            targets={isFlavorFamily
+              ? flavors.map((flavor) => ({ id: flavor.id, name: flavor.flavorNameAr || flavor.nameAr }))
+              : [{ id: product.id, name: product.nameAr }]}
+            onClose={() => setShowCostCorrection(false)}
+            onCorrected={() => {
+              setShowCostCorrection(false);
+              setToast('تم تصحيح التكلفة وتسجيل السبب.', 'success');
+              void refreshProductsFromSupabase();
+            }}
+          />
+        ) : (
+          <UiButton type="button" onClick={() => setShowCostCorrection(true)} className="justify-self-start">
+            تصحيح التكلفة
+          </UiButton>
+        )
+      )}
 
       {showVisibilityConfirm && (
         <div className="rounded-2xl border border-nw-border bg-nw-warn-bg p-3.5">

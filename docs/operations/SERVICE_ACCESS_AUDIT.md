@@ -6,9 +6,9 @@
 
 ### أ. RPC — EXECUTE الفعلي،لا افتراض نجاح من mock
 
-145 موضعSDK .rpc و4 موضعRESTGateway،139 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
+147 موضعSDK .rpc و4 موضعRESTGateway،141 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
 
-قاعدة164 محلية جديدة: 423 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،111 نجاحمعrollback،312 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
+قاعدة171 محلية جديدة: 429 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،111 نجاحمعrollback،318 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
 
 حدالقياسصريح:أُرسلتقيممحليةمحايدةمُنمّطةحسبتوقيعSQL(معرفعميل/فرع/مستودعfixtureحيثيوجد،NULL/JSONفارغلغيره)،وليستجميعحمولاتالتدفّقاتالصحيحةمنواجهةالتطبيق. النصالأصليلكلاستدعاءومعاملاتهفيSERVICE_ACCESS_INVENTORY.json؛قيمةكلprobeوأثرهفيSERVICE_ACCESS_DIAGNOSTIC.json. لا نسمّي274خطأتحققنجاحاًوظيفياً ولا42501. كلنجاحوكلخطأداخلsubtransactionأُرجع؛لاأثرماليأومخزنيباقٍ. اختباراتالمساراتالمتكاملةالقائمةتبقىمطلوبة؛هذهالإضافةتثبتEXECUTE/dispatchوليسإتمامكلسيناريو.
 
@@ -95,15 +95,17 @@
 | get_pos_sale_attempt_state_v1؛src/services/supabase/posV2Recovery.ts:89 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | cancel_uncommitted_pos_sale_attempt_v1؛src/services/supabase/posV2Recovery.ts:96 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | create_pos_sale_v2؛src/services/supabase/posV2Recovery.ts:145 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| get_admin_product_page؛src/services/supabase/products.service.ts:350 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
-| search_admin_products؛src/services/supabase/products.service.ts:391 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
-| search_admin_products؛src/services/supabase/products.service.ts:447 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
-| create_product_with_opening_stock_v4؛src/services/supabase/products.service.ts:643 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| create_product_flavor_v1؛src/services/supabase/products.service.ts:713 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| create_product_family_with_flavors_v1؛src/services/supabase/products.service.ts:823 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| update_product_flavor_v1؛src/services/supabase/products.service.ts:898 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| reorder_product_flavors_v1؛src/services/supabase/products.service.ts:931 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| update_product_master_v3؛src/services/supabase/products.service.ts:1016 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_product_cost_state_v1؛src/services/supabase/productCost.service.ts:51 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| correct_product_cost_v1؛src/services/supabase/productCost.service.ts:70 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_admin_product_page؛src/services/supabase/products.service.ts:378 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
+| search_admin_products؛src/services/supabase/products.service.ts:419 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
+| search_admin_products؛src/services/supabase/products.service.ts:475 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
+| create_product_with_opening_stock_v4؛src/services/supabase/products.service.ts:671 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| create_product_flavor_v1؛src/services/supabase/products.service.ts:741 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| create_product_family_with_flavors_v1؛src/services/supabase/products.service.ts:851 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| update_product_flavor_v2؛src/services/supabase/products.service.ts:926 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| reorder_product_flavors_v1؛src/services/supabase/products.service.ts:961 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| update_product_master_v4؛src/services/supabase/products.service.ts:1046 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_promotion_codes؛src/services/supabase/promotions.service.ts:80 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | upsert_promotion_code؛src/services/supabase/promotions.service.ts:102 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | set_promotion_code_active؛src/services/supabase/promotions.service.ts:145 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
@@ -226,8 +228,8 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 | automation/n8n/workflows/nawasrah-alerts.json | 32, 89, 175, 228 | EXTERNAL_CONSUMER |
 | customer-web/public/_headers | 7 | CSP_CONNECT_SRC |
 | customer-web/src/config/supabase-public-config.ts | 13 | APP_FALLBACK |
-| docs/agent/HANDOFF_HISTORY.md | 263 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 259 | HISTORICAL_DOCUMENTATION |
+| docs/agent/HANDOFF_HISTORY.md | 324 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 295 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
 | docs/operations/TABLE_ACCESS_DIAGNOSTIC.json | 37409 | HISTORICAL_DOCUMENTATION |
 | public/_headers | 8 | CSP_CONNECT_SRC |
@@ -304,4 +306,4 @@ node scripts/audit/run-service-access-diagnostic.mjs
 node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>
 ```
 
-لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على164 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
+لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على171 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.

@@ -25,7 +25,7 @@ test('startup RPC-only admission rejects ANY client/PUBLIC table or column grant
 });
 test('current164 real access evidence is complete and error-free,not a renamed historical audit',async()=>{
  const source=await inventory(),proof=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_AFTER_164.json','utf8'));
- assert.equal(source.migrationCeiling,164);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);
+ assert.equal(source.migrationCeiling,171);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);
  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,source.sources);
  assert.deepEqual(verifyProbeCoverage(source,proof.results),proof.coverage);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
  assert.deepEqual(proof.manifest.slice(-5).map((n:string)=>n.slice(0,3)),['160','161','162','163','164']);
@@ -39,7 +39,7 @@ test('owner164 preparation rejects old reference BEFORE any host/password and re
  const workflow=await readFile('.github/workflows/quality.yml','utf8');
  assert.match(workflow,/run-go-live-integration164-runtime.mjs/u);assert.match(workflow,/run-frankfurt-upgrade164-runtime.mjs/u);
  const preview=await readFile('scripts/operations/frankfurt-align-acl.mjs','utf8');
- assert.match(preview,/if\(!historical151\)return[\s\S]*?frankfurt-owner-upgrade164/u);
+ assert.match(preview,/if\(!historical151\)return[\s\S]*?frankfurt-owner-upgrade171/u);
  assert.ok(source.indexOf("'catalog-comparison-before.json'")<source.indexOf('const plan=offline164Plan(reference,observed)'));
 });
 

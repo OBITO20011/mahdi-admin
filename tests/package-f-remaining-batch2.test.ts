@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import ts from 'typescript';
 import {ROLE_LABELS} from '../src/utils/roleLabels';
+import {approvedProductEditConflictSource} from './strict-product-legacy-source';
 
 const baseline=[
   {
@@ -80,7 +81,7 @@ const baseline=[
 const printer=ts.createPrinter({removeComments:true}),hash=(v:unknown)=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 test('batch2:all business calls,payloads,event handlers and native validation/busy values are AST-identical to ed7772f',()=>{
  for(const expected of baseline){
- const ast=ts.createSourceFile(expected.file,readFileSync(expected.file,'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),calls:string[]=[],bindings:string[]=[],native:string[]=[],prefix:string[]=[];
+ const ast=ts.createSourceFile(expected.file,approvedProductEditConflictSource(expected.file,readFileSync(expected.file,'utf8')),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),calls:string[]=[],bindings:string[]=[],native:string[]=[],prefix:string[]=[];
  const print=(n:ts.Node)=>printer.printNode(ts.EmitHint.Unspecified,n,ast);
  function visit(n:ts.Node){
  if(ts.isAwaitExpression(n)||ts.isCallExpression(n)&&/(?:FromSupabase|InSupabase|Service|\.rpc$|^run[A-Z]|^openModal$|^fetch[A-Z]|^saveParcelConfiguration$|^setParcelFeatureState$)/u.test(n.expression.getText(ast)))calls.push(print(n));
