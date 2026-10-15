@@ -74,6 +74,7 @@ test.describe('تنظيم تنقل الإدارة', () => {
     await administration.click();
     await expect(page.locator('[data-navigation-id="admin-users"]')).toHaveCount(0);
     await expect(page.locator('[data-navigation-id="admin-monitoring"]')).toHaveCount(0);
+    await expect(page.locator('[data-navigation-id="admin-go-live"]')).toHaveCount(0);
     await expect(page.locator('[data-navigation-id="admin-profile"]')).toBeVisible();
     await page.locator('[data-navigation-id="admin-profile"]').click();
     await expect

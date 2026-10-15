@@ -53,6 +53,11 @@ const ExpensesView = lazy(() =>
     default: module.ExpensesView,
   }))
 );
+const GoLiveSetupView = lazy(() =>
+  import('./features/goLive/GoLiveSetupView').then((module) => ({
+    default: module.GoLiveSetupView,
+  }))
+);
 const ShiftsView = lazy(() =>
   import('./features/shifts/ShiftsView').then((module) => ({
     default: module.ShiftsView,
@@ -184,6 +189,8 @@ export const App: React.FC = () => {
         return <AdminAssistantView />;
       case 'more':
         return <MoreMenuView />;
+      case 'go_live':
+        return <GoLiveSetupView />;
       default:
         return <DashboardView />;
     }

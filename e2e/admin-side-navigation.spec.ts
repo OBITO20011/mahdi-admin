@@ -78,7 +78,7 @@ test.describe('القائمة الجانبية لسطح المكتب', () => {
   test('لا تظهر عناصر المالك لغيره، وتختفي القائمة على الهاتف', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 860 });
     await page.goto(`${harnessUrl}?theme=light&role=cashier`, { waitUntil: 'domcontentloaded' });
-    for (const id of ['parcel-configuration', 'admin-users', 'admin-monitoring']) {
+    for (const id of ['parcel-configuration', 'admin-users', 'admin-go-live', 'admin-monitoring']) {
       await expect(page.locator(`[data-side-nav-item="${id}"]`)).toHaveCount(0);
     }
     await expect(page.locator('[data-side-nav="assistant"]')).toHaveCount(0);

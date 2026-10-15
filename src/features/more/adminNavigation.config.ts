@@ -2,6 +2,7 @@ import type { LucideIcon } from 'lucide-react';
 import {
   BarChart3,
   Activity,
+  ClipboardCheck,
   Boxes,
   Package,
   ReceiptText,
@@ -184,6 +185,15 @@ export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = [
         icon: ShieldCheck,
         tone: 'bg-nw-info-bg text-nw-info',
         action: { type: 'tab', destination: 'users' },
+        visibility: 'owner',
+      },
+      {
+        id: 'admin-go-live',
+        label: 'بداية التشغيل',
+        description: 'المنتجات والبضاعة الموجودة وأرصدة العملاء والموردين قبل النظام',
+        icon: ClipboardCheck,
+        tone: 'bg-nw-warn-bg text-nw-warn',
+        action: { type: 'tab', destination: 'go_live' },
         visibility: 'owner',
       },
       {

@@ -261,6 +261,10 @@ jobs:
         if: matrix.suite == 'package-f-aging'
         run: npm run test:package-f:statement
 
+      - name: Prove140-142 go-live setup lock,opening balances parity,WAC and permissions
+        if: matrix.suite == 'package-f-aging'
+        run: npm run test:go-live:runtime
+
       - name: Prove daily Supabase REST read and database-size read on isolated schema
         if: matrix.suite == 'package-f-aging'
         run: npm run test:monitoring:daily:runtime

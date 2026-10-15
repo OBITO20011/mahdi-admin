@@ -33,6 +33,8 @@ const baseline='1272a786583842afac01957287bff72c1b6510c2';
 const approvedFocusUIHashes:Record<string,string>={
  'src/features/crm/CustomerEditModal.tsx':'91269b4c71488f25f5da798c3d753f64e04b0ec8bd16bf0960e2321bc5c9fb45',
  'src/features/crm/AddAddressModal.tsx':'c7fbb60d33b9d28b9e35622fcc8c4f24a6f799f02050536da9619693e184065d',
+ // Owner-approved go-live setup (140-142) adds one owner-only navigation item; re-pinned, not exempted.
+ 'src/features/more/adminNavigation.config.ts':'81125a6f9ae3a647097ed7ffb35c24002e5acd7c0a2930dd081e4e032fe3bc91',
 };
 const paths=[
  'src/components/common/AppErrorBoundary.tsx','src/components/layout/AdminToast.tsx',
