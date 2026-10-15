@@ -1,5 +1,14 @@
 # Agent handoff history
 
+## 2026-10-16 — post-trial reset preparation delivered;staging next
+
+373018c3a541f2391fa1cc5a9d1e43d67d07dc48=remote main;exactpush quality
+38820997189 FULL25/25+secrets38820997178 PASS,no retries. StagedGitleaks0.
+Frozen fastgates PASS1131Admin/191Customer/type/strictlint/offlinedryruns.
+Realreset alsoPASS onLinuxCI. Only operations/tools/CI/docs changed;historical
+SQL/productsource unchanged. Next independent stagingguide/contract commit;
+firstowner remains own separate tool/runtime commit. No hostedaccess.
+
 Local strictlint22:53:43-22:55:26UTC failed3preexistingwarnings;bothfiles
 were byte-identical to eafc711. Infrastructure-only correction removes unused
 initialassignments inpublic-availability.mjs(bothtry/catchstillassignsamevalues),

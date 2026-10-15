@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner2026-10-16 preparation only: trial reset rehearsal/tool;Arabic staging guide;first owner+TOTP procedure. Three commits/fullCI. NO managed access/secrets/deploy.",
-  "baselineSha": "eafc711513421a4a0ef27737482b93ad682d8a96",
+  "baselineSha": "373018c3a541f2391fa1cc5a9d1e43d67d07dc48",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -11,10 +11,11 @@
     "Prior eafc711 integration171 accepted/exactFULL24+secretsPASS",
     "Owner reports hosted171apply10/10+verify0diff/no writes;two reportfolders in PHASE_STATUS",
     "QS3uhS reset real148/148/90tables/0catalogdiff/454functions/13Realtime/verifiedTOTP preserved PASS",
-    "OGfhUr firstowner realAuth/newbranch/TOTP/AAL2/denials/zero schema+grantdiff PASS"
+    "OGfhUr firstowner realAuth/newbranch/TOTP/AAL2/denials/zero schema+grantdiff PASS",
+    "Reset373018c delivered FULL25/25 quality38820997189+secrets38820997178/Gitleaks0"
   ],
   "inProgress": [
-    "Final fastgates PASS;Gitleaks then separate reset,staging,firstowner commits and exactFULLCI each"
+    "Stagingguide docs-only gates/commit/fullCI next;firstowner preparation follows separately"
   ],
   "notStarted": [
     "Withdrawals/cheques implementation assigned to another session after ownerdecisions;no managed access"
@@ -26,7 +27,7 @@
     "Firstowner confirmsAuthid/email;newbranch;rejectswrongbranch/email/secondowner/anon/noRole/oldAAL1;AAL2 works"
   ],
   "testsRemaining": [
-    "Gitleaks;three separate commits with exactFULLCI (final fastgates PASS1131Admin/191Customer)"
+    "Staging and firstowner separate localgates/Gitleaks/commits/exactFULLCI"
   ],
   "findings": [],
   "blockers": [],
@@ -37,29 +38,17 @@
     "No retries/timeouts/skips/assertionweakening;freeze trackedfiles duringgates",
     "Withdrawals/cheques deferred;cloud170179 next180189 onlymetadata"
   ],
-  "nextExactAction": "Commit guarded trial-reset preparation first;push and require exact FULL CI;then separate staging and first-owner commits. No hosted access.",
-  "checkpointedAt": "2026-10-15T23:01:20.409Z",
+  "nextExactAction": "Run frozen staging docs gates;Gitleaks;commit and push staging guide alone;require exactFULLCI before firstowner delivery.",
+  "checkpointedAt": "2026-10-15T23:20:36.321Z",
   "filesTouched": [
-    ".github/workflows/quality.yml",
-    "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
-    "docs/agent/PROJECT_OVERVIEW.md",
-    "docs/operations/PRIVATE_CI_BUDGET.md",
-    "scripts/monitoring/public-availability.mjs",
-    "scripts/testing/run-private-ci.mjs",
     "docs/operations/FIRST_OWNER_FRANKFURT_AR.md",
     "docs/operations/STAGING_FRANKFURT_AR.md",
-    "docs/operations/TRIAL_RESET_FRANKFURT_AR.md",
     "scripts/operations/first-owner-core.mjs",
     "scripts/operations/frankfurt-first-owner.mjs",
-    "scripts/operations/frankfurt-trial-reset.mjs",
-    "scripts/operations/trial-reset-core.mjs",
-    "scripts/testing/local-totp.mjs",
     "scripts/testing/run-first-owner-runtime.mjs",
-    "scripts/testing/run-trial-reset-runtime.mjs",
     "tests/first-owner-preparation.test.ts",
-    "tests/staging-preparation.test.ts",
-    "tests/trial-reset.test.ts"
+    "tests/staging-preparation.test.ts"
   ],
-  "workingTreeFingerprint": "34C0EC8A9BB81E4AA67B354BBE47EF1AEE9FD0E621B44E667F3EA7FF7CD6D33A"
+  "workingTreeFingerprint": "E6161D64BA1051A5A270DCB8A7A6515C7A5EEA2EA2468C2D805FD9B87870E62E"
 }
