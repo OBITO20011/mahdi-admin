@@ -76,7 +76,7 @@ export function generateAclPlan(reference,observed,{offlinePending139=false}={})
  return {commands,objects,predicted,expected:normalizeManagedCatalog(reference),commandCount:commands.length,objectCount:objects.length,
   prerequisites,applicable:prerequisites.length===0};
 }
-function toAcl(entries){
+export function toAcl(entries){
  const codes={INSERT:'a',SELECT:'r',UPDATE:'w',DELETE:'d',TRUNCATE:'D',REFERENCES:'x',TRIGGER:'t',MAINTAIN:'m',USAGE:'U',EXECUTE:'X'};
  const groups=new Map();
  for(const e of entries){const k=JSON.stringify([e.grantee,e.grantor]);groups.set(k,(groups.get(k)??'')+codes[e.privilege]+(e.grantable?'*':''));}

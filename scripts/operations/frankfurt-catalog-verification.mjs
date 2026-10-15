@@ -6,6 +6,8 @@ import {executeInput} from './build-empty-supabase.mjs';
 import {schemaCatalogSql,catalogDifference} from '../testing/schema-catalog.mjs';
 import {readNotificationSnapshot,expectedHeldNotifications,isExpectedHeldTriggerDifference,heldJobNames,heldTrigger} from './frankfurt-notification-hold.mjs';
 import {compareManagedCatalog,assertManagedCatalog as assertHeldCatalog} from './managed-catalog-policy.mjs';
+import {readRealtimePublication,realtimePublicationSql} from '../testing/realtime151-contract.mjs';
+import {sha256} from '../testing/maintenance-db-contract.mjs';
 
 // Configure each actual psql session,not a startup option a pooler may ignore.
 // -c runs first,then -f - consumes only the read queries on the SAME connection.
@@ -63,6 +65,16 @@ export async function verifyCatalogReadOnly(executor,workdir,reference,originalN
  // Evidence is also in the standalone file on EVERY later comparison failure.
  comparison.notificationComparison=report.notificationComparison;
  await writeFile(report.catalogDifferencesFile,JSON.stringify(comparison,null,2)+'\n');
+ if(reference.realtimePublication){
+  assert.equal(reference.realtimeQuerySha256,sha256(realtimePublicationSql),'REALTIME_REFERENCE_QUERY_STALE');
+  const publication=await readRealtimePublication(executor);
+  const changes=catalogDifference({publication:[reference.realtimePublication]},{publication:[publication]});
+  report.realtimeComparison={expected:reference.realtimePublication,observed:publication,differences:changes};
+  await writeFile(path.join(workdir,'realtime-comparison.json'),JSON.stringify(report.realtimeComparison,null,2)+'\n');
+  comparison.realtimeComparison=report.realtimeComparison;
+  await writeFile(report.catalogDifferencesFile,JSON.stringify(comparison,null,2)+'\n');
+  assert.deepEqual(publication,reference.realtimePublication,'REALTIME_PUBLICATION_MISMATCH');
+ }else report.realtimeComparison={certified:false,reason:'HISTORICAL_REFERENCE_HAS_NO_PUBLICATION_SNAPSHOT'};
  // Named trigger state,not a difference count;cron rows remain exact DATA checks.
  report.catalogExpectedHold=assertHeldCatalog(reference.catalog,observed,dates);
  assert.equal(differences.length,0,'NOTIFICATION_STATE_MISMATCH');
