@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {isDeepStrictEqual} from 'node:util';
 import {aclEntries,compareManagedCatalog,normalizeManagedCatalog} from './managed-catalog-policy.mjs';
 export const ident=s=>'"'+s.replaceAll('"','""')+'"';
 export const literal=s=>"'"+s.replaceAll("'","''")+"'";
@@ -15,7 +17,18 @@ export function publicAclSnapshot(catalog){
  }
  return out;
 }
-export function generateAclPlan(reference,observed){
+// Only the reviewed original138 definition may appear as a named offline
+// prerequisite. This is NOT permission to execute its replacement or ignore drift.
+export const predecessor139=Object.freeze({identity:'enqueue_order_push_webhook(p_payload jsonb)',
+ definitionSha256:'2b2d3acc47fcd917af6cf353e8bdeacae5b6027323bd1de7345e800a1079cb0a'});
+const definitionHash=s=>createHash('sha256').update(s.replaceAll('\r\n','\n')).digest('hex');
+function pending139(d){
+ return d.section==='functions'&&d.before?.schema==='public'&&d.before.identity===predecessor139.identity&&
+  d.after?.identity===predecessor139.identity&&definitionHash(d.after.definition)===predecessor139.definitionSha256&&
+  definitionHash(d.before.definition)!==predecessor139.definitionSha256&&
+  isDeepStrictEqual({...d.before,definition:''},{...d.after,definition:''});
+}
+export function generateAclPlan(reference,observed,{offlinePending139=false}={}){
  const expected=publicAclSnapshot(reference),actual=publicAclSnapshot(observed),commands=[],objects=[];
  const predicted=structuredClone(observed);
  for(const [id,wanted] of Object.entries(expected)){
@@ -55,10 +68,13 @@ export function generateAclPlan(reference,observed){
  }
  // Reject missing/extra application objects or non-ACL changes,not just ACL drift.
  const aligned=compareManagedCatalog(reference,predicted);
- assert.equal(aligned.unexpected.length,0,'NON_ACL_APPLICATION_DRIFT');
+ const prerequisites=offlinePending139?aligned.unexpected.filter(pending139):[];
+ const unexpected=aligned.unexpected.filter(d=>!prerequisites.includes(d));
+ assert.equal(unexpected.length,0,'NON_ACL_APPLICATION_DRIFT');
  for(const o of objects)assert.deepEqual(o.before.acl.filter(e=>e.grantee==='service_role'),o.after.acl.filter(e=>e.grantee==='service_role'));
  assert.ok(commands.every(c=>!c.includes('"service_role"')),'SERVICE_ROLE_MUST_NOT_CHANGE');
- return {commands,objects,predicted,expected:normalizeManagedCatalog(reference),commandCount:commands.length,objectCount:objects.length};
+ return {commands,objects,predicted,expected:normalizeManagedCatalog(reference),commandCount:commands.length,objectCount:objects.length,
+  prerequisites,applicable:prerequisites.length===0};
 }
 function toAcl(entries){
  const codes={INSERT:'a',SELECT:'r',UPDATE:'w',DELETE:'d',TRUNCATE:'D',REFERENCES:'x',TRIGGER:'t',MAINTAIN:'m',USAGE:'U',EXECUTE:'X'};
@@ -77,6 +93,7 @@ function snapshotSql(objects){
  }).join(' UNION ALL ')}) acl_rows`:`SELECT '{}'::jsonb`;
 }
 export function alignmentTransaction(plan){
+ assert.equal(plan.prerequisites?.length??0,0,'PENDING_MIGRATION139_NO_ACL_TRANSACTION');
  const before=Object.fromEntries(plan.objects.map(o=>[o.id,o.before])),after=Object.fromEntries(plan.objects.map(o=>[o.id,o.after]));
  const check=(snapshot,code)=>`DO $guard$ BEGIN IF (${snapshotSql(plan.objects)}) IS DISTINCT FROM ${literal(JSON.stringify(snapshot))}::jsonb THEN RAISE EXCEPTION '${code}';END IF;END $guard$;`;
  return `BEGIN ISOLATION LEVEL SERIALIZABLE;

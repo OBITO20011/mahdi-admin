@@ -7,11 +7,12 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
 import {TARGET,OLD_REF,DEFAULT_WORKDIR,assertOutsideRepository,connectionFromLink} from './frankfurt-owner-build.mjs';
-import {executeInput,buildEmptyProjectInput} from './build-empty-supabase.mjs';
+import {executeInput} from './build-empty-supabase.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {generateAclPlan,alignmentTransaction,publicAclSnapshot} from './frankfurt-acl-plan.mjs';
 import {compareManagedCatalog} from './managed-catalog-policy.mjs';
 import {verifyCatalogReadOnly} from './frankfurt-catalog-verification.mjs';
+import {readReference150,readyReferenceName} from './frankfurt-reference150.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),hash=b=>createHash('sha256').update(b).digest('hex');
 export function serviceAclSnapshot(catalog){return Object.fromEntries(Object.entries(publicAclSnapshot(catalog)).map(([k,v])=>[k,v.acl.filter(e=>e.grantee==='service_role')]));}
 export async function alignWithExecutor(executor,reference,observed,original,dates,output,report){
@@ -44,28 +45,38 @@ async function password(){
  });
 }
 export async function run(args){
+ assert.ok(!args.includes('--apply'),'OWNER_HOLD_ALIGN_ACL_APPLY');
  assert.ok(!(args.includes('--apply')&&args.includes('--dry-run')),'ONE_MODE_REQUIRED');
  assert.ok(args.every((v,i)=>['--apply','--dry-run','--workdir'].includes(v)||args[i-1]==='--workdir'),'UNKNOWN_OPTION');
  const i=args.indexOf('--workdir'),workdir=path.resolve(i<0?DEFAULT_WORKDIR:args[i+1]);
  assertOutsideRepository(workdir);assertOutsideRepository(await realpath(workdir),await realpath(root));
  const old=await readFile(path.join(root,'supabase/.temp/project-ref'));assert.equal(old.toString().trim(),OLD_REF,'OLD_BACKUP_LINK_CHANGED');
- const reference=JSON.parse(await readFile(path.join(workdir,'local-reference.json'),'utf8'));
- assert.deepEqual(reference.manifest,(await buildEmptyProjectInput(root)).manifest,'REFERENCE138_MANIFEST_CHANGED');
  const observedBytes=await readFile(path.join(workdir,'catalog-observed.json'));
  const observed=JSON.parse(observedBytes),previous=JSON.parse(await readFile(path.join(workdir,'catalog-differences.json'),'utf8'));
  const original=JSON.parse(await readFile(path.join(workdir,'notification-before.json'),'utf8'));
- const dates=previous.dates,plan=generateAclPlan(reference.catalog,observed);
+ const reference=await readReference150(root,path.join(workdir,readyReferenceName));
+ const dates={...previous.dates,beforeBuildDate:reference.buildUtcDate};
  const output=path.join(workdir,'acl-alignment-'+new Date().toISOString().replaceAll(/[:.]/gu,'-'));await mkdir(output);
  const report={mode:args.includes('--apply')?'owner-apply':'offline-dry-run',startedAt:new Date().toISOString(),remoteWriteAttempted:false,
-  projectRef:TARGET.id,sourceCatalogSha256:hash(observedBytes),objects:plan.objectCount,commands:plan.commandCount,output};
+  projectRef:TARGET.id,sourceCatalogSha256:hash(observedBytes),objects:0,commands:0,output,
+  reference:readyReferenceName,referenceCeiling:150,applicationReady:false,ownerApplyHold:true,
+  pendingMigration139:[],requiresFreshObservedAfterOwnerMigrations:['139','150']};
  let env;
  try{
+  // Persist the complete classified input comparison BEFORE a strict planner
+  // assertion,so any future non-ACL failure still has all object/value details.
+  await writeFile(path.join(output,'catalog-comparison-before.json'),JSON.stringify(compareManagedCatalog(reference.catalog,observed,dates),null,2)+'\n');
+  const plan=generateAclPlan(reference.catalog,observed,{offlinePending139:true});
+  report.objects=plan.objectCount;report.commands=plan.commandCount;report.pendingMigration139=plan.prerequisites;
   await writeFile(path.join(output,'preview.sql'),plan.commands.join('\n')+'\n');
   await writeFile(path.join(output,'source-catalog.json'),observedBytes);
-  console.log('معاينة فقط قبل أي تنفيذ؛service_role ومخططات المنصة لا تتغير:\n'+plan.commands.join('\n'));
+  console.log('معاينة أوفلاين فقط؛التطبيق محظور. service_role ومخططات المنصة لا تتغير:\n'+plan.commands.join('\n'));
   const predicted=compareManagedCatalog(reference.catalog,plan.predicted,dates);
-  assert.equal(predicted.unexpected.length,0,'PREDICTED_CATALOG_DRIFT');
-  report.predictedUnexpectedDifferences=predicted.unexpected.length;
+  const remaining=predicted.unexpected.filter(d=>!plan.prerequisites.some(p=>JSON.stringify(p)===JSON.stringify(d)));
+  assert.equal(remaining.length,0,'PREDICTED_CATALOG_DRIFT');
+  report.predictedUnexpectedDifferences=remaining.length;
+  report.expectedHold=predicted.expected;report.platformInformation=predicted.platform;
+  await writeFile(path.join(output,'pending-migrations.json'),JSON.stringify(plan.prerequisites,null,2)+'\n');
   if(!args.includes('--apply')){report.ok=true;return report;}
   assert.ok(process.stdin.isTTY,'OWNER_INTERACTIVE_TERMINAL_REQUIRED');
   assert.equal((await readFile(path.join(workdir,'supabase/.temp/project-ref'),'utf8')).trim(),TARGET.id,'LINK_TARGET_MISMATCH');
