@@ -88,8 +88,11 @@ export function renderReport(source,evidence){
 export async function saveReport(source,evidence){
  const copy={...evidence,proposal:proposedAccess(source,evidence)};delete copy.catalog;
  await writeFile(path.join(root,'docs/operations/TABLE_ACCESS_DIAGNOSTIC.json'),JSON.stringify(copy,null,2)+'\n');
- await writeFile(path.join(root,'docs/operations/TABLE_ACCESS_INVENTORY.md'),renderReport(source,evidence));
+ await writeFile(path.join(root,'docs/operations/TABLE_ACCESS_INVENTORY.md'),await reportWithSupplement(source,evidence));
 }
+export async function reportWithSupplement(source,evidence){let extra='';
+ try{extra=await readFile(path.join(root,'docs/operations/SERVICE_ACCESS_AUDIT.md'),'utf8');}catch(error){if(error.code!=='ENOENT')throw error;}
+ return renderReport(source,evidence)+(extra?'\n---\n\n'+extra.replace(/^# .*\n\n/u,''):'');}
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  const {inventory,writeInventory}=await import('./table-access-inventory.mjs');
  const evidence=JSON.parse(await readFile(process.argv[2],'utf8')),source=await inventory();

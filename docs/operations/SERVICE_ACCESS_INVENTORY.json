@@ -1,0 +1,3252 @@
+{
+  "schemaVersion": 1,
+  "migrationCeiling": 138,
+  "managedAccess": false,
+  "sourceHashes": [
+    {
+      "file": "src/App.tsx",
+      "sha256": "2c424b1848c80aa0bbfba9b9048bca1108bb6a0206615cb4dc727b658341ff98"
+    },
+    {
+      "file": "src/components/common/AppErrorBoundary.tsx",
+      "sha256": "c17546abe154dda9cc109163b7d266b2214149b631839b44ec856bede29e9eae"
+    },
+    {
+      "file": "src/components/common/Header.tsx",
+      "sha256": "b8ef037e7cb94cc85860b67d3f6da2dd21fb85425deaf6d8722e2c8ab5786b0f"
+    },
+    {
+      "file": "src/components/common/Modal.tsx",
+      "sha256": "73e6249c50ad01304b0f4519ce01b4fc4a35bf88cd14351dd4ce0782a549ce32"
+    },
+    {
+      "file": "src/components/layout/AdminToast.tsx",
+      "sha256": "b49370de28d33b69b374813b93e8868fbd49928aab4ed5ab2ea29c0327cc9c67"
+    },
+    {
+      "file": "src/components/layout/BottomTabs.tsx",
+      "sha256": "f1e4215060fa9e5f0d7a8f9c0094405c9d1b4aee962e1f3667d51c30ba746f22"
+    },
+    {
+      "file": "src/components/layout/IPhoneContainer.tsx",
+      "sha256": "6a87422b8f8e20f925ac0506f579e1e25bfd47b8b684a996a22a76de268a69c2"
+    },
+    {
+      "file": "src/components/layout/quickActions.ts",
+      "sha256": "dfe2f87fcf0433aac9549fcd1631bae7b366ee55e4f5bd65ffa6859c9a26d734"
+    },
+    {
+      "file": "src/components/layout/SideNav.tsx",
+      "sha256": "7cdaba3b3e8e875e5422bdf92bc5aaf65b8bea9cbb476d764816013dbfc7a023"
+    },
+    {
+      "file": "src/components/layout/sideNavigationModel.ts",
+      "sha256": "171e7d4c3effd0039fd72f0c50902ff7c2a77e92fa1f22225767b8ccce266bb5"
+    },
+    {
+      "file": "src/components/modals/AllModals.tsx",
+      "sha256": "f2e7be83f5342315b49098844dfba78c8dfb55b00c089172a091912b56bc4a1f"
+    },
+    {
+      "file": "src/components/modals/BrandsModal.tsx",
+      "sha256": "b43ebc1e0b010c9ef4f64e03b7abde8e0f05d951d419bf374644c23c0f224f1d"
+    },
+    {
+      "file": "src/components/modals/CategoriesModal.tsx",
+      "sha256": "695094f396749c8d57f553e39cf3789cce7a10790d6c070828a49f17141707be"
+    },
+    {
+      "file": "src/components/modals/UnitsModal.tsx",
+      "sha256": "dd0a557d7d8afa247e304978fd30958929d97f0fa276599952211f30f72cb619"
+    },
+    {
+      "file": "src/components/ui/cashCounting.ts",
+      "sha256": "e3ff0e7851ea4e4de5ae723127f6f17d7d3803fde07383a7a42e81502d7059a3"
+    },
+    {
+      "file": "src/components/ui/CashDenominationCounter.tsx",
+      "sha256": "442e829d8da9327b440cba99ba303e9eb4aeef74eddbfa982162a3c3576309cf"
+    },
+    {
+      "file": "src/components/ui/Controls.tsx",
+      "sha256": "ab6dcf83db41030519ab8971dbb5b12d5dc2378cc6de5b4d29d4fe42d5bcf04c"
+    },
+    {
+      "file": "src/components/ui/DataDisplay.tsx",
+      "sha256": "d798defdcdec05c7d96426e3b08752f4b2df0c542af6cedf39416a9a018a459c"
+    },
+    {
+      "file": "src/components/ui/FormFields.tsx",
+      "sha256": "197f4419c26abbb67772e522edd791ea2ca80e02f3524281274fc589a37f7224"
+    },
+    {
+      "file": "src/components/ui/index.ts",
+      "sha256": "edfad1adeb0b974541f2a585aa6e03cc1e62efc654f3c1864425674ee6f6e9e4"
+    },
+    {
+      "file": "src/components/ui/PhonePresentation.tsx",
+      "sha256": "139b65b9c1a0953890c932dde6fe6795dcd503bfdc7d88c760c501e774a12f92"
+    },
+    {
+      "file": "src/components/ui/ProductGlyph.tsx",
+      "sha256": "b28f37c9dd12ce880dd9c18b22697261b2017b0606b44ba4a25e43ac36df39e4"
+    },
+    {
+      "file": "src/components/ui/ReceivingUnitFields.tsx",
+      "sha256": "93eadaba327adc7b8a0236322d3cf48cfd82cb225c3a557da30c8eb0db6fde55"
+    },
+    {
+      "file": "src/components/ui/ResponsiveActionPanel.tsx",
+      "sha256": "00e00e7544d8a615e6712bf482c286aead0b510a50e2e2c25442b29af69e00bb"
+    },
+    {
+      "file": "src/components/ui/ResponsiveCartPanel.tsx",
+      "sha256": "03ccf18ffa0967a985cbe4de19372af178f5c82012ef4955856a31f95cae8a5a"
+    },
+    {
+      "file": "src/components/ui/SalesBarChart.tsx",
+      "sha256": "2d3b4a8013a9bddb6dcce29300749c88f0eb70579cd40bc9473825a1420bfc70"
+    },
+    {
+      "file": "src/components/ui/Surface.tsx",
+      "sha256": "3d8991706e103362b48fc0f9994d1313363eae2c369003e2c6db99ccfd61d542"
+    },
+    {
+      "file": "src/components/ui/SwitchTrack.tsx",
+      "sha256": "e31c26cc5fd6819556c9de43f03024caa4c0946ec9aefed377208f2c387a1508"
+    },
+    {
+      "file": "src/components/ui/TableShell.tsx",
+      "sha256": "becc45ae07fa25e7eeece98c6fa43c9d1bb0d718b0f7c6a9758a49147db2fe1d"
+    },
+    {
+      "file": "src/components/ui/uiFormat.ts",
+      "sha256": "f5933fcafa8dca20ba5adf496af2c6f62cfc2bad9cd5acac3ce0e67d99c373da"
+    },
+    {
+      "file": "src/components/ui/UserAvatar.tsx",
+      "sha256": "39bd80d9a937d22555450472799cc74030c7657236ca2624a70c3f1783f0cc71"
+    },
+    {
+      "file": "src/config/supabase-public-config.ts",
+      "sha256": "35f06dc43da3677958e91878303b7787d4352f68e0d7eec66c49df70e295826f"
+    },
+    {
+      "file": "src/constants/index.ts",
+      "sha256": "7eb74f4cd45bae7e626900b3d3360d811466a676f11d41502cfcabb415ebf821"
+    },
+    {
+      "file": "src/features/accounts/AccountsView.tsx",
+      "sha256": "14a184c739301a70f44a023a5ed129fe27cd37f9d65dbc26a478a111f208f215"
+    },
+    {
+      "file": "src/features/accounts/CustomerBalancesView.tsx",
+      "sha256": "cb04e0ece2fe16113dc3fcd77621ba1440a0b374fa496cee1a0751e16d89fd07"
+    },
+    {
+      "file": "src/features/accounts/RecordCustomerPaymentModal.tsx",
+      "sha256": "af24b481a68c0a80dbe4f025d9cb7b86527f576857a8fd1170af10a9563a34c5"
+    },
+    {
+      "file": "src/features/assistant/AdminAssistantView.tsx",
+      "sha256": "10d5ae256fe5c7dafe1900e7e18ee870221491498f08dc16f82432e9d7a80072"
+    },
+    {
+      "file": "src/features/auth/LoginView.tsx",
+      "sha256": "8d719f108cdbbfc766f6621fbb98f96a2f81eb40c5b851a4340d580e60fdac54"
+    },
+    {
+      "file": "src/features/auth/TurnstileWidget.tsx",
+      "sha256": "e6039b4cfe49f7c6a423866ac245fba0d2616f428d2b5310983c85fab8351909"
+    },
+    {
+      "file": "src/features/barcode/barcodeCamera.ts",
+      "sha256": "c99b574022197d2ee734f0a131c8426f1d48e58511aa9a3394132922a009f343"
+    },
+    {
+      "file": "src/features/barcode/BarcodeCameraCaptureModal.tsx",
+      "sha256": "a8d450922953f7f7b2956a7dc53c22ea5f9f4ae5ec64832dc0eb777e52b8693b"
+    },
+    {
+      "file": "src/features/crm/AddAddressModal.tsx",
+      "sha256": "b02d0cf1447a02eee4e97d7fbe41840054548f179e12e95613dd1d5cc495e6fa"
+    },
+    {
+      "file": "src/features/crm/AddCustomerModalContent.tsx",
+      "sha256": "40b16302c959171699d0d89b4dcc94f97113e0020d683c7738341e8b9ff7f179"
+    },
+    {
+      "file": "src/features/crm/CrmView.tsx",
+      "sha256": "cf38a0a9771f46d14f4b2ec804c02fd54d3a1b6414e0797b242a479eb228b571"
+    },
+    {
+      "file": "src/features/crm/CustomerAging.tsx",
+      "sha256": "462d9b7025bff41b6622f16f8a5b808ff21e998bafd2dc6b3b26e67f30a41068"
+    },
+    {
+      "file": "src/features/crm/CustomerDetailView.tsx",
+      "sha256": "84962a4bb66b1b047b33960d56a24ce21658dd0a23a3b36a80167876693608c8"
+    },
+    {
+      "file": "src/features/crm/CustomerEditModal.tsx",
+      "sha256": "f13d589c31beebe0ba53d8b3d3a3de59201cf4f9e2ddd66ab110ffc583ff5a35"
+    },
+    {
+      "file": "src/features/crm/CustomerFilters.tsx",
+      "sha256": "34e7f8fc633fd13d1147313d2a66bbe13bb11c99ecf528748ac846d65f44bac1"
+    },
+    {
+      "file": "src/features/crm/CustomerList.tsx",
+      "sha256": "48d1d022ed2f7665e21a3e50ccf38dff0a783f08f7cd186c9287031f944be97d"
+    },
+    {
+      "file": "src/features/crm/CustomerStatement.tsx",
+      "sha256": "924279a135b5ed4ca3dc6ae3c36f6ee9295229d9349fbea8642cff3c8b3d47a3"
+    },
+    {
+      "file": "src/features/dashboard/ChartsSection.tsx",
+      "sha256": "2e03f3458252b50ed337c8ac79265285992078c72b6fa311c5921d07a8f9ba0f"
+    },
+    {
+      "file": "src/features/dashboard/DashboardHome.tsx",
+      "sha256": "1f9f36f5f02e377f64523b0fccb972777abca90e765f9a850d8cf11f9250b483"
+    },
+    {
+      "file": "src/features/dashboard/DashboardView.tsx",
+      "sha256": "4718b264281fc35b2a05346fc015ae5b22dba3f64f309425a46605b64acd8612"
+    },
+    {
+      "file": "src/features/dashboard/KpiCards.tsx",
+      "sha256": "384566b25aaa2d7f9bf7e7e3b101a5e26e54bc158882b0ff2a5ca3de1cc0edf9"
+    },
+    {
+      "file": "src/features/dashboard/QuickActions.tsx",
+      "sha256": "344fe408df348787d4b492a21d375c0b00585e32c86efeb58070d8a682fa3594"
+    },
+    {
+      "file": "src/features/dashboard/WidgetsSection.tsx",
+      "sha256": "9b79e41c71c24bf87c1387da7758d79940429be522dae2a12bf51149b2c7599c"
+    },
+    {
+      "file": "src/features/directReceiving/CancelSupplierReceiptDialog.tsx",
+      "sha256": "3c8cde5d57e5cf9b3b8fec6e3572a03507d617ab50590505b0df490baf4eb280"
+    },
+    {
+      "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+      "sha256": "9689e3bb7b1ccaad4279bb0a15b8fe157b9a170d7cf0ed5f8056e9f9d77c763f"
+    },
+    {
+      "file": "src/features/directReceiving/DirectReceivingView.tsx",
+      "sha256": "6294dbbfe37dc080469162a0f941c3ffb90cacbd44184e9d13882d36ebc42fd3"
+    },
+    {
+      "file": "src/features/directReceiving/RecordSupplierPaymentModal.tsx",
+      "sha256": "40d457a1691a84b9b4f66bcfa903758da369d1fefe18cc46f7ba9b3da658d944"
+    },
+    {
+      "file": "src/features/directReceiving/SupplierReceiptDetailView.tsx",
+      "sha256": "de6a5ea6db5266ab46df73ff954ac16cbea6e7a6817548ac5e895e8471ee086a"
+    },
+    {
+      "file": "src/features/expenses/ExpenseFormModal.tsx",
+      "sha256": "0ae14ca5455d1d7dc0dfab1b4f0db4d785378efc406ea307b8350f42927b1948"
+    },
+    {
+      "file": "src/features/expenses/ExpensesView.tsx",
+      "sha256": "6510c4039c2d22b393060c26959fb729b9fa330291d7c6f67c784c98a1a5bbda"
+    },
+    {
+      "file": "src/features/inventory/ClearInventoryBalanceDialog.tsx",
+      "sha256": "88decb6f8157e71ce393d3de87e505208b016b9eb0c44d9cc0f36e1d9d557e46"
+    },
+    {
+      "file": "src/features/inventory/InventoryOpeningSetupModal.tsx",
+      "sha256": "8d24e2036ba9949dd50be843b47b459388beda3c0cf0d8a0d4055fa040033034"
+    },
+    {
+      "file": "src/features/inventory/InventoryView.tsx",
+      "sha256": "c7dd4c5f8e0d5899dfd0cf7b4ec9dd4260db6ee8ea32d369582b2acbfb52eeaf"
+    },
+    {
+      "file": "src/features/inventory/StockCountModal.tsx",
+      "sha256": "2b97d4b0f0bb3a30a326bfdc5c0f9543a3bd329e36a55bf56beb99fa609bd892"
+    },
+    {
+      "file": "src/features/inventory/WarehouseTransferModal.tsx",
+      "sha256": "430c2c42b470eb329ad67e900c8c1d0af31b18f83248dfcf6f08e2d87a0a7a33"
+    },
+    {
+      "file": "src/features/more/adminNavigation.config.ts",
+      "sha256": "dd6c601d8eb0e815aa70955a20d66f3141fbfea9c6330805a1f7559d3ec5454c"
+    },
+    {
+      "file": "src/features/more/InstallAppPanel.tsx",
+      "sha256": "343014c3e3eee60dc59b83b642179889cf6347d5d2905c386f7ce95ea3a26fe4"
+    },
+    {
+      "file": "src/features/more/MonitoringDashboardModal.tsx",
+      "sha256": "0f6b7d09803ce634a7e70b0f2a670873dcf9e59d5063befd5a1dfb14fdee1f5a"
+    },
+    {
+      "file": "src/features/more/MoreMenuView.tsx",
+      "sha256": "1c4a46386f7b078ad22c38919cde7b67fe6992d0044c574887f6e32b26e1d32a"
+    },
+    {
+      "file": "src/features/more/ParcelConfigurationModal.tsx",
+      "sha256": "641c6160e9c1d56f8c8e51b2fd6f40c1e7e340f2bac325e64881204b0d6d6dd6"
+    },
+    {
+      "file": "src/features/more/ProfileModal.tsx",
+      "sha256": "007a5bb78dee403bc97a974206a415240906026389ff190dae24d2938a1a9878"
+    },
+    {
+      "file": "src/features/more/PromotionCodesModal.tsx",
+      "sha256": "1ea417320c1d21d7de8798fc5082268d6f45a1b195c09dbb6700228496a5fe0f"
+    },
+    {
+      "file": "src/features/more/PushNotificationControls.tsx",
+      "sha256": "4d9d225de721c1d24b096ea50f6b6da9685d3c4cbf7899e00e1402a8fffdadde"
+    },
+    {
+      "file": "src/features/more/StorefrontSettingsModal.tsx",
+      "sha256": "c752cb8a20d96a02c1b09c2956beb2f0e86967aa20f42874dacf64e348e61630"
+    },
+    {
+      "file": "src/features/orders/AdminAftercarePanel.tsx",
+      "sha256": "766be706748bf5241e69b733cad0d87462198ef8fd9719ee29f509bb0a511390"
+    },
+    {
+      "file": "src/features/orders/aftercarePresentation.ts",
+      "sha256": "4e5bf8faa1fce7d06a5d5600f6b863759f732b0a6f62e1e946f2c4c194b7bded"
+    },
+    {
+      "file": "src/features/orders/CustomerLocationCard.tsx",
+      "sha256": "e1e23d7cec1fe066ef6e58aff5cbb8e5243e36cb7304515133feeea6c4200af1"
+    },
+    {
+      "file": "src/features/orders/EditAddressModal.tsx",
+      "sha256": "109a32038531e6236fd1293a954a85415eb97941ab212fc61320b1bbdd7b24c0"
+    },
+    {
+      "file": "src/features/orders/OrderCommercialSummary.tsx",
+      "sha256": "b324c808c946fcc56e3119f0bbc0be258d86448ce97a1798cc62c198fe5bf6b1"
+    },
+    {
+      "file": "src/features/orders/OrderDetailModal.tsx",
+      "sha256": "49899aa8b91ae4a875833a6ee308d770b7a76adba611a07d5ce7a207f8216dd1"
+    },
+    {
+      "file": "src/features/orders/OrdersCenterView.tsx",
+      "sha256": "ddeb45cdcbe71aeca4e4a4b47de721c3e9c605e081b0c98563a367198b2f9ca6"
+    },
+    {
+      "file": "src/features/orders/orderStatus.ts",
+      "sha256": "8bfa3800d5f227cb14f8be13a04004f77d1106c7026ed521ed6956587fe127ea"
+    },
+    {
+      "file": "src/features/pos/BarcodeScannerModal.tsx",
+      "sha256": "32ee8ec8e6f954724d9320156a228f2635240c1c7e7e88c5399ec97a35694e98"
+    },
+    {
+      "file": "src/features/pos/PosParcelBuilder.tsx",
+      "sha256": "29f358a6c1b316d0c3f537e2cd69c0a7a23397c3a9103e0955490b0ab1e0cd72"
+    },
+    {
+      "file": "src/features/pos/posV2Cart.ts",
+      "sha256": "5a36e9503a04097189b36b0968733aded26b93f320c7ad67df289d349db8b828"
+    },
+    {
+      "file": "src/features/pos/PosView.tsx",
+      "sha256": "09661c0cefa1888acab711e310c7c5c7e435984e159a6a8b3cb6866b2fd6c5b3"
+    },
+    {
+      "file": "src/features/products/ProductDetailModal.tsx",
+      "sha256": "3a6b9064ba200e10f48951e829da1322a4f364f73521e2b2ea03063f11a9d3c2"
+    },
+    {
+      "file": "src/features/products/ProductFormModal.tsx",
+      "sha256": "220eb64470d0843e913721cc256aa8d092201ffec31eee89bf93029508553d18"
+    },
+    {
+      "file": "src/features/products/ProductsView.tsx",
+      "sha256": "d12d1c86b4b45ae971105b49c393d3ab41ec9f477f1ce2fdea3dda65c24d4f01"
+    },
+    {
+      "file": "src/features/products/StockAdjustmentModal.tsx",
+      "sha256": "e082cddd06381a90ba3bc740c6b154350c6f61e324d81f53345c661f7b97e84e"
+    },
+    {
+      "file": "src/features/purchases/CreatePurchaseOrderModal.tsx",
+      "sha256": "1b8181f06849c81d9ecff92686131ea01cf7063f3aeb81efadfca4f693cced79"
+    },
+    {
+      "file": "src/features/purchases/CreateSupplierModal.tsx",
+      "sha256": "0b33d931694c4b8504094dc163626bdbcc1c45097d60353bfdba0fe0f54612b0"
+    },
+    {
+      "file": "src/features/purchases/PurchaseOrderCard.tsx",
+      "sha256": "63213d76926a18ee2dc6b1c2ecc1b755749e636a982239d8cc50351931678b5d"
+    },
+    {
+      "file": "src/features/purchases/PurchaseOrderDetailView.tsx",
+      "sha256": "ff7a831d2daaaa87cbbd302ee3006d5e248a7274dd551b097869060842a3a52f"
+    },
+    {
+      "file": "src/features/purchases/PurchasesView.tsx",
+      "sha256": "e482ee5f2f0efa11a5767cf4f4bcff8acba35438efafdb10acb45d0f0d6c631a"
+    },
+    {
+      "file": "src/features/purchases/ReceiveGoodsModal.tsx",
+      "sha256": "5116072ac522527e14c23f1acad06258019abd13d86f7b1aa8aa5c13df800d30"
+    },
+    {
+      "file": "src/features/purchases/SupplierPaymentModal.tsx",
+      "sha256": "0ca52cf1f3e4fe5da5a67e1d5a2832061bf673f53e250d2a425250e3d62c59be"
+    },
+    {
+      "file": "src/features/reports/ReportsCenterView.tsx",
+      "sha256": "d52e52eeee5db05fe42ce4cbc4e9199a9659fc9c78a3187a83635a3aa36efa34"
+    },
+    {
+      "file": "src/features/shifts/ShiftArchiveSection.tsx",
+      "sha256": "4962eb1077cdf79e4e210a8e6d9c3448a71b68996209d487e29206da6bc5ad93"
+    },
+    {
+      "file": "src/features/shifts/ShiftClosingReportModal.tsx",
+      "sha256": "df05c66e7770d6599b953a69085b6cd841c95a69e1c41cf45d52201e91ad540b"
+    },
+    {
+      "file": "src/features/shifts/ShiftsView.tsx",
+      "sha256": "bda5cd44cea389f21ffda72c9136de30be1c1d1c6b85a4b06701b702f2d267c8"
+    },
+    {
+      "file": "src/features/users/UserFormModal.tsx",
+      "sha256": "10da1d6a3e0ea4044fa618c14fe0eabe2ff8041cca53a12a355151446aa6be1c"
+    },
+    {
+      "file": "src/features/users/UsersView.tsx",
+      "sha256": "3d8942f23587f1197bbc606de03358d6c1fee4ddd30b527c18b470a67e14b686"
+    },
+    {
+      "file": "src/hooks/useCustomerAccounts.ts",
+      "sha256": "30f5987987187b0616c08a815d4f33855048cd7e9bcca771476d6256c99d9eed"
+    },
+    {
+      "file": "src/hooks/useCustomerStatement.ts",
+      "sha256": "539132e422b2e392b597a44dec0cd72b330907b1f61a61e0c95697d1783b9435"
+    },
+    {
+      "file": "src/hooks/useDialogFocus.ts",
+      "sha256": "89a29a5cc60cf49879949ef2a0dbbe9eab6c3f8c6e53539be319b1135d063a44"
+    },
+    {
+      "file": "src/lib/async.ts",
+      "sha256": "f30ad527a2e25ca01062d5ef07b2d16029bf143a817a01f84fe565e70246b55e"
+    },
+    {
+      "file": "src/lib/errorMonitoring.ts",
+      "sha256": "07b16712a33cebef7743acc3e0abfa6eed630d5b00c66d2b8761980bf3638a7d"
+    },
+    {
+      "file": "src/lib/supabase.ts",
+      "sha256": "a666d78ed706ae86d111b5bef993200e34a490910b3bfec203ec678e3d8691f2"
+    },
+    {
+      "file": "src/main.tsx",
+      "sha256": "3de4c6f3bdf938c537cc4f941520d31448b59670cd68e10737a2ecb1b434906c"
+    },
+    {
+      "file": "src/pwa/pwa.ts",
+      "sha256": "7a92f8b181c89d5cc9107729efbb0e2702b6a0b60c781f461ec6d9c60bc9ef63"
+    },
+    {
+      "file": "src/services/deviceBiometrics.service.ts",
+      "sha256": "d4f593e3f969645e9f5c5e20000559ba3bceaca0e11c48c18e17141fd5b769f7"
+    },
+    {
+      "file": "src/services/pushNotifications.service.ts",
+      "sha256": "fe32d849c68ae0db127c3f919180752e750f3d23bbcfb653c543d49b502a3be4"
+    },
+    {
+      "file": "src/services/sessionSecurity.service.ts",
+      "sha256": "923504f53fe0cace7485fbae008ac4e6896191dc5f02263677d35d15f80c2744"
+    },
+    {
+      "file": "src/services/supabase/adminAftercareRecovery.ts",
+      "sha256": "335fba4cb8092d76118731948931a1fe3887d9de8af7858eb08834bec5f7ac45"
+    },
+    {
+      "file": "src/services/supabase/adminAssistant.service.ts",
+      "sha256": "90f7942e07a6d2f198cc3900b4b550319f535de2bc5ada037b8088e1479a9134"
+    },
+    {
+      "file": "src/services/supabase/adminCustomerV2Lifecycle.ts",
+      "sha256": "bd6aff97de10b49f68b7afc2cca789040e63b324fdcc8874cffb8f47dee2d054"
+    },
+    {
+      "file": "src/services/supabase/auth.service.ts",
+      "sha256": "54f4b09369865e042f375d2507ba67b429e1dc7e7cae20a387870eb6d617b3ea"
+    },
+    {
+      "file": "src/services/supabase/crm.service.ts",
+      "sha256": "a2067c5a078cf8bf69606aa07c3625935bbcc2693f10c0ca9db489d71138b3af"
+    },
+    {
+      "file": "src/services/supabase/customerAccounts.service.ts",
+      "sha256": "f39aa12377d95475fb7dfc276f0373bc795ac9f23fbf451b5513f4cf360c7264"
+    },
+    {
+      "file": "src/services/supabase/customerDebtAging.service.ts",
+      "sha256": "f9b3e95c290fd777d03da877ee3fae818d586d0dbd18c9dc6059d58ebd7771cb"
+    },
+    {
+      "file": "src/services/supabase/customerStatement.service.ts",
+      "sha256": "6d029b95c2abde98d6291e41e1383a707271306d6807dfef21b73e49ac442a58"
+    },
+    {
+      "file": "src/services/supabase/dashboard.service.ts",
+      "sha256": "af3e3f4c31966681a680607642152053ca80d110acbaed4eade28cf015264707"
+    },
+    {
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "sha256": "70a3229a1726408e7d2676875c7b8376be39381a94f88d009777067f280e6c4b"
+    },
+    {
+      "file": "src/services/supabase/expenses-shifts.service.ts",
+      "sha256": "a12e3778b5a0d997aa7fe08479353874a858e96c76fee19ca13e241ce50a1836"
+    },
+    {
+      "file": "src/services/supabase/historicalParcelComposition.ts",
+      "sha256": "8c79715e2f63930044203db59b06b322bdbea1a929efa0b4ca1a3fa0870e8200"
+    },
+    {
+      "file": "src/services/supabase/inventory-opening.service.ts",
+      "sha256": "75f15fe9f0f056416eb4cd872b219394c706e9560347987e30cdce3a373ea145"
+    },
+    {
+      "file": "src/services/supabase/inventory.service.ts",
+      "sha256": "01fb51715644b7f6f0ef0fb22519dfd3dd6e8d9ad79e760de864420516b5ab0d"
+    },
+    {
+      "file": "src/services/supabase/mfa.service.ts",
+      "sha256": "9189039e3885d08c1460d3bf5a2c72659f10ad187e9264eeea53c46ed6e302ac"
+    },
+    {
+      "file": "src/services/supabase/mfaStatusRequest.ts",
+      "sha256": "c5f92a93263e1c7ab16326fe835b5b202756512a2abfaf9f053a7bba2e5a918a"
+    },
+    {
+      "file": "src/services/supabase/monitoring.service.ts",
+      "sha256": "a3a2600ef2fcd5330a5e90f4e73906833e6076a7f7c5633615a82951c2101241"
+    },
+    {
+      "file": "src/services/supabase/orders.service.ts",
+      "sha256": "d7a060c64e422aa5e98724043a70564e4d097f2273af77aaccf2609e358d73b3"
+    },
+    {
+      "file": "src/services/supabase/parcelConfiguration.service.ts",
+      "sha256": "4552ef2f7d960bf2a4486f48f929154d01d579e4ab9e7941d23602b8e29ca44b"
+    },
+    {
+      "file": "src/services/supabase/pos.service.ts",
+      "sha256": "b215a66371b57ed40bf640750eb3dc9efd29c72aae4f7e2f689f794c933da841"
+    },
+    {
+      "file": "src/services/supabase/posV2.service.ts",
+      "sha256": "92a4031fb6fe3cdfa3007352dde60f93a4d18ca12f005d6669fc790325a3c1ba"
+    },
+    {
+      "file": "src/services/supabase/posV2Recovery.ts",
+      "sha256": "615902519112cb8a8d74357ad70ffc9cdcc4c4d61ddabc403b73324092c2cb34"
+    },
+    {
+      "file": "src/services/supabase/posV2Validation.ts",
+      "sha256": "52d31f0ab8d97d93337533b303bcca3aefb41e94cc32ce55d185bf15f147b226"
+    },
+    {
+      "file": "src/services/supabase/product-images.service.ts",
+      "sha256": "c7e8576deb642c40a7b0a1b660288d0e4b29f40633f5fb9aae3d8aa1c61f648a"
+    },
+    {
+      "file": "src/services/supabase/products.service.ts",
+      "sha256": "34a4b351de86a35ed8c7c44de72896cbbb7765b896e79241b71cd577c0ab0208"
+    },
+    {
+      "file": "src/services/supabase/promotions.service.ts",
+      "sha256": "888ad5466f6e21c497344866de3ed016fbb220b282aba44e8fb872bc68c5b03a"
+    },
+    {
+      "file": "src/services/supabase/purchases.service.ts",
+      "sha256": "eb3a66553c7c2ffb4bcc7da75fb2a2cf7b3216bd7b99b60c1ad2be294f83dfd9"
+    },
+    {
+      "file": "src/services/supabase/reference-data.service.ts",
+      "sha256": "dc966701d358ca7e3f4f2fd6fa0f94560a693c095b12955f98e4b5462249341f"
+    },
+    {
+      "file": "src/services/supabase/reports.service.ts",
+      "sha256": "52dd328d40a420cb899755f6b6e96ecf5633a3a77390191fcf5a7829f25060d9"
+    },
+    {
+      "file": "src/services/supabase/salesAftercare.service.ts",
+      "sha256": "ade5738d66af92e957111d2f5d5a8e0128ee0541bf5d23574908795ef7d4f276"
+    },
+    {
+      "file": "src/services/supabase/staffAccounts.service.ts",
+      "sha256": "a3f441aaa5f5c168e156f12c70e0805886f454446887a378f692fac1373249ae"
+    },
+    {
+      "file": "src/services/supabase/stockAlerts.service.ts",
+      "sha256": "03459626090d256eef30cbdd93deb10ec4f29896c6ddea69646533c5acdbe804"
+    },
+    {
+      "file": "src/services/supabase/storefront-settings.service.ts",
+      "sha256": "ea2ea5e5d41b0f024055ccab9932dd12a343464256a458edcfe2047322148470"
+    },
+    {
+      "file": "src/stores/appStorePreferences.ts",
+      "sha256": "7cdfc800388b5c7827eaf47cd0463cd6fc8b28443218d3d9e72ad41c012d7e1d"
+    },
+    {
+      "file": "src/stores/modalTypes.ts",
+      "sha256": "03f61fede8590f9a1407bb8780b4d4f2e9c471434cf5cc445de54c16c56dd919"
+    },
+    {
+      "file": "src/stores/referenceData.storeSlice.ts",
+      "sha256": "b540915774ff04272b66e5572baf146dfefef10abbe1ccf12a8b56df7d78798e"
+    },
+    {
+      "file": "src/stores/stockNotifications.storeSlice.ts",
+      "sha256": "6328f30888c884f4d4a7201c244af89a9e7032a800d17c2d861fabc64b1a5490"
+    },
+    {
+      "file": "src/stores/storeSelectors.ts",
+      "sha256": "c0e774bed8ac615769c5bef22e8d0aa4bc7b03bf0a90595bb20a4a61eb6b28b8"
+    },
+    {
+      "file": "src/stores/useAppStore.ts",
+      "sha256": "c231103d574ce1b0b1155eda5cc74994be3796d1130289be6b79076d57e2f44d"
+    },
+    {
+      "file": "src/stores/useAuthStore.ts",
+      "sha256": "148ffcd627c153c4afbec1516ca9c51190fffccaf6f3e5c75d7804594a1775a4"
+    },
+    {
+      "file": "src/types/adminAssistant.ts",
+      "sha256": "6d38d968f69042ae27cddd89a41310c0ff56ab8288d2c27149f7c29a33d1698e"
+    },
+    {
+      "file": "src/types/crm.ts",
+      "sha256": "96a6d8d3088f9016c5a85f376adc8fb74739a514b92084770e549127016229db"
+    },
+    {
+      "file": "src/types/dashboard.ts",
+      "sha256": "1388e23e1a775ed9cb2eeddebe92317eb606d32f5f904ad927146225ede1cb58"
+    },
+    {
+      "file": "src/types/directReceiving.ts",
+      "sha256": "9940403a4abce232e6678a8bb28b20bccc066dba75a9052c0808e072320f163f"
+    },
+    {
+      "file": "src/types/index.ts",
+      "sha256": "a73a0090cf20d6c6e47cfc85929bd41138771dce51f132de28196c12ad4b04b1"
+    },
+    {
+      "file": "src/types/monitoring.ts",
+      "sha256": "be62777a32b350fb8d349f475f178d6c062185a91ec87f12c47bf5010210f627"
+    },
+    {
+      "file": "src/types/promotions.ts",
+      "sha256": "f91b52645ed617cabd01f203347dfe1e82c19e8b4ccfd5dc807da20afe95eb9b"
+    },
+    {
+      "file": "src/types/purchases.ts",
+      "sha256": "d2864d3985f4aea65cee6aab8d33810e2c90dcb2adec3f1eafef862bcb2b147a"
+    },
+    {
+      "file": "src/types/reports.ts",
+      "sha256": "1cc4d9c1dce70be44decbd49bfc8d0a27b050f8f7b242b2517e939be4ab5f3c2"
+    },
+    {
+      "file": "src/types/storefront.ts",
+      "sha256": "423091593984a88126b60644d823acf7e679ae8bc242a9f5a2ff42e44b20fcbb"
+    },
+    {
+      "file": "src/utils/aftercareIntegrity.ts",
+      "sha256": "f43f57360672f030839a4d6f58309e75058aa4e695cc9f56c76769fd87041b09"
+    },
+    {
+      "file": "src/utils/businessError.ts",
+      "sha256": "a5874bdbad120aedd2a1e6edb3c352e70de8c92d1aee1edc4db936cb6d3d8103"
+    },
+    {
+      "file": "src/utils/customerDebtAging.ts",
+      "sha256": "c4fc66800d84ffeb20cb20bc23087d5febd0acef9d2eb191c7e93fb111d6a39c"
+    },
+    {
+      "file": "src/utils/customerStatement.ts",
+      "sha256": "925056bc697873cc9af19fa19fa0633a93561d82014407f9906aad3be1d4ab24"
+    },
+    {
+      "file": "src/utils/dialogFocus.ts",
+      "sha256": "61ff87896a628125b2a74b33f04eb060407e7ca1e7b5eedbfa44dd68cb4a9e25"
+    },
+    {
+      "file": "src/utils/inventoryFormatter.ts",
+      "sha256": "cfe9bf0bd998f856f3d65b9526ae1d798dbdac53d7b2127eb77e9f6649eb1101"
+    },
+    {
+      "file": "src/utils/orderCalculations.ts",
+      "sha256": "db2ba662bea92fb169b5d5adb03726d5d87112c2fabb47f51a7890dc65e0cfd0"
+    },
+    {
+      "file": "src/utils/orderPresentation.ts",
+      "sha256": "f05d5c0efccca8ac7d3f6bc6770a18a4c5ad6222923060bb2cd02aab6d9c2edd"
+    },
+    {
+      "file": "src/utils/posCalculations.ts",
+      "sha256": "183639642a22347fe9b8f8ed3ff24da451fd81f0fd4e4bdd187f8f5bea0fc59e"
+    },
+    {
+      "file": "src/utils/productCalculations.ts",
+      "sha256": "b8a02fd49d6e3344556f26bcbd009106041320280fa6405eaa17a87a43a851c0"
+    },
+    {
+      "file": "src/utils/productIdentifiers.ts",
+      "sha256": "9af6616db1f5051d3880488a2fde149710f22e16e1b266b5ff5b02d01a2150d5"
+    },
+    {
+      "file": "src/utils/productImage.ts",
+      "sha256": "795a153eba33933cf6fcd7b28faed58020a821ad40205ff8753aec27fc87d8b8"
+    },
+    {
+      "file": "src/utils/receipt.ts",
+      "sha256": "ba63d6de59b70fac5d10ee838081b9a32012aaf3102ae34aff6a49d46ad8eae6"
+    },
+    {
+      "file": "src/utils/receivingCalculations.ts",
+      "sha256": "996ed8e06d7be777fce82e49e8746c4931ac2c67e055e3745e04e29e89932dde"
+    },
+    {
+      "file": "src/utils/receivingV2.ts",
+      "sha256": "1fcb7262d6e1d58eddd19d16cf600e001385922f4d57c050a4f2a52b5962579b"
+    },
+    {
+      "file": "src/utils/roleLabels.ts",
+      "sha256": "bc19440ecf8a4dfa5bb5489283118024a3cec09ba7cf84a151657aa325edd091"
+    },
+    {
+      "file": "src/utils/supplierCancellationPreview.ts",
+      "sha256": "ef8874db2352ef148615e92202d8211d89db48f756d0e8ed634ed547519abc31"
+    },
+    {
+      "file": "src/utils/supplierPaymentLimit.ts",
+      "sha256": "7ec4b5cf0ec390087c4ee37506d5644570c3840a83a1ab37e1682683fc103769"
+    },
+    {
+      "file": "src/vite-env.d.ts",
+      "sha256": "8f554758a8fd30b190025fa27153a59d27f833393e8bd2c622418d85d0e45697"
+    },
+    {
+      "file": "customer-web/src/App.tsx",
+      "sha256": "98d0d5698e677a61fef5788097d56cd17a4d8dbda22e9bfbfae87f889adc4c91"
+    },
+    {
+      "file": "customer-web/src/components/AboutStorePage.tsx",
+      "sha256": "520f9c6cf741f9229bb8ec2b6721d46ddcc0821e1503821cb98861ee47a05fca"
+    },
+    {
+      "file": "customer-web/src/components/CargoAddButton.tsx",
+      "sha256": "b6d104ecaf688bc6cf4b208a0cea4624e4318335c02034411c12ab0fb39234a0"
+    },
+    {
+      "file": "customer-web/src/components/CartDrawer.tsx",
+      "sha256": "75e187a81b2d92793c73884d6361ef26f2b94faddae69d8a251194862a3bf8fc"
+    },
+    {
+      "file": "customer-web/src/components/CategoryDrawer.tsx",
+      "sha256": "7f577988947367fd548284ed5a34ff3405317d1a6faf8944f3451e1c7915935e"
+    },
+    {
+      "file": "customer-web/src/components/CategoryShowcase.tsx",
+      "sha256": "05ed255ca079dc77ad9c5d173a6be0a25145ceaf7d05c7e5d262cf9b84cf0f1f"
+    },
+    {
+      "file": "customer-web/src/components/categoryVisuals.ts",
+      "sha256": "aec26f41b506e0f2cb072474fb11ed5e656e52492ab1ba08657c4b59634e2719"
+    },
+    {
+      "file": "customer-web/src/components/CheckoutModal.tsx",
+      "sha256": "ece5d99813f74941a7384fab7671d8dfae687e78f9e78612e5a9ac6501fcb412"
+    },
+    {
+      "file": "customer-web/src/components/CheckoutProgress.tsx",
+      "sha256": "2a0de8146a0ff0fd0d26df6e056017fa3e62da27d24fbe1aaee33a9506042fb1"
+    },
+    {
+      "file": "customer-web/src/components/CheckoutReceiptPanel.tsx",
+      "sha256": "d1c9f687c7e639af4b10bea4180c26b187d69dc72a6d94958273aa25e02461f2"
+    },
+    {
+      "file": "customer-web/src/components/FloatingContactActions.tsx",
+      "sha256": "9f050de465b08f20d5b92c7aa1e12500ea5194bbe6e565064cbe3cc9938ad531"
+    },
+    {
+      "file": "customer-web/src/components/GuidedStoreAssistant.tsx",
+      "sha256": "d7128bc9fd91e9ae9de98c277328e099183e916c7ad9d9f129c3adc67765fa18"
+    },
+    {
+      "file": "customer-web/src/components/HomeCategoryMosaic.tsx",
+      "sha256": "fc2bf3e1e855b4affd43b843c8db7c941899b4ec9d143282857ce48346ef05a8"
+    },
+    {
+      "file": "customer-web/src/components/MerchandisingSections.tsx",
+      "sha256": "fea2f315575b6b52ddd9b8e0bcf390f815bfdeec9818e3a83dc3543656f7bc81"
+    },
+    {
+      "file": "customer-web/src/components/MobileStoreNav.tsx",
+      "sha256": "aa2fccbb21159d7f8b154a4196bdcc21f294c3881ad7aea4d4a05175db121961"
+    },
+    {
+      "file": "customer-web/src/components/NetworkStatusBanner.tsx",
+      "sha256": "ac8312df98ba6b1f5c168beb2aa96166706e111cdbf2106cf39fb15d1af4051d"
+    },
+    {
+      "file": "customer-web/src/components/OffersPage.tsx",
+      "sha256": "3f58f999951223cc0d2b2ed7d77e10a0b6d57898c31cbcec0d0fd6a699c3e1b9"
+    },
+    {
+      "file": "customer-web/src/components/OrderTrackingModal.tsx",
+      "sha256": "122ff2f7535ac8e0897b60ba9051ddf3e9a175028326e874cb440e274b174549"
+    },
+    {
+      "file": "customer-web/src/components/orderTrackingPresentation.ts",
+      "sha256": "b9a47eda700c1add33c82ffb94c6cdf1c88e9807827fc1461e6af25a6b58ad54"
+    },
+    {
+      "file": "customer-web/src/components/OrderTrackingTimeline.tsx",
+      "sha256": "bf343cdc56f36850ed12eceb40177e316c4f7e002c6e2da1c89b93218008824a"
+    },
+    {
+      "file": "customer-web/src/components/ParcelBuilderModal.tsx",
+      "sha256": "108ec9fd4cb6d7f294508561c25b508ed3f52042e16e8753e0492960bac91f9d"
+    },
+    {
+      "file": "customer-web/src/components/PrivacyPolicyModal.tsx",
+      "sha256": "88fb34bfd4f38b6a7e31aa218ef657f1881aa538a2c2668d273e678148ddcd8f"
+    },
+    {
+      "file": "customer-web/src/components/ProductCard.tsx",
+      "sha256": "beb96950d28df5e1cfe96ce1baaff1438bc8caf85b2b80b96e0b0253cf977efa"
+    },
+    {
+      "file": "customer-web/src/components/ProductDetailsModal.tsx",
+      "sha256": "2473caa64b11331c166965e3d542c90c76b653b298d0e1a365ff9d6ca06480cb"
+    },
+    {
+      "file": "customer-web/src/components/ProductImage.tsx",
+      "sha256": "2d581a7599faa0924b0aa01b9f8870ac9fe55cc97e31a53984d63925e11aeac6"
+    },
+    {
+      "file": "customer-web/src/components/PromotionOffers.tsx",
+      "sha256": "4d08c5a6589feb3418118dc2a0c87ad0de3488c89db04a4a5672486593de0a45"
+    },
+    {
+      "file": "customer-web/src/components/PublicPosReceiptPage.tsx",
+      "sha256": "ae31fd2500894a418bfac62fd2d2318c2f4552a67f0c42ecd52a483946617adc"
+    },
+    {
+      "file": "customer-web/src/components/StoreErrorBoundary.tsx",
+      "sha256": "c7137411d9875807dc35646387294094a2800b944cfcf0bb9ce46ec6c6d62f98"
+    },
+    {
+      "file": "customer-web/src/components/StoreFooter.tsx",
+      "sha256": "bd860d282b43e81107cd7c66e7fdbdc9a3988648f09bbe8d84bb9a09b9b3aed0"
+    },
+    {
+      "file": "customer-web/src/components/StoreHeader.tsx",
+      "sha256": "de8be80ad1afb379d295bf3512ffae109780702e73326b55c1ddd169bf5e330f"
+    },
+    {
+      "file": "customer-web/src/components/StoreHero.tsx",
+      "sha256": "fafc86281fd5dcb42bdc82d2dc5c1f5d430d2fdbb7c8f22cbe4aabcb2f0a841b"
+    },
+    {
+      "file": "customer-web/src/components/StoreInfoSection.tsx",
+      "sha256": "977c93c13802d38ad8ebc91724991e818d97bc96abe05eea553a16036571445c"
+    },
+    {
+      "file": "customer-web/src/components/StoreLogoMark.tsx",
+      "sha256": "a39beaa46805cab2a2f43be6227da2a501b781a8b3c551bec229d6d22bd2eb7f"
+    },
+    {
+      "file": "customer-web/src/components/TurnstileWidget.tsx",
+      "sha256": "37d639422e84c97f19ece80609aecf63330edf9f2b9f2ec105a939cb377d291b"
+    },
+    {
+      "file": "customer-web/src/config/publicSite.ts",
+      "sha256": "ebad7c0e78ce66481c82dbe4ab6816627fc7706d856beb26ac7927f5f05181f2"
+    },
+    {
+      "file": "customer-web/src/config/seoBrand.ts",
+      "sha256": "b662649550cebbfc0bf8c4f89f5634481d6e95b63b4782681ce97ac0abd162c6"
+    },
+    {
+      "file": "customer-web/src/config/store.ts",
+      "sha256": "b32b3ea3e24c0189489a480a214c4805beb63135bcbd88f9f1053a779ae1d8ea"
+    },
+    {
+      "file": "customer-web/src/config/supabase-public-config.ts",
+      "sha256": "47bb4a4f235b8d83d1742ce44141fad42ab30910ae4cd1fc1868fa114529807b"
+    },
+    {
+      "file": "customer-web/src/hooks/useCustomerCommerce.ts",
+      "sha256": "e66bd9afb1dfc159721da60fbd154bf1896a0ca2659f60c9a7eee1b35bb9a89a"
+    },
+    {
+      "file": "customer-web/src/hooks/useDialogFocus.ts",
+      "sha256": "d0ec02cc98cbbb0669f40d09c806aa995f15d3f0add937427fc4dfd0d4372be1"
+    },
+    {
+      "file": "customer-web/src/lib/errorMonitoring.ts",
+      "sha256": "56c03352e3ca19bb49e878a8fa881119efb7d88170a172e3a73c920162ed9d27"
+    },
+    {
+      "file": "customer-web/src/lib/supabase.ts",
+      "sha256": "b4bc81ec8573b9f813b2117a772c636a2f2cd21a2314c310088f400aecca5178"
+    },
+    {
+      "file": "customer-web/src/main.tsx",
+      "sha256": "123ea144a5d9c07e89696a0e4393b775dbd9f29d8008fb3c87ac63da1fe95ba9"
+    },
+    {
+      "file": "customer-web/src/services/catalog.service.ts",
+      "sha256": "635f4660986be0432d6c07d237e97a147c9424a8ac02fddd9694ec46fd4e80f5"
+    },
+    {
+      "file": "customer-web/src/services/checkoutRecoveryCoordinator.ts",
+      "sha256": "1a6fe01c8a2364c6168c4494be33c5b89eb34dd3e86819a2029a11326c641690"
+    },
+    {
+      "file": "customer-web/src/services/commerceStorage.ts",
+      "sha256": "08ac8012afdc1cd02631e2ebcc52f53c035e279a0e8ca7c2a60b3a201a1ebeb3"
+    },
+    {
+      "file": "customer-web/src/services/offers.service.ts",
+      "sha256": "0a6bbe7145146a7bd5d525110a07f032baa8436bacae913a3cff175b9eea779f"
+    },
+    {
+      "file": "customer-web/src/services/orders.service.ts",
+      "sha256": "dcfe32b02c18de9a861d95a8ce00478621e14dacfad4a7664b02c7d020354785"
+    },
+    {
+      "file": "customer-web/src/services/receipts.service.ts",
+      "sha256": "1feadd0aff5cc3496a64f3398fadb4ffc90b2f91559212e029cc0b6cc92402af"
+    },
+    {
+      "file": "customer-web/src/services/storefront-settings.service.ts",
+      "sha256": "a46ca638890c6c4e127a1d0a4f7938a4805c423b503762ee5530298991bcf5e9"
+    },
+    {
+      "file": "customer-web/src/types/catalog.ts",
+      "sha256": "5ec3b91eaa3e01c499258fdcbb2ead70f391fc38c80f15bf9f9c78e2e05905fc"
+    },
+    {
+      "file": "customer-web/src/types/checkout.ts",
+      "sha256": "21ddde950b3ccd6c690b769d490206f483e4ba133f0539cfb5403ae91c0ece28"
+    },
+    {
+      "file": "customer-web/src/types/offers.ts",
+      "sha256": "096195d022c61cb84baf1b6421996c267632b7bc74559f0aaf69841230c3d0e2"
+    },
+    {
+      "file": "customer-web/src/types/receipt.ts",
+      "sha256": "c55a282643737a574cf0807fd47e2c463e7d903ab77c24d53ca5e0bc91008dc3"
+    },
+    {
+      "file": "customer-web/src/types/storefront.ts",
+      "sha256": "b6efb2f7a0e5514a9de186550597302681c8d843e0517cbb000b8860f2d7b175"
+    },
+    {
+      "file": "customer-web/src/utils/cart.ts",
+      "sha256": "ec82cf1b1a43e69ec57d7ad75aa26565b726c1fd21198f4e54948e2bf081df6c"
+    },
+    {
+      "file": "customer-web/src/utils/catalogView.ts",
+      "sha256": "02744d68143facc4a919243a345f40cedb13bc97daab0fc7ec008d6b073503c1"
+    },
+    {
+      "file": "customer-web/src/utils/checkout.ts",
+      "sha256": "fbad2d9937858d45edfa3db1c46de808a8d6439ddfaf3a8ae32b24dd189f969b"
+    },
+    {
+      "file": "customer-web/src/utils/checkoutErrorMessage.ts",
+      "sha256": "af108f77db1b37e59a3c9059e7dd59382d2139111fd979c9fcfdc607e4386f40"
+    },
+    {
+      "file": "customer-web/src/utils/dialogFocus.ts",
+      "sha256": "245e78a39c65e917015fa146ef52d209ecd4f7b1bb8ec2f80d7e94dfbdd7db8b"
+    },
+    {
+      "file": "customer-web/src/utils/money.ts",
+      "sha256": "22e3a604940ec4781c81a4f32d3608cad1d4f59dc29ed65a16bc38beca4f7d9e"
+    },
+    {
+      "file": "customer-web/src/utils/productDetails.ts",
+      "sha256": "eed0f30e37703310dc7a0346d4a8ec0dbe56cb63756da932840db5bdc06b5f14"
+    },
+    {
+      "file": "customer-web/src/utils/publicRoutes.ts",
+      "sha256": "ba934021602b4d460055d89bcf5b3bdc6c29279d1ae7ca3c59e834720c150224"
+    },
+    {
+      "file": "customer-web/src/utils/storefrontSeo.ts",
+      "sha256": "f26c18b84b28ea7cdb7f95f4d7c78ddc49c76839e8566fb2e6ae12ad4ede3bee"
+    },
+    {
+      "file": "supabase/functions/admin-ai-assistant/index.ts",
+      "sha256": "b7663a899b5fbf868066716d5f3431fb9947dd04688b52878b2967276cd5dc5f"
+    },
+    {
+      "file": "supabase/functions/manage-staff-users/index.ts",
+      "sha256": "65fed77a0253920adb1a52ad68d6bb28c7df021f761f2adfc840b9cb8057e109"
+    },
+    {
+      "file": "supabase/functions/n8n-alert-feed/index.ts",
+      "sha256": "30bab3af0da1ced5c9001f1d3e0a925c79b994e077ab8e1f67dd137fc75e001d"
+    },
+    {
+      "file": "supabase/functions/send-order-push/index.ts",
+      "sha256": "b1f587cce14da734d4575a03dfefa5ef61a9a78663c8a9ccc13fdafebd7d53f2"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "sha256": "1af19700fd850058e89602bc112161985d2656af2994e2e5733e552800c5a9d2"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/security.ts",
+      "sha256": "2ff2d8cd464d0f8d5f2d664124d0ad7c76f17bb07c99eb2d7e18e0a8a2d50f92"
+    }
+  ],
+  "rpc": [
+    {
+      "id": "src/features/pos/PosView.tsx:161",
+      "file": "src/features/pos/PosView.tsx",
+      "line": 161,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "<callback>",
+      "name": "get_pos_configurable_parcel_options_v1",
+      "dynamic": "'get_pos_configurable_parcel_options_v1'",
+      "arguments": [
+        "{p_warehouse_id: warehouseId}"
+      ],
+      "source": "supabase.rpc('get_pos_configurable_parcel_options_v1', {p_warehouse_id: warehouseId})"
+    },
+    {
+      "id": "src/lib/errorMonitoring.ts:33",
+      "file": "src/lib/errorMonitoring.ts",
+      "line": 33,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "reportSanitizedRuntimeIncident",
+      "name": "report_admin_runtime_incident",
+      "dynamic": "'report_admin_runtime_incident'",
+      "arguments": [
+        "{\n    p_fingerprint: fingerprint,\n    p_area: componentStack ? 'admin_render' : 'admin_global',\n  }"
+      ],
+      "source": "supabase.rpc('report_admin_runtime_incident', {\n    p_fingerprint: fingerprint,\n    p_area: componentStack ? 'admin_render' : 'admin_global',\n  })"
+    },
+    {
+      "id": "src/services/pushNotifications.service.ts:48",
+      "file": "src/services/pushNotifications.service.ts",
+      "line": 48,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "getPushNotificationState",
+      "name": "get_push_subscription_status",
+      "dynamic": "'get_push_subscription_status'",
+      "arguments": [],
+      "source": "supabase.rpc('get_push_subscription_status')"
+    },
+    {
+      "id": "src/services/pushNotifications.service.ts:107",
+      "file": "src/services/pushNotifications.service.ts",
+      "line": 107,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "enableOrderPushNotifications",
+      "name": "save_push_subscription",
+      "dynamic": "'save_push_subscription'",
+      "arguments": [
+        "{\n    p_endpoint: endpoint,\n    p_p256dh: p256dh,\n    p_auth_key: authKey,\n    p_user_agent: navigator.userAgent,\n    p_device_label: isRunningStandalone()\n      ? 'iPhone / تطبيق الشاشة الرئيسية'\n      : 'متصفح ويب',\n  }"
+      ],
+      "source": "supabase.rpc('save_push_subscription', {\n    p_endpoint: endpoint,\n    p_p256dh: p256dh,\n    p_auth_key: authKey,\n    p_user_agent: navigator.userAgent,\n    p_device_label: isRunningStandalone()\n      ? 'iPhone / تطبيق الشاشة الرئيسية'\n      : 'متصفح ويب',\n  })"
+    },
+    {
+      "id": "src/services/pushNotifications.service.ts:145",
+      "file": "src/services/pushNotifications.service.ts",
+      "line": 145,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "disableOrderPushNotifications",
+      "name": "disable_push_subscription",
+      "dynamic": "'disable_push_subscription'",
+      "arguments": [
+        "{\n    p_endpoint: subscription.endpoint,\n  }"
+      ],
+      "source": "supabase.rpc('disable_push_subscription', {\n    p_endpoint: subscription.endpoint,\n  })"
+    },
+    {
+      "id": "src/services/supabase/adminCustomerV2Lifecycle.ts:320",
+      "file": "src/services/supabase/adminCustomerV2Lifecycle.ts",
+      "line": 320,
+      "role": "authenticated",
+      "receiver": "client",
+      "function": "<callback>",
+      "name": "cancel_customer_order_v2",
+      "dynamic": "'cancel_customer_order_v2'",
+      "arguments": [
+        "{p_order_id: orderId,\n            p_idempotency_key: attempt.key, p_reason: attempt.request.reason}"
+      ],
+      "source": "client.rpc('cancel_customer_order_v2', {p_order_id: orderId,\n            p_idempotency_key: attempt.key, p_reason: attempt.request.reason})"
+    },
+    {
+      "id": "src/services/supabase/adminCustomerV2Lifecycle.ts:322",
+      "file": "src/services/supabase/adminCustomerV2Lifecycle.ts",
+      "line": 322,
+      "role": "authenticated",
+      "receiver": "client",
+      "function": "<callback>",
+      "name": "complete_website_order_with_settlement_v2",
+      "dynamic": "'complete_website_order_with_settlement_v2'",
+      "arguments": [
+        "{p_order_id: orderId,\n            p_idempotency_key: attempt.key, p_payment_method: attempt.request.paymentMethod,\n            p_amount_collected_in_minor_units: attempt.request.amountCollectedInMinorUnits,\n            p_delivery_fee_in_minor_units: attempt.request.deliveryFeeInMinorUnits,\n            p_reference_number: attempt.request.referenceNumber, p_notes: attempt.request.notes}"
+      ],
+      "source": "client.rpc('complete_website_order_with_settlement_v2', {p_order_id: orderId,\n            p_idempotency_key: attempt.key, p_payment_method: attempt.request.paymentMethod,\n            p_amount_collected_in_minor_units: attempt.request.amountCollectedInMinorUnits,\n            p_delivery_fee_in_minor_units: attempt.request.deliveryFeeInMinorUnits,\n            p_reference_number: attempt.request.referenceNumber, p_notes: attempt.request.notes})"
+    },
+    {
+      "id": "src/services/supabase/auth.service.ts:160",
+      "file": "src/services/supabase/auth.service.ts",
+      "line": 160,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "updateMyProfileInSupabase",
+      "name": "update_my_erp_profile",
+      "dynamic": "'update_my_erp_profile'",
+      "arguments": [
+        "{\n      p_full_name: fullName,\n      p_phone: phone || null,\n      p_avatar_url: avatarUrl || null,\n    }"
+      ],
+      "source": "supabase.rpc(\n    'update_my_erp_profile',\n    {\n      p_full_name: fullName,\n      p_phone: phone || null,\n      p_avatar_url: avatarUrl || null,\n    },\n  )"
+    },
+    {
+      "id": "src/services/supabase/crm.service.ts:160",
+      "file": "src/services/supabase/crm.service.ts",
+      "line": 160,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchCustomersCrmFromSupabase",
+      "name": "get_crm_customer_page",
+      "dynamic": "'get_crm_customer_page'",
+      "arguments": [
+        "{\n      p_page: page,\n      p_page_size: Math.min(pageSize, 100),\n      p_search: params.searchQuery?.trim() || null,\n      p_status: statusFilter,\n      p_sort: sortBy,\n    }"
+      ],
+      "source": "supabase.rpc('get_crm_customer_page', {\n      p_page: page,\n      p_page_size: Math.min(pageSize, 100),\n      p_search: params.searchQuery?.trim() || null,\n      p_status: statusFilter,\n      p_sort: sortBy,\n    })"
+    },
+    {
+      "id": "src/services/supabase/crm.service.ts:212",
+      "file": "src/services/supabase/crm.service.ts",
+      "line": 212,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchCustomerDetailsCrmFromSupabase",
+      "name": "get_crm_customer_detail_page",
+      "dynamic": "'get_crm_customer_detail_page'",
+      "arguments": [
+        "{\n        p_customer_id: customerId,\n        p_history_page: historyPage,\n        p_history_page_size: historyPageSize,\n      }"
+      ],
+      "source": "supabase.rpc(\n      'get_crm_customer_detail_page',\n      {\n        p_customer_id: customerId,\n        p_history_page: historyPage,\n        p_history_page_size: historyPageSize,\n      }\n    )"
+    },
+    {
+      "id": "src/services/supabase/crm.service.ts:365",
+      "file": "src/services/supabase/crm.service.ts",
+      "line": 365,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "saveCustomerThroughRpc",
+      "name": "save_customer",
+      "dynamic": "'save_customer'",
+      "arguments": [
+        "{\n      p_full_name: input.fullName,\n      p_phone: input.phone,\n      p_customer_id: customerId || null,\n      p_email: input.email || null,\n      p_governorate: input.governorate || null,\n      p_whatsapp: input.whatsapp || null,\n      p_notes: input.notes || null,\n      p_customer_type: input.customerType || 'retail',\n    }"
+      ],
+      "source": "supabase.rpc('save_customer', {\n      p_full_name: input.fullName,\n      p_phone: input.phone,\n      p_customer_id: customerId || null,\n      p_email: input.email || null,\n      p_governorate: input.governorate || null,\n      p_whatsapp: input.whatsapp || null,\n      p_notes: input.notes || null,\n      p_customer_type: input.customerType || 'retail',\n    })"
+    },
+    {
+      "id": "src/services/supabase/crm.service.ts:408",
+      "file": "src/services/supabase/crm.service.ts",
+      "line": 408,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "setCustomerStatus",
+      "name": "set_customer_status",
+      "dynamic": "'set_customer_status'",
+      "arguments": [
+        "{\n      p_customer_id: customerId,\n      p_action: action,\n    }"
+      ],
+      "source": "supabase.rpc('set_customer_status', {\n      p_customer_id: customerId,\n      p_action: action,\n    })"
+    },
+    {
+      "id": "src/services/supabase/crm.service.ts:457",
+      "file": "src/services/supabase/crm.service.ts",
+      "line": 457,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "addCustomerAddressInSupabase",
+      "name": "add_customer_address",
+      "dynamic": "'add_customer_address'",
+      "arguments": [
+        "{\n      p_customer_id: customerId,\n      p_governorate: input.governorate,\n      p_city: input.city || null,\n      p_area: input.area,\n      p_street: input.street || null,\n      p_building: input.building || null,\n      p_floor: input.floor || null,\n      p_apartment: input.apartment || null,\n      p_notes: input.notes || null,\n      p_latitude: input.latitude ?? null,\n      p_longitude: input.longitude ?? null,\n      p_is_default: Boolean(input.isDefault),\n    }"
+      ],
+      "source": "supabase.rpc('add_customer_address', {\n      p_customer_id: customerId,\n      p_governorate: input.governorate,\n      p_city: input.city || null,\n      p_area: input.area,\n      p_street: input.street || null,\n      p_building: input.building || null,\n      p_floor: input.floor || null,\n      p_apartment: input.apartment || null,\n      p_notes: input.notes || null,\n      p_latitude: input.latitude ?? null,\n      p_longitude: input.longitude ?? null,\n      p_is_default: Boolean(input.isDefault),\n    })"
+    },
+    {
+      "id": "src/services/supabase/customerAccounts.service.ts:49",
+      "file": "src/services/supabase/customerAccounts.service.ts",
+      "line": 49,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchCustomerOutstandingOrders",
+      "name": "get_customer_outstanding_orders_page",
+      "dynamic": "'get_customer_outstanding_orders_page'",
+      "arguments": [
+        "{\n        p_page: page,\n        p_page_size: pageSize,\n        p_search: params?.search?.trim() || null,\n      }"
+      ],
+      "source": "supabase\n      .rpc('get_customer_outstanding_orders_page', {\n        p_page: page,\n        p_page_size: pageSize,\n        p_search: params?.search?.trim() || null,\n      })"
+    },
+    {
+      "id": "src/services/supabase/customerAccounts.service.ts:135",
+      "file": "src/services/supabase/customerAccounts.service.ts",
+      "line": 135,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "recordCustomerOrderPayment",
+      "name": "record_customer_order_payment_once",
+      "dynamic": "'record_customer_order_payment_once'",
+      "arguments": [
+        "{\n        p_order_id: input.orderId,\n        p_amount_in_minor_units: amountInMinorUnits,\n        p_payment_method: input.paymentMethod,\n        p_reference_number: input.referenceNumber || null,\n        p_notes: input.notes || null,\n        p_idempotency_key: input.idempotencyKey,\n      }"
+      ],
+      "source": "supabase.rpc(\n      'record_customer_order_payment_once',\n      {\n        p_order_id: input.orderId,\n        p_amount_in_minor_units: amountInMinorUnits,\n        p_payment_method: input.paymentMethod,\n        p_reference_number: input.referenceNumber || null,\n        p_notes: input.notes || null,\n        p_idempotency_key: input.idempotencyKey,\n      }\n    )"
+    },
+    {
+      "id": "src/services/supabase/customerDebtAging.service.ts:8",
+      "file": "src/services/supabase/customerDebtAging.service.ts",
+      "line": 8,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchCustomerDebtAging",
+      "name": "get_customer_debt_aging",
+      "dynamic": "'get_customer_debt_aging'",
+      "arguments": [
+        "{p_customer_id: customerId}"
+      ],
+      "source": "supabase.rpc('get_customer_debt_aging', {p_customer_id: customerId})"
+    },
+    {
+      "id": "src/services/supabase/customerStatement.service.ts:7",
+      "file": "src/services/supabase/customerStatement.service.ts",
+      "line": 7,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchCustomerStatement",
+      "name": "get_customer_statement",
+      "dynamic": "'get_customer_statement'",
+      "arguments": [
+        "{\n      p_customer_id:customerId,p_page:page,p_page_size:25,\n    }"
+      ],
+      "source": "supabase.rpc('get_customer_statement',{\n      p_customer_id:customerId,p_page:page,p_page_size:25,\n    })"
+    },
+    {
+      "id": "src/services/supabase/dashboard.service.ts:117",
+      "file": "src/services/supabase/dashboard.service.ts",
+      "line": 117,
+      "role": "authenticated",
+      "receiver": "client",
+      "function": "<callback>",
+      "name": "get_home_dashboard",
+      "dynamic": "'get_home_dashboard'",
+      "arguments": [],
+      "source": "client.rpc('get_home_dashboard')"
+    },
+    {
+      "id": "src/services/supabase/directReceiving.service.ts:21",
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 21,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "previewSupplierReceiptCancellation",
+      "name": "preview_supplier_receipt_cancellation",
+      "dynamic": "'preview_supplier_receipt_cancellation'",
+      "arguments": [
+        "{p_receipt_id: receiptId}"
+      ],
+      "source": "supabase.rpc('preview_supplier_receipt_cancellation', {p_receipt_id: receiptId})"
+    },
+    {
+      "id": "src/services/supabase/directReceiving.service.ts:154",
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 154,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchSupplierReceiptsFromSupabase",
+      "name": "get_supplier_receipts_page",
+      "dynamic": "'get_supplier_receipts_page'",
+      "arguments": [
+        "{\n      p_page: page,\n      p_page_size: pageSize,\n      p_search: params?.search?.trim() || null,\n      p_supplier_id: params?.supplierId || null,\n      p_warehouse_id: params?.warehouseId || null,\n      p_payment_status: params?.paymentStatus || 'all',\n      p_is_archived: params?.isArchived ?? false,\n    }"
+      ],
+      "source": "supabase.rpc('get_supplier_receipts_page', {\n      p_page: page,\n      p_page_size: pageSize,\n      p_search: params?.search?.trim() || null,\n      p_supplier_id: params?.supplierId || null,\n      p_warehouse_id: params?.warehouseId || null,\n      p_payment_status: params?.paymentStatus || 'all',\n      p_is_archived: params?.isArchived ?? false,\n    })"
+    },
+    {
+      "id": "src/services/supabase/directReceiving.service.ts:260",
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 260,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "resolveLegacySupplierReceiptReplayInSupabase",
+      "name": "resolve_legacy_supplier_receipt_replay_v1",
+      "dynamic": "'resolve_legacy_supplier_receipt_replay_v1'",
+      "arguments": [
+        "{ p_idempotency_key: idempotencyKey }"
+      ],
+      "source": "supabase.rpc(\n    'resolve_legacy_supplier_receipt_replay_v1',\n    { p_idempotency_key: idempotencyKey }\n  )"
+    },
+    {
+      "id": "src/services/supabase/directReceiving.service.ts:370",
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 370,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "createDirectSupplierReceiptInSupabase",
+      "name": "create_direct_supplier_receipt_v2",
+      "dynamic": "'create_direct_supplier_receipt_v2'",
+      "arguments": [
+        "payload"
+      ],
+      "source": "supabase.rpc('create_direct_supplier_receipt_v2', payload)"
+    },
+    {
+      "id": "src/services/supabase/directReceiving.service.ts:431",
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 431,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "recordSupplierReceiptPaymentInSupabase",
+      "name": "record_supplier_receipt_payment",
+      "dynamic": "'record_supplier_receipt_payment'",
+      "arguments": [
+        "{\n      p_receipt_id: receiptId,\n      p_amount_in_minor_units: amountInMinorUnits,\n      p_payment_method: paymentMethod,\n      p_reference_number: referenceNumber || null,\n      p_notes: notes || null,\n      p_idempotency_key: idempotencyKey,\n    }"
+      ],
+      "source": "supabase.rpc('record_supplier_receipt_payment', {\n      p_receipt_id: receiptId,\n      p_amount_in_minor_units: amountInMinorUnits,\n      p_payment_method: paymentMethod,\n      p_reference_number: referenceNumber || null,\n      p_notes: notes || null,\n      p_idempotency_key: idempotencyKey,\n    })"
+    },
+    {
+      "id": "src/services/supabase/directReceiving.service.ts:462",
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 462,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "archiveSupplierReceiptInSupabase",
+      "name": "archive_supplier_receipt",
+      "dynamic": "'archive_supplier_receipt'",
+      "arguments": [
+        "{\n      p_receipt_id: receiptId,\n      p_is_archived: isArchived,\n    }"
+      ],
+      "source": "supabase.rpc('archive_supplier_receipt', {\n      p_receipt_id: receiptId,\n      p_is_archived: isArchived,\n    })"
+    },
+    {
+      "id": "src/services/supabase/directReceiving.service.ts:495",
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 495,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "cancelSupplierReceiptInSupabase",
+      "name": "cancel_supplier_receipt",
+      "dynamic": "'cancel_supplier_receipt'",
+      "arguments": [
+        "{\n      p_supplier_receipt_id: receiptId,\n      p_reason: reason.trim() || 'إلغاء سند استلام البضائع',\n    }"
+      ],
+      "source": "supabase.rpc('cancel_supplier_receipt', {\n      p_supplier_receipt_id: receiptId,\n      p_reason: reason.trim() || 'إلغاء سند استلام البضائع',\n    })"
+    },
+    {
+      "id": "src/services/supabase/expenses-shifts.service.ts:196",
+      "file": "src/services/supabase/expenses-shifts.service.ts",
+      "line": 196,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "previewCashShiftFullReversalFromSupabase",
+      "name": "preview_cash_shift_full_reversal",
+      "dynamic": "'preview_cash_shift_full_reversal'",
+      "arguments": [
+        "{ p_shift_id: shiftId }"
+      ],
+      "source": "requireClient().rpc(\n    'preview_cash_shift_full_reversal',\n    { p_shift_id: shiftId }\n  )"
+    },
+    {
+      "id": "src/services/supabase/expenses-shifts.service.ts:223",
+      "file": "src/services/supabase/expenses-shifts.service.ts",
+      "line": 223,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "reverseCashShiftWithOperationsInSupabase",
+      "name": "reverse_cash_shift_with_operations",
+      "dynamic": "'reverse_cash_shift_with_operations'",
+      "arguments": [
+        "{\n      p_shift_id: shiftId,\n      p_reason: reason.trim(),\n      p_idempotency_key: idempotencyKey,\n    }"
+      ],
+      "source": "requireClient().rpc(\n    'reverse_cash_shift_with_operations',\n    {\n      p_shift_id: shiftId,\n      p_reason: reason.trim(),\n      p_idempotency_key: idempotencyKey,\n    }\n  )"
+    },
+    {
+      "id": "src/services/supabase/expenses-shifts.service.ts:252",
+      "file": "src/services/supabase/expenses-shifts.service.ts",
+      "line": 252,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "fetchCashShiftClosingReportFromSupabase",
+      "name": "get_cash_shift_closing_report",
+      "dynamic": "'get_cash_shift_closing_report'",
+      "arguments": [
+        "{ p_shift_id: shiftId }"
+      ],
+      "source": "requireClient().rpc(\n    'get_cash_shift_closing_report',\n    { p_shift_id: shiftId }\n  )"
+    },
+    {
+      "id": "src/services/supabase/expenses-shifts.service.ts:423",
+      "file": "src/services/supabase/expenses-shifts.service.ts",
+      "line": 423,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "fetchExpenseShiftCenterFromSupabase",
+      "name": "get_expense_shift_center",
+      "dynamic": "'get_expense_shift_center'",
+      "arguments": [
+        "{ p_branch_id: branchId, p_expense_limit: 100 }"
+      ],
+      "source": "requireClient().rpc(\n    'get_expense_shift_center',\n    { p_branch_id: branchId, p_expense_limit: 100 }\n  )"
+    },
+    {
+      "id": "src/services/supabase/expenses-shifts.service.ts:451",
+      "file": "src/services/supabase/expenses-shifts.service.ts",
+      "line": 451,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "fetchCashShiftArchivePageFromSupabase",
+      "name": "get_cash_shift_archive_page",
+      "dynamic": "'get_cash_shift_archive_page'",
+      "arguments": [
+        "{\n    p_branch_id: input.branchId || null,\n    p_cashier_id: input.cashierId || null,\n    p_status: input.status || null,\n    p_shift_number: input.shiftNumber?.trim() || null,\n    p_date_from: input.dateFrom || null,\n    p_date_to: input.dateTo || null,\n    p_limit: input.limit,\n    p_offset: input.offset,\n  }"
+      ],
+      "source": "requireClient().rpc('get_cash_shift_archive_page', {\n    p_branch_id: input.branchId || null,\n    p_cashier_id: input.cashierId || null,\n    p_status: input.status || null,\n    p_shift_number: input.shiftNumber?.trim() || null,\n    p_date_from: input.dateFrom || null,\n    p_date_to: input.dateTo || null,\n    p_limit: input.limit,\n    p_offset: input.offset,\n  })"
+    },
+    {
+      "id": "src/services/supabase/expenses-shifts.service.ts:490",
+      "file": "src/services/supabase/expenses-shifts.service.ts",
+      "line": 490,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "openCashShiftInSupabase",
+      "name": "open_cash_shift",
+      "dynamic": "'open_cash_shift'",
+      "arguments": [
+        "{\n    p_branch_id: branchId,\n    p_opening_cash_in_minor_units: jodToMinorUnits(openingCash),\n  }"
+      ],
+      "source": "requireClient().rpc('open_cash_shift', {\n    p_branch_id: branchId,\n    p_opening_cash_in_minor_units: jodToMinorUnits(openingCash),\n  })"
+    },
+    {
+      "id": "src/services/supabase/expenses-shifts.service.ts:508",
+      "file": "src/services/supabase/expenses-shifts.service.ts",
+      "line": 508,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "createOperationalExpenseInSupabase",
+      "name": "create_operational_expense",
+      "dynamic": "'create_operational_expense'",
+      "arguments": [
+        "{\n      p_branch_id: input.branchId,\n      p_category: input.category.trim(),\n      p_description: input.description.trim(),\n      p_amount_in_minor_units: jodToMinorUnits(input.amount),\n      p_payment_method: input.paymentMethod,\n      p_reference_number: input.referenceNumber?.trim() || null,\n    }"
+      ],
+      "source": "requireClient().rpc(\n    'create_operational_expense',\n    {\n      p_branch_id: input.branchId,\n      p_category: input.category.trim(),\n      p_description: input.description.trim(),\n      p_amount_in_minor_units: jodToMinorUnits(input.amount),\n      p_payment_method: input.paymentMethod,\n      p_reference_number: input.referenceNumber?.trim() || null,\n    }\n  )"
+    },
+    {
+      "id": "src/services/supabase/expenses-shifts.service.ts:533",
+      "file": "src/services/supabase/expenses-shifts.service.ts",
+      "line": 533,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "reverseOperationalExpenseInSupabase",
+      "name": "reverse_operational_expense",
+      "dynamic": "'reverse_operational_expense'",
+      "arguments": [
+        "{\n      p_expense_id: expenseId,\n      p_reason: reason.trim(),\n    }"
+      ],
+      "source": "requireClient().rpc(\n    'reverse_operational_expense',\n    {\n      p_expense_id: expenseId,\n      p_reason: reason.trim(),\n    }\n  )"
+    },
+    {
+      "id": "src/services/supabase/expenses-shifts.service.ts:555",
+      "file": "src/services/supabase/expenses-shifts.service.ts",
+      "line": 555,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "closeCashShiftInSupabase",
+      "name": "close_cash_shift",
+      "dynamic": "'close_cash_shift'",
+      "arguments": [
+        "{\n    p_shift_id: shiftId,\n    p_actual_cash_in_minor_units: jodToMinorUnits(actualCash),\n    p_discrepancy_reason: discrepancyReason?.trim() || null,\n  }"
+      ],
+      "source": "requireClient().rpc('close_cash_shift', {\n    p_shift_id: shiftId,\n    p_actual_cash_in_minor_units: jodToMinorUnits(actualCash),\n    p_discrepancy_reason: discrepancyReason?.trim() || null,\n  })"
+    },
+    {
+      "id": "src/services/supabase/expenses-shifts.service.ts:575",
+      "file": "src/services/supabase/expenses-shifts.service.ts",
+      "line": 575,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "cancelEmptyCashShiftInSupabase",
+      "name": "cancel_empty_cash_shift",
+      "dynamic": "'cancel_empty_cash_shift'",
+      "arguments": [
+        "{\n    p_shift_id: shiftId,\n    p_reason: reason.trim(),\n  }"
+      ],
+      "source": "requireClient().rpc('cancel_empty_cash_shift', {\n    p_shift_id: shiftId,\n    p_reason: reason.trim(),\n  })"
+    },
+    {
+      "id": "src/services/supabase/inventory-opening.service.ts:128",
+      "file": "src/services/supabase/inventory-opening.service.ts",
+      "line": 128,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "fetchInventoryOpeningSetupFromSupabase",
+      "name": "get_inventory_opening_setup",
+      "dynamic": "'get_inventory_opening_setup'",
+      "arguments": [
+        "{ p_warehouse_id: warehouseId }"
+      ],
+      "source": "requireClient().rpc(\n    'get_inventory_opening_setup',\n    { p_warehouse_id: warehouseId }\n  )"
+    },
+    {
+      "id": "src/services/supabase/inventory-opening.service.ts:165",
+      "file": "src/services/supabase/inventory-opening.service.ts",
+      "line": 165,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "applyInventoryOpeningSetupInSupabase",
+      "name": "apply_inventory_opening_setup",
+      "dynamic": "'apply_inventory_opening_setup'",
+      "arguments": [
+        "{\n      p_warehouse_id: input.warehouseId,\n      p_rows: input.rows.map((row) => ({\n        productId: row.productId,\n        packageCount: Math.max(0, Math.floor(row.packageCount)),\n        looseUnits: Math.max(0, Math.floor(row.looseUnits)),\n      })),\n      p_notes: input.notes.trim(),\n      p_idempotency_key: input.idempotencyKey,\n    }"
+      ],
+      "source": "requireClient().rpc(\n    'apply_inventory_opening_setup',\n    {\n      p_warehouse_id: input.warehouseId,\n      p_rows: input.rows.map((row) => ({\n        productId: row.productId,\n        packageCount: Math.max(0, Math.floor(row.packageCount)),\n        looseUnits: Math.max(0, Math.floor(row.looseUnits)),\n      })),\n      p_notes: input.notes.trim(),\n      p_idempotency_key: input.idempotencyKey,\n    }\n  )"
+    },
+    {
+      "id": "src/services/supabase/inventory.service.ts:99",
+      "file": "src/services/supabase/inventory.service.ts",
+      "line": 99,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchInventoryProductPageFromSupabase",
+      "name": "get_admin_inventory_product_page",
+      "dynamic": "'get_admin_inventory_product_page'",
+      "arguments": [
+        "{\n    p_page: page,\n    p_page_size: pageSize,\n    p_search: input.search?.trim() || null,\n    p_branch_id: input.branchId || null,\n    p_warehouse_id: input.warehouseId || null,\n    p_category_id: input.categoryId || null,\n    p_status: input.status || 'all',\n  }"
+      ],
+      "source": "supabase.rpc('get_admin_inventory_product_page', {\n    p_page: page,\n    p_page_size: pageSize,\n    p_search: input.search?.trim() || null,\n    p_branch_id: input.branchId || null,\n    p_warehouse_id: input.warehouseId || null,\n    p_category_id: input.categoryId || null,\n    p_status: input.status || 'all',\n  })"
+    },
+    {
+      "id": "src/services/supabase/inventory.service.ts:224",
+      "file": "src/services/supabase/inventory.service.ts",
+      "line": 224,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "transferInventoryBetweenWarehousesInSupabase",
+      "name": "transfer_inventory_between_warehouses",
+      "dynamic": "'transfer_inventory_between_warehouses'",
+      "arguments": [
+        "{\n        p_product_id: input.productId,\n        p_source_warehouse_id: input.sourceWarehouseId,\n        p_destination_warehouse_id: input.destinationWarehouseId,\n        p_quantity: quantity,\n        p_notes: input.notes?.trim() || null,\n      }"
+      ],
+      "source": "supabase.rpc(\n      'transfer_inventory_between_warehouses',\n      {\n        p_product_id: input.productId,\n        p_source_warehouse_id: input.sourceWarehouseId,\n        p_destination_warehouse_id: input.destinationWarehouseId,\n        p_quantity: quantity,\n        p_notes: input.notes?.trim() || null,\n      },\n    )"
+    },
+    {
+      "id": "src/services/supabase/inventory.service.ts:319",
+      "file": "src/services/supabase/inventory.service.ts",
+      "line": 319,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchInventoryMovementsFromSupabase",
+      "name": "get_inventory_movement_page",
+      "dynamic": "'get_inventory_movement_page'",
+      "arguments": [
+        "{\n      p_page: page,\n      p_page_size: pageSize,\n      p_search: input.searchQuery?.trim() || null,\n      p_branch_id: input.branchId || null,\n      p_warehouse_id: input.warehouseId || null,\n      p_product_id: input.productId || null,\n    }"
+      ],
+      "source": "supabase.rpc('get_inventory_movement_page', {\n      p_page: page,\n      p_page_size: pageSize,\n      p_search: input.searchQuery?.trim() || null,\n      p_branch_id: input.branchId || null,\n      p_warehouse_id: input.warehouseId || null,\n      p_product_id: input.productId || null,\n    })"
+    },
+    {
+      "id": "src/services/supabase/inventory.service.ts:385",
+      "file": "src/services/supabase/inventory.service.ts",
+      "line": 385,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "adjustInventoryStockInSupabase",
+      "name": "adjust_inventory_stock",
+      "dynamic": "'adjust_inventory_stock'",
+      "arguments": [
+        "{\n      p_warehouse_id: input.warehouseId,\n      p_product_id: input.productId,\n      p_actual_quantity: Math.floor(Number(input.actualQuantity) || 0),\n      p_reason: input.reason.trim(),\n      p_adjustment_type: input.adjustmentType || 'stock_count',\n    }"
+      ],
+      "source": "supabase.rpc('adjust_inventory_stock', {\n      p_warehouse_id: input.warehouseId,\n      p_product_id: input.productId,\n      p_actual_quantity: Math.floor(Number(input.actualQuantity) || 0),\n      p_reason: input.reason.trim(),\n      p_adjustment_type: input.adjustmentType || 'stock_count',\n    })"
+    },
+    {
+      "id": "src/services/supabase/monitoring.service.ts:6",
+      "file": "src/services/supabase/monitoring.service.ts",
+      "line": 6,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "getAftercareIntegrityStatus",
+      "name": "get_aftercare_integrity_status",
+      "dynamic": "'get_aftercare_integrity_status'",
+      "arguments": [],
+      "source": "supabase.rpc('get_aftercare_integrity_status')"
+    },
+    {
+      "id": "src/services/supabase/monitoring.service.ts:28",
+      "file": "src/services/supabase/monitoring.service.ts",
+      "line": 28,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "getMonitoringDashboard",
+      "name": "get_advanced_monitoring_dashboard",
+      "dynamic": "'get_advanced_monitoring_dashboard'",
+      "arguments": [],
+      "source": "supabase.rpc('get_advanced_monitoring_dashboard')"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:618",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 618,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "confirmOrderInSupabase",
+      "name": "accept_order_for_preparation",
+      "dynamic": "'accept_order_for_preparation'",
+      "arguments": [
+        "{\n      p_order_id: orderId,\n      p_notes: notes || null,\n    }"
+      ],
+      "source": "supabase.rpc('accept_order_for_preparation', {\n      p_order_id: orderId,\n      p_notes: notes || null,\n    })"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:652",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 652,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "completeWebsiteOrderWithPaymentInSupabase",
+      "name": "complete_website_order_with_payment",
+      "dynamic": "'complete_website_order_with_payment'",
+      "arguments": [
+        "{\n        p_order_id: orderId,\n        p_payment_method: paymentMethod,\n        p_reference_number: referenceNumber?.trim() || null,\n        p_notes: notes || null,\n      }"
+      ],
+      "source": "supabase.rpc(\n      'complete_website_order_with_payment',\n      {\n        p_order_id: orderId,\n        p_payment_method: paymentMethod,\n        p_reference_number: referenceNumber?.trim() || null,\n        p_notes: notes || null,\n      }\n    )"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:697",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 697,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "cancelOrderInSupabase",
+      "name": "update_order_status",
+      "dynamic": "'update_order_status'",
+      "arguments": [
+        "{\n        p_order_id: orderId,\n        p_new_status: 'cancelled',\n        p_notes: notes || null,\n      }"
+      ],
+      "source": "supabase.rpc('update_order_status', {\n        p_order_id: orderId,\n        p_new_status: 'cancelled',\n        p_notes: notes || null,\n      })"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:740",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 740,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchOperationalOrdersPageFromSupabase",
+      "name": "get_operational_orders_page",
+      "dynamic": "'get_operational_orders_page'",
+      "arguments": [
+        "{\n      p_page: page,\n      p_page_size: pageSize,\n      p_filter: input.filter,\n      p_search: searchQuery,\n      p_sort: sort,\n    }"
+      ],
+      "source": "supabase.rpc('get_operational_orders_page', {\n      p_page: page,\n      p_page_size: pageSize,\n      p_filter: input.filter,\n      p_search: searchQuery,\n      p_sort: sort,\n    })"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:852",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 852,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchOperationalOrdersSummaryFromSupabase",
+      "name": "get_operational_orders_page",
+      "dynamic": "'get_operational_orders_page'",
+      "arguments": [
+        "{\n      p_page: 1,\n      p_page_size: 1,\n      p_filter: 'action',\n      p_search: null,\n      p_sort: 'newest',\n    }"
+      ],
+      "source": "supabase.rpc('get_operational_orders_page', {\n      p_page: 1,\n      p_page_size: 1,\n      p_filter: 'action',\n      p_search: null,\n      p_sort: 'newest',\n    })"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:933",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 933,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "completeWebsiteOrderWithSettlementInSupabase",
+      "name": "complete_website_order_with_settlement",
+      "dynamic": "'complete_website_order_with_settlement'",
+      "arguments": [
+        "{\n        p_order_id: input.orderId,\n        p_payment_method: request.paymentMethod,\n        p_amount_collected_in_minor_units: request.amountCollectedInMinorUnits,\n        p_delivery_fee_in_minor_units: request.deliveryFeeInMinorUnits,\n        p_reference_number: request.referenceNumber,\n        p_notes: request.notes,\n      }"
+      ],
+      "source": "supabase.rpc('complete_website_order_with_settlement', {\n        p_order_id: input.orderId,\n        p_payment_method: request.paymentMethod,\n        p_amount_collected_in_minor_units: request.amountCollectedInMinorUnits,\n        p_delivery_fee_in_minor_units: request.deliveryFeeInMinorUnits,\n        p_reference_number: request.referenceNumber,\n        p_notes: request.notes,\n      })"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:984",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 984,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "returnCompletedWebsiteOrderInSupabase",
+      "name": "return_completed_website_order",
+      "dynamic": "'return_completed_website_order'",
+      "arguments": [
+        "{\n        p_order_id: input.orderId,\n        p_reason: input.reason.trim(),\n        p_stock_disposition: input.stockDisposition,\n        p_refund_method: input.refundMethod,\n        p_reference_number: input.referenceNumber?.trim() || null,\n        p_notes: input.notes?.trim() || null,\n      }"
+      ],
+      "source": "supabase.rpc(\n      'return_completed_website_order',\n      {\n        p_order_id: input.orderId,\n        p_reason: input.reason.trim(),\n        p_stock_disposition: input.stockDisposition,\n        p_refund_method: input.refundMethod,\n        p_reference_number: input.referenceNumber?.trim() || null,\n        p_notes: input.notes?.trim() || null,\n      }\n    )"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:1029",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 1029,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "updateOrderStatusInSupabase",
+      "name": "update_order_status",
+      "dynamic": "'update_order_status'",
+      "arguments": [
+        "{\n      p_order_id: orderId,\n      p_new_status: newStatus,\n      p_notes: notes || null,\n    }"
+      ],
+      "source": "supabase.rpc('update_order_status', {\n      p_order_id: orderId,\n      p_new_status: newStatus,\n      p_notes: notes || null,\n    })"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:1080",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 1080,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "startOrUpdateOrderDeliveryInSupabase",
+      "name": "start_or_update_order_delivery",
+      "dynamic": "'start_or_update_order_delivery'",
+      "arguments": [
+        "{\n        p_order_id: orderId,\n        p_eta_minutes: etaMinutes,\n        p_driver_phone: driverPhone.trim(),\n        p_notes: notes?.trim() || null,\n      }"
+      ],
+      "source": "supabase.rpc(\n      'start_or_update_order_delivery',\n      {\n        p_order_id: orderId,\n        p_eta_minutes: etaMinutes,\n        p_driver_phone: driverPhone.trim(),\n        p_notes: notes?.trim() || null,\n      }\n    )"
+    },
+    {
+      "id": "src/services/supabase/orders.service.ts:1138",
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 1138,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "updateOrderDeliveryAddressInSupabase",
+      "name": "update_order_delivery_address",
+      "dynamic": "'update_order_delivery_address'",
+      "arguments": [
+        "{\n        p_order_id: orderId,\n        p_governorate: address.governorate,\n        p_city: address.city || null,\n        p_area: address.area,\n        p_street: address.street || null,\n        p_building: address.building || null,\n        p_floor: address.floor || null,\n        p_apartment: address.apartment || null,\n        p_notes: address.notes || null,\n        p_latitude: address.latitude ?? null,\n        p_longitude: address.longitude ?? null,\n        p_location_source: address.locationSource,\n        p_location_confirmed: address.locationConfirmed,\n      }"
+      ],
+      "source": "supabase.rpc(\n      'update_order_delivery_address',\n      {\n        p_order_id: orderId,\n        p_governorate: address.governorate,\n        p_city: address.city || null,\n        p_area: address.area,\n        p_street: address.street || null,\n        p_building: address.building || null,\n        p_floor: address.floor || null,\n        p_apartment: address.apartment || null,\n        p_notes: address.notes || null,\n        p_latitude: address.latitude ?? null,\n        p_longitude: address.longitude ?? null,\n        p_location_source: address.locationSource,\n        p_location_confirmed: address.locationConfirmed,\n      }\n    )"
+    },
+    {
+      "id": "src/services/supabase/parcelConfiguration.service.ts:56",
+      "file": "src/services/supabase/parcelConfiguration.service.ts",
+      "line": 56,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "rpc",
+      "name": null,
+      "dynamic": "name",
+      "arguments": [
+        "args"
+      ],
+      "source": "supabase.rpc(name,args)",
+      "resolutions": [
+        {
+          "name": "get_admin_parcel_configuration_context_v1",
+          "callsite": "src/services/supabase/parcelConfiguration.service.ts:61",
+          "source": "rpc('get_admin_parcel_configuration_context_v1')"
+        },
+        {
+          "name": "save_product_parcel_configuration_v1",
+          "callsite": "src/services/supabase/parcelConfiguration.service.ts:65",
+          "source": "rpc('save_product_parcel_configuration_v1',{p_family_product_id:captured.familyProductId,\n    p_composition_mode:captured.mode,p_is_active:captured.active,p_units_per_parcel:captured.units,p_allowed_product_ids:captured.allowed})"
+        },
+        {
+          "name": "set_configurable_parcel_feature_state_v1",
+          "callsite": "src/services/supabase/parcelConfiguration.service.ts:74",
+          "source": "rpc('set_configurable_parcel_feature_state_v1',{p_state:state})"
+        }
+      ]
+    },
+    {
+      "id": "src/services/supabase/pos.service.ts:82",
+      "file": "src/services/supabase/pos.service.ts",
+      "line": 82,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchPosCustomersFromSupabase",
+      "name": "get_pos_customer_page",
+      "dynamic": "'get_pos_customer_page'",
+      "arguments": [
+        "{\n    p_page: page,\n    p_page_size: pageSize,\n    p_search: params?.search?.trim() || null,\n  }"
+      ],
+      "source": "supabase.rpc('get_pos_customer_page', {\n    p_page: page,\n    p_page_size: pageSize,\n    p_search: params?.search?.trim() || null,\n  })"
+    },
+    {
+      "id": "src/services/supabase/pos.service.ts:124",
+      "file": "src/services/supabase/pos.service.ts",
+      "line": 124,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchOpenPosShiftFromSupabase",
+      "name": "get_open_pos_shift",
+      "dynamic": "'get_open_pos_shift'",
+      "arguments": [
+        "{\n    p_branch_id: branchId,\n  }"
+      ],
+      "source": "supabase.rpc('get_open_pos_shift', {\n    p_branch_id: branchId,\n  })"
+    },
+    {
+      "id": "src/services/supabase/pos.service.ts:152",
+      "file": "src/services/supabase/pos.service.ts",
+      "line": 152,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "createPosSaleInSupabase",
+      "name": "create_pos_sale",
+      "dynamic": "'create_pos_sale'",
+      "arguments": [
+        "{\n      p_warehouse_id: input.warehouseId || null,\n      p_branch_id: input.branchId || null,\n      p_customer_id: input.customerId || null,\n      p_customer_name: input.customerName?.trim() || 'زبون نقدي',\n      p_payment_method: input.paymentMethod,\n      p_items: input.items.map((item) => ({\n        product_id: item.productId,\n        quantity: Math.floor(Number(item.quantity) || 0),\n      })),\n      p_discount_in_minor_units: jodToMinorUnits(input.discountJod),\n      p_amount_received_in_minor_units: jodToMinorUnits(\n        input.amountReceivedJod\n      ),\n      p_idempotency_key: input.idempotencyKey,\n    }"
+      ],
+      "source": "supabase.rpc('create_pos_sale', {\n      p_warehouse_id: input.warehouseId || null,\n      p_branch_id: input.branchId || null,\n      p_customer_id: input.customerId || null,\n      p_customer_name: input.customerName?.trim() || 'زبون نقدي',\n      p_payment_method: input.paymentMethod,\n      p_items: input.items.map((item) => ({\n        product_id: item.productId,\n        quantity: Math.floor(Number(item.quantity) || 0),\n      })),\n      p_discount_in_minor_units: jodToMinorUnits(input.discountJod),\n      p_amount_received_in_minor_units: jodToMinorUnits(\n        input.amountReceivedJod\n      ),\n      p_idempotency_key: input.idempotencyKey,\n    })"
+    },
+    {
+      "id": "src/services/supabase/pos.service.ts:236",
+      "file": "src/services/supabase/pos.service.ts",
+      "line": 236,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "getOrCreatePublicPosReceiptUrlFromSupabase",
+      "name": "get_or_create_pos_receipt_token",
+      "dynamic": "'get_or_create_pos_receipt_token'",
+      "arguments": [
+        "{ p_order_id: orderId }"
+      ],
+      "source": "supabase.rpc(\n    'get_or_create_pos_receipt_token',\n    { p_order_id: orderId }\n  )"
+    },
+    {
+      "id": "src/services/supabase/posV2.service.ts:220",
+      "file": "src/services/supabase/posV2.service.ts",
+      "line": 220,
+      "role": "authenticated",
+      "receiver": "client",
+      "function": "<callback>",
+      "name": null,
+      "dynamic": "functionName",
+      "arguments": [
+        "parameters"
+      ],
+      "source": "client.rpc(functionName, parameters)",
+      "resolutions": [
+        {
+          "name": "create_pos_sale_v2",
+          "callsite": "src/services/supabase/posV2.service.ts:153",
+          "source": "executeRpc(\n      'create_pos_sale_v2',\n      rpcParameters(structuredClone(input)),\n    )"
+        }
+      ]
+    },
+    {
+      "id": "src/services/supabase/posV2Recovery.ts:89",
+      "file": "src/services/supabase/posV2Recovery.ts",
+      "line": 89,
+      "role": "authenticated",
+      "receiver": "client",
+      "function": "<callback>",
+      "name": "get_pos_sale_attempt_state_v1",
+      "dynamic": "'get_pos_sale_attempt_state_v1'",
+      "arguments": [
+        "args"
+      ],
+      "source": "client.rpc('get_pos_sale_attempt_state_v1', args)"
+    },
+    {
+      "id": "src/services/supabase/posV2Recovery.ts:96",
+      "file": "src/services/supabase/posV2Recovery.ts",
+      "line": 96,
+      "role": "authenticated",
+      "receiver": "client",
+      "function": "<callback>",
+      "name": "cancel_uncommitted_pos_sale_attempt_v1",
+      "dynamic": "'cancel_uncommitted_pos_sale_attempt_v1'",
+      "arguments": [
+        "{...args, p_confirmed: true}"
+      ],
+      "source": "client.rpc('cancel_uncommitted_pos_sale_attempt_v1', {...args, p_confirmed: true})"
+    },
+    {
+      "id": "src/services/supabase/posV2Recovery.ts:145",
+      "file": "src/services/supabase/posV2Recovery.ts",
+      "line": 145,
+      "role": "authenticated",
+      "receiver": "client",
+      "function": "<callback>",
+      "name": null,
+      "dynamic": "name",
+      "arguments": [
+        "parameters"
+      ],
+      "source": "client.rpc(name, parameters)",
+      "resolutions": [
+        {
+          "name": "create_pos_sale_v2",
+          "callsite": "src/services/supabase/posV2.service.ts:153",
+          "source": "executeRpc(\n      'create_pos_sale_v2',\n      rpcParameters(structuredClone(input)),\n    )"
+        }
+      ]
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:350",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 350,
+      "role": "authenticated",
+      "receiver": "requireProductClient()",
+      "function": "fetchAdminProductPage",
+      "name": "get_admin_product_page",
+      "dynamic": "'get_admin_product_page'",
+      "arguments": [
+        "{\n    p_page: page,\n    p_page_size: pageSize,\n    p_search: input.search?.trim() || null,\n    p_category_id: input.categoryId || null,\n    p_status: input.status || 'all',\n    p_sort: input.sort || 'name',\n  }"
+      ],
+      "source": "requireProductClient().rpc('get_admin_product_page', {\n    p_page: page,\n    p_page_size: pageSize,\n    p_search: input.search?.trim() || null,\n    p_category_id: input.categoryId || null,\n    p_status: input.status || 'all',\n    p_sort: input.sort || 'name',\n  })"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:391",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 391,
+      "role": "authenticated",
+      "receiver": "requireProductClient()",
+      "function": "searchAdminProducts",
+      "name": "search_admin_products",
+      "dynamic": "'search_admin_products'",
+      "arguments": [
+        "{\n    p_search: input.search?.trim() || null,\n    p_limit: limit,\n    p_category_id: input.categoryId || null,\n    p_purpose: input.purpose || 'stockable',\n    p_product_id: input.productId || null,\n  }"
+      ],
+      "source": "requireProductClient().rpc('search_admin_products', {\n    p_search: input.search?.trim() || null,\n    p_limit: limit,\n    p_category_id: input.categoryId || null,\n    p_purpose: input.purpose || 'stockable',\n    p_product_id: input.productId || null,\n  })"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:447",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 447,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchProductsFromSupabase",
+      "name": "search_admin_products",
+      "dynamic": "'search_admin_products'",
+      "arguments": [
+        "{\n        p_search: null,\n        p_limit: 50,\n        p_category_id: null,\n        p_purpose: 'any',\n        p_product_id: null,\n      }"
+      ],
+      "source": "supabase.rpc(\n      'search_admin_products',\n      {\n        p_search: null,\n        p_limit: 50,\n        p_category_id: null,\n        p_purpose: 'any',\n        p_product_id: null,\n      },\n    )"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:643",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 643,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "createProductWithOpeningStockInSupabase",
+      "name": "create_product_with_opening_stock_v4",
+      "dynamic": "'create_product_with_opening_stock_v4'",
+      "arguments": [
+        "rpcParams"
+      ],
+      "source": "supabase.rpc(\n      'create_product_with_opening_stock_v4',\n      rpcParams\n    )"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:713",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 713,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "createProductFlavorInSupabase",
+      "name": "create_product_flavor_v1",
+      "dynamic": "'create_product_flavor_v1'",
+      "arguments": [
+        "{\n      p_master_product_id: input.masterProductId,\n      p_flavor_name_ar: flavorName,\n      p_opening_sale_packages: 0,\n      p_warehouse_id: isValidUuid(input.warehouseId)\n        ? input.warehouseId\n        : null,\n      p_image_url: input.imageUrl?.trim() || null,\n      p_barcode: input.barcode?.trim() || null,\n    }"
+      ],
+      "source": "supabase.rpc('create_product_flavor_v1', {\n      p_master_product_id: input.masterProductId,\n      p_flavor_name_ar: flavorName,\n      p_opening_sale_packages: 0,\n      p_warehouse_id: isValidUuid(input.warehouseId)\n        ? input.warehouseId\n        : null,\n      p_image_url: input.imageUrl?.trim() || null,\n      p_barcode: input.barcode?.trim() || null,\n    })"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:823",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 823,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "createProductFamilyWithFlavorsInSupabase",
+      "name": "create_product_family_with_flavors_v1",
+      "dynamic": "'create_product_family_with_flavors_v1'",
+      "arguments": [
+        "{\n        p_sku: input.sku.trim(),\n        // Flavor-family masters are grouping records, never sellable barcode targets.\n        p_barcode: null,\n        p_name_ar: input.nameAr.trim(),\n        p_description: input.description?.trim() || null,\n        p_category_id: categoryIdToUse,\n        p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n        p_unit_id: unitIdToUse,\n        p_purchase_unit_id: purchaseUnitIdToUse,\n        p_units_per_purchase_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerPackage) || 1)\n        ),\n        p_default_purchase_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n        ),\n        p_sale_unit_id: saleUnitIdToUse,\n        p_units_per_sale_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerSalePackage) || 1)\n        ),\n        p_default_sale_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n        ),\n        p_cost_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.costPrice) || 0) * 1000\n        ),\n        p_min_stock_level: Math.max(\n          0,\n          Math.floor(Number(input.reorderLevel) || 0)\n        ),\n        p_max_stock_level:\n          input.maxStockLevel === undefined\n            ? null\n            : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n        p_warehouse_id: warehouseIdToUse,\n        p_image_url: input.imageUrl?.trim() || null,\n        p_flavors: input.flavors.map((flavor) => ({\n          nameAr: flavor.nameAr.trim(),\n          openingSalePackages: 0,\n          imageUrl: flavor.imageUrl?.trim() || null,\n        })),\n      }"
+      ],
+      "source": "supabase.rpc(\n      'create_product_family_with_flavors_v1',\n      {\n        p_sku: input.sku.trim(),\n        // Flavor-family masters are grouping records, never sellable barcode targets.\n        p_barcode: null,\n        p_name_ar: input.nameAr.trim(),\n        p_description: input.description?.trim() || null,\n        p_category_id: categoryIdToUse,\n        p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n        p_unit_id: unitIdToUse,\n        p_purchase_unit_id: purchaseUnitIdToUse,\n        p_units_per_purchase_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerPackage) || 1)\n        ),\n        p_default_purchase_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n        ),\n        p_sale_unit_id: saleUnitIdToUse,\n        p_units_per_sale_unit: Math.max(\n          1,\n          Math.floor(Number(input.unitsPerSalePackage) || 1)\n        ),\n        p_default_sale_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n        ),\n        p_cost_price_in_minor_units: Math.round(\n          Math.max(0, Number(input.costPrice) || 0) * 1000\n        ),\n        p_min_stock_level: Math.max(\n          0,\n          Math.floor(Number(input.reorderLevel) || 0)\n        ),\n        p_max_stock_level:\n          input.maxStockLevel === undefined\n            ? null\n            : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n        p_warehouse_id: warehouseIdToUse,\n        p_image_url: input.imageUrl?.trim() || null,\n        p_flavors: input.flavors.map((flavor) => ({\n          nameAr: flavor.nameAr.trim(),\n          openingSalePackages: 0,\n          imageUrl: flavor.imageUrl?.trim() || null,\n        })),\n      }\n    )"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:898",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 898,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "updateProductFlavorInSupabase",
+      "name": "update_product_flavor_v1",
+      "dynamic": "'update_product_flavor_v1'",
+      "arguments": [
+        "{\n      p_flavor_product_id: input.flavorProductId,\n      p_flavor_name_ar: input.flavorNameAr.trim(),\n      p_barcode: input.barcode?.trim() || null,\n      p_image_url: input.imageUrl?.trim() || null,\n      p_is_active: input.isActive,\n    }"
+      ],
+      "source": "supabase.rpc('update_product_flavor_v1', {\n      p_flavor_product_id: input.flavorProductId,\n      p_flavor_name_ar: input.flavorNameAr.trim(),\n      p_barcode: input.barcode?.trim() || null,\n      p_image_url: input.imageUrl?.trim() || null,\n      p_is_active: input.isActive,\n    })"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:931",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 931,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "reorderProductFlavorsInSupabase",
+      "name": "reorder_product_flavors_v1",
+      "dynamic": "'reorder_product_flavors_v1'",
+      "arguments": [
+        "{\n        p_master_product_id: masterProductId,\n        p_ordered_flavor_ids: orderedFlavorIds,\n      }"
+      ],
+      "source": "supabase.rpc(\n      'reorder_product_flavors_v1',\n      {\n        p_master_product_id: masterProductId,\n        p_ordered_flavor_ids: orderedFlavorIds,\n      }\n    )"
+    },
+    {
+      "id": "src/services/supabase/products.service.ts:1016",
+      "file": "src/services/supabase/products.service.ts",
+      "line": 1016,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "updateProductInSupabase",
+      "name": "update_product_master_v3",
+      "dynamic": "'update_product_master_v3'",
+      "arguments": [
+        "{\n      p_product_id: input.productId,\n      p_sku: input.sku.trim(),\n      p_barcode: input.barcode?.trim() || null,\n      p_name_ar: input.nameAr.trim(),\n      p_description: input.description?.trim() || null,\n      p_category_id: isValidUuid(input.categoryId) ? input.categoryId : null,\n      p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n      p_unit_id: unitIdToUse,\n      p_purchase_unit_id: purchaseUnitIdToUse,\n      p_units_per_purchase_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerPackage) || 1)\n      ),\n      p_default_purchase_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n      ),\n      p_sale_unit_id: saleUnitIdToUse,\n      p_units_per_sale_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerSalePackage) || 1)\n      ),\n      p_default_sale_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n      ),\n      p_cost_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.costPrice) || 0) * 1000\n      ),\n      p_min_stock_level: Math.max(\n        0,\n        Math.floor(Number(input.reorderLevel) || 0)\n      ),\n      p_max_stock_level:\n        input.maxStockLevel === undefined\n          ? null\n          : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n      p_is_active: input.isActive,\n      p_image_url: input.imageUrl?.trim() || null,\n    }"
+      ],
+      "source": "supabase.rpc('update_product_master_v3', {\n      p_product_id: input.productId,\n      p_sku: input.sku.trim(),\n      p_barcode: input.barcode?.trim() || null,\n      p_name_ar: input.nameAr.trim(),\n      p_description: input.description?.trim() || null,\n      p_category_id: isValidUuid(input.categoryId) ? input.categoryId : null,\n      p_brand_id: isValidUuid(input.brandId) ? input.brandId : null,\n      p_unit_id: unitIdToUse,\n      p_purchase_unit_id: purchaseUnitIdToUse,\n      p_units_per_purchase_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerPackage) || 1)\n      ),\n      p_default_purchase_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.defaultPurchasePrice) || 0) * 1000\n      ),\n      p_sale_unit_id: saleUnitIdToUse,\n      p_units_per_sale_unit: Math.max(\n        1,\n        Math.floor(Number(input.unitsPerSalePackage) || 1)\n      ),\n      p_default_sale_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.salePackagePrice) || 0) * 1000\n      ),\n      p_cost_price_in_minor_units: Math.round(\n        Math.max(0, Number(input.costPrice) || 0) * 1000\n      ),\n      p_min_stock_level: Math.max(\n        0,\n        Math.floor(Number(input.reorderLevel) || 0)\n      ),\n      p_max_stock_level:\n        input.maxStockLevel === undefined\n          ? null\n          : Math.max(0, Math.floor(Number(input.maxStockLevel) || 0)),\n      p_is_active: input.isActive,\n      p_image_url: input.imageUrl?.trim() || null,\n    })"
+    },
+    {
+      "id": "src/services/supabase/promotions.service.ts:80",
+      "file": "src/services/supabase/promotions.service.ts",
+      "line": 80,
+      "role": "authenticated",
+      "receiver": "client",
+      "function": "fetchPromotionCodes",
+      "name": "get_promotion_codes",
+      "dynamic": "'get_promotion_codes'",
+      "arguments": [],
+      "source": "client.rpc('get_promotion_codes')"
+    },
+    {
+      "id": "src/services/supabase/promotions.service.ts:102",
+      "file": "src/services/supabase/promotions.service.ts",
+      "line": 102,
+      "role": "authenticated",
+      "receiver": "client",
+      "function": "savePromotionCode",
+      "name": "upsert_promotion_code",
+      "dynamic": "'upsert_promotion_code'",
+      "arguments": [
+        "{\n    p_code: input.code.trim().toUpperCase(),\n    p_discount_type: input.discountType,\n    p_discount_value: discountValue,\n    p_promotion_code_id: input.id || null,\n    p_description_ar: input.description?.trim() || null,\n    p_minimum_subtotal_in_minor_units: Math.round(\n      Math.max(0, input.minimumSubtotal) * 1000\n    ),\n    p_maximum_discount_in_minor_units:\n      input.maximumDiscount && input.maximumDiscount > 0\n        ? Math.round(input.maximumDiscount * 1000)\n        : null,\n    p_starts_at: input.startsAt || null,\n    p_expires_at: input.expiresAt || null,\n    p_maximum_total_redemptions:\n      input.maximumTotalRedemptions &&\n      input.maximumTotalRedemptions > 0\n        ? Math.floor(input.maximumTotalRedemptions)\n        : null,\n    p_maximum_redemptions_per_phone: Math.max(\n      1,\n      Math.floor(input.maximumRedemptionsPerPhone)\n    ),\n    p_is_active: input.isActive,\n    p_is_public_offer: input.isPublicOffer,\n  }"
+      ],
+      "source": "client.rpc('upsert_promotion_code', {\n    p_code: input.code.trim().toUpperCase(),\n    p_discount_type: input.discountType,\n    p_discount_value: discountValue,\n    p_promotion_code_id: input.id || null,\n    p_description_ar: input.description?.trim() || null,\n    p_minimum_subtotal_in_minor_units: Math.round(\n      Math.max(0, input.minimumSubtotal) * 1000\n    ),\n    p_maximum_discount_in_minor_units:\n      input.maximumDiscount && input.maximumDiscount > 0\n        ? Math.round(input.maximumDiscount * 1000)\n        : null,\n    p_starts_at: input.startsAt || null,\n    p_expires_at: input.expiresAt || null,\n    p_maximum_total_redemptions:\n      input.maximumTotalRedemptions &&\n      input.maximumTotalRedemptions > 0\n        ? Math.floor(input.maximumTotalRedemptions)\n        : null,\n    p_maximum_redemptions_per_phone: Math.max(\n      1,\n      Math.floor(input.maximumRedemptionsPerPhone)\n    ),\n    p_is_active: input.isActive,\n    p_is_public_offer: input.isPublicOffer,\n  })"
+    },
+    {
+      "id": "src/services/supabase/promotions.service.ts:145",
+      "file": "src/services/supabase/promotions.service.ts",
+      "line": 145,
+      "role": "authenticated",
+      "receiver": "client",
+      "function": "setPromotionCodeActive",
+      "name": "set_promotion_code_active",
+      "dynamic": "'set_promotion_code_active'",
+      "arguments": [
+        "{\n      p_promotion_code_id: promotionCodeId,\n      p_is_active: isActive,\n    }"
+      ],
+      "source": "client.rpc(\n    'set_promotion_code_active',\n    {\n      p_promotion_code_id: promotionCodeId,\n      p_is_active: isActive,\n    }\n  )"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:112",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 112,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "createSupplierInSupabase",
+      "name": "save_supplier",
+      "dynamic": "'save_supplier'",
+      "arguments": [
+        "{\n      p_company_name: companyName,\n      p_supplier_id: null,\n      p_contact_person: input.contactPerson?.trim() || null,\n      p_phone: input.phone?.trim() || null,\n      p_whatsapp: input.whatsapp?.trim() || null,\n      p_email: input.email?.trim() || null,\n      p_address: input.address?.trim() || null,\n      p_tax_number: input.taxNumber?.trim() || null,\n      p_notes: input.notes?.trim() || null,\n      p_is_active: input.isActive ?? true,\n    }"
+      ],
+      "source": "supabase.rpc('save_supplier', {\n      p_company_name: companyName,\n      p_supplier_id: null,\n      p_contact_person: input.contactPerson?.trim() || null,\n      p_phone: input.phone?.trim() || null,\n      p_whatsapp: input.whatsapp?.trim() || null,\n      p_email: input.email?.trim() || null,\n      p_address: input.address?.trim() || null,\n      p_tax_number: input.taxNumber?.trim() || null,\n      p_notes: input.notes?.trim() || null,\n      p_is_active: input.isActive ?? true,\n    })"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:158",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 158,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "updateSupplierInSupabase",
+      "name": "save_supplier",
+      "dynamic": "'save_supplier'",
+      "arguments": [
+        "{\n      p_company_name: companyName,\n      p_supplier_id: supplierId,\n      p_contact_person: input.contactPerson?.trim() || null,\n      p_phone: input.phone?.trim() || null,\n      p_whatsapp: input.whatsapp?.trim() || null,\n      p_email: input.email?.trim() || null,\n      p_address: input.address?.trim() || null,\n      p_tax_number: input.taxNumber?.trim() || null,\n      p_notes: input.notes?.trim() || null,\n      p_is_active: input.isActive ?? true,\n    }"
+      ],
+      "source": "supabase.rpc('save_supplier', {\n      p_company_name: companyName,\n      p_supplier_id: supplierId,\n      p_contact_person: input.contactPerson?.trim() || null,\n      p_phone: input.phone?.trim() || null,\n      p_whatsapp: input.whatsapp?.trim() || null,\n      p_email: input.email?.trim() || null,\n      p_address: input.address?.trim() || null,\n      p_tax_number: input.taxNumber?.trim() || null,\n      p_notes: input.notes?.trim() || null,\n      p_is_active: input.isActive ?? true,\n    })"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:199",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 199,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "toggleSupplierActiveInSupabase",
+      "name": "set_supplier_active",
+      "dynamic": "'set_supplier_active'",
+      "arguments": [
+        "{\n      p_supplier_id: supplierId,\n      p_is_active: isActive,\n    }"
+      ],
+      "source": "supabase.rpc('set_supplier_active', {\n      p_supplier_id: supplierId,\n      p_is_active: isActive,\n    })"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:262",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 262,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchPurchaseOrdersFromSupabase",
+      "name": "get_purchase_orders_page",
+      "dynamic": "'get_purchase_orders_page'",
+      "arguments": [
+        "{\n      p_page: page,\n      p_page_size: pageSize,\n      p_search: filters?.search?.trim() || null,\n      p_status: filters?.status || 'all',\n      p_supplier_id:\n        filters?.supplierId && filters.supplierId !== 'all'\n          ? filters.supplierId\n          : null,\n      p_warehouse_id:\n        filters?.warehouseId && filters.warehouseId !== 'all'\n          ? filters.warehouseId\n          : null,\n      p_sort: filters?.sortBy || 'newest',\n    }"
+      ],
+      "source": "supabase.rpc('get_purchase_orders_page', {\n      p_page: page,\n      p_page_size: pageSize,\n      p_search: filters?.search?.trim() || null,\n      p_status: filters?.status || 'all',\n      p_supplier_id:\n        filters?.supplierId && filters.supplierId !== 'all'\n          ? filters.supplierId\n          : null,\n      p_warehouse_id:\n        filters?.warehouseId && filters.warehouseId !== 'all'\n          ? filters.warehouseId\n          : null,\n      p_sort: filters?.sortBy || 'newest',\n    })"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:580",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 580,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "createPurchaseOrderInSupabase",
+      "name": "create_purchase_order",
+      "dynamic": "'create_purchase_order'",
+      "arguments": [
+        "{\n      p_supplier_id,\n      p_branch_id,\n      p_warehouse_id,\n      p_expected_delivery_date: input.expectedDeliveryDate || null,\n      p_delivery_fee_in_minor_units: jodToMinor(input.deliveryFee || 0),\n      p_discount_in_minor_units: jodToMinor(input.discount || 0),\n      p_supplier_invoice_number: input.supplierInvoiceNumber || null,\n      p_notes: input.notes || null,\n      p_internal_notes: input.internalNotes || null,\n      p_items,\n    }"
+      ],
+      "source": "supabase.rpc('create_purchase_order', {\n      p_supplier_id,\n      p_branch_id,\n      p_warehouse_id,\n      p_expected_delivery_date: input.expectedDeliveryDate || null,\n      p_delivery_fee_in_minor_units: jodToMinor(input.deliveryFee || 0),\n      p_discount_in_minor_units: jodToMinor(input.discount || 0),\n      p_supplier_invoice_number: input.supplierInvoiceNumber || null,\n      p_notes: input.notes || null,\n      p_internal_notes: input.internalNotes || null,\n      p_items,\n    })"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:645",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 645,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "updatePurchaseOrderInSupabase",
+      "name": "update_purchase_order",
+      "dynamic": "'update_purchase_order'",
+      "arguments": [
+        "{\n      p_purchase_order_id: poId,\n      p_supplier_id: cleanSupplierId,\n      p_branch_id: cleanBranchId,\n      p_warehouse_id: cleanWarehouseId,\n      p_expected_delivery_date: input.expectedDeliveryDate || null,\n      p_delivery_fee_in_minor_units: jodToMinor(input.deliveryFee),\n      p_discount_in_minor_units: jodToMinor(input.discount),\n      p_supplier_invoice_number: input.supplierInvoiceNumber?.trim() || null,\n      p_notes: input.notes?.trim() || null,\n      p_internal_notes: input.internalNotes?.trim() || null,\n      p_items: items,\n    }"
+      ],
+      "source": "supabase.rpc('update_purchase_order', {\n      p_purchase_order_id: poId,\n      p_supplier_id: cleanSupplierId,\n      p_branch_id: cleanBranchId,\n      p_warehouse_id: cleanWarehouseId,\n      p_expected_delivery_date: input.expectedDeliveryDate || null,\n      p_delivery_fee_in_minor_units: jodToMinor(input.deliveryFee),\n      p_discount_in_minor_units: jodToMinor(input.discount),\n      p_supplier_invoice_number: input.supplierInvoiceNumber?.trim() || null,\n      p_notes: input.notes?.trim() || null,\n      p_internal_notes: input.internalNotes?.trim() || null,\n      p_items: items,\n    })"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:683",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 683,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "deletePurchaseOrderInSupabase",
+      "name": "delete_draft_purchase_order",
+      "dynamic": "'delete_draft_purchase_order'",
+      "arguments": [
+        "{ p_purchase_order_id: poId }"
+      ],
+      "source": "supabase.rpc(\n      'delete_draft_purchase_order',\n      { p_purchase_order_id: poId }\n    )"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:713",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 713,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "sendPurchaseOrderInSupabase",
+      "name": "update_purchase_order_status",
+      "dynamic": "'update_purchase_order_status'",
+      "arguments": [
+        "{\n      p_purchase_order_id: poId,\n      p_new_status: 'sent',\n      p_notes: notes || 'تم إرسال أمر الشراء إلى المورد',\n    }"
+      ],
+      "source": "supabase.rpc('update_purchase_order_status', {\n      p_purchase_order_id: poId,\n      p_new_status: 'sent',\n      p_notes: notes || 'تم إرسال أمر الشراء إلى المورد',\n    })"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:738",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 738,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "approvePurchaseOrderInSupabase",
+      "name": "update_purchase_order_status",
+      "dynamic": "'update_purchase_order_status'",
+      "arguments": [
+        "{\n      p_purchase_order_id: poId,\n      p_new_status: 'approved',\n      p_notes: notes || 'تم اعتماد أمر الشراء من قبل الإدارة',\n    }"
+      ],
+      "source": "supabase.rpc('update_purchase_order_status', {\n      p_purchase_order_id: poId,\n      p_new_status: 'approved',\n      p_notes: notes || 'تم اعتماد أمر الشراء من قبل الإدارة',\n    })"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:763",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 763,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "receivePurchaseOrderInSupabase",
+      "name": "receive_purchase_order_v2",
+      "dynamic": "'receive_purchase_order_v2'",
+      "arguments": [
+        "{\n      p_purchase_order_id: input.purchaseOrderId,\n      p_warehouse_id: input.warehouseId || null,\n      p_supplier_delivery_note: input.supplierDeliveryNote || null,\n      p_notes: input.notes || null,\n      p_idempotency_key: input.idempotencyKey,\n      p_lines: purchaseReceiptV2Lines(input.items),\n    }"
+      ],
+      "source": "supabase.rpc('receive_purchase_order_v2', {\n      p_purchase_order_id: input.purchaseOrderId,\n      p_warehouse_id: input.warehouseId || null,\n      p_supplier_delivery_note: input.supplierDeliveryNote || null,\n      p_notes: input.notes || null,\n      p_idempotency_key: input.idempotencyKey,\n      p_lines: purchaseReceiptV2Lines(input.items),\n    })"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:805",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 805,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "cancelPurchaseOrderInSupabase",
+      "name": "cancel_purchase_order",
+      "dynamic": "'cancel_purchase_order'",
+      "arguments": [
+        "{\n      p_purchase_order_id: poId,\n      p_reason: reason || 'إلغاء أمر الشراء',\n    }"
+      ],
+      "source": "supabase.rpc('cancel_purchase_order', {\n      p_purchase_order_id: poId,\n      p_reason: reason || 'إلغاء أمر الشراء',\n    })"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:835",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 835,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "recordSupplierPaymentInSupabase",
+      "name": "record_supplier_payment",
+      "dynamic": "'record_supplier_payment'",
+      "arguments": [
+        "{\n      p_supplier_id: params.supplierId,\n      p_purchase_order_id: params.purchaseOrderId || null,\n      p_amount_in_minor_units: jodToMinor(params.amount),\n      p_payment_method: params.paymentMethod || 'cash',\n      p_reference_number: params.referenceNumber || null,\n      p_payment_date: params.paymentDate || new Date().toISOString(),\n      p_notes: params.notes || null,\n      p_idempotency_key: params.idempotencyKey,\n    }"
+      ],
+      "source": "supabase.rpc('record_supplier_payment', {\n      p_supplier_id: params.supplierId,\n      p_purchase_order_id: params.purchaseOrderId || null,\n      p_amount_in_minor_units: jodToMinor(params.amount),\n      p_payment_method: params.paymentMethod || 'cash',\n      p_reference_number: params.referenceNumber || null,\n      p_payment_date: params.paymentDate || new Date().toISOString(),\n      p_notes: params.notes || null,\n      p_idempotency_key: params.idempotencyKey,\n    })"
+    },
+    {
+      "id": "src/services/supabase/purchases.service.ts:896",
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 896,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchSupplierPaymentsFromSupabase",
+      "name": "get_supplier_payments_page",
+      "dynamic": "'get_supplier_payments_page'",
+      "arguments": [
+        "{\n      p_page: page,\n      p_page_size: pageSize,\n      p_search: params?.search?.trim() || null,\n      p_supplier_id:\n        params?.supplierId && params.supplierId !== 'all' ? params.supplierId : null,\n      p_payment_method: params?.paymentMethod || 'all',\n    }"
+      ],
+      "source": "supabase.rpc('get_supplier_payments_page', {\n      p_page: page,\n      p_page_size: pageSize,\n      p_search: params?.search?.trim() || null,\n      p_supplier_id:\n        params?.supplierId && params.supplierId !== 'all' ? params.supplierId : null,\n      p_payment_method: params?.paymentMethod || 'all',\n    })"
+    },
+    {
+      "id": "src/services/supabase/reference-data.service.ts:107",
+      "file": "src/services/supabase/reference-data.service.ts",
+      "line": 107,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "saveProductCategoryInSupabase",
+      "name": "save_product_category",
+      "dynamic": "'save_product_category'",
+      "arguments": [
+        "{\n    p_category_id: input.categoryId || null,\n    p_name_ar: input.nameAr.trim(),\n    p_code: input.code?.trim() || null,\n    p_image_url: input.imageUrl?.trim() || null,\n  }"
+      ],
+      "source": "supabase.rpc('save_product_category', {\n    p_category_id: input.categoryId || null,\n    p_name_ar: input.nameAr.trim(),\n    p_code: input.code?.trim() || null,\n    p_image_url: input.imageUrl?.trim() || null,\n  })"
+    },
+    {
+      "id": "src/services/supabase/reference-data.service.ts:145",
+      "file": "src/services/supabase/reference-data.service.ts",
+      "line": 145,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "setProductCategoryActiveInSupabase",
+      "name": "set_product_category_active",
+      "dynamic": "'set_product_category_active'",
+      "arguments": [
+        "{\n      p_category_id: categoryId,\n      p_is_active: isActive,\n    }"
+      ],
+      "source": "supabase.rpc(\n    'set_product_category_active',\n    {\n      p_category_id: categoryId,\n      p_is_active: isActive,\n    }\n  )"
+    },
+    {
+      "id": "src/services/supabase/reference-data.service.ts:240",
+      "file": "src/services/supabase/reference-data.service.ts",
+      "line": 240,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "saveProductBrandInSupabase",
+      "name": "save_product_brand",
+      "dynamic": "'save_product_brand'",
+      "arguments": [
+        "{\n    p_brand_id: input.brandId || null,\n    p_name_ar: input.nameAr.trim(),\n    p_description: input.description?.trim() || null,\n    p_logo_url: input.logoUrl?.trim() || null,\n  }"
+      ],
+      "source": "supabase.rpc('save_product_brand', {\n    p_brand_id: input.brandId || null,\n    p_name_ar: input.nameAr.trim(),\n    p_description: input.description?.trim() || null,\n    p_logo_url: input.logoUrl?.trim() || null,\n  })"
+    },
+    {
+      "id": "src/services/supabase/reference-data.service.ts:273",
+      "file": "src/services/supabase/reference-data.service.ts",
+      "line": 273,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "setProductBrandActiveInSupabase",
+      "name": "set_product_brand_active",
+      "dynamic": "'set_product_brand_active'",
+      "arguments": [
+        "{\n      p_brand_id: brandId,\n      p_is_active: isActive,\n    }"
+      ],
+      "source": "supabase.rpc(\n    'set_product_brand_active',\n    {\n      p_brand_id: brandId,\n      p_is_active: isActive,\n    }\n  )"
+    },
+    {
+      "id": "src/services/supabase/reference-data.service.ts:380",
+      "file": "src/services/supabase/reference-data.service.ts",
+      "line": 380,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "saveProductUnitInSupabase",
+      "name": "save_product_unit",
+      "dynamic": "'save_product_unit'",
+      "arguments": [
+        "{\n    p_unit_id: input.unitId || null,\n    p_name_ar: input.nameAr.trim(),\n    p_code: input.code.trim().toUpperCase(),\n    p_conversion_factor: Math.max(\n      1,\n      Math.floor(Number(input.conversionFactor) || 1)\n    ),\n  }"
+      ],
+      "source": "supabase.rpc('save_product_unit', {\n    p_unit_id: input.unitId || null,\n    p_name_ar: input.nameAr.trim(),\n    p_code: input.code.trim().toUpperCase(),\n    p_conversion_factor: Math.max(\n      1,\n      Math.floor(Number(input.conversionFactor) || 1)\n    ),\n  })"
+    },
+    {
+      "id": "src/services/supabase/reference-data.service.ts:416",
+      "file": "src/services/supabase/reference-data.service.ts",
+      "line": 416,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "setProductUnitActiveInSupabase",
+      "name": "set_product_unit_active",
+      "dynamic": "'set_product_unit_active'",
+      "arguments": [
+        "{\n      p_unit_id: unitId,\n      p_is_active: isActive,\n    }"
+      ],
+      "source": "supabase.rpc(\n    'set_product_unit_active',\n    {\n      p_unit_id: unitId,\n      p_is_active: isActive,\n    }\n  )"
+    },
+    {
+      "id": "src/services/supabase/reports.service.ts:41",
+      "file": "src/services/supabase/reports.service.ts",
+      "line": 41,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "fetchOperationalBusinessReportFromSupabase",
+      "name": "get_operational_business_report",
+      "dynamic": "'get_operational_business_report'",
+      "arguments": [
+        "{\n      p_branch_id: branchId,\n      p_date_from: dateFrom,\n      p_date_to: dateTo,\n    }"
+      ],
+      "source": "requireClient().rpc(\n    'get_operational_business_report',\n    {\n      p_branch_id: branchId,\n      p_date_from: dateFrom,\n      p_date_to: dateTo,\n    }\n  )"
+    },
+    {
+      "id": "src/services/supabase/salesAftercare.service.ts:131",
+      "file": "src/services/supabase/salesAftercare.service.ts",
+      "line": 131,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchAdminAftercareContext",
+      "name": "get_admin_sales_aftercare_context_v1",
+      "dynamic": "'get_admin_sales_aftercare_context_v1'",
+      "arguments": [
+        "{\n    p_order_id: orderId,\n  }"
+      ],
+      "source": "supabase.rpc('get_admin_sales_aftercare_context_v1', {\n    p_order_id: orderId,\n  })"
+    },
+    {
+      "id": "src/services/supabase/salesAftercare.service.ts:166",
+      "file": "src/services/supabase/salesAftercare.service.ts",
+      "line": 166,
+      "role": "authenticated",
+      "receiver": "client",
+      "function": "<callback>",
+      "name": "settle_sales_replacement_v1",
+      "dynamic": "'settle_sales_replacement_v1'",
+      "arguments": [
+        "{\n          p_order_id: orderId,\n      p_idempotency_key: key,\n        p_items: payload.items,\n        p_reason: payload.reason,\n        p_notes: payload.notes,\n      }"
+      ],
+      "source": "client.rpc('settle_sales_replacement_v1', {\n          p_order_id: orderId,\n      p_idempotency_key: key,\n        p_items: payload.items,\n        p_reason: payload.reason,\n        p_notes: payload.notes,\n      })"
+    },
+    {
+      "id": "src/services/supabase/salesAftercare.service.ts:204",
+      "file": "src/services/supabase/salesAftercare.service.ts",
+      "line": 204,
+      "role": "authenticated",
+      "receiver": "client",
+      "function": "<callback>",
+      "name": "settle_admin_sales_return_v1",
+      "dynamic": "'settle_admin_sales_return_v1'",
+      "arguments": [
+        "{\n      p_order_id: orderId,\n      p_idempotency_key: key,\n        p_items: payload.items,\n        p_physical_sources: payload.physicalSources,\n        p_reason: payload.reason,\n        p_refund_method: payload.refundMethod,\n        p_reference_number: payload.referenceNumber,\n        p_notes: payload.notes,\n      }"
+      ],
+      "source": "client.rpc('settle_admin_sales_return_v1', {\n      p_order_id: orderId,\n      p_idempotency_key: key,\n        p_items: payload.items,\n        p_physical_sources: payload.physicalSources,\n        p_reason: payload.reason,\n        p_refund_method: payload.refundMethod,\n        p_reference_number: payload.referenceNumber,\n        p_notes: payload.notes,\n      })"
+    },
+    {
+      "id": "src/services/supabase/salesAftercare.service.ts:245",
+      "file": "src/services/supabase/salesAftercare.service.ts",
+      "line": 245,
+      "role": "authenticated",
+      "receiver": "client",
+      "function": "<callback>",
+      "name": "settle_sales_replacement_v1",
+      "dynamic": "'settle_sales_replacement_v1'",
+      "arguments": [
+        "{\n          p_order_id: orderId, p_idempotency_key: key,\n          p_items: payload.items, p_reason: payload.reason, p_notes: payload.notes,\n        }"
+      ],
+      "source": "client.rpc('settle_sales_replacement_v1', {\n          p_order_id: orderId, p_idempotency_key: key,\n          p_items: payload.items, p_reason: payload.reason, p_notes: payload.notes,\n        })"
+    },
+    {
+      "id": "src/services/supabase/salesAftercare.service.ts:255",
+      "file": "src/services/supabase/salesAftercare.service.ts",
+      "line": 255,
+      "role": "authenticated",
+      "receiver": "client",
+      "function": "<callback>",
+      "name": "settle_admin_sales_return_v1",
+      "dynamic": "'settle_admin_sales_return_v1'",
+      "arguments": [
+        "{\n        p_order_id: orderId, p_idempotency_key: key,\n        p_items: payload.items, p_physical_sources: payload.physicalSources,\n        p_reason: payload.reason, p_refund_method: payload.refundMethod,\n        p_reference_number: payload.referenceNumber, p_notes: payload.notes,\n      }"
+      ],
+      "source": "client.rpc('settle_admin_sales_return_v1', {\n        p_order_id: orderId, p_idempotency_key: key,\n        p_items: payload.items, p_physical_sources: payload.physicalSources,\n        p_reason: payload.reason, p_refund_method: payload.refundMethod,\n        p_reference_number: payload.referenceNumber, p_notes: payload.notes,\n      })"
+    },
+    {
+      "id": "src/services/supabase/stockAlerts.service.ts:72",
+      "file": "src/services/supabase/stockAlerts.service.ts",
+      "line": 72,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchStockAlertsFromSupabase",
+      "name": "get_stock_alert_notifications",
+      "dynamic": "'get_stock_alert_notifications'",
+      "arguments": [
+        "{\n      p_include_resolved: false,\n      p_limit: 100,\n    }"
+      ],
+      "source": "supabase.rpc(\n    'get_stock_alert_notifications',\n    {\n      p_include_resolved: false,\n      p_limit: 100,\n    }\n  )"
+    },
+    {
+      "id": "src/services/supabase/stockAlerts.service.ts:95",
+      "file": "src/services/supabase/stockAlerts.service.ts",
+      "line": 95,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "markStockAlertReadInSupabase",
+      "name": "mark_stock_alert_read",
+      "dynamic": "'mark_stock_alert_read'",
+      "arguments": [
+        "{\n    p_stock_alert_id: stockAlertId,\n  }"
+      ],
+      "source": "supabase.rpc('mark_stock_alert_read', {\n    p_stock_alert_id: stockAlertId,\n  })"
+    },
+    {
+      "id": "src/services/supabase/stockAlerts.service.ts:112",
+      "file": "src/services/supabase/stockAlerts.service.ts",
+      "line": 112,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "markAllStockAlertsReadInSupabase",
+      "name": "mark_all_stock_alerts_read",
+      "dynamic": "'mark_all_stock_alerts_read'",
+      "arguments": [],
+      "source": "supabase.rpc('mark_all_stock_alerts_read')"
+    },
+    {
+      "id": "src/services/supabase/storefront-settings.service.ts:50",
+      "file": "src/services/supabase/storefront-settings.service.ts",
+      "line": 50,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "fetchStorefrontSettings",
+      "name": "get_public_storefront_settings",
+      "dynamic": "'get_public_storefront_settings'",
+      "arguments": [],
+      "source": "requireClient().rpc(\n    'get_public_storefront_settings'\n  )"
+    },
+    {
+      "id": "src/services/supabase/storefront-settings.service.ts:60",
+      "file": "src/services/supabase/storefront-settings.service.ts",
+      "line": 60,
+      "role": "authenticated",
+      "receiver": "requireClient()",
+      "function": "saveStorefrontSettings",
+      "name": "save_storefront_settings_v3",
+      "dynamic": "'save_storefront_settings_v3'",
+      "arguments": [
+        "{\n      p_store_name_ar: input.storeNameAr.trim(),\n      p_whatsapp_number: input.whatsappNumber.trim(),\n      p_cliq_alias: input.cliqAlias.trim(),\n      p_orders_enabled: input.ordersEnabled,\n      p_announcement_text: input.announcementText.trim(),\n      p_business_hours_text: input.businessHoursText.trim(),\n      p_delivery_areas_text: input.deliveryAreasText.trim(),\n      p_delivery_eta_text: input.deliveryEtaText.trim(),\n      p_exchange_policy_text: input.exchangePolicyText.trim(),\n      p_minimum_order_in_minor_units: Math.round(\n        Math.max(0, input.minimumOrder) * 1000\n      ),\n      p_inside_ramtha_delivery_fee_in_minor_units: Math.round(\n        Math.max(0, input.insideRamthaDeliveryFee) * 1000\n      ),\n      p_outside_ramtha_delivery_fee_in_minor_units: Math.round(\n        Math.max(0, input.outsideRamthaDeliveryFee) * 1000\n      ),\n      p_show_newest_products: input.showNewestProducts,\n      p_show_best_sellers: input.showBestSellers,\n      p_show_offers: input.showOffers,\n      p_show_low_stock: input.showLowStock,\n    }"
+      ],
+      "source": "requireClient().rpc(\n    'save_storefront_settings_v3',\n    {\n      p_store_name_ar: input.storeNameAr.trim(),\n      p_whatsapp_number: input.whatsappNumber.trim(),\n      p_cliq_alias: input.cliqAlias.trim(),\n      p_orders_enabled: input.ordersEnabled,\n      p_announcement_text: input.announcementText.trim(),\n      p_business_hours_text: input.businessHoursText.trim(),\n      p_delivery_areas_text: input.deliveryAreasText.trim(),\n      p_delivery_eta_text: input.deliveryEtaText.trim(),\n      p_exchange_policy_text: input.exchangePolicyText.trim(),\n      p_minimum_order_in_minor_units: Math.round(\n        Math.max(0, input.minimumOrder) * 1000\n      ),\n      p_inside_ramtha_delivery_fee_in_minor_units: Math.round(\n        Math.max(0, input.insideRamthaDeliveryFee) * 1000\n      ),\n      p_outside_ramtha_delivery_fee_in_minor_units: Math.round(\n        Math.max(0, input.outsideRamthaDeliveryFee) * 1000\n      ),\n      p_show_newest_products: input.showNewestProducts,\n      p_show_best_sellers: input.showBestSellers,\n      p_show_offers: input.showOffers,\n      p_show_low_stock: input.showLowStock,\n    }\n  )"
+    },
+    {
+      "id": "customer-web/src/services/catalog.service.ts:165",
+      "file": "customer-web/src/services/catalog.service.ts",
+      "line": 165,
+      "role": "anon",
+      "receiver": "supabase",
+      "function": "fetchPublicConfigurableParcelOptions",
+      "name": "get_public_configurable_parcel_options",
+      "dynamic": "'get_public_configurable_parcel_options'",
+      "arguments": [
+        "{ p_family_product_ids: requestedIds }"
+      ],
+      "source": "supabase.rpc(\n    'get_public_configurable_parcel_options',\n    { p_family_product_ids: requestedIds }\n  )"
+    },
+    {
+      "id": "customer-web/src/services/catalog.service.ts:388",
+      "file": "customer-web/src/services/catalog.service.ts",
+      "line": 388,
+      "role": "anon",
+      "receiver": "supabase",
+      "function": "fetchPublicProductCatalog",
+      "name": "get_public_storefront_catalog_page",
+      "dynamic": "'get_public_storefront_catalog_page'",
+      "arguments": [
+        "{\n    p_limit: requestedLimit,\n    p_offset: Math.max(0, Math.floor(query.offset ?? 0)),\n    p_category_id: query.categoryId || null,\n    p_search: query.searchQuery?.trim() || null,\n    p_availability: query.availability ?? 'all',\n    p_sort: query.sort ?? 'recommended',\n    p_brand_id: query.brandId || null,\n    p_sale_unit_id: query.saleUnitId || null,\n    p_product_ids: query.productIds?.filter(Boolean) ?? null,\n  }"
+      ],
+      "source": "supabase.rpc('get_public_storefront_catalog_page', {\n    p_limit: requestedLimit,\n    p_offset: Math.max(0, Math.floor(query.offset ?? 0)),\n    p_category_id: query.categoryId || null,\n    p_search: query.searchQuery?.trim() || null,\n    p_availability: query.availability ?? 'all',\n    p_sort: query.sort ?? 'recommended',\n    p_brand_id: query.brandId || null,\n    p_sale_unit_id: query.saleUnitId || null,\n    p_product_ids: query.productIds?.filter(Boolean) ?? null,\n  })"
+    },
+    {
+      "id": "customer-web/src/services/catalog.service.ts:446",
+      "file": "customer-web/src/services/catalog.service.ts",
+      "line": 446,
+      "role": "anon",
+      "receiver": "supabase",
+      "function": "fetchPublicStorefrontMerchandising",
+      "name": "get_public_storefront_merchandising",
+      "dynamic": "'get_public_storefront_merchandising'",
+      "arguments": [],
+      "source": "supabase.rpc('get_public_storefront_merchandising')"
+    },
+    {
+      "id": "customer-web/src/services/offers.service.ts:55",
+      "file": "customer-web/src/services/offers.service.ts",
+      "line": 55,
+      "role": "anon",
+      "receiver": "supabase",
+      "function": "fetchPublicStorefrontOffers",
+      "name": "get_public_storefront_offers",
+      "dynamic": "'get_public_storefront_offers'",
+      "arguments": [],
+      "source": "supabase.rpc('get_public_storefront_offers')"
+    },
+    {
+      "id": "customer-web/src/services/orders.service.ts:131",
+      "file": "customer-web/src/services/orders.service.ts",
+      "line": 131,
+      "role": "anon",
+      "receiver": "supabase",
+      "function": "previewGuestPromotionV2",
+      "name": "preview_guest_promotion_v2",
+      "dynamic": "'preview_guest_promotion_v2'",
+      "arguments": [
+        "{\n    p_lines: lines,\n    p_promotion_code: code?.trim() || null,\n    p_customer_phone: normalizedPhone,\n  }"
+      ],
+      "source": "supabase.rpc('preview_guest_promotion_v2', {\n    p_lines: lines,\n    p_promotion_code: code?.trim() || null,\n    p_customer_phone: normalizedPhone,\n  })"
+    },
+    {
+      "id": "customer-web/src/services/orders.service.ts:152",
+      "file": "customer-web/src/services/orders.service.ts",
+      "line": 152,
+      "role": "anon",
+      "receiver": "supabase",
+      "function": "previewGuestPromotion",
+      "name": "preview_guest_promotion",
+      "dynamic": "'preview_guest_promotion'",
+      "arguments": [
+        "{\n      p_code: code,\n      p_items: items,\n      p_customer_phone: normalizedPhone,\n    }"
+      ],
+      "source": "supabase.rpc(\n    'preview_guest_promotion',\n    {\n      p_code: code,\n      p_items: items,\n      p_customer_phone: normalizedPhone,\n    }\n  )"
+    },
+    {
+      "id": "customer-web/src/services/orders.service.ts:262",
+      "file": "customer-web/src/services/orders.service.ts",
+      "line": 262,
+      "role": "anon",
+      "receiver": "supabase",
+      "function": "trackGuestOrder",
+      "name": "track_guest_order",
+      "dynamic": "'track_guest_order'",
+      "arguments": [
+        "{\n    p_order_number: orderNumber.trim().toUpperCase(),\n    p_customer_phone: normalizedPhone,\n  }"
+      ],
+      "source": "supabase.rpc('track_guest_order', {\n    p_order_number: orderNumber.trim().toUpperCase(),\n    p_customer_phone: normalizedPhone,\n  })"
+    },
+    {
+      "id": "customer-web/src/services/orders.service.ts:277",
+      "file": "customer-web/src/services/orders.service.ts",
+      "line": 277,
+      "role": "anon",
+      "receiver": "supabase",
+      "function": "trackGuestOrderByToken",
+      "name": "track_guest_order_by_token",
+      "dynamic": "'track_guest_order_by_token'",
+      "arguments": [
+        "{\n    p_tracking_token: trackingToken.trim(),\n  }"
+      ],
+      "source": "supabase.rpc('track_guest_order_by_token', {\n    p_tracking_token: trackingToken.trim(),\n  })"
+    },
+    {
+      "id": "customer-web/src/services/receipts.service.ts:27",
+      "file": "customer-web/src/services/receipts.service.ts",
+      "line": 27,
+      "role": "anon",
+      "receiver": "supabase",
+      "function": "fetchPublicPosReceipt",
+      "name": "get_public_pos_receipt",
+      "dynamic": "'get_public_pos_receipt'",
+      "arguments": [
+        "{\n    p_receipt_token: receiptToken,\n  }"
+      ],
+      "source": "supabase.rpc('get_public_pos_receipt', {\n    p_receipt_token: receiptToken,\n  })"
+    },
+    {
+      "id": "customer-web/src/services/storefront-settings.service.ts:70",
+      "file": "customer-web/src/services/storefront-settings.service.ts",
+      "line": 70,
+      "role": "anon",
+      "receiver": "supabase",
+      "function": "fetchPublicStorefrontSettings",
+      "name": "get_public_storefront_settings",
+      "dynamic": "'get_public_storefront_settings'",
+      "arguments": [],
+      "source": "supabase.rpc('get_public_storefront_settings')"
+    },
+    {
+      "id": "supabase/functions/admin-ai-assistant/index.ts:1017",
+      "file": "supabase/functions/admin-ai-assistant/index.ts",
+      "line": 1017,
+      "role": "authenticated",
+      "receiver": "caller",
+      "function": "<callback>",
+      "name": "authorize_admin_ai_assistant_request",
+      "dynamic": "'authorize_admin_ai_assistant_request'",
+      "arguments": [],
+      "source": "caller.rpc('authorize_admin_ai_assistant_request')"
+    },
+    {
+      "id": "supabase/functions/admin-ai-assistant/index.ts:1074",
+      "file": "supabase/functions/admin-ai-assistant/index.ts",
+      "line": 1074,
+      "role": "authenticated",
+      "receiver": "caller",
+      "function": "<callback>",
+      "name": "get_admin_ai_inventory_snapshot",
+      "dynamic": "'get_admin_ai_inventory_snapshot'",
+      "arguments": [],
+      "source": "caller.rpc(\n    'get_admin_ai_inventory_snapshot',\n  )"
+    },
+    {
+      "id": "supabase/functions/admin-ai-assistant/index.ts:1123",
+      "file": "supabase/functions/admin-ai-assistant/index.ts",
+      "line": 1123,
+      "role": "authenticated",
+      "receiver": "caller",
+      "function": "<callback>",
+      "name": "get_home_dashboard",
+      "dynamic": "'get_home_dashboard'",
+      "arguments": [],
+      "source": "caller.rpc('get_home_dashboard')"
+    },
+    {
+      "id": "supabase/functions/admin-ai-assistant/index.ts:1165",
+      "file": "supabase/functions/admin-ai-assistant/index.ts",
+      "line": 1165,
+      "role": "authenticated",
+      "receiver": "caller",
+      "function": "<callback>",
+      "name": "get_admin_ai_monthly_report",
+      "dynamic": "'get_admin_ai_monthly_report'",
+      "arguments": [],
+      "source": "caller.rpc(\n      'get_admin_ai_monthly_report',\n    )"
+    },
+    {
+      "id": "supabase/functions/manage-staff-users/index.ts:145",
+      "file": "supabase/functions/manage-staff-users/index.ts",
+      "line": 145,
+      "role": "authenticated",
+      "receiver": "caller",
+      "function": "loadStaff",
+      "name": "get_erp_staff_accounts",
+      "dynamic": "'get_erp_staff_accounts'",
+      "arguments": [],
+      "source": "caller.rpc('get_erp_staff_accounts')"
+    },
+    {
+      "id": "supabase/functions/manage-staff-users/index.ts:198",
+      "file": "supabase/functions/manage-staff-users/index.ts",
+      "line": 198,
+      "role": "authenticated",
+      "receiver": "caller",
+      "function": "<callback>",
+      "name": "get_erp_staff_account_audit_logs",
+      "dynamic": "'get_erp_staff_account_audit_logs'",
+      "arguments": [
+        "{\n      p_limit: 100,\n    }"
+      ],
+      "source": "caller.rpc('get_erp_staff_account_audit_logs', {\n      p_limit: 100,\n    })"
+    },
+    {
+      "id": "supabase/functions/manage-staff-users/index.ts:237",
+      "file": "supabase/functions/manage-staff-users/index.ts",
+      "line": 237,
+      "role": "authenticated",
+      "receiver": "caller",
+      "function": "<callback>",
+      "name": "create_erp_staff_account_record",
+      "dynamic": "'create_erp_staff_account_record'",
+      "arguments": [
+        "{\n      p_user_id: created.user.id,\n      p_full_name: fullName,\n      p_phone: normalizeOptionalText(body.phone, 24),\n      p_role_code: roleCode,\n      p_branch_id: branchId,\n      p_job_title: normalizeOptionalText(body.jobTitle, 120),\n    }"
+      ],
+      "source": "caller.rpc('create_erp_staff_account_record', {\n      p_user_id: created.user.id,\n      p_full_name: fullName,\n      p_phone: normalizeOptionalText(body.phone, 24),\n      p_role_code: roleCode,\n      p_branch_id: branchId,\n      p_job_title: normalizeOptionalText(body.jobTitle, 120),\n    })"
+    },
+    {
+      "id": "supabase/functions/manage-staff-users/index.ts:266",
+      "file": "supabase/functions/manage-staff-users/index.ts",
+      "line": 266,
+      "role": "authenticated",
+      "receiver": "caller",
+      "function": "<callback>",
+      "name": "update_erp_staff_account_record",
+      "dynamic": "'update_erp_staff_account_record'",
+      "arguments": [
+        "{\n      p_user_id: body.userId,\n      p_full_name: fullName,\n      p_phone: normalizeOptionalText(body.phone, 24),\n      p_role_code: roleCode,\n      p_branch_id: branchId,\n      p_job_title: normalizeOptionalText(body.jobTitle, 120),\n    }"
+      ],
+      "source": "caller.rpc('update_erp_staff_account_record', {\n      p_user_id: body.userId,\n      p_full_name: fullName,\n      p_phone: normalizeOptionalText(body.phone, 24),\n      p_role_code: roleCode,\n      p_branch_id: branchId,\n      p_job_title: normalizeOptionalText(body.jobTitle, 120),\n    })"
+    },
+    {
+      "id": "supabase/functions/manage-staff-users/index.ts:300",
+      "file": "supabase/functions/manage-staff-users/index.ts",
+      "line": 300,
+      "role": "authenticated",
+      "receiver": "caller",
+      "function": "<callback>",
+      "name": "set_erp_staff_account_active",
+      "dynamic": "'set_erp_staff_account_active'",
+      "arguments": [
+        "{\n      p_user_id: body.userId,\n      p_is_active: body.isActive,\n    }"
+      ],
+      "source": "caller.rpc('set_erp_staff_account_active', {\n      p_user_id: body.userId,\n      p_is_active: body.isActive,\n    })"
+    },
+    {
+      "id": "supabase/functions/manage-staff-users/index.ts:327",
+      "file": "supabase/functions/manage-staff-users/index.ts",
+      "line": 327,
+      "role": "authenticated",
+      "receiver": "caller",
+      "function": "<callback>",
+      "name": "record_erp_staff_password_reset",
+      "dynamic": "'record_erp_staff_password_reset'",
+      "arguments": [
+        "{\n      p_user_id: body.userId,\n    }"
+      ],
+      "source": "caller.rpc('record_erp_staff_password_reset', {\n      p_user_id: body.userId,\n    })"
+    },
+    {
+      "id": "supabase/functions/n8n-alert-feed/index.ts:85",
+      "file": "supabase/functions/n8n-alert-feed/index.ts",
+      "line": 85,
+      "role": "service_role",
+      "receiver": "supabase",
+      "function": "<callback>",
+      "name": "claim_automation_deliveries",
+      "dynamic": "'claim_automation_deliveries'",
+      "arguments": [
+        "{\n      p_channel: body.channel,\n      p_limit: limit,\n      p_lease_seconds: leaseSeconds,\n    }"
+      ],
+      "source": "supabase.rpc('claim_automation_deliveries', {\n      p_channel: body.channel,\n      p_limit: limit,\n      p_lease_seconds: leaseSeconds,\n    })"
+    },
+    {
+      "id": "supabase/functions/n8n-alert-feed/index.ts:102",
+      "file": "supabase/functions/n8n-alert-feed/index.ts",
+      "line": 102,
+      "role": "service_role",
+      "receiver": "supabase",
+      "function": "<callback>",
+      "name": "complete_automation_delivery",
+      "dynamic": "'complete_automation_delivery'",
+      "arguments": [
+        "{\n      p_event_id: body.eventId,\n      p_channel: body.channel,\n      p_success: body.success,\n      p_error:\n        typeof body.error === 'string' ? body.error.slice(0, 1000) : null,\n    }"
+      ],
+      "source": "supabase.rpc('complete_automation_delivery', {\n      p_event_id: body.eventId,\n      p_channel: body.channel,\n      p_success: body.success,\n      p_error:\n        typeof body.error === 'string' ? body.error.slice(0, 1000) : null,\n    })"
+    },
+    {
+      "id": "supabase/functions/send-order-push/index.ts:58",
+      "file": "supabase/functions/send-order-push/index.ts",
+      "line": 58,
+      "role": "service_role",
+      "receiver": "supabase",
+      "function": "<callback>",
+      "name": "get_push_webhook_secret",
+      "dynamic": "'get_push_webhook_secret'",
+      "arguments": [],
+      "source": "supabase.rpc(\n    'get_push_webhook_secret',\n  )"
+    },
+    {
+      "id": "supabase/functions/send-order-push/index.ts:129",
+      "file": "supabase/functions/send-order-push/index.ts",
+      "line": 129,
+      "role": "service_role",
+      "receiver": "supabase",
+      "function": "<callback>",
+      "name": "get_active_order_push_targets",
+      "dynamic": "'get_active_order_push_targets'",
+      "arguments": [
+        "{p_user_id: null}"
+      ],
+      "source": "supabase.rpc(\n    'get_active_order_push_targets',\n    {p_user_id: null},\n  )"
+    }
+  ],
+  "storage": [
+    {
+      "file": "src/services/supabase/product-images.service.ts",
+      "line": 67,
+      "role": "authenticated",
+      "operation": "upload",
+      "bucket": "PRODUCT_IMAGE_BUCKET",
+      "source": "supabase.storage\n    .from(PRODUCT_IMAGE_BUCKET)\n    .upload(storagePath, file, {\n      cacheControl: '3600',\n      contentType: file.type,\n      upsert: false,\n    })"
+    },
+    {
+      "file": "src/services/supabase/product-images.service.ts",
+      "line": 83,
+      "role": "authenticated",
+      "operation": "getPublicUrl",
+      "bucket": "PRODUCT_IMAGE_BUCKET",
+      "source": "supabase.storage\n    .from(PRODUCT_IMAGE_BUCKET)\n    .getPublicUrl(storagePath)"
+    },
+    {
+      "file": "src/services/supabase/product-images.service.ts",
+      "line": 88,
+      "role": "authenticated",
+      "operation": "remove",
+      "bucket": "PRODUCT_IMAGE_BUCKET",
+      "source": "supabase.storage\n      .from(PRODUCT_IMAGE_BUCKET)\n      .remove([storagePath])"
+    },
+    {
+      "file": "src/services/supabase/product-images.service.ts",
+      "line": 125,
+      "role": "authenticated",
+      "operation": "remove",
+      "bucket": "PRODUCT_IMAGE_BUCKET",
+      "source": "supabase.storage\n    .from(PRODUCT_IMAGE_BUCKET)\n    .remove([storagePath])"
+    }
+  ],
+  "channels": [
+    {
+      "file": "src/services/supabase/crm.service.ts",
+      "line": 518,
+      "role": "authenticated",
+      "source": "client\n    .channel(`crm-realtime-${crypto.randomUUID()}`)"
+    },
+    {
+      "file": "src/services/supabase/dashboard.service.ts",
+      "line": 210,
+      "role": "authenticated",
+      "source": "client\n    .channel('operational_home_dashboard')"
+    },
+    {
+      "file": "src/services/supabase/directReceiving.service.ts",
+      "line": 673,
+      "role": "authenticated",
+      "source": "client\n    .channel('supplier-receipts-changes')"
+    },
+    {
+      "file": "src/services/supabase/orders.service.ts",
+      "line": 1217,
+      "role": "authenticated",
+      "source": "client\n    .channel(`public-orders-changes-${crypto.randomUUID()}`)"
+    },
+    {
+      "file": "src/services/supabase/purchases.service.ts",
+      "line": 1124,
+      "role": "authenticated",
+      "source": "client\n    .channel('purchases_realtime_changes')"
+    },
+    {
+      "file": "src/services/supabase/stockAlerts.service.ts",
+      "line": 131,
+      "role": "authenticated",
+      "source": "client\n    .channel('stock-alert-notifications')"
+    }
+  ],
+  "env": [
+    {
+      "file": "supabase/functions/admin-ai-assistant/index.ts",
+      "line": 971,
+      "name": "GEMINI_MODEL"
+    },
+    {
+      "file": "supabase/functions/admin-ai-assistant/index.ts",
+      "line": 987,
+      "name": "SUPABASE_URL"
+    },
+    {
+      "file": "supabase/functions/admin-ai-assistant/index.ts",
+      "line": 988,
+      "name": "SUPABASE_ANON_KEY"
+    },
+    {
+      "file": "supabase/functions/admin-ai-assistant/index.ts",
+      "line": 1275,
+      "name": "GEMINI_API_KEY"
+    },
+    {
+      "file": "supabase/functions/manage-staff-users/index.ts",
+      "line": 111,
+      "name": "SUPABASE_URL"
+    },
+    {
+      "file": "supabase/functions/manage-staff-users/index.ts",
+      "line": 112,
+      "name": "SUPABASE_ANON_KEY"
+    },
+    {
+      "file": "supabase/functions/manage-staff-users/index.ts",
+      "line": 113,
+      "name": "SUPABASE_SERVICE_ROLE_KEY"
+    },
+    {
+      "file": "supabase/functions/n8n-alert-feed/index.ts",
+      "line": 47,
+      "name": "SUPABASE_URL"
+    },
+    {
+      "file": "supabase/functions/n8n-alert-feed/index.ts",
+      "line": 48,
+      "name": "SUPABASE_SERVICE_ROLE_KEY"
+    },
+    {
+      "file": "supabase/functions/n8n-alert-feed/index.ts",
+      "line": 49,
+      "name": "NAWASRAH_AUTOMATION_SECRET"
+    },
+    {
+      "file": "supabase/functions/send-order-push/index.ts",
+      "line": 38,
+      "name": "SUPABASE_URL"
+    },
+    {
+      "file": "supabase/functions/send-order-push/index.ts",
+      "line": 39,
+      "name": "SUPABASE_SERVICE_ROLE_KEY"
+    },
+    {
+      "file": "supabase/functions/send-order-push/index.ts",
+      "line": 40,
+      "name": "WEB_PUSH_VAPID_PUBLIC_KEY"
+    },
+    {
+      "file": "supabase/functions/send-order-push/index.ts",
+      "line": 41,
+      "name": "WEB_PUSH_VAPID_PRIVATE_KEY"
+    },
+    {
+      "file": "supabase/functions/send-order-push/index.ts",
+      "line": 42,
+      "name": "WEB_PUSH_SUBJECT"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "line": 162,
+      "name": "SUPABASE_URL"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "line": 163,
+      "name": "SUPABASE_SERVICE_ROLE_KEY"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "line": 164,
+      "name": "TURNSTILE_SECRET_KEY"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "line": 165,
+      "name": "GUEST_ORDER_HASH_SECRET"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "line": 166,
+      "name": "TURNSTILE_TEST_MODE"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "line": 168,
+      "name": "TURNSTILE_ALLOWED_HOSTNAMES"
+    }
+  ],
+  "wrapperCalls": [
+    {
+      "file": "src/services/supabase/parcelConfiguration.service.ts",
+      "line": 61,
+      "role": "authenticated",
+      "wrapper": "rpc",
+      "name": "get_admin_parcel_configuration_context_v1",
+      "dynamic": "'get_admin_parcel_configuration_context_v1'",
+      "source": "rpc('get_admin_parcel_configuration_context_v1')"
+    },
+    {
+      "file": "src/services/supabase/parcelConfiguration.service.ts",
+      "line": 65,
+      "role": "authenticated",
+      "wrapper": "rpc",
+      "name": "save_product_parcel_configuration_v1",
+      "dynamic": "'save_product_parcel_configuration_v1'",
+      "source": "rpc('save_product_parcel_configuration_v1',{p_family_product_id:captured.familyProductId,\n    p_composition_mode:captured.mode,p_is_active:captured.active,p_units_per_parcel:captured.units,p_allowed_product_ids:captured.allowed})"
+    },
+    {
+      "file": "src/services/supabase/parcelConfiguration.service.ts",
+      "line": 74,
+      "role": "authenticated",
+      "wrapper": "rpc",
+      "name": "set_configurable_parcel_feature_state_v1",
+      "dynamic": "'set_configurable_parcel_feature_state_v1'",
+      "source": "rpc('set_configurable_parcel_feature_state_v1',{p_state:state})"
+    },
+    {
+      "file": "src/services/supabase/posV2.service.ts",
+      "line": 153,
+      "role": "authenticated",
+      "wrapper": "executeRpc",
+      "name": "create_pos_sale_v2",
+      "dynamic": "'create_pos_sale_v2'",
+      "source": "executeRpc(\n      'create_pos_sale_v2',\n      rpcParameters(structuredClone(input)),\n    )"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "line": 260,
+      "role": "service_role",
+      "wrapper": "callRpc",
+      "name": "authorize_guest_order_gateway",
+      "dynamic": "'authorize_guest_order_gateway'",
+      "source": "callRpc(\n      supabaseUrl,\n      serviceRoleKey,\n      'authorize_guest_order_gateway',\n      {\n        p_idempotency_key: idempotencyKey,\n        p_ip_hash: ipHash,\n        p_session_hash: sessionHash,\n        p_phone_hash: phoneHash,\n      },\n      fetchImpl,\n    )"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "line": 329,
+      "role": "service_role",
+      "wrapper": "callRpc",
+      "name": null,
+      "dynamic": "rpcName",
+      "source": "callRpc(\n      supabaseUrl,\n      serviceRoleKey,\n      rpcName,\n      rpcPayload,\n      fetchImpl,\n    )",
+      "resolutions": [
+        {
+          "name": "submit_guest_customer_order_v2",
+          "source": "'submit_guest_customer_order_v2'"
+        }
+      ]
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "line": 340,
+      "role": "service_role",
+      "wrapper": "callRpc",
+      "name": "finalize_guest_order_gateway",
+      "dynamic": "'finalize_guest_order_gateway'",
+      "source": "callRpc(supabaseUrl, serviceRoleKey, 'finalize_guest_order_gateway', {\n        p_idempotency_key: idempotencyKey,\n        p_outcome: 'gateway_error',\n        p_order_id: null,\n      }, fetchImpl)"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "line": 357,
+      "role": "service_role",
+      "wrapper": "callRpc",
+      "name": "finalize_guest_order_gateway",
+      "dynamic": "'finalize_guest_order_gateway'",
+      "source": "callRpc(supabaseUrl, serviceRoleKey, 'finalize_guest_order_gateway', {\n      p_idempotency_key: idempotencyKey,\n      p_outcome: succeeded ? 'succeeded' : 'order_rejected',\n      p_order_id: orderId,\n    }, fetchImpl)"
+    }
+  ],
+  "gatewayRpc": [
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "line": 260,
+      "role": "service_role",
+      "wrapper": "callRpc",
+      "name": "authorize_guest_order_gateway",
+      "dynamic": "'authorize_guest_order_gateway'",
+      "source": "callRpc(\n      supabaseUrl,\n      serviceRoleKey,\n      'authorize_guest_order_gateway',\n      {\n        p_idempotency_key: idempotencyKey,\n        p_ip_hash: ipHash,\n        p_session_hash: sessionHash,\n        p_phone_hash: phoneHash,\n      },\n      fetchImpl,\n    )"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "line": 329,
+      "role": "service_role",
+      "wrapper": "callRpc",
+      "name": null,
+      "dynamic": "rpcName",
+      "source": "callRpc(\n      supabaseUrl,\n      serviceRoleKey,\n      rpcName,\n      rpcPayload,\n      fetchImpl,\n    )",
+      "resolutions": [
+        {
+          "name": "submit_guest_customer_order_v2",
+          "source": "'submit_guest_customer_order_v2'"
+        }
+      ]
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "line": 340,
+      "role": "service_role",
+      "wrapper": "callRpc",
+      "name": "finalize_guest_order_gateway",
+      "dynamic": "'finalize_guest_order_gateway'",
+      "source": "callRpc(supabaseUrl, serviceRoleKey, 'finalize_guest_order_gateway', {\n        p_idempotency_key: idempotencyKey,\n        p_outcome: 'gateway_error',\n        p_order_id: null,\n      }, fetchImpl)"
+    },
+    {
+      "file": "supabase/functions/submit-guest-order/index.ts",
+      "line": 357,
+      "role": "service_role",
+      "wrapper": "callRpc",
+      "name": "finalize_guest_order_gateway",
+      "dynamic": "'finalize_guest_order_gateway'",
+      "source": "callRpc(supabaseUrl, serviceRoleKey, 'finalize_guest_order_gateway', {\n      p_idempotency_key: idempotencyKey,\n      p_outcome: succeeded ? 'succeeded' : 'order_rejected',\n      p_order_id: orderId,\n    }, fetchImpl)"
+    }
+  ],
+  "functionNames": [
+    "accept_order_for_preparation",
+    "add_customer_address",
+    "adjust_inventory_stock",
+    "apply_inventory_opening_setup",
+    "archive_supplier_receipt",
+    "authorize_admin_ai_assistant_request",
+    "authorize_guest_order_gateway",
+    "cancel_customer_order_v2",
+    "cancel_empty_cash_shift",
+    "cancel_purchase_order",
+    "cancel_supplier_receipt",
+    "cancel_uncommitted_pos_sale_attempt_v1",
+    "claim_automation_deliveries",
+    "close_cash_shift",
+    "complete_automation_delivery",
+    "complete_website_order_with_payment",
+    "complete_website_order_with_settlement",
+    "complete_website_order_with_settlement_v2",
+    "create_direct_supplier_receipt_v2",
+    "create_erp_staff_account_record",
+    "create_operational_expense",
+    "create_pos_sale",
+    "create_pos_sale_v2",
+    "create_product_family_with_flavors_v1",
+    "create_product_flavor_v1",
+    "create_product_with_opening_stock_v4",
+    "create_purchase_order",
+    "delete_draft_purchase_order",
+    "disable_push_subscription",
+    "finalize_guest_order_gateway",
+    "get_active_order_push_targets",
+    "get_admin_ai_inventory_snapshot",
+    "get_admin_ai_monthly_report",
+    "get_admin_inventory_product_page",
+    "get_admin_parcel_configuration_context_v1",
+    "get_admin_product_page",
+    "get_admin_sales_aftercare_context_v1",
+    "get_advanced_monitoring_dashboard",
+    "get_aftercare_integrity_status",
+    "get_cash_shift_archive_page",
+    "get_cash_shift_closing_report",
+    "get_crm_customer_detail_page",
+    "get_crm_customer_page",
+    "get_customer_debt_aging",
+    "get_customer_outstanding_orders_page",
+    "get_customer_statement",
+    "get_erp_staff_account_audit_logs",
+    "get_erp_staff_accounts",
+    "get_expense_shift_center",
+    "get_home_dashboard",
+    "get_inventory_movement_page",
+    "get_inventory_opening_setup",
+    "get_open_pos_shift",
+    "get_operational_business_report",
+    "get_operational_orders_page",
+    "get_or_create_pos_receipt_token",
+    "get_pos_configurable_parcel_options_v1",
+    "get_pos_customer_page",
+    "get_pos_sale_attempt_state_v1",
+    "get_promotion_codes",
+    "get_public_configurable_parcel_options",
+    "get_public_pos_receipt",
+    "get_public_storefront_catalog_page",
+    "get_public_storefront_merchandising",
+    "get_public_storefront_offers",
+    "get_public_storefront_settings",
+    "get_purchase_orders_page",
+    "get_push_subscription_status",
+    "get_push_webhook_secret",
+    "get_stock_alert_notifications",
+    "get_supplier_payments_page",
+    "get_supplier_receipts_page",
+    "mark_all_stock_alerts_read",
+    "mark_stock_alert_read",
+    "open_cash_shift",
+    "preview_cash_shift_full_reversal",
+    "preview_guest_promotion",
+    "preview_guest_promotion_v2",
+    "preview_supplier_receipt_cancellation",
+    "receive_purchase_order_v2",
+    "record_customer_order_payment_once",
+    "record_erp_staff_password_reset",
+    "record_supplier_payment",
+    "record_supplier_receipt_payment",
+    "reorder_product_flavors_v1",
+    "report_admin_runtime_incident",
+    "resolve_legacy_supplier_receipt_replay_v1",
+    "return_completed_website_order",
+    "reverse_cash_shift_with_operations",
+    "reverse_operational_expense",
+    "save_customer",
+    "save_product_brand",
+    "save_product_category",
+    "save_product_parcel_configuration_v1",
+    "save_product_unit",
+    "save_push_subscription",
+    "save_storefront_settings_v3",
+    "save_supplier",
+    "search_admin_products",
+    "set_configurable_parcel_feature_state_v1",
+    "set_customer_status",
+    "set_erp_staff_account_active",
+    "set_product_brand_active",
+    "set_product_category_active",
+    "set_product_unit_active",
+    "set_promotion_code_active",
+    "set_supplier_active",
+    "settle_admin_sales_return_v1",
+    "settle_sales_replacement_v1",
+    "start_or_update_order_delivery",
+    "submit_guest_customer_order_v2",
+    "track_guest_order",
+    "track_guest_order_by_token",
+    "transfer_inventory_between_warehouses",
+    "update_erp_staff_account_record",
+    "update_my_erp_profile",
+    "update_order_delivery_address",
+    "update_order_status",
+    "update_product_flavor_v1",
+    "update_product_master_v3",
+    "update_purchase_order",
+    "update_purchase_order_status",
+    "upsert_promotion_code"
+  ]
+}

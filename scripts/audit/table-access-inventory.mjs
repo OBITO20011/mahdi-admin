@@ -82,7 +82,7 @@ export async function inventory(){const entries=[],excluded=[],subscriptions=[],
 export async function writeInventory(value){await writeFile(path.join(root,'docs/operations/TABLE_ACCESS_INVENTORY.json'),JSON.stringify(value,null,2)+'\n');}
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){const value=await inventory();await writeInventory(value);
  let evidence;try{evidence=JSON.parse(await readFile(path.join(root,'docs/operations/TABLE_ACCESS_DIAGNOSTIC.json'),'utf8'));}catch(error){if(error.code!=='ENOENT')throw error;}
- const {renderReport}=await import('./table-access-report.mjs');
+ const {reportWithSupplement}=await import('./table-access-report.mjs');
  const fresh=evidence&&JSON.stringify(evidence.sourceHashes)===JSON.stringify(value.sources);
- const markdown=fresh?renderReport(value,evidence):'# جرد الوصول المباشر للجداول\n\n**--apply موقوف. أدلة runtime غير موجودة أو قديمة؛شغّل التشخيص الحقيقي ثم مولّد التقرير.**\n\n| المصدر | الجدول | العملية | الدور |\n|---|---|---|---|\n'+value.entries.map(e=>`| ${e.id} | ${e.table} | ${e.operation} | ${e.role} |`).join('\n')+'\n';
+ const markdown=fresh?await reportWithSupplement(value,evidence):'# جرد الوصول المباشر للجداول\n\n**--apply موقوف. أدلة runtime غير موجودة أو قديمة؛شغّل التشخيص الحقيقي ثم مولّد التقرير.**\n\n| المصدر | الجدول | العملية | الدور |\n|---|---|---|---|\n'+value.entries.map(e=>`| ${e.id} | ${e.table} | ${e.operation} | ${e.role} |`).join('\n')+'\n';
  await writeFile(path.join(root,'docs/operations/TABLE_ACCESS_INVENTORY.md'),markdown);console.log(JSON.stringify(value.totals));}

@@ -1,5 +1,38 @@
 # Agent handoff history
 
+## 2026-10-15 — expanded audit local gates PASS;diagnostic-only delivery
+
+Detached gates10:55:03.947–10:57:37.157UTC frozeallfiles:Admin type/lint
+(3preexistingwarnings),1064Admin+191Customerunits PASS;new8audit tests included.
+TScorrected only newdiagnosticreturn-shape/callbacktypes;no productchanges.
+Two newunuseddestructuredfields renamed withunderscore,no suppression.
+Reports preserve unknown managedbucketrow/publicationmembership ratherthan
+inferitfromschema. i4Ny7M realSQL fixtures/372dispatch proveEXECUTE only,not
+allvalidbusinesspayloads. Explicit-stage excludesall139draft/CI/state/generated
+changes. Gitleaks/exactFULLCI thenSTOP;noalignapply or stagingactivation.
+
+## 2026-10-15 — RPC/Storage/Realtime/manual-readiness investigation extension
+
+21c8bd4 first audit delivered:quality38720991067 FULL24/24 andsecrets38720990801
+PASS. Owner extends SAME investigation,notimplementation. i4Ny7M fresh138:
+128SDK RPC+4Gateway sites/123names;372real-role typedneutral dispatch probes
+(354authenticated/10anon/8service),98success rolledback/274body validation or
+errors/0SQLSTATE42501. Allprobe args/results are distinguished from real valid
+business payloads;no claimof122functionalworkflowPASS. Allseven oldalignment
+functions examined:onlyAIauthorization hasappcall(authenticated,true);six
+aretrigger-only,explicitgrantredundantwithPUBLICX. NoalignSQL executed.
+
+Storage020 createsproduct-images bucket;localrow verified,fourmatching remote
+policies present in savedcatalog,remote bucketrowNOTcaptured/NOTconfirmed.
+Sixchannels/20subscriptions/13tables;local supabase_realtime exists empty,
+remote membershipNOTin savedcatalog. Fullnonhistorical oldref path/line audit:
+CSPHTTP/WSS,n8n4URLs,frontendfallbacks,backupintentionallypinned.138 DBoldref
+onlyenqueue_order_push_webhook;139 remainsdraft. Numbered14item manualstaging
+checklist added toTABLE_ACCESS_INVENTORY.md andSERVICE_ACCESS_AUDIT.md.
+No product/auth/ACL/migrations change,no managedaccess/secret/deploy. Allown
+DBcontainers stopped,n8nuntouched. Relatedunits/typechecked;remaining full
+local fastgates/Gitleaks/explicitdiagnosticcommit/exactCI thenreview STOP.
+
 ## 2026-10-15 — Phase A direct-table access investigation;ACL apply HOLD
 
 Latest owner stops frankfurt-align-acl --apply. No managed access or product/

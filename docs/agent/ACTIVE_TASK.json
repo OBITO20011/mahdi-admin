@@ -3,27 +3,27 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Phase A direct-table ACL investigation on isolated001-138;NO align apply",
-  "baselineSha": "c4c90ee6c2a19dba0b511d25db699855ecab61cd",
+  "baselineSha": "21c8bd4cd97144401d09fed3ca5445190f59d70e",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "HOLD apply;inventory50;isolated138 real142 queries:15PASS,112denied,15ambiguous"
+    "21c8bd4 audit50 deliveredFULL24+secrets;HOLD apply;142SDK:15PASS/112denied/15ambiguous"
   ],
   "inProgress": [
-    "Diagnostic-only commit/push/exactCI;then approval STOP"
+    "Expanded audit gates then diagnostic-only commit/exactCI;STOP"
   ],
   "notStarted": [
     "150 proposal ONLY;139 delivery separate;140-149 reserved"
   ],
   "testsPassed": [
-    "r66uGh isolated138,142SDK+186SQL;focused4;types/lint;1060Admin+191Customer;frozen r2"
+    "r66uGh142SDK+186SQL;i4Ny7M372RPC0denied;8related;types/lint;1064Admin+191Customer;21c8bd4CIgreen"
   ],
   "testsRemaining": [
-    "Gitleaks,diagnostic-only commit,push,exact CI"
+    "Gitleaks,expanded-diagnostic-only commit,push,exactCI"
   ],
   "findings": [
-    "150 proposal26 reads,no anon.4existing PGRST201 sites also need owner review;no fix."
+    "26read grants150proposal;4PGRST201;localpublicationempty;remote bucketrow/membership unknown"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -32,39 +32,40 @@
     "No retries/timeouts/skips/weakened assertions;freeze files during gates",
     "Do not stage139 or use140-149;NO frankfurt-align-acl --apply;NO migration150"
   ],
-  "nextExactAction": "Commit audit/HOLD docs only (exclude139),Gitleaks0,push/full exactCI;then STOP for150 and4PGRST201 decisions. NO apply/managed access.",
-  "checkpointedAt": "2026-10-15T10:31:33.298Z",
+  "nextExactAction": "Commit expanded diagnostic/HOLD docs only,exclude139;Gitleaks0,push/full exactCI then STOP for owner/Claude150,PGRST201,Realtime/manual setup approval. NO apply/managed access.",
+  "checkpointedAt": "2026-10-15T10:58:46.389Z",
   "filesTouched": [
     ".github/workflows/quality.yml",
     "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
     "docs/agent/project-state.json",
     "docs/generated/DB_FUNCTIONS.md",
-    "docs/operations/FRANKFURT_ACL_ALIGNMENT_AR.md",
     "docs/operations/FRANKFURT_OWNER_BUILD_AR.md",
     "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md",
+    "docs/operations/TABLE_ACCESS_INVENTORY.md",
     "package.json",
     "scripts/agent/lib.mjs",
     "scripts/agent/preflight.mjs",
+    "scripts/audit/table-access-inventory.mjs",
+    "scripts/audit/table-access-report.mjs",
     "scripts/operations/build-empty-supabase.mjs",
     "scripts/operations/frankfurt-owner-build.mjs",
     "tests/frankfurt-preparation.test.ts",
     "tests/frankfurt-verify-only.test.ts",
     "tests/migration-integrity.test.ts",
     "docs/operations/ORDER_PUSH_URL_139.md",
-    "docs/operations/TABLE_ACCESS_DIAGNOSTIC.json",
-    "docs/operations/TABLE_ACCESS_INVENTORY.json",
-    "docs/operations/TABLE_ACCESS_INVENTORY.md",
-    "scripts/audit/run-table-access-diagnostic.mjs",
-    "scripts/audit/table-access-inventory.mjs",
-    "scripts/audit/table-access-probes.mjs",
-    "scripts/audit/table-access-report.mjs",
+    "docs/operations/SERVICE_ACCESS_AUDIT.md",
+    "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json",
+    "docs/operations/SERVICE_ACCESS_INVENTORY.json",
+    "scripts/audit/run-service-access-diagnostic.mjs",
+    "scripts/audit/service-access-inventory.mjs",
+    "scripts/audit/service-access-report.mjs",
     "scripts/operations/frankfurt-migration139.mjs",
     "scripts/testing/order-push-url-runtime.sql",
     "scripts/testing/run-order-push-url-runtime.mjs",
     "supabase/migrations/139_project_order_push_webhook_url.sql",
     "tests/order-push-url139.test.ts",
-    "tests/table-access-inventory.test.ts"
+    "tests/service-access-inventory.test.ts"
   ],
-  "workingTreeFingerprint": "8133FEC24E20033B02F8E5D048EA6C0E8A8EFA460ECB9658575D3B75D21956BC"
+  "workingTreeFingerprint": "E8963DDE9F651FFB8BF9C455B7D92BF59BFCD32DFF230FE4910BF08862057E90"
 }
