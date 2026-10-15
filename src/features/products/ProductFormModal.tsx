@@ -36,6 +36,11 @@ import {
   type ProductEditSnapshot,
 } from '../../utils/productEditConflict';
 import { ProductEditConflictPanel } from './ProductEditConflictPanel';
+import {
+  currentUnitCostInMinorUnits,
+  fetchProductCostState,
+  type ProductCostState,
+} from '../../services/supabase/productCost.service';
 import { useAppStore } from '../../stores/useAppStore';
 import { Product } from '../../types';
 import { validateProductImage } from '../../utils/productImage';
@@ -228,6 +233,18 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     current: ProductEditFields;
   } | null>(null);
   const [reappliedNotice, setReappliedNotice] = useState(false);
+  // Migration 171: once a product has stock history its average cost comes
+  // only from receiving (or an owner correction); the form shows it read-only.
+  const [costState, setCostState] = useState<ProductCostState | null>(null);
+  useEffect(() => {
+    if (!initialProduct?.id) return;
+    let live = true;
+    fetchProductCostState(initialProduct.id)
+      .then((state) => { if (live) setCostState(state); })
+      .catch(() => undefined);
+    return () => { live = false; };
+  }, [initialProduct?.id]);
+  const costIsFromStock = Boolean(isEditing && costState?.hasCostHistory);
   const currentFlavors = useMemo(
     () =>
       initialProduct?.id
@@ -311,8 +328,12 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     0,
     Number(salePackagePrice) || 0
   );
+  // The cost a sale books today: the stock average once the product has history.
+  const effectiveUnitCost = costIsFromStock && costState
+    ? currentUnitCostInMinorUnits(costState) / 1000
+    : costPerUnit;
   const salePackageCost = calculatePackagePrice(
-    costPerUnit,
+    effectiveUnitCost,
     validUnitsPerSalePackage
   );
   const salePackageProfit = calculateProductProfit(
@@ -1418,6 +1439,20 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             {formatJod(validPackagePrice)} {CURRENCY}
           </strong>
         </div>
+
+        {costIsFromStock && costState && (
+          <div data-testid="product-average-cost" className="mt-3 rounded-xl border border-nw-border bg-nw-info-bg px-3 py-2">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs font-bold text-nw-info">متوسط التكلفة الحالي — يتحدّث من الاستلام</span>
+              <strong className="text-sm text-nw-text">
+                <bdi dir="ltr">{formatJod(currentUnitCostInMinorUnits(costState) / 1000)}</bdi> {CURRENCY} للحبة
+              </strong>
+            </div>
+            <p className="mt-1 text-xs text-nw-muted">
+              سعرا الشراء أعلاه افتراضيان لأوامر الشراء فقط، وحفظ المنتج لا يغيّر متوسط التكلفة.
+            </p>
+          </div>
+        )}
       </Card>
 
       <Card padded={false} className="rounded-2xl border border-nw-border    p-3.5">

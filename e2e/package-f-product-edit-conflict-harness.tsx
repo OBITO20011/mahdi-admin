@@ -63,6 +63,22 @@ client.rpc=(name,args={})=>{
   if(name==='get_admin_product_page')return Promise.resolve({data:{products:rows,total_count:rows.length,metrics:{low_stock:0,out_of_stock:0}},error:null});
   // The store's product refresh reads through search_admin_products.
   if(name==='search_admin_products')return Promise.resolve({data:args.p_product_id?rows.filter(r=>r.id===args.p_product_id):rows,error:null});
+  if(name==='get_product_cost_state_v1'){
+    const row=rows.find(r=>r.id===args.p_product_id)!;
+    // ?costHistory=1: the product has stock history (receipts) and an exact average.
+    return Promise.resolve({data:{productId:row.id,updatedAt:row.updated_at,isFlavorMaster:Boolean(row.is_flavor_master),
+      hasCostHistory:params.has('costHistory'),costPriceInMinorUnits:row.cost_price_in_minor_units,
+      wacCostExactInMinorUnits:params.has('costHistory')?String(row.wac_exact??'2500.500000'):null,
+      defaultPurchasePriceInMinorUnits:row.default_purchase_price_in_minor_units},error:null});
+  }
+  if(name==='correct_product_cost_v1'){
+    if(params.get('role')!=='owner'&&params.has('role'))return Promise.resolve({data:null,error:{message:'ليس لديك صلاحية تصحيح تكلفة المنتج.'}});
+    const row=rows.find(r=>r.id===args.p_product_id)!;
+    const exact=Number(args.p_unit_cost_in_minor_units);
+    Object.assign(row,{wac_exact:exact.toFixed(6),cost_price_in_minor_units:Math.round(exact),updated_at:nextVersion()});save(rows);
+    return Promise.resolve({data:{success:true,idempotentReplay:false,correctionId:'c1',newCostPriceInMinorUnits:Math.round(exact),
+      newExactInMinorUnits:exact.toFixed(6)},error:null});
+  }
   if(name==='update_product_master_v4'){
     const row=rows.find(r=>r.id===args.p_product_id)!;
     if(args.p_expected_updated_at!==row.updated_at)return Promise.resolve(conflict(row));
@@ -94,7 +110,8 @@ client.from=(table)=>{
 };
 
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
-auth.state={...auth.getState(),roleName:'owner',roles:['owner'],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
+const role=params.get('role')??'owner';
+auth.state={...auth.getState(),roleName:role,roles:[role],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
 const store=storeEngine as unknown as {state:AppState;getState:()=>AppState};
 store.state={...store.getState(),products:load().map(mapAdminProductRecord),categories:[{id:categoryId,nameAr:'مشروبات وتسالي'}],brands:[],
   warehouses:[{id:'inventory-warehouse',name:'المستودع الرئيسي',branchId:'fixture-branch',location:'الرمثا'}],
@@ -108,7 +125,7 @@ function Harness(){
   const [open,setOpen]=React.useState(true);
   const view=params.get('view')??'form';
   // The editor keeps the product exactly as it was when the tab opened it.
-  const [opened]=React.useState(()=>products.find(p=>p.id===(view==='detail'?familyId:inventoryProducts[0].id))!);
+  const [opened]=React.useState(()=>products.find(p=>p.id===(view==='detail'&&!params.has('plain')?familyId:inventoryProducts[0].id))!);
   return <main dir="rtl" data-testid="product-edit-workbench" className="min-h-[100dvh] bg-nw-bg font-sans text-nw-text">
     {!open&&<p role="status" data-testid="product-edit-closed" className="p-4">أُغلق النموذج بعد الحفظ.</p>}
     {toast&&<p data-testid="product-edit-toast" className="p-4 text-sm">{toast.message}</p>}

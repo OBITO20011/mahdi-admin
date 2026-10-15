@@ -360,8 +360,12 @@
       "sha256": "09661c0cefa1888acab711e310c7c5c7e435984e159a6a8b3cb6866b2fd6c5b3"
     },
     {
+      "file": "src/features/products/ProductCostCorrectionPanel.tsx",
+      "sha256": "526c286cff7473219b7a30e262db761941e3a2fc40126a9d3dced8fec5aa8934"
+    },
+    {
       "file": "src/features/products/ProductDetailModal.tsx",
-      "sha256": "69e801aef9a910cb2250cd3f15c34721519e956fa9fd3cee053eb42ea7cc9711"
+      "sha256": "5e46fecfab444c40905284671db18a65ad82ee661a3beb59f1345bc503b156da"
     },
     {
       "file": "src/features/products/ProductEditConflictPanel.tsx",
@@ -369,7 +373,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "e8a9bb366072a5a4102ddc12911eab63bcc7f590878bcfb61e764168bed739da"
+      "sha256": "126cf5b9bbdc66cda35da05d81cacad2bbff1de911f21b14d9d065db6b8eb9f8"
     },
     {
       "file": "src/features/products/ProductsView.tsx",
@@ -570,6 +574,10 @@
     {
       "file": "src/services/supabase/product-images.service.ts",
       "sha256": "c7e8576deb642c40a7b0a1b660288d0e4b29f40633f5fb9aae3d8aa1c61f648a"
+    },
+    {
+      "file": "src/services/supabase/productCost.service.ts",
+      "sha256": "02cdd9752c28d3d6355845fd6a00a1a073a12c9159176cc8d0b70a1bee76aa29"
     },
     {
       "file": "src/services/supabase/products.service.ts",

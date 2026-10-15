@@ -31,6 +31,8 @@ import {
   updateProductFlavorInSupabase,
 } from '../../services/supabase/products.service';
 import { useAppStore } from '../../stores/useAppStore';
+import { useAuthStore } from '../../stores/useAuthStore';
+import { ProductCostCorrectionPanel } from './ProductCostCorrectionPanel';
 import type { ProductEditComparisonRow, ProductEditSnapshot } from '../../utils/productEditConflict';
 import { ProductEditConflictPanel } from './ProductEditConflictPanel';
 import { Product } from '../../types';
@@ -62,6 +64,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     refreshProductsFromSupabase,
     setToast,
   } = useAppStore();
+  const { roleName } = useAuthStore();
+  const [showCostCorrection, setShowCostCorrection] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
   const [showVisibilityConfirm, setShowVisibilityConfirm] = useState(false);
   const [isUpdatingVisibility, setIsUpdatingVisibility] = useState(false);
@@ -990,6 +994,27 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           {product.status === 'hidden' ? 'إظهار المنتج' : 'إخفاء المنتج'}
         </UiButton>
       </div>
+
+      {/* Owner only; the database refuses every other role as well. */}
+      {roleName === 'owner' && (isFlavorFamily ? flavors.length > 0 : true) && (
+        showCostCorrection ? (
+          <ProductCostCorrectionPanel
+            targets={isFlavorFamily
+              ? flavors.map((flavor) => ({ id: flavor.id, name: flavor.flavorNameAr || flavor.nameAr }))
+              : [{ id: product.id, name: product.nameAr }]}
+            onClose={() => setShowCostCorrection(false)}
+            onCorrected={() => {
+              setShowCostCorrection(false);
+              setToast('تم تصحيح التكلفة وتسجيل السبب.', 'success');
+              void refreshProductsFromSupabase();
+            }}
+          />
+        ) : (
+          <UiButton type="button" onClick={() => setShowCostCorrection(true)} className="justify-self-start">
+            تصحيح التكلفة
+          </UiButton>
+        )
+      )}
 
       {showVisibilityConfirm && (
         <div className="rounded-2xl border border-nw-border bg-nw-warn-bg p-3.5">

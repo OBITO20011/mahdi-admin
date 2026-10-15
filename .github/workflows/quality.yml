@@ -257,6 +257,10 @@ jobs:
         if: matrix.suite == 'package-f-reads'
         run: npm run test:product-edit:runtime
 
+      - name: Prove171 product edits keep stock cost,sale COGS at the true average and owner-only correction
+        if: matrix.suite == 'package-f-reads'
+        run: npm run test:product-cost:runtime
+
       - name: Prove136 read-only FIFO aging,canonical balance and role boundaries
         if: matrix.suite == 'package-f-aging'
         run: npm run test:package-f:aging
