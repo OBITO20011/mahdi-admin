@@ -133,7 +133,8 @@ export const restore034Sql = `BEGIN;
 /** @param {string} root */
 export async function buildEmptyProjectInput(root) {
  const folder=path.join(root,'supabase/migrations');
- const names=(await readdir(folder)).filter(n=>/^\d{3}_.*\.sql$/u.test(n)).sort();
+ // This is the frozen001-138 rehearsal,not an implicit latest-schema builder.
+ const names=(await readdir(folder)).filter(n=>/^\d{3}_.*\.sql$/u.test(n)&&Number(n.slice(0,3))<=138).sort();
  assert.equal(names.length,138,'Expected approved fixed001-138 history');
  assert.ok(names.every((n,i)=>Number(n.slice(0,3))===i+1),'Non-contiguous migration history');
  const chunks=[Buffer.from(`\\set ON_ERROR_STOP on\nSET search_path=public,pg_temp;

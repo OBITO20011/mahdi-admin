@@ -2,25 +2,23 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Phase A direct-table ACL investigation on isolated001-138;NO align apply",
-  "baselineSha": "21c8bd4cd97144401d09fed3ca5445190f59d70e",
+  "objective": "Approved150 table reads/revokes,FK fixes,real access CI,new offline reference;NO managed/apply",
+  "baselineSha": "6f5e5a66a8589b2a369131a6712d2c3fd0b9e287",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "21c8bd4 audit50 deliveredFULL24+secrets;HOLD apply;142SDK:15PASS/112denied/15ambiguous"
+    "21c8bd4+6f5e5a6 audit deliveredFULL24+secrets;HOLDapply;142SDK15PASS/112denied/15ambiguous"
   ],
-  "inProgress": [
-    "Expanded audit gates then diagnostic-only commit/exactCI;STOP"
-  ],
+  "inProgress": [],
   "notStarted": [
-    "150 proposal ONLY;139 delivery separate;140-149 reserved"
+    "139 independent delivery approved before150;140-149 reserved;150 local138/139 proofs PASS"
   ],
   "testsPassed": [
-    "r66uGh142SDK+186SQL;i4Ny7M372RPC0denied;8related;types/lint;1064Admin+191Customer;21c8bd4CIgreen"
+    "1396/6 realprobes+fullcatalog rollback+410functions;verify-only positive/write/negative PASS;12focused;1065Admin+191Customer;type/lint;frozen11:37-11:42UTC;150proof138/139 PASS parked"
   ],
   "testsRemaining": [
-    "Gitleaks,expanded-diagnostic-only commit,push,exactCI"
+    "150 runtime/related units/types/lint/Gitleaks/exactCI;FK separate;accessCI;new reference/offline plan"
   ],
   "findings": [
     "26read grants150proposal;4PGRST201;localpublicationempty;remote bucketrow/membership unknown"
@@ -30,11 +28,18 @@
   "prohibitions": [
     "No managed/oldtarget/secrets/deploy/history changes;local tests only",
     "No retries/timeouts/skips/weakened assertions;freeze files during gates",
-    "Do not stage139 or use140-149;NO frankfurt-align-acl --apply;NO migration150"
+    "139 separate commit BEFORE150;do not use140-149;NO frankfurt-align-acl --apply"
   ],
-  "nextExactAction": "Commit expanded diagnostic/HOLD docs only,exclude139;Gitleaks0,push/full exactCI then STOP for owner/Claude150,PGRST201,Realtime/manual setup approval. NO apply/managed access.",
-  "checkpointedAt": "2026-10-15T10:58:46.389Z",
+  "nextExactAction": "139 local gates+Gitleaks0 PASS;commit139/push and exactFULL CI;150 files parked Temp/nawasrah-pending150-20261015-1129,proof lAAQ8S PASS. No managed/apply.",
+  "checkpointedAt": "2026-10-15T11:43:10.287Z",
   "filesTouched": [
+    "docs/agent/POST_DELIVERY.md",
+    "docs/operations/ORDER_PUSH_URL_139.md",
+    "scripts/operations/frankfurt-migration139.mjs",
+    "scripts/testing/order-push-url-runtime.sql",
+    "scripts/testing/run-order-push-url-runtime.mjs",
+    "supabase/migrations/139_project_order_push_webhook_url.sql",
+    "tests/order-push-url139.test.ts",
     ".github/workflows/quality.yml",
     "docs/agent/OWNER_DECISIONS.md",
     "docs/agent/PHASE_STATUS.md",
@@ -42,30 +47,14 @@
     "docs/generated/DB_FUNCTIONS.md",
     "docs/operations/FRANKFURT_OWNER_BUILD_AR.md",
     "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md",
-    "docs/operations/TABLE_ACCESS_INVENTORY.md",
     "package.json",
     "scripts/agent/lib.mjs",
     "scripts/agent/preflight.mjs",
-    "scripts/audit/table-access-inventory.mjs",
-    "scripts/audit/table-access-report.mjs",
     "scripts/operations/build-empty-supabase.mjs",
     "scripts/operations/frankfurt-owner-build.mjs",
     "tests/frankfurt-preparation.test.ts",
     "tests/frankfurt-verify-only.test.ts",
-    "tests/migration-integrity.test.ts",
-    "docs/operations/ORDER_PUSH_URL_139.md",
-    "docs/operations/SERVICE_ACCESS_AUDIT.md",
-    "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json",
-    "docs/operations/SERVICE_ACCESS_INVENTORY.json",
-    "scripts/audit/run-service-access-diagnostic.mjs",
-    "scripts/audit/service-access-inventory.mjs",
-    "scripts/audit/service-access-report.mjs",
-    "scripts/operations/frankfurt-migration139.mjs",
-    "scripts/testing/order-push-url-runtime.sql",
-    "scripts/testing/run-order-push-url-runtime.mjs",
-    "supabase/migrations/139_project_order_push_webhook_url.sql",
-    "tests/order-push-url139.test.ts",
-    "tests/service-access-inventory.test.ts"
+    "tests/migration-integrity.test.ts"
   ],
-  "workingTreeFingerprint": "E8963DDE9F651FFB8BF9C455B7D92BF59BFCD32DFF230FE4910BF08862057E90"
+  "workingTreeFingerprint": "11D964057C62FACDA6B3CDA75B4766A1BD29B596093586CF9481853C3B50637A"
 }

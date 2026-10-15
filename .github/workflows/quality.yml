@@ -273,6 +273,9 @@ jobs:
         if: matrix.suite == 'package-f-aging'
         run: node scripts/testing/run-frankfurt-acl-alignment-runtime.mjs
 
+      - name: Prove139 configured URL,no-send fallback and unchanged notification hold
+        if: matrix.suite == 'package-f-aging'
+        run: npm run test:order-push:runtime
 
       - name: Reconcile a complete business day through real public RPCs
         if: matrix.suite == 'golden-day'

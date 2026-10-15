@@ -42,7 +42,8 @@ test('dry preparation returns before prompt,link or remote SQL;official repair f
  const source=await readFile('scripts/operations/frankfurt-owner-build.mjs','utf8');
  assert.ok(source.indexOf("if(mode==='dry-run')")<source.indexOf('const password='));
  assert.ok(source.indexOf('const password=')<source.indexOf("stage='external-link'"));
- assert.ok(source.indexOf("assert.equal(result.code,0,'MIGRATION_SQL_FAILURE:")<source.indexOf("['migration','repair','--linked'"));
+ const legacyApply=source.slice(source.indexOf('for(const unit of build.units)'));
+ assert.ok(legacyApply.indexOf("assert.equal(result.code,0,'MIGRATION_SQL_FAILURE:")<legacyApply.indexOf("['migration','repair','--linked'"));
  assert.match(source,/New-Object Security.SecureString/u);assert.match(source,/ReadKey\(\$true\)/u);assert.match(source,/ZeroFreeBSTR/u);
  assert.match(source,/delete childEnv.PGPASSWORD/u);assert.match(source,/delete childEnv.SUPABASE_DB_PASSWORD/u);
  assert.match(source,/process\.stdin\.isTTY/u);assert.doesNotMatch(source,/recoverySql|PGSERVICE|--password|--db-url|functions.*deploy/u);

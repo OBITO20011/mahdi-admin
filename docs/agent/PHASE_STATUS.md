@@ -1,5 +1,18 @@
 # Phase status
 
+2026-10-15 owner explicitly approved139 separate delivery BEFORE150.
+Local139 six real probes PASS6MFJOQ;410functions/singlebodydelta/ACL unchanged,
+noHTTP or config;fixture-only extension-owner rollback setup corrected.
+Frozen138 verify-only regression PASS469Off including write/negative guards.
+150 independent138/139 catalog/idempotency/default probes PASS lAAQ8S;
+its4new files parked outside repo until139 commit. No managed/apply/140-149.
+Related gates/Gitleaks/exactCI before each independent commit's delivery.
+
+2026-10-15 audit delivered6f5e5a6:quality38724146026 FULL24/24+secrets38724146034
+PASS,Gitleaks0;earlier21c8bd4 alsoexactgreen. Report TABLE_ACCESS_INVENTORY.md.
+STOPforowner/Claude150/PGRST201/Realtime/manualreadiness. --apply HOLD;139draft
+notcommitted;no managedaccess or product/migrationchanges in auditcommits.
+
 2026-10-15 audit extension:i4Ny7M138 RPC372dispatch/0SQLSTATE42501;98rollback
 success/274bodyvalidationerrors (NOTfunctionalPASS). Localpublicationempty;
 remoteStoragebucketrow/publicationmembershipunknownin savedcatalog. Manual
@@ -21,6 +34,12 @@ andsecrets38698253323 PASS,Gitleaks0. Offline279/48 forecastunexpected0;
 actualisolatedtransaction/stale/rollback+verify-only regression PASS. No agent
 Frankfurt access/application. Ownerinteractivecommand in
 docs/operations/FRANKFURT_ACL_ALIGNMENT_AR.md;139 remainsseparateunfinished.
+
+2026-10-15 owner approved139 AFTER verify-only1370f59 exactCI delivery.
+Explicit enqueue_order_push_webhook reads Vault order_push_webhook_url,no
+default/configuration/activation;001–138 immutable. Frozen138 builder and
+verify-only remain usable;later owner-only --apply-139 requires successful138
+verification and preserves trigger/cron hold. Isolated verification in progress.
 
 2026-10-15 verify-only precommit gates PASS frozenfiles05:38:35.790–05:43:17.984
 UTC:Admin type/lint(3oldwarnings),all1046Admin+191Customerunits exit0. Typed

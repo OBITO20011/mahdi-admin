@@ -79,14 +79,23 @@ export async function holdBuildGuard(executor,input){
 }
 // Exact read-only query used by the existing isolated DB_FUNCTIONS generator.
 // Verify its source shape before extracting it; never execute a migration-derived body.
-export async function functionReference(executor){
+export async function functionReference(executor,ceiling=139){
  const source=await readFile(path.join(root,'scripts/testing/generate-db-functions.mjs'),'utf8');
  const query=source.match(/const query = `(BEGIN READ ONLY;[\s\S]+?ROLLBACK;)`;/u)?.[1];
  assert.ok(query&&query.includes("n.nspname='public'")&&!query.includes('${'),'FUNCTION_REFERENCE_QUERY_CHANGED');
  const read=await executeInput(executor,query);assert.equal(read.code,0,'FUNCTION_REFERENCE_READ_FAILED');
  const functions=JSON.parse(read.stdout.trim()).map(row=>({...row,definition:canonicalLf(row.definition)}));
- const rendered=renderFunctionReference(await migrationManifest(root),functions);
- assert.equal(rendered,canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8')),'DB_FUNCTIONS_STALE');
+ if(ceiling===138){
+  // Frozen pre139 reference: keep the owner's existing138 diagnostics usable.
+  // This is the approved complete410-function hash,not a learned runtime hash.
+  assert.equal(functions.length,410,'FROZEN138_FUNCTION_COUNT');
+  const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);
+  assert.equal(digest(JSON.stringify(ordered)),'edc400709df70e238245eb5233042e236fb763e95290a1fc3643d61f7e59ac4b','FROZEN138_FUNCTIONS_CHANGED');
+ }else{
+  assert.equal(ceiling,139,'UNAPPROVED_FUNCTION_REFERENCE');
+  const rendered=renderFunctionReference(await migrationManifest(root),functions);
+  assert.equal(rendered,canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8')),'DB_FUNCTIONS_STALE');
+ }
  return functions.length;
 }
 async function prepare(workdir){
@@ -95,7 +104,8 @@ async function prepare(workdir){
  const old=await readFile(path.join(root,'supabase/.temp/project-ref'));
  assert.equal(old.toString().trim(),OLD_REF,'OLD_BACKUP_LINK_CHANGED');
  const listing=await exec('git',['ls-files','-z','--','supabase'],{cwd:root,encoding:'utf8'});
- for(const file of listing.stdout.split('\0').filter(file=>file&&!file.startsWith('supabase/.temp/'))){
+ for(const file of listing.stdout.split('\0').filter(file=>file&&!file.startsWith('supabase/.temp/')&&
+  !(file.startsWith('supabase/migrations/')&&Number(path.basename(file).slice(0,3))>138))){
   assert.ok(!/(?:^|\/)\.temp\/|(?:^|\/)\.env|secret/iu.test(file),'UNSAFE_COPY_PATH');
   const target=path.join(workdir,file);await mkdir(path.dirname(target),{recursive:true});
   assertOutsideRepository(await realpath(path.dirname(target)),await realpath(root));
@@ -126,7 +136,7 @@ async function localReference(workdir){
   const version=await executeInput(executor,"SELECT current_setting('server_version');");
   assert.equal(version.code,0,'LOCAL_VERSION_FAILED');
   assert.equal(Number(version.stdout.trim().split('.')[0]),17,'LOCAL_POSTGRES_MAJOR_CHANGED');
-  const functions=await functionReference(executor);
+  const functions=await functionReference(executor,138);
   const cron=await executeInput(executor,cronInventorySql);assert.equal(cron.code,0,'CRON_INVENTORY_FAILED');
   const buildDate=await executeInput(executor,"SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'UTC')::date;");
   assert.equal(buildDate.code,0,'LOCAL_BUILD_DATE_FAILED');
@@ -143,11 +153,11 @@ async function localReference(workdir){
  * @param {{readProjects?:()=>Promise<object[]>,confirmTarget?:()=>Promise<void>,readPassword?:()=>Promise<string>,executor?:(connection:string[],env:NodeJS.ProcessEnv)=>{command:string,args:string[],env?:NodeJS.ProcessEnv}} [io]
  */
 export async function run(args,io={}){
- const modes=['--apply','--dry-run','--verify-only'].filter(m=>args.includes(m));
+ const modes=['--apply','--dry-run','--verify-only','--apply-139'].filter(m=>args.includes(m));
  assert.ok(modes.length<=1,'ONE_MODE_REQUIRED');
- const mode=args.includes('--verify-only')?'verify-only':args.includes('--apply')?'apply':'dry-run';
+ const mode=args.includes('--verify-only')?'verify-only':args.includes('--apply-139')?'apply-139':args.includes('--apply')?'apply':'dry-run';
  assert.ok(Object.keys(io).length===0||mode==='verify-only','VERIFY_IO_ONLY');
- assert.ok(args.every((v,i)=>['--apply','--dry-run','--verify-only','--local-reference','--workdir'].includes(v)||args[i-1]==='--workdir'),'UNKNOWN_OPTION');
+ assert.ok(args.every((v,i)=>['--apply','--dry-run','--verify-only','--apply-139','--local-reference','--workdir'].includes(v)||args[i-1]==='--workdir'),'UNKNOWN_OPTION');
  assert.ok(!args.includes('--local-reference')||mode==='dry-run','LOCAL_REFERENCE_BEFORE_APPLY');
  const at=args.indexOf('--workdir'),workdir=path.resolve(at<0?DEFAULT_WORKDIR:args[at+1]);
  assert.ok(!process.env.SUPABASE_CLI_BINARY_OVERRIDE,'CLI_OVERRIDE_NOT_ALLOWED');
@@ -173,7 +183,7 @@ export async function run(args,io={}){
   assert.equal(reference.cronAudit?.requiresOwnerReview,false,'EXTERNAL_EFFECT_REVIEW_REQUIRED');
   validateOriginalNotifications(reference.notificationSnapshot);
   checkProject(projects.find(p=>p.id===TARGET.id),Number(reference.postgresVersion.split('.')[0]));
-  if(mode==='verify-only'){
+  if(mode==='verify-only'||mode==='apply-139'){
    // Existing owner-created external link only. Never call CLI link/repair/push.
    stage='verify-existing-link';
    assert.equal((await readFile(path.join(workdir,'supabase/.temp/project-ref'),'utf8')).trim(),TARGET.id,'LINK_TARGET_MISMATCH');
@@ -183,7 +193,7 @@ export async function run(args,io={}){
   else{
    assert.ok(process.stdin.isTTY,'OWNER_INTERACTIVE_TERMINAL_REQUIRED');
    const terminal=createInterface({input:process.stdin,output:process.stdout});
-   try{assert.equal(await terminal.question((mode==='verify-only'?'تحقق قراءة فقط؛ لا إعادة تطبيق.':'الوضع الجاف ناجح. التطبيق ينشئ أيضاً cron/storage التاريخية.')+' للتأكيد اكتب '+TARGET.id+': '),TARGET.id,'OWNER_CONFIRMATION_REQUIRED');}
+   try{assert.equal(await terminal.question((mode==='verify-only'?'تحقق قراءة فقط؛ لا إعادة تطبيق.':mode==='apply-139'?'تطبيق139 فقط بعد نجاح تحقق138؛ لا تفعيل إشعارات.':'الوضع الجاف ناجح. التطبيق ينشئ أيضاً cron/storage التاريخية.')+' للتأكيد اكتب '+TARGET.id+': '),TARGET.id,'OWNER_CONFIRMATION_REQUIRED');}
    finally{terminal.close();}
   }
   const password=io.readPassword?await io.readPassword():await ownerPassword();
@@ -193,7 +203,7 @@ export async function run(args,io={}){
   if(mode==='verify-only'){
    delete env.PGOPTIONS; // Do not rely on startup options crossing a pooler.
    report.readOnly=true;report.linkPerformed=false;report.passwordRequested=true;
-  }else{stage='external-link';await cliCall(['link','--project-ref',TARGET.id],workdir,env);}
+  }else if(mode!=='apply-139'){stage='external-link';await cliCall(['link','--project-ref',TARGET.id],workdir,env);}
   assert.equal((await readFile(path.join(workdir,'supabase/.temp/project-ref'),'utf8')).trim(),TARGET.id,'LINK_TARGET_MISMATCH');
   const connection=connectionFromLink(await readFile(path.join(workdir,'supabase/.temp/pooler-url'),'utf8'));
   const psql=process.env.NAWASRAH_PG_BIN?path.join(process.env.NAWASRAH_PG_BIN,'psql.exe'):
@@ -220,6 +230,34 @@ export async function run(args,io={}){
    const original=JSON.parse(await readFile(path.join(workdir,'notification-before.json'),'utf8'));
    await verifyCatalogReadOnly(executor,workdir,reference,original,{
     beforeBuildDate:reference.buildUtcDate,afterBuildDate:new Date(report.project.createdAt).toISOString().slice(0,10)},report);
+   report.ok=true;return report;
+  }
+  if(mode==='apply-139'){
+   // Owner-only later command. Never re-run001-138 or configure/enable delivery.
+   stage='139-prior-verification';
+   const prior=JSON.parse(await readFile(path.join(workdir,'last-verify-report.json'),'utf8'));
+   assert.equal(prior.ok,true,'VERIFY138_MUST_PASS_FIRST');
+   assert.equal(prior.mode,'verify-only','VERIFY138_REQUIRED');
+   const original=JSON.parse(await readFile(path.join(workdir,'notification-before.json'),'utf8'));
+   guard=await holdBuildGuard(executor,Buffer.from("DO $$ BEGIN IF NOT pg_try_advisory_lock(734034138) THEN RAISE EXCEPTION 'EMPTY_BUILD_ALREADY_RUNNING';END IF;END $$;\n"));
+   await verifyCatalogReadOnly(executor,workdir,reference,original,{
+    beforeBuildDate:reference.buildUtcDate,afterBuildDate:new Date(report.project.createdAt).toISOString().slice(0,10)},report);
+   const {apply139,read139Input}=await import('./frankfurt-migration139.mjs');
+   const unit=await read139Input(root);
+   // A new file is copied only for this explicit owner command,never verify-only.
+   const target=path.join(workdir,'supabase/migrations',unit.name);
+   try{assert.equal(digest(await readFile(target)),unit.rawSha256,'EXISTING139_BYTES_MISMATCH');}
+   catch(error){if(error.code!=='ENOENT')throw error;await copyFile(path.join(root,'supabase/migrations',unit.name),target);}
+   stage='139-apply';guard.assertHeld();
+   report.migration139={};
+   await apply139(executor,unit,async()=>{
+    report.applied.push(unit.name);
+    await cliCall(['migration','repair','--linked','--status','applied','139'],workdir,env);
+    report.recorded.push('139');
+   },report.migration139,()=>{report.remoteWrites=true;});
+   stage='139-dry-run';const dry139=await cliCall(['db','push','--linked','--dry-run','--skip-vault'],workdir,env);
+   assert.match(dry139.stdout+dry139.stderr,/up to date/iu,'PENDING_MIGRATIONS');
+   stage='139-DB_FUNCTIONS';report.functions=await functionReference(executor,139);
    report.ok=true;return report;
   }
   stage='empty-target-guard';guard=await holdBuildGuard(executor,build.initial);
@@ -255,7 +293,7 @@ export async function run(args,io={}){
   stage='cron-inventory';const cron=await sql(cronInventorySql);assert.equal(cron.code,0,'CRON_INVENTORY_FAILED');
   report.cronAudit=assessBuildCron(JSON.parse(cron.stdout.trim()));
   assert.equal(report.cronAudit.requiresOwnerReview,false,'EXTERNAL_EFFECT_REVIEW_REQUIRED');
-  stage='DB_FUNCTIONS-check';report.functions=await functionReference({...executor,env});
+  stage='DB_FUNCTIONS-check';report.functions=await functionReference({...executor,env},138);
   report.ok=true;return report;
  }catch(error){report.ok=false;report.stage=stage;report.error=error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:error.message.startsWith('CLI_STEP_FAILED:')?error.message:'PREPARATION_OR_BUILD_FAILED';return report;}
  finally{
@@ -263,7 +301,7 @@ export async function run(args,io={}){
   if(childEnv){delete childEnv.PGPASSWORD;delete childEnv.SUPABASE_DB_PASSWORD;}
   report.endedAt=new Date().toISOString();
   assert.equal(digest(await readFile(path.join(root,'supabase/.temp/project-ref'))),digest(old),'OLD_BACKUP_LINK_CHANGED');
-  await writeFile(path.join(workdir,mode==='verify-only'?'last-verify-report.json':'last-report.json'),JSON.stringify(report,null,2)+'\n');
+  await writeFile(path.join(workdir,mode==='verify-only'?'last-verify-report.json':mode==='apply-139'?'last-139-report.json':'last-report.json'),JSON.stringify(report,null,2)+'\n');
  }
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
@@ -273,7 +311,7 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1]
   const output=report.catalogComparison?{mode:report.mode,ok:report.ok,stage:report.stage,error:report.error,
    readOnly:report.readOnly,remoteWrites:report.remoteWrites,applied:report.applied.length,recorded:report.recorded.length,
    rawDifferences:report.catalogComparison.rawDifferences.length,differences:report.catalogDifferences?.length,
-   differencesFile:report.catalogDifferencesFile,reportFile:path.join(report.workdir,report.mode==='verify-only'?'last-verify-report.json':'last-report.json')}:report;
+   differencesFile:report.catalogDifferencesFile,reportFile:path.join(report.workdir,report.mode==='verify-only'?'last-verify-report.json':report.mode==='apply-139'?'last-139-report.json':'last-report.json')}:report;
   console.log(JSON.stringify(output));if(!report.ok)process.exitCode=1;
  }
  catch(error){console.error(error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'FRANKFURT_PREPARATION_FAILED');process.exitCode=1;}

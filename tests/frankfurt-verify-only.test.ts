@@ -40,15 +40,16 @@ test('literal evidence survives normalization errors too;no schema is silently d
 });
 
 test('verify-only flags are exclusive;verification returns before every mutable build stage',async()=>{
- for(const args of [['--verify-only','--apply'],['--verify-only','--dry-run'],['--verify-only','--local-reference']])
+ for(const args of [['--verify-only','--apply'],['--verify-only','--apply-139'],['--verify-only','--dry-run'],['--verify-only','--local-reference']])
   await assert.rejects(()=>run(args));
  const source=await readFile('scripts/operations/frankfurt-owner-build.mjs','utf8');
- assert.match(source,/if\(mode==='verify-only'\)\{[\s\S]*?return report;\s*\}\s*stage='empty-target-guard'/u);
- assert.match(source,/else\{stage='external-link';await cliCall/u);
+ assert.match(source,/if\(mode==='verify-only'\)\{[\s\S]*?return report;\s*\}\s*if\(mode==='apply-139'\)/u);
+ assert.ok(source.indexOf("report.ok=true;return report;")<source.indexOf("stage='empty-target-guard'"));
+ assert.match(source,/else if\(mode!=='apply-139'\)\{stage='external-link';await cliCall/u);
  assert.match(source,/mode==='verify-only'\?readOnlyPsqlSessionArgs:\[\]/u);
  assert.deepEqual(readOnlyPsqlSessionArgs,['-c','SET SESSION CHARACTERISTICS AS TRANSACTION READ ONLY;','-f','-']);
  assert.match(source,/READ_ONLY_SESSION_REQUIRED/u);
- assert.match(source,/mode==='verify-only'\?'last-verify-report.json':'last-report.json'/u);
+ assert.match(source,/mode==='verify-only'\?'last-verify-report.json':mode==='apply-139'\?'last-139-report.json':'last-report.json'/u);
  const worker=await readFile('scripts/operations/frankfurt-catalog-verification.mjs','utf8');
  assert.doesNotMatch(worker,/transitionNotifications\(|cliCall\(|holdBuildGuard\(|ALTER TABLE|cron.alter_job|migration.*repair/u);
  assert.ok(worker.indexOf('await persistCatalogComparison')<worker.indexOf('report.catalogExpectedHold=assertHeldCatalog'));

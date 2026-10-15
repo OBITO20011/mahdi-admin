@@ -80,6 +80,7 @@
     "test:monitoring:daily:runtime": "node scripts/testing/run-supabase-daily-health-runtime.mjs",
     "docs:db-functions": "node scripts/testing/generate-db-functions.mjs",
     "docs:db-functions:check": "node scripts/testing/generate-db-functions.mjs --check",
+    "test:order-push:runtime": "node scripts/testing/run-order-push-url-runtime.mjs",
     "test:automation-delivery:runtime": "node scripts/testing/run-automation-delivery-hardening-runtime.mjs",
     "test:business-alerts:runtime": "node scripts/testing/run-core-business-alerts-runtime.mjs",
     "test:advanced-monitoring:runtime": "node scripts/testing/run-advanced-monitoring-runtime.mjs",

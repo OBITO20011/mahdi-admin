@@ -1,5 +1,23 @@
 # Agent handoff history
 
+## 2026-10-15 — expanded investigation delivered6f5e5a6;exactFULL24+secrets PASS
+
+Normaldiagnosticcommits21c8bd4cd97144401d09fed3ca5445190f59d70e and
+6f5e5a66a8589b2a369131a6712d2c3fd0b9e287 pushedmain. Finalquality38724146026
+FULL24/24 andsecrets38724146034 PASS;memory-onlyGitHubcredential,no tokenlog.
+StagedGitleaks0 each. Finalcorejob completednormally(~14m);no retries/timeouts/
+skips/workflow changes. No application/functions/migration139 or150 changes
+in eithercommit. Known139draft remainsunstaged,preserved. Oldrootlink unchanged;
+no Frankfurt/Production/secret/Edge/deployaccess. AllownedlocalDBs stopped.
+
+STOPforowner/Claude:proposed15025authenticatedSELECT+1serviceordersSELECT,
+review200excess table privilegepairs,RLScolumn/costexposure;fourPGRST201
+embeds needseparate scopedapproval. EmptylocalRealtime publication+unknown
+remoteStoragebucketrow/publicationmembership/manualsettings areNOTcleared
+bygreenCI. RPC372typedneutral dispatch/0denied isEXECUTEproof only;274body
+errorsareNOTsuccessfulbusinessflows. FullArabicreport+manual14checklist:
+docs/operations/TABLE_ACCESS_INVENTORY.md. --apply remainsSTRICTLYHOLD.
+
 ## 2026-10-15 — expanded audit local gates PASS;diagnostic-only delivery
 
 Detached gates10:55:03.947–10:57:37.157UTC frozeallfiles:Admin type/lint
