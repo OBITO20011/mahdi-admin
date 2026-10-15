@@ -1,5 +1,52 @@
 # Agent handoff history
 
+## 2026-10-15 — verify-only local precommit PASS
+
+Temp/nw-frankfurt-verify-delivery-20261015-r2 log/result:05:38:35.790–05:43:17.984
+UTC exit0,frozenhash unchanged. Type/lint105.827s(3oldwarnings),all1046Admin
+units166.642s,all191Customer4.561s. Initialnewtest typecheck caught never[]
+inference afterNodeassert narrowedparsedJSON;fixed declared detail array/result
+type+presenceassertions,no any/casts/ignore or behavior/assertion weakening.
+Final As4SWH nativeper-sessionSETREADONLY verifier runtimePASS asbelow;
+no relianceonPGOPTIONS passingthroughpooler. Gitleaks/exactCI next.
+
+## 2026-10-15 — verify-only diagnostic follow-up after owner's build
+
+Owner reported05:02:27–05:17:25UTC applied138/repair138/PG17.11/holdD+fourfalse,
+okfalse/fullcatalogwithoutdetails. Read existing localreport only,no managed
+SQL. Resume failedoldc27baseline versus own1336HEAD;owner explicitlyapproved
+baseline1336 synchronization,thenresume/preflightPASS. Task remainsPACKAGE_F.
+Addedverify-only (existingexternallink,noCLIlink/repair/push/guard/DDL) and
+per-session psqlSETREADONLY+SHOWguard(no relianceonpoolerstartupoptions);
+allreadqueriesBEGINREADONLY. Fullcomparison
+artifacts savedBEFOREassertions forbothverifyandfutureapply;literal/normalized
+schema/object/type/local/remote/expected,originalbuildreport preserved.
+ONEcatalogdelta remains correct:cronJOBROWSnotcatalogDDL;fouractivebits+trigger
+separateexactstatecheck. Noallowanceformanagedplatformdifferences invented.
+FinalAs4SWH localruntime05:33:42.595–05:35:31.500UTC108.905s exit0:real--verify-only
+branch positivePASS,writeguardPASS,extra localcolumn rejected/detailssaved,
+before/aftercatalog+jobs unchanged,originalreport preserved. Operator/CLI-
+metadata/transport testI/O routes ONLY toDocker,no actualFrankfurtconnection.
+Related16unitPASS;fulltype/lint/allunits/Gitleaks/commit/exactfullCI next.
+No ownedDBleft;139 remainsproposal. Ownercommand--verify-only only,notapply.
+
+## 2026-10-15 — Frankfurt prep delivered1336f33;owner STOP
+
+Commit/push1336f33b21a130e07a3ad8bff999e970e9ae00bc;explicit16taskfiles only,
+Gitleaks git --staged --redact exit0/~80.82KB/no leaks. Exactpush/main quality
+38666088728 FULL24/24 andsecret38666088665 PASS;canonicalverify-handoff
+--delivery valid/deliveryReadytrue,HEADremote match. Shards1..5:562/427/465/
+457/432s,all<12min. No workflow/retries/timeouts/product/history/backup edits.
+Local1043Admin+191Customer/type/lint/related20 anddWqeAt138/repair/dryrun0/
+hold-restore-rehold/catalogexpected1 unexpected0/functions410 PASS asbelow.
+Fresh externalreference ready80.428s. No managedSQL/link/password/HTTPprobe;
+externalproject-ref absent,oldrefacjtabdqqnpwhdvbvnyw retained. Allownedtests/
+DBs stopped,unrelatedn8n unchanged. Finalcheckpoint onlytasklogs aftercommit.
+STOP:owner runs ownerguide's one --apply command manually whenready;expects
+hiddenpassword/refconfirmation/report138/410 andtemporarynotificationhold.
+139 endpointconfiguration proposal awaitsownermorningdecision beforecutover;
+no139implementation,Edge/secrets/cronextras/Storageextras/deploy authorized.
+
 ## 2026-10-15 — prep precommit gates complete;delivery CI next
 
 Standalone log Temp/nw-frankfurt-prep-delivery-20261015.log/result.json:

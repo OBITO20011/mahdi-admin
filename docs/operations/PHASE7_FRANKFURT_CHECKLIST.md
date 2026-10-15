@@ -1,5 +1,17 @@
 # قائمة تجهيز Phase 7 — مشروع فرانكفورت
 
+## تحديث2026-10-15: بعد تطبيق المالك، تشخيص قراءة فقط
+
+طبّق المالك138/138 وسجل138 وحجزtrigger/cron،لكنبوابةfull-catalogفشلت
+ولمتُحفظالفروقفيالإصدارالأول. **لا إعادة--apply**. الأمرالحالي
+`node scripts/operations/frankfurt-owner-build.mjs --verify-only` للمالك
+فيTerminal؛لاlinkأوتغييرDB. يستخدمالربطالخارجيالموجودوكلمةسرمخفية،
+ويتحققمنجلسةREADONLY. تفاصيلكلschema/object/type/local/remoteمحفوظةفي
+catalog-differences.jsonوفيlast-verify-report.jsonحتىعندالرفض،معcatalog-observed.json
+خارجGit. last-report.jsonالأصلييبقىكماهو. الفرقالمتوقعكتالوجياًواحد
+للتريغر؛الأربعactive=falseتُفحصكبياناتجدولةمستقلةبأسمائهاوبقيةحقولها.
+لااستثناءعاملمخططاتالخدمةأوموافقةضمنيةعلىفروقإضافية؛ننتظردليلالمالك.
+
 **تحديث المالك2026-10-15:** أنشأ `nawasrah-fra`، المرجع
 `kzevmysfydaslxcerogt` فيeu-central-1، Free/Nano؛ Data API وauto-expose
 مفعّلان وautomatic RLS مطفأ، بلا GitHub link. تحقق CLI قراءة فقط من

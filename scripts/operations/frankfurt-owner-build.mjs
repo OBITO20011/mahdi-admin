@@ -11,7 +11,8 @@ import {buildEmptyProjectInput,executeInput,seedHistoryStructureSql} from './bui
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {migrationManifest,canonicalLf,renderFunctionReference} from '../testing/maintenance-db-contract.mjs';
 import {cronInventorySql,assessBuildCron} from './build-cron-report.mjs';
-import {readNotificationSnapshot,validateOriginalNotifications,transitionNotifications,notificationTransitionSql,assertHeldCatalog} from './frankfurt-notification-hold.mjs';
+import {readNotificationSnapshot,validateOriginalNotifications,transitionNotifications,notificationTransitionSql} from './frankfurt-notification-hold.mjs';
+import {verifyCatalogReadOnly,readOnlyPsqlSessionArgs} from './frankfurt-catalog-verification.mjs';
 
 export const TARGET=Object.freeze({id:'kzevmysfydaslxcerogt',name:'nawasrah-fra',region:'eu-central-1'});
 export const OLD_REF='acjtabdqqnpwhdvbvnyw';
@@ -138,17 +139,23 @@ async function localReference(workdir){
  }catch(error){if(error.code&&error.code!=='ERR_ASSERTION')throw new Error('LOCAL_REFERENCE_FAILED',{cause:error});throw error;}
  finally{if(local)await cliCall(['stop','--no-backup'],local);}
 }
-export async function run(args){
- const mode=args.includes('--apply')?'apply':'dry-run';
- assert.ok(args.every((v,i)=>['--apply','--dry-run','--local-reference','--workdir'].includes(v)||args[i-1]==='--workdir'),'UNKNOWN_OPTION');
- assert.ok(!(args.includes('--apply')&&args.includes('--dry-run')),'ONE_MODE_REQUIRED');
+/** Test I/O seams are programming-only;there is no CLI credential/target override.
+ * @param {{readProjects?:()=>Promise<object[]>,confirmTarget?:()=>Promise<void>,readPassword?:()=>Promise<string>,executor?:(connection:string[],env:NodeJS.ProcessEnv)=>{command:string,args:string[],env?:NodeJS.ProcessEnv}} [io]
+ */
+export async function run(args,io={}){
+ const modes=['--apply','--dry-run','--verify-only'].filter(m=>args.includes(m));
+ assert.ok(modes.length<=1,'ONE_MODE_REQUIRED');
+ const mode=args.includes('--verify-only')?'verify-only':args.includes('--apply')?'apply':'dry-run';
+ assert.ok(Object.keys(io).length===0||mode==='verify-only','VERIFY_IO_ONLY');
+ assert.ok(args.every((v,i)=>['--apply','--dry-run','--verify-only','--local-reference','--workdir'].includes(v)||args[i-1]==='--workdir'),'UNKNOWN_OPTION');
+ assert.ok(!args.includes('--local-reference')||mode==='dry-run','LOCAL_REFERENCE_BEFORE_APPLY');
  const at=args.indexOf('--workdir'),workdir=path.resolve(at<0?DEFAULT_WORKDIR:args[at+1]);
  assert.ok(!process.env.SUPABASE_CLI_BINARY_OVERRIDE,'CLI_OVERRIDE_NOT_ALLOWED');
  const {old,build}=await prepare(workdir);
  const report={mode,startedAt:new Date().toISOString(),workdir,applied:[],recorded:[],remoteWrites:false};
  let stage='project-metadata',childEnv,guard;
  try{
-  const projects=JSON.parse((await cliCall(['projects','list','--output','json'],workdir)).stdout);
+  const projects=io.readProjects?await io.readProjects():JSON.parse((await cliCall(['projects','list','--output','json'],workdir)).stdout);
   report.project=checkProject(projects.find(p=>p.id===TARGET.id));
   report.history=build.manifest;
   if(args.includes('--local-reference')){assert.equal(mode,'dry-run','LOCAL_REFERENCE_BEFORE_APPLY');await localReference(workdir);}
@@ -166,20 +173,32 @@ export async function run(args){
   assert.equal(reference.cronAudit?.requiresOwnerReview,false,'EXTERNAL_EFFECT_REVIEW_REQUIRED');
   validateOriginalNotifications(reference.notificationSnapshot);
   checkProject(projects.find(p=>p.id===TARGET.id),Number(reference.postgresVersion.split('.')[0]));
-  assert.ok(process.stdin.isTTY,'OWNER_INTERACTIVE_TERMINAL_REQUIRED');
-  const terminal=createInterface({input:process.stdin,output:process.stdout});
-  try{assert.equal(await terminal.question('الوضع الجاف ناجح. التطبيق ينشئ أيضاً cron/storage التاريخية. للتأكيد اكتب '+TARGET.id+': '),TARGET.id,'OWNER_CONFIRMATION_REQUIRED');}
-  finally{terminal.close();}
-  const password=await ownerPassword();
+  if(mode==='verify-only'){
+   // Existing owner-created external link only. Never call CLI link/repair/push.
+   stage='verify-existing-link';
+   assert.equal((await readFile(path.join(workdir,'supabase/.temp/project-ref'),'utf8')).trim(),TARGET.id,'LINK_TARGET_MISMATCH');
+   connectionFromLink(await readFile(path.join(workdir,'supabase/.temp/pooler-url'),'utf8'));
+  }
+  if(io.confirmTarget)await io.confirmTarget();
+  else{
+   assert.ok(process.stdin.isTTY,'OWNER_INTERACTIVE_TERMINAL_REQUIRED');
+   const terminal=createInterface({input:process.stdin,output:process.stdout});
+   try{assert.equal(await terminal.question((mode==='verify-only'?'تحقق قراءة فقط؛ لا إعادة تطبيق.':'الوضع الجاف ناجح. التطبيق ينشئ أيضاً cron/storage التاريخية.')+' للتأكيد اكتب '+TARGET.id+': '),TARGET.id,'OWNER_CONFIRMATION_REQUIRED');}
+   finally{terminal.close();}
+  }
+  const password=io.readPassword?await io.readPassword():await ownerPassword();
   const env={...process.env,SUPABASE_PROJECT_ID:TARGET.id,SUPABASE_DB_PASSWORD:password,
    PGPASSWORD:password,PGSSLMODE:'require',PGCONNECT_TIMEOUT:'10',PGPASSFILE:path.join(workdir,'NO_PASSWORD_FILE')};
   childEnv=env;
-  stage='external-link';await cliCall(['link','--project-ref',TARGET.id],workdir,env);
+  if(mode==='verify-only'){
+   delete env.PGOPTIONS; // Do not rely on startup options crossing a pooler.
+   report.readOnly=true;report.linkPerformed=false;report.passwordRequested=true;
+  }else{stage='external-link';await cliCall(['link','--project-ref',TARGET.id],workdir,env);}
   assert.equal((await readFile(path.join(workdir,'supabase/.temp/project-ref'),'utf8')).trim(),TARGET.id,'LINK_TARGET_MISMATCH');
   const connection=connectionFromLink(await readFile(path.join(workdir,'supabase/.temp/pooler-url'),'utf8'));
   const psql=process.env.NAWASRAH_PG_BIN?path.join(process.env.NAWASRAH_PG_BIN,'psql.exe'):
    path.join(process.env.LOCALAPPDATA,'NawasrahBackup/postgresql-17.11/bin/psql.exe');
-  const executor={command:psql,args:[...connection,'-X','-q','-At','-w','-v','ON_ERROR_STOP=1'],env};
+  const executor=io.executor?io.executor(connection,env):{command:psql,args:[...connection,'-X','-q','-At','-w','-v','ON_ERROR_STOP=1',...(mode==='verify-only'?readOnlyPsqlSessionArgs:[])],env};
   // Credentials go to the child in memory,never global env/argv/files.
   // No automatic SQL recovery or changes to the historical migration buffers.
   const sql=input=>new Promise((resolve,reject)=>{
@@ -193,6 +212,16 @@ export async function run(args){
   assert.equal(version.code,0,'SERVER_VERSION_READ_FAILED');
   report.connectedPostgresVersion=version.stdout.trim();
   assert.equal(Number(report.connectedPostgresVersion.split('.')[0]),17,'POSTGRES_MAJOR_MISMATCH');
+  if(mode==='verify-only'){
+   stage='full-catalog';
+   const readOnly=await sql('SHOW transaction_read_only;');
+   assert.equal(readOnly.code,0,'READ_ONLY_CHECK_FAILED');
+   assert.equal(readOnly.stdout.trim(),'on','READ_ONLY_SESSION_REQUIRED');
+   const original=JSON.parse(await readFile(path.join(workdir,'notification-before.json'),'utf8'));
+   await verifyCatalogReadOnly(executor,workdir,reference,original,{
+    beforeBuildDate:reference.buildUtcDate,afterBuildDate:new Date(report.project.createdAt).toISOString().slice(0,10)},report);
+   report.ok=true;return report;
+  }
   stage='empty-target-guard';guard=await holdBuildGuard(executor,build.initial);
   for(const unit of build.units){
    guard.assertHeld();
@@ -220,10 +249,9 @@ export async function run(args){
   assert.equal((await sql('SELECT count(*) FROM supabase_migrations.seed_files;')).stdout.trim(),'0','SEED_NOT_ALLOWED');
   stage='dry-run';const dry=await cliCall(['db','push','--linked','--dry-run','--skip-vault'],workdir,env);
   assert.match(dry.stdout+dry.stderr,/up to date/iu,'PENDING_MIGRATIONS');
-  stage='full-catalog';const catalog=await sql(schemaCatalogSql);assert.equal(catalog.code,0,'REMOTE_CATALOG_FAILED');
-  report.catalogExpectedHold=assertHeldCatalog(reference.catalog,JSON.parse(catalog.stdout.trim()),{
-   beforeBuildDate:reference.buildUtcDate,afterBuildDate:new Date(report.project.createdAt).toISOString().slice(0,10)});
-  report.catalogDifferences=[]; // No UNEXPECTED differences;expected trigger delta above.
+  stage='full-catalog';
+  await verifyCatalogReadOnly(executor,workdir,reference,originalNotifications,{
+   beforeBuildDate:reference.buildUtcDate,afterBuildDate:new Date(report.project.createdAt).toISOString().slice(0,10)},report);
   stage='cron-inventory';const cron=await sql(cronInventorySql);assert.equal(cron.code,0,'CRON_INVENTORY_FAILED');
   report.cronAudit=assessBuildCron(JSON.parse(cron.stdout.trim()));
   assert.equal(report.cronAudit.requiresOwnerReview,false,'EXTERNAL_EFFECT_REVIEW_REQUIRED');
@@ -235,10 +263,18 @@ export async function run(args){
   if(childEnv){delete childEnv.PGPASSWORD;delete childEnv.SUPABASE_DB_PASSWORD;}
   report.endedAt=new Date().toISOString();
   assert.equal(digest(await readFile(path.join(root,'supabase/.temp/project-ref'))),digest(old),'OLD_BACKUP_LINK_CHANGED');
-  await writeFile(path.join(workdir,'last-report.json'),JSON.stringify(report,null,2)+'\n');
+  await writeFile(path.join(workdir,mode==='verify-only'?'last-verify-report.json':'last-report.json'),JSON.stringify(report,null,2)+'\n');
  }
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
- try{const report=await run(process.argv.slice(2));console.log(JSON.stringify(report));if(!report.ok)process.exitCode=1;}
+ try{
+  const report=await run(process.argv.slice(2));
+  // Full DDL evidence belongs in local files,not console logs/password captures.
+  const output=report.catalogComparison?{mode:report.mode,ok:report.ok,stage:report.stage,error:report.error,
+   readOnly:report.readOnly,remoteWrites:report.remoteWrites,applied:report.applied.length,recorded:report.recorded.length,
+   rawDifferences:report.catalogComparison.rawDifferences.length,differences:report.catalogDifferences?.length,
+   differencesFile:report.catalogDifferencesFile,reportFile:path.join(report.workdir,report.mode==='verify-only'?'last-verify-report.json':'last-report.json')}:report;
+  console.log(JSON.stringify(output));if(!report.ok)process.exitCode=1;
+ }
  catch(error){console.error(error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'FRANKFURT_PREPARATION_FAILED');process.exitCode=1;}
 }

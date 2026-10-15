@@ -64,6 +64,11 @@ export async function transitionNotifications(executor,original,restore=false){
  assert.deepEqual(actual,restore?original:expectedHeldNotifications(original),'NOTIFICATION_STATE_MISMATCH');
  return actual;
 }
+export function isExpectedHeldTriggerDifference(d){
+ return d.section==='triggers'&&d.before?.schema==='public'&&d.before?.table==='orders'
+  &&d.before?.name===heldTrigger&&d.before?.enabled==='O'&&d.after?.enabled==='D'
+  &&isDeepStrictEqual({...d.before,enabled:'D'},d.after);
+}
 // Exactly ONE allowed catalog delta: enabled O->D on the named trigger.
 // Cron schedules/commands remain byte-identical;four active bits are proved by
 // the separate exact full-row snapshot,not excluded from any catalog section.

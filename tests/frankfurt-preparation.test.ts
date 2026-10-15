@@ -40,14 +40,14 @@ test('empty-build lock session remains alive across work and closes only when ex
 });
 test('dry preparation returns before prompt,link or remote SQL;official repair follows successful SQL',async()=>{
  const source=await readFile('scripts/operations/frankfurt-owner-build.mjs','utf8');
- assert.ok(source.indexOf("if(mode==='dry-run')")<source.indexOf('const password=await ownerPassword()'));
- assert.ok(source.indexOf('const password=await ownerPassword()')<source.indexOf("stage='external-link'"));
+ assert.ok(source.indexOf("if(mode==='dry-run')")<source.indexOf('const password='));
+ assert.ok(source.indexOf('const password=')<source.indexOf("stage='external-link'"));
  assert.ok(source.indexOf("assert.equal(result.code,0,'MIGRATION_SQL_FAILURE:")<source.indexOf("['migration','repair','--linked'"));
  assert.match(source,/New-Object Security.SecureString/u);assert.match(source,/ReadKey\(\$true\)/u);assert.match(source,/ZeroFreeBSTR/u);
  assert.match(source,/delete childEnv.PGPASSWORD/u);assert.match(source,/delete childEnv.SUPABASE_DB_PASSWORD/u);
  assert.match(source,/process\.stdin\.isTTY/u);assert.doesNotMatch(source,/recoverySql|PGSERVICE|--password|--db-url|functions.*deploy/u);
  assert.match(source,/!file.startsWith\('supabase\/\.temp\/'\)/u);
- assert.match(source,/dry\.stdout\+dry\.stderr.*up to date/u);assert.match(source,/report.catalogExpectedHold=assertHeldCatalog\(reference.catalog/u);
+ assert.match(source,/dry\.stdout\+dry\.stderr.*up to date/u);assert.match(source,/await verifyCatalogReadOnly\(executor,workdir,reference,originalNotifications/u);
  assert.ok(source.indexOf("stage='post138-notification-hold'")>source.indexOf('report.recorded.push'));
  assert.ok(source.indexOf("'restore-notifications.sql'")<source.indexOf('state:await transitionNotifications'));
  assert.match(source,/DB_FUNCTIONS_STALE/u);assert.match(source,/OLD_BACKUP_LINK_CHANGED/u);

@@ -24,5 +24,5 @@ test('historical push has a real old-project HTTP target and auto-created secret
  assert.match(expiry,/CREATE TRIGGER trg_enqueue_expired_order_business_alert\s+AFTER UPDATE OF status ON public.orders/u);
  assert.match(expiry,/EXECUTE FUNCTION public.enqueue_expired_order_business_alert\(\)/u);
  const ownerScript=await readFile('scripts/operations/frankfurt-owner-build.mjs','utf8');
- assert.ok(ownerScript.indexOf('reference.cronAudit?.requiresOwnerReview')<ownerScript.indexOf('const password=await ownerPassword()'));
+ assert.ok(ownerScript.indexOf('reference.cronAudit?.requiresOwnerReview')<ownerScript.indexOf('const password='));
 });
