@@ -5,6 +5,7 @@ import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import ts from 'typescript';
 import {legacyColourUtility,legacyColourExceptions,nonPresentationColourAst} from '../scripts/testing/package-f-colour-contract.mjs';
+import {approvedProductEditConflictSource} from './strict-product-legacy-source';
 
 function filesIn(dir:string):string[]{return readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?filesIn(`${dir}/${e.name}`):[`${dir}/${e.name}`]);}
 test('all src files reject legacy fixed-family utilities; exact exception allowlist is empty',()=>{
@@ -48,7 +49,7 @@ for(const file of paths)test(`batch7 full non-presentation AST parity: ${file}`,
  const before=execFileSync('git',['show',`${baseline}:${file}`],{encoding:'utf8'});
  // React's inherited setState replaces an erased declare-only annotation.
  // For this file compare the emitted runtime AST, preserving every executable node.
- const source=readFileSync(file,'utf8');
+ const source=approvedProductEditConflictSource(file,readFileSync(file,'utf8'));
  if(approvedFocusUIHashes[file]){
   assert.equal(createHash('sha256').update(JSON.stringify(nonPresentationColourAst(file,source))).digest('hex'),approvedFocusUIHashes[file]);
   return;

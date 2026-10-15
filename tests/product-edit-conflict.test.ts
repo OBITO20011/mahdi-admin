@@ -112,3 +112,13 @@ test('migration 170 is explicit, definer-safe, closes the unversioned paths and 
     'existing pricing/stock bodies are not redefined');
   assert.doesNotMatch(migration, /\bUPDATE public\.products\b|inventory_|wac_cost/u, 'the wrapper writes nothing itself');
 });
+
+test('the approved parity mapping reverts exactly this change and rejects anything else', async () => {
+  const { approvedProductEditConflictSource } = await import('./strict-product-legacy-source');
+  const file = 'src/stores/useAppStore.ts';
+  const source = readFileSync(file, 'utf8');
+  const reverted = approvedProductEditConflictSource(file, source);
+  assert.doesNotMatch(reverted, /expectedUpdatedAt/u, 'the store goes back to the pre-170 source');
+  assert.throws(() => approvedProductEditConflictSource(file, source.replace('expectedUpdatedAt: options.expectedUpdatedAt ?? current.updatedAt',
+    'expectedUpdatedAt: current.updatedAt')), /UNAPPROVED_PRODUCT_EDIT_CHANGE/u);
+});

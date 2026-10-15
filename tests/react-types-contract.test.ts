@@ -4,6 +4,7 @@ import {existsSync, readFileSync, readdirSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {execFileSync} from 'node:child_process';
 import ts from 'typescript';
+import {approvedProductEditConflictSource} from './strict-product-legacy-source';
 
 const fixture=resolve('tests/types/required-props.tsx');
 const config=ts.readConfigFile('tsconfig.json',ts.sys.readFile);
@@ -45,6 +46,6 @@ test('type remediation preserves the complete emitted runtime AST of every chang
   }}).outputText;
   for(const file of files){
     const before=execFileSync('git',['show',`${baseline}:${file}`],{encoding:'utf8'});
-    assert.equal(emit(file,readFileSync(file,'utf8')),emit(file,before),file);
+    assert.equal(emit(file,approvedProductEditConflictSource(file,readFileSync(file,'utf8'))),emit(file,before),file);
   }
 });
