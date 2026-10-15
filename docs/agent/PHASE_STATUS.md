@@ -1,5 +1,11 @@
 # Phase status
 
+2026-10-15 mandatory150 real table-accessCI prepared inpackage-f-reads:
+exact source/actor/variant coverage;42501/PGRST2xx/othererrors failclosed.
+Local1073Admin+191Customer/type/lint PASS13:02:51–13:05:26UTC frozenfiles.
+Existing unchanged runtime2WNBGu142/142 PASS;fullCI will replay freshDB.
+No product/migration changes inCI part; --apply remainsHOLD.
+
 2026-10-15 FK local final PASS12:46:41–12:56:02UTC frozenfiles:
 1072Admin+191Customer/type/lint and60/60Orders/Purchasing bothengines.
 Real150SDK142/142+fullfileAST parity PASS;Gitleaks/commit/exactCI next.

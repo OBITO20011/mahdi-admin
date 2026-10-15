@@ -18,4 +18,3 @@
 اختير product_id للصنف الفعلي،وreceived_by لاسم الموظف المستلم. purchase_receipt_items ترتبطبالسند بمفتاحpurchase_receipt_id في موضعين (تفاصيلPO وقائمةالسندات)،لاoperation_chain الذييسقطlegacyNULLoperation_id. لاaliasغيرمستهلك أوعمودإضافي. خمس hints لأربعسلاسل،وبقيةASTلكلملفمطابقةلبصمة204f1ed قبلالتصحيح.
 
 المقارنةقبلالمنحعلى138 محفوظة فيTABLE_ACCESS_DIAGNOSTIC.json؛يبقى اختبار42501 السلبي قائماً. العقد الجديد لايُعدّيأخطاءSQLأوPostgREST،ولاينقصتغطيةالأدوار/الصفحات. --require-access يبني150 ولايصللمشروعحقيقي. المصادقةوStorageوRealtimeوالإعداداليدويمازالتبواباتstaging منفصلة.
-

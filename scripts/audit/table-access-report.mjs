@@ -119,7 +119,7 @@ export async function saveAfter150(source,evidence){
   'اختير product_id للصنف الفعلي،وreceived_by لاسم الموظف المستلم. purchase_receipt_items ترتبطبالسند بمفتاحpurchase_receipt_id في موضعين (تفاصيلPO وقائمةالسندات)،لاoperation_chain الذييسقطlegacyNULLoperation_id. لاaliasغيرمستهلك أوعمودإضافي. خمس hints لأربعسلاسل،وبقيةASTلكلملفمطابقةلبصمة204f1ed قبلالتصحيح.', '',
   'المقارنةقبلالمنحعلى138 محفوظة فيTABLE_ACCESS_DIAGNOSTIC.json؛يبقى اختبار42501 السلبي قائماً. العقد الجديد لايُعدّيأخطاءSQLأوPostgREST،ولاينقصتغطيةالأدوار/الصفحات. --require-access يبني150 ولايصللمشروعحقيقي. المصادقةوStorageوRealtimeوالإعداداليدويمازالتبواباتstaging منفصلة.', '',
  ];
- await writeFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_150.md'),lines.join('\n')+'\n');
+ await writeFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_150.md'),lines.join('\n').trimEnd()+'\n');
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
  const {inventory,writeInventory}=await import('./table-access-inventory.mjs');

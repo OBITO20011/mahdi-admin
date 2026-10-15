@@ -43,6 +43,15 @@ checks. No Production/release authorization is conferred by this gate decision.
 
 ## Database/business changes
 
+The mandatory `package-f-reads` full-CI matrix also executes
+`node scripts/audit/run-table-access-diagnostic.mjs --require-access` on a fresh
+001–139+150 database (140–149 reserved). It replays the actual source SDK chains
+as real JWT roles against local PostgREST, rejects42501/other SQL or PGRST2xx,
+and requires the exact source-site/actor/query-variant identity set. Missing,
+duplicate or substituted coverage fails; mocks and SQL function-only checks
+cannot substitute for this gate. Partial-column grants are exercised using
+the actual selected columns, not an invented `SELECT *`.
+
 - Static contract tests and affected runtime suites
 - Fresh isolated rebuild through the approved migration ceiling
 - DB lint and real independent-session concurrency probes when locks change

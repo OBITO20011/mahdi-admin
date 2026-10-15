@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Approved150 table reads/revokes,FK fixes,real access CI,new offline reference;NO managed/apply",
-  "baselineSha": "204f1ed3975f6f4ec3dc6b3ed3236b7576d5760d",
+  "baselineSha": "746d6bc709604dbe2cfb17fa238092bf86b92b12",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -32,31 +32,15 @@
     "No retries/timeouts/skips/weakened assertions;freeze files during gates",
     "139 separate commit BEFORE150;do not use140-149;NO frankfurt-align-acl --apply"
   ],
-  "nextExactAction": "Commit approved five FK hints and fresh real access evidence after local1072+191+60PASS;push/exactCI,then permanentaccessCI and150offline reference/plan;NO managed/apply",
-  "checkpointedAt": "2026-10-15T12:56:53.946Z",
+  "nextExactAction": "AccessCI ready1073+191/type/lint PASS,142realqueries unchanged;wait FK746d6bc fullCI thencommitCIgate;next150reference/offlineplan;NO managed/apply",
+  "checkpointedAt": "2026-10-15T13:08:37.632Z",
   "filesTouched": [
+    ".github/workflows/quality.yml",
     "docs/agent/PHASE_STATUS.md",
-    "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md",
-    "docs/operations/SERVICE_ACCESS_AUDIT.md",
-    "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json",
-    "docs/operations/SERVICE_ACCESS_INVENTORY.json",
-    "docs/operations/TABLE_ACCESS_DIAGNOSTIC.json",
-    "docs/operations/TABLE_ACCESS_INVENTORY.json",
-    "docs/operations/TABLE_ACCESS_INVENTORY.md",
-    "scripts/audit/run-table-access-diagnostic.mjs",
-    "scripts/audit/service-access-report.mjs",
-    "scripts/audit/table-access-probes.mjs",
-    "scripts/audit/table-access-report.mjs",
-    "src/services/supabase/directReceiving.service.ts",
-    "src/services/supabase/orders.service.ts",
-    "src/services/supabase/purchases.service.ts",
-    "tests/receiving-unit-pricing.test.ts",
-    "tests/strict-product-parity.test.ts",
-    "tests/table-access-inventory.test.ts",
-    "docs/operations/TABLE_ACCESS_AFTER_150.json",
+    "docs/agent/VERIFICATION_GATES.md",
     "docs/operations/TABLE_ACCESS_AFTER_150.md",
-    "docs/operations/TABLE_FK_EMBED_FIX.md",
-    "tests/table-embed-fk-parity.test.ts"
+    "scripts/audit/table-access-report.mjs",
+    "tests/table-access-ci-gate.test.ts"
   ],
-  "workingTreeFingerprint": "2D345D99C87E78765D4B26FF04C5F3153CBC81E57C91BE5CAC646CDF898FAD05"
+  "workingTreeFingerprint": "403498B313F7C74C14C9F98519ED88E2626622908269522CE12748E76E5CE2A6"
 }
