@@ -1,5 +1,69 @@
 # Agent handoff history
 
+Local strictlint22:53:43-22:55:26UTC failed3preexistingwarnings;bothfiles
+were byte-identical to eafc711. Infrastructure-only correction removes unused
+initialassignments inpublic-availability.mjs(bothtry/catchstillassignsamevalues),
+and redundant slashescape insidecharacterclass inrun-private-ci.mjs(samepathset).
+No ruleweakening or productcallchange. Full fastgates rerunafterfix.
+
+## 2026-10-16 — preparation proofs complete;precommit gates next
+
+Final frozen22:40:57.974-22:50:26.110UTC15Oct PASS2/2:OGfhUr firstowner
+100.950s,QS3uhS reset467.185s;inputs SHAee75d988... unchanged.
+Reset148officialapplied+recorded,90publictables countcontract,0fullcatalogdiff,
+454functions/13Realtime,CLI dryrun0,44exactcreationACLrestorations. Actual
+ownerAuth/identities/verifiedMFA/Vault/bucket hashes unchanged;staffAuth removed,
+image200before/API404notfoundafter(row0;HTTP400storageenvelope),sameverifiedfactor
+survives. HoldD/fourinactive/cleanupactive retained;newcronIDs captured.
+Earlylocaldraft failures were failclosed:fixturemissingowner role;StorageCLI
+prompt defaultN exit0(no deletion);HTTP400 envelopewithstatusCode404;DROP SCHEMA
+lostdefaultACL90diffs. Rootfix contents-onlyDDL,preserve schema/defaultACL,
+restore admittedobjectACL44 exactly(allroles),strictcountforalltables including
+futuretables,realcaptureUTCdates notoldreferenceDay,preflightgrantor gate.
+No product/RPC/migration/Authpolicy/permissionsdesign changes. Firstowner
+createsconfirmedAuthviaAdminAPIthen exactsameguardedSQLasownerCLI,creates
+firstbranch,deniesmismatch/secondowner/idempotent audit,realTOTP/AAL2 and
+oldAAL1/anon/noRoledenials;0schema+grantdiff. Login uses localAdminmagiclink,
+not proof ofhostedpassword/CAPTCHA/SMTP. 12focusedguards PASS.
+Separate currentdrafts:reset tool+CIoperations-reset;stagingguide+contracts;
+firstowner tool+runtime+docs. Relatedfastgates/Gitleaks andonecommit/FULLCI
+each next. No managedaccess/secrets/deploy/cheques/withdrawals/summarywork.
+
+## 2026-10-16 — preparation resumed after limit;owner reports hosted171 PASS
+
+Owner reports upgrade171apply10/10+officialrecord10/10,0unexpecteddiff,
+13Realtime,holdpreserved andverify-only0diff/0writes;reports
+upgrade171-2026-10-15T21-36-54-979Z / upgrade171-2026-10-15T21-49-29-161Z.
+No agent connection. Dirtyfiles are this task's own pre-limit drafts only;
+knowncheckpoint synchronization authorized. Previous detached localreset
+21:51:38–21:53:42UTC failed before reset:clean migrations omitowner role,
+fixture INSERT SELECT silently inserted0 ownerassignment. Fix fixture + failclosed
+ownerrebind,not product/RPC logic. OldQAended/allownedDBstopped.
+
+## 2026-10-16 Amman — PR2 integration171 delivered;STOP
+
+Genuine merge eafc711513421a4a0ef27737482b93ad682d8a96 pushed main;
+parents36c980394143a2ce8033162b4326cf0d32fe670e andreviewed
+71b9469da6f5b8611d8279fed1c5f8bf98baed4e. ExactFULL quality38808136249
+24/24 andsecrets38808136305 PASS21:31UTC15Oct;stagedGitleaks0,no rerun.
+Frozenfinal7/7exit0:1119Admin191Customer/typeslint/build/DB_FUNCTIONS454,
+66bothenginebrowser;170171realDB PASS. WAC2500 survivesrename;4unitsCOGS10000;
+owner-onlycorrectionaudit/idempotency/immutability;oldbug800 reproducedROLLBACK.
+148actualmigrations,13Realtime members;fresh=incremental164->170->171 full
+catalog0diff;officialrepair/list/dryrun clean;replay0writes/RLSdrift rejected.
+142/142 realSDK currentqueries/0errors;429RPCdispatch/0SQLSTATE42501.
+product_cost_corrections RPC-only/RLS;v3/flavor_v1 revoked andnoUIcaller.
+Strictparity3files pluswhole-file reversehunks/negativecontrols PASS;
+reviewedproductand170171SQL unchanged. Test-only CRLF input normalization
+andactualpg_blocking_pids synchronization replace flakytimeproxy;no assertion
+weakening,retries,timeouts or businesschange. See PRODUCT_INTEGRATION_171.md.
+Reference171 externalready;offline246commands47objects through164 THEN
+literal170171. Ownercommand:node scripts/operations/frankfurt-owner-upgrade171.mjs --apply
+ispreparedNOTexecuted;instructions FRANKFURT_REFERENCE_171_AR.md. No hosted
+access,secrets,deployment oroldbackupchanges. Design36c9803 preservedonly;
+implementation assignedelsewhere. Known-own baseline syncauthorized;allowned
+QA/DBstopped,preexistingn8n untouched. PAUSED checkpoint thenSTOPforowner.
+
 ## 2026-10-15 — PR2 integration171 in progress;realDB/access PASS
 
 Owner authorizes genuine merge71b9469 into main36c9803;170171 SQL and all

@@ -1,5 +1,40 @@
 # Phase status
 
+2026-10-16 preparation fast gates completed22:56:14–22:57:55UTC15Oct:
+typecheck/strict ESLint,1131Admin+191Customer unit tests and both offline
+owner-tool dry-runs PASS;frozen inputs before/after. Three previously existing
+tool-only strict-lint warnings corrected without behavioral changes. Part1
+reset commit/full exactCI next;staging and firstowner remain separate commits.
+No managed access or owner command executed.
+
+2026-10-16 preparation local gates:QS3uhS reset PASS148/148,90publictables
+counted,0catalogdiff,454functions,13Realtime,ownerverifiedTOTP/Auth/Vault/bucket
+preserved,staff+imagebytes deleted. OGfhUr firstowner PASSrealAuth/TOTP/AAL2,
+newbranch onemptyreferences+wrongbranch/email/secondowner/anon/noRole/oldAAL1
+denied,zero schema/grantdiff. Both frozen22:40:57-22:50:26UTC15Oct exit0.
+Tool-only draftrootcauses fixed:missingowner fixture,CLIyes prompt,publicschema
+defaultACL loss(now contents-only/exact44grantrestoration),actualUTCcapturedates.
+12focusedguards PASS. Fastgates/Gitleaks/three separatecommits/exactFULLCI next;
+NOT delivered yet. All ownedDB stopped;n8n untouched. No hostedaccess.
+
+2026-10-16 owner-reported hosted result(NOT agent access):owner executed
+upgrade171 --apply ok=true,10/10applied+recorded,unexpectedcatalog0,
+Realtime13,notificationholdpreserved;then --verify-only ok=true/0diff/no writes.
+Reports external:upgrade171-2026-10-15T21-36-54-979Z and
+upgrade171-2026-10-15T21-49-29-161Z. Not independently queried byagent.
+Current scope only trial-reset/staging/firstowner preparation,local rehearsal;
+NO cheques/withdrawals/get_cash_shift_summary/managedaccess/deploy/secrets.
+
+2026-10-16Amman delivered PR2 genuine merge eafc711513421a4a0ef27737482b93ad682d8a96:
+parents36c9803+reviewed71b9469;main pushed;FULL24/24 quality38808136249
+andsecrets38808136305 PASS21:31UTC15Oct,Gitleaks0,no rerun. Local1119Admin/
+191Customer/66bothenginebrowser andreal170171 PASS;148files/454functions,
+new=incremental0catalogdiff,142SDK/0errors and429RPC/0denied.
+Legacyv3/flavor_v1 closed/no UIcaller;strict3fileparity+mutationcontrols PASS.
+Reference171 andownercommand ready,NOT executed. Known-own baseline sync
+authorized;allownedQA/DB stopped. PAUSED/STOP forowner;no managed/deploy or
+withdrawals/cheques implementation. Prior pending paragraphs are historical.
+
 2026-10-15 currentowner taskPR2 product-edit-conflict71b9469 genuine merge;
 170/171 accepted byClaude,ceiling171/reference/access/functions/strictparity.
 Cloud170–179,next180–189;165–169 remain unused,no backfill. Productsource

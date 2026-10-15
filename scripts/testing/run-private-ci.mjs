@@ -7,7 +7,7 @@ import {packageFShardCommands} from './ci-browser-discovery.mjs';
 const root = path.resolve(import.meta.dirname, '../..'), group = process.argv[2];
 assert.ok(['core', 'package-f'].includes(group));
 const files = JSON.parse(process.env.PRIVATE_CI_FILES ?? 'null');
-assert.ok(Array.isArray(files) && files.every(file => /^e2e\/[a-z0-9_.\/-]+\.[cm]?[jt]sx?$/iu.test(file) && !file.includes('..')));
+assert.ok(Array.isArray(files) && files.every(file => /^e2e\/[a-z0-9_./-]+\.[cm]?[jt]sx?$/iu.test(file) && !file.includes('..')));
 if (group === 'package-f') assert.ok(files.length > 0);
 const shard = process.argv.slice(3);
 assert.ok(group === 'core' ? shard.length === 0 : shard.length === 1 && isPackageFShardArgument(shard[0]));

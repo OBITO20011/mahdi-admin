@@ -9,9 +9,10 @@ export const PUBLIC_SERVICES = Object.freeze([
 export async function collectPublicAvailability({services = PUBLIC_SERVICES, fetchImpl = fetch, now = new Date()} = {}) {
   const checks = [];
   for (const service of services) {
-    let healthy = false;
+    /** @type {boolean} */
+    let healthy;
     /** @type {{httpStatus?: number|string, missingHeaders?: string}} */
-    let details = {};
+    let details;
     try {
       const response = await fetchImpl(service.url, {redirect: 'follow', signal: AbortSignal.timeout(15_000)});
       const missingHeaders = REQUIRED_SECURITY_HEADERS.filter(name => !response.headers.get(name)?.trim());

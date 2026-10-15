@@ -1,5 +1,11 @@
 # Project overview
 
+Current owner2026-10-16 scope PREPARATION only:trial-reset tool/localrehearsal,
+ArabicSTAGING_FRANKFURT_AR guide,andfirstowner/TOTPprocedure. See corresponding
+docs/operations/TRIAL_RESET_FRANKFURT_AR.md andFIRST_OWNER_FRANKFURT_AR.md.
+No hostedaccess,secrets,deploy,cheques/withdrawals/get_cash_shift_summary work.
+Ceiling171 unchanged;onecommit+exactFULLCI perpreparation part thenSTOP.
+
 Current owner integration2026-10-15 PR2:approved170/171 from71b9469,
 genuine merge/ceiling171/current access evidence/function reference/owner CLI.
 See PRODUCT_INTEGRATION_171.md. No managedaccess or designs implementation.
