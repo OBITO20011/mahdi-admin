@@ -7,8 +7,8 @@ import { readXlsxFirstSheet, writeXlsx, XLSX_MIME, XlsxError } from '../../lib/x
 import { fetchInventoryOpeningSetupFromSupabase, applyInventoryOpeningSetupInSupabase } from '../../services/supabase/inventory-opening.service';
 import {
   batchKey, dryRunBatch, fetchCustomerOpenings, fetchGoLiveStatus, fetchSupplierOpenings, finishGoLiveSetup,
-  GoLiveRpcError, listActiveSuppliers, reverseOpening, saveBatch, searchCustomers,
-  type GoLiveStatus, type OpeningEntry, type PartyOption,
+  GoLiveRpcError, listActiveSuppliers, fetchSupplierOpeningPayable, newIdempotencyKey, paySupplierOpeningBalance, reverseOpening, saveBatch, searchCustomers, setGoLiveMainBranch,
+  type GoLiveStatus, type NewParty, type OpeningEntry, type PartyOption,
 } from '../../services/supabase/goLive.service';
 import {
   ammanToday, chunk, GO_LIVE_BATCH_SIZE, GO_LIVE_COLUMNS, GO_LIVE_TEMPLATE_NOTES, mapServerErrors, mapSheet,
@@ -48,6 +48,7 @@ interface Preview {
   batches: Record<string, unknown>[][];
   summary: { label: string; value: React.ReactNode }[];
   session: string;
+  newParties: NewParty[];
 }
 
 const ErrorList: React.FC<{ errors: readonly RowError[] }> = ({ errors }) => (
@@ -55,7 +56,7 @@ const ErrorList: React.FC<{ errors: readonly RowError[] }> = ({ errors }) => (
     <p className="m-0 mb-2 text-sm font-bold text-nw-bad">{`أسطر تحتاج تصحيحاً: ${errors.length}`}</p>
     <ul className="m-0 list-none space-y-1 p-0 text-[13px] text-nw-text">
       {errors.slice(0, 200).map((error, index) => (
-        <li key={`${error.row}-${index}`}><span className="font-semibold">السطر <Num value={error.row} />:</span> {error.message}</li>
+        <li key={`${error.row}-${index}`}><span className="font-semibold">السطر <Num value={error.row} />{error.warning ? ' (تحذير)' : ''}:</span> {error.message}</li>
       ))}
     </ul>
   </div>
@@ -75,15 +76,18 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
   const [preview, setPreview] = useState<Preview | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [message, setMessage] = useState<{ tone: 'ok' | 'bad'; text: string } | null>(null);
+  const [confirmNew, setConfirmNew] = useState(false);
+  const confirmId = useId();
 
   const analyse = async (file: File) => {
-    setPreview(null); setMessage(null); setBusy('جارٍ قراءة الملف والتحقق من الأسطر…');
+    setPreview(null); setMessage(null); setConfirmNew(false); setBusy('جارٍ قراءة الملف والتحقق من الأسطر…');
     try {
       const sheet = await readXlsxFirstSheet(await file.arrayBuffer());
       const { rows, fileErrors } = mapSheet(kind, sheet);
       if (fileErrors.length) { setMessage({ tone: 'bad', text: fileErrors.join(' ') }); return; }
       const session = Math.random().toString(36).slice(2, 10);
       let errors: RowError[] = [], payload: Record<string, unknown>[] = [], summary: Preview['summary'] = [];
+      const newParties: NewParty[] = [];
       if (kind === 'stock') {
         if (!warehouseId) throw new Error('اختر المستودع أولاً.');
         const setup = await fetchInventoryOpeningSetupFromSupabase(warehouseId);
@@ -98,6 +102,7 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
         for (const batch of chunk(payload as { sourceRow: number }[], GO_LIVE_BATCH_SIZE[kind])) {
           const dry = await dryRunBatch(kind, batch.map(stripSourceRow));
           errors = [...errors, ...mapServerErrors(batch, dry.errors)];
+          newParties.push(...dry.newParties.map(party => ({ ...party, row: batch[party.row - 1]?.sourceRow ?? party.row })));
         }
         const valid = new Set(errors.map(e => e.row));
         const ok = (payload as { sourceRow: number }[]).filter(r => !valid.has(r.sourceRow)) as unknown as Record<string, string>[];
@@ -111,7 +116,7 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
       }
       errors.sort((a, b) => a.row - b.row);
       const batches = chunk(payload as { sourceRow: number }[], GO_LIVE_BATCH_SIZE[kind]).map(batch => batch.map(stripSourceRow));
-      setPreview({ fileName: file.name, rowCount: rows.length, errors, batches, summary, session });
+      setPreview({ fileName: file.name, rowCount: rows.length, errors, batches, summary, session, newParties });
     } catch (error) {
       setMessage({ tone: 'bad', text: error instanceof XlsxError || error instanceof Error ? error.message : 'تعذر قراءة الملف.' });
     } finally {
@@ -121,7 +126,7 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
   };
 
   const save = async () => {
-    if (!preview || preview.errors.length) return;
+    if (!preview || preview.errors.length || (preview.newParties.length > 0 && !confirmNew)) return;
     setMessage(null);
     try {
       let saved = 0;
@@ -135,7 +140,7 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
           });
           saved += result.itemCount;
         } else {
-          saved += (await saveBatch(kind, key, batch)).created;
+          saved += (await saveBatch(kind, key, batch, confirmNew)).created;
         }
       }
       setMessage({ tone: 'ok', text: `تم الحفظ بنجاح: ${saved} سطر في ${preview.batches.length} دفعة.` });
@@ -172,11 +177,28 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
               <div key={item.label} className="rounded-xl bg-nw-surface p-3"><dt className="text-xs text-nw-muted">{item.label}</dt><dd className="m-0 text-base font-bold">{item.value}</dd></div>
             ))}
           </dl>
+          {preview.newParties.length > 0 && (
+            <div className="rounded-xl border border-nw-warn bg-nw-warn-bg p-3" data-testid={`go-live-new-parties-${kind}`}>
+              <p className="m-0 mb-2 text-sm font-bold text-nw-warn">
+                {`سيُضاف ${preview.newParties.length} ${kind === 'customers' ? 'عميلاً جديداً' : 'مورداً جديداً'}:`}
+              </p>
+              <ul className="m-0 max-h-40 list-none space-y-1 overflow-y-auto p-0 text-[13px] text-nw-text">
+                {preview.newParties.map(party => (
+                  <li key={`${party.row}-${party.name}`}>السطر <Num value={party.row} />: {party.name}{party.phone && <> — <bdi dir="ltr">{party.phone}</bdi></>}</li>
+                ))}
+              </ul>
+              <label htmlFor={confirmId} className="mt-2 flex min-h-11 cursor-pointer items-center gap-2 text-sm font-semibold text-nw-text">
+                <input id={confirmId} type="checkbox" className="h-5 w-5" checked={confirmNew} onChange={event => setConfirmNew(event.target.checked)} />
+                أؤكد إضافتهم كجدد في النظام
+              </label>
+            </div>
+          )}
           {preview.errors.length > 0
             ? <ErrorList errors={preview.errors} />
             : <p className="m-0 flex items-center gap-2 text-sm text-nw-ok"><CheckCircle2 className="h-4 w-4" aria-hidden="true" />كل الأسطر صالحة وجاهزة للحفظ.</p>}
           <div className="flex flex-wrap gap-2">
-            <UiButton variant="primary" disabled={disabled || Boolean(busy) || preview.errors.length > 0} onClick={() => void save()}>
+            <UiButton variant="primary" disabled={disabled || Boolean(busy) || preview.errors.length > 0
+              || (preview.newParties.length > 0 && !confirmNew)} onClick={() => void save()}>
               {`حفظ ${preview.batches.reduce((n, b) => n + b.length, 0)} سطر`}
             </UiButton>
             <UiButton onClick={() => setPreview(null)} disabled={Boolean(busy)}>إلغاء المعاينة</UiButton>
@@ -286,12 +308,71 @@ const ManualOpeningForm: React.FC<ManualOpeningFormProps> = ({ kind, disabled, o
   );
 };
 
+/** Decision 2: pay a supplier opening payable; cash/CliQ leave the active branch's open shift. */
+const SupplierOpeningPayForm: React.FC<{ entry: OpeningEntry; onDone: () => void; onCancel: () => void }> = ({ entry, onDone, onCancel }) => {
+  const ids = { amount: useId(), method: useId(), reference: useId() };
+  const branchId = useAppStoreSelector(state => state.activeBranch?.id ?? null);
+  const [remaining, setRemaining] = useState<number | null>(null);
+  const [amount, setAmount] = useState('');
+  const [method, setMethod] = useState<'cash' | 'cliq' | 'bank_transfer' | 'cheque'>('cash');
+  const [reference, setReference] = useState('');
+  const [key] = useState(() => newIdempotencyKey('supplier-opening'));
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    let live = true;
+    fetchSupplierOpeningPayable(entry.partyId).then(r => { if (live) setRemaining(r.remainingInMinorUnits); })
+      .catch(e => { if (live) setError(errorText(e)); });
+    return () => { live = false; };
+  }, [entry.partyId]);
+  const pay = async () => {
+    const minor = parseJodToMinor(amount);
+    if (!minor || minor === '0') { setError('أدخل مبلغاً أكبر من صفر.'); return; }
+    setBusy(true); setError('');
+    try {
+      await paySupplierOpeningBalance({ supplierId: entry.partyId, branchId, amountInMinorUnits: Number(minor), method,
+        reference, notes: '', idempotencyKey: key });
+      onDone();
+    } catch (e) { setError(errorText(e)); } finally { setBusy(false); }
+  };
+  return (
+    <FormFields className="mt-3 grid gap-2 sm:grid-cols-2" data-testid="go-live-supplier-pay">
+      <p className="m-0 text-[13px] sm:col-span-2">المتبقي من الرصيد السابق: {remaining === null ? '…' : <Money minor={remaining} />}</p>
+      <div>
+        <label htmlFor={ids.amount} className="mb-1 block text-[13px] font-semibold">المبلغ (د.أ)</label>
+        <input id={ids.amount} className={fieldClass} inputMode="decimal" dir="ltr" value={amount} onChange={event => setAmount(event.target.value)} />
+      </div>
+      <div>
+        <label htmlFor={ids.method} className="mb-1 block text-[13px] font-semibold">طريقة الدفع</label>
+        <select id={ids.method} className={fieldClass} value={method} onChange={event => setMethod(event.target.value as typeof method)}>
+          <option value="cash">كاش — من درج الوردية المفتوحة</option>
+          <option value="cliq">CliQ — على الوردية</option>
+          <option value="bank_transfer">تحويل بنكي</option>
+          <option value="cheque">شيك</option>
+        </select>
+      </div>
+      {method !== 'cash' && (
+        <div className="sm:col-span-2">
+          <label htmlFor={ids.reference} className="mb-1 block text-[13px] font-semibold">رقم المرجع</label>
+          <input id={ids.reference} className={fieldClass} dir="ltr" maxLength={100} value={reference} onChange={event => setReference(event.target.value)} />
+        </div>
+      )}
+      <div className="flex flex-wrap gap-2 sm:col-span-2">
+        <UiButton variant="primary" disabled={busy} onClick={() => void pay()}>تأكيد السداد</UiButton>
+        <UiButton onClick={onCancel} disabled={busy}>تراجع</UiButton>
+      </div>
+      {error && <p role="alert" className="m-0 text-sm text-nw-bad sm:col-span-2">{error}</p>}
+    </FormFields>
+  );
+};
+
 const EntryList: React.FC<{ kind: 'customers' | 'suppliers'; entries: OpeningEntry[]; disabled: boolean; onChanged: () => void }> = ({ kind, entries, disabled, onChanged }) => {
   const reasonId = useId();
   const [target, setTarget] = useState<OpeningEntry | null>(null);
   const [reason, setReason] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [paying, setPaying] = useState<string | null>(null);
   if (!entries.length) return <p className="m-0 mt-3 text-[13px] text-nw-muted">لا توجد أرصدة مسجلة بعد.</p>;
   const reverse = async () => {
     if (!target) return;
@@ -313,12 +394,17 @@ const EntryList: React.FC<{ kind: 'customers' | 'suppliers'; entries: OpeningEnt
               <div className="flex flex-wrap items-center gap-2">
                 {entry.direction && <StatusBadge tone={entry.direction === 'payable' ? 'warn' : 'info'}>{entry.direction === 'payable' ? 'له' : 'عليه'}</StatusBadge>}
                 <span className={`text-sm font-bold ${entry.isReversed ? 'text-nw-muted line-through' : ''}`}><Money minor={entry.amountInMinorUnits} /></span>
+                {!entry.isReversed && entry.direction === 'payable' && (
+                  <UiButton disabled={disabled} onClick={() => setPaying(paying === entry.id ? null : entry.id)}
+                    aria-label={`سداد رصيد سابق ${entry.entryNumber}`}>سداد</UiButton>
+                )}
                 {entry.isReversed
                   ? <StatusBadge tone="mute">معكوس</StatusBadge>
                   : <UiButton variant="danger" disabled={disabled} onClick={() => { setTarget(entry); setReason(''); setError(''); }}
                       aria-label={`عكس الرصيد ${entry.entryNumber}`}>عكس</UiButton>}
               </div>
             </div>
+            {paying === entry.id && <SupplierOpeningPayForm entry={entry} onCancel={() => setPaying(null)} onDone={() => { setPaying(null); onChanged(); }} />}
             {target?.id === entry.id && (
               <FormFields className="mt-3 space-y-2">
                 <label htmlFor={reasonId} className="block text-[13px] font-semibold">سبب العكس (يظهر في سجل التدقيق)</label>
@@ -389,6 +475,40 @@ const SetupCard: React.FC<SetupCardProps> = ({ kind, icon, description, progress
   );
 };
 
+/** Opening customer debt is attributed to the main branch in reports (owner decision 4). */
+const MainBranchCard: React.FC<{ status: GoLiveStatus; onSaved: () => void }> = ({ status, onSaved }) => {
+  const selectId = useId();
+  const [choice, setChoice] = useState(status.mainBranchId ?? '');
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+  useEffect(() => { setChoice(status.mainBranchId ?? ''); }, [status.mainBranchId]);
+  if (status.branches.length <= 1 && status.mainBranchId) return null;
+  const save = async () => {
+    setBusy(true); setError('');
+    try { await setGoLiveMainBranch(choice); onSaved(); } catch (e) { setError(errorText(e)); } finally { setBusy(false); }
+  };
+  return (
+    <Card data-testid="go-live-main-branch">
+      <SectionHeader title="الفرع الرئيسي" hint="تُنسب إليه ديون العملاء الافتتاحية في الرئيسية والتقارير، ويُثبَّت عند الإنهاء." />
+      {status.finished
+        ? <p className="m-0 mt-2 text-sm">{status.mainBranchName ?? '—'}</p>
+        : (
+          <FormFields className="mt-3 flex flex-wrap items-end gap-2">
+            <div className="min-w-[200px] flex-1">
+              <label htmlFor={selectId} className="mb-1 block text-[13px] font-semibold">اختر الفرع الرئيسي</label>
+              <select id={selectId} className={fieldClass} value={choice} onChange={event => setChoice(event.target.value)}>
+                <option value="">لم يُحدد</option>
+                {status.branches.map(branch => <option key={branch.id} value={branch.id}>{branch.name}</option>)}
+              </select>
+            </div>
+            <UiButton variant="primary" disabled={busy || !choice || choice === status.mainBranchId} onClick={() => void save()}>حفظ الفرع</UiButton>
+            {error && <p role="alert" className="m-0 w-full text-sm text-nw-bad">{error}</p>}
+          </FormFields>
+        )}
+    </Card>
+  );
+};
+
 export const GoLiveSetupView: React.FC = () => {
   const { roleName } = useAuthStore();
   const isOwner = roleName === 'owner';
@@ -452,11 +572,12 @@ export const GoLiveSetupView: React.FC = () => {
         {status?.finished && (
           <Card className="border-nw-ok bg-nw-ok-bg" data-testid="go-live-finished">
             <p className="m-0 flex items-center gap-2 text-sm font-bold text-nw-ok"><Lock className="h-4 w-4" aria-hidden="true" />تم إنهاء بداية التشغيل نهائياً.</p>
-            <p className="m-0 mt-1 text-[13px] text-nw-text">قاعدة البيانات ترفض الآن أي إدخال افتتاحي. التصحيحات تتم بالعمليات العادية (الجرد، الدفعات، الاستلام).
+            <p className="m-0 mt-1 text-[13px] text-nw-text">قاعدة البيانات ترفض الآن أي إدخال افتتاحي جديد. يبقى للمالك عكس رصيد خاطئ بسبب مكتوب، وباقي التصحيحات بالعمليات العادية (الجرد، الدفعات، الاستلام).
               {status.finishedAt && <> التاريخ: <bdi dir="ltr">{status.finishedAt.slice(0, 16).replace('T', ' ')}</bdi></>}</p>
           </Card>
         )}
         {!status && !loadError && <p role="status" className="m-0 text-sm text-nw-muted">جارٍ تحميل حالة بداية التشغيل…</p>}
+        {status && <MainBranchCard status={status} onSaved={() => void refresh()} />}
         {status && (
           <div className="grid gap-4 xl:grid-cols-2">
             <SetupCard kind="products" icon={<Package className="h-5 w-5" />} locked={locked} onSaved={() => void refresh()}
@@ -482,13 +603,13 @@ export const GoLiveSetupView: React.FC = () => {
               progress={{ value: status.customers.withOpeningCount, max: Math.max(status.customers.customerCount, status.customers.withOpeningCount), label: 'عملاء لهم دين سابق' }}
               facts={<>مجموع الديون السابقة: <Money minor={status.customers.activeTotalInMinorUnits} /></>}
               manualLabel="إدخال يدوي" manual={<ManualOpeningForm kind="customers" disabled={locked} onSaved={() => void refresh()} />}
-              extra={<EntryList kind="customers" entries={customerEntries} disabled={locked} onChanged={() => void refresh()} />} />
+              extra={<EntryList kind="customers" entries={customerEntries} disabled={!status} onChanged={() => void refresh()} />} />
             <SetupCard kind="suppliers" icon={<Truck className="h-5 w-5" />} locked={locked} onSaved={() => void refresh()}
               description="رصيد كل مورد قبل النظام: «له» إن كنا مدينين له، «عليه» إن كان مديناً لنا."
               progress={{ value: status.suppliers.withOpeningCount, max: Math.max(status.suppliers.supplierCount, status.suppliers.withOpeningCount), label: 'موردون لهم رصيد سابق' }}
               facts={<>له: <Money minor={status.suppliers.payableTotalInMinorUnits} /> · عليه: <Money minor={status.suppliers.advanceTotalInMinorUnits} /></>}
               manualLabel="إدخال يدوي" manual={<ManualOpeningForm kind="suppliers" disabled={locked} onSaved={() => void refresh()} />}
-              extra={<EntryList kind="suppliers" entries={supplierEntries} disabled={locked} onChanged={() => void refresh()} />} />
+              extra={<EntryList kind="suppliers" entries={supplierEntries} disabled={!status} onChanged={() => void refresh()} />} />
           </div>
         )}
         {status && !status.finished && (

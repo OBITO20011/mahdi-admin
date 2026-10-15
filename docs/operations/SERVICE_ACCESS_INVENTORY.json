@@ -5,7 +5,7 @@
   "sourceHashes": [
     {
       "file": "src/App.tsx",
-      "sha256": "2c424b1848c80aa0bbfba9b9048bca1108bb6a0206615cb4dc727b658341ff98"
+      "sha256": "c55b73cea27938cf20c38537db12308c556e8550dd697bc7ba7ee05f3aa9bdcb"
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",
@@ -41,7 +41,7 @@
     },
     {
       "file": "src/components/layout/sideNavigationModel.ts",
-      "sha256": "171e7d4c3effd0039fd72f0c50902ff7c2a77e92fa1f22225767b8ccce266bb5"
+      "sha256": "c934fa1e992c882ae6611b9badaa0d132286a5423007ef33db974cd97fd1b020"
     },
     {
       "file": "src/components/modals/AllModals.tsx",
@@ -184,8 +184,12 @@
       "sha256": "462d9b7025bff41b6622f16f8a5b808ff21e998bafd2dc6b3b26e67f30a41068"
     },
     {
+      "file": "src/features/crm/CustomerCollectionModal.tsx",
+      "sha256": "12e8150550e5d091ad23b1bae69c7ad75773842585d7fb33b7fa50c518cfd2b6"
+    },
+    {
       "file": "src/features/crm/CustomerDetailView.tsx",
-      "sha256": "84962a4bb66b1b047b33960d56a24ce21658dd0a23a3b36a80167876693608c8"
+      "sha256": "7c6acb95fe821d8c423e6094b01eaa4886c310f2ad1eb0f7b5a9da2f5734ccb9"
     },
     {
       "file": "src/features/crm/CustomerEditModal.tsx",
@@ -256,6 +260,14 @@
       "sha256": "6510c4039c2d22b393060c26959fb729b9fa330291d7c6f67c784c98a1a5bbda"
     },
     {
+      "file": "src/features/goLive/goLiveImport.ts",
+      "sha256": "224bc3cf19613d10c7ada5bdfaeba75e92a8e2d3c1ce02ce0b8b2b47996638cf"
+    },
+    {
+      "file": "src/features/goLive/GoLiveSetupView.tsx",
+      "sha256": "a32ea3b1b9d5d1328d3d21a4bddd8a7372f1e98a83d923db37e8f1e21d9b890b"
+    },
+    {
       "file": "src/features/inventory/ClearInventoryBalanceDialog.tsx",
       "sha256": "88decb6f8157e71ce393d3de87e505208b016b9eb0c44d9cc0f36e1d9d557e46"
     },
@@ -277,7 +289,7 @@
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
-      "sha256": "dd6c601d8eb0e815aa70955a20d66f3141fbfea9c6330805a1f7559d3ec5454c"
+      "sha256": "18a16575c5e6c3480799b613ce1076dfcfd7ffd96588bbd2efbf4a899c235eda"
     },
     {
       "file": "src/features/more/InstallAppPanel.tsx",
@@ -452,6 +464,10 @@
       "sha256": "a666d78ed706ae86d111b5bef993200e34a490910b3bfec203ec678e3d8691f2"
     },
     {
+      "file": "src/lib/xlsx.ts",
+      "sha256": "056a699ee071879c2b93e419cb0af623f871897a916e22e7f9b9e7ffced83ff1"
+    },
+    {
       "file": "src/main.tsx",
       "sha256": "3de4c6f3bdf938c537cc4f941520d31448b59670cd68e10737a2ecb1b434906c"
     },
@@ -514,6 +530,10 @@
     {
       "file": "src/services/supabase/expenses-shifts.service.ts",
       "sha256": "a12e3778b5a0d997aa7fe08479353874a858e96c76fee19ca13e241ce50a1836"
+    },
+    {
+      "file": "src/services/supabase/goLive.service.ts",
+      "sha256": "115a31d24879c4da93f365741387ef6c249b1f8629a287b83514cd6406d8aaed"
     },
     {
       "file": "src/services/supabase/historicalParcelComposition.ts",
@@ -605,7 +625,7 @@
     },
     {
       "file": "src/stores/appStorePreferences.ts",
-      "sha256": "7cdfc800388b5c7827eaf47cd0463cd6fc8b28443218d3d9e72ad41c012d7e1d"
+      "sha256": "071ca2761cbe6d0887a724ebb2acd4621488cd7e3dd4e8244f680ffd9a20e063"
     },
     {
       "file": "src/stores/modalTypes.ts",
@@ -1514,6 +1534,244 @@
         "{\n    p_shift_id: shiftId,\n    p_reason: reason.trim(),\n  }"
       ],
       "source": "requireClient().rpc('cancel_empty_cash_shift', {\n    p_shift_id: shiftId,\n    p_reason: reason.trim(),\n  })"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:99",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 99,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "fetchGoLiveStatus",
+      "name": "get_go_live_setup_status_v1",
+      "dynamic": "'get_go_live_setup_status_v1'",
+      "arguments": [
+        "{}"
+      ],
+      "source": "client().rpc('get_go_live_setup_status_v1', {})"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:102",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 102,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "fetchCustomerOpenings",
+      "name": "get_go_live_customer_openings_v1",
+      "dynamic": "'get_go_live_customer_openings_v1'",
+      "arguments": [
+        "{ p_page: 1, p_page_size: 100 }"
+      ],
+      "source": "client().rpc('get_go_live_customer_openings_v1', { p_page: 1, p_page_size: 100 })"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:112",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 112,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "fetchSupplierOpenings",
+      "name": "get_go_live_supplier_openings_v1",
+      "dynamic": "'get_go_live_supplier_openings_v1'",
+      "arguments": [
+        "{ p_page: 1, p_page_size: 100 }"
+      ],
+      "source": "client().rpc('get_go_live_supplier_openings_v1', { p_page: 1, p_page_size: 100 })"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:126",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 126,
+      "role": "authenticated",
+      "receiver": "db",
+      "function": "batchRpc",
+      "name": "import_go_live_products_v1",
+      "dynamic": "'import_go_live_products_v1'",
+      "arguments": [
+        "args"
+      ],
+      "source": "db.rpc('import_go_live_products_v1', args)"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:127",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 127,
+      "role": "authenticated",
+      "receiver": "db",
+      "function": "batchRpc",
+      "name": "record_customer_opening_balances_v1",
+      "dynamic": "'record_customer_opening_balances_v1'",
+      "arguments": [
+        "args"
+      ],
+      "source": "db.rpc('record_customer_opening_balances_v1', args)"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:128",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 128,
+      "role": "authenticated",
+      "receiver": "db",
+      "function": "batchRpc",
+      "name": "record_supplier_opening_balances_v1",
+      "dynamic": "'record_supplier_opening_balances_v1'",
+      "arguments": [
+        "args"
+      ],
+      "source": "db.rpc('record_supplier_opening_balances_v1', args)"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:149",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 149,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "reverseOpening",
+      "name": "reverse_customer_opening_balance_v1",
+      "dynamic": "'reverse_customer_opening_balance_v1'",
+      "arguments": [
+        "args"
+      ],
+      "source": "client().rpc('reverse_customer_opening_balance_v1', args)"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:150",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 150,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "reverseOpening",
+      "name": "reverse_supplier_opening_balance_v1",
+      "dynamic": "'reverse_supplier_opening_balance_v1'",
+      "arguments": [
+        "args"
+      ],
+      "source": "client().rpc('reverse_supplier_opening_balance_v1', args)"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:155",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 155,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "finishGoLiveSetup",
+      "name": "finish_go_live_setup_v1",
+      "dynamic": "'finish_go_live_setup_v1'",
+      "arguments": [
+        "{ p_confirmation: confirmation }"
+      ],
+      "source": "client().rpc('finish_go_live_setup_v1', { p_confirmation: confirmation })"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:162",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 162,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "searchCustomers",
+      "name": "get_crm_customer_page",
+      "dynamic": "'get_crm_customer_page'",
+      "arguments": [
+        "{ p_page: 1, p_page_size: 20, p_search: search || null, p_status: 'all', p_sort: 'latest' }"
+      ],
+      "source": "client().rpc('get_crm_customer_page', { p_page: 1, p_page_size: 20, p_search: search || null, p_status: 'all', p_sort: 'latest' })"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:228",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 228,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "previewCustomerCollection",
+      "name": "preview_customer_collection_v1",
+      "dynamic": "'preview_customer_collection_v1'",
+      "arguments": [
+        "{ p_customer_id: customerId, p_amount_in_minor_units: amountInMinorUnits }"
+      ],
+      "source": "client().rpc('preview_customer_collection_v1', { p_customer_id: customerId, p_amount_in_minor_units: amountInMinorUnits })"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:238",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 238,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "collectCustomerBalance",
+      "name": "collect_customer_balance_v1",
+      "dynamic": "'collect_customer_balance_v1'",
+      "arguments": [
+        "{ p_customer_id: input.customerId,\n    p_amount_in_minor_units: input.amountInMinorUnits, p_payment_method: input.method, p_branch_id: input.branchId,\n    p_reference_number: input.reference.trim() || null, p_notes: input.notes.trim() || null,\n    p_idempotency_key: input.idempotencyKey }"
+      ],
+      "source": "client().rpc('collect_customer_balance_v1', { p_customer_id: input.customerId,\n    p_amount_in_minor_units: input.amountInMinorUnits, p_payment_method: input.method, p_branch_id: input.branchId,\n    p_reference_number: input.reference.trim() || null, p_notes: input.notes.trim() || null,\n    p_idempotency_key: input.idempotencyKey })"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:245",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 245,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "reverseCustomerCollection",
+      "name": "reverse_customer_collection_v1",
+      "dynamic": "'reverse_customer_collection_v1'",
+      "arguments": [
+        "{ p_operation_id: operationId, p_reason: reason }"
+      ],
+      "source": "client().rpc('reverse_customer_collection_v1', { p_operation_id: operationId, p_reason: reason })"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:249",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 249,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "fetchCustomerCollections",
+      "name": "get_customer_collections_v1",
+      "dynamic": "'get_customer_collections_v1'",
+      "arguments": [
+        "{ p_customer_id: customerId }"
+      ],
+      "source": "client().rpc('get_customer_collections_v1', { p_customer_id: customerId })"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:255",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 255,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "fetchSupplierOpeningPayable",
+      "name": "get_supplier_opening_payable_v1",
+      "dynamic": "'get_supplier_opening_payable_v1'",
+      "arguments": [
+        "{ p_supplier_id: supplierId }"
+      ],
+      "source": "client().rpc('get_supplier_opening_payable_v1', { p_supplier_id: supplierId })"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:261",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 261,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "paySupplierOpeningBalance",
+      "name": "pay_supplier_opening_balance_v1",
+      "dynamic": "'pay_supplier_opening_balance_v1'",
+      "arguments": [
+        "{ p_supplier_id: input.supplierId, p_branch_id: input.branchId,\n    p_amount_in_minor_units: input.amountInMinorUnits, p_payment_method: input.method,\n    p_reference_number: input.reference.trim() || null, p_notes: input.notes.trim() || null,\n    p_idempotency_key: input.idempotencyKey }"
+      ],
+      "source": "client().rpc('pay_supplier_opening_balance_v1', { p_supplier_id: input.supplierId, p_branch_id: input.branchId,\n    p_amount_in_minor_units: input.amountInMinorUnits, p_payment_method: input.method,\n    p_reference_number: input.reference.trim() || null, p_notes: input.notes.trim() || null,\n    p_idempotency_key: input.idempotencyKey })"
+    },
+    {
+      "id": "src/services/supabase/goLive.service.ts:268",
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 268,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "setGoLiveMainBranch",
+      "name": "set_go_live_main_branch_v1",
+      "dynamic": "'set_go_live_main_branch_v1'",
+      "arguments": [
+        "{ p_branch_id: branchId }"
+      ],
+      "source": "client().rpc('set_go_live_main_branch_v1', { p_branch_id: branchId })"
     },
     {
       "id": "src/services/supabase/inventory-opening.service.ts:128",
@@ -3139,6 +3397,7 @@
     "cancel_uncommitted_pos_sale_attempt_v1",
     "claim_automation_deliveries",
     "close_cash_shift",
+    "collect_customer_balance_v1",
     "complete_automation_delivery",
     "complete_website_order_with_payment",
     "complete_website_order_with_settlement",
@@ -3155,6 +3414,7 @@
     "delete_draft_purchase_order",
     "disable_push_subscription",
     "finalize_guest_order_gateway",
+    "finish_go_live_setup_v1",
     "get_active_order_push_targets",
     "get_admin_ai_inventory_snapshot",
     "get_admin_ai_monthly_report",
@@ -3168,12 +3428,16 @@
     "get_cash_shift_closing_report",
     "get_crm_customer_detail_page",
     "get_crm_customer_page",
+    "get_customer_collections_v1",
     "get_customer_debt_aging",
     "get_customer_outstanding_orders_page",
     "get_customer_statement",
     "get_erp_staff_account_audit_logs",
     "get_erp_staff_accounts",
     "get_expense_shift_center",
+    "get_go_live_customer_openings_v1",
+    "get_go_live_setup_status_v1",
+    "get_go_live_supplier_openings_v1",
     "get_home_dashboard",
     "get_inventory_movement_page",
     "get_inventory_opening_setup",
@@ -3195,18 +3459,24 @@
     "get_push_subscription_status",
     "get_push_webhook_secret",
     "get_stock_alert_notifications",
+    "get_supplier_opening_payable_v1",
     "get_supplier_payments_page",
     "get_supplier_receipts_page",
+    "import_go_live_products_v1",
     "mark_all_stock_alerts_read",
     "mark_stock_alert_read",
     "open_cash_shift",
+    "pay_supplier_opening_balance_v1",
     "preview_cash_shift_full_reversal",
+    "preview_customer_collection_v1",
     "preview_guest_promotion",
     "preview_guest_promotion_v2",
     "preview_supplier_receipt_cancellation",
     "receive_purchase_order_v2",
+    "record_customer_opening_balances_v1",
     "record_customer_order_payment_once",
     "record_erp_staff_password_reset",
+    "record_supplier_opening_balances_v1",
     "record_supplier_payment",
     "record_supplier_receipt_payment",
     "reorder_product_flavors_v1",
@@ -3214,7 +3484,10 @@
     "resolve_legacy_supplier_receipt_replay_v1",
     "return_completed_website_order",
     "reverse_cash_shift_with_operations",
+    "reverse_customer_collection_v1",
+    "reverse_customer_opening_balance_v1",
     "reverse_operational_expense",
+    "reverse_supplier_opening_balance_v1",
     "save_customer",
     "save_product_brand",
     "save_product_category",
@@ -3227,6 +3500,7 @@
     "set_configurable_parcel_feature_state_v1",
     "set_customer_status",
     "set_erp_staff_account_active",
+    "set_go_live_main_branch_v1",
     "set_product_brand_active",
     "set_product_category_active",
     "set_product_unit_active",

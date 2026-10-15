@@ -31,7 +31,7 @@ storeEngine.setActiveTab('go_live');
 type Row=Record<string,unknown>;
 const customers=[{id:'c1',full_name:'محمد العلي',phone:'0791111111'},{id:'c2',full_name:'سارة الخطيب',phone:'0792222222'}];
 const suppliers=[{id:'s1',company_name:'شركة التوزيع الأولى',phone:'065000000'},{id:'s2',company_name:'مؤسسة الحلويات',phone:''}];
-const state={finished:params.has('finished'),products:12,imported:0,stockable:12,counted:0,sessions:0,
+const state={finished:params.has('finished'),mainBranchId:null as string|null,products:12,imported:0,stockable:12,counted:0,sessions:0,
   customerEntries:[] as Row[],supplierEntries:[] as Row[],keys:new Set<string>(),calls:[] as {name:string;args:Row}[]};
 if(params.has('seeded')){
   state.customerEntries.push({id:'e1',entryNumber:'COB-001001',customerId:'c1',customerName:'محمد العلي',customerPhone:'0791111111',
@@ -43,6 +43,8 @@ if(params.has('seeded')){
 const active=(rows:Row[])=>rows.filter(row=>!row.isReversed);
 const sum=(rows:Row[],f=(_row:Row)=>true)=>active(rows).filter(f).reduce((n,row)=>n+Number(row.amountInMinorUnits),0);
 const status=()=>({success:true,finished:state.finished,finishedAt:state.finished?'2026-10-15T09:30:00Z':null,finishedByName:'أحمد',
+  mainBranchId:state.mainBranchId,mainBranchName:state.mainBranchId?'الفرع الرئيسي':null,
+  branches:[{id:'golive-branch',name:'الفرع الرئيسي'},{id:'golive-branch-2',name:'فرع المدينة'}],
   products:{activeCount:state.products,importedCount:state.imported},
   stock:{stockableCount:state.stockable,countedProductCount:state.counted,sessionCount:state.sessions},
   customers:{customerCount:customers.length,withOpeningCount:new Set(active(state.customerEntries).map(r=>r.customerId)).size,
@@ -51,17 +53,24 @@ const status=()=>({success:true,finished:state.finished,finishedAt:state.finishe
     payableTotalInMinorUnits:sum(state.supplierEntries,r=>r.direction==='payable'),advanceTotalInMinorUnits:sum(state.supplierEntries,r=>r.direction==='advance')}});
 const fail=(message:string,details?:unknown)=>Promise.resolve({data:null,error:{message,details:details===undefined?null:JSON.stringify(details),code:'P0001',hint:null}});
 const ok=(data:unknown)=>Promise.resolve({data,error:null});
+// Decision 7 stand-in: phone first, exact name, same name + other phone = blocking warning, else new party.
+const findCustomer=(row:Row)=>customers.find(c=>c.id===row.customer_id||(row.customer_phone&&c.phone===row.customer_phone)
+  ||(!row.customer_phone&&c.full_name===row.customer_name));
+const findSupplier=(row:Row)=>suppliers.find(s=>s.id===row.supplier_id||s.company_name===row.supplier_name);
 const validate=(name:string,rows:Row[])=>rows.map((row,index)=>{
   if(name.includes('customer')){
-    const customer=customers.find(c=>c.id===row.customer_id||c.phone===row.customer_phone);
-    return customer?null:{row:index+1,message:'لا يوجد عميل بهذا الهاتف؛ أضف العميل أولاً من شاشة العملاء.'};
+    if(findCustomer(row))return null;
+    const same=customers.find(c=>c.full_name===row.customer_name);
+    return same?{row:index+1,kind:'warning',message:`تحذير: يوجد عميل باسم مطابق أو مشابه وهاتف مختلف (${same.full_name} — ${same.phone})؛ صحّح الهاتف في الملف أو أدخل الدين يدوياً. لن يُنشأ عميل مكرر.`}
+      :row.customer_name?null:{row:index+1,message:'لا يوجد عميل بهذا الهاتف، واسم العميل مطلوب لإضافته كعميل جديد.'};
   }
-  if(name.includes('supplier')){
-    const supplier=suppliers.find(s=>s.id===row.supplier_id||s.company_name===row.supplier_name);
-    return supplier?null:{row:index+1,message:'لا يوجد مورد نشط بهذا الاسم؛ أضف المورد أولاً من شاشة الموردين.'};
-  }
+  if(name.includes('supplier'))return null;
   return String(row.sku).toUpperCase()==='EXISTING'?{row:index+1,message:'رمز SKU مستخدم لمنتج موجود.'}:null;
 }).filter(Boolean);
+const newParties=(name:string,rows:Row[])=>rows.map((row,index)=>({row:index+1,row_data:row})).filter(({row_data})=>
+  name.includes('customer')?!findCustomer(row_data)&&!customers.some(c=>c.full_name===row_data.customer_name)&&row_data.customer_name
+  :name.includes('supplier')?!findSupplier(row_data):false)
+  .map(({row,row_data})=>({row,name:String(row_data.customer_name??row_data.supplier_name),phone:String(row_data.customer_phone??row_data.supplier_phone??'')}));
 const client=supabase as unknown as {rpc:(name:string,args?:Row)=>unknown;from:(table:string)=>unknown};
 const originalFrom=client.from.bind(client);
 client.rpc=(name,args={})=>{
@@ -82,18 +91,26 @@ client.rpc=(name,args={})=>{
   if(['import_go_live_products_v1','record_customer_opening_balances_v1','record_supplier_opening_balances_v1'].includes(name)){
     if(state.finished)return finishedError();
     const rows=args.p_rows as Row[],errors=validate(name,rows);
-    if(args.p_dry_run)return ok({success:true,dryRun:true,rowCount:rows.length,validCount:rows.length-errors.length,errors});
+    const proposed=newParties(name,rows);
+    if(args.p_dry_run)return ok({success:true,dryRun:true,rowCount:rows.length,validCount:rows.length-errors.length,errors,
+      [name.includes('supplier')?'newSuppliers':'newCustomers']:proposed});
     if(errors.length)return fail('GO_LIVE_BATCH_INVALID: الملف يحتوي أسطراً غير صالحة؛ لم يُحفظ أي سطر.',errors);
+    if(proposed.length&&!(args.p_confirm_new_customers||args.p_confirm_new_suppliers))
+      return fail('GO_LIVE_NEW_PARTIES_CONFIRMATION_REQUIRED: أكّد الإضافة.');
+    for(const party of proposed){
+      if(name.includes('customer'))customers.push({id:'c-new-'+party.row,full_name:party.name,phone:party.phone});
+      else suppliers.push({id:'s-new-'+party.row,company_name:party.name,phone:party.phone});
+    }
     const key=String(args.p_idempotency_key);
     if(state.keys.has(key))return ok({success:true,idempotentReplay:true,created:[]});
     state.keys.add(key);
     if(name.startsWith('import'))state.imported+=rows.length;
     for(const row of rows){
       const n=state.customerEntries.length+state.supplierEntries.length+1001;
-      if(name.includes('customer')){const c=customers.find(x=>x.id===row.customer_id||x.phone===row.customer_phone)!;
+      if(name.includes('customer')){const c=findCustomer(row)!;
         state.customerEntries.push({id:'ce'+n,entryNumber:'COB-00'+n,customerId:c.id,customerName:c.full_name,customerPhone:c.phone,
           amountInMinorUnits:Number(row.amount_in_minor_units),originalDebtDate:row.original_debt_date,notes:row.notes??'',isReversed:false,reversalReason:null});}
-      if(name.includes('supplier')){const s=suppliers.find(x=>x.id===row.supplier_id||x.company_name===row.supplier_name)!;
+      if(name.includes('supplier')){const s=findSupplier(row)!;
         state.supplierEntries.push({id:'se'+n,entryNumber:'SOB-00'+n,supplierId:s.id,supplierName:s.company_name,direction:row.direction,
           amountInMinorUnits:Number(row.amount_in_minor_units),originalBalanceDate:row.original_balance_date,notes:row.notes??'',isReversed:false,reversalReason:null});}
     }
@@ -104,6 +121,12 @@ client.rpc=(name,args={})=>{
     const entry=[...state.customerEntries,...state.supplierEntries].find(e=>e.id===args.p_entry_id);
     if(entry){entry.isReversed=true;entry.reversalReason=args.p_reason;}
     return ok({success:true,idempotentReplay:false});
+  }
+  if(name==='set_go_live_main_branch_v1'){state.mainBranchId=String(args.p_branch_id);return ok({success:true});}
+  if(name==='get_supplier_opening_payable_v1')return ok({success:true,remainingOpeningPayableInMinorUnits:1500000,currentBalanceInMinorUnits:1500000});
+  if(name==='pay_supplier_opening_balance_v1'){
+    if(Number(args.p_amount_in_minor_units)>1500000)return fail('GO_LIVE_SUPPLIER_PAYMENT_EXCEEDS_OPENING: المبلغ أكبر من المتبقي.');
+    return ok({success:true,idempotentReplay:false,remainingOpeningPayableInMinorUnits:1500000-Number(args.p_amount_in_minor_units)});
   }
   if(name==='finish_go_live_setup_v1'){
     if(args.p_confirmation!=='إنهاء بداية التشغيل')return fail('GO_LIVE_CONFIRMATION_REQUIRED: اكتب عبارة التأكيد.');

@@ -9,7 +9,8 @@ import {
 import {futureMigrationViolations} from '../scripts/testing/maintenance-db-contract.mjs';
 
 const migrations = ['160_go_live_setup_foundation.sql', '161_go_live_customer_opening_balances.sql',
-  '162_go_live_supplier_opening_balances.sql'].map(name => [name, readFileSync(`supabase/migrations/${name}`, 'utf8')] as const);
+  '162_go_live_supplier_opening_balances.sql', '163_go_live_unified_collection_and_supplier_opening_payment.sql',
+  '164_go_live_receivables_in_reports.sql'].map(name => [name, readFileSync(`supabase/migrations/${name}`, 'utf8')] as const);
 
 test('crc32 and stored zip round-trip through the xlsx reader', async () => {
   assert.equal(crc32(new TextEncoder().encode('123456789')), 0xcbf43926);
@@ -84,7 +85,8 @@ test('row validation reports Arabic messages against original sheet rows', () =>
   assert.match(prepared.errors[1].message, /المستقبل/u);
 
   const suppliers = prepareSuppliers(mapSheet('suppliers', [templateRows('suppliers')[0],
-    ['مورد أ', 'له', '100', '2025-01-01', ''], ['مورد أ', 'عليه', '5', '2025-01-01', ''], ['مورد ب', 'x', '5', '2025-01-01', '']]).rows, '2026-10-15');
+    ['مورد أ', '', 'له', '100', '2025-01-01', ''], ['مورد أ', '', 'عليه', '5', '2025-01-01', ''],
+    ['مورد ب', '078 000 0001', 'x', '5', '2025-01-01', '']]).rows, '2026-10-15');
   assert.deepEqual(suppliers.payload.map(row => row.direction), ['payable']);
   assert.match(suppliers.errors[0].message, /مكرر/u); assert.match(suppliers.errors[1].message, /له.*عليه/u);
 

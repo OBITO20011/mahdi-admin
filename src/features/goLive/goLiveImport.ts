@@ -15,7 +15,7 @@ export interface GoLiveColumn {
   width?: number;
 }
 
-export interface RowError { row: number; message: string }
+export interface RowError { row: number; message: string; warning?: boolean }
 
 export const GO_LIVE_COLUMNS: Readonly<Record<GoLiveKind, readonly GoLiveColumn[]>> = {
   products: [
@@ -40,14 +40,15 @@ export const GO_LIVE_COLUMNS: Readonly<Record<GoLiveKind, readonly GoLiveColumn[
     { key: 'loose_units', header: 'الحبات الإضافية', required: false, example: '5' },
   ],
   customers: [
-    { key: 'customer_phone', header: 'هاتف العميل', required: true, example: '0790000000' },
-    { key: 'customer_name', header: 'اسم العميل (للمراجعة فقط)', required: false, example: 'محمد أحمد', width: 26 },
+    { key: 'customer_phone', header: 'هاتف العميل', required: false, example: '0790000000' },
+    { key: 'customer_name', header: 'اسم العميل', required: false, example: 'محمد أحمد', width: 26 },
     { key: 'amount', header: 'مبلغ الدين (د.أ)', required: true, example: '125.500' },
     { key: 'original_date', header: 'تاريخ الدين الأصلي', required: true, example: '2025-03-15' },
     { key: 'notes', header: 'ملاحظة', required: false, example: 'من الدفتر القديم', width: 30 },
   ],
   suppliers: [
     { key: 'supplier_name', header: 'اسم المورد', required: true, example: 'شركة التوزيع', width: 28 },
+    { key: 'supplier_phone', header: 'هاتف المورد', required: false, example: '0780000000' },
     { key: 'direction', header: 'الاتجاه (له/عليه)', required: true, example: 'له' },
     { key: 'amount', header: 'المبلغ (د.أ)', required: true, example: '1500.000' },
     { key: 'original_date', header: 'تاريخ الرصيد الأصلي', required: true, example: '2025-06-30' },
@@ -67,13 +68,14 @@ export const GO_LIVE_TEMPLATE_NOTES: Readonly<Record<GoLiveKind, readonly string
     'التكلفة تُؤخذ من تكلفة الصنف في النظام. الصنف الذي بدأت حركاته يُعدّل بالجرد.',
   ],
   customers: [
-    'سطر لكل دين قديم بتاريخه الأصلي. يُطابق العميل برقم هاتفه المسجل في النظام.',
+    'سطر لكل دين قديم بتاريخه الأصلي. يُطابق العميل بهاتفه أولاً ثم باسمه المطابق حرفياً.',
+    'العميل غير الموجود يُضاف بعد تأكيدك في المعاينة (الاسم والهاتف مطلوبان). الاسم المشابه بهاتف مختلف يظهر تحذيراً.',
     'المبلغ بالدينار. التاريخ بصيغة 2025-03-15 ولا يكون في المستقبل.',
     'الدين الافتتاحي لا يُحتسب مبيعات ولا أرباحاً ولا يدخل الوردية.',
   ],
   suppliers: [
     'سطر واحد لكل مورد بصافي رصيده. "له" = نحن مدينون للمورد، "عليه" = المورد مدين لنا.',
-    'اسم المورد كما هو مسجل في النظام حرفياً.',
+    'يُطابق المورد بهاتفه أولاً ثم باسمه المطابق حرفياً؛ المورد الجديد يُضاف بعد تأكيدك في المعاينة.',
     'المبلغ بالدينار، والتاريخ بصيغة 2025-06-30.',
   ],
 };
@@ -167,8 +169,8 @@ export interface ProductPayload {
   cost_per_base_unit_in_minor_units: string; min_stock_level: string;
 }
 export interface StockPayload { productId: string; packageCount: number; looseUnits: number; productName: string; baseQuantity: number }
-export interface CustomerPayload { customer_phone: string; amount_in_minor_units: string; original_debt_date: string; notes?: string }
-export interface SupplierPayload { supplier_name: string; direction: 'payable' | 'advance'; amount_in_minor_units: string; original_balance_date: string; notes?: string }
+export interface CustomerPayload { customer_phone?: string; customer_name?: string; amount_in_minor_units: string; original_debt_date: string; notes?: string }
+export interface SupplierPayload { supplier_name: string; supplier_phone?: string; direction: 'payable' | 'advance'; amount_in_minor_units: string; original_balance_date: string; notes?: string }
 
 function requireText(values: Record<string, string>, columns: readonly GoLiveColumn[]): string | null {
   const missing = columns.find(column => column.required && !values[column.key]);
@@ -247,6 +249,7 @@ export function prepareCustomers(rows: readonly SheetRow[], today = ammanToday()
     const fail = (message: string) => result.errors.push({ row, message });
     const missing = requireText(values, GO_LIVE_COLUMNS.customers);
     if (missing) { fail(missing); continue; }
+    if (!values.customer_phone && !values.customer_name) { fail('هاتف العميل أو اسمه مطلوب.'); continue; }
     const amount = parseJodToMinor(values.amount);
     const date = parseDate(values.original_date);
     if (amount === null || amount === '0') { fail('مبلغ الدين يجب أن يكون أكبر من صفر بثلاث منازل كحد أقصى.'); continue; }
@@ -254,7 +257,9 @@ export function prepareCustomers(rows: readonly SheetRow[], today = ammanToday()
     if (date > today) { fail('تاريخ الدين الأصلي لا يمكن أن يكون في المستقبل.'); continue; }
     if (date < '2000-01-01') { fail('تاريخ الدين الأصلي أقدم من المسموح (2000-01-01).'); continue; }
     if (values.notes.length > 300) { fail('الملاحظة أطول من 300 حرف.'); continue; }
-    result.payload.push({ sourceRow: row, customer_phone: normalizeDigits(values.customer_phone),
+    result.payload.push({ sourceRow: row,
+      ...(values.customer_phone ? { customer_phone: normalizeDigits(values.customer_phone) } : {}),
+      ...(values.customer_name ? { customer_name: values.customer_name } : {}),
       amount_in_minor_units: amount, original_debt_date: date, ...(values.notes ? { notes: values.notes } : {}) });
   }
   return result;
@@ -285,7 +290,8 @@ export function prepareSuppliers(rows: readonly SheetRow[], today = ammanToday()
     const name = values.supplier_name.trim();
     if (seen.has(name)) { fail(`المورد مكرر داخل الملف (السطر ${seen.get(name)}); اجعل له سطراً واحداً بصافي الرصيد.`); continue; }
     seen.set(name, row);
-    result.payload.push({ sourceRow: row, supplier_name: name, direction, amount_in_minor_units: amount,
+    result.payload.push({ sourceRow: row, supplier_name: name,
+      ...(values.supplier_phone ? { supplier_phone: normalizeDigits(values.supplier_phone) } : {}), direction, amount_in_minor_units: amount,
       original_balance_date: date, ...(values.notes ? { notes: values.notes } : {}) });
   }
   return result;
@@ -304,7 +310,7 @@ export function chunk<T>(items: readonly T[], size: number): T[][] {
 
 /** Server row numbers are 1-based within a batch; map them back to sheet rows. */
 export function mapServerErrors(batch: readonly { sourceRow: number }[], errors: readonly RowError[]): RowError[] {
-  return errors.map(error => ({ row: batch[error.row - 1]?.sourceRow ?? error.row, message: error.message }));
+  return errors.map(error => ({ ...error, row: batch[error.row - 1]?.sourceRow ?? error.row }));
 }
 
 export const stripSourceRow = <T extends { sourceRow: number }>({ sourceRow: _sourceRow, ...rest }: T) => rest;

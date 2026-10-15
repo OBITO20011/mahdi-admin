@@ -5,7 +5,7 @@
   "sources": [
     {
       "file": "src/App.tsx",
-      "sha256": "2c424b1848c80aa0bbfba9b9048bca1108bb6a0206615cb4dc727b658341ff98"
+      "sha256": "c55b73cea27938cf20c38537db12308c556e8550dd697bc7ba7ee05f3aa9bdcb"
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",
@@ -41,7 +41,7 @@
     },
     {
       "file": "src/components/layout/sideNavigationModel.ts",
-      "sha256": "171e7d4c3effd0039fd72f0c50902ff7c2a77e92fa1f22225767b8ccce266bb5"
+      "sha256": "c934fa1e992c882ae6611b9badaa0d132286a5423007ef33db974cd97fd1b020"
     },
     {
       "file": "src/components/modals/AllModals.tsx",
@@ -184,8 +184,12 @@
       "sha256": "462d9b7025bff41b6622f16f8a5b808ff21e998bafd2dc6b3b26e67f30a41068"
     },
     {
+      "file": "src/features/crm/CustomerCollectionModal.tsx",
+      "sha256": "12e8150550e5d091ad23b1bae69c7ad75773842585d7fb33b7fa50c518cfd2b6"
+    },
+    {
       "file": "src/features/crm/CustomerDetailView.tsx",
-      "sha256": "84962a4bb66b1b047b33960d56a24ce21658dd0a23a3b36a80167876693608c8"
+      "sha256": "7c6acb95fe821d8c423e6094b01eaa4886c310f2ad1eb0f7b5a9da2f5734ccb9"
     },
     {
       "file": "src/features/crm/CustomerEditModal.tsx",
@@ -256,6 +260,14 @@
       "sha256": "6510c4039c2d22b393060c26959fb729b9fa330291d7c6f67c784c98a1a5bbda"
     },
     {
+      "file": "src/features/goLive/goLiveImport.ts",
+      "sha256": "224bc3cf19613d10c7ada5bdfaeba75e92a8e2d3c1ce02ce0b8b2b47996638cf"
+    },
+    {
+      "file": "src/features/goLive/GoLiveSetupView.tsx",
+      "sha256": "a32ea3b1b9d5d1328d3d21a4bddd8a7372f1e98a83d923db37e8f1e21d9b890b"
+    },
+    {
       "file": "src/features/inventory/ClearInventoryBalanceDialog.tsx",
       "sha256": "88decb6f8157e71ce393d3de87e505208b016b9eb0c44d9cc0f36e1d9d557e46"
     },
@@ -277,7 +289,7 @@
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
-      "sha256": "dd6c601d8eb0e815aa70955a20d66f3141fbfea9c6330805a1f7559d3ec5454c"
+      "sha256": "18a16575c5e6c3480799b613ce1076dfcfd7ffd96588bbd2efbf4a899c235eda"
     },
     {
       "file": "src/features/more/InstallAppPanel.tsx",
@@ -452,6 +464,10 @@
       "sha256": "a666d78ed706ae86d111b5bef993200e34a490910b3bfec203ec678e3d8691f2"
     },
     {
+      "file": "src/lib/xlsx.ts",
+      "sha256": "056a699ee071879c2b93e419cb0af623f871897a916e22e7f9b9e7ffced83ff1"
+    },
+    {
       "file": "src/main.tsx",
       "sha256": "3de4c6f3bdf938c537cc4f941520d31448b59670cd68e10737a2ecb1b434906c"
     },
@@ -514,6 +530,10 @@
     {
       "file": "src/services/supabase/expenses-shifts.service.ts",
       "sha256": "a12e3778b5a0d997aa7fe08479353874a858e96c76fee19ca13e241ce50a1836"
+    },
+    {
+      "file": "src/services/supabase/goLive.service.ts",
+      "sha256": "115a31d24879c4da93f365741387ef6c249b1f8629a287b83514cd6406d8aaed"
     },
     {
       "file": "src/services/supabase/historicalParcelComposition.ts",
@@ -605,7 +625,7 @@
     },
     {
       "file": "src/stores/appStorePreferences.ts",
-      "sha256": "7cdfc800388b5c7827eaf47cd0463cd6fc8b28443218d3d9e72ad41c012d7e1d"
+      "sha256": "071ca2761cbe6d0887a724ebb2acd4621488cd7e3dd4e8244f680ffd9a20e063"
     },
     {
       "file": "src/stores/modalTypes.ts",
@@ -2442,7 +2462,8 @@
       "callers": [
         "src/features/purchases/CreatePurchaseOrderModal.tsx",
         "src/features/purchases/PurchasesView.tsx",
-        "src/features/purchases/SupplierPaymentModal.tsx"
+        "src/features/purchases/SupplierPaymentModal.tsx",
+        "src/services/supabase/goLive.service.ts"
       ],
       "screenPaths": [
         "purchases"
@@ -3388,6 +3409,11 @@
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
+      "file": "src/lib/xlsx.ts",
+      "line": 233,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
       "file": "src/services/deviceBiometrics.service.ts",
       "line": 39,
       "reason": "JavaScript Array/typed-array, not Supabase"
@@ -3410,6 +3436,11 @@
     {
       "file": "src/services/supabase/crm.service.ts",
       "line": 511,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/services/supabase/goLive.service.ts",
+      "line": 178,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
