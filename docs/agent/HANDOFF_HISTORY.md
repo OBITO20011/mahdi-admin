@@ -1,5 +1,23 @@
 # Agent handoff history
 
+## 2026-10-15 — PR1 integration164:local gates complete,merge/CI gate next
+
+Owner authorizes genuine merge b32102a into main,not squash.146actualfiles,
+446generatedfunctions,immutable001–151 and approved160–164 bytes preserved.
+Fresh164 versus incremental151→164 fullcatalog0delta;8startup tables have
+no client/PUBLIC table/column grants and RLS;142/142 real SDK queries and
+423RPCdispatch/0SQLSTATE42501. Historical138/150 remain labelled evidence.
+Independent cash100+12+8−4−2=114.000;live/closed financialJSON matches,
+frozenreread exact. Modern customer debt7.000 agrees;legacy returned due7.000
+givesfacts7.000/phase42zero in rolled-back diagnostic,reportonly/noSQLfix.
+Final frozen18:55:59–19:21:37UTC8/8 PASS:1098Admin191Customer/types/lint,
+88/88bothengines/build/DB_FUNCTIONS,owner164officialrepair/dryrun/replay0,
+forecast29=actual29,nonACLdrift failclosed with persisted details.
+Offline savedmanagedsnapshot forecast246commands;no managed access/secret.
+Owner command afterCI:node scripts/operations/frankfurt-owner-upgrade164.mjs --apply.
+Merge/push/full exactCI+secrets pending;final delivery recorded in checkpoint.
+Paused design drafts and their unreviewed notes excluded from this commit.
+
 ## 2026-10-15 — expanded investigation delivered6f5e5a6;exactFULL24+secrets PASS
 
 Normaldiagnosticcommits21c8bd4cd97144401d09fed3ca5445190f59d70e and

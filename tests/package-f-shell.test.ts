@@ -15,7 +15,7 @@ const sideNav = read('src/components/layout/SideNav.tsx');
 const bottomTabs = read('src/components/layout/BottomTabs.tsx');
 const header = read('src/components/common/Header.tsx');
 
-const ownerOnly = ['parcel-configuration', 'admin-users', 'admin-monitoring'];
+const ownerOnly = ['parcel-configuration', 'admin-users', 'admin-go-live', 'admin-monitoring'];
 
 test('the owner sees Home first, then every canonical navigation group and item', () => {
   const groups = buildSideNavigation('owner');

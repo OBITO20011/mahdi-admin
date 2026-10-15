@@ -1,5 +1,11 @@
 # Project overview
 
+Current owner integration2026-10-15:PR1 b32102a160–164 real merge into main,
+ceiling164/access evidence/fresh-incremental catalog/reference/owner command
+and full exact-SHA CI. See GO_LIVE_INTEGRATION_164.md. All managed access is
+prohibited. Withdrawals/cheques designs remain paused,outside integration.
+Older task paragraphs below are historical,not authorization to reopen them.
+
 Current owner task2026-10-13:bounded Admin focus repair and approved POS
 return-focus follow-up only. See ADMIN_FOCUS_HANDOVER_FIX.md. Local related
 both-engine726PASS+4knownskips,956Admin/191Customer/type/lint and business AST

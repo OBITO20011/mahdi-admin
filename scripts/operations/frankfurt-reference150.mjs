@@ -53,7 +53,7 @@ export function assertReadiness150(reference,manifest,proofText,source){
 }
 export async function readReference150(root,filename){
  const reference=JSON.parse(await readFile(filename,'utf8'));
- return assertReference150(reference,await migrationManifest(root),await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_150.json'),'utf8'),await inventory());
+ return assertReference150(reference,(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=150),await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_150.json'),'utf8'),await inventory());
 }
 // Public CLI planning must pass full reference admission first. The low-level
 // catalog planner remains available to historical diagnostic/rollback tests only.

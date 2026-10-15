@@ -109,6 +109,10 @@ export function migrationInventory() {
   catch(error){numbering={ok:false,error:error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'MIGRATION_NUMBERING_FAILED'};}
   return {
     numbering,
+    integrationPins: Object.fromEntries([160,161,162,163,164].map(number => {
+      const name=migrationFiles.find(n=>n.startsWith(number+'_')&&n.endsWith('.sql'));
+      return [number,name?fileCanonicalTextSha256(resolve(root,'supabase/migrations',name)):null];
+    })),
     ceiling: state.migrationCeiling,
     unexpectedAboveCeiling: migrationFiles.filter((name) => /^\d+_.*\.sql$/u.test(name)
       && Number(name.split('_')[0]) > state.migrationCeiling),

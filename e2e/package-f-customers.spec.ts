@@ -181,42 +181,55 @@ test('missing or incoherent aging is unavailable,never a zero balance or invente
   await expect(page.getByTestId('customer-detail')).toContainText('860.500');
 });
 
-test('profile payment keeps exact existing order-bound CliQ payload and busy guard',async({page})=>{
+test('profile «تحصيل من الزبون» previews oldest-first allocation and sends one idempotent collection',async({page})=>{
   const writes:Array<Record<string,unknown>>=[];
   let releasePayment:()=>void=()=>{};
   const paymentGate=new Promise<void>(resolve=>{releasePayment=resolve;});
-  const orderId='fa100000-0000-4000-8000-000000000001';
+  const orderId='fa100000-0000-4000-8000-000000000001',openingId='fa200000-0000-4000-8000-000000000001';
   await page.route('**/rest/v1/rpc/**',async route=>{
     const name=route.request().url().split('/').at(-1);
-    if(name==='get_customer_outstanding_orders_page')return route.fulfill({json:{orders:[{
-      id:orderId,order_number:'W-10479',customer_id:customersFixture[2].id,customer_name:customersFixture[2].full_name,
-      customer_phone:customersFixture[2].phone,total_in_minor_units:1000000,amount_paid_in_minor_units:500000,
-      amount_due_in_minor_units:500000,payment_status:'partially_paid',created_at:'2026-10-09T10:18:00Z',
-    }],total_count:1,summary:{due_in_minor_units:500000,customer_count:1}}});
-    if(name==='record_customer_order_payment_once'){
+    if(name==='get_customer_collections_v1')return route.fulfill({json:{success:true,operations:[]}});
+    if(name==='preview_customer_collection_v1'){
+      const amount=Number(route.request().postDataJSON().p_amount_in_minor_units);
+      const opening=Math.min(amount,30000),order=Math.max(Math.min(amount-opening,500000),0);
+      return route.fulfill({json:{success:true,totalOutstandingInMinorUnits:530000,openingOutstandingInMinorUnits:30000,
+        ordersOutstandingInMinorUnits:500000,exceedsBalance:amount>530000,parts:[
+          {kind:'opening',id:openingId,reference:'COB-001001',debtAt:'2025-01-10T00:00:00+02:00',outstandingInMinorUnits:30000,
+            allocateInMinorUnits:opening,remainingAfterInMinorUnits:30000-opening},
+          {kind:'order',id:orderId,reference:'W-10479',debtAt:'2026-10-09T10:18:00Z',outstandingInMinorUnits:500000,
+            allocateInMinorUnits:order,remainingAfterInMinorUnits:500000-order}]}});
+    }
+    if(name==='collect_customer_balance_v1'){
       writes.push(route.request().postDataJSON());await paymentGate;
-      return route.fulfill({json:{payment_number:'RCPT-1',remaining_in_minor_units:454877}});
+      return route.fulfill({json:{success:true,operationId:'op',operationNumber:'COL-001001',amountInMinorUnits:45123,parts:[]}});
     }
     return route.fulfill({json:{items:[],unreadCount:0}});
   });
   try{
     await page.setViewportSize({width:390,height:900});await page.goto(url('theme=light'));
     await page.getByRole('button',{name:'فتح ملف بقالة أبو خالد',exact:true}).filter({visible:true}).click();
-    await page.getByTestId('customer-payment-sticky').getByRole('button').click();
-    const dialog=page.getByRole('dialog',{name:'تسجيل دفعة على طلب مستحق',exact:true});
+    await page.getByTestId('customer-payment-sticky').getByRole('button',{name:'تحصيل من الزبون'}).click();
+    const dialog=page.getByRole('dialog',{name:'تحصيل من الزبون',exact:true});
     await expect(dialog).toHaveAttribute('data-state','open');
-    await expect(dialog.getByLabel('الطلب والعميل *')).toHaveValue(orderId);
+    const save=dialog.getByRole('button',{name:'حفظ التحصيل'});
+    await dialog.getByLabel('المبلغ المقبوض (د.أ) *').fill('45.123');
     await dialog.getByLabel('طريقة الدفع *').selectOption('cliq');
-    await dialog.getByLabel('مبلغ الدفعة (د.أ) *').fill('45.123');
-    const save=dialog.getByRole('button',{name:'حفظ سند القبض وتحديث الذمة',exact:true});
-    await save.click();expect(writes).toEqual([]); // required reference remains fail-closed.
+    await expect(save).toBeDisabled(); // no save before the allocation preview
+    await dialog.getByRole('button',{name:'معاينة التوزيع'}).click();
+    const preview=dialog.getByTestId('customer-collection-preview');
+    await expect(preview).toContainText('رصيد سابق قبل النظام');
+    await expect(preview).toContainText('30.000');await expect(preview).toContainText('15.123');
+    await save.click();expect(writes).toEqual([]); // required CliQ reference remains fail-closed.
+    await expect(dialog.getByRole('alert')).toContainText('رقم مرجع CliQ مطلوب');
     await dialog.getByLabel('رقم مرجع CliQ *').fill(' REF-45 ');
     await dialog.getByLabel('ملاحظات (اختياري)').fill(' دفعة جزئية ');
     await save.click();await expect.poll(()=>writes.length).toBe(1);
-    await expect(dialog.locator('form')).toHaveAttribute('aria-busy','true');
-    await expect(dialog.getByRole('button',{name:'جاري حفظ السند...'})).toBeDisabled();
-    expect(writes[0]).toEqual({p_order_id:orderId,p_amount_in_minor_units:45123,p_payment_method:'cliq',
-      p_reference_number:'REF-45',p_notes:'دفعة جزئية',p_idempotency_key:expect.stringMatching(/^[0-9a-f-]{36}$/u)});
+    await expect(dialog.getByRole('button',{name:'جارٍ الحفظ…'})).toBeDisabled();
+    expect(Object.keys(writes[0])).toContain('p_branch_id'); // active branch for an opening part in cash/CliQ
+    const {p_branch_id:_branch,...payload}=writes[0];
+    expect(payload).toEqual({p_customer_id:customersFixture[2].id,p_amount_in_minor_units:45123,p_payment_method:'cliq',
+      p_reference_number:'REF-45',p_notes:'دفعة جزئية',
+      p_idempotency_key:expect.stringMatching(/^collect-[0-9a-f-]{36}$/u)});
     releasePayment();await expect(dialog).toHaveCount(0);expect(writes).toHaveLength(1);
   }finally{releasePayment();}
 });

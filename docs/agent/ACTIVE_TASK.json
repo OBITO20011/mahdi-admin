@@ -2,48 +2,47 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Finish151/reference/owner-command delivery;record permanent140149 gap and startup160169 reservation;NO managed or next designs",
-  "baselineSha": "840caa9cd166fb007b9492570252d7edc9bf4ae2",
+  "objective": "Owner-approved merge PR1 b32102a160164 into main;164reference/ownerupgrade/access+shift/receivable proofs;NO managed;design drafts preserved paused",
+  "baselineSha": "f54af537222e4646fde3727db83bc63c68164586",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "21c8bd4+6f5e5a6 audit deliveredFULL24+secrets;HOLDapply;142SDK15PASS/112denied/15ambiguous",
-    "139 delivered3a3893b quality38729342063 FULL24/24 +secrets38729342030 PASS;Gitleaks0;no managed",
-    "150 delivered204f1ed quality38730973077 FULL24/24 +secrets38730973130 PASS;Gitleaks0",
-    "FK746d6bc FULL24 quality38738635291+secrets38738635324;AST3entirefiles/142SDK/60browserPASS",
-    "AccessCI24f6d2a FULL24 quality38740956806+secrets38740956741;mandatory150 realSDKgate",
-    "Reference966e0b0 FULL24 quality38744064639+secrets38744064794 PASS;Gitleaks0;ownerreviewSTOP"
+    "PR1 b32102a merged --no-ff --no-commit;MERGE_HEAD retained",
+    "164 pins/146files/446functions;real access142/142 andRPC423/0denied PASS",
+    "DB gates8/8/frozen;fresh=incremental0delta;owner rehearsal official/replay0 PASS",
+    "Independent cash114000 closed/openfinancialparity;statussetdiagnostic documented"
   ],
   "inProgress": [
-    "Reference860c042 exactCI pending;numbering policy permanent140149/startup160169;no branch edits"
+    "Local final8/8 frozenPASS;merge commit/push/exactSHA CI"
   ],
-  "notStarted": [],
+  "notStarted": [
+    "Paused withdrawals/cheques designs;no managed access"
+  ],
   "testsPassed": [
-    "1396/6;150real138/139catalog/replay/defaults;142SDK/372RPCdispatch0denied;60bothbrowserPASS",
-    "QYH3Pv ready150140migrations/410functions;offline462/48/HOLD/0unknownforecast;qC23QBtransaction/sJvLGdreadonly/FygT26negativePASS",
-    "Final1077Admin+191Customer/type/lint PASS13:30:21-13:34:35UTC frozenfiles"
+    "GO_LIVE runtime + independent164cash+RPC-only PASS",
+    "phase42,136,137,138,closing133 PASS;164reference/prefix/drift guards PASS",
+    "Final1099Admin191Customer/typeslint;build/DB_FUNCTIONS;88/88bothengines PASS;CLIpreview246 nohost"
   ],
   "testsRemaining": [
-    "151 real channel/ACL/RLS/idempotency;local gates/CI eachcommit;151reference+offline preview;owner command local rehearsal"
+    "Final stagedGitleaks,merge commit/push,exactFULLCI+secrets"
   ],
   "findings": [
-    "26explicit150grants(25auth+1service);FKresolved;localpublicationempty;remote bucketrow/membership unknown;NO stagingclaim"
+    "Returned legacy due7000:facts7000 vsphase42=0;completed pathmatches;deliveredinvalidCHECK;reportonly"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No agent managed/oldtarget/secrets/deploy/history changes;local tests only;owner command preparation approved",
     "No retries/timeouts/skips/weakened assertions;freeze files during gates",
-    "140149 permanently unused;160169 startup branch only;no branch edit/merge;no agent owner-apply;no next designs until current delivery"
+    "Merge PR1 b32102a160164 specifically approved;no branch rewriting or forcepush;no newunapproved migration",
+    "Withdrawals/cheques drafts remain local/unreviewed;exclude from integration commit;no implementation",
+    "No agent Frankfurt/Production/owner command execution,secrets or deploy"
   ],
-  "nextExactAction": "zBQSnk runtime PASS and frozen15:30:02-15:33:44UTC1086Admin191Customer/typeslint PASS. Commit PG17generatedcolumn admissionfix;pushwithnumbering840caa9 then exactfullCI;STOP before newdesigns. NO managed",
-  "checkpointedAt": "2026-10-15T15:34:19.735Z",
+  "nextExactAction": "Finish integration gates then genuine merge commit/push/exactCI;STOP.No hosted access;keep designs local.",
+  "checkpointedAt": "2026-10-15T16:13:16.868Z",
   "filesTouched": [
-    "docs/agent/PHASE_STATUS.md",
-    "docs/operations/FRANKFURT_REFERENCE_151_AR.md",
-    "scripts/operations/frankfurt-reference151.mjs",
-    "tests/frankfurt-reference151.test.ts"
+    "docs/agent/GO_LIVE_INTEGRATION_164.md"
   ],
-  "workingTreeFingerprint": "095D5A46E02A65FDEE05EAA218C1CCE99E549EB3E9ACA76E0804F5726DBB828C"
+  "workingTreeFingerprint": "877863F904897597CE5D09A051B7E640E65B78B766C53FAE97ABAE53B69F21CD"
 }

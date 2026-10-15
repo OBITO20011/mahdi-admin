@@ -51,7 +51,7 @@ export function renderServiceAudit(source,evidence,observed,seven,refs,tableSour
  '**لا تطبيق ACL ولا إعداد خدمات ولا نشر. هذا قياس محلي وقراءة ملفات محفوظة فقط؛الفجوة التشغيلية غير مغلقة.**', '',
  '### أ. RPC — EXECUTE الفعلي،لا افتراض نجاح من mock', '',
  `${source.rpc.length} موضعSDK .rpc و${source.gatewayRpc.length} موضعRESTGateway،${source.functionNames.length} اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.`, '',
- `قاعدة138 محلية جديدة: ${evidence.results.length} dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛${counts.permission_denied} رفض42501،${counts.success_rolled_back} نجاحمعrollback،${counts.body_validation_or_error} رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.`, '',
+ `قاعدة${evidence.migrationCeiling} محلية جديدة: ${evidence.results.length} dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛${counts.permission_denied} رفض42501،${counts.success_rolled_back} نجاحمعrollback،${counts.body_validation_or_error} رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.`, '',
  'حدالقياسصريح:أُرسلتقيممحليةمحايدةمُنمّطةحسبتوقيعSQL(معرفعميل/فرع/مستودعfixtureحيثيوجد،NULL/JSONفارغلغيره)،وليستجميعحمولاتالتدفّقاتالصحيحةمنواجهةالتطبيق. النصالأصليلكلاستدعاءومعاملاتهفيSERVICE_ACCESS_INVENTORY.json؛قيمةكلprobeوأثرهفيSERVICE_ACCESS_DIAGNOSTIC.json. لا نسمّي274خطأتحققنجاحاًوظيفياً ولا42501. كلنجاحوكلخطأداخلsubtransactionأُرجع؛لاأثرماليأومخزنيباقٍ. اختباراتالمساراتالمتكاملةالقائمةتبقىمطلوبة؛هذهالإضافةتثبتEXECUTE/dispatchوليسإتمامكلسيناريو.', '',
  '| الدالة/مصدر الاستدعاء | الدور | EXECUTE محلي / نتائج dispatch |', '|---|---|---|',
  ...namedSites.flatMap(s=>(s.name?[s.name]:s.resolutions.map(r=>r.name)).map(name=>{
@@ -104,7 +104,7 @@ export function renderServiceAudit(source,evidence,observed,seven,refs,tableSour
  '14. بوابة staging: full CI والأسرار على نفس SHA،وتجربة واجهة حقيقية بلا mocks للجداول وRPC وStorage وRealtime وAuth وEdge،ثم golden day ومطابقة الأرصدة والمراقبة والنسخ. كل بند غير مثبت من اللوحة يبقى «يحتاج تأكيد المالك من لوحة Supabase»،لا نجاحاً افتراضياً.', '',
  '### إعادة إنتاج الإضافة', '', '```powershell','node scripts/audit/service-access-inventory.mjs','node scripts/audit/run-service-access-diagnostic.mjs',
  'node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>','```', '',
- 'لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على138 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.',
+ `لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على${evidence.migrationCeiling} ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.`,
  ];return rows.join('\n')+'\n';
 }
 export async function generateServiceReport(diagnostic,referenceFile,observedFile){

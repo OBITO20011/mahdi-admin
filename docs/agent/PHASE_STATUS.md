@@ -1,5 +1,13 @@
 # Phase status
 
+2026-10-15 PACKAGE_F owner-approved PR1 b32102a integration through164:
+146actual migrations/446functions;fresh=incremental fullcatalog0differences;
+8newRPC-onlytables/RLS and142/142 realtablequeries,423RPCdispatch/0denied.
+Local final18:55:59–19:21:37UTC frozen8/8 PASS:1098Admin/191Customer,
+types/lint/build/DB_FUNCTIONS,88both-enginebrowser,cash114000 andownerreplay0.
+Merge commit/push/exactFULLCI+secrets next;not delivered before those gates.
+No managed access. Withdrawals/cheques drafts remain local/unreviewed/paused.
+
 2026-10-15 CI860c042 failed infrastructure-only READY151_ALL_COLUMNS_REQUIRED:
 PG17 excludes generatedavailable_quantity from publication;151SQL/realchannel
 and142access PASS in same run. Fix admission to exactordinarycolumns;generated

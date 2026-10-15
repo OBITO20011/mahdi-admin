@@ -261,6 +261,18 @@ jobs:
         if: matrix.suite == 'package-f-aging'
         run: npm run test:package-f:statement
 
+      - name: Prove160+ go-live setup lock,opening balances parity,WAC and permissions
+        if: matrix.suite == 'package-f-aging'
+        run: npm run test:go-live:runtime
+
+      - name: Prove164 independent complete cash shift and measure receivable status sets
+        if: matrix.suite == 'closing'
+        run: node scripts/testing/run-go-live-integration164-runtime.mjs
+
+      - name: Prove164 fresh versus incremental catalog and owner upgrade without managed access
+        if: matrix.suite == 'package-f-reads'
+        run: node scripts/testing/run-frankfurt-upgrade164-runtime.mjs
+
       - name: Prove daily Supabase REST read and database-size read on isolated schema
         if: matrix.suite == 'package-f-aging'
         run: npm run test:monitoring:daily:runtime
@@ -281,7 +293,7 @@ jobs:
         if: matrix.suite == 'package-f-reads'
         run: npm run test:table-reads150:runtime
 
-      - name: Require real application table access through150
+      - name: Require real application table access through164
         if: matrix.suite == 'package-f-reads'
         run: node scripts/audit/run-table-access-diagnostic.mjs --require-access
 

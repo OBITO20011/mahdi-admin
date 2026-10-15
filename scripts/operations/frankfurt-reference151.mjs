@@ -35,6 +35,6 @@ export function assertReference151(reference,manifest,proofText,source){
  return reference;
 }
 export async function readReference151(root,filename){
- return assertReference151(JSON.parse(await readFile(filename,'utf8')),await migrationManifest(root),
+ return assertReference151(JSON.parse(await readFile(filename,'utf8')),(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=151),
   canonicalLf(await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_150.json'),'utf8')),await inventory());
 }

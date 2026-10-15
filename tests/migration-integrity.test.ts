@@ -81,6 +81,11 @@ const fingerprints = [
   ['139_project_order_push_webhook_url.sql', 'C193211C782E4375092EB93AA74655F67F3429832010B7E0036E1DB18847F262'],
   ['150_explicit_application_table_read_privileges.sql', '747E19115C0CCD5FF050159555D429DE5933078CB5F94E63C8DF2B6656A4C5B0'],
   ['151_explicit_application_realtime_publication.sql', 'FD7F12E6FF97FEC97E35FD04BA43B6954CD2A841ACCD8C2BEBD6186DB6823F62'],
+  ['160_go_live_setup_foundation.sql', 'A0A0A33D51BBBBA08FCE4CE9C87DA194149C4683A640D64B4DAAF16404D864BB'],
+  ['161_go_live_customer_opening_balances.sql', '3456BE3C07331BEBA1538A6F693DBE566696433A98A0A371BF2C82774FA619A6'],
+  ['162_go_live_supplier_opening_balances.sql', 'E9B76071095C5371EB537F40ABC44D9091BAC6A80A72DDBE92D559F1CDA9957B'],
+  ['163_go_live_unified_collection_and_supplier_opening_payment.sql', 'B3A51F8F9DFF65C533C864352B49D85786C0E0591402A7053682165785994345'],
+  ['164_go_live_receivables_in_reports.sql', '6A3D49D4C0B1E95FD128D2A817F3D3F744EA624C597E6055DD0BA8927D5A0E03'],
 ] as const;
 
 test('121-150 delivered bytes and continuity references agree with fixed approved fingerprints', () => {
@@ -108,5 +113,6 @@ test('migration numbers are unique and contiguous from001 to the approved ceilin
   assert.deepEqual(state.codexMigrationNumbers,Array.from({length:8},(_,i)=>152+i));
   assert.ok(!numbers.some(n=>unused.includes(n)),'retired140-149 must remain empty');
   assert.deepEqual(numbers, Array.from({length: state.migrationCeiling}, (_, index) => index + 1)
-    .filter(n => !unused.includes(n)));
+    .filter(n => !unused.includes(n)&&!state.deferredMigrationNumbers.includes(n)));
+  assert.deepEqual(state.deferredMigrationNumbers,Array.from({length:8},(_,i)=>152+i));
 });

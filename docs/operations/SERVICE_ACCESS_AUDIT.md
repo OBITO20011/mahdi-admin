@@ -6,9 +6,9 @@
 
 ### أ. RPC — EXECUTE الفعلي،لا افتراض نجاح من mock
 
-128 موضعSDK .rpc و4 موضعRESTGateway،123 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
+145 موضعSDK .rpc و4 موضعRESTGateway،139 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
 
-قاعدة138 محلية جديدة: 372 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،98 نجاحمعrollback،274 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
+قاعدة164 محلية جديدة: 423 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،111 نجاحمعrollback،312 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
 
 حدالقياسصريح:أُرسلتقيممحليةمحايدةمُنمّطةحسبتوقيعSQL(معرفعميل/فرع/مستودعfixtureحيثيوجد،NULL/JSONفارغلغيره)،وليستجميعحمولاتالتدفّقاتالصحيحةمنواجهةالتطبيق. النصالأصليلكلاستدعاءومعاملاتهفيSERVICE_ACCESS_INVENTORY.json؛قيمةكلprobeوأثرهفيSERVICE_ACCESS_DIAGNOSTIC.json. لا نسمّي274خطأتحققنجاحاًوظيفياً ولا42501. كلنجاحوكلخطأداخلsubtransactionأُرجع؛لاأثرماليأومخزنيباقٍ. اختباراتالمساراتالمتكاملةالقائمةتبقىمطلوبة؛هذهالإضافةتثبتEXECUTE/dispatchوليسإتمامكلسيناريو.
 
@@ -49,6 +49,23 @@
 | reverse_operational_expense؛src/services/supabase/expenses-shifts.service.ts:533 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | close_cash_shift؛src/services/supabase/expenses-shifts.service.ts:555 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | cancel_empty_cash_shift؛src/services/supabase/expenses-shifts.service.ts:575 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_go_live_setup_status_v1؛src/services/supabase/goLive.service.ts:99 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
+| get_go_live_customer_openings_v1؛src/services/supabase/goLive.service.ts:102 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
+| get_go_live_supplier_openings_v1؛src/services/supabase/goLive.service.ts:112 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
+| import_go_live_products_v1؛src/services/supabase/goLive.service.ts:126 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| record_customer_opening_balances_v1؛src/services/supabase/goLive.service.ts:127 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| record_supplier_opening_balances_v1؛src/services/supabase/goLive.service.ts:128 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| reverse_customer_opening_balance_v1؛src/services/supabase/goLive.service.ts:149 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| reverse_supplier_opening_balance_v1؛src/services/supabase/goLive.service.ts:150 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| finish_go_live_setup_v1؛src/services/supabase/goLive.service.ts:155 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_crm_customer_page؛src/services/supabase/goLive.service.ts:162 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
+| preview_customer_collection_v1؛src/services/supabase/goLive.service.ts:228 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| collect_customer_balance_v1؛src/services/supabase/goLive.service.ts:238 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| reverse_customer_collection_v1؛src/services/supabase/goLive.service.ts:245 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_customer_collections_v1؛src/services/supabase/goLive.service.ts:249 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_supplier_opening_payable_v1؛src/services/supabase/goLive.service.ts:255 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| pay_supplier_opening_balance_v1؛src/services/supabase/goLive.service.ts:261 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| set_go_live_main_branch_v1؛src/services/supabase/goLive.service.ts:268 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
 | get_inventory_opening_setup؛src/services/supabase/inventory-opening.service.ts:128 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | apply_inventory_opening_setup؛src/services/supabase/inventory-opening.service.ts:165 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_admin_inventory_product_page؛src/services/supabase/inventory.service.ts:99 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
@@ -180,38 +197,39 @@ PRODUCT_IMAGE_BUCKET=product-images فيproduct-images.service.ts؛الصورو�
 
 ### ج. Realtime — channels وpublication
 
-6 channel و20 postgres_changes فيالجرد. publicationالمحلية:{"exists":true,"tables":[],"allTables":false}. **موجودةبلامشاركةجداول؛allTables=false**. بحثmigrations001–138لايجدإضافةALTER PUBLICATION supabase_realtime ADD TABLE. إصلاحSELECTوحدهلايعيدالتحديثاتالحية. هذااقتراحإعداد/تغييرمستقللاينفّذهالتحقيق.
+6 channel و20 postgres_changes فيالجرد. publicationالمحلية:{"exists":true,"tables":[{"table":"customer_addresses","schema":"public"},{"table":"customers","schema":"public"},{"table":"inventory_balances","schema":"public"},{"table":"inventory_movements","schema":"public"},{"table":"orders","schema":"public"},{"table":"products","schema":"public"},{"table":"purchase_order_items","schema":"public"},{"table":"purchase_orders","schema":"public"},{"table":"purchase_receipts","schema":"public"},{"table":"supplier_payments","schema":"public"},{"table":"supplier_receipt_items","schema":"public"},{"table":"supplier_receipts","schema":"public"},{"table":"suppliers","schema":"public"}],"allTables":false}. **موجودةبلامشاركةجداول؛allTables=false**. بحثmigrations001–138لايجدإضافةALTER PUBLICATION supabase_realtime ADD TABLE. إصلاحSELECTوحدهلايعيدالتحديثاتالحية. هذااقتراحإعداد/تغييرمستقللاينفّذهالتحقيق.
 
 | الجدول المطلوب | العضويةالمحلية | فرانكفورتمناللقطة |
 |---|---|---|
-| customer_addresses | غيرمشترك | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
-| customers | غيرمشترك | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
-| inventory_balances | غيرمشترك | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
-| inventory_movements | غيرمشترك | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
-| orders | غيرمشترك | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
-| products | غيرمشترك | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
-| purchase_order_items | غيرمشترك | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
-| purchase_orders | غيرمشترك | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
-| purchase_receipts | غيرمشترك | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
-| supplier_payments | غيرمشترك | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
-| supplier_receipt_items | غيرمشترك | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
-| supplier_receipts | غيرمشترك | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
-| suppliers | غيرمشترك | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
+| customer_addresses | ضمنpublication | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
+| customers | ضمنpublication | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
+| inventory_balances | ضمنpublication | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
+| inventory_movements | ضمنpublication | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
+| orders | ضمنpublication | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
+| products | ضمنpublication | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
+| purchase_order_items | ضمنpublication | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
+| purchase_orders | ضمنpublication | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
+| purchase_receipts | ضمنpublication | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
+| supplier_payments | ضمنpublication | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
+| supplier_receipt_items | ضمنpublication | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
+| supplier_receipts | ضمنpublication | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
+| suppliers | ضمنpublication | غيرمتاح فيcatalog-observed؛يحتاجلقطةقراءةمنالمالك |
 
 publications/pg_publication_tables لايلتقطهماschema-catalogالحالي. لااستنتاجلعضويةفرانكفورت مننجاحالبناءأووجودrealtime schema؛ولا منوجودالجدولفيpublic. جدولالتفاصيلالأول يحفظكلchannel/اسمحدثومصدره.
 
 ### د. مرجع المشروع القديم والإعدادات
 
-بحثGitلجميعالملفاتالمتتبعة+غيرالمتجاهلةخارجmigrationsالتاريخية(دونملفاتenv/القيمالسرية):24 ملفاً،القائمةأدناه. ملفاSERVICE_ACCESSالمولدانوكودأداةالبحثنفسهاواختبارهايُستثنيانمنالعدلتجنّبالتغذيةالراجعة؛المخرجاتتحفظأرقامأسطروتصنيفاًفقط. النصالعامللفرانكفورتلايُغيّرمنهذاالبحث.
+بحثGitلجميعالملفاتالمتتبعة+غيرالمتجاهلةخارجmigrationsالتاريخية(دونملفاتenv/القيمالسرية):27 ملفاً،القائمةأدناه. ملفاSERVICE_ACCESSالمولدانوكودأداةالبحثنفسهاواختبارهايُستثنيانمنالعدلتجنّبالتغذيةالراجعة؛المخرجاتتحفظأرقامأسطروتصنيفاًفقط. النصالعامللفرانكفورتلايُغيّرمنهذاالبحث.
 
 | الملف | الأسطر | التصنيف/الأثر |
 |---|---|---|
 | automation/n8n/workflows/nawasrah-alerts.json | 32, 89, 175, 228 | EXTERNAL_CONSUMER |
 | customer-web/public/_headers | 7 | CSP_CONNECT_SRC |
 | customer-web/src/config/supabase-public-config.ts | 13 | APP_FALLBACK |
-| docs/agent/HANDOFF_HISTORY.md | 217 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 183 | HISTORICAL_DOCUMENTATION |
+| docs/agent/HANDOFF_HISTORY.md | 263 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 259 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
+| docs/operations/TABLE_ACCESS_DIAGNOSTIC.json | 37409 | HISTORICAL_DOCUMENTATION |
 | public/_headers | 8 | CSP_CONNECT_SRC |
 | scripts/backup/README.md | 28 | PRESERVE_OLD_BACKUP_LINK |
 | scripts/backup/create-backup.mjs | 433 | PRESERVE_OLD_BACKUP_LINK |
@@ -227,11 +245,13 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 | tests/backup-runner.test.ts | 189 | TEST_CONTRACT |
 | tests/build-cron-report.test.ts | 11, 19 | TEST_CONTRACT |
 | tests/customer-web-security-headers.test.ts | 12 | TEST_CONTRACT |
+| tests/fixtures/enqueue-order-push-before139.sql | 23 | TEST_CONTRACT |
 | tests/frankfurt-preparation.test.ts | 23, 55 | TEST_CONTRACT |
+| tests/frankfurt-reference150.test.ts | 75 | TEST_CONTRACT |
 | tests/order-push-url139.test.ts | 15 | TEST_CONTRACT |
 | tests/phase3-harness-stability.test.ts | 88 | TEST_CONTRACT |
 
-كلتعريفاتpublicالحاليةعلى138:المرجعالقديمفيenqueue_order_push_webhook(jsonb) فقط. 139المعتمدةلهاعملمنفصلغيرمضمّن؛لاتدّعهذهالمرحلةإصلاحالرابط. ملفDB_FUNCTIONSفيشجرةالعملقديعكسمسودة139؛الحجةهناكتالوج138الحقيقي.
+كلتعريفاتpublicالحاليةعلى138:المرجعالقديمفي فقط. 139المعتمدةلهاعملمنفصلغيرمضمّن؛لاتدّعهذهالمرحلةإصلاحالرابط. ملفDB_FUNCTIONSفيشجرةالعملقديعكسمسودة139؛الحجةهناكتالوج138الحقيقي.
 
 الأثر:تغييرVITE_SUPABASE_URLللوحدهلايكفي؛CSP connect-srcفيpublic/_headers وcustomer-web/public/_headers يثبتHTTP/WSSللمشروعالقديم. n8nworkflowلهأربعةروابطn8n-alert-feedقديمة. fallbackالمصدرفيالواجهتينقديم،وتجاوزenvيحسمruntimeفقط. رابطالنسخالاحتياطيوقفلpreflightوالـCLIالجذريقديمةعنقصد؛لايُغيّرهاالوكيلولاينقلالنسخالليليضمنالتحقيق.
 
@@ -284,4 +304,4 @@ node scripts/audit/run-service-access-diagnostic.mjs
 node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>
 ```
 
-لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على138 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
+لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على164 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.

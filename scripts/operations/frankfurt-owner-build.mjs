@@ -91,8 +91,13 @@ export async function functionReference(executor,ceiling=139){
   assert.equal(functions.length,410,'FROZEN138_FUNCTION_COUNT');
   const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);
   assert.equal(digest(JSON.stringify(ordered)),'edc400709df70e238245eb5233042e236fb763e95290a1fc3643d61f7e59ac4b','FROZEN138_FUNCTIONS_CHANGED');
+ }else if([139,150,151].includes(ceiling)){
+  // Historical regression references remain pinned to their delivered public
+  // definitions, rather than comparing them to164's newer generated manual.
+  const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);
+  assert.equal(digest(JSON.stringify(ordered)),'585f25209c1d081a7c6f2434c4472d61c62bac491cae1fe4724cba92e83bee64','FROZEN151_FUNCTIONS_CHANGED');
  }else{
-  assert.ok([139,150,151].includes(ceiling),'UNAPPROVED_FUNCTION_REFERENCE');
+  assert.equal(ceiling,164,'UNAPPROVED_FUNCTION_REFERENCE');
   const rendered=renderFunctionReference(await migrationManifest(root),functions);
   assert.equal(rendered,canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8')),'DB_FUNCTIONS_STALE');
  }

@@ -74,7 +74,8 @@ export async function inventory(){const entries=[],excluded=[],subscriptions=[],
   if(e.callers.some(f=>f.includes('/stores/')))e.screenPaths.push('shared-store/auth-bootstrap');
   e.screenPaths=[...new Set(e.screenPaths)];e.reachability=e.callers.length||e.file.includes('/features/')||e.role==='service_role'?'has-source-consumer':'no-static-consumer-found';
  }
- return {schemaVersion:1,migrationCeiling:138,managedAccess:false,sources,entries,subscriptions,excluded,
+ const {migrationCeiling}=JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8'));
+ return {schemaVersion:1,migrationCeiling,managedAccess:false,sources,entries,subscriptions,excluded,
   totals:{queries:entries.length,tableNames:[...new Set(entries.flatMap(e=>[e.table,...e.embeddedTables]))].sort(),
    authenticated:entries.filter(e=>e.role==='authenticated').length,service_role:entries.filter(e=>e.role==='service_role').length,
    anon:entries.filter(e=>e.role==='anon').length,subscriptions:subscriptions.length}};

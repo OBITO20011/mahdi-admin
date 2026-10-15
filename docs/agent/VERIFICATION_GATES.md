@@ -45,7 +45,9 @@ checks. No Production/release authorization is conferred by this gate decision.
 
 The mandatory `package-f-reads` full-CI matrix also executes
 `node scripts/audit/run-table-access-diagnostic.mjs --require-access` on a fresh
-001–139+150 database (140–149 reserved). It replays the actual source SDK chains
+001–139+150–151+160–164 database (140–149 permanent gap;152–159 deferred).
+Historical138 and150 evidence remain separately labelled and immutable SQL.
+It replays the actual source SDK chains
 as real JWT roles against local PostgREST, rejects42501/other SQL or PGRST2xx,
 and requires the exact source-site/actor/query-variant identity set. Missing,
 duplicate or substituted coverage fails; mocks and SQL function-only checks
@@ -72,13 +74,13 @@ files automatically: `e2e/package-f-*.spec.ts` in Package F, all others in core.
 Dynamic Playwright discovery must prove the disjoint union equals full discovery
 by test identity and browser project (no fixed count). Both independent pinned
 containers retain the original configuration and20m limit. Package F now runs
-three isolated matrix containers with Playwright --shard=1/3,2/3,3/3; discovery
+five isolated matrix containers with Playwright --shard=1/5 through5/5; discovery
 compares each actual shard list plus core with the full list, rejecting duplicate,
 missing, substituted or empty shards. The CI aggregate requires every matrix
 shard, core and all DB jobs to succeed, never skip/cancel (fail-fast=false).
 Before declaring delivery run `npm run agent:verify-handoff -- --delivery`:
 this additionally verifies HEAD=remote main and successful exact-SHA quality,
-core plus all three uniquely named shards, the aggregate/all DB jobs and secret scanning via GitHub.
+core plus all five uniquely named shards, the aggregate/all DB jobs and secret scanning via GitHub.
 Plain verify-handoff checks continuity only and reports deliveryReady=false.
 
 A passing corrective suite is a claim until an independent read-only re-sign-off verifies it. A phase is closed only by owner decision after that sign-off.

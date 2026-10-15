@@ -39,7 +39,7 @@ const RAIL_LABELS: Readonly<Record<string, string>> = {
   'catalog-products': 'المنتجات', 'inventory-current': 'المخزون',
   'customer-accounts': 'العملاء', 'supplier-receiving': 'الاستلام',
   'finance-shifts': 'الصندوق', 'finance-expenses': 'المصروفات',
-  'finance-reports': 'التقارير', 'admin-users': 'الفريق',
+  'finance-reports': 'التقارير', 'admin-users': 'الفريق', 'admin-go-live': 'البداية',
   'admin-monitoring': 'المراقبة', 'admin-storefront': 'المتجر',
   'admin-promotions': 'الخصم', 'admin-profile': 'حسابي',
 };

@@ -40,7 +40,7 @@ export function parseServices(file,text){
  for(const call of wrapperCalls.filter(c=>!c.name))call.resolutions=bindings.filter(b=>b.name===call.dynamic).flatMap(b=>b.strings.filter(s=>/^\w+$/u.test(s)).map(name=>({name,source:b.source})));
  return {rpc,storage,channels,env,wrapperCalls};
 }
-export async function serviceInventory(){const base=await inventory(),result={schemaVersion:1,migrationCeiling:138,managedAccess:false,sourceHashes:base.sources,rpc:[],storage:[],channels:[],env:[],wrapperCalls:[]};
+export async function serviceInventory(){const base=await inventory(),result={schemaVersion:1,migrationCeiling:base.migrationCeiling,managedAccess:false,sourceHashes:base.sources,rpc:[],storage:[],channels:[],env:[],wrapperCalls:[]};
  for(const entry of base.sources){const parsed=parseServices(entry.file,await readFile(path.join(root,entry.file),'utf8'));
   for(const key of ['rpc','storage','channels','env','wrapperCalls'])result[key].push(...parsed[key]);}
  // Resolve dynamic sinks by their actual wrapper invocations;fail unknown sinks.

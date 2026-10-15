@@ -113,25 +113,33 @@ export async function upgradeWithExecutor({executor,reference,original,output,re
  report.ok=true;report.realtimeMembers=pub.tables.length;report.notificationHoldUnchanged=true;
  report.catalogUnexpectedDifferenceCount=0;return report;
 }
-export async function run(args){
+// Internal configuration seam for the separately admitted164 CLI. It cannot
+// be selected by a command-line target,URL,SQL or credential argument.
+export async function run(args,configuration={}){
+ const loadReference=configuration.loadReference??readReference151;
+ const referenceName=configuration.referenceName??readyReference151Name;
+ const pipeline=configuration.pipeline??upgradeWithExecutor;
+ const inputsFor=configuration.inputsFor??upgradeInputs;
+ const versions=configuration.versions??upgradeVersions;
+ const label=configuration.label??'151';
  assert.ok(args.every((v,i)=>['--apply','--dry-run','--verify-only','--workdir'].includes(v)||args[i-1]==='--workdir'),'UNKNOWN_OPTION');
  assert.ok(['--apply','--dry-run','--verify-only'].filter(m=>args.includes(m)).length<=1,'ONE_MODE_REQUIRED');
- if(!args.includes('--apply')&&!args.includes('--verify-only'))return offlinePlan(args);
+ if(!args.includes('--apply')&&!args.includes('--verify-only'))return (configuration.offlinePlan??offlinePlan)(args);
  assert.ok(!process.env.SUPABASE_CLI_BINARY_OVERRIDE,'CLI_OVERRIDE_NOT_ALLOWED');
  const at=args.indexOf('--workdir'),workdir=path.resolve(at<0?DEFAULT_WORKDIR:args[at+1]);
  assertOutsideRepository(workdir);assertOutsideRepository(await realpath(workdir),await realpath(root));
  const old=await readFile(path.join(root,'supabase/.temp/project-ref'));assert.equal(old.toString().trim(),OLD_REF,'OLD_BACKUP_LINK_CHANGED');
- const reference=await readReference151(root,path.join(workdir,readyReference151Name));
+ const reference=await loadReference(root,path.join(workdir,referenceName));
  assert.equal((await readFile(path.join(workdir,'supabase/.temp/project-ref'),'utf8')).trim(),TARGET.id,'LINK_TARGET_MISMATCH');
  const connection=connectionFromLink(await readFile(path.join(workdir,'supabase/.temp/pooler-url'),'utf8'));
- const output=path.join(workdir,'upgrade151-'+new Date().toISOString().replaceAll(/[:.]/gu,'-'));await mkdir(output);
+ const output=path.join(workdir,'upgrade'+label+'-'+new Date().toISOString().replaceAll(/[:.]/gu,'-'));await mkdir(output);
  const original=JSON.parse(await readFile(path.join(workdir,'notification-before.json'),'utf8'));
- const report={mode:args.includes('--apply')?'owner-apply139-150-151':'verify-only',startedAt:new Date().toISOString(),output,projectRef:TARGET.id,remoteWriteAttempted:false};
+ const report={mode:args.includes('--apply')?'owner-apply'+versions.join('-'):'verify-only',startedAt:new Date().toISOString(),output,projectRef:TARGET.id,remoteWriteAttempted:false};
  let env,guard;
  try{
   assert.ok(process.stdin.isTTY,'OWNER_INTERACTIVE_TERMINAL_REQUIRED');
   const terminal=createInterface({input:process.stdin,output:process.stdout});
-  try{assert.equal(await terminal.question('139+150+151 والمواءمة فقط؛ لا تفعيل إشعارات. اكتب '+TARGET.id+': '),TARGET.id,'OWNER_CONFIRMATION_REQUIRED');}finally{terminal.close();}
+  try{assert.equal(await terminal.question(versions.join('+')+' والمواءمة فقط؛ لا تفعيل إشعارات. اكتب '+TARGET.id+': '),TARGET.id,'OWNER_CONFIRMATION_REQUIRED');}finally{terminal.close();}
   env={...process.env,PGPASSWORD:await ownerPassword(),PGSSLMODE:'require',PGCONNECT_TIMEOUT:'10',PGPASSFILE:path.join(output,'NO_PASSWORD_FILE')};
   delete env.PGOPTIONS;delete env.SUPABASE_DB_PASSWORD;
   const psql=process.env.NAWASRAH_PG_BIN?path.join(process.env.NAWASRAH_PG_BIN,'psql.exe'):path.join(process.env.LOCALAPPDATA,'NawasrahBackup/postgresql-17.11/bin/psql.exe');
@@ -150,7 +158,7 @@ export async function run(args){
   for(const m of reference.manifest.filter(m=>Number(m.name.slice(0,3))<=138)){
    assert.equal(sha256(canonicalLf(await readFile(path.join(workdir,'supabase/migrations',m.name),'utf8'))),m.sha256,'WORKDIR138_BYTES_CHANGED');
   }
-  for(const unit of await upgradeInputs(reference)){
+  for(const unit of await inputsFor(reference)){
    const filename=path.join(workdir,'supabase/migrations',unit.name);
    try{assert.equal(sha256(canonicalLf(await readFile(filename,'utf8'))),unit.sha256,'WORKDIR_UPGRADE_BYTES_CHANGED');}
    catch(error){if(error.code!=='ENOENT')throw error;await copyFile(path.join(root,'supabase/migrations',unit.name),filename);}
@@ -161,7 +169,7 @@ export async function run(args){
    try{return await exec(process.execPath,[path.join(root,'node_modules/supabase/dist/supabase.js'),...flags,'--workdir',workdir,'--agent','no'],{cwd:workdir,env:childEnv,windowsHide:true,maxBuffer:8*1024**2});}
    catch{throw new Error('OFFICIAL_CLI_STEP_FAILED');}finally{delete childEnv.SUPABASE_DB_PASSWORD;delete childEnv.PGPASSWORD;}
   };
-  await upgradeWithExecutor({executor,reference,original,output,report,
+  await pipeline({executor,reference,original,output,report,
    repair:async v=>{await cli(['migration','repair','--linked','--status','applied',v]);},
    finalDryRun:async()=>{await cli(['migration','list','--linked']);const r=await cli(['db','push','--linked','--dry-run','--skip-vault']);assert.match(r.stdout+r.stderr,/up to date/iu,'PENDING_MIGRATIONS');}});
   return report;

@@ -37,6 +37,7 @@ const expectedActiveTabs = [
   'users',
   'purchases',
   'assistant',
+  'go_live',
 ].sort();
 
 const expectedGroupDestinations = new Map([
@@ -47,7 +48,7 @@ const expectedGroupDestinations = new Map([
   ['finance-reports', ['shifts', 'expenses', 'reports']],
   [
     'administration-store',
-    ['users', 'monitoring_dashboard', 'storefront_settings', 'promotion_codes', 'profile'],
+    ['users', 'go_live', 'monitoring_dashboard', 'storefront_settings', 'promotion_codes', 'profile'],
   ],
 ]);
 
@@ -175,7 +176,7 @@ test('role visibility and the independent assistant gate are unchanged', () => {
   const ownerOnlyItems = ADMIN_NAVIGATION_GROUPS.flatMap((group) => group.items).filter(
     (item) => item.visibility === 'owner',
   );
-  assert.deepEqual(ownerOnlyItems.map((item) => item.id), ['parcel-configuration', 'admin-users', 'admin-monitoring']);
+  assert.deepEqual(ownerOnlyItems.map((item) => item.id), ['parcel-configuration', 'admin-users', 'admin-go-live', 'admin-monitoring']);
   assert.match(moreMenu, /item\.visibility !== 'owner' \|\| roleName === 'owner'/);
   assert.match(
     moreMenu,

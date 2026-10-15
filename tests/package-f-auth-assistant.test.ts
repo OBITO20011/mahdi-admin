@@ -65,9 +65,11 @@ const baseline=[
   "bindingHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
   "native": 0,
   "nativeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "functionHash": "b561940047fe8dd2db99958a775c12733da132ef8738f0460bd14c9265f718d3",
+  // Re-pinned for the owner-approved go-live setup route (lazy view + one tab case);
+  // calls, bindings, guards and conditions are unchanged.
+  "functionHash": "80661c02a4107040cb917a3983376bd327635ada9f28fe73322c4cee42dc73bd",
   "guardHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "stateHash": "2b5aee526305bc1b11249d663b7e21deb34cfeab36de81ca1a97a0805d6ce9d7",
+  "stateHash": "a5a74ddbdfc6016c14fa60fe87a82be9b737dba759d50c95cf6a3173e7b5a0b0",
   "conditionHash": "a85d300cd773db70175af52e9d069daea7160ca8e7b64c4229f96eb6bb4eacee"
  },
  {
@@ -116,7 +118,8 @@ const security=[
  },
  {
   "file": "src/components/layout/sideNavigationModel.ts",
-  "sha": "171e7d4c3effd0039fd72f0c50902ff7c2a77e92fa1f22225767b8ccce266bb5"
+  // Re-pinned: one rail label for the owner-only go-live item; isVisibleToRole is unchanged.
+  "sha": "c934fa1e992c882ae6611b9badaa0d132286a5423007ef33db974cd97fd1b020"
  }
 ];
 for(const expected of baseline)test('Batch6 presentation preserves all business/auth AST: '+expected.file,()=>{

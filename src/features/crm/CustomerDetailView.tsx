@@ -23,7 +23,7 @@ import {CustomerAgingDetail} from './CustomerAging';
 import {CustomerStatement} from './CustomerStatement';
 import {MobileTabs, MobileTabsBar, MobileTabSection, MoneyText, StatusBadge, StickyActionBar, UiButton, formatUiDate} from '../../components/ui';
 import {Modal} from '../../components/common/Modal';
-import {RecordCustomerPaymentModal} from '../accounts/RecordCustomerPaymentModal';
+import {CustomerCollectionModal} from './CustomerCollectionModal';
 
 interface CustomerDetailViewProps {
   customerId: string;
@@ -249,7 +249,7 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
       </div>
       <MobileTabSection value="summary"><CustomerAgingDetail customerId={customer.id} revision={customer} /></MobileTabSection>
       <MobileTabSection value="statement"><CustomerStatement customerId={customer.id} revision={customer} /></MobileTabSection>
-      <div className="hidden lg:block"><UiButton variant="accent" onClick={() => setPaymentOpen(true)}>تسجيل دفعة · اختيار الطلب</UiButton></div>
+      <div className="hidden lg:block"><UiButton variant="accent" onClick={() => setPaymentOpen(true)}>تحصيل من الزبون</UiButton></div>
 
       <MobileTabSection value="summary" primary={false}><div className="grid grid-cols-3 gap-2">
         <div className="rounded-2xl border border-nw-info bg-nw-info-bg p-3">
@@ -410,10 +410,10 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
         </section></MobileTabSection>
       )}
       <div style={{margin:0}} className="fixed inset-x-0 bottom-0 z-50 bg-nw-bg px-3 pt-3 pb-[calc(12px+env(safe-area-inset-bottom))] lg:hidden" data-testid="customer-payment-footer">
-        <StickyActionBar style={{position:'static'}} data-testid="customer-payment-sticky"><UiButton variant="accent" size="large" onClick={() => setPaymentOpen(true)}>تسجيل دفعة · اختيار الطلب</UiButton></StickyActionBar>
+        <StickyActionBar style={{position:'static'}} data-testid="customer-payment-sticky"><UiButton variant="accent" size="large" onClick={() => setPaymentOpen(true)}>تحصيل من الزبون</UiButton></StickyActionBar>
       </div>
-      <Modal isOpen={paymentOpen} title="تسجيل دفعة على طلب مستحق" onClose={() => setPaymentOpen(false)}>
-        <RecordCustomerPaymentModal onClose={() => setPaymentOpen(false)} onSuccess={refresh} />
+      <Modal isOpen={paymentOpen} title="تحصيل من الزبون" onClose={() => setPaymentOpen(false)}>
+        <CustomerCollectionModal customerId={customer.id} onClose={() => setPaymentOpen(false)} onSuccess={refresh} />
       </Modal>
 
       {editOpen && (

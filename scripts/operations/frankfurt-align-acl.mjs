@@ -45,10 +45,13 @@ async function password(){
   child.once('close',code=>code===0&&value?resolve(value):reject(new Error('PASSWORD_PROMPT_FAILED')));
  });
 }
-export async function run(args){
+// Historical preview seam is not a CLI flag. Current public preview164 uses
+// the same fail-closed admission as the current owner upgrade command.
+export async function run(args,{historical151=false}={}){
  assert.ok(!args.includes('--apply'),'OWNER_HOLD_ALIGN_ACL_APPLY');
  assert.ok(!(args.includes('--apply')&&args.includes('--dry-run')),'ONE_MODE_REQUIRED');
  assert.ok(args.every((v,i)=>['--apply','--dry-run','--workdir'].includes(v)||args[i-1]==='--workdir'),'UNKNOWN_OPTION');
+ if(!historical151)return (await import('./frankfurt-owner-upgrade164.mjs')).offline164(args);
  const i=args.indexOf('--workdir'),workdir=path.resolve(i<0?DEFAULT_WORKDIR:args[i+1]);
  assertOutsideRepository(workdir);assertOutsideRepository(await realpath(workdir),await realpath(root));
  const old=await readFile(path.join(root,'supabase/.temp/project-ref'));assert.equal(old.toString().trim(),OLD_REF,'OLD_BACKUP_LINK_CHANGED');
@@ -106,6 +109,10 @@ export async function run(args){
  }
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
- try{const r=await run(process.argv.slice(2));console.log(JSON.stringify({ok:r.ok,mode:r.mode,objects:r.objects,commands:r.commands,error:r.error,output:r.output,remoteWriteAttempted:r.remoteWriteAttempted,unexpected:r.catalogUnexpectedDifferenceCount??r.predictedUnexpectedDifferences}));if(!r.ok)process.exitCode=1;}
- catch(error){console.error(error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'ACL_PREPARATION_FAILED');process.exitCode=1;}
+ // Finish evaluating this module before the164 preview imports its shared ACL
+ // executor back through the owner pipeline. A top-level await creates a cycle
+ // that Node exits with13 before any offline preview can complete.
+ run(process.argv.slice(2)).then(r=>{
+  console.log(JSON.stringify({ok:r.ok,mode:r.mode,objects:r.objects,commands:r.commands,error:r.error,output:r.output,remoteWriteAttempted:r.remoteWriteAttempted,unexpected:r.catalogUnexpectedDifferenceCount??r.predictedUnexpectedDifferences}));if(!r.ok)process.exitCode=1;
+ }).catch(error=>{console.error(error.code==='ERR_ASSERTION'?error.message.split('\n')[0]:'ACL_PREPARATION_FAILED');process.exitCode=1;});
 }
