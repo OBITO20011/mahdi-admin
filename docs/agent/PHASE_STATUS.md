@@ -1,12 +1,28 @@
 # Phase status
 
+2026-10-15 owner reports Claude accepted withdrawals/cheques design documents.
+Save docs-only independent localcommit;NO implementation,assignedtoanother
+session after ownerdecisions. Integrationa8a90b5 alreadyFULL24/24+secretsPASS;
+ceiling164 unchanged. Historical draftlane152–159 not available for backfill.
+Currenttaskonlydesignpreservation thenSTOP;no push/managed/deploy requested.
+
 2026-10-15 PACKAGE_F owner-approved PR1 b32102a integration through164:
 146actual migrations/446functions;fresh=incremental fullcatalog0differences;
 8newRPC-onlytables/RLS and142/142 realtablequeries,423RPCdispatch/0denied.
 Local final18:55:59–19:21:37UTC frozen8/8 PASS:1098Admin/191Customer,
 types/lint/build/DB_FUNCTIONS,88both-enginebrowser,cash114000 andownerreplay0.
-Merge commit/push/exactFULLCI+secrets next;not delivered before those gates.
-No managed access. Withdrawals/cheques drafts remain local/unreviewed/paused.
+CLI-only cycleguard final19:25–19:29UTC1099Admin/191Customer/typeslint PASS.
+Genuine mergea8a90b5 pushedmain;quality38794500613 FULL24/24 andsecrets
+38794500611 PASS.One npmECONNRESET beforephase3 tests;approved once-only
+environmentrerun on sameSHA succeeded.No code/workflow retry or timeout change.
+No managed access. Withdrawals/cheques implementation remains deferred;
+later owner message above accepts the document review only.
+
+2026-10-15 finalprior deliveryf54af53 acceptedCI38761529732 FULL24/24 and
+secrets38761529580;151/reference/ownercommand/numbering done. Current owner
+request DESIGN ONLY for withdrawals and deferredcheques+endorsement;twoArabic
+drafts in docs/design;no migration/product/DB/branch change. Review gate before
+anyimplementation. Mainceiling151;152159 lane,160169 startup reservation.
 
 2026-10-15 CI860c042 failed infrastructure-only READY151_ALL_COLUMNS_REQUIRED:
 PG17 excludes generatedavailable_quantity from publication;151SQL/realchannel

@@ -2,33 +2,37 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner-approved merge PR1 b32102a160164 into main;164reference/ownerupgrade/access+shift/receivable proofs;NO managed;design drafts preserved paused",
-  "baselineSha": "f54af537222e4646fde3727db83bc63c68164586",
+  "objective": "Save Claude-reviewed withdrawals/cheques designs in independent docs-only localcommit;NO implementation or push;report delivered164 integration thenSTOP",
+  "baselineSha": "a8a90b58dc1ffac58a04b07b2ba38efe3383c0a7",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR1 b32102a merged --no-ff --no-commit;MERGE_HEAD retained",
+    "PR1 b32102a genuine2-parent merge a8a90b5 pushedmain",
     "164 pins/146files/446functions;real access142/142 andRPC423/0denied PASS",
     "DB gates8/8/frozen;fresh=incremental0delta;owner rehearsal official/replay0 PASS",
-    "Independent cash114000 closed/openfinancialparity;statussetdiagnostic documented"
+    "Independent cash114000 closed/openfinancialparity;statussetdiagnostic documented",
+    "Exact quality38794500613 FULL24/24 andsecrets38794500611 PASS;Gitleaks0"
   ],
   "inProgress": [
-    "Local final8/8 frozenPASS;merge commit/push/exactSHA CI"
+    "Docs preservation gates and independent localcommit"
   ],
   "notStarted": [
-    "Paused withdrawals/cheques designs;no managed access"
+    "Withdrawals/cheques implementation assigned to another session after ownerdecisions;no managed access"
   ],
   "testsPassed": [
     "GO_LIVE runtime + independent164cash+RPC-only PASS",
     "phase42,136,137,138,closing133 PASS;164reference/prefix/drift guards PASS",
-    "Final1099Admin191Customer/typeslint;build/DB_FUNCTIONS;88/88bothengines PASS;CLIpreview246 nohost"
+    "Final1099Admin191Customer/typeslint;build/DB_FUNCTIONS;88/88bothengines PASS;CLIpreview246 nohost",
+    "Exact mergeSHA24/24+secrets;one approvednpmECONNRESET environmentrerun only",
+    "Design-docs frozen19:54:34–19:58:00UTC typeslint1099Admin191Customer PASS"
   ],
   "testsRemaining": [
-    "Final stagedGitleaks,merge commit/push,exactFULLCI+secrets"
+    "Docs-only stagedGitleaks,localcommit,checkpoint;no newpush authorized"
   ],
   "findings": [
-    "Returned legacy due7000:facts7000 vsphase42=0;completed pathmatches;deliveredinvalidCHECK;reportonly"
+    "Returned legacy due7000:facts7000 vsphase42=0;completed pathmatches;deliveredinvalidCHECK;reportonly",
+    "Known-own merge baseline synchronized under standingpermission;no unknownsourcechanges"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -36,13 +40,16 @@
     "No agent managed/oldtarget/secrets/deploy/history changes;local tests only;owner command preparation approved",
     "No retries/timeouts/skips/weakened assertions;freeze files during gates",
     "Merge PR1 b32102a160164 specifically approved;no branch rewriting or forcepush;no newunapproved migration",
-    "Withdrawals/cheques drafts remain local/unreviewed;exclude from integration commit;no implementation",
+    "Owner approves reviewed design docs preservation only;no implementation,newmigration or businessdecisions",
     "No agent Frankfurt/Production/owner command execution,secrets or deploy"
   ],
-  "nextExactAction": "Finish integration gates then genuine merge commit/push/exactCI;STOP.No hosted access;keep designs local.",
-  "checkpointedAt": "2026-10-15T16:13:16.868Z",
+  "nextExactAction": "Run docs-only types/lint/allunits andGitleaks;commit designs andnotes locally withoutpush;checkpointthenSTOP,no implementation.",
+  "checkpointedAt": "2026-10-15T19:54:33.711Z",
   "filesTouched": [
-    "docs/agent/GO_LIVE_INTEGRATION_164.md"
+    "docs/agent/OWNER_DECISIONS.md",
+    "docs/agent/PHASE_STATUS.md",
+    "docs/design/DEFERRED_CHEQUES_DESIGN_AR.md",
+    "docs/design/OWNER_WITHDRAWALS_DESIGN_AR.md"
   ],
-  "workingTreeFingerprint": "877863F904897597CE5D09A051B7E640E65B78B766C53FAE97ABAE53B69F21CD"
+  "workingTreeFingerprint": "EFE90306420FD7286D83D2A44377FFD3572962CE1049A2507313EEB4E72AC1A5"
 }

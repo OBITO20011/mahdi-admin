@@ -1,5 +1,43 @@
 # Agent handoff history
 
+## 2026-10-15 — حفظ التصميمين المقبولين،لا تنفيذ
+
+resume/preflightPASS on a8a90b5;onlyknowncheckpointnotes andtwolocaldesigns.
+Owner reports Claude accepted bothdesigns;authorizes independent docs-only
+commit,not implementation. Designheaders recordreview/deferral and warnthat
+old152–159 lane cannotbe backfilled after164;contracts/questions unchanged.
+Allworkingchanges remain underdocs;noSQL/product/tools/remoteDBchanges.
+Integrationevidence remains a8a90b5 FULL24quality38794500613 andsecrets
+38794500611;cash100+12+8−4−2=114.000/closedparity. Legacyreturned due7.000
+factsversus0phase42 recordedonly. Ownercommandupgrade164prepared,notexecuted.
+This docs-only taskrequests localcommit;no newpush/deploy/managedauthorization.
+Local frozen19:54:34–19:58:00UTC types/lint,1099Admin+191Customer units PASS;
+sourcehash unchanged. No affected browser/DBruntime:docs-only no executable
+changes. StagedGitleaks0 gate precedes localcommit;STOP aftercheckpoint.
+
+## 2026-10-15 — integration164 delivered a8a90b5;STOP for owner
+
+Genuine mergea8a90b58dc1ffac58a04b07b2ba38efe3383c0a7 has parentsf54af53
+andb32102a,pushedmain withoutforce;productsrc matches reviewedbranch exactly.
+Quality38794500613 FULL24/24 andsecrets38794500611 PASS on exactSHA.
+Attempt1 phase3 failednpm ci19:31:17UTC ECONNRESET fetching
+registry.npmjs.org/use-sync-external-store BEFORE SQL. Standingowner permission
+used once:rerun-failed-jobs on sameSHA,attempt2 PASS;no code/workflow change.
+All other22jobs alreadyPASS;aggregate finallyPASS. No retries weakened.
+FinalCLI-only ESMentry correction removes top-levelawait cycle,not ACLlogic;
+offline publicpreview246commands47objects/zerohostaccess;new process regression.
+Frozen19:25:22–19:29:56UTC1099Admin191Customer/typeslint PASS aftercorrection.
+Original88both-enginebrowser/build andall8DBgates PASS;Gitleaks staged11MB0.
+Knownown baseline/checkpoint synchronized f54af53→a8a90b5 underowner delegation;
+resume mismatch only this reviewedmerge andknown notes;no foreignchanges.
+146migrations/446functions,fullcatalogfresh=incremental0delta;8RPC-onlytables;
+142realSDK/0errors,423RPCdispatch/0denied;cash114.000 closed/openparity.
+Legacyreturned measurement7.000facts/0phase42 recordedonly;no productfix.
+Ownercommand andready164 externalreference documented;NO Frankfurt/Production,
+Edge,secrets,deploy or ownercommand execution. AllownedQAprocesses/DBended;
+pre-existingn8n untouched. Pauseddesign drafts/notes preservedunpublished.
+Next:owner reviewSTOP;no furthermigration/designimplementation authorized.
+
 ## 2026-10-15 — PR1 integration164:local gates complete,merge/CI gate next
 
 Owner authorizes genuine merge b32102a into main,not squash.146actualfiles,
@@ -17,6 +55,52 @@ Offline savedmanagedsnapshot forecast246commands;no managed access/secret.
 Owner command afterCI:node scripts/operations/frankfurt-owner-upgrade164.mjs --apply.
 Merge/push/full exactCI+secrets pending;final delivery recorded in checkpoint.
 Paused design drafts and their unreviewed notes excluded from this commit.
+
+## 2026-10-15 — المرحلة الأولى للسحوبات والشيكات:مسودتان،توقف للمراجعة
+
+الجمع الجديد لرسائل المالك استؤنف منf54af53؛151/المرجع/أمر المالك والترقيم
+مكتملة بالفعل FULL24+الأسرار،فلم تُكرر. resumeوجدIDLE فقط،لا عدمتطابق؛
+التعديلات السابقة كانت سجلي المتابعة المعروفين،حُفظت ولم تُحذف.
+أُعدت docs/design/OWNER_WITHDRAWALS_DESIGN_AR.md وDEFERRED_CHEQUES_DESIGN_AR.md؛
+قراراتOWNER_DECISIONS محدثة. الجداول/RPC/الأثر/الضوابط/النسخ/المراقبة
+والفحوص المستقبلية مقترحة للمراجعة فقط. التجيير الكامل ورجوع الأثرين
+atomically معتمدان؛لا تبني مساراً يتجاوز حارس aftercare الحالي.
+نقاط للمراجعة:عكس السحب بعد إغلاق،حد النقد،صلاحيات الشيك،زيادة مبلغ الشيك
+عن الدين،عقد توزيع التحصيل/الافتتاح من جلسةالبداية،ورجوعبعدتسويةمرتجع.
+لا ضريبة/دفترأستاذ،لا تنفيذ تحصيل مقطوع هنا،لا فرع160169 أو خدمة بعيدة.
+
+الفحوص16:00:01–16:03:53UTCنجحت:types/lint،1086وحدةإدارة و191متجر؛
+الملفات ثابتة. حارس نطاق محلي يؤكد صفر تغيير منتج/migrations وبقاءالسقف151؛
+diffcheck/Gitleaks0. لم تُنشأ DB ولم تُشغّل أوامر مالك أو أسرار.
+المسودات محلية غيرstaged وغيرcommitted،ولا CIجديد يُدعى لها؛الاعتماد
+التالي مراجعةClaude/المالك ثم تفويضcommit/أيmigrationمحددة لاحقاً.
+
+## 2026-10-15 —151/reference/ownercommand/numbering delivered;STOP before next prompt
+
+15183871bc separately FULL24 quality38752021080+secrets38752021078 PASS.
+Reference860c042,numbering840caa9,independent infrarepairf54af53 pushedmain.
+Finalexactf54af537222e4646fde3727db83bc63c68164586 quality38761529732
+FULL24/24+secrets38761529580 PASS. Gitleaks0 allfourcommits966e0b0..HEAD.
+Localfrozen1086Admin191Customer/type/lint PASS15:30:02–15:33:44UTC.
+zBQSnk ownerpipeline realDocker138->139/150/151 officialrepair/dryrun/
+ACL29samplecommands/replay0writes/publicationdriftnegative PASS.13members,
+realstaff1/noRole0/anon0recorddata;emptyanonymous401 classifiedstrictlydenial.
+CI860c042 failed only admission wrongly demanding PG17 generatedcolumn in
+publication;fixed exactordinarycolumns,fullgeneratedschema remainsstrict;
+newfullCI passed,no rerun/timeout/retry/SQL/RLS/permissionweakening.
+
+Ready151 externalreference141files/410functions/13members,old138/150retained.
+Offline462commands/48objects;after150forecast246/47;managedpublicationunknown
+untilownerreads. Owner-only command fromrepo:
+`node scripts/operations/frankfurt-owner-upgrade.mjs --apply`
+تأكيد المشروع أولاً ثم إدخال مخفي في الذاكرة فقط؛ تطبيق139 و150 و151 والمواءمة؛
+keepsnotificationhold/cronunchanged;NO agent execution ormanagedaccess.
+DocsFRANKFURT_REFERENCE_151_AR.md and MIGRATION_ORDER_151_160_AR.md.
+140149 permanentgap;160169 startupreservation;Codex152159;ceilingstill151.
+No startupbranch edits/merge. AuthsignupOFF mandatorybeforestaging recorded.
+Laterwithdrawals/cheques/endorsement decisions recordedONLY;designsnotstarted.
+Oldrootbackuplink unchanged;allownedlocalDB/QA/watchersended.Onlyhandoff
+metadata updatedafterCI;no extrauncommittedimplementation. OwnerreviewSTOP.
 
 ## 2026-10-15 — expanded investigation delivered6f5e5a6;exactFULL24+secrets PASS
 
