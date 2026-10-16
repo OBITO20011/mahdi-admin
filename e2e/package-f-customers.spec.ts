@@ -3,6 +3,7 @@ import {analyzePackageFAccessibility} from './package-f-accessibility';
 import {checkLayout} from './package-f-layout';
 import {expect,test,type Page} from './isolated-test';
 import {customersFixture} from './package-f-customers.fixture';
+import {cashIds} from './package-f-cash.fixture';
 
 const url=(query='')=>`http://127.0.0.1:4173/e2e/package-f-customers-harness.html?${query}`;
 const shellRequests = [
@@ -10,15 +11,16 @@ const shellRequests = [
   {name:'get_stock_alert_notifications',args:{p_include_resolved:false,p_limit:100}},
 ];
 
-test('accepted Cash harness makes the exact two pre-existing shell requests without Customers',async({page})=>{
+for(const role of ['owner','cashier'])test(`Cash ${role} harness keeps exact shell reads plus only its authorized withdrawals read without Customers`,async({page})=>{
   const calls:Array<{name:string;args:Record<string,unknown>}>=[];
   await page.route('**/rest/v1/rpc/**',route=>{
     calls.push({name:route.request().url().split('/').at(-1)!,args:route.request().postDataJSON()});
     return route.fulfill({json:{items:[],unreadCount:0}});
   });
-  await page.goto('http://127.0.0.1:4173/e2e/package-f-cash-harness.html?theme=light');
+  await page.goto(`http://127.0.0.1:4173/e2e/package-f-cash-harness.html?theme=light${role==='cashier'?'&cashier=1':''}`);
   await expect(page.getByTestId('cash-scroll')).toBeVisible();
-  await expect.poll(()=>[...calls].sort((a,b)=>a.name.localeCompare(b.name))).toEqual(shellRequests);
+  const expected=role==='owner'?[...shellRequests,{name:'get_shift_owner_withdrawals_v1',args:{p_shift_id:cashIds.shift}}]:shellRequests;
+  await expect.poll(()=>[...calls].sort((a,b)=>a.name.localeCompare(b.name))).toEqual([...expected].sort((a,b)=>a.name.localeCompare(b.name)));
 });
 async function audit(page:Page) {
   await checkLayout(page,page.getByTestId('customers-workbench'));

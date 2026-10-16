@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner2026-10-16 PR3withdrawals/drawer-warning:independent review84af759 thencomplete runtime/browser/access/reference/genuine merge. After delivery:cheques190199,openingchequescard,legalhome. No managedaccess.",
-  "baselineSha": "b72aa55e71f53a2d230bb4b5ceac668e9fa797a7",
+  "baselineSha": "5f199e203e0c3352112abeb230c74fd731c992c6",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -17,7 +17,7 @@
     "Firstownerb72aa55 delivered FULL25/25 quality38825364583+secrets38825364387/Gitleaks0;owner accepts all3"
   ],
   "inProgress": [
-    "PR3 local gates complete;Gitleaks,genuine merge,push and exactFULLCI next"
+    "PR3 merged/pushed5f199e2;CI found old exact Cash-harness request contract;test-only explicit owner/cashier update then fullCI"
   ],
   "notStarted": [
     "AfterA delivered:newfeature/deferred-cheques190199;thenopeningchequescard;thenlegalhome receivables"
@@ -32,7 +32,7 @@
     "12:41-13:03UTC relatedbrowser170PASS/4oldskips,Admin+isolatedCustomerbuild/networkisolation PASS/frozen"
   ],
   "testsRemaining": [
-    "Gitleaks/genuine merge/push/exactFULLCI"
+    "Test-only Cash contract28of28/typeslint/allunitsPASS;Gitleaks/followupcommit/push/exactFULLCI"
   ],
   "findings": [
     "Known legacyreturned debt7000:home7000/phase42=0;approved partC later,not fixed inA"
@@ -45,12 +45,12 @@
     "No retries/timeouts/skips/assertionweakening;freeze trackedfiles duringgates",
     "No financial question decided silently;no B beforeA delivery;onewriter;no protectedbusinessdeletes"
   ],
-  "nextExactAction": "All A local gates PASS;finish genuine merge after final Gitleaks/diffcheck,push and exactFULLCI;no B before acceptance,no hostedaccess.",
-  "checkpointedAt": "2026-10-16T15:41:00.545Z",
+  "nextExactAction": "Cash exact-read test-only correction locally28/28/fullunits/typeslintPASS. Commit/push then wait exactFULLCI+secrets;A notdelivered untilgreen;no B yet,no managedaccess.",
+  "checkpointedAt": "2026-10-16T15:59:55.621Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "A76D8E72D213DCB99CA61425B4DC9938808B2374EC89DD1BF308CAA13A30A76B",
-  "filesTouchedCount": 94,
-  "filesTouchedManifestSha256": "f92dea9d2d12cba64d164069550887277e9b9526731275c1b4b2fb67f2c5af28"
+  "workingTreeFingerprint": "B0B4C0A2A753B84E951C8062A8488F3C3FFDDDA38A120D1C5CFCE9769578B572",
+  "filesTouchedCount": 2,
+  "filesTouchedManifestSha256": "a408b07b7b44242a511fa396f212ce8136baf2499989591a2e7bb8ece998e903"
 }
