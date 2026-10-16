@@ -25,6 +25,7 @@ import {
 import type { ShiftClosingReport } from '../../types';
 import { ShiftClosingReportModal } from './ShiftClosingReportModal';
 import { ShiftArchiveSection } from './ShiftArchiveSection';
+import { OwnerWithdrawalsPanel } from './OwnerWithdrawalsPanel';
 
 const money = (value: number) => <MoneyText amount={value} currency/>;
 
@@ -366,6 +367,8 @@ export const ShiftsView: React.FC = () => {
                   ['مبالغ مرتجعات كاش (−)',currentShift.cashRefunds,'text-nw-bad'],
                   ['مصروفات من الدرج (−)',currentShift.cashExpenses,'text-nw-bad'],
                   ['دفعات الموردين كاش (−)',currentShift.cashSupplierPayments,'text-nw-bad'],
+                  ...(currentShift.ownerWithdrawals?[['سحوبات المالك (−)',currentShift.ownerWithdrawals,'text-nw-bad']]:[]),
+                  ...(currentShift.ownerWithdrawalReturns?[['إرجاع سحوبات المالك (+)',currentShift.ownerWithdrawalReturns,'text-nw-ok']]:[]),
                 ].map(([label,value,tone])=><div key={label} className="flex min-w-0 items-center justify-between gap-2 py-3 lg:px-3"><span className="text-xs text-nw-muted">{label}</span><strong className={String(tone)}><MoneyText amount={Number(value)}/></strong></div>)}
               </div>
               <div className="flex items-center justify-between gap-2 border-t border-nw-border pt-3 text-sm font-bold"><span>المتوقع</span><MoneyText amount={currentShift.expectedCash}/></div>
@@ -383,6 +386,7 @@ export const ShiftsView: React.FC = () => {
               </div>
             </div>
           </Card>
+          {isOwner && <OwnerWithdrawalsPanel shift={currentShift} onChanged={() => void refreshExpenseShiftCenterFromSupabase().catch(() => undefined)} />}
           <UiButton onClick={() => void handleOpenReport(currentShift.id)}><FileText className="h-4 w-4"/>عرض التقرير المالي الحي</UiButton>
           {recentHistory}
           <div className="space-y-2 border-t border-nw-border pt-3">
@@ -485,6 +489,14 @@ export const ShiftsView: React.FC = () => {
                           </div>
                         ))}
                       </div>
+                      {fullReversalPreview.ownerWithdrawals && (
+                        <div className="rounded-lg border border-nw-border bg-nw-surface-2 p-2 text-[11px] text-nw-text" data-testid="full-reversal-owner-withdrawals">
+                          <b>سحوبات المالك: </b>
+                          {fullReversalPreview.ownerWithdrawals.withdrawalsToReverseCount > 0 && <span>تُعاد {fullReversalPreview.ownerWithdrawals.withdrawalsToReverseCount} سحوبات ({money(fullReversalPreview.ownerWithdrawals.cashBackToDrawer)}) إلى الدرج. </span>}
+                          {fullReversalPreview.ownerWithdrawals.returnsToVoidCount > 0 && <span>يُلغى {fullReversalPreview.ownerWithdrawals.returnsToVoidCount} إرجاع لسحوبات ورديات سابقة ({money(fullReversalPreview.ownerWithdrawals.cashOutAgain)})، فيعود السحب الأصلي قائماً. </span>}
+                          {fullReversalPreview.ownerWithdrawals.blockedReason && <span className="text-nw-bad">{fullReversalPreview.ownerWithdrawals.blockedReason}</span>}
+                        </div>
+                      )}
                       {fullReversalPreview.scopeNote && <p className="text-[10px] leading-5 text-nw-muted">{fullReversalPreview.scopeNote}</p>}
                       {fullReversalPreview.canExecute ? (
                         <>

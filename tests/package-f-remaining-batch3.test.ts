@@ -132,7 +132,7 @@ const snapshotScript="\nconst fs=require('fs'),ts=require('typescript'),c=requir
 // Only the two receiving forms have owner-approved unit-mode semantics and
 // PO metadata reads. Pin those exact new ASTs;all other batch3 pins unchanged.
 test('batch3 authority pins remain exact with approved receiving-unit form contracts',()=>{
- assert.deepEqual(JSON.parse(execFileSync(process.execPath,['-e',snapshotScript],{encoding:'utf8'})),baseline);
+ assert.deepEqual(JSON.parse(execFileSync(process.execPath,['--import','tsx','-e',snapshotScript.replace("fs.readFileSync(file,'utf8')","require('./tests/approved-withdrawals182-source.ts').approvedWithdrawals182Source(file,fs.readFileSync(file,'utf8'))")],{encoding:'utf8'})),baseline);
 });
 test('all twelve purchasing screens use tokens/shared forms and buttons',()=>{
  for(const row of baseline){const s=readFileSync(row.file,'utf8');assert.doesNotMatch(s,/(?:bg|text|border|ring|from|via|to)-(?:slate|gray|blue|indigo|purple|violet|emerald|green|teal|amber|orange|rose|pink|red|cyan|yellow)-\d/u,row.file);assert.match(s,/UiButton/u);}

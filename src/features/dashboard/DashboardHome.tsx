@@ -164,6 +164,14 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
             </div>
           </Card>
         </div>
+        {summary.monthOwnerWithdrawalsInMinorUnits !== undefined && <Card data-testid="home-owner-withdrawals">
+          <SectionHeader title="سحوبات المالك — هذا الشهر" hint="كل الفروع، بنفس نطاق ربح الشهر" />
+          <dl className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div><dt className="text-xs text-nw-muted">صافي السحوبات</dt><dd className="m-0 text-xl font-bold text-nw-bad">{money(summary.monthOwnerWithdrawalsInMinorUnits, true)}</dd></div>
+            <div><dt className="text-xs text-nw-muted">المتبقي في المحل</dt><dd className="m-0"><span className="text-xl font-bold">{money(summary.monthRemainingAfterWithdrawalsInMinorUnits ?? null, available)}</span>
+              <p className="m-0 mt-1 text-xs text-nw-muted">ربح الشهر ناقص صافي السحوبات؛ ليس رصيد الدرج أو البنك.</p></dd></div>
+          </dl>
+        </Card>}
         <Card>
           <SectionHeader title="إجراءات سريعة" />
           <div className="mt-3 flex flex-wrap gap-3"><UiButton onClick={onSell}>بيع جديد</UiButton><UiButton onClick={() => onReceive()}><PackagePlus className="h-4 w-4" aria-hidden="true" />استلام بضاعة</UiButton><UiButton onClick={onExpense}><ReceiptText className="h-4 w-4" aria-hidden="true" />تسجيل مصروف</UiButton></div>

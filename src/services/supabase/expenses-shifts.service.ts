@@ -60,6 +60,15 @@ export interface CashShiftFullReversalPreview {
   operations: CashShiftFullReversalOperation[];
   summary: Record<string, number>;
   scopeNote?: string;
+  /** Owner withdrawals handled by the same atomic reversal (migration 180). */
+  ownerWithdrawals?: {
+    canExecute: boolean;
+    blockedReason?: string;
+    withdrawalsToReverseCount: number;
+    returnsToVoidCount: number;
+    cashBackToDrawer: number;
+    cashOutAgain: number;
+  };
 }
 
 export interface CashShiftFullReversalResult {
@@ -129,6 +138,8 @@ function mapShift(payload: RpcRecord): Shift {
     cliqExpenses,
     cashRefunds,
     cliqRefunds,
+    ownerWithdrawals: minorUnitsToJod(payload.ownerWithdrawalsInMinorUnits),
+    ownerWithdrawalReturns: minorUnitsToJod(payload.ownerWithdrawalReturnsInMinorUnits),
     expectedCash: minorUnitsToJod(payload.expectedCashInMinorUnits),
     actualCash:
       payload.actualCashInMinorUnits === null ||
@@ -212,6 +223,47 @@ export async function previewCashShiftFullReversalFromSupabase(
       : [],
     summary: numericEffect(payload.summary),
     scopeNote: textValue(payload.scopeNote) || undefined,
+    ownerWithdrawals: mapOwnerWithdrawalReversalPlan(payload.ownerWithdrawals),
+  };
+}
+
+function mapOwnerWithdrawalReversalPlan(value: unknown): CashShiftFullReversalPreview['ownerWithdrawals'] {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
+  const plan = value as RpcRecord;
+  const reverse = Array.isArray(plan.withdrawalsToReverse) ? plan.withdrawalsToReverse.length : 0;
+  const voids = Array.isArray(plan.returnsToVoid) ? plan.returnsToVoid.length : 0;
+  const blockedReason = textValue(plan.blockedReason).replace(/^[A-Z0-9_]+:\s*/u, '');
+  if (plan.canExecute === true && reverse === 0 && voids === 0) return undefined;
+  return {
+    canExecute: plan.canExecute === true,
+    blockedReason: blockedReason || undefined,
+    withdrawalsToReverseCount: reverse,
+    returnsToVoidCount: voids,
+    cashBackToDrawer: minorUnitsToJod(plan.cashBackToDrawerInMinorUnits),
+    cashOutAgain: minorUnitsToJod(plan.cashOutAgainInMinorUnits),
+  };
+}
+
+function mapClosingOwnerWithdrawals(value: unknown): ShiftClosingReport['ownerWithdrawals'] {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
+  const section = value as RpcRecord;
+  const items = Array.isArray(section.items) ? section.items : [];
+  return {
+    net: minorUnitsToJod(section.netInMinorUnits),
+    netMovementAfterWithdrawals: section.netMovementAfterWithdrawalsInMinorUnits == null
+      ? undefined : minorUnitsToJod(section.netMovementAfterWithdrawalsInMinorUnits),
+    withdrawn: minorUnitsToJod(section.withdrawnInMinorUnits),
+    returned: minorUnitsToJod(section.returnedInMinorUnits),
+    items: items.map((item) => {
+      const record = item as RpcRecord;
+      return {
+        kind: record.kind === 'return' ? 'return' : 'withdrawal',
+        withdrawalNumber: textValue(record.withdrawalNumber),
+        amount: minorUnitsToJod(record.amountInMinorUnits),
+        at: textValue(record.at),
+        originalShiftNumber: textValue(record.originalShiftNumber) || undefined,
+      };
+    }),
   };
 }
 
@@ -372,6 +424,7 @@ export async function fetchCashShiftClosingReportFromSupabase(
           };
         })
       : [],
+    ownerWithdrawals: mapClosingOwnerWithdrawals(payload.ownerWithdrawals),
     returnQuantityBreakdown: Array.isArray(payload.returnQuantityBreakdown)
       ? payload.returnQuantityBreakdown.map((item) => {
           const record = item as RpcRecord;

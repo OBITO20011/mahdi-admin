@@ -22,7 +22,7 @@ export async function buildReference171(args=[]){
  assertOutsideRepository(target);await mkdir(path.dirname(target),{recursive:true});assertOutsideRepository(await realpath(path.dirname(target)),await realpath(root));
  await assert.rejects(()=>readFile(target),{code:'ENOENT'},'REFERENCE_ALREADY_EXISTS');
  const output=await mkdtemp(path.join(tmpdir(),'nawasrah-reference171-')),report={startedAt:new Date().toISOString(),managedAccess:false,output,target};
- const manifest=await migrationManifest(root),source=await inventory(),proofText=canonicalLf(await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_171.json'),'utf8')),
+ const manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=171),source=await inventory(),proofText=canonicalLf(await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_171.json'),'utf8')),
   proof=JSON.parse(proofText),proof164=await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_164.json'),'utf8'),proof150=await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_150.json'),'utf8');
  const project='nawasrah-reference171-test',executor=executorFor(['--container','supabase_db_'+project]);let local,stage='base164';
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,'REFERENCE171_SQL_FAILED');return r.stdout.trim();};
@@ -53,7 +53,7 @@ export async function buildReference171(args=[]){
    catalogQuerySha256:sha256(schemaCatalogSql),functions,realtimeQuerySha256:sha256(realtimePublicationSql),realtimeSha256:sha256(JSON.stringify(final.realtimePublication)),
    base164,prefixes,freshIncrementalDifferenceCount:0,notificationSnapshot:base164.notificationSnapshot,cronAudit:base164.cronAudit,
    readiness:{sourceHashes:source.sources,accessEvidenceSha256:sha256(proofText),coverage:proof.coverage,queries:proof.results.length,errors:0}};
-  assertReference171(reference,manifest,proofText,source,proof164,proof150);assert.deepEqual(await migrationManifest(root),manifest);assert.deepEqual((await inventory()).sources,source.sources);
+  assertReference171(reference,manifest,proofText,source,proof164,proof150);assert.deepEqual((await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=171),manifest);assert.deepEqual((await inventory()).sources,source.sources);
   await writeFile(target,JSON.stringify(reference,null,2)+'\n',{flag:'wx'});
   Object.assign(report,{ok:true,migrations:manifest.length,functions,manifestDigest:reference.manifestDigest,catalogSha256:reference.catalogSha256,realtimeMembers:13,freshIncrementalDifferenceCount:0});
  }catch(error){report.ok=false;report.stage=stage;report.error=error.message;throw error;}

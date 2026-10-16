@@ -25,6 +25,7 @@ import {
   useAppStoreSelector,
 } from '../../stores/useAppStore';
 import type { OperationalBusinessReport } from '../../types';
+import { OwnerWithdrawalsReportSection } from './OwnerWithdrawalsReportSection';
 import type {AftercareIntegrityStatus} from '../../types/monitoring';
 import {getAftercareIntegrityStatus} from '../../services/supabase/monitoring.service';
 import {aftercareIntegrityWarning} from '../../utils/aftercareIntegrity';
@@ -330,6 +331,11 @@ export const ReportsCenterView: React.FC = () => {
             <MetricCard label="المصاريف" value={money(report.expenses.total)} hint="المصاريف غير المعكوسة خلال الفترة" icon={ReceiptText} tone="amber" />
             <MetricCard label="الربح" value={money(report.sales.netProfit)} hint="بعد المرتجعات والاستبدال واسترجاع التكلفة والمصاريف" icon={TrendingUp} tone={report.sales.netProfit >= 0 ? 'emerald' : 'rose'} />
           </section>
+
+          {report.ownerWithdrawals && (
+            <OwnerWithdrawalsReportSection branchId={activeBranch.id} dateFrom={dateFrom} dateTo={dateTo}
+              totals={report.ownerWithdrawals} onChanged={() => void loadReport()} />
+          )}
 
           <details className="space-y-4" data-testid="report-details">
             <summary className="cursor-pointer rounded-xl border border-nw-border bg-nw-surface p-3 font-bold text-nw-text">تفاصيل</summary>

@@ -9,6 +9,7 @@ import {ExpensesView} from '../src/features/expenses/ExpensesView';
 import {ExpenseFormModal} from '../src/features/expenses/ExpenseFormModal';
 import {ReportsCenterView} from '../src/features/reports/ReportsCenterView';
 import {Modal} from '../src/components/common/Modal';
+import {AdminToast} from '../src/components/layout/AdminToast';
 import {UiButton} from '../src/components/ui';
 import {storeEngine,useAppStoreSelector,type AppState} from '../src/stores/useAppStore';
 import {authStoreEngine,type AuthState} from '../src/stores/useAuthStore';
@@ -28,7 +29,7 @@ client.rpc=(name,args)=>{
  if(name==='get_expense_shift_center')return response(expenseCenter(params.get('shift')==='closed'));
  if(name==='get_operational_business_report'){
   if(params.get('report')==='error')return Promise.resolve({data:null,error:{message:'تعذر قراءة التقرير في المعاينة'}});
-  return response(financialReport);
+  return response(params.has('withdrawals')?{...financialReport,ownerWithdrawals:{withdrawnInMinorUnits:20000,returnedInMinorUnits:0,netInMinorUnits:20000,netProfitInMinorUnits:30000,remainingAfterWithdrawalsInMinorUnits:10000}}:financialReport);
  }
  if(name==='get_aftercare_integrity_status')return response({status:params.get('integrity')==='critical'?'critical':'healthy',checkedAt:new Date().toISOString()});
  return rpc(name,args); // No fabricated successful mutations;original isolated transport.
@@ -37,7 +38,9 @@ await storeEngine.refreshExpenseShiftCenterFromSupabase();
 function Harness(){
  const [view,setView]=useState(params.get('view')??'expenses');
  const modalType=useAppStoreSelector(state=>state.currentModal);
+ const toast=useAppStoreSelector(state=>state.toast);
  return <main dir="rtl" data-testid="financial-workbench" className="min-h-[100dvh] min-w-0 bg-nw-bg text-nw-text font-sans">
+  <AdminToast toast={toast}/>
   <nav aria-label="شاشات المعاينة" className="flex flex-wrap gap-2 p-4"><UiButton onClick={()=>setView('expenses')}>المصروفات</UiButton><UiButton onClick={()=>setView('reports')}>التقارير</UiButton><UiButton onClick={()=>setView('expense-form')}>تسجيل مصروف</UiButton></nav>
   {view==='reports'?<ReportsCenterView/>:<ExpensesView/>}
   <Modal isOpen={view==='expense-form'||modalType==='add_expense'} onClose={()=>{storeEngine.closeModal();setView('expenses');}} title="مصروف جديد"><ExpenseFormModal onClose={()=>{storeEngine.closeModal();setView('expenses');}}/></Modal>

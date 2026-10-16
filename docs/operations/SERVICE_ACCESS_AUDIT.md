@@ -6,9 +6,9 @@
 
 ### أ. RPC — EXECUTE الفعلي،لا افتراض نجاح من mock
 
-147 موضعSDK .rpc و4 موضعRESTGateway،141 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
+151 موضعSDK .rpc و4 موضعRESTGateway،145 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
 
-قاعدة171 محلية جديدة: 429 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،111 نجاحمعrollback،318 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
+قاعدة182 محلية جديدة: 441 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،113 نجاحمعrollback،328 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
 
 حدالقياسصريح:أُرسلتقيممحليةمحايدةمُنمّطةحسبتوقيعSQL(معرفعميل/فرع/مستودعfixtureحيثيوجد،NULL/JSONفارغلغيره)،وليستجميعحمولاتالتدفّقاتالصحيحةمنواجهةالتطبيق. النصالأصليلكلاستدعاءومعاملاتهفيSERVICE_ACCESS_INVENTORY.json؛قيمةكلprobeوأثرهفيSERVICE_ACCESS_DIAGNOSTIC.json. لا نسمّي274خطأتحققنجاحاًوظيفياً ولا42501. كلنجاحوكلخطأداخلsubtransactionأُرجع؛لاأثرماليأومخزنيباقٍ. اختباراتالمساراتالمتكاملةالقائمةتبقىمطلوبة؛هذهالإضافةتثبتEXECUTE/dispatchوليسإتمامكلسيناريو.
 
@@ -31,7 +31,7 @@
 | record_customer_order_payment_once؛src/services/supabase/customerAccounts.service.ts:135 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_customer_debt_aging؛src/services/supabase/customerDebtAging.service.ts:8 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | get_customer_statement؛src/services/supabase/customerStatement.service.ts:7 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
-| get_home_dashboard؛src/services/supabase/dashboard.service.ts:117 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_home_dashboard؛src/services/supabase/dashboard.service.ts:120 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | preview_supplier_receipt_cancellation؛src/services/supabase/directReceiving.service.ts:21 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_supplier_receipts_page؛src/services/supabase/directReceiving.service.ts:154 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | resolve_legacy_supplier_receipt_replay_v1؛src/services/supabase/directReceiving.service.ts:260 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
@@ -39,16 +39,16 @@
 | record_supplier_receipt_payment؛src/services/supabase/directReceiving.service.ts:431 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | archive_supplier_receipt؛src/services/supabase/directReceiving.service.ts:462 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | cancel_supplier_receipt؛src/services/supabase/directReceiving.service.ts:495 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| preview_cash_shift_full_reversal؛src/services/supabase/expenses-shifts.service.ts:196 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| reverse_cash_shift_with_operations؛src/services/supabase/expenses-shifts.service.ts:223 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| get_cash_shift_closing_report؛src/services/supabase/expenses-shifts.service.ts:252 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| get_expense_shift_center؛src/services/supabase/expenses-shifts.service.ts:423 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
-| get_cash_shift_archive_page؛src/services/supabase/expenses-shifts.service.ts:451 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
-| open_cash_shift؛src/services/supabase/expenses-shifts.service.ts:490 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
-| create_operational_expense؛src/services/supabase/expenses-shifts.service.ts:508 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| reverse_operational_expense؛src/services/supabase/expenses-shifts.service.ts:533 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| close_cash_shift؛src/services/supabase/expenses-shifts.service.ts:555 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| cancel_empty_cash_shift؛src/services/supabase/expenses-shifts.service.ts:575 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| preview_cash_shift_full_reversal؛src/services/supabase/expenses-shifts.service.ts:207 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| reverse_cash_shift_with_operations؛src/services/supabase/expenses-shifts.service.ts:275 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_cash_shift_closing_report؛src/services/supabase/expenses-shifts.service.ts:304 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_expense_shift_center؛src/services/supabase/expenses-shifts.service.ts:476 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_cash_shift_archive_page؛src/services/supabase/expenses-shifts.service.ts:504 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| open_cash_shift؛src/services/supabase/expenses-shifts.service.ts:543 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| create_operational_expense؛src/services/supabase/expenses-shifts.service.ts:561 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| reverse_operational_expense؛src/services/supabase/expenses-shifts.service.ts:586 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| close_cash_shift؛src/services/supabase/expenses-shifts.service.ts:608 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| cancel_empty_cash_shift؛src/services/supabase/expenses-shifts.service.ts:628 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_go_live_setup_status_v1؛src/services/supabase/goLive.service.ts:99 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
 | get_go_live_customer_openings_v1؛src/services/supabase/goLive.service.ts:102 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
 | get_go_live_supplier_openings_v1؛src/services/supabase/goLive.service.ts:112 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
@@ -84,6 +84,10 @@
 | update_order_status؛src/services/supabase/orders.service.ts:1029 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | start_or_update_order_delivery؛src/services/supabase/orders.service.ts:1080 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | update_order_delivery_address؛src/services/supabase/orders.service.ts:1138 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| create_owner_cash_withdrawal_v1؛src/services/supabase/ownerWithdrawals.service.ts:77 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| reverse_owner_cash_withdrawal_v1؛src/services/supabase/ownerWithdrawals.service.ts:87 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_shift_owner_withdrawals_v1؛src/services/supabase/ownerWithdrawals.service.ts:96 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
+| get_owner_withdrawals_report؛src/services/supabase/ownerWithdrawals.service.ts:121 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
 | get_admin_parcel_configuration_context_v1؛src/services/supabase/parcelConfiguration.service.ts:56 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
 | save_product_parcel_configuration_v1؛src/services/supabase/parcelConfiguration.service.ts:56 | authenticated | owner:22023؛ admin:P0001؛ cashier:P0001 |
 | set_configurable_parcel_feature_state_v1؛src/services/supabase/parcelConfiguration.service.ts:56 | authenticated | owner:23502؛ admin:P0001؛ cashier:P0001 |
@@ -221,16 +225,17 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 
 ### د. مرجع المشروع القديم والإعدادات
 
-بحثGitلجميعالملفاتالمتتبعة+غيرالمتجاهلةخارجmigrationsالتاريخية(دونملفاتenv/القيمالسرية):27 ملفاً،القائمةأدناه. ملفاSERVICE_ACCESSالمولدانوكودأداةالبحثنفسهاواختبارهايُستثنيانمنالعدلتجنّبالتغذيةالراجعة؛المخرجاتتحفظأرقامأسطروتصنيفاًفقط. النصالعامللفرانكفورتلايُغيّرمنهذاالبحث.
+بحثGitلجميعالملفاتالمتتبعة+غيرالمتجاهلةخارجmigrationsالتاريخية(دونملفاتenv/القيمالسرية):28 ملفاً،القائمةأدناه. ملفاSERVICE_ACCESSالمولدانوكودأداةالبحثنفسهاواختبارهايُستثنيانمنالعدلتجنّبالتغذيةالراجعة؛المخرجاتتحفظأرقامأسطروتصنيفاًفقط. النصالعامللفرانكفورتلايُغيّرمنهذاالبحث.
 
 | الملف | الأسطر | التصنيف/الأثر |
 |---|---|---|
 | automation/n8n/workflows/nawasrah-alerts.json | 32, 89, 175, 228 | EXTERNAL_CONSUMER |
 | customer-web/public/_headers | 7 | CSP_CONNECT_SRC |
 | customer-web/src/config/supabase-public-config.ts | 13 | APP_FALLBACK |
-| docs/agent/HANDOFF_HISTORY.md | 324 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 295 | HISTORICAL_DOCUMENTATION |
+| docs/agent/HANDOFF_HISTORY.md | 435 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 353 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
+| docs/operations/STAGING_FRANKFURT_AR.md | 135 | HISTORICAL_DOCUMENTATION |
 | docs/operations/TABLE_ACCESS_DIAGNOSTIC.json | 37409 | HISTORICAL_DOCUMENTATION |
 | public/_headers | 8 | CSP_CONNECT_SRC |
 | scripts/backup/README.md | 28 | PRESERVE_OLD_BACKUP_LINK |
@@ -306,4 +311,4 @@ node scripts/audit/run-service-access-diagnostic.mjs
 node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>
 ```
 
-لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على171 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
+لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على182 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.

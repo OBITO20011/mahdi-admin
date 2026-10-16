@@ -220,7 +220,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, owner-withdrawals]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -245,7 +245,7 @@ jobs:
         if: matrix.suite == 'package-d'
         run: node scripts/testing/run-package-d-database-runtime.mjs
 
-      - name: Rehearse trial reset with real local Auth,Storage bytes and strict171 catalog
+      - name: Rehearse trial reset with real local Auth,Storage bytes and strict182 catalog
         if: matrix.suite == 'operations-reset'
         run: node scripts/testing/run-trial-reset-runtime.mjs
 
@@ -289,6 +289,18 @@ jobs:
         if: matrix.suite == 'package-f-reads'
         run: node scripts/testing/run-frankfurt-upgrade164-runtime.mjs
 
+      - name: Prove182 owner-only withdrawals,atomic reversal,closing race,monitoring and strict logical restore
+        if: matrix.suite == 'owner-withdrawals'
+        run: node scripts/testing/run-owner-withdrawals-runtime.mjs
+
+      - name: Prove182 independent full cash day preserves unified opening collections and supplier payments
+        if: matrix.suite == 'owner-withdrawals'
+        run: node scripts/testing/run-withdrawals-integration182-runtime.mjs
+
+      - name: Prove182 fresh and incremental catalogs and owner pipeline with no managed access
+        if: matrix.suite == 'owner-withdrawals'
+        run: node scripts/testing/run-frankfurt-upgrade182-runtime.mjs
+
       - name: Prove171 fresh versus incremental catalog,closed legacy writers and owner upgrade locally
         if: matrix.suite == 'package-f-reads'
         run: node scripts/testing/run-frankfurt-upgrade171-runtime.mjs
@@ -313,7 +325,7 @@ jobs:
         if: matrix.suite == 'package-f-reads'
         run: npm run test:table-reads150:runtime
 
-      - name: Require real application table access through171
+      - name: Require real application table access through182
         if: matrix.suite == 'package-f-reads'
         run: node scripts/audit/run-table-access-diagnostic.mjs --require-access
 

@@ -1,0 +1,381 @@
+{
+  "schemaVersion": 1,
+  "files": [
+    {
+      "code": "A ",
+      "path": "docs/handoff/WITHDRAWALS_HANDOFF.md"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/FRANKFURT_REFERENCE_182_AR.md"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_182.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/WITHDRAWALS_INTEGRATION_182.md"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/package-f-withdrawals.spec.ts"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/agent/checkpoint-files.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/operations/frankfurt-reference182.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/backup-restore-contract.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-owner-withdrawals-runtime.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "src/features/reports/OwnerWithdrawalsReportSection.tsx"
+    },
+    {
+      "code": "A ",
+      "path": "src/features/shifts/OwnerWithdrawalsPanel.tsx"
+    },
+    {
+      "code": "A ",
+      "path": "src/hooks/useDrawerShortfallConfirm.tsx"
+    },
+    {
+      "code": "A ",
+      "path": "src/services/supabase/ownerWithdrawals.service.ts"
+    },
+    {
+      "code": "A ",
+      "path": "supabase/migrations/180_owner_cash_withdrawals.sql"
+    },
+    {
+      "code": "A ",
+      "path": "supabase/migrations/181_owner_withdrawal_readers.sql"
+    },
+    {
+      "code": "A ",
+      "path": "supabase/migrations/182_owner_withdrawal_monitoring.sql"
+    },
+    {
+      "code": "A ",
+      "path": "tests/approved-withdrawals182-source.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/backup-restore-contract.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/checkpoint-files.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/fixtures/approved-withdrawals182-source.json"
+    },
+    {
+      "code": "A ",
+      "path": "tests/owner-withdrawals.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/withdrawals-integration182.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/withdrawals182-admission.test.ts"
+    },
+    {
+      "code": "AM",
+      "path": "scripts/audit/refresh-access-evidence182.mjs"
+    },
+    {
+      "code": "AM",
+      "path": "scripts/operations/build-acl-reference182.mjs"
+    },
+    {
+      "code": "AM",
+      "path": "scripts/operations/frankfurt-owner-upgrade182.mjs"
+    },
+    {
+      "code": "AM",
+      "path": "scripts/testing/run-frankfurt-upgrade182-runtime.mjs"
+    },
+    {
+      "code": "AM",
+      "path": "scripts/testing/run-withdrawals-integration182-runtime.mjs"
+    },
+    {
+      "code": "M ",
+      "path": ".github/workflows/quality.yml"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/OPERATING_RULES.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/OWNER_DECISIONS.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/PROJECT_OVERVIEW.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/generated/DB_FUNCTIONS.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/FIRST_OWNER_FRANKFURT_AR.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/PRIVATE_CI_BUDGET.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/STAGING_FRANKFURT_AR.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_150.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_164.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_171.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TRIAL_RESET_FRANKFURT_AR.md"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-cash-harness.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-financial-harness.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-home-harness.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "package.json"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/agent/checkpoint.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/agent/lib.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/agent/migration-numbering.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/agent/preflight.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/build-acl-reference171.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-align-acl.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-first-owner.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-owner-build.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-reference171.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-trial-reset.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/trial-reset-core.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/run-first-owner-runtime.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/run-trial-reset-runtime.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/dashboard/DashboardHome.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/directReceiving/CreateDirectReceiptModal.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/directReceiving/RecordSupplierPaymentModal.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/expenses/ExpenseFormModal.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/goLive/GoLiveSetupView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/purchases/SupplierPaymentModal.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/reports/ReportsCenterView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/shifts/ShiftClosingReportModal.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/shifts/ShiftsView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/services/supabase/dashboard.service.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/services/supabase/expenses-shifts.service.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/services/supabase/reports.service.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/types/dashboard.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/types/index.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/types/reports.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/go-live-integration164.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/migration-integrity.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/migration-numbering.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/package-f-cash.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/package-f-remaining-batch3.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/package-f-remaining-batch4.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/product-integration171.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/service-access-inventory.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/strict-product-legacy-source.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/strict-test-contracts.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/table-access-ci-gate.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/table-access-inventory.test.ts"
+    }
+  ]
+}

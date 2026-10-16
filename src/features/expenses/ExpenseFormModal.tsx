@@ -5,6 +5,7 @@ import {
   useAppStoreSelector,
 } from '../../stores/useAppStore';
 import {FormFields, UiButton} from '../../components/ui';
+import { useDrawerShortfallConfirm } from '../../hooks/useDrawerShortfallConfirm';
 
 interface ExpenseFormModalProps {
   onClose: () => void;
@@ -24,6 +25,7 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
   onClose,
 }) => {
   const currentShift = useAppStoreSelector((state) => state.currentShift);
+  const drawer = useDrawerShortfallConfirm();
   const { addExpense, setActiveTab } = useAppStoreActions();
   const [category, setCategory] = useState(EXPENSE_CATEGORIES[0]);
   const [amount, setAmount] = useState('');
@@ -67,6 +69,7 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
 
   const handleSubmit = async () => {
     if (!isValid || isSaving) return;
+    if (!drawer.confirmCash(numericAmount, paymentMethod === 'cash', currentShift.branchId)) return;
     setIsSaving(true);
     try {
       const success = await addExpense(
@@ -173,6 +176,7 @@ export const ExpenseFormModal: React.FC<ExpenseFormModalProps> = ({
         />
       </div>
 
+      {drawer.warningNode}
       <UiButton variant="accent"
         type="button"
         disabled={!isValid || isSaving}

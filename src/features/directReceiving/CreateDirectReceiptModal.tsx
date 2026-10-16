@@ -6,6 +6,7 @@ import {FormFields, UiButton, formatJod, Card,ReceivingUnitFields,type Receiving
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useAppStoreActions } from '../../stores/useAppStore';
+import { useDrawerShortfallConfirm } from '../../hooks/useDrawerShortfallConfirm';
 import { formatWholesaleInventory } from '../../utils/inventoryFormatter';
 import {
   calculateReceivingLine,
@@ -373,6 +374,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
   );
 
   // Main Action: Save Goods Receipt & Update Inventory
+  const drawer = useDrawerShortfallConfirm();
   const handleSubmitReceipt = async () => {
     if (legacyReplayResolution) {
       setToast(
@@ -439,6 +441,8 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       );
       return;
     }
+
+    if (amountPaidJod > 0 && !drawer.confirmCash(amountPaidJod, paymentMethod === 'cash', selectedBranchId || null)) return;
 
     setIsSubmitting(true);
     try {
@@ -1150,6 +1154,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         </details>
       </Card>
 
+      {drawer.warningNode}
       {/* Main Action Button */}
       <div className="pt-2 flex items-center justify-end gap-2 border-t border-nw-border">
         <UiButton variant="plain"

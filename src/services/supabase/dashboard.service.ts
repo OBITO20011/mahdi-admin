@@ -37,6 +37,9 @@ const mapSummary = (value: Record<string, unknown>): HomeDashboardSummary => ({
   monthSalesInMinorUnits: numberValue(value.monthSalesInMinorUnits),
   monthNetSalesInMinorUnits: nullableNumberValue(value.monthNetSalesInMinorUnits),
   monthProfitInMinorUnits: nullableNumberValue(value.monthProfitInMinorUnits),
+  ...(value.monthOwnerWithdrawalsInMinorUnits !== undefined
+    ? {monthOwnerWithdrawalsInMinorUnits: numberValue(value.monthOwnerWithdrawalsInMinorUnits),
+      monthRemainingAfterWithdrawalsInMinorUnits: nullableNumberValue(value.monthRemainingAfterWithdrawalsInMinorUnits)} : {}),
   openOrdersCount: numberValue(value.openOrdersCount),
   newOrdersCount: numberValue(value.newOrdersCount),
   customerReceivablesInMinorUnits: numberValue(

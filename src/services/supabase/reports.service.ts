@@ -82,7 +82,16 @@ export async function fetchOperationalBusinessReportFromSupabase(
   const inventory = recordValue(payload.inventory);
   const inventoryMovements = recordValue(payload.inventoryMovements);
 
+  // Owner-only block (migration 181): absent for every other role.
+  const ownerWithdrawals = payload.ownerWithdrawals === undefined ? null : recordValue(payload.ownerWithdrawals);
   return {
+    ...(ownerWithdrawals ? { ownerWithdrawals: {
+      withdrawn: moneyValue(ownerWithdrawals.withdrawnInMinorUnits),
+      returned: moneyValue(ownerWithdrawals.returnedInMinorUnits),
+      net: moneyValue(ownerWithdrawals.netInMinorUnits),
+      netProfit: moneyValue(ownerWithdrawals.netProfitInMinorUnits),
+      remainingAfterWithdrawals: moneyValue(ownerWithdrawals.remainingAfterWithdrawalsInMinorUnits),
+    } } : {}),
     generatedAt: textValue(payload.generatedAt),
     period: {
       dateFrom: textValue(period.dateFrom) || dateFrom,

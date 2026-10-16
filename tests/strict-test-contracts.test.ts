@@ -3,6 +3,7 @@ import {test} from 'node:test';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import ts from 'typescript';
+import {approvedWithdrawals182Source} from './approved-withdrawals182-source';
 
 const baseline='d7e0e8ceb07b20473cd798339e62753ad1c5346f';
 const fixtures=[
@@ -49,7 +50,7 @@ function emitted(file:string,source:string) {
 }
 const before=(file:string)=>execFileSync('git',['show',`${baseline}:${file}`],{encoding:'utf8'});
 for(const file of [...fixtures,...scripts,'tests/database-runtime-suite.ts'])test(`strict tests: emitted runtime remains exact: ${file}`,()=>{
-  const old=emitted(file,before(file)),now=emitted(file,readFileSync(file,'utf8'));
+  const old=emitted(file,before(file)),now=emitted(file,approvedWithdrawals182Source(file,readFileSync(file,'utf8')));
   assert.deepEqual(tree(now,now),tree(old,old));
 });
 for(const file of checks)test(`strict tests: every original assertion remains, with no changed expected value: ${file}`,()=>{

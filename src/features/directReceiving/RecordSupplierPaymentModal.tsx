@@ -8,6 +8,7 @@ import React, { useRef, useState } from 'react';
 import { SupplierReceipt } from '../../types/directReceiving';
 import { recordSupplierReceiptPaymentInSupabase } from '../../services/supabase/directReceiving.service';
 import { useAppStoreActions } from '../../stores/useAppStore';
+import { useDrawerShortfallConfirm } from '../../hooks/useDrawerShortfallConfirm';
 import { CURRENCY } from '../../constants';
 import { DollarSign, Loader2 } from 'lucide-react';
 
@@ -38,6 +39,7 @@ export const RecordSupplierPaymentModal: React.FC<RecordSupplierPaymentModalProp
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const paymentIdempotencyKey = useRef(createSupplierReceiptPaymentIdempotencyKey());
 
+  const drawer = useDrawerShortfallConfirm();
   const handleSubmit = async () => {
     if (paymentAmountJod <= 0) {
       setToast('مبلغ الدفعة يجب أن يكون أكبر من صفر.', 'error');
@@ -48,6 +50,8 @@ export const RecordSupplierPaymentModal: React.FC<RecordSupplierPaymentModalProp
       setToast('مبلغ الدفعة أكبر من المبلغ المستحق المتبقي.', 'error');
       return;
     }
+
+    if (!drawer.confirmCash(paymentAmountJod, paymentMethod === 'cash')) return;
 
     setIsSubmitting(true);
     try {
@@ -165,6 +169,7 @@ export const RecordSupplierPaymentModal: React.FC<RecordSupplierPaymentModalProp
         </div>
       </div>
 
+      {drawer.warningNode}
       <div className="flex items-center justify-end gap-2 pt-2">
         <UiButton variant="plain" type="button"
           onClick={onClose}

@@ -1,5 +1,10 @@
 # Multi-agent operating rules
 
+Current owner2026-10-16:complete and merge PR3 withdrawals180–182;ceiling182,
+172–179 deferred without backfill. Then feature/deferred-cheques190–199,
+opening-cheques card,then legal home receivables. No managed access/deploy.
+Owner's latest explicit scope supersedes the historical reservation paragraphs.
+
 Current explicit owner integration2026-10-15 supersedes historical reservations
 below:merge PR2 accepted170/171,ceiling171;cloud170–179,next180–189 reserved.
 140–149 permanent unused;152–159 and165–169 deferred,no backfill. No implied
@@ -28,6 +33,9 @@ This captures the exact task baseline. Do not run it merely to explore an unappr
 ## While working
 
 - Keep `ACTIVE_TASK.json` factual and concise; never paste secrets, tokens, environment values, customer data, or full chat transcripts.
+- Checkpoint stores every dirty path/status in `ACTIVE_TASK_FILES.json`, with
+  its count and SHA256 in the compact task. The working-tree fingerprint also
+  protects the manifest. Read it on takeover; no scope entry or4KB guard is dropped.
 - Use isolated test databases and fail-closed browser network guards.
 - Preserve unrelated changes. Do not use destructive Git commands.
 - Record verified facts separately from claims and remaining evidence gaps.

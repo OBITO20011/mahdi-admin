@@ -1,5 +1,12 @@
 # Project overview
 
+Current owner2026-10-16 scope:take over WIP PR3 withdrawals/drawer-warning,
+independent review first,complete realDB/browser/access/reference/merge gates;
+then cheques190–199,newopeningchequescard,thenlegal home receivables.
+Read OWNER_DECISIONS latest and PR3 docs/handoff/WITHDRAWALS_HANDOFF.md.
+Three preparation commits373018c/627befd/b72aa55 accepted/full25CI each.
+No managedaccess/secrets/deploy. Earlier deferral paragraphs below historical.
+
 Current owner2026-10-16 scope PREPARATION only:trial-reset tool/localrehearsal,
 ArabicSTAGING_FRANKFURT_AR guide,andfirstowner/TOTPprocedure. See corresponding
 docs/operations/TRIAL_RESET_FRANKFURT_AR.md andFIRST_OWNER_FRANKFURT_AR.md.

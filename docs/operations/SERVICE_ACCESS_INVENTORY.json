@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 171,
+  "migrationCeiling": 182,
   "managedAccess": false,
   "sourceHashes": [
     {
@@ -213,7 +213,7 @@
     },
     {
       "file": "src/features/dashboard/DashboardHome.tsx",
-      "sha256": "1f9f36f5f02e377f64523b0fccb972777abca90e765f9a850d8cf11f9250b483"
+      "sha256": "d6e4b2b27bf9dca624d42e15796062daac1f7a439bf59d47a8b3f6b971c141e6"
     },
     {
       "file": "src/features/dashboard/DashboardView.tsx",
@@ -237,7 +237,7 @@
     },
     {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-      "sha256": "9689e3bb7b1ccaad4279bb0a15b8fe157b9a170d7cf0ed5f8056e9f9d77c763f"
+      "sha256": "aa53c36bfe73a50a2db067e6eec61eee96af717865c68a5b624d028b75ac4b88"
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
@@ -245,7 +245,7 @@
     },
     {
       "file": "src/features/directReceiving/RecordSupplierPaymentModal.tsx",
-      "sha256": "40d457a1691a84b9b4f66bcfa903758da369d1fefe18cc46f7ba9b3da658d944"
+      "sha256": "8905d56d8d6924836260dd969990eeb3e8f2beefa03e92068be0f7cbb46a5027"
     },
     {
       "file": "src/features/directReceiving/SupplierReceiptDetailView.tsx",
@@ -253,7 +253,7 @@
     },
     {
       "file": "src/features/expenses/ExpenseFormModal.tsx",
-      "sha256": "0ae14ca5455d1d7dc0dfab1b4f0db4d785378efc406ea307b8350f42927b1948"
+      "sha256": "9fccc1f51ae1859f46f53beff46a3bdb9b740847be164c2d91cda382d3bb4661"
     },
     {
       "file": "src/features/expenses/ExpensesView.tsx",
@@ -265,7 +265,7 @@
     },
     {
       "file": "src/features/goLive/GoLiveSetupView.tsx",
-      "sha256": "a32ea3b1b9d5d1328d3d21a4bddd8a7372f1e98a83d923db37e8f1e21d9b890b"
+      "sha256": "aaa7572a4d499f3a8a9be3803b6eb9d2ec544a7504cd93191c0dbfce9083a655"
     },
     {
       "file": "src/features/inventory/ClearInventoryBalanceDialog.tsx",
@@ -421,11 +421,19 @@
     },
     {
       "file": "src/features/purchases/SupplierPaymentModal.tsx",
-      "sha256": "0ca52cf1f3e4fe5da5a67e1d5a2832061bf673f53e250d2a425250e3d62c59be"
+      "sha256": "af7ec369c38c1162f6ffe82ad4742cc233d8f5d83aa3c4aec53edd0d0c9f667c"
+    },
+    {
+      "file": "src/features/reports/OwnerWithdrawalsReportSection.tsx",
+      "sha256": "e0c62a95dce65b824b94fbe0395d2d5c59992557d6bf3a39c8e9e68bff8146f1"
     },
     {
       "file": "src/features/reports/ReportsCenterView.tsx",
-      "sha256": "d52e52eeee5db05fe42ce4cbc4e9199a9659fc9c78a3187a83635a3aa36efa34"
+      "sha256": "48a174fe52c74ab2de8759a3242fdc818181d9c97ee1de54095772f12578c65c"
+    },
+    {
+      "file": "src/features/shifts/OwnerWithdrawalsPanel.tsx",
+      "sha256": "50e36c2dd2b4dc79a5a8323ed4a2aee37b59ea5f72448c8df24a47e1ed69f182"
     },
     {
       "file": "src/features/shifts/ShiftArchiveSection.tsx",
@@ -433,11 +441,11 @@
     },
     {
       "file": "src/features/shifts/ShiftClosingReportModal.tsx",
-      "sha256": "df05c66e7770d6599b953a69085b6cd841c95a69e1c41cf45d52201e91ad540b"
+      "sha256": "42ab11da4fc28baa0d32acf8c78514ae3709fbfb3681649ee1ca3008b637a2e6"
     },
     {
       "file": "src/features/shifts/ShiftsView.tsx",
-      "sha256": "bda5cd44cea389f21ffda72c9136de30be1c1d1c6b85a4b06701b702f2d267c8"
+      "sha256": "5a5a4c7136b3221308fcaaefd5c2fbe77e4ecc3e01a9efd084c3d1be3139f32f"
     },
     {
       "file": "src/features/users/UserFormModal.tsx",
@@ -458,6 +466,10 @@
     {
       "file": "src/hooks/useDialogFocus.ts",
       "sha256": "89a29a5cc60cf49879949ef2a0dbbe9eab6c3f8c6e53539be319b1135d063a44"
+    },
+    {
+      "file": "src/hooks/useDrawerShortfallConfirm.tsx",
+      "sha256": "20384c7ad7b77fce7837257b06575bb9b80b6fcfed493ca6c827c82b96470e87"
     },
     {
       "file": "src/lib/async.ts",
@@ -529,7 +541,7 @@
     },
     {
       "file": "src/services/supabase/dashboard.service.ts",
-      "sha256": "af3e3f4c31966681a680607642152053ca80d110acbaed4eade28cf015264707"
+      "sha256": "7b2dcd6fd5790ee3acf008cfc0fff7d2736e01c4b9425a404158e91f7687cd1e"
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
@@ -537,7 +549,7 @@
     },
     {
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "sha256": "a12e3778b5a0d997aa7fe08479353874a858e96c76fee19ca13e241ce50a1836"
+      "sha256": "0f4392d774f06cdc53557f30d37efc32aaf66af12b9d00396ad54935ceb55682"
     },
     {
       "file": "src/services/supabase/goLive.service.ts",
@@ -570,6 +582,10 @@
     {
       "file": "src/services/supabase/orders.service.ts",
       "sha256": "319c2b273983b853ebd372000bee2b38380a657b2c6e78ada783abc5be24a868"
+    },
+    {
+      "file": "src/services/supabase/ownerWithdrawals.service.ts",
+      "sha256": "01132d9845f0fbe804c88f8ce6029f0b8f0fd1245b6de7eb4055b8d0d24a97d3"
     },
     {
       "file": "src/services/supabase/parcelConfiguration.service.ts",
@@ -617,7 +633,7 @@
     },
     {
       "file": "src/services/supabase/reports.service.ts",
-      "sha256": "52dd328d40a420cb899755f6b6e96ecf5633a3a77390191fcf5a7829f25060d9"
+      "sha256": "54c5d6f675a0d9302f19298b9605a2fee1c2b0c9a5328ab8cc536d75cae643a6"
     },
     {
       "file": "src/services/supabase/salesAftercare.service.ts",
@@ -673,7 +689,7 @@
     },
     {
       "file": "src/types/dashboard.ts",
-      "sha256": "1388e23e1a775ed9cb2eeddebe92317eb606d32f5f904ad927146225ede1cb58"
+      "sha256": "662a8045d87675fc03659aa44d149eaec7efb96381c8bca6f0614ab07e5436bf"
     },
     {
       "file": "src/types/directReceiving.ts",
@@ -681,7 +697,7 @@
     },
     {
       "file": "src/types/index.ts",
-      "sha256": "a73a0090cf20d6c6e47cfc85929bd41138771dce51f132de28196c12ad4b04b1"
+      "sha256": "6f077b9614de0caae67bc4e84e93b3c05568ec4b2a12b0e8c689ea20e0d39133"
     },
     {
       "file": "src/types/monitoring.ts",
@@ -697,7 +713,7 @@
     },
     {
       "file": "src/types/reports.ts",
-      "sha256": "1cc4d9c1dce70be44decbd49bfc8d0a27b050f8f7b242b2517e939be4ab5f3c2"
+      "sha256": "3743820317d823dfda4f8a9d2fb01964a18d25d971cc85f7d421be26d56114df"
     },
     {
       "file": "src/types/storefront.ts",
@@ -1302,9 +1318,9 @@
       "source": "supabase.rpc('get_customer_statement',{\n      p_customer_id:customerId,p_page:page,p_page_size:25,\n    })"
     },
     {
-      "id": "src/services/supabase/dashboard.service.ts:117",
+      "id": "src/services/supabase/dashboard.service.ts:120",
       "file": "src/services/supabase/dashboard.service.ts",
-      "line": 117,
+      "line": 120,
       "role": "authenticated",
       "receiver": "client",
       "function": "<callback>",
@@ -1412,9 +1428,9 @@
       "source": "supabase.rpc('cancel_supplier_receipt', {\n      p_supplier_receipt_id: receiptId,\n      p_reason: reason.trim() || 'إلغاء سند استلام البضائع',\n    })"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:196",
+      "id": "src/services/supabase/expenses-shifts.service.ts:207",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 196,
+      "line": 207,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "previewCashShiftFullReversalFromSupabase",
@@ -1426,9 +1442,9 @@
       "source": "requireClient().rpc(\n    'preview_cash_shift_full_reversal',\n    { p_shift_id: shiftId }\n  )"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:223",
+      "id": "src/services/supabase/expenses-shifts.service.ts:275",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 223,
+      "line": 275,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "reverseCashShiftWithOperationsInSupabase",
@@ -1440,9 +1456,9 @@
       "source": "requireClient().rpc(\n    'reverse_cash_shift_with_operations',\n    {\n      p_shift_id: shiftId,\n      p_reason: reason.trim(),\n      p_idempotency_key: idempotencyKey,\n    }\n  )"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:252",
+      "id": "src/services/supabase/expenses-shifts.service.ts:304",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 252,
+      "line": 304,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "fetchCashShiftClosingReportFromSupabase",
@@ -1454,9 +1470,9 @@
       "source": "requireClient().rpc(\n    'get_cash_shift_closing_report',\n    { p_shift_id: shiftId }\n  )"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:423",
+      "id": "src/services/supabase/expenses-shifts.service.ts:476",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 423,
+      "line": 476,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "fetchExpenseShiftCenterFromSupabase",
@@ -1468,9 +1484,9 @@
       "source": "requireClient().rpc(\n    'get_expense_shift_center',\n    { p_branch_id: branchId, p_expense_limit: 100 }\n  )"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:451",
+      "id": "src/services/supabase/expenses-shifts.service.ts:504",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 451,
+      "line": 504,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "fetchCashShiftArchivePageFromSupabase",
@@ -1482,9 +1498,9 @@
       "source": "requireClient().rpc('get_cash_shift_archive_page', {\n    p_branch_id: input.branchId || null,\n    p_cashier_id: input.cashierId || null,\n    p_status: input.status || null,\n    p_shift_number: input.shiftNumber?.trim() || null,\n    p_date_from: input.dateFrom || null,\n    p_date_to: input.dateTo || null,\n    p_limit: input.limit,\n    p_offset: input.offset,\n  })"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:490",
+      "id": "src/services/supabase/expenses-shifts.service.ts:543",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 490,
+      "line": 543,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "openCashShiftInSupabase",
@@ -1496,9 +1512,9 @@
       "source": "requireClient().rpc('open_cash_shift', {\n    p_branch_id: branchId,\n    p_opening_cash_in_minor_units: jodToMinorUnits(openingCash),\n  })"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:508",
+      "id": "src/services/supabase/expenses-shifts.service.ts:561",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 508,
+      "line": 561,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "createOperationalExpenseInSupabase",
@@ -1510,9 +1526,9 @@
       "source": "requireClient().rpc(\n    'create_operational_expense',\n    {\n      p_branch_id: input.branchId,\n      p_category: input.category.trim(),\n      p_description: input.description.trim(),\n      p_amount_in_minor_units: jodToMinorUnits(input.amount),\n      p_payment_method: input.paymentMethod,\n      p_reference_number: input.referenceNumber?.trim() || null,\n    }\n  )"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:533",
+      "id": "src/services/supabase/expenses-shifts.service.ts:586",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 533,
+      "line": 586,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "reverseOperationalExpenseInSupabase",
@@ -1524,9 +1540,9 @@
       "source": "requireClient().rpc(\n    'reverse_operational_expense',\n    {\n      p_expense_id: expenseId,\n      p_reason: reason.trim(),\n    }\n  )"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:555",
+      "id": "src/services/supabase/expenses-shifts.service.ts:608",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 555,
+      "line": 608,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "closeCashShiftInSupabase",
@@ -1538,9 +1554,9 @@
       "source": "requireClient().rpc('close_cash_shift', {\n    p_shift_id: shiftId,\n    p_actual_cash_in_minor_units: jodToMinorUnits(actualCash),\n    p_discrepancy_reason: discrepancyReason?.trim() || null,\n  })"
     },
     {
-      "id": "src/services/supabase/expenses-shifts.service.ts:575",
+      "id": "src/services/supabase/expenses-shifts.service.ts:628",
       "file": "src/services/supabase/expenses-shifts.service.ts",
-      "line": 575,
+      "line": 628,
       "role": "authenticated",
       "receiver": "requireClient()",
       "function": "cancelEmptyCashShiftInSupabase",
@@ -2036,6 +2052,62 @@
         "{\n        p_order_id: orderId,\n        p_governorate: address.governorate,\n        p_city: address.city || null,\n        p_area: address.area,\n        p_street: address.street || null,\n        p_building: address.building || null,\n        p_floor: address.floor || null,\n        p_apartment: address.apartment || null,\n        p_notes: address.notes || null,\n        p_latitude: address.latitude ?? null,\n        p_longitude: address.longitude ?? null,\n        p_location_source: address.locationSource,\n        p_location_confirmed: address.locationConfirmed,\n      }"
       ],
       "source": "supabase.rpc(\n      'update_order_delivery_address',\n      {\n        p_order_id: orderId,\n        p_governorate: address.governorate,\n        p_city: address.city || null,\n        p_area: address.area,\n        p_street: address.street || null,\n        p_building: address.building || null,\n        p_floor: address.floor || null,\n        p_apartment: address.apartment || null,\n        p_notes: address.notes || null,\n        p_latitude: address.latitude ?? null,\n        p_longitude: address.longitude ?? null,\n        p_location_source: address.locationSource,\n        p_location_confirmed: address.locationConfirmed,\n      }\n    )"
+    },
+    {
+      "id": "src/services/supabase/ownerWithdrawals.service.ts:77",
+      "file": "src/services/supabase/ownerWithdrawals.service.ts",
+      "line": 77,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "createOwnerWithdrawal",
+      "name": "create_owner_cash_withdrawal_v1",
+      "dynamic": "'create_owner_cash_withdrawal_v1'",
+      "arguments": [
+        "{\n    p_shift_id: input.shiftId,\n    p_amount_in_minor_units: input.amountInMinorUnits,\n    p_reason: input.reason.trim() || null,\n    p_idempotency_key: input.idempotencyKey,\n  }"
+      ],
+      "source": "client().rpc('create_owner_cash_withdrawal_v1', {\n    p_shift_id: input.shiftId,\n    p_amount_in_minor_units: input.amountInMinorUnits,\n    p_reason: input.reason.trim() || null,\n    p_idempotency_key: input.idempotencyKey,\n  })"
+    },
+    {
+      "id": "src/services/supabase/ownerWithdrawals.service.ts:87",
+      "file": "src/services/supabase/ownerWithdrawals.service.ts",
+      "line": 87,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "reverseOwnerWithdrawal",
+      "name": "reverse_owner_cash_withdrawal_v1",
+      "dynamic": "'reverse_owner_cash_withdrawal_v1'",
+      "arguments": [
+        "{\n    p_withdrawal_id: input.withdrawalId,\n    p_reason: input.reason.trim(),\n    p_idempotency_key: input.idempotencyKey,\n  }"
+      ],
+      "source": "client().rpc('reverse_owner_cash_withdrawal_v1', {\n    p_withdrawal_id: input.withdrawalId,\n    p_reason: input.reason.trim(),\n    p_idempotency_key: input.idempotencyKey,\n  })"
+    },
+    {
+      "id": "src/services/supabase/ownerWithdrawals.service.ts:96",
+      "file": "src/services/supabase/ownerWithdrawals.service.ts",
+      "line": 96,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "fetchShiftOwnerWithdrawals",
+      "name": "get_shift_owner_withdrawals_v1",
+      "dynamic": "'get_shift_owner_withdrawals_v1'",
+      "arguments": [
+        "{ p_shift_id: shiftId }"
+      ],
+      "source": "client().rpc('get_shift_owner_withdrawals_v1', { p_shift_id: shiftId })"
+    },
+    {
+      "id": "src/services/supabase/ownerWithdrawals.service.ts:121",
+      "file": "src/services/supabase/ownerWithdrawals.service.ts",
+      "line": 121,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "fetchOwnerWithdrawalsReport",
+      "name": "get_owner_withdrawals_report",
+      "dynamic": "'get_owner_withdrawals_report'",
+      "arguments": [
+        "{\n    p_branch_id: input.branchId,\n    p_date_from: input.dateFrom,\n    p_date_to: input.dateTo,\n    p_page: input.page,\n    p_page_size: input.pageSize,\n  }"
+      ],
+      "source": "client().rpc('get_owner_withdrawals_report', {\n    p_branch_id: input.branchId,\n    p_date_from: input.dateFrom,\n    p_date_to: input.dateTo,\n    p_page: input.page,\n    p_page_size: input.pageSize,\n  })"
     },
     {
       "id": "src/services/supabase/parcelConfiguration.service.ts:56",
@@ -3166,7 +3238,7 @@
     },
     {
       "file": "src/services/supabase/dashboard.service.ts",
-      "line": 210,
+      "line": 213,
       "role": "authenticated",
       "source": "client\n    .channel('operational_home_dashboard')"
     },
@@ -3450,6 +3522,7 @@
     "create_direct_supplier_receipt_v2",
     "create_erp_staff_account_record",
     "create_operational_expense",
+    "create_owner_cash_withdrawal_v1",
     "create_pos_sale",
     "create_pos_sale_v2",
     "create_product_family_with_flavors_v1",
@@ -3490,6 +3563,7 @@
     "get_operational_business_report",
     "get_operational_orders_page",
     "get_or_create_pos_receipt_token",
+    "get_owner_withdrawals_report",
     "get_pos_configurable_parcel_options_v1",
     "get_pos_customer_page",
     "get_pos_sale_attempt_state_v1",
@@ -3504,6 +3578,7 @@
     "get_purchase_orders_page",
     "get_push_subscription_status",
     "get_push_webhook_secret",
+    "get_shift_owner_withdrawals_v1",
     "get_stock_alert_notifications",
     "get_supplier_opening_payable_v1",
     "get_supplier_payments_page",
@@ -3533,6 +3608,7 @@
     "reverse_customer_collection_v1",
     "reverse_customer_opening_balance_v1",
     "reverse_operational_expense",
+    "reverse_owner_cash_withdrawal_v1",
     "reverse_supplier_opening_balance_v1",
     "save_customer",
     "save_product_brand",

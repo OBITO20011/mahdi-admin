@@ -46,7 +46,7 @@ export function assertReference171(reference,manifest,proofText,source,proof164,
  assertProduct171Catalog(reference.catalog);return reference;
 }
 export async function readReference171(root,filename){
- return assertReference171(JSON.parse(await readFile(filename,'utf8')),await migrationManifest(root),
+ return assertReference171(JSON.parse(await readFile(filename,'utf8')),(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=171),
   await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_171.json'),'utf8'),await inventory(),
   await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_164.json'),'utf8'),
   await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_150.json'),'utf8'));

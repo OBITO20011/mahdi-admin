@@ -51,7 +51,7 @@ export async function run(args,{historical151=false}={}){
  assert.ok(!args.includes('--apply'),'OWNER_HOLD_ALIGN_ACL_APPLY');
  assert.ok(!(args.includes('--apply')&&args.includes('--dry-run')),'ONE_MODE_REQUIRED');
  assert.ok(args.every((v,i)=>['--apply','--dry-run','--workdir'].includes(v)||args[i-1]==='--workdir'),'UNKNOWN_OPTION');
- if(!historical151)return (await import('./frankfurt-owner-upgrade171.mjs')).offline171(args);
+ if(!historical151)return (await import('./frankfurt-owner-upgrade182.mjs')).offline182(args);
  const i=args.indexOf('--workdir'),workdir=path.resolve(i<0?DEFAULT_WORKDIR:args[i+1]);
  assertOutsideRepository(workdir);assertOutsideRepository(await realpath(workdir),await realpath(root));
  const old=await readFile(path.join(root,'supabase/.temp/project-ref'));assert.equal(old.toString().trim(),OLD_REF,'OLD_BACKUP_LINK_CHANGED');

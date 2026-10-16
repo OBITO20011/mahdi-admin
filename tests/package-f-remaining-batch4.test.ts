@@ -3,6 +3,7 @@ import {test} from 'node:test';
 import {readFileSync} from 'node:fs';
 import {financialUiContract} from '../scripts/testing/package-f-financial-ui-contract.mjs';
 import {formatJod} from '../src/components/ui/uiFormat';
+import {approvedWithdrawals182Source} from './approved-withdrawals182-source';
 const baseline=[
   {
     "file": "src/features/expenses/ExpensesView.tsx",
@@ -62,7 +63,7 @@ const baseline=[
 ];
 
 test('batch4 preserves all5 financial call,payload,value,guard and confirmation ASTs',()=>{
- for(const expected of baseline)assert.deepEqual(financialUiContract(expected.file,readFileSync(expected.file,'utf8')),expected,expected.file);
+ for(const expected of baseline)assert.deepEqual(financialUiContract(expected.file,approvedWithdrawals182Source(expected.file,readFileSync(expected.file,'utf8'))),expected,expected.file);
 });
 test('batch4 display uses tokens,shared controls and exact three-decimal Latin money',()=>{
  for(const file of baseline.slice(0,3).map(x=>x.file)){

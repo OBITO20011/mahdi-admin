@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import ts from 'typescript';
 import {countedCashMinorUnits} from '../src/components/ui/cashCounting';
+import {approvedWithdrawals182Source} from './approved-withdrawals182-source';
 
 const baseline=[
   {
@@ -49,7 +50,7 @@ const baseline=[
 test('Cash business calls,input-value callbacks and handler bodies match e122ad6 exactly',()=>{
   const printer=ts.createPrinter({removeComments:true}),hash=(v:unknown)=>createHash('sha256').update(typeof v==='string'?v:JSON.stringify(v)).digest('hex');
   for(const expected of baseline){
-    const ast=ts.createSourceFile(expected.file,readFileSync(expected.file,'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),calls:string[]=[],changes:string[]=[],handlers:Record<string,string>={};
+    const ast=ts.createSourceFile(expected.file,approvedWithdrawals182Source(expected.file,readFileSync(expected.file,'utf8')),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),calls:string[]=[],changes:string[]=[],handlers:Record<string,string>={};
     function visit(n:ts.Node){
       if(ts.isAwaitExpression(n)||ts.isCallExpression(n)&&/(?:FromSupabase|Service|\.rpc$|^run[A-Z]|^openModal$)/u.test(n.expression.getText(ast)))calls.push(printer.printNode(ts.EmitHint.Unspecified,n,ast));
       if(ts.isJsxAttribute(n)&&n.name.getText(ast)==='onChange'&&n.initializer)changes.push(printer.printNode(ts.EmitHint.Unspecified,n.initializer,ast));

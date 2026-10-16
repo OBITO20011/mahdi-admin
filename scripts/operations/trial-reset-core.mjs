@@ -10,7 +10,7 @@ import {heldJobNames,readNotificationSnapshot,expectedHeldNotifications} from '.
 import {assertManagedCatalog,aclEntries} from './managed-catalog-policy.mjs';
 import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 
-export const resetCeiling=171;
+export const resetCeiling=182;
 export function resetComparisonDates(referenceDay,startDay,endDay=startDay){
  for(const day of [referenceDay,startDay,endDay])assert.match(day,/^\d{4}-\d{2}-\d{2}$/u,'RESET_UTC_DATE_REQUIRED');
  return {admission:{beforeBuildDate:referenceDay,afterBuildDate:startDay},rebuild:{beforeBuildDate:startDay,afterBuildDate:endDay}};
@@ -114,7 +114,7 @@ export function assertExternalDependents(rows){
 }
 export async function resetUnits(root,reference){
  const manifest=await migrationManifest(root);assert.equal(reference.migrationCeiling,resetCeiling,'RESET_REFERENCE_CEILING');
- assert.deepEqual(manifest,reference.manifest,'RESET_MANIFEST_CHANGED');assert.equal(manifest.length,148);
+ assert.deepEqual(manifest,reference.manifest,'RESET_MANIFEST_CHANGED');assert.equal(manifest.length,151);
  const base=await buildEmptyProjectInput(root);const units=[...base.units];
  for(const m of manifest.filter(m=>Number(m.name.slice(0,3))>138))units.push({name:m.name,input:await readFile(path.join(root,'supabase/migrations',m.name))});
  for(const u of units.filter(u=>!u.name.startsWith('034_'))){
@@ -151,7 +151,7 @@ export async function resetWithExecutor({executor,root,reference,output,repair,c
  assertManagedCatalog(reference.catalog,before,dates.admission);
  restoreResetAcl(before,before); // Unsupported grantors must fail BEFORE deleting files/data.
  const dependents=await json(externalDependentsSql);assertExternalDependents(dependents);report.externalDependents=dependents;
- assert.ok(before.tables.some(t=>t.schema==='public'&&t.name==='product_cost_corrections'),'RESET171_REQUIRED');
+ assert.ok(before.tables.some(t=>t.schema==='public'&&t.name==='product_cost_corrections'),'RESET182_REQUIRED');
  const notifications=await readNotificationSnapshot(executor);
  assert.equal(notifications.trigger.enabled,'D','RESET_NOTIFICATION_HOLD_REQUIRED');
  assert.ok(notifications.jobs.filter(j=>heldJobNames.includes(j.name)).every(j=>j.active===false));

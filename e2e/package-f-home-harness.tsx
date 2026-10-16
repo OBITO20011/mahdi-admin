@@ -35,6 +35,10 @@ engine.refreshStockNotificationsFromSupabase = async () => [];
 engine.refreshExpenseShiftCenterFromSupabase = async () => undefined;
 storeEngine.setActiveTab('home');
 const data = structuredClone(homeFixture);
+if (params.has('withdrawals')) {
+  data.summary.monthOwnerWithdrawalsInMinorUnits=20000;
+  data.summary.monthRemainingAfterWithdrawalsInMinorUnits=params.has('unavailable')||data.summary.monthProfitInMinorUnits===null?null:data.summary.monthProfitInMinorUnits-20000;
+}
 if (params.has('unavailable')) data.financialFactsAvailable = false;
 if (params.has('long')) {
   data.latestOrders[0].customerName = 'سوبرماركت الحي الكبير للمواد التموينية والمنتجات الغذائية والمشروبات';

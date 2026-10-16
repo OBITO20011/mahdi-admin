@@ -88,6 +88,9 @@ const fingerprints = [
   ['164_go_live_receivables_in_reports.sql', '6A3D49D4C0B1E95FD128D2A817F3D3F744EA624C597E6055DD0BA8927D5A0E03'],
   ['170_product_edit_optimistic_concurrency.sql', '78CAAEA4E7474D9C106A93B211C1C0AB9ECF3F836C834F21C25D02ED74069C73'],
   ['171_product_cost_preserved_on_edit.sql', 'CBDA4E226DE0752DF522A23C2B6990CCD984D69D8D1A4E34F11AE10AF1618781'],
+  ['180_owner_cash_withdrawals.sql', '080A6F155A3D6CBAC1799E438E4698E899EB7D58258C0904D030CC56D752B9E1'],
+  ['181_owner_withdrawal_readers.sql', 'E3448DD3161618FB3B6574944B84D56260B5EEAAE214688135926BD29CE477F6'],
+  ['182_owner_withdrawal_monitoring.sql', 'B8E7DB1AF4EF9111AA7C0476D0C6373A38DF37BC168C018261A69B22637BB70E'],
 ] as const;
 
 test('121-150 delivered bytes and continuity references agree with fixed approved fingerprints', () => {
@@ -116,7 +119,7 @@ test('migration numbers are unique and contiguous from001 to the approved ceilin
   assert.ok(!numbers.some(n=>unused.includes(n)),'retired140-149 must remain empty');
   assert.deepEqual(numbers, Array.from({length: state.migrationCeiling}, (_, index) => index + 1)
     .filter(n => !unused.includes(n)&&!state.deferredMigrationNumbers.includes(n)));
-  assert.deepEqual(state.deferredMigrationNumbers,[...Array.from({length:8},(_,i)=>152+i),165,166,167,168,169]);
+  assert.deepEqual(state.deferredMigrationNumbers,[...Array.from({length:8},(_,i)=>152+i),165,166,167,168,169,...Array.from({length:8},(_,i)=>172+i)]);
   assert.deepEqual(state.cloudMigrationNumbers,Array.from({length:10},(_,i)=>170+i));
   assert.deepEqual(state.nextCloudMigrationNumbers,Array.from({length:10},(_,i)=>180+i));
 });

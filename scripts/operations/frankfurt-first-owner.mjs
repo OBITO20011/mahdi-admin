@@ -5,7 +5,7 @@ import {createInterface} from 'node:readline/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {TARGET,OLD_REF,DEFAULT_WORKDIR,assertOutsideRepository,connectionFromLink,ownerPassword} from './frankfurt-owner-build.mjs';
-import {readReference171,readyReference171Name} from './frankfurt-reference171.mjs';
+import {readReference182,readyReference182Name} from './frankfurt-reference182.mjs';
 import {executeInput} from './build-empty-supabase.mjs';
 import {verifyCatalogReadOnly} from './frankfurt-catalog-verification.mjs';
 import {schemaCatalogSql,catalogDifference} from '../testing/schema-catalog.mjs';
@@ -24,7 +24,7 @@ export function firstOwnerArguments(args){
 export async function runFirstOwner(args){
  const options=firstOwnerArguments(args),{workdir}=options;assertOutsideRepository(workdir);assertOutsideRepository(await realpath(workdir),await realpath(root));
  const old=await readFile(path.join(root,'supabase/.temp/project-ref'),'utf8');assert.equal(old.trim(),OLD_REF);
- const reference=await readReference171(root,path.join(workdir,readyReference171Name));
+ const reference=await readReference182(root,path.join(workdir,readyReference182Name));
  const output=path.join(workdir,'first-owner-'+new Date().toISOString().replaceAll(/[:.]/gu,'-'));await mkdir(output);
  const report={mode:options.apply?'owner-bootstrap':'offline-dry-run',output,remoteWriteAttempted:false,startedAt:new Date().toISOString()};let env,guard;
  try{

@@ -18,7 +18,7 @@ const executor=executorFor(['--container','supabase_db_'+project]);
 const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,r.stderr.match(/FIRST_OWNER_[A-Z_]+/u)?.[0]??'LOCAL_OWNER_SQL_FAILED');return r.stdout.trim();};
 try{
  const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
- NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'171',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',TURNSTILE_SECRET:'isolated-owner-captcha-not-invoked',
+ NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'182',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',TURNSTILE_SECRET:'isolated-owner-captcha-not-invoked',
  NAWASRAH_SUPABASE_EXCLUDE:'realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});local=JSON.parse(boot.stdout).isolatedProjectRoot;
  const before=JSON.parse(await sql(schemaCatalogSql));
  await sql('ALTER TABLE public.orders DISABLE TRIGGER trg_notify_new_website_order_push;SELECT cron.alter_job(jobid,active:=false) FROM cron.job;');

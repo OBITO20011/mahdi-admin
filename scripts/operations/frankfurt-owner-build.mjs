@@ -100,8 +100,12 @@ export async function functionReference(executor,ceiling=139){
   const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);
   assert.equal(functions.length,446,'FROZEN164_FUNCTION_COUNT');
   assert.equal(digest(JSON.stringify(ordered)),'663c5e60b93dde083dd9e9d8706df78c331f2d54b3713a468fc62bd71c9feafd','FROZEN164_FUNCTIONS_CHANGED');
+ }else if(ceiling===171){
+  const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);
+  assert.equal(functions.length,454,'FROZEN171_FUNCTION_COUNT');
+  assert.equal(digest(JSON.stringify(ordered)),'83c73f285e3d15e8d8f842cc212a122927c5bc2ea787a37de4d716a0a8a9c09a','FROZEN171_FUNCTIONS_CHANGED');
  }else{
-  assert.equal(ceiling,171,'UNAPPROVED_FUNCTION_REFERENCE');
+  assert.equal(ceiling,182,'UNAPPROVED_FUNCTION_REFERENCE');
   const rendered=renderFunctionReference(await migrationManifest(root),functions);
   assert.equal(rendered,canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8')),'DB_FUNCTIONS_STALE');
  }
