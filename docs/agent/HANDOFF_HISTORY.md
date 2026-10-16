@@ -1,5 +1,15 @@
 # Agent handoff history
 
+## 2026-10-16 — withdrawals PR3 delivered,cheques next
+
+Genuine merge5f199e2(b72aa55+84af759),test-only18217d1=remote main;
+quality38928434460 FULL26/26+secrets38928434449 PASS16:17UTC,Gitleaks0.
+Local1167Admin191Customer/18newbrowser+170related/4oldskips+28Customers,
+151files/468functions/freshincremental0/SDK142/RPC441/realrestore/reset/TOTP.
+Independentcash99000/openclosedparity/profitunchanged. No hostedaccess.
+Proceed authorized feature/deferred-cheques190199,openingcard thenlegalhome;
+no silent newfinancialdecisions. Baseline18217d1 synchronization authorized.
+
 ## 2026-10-16 — three preparations delivered;owner authorizes PR3 takeover
 
 b72aa55=remote main;quality38825364583 FULL25/25+secrets38825364387 PASS.
@@ -1504,3 +1514,42 @@ Temporary tracing removed;CheckoutModal and both original specs match1807f93 Git
 Owner/Claude authorizes docs-only delivery and phone presentation items1–5;checkout focus repair remains forbidden pending owner. Docs commit289f398989ca92dfdc32387d349c20a116aee515 pushed main after Gitleaks staged exit0;only4docs files. No product/test/migration change.
 
 Phone item1 inspection exposes missing existing account-statement content:CustomerDetailView renders identity/balance/aging/stats/addresses/orderHistory,not ledger entries. get_crm_customer_detail_page/crm.service+CrmCustomer supply those fields only;customerAccounts.service reads paginated outstanding orders,not a per-customer statement. No customer ledger/statement UI/service found in src. A true account statement needs separately authorized read integration;using partial order history as a statement would be misleading. STOP for owner choice:present existing summary/orders/addresses tabs and defer statement,or authorize a separate reader task. No phone implementation,checkout fix,quality rerun,new phase or Production/deploy. Other phone items remain approved and unstarted.
+2026-10-16 continuation STOP/newfinancial:see CHEQUE_CUSTOMER_DELETION_DECISION_REQUIRED_AR.
+All local runs finished;no hostedaccess. B15/15 realinclfullrestore0diff+replay0;
+SDK142/142 each150164171182195,138negative127/15,RPC477/0denied. iKVN8C,
+tableproofs qDN2Q1/IlMfHb/HGEBPv/sAFQdc/m0f83K/3AiAu1,serviceg8lB1R.
+Realdiagnosis m3dwhT18:36:05–18:37:39UTC:pendingcheque-paidcustomer maydelete;
+bounce creates100000legal/aging/statement but CRM hides. No guardfix beforeowner.
+Latest allunits1182pass9staleproof failures(before refresh);browser11pass11close
+locator failures(test-only fix not rerun). No commit/push/CI claim;B uncommitted.
+Openingcard/C/publicPush notstarted;newpublickey explicitly separate AFTER prior
+task. Four future owner/reference tool drafts andPOSbrowser draft are ONLY Temp
+files,syntaxchecked not integrated/tested;not canonical,do not claim ready.
+# 2026-10-17 — توقف B عند عكس سداد قيد المورد
+
+الأنواع/lint ناجحان، المتصفح76+4fixture مصححة ناجحة، ومراقبة التسجيل
+الموحّد/حراس الحذف والافتتاح ناجحة محلياً. mRwhVj:22حالة ناجحة ثم رفض
+reverse_supplier_payment لسداد قيد مستقل لأن حارس133:969–972 يعرف فقط
+الاستلام/PO. عكس تحصيل قيد العميل ومنع عكس الوردية بلا تغييرpublic/
+sequences نجحا. لا إصلاح مالي بعد الفشل؛ ينتظر قرار المالك الموضح في
+CHEQUE_SUPPLIER_CLAIM_REVERSAL_DECISION_REQUIRED_AR.md. Gitleaks0 لكل الملفات
+المعدلة وغير المتتبعة، لاcommit/push/CI، وكل عملياتنا/قواعدنا متوقفة.
+بعد الموافقة: العكس ثم اختبار ربط المورد المتأخر، تجديد أدلة الوصول
+والمرجع504/DB_FUNCTIONS وبقية البوابات. لا بطاقة/C/Push قبل تسليمB.
+
+## 2026-10-17 — B local gates complete, owner-approved narrow supplier claim reversal
+
+Decision recorded;original cheque/133 guards unchanged. Private immutable
+reversal evidence,owner/TOTP/reason5–500,original open shift cash/CliQ,
+transfer no drawer,concurrent idempotency one effect. Literal500 acceptance,
+closed-shift/nonowner refusals andmonitor healthy;runtime25/25+restore0diff.
+Late-supplier deterministic RED proves empty party state;controlled prop fix
+preserves inputs,70/70 current cheques browsers both engines/themes/sizes PASS.
+SDK sixceilings current-source exact142/142 except138negative15/127;
+RPC480/0denied;reference1tTQam157files505functions13Realtime0fresh-incremental.
+Two infrastructure contract drifts (old182 label/default and intentional test
+fixture hunks) repaired exactly,mutants retained;focused54/54 then1199Admin+
+191Customer units/types/strictlint/builds/isolatedSEO/isolation0escaped PASS.
+No source/SQL changes after real proofs;tracked files frozen during gates.
+All owned processes/stacks stopped. Next Gitleaks/commit/branchFULLCI/merge+
+mainFULLCI,then VAPID separately,then opening card,then legalhome. No hostedaccess.

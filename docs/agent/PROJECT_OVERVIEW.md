@@ -1,5 +1,11 @@
 # Project overview
 
+Current2026-10-16:Awithdrawals accepted18217d1 FULL26/26. B190199 authorized
+onfeature/deferred-cheques;latestOWNER_DECISIONS requires compensation-only
+for BOTH bouncedcheques and erroneous cancellation,never original evidence
+reversal. Thenopeningchequescard andlegalhome. No standalonehosted182upgrade;
+ownercommand followsfinalceiling. No managedaccess/deploy/secrets.
+
 Current owner2026-10-16 scope:take over WIP PR3 withdrawals/drawer-warning,
 independent review first,complete realDB/browser/access/reference/merge gates;
 then cheques190–199,newopeningchequescard,thenlegal home receivables.

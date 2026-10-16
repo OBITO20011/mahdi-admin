@@ -2,7 +2,7 @@ export interface CustomerStatementMovement {
   movement_id: string;
   movement_type: string;
   type_label: string;
-  order_id: string;
+  order_id: string | null;
   reference: string;
   occurred_at: string | null;
   date_label: string | null;
@@ -10,6 +10,8 @@ export interface CustomerStatementMovement {
   credit_in_minor_units: number;
   balance_in_minor_units: number;
   sequence: number;
+  original_debt_at?: string | null;
+  reason?: string | null;
 }
 export interface CustomerStatementPage {
   customer_id: string;
@@ -21,6 +23,8 @@ export interface CustomerStatementPage {
   page_opening_balance_in_minor_units: number;
   page_closing_balance_in_minor_units: number;
   movements: CustomerStatementMovement[];
+  outstanding_cheques_in_minor_units?: number;
+  has_returned_cheque?: boolean;
 }
 const integer=(value:unknown):value is number=>typeof value==='number'&&Number.isSafeInteger(value);
 const record=(value:unknown):value is Record<string,unknown>=>!!value&&typeof value==='object'&&!Array.isArray(value);
@@ -34,10 +38,18 @@ export function readCustomerStatement(value:unknown):CustomerStatementPage|null 
   if(Number(value.page)<1||Number(value.page_size)<1||Number(value.page_size)>100
     ||Number(value.total_count)<0||Number(value.closing_balance_in_minor_units)<0
     ||value.movements.length>Number(value.page_size))return null;
+  if(value.outstanding_cheques_in_minor_units!==undefined&&(!integer(value.outstanding_cheques_in_minor_units)||value.outstanding_cheques_in_minor_units<0))return null;
+  if(value.has_returned_cheque!==undefined&&typeof value.has_returned_cheque!=='boolean')return null;
   const ids=new Set<string>();let previousSequence=Infinity;
   for(const row of value.movements){
     if(!record(row))return null;
-    for(const key of ['movement_id','movement_type','type_label','order_id','reference'])if(typeof row[key]!=='string')return null;
+    for(const key of ['movement_id','movement_type','type_label','reference'])if(typeof row[key]!=='string')return null;
+    // Opening balances and independent cheque claims are NOT order movements.
+    // SQL returns an explicit NULL,not a fabricated order identity.
+    if(row.order_id!==null&&typeof row.order_id!=='string')return null;
+    if(row.reason!==undefined&&row.reason!==null&&typeof row.reason!=='string')return null;
+    if(row.original_debt_at!==undefined&&row.original_debt_at!==null
+      &&(typeof row.original_debt_at!=='string'||!Number.isFinite(Date.parse(row.original_debt_at))))return null;
     for(const key of ['debit_in_minor_units','credit_in_minor_units','balance_in_minor_units','sequence'])if(!integer(row[key]))return null;
     if(Number(row.debit_in_minor_units)<0||Number(row.credit_in_minor_units)<0||Number(row.sequence)<1
       ||Number(row.sequence)>=previousSequence||ids.has(String(row.movement_id)))return null;

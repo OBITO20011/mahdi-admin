@@ -2,40 +2,39 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner2026-10-16 PR3withdrawals/drawer-warning:independent review84af759 thencomplete runtime/browser/access/reference/genuine merge. After delivery:cheques190199,openingchequescard,legalhome. No managedaccess.",
-  "baselineSha": "5f199e203e0c3352112abeb230c74fd731c992c6",
+  "objective": "Owner2026-10-17: finish B cheques incl narrow supplier claim settlement reversal; CI/merge, then VAPID, openingchequescard, legalhome. No managedaccess/deploy.",
+  "baselineSha": "18217d193acf0041c6319064f29501484501d8c7",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "main",
+  "branch": "feature/deferred-cheques",
   "phase": "PACKAGE_F",
   "completed": [
-    "Prior eafc711 integration171 accepted/exactFULL24+secretsPASS",
-    "Owner reports hosted171apply10/10+verify0diff/no writes;two reportfolders in PHASE_STATUS",
-    "QS3uhS reset real148/148/90tables/0catalogdiff/454functions/13Realtime/verifiedTOTP preserved PASS",
-    "OGfhUr firstowner realAuth/newbranch/TOTP/AAL2/denials/zero schema+grantdiff PASS",
-    "Reset373018c delivered FULL25/25 quality38820997189+secrets38820997178/Gitleaks0",
-    "Staging627befd delivered FULL25/25 quality38823209576+secrets38823209536/Gitleaks0",
-    "Firstownerb72aa55 delivered FULL25/25 quality38825364583+secrets38825364387/Gitleaks0;owner accepts all3"
+    "Preparations373018c/627befd/b72aa55 accepted FULL25/25+secrets/Gitleaks0;full evidence in PHASE_STATUS",
+    "Withdrawals18217d1 accepted FULL26/26+secrets/Gitleaks0;hosted171 owner-reported apply/verify in PHASE_STATUS"
   ],
   "inProgress": [
-    "PR3 merged/pushed5f199e2;CI found old exact Cash-harness request contract;test-only explicit owner/cashier update then fullCI"
+    "B195 local gates+Gitleaks0 complete,awaiting commit/branchFULLCI/merge/mainFULLCI."
   ],
   "notStarted": [
-    "AfterA delivered:newfeature/deferred-cheques190199;thenopeningchequescard;thenlegalhome receivables"
+    "VAPID separately afterB,then openingchequescard,then legalhome receivablesC"
   ],
   "testsPassed": [
-    "182 real withdrawals/cap/roles/replay/blocking/atomic rollback/snapshots/monitoring/logical restore PASS",
-    "Independent163+182 cash day expected99000/manual,profit unchanged,open=closed PASS",
-    "Both engines18/18 newbrowser,sizes3908201440/themes/axe/clipping/payloads PASS",
-    "RealSDK142/142 on150164171182;138negative127denied;RPC441/0denied PASS",
-    "468publicfunctions generated;types/strictlint/1167Admin+191Customer PASS12:10-12:12UTC/frozen",
-    "12:14-12:39UTC reference182/fresh-incremental0diff/upgrade13of13/replay0/reset151of151/realfirstownerTOTP PASS/frozen",
-    "12:41-13:03UTC relatedbrowser170PASS/4oldskips,Admin+isolatedCustomerbuild/networkisolation PASS/frozen"
+    "Accepted182:real runtime+restore/manualcash99000;18new+170relatedbrowser/4oldskips;1167Admin191Customer/types/lint/build/isolation PASS",
+    "Accepted182:468functions,fresh/incremental0diff,upgrade13/13,replay0,reset151/151,realownerTOTP PASS;full evidence in WITHDRAWALS_INTEGRATION_182.md",
+    "B195 iKVN8C runtime15/15 including full logical restore/allpublicrows+sequences/replay0writes PASS",
+    "FreshSDK142/142 on150/164/171/182/195;138negative127denied+15success;all complete actual-role coverage",
+    "RPC195 g8lB1R477dispatch/0SQLSTATE42501;neutral-body validation distinct,not functionalPASS",
+    "m3dwhT real authenticated diagnosis confirms pendingcheque customer deletion then bounced100000 hidden fromCRM;caseROLLBACK/no managedaccess",
+    "Owner-approved deletion guards TI079C runtime19/19;customer pending->refusal->cleared zero->soft delete;both supplier balance signs;endorsed concurrency;fullrestore0diff/replay0;functions503",
+    "Previous source:cheque34+4 corrected-label cases PASS;related175PASS/2oldskips;SDK171142/142 completed before stopping182 bootstrap for owner-approved supplier change",
+    "PO supplier unification T9c3La runtime21/21+fullrestore0diff;browser82/82 bothengines PASS;types/lint/32contracts PASS before opening-path followup",
+    "Oct17 runtime25/25+restore0diff;browser70/70;SDK fiveceilings142/142 and138negative15/127;RPC480/0denied;reference157files505functions13realtime0diff;two exact testcontracts fixed54/54;1199Admin191Customer/types/lint/builds/isolatedSEO/isolation0escaped PASS."
   ],
   "testsRemaining": [
-    "Test-only Cash contract28of28/typeslint/allunitsPASS;Gitleaks/followupcommit/push/exactFULLCI"
+    "Commit/push/branchFULLCI/merge/mainFULLCI B. Then VAPID/card/C."
   ],
   "findings": [
-    "Known legacyreturned debt7000:home7000/phase42=0;approved partC later,not fixed inA"
+    "Known legacyreturned debt7000:home7000/phase42=0;approved partC later,not fixed inA",
+    "Deletion risk resolved by approved DB guards;check/cheque registration enforced including163 opening path."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -45,12 +44,12 @@
     "No retries/timeouts/skips/assertionweakening;freeze trackedfiles duringgates",
     "No financial question decided silently;no B beforeA delivery;onewriter;no protectedbusinessdeletes"
   ],
-  "nextExactAction": "Cash exact-read test-only correction locally28/28/fullunits/typeslintPASS. Commit/push then wait exactFULLCI+secrets;A notdelivered untilgreen;no B yet,no managedaccess.",
-  "checkpointedAt": "2026-10-16T15:59:55.621Z",
+  "nextExactAction": "Commit verified B;push feature/deferred-cheques and dispatch full quality+secrets on exact SHA,merge after green;then VAPID/card/C.",
+  "checkpointedAt": "2026-10-16T22:58:32.849Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "B0B4C0A2A753B84E951C8062A8488F3C3FFDDDA38A120D1C5CFCE9769578B572",
-  "filesTouchedCount": 2,
-  "filesTouchedManifestSha256": "a408b07b7b44242a511fa396f212ce8136baf2499989591a2e7bb8ece998e903"
+  "workingTreeFingerprint": "0E1CB935C4D286DD47DAC27E0DE0A227D5FF45A57DB7C75803E8D3C2227DBF84",
+  "filesTouchedCount": 88,
+  "filesTouchedManifestSha256": "55b8e53384560e9084debccd8f7bf497f262646c0c3d394ce542e687ee7f7cdb"
 }

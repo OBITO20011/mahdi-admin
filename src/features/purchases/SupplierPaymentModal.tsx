@@ -5,7 +5,9 @@ import {FormFields, Card, UiButton, formatJod} from '../../components/ui';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
-import { storeEngine } from '../../stores/useAppStore';
+import { storeEngine, useAppStoreSelector } from '../../stores/useAppStore';
+import { useAuthStore } from '../../stores/useAuthStore';
+import { ChequeRegistrationForm } from '../cheques/ChequeRegistrationForm';
 import { useDrawerShortfallConfirm } from '../../hooks/useDrawerShortfallConfirm';
 import { PurchaseOrder } from '../../types/purchases';
 import { Supplier } from '../../types';
@@ -44,6 +46,9 @@ export const SupplierPaymentModal = ({
   onClose,
   onSuccess,
 }: SupplierPaymentModalProps) => {
+  const {roles} = useAuthStore();
+  const canIssueCheque = roles.some(role => role === 'owner' || role === 'manager');
+  const activeBranchId = useAppStoreSelector(state => state.activeBranch?.id ?? null);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [selectedSupplierId, setSelectedSupplierId] = useState<string>('');
   const [pos, setPos] = useState<PurchaseOrder[]>([]);
@@ -126,6 +131,12 @@ export const SupplierPaymentModal = ({
     e.preventDefault();
     setErrorMsg(null);
 
+    // Both legacy and canonical spellings must use the registered lifecycle.
+    if (paymentMethod === 'check' || paymentMethod === 'cheque') {
+      setErrorMsg('الشيك يحتاج البنك والرقم والاستحقاق عبر دورة الشيكات، للمالك والمدير فقط.');
+      return;
+    }
+
     if (!selectedSupplierId) {
       setErrorMsg('يرجى اختيار المورد.');
       return;
@@ -194,7 +205,18 @@ export const SupplierPaymentModal = ({
         </div>
 
         {/* Body Form */}
-        <form onSubmit={handleSubmit} className="p-5 space-y-4 text-xs">
+        {(paymentMethod === 'check' || paymentMethod === 'cheque') ? <div className="p-5 space-y-4">
+          <UiButton disabled={isSubmitting} onClick={() => setPaymentMethod('cash')}>العودة لطرق الدفع الأخرى</UiButton>
+          {selectedPoId && <p className="text-sm">لأمر الشراء <bdi>{selectedPo?.purchaseOrderNumber}</bdi></p>}
+          {canIssueCheque ? <ChequeRegistrationForm direction="outgoing"
+            parties={suppliers.map(supplier => ({id:supplier.id,name:supplier.companyName}))}
+            partyId={selectedSupplierId || undefined} purchaseOrderId={selectedPoId || undefined}
+            branchId={selectedPo?.branchId ?? activeBranchId} initialAmount={amount > 0 ? amount.toFixed(3) : ''} initialNotes={notes} onBusyChange={setIsSubmitting}
+            onClose={onClose} onSaved={() => {
+              storeEngine.setToast('تم تسجيل شيك المورد بنجاح', 'success');
+              onSuccess(); onClose();
+            }} /> : <p role="alert" className="text-sm text-nw-bad">إصدار شيك مورد متاح للمالك والمدير فقط.</p>}
+        </div> : <form onSubmit={handleSubmit} className="p-5 space-y-4 text-xs">
           {errorMsg && (
             <div className="bg-nw-bad-bg border border-nw-border p-3 rounded-2xl text-nw-bad flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 shrink-0 text-nw-bad" />
@@ -291,7 +313,7 @@ export const SupplierPaymentModal = ({
               >
                 <option value="cash">نقداً (Cash)</option>
                 <option value="bank_transfer">تحويل بنكي</option>
-                <option value="check">شيك</option>
+                <option value="check" disabled={!canIssueCheque}>شيك مؤجل (المالك والمدير)</option>
                 <option value="card">بطاقة / مدى</option>
               </select>
             </div>
@@ -357,7 +379,7 @@ export const SupplierPaymentModal = ({
               )}
             </UiButton>
           </div>
-        </form>
+        </form>}
       </Card>
     </FormFields>
   );

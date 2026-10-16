@@ -220,7 +220,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, owner-withdrawals]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, owner-withdrawals, deferred-cheques]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -325,9 +325,17 @@ jobs:
         if: matrix.suite == 'package-f-reads'
         run: npm run test:table-reads150:runtime
 
-      - name: Require real application table access through182
+      - name: Require real application table access through195
         if: matrix.suite == 'package-f-reads'
         run: node scripts/audit/run-table-access-diagnostic.mjs --require-access
+
+      - name: Prove cheque lifecycle,compensation,FIFO,roles,atomicity,drawer and monitoring
+        if: matrix.suite == 'deferred-cheques'
+        run: node scripts/testing/run-deferred-cheques-runtime.mjs
+
+      - name: Prove cheque fresh and incremental catalogs match with official history
+        if: matrix.suite == 'deferred-cheques'
+        run: node scripts/operations/build-acl-reference-cheques.mjs --output "${{ runner.temp }}/nawasrah-cheques-reference/local-reference-through195-ready.json"
 
       - name: Prove151 real Realtime channel delivery and role isolation
         if: matrix.suite == 'package-f-reads'

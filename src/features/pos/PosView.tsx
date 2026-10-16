@@ -18,6 +18,8 @@ import {jodToMinorUnits} from '../../utils/receivingCalculations';
 import { Card, PageHeader, StatusBadge, MoneyText, SearchField, FilterChips, SegmentedControl, UiButton, StickyActionBar, ResponsiveCartPanel, ProductGlyph, formatItemCount } from '../../components/ui';
 import { useDialogFocus } from '../../hooks/useDialogFocus';
 import { Modal } from '../../components/common/Modal';
+import {useAuthStore} from '../../stores/useAuthStore';
+import {ChequeRegistrationForm} from '../cheques/ChequeRegistrationForm';
 import {
   AddCustomerModalContent,
   CreatedCustomer,
@@ -69,6 +71,9 @@ const BarcodeScannerModal = lazy(() =>
 );
 
 export const PosView: React.FC = () => {
+  const {roles:chequeRoles}=useAuthStore();
+  const canReceiveCheque=chequeRoles.some(role=>['owner','admin','manager','accountant','cashier','sales'].includes(role));
+  const [isChequeOpen,setIsChequeOpen]=useState(false);
   const {
     categories,
     activeBranch,
@@ -824,6 +829,7 @@ export const PosView: React.FC = () => {
                 {selectedPosCustomer.currentBalance !== undefined && selectedPosCustomer.currentBalance > selectedPosCustomer.creditLimit && <span>تجاوز الحد</span>}
               </>}
             </div>}
+            {selectedPosCustomer&&canReceiveCheque&&<UiButton disabled={isSubmitting||recoveryBlocked} onClick={()=>setIsChequeOpen(true)}>استلام شيك من العميل</UiButton>}
             <div className="flex items-center justify-between gap-2 text-[9px] text-nw-muted">
               <span>
                 {isPosCustomersLoading
@@ -1080,6 +1086,12 @@ export const PosView: React.FC = () => {
         </Suspense>
       )}
 
+      <Modal isOpen={isChequeOpen} onClose={()=>setIsChequeOpen(false)} title="استلام شيك عميل" confirmUnsavedClose>
+        {isChequeOpen&&selectedPosCustomer&&<ChequeRegistrationForm direction="incoming" partyId={selectedPosCustomer.id}
+          parties={[selectedPosCustomer]} branchId={activeBranch?.id??null} onClose={()=>setIsChequeOpen(false)}
+          onSaved={result=>{const balance=result.customerBalanceInMinorUnits;if(balance!==null)setPosCustomers(rows=>rows.map(c=>c.id===result.cheque.customerId
+            ?{...c,currentBalance:balance/1000}:c));setIsChequeOpen(false);setToast('تم استلام الشيك دون حركة على الدرج.','success');}} />}
+      </Modal>
       <Modal
         isOpen={isAddCustomerOpen}
         onClose={() => setIsAddCustomerOpen(false)}

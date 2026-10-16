@@ -8,7 +8,7 @@ export const nextCloudMigrationNumbers=Object.freeze(Array.from({length:10},(_,i
 // Approved PR1 integration advances directly151 ->160. These drafts were never
 // migrations; their old lane must not be backfilled after164 without a new decision.
 // Owner2026-10-16 PR3 advances171 ->180. Unused cloud172-179 must not be backfilled.
-export const deferredMigrationNumbers=Object.freeze([...codexMigrationNumbers,165,166,167,168,169,172,173,174,175,176,177,178,179]);
+export const deferredMigrationNumbers=Object.freeze([...codexMigrationNumbers,165,166,167,168,169,172,173,174,175,176,177,178,179,183,184,185,186,187,188,189]);
 export function assertMigrationNumbering(names,state){
  assert.deepEqual(state.unusedMigrationNumbers,unusedMigrationNumbers,'PERMANENT140_149_GAP_REQUIRED');
  assert.deepEqual(state.reservedMigrationNumbers,startupReservedNumbers,'STARTUP160_169_RESERVATION_REQUIRED');

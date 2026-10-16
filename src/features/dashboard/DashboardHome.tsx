@@ -32,6 +32,7 @@ interface DashboardHomeProps {
   onSell: () => void;
   onReceive: (productId?: string) => void;
   onExpense: () => void;
+  onCheques?:()=>void;
 }
 
 const money = (minor: number | null | undefined, available: boolean) =>
@@ -43,7 +44,7 @@ const OrderBadge: React.FC<{ order: HomeDashboardOrder }> = ({ order }) => {
 };
 
 /** Shared live/harness presentation. Fixtures never enter the live loader. */
-export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserName, currentShift, loading, error, realtimeConnected, onRefresh, onOrders, onAccounts, onInventory, onProducts, onShift, onSell, onReceive, onExpense }) => {
+export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserName, currentShift, loading, error, realtimeConnected, onRefresh, onOrders, onAccounts, onInventory, onProducts, onShift, onSell, onReceive, onExpense,onCheques }) => {
   const [period, setPeriod] = useState<'day' | 'week' | 'month'>('day');
   const { summary, financialFactsAvailable: available } = data;
   const days = [...data.sevenDaySales].sort((a, b) => a.date.localeCompare(b.date));
@@ -101,6 +102,11 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
         </KpiGrid>
         </div>
 
+        {data.chequeAlerts&&(data.chequeAlerts.due>0||data.chequeAlerts.overdue>0)&&<Card className="space-y-2" data-testid="home-cheque-alert">
+          <SectionHeader title="مواعيد الشيكات" action={onCheques&&<UiButton onClick={onCheques}>فتح الشيكات</UiButton>} />
+          <p className="m-0 text-sm">خلال يومين: <bdi>{data.chequeAlerts.due}</bdi> · متأخرة: <bdi>{data.chequeAlerts.overdue}</bdi></p>
+          <p className="m-0 text-sm text-nw-muted">تأكد من كفاية رصيد الشيكات الصادرة: <MoneyText amount={data.chequeAlerts.outgoingDue/1000} currency /></p>
+        </Card>}
         <div className="flex flex-wrap items-stretch gap-5">
           <Card aria-labelledby="home-orders-title" className="order-2 min-w-0 flex-[2_1_520px] lg:order-1">
             <SectionHeader id="home-orders-title" title="طلبات تحتاج إجراء" action={<UiButton onClick={onOrders}>كل الطلبات <ChevronLeft className="h-4 w-4" aria-hidden="true" /></UiButton>} />

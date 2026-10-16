@@ -91,6 +91,12 @@ const fingerprints = [
   ['180_owner_cash_withdrawals.sql', '080A6F155A3D6CBAC1799E438E4698E899EB7D58258C0904D030CC56D752B9E1'],
   ['181_owner_withdrawal_readers.sql', 'E3448DD3161618FB3B6574944B84D56260B5EEAAE214688135926BD29CE477F6'],
   ['182_owner_withdrawal_monitoring.sql', 'B8E7DB1AF4EF9111AA7C0476D0C6373A38DF37BC168C018261A69B22637BB70E'],
+  ['190_deferred_cheques_evidence.sql', 'A8A6E933D20C0778A8C50E59620B44E9F5BA2CEE4B74BB1320BEA44D2857D983'],
+  ['191_cheque_unified_customer_collection.sql', '3CED28E07C73C05871E67E7A76F669718952BFB517B2A477B21346A3994C9978'],
+  ['192_cheque_compensation_receivable_readers.sql', '2FAFAA9471B4556DB4A898EE7E94473FA4199F742EBC89621D0DF3588A05A007'],
+  ['193_deferred_cheque_lifecycle.sql', '15D9FE88B01E79C325BD8BB68E479E8860EFBFB5623F2F337B48906F23473295'],
+  ['194_cheque_shift_and_integrity.sql', '9867016FFA4B61B4ABD65FB2BDF189D5E42F09DF6A756C2293FFF0F449BC5EE8'],
+  ['195_deferred_cheque_readers_and_alerts.sql', 'C448F4726FB574A687402923759783CE0F859F1E56EE29221D8B24E53F3F6D4B'],
 ] as const;
 
 test('121-150 delivered bytes and continuity references agree with fixed approved fingerprints', () => {
@@ -119,7 +125,7 @@ test('migration numbers are unique and contiguous from001 to the approved ceilin
   assert.ok(!numbers.some(n=>unused.includes(n)),'retired140-149 must remain empty');
   assert.deepEqual(numbers, Array.from({length: state.migrationCeiling}, (_, index) => index + 1)
     .filter(n => !unused.includes(n)&&!state.deferredMigrationNumbers.includes(n)));
-  assert.deepEqual(state.deferredMigrationNumbers,[...Array.from({length:8},(_,i)=>152+i),165,166,167,168,169,...Array.from({length:8},(_,i)=>172+i)]);
+  assert.deepEqual(state.deferredMigrationNumbers,[...Array.from({length:8},(_,i)=>152+i),165,166,167,168,169,...Array.from({length:8},(_,i)=>172+i),...Array.from({length:7},(_,i)=>183+i)]);
   assert.deepEqual(state.cloudMigrationNumbers,Array.from({length:10},(_,i)=>170+i));
   assert.deepEqual(state.nextCloudMigrationNumbers,Array.from({length:10},(_,i)=>180+i));
 });

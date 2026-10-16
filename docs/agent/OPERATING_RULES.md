@@ -1,5 +1,9 @@
 # Multi-agent operating rules
 
+Current owner2026-10-17:complete B cheques incl narrow owner-only supplier
+claim settlement reversal,CI/merge;then separate VAPID public-key rotation,
+opening-cheques card,legalhome. No hostedaccess/deploy. Earlier STOP resolved.
+
 Current owner2026-10-16:complete and merge PR3 withdrawals180–182;ceiling182,
 172–179 deferred without backfill. Then feature/deferred-cheques190–199,
 opening-cheques card,then legal home receivables. No managed access/deploy.
