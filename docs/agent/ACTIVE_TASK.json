@@ -14,13 +14,13 @@
     "Owner reports Frankfurt upgrade198 apply12/12+verify0diff/0writes,notificationhold intact;reported dashboard signupoff/TOTP/CAPTCHA/bucket/Realtime ready."
   ],
   "inProgress": [
-    "Staging prep local PASS:publicconfig/SEO/CSP/ownercommands;exact8settings and failedfirstverify/two successes recorded. Gitleaks/commit/push/exactFULLCI remain. No hosted access."
+    "c568016 staging pushed;secretCI8.24 compatibility falsepositive corrected,actual8.24 public0/negativecontrol1. Final1231units/types/lint PASS;follow-upcommit/newFULLCI remain. No hosted access."
   ],
   "notStarted": [],
   "testsPassed": [
     "Earlier DB/browser/restore/scale evidence and exact CI preserved in PHASE_STATUS and per-feature reports.",
     "Final198 tools realDB rehearsal PASS;types/strictlint/1222Admin191Customer PASS. Reports nw-frankfurt198-final/remaining-gates-20261017.",
-    "Staging prep:SDK142/RPC489 no42501/types/strictlint/1227Admin191Customer/builds/isolatedSEO/network0/browser42both engines PASS. Historicalproofs unchanged;new TABLE_ACCESS_STAGING_198. No hosted calls."
+    "Staging:SDK142/RPC489 no42501/types/strictlint/1231Admin191Customer/builds/isolatedSEO/network0/browser42 PASS. Backup23focusedPASS;actual8.24 public0/negative1. Historicalproofs unchanged. No hosted calls."
   ],
   "testsRemaining": [
     "Gitleaks0/normalcommit/push/exactFULLCI+secrets/finalcheckpoint and ownerreview STOP."
@@ -37,12 +37,12 @@
     "Backup root project-ref remains old;only owner-approved publicconfig separation and identity guard;no hosted backup/secret/schedule/target change",
     "One writer;no tracked edits during verification;no retries/timeouts/skips/assertion weakening"
   ],
-  "nextExactAction": "Local staging SDK142/RPC489,1231Admin aggregate/191Customer units,types/lint/builds/network0/browser42 PASS;approved backup isolation tested. Gitleaks0/commit/push/exact FULLCI then ownerreview STOP. No hosted access/deploy.",
-  "checkpointedAt": "2026-10-17T19:34:53.597Z",
+  "nextExactAction": "Push scanner syntax compatibility follow-up;wait exact-SHA FULL quality28 and secrets. Staging/backup local gates PASS,1231Admin/191Customer/browser42,SDK142/RPC489. No hosted access/deploy;final checkpoint then STOP.",
+  "checkpointedAt": "2026-10-17T19:43:22.589Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "DC608D005DABDF96CB54F9D10C648C1D2876E194F1AA83A9AAA5F0A32DF026D6",
-  "filesTouchedCount": 29,
-  "filesTouchedManifestSha256": "1df615ad0d996bad957a605dddcff154a087e15c0f21be838db29f73acf61cdf"
+  "workingTreeFingerprint": "2F9D434BE4F2467B2573A7BD9D00A750B2255CC99DF2F42B0434E79ACB2B0227",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "a240566b36ea662c2cb8d707aa692ed50cca9de574236ca437429a6d5ea6796f"
 }

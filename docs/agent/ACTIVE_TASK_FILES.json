@@ -3,15 +3,7 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/public/_headers"
-    },
-    {
-      "code": " M",
-      "path": "customer-web/src/config/supabase-public-config.ts"
-    },
-    {
-      "code": " M",
-      "path": "docs/agent/OWNER_DECISIONS.md"
+      "path": ".gitleaks.toml"
     },
     {
       "code": " M",
@@ -19,102 +11,10 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/FRANKFURT_UPGRADE_198_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/STAGING_FRANKFURT_AR.md"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": " M",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
-    },
-    {
-      "code": " M",
-      "path": "public/_headers"
-    },
-    {
-      "code": " M",
-      "path": "scripts/audit/source-before198-presentation.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/backup/create-backup.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/build-acl-reference198.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-reference198.mjs"
-    },
-    {
-      "code": " M",
-      "path": "src/config/supabase-public-config.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/customer-web-security-headers.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/frankfurt-reference198.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/staging-preparation.test.ts"
-    },
-    {
-      "code": "??",
-      "path": ".gitleaks.toml"
-    },
-    {
-      "code": "??",
       "path": "docs/operations/FRANKFURT_STAGING_PREPARATION_198_AR.md"
     },
     {
-      "code": "??",
-      "path": "docs/operations/TABLE_ACCESS_STAGING_198.json"
-    },
-    {
-      "code": "??",
-      "path": "scripts/audit/source-before-staging-config.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/backup/backup-public-config.mjs"
-    },
-    {
-      "code": "??",
-      "path": "tests/backup-project-isolation.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/frankfurt-public-config.test.ts"
-    },
-    {
-      "code": "??",
-      "path": "tests/frankfurt-staging-csp.test.ts"
-    },
-    {
-      "code": "??",
+      "code": " M",
       "path": "tests/public-key-secret-scan.test.ts"
     }
   ]

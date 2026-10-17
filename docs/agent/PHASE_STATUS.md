@@ -1,5 +1,17 @@
 # Phase status
 
+## Current17Oct —staging c568016 pushed;scanner compatibility follow-up
+
+c568016 prepared Frankfurt publicdefaults/CSP/SEO/Access-first ownercommands;
+owner-approved backupStorage isolated/pinnedold with DBidentityguard.
+LocalSDK142/RPC489/191Customer/builds/network0/browser42 PASS. Finaltypes/lint/
+1231Admin PASS19:42:50UTC. CI secret39063116686 falsely flagged8 reviewedpublic
+sites:Gitleaks8.24.3 ignorednew[[allowlists]],local8.30.1 accepted it.
+Use backward-compatible[allowlist] with SAME2exact publicvalues. Actualofficial
+8.24.3 checksumverified:c568016scan0,unrelatedsyntheticsecret1(default rule).
+Normal correctivecommit/newFULLCI required;no retry/product/workflow change.
+No hostedaccess/deploy/backupscheduledrun/rootlink or secret changes.
+
 ## Owner-reported17Oct —Frankfurt198 applied/verified;staging preparation only
 
 Owner apply ok=true12/12applied+recorded,0unexpected,holdintact:
