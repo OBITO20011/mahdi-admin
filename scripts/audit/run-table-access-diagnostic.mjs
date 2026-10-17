@@ -13,8 +13,8 @@ import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
 const option=n=>process.argv.includes(n)?process.argv[process.argv.indexOf(n)+1]:null;
-const ceiling=Number(option('--migration-ceiling')||(process.argv.includes('--require-access')?197:138));
-assert.ok([138,150,164,171,182,195,196,197].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');
+const ceiling=Number(option('--migration-ceiling')||(process.argv.includes('--require-access')?198:138));
+assert.ok([138,150,164,171,182,195,196,197,198].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');
 const manifest=(await readdir(path.join(root,'supabase/migrations'))).filter(n=>/^\d{3}_.+\.sql$/u.test(n)&&Number(n.slice(0,3))<=ceiling).sort();
 const project=option('--local-project')||'nawasrah-table-audit-'+randomBytes(4).toString('hex')+'-test';
 assert.match(project,/^nawasrah-table-audit(?:-[a-f0-9]+)?-test$/u);
@@ -119,8 +119,11 @@ try{
  if(process.argv.includes('--require-access')&&!report.applicationReady){process.exitCode=1;report.accessGate='FAILED_DIRECT_TABLE_ACCESS';}
 }catch(error){report.infrastructureOk=false;report.error=error.message;process.exitCode=1;}
 finally{
- if(restStarted)await exec('docker',['rm','-f',rest],{windowsHide:true});
- if(workdir)await exec(process.execPath,[path.join(root,'node_modules/supabase/dist/supabase.js'),'stop','--no-backup','--workdir',workdir],{cwd:root,windowsHide:true});
+ // Cleanup must never hide the original failure or discard completed evidence.
+ const cleanupErrors=[];
+ if(restStarted)try{await exec('docker',['rm','-f',rest],{windowsHide:true});}catch(error){cleanupErrors.push({step:'postgrest',code:error.code??null,message:error.message});}
+ if(workdir)try{await exec(process.execPath,[path.join(root,'node_modules/supabase/dist/supabase.js'),'stop','--no-backup','--workdir',workdir],{cwd:root,windowsHide:true});}catch(error){cleanupErrors.push({step:'supabase',code:error.code??null,message:error.message});}
+ if(cleanupErrors.length){report.cleanupErrors=cleanupErrors;report.infrastructureOk=false;process.exitCode=1;}
  report.endedAt=new Date().toISOString();await writeFile(path.join(output,'diagnostic.json'),JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify({infrastructureOk:report.infrastructureOk,applicationReady:report.applicationReady,stage:report.stage,error:report.error,counts:report.counts,output}));
 }

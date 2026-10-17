@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 197,
+  "migrationCeiling": 198,
   "managedAccess": false,
   "sourceHashes": [
     {
@@ -193,7 +193,7 @@
     },
     {
       "file": "src/features/crm/CustomerCollectionModal.tsx",
-      "sha256": "a9ad147f82c4c6160ca5f8a20b616351ef06f4e26ffd839d50d26f4c414a4f0b"
+      "sha256": "aa61f9395c5f7b9fa797821aa70f2be911573db95c72845d4074caed21962368"
     },
     {
       "file": "src/features/crm/CustomerDetailView.tsx",

@@ -6,7 +6,7 @@ import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {realtimePublicationSql} from '../testing/realtime151-contract.mjs';
 import {assertWithdrawals182Catalog} from './frankfurt-reference182.mjs';
 import {aclEntries} from './managed-catalog-policy.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';
+import {inventoryBefore198Presentation as inventory} from '../audit/source-before198-presentation.mjs';
 import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
 export const chequeCeiling=195;
 export const chequeReferenceName='local-reference-through195-ready.json';

@@ -3,19 +3,20 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner17Oct:openingcheques196 CI/merge,then legalhome,cashier customer collection,finalFrankfurt ownercommand only.No managedaccess/deploy.",
-  "baselineSha": "0b42588e0c0a0fc9598ffce719e8f9deed5d28e5",
+  "baselineSha": "0e6ab9d00cec02e1ad7f0e86488e33e2b4969afb",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "main",
+  "branch": "codex/cashier-collections",
   "phase": "PACKAGE_F",
   "completed": [
     "Preparations373018c/627befd/b72aa55 accepted FULL25/25+secrets/Gitleaks0;full evidence in PHASE_STATUS",
     "Withdrawals18217d1 accepted FULL26/26+secrets/Gitleaks0;hosted171 owner-reported apply/verify in PHASE_STATUS",
     "Bmerged6a9b9d2 FULL27/27quality38988149146+secrets38988149154 PASS.",
-    "VAPIDe69c22f FULL27/27quality38993240417+secrets38993240418 PASS."
+    "VAPIDe69c22f FULL27/27quality38993240417+secrets38993240418 PASS.",
+    "196 accepted main0b42588 FULL28/28 quality39037313246+secrets39037313373 PASS.",
+    "197 genuine mainmerge0e6ab9d accepted FULL28/28 quality39047538800+secrets39047538889 PASS;branch4ae5592 alsoFULL28+secrets."
   ],
   "inProgress": [
-    "196 accepted onmain0b42588:quality39037313246 FULL28/28,secrets39037313373 PASS. Registry-only fix after exactly one failed rerun;no third.",
-    "197branch4ae5592 accepted FULL28/28 quality39045750225+secrets39045750244 PASS. Genuine main merge in progress,only metadata differs. Finalpin3CAABD6C;literalruntime4/generator511/SDK142/RPC489/1216+191/browser52/fullscalehome2567.652ms PASS. Local metadata gates then mergeSHA FULLCI."
+    "198 approved:cashier collection and only preview/history/outstanding-orders reads. Runtime/browser/CI and final reference pending."
   ],
   "notStarted": [
     "Cashier198 customer collection,then finalFrankfurt reference+singleownercommand(not executed)."
@@ -23,29 +24,29 @@
   "testsPassed": [
     "Withdrawals182 accepted full26+secrets;manualcash99000/restore/reset/TOTP;details WITHDRAWALS_INTEGRATION_182.md.",
     "B195 runtime25/25+restore0diff/browser70/70;157files505functions13Realtime/new=incremental0diff;main6a9b9d2 FULL27/27+secrets PASS.",
-    "VAPIDaccepted e69c22f;196branchFULL28+secrets;196main local1209Admin191Customer/types/lint/build/network/Gitleaks0. Details PHASE_STATUS."
+    "197 finalpin3CAABD6C literalruntime4/generator511/SDK142/RPC489/0SQL42501/types/lint/1216Admin191Customer/build/network0/browser52 PASS. Full150k/10k oracle0diff;mainCI home1072.366→1104.865ms(+32.499),balances911.957→212.088ms. Gitleaks0."
   ],
   "testsRemaining": [
-    "197 main-merge local metadata gates/commit/push/FULL exact CI;then198cashier pending legacy outstanding-orders reader clarification,and finalreference/ownercommand."
+    "198 related gates/fullCI/genuine merge;final198 Frankfurt reference+ownercommand/offline dryrun only."
   ],
   "findings": [
-    "Known legacyreturned debt7000:home7000/phase42=0;approved partC later,not fixed inA",
+    "197 closes legacyreturned mismatch7000→0,canonical35k/branches/claims and independent+1CRITICAL;other facts/data/security exact.",
     "Deletion risk resolved;check/cheque unified. Historical reset cGmtcL151/151/catalog0diff/TOTP+Storage PASS;1201Admin191Customer/types/lintPASS. UTC-midnight capture-anchor issue open;one unchanged environment rerun PASS."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Frankfurt/Production/secrets/deploy orownercommandexecution",
-    "No historicalSQL edits;only approvedWIP180182 completion thenapproved190199 scope",
+    "Historical001–197 frozen;only approved198 collection/necessary readers,no reversal grants",
     "No retries/timeouts/skips/assertionweakening;freeze trackedfiles duringgates",
-    "No financial question decided silently;no B beforeA delivery;onewriter;no protectedbusinessdeletes"
+    "No financial question decided silently;onewriter;no protectedbusinessdeletes"
   ],
-  "nextExactAction": "197 genuine main merge:branch4ae FULL28+secrets PASS;metadata-only local types/lint/1216+191 PASS. CI homep951930.802→1945.681ms(+14.879),balances1528.033→320.313ms. StageGitleaks/mergecommit/push thenFULL mergeCI.198 legacy-reader role question pending;finalreference later.",
-  "checkpointedAt": "2026-10-17T16:00:20.314Z",
+  "nextExactAction": "198 related gates PASS:DB5groups/SDK142/RPC489/511functions/types/lint/1220+191units/browser82/network0. Gitleaks0 then branchcommit/push/FULLCI,genuine mainmerge/exactCI;then final198 reference+ownercommand offline only.",
+  "checkpointedAt": "2026-10-17T17:19:45.446Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "5BCFCB2D4E25880C4C1583B92EBEE2B02862F2DD097711A2E89A254AC6268EAE",
-  "filesTouchedCount": 29,
-  "filesTouchedManifestSha256": "24310c4fa2a09c7baf3abf4e8a9af1e92b5bc85d001778a66fefaa5322c3e212"
+  "workingTreeFingerprint": "212C8AC663B502D993FB184DC1F6BD43DC04B34FCA6FA5B80A5B46AF009C52E2",
+  "filesTouchedCount": 49,
+  "filesTouchedManifestSha256": "4f0123e4db0cbd3c892ea8a753a6bac8d66443f05509e2bc7d4deaa9ae40b2fa"
 }

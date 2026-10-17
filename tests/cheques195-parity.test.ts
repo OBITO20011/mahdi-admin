@@ -3,10 +3,12 @@ import test from 'node:test';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {approvedCheques195Source,cheques195Files} from './approved-cheques195-source';
+import {restore198CollectionPresentation} from '../scripts/audit/source-before198-presentation.mjs';
 
 const baseline='18217d193acf0041c6319064f29501484501d8c7';
 for(const file of cheques195Files)test('cheques: every byte outside exact approved additions matches accepted182: '+file,()=>{
-  const source=readFileSync(file,'utf8'),before=execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
+  const current=readFileSync(file,'utf8'),source=file==='src/features/crm/CustomerCollectionModal.tsx'?restore198CollectionPresentation(current):current;
+  const before=execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
   assert.equal(approvedCheques195Source(file,source),before);
   assert.notEqual(approvedCheques195Source(file,source+'\n// unapproved mutation\n'),before,'outside-hunk changes remain observable');
 });

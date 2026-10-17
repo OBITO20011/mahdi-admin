@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-17T15:10:29.513Z",
-  "migrationCeiling": 197,
+  "startedAt": "2026-10-17T16:49:39.847Z",
+  "migrationCeiling": 198,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-rf1Zwk",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-han3zS",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -195,7 +195,7 @@
     },
     {
       "file": "src/features/crm/CustomerCollectionModal.tsx",
-      "sha256": "a9ad147f82c4c6160ca5f8a20b616351ef06f4e26ffd839d50d26f4c414a4f0b"
+      "sha256": "aa61f9395c5f7b9fa797821aa70f2be911573db95c72845d4074caed21962368"
     },
     {
       "file": "src/features/crm/CustomerDetailView.tsx",
@@ -21955,9 +21955,9 @@
       ],
       "command": "SELECT public.\"get_customer_outstanding_orders_page\"(1::integer,25::integer,NULL::text)",
       "probe": 80,
-      "message": "ليس لديك صلاحية عرض ذمم العملاء.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
+      "message": "success rolled back",
+      "outcome": "success_rolled_back",
+      "sqlstate": null
     },
     {
       "site": "src/services/supabase/customerAccounts.service.ts:135",
@@ -23695,9 +23695,9 @@
       ],
       "command": "SELECT public.\"preview_customer_collection_v1\"('92600000-0000-4000-8000-000000000401'::uuid,0::bigint)",
       "probe": 176,
-      "message": "ليس لديك صلاحية معاينة تحصيل من الزبون.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
+      "message": "success rolled back",
+      "outcome": "success_rolled_back",
+      "sqlstate": null
     },
     {
       "site": "src/services/supabase/goLive.service.ts:241",
@@ -23761,7 +23761,7 @@
       ],
       "command": "SELECT public.\"collect_customer_balance_v1\"('92600000-0000-4000-8000-000000000401'::uuid,0::bigint,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text,NULL::text,'isolated-service-audit-0000000000000000000001')",
       "probe": 179,
-      "message": "ليس لديك صلاحية تحصيل من الزبون.",
+      "message": "طريقة الدفع غير معتمدة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
     },
@@ -23860,9 +23860,9 @@
       ],
       "command": "SELECT public.\"get_customer_collections_v1\"('92600000-0000-4000-8000-000000000401'::uuid)",
       "probe": 185,
-      "message": "ليس لديك صلاحية عرض عمليات التحصيل.",
-      "outcome": "body_validation_or_error",
-      "sqlstate": "P0001"
+      "message": "success rolled back",
+      "outcome": "success_rolled_back",
+      "sqlstate": null
     },
     {
       "site": "src/services/supabase/goLive.service.ts:258",
@@ -37511,7 +37511,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-17T15:11:58.733Z",
+  "endedAt": "2026-10-17T16:51:29.271Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -37889,7 +37889,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        445
+        451
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

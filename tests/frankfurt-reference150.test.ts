@@ -5,7 +5,7 @@ import {assertReference150} from '../scripts/operations/frankfurt-reference150.m
 import {generateAclPlan,alignmentTransaction,predecessor139} from '../scripts/operations/frankfurt-acl-plan.mjs';
 import {run} from '../scripts/operations/frankfurt-align-acl.mjs';
 import {buildReference150} from '../scripts/operations/build-acl-reference150.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+import {inventoryBefore198Presentation as inventory} from '../scripts/audit/source-before198-presentation.mjs';
 import {readTables150} from '../scripts/testing/table-read-privileges150-contract.mjs';
 import {migrationManifest,manifestDigest,sha256,canonicalLf} from '../scripts/testing/maintenance-db-contract.mjs';
 import {schemaCatalogSql} from '../scripts/testing/schema-catalog.mjs';

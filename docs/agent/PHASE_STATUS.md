@@ -1,5 +1,35 @@
 # Phase status
 
+## Current17Oct —198 branch local gates PASS;commit/CI pending
+
+Owner approved three collection-only readers:preview_customer_collection_v1,
+get_customer_collections_v1,get_customer_outstanding_orders_page. Complete
+explicit198 definitions change five role guards only;existing cheque context,
+all payloads/locks/validation/idempotency and every reversal guard unchanged.
+Real197→198 DB5groups PASS,drawer109500,deniedcashierreversals/closedshift,
+catalogfive definitions only/no ACL/data delta. CurrentSDK142/RPC489 no42501,
+511functions,types/strictlint/1220Admin191Customer/build/network0/browser82PASS.
+Gitleaks/branchCI/genuine merge/exact mainCI then final198 reference/offline
+ownercommand remain. No hosted access. Full details CASHIER_COLLECTIONS_198_AR.md.
+
+## Current17Oct —197 DELIVERED main0e6ab9d;198 reader clarification pending
+
+Genuine merge0e6ab9d00cec02e1ad7f0e86488e33e2b4969afb has parents0b42588+4ae5592.
+Exact push/main quality39047538800 FULL28/28 and secrets39047538889 SUCCESS;
+branch quality39045750225 FULL28/28 and secrets39045750244 also SUCCESS.
+197 finalpin3CAABD6C;all local related gates as below and Gitleaks0. MainCI
+full-volume20sample p95:home1072.366→1104.865ms(+32.499ms),standalonebalances
+911.957→212.088ms. Unchanged3s home gate PASS;no added300ms/index/further
+optimization. Full150korders/10kcustomers independent oracle0diff. No hostedaccess.
+
+198 cashier implementation NOT STARTED:owner explicitly approved collection,
+order-payment RPCs,preview/history,not reversals/supplier/withdrawal/cost rights.
+Legacy RecordCustomerPaymentModal fetches get_customer_outstanding_orders_page;
+latest121 definition excludes cashier. A precise extra-reader permission question
+is pending;do not decide silently. Final Frankfurt reference/singleownercommand
+wait for198 final ceiling. No task-owned local process/DB/server remains.
+Baseline synced only to this known delivered merge under standing authorization.
+
 ## Current17Oct16:00UTC —197 main merge local gates PASS
 
 Metadata-only merge gates15:54:23–15:59:48UTC types/strictlint/1216Admin/

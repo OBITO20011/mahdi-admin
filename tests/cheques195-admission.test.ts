@@ -1,3 +1,4 @@
+import {sourceBefore198Presentation} from '../scripts/audit/source-before198-presentation.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFile} from 'node:fs/promises';
@@ -8,8 +9,8 @@ import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 test('195 reference rejects obsolete ceilings;actual SDK evidence exactly covers current source and no cheque table leaks',async()=>{
   assert.throws(()=>assertChequesReference({format:7,migrationCeiling:182},[],null,null),/READY_CHEQUES_REFERENCE_REQUIRED/u);
   const source=await inventory(),proof=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_AFTER_195.json','utf8'));
-  assert.equal(source.migrationCeiling,197);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);
-  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,source.sources);
+  assert.equal(source.migrationCeiling,198);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);
+  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,await sourceBefore198Presentation(source.sources));
   assert.deepEqual(proof.coverage,verifyProbeCoverage(source,proof.results));
   assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
   assertChequesCatalog(proof.catalog);

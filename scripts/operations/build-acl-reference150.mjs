@@ -12,7 +12,7 @@ import {migrationManifest,manifestDigest,canonicalLf,sha256} from '../testing/ma
 import {functionReference,DEFAULT_WORKDIR,assertOutsideRepository} from './frankfurt-owner-build.mjs';
 import {readNotificationSnapshot,validateOriginalNotifications} from './frankfurt-notification-hold.mjs';
 import {cronInventorySql,assessBuildCron} from './build-cron-report.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';
+import {inventoryBefore198Presentation as inventory} from '../audit/source-before198-presentation.mjs';
 import {assertReference150,readyReferenceName} from './frankfurt-reference150.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile);
 export async function buildReference150(args=[]){

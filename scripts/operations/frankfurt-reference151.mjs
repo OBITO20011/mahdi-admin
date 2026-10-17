@@ -6,7 +6,7 @@ import {canonicalLf,sha256,migrationManifest,manifestDigest} from '../testing/ma
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {realtimePublicationSql,realtime151Tables,verify151Publication} from '../testing/realtime151-contract.mjs';
 import {assertReadiness150} from './frankfurt-reference150.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';
+import {inventoryBefore198Presentation as inventory} from '../audit/source-before198-presentation.mjs';
 export const readyReference151Name='local-reference-001-139-150-151-ready.json';
 export function assertReference151(reference,manifest,proofText,source){
  assert.equal(reference.format,4,'READY151_REFERENCE_REQUIRED');
