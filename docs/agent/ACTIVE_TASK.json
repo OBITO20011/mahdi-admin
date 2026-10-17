@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner17Oct:openingcheques196 CI/merge,then legalhome,cashier customer collection,finalFrankfurt ownercommand only.No managedaccess/deploy.",
-  "baselineSha": "0e6ab9d00cec02e1ad7f0e86488e33e2b4969afb",
+  "baselineSha": "5cb640cb9a8630252fe0035dbf70d9df54e3cb72",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -13,21 +13,21 @@
     "Bmerged6a9b9d2 FULL27/27quality38988149146+secrets38988149154 PASS.",
     "VAPIDe69c22f FULL27/27quality38993240417+secrets38993240418 PASS.",
     "196 accepted main0b42588 FULL28/28 quality39037313246+secrets39037313373 PASS.",
-    "197 genuine mainmerge0e6ab9d accepted FULL28/28 quality39047538800+secrets39047538889 PASS;branch4ae5592 alsoFULL28+secrets."
+    "197 genuine mainmerge0e6ab9d accepted FULL28/28 quality39047538800+secrets39047538889 PASS;branch4ae5592 alsoFULL28+secrets.",
+    "198 genuine mainmerge5cb640c FULL28/28quality39055225117+secrets39055225107 PASS."
   ],
   "inProgress": [
-    "198 approved:cashier collection and only preview/history/outstanding-orders reads. Runtime/browser/CI and final reference pending."
+    "Final198 reference160files/511functions/13Realtime/fresh=incremental0diff;ownerlocal171→198 12officialrepairs/replay0writes/offline saved171 ACL0 PASS. Commit/fullCI pending."
   ],
-  "notStarted": [
-    "Cashier198 customer collection,then finalFrankfurt reference+singleownercommand(not executed)."
-  ],
+  "notStarted": [],
   "testsPassed": [
     "Withdrawals182 accepted full26+secrets;manualcash99000/restore/reset/TOTP;details WITHDRAWALS_INTEGRATION_182.md.",
     "B195 runtime25/25+restore0diff/browser70/70;157files505functions13Realtime/new=incremental0diff;main6a9b9d2 FULL27/27+secrets PASS.",
-    "197 finalpin3CAABD6C literalruntime4/generator511/SDK142/RPC489/0SQL42501/types/lint/1216Admin191Customer/build/network0/browser52 PASS. Full150k/10k oracle0diff;mainCI home1072.366→1104.865ms(+32.499),balances911.957→212.088ms. Gitleaks0."
+    "197 finalpin3CAABD6C literalruntime4/generator511/SDK142/RPC489/0SQL42501/types/lint/1216Admin191Customer/build/network0/browser52 PASS. Full150k/10k oracle0diff;mainCI home1072.366→1104.865ms(+32.499),balances911.957→212.088ms. Gitleaks0.",
+    "Final198 tools realDB rehearsal PASS;types/strictlint/1222Admin191Customer PASS. Reports nw-frankfurt198-final/remaining-gates-20261017."
   ],
   "testsRemaining": [
-    "198 related gates/fullCI/genuine merge;final198 Frankfurt reference+ownercommand/offline dryrun only."
+    "Gitleaks0,finaltoolingcommit/push/exactFULLCI,checkpoint,STOP with ownercommand(not executed)."
   ],
   "findings": [
     "197 closes legacyreturned mismatch7000→0,canonical35k/branches/claims and independent+1CRITICAL;other facts/data/security exact.",
@@ -37,16 +37,16 @@
   "activeProcesses": [],
   "prohibitions": [
     "No Frankfurt/Production/secrets/deploy orownercommandexecution",
-    "Historical001–197 frozen;only approved198 collection/necessary readers,no reversal grants",
+    "Historical001–198 frozen;finaltools/docs only,no new SQL/roles",
     "No retries/timeouts/skips/assertionweakening;freeze trackedfiles duringgates",
     "No financial question decided silently;onewriter;no protectedbusinessdeletes"
   ],
-  "nextExactAction": "198 branch28efe5c FULL28/28quality39053289276+secrets39053289414 PASS. Finish metadata-only genuine mainmerge gates/commit/push/exactCI;then final198 reference/offline ownercommand only.",
-  "checkpointedAt": "2026-10-17T17:39:56.031Z",
+  "nextExactAction": "198DELIVERED5cb640c FULL28+secrets. Final198 reference160/511/13,strict fresh=incremental0diff,12officiallocalupgrades/replay0writes,offline saved171 ACL0,types/lint/1222+191units PASS. Gitleaks/commit/push/fullCI then checkpoint and ownercommand STOP. No hostedaccess.",
+  "checkpointedAt": "2026-10-17T18:05:11.546Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "BF43DA899C2BC23B47A5C3ED702D551BE9D0A75D2688B9AC38E0CD7D48BDD5D9",
-  "filesTouchedCount": 49,
-  "filesTouchedManifestSha256": "442de40e35527344802e61113bcd2f0d7d654acdb8b7a0bafd098bbba792f844"
+  "workingTreeFingerprint": "4531DE96BA44F1461B823ECDCC11F331BA64A1AEB3EF3D3206DD94BA4802B11F",
+  "filesTouchedCount": 10,
+  "filesTouchedManifestSha256": "695cb6416970360bd5ffc076839b01c341ead97658bb30a1944b214995a2b7af"
 }

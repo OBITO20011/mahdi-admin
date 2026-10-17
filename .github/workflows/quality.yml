@@ -353,6 +353,10 @@ jobs:
         if: matrix.suite == 'deferred-cheques'
         run: node scripts/operations/build-acl-reference-cheques.mjs --output "${{ runner.temp }}/nawasrah-cheques-reference/local-reference-through195-ready.json"
 
+      - name: Prove198 final reference and literal171 upgrade with preserved notification hold
+        if: matrix.suite == 'package-f-reads'
+        run: node scripts/testing/run-frankfurt-upgrade198-runtime.mjs
+
       - name: Prove151 real Realtime channel delivery and role isolation
         if: matrix.suite == 'package-f-reads'
         run: npm run test:realtime151:runtime
