@@ -1568,3 +1568,15 @@ remains open,not silently normalized away. One unchanged environmental rerun
 00:02:19–00:20:29UTC PASS:trial-reset-cGmtcL151applied/151recorded,
 catalog0diff,468functions,real Storage bytes/staff removed,owner+verifiedTOTP
 retained. All owned stacks stopped. Full corrective exact-SHA CI pending.
+
+## 2026-10-17 — B accepted and public VAPID rotation local gates
+
+Merge6a9b9d2 FULL27/27quality38988149146+secrets38988149154 PASS.
+VAPID public point only,exactsource/emittedAST parity against that merge;
+private point never read. New tests contain publicPoint rather than ambiguous
+key to avoid generic-api-key false positive;no scanner exemption. SDK current
+fiveceilings142/142/138negative15+127,480RPC0SQL42501;1202Admin191Customer/
+types/strictlint and44both-engine browser PASS. External Temp nw-vapid-gates-
+20261017 ended01:53:34UTC;test-name-only rerun ended01:59:51UTC PASS.
+Gitleaks0 before commit;all owned DB/browser processes stopped. Next separate
+VAPIDcommit+exactFULLCI,then openingcard,canonicalhome,finalownerreference.

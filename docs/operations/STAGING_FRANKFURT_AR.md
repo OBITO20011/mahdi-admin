@@ -62,7 +62,7 @@ Widget المتجر: أضف `staging-frankfurt.nawasrah-store.pages.dev` وalnaw
 سر Auth اسمه في config: TURNSTILE_SECRET؛ سر Edge للمتجر TURNSTILE_SECRET_KEY. لا تخلط بينهما.
 TURNSTILE_ALLOWED_HOSTNAMES قائمة hostnames بلا https أو مسارات؛ تشمل المتجر ومعاينته المحددة. TURNSTILE_TEST_MODE=false.
 
-طابق VAPID العام في src/services/pushNotifications.service.ts مع زوج مفاتيح Edge؛ الخاص يبقى في Secrets.
+طابق VAPID العام في src/services/pushNotifications.service.ts مع الزوج الجديد الذي وضعه المالك في Edge؛ الخاص يبقى في Secrets ولا يُقرأ للتشخيص. بعد إذن النشر فقط: أعد تفعيل الإشعارات على جهاز الاختبار، ثم أثبت وصول إشعار طلب حقيقي من فرانكفورت. وصوله إثبات عملي أن الخاص المحفوظ يطابق العام؛ لا إرسال تجريبي من الوكيل الآن ولا تغيير للمشروع القديم.
 لا تولّد زوجاً جديداً دون خطة إعادة اشتراك الأجهزة. راجع WEB_PUSH_SUBJECT وn8n URLs عند إذن التفعيل.
 Vault: أبقِ order_push_webhook_secret كما هو. قيمة order_push_webhook_url عند **التفعيل فقط**:
 `https://kzevmysfydaslxcerogt.supabase.co/functions/v1/send-order-push`.

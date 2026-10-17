@@ -14,7 +14,7 @@
 - 30 جدولاً مع الموارد المضمّنة؛20 اشتراك Realtime موثّق منفصلاً. Storage وArray.from مستبعدان بأسباب صريحة فيJSON.
 - قاعدة جديدة001–138،138 سجلاً رسمياً. 142 إعادة تشغيل فعلية لسلاسل SDK الأصلية عبر PostgREST16.1/PostgreSQL17.6: 15 نجاح،127 رفض42501 في41 موضعاً،0 نتيجة صفرية،0 أخطاء أخرى.
 - جاهزية وصول التطبيق: **غير مقبول — المنح الحالية تعطل الوصول المباشر**. نجاح أداة التشخيص يعني جمع الأدلة فقط،لا قبول المنتج.
-- زمن الفحص:261.952ث؛2026-10-16T21:57:56.917Z إلى2026-10-16T22:02:18.869Z.
+- زمن الفحص:268.918ث؛2026-10-17T01:09:09.070Z إلى2026-10-17T01:13:37.988Z.
 
 ## طريقة الإثبات وحدودها
 
@@ -495,7 +495,7 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 | customer-web/public/_headers | 7 | CSP_CONNECT_SRC |
 | customer-web/src/config/supabase-public-config.ts | 13 | APP_FALLBACK |
 | docs/agent/HANDOFF_HISTORY.md | 445 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 414 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 425 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
 | docs/operations/STAGING_FRANKFURT_AR.md | 135 | HISTORICAL_DOCUMENTATION |
 | docs/operations/TABLE_ACCESS_DIAGNOSTIC.json | 37409 | HISTORICAL_DOCUMENTATION |

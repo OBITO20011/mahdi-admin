@@ -246,7 +246,7 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 | customer-web/public/_headers | 7 | CSP_CONNECT_SRC |
 | customer-web/src/config/supabase-public-config.ts | 13 | APP_FALLBACK |
 | docs/agent/HANDOFF_HISTORY.md | 445 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 414 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 425 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
 | docs/operations/STAGING_FRANKFURT_AR.md | 135 | HISTORICAL_DOCUMENTATION |
 | docs/operations/TABLE_ACCESS_DIAGNOSTIC.json | 37409 | HISTORICAL_DOCUMENTATION |

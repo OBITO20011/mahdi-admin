@@ -2,7 +2,7 @@ import {isSupabaseConfigured, supabase} from '../lib/supabase';
 import {isRunningStandalone} from '../pwa/pwa';
 
 const WEB_PUSH_PUBLIC_KEY =
-  'BIU0z5WvGLOyNT8RN96oTfnVa_Caw7dawr-4Ng6x6mHtj7NV9az-hl4BDKdENBSGbto0pKnOtSPd_kZI3KNDQzc';
+  'BIN48kQzsXJS2nOOoFkpJlut6nzzyKplxdDermEoKg3yybH8uAV49xqxkIAYin6DugySG3ucwci2JEW5PUw40AU';
 
 export interface PushNotificationState {
   supported: boolean;

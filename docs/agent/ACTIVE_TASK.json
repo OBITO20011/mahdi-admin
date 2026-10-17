@@ -3,34 +3,28 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner2026-10-17: finish B cheques incl narrow supplier claim settlement reversal; CI/merge, then VAPID, openingchequescard, legalhome. No managedaccess/deploy.",
-  "baselineSha": "18217d193acf0041c6319064f29501484501d8c7",
+  "baselineSha": "6a9b9d2ff469ed5c15c2d6dca6659f7c02611b7d",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
     "Preparations373018c/627befd/b72aa55 accepted FULL25/25+secrets/Gitleaks0;full evidence in PHASE_STATUS",
-    "Withdrawals18217d1 accepted FULL26/26+secrets/Gitleaks0;hosted171 owner-reported apply/verify in PHASE_STATUS"
+    "Withdrawals18217d1 accepted FULL26/26+secrets/Gitleaks0;hosted171 owner-reported apply/verify in PHASE_STATUS",
+    "Bmerged6a9b9d2 FULL27/27quality38988149146+secrets38988149154 PASS."
   ],
   "inProgress": [
-    "B195 branch82f0f70 FULL27/27quality38986012934+secrets38986015202 PASS. Genuine main merge staged;local merge gates then exact mergeSHA FULLCI pending."
+    "VAPID publicpoint-only rotation verified;Gitleaks/commit/FULLCI pending,then openingcard/legalhome."
   ],
   "notStarted": [
     "VAPID separately afterB,then openingchequescard,then legalhome receivablesC"
   ],
   "testsPassed": [
-    "Accepted182:real runtime+restore/manualcash99000;18new+170relatedbrowser/4oldskips;1167Admin191Customer/types/lint/build/isolation PASS",
-    "Accepted182:468functions,fresh/incremental0diff,upgrade13/13,replay0,reset151/151,realownerTOTP PASS;full evidence in WITHDRAWALS_INTEGRATION_182.md",
-    "B195 iKVN8C runtime15/15 including full logical restore/allpublicrows+sequences/replay0writes PASS",
-    "FreshSDK142/142 on150/164/171/182/195;138negative127denied+15success;all complete actual-role coverage",
-    "RPC195 g8lB1R477dispatch/0SQLSTATE42501;neutral-body validation distinct,not functionalPASS",
-    "m3dwhT real authenticated diagnosis confirms pendingcheque customer deletion then bounced100000 hidden fromCRM;caseROLLBACK/no managedaccess",
-    "Owner-approved deletion guards TI079C runtime19/19;customer pending->refusal->cleared zero->soft delete;both supplier balance signs;endorsed concurrency;fullrestore0diff/replay0;functions503",
-    "Previous source:cheque34+4 corrected-label cases PASS;related175PASS/2oldskips;SDK171142/142 completed before stopping182 bootstrap for owner-approved supplier change",
-    "PO supplier unification T9c3La runtime21/21+fullrestore0diff;browser82/82 bothengines PASS;types/lint/32contracts PASS before opening-path followup",
-    "Oct17 runtime25/25+restore0diff;browser70/70;SDK fiveceilings142/142 and138negative15/127;RPC480/0denied;reference157files505functions13realtime0diff;two exact testcontracts fixed54/54;1199Admin191Customer/types/lint/builds/isolatedSEO/isolation0escaped PASS."
+    "Withdrawals182 accepted full26+secrets;manualcash99000/restore/reset/TOTP;details WITHDRAWALS_INTEGRATION_182.md.",
+    "B195 runtime25/25+restore0diff/browser70/70;157files505functions13Realtime/new=incremental0diff;main6a9b9d2 FULL27/27+secrets PASS.",
+    "VAPID:exactsource/emittedAST point-only;currentSDK142/142 on150/164/171/182/195 and138negative15/127;RPC480/0SQL42501;types/strictlint/1202Admin191Customer/44bothengine browsers PASS01:53:34UTC."
   ],
   "testsRemaining": [
-    "Mergecommit/push/mainFULLCI B. Then separate VAPID/card/C."
+    "VAPID localgates/commit/FULLCI;then card/C/reference/ownercommand."
   ],
   "findings": [
     "Known legacyreturned debt7000:home7000/phase42=0;approved partC later,not fixed inA",
@@ -44,12 +38,12 @@
     "No retries/timeouts/skips/assertionweakening;freeze trackedfiles duringgates",
     "No financial question decided silently;no B beforeA delivery;onewriter;no protectedbusinessdeletes"
   ],
-  "nextExactAction": "Commit verified genuine B merge,push main,await exact SHA FULL quality+secrets;then VAPID separately,openingchequescard,legalhome.",
-  "checkpointedAt": "2026-10-17T00:49:28.140Z",
+  "nextExactAction": "Commit verified VAPIDpublicpoint and fresh access evidence,push main,await exact FULLCI;then openingcard and canonicalhome,finalreference+ownercommand.",
+  "checkpointedAt": "2026-10-17T02:00:41.767Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "E1A4E5350223AFEDBBAA9F81E1EE1198068C7A964FAD08392404C57BEA9159DA",
-  "filesTouchedCount": 92,
-  "filesTouchedManifestSha256": "65bd87408a5b492b7f759951818586a2fbd4ded130330849d0824ba055ee7089"
+  "workingTreeFingerprint": "F63CB8918A20D8B32BF91730DD13A562DBA2DFA0CF68E0869CA01A758D04A38E",
+  "filesTouchedCount": 17,
+  "filesTouchedManifestSha256": "0e845508740cf9d6e72369c0cb1fcd3c285a92fd9efba5d4e023d02d5f545420"
 }

@@ -1,5 +1,25 @@
 # Phase status
 
+## Current17Oct — B DELIVERED, VAPID in progress
+
+Genuine merge6a9b9d2ff469ed5c15c2d6dca6659f7c02611b7d=remote main.
+Push FULL27/27quality38988149146+secrets38988149154 PASS. Owner accepted.
+Local1201Admin191Customer/types/strictlintPASS;runtime25/browser70/access142/
+RPC480/reference505/13realtime/0fresh-incremental retained. No managedaccess.
+Next independent public VAPID rotation,then openingcard,then canonical home,
+then finalreference+singleownerupgradecommand (not executed). Currentceiling195.
+VAPID public-only gates nw-vapid-gates-20261017 completed01:53:34UTC:
+SDK142/142 on150/164/171/182/195;138negative15/127;RPC480/0SQL42501;
+types/strictlint/1202Admin+191Customer units and44/44both-engine browsers PASS.
+Point-only exact source/emitted AST test PASS. Audit artifacts refreshed from
+real roles,not stale hash rewrites. Next Gitleaks/independentcommit/FULLCI.
+Gitleaks generic-api-key flagged only the public point in the new test's
+ambiguous variable named key. Renamed it publicPoint;no scanner allowlist,
+rule/config change or data change. Rerun local test gates before commit;
+44browser/source proofs remain valid because production bytes did not change.
+Renamed-test gates01:55:31–01:59:51UTC all PASS:1202Admin191Customer/types/
+strictlint. Gitleaks changed+untracked19files20.6MB exit0,no allowlist.
+
 ## Current 2026-10-17 — B branch FULL PASS, genuine main merge pending
 
 82f0f708eb39478f1b6d5b36ef45ff6e9e8c756f branch quality38986012934
