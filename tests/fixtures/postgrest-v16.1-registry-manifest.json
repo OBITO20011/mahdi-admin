@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-17T13:22:38.784Z",
+  "legacy": "public.ecr.aws/supabase/postgrest:v16.1",
+  "mirror": "ghcr.io/supabase/postgrest:v16.1",
+  "digest": "sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+  "manifestText": "{\n   \"schemaVersion\": 2,\n   \"mediaType\": \"application/vnd.docker.distribution.manifest.list.v2+json\",\n   \"manifests\": [\n      {\n         \"mediaType\": \"application/vnd.docker.distribution.manifest.v2+json\",\n         \"size\": 527,\n         \"digest\": \"sha256:73e76c305027cb1119bc7c6ab82449d9e1a50a9e8697f4ebac5443dc63590c90\",\n         \"platform\": {\n            \"architecture\": \"amd64\",\n            \"os\": \"linux\"\n         }\n      },\n      {\n         \"mediaType\": \"application/vnd.docker.distribution.manifest.v2+json\",\n         \"size\": 527,\n         \"digest\": \"sha256:2fa40bb679b2a731f6ffe7dc9db6c15d57fd4e329e59e6362f9307630323535f\",\n         \"platform\": {\n            \"architecture\": \"arm64\",\n            \"os\": \"linux\"\n         }\n      }\n   ]\n}"
+}
