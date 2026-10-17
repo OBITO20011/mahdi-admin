@@ -2,21 +2,22 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner2026-10-17: finish B cheques incl narrow supplier claim settlement reversal; CI/merge, then VAPID, openingchequescard, legalhome. No managedaccess/deploy.",
-  "baselineSha": "6a9b9d2ff469ed5c15c2d6dca6659f7c02611b7d",
+  "objective": "Owner17Oct:openingcheques196 CI/merge,then legalhome,cashier customer collection,finalFrankfurt ownercommand only.No managedaccess/deploy.",
+  "baselineSha": "e69c22fa95638f64744df1ea6b39a0570c2bf480",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "main",
+  "branch": "codex/opening-cheques",
   "phase": "PACKAGE_F",
   "completed": [
     "Preparations373018c/627befd/b72aa55 accepted FULL25/25+secrets/Gitleaks0;full evidence in PHASE_STATUS",
     "Withdrawals18217d1 accepted FULL26/26+secrets/Gitleaks0;hosted171 owner-reported apply/verify in PHASE_STATUS",
-    "Bmerged6a9b9d2 FULL27/27quality38988149146+secrets38988149154 PASS."
+    "Bmerged6a9b9d2 FULL27/27quality38988149146+secrets38988149154 PASS.",
+    "VAPIDe69c22f FULL27/27quality38993240417+secrets38993240418 PASS."
   ],
   "inProgress": [
-    "VAPID publicpoint-only rotation verified;Gitleaks/commit/FULLCI pending,then openingcard/legalhome."
+    "Opening196 all local PASS:DB9/browser108/functions511/SDK142x6/RPC489zero42501/types/lint/1208Admin191Customer/build/network. Gitleaks/CI/merge pending."
   ],
   "notStarted": [
-    "VAPID separately afterB,then openingchequescard,then legalhome receivablesC"
+    "CanonicalhomeC,approved cashier customer collection,then finalFrankfurt reference+singleownercommand(not executed)."
   ],
   "testsPassed": [
     "Withdrawals182 accepted full26+secrets;manualcash99000/restore/reset/TOTP;details WITHDRAWALS_INTEGRATION_182.md.",
@@ -24,7 +25,7 @@
     "VAPID:exactsource/emittedAST point-only;currentSDK142/142 on150/164/171/182/195 and138negative15/127;RPC480/0SQL42501;types/strictlint/1202Admin191Customer/44bothengine browsers PASS01:53:34UTC."
   ],
   "testsRemaining": [
-    "VAPID localgates/commit/FULLCI;then card/C/reference/ownercommand."
+    "Opening196 runtime/units/browser/access/docs/functions/CI/merge;then C and finalreference/ownercommand."
   ],
   "findings": [
     "Known legacyreturned debt7000:home7000/phase42=0;approved partC later,not fixed inA",
@@ -38,12 +39,12 @@
     "No retries/timeouts/skips/assertionweakening;freeze trackedfiles duringgates",
     "No financial question decided silently;no B beforeA delivery;onewriter;no protectedbusinessdeletes"
   ],
-  "nextExactAction": "Commit verified VAPIDpublicpoint and fresh access evidence,push main,await exact FULLCI;then openingcard and canonicalhome,finalreference+ownercommand.",
-  "checkpointedAt": "2026-10-17T02:00:41.767Z",
+  "nextExactAction": "All196local gates+Gitleaks0 PASS;commit196/push/full branchCI,then genuine main merge and its fullCI.",
+  "checkpointedAt": "2026-10-17T11:26:57.321Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "F63CB8918A20D8B32BF91730DD13A562DBA2DFA0CF68E0869CA01A758D04A38E",
-  "filesTouchedCount": 17,
-  "filesTouchedManifestSha256": "0e845508740cf9d6e72369c0cb1fcd3c285a92fd9efba5d4e023d02d5f545420"
+  "workingTreeFingerprint": "00642C5E829D37B28AA51057259888DF5B56257205CFA8B9CDD7F2A6FDF1D201",
+  "filesTouchedCount": 44,
+  "filesTouchedManifestSha256": "fad85e2ad632d546c6672a267aa5b69feb578fddf03d2a2f64466d06aa3ab7c7"
 }

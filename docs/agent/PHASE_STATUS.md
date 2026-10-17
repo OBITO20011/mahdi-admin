@@ -1,5 +1,39 @@
 # Phase status
 
+## Current17Oct — VAPID DELIVERED, opening196 local WIP
+
+Resume17Oct:known-own WIP fingerprint/pin synchronized,no unknown changes.
+Expanded196 runtime3rC9LG10:18:57–10:21:22UTC PASS8groups:zero registration/
+clear effect,three directions,dates/zero-net party,roles/duplicates,replay,
+later endorsement+injected atomic rollback,two real sessions one commit,
+erroneous cancellation claims without original mutations,statement/aging,
+page/finish lock. Browser/access/generated artifacts/fullCI/merge still pending.
+Latest cashier collection permission approved and recorded;implementation
+follows openingcard and canonicalhome,not an opening-import role expansion.
+Final196 yO0eSF10:45:24–10:47:59UTC PASS9/9 incl real row-lock/rename identity
+race fail-closed before cheque/batch writes. Browser108identities PASS46old
+Chromium+16new both engines+46oldWebKit;role-exact selector correction only.
+196pin54BC8F2E. Current generated511functions and realaccess proofs pending.
+Evidence pipeline10:48:24–11:17:21UTC PASS:511functions;current-source SDK142/142
+on150/164/171/182/195/196;138negative15/127;RPC196489dispatch/0SQL42501.
+All source hashes refreshed by actual calls. Local full type/lint/unit/build/
+network gates and Gitleaks/commit/fullCI/merge remain;no hostedaccess.
+Final local gates11:22:02–11:25:51UTC PASS:both types/strictlint/1208Admin/
+191Customer/admin build/network isolation0escaped. One stale exact CI step
+label195 corrected to196;all product-writer/coverage assertions retained.
+Next Gitleaks,independent196commit/push,exact branch FULLCI,genuine main merge.
+
+e69c22fa95638f64744df1ea6b39a0570c2bf480 push FULL27/27quality38993240417
+and secrets38993240418 PASS. Public point only;no hostedaccess/deploy.
+codex/opening-cheques authorized196. First bootstrap failed one WIP quote,
+corrected before financial cases. RealIVtLQO02:32:53–02:34:52UTC passed5groups:
+three directions preserve financial/stock fingerprints,exact preview/replay,
+roles/duplicate refusals,clear/return/date provenance/zero-netparty,paging,
+permanent finish lock and old read-only replay. Broader follow-up/concurrency,
+browser,access/functions generation and fullCI/merge remain before delivery.
+195 functions frozen to accepted505 digest so future docs do not weaken history.
+FinalFrankfurt reference+singleownercommand waits196 then canonicalhome C.
+
 ## Current17Oct — B DELIVERED, VAPID in progress
 
 Genuine merge6a9b9d2ff469ed5c15c2d6dca6659f7c02611b7d=remote main.

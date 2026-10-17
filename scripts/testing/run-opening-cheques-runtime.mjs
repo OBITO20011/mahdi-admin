@@ -1,0 +1,145 @@
+// Real disposable database only. No hosted credentials,HTTP notification or mocks.
+import assert from 'node:assert/strict';
+import {execFile,spawn} from 'node:child_process';
+import {promisify} from 'node:util';
+import {readFile,writeFile,mkdtemp} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import path from 'node:path';
+import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
+import {readApplicationFingerprint} from './backup-restore-contract.mjs';
+
+const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),project='nawasrah-opening-cheques-test';
+const cli=path.join(root,'node_modules/supabase/dist/supabase.js'),executor=executorFor(['--container','supabase_db_'+project]);
+const output=await mkdtemp(path.join(tmpdir(),'nawasrah-opening-cheques-')),report={startedAt:new Date().toISOString(),output,managedAccess:false,cases:[]};
+const id=n=>`92600000-0000-4000-8000-${String(n).padStart(12,'0')}`,owner=id(1),manager=id(2),cashier=id(3),branch=id(200),customer=id(401),supplier=id(301);
+const q=v=>"'"+String(v).replaceAll("'","''")+"'",j=v=>q(JSON.stringify(v))+'::jsonb';let local,stage='bootstrap';let counter=0;
+const key=()=>`opening-cheque-runtime-${String(++counter).padStart(8,'0')}`;
+const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,r.stderr);return r.stdout.trim();};
+const json=async input=>JSON.parse(await sql(input));
+const auth=(actor,body,role='authenticated')=>`BEGIN;SELECT set_config('request.jwt.claims',${q(JSON.stringify({sub:actor,role,aal:'aal2'}))},true);SET LOCAL ROLE ${role};${body}COMMIT;`;
+const rpc=async(call,actor=owner)=>JSON.parse((await sql(auth(actor,`SELECT public.${call};`))).split('\n').at(-1));
+const refused=async(call,pattern,actor=owner,role='authenticated')=>{const before=await readApplicationFingerprint(executor),r=await executeInput(executor,auth(actor,`SELECT public.${call};`,role));assert.notEqual(r.code,0);assert.match(r.stderr,pattern);assert.deepEqual(await readApplicationFingerprint(executor),before,'rejected write changes no public row/sequence');};
+const record=(name,details={})=>{report.cases.push({name,passed:true,...details});console.log(JSON.stringify(report.cases.at(-1)));};
+const balance=async()=>json(`SELECT jsonb_build_object('customer',phase42_customer_receivable_total_internal(${q(customer)}),'supplier',s.current_balance_in_minor_units,'evidence',e.balance) FROM suppliers s JOIN phase133_supplier_balance_evidence_internal() e ON e.supplier_id=s.id WHERE s.id=${q(supplier)};`);
+const financialFingerprint=()=>sql(`SELECT jsonb_object_agg(name,digest) FROM(${['orders','order_items','customer_payments','supplier_payments','cash_shifts','inventory_balances','inventory_movements','products','customer_opening_balances','supplier_opening_balances','customer_collection_operations'].map(name=>`SELECT '${name}' name,(SELECT md5(COALESCE(string_agg(to_jsonb(r)::TEXT,'|' ORDER BY to_jsonb(r)::TEXT),'')) FROM public.${name} r) digest`).join(' UNION ALL ')}) x;`);
+const row=(number,direction='incoming',extra={})=>({sourceRow:1,direction,initial_status:'pending',bank_name:'بنك الاختبار',cheque_number:number,due_date:'2026-12-01',amount_in_minor_units:'10000',...(direction==='incoming'?{customer_id:customer}:{supplier_id:supplier}),...extra});
+const save=(rows,k=key())=>rpc(`record_go_live_cheques_v1(${q(branch)},${q(k)},${j(rows)})`);
+const cheque=async number=>json(`SELECT to_jsonb(c) FROM deferred_cheques c WHERE cheque_number=${q(number)};`);
+try{
+ const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
+  NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'196',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
+  NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
+ local=JSON.parse(boot.stdout).isolatedProjectRoot;stage='fixture';
+ await sql('ALTER TABLE orders DISABLE TRIGGER trg_notify_new_website_order_push;SELECT cron.alter_job(jobid,active:=false) FROM cron.job;');
+ await sql(await readFile(path.join(root,'scripts/testing/package-e-golden-day-fixture.sql'),'utf8'));
+ for(const [actor,role] of [[manager,'manager'],[cashier,'cashier'],[id(4),null]])await sql(`INSERT INTO auth.users(id,aud,role,email) VALUES(${q(actor)},'authenticated','authenticated',${q(actor+'@opening.example.test')});INSERT INTO profiles(id,full_name,is_active) VALUES(${q(actor)},'فحص صلاحيات',true);${role?`INSERT INTO roles(code,name_ar) VALUES(${q(role)},${q(role)}) ON CONFLICT(code) DO NOTHING;INSERT INTO user_roles(user_id,role_id) SELECT ${q(actor)},id FROM roles WHERE code=${q(role)};`:''}`);
+ await rpc(`set_go_live_main_branch_v1(${q(branch)})`);
+ const today=await sql("SELECT (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Amman')::DATE;"),old=await sql("SELECT ((CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Amman')::DATE-31)::TEXT;");
+ await rpc(`record_customer_opening_balances_v1(${q(key())},${j([{customer_id:customer,amount_in_minor_units:'20000',original_debt_date:today}])})`);
+ await rpc(`record_supplier_opening_balances_v1(${q(key())},${j([{supplier_id:supplier,direction:'payable',amount_in_minor_units:'30000',original_balance_date:today}])})`);
+ stage='zero financial effect and exact preview';
+ const rows=[row('0001'),row('0002','outgoing'),row('0003','incoming',{initial_status:'endorsed',endorsed_supplier_id:supplier,cheque_date:old})];
+ const before=await financialFingerprint(),original=await balance(),dryBefore=await readApplicationFingerprint(executor);
+ const preview=await rpc(`preview_go_live_cheques_v1(${q(branch)},${j(rows)})`);
+ assert.deepEqual(preview.errors,[]);assert.deepEqual(preview.parties.map(p=>({kind:p.kind,entered:p.enteredInMinorUnits,cheques:p.chequesInMinorUnits,before:p.beforeChequesInMinorUnits})),[
+  {kind:'customer',entered:20000,cheques:20000,before:40000},{kind:'supplier',entered:30000,cheques:20000,before:50000}]);
+ assert.deepEqual(await readApplicationFingerprint(executor),dryBefore,'preview is read-only');
+ const batch=key(),saved=await save(rows,batch);assert.equal(saved.created.length,3);assert.equal(saved.balanceEffectInMinorUnits,0);
+ assert.equal(await financialFingerprint(),before);assert.deepEqual(await balance(),original);
+ const replayBefore=await readApplicationFingerprint(executor);assert.equal((await save(rows,batch)).idempotentReplay,true);assert.deepEqual(await readApplicationFingerprint(executor),replayBefore);
+ await refused(`record_go_live_cheques_v1(${q(branch)},${q(batch)},${j([row('different')])})`,/GO_LIVE_BATCH_KEY_CONFLICT/u);
+ record('three registration directions preserve every financial/stock/product fingerprint;preview exact;replay zero writes');
+ stage='validation and ACL';
+ const duplicate=[row('0004'),row('0004')],dry=await rpc(`preview_go_live_cheques_v1(${q(branch)},${j(duplicate)})`);assert.equal(dry.errors.length,1);
+ await refused(`record_go_live_cheques_v1(${q(branch)},${q(key())},${j(duplicate)})`,/GO_LIVE_CHEQUE_ROWS_INVALID/u);
+ await refused(`record_go_live_cheques_v1(${q(branch)},${q(key())},${j([row('0001')])})`,/GO_LIVE_CHEQUE_ROWS_INVALID/u);
+ for(const actor of [manager,cashier,id(4)])for(const call of [`preview_go_live_cheques_v1(${q(branch)},${j([row('deny')])})`,`record_go_live_cheques_v1(${q(branch)},${q(key())},${j([row('deny')])})`,'get_go_live_cheques_v1()'])await refused(call,/صلاح|role|permission/iu,actor);
+ await refused('get_go_live_cheques_v1()',/permission denied/iu,null,'anon');
+ record('duplicates,role denial and anonymous EXECUTE denial leave no public row/sequence writes');
+ stage='clear and return';
+ const incoming=await cheque('0001'),outgoing=await cheque('0002'),endorsed=await cheque('0003');
+ const afterRegister=await financialFingerprint();await rpc(`clear_deferred_cheque_v1(${q(incoming.id)},1,${q(key())})`,manager);
+ assert.equal(await financialFingerprint(),afterRegister);assert.deepEqual(await balance(),original);
+ await rpc(`return_deferred_cheque_v1(${q(endorsed.id)},1,'رجوع شيك افتتاحي مجير',${q(key())})`,manager);
+ assert.deepEqual(await balance(),{customer:30000,supplier:40000,evidence:40000});
+ const age=await rpc(`get_customer_debt_aging(${q(customer)})`);assert.equal(age.total_in_minor_units,30000);
+ const claims=await json(`SELECT jsonb_agg(jsonb_build_object('party',party_kind,'date',(original_debt_at AT TIME ZONE 'Asia/Amman')::DATE,'amount',amount_in_minor_units) ORDER BY party_kind) FROM cheque_compensation_claims WHERE cheque_id=${q(endorsed.id)};`);
+ assert.deepEqual(claims,[{party:'customer',date:old,amount:10000},{party:'supplier',date:old,amount:10000}]);
+ await rpc(`return_deferred_cheque_v1(${q(outgoing.id)},1,'رجوع شيك صادر افتتاحي',${q(key())})`,manager);
+ assert.deepEqual(await balance(),{customer:30000,supplier:50000,evidence:50000});
+ const nullDate=await sql(`SELECT count(*) FROM cheque_compensation_claims WHERE cheque_id=${q(outgoing.id)} AND original_debt_at IS NULL;`);assert.equal(nullDate,'1');
+ record('clear has no money effect;endorsed return restores both canonical debts atomically;unknown dates stay unknown');
+ stage='canonical zero-net party and dated priority';
+ await save([row('zero-net','incoming',{customer_id:id(402),cheque_date:today,original_debt_date:old})]);
+ assert.equal(await sql(`SELECT phase42_customer_receivable_total_internal(${q(id(402))});`),'0');
+ const zero=await cheque('zero-net');assert.equal((await sql(`SELECT (original_debt_at AT TIME ZONE 'Asia/Amman')::DATE FROM deferred_cheques WHERE id=${q(zero.id)};`)),old);
+ await rpc(`return_deferred_cheque_v1(${q(zero.id)},1,'رجوع شيك لعميل بصافي صفر',${q(key())})`);assert.equal(await sql(`SELECT phase42_customer_receivable_total_internal(${q(id(402))});`),'10000');
+ record('zero net debt may have opening follow-up cheque;proven original date wins over cheque date;return restores independent debt');
+ stage='later endorsement and atomic failure';
+ await save([row('later-endorse')]);const later=await cheque('later-endorse');
+ const beforeEndorse=await balance();await rpc(`endorse_customer_cheque_v1(${q(later.id)},${q(supplier)},1,${q(key())})`,manager);
+ assert.deepEqual(await balance(),{customer:beforeEndorse.customer,supplier:beforeEndorse.supplier-10000,evidence:beforeEndorse.evidence-10000});
+ const beforeFailure=await readApplicationFingerprint(executor);
+ await sql(`CREATE FUNCTION public.opening_cheque_failure_fixture() RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$ BEGIN IF NEW.cheque_id=${q(later.id)}::uuid AND NEW.party_kind='supplier' THEN RAISE EXCEPTION 'INJECTED_OPENING_CHEQUE_RETURN_FAILURE';END IF;RETURN NEW;END;$$;
+ REVOKE ALL ON FUNCTION public.opening_cheque_failure_fixture() FROM PUBLIC,anon,authenticated,service_role;
+ CREATE TRIGGER opening_cheque_failure_fixture BEFORE INSERT ON public.cheque_compensation_claims FOR EACH ROW EXECUTE FUNCTION public.opening_cheque_failure_fixture();`);
+ await refused(`return_deferred_cheque_v1(${q(later.id)},2,'فحص ذرية رجوع افتتاحي مجير',${q(key())})`,/INJECTED_OPENING_CHEQUE_RETURN_FAILURE/u);
+ await sql('DROP TRIGGER opening_cheque_failure_fixture ON public.cheque_compensation_claims;DROP FUNCTION public.opening_cheque_failure_fixture();');
+ assert.deepEqual(await readApplicationFingerprint(executor),beforeFailure,'temporary fault injection leaves exact application state');
+ await rpc(`return_deferred_cheque_v1(${q(later.id)},2,'رجوع افتتاحي بعد تجييره لاحقاً',${q(key())})`,manager);
+ assert.deepEqual(await balance(),{customer:beforeEndorse.customer+10000,supplier:beforeEndorse.supplier,evidence:beforeEndorse.evidence});
+ record('later endorsement makes one supplier payment;injected failure rolls back both claims;return restores customer/supplier once');
+ stage='outgoing clear and simultaneous replay';
+ const beforeOutgoing=await balance();await save([row('outgoing-clear','outgoing')]);const outClear=await cheque('outgoing-clear');
+ await rpc(`clear_deferred_cheque_v1(${q(outClear.id)},1,${q(key())})`,manager);assert.deepEqual(await balance(),beforeOutgoing);
+ const same=key(),sameRows=[row('concurrent')],concurrent=await Promise.all([save(sameRows,same),save(sameRows,same)]);
+ assert.deepEqual(concurrent.map(r=>r.idempotentReplay).sort(),[false,true]);
+ assert.equal(await sql("SELECT count(*) FROM deferred_cheques WHERE cheque_number='concurrent';"),'1');
+ assert.deepEqual(await balance(),beforeOutgoing);
+ const statement=await rpc(`get_customer_statement(${q(customer)},1,100)`),canonical=(await balance()).customer;
+ assert.equal(statement.closing_balance_in_minor_units,canonical);
+ const aged=await rpc(`get_customer_debt_aging(${q(customer)})`);assert.equal(aged.total_in_minor_units,canonical);
+ assert.equal(aged.age_unavailable_in_minor_units,10000);
+ record('outgoing clear preserves balances;two real concurrent sessions create one cheque/event;statement/aging exactly canonical');
+ stage='opening erroneous cancellation';
+ const beforeCancel=await balance(),paymentBeforeCancel=await financialFingerprint();
+ await save([row('cancel-opening'),row('cancel-outgoing','outgoing')]);
+ for(const number of ['cancel-opening','cancel-outgoing']){const c=await cheque(number);
+  await rpc(`cancel_deferred_cheque_v1(${q(c.id)},1,'إلغاء تسجيل افتتاحي خاطئ',${q(key())})`);
+  assert.equal((await cheque(number)).status,'cancelled');
+ }
+ assert.equal(await financialFingerprint(),paymentBeforeCancel,'cancellation never mutates original payments or stock');
+ assert.deepEqual(await balance(),{customer:beforeCancel.customer+10000,supplier:beforeCancel.supplier+10000,evidence:beforeCancel.evidence+10000});
+ assert.equal(await sql("SELECT count(*) FROM cheque_compensation_claims c JOIN deferred_cheques q ON q.id=c.cheque_id WHERE q.cheque_number IN ('cancel-opening','cancel-outgoing') AND c.claim_kind='cancelled';"),'2');
+ record('opening erroneous cancellation restores independent customer/supplier debt without touching payments or stock');
+ stage='party identity changes before row lock';
+ const names=await json(`SELECT jsonb_object_agg(id::text,full_name) FROM customers WHERE id IN (${q(customer)},${q(id(402))});`),raceKey=key(),raceRow=row('party-race');
+ delete raceRow.customer_id;raceRow.customer_name=names[customer];
+ const holder=spawn(executor.command,executor.args,{windowsHide:true,stdio:['pipe','pipe','pipe']});
+ let holderOutput='',holderError='';holder.stdout.setEncoding('utf8');holder.stderr.setEncoding('utf8');
+ holder.stdout.on('data',s=>holderOutput+=s);holder.stderr.on('data',s=>holderError+=s);
+ const holderClosed=new Promise((resolve,reject)=>{holder.once('error',reject);holder.once('close',code=>resolve(code));});
+ try{
+  holder.stdin.write(`BEGIN;SELECT id FROM customers WHERE id=${q(customer)} FOR UPDATE;UPDATE customers SET full_name='هوية قديمة أُعيدت تسميتها' WHERE id=${q(customer)};UPDATE customers SET full_name=${q(names[customer])} WHERE id=${q(id(402))};SELECT 'PARTY_LOCK_READY';\n`);
+  const readyDeadline=Date.now()+15000;
+  while(!holderOutput.includes('PARTY_LOCK_READY')){assert.ok(Date.now()<readyDeadline,'PARTY_LOCK_HOLDER_NOT_READY:'+holderError);await new Promise(resolve=>setImmediate(resolve));}
+  const pending=executeInput(executor,auth(owner,`SET LOCAL application_name='opening196-party-race';SELECT public.record_go_live_cheques_v1(${q(branch)},${q(raceKey)},${j([raceRow])});`));
+  const blockedDeadline=Date.now()+15000;
+  while(await sql("SELECT count(*) FROM pg_stat_activity WHERE application_name='opening196-party-race' AND wait_event_type='Lock' AND cardinality(pg_blocking_pids(pid))>0;")==='0')
+   assert.ok(Date.now()<blockedDeadline,'PARTY_RACE_DID_NOT_REACH_ROW_LOCK');
+  holder.stdin.end('COMMIT;\n');assert.equal(await holderClosed,0,holderError);
+  const result=await pending;assert.notEqual(result.code,0);assert.match(result.stderr,/GO_LIVE_CHEQUE_PARTIES_CHANGED/u);
+  assert.equal(await sql("SELECT count(*) FROM deferred_cheques WHERE cheque_number='party-race';"),'0');
+  assert.equal(await sql(`SELECT count(*) FROM go_live_import_batches WHERE idempotency_key=${q(raceKey)};`),'0');
+ }finally{if(!holder.stdin.writableEnded)holder.stdin.end('ROLLBACK;\n');await holderClosed;}
+ await sql(`UPDATE customers SET full_name=${q(names[customer])} WHERE id=${q(customer)};UPDATE customers SET full_name=${q(names[id(402)])} WHERE id=${q(id(402))};`);
+ record('real rename handover while registration waits for row lock rejects changed party identity before creating any cheque/batch');
+ stage='page and finish';const page=await rpc('get_go_live_cheques_v1(1,2)');assert.equal(page.entries.length,2);assert.equal(page.totalCount,9);assert.equal(page.hasMore,true);
+ await rpc("finish_go_live_setup_v1('إنهاء بداية التشغيل')");
+ await refused(`record_go_live_cheques_v1(${q(branch)},${q(key())},${j([row('after-finish')])})`,/GO_LIVE_SETUP_FINISHED/u);
+ assert.equal((await save(rows,batch)).idempotentReplay,true);
+ assert.equal((await rpc('get_go_live_cheques_v1()')).totalCount,9);
+ record('global pagination,permanent setup lock and read-only old replay after finish');
+ report.ok=true;
+}catch(error){report.ok=false;report.stage=stage;report.error=error.message;process.exitCode=1;}
+finally{if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});report.endedAt=new Date().toISOString();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}
