@@ -6,7 +6,7 @@ import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {realtimePublicationSql} from '../testing/realtime151-contract.mjs';
 import {assertReference171,assertProduct171Catalog} from './frankfurt-reference171.mjs';
 import {aclEntries} from './managed-catalog-policy.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';
+import {inventoryBefore198Presentation as inventory} from '../audit/source-before198-presentation.mjs';
 import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
 export const readyReference182Name='local-reference-001-139-150-151-160-164-170-171-180-182-ready.json';
 export const withdrawalVersions=Object.freeze(['180','181','182']);

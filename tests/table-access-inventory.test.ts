@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {inventory,parseSource,embeddedTables} from '../scripts/audit/table-access-inventory.mjs';
+import {sourceBefore198Presentation} from '../scripts/audit/source-before198-presentation.mjs';
 import {evaluateArgument,verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 import {proposedAccess} from '../scripts/audit/table-access-report.mjs';
 
@@ -44,7 +45,7 @@ test('checked-in access inventory exactly covers current production-source queri
  assert.deepEqual(stored,actual,'Rerun the inventory and real-role diagnostic when source changes;do not silently omit a query');
  const evidence=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_DIAGNOSTIC.json','utf8'));
  assert.equal(evidence.managedAccess,false);assert.equal(evidence.migrationCeiling,138);assert.equal(evidence.infrastructureOk,true);
- assert.deepEqual(evidence.sourceHashes,actual.sources);
+ assert.deepEqual(evidence.sourceHashes,await sourceBefore198Presentation(actual.sources));
  for(const e of actual.entries){const rows=evidence.results.filter((r:{id:string})=>r.id===e.id);
   assert.ok(rows.length>0,`NO_REAL_QUERY_EVIDENCE:${e.id}`);
   assert.deepEqual([...new Set(rows.map((r:{appRole:string})=>r.appRole))].sort(),e.role==='service_role'?['service_role']:['admin','cashier','owner']);
@@ -59,7 +60,7 @@ test('checked-in access inventory exactly covers current production-source queri
 test('diagnostic uses real HTTP/local roles,no temporary grants or managed credentials',async()=>{
  const runner=await readFile('scripts/audit/run-table-access-diagnostic.mjs','utf8'),probes=await readFile('scripts/audit/table-access-probes.mjs','utf8');
  assert.match(runner,/NAWASRAH_MAX_MIGRATION:String\(ceiling\)/u);
- assert.match(runner,/process\.argv\.includes\('--require-access'\)\?197/u);
+ assert.match(runner,/process\.argv\.includes\('--require-access'\)\?198/u);
  assert.match(runner,/Number\(option\('--migration-ceiling'\)\|\|/u,'Explicit historical proofs must retain their own labelled ceiling');
  assert.match(runner,/ONLY_APPROVED_AUDIT_CEILINGS/u);assert.match(runner,/EXACT_APPROVED_HISTORY_REQUIRED/u);
  assert.match(runner,/SET LOCAL ROLE/u);assert.match(runner,/request\.jwt\.claims/u);
@@ -73,7 +74,7 @@ test('post150 evidence covers every current query,role and variant and accepts n
  const source=await inventory(),evidence=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_AFTER_150.json','utf8'));
  assert.equal(evidence.migrationCeiling,150);assert.equal(evidence.managedAccess,false);
  assert.equal(evidence.infrastructureOk,true);assert.equal(evidence.applicationReady,true);
- assert.deepEqual(evidence.sourceHashes,source.sources);
+ assert.deepEqual(evidence.sourceHashes,await sourceBefore198Presentation(source.sources));
  assert.deepEqual(verifyProbeCoverage(source,evidence.results),evidence.coverage);
  assert.ok(evidence.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
  assert.deepEqual(evidence.manifest.filter((n:string)=>Number(n.slice(0,3))>=139),['139_project_order_push_webhook_url.sql','150_explicit_application_table_read_privileges.sql']);

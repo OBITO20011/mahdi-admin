@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {assertReference151} from '../scripts/operations/frankfurt-reference151.mjs';
 import {assertUpgradeHistory,upgradeVersions,upgradeLockKey} from '../scripts/operations/frankfurt-owner-upgrade.mjs';
 import {buildReference151} from '../scripts/operations/build-acl-reference151.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+import {inventoryBefore198Presentation as inventory} from '../scripts/audit/source-before198-presentation.mjs';
 import {readTables150} from '../scripts/testing/table-read-privileges150-contract.mjs';
 import {realtimePublicationSql,realtime151Tables} from '../scripts/testing/realtime151-contract.mjs';
 import {businessCronJobs} from '../scripts/operations/build-cron-report.mjs';

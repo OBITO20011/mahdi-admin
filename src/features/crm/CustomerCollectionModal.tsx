@@ -31,6 +31,7 @@ export const CustomerCollectionModal: React.FC<CustomerCollectionModalProps> = (
   const ids = { amount: useId(), method: useId(), reference: useId(), notes: useId(), reason: useId() };
   const { setToast } = useAppStoreActions();
   const branchId = useAppStoreSelector(state => state.activeBranch?.id ?? null);
+  const isCashier = useAppStoreSelector(state => state.currentUser.role === 'Cashier');
   const [amount, setAmount] = useState('');
   const [method, setMethod] = useState<CollectionMethod>('cash');
   const [reference, setReference] = useState('');
@@ -156,7 +157,7 @@ export const CustomerCollectionModal: React.FC<CustomerCollectionModalProps> = (
                   <span><bdi dir="ltr">{operation.operationNumber}</bdi> · {methodLabel[operation.paymentMethod] ?? operation.paymentMethod} · <Money minor={operation.amountInMinorUnits} /></span>
                   {operation.chequeId?<StatusBadge tone="info">إدارة الحالة من صفحة الشيكات</StatusBadge>:operation.isReversed
                     ? <StatusBadge tone="mute">معكوسة</StatusBadge>
-                    : <UiButton variant="danger" disabled={busy} aria-label={`عكس العملية ${operation.operationNumber}`}
+                    : !isCashier && <UiButton variant="danger" disabled={busy} aria-label={`عكس العملية ${operation.operationNumber}`}
                         onClick={() => { setReversing(operation); setReason(''); }}><RotateCcw className="h-4 w-4" aria-hidden="true" />عكس</UiButton>}
                 </div>
                 {reversing?.operationId === operation.operationId && (

@@ -6,7 +6,7 @@ import {canonicalLf,sha256,migrationManifest,manifestDigest} from '../testing/ma
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {aclEntries} from './managed-catalog-policy.mjs';
 import {readTables150,removed150} from '../testing/table-read-privileges150-contract.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';
+import {inventoryBefore198Presentation as inventory} from '../audit/source-before198-presentation.mjs';
 import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
 import {validateOriginalNotifications} from './frankfurt-notification-hold.mjs';
 import {generateAclPlan} from './frankfurt-acl-plan.mjs';

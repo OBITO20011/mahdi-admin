@@ -1,3 +1,4 @@
+import {sourceBefore198Presentation} from '../scripts/audit/source-before198-presentation.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFile} from 'node:fs/promises';
@@ -16,8 +17,8 @@ test('182 history accepts only the exact ordered approved prefix,not gap backfil
 });
 test('182 current real table and service dispatch evidence is complete,and every withdrawal table/sequence is RPC-only',async()=>{
  const source=await inventory(),proof=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_AFTER_182.json','utf8'));
- assert.equal(source.migrationCeiling,197);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);
- assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,source.sources);
+ assert.equal(source.migrationCeiling,198);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);
+ assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,await sourceBefore198Presentation(source.sources));
  assert.deepEqual(verifyProbeCoverage(source,proof.results),proof.coverage);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
  assertWithdrawals182Catalog(proof.catalog);
  for(const grant of ['anon=r/postgres','authenticated=r/postgres','=r/postgres']){
@@ -27,7 +28,7 @@ test('182 current real table and service dispatch evidence is complete,and every
  const disabled=structuredClone(proof.catalog);disabled.tables.find((r:{name:string})=>r.name==='owner_cash_withdrawals').rls=false;
  assert.throws(()=>assertWithdrawals182Catalog(disabled));
  const services=JSON.parse(await readFile('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','utf8'));
- assert.equal(services.migrationCeiling,197);assert.equal(services.ok,true);
+ assert.equal(services.migrationCeiling,198);assert.equal(services.ok,true);
  assert.ok(services.results.every((r:{sqlstate:string|null})=>r.sqlstate!=='42501'));
 });
 test('full CI requires the independent withdrawal,whole-day,restore and fresh/incremental upgrade probes',async()=>{

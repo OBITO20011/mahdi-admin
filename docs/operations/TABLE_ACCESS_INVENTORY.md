@@ -1,3 +1,8 @@
+# جرد الوصول الحالي198
+
+الدليل الحالي TABLE_ACCESS_AFTER_198.json:142/142،صفر أخطاء.
+دليل138 أدناه تاريخي؛تغيير المصدر الوحيد حارس عرض زر العكس،مقيد بتطابق حرفي في source-before198-presentation.mjs. لم يُعدّل أي دليل تاريخي.
+
 # جرد الوصول — الحالة بعد150
 
 **الوصول المباشر المحلي ناجح: 142 سلسلةفعلية،صفر42501/PGRST2xx،والتغطيةكاملة.** [الدليل الإيجابي](TABLE_ACCESS_AFTER_150.md). --apply موقوف؛Auth/Storage/Realtime والإعداداتبواباتمنفصلة،لاادعاءقبولstaging. أدناهدليل138السلبي للمقارنة،لاهدفالمواءمة.
@@ -257,7 +262,7 @@ node scripts/audit/table-access-report.mjs <مسار-diagnostic.json-المطب�
 
 167 موضعSDK .rpc و4 موضعRESTGateway،161 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
 
-قاعدة197 محلية جديدة: 489 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،115 نجاحمعrollback،374 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
+قاعدة198 محلية جديدة: 489 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،118 نجاحمعrollback،371 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
 
 حدالقياسصريح:أُرسلتقيممحليةمحايدةمُنمّطةحسبتوقيعSQL(معرفعميل/فرع/مستودعfixtureحيثيوجد،NULL/JSONفارغلغيره)،وليستجميعحمولاتالتدفّقاتالصحيحةمنواجهةالتطبيق. النصالأصليلكلاستدعاءومعاملاتهفيSERVICE_ACCESS_INVENTORY.json؛قيمةكلprobeوأثرهفيSERVICE_ACCESS_DIAGNOSTIC.json. لا نسمّي274خطأتحققنجاحاًوظيفياً ولا42501. كلنجاحوكلخطأداخلsubtransactionأُرجع؛لاأثرماليأومخزنيباقٍ. اختباراتالمساراتالمتكاملةالقائمةتبقىمطلوبة؛هذهالإضافةتثبتEXECUTE/dispatchوليسإتمامكلسيناريو.
 
@@ -289,7 +294,7 @@ node scripts/audit/table-access-report.mjs <مسار-diagnostic.json-المطب�
 | save_customer؛src/services/supabase/crm.service.ts:365 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | set_customer_status؛src/services/supabase/crm.service.ts:408 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | add_customer_address؛src/services/supabase/crm.service.ts:457 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| get_customer_outstanding_orders_page؛src/services/supabase/customerAccounts.service.ts:49 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_customer_outstanding_orders_page؛src/services/supabase/customerAccounts.service.ts:49 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
 | record_customer_order_payment_once؛src/services/supabase/customerAccounts.service.ts:135 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_customer_debt_aging؛src/services/supabase/customerDebtAging.service.ts:8 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | get_customer_statement؛src/services/supabase/customerStatement.service.ts:7 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
@@ -321,10 +326,10 @@ node scripts/audit/table-access-report.mjs <مسار-diagnostic.json-المطب�
 | reverse_supplier_opening_balance_v1؛src/services/supabase/goLive.service.ts:150 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | finish_go_live_setup_v1؛src/services/supabase/goLive.service.ts:155 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_crm_customer_page؛src/services/supabase/goLive.service.ts:162 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
-| preview_customer_collection_v1؛src/services/supabase/goLive.service.ts:230 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| preview_customer_collection_v1؛src/services/supabase/goLive.service.ts:230 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
 | collect_customer_balance_v1؛src/services/supabase/goLive.service.ts:241 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | reverse_customer_collection_v1؛src/services/supabase/goLive.service.ts:248 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| get_customer_collections_v1؛src/services/supabase/goLive.service.ts:252 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_customer_collections_v1؛src/services/supabase/goLive.service.ts:252 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
 | get_supplier_opening_payable_v1؛src/services/supabase/goLive.service.ts:258 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | pay_supplier_opening_balance_v1؛src/services/supabase/goLive.service.ts:264 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | set_go_live_main_branch_v1؛src/services/supabase/goLive.service.ts:271 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
@@ -498,7 +503,7 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 | customer-web/public/_headers | 7 | CSP_CONNECT_SRC |
 | customer-web/src/config/supabase-public-config.ts | 13 | APP_FALLBACK |
 | docs/agent/HANDOFF_HISTORY.md | 445 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 445 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 451 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
 | docs/operations/STAGING_FRANKFURT_AR.md | 135 | HISTORICAL_DOCUMENTATION |
 | public/_headers | 8 | CSP_CONNECT_SRC |
@@ -575,4 +580,4 @@ node scripts/audit/run-service-access-diagnostic.mjs
 node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>
 ```
 
-لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على197 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
+لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على198 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.

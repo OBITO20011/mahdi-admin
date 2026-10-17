@@ -293,6 +293,10 @@ jobs:
         if: matrix.suite == 'opening-cheques'
         run: node scripts/testing/run-canonical-receivables197-scale.mjs
 
+      - name: Cashier collection198 real roles and unchanged reversal guards
+        if: matrix.suite == 'opening-cheques'
+        run: node scripts/testing/run-cashier-collections198-runtime.mjs
+
       - name: Prove164 independent complete cash shift and measure receivable status sets
         if: matrix.suite == 'closing'
         run: node scripts/testing/run-go-live-integration164-runtime.mjs
@@ -337,7 +341,7 @@ jobs:
         if: matrix.suite == 'package-f-reads'
         run: npm run test:table-reads150:runtime
 
-      - name: Require real application table access through197
+      - name: Require real application table access through198
         if: matrix.suite == 'package-f-reads'
         run: node scripts/audit/run-table-access-diagnostic.mjs --require-access
 

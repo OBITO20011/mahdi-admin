@@ -8,6 +8,7 @@ import '../src/index.css';
 import {ChequesView} from '../src/features/cheques/ChequesView';
 import {ChequeRegistrationForm} from '../src/features/cheques/ChequeRegistrationForm';
 import {CustomerStatement} from '../src/features/crm/CustomerStatement';
+import {CustomerCollectionModal} from '../src/features/crm/CustomerCollectionModal';
 import {SideNav} from '../src/components/layout/SideNav';
 import {BottomTabs} from '../src/components/layout/BottomTabs';
 import {authStoreEngine} from '../src/stores/useAuthStore';
@@ -32,6 +33,10 @@ window.__chequeFixture={transition:(id,status)=>{const c=rows.find(c=>c.id===id)
 const originalRpc=supabase.rpc.bind(supabase),originalFrom=supabase.from.bind(supabase);
 const ok=(data:unknown)=>Promise.resolve({data,error:null});
 Object.defineProperty(supabase,'rpc',{value:(name:string,args:Record<string,unknown>={})=>{
+  if(name==='get_customer_collections_v1')return ok({operations:[{operationId:'cashier198-operation',operationNumber:'COL-198',amountInMinorUnits:8000,
+    openingAmountInMinorUnits:5000,ordersAmountInMinorUnits:3000,paymentMethod:'cash',isReversed:false,createdAt:'2026-10-17T08:00:00Z',remainingBalanceInMinorUnits:27000}]});
+  if(name==='preview_customer_collection_v1')return ok({totalOutstandingInMinorUnits:27000,openingOutstandingInMinorUnits:0,ordersOutstandingInMinorUnits:27000,
+    exceedsBalance:false,parts:[{kind:'order',id:'order198',reference:'W-198',debtAt:'2026-10-17T08:00:00Z',outstandingInMinorUnits:27000,allocateInMinorUnits:Number(args.p_amount_in_minor_units),remainingAfterInMinorUnits:27000-Number(args.p_amount_in_minor_units)}]});
   if(name==='get_deferred_cheques_page'){
     const filtered=rows.filter(c=>(args.p_direction==='all'||c.direction===args.p_direction)
       &&(args.p_status==='all'||c.status===args.p_status||(args.p_status==='due7'&&c.status==='pending')||(args.p_status==='overdue'&&c.status==='endorsed')));
@@ -72,6 +77,7 @@ const view=params.get('view');
 createRoot(document.getElementById('root')!).render(<div className="min-h-screen bg-nw-bg text-nw-text">
   {view==='receive'?<main className="mx-auto max-w-xl p-4"><h1 className="mb-4 text-xl font-bold">استلام شيك عميل</h1><ChequeRegistrationForm direction="incoming" partyId={chequeCustomer}
     parties={[{id:chequeCustomer,name:'محمد أحمد العلي',phone:'0791111111'}]} branchId={chequeBranch} onClose={()=>undefined} onSaved={()=>undefined}/></main>
+    :view==='collection'?<main className="mx-auto max-w-4xl p-4"><h1 className="mb-4 text-xl font-bold">تحصيل من الزبون</h1><CustomerCollectionModal customerId={chequeCustomer} onClose={()=>undefined} onSuccess={()=>undefined}/></main>
     :view==='statement'?<main className="mx-auto max-w-4xl p-4"><h1 className="mb-4 text-xl font-bold">كشف حساب العميل</h1><CustomerStatement customerId={chequeCustomer} revision={1}/></main>
     :<><SideNav/><div className="lg:ms-[260px]"><ChequesView/></div><BottomTabs/></>}
 </div>);

@@ -3,27 +3,31 @@
   "files": [
     {
       "code": "A ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_197.json"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_198.json"
     },
     {
       "code": "A ",
-      "path": "scripts/testing/run-canonical-receivables197-runtime.mjs"
+      "path": "e2e/package-f-cashier-collections.spec.ts"
     },
     {
       "code": "A ",
-      "path": "scripts/testing/run-canonical-receivables197-scale.mjs"
+      "path": "scripts/audit/source-before198-presentation.mjs"
     },
     {
       "code": "A ",
-      "path": "supabase/migrations/197_canonical_home_customer_receivables.sql"
+      "path": "scripts/testing/run-cashier-collections198-runtime.mjs"
     },
     {
       "code": "A ",
-      "path": "tests/canonical-receivables197.test.ts"
+      "path": "supabase/migrations/198_cashier_customer_collection_access.sql"
+    },
+    {
+      "code": "A ",
+      "path": "tests/cashier-collections198.test.ts"
     },
     {
       "code": "AM",
-      "path": "docs/operations/CANONICAL_RECEIVABLES_197_AR.md"
+      "path": "docs/operations/CASHIER_COLLECTIONS_198_AR.md"
     },
     {
       "code": "M ",
@@ -35,11 +39,11 @@
     },
     {
       "code": "M ",
-      "path": "docs/agent/project-state.json"
+      "path": "docs/generated/DB_FUNCTIONS.md"
     },
     {
       "code": "M ",
-      "path": "docs/generated/DB_FUNCTIONS.md"
+      "path": "docs/operations/CANONICAL_RECEIVABLES_197_AR.md"
     },
     {
       "code": "M ",
@@ -63,6 +67,10 @@
     },
     {
       "code": "M ",
+      "path": "e2e/package-f-cheques-harness.tsx"
+    },
+    {
+      "code": "M ",
       "path": "scripts/agent/lib.mjs"
     },
     {
@@ -79,11 +87,79 @@
     },
     {
       "code": "M ",
+      "path": "scripts/operations/build-acl-reference-cheques.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/build-acl-reference150.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/build-acl-reference151.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/build-acl-reference164.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/build-acl-reference171.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/build-acl-reference182.mjs"
+    },
+    {
+      "code": "M ",
       "path": "scripts/operations/frankfurt-owner-build.mjs"
     },
     {
       "code": "M ",
+      "path": "scripts/operations/frankfurt-reference-cheques.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-reference150.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-reference151.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-reference164.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-reference171.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-reference182.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/crm/CustomerCollectionModal.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "tests/canonical-receivables197.test.ts"
+    },
+    {
+      "code": "M ",
       "path": "tests/cheques195-admission.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/cheques195-parity.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/frankfurt-reference150.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/frankfurt-reference151.test.ts"
     },
     {
       "code": "M ",
@@ -116,6 +192,10 @@
     {
       "code": "MM",
       "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": "MM",
+      "path": "docs/agent/project-state.json"
     }
   ]
 }
