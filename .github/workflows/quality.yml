@@ -285,6 +285,14 @@ jobs:
         if: matrix.suite == 'opening-cheques'
         run: node scripts/testing/run-opening-cheques-runtime.mjs
 
+      - name: Prove197 canonical home receivables and independent CRITICAL mismatch monitoring
+        if: matrix.suite == 'opening-cheques'
+        run: node scripts/testing/run-canonical-receivables197-runtime.mjs
+
+      - name: Prove197 full two-year legal equality and existing3s home gate with independent balances p95
+        if: matrix.suite == 'opening-cheques'
+        run: node scripts/testing/run-canonical-receivables197-scale.mjs
+
       - name: Prove164 independent complete cash shift and measure receivable status sets
         if: matrix.suite == 'closing'
         run: node scripts/testing/run-go-live-integration164-runtime.mjs
@@ -329,7 +337,7 @@ jobs:
         if: matrix.suite == 'package-f-reads'
         run: npm run test:table-reads150:runtime
 
-      - name: Require real application table access through196
+      - name: Require real application table access through197
         if: matrix.suite == 'package-f-reads'
         run: node scripts/audit/run-table-access-diagnostic.mjs --require-access
 

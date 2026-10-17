@@ -3,9 +3,9 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner17Oct:openingcheques196 CI/merge,then legalhome,cashier customer collection,finalFrankfurt ownercommand only.No managedaccess/deploy.",
-  "baselineSha": "e69c22fa95638f64744df1ea6b39a0570c2bf480",
+  "baselineSha": "0b42588e0c0a0fc9598ffce719e8f9deed5d28e5",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "main",
+  "branch": "codex/canonical-receivables",
   "phase": "PACKAGE_F",
   "completed": [
     "Preparations373018c/627befd/b72aa55 accepted FULL25/25+secrets/Gitleaks0;full evidence in PHASE_STATUS",
@@ -14,18 +14,19 @@
     "VAPIDe69c22f FULL27/27quality38993240417+secrets38993240418 PASS."
   ],
   "inProgress": [
-    "Opening196 branch2593988 FULL28/28 quality39030061768+secrets39030061767 PASS;genuine main merge/local metadata gates and exact merge-SHA CI pending."
+    "196 accepted onmain0b42588:quality39037313246 FULL28/28,secrets39037313373 PASS. Registry-only fix after exactly one failed rerun;no third.",
+    "197UNCOMMITTED finalpin3CAABD6C:one empty EOF LF removed,guard reconstructs measured91C bytes exactly. Literalruntime4/generator511/types/lint/1216Admin191Customer rechecked PASS15:34:58UTC. Full150k/10k0diff,home2773.655→2567.652ms,balances2054.368→420.846ms;SDK142/RPC489/build/network0/browser52 PASS. Commit/CI/merge next."
   ],
   "notStarted": [
-    "CanonicalhomeC,approved cashier customer collection,then finalFrankfurt reference+singleownercommand(not executed)."
+    "Cashier198 customer collection,then finalFrankfurt reference+singleownercommand(not executed)."
   ],
   "testsPassed": [
     "Withdrawals182 accepted full26+secrets;manualcash99000/restore/reset/TOTP;details WITHDRAWALS_INTEGRATION_182.md.",
     "B195 runtime25/25+restore0diff/browser70/70;157files505functions13Realtime/new=incremental0diff;main6a9b9d2 FULL27/27+secrets PASS.",
-    "VAPID:exactsource/emittedAST point-only;currentSDK142/142 on150/164/171/182/195 and138negative15/127;RPC480/0SQL42501;types/strictlint/1202Admin191Customer/44bothengine browsers PASS01:53:34UTC."
+    "VAPIDaccepted e69c22f;196branchFULL28+secrets;196main local1209Admin191Customer/types/lint/build/network/Gitleaks0. Details PHASE_STATUS."
   ],
   "testsRemaining": [
-    "Opening196 genuine merge/local metadata gates/full merge-SHA CI;then canonicalhome,cashier and finalreference/ownercommand."
+    "197 Gitleaks/commit/push/FULL exact CI and genuine main merge;then198cashier and finalreference/ownercommand."
   ],
   "findings": [
     "Known legacyreturned debt7000:home7000/phase42=0;approved partC later,not fixed inA",
@@ -39,12 +40,12 @@
     "No retries/timeouts/skips/assertionweakening;freeze trackedfiles duringgates",
     "No financial question decided silently;no B beforeA delivery;onewriter;no protectedbusinessdeletes"
   ],
-  "nextExactAction": "Opening196 genuine main merge local gates PASS1209Admin191Customer/types/lint/build/network;Gitleaks,merge commit/push,exact merge-SHA FULLCI then canonicalhome197.",
-  "checkpointedAt": "2026-10-17T12:45:38.727Z",
+  "nextExactAction": "197 finalpin3CAABD6C all local gates PASS incl one-LF proof,literal runtime4/generator511/types/lint/1216+191;fullscale2567.652ms<3000,browser52. Stage/Gitleaks/commit/push thenFULL branchCI,mainmerge FULLCI.198cashier and finalreference afterward;no hostedaccess.",
+  "checkpointedAt": "2026-10-17T15:35:31.100Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "77BC284E7CEE88EC26B6C843CFD2DB1B3EDCDEF863DBE032CA3C0D603055D734",
-  "filesTouchedCount": 44,
-  "filesTouchedManifestSha256": "3a4457a996077527f85ae70e690fb2888ed5e012ac1fc8cd8178addcbef0089c"
+  "workingTreeFingerprint": "9621DF5A4FC2A72B66343FF154D74D823FCBFD6FD9D69D97D72ABE18EFA95C77",
+  "filesTouchedCount": 29,
+  "filesTouchedManifestSha256": "1e1bc2d395ce99c2bdc977fedb531fc50fd4b5a7e18b2a1e5ec11ae4e97906b3"
 }
