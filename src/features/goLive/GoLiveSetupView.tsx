@@ -5,6 +5,7 @@ import { useAppStoreActions, useAppStoreSelector } from '../../stores/useAppStor
 import { useAuthStore } from '../../stores/useAuthStore';
 import { useDrawerShortfallConfirm } from '../../hooks/useDrawerShortfallConfirm';
 import {ChequeRegistrationForm} from '../cheques/ChequeRegistrationForm';
+import {OpeningChequesCard} from './OpeningChequesCard';
 import { readXlsxFirstSheet, writeXlsx, XLSX_MIME, XlsxError } from '../../lib/xlsx';
 import { fetchInventoryOpeningSetupFromSupabase, applyInventoryOpeningSetupInSupabase } from '../../services/supabase/inventory-opening.service';
 import {
@@ -626,6 +627,7 @@ export const GoLiveSetupView: React.FC = () => {
               extra={<EntryList kind="suppliers" entries={supplierEntries} disabled={!status} onChanged={() => void refresh()} />} />
           </div>
         )}
+        {status && <OpeningChequesCard branchId={status.mainBranchId} locked={locked} onSaved={() => void refresh()} />}
         {status && !status.finished && (
           <Card data-testid="go-live-finish">
             <SectionHeader title="إنهاء بداية التشغيل" hint="خطوة نهائية لا رجعة فيها: بعدها ترفض قاعدة البيانات أي رصيد افتتاحي أو عكسه أو استيراده." />

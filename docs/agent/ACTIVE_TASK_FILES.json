@@ -3,7 +3,51 @@
   "files": [
     {
       "code": "A ",
-      "path": "tests/vapid-public-key-rotation.test.ts"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_196.json"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/package-f-opening-cheques.fixture.ts"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/package-f-opening-cheques.spec.ts"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-opening-cheques-runtime.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "src/features/goLive/OpeningChequesCard.tsx"
+    },
+    {
+      "code": "A ",
+      "path": "src/features/goLive/openingChequesImport.ts"
+    },
+    {
+      "code": "A ",
+      "path": "src/services/supabase/openingCheques.service.ts"
+    },
+    {
+      "code": "A ",
+      "path": "supabase/migrations/196_go_live_opening_cheques.sql"
+    },
+    {
+      "code": "A ",
+      "path": "tests/approved-opening196-source.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/opening-cheques196.test.ts"
+    },
+    {
+      "code": "AM",
+      "path": "docs/operations/OPENING_CHEQUES_196_AR.md"
+    },
+    {
+      "code": "M ",
+      "path": ".github/workflows/quality.yml"
     },
     {
       "code": "M ",
@@ -11,11 +55,7 @@
     },
     {
       "code": "M ",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md"
+      "path": "docs/generated/DB_FUNCTIONS.md"
     },
     {
       "code": "M ",
@@ -28,10 +68,6 @@
     {
       "code": "M ",
       "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/STAGING_FRANKFURT_AR.md"
     },
     {
       "code": "M ",
@@ -67,7 +103,79 @@
     },
     {
       "code": "M ",
-      "path": "src/services/pushNotifications.service.ts"
+      "path": "e2e/package-f-go-live-harness.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-go-live-setup.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/agent/lib.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/agent/preflight.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-owner-build.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/goLive/GoLiveSetupView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/services/supabase/cheques.service.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/approved-cheques195-source.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/cheques195-admission.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/go-live-integration164.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/product-integration171.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/service-access-inventory.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/table-access-ci-gate.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/table-access-inventory.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/withdrawals182-admission.test.ts"
+    },
+    {
+      "code": "MM",
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": "MM",
+      "path": "docs/agent/project-state.json"
     }
   ]
 }

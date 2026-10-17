@@ -1,5 +1,72 @@
 # Phase status
 
+## Current17Oct — opening196 branch FULL PASS, main merge pending
+
+2593988123f29349fde880e6996e9501a61db183 quality39030061768 FULL28/28
+and secrets39030061767 PASS. Genuine no-ff merge into main staged cleanly;
+product/SQL/generated proofs are identical to the verified branch. Only task
+and branch metadata change for integration. Resume mismatch was our known
+commit transition from baselinee69c22f,clean tree,no unknown writer changes;
+bounded owner synchronization applies. Local metadata gates then exact merge
+SHA CI remain before delivery. No hostedaccess or ownercommand execution.
+Local merge gates12:41:40–12:45:26UTC PASS:both typechecks,strictlint,
+1209Admin191Customer units,build and both-engine network0escaped. Branch
+runtime10/browser108/SDK142/RPC489 proofs retained for byte-identical source.
+
+## Current17Oct — opening196 follow-up before merge
+
+Branch8d1f71c pushed;secrets39028754077 PASS. Quality39028754087 aging job
+117384857699 failed DB lint after all go-live focused proofs passed:implicit
+text-to-JSONB initializer warnings in new196.196 is unmerged/unaccepted WIP;
+001–195 remain byte-identical. Follow-up is exactly4 explicit initializer
+casts,permanent full-byte rewind control7/7focused tests,and adding unchanged
+full DB lint policy to opening runtime. NewpinE80F31BE. No finance-rule change.
+Regenerate196functions/catalog and rerun runtime/local gates before next commit.
+Follow-up sZAPQS11:34:09–11:36:22UTC PASS10/10:full DB lint unchanged policy
+plus all9business/locking groups.4casts-only full-byte unit7/7PASS. UI/source
+SDK hashes unchanged;108browser and historical proofs retained. Regenerate
+current196functions/catalog,then all commit gates and full new-SHA CI.
+Follow-up generated511functions/current SDK142/142catalog ij8AHs PASS
+11:36:56–11:42:05UTC. No TS/UI/call/ACL/parameter change. All local commit
+gates rerun next;historical evidence and108browser retained for identicalsource.
+Follow-up local11:43:03–11:46:53UTC PASS:types/strictlint/1209Admin191Customer/
+admin build/network0escaped. Next Gitleaks and normal casts-only follow-up
+commit;no force push,no historical001–195 edits,full new-SHA CI before merge.
+
+## Current17Oct — VAPID DELIVERED, opening196 local WIP
+
+Resume17Oct:known-own WIP fingerprint/pin synchronized,no unknown changes.
+Expanded196 runtime3rC9LG10:18:57–10:21:22UTC PASS8groups:zero registration/
+clear effect,three directions,dates/zero-net party,roles/duplicates,replay,
+later endorsement+injected atomic rollback,two real sessions one commit,
+erroneous cancellation claims without original mutations,statement/aging,
+page/finish lock. Browser/access/generated artifacts/fullCI/merge still pending.
+Latest cashier collection permission approved and recorded;implementation
+follows openingcard and canonicalhome,not an opening-import role expansion.
+Final196 yO0eSF10:45:24–10:47:59UTC PASS9/9 incl real row-lock/rename identity
+race fail-closed before cheque/batch writes. Browser108identities PASS46old
+Chromium+16new both engines+46oldWebKit;role-exact selector correction only.
+196pin54BC8F2E. Current generated511functions and realaccess proofs pending.
+Evidence pipeline10:48:24–11:17:21UTC PASS:511functions;current-source SDK142/142
+on150/164/171/182/195/196;138negative15/127;RPC196489dispatch/0SQL42501.
+All source hashes refreshed by actual calls. Local full type/lint/unit/build/
+network gates and Gitleaks/commit/fullCI/merge remain;no hostedaccess.
+Final local gates11:22:02–11:25:51UTC PASS:both types/strictlint/1208Admin/
+191Customer/admin build/network isolation0escaped. One stale exact CI step
+label195 corrected to196;all product-writer/coverage assertions retained.
+Next Gitleaks,independent196commit/push,exact branch FULLCI,genuine main merge.
+
+e69c22fa95638f64744df1ea6b39a0570c2bf480 push FULL27/27quality38993240417
+and secrets38993240418 PASS. Public point only;no hostedaccess/deploy.
+codex/opening-cheques authorized196. First bootstrap failed one WIP quote,
+corrected before financial cases. RealIVtLQO02:32:53–02:34:52UTC passed5groups:
+three directions preserve financial/stock fingerprints,exact preview/replay,
+roles/duplicate refusals,clear/return/date provenance/zero-netparty,paging,
+permanent finish lock and old read-only replay. Broader follow-up/concurrency,
+browser,access/functions generation and fullCI/merge remain before delivery.
+195 functions frozen to accepted505 digest so future docs do not weaken history.
+FinalFrankfurt reference+singleownercommand waits196 then canonicalhome C.
+
 ## Current17Oct — B DELIVERED, VAPID in progress
 
 Genuine merge6a9b9d2ff469ed5c15c2d6dca6659f7c02611b7d=remote main.

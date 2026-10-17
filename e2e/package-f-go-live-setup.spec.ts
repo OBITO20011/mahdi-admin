@@ -30,10 +30,10 @@ async function axe(page:Page){
 }
 
 for(const theme of ['light','dark'] as const)for(const width of [390,820,1440]){
-  test(`بداية التشغيل ${theme} ${width}: أربع بطاقات بلا تمرير أفقي ولا قص، وaxe نظيف`,async({page})=>{
+  test(`بداية التشغيل ${theme} ${width}: خمس بطاقات بلا تمرير أفقي ولا قص، وaxe نظيف`,async({page})=>{
     await page.setViewportSize({width,height:width===390?844:900});
     await page.goto(url(`theme=${theme}&seeded=1`));
-    for(const kind of ['products','stock','customers','suppliers'])await expect(page.getByTestId(`go-live-card-${kind}`)).toBeVisible();
+    for(const kind of ['products','stock','customers','suppliers','cheques'])await expect(page.getByTestId(`go-live-card-${kind}`)).toBeVisible();
     await expect(page.getByRole('heading',{name:'بداية التشغيل',exact:true})).toBeVisible();
     await expect(page.getByTestId('go-live-card-customers')).toContainText('125.500');
     await checkLayout(page);await axe(page);

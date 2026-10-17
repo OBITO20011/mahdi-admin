@@ -12,6 +12,7 @@ import {BottomTabs} from '../src/components/layout/BottomTabs';
 import {authStoreEngine,type AuthState} from '../src/stores/useAuthStore';
 import {storeEngine,type AppState} from '../src/stores/useAppStore';
 import {supabase} from '../src/lib/supabase';
+import {installOpeningChequeHarness} from './package-f-opening-cheques.fixture';
 
 // In-memory stand-in for the go-live RPC contracts (160-162). Database rules
 // themselves are proven by scripts/testing/run-go-live-setup-runtime.mjs.
@@ -145,5 +146,6 @@ client.from=(table)=>{
     then:(resolve:(value:typeof result)=>unknown,reject?:(reason:unknown)=>unknown)=>Promise.resolve(result).then(resolve,reject)};
   return chain;
 };
+installOpeningChequeHarness(client,state,customers.map(c=>({id:c.id,name:c.full_name,phone:c.phone})),suppliers.map(s=>({id:s.id,name:s.company_name,phone:s.phone})));
 createRoot(document.getElementById('root')!).render(<div dir="rtl" className="flex h-[100dvh] bg-nw-bg font-sans text-nw-text"><SideNav/><div className="flex min-w-0 flex-1 flex-col"><Header/>
   <main data-testid="go-live-scroll" className="min-h-0 flex-1 overflow-y-auto"><GoLiveSetupView/></main><div className="lg:hidden"><BottomTabs/></div></div></div>);

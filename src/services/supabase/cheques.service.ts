@@ -35,7 +35,7 @@ const list=(value:unknown)=>{if(!Array.isArray(value))throw Error('قائمة ا
 const direction=(value:unknown):ChequeDirection=>{if(value!=='incoming'&&value!=='outgoing')throw Error('اتجاه شيك غير صالح.');return value;};
 const status=(value:unknown):ChequeStatus=>{if(typeof value!=='string'||!Object.hasOwn(chequeStatusLabels,value))throw Error('حالة شيك غير صالحة.');return value as ChequeStatus;};
 const partyKind=(value:unknown):'customer'|'supplier'=>{if(value!=='customer'&&value!=='supplier')throw Error('طرف شيك غير صالح.');return value;};
-const readCheque=(value:unknown):Cheque=>{const c=object(value);
+export const readCheque=(value:unknown):Cheque=>{const c=object(value);
   if(c.origin!=='opening'&&c.origin!=='operational')throw Error('أصل شيك غير صالح.');
   return {id:text(c.id),trackingNumber:text(c.tracking_number),number:text(c.cheque_number),bank:text(c.bank_name),dueDate:text(c.due_date),
     amount:integer(c.amount_in_minor_units),direction:direction(c.direction),status:status(c.status),version:integer(c.version),

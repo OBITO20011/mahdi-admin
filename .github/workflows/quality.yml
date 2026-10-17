@@ -220,7 +220,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, owner-withdrawals, deferred-cheques]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, owner-withdrawals, deferred-cheques, opening-cheques]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -281,6 +281,10 @@ jobs:
         if: matrix.suite == 'package-f-aging'
         run: npm run test:go-live:runtime
 
+      - name: Prove196 opening cheques preserve net balances and share the permanent setup lock
+        if: matrix.suite == 'opening-cheques'
+        run: node scripts/testing/run-opening-cheques-runtime.mjs
+
       - name: Prove164 independent complete cash shift and measure receivable status sets
         if: matrix.suite == 'closing'
         run: node scripts/testing/run-go-live-integration164-runtime.mjs
@@ -325,7 +329,7 @@ jobs:
         if: matrix.suite == 'package-f-reads'
         run: npm run test:table-reads150:runtime
 
-      - name: Require real application table access through195
+      - name: Require real application table access through196
         if: matrix.suite == 'package-f-reads'
         run: node scripts/audit/run-table-access-diagnostic.mjs --require-access
 
