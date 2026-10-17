@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-17T11:15:39.972Z",
-  "migrationCeiling": 196,
+  "startedAt": "2026-10-17T15:10:29.513Z",
+  "migrationCeiling": 197,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-JVss4X",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-rf1Zwk",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -37511,7 +37511,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-17T11:17:11.497Z",
+  "endedAt": "2026-10-17T15:11:58.733Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -37889,7 +37889,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        436
+        445
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
@@ -37904,13 +37904,6 @@
       "file": "docs/operations/STAGING_FRANKFURT_AR.md",
       "lines": [
         135
-      ],
-      "category": "HISTORICAL_DOCUMENTATION"
-    },
-    {
-      "file": "docs/operations/TABLE_ACCESS_DIAGNOSTIC.json",
-      "lines": [
-        37409
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

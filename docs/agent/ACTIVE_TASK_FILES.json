@@ -3,47 +3,27 @@
   "files": [
     {
       "code": "A ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_196.json"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_197.json"
     },
     {
       "code": "A ",
-      "path": "e2e/package-f-opening-cheques.fixture.ts"
+      "path": "scripts/testing/run-canonical-receivables197-runtime.mjs"
     },
     {
       "code": "A ",
-      "path": "e2e/package-f-opening-cheques.spec.ts"
+      "path": "scripts/testing/run-canonical-receivables197-scale.mjs"
     },
     {
       "code": "A ",
-      "path": "scripts/testing/run-opening-cheques-runtime.mjs"
+      "path": "supabase/migrations/197_canonical_home_customer_receivables.sql"
     },
     {
       "code": "A ",
-      "path": "src/features/goLive/OpeningChequesCard.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "src/features/goLive/openingChequesImport.ts"
-    },
-    {
-      "code": "A ",
-      "path": "src/services/supabase/openingCheques.service.ts"
-    },
-    {
-      "code": "A ",
-      "path": "supabase/migrations/196_go_live_opening_cheques.sql"
-    },
-    {
-      "code": "A ",
-      "path": "tests/approved-opening196-source.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/opening-cheques196.test.ts"
+      "path": "tests/canonical-receivables197.test.ts"
     },
     {
       "code": "AM",
-      "path": "docs/operations/OPENING_CHEQUES_196_AR.md"
+      "path": "docs/operations/CANONICAL_RECEIVABLES_197_AR.md"
     },
     {
       "code": "M ",
@@ -52,6 +32,10 @@
     {
       "code": "M ",
       "path": "docs/agent/OWNER_DECISIONS.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/project-state.json"
     },
     {
       "code": "M ",
@@ -71,43 +55,11 @@
     },
     {
       "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_150.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_164.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_171.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_182.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_195.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": "M ",
       "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": "M ",
       "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
-    },
-    {
-      "code": "M ",
-      "path": "e2e/package-f-go-live-harness.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "e2e/package-f-go-live-setup.spec.ts"
     },
     {
       "code": "M ",
@@ -131,23 +83,15 @@
     },
     {
       "code": "M ",
-      "path": "src/features/goLive/GoLiveSetupView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/services/supabase/cheques.service.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/approved-cheques195-source.ts"
-    },
-    {
-      "code": "M ",
       "path": "tests/cheques195-admission.test.ts"
     },
     {
       "code": "M ",
       "path": "tests/go-live-integration164.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/opening-cheques196.test.ts"
     },
     {
       "code": "M ",
@@ -172,10 +116,6 @@
     {
       "code": "MM",
       "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": "MM",
-      "path": "docs/agent/project-state.json"
     }
   ]
 }

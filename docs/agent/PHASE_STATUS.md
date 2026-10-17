@@ -1,5 +1,109 @@
 # Phase status
 
+## Current17Oct16:00UTC —197 main merge local gates PASS
+
+Metadata-only merge gates15:54:23–15:59:48UTC types/strictlint/1216Admin/
+191Customer PASS;implementation matches branch4ae5592 byte-for-byte.
+BranchCI28/28+secrets accepted. CI fullscalehomep95 before1930.802/after1945.681ms
+(+14.879ms);standalonebalances1528.033/320.313ms. No300ms added overhead.
+Commit genuine merge and push;exact mergeSHA FULLCI is still required.
+Cashier legacy-reader question pending;198/finalreference not started.
+
+## Current17Oct —197 branch FULLgreen,genuine main integration pending
+
+4ae55920777168cfe1b785c3e31540ca852acdab accepted:quality39045750225 FULL28/28
+and secrets39045750244 SUCCESS. Clean main0b42588 receives no-ff merge;
+all application/SQL/tools/generated evidence identical to the verified branch,
+only main/task metadata and this receipt change. Local metadata gates then
+merge commit/push/exact FULLCI before delivery.198 cashier/finalownercommand
+not implemented. Next-role clarification sent:legacy payment modal depends on
+get_customer_outstanding_orders_page,whose current121 role list excludescashier;
+do not silently extend this reader without the owner answer. No hostedaccess.
+
+## Current17Oct15:35UTC — final197 EOF hygiene checked,ready for commit
+
+Staged diff check detected one empty EOF line in unpublished197. Removed only
+that LF:permanent control reconstructs the fully measured91C54392 bytes exactly.
+Finalpin3CAABD6C;literal final-runtime4/4 and511function regeneration PASS;
+all function reference content identical except manifest header. Types/lint/
+1216Admin191Customer units rechecked PASS15:34:58UTC. Fullscale and52browser
+evidence retained for exactly identical SQL bytes plus removed empty EOF line.
+No old performance test or historical migration changed. Gitleaks/commit/CI next.
+
+## Current17Oct15:24UTC —197 final local gates PASS;commit/exact CI next
+
+Owner approved NEW draft metric correction to frozen3s home gate plus actual
+196/197 balances-only p95. Original full150korders/10kcustomers oracle0diff,
+50000000fils;homep95 before2773.655/after2567.652ms,standalonebalances before
+2054.368/after420.846ms. No300ms added overhead,no index/further SQL change.
+Measured197pin91C54392 matches functional4/4;fresh511functions/SDK142/0errors/
+RPC489/0SQL42501,typechecks/strictlint/1216Admin/191Customer/build/network0
+and52/52 relatedbothenginebrowser PASS. Pipeline14:48:10–15:23:59UTC finished;
+no owned server/DB alive. Old performance specs unchanged;only current-ceiling
+metadata in historical admission tests advanced. Gitleaks thencommit/push/full
+exactCI before genuine main merge.198/finalreference not started. No hostedaccess.
+
+## Current17Oct14:37UTC —196 accepted;197 full-scale correctness PASS,performance contract review
+
+Main infrastructure descendant0b42588 quality39037313246 FULL28/28 and
+secret-scanning39037313373 SUCCESS. This closes196 delivery after the genuine
+mergef8a48d5 and the evidence-backed registry-only fix;no third environment rerun.
+197 remains UNCOMMITTED oncodex/canonical-receivables. Final set-based
+functional4/4/source5/5/lint PASS;full original150korders/10kcustomers oracle
+zero mismatches,total50000000fils. New draft tool FAILED its1s whole-facts
+threshold(p95=3123.736ms). Separate diagnosis,NOT acceptance:full same volume,
+facts p95=3469.219ms,home=2510.533ms;all20samples each. Existing frozen E-scale
+home gate is3000ms,target1000ms,not the draft's claimed unchanged1s gate.
+No assertion/threshold/product correction made after failure. Details and
+nested EXPLAIN in CANONICAL_RECEIVABLES_197_AR.md;need review of draft test
+scope before commit. Current197 generated/access artifacts predate set-based
+optimization and MUST be regenerated before delivery. No198/finalreference
+started. All task-owned local processes/DB stopped;no managedaccess/deploy.
+
+## Current17Oct — repeated registry quota, exact-image infrastructure repair
+
+ONE rerun39033820907 again failed only reads117402589896 at13:17:11UTC:
+same ECR `toomanyrequests: Data limit exceeded`,before access queries;other26
+and secrets remain PASS. NO third rerun. Official GHCR v16.1 raw manifest
+exactly equals ECR,sha5922bde0,both amd64/arm64. Pin that same digest only;
+launch/env/ports/readiness/probe block has exact old-source control. No product,
+SQL,workflow,retry or timeout change in infrastructure commit. GHCR real196
+SDK142/142 plus2image controls PASS13:31:03UTC,FvGljK. All commit gates next.
+197 remains separate WIP:proof4/4+source3/3;fresh511functions/SDK142/RPC489
+with0SQL42501 finished13:25:07UTC. Historical source evidence unchanged.
+Local fullcommit gates13:32:04–13:36:36UTC PASS:types/strictlint/1215Admin/
+191Customer/build/network0escaped. Infrastructure-only index:one registry
+argument+manifest/control tests+its report;all197 SQL/ceiling/workflow remain
+unstaged. Ordinary infrastructure descendant fastforwards main,not forcepush;
+full exact CI must accept196 before197push. Preserve original WIP throughout.
+
+## Current17Oct — canonical197 approved draft while196 registry rerun runs
+
+Separate codex/canonical-receivables from known mainf8a48d5. Only197 facts
+balances CTE+independent CRITICAL customer oracle;all other explicit facts and
+monitoring bodies under exact source rewind tests. No legal-balance writer or
+UI/query/payload change.196 frozen511function digest before current generator
+advances. Local real before/after/runtime/ACL/parity and current generated/access
+proofs pending. Do not push197 before exact196main FULLgreen. No hostedaccess.
+First197 Dp0TVi proved financial parity but monitoring draft used an absent
+settings timezone field. Corrected to the same home Asia/Amman literal;guard
+prevents recurrence. New proof13:13:42–13:15:42UTC PASS4/4:7000→0,all other
+JSON/data/sequence parity,canonical35000/branches32000+3000,statement/aging,
++1 injected CRITICAL+rollback,ACL and unchanged full DB lint. Sourceparity3/3.
+197pin28032F3D;001–196 unchanged. Current freshfunctions/access gates next.
+
+## Current17Oct — opening196 main pushed, one registry environment rerun
+
+Genuine mergef8a48d5692b8f4f0444684ca860b2088869781eb (e69c22f+2593988)
+pushed after local1209Admin191Customer/types/strictlint/build/network and
+Gitleaks0. Secrets39033820903 PASS. Quality39033820907 first attempt26PASS;
+only reads117399558303 and dependent aggregate failed. Exact log13:00:10UTC:
+local-postgrest Docker pull public.ecr.aws/supabase/postgrest:v16.1 failed
+`toomanyrequests: Data limit exceeded`,before access queries. No product or
+test assertion failure. Standing owner authorization used ONCE for failed-job
+rerun on sameSHA;no code/workflow/timeout/retry-policy edits. Accept only FULL
+main green;no second environment rerun. Baseline synced to our known merge.
+
 ## Current17Oct — opening196 branch FULL PASS, main merge pending
 
 2593988123f29349fde880e6996e9501a61db183 quality39030061768 FULL28/28
