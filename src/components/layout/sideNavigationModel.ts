@@ -7,6 +7,7 @@
 import { Home, Settings2, type LucideIcon } from 'lucide-react';
 import {
   ADMIN_NAVIGATION_GROUPS,
+  isNavigationItemVisible,
   type AdminNavigationAction,
   type AdminNavigationItem,
 } from '../../features/more/adminNavigation.config';
@@ -39,14 +40,14 @@ const RAIL_LABELS: Readonly<Record<string, string>> = {
   'catalog-products': 'المنتجات', 'inventory-current': 'المخزون',
   'customer-accounts': 'العملاء', 'supplier-receiving': 'الاستلام',
   'finance-shifts': 'الصندوق', 'finance-expenses': 'المصروفات',
-  'finance-reports': 'التقارير', 'admin-users': 'الفريق', 'admin-go-live': 'البداية',
+  'finance-reports': 'التقارير', 'finance-cheques':'شيكات', 'admin-users': 'الفريق', 'admin-go-live': 'البداية',
   'admin-monitoring': 'المراقبة', 'admin-storefront': 'المتجر',
   'admin-promotions': 'الخصم', 'admin-profile': 'حسابي',
 };
 
 /** Same rule as MoreMenuView: owner-only items are shown to the owner only. */
 export const isVisibleToRole = (item: AdminNavigationItem, roleName: string | null | undefined) =>
-  item.visibility !== 'owner' || roleName === 'owner';
+  isNavigationItemVisible(item,roleName);
 
 export const SIDE_NAV_HOME: SideNavItem = {
   id: 'home',

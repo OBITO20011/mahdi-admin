@@ -21,7 +21,7 @@ test('139 is a pinned explicit one-function body;Vault URL has no default or act
 });
 
 test('later owner139 command cannot replay138 or activate delivery;verify-only stays138',async()=>{
- const source=await readFile('scripts/operations/frankfurt-owner-build.mjs','utf8');
+ const source=(await readFile('scripts/operations/frankfurt-owner-build.mjs','utf8')).replaceAll('\r\n','\n');
  const start=source.indexOf("if(mode==='apply-139'){\n   // Owner-only");
  assert.ok(start>0);const end=source.indexOf("stage='empty-target-guard'",start);
  const branch=source.slice(start,end);

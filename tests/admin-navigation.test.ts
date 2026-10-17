@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import {
   ADMIN_NAVIGATION_GROUPS,
+  isNavigationItemVisible,
   getNextOpenNavigationGroup,
 } from '../src/features/more/adminNavigation.config';
 import { VALID_ACTIVE_TABS } from '../src/stores/appStorePreferences';
@@ -38,6 +39,7 @@ const expectedActiveTabs = [
   'purchases',
   'assistant',
   'go_live',
+  'cheques',
 ].sort();
 
 const expectedGroupDestinations = new Map([
@@ -45,7 +47,7 @@ const expectedGroupDestinations = new Map([
   ['products-inventory', ['parcel_configuration', 'products', 'inventory']],
   ['customers', ['accounts']],
   ['suppliers-purchases', ['purchases']],
-  ['finance-reports', ['shifts', 'expenses', 'reports']],
+  ['finance-reports', ['shifts', 'expenses', 'reports','cheques']],
   [
     'administration-store',
     ['users', 'go_live', 'monitoring_dashboard', 'storefront_settings', 'promotion_codes', 'profile'],
@@ -177,7 +179,11 @@ test('role visibility and the independent assistant gate are unchanged', () => {
     (item) => item.visibility === 'owner',
   );
   assert.deepEqual(ownerOnlyItems.map((item) => item.id), ['parcel-configuration', 'admin-users', 'admin-go-live', 'admin-monitoring']);
-  assert.match(moreMenu, /item\.visibility !== 'owner' \|\| roleName === 'owner'/);
+  assert.match(moreMenu, /isNavigationItemVisible\(item,roleName\)/);
+  const cheque=ADMIN_NAVIGATION_GROUPS.flatMap(g=>g.items).find(i=>i.id==='finance-cheques');
+  assert.ok(cheque);
+  for(const role of ['owner','manager'])assert.equal(isNavigationItemVisible(cheque,role),true);
+  for(const role of ['admin','accountant','cashier','sales','warehouse',null])assert.equal(isNavigationItemVisible(cheque,role),false);
   assert.match(
     moreMenu,
     /\['owner', 'admin', 'manager', 'accountant'\]\.includes\(\s*roleName \|\| '',\s*\)/,

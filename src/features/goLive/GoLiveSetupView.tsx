@@ -4,6 +4,7 @@ import { Card, PageHeader, SectionHeader, StatusBadge, StockBar, UiButton, FormF
 import { useAppStoreActions, useAppStoreSelector } from '../../stores/useAppStore';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { useDrawerShortfallConfirm } from '../../hooks/useDrawerShortfallConfirm';
+import {ChequeRegistrationForm} from '../cheques/ChequeRegistrationForm';
 import { readXlsxFirstSheet, writeXlsx, XLSX_MIME, XlsxError } from '../../lib/xlsx';
 import { fetchInventoryOpeningSetupFromSupabase, applyInventoryOpeningSetupInSupabase } from '../../services/supabase/inventory-opening.service';
 import {
@@ -311,6 +312,8 @@ const ManualOpeningForm: React.FC<ManualOpeningFormProps> = ({ kind, disabled, o
 
 /** Decision 2: pay a supplier opening payable; cash/CliQ leave the active branch's open shift. */
 const SupplierOpeningPayForm: React.FC<{ entry: OpeningEntry; onDone: () => void; onCancel: () => void }> = ({ entry, onDone, onCancel }) => {
+  const {roles}=useAuthStore();
+  const canIssueCheque=roles.some(role=>role==='owner'||role==='manager');
   const ids = { amount: useId(), method: useId(), reference: useId() };
   const branchId = useAppStoreSelector(state => state.activeBranch?.id ?? null);
   const [remaining, setRemaining] = useState<number | null>(null);
@@ -328,6 +331,7 @@ const SupplierOpeningPayForm: React.FC<{ entry: OpeningEntry; onDone: () => void
     return () => { live = false; };
   }, [entry.partyId]);
   const pay = async () => {
+    if(method==='cheque'){setError('الشيك يحتاج بياناته الكاملة عبر دورة الشيكات.');return;}
     const minor = parseJodToMinor(amount);
     if (!minor || minor === '0') { setError('أدخل مبلغاً أكبر من صفر.'); return; }
     if (!drawer.confirmCash(Number(minor) / 1000, method === 'cash', branchId)) return;
@@ -338,6 +342,12 @@ const SupplierOpeningPayForm: React.FC<{ entry: OpeningEntry; onDone: () => void
       onDone();
     } catch (e) { setError(errorText(e)); } finally { setBusy(false); }
   };
+  if(method==='cheque')return <div className="mt-3 space-y-3" data-testid="go-live-supplier-cheque">
+    <UiButton disabled={busy} onClick={()=>setMethod('cash')}>العودة لطرق الدفع الأخرى</UiButton>
+    {canIssueCheque?<ChequeRegistrationForm direction="outgoing" openingOnly partyId={entry.partyId}
+      parties={[{id:entry.partyId,name:entry.partyName}]} branchId={branchId} initialAmount={amount}
+      onBusyChange={setBusy} onSaved={onDone} onClose={onCancel}/>:<p role="alert">إصدار شيك مورد متاح للمالك والمدير فقط.</p>}
+  </div>;
   return (
     <FormFields className="mt-3 grid gap-2 sm:grid-cols-2" data-testid="go-live-supplier-pay">
       <p className="m-0 text-[13px] sm:col-span-2">المتبقي من الرصيد السابق: {remaining === null ? '…' : <Money minor={remaining} />}</p>
@@ -351,7 +361,7 @@ const SupplierOpeningPayForm: React.FC<{ entry: OpeningEntry; onDone: () => void
           <option value="cash">كاش — من درج الوردية المفتوحة</option>
           <option value="cliq">CliQ — على الوردية</option>
           <option value="bank_transfer">تحويل بنكي</option>
-          <option value="cheque">شيك</option>
+          <option value="cheque" disabled={!canIssueCheque}>شيك مؤجل (المالك والمدير)</option>
         </select>
       </div>
       {method !== 'cash' && (

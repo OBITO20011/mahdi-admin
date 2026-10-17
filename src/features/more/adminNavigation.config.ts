@@ -37,7 +37,7 @@ export interface AdminNavigationItem {
   icon: LucideIcon;
   tone: string;
   action: AdminNavigationAction;
-  visibility?: 'all' | 'owner';
+  visibility?: 'all' | 'owner' | 'cheque-managers';
   classification?: 'classified' | 'unclassified';
 }
 
@@ -169,6 +169,8 @@ export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = [
         tone: 'bg-nw-info-bg text-nw-info',
         action: { type: 'tab', destination: 'reports' },
       },
+      {id:'finance-cheques',label:'الشيكات',description:'الشيكات الواردة والصادرة والمُجيّرة ومواعيد الاستحقاق',
+        icon:WalletCards,tone:'bg-nw-info-bg text-nw-info',action:{type:'tab',destination:'cheques'},visibility:'cheque-managers'},
     ],
   },
   {
@@ -232,6 +234,9 @@ export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = [
     ],
   },
 ] as const;
+
+export const isNavigationItemVisible=(item:AdminNavigationItem,roleName:string|null|undefined)=>
+  item.visibility==='owner'?roleName==='owner':item.visibility==='cheque-managers'?roleName==='owner'||roleName==='manager':true;
 
 export const getNextOpenNavigationGroup = (
   current: AdminNavigationGroupId | null,

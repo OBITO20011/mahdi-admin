@@ -14,6 +14,7 @@ import {functionReference} from '../operations/frankfurt-owner-build.mjs';
 import {buildReference182} from '../operations/build-acl-reference182.mjs';
 import {readNotificationSnapshot,transitionNotifications} from '../operations/frankfurt-notification-hold.mjs';
 import {localTotp} from './local-totp.mjs';
+import {stageHistoricalResetSource} from './historical-reset-source.mjs';
 
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..'),cli=path.join(root,'node_modules/supabase/dist/supabase.js');
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-trial-reset-')),project='nawasrah-trial-reset-test';
@@ -26,6 +27,10 @@ try{
  const referencePath=process.argv[2]??path.join(output,readyReference182Name);
  if(!process.argv[2])await buildReference182(['--output',referencePath]);
  const reference=await readReference182(root,referencePath);
+ // Exercise the exact182 owner pipeline using a byte-identical historical
+ // source view, not the newer checkout. The production manifest guard stays strict.
+ const sourceRoot=await stageHistoricalResetSource(root,reference);
+ report.historicalSource={root:sourceRoot,ceiling:182,files:reference.manifest.length};
  const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
   NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'182',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',TURNSTILE_SECRET:'isolated-reset-captcha-not-invoked',
   NAWASRAH_SUPABASE_EXCLUDE:'realtime,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
@@ -65,7 +70,7 @@ try{
  const url=client.storage.from('product-images').getPublicUrl(object).data.publicUrl;
  assert.equal((await fetch(url)).status,200,'LOCAL_BYTES_MUST_EXIST_BEFORE_RESET');
  stage='same-reset-pipeline';report.reset={};
- await resetWithExecutor({executor,root,reference,output,ownerId,report:report.reset,
+ await resetWithExecutor({executor,root:sourceRoot,reference,output,ownerId,report:report.reset,
   emptyStorage:async()=>{
    const deleted=await cliCall(['storage','rm','ss:///product-images/'+object,'--experimental','--yes']);
    report.storageRemoval={stdout:deleted.stdout.trim(),stderr:deleted.stderr.trim(),remainingObjects:await sql('SELECT count(*) FROM storage.objects;')};
@@ -78,7 +83,7 @@ try{
   },
   deleteOtherAuth:async id=>{assert.equal(id,ownerId);await sql(`DELETE FROM auth.users WHERE id<>${q(id)}::uuid;`);},
   clearHistory:async()=>{await cliCall(['migration','repair','--status','reverted',...reference.appliedVersions]);await sql('DELETE FROM supabase_migrations.seed_files;');},
-  repair:async version=>{const unit=reference.manifest.find(m=>m.name.startsWith(version+'_'));await copyFile(path.join(root,'supabase/migrations',unit.name),path.join(local,'supabase/migrations',unit.name));await cliCall(['migration','repair','--status','applied',version]);},
+  repair:async version=>{const unit=reference.manifest.find(m=>m.name.startsWith(version+'_'));await copyFile(path.join(sourceRoot,'supabase/migrations',unit.name),path.join(local,'supabase/migrations',unit.name));await cliCall(['migration','repair','--status','applied',version]);},
   finalDryRun:async()=>{const r=await cliCall(['db','push','--dry-run','--skip-vault']);assert.match(r.stdout+r.stderr,/up to date/iu);}});
  report.functions=await functionReference(executor,182);assert.equal(report.functions,468);
  assert.equal((await client.auth.admin.getUserById(ownerId)).error,null);

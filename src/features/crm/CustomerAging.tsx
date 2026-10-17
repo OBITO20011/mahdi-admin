@@ -1,4 +1,4 @@
-import {AgingBar, Card, KpiCard, KpiGrid, MoneyText, SectionHeader} from '../../components/ui';
+import {AgingBar, Card, KpiCard, KpiGrid, MoneyText, SectionHeader,StatusBadge} from '../../components/ui';
 import {agingSegments, useCustomerAging} from '../../hooks/useCustomerAccounts';
 
 export function CustomerAgingSummary({revision}: {revision: unknown}) {
@@ -20,6 +20,10 @@ export function CustomerAgingDetail({customerId, revision}: {customerId: string;
   const data = useCustomerAging(customerId, revision);
   return <Card className="space-y-3" data-testid="customer-aging-detail">
     <SectionHeader title="عمر الدين" />
+    {data?.has_returned_cheque&&<StatusBadge tone="bad">له شيك راجع</StatusBadge>}
+    {data?.outstanding_cheques_in_minor_units!==undefined&&data.outstanding_cheques_in_minor_units>0&&<p className="m-0 text-sm text-nw-muted">
+      منها شيكات لم تُصرف: <MoneyText amount={data.outstanding_cheques_in_minor_units/1000} /> — تحصيل تحت المتابعة خُصم عند الاستلام، وليس ديناً إضافياً.
+    </p>}
     {data ? <AgingBar segments={agingSegments(data)} /> : <p className="m-0 text-sm text-nw-muted">عمر الدين غير متاح</p>}
   </Card>;
 }

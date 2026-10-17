@@ -6,15 +6,15 @@
 
 ### أ. RPC — EXECUTE الفعلي،لا افتراض نجاح من mock
 
-151 موضعSDK .rpc و4 موضعRESTGateway،145 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
+164 موضعSDK .rpc و4 موضعRESTGateway،158 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
 
-قاعدة182 محلية جديدة: 441 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،113 نجاحمعrollback،328 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
+قاعدة195 محلية جديدة: 480 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،114 نجاحمعrollback،366 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
 
 حدالقياسصريح:أُرسلتقيممحليةمحايدةمُنمّطةحسبتوقيعSQL(معرفعميل/فرع/مستودعfixtureحيثيوجد،NULL/JSONفارغلغيره)،وليستجميعحمولاتالتدفّقاتالصحيحةمنواجهةالتطبيق. النصالأصليلكلاستدعاءومعاملاتهفيSERVICE_ACCESS_INVENTORY.json؛قيمةكلprobeوأثرهفيSERVICE_ACCESS_DIAGNOSTIC.json. لا نسمّي274خطأتحققنجاحاًوظيفياً ولا42501. كلنجاحوكلخطأداخلsubtransactionأُرجع؛لاأثرماليأومخزنيباقٍ. اختباراتالمساراتالمتكاملةالقائمةتبقىمطلوبة؛هذهالإضافةتثبتEXECUTE/dispatchوليسإتمامكلسيناريو.
 
 | الدالة/مصدر الاستدعاء | الدور | EXECUTE محلي / نتائج dispatch |
 |---|---|---|
-| get_pos_configurable_parcel_options_v1؛src/features/pos/PosView.tsx:161 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_pos_configurable_parcel_options_v1؛src/features/pos/PosView.tsx:166 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | report_admin_runtime_incident؛src/lib/errorMonitoring.ts:33 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_push_subscription_status؛src/services/pushNotifications.service.ts:48 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | save_push_subscription؛src/services/pushNotifications.service.ts:107 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
@@ -22,6 +22,19 @@
 | cancel_customer_order_v2؛src/services/supabase/adminCustomerV2Lifecycle.ts:320 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | complete_website_order_with_settlement_v2؛src/services/supabase/adminCustomerV2Lifecycle.ts:322 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | update_my_erp_profile؛src/services/supabase/auth.service.ts:160 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| receive_customer_cheque_v1؛src/services/supabase/cheques.service.ts:55 | authenticated | owner:23502؛ admin:23502؛ cashier:23502 |
+| issue_supplier_cheque_v1؛src/services/supabase/cheques.service.ts:57 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| preview_customer_cheque_v1؛src/services/supabase/cheques.service.ts:61 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| preview_supplier_cheque_v1؛src/services/supabase/cheques.service.ts:70 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_deferred_cheques_page؛src/services/supabase/cheques.service.ts:75 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_deferred_cheque_detail؛src/services/supabase/cheques.service.ts:85 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| clear_deferred_cheque_v1؛src/services/supabase/cheques.service.ts:94 | authenticated | owner:P0002؛ admin:P0001؛ cashier:P0001 |
+| return_deferred_cheque_v1؛src/services/supabase/cheques.service.ts:96 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| cancel_deferred_cheque_v1؛src/services/supabase/cheques.service.ts:98 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| endorse_customer_cheque_v1؛src/services/supabase/cheques.service.ts:100 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| pay_supplier_cheque_claim_v1؛src/services/supabase/cheques.service.ts:103 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| reverse_supplier_cheque_claim_payment_v1؛src/services/supabase/cheques.service.ts:106 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_deferred_cheque_home_alerts؛src/services/supabase/cheques.service.ts:108 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
 | get_crm_customer_page؛src/services/supabase/crm.service.ts:160 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
 | get_crm_customer_detail_page؛src/services/supabase/crm.service.ts:212 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
 | save_customer؛src/services/supabase/crm.service.ts:365 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
@@ -59,13 +72,13 @@
 | reverse_supplier_opening_balance_v1؛src/services/supabase/goLive.service.ts:150 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | finish_go_live_setup_v1؛src/services/supabase/goLive.service.ts:155 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_crm_customer_page؛src/services/supabase/goLive.service.ts:162 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
-| preview_customer_collection_v1؛src/services/supabase/goLive.service.ts:228 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
-| collect_customer_balance_v1؛src/services/supabase/goLive.service.ts:238 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| reverse_customer_collection_v1؛src/services/supabase/goLive.service.ts:245 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| get_customer_collections_v1؛src/services/supabase/goLive.service.ts:249 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
-| get_supplier_opening_payable_v1؛src/services/supabase/goLive.service.ts:255 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
-| pay_supplier_opening_balance_v1؛src/services/supabase/goLive.service.ts:261 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| set_go_live_main_branch_v1؛src/services/supabase/goLive.service.ts:268 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
+| preview_customer_collection_v1؛src/services/supabase/goLive.service.ts:230 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| collect_customer_balance_v1؛src/services/supabase/goLive.service.ts:241 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| reverse_customer_collection_v1؛src/services/supabase/goLive.service.ts:248 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_customer_collections_v1؛src/services/supabase/goLive.service.ts:252 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_supplier_opening_payable_v1؛src/services/supabase/goLive.service.ts:258 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| pay_supplier_opening_balance_v1؛src/services/supabase/goLive.service.ts:264 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| set_go_live_main_branch_v1؛src/services/supabase/goLive.service.ts:271 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
 | get_inventory_opening_setup؛src/services/supabase/inventory-opening.service.ts:128 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | apply_inventory_opening_setup؛src/services/supabase/inventory-opening.service.ts:165 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_admin_inventory_product_page؛src/services/supabase/inventory.service.ts:99 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
@@ -232,8 +245,8 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 | automation/n8n/workflows/nawasrah-alerts.json | 32, 89, 175, 228 | EXTERNAL_CONSUMER |
 | customer-web/public/_headers | 7 | CSP_CONNECT_SRC |
 | customer-web/src/config/supabase-public-config.ts | 13 | APP_FALLBACK |
-| docs/agent/HANDOFF_HISTORY.md | 435 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 353 | HISTORICAL_DOCUMENTATION |
+| docs/agent/HANDOFF_HISTORY.md | 445 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 414 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
 | docs/operations/STAGING_FRANKFURT_AR.md | 135 | HISTORICAL_DOCUMENTATION |
 | docs/operations/TABLE_ACCESS_DIAGNOSTIC.json | 37409 | HISTORICAL_DOCUMENTATION |
@@ -311,4 +324,4 @@ node scripts/audit/run-service-access-diagnostic.mjs
 node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>
 ```
 
-لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على182 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
+لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على195 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.

@@ -1,5 +1,105 @@
 # Phase status
 
+## Current 2026-10-17 — B branch FULL PASS, genuine main merge pending
+
+82f0f708eb39478f1b6d5b36ef45ff6e9e8c756f branch quality38986012934
+FULL27/27 and secrets38986015202 PASS. operations-reset711s;cheques313s.
+Main is unchanged18217d1 before integration;no-ff merge staged without
+conflict. Source/SQL/proofs are the exact branch-tested content;only task/state
+metadata is synchronized to main. Final local merge gates and exact merge-SHA
+FULL CI remain mandatory before delivery. Then separate VAPID,opening card,C.
+No hostedaccess/deploy;owner command still waits final ceiling after cheques.
+Precommit merge units caught task baseline pointing at the not-yet-parent
+branch tip;keep18217d1 until the merge exists. Windows checkout also exposed
+one139 text contract's CRLF assumption;normalize CRLF to LF before the same
+exact branch/assertion checks. Product scripts/SQL remain branch-identical.
+Merge gates00:45:10–00:48:50UTC PASS:both types,strictlint,1201Admin+191Customer
+units. Branch runtime25/browser70/access142/RPC480/reference505 proof content
+is unchanged. Next Gitleaks,genuine merge commit,push,main exact FULLCI.
+
+## Current 2026-10-17 — B pushed, historical reset CI correction
+
+9e4d57d pushed on feature/deferred-cheques. Quality38978913576:25/27 PASS;
+only operations-reset failed RESET_MANIFEST_CHANGED and its aggregate failed
+dependently. Secret scanning38978915486 PASS. The frozen182 reset requires151
+files; the live checkout now correctly contains157 through195. Its admission
+guard rejected this mismatch before destruction. No financial/runtime failure.
+Test-only correction stages the exact151 approved files outside the repository,
+checks manifest and byte equality, and passes that source view to the unchanged
+owner reset pipeline. The live owner tool still rejects a newer checkout with
+an182 reference. Permanent negative controls cover changed/missing hashes and
+wrong ceiling. Local types/strictlint/1201Admin+191Customer units PASS.
+Real rehearsal cGmtcL PASS151/151,468functions,0catalogdiff,owner+verifiedTOTP
+retained,staff+Storage bytes deleted. First run crossed UTC midnight and failed
+in historical171 reference normalization before reset;one unchanged environment
+rerun00:02:19–00:20:29UTC passed. Capture-day versus initialization-day anchor
+is an open tooling limitation,not a product failure or a changed assertion.
+Full follow-up exact-SHA CI remains required before merge. No hostedaccess/deploy.
+
+## Current 2026-10-17 — B local gates PASS, commit/CI/merge pending
+
+Owner approved narrow supplier claim settlement reversal; implemented without
+changing133/original cheque guards. Runtime25/25+restore0diff,browser70/70,
+1199Admin+191Customer units,both types/strictlint/builds/isolatedSEO and
+network isolation0escaped PASS. Current-source SDK142/142 each150/164/171/
+182/195;138negative15/127;RPC480/0SQL42501;reference157files505functions,
+13Realtime,fresh/incremental0diff. Two stale test contracts repaired exactly,
+with all assertions and explicit fixture mutation guards retained.
+Next Gitleaks/commit/push/FULLCI/merge;then VAPID→openingchequescard→legalhome.
+No hostedaccess/deploy;all owned processes/stacks stopped. Earlier STOPs below
+are historical and resolved by the17Oct owner approval,not current blockers.
+
+Historical 2026-10-17 B STOP for owner decision:new genuine supplier-compensation-payment
+reversal gap.mRwhVj21:12–21:15UTC16Oct:22casesPASS then reverse_supplier_payment
+rejects standalone claim settlement as no receipt/PO reference(133:969–972).
+Customer compensation reversal/full-shift block/fingerprints PASS.No finance
+fix made.See CHEQUE_SUPPLIER_CLAIM_REVERSAL_DECISION_REQUIRED_AR.md.
+Latest types/lint PASS;browser76+4fixture-correctedPASS(not single80run).
+Allowned processes/DB stopped;SDK/reference refresh/fullCI/commit pending.
+
+2026-10-16 owner APPROVES unifying supplier check/cheque through registered
+lifecycle only;old direct path closed,other methods/roles unchanged.Pipeline
+stopped safely for this approved change after SDK171 completed142/142;182
+bootstrap interrupted,no verdict. Earlier cheque38cases coveredPASS across
+34+4 runs;related175PASS/2oldskips.New supplier changes require fresh gates.
+
+2026-10-16 owner APPROVES customer/supplier deletion guards: customer positive
+phase42 or pending/endorsed incoming; supplier nonzero133 or pending outgoing/
+unsettled endorsed incoming. Arabic reason, DB enforcement, no new DELETE grant.
+Resume B WIP195; previous STOP below is resolved, not a delivery claim.
+
+2026-10-16 B190195 STOP for NEW confirmed financial decision:old017 customer
+delete guard permits deleting a customer with fully paid pendingcheque;return
+then restores100000 canonical/aging/statement but CRM hides deletedcustomer.
+Isolatedm3dwhT18:36:05–18:37:39UTC,caseROLLBACK/stackstopped,no managedaccess.
+See CHEQUE_CUSTOMER_DELETION_DECISION_REQUIRED_AR.md;no guardfix authorized.
+B runtime15/15 inclfullrestore0catalogdiff/allpublicrows+sequences/replay0;
+SDK142/142 on150164171182195,138negative127denied/15success,RPC477/0denied.
+Latest units1182PASS/9staleproof-ceilingfail;proofs now refreshed,rerun pending.
+Browser11PASS/11closinglocatorfail,testfix not rerun. WIPuncommitted/noCI;
+card/legalhome/publicPush still separate later. No delivery claim/IDLE.
+
+2026-10-16 owner RESOLVES cancellation question:every erroneous registration
+cancellation uses independent compensating claim,never original payment/order/
+Return/allocation mutation;owner-only,reason,pending-only,idempotent,no badcheque
+flag/alert. Proceed B190199 thenopeningcard thenlegalhome. No standalone182
+hostedupgrade;nextownercommand reachesfinalapprovedceiling.No managedaccess.
+
+2026-10-16 B review STOP for newfinancialdecision,no190migration/productedit.
+Real182 diagnostic16:22:41–16:24:06UTC:debt100000/chequevoucher100000/
+settledcashReturn30000;reversal allowedbeforeReturn,then dependencyrefusal,
+all financial/inventory fingerprints unchanged. Cancellation-of-error policy
+after settledAftercare needs owner;bankbounce compensation already approved.
+See CHEQUE_CANCELLATION_DECISION_REQUIRED_AR.md. Allownedcontainers stopped.
+
+2026-10-16 PR3withdrawals DELIVERED: genuine merge5f199e2 parentsb72aa55+
+84af759;test-only followup18217d193acf0041c6319064f29501484501d8c7=remote main.
+FULL26/26 quality38928434460+secrets38928434449 PASS16:17UTC/Gitleaks0.
+Cash exact-read contract now owner3/cashier2 namedRPCs,28/28bothengines;
+no productchange in followup.151files/468functions/new=incremental0diff,
+SDK142/RPC441,manualcash99000/open=closed/profitunchanged,realrestore/reset/
+TOTP PASS. Ownercommand upgrade182 prepared NOT executed. NextB190199.
+
 2026-10-16 PR3 local integration182 ready for genuine merge,NOT delivered until
 exactFULLCI. Independentreview84af759;151files/468functions/new=incremental0diff,
 ownerpipeline13of13/replay0,reset151of151/realAuthTOTP PASS12:14–12:39UTC.
@@ -1153,3 +1253,19 @@ corrective commit/push and exact-SHA CI. Business/migration changes, public
 activation and later-slice implementation remain prohibited. Durable closure
 tests validate Git ancestry across the commit transition; preflight/resume
 still require the checkpoint baseline to match HEAD exactly before takeover.
+# 2026-10-17 — B approved claim reversal, local gates in progress
+
+Local gates COMPLETE, delivery pending:1199Admin+191Customer units,types/lint,
+both builds/isolatedSEO/network isolation0escaped;runtime25/25+restore0diff,
+browser70/70 both engines. FreshSDK142/142 each150/164/171/182/195;138negative
+15success127denied;RPC480/0SQL42501;reference157migrations505functions13Realtime
+fresh/incremental0diff. Two test-only contract drifts fixed exactly and guarded.
+No B commit/CI/merge yet;no managedaccess. Gitleaks then commit/fullCI/merge.
+
+Owner approved narrow supplier compensation-payment reversal. Implemented with
+private immutable evidence, owner/TOTP, reason5–500, original open shift for
+cash/CliQ, transfer without drawer, replay without writes. Original cheque
+payments and133 guard unchanged. Local4Kd6D4:25/25 runtime+full restore0diff;
+types/lint/34contracts PASS. Later UI journal and late-supplier binding await
+fresh browser/runtime/access/reference gates; no B commit/CI/merge yet.
+Next order B→VAPID→opening cheques card→legalhome; no hostedaccess/deploy.

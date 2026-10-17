@@ -61,5 +61,5 @@ export const DashboardView: React.FC = () => {
   return <DashboardHome data={data} currentUserName={currentUserName} currentShift={currentShift} loading={loading} error={error} realtimeConnected={realtimeConnected}
     onRefresh={() => void loadDashboard()} onOrders={() => setActiveTab('orders')} onAccounts={() => setActiveTab('accounts')}
     onInventory={() => setActiveTab('inventory')} onProducts={() => setActiveTab('products')} onShift={() => setActiveTab('shifts')}
-    onSell={() => setActiveTab('pos')} onReceive={(productId) => openModal('receive_goods', productId ? { productId } : undefined)} onExpense={() => openModal('add_expense')} />;
+    onSell={() => setActiveTab('pos')} onReceive={(productId) => openModal('receive_goods', productId ? { productId } : undefined)} onExpense={() => openModal('add_expense')} onCheques={()=>setActiveTab('cheques')} />;
 };

@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useId, useState } from 'react';
 import { CheckCircle2, Loader2, RotateCcw } from 'lucide-react';
-import { FormFields, StatusBadge, UiButton, formatMinorUnits } from '../../components/ui';
+import { FormFields, StatusBadge, UiButton, formatMinorUnits, formatUiDate } from '../../components/ui';
 import { useAppStoreActions, useAppStoreSelector } from '../../stores/useAppStore';
 import { parseJodToMinor } from '../goLive/goLiveImport';
+import {ChequeRegistrationForm} from '../cheques/ChequeRegistrationForm';
 import {
   collectCustomerBalance, fetchCustomerCollections, newIdempotencyKey, previewCustomerCollection, reverseCustomerCollection,
   type CollectionMethod, type CollectionOperation, type CollectionPreview,
@@ -17,7 +18,7 @@ interface CustomerCollectionModalProps {
 const Money: React.FC<{ minor: number }> = ({ minor }) => (
   <span className="whitespace-nowrap"><bdi dir="ltr" className="nw-num">{formatMinorUnits(minor)}</bdi> <span className="text-xs text-nw-muted">د.أ</span></span>
 );
-const methodLabel: Readonly<Record<string, string>> = { cash: 'كاش', cliq: 'CliQ', bank_transfer: 'تحويل بنكي' };
+const methodLabel: Readonly<Record<string, string>> = { cash: 'كاش', cliq: 'CliQ', bank_transfer: 'تحويل بنكي',cheque:'شيك مؤجل' };
 const fieldClass = 'h-11 w-full rounded-xl border border-nw-border bg-nw-surface px-3 text-sm text-nw-text';
 const errorText = (error: unknown) => (error instanceof Error ? error.message : 'تعذر تنفيذ العملية.');
 
@@ -41,6 +42,7 @@ export const CustomerCollectionModal: React.FC<CustomerCollectionModalProps> = (
   const [history, setHistory] = useState<CollectionOperation[]>([]);
   const [reversing, setReversing] = useState<CollectionOperation | null>(null);
   const [reason, setReason] = useState('');
+  const [receivingCheque,setReceivingCheque]=useState(false);
 
   const loadHistory = useCallback(async () => {
     try { setHistory(await fetchCustomerCollections(customerId)); } catch { setHistory([]); }
@@ -84,8 +86,11 @@ export const CustomerCollectionModal: React.FC<CustomerCollectionModalProps> = (
     } catch (e) { setError(errorText(e)); } finally { setBusy(false); }
   };
 
+  if(receivingCheque)return <ChequeRegistrationForm direction="incoming" partyId={customerId} parties={[{id:customerId,name:'العميل المحدد للتحصيل'}]}
+    branchId={branchId} onClose={()=>setReceivingCheque(false)} onSaved={()=>{onSuccess();onClose();}} />;
   return (
     <div dir="rtl" className="space-y-4" data-testid="customer-collection">
+      <UiButton disabled={busy} onClick={()=>setReceivingCheque(true)}>استلام شيك مؤجل</UiButton>
       <FormFields>
         <form className="grid gap-3 sm:grid-cols-2" onSubmit={event => void save(event)} aria-busy={busy}>
           <div>
@@ -116,12 +121,13 @@ export const CustomerCollectionModal: React.FC<CustomerCollectionModalProps> = (
             <div className="sm:col-span-2 space-y-2 rounded-2xl border border-nw-border bg-nw-surface-2 p-3" data-testid="customer-collection-preview">
               <p className="m-0 text-sm font-bold">{`معاينة التوزيع من الأقدم (${previewIsCurrent ? 'محدّثة' : 'غيّرت المبلغ أو الطريقة؛ أعد المعاينة'})`}</p>
               <p className="m-0 text-[13px] text-nw-muted">مجموع الدين <Money minor={preview.totalOutstandingInMinorUnits} /> · ديون سابقة <Money minor={preview.openingOutstandingInMinorUnits} /> · طلبات <Money minor={preview.ordersOutstandingInMinorUnits} /></p>
+              {Boolean(preview.compensationOutstandingInMinorUnits)&&<p className="m-0 text-sm text-nw-muted">قيود شيكات <Money minor={preview.compensationOutstandingInMinorUnits??0} /></p>}
               <ul className="m-0 list-none space-y-1 p-0">
                 {preview.parts.filter(part => part.allocateInMinorUnits > 0).map(part => (
                   <li key={part.id} className="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-nw-surface p-2 text-[13px]">
                     <span className="min-w-0">
-                      <StatusBadge tone={part.kind === 'opening' ? 'warn' : 'info'}>{part.kind === 'opening' ? 'رصيد سابق قبل النظام' : 'طلب'}</StatusBadge>{' '}
-                      <bdi dir="ltr">{part.reference}</bdi> · <bdi dir="ltr">{part.debtAt.slice(0, 10)}</bdi>
+                      <StatusBadge tone={part.kind === 'opening' ? 'warn' : 'info'}>{part.kind === 'opening' ? 'رصيد سابق قبل النظام' : part.kind === 'compensation' ? 'قيد تعويض شيك' : 'طلب'}</StatusBadge>{' '}
+                      <bdi dir="ltr">{part.reference}</bdi> · {part.debtAt ? <bdi>{formatUiDate(part.debtAt,{year:'numeric',month:'2-digit',day:'2-digit'})}</bdi> : 'تاريخ غير متاح'}
                     </span>
                     <span className="font-bold"><Money minor={part.allocateInMinorUnits} /> <span className="text-xs font-normal text-nw-muted">يتبقى <Money minor={part.remainingAfterInMinorUnits} /></span></span>
                   </li>
@@ -148,7 +154,7 @@ export const CustomerCollectionModal: React.FC<CustomerCollectionModalProps> = (
               <li key={operation.operationId} className="rounded-xl border border-nw-border bg-nw-surface p-3 text-[13px]">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span><bdi dir="ltr">{operation.operationNumber}</bdi> · {methodLabel[operation.paymentMethod] ?? operation.paymentMethod} · <Money minor={operation.amountInMinorUnits} /></span>
-                  {operation.isReversed
+                  {operation.chequeId?<StatusBadge tone="info">إدارة الحالة من صفحة الشيكات</StatusBadge>:operation.isReversed
                     ? <StatusBadge tone="mute">معكوسة</StatusBadge>
                     : <UiButton variant="danger" disabled={busy} aria-label={`عكس العملية ${operation.operationNumber}`}
                         onClick={() => { setReversing(operation); setReason(''); }}><RotateCcw className="h-4 w-4" aria-hidden="true" />عكس</UiButton>}

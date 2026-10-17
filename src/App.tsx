@@ -63,6 +63,7 @@ const ShiftsView = lazy(() =>
     default: module.ShiftsView,
   }))
 );
+const ChequesView = lazy(() => import('./features/cheques/ChequesView').then(module => ({default:module.ChequesView})));
 const ReportsCenterView = lazy(() =>
   import('./features/reports/ReportsCenterView').then((module) => ({
     default: module.ReportsCenterView,
@@ -137,6 +138,17 @@ export const App: React.FC = () => {
     }
   }, [isAuthenticated, setActiveTab]);
 
+  // Cheque notifications use the existing authenticated shell and page ACL.
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('screen') !== 'cheques') return;
+    setActiveTab('cheques');
+    params.delete('screen');
+    const query = params.toString();
+    window.history.replaceState(null, '', `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`);
+  }, [isAuthenticated, setActiveTab]);
+
   useEffect(() => {
     if (mainScrollRef.current) {
       mainScrollRef.current.scrollTop = 0;
@@ -191,6 +203,8 @@ export const App: React.FC = () => {
         return <MoreMenuView />;
       case 'go_live':
         return <GoLiveSetupView />;
+      case 'cheques':
+        return <ChequesView />;
       default:
         return <DashboardView />;
     }

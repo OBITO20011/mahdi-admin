@@ -181,10 +181,10 @@ export async function batchKey(kind: string, session: string, index: number, row
 
 // ---------------------------------------------------------------- unified collection (163)
 export interface CollectionPart {
-  kind: 'opening' | 'order';
+  kind: 'opening' | 'order' | 'compensation';
   id: string;
   reference: string;
-  debtAt: string;
+  debtAt: string | null;
   outstandingInMinorUnits: number;
   allocateInMinorUnits: number;
   remainingAfterInMinorUnits: number;
@@ -193,6 +193,7 @@ export interface CollectionPreview {
   totalOutstandingInMinorUnits: number;
   openingOutstandingInMinorUnits: number;
   ordersOutstandingInMinorUnits: number;
+  compensationOutstandingInMinorUnits?: number;
   exceedsBalance: boolean;
   parts: CollectionPart[];
 }
@@ -206,13 +207,14 @@ export interface CollectionOperation {
   isReversed: boolean;
   createdAt: string;
   remainingBalanceInMinorUnits: number;
+  chequeId?: string | null;
 }
 export type CollectionMethod = 'cash' | 'cliq' | 'bank_transfer';
 
 const readPart = (value: unknown): CollectionPart => {
   const p = obj(value);
-  return { kind: p.kind === 'opening' ? 'opening' : 'order', id: text(p.id), reference: text(p.reference),
-    debtAt: text(p.debtAt), outstandingInMinorUnits: num(p.outstandingInMinorUnits),
+  return { kind: p.kind === 'opening' ? 'opening' : p.kind === 'compensation' ? 'compensation' : 'order', id: text(p.id), reference: text(p.reference),
+    debtAt: typeof p.debtAt === 'string' ? p.debtAt : null, outstandingInMinorUnits: num(p.outstandingInMinorUnits),
     allocateInMinorUnits: num(p.allocateInMinorUnits), remainingAfterInMinorUnits: num(p.remainingAfterInMinorUnits) };
 };
 const readOperation = (value: unknown): CollectionOperation => {
@@ -221,7 +223,7 @@ const readOperation = (value: unknown): CollectionOperation => {
     amountInMinorUnits: num(o.amountInMinorUnits), openingAmountInMinorUnits: num(o.openingAmountInMinorUnits),
     ordersAmountInMinorUnits: num(o.ordersAmountInMinorUnits), paymentMethod: text(o.paymentMethod),
     isReversed: o.isReversed === true, createdAt: text(o.createdAt),
-    remainingBalanceInMinorUnits: num(o.remainingBalanceInMinorUnits) };
+    remainingBalanceInMinorUnits: num(o.remainingBalanceInMinorUnits),chequeId:typeof o.chequeId==='string'?o.chequeId:null };
 };
 
 export async function previewCustomerCollection(customerId: string, amountInMinorUnits: number): Promise<CollectionPreview> {
@@ -229,6 +231,7 @@ export async function previewCustomerCollection(customerId: string, amountInMino
   return { totalOutstandingInMinorUnits: num(data.totalOutstandingInMinorUnits),
     openingOutstandingInMinorUnits: num(data.openingOutstandingInMinorUnits),
     ordersOutstandingInMinorUnits: num(data.ordersOutstandingInMinorUnits),
+    compensationOutstandingInMinorUnits: num(data.compensationOutstandingInMinorUnits),
     exceedsBalance: data.exceedsBalance === true,
     parts: (Array.isArray(data.parts) ? data.parts : []).map(readPart) };
 }

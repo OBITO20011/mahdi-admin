@@ -27,7 +27,8 @@ const params=new URLSearchParams(location.search),theme=params.get('theme')==='d
 document.documentElement.classList.toggle('theme-light',theme==='light');document.documentElement.classList.toggle('theme-dark',theme==='dark');document.documentElement.dataset.theme=theme;
 if(!supabase||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL ?? '').hostname))throw Error('Purchasing preview requires loopback');
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
-auth.state={...auth.getState(),roleName:'owner',roles:['owner'],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
+const paymentRole=params.get('role')==='admin'?'admin':params.get('role')==='accountant'?'accountant':params.get('role')==='manager'?'manager':'owner';
+auth.state={...auth.getState(),roleName:paymentRole,roles:[paymentRole],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
 const store=storeEngine as unknown as {state:AppState;getState:()=>AppState};store.state={...store.getState(),warehouses:[{id:warehouseRow.id,name:warehouseRow.name,branchId:branchRow.id,location:'الرمثا'}],branches:[{id:branchRow.id,name:'فرع الرمثا',address:'وسط البلد',city:'الرمثا',phone:''}],activeBranch:{id:branchRow.id,name:'فرع الرمثا',address:'وسط البلد',city:'الرمثا',phone:''}};
 storeEngine.setCurrentUser({id:'fixture-owner',name:'مهدي',role:'Owner',themeMode:theme,avatarUrl:''});
 const originalRpc=supabase.rpc.bind(supabase),originalFrom=supabase.from.bind(supabase);
@@ -45,12 +46,14 @@ client.rpc=(name,args)=>{
  payments:[{id:receipt.payments![0].id,amount:400000,method:'cash',date:receipt.receivedAt,cashShiftId:'fixture-closed-shift',cashShiftStatus:'closed'}]});
  return originalRpc(name,args); // Writes always retain the original isolated transport.
 };
+const supplierReady=params.has('lateSupplier')?new Promise<void>(resolve=>window.addEventListener('fixture-suppliers-ready',()=>resolve(),{once:true})):Promise.resolve();
 client.from=(table)=>{
  const rows:Record<string,unknown>[]=(table==='suppliers'?[otherSupplierRow,supplierRow]:table==='warehouses'?[warehouseRow]:table==='branches'?[branchRow]:table==='units'?[{id:'packet',code:'PKT',name_ar:'باكيت'},{id:'carton',code:'CTN',name_ar:'كرتونة'}]:table==='purchase_orders'?poRows:table==='supplier_receipts'?[receiptRow]:[]) as Record<string,unknown>[];
  let result=rows,single=false;
  const chain:Record<string,unknown>={};
  for(const method of ['select','order','range','limit','eq','in','gte','lte','is','neq','single','maybeSingle'])chain[method]=(...args:unknown[])=>{if(method==='eq')result=result.filter(r=>r[String(args[0])]===args[1]);if(method==='single'||method==='maybeSingle')single=true;return chain;};
- chain.then=(resolve:(v:unknown)=>unknown)=>Promise.resolve({data:single?result[0]??null:result,error:null,count:result.length}).then(resolve);
+ chain.then=(resolve:(v:unknown)=>unknown)=>(table==='suppliers'?supplierReady:Promise.resolve())
+   .then(()=>({data:single?result[0]??null:result,error:null,count:result.length})).then(resolve);
  for(const method of ['insert','update','delete','upsert'])chain[method]=(...args:unknown[])=>{const original=originalFrom(table) as unknown as Record<string,(...a:unknown[])=>unknown>;return original[method](...args);};
  return chain;
 };

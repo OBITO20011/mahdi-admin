@@ -1,0 +1,265 @@
+{
+  "e2e/package-f-purchasing-harness.tsx": [
+    [
+      "const paymentRole=params.get('role')==='admin'?'admin':params.get('role')==='accountant'?'accountant':params.get('role')==='manager'?'manager':'owner';\nauth.state={...auth.getState(),roleName:paymentRole,roles:[paymentRole],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;",
+      "auth.state={...auth.getState(),roleName:'owner',roles:['owner'],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;"
+    ],
+    [
+      "const supplierReady=params.has('lateSupplier')?new Promise<void>(resolve=>window.addEventListener('fixture-suppliers-ready',()=>resolve(),{once:true})):Promise.resolve();\n",
+      ""
+    ],
+    [
+      " chain.then=(resolve:(v:unknown)=>unknown)=>(table==='suppliers'?supplierReady:Promise.resolve())\n   .then(()=>({data:single?result[0]??null:result,error:null,count:result.length})).then(resolve);",
+      " chain.then=(resolve:(v:unknown)=>unknown)=>Promise.resolve({data:single?result[0]??null:result,error:null,count:result.length}).then(resolve);"
+    ]
+  ],
+  "src/features/goLive/GoLiveSetupView.tsx": [
+    [
+      "import {ChequeRegistrationForm} from '../cheques/ChequeRegistrationForm';\n",
+      ""
+    ],
+    [
+      "  const {roles}=useAuthStore();\n  const canIssueCheque=roles.some(role=>role==='owner'||role==='manager');\n",
+      ""
+    ],
+    [
+      "    if(method==='cheque'){setError('الشيك يحتاج بياناته الكاملة عبر دورة الشيكات.');return;}\n",
+      ""
+    ],
+    [
+      "  if(method==='cheque')return <div className=\"mt-3 space-y-3\" data-testid=\"go-live-supplier-cheque\">\n    <UiButton disabled={busy} onClick={()=>setMethod('cash')}>العودة لطرق الدفع الأخرى</UiButton>\n    {canIssueCheque?<ChequeRegistrationForm direction=\"outgoing\" openingOnly partyId={entry.partyId}\n      parties={[{id:entry.partyId,name:entry.partyName}]} branchId={branchId} initialAmount={amount}\n      onBusyChange={setBusy} onSaved={onDone} onClose={onCancel}/>:<p role=\"alert\">إصدار شيك مورد متاح للمالك والمدير فقط.</p>}\n  </div>;\n",
+      ""
+    ],
+    [
+      "          <option value=\"cheque\" disabled={!canIssueCheque}>شيك مؤجل (المالك والمدير)</option>\n",
+      "          <option value=\"cheque\">شيك</option>\n"
+    ]
+  ],
+  "src/features/purchases/SupplierPaymentModal.tsx": [
+    [
+      "import { storeEngine, useAppStoreSelector } from '../../stores/useAppStore';\nimport { useAuthStore } from '../../stores/useAuthStore';\nimport { ChequeRegistrationForm } from '../cheques/ChequeRegistrationForm';\n",
+      "import { storeEngine } from '../../stores/useAppStore';\n"
+    ],
+    [
+      "  const {roles} = useAuthStore();\n  const canIssueCheque = roles.some(role => role === 'owner' || role === 'manager');\n  const activeBranchId = useAppStoreSelector(state => state.activeBranch?.id ?? null);\n",
+      ""
+    ],
+    [
+      "    // Both legacy and canonical spellings must use the registered lifecycle.\n    if (paymentMethod === 'check' || paymentMethod === 'cheque') {\n      setErrorMsg('الشيك يحتاج البنك والرقم والاستحقاق عبر دورة الشيكات، للمالك والمدير فقط.');\n      return;\n    }\n\n",
+      ""
+    ],
+    [
+      "        {(paymentMethod === 'check' || paymentMethod === 'cheque') ? <div className=\"p-5 space-y-4\">\n          <UiButton disabled={isSubmitting} onClick={() => setPaymentMethod('cash')}>العودة لطرق الدفع الأخرى</UiButton>\n          {selectedPoId && <p className=\"text-sm\">لأمر الشراء <bdi>{selectedPo?.purchaseOrderNumber}</bdi></p>}\n          {canIssueCheque ? <ChequeRegistrationForm direction=\"outgoing\"\n            parties={suppliers.map(supplier => ({id:supplier.id,name:supplier.companyName}))}\n            partyId={selectedSupplierId || undefined} purchaseOrderId={selectedPoId || undefined}\n            branchId={selectedPo?.branchId ?? activeBranchId} initialAmount={amount > 0 ? amount.toFixed(3) : ''} initialNotes={notes} onBusyChange={setIsSubmitting}\n            onClose={onClose} onSaved={() => {\n              storeEngine.setToast('تم تسجيل شيك المورد بنجاح', 'success');\n              onSuccess(); onClose();\n            }} /> : <p role=\"alert\" className=\"text-sm text-nw-bad\">إصدار شيك مورد متاح للمالك والمدير فقط.</p>}\n        </div> : <form onSubmit={handleSubmit} className=\"p-5 space-y-4 text-xs\">\n",
+      "        <form onSubmit={handleSubmit} className=\"p-5 space-y-4 text-xs\">\n"
+    ],
+    [
+      "                <option value=\"check\" disabled={!canIssueCheque}>شيك مؤجل (المالك والمدير)</option>\n",
+      "                <option value=\"check\">شيك</option>\n"
+    ],
+    [
+      "        </form>}\n",
+      "        </form>\n"
+    ]
+  ],
+  "src/App.tsx": [
+    ["  // Cheque notifications use the existing authenticated shell and page ACL.\n  useEffect(() => {\n    if (!isAuthenticated) return;\n    const params = new URLSearchParams(window.location.search);\n    if (params.get('screen') !== 'cheques') return;\n    setActiveTab('cheques');\n    params.delete('screen');\n    const query = params.toString();\n    window.history.replaceState(null, '', `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`);\n  }, [isAuthenticated, setActiveTab]);\n\n", ""],
+    [
+      "    default: module.ShiftsView,\n  }))\n);\nconst ChequesView = lazy(() => import('./features/cheques/ChequesView').then(module => ({default:module.ChequesView})));\nconst ReportsCenterView = lazy(() =>\n  import('./features/reports/ReportsCenterView').then((module) => ({\n    default: module.ReportsCenterView,\n",
+      "    default: module.ShiftsView,\n  }))\n);\nconst ReportsCenterView = lazy(() =>\n  import('./features/reports/ReportsCenterView').then((module) => ({\n    default: module.ReportsCenterView,\n"
+    ],
+    [
+      "        return <MoreMenuView />;\n      case 'go_live':\n        return <GoLiveSetupView />;\n      case 'cheques':\n        return <ChequesView />;\n      default:\n        return <DashboardView />;\n    }\n",
+      "        return <MoreMenuView />;\n      case 'go_live':\n        return <GoLiveSetupView />;\n      default:\n        return <DashboardView />;\n    }\n"
+    ]
+  ],
+  "src/components/layout/sideNavigationModel.ts": [
+    [
+      "import { Home, Settings2, type LucideIcon } from 'lucide-react';\nimport {\n  ADMIN_NAVIGATION_GROUPS,\n  isNavigationItemVisible,\n  type AdminNavigationAction,\n  type AdminNavigationItem,\n} from '../../features/more/adminNavigation.config';\n",
+      "import { Home, Settings2, type LucideIcon } from 'lucide-react';\nimport {\n  ADMIN_NAVIGATION_GROUPS,\n  type AdminNavigationAction,\n  type AdminNavigationItem,\n} from '../../features/more/adminNavigation.config';\n"
+    ],
+    [
+      "  'catalog-products': 'المنتجات', 'inventory-current': 'المخزون',\n  'customer-accounts': 'العملاء', 'supplier-receiving': 'الاستلام',\n  'finance-shifts': 'الصندوق', 'finance-expenses': 'المصروفات',\n  'finance-reports': 'التقارير', 'finance-cheques':'شيكات', 'admin-users': 'الفريق', 'admin-go-live': 'البداية',\n  'admin-monitoring': 'المراقبة', 'admin-storefront': 'المتجر',\n  'admin-promotions': 'الخصم', 'admin-profile': 'حسابي',\n};\n\n/** Same rule as MoreMenuView: owner-only items are shown to the owner only. */\nexport const isVisibleToRole = (item: AdminNavigationItem, roleName: string | null | undefined) =>\n  isNavigationItemVisible(item,roleName);\n\nexport const SIDE_NAV_HOME: SideNavItem = {\n  id: 'home',\n",
+      "  'catalog-products': 'المنتجات', 'inventory-current': 'المخزون',\n  'customer-accounts': 'العملاء', 'supplier-receiving': 'الاستلام',\n  'finance-shifts': 'الصندوق', 'finance-expenses': 'المصروفات',\n  'finance-reports': 'التقارير', 'admin-users': 'الفريق', 'admin-go-live': 'البداية',\n  'admin-monitoring': 'المراقبة', 'admin-storefront': 'المتجر',\n  'admin-promotions': 'الخصم', 'admin-profile': 'حسابي',\n};\n\n/** Same rule as MoreMenuView: owner-only items are shown to the owner only. */\nexport const isVisibleToRole = (item: AdminNavigationItem, roleName: string | null | undefined) =>\n  item.visibility !== 'owner' || roleName === 'owner';\n\nexport const SIDE_NAV_HOME: SideNavItem = {\n  id: 'home',\n"
+    ]
+  ],
+  "src/features/crm/CustomerAging.tsx": [
+    [
+      "import {AgingBar, Card, KpiCard, KpiGrid, MoneyText, SectionHeader,StatusBadge} from '../../components/ui';\nimport {agingSegments, useCustomerAging} from '../../hooks/useCustomerAccounts';\n\nexport function CustomerAgingSummary({revision}: {revision: unknown}) {\n",
+      "import {AgingBar, Card, KpiCard, KpiGrid, MoneyText, SectionHeader} from '../../components/ui';\nimport {agingSegments, useCustomerAging} from '../../hooks/useCustomerAccounts';\n\nexport function CustomerAgingSummary({revision}: {revision: unknown}) {\n"
+    ],
+    [
+      "  const data = useCustomerAging(customerId, revision);\n  return <Card className=\"space-y-3\" data-testid=\"customer-aging-detail\">\n    <SectionHeader title=\"عمر الدين\" />\n    {data?.has_returned_cheque&&<StatusBadge tone=\"bad\">له شيك راجع</StatusBadge>}\n    {data?.outstanding_cheques_in_minor_units!==undefined&&data.outstanding_cheques_in_minor_units>0&&<p className=\"m-0 text-sm text-nw-muted\">\n      منها شيكات لم تُصرف: <MoneyText amount={data.outstanding_cheques_in_minor_units/1000} /> — تحصيل تحت المتابعة خُصم عند الاستلام، وليس ديناً إضافياً.\n    </p>}\n    {data ? <AgingBar segments={agingSegments(data)} /> : <p className=\"m-0 text-sm text-nw-muted\">عمر الدين غير متاح</p>}\n  </Card>;\n}\n",
+      "  const data = useCustomerAging(customerId, revision);\n  return <Card className=\"space-y-3\" data-testid=\"customer-aging-detail\">\n    <SectionHeader title=\"عمر الدين\" />\n    {data ? <AgingBar segments={agingSegments(data)} /> : <p className=\"m-0 text-sm text-nw-muted\">عمر الدين غير متاح</p>}\n  </Card>;\n}\n"
+    ]
+  ],
+  "src/features/crm/CustomerCollectionModal.tsx": [
+    [
+      "import React, { useCallback, useEffect, useId, useState } from 'react';\nimport { CheckCircle2, Loader2, RotateCcw } from 'lucide-react';\nimport { FormFields, StatusBadge, UiButton, formatMinorUnits, formatUiDate } from '../../components/ui';\nimport { useAppStoreActions, useAppStoreSelector } from '../../stores/useAppStore';\nimport { parseJodToMinor } from '../goLive/goLiveImport';\nimport {ChequeRegistrationForm} from '../cheques/ChequeRegistrationForm';\nimport {\n  collectCustomerBalance, fetchCustomerCollections, newIdempotencyKey, previewCustomerCollection, reverseCustomerCollection,\n  type CollectionMethod, type CollectionOperation, type CollectionPreview,\n",
+      "import React, { useCallback, useEffect, useId, useState } from 'react';\nimport { CheckCircle2, Loader2, RotateCcw } from 'lucide-react';\nimport { FormFields, StatusBadge, UiButton, formatMinorUnits } from '../../components/ui';\nimport { useAppStoreActions, useAppStoreSelector } from '../../stores/useAppStore';\nimport { parseJodToMinor } from '../goLive/goLiveImport';\nimport {\n  collectCustomerBalance, fetchCustomerCollections, newIdempotencyKey, previewCustomerCollection, reverseCustomerCollection,\n  type CollectionMethod, type CollectionOperation, type CollectionPreview,\n"
+    ],
+    [
+      "const Money: React.FC<{ minor: number }> = ({ minor }) => (\n  <span className=\"whitespace-nowrap\"><bdi dir=\"ltr\" className=\"nw-num\">{formatMinorUnits(minor)}</bdi> <span className=\"text-xs text-nw-muted\">د.أ</span></span>\n);\nconst methodLabel: Readonly<Record<string, string>> = { cash: 'كاش', cliq: 'CliQ', bank_transfer: 'تحويل بنكي',cheque:'شيك مؤجل' };\nconst fieldClass = 'h-11 w-full rounded-xl border border-nw-border bg-nw-surface px-3 text-sm text-nw-text';\nconst errorText = (error: unknown) => (error instanceof Error ? error.message : 'تعذر تنفيذ العملية.');\n\n",
+      "const Money: React.FC<{ minor: number }> = ({ minor }) => (\n  <span className=\"whitespace-nowrap\"><bdi dir=\"ltr\" className=\"nw-num\">{formatMinorUnits(minor)}</bdi> <span className=\"text-xs text-nw-muted\">د.أ</span></span>\n);\nconst methodLabel: Readonly<Record<string, string>> = { cash: 'كاش', cliq: 'CliQ', bank_transfer: 'تحويل بنكي' };\nconst fieldClass = 'h-11 w-full rounded-xl border border-nw-border bg-nw-surface px-3 text-sm text-nw-text';\nconst errorText = (error: unknown) => (error instanceof Error ? error.message : 'تعذر تنفيذ العملية.');\n\n"
+    ],
+    [
+      "  const [history, setHistory] = useState<CollectionOperation[]>([]);\n  const [reversing, setReversing] = useState<CollectionOperation | null>(null);\n  const [reason, setReason] = useState('');\n  const [receivingCheque,setReceivingCheque]=useState(false);\n\n  const loadHistory = useCallback(async () => {\n    try { setHistory(await fetchCustomerCollections(customerId)); } catch { setHistory([]); }\n",
+      "  const [history, setHistory] = useState<CollectionOperation[]>([]);\n  const [reversing, setReversing] = useState<CollectionOperation | null>(null);\n  const [reason, setReason] = useState('');\n\n  const loadHistory = useCallback(async () => {\n    try { setHistory(await fetchCustomerCollections(customerId)); } catch { setHistory([]); }\n"
+    ],
+    [
+      "    } catch (e) { setError(errorText(e)); } finally { setBusy(false); }\n  };\n\n  if(receivingCheque)return <ChequeRegistrationForm direction=\"incoming\" partyId={customerId} parties={[{id:customerId,name:'العميل المحدد للتحصيل'}]}\n    branchId={branchId} onClose={()=>setReceivingCheque(false)} onSaved={()=>{onSuccess();onClose();}} />;\n  return (\n    <div dir=\"rtl\" className=\"space-y-4\" data-testid=\"customer-collection\">\n      <UiButton disabled={busy} onClick={()=>setReceivingCheque(true)}>استلام شيك مؤجل</UiButton>\n      <FormFields>\n        <form className=\"grid gap-3 sm:grid-cols-2\" onSubmit={event => void save(event)} aria-busy={busy}>\n          <div>\n",
+      "    } catch (e) { setError(errorText(e)); } finally { setBusy(false); }\n  };\n\n  return (\n    <div dir=\"rtl\" className=\"space-y-4\" data-testid=\"customer-collection\">\n      <FormFields>\n        <form className=\"grid gap-3 sm:grid-cols-2\" onSubmit={event => void save(event)} aria-busy={busy}>\n          <div>\n"
+    ],
+    [
+      "            <div className=\"sm:col-span-2 space-y-2 rounded-2xl border border-nw-border bg-nw-surface-2 p-3\" data-testid=\"customer-collection-preview\">\n              <p className=\"m-0 text-sm font-bold\">{`معاينة التوزيع من الأقدم (${previewIsCurrent ? 'محدّثة' : 'غيّرت المبلغ أو الطريقة؛ أعد المعاينة'})`}</p>\n              <p className=\"m-0 text-[13px] text-nw-muted\">مجموع الدين <Money minor={preview.totalOutstandingInMinorUnits} /> · ديون سابقة <Money minor={preview.openingOutstandingInMinorUnits} /> · طلبات <Money minor={preview.ordersOutstandingInMinorUnits} /></p>\n              {Boolean(preview.compensationOutstandingInMinorUnits)&&<p className=\"m-0 text-sm text-nw-muted\">قيود شيكات <Money minor={preview.compensationOutstandingInMinorUnits??0} /></p>}\n              <ul className=\"m-0 list-none space-y-1 p-0\">\n                {preview.parts.filter(part => part.allocateInMinorUnits > 0).map(part => (\n                  <li key={part.id} className=\"flex flex-wrap items-center justify-between gap-2 rounded-xl bg-nw-surface p-2 text-[13px]\">\n                    <span className=\"min-w-0\">\n                      <StatusBadge tone={part.kind === 'opening' ? 'warn' : 'info'}>{part.kind === 'opening' ? 'رصيد سابق قبل النظام' : part.kind === 'compensation' ? 'قيد تعويض شيك' : 'طلب'}</StatusBadge>{' '}\n                      <bdi dir=\"ltr\">{part.reference}</bdi> · {part.debtAt ? <bdi>{formatUiDate(part.debtAt,{year:'numeric',month:'2-digit',day:'2-digit'})}</bdi> : 'تاريخ غير متاح'}\n                    </span>\n                    <span className=\"font-bold\"><Money minor={part.allocateInMinorUnits} /> <span className=\"text-xs font-normal text-nw-muted\">يتبقى <Money minor={part.remainingAfterInMinorUnits} /></span></span>\n                  </li>\n",
+      "            <div className=\"sm:col-span-2 space-y-2 rounded-2xl border border-nw-border bg-nw-surface-2 p-3\" data-testid=\"customer-collection-preview\">\n              <p className=\"m-0 text-sm font-bold\">{`معاينة التوزيع من الأقدم (${previewIsCurrent ? 'محدّثة' : 'غيّرت المبلغ أو الطريقة؛ أعد المعاينة'})`}</p>\n              <p className=\"m-0 text-[13px] text-nw-muted\">مجموع الدين <Money minor={preview.totalOutstandingInMinorUnits} /> · ديون سابقة <Money minor={preview.openingOutstandingInMinorUnits} /> · طلبات <Money minor={preview.ordersOutstandingInMinorUnits} /></p>\n              <ul className=\"m-0 list-none space-y-1 p-0\">\n                {preview.parts.filter(part => part.allocateInMinorUnits > 0).map(part => (\n                  <li key={part.id} className=\"flex flex-wrap items-center justify-between gap-2 rounded-xl bg-nw-surface p-2 text-[13px]\">\n                    <span className=\"min-w-0\">\n                      <StatusBadge tone={part.kind === 'opening' ? 'warn' : 'info'}>{part.kind === 'opening' ? 'رصيد سابق قبل النظام' : 'طلب'}</StatusBadge>{' '}\n                      <bdi dir=\"ltr\">{part.reference}</bdi> · <bdi dir=\"ltr\">{part.debtAt.slice(0, 10)}</bdi>\n                    </span>\n                    <span className=\"font-bold\"><Money minor={part.allocateInMinorUnits} /> <span className=\"text-xs font-normal text-nw-muted\">يتبقى <Money minor={part.remainingAfterInMinorUnits} /></span></span>\n                  </li>\n"
+    ],
+    [
+      "              <li key={operation.operationId} className=\"rounded-xl border border-nw-border bg-nw-surface p-3 text-[13px]\">\n                <div className=\"flex flex-wrap items-center justify-between gap-2\">\n                  <span><bdi dir=\"ltr\">{operation.operationNumber}</bdi> · {methodLabel[operation.paymentMethod] ?? operation.paymentMethod} · <Money minor={operation.amountInMinorUnits} /></span>\n                  {operation.chequeId?<StatusBadge tone=\"info\">إدارة الحالة من صفحة الشيكات</StatusBadge>:operation.isReversed\n                    ? <StatusBadge tone=\"mute\">معكوسة</StatusBadge>\n                    : <UiButton variant=\"danger\" disabled={busy} aria-label={`عكس العملية ${operation.operationNumber}`}\n                        onClick={() => { setReversing(operation); setReason(''); }}><RotateCcw className=\"h-4 w-4\" aria-hidden=\"true\" />عكس</UiButton>}\n",
+      "              <li key={operation.operationId} className=\"rounded-xl border border-nw-border bg-nw-surface p-3 text-[13px]\">\n                <div className=\"flex flex-wrap items-center justify-between gap-2\">\n                  <span><bdi dir=\"ltr\">{operation.operationNumber}</bdi> · {methodLabel[operation.paymentMethod] ?? operation.paymentMethod} · <Money minor={operation.amountInMinorUnits} /></span>\n                  {operation.isReversed\n                    ? <StatusBadge tone=\"mute\">معكوسة</StatusBadge>\n                    : <UiButton variant=\"danger\" disabled={busy} aria-label={`عكس العملية ${operation.operationNumber}`}\n                        onClick={() => { setReversing(operation); setReason(''); }}><RotateCcw className=\"h-4 w-4\" aria-hidden=\"true\" />عكس</UiButton>}\n"
+    ]
+  ],
+  "src/features/crm/CustomerStatement.tsx": [
+    [
+      "        <p className=\"m-0 text-xl font-bold\" data-testid=\"statement-closing\"><MoneyText amount={data.closing_balance_in_minor_units/1000} currency /></p>\n        <p className=\"m-0 text-xs text-nw-muted\">الرصيد قبل أقدم حركة معروضة: <MoneyText amount={data.page_opening_balance_in_minor_units/1000} /></p>\n      </div>\n      {data.outstanding_cheques_in_minor_units!==undefined&&data.outstanding_cheques_in_minor_units>0&&<p className=\"m-0 text-sm text-nw-muted\">\n        منها شيكات لم تُصرف: <MoneyText amount={data.outstanding_cheques_in_minor_units/1000} /> — خُصمت عند الاستلام، وليست إضافة للرصيد.\n      </p>}\n      {!data.movements.length?<p className=\"text-sm text-nw-muted\">لا توجد حركات ذمة لهذا العميل.</p>:<>\n        <div className=\"space-y-3 md:hidden\">\n          {data.movements.map(row=><article key={row.movement_id} data-statement-movement={row.movement_id}\n",
+      "        <p className=\"m-0 text-xl font-bold\" data-testid=\"statement-closing\"><MoneyText amount={data.closing_balance_in_minor_units/1000} currency /></p>\n        <p className=\"m-0 text-xs text-nw-muted\">الرصيد قبل أقدم حركة معروضة: <MoneyText amount={data.page_opening_balance_in_minor_units/1000} /></p>\n      </div>\n      {!data.movements.length?<p className=\"text-sm text-nw-muted\">لا توجد حركات ذمة لهذا العميل.</p>:<>\n        <div className=\"space-y-3 md:hidden\">\n          {data.movements.map(row=><article key={row.movement_id} data-statement-movement={row.movement_id}\n"
+    ],
+    [
+      "              <h4 className=\"m-0 text-sm font-bold\">{row.type_label}</h4><bdi className=\"text-xs text-nw-muted break-all\">{row.reference}</bdi>\n            </div>\n            <p className=\"m-0 text-xs text-nw-muted\"><bdi>{date(row)}</bdi></p>\n            {row.reason&&<p className=\"m-0 text-sm\">السبب: {row.reason}</p>}\n            {row.movement_type.startsWith('cheque_')&&row.movement_type.endsWith('_compensation')&&<p className=\"m-0 text-xs text-nw-muted\">تاريخ أصل الدين: {row.original_debt_at?formatUiDate(row.original_debt_at,{year:'numeric',month:'2-digit',day:'2-digit'}):'عمر غير متاح'}</p>}\n            <dl className=\"m-0 grid grid-cols-3 gap-2 text-xs\">\n              <div><dt className=\"text-nw-muted\">مدين</dt><dd className=\"m-0\"><MoneyText amount={row.debit_in_minor_units/1000} /></dd></div>\n              <div><dt className=\"text-nw-muted\">دائن</dt><dd className=\"m-0\"><MoneyText amount={row.credit_in_minor_units/1000} /></dd></div>\n",
+      "              <h4 className=\"m-0 text-sm font-bold\">{row.type_label}</h4><bdi className=\"text-xs text-nw-muted break-all\">{row.reference}</bdi>\n            </div>\n            <p className=\"m-0 text-xs text-nw-muted\"><bdi>{date(row)}</bdi></p>\n            <dl className=\"m-0 grid grid-cols-3 gap-2 text-xs\">\n              <div><dt className=\"text-nw-muted\">مدين</dt><dd className=\"m-0\"><MoneyText amount={row.debit_in_minor_units/1000} /></dd></div>\n              <div><dt className=\"text-nw-muted\">دائن</dt><dd className=\"m-0\"><MoneyText amount={row.credit_in_minor_units/1000} /></dd></div>\n"
+    ],
+    [
+      "        <div className=\"hidden md:block\"><DataTable caption=\"حركات كشف حساب العميل\" style={{minWidth:650}}>\n          <thead><tr>{['الحركة','المرجع','التاريخ','مدين','دائن','الرصيد'].map(label=><Th key={label}>{label}</Th>)}</tr></thead>\n          <tbody>{data.movements.map(row=><Tr key={row.movement_id} data-statement-movement={row.movement_id}>\n            <Td>{row.type_label}{row.reason&&<p className=\"m-0 text-xs text-nw-muted\">{row.reason}</p>}</Td><Td><bdi className=\"whitespace-nowrap\">{row.reference}</bdi></Td>\n            <Td><bdi className=\"whitespace-nowrap\">{date(row)}</bdi></Td>\n            <Td><MoneyText amount={row.debit_in_minor_units/1000} /></Td>\n            <Td><MoneyText amount={row.credit_in_minor_units/1000} /></Td>\n",
+      "        <div className=\"hidden md:block\"><DataTable caption=\"حركات كشف حساب العميل\" style={{minWidth:650}}>\n          <thead><tr>{['الحركة','المرجع','التاريخ','مدين','دائن','الرصيد'].map(label=><Th key={label}>{label}</Th>)}</tr></thead>\n          <tbody>{data.movements.map(row=><Tr key={row.movement_id} data-statement-movement={row.movement_id}>\n            <Td>{row.type_label}</Td><Td><bdi className=\"whitespace-nowrap\">{row.reference}</bdi></Td>\n            <Td><bdi className=\"whitespace-nowrap\">{date(row)}</bdi></Td>\n            <Td><MoneyText amount={row.debit_in_minor_units/1000} /></Td>\n            <Td><MoneyText amount={row.credit_in_minor_units/1000} /></Td>\n"
+    ]
+  ],
+  "src/features/dashboard/DashboardHome.tsx": [
+    [
+      "  onSell: () => void;\n  onReceive: (productId?: string) => void;\n  onExpense: () => void;\n  onCheques?:()=>void;\n}\n\nconst money = (minor: number | null | undefined, available: boolean) =>\n",
+      "  onSell: () => void;\n  onReceive: (productId?: string) => void;\n  onExpense: () => void;\n}\n\nconst money = (minor: number | null | undefined, available: boolean) =>\n"
+    ],
+    [
+      "};\n\n/** Shared live/harness presentation. Fixtures never enter the live loader. */\nexport const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserName, currentShift, loading, error, realtimeConnected, onRefresh, onOrders, onAccounts, onInventory, onProducts, onShift, onSell, onReceive, onExpense,onCheques }) => {\n  const [period, setPeriod] = useState<'day' | 'week' | 'month'>('day');\n  const { summary, financialFactsAvailable: available } = data;\n  const days = [...data.sevenDaySales].sort((a, b) => a.date.localeCompare(b.date));\n",
+      "};\n\n/** Shared live/harness presentation. Fixtures never enter the live loader. */\nexport const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserName, currentShift, loading, error, realtimeConnected, onRefresh, onOrders, onAccounts, onInventory, onProducts, onShift, onSell, onReceive, onExpense }) => {\n  const [period, setPeriod] = useState<'day' | 'week' | 'month'>('day');\n  const { summary, financialFactsAvailable: available } = data;\n  const days = [...data.sevenDaySales].sort((a, b) => a.date.localeCompare(b.date));\n"
+    ],
+    [
+      "        </KpiGrid>\n        </div>\n\n        {data.chequeAlerts&&(data.chequeAlerts.due>0||data.chequeAlerts.overdue>0)&&<Card className=\"space-y-2\" data-testid=\"home-cheque-alert\">\n          <SectionHeader title=\"مواعيد الشيكات\" action={onCheques&&<UiButton onClick={onCheques}>فتح الشيكات</UiButton>} />\n          <p className=\"m-0 text-sm\">خلال يومين: <bdi>{data.chequeAlerts.due}</bdi> · متأخرة: <bdi>{data.chequeAlerts.overdue}</bdi></p>\n          <p className=\"m-0 text-sm text-nw-muted\">تأكد من كفاية رصيد الشيكات الصادرة: <MoneyText amount={data.chequeAlerts.outgoingDue/1000} currency /></p>\n        </Card>}\n        <div className=\"flex flex-wrap items-stretch gap-5\">\n          <Card aria-labelledby=\"home-orders-title\" className=\"order-2 min-w-0 flex-[2_1_520px] lg:order-1\">\n            <SectionHeader id=\"home-orders-title\" title=\"طلبات تحتاج إجراء\" action={<UiButton onClick={onOrders}>كل الطلبات <ChevronLeft className=\"h-4 w-4\" aria-hidden=\"true\" /></UiButton>} />\n",
+      "        </KpiGrid>\n        </div>\n\n        <div className=\"flex flex-wrap items-stretch gap-5\">\n          <Card aria-labelledby=\"home-orders-title\" className=\"order-2 min-w-0 flex-[2_1_520px] lg:order-1\">\n            <SectionHeader id=\"home-orders-title\" title=\"طلبات تحتاج إجراء\" action={<UiButton onClick={onOrders}>كل الطلبات <ChevronLeft className=\"h-4 w-4\" aria-hidden=\"true\" /></UiButton>} />\n"
+    ]
+  ],
+  "src/features/dashboard/DashboardView.tsx": [
+    [
+      "  return <DashboardHome data={data} currentUserName={currentUserName} currentShift={currentShift} loading={loading} error={error} realtimeConnected={realtimeConnected}\n    onRefresh={() => void loadDashboard()} onOrders={() => setActiveTab('orders')} onAccounts={() => setActiveTab('accounts')}\n    onInventory={() => setActiveTab('inventory')} onProducts={() => setActiveTab('products')} onShift={() => setActiveTab('shifts')}\n    onSell={() => setActiveTab('pos')} onReceive={(productId) => openModal('receive_goods', productId ? { productId } : undefined)} onExpense={() => openModal('add_expense')} onCheques={()=>setActiveTab('cheques')} />;\n};\n",
+      "  return <DashboardHome data={data} currentUserName={currentUserName} currentShift={currentShift} loading={loading} error={error} realtimeConnected={realtimeConnected}\n    onRefresh={() => void loadDashboard()} onOrders={() => setActiveTab('orders')} onAccounts={() => setActiveTab('accounts')}\n    onInventory={() => setActiveTab('inventory')} onProducts={() => setActiveTab('products')} onShift={() => setActiveTab('shifts')}\n    onSell={() => setActiveTab('pos')} onReceive={(productId) => openModal('receive_goods', productId ? { productId } : undefined)} onExpense={() => openModal('add_expense')} />;\n};\n"
+    ]
+  ],
+  "src/features/more/MoreMenuView.tsx": [
+    [
+      "import { UserAvatar, Card, PageHeader, UiButton } from '../../components/ui';\nimport {\n  ADMIN_NAVIGATION_GROUPS,\n  isNavigationItemVisible,\n  getNextOpenNavigationGroup,\n  type AdminNavigationAction,\n  type AdminNavigationGroupId,\n",
+      "import { UserAvatar, Card, PageHeader, UiButton } from '../../components/ui';\nimport {\n  ADMIN_NAVIGATION_GROUPS,\n  getNextOpenNavigationGroup,\n  type AdminNavigationAction,\n  type AdminNavigationGroupId,\n"
+    ],
+    [
+      "      <div className=\"space-y-2\" aria-label=\"أقسام التنقل الإداري\">\n        {ADMIN_NAVIGATION_GROUPS.map((group) => {\n          const visibleItems = group.items.filter(\n            (item) => isNavigationItemVisible(item,roleName),\n          );\n          const GroupIcon = group.icon;\n\n",
+      "      <div className=\"space-y-2\" aria-label=\"أقسام التنقل الإداري\">\n        {ADMIN_NAVIGATION_GROUPS.map((group) => {\n          const visibleItems = group.items.filter(\n            (item) => item.visibility !== 'owner' || roleName === 'owner',\n          );\n          const GroupIcon = group.icon;\n\n"
+    ]
+  ],
+  "src/features/more/adminNavigation.config.ts": [
+    [
+      "  icon: LucideIcon;\n  tone: string;\n  action: AdminNavigationAction;\n  visibility?: 'all' | 'owner' | 'cheque-managers';\n  classification?: 'classified' | 'unclassified';\n}\n\n",
+      "  icon: LucideIcon;\n  tone: string;\n  action: AdminNavigationAction;\n  visibility?: 'all' | 'owner';\n  classification?: 'classified' | 'unclassified';\n}\n\n"
+    ],
+    [
+      "        tone: 'bg-nw-info-bg text-nw-info',\n        action: { type: 'tab', destination: 'reports' },\n      },\n      {id:'finance-cheques',label:'الشيكات',description:'الشيكات الواردة والصادرة والمُجيّرة ومواعيد الاستحقاق',\n        icon:WalletCards,tone:'bg-nw-info-bg text-nw-info',action:{type:'tab',destination:'cheques'},visibility:'cheque-managers'},\n    ],\n  },\n  {\n",
+      "        tone: 'bg-nw-info-bg text-nw-info',\n        action: { type: 'tab', destination: 'reports' },\n      },\n    ],\n  },\n  {\n"
+    ],
+    [
+      "  },\n] as const;\n\nexport const isNavigationItemVisible=(item:AdminNavigationItem,roleName:string|null|undefined)=>\n  item.visibility==='owner'?roleName==='owner':item.visibility==='cheque-managers'?roleName==='owner'||roleName==='manager':true;\n\nexport const getNextOpenNavigationGroup = (\n  current: AdminNavigationGroupId | null,\n  requested: AdminNavigationGroupId,\n",
+      "  },\n] as const;\n\nexport const getNextOpenNavigationGroup = (\n  current: AdminNavigationGroupId | null,\n  requested: AdminNavigationGroupId,\n"
+    ]
+  ],
+  "src/features/pos/PosView.tsx": [
+    [
+      "import { Card, PageHeader, StatusBadge, MoneyText, SearchField, FilterChips, SegmentedControl, UiButton, StickyActionBar, ResponsiveCartPanel, ProductGlyph, formatItemCount } from '../../components/ui';\nimport { useDialogFocus } from '../../hooks/useDialogFocus';\nimport { Modal } from '../../components/common/Modal';\nimport {useAuthStore} from '../../stores/useAuthStore';\nimport {ChequeRegistrationForm} from '../cheques/ChequeRegistrationForm';\nimport {\n  AddCustomerModalContent,\n  CreatedCustomer,\n",
+      "import { Card, PageHeader, StatusBadge, MoneyText, SearchField, FilterChips, SegmentedControl, UiButton, StickyActionBar, ResponsiveCartPanel, ProductGlyph, formatItemCount } from '../../components/ui';\nimport { useDialogFocus } from '../../hooks/useDialogFocus';\nimport { Modal } from '../../components/common/Modal';\nimport {\n  AddCustomerModalContent,\n  CreatedCustomer,\n"
+    ],
+    [
+      ");\n\nexport const PosView: React.FC = () => {\n  const {roles:chequeRoles}=useAuthStore();\n  const canReceiveCheque=chequeRoles.some(role=>['owner','admin','manager','accountant','cashier','sales'].includes(role));\n  const [isChequeOpen,setIsChequeOpen]=useState(false);\n  const {\n    categories,\n    activeBranch,\n",
+      ");\n\nexport const PosView: React.FC = () => {\n  const {\n    categories,\n    activeBranch,\n"
+    ],
+    [
+      "                {selectedPosCustomer.currentBalance !== undefined && selectedPosCustomer.currentBalance > selectedPosCustomer.creditLimit && <span>تجاوز الحد</span>}\n              </>}\n            </div>}\n            {selectedPosCustomer&&canReceiveCheque&&<UiButton disabled={isSubmitting||recoveryBlocked} onClick={()=>setIsChequeOpen(true)}>استلام شيك من العميل</UiButton>}\n            <div className=\"flex items-center justify-between gap-2 text-[9px] text-nw-muted\">\n              <span>\n                {isPosCustomersLoading\n",
+      "                {selectedPosCustomer.currentBalance !== undefined && selectedPosCustomer.currentBalance > selectedPosCustomer.creditLimit && <span>تجاوز الحد</span>}\n              </>}\n            </div>}\n            <div className=\"flex items-center justify-between gap-2 text-[9px] text-nw-muted\">\n              <span>\n                {isPosCustomersLoading\n"
+    ],
+    [
+      "        </Suspense>\n      )}\n\n      <Modal isOpen={isChequeOpen} onClose={()=>setIsChequeOpen(false)} title=\"استلام شيك عميل\" confirmUnsavedClose>\n        {isChequeOpen&&selectedPosCustomer&&<ChequeRegistrationForm direction=\"incoming\" partyId={selectedPosCustomer.id}\n          parties={[selectedPosCustomer]} branchId={activeBranch?.id??null} onClose={()=>setIsChequeOpen(false)}\n          onSaved={result=>{const balance=result.customerBalanceInMinorUnits;if(balance!==null)setPosCustomers(rows=>rows.map(c=>c.id===result.cheque.customerId\n            ?{...c,currentBalance:balance/1000}:c));setIsChequeOpen(false);setToast('تم استلام الشيك دون حركة على الدرج.','success');}} />}\n      </Modal>\n      <Modal\n        isOpen={isAddCustomerOpen}\n        onClose={() => setIsAddCustomerOpen(false)}\n",
+      "        </Suspense>\n      )}\n\n      <Modal\n        isOpen={isAddCustomerOpen}\n        onClose={() => setIsAddCustomerOpen(false)}\n"
+    ]
+  ],
+  "src/services/supabase/dashboard.service.ts": [
+    [
+      "          canViewProfit: Boolean(access.canViewProfit),\n        },\n        summary: mapSummary(summary),\n        chequeAlerts:payload.chequeAlerts&&typeof payload.chequeAlerts==='object'?{\n          due:numberValue((payload.chequeAlerts as Record<string,unknown>).dueWithinTwoDays),\n          overdue:numberValue((payload.chequeAlerts as Record<string,unknown>).overdue),\n          outgoingDue:numberValue((payload.chequeAlerts as Record<string,unknown>).outgoingDueInMinorUnits),\n        }:undefined,\n        latestOrders: Array.isArray(payload.latestOrders)\n          ? payload.latestOrders.map((item) =>\n              mapOrder(item as Record<string, unknown>)\n",
+      "          canViewProfit: Boolean(access.canViewProfit),\n        },\n        summary: mapSummary(summary),\n        latestOrders: Array.isArray(payload.latestOrders)\n          ? payload.latestOrders.map((item) =>\n              mapOrder(item as Record<string, unknown>)\n"
+    ]
+  ],
+  "src/services/supabase/goLive.service.ts": [
+    [
+      "\n// ---------------------------------------------------------------- unified collection (163)\nexport interface CollectionPart {\n  kind: 'opening' | 'order' | 'compensation';\n  id: string;\n  reference: string;\n  debtAt: string | null;\n  outstandingInMinorUnits: number;\n  allocateInMinorUnits: number;\n  remainingAfterInMinorUnits: number;\n",
+      "\n// ---------------------------------------------------------------- unified collection (163)\nexport interface CollectionPart {\n  kind: 'opening' | 'order';\n  id: string;\n  reference: string;\n  debtAt: string;\n  outstandingInMinorUnits: number;\n  allocateInMinorUnits: number;\n  remainingAfterInMinorUnits: number;\n"
+    ],
+    [
+      "  totalOutstandingInMinorUnits: number;\n  openingOutstandingInMinorUnits: number;\n  ordersOutstandingInMinorUnits: number;\n  compensationOutstandingInMinorUnits?: number;\n  exceedsBalance: boolean;\n  parts: CollectionPart[];\n}\n",
+      "  totalOutstandingInMinorUnits: number;\n  openingOutstandingInMinorUnits: number;\n  ordersOutstandingInMinorUnits: number;\n  exceedsBalance: boolean;\n  parts: CollectionPart[];\n}\n"
+    ],
+    [
+      "  isReversed: boolean;\n  createdAt: string;\n  remainingBalanceInMinorUnits: number;\n  chequeId?: string | null;\n}\nexport type CollectionMethod = 'cash' | 'cliq' | 'bank_transfer';\n\nconst readPart = (value: unknown): CollectionPart => {\n  const p = obj(value);\n  return { kind: p.kind === 'opening' ? 'opening' : p.kind === 'compensation' ? 'compensation' : 'order', id: text(p.id), reference: text(p.reference),\n    debtAt: typeof p.debtAt === 'string' ? p.debtAt : null, outstandingInMinorUnits: num(p.outstandingInMinorUnits),\n    allocateInMinorUnits: num(p.allocateInMinorUnits), remainingAfterInMinorUnits: num(p.remainingAfterInMinorUnits) };\n};\nconst readOperation = (value: unknown): CollectionOperation => {\n",
+      "  isReversed: boolean;\n  createdAt: string;\n  remainingBalanceInMinorUnits: number;\n}\nexport type CollectionMethod = 'cash' | 'cliq' | 'bank_transfer';\n\nconst readPart = (value: unknown): CollectionPart => {\n  const p = obj(value);\n  return { kind: p.kind === 'opening' ? 'opening' : 'order', id: text(p.id), reference: text(p.reference),\n    debtAt: text(p.debtAt), outstandingInMinorUnits: num(p.outstandingInMinorUnits),\n    allocateInMinorUnits: num(p.allocateInMinorUnits), remainingAfterInMinorUnits: num(p.remainingAfterInMinorUnits) };\n};\nconst readOperation = (value: unknown): CollectionOperation => {\n"
+    ],
+    [
+      "    amountInMinorUnits: num(o.amountInMinorUnits), openingAmountInMinorUnits: num(o.openingAmountInMinorUnits),\n    ordersAmountInMinorUnits: num(o.ordersAmountInMinorUnits), paymentMethod: text(o.paymentMethod),\n    isReversed: o.isReversed === true, createdAt: text(o.createdAt),\n    remainingBalanceInMinorUnits: num(o.remainingBalanceInMinorUnits),chequeId:typeof o.chequeId==='string'?o.chequeId:null };\n};\n\nexport async function previewCustomerCollection(customerId: string, amountInMinorUnits: number): Promise<CollectionPreview> {\n",
+      "    amountInMinorUnits: num(o.amountInMinorUnits), openingAmountInMinorUnits: num(o.openingAmountInMinorUnits),\n    ordersAmountInMinorUnits: num(o.ordersAmountInMinorUnits), paymentMethod: text(o.paymentMethod),\n    isReversed: o.isReversed === true, createdAt: text(o.createdAt),\n    remainingBalanceInMinorUnits: num(o.remainingBalanceInMinorUnits) };\n};\n\nexport async function previewCustomerCollection(customerId: string, amountInMinorUnits: number): Promise<CollectionPreview> {\n"
+    ],
+    [
+      "  return { totalOutstandingInMinorUnits: num(data.totalOutstandingInMinorUnits),\n    openingOutstandingInMinorUnits: num(data.openingOutstandingInMinorUnits),\n    ordersOutstandingInMinorUnits: num(data.ordersOutstandingInMinorUnits),\n    compensationOutstandingInMinorUnits: num(data.compensationOutstandingInMinorUnits),\n    exceedsBalance: data.exceedsBalance === true,\n    parts: (Array.isArray(data.parts) ? data.parts : []).map(readPart) };\n}\n",
+      "  return { totalOutstandingInMinorUnits: num(data.totalOutstandingInMinorUnits),\n    openingOutstandingInMinorUnits: num(data.openingOutstandingInMinorUnits),\n    ordersOutstandingInMinorUnits: num(data.ordersOutstandingInMinorUnits),\n    exceedsBalance: data.exceedsBalance === true,\n    parts: (Array.isArray(data.parts) ? data.parts : []).map(readPart) };\n}\n"
+    ]
+  ],
+  "src/stores/appStorePreferences.ts": [
+    [
+      "  'purchases',\n  'assistant',\n  'go_live',\n  'cheques',\n] as const;\n\nexport type ActiveTab = (typeof VALID_ACTIVE_TABS)[number];\n",
+      "  'purchases',\n  'assistant',\n  'go_live',\n] as const;\n\nexport type ActiveTab = (typeof VALID_ACTIVE_TABS)[number];\n"
+    ]
+  ],
+  "src/types/dashboard.ts": [
+    [
+      "}\n\nexport interface HomeDashboardData {\n  chequeAlerts?: {due:number;overdue:number;outgoingDue:number};\n  generatedAt: string;\n  // false when the server could not compute financial facts (corrupt evidence);\n  // money cards must then show \"unavailable\", never zero.\n",
+      "}\n\nexport interface HomeDashboardData {\n  generatedAt: string;\n  // false when the server could not compute financial facts (corrupt evidence);\n  // money cards must then show \"unavailable\", never zero.\n"
+    ]
+  ],
+  "src/utils/customerDebtAging.ts": [
+    [
+      "  last_payment_at?: string | null;\n  overdue_customer_count?: number;\n  over_limit_customer_count?: number;\n  outstanding_cheques_in_minor_units?: number;\n  has_returned_cheque?: boolean;\n}\n\nexport function readCustomerDebtAging(value: unknown): CustomerDebtAging | null {\n",
+      "  last_payment_at?: string | null;\n  overdue_customer_count?: number;\n  over_limit_customer_count?: number;\n}\n\nexport function readCustomerDebtAging(value: unknown): CustomerDebtAging | null {\n"
+    ],
+    [
+      "    'days_8_30_in_minor_units', 'days_over_30_in_minor_units', 'age_unavailable_in_minor_units'] as const;\n  if (fields.some(key => typeof row[key] !== 'number' || !Number.isSafeInteger(row[key]) || Number(row[key]) < 0)) return null;\n  if (Number(row.total_in_minor_units) !== fields.slice(1).reduce((sum, key) => sum + Number(row[key]), 0)) return null;\n  for (const key of ['overdue_customer_count', 'over_limit_customer_count', 'oldest_debt_age_days','outstanding_cheques_in_minor_units']) {\n    if (row[key] !== undefined && row[key] !== null\n      && (typeof row[key] !== 'number' || !Number.isSafeInteger(row[key]) || Number(row[key]) < 0)) return null;\n  }\n  if(row.has_returned_cheque!==undefined&&typeof row.has_returned_cheque!=='boolean')return null;\n  for (const key of ['oldest_debt_at', 'last_payment_at']) {\n    if (row[key] !== undefined && row[key] !== null\n      && (typeof row[key] !== 'string' || !Number.isFinite(Date.parse(String(row[key]))))) return null;\n",
+      "    'days_8_30_in_minor_units', 'days_over_30_in_minor_units', 'age_unavailable_in_minor_units'] as const;\n  if (fields.some(key => typeof row[key] !== 'number' || !Number.isSafeInteger(row[key]) || Number(row[key]) < 0)) return null;\n  if (Number(row.total_in_minor_units) !== fields.slice(1).reduce((sum, key) => sum + Number(row[key]), 0)) return null;\n  for (const key of ['overdue_customer_count', 'over_limit_customer_count', 'oldest_debt_age_days']) {\n    if (row[key] !== undefined && row[key] !== null\n      && (typeof row[key] !== 'number' || !Number.isSafeInteger(row[key]) || Number(row[key]) < 0)) return null;\n  }\n  for (const key of ['oldest_debt_at', 'last_payment_at']) {\n    if (row[key] !== undefined && row[key] !== null\n      && (typeof row[key] !== 'string' || !Number.isFinite(Date.parse(String(row[key]))))) return null;\n"
+    ]
+  ],
+  "src/utils/customerStatement.ts": [
+    [
+      "  movement_id: string;\n  movement_type: string;\n  type_label: string;\n  order_id: string | null;\n  reference: string;\n  occurred_at: string | null;\n  date_label: string | null;\n",
+      "  movement_id: string;\n  movement_type: string;\n  type_label: string;\n  order_id: string;\n  reference: string;\n  occurred_at: string | null;\n  date_label: string | null;\n"
+    ],
+    [
+      "  credit_in_minor_units: number;\n  balance_in_minor_units: number;\n  sequence: number;\n  original_debt_at?: string | null;\n  reason?: string | null;\n}\nexport interface CustomerStatementPage {\n  customer_id: string;\n",
+      "  credit_in_minor_units: number;\n  balance_in_minor_units: number;\n  sequence: number;\n}\nexport interface CustomerStatementPage {\n  customer_id: string;\n"
+    ],
+    [
+      "  page_opening_balance_in_minor_units: number;\n  page_closing_balance_in_minor_units: number;\n  movements: CustomerStatementMovement[];\n  outstanding_cheques_in_minor_units?: number;\n  has_returned_cheque?: boolean;\n}\nconst integer=(value:unknown):value is number=>typeof value==='number'&&Number.isSafeInteger(value);\nconst record=(value:unknown):value is Record<string,unknown>=>!!value&&typeof value==='object'&&!Array.isArray(value);\n",
+      "  page_opening_balance_in_minor_units: number;\n  page_closing_balance_in_minor_units: number;\n  movements: CustomerStatementMovement[];\n}\nconst integer=(value:unknown):value is number=>typeof value==='number'&&Number.isSafeInteger(value);\nconst record=(value:unknown):value is Record<string,unknown>=>!!value&&typeof value==='object'&&!Array.isArray(value);\n"
+    ],
+    [
+      "  if(Number(value.page)<1||Number(value.page_size)<1||Number(value.page_size)>100\n    ||Number(value.total_count)<0||Number(value.closing_balance_in_minor_units)<0\n    ||value.movements.length>Number(value.page_size))return null;\n  if(value.outstanding_cheques_in_minor_units!==undefined&&(!integer(value.outstanding_cheques_in_minor_units)||value.outstanding_cheques_in_minor_units<0))return null;\n  if(value.has_returned_cheque!==undefined&&typeof value.has_returned_cheque!=='boolean')return null;\n  const ids=new Set<string>();let previousSequence=Infinity;\n  for(const row of value.movements){\n    if(!record(row))return null;\n    for(const key of ['movement_id','movement_type','type_label','reference'])if(typeof row[key]!=='string')return null;\n    // Opening balances and independent cheque claims are NOT order movements.\n    // SQL returns an explicit NULL,not a fabricated order identity.\n    if(row.order_id!==null&&typeof row.order_id!=='string')return null;\n    if(row.reason!==undefined&&row.reason!==null&&typeof row.reason!=='string')return null;\n    if(row.original_debt_at!==undefined&&row.original_debt_at!==null\n      &&(typeof row.original_debt_at!=='string'||!Number.isFinite(Date.parse(row.original_debt_at))))return null;\n    for(const key of ['debit_in_minor_units','credit_in_minor_units','balance_in_minor_units','sequence'])if(!integer(row[key]))return null;\n    if(Number(row.debit_in_minor_units)<0||Number(row.credit_in_minor_units)<0||Number(row.sequence)<1\n      ||Number(row.sequence)>=previousSequence||ids.has(String(row.movement_id)))return null;\n",
+      "  if(Number(value.page)<1||Number(value.page_size)<1||Number(value.page_size)>100\n    ||Number(value.total_count)<0||Number(value.closing_balance_in_minor_units)<0\n    ||value.movements.length>Number(value.page_size))return null;\n  const ids=new Set<string>();let previousSequence=Infinity;\n  for(const row of value.movements){\n    if(!record(row))return null;\n    for(const key of ['movement_id','movement_type','type_label','order_id','reference'])if(typeof row[key]!=='string')return null;\n    for(const key of ['debit_in_minor_units','credit_in_minor_units','balance_in_minor_units','sequence'])if(!integer(row[key]))return null;\n    if(Number(row.debit_in_minor_units)<0||Number(row.credit_in_minor_units)<0||Number(row.sequence)<1\n      ||Number(row.sequence)>=previousSequence||ids.has(String(row.movement_id)))return null;\n"
+    ]
+  ]
+}

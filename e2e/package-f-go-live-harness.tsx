@@ -72,7 +72,7 @@ const newParties=(name:string,rows:Row[])=>rows.map((row,index)=>({row:index+1,r
   :name.includes('supplier')?!findSupplier(row_data):false)
   .map(({row,row_data})=>({row,name:String(row_data.customer_name??row_data.supplier_name),phone:String(row_data.customer_phone??row_data.supplier_phone??'')}));
 const client=supabase as unknown as {rpc:(name:string,args?:Row)=>unknown;from:(table:string)=>unknown};
-const originalFrom=client.from.bind(client);
+const originalFrom=client.from.bind(client),originalRpc=client.rpc.bind(client);
 client.rpc=(name,args={})=>{
   state.calls.push({name,args});
   const finishedError=()=>fail('GO_LIVE_SETUP_FINISHED: تم إنهاء بداية التشغيل؛ لا يُقبل أي إدخال افتتاحي بعد الآن.');
@@ -132,6 +132,9 @@ client.rpc=(name,args={})=>{
     if(args.p_confirmation!=='إنهاء بداية التشغيل')return fail('GO_LIVE_CONFIRMATION_REQUIRED: اكتب عبارة التأكيد.');
     state.finished=true;return ok({success:true,finishedAt:'2026-10-15T09:30:00Z'});
   }
+  // Registered cheques use isolated transport intercepted by the browser
+  // contract, not a fictional null success from the legacy startup fixture.
+  if(name==='preview_supplier_cheque_v1'||name==='issue_supplier_cheque_v1')return originalRpc(name,args);
   return ok(null);
 };
 client.from=(table)=>{

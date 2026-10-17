@@ -181,6 +181,7 @@ export interface HomeDashboardSalesDay {
 }
 
 export interface HomeDashboardData {
+  chequeAlerts?: {due:number;overdue:number;outgoingDue:number};
   generatedAt: string;
   // false when the server could not compute financial facts (corrupt evidence);
   // money cards must then show "unavailable", never zero.

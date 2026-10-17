@@ -16,6 +16,9 @@ export function CustomerStatement({customerId,revision}:{customerId:string;revis
         <p className="m-0 text-xl font-bold" data-testid="statement-closing"><MoneyText amount={data.closing_balance_in_minor_units/1000} currency /></p>
         <p className="m-0 text-xs text-nw-muted">الرصيد قبل أقدم حركة معروضة: <MoneyText amount={data.page_opening_balance_in_minor_units/1000} /></p>
       </div>
+      {data.outstanding_cheques_in_minor_units!==undefined&&data.outstanding_cheques_in_minor_units>0&&<p className="m-0 text-sm text-nw-muted">
+        منها شيكات لم تُصرف: <MoneyText amount={data.outstanding_cheques_in_minor_units/1000} /> — خُصمت عند الاستلام، وليست إضافة للرصيد.
+      </p>}
       {!data.movements.length?<p className="text-sm text-nw-muted">لا توجد حركات ذمة لهذا العميل.</p>:<>
         <div className="space-y-3 md:hidden">
           {data.movements.map(row=><article key={row.movement_id} data-statement-movement={row.movement_id}
@@ -24,6 +27,8 @@ export function CustomerStatement({customerId,revision}:{customerId:string;revis
               <h4 className="m-0 text-sm font-bold">{row.type_label}</h4><bdi className="text-xs text-nw-muted break-all">{row.reference}</bdi>
             </div>
             <p className="m-0 text-xs text-nw-muted"><bdi>{date(row)}</bdi></p>
+            {row.reason&&<p className="m-0 text-sm">السبب: {row.reason}</p>}
+            {row.movement_type.startsWith('cheque_')&&row.movement_type.endsWith('_compensation')&&<p className="m-0 text-xs text-nw-muted">تاريخ أصل الدين: {row.original_debt_at?formatUiDate(row.original_debt_at,{year:'numeric',month:'2-digit',day:'2-digit'}):'عمر غير متاح'}</p>}
             <dl className="m-0 grid grid-cols-3 gap-2 text-xs">
               <div><dt className="text-nw-muted">مدين</dt><dd className="m-0"><MoneyText amount={row.debit_in_minor_units/1000} /></dd></div>
               <div><dt className="text-nw-muted">دائن</dt><dd className="m-0"><MoneyText amount={row.credit_in_minor_units/1000} /></dd></div>
@@ -34,7 +39,7 @@ export function CustomerStatement({customerId,revision}:{customerId:string;revis
         <div className="hidden md:block"><DataTable caption="حركات كشف حساب العميل" style={{minWidth:650}}>
           <thead><tr>{['الحركة','المرجع','التاريخ','مدين','دائن','الرصيد'].map(label=><Th key={label}>{label}</Th>)}</tr></thead>
           <tbody>{data.movements.map(row=><Tr key={row.movement_id} data-statement-movement={row.movement_id}>
-            <Td>{row.type_label}</Td><Td><bdi className="whitespace-nowrap">{row.reference}</bdi></Td>
+            <Td>{row.type_label}{row.reason&&<p className="m-0 text-xs text-nw-muted">{row.reason}</p>}</Td><Td><bdi className="whitespace-nowrap">{row.reference}</bdi></Td>
             <Td><bdi className="whitespace-nowrap">{date(row)}</bdi></Td>
             <Td><MoneyText amount={row.debit_in_minor_units/1000} /></Td>
             <Td><MoneyText amount={row.credit_in_minor_units/1000} /></Td>

@@ -158,6 +158,11 @@ export async function fetchHomeDashboardFromSupabase(): Promise<DashboardResult>
           canViewProfit: Boolean(access.canViewProfit),
         },
         summary: mapSummary(summary),
+        chequeAlerts:payload.chequeAlerts&&typeof payload.chequeAlerts==='object'?{
+          due:numberValue((payload.chequeAlerts as Record<string,unknown>).dueWithinTwoDays),
+          overdue:numberValue((payload.chequeAlerts as Record<string,unknown>).overdue),
+          outgoingDue:numberValue((payload.chequeAlerts as Record<string,unknown>).outgoingDueInMinorUnits),
+        }:undefined,
         latestOrders: Array.isArray(payload.latestOrders)
           ? payload.latestOrders.map((item) =>
               mapOrder(item as Record<string, unknown>)

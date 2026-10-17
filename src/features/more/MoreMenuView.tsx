@@ -15,6 +15,7 @@ import { SECONDARY_QUICK_ACTIONS } from '../../components/layout/quickActions';
 import { UserAvatar, Card, PageHeader, UiButton } from '../../components/ui';
 import {
   ADMIN_NAVIGATION_GROUPS,
+  isNavigationItemVisible,
   getNextOpenNavigationGroup,
   type AdminNavigationAction,
   type AdminNavigationGroupId,
@@ -266,7 +267,7 @@ export const MoreMenuView: React.FC = () => {
       <div className="space-y-2" aria-label="أقسام التنقل الإداري">
         {ADMIN_NAVIGATION_GROUPS.map((group) => {
           const visibleItems = group.items.filter(
-            (item) => item.visibility !== 'owner' || roleName === 'owner',
+            (item) => isNavigationItemVisible(item,roleName),
           );
           const GroupIcon = group.icon;
 
