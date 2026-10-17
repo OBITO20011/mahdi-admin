@@ -1,5 +1,24 @@
 # Phase status
 
+## Current 2026-10-17 — B pushed, historical reset CI correction
+
+9e4d57d pushed on feature/deferred-cheques. Quality38978913576:25/27 PASS;
+only operations-reset failed RESET_MANIFEST_CHANGED and its aggregate failed
+dependently. Secret scanning38978915486 PASS. The frozen182 reset requires151
+files; the live checkout now correctly contains157 through195. Its admission
+guard rejected this mismatch before destruction. No financial/runtime failure.
+Test-only correction stages the exact151 approved files outside the repository,
+checks manifest and byte equality, and passes that source view to the unchanged
+owner reset pipeline. The live owner tool still rejects a newer checkout with
+an182 reference. Permanent negative controls cover changed/missing hashes and
+wrong ceiling. Local types/strictlint/1201Admin+191Customer units PASS.
+Real rehearsal cGmtcL PASS151/151,468functions,0catalogdiff,owner+verifiedTOTP
+retained,staff+Storage bytes deleted. First run crossed UTC midnight and failed
+in historical171 reference normalization before reset;one unchanged environment
+rerun00:02:19–00:20:29UTC passed. Capture-day versus initialization-day anchor
+is an open tooling limitation,not a product failure or a changed assertion.
+Full follow-up exact-SHA CI remains required before merge. No hostedaccess/deploy.
+
 ## Current 2026-10-17 — B local gates PASS, commit/CI/merge pending
 
 Owner approved narrow supplier claim settlement reversal; implemented without

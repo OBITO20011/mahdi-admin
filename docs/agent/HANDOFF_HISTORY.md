@@ -1553,3 +1553,18 @@ fixture hunks) repaired exactly,mutants retained;focused54/54 then1199Admin+
 No source/SQL changes after real proofs;tracked files frozen during gates.
 All owned processes/stacks stopped. Next Gitleaks/commit/branchFULLCI/merge+
 mainFULLCI,then VAPID separately,then opening card,then legalhome. No hostedaccess.
+# 2026-10-17 — historical182 reset source isolation after B CI
+
+Deferred-cheques9e4d57d quality38978913576 passed25 jobs;operations-reset
+failed RESET_MANIFEST_CHANGED because its exact182 reference has151 files
+while the current source has157. Aggregate correctly failed;secrets38978915486
+PASS. Stage a byte-identical historical source for this rehearsal only;do not
+relax trial-reset-core admission or change owner/product behavior. Focused
+permanent tests10/10 PASS. Types/strictlint/1201Admin+191Customer units PASS.
+First real rehearsal stopped00:00:31UTC in reference171: a DB initialized
+before UTC midnight had its daily Realtime cohort labelled with capture day
+after midnight. No public-schema difference;this clock-anchor tooling issue
+remains open,not silently normalized away. One unchanged environmental rerun
+00:02:19–00:20:29UTC PASS:trial-reset-cGmtcL151applied/151recorded,
+catalog0diff,468functions,real Storage bytes/staff removed,owner+verifiedTOTP
+retained. All owned stacks stopped. Full corrective exact-SHA CI pending.

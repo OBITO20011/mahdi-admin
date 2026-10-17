@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner2026-10-17: finish B cheques incl narrow supplier claim settlement reversal; CI/merge, then VAPID, openingchequescard, legalhome. No managedaccess/deploy.",
-  "baselineSha": "18217d193acf0041c6319064f29501484501d8c7",
+  "baselineSha": "9e4d57dd154ede6b074ed1adef45075703d2f1ee",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "feature/deferred-cheques",
   "phase": "PACKAGE_F",
@@ -12,7 +12,7 @@
     "Withdrawals18217d1 accepted FULL26/26+secrets/Gitleaks0;hosted171 owner-reported apply/verify in PHASE_STATUS"
   ],
   "inProgress": [
-    "B195 local gates+Gitleaks0 complete,awaiting commit/branchFULLCI/merge/mainFULLCI."
+    "B195 pushed9e4d57d;25/27quality PASS,secretsPASS. Test-only historical182 source isolation locally PASS;followup commit/branchFULLCI pending."
   ],
   "notStarted": [
     "VAPID separately afterB,then openingchequescard,then legalhome receivablesC"
@@ -30,11 +30,11 @@
     "Oct17 runtime25/25+restore0diff;browser70/70;SDK fiveceilings142/142 and138negative15/127;RPC480/0denied;reference157files505functions13realtime0diff;two exact testcontracts fixed54/54;1199Admin191Customer/types/lint/builds/isolatedSEO/isolation0escaped PASS."
   ],
   "testsRemaining": [
-    "Commit/push/branchFULLCI/merge/mainFULLCI B. Then VAPID/card/C."
+    "Infra followup commit/push/branchFULLCI/merge/mainFULLCI B. Then VAPID/card/C."
   ],
   "findings": [
     "Known legacyreturned debt7000:home7000/phase42=0;approved partC later,not fixed inA",
-    "Deletion risk resolved by approved DB guards;check/cheque registration enforced including163 opening path."
+    "Deletion risk resolved;check/cheque unified. Historical reset cGmtcL151/151/catalog0diff/TOTP+Storage PASS;1201Admin191Customer/types/lintPASS. UTC-midnight capture-anchor issue open;one unchanged environment rerun PASS."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -44,12 +44,12 @@
     "No retries/timeouts/skips/assertionweakening;freeze trackedfiles duringgates",
     "No financial question decided silently;no B beforeA delivery;onewriter;no protectedbusinessdeletes"
   ],
-  "nextExactAction": "Commit verified B;push feature/deferred-cheques and dispatch full quality+secrets on exact SHA,merge after green;then VAPID/card/C.",
-  "checkpointedAt": "2026-10-16T22:58:32.849Z",
+  "nextExactAction": "Commit test-only182 source isolation, push,dispatch full branch quality/secrets;merge B after green then mainFULLCI,then VAPID/card/C.",
+  "checkpointedAt": "2026-10-17T00:21:21.048Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "0E1CB935C4D286DD47DAC27E0DE0A227D5FF45A57DB7C75803E8D3C2227DBF84",
-  "filesTouchedCount": 88,
-  "filesTouchedManifestSha256": "55b8e53384560e9084debccd8f7bf497f262646c0c3d394ce542e687ee7f7cdb"
+  "workingTreeFingerprint": "9E296B21FC646AE6C7228F71000968538B50D18ADA540940C2E0908336AB08FF",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "0ec7eb8e870571337a6906ec719720e0a75f7f3e072ed03af5b323b125b157f7"
 }
