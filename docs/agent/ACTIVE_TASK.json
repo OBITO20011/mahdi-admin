@@ -2,32 +2,28 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner17Oct:openingcheques196 CI/merge,then legalhome,cashier customer collection,finalFrankfurt ownercommand only.No managedaccess/deploy.",
-  "baselineSha": "5cb640cb9a8630252fe0035dbf70d9df54e3cb72",
+  "objective": "Owner17Oct preparation only:record hosted198 owner receipts/dashboard setup;CSP/public configuration/SEO Frankfurt;protectedpreview ownercommands. No hostedaccess/deploy/secrets.",
+  "baselineSha": "40ecf12553bf3c09b5da74b568c5c2711c7a79ca",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Preparations373018c/627befd/b72aa55 accepted FULL25/25+secrets/Gitleaks0;full evidence in PHASE_STATUS",
-    "Withdrawals18217d1 accepted FULL26/26+secrets/Gitleaks0;hosted171 owner-reported apply/verify in PHASE_STATUS",
-    "Bmerged6a9b9d2 FULL27/27quality38988149146+secrets38988149154 PASS.",
-    "VAPIDe69c22f FULL27/27quality38993240417+secrets38993240418 PASS.",
-    "196 accepted main0b42588 FULL28/28 quality39037313246+secrets39037313373 PASS.",
-    "197 genuine mainmerge0e6ab9d accepted FULL28/28 quality39047538800+secrets39047538889 PASS;branch4ae5592 alsoFULL28+secrets.",
-    "198 genuine mainmerge5cb640c FULL28/28quality39055225117+secrets39055225107 PASS."
+    "Prior preparations/withdrawals/cheques/VAPID/196/197 accepted;exact SHA/run/evidence history preserved in PHASE_STATUS.",
+    "198 genuine mainmerge5cb640c FULL28/28quality39055225117+secrets39055225107 PASS.",
+    "Finaltools40ecf12 mainFULL28/28quality39056571900+secrets39056571912 PASS;local reference160files511functions13Realtime/fresh=incremental0diff/12officialrepairs/replay0writes/offlineACL0.",
+    "Owner reports Frankfurt upgrade198 apply12/12+verify0diff/0writes,notificationhold intact;reported dashboard signupoff/TOTP/CAPTCHA/bucket/Realtime ready."
   ],
   "inProgress": [
-    "Final198 reference160files/511functions/13Realtime/fresh=incremental0diff;ownerlocal171→198 12officialrepairs/replay0writes/offline saved171 ACL0 PASS. Commit/fullCI pending."
+    "Staging prep local PASS:publicconfig/SEO/CSP/ownercommands;exact8settings and failedfirstverify/two successes recorded. Gitleaks/commit/push/exactFULLCI remain. No hosted access."
   ],
   "notStarted": [],
   "testsPassed": [
-    "Withdrawals182 accepted full26+secrets;manualcash99000/restore/reset/TOTP;details WITHDRAWALS_INTEGRATION_182.md.",
-    "B195 runtime25/25+restore0diff/browser70/70;157files505functions13Realtime/new=incremental0diff;main6a9b9d2 FULL27/27+secrets PASS.",
-    "197 finalpin3CAABD6C literalruntime4/generator511/SDK142/RPC489/0SQL42501/types/lint/1216Admin191Customer/build/network0/browser52 PASS. Full150k/10k oracle0diff;mainCI home1072.366→1104.865ms(+32.499),balances911.957→212.088ms. Gitleaks0.",
-    "Final198 tools realDB rehearsal PASS;types/strictlint/1222Admin191Customer PASS. Reports nw-frankfurt198-final/remaining-gates-20261017."
+    "Earlier DB/browser/restore/scale evidence and exact CI preserved in PHASE_STATUS and per-feature reports.",
+    "Final198 tools realDB rehearsal PASS;types/strictlint/1222Admin191Customer PASS. Reports nw-frankfurt198-final/remaining-gates-20261017.",
+    "Staging prep:SDK142/RPC489 no42501/types/strictlint/1227Admin191Customer/builds/isolatedSEO/network0/browser42both engines PASS. Historicalproofs unchanged;new TABLE_ACCESS_STAGING_198. No hosted calls."
   ],
   "testsRemaining": [
-    "Gitleaks0,finaltoolingcommit/push/exactFULLCI,checkpoint,STOP with ownercommand(not executed)."
+    "Gitleaks0/normalcommit/push/exactFULLCI+secrets/finalcheckpoint and ownerreview STOP."
   ],
   "findings": [
     "197 closes legacyreturned mismatch7000→0,canonical35k/branches/claims and independent+1CRITICAL;other facts/data/security exact.",
@@ -36,17 +32,17 @@
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Frankfurt/Production/secrets/deploy orownercommandexecution",
-    "Historical001–198 frozen;finaltools/docs only,no new SQL/roles",
-    "No retries/timeouts/skips/assertionweakening;freeze trackedfiles duringgates",
-    "No financial question decided silently;onewriter;no protectedbusinessdeletes"
+    "No Frankfurt/Production/SupabaseCLI/Cloudflare access,secret reads or deployment",
+    "Historical001–198 frozen;no migration/RPC/auth/financial logic changes",
+    "Backup root project-ref remains old;only owner-approved publicconfig separation and identity guard;no hosted backup/secret/schedule/target change",
+    "One writer;no tracked edits during verification;no retries/timeouts/skips/assertion weakening"
   ],
-  "nextExactAction": "198DELIVERED5cb640c FULL28+secrets. Final198 reference160/511/13,strict fresh=incremental0diff,12officiallocalupgrades/replay0writes,offline saved171 ACL0,types/lint/1222+191units PASS. Gitleaks/commit/push/fullCI then checkpoint and ownercommand STOP. No hostedaccess.",
-  "checkpointedAt": "2026-10-17T18:05:11.546Z",
+  "nextExactAction": "Local staging SDK142/RPC489,1231Admin aggregate/191Customer units,types/lint/builds/network0/browser42 PASS;approved backup isolation tested. Gitleaks0/commit/push/exact FULLCI then ownerreview STOP. No hosted access/deploy.",
+  "checkpointedAt": "2026-10-17T19:34:53.597Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "4531DE96BA44F1461B823ECDCC11F331BA64A1AEB3EF3D3206DD94BA4802B11F",
-  "filesTouchedCount": 10,
-  "filesTouchedManifestSha256": "695cb6416970360bd5ffc076839b01c341ead97658bb30a1944b214995a2b7af"
+  "workingTreeFingerprint": "DC608D005DABDF96CB54F9D10C648C1D2876E194F1AA83A9AAA5F0A32DF026D6",
+  "filesTouchedCount": 29,
+  "filesTouchedManifestSha256": "1df615ad0d996bad957a605dddcff154a087e15c0f21be838db29f73acf61cdf"
 }

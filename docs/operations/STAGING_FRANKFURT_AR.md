@@ -1,9 +1,37 @@
 # دليل staging فرانكفورت للمالك
 
-تحضير 2026-10-16 فقط. لا نشر، لا إعداد أسرار، ولا اتصال بفرانكفورت من الوكيل.
+محدّث17أكتوبر2026؛تحضير فقط. لا نشر،لا إعداد/قراءة أسرار،ولا اتصال بفرانكفورت من الوكيل.
 المشروع: **nawasrah-fra — kzevmysfydaslxcerogt — eu-central-1**.
 المصدر: SERVICE_ACCESS_AUDIT.md وsupabase/config.toml وكود التطبيقين.
 قد يتغير اسم تبويب في اللوحة؛ إذا لم تجد الخيار توقف وتحقق، لا تخمّن بديلاً.
+
+## حالة أبلغ بها المالك وراجعهاClaude —17أكتوبر
+
+- الترقية حتى198:--apply ok=true،12/12مطبقة ومسجلة(180–182 و190–198)،
+  صفر فروق غير متوقعة،وحجز الإشعارات باقٍ. التقرير
+  `upgrade198-2026-10-17T18-49-30-627Z`.
+- --verify-only ok=true،صفر فروق وبلا كتابة؛التقرير
+  `upgrade198-2026-10-17T18-54-59-238Z`.
+- معلومة من المالك:المحاولة الأولى18:54:11فشلت بـCONNECTED_VERSION_READ_FAILED؛
+  تلتها محاولتان ناجحتان18:54:59و18:55:38. سبب الأولى غير مثبت؛لا نعدّها فشل ترقية.
+- signup مطفأ؛SiteURL وredirectURL =
+  `https://staging-frankfurt.nawasrah-admin.pages.dev`؛TOTP مفعّل.
+- bucket الصور وسياساته وعضويةRealtime13 مطابقان بحسب مراجعةClaude.
+- AuthCAPTCHA(Turnstile) مفعّل بسرwidgetالإدارة. لا يُحفظ السر هنا.
+- أُبلغ بضبط أسماءEdge التالية:TURNSTILE_ALLOWED_HOSTNAMES،
+  TURNSTILE_TEST_MODE=false،TURNSTILE_SECRET_KEY،GUEST_ORDER_HASH_SECRET،
+  NAWASRAH_AUTOMATION_SECRET،WEB_PUSH_VAPID_PUBLIC_KEY،
+  WEB_PUSH_VAPID_PRIVATE_KEY من الزوج الجديد،WEB_PUSH_SUBJECT.
+  أكد المالك أن العدد ثمانية فقط،لا تاسع ولاservice_role يدوي؛توفر المنصة
+  SUPABASE_* تلقائياً. GEMINI_API_KEY يبقى غير مضبوط.
+
+هذه حالة لوحة/تقارير نقلها المالك،لا اختبارواجهة أو نشر أو وصولحي من الوكيل.
+حمايةCloudflareAccess ونشرEdge/الواجهتين والاختبارات الحية لا تزال لاحقة.
+
+بموافقةالمالك17أكتوبر:فُصلإعدادStorageللنسخعنإعدادالواجهةفي
+scripts/backup/backup-public-config.mjs؛النسخيبقىعلىالقديم،معرفضأي
+عدم تطابقproject-refأواتصالDB. لا تشغّلبbackup:preflightضمنهذهالمهمة؛
+فهوفحصشبكيحقيقي. نقلنظامالنسخلفرانكفورتمهمةمنفصلة،وليسأثرجانبيّاًللبناء.
 
 ## 1. تحقق من القاعدة وData API
 
@@ -11,7 +39,7 @@ Supabase → المشروع المحدد → Settings → Data API:
 
 - Data API مفعّل، و**Automatically expose new tables مطفأ**. احفظ ثم أعد تحميل الصفحة للتأكد.
 - لا تفعّل Automatic RLS عشوائياً؛ السياسات والمنح من migrations.
-- المشروع وصل171 وفق تقرير المالك؛ بعد إذنه بترقية182 راجع تقريرها والتحقق اللاحق:151ملفاً، صفر فروق غير متوقعة، والحجز باقٍ. لا تستخدم أدوات182 على مشروع171 قبل الترقية؛ راجع FRANKFURT_REFERENCE_182_AR.md.
+- المشروع وصل198 وفق تقريريالمالك أعلاه؛160ملفاً فعلياً في السلسلة المعتمدة،لا198ملفاً. لا تعد تطبيق ترقيات171/182/198 الناجحة؛راجع FRANKFURT_UPGRADE_198_AR.md والحجز باقٍ.
 - لا تشغّل frankfurt-align-acl --apply أو db reset --linked.
 
 ## 2. امنع التسجيل الذاتي واضبط Auth
@@ -70,15 +98,13 @@ Vault: أبقِ order_push_webhook_secret كما هو. قيمة order_push_webho
 
 ## 5. أوامر Edge محضّرة فقط
 
-**لا تُشغّل قبل كلمة «انشر» وCI كامل أخضر على نفس SHA.** لا تضبط GEMINI_API_KEY.
+**لا تُشغّل قبل كلمة «انشر» وCI كامل أخضر على نفس SHA،وبعد إثبات حمايةAccess
+في القسم6 وقبلأيbuild.** لا تضبط GEMINI_API_KEY. تسلسل القسم7 هو المرجع
+لتنفيذEdge ثم الواجهتين؛هذا القسم يوثق flags فقط ولا يقدّم إذن نشر.
 
-```powershell
-npx supabase functions deploy submit-guest-order --project-ref kzevmysfydaslxcerogt --no-verify-jwt
-npx supabase functions deploy manage-staff-users --project-ref kzevmysfydaslxcerogt
-npx supabase functions deploy admin-ai-assistant --project-ref kzevmysfydaslxcerogt
-npx supabase functions deploy n8n-alert-feed --project-ref kzevmysfydaslxcerogt --no-verify-jwt
-npx supabase functions deploy send-order-push --project-ref kzevmysfydaslxcerogt --no-verify-jwt
-```
+الأوامر الخمسة موجودة مرة واحدة في تسلسل القسم7،بغلاف يتوقف عند أيexitغيرصفري.
+submit-guest-order وn8n-alert-feed وsend-order-push تستخدم--no-verify-jwt؛
+manage-staff-users وadmin-ai-assistant تبقيان verify_jwt=true كمافيconfig.
 
 الخيارات تطابق verify_jwt الحالي في config. المرجع صريح؛ لا supabase link في جذر المستودع.
 بعد النشر راجع Logs بلا أسرار أو رموز، واختبر CORS وJWT والأدوار. نجاح deploy ليس نجاحاً وظيفياً.
@@ -91,6 +117,14 @@ Workers & Pages → nawasrah-admin ثم nawasrah-store → Settings → General 
 احمِ branch alias وروابط hash القديمة أيضاً. noindex ليست حماية.
 حماية HTML لا تجعل REST العام لكتالوج الضيوف خاصاً؛ لا تضع بيانات تشغيل حقيقية في التجربة.
 
+هذه بوابة قبل أيbuild،وليست خطوة بعدرفعdist. تحقق من أن سياسةAccess تشمل
+`staging-frankfurt.nawasrah-admin.pages.dev` و`staging-frankfurt.nawasrah-store.pages.dev`
+وجميع روابطhash للمعاينات،لا أن حمايةالنطاقالأصلي وحدها تكفي. إعدادPages
+يحمي المعاينات لا نطاقProductionالأصلي أوcustomdomain؛لا تغيّر وصول القديم.
+إن لم يوجد نشرمعاينة سابق،يمكن إثبات سياسةالنطاق مسبقاً منAccess؛بعد أول
+رفع أعد اختبار رابطhash والalias فوراً قبل مشاركة الرابط أو إدخال بيانات.
+إن لم يمكن إثبات شمول الحماية قبلالبناء،توقف ولا ترفع محتوى لتجربة الحماية.
+
 Settings → Variables and Secrets → **Preview فقط**، دون تغيير Production القديم:
 
 | المتغير | القيمة المطلوبة |
@@ -98,7 +132,7 @@ Settings → Variables and Secrets → **Preview فقط**، دون تغيير Pr
 | VITE_SUPABASE_URL للواجهتين | https://kzevmysfydaslxcerogt.supabase.co |
 | VITE_SUPABASE_PUBLISHABLE_KEY للواجهتين | المفتاح العام من Settings → API Keys لفرانكفورت، لا service_role |
 | VITE_STOREFRONT_PUBLIC_URL للإدارة | https://staging-frankfurt.nawasrah-store.pages.dev |
-| VITE_PUBLIC_SITE_ORIGIN للمتجر | نفس رابط المتجر المحمي أعلاه؛ النهائي عند التحويل فقط |
+| VITE_PUBLIC_SITE_ORIGIN للمتجر | https://alnawasreh.com،عنوانcanonical العام المعتمد؛لاpages.dev |
 | VITE_TURNSTILE_SITE_KEY للمتجر | site key العام لويدجت المتجر |
 | VITE_STORE_WHATSAPP_NUMBER | رقم المحل المعتمد، لا رقم مخمّن |
 | VITE_SENTRY_DSN | اختياري؛ فارغ إن لم يُعتمد |
@@ -107,28 +141,83 @@ Settings → Variables and Secrets → **Preview فقط**، دون تغيير Pr
 احذف VITE_SUPABASE_ANON_KEY إن كان بديلاً متعارضاً. مفتاح Turnstile للإدارة من config المصدر، لا VITE جديداً.
 Cloudflare build env لا ينتقل إلى terminal المحلي؛ أدخل المتغيرات العامة المطابقة في جلسة البناء المحلية عند الإذن.
 
-## 7. بوابتان تمنعان نشر الواجهتين الآن
+عنوانcanonical ليس عنوانAPI ولا رابطالمعاينة. فاحصSEO الحالي يفرض
+alnawasreh.com ويرفضpages.dev؛يبقى كما هو بلا تخفيف. صفحاتالمعاينة نفسها
+تحميهاAccess ويُتحقق منX-Robots-Tag:noindex الذي تضيفهPages للمعاينات؛
+هذا لا ينشر المتجر على النطاق النهائي. كل قراءةCatalog/Offers أثناءSEO
+يجب أن تستهدفconfig فرانكفورت لا قاعدةالمشروع القديم.
+
+## 7. بوابتا CSP ومصدرSEO — تحضير17أكتوبر،لا نشر
 
 1. في public/_headers وcustomer-web/public/_headers استبدل داخل connect-src HTTP وWSS للمرجع القديم بـ:
    `https://kzevmysfydaslxcerogt.supabase.co` و`wss://kzevmysfydaslxcerogt.supabase.co`.
-   تبقى بقية CSP والترويسات حرفياً؛ لا wildcard. هذا commit تحويل معتمد لاحقاً؛ لم يتغير الملفان هنا.
+   تبقى بقية CSP والترويسات حرفياً؛ لا wildcard. التبديل نُفّذ في شجرة
+   التحضير بإذن17أكتوبر،ويثبته اختبار تطابق كامل مع40ecf12 بعدعكس المرجعين
+   فقط؛لا يعني ذلك أن الترويسات نُشرت.
 2. customer-web/scripts/generate-seo-pages.mjs يقرأ config المصدر، لا VITE_SUPABASE_URL.
-   لذلك VITE وحدها قد توجّه runtime للجديد وSEO للقديم. حدّث إعداد المصدر العام في checkout النشر المعتمد أو أصلح المولّد بتفويض منفصل، وأثبت أن SEO يقرأ فرانكفورت.
-   **النشر محجوب حتى إغلاق ذلك؛ لا نتخطى SEO ولا نستخدم audit loopback بديلاً.**
+   لذلك VITE وحدها لا تكفي. قرار17أكتوبر:URL والمفتاحالعام في ملفَيconfig
+   المصدر يصبحان لفرانكفورت؛الإدارة تبقيTURNSTILE_SITE_KEY نفسه،ولا تتغير
+   قراءةenv أوآليةAuth. أرسل المالك مفتاحPublishable العام منSettings→API Keys؛
+   أُدخل معURLفرانكفورت في الملفين. مولّدSEO نفسه يقرأ config المتجر؛اختبار
+   بلا شبكة يثبت الرابط والمفتاح الفعليين لطلبيcatalog/offers،لا مجردenv.
+   **النشر محجوب حتى إغلاقهما؛لا نتخطىSEO ولا نستخدمaudit loopback بديلاً.**
 
-بعد كلمة «انشر» وإغلاق البوابتين، هذه أوامر preview فقط من جذر المستودع:
+بعد كلمة «انشر» وإغلاق البوابتين وCI أخضر،الترتيب الإلزامي:
+Access(القسم6) ← Edgeالخمس ← buildالإدارة/preview ← buildالمتجر/preview.
+منجذرالمستودع وبجلسةعامة فقط؛القيمالسرية تبقى فيلوحاتالخدمات:
 
 ```powershell
-npm run build
-npx wrangler pages deploy dist --project-name=nawasrah-admin --branch=staging-frankfurt
+# بعد تحقق المالك من Access؛لا تشغل الآن.
+function Invoke-StagingStep {
+  param([Parameter(Mandatory=$true)][scriptblock]$Step)
+  & $Step
+  if ($LASTEXITCODE -ne 0) { throw 'فشلت الخطوة؛توقف ولا تكمل النشر.' }
+}
+
+if ([string]::IsNullOrWhiteSpace($env:VITE_TURNSTILE_SITE_KEY) -or
+    [string]::IsNullOrWhiteSpace($env:VITE_STORE_WHATSAPP_NUMBER)) {
+  throw 'اضبط مفتاحTurnstile العام للمتجر ورقمWhatsApp المعتمدين في جلسةالبناء أولاً.'
+}
+
+Invoke-StagingStep { npx.cmd supabase functions deploy submit-guest-order --project-ref kzevmysfydaslxcerogt --no-verify-jwt }
+Invoke-StagingStep { npx.cmd supabase functions deploy manage-staff-users --project-ref kzevmysfydaslxcerogt }
+Invoke-StagingStep { npx.cmd supabase functions deploy admin-ai-assistant --project-ref kzevmysfydaslxcerogt }
+Invoke-StagingStep { npx.cmd supabase functions deploy n8n-alert-feed --project-ref kzevmysfydaslxcerogt --no-verify-jwt }
+Invoke-StagingStep { npx.cmd supabase functions deploy send-order-push --project-ref kzevmysfydaslxcerogt --no-verify-jwt }
+
+# امسح أي overrides لفحص محلي من هذه الجلسة؛لا أسرار في هذه المتغيرات.
+Remove-Item Env:VITE_BROWSER_QA_ISOLATED -ErrorAction SilentlyContinue
+Remove-Item Env:NAWASRAH_SEO_AUDIT_API_URL -ErrorAction SilentlyContinue
+Remove-Item Env:NAWASRAH_SEO_AUDIT_API_KEY -ErrorAction SilentlyContinue
+Remove-Item Env:VITE_SUPABASE_ANON_KEY -ErrorAction SilentlyContinue
+$env:VITE_SUPABASE_URL = 'https://kzevmysfydaslxcerogt.supabase.co'
+$env:VITE_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_d4TElxRQFkC-AZko3_ASeg_YotqxGjV'
+# بعد اكتمال البوابة2:config المصدر وحده يثبت URL+المفتاح العام الصحيحين.
+# المتغيران العامان الصريحان يمنعان .env محلياً قديماً من تجاوز المصدر أثناء هذا البناء.
+$env:VITE_STOREFRONT_PUBLIC_URL = 'https://staging-frankfurt.nawasrah-store.pages.dev'
+$env:VITE_PUBLIC_SITE_ORIGIN = 'https://alnawasreh.com'
+
+Invoke-StagingStep { npm.cmd run build }
+Invoke-StagingStep { npx.cmd wrangler pages deploy dist --project-name=nawasrah-admin --branch=staging-frankfurt }
 Push-Location customer-web
-npm run build
-npx wrangler pages deploy dist --project-name=nawasrah-store --branch=staging-frankfurt
-Pop-Location
+try {
+  # VITE_TURNSTILE_SITE_KEY وVITE_STORE_WHATSAPP_NUMBER العامان بقيم المالك المعتمدة.
+  # إن لم يكونا مضبوطين لهذه الجلسة،توقف قبلالبناء؛لا تستخدم placeholders.
+  Invoke-StagingStep { npm.cmd run build }
+  Invoke-StagingStep { npx.cmd wrangler pages deploy dist --project-name=nawasrah-store --branch=staging-frankfurt }
+} finally { Pop-Location }
 ```
 
 نفّذ كل أمر بعد نجاح السابق فقط. المتجر يرفع customer-web/dist، لا dist الإدارة.
+
+بوابتاالمصدر/CSP مثبتتان محلياً:1227وحدةإدارة+191متجر،42متصفح،بناءان
+وSEOمعزول،صفرطلباتإنتاجهاربة. CIالكامل لنفسSHA وكلمة«انشر» ومراجعةAccess
+تبقى شروطاً مستقلة؛لميحدثنشر. تفاصيل FRANKFURT_STAGING_PREPARATION_198_AR.md.
 لا deploy:admin أو deploy:cloudflare الحاليين ولا --branch=main؛ كلها مسارات نشر الإنتاج.
+
+لم تُنفّذ أي من هذه الأوامر. فرعPages هوstaging-frankfurt بغض النظر عن
+فرعGit المحلي،ولا يغيرproductionbranch. احتفظبـbuild provenance وSHAالمقبول
+في تقريرالنشر،واختبرAccess علىalias وhash وNetwork قبلقبولالمعاينة.
 
 ## 8. قبول staging قبل التحويل
 
@@ -142,4 +231,5 @@ Pop-Location
 - بعد نجاح التصفير، سجّل الخروج وامسح بيانات موقع التجربة من أجهزة الاختبار قبل فتح يوم التشغيل؛ لا تحمل سلة أو مسودة أو محاولة POS قديمة إلى القاعدة المعاد بناؤها. حساب Auth وTOTP يبقيان، وقد يلزم تسجيل الدخول وربط الجهاز مجدداً. هذه خطوة أجهزة، لا تعديل لمنطق التطبيق.
 
 مراجع اللوحات: [Auth](https://supabase.com/docs/guides/auth/general-configuration)، [Redirects](https://supabase.com/docs/guides/auth/redirect-urls)، [Edge Secrets](https://supabase.com/docs/guides/functions/secrets)، [Pages Preview/Access](https://developers.cloudflare.com/pages/configuration/preview-deployments/).
-حالة اللوحات الفعلية تحتاج تحقق المالك؛ هذا الدليل لا يدّعي أنها ضُبطت.
+الإعدادات المنجزة وفق المالك/Claude موثقة أعلى الدليل؛ما عداها يبقى بحاجة
+إلى تحقق المالك،ولا يُفترض أن نجاح اللوحة يثبت نجاح التدفقات بعد النشر.

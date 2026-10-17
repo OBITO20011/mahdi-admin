@@ -1,10 +1,11 @@
 // Preserve historical access proofs without rewriting their captured hashes.
-// The sole admitted source change is198's exactly reversible display guard;
-// all historical SQL query sites and every other source hash stay exact.
+// Admit198's exactly reversible display guard and the separately pinned two
+// public-config literals. Historical query sites/every other hash stay exact.
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {inventory} from './table-access-inventory.mjs';
+import {sourceBeforeStagingConfig} from './source-before-staging-config.mjs';
 const file='src/features/crm/CustomerCollectionModal.tsx';
 const declaration="  const isCashier = useAppStoreSelector(state => state.currentUser.role === 'Cashier');\n";
 export function restore198CollectionPresentation(source){
@@ -18,7 +19,7 @@ export async function sourceBefore198Presentation(sources){
  const hash=s=>createHash('sha256').update(s).digest('hex');
  assert.equal(hash(old),'a9ad147f82c4c6160ca5f8a20b616351ef06f4e26ffd839d50d26f4c414a4f0b','HISTORICAL_COLLECTION_SOURCE_CHANGED');
  assert.equal(sources.find(s=>s.file===file)?.sha256,hash(current),'CURRENT_COLLECTION_HASH_MISMATCH');
- return sources.map(s=>s.file===file?{...s,sha256:hash(old)}:s);
+ return (await sourceBeforeStagingConfig(sources)).map(s=>s.file===file?{...s,sha256:hash(old)}:s);
 }
 export async function inventoryBefore198Presentation(){
  const source=await inventory();return {...source,sources:await sourceBefore198Presentation(source.sources)};

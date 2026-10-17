@@ -1,7 +1,7 @@
-# جرد الوصول الحالي198
+# جرد الوصول الحالي198 —إعداد فرانكفورت العام
 
-الدليل الحالي TABLE_ACCESS_AFTER_198.json:142/142،صفر أخطاء.
-دليل138 أدناه تاريخي؛تغيير المصدر الوحيد حارس عرض زر العكس،مقيد بتطابق حرفي في source-before198-presentation.mjs. لم يُعدّل أي دليل تاريخي.
+CSP_CONNECT_SRC:أُغلق HTTPS/WSS للقديم؛لاAPP_FALLBACK/CSPقديمة في الجردالحالي.
+الدليل الحالي TABLE_ACCESS_STAGING_198.json:142/142؛باقيالأدلةتاريخيةمحفوظةببصماتها. انظر FRANKFURT_STAGING_PREPARATION_198_AR.md.
 
 # جرد الوصول — الحالة بعد150
 
@@ -495,35 +495,34 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 
 ### د. مرجع المشروع القديم والإعدادات
 
-بحثGitلجميعالملفاتالمتتبعة+غيرالمتجاهلةخارجmigrationsالتاريخية(دونملفاتenv/القيمالسرية):27 ملفاً،القائمةأدناه. ملفاSERVICE_ACCESSالمولدانوكودأداةالبحثنفسهاواختبارهايُستثنيانمنالعدلتجنّبالتغذيةالراجعة؛المخرجاتتحفظأرقامأسطروتصنيفاًفقط. النصالعامللفرانكفورتلايُغيّرمنهذاالبحث.
+بحثGitلجميعالملفاتالمتتبعة+غيرالمتجاهلةخارجmigrationsالتاريخية(دونملفاتenv/القيمالسرية):26 ملفاً،القائمةأدناه. ملفاSERVICE_ACCESSالمولدانوكودأداةالبحثنفسهاواختبارهايُستثنيانمنالعدلتجنّبالتغذيةالراجعة؛المخرجاتتحفظأرقامأسطروتصنيفاًفقط. النصالعامللفرانكفورتلايُغيّرمنهذاالبحث.
 
 | الملف | الأسطر | التصنيف/الأثر |
 |---|---|---|
 | automation/n8n/workflows/nawasrah-alerts.json | 32, 89, 175, 228 | EXTERNAL_CONSUMER |
-| customer-web/public/_headers | 7 | CSP_CONNECT_SRC |
-| customer-web/src/config/supabase-public-config.ts | 13 | APP_FALLBACK |
 | docs/agent/HANDOFF_HISTORY.md | 445 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 451 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 477 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
-| docs/operations/STAGING_FRANKFURT_AR.md | 135 | HISTORICAL_DOCUMENTATION |
-| public/_headers | 8 | CSP_CONNECT_SRC |
+| docs/operations/STAGING_FRANKFURT_AR.md | 224 | HISTORICAL_DOCUMENTATION |
 | scripts/backup/README.md | 28 | PRESERVE_OLD_BACKUP_LINK |
-| scripts/backup/create-backup.mjs | 433 | PRESERVE_OLD_BACKUP_LINK |
+| scripts/backup/backup-public-config.mjs | 3, 5 | PRESERVE_OLD_BACKUP_LINK |
+| scripts/backup/create-backup.mjs | 430 | PRESERVE_OLD_BACKUP_LINK |
 | scripts/backup/preflight.mjs | 14 | PRESERVE_OLD_BACKUP_LINK |
 | scripts/operations/build-cron-report.mjs | 29 | BUILD_GUARD_OR_AUDIT |
 | scripts/operations/frankfurt-owner-build.mjs | 18 | BUILD_GUARD_OR_AUDIT |
 | scripts/testing/run-order-push-url-runtime.mjs | 56 | BUILD_GUARD_OR_AUDIT |
-| src/config/supabase-public-config.ts | 13 | APP_FALLBACK |
 | supabase/.temp/linked-project.json | 1 | PRESERVE_OLD_BACKUP_LINK |
 | supabase/.temp/pooler-url | 1 | PRESERVE_OLD_BACKUP_LINK |
 | supabase/.temp/project-ref | 1 | PRESERVE_OLD_BACKUP_LINK |
 | supabase/config.toml | 1 | PRESERVE_OLD_BACKUP_LINK |
+| tests/backup-project-isolation.test.ts | 14, 25 | TEST_CONTRACT |
 | tests/backup-runner.test.ts | 189 | TEST_CONTRACT |
 | tests/build-cron-report.test.ts | 11, 19 | TEST_CONTRACT |
-| tests/customer-web-security-headers.test.ts | 12 | TEST_CONTRACT |
 | tests/fixtures/enqueue-order-push-before139.sql | 23 | TEST_CONTRACT |
 | tests/frankfurt-preparation.test.ts | 23, 55 | TEST_CONTRACT |
+| tests/frankfurt-public-config.test.ts | 17 | TEST_CONTRACT |
 | tests/frankfurt-reference150.test.ts | 75 | TEST_CONTRACT |
+| tests/frankfurt-staging-csp.test.ts | 5 | TEST_CONTRACT |
 | tests/order-push-url139.test.ts | 15 | TEST_CONTRACT |
 | tests/phase3-harness-stability.test.ts | 88 | TEST_CONTRACT |
 

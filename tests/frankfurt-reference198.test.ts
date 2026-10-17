@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+import {inventoryBeforeStagingConfig as inventory} from '../scripts/audit/source-before-staging-config.mjs';
 import {migrationManifest,manifestDigest,sha256} from '../scripts/testing/maintenance-db-contract.mjs';
 import {schemaCatalogSql} from '../scripts/testing/schema-catalog.mjs';
 import {realtime151Tables,realtimePublicationSql} from '../scripts/testing/realtime151-contract.mjs';

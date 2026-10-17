@@ -10,10 +10,10 @@
 
 export const SUPABASE_PUBLIC_CONFIG = {
   // مثال: 'https://xyzcompany.supabase.co'
-  SUPABASE_URL: 'https://acjtabdqqnpwhdvbvnyw.supabase.co',
+  SUPABASE_URL: 'https://kzevmysfydaslxcerogt.supabase.co',
 
   // مثال: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
-  SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_XYq8HBYT6Pxa2VdRdi69CA_012vvfp5',
+  SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_d4TElxRQFkC-AZko3_ASeg_YotqxGjV',
 
   // Public key used only to render Cloudflare Turnstile on admin login.
   TURNSTILE_SITE_KEY: '0x4AAAAAAEPJTplD4PVe_Cgk',

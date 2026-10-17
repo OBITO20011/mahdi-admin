@@ -21,6 +21,7 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { encryptFile, BACKUP_FORMAT } from './backup-crypto.mjs';
 import { verifyBackupArchive } from './verify-backup.mjs';
+import {backupPublicConfigForProject,assertBackupDatabaseProject} from './backup-public-config.mjs';
 
 const execFileAsync = promisify(execFile);
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
@@ -73,14 +74,8 @@ function encodeStoragePath(storagePath) {
 }
 
 export async function readPublicSupabaseConfig(projectRoot) {
-  const configPath = path.join(projectRoot, 'src', 'config', 'supabase-public-config.ts');
-  const source = await readFile(configPath, 'utf8');
-  const url = source.match(/SUPABASE_URL:\s*['"]([^'"]+)['"]/u)?.[1];
-  const publishableKey = source.match(/SUPABASE_PUBLISHABLE_KEY:\s*['"]([^'"]+)['"]/u)?.[1];
-  if (!url || !publishableKey) {
-    throw new Error('Could not read the public Supabase URL and publishable key.');
-  }
-  return { url: url.replace(/\/$/u, ''), publishableKey };
+  const linkedRef=(await readFile(path.join(projectRoot,'supabase','.temp','project-ref'),'utf8')).trim();
+  return backupPublicConfigForProject(linkedRef);
 }
 
 export async function listStorageObjects({ url, publishableKey, bucket, prefix = '' }) {
@@ -231,6 +226,7 @@ async function runNativePostgresDumps({ projectRoot, databaseRoot, pgBinPath, se
   if (!/^postgresql:\/\/[A-Za-z0-9._:@-]+\/[A-Za-z0-9_-]+$/u.test(poolerUrl)) {
     throw new Error('The linked Supabase pooler URL is missing or unexpected.');
   }
+  assertBackupDatabaseProject(poolerUrl);
 
   const connectionUrl = `${poolerUrl}?sslmode=require&connect_timeout=15`;
   const commandEnvironment = {
@@ -377,6 +373,8 @@ export async function createBackup(options = {}) {
   await mkdir(storageRoot, { recursive: true });
 
   try {
+    // Fail before any dump/network action if database and Storage could differ.
+    const publicConfig = await readPublicSupabaseConfig(projectRoot);
     process.env.SUPABASE_DB_PASSWORD = databasePassword;
     const rolesPath = path.join(databaseRoot, 'roles.sql');
     const schemaPath = path.join(databaseRoot, 'schema.sql');
@@ -418,7 +416,6 @@ export async function createBackup(options = {}) {
       path.join(contentsRoot, 'supabase-config.toml')
     );
 
-    const publicConfig = await readPublicSupabaseConfig(projectRoot);
     const storageObjects = await downloadStorageObjects({
       ...publicConfig,
       bucket: 'product-images',

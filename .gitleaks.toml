@@ -1,0 +1,10 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Two reviewed browser-only Supabase publishable values; no secret keys or path exclusions"
+regexTarget = "secret"
+regexes = [
+  '''^sb_publishable_d4TElxRQFkC-AZko3_ASeg_YotqxGjV$''',
+  '''^sb_publishable_XYq8HBYT6Pxa2VdRdi69CA_012vvfp5$''',
+]

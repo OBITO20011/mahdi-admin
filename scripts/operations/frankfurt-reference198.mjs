@@ -6,7 +6,7 @@ import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {realtimePublicationSql,realtime151Tables} from '../testing/realtime151-contract.mjs';
 import {assertChequesCatalog} from './frankfurt-reference-cheques.mjs';
 import {aclEntries,compareManagedCatalog} from './managed-catalog-policy.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';
+import {inventoryBeforeStagingConfig as inventory} from '../audit/source-before-staging-config.mjs';
 import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
 export const ready198Ceiling=198;
 export const ready198ReferenceName='local-reference-through198-ready.json';

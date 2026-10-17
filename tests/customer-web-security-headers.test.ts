@@ -9,7 +9,7 @@ test('customer storefront ships production security headers', async () => {
   assert.match(headers, /X-Content-Type-Options: nosniff/u);
   assert.match(headers, /Strict-Transport-Security: max-age=31536000; includeSubDomains/u);
   assert.match(headers, /Content-Security-Policy:/u);
-  assert.match(headers, /connect-src 'self' https:\/\/acjtabdqqnpwhdvbvnyw\.supabase\.co wss:\/\/acjtabdqqnpwhdvbvnyw\.supabase\.co/u);
+  assert.match(headers, /connect-src 'self' https:\/\/kzevmysfydaslxcerogt\.supabase\.co wss:\/\/kzevmysfydaslxcerogt\.supabase\.co/u);
   assert.match(headers, /object-src 'none'/u);
   assert.match(headers, /frame-ancestors 'none'/u);
   assert.doesNotMatch(headers, /script-src[^\n]*'unsafe-inline'/u);
