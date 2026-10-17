@@ -14,7 +14,7 @@
     "VAPIDe69c22f FULL27/27quality38993240417+secrets38993240418 PASS."
   ],
   "inProgress": [
-    "Opening196 all local PASS:DB9/browser108/functions511/SDK142x6/RPC489zero42501/types/lint/1208Admin191Customer/build/network. Gitleaks/CI/merge pending."
+    "Opening196:8d1f71c CI failed only JSONB lint;4casts follow-up full-byte control/runtime10/511functions/SDK142/types/lint/1209Admin191Customer/build/network PASS. Push newSHA/fullCI/merge pending."
   ],
   "notStarted": [
     "CanonicalhomeC,approved cashier customer collection,then finalFrankfurt reference+singleownercommand(not executed)."
@@ -39,12 +39,12 @@
     "No retries/timeouts/skips/assertionweakening;freeze trackedfiles duringgates",
     "No financial question decided silently;no B beforeA delivery;onewriter;no protectedbusinessdeletes"
   ],
-  "nextExactAction": "All196local gates+Gitleaks0 PASS;commit196/push/full branchCI,then genuine main merge and its fullCI.",
-  "checkpointedAt": "2026-10-17T11:26:57.321Z",
+  "nextExactAction": "1964casts follow-up all gates PASS;Gitleaks0/ordinary commit/push/new exact fullCI,then genuine main merge. Other tasks not started.",
+  "checkpointedAt": "2026-10-17T11:47:45.535Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "00642C5E829D37B28AA51057259888DF5B56257205CFA8B9CDD7F2A6FDF1D201",
-  "filesTouchedCount": 44,
-  "filesTouchedManifestSha256": "fad85e2ad632d546c6672a267aa5b69feb578fddf03d2a2f64466d06aa3ab7c7"
+  "workingTreeFingerprint": "2F8CEA1AF4EE84F159ECB7AD3634802590D778B0F189F6F2F738879A55E3C0DC",
+  "filesTouchedCount": 8,
+  "filesTouchedManifestSha256": "9913d16c6ca2b945b807077db4cac40233215f268434966e865deb60b7b4e5f2"
 }

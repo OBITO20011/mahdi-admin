@@ -30,7 +30,7 @@ REVOKE ALL ON FUNCTION public.go_live_cheque_party_internal(TEXT,TEXT,TEXT,TEXT)
 
 CREATE FUNCTION public.go_live_cheque_rows_internal(p_rows JSONB)
 RETURNS JSONB LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
-DECLARE v_row JSONB;v_plan JSONB:='[]';v_errors JSONB:='[]';v_keys JSONB:='{}';
+DECLARE v_row JSONB;v_plan JSONB:='[]'::JSONB;v_errors JSONB:='[]'::JSONB;v_keys JSONB:='{}'::JSONB;
   v_index INTEGER:=0;v_source INTEGER;v_customer UUID;v_supplier UUID;v_endorsed UUID;
   v_direction TEXT;v_status TEXT;v_bank TEXT;v_number TEXT;v_amount BIGINT;
   v_due DATE;v_original DATE;v_cheque_date DATE;v_debt_at TIMESTAMPTZ;v_party RECORD;v_key TEXT;
@@ -160,7 +160,7 @@ FOR EACH ROW EXECUTE FUNCTION public.go_live_guard_opening_cheque_internal();
 CREATE FUNCTION public.record_go_live_cheques_v1(p_branch_id UUID,p_idempotency_key TEXT,p_rows JSONB)
 RETURNS JSONB LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
 DECLARE v_envelope JSONB:=jsonb_build_array(jsonb_build_object('branch',p_branch_id,'rows',p_rows));
-  v_replay JSONB;v_plan JSONB;v_locked_rows JSONB;v_row JSONB;v_party RECORD;v_id UUID;v_index INTEGER:=0;v_created JSONB:='[]';v_result JSONB;
+  v_replay JSONB;v_plan JSONB;v_locked_rows JSONB;v_row JSONB;v_party RECORD;v_id UUID;v_index INTEGER:=0;v_created JSONB:='[]'::JSONB;v_result JSONB;
 BEGIN
   PERFORM public.assert_erp_role(ARRAY['owner'],'تسجيل الشيكات القائمة قبل التشغيل');
   v_replay:=public.go_live_begin_batch_internal('opening_cheques',p_idempotency_key,v_envelope);

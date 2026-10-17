@@ -1,5 +1,25 @@
 # Phase status
 
+## Current17Oct — opening196 follow-up before merge
+
+Branch8d1f71c pushed;secrets39028754077 PASS. Quality39028754087 aging job
+117384857699 failed DB lint after all go-live focused proofs passed:implicit
+text-to-JSONB initializer warnings in new196.196 is unmerged/unaccepted WIP;
+001–195 remain byte-identical. Follow-up is exactly4 explicit initializer
+casts,permanent full-byte rewind control7/7focused tests,and adding unchanged
+full DB lint policy to opening runtime. NewpinE80F31BE. No finance-rule change.
+Regenerate196functions/catalog and rerun runtime/local gates before next commit.
+Follow-up sZAPQS11:34:09–11:36:22UTC PASS10/10:full DB lint unchanged policy
+plus all9business/locking groups.4casts-only full-byte unit7/7PASS. UI/source
+SDK hashes unchanged;108browser and historical proofs retained. Regenerate
+current196functions/catalog,then all commit gates and full new-SHA CI.
+Follow-up generated511functions/current SDK142/142catalog ij8AHs PASS
+11:36:56–11:42:05UTC. No TS/UI/call/ACL/parameter change. All local commit
+gates rerun next;historical evidence and108browser retained for identicalsource.
+Follow-up local11:43:03–11:46:53UTC PASS:types/strictlint/1209Admin191Customer/
+admin build/network0escaped. Next Gitleaks and normal casts-only follow-up
+commit;no force push,no historical001–195 edits,full new-SHA CI before merge.
+
 ## Current17Oct — VAPID DELIVERED, opening196 local WIP
 
 Resume17Oct:known-own WIP fingerprint/pin synchronized,no unknown changes.

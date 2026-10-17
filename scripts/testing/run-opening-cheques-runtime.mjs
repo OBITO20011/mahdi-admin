@@ -7,6 +7,7 @@ import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
 import {readApplicationFingerprint} from './backup-restore-contract.mjs';
+import {assertPackageDDbLint} from './package-d-db-lint-policy.mjs';
 
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),project='nawasrah-opening-cheques-test';
 const cli=path.join(root,'node_modules/supabase/dist/supabase.js'),executor=executorFor(['--container','supabase_db_'+project]);
@@ -29,7 +30,10 @@ try{
  const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
   NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'196',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
   NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
- local=JSON.parse(boot.stdout).isolatedProjectRoot;stage='fixture';
+ local=JSON.parse(boot.stdout).isolatedProjectRoot;stage='DB lint';
+ const {stdout:lint}=await exec(process.execPath,[cli,'db','lint','--local','--level','warning','--workdir',local],{cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024*1024});
+ assertPackageDDbLint(lint);record('full database lint retains the existing exact warning policy;no opening cheque warnings');
+ stage='fixture';
  await sql('ALTER TABLE orders DISABLE TRIGGER trg_notify_new_website_order_push;SELECT cron.alter_job(jobid,active:=false) FROM cron.job;');
  await sql(await readFile(path.join(root,'scripts/testing/package-e-golden-day-fixture.sql'),'utf8'));
  for(const [actor,role] of [[manager,'manager'],[cashier,'cashier'],[id(4),null]])await sql(`INSERT INTO auth.users(id,aud,role,email) VALUES(${q(actor)},'authenticated','authenticated',${q(actor+'@opening.example.test')});INSERT INTO profiles(id,full_name,is_active) VALUES(${q(actor)},'فحص صلاحيات',true);${role?`INSERT INTO roles(code,name_ar) VALUES(${q(role)},${q(role)}) ON CONFLICT(code) DO NOTHING;INSERT INTO user_roles(user_id,role_id) SELECT ${q(actor)},id FROM roles WHERE code=${q(role)};`:''}`);

@@ -8,6 +8,13 @@ import {assertChequesCatalog} from '../scripts/operations/frankfurt-reference-ch
 import {prepareOpeningChequeSheet,openingChequeTemplateRows,OPENING_CHEQUE_COLUMNS} from '../src/features/goLive/openingChequesImport';
 
 const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
+test('196 follow-up is exactly four explicit JSONB initializer casts;SQL business expressions and all other bytes stay unchanged',()=>{
+ const file='supabase/migrations/196_go_live_opening_cheques.sql',source=read(file);
+ const casts=/(JSONB:='(?:\[\]|\{\})')::JSONB/gu;
+ assert.equal([...source.matchAll(casts)].length,4);
+ assert.equal(source.replace(casts,'$1'),execFileSync('git',['show',`8d1f71c:${file}`],{encoding:'utf8'}).replaceAll('\r\n','\n'));
+ const runner=read('scripts/testing/run-opening-cheques-runtime.mjs');assert.match(runner,/assertPackageDDbLint\(lint\)/u);
+});
 test('196 real-role evidence exactly covers current SDK queries;opening evidence remains RPC-only',async()=>{
  const source=await inventory(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_196.json'));
  assert.equal(source.migrationCeiling,196);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);

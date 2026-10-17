@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-17T11:11:49.855Z",
+  "startedAt": "2026-10-17T11:38:15.312Z",
   "managedAccess": false,
   "migrationCeiling": 196,
   "manifest": [
@@ -163,7 +163,7 @@
     "195_deferred_cheque_readers_and_alerts.sql",
     "196_go_live_opening_cheques.sql"
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-ApzBYa",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-ij8AHs",
   "stage": "rls-and-acl",
   "results": [
     {
@@ -191,7 +191,7 @@
           "method": "eq",
           "args": [
             "id",
-            "8d540045-c9fc-4d82-b138-eaa340a98183"
+            "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
           ]
         },
         {
@@ -226,7 +226,7 @@
           "method": "eq",
           "args": [
             "id",
-            "8d540045-c9fc-4d82-b138-eaa340a98183"
+            "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
           ]
         },
         {
@@ -261,7 +261,7 @@
           "method": "eq",
           "args": [
             "id",
-            "8d540045-c9fc-4d82-b138-eaa340a98183"
+            "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
           ]
         },
         {
@@ -296,7 +296,7 @@
           "method": "eq",
           "args": [
             "id",
-            "8d540045-c9fc-4d82-b138-eaa340a98183"
+            "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
           ]
         },
         {
@@ -331,7 +331,7 @@
           "method": "eq",
           "args": [
             "id",
-            "8d540045-c9fc-4d82-b138-eaa340a98183"
+            "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
           ]
         },
         {
@@ -366,7 +366,7 @@
           "method": "eq",
           "args": [
             "id",
-            "8d540045-c9fc-4d82-b138-eaa340a98183"
+            "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
           ]
         },
         {
@@ -401,7 +401,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c69a2c58-25c3-4824-bb1b-86801781b6ab"
+            "279ca246-6f7e-40d4-b704-3bbd8426da90"
           ]
         },
         {
@@ -436,7 +436,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c69a2c58-25c3-4824-bb1b-86801781b6ab"
+            "279ca246-6f7e-40d4-b704-3bbd8426da90"
           ]
         },
         {
@@ -471,7 +471,7 @@
           "method": "eq",
           "args": [
             "id",
-            "c69a2c58-25c3-4824-bb1b-86801781b6ab"
+            "279ca246-6f7e-40d4-b704-3bbd8426da90"
           ]
         },
         {
@@ -704,7 +704,7 @@
           "method": "eq",
           "args": [
             "id",
-            "012d8b5f-f99d-4184-944c-dbac9d5dd378"
+            "57a7b73c-8c6e-4e5c-82a1-dafa2a3e876e"
           ]
         },
         {
@@ -739,7 +739,7 @@
           "method": "eq",
           "args": [
             "id",
-            "012d8b5f-f99d-4184-944c-dbac9d5dd378"
+            "57a7b73c-8c6e-4e5c-82a1-dafa2a3e876e"
           ]
         },
         {
@@ -774,7 +774,7 @@
           "method": "eq",
           "args": [
             "id",
-            "012d8b5f-f99d-4184-944c-dbac9d5dd378"
+            "57a7b73c-8c6e-4e5c-82a1-dafa2a3e876e"
           ]
         },
         {
@@ -1305,7 +1305,7 @@
           "args": [
             "id",
             [
-              "8d540045-c9fc-4d82-b138-eaa340a98183"
+              "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
             ]
           ]
         }
@@ -1338,7 +1338,7 @@
           "args": [
             "id",
             [
-              "8d540045-c9fc-4d82-b138-eaa340a98183"
+              "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
             ]
           ]
         }
@@ -1371,7 +1371,7 @@
           "args": [
             "id",
             [
-              "8d540045-c9fc-4d82-b138-eaa340a98183"
+              "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
             ]
           ]
         }
@@ -1404,7 +1404,7 @@
           "args": [
             "order_id",
             [
-              "8d540045-c9fc-4d82-b138-eaa340a98183"
+              "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
             ]
           ]
         },
@@ -1470,7 +1470,7 @@
           "args": [
             "order_id",
             [
-              "8d540045-c9fc-4d82-b138-eaa340a98183"
+              "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
             ]
           ]
         },
@@ -1536,7 +1536,7 @@
           "args": [
             "order_id",
             [
-              "8d540045-c9fc-4d82-b138-eaa340a98183"
+              "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
             ]
           ]
         },
@@ -1601,7 +1601,7 @@
           "method": "eq",
           "args": [
             "id",
-            "8d540045-c9fc-4d82-b138-eaa340a98183"
+            "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
           ]
         },
         {
@@ -1636,7 +1636,7 @@
           "method": "eq",
           "args": [
             "id",
-            "8d540045-c9fc-4d82-b138-eaa340a98183"
+            "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
           ]
         },
         {
@@ -1671,7 +1671,7 @@
           "method": "eq",
           "args": [
             "id",
-            "8d540045-c9fc-4d82-b138-eaa340a98183"
+            "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
           ]
         },
         {
@@ -1706,7 +1706,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "8d540045-c9fc-4d82-b138-eaa340a98183"
+            "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
           ]
         },
         {
@@ -1743,7 +1743,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "8d540045-c9fc-4d82-b138-eaa340a98183"
+            "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
           ]
         },
         {
@@ -1780,7 +1780,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "8d540045-c9fc-4d82-b138-eaa340a98183"
+            "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
           ]
         },
         {
@@ -1818,7 +1818,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "7215a0e5-5414-4cdb-9f94-4bf37185bab8"
+              "d6c0fa1c-752c-40ff-8f05-e9a0b650ad01"
             ]
           ]
         }
@@ -1851,7 +1851,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "7215a0e5-5414-4cdb-9f94-4bf37185bab8"
+              "d6c0fa1c-752c-40ff-8f05-e9a0b650ad01"
             ]
           ]
         }
@@ -1884,7 +1884,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "7215a0e5-5414-4cdb-9f94-4bf37185bab8"
+              "d6c0fa1c-752c-40ff-8f05-e9a0b650ad01"
             ]
           ]
         }
@@ -3752,7 +3752,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f7a88bd7-95a6-4d6a-a9d0-8b3205014d79"
+            "276a807d-c074-4895-a712-00b545110650"
           ]
         },
         {
@@ -3787,7 +3787,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f7a88bd7-95a6-4d6a-a9d0-8b3205014d79"
+            "276a807d-c074-4895-a712-00b545110650"
           ]
         },
         {
@@ -3822,7 +3822,7 @@
           "method": "eq",
           "args": [
             "id",
-            "f7a88bd7-95a6-4d6a-a9d0-8b3205014d79"
+            "276a807d-c074-4895-a712-00b545110650"
           ]
         },
         {
@@ -4972,7 +4972,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "8d540045-c9fc-4d82-b138-eaa340a98183",
+              "entity_id": "bce06c3b-5d5b-457a-8771-d1f80ee2771d",
               "status": "processing"
             }
           ]
@@ -5005,7 +5005,7 @@
           "method": "eq",
           "args": [
             "id",
-            "8d540045-c9fc-4d82-b138-eaa340a98183"
+            "bce06c3b-5d5b-457a-8771-d1f80ee2771d"
           ]
         },
         {
@@ -5044,7 +5044,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-10-17T11:13:12.158Z"
+              "completed_at": "2026-10-17T11:39:37.121Z"
             }
           ]
         },
@@ -5080,7 +5080,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-10-17T11:13:12.175Z"
+              "completed_at": "2026-10-17T11:39:37.136Z"
             }
           ]
         },
@@ -5114,9 +5114,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-10-17T11:13:12.207Z",
+              "last_success_at": "2026-10-17T11:39:37.153Z",
               "last_failure_message": null,
-              "updated_at": "2026-10-17T11:13:12.207Z"
+              "updated_at": "2026-10-17T11:39:37.153Z"
             }
           ]
         },
@@ -5151,9 +5151,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-10-17T11:13:12.239Z",
+              "last_failure_at": "2026-10-17T11:39:37.195Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-10-17T11:13:12.239Z"
+              "updated_at": "2026-10-17T11:39:37.195Z"
             }
           ]
         },
@@ -5190,7 +5190,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-10-17T11:13:12.270Z"
+              "completed_at": "2026-10-17T11:39:37.215Z"
             }
           ]
         },
@@ -42841,7 +42841,7 @@
         "owner": "postgres",
         "schema": "public",
         "identity": "go_live_cheque_rows_internal(p_rows jsonb)",
-        "definition": "CREATE OR REPLACE FUNCTION public.go_live_cheque_rows_internal(p_rows jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE v_row JSONB;v_plan JSONB:='[]';v_errors JSONB:='[]';v_keys JSONB:='{}';\n  v_index INTEGER:=0;v_source INTEGER;v_customer UUID;v_supplier UUID;v_endorsed UUID;\n  v_direction TEXT;v_status TEXT;v_bank TEXT;v_number TEXT;v_amount BIGINT;\n  v_due DATE;v_original DATE;v_cheque_date DATE;v_debt_at TIMESTAMPTZ;v_party RECORD;v_key TEXT;\nBEGIN\n  IF jsonb_typeof(p_rows) IS DISTINCT FROM 'array' OR jsonb_array_length(p_rows) NOT BETWEEN 1 AND 500 THEN\n    RAISE EXCEPTION 'أدخل من سطر واحد إلى 500 سطر في الدفعة.';\n  END IF;\n  FOR v_row IN SELECT value FROM jsonb_array_elements(p_rows) LOOP\n    v_index:=v_index+1;v_source:=v_index;\n    BEGIN\n      IF jsonb_typeof(v_row) IS DISTINCT FROM 'object' THEN RAISE EXCEPTION 'السطر غير صالح.';END IF;\n      IF v_row ? 'sourceRow' THEN\n        IF COALESCE(v_row->>'sourceRow','') !~ '^[1-9][0-9]{0,6}$' THEN RAISE EXCEPTION 'رقم السطر غير صالح.';END IF;\n        v_source:=(v_row->>'sourceRow')::INTEGER;\n      END IF;\n      IF (v_row-ARRAY['sourceRow','direction','initial_status','bank_name','cheque_number','due_date','amount_in_minor_units',\n        'customer_id','customer_phone','customer_name','supplier_id','supplier_name','endorsed_supplier_id','endorsed_supplier_name',\n        'original_debt_date','cheque_date','notes'])<>'{}'::JSONB THEN RAISE EXCEPTION 'السطر يحتوي حقولاً غير معتمدة.';END IF;\n      v_direction:=v_row->>'direction';v_status:=COALESCE(NULLIF(btrim(v_row->>'initial_status'),''),'pending');\n      IF v_direction IS NULL OR v_direction NOT IN ('incoming','outgoing') OR v_status NOT IN ('pending','endorsed')\n        OR(v_status='endorsed' AND v_direction<>'incoming') THEN RAISE EXCEPTION 'اختر وارد أو صادر، وقيد الانتظار أو وارد مجيّر فقط.';END IF;\n      v_bank:=NULLIF(btrim(v_row->>'bank_name'),'');v_number:=NULLIF(btrim(v_row->>'cheque_number'),'');\n      IF v_bank IS NULL OR char_length(v_bank)>120 OR v_number IS NULL OR char_length(v_number)>80 THEN\n        RAISE EXCEPTION 'اسم البنك ورقم الشيك مطلوبان ضمن الطول المسموح.';END IF;\n      IF COALESCE(v_row->>'amount_in_minor_units','') !~ '^[1-9][0-9]{0,11}$' THEN RAISE EXCEPTION 'مبلغ موجب صحيح بالفلس مطلوب.';END IF;\n      v_amount:=(v_row->>'amount_in_minor_units')::BIGINT;\n      IF COALESCE(v_row->>'due_date','') !~ '^\\d{4}-\\d{2}-\\d{2}$' THEN RAISE EXCEPTION 'تاريخ الاستحقاق مطلوب بصيغة سنة-شهر-يوم.';END IF;\n      v_due:=(v_row->>'due_date')::DATE;v_original:=NULL;v_cheque_date:=NULL;\n      IF NULLIF(btrim(v_row->>'original_debt_date'),'') IS NOT NULL THEN\n        IF(v_row->>'original_debt_date') !~ '^\\d{4}-\\d{2}-\\d{2}$' THEN RAISE EXCEPTION 'تاريخ الدين الأصلي غير صالح.';END IF;\n        v_original:=(v_row->>'original_debt_date')::DATE;\n      END IF;\n      IF NULLIF(btrim(v_row->>'cheque_date'),'') IS NOT NULL THEN\n        IF(v_row->>'cheque_date') !~ '^\\d{4}-\\d{2}-\\d{2}$' THEN RAISE EXCEPTION 'تاريخ الشيك غير صالح.';END IF;\n        v_cheque_date:=(v_row->>'cheque_date')::DATE;\n      END IF;\n      v_debt_at:=COALESCE(v_original,v_cheque_date)::TIMESTAMP AT TIME ZONE 'Asia/Amman';\n      IF char_length(COALESCE(v_row->>'notes',''))>500 THEN RAISE EXCEPTION 'الملاحظة لا تتجاوز 500 حرف.';END IF;\n      v_customer:=NULL;v_supplier:=NULL;v_endorsed:=NULL;\n      IF v_direction='incoming' THEN\n        IF NULLIF(btrim(v_row->>'supplier_id'),'') IS NOT NULL OR NULLIF(btrim(v_row->>'supplier_name'),'') IS NOT NULL THEN\n          RAISE EXCEPTION 'الوارد يرتبط بالزبون؛ استخدم حقل المورد المجيّر له عند الحاجة.';END IF;\n        v_customer:=public.go_live_cheque_party_internal('customer',v_row->>'customer_id',v_row->>'customer_phone',v_row->>'customer_name');\n        IF v_status='endorsed' THEN\n          v_endorsed:=public.go_live_cheque_party_internal('supplier',v_row->>'endorsed_supplier_id',NULL,v_row->>'endorsed_supplier_name');\n        ELSIF NULLIF(btrim(v_row->>'endorsed_supplier_id'),'') IS NOT NULL OR NULLIF(btrim(v_row->>'endorsed_supplier_name'),'') IS NOT NULL THEN\n          RAISE EXCEPTION 'اختر حالة مجيّر عند تحديد مورد التجيير.';\n        END IF;\n      ELSE\n        IF NULLIF(btrim(v_row->>'customer_id'),'') IS NOT NULL OR NULLIF(btrim(v_row->>'customer_phone'),'') IS NOT NULL\n          OR NULLIF(btrim(v_row->>'customer_name'),'') IS NOT NULL OR NULLIF(btrim(v_row->>'endorsed_supplier_id'),'') IS NOT NULL\n          OR NULLIF(btrim(v_row->>'endorsed_supplier_name'),'') IS NOT NULL THEN RAISE EXCEPTION 'الصادر يرتبط بمورد واحد فقط.';END IF;\n        v_supplier:=public.go_live_cheque_party_internal('supplier',v_row->>'supplier_id',NULL,v_row->>'supplier_name');\n      END IF;\n      FOR v_party IN SELECT 'customer'::TEXT kind,v_customer id WHERE v_customer IS NOT NULL\n        UNION ALL SELECT 'supplier',COALESCE(v_supplier,v_endorsed) WHERE COALESCE(v_supplier,v_endorsed) IS NOT NULL LOOP\n        v_key:=v_party.kind||':'||v_party.id::TEXT||':'||lower(v_bank)||':'||v_number;\n        IF v_keys ? v_key OR EXISTS(SELECT 1 FROM public.cheque_party_keys k WHERE k.party_kind=v_party.kind\n          AND k.party_id=v_party.id AND k.bank_key=lower(v_bank) AND k.cheque_number=v_number) THEN\n          RAISE EXCEPTION 'الشيك مكرر للطرف والبنك والرقم؛ يشمل ذلك الشيكات المسجلة سابقاً.';END IF;\n        v_keys:=v_keys||jsonb_build_object(v_key,true);\n      END LOOP;\n      v_plan:=v_plan||jsonb_build_array(jsonb_build_object('sourceRow',v_source,'direction',v_direction,'status',v_status,\n        'bank',v_bank,'number',v_number,'dueDate',v_due,'amount',v_amount,'customerId',v_customer,'supplierId',v_supplier,\n        'endorsedSupplierId',v_endorsed,'originalDebtAt',v_debt_at,'originalDebtDate',v_original,'chequeDate',v_cheque_date,\n        'notes',NULLIF(btrim(v_row->>'notes'),'')));\n    EXCEPTION WHEN OTHERS THEN\n      v_errors:=v_errors||jsonb_build_array(jsonb_build_object('row',v_source,'message',\n        CASE WHEN SQLSTATE IN ('22007','22008') THEN 'تاريخ غير صالح؛ استخدم سنة-شهر-يوم.'\n          WHEN SQLSTATE='22P02' THEN 'معرف الطرف غير صالح.' ELSE SQLERRM END));\n    END;\n  END LOOP;\n  RETURN jsonb_build_object('rows',v_plan,'errors',v_errors,'rowCount',jsonb_array_length(p_rows),'validCount',jsonb_array_length(v_plan));\nEND;\n$function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION public.go_live_cheque_rows_internal(p_rows jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE v_row JSONB;v_plan JSONB:='[]'::JSONB;v_errors JSONB:='[]'::JSONB;v_keys JSONB:='{}'::JSONB;\n  v_index INTEGER:=0;v_source INTEGER;v_customer UUID;v_supplier UUID;v_endorsed UUID;\n  v_direction TEXT;v_status TEXT;v_bank TEXT;v_number TEXT;v_amount BIGINT;\n  v_due DATE;v_original DATE;v_cheque_date DATE;v_debt_at TIMESTAMPTZ;v_party RECORD;v_key TEXT;\nBEGIN\n  IF jsonb_typeof(p_rows) IS DISTINCT FROM 'array' OR jsonb_array_length(p_rows) NOT BETWEEN 1 AND 500 THEN\n    RAISE EXCEPTION 'أدخل من سطر واحد إلى 500 سطر في الدفعة.';\n  END IF;\n  FOR v_row IN SELECT value FROM jsonb_array_elements(p_rows) LOOP\n    v_index:=v_index+1;v_source:=v_index;\n    BEGIN\n      IF jsonb_typeof(v_row) IS DISTINCT FROM 'object' THEN RAISE EXCEPTION 'السطر غير صالح.';END IF;\n      IF v_row ? 'sourceRow' THEN\n        IF COALESCE(v_row->>'sourceRow','') !~ '^[1-9][0-9]{0,6}$' THEN RAISE EXCEPTION 'رقم السطر غير صالح.';END IF;\n        v_source:=(v_row->>'sourceRow')::INTEGER;\n      END IF;\n      IF (v_row-ARRAY['sourceRow','direction','initial_status','bank_name','cheque_number','due_date','amount_in_minor_units',\n        'customer_id','customer_phone','customer_name','supplier_id','supplier_name','endorsed_supplier_id','endorsed_supplier_name',\n        'original_debt_date','cheque_date','notes'])<>'{}'::JSONB THEN RAISE EXCEPTION 'السطر يحتوي حقولاً غير معتمدة.';END IF;\n      v_direction:=v_row->>'direction';v_status:=COALESCE(NULLIF(btrim(v_row->>'initial_status'),''),'pending');\n      IF v_direction IS NULL OR v_direction NOT IN ('incoming','outgoing') OR v_status NOT IN ('pending','endorsed')\n        OR(v_status='endorsed' AND v_direction<>'incoming') THEN RAISE EXCEPTION 'اختر وارد أو صادر، وقيد الانتظار أو وارد مجيّر فقط.';END IF;\n      v_bank:=NULLIF(btrim(v_row->>'bank_name'),'');v_number:=NULLIF(btrim(v_row->>'cheque_number'),'');\n      IF v_bank IS NULL OR char_length(v_bank)>120 OR v_number IS NULL OR char_length(v_number)>80 THEN\n        RAISE EXCEPTION 'اسم البنك ورقم الشيك مطلوبان ضمن الطول المسموح.';END IF;\n      IF COALESCE(v_row->>'amount_in_minor_units','') !~ '^[1-9][0-9]{0,11}$' THEN RAISE EXCEPTION 'مبلغ موجب صحيح بالفلس مطلوب.';END IF;\n      v_amount:=(v_row->>'amount_in_minor_units')::BIGINT;\n      IF COALESCE(v_row->>'due_date','') !~ '^\\d{4}-\\d{2}-\\d{2}$' THEN RAISE EXCEPTION 'تاريخ الاستحقاق مطلوب بصيغة سنة-شهر-يوم.';END IF;\n      v_due:=(v_row->>'due_date')::DATE;v_original:=NULL;v_cheque_date:=NULL;\n      IF NULLIF(btrim(v_row->>'original_debt_date'),'') IS NOT NULL THEN\n        IF(v_row->>'original_debt_date') !~ '^\\d{4}-\\d{2}-\\d{2}$' THEN RAISE EXCEPTION 'تاريخ الدين الأصلي غير صالح.';END IF;\n        v_original:=(v_row->>'original_debt_date')::DATE;\n      END IF;\n      IF NULLIF(btrim(v_row->>'cheque_date'),'') IS NOT NULL THEN\n        IF(v_row->>'cheque_date') !~ '^\\d{4}-\\d{2}-\\d{2}$' THEN RAISE EXCEPTION 'تاريخ الشيك غير صالح.';END IF;\n        v_cheque_date:=(v_row->>'cheque_date')::DATE;\n      END IF;\n      v_debt_at:=COALESCE(v_original,v_cheque_date)::TIMESTAMP AT TIME ZONE 'Asia/Amman';\n      IF char_length(COALESCE(v_row->>'notes',''))>500 THEN RAISE EXCEPTION 'الملاحظة لا تتجاوز 500 حرف.';END IF;\n      v_customer:=NULL;v_supplier:=NULL;v_endorsed:=NULL;\n      IF v_direction='incoming' THEN\n        IF NULLIF(btrim(v_row->>'supplier_id'),'') IS NOT NULL OR NULLIF(btrim(v_row->>'supplier_name'),'') IS NOT NULL THEN\n          RAISE EXCEPTION 'الوارد يرتبط بالزبون؛ استخدم حقل المورد المجيّر له عند الحاجة.';END IF;\n        v_customer:=public.go_live_cheque_party_internal('customer',v_row->>'customer_id',v_row->>'customer_phone',v_row->>'customer_name');\n        IF v_status='endorsed' THEN\n          v_endorsed:=public.go_live_cheque_party_internal('supplier',v_row->>'endorsed_supplier_id',NULL,v_row->>'endorsed_supplier_name');\n        ELSIF NULLIF(btrim(v_row->>'endorsed_supplier_id'),'') IS NOT NULL OR NULLIF(btrim(v_row->>'endorsed_supplier_name'),'') IS NOT NULL THEN\n          RAISE EXCEPTION 'اختر حالة مجيّر عند تحديد مورد التجيير.';\n        END IF;\n      ELSE\n        IF NULLIF(btrim(v_row->>'customer_id'),'') IS NOT NULL OR NULLIF(btrim(v_row->>'customer_phone'),'') IS NOT NULL\n          OR NULLIF(btrim(v_row->>'customer_name'),'') IS NOT NULL OR NULLIF(btrim(v_row->>'endorsed_supplier_id'),'') IS NOT NULL\n          OR NULLIF(btrim(v_row->>'endorsed_supplier_name'),'') IS NOT NULL THEN RAISE EXCEPTION 'الصادر يرتبط بمورد واحد فقط.';END IF;\n        v_supplier:=public.go_live_cheque_party_internal('supplier',v_row->>'supplier_id',NULL,v_row->>'supplier_name');\n      END IF;\n      FOR v_party IN SELECT 'customer'::TEXT kind,v_customer id WHERE v_customer IS NOT NULL\n        UNION ALL SELECT 'supplier',COALESCE(v_supplier,v_endorsed) WHERE COALESCE(v_supplier,v_endorsed) IS NOT NULL LOOP\n        v_key:=v_party.kind||':'||v_party.id::TEXT||':'||lower(v_bank)||':'||v_number;\n        IF v_keys ? v_key OR EXISTS(SELECT 1 FROM public.cheque_party_keys k WHERE k.party_kind=v_party.kind\n          AND k.party_id=v_party.id AND k.bank_key=lower(v_bank) AND k.cheque_number=v_number) THEN\n          RAISE EXCEPTION 'الشيك مكرر للطرف والبنك والرقم؛ يشمل ذلك الشيكات المسجلة سابقاً.';END IF;\n        v_keys:=v_keys||jsonb_build_object(v_key,true);\n      END LOOP;\n      v_plan:=v_plan||jsonb_build_array(jsonb_build_object('sourceRow',v_source,'direction',v_direction,'status',v_status,\n        'bank',v_bank,'number',v_number,'dueDate',v_due,'amount',v_amount,'customerId',v_customer,'supplierId',v_supplier,\n        'endorsedSupplierId',v_endorsed,'originalDebtAt',v_debt_at,'originalDebtDate',v_original,'chequeDate',v_cheque_date,\n        'notes',NULLIF(btrim(v_row->>'notes'),'')));\n    EXCEPTION WHEN OTHERS THEN\n      v_errors:=v_errors||jsonb_build_array(jsonb_build_object('row',v_source,'message',\n        CASE WHEN SQLSTATE IN ('22007','22008') THEN 'تاريخ غير صالح؛ استخدم سنة-شهر-يوم.'\n          WHEN SQLSTATE='22P02' THEN 'معرف الطرف غير صالح.' ELSE SQLERRM END));\n    END;\n  END LOOP;\n  RETURN jsonb_build_object('rows',v_plan,'errors',v_errors,'rowCount',jsonb_array_length(p_rows),'validCount',jsonb_array_length(v_plan));\nEND;\n$function$\n",
         "configuration": [
           "search_path=public, pg_temp"
         ]
@@ -45376,7 +45376,7 @@
         "owner": "postgres",
         "schema": "public",
         "identity": "record_go_live_cheques_v1(p_branch_id uuid, p_idempotency_key text, p_rows jsonb)",
-        "definition": "CREATE OR REPLACE FUNCTION public.record_go_live_cheques_v1(p_branch_id uuid, p_idempotency_key text, p_rows jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE v_envelope JSONB:=jsonb_build_array(jsonb_build_object('branch',p_branch_id,'rows',p_rows));\n  v_replay JSONB;v_plan JSONB;v_locked_rows JSONB;v_row JSONB;v_party RECORD;v_id UUID;v_index INTEGER:=0;v_created JSONB:='[]';v_result JSONB;\nBEGIN\n  PERFORM public.assert_erp_role(ARRAY['owner'],'تسجيل الشيكات القائمة قبل التشغيل');\n  v_replay:=public.go_live_begin_batch_internal('opening_cheques',p_idempotency_key,v_envelope);\n  IF EXISTS(SELECT 1 FROM public.go_live_import_batches WHERE idempotency_key=p_idempotency_key AND created_by<>auth.uid()) THEN\n    RAISE EXCEPTION 'GO_LIVE_BATCH_KEY_CONFLICT: المفتاح يخص عملية لفاعل آخر.';END IF;\n  IF v_replay IS NOT NULL THEN RETURN v_replay;END IF;\n  PERFORM public.go_live_assert_setup_open_internal();\n  -- Discover all parties before row locks. Same customer gate as collection;\n  -- supplier rows are locked in UUID order before any cheque row is created.\n  v_plan:=public.preview_go_live_cheques_v1(p_branch_id,p_rows);\n  IF jsonb_array_length(v_plan->'errors')>0 THEN RAISE EXCEPTION USING MESSAGE='GO_LIVE_CHEQUE_ROWS_INVALID: صحح الأسطر قبل الحفظ.',DETAIL=(v_plan->'errors')::TEXT;END IF;\n  v_locked_rows:=v_plan->'rows';\n  FOR v_party IN SELECT DISTINCT (r->>'customerId')::UUID id FROM jsonb_array_elements(v_plan->'rows') r\n    WHERE r->>'customerId' IS NOT NULL ORDER BY id LOOP\n    PERFORM pg_advisory_xact_lock(hashtextextended('go-live-collection-customer:'||v_party.id::TEXT,0));\n  END LOOP;\n  FOR v_party IN SELECT DISTINCT (r->>'customerId')::UUID id FROM jsonb_array_elements(v_plan->'rows') r\n    WHERE r->>'customerId' IS NOT NULL ORDER BY id LOOP\n    PERFORM 1 FROM public.customers WHERE id=v_party.id AND NOT is_deleted FOR UPDATE;\n    IF NOT FOUND THEN RAISE EXCEPTION 'العميل غير موجود أو حُذف؛ أعد المعاينة.';END IF;\n  END LOOP;\n  FOR v_party IN SELECT DISTINCT COALESCE(r->>'supplierId',r->>'endorsedSupplierId')::UUID id FROM jsonb_array_elements(v_plan->'rows') r\n    WHERE COALESCE(r->>'supplierId',r->>'endorsedSupplierId') IS NOT NULL ORDER BY id LOOP\n    PERFORM 1 FROM public.suppliers WHERE id=v_party.id FOR UPDATE;\n    IF NOT FOUND THEN RAISE EXCEPTION 'المورد غير موجود؛ أعد المعاينة.';END IF;\n  END LOOP;\n  -- Revalidate duplicates under party gates;preview is never write authority.\n  v_plan:=public.preview_go_live_cheques_v1(p_branch_id,p_rows);\n  IF jsonb_array_length(v_plan->'errors')>0 THEN RAISE EXCEPTION USING MESSAGE='GO_LIVE_CHEQUE_ROWS_INVALID: صحح الأسطر قبل الحفظ.',DETAIL=(v_plan->'errors')::TEXT;END IF;\n  IF v_plan->'rows' IS DISTINCT FROM v_locked_rows THEN\n    RAISE EXCEPTION 'GO_LIVE_CHEQUE_PARTIES_CHANGED: تغيّرت هوية الأطراف أثناء الحفظ؛ أعد المعاينة.';\n  END IF;\n  FOR v_row IN SELECT value FROM jsonb_array_elements(v_plan->'rows') LOOP\n    v_index:=v_index+1;v_id:=gen_random_uuid();\n    INSERT INTO public.deferred_cheques(id,tracking_number,direction,origin,cheque_number,bank_name,due_date,amount_in_minor_units,\n      customer_id,supplier_id,endorsed_supplier_id,branch_id,status,original_debt_at,notes,created_by,changed_by)\n    VALUES(v_id,'CHQ-'||lpad(nextval('public.deferred_cheque_number_seq')::TEXT,8,'0'),v_row->>'direction','opening',\n      v_row->>'number',v_row->>'bank',(v_row->>'dueDate')::DATE,(v_row->>'amount')::BIGINT,\n      (v_row->>'customerId')::UUID,(v_row->>'supplierId')::UUID,(v_row->>'endorsedSupplierId')::UUID,p_branch_id,\n      v_row->>'status',(v_row->>'originalDebtAt')::TIMESTAMPTZ,v_row->>'notes',auth.uid(),auth.uid());\n    FOR v_party IN SELECT 'customer'::TEXT kind,(v_row->>'customerId')::UUID id WHERE v_row->>'customerId' IS NOT NULL\n      UNION ALL SELECT 'supplier',COALESCE(v_row->>'supplierId',v_row->>'endorsedSupplierId')::UUID\n        WHERE COALESCE(v_row->>'supplierId',v_row->>'endorsedSupplierId') IS NOT NULL LOOP\n      INSERT INTO public.cheque_party_keys(party_kind,party_id,bank_key,cheque_number,cheque_id)\n      VALUES(v_party.kind,v_party.id,lower(v_row->>'bank'),v_row->>'number',v_id);\n      INSERT INTO public.deferred_cheque_allocations(cheque_id,party_kind,party_id,origin_kind,origin_id,original_debt_at,amount_in_minor_units)\n      VALUES(v_id,v_party.kind,v_party.id,'opening_cheque',v_id,(v_row->>'originalDebtAt')::TIMESTAMPTZ,(v_row->>'amount')::BIGINT);\n    END LOOP;\n    v_result:=public.cheque_finish_event_internal(v_id,'opening_registered',NULL,NULL,\n      'opening-cheque-'||md5(p_idempotency_key)||'-'||v_index::TEXT,\n      jsonb_build_object('action','opening_register','branch',p_branch_id,'batchKey',p_idempotency_key,'row',v_row));\n    v_created:=v_created||jsonb_build_array(jsonb_build_object('id',v_id,'trackingNumber',v_result#>>'{cheque,tracking_number}'));\n  END LOOP;\n  v_result:=jsonb_build_object('success',true,'idempotentReplay',false,'created',v_created,'rowCount',v_index,\n    'parties',v_plan->'parties','balanceEffectInMinorUnits',0);\n  INSERT INTO public.go_live_import_batches(batch_kind,idempotency_key,request_hash,row_count,result,created_by)\n  VALUES('opening_cheques',p_idempotency_key,md5(v_envelope::TEXT),v_index,v_result,auth.uid());\n  RETURN v_result;\nEND;\n$function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION public.record_go_live_cheques_v1(p_branch_id uuid, p_idempotency_key text, p_rows jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE v_envelope JSONB:=jsonb_build_array(jsonb_build_object('branch',p_branch_id,'rows',p_rows));\n  v_replay JSONB;v_plan JSONB;v_locked_rows JSONB;v_row JSONB;v_party RECORD;v_id UUID;v_index INTEGER:=0;v_created JSONB:='[]'::JSONB;v_result JSONB;\nBEGIN\n  PERFORM public.assert_erp_role(ARRAY['owner'],'تسجيل الشيكات القائمة قبل التشغيل');\n  v_replay:=public.go_live_begin_batch_internal('opening_cheques',p_idempotency_key,v_envelope);\n  IF EXISTS(SELECT 1 FROM public.go_live_import_batches WHERE idempotency_key=p_idempotency_key AND created_by<>auth.uid()) THEN\n    RAISE EXCEPTION 'GO_LIVE_BATCH_KEY_CONFLICT: المفتاح يخص عملية لفاعل آخر.';END IF;\n  IF v_replay IS NOT NULL THEN RETURN v_replay;END IF;\n  PERFORM public.go_live_assert_setup_open_internal();\n  -- Discover all parties before row locks. Same customer gate as collection;\n  -- supplier rows are locked in UUID order before any cheque row is created.\n  v_plan:=public.preview_go_live_cheques_v1(p_branch_id,p_rows);\n  IF jsonb_array_length(v_plan->'errors')>0 THEN RAISE EXCEPTION USING MESSAGE='GO_LIVE_CHEQUE_ROWS_INVALID: صحح الأسطر قبل الحفظ.',DETAIL=(v_plan->'errors')::TEXT;END IF;\n  v_locked_rows:=v_plan->'rows';\n  FOR v_party IN SELECT DISTINCT (r->>'customerId')::UUID id FROM jsonb_array_elements(v_plan->'rows') r\n    WHERE r->>'customerId' IS NOT NULL ORDER BY id LOOP\n    PERFORM pg_advisory_xact_lock(hashtextextended('go-live-collection-customer:'||v_party.id::TEXT,0));\n  END LOOP;\n  FOR v_party IN SELECT DISTINCT (r->>'customerId')::UUID id FROM jsonb_array_elements(v_plan->'rows') r\n    WHERE r->>'customerId' IS NOT NULL ORDER BY id LOOP\n    PERFORM 1 FROM public.customers WHERE id=v_party.id AND NOT is_deleted FOR UPDATE;\n    IF NOT FOUND THEN RAISE EXCEPTION 'العميل غير موجود أو حُذف؛ أعد المعاينة.';END IF;\n  END LOOP;\n  FOR v_party IN SELECT DISTINCT COALESCE(r->>'supplierId',r->>'endorsedSupplierId')::UUID id FROM jsonb_array_elements(v_plan->'rows') r\n    WHERE COALESCE(r->>'supplierId',r->>'endorsedSupplierId') IS NOT NULL ORDER BY id LOOP\n    PERFORM 1 FROM public.suppliers WHERE id=v_party.id FOR UPDATE;\n    IF NOT FOUND THEN RAISE EXCEPTION 'المورد غير موجود؛ أعد المعاينة.';END IF;\n  END LOOP;\n  -- Revalidate duplicates under party gates;preview is never write authority.\n  v_plan:=public.preview_go_live_cheques_v1(p_branch_id,p_rows);\n  IF jsonb_array_length(v_plan->'errors')>0 THEN RAISE EXCEPTION USING MESSAGE='GO_LIVE_CHEQUE_ROWS_INVALID: صحح الأسطر قبل الحفظ.',DETAIL=(v_plan->'errors')::TEXT;END IF;\n  IF v_plan->'rows' IS DISTINCT FROM v_locked_rows THEN\n    RAISE EXCEPTION 'GO_LIVE_CHEQUE_PARTIES_CHANGED: تغيّرت هوية الأطراف أثناء الحفظ؛ أعد المعاينة.';\n  END IF;\n  FOR v_row IN SELECT value FROM jsonb_array_elements(v_plan->'rows') LOOP\n    v_index:=v_index+1;v_id:=gen_random_uuid();\n    INSERT INTO public.deferred_cheques(id,tracking_number,direction,origin,cheque_number,bank_name,due_date,amount_in_minor_units,\n      customer_id,supplier_id,endorsed_supplier_id,branch_id,status,original_debt_at,notes,created_by,changed_by)\n    VALUES(v_id,'CHQ-'||lpad(nextval('public.deferred_cheque_number_seq')::TEXT,8,'0'),v_row->>'direction','opening',\n      v_row->>'number',v_row->>'bank',(v_row->>'dueDate')::DATE,(v_row->>'amount')::BIGINT,\n      (v_row->>'customerId')::UUID,(v_row->>'supplierId')::UUID,(v_row->>'endorsedSupplierId')::UUID,p_branch_id,\n      v_row->>'status',(v_row->>'originalDebtAt')::TIMESTAMPTZ,v_row->>'notes',auth.uid(),auth.uid());\n    FOR v_party IN SELECT 'customer'::TEXT kind,(v_row->>'customerId')::UUID id WHERE v_row->>'customerId' IS NOT NULL\n      UNION ALL SELECT 'supplier',COALESCE(v_row->>'supplierId',v_row->>'endorsedSupplierId')::UUID\n        WHERE COALESCE(v_row->>'supplierId',v_row->>'endorsedSupplierId') IS NOT NULL LOOP\n      INSERT INTO public.cheque_party_keys(party_kind,party_id,bank_key,cheque_number,cheque_id)\n      VALUES(v_party.kind,v_party.id,lower(v_row->>'bank'),v_row->>'number',v_id);\n      INSERT INTO public.deferred_cheque_allocations(cheque_id,party_kind,party_id,origin_kind,origin_id,original_debt_at,amount_in_minor_units)\n      VALUES(v_id,v_party.kind,v_party.id,'opening_cheque',v_id,(v_row->>'originalDebtAt')::TIMESTAMPTZ,(v_row->>'amount')::BIGINT);\n    END LOOP;\n    v_result:=public.cheque_finish_event_internal(v_id,'opening_registered',NULL,NULL,\n      'opening-cheque-'||md5(p_idempotency_key)||'-'||v_index::TEXT,\n      jsonb_build_object('action','opening_register','branch',p_branch_id,'batchKey',p_idempotency_key,'row',v_row));\n    v_created:=v_created||jsonb_build_array(jsonb_build_object('id',v_id,'trackingNumber',v_result#>>'{cheque,tracking_number}'));\n  END LOOP;\n  v_result:=jsonb_build_object('success',true,'idempotentReplay',false,'created',v_created,'rowCount',v_index,\n    'parties',v_plan->'parties','balanceEffectInMinorUnits',0);\n  INSERT INTO public.go_live_import_batches(batch_kind,idempotency_key,request_hash,row_count,result,created_by)\n  VALUES('opening_cheques',p_idempotency_key,md5(v_envelope::TEXT),v_index,v_result,auth.uid());\n  RETURN v_result;\nEND;\n$function$\n",
         "configuration": [
           "search_path=public, pg_temp"
         ]
@@ -66965,13 +66965,13 @@
     }
   ],
   "fixture": {
-    "orderId": "8d540045-c9fc-4d82-b138-eaa340a98183",
-    "operationId": "c69a2c58-25c3-4824-bb1b-86801781b6ab",
-    "receiptId": "012d8b5f-f99d-4184-944c-dbac9d5dd378",
-    "poId": "f7a88bd7-95a6-4d6a-a9d0-8b3205014d79",
+    "orderId": "bce06c3b-5d5b-457a-8771-d1f80ee2771d",
+    "operationId": "279ca246-6f7e-40d4-b704-3bbd8426da90",
+    "receiptId": "57a7b73c-8c6e-4e5c-82a1-dafa2a3e876e",
+    "poId": "276a807d-c074-4895-a712-00b545110650",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "7215a0e5-5414-4cdb-9f94-4bf37185bab8"
+      "d6c0fa1c-752c-40ff-8f05-e9a0b650ad01"
     ]
   },
   "access": [
@@ -72732,5 +72732,5 @@
     "zero_rows": 0,
     "other_error": 0
   },
-  "endedAt": "2026-10-17T11:15:39.231Z"
+  "endedAt": "2026-10-17T11:42:05.692Z"
 }
