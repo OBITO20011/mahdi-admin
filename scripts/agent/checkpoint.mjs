@@ -1,4 +1,4 @@
-import { writeFileSync } from 'node:fs';
+import {writeAtomicUtf8} from './atomic-file.mjs';
 import { git, parseArgs, readJson, statusEntries, taskPath, workingTreeFingerprint } from './lib.mjs';
 import {checkpointFileManifest,checkpointFilesPath} from './checkpoint-files.mjs';
 
@@ -14,7 +14,7 @@ if (!next) {
 const entries = statusEntries();
 const manifest=checkpointFileManifest(entries);
 // Write before the working-tree fingerprint:the manifest itself is protected.
-writeFileSync(checkpointFilesPath,manifest.text,'utf8');
+writeAtomicUtf8(checkpointFilesPath,manifest.text);
 
 const updated = {
   ...task,
@@ -30,5 +30,5 @@ const updated = {
   workingTreeFingerprint: workingTreeFingerprint(),
 };
 
-writeFileSync(taskPath, `${JSON.stringify(updated, null, 2)}\n`, 'utf8');
+writeAtomicUtf8(taskPath, `${JSON.stringify(updated, null, 2)}\n`);
 console.log(`Checkpoint saved for ${updated.owner || 'unassigned agent'}; ${manifest.filesTouchedCount} task file(s) in ${checkpointFilesPath}; status ${updated.status}.`);
