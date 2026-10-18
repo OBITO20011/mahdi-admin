@@ -710,7 +710,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
         <div className="rounded-xl border border-nw-border bg-nw-info-bg px-3 py-2 text-[11px] font-bold leading-5 text-nw-info">
           اختر الصنف، ثم أدخل عدد الطرود التي وصلت فعليًا ومحتوى كل طرد.
-          مثال: 3 كراتين × 5 حبات = 15 حبة تُضاف للمخزون.
+          مثال: 3 كراتين × 5 باكيتات = 15 باكيت تُضاف للمخزون.
         </div>
 
         {/* Product Search Box */}

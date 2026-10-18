@@ -72,7 +72,7 @@ export function mapCatalogProduct(item: RawCatalogItem): CatalogProduct {
     brandId: textValue(item.brandId),
     brandNameAr: textValue(item.brandNameAr),
     unitId: textValue(item.unitId),
-    unitNameAr: textValue(item.unitNameAr) || 'حبة',
+    unitNameAr: textValue(item.unitNameAr) || 'باكيت',
     saleUnitId: textValue(item.saleUnitId),
     saleUnitNameAr: textValue(item.saleUnitNameAr) || 'طرد',
     unitsPerSalePackage,

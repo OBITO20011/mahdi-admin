@@ -73,7 +73,7 @@ test('package and loose-unit counts are converted to one base-unit target', () =
   );
   assert.match(migration, /v_loose_units >= v_units_per_package/);
   assert.match(modal, /packages \* product\.unitsPerPackage \+ loose/);
-  assert.match(modal, /الحبات المتبقية/);
+  assert.match(modal, /الباكيتات المتبقية/);
 });
 
 test('opening setup cannot bypass live operations, reservations or product cost', () => {

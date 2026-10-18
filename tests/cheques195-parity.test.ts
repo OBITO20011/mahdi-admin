@@ -10,7 +10,8 @@ for(const file of cheques195Files)test('cheques: every byte outside exact approv
   const current=readFileSync(file,'utf8'),source=file==='src/features/crm/CustomerCollectionModal.tsx'?restore198CollectionPresentation(current):current;
   const before=execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
   assert.equal(approvedCheques195Source(file,source),before);
-  assert.notEqual(approvedCheques195Source(file,source+'\n// unapproved mutation\n'),before,'outside-hunk changes remain observable');
+  if(file==='src/features/goLive/GoLiveSetupView.tsx') assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),/TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED/u,'whole-file presentation pin rejects mutation');
+  else assert.notEqual(approvedCheques195Source(file,source+'\n// unapproved mutation\n'),before,'outside-hunk changes remain observable');
 });
 test('cheques parity rejects a changed original sale callback or new authorization boundary',()=>{
   const file='src/features/pos/PosView.tsx',source=readFileSync(file,'utf8');

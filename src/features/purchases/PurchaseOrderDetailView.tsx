@@ -38,6 +38,7 @@ import {
   User,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
+import { LEGACY_PIECE_NAMES } from '../../utils/legacyUnitImportHeaders';
 
 function formatHumanQuantity(qty: number, unitName?: string): string {
   const unit = (unitName || 'قطعة').trim();
@@ -67,7 +68,7 @@ function formatHumanQuantity(qty: number, unitName?: string): string {
     if (num >= 3 && num <= 10) return `${num} ربطات`;
     return `${num} ربطة`;
   }
-  if (unit === 'قطعة' || unit === 'حبة' || unit === 'قطع') {
+  if (LEGACY_PIECE_NAMES.includes(unit)) {
     if (num === 1) return 'قطعة واحدة';
     if (num === 2) return 'قطعتان';
     if (num >= 3 && num <= 10) return `${num} قطع`;

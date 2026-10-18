@@ -104,7 +104,7 @@ test('استيراد البضاعة: المطابقة بالباركود/SKU و�
     [header,['6281000000017','','3','5'],['FL-MASTER','','1',''],['FL-A','','2','5']]));
   const preview=page.getByTestId('go-live-preview-stock');
   await expect(preview).toContainText('السطر 3: لا يوجد صنف قابل للجرد');
-  await expect(preview).toContainText('السطر 4: الحبات الإضافية يجب أن تكون أقل من محتوى الطرد (5)');
+  await expect(preview).toContainText('السطر 4: الباكيتات الإضافية يجب أن تكون أقل من محتوى الطرد (5)');
   await page.getByTestId('go-live-import-stock').locator('input[type="file"]').setInputFiles(xlsx('stock.xlsx',
     [header,['6281000000017','','3','5'],['fl-a','','2','4']]));
   await expect(preview).toContainText('91');

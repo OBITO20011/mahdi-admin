@@ -1,4 +1,5 @@
 import {sourceBefore198Presentation} from '../scripts/audit/source-before198-presentation.mjs';
+import {sourceBeforeUnitTerminology} from '../scripts/audit/source-before-unit-terminology.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -49,7 +50,7 @@ test('opening cheque parser rejects changed headers,invalid dates,rounding and e
 test('opening card additions leave every existing go-live call,handler and emitted behavior outside the new card byte-identical',()=>{
  const file='src/features/goLive/GoLiveSetupView.tsx';
  const original=execFileSync('git',['show',`e69c22f:${file}`],{encoding:'utf8'}).replaceAll('\r\n','\n');
- const after=read(file),importLine="import {OpeningChequesCard} from './OpeningChequesCard';\n";
+ const after=sourceBeforeUnitTerminology(file,read(file))!,importLine="import {OpeningChequesCard} from './OpeningChequesCard';\n";
  const cardLine='        {status && <OpeningChequesCard branchId={status.mainBranchId} locked={locked} onSaved={() => void refresh()} />}\n';
  assert.equal(after.split(importLine).length,2);assert.equal(after.split(cardLine).length,2);
  assert.equal(after.replace(importLine,'').replace(cardLine,''),original);

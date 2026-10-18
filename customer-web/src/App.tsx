@@ -1678,7 +1678,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                     أصناف الجملة المتوفرة
                   </h2>
                   <p className="mt-2 text-xs leading-6 text-slate-500">
-                    كل كمية هنا محسوبة كطرد بيع كامل، وليس بيعًا بالحبة.
+                    كل كمية هنا محسوبة بوحدة البيع الموضّحة للصنف ومحتواها.
                   </p>
                 </div>
 

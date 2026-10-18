@@ -27,9 +27,9 @@ const mapStockAlert = (item: any): StockAlertNotification => {
   const packageSummary =
     unitsPerPackage > 1
       ? `${packageCount} ${item.purchaseUnitName || 'عبوة'} و${looseUnits} ${
-          item.baseUnitName || 'حبة'
+          item.baseUnitName || 'باكيت'
         }`
-      : `${Math.max(availableQuantity, 0)} ${item.baseUnitName || 'حبة'}`;
+      : `${Math.max(availableQuantity, 0)} ${item.baseUnitName || 'باكيت'}`;
   const isOutOfStock =
     item.severity === 'out_of_stock' || availableQuantity <= 0;
 
@@ -41,7 +41,7 @@ const mapStockAlert = (item: any): StockAlertNotification => {
     message: isOutOfStock
       ? `لا توجد كمية متاحة في ${item.warehouseName || 'المستودع'}.`
       : `المتوفر ${packageSummary}، وحد التنبيه ${thresholdQuantity} ${
-          item.baseUnitName || 'حبة'
+          item.baseUnitName || 'باكيت'
         }.`,
     type: 'stock',
     read: Boolean(item.isRead),
@@ -57,7 +57,7 @@ const mapStockAlert = (item: any): StockAlertNotification => {
     thresholdQuantity,
     unitsPerPackage,
     purchaseUnitName: item.purchaseUnitName || 'عبوة',
-    baseUnitName: item.baseUnitName || 'حبة',
+    baseUnitName: item.baseUnitName || 'باكيت',
   };
 };
 

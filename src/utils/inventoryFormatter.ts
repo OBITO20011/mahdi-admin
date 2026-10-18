@@ -3,6 +3,8 @@
  * Converts internal base units (pieces) into wholesale carton + remaining pieces representation.
  */
 
+import {unitCountLabel} from './unitLabels';
+
 export interface WholesaleInventoryFormat {
   cartons: number;
   remainingPieces: number;
@@ -42,12 +44,12 @@ export function summarizeFlavorFamilyInventory(
   const first = flavors[0];
   const unitsPerPackage = Math.max(1, Math.floor(first?.unitsPerPackage || 1));
   const purchasePackage = first?.purchasePackage || 'كرتونة';
-  const unit = first?.unit || 'قطعة';
+  const unit = first?.unit || 'باكيت';
   const hasCompatiblePackaging = flavors.every(
     (flavor) =>
       Math.max(1, Math.floor(flavor.unitsPerPackage || 1)) === unitsPerPackage &&
       (flavor.purchasePackage || 'كرتونة') === purchasePackage &&
-      (flavor.unit || 'قطعة') === unit
+      (flavor.unit || 'باكيت') === unit
   );
 
   return {
@@ -77,7 +79,7 @@ export function formatWholesaleInventory(
   totalPieces: number,
   unitsPerPackage: number = 12,
   purchasePackageName: string = 'كرتونة',
-  baseUnitName: string = 'قطعة'
+  baseUnitName: string = 'باكيت'
 ): WholesaleInventoryFormat {
   const pkgSize = Math.max(1, Math.floor(unitsPerPackage || 12));
   const pieces = Math.max(0, Math.floor(totalPieces || 0));
@@ -102,7 +104,7 @@ export function formatWholesaleInventory(
   }
 
   // Pluralization logic for Pieces
-  let pieceLabel = baseUnitName || 'قطعة';
+  let pieceLabel = unitCountLabel(remainingPieces, baseUnitName || 'باكيت');
   if (pieceLabel === 'قطعة') {
     if (remainingPieces >= 3 && remainingPieces <= 10) {
       pieceLabel = 'قطع';
@@ -111,8 +113,10 @@ export function formatWholesaleInventory(
     }
   }
 
-  const cartonFormatted = `${cartons} ${cartonLabel} + ${remainingPieces} ${pieceLabel}`;
-  const totalPiecesFormatted = `(${pieces} ${baseUnitName || 'قطعة'})`;
+  const cartonFormatted = pkgSize === 1
+    ? `${pieces} ${unitCountLabel(pieces, baseUnitName || 'باكيت')}`
+    : `${cartons} ${cartonLabel} + ${remainingPieces} ${pieceLabel}`;
+  const totalPiecesFormatted = `(${pieces} ${unitCountLabel(pieces, baseUnitName || 'باكيت')})`;
 
   return {
     cartons,
@@ -121,7 +125,7 @@ export function formatWholesaleInventory(
     pieceLabel,
     cartonFormatted,
     totalPiecesFormatted,
-    fullFormatted: `${cartonFormatted} ${totalPiecesFormatted}`,
+    fullFormatted: pkgSize === 1 ? cartonFormatted : `${cartonFormatted} ${totalPiecesFormatted}`,
   };
 }
 
@@ -146,7 +150,7 @@ export function formatProductInventory(
 
   const unitsPerPkg = product.unitsPerPackage || product.cartonSize || product.packetSize || 12;
   const pkgName = product.purchasePackage || 'كرتونة';
-  const baseUnit = product.unit || 'قطعة';
+  const baseUnit = product.unit || 'باكيت';
 
   return formatWholesaleInventory(pieces, unitsPerPkg, pkgName, baseUnit);
 }

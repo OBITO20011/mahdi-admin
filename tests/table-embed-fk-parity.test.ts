@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import ts from 'typescript';
+import {sourceBeforeUnitTerminology} from '../scripts/audit/source-before-unit-terminology.mjs';
 
 // Full pre-change AST hashes captured BEFORE editing from204f1ed (same sources
 // as the approved21c8bd4 audit),not learned from the transformed implementation.
@@ -13,7 +14,7 @@ const files=[
 ] as const;
 const hints=/!(?:order_items_product_id_fkey|purchase_order_items_product_id_fkey|purchase_receipt_items_purchase_receipt_id_fkey|supplier_receipts_received_by_fkey)/gu;
 for(const [name,hash,count] of files)test(`only the approved explicit relationship hints change the ENTIRE AST:${name}`,async()=>{
- const file=`src/services/supabase/${name}.service.ts`,text=(await readFile(file,'utf8')).replaceAll('\r\n','\n');
+ const file=`src/services/supabase/${name}.service.ts`,text=sourceBeforeUnitTerminology(file,await readFile(file,'utf8'))!;
  assert.equal([...text.matchAll(hints)].length,count);
  // Remove only the four named PostgREST hints BEFORE parsing,so the printer
  // retains original literal spelling/quote style instead of synthesizing every

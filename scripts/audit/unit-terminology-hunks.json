@@ -1,0 +1,878 @@
+{
+  "baseline": "ba8626687e3def67addc6f32ba7bebc9ad5bb937",
+  "entries": {
+    "e2e/package-f-products-harness.tsx": {
+      "before": "b9f81c2155d07f63f697698b0d80131aadccd0db9d835b3d33325d551163cdca",
+      "after": "c7261f96e8df3bd8950c4e19c86af7cf613611457737bbdedd8cf569c7715beb",
+      "hunks": [
+        {
+          "at": 35,
+          "before": [
+            "store.state={...store.getState(),products,categories:[{id:'drinks',nameAr:'مشروبات وتسالي'}],"
+          ],
+          "after": [
+            "store.state={...store.getState(),products,units:[",
+            " {id:'packet',nameAr:'باكيت',code:'PKT',conversionFactor:1},",
+            " {id:'sack',nameAr:'شوال',code:'SACK',conversionFactor:1},",
+            " {id:'bottle',nameAr:'قنينة',code:'BTL',conversionFactor:1},",
+            " {id:'legacy',nameAr:'قطعة',code:'PCS',conversionFactor:1},",
+            "],categories:[{id:'drinks',nameAr:'مشروبات وتسالي'}],"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/App.tsx": {
+      "before": "98d0d5698e677a61fef5788097d56cd17a4d8dbda22e9bfbfae87f889adc4c91",
+      "after": "5ee48e99526fa9e7fd3a7b1ca98b01083f883fd46f7c2a3994efebf7918cdb68",
+      "hunks": [
+        {
+          "at": 1681,
+          "before": [
+            "                    كل كمية هنا محسوبة كطرد بيع كامل، وليس بيعًا بالحبة."
+          ],
+          "after": [
+            "                    كل كمية هنا محسوبة بوحدة البيع الموضّحة للصنف ومحتواها."
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/ProductDetailsModal.tsx": {
+      "before": "2473caa64b11331c166965e3d542c90c76b653b298d0e1a365ff9d6ca06480cb",
+      "after": "59adc9973c0c3df30fa55f5dadff04b3ad257996c1bc2344d97fddbe2b3e3af8",
+      "hunks": [
+        {
+          "at": 401,
+          "before": [
+            "                  السعر للطرد الكامل وليس للحبة"
+          ],
+          "after": [
+            "                  السعر لوحدة البيع: {product.saleUnitNameAr}"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/services/catalog.service.ts": {
+      "before": "635f4660986be0432d6c07d237e97a147c9424a8ac02fddd9694ec46fd4e80f5",
+      "after": "c8992f9c7bd987ede8e2026e86e00bda513533ef3c00631d5fb8a1de98f31cc5",
+      "hunks": [
+        {
+          "at": 75,
+          "before": [
+            "    unitNameAr: textValue(item.unitNameAr) || 'حبة',"
+          ],
+          "after": [
+            "    unitNameAr: textValue(item.unitNameAr) || 'باكيت',"
+          ]
+        }
+      ]
+    },
+    "src/constants/index.ts": {
+      "before": "7eb74f4cd45bae7e626900b3d3360d811466a676f11d41502cfcabb415ebf821",
+      "after": "3c75513da4b822ac83f857162700bcf8bdd13bd719b4bab43384ca673d66b58f",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [
+            "  { code: 'PCS', nameAr: 'حبة / قطعة' },"
+          ],
+          "after": []
+        }
+      ]
+    },
+    "src/features/directReceiving/CreateDirectReceiptModal.tsx": {
+      "before": "aa53c36bfe73a50a2db067e6eec61eee96af717865c68a5b624d028b75ac4b88",
+      "after": "db9fc5bc1819d9b47f832a5b4c7b56dc0f362accc3af7459d0e5a33228093f5e",
+      "hunks": [
+        {
+          "at": 713,
+          "before": [
+            "          مثال: 3 كراتين × 5 حبات = 15 حبة تُضاف للمخزون."
+          ],
+          "after": [
+            "          مثال: 3 كراتين × 5 باكيتات = 15 باكيت تُضاف للمخزون."
+          ]
+        }
+      ]
+    },
+    "src/features/directReceiving/DirectReceivingView.tsx": {
+      "before": "6294dbbfe37dc080469162a0f941c3ffb90cacbd44184e9d13882d36ebc42fd3",
+      "after": "71099afdfeb95455c59683a347c54ef88a6df811e25d9e0eca717031ed6ac290",
+      "hunks": [
+        {
+          "at": 715,
+          "before": [
+            "                        <span className=\"text-nw-muted\">تكلفة الحبة: </span>"
+          ],
+          "after": [
+            "                        <span className=\"text-nw-muted\">تكلفة {product.baseUnitName}: </span>"
+          ]
+        },
+        {
+          "at": 731,
+          "before": [
+            "                        <span className=\"text-nw-muted\">سعر بيع الحبة: </span>"
+          ],
+          "after": [
+            "                        <span className=\"text-nw-muted\">سعر بيع {product.baseUnitName}: </span>"
+          ]
+        }
+      ]
+    },
+    "src/features/goLive/GoLiveSetupView.tsx": {
+      "before": "fb22238aca6626c9df1c9795fcb425a2dd63ec46e5af03c14e48f824b19eed36",
+      "after": "c53be0c012b36edb9f40cdb0bf5933f8c37bdae6f017a2179323881de7fe5c1e",
+      "hunks": [
+        {
+          "at": 100,
+          "before": [
+            "          { label: 'مجموع الحبات', value: <Num value={prepared.payload.reduce((sum, r) => sum + r.baseQuantity, 0)} /> }];"
+          ],
+          "after": [
+            "          { label: 'مجموع الباكيتات', value: <Num value={prepared.payload.reduce((sum, r) => sum + r.baseQuantity, 0)} /> }];"
+          ]
+        },
+        {
+          "at": 604,
+          "before": [
+            "              description=\"الكميات الموجودة فعلاً بالطرود والحبات، بتكلفة الصنف ودون فاتورة مورد.\""
+          ],
+          "after": [
+            "              description=\"الكميات الموجودة فعلاً بالطرود والباكيتات، بتكلفة الصنف ودون فاتورة مورد.\""
+          ]
+        }
+      ]
+    },
+    "src/features/goLive/goLiveImport.ts": {
+      "before": "224bc3cf19613d10c7ada5bdfaeba75e92a8e2d3c1ce02ce0b8b2b47996638cf",
+      "after": "7d88c814dff51a45bac855e3dd469be5a4cb2bff7993e36a9fee2c31e1611d35",
+      "hunks": [
+        {
+          "at": 8,
+          "before": [],
+          "after": [
+            "import { LEGACY_UNIT_HEADERS } from '../../utils/legacyUnitImportHeaders';",
+            ""
+          ]
+        },
+        {
+          "at": 30,
+          "before": [
+            "    { key: 'units_per_purchase_unit', header: 'عدد الحبات في طرد الشراء', required: true, example: '24' },"
+          ],
+          "after": [
+            "    { key: 'units_per_purchase_unit', header: 'عدد الباكيتات في طرد الشراء', required: true, example: '24' },"
+          ]
+        },
+        {
+          "at": 32,
+          "before": [
+            "    { key: 'units_per_sale_unit', header: 'عدد الحبات في طرد البيع', required: true, example: '24' },"
+          ],
+          "after": [
+            "    { key: 'units_per_sale_unit', header: 'عدد الباكيتات في طرد البيع', required: true, example: '24' },"
+          ]
+        },
+        {
+          "at": 35,
+          "before": [
+            "    { key: 'cost_per_base_unit', header: 'تكلفة الحبة (د.أ)', required: true, example: '0.200' },",
+            "    { key: 'min_stock_level', header: 'الحد الأدنى للمخزون (حبة)', required: false, example: '48' },"
+          ],
+          "after": [
+            "    { key: 'cost_per_base_unit', header: 'تكلفة الباكيت (د.أ)', required: true, example: '0.200' },",
+            "    { key: 'min_stock_level', header: 'الحد الأدنى للمخزون (باكيت)', required: false, example: '48' },"
+          ]
+        },
+        {
+          "at": 42,
+          "before": [
+            "    { key: 'loose_units', header: 'الحبات الإضافية', required: false, example: '5' },"
+          ],
+          "after": [
+            "    { key: 'loose_units', header: 'الباكيتات الإضافية', required: false, example: '5' },"
+          ]
+        },
+        {
+          "at": 69,
+          "before": [
+            "    'الكمية = عدد الطرود × محتوى الطرد + الحبات الإضافية (أقل من محتوى الطرد).',"
+          ],
+          "after": [
+            "    'الكمية = عدد الطرود × محتوى الطرد + الباكيتات الإضافية (أقل من محتوى الطرد).',"
+          ]
+        },
+        {
+          "at": 145,
+          "before": [
+            "    const index = header.indexOf(column.header);"
+          ],
+          "after": [
+            "    const index = header.findIndex(value => value === column.header || (LEGACY_UNIT_HEADERS[column.key] ?? []).includes(value));"
+          ]
+        },
+        {
+          "at": 195,
+          "before": [
+            "    if (perPurchase === null || perSale === null) { fail('عدد الحبات في الطرد يجب أن يكون رقماً صحيحاً أكبر من صفر.'); continue; }"
+          ],
+          "after": [
+            "    if (perPurchase === null || perSale === null) { fail('عدد الباكيتات في الطرد يجب أن يكون رقماً صحيحاً أكبر من صفر.'); continue; }"
+          ]
+        },
+        {
+          "at": 233,
+          "before": [
+            "    if (packages === null || loose === null) { fail('عدد الطرود والحبات يجب أن تكون أرقاماً صحيحة موجبة.'); continue; }"
+          ],
+          "after": [
+            "    if (packages === null || loose === null) { fail('عدد الطرود والباكيتات يجب أن تكون أرقاماً صحيحة موجبة.'); continue; }"
+          ]
+        },
+        {
+          "at": 235,
+          "before": [
+            "      fail(`الحبات الإضافية يجب أن تكون أقل من محتوى الطرد (${product.unitsPerPackage}).`); continue;"
+          ],
+          "after": [
+            "      fail(`الباكيتات الإضافية يجب أن تكون أقل من محتوى الطرد (${product.unitsPerPackage}).`); continue;"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/InventoryOpeningSetupModal.tsx": {
+      "before": "8d24e2036ba9949dd50be843b47b459388beda3c0cf0d8a0d4055fa040033034",
+      "after": "e17393b4f725879277ef4184bb0e79ec29952d1a2869f08ff8d0b069ea75cf91",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [],
+          "after": [
+            "import {LEGACY_OPENING_LOOSE_HEADER} from '../../utils/legacyUnitImportHeaders';"
+          ]
+        },
+        {
+          "at": 195,
+          "before": [
+            "            `الحبات المتبقية يجب أن تكون أقل من ${product.unitsPerPackage}.`"
+          ],
+          "after": [
+            "            `المتبقي من ${product.baseUnitName} يجب أن يكون أقل من ${product.unitsPerPackage}.`"
+          ]
+        },
+        {
+          "at": 267,
+          "before": [
+            "      'الحبات المتبقية',"
+          ],
+          "after": [
+            "      'الباكيتات المتبقية',"
+          ]
+        },
+        {
+          "at": 306,
+          "before": [
+            "        'الحباتالمتبقية',"
+          ],
+          "after": [
+            "        'الباكيتاتالمتبقية',",
+            "        LEGACY_OPENING_LOOSE_HEADER,"
+          ]
+        },
+        {
+          "at": 313,
+          "before": [
+            "          'استخدم القالب المعتمد؛ الأعمدة المطلوبة: SKU، عدد الطرود، الحبات المتبقية.'"
+          ],
+          "after": [
+            "          'استخدم القالب المعتمد؛ الأعمدة المطلوبة: SKU، عدد الطرود، الباكيتات المتبقية.'"
+          ]
+        },
+        {
+          "at": 351,
+          "before": [
+            "          problems.push(`السطر ${rowIndex + 2}: الحبات تتجاوز محتوى الطرد.`);"
+          ],
+          "after": [
+            "          problems.push(`السطر ${rowIndex + 2}: كمية ${product.baseUnitName} تتجاوز محتوى الطرد.`);"
+          ]
+        },
+        {
+          "at": 493,
+          "before": [
+            "        والحبات المتبقية ثم احفظ الملف بصيغة CSV."
+          ],
+          "after": [
+            "        والباكيتات المتبقية ثم احفظ الملف بصيغة CSV."
+          ]
+        },
+        {
+          "at": 733,
+          "before": [
+            "            <span className=\"block text-[9px] text-nw-muted\">إجمالي الحبات</span>"
+          ],
+          "after": [
+            "            <span className=\"block text-[9px] text-nw-muted\">إجمالي الباكيتات</span>"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/InventoryView.tsx": {
+      "before": "c7dd4c5f8e0d5899dfd0cf7b4ec9dd4260db6ee8ea32d369582b2acbfb52eeaf",
+      "after": "fe659790266118e14017019a429a8ecd266da363b9eb3a87f603787dbac6b2c8",
+      "hunks": [
+        {
+          "at": 353,
+          "before": [
+            "              <Card className=\"p-3\"><span className=\"text-nw-muted\">سعر الباكيت</span><p className=\"mb-0 font-bold\"><MoneyText amount={product.retailPrice} /></p></Card>"
+          ],
+          "after": [
+            "              <Card className=\"p-3\"><span className=\"text-nw-muted\">سعر {product.unit}</span><p className=\"mb-0 font-bold\"><MoneyText amount={product.retailPrice} /></p></Card>"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductCostCorrectionPanel.tsx": {
+      "before": "526c286cff7473219b7a30e262db761941e3a2fc40126a9d3dced8fec5aa8934",
+      "after": "5aee8a9385ea6182ac067d8767ce529f708c777bda5c07b0bcb41aef1a8da57a",
+      "hunks": [
+        {
+          "at": 14,
+          "before": [
+            "  targets: { id: string; name: string }[];"
+          ],
+          "after": [
+            "  targets: { id: string; name: string; unit?: string }[];"
+          ]
+        },
+        {
+          "at": 28,
+          "before": [],
+          "after": [
+            "  const unitName = targets.find(target => target.id === productId)?.unit || 'باكيت';"
+          ]
+        },
+        {
+          "at": 49,
+          "before": [
+            "    if (!/^\\d+(?:\\.\\d{1,3})?$/u.test(cost.trim())) { setError('أدخل تكلفة الحبة بالدينار بثلاث منازل عشرية كحد أقصى.'); return; }"
+          ],
+          "after": [
+            "    if (!/^\\d+(?:\\.\\d{1,3})?$/u.test(cost.trim())) { setError(`أدخل تكلفة ${unitName} بالدينار بثلاث منازل عشرية كحد أقصى.`); return; }"
+          ]
+        },
+        {
+          "at": 72,
+          "before": [
+            "        يضبط متوسط التكلفة للحبة لهذا المنتج فقط. لا يغيّر الكميات ولا تكلفة المبيعات السابقة، ويُسجّل مع السبب في سجل التدقيق."
+          ],
+          "after": [
+            "        يضبط متوسط التكلفة لكل {unitName} لهذا المنتج فقط. لا يغيّر الكميات ولا تكلفة المبيعات السابقة، ويُسجّل مع السبب في سجل التدقيق."
+          ]
+        },
+        {
+          "at": 76,
+          "before": [
+            "          متوسط التكلفة الحالي: <bdi dir=\"ltr\" className=\"font-black\">{formatJod(currentUnitCostInMinorUnits(state) / 1000)}</bdi> {CURRENCY} للحبة"
+          ],
+          "after": [
+            "          متوسط التكلفة الحالي: <bdi dir=\"ltr\" className=\"font-black\">{formatJod(currentUnitCostInMinorUnits(state) / 1000)}</bdi> {CURRENCY} لكل {unitName}"
+          ]
+        },
+        {
+          "at": 90,
+          "before": [
+            "            <label htmlFor={ids.cost} className=\"mb-1 block text-xs font-bold text-nw-muted\">التكلفة الصحيحة للحبة ({CURRENCY}) *</label>"
+          ],
+          "after": [
+            "            <label htmlFor={ids.cost} className=\"mb-1 block text-xs font-bold text-nw-muted\">التكلفة الصحيحة لكل {unitName} ({CURRENCY}) *</label>"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductDetailModal.tsx": {
+      "before": "5e46fecfab444c40905284671db18a65ad82ee661a3beb59f1345bc503b156da",
+      "after": "4fd4abedb5858f2c5f97e978054562c619877814953a0cd64882808cb60157de",
+      "hunks": [
+        {
+          "at": 821,
+          "before": [
+            "              البيع بالجملة للطرد كاملًا، وليس للحبة"
+          ],
+          "after": [
+            "              سعر البيع للوحدة المحددة: {product.salePackage || product.unit}"
+          ]
+        },
+        {
+          "at": 854,
+          "before": [
+            "            حدّد طرد بيع الجملة وعدد الحبات وسعر الطرد قبل إظهار"
+          ],
+          "after": [
+            "            حدّد طرد بيع الجملة وعدد {product.unit} وسعر الطرد قبل إظهار"
+          ]
+        },
+        {
+          "at": 1003,
+          "before": [
+            "              ? flavors.map((flavor) => ({ id: flavor.id, name: flavor.flavorNameAr || flavor.nameAr }))",
+            "              : [{ id: product.id, name: product.nameAr }]}"
+          ],
+          "after": [
+            "              ? flavors.map((flavor) => ({ id: flavor.id, name: flavor.flavorNameAr || flavor.nameAr, unit: flavor.unit }))",
+            "              : [{ id: product.id, name: product.nameAr, unit: product.unit }]}"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductFormModal.tsx": {
+      "before": "126cf5b9bbdc66cda35da05d81cacad2bbff1de911f21b14d9d065db6b8eb9f8",
+      "after": "8bdc08eac8e04a7606ddc1bc56c6e26383a1e8228eab9747be75278262081bf9",
+      "hunks": [
+        {
+          "at": 106,
+          "before": [],
+          "after": [
+            "    units,"
+          ]
+        },
+        {
+          "at": 197,
+          "before": [
+            "  const [unit] = useState(initialProduct?.unit || 'قطعة');"
+          ],
+          "after": [
+            "  const [unit, setUnit] = useState(initialProduct?.unit || units.find(item => item.code === 'PKT')?.nameAr || units.find(item => item.code !== 'PCS' && !item.isHidden)?.nameAr || 'باكيت');"
+          ]
+        },
+        {
+          "at": 847,
+          "before": [
+            "          عبّي سعر الباكيت؛ بدونه لا يُحسب خصم ضرر العميل"
+          ],
+          "after": [
+            "          عبّي سعر {unit}؛ بدونه لا يُحسب خصم ضرر العميل"
+          ]
+        },
+        {
+          "at": 1361,
+          "before": [
+            "              عرّف الطرد مرة واحدة، والتكلفة تُحسب للحبة"
+          ],
+          "after": [
+            "              عرّف الطرد مرة واحدة، والتكلفة تُحسب لكل {unit}"
+          ]
+        },
+        {
+          "at": 1367,
+          "before": [],
+          "after": [
+            "          <label className=\"col-span-2 text-xs font-bold text-nw-muted\">",
+            "            الوحدة الأساسية",
+            "            <select aria-label=\"الوحدة الأساسية\" className={inputClass} value={unit} onChange={event => setUnit(event.target.value)} disabled={isEditing}>",
+            "              {Array.from(new Set([unit, ...units.filter(item => item.code !== 'PCS' && !item.isHidden).map(item => item.nameAr)])).map(name => <option key={name} value={name}>{name}</option>)}",
+            "            </select>",
+            "          </label>"
+          ]
+        },
+        {
+          "at": 1382,
+          "before": [
+            "              {PURCHASE_PACKAGE_OPTIONS.map((item) => (",
+            "                <option key={item.code} value={item.nameAr}>",
+            "                  {item.nameAr}"
+          ],
+          "after": [
+            "              {Array.from(new Set([purchasePackage, ...PURCHASE_PACKAGE_OPTIONS.map(item => item.nameAr)])).map((name) => (",
+            "                <option key={name} value={name}>",
+            "                  {name}"
+          ]
+        },
+        {
+          "at": 1391,
+          "before": [
+            "              عدد الحبات في الطرد *"
+          ],
+          "after": [
+            "              عدد {unit} في الطرد *"
+          ]
+        },
+        {
+          "at": 1393,
+          "before": [
+            "            <input aria-label=\"عدد الباكيتات في طرد الشراء\""
+          ],
+          "after": [
+            "            <input aria-label={`عدد ${unit} في طرد الشراء`}"
+          ]
+        },
+        {
+          "at": 1423,
+          "before": [
+            "              سعر شراء الحبة *"
+          ],
+          "after": [
+            "              سعر شراء {unit} *"
+          ]
+        },
+        {
+          "at": 1425,
+          "before": [
+            "            <input aria-label=\"سعر شراء الباكيت\""
+          ],
+          "after": [
+            "            <input aria-label={`سعر شراء ${unit}`}"
+          ]
+        },
+        {
+          "at": 1445,
+          "before": [
+            "            {validUnitsPerPackage} حبة × {formatJod(costPerUnit)} ={' '}"
+          ],
+          "after": [
+            "            {validUnitsPerPackage} {unit} × {formatJod(costPerUnit)} ={' '}"
+          ]
+        },
+        {
+          "at": 1455,
+          "before": [
+            "                <bdi dir=\"ltr\">{formatJod(currentUnitCostInMinorUnits(costState) / 1000)}</bdi> {CURRENCY} للحبة"
+          ],
+          "after": [
+            "                <bdi dir=\"ltr\">{formatJod(currentUnitCostInMinorUnits(costState) / 1000)}</bdi> {CURRENCY} لكل {unit}"
+          ]
+        },
+        {
+          "at": 1473,
+          "before": [
+            "              لا يوجد بيع بالحبة؛ السعر المدخل للطرد كاملًا"
+          ],
+          "after": [
+            "              السعر المدخل لطرد البيع كاملًا ({validUnitsPerSalePackage} {unit})"
+          ]
+        },
+        {
+          "at": 1488,
+          "before": [
+            "              {PURCHASE_PACKAGE_OPTIONS.filter(",
+            "                (option) => option.code !== 'PCS'",
+            "              ).map((option) => (",
+            "                <option key={option.code} value={option.nameAr}>",
+            "                  {option.nameAr}"
+          ],
+          "after": [
+            "              {Array.from(new Set([salePackage, ...PURCHASE_PACKAGE_OPTIONS.map(option => option.nameAr)])).map((name) => (",
+            "                <option key={name} value={name}>",
+            "                  {name}"
+          ]
+        },
+        {
+          "at": 1497,
+          "before": [
+            "              الحبات في طرد البيع *"
+          ],
+          "after": [
+            "              عدد {unit} في طرد البيع *"
+          ]
+        },
+        {
+          "at": 1499,
+          "before": [
+            "            <input aria-label=\"عدد الباكيتات في طرد البيع\""
+          ],
+          "after": [
+            "            <input aria-label={`عدد ${unit} في طرد البيع`}"
+          ]
+        },
+        {
+          "at": 1652,
+          "before": [
+            "          {validUnitsPerSalePackage} {unit}. النظام يحولها تلقائيًا للحبات"
+          ],
+          "after": [
+            "          {validUnitsPerSalePackage} {unit}. النظام يحولها تلقائيًا إلى {unit}"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductsView.tsx": {
+      "before": "d12d1c86b4b45ae971105b49c393d3ab41ec9f477f1ce2fdea3dda65c24d4f01",
+      "after": "bdc836daa82a434294c23f00f23fd5b7d12580713a4a5e8455e9b9e9ae2aa6fc",
+      "hunks": [
+        {
+          "at": 619,
+          "before": [
+            "                  {product.purchasePackage || product.unit} ×{' '}",
+            "                  {product.unitsPerPackage || 1}"
+          ],
+          "after": [
+            "                  {(product.unitsPerPackage || 1) === 1 ? product.unit : `${product.purchasePackage || 'طرد'} × ${product.unitsPerPackage} ${product.unit}`}"
+          ]
+        },
+        {
+          "at": 722,
+          "before": [
+            "              : `${product.salePackage} × ${unitsPerSalePackage}`}"
+          ],
+          "after": [
+            "              : unitsPerSalePackage === 1 ? product.unit : `${product.salePackage} × ${unitsPerSalePackage} ${product.unit}`}"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/PurchaseOrderDetailView.tsx": {
+      "before": "ff7a831d2daaaa87cbbd302ee3006d5e248a7274dd551b097869060842a3a52f",
+      "after": "fa704fd2d80c50480f62a57f61067686a6cba2811205db441d7d18d04350f0dc",
+      "hunks": [
+        {
+          "at": 41,
+          "before": [],
+          "after": [
+            "import { LEGACY_PIECE_NAMES } from '../../utils/legacyUnitImportHeaders';"
+          ]
+        },
+        {
+          "at": 71,
+          "before": [
+            "  if (unit === 'قطعة' || unit === 'حبة' || unit === 'قطع') {"
+          ],
+          "after": [
+            "  if (LEGACY_PIECE_NAMES.includes(unit)) {"
+          ]
+        }
+      ]
+    },
+    "src/features/reports/ReportsCenterView.tsx": {
+      "before": "48a174fe52c74ab2de8759a3242fdc818181d9c97ee1de54095772f12578c65c",
+      "after": "86cd20df4a06396c24a987adb42fb7a9982a4f6ba53a011903f3b719ccb76416",
+      "hunks": [
+        {
+          "at": 431,
+          "before": [
+            "              <div className=\"flex justify-between text-[10px]\"><span className=\"text-nw-muted\">حبات فعلية / محجوزة</span><b>{report.inventory.baseUnitsOnHand} / {report.inventory.baseUnitsReserved}</b></div>"
+          ],
+          "after": [
+            "              <div className=\"flex justify-between text-[10px]\"><span className=\"text-nw-muted\">باكيتات فعلية / محجوزة</span><b>{report.inventory.baseUnitsOnHand} / {report.inventory.baseUnitsReserved}</b></div>"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/directReceiving.service.ts": {
+      "before": "bc629a8b8b6740624cd48ca32c3f81dc7cb660221e373151d32af321c0427817",
+      "after": "e42f1e0afa62b0b4b36328b9c52ed369cdcecf4117d66c44d3223e42f89900a6",
+      "hunks": [
+        {
+          "at": 72,
+          "before": [
+            "  baseUnitName: item.base_unit_name || item.base_unit?.name_ar || 'حبة',"
+          ],
+          "after": [
+            "  baseUnitName: item.base_unit_name || item.base_unit?.name_ar || 'باكيت',"
+          ]
+        },
+        {
+          "at": 564,
+          "before": [
+            "    baseUnitName: product.unit || 'حبة',"
+          ],
+          "after": [
+            "    baseUnitName: product.unit || 'باكيت',"
+          ]
+        },
+        {
+          "at": 567,
+          "before": [
+            "    purchaseUnitName: product.purchasePackage || product.unit || 'حبة',"
+          ],
+          "after": [
+            "    purchaseUnitName: product.purchasePackage || product.unit || 'باكيت',"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/productCost.service.ts": {
+      "before": "02cdd9752c28d3d6355845fd6a00a1a073a12c9159176cc8d0b70a1bee76aa29",
+      "after": "a3c8a985bd5eb1707d56899c0463de22dfbf50a56c917414f091e35bbca3f3e4",
+      "hunks": [
+        {
+          "at": 30,
+          "before": [
+            "  PRODUCT_COST_CORRECTION_VALUE_INVALID: 'تكلفة الحبة يجب أن تكون صفراً أو أكثر.',"
+          ],
+          "after": [
+            "  PRODUCT_COST_CORRECTION_VALUE_INVALID: 'تكلفة الباكيت يجب أن تكون صفراً أو أكثر.',"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/products.service.ts": {
+      "before": "fea104f47ee0bb355d9c58591dcc4ff1e8a4ade18bb2be5edbd266e8feb2b269",
+      "after": "806bc5981332f6ac4686e08e0b1dade16b8ce1b9b4ffd576b53777977b41af66",
+      "hunks": [
+        {
+          "at": 297,
+          "before": [
+            "  const unitName = baseUnit?.name_ar || 'قطعة';"
+          ],
+          "after": [
+            "  const unitName = baseUnit?.name_ar || 'باكيت';"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/stockAlerts.service.ts": {
+      "before": "03459626090d256eef30cbdd93deb10ec4f29896c6ddea69646533c5acdbe804",
+      "after": "b727d0a47f96360ae1c4f37c33c8cdd36ef7a835a9283ccbe52368a4f3af72c1",
+      "hunks": [
+        {
+          "at": 30,
+          "before": [
+            "          item.baseUnitName || 'حبة'"
+          ],
+          "after": [
+            "          item.baseUnitName || 'باكيت'"
+          ]
+        },
+        {
+          "at": 32,
+          "before": [
+            "      : `${Math.max(availableQuantity, 0)} ${item.baseUnitName || 'حبة'}`;"
+          ],
+          "after": [
+            "      : `${Math.max(availableQuantity, 0)} ${item.baseUnitName || 'باكيت'}`;"
+          ]
+        },
+        {
+          "at": 44,
+          "before": [
+            "          item.baseUnitName || 'حبة'"
+          ],
+          "after": [
+            "          item.baseUnitName || 'باكيت'"
+          ]
+        },
+        {
+          "at": 60,
+          "before": [
+            "    baseUnitName: item.baseUnitName || 'حبة',"
+          ],
+          "after": [
+            "    baseUnitName: item.baseUnitName || 'باكيت',"
+          ]
+        }
+      ]
+    },
+    "src/utils/inventoryFormatter.ts": {
+      "before": "cfe9bf0bd998f856f3d65b9526ae1d798dbdac53d7b2127eb77e9f6649eb1101",
+      "after": "3598e586ece856b6b234311631b60585ea7de9b3e0cb08e22e4801b6c2548a3c",
+      "hunks": [
+        {
+          "at": 6,
+          "before": [],
+          "after": [
+            "import {unitCountLabel} from './unitLabels';",
+            ""
+          ]
+        },
+        {
+          "at": 47,
+          "before": [
+            "  const unit = first?.unit || 'قطعة';"
+          ],
+          "after": [
+            "  const unit = first?.unit || 'باكيت';"
+          ]
+        },
+        {
+          "at": 52,
+          "before": [
+            "      (flavor.unit || 'قطعة') === unit"
+          ],
+          "after": [
+            "      (flavor.unit || 'باكيت') === unit"
+          ]
+        },
+        {
+          "at": 82,
+          "before": [
+            "  baseUnitName: string = 'قطعة'"
+          ],
+          "after": [
+            "  baseUnitName: string = 'باكيت'"
+          ]
+        },
+        {
+          "at": 107,
+          "before": [
+            "  let pieceLabel = baseUnitName || 'قطعة';"
+          ],
+          "after": [
+            "  let pieceLabel = unitCountLabel(remainingPieces, baseUnitName || 'باكيت');"
+          ]
+        },
+        {
+          "at": 116,
+          "before": [
+            "  const cartonFormatted = `${cartons} ${cartonLabel} + ${remainingPieces} ${pieceLabel}`;",
+            "  const totalPiecesFormatted = `(${pieces} ${baseUnitName || 'قطعة'})`;"
+          ],
+          "after": [
+            "  const cartonFormatted = pkgSize === 1",
+            "    ? `${pieces} ${unitCountLabel(pieces, baseUnitName || 'باكيت')}`",
+            "    : `${cartons} ${cartonLabel} + ${remainingPieces} ${pieceLabel}`;",
+            "  const totalPiecesFormatted = `(${pieces} ${unitCountLabel(pieces, baseUnitName || 'باكيت')})`;"
+          ]
+        },
+        {
+          "at": 128,
+          "before": [
+            "    fullFormatted: `${cartonFormatted} ${totalPiecesFormatted}`,"
+          ],
+          "after": [
+            "    fullFormatted: pkgSize === 1 ? cartonFormatted : `${cartonFormatted} ${totalPiecesFormatted}`,"
+          ]
+        },
+        {
+          "at": 153,
+          "before": [
+            "  const baseUnit = product.unit || 'قطعة';"
+          ],
+          "after": [
+            "  const baseUnit = product.unit || 'باكيت';"
+          ]
+        }
+      ]
+    },
+    "src/utils/productEditConflict.ts": {
+      "before": "2e997f07ecd0ff1f3fc565954f063aa0aa4a17319c09135ace082b3301a16945",
+      "after": "921042aab679dfe9d28ab552715a4d77006165c606649e5b048218f1b9ec5a78",
+      "hunks": [
+        {
+          "at": 144,
+          "before": [
+            "  unitsPerPackage: 'الحبات في طرد الشراء',"
+          ],
+          "after": [
+            "  unitsPerPackage: 'الباكيتات في طرد الشراء',"
+          ]
+        },
+        {
+          "at": 147,
+          "before": [
+            "  unitsPerSalePackage: 'الحبات في طرد البيع',"
+          ],
+          "after": [
+            "  unitsPerSalePackage: 'الباكيتات في طرد البيع',"
+          ]
+        }
+      ]
+    },
+    "src/utils/unitLabels.ts": {
+      "added": true,
+      "after": "608ea919da466802a6a3f5a323f0ef19ee7691b252b9fb540905073ae50fed3f"
+    },
+    "src/utils/legacyUnitImportHeaders.ts": {
+      "added": true,
+      "after": "b399f1c9e9b651724a947a1a835f64f0d97c70418ad149ef745a9ba382c30825"
+    }
+  }
+}

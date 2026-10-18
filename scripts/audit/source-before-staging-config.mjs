@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
 import {inventory} from './table-access-inventory.mjs';
+import {restoreUnitSourceHashes} from './source-before-unit-terminology.mjs';
 const pins={
  'src/config/supabase-public-config.ts':'35f06dc43da3677958e91878303b7787d4352f68e0d7eec66c49df70e295826f',
  'customer-web/src/config/supabase-public-config.ts':'47bb4a4f235b8d83d1742ce44141fad42ab30910ae4cd1fc1868fa114529807b',
@@ -19,7 +20,7 @@ export function restoreStagingConfig(file,text){
  assert.equal(hash(restored),pins[file],'CONFIG_CHANGED_BEYOND_TWO_OWNER_LITERALS');return restored;
 }
 export async function sourceBeforeStagingConfig(sources){
- const result=sources.map(s=>({...s}));
+ const result=restoreUnitSourceHashes(sources).map(s=>({...s}));
  for(const file of Object.keys(pins)){
   const current=(await readFile(file,'utf8')).replaceAll('\r\n','\n'),entry=result.find(s=>s.file===file);
   assert.ok(entry,'CONFIG_SOURCE_REQUIRED');assert.equal(entry.sha256,hash(current),'CURRENT_CONFIG_HASH_MISMATCH');

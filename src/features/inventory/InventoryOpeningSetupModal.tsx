@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useAppStore } from '../../stores/useAppStore';
 import {useDialogFocus} from '../../hooks/useDialogFocus';
+import {LEGACY_OPENING_LOOSE_HEADER} from '../../utils/legacyUnitImportHeaders';
 import {
   applyInventoryOpeningSetupInSupabase,
   fetchInventoryOpeningSetupFromSupabase,
@@ -191,7 +192,7 @@ export const InventoryOpeningSetupModal: React.FC<
           errors.push('الكميات يجب أن تكون أعدادًا صحيحة موجبة أو صفرًا.');
         } else if (looseUnits >= product.unitsPerPackage) {
           errors.push(
-            `الحبات المتبقية يجب أن تكون أقل من ${product.unitsPerPackage}.`
+            `المتبقي من ${product.baseUnitName} يجب أن يكون أقل من ${product.unitsPerPackage}.`
           );
         }
         if (actualQuantity > 0 && product.costPriceInMinorUnits <= 0) {
@@ -263,7 +264,7 @@ export const InventoryOpeningSetupModal: React.FC<
       'SKU',
       'اسم الصنف',
       'عدد الطرود',
-      'الحبات المتبقية',
+      'الباكيتات المتبقية',
       'محتوى الطرد',
       'نوع الطرد',
     ];
@@ -302,13 +303,14 @@ export const InventoryOpeningSetupModal: React.FC<
         'packagecount',
       ]);
       const looseIndex = findHeaderIndex(headers, [
-        'الحباتالمتبقية',
+        'الباكيتاتالمتبقية',
+        LEGACY_OPENING_LOOSE_HEADER,
         'looseunits',
         'remainingpieces',
       ]);
       if (skuIndex < 0 || packagesIndex < 0 || looseIndex < 0) {
         throw new Error(
-          'استخدم القالب المعتمد؛ الأعمدة المطلوبة: SKU، عدد الطرود، الحبات المتبقية.'
+          'استخدم القالب المعتمد؛ الأعمدة المطلوبة: SKU، عدد الطرود، الباكيتات المتبقية.'
         );
       }
 
@@ -346,7 +348,7 @@ export const InventoryOpeningSetupModal: React.FC<
         const looseUnits = Number(looseText || 0);
         if (looseUnits >= product.unitsPerPackage) {
           ignored += 1;
-          problems.push(`السطر ${rowIndex + 2}: الحبات تتجاوز محتوى الطرد.`);
+          problems.push(`السطر ${rowIndex + 2}: كمية ${product.baseUnitName} تتجاوز محتوى الطرد.`);
           return;
         }
         importedEntries[product.productId] = {
@@ -488,7 +490,7 @@ export const InventoryOpeningSetupModal: React.FC<
       <div className="rounded-xl border border-nw-warn/20 bg-nw-warn-bg p-3 text-[11px] leading-5 text-nw-warn">
         <FileSpreadsheet className="ml-1 inline h-4 w-4" />
         القالب بصيغة CSV المتوافقة مع Excel. لا تغيّر SKU؛ عبّئ فقط عدد الطرود
-        والحبات المتبقية ثم احفظ الملف بصيغة CSV.
+        والباكيتات المتبقية ثم احفظ الملف بصيغة CSV.
       </div>
 
       <div className="flex flex-col gap-2 sm:flex-row">
@@ -728,7 +730,7 @@ export const InventoryOpeningSetupModal: React.FC<
             <b className="text-nw-text">{selectedRows.length}</b>
           </div>
           <div className="rounded-xl bg-nw-bg p-2">
-            <span className="block text-[9px] text-nw-muted">إجمالي الحبات</span>
+            <span className="block text-[9px] text-nw-muted">إجمالي الباكيتات</span>
             <b className="text-nw-info">{totalActualQuantity}</b>
           </div>
           <div className="rounded-xl bg-nw-bg p-2">

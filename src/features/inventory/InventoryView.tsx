@@ -350,7 +350,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
               <Card className="p-3"><span className="text-nw-muted">الفعلي</span><p className="mb-0 font-bold">{formatProductInventory(product, false).cartonFormatted}</p></Card>
               <Card className="p-3"><span className="text-nw-muted">المحجوز</span><p className="mb-0 font-bold">{product.reservedQuantity} {product.unit}</p></Card>
               <Card className="p-3"><span className="text-nw-muted">حد التنبيه</span><p className="mb-0 font-bold">{formatWholesaleInventory(product.reorderLevel, product.unitsPerPackage, product.purchasePackage, product.unit).cartonFormatted}</p></Card>
-              <Card className="p-3"><span className="text-nw-muted">سعر الباكيت</span><p className="mb-0 font-bold"><MoneyText amount={product.retailPrice} /></p></Card>
+              <Card className="p-3"><span className="text-nw-muted">سعر {product.unit}</span><p className="mb-0 font-bold"><MoneyText amount={product.retailPrice} /></p></Card>
               <Card className="p-3"><span className="text-nw-muted">سعر طرد البيع</span><p className="mb-0 font-bold"><MoneyText amount={product.salePackagePrice || 0} /></p></Card>
             </div>
             <p className="m-0 text-xs text-nw-muted">طرد الشراء: {product.purchasePackage || product.unit} × {product.unitsPerPackage || 1}</p>

@@ -428,7 +428,7 @@ export const ReportsCenterView: React.FC = () => {
               <h3 className="flex items-center gap-2 text-xs font-black text-nw-text"><PackageCheck className="h-4 w-4 text-nw-info" />المخزون الحالي</h3>
               <div className="flex justify-between text-[10px]"><span className="text-nw-muted">قيمة التكلفة</span><b>{money(report.inventory.value)}</b></div>
               <div className="flex justify-between text-[10px]"><span className="text-nw-muted">أصناف لها رصيد</span><b>{report.inventory.stockedProducts}</b></div>
-              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">حبات فعلية / محجوزة</span><b>{report.inventory.baseUnitsOnHand} / {report.inventory.baseUnitsReserved}</b></div>
+              <div className="flex justify-between text-[10px]"><span className="text-nw-muted">باكيتات فعلية / محجوزة</span><b>{report.inventory.baseUnitsOnHand} / {report.inventory.baseUnitsReserved}</b></div>
               <div className="flex justify-between text-[10px]"><span className="text-nw-muted">قربت تنفد</span><b className="text-nw-warn">{report.inventory.lowStockProducts}</b></div>
             </article>
             <article className="print-card space-y-2 rounded-2xl border border-nw-border bg-nw-surface p-3">

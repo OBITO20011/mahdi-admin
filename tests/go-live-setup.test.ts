@@ -109,7 +109,7 @@ test('opening stock matches barcode/SKU, packages and loose units, and flavor ma
   const prepared = prepareStock(sheet.rows, products);
   assert.deepEqual(prepared.payload.map(row => [row.productId, row.baseQuantity]), [['p1', 77]]);
   const expected: [number, string][] = [[3, 'أدخل تكلفة الشراء'], [4, 'لا يوجد صنف قابل للجرد'],
-    [5, 'بدأت حركات هذا الصنف'], [6, 'الحبات الإضافية يجب'], [7, 'الصنف مكرر داخل الملف']];
+    [5, 'بدأت حركات هذا الصنف'], [6, 'الباكيتات الإضافية يجب'], [7, 'الصنف مكرر داخل الملف']];
   assert.deepEqual(prepared.errors.map(error => error.row), expected.map(([row]) => row));
   prepared.errors.forEach((error, index) => assert.ok(error.message.startsWith(expected[index][1]), error.message));
   assert.deepEqual(mapServerErrors([{sourceRow: 9}, {sourceRow: 12}], [{row: 2, message: 'x'}]), [{row: 12, message: 'x'}]);

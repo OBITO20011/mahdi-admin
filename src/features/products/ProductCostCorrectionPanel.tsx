@@ -11,7 +11,7 @@ import {
 
 interface ProductCostCorrectionPanelProps {
   /** One product, or the flavors of a family (the family row holds no stock). */
-  targets: { id: string; name: string }[];
+  targets: { id: string; name: string; unit?: string }[];
   onCorrected: () => void;
   onClose: () => void;
 }
@@ -25,6 +25,7 @@ export const ProductCostCorrectionPanel: React.FC<ProductCostCorrectionPanelProp
   const ids = { cost: useId(), reason: useId(), title: useId(), target: useId() };
   const [productId, setProductId] = useState(targets[0]?.id ?? '');
   const productName = targets.find(target => target.id === productId)?.name ?? '';
+  const unitName = targets.find(target => target.id === productId)?.unit || 'باكيت';
   const [state, setState] = useState<ProductCostState | null>(null);
   const [cost, setCost] = useState('');
   const [reason, setReason] = useState('');
@@ -45,7 +46,7 @@ export const ProductCostCorrectionPanel: React.FC<ProductCostCorrectionPanelProp
   const save = async (event: React.FormEvent) => {
     event.preventDefault();
     setError('');
-    if (!/^\d+(?:\.\d{1,3})?$/u.test(cost.trim())) { setError('أدخل تكلفة الحبة بالدينار بثلاث منازل عشرية كحد أقصى.'); return; }
+    if (!/^\d+(?:\.\d{1,3})?$/u.test(cost.trim())) { setError(`أدخل تكلفة ${unitName} بالدينار بثلاث منازل عشرية كحد أقصى.`); return; }
     const trimmed = reason.trim();
     if (trimmed.length < 5 || trimmed.length > 500) { setError('اكتب سبب التصحيح (5 إلى 500 حرف).'); return; }
     setBusy(true);
@@ -68,11 +69,11 @@ export const ProductCostCorrectionPanel: React.FC<ProductCostCorrectionPanelProp
         تصحيح تكلفة {productName}
       </h3>
       <p className="mt-1 text-xs text-nw-muted">
-        يضبط متوسط التكلفة للحبة لهذا المنتج فقط. لا يغيّر الكميات ولا تكلفة المبيعات السابقة، ويُسجّل مع السبب في سجل التدقيق.
+        يضبط متوسط التكلفة لكل {unitName} لهذا المنتج فقط. لا يغيّر الكميات ولا تكلفة المبيعات السابقة، ويُسجّل مع السبب في سجل التدقيق.
       </p>
       {state && (
         <p className="mt-2 text-sm" data-testid="product-cost-current">
-          متوسط التكلفة الحالي: <bdi dir="ltr" className="font-black">{formatJod(currentUnitCostInMinorUnits(state) / 1000)}</bdi> {CURRENCY} للحبة
+          متوسط التكلفة الحالي: <bdi dir="ltr" className="font-black">{formatJod(currentUnitCostInMinorUnits(state) / 1000)}</bdi> {CURRENCY} لكل {unitName}
         </p>
       )}
       <FormFields>
@@ -86,7 +87,7 @@ export const ProductCostCorrectionPanel: React.FC<ProductCostCorrectionPanelProp
             </div>
           )}
           <div>
-            <label htmlFor={ids.cost} className="mb-1 block text-xs font-bold text-nw-muted">التكلفة الصحيحة للحبة ({CURRENCY}) *</label>
+            <label htmlFor={ids.cost} className="mb-1 block text-xs font-bold text-nw-muted">التكلفة الصحيحة لكل {unitName} ({CURRENCY}) *</label>
             <input id={ids.cost} className={fieldClass} dir="ltr" inputMode="decimal" value={cost} placeholder="0.000"
               onChange={event => setCost(event.target.value)} required />
           </div>

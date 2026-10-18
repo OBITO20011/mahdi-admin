@@ -616,8 +616,7 @@ const ProductCatalogCard: React.FC<{
                   طرد الشراء
                 </span>
                 <strong className="block truncate text-xs text-nw-text sm:text-xs">
-                  {product.purchasePackage || product.unit} ×{' '}
-                  {product.unitsPerPackage || 1}
+                  {(product.unitsPerPackage || 1) === 1 ? product.unit : `${product.purchasePackage || 'طرد'} × ${product.unitsPerPackage} ${product.unit}`}
                 </strong>
               </div>
             </div>
@@ -720,7 +719,7 @@ const ProductCatalogCard: React.FC<{
           <strong className="mt-0.5 block text-xs text-nw-info">
             {needsSalePackageSetup
               ? 'بحاجة ضبط'
-              : `${product.salePackage} × ${unitsPerSalePackage}`}
+              : unitsPerSalePackage === 1 ? product.unit : `${product.salePackage} × ${unitsPerSalePackage} ${product.unit}`}
           </strong>
         </div>
         <PriceCell

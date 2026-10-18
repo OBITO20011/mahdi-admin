@@ -1,5 +1,10 @@
 # إضافة جرد الخدمات والإعدادات —2026-10-15
 
+تحديث أدلة18أكتوبر2026: أعيد الجرد و489 probe محلياً بعد تصحيح مصطلحات
+الوحدات. صفر42501؛هذا ليس اتصالاً بفرانكفورت ولا اختباراً وظيفياً لكل حمولة.
+حالة إعداد ونشر staging الحالية وإيصال ربط المالك في STAGING_FRANKFURT_AR.md؛
+فقرات الإعداد أدناه قائمة مرجعية تاريخية،لا إلغاء لإيصالات المالك الأحدث.
+
 ## إضافة التحقيق: RPC وStorage وRealtime والإعدادات خارج migrations
 
 **لا تطبيق ACL ولا إعداد خدمات ولا نشر. هذا قياس محلي وقراءة ملفات محفوظة فقط؛الفجوة التشغيلية غير مغلقة.**
@@ -247,9 +252,9 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 |---|---|---|
 | automation/n8n/workflows/nawasrah-alerts.json | 32, 89, 175, 228 | EXTERNAL_CONSUMER |
 | docs/agent/HANDOFF_HISTORY.md | 445 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 477 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 485 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
-| docs/operations/STAGING_FRANKFURT_AR.md | 224 | HISTORICAL_DOCUMENTATION |
+| docs/operations/STAGING_FRANKFURT_AR.md | 245 | HISTORICAL_DOCUMENTATION |
 | scripts/backup/README.md | 28 | PRESERVE_OLD_BACKUP_LINK |
 | scripts/backup/backup-public-config.mjs | 3, 5 | PRESERVE_OLD_BACKUP_LINK |
 | scripts/backup/create-backup.mjs | 430 | PRESERVE_OLD_BACKUP_LINK |

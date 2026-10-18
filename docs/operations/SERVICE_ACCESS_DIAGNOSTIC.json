@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-17T19:08:01.315Z",
+  "startedAt": "2026-10-18T20:17:07.559Z",
   "migrationCeiling": 198,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-b5tYou",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-KACbKw",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -135,7 +135,7 @@
     },
     {
       "file": "src/constants/index.ts",
-      "sha256": "7eb74f4cd45bae7e626900b3d3360d811466a676f11d41502cfcabb415ebf821"
+      "sha256": "3c75513da4b822ac83f857162700bcf8bdd13bd719b4bab43384ca673d66b58f"
     },
     {
       "file": "src/features/accounts/AccountsView.tsx",
@@ -247,11 +247,11 @@
     },
     {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-      "sha256": "aa53c36bfe73a50a2db067e6eec61eee96af717865c68a5b624d028b75ac4b88"
+      "sha256": "db9fc5bc1819d9b47f832a5b4c7b56dc0f362accc3af7459d0e5a33228093f5e"
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
-      "sha256": "6294dbbfe37dc080469162a0f941c3ffb90cacbd44184e9d13882d36ebc42fd3"
+      "sha256": "71099afdfeb95455c59683a347c54ef88a6df811e25d9e0eca717031ed6ac290"
     },
     {
       "file": "src/features/directReceiving/RecordSupplierPaymentModal.tsx",
@@ -271,11 +271,11 @@
     },
     {
       "file": "src/features/goLive/goLiveImport.ts",
-      "sha256": "224bc3cf19613d10c7ada5bdfaeba75e92a8e2d3c1ce02ce0b8b2b47996638cf"
+      "sha256": "7d88c814dff51a45bac855e3dd469be5a4cb2bff7993e36a9fee2c31e1611d35"
     },
     {
       "file": "src/features/goLive/GoLiveSetupView.tsx",
-      "sha256": "fb22238aca6626c9df1c9795fcb425a2dd63ec46e5af03c14e48f824b19eed36"
+      "sha256": "c53be0c012b36edb9f40cdb0bf5933f8c37bdae6f017a2179323881de7fe5c1e"
     },
     {
       "file": "src/features/goLive/OpeningChequesCard.tsx",
@@ -291,11 +291,11 @@
     },
     {
       "file": "src/features/inventory/InventoryOpeningSetupModal.tsx",
-      "sha256": "8d24e2036ba9949dd50be843b47b459388beda3c0cf0d8a0d4055fa040033034"
+      "sha256": "e17393b4f725879277ef4184bb0e79ec29952d1a2869f08ff8d0b069ea75cf91"
     },
     {
       "file": "src/features/inventory/InventoryView.tsx",
-      "sha256": "c7dd4c5f8e0d5899dfd0cf7b4ec9dd4260db6ee8ea32d369582b2acbfb52eeaf"
+      "sha256": "fe659790266118e14017019a429a8ecd266da363b9eb3a87f603787dbac6b2c8"
     },
     {
       "file": "src/features/inventory/StockCountModal.tsx",
@@ -391,11 +391,11 @@
     },
     {
       "file": "src/features/products/ProductCostCorrectionPanel.tsx",
-      "sha256": "526c286cff7473219b7a30e262db761941e3a2fc40126a9d3dced8fec5aa8934"
+      "sha256": "5aee8a9385ea6182ac067d8767ce529f708c777bda5c07b0bcb41aef1a8da57a"
     },
     {
       "file": "src/features/products/ProductDetailModal.tsx",
-      "sha256": "5e46fecfab444c40905284671db18a65ad82ee661a3beb59f1345bc503b156da"
+      "sha256": "4fd4abedb5858f2c5f97e978054562c619877814953a0cd64882808cb60157de"
     },
     {
       "file": "src/features/products/ProductEditConflictPanel.tsx",
@@ -403,11 +403,11 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "126cf5b9bbdc66cda35da05d81cacad2bbff1de911f21b14d9d065db6b8eb9f8"
+      "sha256": "8bdc08eac8e04a7606ddc1bc56c6e26383a1e8228eab9747be75278262081bf9"
     },
     {
       "file": "src/features/products/ProductsView.tsx",
-      "sha256": "d12d1c86b4b45ae971105b49c393d3ab41ec9f477f1ce2fdea3dda65c24d4f01"
+      "sha256": "bdc836daa82a434294c23f00f23fd5b7d12580713a4a5e8455e9b9e9ae2aa6fc"
     },
     {
       "file": "src/features/products/StockAdjustmentModal.tsx",
@@ -427,7 +427,7 @@
     },
     {
       "file": "src/features/purchases/PurchaseOrderDetailView.tsx",
-      "sha256": "ff7a831d2daaaa87cbbd302ee3006d5e248a7274dd551b097869060842a3a52f"
+      "sha256": "fa704fd2d80c50480f62a57f61067686a6cba2811205db441d7d18d04350f0dc"
     },
     {
       "file": "src/features/purchases/PurchasesView.tsx",
@@ -447,7 +447,7 @@
     },
     {
       "file": "src/features/reports/ReportsCenterView.tsx",
-      "sha256": "48a174fe52c74ab2de8759a3242fdc818181d9c97ee1de54095772f12578c65c"
+      "sha256": "86cd20df4a06396c24a987adb42fb7a9982a4f6ba53a011903f3b719ccb76416"
     },
     {
       "file": "src/features/shifts/OwnerWithdrawalsPanel.tsx",
@@ -567,7 +567,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "sha256": "bc629a8b8b6740624cd48ca32c3f81dc7cb660221e373151d32af321c0427817"
+      "sha256": "e42f1e0afa62b0b4b36328b9c52ed369cdcecf4117d66c44d3223e42f89900a6"
     },
     {
       "file": "src/services/supabase/expenses-shifts.service.ts",
@@ -639,11 +639,11 @@
     },
     {
       "file": "src/services/supabase/productCost.service.ts",
-      "sha256": "02cdd9752c28d3d6355845fd6a00a1a073a12c9159176cc8d0b70a1bee76aa29"
+      "sha256": "a3c8a985bd5eb1707d56899c0463de22dfbf50a56c917414f091e35bbca3f3e4"
     },
     {
       "file": "src/services/supabase/products.service.ts",
-      "sha256": "fea104f47ee0bb355d9c58591dcc4ff1e8a4ade18bb2be5edbd266e8feb2b269"
+      "sha256": "806bc5981332f6ac4686e08e0b1dade16b8ce1b9b4ffd576b53777977b41af66"
     },
     {
       "file": "src/services/supabase/promotions.service.ts",
@@ -671,7 +671,7 @@
     },
     {
       "file": "src/services/supabase/stockAlerts.service.ts",
-      "sha256": "03459626090d256eef30cbdd93deb10ec4f29896c6ddea69646533c5acdbe804"
+      "sha256": "b727d0a47f96360ae1c4f37c33c8cdd36ef7a835a9283ccbe52368a4f3af72c1"
     },
     {
       "file": "src/services/supabase/storefront-settings.service.ts",
@@ -767,7 +767,11 @@
     },
     {
       "file": "src/utils/inventoryFormatter.ts",
-      "sha256": "cfe9bf0bd998f856f3d65b9526ae1d798dbdac53d7b2127eb77e9f6649eb1101"
+      "sha256": "3598e586ece856b6b234311631b60585ea7de9b3e0cb08e22e4801b6c2548a3c"
+    },
+    {
+      "file": "src/utils/legacyUnitImportHeaders.ts",
+      "sha256": "b399f1c9e9b651724a947a1a835f64f0d97c70418ad149ef745a9ba382c30825"
     },
     {
       "file": "src/utils/orderCalculations.ts",
@@ -787,7 +791,7 @@
     },
     {
       "file": "src/utils/productEditConflict.ts",
-      "sha256": "2e997f07ecd0ff1f3fc565954f063aa0aa4a17319c09135ace082b3301a16945"
+      "sha256": "921042aab679dfe9d28ab552715a4d77006165c606649e5b048218f1b9ec5a78"
     },
     {
       "file": "src/utils/productIdentifiers.ts",
@@ -822,12 +826,16 @@
       "sha256": "7ec4b5cf0ec390087c4ee37506d5644570c3840a83a1ab37e1682683fc103769"
     },
     {
+      "file": "src/utils/unitLabels.ts",
+      "sha256": "608ea919da466802a6a3f5a323f0ef19ee7691b252b9fb540905073ae50fed3f"
+    },
+    {
       "file": "src/vite-env.d.ts",
       "sha256": "8f554758a8fd30b190025fa27153a59d27f833393e8bd2c622418d85d0e45697"
     },
     {
       "file": "customer-web/src/App.tsx",
-      "sha256": "98d0d5698e677a61fef5788097d56cd17a4d8dbda22e9bfbfae87f889adc4c91"
+      "sha256": "5ee48e99526fa9e7fd3a7b1ca98b01083f883fd46f7c2a3994efebf7918cdb68"
     },
     {
       "file": "customer-web/src/components/AboutStorePage.tsx",
@@ -919,7 +927,7 @@
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
-      "sha256": "2473caa64b11331c166965e3d542c90c76b653b298d0e1a365ff9d6ca06480cb"
+      "sha256": "59adc9973c0c3df30fa55f5dadff04b3ad257996c1bc2344d97fddbe2b3e3af8"
     },
     {
       "file": "customer-web/src/components/ProductImage.tsx",
@@ -999,7 +1007,7 @@
     },
     {
       "file": "customer-web/src/services/catalog.service.ts",
-      "sha256": "635f4660986be0432d6c07d237e97a147c9424a8ac02fddd9694ec46fd4e80f5"
+      "sha256": "c8992f9c7bd987ede8e2026e86e00bda513533ef3c00631d5fb8a1de98f31cc5"
     },
     {
       "file": "customer-web/src/services/checkoutRecoveryCoordinator.ts",
@@ -37511,7 +37519,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-17T19:09:27.220Z",
+  "endedAt": "2026-10-18T20:18:39.751Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -37875,7 +37883,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        477
+        485
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
@@ -37889,7 +37897,7 @@
     {
       "file": "docs/operations/STAGING_FRANKFURT_AR.md",
       "lines": [
-        224
+        245
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

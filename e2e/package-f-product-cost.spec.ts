@@ -34,7 +34,7 @@ for(const theme of ['light','dark'] as const)for(const width of [390,820,1440]){
     await page.getByRole('button',{name:'تصحيح التكلفة'}).click();
     const panel=page.getByTestId('product-cost-correction');
     await expect(panel.getByTestId('product-cost-current')).toContainText('2.501');
-    await panel.getByLabel('التكلفة الصحيحة للحبة (د.أ) *').fill('2.6');
+    await panel.getByLabel('التكلفة الصحيحة لكل باكيت (د.أ) *').fill('2.6');
     await panel.getByLabel('سبب التصحيح *').fill('قصير');
     await panel.getByRole('button',{name:'حفظ التصحيح'}).click();
     await expect(panel.getByRole('alert')).toContainText('5 إلى 500');
@@ -52,7 +52,7 @@ for(const theme of ['light','dark'] as const)for(const width of [390,820,1440]){
 
 test('منتج جديد بلا حركة: لا عرض لمتوسط التكلفة ويبقى سعر الشراء يحدد التكلفة كما كان',async({page})=>{
   await page.goto(url('theme=light&reset=1'));
-  await expect(page.getByLabel('سعر شراء الباكيت')).toBeVisible();
+  await expect(page.getByLabel('سعر شراء باكيت',{exact:true})).toBeVisible();
   await expect(page.getByTestId('product-average-cost')).toHaveCount(0);
 });
 
@@ -71,7 +71,7 @@ test('عائلة النكهات: التصحيح يختار النكهة لأن �
   // One flavor in the fixture: no picker, the flavor itself is the target.
   await expect(panel.getByRole('heading')).toContainText('جبنة');
   await expect(panel.getByLabel('النكهة')).toHaveCount(0);
-  await panel.getByLabel('التكلفة الصحيحة للحبة (د.أ) *').fill('1.25');
+  await panel.getByLabel('التكلفة الصحيحة لكل باكيت (د.أ) *').fill('1.25');
   await panel.getByLabel('سبب التصحيح *').fill('تصحيح تكلفة نكهة الجبنة');
   await panel.getByRole('button',{name:'حفظ التصحيح'}).click();
   await expect(panel).toHaveCount(0);
