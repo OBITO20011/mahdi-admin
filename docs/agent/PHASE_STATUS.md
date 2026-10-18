@@ -1,5 +1,78 @@
 # Phase status
 
+## Current19Oct — terminology branch FULLgreen;genuine mainmerge pending
+
+b3a91ae677d6e6fb48ec5f53447db5677ac19dae exactpush/branch quality39170711896
+FULL28/28 and secrets39170711878 SUCCESS,no job rerun. Both old-label CI
+failures resolved by exact selectors;no timeout/retry/workflow change. Normal
+no-ff merge preserves every source/test/generated-evidence byte of this branch;
+only main/task metadata/receipt and a Windows-only test-source LF correction
+differ. Initial merge all1240Admin PASS;Customer3 textual extraction failures
+because git checkout restored App.tsx CRLF while helper expected literal LF-LF.
+Test-only normalization plus LF/CRLF equality and missing-handler rejection
+controls preserve every original assertion;no product change. Final gates,Gitleaks,merge
+commit/mainFULLCI then delivery checkpoint/STOP for visual review. Warehouse
+and later reports NOT STARTED. No hostedaccess/deploy/new migration.
+
+Final merge gates PASS22:37:09UTC:types/strictlint/1240Admin192Customer;
+nw-unit-main-merge-final-gates-20261019. All src/customer production/tests/evidence
+match branch b3a91ae except the one named CRLF-only Customer test correction;
+no source or SQL changed after accepted browser/real-access evidence.
+
+## Current19Oct — terminology completion local PASS;correctiveCI/merge pending
+
+134719f quality39166213022:26success,core cancelled1202s,aggregate failure;
+secrets39166213121 SUCCESS. Log proves stale package-d-pos/settings labels,
+not financial/payload failure. Selector-only corrections retain assertions.
+Item7 display completion:packet default/actual selected unit/cart unit names;
+old workbook header still accepted. Exact whole-file/awaitedRPC/onChange and
+POS financial action AST parity PASS. Related108 unique browser cases now
+PASS:initial100/8new mobile test setup failures,then full corrected24/24 PASS;
+no timeout/retry/CI change. Fresh198 SDK142/142 and RPC489/0SQL42501 PASS.
+Logs nw-unit-followup-browser/final-20261019. Finaltypes/strictlint/all1240Admin
+191Customer PASS22:04:47UTC(nw-unit-followup-units-final-20261019). Existing
+cheque mutation tests explicitly assert early whole-file rejection for POS,
+with normal exact-source parity unchanged. Secret scan/corrective commit/
+feature FULLCI/mainmerge FULLCI remain before STOP.
+Warehouse and PhaseB reports NOT STARTED;latest owner says first task only.
+No hostedaccess/deploy/migration. Historical SQL/root oldbackup link unchanged.
+
+## Current19Oct —18Oct unit terminology decision local PASS;CI/merge pending
+
+Product-specific labels use existing real base-unit names;generic workbook
+headers use packet and retain old-header import compatibility. New unit selector
+uses loaded units,excludes PCS for new selection,and preserves existing product
+units. Quantities/cost/RPC payloads unchanged;exact whole-source/AST guards PASS.
+Local SDK142/142 and RPC489 no42501 on fresh198 PASS;all1240Admin191Customer
+units/types/strictlint/builds/network-isolation PASS. Related216browser cases:
+213PASS/1knownskip/2old-label selector failures;selector-only correction then
+complete cost spec18/18 PASS,types/lint PASS. Unique215PASS+1knownskip.
+Gitleaks/feature commit/fullCI/merge/mainFULLCI pending. Only known source
+checkpoint issue repaired in separate tooling commit;no workflow/test weakening.
+Owner then requested warehouse bootstrap/management;latest instruction says
+finish terminology andSTOP first. Warehouse implementation NOT STARTED.
+No hostedaccess/deploy/migrations;rootbackup oldlink unchanged.
+
+## Owner-reported18Oct —first owner successfully bound;TOTP pending
+
+Owner reports frankfurt-first-owner --apply ok=true,ownerBound=true,zero
+catalog differences in first-owner-2026-10-18T19-38-37-920Z. TOTP activation
+still awaits owner action in profile. This is an owner receipt,not agent hosted
+verification. Current scope:unit terminology only;no deployment/hosted access.
+
+## DELIVERED18Oct —first-owner198 tooling FULLgreen;owner review STOP
+
+ba8626687e3def67addc6f32ba7bebc9ad5bb937 pushedmain. ExactSHA quality39157682102
+FULL28/28 and secret39157682074 SUCCESS;no reruns. Local first-owner198 real
+Auth/TOTP/AAL2/executor/replay/negative guards PASS;catalog/grants0diff,
+notificationhold andRealtime13 preserved. Offline owner dry-run network-denied
+PASS;types/strictlint/1234Admin191Customer units PASS;Gitleaks0.
+Strict current198 reference/current access proof replace obsolete nested150
+proof;bindingSQL unchanged. Owner-provided profile/branch values in ownerguide.
+No hosted access/deployment/migration/Auth-rule change. Owner runs dry-run then
+apply only after checking first result;hidden password remains memory-only.
+Closing receipt/checkpoint only local;implementation and commands committed.
+
 ## Owner-reported18Oct —protected staging deployed;first-owner tooling fix only
 
 Owner authorized «انشر»;Claude reports deployment from accepted7c22eef:

@@ -5,6 +5,8 @@
  * The database re-validates every row; this layer only gives early feedback.
  */
 
+import { LEGACY_UNIT_HEADERS } from '../../utils/legacyUnitImportHeaders';
+
 export type GoLiveKind = 'products' | 'stock' | 'customers' | 'suppliers';
 
 export interface GoLiveColumn {
@@ -23,21 +25,21 @@ export const GO_LIVE_COLUMNS: Readonly<Record<GoLiveKind, readonly GoLiveColumn[
     { key: 'barcode', header: 'الباركود', required: false, example: '6281000000017' },
     { key: 'name_ar', header: 'اسم المنتج', required: true, example: 'شوكولاتة بالحليب 40غ', width: 30 },
     { key: 'category_name', header: 'القسم', required: true, example: 'شوكولاتة' },
-    { key: 'base_unit_name', header: 'الوحدة الصغرى', required: true, example: 'باكيت' },
+    { key: 'base_unit_name', header: 'اسم الباكيت (باكيت/شوال/قنينة...)', required: true, example: 'باكيت' },
     { key: 'purchase_unit_name', header: 'طرد الشراء', required: true, example: 'كرتونة' },
-    { key: 'units_per_purchase_unit', header: 'عدد الحبات في طرد الشراء', required: true, example: '24' },
+    { key: 'units_per_purchase_unit', header: 'عدد الباكيتات في طرد الشراء', required: true, example: '24' },
     { key: 'sale_unit_name', header: 'طرد البيع', required: true, example: 'كرتونة' },
-    { key: 'units_per_sale_unit', header: 'عدد الحبات في طرد البيع', required: true, example: '24' },
+    { key: 'units_per_sale_unit', header: 'عدد الباكيتات في طرد البيع', required: true, example: '24' },
     { key: 'sale_package_price', header: 'سعر بيع الطرد (د.أ)', required: true, example: '6.000' },
     { key: 'purchase_package_price', header: 'سعر شراء الطرد (د.أ)', required: false, example: '4.800' },
-    { key: 'cost_per_base_unit', header: 'تكلفة الحبة (د.أ)', required: true, example: '0.200' },
-    { key: 'min_stock_level', header: 'الحد الأدنى للمخزون (حبة)', required: false, example: '48' },
+    { key: 'cost_per_base_unit', header: 'تكلفة الباكيت (د.أ)', required: true, example: '0.200' },
+    { key: 'min_stock_level', header: 'الحد الأدنى للمخزون (باكيت)', required: false, example: '48' },
   ],
   stock: [
     { key: 'code', header: 'الباركود أو SKU', required: true, example: 'CHO-001' },
     { key: 'name', header: 'اسم الصنف (للمراجعة فقط)', required: false, example: 'شوكولاتة بالحليب 40غ', width: 30 },
     { key: 'package_count', header: 'عدد الطرود', required: true, example: '3' },
-    { key: 'loose_units', header: 'الحبات الإضافية', required: false, example: '5' },
+    { key: 'loose_units', header: 'الباكيتات الإضافية', required: false, example: '5' },
   ],
   customers: [
     { key: 'customer_phone', header: 'هاتف العميل', required: false, example: '0790000000' },
@@ -64,7 +66,7 @@ export const GO_LIVE_TEMPLATE_NOTES: Readonly<Record<GoLiveKind, readonly string
   ],
   stock: [
     'سطر لكل صنف: الباركود أو SKU كما في النظام. للنكهات استخدم باركود النكهة نفسها.',
-    'الكمية = عدد الطرود × محتوى الطرد + الحبات الإضافية (أقل من محتوى الطرد).',
+    'الكمية = عدد الطرود × محتوى الطرد + الباكيتات الإضافية (أقل من محتوى الطرد).',
     'التكلفة تُؤخذ من تكلفة الصنف في النظام. الصنف الذي بدأت حركاته يُعدّل بالجرد.',
   ],
   customers: [
@@ -140,7 +142,7 @@ export function mapSheet(kind: GoLiveKind, sheet: readonly (readonly string[])[]
   const indexes = new Map<string, number>();
   const fileErrors: string[] = [];
   for (const column of columns) {
-    const index = header.indexOf(column.header);
+    const index = header.findIndex(value => value === column.header || (LEGACY_UNIT_HEADERS[column.key] ?? []).includes(value));
     if (index >= 0) indexes.set(column.key, index);
     else if (column.required) fileErrors.push(`العمود "${column.header}" غير موجود في الصف الأول؛ استخدم القالب كما هو.`);
   }
@@ -190,7 +192,7 @@ export function prepareProducts(rows: readonly SheetRow[]): PreparedRows<Product
     const purchasePrice = values.purchase_package_price ? parseJodToMinor(values.purchase_package_price) : '0';
     const cost = parseJodToMinor(values.cost_per_base_unit);
     const minStock = values.min_stock_level ? parseWholeNumber(values.min_stock_level) : 0;
-    if (perPurchase === null || perSale === null) { fail('عدد الحبات في الطرد يجب أن يكون رقماً صحيحاً أكبر من صفر.'); continue; }
+    if (perPurchase === null || perSale === null) { fail('عدد الباكيتات في الطرد يجب أن يكون رقماً صحيحاً أكبر من صفر.'); continue; }
     if (salePrice === null || salePrice === '0') { fail('سعر بيع الطرد يجب أن يكون مبلغاً أكبر من صفر بثلاث منازل كحد أقصى.'); continue; }
     if (purchasePrice === null || cost === null) { fail('سعر الشراء والتكلفة يجب أن تكون مبالغ صحيحة بثلاث منازل كحد أقصى.'); continue; }
     if (minStock === null) { fail('الحد الأدنى للمخزون يجب أن يكون رقماً صحيحاً.'); continue; }
@@ -228,9 +230,9 @@ export function prepareStock(rows: readonly SheetRow[], products: readonly Stock
     if (!product.eligible) { fail(product.blockReason || 'هذا الصنف غير متاح للرصيد الافتتاحي.'); continue; }
     const packages = parseWholeNumber(values.package_count, { max: 9_999_999 });
     const loose = values.loose_units ? parseWholeNumber(values.loose_units, { max: 9_999_999 }) : 0;
-    if (packages === null || loose === null) { fail('عدد الطرود والحبات يجب أن تكون أرقاماً صحيحة موجبة.'); continue; }
+    if (packages === null || loose === null) { fail('عدد الطرود والباكيتات يجب أن تكون أرقاماً صحيحة موجبة.'); continue; }
     if (loose >= product.unitsPerPackage) {
-      fail(`الحبات الإضافية يجب أن تكون أقل من محتوى الطرد (${product.unitsPerPackage}).`); continue;
+      fail(`الباكيتات الإضافية يجب أن تكون أقل من محتوى الطرد (${product.unitsPerPackage}).`); continue;
     }
     const quantity = packages * product.unitsPerPackage + loose;
     if (quantity > 2_147_483_647) { fail('الكمية أكبر من الحد المسموح.'); continue; }

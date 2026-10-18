@@ -97,7 +97,7 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ kind, disabled, warehouseId, 
         const prepared = prepareStock(rows, setup.products);
         errors = prepared.errors; payload = prepared.payload as unknown as Record<string, unknown>[];
         summary = [{ label: 'أصناف صالحة', value: <Num value={prepared.payload.length} /> },
-          { label: 'مجموع الحبات', value: <Num value={prepared.payload.reduce((sum, r) => sum + r.baseQuantity, 0)} /> }];
+          { label: 'مجموع الباكيتات', value: <Num value={prepared.payload.reduce((sum, r) => sum + r.baseQuantity, 0)} /> }];
       } else {
         const prepared = kind === 'products' ? prepareProducts(rows) : kind === 'customers' ? prepareCustomers(rows) : prepareSuppliers(rows);
         errors = prepared.errors; payload = prepared.payload as unknown as Record<string, unknown>[];
@@ -601,7 +601,7 @@ export const GoLiveSetupView: React.FC = () => {
               facts={<>المنتجات المعرّفة في النظام: <Num value={status.products.activeCount} /></>}
               manualLabel="إدخال يدوي" manual={null} onManual={() => { setActiveTab('products'); openModal('add_product'); }} />
             <SetupCard kind="stock" icon={<Boxes className="h-5 w-5" />} locked={locked} onSaved={() => void refresh()} warehouseId={warehouseId}
-              description="الكميات الموجودة فعلاً بالطرود والحبات، بتكلفة الصنف ودون فاتورة مورد."
+              description="الكميات الموجودة فعلاً بالطرود والباكيتات، بتكلفة الصنف ودون فاتورة مورد."
               progress={{ value: status.stock.countedProductCount, max: status.stock.stockableCount, label: 'أصناف أُدخل رصيدها' }}
               facts={<>جلسات الرصيد الافتتاحي: <Num value={status.stock.sessionCount} /></>}
               manualLabel="إدخال يدوي" manual={null} onManual={() => openModal('inventory_opening_setup')}

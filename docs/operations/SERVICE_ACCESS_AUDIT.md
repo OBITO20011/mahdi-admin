@@ -1,5 +1,10 @@
 # إضافة جرد الخدمات والإعدادات —2026-10-15
 
+تحديث19Oct: الدليل الحالي أُعيد فعلياً بعد تكملة مصطلحات نقطة البيع على198
+المحلية:489dispatch/0SQL42501. الإعداد العام للواجهتين الآن فرانكفورت؛
+فقرات savedCatalogAssessment أدناه مقارنة بملفات تاريخية محفوظة، لا اتصال
+حي أو ادعاء تفعيل إعدادات على أي مشروع مستضاف.
+
 ## إضافة التحقيق: RPC وStorage وRealtime والإعدادات خارج migrations
 
 **لا تطبيق ACL ولا إعداد خدمات ولا نشر. هذا قياس محلي وقراءة ملفات محفوظة فقط؛الفجوة التشغيلية غير مغلقة.**
@@ -247,9 +252,9 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 |---|---|---|
 | automation/n8n/workflows/nawasrah-alerts.json | 32, 89, 175, 228 | EXTERNAL_CONSUMER |
 | docs/agent/HANDOFF_HISTORY.md | 445 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 477 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 495 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
-| docs/operations/STAGING_FRANKFURT_AR.md | 224 | HISTORICAL_DOCUMENTATION |
+| docs/operations/STAGING_FRANKFURT_AR.md | 247 | HISTORICAL_DOCUMENTATION |
 | scripts/backup/README.md | 28 | PRESERVE_OLD_BACKUP_LINK |
 | scripts/backup/backup-public-config.mjs | 3, 5 | PRESERVE_OLD_BACKUP_LINK |
 | scripts/backup/create-backup.mjs | 430 | PRESERVE_OLD_BACKUP_LINK |

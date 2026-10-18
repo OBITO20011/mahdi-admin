@@ -43,7 +43,7 @@ client.rpc = (name, args) => {
     const search = String(args?.p_search ?? '').toLowerCase();
     return success(posFixtureProducts.filter(product =>
       (!args?.p_category_id || product.category_id === args.p_category_id) &&
-      `${product.name_ar} ${product.sku} ${product.barcode}`.toLowerCase().includes(search)));
+      `${product.name_ar} ${product.sku} ${product.barcode}`.toLowerCase().includes(search)).map(product=>params.get('base-unit')==='sack'?{...product,base_unit:{code:'SACK',name_ar:'شوال'}}:product));
   }
   if (name === 'get_pos_configurable_parcel_options_v1') return success({ options: [posFixtureParcel] });
   if (name === 'get_open_pos_shift') return success({ success: true, hasOpenShift: !params.has('closed'),

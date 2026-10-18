@@ -27,7 +27,7 @@ const text = (value: unknown) => (typeof value === 'string' ? value : '');
 
 const friendly: Readonly<Record<string, string>> = {
   PRODUCT_COST_CORRECTION_REASON_REQUIRED: 'اكتب سبب التصحيح (5 إلى 500 حرف).',
-  PRODUCT_COST_CORRECTION_VALUE_INVALID: 'تكلفة الحبة يجب أن تكون صفراً أو أكثر.',
+  PRODUCT_COST_CORRECTION_VALUE_INVALID: 'تكلفة الباكيت يجب أن تكون صفراً أو أكثر.',
   PRODUCT_COST_CORRECTION_FLAVOR_MASTER: 'المنتج الأساسي للنكهات بلا مخزون؛ صحّح تكلفة النكهة نفسها.',
   PRODUCT_COST_CORRECTION_KEY_CONFLICT: 'تغيّرت بيانات التصحيح بعد إرساله؛ افتح النافذة من جديد.',
 };

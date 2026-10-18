@@ -18,7 +18,6 @@ export const PURCHASE_PACKAGE_OPTIONS = [
   { code: 'CASE', nameAr: 'حافظة' },
   { code: 'CAN', nameAr: 'علبة' },
   { code: 'BTL', nameAr: 'قنينة / زجاجة' },
-  { code: 'PCS', nameAr: 'حبة / قطعة' },
 ] as const;
 
 export const APP_NAME = 'Nawasrah Business Manager';

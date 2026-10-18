@@ -81,7 +81,7 @@ test('receiving UI keeps package contents and removes retail selling fields', ()
   assert.match(modal, /<ReceivingUnitFields/);
   assert.match(fields, /كم \{p\.unitName\} بالطرد/);
   assert.match(fields, /كم \{label\}/);
-  assert.match(modal, /3 كراتين × 5 حبات = 15 حبة/);
+  assert.match(modal, /3 كراتين × 5 باكيتات = 15 باكيت/);
   assert.doesNotMatch(modal, /الكمية التي ستدخل المخزون/);
   assert.doesNotMatch(fs.readFileSync('src/features/purchases/ReceiveGoodsModal.tsx', 'utf8'), /الكمية التي ستدخل المخزون/);
   assert.match(fields, /سيدخل المخزون:/);

@@ -103,6 +103,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 }) => {
   const {
     categories,
+    units,
     brands,
     products,
     warehouses,
@@ -193,7 +194,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             1)
         : '')
   );
-  const [unit] = useState(initialProduct?.unit || 'قطعة');
+  const [unit, setUnit] = useState(initialProduct?.unit || units.find(item => item.code === 'PKT')?.nameAr || units.find(item => item.code !== 'PCS' && !item.isHidden)?.nameAr || 'باكيت');
   const [warehouseId, setWarehouseId] = useState(
     initialProduct?.warehouseId || warehouses[0]?.id || ''
   );
@@ -843,7 +844,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       {(validUnitsPerSalePackage>1 || isFlavorMaster || initialProduct?.flavorMasterProductId) &&
         (initialProduct?.retailPrice ?? derivedSalePricePerUnit)===0 &&
         <p role="status" className="rounded-lg border border-nw-border p-3 text-nw-warn">
-          عبّي سعر الباكيت؛ بدونه لا يُحسب خصم ضرر العميل
+          عبّي سعر {unit}؛ بدونه لا يُحسب خصم ضرر العميل
         </p>}
       <Card padded={false} className="overflow-hidden rounded-2xl border border-nw-border    ">
         <div className="flex items-center justify-between border-b border-nw-border px-3.5 py-3">
@@ -1357,12 +1358,18 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           <div>
             <h4 className="font-black text-nw-text">شراء المورد</h4>
             <p className="text-xs text-nw-muted">
-              عرّف الطرد مرة واحدة، والتكلفة تُحسب للحبة
+              عرّف الطرد مرة واحدة، والتكلفة تُحسب لكل {unit}
             </p>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-2">
+          <label className="col-span-2 text-xs font-bold text-nw-muted">
+            الوحدة الأساسية
+            <select aria-label="الوحدة الأساسية" className={inputClass} value={unit} onChange={event => setUnit(event.target.value)} disabled={isEditing}>
+              {Array.from(new Set([unit, ...units.filter(item => item.code !== 'PCS' && !item.isHidden).map(item => item.nameAr)])).map(name => <option key={name} value={name}>{name}</option>)}
+            </select>
+          </label>
           <div>
             <label className="mb-1.5 block text-xs font-bold text-nw-muted">
               نوع الطرد
@@ -1372,18 +1379,18 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               onChange={(event) => setPurchasePackage(event.target.value)}
               className={inputClass}
             >
-              {PURCHASE_PACKAGE_OPTIONS.map((item) => (
-                <option key={item.code} value={item.nameAr}>
-                  {item.nameAr}
+              {Array.from(new Set([purchasePackage, ...PURCHASE_PACKAGE_OPTIONS.map(item => item.nameAr)])).map((name) => (
+                <option key={name} value={name}>
+                  {name}
                 </option>
               ))}
             </select>
           </div>
           <div>
             <label className="mb-1.5 block text-xs font-bold text-nw-muted">
-              عدد الحبات في الطرد *
+              عدد {unit} في الطرد *
             </label>
-            <input aria-label="عدد الباكيتات في طرد الشراء"
+            <input aria-label={`عدد ${unit} في طرد الشراء`}
               type="number"
               min="1"
               step="1"
@@ -1413,9 +1420,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </div>
           <div>
             <label className="mb-1.5 block text-xs font-bold text-nw-warn">
-              سعر شراء الحبة *
+              سعر شراء {unit} *
             </label>
-            <input aria-label="سعر شراء الباكيت"
+            <input aria-label={`سعر شراء ${unit}`}
               type="number"
               min="0.001"
               step="0.001"
@@ -1435,7 +1442,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             السعران مربوطان تلقائيًا
           </span>
           <strong className="text-xs text-nw-warn">
-            {validUnitsPerPackage} حبة × {formatJod(costPerUnit)} ={' '}
+            {validUnitsPerPackage} {unit} × {formatJod(costPerUnit)} ={' '}
             {formatJod(validPackagePrice)} {CURRENCY}
           </strong>
         </div>
@@ -1445,7 +1452,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             <div className="flex items-center justify-between gap-2">
               <span className="text-xs font-bold text-nw-info">متوسط التكلفة الحالي — يتحدّث من الاستلام</span>
               <strong className="text-sm text-nw-text">
-                <bdi dir="ltr">{formatJod(currentUnitCostInMinorUnits(costState) / 1000)}</bdi> {CURRENCY} للحبة
+                <bdi dir="ltr">{formatJod(currentUnitCostInMinorUnits(costState) / 1000)}</bdi> {CURRENCY} لكل {unit}
               </strong>
             </div>
             <p className="mt-1 text-xs text-nw-muted">
@@ -1463,7 +1470,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               طرد بيع الجملة والربح
             </h4>
             <p className="text-xs text-nw-muted">
-              لا يوجد بيع بالحبة؛ السعر المدخل للطرد كاملًا
+              السعر المدخل لطرد البيع كاملًا ({validUnitsPerSalePackage} {unit})
             </p>
           </div>
         </div>
@@ -1478,20 +1485,18 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               onChange={(event) => setSalePackage(event.target.value)}
               className={inputClass}
             >
-              {PURCHASE_PACKAGE_OPTIONS.filter(
-                (option) => option.code !== 'PCS'
-              ).map((option) => (
-                <option key={option.code} value={option.nameAr}>
-                  {option.nameAr}
+              {Array.from(new Set([salePackage, ...PURCHASE_PACKAGE_OPTIONS.map(option => option.nameAr)])).map((name) => (
+                <option key={name} value={name}>
+                  {name}
                 </option>
               ))}
             </select>
           </div>
           <div>
             <label className="mb-1.5 block text-xs font-bold text-nw-text">
-              الحبات في طرد البيع *
+              عدد {unit} في طرد البيع *
             </label>
-            <input aria-label="عدد الباكيتات في طرد البيع"
+            <input aria-label={`عدد ${unit} في طرد البيع`}
               type="number"
               min="1"
               step="1"
@@ -1644,7 +1649,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         <div className="mt-3 flex items-start gap-2 rounded-xl border border-nw-border bg-nw-info-bg p-2.5 text-xs leading-5 text-nw-muted">
           <Boxes className="mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-info" />
           كل القيم هنا بعدد {salePackage}؛ كل {salePackage} ={' '}
-          {validUnitsPerSalePackage} {unit}. النظام يحولها تلقائيًا للحبات
+          {validUnitsPerSalePackage} {unit}. النظام يحولها تلقائيًا إلى {unit}
           عند الحفظ والحساب.
         </div>
 

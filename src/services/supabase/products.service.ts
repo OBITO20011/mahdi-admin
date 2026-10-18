@@ -294,7 +294,7 @@ export function mapAdminProductRecord(record: Record<string, any>): Product {
   const wholesaleInJod = toFiniteNumber(
     record.wholesale_price_in_minor_units ?? record.sale_price_in_minor_units,
   ) / 1000;
-  const unitName = baseUnit?.name_ar || 'قطعة';
+  const unitName = baseUnit?.name_ar || 'باكيت';
   const unitsPerPackage = Math.max(
     1,
     Math.floor(toFiniteNumber(record.units_per_purchase_unit) || 1),

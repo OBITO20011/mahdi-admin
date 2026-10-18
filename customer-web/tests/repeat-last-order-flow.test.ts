@@ -6,15 +6,21 @@ import test from 'node:test';
 const appSource = fs.readFileSync(
   path.resolve(import.meta.dirname, '../src/App.tsx'),
   'utf8'
-);
+).replaceAll('\r\n', '\n');
 
-function repeatLastOrderBlock(): string {
-  const start = appSource.indexOf('const repeatLastOrder = () => {');
-  const end = appSource.indexOf('\n\n  return (', start);
+function repeatLastOrderBlock(source = appSource): string {
+  const normalized = source.replaceAll('\r\n', '\n');
+  const start = normalized.indexOf('const repeatLastOrder = () => {');
+  const end = normalized.indexOf('\n\n  return (', start);
   assert.ok(start >= 0, 'repeatLastOrder handler must exist');
   assert.ok(end > start, 'repeatLastOrder handler must end before the render');
-  return appSource.slice(start, end);
+  return normalized.slice(start, end);
 }
+
+test('repeat-last-order source extraction is identical for Git LF and Windows CRLF checkouts', () => {
+  assert.equal(repeatLastOrderBlock(appSource.replaceAll('\n', '\r\n')), repeatLastOrderBlock(appSource));
+  assert.throws(() => repeatLastOrderBlock(appSource.replace('const repeatLastOrder = () => {', 'const UNAPPROVED_repeatLastOrder = () => {')), /handler must exist/u);
+});
 
 test('repeat-last-order revalidates scalar and configurable parcel contracts independently', () => {
   const handler = repeatLastOrderBlock();

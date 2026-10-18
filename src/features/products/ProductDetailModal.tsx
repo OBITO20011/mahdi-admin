@@ -818,7 +818,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           <div>
             <h4 className="font-black text-nw-text">الأسعار والربحية</h4>
             <p className="text-xs text-nw-muted">
-              البيع بالجملة للطرد كاملًا، وليس للحبة
+              سعر البيع للوحدة المحددة: {product.salePackage || product.unit}
             </p>
           </div>
         </div>
@@ -851,7 +851,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
         {needsSalePackageSetup ? (
           <div className="mt-2 rounded-xl border border-nw-border bg-nw-warn-bg p-2.5 text-xs font-bold text-nw-warn">
-            حدّد طرد بيع الجملة وعدد الحبات وسعر الطرد قبل إظهار
+            حدّد طرد بيع الجملة وعدد {product.unit} وسعر الطرد قبل إظهار
             المنتج للزبائن.
           </div>
         ) : (
@@ -1000,8 +1000,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         showCostCorrection ? (
           <ProductCostCorrectionPanel
             targets={isFlavorFamily
-              ? flavors.map((flavor) => ({ id: flavor.id, name: flavor.flavorNameAr || flavor.nameAr }))
-              : [{ id: product.id, name: product.nameAr }]}
+              ? flavors.map((flavor) => ({ id: flavor.id, name: flavor.flavorNameAr || flavor.nameAr, unit: flavor.unit }))
+              : [{ id: product.id, name: product.nameAr, unit: product.unit }]}
             onClose={() => setShowCostCorrection(false)}
             onCorrected={() => {
               setShowCostCorrection(false);

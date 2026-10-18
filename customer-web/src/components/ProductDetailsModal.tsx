@@ -398,7 +398,7 @@ export function ProductDetailsModal({
                   {formatJod(product.salePackagePriceInMinorUnits)}
                 </p>
                 <p className="mt-1 text-[10px] font-bold text-orange-700/70">
-                  السعر للطرد الكامل وليس للحبة
+                  السعر لوحدة البيع: {product.saleUnitNameAr}
                 </p>
               </div>
 

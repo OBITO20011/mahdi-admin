@@ -32,7 +32,12 @@ const products=rows.map(mapAdminProductRecord);
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
 auth.state={...auth.getState(),roleName:'owner',roles:['owner'],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
 const store=storeEngine as unknown as {state:AppState;getState:()=>AppState};
-store.state={...store.getState(),products,categories:[{id:'drinks',nameAr:'مشروبات وتسالي'}],
+store.state={...store.getState(),products,units:[
+ {id:'packet',nameAr:'باكيت',code:'PKT',conversionFactor:1},
+ {id:'sack',nameAr:'شوال',code:'SACK',conversionFactor:1},
+ {id:'bottle',nameAr:'قنينة',code:'BTL',conversionFactor:1},
+ {id:'legacy',nameAr:'قطعة',code:'PCS',conversionFactor:1},
+],categories:[{id:'drinks',nameAr:'مشروبات وتسالي'}],
  brands:[],warehouses:[{id:warehouseId,name:'المستودع الرئيسي',branchId:'fixture-branch',location:'الرمثا'}],
  activeBranch:{id:'fixture-branch',name:'فرع الرمثا',address:'وسط البلد',city:'الرمثا',phone:'0790000000'}};
 storeEngine.setCurrentUser({id:'fixture-owner',name:'مهدي',role:'Owner',themeMode:theme,avatarUrl:''});

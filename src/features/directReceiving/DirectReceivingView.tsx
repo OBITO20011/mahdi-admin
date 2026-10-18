@@ -712,7 +712,7 @@ export const DirectReceivingView: React.FC = () => {
 
                     <div className="grid grid-cols-2 gap-2 text-[10px]">
                       <div className="rounded-xl border border-nw-border bg-nw-bg p-2">
-                        <span className="text-nw-muted">تكلفة الحبة: </span>
+                        <span className="text-nw-muted">تكلفة {product.baseUnitName}: </span>
                         <strong className="text-nw-warn">
                           {formatJod(Number(minorToJod(product.costPriceInMinorUnits)))} {CURRENCY}
                         </strong>
@@ -728,7 +728,7 @@ export const DirectReceivingView: React.FC = () => {
                         </span>
                       </div>
                       <div className="rounded-xl border border-nw-border bg-nw-bg p-2">
-                        <span className="text-nw-muted">سعر بيع الحبة: </span>
+                        <span className="text-nw-muted">سعر بيع {product.baseUnitName}: </span>
                         <strong className="text-nw-ok">
                           {formatJod(Number(minorToJod(product.salePriceInMinorUnits)))} {CURRENCY}
                         </strong>

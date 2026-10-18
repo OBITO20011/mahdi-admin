@@ -1,4 +1,5 @@
 import {approvedWithdrawals182Source} from './approved-withdrawals182-source';
+import {sourceBeforeUnitTerminology} from '../scripts/audit/source-before-unit-terminology.mjs';
 // Historic source pins include erased annotations and pre-narrowing spellings.
 // Restore only this approved batch's spellings for those old pins. The separate
 // strict-product-parity test verifies the real emitted bodies against f2c37bd.
@@ -156,6 +157,7 @@ const productEditConflictHunks:Readonly<Record<string,readonly (readonly [string
  ]
 };
 export function approvedProductEditConflictSource(file:string,source:string):string {
+  source=sourceBeforeUnitTerminology(file,source) ?? source;
   source=approvedWithdrawals182Source(file,source);
   const hunks=Object.entries(productEditConflictHunks).find(([path])=>file.endsWith(path))?.[1];
   if(!hunks)return source;

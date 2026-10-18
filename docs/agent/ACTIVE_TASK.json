@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner18Oct:record owner/Claude staging deployment;fix first-owner tool reference/current access proof198 and real local rehearsal. No hostedaccess/deploy/auth-rule change.",
-  "baselineSha": "7c22eef86eee6bd2f03431301e10153630d42fbc",
+  "objective": "Owner18Oct:record successful owner binding;product base-unit terminology/pickers/import backwards compatibility only. Preserve RPC fields,quantities,costs;no hosted access/deploy/migrations.",
+  "baselineSha": "ba8626687e3def67addc6f32ba7bebc9ad5bb937",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
@@ -12,19 +12,22 @@
     "198 genuine mainmerge5cb640c FULL28/28quality39055225117+secrets39055225107 PASS.",
     "Finaltools40ecf12 mainFULL28/28quality39056571900+secrets39056571912 PASS;local reference160files511functions13Realtime/fresh=incremental0diff/12officialrepairs/replay0writes/offlineACL0.",
     "Owner reports Frankfurt upgrade198 apply12/12+verify0diff/0writes,notificationhold intact;reported dashboard signupoff/TOTP/CAPTCHA/bucket/Realtime ready.",
-    "Staging c568016+scanner-only7c22eef delivered mainFULL28/28quality39063685123+secrets39063684915 SUCCESS;Gitleaks0. Ownerapproved backup isolation pinsoldproject;no hostedaccess/deploy."
+    "Staging c568016+scanner-only7c22eef delivered mainFULL28/28quality39063685123+secrets39063684915 SUCCESS;Gitleaks0. Ownerapproved backup isolation pinsoldproject;no hostedaccess/deploy.",
+    "First-owner198 ba86266 delivered mainFULL28/28quality39157682102+secrets39157682074 SUCCESS;Gitleaks0;strict current access proof/local AuthTOTP rehearsal PASS;no hosted access."
   ],
   "inProgress": [
-    "First-owner198/current proof fix localPASS;owner/Claude staging receipt recorded. Gitleaks0;commit/push/exactFULLCI remain;no hosted access."
+    "b3a91ae branchFULL28/28quality39170711896+secrets39170711878 PASS. Merge types/lint/1240Admin192Customer PASS;one CRLF-only test fix,no product change. Local108browsers/SDK142/RPC489 PASS;Gitleaks/mainFULLCI thenSTOP."
   ],
-  "notStarted": [],
+  "notStarted": [
+    "Warehouse follow-up NOT STARTED;owner says finish terminology then STOP."
+  ],
   "testsPassed": [
-    "Earlier DB/browser/restore/scale evidence and exact CI preserved in PHASE_STATUS and per-feature reports.",
+    "Terminology real198 SDK142/RPC489 no42501;types/strictlint/all1240Admin191Customer/builds/isolation PASS;215unique browsers PASS+1knownskip;cost18/18 after selector-only correction;Gitleaks0.",
     "Final198 tools realDB rehearsal PASS;types/strictlint/1222Admin191Customer PASS. Reports nw-frankfurt198-final/remaining-gates-20261017.",
     "First-owner198 real local Auth/TOTP/AAL2/executor/replay/stale history/negative identity gates,catalog0diff/hold/Realtime13 PASS;offline ownercommand network-denied PASS;types/strictlint/1234Admin191Customer units PASS."
   ],
   "testsRemaining": [
-    "Commit/push/exactFULLCI;ownercommands/checkpoint/STOP. No hosted access."
+    "Merge metadata gates/Gitleaks/commit,push/mainFULLCI;delivery checkpoint/STOP."
   ],
   "findings": [
     "197 closes legacyreturned mismatch7000→0,canonical35k/branches/claims and independent+1CRITICAL;other facts/data/security exact.",
@@ -38,12 +41,12 @@
     "Backup root project-ref remains old;only owner-approved publicconfig separation and identity guard;no hosted backup/secret/schedule/target change",
     "One writer;no tracked edits during verification;no retries/timeouts/skips/assertion weakening"
   ],
-  "nextExactAction": "Local first-owner198 real pipeline/Auth/TOTP+offline dry-run,types/lint/1234Admin191Customer and Gitleaks0 PASS. Commit/push/exactFULLCI,then concrete owner dry-run/apply and STOP. No hosted access/deploy.",
-  "checkpointedAt": "2026-10-18T19:11:22.739Z",
+  "nextExactAction": "Merge local1240Admin192Customer/types/lint PASS;Gitleaks then genuine merge commit,push main,exact FULLCI and delivery checkpoint;STOP for visual review,no warehouse/hosted work.",
+  "checkpointedAt": "2026-10-18T22:37:30.846Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "5A6A124BB5E4FAA7CF168A40EAB138DA1BFDD3221A8A1E2BB91D5073A0268E9E",
-  "filesTouchedCount": 8,
-  "filesTouchedManifestSha256": "05f9c09a00ae9d20cf766d7d61af8a3cfe30b25c37687fc3139bca39f2b46592"
+  "workingTreeFingerprint": "01A54DFE8B89E97938A4D1B1ECDB56FCC135CB2B7D43B57D1C2AB4E477D042B9",
+  "filesTouchedCount": 60,
+  "filesTouchedManifestSha256": "131c8a7f3951003dc5506af94e4d8168c5ff8c3776896f3cd440b6989d6a3f3c"
 }

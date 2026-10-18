@@ -10,14 +10,17 @@ for(const file of cheques195Files)test('cheques: every byte outside exact approv
   const current=readFileSync(file,'utf8'),source=file==='src/features/crm/CustomerCollectionModal.tsx'?restore198CollectionPresentation(current):current;
   const before=execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
   assert.equal(approvedCheques195Source(file,source),before);
-  assert.notEqual(approvedCheques195Source(file,source+'\n// unapproved mutation\n'),before,'outside-hunk changes remain observable');
+  if(file==='src/features/goLive/GoLiveSetupView.tsx'||file==='src/features/pos/PosView.tsx') assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),/TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED/u,'whole-file presentation pin rejects mutation');
+  else assert.notEqual(approvedCheques195Source(file,source+'\n// unapproved mutation\n'),before,'outside-hunk changes remain observable');
 });
 test('cheques parity rejects a changed original sale callback or new authorization boundary',()=>{
   const file='src/features/pos/PosView.tsx',source=readFileSync(file,'utf8');
-  assert.throws(()=>approvedCheques195Source(file,source.replace("'cashier','sales'","'cashier','sales','guest'")),/EXACT_APPROVED_CHEQUES_HUNK/u);
+  const authorizationMutation=source.replace("'cashier','sales'","'cashier','sales','guest'");
+  assert.notEqual(authorizationMutation,source,'control must mutate the authorization boundary');
+  assert.throws(()=>approvedCheques195Source(file,authorizationMutation),/TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED/u);
   const mutation=source.replace('const executeSale =','const UNAPPROVED_executeSale =');
   assert.notEqual(mutation,source,'control must mutate an existing handler');
-  assert.notEqual(approvedCheques195Source(file,mutation),approvedCheques195Source(file,source));
+  assert.throws(()=>approvedCheques195Source(file,mutation),/TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED/u);
 });
 
 test('approved late-supplier fixture admits exact event/role additions only,not changed readiness or privileges',()=>{
