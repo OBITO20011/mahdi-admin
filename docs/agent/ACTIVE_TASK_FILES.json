@@ -3,19 +3,35 @@
   "files": [
     {
       "code": " M",
-      "path": ".gitleaks.toml"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/FRANKFURT_STAGING_PREPARATION_198_AR.md"
+      "path": "docs/operations/FIRST_OWNER_FRANKFURT_AR.md"
     },
     {
       "code": " M",
-      "path": "tests/public-key-secret-scan.test.ts"
+      "path": "docs/operations/STAGING_FRANKFURT_AR.md"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-first-owner.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-first-owner-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "tests/first-owner-preparation.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/FIRST_OWNER_REFERENCE_198_FIX_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/first-owner-reference198.mjs"
     }
   ]
 }

@@ -1,5 +1,44 @@
 # Phase status
 
+## Owner-reported18Oct —protected staging deployed;first-owner tooling fix only
+
+Owner authorized «انشر»;Claude reports deployment from accepted7c22eef:
+Cloudflare Restrict previews for admin/store;staging aliases AND hash URLs302
+to cloudflareaccess,old productionpages.dev200 unchanged. Edge5 deployed to
+Frankfurt with exact configJWTflags. Admin4424b80c andStoreb77e2a4a on
+staging-frankfurt pages.dev aliases;Section7 publicenvs,dist0oldrefs,FrankfurtCSP,
+SEO0products(emptyDB). Confirmed Auth user abo3zoubi3@gmail.com,
+441d69b5-9705-4d01-987a-c235b10995f3;ERP owner binding NOT yet claimed.
+These are owner/Claude reports,not this agent's hosted verification/deployment.
+
+Current bounded scope:fix first-owner182→171→164→150 digest preflight failure
+by strict current198 reference+current SDK access attestation;preserve exact
+owner binding SQL/guards. Real local001–198 rehearsal,normalcommit/fullCI,
+owner dry-run/apply commands only. No hosted access/new migration/deploy.
+
+Local first-owner198 PASS18Oct19:00:12–19:07:54UTC:offline exact ownercommand
+with network-deny guard;real fresh198 Auth/TOTP/AAL2,full owner executor and
+replay,stale history/identity/second-owner refusal,catalog/grants0diff,hold and
+Realtime13 unchanged. Types/strictlint/1234Admin191Customer units PASS.
+Core bindingSQL byte-identical7c22eef;old150/182/195 references rejected before
+password/connection. Gitleaks0;normalcommit/push/exactFULLCI pending.
+
+## DELIVERED17Oct —Frankfurt staging preparation FULLgreen;owner review STOP
+
+Preparation c568016b5a112502b855d4d24c47e9ed3e01f4ba plus scanner-only
+compatibility7c22eef86eee6bd2f03431301e10153630d42fbc pushedmain. Exactfinal
+quality39063685123 FULL28/28 +secrets39063684915 SUCCESS. No retried jobs.
+LocalSDK142/RPC489 no42501;types/strictlint/1231Admin191Customer units,
+bothbuilds/isolatedSEO/network0/42both-enginebrowser PASS;Gitleaks0.
+Owner publicconfig/SEO/CSP Frankfurt,exact8Edge settings and owner198 receipts
+recorded;protectedpreview ownercommands in STAGING_FRANKFURT_AR.md. Owner-approved
+backup publicconfig isolation pinsoldDB+Storage with identityguards;offline23
+focusedtests PASS,rootlink/schedule/secrets unchanged,no real backup run.
+No Frankfurt/Production/Cloudflare access/deploy/newphase/migrations. No local
+testservers or taskcontainers remain. Closing receipt/checkpoint only local;
+all implementation/tests/ownerinstructions committed. Wait ownerreview/explicit
+«انشر» and Access verification before ANY build/deploy command.
+
 ## Current17Oct —staging c568016 pushed;scanner compatibility follow-up
 
 c568016 prepared Frankfurt publicdefaults/CSP/SEO/Access-first ownercommands;
