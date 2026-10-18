@@ -3,243 +3,31 @@
   "files": [
     {
       "code": " M",
-      "path": "customer-web/tests/repeat-last-order-flow.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/package-f-unit-terminology.spec.ts"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/agent/atomic-file.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-unit-terminology.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/unit-terminology-hunks.json"
-    },
-    {
-      "code": "A ",
-      "path": "src/utils/legacyUnitImportHeaders.ts"
-    },
-    {
-      "code": "A ",
-      "path": "src/utils/unitLabels.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/agent-atomic-file.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/unit-terminology.test.ts"
-    },
-    {
-      "code": "AM",
-      "path": "docs/operations/PRODUCT_UNIT_TERMINOLOGY_AR.md"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/App.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/components/ProductDetailsModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/services/catalog.service.ts"
-    },
-    {
-      "code": "M ",
       "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/STAGING_FRANKFURT_AR.md"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_STAGING_198.json"
-    },
-    {
-      "code": "M ",
-      "path": "e2e/package-d-pos.spec.ts"
-    },
-    {
-      "code": "M ",
-      "path": "e2e/package-d-settings.spec.ts"
-    },
-    {
-      "code": "M ",
-      "path": "e2e/package-f-go-live-setup.spec.ts"
-    },
-    {
-      "code": "M ",
-      "path": "e2e/package-f-pos-harness.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "e2e/package-f-product-cost.spec.ts"
-    },
-    {
-      "code": "M ",
-      "path": "e2e/package-f-products-harness.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/agent/checkpoint.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/source-before-staging-config.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "src/constants/index.ts"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/directReceiving/CreateDirectReceiptModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/directReceiving/DirectReceivingView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/goLive/goLiveImport.ts"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/goLive/GoLiveSetupView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/inventory/InventoryOpeningSetupModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/inventory/InventoryView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/pos/PosView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/products/ProductCostCorrectionPanel.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/products/ProductDetailModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/products/ProductFormModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/products/ProductsView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/purchases/PurchaseOrderDetailView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/purchases/ReceiveGoodsModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/reports/ReportsCenterView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/services/supabase/directReceiving.service.ts"
-    },
-    {
-      "code": "M ",
-      "path": "src/services/supabase/productCost.service.ts"
-    },
-    {
-      "code": "M ",
-      "path": "src/services/supabase/products.service.ts"
-    },
-    {
-      "code": "M ",
-      "path": "src/services/supabase/stockAlerts.service.ts"
-    },
-    {
-      "code": "M ",
-      "path": "src/utils/inventoryFormatter.ts"
-    },
-    {
-      "code": "M ",
-      "path": "src/utils/productEditConflict.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/approved-opening196-source.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/cheques195-parity.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/go-live-setup.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/inventory-opening-setup.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/opening-cheques196.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/strict-product-legacy-source.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/supplier-receiving.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/table-embed-fk-parity.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/withdrawals-integration182.test.ts"
-    },
-    {
-      "code": "MM",
+      "code": " M",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
-      "code": "MM",
-      "path": "docs/agent/project-state.json"
+      "code": " M",
+      "path": "scripts/testing/run-first-owner-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/MAIN_WAREHOUSE_FRANKFURT_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-main-warehouse.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/main-warehouse-core.mjs"
+    },
+    {
+      "code": "??",
+      "path": "tests/main-warehouse.test.ts"
     }
   ]
 }

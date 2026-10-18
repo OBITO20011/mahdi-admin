@@ -1,5 +1,49 @@
 # Phase status
 
+## Current19Oct — urgent WH-MAIN tool local PASS;commit/exactCI pending
+
+Same owner executor on real198 PASS:nawasrah-first-owner-cYuEpG,23:09:07–
+23:11:25UTC. Confirmed owner/BR-MAIN→WH-MAIN,exact row replay/single audit,
+no-role/name/inactive/multiple warehouses/inactive branch refused atomically,
+stale history refused before write,catalog/grants0diff,hold andRealtime13 intact.
+Offline actual owner dry-run with network denied PASS,remoteWriteAttempted=false;
+external main-warehouse-2026-10-18T23-11-29-650Z. Final types/strictlint/all
+1243Admin192Customer PASS23:15:18UTC:nw-main-warehouse-gates-20261019.
+Core first-owner SQL still byte-identical. No migration/schema/grant change,
+hosted access/deploy or new frontend. Existing operations-reset CI runtime
+contains all new warehouse proofs without workflow/timeout/retry changes.
+Gitleaks/commit/FULLCI then give owner command immediately;continue A2/B.
+Owner separately approved nonzero balance/reservation deactivation guard and
+post-movement branch immutability;rename allowed. These await next local step.
+
+## Current19Oct — terminology accepted;A2 WH-MAIN urgent preparation
+
+Owner/Claude accepted2f0ca2c and resumed A2:guarded198 WH-MAIN owner tool
+and command first after fullCI;then warehouse administration/default selection/
+first-owner/reset preservation;then PhaseB three design reports only andSTOP.
+No hosted access/deploy. Old first-owner binding SQL remains byte-identical;
+separate data-only warehouse transaction uses exact198/current access guards.
+Reset delivered182 refuses198;do not run it for current staging until A2 update.
+Local A2 runtime/gates not yet claimed. All historical migrations unchanged.
+
+## DELIVERED19Oct — product-unit terminology FULLgreen;visual review STOP
+
+Genuine main merge2f0ca2c20793083ec17cba7177f8b784533fdaae pushed;parents
+ba86266+b3a91ae. Exactpush/main quality39173063978 FULL28/28 and secrets
+39173064004 SUCCESS,no job reruns. Branch b3a91ae also FULL28/28+secrets.
+Local final1240Admin192Customer/types/strictlint PASS;108related browser
+cases resolved/PASS incl new24/24both engines/three sizes/two themes/axe/clipping;
+fresh198 SDK142/142 and RPC489/0SQL42501 PASS. Original broad215PASS+1knownskip
+also retained. Gitleaks0;all business awaitedRPC/old onChange/financial action
+AST exact. Old workbook headers accepted;PCS preserved for existing products,
+not offered for new units. Item7 packet default/real unit/cart terms included.
+Separate atomic checkpoint tool ab6ca4e;exact selector/mutation/CRLF-only test
+corrections documented,no timeout/retry/workflow/product-logic weakening.
+No task-owned servers/DB remain;no hostedaccess/deploy/migration or backup
+change. Warehouse/PhaseB/C NOT STARTED. Closing receipt/checkpoint only local;
+all implementation/tests/access evidence/operating report committed. STOP for
+owner/Claude visual review,do not auto-start warehouse.
+
 ## Current19Oct — terminology branch FULLgreen;genuine mainmerge pending
 
 b3a91ae677d6e6fb48ec5f53447db5677ac19dae exactpush/branch quality39170711896

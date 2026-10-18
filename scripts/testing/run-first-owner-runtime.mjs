@@ -15,6 +15,8 @@ import {readFirstOwner198Reference} from '../operations/first-owner-reference198
 import {ready198ReferenceName} from '../operations/frankfurt-reference198.mjs';
 import {buildReady198Reference} from '../operations/build-acl-reference198.mjs';
 import {firstOwnerWithExecutor} from '../operations/frankfurt-first-owner.mjs';
+import {mainWarehouseSql} from '../operations/main-warehouse-core.mjs';
+import {mainWarehouseWithExecutor} from '../operations/frankfurt-main-warehouse.mjs';
 import {readNotificationSnapshot,transitionNotifications,expectedHeldNotifications} from '../operations/frankfurt-notification-hold.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..'),cli=path.join(root,'node_modules/supabase/dist/supabase.js');
 const project='nawasrah-first-owner-test',output=await mkdtemp(path.join(tmpdir(),'nawasrah-first-owner-'));
@@ -38,7 +40,7 @@ try{
  const options={auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}};
  const admin=createClient(api.origin,status.SERVICE_ROLE_KEY,options),user=createClient(api.origin,status.ANON_KEY,options);
  const email='first-owner@example.test';const created=await admin.auth.admin.createUser({email,password:randomUUID()+'Aa1!',email_confirm:true});assert.equal(created.error,null);const ownerId=created.data.user.id;
- const branch={code:'BR-OWNER',name:'الفرع الرئيسي للمالك'};
+ const branch={code:'BR-MAIN',name:'الفرع الرئيسي'};
  const input={ownerId,email,name:'مالك التشغيل',branchCode:branch.code,branchName:branch.name};
  const wrongBranch=await executeInput(executor,bindFirstOwnerSql(input));assert.notEqual(wrongBranch.code,0);assert.match(wrongBranch.stderr,/FIRST_OWNER_BRANCH_MISMATCH/u);
  // Discard CLI seed locations only. No business transaction exists;the real
@@ -75,11 +77,40 @@ try{
  const noRoleLink=await admin.auth.admin.generateLink({type:'magiclink',email:'not-owner@example.test'});assert.equal(noRoleLink.error,null);
  const noRole=createClient(api.origin,status.ANON_KEY,options);assert.equal((await noRole.auth.verifyOtp({token_hash:noRoleLink.data.properties.hashed_token,type:'email'})).error,null);
  assert.ok((await noRole.rpc('get_erp_staff_accounts')).error,'NO_ERP_ROLE_MUST_BE_REJECTED');
+ stage='main-warehouse-owner-tool';
+ const warehouseBefore=await sql("SELECT jsonb_build_object('warehouses',count(*),'audits',(SELECT count(*) FROM audit_logs WHERE action='MAIN_WAREHOUSE_BOOTSTRAP')) FROM warehouses;");
+ const noWarehouseRole=await executeInput(executor,mainWarehouseSql(other.data.user.id));
+ assert.notEqual(noWarehouseRole.code,0);assert.match(noWarehouseRole.stderr,/MAIN_WAREHOUSE_OWNER_REQUIRED/u);
+ assert.equal(await sql("SELECT jsonb_build_object('warehouses',count(*),'audits',(SELECT count(*) FROM audit_logs WHERE action='MAIN_WAREHOUSE_BOOTSTRAP')) FROM warehouses;"),warehouseBefore,'UNAUTHORIZED_TOOL_IS_ZERO_WRITE');
+ const warehouseOutput=path.join(output,'main-warehouse');await mkdir(warehouseOutput);report.mainWarehouse={remoteWriteAttempted:false};
+ const ready=await mainWarehouseWithExecutor({executor,reference,original,output:warehouseOutput,ownerId,report:report.mainWarehouse});
+ assert.equal(ready.ok,true);assert.equal(ready.warehouseReady,true);assert.equal(ready.catalogUnexpectedDifferenceCount,0);
+ const warehouseRow=await sql("SELECT row_to_json(w) FROM warehouses w WHERE code='WH-MAIN';");
+ assert.equal(JSON.parse(warehouseRow).branch_id,await sql("SELECT id FROM branches WHERE code='BR-MAIN';"));
+ assert.equal(await sql("SELECT count(*) FROM audit_logs WHERE action='MAIN_WAREHOUSE_BOOTSTRAP';"),'1');
+ const warehouseReplay=path.join(output,'main-warehouse-replay');await mkdir(warehouseReplay);
+ await mainWarehouseWithExecutor({executor,reference,original,output:warehouseReplay,ownerId,report:{}});
+ assert.equal(await sql("SELECT row_to_json(w) FROM warehouses w WHERE code='WH-MAIN';"),warehouseRow,'EXACT_WAREHOUSE_REPLAY');
+ assert.equal(await sql("SELECT count(*) FROM audit_logs WHERE action='MAIN_WAREHOUSE_BOOTSTRAP';"),'1','NO_DUPLICATE_WAREHOUSE_AUDIT');
+ for(const mutation of ["UPDATE warehouses SET name_ar='مختلف' WHERE code='WH-MAIN';","UPDATE warehouses SET is_active=false WHERE code='WH-MAIN';","INSERT INTO warehouses(code,name_ar) VALUES('WH-OTHER','مستودع آخر');"]){
+  const refused=await executeInput(executor,`BEGIN;${mutation}\n${mainWarehouseSql(ownerId).replace(/^BEGIN ISOLATION LEVEL SERIALIZABLE;/u,'').replace(/COMMIT;$/u,'')}`);
+  assert.notEqual(refused.code,0);assert.match(refused.stderr,/MAIN_WAREHOUSE_DIFFERENT_WAREHOUSE/u);
+  assert.equal(await sql("SELECT row_to_json(w) FROM warehouses w WHERE code='WH-MAIN';"),warehouseRow,'CONFLICT_MUST_ROLL_BACK');
+  assert.equal(await sql('SELECT count(*) FROM warehouses;'),'1');
+ }
+ const wrongWarehouseBranch=await executeInput(executor,`BEGIN;UPDATE branches SET is_active=false WHERE code='BR-MAIN';${mainWarehouseSql(ownerId).replace(/^BEGIN ISOLATION LEVEL SERIALIZABLE;/u,'').replace(/COMMIT;$/u,'')}`);
+ assert.notEqual(wrongWarehouseBranch.code,0);assert.match(wrongWarehouseBranch.stderr,/MAIN_WAREHOUSE_BRANCH_MISMATCH/u);
+ assert.equal(await sql("SELECT count(*) FROM audit_logs WHERE action='MAIN_WAREHOUSE_BOOTSTRAP';"),'1');
+ const staleWarehouseOutput=path.join(output,'main-warehouse-stale');await mkdir(staleWarehouseOutput);const staleWarehouseReport={remoteWriteAttempted:false};
+ await assert.rejects(()=>mainWarehouseWithExecutor({executor,reference:stale,original,output:staleWarehouseOutput,ownerId,report:staleWarehouseReport}),/MAIN_WAREHOUSE_HISTORY_MISMATCH/u);
+ assert.equal(staleWarehouseReport.remoteWriteAttempted,false);
  assert.deepEqual(catalogDifference(held,JSON.parse(await sql(schemaCatalogSql))),[],'OWNER_SETUP_MUST_NOT_CHANGE_SCHEMA_OR_GRANTS');
  assert.deepEqual(await readNotificationSnapshot(executor),expectedHeldNotifications(original),'OWNER_SETUP_MUST_PRESERVE_EXACT_HOLD');
  report.ok=true;report.proofs=['confirmed Auth identity','exact UUID/email binding','new branch created on empty reference data','mismatched existing branch rejected','single owner/profile/role/branch','wrong email rejected','second owner rejected','idempotent audit',
  'real Auth session','real TOTP verify AAL2','old AAL1 rejected','AAL2 owner accepted','anon/no-role rejected','zero schema/grant differences',
- 'strict reference198 and current real SDK proof','same owner CLI executor pipeline','stale history rejected before binding','exact notification hold and Realtime13 unchanged'];
+ 'strict reference198 and current real SDK proof','same owner CLI executor pipeline','stale history rejected before binding','exact notification hold and Realtime13 unchanged',
+ 'main warehouse same guarded owner pipeline on198','WH-MAIN linked to BR-MAIN','exact zero-write warehouse replay and single audit',
+ 'no-role/different-name/inactive/multiple warehouses/inactive-branch rejected atomically','stale warehouse history rejected before write'];
  report.originalCatalogObjects=before.tables.length;
 }catch(error){report.ok=false;report.stage=stage;report.error=error.message.split('\n')[0];process.exitCode=1;}
 finally{if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true});report.endedAt=new Date().toISOString();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}
