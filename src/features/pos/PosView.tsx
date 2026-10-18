@@ -623,8 +623,12 @@ export const PosView: React.FC = () => {
 
 
   const currentProductUnit=knownProductsRef.current.get(cartItems.at(-1)?.productId??'')?.unit;
-  const visibleUnitNames=Array.from(new Set(posProducts.map(product=>product.unit)));
-  const saleUnitLabel=currentProductUnit||(visibleUnitNames.length===1?visibleUnitNames[0]:'وحدة الصنف');
+  const saleUnitLabel=currentProductUnit||'باكيت';
+  const cartBaseUnitTotals=Array.from(cartItems.reduce((totals,item)=>{
+    const name=knownProductsRef.current.get(item.productId)?.unit||'باكيت';
+    totals.set(name,(totals.get(name)??0)+item.baseQuantity);
+    return totals;
+  },new Map<string,number>()));
   const saleModeControl = <SegmentedControl touchSize disabled={isSubmitting || recoveryBlocked} label="وحدة البيع"
  options={[{value: 'base_unit', label: saleUnitLabel}, {value: 'legacy_single_sku_parcel', label: 'طرد'}, {value: 'configurable_parcel', label: 'طرد مشكّل'}]}
  value={showParcelCatalog ? 'configurable_parcel' : saleMode}
@@ -662,7 +666,7 @@ export const PosView: React.FC = () => {
 );
   const cartTotals = <div className="flex flex-wrap items-center justify-between gap-2">
     <span className="text-xs text-nw-muted">{formatItemCount(cartItems.length)} · <bdi dir="ltr">{cartItems.reduce((sum, item) => sum + item.quantity, 0)}</bdi> وحدات بيع</span>
-    <span className="text-xs text-nw-muted"><bdi dir="ltr">{cartItems.reduce((sum, item) => sum + item.baseQuantity, 0)}</bdi> وحدات صغرى</span>
+    <span data-testid="pos-cart-base-units" className="text-xs text-nw-muted">{cartBaseUnitTotals.length?cartBaseUnitTotals.map(([name,quantity],index)=><React.Fragment key={name}>{index>0?'، ':''}<bdi dir="ltr">{quantity}</bdi> {name}</React.Fragment>):'0 باكيت'}</span>
     <strong className="w-full text-2xl"><MoneyText amount={totalAmount} currency /></strong>
   </div>;
 

@@ -25,7 +25,7 @@ export const GO_LIVE_COLUMNS: Readonly<Record<GoLiveKind, readonly GoLiveColumn[
     { key: 'barcode', header: 'الباركود', required: false, example: '6281000000017' },
     { key: 'name_ar', header: 'اسم المنتج', required: true, example: 'شوكولاتة بالحليب 40غ', width: 30 },
     { key: 'category_name', header: 'القسم', required: true, example: 'شوكولاتة' },
-    { key: 'base_unit_name', header: 'الوحدة الصغرى', required: true, example: 'باكيت' },
+    { key: 'base_unit_name', header: 'اسم الباكيت (باكيت/شوال/قنينة...)', required: true, example: 'باكيت' },
     { key: 'purchase_unit_name', header: 'طرد الشراء', required: true, example: 'كرتونة' },
     { key: 'units_per_purchase_unit', header: 'عدد الباكيتات في طرد الشراء', required: true, example: '24' },
     { key: 'sale_unit_name', header: 'طرد البيع', required: true, example: 'كرتونة' },

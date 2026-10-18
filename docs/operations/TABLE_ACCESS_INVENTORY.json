@@ -269,7 +269,7 @@
     },
     {
       "file": "src/features/goLive/goLiveImport.ts",
-      "sha256": "7d88c814dff51a45bac855e3dd469be5a4cb2bff7993e36a9fee2c31e1611d35"
+      "sha256": "6aef1af0cb92752768352535d6f651c2a0d9a5db3760335eb82f5d61ecd578fe"
     },
     {
       "file": "src/features/goLive/GoLiveSetupView.tsx",
@@ -385,7 +385,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "519506044bcd2187ea899dfd809f775b7478e8bf67fe0f93bfc6e6c1faea928b"
+      "sha256": "05037728f121a07e38f987bedb96517945aab5fccf8f5c1b5b5455669b307a64"
     },
     {
       "file": "src/features/products/ProductCostCorrectionPanel.tsx",
@@ -433,7 +433,7 @@
     },
     {
       "file": "src/features/purchases/ReceiveGoodsModal.tsx",
-      "sha256": "5116072ac522527e14c23f1acad06258019abd13d86f7b1aa8aa5c13df800d30"
+      "sha256": "e76a68944d08cc6d57a8bb78558750e9ab0304a32a89cdea8e818f086ce2360e"
     },
     {
       "file": "src/features/purchases/SupplierPaymentModal.tsx",
@@ -769,7 +769,7 @@
     },
     {
       "file": "src/utils/legacyUnitImportHeaders.ts",
-      "sha256": "b399f1c9e9b651724a947a1a835f64f0d97c70418ad149ef745a9ba382c30825"
+      "sha256": "58002e7c231a2059900db63b82d9b10a734a9e976aebb14b78c84bdd6e41a0de"
     },
     {
       "file": "src/utils/orderCalculations.ts",
@@ -3461,7 +3461,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "line": 626,
+      "line": 627,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {

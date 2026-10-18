@@ -144,7 +144,7 @@
     },
     "src/features/goLive/goLiveImport.ts": {
       "before": "224bc3cf19613d10c7ada5bdfaeba75e92a8e2d3c1ce02ce0b8b2b47996638cf",
-      "after": "7d88c814dff51a45bac855e3dd469be5a4cb2bff7993e36a9fee2c31e1611d35",
+      "after": "6aef1af0cb92752768352535d6f651c2a0d9a5db3760335eb82f5d61ecd578fe",
       "hunks": [
         {
           "at": 8,
@@ -152,6 +152,15 @@
           "after": [
             "import { LEGACY_UNIT_HEADERS } from '../../utils/legacyUnitImportHeaders';",
             ""
+          ]
+        },
+        {
+          "at": 28,
+          "before": [
+            "    { key: 'base_unit_name', header: 'الوحدة الصغرى', required: true, example: 'باكيت' },"
+          ],
+          "after": [
+            "    { key: 'base_unit_name', header: 'اسم الباكيت (باكيت/شوال/قنينة...)', required: true, example: 'باكيت' },"
           ]
         },
         {
@@ -872,7 +881,76 @@
     },
     "src/utils/legacyUnitImportHeaders.ts": {
       "added": true,
-      "after": "b399f1c9e9b651724a947a1a835f64f0d97c70418ad149ef745a9ba382c30825"
+      "after": "58002e7c231a2059900db63b82d9b10a734a9e976aebb14b78c84bdd6e41a0de"
+    },
+    "src/features/pos/PosView.tsx": {
+      "before": "519506044bcd2187ea899dfd809f775b7478e8bf67fe0f93bfc6e6c1faea928b",
+      "after": "05037728f121a07e38f987bedb96517945aab5fccf8f5c1b5b5455669b307a64",
+      "hunks": [
+        {
+          "at": 626,
+          "before": [
+            "  const visibleUnitNames=Array.from(new Set(posProducts.map(product=>product.unit)));",
+            "  const saleUnitLabel=currentProductUnit||(visibleUnitNames.length===1?visibleUnitNames[0]:'وحدة الصنف');"
+          ],
+          "after": [
+            "  const saleUnitLabel=currentProductUnit||'باكيت';",
+            "  const cartBaseUnitTotals=Array.from(cartItems.reduce((totals,item)=>{",
+            "    const name=knownProductsRef.current.get(item.productId)?.unit||'باكيت';",
+            "    totals.set(name,(totals.get(name)??0)+item.baseQuantity);",
+            "    return totals;",
+            "  },new Map<string,number>()));"
+          ]
+        },
+        {
+          "at": 669,
+          "before": [
+            "    <span className=\"text-xs text-nw-muted\"><bdi dir=\"ltr\">{cartItems.reduce((sum, item) => sum + item.baseQuantity, 0)}</bdi> وحدات صغرى</span>"
+          ],
+          "after": [
+            "    <span data-testid=\"pos-cart-base-units\" className=\"text-xs text-nw-muted\">{cartBaseUnitTotals.length?cartBaseUnitTotals.map(([name,quantity],index)=><React.Fragment key={name}>{index>0?'، ':''}<bdi dir=\"ltr\">{quantity}</bdi> {name}</React.Fragment>):'0 باكيت'}</span>"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/ReceiveGoodsModal.tsx": {
+      "before": "5116072ac522527e14c23f1acad06258019abd13d86f7b1aa8aa5c13df800d30",
+      "after": "e76a68944d08cc6d57a8bb78558750e9ab0304a32a89cdea8e818f086ce2360e",
+      "hunks": [
+        {
+          "at": 104,
+          "before": [
+            "    }).catch(()=>{if(active)setErrorMsg('تعذر تحميل بيانات طرود الأصناف؛ الاستلام بالوحدة الصغرى ما زال متاحاً.');});"
+          ],
+          "after": [
+            "    }).catch(()=>{if(active)setErrorMsg('تعذر تحميل بيانات طرود الأصناف؛ يمكنك الاستلام بالباكيت أو وحدة المنتج الظاهرة.');});"
+          ]
+        },
+        {
+          "at": 309,
+          "before": [
+            "          <summary className=\"text-sm text-nw-muted\">تفاصيل أمر الشراء بالوحدات الصغرى</summary>"
+          ],
+          "after": [
+            "          <summary className=\"text-sm text-nw-muted\">تفاصيل أمر الشراء بمحتوى الطرود</summary>"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-pos-harness.tsx": {
+      "before": "a3c0311de4bbfb135b797fd0e0e2cd3d35534096a72c5bab2d5df06238045614",
+      "after": "a29c384af6c0896d9128c2d4112e0f15f1858061e177aac98310093c5d204d2f",
+      "hunks": [
+        {
+          "at": 46,
+          "before": [
+            "      `${product.name_ar} ${product.sku} ${product.barcode}`.toLowerCase().includes(search)));"
+          ],
+          "after": [
+            "      `${product.name_ar} ${product.sku} ${product.barcode}`.toLowerCase().includes(search)).map(product=>params.get('base-unit')==='sack'?{...product,base_unit:{code:'SACK',name_ar:'شوال'}}:product));"
+          ]
+        }
+      ]
     }
   }
 }

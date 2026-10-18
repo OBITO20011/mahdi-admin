@@ -12,7 +12,7 @@ import {sourceBeforeUnitTerminology} from '../scripts/audit/source-before-unit-t
 function sources(dir:string):string[]{return readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?sources(`${dir}/${e.name}`):/\.[jt]sx?$/u.test(e.name)?[`${dir}/${e.name}`]:[]);}
 test('no generic piece terminology in UI source; exact import-only compatibility exception',()=>{
   const compatibility='src/utils/legacyUnitImportHeaders.ts';
-  const violations=[...sources('src'),...sources('customer-web/src')].filter(file=>file!==compatibility && /حبة|حبات|الحبة|الحبات/u.test(readFileSync(file,'utf8')));
+  const violations=[...sources('src'),...sources('customer-web/src')].filter(file=>file!==compatibility && /حبة|حبات|الحبة|الحبات|وحدة الصنف|الوحدة الصغرى|وحدات صغرى|الوحدات الصغرى/u.test(readFileSync(file,'utf8')));
   assert.deepEqual(violations,[]);
   // This module may only declare compatibility constants, not render labels.
   assert.doesNotMatch(readFileSync(compatibility,'utf8'),/return|\.map\(|React|jsx|document/u);

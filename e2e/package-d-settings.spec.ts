@@ -50,6 +50,6 @@ test('missing packet price warns on active allowed flavors without blocking conf
 
 test('carton product with missing packet price shows a non-blocking warning',async({page})=>{
   await page.goto('/e2e/admin-mobile-ux-harness.html?view=barcode-edit&missingPacketPrice=1');
-  await expect(page.getByText('عبّي سعر الباكيت؛ بدونه لا يُحسب خصم ضرر العميل')).toBeVisible();
+  await expect(page.getByText('عبّي سعر حبة؛ بدونه لا يُحسب خصم ضرر العميل')).toBeVisible();
   await expect(page.getByRole('button',{name:'حفظ التعديلات',exact:true})).toBeEnabled();
 });

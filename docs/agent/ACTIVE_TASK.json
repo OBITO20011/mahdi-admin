@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner18Oct:record successful owner binding;product base-unit terminology/pickers/import backwards compatibility only. Preserve RPC fields,quantities,costs;no hosted access/deploy/migrations.",
-  "baselineSha": "ba8626687e3def67addc6f32ba7bebc9ad5bb937",
+  "baselineSha": "134719fecd137cc1b548f218c57566e4c37800ce",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/product-unit-terminology",
   "phase": "PACKAGE_F",
@@ -16,7 +16,7 @@
     "First-owner198 ba86266 delivered mainFULL28/28quality39157682102+secrets39157682074 SUCCESS;Gitleaks0;strict current access proof/local AuthTOTP rehearsal PASS;no hosted access."
   ],
   "inProgress": [
-    "Unit terminology localPASS;commit/featureFULLCI/merge/mainFULLCI thenSTOP. Atomic checkpoint tool ab6ca4e separate."
+    "134719f CI26success/core cancelled1202s;2stale label selectors corrected only. Item7/108related browsers/freshSDK142/RPC489/types/strictlint/1240Admin191Customer PASS. Gitleaks/commit/featureFULLCI/mainmergeFULLCI thenSTOP."
   ],
   "notStarted": [
     "Warehouse follow-up NOT STARTED;owner says finish terminology then STOP."
@@ -27,7 +27,7 @@
     "First-owner198 real local Auth/TOTP/AAL2/executor/replay/stale history/negative identity gates,catalog0diff/hold/Realtime13 PASS;offline ownercommand network-denied PASS;types/strictlint/1234Admin191Customer units PASS."
   ],
   "testsRemaining": [
-    "Commit/push/featureFULLCI;merge/mainFULLCI;delivery checkpoint/STOP."
+    "Gitleaks,correctivecommit/featureFULLCI;merge/mainFULLCI;delivery checkpoint/STOP."
   ],
   "findings": [
     "197 closes legacyreturned mismatch7000→0,canonical35k/branches/claims and independent+1CRITICAL;other facts/data/security exact.",
@@ -41,12 +41,12 @@
     "Backup root project-ref remains old;only owner-approved publicconfig separation and identity guard;no hosted backup/secret/schedule/target change",
     "One writer;no tracked edits during verification;no retries/timeouts/skips/assertion weakening"
   ],
-  "nextExactAction": "All terminology local gates PASS;Gitleaks0;commit UI/current evidence,featureFULLCI then merge/mainFULLCI and STOP. Warehouse NOT STARTED. No hosted access/deploy.",
-  "checkpointedAt": "2026-10-18T21:04:37.024Z",
+  "nextExactAction": "Local terminology complete incl item7;Gitleaks then commit/push corrective feature SHA;fullCI,genuine mainmerge/mainFULLCI,delivery checkpoint then STOP for visual review. No warehouse/hosted work.",
+  "checkpointedAt": "2026-10-18T22:05:16.435Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "FE206AA33F82FAB9CD1949AECD30BDE503C775CF191D41460091ADF733D9A8B6",
-  "filesTouchedCount": 51,
-  "filesTouchedManifestSha256": "f34289f62d9f3a77c29494992100b6c90a8c4e81bc7fa61618e3859cf7f43f2e"
+  "workingTreeFingerprint": "8B780278264E428FA1CB6EC02339533ACA66440650E02976169522B6A35576CB",
+  "filesTouchedCount": 19,
+  "filesTouchedManifestSha256": "ffdfc75d31595fe351301b54c1b9bfde20067fefb3b29832c0ebc4082ba10cdc"
 }

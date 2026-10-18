@@ -101,7 +101,7 @@ export const ReceiveGoodsModal = ({
       return product;
     })).then(products=>{
       if(active)setItems(current=>current.map(item=>({...item,productDefaults:products.find(product=>product?.id===item.productId)})));
-    }).catch(()=>{if(active)setErrorMsg('تعذر تحميل بيانات طرود الأصناف؛ الاستلام بالوحدة الصغرى ما زال متاحاً.');});
+    }).catch(()=>{if(active)setErrorMsg('تعذر تحميل بيانات طرود الأصناف؛ يمكنك الاستلام بالباكيت أو وحدة المنتج الظاهرة.');});
     return ()=>{active=false;};
   },[isOpen,po]);
 
@@ -306,7 +306,7 @@ export const ReceiveGoodsModal = ({
             <p role="status" className="text-sm font-semibold text-nw-info">إجمالي الوحدات الداخلة: {totalReceivingNow} وحدة</p>
           </div>
           <details>
-          <summary className="text-sm text-nw-muted">تفاصيل أمر الشراء بالوحدات الصغرى</summary>
+          <summary className="text-sm text-nw-muted">تفاصيل أمر الشراء بمحتوى الطرود</summary>
           <div className="space-y-2">
             <h3 className="font-bold text-nw-text text-sm flex items-center justify-between">
               <span>جدول فحص واستلام الأصناف:</span>

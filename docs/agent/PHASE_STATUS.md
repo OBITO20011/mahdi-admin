@@ -1,5 +1,23 @@
 # Phase status
 
+## Current19Oct — terminology completion local PASS;correctiveCI/merge pending
+
+134719f quality39166213022:26success,core cancelled1202s,aggregate failure;
+secrets39166213121 SUCCESS. Log proves stale package-d-pos/settings labels,
+not financial/payload failure. Selector-only corrections retain assertions.
+Item7 display completion:packet default/actual selected unit/cart unit names;
+old workbook header still accepted. Exact whole-file/awaitedRPC/onChange and
+POS financial action AST parity PASS. Related108 unique browser cases now
+PASS:initial100/8new mobile test setup failures,then full corrected24/24 PASS;
+no timeout/retry/CI change. Fresh198 SDK142/142 and RPC489/0SQL42501 PASS.
+Logs nw-unit-followup-browser/final-20261019. Finaltypes/strictlint/all1240Admin
+191Customer PASS22:04:47UTC(nw-unit-followup-units-final-20261019). Existing
+cheque mutation tests explicitly assert early whole-file rejection for POS,
+with normal exact-source parity unchanged. Secret scan/corrective commit/
+feature FULLCI/mainmerge FULLCI remain before STOP.
+Warehouse and PhaseB reports NOT STARTED;latest owner says first task only.
+No hostedaccess/deploy/migration. Historical SQL/root oldbackup link unchanged.
+
 ## Current19Oct —18Oct unit terminology decision local PASS;CI/merge pending
 
 Product-specific labels use existing real base-unit names;generic workbook
