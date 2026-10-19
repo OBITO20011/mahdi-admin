@@ -2,368 +2,48 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "A ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_199.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/WAREHOUSE_DEACTIVATION_DECISION_REQUIRED_AR.md"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/WAREHOUSE_ZERO_BALANCE_ASSIGNMENT_DECISION_AR.md"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/package-f-warehouses-harness.html"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/package-f-warehouses-harness.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/package-f-warehouses.spec.ts"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/historical-warehouse-query-sites.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-warehouse-management.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/warehouse-management-hunks.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/build-acl-reference199.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/first-owner-warehouse-core.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/frankfurt-owner-upgrade199.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/frankfurt-reference199.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-owner-warehouse-runtime.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-warehouse-management-gates.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-warehouse-upgrade199-runtime.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "src/components/ui/singleWarehouseOption.ts"
-    },
-    {
-      "code": "A ",
-      "path": "src/components/ui/WarehouseChoice.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "src/features/warehouses/WarehousesView.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "src/services/supabase/warehouses.service.ts"
-    },
-    {
-      "code": "A ",
-      "path": "supabase/migrations/199_owner_warehouse_management.sql"
-    },
-    {
-      "code": "A ",
-      "path": "tests/owner-warehouses.test.ts"
-    },
-    {
-      "code": "AM",
-      "path": "docs/operations/WAREHOUSE_MANAGEMENT_199_AR.md"
-    },
-    {
-      "code": "M ",
-      "path": ".github/workflows/quality.yml"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/tests/storefront-experience.test.ts"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
-      "code": "M ",
-      "path": "docs/generated/DB_FUNCTIONS.md"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/FIRST_OWNER_FRANKFURT_AR.md"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/PHASE7_FRANKFURT_CHECKLIST.md"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_STAGING_198.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TRIAL_RESET_FRANKFURT_AR.md"
-    },
-    {
-      "code": "M ",
-      "path": "e2e/package-d-pos-fullstack.spec.ts"
-    },
-    {
-      "code": "M ",
-      "path": "e2e/package-d-pos.spec.ts"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/agent/lib.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/agent/preflight.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/run-service-access-diagnostic.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/run-table-access-diagnostic.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/source-before-staging-config.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/source-before-unit-terminology.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/source-before198-presentation.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/frankfurt-first-owner.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/frankfurt-owner-build.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/frankfurt-trial-reset.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/main-warehouse-core.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/managed-catalog-policy.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/trial-reset-core.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/generate-db-functions.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/isolated-vite-server.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/maintenance-db-contract.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/run-trial-reset-runtime.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "src/App.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/components/layout/sideNavigationModel.ts"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/directReceiving/CreateDirectReceiptModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/inventory/InventoryOpeningSetupModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/inventory/StockCountModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/more/adminNavigation.config.ts"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/pos/PosView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/products/ProductFormModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/purchases/CreatePurchaseOrderModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/purchases/ReceiveGoodsModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/stores/appStorePreferences.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/admin-navigation.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/canonical-receivables197.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/cashier-collections198.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/cheques195-admission.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/cheques195-parity.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/first-owner-preparation.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/frankfurt-acl-alignment.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/frankfurt-reference198.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/go-live-integration164.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/isolated-vite-cache.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/maintenance-guide.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/opening-cheques196.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/order-delivery-tracking.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/order-push-url139.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/phase35b-reporting-corrections.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/product-integration171.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/promotion-codes.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/service-access-inventory.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/table-access-ci-gate.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/table-access-inventory.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/trial-reset.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/withdrawals-integration182.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/withdrawals182-admission.test.ts"
-    },
-    {
-      "code": "MM",
+      "code": " M",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
-      "code": "MM",
-      "path": "docs/agent/project-state.json"
+      "code": " M",
+      "path": "docs/operations/WAREHOUSE_MANAGEMENT_199_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/design/OWNER_SIMPLICITY_REVIEW_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/design/SUPPLIER_REPLACEMENT_DAMAGE_DESIGN_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/PHASE_B_BROWSER_OBSERVATIONS.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/PHASE_B_CLICK_MEASUREMENT.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/PHASE_B_REVIEW_VALIDATION.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/PHASE_B_UI_INVENTORY.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/UNEXPOSED_RPC_REVIEW_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/UNEXPOSED_RPC_REVIEW_EVIDENCE.json"
     }
   ]
 }

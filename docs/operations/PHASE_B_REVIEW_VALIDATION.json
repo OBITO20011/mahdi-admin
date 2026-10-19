@@ -1,0 +1,62 @@
+{
+  "ok": true,
+  "managedAccess": false,
+  "sourceRevision": "6841256f52c66c603ff01073abd3f5b9fdab8e34",
+  "equivalentMainMerge": "ee1e5bbec7ce8491d8391435586d6bee121d162e",
+  "uiFiles": 97,
+  "uiEntries": 1466,
+  "rpcExposed": 192,
+  "rpcNoDirectCaller": 34,
+  "browserAttempts": 112,
+  "browserCaptured": 106,
+  "browserExcluded": [
+    {
+      "name": "supplier-form",
+      "width": 390,
+      "batch": "base",
+      "reason": "unsupported initial view name;corrected explicit supplier view captured in extra batch"
+    },
+    {
+      "name": "supplier-form",
+      "width": 1440,
+      "batch": "base",
+      "reason": "unsupported initial view name;corrected explicit supplier view captured in extra batch"
+    },
+    {
+      "name": "go-live-manual-4",
+      "width": 390,
+      "batch": "extra",
+      "reason": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'إدخال يدوي', exact: true }).nth(4)\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"button\" class=\"inline-flex items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 h-11 border border-nw-border bg-nw-surface text-nw-text hover:bg-nw-surface-2\">إدخال يدوي</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"
+    },
+    {
+      "name": "cash-close",
+      "width": 1440,
+      "batch": "extra",
+      "reason": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByTestId('cash-count-open')\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" data-testid=\"cash-count-open\" class=\"inline-flex items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 h-12 text-[15px] font-bold border-0 bg-nw-accent text-nw-on-accent hover:brightness-105\">عدّ الدرج وإغلاق الوردية</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"
+    },
+    {
+      "name": "cash-report",
+      "width": 1440,
+      "batch": "extra",
+      "reason": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'عرض تقرير الإغلاق الكامل', exact: true }).first()\u001b[22m\n"
+    },
+    {
+      "name": "go-live-manual-4",
+      "width": 1440,
+      "batch": "extra",
+      "reason": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'إدخال يدوي', exact: true }).nth(4)\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"button\" class=\"inline-flex items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 h-11 border border-nw-border bg-nw-surface text-nw-text hover:bg-nw-surface-2\">إدخال يدوي</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"
+    }
+  ],
+  "externalRequests": 0,
+  "pageErrors": 0,
+  "clicksWithinForm": [
+    3,
+    5,
+    4,
+    2,
+    2
+  ],
+  "productAddOpenClick": 1,
+  "uiOnlyWritesRejected": true,
+  "authFixtureNotPermissionAcceptance": true
+}

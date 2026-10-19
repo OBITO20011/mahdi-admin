@@ -1,0 +1,1023 @@
+{
+  "ceiling": 199,
+  "referenceCatalogSha256": "9a2ddda62bcb792bb140238d17ba72e78375e01e0c2853dc4eb8e59684c86657",
+  "exposed": 192,
+  "sourceRpcNames": 163,
+  "unreferenced": 34,
+  "rows": [
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "cancel_purchase_receipt_v2(p_purchase_receipt_id uuid, p_reason text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.cancel_purchase_receipt_v2(p_purchase_receipt_id uuid, p_reason text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  PERFORM public.assert_erp_role(ARRAY['owner','admin','manager','warehouse_keeper'],'إلغاء سند استلام أمر شراء');\r\n  PERFORM public.phase4_lock_supplier_context_internal(NULL,p_purchase_receipt_id,NULL);\r\n  RETURN public._cancel_purchase_receipt_v2_before_phase4_lock(p_purchase_receipt_id,p_reason);\r\nEND; $function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "cancel_purchase_receipt_v2",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "create_customer_order(p_customer_full_name text, p_customer_phone text, p_customer_email text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_floor text, p_apartment text, p_address_notes text, p_latitude double precision, p_longitude double precision, p_formatted_address text, p_google_maps_url text, p_location_source text, p_branch_id uuid, p_warehouse_id uuid, p_items jsonb, p_delivery_fee_in_minor_units bigint, p_discount_in_minor_units bigint, p_customer_notes text, p_internal_notes text, p_source text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.create_customer_order(p_customer_full_name text, p_customer_phone text, p_customer_email text DEFAULT NULL::text, p_governorate text DEFAULT NULL::text, p_city text DEFAULT NULL::text, p_area text DEFAULT NULL::text, p_street text DEFAULT NULL::text, p_building text DEFAULT NULL::text, p_floor text DEFAULT NULL::text, p_apartment text DEFAULT NULL::text, p_address_notes text DEFAULT NULL::text, p_latitude double precision DEFAULT NULL::double precision, p_longitude double precision DEFAULT NULL::double precision, p_formatted_address text DEFAULT NULL::text, p_google_maps_url text DEFAULT NULL::text, p_location_source text DEFAULT 'manual'::text, p_branch_id uuid DEFAULT NULL::uuid, p_warehouse_id uuid DEFAULT NULL::uuid, p_items jsonb DEFAULT '[]'::jsonb, p_delivery_fee_in_minor_units bigint DEFAULT 0, p_discount_in_minor_units bigint DEFAULT 0, p_customer_notes text DEFAULT NULL::text, p_internal_notes text DEFAULT NULL::text, p_source text DEFAULT 'website'::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  IF LOWER(BTRIM(p_source)) = 'pos' THEN\r\n    RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n      MESSAGE = 'PACKAGE_D_POS_V2_REQUIRED: بيع الكاشير يتطلب create_pos_sale_v2.';\r\n  END IF;\r\n  RETURN public.package_d_create_customer_order_before_source_guard_internal(\r\n    p_customer_full_name, p_customer_phone, p_customer_email, p_governorate,\r\n    p_city, p_area, p_street, p_building, p_floor, p_apartment, p_address_notes,\r\n    p_latitude, p_longitude, p_formatted_address, p_google_maps_url, p_location_source,\r\n    p_branch_id, p_warehouse_id, p_items, p_delivery_fee_in_minor_units,\r\n    p_discount_in_minor_units, p_customer_notes, p_internal_notes, p_source\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "create_customer_order",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "submit_guest_customer_order_core(p_idempotency_key text, p_customer_full_name text, p_customer_phone text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_address_notes text, p_google_maps_url text, p_latitude double precision, p_longitude double precision, p_customer_notes text, p_items jsonb, p_promotion_code text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "create_direct_supplier_receipt(p_supplier_id uuid, p_warehouse_id uuid, p_branch_id uuid, p_supplier_invoice_number text, p_supplier_invoice_date date, p_received_at timestamp with time zone, p_delivery_fee_in_minor_units bigint, p_discount_in_minor_units bigint, p_tax_in_minor_units bigint, p_amount_paid_in_minor_units bigint, p_payment_method text, p_payment_reference text, p_notes text, p_internal_notes text, p_idempotency_key uuid, p_items jsonb)",
+      "definition": "CREATE OR REPLACE FUNCTION public.create_direct_supplier_receipt(p_supplier_id uuid, p_warehouse_id uuid, p_branch_id uuid DEFAULT NULL::uuid, p_supplier_invoice_number text DEFAULT NULL::text, p_supplier_invoice_date date DEFAULT NULL::date, p_received_at timestamp with time zone DEFAULT NULL::timestamp with time zone, p_delivery_fee_in_minor_units bigint DEFAULT 0, p_discount_in_minor_units bigint DEFAULT 0, p_tax_in_minor_units bigint DEFAULT 0, p_amount_paid_in_minor_units bigint DEFAULT 0, p_payment_method text DEFAULT 'cash'::text, p_payment_reference text DEFAULT NULL::text, p_notes text DEFAULT NULL::text, p_internal_notes text DEFAULT NULL::text, p_idempotency_key uuid DEFAULT NULL::uuid, p_items jsonb DEFAULT '[]'::jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  PERFORM p_supplier_id,p_warehouse_id,p_branch_id,p_supplier_invoice_number,p_supplier_invoice_date,p_received_at,\r\n    p_delivery_fee_in_minor_units,p_discount_in_minor_units,p_tax_in_minor_units,p_amount_paid_in_minor_units,\r\n    p_payment_method,p_payment_reference,p_notes,p_internal_notes,p_idempotency_key,p_items;\r\n  RAISE EXCEPTION 'RECEIVING_V1_READ_ONLY: مسار الاستلام القديم للقراءة فقط؛ حدّث الصفحة وأعد المحاولة.';\r\nEND; $function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "create_direct_supplier_receipt",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [
+        {
+          "file": "src/services/supabase/directReceiving.service.ts",
+          "lines": [
+            370,
+            380
+          ]
+        }
+      ]
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "create_product_with_opening_stock(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.create_product_with_opening_stock(p_sku text, p_barcode text DEFAULT NULL::text, p_name_ar text DEFAULT NULL::text, p_description text DEFAULT NULL::text, p_category_id uuid DEFAULT NULL::uuid, p_brand_id uuid DEFAULT NULL::uuid, p_unit_id uuid DEFAULT NULL::uuid, p_purchase_unit_id uuid DEFAULT NULL::uuid, p_units_per_purchase_unit integer DEFAULT 1, p_default_purchase_price_in_minor_units bigint DEFAULT 0, p_cost_price_in_minor_units bigint DEFAULT 0, p_sale_price_in_minor_units bigint DEFAULT 0, p_min_stock_level integer DEFAULT 0, p_max_stock_level integer DEFAULT NULL::integer, p_warehouse_id uuid DEFAULT NULL::uuid, p_opening_quantity integer DEFAULT 0, p_notes text DEFAULT 'رصيد افتتاحي عند إضافة المنتج'::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  PERFORM public.assert_erp_role(\r\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\r\n    'إضافة المنتجات والأرصدة الافتتاحية'\r\n  );\r\n\r\n  RETURN public._create_product_with_opening_stock_impl(\r\n    p_sku,\r\n    p_barcode,\r\n    p_name_ar,\r\n    p_description,\r\n    p_category_id,\r\n    p_brand_id,\r\n    p_unit_id,\r\n    p_purchase_unit_id,\r\n    p_units_per_purchase_unit,\r\n    p_default_purchase_price_in_minor_units,\r\n    p_cost_price_in_minor_units,\r\n    p_sale_price_in_minor_units,\r\n    p_min_stock_level,\r\n    p_max_stock_level,\r\n    p_warehouse_id,\r\n    p_opening_quantity,\r\n    p_notes\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "create_product_with_opening_stock",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "create_product_with_opening_stock_v2(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [
+        {
+          "file": "src/services/supabase/products.service.ts",
+          "lines": [
+            547,
+            672,
+            678
+          ]
+        }
+      ]
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "create_product_with_opening_stock_v2(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.create_product_with_opening_stock_v2(p_sku text, p_barcode text DEFAULT NULL::text, p_name_ar text DEFAULT NULL::text, p_description text DEFAULT NULL::text, p_category_id uuid DEFAULT NULL::uuid, p_brand_id uuid DEFAULT NULL::uuid, p_unit_id uuid DEFAULT NULL::uuid, p_purchase_unit_id uuid DEFAULT NULL::uuid, p_units_per_purchase_unit integer DEFAULT 1, p_default_purchase_price_in_minor_units bigint DEFAULT 0, p_cost_price_in_minor_units bigint DEFAULT 0, p_sale_price_in_minor_units bigint DEFAULT 0, p_wholesale_price_in_minor_units bigint DEFAULT 0, p_min_stock_level integer DEFAULT 0, p_max_stock_level integer DEFAULT NULL::integer, p_warehouse_id uuid DEFAULT NULL::uuid, p_opening_quantity integer DEFAULT 0, p_notes text DEFAULT 'رصيد افتتاحي عند إضافة المنتج'::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_result JSONB;\r\n  v_product_id UUID;\r\nBEGIN\r\n  PERFORM public.assert_erp_role(\r\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\r\n    'إضافة المنتجات والأرصدة الافتتاحية'\r\n  );\r\n\r\n  IF COALESCE(p_wholesale_price_in_minor_units, -1) < 0 THEN\r\n    RAISE EXCEPTION 'سعر بيع الجملة لا يمكن أن يكون سالباً.';\r\n  END IF;\r\n\r\n  v_result := public.create_product_with_opening_stock(\r\n    p_sku,\r\n    p_barcode,\r\n    p_name_ar,\r\n    p_description,\r\n    p_category_id,\r\n    p_brand_id,\r\n    p_unit_id,\r\n    p_purchase_unit_id,\r\n    p_units_per_purchase_unit,\r\n    p_default_purchase_price_in_minor_units,\r\n    p_cost_price_in_minor_units,\r\n    p_sale_price_in_minor_units,\r\n    p_min_stock_level,\r\n    p_max_stock_level,\r\n    p_warehouse_id,\r\n    p_opening_quantity,\r\n    p_notes\r\n  );\r\n\r\n  v_product_id := NULLIF(v_result->>'product_id', '')::UUID;\r\n  IF v_product_id IS NULL THEN\r\n    RAISE EXCEPTION 'لم يتم إرجاع معرف المنتج بعد إنشائه.';\r\n  END IF;\r\n\r\n  UPDATE public.products\r\n  SET\r\n    wholesale_price_in_minor_units = p_wholesale_price_in_minor_units,\r\n    updated_at = NOW()\r\n  WHERE id = v_product_id;\r\n\r\n  INSERT INTO public.audit_logs (\r\n    user_id,\r\n    action,\r\n    entity_name,\r\n    entity_id,\r\n    details\r\n  ) VALUES (\r\n    auth.uid(),\r\n    'SET_PRODUCT_WHOLESALE_PRICE',\r\n    'products',\r\n    v_product_id,\r\n    jsonb_build_object(\r\n      'wholesale_price_in_minor_units',\r\n      p_wholesale_price_in_minor_units\r\n    )\r\n  );\r\n\r\n  RETURN v_result || jsonb_build_object(\r\n    'wholesale_price_in_minor_units',\r\n    p_wholesale_price_in_minor_units\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "create_product_with_opening_stock_v2",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "create_product_with_opening_stock_v3(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text, p_image_url text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "create_product_with_opening_stock_v3(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text, p_image_url text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.create_product_with_opening_stock_v3(p_sku text, p_barcode text DEFAULT NULL::text, p_name_ar text DEFAULT NULL::text, p_description text DEFAULT NULL::text, p_category_id uuid DEFAULT NULL::uuid, p_brand_id uuid DEFAULT NULL::uuid, p_unit_id uuid DEFAULT NULL::uuid, p_purchase_unit_id uuid DEFAULT NULL::uuid, p_units_per_purchase_unit integer DEFAULT 1, p_default_purchase_price_in_minor_units bigint DEFAULT 0, p_cost_price_in_minor_units bigint DEFAULT 0, p_sale_price_in_minor_units bigint DEFAULT 0, p_wholesale_price_in_minor_units bigint DEFAULT 0, p_min_stock_level integer DEFAULT 0, p_max_stock_level integer DEFAULT NULL::integer, p_warehouse_id uuid DEFAULT NULL::uuid, p_opening_quantity integer DEFAULT 0, p_notes text DEFAULT 'رصيد افتتاحي عند إضافة المنتج'::text, p_image_url text DEFAULT NULL::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_result JSONB;\r\n  v_product_id UUID;\r\n  v_image_url TEXT := NULLIF(BTRIM(p_image_url), '');\r\nBEGIN\r\n  PERFORM public.assert_erp_role(\r\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\r\n    'إضافة المنتجات والأرصدة الافتتاحية'\r\n  );\r\n\r\n  v_result := public.create_product_with_opening_stock_v2(\r\n    p_sku,\r\n    p_barcode,\r\n    p_name_ar,\r\n    p_description,\r\n    p_category_id,\r\n    p_brand_id,\r\n    p_unit_id,\r\n    p_purchase_unit_id,\r\n    p_units_per_purchase_unit,\r\n    p_default_purchase_price_in_minor_units,\r\n    p_cost_price_in_minor_units,\r\n    p_sale_price_in_minor_units,\r\n    p_wholesale_price_in_minor_units,\r\n    p_min_stock_level,\r\n    p_max_stock_level,\r\n    p_warehouse_id,\r\n    p_opening_quantity,\r\n    p_notes\r\n  );\r\n\r\n  v_product_id := NULLIF(v_result->>'product_id', '')::UUID;\r\n  IF v_product_id IS NULL THEN\r\n    RAISE EXCEPTION 'لم يتم إرجاع معرف المنتج بعد إنشائه.';\r\n  END IF;\r\n\r\n  IF v_image_url IS NOT NULL THEN\r\n    PERFORM public.set_product_primary_image(\r\n      v_product_id,\r\n      v_image_url\r\n    );\r\n  END IF;\r\n\r\n  RETURN v_result || jsonb_build_object(\r\n    'image_url',\r\n    v_image_url\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "create_product_with_opening_stock_v3",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "create_product_with_opening_stock_v4(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text, p_image_url text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "create_purchase_order_v2(p_supplier_id uuid, p_branch_id uuid, p_warehouse_id uuid, p_expected_delivery_date timestamp with time zone, p_expected_header_discount_in_minor_units bigint, p_expected_supplier_freight_in_minor_units bigint, p_notes text, p_internal_notes text, p_idempotency_key text, p_lines jsonb)",
+      "definition": "CREATE OR REPLACE FUNCTION public.create_purchase_order_v2(p_supplier_id uuid, p_branch_id uuid DEFAULT NULL::uuid, p_warehouse_id uuid DEFAULT NULL::uuid, p_expected_delivery_date timestamp with time zone DEFAULT NULL::timestamp with time zone, p_expected_header_discount_in_minor_units bigint DEFAULT 0, p_expected_supplier_freight_in_minor_units bigint DEFAULT 0, p_notes text DEFAULT NULL::text, p_internal_notes text DEFAULT NULL::text, p_idempotency_key text DEFAULT NULL::text, p_lines jsonb DEFAULT '[]'::jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_user_id UUID := auth.uid();\r\n  v_key TEXT := NULLIF(BTRIM(p_idempotency_key), '');\r\n  v_canonical_lines JSONB;\r\n  v_canonical_request JSONB;\r\n  v_fingerprint TEXT;\r\n  v_existing_operation public.business_operations%ROWTYPE;\r\n  v_operation_id UUID := gen_random_uuid();\r\n  v_purchase_order_id UUID := gen_random_uuid();\r\n  v_purchase_order_number TEXT;\r\n  v_result JSONB;\r\n  v_line JSONB;\r\n  v_component JSONB;\r\n  v_po_item_id UUID;\r\n  v_line_kind TEXT;\r\n  v_commercial_quantity INTEGER;\r\n  v_units_per_parcel INTEGER;\r\n  v_ordered_base_quantity INTEGER;\r\n  v_gross BIGINT;\r\n  v_line_discount BIGINT;\r\n  v_line_net BIGINT;\r\n  v_line_net_total NUMERIC;\r\n  v_total NUMERIC;\r\n  v_product_id UUID;\r\n  v_product public.products%ROWTYPE;\r\nBEGIN\r\n  PERFORM public.assert_erp_role(\r\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\r\n    'إنشاء أمر شراء - نموذج الطرود'\r\n  );\r\n  IF v_user_id IS NULL THEN\r\n    RAISE EXCEPTION 'PHASE2_AUTH_REQUIRED: يجب تسجيل الدخول.';\r\n  END IF;\r\n  IF v_key IS NULL OR CHAR_LENGTH(v_key) NOT BETWEEN 16 AND 255 THEN\r\n    RAISE EXCEPTION USING ERRCODE = '22023',\r\n      MESSAGE = 'PHASE2_IDEMPOTENCY_KEY_INVALID: مفتاح منع التكرار غير صالح.';\r\n  END IF;\r\n  IF p_expected_header_discount_in_minor_units < 0\r\n    OR p_expected_supplier_freight_in_minor_units < 0\r\n  THEN\r\n    RAISE EXCEPTION USING ERRCODE = '22023',\r\n      MESSAGE = 'PHASE2_FINANCIAL_VALUE_INVALID: قيم أمر الشراء لا يمكن أن تكون سالبة.';\r\n  END IF;\r\n  IF NOT EXISTS (\r\n    SELECT 1 FROM public.suppliers supplier\r\n    WHERE supplier.id = p_supplier_id AND supplier.is_active\r\n  ) THEN\r\n    RAISE EXCEPTION 'PHASE2_SUPPLIER_INVALID: المورد غير موجود أو غير نشط.';\r\n  END IF;\r\n  IF p_warehouse_id IS NOT NULL AND NOT EXISTS (\r\n    SELECT 1 FROM public.warehouses warehouse\r\n    WHERE warehouse.id = p_warehouse_id AND warehouse.is_active\r\n  ) THEN\r\n    RAISE EXCEPTION 'PHASE2_WAREHOUSE_INVALID: المستودع غير موجود أو غير نشط.';\r\n  END IF;\r\n  IF p_branch_id IS NOT NULL AND NOT EXISTS (\r\n    SELECT 1 FROM public.branches branch\r\n    WHERE branch.id = p_branch_id AND branch.is_active\r\n  ) THEN\r\n    RAISE EXCEPTION 'PHASE2_BRANCH_INVALID: الفرع غير موجود أو غير نشط.';\r\n  END IF;\r\n\r\n  v_canonical_lines := public.phase2_canonicalize_receipt_lines_internal(p_lines);\r\n  PERFORM public.phase2_validate_receipt_lines_internal(v_canonical_lines);\r\n  SELECT COALESCE(SUM(\r\n    (line->>'gross_amount_in_minor_units')::NUMERIC\r\n    - (line->>'line_discount_in_minor_units')::NUMERIC\r\n  ), 0)\r\n  INTO v_line_net_total\r\n  FROM jsonb_array_elements(v_canonical_lines) line;\r\n\r\n  IF p_expected_header_discount_in_minor_units > v_line_net_total THEN\r\n    RAISE EXCEPTION USING ERRCODE = '23514',\r\n      CONSTRAINT = 'phase2_purchase_order_header_discount_check',\r\n      MESSAGE = 'PHASE2_HEADER_DISCOUNT_EXCEEDS_NET: الخصم المتوقع يتجاوز صافي أمر الشراء.';\r\n  END IF;\r\n  IF v_line_net_total = 0\r\n    AND (p_expected_header_discount_in_minor_units > 0\r\n      OR p_expected_supplier_freight_in_minor_units > 0)\r\n  THEN\r\n    RAISE EXCEPTION USING ERRCODE = '23514',\r\n      CONSTRAINT = 'phase2_purchase_order_zero_basis_check',\r\n      MESSAGE = 'PHASE2_ZERO_ALLOCATION_BASIS: لا يمكن وضع خصم أو شحن متوقع على أساس صفري.';\r\n  END IF;\r\n  v_total := v_line_net_total\r\n    - p_expected_header_discount_in_minor_units::NUMERIC\r\n    + p_expected_supplier_freight_in_minor_units::NUMERIC;\r\n  IF v_line_net_total > 9223372036854775807::NUMERIC\r\n    OR v_total > 9223372036854775807::NUMERIC\r\n  THEN\r\n    RAISE EXCEPTION USING ERRCODE = '22003',\r\n      MESSAGE = 'PHASE2_MONEY_OVERFLOW: قيمة أمر الشراء تتجاوز الحد المدعوم.';\r\n  END IF;\r\n\r\n  v_canonical_request := jsonb_build_object(\r\n    'contract_version', 2,\r\n    'operation_type', 'purchase_order_v2',\r\n    'supplier_id', LOWER(p_supplier_id::TEXT),\r\n    'branch_id', CASE WHEN p_branch_id IS NULL THEN NULL ELSE LOWER(p_branch_id::TEXT) END,\r\n    'warehouse_id', CASE WHEN p_warehouse_id IS NULL THEN NULL ELSE LOWER(p_warehouse_id::TEXT) END,\r\n    'expected_delivery_date', CASE WHEN p_expected_delivery_date IS NULL THEN NULL ELSE TO_CHAR(p_expected_delivery_date AT TIME ZONE 'UTC', 'YYYY-MM-DD\"T\"HH24:MI:SS.US\"Z\"') END,\r\n    'expected_header_discount_in_minor_units', p_expected_header_discount_in_minor_units,\r\n    'expected_supplier_freight_in_minor_units', p_expected_supplier_freight_in_minor_units,\r\n    'notes', NULLIF(BTRIM(p_notes), ''),\r\n    'internal_notes', NULLIF(BTRIM(p_internal_notes), ''),\r\n    'lines', v_canonical_lines\r\n  );\r\n  v_fingerprint := public.phase2_request_fingerprint_internal(v_canonical_request);\r\n\r\n  PERFORM pg_advisory_xact_lock(hashtextextended(\r\n    'purchase_order_v2:' || v_user_id::TEXT || ':' || v_key, 0\r\n  ));\r\n  SELECT * INTO v_existing_operation\r\n  FROM public.business_operations operation\r\n  WHERE operation.operation_type = 'purchase_order_v2'\r\n    AND operation.initiated_by = v_user_id\r\n    AND operation.idempotency_key = v_key;\r\n  IF FOUND THEN\r\n    IF v_existing_operation.request_fingerprint IS NULL\r\n      OR v_existing_operation.result_snapshot IS NULL\r\n    THEN\r\n      RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n        MESSAGE = 'LEGACY_IDEMPOTENCY_IDENTITY_UNPROVEN: لا يمكن إثبات تطابق العملية التاريخية.';\r\n    END IF;\r\n    IF v_existing_operation.request_fingerprint IS DISTINCT FROM v_fingerprint THEN\r\n      RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n        MESSAGE = 'IDEMPOTENCY_CONFLICT: استُخدم المفتاح نفسه لطلب مختلف.';\r\n    END IF;\r\n    RETURN v_existing_operation.result_snapshot;\r\n  END IF;\r\n\r\n  LOOP\r\n    v_purchase_order_number := 'PO-' || TO_CHAR(NOW(), 'YYYY') || '-'\r\n      || LPAD(FLOOR(100000 + RANDOM() * 900000)::BIGINT::TEXT, 6, '0');\r\n    EXIT WHEN NOT EXISTS (\r\n      SELECT 1 FROM public.purchase_orders purchase_order\r\n      WHERE purchase_order.purchase_order_number = v_purchase_order_number\r\n    );\r\n  END LOOP;\r\n\r\n  v_result := jsonb_build_object(\r\n    'success', true,\r\n    'idempotent', false,\r\n    'operation_id', v_operation_id,\r\n    'purchase_order_id', v_purchase_order_id,\r\n    'purchase_order_number', v_purchase_order_number,\r\n    'expected_total_in_minor_units', v_total::BIGINT\r\n  );\r\n  INSERT INTO public.business_operations (\r\n    id, operation_type, idempotency_key, request_fingerprint,\r\n    initiated_by, result_snapshot, completed_at\r\n  ) VALUES (\r\n    v_operation_id, 'purchase_order_v2', v_key, v_fingerprint,\r\n    v_user_id, v_result, NOW()\r\n  );\r\n  INSERT INTO public.purchase_orders (\r\n    id, purchase_order_number, supplier_id, branch_id, warehouse_id,\r\n    status, order_date, expected_delivery_date, subtotal_in_minor_units,\r\n    discount_in_minor_units, delivery_fee_in_minor_units,\r\n    total_in_minor_units, amount_paid_in_minor_units,\r\n    notes, internal_notes, created_by, operation_id\r\n  ) VALUES (\r\n    v_purchase_order_id, v_purchase_order_number, p_supplier_id,\r\n    p_branch_id, p_warehouse_id, 'draft', NOW(), p_expected_delivery_date,\r\n    v_line_net_total::BIGINT, p_expected_header_discount_in_minor_units,\r\n    p_expected_supplier_freight_in_minor_units, v_total::BIGINT, 0,\r\n    NULLIF(BTRIM(p_notes), ''), NULLIF(BTRIM(p_internal_notes), ''),\r\n    v_user_id, v_operation_id\r\n  );\r\n\r\n  FOR v_line IN SELECT * FROM jsonb_array_elements(v_canonical_lines)\r\n  LOOP\r\n    v_po_item_id := gen_random_uuid();\r\n    v_line_kind := v_line->>'line_kind';\r\n    v_commercial_quantity := (v_line->>'commercial_quantity')::INTEGER;\r\n    v_units_per_parcel := NULLIF(v_line->>'units_per_parcel', '')::INTEGER;\r\n    v_ordered_base_quantity := (\r\n      SELECT SUM((component->>'base_quantity')::INTEGER)\r\n      FROM jsonb_array_elements(v_line->'components') component\r\n    );\r\n    v_gross := (v_line->>'gross_amount_in_minor_units')::BIGINT;\r\n    v_line_discount := (v_line->>'line_discount_in_minor_units')::BIGINT;\r\n    v_line_net := v_gross - v_line_discount;\r\n    IF v_line_kind = 'base_unit' THEN\r\n      v_product_id := (v_line->'components'->0->>'product_id')::UUID;\r\n    ELSE\r\n      v_product_id := (v_line->>'family_product_id')::UUID;\r\n    END IF;\r\n\r\n    INSERT INTO public.purchase_order_items (\r\n      id, purchase_order_id, product_id, ordered_quantity,\r\n      received_quantity, purchase_price_in_minor_units,\r\n      discount_in_minor_units, line_total_in_minor_units,\r\n      commercial_line_kind, family_product_id, parcel_configuration_id,\r\n      configuration_revision, base_unit_name_snapshot,\r\n      parcel_unit_name_snapshot, parcel_quantity, client_line_id,\r\n      units_per_parcel_snapshot, received_parcel_quantity,\r\n      commercial_quantity_snapshot, gross_amount_snapshot_in_minor_units,\r\n      line_discount_snapshot_in_minor_units, line_net_snapshot_in_minor_units\r\n    ) VALUES (\r\n      v_po_item_id, v_purchase_order_id, v_product_id,\r\n      v_ordered_base_quantity, 0,\r\n      ROUND(v_gross::NUMERIC / v_ordered_base_quantity)::BIGINT,\r\n      v_line_discount, v_line_net, v_line_kind,\r\n      NULLIF(v_line->>'family_product_id', '')::UUID,\r\n      NULLIF(v_line->>'parcel_configuration_id', '')::UUID,\r\n      NULLIF(v_line->>'configuration_revision', '')::INTEGER,\r\n      v_line->>'base_unit_name', NULLIF(v_line->>'parcel_unit_name', ''),\r\n      CASE WHEN v_line_kind = 'configurable_parcel' THEN v_commercial_quantity END,\r\n      (v_line->>'client_line_id')::UUID, v_units_per_parcel, 0,\r\n      v_commercial_quantity, v_gross, v_line_discount, v_line_net\r\n    );\r\n\r\n    FOR v_component IN SELECT * FROM jsonb_array_elements(v_line->'components')\r\n    LOOP\r\n      v_product_id := (v_component->>'product_id')::UUID;\r\n      SELECT * INTO v_product FROM public.products WHERE id = v_product_id;\r\n      INSERT INTO public.purchase_order_item_components (\r\n        purchase_order_item_id, product_id, expected_base_quantity,\r\n        product_name_snapshot, sku_snapshot\r\n      ) VALUES (\r\n        v_po_item_id, v_product_id,\r\n        (v_component->>'base_quantity')::INTEGER,\r\n        v_product.name_ar, v_product.sku\r\n      );\r\n    END LOOP;\r\n  END LOOP;\r\n\r\n  INSERT INTO public.audit_logs (\r\n    user_id, action, entity_name, entity_id, details\r\n  ) VALUES (\r\n    v_user_id, 'CREATE_PURCHASE_ORDER_V2', 'purchase_orders',\r\n    v_purchase_order_id,\r\n    jsonb_build_object(\r\n      'operation_id', v_operation_id,\r\n      'purchase_order_number', v_purchase_order_number,\r\n      'expected_total_in_minor_units', v_total::BIGINT\r\n    )\r\n  );\r\n  RETURN v_result;\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "create_purchase_order_v2",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": null,
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "enforce_customer_for_debt_order()",
+      "definition": "CREATE OR REPLACE FUNCTION public.enforce_customer_for_debt_order()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  IF NEW.payment_method = 'debt' AND NEW.customer_id IS NULL THEN\r\n    RAISE EXCEPTION\r\n      'البيع الآجل يتطلب عميلاً مسجلاً حتى يُحفظ الدين على حسابه.';\r\n  END IF;\r\n\r\n  RETURN NEW;\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "enforce_customer_for_debt_order",
+      "roles": [
+        "PUBLIC"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [
+        "public.orders.trg_require_customer_for_debt_order"
+      ],
+      "sourceMentions": []
+    },
+    {
+      "acl": null,
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "enforce_product_flavor_inheritance()",
+      "definition": "CREATE OR REPLACE FUNCTION public.enforce_product_flavor_inheritance()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_master public.products%ROWTYPE;\r\nBEGIN\r\n  IF NEW.flavor_master_product_id IS NULL THEN\r\n    IF NEW.is_flavor_master AND NEW.flavor_name_ar IS NOT NULL THEN\r\n      RAISE EXCEPTION 'المنتج الأساسي لا يحمل اسم نكهة.';\r\n    END IF;\r\n    RETURN NEW;\r\n  END IF;\r\n\r\n  IF NEW.flavor_master_product_id = NEW.id THEN\r\n    RAISE EXCEPTION 'لا يمكن ربط المنتج بنفسه كمنتج أساسي.';\r\n  END IF;\r\n\r\n  SELECT * INTO v_master\r\n  FROM public.products\r\n  WHERE id = NEW.flavor_master_product_id;\r\n\r\n  IF NOT FOUND THEN\r\n    RAISE EXCEPTION 'المنتج الأساسي للنكهة غير موجود.';\r\n  END IF;\r\n  IF v_master.flavor_master_product_id IS NOT NULL THEN\r\n    RAISE EXCEPTION 'لا يمكن إنشاء نكهة داخل نكهة أخرى.';\r\n  END IF;\r\n\r\n  NEW.flavor_name_ar := BTRIM(NEW.flavor_name_ar);\r\n  NEW.is_flavor_master := false;\r\n  NEW.category_id := v_master.category_id;\r\n  NEW.brand_id := v_master.brand_id;\r\n  NEW.unit_id := v_master.unit_id;\r\n  NEW.purchase_unit_id := v_master.purchase_unit_id;\r\n  NEW.units_per_purchase_unit := v_master.units_per_purchase_unit;\r\n  NEW.default_purchase_price_in_minor_units :=\r\n    v_master.default_purchase_price_in_minor_units;\r\n  NEW.sale_unit_id := v_master.sale_unit_id;\r\n  NEW.units_per_sale_unit := v_master.units_per_sale_unit;\r\n  NEW.default_sale_price_in_minor_units :=\r\n    v_master.default_sale_price_in_minor_units;\r\n  IF TG_OP = 'INSERT' THEN\r\n    NEW.cost_price_in_minor_units := v_master.cost_price_in_minor_units;\r\n  END IF;\r\n  NEW.sale_price_in_minor_units := v_master.sale_price_in_minor_units;\r\n  NEW.wholesale_price_in_minor_units :=\r\n    v_master.wholesale_price_in_minor_units;\r\n\r\n  RETURN NEW;\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "enforce_product_flavor_inheritance",
+      "roles": [
+        "PUBLIC"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [
+        "public.products.trg_products_flavor_inheritance"
+      ],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "get_admin_product_listing()",
+      "definition": "CREATE OR REPLACE FUNCTION public.get_admin_product_listing()\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  PERFORM public.assert_erp_role(\r\n    ARRAY[\r\n      'owner', 'admin', 'manager', 'accountant', 'cashier', 'sales',\r\n      'warehouse_keeper', 'orders', 'delivery_driver', 'view_only'\r\n    ],\r\n    'عرض قائمة المنتجات الإدارية'\r\n  );\r\n\r\n  RETURN (\r\n    WITH listing AS (\r\n      SELECT\r\n        p.id,\r\n        p.sku,\r\n        p.barcode,\r\n        p.name_ar,\r\n        p.description,\r\n        p.category_id,\r\n        p.brand_id,\r\n        p.unit_id,\r\n        p.purchase_unit_id,\r\n        p.units_per_purchase_unit,\r\n        p.default_purchase_price_in_minor_units,\r\n        p.sale_unit_id,\r\n        p.units_per_sale_unit,\r\n        p.default_sale_price_in_minor_units,\r\n        p.cost_price_in_minor_units,\r\n        p.sale_price_in_minor_units,\r\n        p.wholesale_price_in_minor_units,\r\n        p.min_stock_level,\r\n        p.max_stock_level,\r\n        p.is_active,\r\n        p.flavor_master_product_id,\r\n        p.flavor_name_ar,\r\n        p.is_flavor_master,\r\n        p.flavor_sort_order,\r\n        p.created_at,\r\n        p.updated_at,\r\n        jsonb_build_object(\r\n          'id', base_unit.id,\r\n          'name_ar', base_unit.name_ar,\r\n          'code', base_unit.code\r\n        ) AS base_unit,\r\n        jsonb_build_object(\r\n          'id', purchase_unit.id,\r\n          'name_ar', purchase_unit.name_ar,\r\n          'code', purchase_unit.code\r\n        ) AS purchase_unit,\r\n        jsonb_build_object(\r\n          'id', sale_unit.id,\r\n          'name_ar', sale_unit.name_ar,\r\n          'code', sale_unit.code\r\n        ) AS sale_unit,\r\n        COALESCE(stock.on_hand_quantity, 0)::INTEGER AS on_hand_quantity,\r\n        COALESCE(stock.reserved_quantity, 0)::INTEGER AS reserved_quantity,\r\n        COALESCE(stock.available_quantity, 0)::INTEGER AS available_quantity,\r\n        stock.warehouse_id,\r\n        COALESCE(stock.warehouse_balances, '[]'::JSONB) AS warehouse_balances,\r\n        image.image_url\r\n      FROM public.products p\r\n      LEFT JOIN public.units base_unit ON base_unit.id = p.unit_id\r\n      LEFT JOIN public.units purchase_unit ON purchase_unit.id = p.purchase_unit_id\r\n      LEFT JOIN public.units sale_unit ON sale_unit.id = p.sale_unit_id\r\n      LEFT JOIN LATERAL (\r\n        SELECT\r\n          COALESCE(SUM(ib.on_hand_quantity), 0)::INTEGER AS on_hand_quantity,\r\n          COALESCE(SUM(ib.reserved_quantity), 0)::INTEGER AS reserved_quantity,\r\n          COALESCE(SUM(ib.available_quantity), 0)::INTEGER AS available_quantity,\r\n          CASE\r\n            WHEN COUNT(ib.warehouse_id) = 1\r\n              THEN MIN(ib.warehouse_id::TEXT)::UUID\r\n            ELSE NULL\r\n          END AS warehouse_id,\r\n          COALESCE(\r\n            jsonb_agg(\r\n              jsonb_build_object(\r\n                'warehouse_id', ib.warehouse_id,\r\n                'on_hand_quantity', ib.on_hand_quantity,\r\n                'reserved_quantity', ib.reserved_quantity,\r\n                'available_quantity', ib.available_quantity\r\n              )\r\n              ORDER BY ib.warehouse_id\r\n            ) FILTER (WHERE ib.product_id IS NOT NULL),\r\n            '[]'::JSONB\r\n          ) AS warehouse_balances\r\n        FROM public.inventory_balances ib\r\n        WHERE ib.product_id = p.id\r\n      ) stock ON true\r\n      LEFT JOIN LATERAL (\r\n        SELECT pi.image_url\r\n        FROM public.product_images pi\r\n        WHERE pi.product_id = p.id\r\n          AND pi.is_primary = true\r\n        ORDER BY pi.display_order, pi.created_at\r\n        LIMIT 1\r\n      ) image ON true\r\n    )\r\n    SELECT COALESCE(\r\n      jsonb_agg(to_jsonb(listing) ORDER BY listing.created_at DESC, listing.id DESC),\r\n      '[]'::JSONB\r\n    )\r\n    FROM listing\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "get_admin_product_listing",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "get_cash_shift_display_summary(p_shift_id uuid)",
+      "definition": "CREATE OR REPLACE FUNCTION public.get_cash_shift_display_summary(p_shift_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE v_shift public.cash_shifts%ROWTYPE; v_opened_by_name TEXT; v_actor_name TEXT;\r\nBEGIN\r\n  SELECT * INTO v_shift FROM public.cash_shifts WHERE id=p_shift_id;\r\n  IF NOT FOUND THEN RAISE EXCEPTION 'الوردية المحددة غير موجودة.'; END IF;\r\n  IF v_shift.status NOT IN ('cancelled','reversed') THEN RETURN public.get_cash_shift_summary(p_shift_id); END IF;\r\n  SELECT full_name INTO v_opened_by_name FROM public.profiles WHERE id=v_shift.opened_by;\r\n  SELECT full_name INTO v_actor_name FROM public.profiles WHERE id=CASE WHEN v_shift.status='cancelled' THEN v_shift.cancelled_by ELSE v_shift.reversed_by END;\r\n  RETURN jsonb_build_object('id',v_shift.id,'shiftNumber',v_shift.shift_number,'branchId',v_shift.branch_id,'cashierName',COALESCE(v_opened_by_name,'مستخدم النظام'),'startTime',v_shift.opened_at,'endTime',CASE WHEN v_shift.status='cancelled' THEN v_shift.cancelled_at ELSE v_shift.reversed_at END,'openingCashInMinorUnits',v_shift.opening_cash_in_minor_units,'cashSalesInMinorUnits',0,'cliqSalesInMinorUnits',0,'cardSalesInMinorUnits',0,'cashReceiptsInMinorUnits',0,'cliqReceiptsInMinorUnits',0,'cashSupplierPaymentsInMinorUnits',0,'cliqSupplierPaymentsInMinorUnits',0,'cashExpensesInMinorUnits',0,'cliqExpensesInMinorUnits',0,'cashRefundsInMinorUnits',0,'cliqRefundsInMinorUnits',0,'expectedCashInMinorUnits',v_shift.opening_cash_in_minor_units,'actualCashInMinorUnits',NULL,'cashDiscrepancyInMinorUnits',NULL,'discrepancyReason',NULL,'status',v_shift.status,'managerSignOffBy',NULL,'cancelledByName',CASE WHEN v_shift.status='cancelled' THEN v_actor_name ELSE NULL END,'cancelledAt',v_shift.cancelled_at,'cancellationReason',v_shift.cancellation_reason,'reversedByName',CASE WHEN v_shift.status='reversed' THEN v_actor_name ELSE NULL END,'reversedAt',v_shift.reversed_at,'reversalReason',v_shift.reversal_reason,'reversalId',v_shift.reversal_id);\r\nEND; $function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "get_cash_shift_display_summary",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "_cancel_empty_cash_shift_before_return_events(p_shift_id uuid, p_reason text)",
+        "_get_expense_shift_center_v1(p_branch_id uuid, p_expense_limit integer)",
+        "get_cash_shift_archive_page(p_branch_id uuid, p_cashier_id uuid, p_status text, p_shift_number text, p_date_from date, p_date_to date, p_limit integer, p_offset integer)",
+        "get_expense_shift_center(p_branch_id uuid, p_expense_limit integer)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "get_cash_shift_summary(p_shift_id uuid)",
+      "definition": "CREATE OR REPLACE FUNCTION public.get_cash_shift_summary(p_shift_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_summary JSONB;\r\n  v_shift_status TEXT;\r\n  v_cash_refunds BIGINT := 0;\r\n  v_cliq_refunds BIGINT := 0;\r\n  v_cash_opening_receipts BIGINT := 0;\r\n  v_cliq_opening_receipts BIGINT := 0;\r\n  v_cash_opening_supplier BIGINT := 0;\r\n  v_cliq_opening_supplier BIGINT := 0;\r\n  v_withdrawn BIGINT := 0;\r\n  v_returned BIGINT := 0;\r\n  v_comp JSONB;\r\nBEGIN\r\n  v_summary := public._get_cash_shift_summary_before_return_events(p_shift_id);\r\n  SELECT status INTO v_shift_status\r\n  FROM public.cash_shifts\r\n  WHERE id = p_shift_id;\r\n  SELECT effect.withdrawn_in_minor_units, effect.returned_in_minor_units\r\n  INTO v_withdrawn, v_returned\r\n  FROM public.owner_withdrawal_shift_effect_internal(p_shift_id) effect;\r\n  v_summary := v_summary || jsonb_build_object(\r\n    'ownerWithdrawalsInMinorUnits', v_withdrawn,\r\n    'ownerWithdrawalReturnsInMinorUnits', v_returned);\r\n  IF v_shift_status IS DISTINCT FROM 'open' THEN RETURN v_summary; END IF;\r\n  SELECT\r\n    COALESCE(SUM(money_refund_amount_in_minor_units) FILTER (WHERE refund_method = 'cash'), 0),\r\n    COALESCE(SUM(money_refund_amount_in_minor_units) FILTER (WHERE refund_method = 'cliq'), 0)\r\n  INTO v_cash_refunds, v_cliq_refunds\r\n  FROM public.sales_return_events\r\n  WHERE cash_shift_id = p_shift_id\r\n    AND settlement_status = 'settled'\r\n    AND money_refund_amount_in_minor_units > 0;\r\n  SELECT\r\n    COALESCE(SUM(opening_amount_in_minor_units) FILTER (WHERE payment_method = 'cash'), 0),\r\n    COALESCE(SUM(opening_amount_in_minor_units) FILTER (WHERE payment_method = 'cliq'), 0)\r\n  INTO v_cash_opening_receipts, v_cliq_opening_receipts\r\n  FROM public.customer_collection_operations\r\n  WHERE cash_shift_id = p_shift_id AND NOT is_reversed;\r\n  SELECT\r\n    COALESCE(SUM(payment.amount_in_minor_units) FILTER (WHERE payment.payment_method = 'cash'), 0),\r\n    COALESCE(SUM(payment.amount_in_minor_units) FILTER (WHERE payment.payment_method = 'cliq'), 0)\r\n  INTO v_cash_opening_supplier, v_cliq_opening_supplier\r\n  FROM public.supplier_opening_payments link\r\n  JOIN public.supplier_payments payment ON payment.id = link.supplier_payment_id\r\n  WHERE link.cash_shift_id = p_shift_id AND NOT COALESCE(payment.is_reversed, false);\r\n  v_comp:=public.cheque_shift_settlement_section_internal(p_shift_id);\r\n  v_cash_opening_receipts:=v_cash_opening_receipts+(v_comp->>'cashReceiptsInMinorUnits')::BIGINT;\r\n  v_cliq_opening_receipts:=v_cliq_opening_receipts+(v_comp->>'cliqReceiptsInMinorUnits')::BIGINT;\r\n  v_cash_opening_supplier:=v_cash_opening_supplier+(v_comp->>'cashSupplierPaymentsInMinorUnits')::BIGINT;\r\n  v_cliq_opening_supplier:=v_cliq_opening_supplier+(v_comp->>'cliqSupplierPaymentsInMinorUnits')::BIGINT;\r\n  v_summary:=v_summary||jsonb_build_object('chequeCompensationSettlements',v_comp);\r\n  v_summary := jsonb_set(v_summary, '{cashRefundsInMinorUnits}',\r\n    to_jsonb(COALESCE((v_summary->>'cashRefundsInMinorUnits')::BIGINT, 0) + v_cash_refunds), true);\r\n  v_summary := jsonb_set(v_summary, '{cliqRefundsInMinorUnits}',\r\n    to_jsonb(COALESCE((v_summary->>'cliqRefundsInMinorUnits')::BIGINT, 0) + v_cliq_refunds), true);\r\n  v_summary := jsonb_set(v_summary, '{cashReceiptsInMinorUnits}',\r\n    to_jsonb(COALESCE((v_summary->>'cashReceiptsInMinorUnits')::BIGINT, 0) + v_cash_opening_receipts), true);\r\n  v_summary := jsonb_set(v_summary, '{cliqReceiptsInMinorUnits}',\r\n    to_jsonb(COALESCE((v_summary->>'cliqReceiptsInMinorUnits')::BIGINT, 0) + v_cliq_opening_receipts), true);\r\n  v_summary := jsonb_set(v_summary, '{cashSupplierPaymentsInMinorUnits}',\r\n    to_jsonb(COALESCE((v_summary->>'cashSupplierPaymentsInMinorUnits')::BIGINT, 0) + v_cash_opening_supplier), true);\r\n  v_summary := jsonb_set(v_summary, '{cliqSupplierPaymentsInMinorUnits}',\r\n    to_jsonb(COALESCE((v_summary->>'cliqSupplierPaymentsInMinorUnits')::BIGINT, 0) + v_cliq_opening_supplier), true);\r\n  v_summary := v_summary || jsonb_build_object(\r\n    'openingDebtCashReceiptsInMinorUnits', v_cash_opening_receipts-(v_comp->>'cashReceiptsInMinorUnits')::BIGINT,\r\n    'openingDebtCliqReceiptsInMinorUnits', v_cliq_opening_receipts-(v_comp->>'cliqReceiptsInMinorUnits')::BIGINT,\r\n    'openingSupplierCashPaymentsInMinorUnits', v_cash_opening_supplier-(v_comp->>'cashSupplierPaymentsInMinorUnits')::BIGINT,\r\n    'openingSupplierCliqPaymentsInMinorUnits', v_cliq_opening_supplier-(v_comp->>'cliqSupplierPaymentsInMinorUnits')::BIGINT);\r\n  RETURN jsonb_set(v_summary, '{expectedCashInMinorUnits}',\r\n    to_jsonb(COALESCE((v_summary->>'expectedCashInMinorUnits')::BIGINT, 0)\r\n      - v_cash_refunds + v_cash_opening_receipts - v_cash_opening_supplier\r\n      - v_withdrawn + v_returned), true);\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "get_cash_shift_summary",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "_close_cash_shift_before_closing_report_snapshot(p_shift_id uuid, p_actual_cash_in_minor_units bigint, p_discrepancy_reason text)",
+        "_get_cash_shift_closing_report_before_return_events(p_shift_id uuid)",
+        "_get_cash_shift_closing_report_v1(p_shift_id uuid)",
+        "_reverse_operational_expense_before_phase4_lock(p_expense_id uuid, p_reason text)",
+        "create_operational_expense(p_branch_id uuid, p_category text, p_description text, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text)",
+        "create_owner_cash_withdrawal_v1(p_shift_id uuid, p_amount_in_minor_units bigint, p_reason text, p_idempotency_key text)",
+        "get_cash_shift_display_summary(p_shift_id uuid)",
+        "open_cash_shift(p_branch_id uuid, p_opening_cash_in_minor_units bigint)",
+        "reverse_owner_cash_withdrawal_v1(p_withdrawal_id uuid, p_reason text, p_idempotency_key text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "anon=X/postgres",
+        "authenticated=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "get_configurable_parcel_feature_state()",
+      "definition": "CREATE OR REPLACE FUNCTION public.get_configurable_parcel_feature_state()\n RETURNS text\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\n  SELECT CASE\r\n    WHEN COUNT(*) = 1\r\n      AND MAX(feature_state) IN ('OFF', 'OWNER_PILOT', 'ENABLED')\r\n      THEN MAX(feature_state)\r\n    ELSE 'OFF'\r\n  END\r\n  FROM public.configurable_parcel_feature_settings\r\n  WHERE feature_key = 'configurable_parcels';\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "get_configurable_parcel_feature_state",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "dbCallers": [
+        "assert_configurable_parcel_creation_allowed()",
+        "get_admin_parcel_configuration_context_v1()",
+        "get_pos_configurable_parcel_options_v1(p_warehouse_id uuid)",
+        "package_d_public_parcel_options_before_policy_internal(p_family_product_ids uuid[])",
+        "phase3_assert_configurable_parcel_creation_allowed_internal(p_actor_scope_type text, p_actor_user_id uuid)",
+        "preview_guest_promotion_v2(p_lines jsonb, p_promotion_code text, p_customer_phone text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "get_dashboard_analytics()",
+      "definition": "CREATE OR REPLACE FUNCTION public.get_dashboard_analytics()\n RETURNS jsonb\n LANGUAGE plpgsql\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_today_start TIMESTAMPTZ := date_trunc('day', NOW());\r\n  v_yesterday_start TIMESTAMPTZ := date_trunc('day', NOW() - INTERVAL '1 day');\r\n  v_week_start TIMESTAMPTZ := date_trunc('week', NOW());\r\n  v_month_start TIMESTAMPTZ := date_trunc('month', NOW());\r\n  v_30_days_ago TIMESTAMPTZ := date_trunc('day', NOW() - INTERVAL '30 days');\r\n\r\n  -- KPI Variables\r\n  v_today_sales NUMERIC := 0;\r\n  v_yesterday_sales NUMERIC := 0;\r\n  v_week_sales NUMERIC := 0;\r\n  v_month_sales NUMERIC := 0;\r\n  v_total_revenue NUMERIC := 0;\r\n  v_total_cost NUMERIC := 0;\r\n  v_net_profit NUMERIC := 0;\r\n  v_today_orders_count INT := 0;\r\n  v_active_customers_count INT := 0;\r\n  v_total_products_count INT := 0;\r\n  v_low_stock_count INT := 0;\r\n  v_out_of_stock_count INT := 0;\r\n\r\n  -- Result Arrays\r\n  v_daily_sales JSONB := '[]'::jsonb;\r\n  v_monthly_revenue JSONB := '[]'::jsonb;\r\n  v_orders_by_status JSONB := '[]'::jsonb;\r\n  v_top_selling_products JSONB := '[]'::jsonb;\r\n  v_sales_by_warehouse JSONB := '[]'::jsonb;\r\n  v_sales_by_branch JSONB := '[]'::jsonb;\r\n  v_latest_orders JSONB := '[]'::jsonb;\r\n  v_latest_customers JSONB := '[]'::jsonb;\r\n  v_low_stock_alerts JSONB := '[]'::jsonb;\r\n  v_recent_inventory_movements JSONB := '[]'::jsonb;\r\n  v_today_notifications JSONB := '[]'::jsonb;\r\nBEGIN\r\n  -- 1. KPI Calculations\r\n\r\n  -- Today Sales & Orders Count (Column in orders is total_in_minor_units)\r\n  SELECT COALESCE(SUM(total_in_minor_units), 0) / 1000.0, COUNT(*)\r\n  INTO v_today_sales, v_today_orders_count\r\n  FROM public.orders\r\n  WHERE created_at >= v_today_start AND status != 'cancelled';\r\n\r\n  -- Yesterday Sales\r\n  SELECT COALESCE(SUM(total_in_minor_units), 0) / 1000.0\r\n  INTO v_yesterday_sales\r\n  FROM public.orders\r\n  WHERE created_at >= v_yesterday_start AND created_at < v_today_start AND status != 'cancelled';\r\n\r\n  -- This Week Sales\r\n  SELECT COALESCE(SUM(total_in_minor_units), 0) / 1000.0\r\n  INTO v_week_sales\r\n  FROM public.orders\r\n  WHERE created_at >= v_week_start AND status != 'cancelled';\r\n\r\n  -- This Month Sales\r\n  SELECT COALESCE(SUM(total_in_minor_units), 0) / 1000.0\r\n  INTO v_month_sales\r\n  FROM public.orders\r\n  WHERE created_at >= v_month_start AND status != 'cancelled';\r\n\r\n  -- Total Revenue\r\n  SELECT COALESCE(SUM(total_in_minor_units), 0) / 1000.0\r\n  INTO v_total_revenue\r\n  FROM public.orders\r\n  WHERE status != 'cancelled';\r\n\r\n  -- Net Profit Calculation\r\n  SELECT\r\n    COALESCE(SUM(oi.line_total_in_minor_units), 0) / 1000.0,\r\n    COALESCE(SUM(oi.quantity * COALESCE(p.cost_price_in_minor_units, 0)), 0) / 1000.0\r\n  INTO v_total_revenue, v_total_cost\r\n  FROM public.order_items oi\r\n  JOIN public.orders o ON o.id = oi.order_id\r\n  LEFT JOIN public.products p ON p.id = oi.product_id\r\n  WHERE o.status != 'cancelled';\r\n\r\n  v_net_profit := GREATEST(0, v_total_revenue - v_total_cost);\r\n\r\n  -- Counts\r\n  -- Note: customers table does NOT have is_active column; total registered customers are counted\r\n  SELECT COUNT(*) INTO v_active_customers_count FROM public.customers;\r\n  -- products table DOES have is_active column\r\n  SELECT COUNT(*) INTO v_total_products_count FROM public.products WHERE is_active = true;\r\n\r\n  -- Stock Status Counts (Column in products is min_stock_level, NOT reorder_level)\r\n  WITH prod_stock AS (\r\n    SELECT\r\n      p.id,\r\n      p.min_stock_level,\r\n      COALESCE(SUM(b.on_hand_quantity - b.reserved_quantity), 0) AS total_available\r\n    FROM public.products p\r\n    LEFT JOIN public.inventory_balances b ON b.product_id = p.id\r\n    WHERE p.is_active = true\r\n    GROUP BY p.id, p.min_stock_level\r\n  )\r\n  SELECT\r\n    COUNT(*) FILTER (WHERE total_available <= min_stock_level AND total_available > 0),\r\n    COUNT(*) FILTER (WHERE total_available <= 0)\r\n  INTO v_low_stock_count, v_out_of_stock_count\r\n  FROM prod_stock;\r\n\r\n\r\n  -- 2. Daily Sales (Last 30 Days)\r\n  SELECT COALESCE(jsonb_agg(d), '[]'::jsonb)\r\n  INTO v_daily_sales\r\n  FROM (\r\n    SELECT\r\n      to_char(d.day, 'YYYY-MM-DD') AS date,\r\n      to_char(d.day, 'DD/MM') AS \"formattedDate\",\r\n      COALESCE(SUM(o.total_in_minor_units), 0) / 1000.0 AS sales,\r\n      COUNT(o.id) AS \"ordersCount\"\r\n    FROM generate_series(v_30_days_ago, date_trunc('day', NOW()), INTERVAL '1 day') AS d(day)\r\n    LEFT JOIN public.orders o ON date_trunc('day', o.created_at) = d.day AND o.status != 'cancelled'\r\n    GROUP BY d.day\r\n    ORDER BY d.day ASC\r\n  ) d;\r\n\r\n\r\n  -- 3. Monthly Revenue\r\n  SELECT COALESCE(jsonb_agg(m), '[]'::jsonb)\r\n  INTO v_monthly_revenue\r\n  FROM (\r\n    SELECT\r\n      to_char(m.month, 'YYYY-MM') AS month,\r\n      to_char(m.month, 'Mon YYYY') AS \"monthName\",\r\n      COALESCE(SUM(o.total_in_minor_units), 0) / 1000.0 AS revenue\r\n    FROM generate_series(date_trunc('month', NOW() - INTERVAL '11 months'), date_trunc('month', NOW()), INTERVAL '1 month') AS m(month)\r\n    LEFT JOIN public.orders o ON date_trunc('month', o.created_at) = m.month AND o.status != 'cancelled'\r\n    GROUP BY m.month\r\n    ORDER BY m.month ASC\r\n  ) m;\r\n\r\n\r\n  -- 4. Orders by Status\r\n  SELECT COALESCE(jsonb_agg(s), '[]'::jsonb)\r\n  INTO v_orders_by_status\r\n  FROM (\r\n    SELECT\r\n      status,\r\n      COUNT(*) AS count,\r\n      COALESCE(SUM(total_in_minor_units), 0) / 1000.0 AS \"totalAmount\"\r\n    FROM public.orders\r\n    GROUP BY status\r\n  ) s;\r\n\r\n\r\n  -- 5. Top Selling Products\r\n  SELECT COALESCE(jsonb_agg(tp), '[]'::jsonb)\r\n  INTO v_top_selling_products\r\n  FROM (\r\n    SELECT\r\n      p.id,\r\n      p.name_ar AS \"nameAr\",\r\n      p.sku,\r\n      COALESCE(SUM(oi.quantity), 0) AS \"totalQuantity\",\r\n      COALESCE(SUM(oi.line_total_in_minor_units), 0) / 1000.0 AS \"totalRevenue\"\r\n    FROM public.order_items oi\r\n    JOIN public.products p ON p.id = oi.product_id\r\n    JOIN public.orders o ON o.id = oi.order_id\r\n    WHERE o.status != 'cancelled'\r\n    GROUP BY p.id, p.name_ar, p.sku\r\n    ORDER BY \"totalRevenue\" DESC\r\n    LIMIT 5\r\n  ) tp;\r\n\r\n\r\n  -- 6. Sales by Warehouse\r\n  SELECT COALESCE(jsonb_agg(w), '[]'::jsonb)\r\n  INTO v_sales_by_warehouse\r\n  FROM (\r\n    SELECT\r\n      wh.id,\r\n      wh.name_ar AS \"nameAr\",\r\n      COALESCE(SUM(o.total_in_minor_units), 0) / 1000.0 AS sales,\r\n      COUNT(o.id) AS \"ordersCount\",\r\n      CASE\r\n        WHEN v_total_revenue > 0 THEN ROUND((COALESCE(SUM(o.total_in_minor_units), 0) / 1000.0 / v_total_revenue) * 100.0, 1)\r\n        ELSE 0\r\n      END AS percentage\r\n    FROM public.warehouses wh\r\n    LEFT JOIN public.orders o ON o.warehouse_id = wh.id AND o.status != 'cancelled'\r\n    GROUP BY wh.id, wh.name_ar\r\n  ) w;\r\n\r\n\r\n  -- 7. Sales by Branch\r\n  SELECT COALESCE(jsonb_agg(b), '[]'::jsonb)\r\n  INTO v_sales_by_branch\r\n  FROM (\r\n    SELECT\r\n      br.id,\r\n      br.name_ar AS \"nameAr\",\r\n      COALESCE(SUM(o.total_in_minor_units), 0) / 1000.0 AS sales,\r\n      COUNT(o.id) AS \"ordersCount\",\r\n      CASE\r\n        WHEN v_total_revenue > 0 THEN ROUND((COALESCE(SUM(o.total_in_minor_units), 0) / 1000.0 / v_total_revenue) * 100.0, 1)\r\n        ELSE 0\r\n      END AS percentage\r\n    FROM public.branches br\r\n    LEFT JOIN public.orders o ON o.branch_id = br.id AND o.status != 'cancelled'\r\n    GROUP BY br.id, br.name_ar\r\n  ) b;\r\n\r\n\r\n  -- 8. Latest Orders\r\n  SELECT COALESCE(jsonb_agg(lo), '[]'::jsonb)\r\n  INTO v_latest_orders\r\n  FROM (\r\n    SELECT\r\n      o.id,\r\n      o.order_number AS \"orderNumber\",\r\n      COALESCE(c.full_name, 'زبون مباشر') AS \"customerName\",\r\n      o.total_in_minor_units / 1000.0 AS \"totalAmount\",\r\n      o.status,\r\n      o.created_at AS \"createdAt\"\r\n    FROM public.orders o\r\n    LEFT JOIN public.customers c ON c.id = o.customer_id\r\n    ORDER BY o.created_at DESC\r\n    LIMIT 10\r\n  ) lo;\r\n\r\n\r\n  -- 9. Latest Customers (Get governorate from customer_addresses table)\r\n  SELECT COALESCE(jsonb_agg(lc), '[]'::jsonb)\r\n  INTO v_latest_customers\r\n  FROM (\r\n    SELECT\r\n      c.id,\r\n      c.full_name AS \"fullName\",\r\n      c.phone,\r\n      COALESCE(ca.governorate, 'عمان') AS governorate,\r\n      c.created_at AS \"createdAt\"\r\n    FROM public.customers c\r\n    LEFT JOIN LATERAL (\r\n      SELECT governorate\r\n      FROM public.customer_addresses\r\n      WHERE customer_id = c.id\r\n      ORDER BY is_default DESC, created_at DESC\r\n      LIMIT 1\r\n    ) ca ON true\r\n    ORDER BY c.created_at DESC\r\n    LIMIT 5\r\n  ) lc;\r\n\r\n\r\n  -- 10. Low Stock Alerts (p.min_stock_level instead of reorder_level)\r\n  SELECT COALESCE(jsonb_agg(lsa), '[]'::jsonb)\r\n  INTO v_low_stock_alerts\r\n  FROM (\r\n    SELECT\r\n      p.id,\r\n      p.name_ar AS \"nameAr\",\r\n      p.sku,\r\n      COALESCE(SUM(b.on_hand_quantity - b.reserved_quantity), 0) AS \"availableQuantity\",\r\n      COALESCE(SUM(b.on_hand_quantity), 0) AS \"onHandQuantity\",\r\n      COALESCE(SUM(b.reserved_quantity), 0) AS \"reservedQuantity\",\r\n      p.min_stock_level AS \"reorderLevel\",\r\n      (COALESCE(SUM(b.on_hand_quantity - b.reserved_quantity), 0) <= 0) AS \"isOutOfStock\",\r\n      'قطعة' AS unit\r\n    FROM public.products p\r\n    LEFT JOIN public.inventory_balances b ON b.product_id = p.id\r\n    WHERE p.is_active = true\r\n    GROUP BY p.id, p.name_ar, p.sku, p.min_stock_level\r\n    HAVING COALESCE(SUM(b.on_hand_quantity - b.reserved_quantity), 0) <= p.min_stock_level\r\n    ORDER BY \"availableQuantity\" ASC\r\n    LIMIT 10\r\n  ) lsa;\r\n\r\n\r\n  -- 11. Recent Inventory Movements (table is inventory_movements, column is movement_type)\r\n  SELECT COALESCE(jsonb_agg(rim), '[]'::jsonb)\r\n  INTO v_recent_inventory_movements\r\n  FROM (\r\n    SELECT\r\n      m.id,\r\n      COALESCE(p.name_ar, 'منتج غير معروف') AS \"productName\",\r\n      m.movement_type AS \"transactionType\",\r\n      m.quantity,\r\n      m.created_at AS \"createdAt\"\r\n    FROM public.inventory_movements m\r\n    LEFT JOIN public.products p ON p.id = m.product_id\r\n    ORDER BY m.created_at DESC\r\n    LIMIT 10\r\n  ) rim;\r\n\r\n\r\n  -- 12. Today Notifications / Audit Logs\r\n  SELECT COALESCE(jsonb_agg(tn), '[]'::jsonb)\r\n  INTO v_today_notifications\r\n  FROM (\r\n    SELECT\r\n      a.id,\r\n      a.action,\r\n      COALESCE(a.details::text, 'حركة جديدة على النظام') AS details,\r\n      a.created_at AS \"createdAt\"\r\n    FROM public.audit_logs a\r\n    ORDER BY a.created_at DESC\r\n    LIMIT 10\r\n  ) tn;\r\n\r\n\r\n  -- Return Combined JSON Payload\r\n  RETURN jsonb_build_object(\r\n    'kpis', jsonb_build_object(\r\n      'todaySales', v_today_sales,\r\n      'yesterdaySales', v_yesterday_sales,\r\n      'todaySalesChangePercent', CASE WHEN v_yesterday_sales > 0 THEN ROUND(((v_today_sales - v_yesterday_sales) / v_yesterday_sales) * 100.0, 1) ELSE 0 END,\r\n      'weekSales', v_week_sales,\r\n      'monthSales', v_month_sales,\r\n      'totalRevenue', v_total_revenue,\r\n      'netProfit', v_net_profit,\r\n      'profitMarginPercent', CASE WHEN v_total_revenue > 0 THEN ROUND((v_net_profit / v_total_revenue) * 100.0, 1) ELSE 0 END,\r\n      'todayOrdersCount', v_today_orders_count,\r\n      'activeCustomersCount', v_active_customers_count,\r\n      'totalProductsCount', v_total_products_count,\r\n      'lowStockCount', v_low_stock_count,\r\n      'outOfStockCount', v_out_of_stock_count\r\n    ),\r\n    'dailySales30d', v_daily_sales,\r\n    'monthlyRevenue', v_monthly_revenue,\r\n    'ordersByStatus', v_orders_by_status,\r\n    'topSellingProducts', v_top_selling_products,\r\n    'salesByWarehouse', v_sales_by_warehouse,\r\n    'salesByBranch', v_sales_by_branch,\r\n    'latestOrders', v_latest_orders,\r\n    'latestCustomers', v_latest_customers,\r\n    'lowStockAlerts', v_low_stock_alerts,\r\n    'recentInventoryMovements', v_recent_inventory_movements,\r\n    'todayNotifications', v_today_notifications\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "get_dashboard_analytics",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "anon=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "get_public_product_catalog(p_limit integer, p_offset integer, p_category_id uuid, p_search text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.get_public_product_catalog(p_limit integer DEFAULT 100, p_offset integer DEFAULT 0, p_category_id uuid DEFAULT NULL::uuid, p_search text DEFAULT NULL::text)\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\n  WITH catalog_source AS (\r\n    SELECT\r\n      p.id,\r\n      p.sku,\r\n      p.barcode,\r\n      p.name_ar,\r\n      p.description,\r\n      p.category_id,\r\n      c.code AS category_code,\r\n      c.name_ar AS category_name_ar,\r\n      p.brand_id,\r\n      b.name_ar AS brand_name_ar,\r\n      p.unit_id,\r\n      base_unit.name_ar AS unit_name_ar,\r\n      p.sale_unit_id,\r\n      sale_unit.name_ar AS sale_unit_name_ar,\r\n      p.units_per_sale_unit,\r\n      p.default_sale_price_in_minor_units,\r\n      p.sale_price_in_minor_units,\r\n      COALESCE(stock.available_quantity, 0)::INTEGER AS available_quantity,\r\n      image.image_url\r\n    FROM public.products p\r\n    LEFT JOIN public.categories c ON c.id = p.category_id\r\n    LEFT JOIN public.brands b ON b.id = p.brand_id\r\n    LEFT JOIN public.units base_unit ON base_unit.id = p.unit_id\r\n    LEFT JOIN public.units sale_unit ON sale_unit.id = p.sale_unit_id\r\n    LEFT JOIN LATERAL (\r\n      SELECT\r\n        SUM(\r\n          GREATEST(\r\n            ib.on_hand_quantity - ib.reserved_quantity,\r\n            0\r\n          )\r\n        ) AS available_quantity\r\n      FROM public.inventory_balances ib\r\n      WHERE ib.product_id = p.id\r\n    ) stock ON true\r\n    LEFT JOIN LATERAL (\r\n      SELECT pi.image_url\r\n      FROM public.product_images pi\r\n      WHERE pi.product_id = p.id\r\n      ORDER BY pi.is_primary DESC, pi.display_order, pi.created_at\r\n      LIMIT 1\r\n    ) image ON true\r\n    WHERE p.is_active = true\r\n      AND c.is_active = true\r\n      AND p.sale_unit_id IS NOT NULL\r\n      AND sale_unit.code <> 'PCS'\r\n      AND p.units_per_sale_unit > 0\r\n      AND p.default_sale_price_in_minor_units > 0\r\n  ),\r\n  catalog AS (\r\n    SELECT *\r\n    FROM catalog_source\r\n    WHERE (p_category_id IS NULL OR category_id = p_category_id)\r\n      AND (\r\n        NULLIF(TRIM(p_search), '') IS NULL\r\n        OR name_ar ILIKE '%' || TRIM(p_search) || '%'\r\n        OR sku ILIKE '%' || TRIM(p_search) || '%'\r\n        OR COALESCE(barcode, '') ILIKE '%' || TRIM(p_search) || '%'\r\n      )\r\n  ),\r\n  paged AS (\r\n    SELECT *\r\n    FROM catalog\r\n    ORDER BY name_ar, id\r\n    LIMIT LEAST(GREATEST(COALESCE(p_limit, 100), 1), 200)\r\n    OFFSET GREATEST(COALESCE(p_offset, 0), 0)\r\n  ),\r\n  category_summary AS (\r\n    SELECT\r\n      c.id,\r\n      c.code,\r\n      c.name_ar,\r\n      COUNT(cs.id)::INTEGER AS product_count,\r\n      COUNT(cs.id) FILTER (\r\n        WHERE cs.available_quantity >= cs.units_per_sale_unit\r\n      )::INTEGER AS available_product_count,\r\n      CASE c.code\r\n        WHEN 'CAT-BEV' THEN 10\r\n        WHEN 'CAT-WATER' THEN 20\r\n        WHEN 'CAT-ENERGY' THEN 30\r\n        WHEN 'CAT-BISCUIT' THEN 40\r\n        WHEN 'CAT-CAKE' THEN 50\r\n        WHEN 'CAT-CHOCO' THEN 60\r\n        WHEN 'CAT-CANDY' THEN 70\r\n        WHEN 'CAT-GUM' THEN 80\r\n        WHEN 'CAT-CHIPS' THEN 90\r\n        WHEN 'CAT-FOOD' THEN 100\r\n        WHEN 'CAT-GIFTS' THEN 110\r\n        WHEN 'CAT-OFFERS' THEN 120\r\n        ELSE 1000\r\n      END AS sort_order\r\n    FROM public.categories c\r\n    LEFT JOIN catalog_source cs ON cs.category_id = c.id\r\n    WHERE c.is_active = true\r\n    GROUP BY c.id, c.code, c.name_ar\r\n  )\r\n  SELECT jsonb_build_object(\r\n    'items',\r\n    COALESCE((\r\n      SELECT jsonb_agg(\r\n        jsonb_build_object(\r\n          'id', id,\r\n          'sku', sku,\r\n          'barcode', barcode,\r\n          'nameAr', name_ar,\r\n          'description', description,\r\n          'categoryId', category_id,\r\n          'categoryCode', category_code,\r\n          'categoryNameAr', category_name_ar,\r\n          'brandId', brand_id,\r\n          'brandNameAr', brand_name_ar,\r\n          'unitId', unit_id,\r\n          'unitNameAr', unit_name_ar,\r\n          'saleUnitId', sale_unit_id,\r\n          'saleUnitNameAr', sale_unit_name_ar,\r\n          'unitsPerSalePackage', units_per_sale_unit,\r\n          'salePackagePriceInMinorUnits',\r\n            default_sale_price_in_minor_units,\r\n          'salePriceInMinorUnits', sale_price_in_minor_units,\r\n          'availableQuantity', available_quantity,\r\n          'availableSalePackages',\r\n            FLOOR(available_quantity::NUMERIC / units_per_sale_unit),\r\n          'minimumOrderPackages', 1,\r\n          'imageUrl', image_url,\r\n          'isAvailable', available_quantity >= units_per_sale_unit\r\n        )\r\n        ORDER BY name_ar, id\r\n      )\r\n      FROM paged\r\n    ), '[]'::jsonb),\r\n    'categories',\r\n    COALESCE((\r\n      SELECT jsonb_agg(\r\n        jsonb_build_object(\r\n          'id', id,\r\n          'code', code,\r\n          'nameAr', name_ar,\r\n          'productCount', product_count,\r\n          'availableProductCount', available_product_count\r\n        )\r\n        ORDER BY sort_order, name_ar, id\r\n      )\r\n      FROM category_summary\r\n    ), '[]'::jsonb),\r\n    'total', (SELECT COUNT(*) FROM catalog),\r\n    'limit', LEAST(GREATEST(COALESCE(p_limit, 100), 1), 200),\r\n    'offset', GREATEST(COALESCE(p_offset, 0), 0)\r\n  );\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "get_public_product_catalog",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "dbCallers": [
+        "get_public_storefront_catalog(p_limit integer, p_offset integer, p_category_id uuid, p_search text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "anon=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "get_public_storefront_catalog(p_limit integer, p_offset integer, p_category_id uuid, p_search text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.get_public_storefront_catalog(p_limit integer DEFAULT 100, p_offset integer DEFAULT 0, p_category_id uuid DEFAULT NULL::uuid, p_search text DEFAULT NULL::text)\n RETURNS jsonb\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\n  WITH base AS (\r\n    SELECT public.get_public_product_catalog(\r\n      p_limit, p_offset, p_category_id, p_search\r\n    ) AS payload\r\n  ),\r\n  enriched_items AS (\r\n    SELECT\r\n      item.ordinality,\r\n      item.value || jsonb_build_object(\r\n        'createdAt', p.created_at,\r\n        'soldPackagesLast90Days', COALESCE(sales.sold_packages, 0),\r\n        'flavorMasterProductId', p.flavor_master_product_id,\r\n        'flavorNameAr', p.flavor_name_ar,\r\n        'isFlavorMaster', p.is_flavor_master,\r\n        'flavorSortOrder', p.flavor_sort_order\r\n      ) AS value\r\n    FROM base\r\n    CROSS JOIN LATERAL jsonb_array_elements(base.payload->'items')\r\n      WITH ORDINALITY AS item(value, ordinality)\r\n    JOIN public.products p ON p.id = (item.value->>'id')::UUID\r\n    LEFT JOIN LATERAL (\r\n      SELECT COALESCE(SUM(COALESCE(oi.sale_package_quantity, 0)), 0)::BIGINT\r\n        AS sold_packages\r\n      FROM public.order_items oi\r\n      JOIN public.orders o ON o.id = oi.order_id\r\n      WHERE oi.product_id = p.id\r\n        AND o.status = 'completed'\r\n        AND o.created_at >= NOW() - INTERVAL '90 days'\r\n    ) sales ON true\r\n  ),\r\n  enriched_categories AS (\r\n    SELECT\r\n      category.ordinality,\r\n      category.value || jsonb_build_object('imageUrl', c.image_url) AS value\r\n    FROM base\r\n    CROSS JOIN LATERAL jsonb_array_elements(base.payload->'categories')\r\n      WITH ORDINALITY AS category(value, ordinality)\r\n    LEFT JOIN public.categories c\r\n      ON c.id = (category.value->>'id')::UUID\r\n  )\r\n  SELECT jsonb_set(\r\n    jsonb_set(\r\n      base.payload,\r\n      '{items}',\r\n      COALESCE(\r\n        (SELECT jsonb_agg(value ORDER BY ordinality) FROM enriched_items),\r\n        '[]'::jsonb\r\n      )\r\n    ),\r\n    '{categories}',\r\n    COALESCE(\r\n      (SELECT jsonb_agg(value ORDER BY ordinality) FROM enriched_categories),\r\n      '[]'::jsonb\r\n    )\r\n  )\r\n  FROM base;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "get_public_storefront_catalog",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [
+        {
+          "file": "customer-web/src/services/catalog.service.ts",
+          "lines": [
+            388
+          ]
+        }
+      ]
+    },
+    {
+      "acl": null,
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "guard_cash_shift_closing_report_snapshot()",
+      "definition": "CREATE OR REPLACE FUNCTION public.guard_cash_shift_closing_report_snapshot()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  -- A captured report is an audit artifact: it can never be overwritten,\r\n  -- cleared, or version-swapped after it has been stored.\r\n  IF OLD.closing_report_snapshot IS NOT NULL\r\n    AND (\r\n      NEW.closing_report_snapshot IS DISTINCT FROM OLD.closing_report_snapshot\r\n      OR NEW.closing_report_snapshotted_at IS DISTINCT FROM OLD.closing_report_snapshotted_at\r\n      OR NEW.closing_report_snapshot_version IS DISTINCT FROM OLD.closing_report_snapshot_version\r\n    )\r\n  THEN\r\n    RAISE EXCEPTION 'لقطة تقرير الإغلاق محفوظة ولا يمكن تعديلها أو حذفها.';\r\n  END IF;\r\n\r\n  -- Historical closed shifts deliberately remain without a fabricated\r\n  -- snapshot. The one permitted late write is the second update performed by\r\n  -- close_cash_shift in the same transaction that changed open -> closed.\r\n  IF OLD.closing_report_snapshot IS NULL\r\n    AND NEW.closing_report_snapshot IS NOT NULL\r\n    AND NOT (\r\n      NEW.status = 'closed'\r\n      AND (\r\n        OLD.status = 'open'\r\n        OR (\r\n          OLD.status = 'closed'\r\n          AND OLD.closed_at = transaction_timestamp()\r\n        )\r\n      )\r\n    )\r\n  THEN\r\n    RAISE EXCEPTION 'لا يمكن إضافة لقطة تقرير إلى وردية تاريخية مغلقة.';\r\n  END IF;\r\n\r\n  RETURN NEW;\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "guard_cash_shift_closing_report_snapshot",
+      "roles": [
+        "PUBLIC"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [
+        "public.cash_shifts.trg_guard_cash_shift_closing_report_snapshot"
+      ],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "has_erp_role(p_allowed_roles text[])",
+      "definition": "CREATE OR REPLACE FUNCTION public.has_erp_role(p_allowed_roles text[])\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\n  SELECT\r\n    public.is_mfa_policy_satisfied()\r\n    AND EXISTS (\r\n      SELECT 1\r\n      FROM public.profiles p\r\n      JOIN public.user_roles ur ON ur.user_id = p.id\r\n      JOIN public.roles r ON r.id = ur.role_id\r\n      WHERE p.id = auth.uid()\r\n        AND p.is_active = true\r\n        AND r.code = ANY(p_allowed_roles)\r\n    );\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "has_erp_role",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "assert_configurable_parcel_creation_allowed()",
+        "get_home_dashboard()",
+        "get_operational_business_report(p_branch_id uuid, p_date_from date, p_date_to date)",
+        "get_pos_configurable_parcel_options_v1(p_warehouse_id uuid)",
+        "phase3_assert_configurable_parcel_creation_allowed_internal(p_actor_scope_type text, p_actor_user_id uuid)"
+      ],
+      "policyCallers": [
+        "storage.objects.ERP staff can delete own product images",
+        "storage.objects.ERP staff can update own product images",
+        "storage.objects.ERP staff can upload own product images"
+      ],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "is_active_erp_staff()",
+      "definition": "CREATE OR REPLACE FUNCTION public.is_active_erp_staff()\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\n  SELECT\r\n    public.is_mfa_policy_satisfied()\r\n    AND EXISTS (\r\n      SELECT 1\r\n      FROM public.profiles p\r\n      JOIN public.user_roles ur ON ur.user_id = p.id\r\n      JOIN public.roles r ON r.id = ur.role_id\r\n      WHERE p.id = auth.uid()\r\n        AND p.is_active = true\r\n        AND r.code = ANY (\r\n          ARRAY[\r\n            'owner',\r\n            'admin',\r\n            'manager',\r\n            'accountant',\r\n            'cashier',\r\n            'sales',\r\n            'warehouse_keeper',\r\n            'orders',\r\n            'delivery_driver',\r\n            'view_only'\r\n          ]::TEXT[]\r\n        )\r\n    );\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "is_active_erp_staff",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "phase3_assert_configurable_parcel_creation_allowed_internal(p_actor_scope_type text, p_actor_user_id uuid)"
+      ],
+      "policyCallers": [
+        "public.audit_logs.Require active ERP staff membership",
+        "public.branches.Require active ERP staff membership",
+        "public.brands.Require active ERP staff membership",
+        "public.business_operations.Active ERP staff can read parcel foundation",
+        "public.categories.Require active ERP staff membership",
+        "public.configurable_parcel_feature_settings.Active ERP staff can read parcel foundation",
+        "public.customer_addresses.Require active ERP staff membership",
+        "public.customer_payments.Require active ERP staff membership",
+        "public.customers.Require active ERP staff membership",
+        "public.inventory_balances.Require active ERP staff membership",
+        "public.inventory_movements.Require active ERP staff membership",
+        "public.order_inventory_reservations.Active ERP staff can read parcel foundation",
+        "public.order_items.Require active ERP staff membership",
+        "public.order_parcel_components.Active ERP staff can read parcel foundation",
+        "public.order_parcel_instances.Active ERP staff can read parcel foundation",
+        "public.order_status_history.Require active ERP staff membership",
+        "public.orders.Require active ERP staff membership",
+        "public.phase2_receipt_wac_snapshots.Active ERP staff can read Phase 2 receipt history",
+        "public.phase42_return_inventory_effects.Active ERP staff can read Phase 4.2 Return inventory effects",
+        "public.product_images.Require active ERP staff membership",
+        "public.product_parcel_allowed_components.Active staff read parcel component policy",
+        "public.product_parcel_configurations.Active ERP staff can read parcel foundation",
+        "public.products.Require active ERP staff membership",
+        "public.profiles.Require active ERP staff membership",
+        "public.promotion_codes.Require active ERP staff membership",
+        "public.promotion_redemptions.Require active ERP staff membership",
+        "public.purchase_order_item_components.Active ERP staff can read Phase 2 receipt history",
+        "public.purchase_order_items.Require active ERP staff membership",
+        "public.purchase_orders.Require active ERP staff membership",
+        "public.purchase_receipt_commercial_lines.Active ERP staff can read Phase 2 receipt history",
+        "public.purchase_receipt_items.Require active ERP staff membership",
+        "public.purchase_receipts.Require active ERP staff membership",
+        "public.push_subscriptions.Require active ERP staff membership",
+        "public.roles.Require active ERP staff membership",
+        "public.sales_aftercare_consumptions.Active ERP staff can read Phase 4 foundation",
+        "public.sales_replacement_events.Active ERP staff can read Phase 4 foundation",
+        "public.sales_replacement_items.Active ERP staff can read Phase 4 foundation",
+        "public.sales_return_component_inspections.Active ERP staff can read Phase 4 foundation",
+        "public.sales_return_events.Active ERP staff can read parcel foundation",
+        "public.sales_return_items.Active ERP staff can read parcel foundation",
+        "public.sales_returns.Active ERP staff can read sales returns",
+        "public.stock_alert_reads.Require active ERP staff membership",
+        "public.stock_alerts.Require active ERP staff membership",
+        "public.supplier_financial_invoice_identities.Active ERP staff can read Phase 2 receipt history",
+        "public.supplier_payments.Require active ERP staff membership",
+        "public.supplier_receipt_commercial_lines.Active ERP staff can read parcel foundation",
+        "public.supplier_receipt_items.Require active ERP staff membership",
+        "public.supplier_receipts.Require active ERP staff membership",
+        "public.suppliers.Require active ERP staff membership",
+        "public.units.Require active ERP staff membership",
+        "public.user_roles.Require active ERP staff membership",
+        "public.warehouses.Require active ERP staff membership"
+      ],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "is_authenticated()",
+      "definition": "CREATE OR REPLACE FUNCTION public.is_authenticated()\n RETURNS boolean\n LANGUAGE plpgsql\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  RETURN (auth.role() = 'authenticated');\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "is_authenticated",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "is_mfa_policy_satisfied()",
+      "definition": "CREATE OR REPLACE FUNCTION public.is_mfa_policy_satisfied()\n RETURNS boolean\n LANGUAGE sql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'auth', 'pg_temp'\nAS $function$\r\n  SELECT\r\n    auth.uid() IS NOT NULL\r\n    AND (\r\n      NOT EXISTS (\r\n        SELECT 1\r\n        FROM auth.mfa_factors factor\r\n        WHERE factor.user_id = auth.uid()\r\n          AND factor.status = 'verified'\r\n      )\r\n      OR COALESCE(auth.jwt() ->> 'aal', 'aal1') = 'aal2'\r\n    );\r\n$function$\n",
+      "configuration": [
+        "search_path=public, auth, pg_temp"
+      ],
+      "name": "is_mfa_policy_satisfied",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "assert_erp_role(p_allowed_roles text[], p_operation text)",
+        "has_erp_role(p_allowed_roles text[])",
+        "is_active_erp_staff()"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "receive_inventory(p_warehouse_id uuid, p_product_id uuid, p_quantity integer, p_reference_type text, p_reference_id uuid, p_notes text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.receive_inventory(p_warehouse_id uuid, p_product_id uuid, p_quantity integer, p_reference_type text DEFAULT 'purchase_order'::text, p_reference_id uuid DEFAULT NULL::uuid, p_notes text DEFAULT 'استلام كميات جديدة للمخزن'::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  PERFORM public.assert_erp_role(\r\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\r\n    'استلام المخزون'\r\n  );\r\n\r\n  RETURN public._receive_inventory_impl(\r\n    p_warehouse_id,\r\n    p_product_id,\r\n    p_quantity,\r\n    p_reference_type,\r\n    p_reference_id,\r\n    p_notes\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "receive_inventory",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [
+        {
+          "file": "src/features/dashboard/QuickActions.tsx",
+          "lines": [
+            53
+          ]
+        }
+      ]
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "receive_purchase_order(p_purchase_order_id uuid, p_warehouse_id uuid, p_supplier_delivery_note text, p_notes text, p_items jsonb)",
+      "definition": "CREATE OR REPLACE FUNCTION public.receive_purchase_order(p_purchase_order_id uuid, p_warehouse_id uuid DEFAULT NULL::uuid, p_supplier_delivery_note text DEFAULT NULL::text, p_notes text DEFAULT NULL::text, p_items jsonb DEFAULT '[]'::jsonb)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  PERFORM p_purchase_order_id,p_warehouse_id,p_supplier_delivery_note,p_notes,p_items;\r\n  RAISE EXCEPTION 'RECEIVING_V1_READ_ONLY: مسار الاستلام القديم للقراءة فقط؛ حدّث الصفحة وأعد المحاولة.';\r\nEND; $function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "receive_purchase_order",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [
+        {
+          "file": "src/services/supabase/purchases.service.ts",
+          "lines": [
+            752,
+            763,
+            773
+          ]
+        }
+      ]
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "record_customer_order_payment(p_order_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.record_customer_order_payment(p_order_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text DEFAULT NULL::text, p_notes text DEFAULT NULL::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_user_id UUID:=auth.uid();v_order RECORD;v_due BIGINT;v_new_paid BIGINT;\r\n  v_payment_id UUID;v_payment_number TEXT;v_position RECORD;\r\nBEGIN\r\n  PERFORM public.cheque_assert_customer_payment_role_internal(p_order_id,p_payment_method);\r\n  PERFORM public.phase4_lock_customer_order_context_internal(p_order_id,\r\n    LOWER(COALESCE(p_payment_method,'')) IN ('cash','cliq'),false);\r\n  SELECT * INTO v_position FROM public.phase42_order_financial_position_internal(p_order_id);\r\n  IF COALESCE(p_amount_in_minor_units,0)<=0 OR p_amount_in_minor_units>v_position.outstanding_total_in_minor_units THEN\r\n    RAISE EXCEPTION USING ERRCODE='P0001',MESSAGE='PHASE42_CUSTOMER_PAYMENT_EXCEEDS_EFFECTIVE_OUTSTANDING: Payment exceeds the Return-adjusted receivable.';\r\n  END IF;\r\n  IF p_amount_in_minor_units IS NULL OR p_amount_in_minor_units<=0 THEN RAISE EXCEPTION 'مبلغ الدفعة يجب أن يكون أكبر من صفر.';END IF;\r\n  IF p_payment_method NOT IN ('cash','cliq','card','bank_transfer','cheque') THEN RAISE EXCEPTION 'طريقة الدفع غير معتمدة.';END IF;\r\n  SELECT * INTO v_order FROM public.orders WHERE id=p_order_id FOR UPDATE;\r\n  IF NOT FOUND THEN RAISE EXCEPTION 'الطلب غير موجود.';END IF;\r\n  IF v_order.status<>'completed' THEN RAISE EXCEPTION 'يمكن تسجيل الدفعة على طلب مكتمل فقط.';END IF;\r\n  IF v_order.customer_id IS NULL THEN RAISE EXCEPTION 'الطلب غير مرتبط بعميل مسجل.';END IF;\r\n  v_due:=GREATEST(v_order.total_in_minor_units-v_order.amount_paid_in_minor_units,0);\r\n  IF v_due=0 THEN RAISE EXCEPTION 'الطلب مدفوع بالكامل.';END IF;\r\n  IF p_amount_in_minor_units>v_due THEN\r\n    RAISE EXCEPTION 'مبلغ الدفعة أكبر من المتبقي على الطلب (% د.أ).',TO_CHAR(v_due::NUMERIC/1000,'FM999999990.000');\r\n  END IF;\r\n  v_new_paid:=v_order.amount_paid_in_minor_units+p_amount_in_minor_units;\r\n  v_payment_number:='CRV-'||TO_CHAR(NOW(),'YYYYMMDD')||'-'||LPAD(NEXTVAL('public.customer_payment_number_seq')::TEXT,6,'0');\r\n  UPDATE public.orders SET amount_paid_in_minor_units=v_new_paid,\r\n    payment_status=CASE WHEN v_new_paid>=total_in_minor_units THEN 'paid' ELSE 'partially_paid' END,\r\n    updated_at=NOW() WHERE id=p_order_id;\r\n  INSERT INTO public.customer_payments(payment_number,customer_id,order_id,amount_in_minor_units,payment_method,\r\n    reference_number,notes,created_by)\r\n  VALUES(v_payment_number,v_order.customer_id,p_order_id,p_amount_in_minor_units,p_payment_method,\r\n    NULLIF(TRIM(p_reference_number),''),NULLIF(TRIM(p_notes),''),v_user_id) RETURNING id INTO v_payment_id;\r\n  INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details)\r\n  VALUES(v_user_id,'RECORD_CUSTOMER_PAYMENT','customer_payments',v_payment_id,\r\n    jsonb_build_object('payment_number',v_payment_number,'order_id',p_order_id,'order_number',v_order.order_number,\r\n      'customer_id',v_order.customer_id,'amount_in_minor_units',p_amount_in_minor_units,\r\n      'remaining_in_minor_units',v_order.total_in_minor_units-v_new_paid));\r\n  RETURN jsonb_build_object('success',true,'payment_id',v_payment_id,'payment_number',v_payment_number,\r\n    'order_id',p_order_id,'order_number',v_order.order_number,'amount_in_minor_units',p_amount_in_minor_units,\r\n    'remaining_in_minor_units',v_order.total_in_minor_units-v_new_paid);\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "record_customer_order_payment",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "_complete_website_order_with_settlement_before_phase4_lock(p_order_id uuid, p_payment_method text, p_amount_collected_in_minor_units bigint, p_delivery_fee_in_minor_units bigint, p_reference_number text, p_notes text)",
+        "_complete_website_order_with_settlement_v2_before_phase4_lock(p_order_id uuid, p_idempotency_key text, p_payment_method text, p_amount_collected_in_minor_units bigint, p_delivery_fee_in_minor_units bigint, p_reference_number text, p_notes text)",
+        "record_customer_order_payment_once(p_order_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text, p_idempotency_key text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [
+        {
+          "file": "src/services/supabase/customerAccounts.service.ts",
+          "lines": [
+            136
+          ]
+        }
+      ]
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "reverse_customer_order_payment(p_payment_id uuid, p_reason text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.reverse_customer_order_payment(p_payment_id uuid, p_reason text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_order_id UUID;\r\n  v_shift_id UUID;\r\n  v_locked_order_id UUID;\r\n  v_locked_shift_id UUID;\r\nBEGIN\r\n  PERFORM public.assert_erp_role(\r\n    ARRAY['owner', 'admin', 'manager', 'accountant'],\r\n    'عكس سند قبض عميل'\r\n  );\r\n  SELECT payment.order_id, payment.cash_shift_id\r\n  INTO v_order_id, v_shift_id\r\n  FROM public.customer_payments payment WHERE payment.id = p_payment_id;\r\n  IF v_order_id IS NULL THEN\r\n    RAISE EXCEPTION USING ERRCODE = 'P0001', MESSAGE = 'Customer payment not found.';\r\n  END IF;\r\n  PERFORM pg_advisory_xact_lock(hashtextextended('phase4-order|' || v_order_id::TEXT, 0));\r\n  IF v_shift_id IS NOT NULL THEN\r\n    PERFORM 1 FROM public.cash_shifts shift WHERE shift.id = v_shift_id FOR UPDATE;\r\n  END IF;\r\n  PERFORM 1 FROM public.orders customer_order WHERE customer_order.id = v_order_id FOR UPDATE;\r\n  SELECT payment.order_id, payment.cash_shift_id\r\n  INTO v_locked_order_id, v_locked_shift_id\r\n  FROM public.customer_payments payment\r\n  WHERE payment.id = p_payment_id FOR UPDATE;\r\n  IF v_locked_order_id IS DISTINCT FROM v_order_id\r\n    OR v_locked_shift_id IS DISTINCT FROM v_shift_id\r\n  THEN\r\n    RAISE EXCEPTION USING ERRCODE = '40001',\r\n      MESSAGE = 'PHASE4_LOCK_PLAN_CHANGED_RETRY: Customer Payment relationship changed.';\r\n  END IF;\r\n  RETURN public._reverse_customer_order_payment_before_phase4_lock(\r\n    p_payment_id, p_reason\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "reverse_customer_order_payment",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "reverse_customer_collection_v1(p_operation_id uuid, p_reason text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "reverse_pos_sale(p_order_id uuid, p_reason text, p_idempotency_key text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.reverse_pos_sale(p_order_id uuid, p_reason text, p_idempotency_key text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_user_id UUID;\r\n  v_order public.orders%ROWTYPE;\r\n  v_shift public.cash_shifts%ROWTYPE;\r\n  v_existing public.pos_sale_reversals%ROWTYPE;\r\n  v_reason TEXT := NULLIF(BTRIM(p_reason), '');\r\n  v_key TEXT := NULLIF(BTRIM(p_idempotency_key), '');\r\n  v_item RECORD;\r\n  v_balance_before INTEGER;\r\n  v_balance_after INTEGER;\r\n  v_reserved INTEGER;\r\n  v_cogs BIGINT := 0;\r\n  v_profit BIGINT := 0;\r\n  v_quantity INTEGER := 0;\r\n  v_effect JSONB;\r\n  v_product_ids UUID[];\r\n  v_reversal_id UUID := gen_random_uuid();\r\nBEGIN\r\n  v_user_id := public.assert_reversal_owner('عكس بيع نقطة بيع مكتمل');\r\n  IF p_order_id IS NULL THEN\r\n    RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n      MESSAGE = 'PHASE3_POS_REVERSAL_ORDER_REQUIRED: بيع نقطة البيع غير محدد.';\r\n  END IF;\r\n  IF v_reason IS NULL OR CHAR_LENGTH(v_reason) NOT BETWEEN 3 AND 500 THEN\r\n    RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n      MESSAGE = 'PHASE3_POS_REVERSAL_REASON_INVALID: سبب العكس غير صالح.';\r\n  END IF;\r\n  IF v_key IS NULL OR CHAR_LENGTH(v_key) NOT BETWEEN 16 AND 200 THEN\r\n    RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n      MESSAGE = 'PHASE3_POS_REVERSAL_KEY_INVALID: مفتاح منع التكرار غير صالح.';\r\n  END IF;\r\n\r\n  PERFORM SET_CONFIG('lock_timeout', '3s', true);\r\n  PERFORM SET_CONFIG('statement_timeout', '30s', true);\r\n\r\n  SELECT * INTO v_order FROM public.orders WHERE id = p_order_id;\r\n  IF NOT FOUND THEN\r\n    RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n      MESSAGE = 'PHASE3_POS_REVERSAL_ORDER_NOT_FOUND: بيع نقطة البيع غير موجود.';\r\n  END IF;\r\n  IF v_order.cash_shift_id IS NULL THEN\r\n    RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n      MESSAGE = 'PHASE3_POS_REVERSAL_SHIFT_MISSING: البيع غير مرتبط بورديّة صريحة.';\r\n  END IF;\r\n\r\n  PERFORM pg_advisory_xact_lock(hashtextextended(\r\n    'cash-shift-full-reversal:' || v_order.cash_shift_id::TEXT, 0\r\n  ));\r\n  PERFORM pg_advisory_xact_lock(hashtextextended(\r\n    'pos-sale-reversal:' || p_order_id::TEXT, 0\r\n  ));\r\n\r\n  SELECT * INTO v_shift FROM public.cash_shifts\r\n  WHERE id = v_order.cash_shift_id FOR UPDATE;\r\n  IF NOT FOUND OR v_shift.status <> 'open' THEN\r\n    RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n      MESSAGE = 'PHASE3_POS_REVERSAL_SHIFT_CLOSED: لا يمكن العكس على ورديّة غير مفتوحة.';\r\n  END IF;\r\n\r\n  SELECT * INTO v_existing FROM public.pos_sale_reversals\r\n  WHERE requested_by = v_user_id AND idempotency_key = v_key\r\n  FOR UPDATE;\r\n  IF FOUND THEN\r\n    IF v_existing.order_id <> p_order_id THEN\r\n      RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n        MESSAGE = 'PHASE3_POS_REVERSAL_IDEMPOTENCY_CONFLICT: مفتاح العكس مستخدم لبيع آخر.';\r\n    END IF;\r\n    RETURN JSONB_BUILD_OBJECT(\r\n      'success', true,\r\n      'idempotent', true,\r\n      'reversal_id', v_existing.id,\r\n      'order_id', v_existing.order_id,\r\n      'cash_shift_id', v_existing.cash_shift_id,\r\n      'actual_effect', v_existing.actual_effect\r\n    );\r\n  END IF;\r\n\r\n  SELECT * INTO v_order FROM public.orders\r\n  WHERE id = p_order_id FOR UPDATE;\r\n  IF NOT FOUND OR v_order.source IS DISTINCT FROM 'pos'\r\n    OR v_order.cash_shift_id <> v_shift.id\r\n  THEN\r\n    RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n      MESSAGE = 'PHASE3_POS_REVERSAL_ORDER_INVALID: السجل ليس بيع POS قابلاً للعكس.';\r\n  END IF;\r\n\r\n  SELECT * INTO v_existing FROM public.pos_sale_reversals\r\n  WHERE order_id = p_order_id FOR UPDATE;\r\n  IF FOUND THEN\r\n    RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n      MESSAGE = 'PHASE3_POS_REVERSAL_DUPLICATE: تم عكس البيع مسبقًا.';\r\n  END IF;\r\n  IF v_order.status <> 'completed' THEN\r\n    RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n      MESSAGE = 'PHASE3_POS_REVERSAL_ORDER_INVALID: البيع لم يعد مكتملًا قابلاً للعكس.';\r\n  END IF;\r\n\r\n  IF EXISTS (SELECT 1 FROM public.customer_payments payment\r\n      WHERE payment.order_id = p_order_id)\r\n    OR EXISTS (SELECT 1 FROM public.sales_returns return_row\r\n      WHERE return_row.order_id = p_order_id)\r\n  THEN\r\n    RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n      MESSAGE = 'PHASE3_POS_REVERSAL_DEPENDENCY_EXISTS: توجد دفعة أو مرتجع مرتبط بالبيع.';\r\n  END IF;\r\n\r\n  SELECT ARRAY_AGG(DISTINCT inventory_row.product_id\r\n    ORDER BY inventory_row.product_id)\r\n  INTO v_product_ids\r\n  FROM public.phase3_pos_reversal_inventory_rows_internal(p_order_id) inventory_row;\r\n  IF COALESCE(CARDINALITY(v_product_ids), 0) = 0 THEN\r\n    RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n      MESSAGE = 'PHASE3_POS_REVERSAL_INVENTORY_IDENTITY_MISSING: لا توجد حقيقة مخزون قابلة للعكس.';\r\n  END IF;\r\n\r\n  -- Reuse the same SKU advisory/balance/product hierarchy as sale and receipt.\r\n  PERFORM public.phase3_lock_inventory_products_internal(v_product_ids);\r\n\r\n  -- Check chronology only after taking the shared product/balance lock hierarchy.\r\n  -- This closes the race where a concurrent sale/receipt could commit between\r\n  -- the chronology read and the inventory restoration.\r\n  IF EXISTS (\r\n    SELECT 1\r\n    FROM public.phase3_pos_reversal_inventory_rows_internal(p_order_id) inventory_row\r\n    JOIN public.inventory_movements movement\r\n      ON movement.warehouse_id = v_order.warehouse_id\r\n     AND movement.product_id = inventory_row.product_id\r\n    WHERE movement.reference_id IS DISTINCT FROM p_order_id\r\n      AND movement.created_at >= v_order.created_at\r\n  ) THEN\r\n    RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n      MESSAGE = 'PHASE3_POS_REVERSAL_LATER_MOVEMENT: توجد حركة مخزون لاحقة على أحد أصناف البيع.';\r\n  END IF;\r\n\r\n  FOR v_item IN\r\n    SELECT DISTINCT inventory_row.product_id\r\n    FROM public.phase3_pos_reversal_inventory_rows_internal(p_order_id) inventory_row\r\n    ORDER BY inventory_row.product_id\r\n  LOOP\r\n    SELECT balance.reserved_quantity INTO v_reserved\r\n    FROM public.inventory_balances balance\r\n    WHERE balance.warehouse_id = v_order.warehouse_id\r\n      AND balance.product_id = v_item.product_id\r\n    FOR UPDATE;\r\n    IF NOT FOUND OR v_reserved <> 0 THEN\r\n      RAISE EXCEPTION USING ERRCODE = 'P0001',\r\n        MESSAGE = 'PHASE3_POS_REVERSAL_INVENTORY_UNAVAILABLE: مخزون أحد الأصناف غير متاح أو محجوز.';\r\n    END IF;\r\n  END LOOP;\r\n\r\n  SELECT\r\n    COALESCE(SUM(item.cogs_in_minor_units), 0),\r\n    COALESCE(SUM(item.profit_in_minor_units), 0)\r\n  INTO v_cogs, v_profit\r\n  FROM public.order_items item\r\n  WHERE item.order_id = p_order_id;\r\n  SELECT COALESCE(SUM(inventory_row.base_quantity), 0)::INTEGER\r\n  INTO v_quantity\r\n  FROM public.phase3_pos_reversal_inventory_rows_internal(p_order_id) inventory_row;\r\n\r\n  v_effect := JSONB_BUILD_OBJECT(\r\n    'payment_method', v_order.payment_method,\r\n    'cash_in_minor_units', CASE WHEN v_order.payment_method = 'cash'\r\n      THEN v_order.total_in_minor_units ELSE 0 END,\r\n    'cliq_in_minor_units', CASE WHEN v_order.payment_method = 'cliq'\r\n      THEN v_order.total_in_minor_units ELSE 0 END,\r\n    'customer_receivable_in_minor_units', CASE WHEN v_order.payment_method = 'debt'\r\n      THEN v_order.total_in_minor_units ELSE 0 END,\r\n    'discount_in_minor_units', v_order.discount_in_minor_units,\r\n    'cogs_in_minor_units', v_cogs,\r\n    'profit_in_minor_units', v_profit,\r\n    'restored_base_units', v_quantity\r\n  );\r\n\r\n  INSERT INTO public.pos_sale_reversals (\r\n    id, order_id, cash_shift_id, requested_by, reason, idempotency_key,\r\n    expected_effect, actual_effect\r\n  ) VALUES (\r\n    v_reversal_id, v_order.id, v_shift.id, v_user_id, v_reason, v_key,\r\n    v_effect, v_effect\r\n  );\r\n\r\n  FOR v_item IN\r\n    SELECT *\r\n    FROM public.phase3_pos_reversal_inventory_rows_internal(p_order_id) inventory_row\r\n    ORDER BY inventory_row.product_id,\r\n      inventory_row.parcel_component_id NULLS FIRST,\r\n      inventory_row.order_item_id\r\n  LOOP\r\n    SELECT balance.on_hand_quantity INTO v_balance_before\r\n    FROM public.inventory_balances balance\r\n    WHERE balance.warehouse_id = v_order.warehouse_id\r\n      AND balance.product_id = v_item.product_id\r\n    FOR UPDATE;\r\n    v_balance_after := v_balance_before + v_item.base_quantity;\r\n    UPDATE public.inventory_balances\r\n    SET on_hand_quantity = v_balance_after, updated_at = NOW()\r\n    WHERE warehouse_id = v_order.warehouse_id\r\n      AND product_id = v_item.product_id;\r\n\r\n    INSERT INTO public.inventory_movements (\r\n      warehouse_id, product_id, movement_type, quantity,\r\n      balance_before, balance_after, reference_type, reference_id,\r\n      notes, created_by, operation_id, parcel_component_id\r\n    ) VALUES (\r\n      v_order.warehouse_id, v_item.product_id, 'return_in',\r\n      v_item.base_quantity, v_balance_before, v_balance_after,\r\n      'pos_sale_reversal', v_reversal_id,\r\n      'عكس بيع نقطة البيع ' || v_order.order_number, v_user_id,\r\n      v_item.operation_id, v_item.parcel_component_id\r\n    );\r\n  END LOOP;\r\n\r\n  UPDATE public.orders\r\n  SET status = 'cancelled', amount_paid_in_minor_units = 0,\r\n    change_due_in_minor_units = 0, updated_at = NOW()\r\n  WHERE id = v_order.id;\r\n\r\n  INSERT INTO public.order_status_history (\r\n    order_id, old_status, new_status, changed_by, notes\r\n  ) VALUES (\r\n    v_order.id, 'completed', 'cancelled', v_user_id,\r\n    'عكس POS موثق: ' || v_reason\r\n  );\r\n\r\n  INSERT INTO public.audit_logs (\r\n    user_id, action, entity_name, entity_id, details\r\n  ) VALUES (\r\n    v_user_id, 'REVERSE_POS_SALE', 'pos_sale_reversals', v_reversal_id,\r\n    JSONB_BUILD_OBJECT(\r\n      'order_id', v_order.id,\r\n      'order_number', v_order.order_number,\r\n      'cash_shift_id', v_shift.id,\r\n      'reason', v_reason,\r\n      'effect', v_effect\r\n    )\r\n  );\r\n\r\n  RETURN JSONB_BUILD_OBJECT(\r\n    'success', true,\r\n    'idempotent', false,\r\n    'reversal_id', v_reversal_id,\r\n    'order_id', v_order.id,\r\n    'cash_shift_id', v_shift.id,\r\n    'actual_effect', v_effect\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "reverse_pos_sale",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "_reverse_cash_shift_with_operations_before_phase4_lock(p_shift_id uuid, p_reason text, p_idempotency_key text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "reverse_supplier_payment(p_supplier_payment_id uuid, p_reason text, p_idempotency_key text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.reverse_supplier_payment(p_supplier_payment_id uuid, p_reason text, p_idempotency_key text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  PERFORM public.assert_reversal_owner('عكس دفعة مورد');\r\n  PERFORM public.phase4_lock_supplier_context_internal(NULL,NULL,p_supplier_payment_id);\r\n  RETURN public._reverse_supplier_payment_before_phase4_lock(p_supplier_payment_id,p_reason,p_idempotency_key);\r\nEND; $function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "reverse_supplier_payment",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "_reverse_cash_shift_with_operations_before_phase4_lock(p_shift_id uuid, p_reason text, p_idempotency_key text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "set_product_primary_image(p_product_id uuid, p_image_url text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.set_product_primary_image(p_product_id uuid, p_image_url text)\n RETURNS uuid\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_user_id UUID := auth.uid();\r\n  v_image_id UUID;\r\n  v_image_url TEXT := NULLIF(TRIM(p_image_url), '');\r\nBEGIN\r\n  PERFORM public.assert_erp_role(\r\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\r\n    'تحديث صورة المنتج'\r\n  );\r\n\r\n  IF p_product_id IS NULL THEN\r\n    RAISE EXCEPTION 'معرف المنتج مطلوب.';\r\n  END IF;\r\n  IF v_image_url IS NULL THEN\r\n    RAISE EXCEPTION 'رابط صورة المنتج مطلوب.';\r\n  END IF;\r\n\r\n  PERFORM 1\r\n  FROM public.products\r\n  WHERE id = p_product_id\r\n  FOR UPDATE;\r\n\r\n  IF NOT FOUND THEN\r\n    RAISE EXCEPTION 'المنتج المحدد غير موجود.';\r\n  END IF;\r\n\r\n  UPDATE public.product_images\r\n  SET is_primary = false\r\n  WHERE product_id = p_product_id\r\n    AND is_primary = true;\r\n\r\n  SELECT id\r\n  INTO v_image_id\r\n  FROM public.product_images\r\n  WHERE product_id = p_product_id\r\n    AND image_url = v_image_url\r\n  ORDER BY created_at\r\n  LIMIT 1;\r\n\r\n  IF v_image_id IS NULL THEN\r\n    INSERT INTO public.product_images (\r\n      product_id,\r\n      image_url,\r\n      is_primary,\r\n      display_order\r\n    ) VALUES (\r\n      p_product_id,\r\n      v_image_url,\r\n      true,\r\n      1\r\n    )\r\n    RETURNING id INTO v_image_id;\r\n  ELSE\r\n    UPDATE public.product_images\r\n    SET\r\n      is_primary = true,\r\n      display_order = 1\r\n    WHERE id = v_image_id;\r\n  END IF;\r\n\r\n  INSERT INTO public.audit_logs (\r\n    user_id,\r\n    action,\r\n    entity_name,\r\n    entity_id,\r\n    details\r\n  ) VALUES (\r\n    v_user_id,\r\n    'SET_PRODUCT_PRIMARY_IMAGE',\r\n    'products',\r\n    p_product_id,\r\n    jsonb_build_object(\r\n      'product_image_id', v_image_id,\r\n      'image_url', v_image_url\r\n    )\r\n  );\r\n\r\n  RETURN v_image_id;\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "set_product_primary_image",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "create_product_with_opening_stock_v3(p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_warehouse_id uuid, p_opening_quantity integer, p_notes text, p_image_url text)",
+        "update_product_flavor_v1(p_flavor_product_id uuid, p_flavor_name_ar text, p_barcode text, p_image_url text, p_is_active boolean)",
+        "update_product_master(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": null,
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "set_website_new_order_reservation_expiry()",
+      "definition": "CREATE OR REPLACE FUNCTION public.set_website_new_order_reservation_expiry()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  IF NEW.source = 'website'\r\n    AND NEW.status = 'new'\r\n    AND NEW.reservation_expires_at IS NULL\r\n  THEN\r\n    NEW.reservation_expires_at := COALESCE(NEW.created_at, NOW()) + INTERVAL '5 hours';\r\n  END IF;\r\n\r\n  RETURN NEW;\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "set_website_new_order_reservation_expiry",
+      "roles": [
+        "PUBLIC"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [
+        "public.orders.trg_set_website_new_order_reservation_expiry"
+      ],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "settle_sales_return_v1(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.settle_sales_return_v1(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_refund_method text DEFAULT NULL::text, p_reference_number text DEFAULT NULL::text, p_notes text DEFAULT NULL::text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  PERFORM public.assert_erp_role(ARRAY['owner', 'admin'], 'تسوية مرتجع مبيعات');\r\n  PERFORM public.package_d_assert_modern_sale_internal(\r\n    p_order_id, 'PHASE42_SALE_CONTRACT_UNSUPPORTED'\r\n  );\r\n  -- The original coordinator resolves committed replay before mutation gates.\r\n  RETURN public.package_d_settle_sales_return_before_guard_internal(\r\n    p_order_id, p_idempotency_key, p_items, p_reason,\r\n    p_refund_method, p_reference_number, p_notes\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "settle_sales_return_v1",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "settle_admin_sales_return_v1(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_physical_sources jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    },
+    {
+      "acl": null,
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "sync_order_payment_state()",
+      "definition": "CREATE OR REPLACE FUNCTION public.sync_order_payment_state()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  NEW.amount_paid_in_minor_units := LEAST(\r\n    GREATEST(COALESCE(NEW.amount_paid_in_minor_units, 0), 0),\r\n    NEW.total_in_minor_units\r\n  );\r\n\r\n  IF NEW.status = 'completed'\r\n    AND COALESCE(NEW.payment_method, 'cash_on_delivery') <> 'debt'\r\n  THEN\r\n    NEW.amount_paid_in_minor_units := NEW.total_in_minor_units;\r\n  END IF;\r\n\r\n  IF NEW.status = 'returned' THEN\r\n    NEW.payment_status := 'refunded';\r\n  ELSE\r\n    NEW.payment_status := CASE\r\n      WHEN NEW.amount_paid_in_minor_units >= NEW.total_in_minor_units\r\n        THEN 'paid'\r\n      WHEN NEW.amount_paid_in_minor_units > 0\r\n        THEN 'partially_paid'\r\n      ELSE 'unpaid'\r\n    END;\r\n  END IF;\r\n\r\n  RETURN NEW;\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "sync_order_payment_state",
+      "roles": [
+        "PUBLIC"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [
+        "public.orders.trg_sync_order_payment_state"
+      ],
+      "sourceMentions": []
+    },
+    {
+      "acl": null,
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "sync_product_flavor_commercial_settings()",
+      "definition": "CREATE OR REPLACE FUNCTION public.sync_product_flavor_commercial_settings()\n RETURNS trigger\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nBEGIN\r\n  IF NEW.flavor_master_product_id IS NULL AND NEW.is_flavor_master THEN\r\n    UPDATE public.products\r\n    SET\r\n      category_id = NEW.category_id,\r\n      brand_id = NEW.brand_id,\r\n      unit_id = NEW.unit_id,\r\n      purchase_unit_id = NEW.purchase_unit_id,\r\n      units_per_purchase_unit = NEW.units_per_purchase_unit,\r\n      default_purchase_price_in_minor_units =\r\n        NEW.default_purchase_price_in_minor_units,\r\n      sale_unit_id = NEW.sale_unit_id,\r\n      units_per_sale_unit = NEW.units_per_sale_unit,\r\n      default_sale_price_in_minor_units =\r\n        NEW.default_sale_price_in_minor_units,\r\n      sale_price_in_minor_units = NEW.sale_price_in_minor_units,\r\n      wholesale_price_in_minor_units = NEW.wholesale_price_in_minor_units,\r\n      is_active = NEW.is_active,\r\n      updated_at = NOW()\r\n    WHERE flavor_master_product_id = NEW.id;\r\n  END IF;\r\n  RETURN NULL;\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "sync_product_flavor_commercial_settings",
+      "roles": [
+        "PUBLIC"
+      ],
+      "dbCallers": [],
+      "policyCallers": [],
+      "triggerCallers": [
+        "public.products.trg_products_sync_flavor_settings"
+      ],
+      "sourceMentions": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "update_product_master(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.update_product_master(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_user_id UUID := auth.uid();\r\n  v_product public.products%ROWTYPE;\r\nBEGIN\r\n  PERFORM public.assert_erp_role(\r\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\r\n    'تعديل بيانات المنتج'\r\n  );\r\n\r\n  IF p_product_id IS NULL THEN\r\n    RAISE EXCEPTION 'معرف المنتج مطلوب.';\r\n  END IF;\r\n  IF NULLIF(TRIM(p_sku), '') IS NULL THEN\r\n    RAISE EXCEPTION 'رمز الصنف SKU مطلوب.';\r\n  END IF;\r\n  IF NULLIF(TRIM(p_name_ar), '') IS NULL THEN\r\n    RAISE EXCEPTION 'اسم المنتج مطلوب.';\r\n  END IF;\r\n  IF COALESCE(p_units_per_purchase_unit, 0) < 1 THEN\r\n    RAISE EXCEPTION 'عدد الحبات داخل العبوة يجب أن يكون عدداً صحيحاً أكبر من صفر.';\r\n  END IF;\r\n  IF COALESCE(p_default_purchase_price_in_minor_units, -1) < 0\r\n    OR COALESCE(p_cost_price_in_minor_units, -1) < 0\r\n    OR COALESCE(p_sale_price_in_minor_units, -1) < 0 THEN\r\n    RAISE EXCEPTION 'أسعار المنتج لا يمكن أن تكون سالبة.';\r\n  END IF;\r\n  IF COALESCE(p_min_stock_level, -1) < 0 THEN\r\n    RAISE EXCEPTION 'حد تنبيه المخزون لا يمكن أن يكون سالباً.';\r\n  END IF;\r\n  IF p_max_stock_level IS NOT NULL\r\n    AND p_max_stock_level < p_min_stock_level THEN\r\n    RAISE EXCEPTION 'الحد الأعلى للمخزون لا يمكن أن يقل عن حد التنبيه.';\r\n  END IF;\r\n\r\n  PERFORM 1\r\n  FROM public.products\r\n  WHERE id = p_product_id\r\n  FOR UPDATE;\r\n\r\n  IF NOT FOUND THEN\r\n    RAISE EXCEPTION 'المنتج المحدد غير موجود.';\r\n  END IF;\r\n\r\n  UPDATE public.products\r\n  SET\r\n    sku = TRIM(p_sku),\r\n    barcode = NULLIF(TRIM(p_barcode), ''),\r\n    name_ar = TRIM(p_name_ar),\r\n    description = NULLIF(TRIM(p_description), ''),\r\n    category_id = p_category_id,\r\n    brand_id = p_brand_id,\r\n    unit_id = p_unit_id,\r\n    purchase_unit_id = COALESCE(p_purchase_unit_id, p_unit_id),\r\n    units_per_purchase_unit = p_units_per_purchase_unit,\r\n    default_purchase_price_in_minor_units =\r\n      p_default_purchase_price_in_minor_units,\r\n    cost_price_in_minor_units = p_cost_price_in_minor_units,\r\n    sale_price_in_minor_units = p_sale_price_in_minor_units,\r\n    min_stock_level = p_min_stock_level,\r\n    max_stock_level = p_max_stock_level,\r\n    is_active = COALESCE(p_is_active, true),\r\n    updated_at = NOW()\r\n  WHERE id = p_product_id\r\n  RETURNING * INTO v_product;\r\n\r\n  IF NULLIF(TRIM(p_image_url), '') IS NOT NULL THEN\r\n    PERFORM public.set_product_primary_image(\r\n      p_product_id,\r\n      TRIM(p_image_url)\r\n    );\r\n  END IF;\r\n\r\n  INSERT INTO public.audit_logs (\r\n    user_id,\r\n    action,\r\n    entity_name,\r\n    entity_id,\r\n    details\r\n  ) VALUES (\r\n    v_user_id,\r\n    'UPDATE_PRODUCT_MASTER',\r\n    'products',\r\n    p_product_id,\r\n    jsonb_build_object(\r\n      'sku', v_product.sku,\r\n      'name_ar', v_product.name_ar,\r\n      'sale_price_in_minor_units', v_product.sale_price_in_minor_units,\r\n      'cost_price_in_minor_units', v_product.cost_price_in_minor_units,\r\n      'min_stock_level', v_product.min_stock_level,\r\n      'units_per_purchase_unit', v_product.units_per_purchase_unit\r\n    )\r\n  );\r\n\r\n  RETURN jsonb_build_object(\r\n    'success', true,\r\n    'productId', v_product.id,\r\n    'message', 'تم تحديث بيانات المنتج وحد تنبيه المخزون بنجاح.'\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "update_product_master",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "update_product_master_v2(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": [
+        {
+          "file": "src/services/supabase/products.service.ts",
+          "lines": [
+            1046
+          ]
+        }
+      ]
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "update_product_master_v2(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.update_product_master_v2(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_result JSONB;\r\nBEGIN\r\n  PERFORM public.assert_erp_role(\r\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\r\n    'تعديل بيانات المنتج'\r\n  );\r\n\r\n  IF COALESCE(p_wholesale_price_in_minor_units, -1) < 0 THEN\r\n    RAISE EXCEPTION 'سعر بيع الجملة لا يمكن أن يكون سالباً.';\r\n  END IF;\r\n\r\n  v_result := public.update_product_master(\r\n    p_product_id,\r\n    p_sku,\r\n    p_barcode,\r\n    p_name_ar,\r\n    p_description,\r\n    p_category_id,\r\n    p_brand_id,\r\n    p_unit_id,\r\n    p_purchase_unit_id,\r\n    p_units_per_purchase_unit,\r\n    p_default_purchase_price_in_minor_units,\r\n    p_cost_price_in_minor_units,\r\n    p_sale_price_in_minor_units,\r\n    p_min_stock_level,\r\n    p_max_stock_level,\r\n    p_is_active,\r\n    p_image_url\r\n  );\r\n\r\n  UPDATE public.products\r\n  SET\r\n    wholesale_price_in_minor_units = p_wholesale_price_in_minor_units,\r\n    updated_at = NOW()\r\n  WHERE id = p_product_id;\r\n\r\n  INSERT INTO public.audit_logs (\r\n    user_id,\r\n    action,\r\n    entity_name,\r\n    entity_id,\r\n    details\r\n  ) VALUES (\r\n    auth.uid(),\r\n    'SET_PRODUCT_WHOLESALE_PRICE',\r\n    'products',\r\n    p_product_id,\r\n    jsonb_build_object(\r\n      'wholesale_price_in_minor_units',\r\n      p_wholesale_price_in_minor_units\r\n    )\r\n  );\r\n\r\n  RETURN v_result || jsonb_build_object(\r\n    'wholesalePriceInMinorUnits',\r\n    p_wholesale_price_in_minor_units\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "update_product_master_v2",
+      "roles": [
+        "authenticated"
+      ],
+      "dbCallers": [
+        "update_product_master_v3(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)"
+      ],
+      "policyCallers": [],
+      "triggerCallers": [],
+      "sourceMentions": []
+    }
+  ],
+  "special": [
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "build_business_summary(p_summary_type text, p_period_start date, p_period_end date, p_generated_at timestamp with time zone)",
+      "definition": "CREATE OR REPLACE FUNCTION public.build_business_summary(p_summary_type text, p_period_start date, p_period_end date, p_generated_at timestamp with time zone DEFAULT now())\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE v_result JSONB; BEGIN\r\n  v_result:=public._build_business_summary_before133(p_summary_type,p_period_start,p_period_end,p_generated_at);\r\n  RETURN jsonb_set(v_result,'{balances}',(v_result->'balances')||public.phase133_supplier_balances_internal());\r\nEND; $function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "build_business_summary",
+      "roles": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "save_storefront_settings(p_store_name_ar text, p_whatsapp_number text, p_cliq_alias text, p_orders_enabled boolean, p_announcement_text text, p_business_hours_text text, p_delivery_areas_text text, p_delivery_eta_text text, p_exchange_policy_text text, p_minimum_order_in_minor_units bigint, p_delivery_fee_in_minor_units bigint)",
+      "definition": "CREATE OR REPLACE FUNCTION public.save_storefront_settings(p_store_name_ar text, p_whatsapp_number text, p_cliq_alias text, p_orders_enabled boolean, p_announcement_text text, p_business_hours_text text, p_delivery_areas_text text, p_delivery_eta_text text, p_exchange_policy_text text, p_minimum_order_in_minor_units bigint, p_delivery_fee_in_minor_units bigint)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_user_id UUID := auth.uid();\r\n  v_whatsapp TEXT := regexp_replace(COALESCE(p_whatsapp_number, ''), '[^0-9]', '', 'g');\r\nBEGIN\r\n  PERFORM public.assert_erp_role(\r\n    ARRAY['owner', 'admin', 'manager'],\r\n    'إدارة إعدادات المتجر الإلكتروني'\r\n  );\r\n\r\n  IF CHAR_LENGTH(TRIM(COALESCE(p_store_name_ar, ''))) NOT BETWEEN 2 AND 120 THEN\r\n    RAISE EXCEPTION 'اسم المتجر يجب أن يكون بين حرفين و120 حرفًا.';\r\n  END IF;\r\n  IF v_whatsapp !~ '^[0-9]{9,15}$' THEN\r\n    RAISE EXCEPTION 'رقم واتساب غير صحيح.';\r\n  END IF;\r\n  IF CHAR_LENGTH(TRIM(COALESCE(p_cliq_alias, ''))) > 120 THEN\r\n    RAISE EXCEPTION 'اسم CliQ أطول من المسموح.';\r\n  END IF;\r\n  IF CHAR_LENGTH(TRIM(COALESCE(p_announcement_text, ''))) NOT BETWEEN 2 AND 300\r\n    OR CHAR_LENGTH(TRIM(COALESCE(p_business_hours_text, ''))) NOT BETWEEN 2 AND 500\r\n    OR CHAR_LENGTH(TRIM(COALESCE(p_delivery_areas_text, ''))) NOT BETWEEN 2 AND 500\r\n    OR CHAR_LENGTH(TRIM(COALESCE(p_delivery_eta_text, ''))) NOT BETWEEN 2 AND 500\r\n    OR CHAR_LENGTH(TRIM(COALESCE(p_exchange_policy_text, ''))) NOT BETWEEN 2 AND 500\r\n  THEN\r\n    RAISE EXCEPTION 'أكمل نصوص معلومات المتجر ضمن الطول المسموح.';\r\n  END IF;\r\n  IF COALESCE(p_minimum_order_in_minor_units, -1) < 0\r\n    OR COALESCE(p_delivery_fee_in_minor_units, -1) < 0\r\n  THEN\r\n    RAISE EXCEPTION 'الحد الأدنى ورسوم التوصيل لا يمكن أن يكونا سالبين.';\r\n  END IF;\r\n\r\n  INSERT INTO public.storefront_settings (\r\n    id, store_name_ar, whatsapp_number, cliq_alias, orders_enabled,\r\n    announcement_text, business_hours_text, delivery_areas_text,\r\n    delivery_eta_text, exchange_policy_text,\r\n    minimum_order_in_minor_units, delivery_fee_in_minor_units,\r\n    updated_at, updated_by\r\n  ) VALUES (\r\n    '00000000-0000-0000-0000-000000000001'::UUID,\r\n    TRIM(p_store_name_ar), v_whatsapp, TRIM(COALESCE(p_cliq_alias, '')),\r\n    COALESCE(p_orders_enabled, false), TRIM(p_announcement_text),\r\n    TRIM(p_business_hours_text), TRIM(p_delivery_areas_text),\r\n    TRIM(p_delivery_eta_text), TRIM(p_exchange_policy_text),\r\n    p_minimum_order_in_minor_units, p_delivery_fee_in_minor_units,\r\n    NOW(), v_user_id\r\n  )\r\n  ON CONFLICT (id) DO UPDATE SET\r\n    store_name_ar = EXCLUDED.store_name_ar,\r\n    whatsapp_number = EXCLUDED.whatsapp_number,\r\n    cliq_alias = EXCLUDED.cliq_alias,\r\n    orders_enabled = EXCLUDED.orders_enabled,\r\n    announcement_text = EXCLUDED.announcement_text,\r\n    business_hours_text = EXCLUDED.business_hours_text,\r\n    delivery_areas_text = EXCLUDED.delivery_areas_text,\r\n    delivery_eta_text = EXCLUDED.delivery_eta_text,\r\n    exchange_policy_text = EXCLUDED.exchange_policy_text,\r\n    minimum_order_in_minor_units = EXCLUDED.minimum_order_in_minor_units,\r\n    delivery_fee_in_minor_units = EXCLUDED.delivery_fee_in_minor_units,\r\n    updated_at = NOW(),\r\n    updated_by = v_user_id;\r\n\r\n  INSERT INTO public.audit_logs (user_id, action, entity_name, entity_id, details)\r\n  VALUES (\r\n    v_user_id,\r\n    'save_storefront_settings',\r\n    'storefront_settings',\r\n    '00000000-0000-0000-0000-000000000001'::UUID,\r\n    jsonb_build_object(\r\n      'orders_enabled', p_orders_enabled,\r\n      'minimum_order_in_minor_units', p_minimum_order_in_minor_units,\r\n      'delivery_fee_in_minor_units', p_delivery_fee_in_minor_units\r\n    )\r\n  );\r\n\r\n  RETURN public.get_public_storefront_settings() || jsonb_build_object(\r\n    'success', true,\r\n    'message', 'تم حفظ إعدادات المتجر الإلكتروني وتطبيقها بنجاح.'\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "save_storefront_settings",
+      "roles": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "update_product_master_v3(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)",
+      "definition": "CREATE OR REPLACE FUNCTION public.update_product_master_v3(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_result JSONB;\r\n  v_unit_sale_price BIGINT;\r\nBEGIN\r\n  PERFORM public.assert_erp_role(\r\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\r\n    'تعديل منتج جملة'\r\n  );\r\n\r\n  IF COALESCE(p_units_per_sale_unit, 0) < 1 THEN\r\n    RAISE EXCEPTION 'عدد الحبات داخل طرد البيع يجب أن يكون أكبر من صفر.';\r\n  END IF;\r\n  IF COALESCE(p_default_sale_price_in_minor_units, 0) <= 0 THEN\r\n    RAISE EXCEPTION 'سعر بيع طرد الجملة يجب أن يكون أكبر من صفر.';\r\n  END IF;\r\n  IF p_sale_unit_id IS NULL OR EXISTS (\r\n    SELECT 1\r\n    FROM public.units\r\n    WHERE id = p_sale_unit_id\r\n      AND code = 'PCS'\r\n  ) THEN\r\n    RAISE EXCEPTION 'طرد البيع يجب أن يكون عبوة جملة وليس حبة أو قطعة.';\r\n  END IF;\r\n\r\n  v_unit_sale_price := ROUND(\r\n    p_default_sale_price_in_minor_units::NUMERIC\r\n    / p_units_per_sale_unit\r\n  )::BIGINT;\r\n\r\n  v_result := public.update_product_master_v2(\r\n    p_product_id,\r\n    p_sku,\r\n    p_barcode,\r\n    p_name_ar,\r\n    p_description,\r\n    p_category_id,\r\n    p_brand_id,\r\n    p_unit_id,\r\n    p_purchase_unit_id,\r\n    p_units_per_purchase_unit,\r\n    p_default_purchase_price_in_minor_units,\r\n    p_cost_price_in_minor_units,\r\n    v_unit_sale_price,\r\n    v_unit_sale_price,\r\n    p_min_stock_level,\r\n    p_max_stock_level,\r\n    p_is_active,\r\n    p_image_url\r\n  );\r\n\r\n  UPDATE public.products\r\n  SET\r\n    sale_unit_id = COALESCE(p_sale_unit_id, p_purchase_unit_id, p_unit_id),\r\n    units_per_sale_unit = p_units_per_sale_unit,\r\n    default_sale_price_in_minor_units =\r\n      p_default_sale_price_in_minor_units,\r\n    updated_at = NOW()\r\n  WHERE id = p_product_id;\r\n\r\n  INSERT INTO public.audit_logs (\r\n    user_id,\r\n    action,\r\n    entity_name,\r\n    entity_id,\r\n    details\r\n  ) VALUES (\r\n    auth.uid(),\r\n    'UPDATE_PRODUCT_WHOLESALE_PACKAGE',\r\n    'products',\r\n    p_product_id,\r\n    jsonb_build_object(\r\n      'sale_unit_id',\r\n      COALESCE(p_sale_unit_id, p_purchase_unit_id, p_unit_id),\r\n      'units_per_sale_unit',\r\n      p_units_per_sale_unit,\r\n      'default_sale_price_in_minor_units',\r\n      p_default_sale_price_in_minor_units\r\n    )\r\n  );\r\n\r\n  RETURN v_result || jsonb_build_object(\r\n    'saleUnitId',\r\n    COALESCE(p_sale_unit_id, p_purchase_unit_id, p_unit_id),\r\n    'unitsPerSaleUnit',\r\n    p_units_per_sale_unit,\r\n    'defaultSalePriceInMinorUnits',\r\n    p_default_sale_price_in_minor_units\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "update_product_master_v3",
+      "roles": []
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "kind": "f",
+      "owner": "postgres",
+      "schema": "public",
+      "identity": "update_product_flavor_v1(p_flavor_product_id uuid, p_flavor_name_ar text, p_barcode text, p_image_url text, p_is_active boolean)",
+      "definition": "CREATE OR REPLACE FUNCTION public.update_product_flavor_v1(p_flavor_product_id uuid, p_flavor_name_ar text, p_barcode text DEFAULT NULL::text, p_image_url text DEFAULT NULL::text, p_is_active boolean DEFAULT true)\n RETURNS jsonb\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\r\nDECLARE\r\n  v_flavor public.products%ROWTYPE;\r\n  v_master public.products%ROWTYPE;\r\n  v_name TEXT := NULLIF(BTRIM(p_flavor_name_ar), '');\r\n  v_image_url TEXT := NULLIF(BTRIM(p_image_url), '');\r\nBEGIN\r\n  PERFORM public.assert_erp_role(\r\n    ARRAY['owner', 'admin', 'manager', 'warehouse_keeper'],\r\n    'تعديل نكهة المنتج'\r\n  );\r\n\r\n  IF v_name IS NULL THEN\r\n    RAISE EXCEPTION 'اكتب اسم النكهة.';\r\n  END IF;\r\n  IF CHAR_LENGTH(v_name) > 80 THEN\r\n    RAISE EXCEPTION 'اسم النكهة طويل جدًا.';\r\n  END IF;\r\n\r\n  SELECT * INTO v_flavor\r\n  FROM public.products\r\n  WHERE id = p_flavor_product_id\r\n  FOR UPDATE;\r\n\r\n  IF NOT FOUND OR v_flavor.flavor_master_product_id IS NULL THEN\r\n    RAISE EXCEPTION 'النكهة المحددة غير موجودة.';\r\n  END IF;\r\n\r\n  SELECT * INTO v_master\r\n  FROM public.products\r\n  WHERE id = v_flavor.flavor_master_product_id\r\n  FOR UPDATE;\r\n\r\n  IF NOT FOUND THEN\r\n    RAISE EXCEPTION 'المنتج الأساسي للنكهة غير موجود.';\r\n  END IF;\r\n  IF COALESCE(p_is_active, TRUE) AND NOT v_master.is_active THEN\r\n    RAISE EXCEPTION 'فعّل المنتج الأساسي قبل تفعيل هذه النكهة.';\r\n  END IF;\r\n\r\n  IF EXISTS (\r\n    SELECT 1\r\n    FROM public.products p\r\n    WHERE p.flavor_master_product_id = v_master.id\r\n      AND p.id <> v_flavor.id\r\n      AND LOWER(BTRIM(p.flavor_name_ar)) = LOWER(v_name)\r\n  ) THEN\r\n    RAISE EXCEPTION 'هذه النكهة موجودة مسبقًا.';\r\n  END IF;\r\n\r\n  UPDATE public.products\r\n  SET\r\n    flavor_name_ar = v_name,\r\n    name_ar = v_master.name_ar || ' - ' || v_name,\r\n    barcode = NULLIF(BTRIM(p_barcode), ''),\r\n    is_active = COALESCE(p_is_active, TRUE),\r\n    updated_at = NOW()\r\n  WHERE id = v_flavor.id;\r\n\r\n  IF v_image_url IS NOT NULL THEN\r\n    PERFORM public.set_product_primary_image(v_flavor.id, v_image_url);\r\n  END IF;\r\n\r\n  INSERT INTO public.audit_logs (\r\n    user_id,\r\n    action,\r\n    entity_name,\r\n    entity_id,\r\n    details\r\n  ) VALUES (\r\n    auth.uid(),\r\n    'UPDATE_PRODUCT_FLAVOR',\r\n    'products',\r\n    v_flavor.id,\r\n    jsonb_build_object(\r\n      'master_product_id', v_master.id,\r\n      'previous_name_ar', v_flavor.flavor_name_ar,\r\n      'flavor_name_ar', v_name,\r\n      'is_active', COALESCE(p_is_active, TRUE),\r\n      'barcode_changed',\r\n        COALESCE(v_flavor.barcode, '') IS DISTINCT FROM\r\n        COALESCE(NULLIF(BTRIM(p_barcode), ''), ''),\r\n      'image_changed',\r\n        v_image_url IS NOT NULL\r\n    )\r\n  );\r\n\r\n  RETURN jsonb_build_object(\r\n    'success', TRUE,\r\n    'productId', v_flavor.id,\r\n    'masterProductId', v_master.id,\r\n    'message', 'تم تحديث النكهة مع الحفاظ على مخزونها وسجلها.'\r\n  );\r\nEND;\r\n$function$\n",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "name": "update_product_flavor_v1",
+      "roles": []
+    }
+  ],
+  "specialChecks": [
+    {
+      "name": "send_test_push_notification",
+      "exists": false,
+      "clientRoles": []
+    },
+    {
+      "name": "build_business_summary",
+      "exists": true,
+      "clientRoles": []
+    },
+    {
+      "name": "save_storefront_settings",
+      "exists": true,
+      "clientRoles": []
+    },
+    {
+      "name": "update_product_master_v3",
+      "exists": true,
+      "clientRoles": []
+    },
+    {
+      "name": "update_product_flavor_v1",
+      "exists": true,
+      "clientRoles": []
+    }
+  ]
+}

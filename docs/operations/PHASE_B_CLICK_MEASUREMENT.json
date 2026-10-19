@@ -1,0 +1,536 @@
+{
+  "method": "Control activations,not literal all finger taps;fields and scrolls separate. All write requests deliberately rejected before database transport. SDK session simulation for last product UI count is NOT Auth/ACL/business acceptance.",
+  "validation": {
+    "ok": true,
+    "managedAccess": false,
+    "sourceRevision": "6841256f52c66c603ff01073abd3f5b9fdab8e34",
+    "equivalentMainMerge": "ee1e5bbec7ce8491d8391435586d6bee121d162e",
+    "uiFiles": 97,
+    "uiEntries": 1466,
+    "rpcExposed": 192,
+    "rpcNoDirectCaller": 34,
+    "browserAttempts": 112,
+    "browserCaptured": 106,
+    "browserExcluded": [
+      {
+        "name": "supplier-form",
+        "width": 390,
+        "batch": "base",
+        "reason": "unsupported initial view name;corrected explicit supplier view captured in extra batch"
+      },
+      {
+        "name": "supplier-form",
+        "width": 1440,
+        "batch": "base",
+        "reason": "unsupported initial view name;corrected explicit supplier view captured in extra batch"
+      },
+      {
+        "name": "go-live-manual-4",
+        "width": 390,
+        "batch": "extra",
+        "reason": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'إدخال يدوي', exact: true }).nth(4)\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"button\" class=\"inline-flex items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 h-11 border border-nw-border bg-nw-surface text-nw-text hover:bg-nw-surface-2\">إدخال يدوي</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"
+      },
+      {
+        "name": "cash-close",
+        "width": 1440,
+        "batch": "extra",
+        "reason": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByTestId('cash-count-open')\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" data-testid=\"cash-count-open\" class=\"inline-flex items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 h-12 text-[15px] font-bold border-0 bg-nw-accent text-nw-on-accent hover:brightness-105\">عدّ الدرج وإغلاق الوردية</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"
+      },
+      {
+        "name": "cash-report",
+        "width": 1440,
+        "batch": "extra",
+        "reason": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'عرض تقرير الإغلاق الكامل', exact: true }).first()\u001b[22m\n"
+      },
+      {
+        "name": "go-live-manual-4",
+        "width": 1440,
+        "batch": "extra",
+        "reason": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'إدخال يدوي', exact: true }).nth(4)\u001b[22m\n\u001b[2m    - locator resolved to <button disabled type=\"button\" class=\"inline-flex items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60 h-11 border border-nw-border bg-nw-surface text-nw-text hover:bg-nw-surface-2\">إدخال يدوي</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not enabled\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    58 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not enabled\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n"
+      }
+    ],
+    "externalRequests": 0,
+    "pageErrors": 0,
+    "clicksWithinForm": [
+      3,
+      5,
+      4,
+      2,
+      2
+    ],
+    "productAddOpenClick": 1,
+    "uiOnlyWritesRejected": true,
+    "authFixtureNotPermissionAcceptance": true
+  },
+  "initial": {
+    "managedAccess": false,
+    "source": "6841256",
+    "scope": "UI control activations;data-entry fields listed separately;writes rejected before transport;no business-flow success claim",
+    "flows": [
+      {
+        "name": "sale-two-default-parcels",
+        "steps": [
+          "الصنف الأول",
+          "الصنف الثاني",
+          "إتمام البيع"
+        ],
+        "fields": [],
+        "writeRequests": [
+          "create_pos_sale_v2"
+        ],
+        "ok": true
+      },
+      {
+        "name": "receive-parcel-and-base",
+        "steps": [
+          "اختيار المورد",
+          "إضافة الصنف 1",
+          "إضافة الصنف 2",
+          "السطر الثاني شوال"
+        ],
+        "fields": [
+          "بحث الصنف 1",
+          "بحث الصنف 2"
+        ],
+        "writeRequests": [],
+        "ok": true,
+        "availableButtons": [
+          "المشتريات",
+          "الاستلام المباشر",
+          "تفاصيل أمر",
+          "تفاصيل سند",
+          "أمر جديد",
+          "مورد جديد",
+          "استلام أمر",
+          "دفعة مورد",
+          "سند جديد",
+          "دفعة سند",
+          "إلغاء سند",
+          "",
+          "إضافة مورد جديد",
+          "حذف الصنف",
+          "حذف الصنف",
+          "إلغاء",
+          "حفظ واستلام البضاعة"
+        ]
+      },
+      {
+        "name": "customer-cash-collection",
+        "steps": [
+          "فتح العميل",
+          "تحصيل",
+          "معاينة",
+          "حفظ"
+        ],
+        "fields": [
+          "المبلغ"
+        ],
+        "writeRequests": [
+          "collect_customer_balance_v1"
+        ],
+        "ok": true
+      },
+      {
+        "name": "close-shift-matching-count",
+        "steps": [
+          "عد الصندوق",
+          "إغلاق"
+        ],
+        "fields": [
+          "الكاش الفعلي"
+        ],
+        "writeRequests": [
+          "close_cash_shift"
+        ],
+        "ok": true
+      },
+      {
+        "name": "product-form-controls",
+        "steps": [],
+        "fields": [],
+        "writeRequests": [],
+        "ok": true,
+        "currentFields": [
+          {
+            "name": "اسم المنتج",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "القسم",
+            "value": "drinks",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "العلامة التجارية",
+            "value": "",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "وصف المنتج",
+            "value": "",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "INPUT",
+            "value": "",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "SKU",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "باركود المنتج",
+            "value": "",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "الوحدة الأساسية",
+            "value": "باكيت",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "نوع طرد الشراء",
+            "value": "كرتونة",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "عدد باكيت في طرد الشراء",
+            "value": "1",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "سعر شراء الطرد",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "سعر شراء باكيت",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "نوع طرد البيع",
+            "value": "كرتونة",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "عدد باكيت في طرد البيع",
+            "value": "1",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "سعر بيع الطرد",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "حد الطلب",
+            "value": "5",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "سقف المستودع",
+            "value": "",
+            "required": false,
+            "disabled": false
+          }
+        ],
+        "note": "Control inventory only;full valid create click count depends on chosen unit/category and prices;not claimed as measured."
+      }
+    ],
+    "ok": true
+  },
+  "remaining": {
+    "managedAccess": false,
+    "source": "6841256",
+    "scope": "UI control activations;data-entry fields listed separately;writes rejected before transport;no business-flow success claim",
+    "flows": [
+      {
+        "name": "receive-parcel-and-base",
+        "steps": [
+          "اختيار المورد",
+          "إضافة الصنف 1",
+          "إضافة الصنف 2",
+          "السطر الثاني شوال",
+          "حفظ واستلام"
+        ],
+        "fields": [
+          "بحث الصنف 1",
+          "بحث الصنف 2"
+        ],
+        "writeRequests": [
+          "create_direct_supplier_receipt_v2"
+        ],
+        "ok": true
+      },
+      {
+        "name": "product-form-controls",
+        "steps": [
+          "توليد الرمز",
+          "إنشاء"
+        ],
+        "fields": [
+          "اسم المنتج",
+          "سعر الشراء",
+          "سعر البيع"
+        ],
+        "writeRequests": [],
+        "ok": false,
+        "currentFields": [
+          {
+            "name": "اسم المنتج",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "القسم",
+            "value": "drinks",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "العلامة التجارية",
+            "value": "",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "وصف المنتج",
+            "value": "",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "INPUT",
+            "value": "",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "SKU",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "باركود المنتج",
+            "value": "",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "الوحدة الأساسية",
+            "value": "باكيت",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "نوع طرد الشراء",
+            "value": "كرتونة",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "عدد باكيت في طرد الشراء",
+            "value": "1",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "سعر شراء الطرد",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "سعر شراء باكيت",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "نوع طرد البيع",
+            "value": "كرتونة",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "عدد باكيت في طرد البيع",
+            "value": "1",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "سعر بيع الطرد",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "حد الطلب",
+            "value": "5",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "سقف المستودع",
+            "value": "",
+            "required": false,
+            "disabled": false
+          }
+        ],
+        "error": "expect(received).toBe(expected) // Object.is equality\n\nExpected: 1\nReceived: 0\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate"
+      }
+    ],
+    "ok": false
+  },
+  "product": {
+    "managedAccess": false,
+    "source": "6841256",
+    "scope": "UI control activations;data-entry fields listed separately;writes rejected before transport;no business-flow success claim",
+    "flows": [
+      {
+        "name": "product-form-controls",
+        "steps": [
+          "توليد الرمز",
+          "إنشاء"
+        ],
+        "fields": [
+          "اسم المنتج",
+          "سعر الشراء",
+          "سعر البيع"
+        ],
+        "writeRequests": [
+          "create_product_with_opening_stock_v4"
+        ],
+        "ok": true,
+        "authFixture": "Simulated SDK session in memory for UI counting only;all writes still rejected before transport;not an auth/ACL/business acceptance test",
+        "currentFields": [
+          {
+            "name": "اسم المنتج",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "القسم",
+            "value": "drinks",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "العلامة التجارية",
+            "value": "",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "وصف المنتج",
+            "value": "",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "INPUT",
+            "value": "",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "SKU",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "باركود المنتج",
+            "value": "",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "الوحدة الأساسية",
+            "value": "باكيت",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "نوع طرد الشراء",
+            "value": "كرتونة",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "عدد باكيت في طرد الشراء",
+            "value": "1",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "سعر شراء الطرد",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "سعر شراء باكيت",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "نوع طرد البيع",
+            "value": "كرتونة",
+            "required": false,
+            "disabled": false
+          },
+          {
+            "name": "عدد باكيت في طرد البيع",
+            "value": "1",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "سعر بيع الطرد",
+            "value": "",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "حد الطلب",
+            "value": "5",
+            "required": true,
+            "disabled": false
+          },
+          {
+            "name": "سقف المستودع",
+            "value": "",
+            "required": false,
+            "disabled": false
+          }
+        ]
+      }
+    ],
+    "ok": true
+  }
+}
