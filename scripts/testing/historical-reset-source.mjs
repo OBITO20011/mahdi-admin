@@ -6,11 +6,12 @@ import path from 'node:path';
 import {migrationManifest} from './maintenance-db-contract.mjs';
 
 export async function stageHistoricalResetSource(root,reference){
- assert.equal(reference.migrationCeiling,182,'HISTORICAL_RESET_CEILING');
- const approved=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=182);
- assert.equal(approved.length,151,'HISTORICAL_RESET_FILE_COUNT');
+ const counts={182:151,199:161},ceiling=reference.migrationCeiling;
+ assert.ok(Object.hasOwn(counts,ceiling),'HISTORICAL_RESET_CEILING');
+ const approved=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=ceiling);
+ assert.equal(approved.length,counts[ceiling],'HISTORICAL_RESET_FILE_COUNT');
  assert.deepEqual(approved,reference.manifest,'HISTORICAL_RESET_SOURCE_CHANGED');
- const sourceRoot=await mkdtemp(path.join(tmpdir(),'nawasrah-reset-source182-'));
+ const sourceRoot=await mkdtemp(path.join(tmpdir(),'nawasrah-reset-source'+ceiling+'-'));
  const destination=path.join(sourceRoot,'supabase/migrations');
  await mkdir(destination,{recursive:true});
  for(const unit of approved){

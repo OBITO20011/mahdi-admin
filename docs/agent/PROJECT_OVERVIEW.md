@@ -1,5 +1,12 @@
 # Project overview
 
+Current owner2026-10-19: PhaseB reports approved; PhaseC execution authorized
+in the exact order in PHASE_C_CONTRACT.md, starting with legacy product cost
+EXECUTE revocation200 after runtime proof. Read that contract and latest
+OWNER_DECISIONS first. Each package separate PR/full exactCI/merge; local units,
+types/lint and affected probes only. Mandatory STOP after item20 design for
+Claude review. No Frankfurt/Production access, secrets or deployment.
+
 Current2026-10-16:Awithdrawals accepted18217d1 FULL26/26. B190199 authorized
 onfeature/deferred-cheques;latestOWNER_DECISIONS requires compensation-only
 for BOTH bouncedcheques and erroneous cancellation,never original evidence

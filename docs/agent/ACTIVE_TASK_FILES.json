@@ -2,48 +2,176 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": " M",
+      "code": "A ",
+      "path": "docs/agent/PHASE_C_CONTRACT.md"
+    },
+    {
+      "code": "A ",
+      "path": "docs/design/OWNER_PHASE_C_NOTES_AR.md"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/LEGACY_PRODUCT_COST_200_EVIDENCE.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_200.json"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/operations/build-acl-reference200.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/operations/frankfurt-owner-upgrade200.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/operations/frankfurt-reference200.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-legacy-cost-upgrade200-runtime.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-legacy-product-cost-gates.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-legacy-product-cost-runtime.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "supabase/migrations/200_revoke_legacy_product_cost_writers.sql"
+    },
+    {
+      "code": "A ",
+      "path": "tests/legacy-product-cost200.test.ts"
+    },
+    {
+      "code": "AM",
+      "path": "docs/operations/LEGACY_PRODUCT_COST_200_AR.md"
+    },
+    {
+      "code": "M ",
+      "path": ".github/workflows/quality.yml"
+    },
+    {
+      "code": "M ",
       "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
-      "code": " M",
+      "code": "M ",
+      "path": "docs/agent/PROJECT_OVERVIEW.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/generated/DB_FUNCTIONS.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/agent/lib.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/agent/preflight.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-owner-build.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-trial-reset.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/trial-reset-core.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/bootstrap-isolated-supabase.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/historical-reset-source.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/testing/run-trial-reset-runtime.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "tests/canonical-receivables197.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/cashier-collections198.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/cheques195-admission.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/go-live-integration164.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/historical-reset-source.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/opening-cheques196.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/product-integration171.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/service-access-inventory.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/trial-reset.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/withdrawals182-admission.test.ts"
+    },
+    {
+      "code": "MM",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
-      "code": " M",
-      "path": "docs/operations/WAREHOUSE_MANAGEMENT_199_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/OWNER_SIMPLICITY_REVIEW_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/design/SUPPLIER_REPLACEMENT_DAMAGE_DESIGN_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/PHASE_B_BROWSER_OBSERVATIONS.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/PHASE_B_CLICK_MEASUREMENT.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/PHASE_B_REVIEW_VALIDATION.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/PHASE_B_UI_INVENTORY.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/UNEXPOSED_RPC_REVIEW_AR.md"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/UNEXPOSED_RPC_REVIEW_EVIDENCE.json"
+      "code": "MM",
+      "path": "docs/agent/project-state.json"
     }
   ]
 }

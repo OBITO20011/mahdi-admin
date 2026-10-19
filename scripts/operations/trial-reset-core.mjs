@@ -11,7 +11,7 @@ import {assertManagedCatalog,aclEntries} from './managed-catalog-policy.mjs';
 import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 
 export const resetCeiling=182;
-const resetFileCounts=Object.freeze({182:151,199:161});
+const resetFileCounts=Object.freeze({182:151,199:161,200:162});
 export function assertResetCeiling(reference){
  assert.ok(Object.hasOwn(resetFileCounts,reference.migrationCeiling),'RESET_REFERENCE_CEILING');
  return resetFileCounts[reference.migrationCeiling];
@@ -170,7 +170,7 @@ export async function resetWithExecutor({executor,root,reference,output,repair,c
  assert.ok(notifications.jobs.filter(j=>heldJobNames.includes(j.name)).every(j=>j.active===false));
  assert.equal(notifications.jobs.length,5);
  const owner=await json(ownerRecordSql(ownerId));assert.deepEqual(owner.roles,['owner']);
- if(reference.migrationCeiling===199){
+ if(reference.migrationCeiling>=199){
   const main=await json("SELECT COALESCE(jsonb_agg(to_jsonb(w)),'[]'::jsonb) FROM public.warehouses w WHERE code='WH-MAIN';");
   assert.equal(main.length,1,'RESET_MAIN_WAREHOUSE_REQUIRED');owner.warehouse=main[0];
   restoreMainWarehouseSql(owner); // validate location before any destructive work

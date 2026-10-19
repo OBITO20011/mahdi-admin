@@ -1,34 +1,20 @@
 # إضافة جرد الخدمات والإعدادات —2026-10-15
 
-## تحديث199 —19Oct،المصدر النهائي
-
-`SERVICE_ACCESS_DIAGNOSTIC.json`:495dispatch حقيقي من173موضعاً،صفرSQL42501.
-تضاف `get_owner_warehouses_v1` و`save_owner_warehouse_v1`؛EXECUTE لأدوار
-authenticated لا يتجاوز حارس المالك داخل الجسم. اختبار199الوظيفي يثبت
-رفضcashier الحقيقي/anon،والحفظ والتزامن والإعادة والتراجع. قيمRPC المحايدة
-في الجرد تثبت الإرسال/الصلاحية فقط،لا تُسمّى أخطاء التحقق نجاحاً وظيفياً.
-مرجع199513دالة و13عضوRealtime؛لا تهيئة أواتصال بخدمة مستضافة.
-
-تحديث19Oct: الدليل الحالي أُعيد فعلياً بعد تكملة مصطلحات نقطة البيع على198
-المحلية:489dispatch/0SQL42501. الإعداد العام للواجهتين الآن فرانكفورت؛
-فقرات savedCatalogAssessment أدناه مقارنة بملفات تاريخية محفوظة، لا اتصال
-حي أو ادعاء تفعيل إعدادات على أي مشروع مستضاف.
-
 ## إضافة التحقيق: RPC وStorage وRealtime والإعدادات خارج migrations
 
 **لا تطبيق ACL ولا إعداد خدمات ولا نشر. هذا قياس محلي وقراءة ملفات محفوظة فقط؛الفجوة التشغيلية غير مغلقة.**
 
 ### أ. RPC — EXECUTE الفعلي،لا افتراض نجاح من mock
 
-167 موضعSDK .rpc و4 موضعRESTGateway،161 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
+169 موضعSDK .rpc و4 موضعRESTGateway،163 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
 
-قاعدة198 محلية جديدة: 489 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،118 نجاحمعrollback،371 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
+قاعدة200 محلية جديدة: 495 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،119 نجاحمعrollback،376 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
 
 حدالقياسصريح:أُرسلتقيممحليةمحايدةمُنمّطةحسبتوقيعSQL(معرفعميل/فرع/مستودعfixtureحيثيوجد،NULL/JSONفارغلغيره)،وليستجميعحمولاتالتدفّقاتالصحيحةمنواجهةالتطبيق. النصالأصليلكلاستدعاءومعاملاتهفيSERVICE_ACCESS_INVENTORY.json؛قيمةكلprobeوأثرهفيSERVICE_ACCESS_DIAGNOSTIC.json. لا نسمّي274خطأتحققنجاحاًوظيفياً ولا42501. كلنجاحوكلخطأداخلsubtransactionأُرجع؛لاأثرماليأومخزنيباقٍ. اختباراتالمساراتالمتكاملةالقائمةتبقىمطلوبة؛هذهالإضافةتثبتEXECUTE/dispatchوليسإتمامكلسيناريو.
 
 | الدالة/مصدر الاستدعاء | الدور | EXECUTE محلي / نتائج dispatch |
 |---|---|---|
-| get_pos_configurable_parcel_options_v1؛src/features/pos/PosView.tsx:166 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_pos_configurable_parcel_options_v1؛src/features/pos/PosView.tsx:167 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | report_admin_runtime_incident؛src/lib/errorMonitoring.ts:33 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_push_subscription_status؛src/services/pushNotifications.service.ts:48 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | save_push_subscription؛src/services/pushNotifications.service.ts:107 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
@@ -173,6 +159,8 @@ authenticated لا يتجاوز حارس المالك داخل الجسم. اخ�
 | mark_all_stock_alerts_read؛src/services/supabase/stockAlerts.service.ts:112 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | get_public_storefront_settings؛src/services/supabase/storefront-settings.service.ts:50 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:success/rollback |
 | save_storefront_settings_v3؛src/services/supabase/storefront-settings.service.ts:60 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_owner_warehouses_v1؛src/services/supabase/warehouses.service.ts:28 | authenticated | owner:success/rollback؛ admin:P0001؛ cashier:P0001 |
+| save_owner_warehouse_v1؛src/services/supabase/warehouses.service.ts:38 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_public_configurable_parcel_options؛customer-web/src/services/catalog.service.ts:165 | anon | anon:P0001 |
 | get_public_storefront_catalog_page؛customer-web/src/services/catalog.service.ts:388 | anon | anon:success/rollback |
 | get_public_storefront_merchandising؛customer-web/src/services/catalog.service.ts:446 | anon | anon:success/rollback |
@@ -261,7 +249,7 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 |---|---|---|
 | automation/n8n/workflows/nawasrah-alerts.json | 32, 89, 175, 228 | EXTERNAL_CONSUMER |
 | docs/agent/HANDOFF_HISTORY.md | 445 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 495 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 577 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
 | docs/operations/STAGING_FRANKFURT_AR.md | 247 | HISTORICAL_DOCUMENTATION |
 | scripts/backup/README.md | 28 | PRESERVE_OLD_BACKUP_LINK |
@@ -339,4 +327,4 @@ node scripts/audit/run-service-access-diagnostic.mjs
 node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>
 ```
 
-لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على198 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
+لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على200 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
