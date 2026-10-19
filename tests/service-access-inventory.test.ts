@@ -24,7 +24,7 @@ test('all real source RPC sinks and gateway resolutions have real role-dispatch/
  const source=await serviceInventory(),stored=JSON.parse(await readFile('docs/operations/SERVICE_ACCESS_INVENTORY.json','utf8')),
   evidence=JSON.parse(await readFile('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','utf8'));
  assert.deepEqual(stored,source);assert.deepEqual(evidence.sourceHashes,source.sourceHashes);
- assert.equal(evidence.ok,true);assert.equal(evidence.migrationCeiling,202);assert.equal(evidence.managedAccess,false);
+ assert.equal(evidence.ok,true);assert.equal(evidence.migrationCeiling,203);assert.equal(evidence.managedAccess,false);
  const sites=[...source.rpc,...source.gatewayRpc.map((r:{file:string;line:number;name:string|null;role:string;resolutions:{name:string}[]})=>({...r,id:r.file+':'+r.line}))];
  for(const site of sites)for(const name of site.name?[site.name]:site.resolutions.map((r:{name:string})=>r.name)){
   const rows=evidence.results.filter((r:{site:string;name:string})=>r.site===site.id&&r.name===name);
@@ -46,7 +46,7 @@ test('all real source RPC sinks and gateway resolutions have real role-dispatch/
 test('RPC diagnostic always rolls back successful invocations and never records results or calls managed services',async()=>{
  const source=await readFile('scripts/audit/run-service-access-diagnostic.mjs','utf8');
  assert.match(source,/PROBE_SUCCEEDED_ROLLBACK/u);assert.match(source,/EXCEPTION WHEN OTHERS/u);assert.match(source,/ROLLBACK;/u);
- assert.match(source,/\[198,199,200,201,202\]\.includes\(migrationCeiling\)/u);
+ assert.match(source,/\[198,199,200,201,202,203\]\.includes\(migrationCeiling\)/u);
  assert.match(source,/NAWASRAH_MAX_MIGRATION:String\(migrationCeiling\)/u);assert.doesNotMatch(source,/supabase\.co|readFile\([^\n]*\.env/u);
  const report=await readFile('docs/operations/TABLE_ACCESS_INVENTORY.md','utf8');
  assert.match(report,/ما يجب إعداده يدوياً في فرانكفورت قبل staging/u);

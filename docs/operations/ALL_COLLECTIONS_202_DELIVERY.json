@@ -128,5 +128,13 @@
     "ExactSHA FULL32+secrets feature/PR",
     "PR5 real merge and exactFULL32+secrets main",
     "Continue package3;no hosted access/deploy"
-  ]
+  ],
+  "superseded": {
+    "successorMigration": 203,
+    "reason": "Actual valid legacy customer payments omit completion history;recorded1000/drawer101000/Home0;see UNDATED_CUSTOMER_RECEIPT_202_BASELINE.json",
+    "fullPush": 39324522959,
+    "fullPR": 39324528974,
+    "conclusion": "cancelled deliberately before merge",
+    "mainUnchanged": "74f8049"
+  }
 }

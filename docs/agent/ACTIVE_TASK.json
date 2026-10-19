@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Complete PR5 with owner-approved202 all-customer receipts:opening/compensation/orders,cash/CliQ/bank/cheque,order allocation once;realDB/readiness/newFULLCI/mainmerge,owner upgrade199->200+201+202;then package3. No hosted access/deploy.",
-  "baselineSha": "79b30bef201907d5a5f44d69db290f55e75102ab",
+  "objective": "Complete PR5 all actual receipts through additive203:legacy payments independent of completion,202opening/methods intact;realDB/currentreadiness/FULL33/merge/owner upgrade200-203;then package3.No hostedaccess/deploy.",
+  "baselineSha": "5b1a97bc7cab6a421795f4f14d41e69f51136ac2",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/phase-c-home-damage-profit",
   "phase": "PACKAGE_F",
@@ -11,10 +11,13 @@
     "Security200 PR4/main74f8049 delivered;FULL30+secrets exactSHA verified",
     "201 feature79b30be pushed;PR5 attached;Gitleaks4.25MB0;all local quality PASS",
     "PR5/79b30be exactFULL31 push39309373132+PR39309433117;secrets39309373142/39309433247 SUCCESS verified",
-    "202 runtime10/SDK142/RPC495/FULLscale2336.947ms/ref164-516-13/upgrade200-202/replay/reset/offline PASS"
+    "202 runtime10/SDK142/RPC495/FULLscale2336.947ms/ref164-516-13/upgrade200-202/replay/reset/offline PASS",
+    "202 corrective5b1a97b committed;Gitleaks4.15MB0;all local quality PASS",
+    "Reproduced202 undated payment1000 omitted with drawer101000;superseded FULL5b1 push+PR canceled before merge",
+    "203 final8realDB/SDK142/RPC495/FULLscale2348.992ms/ref165-516-13/upgrade200-203/replay/reset/offline ALLPASS"
   ],
   "inProgress": [
-    "Gitleaks/normal202 correctivecommit/push/newexactFULL32+secrets;PR5realmainmerge/mainFULL32"
+    "Gitleaks/corrective203commit/push/newexactFULL33+secrets;PR5 merge then mainFULL33"
   ],
   "notStarted": [
     "Packages3-7 ordered in PHASE_C_CONTRACT;each separate PR/fullCI/merge",
@@ -24,10 +27,11 @@
     "201 closed evidence and79b30be exactFULL31 retained unchanged;see HOME_DAMAGE_201_DELIVERY.json",
     "202 10realDB proofs,SDK142/142,RPC495/0SQL42501,FULL p95 2336.947ms<3000;fresh/incremental0diff;upgrade/reset/offline PASS",
     "202 34affectedbrowser Chromium/WebKit390/1440/light/dark/HTTPmap/print/axe;Admin+Customer types/strictlint192Customer PASS",
-    "Final1273Admin192Customer/typesboth/strictlint/buildsboth/SEO/network0escaped PASS;all known test/doc drifts corrected exactly"
+    "Final1273Admin192Customer/typesboth/strictlint/buildsboth/SEO/network0escaped PASS;all known test/doc drifts corrected exactly",
+    "203 final1277Admin192Customer/typesboth/strictlint/buildsboth/networkPASS;sourceUI identical202 so34browser retained"
   ],
   "testsRemaining": [
-    "Gitleaks/newexactFULL32+secrets feature/PR/main;then package3"
+    "Exact new FULL33+secrets feature/PR/main;then package3"
   ],
   "findings": [
     "Legacy opening-stock/receive_inventory bypass proposals only;see LEGACY_PRODUCT_COST_200_AR.md",
@@ -37,15 +41,15 @@
   "activeProcesses": [],
   "prohibitions": [
     "No Frankfurt/Production/hosted access,secrets or deployment",
-    "Committed001-201 immutable;approved package2 additive202 and related read UI only",
+    "Committed001-202 immutable;203 bounded existing-payment read correction within owner all-receipts scope",
     "One writer;no tracked edits during local verification;no assertion/retry/timeout weakening"
   ],
-  "nextExactAction": "All202 local gates PASS. Stage68ownfiles,Gitleaks0,normalcorrectivecommit/push;watch exactFULL32+secrets push/PR5,then genuine mainmerge/mainFULL32;owner202command ready offline,then package3. No hostedaccess.",
-  "checkpointedAt": "2026-10-19T21:03:21.349Z",
+  "nextExactAction": "203 final local PASS;stage/Gitleaks0/commit/pushPR5,newexactFULL33+secrets pushPR,merge/mainFULL33 then package3",
+  "checkpointedAt": "2026-10-19T22:04:31.108Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "42AB5D5D135B43D0DE069F52CC10FA36D490707C748688662A87E17C3DA0E2E5",
-  "filesTouchedCount": 68,
-  "filesTouchedManifestSha256": "f9f7451f2e79ccfd3bc086f2fd517182c4b70afdbee48988e298a5b3abf1686f"
+  "workingTreeFingerprint": "05F6B7AB0BEE403A30F94AA230E328A4FE0170DA3D3C176E6A0440C3EB401EE2",
+  "filesTouchedCount": 48,
+  "filesTouchedManifestSha256": "dac9c510bb501330b12702f190d6c16ed999e72b4f070770ccfd8fdddab60960"
 }

@@ -7,10 +7,6 @@
     },
     {
       "code": " M",
-      "path": "docs/agent/HOME_DAMAGE_201.md"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
@@ -31,11 +27,11 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/HOME_DAMAGE_201_AR.md"
+      "path": "docs/operations/ALL_COLLECTIONS_202_AR.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/HOME_DAMAGE_201_DELIVERY.json"
+      "path": "docs/operations/ALL_COLLECTIONS_202_DELIVERY.json"
     },
     {
       "code": " M",
@@ -59,10 +55,6 @@
     },
     {
       "code": " M",
-      "path": "e2e/package-f-home-harness.tsx"
-    },
-    {
-      "code": " M",
       "path": "scripts/agent/lib.mjs"
     },
     {
@@ -79,19 +71,7 @@
     },
     {
       "code": " M",
-      "path": "scripts/audit/source-before-home-damage201.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/build-acl-reference201.mjs"
-    },
-    {
-      "code": " M",
       "path": "scripts/operations/frankfurt-owner-build.mjs"
-    },
-    {
-      "code": " M",
-      "path": "scripts/operations/frankfurt-reference201.mjs"
     },
     {
       "code": " M",
@@ -111,30 +91,6 @@
     },
     {
       "code": " M",
-      "path": "src/features/dashboard/DashboardHome.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/features/reports/ReportsCenterView.tsx"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/dashboard.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/services/supabase/reports.service.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/types/dashboard.ts"
-    },
-    {
-      "code": " M",
-      "path": "src/types/reports.ts"
-    },
-    {
-      "code": " M",
       "path": "tests/canonical-receivables197.test.ts"
     },
     {
@@ -147,19 +103,11 @@
     },
     {
       "code": " M",
-      "path": "tests/cheques195-parity.test.ts"
-    },
-    {
-      "code": " M",
       "path": "tests/go-live-integration164.test.ts"
     },
     {
       "code": " M",
       "path": "tests/historical-reset-source.test.ts"
-    },
-    {
-      "code": " M",
-      "path": "tests/home-damage201.test.ts"
     },
     {
       "code": " M",
@@ -179,99 +127,71 @@
     },
     {
       "code": " M",
-      "path": "tests/withdrawals-integration182.test.ts"
-    },
-    {
-      "code": " M",
       "path": "tests/withdrawals182-admission.test.ts"
     },
     {
       "code": "??",
-      "path": "docs/design/OPENING_COLLECTION_CASH_REVIEW_201_AR.md"
+      "path": "docs/operations/ALL_COLLECTIONS_202_SUPERSEDED_CI.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/ALL_COLLECTIONS_202_AR.md"
+      "path": "docs/operations/ALL_COLLECTIONS_203_AR.md"
     },
     {
       "code": "??",
-      "path": "docs/operations/ALL_COLLECTIONS_202_DELIVERY.json"
+      "path": "docs/operations/ALL_COLLECTIONS_203_DELIVERY.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/ALL_COLLECTIONS_202_EVIDENCE.json"
+      "path": "docs/operations/ALL_COLLECTIONS_203_EVIDENCE.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/ALL_COLLECTIONS_202_SCALE.json"
+      "path": "docs/operations/ALL_COLLECTIONS_203_SCALE.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/HOME_DAMAGE_201_CI.json"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_203.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/OPENING_COLLECTION_CASH_201_BASELINE.json"
+      "path": "docs/operations/UNDATED_CUSTOMER_RECEIPT_202_BASELINE.json"
     },
     {
       "code": "??",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_202.json"
+      "path": "scripts/operations/build-acl-reference203.mjs"
     },
     {
       "code": "??",
-      "path": "e2e/package-f-collections202.spec.ts"
+      "path": "scripts/operations/frankfurt-owner-upgrade203.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/audit/collections202-hunks.json"
+      "path": "scripts/operations/frankfurt-reference203.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/audit/source-before-collections202.mjs"
+      "path": "scripts/testing/run-all-collections-upgrade203-runtime.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/operations/build-acl-reference202.mjs"
+      "path": "scripts/testing/run-all-collections203-gates.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/operations/frankfurt-owner-upgrade202.mjs"
+      "path": "scripts/testing/run-all-collections203-runtime.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/operations/frankfurt-reference202.mjs"
+      "path": "scripts/testing/run-all-collections203-scale.mjs"
     },
     {
       "code": "??",
-      "path": "scripts/testing/run-all-collections-upgrade202-runtime.mjs"
+      "path": "supabase/migrations/203_customer_payment_receipts_without_completion.sql"
     },
     {
       "code": "??",
-      "path": "scripts/testing/run-all-collections202-gates.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-all-collections202-runtime.mjs"
-    },
-    {
-      "code": "??",
-      "path": "scripts/testing/run-all-collections202-scale.mjs"
-    },
-    {
-      "code": "??",
-      "path": "src/features/reports/CustomerCollectionsSection.tsx"
-    },
-    {
-      "code": "??",
-      "path": "src/utils/customerCollections.ts"
-    },
-    {
-      "code": "??",
-      "path": "supabase/migrations/202_all_customer_collections_read_model.sql"
-    },
-    {
-      "code": "??",
-      "path": "tests/all-customer-collections202.test.ts"
+      "path": "tests/all-customer-collections203.test.ts"
     }
   ]
 }

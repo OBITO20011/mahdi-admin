@@ -1,0 +1,49 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-all-collections203-LdJ2dj",
+  "startedAt": "2026-10-19T21:25:22.336Z",
+  "managedAccess": false,
+  "cases": [
+    {
+      "name": "202 omits four actual legacy methods despite payment evidence;cash drawer101000,Home/report zero",
+      "passed": true,
+      "actual": {
+        "cashInMinorUnits": 1000,
+        "cliqInMinorUnits": 1000,
+        "bankTransferInMinorUnits": 1000,
+        "chequeInMinorUnits": 1000,
+        "otherInMinorUnits": 0,
+        "totalInMinorUnits": 4000
+      }
+    },
+    {
+      "name": "203 includes all four persisted methods by their own dates;no synthetic completion,revenue/profit/debt unchanged;one read body only",
+      "passed": true
+    },
+    {
+      "name": "legacy payment and registered-cheque replay unchanged,including sequences",
+      "passed": true
+    },
+    {
+      "name": "legacy cash/CliQ/transfer reversals remove exactly each payment,refunds separate,cheque original retained",
+      "passed": true
+    },
+    {
+      "name": "owner opening3cash+1CliQ+order2cash+mixed4cash=10 once,plus legacy cheque1,total11;drawer109000;modern gross30/profit24 only",
+      "passed": true
+    },
+    {
+      "name": "legacy receipt before boundary excluded;actual later reversal signed -250,whole day unchanged",
+      "passed": true
+    },
+    {
+      "name": "known order branch attribution unchanged;legacy card50 visible as other instead of silently discarded;no drawer/profit change",
+      "passed": true
+    },
+    {
+      "name": "203 replay zero effects;private facts still denied;unchanged DB-lint policy",
+      "passed": true
+    }
+  ],
+  "ok": true,
+  "endedAt": "2026-10-19T21:27:13.671Z"
+}

@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "migrationCeiling": 203,
+  "managedAccess": false,
+  "recordedAt": "2026-10-19T22:04:08.520Z",
+  "sqlSha256": "6b5b9b7904874cf7359785f6dea882413fd0430a2709a0de0db32290f6ea4f64",
+  "scope": "One existing read function:actual payment and reversal evidence independent of sales completion;001-202 immutable;no writer/role/branch/revenue/profit change",
+  "runtime": {
+    "file": "ALL_COLLECTIONS_203_EVIDENCE.json",
+    "cases": 8,
+    "passed": true,
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-all-collections203-LdJ2dj"
+  },
+  "sdk": {
+    "file": "TABLE_ACCESS_AFTER_203.json",
+    "queries": 142,
+    "errors": 0
+  },
+  "rpc": {
+    "file": "SERVICE_ACCESS_DIAGNOSTIC.json",
+    "probes": 495,
+    "sql42501": 0
+  },
+  "scale": {
+    "file": "ALL_COLLECTIONS_203_SCALE.json",
+    "passed": true,
+    "counts": {
+      "skus": 5000,
+      "items": 450000,
+      "orders": 150000,
+      "shifts": 1460,
+      "returns": 15000,
+      "families": 200,
+      "payments": 200000,
+      "receipts": 20000,
+      "customers": 10000,
+      "movements": 1200000,
+      "suppliers": 100,
+      "replacements": 5000
+    },
+    "timings": [
+      {
+        "name": "before202-home",
+        "p95": 2433.94,
+        "samples": 20
+      },
+      {
+        "name": "after203-home",
+        "p95": 2348.992,
+        "samples": 20
+      }
+    ],
+    "limitMs": 3000,
+    "datedFactsExact202Parity": true
+  },
+  "reference": {
+    "manifestDigest": "fc3df5e466a0d35e19beb3f4f6eff8c9e1227be657407c85a39a06f9e502e310",
+    "files": 165,
+    "functions": 516,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferenceCount": 0
+  },
+  "upgrade": {
+    "ok": true,
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-legacy-cost-upgrade203-h4m8cu",
+    "applied": [
+      "200",
+      "201",
+      "202",
+      "203"
+    ],
+    "recorded": [
+      "200",
+      "201",
+      "202",
+      "203"
+    ],
+    "replayWrite": false,
+    "managedAccess": false
+  },
+  "reset": {
+    "passed": true,
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-trial-reset-kuCaJf",
+    "damageEvidenceEmpty": true,
+    "legacyReceiptBeforeReset": 500,
+    "openingCollectionBeforeReset": 3000,
+    "openingCollectionsEmpty": true,
+    "ownerRetained": true,
+    "verifiedTotpRetained": true,
+    "mainWarehousePreserved": true,
+    "storageUncachedStatus": 400,
+    "storageBodyStatusCode": "404",
+    "catalogDifferences": 0
+  },
+  "offline": {
+    "ok": true,
+    "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline203-2026-10-19T22-03-08-818Z",
+    "remoteWriteAttempted": false
+  },
+  "localQuality": {
+    "adminUnits": 1277,
+    "customerUnits": 192,
+    "typesAdmin": true,
+    "typesCustomer": true,
+    "strictLint": true,
+    "builds": {
+      "admin": true,
+      "customer": true
+    },
+    "networkIsolation": {
+      "externalRequestsEscaped": 0,
+      "productionRequestsEscaped": 0
+    },
+    "report": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c203-quality-XqAIgF",
+    "browserPassed": 34,
+    "browserEvidence": "ALL_COLLECTIONS_202_DELIVERY.json",
+    "browserReuseReason": "203 frontend source byte-identical to202;no browser source/config changes"
+  },
+  "priorEvidence": [
+    "HOME_DAMAGE_201_DELIVERY.json",
+    "ALL_COLLECTIONS_202_DELIVERY.json"
+  ],
+  "supersededCI": "ALL_COLLECTIONS_202_SUPERSEDED_CI.json",
+  "remaining": [
+    "Gitleaks/normal corrective commit/push",
+    "Exact new SHA FULL33+secrets feature/PR",
+    "PR5 genuine merge then exactFULL33+secrets main",
+    "Package3 sales history;no hosted access/deploy"
+  ]
+}

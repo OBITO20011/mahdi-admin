@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-19T20:29:25.462Z",
-  "migrationCeiling": 202,
+  "startedAt": "2026-10-19T21:32:51.111Z",
+  "migrationCeiling": 203,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-j9JANQ",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-DugTH8",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -37905,7 +37905,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-19T20:30:58.162Z",
+  "endedAt": "2026-10-19T21:34:28.758Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -38269,7 +38269,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        589
+        603
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },
