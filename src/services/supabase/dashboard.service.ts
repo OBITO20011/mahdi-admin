@@ -31,7 +31,13 @@ const nullableNumberValue = (value: unknown): number | null => {
   return numberValue(value);
 };
 
+// Missing or malformed capability is unavailable, never an invented zero.
+const collectedMinorValue = (value: unknown): number | null =>
+  typeof value === 'number' && Number.isSafeInteger(value) ? value : null;
+
 const mapSummary = (value: Record<string, unknown>): HomeDashboardSummary => ({
+  todayCashCollectedInMinorUnits: collectedMinorValue(value.todayCashCollectedInMinorUnits),
+  todayCliqCollectedInMinorUnits: collectedMinorValue(value.todayCliqCollectedInMinorUnits),
   todaySalesInMinorUnits: numberValue(value.todaySalesInMinorUnits),
   todayCompletedOrders: numberValue(value.todayCompletedOrders),
   monthSalesInMinorUnits: numberValue(value.monthSalesInMinorUnits),

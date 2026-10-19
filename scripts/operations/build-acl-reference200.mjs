@@ -13,7 +13,7 @@ import {readRealtimePublication,realtimePublicationSql} from '../testing/realtim
 import {functionReference,DEFAULT_WORKDIR,assertOutsideRepository} from './frankfurt-owner-build.mjs';
 import {readNotificationSnapshot} from './frankfurt-notification-hold.mjs';
 import {assessBuildCron} from './build-cron-report.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';
+import {inventoryBeforeHomeDamage201 as inventory200} from '../audit/source-before-home-damage201.mjs';
 import {assertReady200Reference,ready200ReferenceName,assertReady200Catalog} from './frankfurt-reference200.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),cli=path.join(root,'node_modules/supabase/dist/supabase.js');
 export async function buildReady200Reference(args=[]){
@@ -22,7 +22,7 @@ export async function buildReady200Reference(args=[]){
   assertOutsideRepository(target);await mkdir(path.dirname(target),{recursive:true});assertOutsideRepository(await realpath(path.dirname(target)),await realpath(root));
   await assert.rejects(()=>readFile(target),{code:'ENOENT'},'REFERENCE_ALREADY_EXISTS');
   const output=await mkdtemp(path.join(tmpdir(),'nawasrah-reference200-')),report={startedAt:new Date().toISOString(),managedAccess:false,output,target};
-  const manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=200),source=await inventory();
+  const manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=200),source=await inventory200();
   const proofText=canonicalLf(await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_200.json'),'utf8')),proof=JSON.parse(proofText);
   const project='nawasrah-reference200-test',executor=executorFor(['--container','supabase_db_'+project]);let local,stage='base199';
   const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,r.stderr);return r.stdout.trim();};
@@ -52,7 +52,7 @@ export async function buildReady200Reference(args=[]){
       catalogQuerySha256:sha256(schemaCatalogSql),functions,realtimeQuerySha256:sha256(realtimePublicationSql),realtimeSha256:sha256(JSON.stringify(final.realtimePublication)),
       prefixes,freshIncrementalDifferenceCount:0,notificationSnapshot,cronAudit,
       readiness:{sourceHashes:source.sources,accessEvidenceSha256:sha256(proofText),coverage:proof.coverage,queries:proof.results.length,errors:0}};
-    assertReady200Reference(reference,manifest,proofText,source);assert.deepEqual((await inventory()).sources,source.sources);
+    assertReady200Reference(reference,manifest,proofText,source);assert.deepEqual((await inventory200()).sources,source.sources);
     assert.deepEqual((await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=200),manifest);
     await writeFile(target,JSON.stringify(reference,null,2)+'\n',{flag:'wx'});Object.assign(report,{ok:true,migrations:162,functions,realtimeMembers:13,freshIncrementalDifferenceCount:0});
   }catch(error){Object.assign(report,{ok:false,stage,error:error.message});throw error;}

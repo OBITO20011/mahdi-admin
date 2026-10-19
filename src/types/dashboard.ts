@@ -123,6 +123,8 @@ export interface HomeDashboardAccess {
 }
 
 export interface HomeDashboardSummary {
+  todayCashCollectedInMinorUnits?: number | null;
+  todayCliqCollectedInMinorUnits?: number | null;
   todaySalesInMinorUnits: number;
   todayCompletedOrders: number;
   monthSalesInMinorUnits: number;

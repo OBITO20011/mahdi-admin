@@ -79,6 +79,18 @@ export async function fetchOperationalBusinessReportFromSupabase(
       }
     }
   }
+  const damage = sales.damageLosses === undefined ? null : recordValue(sales.damageLosses);
+  if (damage) {
+    const validMoney = (v: unknown) => typeof v === 'number' && Number.isSafeInteger(v) && v >= 0;
+    if (!validMoney(damage.totalInMinorUnits) || !validMoney(damage.additionalInMinorUnits)
+      || !validMoney(damage.alreadyIncludedInMinorUnits) || !Array.isArray(damage.reasons)
+      || Number(damage.totalInMinorUnits) !== Number(damage.additionalInMinorUnits) + Number(damage.alreadyIncludedInMinorUnits)
+      || damage.reasons.some((value) => {
+        const row = recordValue(value);
+        return !textValue(row.code) || !validMoney(row.count) || !validMoney(row.quantity)
+          || !validMoney(row.amountInMinorUnits) || !validMoney(row.alreadyIncludedInMinorUnits);
+      })) throw new Error('بيانات خسائر التلف غير مكتملة. أعد تحميل التقرير.');
+  }
   const inventory = recordValue(payload.inventory);
   const inventoryMovements = recordValue(payload.inventoryMovements);
 
@@ -100,6 +112,14 @@ export async function fetchOperationalBusinessReportFromSupabase(
       branchName: textValue(period.branchName) || 'الفرع الحالي',
     },
     sales: {
+      ...(damage ? {damageLosses: {
+        total: moneyValue(damage.totalInMinorUnits), additional: moneyValue(damage.additionalInMinorUnits),
+        alreadyIncluded: moneyValue(damage.alreadyIncludedInMinorUnits),
+        reasons: (damage.reasons as unknown[]).map((value) => {
+          const row = recordValue(value);return {code: textValue(row.code),count: numberValue(row.count),quantity: numberValue(row.quantity),
+            amount: moneyValue(row.amountInMinorUnits),alreadyIncluded: moneyValue(row.alreadyIncludedInMinorUnits)};
+        }),
+      }} : {}),
       orderCount: numberValue(sales.orderCount),
       posOrderCount: numberValue(sales.posOrderCount),
       websiteOrderCount: numberValue(sales.websiteOrderCount),

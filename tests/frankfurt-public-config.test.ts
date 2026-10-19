@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {restoreHomeDamage201SourceHashes} from '../scripts/audit/source-before-home-damage201.mjs';
 import assert from 'node:assert/strict';
 import {readFile,mkdtemp,mkdir,writeFile,copyFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -22,7 +23,7 @@ test('both public defaults Frankfurt;historical evidence admits exactly two lite
  assert.deepEqual(restored,oldProof.sourceHashes);
  const current=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_STAGING_198.json','utf8'));
  assert.equal(current.migrationCeiling,198);assert.equal(current.managedAccess,false);assert.equal(current.applicationReady,true);
- assert.deepEqual(current.sourceHashes,source.sources);assert.deepEqual(verifyProbeCoverage(source,current.results),current.coverage);
+ assert.deepEqual(current.sourceHashes,restoreHomeDamage201SourceHashes(source.sources));assert.deepEqual(verifyProbeCoverage(source,current.results),current.coverage);
  assert.ok(current.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
  const services=JSON.parse(await readFile('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','utf8'));
  assert.deepEqual(services.oldReferences.filter((r:{category:string})=>['APP_FALLBACK','CSP_CONNECT_SRC'].includes(r.category)),[]);

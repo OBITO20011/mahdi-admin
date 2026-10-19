@@ -1,3 +1,4 @@
+import {DamageLossReportSection} from './DamageLossReportSection';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Activity,
@@ -329,8 +330,10 @@ export const ReportsCenterView: React.FC = () => {
             <MetricCard label="المصاري المرجّعة" value={money(report.sales.refunds)} hint="كاش وCliQ؛ لا تشمل خفض الذمة" icon={HandCoins} tone="rose" />
             <MetricCard label="الذمم" value={money(report.balances.customerDue)} hint="رصيد العملاء الحالي وقت قراءة التقرير" icon={Users} tone="rose" />
             <MetricCard label="المصاريف" value={money(report.expenses.total)} hint="المصاريف غير المعكوسة خلال الفترة" icon={ReceiptText} tone="amber" />
-            <MetricCard label="الربح" value={money(report.sales.netProfit)} hint="بعد المرتجعات والاستبدال واسترجاع التكلفة والمصاريف" icon={TrendingUp} tone={report.sales.netProfit >= 0 ? 'emerald' : 'rose'} />
+            <MetricCard label="الربح" value={money(report.sales.netProfit)} hint="بعد المرتجعات والاستبدال واسترجاع التكلفة والمصاريف والتلف" icon={TrendingUp} tone={report.sales.netProfit >= 0 ? 'emerald' : 'rose'} />
           </section>
+
+          <DamageLossReportSection losses={report.sales.damageLosses} />
 
           {report.ownerWithdrawals && (
             <OwnerWithdrawalsReportSection branchId={activeBranch.id} dateFrom={dateFrom} dateTo={dateTo}

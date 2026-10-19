@@ -47,6 +47,12 @@ const OrderBadge: React.FC<{ order: HomeDashboardOrder }> = ({ order }) => {
 export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserName, currentShift, loading, error, realtimeConnected, onRefresh, onOrders, onAccounts, onInventory, onProducts, onShift, onSell, onReceive, onExpense,onCheques }) => {
   const [period, setPeriod] = useState<'day' | 'week' | 'month'>('day');
   const { summary, financialFactsAvailable: available } = data;
+  const collectedAvailable = available && summary.todayCashCollectedInMinorUnits != null && summary.todayCliqCollectedInMinorUnits != null;
+  const collectedValue = loading ? 'جاري التحميل…' : error ? 'تعذر تحميل المقبوض' : money(
+    collectedAvailable ? summary.todayCashCollectedInMinorUnits! + summary.todayCliqCollectedInMinorUnits! : null, collectedAvailable);
+  const collectedNote = loading ? 'جارٍ تحديث التحصيل' : error ? 'أعد المحاولة' : collectedAvailable
+    ? <span className="flex flex-wrap gap-x-3 gap-y-1"><span>كاش {money(summary.todayCashCollectedInMinorUnits, true)}</span><span>CliQ {money(summary.todayCliqCollectedInMinorUnits, true)}</span></span>
+    : 'تفصيل كاش / CliQ غير متاح في قراءة الرئيسية';
   const days = [...data.sevenDaySales].sort((a, b) => a.date.localeCompare(b.date));
   const date = new Date(data.generatedAt);
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Amman', year: 'numeric', month: '2-digit', day: '2-digit' }).format(date);
@@ -90,14 +96,14 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
         <div data-testid="home-kpis">
         <KpiGrid phonePairs className="lg:hidden">
           <KpiCard label="طلبات اليوم" value={summary.todayCompletedOrders} note={`${summary.newOrdersCount} طلب جديد`} />
-          <KpiCard label="المقبوض اليوم" value="غير متاح" note="كاش / CliQ" />
+          <KpiCard label="المقبوض اليوم" value={collectedValue} note={collectedNote} className="[&>div:nth-child(2)]:text-xl" />
           <KpiCard label="ذمم العملاء" value={money(summary.customerReceivablesInMinorUnits, available)} className="[&>div:nth-child(2)]:text-xl" />
           <KpiCard label="تنبيهات المخزون" value={stockIssues} note="أصناف تحتاج متابعة" />
         </KpiGrid>
         <KpiGrid className="hidden lg:grid">
           <KpiCard label={periodLabel} value={money(periodSales, available)} note={`${summary.todayCompletedOrders} طلب مكتمل اليوم`} className="[&>div:nth-child(2)]:text-xl xl:[&>div:nth-child(2)]:text-2xl" />
           <KpiCard label="صافي الشهر" value={money(summary.monthNetSalesInMinorUnits, available)} note="بعد استحقاق المرتجعات" className="[&>div:nth-child(2)]:text-xl xl:[&>div:nth-child(2)]:text-2xl" />
-          <KpiCard label="المقبوض اليوم" value="غير متاح" note="تفصيل كاش / CliQ غير متاح في قراءة الرئيسية" className="[&>div:nth-child(2)]:text-xl" />
+          <KpiCard label="المقبوض اليوم" value={collectedValue} note={collectedNote} className="[&>div:nth-child(2)]:text-xl" />
           <KpiCard label="ذمم العملاء" value={money(summary.customerReceivablesInMinorUnits, available)} note={<button type="button" className="min-h-11 text-right text-nw-primary" onClick={onAccounts}>مراجعة العملاء والذمم</button>} className="[&>div:nth-child(2)]:text-xl xl:[&>div:nth-child(2)]:text-2xl" />
         </KpiGrid>
         </div>
@@ -141,11 +147,14 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
                   <div><dt className="text-nw-muted">بداية الوردية</dt><dd className="m-0 mt-1 font-bold"><bdi dir="ltr">{formatUiTime(shift.startTime)}</bdi></dd></div>
                 </dl>
               </div>
-              <dl className="mt-4 hidden space-y-3 text-sm lg:block">
+              <dl data-testid="home-shift-flows" className="mt-4 space-y-3 text-sm">
                 {[
                   ['الرصيد الافتتاحي', shift.openingCash], ['مبيعات كاش', shift.totalCashSales],
                   ['سندات قبض كاش', shift.cashReceipts], ['مرتجعات مدفوعة كاش', -shift.cashRefunds],
                   ['مصروفات من الدرج', -shift.cashExpenses],
+                  ['دفعات موردين من الدرج', -shift.cashSupplierPayments],
+                  ...(shift.ownerWithdrawals !== undefined ? [['سحوبات المالك', -shift.ownerWithdrawals]] : []),
+                  ...(shift.ownerWithdrawalReturns !== undefined ? [['إرجاع سحوبات المالك', shift.ownerWithdrawalReturns]] : []),
                 ].map(([label, value]) => <div key={String(label)} className="flex items-center justify-between gap-3"><dt className="text-nw-muted">{label}</dt><dd className="m-0"><MoneyText amount={Number(value)} /></dd></div>)}
                 <div className="flex items-center justify-between gap-3 rounded-xl bg-nw-surface-2 p-3"><dt>النقد المتوقع بالصندوق</dt><dd className="m-0 text-xl font-bold"><MoneyText amount={shift.expectedCash} /></dd></div>
               </dl>

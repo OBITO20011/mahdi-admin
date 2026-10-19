@@ -8,7 +8,7 @@
 
 169 موضعSDK .rpc و4 موضعRESTGateway،163 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
 
-قاعدة200 محلية جديدة: 495 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،119 نجاحمعrollback،376 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
+قاعدة201 محلية جديدة: 495 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،119 نجاحمعrollback،376 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
 
 حدالقياسصريح:أُرسلتقيممحليةمحايدةمُنمّطةحسبتوقيعSQL(معرفعميل/فرع/مستودعfixtureحيثيوجد،NULL/JSONفارغلغيره)،وليستجميعحمولاتالتدفّقاتالصحيحةمنواجهةالتطبيق. النصالأصليلكلاستدعاءومعاملاتهفيSERVICE_ACCESS_INVENTORY.json؛قيمةكلprobeوأثرهفيSERVICE_ACCESS_DIAGNOSTIC.json. لا نسمّي274خطأتحققنجاحاًوظيفياً ولا42501. كلنجاحوكلخطأداخلsubtransactionأُرجع؛لاأثرماليأومخزنيباقٍ. اختباراتالمساراتالمتكاملةالقائمةتبقىمطلوبة؛هذهالإضافةتثبتEXECUTE/dispatchوليسإتمامكلسيناريو.
 
@@ -44,7 +44,7 @@
 | record_customer_order_payment_once؛src/services/supabase/customerAccounts.service.ts:135 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_customer_debt_aging؛src/services/supabase/customerDebtAging.service.ts:8 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | get_customer_statement؛src/services/supabase/customerStatement.service.ts:7 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
-| get_home_dashboard؛src/services/supabase/dashboard.service.ts:120 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_home_dashboard؛src/services/supabase/dashboard.service.ts:126 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | preview_supplier_receipt_cancellation؛src/services/supabase/directReceiving.service.ts:21 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_supplier_receipts_page؛src/services/supabase/directReceiving.service.ts:154 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | resolve_legacy_supplier_receipt_replay_v1؛src/services/supabase/directReceiving.service.ts:260 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
@@ -268,7 +268,7 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 | tests/build-cron-report.test.ts | 11, 19 | TEST_CONTRACT |
 | tests/fixtures/enqueue-order-push-before139.sql | 23 | TEST_CONTRACT |
 | tests/frankfurt-preparation.test.ts | 23, 55 | TEST_CONTRACT |
-| tests/frankfurt-public-config.test.ts | 17 | TEST_CONTRACT |
+| tests/frankfurt-public-config.test.ts | 18 | TEST_CONTRACT |
 | tests/frankfurt-reference150.test.ts | 75 | TEST_CONTRACT |
 | tests/frankfurt-staging-csp.test.ts | 5 | TEST_CONTRACT |
 | tests/order-push-url139.test.ts | 15 | TEST_CONTRACT |
@@ -327,4 +327,4 @@ node scripts/audit/run-service-access-diagnostic.mjs
 node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>
 ```
 
-لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على200 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
+لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على201 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.

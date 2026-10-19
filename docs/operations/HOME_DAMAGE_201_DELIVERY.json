@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "migrationCeiling": 201,
+  "managedAccess": false,
+  "sqlSha256": "ec24cfadafbd1fff55f0fe1e66c9480a04f490b41185d1be970fa2dfa23ad9de",
+  "runtime": {
+    "file": "HOME_DAMAGE_201_EVIDENCE.json",
+    "cases": 11,
+    "passed": true
+  },
+  "scale": {
+    "file": "HOME_DAMAGE_201_SCALE.json",
+    "passed": true,
+    "p95BeforeMs": 2497.512,
+    "p95AfterMs": 2598.207,
+    "limitMs": 3000
+  },
+  "sdk": {
+    "file": "TABLE_ACCESS_AFTER_201.json",
+    "queries": 142,
+    "errors": 0
+  },
+  "rpc": {
+    "file": "SERVICE_ACCESS_DIAGNOSTIC.json",
+    "probes": 495,
+    "sql42501": 0
+  },
+  "reference": {
+    "manifestDigest": "23c80040022fd0ca9ef2900ea00cc4c03d704e1d79edeff8d9d2c9c277647c16",
+    "files": 163,
+    "functions": 516,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferenceCount": 0
+  },
+  "upgrade": {
+    "passed": true,
+    "applied": [
+      "201"
+    ],
+    "recorded": [
+      "201"
+    ],
+    "replayWrite": false
+  },
+  "reset": {
+    "passed": true,
+    "damageEvidenceBeforeReset": 1,
+    "damageEvidenceEmpty": true,
+    "ownerRetained": true,
+    "verifiedTotpRetained": true,
+    "mainWarehousePreserved": true,
+    "storageUncachedStatus": 400,
+    "storageBodyStatusCode": "404",
+    "catalogDifferences": 0
+  },
+  "offline": {
+    "passed": true,
+    "remoteWriteAttempted": false,
+    "output": "offline201-2026-10-19T19-04-08-729Z"
+  },
+  "remaining": [
+    "Gitleaks/commit/PR/exact FULL31+secrets/main merge/main FULLCI"
+  ],
+  "localQuality": {
+    "adminTypes": true,
+    "customerTypes": true,
+    "strictLint": true,
+    "adminUnits": 1266,
+    "customerUnits": 192,
+    "browser201": 24,
+    "browserEngines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "priorAffectedUnchanged": 26,
+    "customerLauncherCorrection": "Initial root cwd rejected missing customer files;correct customer-web cwd passed192 without changing tests"
+  }
+}

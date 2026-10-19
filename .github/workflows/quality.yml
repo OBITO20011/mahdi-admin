@@ -220,7 +220,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -277,6 +277,9 @@ jobs:
         if: matrix.suite == 'legacy-product-cost'
         run: node scripts/testing/run-legacy-product-cost-gates.mjs
 
+      - name: Home collected and immutable damage201 contracts
+        if: matrix.suite == 'home-damage201'
+        run: node scripts/testing/run-home-damage201-gates.mjs
       - name: Prove136 read-only FIFO aging,canonical balance and role boundaries
         if: matrix.suite == 'package-f-aging'
         run: npm run test:package-f:aging

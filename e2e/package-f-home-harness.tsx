@@ -1,3 +1,4 @@
+import {DamageLossReportSection} from '../src/features/reports/DamageLossReportSection';
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import '@fontsource/ibm-plex-sans-arabic/400.css';
@@ -46,6 +47,11 @@ if (params.has('long')) {
 }
 if (params.has('negative')) data.sevenDaySales[1].netSalesInMinorUnits = -150000;
 
+if (params.has('collections')) {
+ data.summary.todayCashCollectedInMinorUnits=params.has('zero')?0:123456;
+ data.summary.todayCliqCollectedInMinorUnits=params.has('zero')?0:54321;
+ if (engine.state.currentShift) Object.assign(engine.state.currentShift,{cashSupplierPayments:91.234,ownerWithdrawals:44.321,ownerWithdrawalReturns:5.123,expectedCash:679.868});
+}
 const Harness = () => {
   const [action, setAction] = useState('');
   const headerState = useAppStoreSelector((state) => `${state.currentModal ?? ''}:${state.activeTab}:${state.activeBranch.id}`);
@@ -54,8 +60,9 @@ const Harness = () => {
     <div className="flex min-w-0 flex-1 flex-col">
       <Header />
       <main className="min-h-0 flex-1 overflow-y-auto" data-testid="home-scroll">
-        {params.has('live') ? <DashboardView /> : <DashboardHome data={data} currentUserName="مهدي النواصرة" currentShift={engine.state.currentShift} loading={false} error={null} realtimeConnected={true}
+        {params.has('live') ? <DashboardView /> : <DashboardHome data={data} currentUserName="مهدي النواصرة" currentShift={engine.state.currentShift} loading={params.has('loading')} error={params.has('error')?'فشل الاتصال':null} realtimeConnected={true}
           onRefresh={() => setAction('refresh')} onOrders={() => setAction('orders')} onAccounts={() => setAction('accounts')} onInventory={() => setAction('inventory')} onProducts={() => setAction('products')} onShift={() => setAction('shifts')} onSell={() => setAction('pos')} onReceive={(id) => setAction(`receive_goods:${id ?? ''}`)} onExpense={() => setAction('add_expense')} />}
+        {params.has('damage') && <div className="p-4"><DamageLossReportSection losses={{total:60,additional:0,alreadyIncluded:60,reasons:[{code:'customer_return_final',count:1,quantity:1,amount:60,alreadyIncluded:60}]}} /></div>}
         <output className="sr-only" data-testid="home-action">{action}</output>
         <output className="sr-only" data-testid="header-action">{headerState}</output>
       </main>

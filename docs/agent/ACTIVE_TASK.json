@@ -2,47 +2,52 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner PhaseC ordered execution. Package1 security200 feature PR4 FULL30+secrets green;genuine main merge and exact mainCI now. Package2 next after delivery. No hosted access/deploy.",
-  "baselineSha": "218f4f2da922ed62d8c526225da047b77de09f1b",
+  "objective": "Owner PhaseC package2: canonical home cash/CliQ collected and complete shift outflows;damage cost evidence and profit once with return already-counted disclosure;no supplier replacement yet. Security merged74f8049,main FULL30+secrets exactSHA verified. No hosted access/deploy.",
+  "baselineSha": "74f8049c6565e6295d3d32d5ecbebdee904b4bb4",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "main",
+  "branch": "codex/phase-c-home-damage-profit",
   "phase": "PACKAGE_F",
   "completed": [
-    "A2 warehouse199 and PhaseB reports delivered218f4f2 FULLgreen;details in PHASE_STATUS",
-    "Security200 PR4 feature38415e9 FULL30 push39287246011/PR39287252817;secrets39287246189/39287253073 SUCCESS"
+    "Security200 PR4/main74f8049 delivered;FULL30+secrets exactSHA verified"
   ],
   "inProgress": [
-    "Genuine no-ff mainmerge of green38415e9;only integration metadata differs"
+    "Review/stage/Gitleaks then commit+PR and exactFULLCI"
   ],
   "notStarted": [
-    "Packages2-7 per PHASE_C_CONTRACT; each separate PR/fullCI/merge",
-    "Item20 design then mandatory Claude review STOP; supplier replacement later"
+    "Packages3-7 ordered in PHASE_C_CONTRACT;each separate PR/fullCI/merge",
+    "Item20 design then mandatory Claude review STOP;supplier replacement later"
   ],
   "testsPassed": [
-    "29security proofs;12direct42501/4currentv4;ACL-only2delta;142SDK/495RPC0SQL42501",
-    "Fresh/incremental200162files513functions13Realtime0diff;upgrade/replay/offline PASS",
-    "Reset199O8k5uW/200LMsLDh actualAuth/Storage/TOTP/warehouse and200grants closed,0diff",
-    "1257Admin192Customer/types/strictlint/Gitleaks0;feature FULL30+secrets exactSHA PASS"
+    "201 OEFdqh11realDB:returns once,collection reversal,physical replacement/parcel costs,WAC/concurrency/ACL/immutability/replay/DBlint",
+    "VYTilG FULL5000SKUs/150000orders/1.2Mmovements:beforep95 2497.512ms,after2598.207ms <3000",
+    "SDK EZ3oRh142/142 zeroerrors;RPC2nYftD495probes/173sites zeroSQL42501",
+    "PqvCdc fresh/incremental201163files516functions13Realtime0diff;CJJfkk upgrade201/replay nowrite",
+    "4ceTJf actualreset PASS:damage erased,Auth/TOTP/mainWH preserved,Storageuncached404,0catalogdiff",
+    "Earlier1266Admin192Customer/types/strictlint/build and40affectedbrowser PASS;new report probe/finalchecks pending",
+    "Final preflight/types Admin+Customer/strictlint1266Admin192Customer/24new+26prior affectedbrowser PASS;offline201 no remoteWrite"
   ],
   "testsRemaining": [
-    "Mainmerge Gitleaks/preflight/focused integration check then exact mainFULL30+secrets"
+    "Gitleaks0/commit/PR/exactFULL31+secrets/realmainmerge/exactFULLmainCI"
   ],
   "findings": [
-    "Additional confirmed legacy bypasses: create_product_with_opening_stock/v2/v3 accept opening2 vs currentv4 rejects; receive_inventory adds2 without receiving document/WAC. Proposal only;no extra grants revoked."
+    "Additional confirmed legacy bypasses: create_product_with_opening_stock/v2/v3 accept opening2 vs currentv4 rejects; receive_inventory adds2 without receiving document/WAC. Proposal only;no extra grants revoked.",
+    "Full201 scale EgixVB failed gate:p95before2168.032ms/after3266.919ms;daily money rescan per date. Aggregate once by day in same201 draft;rerun same fullscale and exact financial proofs,never raise threshold.",
+    "Expanded runtime P2GfFG:9proofs PASS incl reversed collection and replacement historical cost;parcel fixture used configuration wrapper incorrectly and failed Missing parcel_configuration_id before sale. Correct fixture to response.configuration;no product relaxation.",
+    "Final customer-unit launcher initially used Admin cwd;correct customer-web cwd passed192 unchangedtests. No product/test relaxation."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Frankfurt/Production/hosted access,secrets or deployment",
-    "Historical001-199 immutable; only approved additive security200 now",
-    "One writer; no tracked edits during verification; no assertion/retry/timeout weakening"
+    "Historical001-200 immutable;only owner-approved package2 additive201 and related frontend now",
+    "One writer;no tracked edits during local verification;no assertion/retry/timeout weakening"
   ],
-  "nextExactAction": "Finalize genuine security200 mainmerge only metadata delta;preflight/focused gates/Gitleaks,commit/push and FULL30+secrets then package2.",
-  "checkpointedAt": "2026-10-19T17:02:26.318Z",
+  "nextExactAction": "Finaldiff/Gitleaks0 then commit/push/PR;wait exactFULL31+secrets before genuine mainmerge;main exactFULLCI;then package3 saleshistory worktree.",
+  "checkpointedAt": "2026-10-19T19:13:49.786Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "21F90F78A8362B491D8D1C08582EA1DC50251AA205F3D28E6108DA78A44722C7",
-  "filesTouchedCount": 43,
-  "filesTouchedManifestSha256": "04eef8cc329f9b7441971e05983f922317e06c26f9a2786d3ac624ccee887b04"
+  "workingTreeFingerprint": "EE6E6BE2C462F37478053FCAA8FF3153687DA86467A9EA743BB081DAF1DC27A9",
+  "filesTouchedCount": 67,
+  "filesTouchedManifestSha256": "81aa1f0e9e791a8f3e8b43c56b6f63148e10a59491af713f16cdc7c199dcaaa9"
 }

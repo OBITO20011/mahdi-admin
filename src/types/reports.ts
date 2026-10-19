@@ -5,6 +5,13 @@ export interface OperationalReportPeriod {
   branchName: string;
 }
 
+export interface DamageLosses {
+  total: number;
+  additional: number;
+  alreadyIncluded: number;
+  reasons: Array<{code: string; count: number; quantity: number; amount: number; alreadyIncluded: number}>;
+}
+
 export interface OperationalBusinessReport {
   /** Owner only: withdrawals of the period next to the unchanged net profit. */
   ownerWithdrawals?: {
@@ -18,6 +25,7 @@ export interface OperationalBusinessReport {
   generatedAt: string;
   period: OperationalReportPeriod;
   sales: {
+    damageLosses?: DamageLosses;
     orderCount: number;
     posOrderCount: number;
     websiteOrderCount: number;
