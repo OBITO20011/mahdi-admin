@@ -3,10 +3,6 @@
   "files": [
     {
       "code": " M",
-      "path": ".github/workflows/quality.yml"
-    },
-    {
-      "code": " M",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
@@ -15,7 +11,7 @@
     },
     {
       "code": " M",
-      "path": "e2e/package-d-pos-fullstack.spec.ts"
+      "path": "e2e/package-d-pos.spec.ts"
     }
   ]
 }

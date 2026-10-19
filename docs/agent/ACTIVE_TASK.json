@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner19Oct A2:guarded WH-MAIN tool/owner command first after fullCI;then owner-only warehouses,single warehouse defaults/reset preservation;then three PhaseB reports only and STOP. No hosted access/deploy.",
-  "baselineSha": "6841256f52c66c603ff01073abd3f5b9fdab8e34",
+  "baselineSha": "86cc60efd1d48a66525213734941331f47db9f1e",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/warehouse-management",
   "phase": "PACKAGE_F",
@@ -12,7 +12,7 @@
     "Terminology2f0ca2c accepted;urgentWH8118704 delivered FULL28 quality39175816493+secrets39175816436 SUCCESS;owner commands given."
   ],
   "inProgress": [
-    "A2 final gates ALL PASS:1254Admin/192Customer/262browser/types/lint/builds,513function check;199DB/access/reference/upgrade/reset PASS. Gitleaks/commit/fullfeatureCI/mainmergeCI next."
+    "A2 local ALL PASS;86CI allDB/5shards/realPOS/secrets PASS,core only obsolete disabled-single-selector expectation failed. Exact readonly-name/id/nochoice/RPC-ID assertion corrected;6/6 browser and1254Admin/192Customer/types/lint PASS. Commit/fullCI/mainmerge then PhaseB3reports/STOP."
   ],
   "notStarted": [
     "Feature/main CI delivery.",
@@ -35,12 +35,12 @@
     "Backup root project-ref remains old;only owner-approved publicconfig separation and identity guard;no hosted backup/secret/schedule/target change",
     "One writer;no tracked edits during verification;no retries/timeouts/skips/assertion weakening"
   ],
-  "nextExactAction": "Commit POS module-load diagnostic and failure-only trace retention without product/assertion changes;push and require exact fullCI. Then mainmerge/fullCI;PhaseB3docs reports only/STOP.",
-  "checkpointedAt": "2026-10-19T13:02:52.967Z",
+  "nextExactAction": "Commit exact PackageD single-warehouse readonly assertion;push and require full exactSHA CI. Then genuine main merge/fullCI. Three PhaseB drafts/evidence are in Temp/nw-phase-b-*, plus *AR-final.md;copy as docs-only after A2 delivery,fullCI,STOP for review.",
+  "checkpointedAt": "2026-10-19T13:25:48.252Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "780B06D0EA85614C9EDD65AF1EBCE2A8D81C75E3CC5A0F9BC183F700203F89DD",
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "9fbe17a72d310e18f42a5c1fbaa267aed41c8ba569852954b3ba154d7480ae81"
+  "workingTreeFingerprint": "FB53D0693537B4E3C55423816BC769F9DA26E6675F61E817AE0793A6523374FC",
+  "filesTouchedCount": 3,
+  "filesTouchedManifestSha256": "75e6cc463c69a09a6cba4a7b49189f4d03ef3497db6d6db9edf4d2f1dce3a6e5"
 }

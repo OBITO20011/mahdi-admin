@@ -1,5 +1,16 @@
 # Phase status
 
+## Current19Oct — all DB/shards PASS;old single-warehouse expectation corrected
+
+86cc60e quality39256864358:27success/29,onlycore+aggregate failed;secrets
+39256864559 SUCCESS. AllDB/5shards/realPOS PASS. Core353PASS59knownskips,
+2fail(same old package-d-pos:41 both engines):disabled select intentionally
+removed by approved199 readonly-only UI. New exact name/id/no combobox/one
+RPC warehouse ID assertion preserves capacity/quantities/recovery. Local6/6
+both engines,1254Admin192Customer/types/strictlint PASS. Ordinary corrective
+test-only commit/fullCI next,no product/timeouts/retry setting change.
+PhaseB3reports prepared externally,not implemented;main811 unchanged.
+
 ## Current19Oct — A2 feature6841256;POS module diagnosis follow-up
 
 Feature39254861098 has one WebKit dynamic-import failure before financial

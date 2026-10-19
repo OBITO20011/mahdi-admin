@@ -15,13 +15,16 @@ const flavorId = '99999999-9999-4999-8999-999999999999';
 const url = '/e2e/phase6-package-c-harness.html?kind=pos';
 
 test('POS base and single-SKU parcel share physical capacity in the selected warehouse', async ({page}) => {
+  const parcelReads:unknown[]=[];
   await page.route('**/rest/v1/rpc/search_admin_products', route => route.fulfill({json: [{
     id: productId, sku: 'D2', name_ar: 'منتج الاختبار', warehouse_id: warehouseId,
     available_quantity: 5, on_hand_quantity: 5, units_per_sale_unit: 3,
     sale_price_in_minor_units: 1000, default_sale_price_in_minor_units: 2700, is_active: true,
     sale_unit: {code: 'PACK', name_ar: 'طرد'},
   }]}));
-  await page.route('**/rest/v1/rpc/get_pos_configurable_parcel_options_v1', route => route.fulfill({json: {options: []}}));
+  await page.route('**/rest/v1/rpc/get_pos_configurable_parcel_options_v1', route => {
+    parcelReads.push(route.request().postDataJSON());return route.fulfill({json: {options: []}});
+  });
   await page.goto(url);
   await expect(page.getByRole('button', {name: 'بطاقة 💳'})).toHaveCount(0);
   const card = page.locator(`[data-pos-product-card="${productId}"]`);
@@ -38,7 +41,10 @@ test('POS base and single-SKU parcel share physical capacity in the selected war
   const quantities = rows.locator('..').locator('..').locator('[data-pos-quantity]');
   await expect(quantities).toHaveText(['1', '2']);
   await closeCart(page);
-  await expect(page.getByLabel('مستودع البيع', {exact: true})).toBeDisabled();
+  await expect(page.locator('[data-single-warehouse]')).toHaveAttribute('data-single-warehouse',warehouseId);
+  await expect(page.locator('[data-single-warehouse]')).toHaveText('مستودع الاختبار');
+  await expect(page.getByRole('combobox',{name:'مستودع البيع',exact:true})).toHaveCount(0);
+  expect(parcelReads).toEqual([{p_warehouse_id:warehouseId}]);
 });
 
 test('POS parcel builder requires exact allowed composition and edits one instance independently', async ({page}) => {
