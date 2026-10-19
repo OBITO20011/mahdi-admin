@@ -6,6 +6,7 @@ import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {inventory} from './table-access-inventory.mjs';
 import {sourceBeforeStagingConfig} from './source-before-staging-config.mjs';
+import {projectHistoricalWarehouseQuerySites} from './historical-warehouse-query-sites.mjs';
 const file='src/features/crm/CustomerCollectionModal.tsx';
 const declaration="  const isCashier = useAppStoreSelector(state => state.currentUser.role === 'Cashier');\n";
 export function restore198CollectionPresentation(source){
@@ -22,5 +23,5 @@ export async function sourceBefore198Presentation(sources){
  return (await sourceBeforeStagingConfig(sources)).map(s=>s.file===file?{...s,sha256:hash(old)}:s);
 }
 export async function inventoryBefore198Presentation(){
- const source=await inventory();return {...source,sources:await sourceBefore198Presentation(source.sources)};
+ const source=await inventory();return {...projectHistoricalWarehouseQuerySites(source),sources:await sourceBefore198Presentation(source.sources)};
 }

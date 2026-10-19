@@ -1,11 +1,12 @@
 import {FormFields, UiButton, formatJod, Card,ReceivingUnitFields,type ReceivingUnitMode} from '../../components/ui';
+import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
 /**
  * Nawasrah Business Manager - Create Direct Goods Receipt Modal
  * Wholesale Store Goods Receiving Form (Direct receiving bypassing PO approval)
  */
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { useAppStoreActions } from '../../stores/useAppStore';
+import { useAppStoreActions, useAppStoreSelector } from '../../stores/useAppStore';
 import { useDrawerShortfallConfirm } from '../../hooks/useDrawerShortfallConfirm';
 import { formatWholesaleInventory } from '../../utils/inventoryFormatter';
 import {
@@ -56,6 +57,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
   initialProductId,
 }) => {
   const { setToast, refreshProductsFromSupabase } = useAppStoreActions();
+  const activeBranchId=useAppStoreSelector(state=>state.activeBranch?.id);
 
   // Reference Data States
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
@@ -624,6 +626,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
             <label className="text-[11px] font-bold text-nw-muted">
               المستودع المستلم <span className="text-nw-bad">*</span>
             </label>
+            <WarehouseChoice options={warehouses} branchId={activeBranchId} value={selectedWarehouseId} onSingle={setSelectedWarehouseId}>
             <select aria-label="المستودع"
               value={selectedWarehouseId}
               onChange={(e) => setSelectedWarehouseId(e.target.value)}
@@ -636,6 +639,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                 </option>
               ))}
             </select>
+            </WarehouseChoice>
           </div>
 
           {/* Branch is derived from the warehouse to prevent mismatches */}

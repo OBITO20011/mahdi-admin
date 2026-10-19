@@ -8,7 +8,7 @@ const migration = readFileSync(
     import.meta.url
   ),
   'utf8'
-);
+).replaceAll('\r\n','\n');
 
 const adminService = readFileSync(
   new URL(

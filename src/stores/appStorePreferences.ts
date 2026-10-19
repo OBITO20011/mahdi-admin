@@ -17,6 +17,7 @@ export const VALID_ACTIVE_TABS = [
   'assistant',
   'go_live',
   'cheques',
+  'warehouses',
 ] as const;
 
 export type ActiveTab = (typeof VALID_ACTIVE_TABS)[number];

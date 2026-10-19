@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {assertCleanCounts,assertExternalDependents,cleanSeedCounts,dropPublicSql,preservedStateSql,restoreOwnerSql,restoreResetAcl,canonicalResetAcl,resetComparisonDates,uuid} from '../scripts/operations/trial-reset-core.mjs';
+import {assertCleanCounts,assertExternalDependents,cleanSeedCounts,dropPublicSql,preservedStateSql,restoreOwnerSql,restoreResetAcl,canonicalResetAcl,resetComparisonDates,uuid,restoreMainWarehouseSql,assertResetCeiling} from '../scripts/operations/trial-reset-core.mjs';
 import {resetArguments} from '../scripts/operations/frankfurt-trial-reset.mjs';
 import {localTotp} from '../scripts/testing/local-totp.mjs';
 
@@ -69,4 +69,16 @@ test('owner binding uses a UUID and explicit seeded branch code,not role names s
  assert.match(sql,/jsonb_populate_record/u);assert.match(sql,/code='owner'/u);assert.doesNotMatch(sql,/trial\.png/u);
  assert.throws(()=>restoreOwnerSql({profile:p,branch:null,roles:['cashier']}));
  assert.doesNotMatch(preservedStateSql(id),/decrypted_secrets/u,'no Vault plaintext leaves PostgreSQL');
+});
+
+test('current reset admits exact199 only and preserves the named main warehouse,not trial locations',()=>{
+ assert.equal(assertResetCeiling({migrationCeiling:199}),161);
+ for(const migrationCeiling of [138,198,200])assert.throws(()=>assertResetCeiling({migrationCeiling}));
+ const id='92600000-0000-4000-8000-000000000001';
+ const record={branch:{id,code:'BR-MAIN',name_ar:'الفرع الرئيسي',is_active:true},warehouse:{id,branch_id:id,code:'WH-MAIN',name_ar:'اسم عدله المالك',is_active:true}};
+ assert.match(restoreMainWarehouseSql(record),/jsonb_populate_record\(NULL::public.warehouses/u);
+ assert.throws(()=>restoreMainWarehouseSql({...record,warehouse:{...record.warehouse,branch_id:'different'}}));
+ const counts={...cleanSeedCounts,roles:1,profiles:1,user_roles:1,branches:1,warehouses:1};
+ assert.doesNotThrow(()=>assertCleanCounts(counts,true,true,true));
+ assert.throws(()=>assertCleanCounts({...counts,warehouses:2},true,true,true),/RESET_ROW_COUNT:warehouses/u);
 });

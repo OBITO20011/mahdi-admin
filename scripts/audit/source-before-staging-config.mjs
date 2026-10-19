@@ -5,6 +5,7 @@ import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
 import {inventory} from './table-access-inventory.mjs';
 import {restoreUnitSourceHashes} from './source-before-unit-terminology.mjs';
+import {projectHistoricalWarehouseQuerySites} from './historical-warehouse-query-sites.mjs';
 const pins={
  'src/config/supabase-public-config.ts':'35f06dc43da3677958e91878303b7787d4352f68e0d7eec66c49df70e295826f',
  'customer-web/src/config/supabase-public-config.ts':'47bb4a4f235b8d83d1742ce44141fad42ab30910ae4cd1fc1868fa114529807b',
@@ -28,4 +29,4 @@ export async function sourceBeforeStagingConfig(sources){
  }
  return result;
 }
-export async function inventoryBeforeStagingConfig(){const source=await inventory();return {...source,sources:await sourceBeforeStagingConfig(source.sources)};}
+export async function inventoryBeforeStagingConfig(){const source=await inventory();return {...projectHistoricalWarehouseQuerySites(source),sources:await sourceBeforeStagingConfig(source.sources)};}

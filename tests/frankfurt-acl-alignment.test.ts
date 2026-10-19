@@ -21,6 +21,17 @@ test('real saved CRLF and service_role samples normalize only the approved diffe
   assert.equal(compareManagedCatalog(local,{functions:[changed]}).unexpected.length,1);
 });
 
+test('historical090 Windows CRCRLF boundary is only a line ending,never a SQL or bare-CR exemption',()=>{
+ const definition="CREATE FUNCTION public.probe(p_area text) RETURNS void LANGUAGE plpgsql AS $$\nBEGIN\n IF NULLIF(TRIM(p_area), '') IS NULL\r\r\n THEN\n  RAISE EXCEPTION 'required';\n END IF;\nEND;$$;";
+ const local={functions:[{...fn(),definition}]},remote={functions:[{...fn(),definition:definition.replace(/\r+\n/gu,'\n')}]};
+ assert.deepEqual(compareManagedCatalog(local,remote).unexpected,[]);
+ assert.equal(generateAclPlan(local,remote).commandCount,0);
+ assert.equal(compareManagedCatalog(local,{functions:[{...remote.functions[0],definition:remote.functions[0].definition.replace('IS NULL','IS NOT NULL')}]}).unexpected.length,1);
+ assert.equal(compareManagedCatalog(local,{functions:[{...remote.functions[0],definition:remote.functions[0].definition.replace('IS NULL','IS\rNULL')}]}).unexpected.length,1);
+ for(const changed of [{...remote.functions[0],owner:'anon'},{...remote.functions[0],configuration:['search_path=public']},{...remote.functions[0],acl:['anon=X/postgres']}])
+  assert.equal(compareManagedCatalog(local,{functions:[changed]}).unexpected.length,1);
+});
+
 test('real table/default ACL samples generate exact revokes,never service_role or a broad ALL command',()=>{
  const local={tables:[table()],defaultPrivileges:[defaults()]},remote={tables:[table(true)],defaultPrivileges:[defaults(true)]};
  const p=generateAclPlan(local,remote);

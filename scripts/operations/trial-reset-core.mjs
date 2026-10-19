@@ -11,6 +11,11 @@ import {assertManagedCatalog,aclEntries} from './managed-catalog-policy.mjs';
 import {readRealtimePublication} from '../testing/realtime151-contract.mjs';
 
 export const resetCeiling=182;
+const resetFileCounts=Object.freeze({182:151,199:161});
+export function assertResetCeiling(reference){
+ assert.ok(Object.hasOwn(resetFileCounts,reference.migrationCeiling),'RESET_REFERENCE_CEILING');
+ return resetFileCounts[reference.migrationCeiling];
+}
 export function resetComparisonDates(referenceDay,startDay,endDay=startDay){
  for(const day of [referenceDay,startDay,endDay])assert.match(day,/^\d{4}-\d{2}-\d{2}$/u,'RESET_UTC_DATE_REQUIRED');
  return {admission:{beforeBuildDate:referenceDay,afterBuildDate:startDay},rebuild:{beforeBuildDate:startDay,afterBuildDate:endDay}};
@@ -20,8 +25,8 @@ export function resetComparisonDates(referenceDay,startDay,endDay=startDay){
 export const cleanSeedCounts=Object.freeze({advanced_monitoring_checks:22,advanced_monitoring_metrics:1,
  advanced_monitoring_settings:1,audit_logs:1,branches:0,brands:0,business_alert_settings:1,categories:12,
  configurable_parcel_feature_settings:1,go_live_setup_state:1,roles:0,storefront_settings:1,units:11,warehouses:0});
-export function assertCleanCounts(counts,ownerPresent=true,ownerBranch=false){
- const allowed={...cleanSeedCounts,branches:ownerBranch?1:0,roles:ownerPresent?1:0,profiles:ownerPresent?1:0,user_roles:ownerPresent?1:0};
+export function assertCleanCounts(counts,ownerPresent=true,ownerBranch=false,mainWarehouse=false){
+ const allowed={...cleanSeedCounts,branches:ownerBranch?1:0,warehouses:mainWarehouse?1:0,roles:ownerPresent?1:0,profiles:ownerPresent?1:0,user_roles:ownerPresent?1:0};
  for(const [name,n] of Object.entries(counts))assert.equal(n,allowed[name]??0,'RESET_ROW_COUNT:'+name);
  for(const name of Object.keys(allowed))assert.ok(name in counts,'RESET_EXPECTED_TABLE_MISSING:'+name);
 }
@@ -113,8 +118,8 @@ export function assertExternalDependents(rows){
   assert.ok(r.class==='pg_policy'&&r.schema==='storage'&&r.relation==='storage.objects'&&allowed.includes(r.policy),'UNREVIEWED_EXTERNAL_DROP_DEPENDENT:'+r.description);}
 }
 export async function resetUnits(root,reference){
- const manifest=await migrationManifest(root);assert.equal(reference.migrationCeiling,resetCeiling,'RESET_REFERENCE_CEILING');
- assert.deepEqual(manifest,reference.manifest,'RESET_MANIFEST_CHANGED');assert.equal(manifest.length,151);
+ const manifest=await migrationManifest(root),fileCount=assertResetCeiling(reference);
+ assert.deepEqual(manifest,reference.manifest,'RESET_MANIFEST_CHANGED');assert.equal(manifest.length,fileCount);
  const base=await buildEmptyProjectInput(root);const units=[...base.units];
  for(const m of manifest.filter(m=>Number(m.name.slice(0,3))>138))units.push({name:m.name,input:await readFile(path.join(root,'supabase/migrations',m.name))});
  for(const u of units.filter(u=>!u.name.startsWith('034_'))){
@@ -131,6 +136,7 @@ export const restoreOwnerSql=record=>{
  return `BEGIN;DO $owner$ DECLARE b uuid;BEGIN
  IF NOT EXISTS(SELECT 1 FROM auth.users WHERE id=${sqlLiteral(p.id)}::uuid) THEN RAISE EXCEPTION 'OWNER_AUTH_MISSING';END IF;
  ${record.branch?`INSERT INTO public.branches SELECT * FROM jsonb_populate_record(NULL::public.branches,${sqlLiteral(JSON.stringify(record.branch))}::jsonb);b:=${sqlLiteral(uuid(record.branch.id))};`:''}
+ ${record.warehouse?restoreMainWarehouseSql(record):''}
  INSERT INTO public.roles(code,name_ar) VALUES('owner','المالك') ON CONFLICT(code) DO NOTHING;
  INSERT INTO public.profiles(id,full_name,phone,avatar_url,is_active,created_at,updated_at,job_title,branch_id)
  VALUES(${sqlLiteral(p.id)},${sqlLiteral(p.full_name)},${p.phone===null?'NULL':sqlLiteral(p.phone)},NULL,true,
@@ -139,6 +145,13 @@ export const restoreOwnerSql=record=>{
  IF NOT FOUND THEN RAISE EXCEPTION 'OWNER_ROLE_BINDING_MISSING';END IF;
  END $owner$;COMMIT;`;
 };
+export function restoreMainWarehouseSql(record){
+ const w=record.warehouse,b=record.branch;
+ assert.ok(b&&w,'RESET_MAIN_LOCATION_REQUIRED');uuid(w.id);uuid(b.id);
+ assert.equal(b.code,'BR-MAIN');assert.ok(b.name_ar?.trim());assert.equal(b.is_active,true);
+ assert.equal(w.code,'WH-MAIN');assert.ok(w.name_ar?.trim());assert.equal(w.branch_id,b.id);assert.equal(w.is_active,true);
+ return `INSERT INTO public.warehouses SELECT * FROM jsonb_populate_record(NULL::public.warehouses,${sqlLiteral(JSON.stringify(w))}::jsonb);`;
+}
 export async function resetWithExecutor({executor,root,reference,output,repair,clearHistory,emptyStorage,deleteOtherAuth,finalDryRun,ownerId,report={}}){
  const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,'TRIAL_RESET_SQL_FAILED');return r.stdout.trim();};
  const json=async input=>JSON.parse(await sql(input));
@@ -157,6 +170,11 @@ export async function resetWithExecutor({executor,root,reference,output,repair,c
  assert.ok(notifications.jobs.filter(j=>heldJobNames.includes(j.name)).every(j=>j.active===false));
  assert.equal(notifications.jobs.length,5);
  const owner=await json(ownerRecordSql(ownerId));assert.deepEqual(owner.roles,['owner']);
+ if(reference.migrationCeiling===199){
+  const main=await json("SELECT COALESCE(jsonb_agg(to_jsonb(w)),'[]'::jsonb) FROM public.warehouses w WHERE code='WH-MAIN';");
+  assert.equal(main.length,1,'RESET_MAIN_WAREHOUSE_REQUIRED');owner.warehouse=main[0];
+  restoreMainWarehouseSql(owner); // validate location before any destructive work
+ }
  if(owner.branch)assert.equal(owner.branch.id,owner.profile.branch_id,'OWNER_BRANCH_ID_MISMATCH');
  assert.ok(owner.profile.is_active);report.beforeCounts=await readRowCounts(executor);
  const preserved=await json(preservedStateSql(ownerId));assert.ok(preserved.ownerAuth);
@@ -187,7 +205,11 @@ export async function resetWithExecutor({executor,root,reference,output,repair,c
  report.stage='restore-owner';await sql(restoreOwnerSql(owner));
  const afterPreserved=await json(preservedStateSql(ownerId));assert.deepEqual(afterPreserved,preserved,'PRESERVED_AUTH_VAULT_BUCKET_STATE_CHANGED');
  const counts=await readRowCounts(executor);report.afterCounts=counts;
- assertCleanCounts(counts,true,Boolean(owner.branch));
+ assertCleanCounts(counts,true,Boolean(owner.branch),Boolean(owner.warehouse));
+ if(owner.warehouse){
+  assert.deepEqual(await json("SELECT to_jsonb(w) FROM public.warehouses w WHERE code='WH-MAIN';"),owner.warehouse,'RESET_MAIN_WAREHOUSE_CHANGED');
+  report.mainWarehousePreserved=true;
+ }
  assert.equal(await sql('SELECT count(*) FROM supabase_migrations.seed_files;'),'0','RESET_SEED_MUST_NOT_BE_RECORDED');
  assert.deepEqual(await readRealtimePublication(executor),reference.realtimePublication,'RESET_PUBLICATION_MISMATCH');
  report.stage='restore-exact-creation-acl';const rebuilt=await json(schemaCatalogSql);

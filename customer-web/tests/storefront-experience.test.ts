@@ -8,7 +8,7 @@ const migration = readFileSync(
     import.meta.url
   ),
   'utf8'
-);
+).replaceAll('\r\n','\n');
 
 test('guest payment wrapper reuses the guarded checkout core', () => {
   assert.match(migration, /RENAME TO submit_guest_customer_order_core/);

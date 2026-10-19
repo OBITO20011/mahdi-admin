@@ -4,12 +4,12 @@ import test from 'node:test';
 import {readFile} from 'node:fs/promises';
 import {assertChequesCatalog,assertChequesReference} from '../scripts/operations/frankfurt-reference-cheques.mjs';
 import {inventory} from '../scripts/audit/table-access-inventory.mjs';
-import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
+import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/audit/historical-warehouse-query-sites.mjs';
 
 test('195 reference rejects obsolete ceilings;actual SDK evidence exactly covers current source and no cheque table leaks',async()=>{
   assert.throws(()=>assertChequesReference({format:7,migrationCeiling:182},[],null,null),/READY_CHEQUES_REFERENCE_REQUIRED/u);
   const source=await inventory(),proof=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_AFTER_195.json','utf8'));
-  assert.equal(source.migrationCeiling,198);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);
+  assert.equal(source.migrationCeiling,199);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);
   assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,await sourceBefore198Presentation(source.sources));
   assert.deepEqual(proof.coverage,verifyProbeCoverage(source,proof.results));
   assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));

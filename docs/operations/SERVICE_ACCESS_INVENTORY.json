@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 198,
+  "migrationCeiling": 199,
   "managedAccess": false,
   "sourceHashes": [
     {
       "file": "src/App.tsx",
-      "sha256": "06310a5dd244c73de50aff006123d26ec50c1ebb03438d5e1c54288f0da7b319"
+      "sha256": "6fe758edd96d3b73b10d1d879bcd8a77676ef0466c2a847fb09f2b58d8df3ac0"
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",
@@ -41,7 +41,7 @@
     },
     {
       "file": "src/components/layout/sideNavigationModel.ts",
-      "sha256": "ef53292cd378c9e4c3a4a40816cd63e5f20c694266bcab8677a6d34461522618"
+      "sha256": "093a41f378e09a24fa82f6bb1e15f0c11bdb88de2541ceb4ea2606f1218f0d2e"
     },
     {
       "file": "src/components/modals/AllModals.tsx",
@@ -108,6 +108,10 @@
       "sha256": "2d3b4a8013a9bddb6dcce29300749c88f0eb70579cd40bc9473825a1420bfc70"
     },
     {
+      "file": "src/components/ui/singleWarehouseOption.ts",
+      "sha256": "4069f238d26e02b2a6f3f63d7688f0c7bffefc0e864be8cf647d223a6ee1cb17"
+    },
+    {
       "file": "src/components/ui/Surface.tsx",
       "sha256": "3d8991706e103362b48fc0f9994d1313363eae2c369003e2c6db99ccfd61d542"
     },
@@ -126,6 +130,10 @@
     {
       "file": "src/components/ui/UserAvatar.tsx",
       "sha256": "39bd80d9a937d22555450472799cc74030c7657236ca2624a70c3f1783f0cc71"
+    },
+    {
+      "file": "src/components/ui/WarehouseChoice.tsx",
+      "sha256": "fb23c4096691aff86940fb9971f8ef807b796a2eb0e6abdb49f7daa583fb8073"
     },
     {
       "file": "src/config/supabase-public-config.ts",
@@ -245,7 +253,7 @@
     },
     {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-      "sha256": "db9fc5bc1819d9b47f832a5b4c7b56dc0f362accc3af7459d0e5a33228093f5e"
+      "sha256": "fc85481eff8824a0db2c4d3fa5cc060a10e96266f34c397e7936229017a02e9f"
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
@@ -289,7 +297,7 @@
     },
     {
       "file": "src/features/inventory/InventoryOpeningSetupModal.tsx",
-      "sha256": "e17393b4f725879277ef4184bb0e79ec29952d1a2869f08ff8d0b069ea75cf91"
+      "sha256": "b821d4e8fd16e3c6fd0e274d78a85f634f1bf87ef601eade7f8d51761f247aa3"
     },
     {
       "file": "src/features/inventory/InventoryView.tsx",
@@ -297,7 +305,7 @@
     },
     {
       "file": "src/features/inventory/StockCountModal.tsx",
-      "sha256": "2b97d4b0f0bb3a30a326bfdc5c0f9543a3bd329e36a55bf56beb99fa609bd892"
+      "sha256": "32aa2bb6b417b5bd430b95d7d54b91c8ed4debb56e4dfc1439961125deda8d8d"
     },
     {
       "file": "src/features/inventory/WarehouseTransferModal.tsx",
@@ -305,7 +313,7 @@
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
-      "sha256": "93fd86420810276798ac83f9804fe54600a8a33ae1c511bd2e0d8332a3b7e6a3"
+      "sha256": "161f89f8b1c3b7d7d1711e3f208feffff5182fb398db4d14be3443cb35f4a798"
     },
     {
       "file": "src/features/more/InstallAppPanel.tsx",
@@ -385,7 +393,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "05037728f121a07e38f987bedb96517945aab5fccf8f5c1b5b5455669b307a64"
+      "sha256": "0f2919d3b6167b4ea7990dbb417c764e0cff6c41d4c2d1e23ef4afdff4ec1f74"
     },
     {
       "file": "src/features/products/ProductCostCorrectionPanel.tsx",
@@ -401,7 +409,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "8bdc08eac8e04a7606ddc1bc56c6e26383a1e8228eab9747be75278262081bf9"
+      "sha256": "404e01831eeb8f13a6d03d4d30f400bcf1cf61224f8769955a3cd6fa5ed60319"
     },
     {
       "file": "src/features/products/ProductsView.tsx",
@@ -413,7 +421,7 @@
     },
     {
       "file": "src/features/purchases/CreatePurchaseOrderModal.tsx",
-      "sha256": "1b8181f06849c81d9ecff92686131ea01cf7063f3aeb81efadfca4f693cced79"
+      "sha256": "b13084cc5d0b8809ee784ffd96229abe79324b67a42c465b7e8c5bd29b19c088"
     },
     {
       "file": "src/features/purchases/CreateSupplierModal.tsx",
@@ -433,7 +441,7 @@
     },
     {
       "file": "src/features/purchases/ReceiveGoodsModal.tsx",
-      "sha256": "e76a68944d08cc6d57a8bb78558750e9ab0304a32a89cdea8e818f086ce2360e"
+      "sha256": "d41e77ee46e186a2b9a13f1e2f0b66665d388591b22bfe68c40db952fbbe52a8"
     },
     {
       "file": "src/features/purchases/SupplierPaymentModal.tsx",
@@ -470,6 +478,10 @@
     {
       "file": "src/features/users/UsersView.tsx",
       "sha256": "3d8942f23587f1197bbc606de03358d6c1fee4ddd30b527c18b470a67e14b686"
+    },
+    {
+      "file": "src/features/warehouses/WarehousesView.tsx",
+      "sha256": "d1e6be3cae8ec90b5fe1c1833bae0a4c504d93293fa4e134b1328805fb31a123"
     },
     {
       "file": "src/hooks/useCustomerAccounts.ts",
@@ -676,8 +688,12 @@
       "sha256": "ea2ea5e5d41b0f024055ccab9932dd12a343464256a458edcfe2047322148470"
     },
     {
+      "file": "src/services/supabase/warehouses.service.ts",
+      "sha256": "98704b3aad3ac46ba9a8deb33921c5f865f7401015418e32d369c5dce95f95dc"
+    },
+    {
       "file": "src/stores/appStorePreferences.ts",
-      "sha256": "7c84b651510a6c5db2d88c803afa1dced9c2aa3419a15d2e0ebdef12245e74e9"
+      "sha256": "0dc3a67d7620d1702f0d0f24f9c9efba5c04f3c0ce4d1ec97a44362a6c75c0bf"
     },
     {
       "file": "src/stores/modalTypes.ts",
@@ -1114,9 +1130,9 @@
   ],
   "rpc": [
     {
-      "id": "src/features/pos/PosView.tsx:166",
+      "id": "src/features/pos/PosView.tsx:167",
       "file": "src/features/pos/PosView.tsx",
-      "line": 166,
+      "line": 167,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "<callback>",
@@ -3133,6 +3149,32 @@
       "source": "requireClient().rpc(\n    'save_storefront_settings_v3',\n    {\n      p_store_name_ar: input.storeNameAr.trim(),\n      p_whatsapp_number: input.whatsappNumber.trim(),\n      p_cliq_alias: input.cliqAlias.trim(),\n      p_orders_enabled: input.ordersEnabled,\n      p_announcement_text: input.announcementText.trim(),\n      p_business_hours_text: input.businessHoursText.trim(),\n      p_delivery_areas_text: input.deliveryAreasText.trim(),\n      p_delivery_eta_text: input.deliveryEtaText.trim(),\n      p_exchange_policy_text: input.exchangePolicyText.trim(),\n      p_minimum_order_in_minor_units: Math.round(\n        Math.max(0, input.minimumOrder) * 1000\n      ),\n      p_inside_ramtha_delivery_fee_in_minor_units: Math.round(\n        Math.max(0, input.insideRamthaDeliveryFee) * 1000\n      ),\n      p_outside_ramtha_delivery_fee_in_minor_units: Math.round(\n        Math.max(0, input.outsideRamthaDeliveryFee) * 1000\n      ),\n      p_show_newest_products: input.showNewestProducts,\n      p_show_best_sellers: input.showBestSellers,\n      p_show_offers: input.showOffers,\n      p_show_low_stock: input.showLowStock,\n    }\n  )"
     },
     {
+      "id": "src/services/supabase/warehouses.service.ts:28",
+      "file": "src/services/supabase/warehouses.service.ts",
+      "line": 28,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchWarehouseAdministration",
+      "name": "get_owner_warehouses_v1",
+      "dynamic": "'get_owner_warehouses_v1'",
+      "arguments": [],
+      "source": "supabase.rpc('get_owner_warehouses_v1')"
+    },
+    {
+      "id": "src/services/supabase/warehouses.service.ts:38",
+      "file": "src/services/supabase/warehouses.service.ts",
+      "line": 38,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "saveWarehouse",
+      "name": "save_owner_warehouse_v1",
+      "dynamic": "'save_owner_warehouse_v1'",
+      "arguments": [
+        "warehouseSavePayload(input)"
+      ],
+      "source": "supabase.rpc('save_owner_warehouse_v1',warehouseSavePayload(input))"
+    },
+    {
       "id": "customer-web/src/services/catalog.service.ts:165",
       "file": "customer-web/src/services/catalog.service.ts",
       "line": 165,
@@ -3826,6 +3868,7 @@
     "get_operational_business_report",
     "get_operational_orders_page",
     "get_or_create_pos_receipt_token",
+    "get_owner_warehouses_v1",
     "get_owner_withdrawals_report",
     "get_pos_configurable_parcel_options_v1",
     "get_pos_customer_page",
@@ -3883,6 +3926,7 @@
     "reverse_supplier_cheque_claim_payment_v1",
     "reverse_supplier_opening_balance_v1",
     "save_customer",
+    "save_owner_warehouse_v1",
     "save_product_brand",
     "save_product_category",
     "save_product_parcel_configuration_v1",

@@ -10,7 +10,7 @@ import {assertReady198Reference,ready198ReferenceName} from '../scripts/operatio
 import {assert198History,upgrade198Versions,run198} from '../scripts/operations/frankfurt-owner-upgrade198.mjs';
 const root=fileURLToPath(new URL('..',import.meta.url));
 test('198 reference bound to current real DB proof,rejects historical targets,tampered ACL/body/history/publication and readiness',async()=>{
- const manifest=await migrationManifest(root),source=await inventory(),proofText=await readFile('docs/operations/TABLE_ACCESS_AFTER_198.json','utf8'),proof=JSON.parse(proofText);
+ const manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=198),source=await inventory(),proofText=await readFile('docs/operations/TABLE_ACCESS_AFTER_198.json','utf8'),proof=JSON.parse(proofText);
  const publication={publication:{name:'supabase_realtime',owner:'postgres',allTables:false},
   tables:realtime151Tables.map(name=>({schema:'public',name,columns:[],filter:null}))};
  const catalog=structuredClone(proof.catalog),date=proof.startedAt.slice(0,10);

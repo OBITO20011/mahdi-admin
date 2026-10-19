@@ -3,29 +3,29 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner19Oct A2:guarded WH-MAIN tool/owner command first after fullCI;then owner-only warehouses,single warehouse defaults/reset preservation;then three PhaseB reports only and STOP. No hosted access/deploy.",
-  "baselineSha": "2f0ca2c20793083ec17cba7177f8b784533fdaae",
+  "baselineSha": "811870446b033882c40ed04ee997e2699626ddf8",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "main",
+  "branch": "codex/warehouse-management",
   "phase": "PACKAGE_F",
   "completed": [
     "Prior accepted198/withdrawals/cheques/staging/firstowner deliveries preserved in PHASE_STATUS.",
-    "Terminology2f0ca2c accepted by Claude19Oct;mainFULL28quality39173063978+secrets39173064004 SUCCESS;Gitleaks0."
+    "Terminology2f0ca2c accepted;urgentWH8118704 delivered FULL28 quality39175816493+secrets39175816436 SUCCESS;owner commands given."
   ],
   "inProgress": [
-    "A2 urgent WH-MAIN tool real198/replay/refusal/catalog/hold+offline network-denied PASS;types/lint/1243Admin192Customer PASS. Gitleaks/commit/exactFULLCI then owner command immediately."
+    "A2 final gates ALL PASS:1254Admin/192Customer/262browser/types/lint/builds,513function check;199DB/access/reference/upgrade/reset PASS. Gitleaks/commit/fullfeatureCI/mainmergeCI next."
   ],
   "notStarted": [
-    "A2 owner-only branches/warehouses RPC screen,single active warehouse auto-selection,future first-owner default and current reset preservation.",
+    "Feature/main CI delivery.",
     "PhaseB reports only:simplicity,DB abilities/corrections,supplier replacement+damage;STOP after all3. PhaseC blocked pending approval."
   ],
   "testsPassed": [
-    "Prior terminology:1240Admin192Customer,108related browser,fresh198 SDK142/RPC489 no42501,mainFULL28+secrets. No new A2 runtime claim yet."
+    "199guard tlvDuF real roles/v4zero/stock-count/return/concurrency PASS. SDK199ZtXfXG+198m7uKES142each;RPCupGHSP495/0SQL42501;xHkVBo161/513/13/fresh-incremental0. UpgradeMKg5sc/replay PASS;resetEbNj7u WH+owner+TOTP+Vault/bytes+staff deletion/fullcatalog0 PASS. Types0;AST6+ACL9 focused PASS."
   ],
   "testsRemaining": [
-    "Urgent tool Gitleaks/commit/exactFULLCI before owner command;then A2 screen/default/reset and PhaseB gates."
+    "Gitleaks/exactfeatureCI/mainCI;PhaseB3reports.199 SQL proofs unchanged;all local gates completed12:17:28UTC."
   ],
   "findings": [
-    "First-owner creates branch only;warehouses table has no supported management RPC/UI. Reset182 cannot be used on198;update/prove preservation in A2 before reset delivery."
+    "Owner19Oct history+any-product association guard resolved/implemented/proven with concurrency. Owner WH-MAIN receipt success00-06-40-279Z recorded;no hosted access."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -35,12 +35,12 @@
     "Backup root project-ref remains old;only owner-approved publicconfig separation and identity guard;no hosted backup/secret/schedule/target change",
     "One writer;no tracked edits during verification;no retries/timeouts/skips/assertion weakening"
   ],
-  "nextExactAction": "WH-MAIN tool all local gates PASS;Gitleaks,commit/push main,exactFULLCI then immediately give owner dry-run/apply commands. Continue approved warehouse guards/UI/default/reset,then PhaseB3reports and STOP.",
-  "checkpointedAt": "2026-10-18T23:16:10.896Z",
+  "nextExactAction": "Commit approved A2 warehouse199 candidate;push codex/warehouse-management and require full exactSHA quality+secrets;then genuine main merge/fullCI and PhaseB3reports only/STOP.",
+  "checkpointedAt": "2026-10-19T12:47:35.402Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "D7C6758505A1D7CBA663ADEDB2BE0DF563B108FEA9E5D49F7E8E9DE492C22B95",
-  "filesTouchedCount": 7,
-  "filesTouchedManifestSha256": "75815cb311391f1554be28f74236c808fe35001cc23276f70eb46b41865ef677"
+  "workingTreeFingerprint": "2609EED79D8585F3B34C035A31AC40149EE9A318950C3CB11E13A8841FAC4B48",
+  "filesTouchedCount": 109,
+  "filesTouchedManifestSha256": "ab3f95c3169b2e3cf056d1fe3d12224c37a29a7a10a3190eabe80cc4bd640673"
 }

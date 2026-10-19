@@ -1,3 +1,4 @@
+import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AlertTriangle,
@@ -442,6 +443,7 @@ export const InventoryOpeningSetupModal: React.FC<
             <WarehouseIcon className="h-3.5 w-3.5 text-nw-info" />
             المستودع الذي تم جرده
           </span>
+          <WarehouseChoice options={warehouseOptions} branchId={activeBranch?.id} value={warehouseId} onSingle={setWarehouseId}>
           <select
             value={warehouseId}
             onChange={(event) => setWarehouseId(event.target.value)}
@@ -453,6 +455,7 @@ export const InventoryOpeningSetupModal: React.FC<
               </option>
             ))}
           </select>
+          </WarehouseChoice>
         </label>
 
         <div className="flex items-end gap-2">

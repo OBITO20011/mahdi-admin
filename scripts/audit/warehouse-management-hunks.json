@@ -1,0 +1,314 @@
+{
+  "baseline": "811870446b033882c40ed04ee997e2699626ddf8",
+  "entries": {
+    "src/App.tsx": {
+      "before": "06310a5dd244c73de50aff006123d26ec50c1ebb03438d5e1c54288f0da7b319",
+      "after": "6fe758edd96d3b73b10d1d879bcd8a77676ef0466c2a847fb09f2b58d8df3ac0",
+      "hunks": [
+        {
+          "at": 67,
+          "before": [],
+          "after": [
+            "const WarehousesView = lazy(() => import('./features/warehouses/WarehousesView').then(module => ({default:module.WarehousesView})));"
+          ]
+        },
+        {
+          "at": 209,
+          "before": [],
+          "after": [
+            "      case 'warehouses':",
+            "        return <WarehousesView />;"
+          ]
+        }
+      ]
+    },
+    "src/components/layout/sideNavigationModel.ts": {
+      "before": "ef53292cd378c9e4c3a4a40816cd63e5f20c694266bcab8677a6d34461522618",
+      "after": "093a41f378e09a24fa82f6bb1e15f0c11bdb88de2541ceb4ea2606f1218f0d2e",
+      "hunks": [
+        {
+          "at": 39,
+          "before": [],
+          "after": [
+            "  'admin-warehouses':'مستودع',"
+          ]
+        }
+      ]
+    },
+    "src/features/directReceiving/CreateDirectReceiptModal.tsx": {
+      "before": "db9fc5bc1819d9b47f832a5b4c7b56dc0f362accc3af7459d0e5a33228093f5e",
+      "after": "fc85481eff8824a0db2c4d3fa5cc060a10e96266f34c397e7936229017a02e9f",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import {WarehouseChoice} from '../../components/ui/WarehouseChoice';"
+          ]
+        },
+        {
+          "at": 9,
+          "before": [
+            "import { useAppStoreActions } from '../../stores/useAppStore';"
+          ],
+          "after": [
+            "import { useAppStoreActions, useAppStoreSelector } from '../../stores/useAppStore';"
+          ]
+        },
+        {
+          "at": 60,
+          "before": [],
+          "after": [
+            "  const activeBranchId=useAppStoreSelector(state=>state.activeBranch?.id);"
+          ]
+        },
+        {
+          "at": 629,
+          "before": [],
+          "after": [
+            "            <WarehouseChoice options={warehouses} branchId={activeBranchId} value={selectedWarehouseId} onSingle={setSelectedWarehouseId}>"
+          ]
+        },
+        {
+          "at": 642,
+          "before": [],
+          "after": [
+            "            </WarehouseChoice>"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/InventoryOpeningSetupModal.tsx": {
+      "before": "e17393b4f725879277ef4184bb0e79ec29952d1a2869f08ff8d0b069ea75cf91",
+      "after": "b821d4e8fd16e3c6fd0e274d78a85f634f1bf87ef601eade7f8d51761f247aa3",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {WarehouseChoice} from '../../components/ui/WarehouseChoice';"
+          ]
+        },
+        {
+          "at": 446,
+          "before": [],
+          "after": [
+            "          <WarehouseChoice options={warehouseOptions} branchId={activeBranch?.id} value={warehouseId} onSingle={setWarehouseId}>"
+          ]
+        },
+        {
+          "at": 458,
+          "before": [],
+          "after": [
+            "          </WarehouseChoice>"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/StockCountModal.tsx": {
+      "before": "2b97d4b0f0bb3a30a326bfdc5c0f9543a3bd329e36a55bf56beb99fa609bd892",
+      "after": "32aa2bb6b417b5bd430b95d7d54b91c8ed4debb56e4dfc1439961125deda8d8d",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [],
+          "after": [
+            "import {WarehouseChoice} from '../../components/ui/WarehouseChoice';"
+          ]
+        },
+        {
+          "at": 33,
+          "before": [
+            "  const { warehouses, executeStockCount, setToast } = useAppStore();"
+          ],
+          "after": [
+            "  const { warehouses, activeBranch, executeStockCount, setToast } = useAppStore();"
+          ]
+        },
+        {
+          "at": 285,
+          "before": [],
+          "after": [
+            "        <WarehouseChoice options={warehouses} branchId={activeBranch?.id} value={warehouseId} onSingle={setWarehouseId}>"
+          ]
+        },
+        {
+          "at": 297,
+          "before": [],
+          "after": [
+            "        </WarehouseChoice>"
+          ]
+        }
+      ]
+    },
+    "src/features/more/adminNavigation.config.ts": {
+      "before": "93fd86420810276798ac83f9804fe54600a8a33ae1c511bd2e0d8332a3b7e6a3",
+      "after": "161f89f8b1c3b7d7d1711e3f208feffff5182fb398db4d14be3443cb35f4a798",
+      "hunks": [
+        {
+          "at": 192,
+          "before": [],
+          "after": [
+            "      {",
+            "        id:'admin-warehouses',label:'الفروع والمستودعات',description:'إضافة المستودعات وتعديل أسمائها وربطها بالفروع',",
+            "        icon:Boxes,tone:'bg-nw-info-bg text-nw-info',visibility:'owner',action:{type:'tab',destination:'warehouses'},",
+            "      },"
+          ]
+        }
+      ]
+    },
+    "src/features/pos/PosView.tsx": {
+      "before": "05037728f121a07e38f987bedb96517945aab5fccf8f5c1b5b5455669b307a64",
+      "after": "0f2919d3b6167b4ea7990dbb417c764e0cff6c41d4c2d1e23ef4afdff4ec1f74",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [],
+          "after": [
+            "import {WarehouseChoice} from '../../components/ui/WarehouseChoice';"
+          ]
+        },
+        {
+          "at": 734,
+          "before": [],
+          "after": [
+            "              <WarehouseChoice options={branchWarehouses} value={warehouseId}>"
+          ]
+        },
+        {
+          "at": 740,
+          "before": [],
+          "after": [
+            "              </WarehouseChoice>"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductFormModal.tsx": {
+      "before": "8bdc08eac8e04a7606ddc1bc56c6e26383a1e8228eab9747be75278262081bf9",
+      "after": "404e01831eeb8f13a6d03d4d30f400bcf1cf61224f8769955a3cd6fa5ed60319",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import {WarehouseChoice} from '../../components/ui/WarehouseChoice';"
+          ]
+        },
+        {
+          "at": 111,
+          "before": [],
+          "after": [
+            "    activeBranch,"
+          ]
+        },
+        {
+          "at": 1582,
+          "before": [],
+          "after": [
+            "            <WarehouseChoice options={warehouses} branchId={activeBranch?.id} value={warehouseId} onSingle={setWarehouseId}>"
+          ]
+        },
+        {
+          "at": 1596,
+          "before": [],
+          "after": [
+            "            </WarehouseChoice>"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/CreatePurchaseOrderModal.tsx": {
+      "before": "1b8181f06849c81d9ecff92686131ea01cf7063f3aeb81efadfca4f693cced79",
+      "after": "b13084cc5d0b8809ee784ffd96229abe79324b67a42c465b7e8c5bd29b19c088",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import {WarehouseChoice} from '../../components/ui/WarehouseChoice';"
+          ]
+        },
+        {
+          "at": 507,
+          "before": [],
+          "after": [
+            "              <WarehouseChoice options={availableWarehouses} branchId={selectedBranchId} value={selectedWarehouseId}",
+            "                onSingle={setSelectedWarehouseId} preserveSelected={!!poToEdit?.warehouseId}>"
+          ]
+        },
+        {
+          "at": 521,
+          "before": [],
+          "after": [
+            "              </WarehouseChoice>"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/ReceiveGoodsModal.tsx": {
+      "before": "e76a68944d08cc6d57a8bb78558750e9ab0304a32a89cdea8e818f086ce2360e",
+      "after": "d41e77ee46e186a2b9a13f1e2f0b66665d388591b22bfe68c40db952fbbe52a8",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import {WarehouseChoice} from '../../components/ui/WarehouseChoice';"
+          ]
+        },
+        {
+          "at": 53,
+          "before": [],
+          "after": [
+            "  const activeBranchId=useAppStoreSelector(state=>state.activeBranch?.id);"
+          ]
+        },
+        {
+          "at": 265,
+          "before": [],
+          "after": [
+            "              <WarehouseChoice options={warehouses} branchId={po.branchId||activeBranchId} value={selectedWarehouseId}",
+            "                onSingle={setSelectedWarehouseId} preserveSelected={!!po.warehouseId}>"
+          ]
+        },
+        {
+          "at": 279,
+          "before": [],
+          "after": [
+            "              </WarehouseChoice>"
+          ]
+        }
+      ]
+    },
+    "src/stores/appStorePreferences.ts": {
+      "before": "7c84b651510a6c5db2d88c803afa1dced9c2aa3419a15d2e0ebdef12245e74e9",
+      "after": "0dc3a67d7620d1702f0d0f24f9c9efba5c04f3c0ce4d1ec97a44362a6c75c0bf",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [],
+          "after": [
+            "  'warehouses',"
+          ]
+        }
+      ]
+    },
+    "src/components/ui/WarehouseChoice.tsx": {
+      "added": true,
+      "after": "fb23c4096691aff86940fb9971f8ef807b796a2eb0e6abdb49f7daa583fb8073"
+    },
+    "src/components/ui/singleWarehouseOption.ts": {
+      "added": true,
+      "after": "4069f238d26e02b2a6f3f63d7688f0c7bffefc0e864be8cf647d223a6ee1cb17"
+    },
+    "src/features/warehouses/WarehousesView.tsx": {
+      "added": true,
+      "after": "d1e6be3cae8ec90b5fe1c1833bae0a4c504d93293fa4e134b1328805fb31a123"
+    },
+    "src/services/supabase/warehouses.service.ts": {
+      "added": true,
+      "after": "98704b3aad3ac46ba9a8deb33921c5f865f7401015418e32d369c5dce95f95dc"
+    }
+  }
+}

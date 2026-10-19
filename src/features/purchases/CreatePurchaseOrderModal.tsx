@@ -1,4 +1,5 @@
 import {FormFields, Card, UiButton, formatJod, DataTable, Tr, Th, Td} from '../../components/ui';
+import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
 /**
  * Nawasrah Business Manager - Create Purchase Order Modal Component
  */
@@ -503,6 +504,8 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                 <WarehouseIcon className="w-3.5 h-3.5 text-nw-info" />
                 مستودع الاستلام المستهدف:
               </label>
+              <WarehouseChoice options={availableWarehouses} branchId={selectedBranchId} value={selectedWarehouseId}
+                onSingle={setSelectedWarehouseId} preserveSelected={!!poToEdit?.warehouseId}>
               <select aria-label="المستودع"
                 value={isValidUUID(selectedWarehouseId) ? selectedWarehouseId : ''}
                 onChange={(e) => setSelectedWarehouseId(e.target.value)}
@@ -515,6 +518,7 @@ export const CreatePurchaseOrderModal: React.FC<CreatePurchaseOrderModalProps> =
                   </option>
                 ))}
               </select>
+              </WarehouseChoice>
             </div>
 
             {/* Expected Delivery Date */}

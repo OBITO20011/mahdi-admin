@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-18T21:53:09.162Z",
-  "migrationCeiling": 198,
+  "startedAt": "2026-10-19T11:24:34.431Z",
+  "migrationCeiling": 199,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-3uuIGG",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-6JW7KB",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
-      "sha256": "06310a5dd244c73de50aff006123d26ec50c1ebb03438d5e1c54288f0da7b319"
+      "sha256": "6fe758edd96d3b73b10d1d879bcd8a77676ef0466c2a847fb09f2b58d8df3ac0"
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",
@@ -43,7 +43,7 @@
     },
     {
       "file": "src/components/layout/sideNavigationModel.ts",
-      "sha256": "ef53292cd378c9e4c3a4a40816cd63e5f20c694266bcab8677a6d34461522618"
+      "sha256": "093a41f378e09a24fa82f6bb1e15f0c11bdb88de2541ceb4ea2606f1218f0d2e"
     },
     {
       "file": "src/components/modals/AllModals.tsx",
@@ -110,6 +110,10 @@
       "sha256": "2d3b4a8013a9bddb6dcce29300749c88f0eb70579cd40bc9473825a1420bfc70"
     },
     {
+      "file": "src/components/ui/singleWarehouseOption.ts",
+      "sha256": "4069f238d26e02b2a6f3f63d7688f0c7bffefc0e864be8cf647d223a6ee1cb17"
+    },
+    {
       "file": "src/components/ui/Surface.tsx",
       "sha256": "3d8991706e103362b48fc0f9994d1313363eae2c369003e2c6db99ccfd61d542"
     },
@@ -128,6 +132,10 @@
     {
       "file": "src/components/ui/UserAvatar.tsx",
       "sha256": "39bd80d9a937d22555450472799cc74030c7657236ca2624a70c3f1783f0cc71"
+    },
+    {
+      "file": "src/components/ui/WarehouseChoice.tsx",
+      "sha256": "fb23c4096691aff86940fb9971f8ef807b796a2eb0e6abdb49f7daa583fb8073"
     },
     {
       "file": "src/config/supabase-public-config.ts",
@@ -247,7 +255,7 @@
     },
     {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-      "sha256": "db9fc5bc1819d9b47f832a5b4c7b56dc0f362accc3af7459d0e5a33228093f5e"
+      "sha256": "fc85481eff8824a0db2c4d3fa5cc060a10e96266f34c397e7936229017a02e9f"
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
@@ -291,7 +299,7 @@
     },
     {
       "file": "src/features/inventory/InventoryOpeningSetupModal.tsx",
-      "sha256": "e17393b4f725879277ef4184bb0e79ec29952d1a2869f08ff8d0b069ea75cf91"
+      "sha256": "b821d4e8fd16e3c6fd0e274d78a85f634f1bf87ef601eade7f8d51761f247aa3"
     },
     {
       "file": "src/features/inventory/InventoryView.tsx",
@@ -299,7 +307,7 @@
     },
     {
       "file": "src/features/inventory/StockCountModal.tsx",
-      "sha256": "2b97d4b0f0bb3a30a326bfdc5c0f9543a3bd329e36a55bf56beb99fa609bd892"
+      "sha256": "32aa2bb6b417b5bd430b95d7d54b91c8ed4debb56e4dfc1439961125deda8d8d"
     },
     {
       "file": "src/features/inventory/WarehouseTransferModal.tsx",
@@ -307,7 +315,7 @@
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
-      "sha256": "93fd86420810276798ac83f9804fe54600a8a33ae1c511bd2e0d8332a3b7e6a3"
+      "sha256": "161f89f8b1c3b7d7d1711e3f208feffff5182fb398db4d14be3443cb35f4a798"
     },
     {
       "file": "src/features/more/InstallAppPanel.tsx",
@@ -387,7 +395,7 @@
     },
     {
       "file": "src/features/pos/PosView.tsx",
-      "sha256": "05037728f121a07e38f987bedb96517945aab5fccf8f5c1b5b5455669b307a64"
+      "sha256": "0f2919d3b6167b4ea7990dbb417c764e0cff6c41d4c2d1e23ef4afdff4ec1f74"
     },
     {
       "file": "src/features/products/ProductCostCorrectionPanel.tsx",
@@ -403,7 +411,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "8bdc08eac8e04a7606ddc1bc56c6e26383a1e8228eab9747be75278262081bf9"
+      "sha256": "404e01831eeb8f13a6d03d4d30f400bcf1cf61224f8769955a3cd6fa5ed60319"
     },
     {
       "file": "src/features/products/ProductsView.tsx",
@@ -415,7 +423,7 @@
     },
     {
       "file": "src/features/purchases/CreatePurchaseOrderModal.tsx",
-      "sha256": "1b8181f06849c81d9ecff92686131ea01cf7063f3aeb81efadfca4f693cced79"
+      "sha256": "b13084cc5d0b8809ee784ffd96229abe79324b67a42c465b7e8c5bd29b19c088"
     },
     {
       "file": "src/features/purchases/CreateSupplierModal.tsx",
@@ -435,7 +443,7 @@
     },
     {
       "file": "src/features/purchases/ReceiveGoodsModal.tsx",
-      "sha256": "e76a68944d08cc6d57a8bb78558750e9ab0304a32a89cdea8e818f086ce2360e"
+      "sha256": "d41e77ee46e186a2b9a13f1e2f0b66665d388591b22bfe68c40db952fbbe52a8"
     },
     {
       "file": "src/features/purchases/SupplierPaymentModal.tsx",
@@ -472,6 +480,10 @@
     {
       "file": "src/features/users/UsersView.tsx",
       "sha256": "3d8942f23587f1197bbc606de03358d6c1fee4ddd30b527c18b470a67e14b686"
+    },
+    {
+      "file": "src/features/warehouses/WarehousesView.tsx",
+      "sha256": "d1e6be3cae8ec90b5fe1c1833bae0a4c504d93293fa4e134b1328805fb31a123"
     },
     {
       "file": "src/hooks/useCustomerAccounts.ts",
@@ -678,8 +690,12 @@
       "sha256": "ea2ea5e5d41b0f024055ccab9932dd12a343464256a458edcfe2047322148470"
     },
     {
+      "file": "src/services/supabase/warehouses.service.ts",
+      "sha256": "98704b3aad3ac46ba9a8deb33921c5f865f7401015418e32d369c5dce95f95dc"
+    },
+    {
       "file": "src/stores/appStorePreferences.ts",
-      "sha256": "7c84b651510a6c5db2d88c803afa1dced9c2aa3419a15d2e0ebdef12245e74e9"
+      "sha256": "0dc3a67d7620d1702f0d0f24f9c9efba5c04f3c0ce4d1ec97a44362a6c75c0bf"
     },
     {
       "file": "src/stores/modalTypes.ts",
@@ -6095,6 +6111,22 @@
         "postgres=X/postgres",
         "authenticated=X/postgres"
       ],
+      "name": "get_owner_warehouses_v1",
+      "names": [],
+      "owner": "postgres",
+      "types": [],
+      "identity": "get_owner_warehouses_v1()",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
       "name": "get_owner_withdrawals_report",
       "names": [
         "p_branch_id",
@@ -11219,6 +11251,36 @@
         "postgres=X/postgres",
         "authenticated=X/postgres"
       ],
+      "name": "save_owner_warehouse_v1",
+      "names": [
+        "p_id",
+        "p_code",
+        "p_name",
+        "p_branch_id",
+        "p_is_active",
+        "p_expected_updated_at"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid",
+        "text",
+        "text",
+        "uuid",
+        "boolean",
+        "timestamp with time zone"
+      ],
+      "identity": "save_owner_warehouse_v1(uuid,text,text,uuid,boolean,timestamp with time zone)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
       "name": "save_product_brand",
       "names": [
         "p_name_ar",
@@ -13029,7 +13091,7 @@
   ],
   "probes": [
     {
-      "site": "src/features/pos/PosView.tsx:166",
+      "site": "src/features/pos/PosView.tsx:167",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -13041,7 +13103,7 @@
       "command": "SELECT public.\"get_pos_configurable_parcel_options_v1\"('92600000-0000-4000-8000-000000000201'::uuid)"
     },
     {
-      "site": "src/features/pos/PosView.tsx:166",
+      "site": "src/features/pos/PosView.tsx:167",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -13053,7 +13115,7 @@
       "command": "SELECT public.\"get_pos_configurable_parcel_options_v1\"('92600000-0000-4000-8000-000000000201'::uuid)"
     },
     {
-      "site": "src/features/pos/PosView.tsx:166",
+      "site": "src/features/pos/PosView.tsx:167",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -19792,6 +19854,87 @@
         "false"
       ],
       "command": "SELECT public.\"save_storefront_settings_v3\"(NULL::text,NULL::text,NULL::text,false,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,false,false,false,false)"
+    },
+    {
+      "site": "src/services/supabase/warehouses.service.ts:28",
+      "name": "get_owner_warehouses_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "get_owner_warehouses_v1()",
+      "args": [],
+      "command": "SELECT public.\"get_owner_warehouses_v1\"()"
+    },
+    {
+      "site": "src/services/supabase/warehouses.service.ts:28",
+      "name": "get_owner_warehouses_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "get_owner_warehouses_v1()",
+      "args": [],
+      "command": "SELECT public.\"get_owner_warehouses_v1\"()"
+    },
+    {
+      "site": "src/services/supabase/warehouses.service.ts:28",
+      "name": "get_owner_warehouses_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "get_owner_warehouses_v1()",
+      "args": [],
+      "command": "SELECT public.\"get_owner_warehouses_v1\"()"
+    },
+    {
+      "site": "src/services/supabase/warehouses.service.ts:38",
+      "name": "save_owner_warehouse_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "save_owner_warehouse_v1(uuid,text,text,uuid,boolean,timestamp with time zone)",
+      "args": [
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::text",
+        "'92600000-0000-4000-8000-000000000200'::uuid",
+        "false",
+        "CURRENT_TIMESTAMP"
+      ],
+      "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)"
+    },
+    {
+      "site": "src/services/supabase/warehouses.service.ts:38",
+      "name": "save_owner_warehouse_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "save_owner_warehouse_v1(uuid,text,text,uuid,boolean,timestamp with time zone)",
+      "args": [
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::text",
+        "'92600000-0000-4000-8000-000000000200'::uuid",
+        "false",
+        "CURRENT_TIMESTAMP"
+      ],
+      "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)"
+    },
+    {
+      "site": "src/services/supabase/warehouses.service.ts:38",
+      "name": "save_owner_warehouse_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "save_owner_warehouse_v1(uuid,text,text,uuid,boolean,timestamp with time zone)",
+      "args": [
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::text",
+        "'92600000-0000-4000-8000-000000000200'::uuid",
+        "false",
+        "CURRENT_TIMESTAMP"
+      ],
+      "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)"
     },
     {
       "site": "customer-web/src/services/catalog.service.ts:165",
@@ -20414,7 +20557,7 @@
   ],
   "results": [
     {
-      "site": "src/features/pos/PosView.tsx:166",
+      "site": "src/features/pos/PosView.tsx:167",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -20430,7 +20573,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/features/pos/PosView.tsx:166",
+      "site": "src/features/pos/PosView.tsx:167",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -20446,7 +20589,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/features/pos/PosView.tsx:166",
+      "site": "src/features/pos/PosView.tsx:167",
       "name": "get_pos_configurable_parcel_options_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -28943,6 +29086,111 @@
       "sqlstate": "P0001"
     },
     {
+      "site": "src/services/supabase/warehouses.service.ts:28",
+      "name": "get_owner_warehouses_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "get_owner_warehouses_v1()",
+      "args": [],
+      "command": "SELECT public.\"get_owner_warehouses_v1\"()",
+      "probe": 441,
+      "message": "success rolled back",
+      "outcome": "success_rolled_back",
+      "sqlstate": null
+    },
+    {
+      "site": "src/services/supabase/warehouses.service.ts:28",
+      "name": "get_owner_warehouses_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "get_owner_warehouses_v1()",
+      "args": [],
+      "command": "SELECT public.\"get_owner_warehouses_v1\"()",
+      "probe": 442,
+      "message": "ليس لديك صلاحية إدارة الفروع والمستودعات.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/warehouses.service.ts:28",
+      "name": "get_owner_warehouses_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "get_owner_warehouses_v1()",
+      "args": [],
+      "command": "SELECT public.\"get_owner_warehouses_v1\"()",
+      "probe": 443,
+      "message": "ليس لديك صلاحية إدارة الفروع والمستودعات.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/warehouses.service.ts:38",
+      "name": "save_owner_warehouse_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "save_owner_warehouse_v1(uuid,text,text,uuid,boolean,timestamp with time zone)",
+      "args": [
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::text",
+        "'92600000-0000-4000-8000-000000000200'::uuid",
+        "false",
+        "CURRENT_TIMESTAMP"
+      ],
+      "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)",
+      "probe": 444,
+      "message": "WAREHOUSE_INPUT_INVALID: تحقق من اسم المستودع والفرع.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/warehouses.service.ts:38",
+      "name": "save_owner_warehouse_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "save_owner_warehouse_v1(uuid,text,text,uuid,boolean,timestamp with time zone)",
+      "args": [
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::text",
+        "'92600000-0000-4000-8000-000000000200'::uuid",
+        "false",
+        "CURRENT_TIMESTAMP"
+      ],
+      "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)",
+      "probe": 445,
+      "message": "ليس لديك صلاحية حفظ مستودع.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/warehouses.service.ts:38",
+      "name": "save_owner_warehouse_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "save_owner_warehouse_v1(uuid,text,text,uuid,boolean,timestamp with time zone)",
+      "args": [
+        "NULL::uuid",
+        "NULL::text",
+        "NULL::text",
+        "'92600000-0000-4000-8000-000000000200'::uuid",
+        "false",
+        "CURRENT_TIMESTAMP"
+      ],
+      "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)",
+      "probe": 446,
+      "message": "ليس لديك صلاحية حفظ مستودع.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
       "site": "customer-web/src/services/catalog.service.ts:165",
       "name": "get_public_configurable_parcel_options",
       "role": "anon",
@@ -28953,7 +29201,7 @@
         "ARRAY[]::uuid[]"
       ],
       "command": "SELECT public.\"get_public_configurable_parcel_options\"(ARRAY[]::uuid[])",
-      "probe": 441,
+      "probe": 447,
       "message": "PUBLIC_CONFIGURABLE_PARCEL_REQUEST_INVALID: Provide between 1 and 48 valid Family IDs.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -28977,7 +29225,7 @@
         "ARRAY[]::uuid[]"
       ],
       "command": "SELECT public.\"get_public_storefront_catalog_page\"(25::integer,0::integer,NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,ARRAY[]::uuid[])",
-      "probe": 442,
+      "probe": 448,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -28991,7 +29239,7 @@
       "identity": "get_public_storefront_merchandising()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_merchandising\"()",
-      "probe": 443,
+      "probe": 449,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29005,7 +29253,7 @@
       "identity": "get_public_storefront_offers()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_offers\"()",
-      "probe": 444,
+      "probe": 450,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29023,7 +29271,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"preview_guest_promotion_v2\"('[]'::jsonb,NULL::text,NULL::text)",
-      "probe": 445,
+      "probe": 451,
       "message": "PHASE3_SALE_CONTRACT_INVALID: Sale lines must be a non-empty array.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29041,7 +29289,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"preview_guest_promotion\"(NULL::text,'[]'::jsonb,NULL::text)",
-      "probe": 446,
+      "probe": 452,
       "message": "اكتب رمز خصم صحيحاً.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29058,7 +29306,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"track_guest_order\"(NULL::text,NULL::text)",
-      "probe": 447,
+      "probe": 453,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29074,7 +29322,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"track_guest_order_by_token\"(NULL::text)",
-      "probe": 448,
+      "probe": 454,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29090,7 +29338,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_public_pos_receipt\"(NULL::uuid)",
-      "probe": 449,
+      "probe": 455,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29104,7 +29352,7 @@
       "identity": "get_public_storefront_settings()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_settings\"()",
-      "probe": 450,
+      "probe": 456,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29118,7 +29366,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 451,
+      "probe": 457,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29132,7 +29380,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 452,
+      "probe": 458,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29146,7 +29394,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 453,
+      "probe": 459,
       "message": "ليس لديك صلاحية استخدام مساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29160,7 +29408,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 454,
+      "probe": 460,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29174,7 +29422,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 455,
+      "probe": 461,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29188,7 +29436,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 456,
+      "probe": 462,
       "message": "ليس لديك صلاحية قراءة مخزون وأسعار مساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29202,7 +29450,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 457,
+      "probe": 463,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29216,7 +29464,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 458,
+      "probe": 464,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29230,7 +29478,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 459,
+      "probe": 465,
       "message": "ليس لديك صلاحية عرض الصفحة الرئيسية.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29244,7 +29492,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 460,
+      "probe": 466,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29258,7 +29506,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 461,
+      "probe": 467,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29272,7 +29520,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 462,
+      "probe": 468,
       "message": "ليس لديك صلاحية قراءة التقرير الشهري لمساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29286,7 +29534,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 463,
+      "probe": 469,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29300,7 +29548,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 464,
+      "probe": 470,
       "message": "ليس لديك صلاحية إدارة حسابات الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29314,7 +29562,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 465,
+      "probe": 471,
       "message": "ليس لديك صلاحية إدارة حسابات الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29330,7 +29578,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 466,
+      "probe": 472,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29346,7 +29594,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 467,
+      "probe": 473,
       "message": "ليس لديك صلاحية عرض سجل إدارة الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29362,7 +29610,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 468,
+      "probe": 474,
       "message": "ليس لديك صلاحية عرض سجل إدارة الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29383,7 +29631,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 469,
+      "probe": 475,
       "message": "اسم المستخدم يجب أن يكون بين حرفين و120 حرفًا.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29404,7 +29652,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 470,
+      "probe": 476,
       "message": "ليس لديك صلاحية إضافة حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29425,7 +29673,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 471,
+      "probe": 477,
       "message": "ليس لديك صلاحية إضافة حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29446,7 +29694,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 472,
+      "probe": 478,
       "message": "لا يمكن تعديل حسابك الحالي من إدارة المستخدمين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29467,7 +29715,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 473,
+      "probe": 479,
       "message": "ليس لديك صلاحية تعديل حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29488,7 +29736,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 474,
+      "probe": 480,
       "message": "ليس لديك صلاحية تعديل حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29505,7 +29753,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 475,
+      "probe": 481,
       "message": "لا يمكن تعطيل أو تعديل حسابك الحالي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29522,7 +29770,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 476,
+      "probe": 482,
       "message": "ليس لديك صلاحية تفعيل أو تعطيل حساب مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29539,7 +29787,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 477,
+      "probe": 483,
       "message": "ليس لديك صلاحية تفعيل أو تعطيل حساب مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29555,7 +29803,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 478,
+      "probe": 484,
       "message": "لا يمكن إعادة تعيين كلمة مرور حسابك الحالي من هذه الشاشة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29571,7 +29819,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 479,
+      "probe": 485,
       "message": "ليس لديك صلاحية إعادة تعيين كلمة مرور مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29587,7 +29835,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 480,
+      "probe": 486,
       "message": "ليس لديك صلاحية إعادة تعيين كلمة مرور مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29605,7 +29853,7 @@
         "0::integer"
       ],
       "command": "SELECT public.\"claim_automation_deliveries\"(NULL::text,25::integer,0::integer)",
-      "probe": 481,
+      "probe": 487,
       "message": "Invalid automation delivery channel.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29624,7 +29872,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"complete_automation_delivery\"(NULL::uuid,NULL::text,false,NULL::text)",
-      "probe": 482,
+      "probe": 488,
       "message": "Invalid automation delivery completion.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29638,7 +29886,7 @@
       "identity": "get_push_webhook_secret()",
       "args": [],
       "command": "SELECT public.\"get_push_webhook_secret\"()",
-      "probe": 483,
+      "probe": 489,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29654,7 +29902,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"get_active_order_push_targets\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 484,
+      "probe": 490,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29673,7 +29921,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"authorize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::text,NULL::text)",
-      "probe": 485,
+      "probe": 491,
       "message": "Invalid gateway request.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29711,7 +29959,7 @@
         "0::bigint"
       ],
       "command": "SELECT public.\"submit_guest_customer_order_v2\"('isolated-service-audit-0000000000000000000001',NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,NULL::text,'[]'::jsonb,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,0::bigint)",
-      "probe": 486,
+      "probe": 492,
       "message": "PHASE3_IDEMPOTENCY_INPUT_INVALID: Customer operation identity is invalid.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29729,7 +29977,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"finalize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::uuid)",
-      "probe": 487,
+      "probe": 493,
       "message": "Gateway authorization was not found.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29747,7 +29995,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"finalize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::uuid)",
-      "probe": 488,
+      "probe": 494,
       "message": "Gateway authorization was not found.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -32802,6 +33050,21 @@
     {
       "role": "anon",
       "allowed": false,
+      "identity": "get_owner_warehouses_v1()"
+    },
+    {
+      "role": "authenticated",
+      "allowed": true,
+      "identity": "get_owner_warehouses_v1()"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "get_owner_warehouses_v1()"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
       "identity": "get_owner_withdrawals_report(uuid,date,date,integer,integer)"
     },
     {
@@ -36413,6 +36676,21 @@
       "role": "service_role",
       "allowed": false,
       "identity": "save_customer(text,text,uuid,text,text,text,text,text)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "save_owner_warehouse_v1(uuid,text,text,uuid,boolean,timestamp with time zone)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": true,
+      "identity": "save_owner_warehouse_v1(uuid,text,text,uuid,boolean,timestamp with time zone)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "save_owner_warehouse_v1(uuid,text,text,uuid,boolean,timestamp with time zone)"
     },
     {
       "role": "anon",
@@ -37519,66 +37797,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-18T21:54:37.487Z",
-  "savedCatalogAssessment": {
-    "storagePolicies": [
-      {
-        "name": "ERP staff can delete own product images",
-        "check": null,
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "schema": "storage",
-        "command": "d",
-        "permissive": true
-      },
-      {
-        "name": "ERP staff can update own product images",
-        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "schema": "storage",
-        "command": "w",
-        "permissive": true
-      },
-      {
-        "name": "ERP staff can upload own product images",
-        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": null,
-        "schema": "storage",
-        "command": "a",
-        "permissive": true
-      },
-      {
-        "name": "Public can read product images",
-        "check": null,
-        "roles": [
-          "PUBLIC"
-        ],
-        "table": "objects",
-        "using": "(bucket_id = 'product-images'::text)",
-        "schema": "storage",
-        "command": "r",
-        "permissive": true
-      }
-    ],
-    "storageBucketRows": null,
-    "publicationMembership": null,
-    "limits": [
-      "Catalog tables/schema do NOT prove bucket rows exist",
-      "Catalog functions/policies do NOT prove publication membership",
-      "No Auth,Edge environment or remote cron row snapshot in schema catalog"
-    ]
-  },
+  "endedAt": "2026-10-19T11:26:24.828Z",
   "sevenFunctions": [
     {
       "identity": "authorize_admin_ai_assistant_request()",
@@ -37862,6 +38081,66 @@
       "triggerOnly": true
     }
   ],
+  "savedCatalogAssessment": {
+    "storagePolicies": [
+      {
+        "name": "ERP staff can delete own product images",
+        "check": null,
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "schema": "storage",
+        "command": "d",
+        "permissive": true
+      },
+      {
+        "name": "ERP staff can update own product images",
+        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "schema": "storage",
+        "command": "w",
+        "permissive": true
+      },
+      {
+        "name": "ERP staff can upload own product images",
+        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "using": null,
+        "schema": "storage",
+        "command": "a",
+        "permissive": true
+      },
+      {
+        "name": "Public can read product images",
+        "check": null,
+        "roles": [
+          "PUBLIC"
+        ],
+        "table": "objects",
+        "using": "(bucket_id = 'product-images'::text)",
+        "schema": "storage",
+        "command": "r",
+        "permissive": true
+      }
+    ],
+    "storageBucketRows": null,
+    "publicationMembership": null,
+    "limits": [
+      "Catalog tables/schema do NOT prove bucket rows exist",
+      "Catalog functions/policies do NOT prove publication membership",
+      "No Auth,Edge environment or remote cron row snapshot in schema catalog"
+    ]
+  },
+  "historicalSavedAssessmentSource": "8118704:15Oct original saved platform catalog;not a new remote read",
   "oldReferences": [
     {
       "file": "automation/n8n/workflows/nawasrah-alerts.json",
@@ -37883,7 +38162,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        495
+        525
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

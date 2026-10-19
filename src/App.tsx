@@ -64,6 +64,7 @@ const ShiftsView = lazy(() =>
   }))
 );
 const ChequesView = lazy(() => import('./features/cheques/ChequesView').then(module => ({default:module.ChequesView})));
+const WarehousesView = lazy(() => import('./features/warehouses/WarehousesView').then(module => ({default:module.WarehousesView})));
 const ReportsCenterView = lazy(() =>
   import('./features/reports/ReportsCenterView').then((module) => ({
     default: module.ReportsCenterView,
@@ -205,6 +206,8 @@ export const App: React.FC = () => {
         return <GoLiveSetupView />;
       case 'cheques':
         return <ChequesView />;
+      case 'warehouses':
+        return <WarehousesView />;
       default:
         return <DashboardView />;
     }

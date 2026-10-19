@@ -59,3 +59,10 @@ OGfhUr نجح على GoTrue وPostgREST وقاعدة 171 حقيقية: إنشا�
 اختبار `run-first-owner-runtime.mjs` يستخدم Admin-generated magiclink وverifyOtp محلياً لتجنب SMTP وTurnstile خارجيين؛ **لا يدّعي إثبات البريد أو CAPTCHA أو الدخول البعيد**. تفعيل المالك الفعلي في اللوحة والتطبيق يبقى مهمة المالك لاحقاً. CI على نفس commit إلزامي قبل التسليم.
 
 المراجع: [Auth](https://supabase.com/docs/guides/auth/managing-user-data)، [TOTP](https://supabase.com/docs/guides/auth/auth-mfa/totp).
+## تحديث 19 أكتوبر — التأسيس المستقبلي على 199
+
+الأمر الجاري يطلب مرجع 199 ودليل الوصول الحالي قبل الاتصال أو كلمة
+السر. إنشاء أول مالك يتضمن BR-MAIN وWH-MAIN في نفس المعاملة المحروسة؛
+تعارض المستودع يتراجع عن ربط المالك أيضاً. لا يُعاد ربط حساب المالك
+الحالي؛ أداة WH-MAIN ذات 198 سُلّمت وشغّلها المالك بالفعل بنجاح.
+انظر `WAREHOUSE_MANAGEMENT_199_AR.md` للأدلة وحدود التسليم.

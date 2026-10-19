@@ -1,4 +1,4 @@
-import {mkdtemp, rm} from 'node:fs/promises';
+import {mkdtemp, rm, realpath} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {createServer, normalizePath, searchForWorkspaceRoot} from 'vite';
@@ -26,6 +26,11 @@ export async function startIsolatedVite({root, port, env = {}, logger = undefine
     await rm(ownedDirectory, {recursive: true, force: true});
   })();
   try {
+    // Managed worktrees can share installed packages through a junction. Allow
+    // only its resolved dependency directory, not the other checkout/root.
+    const dependencyDirectory=await realpath(path.join(root,'node_modules')).catch(error=>{
+      if(error.code==='ENOENT')return null;throw error;
+    });
     Object.assign(process.env, env);
     server = await createServer({
       ...config, root, cacheDir, ...(logger ? {customLogger: logger} : {}),
@@ -36,7 +41,7 @@ export async function startIsolatedVite({root, port, env = {}, logger = undefine
       // Tailwind watches scanned JSON/Markdown too; filtering HMR paths alone
       // would still let its plugin send a full reload. Disable both mechanisms.
       server: {...config.server, hmr: false, watch: null, host: '127.0.0.1', port, strictPort: true,
-        fs: {...config.server?.fs, allow: [searchForWorkspaceRoot(root), cacheDir]}},
+        fs: {...config.server?.fs, allow: [searchForWorkspaceRoot(root), cacheDir,...(dependencyDirectory?[dependencyDirectory]:[])]}},
       plugins: [...(config.plugins ?? []), {
         name: 'isolated-harness-cache',
         configureServer(vite) {

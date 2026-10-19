@@ -55,3 +55,11 @@ node scripts/operations/frankfurt-trial-reset.mjs --apply --owner-id <UUID-ال�
 تشغيل 22:40:57–22:50:26 UTC في 2026-10-15 (ليلة 16 عمّان) جمع اختبار المالك الحقيقي ثم التصفير: exit 0، ومدخلات ثابتة قبل/بعد. لا اتصال بفرانكفورت. قبول CI لنفس commit بوابة مستقلة إلزامية.
 
 المراجع: [حذف Storage](https://supabase.com/docs/guides/storage/management/delete-objects)، [إدارة Auth](https://supabase.com/docs/guides/auth/managing-user-data)، [CLI](https://supabase.com/docs/reference/cli/global-flags).
+## تحديث 19 أكتوبر — حزمة المستودع 199 (تجهيز محلي)
+
+النسخة الجارية من الأمر ترفض المراجع 182/198 وتطلب مرجع 199 الحالي
+ودليل الوصول الحالي. لا تُشغّل على فرانكفورت قبل تطبيق 199 وتسليم CI.
+تحفظ المالك وAuth/TOTP والفرع BR-MAIN والمستودع WH-MAIN بنفس UUID
+والأسماء الحالية؛ أي نقص أو تعارض في الموقع الرئيسي يوقفها قبل المسح.
+تفاصيل البروفة والأمر في `WAREHOUSE_MANAGEMENT_199_AR.md`.
+النص القديم أعلاه يوثق تسليم 182 التاريخي، ولا يجيز تشغيله على 198/199.

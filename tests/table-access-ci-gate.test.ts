@@ -11,7 +11,7 @@ test('full CI requires the real source-query access gate in the mandatory reads 
  assert.doesNotMatch(step,/continue-on-error|\|\|\s*true|--migration-ceiling|--workdir/u);
  assert.match(workflow,/suite: \[[^\]]*package-f-reads[^\]]*\]/u);
  const runner=await readFile('scripts/audit/run-table-access-diagnostic.mjs','utf8');
- assert.match(runner,/process\.argv\.includes\('--require-access'\)\?198/u);
+ assert.match(runner,/process\.argv\.includes\('--require-access'\)\?199/u);
  assert.match(runner,/EXACT_APPROVED_HISTORY_REQUIRED/u);
  assert.match(runner,/report\.coverage=verifyProbeCoverage\(source,report\.results\)/u);
  assert.match(runner,/if\(process\.argv\.includes\('--require-access'\)&&!report\.applicationReady\)\{process\.exitCode=1/u);

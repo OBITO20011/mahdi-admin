@@ -2,10 +2,20 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import test from 'node:test';
-import {canonicalLf, futureMigrationViolations, GRANDFATHERED_MIGRATION_CEILING, manifestDigest,
+import {canonicalLf,canonicalDefinitionLf, futureMigrationViolations, GRANDFATHERED_MIGRATION_CEILING, manifestDigest,
   migrationManifest, referenceIsFresh, renderFunctionReference} from '../scripts/testing/maintenance-db-contract.mjs';
 
 const root = path.resolve('.');
+test('function definition digest and visible body share idempotent EOL normalization,not migration hashes',()=>{
+ const definition='CREATE FUNCTION public.probe() RETURNS int LANGUAGE sql AS $$\n SELECT 1;\n$$;\n';
+ const row={identity:'probe()',owner:'postgres',securityDefiner:false,volatility:'v',configuration:[],acl:null,executeGrants:[],extension:null,definition};
+ const mixed=definition.replace('\n SELECT','\r\r\n SELECT'),manifest=[{name:'199_probe.sql',sha256:'example'}];
+ assert.equal(renderFunctionReference(manifest,[row]),renderFunctionReference(manifest,[{...row,definition:mixed}]));
+ assert.notEqual(renderFunctionReference(manifest,[row]),renderFunctionReference(manifest,[{...row,definition:definition.replace('SELECT 1','SELECT 2')}]));
+ assert.equal(canonicalDefinitionLf(canonicalDefinitionLf(mixed)),definition);
+ assert.equal(canonicalDefinitionLf('SELECT\r1;'),'SELECT\r1;');
+ assert.equal(canonicalLf('a\r\r\nb'),'a\r\nb','Historical migration fingerprints must NOT acquire definition-only normalization');
+});
 test('generated DB reference is fresh for exact migration names/content,not just the ceiling', async () => {
   const manifest = await migrationManifest(root);
   const text = await readFile('docs/generated/DB_FUNCTIONS.md', 'utf8');

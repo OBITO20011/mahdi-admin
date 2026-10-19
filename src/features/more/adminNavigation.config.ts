@@ -190,6 +190,10 @@ export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = [
         visibility: 'owner',
       },
       {
+        id:'admin-warehouses',label:'الفروع والمستودعات',description:'إضافة المستودعات وتعديل أسمائها وربطها بالفروع',
+        icon:Boxes,tone:'bg-nw-info-bg text-nw-info',visibility:'owner',action:{type:'tab',destination:'warehouses'},
+      },
+      {
         id: 'admin-go-live',
         label: 'بداية التشغيل',
         description: 'المنتجات والبضاعة الموجودة وأرصدة العملاء والموردين قبل النظام',
