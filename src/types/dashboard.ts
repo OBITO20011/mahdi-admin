@@ -1,3 +1,4 @@
+import type {CustomerCollectionsInMinorUnits} from '../utils/customerCollections';
 /**
  * Nawasrah Business Manager - Executive Dashboard Types
  */
@@ -123,6 +124,9 @@ export interface HomeDashboardAccess {
 }
 
 export interface HomeDashboardSummary {
+  todayCollections?: CustomerCollectionsInMinorUnits | null;
+  todayCashCollectedInMinorUnits?: number | null;
+  todayCliqCollectedInMinorUnits?: number | null;
   todaySalesInMinorUnits: number;
   todayCompletedOrders: number;
   monthSalesInMinorUnits: number;

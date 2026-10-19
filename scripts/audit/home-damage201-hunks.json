@@ -1,0 +1,258 @@
+{
+  "baseline": "74f8049c6565e6295d3d32d5ecbebdee904b4bb4",
+  "entries": {
+    "src/features/dashboard/DashboardHome.tsx": {
+      "before": "3be16da96808a0e26e0b5bdbb13738fd354be098583e1f7c940ecc7ece01160e",
+      "after": "3e7e2c6e3b1bd1349613d29c2a808fa67b74cd4a16a76540fb0b6e007aae7b05",
+      "hunks": [
+        {
+          "at": 50,
+          "before": [],
+          "after": [
+            "  const collectedAvailable = available && summary.todayCashCollectedInMinorUnits != null && summary.todayCliqCollectedInMinorUnits != null;",
+            "  const collectedValue = loading ? 'جاري التحميل…' : error ? 'تعذر تحميل المقبوض' : money(",
+            "    collectedAvailable ? summary.todayCashCollectedInMinorUnits! + summary.todayCliqCollectedInMinorUnits! : null, collectedAvailable);",
+            "  const collectedNote = loading ? 'جارٍ تحديث التحصيل' : error ? 'أعد المحاولة' : collectedAvailable",
+            "    ? <span className=\"flex flex-wrap gap-x-3 gap-y-1\"><span>كاش {money(summary.todayCashCollectedInMinorUnits, true)}</span><span>CliQ {money(summary.todayCliqCollectedInMinorUnits, true)}</span></span>",
+            "    : 'تفصيل كاش / CliQ غير متاح في قراءة الرئيسية';"
+          ]
+        },
+        {
+          "at": 99,
+          "before": [
+            "          <KpiCard label=\"المقبوض اليوم\" value=\"غير متاح\" note=\"كاش / CliQ\" />"
+          ],
+          "after": [
+            "          <KpiCard label=\"المقبوض اليوم\" value={collectedValue} note={collectedNote} className=\"[&>div:nth-child(2)]:text-xl\" />"
+          ]
+        },
+        {
+          "at": 106,
+          "before": [
+            "          <KpiCard label=\"المقبوض اليوم\" value=\"غير متاح\" note=\"تفصيل كاش / CliQ غير متاح في قراءة الرئيسية\" className=\"[&>div:nth-child(2)]:text-xl\" />"
+          ],
+          "after": [
+            "          <KpiCard label=\"المقبوض اليوم\" value={collectedValue} note={collectedNote} className=\"[&>div:nth-child(2)]:text-xl\" />"
+          ]
+        },
+        {
+          "at": 150,
+          "before": [
+            "              <dl className=\"mt-4 hidden space-y-3 text-sm lg:block\">"
+          ],
+          "after": [
+            "              <dl data-testid=\"home-shift-flows\" className=\"mt-4 space-y-3 text-sm\">"
+          ]
+        },
+        {
+          "at": 155,
+          "before": [],
+          "after": [
+            "                  ['دفعات موردين من الدرج', -shift.cashSupplierPayments],",
+            "                  ...(shift.ownerWithdrawals !== undefined ? [['سحوبات المالك', -shift.ownerWithdrawals]] : []),",
+            "                  ...(shift.ownerWithdrawalReturns !== undefined ? [['إرجاع سحوبات المالك', shift.ownerWithdrawalReturns]] : []),"
+          ]
+        }
+      ]
+    },
+    "src/features/products/StockAdjustmentModal.tsx": {
+      "before": "e082cddd06381a90ba3bc740c6b154350c6f61e324d81f53345c661f7b97e84e",
+      "after": "6e56cf69f9d614e580ee6619c8c907ccf4fe0e87fde7555bbca4f890a2964ae5",
+      "hunks": [
+        {
+          "at": 30,
+          "before": [
+            "      ? 'تعديل بسبب تالف / منتهي'"
+          ],
+          "after": [
+            "      ? 'انكسر بالمحل'"
+          ]
+        },
+        {
+          "at": 61,
+          "before": [],
+          "after": [
+            "    if (isDeduct && reason === 'أخرى' && !notes.trim()) {",
+            "      setToast('اكتب سبب التلف عند اختيار أخرى.', 'error');",
+            "      return;",
+            "    }"
+          ]
+        },
+        {
+          "at": 120,
+          "before": [
+            "            setReason('خصم بسبب تلف / نقص جرد');"
+          ],
+          "after": [
+            "            setReason('انكسر بالمحل');"
+          ]
+        },
+        {
+          "at": 219,
+          "before": [
+            "          {["
+          ],
+          "after": [
+            "          {(isDeduct ? ['انكسر بالمحل', 'انتهت الصلاحية', 'تلف تخزين', 'أخرى'] : ["
+          ]
+        },
+        {
+          "at": 225,
+          "before": [
+            "          ].map((r) => ("
+          ],
+          "after": [
+            "          ]).map((r) => ("
+          ]
+        },
+        {
+          "at": 244,
+          "before": [
+            "        <label className=\"text-xs font-bold text-nw-text block\">ملاحظات إضافية (اختياري):</label>",
+            "        <input aria-label=\"ملاحظات إضافية\""
+          ],
+          "after": [
+            "        <label className=\"text-xs font-bold text-nw-text block\">{isDeduct && reason === 'أخرى' ? 'سبب التلف (مطلوب):' : 'ملاحظات إضافية (اختياري):'}</label>",
+            "        <input aria-label=\"ملاحظات إضافية\" required={isDeduct && reason === 'أخرى'}"
+          ]
+        }
+      ]
+    },
+    "src/features/reports/ReportsCenterView.tsx": {
+      "before": "86cd20df4a06396c24a987adb42fb7a9982a4f6ba53a011903f3b719ccb76416",
+      "after": "858d9f529ec1dd3adc4d28cff8db4ee346acc5daacd5cf7eaa308a3e118f6998",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {DamageLossReportSection} from './DamageLossReportSection';"
+          ]
+        },
+        {
+          "at": 333,
+          "before": [
+            "            <MetricCard label=\"الربح\" value={money(report.sales.netProfit)} hint=\"بعد المرتجعات والاستبدال واسترجاع التكلفة والمصاريف\" icon={TrendingUp} tone={report.sales.netProfit >= 0 ? 'emerald' : 'rose'} />"
+          ],
+          "after": [
+            "            <MetricCard label=\"الربح\" value={money(report.sales.netProfit)} hint=\"بعد المرتجعات والاستبدال واسترجاع التكلفة والمصاريف والتلف\" icon={TrendingUp} tone={report.sales.netProfit >= 0 ? 'emerald' : 'rose'} />"
+          ]
+        },
+        {
+          "at": 336,
+          "before": [],
+          "after": [
+            "          <DamageLossReportSection losses={report.sales.damageLosses} />",
+            ""
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/dashboard.service.ts": {
+      "before": "a9938243e0a8ebbfc0b57ed12560100533b6257fe089ca978f464a63645057a4",
+      "after": "6bbdeb2aba302a07c9ceecf4349b19961183687f7a98ed5015769f5bbbc69959",
+      "hunks": [
+        {
+          "at": 34,
+          "before": [],
+          "after": [
+            "// Missing or malformed capability is unavailable, never an invented zero.",
+            "const collectedMinorValue = (value: unknown): number | null =>",
+            "  typeof value === 'number' && Number.isSafeInteger(value) ? value : null;",
+            ""
+          ]
+        },
+        {
+          "at": 39,
+          "before": [],
+          "after": [
+            "  todayCashCollectedInMinorUnits: collectedMinorValue(value.todayCashCollectedInMinorUnits),",
+            "  todayCliqCollectedInMinorUnits: collectedMinorValue(value.todayCliqCollectedInMinorUnits),"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/reports.service.ts": {
+      "before": "54c5d6f675a0d9302f19298b9605a2fee1c2b0c9a5328ab8cc536d75cae643a6",
+      "after": "fced7b7eafbd383c68ff46f3845de60fea0563a1a67e59456baf5dffead1e329",
+      "hunks": [
+        {
+          "at": 82,
+          "before": [],
+          "after": [
+            "  const damage = sales.damageLosses === undefined ? null : recordValue(sales.damageLosses);",
+            "  if (damage) {",
+            "    const validMoney = (v: unknown) => typeof v === 'number' && Number.isSafeInteger(v) && v >= 0;",
+            "    if (!validMoney(damage.totalInMinorUnits) || !validMoney(damage.additionalInMinorUnits)",
+            "      || !validMoney(damage.alreadyIncludedInMinorUnits) || !Array.isArray(damage.reasons)",
+            "      || Number(damage.totalInMinorUnits) !== Number(damage.additionalInMinorUnits) + Number(damage.alreadyIncludedInMinorUnits)",
+            "      || damage.reasons.some((value) => {",
+            "        const row = recordValue(value);",
+            "        return !textValue(row.code) || !validMoney(row.count) || !validMoney(row.quantity)",
+            "          || !validMoney(row.amountInMinorUnits) || !validMoney(row.alreadyIncludedInMinorUnits);",
+            "      })) throw new Error('بيانات خسائر التلف غير مكتملة. أعد تحميل التقرير.');",
+            "  }"
+          ]
+        },
+        {
+          "at": 115,
+          "before": [],
+          "after": [
+            "      ...(damage ? {damageLosses: {",
+            "        total: moneyValue(damage.totalInMinorUnits), additional: moneyValue(damage.additionalInMinorUnits),",
+            "        alreadyIncluded: moneyValue(damage.alreadyIncludedInMinorUnits),",
+            "        reasons: (damage.reasons as unknown[]).map((value) => {",
+            "          const row = recordValue(value);return {code: textValue(row.code),count: numberValue(row.count),quantity: numberValue(row.quantity),",
+            "            amount: moneyValue(row.amountInMinorUnits),alreadyIncluded: moneyValue(row.alreadyIncludedInMinorUnits)};",
+            "        }),",
+            "      }} : {}),"
+          ]
+        }
+      ]
+    },
+    "src/types/dashboard.ts": {
+      "before": "17e699830c4ac1514299040c04db42e71f09bfcabc1870a7e4273c1867fd716a",
+      "after": "604d93b6a3f6d4565344dd3b75f94bf6daa8ab8ac2e5affa4a8279b38744539e",
+      "hunks": [
+        {
+          "at": 126,
+          "before": [],
+          "after": [
+            "  todayCashCollectedInMinorUnits?: number | null;",
+            "  todayCliqCollectedInMinorUnits?: number | null;"
+          ]
+        }
+      ]
+    },
+    "src/types/reports.ts": {
+      "before": "3743820317d823dfda4f8a9d2fb01964a18d25d971cc85f7d421be26d56114df",
+      "after": "a4fb80e569b05d073daa6689e219d9eede81f4df4a477f012579d4cd536a3610",
+      "hunks": [
+        {
+          "at": 8,
+          "before": [],
+          "after": [
+            "export interface DamageLosses {",
+            "  total: number;",
+            "  additional: number;",
+            "  alreadyIncluded: number;",
+            "  reasons: Array<{code: string; count: number; quantity: number; amount: number; alreadyIncluded: number}>;",
+            "}",
+            ""
+          ]
+        },
+        {
+          "at": 28,
+          "before": [],
+          "after": [
+            "    damageLosses?: DamageLosses;"
+          ]
+        }
+      ]
+    },
+    "src/features/reports/DamageLossReportSection.tsx": {
+      "added": true,
+      "after": "d244356a3d5edb156ba8b5e2e0406ff9f5f4508bafa125626b6fa0136919ff4e"
+    }
+  }
+}

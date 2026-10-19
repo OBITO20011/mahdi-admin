@@ -1,0 +1,102 @@
+{
+  "sha": "79b30bef201907d5a5f44d69db290f55e75102ab",
+  "pr": "https://github.com/OBITO20011/mahdi-admin/pull/5",
+  "quality": [
+    {
+      "id": 39309373132,
+      "event": "push",
+      "result": "success",
+      "jobs": 31,
+      "verifiedFull": true,
+      "names": [
+        "CI full or affected scope",
+        "Lint, test, build and browser QA",
+        "Isolated database runtime regression",
+        "Package F browser QA (4/5)",
+        "Package F browser QA (1/5)",
+        "Package F browser QA (5/5)",
+        "Package F browser QA (3/5)",
+        "Package F browser QA (2/5)",
+        "Isolated current contracts (phase42)",
+        "Isolated current contracts (phase3-basic)",
+        "Isolated current contracts (package-f-reads)",
+        "Isolated current contracts (package-d)",
+        "Isolated current contracts (before-after)",
+        "Isolated current contracts (phase44-concurrency)",
+        "Isolated current contracts (supplier-ledger)",
+        "Isolated current contracts (closing)",
+        "Isolated current contracts (package-f-aging)",
+        "Isolated current contracts (phase44-lineage)",
+        "Isolated current contracts (phase3)",
+        "Isolated current contracts (pos-browser)",
+        "Isolated current contracts (legacy-product-cost)",
+        "Isolated current contracts (deferred-cheques)",
+        "Isolated current contracts (golden-day)",
+        "Isolated current contracts (owner-withdrawals)",
+        "Isolated current contracts (opening-cheques)",
+        "Isolated current contracts (home-damage201)",
+        "Isolated current contracts (operations-reset)",
+        "Isolated current contracts (phase43)",
+        "Isolated current contracts (phase44-financial)",
+        "Isolated current contracts (warehouse-management)",
+        "Complete quality delivery gate"
+      ]
+    },
+    {
+      "id": 39309433117,
+      "event": "pull_request",
+      "result": "success",
+      "jobs": 31,
+      "verifiedFull": true,
+      "names": [
+        "CI full or affected scope",
+        "Lint, test, build and browser QA",
+        "Isolated database runtime regression",
+        "Package F browser QA (2/5)",
+        "Package F browser QA (4/5)",
+        "Package F browser QA (1/5)",
+        "Package F browser QA (3/5)",
+        "Package F browser QA (5/5)",
+        "Isolated current contracts (phase42)",
+        "Isolated current contracts (home-damage201)",
+        "Isolated current contracts (supplier-ledger)",
+        "Isolated current contracts (phase44-lineage)",
+        "Isolated current contracts (warehouse-management)",
+        "Isolated current contracts (phase3)",
+        "Isolated current contracts (package-f-reads)",
+        "Isolated current contracts (package-f-aging)",
+        "Isolated current contracts (before-after)",
+        "Isolated current contracts (pos-browser)",
+        "Isolated current contracts (legacy-product-cost)",
+        "Isolated current contracts (phase43)",
+        "Isolated current contracts (closing)",
+        "Isolated current contracts (opening-cheques)",
+        "Isolated current contracts (deferred-cheques)",
+        "Isolated current contracts (golden-day)",
+        "Isolated current contracts (package-d)",
+        "Isolated current contracts (owner-withdrawals)",
+        "Isolated current contracts (phase44-concurrency)",
+        "Isolated current contracts (operations-reset)",
+        "Isolated current contracts (phase44-financial)",
+        "Isolated current contracts (phase3-basic)",
+        "Complete quality delivery gate"
+      ]
+    }
+  ],
+  "secrets": [
+    {
+      "id": 39309373142,
+      "event": "push",
+      "result": "success"
+    },
+    {
+      "id": 39309433247,
+      "event": "pull_request",
+      "result": "success"
+    }
+  ],
+  "mainSha": "74f8049c6565e6295d3d32d5ecbebdee904b4bb4",
+  "mainMerged": false,
+  "ownerFinancialDecision": "PENDING",
+  "verifiedAt": "2026-10-19T19:42:23.351Z"
+}

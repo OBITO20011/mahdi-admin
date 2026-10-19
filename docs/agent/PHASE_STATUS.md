@@ -1,4 +1,132 @@
+# Current20Oct —PR5 feature203 exactFULL33 accepted;genuine mainintegration
+
+68e43f3 push39332353468/PR39332358298 FULL33/33 SUCCESS verified by
+verifyFullDeliveryJobs;both exactsecrets PASS. Local203 evidence unchanged.
+Main source/tests/SQL/tools must remain identical to this accepted feature;
+only integration metadata differs. Preserve primary own continuity in named
+stash codex-main74-continuity-before-receipts203. MainFULL33+secrets next,
+then package3 from mergedmain. Owner203 guide prepared,not executed.
+
+# Current20Oct —203 final local gates PASS;new FULL33 delivery next
+
+8realDB proofs;SDK142/142,RPC495/0SQL42501;FULL150korders/1.2Mmovements
+p95 before2022433.940ms/after2032348.992ms<3000,datedfacts exactparity.
+165files/516functions/13Realtime fresh=incremental0diff;upgrade200-203
+and replay no write;realreset legacy500+opening3000+damage removed,Auth/TOTP/
+WH-MAIN preserved,Storage404,0catalogdiff;offline no hostedaccess.
+1277Admin192Customer/typesboth/strictlint/buildsboth/network PASS.
+No frontenddiff203;34affected202browser proofs retained. Known checkpoint
+drift came only from this writer's pipeline-generated evidence;resynchronize
+under existing owner delegation. Gitleaks/newcorrectivecommit/FULL33+secrets
+then PR5/mainmerge/mainFULL33;package3 afterward. No hostedaccess/deploy.
+
+# Current20Oct —202 legacy receipt gap proven;append203 before PR5 merge
+
+0xP22R:actual supported customer payment1000 on valid legacy undated invoice;
+drawer101000/Home+report0,available status. Scope all actual receipts requires
+independent payment timestamps,not sales completion. 001-202 immutable.
+5b1 FULLpush39324522959/PR39324528974 deliberatelycancelled,superseded;
+aggregate fails closed on cancellation.No mainmerge;main74f8049 unchanged.
+203 read-only existingfactsbody replaces only payment joins/branchWHERE;
+new runtime/readiness/scale/current203upgrade/reset/FULL33 pending.No UIchange.
+
+# Current20Oct —202 final local quality PASS;delivery next
+
+ALL1273Admin192Customer/typesboth/strictlint/buildsboth/isolatedSEO/network
+0escaped PASS. 34affectedbrowser and10realDB/FULLscale/ref/upgrade/reset
+remain unchanged andPASS;all test drift fixes exact,oldhashes/financial
+assertions retained.Enriched inventory report restored after base generator
+replacement;finalAdmin1273/1273PASS.Gitleaks/commit/newFULL32+secrets and
+PR5/mainmerge next.No ownedQA/DB processes;n8n untouched.No hostedaccess.
+
+# Current19Oct —202 local DB delivery chain PASS;final quality and CI next
+
+Runtime10PASS;SDK LC7bor142/142,RPCj9JANQ495/0SQL42501;fullscale
+FULL150korders/1.2Mmovements:p95before2012404.304ms/2022336.947ms<3000.
+F6GkZ3 fresh/incremental164files516functions13Realtime0diff;eH4zv4
+upgrade200+201+202/replaynowrite;VbcPJG actualreset opening+damage erased,
+Auth/TOTP/WH-MAIN retained,Storage404,0catalogdiff;offline202nohostwrite.
+34affectedbrowserPASS/types/strictlint192CustomerPASS. Admin1251/1272,
+21stale201ceiling/latestguard-label/reset-source expectations now corrected
+without changing financial assertions/historical hashes;fullunits/builds next.
+All local DB processes ended;n8n untouched;no hostedaccess/deploy.
+
 # Phase status
+
+## Current19Oct — owner approved all four collected methods;additive202 now
+
+Owner explicitly included opening-debt,compensation-claim and order receipts,
+cash/CliQ/bank_transfer/cheque;unified order allocation counted only through
+customer_payments. PR4 accepted. Preserve committed001-201;202 read correction,
+real mixed/reversal/drawer proofs,current reference/owner upgrade from199 incl
+200+201+202,new exactFULLCI,merge PR5/mainCI;then package3. No hostedaccess.
+
+
+## Current19Oct — PR5 feature FULL31+secrets verified;financial answer pending
+
+79b30be push39309373132 andPR39309433117 completedSUCCESS31/31;strict
+verifyFullDeliveryJobs passed both. Secrets39309373142/39309433247 SUCCESS.
+Actual201 prVIiy reproduced openingcash3000/CliQ1000 correctly allocated,
+drawer103000 from100000,Home/report both0 under oldcashFlow. Baseline/proposal
+saved;owner financial-definition question pending. No mainmerge;remote/main
+remains74f8049. BothCIwatchers ended;no ownedDB/testserver. Next depends on
+owner answer;no new financial source/migration has been implemented.
+
+## Current19Oct — PR5/79b30be fullCI running;cash-definition question pending
+
+69files committed/pushed;Gitleaks4.25MB0. Exact FULL31 push39309373132 and
+PR39309433117 running;pushsecrets39309373142 SUCCESS. CODE REVIEW (not runtime):
+197/201 canonical money_events omit opening-debt allocations that198 records
+separately. Owner asked asynchronously whether collected must include those;
+no new financial definition assumed. Preserve PR5 until answer/CI;no mainmerge
+yet. No localDB/testserver;two read-only API watchers identified in task.
+
+## Current19Oct — 201 final local quality PASS;PR delivery next
+
+Types Admin+Customer/strictlint1266Admin192Customer PASS;24final201browser
+Chromium/WebKit incl actual ReportsCenterView HTTP mapping/printbutton/
+printmedia,390/1440/lightdark/axe/layout. Prior26affected controls unchanged
+and PASS. First Customer launcher used Admincwd;correctcwd passed192,tests
+unchanged. Offline201 passed remoteWriteAttempted=false. Initialscale failure
+preserved in HOME_DAMAGE_201_SCALE_BEFORE_FIX.json. Arabic report and compact
+delivery evidence saved. Gitleaks/commit/PR/exactFULL31+secrets/mainmerge next.
+
+## Current19Oct — corrected201 full local DB delivery chain PASS
+
+VYTilG exactFULLcounts PASS;home before200p95 2497.512ms versus2012598.207ms,
+existing3000ms limit unchanged,delta100.695ms. OEFdqh11financialproofs PASS.
+Current functions516 regenerated;SDK EZ3oRh142/142 noerrors. PqvCdc201
+reference163files516functions13Realtime/fresh-incremental0diff. CJJfkk
+owner-upgrade apply/repair201/replay-nowrite PASS. 4ceTJf actualreset PASS,
+including realdamageevidence removal/Auth+TOTP/mainWH retention/Storage404.
+No ownedcontainers remain. Full ReportsCenterView/print probe and finallocal
+quality/offlineowner/Gitleaks/PR/exactFULLCI/mainmerge remain.
+
+## Current19Oct — corrected201 financial proof11PASS;fullscale repeat next
+
+Initial fullscale EgixVB exact counts PASS;before200home p95 2168.032ms,
+new201 3266.919ms failed existing3s gate. No threshold/timeout/retry change.
+Only new collection scans replaced with one period-local daily aggregation.
+OEFdqh11real proofs PASS including reversed payment;replacement issuance cost
+and parcel defect2*1000 loss2000 with other3*2000 sellable recovery6000;
+net profit deducts once. Earlier parcel fixture P2GfFG used wrapper instead of
+response.configuration,failed before sale;fixture corrected,no product guard
+relaxed. Corrected fullscale then current functions/SDK/ref/upgrade/reset
+(refresh actual damage row),final checks and PR/fullCI/merge remain.
+
+
+## Current19Oct — security200 delivered;package2 local201 proof PASS
+
+Main74f8049 exact quality39290758882 FULL30/30 and secrets39290758866
+SUCCESS;verifyDeliveryCi deliveryReady=true. Security PR4 complete.201
+package2 kbhZip8realDB proofs PASS:old return60 remains60,new return no
+double-count/physical fallback/replay,immutable movement WAC,receipt/damage
+both lock directions observed;cash325/CliQ200/refund300 home/report parity.
+142realSDK9tex9n/495RPC2nYftD no42501;516functions generated;34affected
+browser Chromium/WebKit 390/1440+oldHome light/dark/layout/axe/print PASS.
+201 fresh/incremental,upgrade/reset,all units/final quality/Gitleaks/PR/fullCI
+remain. No hosted access/deploy;packages3+ not started.
+
 
 ## Current19Oct — feature200 PR4 FULLgreen;genuine mainmerge
 

@@ -1,8 +1,16 @@
+import type {CustomerCollectionsInMinorUnits} from '../utils/customerCollections';
 export interface OperationalReportPeriod {
   dateFrom: string;
   dateTo: string;
   branchId: string;
   branchName: string;
+}
+
+export interface DamageLosses {
+  total: number;
+  additional: number;
+  alreadyIncluded: number;
+  reasons: Array<{code: string; count: number; quantity: number; amount: number; alreadyIncluded: number}>;
 }
 
 export interface OperationalBusinessReport {
@@ -18,6 +26,7 @@ export interface OperationalBusinessReport {
   generatedAt: string;
   period: OperationalReportPeriod;
   sales: {
+    damageLosses?: DamageLosses;
     orderCount: number;
     posOrderCount: number;
     websiteOrderCount: number;
@@ -43,6 +52,7 @@ export interface OperationalBusinessReport {
     returnCount: number;
   };
   cashFlow: {
+    customerCollections?: CustomerCollectionsInMinorUnits;
     cashCollected: number;
     cliqCollected: number;
     cashRefunded: number;

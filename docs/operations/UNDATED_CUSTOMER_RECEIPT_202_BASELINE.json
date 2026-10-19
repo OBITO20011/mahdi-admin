@@ -1,0 +1,31 @@
+{
+  "out": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-undated-receipt202-0xP22R",
+  "managedAccess": false,
+  "startedAt": "2026-10-19T21:12:35.598Z",
+  "paymentSucceeded": true,
+  "actualPaymentInMinorUnits": 1000,
+  "homeStatus": "available",
+  "homeCollections": {
+    "cashInMinorUnits": 0,
+    "cliqInMinorUnits": 0,
+    "otherInMinorUnits": 0,
+    "totalInMinorUnits": 0,
+    "chequeInMinorUnits": 0,
+    "bankTransferInMinorUnits": 0
+  },
+  "reportCollections": {
+    "cashInMinorUnits": 0,
+    "cliqInMinorUnits": 0,
+    "otherInMinorUnits": 0,
+    "totalInMinorUnits": 0,
+    "chequeInMinorUnits": 0,
+    "bankTransferInMinorUnits": 0
+  },
+  "expectedCash": 101000,
+  "cashReceipts": 1000,
+  "homeGross": 0,
+  "completionRows": 0,
+  "gapReproduced": true,
+  "ok": true,
+  "endedAt": "2026-10-19T21:13:48.630Z"
+}

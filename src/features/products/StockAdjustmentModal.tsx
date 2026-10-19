@@ -27,7 +27,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
   const [isDeduct, setIsDeduct] = useState<boolean>(mode === 'deduct');
   const [reason, setReason] = useState<string>(
     mode === 'deduct'
-      ? 'تعديل بسبب تالف / منتهي'
+      ? 'انكسر بالمحل'
       : 'تسوية زيادة ظهرت أثناء الجرد'
   );
   const [notes, setNotes] = useState<string>('');
@@ -58,6 +58,10 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
       return;
     }
 
+    if (isDeduct && reason === 'أخرى' && !notes.trim()) {
+      setToast('اكتب سبب التلف عند اختيار أخرى.', 'error');
+      return;
+    }
     const finalReason = notes ? `${reason} (${notes})` : reason;
     setIsSubmitting(true);
     try {
@@ -113,7 +117,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
           type="button"
           onClick={() => {
             setIsDeduct(true);
-            setReason('خصم بسبب تلف / نقص جرد');
+            setReason('انكسر بالمحل');
           }}
           className={`flex-1 py-2 rounded-lg font-bold flex items-center justify-center gap-1.5 transition ${
             isDeduct ? 'bg-nw-bad text-nw-on-primary shadow' : 'text-nw-muted hover:text-nw-text'
@@ -212,13 +216,13 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
       <div className="space-y-1.5">
         <label className="text-xs font-bold text-nw-text block">سبب الحركة والتسوية:</label>
         <div className="flex flex-wrap gap-1.5">
-          {[
+          {(isDeduct ? ['انكسر بالمحل', 'انتهت الصلاحية', 'تلف تخزين', 'أخرى'] : [
             'تسوية زيادة ظهرت أثناء الجرد',
             'جرد مخزني دوري',
             'بضاعة تالفة / منتهية الصلاحية',
             'عينة مجانية / تسويق',
             'خطأ في التسجيل السابق',
-          ].map((r) => (
+          ]).map((r) => (
             <UiButton variant="plain"
               key={r}
               type="button"
@@ -237,8 +241,8 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
 
       {/* Additional Notes */}
       <div className="space-y-1">
-        <label className="text-xs font-bold text-nw-text block">ملاحظات إضافية (اختياري):</label>
-        <input aria-label="ملاحظات إضافية"
+        <label className="text-xs font-bold text-nw-text block">{isDeduct && reason === 'أخرى' ? 'سبب التلف (مطلوب):' : 'ملاحظات إضافية (اختياري):'}</label>
+        <input aria-label="ملاحظات إضافية" required={isDeduct && reason === 'أخرى'}
           type="text"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}

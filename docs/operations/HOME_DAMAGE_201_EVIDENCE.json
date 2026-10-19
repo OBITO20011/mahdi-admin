@@ -1,0 +1,59 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-home-damage201-OEFdqh",
+  "startedAt": "2026-10-19T18:25:23.927Z",
+  "managedAccess": false,
+  "cases": [
+    {
+      "name": "201 adds no historical loss or client grant;old return60 stays loss60",
+      "passed": true,
+      "catalogDifferences": 31
+    },
+    {
+      "name": "new full return100/cost60 contributes loss60 once,not120;replay zero new evidence",
+      "passed": true
+    },
+    {
+      "name": "existing direct return RPC fallback captures historical cost once",
+      "passed": true
+    },
+    {
+      "name": "shop loss atomic/movement-time exactWAC,round quantity*cost once,never repriced by receiving",
+      "passed": true,
+      "secondWac": 84000,
+      "additional": 372000
+    },
+    {
+      "name": "home/day/report canonical cash325+CliQ200 before refunds300,profit matches",
+      "passed": true,
+      "cash": 325000,
+      "cliq": 200000,
+      "refund": 300000
+    },
+    {
+      "name": "customer payment reversal cancels collection once;refunds remain a separate flow",
+      "passed": true
+    },
+    {
+      "name": "loss evidence RPC-only,private helpers denied,immutable even postgres;zero/rollback produces no evidence",
+      "passed": true
+    },
+    {
+      "name": "actual receipt/damage serialize in both directions,observed lock wait,no deadlock,correct WAC and frozen loss",
+      "passed": true
+    },
+    {
+      "name": "replacement final damage stores physical leaf issuance cost,never current WAC",
+      "passed": true
+    },
+    {
+      "name": "parcel damaged2*1000 loss2000 once;other3*2000 recover6000 and create no damage loss",
+      "passed": true
+    },
+    {
+      "name": "201 replay catalog/evidence unchanged;DB-lint existing policy retained",
+      "passed": true
+    }
+  ],
+  "ok": true,
+  "endedAt": "2026-10-19T18:27:43.800Z"
+}

@@ -2,56 +2,248 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "A ",
-      "path": "docs/agent/PHASE_C_CONTRACT.md"
+      "code": "??",
+      "path": "docs/operations/ALL_COLLECTIONS_203_CI.json"
     },
     {
       "code": "A ",
-      "path": "docs/design/OWNER_PHASE_C_NOTES_AR.md"
+      "path": "docs/design/OPENING_COLLECTION_CASH_REVIEW_201_AR.md"
     },
     {
       "code": "A ",
-      "path": "docs/operations/LEGACY_PRODUCT_COST_200_EVIDENCE.json"
+      "path": "docs/operations/ALL_COLLECTIONS_202_AR.md"
     },
     {
       "code": "A ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_200.json"
+      "path": "docs/operations/ALL_COLLECTIONS_202_DELIVERY.json"
     },
     {
       "code": "A ",
-      "path": "scripts/operations/build-acl-reference200.mjs"
+      "path": "docs/operations/ALL_COLLECTIONS_202_EVIDENCE.json"
     },
     {
       "code": "A ",
-      "path": "scripts/operations/frankfurt-owner-upgrade200.mjs"
+      "path": "docs/operations/ALL_COLLECTIONS_202_SCALE.json"
     },
     {
       "code": "A ",
-      "path": "scripts/operations/frankfurt-reference200.mjs"
+      "path": "docs/operations/ALL_COLLECTIONS_202_SUPERSEDED_CI.json"
     },
     {
       "code": "A ",
-      "path": "scripts/testing/run-legacy-cost-upgrade200-runtime.mjs"
+      "path": "docs/operations/ALL_COLLECTIONS_203_EVIDENCE.json"
     },
     {
       "code": "A ",
-      "path": "scripts/testing/run-legacy-product-cost-gates.mjs"
+      "path": "docs/operations/ALL_COLLECTIONS_203_SCALE.json"
     },
     {
       "code": "A ",
-      "path": "scripts/testing/run-legacy-product-cost-runtime.mjs"
+      "path": "docs/operations/HOME_DAMAGE_201_AR.md"
     },
     {
       "code": "A ",
-      "path": "supabase/migrations/200_revoke_legacy_product_cost_writers.sql"
+      "path": "docs/operations/HOME_DAMAGE_201_CI.json"
     },
     {
       "code": "A ",
-      "path": "tests/legacy-product-cost200.test.ts"
+      "path": "docs/operations/HOME_DAMAGE_201_DELIVERY.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/HOME_DAMAGE_201_EVIDENCE.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/HOME_DAMAGE_201_SCALE_BEFORE_FIX.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/HOME_DAMAGE_201_SCALE.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/OPENING_COLLECTION_CASH_201_BASELINE.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_201.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_202.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_203.json"
+    },
+    {
+      "code": "A ",
+      "path": "docs/operations/UNDATED_CUSTOMER_RECEIPT_202_BASELINE.json"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/package-f-collections202.spec.ts"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/package-f-home-damage201.spec.ts"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/package-f-report201-harness.html"
+    },
+    {
+      "code": "A ",
+      "path": "e2e/package-f-report201-harness.tsx"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/collections202-hunks.json"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/home-damage201-hunks.json"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/source-before-collections202.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/audit/source-before-home-damage201.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/operations/build-acl-reference201.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/operations/build-acl-reference202.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/operations/build-acl-reference203.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/operations/frankfurt-owner-upgrade201.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/operations/frankfurt-owner-upgrade202.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/operations/frankfurt-owner-upgrade203.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/operations/frankfurt-reference201.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/operations/frankfurt-reference202.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/operations/frankfurt-reference203.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-all-collections-upgrade202-runtime.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-all-collections-upgrade203-runtime.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-all-collections202-gates.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-all-collections202-runtime.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-all-collections202-scale.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-all-collections203-gates.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-all-collections203-runtime.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-all-collections203-scale.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-home-damage-upgrade201-runtime.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-home-damage201-gates.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-home-damage201-runtime.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "scripts/testing/run-home-damage201-scale.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "src/features/reports/CustomerCollectionsSection.tsx"
+    },
+    {
+      "code": "A ",
+      "path": "src/features/reports/DamageLossReportSection.tsx"
+    },
+    {
+      "code": "A ",
+      "path": "src/utils/customerCollections.ts"
+    },
+    {
+      "code": "A ",
+      "path": "supabase/migrations/201_home_collections_and_damage_losses.sql"
+    },
+    {
+      "code": "A ",
+      "path": "supabase/migrations/202_all_customer_collections_read_model.sql"
+    },
+    {
+      "code": "A ",
+      "path": "supabase/migrations/203_customer_payment_receipts_without_completion.sql"
+    },
+    {
+      "code": "A ",
+      "path": "tests/all-customer-collections202.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/all-customer-collections203.test.ts"
+    },
+    {
+      "code": "A ",
+      "path": "tests/home-damage201.test.ts"
     },
     {
       "code": "AM",
-      "path": "docs/operations/LEGACY_PRODUCT_COST_200_AR.md"
+      "path": "docs/agent/HOME_DAMAGE_201.md"
+    },
+    {
+      "code": "AM",
+      "path": "docs/operations/ALL_COLLECTIONS_203_AR.md"
+    },
+    {
+      "code": "AM",
+      "path": "docs/operations/ALL_COLLECTIONS_203_DELIVERY.json"
     },
     {
       "code": "M ",
@@ -71,6 +263,10 @@
     },
     {
       "code": "M ",
+      "path": "docs/operations/LEGACY_PRODUCT_COST_200_AR.md"
+    },
+    {
+      "code": "M ",
       "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
     },
     {
@@ -84,6 +280,14 @@
     {
       "code": "M ",
       "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-home-harness.tsx"
     },
     {
       "code": "M ",
@@ -103,7 +307,31 @@
     },
     {
       "code": "M ",
+      "path": "scripts/audit/source-before-warehouse-management.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/build-acl-reference199.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/build-acl-reference200.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/first-owner-reference198.mjs"
+    },
+    {
+      "code": "M ",
       "path": "scripts/operations/frankfurt-owner-build.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-reference199.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-reference200.mjs"
     },
     {
       "code": "M ",
@@ -115,15 +343,39 @@
     },
     {
       "code": "M ",
-      "path": "scripts/testing/bootstrap-isolated-supabase.mjs"
-    },
-    {
-      "code": "M ",
       "path": "scripts/testing/historical-reset-source.mjs"
     },
     {
       "code": "M ",
       "path": "scripts/testing/run-trial-reset-runtime.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/dashboard/DashboardHome.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/products/StockAdjustmentModal.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/reports/ReportsCenterView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/services/supabase/dashboard.service.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/services/supabase/reports.service.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/types/dashboard.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/types/reports.ts"
     },
     {
       "code": "M ",
@@ -136,6 +388,14 @@
     {
       "code": "M ",
       "path": "tests/cheques195-admission.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/cheques195-parity.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/frankfurt-public-config.test.ts"
     },
     {
       "code": "M ",
@@ -160,6 +420,10 @@
     {
       "code": "M ",
       "path": "tests/trial-reset.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/withdrawals-integration182.test.ts"
     },
     {
       "code": "M ",

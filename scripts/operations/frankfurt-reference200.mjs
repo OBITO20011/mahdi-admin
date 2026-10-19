@@ -4,7 +4,7 @@ import path from 'node:path';
 import {migrationManifest,manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {realtimePublicationSql,realtime151Tables} from '../testing/realtime151-contract.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';
+import {inventoryBeforeHomeDamage201 as inventory200} from '../audit/source-before-home-damage201.mjs';
 import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
 import {assertReady199Catalog} from './frankfurt-reference199.mjs';
 import {aclEntries,compareManagedCatalog} from './managed-catalog-policy.mjs';
@@ -48,5 +48,5 @@ export function assertReady200Reference(reference,manifest,proofText,source){
 export async function readReady200Reference(root,filename){
   return assertReady200Reference(JSON.parse(await readFile(filename,'utf8')),
     (await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=200),
-    await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_200.json'),'utf8'),await inventory());
+    await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_200.json'),'utf8'),await inventory200());
 }

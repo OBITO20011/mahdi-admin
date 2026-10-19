@@ -1,0 +1,14 @@
+[
+  {
+    "id": 39324522959,
+    "head_sha": "5b1a97bc7cab6a421795f4f14d41e69f51136ac2",
+    "cancelStatus": 202,
+    "reason": "Superseded by reproduced valid legacy customer payment omitted from202;append203 before any merge,new exactFULL required"
+  },
+  {
+    "id": 39324528974,
+    "head_sha": "5b1a97bc7cab6a421795f4f14d41e69f51136ac2",
+    "cancelStatus": 202,
+    "reason": "Superseded by reproduced valid legacy customer payment omitted from202;append203 before any merge,new exactFULL required"
+  }
+]

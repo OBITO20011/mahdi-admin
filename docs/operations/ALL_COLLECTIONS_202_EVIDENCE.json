@@ -1,0 +1,76 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-all-collections202-7majQR",
+  "startedAt": "2026-10-19T20:26:15.760Z",
+  "managedAccess": false,
+  "cases": [
+    {
+      "name": "201 reproduces opening receipts missing from Home/report while drawer correctly includes cash3",
+      "passed": true,
+      "cash": 3000,
+      "cliq": 1000
+    },
+    {
+      "name": "202 counts opening3+CliQ1 exactly,Home/report/day/branch parity,profit/debt/writers/ACL unchanged",
+      "passed": true
+    },
+    {
+      "name": "owner scenario exact:opening3cash+1CliQ+order2cash+mixed4cash=10 total;order allocation3 counted once",
+      "passed": true,
+      "collections": {
+        "cashInMinorUnits": 9000,
+        "cliqInMinorUnits": 1000,
+        "otherInMinorUnits": 0,
+        "totalInMinorUnits": 10000,
+        "chequeInMinorUnits": 0,
+        "bankTransferInMinorUnits": 0
+      },
+      "drawer": 109000
+    },
+    {
+      "name": "payment and unified replay create no rows,amounts or sequence changes",
+      "passed": true
+    },
+    {
+      "name": "bank1.5+registered cheque2.5 counted once,outside drawer;clearing adds no new receipt",
+      "passed": true,
+      "collections": {
+        "cashInMinorUnits": 9000,
+        "cliqInMinorUnits": 1000,
+        "otherInMinorUnits": 0,
+        "totalInMinorUnits": 14000,
+        "chequeInMinorUnits": 2500,
+        "bankTransferInMinorUnits": 1500
+      }
+    },
+    {
+      "name": "compensation claim cash0.5 enters drawer/counts once;original cheque evidence remains in its method",
+      "passed": true,
+      "collections": {
+        "cashInMinorUnits": 9500,
+        "cliqInMinorUnits": 1000,
+        "otherInMinorUnits": 0,
+        "totalInMinorUnits": 15500,
+        "chequeInMinorUnits": 3500,
+        "bankTransferInMinorUnits": 1500
+      }
+    },
+    {
+      "name": "mixed reversal removes opening1+order3 once,refunds separate,drawer/profit exact",
+      "passed": true
+    },
+    {
+      "name": "standalone order payment reversal subtracts exactly2,not entire unified receipt",
+      "passed": true
+    },
+    {
+      "name": "actual reversal after arbitrary period boundary is signed -0.25;prior receipt excluded,whole-day total unchanged;no clock/immutable-history manipulation",
+      "passed": true
+    },
+    {
+      "name": "successful empty period is six exact zeros;202 replay has zero catalog/business effects;unchanged DB lint",
+      "passed": true
+    }
+  ],
+  "ok": true,
+  "endedAt": "2026-10-19T20:28:02.427Z"
+}
