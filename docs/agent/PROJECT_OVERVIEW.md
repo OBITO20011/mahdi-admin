@@ -1,3 +1,10 @@
+# Current19Oct — owner all-receipts decision;package2 additive202
+
+See HOME_DAMAGE_201.md and ../operations/ALL_COLLECTIONS_202_AR.md.
+201 immutable;202 read-only correction local DB gates PASS. Final quality,
+newexactFULLCI and PR5/main merge pending;then package3 sales history.
+No hostedaccess/deploy;mandatory later item20 design review STOP retained.
+
 # Project overview
 
 Current owner2026-10-19: PhaseB reports approved; PhaseC execution authorized

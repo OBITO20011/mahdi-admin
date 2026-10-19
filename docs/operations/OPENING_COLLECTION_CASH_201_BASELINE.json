@@ -1,0 +1,18 @@
+{
+  "startedAt": "2026-10-19T19:27:35.122Z",
+  "out": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-opening-cash201-prVIiy",
+  "managedAccess": false,
+  "migrationCeiling": 201,
+  "purpose": "BASELINE_GAP_DIAGNOSTIC_NOT_A_PRODUCT_CHANGE",
+  "actualOpeningCash": 3000,
+  "actualOpeningCliq": 1000,
+  "drawerCashReceipts": 3000,
+  "drawerExpected": 103000,
+  "homeCash": 0,
+  "homeCliq": 0,
+  "reportCash": 0,
+  "reportCliq": 0,
+  "gapReproduced": true,
+  "ok": true,
+  "endedAt": "2026-10-19T19:29:07.701Z"
+}

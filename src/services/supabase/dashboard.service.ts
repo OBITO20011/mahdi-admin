@@ -1,3 +1,4 @@
+import {parseCustomerCollections} from '../../utils/customerCollections';
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
 import { RequestTimeoutError, runWithTimeout } from '../../lib/async';
 import {
@@ -36,6 +37,7 @@ const collectedMinorValue = (value: unknown): number | null =>
   typeof value === 'number' && Number.isSafeInteger(value) ? value : null;
 
 const mapSummary = (value: Record<string, unknown>): HomeDashboardSummary => ({
+  todayCollections: parseCustomerCollections(value.todayCollections) ?? null,
   todayCashCollectedInMinorUnits: collectedMinorValue(value.todayCashCollectedInMinorUnits),
   todayCliqCollectedInMinorUnits: collectedMinorValue(value.todayCliqCollectedInMinorUnits),
   todaySalesInMinorUnits: numberValue(value.todaySalesInMinorUnits),

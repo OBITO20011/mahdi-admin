@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
 import ts from 'typescript';
 import React from 'react';
+import {parseCustomerCollections} from '../src/utils/customerCollections';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {DashboardHome} from '../src/features/dashboard/DashboardHome';
 import {DamageLossReportSection} from '../src/features/reports/DamageLossReportSection';
@@ -20,10 +21,10 @@ const render=(data=homeFixture,overrides:Partial<HomeProps>={})=>renderToStaticM
 }));
 
 test('201 Home displays canonical cash+CliQ;zero,missing,error and loading stay distinct',()=>{
- const data=structuredClone(homeFixture);data.summary.todayCashCollectedInMinorUnits=123456;data.summary.todayCliqCollectedInMinorUnits=54321;
+ const data=structuredClone(homeFixture);data.summary.todayCashCollectedInMinorUnits=123456;data.summary.todayCliqCollectedInMinorUnits=54321;data.summary.todayCollections={cashInMinorUnits:123456,cliqInMinorUnits:54321,bankTransferInMinorUnits:0,chequeInMinorUnits:0,otherInMinorUnits:0,totalInMinorUnits:177777};
  const html=render(data);assert.ok(html.includes('177.777'));assert.ok(html.includes('123.456'));assert.ok(html.includes('54.321'));
  assert.ok(!html.includes('تفصيل كاش / CliQ غير متاح'));
- data.summary.todayCashCollectedInMinorUnits=0;data.summary.todayCliqCollectedInMinorUnits=0;
+ data.summary.todayCashCollectedInMinorUnits=0;data.summary.todayCliqCollectedInMinorUnits=0;data.summary.todayCollections={cashInMinorUnits:0,cliqInMinorUnits:0,bankTransferInMinorUnits:0,chequeInMinorUnits:0,otherInMinorUnits:0,totalInMinorUnits:0};
  assert.ok(render(data).includes('0.000'));
  delete data.summary.todayCashCollectedInMinorUnits;assert.ok(render(data).includes('تفصيل كاش / CliQ غير متاح'));
  assert.ok(render(data,{loading:true}).includes('جاري التحميل…'));assert.ok(render(data,{error:'فشل الاتصال'}).includes('تعذر تحميل المقبوض'));
@@ -52,6 +53,7 @@ test('201 actual dashboard service rejects malformed/missing collection numbers 
  const js=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
  let cash:unknown=0,cliq:unknown=1234;const exports:Record<string,(...args:unknown[])=>Promise<{success:boolean;data:{summary:{todayCashCollectedInMinorUnits:number|null;todayCliqCollectedInMinorUnits:number|null}}}>>={};
  runInNewContext(js,{exports,require:(name:string)=>{
+  if(name==='../../utils/customerCollections')return {parseCustomerCollections};
   if(name==='../../lib/supabase')return {isSupabaseConfigured:true,supabase:{rpc:(rpc:string)=>{assert.equal(rpc,'get_home_dashboard');return {abortSignal:()=>Promise.resolve({data:{summary:{todayCashCollectedInMinorUnits:cash,todayCliqCollectedInMinorUnits:cliq}},error:null})};}}};
   if(name==='../../lib/async')return {runWithTimeout:(call:(signal:AbortSignal)=>unknown)=>call(new AbortController().signal),RequestTimeoutError:class extends Error{}};
   throw Error(name);
@@ -77,6 +79,7 @@ test('201 report service maps exact losses and refuses incomplete or inconsisten
  let damage:unknown=undefined;
  const exports:Record<string,(...args:unknown[])=>Promise<OperationalBusinessReport>>={};
  runInNewContext(js,{exports,require:(name:string)=>{
+  if(name==='../../utils/customerCollections')return {parseCustomerCollections};
   if(name==='../../lib/supabase')return {isSupabaseConfigured:true,supabase:{rpc:async()=>({error:null,data:{success:true,sales:{...sales,...(damage===undefined?{}:{damageLosses:damage})},cashFlow,expenses:{totalInMinorUnits:0},balances:{customerDueInMinorUnits:0}}})}};
   if(name==='../../utils/receivingCalculations')return {minorUnitsToJod:(value:number)=>value/1000};
   throw Error(name);

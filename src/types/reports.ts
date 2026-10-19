@@ -1,3 +1,4 @@
+import type {CustomerCollectionsInMinorUnits} from '../utils/customerCollections';
 export interface OperationalReportPeriod {
   dateFrom: string;
   dateTo: string;
@@ -51,6 +52,7 @@ export interface OperationalBusinessReport {
     returnCount: number;
   };
   cashFlow: {
+    customerCollections?: CustomerCollectionsInMinorUnits;
     cashCollected: number;
     cliqCollected: number;
     cashRefunded: number;

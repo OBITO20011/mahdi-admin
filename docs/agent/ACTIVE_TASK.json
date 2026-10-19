@@ -2,52 +2,50 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner PhaseC package2: canonical home cash/CliQ collected and complete shift outflows;damage cost evidence and profit once with return already-counted disclosure;no supplier replacement yet. Security merged74f8049,main FULL30+secrets exactSHA verified. No hosted access/deploy.",
-  "baselineSha": "74f8049c6565e6295d3d32d5ecbebdee904b4bb4",
+  "objective": "Complete PR5 with owner-approved202 all-customer receipts:opening/compensation/orders,cash/CliQ/bank/cheque,order allocation once;realDB/readiness/newFULLCI/mainmerge,owner upgrade199->200+201+202;then package3. No hosted access/deploy.",
+  "baselineSha": "79b30bef201907d5a5f44d69db290f55e75102ab",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/phase-c-home-damage-profit",
   "phase": "PACKAGE_F",
   "completed": [
-    "Security200 PR4/main74f8049 delivered;FULL30+secrets exactSHA verified"
+    "Security200 PR4/main74f8049 delivered;FULL30+secrets exactSHA verified",
+    "201 feature79b30be pushed;PR5 attached;Gitleaks4.25MB0;all local quality PASS",
+    "PR5/79b30be exactFULL31 push39309373132+PR39309433117;secrets39309373142/39309433247 SUCCESS verified",
+    "202 runtime10/SDK142/RPC495/FULLscale2336.947ms/ref164-516-13/upgrade200-202/replay/reset/offline PASS"
   ],
   "inProgress": [
-    "Review/stage/Gitleaks then commit+PR and exactFULLCI"
+    "Gitleaks/normal202 correctivecommit/push/newexactFULL32+secrets;PR5realmainmerge/mainFULL32"
   ],
   "notStarted": [
     "Packages3-7 ordered in PHASE_C_CONTRACT;each separate PR/fullCI/merge",
     "Item20 design then mandatory Claude review STOP;supplier replacement later"
   ],
   "testsPassed": [
-    "201 OEFdqh11realDB:returns once,collection reversal,physical replacement/parcel costs,WAC/concurrency/ACL/immutability/replay/DBlint",
-    "VYTilG FULL5000SKUs/150000orders/1.2Mmovements:beforep95 2497.512ms,after2598.207ms <3000",
-    "SDK EZ3oRh142/142 zeroerrors;RPC2nYftD495probes/173sites zeroSQL42501",
-    "PqvCdc fresh/incremental201163files516functions13Realtime0diff;CJJfkk upgrade201/replay nowrite",
-    "4ceTJf actualreset PASS:damage erased,Auth/TOTP/mainWH preserved,Storageuncached404,0catalogdiff",
-    "Earlier1266Admin192Customer/types/strictlint/build and40affectedbrowser PASS;new report probe/finalchecks pending",
-    "Final preflight/types Admin+Customer/strictlint1266Admin192Customer/24new+26prior affectedbrowser PASS;offline201 no remoteWrite"
+    "201 closed evidence and79b30be exactFULL31 retained unchanged;see HOME_DAMAGE_201_DELIVERY.json",
+    "202 10realDB proofs,SDK142/142,RPC495/0SQL42501,FULL p95 2336.947ms<3000;fresh/incremental0diff;upgrade/reset/offline PASS",
+    "202 34affectedbrowser Chromium/WebKit390/1440/light/dark/HTTPmap/print/axe;Admin+Customer types/strictlint192Customer PASS",
+    "Final1273Admin192Customer/typesboth/strictlint/buildsboth/SEO/network0escaped PASS;all known test/doc drifts corrected exactly"
   ],
   "testsRemaining": [
-    "Gitleaks0/commit/PR/exactFULL31+secrets/realmainmerge/exactFULLmainCI"
+    "Gitleaks/newexactFULL32+secrets feature/PR/main;then package3"
   ],
   "findings": [
-    "Additional confirmed legacy bypasses: create_product_with_opening_stock/v2/v3 accept opening2 vs currentv4 rejects; receive_inventory adds2 without receiving document/WAC. Proposal only;no extra grants revoked.",
-    "Full201 scale EgixVB failed gate:p95before2168.032ms/after3266.919ms;daily money rescan per date. Aggregate once by day in same201 draft;rerun same fullscale and exact financial proofs,never raise threshold.",
-    "Expanded runtime P2GfFG:9proofs PASS incl reversed collection and replacement historical cost;parcel fixture used configuration wrapper incorrectly and failed Missing parcel_configuration_id before sale. Correct fixture to response.configuration;no product relaxation.",
-    "Final customer-unit launcher initially used Admin cwd;correct customer-web cwd passed192 unchangedtests. No product/test relaxation."
+    "Legacy opening-stock/receive_inventory bypass proposals only;see LEGACY_PRODUCT_COST_200_AR.md",
+    "Initial201 scale3266.919ms failed;fixed daily rescan and preserved BEFORE_FIX evidence;current2598.207ms PASS"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Frankfurt/Production/hosted access,secrets or deployment",
-    "Historical001-200 immutable;only owner-approved package2 additive201 and related frontend now",
+    "Committed001-201 immutable;approved package2 additive202 and related read UI only",
     "One writer;no tracked edits during local verification;no assertion/retry/timeout weakening"
   ],
-  "nextExactAction": "Finaldiff/Gitleaks0 then commit/push/PR;wait exactFULL31+secrets before genuine mainmerge;main exactFULLCI;then package3 saleshistory worktree.",
-  "checkpointedAt": "2026-10-19T19:13:49.786Z",
+  "nextExactAction": "All202 local gates PASS. Stage68ownfiles,Gitleaks0,normalcorrectivecommit/push;watch exactFULL32+secrets push/PR5,then genuine mainmerge/mainFULL32;owner202command ready offline,then package3. No hostedaccess.",
+  "checkpointedAt": "2026-10-19T21:03:21.349Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "EE6E6BE2C462F37478053FCAA8FF3153687DA86467A9EA743BB081DAF1DC27A9",
-  "filesTouchedCount": 67,
-  "filesTouchedManifestSha256": "81aa1f0e9e791a8f3e8b43c56b6f63148e10a59491af713f16cdc7c199dcaaa9"
+  "workingTreeFingerprint": "42AB5D5D135B43D0DE069F52CC10FA36D490707C748688662A87E17C3DA0E2E5",
+  "filesTouchedCount": 68,
+  "filesTouchedManifestSha256": "f9f7451f2e79ccfd3bc086f2fd517182c4b70afdbee48988e298a5b3abf1686f"
 }

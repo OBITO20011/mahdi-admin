@@ -1,4 +1,53 @@
+# Current20Oct —202 final local quality PASS;delivery next
+
+ALL1273Admin192Customer/typesboth/strictlint/buildsboth/isolatedSEO/network
+0escaped PASS. 34affectedbrowser and10realDB/FULLscale/ref/upgrade/reset
+remain unchanged andPASS;all test drift fixes exact,oldhashes/financial
+assertions retained.Enriched inventory report restored after base generator
+replacement;finalAdmin1273/1273PASS.Gitleaks/commit/newFULL32+secrets and
+PR5/mainmerge next.No ownedQA/DB processes;n8n untouched.No hostedaccess.
+
+# Current19Oct —202 local DB delivery chain PASS;final quality and CI next
+
+Runtime10PASS;SDK LC7bor142/142,RPCj9JANQ495/0SQL42501;fullscale
+FULL150korders/1.2Mmovements:p95before2012404.304ms/2022336.947ms<3000.
+F6GkZ3 fresh/incremental164files516functions13Realtime0diff;eH4zv4
+upgrade200+201+202/replaynowrite;VbcPJG actualreset opening+damage erased,
+Auth/TOTP/WH-MAIN retained,Storage404,0catalogdiff;offline202nohostwrite.
+34affectedbrowserPASS/types/strictlint192CustomerPASS. Admin1251/1272,
+21stale201ceiling/latestguard-label/reset-source expectations now corrected
+without changing financial assertions/historical hashes;fullunits/builds next.
+All local DB processes ended;n8n untouched;no hostedaccess/deploy.
+
 # Phase status
+
+## Current19Oct — owner approved all four collected methods;additive202 now
+
+Owner explicitly included opening-debt,compensation-claim and order receipts,
+cash/CliQ/bank_transfer/cheque;unified order allocation counted only through
+customer_payments. PR4 accepted. Preserve committed001-201;202 read correction,
+real mixed/reversal/drawer proofs,current reference/owner upgrade from199 incl
+200+201+202,new exactFULLCI,merge PR5/mainCI;then package3. No hostedaccess.
+
+
+## Current19Oct — PR5 feature FULL31+secrets verified;financial answer pending
+
+79b30be push39309373132 andPR39309433117 completedSUCCESS31/31;strict
+verifyFullDeliveryJobs passed both. Secrets39309373142/39309433247 SUCCESS.
+Actual201 prVIiy reproduced openingcash3000/CliQ1000 correctly allocated,
+drawer103000 from100000,Home/report both0 under oldcashFlow. Baseline/proposal
+saved;owner financial-definition question pending. No mainmerge;remote/main
+remains74f8049. BothCIwatchers ended;no ownedDB/testserver. Next depends on
+owner answer;no new financial source/migration has been implemented.
+
+## Current19Oct — PR5/79b30be fullCI running;cash-definition question pending
+
+69files committed/pushed;Gitleaks4.25MB0. Exact FULL31 push39309373132 and
+PR39309433117 running;pushsecrets39309373142 SUCCESS. CODE REVIEW (not runtime):
+197/201 canonical money_events omit opening-debt allocations that198 records
+separately. Owner asked asynchronously whether collected must include those;
+no new financial definition assumed. Preserve PR5 until answer/CI;no mainmerge
+yet. No localDB/testserver;two read-only API watchers identified in task.
 
 ## Current19Oct — 201 final local quality PASS;PR delivery next
 

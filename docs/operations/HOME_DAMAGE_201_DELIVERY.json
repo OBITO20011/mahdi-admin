@@ -59,7 +59,8 @@
     "output": "offline201-2026-10-19T19-04-08-729Z"
   },
   "remaining": [
-    "Gitleaks/commit/PR/exact FULL31+secrets/main merge/main FULLCI"
+    "Owner definition resolved explicitly;committed201 preserved;202 adds comprehensive receipts.See ALL_COLLECTIONS_202_DELIVERY.json",
+    "New202 exactFULLCI and PR5/main delivery remain"
   ],
   "localQuality": {
     "adminTypes": true,
@@ -74,5 +75,13 @@
     ],
     "priorAffectedUnchanged": 26,
     "customerLauncherCorrection": "Initial root cwd rejected missing customer files;correct customer-web cwd passed192 without changing tests"
+  },
+  "featureCi": {
+    "file": "HOME_DAMAGE_201_CI.json",
+    "sha": "79b30bef201907d5a5f44d69db290f55e75102ab",
+    "fullPush31": true,
+    "fullPR31": true,
+    "secretsPush": true,
+    "secretsPR": true
   }
 }

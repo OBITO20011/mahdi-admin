@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 201,
+  "migrationCeiling": 202,
   "managedAccess": false,
   "sources": [
     {
@@ -229,7 +229,7 @@
     },
     {
       "file": "src/features/dashboard/DashboardHome.tsx",
-      "sha256": "3e7e2c6e3b1bd1349613d29c2a808fa67b74cd4a16a76540fb0b6e007aae7b05"
+      "sha256": "6883e1cc8528ca7a1cc1bba20146e04d8c2dce9677c15de5f8c11e898c78e014"
     },
     {
       "file": "src/features/dashboard/DashboardView.tsx",
@@ -448,6 +448,10 @@
       "sha256": "ed70fc3f51dc6b59a069f0e06620929bf8fecddc1928fc973d10c371c22255bb"
     },
     {
+      "file": "src/features/reports/CustomerCollectionsSection.tsx",
+      "sha256": "4d69574dd3fa320fd19f5ddb102ceffef9c59a14f8ccea97950d8f4db637577d"
+    },
+    {
       "file": "src/features/reports/DamageLossReportSection.tsx",
       "sha256": "d244356a3d5edb156ba8b5e2e0406ff9f5f4508bafa125626b6fa0136919ff4e"
     },
@@ -457,7 +461,7 @@
     },
     {
       "file": "src/features/reports/ReportsCenterView.tsx",
-      "sha256": "858d9f529ec1dd3adc4d28cff8db4ee346acc5daacd5cf7eaa308a3e118f6998"
+      "sha256": "48dd1e985da9afc84733b08bca408be2abae4b2c5ccc6fc3d1a4239d0edee659"
     },
     {
       "file": "src/features/shifts/OwnerWithdrawalsPanel.tsx",
@@ -577,7 +581,7 @@
     },
     {
       "file": "src/services/supabase/dashboard.service.ts",
-      "sha256": "6bbdeb2aba302a07c9ceecf4349b19961183687f7a98ed5015769f5bbbc69959"
+      "sha256": "ff38d28eb554223af227f7cae66b836c31dead27d80692e9d298cca2fafe64a1"
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
@@ -673,7 +677,7 @@
     },
     {
       "file": "src/services/supabase/reports.service.ts",
-      "sha256": "fced7b7eafbd383c68ff46f3845de60fea0563a1a67e59456baf5dffead1e329"
+      "sha256": "fecd78dcc8cfd9c762f56b0766a866437841ec53ec0889cba7335f2f9c0f8fd3"
     },
     {
       "file": "src/services/supabase/salesAftercare.service.ts",
@@ -733,7 +737,7 @@
     },
     {
       "file": "src/types/dashboard.ts",
-      "sha256": "604d93b6a3f6d4565344dd3b75f94bf6daa8ab8ac2e5affa4a8279b38744539e"
+      "sha256": "e9cc5e2d09997ed78e007079c18728ab8b3a6b61c1d70a0cbbe8e94d78b835ea"
     },
     {
       "file": "src/types/directReceiving.ts",
@@ -757,7 +761,7 @@
     },
     {
       "file": "src/types/reports.ts",
-      "sha256": "a4fb80e569b05d073daa6689e219d9eede81f4df4a477f012579d4cd536a3610"
+      "sha256": "0d3b237db7cc2b6dd2a8bb0f701314307f21fc889bfe294a24fe00ae1bd0c6a2"
     },
     {
       "file": "src/types/storefront.ts",
@@ -770,6 +774,10 @@
     {
       "file": "src/utils/businessError.ts",
       "sha256": "a5874bdbad120aedd2a1e6edb3c352e70de8c92d1aee1edc4db936cb6d3d8103"
+    },
+    {
+      "file": "src/utils/customerCollections.ts",
+      "sha256": "ea9d29a4db3ce97ad3965ab6bf81f08264e0a89ef19328f6199c56b9213eadee"
     },
     {
       "file": "src/utils/customerDebtAging.ts",
@@ -3294,7 +3302,7 @@
     },
     {
       "file": "src/services/supabase/dashboard.service.ts",
-      "line": 224,
+      "line": 226,
       "event": "*",
       "schema": "public",
       "table": "suppliers",
@@ -3304,7 +3312,7 @@
     },
     {
       "file": "src/services/supabase/dashboard.service.ts",
-      "line": 224,
+      "line": 226,
       "event": "*",
       "schema": "public",
       "table": "customers",
@@ -3314,7 +3322,7 @@
     },
     {
       "file": "src/services/supabase/dashboard.service.ts",
-      "line": 224,
+      "line": 226,
       "event": "*",
       "schema": "public",
       "table": "products",
@@ -3324,7 +3332,7 @@
     },
     {
       "file": "src/services/supabase/dashboard.service.ts",
-      "line": 224,
+      "line": 226,
       "event": "*",
       "schema": "public",
       "table": "inventory_balances",
@@ -3334,7 +3342,7 @@
     },
     {
       "file": "src/services/supabase/dashboard.service.ts",
-      "line": 224,
+      "line": 226,
       "event": "*",
       "schema": "public",
       "table": "orders",

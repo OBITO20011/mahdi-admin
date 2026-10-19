@@ -1,3 +1,4 @@
+import {parseCustomerCollections} from '../../utils/customerCollections';
 import { isSupabaseConfigured, supabase } from '../../lib/supabase';
 import type { OperationalBusinessReport } from '../../types';
 import { minorUnitsToJod } from '../../utils/receivingCalculations';
@@ -59,6 +60,7 @@ export async function fetchOperationalBusinessReportFromSupabase(
   const period = recordValue(payload.period);
   const sales = recordValue(payload.sales);
   const cashFlow = recordValue(payload.cashFlow);
+  const customerCollections = parseCustomerCollections(cashFlow.customerCollections);
   const expenses = recordValue(payload.expenses);
   const purchases = recordValue(payload.purchases);
   const balances = recordValue(payload.balances);
@@ -145,6 +147,7 @@ export async function fetchOperationalBusinessReportFromSupabase(
       returnCount: numberValue(sales.returnCount),
     },
     cashFlow: {
+      ...(customerCollections ? {customerCollections} : {}),
       cashCollected: moneyValue(cashFlow.cashCollectedInMinorUnits),
       cliqCollected: moneyValue(cashFlow.cliqCollectedInMinorUnits),
       cashRefunded: moneyValue(cashFlow.cashRefundedInMinorUnits),

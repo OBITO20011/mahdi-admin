@@ -1,0 +1,32 @@
+import AxeBuilder from '@axe-core/playwright';
+import {expect,test} from './isolated-test';
+import {checkLayout} from './package-f-layout';
+import {analyzePackageFAccessibility} from './package-f-accessibility';
+import {financialReport} from './package-f-financial.fixture';
+const base=process.env.ADMIN_BASE_URL??'http://127.0.0.1:4173';
+const amounts={cashInMinorUnits:123456,cliqInMinorUnits:54321,bankTransferInMinorUnits:98765,chequeInMinorUnits:12345,otherInMinorUnits:0,totalInMinorUnits:288887};
+for(const width of [390,1440])for(const theme of ['light','dark'])test(`202 four-method Home and full report ${width} ${theme},HTTP mapping/layout/axe/print`,async({page})=>{
+ await page.setViewportSize({width,height:1000});await page.goto(`${base}/e2e/package-f-home-harness.html?collections&allCollections&theme=${theme}`);
+ const kpis=page.getByTestId('home-kpis');for(const value of ['288.887','123.456','54.321','98.765','12.345','تحويل','شيك'])await expect(kpis).toContainText(value);
+ await checkLayout(page,page.getByTestId('dashboard-home'));
+ await page.route('**/rest/v1/rpc/get_operational_business_report',route=>route.fulfill({json:{...financialReport,cashFlow:{...financialReport.cashFlow,customerCollections:amounts}}}));
+ await page.route('**/rest/v1/rpc/get_aftercare_integrity_status',route=>route.fulfill({json:{status:'healthy',checkedAt:new Date().toISOString()}}));
+ await page.goto(`${base}/e2e/package-f-report201-harness.html?theme=${theme}`);
+ const section=page.getByTestId('report-customer-collections');await expect(section).toBeVisible();
+ for(const value of ['288.887','123.456','54.321','98.765','12.345','الكاش داخل الدرج','صرف الشيك المستلم ليس قبضًا جديدًا'])await expect(section).toContainText(value);
+ await page.evaluate(()=>document.fonts.ready);await checkLayout(page,page.getByTestId('reports-screen'));
+ const axe=await analyzePackageFAccessibility(page,new AxeBuilder({page}));expect(axe.violations.filter(v=>['serious','critical'].includes(v.impact??'')).map(v=>v.id)).toEqual([]);
+ await page.evaluate(()=>{window.print=()=>{document.body.dataset.printCalls='1';};});await page.getByRole('button',{name:'طباعة / PDF',exact:true}).click();await expect(page.locator('body')).toHaveAttribute('data-print-calls','1');
+ await page.emulateMedia({media:'print'});await expect(section).toBeVisible();await expect(section).toContainText('288.887');
+});
+test('202 full report missing,zero,malformed,error and loading never invent collected totals',async({page})=>{
+ let value:unknown=undefined,failed=false;
+ await page.route('**/rest/v1/rpc/get_operational_business_report',route=>failed?route.fulfill({status:500,json:{message:'خطأ قراءة معزول'}}):route.fulfill({json:{...financialReport,cashFlow:{...financialReport.cashFlow,...(value===undefined?{}:{customerCollections:value})}}}));
+ await page.route('**/rest/v1/rpc/get_aftercare_integrity_status',route=>route.fulfill({json:{status:'healthy',checkedAt:new Date().toISOString()}}));
+ const open=()=>page.goto(`${base}/e2e/package-f-report201-harness.html`);
+ await open();let section=page.getByTestId('report-customer-collections');await expect(section).toContainText('غير متاح');await expect(section).not.toContainText('0.000');
+ value=Object.fromEntries(Object.keys(amounts).map(k=>[k,0]));await open();section=page.getByTestId('report-customer-collections');await expect(section).toContainText('0.000');
+ value={...amounts,totalInMinorUnits:0};await open();await expect(page.getByText('إجمالي المقبوض لا يطابق تفصيل طرق الدفع. أعد التحميل.',{exact:true})).toBeVisible();await expect(page.locator('.operational-report-print')).toHaveCount(0);
+ failed=true;await open();await expect(page.getByText('خطأ قراءة معزول',{exact:true})).toBeVisible();await expect(page.getByTestId('report-customer-collections')).toHaveCount(0);
+ await page.goto(`${base}/e2e/package-f-home-harness.html?collections&allCollections&loading`);await expect(page.getByTestId('home-kpis')).toContainText('جاري التحميل…');await expect(page.getByTestId('home-kpis')).not.toContainText('288.887');
+});

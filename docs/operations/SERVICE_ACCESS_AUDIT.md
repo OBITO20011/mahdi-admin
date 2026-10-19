@@ -8,7 +8,7 @@
 
 169 موضعSDK .rpc و4 موضعRESTGateway،163 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
 
-قاعدة201 محلية جديدة: 495 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،119 نجاحمعrollback،376 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
+قاعدة202 محلية جديدة: 495 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،119 نجاحمعrollback،376 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
 
 حدالقياسصريح:أُرسلتقيممحليةمحايدةمُنمّطةحسبتوقيعSQL(معرفعميل/فرع/مستودعfixtureحيثيوجد،NULL/JSONفارغلغيره)،وليستجميعحمولاتالتدفّقاتالصحيحةمنواجهةالتطبيق. النصالأصليلكلاستدعاءومعاملاتهفيSERVICE_ACCESS_INVENTORY.json؛قيمةكلprobeوأثرهفيSERVICE_ACCESS_DIAGNOSTIC.json. لا نسمّي274خطأتحققنجاحاًوظيفياً ولا42501. كلنجاحوكلخطأداخلsubtransactionأُرجع؛لاأثرماليأومخزنيباقٍ. اختباراتالمساراتالمتكاملةالقائمةتبقىمطلوبة؛هذهالإضافةتثبتEXECUTE/dispatchوليسإتمامكلسيناريو.
 
@@ -44,7 +44,7 @@
 | record_customer_order_payment_once؛src/services/supabase/customerAccounts.service.ts:135 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_customer_debt_aging؛src/services/supabase/customerDebtAging.service.ts:8 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | get_customer_statement؛src/services/supabase/customerStatement.service.ts:7 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
-| get_home_dashboard؛src/services/supabase/dashboard.service.ts:126 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_home_dashboard؛src/services/supabase/dashboard.service.ts:128 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | preview_supplier_receipt_cancellation؛src/services/supabase/directReceiving.service.ts:21 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_supplier_receipts_page؛src/services/supabase/directReceiving.service.ts:154 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | resolve_legacy_supplier_receipt_replay_v1؛src/services/supabase/directReceiving.service.ts:260 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
@@ -148,7 +148,7 @@
 | set_product_brand_active؛src/services/supabase/reference-data.service.ts:273 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | save_product_unit؛src/services/supabase/reference-data.service.ts:380 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | set_product_unit_active؛src/services/supabase/reference-data.service.ts:416 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| get_operational_business_report؛src/services/supabase/reports.service.ts:41 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
+| get_operational_business_report؛src/services/supabase/reports.service.ts:42 | authenticated | owner:success/rollback؛ admin:success/rollback؛ cashier:P0001 |
 | get_admin_sales_aftercare_context_v1؛src/services/supabase/salesAftercare.service.ts:131 | authenticated | owner:23503؛ admin:23503؛ cashier:P0001 |
 | settle_sales_replacement_v1؛src/services/supabase/salesAftercare.service.ts:166 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | settle_admin_sales_return_v1؛src/services/supabase/salesAftercare.service.ts:204 | authenticated | owner:22023؛ admin:22023؛ cashier:P0001 |
@@ -249,7 +249,7 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 |---|---|---|
 | automation/n8n/workflows/nawasrah-alerts.json | 32, 89, 175, 228 | EXTERNAL_CONSUMER |
 | docs/agent/HANDOFF_HISTORY.md | 445 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 577 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 589 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
 | docs/operations/STAGING_FRANKFURT_AR.md | 247 | HISTORICAL_DOCUMENTATION |
 | scripts/backup/README.md | 28 | PRESERVE_OLD_BACKUP_LINK |
@@ -327,4 +327,4 @@ node scripts/audit/run-service-access-diagnostic.mjs
 node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>
 ```
 
-لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على201 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
+لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على202 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.

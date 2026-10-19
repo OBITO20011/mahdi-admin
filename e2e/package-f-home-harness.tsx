@@ -50,6 +50,9 @@ if (params.has('negative')) data.sevenDaySales[1].netSalesInMinorUnits = -150000
 if (params.has('collections')) {
  data.summary.todayCashCollectedInMinorUnits=params.has('zero')?0:123456;
  data.summary.todayCliqCollectedInMinorUnits=params.has('zero')?0:54321;
+ const cash=data.summary.todayCashCollectedInMinorUnits,cliq=data.summary.todayCliqCollectedInMinorUnits;
+ const bank=params.has('allCollections')?98765:0,cheque=params.has('allCollections')?12345:0;
+ data.summary.todayCollections={cashInMinorUnits:cash,cliqInMinorUnits:cliq,bankTransferInMinorUnits:bank,chequeInMinorUnits:cheque,otherInMinorUnits:0,totalInMinorUnits:cash+cliq+bank+cheque};
  if (engine.state.currentShift) Object.assign(engine.state.currentShift,{cashSupplierPayments:91.234,ownerWithdrawals:44.321,ownerWithdrawalReturns:5.123,expectedCash:679.868});
 }
 const Harness = () => {

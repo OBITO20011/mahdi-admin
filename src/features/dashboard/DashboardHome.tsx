@@ -1,3 +1,4 @@
+import {customerCollectionRows} from '../../utils/customerCollections';
 import React, { useState } from 'react';
 import { AlertTriangle, ChevronLeft, ClipboardList, PackagePlus, ReceiptText, RefreshCw, Truck, Boxes } from 'lucide-react';
 import { Card, KpiCard, KpiGrid, MoneyText, SalesBarChart, SectionHeader, SegmentedControl, StatusBadge, TableShell, Td, Th, Tr, UiButton, formatUiDate, formatUiTime } from '../../components/ui';
@@ -47,11 +48,12 @@ const OrderBadge: React.FC<{ order: HomeDashboardOrder }> = ({ order }) => {
 export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserName, currentShift, loading, error, realtimeConnected, onRefresh, onOrders, onAccounts, onInventory, onProducts, onShift, onSell, onReceive, onExpense,onCheques }) => {
   const [period, setPeriod] = useState<'day' | 'week' | 'month'>('day');
   const { summary, financialFactsAvailable: available } = data;
-  const collectedAvailable = available && summary.todayCashCollectedInMinorUnits != null && summary.todayCliqCollectedInMinorUnits != null;
+  const collections = summary.todayCollections;
+  const collectedAvailable = available && collections != null && summary.todayCashCollectedInMinorUnits === collections.cashInMinorUnits && summary.todayCliqCollectedInMinorUnits === collections.cliqInMinorUnits;
   const collectedValue = loading ? 'جاري التحميل…' : error ? 'تعذر تحميل المقبوض' : money(
-    collectedAvailable ? summary.todayCashCollectedInMinorUnits! + summary.todayCliqCollectedInMinorUnits! : null, collectedAvailable);
+    collectedAvailable ? collections.totalInMinorUnits : null, collectedAvailable);
   const collectedNote = loading ? 'جارٍ تحديث التحصيل' : error ? 'أعد المحاولة' : collectedAvailable
-    ? <span className="flex flex-wrap gap-x-3 gap-y-1"><span>كاش {money(summary.todayCashCollectedInMinorUnits, true)}</span><span>CliQ {money(summary.todayCliqCollectedInMinorUnits, true)}</span></span>
+    ? <span className="flex flex-wrap gap-x-3 gap-y-1">{customerCollectionRows(collections).map(row=><span key={row.label}>{row.label} {money(row.amount, true)}</span>)}</span>
     : 'تفصيل كاش / CliQ غير متاح في قراءة الرئيسية';
   const days = [...data.sevenDaySales].sort((a, b) => a.date.localeCompare(b.date));
   const date = new Date(data.generatedAt);

@@ -1,3 +1,4 @@
+import {CustomerCollectionsSection} from './CustomerCollectionsSection';
 import {DamageLossReportSection} from './DamageLossReportSection';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
@@ -334,6 +335,7 @@ export const ReportsCenterView: React.FC = () => {
           </section>
 
           <DamageLossReportSection losses={report.sales.damageLosses} />
+          <CustomerCollectionsSection collections={report.cashFlow.customerCollections} />
 
           {report.ownerWithdrawals && (
             <OwnerWithdrawalsReportSection branchId={activeBranch.id} dateFrom={dateFrom} dateTo={dateTo}

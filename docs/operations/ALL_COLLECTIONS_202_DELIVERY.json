@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "migrationCeiling": 202,
+  "managedAccess": false,
+  "recordedAt": "2026-10-19T20:59:29.838Z",
+  "sqlSha256": "c6fd0cc7e0d1d79d2fd1e157225cf773431af1bddbe3bffa58a9d2a927645e12",
+  "runtime": {
+    "file": "ALL_COLLECTIONS_202_EVIDENCE.json",
+    "cases": 10,
+    "passed": true
+  },
+  "sdk": {
+    "file": "TABLE_ACCESS_AFTER_202.json",
+    "queries": 142,
+    "errors": 0
+  },
+  "rpc": {
+    "file": "SERVICE_ACCESS_DIAGNOSTIC.json",
+    "probes": 495,
+    "sql42501": 0
+  },
+  "scale": {
+    "file": "ALL_COLLECTIONS_202_SCALE.json",
+    "passed": true,
+    "counts": {
+      "skus": 5000,
+      "items": 450000,
+      "orders": 150000,
+      "shifts": 1460,
+      "returns": 15000,
+      "families": 200,
+      "payments": 200000,
+      "receipts": 20000,
+      "customers": 10000,
+      "movements": 1200000,
+      "suppliers": 100,
+      "replacements": 5000
+    },
+    "timings": [
+      {
+        "name": "before201-home",
+        "p95": 2404.304,
+        "samples": 20
+      },
+      {
+        "name": "after202-home",
+        "p95": 2336.947,
+        "samples": 20
+      }
+    ],
+    "limitMs": 3000
+  },
+  "reference": {
+    "manifestDigest": "ecb634ae4c7700a518a7d08b54ba62af469b8e58a08d44c1c1887b3876f4dd97",
+    "files": 164,
+    "functions": 516,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferenceCount": 0
+  },
+  "upgrade": {
+    "ok": true,
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-legacy-cost-upgrade202-eH4zv4",
+    "applied": [
+      "200",
+      "201",
+      "202"
+    ],
+    "recorded": [
+      "200",
+      "201",
+      "202"
+    ],
+    "replayWrite": false,
+    "managedAccess": false
+  },
+  "reset": {
+    "passed": true,
+    "damageEvidenceEmpty": true,
+    "openingCollectionBeforeReset": 3000,
+    "openingCollectionsEmpty": true,
+    "ownerRetained": true,
+    "verifiedTotpRetained": true,
+    "mainWarehousePreserved": true,
+    "storageUncachedStatus": 400,
+    "storageBodyStatusCode": "404",
+    "catalogDifferences": 0
+  },
+  "offline": {
+    "ok": true,
+    "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline202-2026-10-19T20-58-19-179Z",
+    "remoteWriteAttempted": false
+  },
+  "localQuality": {
+    "typesAdmin": true,
+    "typesCustomer": true,
+    "strictLint": true,
+    "customerUnits": 192,
+    "browserPassed": 34,
+    "browserEngines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "adminUnits": 1273,
+    "builds": {
+      "admin": true,
+      "customer": true
+    },
+    "networkIsolation": {
+      "externalRequestsEscaped": 0,
+      "productionRequestsEscaped": 0
+    },
+    "adminUnitLog": "phase-c202-quality-WTh1Sv/admin-units-final.log"
+  },
+  "initialQuality": {
+    "adminPassed": 1251,
+    "adminFailed": 21,
+    "total": 1272,
+    "reason": "Current ceiling201 assertions,latest exact guard label and newly frozen201 reset-source expectations;all financial/ACL/historical hashes retained",
+    "log": "phase-c202-quality-I1n3cc/admin-units.log",
+    "docCorrection": "After21 exact metadata corrections,1272/1273 PASS;only enriched inventory report overwritten by base generator.Restored accepted historical report verbatim+new202 heading;no assertion dropped."
+  },
+  "infrastructure": {
+    "firstRpcBootstrap": "Failed safely before start:global bootstrap guard belonged to active SDK probe;serial execution j9JANQ495PASS",
+    "boundaryProbe": "New sub-day probe initially expected a daily row;existing full-day chart correctly empty;financial -250 already correct,assert actual [] chart and -250 cashFlow retained;final10PASS"
+  },
+  "remaining": [
+    "Gitleaks/normal corrective commit/push",
+    "ExactSHA FULL32+secrets feature/PR",
+    "PR5 real merge and exactFULL32+secrets main",
+    "Continue package3;no hosted access/deploy"
+  ]
+}
