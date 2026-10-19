@@ -11,6 +11,7 @@ for(const args of [
  ['scripts/testing/run-legacy-product-cost-runtime.mjs'],
  ['scripts/operations/build-acl-reference200.mjs','--output',reference],
  ['scripts/testing/run-legacy-cost-upgrade200-runtime.mjs',reference],
+ ['scripts/testing/run-trial-reset-runtime.mjs',reference,'--current200'],
 ]){
  const result=await exec(process.execPath,args,{cwd:root,windowsHide:true,maxBuffer:16*1024**2});
  process.stdout.write(result.stdout);process.stderr.write(result.stderr);

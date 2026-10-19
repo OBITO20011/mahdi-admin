@@ -1,5 +1,17 @@
 # Phase status
 
+## Current19Oct — security200 CI correction verified;new exactCI next
+
+PR4/7260ec4 FULL39278453244:28PASS/30;only warehouse-management reset199
+and aggregate failed. RESET_MANIFEST_CHANGED proved the historical199 probe
+used today's200 tree. Exact frozen199 source now staged like182;owner exact
+manifest guard unchanged. Actual local199O8k5uW PASS with Auth/TOTP/Storage/
+WH-MAIN preserved and catalog0diff. Current owner-reset moved to200 reference
+with exact162files;LMsLDh PASS,legacy cost grants still closed after rebuild,
+0catalogdiff and owner/TOTP/mainwarehouse preserved. All1257Admin192Customer,
+types/strictlint PASS. Ordinary correctivecommit/fullCI;no rerun or gate weakening.
+No managedaccess/deploy. Package2 NOT STARTED until securitymerge/mainCI.
+
 ## Current19Oct — PhaseC authorized;package1 security local proof complete
 
 Owner approved PhaseB and ordered PhaseC in PHASE_C_CONTRACT.md;historical

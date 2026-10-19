@@ -11,6 +11,8 @@ import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
 import {resetWithExecutor,sqlLiteral as q,readRowCounts} from '../operations/trial-reset-core.mjs';
 import {readReference182,readyReference182Name} from '../operations/frankfurt-reference182.mjs';
 import {readReady199Reference} from '../operations/frankfurt-reference199.mjs';
+import {readReady200Reference,assertReady200Catalog} from '../operations/frankfurt-reference200.mjs';
+import {schemaCatalogSql} from './schema-catalog.mjs';
 import {functionReference} from '../operations/frankfurt-owner-build.mjs';
 import {buildReference182} from '../operations/build-acl-reference182.mjs';
 import {readNotificationSnapshot,transitionNotifications} from '../operations/frankfurt-notification-hold.mjs';
@@ -25,14 +27,16 @@ const sql=async input=>{const r=await executeInput(executor,input);assert.equal(
 const json=async input=>JSON.parse(await sql(input));
 const cliCall=args=>exec(process.execPath,[cli,...args,'--local','--workdir',local,'--agent','no'],{cwd:root,windowsHide:true,maxBuffer:8*1024**2});
 try{
- const current=process.argv.includes('--current199'),explicit=process.argv.slice(2).find(arg=>arg!=='--current199');
+ const latest=process.argv.includes('--current200');
+ assert.ok(!(latest&&process.argv.includes('--current199')),'ONE_RESET_CEILING_REQUIRED');
+ const current=latest||process.argv.includes('--current199'),explicit=process.argv.slice(2).find(arg=>!['--current199','--current200'].includes(arg));
  assert.ok(!current||explicit,'CURRENT199_REFERENCE_PATH_REQUIRED');
  const referencePath=explicit??path.join(output,readyReference182Name);
  if(!process.argv[2])await buildReference182(['--output',referencePath]);
- const reference=await (current?readReady199Reference:readReference182)(root,referencePath);
- // Exercise the exact182 owner pipeline using a byte-identical historical
+ const reference=await (latest?readReady200Reference:current?readReady199Reference:readReference182)(root,referencePath);
+ // Exercise the exact182/199 owner pipeline using a byte-identical historical
  // source view, not the newer checkout. The production manifest guard stays strict.
- const sourceRoot=current?root:await stageHistoricalResetSource(root,reference);
+ const sourceRoot=latest?root:await stageHistoricalResetSource(root,reference);
  report.historicalSource={root:sourceRoot,ceiling:reference.migrationCeiling,files:reference.manifest.length};
  const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
   NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:String(reference.migrationCeiling),NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',TURNSTILE_SECRET:'isolated-reset-captcha-not-invoked',
@@ -90,6 +94,7 @@ try{
   repair:async version=>{const unit=reference.manifest.find(m=>m.name.startsWith(version+'_'));await copyFile(path.join(sourceRoot,'supabase/migrations',unit.name),path.join(local,'supabase/migrations',unit.name));await cliCall(['migration','repair','--status','applied',version]);},
   finalDryRun:async()=>{const r=await cliCall(['db','push','--dry-run','--skip-vault']);assert.match(r.stdout+r.stderr,/up to date/iu);}});
  report.functions=await functionReference(executor,reference.migrationCeiling);assert.equal(report.functions,current?513:468);
+ if(latest){assertReady200Catalog(await json(schemaCatalogSql));report.legacyCostWritersStillClosed=true;}
  if(current){assert.equal(report.reset.mainWarehousePreserved,true);assert.equal(await sql("SELECT id FROM public.warehouses WHERE code='WH-MAIN';"),warehouse);}
  assert.equal((await client.auth.admin.getUserById(ownerId)).error,null);
  const factors=await ownerSession.auth.mfa.listFactors();assert.equal(factors.error,null);assert.ok(factors.data.totp.some(f=>f.id===ownerFactor.data.id&&f.status==='verified'),'VERIFIED_TOTP_MUST_SURVIVE_RESET');

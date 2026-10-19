@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner19Oct PhaseC approved: package1 security runtime proof then revoke direct legacy product/master-v2 EXECUTE; current internal v4 preserved. Then ordered packages through item20 design/Claude STOP. No hosted access/deploy.",
-  "baselineSha": "218f4f2da922ed62d8c526225da047b77de09f1b",
+  "baselineSha": "7260ec438b68bc685cad6271c719d0e323527c23",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/phase-c-security",
   "phase": "PACKAGE_F",
@@ -14,7 +14,7 @@
     "PhaseB3reports/evidence committed218f4f2,FULL29 quality39269290537+secrets39269290698 SUCCESS,Gitleaks0;97files1466UI,106captured,192exposed/34no directRPC."
   ],
   "inProgress": [
-    "Package1 ready for delivery;local proof and owner command complete"
+    "PR4 corrected199 historical source/current reset200 tools;ordinary correctivecommit then FULLCI"
   ],
   "notStarted": [
     "Packages2-7 per PHASE_C_CONTRACT; each separate PR/fullCI/merge",
@@ -24,10 +24,13 @@
     "Takeover main218f4f2 agent:resume safeToResume=true; preflight PASS",
     "200 isolated7eOqQW:29proofs PASS;1998actualrole cost bypass/4other legacy bypasses;after20012client42501,4v4/internal parity,ACL-only2delta/replay/no businesswrites",
     "SDK200142/142;RPC200495dispatch0SQL42501;reference200zp6JqF162/513/13,fresh-incremental0diff;customerTypes192/192units;adminTypes/strictlint PASS",
-    "Final local1256Admin192Customer,types/strictlint PASS;owner200XEPr8b apply/repair/replay0write/hold/13Realtime PASS;offline20015-26PASS remoteWriteAttempted=false"
+    "Final local1256Admin192Customer,types/strictlint PASS;owner200XEPr8b apply/repair/replay0write/hold/13Realtime PASS;offline20015-26PASS remoteWriteAttempted=false",
+    "Gitleaks4.29MB0;feature7260ec4 pushed;PR4 opened",
+    "7260ec4 secretsPASS;FULL3927845324428/30:only reset199+aggregate failed exactmanifest guard",
+    "Corrected historical199O8k5uW and current200LMsLDh actualreset PASS:0catalogdiff/ownerTOTPwarehouse/Storagedeleted;200legacy grants closed;1257Admin types/strictlint PASS"
   ],
   "testsRemaining": [
-    "Gitleaks0;featurecommit/PR/full30CI+secrets/mainmerge full30CI"
+    "CorrectiveSHA FULL30+secrets then genuine mainmerge/FULL30+secrets"
   ],
   "findings": [
     "Additional confirmed legacy bypasses: create_product_with_opening_stock/v2/v3 accept opening2 vs currentv4 rejects; receive_inventory adds2 without receiving document/WAC. Proposal only;no extra grants revoked."
@@ -39,12 +42,12 @@
     "Historical001-199 immutable; only approved additive security200 now",
     "One writer; no tracked edits during verification; no assertion/retry/timeout weakening"
   ],
-  "nextExactAction": "Gitleaks0;commit/push package1 security200;create PR and wait FULL30+secrets exactSHA;merge/mainCI before package2.",
-  "checkpointedAt": "2026-10-19T15:29:32.299Z",
+  "nextExactAction": "Commit/push corrected PR4 historical199/current200 reset tools;FULL30+secrets exactSHA;merge main with branch metadata then full mainCI before package2.",
+  "checkpointedAt": "2026-10-19T16:39:24.386Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "754F7D0AA5181167A73847975E0EFCB1E467FBFEAA244FC675F57B5F943976B6",
-  "filesTouchedCount": 37,
-  "filesTouchedManifestSha256": "3e7ceea83517c216172498d6e9ae4b94c7d7711e459572b2b1834730f142bee9"
+  "workingTreeFingerprint": "5057E6200B51D6D0333EB696D117F5CEDC909D929BF5DA7CBBD5E91BD4B8AAC0",
+  "filesTouchedCount": 9,
+  "filesTouchedManifestSha256": "879e6100b2e12922d91b8a443b9093bf14d71546be4a0b9420dc6808b65a407f"
 }
