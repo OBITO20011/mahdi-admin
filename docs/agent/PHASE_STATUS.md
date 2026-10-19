@@ -1,5 +1,15 @@
 # Phase status
 
+## Current19Oct — A2 feature6841256;POS module diagnosis follow-up
+
+Feature39254861098 has one WebKit dynamic-import failure before financial
+assertions;secret39254861091 SUCCESS. Failed job did not retain traces/name
+the resource. No proof of504,optimizer churn or product cause. Local exact
+realPOS gate12:54:13–12:57:15UTC8/8 PASS,both browsers,no hostedrequests.
+Add resource-path diagnostic and failure-only trace upload,no retries,timeouts,
+assertion or product changes. Types/lint/1254Admin+192Customer/Gitleaks0 PASS.
+Next ordinary commit/full exactCI,then main merge/fullCI;PhaseB3reports/STOP.
+
 ## Current19Oct — A2 ALL local gates PASS;feature exactCI next
 
 Detached release-local11:37:10–12:17:28UTC completed11/11 stages:1254Admin,

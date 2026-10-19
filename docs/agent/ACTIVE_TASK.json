@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner19Oct A2:guarded WH-MAIN tool/owner command first after fullCI;then owner-only warehouses,single warehouse defaults/reset preservation;then three PhaseB reports only and STOP. No hosted access/deploy.",
-  "baselineSha": "811870446b033882c40ed04ee997e2699626ddf8",
+  "baselineSha": "6841256f52c66c603ff01073abd3f5b9fdab8e34",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/warehouse-management",
   "phase": "PACKAGE_F",
@@ -35,12 +35,12 @@
     "Backup root project-ref remains old;only owner-approved publicconfig separation and identity guard;no hosted backup/secret/schedule/target change",
     "One writer;no tracked edits during verification;no retries/timeouts/skips/assertion weakening"
   ],
-  "nextExactAction": "Commit approved A2 warehouse199 candidate;push codex/warehouse-management and require full exactSHA quality+secrets;then genuine main merge/fullCI and PhaseB3reports only/STOP.",
-  "checkpointedAt": "2026-10-19T12:47:35.402Z",
+  "nextExactAction": "Commit POS module-load diagnostic and failure-only trace retention without product/assertion changes;push and require exact fullCI. Then mainmerge/fullCI;PhaseB3docs reports only/STOP.",
+  "checkpointedAt": "2026-10-19T13:02:52.967Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "2609EED79D8585F3B34C035A31AC40149EE9A318950C3CB11E13A8841FAC4B48",
-  "filesTouchedCount": 109,
-  "filesTouchedManifestSha256": "ab3f95c3169b2e3cf056d1fe3d12224c37a29a7a10a3190eabe80cc4bd640673"
+  "workingTreeFingerprint": "780B06D0EA85614C9EDD65AF1EBCE2A8D81C75E3CC5A0F9BC183F700203F89DD",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "9fbe17a72d310e18f42a5c1fbaa267aed41c8ba569852954b3ba154d7480ae81"
 }
