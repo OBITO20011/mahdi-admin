@@ -2,51 +2,49 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner19Oct:A2 warehouse199 delivered/main FULLgreen;finish three PhaseB reports/evidence as docs only,exact CI,checkpoint and STOP for review. No PhaseC or financial implementation;no hosted access/deploy.",
-  "baselineSha": "ee1e5bbec7ce8491d8391435586d6bee121d162e",
+  "objective": "Owner19Oct PhaseC approved: package1 security runtime proof then revoke direct legacy product/master-v2 EXECUTE; current internal v4 preserved. Then ordered packages through item20 design/Claude STOP. No hosted access/deploy.",
+  "baselineSha": "218f4f2da922ed62d8c526225da047b77de09f1b",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "main",
+  "branch": "codex/phase-c-security",
   "phase": "PACKAGE_F",
   "completed": [
     "Prior accepted198/withdrawals/cheques/staging/firstowner deliveries preserved in PHASE_STATUS.",
     "Terminology2f0ca2c accepted;urgentWH8118704 delivered FULL28 quality39175816493+secrets39175816436 SUCCESS;owner commands given.",
     "A2 genuine mainmergeee1e5bb FULL29 quality39263821687+secrets39263821652 SUCCESS;199 guards/defaults/firstowner/reset/reference complete;no hosted execution.",
-    "PhaseB3Arabic reports prepared with97files/1466UI entries,106captured states,5UI click counts,192exposed/34no directRPC and replacement/damage design."
+    "PhaseB3reports/evidence committed218f4f2,FULL29 quality39269290537+secrets39269290698 SUCCESS,Gitleaks0;97files1466UI,106captured,192exposed/34no directRPC."
   ],
   "inProgress": [
-    "Docs-only PhaseB local gates PASS;Gitleaks/commit/exactFULLCI then review STOP. No implementation of report proposals."
+    "Package1 ready for delivery;local proof and owner command complete"
   ],
   "notStarted": [
-    "PhaseC navigation/home/shortcuts/product simplification,blocked pending report approval.",
-    "Any new financial/permission migration or replacement/damage implementation."
+    "Packages2-7 per PHASE_C_CONTRACT; each separate PR/fullCI/merge",
+    "Item20 design then mandatory Claude review STOP; supplier replacement later"
   ],
   "testsPassed": [
-    "A2 main FULL29+secrets;1254Admin192Customer/type/lint/builds/262related+6legacy browser and realPOS8 PASS. 199tlvDuF guard/concurrency;SDK1997kXuFx+198m9ncnq142each;RPC6JW7KB495/0SQL42501;referencey8CoeB161/513/13/0diff;upgradeMKg5sc/resetEbNj7u PASS.",
-    "PhaseB evidence/source-hash validation PASS;112UI attempts/106captured/6explicit exclusions;0external/pageerrors. UI writes all rejected;SDK session simulation is not Auth/business acceptance.",
-    "PhaseB docs-only types/strictlint/ALL1254Admin+192Customer PASS;no source/test/SQL changes. Resume mismatch only our pending docs;known-own checkpoint sync authorized."
+    "Takeover main218f4f2 agent:resume safeToResume=true; preflight PASS",
+    "200 isolated7eOqQW:29proofs PASS;1998actualrole cost bypass/4other legacy bypasses;after20012client42501,4v4/internal parity,ACL-only2delta/replay/no businesswrites",
+    "SDK200142/142;RPC200495dispatch0SQL42501;reference200zp6JqF162/513/13,fresh-incremental0diff;customerTypes192/192units;adminTypes/strictlint PASS",
+    "Final local1256Admin192Customer,types/strictlint PASS;owner200XEPr8b apply/repair/replay0write/hold/13Realtime PASS;offline20015-26PASS remoteWriteAttempted=false"
   ],
   "testsRemaining": [
-    "Gitleaks and exact fullCI on docs commit;final checkpoint and owner review STOP."
+    "Gitleaks0;featurecommit/PR/full30CI+secrets/mainmerge full30CI"
   ],
   "findings": [
-    "Review:historical value/WAC;damage profit;return121 vs replacement role intersection;legacy product-master/v2 cost grants(static). No financial/permission fix."
+    "Additional confirmed legacy bypasses: create_product_with_opening_stock/v2/v3 accept opening2 vs currentv4 rejects; receive_inventory adds2 without receiving document/WAC. Proposal only;no extra grants revoked."
   ],
-  "blockers": [
-    "Owner/Claude review required before PhaseC or financial/permission implementation."
-  ],
+  "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Frankfurt/Production/hosted SupabaseCLI/Cloudflare access,secret reads or deployment",
-    "Historical001–199 frozen;no new migration or financial/inventory/permission/Auth implementation in PhaseB",
-    "Backup root project-ref remains old;only owner-approved publicconfig separation and identity guard;no hosted backup/secret/schedule/target change",
-    "One writer;no tracked edits during verification;no retries/timeouts/skips/assertion weakening"
+    "No Frankfurt/Production/hosted access,secrets or deployment",
+    "Historical001-199 immutable; only approved additive security200 now",
+    "One writer; no tracked edits during verification; no assertion/retry/timeout weakening"
   ],
-  "nextExactAction": "Gitleaks0;commit PhaseB docs-only reports and evidence;push main,follow exact FULLCI/secrets through completion,then checkpoint PAUSED and STOP for Claude/owner review. No PhaseC or financial/permission implementation.",
-  "checkpointedAt": "2026-10-19T14:28:10.948Z",
+  "nextExactAction": "Gitleaks0;commit/push package1 security200;create PR and wait FULL30+secrets exactSHA;merge/mainCI before package2.",
+  "checkpointedAt": "2026-10-19T15:29:32.299Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "F86981C9D3409B0FA1F50E83377072900F850B8B6A044DDBE0D0258F45DB4365",
-  "filesTouchedCount": 11,
-  "filesTouchedManifestSha256": "60e8fc647345fce6b8c896fae812f9a2b55cfebaa628b7d0506f8b6346cef85f"
+  "workingTreeFingerprint": "754F7D0AA5181167A73847975E0EFCB1E467FBFEAA244FC675F57B5F943976B6",
+  "filesTouchedCount": 37,
+  "filesTouchedManifestSha256": "3e7ceea83517c216172498d6e9ae4b94c7d7711e459572b2b1834730f142bee9"
 }

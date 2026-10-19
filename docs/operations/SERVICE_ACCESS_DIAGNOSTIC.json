@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-19T11:24:34.431Z",
-  "migrationCeiling": 199,
+  "startedAt": "2026-10-19T15:19:17.987Z",
+  "migrationCeiling": 200,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-6JW7KB",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-Gq49Zq",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -12583,8 +12583,7 @@
     },
     {
       "acl": [
-        "postgres=X/postgres",
-        "authenticated=X/postgres"
+        "postgres=X/postgres"
       ],
       "name": "update_product_master",
       "names": [
@@ -12635,8 +12634,7 @@
     },
     {
       "acl": [
-        "postgres=X/postgres",
-        "authenticated=X/postgres"
+        "postgres=X/postgres"
       ],
       "name": "update_product_master_v2",
       "names": [
@@ -37419,7 +37417,7 @@
     },
     {
       "role": "authenticated",
-      "allowed": true,
+      "allowed": false,
       "identity": "update_product_master(uuid,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,integer,integer,boolean,text)"
     },
     {
@@ -37434,7 +37432,7 @@
     },
     {
       "role": "authenticated",
-      "allowed": true,
+      "allowed": false,
       "identity": "update_product_master_v2(uuid,text,text,text,text,uuid,uuid,uuid,uuid,integer,bigint,bigint,bigint,bigint,integer,integer,boolean,text)"
     },
     {
@@ -37797,7 +37795,66 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-19T11:26:24.828Z",
+  "endedAt": "2026-10-19T15:21:00.152Z",
+  "savedCatalogAssessment": {
+    "storagePolicies": [
+      {
+        "name": "ERP staff can delete own product images",
+        "check": null,
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "schema": "storage",
+        "command": "d",
+        "permissive": true
+      },
+      {
+        "name": "ERP staff can update own product images",
+        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "schema": "storage",
+        "command": "w",
+        "permissive": true
+      },
+      {
+        "name": "ERP staff can upload own product images",
+        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
+        "roles": [
+          "authenticated"
+        ],
+        "table": "objects",
+        "using": null,
+        "schema": "storage",
+        "command": "a",
+        "permissive": true
+      },
+      {
+        "name": "Public can read product images",
+        "check": null,
+        "roles": [
+          "PUBLIC"
+        ],
+        "table": "objects",
+        "using": "(bucket_id = 'product-images'::text)",
+        "schema": "storage",
+        "command": "r",
+        "permissive": true
+      }
+    ],
+    "storageBucketRows": null,
+    "publicationMembership": null,
+    "limits": [
+      "Catalog tables/schema do NOT prove bucket rows exist",
+      "Catalog functions/policies do NOT prove publication membership",
+      "No Auth,Edge environment or remote cron row snapshot in schema catalog"
+    ]
+  },
   "sevenFunctions": [
     {
       "identity": "authorize_admin_ai_assistant_request()",
@@ -38081,66 +38138,6 @@
       "triggerOnly": true
     }
   ],
-  "savedCatalogAssessment": {
-    "storagePolicies": [
-      {
-        "name": "ERP staff can delete own product images",
-        "check": null,
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "schema": "storage",
-        "command": "d",
-        "permissive": true
-      },
-      {
-        "name": "ERP staff can update own product images",
-        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "schema": "storage",
-        "command": "w",
-        "permissive": true
-      },
-      {
-        "name": "ERP staff can upload own product images",
-        "check": "((bucket_id = 'product-images'::text) AND ((storage.foldername(name))[1] = (auth.uid())::text) AND has_erp_role(ARRAY['owner'::text, 'admin'::text, 'manager'::text, 'warehouse_keeper'::text]))",
-        "roles": [
-          "authenticated"
-        ],
-        "table": "objects",
-        "using": null,
-        "schema": "storage",
-        "command": "a",
-        "permissive": true
-      },
-      {
-        "name": "Public can read product images",
-        "check": null,
-        "roles": [
-          "PUBLIC"
-        ],
-        "table": "objects",
-        "using": "(bucket_id = 'product-images'::text)",
-        "schema": "storage",
-        "command": "r",
-        "permissive": true
-      }
-    ],
-    "storageBucketRows": null,
-    "publicationMembership": null,
-    "limits": [
-      "Catalog tables/schema do NOT prove bucket rows exist",
-      "Catalog functions/policies do NOT prove publication membership",
-      "No Auth,Edge environment or remote cron row snapshot in schema catalog"
-    ]
-  },
-  "historicalSavedAssessmentSource": "8118704:15Oct original saved platform catalog;not a new remote read",
   "oldReferences": [
     {
       "file": "automation/n8n/workflows/nawasrah-alerts.json",
@@ -38162,7 +38159,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        525
+        577
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

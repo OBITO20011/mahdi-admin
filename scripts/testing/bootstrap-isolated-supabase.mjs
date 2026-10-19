@@ -138,7 +138,9 @@ await writeFile(
   'utf8',
 );
 
-const cleanupMigration = await readFile(cleanupMigrationPath, 'utf8');
+// A new Windows worktree may use CRLF. Normalize only this disposable copy;
+// canonical historical migration bytes in the repository remain untouched.
+const cleanupMigration = (await readFile(cleanupMigrationPath, 'utf8')).replaceAll('\r\n', '\n');
 if (!cleanupMigration.includes(expectedFragment)) {
   throw new Error(
     'The production migration 034 no longer matches the expected immutable history.',
