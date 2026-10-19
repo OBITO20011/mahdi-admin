@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {inventory} from '../scripts/audit/table-access-inventory.mjs';
-import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
+import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/audit/historical-warehouse-query-sites.mjs';
 import {assertChequesCatalog} from '../scripts/operations/frankfurt-reference-cheques.mjs';
 import {prepareOpeningChequeSheet,openingChequeTemplateRows,OPENING_CHEQUE_COLUMNS} from '../src/features/goLive/openingChequesImport';
 
@@ -19,7 +19,7 @@ test('196 follow-up is exactly four explicit JSONB initializer casts;SQL busines
 });
 test('196 real-role evidence exactly covers current SDK queries;opening evidence remains RPC-only',async()=>{
  const source=await inventory(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_196.json'));
- assert.equal(source.migrationCeiling,198);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);
+ assert.equal(source.migrationCeiling,199);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);
  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,await sourceBefore198Presentation(source.sources));
  assert.deepEqual(proof.coverage,verifyProbeCoverage(source,proof.results));
  assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));assertChequesCatalog(proof.catalog);

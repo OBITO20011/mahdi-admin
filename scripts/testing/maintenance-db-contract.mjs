@@ -4,6 +4,10 @@ import path from 'node:path';
 
 export const GRANDFATHERED_MIGRATION_CEILING = 138; // Fixed history, NEVER advance to exempt new migrations.
 export const canonicalLf = text => text.replaceAll('\r\n', '\n');
+// Definition-only transport normalization. Historical090's removal of LF+the
+// street condition from087 can leave CR+CRLF on Windows. Keep migration byte
+// fingerprints on canonicalLf unchanged;preserve bare CR and every SQL token.
+export const canonicalDefinitionLf = text => text.replace(/\r+\n/gu,'\n');
 export const sha256 = text => createHash('sha256').update(text).digest('hex');
 export async function migrationManifest(root) {
   const directory = path.join(root, 'supabase/migrations');
@@ -53,7 +57,8 @@ export function futureMigrationViolations(sql) {
 }
 
 export function renderFunctionReference(manifest, functions) {
-  const rows = [...functions].sort((a, b) => a.identity < b.identity ? -1 : a.identity > b.identity ? 1 : 0);
+  const rows = functions.map(row=>({...row,definition:canonicalDefinitionLf(row.definition)}))
+    .sort((a, b) => a.identity < b.identity ? -1 : a.identity > b.identity ? 1 : 0);
   const metadata = {format: 1, migrationDigest: manifestDigest(manifest), migrations: manifest,
     functionCount: rows.length, definitionsDigest: sha256(JSON.stringify(rows))};
   const lines = ['# Current public database functions', '',

@@ -7,6 +7,11 @@ const password = process.env.PHASE44_ADMIN_PASSWORD;
 const enabled = Boolean(baseUrl && controlUrl && email && password);
 const prefix = 'nawasrah:pos-v2:attempt:v1:';
 const productId = '92400000-0000-0000-0000-000000000101';
+test.beforeEach(async({page})=>{
+  const moduleResource=(type:string)=>['script','stylesheet','font'].includes(type);
+  page.on('response',response=>{if(response.status()>=400&&moduleResource(response.request().resourceType()))console.log('POS_MODULE_HTTP',response.status(),new URL(response.url()).pathname);});
+  page.on('requestfailed',request=>{if(moduleResource(request.resourceType()))console.log('POS_MODULE_FAILED',new URL(request.url()).pathname,request.failure()?.errorText);});
+});
 const state = (page: Page) => page.evaluate(storagePrefix => {
   const key = Object.keys(localStorage).find(k => k.startsWith(storagePrefix));
   return key ? JSON.parse(localStorage.getItem(key)!) : null;
@@ -51,7 +56,10 @@ async function mount(page: Page) {
 async function mountAftercare(page: Page, orderId: string) {
   await page.goto(baseUrl!);
   await page.evaluate(async id => {
-    const load = (p: string) => import(/* @vite-ignore */ p);
+    const load = async (p: string) => {
+      try{return await import(/* @vite-ignore */ p);}
+      catch(error){console.error('POS_MODULE_IMPORT_FAILED',p);throw error;}
+    };
     await load('/src/index.css');
     for (const weight of [400,500,600,700]) {
       await load(`/node_modules/@fontsource/ibm-plex-sans-arabic/${weight}.css`);

@@ -5,7 +5,7 @@ import {readFile} from 'node:fs/promises';
 import {assert164History,allUpgrade164Versions,inputs164} from '../scripts/operations/frankfurt-owner-upgrade164.mjs';
 import {assertStartupTableAcl,assertReference164,startupTables} from '../scripts/operations/frankfurt-reference164.mjs';
 import {inventory} from '../scripts/audit/table-access-inventory.mjs';
-import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
+import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/audit/historical-warehouse-query-sites.mjs';
 import {execFileSync,spawnSync} from 'node:child_process';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -26,7 +26,7 @@ test('startup RPC-only admission rejects ANY client/PUBLIC table or column grant
 });
 test('current164 real access evidence is complete and error-free,not a renamed historical audit',async()=>{
  const source=await inventory(),proof=JSON.parse(await readFile('docs/operations/TABLE_ACCESS_AFTER_164.json','utf8'));
- assert.equal(source.migrationCeiling,198);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);
+ assert.equal(source.migrationCeiling,199);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);
  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,await sourceBefore198Presentation(source.sources));
  assert.deepEqual(verifyProbeCoverage(source,proof.results),proof.coverage);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
  assert.deepEqual(proof.manifest.slice(-5).map((n:string)=>n.slice(0,3)),['160','161','162','163','164']);

@@ -83,8 +83,8 @@ test('internal projections stay private and public financial contracts stay unch
   assert.doesNotMatch(migration, /cogs_in_minor_units\s*=|profit_in_minor_units\s*=/iu);
 });
 
-test('Migration 118 remains byte-identical and the Phase 3 sequence ends at Migration 119', () => {
-  const migration118 = readFileSync(migration118Url);
+test('Migration 118 canonical historical bytes remain identical across LF/CRLF and Phase 3 ends at119', () => {
+  const migration118 = readFileSync(migration118Url,'utf8').replaceAll('\r\n','\n');
   assert.equal(
     createHash('sha256').update(migration118).digest('hex').toUpperCase(),
     '3D0DDF0A2A0D8A184BC62BB0A001D8564399CDA54D8B6F8CCEF0ADBD2FD881B5',

@@ -52,9 +52,10 @@ test('old150/182 references are rejected before password,connection or report cr
   }
  }finally{await rm(dir,{recursive:true,force:true});}
  const code=readFileSync('scripts/operations/frankfurt-first-owner.mjs','utf8');
+ assert.ok(code.includes('await readReady199Reference'));
  assert.doesNotMatch(code,/readReference182|readyReference182Name|frankfurt-reference150/u);
- assert.ok(code.indexOf('await readFirstOwner198Reference')<code.indexOf('await ownerPassword()'));
- assert.ok(code.indexOf('await readFirstOwner198Reference')<code.indexOf('connectionFromLink(await'));
+ assert.ok(code.indexOf('await readReady199Reference')<code.indexOf('await ownerPassword()'));
+ assert.ok(code.indexOf('await readReady199Reference')<code.indexOf('connectionFromLink(await'));
  const runtime=readFileSync('scripts/testing/run-first-owner-runtime.mjs','utf8');
  for(const text of ["NAWASRAH_MAX_MIGRATION:'198'",'firstOwnerWithExecutor','staleReport.remoteWriteAttempted,false','expectedHeldNotifications(original)'])assert.ok(runtime.includes(text),text);
 });

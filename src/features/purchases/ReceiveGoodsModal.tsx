@@ -1,4 +1,5 @@
 import {FormFields, Card, UiButton, DataTable, Tr, Th, Td,ReceivingUnitFields,type ReceivingUnitMode} from '../../components/ui';
+import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
 /**
  * Nawasrah Business Manager - Goods Receiving (GRN) Modal Component
  */
@@ -49,6 +50,7 @@ export const ReceiveGoodsModal = ({
   onSuccess,
 }: ReceiveGoodsModalProps) => {
   const warehouses = useAppStoreSelector((state) => state.warehouses);
+  const activeBranchId=useAppStoreSelector(state=>state.activeBranch?.id);
 
   const [selectedWarehouseId, setSelectedWarehouseId] = useState<string>('');
   const [supplierDeliveryNote, setSupplierDeliveryNote] = useState<string>('');
@@ -260,6 +262,8 @@ export const ReceiveGoodsModal = ({
 
             <div>
               <label className="font-bold text-nw-text block mb-1">المستودع المستلم:</label>
+              <WarehouseChoice options={warehouses} branchId={po.branchId||activeBranchId} value={selectedWarehouseId}
+                onSingle={setSelectedWarehouseId} preserveSelected={!!po.warehouseId}>
               <select aria-label="المستودع"
                 value={selectedWarehouseId}
                 onChange={(e) => setSelectedWarehouseId(e.target.value)}
@@ -272,6 +276,7 @@ export const ReceiveGoodsModal = ({
                   </option>
                 ))}
               </select>
+              </WarehouseChoice>
             </div>
 
             <div>

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {isDeepStrictEqual} from 'node:util';
 import {catalogDifference,normalizeRealtimePartitions} from '../testing/schema-catalog.mjs';
 import {heldTrigger,isExpectedHeldTriggerDifference} from './frankfurt-notification-hold.mjs';
+import {canonicalDefinitionLf} from '../testing/maintenance-db-contract.mjs';
 export const platformSchemas=new Set(['auth','storage','realtime','_realtime','extensions','supabase_functions','cron','net','vault','graphql','graphql_public']);
 const words={a:'INSERT',r:'SELECT',w:'UPDATE',d:'DELETE',D:'TRUNCATE',x:'REFERENCES',t:'TRIGGER',m:'MAINTAIN',U:'USAGE',X:'EXECUTE',C:'CREATE'};
 export const privilegeWords=Object.freeze(words);
@@ -27,7 +28,11 @@ export function aclEntries(acl,row,section){
  }
  return entries.sort((a,b)=>compare(JSON.stringify([a.grantee,a.grantor,a.privilege]),JSON.stringify([b.grantee,b.grantor,b.privilege])));
 }
-const lf=text=>typeof text==='string'?text.replaceAll('\r\n','\n'):text;
+// Historical090 removes LF+the street condition from087's CRLF body, retaining
+// the preceding CR plus the removed line's CRLF: one CRCRLF boundary on Windows.
+// Normalize only CR runs immediately followed by LF, not bare CR, SQL tokens,
+// spaces or any other definition/owner/ACL/search_path difference.
+const lf=text=>typeof text==='string'?canonicalDefinitionLf(text):text;
 export function normalizeManagedCatalog(catalog,date){
  const result=date?normalizeRealtimePartitions(catalog,date):structuredClone(catalog);
  for(const [section,rows] of Object.entries(result))for(const row of rows??[]){

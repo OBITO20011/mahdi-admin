@@ -9,7 +9,7 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {buildEmptyProjectInput,executeInput,seedHistoryStructureSql} from './build-empty-supabase.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
-import {migrationManifest,canonicalLf,renderFunctionReference} from '../testing/maintenance-db-contract.mjs';
+import {migrationManifest,canonicalLf,canonicalDefinitionLf,renderFunctionReference} from '../testing/maintenance-db-contract.mjs';
 import {cronInventorySql,assessBuildCron} from './build-cron-report.mjs';
 import {readNotificationSnapshot,validateOriginalNotifications,transitionNotifications,notificationTransitionSql} from './frankfurt-notification-hold.mjs';
 import {verifyCatalogReadOnly,readOnlyPsqlSessionArgs} from './frankfurt-catalog-verification.mjs';
@@ -84,7 +84,7 @@ export async function functionReference(executor,ceiling=139){
  const query=source.match(/const query = `(BEGIN READ ONLY;[\s\S]+?ROLLBACK;)`;/u)?.[1];
  assert.ok(query&&query.includes("n.nspname='public'")&&!query.includes('${'),'FUNCTION_REFERENCE_QUERY_CHANGED');
  const read=await executeInput(executor,query);assert.equal(read.code,0,'FUNCTION_REFERENCE_READ_FAILED');
- const functions=JSON.parse(read.stdout.trim()).map(row=>({...row,definition:canonicalLf(row.definition)}));
+ const functions=JSON.parse(read.stdout.trim()).map(row=>({...row,definition:canonicalDefinitionLf(row.definition)}));
  if(ceiling===138){
   // Frozen pre139 reference: keep the owner's existing138 diagnostics usable.
   // This is the approved complete410-function hash,not a learned runtime hash.
@@ -120,8 +120,13 @@ export async function functionReference(executor,ceiling=139){
   const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);
   assert.equal(functions.length,511,'FROZEN197_FUNCTION_COUNT');
   assert.equal(digest(JSON.stringify(ordered)),'93a2159a862ff78a5a841f7b7d5f328214e418bd4d069f708e7c24bb274e52b7','FROZEN197_FUNCTIONS_CHANGED');
+ }else if(ceiling===198){
+  const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);
+  assert.equal(functions.length,511,'FROZEN198_FUNCTION_COUNT');
+  // DB_REFERENCE.definitionsDigest from accepted8118704, not learned at runtime.
+  assert.equal(digest(JSON.stringify(ordered)),'279875bd84faef619e75cedcc84319ffb130d91715f828982f9d4e955cc2eb1e','FROZEN198_FUNCTIONS_CHANGED');
  }else{
-  assert.equal(ceiling,198,'UNAPPROVED_FUNCTION_REFERENCE');
+  assert.equal(ceiling,199,'UNAPPROVED_FUNCTION_REFERENCE');
   const rendered=renderFunctionReference(await migrationManifest(root),functions);
   assert.equal(rendered,canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8')),'DB_FUNCTIONS_STALE');
  }

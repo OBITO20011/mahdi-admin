@@ -2,6 +2,7 @@
  * Nawasrah Business Manager - Stock Count / Audit Modal
  */
 
+import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
 import React, { useEffect, useRef, useState } from 'react';
 import { useAppStore, useAppStoreActions } from '../../stores/useAppStore';
 import { formatProductInventory } from '../../utils/inventoryFormatter';
@@ -29,7 +30,7 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
   productId: initialProductId,
   onClose,
 }) => {
-  const { warehouses, executeStockCount, setToast } = useAppStore();
+  const { warehouses, activeBranch, executeStockCount, setToast } = useAppStore();
   const { cacheProductPage } = useAppStoreActions();
   const [stockableProducts, setStockableProducts] = useState<Product[]>([]);
   const [productSearch, setProductSearch] = useState('');
@@ -281,6 +282,7 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
       {/* Warehouse Selector */}
       <div className="space-y-1">
         <label className="text-[11px] font-bold text-nw-text block">المستودع الذي تم فيه الجرد:</label>
+        <WarehouseChoice options={warehouses} branchId={activeBranch?.id} value={warehouseId} onSingle={setWarehouseId}>
         <select
           value={warehouseId}
           onChange={(e) => setWarehouseId(e.target.value)}
@@ -292,6 +294,7 @@ export const StockCountModal: React.FC<StockCountModalProps> = ({
             </option>
           ))}
         </select>
+        </WarehouseChoice>
       </div>
 
       {/* Reason / Notes */}

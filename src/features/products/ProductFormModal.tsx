@@ -1,4 +1,5 @@
 import {Card,FormFields,SwitchTrack,UiButton,formatJod} from '../../components/ui';
+import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   AlertTriangle,
@@ -107,6 +108,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     brands,
     products,
     warehouses,
+    activeBranch,
     addCategory,
     addProduct,
     updateProduct,
@@ -1577,6 +1579,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             <label className="mb-1.5 block text-xs font-bold text-nw-text">
               المستودع الافتراضي للصنف *
             </label>
+            <WarehouseChoice options={warehouses} branchId={activeBranch?.id} value={warehouseId} onSingle={setWarehouseId}>
             <select aria-label="المستودع"
               required
               value={warehouseId}
@@ -1590,6 +1593,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
                 </option>
               ))}
             </select>
+            </WarehouseChoice>
           </div>
         )}
 

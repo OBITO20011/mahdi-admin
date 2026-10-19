@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {access, mkdir, mkdtemp, rm, writeFile} from 'node:fs/promises';
+import {access, mkdir, mkdtemp, rm, writeFile, symlink} from 'node:fs/promises';
 import {freemem, tmpdir} from 'node:os';
 import path from 'node:path';
 import {setTimeout as poll} from 'node:timers/promises';
@@ -9,6 +9,24 @@ import {startIsolatedVite} from '../scripts/testing/isolated-vite-server.mjs';
 import {stopIsolatedVite} from '../scripts/testing/stop-isolated-vite.mjs';
 
 const root = path.resolve('.');
+
+test('linked dependency assets are served without exposing the sibling checkout',async()=>{
+  const owned=await mkdtemp(path.join(tmpdir(),'nawasrah-vite-linked-proof-'));
+  const app=path.join(owned,'app'),packages=path.join(owned,'shared','node_modules');let instance:Awaited<ReturnType<typeof startIsolatedVite>>|undefined;
+  try{
+    await mkdir(app);await mkdir(packages,{recursive:true});
+    await writeFile(path.join(app,'package.json'),JSON.stringify({name:'linked-assets-proof',private:true}));
+    await writeFile(path.join(app,'index.html'),'<html><body>fixture</body></html>');
+    await writeFile(path.join(packages,'font-proof.woff2'),'stable-font-asset');
+    await writeFile(path.join(owned,'shared','not-a-dependency.txt'),'must-not-be-served');
+    await symlink(packages,path.join(app,'node_modules'),process.platform==='win32'?'junction':'dir');
+    instance=await startIsolatedVite({root:app,port:0,prebundleDependencies:[],config:{configFile:false}});
+    const allowed=await fetch(origin(instance.server)+'/@fs/'+normalizePath(path.join(packages,'font-proof.woff2')));
+    assert.equal(allowed.status,200);assert.equal(await allowed.text(),'stable-font-asset');
+    const denied=await fetch(origin(instance.server)+'/@fs/'+normalizePath(path.join(owned,'shared','not-a-dependency.txt')));
+    assert.equal(denied.status,403,'Other checkout files must remain outside the allowlist');
+  }finally{await instance?.close();await rm(owned,{recursive:true,force:true});}
+});
 const until = async (condition: () => boolean, onFailure?: () => void) => {
   const deadline = Date.now() + 15000;
   while (!condition()) {

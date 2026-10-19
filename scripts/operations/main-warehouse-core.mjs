@@ -1,8 +1,11 @@
 // Owner-only data bootstrap. No RPC,DDL,grant or business movement is added.
 import {uuid,sqlLiteral as q} from './trial-reset-core.mjs';
+import assert from 'node:assert/strict';
 export const mainWarehouse=Object.freeze({code:'WH-MAIN',name:'المستودع الرئيسي',branchCode:'BR-MAIN',branchName:'الفرع الرئيسي'});
-export function mainWarehouseSql(ownerId){
+export function mainWarehouseSql(ownerId,branch=mainWarehouse){
  uuid(ownerId);
+ assert.match(branch.branchCode,/^[A-Z0-9_-]{1,32}$/u);
+ assert.ok(typeof branch.branchName==='string'&&branch.branchName.trim().length>=2&&branch.branchName.length<=120);
  return `BEGIN ISOLATION LEVEL SERIALIZABLE;SET LOCAL search_path=public,pg_temp;
  DO $main_warehouse$ DECLARE b uuid;w public.warehouses%ROWTYPE;BEGIN
  PERFORM pg_advisory_xact_lock(hashtext('nawasrah-main-warehouse-bootstrap'));
@@ -12,8 +15,8 @@ export function mainWarehouseSql(ownerId){
  AND u.email_confirmed_at IS NOT NULL AND NOT COALESCE(u.banned_until>NOW(),false)
  AND to_jsonb(u)->>'deleted_at' IS NULL FOR UPDATE OF p,u,ur;
  IF NOT FOUND THEN RAISE EXCEPTION 'MAIN_WAREHOUSE_OWNER_REQUIRED';END IF;
- SELECT id INTO b FROM public.branches WHERE code=${q(mainWarehouse.branchCode)}
- AND name_ar=${q(mainWarehouse.branchName)} AND is_active FOR UPDATE;
+ SELECT id INTO b FROM public.branches WHERE code=${q(branch.branchCode)}
+ AND name_ar=${q(branch.branchName)} AND is_active FOR UPDATE;
  IF b IS NULL OR NOT EXISTS(SELECT 1 FROM public.profiles WHERE id=${q(ownerId)}::uuid AND branch_id=b)
  THEN RAISE EXCEPTION 'MAIN_WAREHOUSE_BRANCH_MISMATCH';END IF;
  LOCK TABLE public.warehouses IN SHARE ROW EXCLUSIVE MODE;
@@ -29,7 +32,7 @@ export function mainWarehouseSql(ownerId){
  VALUES(${q(mainWarehouse.code)},${q(mainWarehouse.name)},b,true) RETURNING * INTO w;
  INSERT INTO public.audit_logs(user_id,action,entity_name,entity_id,details)
  VALUES(${q(ownerId)}::uuid,'MAIN_WAREHOUSE_BOOTSTRAP','warehouses',w.id,
- jsonb_build_object('code',w.code,'name_ar',w.name_ar,'branch_id',b,'branch_code',${q(mainWarehouse.branchCode)}));
+ jsonb_build_object('code',w.code,'name_ar',w.name_ar,'branch_id',b,'branch_code',${q(branch.branchCode)}));
  END $main_warehouse$;
  SELECT jsonb_build_object('ok',true,'warehouse',(SELECT to_jsonb(w) FROM public.warehouses w WHERE code=${q(mainWarehouse.code)}));
  COMMIT;`;

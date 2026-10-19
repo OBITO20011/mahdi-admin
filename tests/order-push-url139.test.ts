@@ -5,7 +5,7 @@ import {read139Input} from '../scripts/operations/frankfurt-migration139.mjs';
 import {buildEmptyProjectInput} from '../scripts/operations/build-empty-supabase.mjs';
 
 test('139 is a pinned explicit one-function body;Vault URL has no default or activation',async()=>{
- const unit=await read139Input(process.cwd()),sql=unit.input.toString('utf8');
+ const unit=await read139Input(process.cwd()),sql=unit.input.toString('utf8').replaceAll('\r\n','\n');
  assert.equal((sql.match(/CREATE OR REPLACE FUNCTION/gu)??[]).length,1);
  assert.match(sql,/SET search_path = public, vault, net, pg_temp/u);
  assert.match(sql,/WHERE name = 'order_push_webhook_url'/u);assert.match(sql,/url := v_url/u);

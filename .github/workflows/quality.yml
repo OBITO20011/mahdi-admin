@@ -220,7 +220,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, owner-withdrawals, deferred-cheques, opening-cheques]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -252,6 +252,10 @@ jobs:
       - name: Prove first owner guarded binding and real TOTP AAL2 without managed access
         if: matrix.suite == 'operations-reset'
         run: node scripts/testing/run-first-owner-runtime.mjs
+
+      - name: Prove owner warehouse guards,199 upgrade and current trial reset preservation
+        if: matrix.suite == 'warehouse-management'
+        run: node scripts/testing/run-warehouse-management-gates.mjs
 
       - name: Prove135 reader JSON,roles and real payment/Return balance
         if: matrix.suite == 'package-f-reads'
@@ -423,3 +427,11 @@ jobs:
         env:
           NAWASRAH_PACKAGE_D_POS_FULLSTACK: '1'
         run: npm run test:phase44-admin-recovery:fullstack
+
+      - name: Retain failed real POS browser traces
+        if: failure() && matrix.suite == 'pos-browser'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: pos-browser-failure-evidence
+          path: test-results/
+          retention-days: 7

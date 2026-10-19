@@ -1,5 +1,174 @@
 # Phase status
 
+## Current19Oct — feature199 FULLgreen;genuine main merge in progress
+
+f39f6d72e445711f07a7f3d99d4812a1182f4880 exactbranch quality39260092128
+FULL29/29 and secrets39260092088 SUCCESS. Corrected legacy single-warehouse
+assertion,realPOS/199 guards/upgrade/reset/current access/all browser branches
+PASS. No rerun of failed jobs,no timeout/retry setting changes. Genuine no-ff
+main merge has identical source/tests/SQL/tools/evidence bytes to accepted
+feature;only integration task metadata differs. Main baseline811 synchronized
+under owner's known-delivery permission. Local integration gates then commit/
+exact mainCI;PhaseB3docs-only reports next,then STOP. No hostedaccess/deploy.
+
+Integration local gates completed13:51UTC:types/strictlint/1254Admin192Customer
+PASS;no source/test/SQL delta from green feature. Preflight initially retained
+project-state's worktree branch;metadata synchronized to main without weakening
+the exact branch check,then preflight PASS. Gitleaks/mergecommit/push/mainCI next.
+
+## Current19Oct — all DB/shards PASS;old single-warehouse expectation corrected
+
+86cc60e quality39256864358:27success/29,onlycore+aggregate failed;secrets
+39256864559 SUCCESS. AllDB/5shards/realPOS PASS. Core353PASS59knownskips,
+2fail(same old package-d-pos:41 both engines):disabled select intentionally
+removed by approved199 readonly-only UI. New exact name/id/no combobox/one
+RPC warehouse ID assertion preserves capacity/quantities/recovery. Local6/6
+both engines,1254Admin192Customer/types/strictlint PASS. Ordinary corrective
+test-only commit/fullCI next,no product/timeouts/retry setting change.
+PhaseB3reports prepared externally,not implemented;main811 unchanged.
+
+## Current19Oct — A2 feature6841256;POS module diagnosis follow-up
+
+Feature39254861098 has one WebKit dynamic-import failure before financial
+assertions;secret39254861091 SUCCESS. Failed job did not retain traces/name
+the resource. No proof of504,optimizer churn or product cause. Local exact
+realPOS gate12:54:13–12:57:15UTC8/8 PASS,both browsers,no hostedrequests.
+Add resource-path diagnostic and failure-only trace upload,no retries,timeouts,
+assertion or product changes. Types/lint/1254Admin+192Customer/Gitleaks0 PASS.
+Next ordinary commit/full exactCI,then main merge/fullCI;PhaseB3reports/STOP.
+
+## Current19Oct — A2 ALL local gates PASS;feature exactCI next
+
+Detached release-local11:37:10–12:17:28UTC completed11/11 stages:1254Admin,
+192Customer units/types/strictlint/both isolated builds/network guard and262/262
+related browsers,workers1,both engines. PortableDB_FUNCTIONS generate/check513
+PASS. Final sourceSDK1997kXuFx+198m9ncnq142each,RPC6JW7KB495/173sites/0SQL42501;
+reference199y8CoeB161files513functions13Realtime/fresh-incremental0diff.
+Approved association/history guard runtime,upgrade and reset proofs remain PASS.
+No tracked edits occurred during the detached gate. Gitleaks/commit/featureCI,
+genuine mainmerge/fullCI remain before delivery;then PhaseB3reports only/STOP.
+No hostedaccess/deploy. Historical001–198 unchanged.
+
+## Current19Oct — final proof and1253 Admin units PASS;portable docs fix
+
+Final SDK1997kXuFx142/142,SDK198m9ncnq142/142,RPC6JW7KB495/0SQL42501;
+reference y8CoeB161files513functions13Realtime/fresh-incremental0. Current
+types/strictlint PASS;ALL1253 Admin units PASS. Customer191/192,only SQL-comment
+CRLF/LF matcher failed;test read fixed without product change. Offline audit
+reconstructed accepted811 function digest279875bd exactly;candidate Windows
+header89734da differed from visible bodies71a157fa due090 CRCRLF transport.
+Definition-only EOL normalization shared across generator/render/owner tool;
+migration canonicalLf and all frozen historical digest constants unchanged.
+15 focused maintenance/ACL controls PASS incl true SQL/owner/ACL drift rejection.
+Run detached release-local log:portable-functions generate+check,types/lint/all
+units/builds/related browsers. Prior SQL guard/upgrade/reset proofs unchanged.
+No delivery commit/push yet;then exact feature/mainCI and PhaseB3reports/STOP.
+
+## Current19Oct — exact historical guards repaired;final source proof refresh
+
+Types/lint PASS;full units exposed old navigation expectations and historical
+query line IDs shifted by a pinned import,plus worktree CRLF in unchanged UI.
+No changed business handler found. Strict source projections retain all frozen
+financial hashes;exact old/new query semantics checked before line-ID projection;
+current runtime verifier remains raw and rejects old IDs. Missing/duplicate/
+changed-column controls PASS. Focus/navigation/cheques/strict-product and94
+focused legacy checks PASS. Legacy198 tests now use their <=198 manifest only.
+205 unchanged UI files restored to exact main bytes after canonical HEAD equality;
+no SQL touched. Old SQL-text tests use LF/CRLF portable reads,same118 digest.
+Short new rail label changed to مستودع to preserve existing9-character guard.
+Refresh SDK198/199/RPC/reference for this final display byte change before all
+units/builds/browsers/CI. Existing199 SQL/runtime/upgrade/reset proofs unchanged.
+
+## Current19Oct — final199 DB gates PASS;remaining local gates before CI
+
+Approved any-product guard proven tlvDuF incl real v4zero/stock-count unchanged,
+cashier deny and receipt/product-create concurrency both directions. Current
+SDK199ZtXfXG142/142 and SDK198m7uKES142/142;RPCupGHSP495/0SQL42501;513functions;
+reference xHkVBo161files/13Realtime/fresh-incremental0diff. Offline199 PASS
+after comparison-only CRCRLF normalization,strict SQL/owner/ACL controls9PASS.
+Upgrade MKg5sc PASS199/officialrepair/replay-no-write/hold;reset EbNj7u PASS
+161files513functions/fullcatalog0/WH-MAIN+owner+TOTP+Vault preserved/staff+bytes
+deleted. Types PASS. Lint found only two repeated-space regex errors in a new
+test;equivalent quantifiers fixed,no disable/assertion change. Resume remaining
+lint/all units/builds/related browsers/Gitleaks/featureCI/merge/mainCI;then
+PhaseB3docs-only reports/STOP. No candidate commit or hosted access/deploy.
+
+## Current19Oct — owner approved zero-product guard;A2 resumed
+
+Owner now approves refusing warehouse deactivation for ANY product association,
+including default/zero-balance/no-movement. Rename remains allowed;old stock-count
+logic unchanged. Prior STOP below is historical/resolved. Add the candidate199
+guard,real-RPC regression and concurrency proof,refresh source-bound evidence,
+finish upgrade/reset/local gates/fullCI and merge;then PhaseB3reports only/STOP.
+No hosted access/deploy. Main811 and owner WH-MAIN receipt remain unchanged.
+
+## STOP19Oct — NEW zero-product assignment policy,not the resolved history question
+
+Approved ANY-movement deactivation guard implemented and proven. New local
+diagnostic Hhq1bw00:59:18–01:00:48UTC:actual create_product_with_opening_stock_v4
+creates0 balance/0 reservations/0 movements;candidate199 permits deactivate;
+unchanged adjust_inventory_stock then adds1 while inactive,active picker0.
+No product/stock-count fix made. Ask owner whether ANY product-balance row,
+including0/no-history,must prevent disable. See dedicated ZERO_BALANCE decision
+report. Candidate uncommitted;main811 and urgentWH tool remain stable.
+Final source SDK199nouSTn142/142;SDK198WUlM3j142/142;RPCc012Eo495/0SQL42501;
+reference199VOsP6a PASS161files513functions13Realtime/fresh-incremental0diff.
+Newscreen20/20 PASS,focused19 PASS;old calls/event-value AST identical. Real
+cashier fixture assertion corrected but dedicated rerun pending. Metadata
+source hashes refreshed atomically;frozen negative138/older proofs unchanged.
+Current reset/ownerupgrade199 implemented but rehearsal and full gates/CI/
+merge/PhaseB3reports pending. No hostedaccess/deploy. All DB/browser jobs ended.
+
+## Current19Oct — A2 final source binding and reset gate pending
+
+New warehouses browser20/20 PASS00:41:28–00:44:50UTC,Chromium/WebKit,
+390/820/1440,both themes,actual fonts/axe/clipping. Focused19units PASS,
+whole old calls/handlers AST identical. Types PASS;strictlint found one
+component/helper mixed-export warning:literal pure helper extraction fixed,
+focused lint PASS,no disable. Consequently refresh full current source-bound
+SDK198/199/RPC/reference evidence,not historical proofs. First reference199
+LngH9Y PASS161files/513functions/13Realtime/fresh-incremental0diff. Real199
+history/return/lock-direction runtime jGuV3t PASS;add explicit real cashier role
+fixture (CLI seed has no cashier) before final repeat. New reset199 and owner
+upgrade pipeline implemented but not rehearsed. No candidate delivery yet.
+
+## Current19Oct — warehouse policy resolved;A2 resumed
+
+Owner approved refusing deactivation after ANY inventory movement, including
+zero stock/reservations;rename remains available. Record owner-only receipt
+main-warehouse-2026-10-19T00-06-40-279Z:ok/warehouseReady/zero differences.
+No hosted verification by agent. Candidate199/UI/runtime updated next;refresh
+access/functions/reference/browser/gates before delivery. PhaseB docs-only follows.
+
+## Current19Oct — urgent tool DELIVERED;warehouse policy question STOP
+
+Main811870446b033882c40ed04ee997e2699626ddf8 FULL28/28 quality39175816493
+and secrets39175816436 SUCCESS. Owner commands given immediately;no hosted
+execution. Main unchanged/stable. A2 worktree199/UI/defaults remains uncommitted.
+Real199 runtime/owner atomic setup/two-session race both directions PASS;
+SDK199 and198 142/142 each,RPC199495/0SQL42501. Types/AST PASS. Browser20/20
+preliminary had blocked linked fonts;bounded test-server fix4/4 PASS,final
+font-loaded browser run pending. New199 changed after those access/generated
+proofs;refresh before delivery. Reference199 failed stale ceiling guard199!=198;
+tool correction made,not rerun. Reset182 update and PhaseB reports not done.
+Measurement5VrOXo proves zero-stock warehouse can deactivate then a legitimate
+return restocks1 while inactive;old active-only picker hides it. Owner policy
+question pending;see WAREHOUSE_DEACTIVATION_DECISION_REQUIRED_AR.md. No finance/
+return policy fix or commit of candidate. All task processes/DB stopped;
+unrelated nawasrah-n8n untouched. User interrupted;checkpoint ACTIVE,notIDLE.
+
+## Current19Oct — separate A2 worktree;urgent owner tool main kept stable
+
+warehouse-management managed checkout starts at own8118704;main exact CI
+39175816493 pending. One writing agent across both checkouts,no concurrent
+writers. Initial expected branch/baseline mismatch synchronized to this known
+own commit. Historical121/123 checkout LF differed from main CRLF raw pins;
+canonical SHA equality proved first,then exact main bytes restored,Git SQLdiff0.
+No SQL history/pins changed. Junction dependencies reuse locked installed
+packages;no installation,hosted call or additional server. Owner approved both
+warehouse guards:nonzero stock/reservation prevents disable;movement prevents
+branch reassignment;rename permitted. No new RPC/migration claimed delivered.
+
 ## Current19Oct — urgent WH-MAIN tool local PASS;commit/exactCI pending
 
 Same owner executor on real198 PASS:nawasrah-first-owner-cYuEpG,23:09:07–

@@ -3,7 +3,7 @@ import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {readFile, mkdir, writeFile} from 'node:fs/promises';
 import path from 'node:path';
-import {migrationManifest, renderFunctionReference, canonicalLf} from './maintenance-db-contract.mjs';
+import {migrationManifest, renderFunctionReference, canonicalLf,canonicalDefinitionLf} from './maintenance-db-contract.mjs';
 
 const exec = promisify(execFile), root = path.resolve(import.meta.dirname, '../..');
 const check = process.argv.includes('--check');
@@ -41,7 +41,7 @@ try {
     ) routines; ROLLBACK;`;
   const {stdout: catalog} = await exec('docker', ['exec', container, 'psql', '-U', 'postgres', '-d', 'postgres',
     '-X', '-q', '-At', '-v', 'ON_ERROR_STOP=1', '-c', query], {windowsHide: true, maxBuffer: 32 * 1024 * 1024});
-  const functions = JSON.parse(catalog.trim()).map(row => ({...row, definition: canonicalLf(row.definition)}));
+  const functions = JSON.parse(catalog.trim()).map(row => ({...row, definition: canonicalDefinitionLf(row.definition)}));
   assert.ok(functions.length > 0); assert.equal(new Set(functions.map(f => f.identity)).size, functions.length);
   assert.deepEqual(await migrationManifest(root), manifest, 'Migration source changed during generation');
   const markdown = renderFunctionReference(manifest, functions);

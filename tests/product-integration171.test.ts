@@ -9,7 +9,7 @@ import {assertProduct171Catalog,assertReference171} from '../scripts/operations/
 import {startupTables} from '../scripts/operations/frankfurt-reference164.mjs';
 import {serviceInventory} from '../scripts/audit/service-access-inventory.mjs';
 import {inventory} from '../scripts/audit/table-access-inventory.mjs';
-import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
+import {verifyHistoricalWarehouseCoverage as verifyProbeCoverage} from '../scripts/audit/historical-warehouse-query-sites.mjs';
 
 for(const file of ['src/features/products/ProductFormModal.tsx','src/features/products/ProductDetailModal.tsx','src/stores/useAppStore.ts'])
  test('171 independently pins the ENTIRE pre-change file outside approved hunks: '+file,()=>{
@@ -46,12 +46,12 @@ test('171 admission rejects client/PUBLIC correction grants,legacy EXECUTE bypas
 
 test('historical171 real evidence has exact current-source query coverage,no errors,and closed RPC-only correction/legacy writers',async()=>{
  const source=await inventory(),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_AFTER_171.json','utf8'));
- assert.equal(source.migrationCeiling,198);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);
+ assert.equal(source.migrationCeiling,199);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);
  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,await sourceBefore198Presentation(source.sources));
  assert.deepEqual(verifyProbeCoverage(source,proof.results),proof.coverage);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
  assertProduct171Catalog(proof.catalog);
  const services=JSON.parse(readFileSync('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json','utf8'));
- assert.equal(services.migrationCeiling,198);assert.equal(services.ok,true);
+ assert.equal(services.migrationCeiling,199);assert.equal(services.ok,true);
  assert.ok(services.results.every((r:{sqlstate:string|null})=>r.sqlstate!=='42501'));
 });
 

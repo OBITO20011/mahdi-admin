@@ -5,7 +5,7 @@ import test from 'node:test';
 const migration = readFileSync(
   'supabase/migrations/058_secure_order_delivery_tracking.sql',
   'utf8'
-);
+).replaceAll('\r\n','\n');
 const driverMigration = readFileSync(
   'supabase/migrations/059_delivery_driver_contact.sql',
   'utf8'

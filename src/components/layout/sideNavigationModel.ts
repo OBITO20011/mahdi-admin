@@ -36,6 +36,7 @@ const toSideItem = (item: AdminNavigationItem): SideNavItem => ({
 });
 
 const RAIL_LABELS: Readonly<Record<string, string>> = {
+  'admin-warehouses':'مستودع',
   'sales-pos': 'بيع', 'sales-orders': 'الطلبات', 'parcel-configuration': 'الطرود',
   'catalog-products': 'المنتجات', 'inventory-current': 'المخزون',
   'customer-accounts': 'العملاء', 'supplier-receiving': 'الاستلام',

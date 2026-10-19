@@ -2,6 +2,7 @@
  * Nawasrah Business Manager - POS (Point of Sale) View
  */
 
+import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
 import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import {
   shallowEqual,
@@ -730,11 +731,13 @@ export const PosView: React.FC = () => {
               options={[{value: 'all',label: 'جميع الأقسام'},...categories.map(category=>({value:category.id,label:category.nameAr}))]} />
             <div className="flex flex-wrap items-center gap-2 text-sm">
               <label htmlFor="pos-warehouse">مستودع البيع</label>
+              <WarehouseChoice options={branchWarehouses} value={warehouseId}>
               <select id="pos-warehouse" value={warehouseId} disabled={cartItems.length > 0 || isSubmitting || recoveryBlocked}
                 onChange={e => setSelectedWarehouseId(e.target.value)} className="min-h-11 max-w-full rounded-xl border border-nw-border bg-nw-surface px-3 text-nw-text">
                 <option value="">اختر المستودع</option>
                 {branchWarehouses.map(w => <option key={w.id} value={w.id}>{w.name}</option>)}
               </select>
+              </WarehouseChoice>
             </div>
             <div className={showParcelCatalog ? '' : 'hidden'}>      {parcelOptions.length > 0 && <div className="flex flex-wrap gap-2">
         {parcelOptions.map(option => <button type="button" key={option.parcelConfigurationId}
