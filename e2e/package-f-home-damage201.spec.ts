@@ -12,7 +12,7 @@ for(const width of [390,1440])for(const theme of ['light','dark'])test(`201 coll
  const home=page.getByTestId('dashboard-home'),kpis=page.getByTestId('home-kpis');
  await expect(kpis).toContainText('177.777');await expect(kpis).toContainText('123.456');await expect(kpis).toContainText('54.321');
  const flows=page.getByTestId('home-shift-flows');await flows.scrollIntoViewIfNeeded();
- for(const value of ['دفعات موردين من الدرج','-91.234','سحوبات المالك','-44.321','إرجاع سحوبات المالك','5.123','679.868'])await expect(flows).toContainText(value);
+ for(const value of ['دفعات الموردين كاش','-91.234','سحوبات المالك','-44.321','إرجاع سحوبات المالك','5.123','679.868'])await expect(flows).toContainText(value);
  const damage=page.getByTestId('report-damage-losses');await damage.scrollIntoViewIfNeeded();
  for(const text of ['منها محتسب أصلاً','60.000','0.000','مرتجع زبون تالف نهائي'])await expect(damage).toContainText(text);
  await page.evaluate(()=>document.fonts.ready);await checkLayout(page,home);await checkLayout(page,damage);

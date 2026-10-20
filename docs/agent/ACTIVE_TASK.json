@@ -11,27 +11,26 @@
     "PR7 mergedtrue e1eef2f;acceptedfeature88c3941 push+PR FULL35 andbothsecrets",
     "C4 local1294Admin192Customer207browser/DB/FULLscale/ref/upgrade/reset;main205/203/204 offline PASS",
     "Newclean isolatedcheckout exactown main;inherited branch/baseline mismatch only,known-own sync under owner15Oct exception",
-    "Prior main205 e1eef2f FULL35run39445694909+secrets39445694865 strictdeliveryReady true"
+    "Prior main205 e1eef2f FULL35run39445694909+secrets39445694865 strictdeliveryReady true",
+    "C5 committed/pushed a601193731e9e6696f619a334743bebf4892ffe6;PR8 attached"
   ],
   "inProgress": [
-    "C5 localgates accepted;owneroffline then CI delivery"
+    "C5 finaltest-only Home201 label correction;new exacthead CI next"
   ],
   "notStarted": [
     "Following6-9 in ownerorder"
   ],
   "testsPassed": [
-    "1304Admin;unchanged192Customer;types/strictlint/build/network escaped0",
-    "189browser165affected+24new;2oldprojectskips,no newskips",
-    "Actual206 DB9/FULLscale/ref168-520-13/upgrade200..206/replay/reset;SDK142/RPC507 denied0"
+    "1304Admin/31finalevidence;types/strictlint/build/network0;197browser/2oldskips",
+    "Actual206 DB9/FULLscale maxp95 151.382ms/ref168-520-13/upgrade200..206/replay/reset PASS",
+    "SDK142 OKXa7U/RPC507 Q4HdXv denied0;offline206/205/204/203 PASS;oldrefsunchanged;Gitleaks0"
   ],
   "testsRemaining": [
-    "Owner206 offline dry-run/featureFULL36+secrets/mainmerge/mainCI"
+    "New exacthead feature FULL36 push+PR/secrets;genuine mainmerge/mainFULL36+secrets"
   ],
   "findings": [
-    "One environmental rerun ERR_NETWORK_CHANGED passed after Docker stopped",
-    "WebKit More branch/biometric text lineheight root correction;all six desktop and WebKit layout cases PASS",
-    "No assertion/skip/retry/timeout weakening;001-205 and financialwriters unchanged",
-    "Scale fixture has all shifts closed;new harness wrong open-shift assumption. Add separate real open_cash_shift after exact fullcounts;no product/SQL/assert/timeout change."
+    "a601 CI old Home201 supplier label in four cases;one expectedlabel changed,eight actualcasesPASS",
+    "Money/print/axe/timeout/retry/skip unchanged;no app/SQL/tools/proof change;new exactFULL36 required"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -40,12 +39,12 @@
     "001-205 immutable;no financialrule/role/writer change",
     "One writer;no tracked edits during localverification;no weakened assertions/retries/timeouts"
   ],
-  "checkpointedAt": "2026-10-20T19:38:19.423Z",
+  "checkpointedAt": "2026-10-20T19:50:31.372Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 103,
-  "filesTouchedManifestSha256": "07d3a99e6fdccb745f10a98e99a01af2765015601acab9c70170d1288f2b3f17",
-  "nextExactAction": "C5 local allPASS incl31final evidence tests/offline206-203;commit/push independentPR exactFULL36+secrets before mainmerge/mainCI,then6.No hostedaccess.",
-  "workingTreeFingerprint": "BA6B6394FA709AC17A438EFB0C2A2491DB71DFA41ACC4853137E39B4E14723BC"
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "d72fdc94e1638c87bf190b8c0874500bb391d2f4322197b5816ba9e7391db9fb",
+  "nextExactAction": "C5 one old Home201 label corrected;8browser+10projection PASS;197effective;all app/SQL/DB/scale/ref/upgrade/reset/offline proofs unchanged. Commit/push correction then exactFULL36+secrets/mainmerge/mainCI and6.No hostedaccess.",
+  "workingTreeFingerprint": "03083002AD7B7A9616D18B6ED1E0DA4079DB524621384CC2F795604B3E02ADB5"
 }

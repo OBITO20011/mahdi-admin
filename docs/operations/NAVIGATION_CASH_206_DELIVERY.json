@@ -22,8 +22,8 @@
     "networkExternalEscaped": 0
   },
   "browser": {
-    "effectivePassed": 189,
-    "affected": 165,
+    "effectivePassed": 197,
+    "affected": 173,
     "newNavigationAndPrint": 24,
     "unchangedProjectSkips": 2,
     "newSkips": 0,
@@ -40,7 +40,8 @@
       820,
       1440
     ],
-    "ledger": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c5-browser-complete.json"
+    "ledger": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c5-browser-complete.json",
+    "finalHome201LabelCases": 8
   },
   "access": {
     "functions": 520,
@@ -178,5 +179,12 @@
         "remoteWriteAttempted": false
       }
     ]
+  },
+  "ciCorrection": {
+    "supersededHead": "a601193731e9e6696f619a334743bebf4892ffe6",
+    "reason": "Old Home201 supplier label;only expected text updated;money/axe/print assertions unchanged",
+    "localCasesPassed": 8,
+    "sourceSqlToolsProofsUnchanged": true,
+    "newExactFullRequired": true
   }
 }

@@ -1,3 +1,12 @@
+# Current20Oct — C5 first CI label expectation repaired
+
+Initial a601193 obsolete CI found Home201 supplier label expected old wording.
+Only one expected label changed;all financial/print/layout/axe assertions retained.
+Eight Chromium/WebKit affectedcases PASS;197effectivebrowser. Source/SQL/tools
+and all DB/scale/reference/upgrade/reset/offline proofs unchanged;previous32
+projection pins unchanged,one additive test inverse. New exactFULL36 required.
+No hostedaccess/deploy.
+
 #20Oct — C5 local gates accepted;CI delivery next
 
 1304Admin/189effectivebrowser/types/strictlint/build/network PASS.

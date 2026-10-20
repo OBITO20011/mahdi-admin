@@ -258,6 +258,21 @@
         }
       ]
     },
+    "e2e/package-f-home-damage201.spec.ts": {
+      "before": "d01bc98622ab55251b84f84244230bf1a3a93fca26edc5f6d8c0b3b1cfb4d51c",
+      "after": "01926772f552fa9a40bcb76e9bd5f1aa9aaac70d21596573619633cf01c32111",
+      "hunks": [
+        {
+          "at": 15,
+          "before": [
+            " for(const value of ['دفعات موردين من الدرج','-91.234','سحوبات المالك','-44.321','إرجاع سحوبات المالك','5.123','679.868'])await expect(flows).toContainText(value);"
+          ],
+          "after": [
+            " for(const value of ['دفعات الموردين كاش','-91.234','سحوبات المالك','-44.321','إرجاع سحوبات المالك','5.123','679.868'])await expect(flows).toContainText(value);"
+          ]
+        }
+      ]
+    },
     "e2e/package-f-home.spec.ts": {
       "before": "06304cc4021d97dfe1223074a06c5f36cb72e94c11aff702345b6ec002888fb4",
       "after": "79025c344717ff0ca310d4a91cc274770ad12077d4a00c0404bb71d769f15980",
