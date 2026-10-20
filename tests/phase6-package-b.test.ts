@@ -63,12 +63,12 @@ test('base return orders original first, issuance oldest first, then depth and s
   ]}]));
 });
 test('cart display separates base units and parcels without changing commercial counting', () => {
-  const items = [{commercialLineKind: 'base_unit', quantity: 3},
-    {commercialLineKind: 'legacy_single_sku_parcel', quantity: 2},
-    {commercialLineKind: 'configurable_parcel', quantity: 1}] as CartItem[];
-  assert.equal(formatCartQuantitySummary(items), `${(3).toLocaleString('ar-JO')} طرد • ${(3).toLocaleString('ar-JO')} وحدة أساسية`);
+  const items = [{commercialLineKind: 'base_unit', quantity: 3, saleUnitNameAr: 'باكيت', unitsPerSalePackage: 1},
+    {commercialLineKind: 'legacy_single_sku_parcel', quantity: 2, saleUnitNameAr: 'كرتونة', unitsPerSalePackage: 10},
+    {commercialLineKind: 'configurable_parcel', quantity: 1, saleUnitNameAr: 'طرد', unitsPerSalePackage: 10}] as CartItem[];
+  assert.equal(formatCartQuantitySummary(items), `${(3).toLocaleString('ar-JO')} باكيت + ${(3).toLocaleString('ar-JO')} طرد`);
   assert.equal(calculateCartPackages(items), 6);
-  assert.equal(formatCartQuantitySummary([items[0]]), `${(3).toLocaleString('ar-JO')} وحدة أساسية`);
+  assert.equal(formatCartQuantitySummary([items[0]]), `${(3).toLocaleString('ar-JO')} باكيت`);
   assert.equal(formatCartQuantitySummary([]), 'السلة فارغة');
 });
 test('Arabic messages preserve recovery semantics and expose unknown diagnostic codes', () => {

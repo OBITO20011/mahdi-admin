@@ -3,6 +3,7 @@ import { formatJod } from '../utils/money';
 
 interface MobileStoreNavProps {
   cartPackages: number;
+  cartSummary?: string;
   cartTotal: number;
   whatsappUrl: string;
   onHome: () => void;
@@ -11,7 +12,7 @@ interface MobileStoreNavProps {
   onCart: () => void;
 }
 
-export function MobileStoreNav({ cartPackages, cartTotal, whatsappUrl, onHome, onCategories, onSearch, onCart }: MobileStoreNavProps) {
+export function MobileStoreNav({ cartPackages, cartSummary, cartTotal, whatsappUrl, onHome, onCategories, onSearch, onCart }: MobileStoreNavProps) {
   const items = [
     { label: 'الرئيسية', icon: Home, action: onHome },
     { label: 'الأقسام', icon: Grid2X2, action: onCategories },
@@ -22,7 +23,7 @@ export function MobileStoreNav({ cartPackages, cartTotal, whatsappUrl, onHome, o
     <>
       {cartPackages > 0 && (
         <button type="button" onClick={onCart} className="fixed inset-x-3 bottom-[5.4rem] z-40 flex items-center justify-between rounded-2xl bg-slate-950 px-4 py-3 text-white shadow-2xl md:hidden">
-          <span className="text-right"><strong className="block text-xs font-black">{cartPackages.toLocaleString('ar-JO')} طرد في السلة</strong><span className="text-[9px] font-bold text-slate-300">اضغط لمراجعة الطلب</span></span>
+          <span className="text-right"><strong className="block text-xs font-black">{cartSummary ?? `${cartPackages.toLocaleString('ar-JO')} طرد`} في السلة</strong><span className="text-[9px] font-bold text-slate-300">اضغط لمراجعة الطلب</span></span>
           <span className="text-sm font-black text-orange-300">{formatJod(cartTotal)}</span>
         </button>
       )}

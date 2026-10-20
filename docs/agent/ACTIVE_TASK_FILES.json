@@ -3,143 +3,107 @@
   "files": [
     {
       "code": "A ",
-      "path": "docs/agent/NAVIGATION_CASH.md"
+      "path": "customer-web/src/components/ProductPurchaseControl.tsx"
     },
     {
       "code": "A ",
-      "path": "docs/operations/NAVIGATION_CASH_206_AR.md"
+      "path": "customer-web/src/utils/storefrontUnits.ts"
     },
     {
       "code": "A ",
-      "path": "docs/operations/NAVIGATION_CASH_206_CI.json"
+      "path": "customer-web/tests/storefront-units.test.ts"
     },
     {
       "code": "A ",
-      "path": "docs/operations/NAVIGATION_CASH_206_DELIVERY.json"
+      "path": "docs/agent/STOREFRONT_SIMPLIFICATION_C6.md"
     },
     {
       "code": "A ",
-      "path": "docs/operations/NAVIGATION_CASH_206_EVIDENCE.json"
+      "path": "docs/operations/NAVIGATION_CASH_206_MAIN_CI.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/NAVIGATION_CASH_206_RESET.json"
+      "path": "docs/operations/STOREFRONT_C6_AR.md"
     },
     {
       "code": "A ",
-      "path": "docs/operations/NAVIGATION_CASH_206_SCALE.json"
+      "path": "docs/operations/STOREFRONT_C6_DELIVERY.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/NAVIGATION_CASH_206_UPGRADE.json"
+      "path": "docs/operations/STOREFRONT_C6_M10.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/PRODUCT_RECEIVING_205_MAIN_CI.json"
+      "path": "docs/operations/STOREFRONT_C6_OWNER_OFFLINE.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_206.json"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_STOREFRONT_C6.json"
     },
     {
       "code": "A ",
-      "path": "e2e/admin-navigation-cash206.spec.ts"
+      "path": "e2e/customer-storefront-c6.spec.ts"
     },
     {
       "code": "A ",
-      "path": "e2e/package-f-navigation206-harness.html"
+      "path": "scripts/audit/source-before-storefront-c6.mjs"
     },
     {
       "code": "A ",
-      "path": "e2e/package-f-navigation206-harness.tsx"
+      "path": "scripts/audit/storefront-c6-hunks.json"
     },
     {
       "code": "A ",
-      "path": "scripts/audit/navigation-cash206-hunks.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-navigation-cash206.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/build-acl-reference206.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/frankfurt-owner-upgrade206.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/frankfurt-reference206.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-navigation-cash-upgrade206-runtime.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-navigation-cash206-gates.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-navigation-cash206-runtime.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-navigation-cash206-scale.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "src/components/layout/navigationDrawer.css"
-    },
-    {
-      "code": "A ",
-      "path": "src/components/layout/navigationDrawerContext.ts"
-    },
-    {
-      "code": "A ",
-      "path": "src/components/layout/NavigationShell.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "src/features/more/DamageProductSelection.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "src/features/shifts/cashFlow.css"
-    },
-    {
-      "code": "A ",
-      "path": "src/features/shifts/CashFlowDetails.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "src/features/shifts/cashFlowModel.ts"
-    },
-    {
-      "code": "A ",
-      "path": "src/features/shifts/CashFlowSummary.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "src/services/supabase/cashShiftMovements.service.ts"
-    },
-    {
-      "code": "A ",
-      "path": "supabase/migrations/206_cash_shift_movement_read_model.sql"
-    },
-    {
-      "code": "A ",
-      "path": "tests/navigation-cash206.test.ts"
+      "path": "tests/storefront-c6.test.ts"
     },
     {
       "code": "M ",
-      "path": ".github/workflows/quality.yml"
+      "path": "customer-web/src/App.tsx"
     },
     {
       "code": "M ",
-      "path": "docs/agent/OWNER_DECISIONS.md"
+      "path": "customer-web/src/components/CargoAddButton.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/CartDrawer.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/CheckoutModal.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/MerchandisingSections.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/MobileStoreNav.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/ProductCard.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/ProductDetailsModal.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/StoreHeader.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/utils/cart.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/utils/checkout.ts"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/tests/checkout.test.ts"
     },
     {
       "code": "M ",
@@ -152,10 +116,6 @@
     {
       "code": "M ",
       "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/generated/DB_FUNCTIONS.md"
     },
     {
       "code": "M ",
@@ -179,251 +139,35 @@
     },
     {
       "code": "M ",
-      "path": "e2e/admin-bottom-navigation.spec.ts"
+      "path": "e2e/customer-checkout-isolated.spec.ts"
     },
     {
       "code": "M ",
-      "path": "e2e/admin-navigation.spec.ts"
+      "path": "e2e/customer-compact-product-grid.spec.ts"
     },
     {
       "code": "M ",
-      "path": "e2e/package-e-closing.spec.ts"
+      "path": "scripts/audit/source-before-navigation-cash206.mjs"
     },
     {
       "code": "M ",
-      "path": "e2e/package-f-cash.spec.ts"
+      "path": "scripts/operations/build-acl-reference206.mjs"
     },
     {
       "code": "M ",
-      "path": "e2e/package-f-home-damage201.spec.ts"
+      "path": "scripts/operations/frankfurt-reference206.mjs"
     },
     {
       "code": "M ",
-      "path": "e2e/package-f-home.spec.ts"
+      "path": "scripts/testing/run-customer-checkout-browser-e2e.mjs"
     },
     {
       "code": "M ",
-      "path": "e2e/package-f-more.spec.ts"
+      "path": "tests/phase6-package-b.test.ts"
     },
     {
       "code": "M ",
-      "path": "scripts/agent/lib.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/agent/preflight.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/run-service-access-diagnostic.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/run-table-access-diagnostic.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/source-before-product-receiving205.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/build-acl-reference205.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/frankfurt-owner-build.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/frankfurt-reference205.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/trial-reset-core.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/historical-reset-source.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/run-trial-reset-runtime.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "src/App.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/components/common/Header.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/components/common/Modal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/components/layout/SideNav.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/components/layout/sideNavigationModel.ts"
-    },
-    {
-      "code": "M ",
-      "path": "src/components/modals/AllModals.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/dashboard/DashboardHome.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/more/adminNavigation.config.ts"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/more/MoreMenuView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/orders/OrderDetailModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/salesHistory/SalesHistoryView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/salesHistory/SalesInvoiceDialog.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/shifts/ShiftClosingReportModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/shifts/ShiftsView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/index.css"
-    },
-    {
-      "code": "M ",
-      "path": "src/stores/modalTypes.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/admin-ai-assistant.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/admin-navigation.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/all-customer-collections203.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/canonical-receivables197.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/cashier-collections198.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/cheques195-admission.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/cheques195-parity.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/daily-shift-closing-report.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/go-live-integration164.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/historical-reset-source.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/home-damage201.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/light-theme-contract.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/opening-cheques196.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/operational-reports.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/owner-withdrawals.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/package-f-cash.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/package-f-orders.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/package-f-remaining-batch1.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/package-f-shell.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/product-integration171.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/product-receiving205.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/sales-history204-evidence.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/sales-returns.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/service-access-inventory.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/staff-account-management.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/trial-reset.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/withdrawals-integration182.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/withdrawals182-admission.test.ts"
+      "path": "tests/table-access-inventory.test.ts"
     }
   ]
 }

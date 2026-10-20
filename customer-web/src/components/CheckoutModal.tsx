@@ -1,3 +1,4 @@
+import {storefrontCartUnit} from '../utils/storefrontUnits';
 import {
   AlertTriangle,
   BadgePercent,
@@ -843,7 +844,7 @@ export function CheckoutModal({
                         <div className="min-w-0">
                           <p className="truncate text-xs font-black text-slate-900">{item.nameAr}</p>
                           <p className="mt-1 text-[10px] font-bold text-slate-500">
-                            {item.quantity.toLocaleString('ar-JO')} {item.saleUnitNameAr} × {formatJod(item.unitPriceInMinorUnits)}
+                            {item.quantity.toLocaleString('ar-JO')} {storefrontCartUnit(item)} × {formatJod(item.unitPriceInMinorUnits)}
                           </p>
                         </div>
                         <strong className="shrink-0 text-xs font-black text-orange-700">
@@ -963,7 +964,7 @@ export function CheckoutModal({
                         </p>
                         <p className="mt-1 text-[9px] font-bold text-slate-500">
                           {item.quantity.toLocaleString('ar-JO')}{' '}
-                          {item.saleUnitNameAr} ×{' '}
+                          {storefrontCartUnit(item)} ×{' '}
                           {formatJod(item.unitPriceInMinorUnits)}
                         </p>
                       </div>

@@ -3,6 +3,7 @@ import { assertLoopbackTestTarget, expect, test, type Page } from './isolated-te
 const customerBaseUrl = process.env.M10_CUSTOMER_BASE_URL;
 const publicSupabaseUrl = process.env.M10_PUBLIC_SUPABASE_URL;
 const isolatedApiUrl = process.env.M10_ISOLATED_API_URL;
+const isolatedControlUrl = process.env.M10_ISOLATED_CONTROL_URL;
 const enabled = Boolean(customerBaseUrl && publicSupabaseUrl && isolatedApiUrl);
 
 const productName = 'صنف اختبار M10';
@@ -153,6 +154,10 @@ test.describe('M10 isolated browser checkout', () => {
   test.skip(!enabled, 'Run through scripts/testing/run-customer-checkout-browser-e2e.mjs only.');
 
   test.beforeEach(async ({ context }) => {
+    if (!isolatedControlUrl) throw new Error('M10 isolated scenario control is required.');
+    assertLoopbackTestTarget(isolatedControlUrl,'M10 isolated scenario control');
+    const reset = await fetch(`${isolatedControlUrl}/reset-gateway-scenario`,{method:'POST'});
+    expect(reset.status).toBe(200);expect(await reset.json()).toEqual({ok:true});
     // Keep the browser side deterministic and offline-safe while the real
     // isolated Gateway still validates Cloudflare's official dummy token.
     await context.addInitScript({ content: turnstileShim });

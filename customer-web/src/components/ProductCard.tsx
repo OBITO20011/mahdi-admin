@@ -1,3 +1,4 @@
+import {storefrontSaleUnit, remainingStorefrontParcels} from '../utils/storefrontUnits';
 import {
   Eye,
   Heart,
@@ -17,6 +18,7 @@ import { getProductPath } from '../utils/publicRoutes';
 interface ProductCardProps {
   product: CatalogProduct;
   cartQuantity: number;
+  reservedQuantity?: number;
   isFavorite: boolean;
   onAdd: (product: CatalogProduct) => void;
   onQuantityChange: (productId: string, quantity: number) => void;
@@ -27,6 +29,7 @@ interface ProductCardProps {
 export function ProductCard({
   product,
   cartQuantity,
+  reservedQuantity = 0,
   isFavorite,
   onAdd,
   onQuantityChange,
@@ -34,10 +37,7 @@ export function ProductCard({
   onToggleFavorite,
 }: ProductCardProps) {
   const hasVariants = product.variants.length > 0;
-  const remainingAfterCart = Math.max(
-    0,
-    product.availableSalePackages - cartQuantity
-  );
+  const remainingAfterCart = remainingStorefrontParcels(product, reservedQuantity);
   const canAdd = product.isAvailable && remainingAfterCart > 0;
   const isLowStock = isLowStockProduct(product);
   const shareProduct = () => {
@@ -130,11 +130,11 @@ export function ProductCard({
           </p>
         )}
 
-        <div className="mt-4 hidden grid-cols-2 gap-2 sm:grid">
+        {product.unitsPerSalePackage > 1 && <div className="mt-4 hidden grid-cols-2 gap-2 sm:grid">
           <div className="rounded-2xl bg-blue-50 p-2.5">
             <p className="text-[9px] font-bold text-blue-700">طرد البيع</p>
             <p className="mt-1 text-xs font-black text-blue-950">
-              {product.saleUnitNameAr}
+              {storefrontSaleUnit(product)}
             </p>
           </div>
           <div className="rounded-2xl bg-slate-50 p-2.5">
@@ -144,21 +144,21 @@ export function ProductCard({
               {product.unitNameAr}
             </p>
           </div>
-        </div>
+        </div>}
 
         <div className="mt-auto flex min-w-0 flex-col items-stretch gap-2 pt-3 sm:flex-row sm:items-end sm:justify-between sm:gap-3 sm:pt-5">
           <div className="min-w-0">
             <p className="hidden text-[9px] font-bold text-slate-600 sm:block">
-              سعر {product.saleUnitNameAr}
+              سعر {storefrontSaleUnit(product)}
             </p>
             <p className="truncate text-sm font-black text-orange-700 sm:mt-0.5 sm:text-lg">
               {formatJod(product.salePackagePriceInMinorUnits)}
             </p>
             <p className="mt-0.5 truncate text-[9px] font-bold text-slate-500 sm:mt-1 sm:text-emerald-700">
-              <span className="sm:hidden">{product.saleUnitNameAr}</span>
+              <span className="sm:hidden">{storefrontSaleUnit(product)}</span>
               <span className="hidden sm:inline">
               متاح {product.availableSalePackages.toLocaleString('ar-JO')}{' '}
-              {product.saleUnitNameAr}
+              {storefrontSaleUnit(product)}
               </span>
             </p>
           </div>
@@ -233,7 +233,7 @@ export function ProductCard({
 
         {cartQuantity > 0 && !hasVariants && (
           <div className="mt-3 hidden rounded-xl border border-orange-200 bg-orange-50 px-3 py-2 text-[10px] font-extrabold text-orange-700 sm:block">
-            في السلة: {cartQuantity.toLocaleString('ar-JO')} • المتبقي للإضافة:{' '}
+            في السلة: {cartQuantity.toLocaleString('ar-JO')} {storefrontSaleUnit(product)} • المتبقي للإضافة:{' '}
             {remainingAfterCart.toLocaleString('ar-JO')}
           </div>
         )}

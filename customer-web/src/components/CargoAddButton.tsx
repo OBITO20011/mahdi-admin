@@ -16,6 +16,7 @@ interface CargoAddButtonProps {
   label?: ReactNode;
   trailing?: ReactNode;
   className?: string;
+  itemLabel?: string;
 }
 
 const CARGO_DROP_DURATION_MS = 680;
@@ -28,6 +29,7 @@ export function CargoAddButton({
   label = 'إضافة للسلة',
   trailing,
   className = '',
+  itemLabel = 'الطرد',
 }: CargoAddButtonProps) {
   const [phase, setPhase] = useState<CargoPhase>('idle');
   const timersRef = useRef<number[]>([]);
@@ -64,7 +66,7 @@ export function CargoAddButton({
 
   const statusText =
     phase === 'running'
-      ? 'جاري إضافة الطرد...'
+      ? `جاري إضافة ${itemLabel}...`
       : phase === 'done'
         ? 'تمت الإضافة'
         : label;
@@ -103,9 +105,9 @@ export function CargoAddButton({
       )}
       <span className="sr-only" aria-live="polite">
         {phase === 'running'
-          ? 'جاري إضافة الطرد إلى السلة'
+          ? `جاري إضافة ${itemLabel} إلى السلة`
           : phase === 'done'
-            ? 'تمت إضافة الطرد إلى السلة'
+            ? `تمت إضافة ${itemLabel} إلى السلة`
             : ''}
       </span>
     </button>

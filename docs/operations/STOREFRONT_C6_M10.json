@@ -1,0 +1,23 @@
+{
+  "recordedAt": "2026-10-20T22:49:39.212628+00:00",
+  "managedAccess": false,
+  "localProject": "nawasrah-m10-browser-e2e-test",
+  "scenario": "Actual browser Gateway checkout and recovery in Chromium and WebKit",
+  "summary": {
+    "ok": true,
+    "desktop_and_mobile_orders": 11,
+    "orders": 11,
+    "order_items": 11,
+    "reserved": 9,
+    "blank_detail_rows": 0,
+    "tracking_tokens": 11,
+    "duplicate_idempotency_keys": 0,
+    "parcel_instances": 2,
+    "parcel_components": 4
+  },
+  "unchangedAssertions": true,
+  "notificationAndCronDisabledAndVerified": true,
+  "abuseFixtureIsolation": "Only between independent scenarios;within-scenario retries retain records;orders/stock untouched",
+  "scope": "Canonical checkout/recovery flow;final catalogue adapter independently verified by current51 UI cases",
+  "runnerSha256": "720780434416afa490251da32b49557e4344182b025bc7e811864e4a96749bd6"
+}

@@ -1,3 +1,4 @@
+import {storefrontCartUnit, storefrontSaleUnit, storefrontUnitName} from './storefrontUnits';
 import {
   BaseUnitCartItem,
   CartItem,
@@ -67,7 +68,7 @@ function cartDisplayFields(product: CatalogProduct) {
     sku: product.sku,
     nameAr: product.nameAr,
     imageUrl: product.imageUrl,
-    saleUnitNameAr: product.saleUnitNameAr,
+    saleUnitNameAr: storefrontSaleUnit(product),
     unitsPerSalePackage: product.unitsPerSalePackage,
     unitPriceInMinorUnits: product.salePackagePriceInMinorUnits,
     quantity: 1,
@@ -87,7 +88,7 @@ export function createBaseUnitCartItem(product: CatalogProduct): BaseUnitCartIte
   return {
     ...cartDisplayFields(product),
     commercialLineKind: 'base_unit',
-    saleUnitNameAr: product.unitNameAr || 'وحدة',
+    saleUnitNameAr: storefrontUnitName(product.unitNameAr),
     unitsPerSalePackage: 1,
     unitPriceInMinorUnits: product.salePriceInMinorUnits,
     maxAvailablePackages: product.availableQuantity,
@@ -284,7 +285,7 @@ export function reconcileCart(
       sku: product.sku,
       nameAr: product.nameAr,
       imageUrl: product.imageUrl,
-      saleUnitNameAr: isBaseUnit ? product.unitNameAr : product.saleUnitNameAr,
+      saleUnitNameAr: isBaseUnit ? storefrontUnitName(product.unitNameAr) : storefrontSaleUnit(product),
       unitsPerSalePackage: isBaseUnit ? 1 : product.unitsPerSalePackage,
       unitPriceInMinorUnits: isBaseUnit ? product.salePriceInMinorUnits : product.salePackagePriceInMinorUnits,
       maxAvailablePackages: available,
@@ -387,13 +388,12 @@ export function calculateCartPackages(cartItems: CartItem[]): number {
 
 /** Display counts only; do not change the existing commercial payload or total line count. */
 export function formatCartQuantitySummary(cartItems: CartItem[]): string {
-  const baseUnits = cartItems.filter(item => item.commercialLineKind === 'base_unit')
-    .reduce((sum, item) => sum + positiveInteger(item.quantity), 0);
-  const parcels = cartItems.filter(item => item.commercialLineKind !== 'base_unit')
-    .reduce((sum, item) => sum + positiveInteger(item.quantity), 0);
-  return [parcels > 0 ? `${parcels.toLocaleString('ar-JO')} طرد` : '',
-    baseUnits > 0 ? `${baseUnits.toLocaleString('ar-JO')} وحدة أساسية` : '']
-    .filter(Boolean).join(' • ') || 'السلة فارغة';
+  const counts = new Map<string, number>();
+  for (const item of cartItems) {
+    const label = storefrontCartUnit(item);
+    counts.set(label, (counts.get(label) ?? 0) + positiveInteger(item.quantity));
+  }
+  return [...counts].map(([label, count]) => `${count.toLocaleString('ar-JO')} ${label}`).join(' + ') || 'السلة فارغة';
 }
 
 export function requiredBaseUnitsByProductId(cartItems: CartItem[]): Map<string, number> {

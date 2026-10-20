@@ -1,3 +1,4 @@
+import {storefrontCartUnit} from '../utils/storefrontUnits';
 import {
   AlertTriangle,
   ArrowLeft,
@@ -308,7 +309,7 @@ export function CartDrawer({
                             {item.nameAr}
                           </h3>
                           <p className="mt-1 text-[9px] font-bold text-slate-400">
-                            {item.saleUnitNameAr} ×{' '}
+                            {storefrontCartUnit(item)} ×{' '}
                             {item.unitsPerSalePackage.toLocaleString('ar-JO')}
                           </p>
                           <p className="mt-1 text-[9px] font-bold text-blue-600">

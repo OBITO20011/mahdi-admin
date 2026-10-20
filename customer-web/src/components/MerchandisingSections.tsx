@@ -1,3 +1,4 @@
+import {storefrontSaleUnit} from '../utils/storefrontUnits';
 import {
   BadgePercent,
   ChevronLeft,
@@ -245,7 +246,7 @@ function ProductRail({
               </span>
               <strong className="mt-2 block truncate text-sm font-black text-slate-950">{product.nameAr}</strong>
               <span className="mt-1 block truncate text-[9px] font-bold text-slate-400">
-                {product.saleUnitNameAr} • {product.categoryNameAr}
+                {storefrontSaleUnit(product)} • {product.categoryNameAr}
               </span>
               <span className="mt-2 flex items-end justify-between gap-2">
                 <span className="text-sm font-black text-orange-700">{formatJod(product.salePackagePriceInMinorUnits)}</span>

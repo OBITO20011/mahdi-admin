@@ -4,7 +4,7 @@ import path from 'node:path';
 import {migrationManifest,manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {realtimePublicationSql,realtime151Tables} from '../testing/realtime151-contract.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';
+import {inventoryBeforeStorefrontC6 as inventory} from '../audit/source-before-storefront-c6.mjs';
 import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
 import {assertReady205Catalog} from './frankfurt-reference205.mjs';
 import {compareManagedCatalog} from './managed-catalog-policy.mjs';

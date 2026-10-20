@@ -1,3 +1,22 @@
+# Current21Oct — C6 local gates accepted;delivery pending
+
+Admin1306/Customer195/51effectivebrowser(1inheritedskip)/types/strictlint/build PASS.
+Actual checkout+recovery11orders,SDK142/RPC507/network0escape PASS.
+Owner203..206 offline PASS;command206 current,never executed hosted.
+001-206 and historical206 source/readiness/reference pins unchanged.
+Read operations/STOREFRONT_C6_DELIVERY.json. Exact feature FULL36+secrets,
+genuine merge and mainFULL36+secrets remain;then package7.
+
+# Current21Oct — C5 delivered;C6 storefront local verification
+
+PR8 genuine mainf92f32b:FULL36 run39494306870 +secrets39494306807 SUCCESS;
+strictdeliveryReady true/actual206step verified. Owner206 command remains current,
+offline206/205/204/203 PASS and reference bytes unchanged;no hosted execution.
+C6 owner19 implemented in isolated phase-c-storefront;read STOREFRONT_SIMPLIFICATION_C6.
+Independent counters clamp retained choices on stock changes;N1 uses actual unit
+and original primary quote/linekind. Payload/pricing/roles/001-206 unchanged.
+Final browser33PASS/1oldskip;current SDK/RPC/recovery and CI/merge remain.
+
 # Current20Oct —package5 feature FULL36 accepted;genuine mainintegration
 
 Exactfeature 54989ef04932654abff42e5f2509885861484b4c push+PR FULL36 and bothsecret scans SUCCESS.
