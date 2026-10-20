@@ -30,6 +30,7 @@ test('first owner198 requires current real access identities,roles,history,catal
  const source=await inventory(),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_STAGING_198.json','utf8'));
  const reference={migrationCeiling:198,catalog:proof.catalog,buildUtcDate:proof.startedAt.slice(0,10),manifest:proof.manifest.map((name:string)=>({name})),manifestDigest:'attested-by-readReady198Reference'};
  const accepted=assertFirstOwner198Access(reference,JSON.stringify(proof),source);assert.equal(accepted.queries,proof.results.length);
+ const changedSource=structuredClone(source);changedSource.entries[0].id+=':unapproved';assert.throws(()=>assertFirstOwner198Access(reference,JSON.stringify(proof),changedSource),/INCOMPLETE_QUERY_PROBE_COVERAGE/u,'Historical source projection never bypasses exact query identities');
  for(const change of [
   (p:typeof proof)=>{p.migrationCeiling=182;},(p:typeof proof)=>{p.managedAccess=true;},
   (p:typeof proof)=>{p.infrastructureOk=false;},(p:typeof proof)=>{p.applicationReady=false;},

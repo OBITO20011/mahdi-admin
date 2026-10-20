@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-first-owner-eDOHCD",
+  "originalReportSha256": "963f28464920253a0fc31e0646afd5cd0c2ce886b381fc97b64a1bed2857761f",
+  "managedAccess": false,
+  "migrationCeiling": 198,
+  "startedAt": "2026-10-20T04:04:31.270Z",
+  "endedAt": "2026-10-20T04:06:43.963Z",
+  "ok": true,
+  "accessEvidence": {
+    "migrationCeiling": 198,
+    "referenceFile": "local-reference-through198-ready.json",
+    "referenceManifestDigest": "9375ff7fe2ba81f3a6730951a9743aa9873c121ed8c07107d80aeff3947a0285",
+    "currentAccessFile": "TABLE_ACCESS_STAGING_198.json",
+    "sourceSha256": "f68e1c6737058034a79bb514bd9edf3265b1b9ad649e3021d0d52ea2a567dc9f",
+    "coverage": {
+      "complete": true,
+      "sourceSites": 50,
+      "expected": 142,
+      "actual": 142
+    },
+    "queries": 142,
+    "evidenceDigestSha256": "e49554b3e64fbc2efa2dc1e8693ee403210368fb0e8c67911b68dfcca4a066e8"
+  },
+  "pipeline": {
+    "ok": true,
+    "remoteWriteAttempted": true,
+    "catalogCounts": {
+      "tables": 177,
+      "indexes": 535,
+      "schemas": 13,
+      "policies": 86,
+      "triggers": 172,
+      "functions": 628,
+      "sequences": 20,
+      "extensions": 7,
+      "constraints": 1138,
+      "defaultPrivileges": 30
+    },
+    "catalogUnexpectedDifferenceCount": 0,
+    "ownerBound": true
+  },
+  "replay": {
+    "ok": true,
+    "remoteWriteAttempted": true,
+    "catalogCounts": {
+      "tables": 177,
+      "indexes": 535,
+      "schemas": 13,
+      "policies": 86,
+      "triggers": 172,
+      "functions": 628,
+      "sequences": 20,
+      "extensions": 7,
+      "constraints": 1138,
+      "defaultPrivileges": 30
+    },
+    "catalogUnexpectedDifferenceCount": 0,
+    "ownerBound": true
+  },
+  "mainWarehouse": {
+    "ok": true,
+    "remoteWriteAttempted": true,
+    "catalogCounts": {
+      "tables": 177,
+      "indexes": 535,
+      "schemas": 13,
+      "policies": 86,
+      "triggers": 172,
+      "functions": 628,
+      "sequences": 20,
+      "extensions": 7,
+      "constraints": 1138,
+      "defaultPrivileges": 30
+    },
+    "catalogUnexpectedDifferenceCount": 0,
+    "warehouseReady": true
+  },
+  "proofs": [
+    "confirmed Auth identity",
+    "exact UUID/email binding",
+    "new branch created on empty reference data",
+    "mismatched existing branch rejected",
+    "single owner/profile/role/branch",
+    "wrong email rejected",
+    "second owner rejected",
+    "idempotent audit",
+    "real Auth session",
+    "real TOTP verify AAL2",
+    "old AAL1 rejected",
+    "AAL2 owner accepted",
+    "anon/no-role rejected",
+    "zero schema/grant differences",
+    "strict reference198 and current real SDK proof",
+    "same owner CLI executor pipeline",
+    "stale history rejected before binding",
+    "exact notification hold and Realtime13 unchanged",
+    "main warehouse same guarded owner pipeline on198",
+    "WH-MAIN linked to BR-MAIN",
+    "exact zero-write warehouse replay and single audit",
+    "no-role/different-name/inactive/multiple warehouses/inactive-branch rejected atomically",
+    "stale warehouse history rejected before write"
+  ],
+  "originalCatalogObjects": 177
+}

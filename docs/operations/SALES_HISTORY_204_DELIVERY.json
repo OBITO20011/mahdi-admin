@@ -2579,5 +2579,21 @@
     "Gitleaks/feature commit/PR/exactFULL34+secrets",
     "Genuine mainmerge/exactmainFULL34+secrets",
     "Next PhaseC packages in owner order;ask only new financial decision"
-  ]
+  ],
+  "toolingCorrection": {
+    "initialFeature": "a328421c455aa117ff82df2bdff9332b3283a40b",
+    "failedRuns": [
+      39366165808,
+      39366170487
+    ],
+    "failedSuite": "operations-reset",
+    "error": "INCOMPLETE_QUERY_PROBE_COVERAGE",
+    "fix": "first-owner198 reader now inventories exact204 inverse before historical query IDs;old proofs/hashes/guards unchanged",
+    "realLocalProof": "SALES_HISTORY_204_FIRST_OWNER198_FIX.json",
+    "proofGroups": 23,
+    "focusedUnits": 10,
+    "focusedLint": true,
+    "productSqlAndBrowserSourcesUnchanged": true,
+    "newExactFullCiRequired": true
+  }
 }
