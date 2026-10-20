@@ -818,14 +818,14 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           <div>
             <h4 className="font-black text-nw-text">الأسعار والربحية</h4>
             <p className="text-xs text-nw-muted">
-              سعر البيع للوحدة المحددة: {product.salePackage || product.unit}
+              سعر البيع للوحدة المحددة: {unitsPerSalePackage===1?product.unit:'طرد'}
             </p>
           </div>
         </div>
 
         <div className="grid grid-cols-3 gap-2">
           <PriceMetric
-            label={`تكلفة ${product.salePackage || 'الطرد'}`}
+            label={`تكلفة ${unitsPerSalePackage===1?product.unit:'الطرد'}`}
             value={salePackageCost}
             color="text-nw-warn"
           />
@@ -839,7 +839,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             value={
               needsSalePackageSetup
                 ? 'بحاجة ضبط'
-                : `${product.salePackage} × ${unitsPerSalePackage} ${product.unit}`
+                : `طرد × ${unitsPerSalePackage} ${product.unit}`
             }
             color={
               needsSalePackageSetup
@@ -857,7 +857,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         ) : (
           <div className="mt-2">
             <ProfitMetric
-              label={`ربح ${product.salePackage}`}
+              label={`ربح ${unitsPerSalePackage===1?product.unit:'الطرد'}`}
               profit={salePackageProfit.profitPerUnit}
               margin={salePackageProfit.marginPercentage}
             />
@@ -885,7 +885,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         <div className="grid grid-cols-3 gap-2">
           <TextMetric
             label="الطرد"
-            value={product.purchasePackage || product.unit}
+            value={(product.unitsPerPackage||1)===1?product.unit:'طرد'}
           />
           <TextMetric
             label="محتوى الطرد"
@@ -953,7 +953,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               تنبيه النقص
             </span>
             <strong className="text-xs text-nw-warn">
-              {reorderSalePackages} {product.salePackage || 'طرد'}
+              {reorderSalePackages} طرد
             </strong>
           </div>
           <div>
@@ -963,7 +963,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             <strong className="text-xs text-nw-text">
               {maxStockSalePackages === undefined
                 ? 'غير محدد'
-                : `${maxStockSalePackages} ${product.salePackage || 'طرد'}`}
+                : `${maxStockSalePackages} طرد`}
             </strong>
           </div>
         </div>

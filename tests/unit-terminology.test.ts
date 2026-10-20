@@ -1,3 +1,4 @@
+import {sourceBeforeProductReceiving205} from '../scripts/audit/source-before-product-receiving205.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync} from 'node:fs';
@@ -57,7 +58,7 @@ test('all changed product files retain exact awaited calls, RPC/from contracts a
       }
       walk(ast);return {calls,changes};
     }
-    const old=collect(before),now=collect(current);assert.deepEqual(now.calls,old.calls,file+' awaited calls and RPC payloads');
+    const old=collect(before),now=collect(sourceBeforeProductReceiving205(file,current)!);assert.deepEqual(now.calls,old.calls,file+' awaited calls and RPC payloads');
     const remaining=[...now.changes];for(const handler of old.changes){const i=remaining.indexOf(handler);assert.ok(i>=0,file+' existing onChange unchanged');remaining.splice(i,1);}
     assert.deepEqual(remaining,file.endsWith('ProductFormModal.tsx')?['onChange={event => setUnit(event.target.value)}']:[],file+' only authorized base-unit selector is new');
   }

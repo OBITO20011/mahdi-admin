@@ -1,0 +1,1675 @@
+{
+  "baseline": "d2a3d14e3a2688152caba0acf8e32acaed2679a8",
+  "entries": {
+    "e2e/package-f-purchasing-harness.tsx": {
+      "before": "fb461ed376d21803787e8bfd1ca5cbaeec449233983cccf23688a84da53e57f1",
+      "after": "b7317e4708800dc336232f463f389738251300f74a92647e017afa7055e4e518",
+      "hunks": [
+        {
+          "at": 26,
+          "before": [],
+          "after": [
+            "import {mapAdminProductRecord} from '../src/services/supabase/products.service';"
+          ]
+        },
+        {
+          "at": 36,
+          "before": [],
+          "after": [
+            "const displayLines=(receipt.items??[]).map(item=>({id:item.id,kind:'legacy_single_sku_parcel' as const,commercialQuantity:item.packageQuantity,unitsPerParcel:item.unitsPerPackage,baseUnitName:item.baseUnitName??'باكيت',baseQuantity:item.totalBaseUnits,grossInMinorUnits:item.packageQuantity*item.packagePriceInMinorUnits,lineDiscountInMinorUnits:item.discountInMinorUnits,netInMinorUnits:item.lineTotalInMinorUnits,acquisitionInMinorUnits:item.lineTotalInMinorUnits,components:[{itemId:item.id,productId:item.productId,nameAr:item.productName??null,sku:item.productSku??null,baseQuantity:item.totalBaseUnits,currentSaleUnitPriceInMinorUnits:600}]}));",
+            "const displayReceiptRow=params.has('purchase205')?{...receiptRow,subtotal_in_minor_units:100000,total_in_minor_units:100000,amount_paid_in_minor_units:params.has('partial205')?7000:0,amount_due_in_minor_units:params.has('partial205')?93000:100000,payment_status:params.has('partial205')?'partially_paid':'unpaid',payment_method:'cash',supplier_payments:params.has('partial205')?[",
+            " {...receiptRow.supplier_payments[0],amount_in_minor_units:5000,payment_method:'cash'},",
+            " {...receiptRow.supplier_payments[0],id:'payment-cliq',amount_in_minor_units:2000,payment_method:'cliq'},",
+            " {...receiptRow.supplier_payments[0],id:'payment-reversed',amount_in_minor_units:1000,payment_method:'bank_transfer',is_reversed:true},",
+            "]:[],supplier_receipt_items:[{...receiptRow.supplier_receipt_items[0],package_quantity:200,units_per_package:1,total_base_units:200,package_price_in_minor_units:500,base_unit_cost_in_minor_units:500,line_total_in_minor_units:100000}]}:receiptRow;",
+            "const receivingRows=inventoryProducts.slice(0,3).map((p,index)=>({...p,",
+            " ...(params.has('receivingUnits')?{base_unit:{...p.base_unit,name_ar:index===1?'قنينة':'شوال'},units_per_purchase_unit:index===1?1:24,default_purchase_price_in_minor_units:index===1?50:1000,cost_price_in_minor_units:index===1?50:42}:{}),",
+            " ...(params.has('purchase205')?{category_id:'88888888-8888-4888-8888-000000000080',updated_at:'2026-10-20T08:00:00Z',units_per_purchase_unit:10,units_per_sale_unit:10,base_unit:{id:'88888888-8888-4888-8888-000000000081',code:'PKT',name_ar:'باكيت'},purchase_unit:{id:'88888888-8888-4888-8888-000000000081',code:'PKT',name_ar:'باكيت'},sale_unit:{id:'88888888-8888-4888-8888-000000000082',code:'CTN',name_ar:'كرتونة'},default_purchase_price_in_minor_units:3000,default_sale_price_in_minor_units:6000,sale_price_in_minor_units:600,cost_price_in_minor_units:500}:{}),",
+            " warehouse_balances:[{warehouse_id:warehouseRow.id,on_hand_quantity:100,available_quantity:100,reserved_quantity:0}]}));",
+            "if(params.has('roundingSale205'))for(const row of receivingRows){row.units_per_purchase_unit=24;row.units_per_sale_unit=24;row.default_sale_price_in_minor_units=1000;row.sale_price_in_minor_units=42;}",
+            "if(params.has('purchaseUnitOnly205'))for(const row of receivingRows){row.units_per_purchase_unit=1;row.default_purchase_price_in_minor_units=500;}",
+            "if(params.has('legacySaleBase205'))for(const row of receivingRows){row.base_unit={...row.base_unit,code:'PCS'};row.purchase_unit={id:'88888888-8888-4888-8888-000000000082',code:'CTN',name_ar:'كرتونة'};row.sale_unit={...row.base_unit};row.units_per_sale_unit=1;row.default_sale_price_in_minor_units=600;}",
+            "if(params.has('purchase205')){",
+            " store.state={...store.getState(),products:[],categories:[{id:receivingRows[0].category_id,nameAr:'مشروبات'}],brands:[],units:[{id:receivingRows[0].base_unit.id,code:receivingRows[0].base_unit.code,nameAr:'باكيت',conversionFactor:1},{id:'88888888-8888-4888-8888-000000000082',code:'CTN',nameAr:'كرتونة',conversionFactor:24},{id:'88888888-8888-4888-8888-000000000083',code:'PARCEL',nameAr:'طرد',conversionFactor:10}]};",
+            " Object.assign(window,{__receiving205UpdateSale:(price:number)=>{receivingRows[0].default_sale_price_in_minor_units=price*receivingRows[0].units_per_sale_unit;receivingRows[0].sale_price_in_minor_units=price;},__receiving205CachedProducts:()=>store.getState().products.length});",
+            " // Refresh reads stay isolated;the actual versioned product writer is still transported.",
+            " storeEngine.refreshProductsFromSupabase=async()=>undefined;",
+            " storeEngine.refreshInventoryMovementsFromSupabase=async()=>undefined;",
+            " storeEngine.refreshStockNotificationsFromSupabase=async()=>[];",
+            "}"
+          ]
+        },
+        {
+          "at": 60,
+          "before": [],
+          "after": [
+            " if(name==='get_receiving_purchase_context'&&!params.has('purchase205')){const data={products:(args?.p_product_ids as string[]).map(productId=>({productId,lastPurchase:null}))};const request=Promise.resolve({data,error:null});return Object.assign(request,{abortSignal:()=>request});}",
+            " if(name==='get_supplier_receipt_display_context'&&!params.has('purchase205'))return response({receiptId:receipt.id,lines:displayLines});"
+          ]
+        },
+        {
+          "at": 63,
+          "before": [
+            " if(name==='get_supplier_receipts_page')return response({receipts:[receiptRow],total_count:1,summary:{due_in_minor_units:600000,today_count:1,today_total_in_minor_units:1000000,today_paid_in_minor_units:400000,item_count:1}});"
+          ],
+          "after": [
+            " if(name==='get_supplier_receipts_page')return response({receipts:[displayReceiptRow],total_count:1,summary:{due_in_minor_units:displayReceiptRow.amount_due_in_minor_units,today_count:1,today_total_in_minor_units:displayReceiptRow.total_in_minor_units,today_paid_in_minor_units:displayReceiptRow.amount_paid_in_minor_units,item_count:1}});"
+          ]
+        },
+        {
+          "at": 65,
+          "before": [
+            " if(name==='search_admin_products')return response(inventoryProducts.slice(0,3).map((p,index)=>({...p,",
+            "  ...(params.has('receivingUnits')?{base_unit:{...p.base_unit,name_ar:index===1?'قنينة':'شوال'},units_per_purchase_unit:index===1?1:24,",
+            "    default_purchase_price_in_minor_units:index===1?50:1000,cost_price_in_minor_units:index===1?50:42}:{}),",
+            "  warehouse_balances:[{warehouse_id:warehouseRow.id,on_hand_quantity:100,available_quantity:100,reserved_quantity:0}]})));"
+          ],
+          "after": [
+            " if(name==='search_admin_products')return response(args?.p_product_id?receivingRows.filter(row=>row.id===args.p_product_id):receivingRows);",
+            " if(name==='get_product_cost_state_v1'&&params.has('purchase205')){const product=mapAdminProductRecord(receivingRows.find(row=>row.id===args?.p_product_id)!);return response({productId:product.id,updatedAt:product.updatedAt,isFlavorMaster:false,hasCostHistory:true,costPriceInMinorUnits:500,wacCostExactInMinorUnits:'500.000000',defaultPurchasePriceInMinorUnits:3000});}"
+          ]
+        },
+        {
+          "at": 73,
+          "before": [
+            " const rows:Record<string,unknown>[]=(table==='suppliers'?[otherSupplierRow,supplierRow]:table==='warehouses'?[warehouseRow]:table==='branches'?[branchRow]:table==='units'?[{id:'packet',code:'PKT',name_ar:'باكيت'},{id:'carton',code:'CTN',name_ar:'كرتونة'}]:table==='purchase_orders'?poRows:table==='supplier_receipts'?[receiptRow]:[]) as Record<string,unknown>[];"
+          ],
+          "after": [
+            " const rows:Record<string,unknown>[]=(table==='suppliers'?[otherSupplierRow,supplierRow]:table==='warehouses'?[warehouseRow]:table==='branches'?[branchRow]:table==='units'?[{id:params.has('purchase205')?receivingRows[0].base_unit.id:'packet',code:'PKT',name_ar:'باكيت'},{id:params.has('purchase205')?'88888888-8888-4888-8888-000000000082':'carton',code:'CTN',name_ar:'كرتونة'}]:table==='purchase_orders'?poRows:table==='supplier_receipts'?[displayReceiptRow]:[]) as Record<string,unknown>[];"
+          ]
+        },
+        {
+          "at": 91,
+          "before": [
+            "  {view==='purchases'?<PurchasesView/>:view==='direct'?<DirectReceivingView/>:view==='po-detail'?<PurchaseOrderDetailView poId={selected.id} onClose={close} onRefresh={noop}/>:view==='receipt'?<div className=\"p-4\"><SupplierReceiptDetailView receipt={receipt} onBack={close} onRefresh={noop} onRecordPayment={()=>setView('receipt-payment')}/></div>:view==='create-po'?<CreatePurchaseOrderModal isOpen onClose={close} onSuccess={noop}/>:view==='supplier'?<CreateSupplierModal isOpen onClose={close} onSuccess={noop}/>:view==='receive'?<ReceiveGoodsModal isOpen po={selected} onClose={close} onSuccess={noop}/>:view==='payment'?<SupplierPaymentModal isOpen po={selected} onClose={close} onSuccess={noop}/>:null}"
+          ],
+          "after": [
+            "  {view==='purchases'?<PurchasesView/>:view==='direct'?<DirectReceivingView/>:view==='po-detail'?<PurchaseOrderDetailView poId={selected.id} onClose={close} onRefresh={noop}/>:view==='receipt'?<div className=\"p-4\"><SupplierReceiptDetailView receipt={{...receipt,displayLines}} onBack={close} onRefresh={noop} onRecordPayment={()=>setView('receipt-payment')}/></div>:view==='create-po'?<CreatePurchaseOrderModal isOpen onClose={close} onSuccess={noop}/>:view==='supplier'?<CreateSupplierModal isOpen onClose={close} onSuccess={noop}/>:view==='receive'?<ReceiveGoodsModal isOpen po={selected} onClose={close} onSuccess={noop}/>:view==='payment'?<SupplierPaymentModal isOpen po={selected} onClose={close} onSuccess={noop}/>:null}"
+          ]
+        }
+      ]
+    },
+    "src/components/ui/ReceivingUnitFields.tsx": {
+      "before": "93eadaba327adc7b8a0236322d3cf48cfd82cb225c3a557da30c8eb0db6fde55",
+      "after": "a3fff1030bd060e892ff4e3bb4baba9b1153cb777a9ba3d74f1d3420ecbbec44",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [
+            "import {SegmentedControl} from './Controls';",
+            "import {PURCHASE_PACKAGE_OPTIONS} from '../../constants';"
+          ],
+          "after": [
+            "import {SegmentedControl,UiButton} from './Controls';",
+            "import {useState} from 'react';"
+          ]
+        },
+        {
+          "at": 12,
+          "before": [],
+          "after": [
+            " const [editingContents,setEditingContents]=useState(false);"
+          ]
+        },
+        {
+          "at": 20,
+          "before": [
+            "   {p.mode==='package'&&<label className=\"min-w-0 space-y-1 text-sm\">كم {p.unitName} بالطرد؟<input className=\"w-full\" aria-label={`كم ${p.unitName} بالطرد؟`} type=\"number\" inputMode=\"numeric\" min=\"1\" step=\"1\" disabled={p.disabled} value={p.unitsPerPackage} onChange={e=>p.onContents(Number(e.target.value))}/></label>}"
+          ],
+          "after": [
+            "   {p.mode==='package'&&<div className=\"min-w-0 space-y-1 text-sm\"><div className=\"flex flex-wrap items-center gap-2\"><span>الطرد فيه {p.unitsPerPackage} {p.unitName}</span><UiButton type=\"button\" variant=\"plain\" disabled={p.disabled} aria-expanded={editingContents} onClick={()=>setEditingContents(value=>!value)}>{editingContents?'تم':'تعديل محتوى الطرد'}</UiButton></div>{editingContents&&<label className=\"block\">كم {p.unitName} بالطرد؟<input className=\"w-full\" aria-label={`كم ${p.unitName} بالطرد؟`} type=\"number\" inputMode=\"numeric\" min=\"1\" step=\"1\" disabled={p.disabled} value={p.unitsPerPackage} onChange={e=>p.onContents(Number(e.target.value))}/></label>}</div>}"
+          ]
+        },
+        {
+          "at": 21,
+          "before": [
+            "   {p.mode==='package'&&<label className=\"min-w-0 space-y-1 text-sm\">نوع الطرد<select className=\"w-full\" aria-label=\"نوع الطرد\" disabled={p.disabled} value={p.packageName} onChange={e=>p.onPackageName(e.target.value)}>{Array.from(new Set([p.packageName,...PURCHASE_PACKAGE_OPTIONS.map(option=>option.nameAr)])).map(name=><option key={name} value={name}>{name}</option>)}</select></label>}"
+          ],
+          "after": []
+        }
+      ]
+    },
+    "src/features/directReceiving/CreateDirectReceiptModal.tsx": {
+      "before": "fc85481eff8824a0db2c4d3fa5cc060a10e96266f34c397e7936229017a02e9f",
+      "after": "a4aad3eeb55c8df892164b6bb3a38266f873efc70bc7363998f08d0a7b72c2c5",
+      "hunks": [
+        {
+          "at": 34,
+          "before": [],
+          "after": [
+            "import {ReceivingPurchaseHint} from '../purchases/ReceivingPurchaseHint';",
+            "import {ReceivingProductPriceEditor} from '../purchases/ReceivingProductPriceEditor';",
+            "import {useReceivingPurchaseContexts} from '../../hooks/useReceivingPurchaseContexts';",
+            "import {quoteForQuantity} from '../../utils/receivingPurchaseContext';",
+            "import {useAuthStore} from '../../stores/useAuthStore';"
+          ]
+        },
+        {
+          "at": 107,
+          "before": [],
+          "after": [
+            "  const purchaseRead=useReceivingPurchaseContexts(items.map(item=>item.productId));",
+            "  const priceTouched=useRef(new Set<string>()),hintApplied=useRef(new Set<string>());",
+            "  const [editingProductId,setEditingProductId]=useState<string|null>(null);",
+            "  const {roles,roleName}=useAuthStore();",
+            "  const canEditSale=[...roles,roleName].some(role=>role!==null&&['owner','admin','manager','warehouse_keeper'].includes(role));",
+            "  useEffect(()=>{",
+            "    if(purchaseRead.status!=='ready')return;",
+            "    setItems(current=>current.map(item=>{",
+            "      if(hintApplied.current.has(item.tempId)||priceTouched.current.has(item.tempId))return item;",
+            "      hintApplied.current.add(item.tempId);",
+            "      const quote=purchaseRead.quotes[item.productId];if(!quote)return item;",
+            "      const price=quoteForQuantity(quote,item.unitsPerPackage);",
+            "      return {...item,packagePriceInMinorUnits:price,pkgPriceJod:minorUnitsToJod(price)};",
+            "    }));",
+            "  },[purchaseRead.status,purchaseRead.quotes,items.length]);",
+            "  const refreshEditedSaleQuote=async(productId:string)=>{",
+            "    try{const [product]=await fetchProductsForReceivingFromSupabase({productId,limit:1});",
+            "      if(product&&isMountedRef.current){selectedProductsRef.current.set(productId,product);setItems(current=>current.map(item=>item.productId===productId?{...item}:item));}",
+            "    }catch{if(isMountedRef.current)setToast('تعذر تحديث سعر البيع الحالي؛سطر الاستلام محفوظ.','error');}",
+            "  };",
+            ""
+          ]
+        },
+        {
+          "at": 304,
+          "before": [],
+          "after": [
+            "      if (field === 'pkgPriceJod') priceTouched.current.add(item.tempId);"
+          ]
+        },
+        {
+          "at": 353,
+          "before": [
+            "      const packagePrice=product.defaultPackagePriceInMinorUnits||product.costPriceInMinorUnits*contents;"
+          ],
+          "after": [
+            "      const quote=purchaseRead.status==='ready'?purchaseRead.quotes[item.productId]:null;",
+            "      const packagePrice=quote?quoteForQuantity(quote,contents):product.defaultPackagePriceInMinorUnits||product.costPriceInMinorUnits*contents;"
+          ]
+        },
+        {
+          "at": 409,
+          "before": [],
+          "after": [
+            "    if(editingProductId!==null)return;"
+          ]
+        },
+        {
+          "at": 746,
+          "before": [
+            "          مثال: 3 كراتين × 5 باكيتات = 15 باكيت تُضاف للمخزون."
+          ],
+          "after": [
+            "          مثال: 3 طرود × 5 باكيتات = 15 باكيت تُضاف للمخزون."
+          ]
+        },
+        {
+          "at": 910,
+          "before": [
+            "                  <div>"
+          ],
+          "after": [
+            "                  <details className=\"rounded-lg border border-nw-border p-2\">",
+            "                    <summary className=\"min-h-11 cursor-pointer font-bold\">متقدم: خصم الصنف</summary>"
+          ]
+        },
+        {
+          "at": 924,
+          "before": [
+            "                  </div>"
+          ],
+          "after": [
+            "                  </details>",
+            "                  <ReceivingPurchaseHint status={purchaseRead.status} error={purchaseRead.error} quote={purchaseRead.quotes[item.productId]} unitName={item.baseUnitName} units={item.unitsPerPackage} priceInMinorUnits={item.packagePriceInMinorUnits} saleQuote={sourceProduct?.saleQuote??null} onEditSale={canEditSale&&!isSubmitting?()=>setEditingProductId(item.productId):undefined}/>"
+          ]
+        },
+        {
+          "at": 1207,
+          "before": [
+            "          disabled={isSubmitting || items.length === 0 || legacyReplayResolution !== null}"
+          ],
+          "after": [
+            "          disabled={isSubmitting || editingProductId!==null || items.length === 0 || legacyReplayResolution !== null}"
+          ]
+        },
+        {
+          "at": 1229,
+          "before": [],
+          "after": [
+            "      {editingProductId&&<ReceivingProductPriceEditor productId={editingProductId} onClose={()=>setEditingProductId(null)} onSavedOrClosed={()=>void refreshEditedSaleQuote(editingProductId)}/>}"
+          ]
+        }
+      ]
+    },
+    "src/features/directReceiving/SupplierReceiptDetailView.tsx": {
+      "before": "de6a5ea6db5266ab46df73ff954ac16cbea6e7a6817548ac5e895e8471ee086a",
+      "after": "17d398fb916f3203e73f29082f757199d572d21dbb9c2e55e2e26d03de036a43",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [
+            "import {FormFields, formatJod, Card, UiButton, formatUiDate, DataTable, Tr, Th, Td} from '../../components/ui';"
+          ],
+          "after": [
+            "import {FormFields, formatJod, Card, UiButton, formatUiDate} from '../../components/ui';"
+          ]
+        },
+        {
+          "at": 10,
+          "before": [
+            "import { formatWholesaleInventory } from '../../utils/inventoryFormatter';"
+          ],
+          "after": [
+            "import {SupplierReceiptLines} from './SupplierReceiptLines';"
+          ]
+        },
+        {
+          "at": 205,
+          "before": [
+            "              {receipt.paymentMethod === 'cash'",
+            "                ? 'نقدي'",
+            "                : receipt.paymentMethod === 'cliq'",
+            "                ? 'CliQ / تحويل'",
+            "                : receipt.paymentMethod === 'deferred'",
+            "                ? 'آجل'",
+            "                : receipt.paymentMethod}"
+          ],
+          "after": [
+            "              {receipt.status==='cancelled'?'ملغى / معكوس':receipt.amountPaidInMinorUnits===0?'آجل / ذمة':Array.from(new Set((receipt.payments??[]).filter(payment=>!payment.isReversed&&payment.amountInMinorUnits>0).map(payment=>payment.paymentMethod))).map(method=>({cash:'نقدي',cliq:'CliQ',bank_transfer:'تحويل',cheque:'شيك',card:'بطاقة'}[method]??method)).join(' / ')||'تفصيل طرق الدفع غير متاح'}"
+          ]
+        },
+        {
+          "at": 234,
+          "before": [
+            "        {/* Items Table */}",
+            "        {activeSubTab === 'items' && (",
+            "          <div className=\"space-y-3\">",
+            "            <h3 className=\"font-bold text-nw-text print:text-nw-text text-xs hidden print:block\">",
+            "              بيانات البضائع والأصناف المستلمة:",
+            "            </h3>",
+            "            <div className=\"overflow-x-auto border border-nw-border print:border-nw-border rounded-xl\">",
+            "              <DataTable caption=\"أصناف السند\" className=\"w-full text-right text-xs\">",
+            "                <thead className=\"bg-nw-bg print:bg-nw-mute-bg text-nw-muted print:text-nw-text font-bold border-b border-nw-border print:border-nw-border\">",
+            "                  <Tr>",
+            "                    <Th className=\"p-2.5\">#</Th>",
+            "                    <Th className=\"p-2.5\">اسم الصنف / SKU</Th>",
+            "                    <Th className=\"p-2.5 text-center\">وحدة الشراء</Th>",
+            "                    <Th className=\"p-2.5 text-center\">الكمية الواردة</Th>",
+            "                    <Th className=\"p-2.5 text-center\">محتوى الطرد</Th>",
+            "                    <Th className=\"p-2.5 text-center\">إجمالي الوحدات</Th>",
+            "                    <Th className=\"p-2.5 text-center\">سعر الطرد</Th>",
+            "                    <Th className=\"p-2.5 text-center\">تكلفة الوحدة</Th>",
+            "                    <Th className=\"p-2.5 text-center\">سعر البيع</Th>",
+            "                    <Th className=\"p-2.5 text-center\">ربح الوحدة</Th>",
+            "                    <Th className=\"p-2.5 text-center\">الإجمالي</Th>",
+            "                  </Tr>",
+            "                </thead>",
+            "                <tbody className=\"divide-y divide-nw-border print:divide-nw-border text-nw-text print:text-nw-text\">",
+            "                  {receipt.items?.map((item, idx) => (",
+            "                    <Tr key={item.id} className=\"hover:bg-nw-surface-2\">",
+            "                      <Td className=\"p-2.5 font-bold\">{idx + 1}</Td>",
+            "                      <Td className=\"p-2.5 font-bold\">",
+            "                        <div>{item.productName}</div>",
+            "                        <span className=\"text-[10px] text-nw-muted font-mono\">{item.productSku}</span>",
+            "                      </Td>",
+            "                      <Td className=\"p-2.5 text-center font-bold\">{item.purchaseUnitName}</Td>",
+            "                      <Td className=\"p-2.5 text-center font-bold text-nw-info print:text-nw-text\">",
+            "                        {Math.floor(item.packageQuantity)}",
+            "                      </Td>",
+            "                      <Td className=\"p-2.5 text-center\">{Math.floor(item.unitsPerPackage)} {item.baseUnitName}</Td>",
+            "                      <Td className=\"p-2.5 text-center font-extrabold text-nw-ok print:text-nw-text\">",
+            "                        {formatWholesaleInventory(item.totalBaseUnits, item.unitsPerPackage, item.purchaseUnitName, item.baseUnitName).fullFormatted}",
+            "                      </Td>",
+            "                      <Td className=\"p-2.5 text-center font-mono\">",
+            "                        {formatJod(Number(minorToJod(item.packagePriceInMinorUnits)))} {CURRENCY}",
+            "                      </Td>",
+            "                      <Td className=\"p-2.5 text-center font-mono text-nw-warn print:text-nw-text\">",
+            "                        {formatJod(Number(minorToJod(item.baseUnitCostInMinorUnits)))} {CURRENCY}",
+            "                      </Td>",
+            "                      <Td className=\"p-2.5 text-center font-mono text-nw-info print:text-nw-text\">",
+            "                        {formatJod(Number(minorToJod(item.sellingPriceInMinorUnits || 0)))} {CURRENCY}",
+            "                      </Td>",
+            "                      <Td",
+            "                        className={`p-2.5 text-center font-mono font-bold print:text-nw-text ${",
+            "                          (item.sellingPriceInMinorUnits || 0) >= item.baseUnitCostInMinorUnits",
+            "                            ? 'text-nw-ok'",
+            "                            : 'text-nw-bad'",
+            "                        }`}",
+            "                      >",
+            "                        {formatJod(Number(minorToJod(",
+            "                          (item.sellingPriceInMinorUnits || 0) -",
+            "                            item.baseUnitCostInMinorUnits",
+            "                        )))}{' '}",
+            "                        {CURRENCY}",
+            "                      </Td>",
+            "                      <Td className=\"p-2.5 text-center font-mono font-bold text-nw-ok print:text-nw-text\">",
+            "                        {formatJod(Number(minorToJod(item.lineTotalInMinorUnits)))} {CURRENCY}",
+            "                      </Td>",
+            "                    </Tr>",
+            "                  ))}",
+            "                </tbody>",
+            "              </DataTable>",
+            "            </div>",
+            "          </div>",
+            "        )}"
+          ],
+          "after": [
+            "        <div className={activeSubTab==='items'?'':'hidden print:block'}><SupplierReceiptLines lines={receipt.displayLines} error={receipt.displayError}/></div>"
+          ]
+        }
+      ]
+    },
+    "src/features/directReceiving/SupplierReceiptLines.tsx": {
+      "added": true,
+      "after": "dfa78784e566146bfef164343fd8cb1b4e22c60988a31f55b1fdbe43f22fb088",
+      "hunks": []
+    },
+    "src/features/goLive/goLiveImport.ts": {
+      "before": "6aef1af0cb92752768352535d6f651c2a0d9a5db3760335eb82f5d61ecd578fe",
+      "after": "762495484f270ce785a3ecdaff34b03bfc1924997a94d5c4c5394247191a0985",
+      "hunks": [
+        {
+          "at": 29,
+          "before": [
+            "    { key: 'purchase_unit_name', header: 'طرد الشراء', required: true, example: 'كرتونة' },"
+          ],
+          "after": [
+            "    { key: 'purchase_unit_name', header: 'طرد الشراء', required: true, example: 'طرد' },"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [
+            "    { key: 'sale_unit_name', header: 'طرد البيع', required: true, example: 'كرتونة' },"
+          ],
+          "after": [
+            "    { key: 'sale_unit_name', header: 'طرد البيع', required: true, example: 'طرد' },"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/InventoryOpeningSetupModal.tsx": {
+      "before": "b821d4e8fd16e3c6fd0e274d78a85f634f1bf87ef601eade7f8d51761f247aa3",
+      "after": "91b2eb6831bd49b1c0d1b168619e56fb4abde83c6b3c8a25e7d32e26c676a26c",
+      "hunks": [
+        {
+          "at": 278,
+          "before": [
+            "      product.purchasePackageName,"
+          ],
+          "after": [
+            "      'طرد',"
+          ]
+        },
+        {
+          "at": 588,
+          "before": [
+            "                      {product.purchasePackageName} +{' '}"
+          ],
+          "after": [
+            "                      طرد +{' '}"
+          ]
+        },
+        {
+          "at": 602,
+          "before": [
+            "                        عدد {product.purchasePackageName}"
+          ],
+          "after": [
+            "                        عدد طرد"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/InventoryView.tsx": {
+      "before": "fe659790266118e14017019a429a8ecd266da363b9eb3a87f603787dbac6b2c8",
+      "after": "ce82164ddd8bd0620a9470269be0ea3ece343c90d63b40664a4f376c2a77433e",
+      "hunks": [
+        {
+          "at": 274,
+          "before": [
+            "    <PageHeader title=\"المخزون الفعلي\" description=\"راقب المتاح بالكراتين والباكيتات؛ كل تعديل محفوظ بحركة موثقة.\" actions={<>"
+          ],
+          "after": [
+            "    <PageHeader title=\"المخزون الفعلي\" description=\"راقب المتاح بالطرود والباكيتات؛ كل تعديل محفوظ بحركة موثقة.\" actions={<>"
+          ]
+        },
+        {
+          "at": 322,
+          "before": [
+            "                  <Td><button type=\"button\" className=\"min-h-11 text-right\" aria-label={'تفاصيل المنتج والرصيد: ' + product.nameAr} onClick={() => openProduct(product)}><span className=\"block font-semibold\">{product.nameAr}</span><span className=\"text-xs text-nw-muted\">{product.purchasePackage || product.unit} = {product.unitsPerPackage || 1} {product.unit}</span></button></Td>"
+          ],
+          "after": [
+            "                  <Td><button type=\"button\" className=\"min-h-11 text-right\" aria-label={'تفاصيل المنتج والرصيد: ' + product.nameAr} onClick={() => openProduct(product)}><span className=\"block font-semibold\">{product.nameAr}</span><span className=\"text-xs text-nw-muted\">طرد = {product.unitsPerPackage || 1} {product.unit}</span></button></Td>"
+          ]
+        },
+        {
+          "at": 331,
+          "before": [
+            "                  <span className=\"flex justify-between gap-2 text-xs text-nw-muted\"><span>حد الطلب: {product.reorderLevel} {product.unit}</span><span>{product.purchasePackage || product.unit} × {product.unitsPerPackage || 1}</span></span>"
+          ],
+          "after": [
+            "                  <span className=\"flex justify-between gap-2 text-xs text-nw-muted\"><span>حد الطلب: {product.reorderLevel} {product.unit}</span><span>طرد × {product.unitsPerPackage || 1}</span></span>"
+          ]
+        },
+        {
+          "at": 356,
+          "before": [
+            "            <p className=\"m-0 text-xs text-nw-muted\">طرد الشراء: {product.purchasePackage || product.unit} × {product.unitsPerPackage || 1}</p>",
+            "            <p className=\"m-0 text-xs text-nw-muted\">طرد البيع: {product.salePackage || 'غير مضبوط'} × {product.unitsPerSalePackage || 1}</p>"
+          ],
+          "after": [
+            "            <p className=\"m-0 text-xs text-nw-muted\">طرد الشراء: طرد × {product.unitsPerPackage || 1}</p>",
+            "            <p className=\"m-0 text-xs text-nw-muted\">طرد البيع: {product.salePackage?'طرد':'غير مضبوط'} × {product.unitsPerSalePackage || 1}</p>"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductDetailModal.tsx": {
+      "before": "4fd4abedb5858f2c5f97e978054562c619877814953a0cd64882808cb60157de",
+      "after": "5cd93163b21ba5cca615dd504d4d17d253f5e648ec276a1c9db256da5402a441",
+      "hunks": [
+        {
+          "at": 821,
+          "before": [
+            "              سعر البيع للوحدة المحددة: {product.salePackage || product.unit}"
+          ],
+          "after": [
+            "              سعر البيع للوحدة المحددة: {unitsPerSalePackage===1?product.unit:'طرد'}"
+          ]
+        },
+        {
+          "at": 828,
+          "before": [
+            "            label={`تكلفة ${product.salePackage || 'الطرد'}`}"
+          ],
+          "after": [
+            "            label={`تكلفة ${unitsPerSalePackage===1?product.unit:'الطرد'}`}"
+          ]
+        },
+        {
+          "at": 842,
+          "before": [
+            "                : `${product.salePackage} × ${unitsPerSalePackage} ${product.unit}`"
+          ],
+          "after": [
+            "                : `طرد × ${unitsPerSalePackage} ${product.unit}`"
+          ]
+        },
+        {
+          "at": 860,
+          "before": [
+            "              label={`ربح ${product.salePackage}`}"
+          ],
+          "after": [
+            "              label={`ربح ${unitsPerSalePackage===1?product.unit:'الطرد'}`}"
+          ]
+        },
+        {
+          "at": 888,
+          "before": [
+            "            value={product.purchasePackage || product.unit}"
+          ],
+          "after": [
+            "            value={(product.unitsPerPackage||1)===1?product.unit:'طرد'}"
+          ]
+        },
+        {
+          "at": 956,
+          "before": [
+            "              {reorderSalePackages} {product.salePackage || 'طرد'}"
+          ],
+          "after": [
+            "              {reorderSalePackages} طرد"
+          ]
+        },
+        {
+          "at": 966,
+          "before": [
+            "                : `${maxStockSalePackages} ${product.salePackage || 'طرد'}`}"
+          ],
+          "after": [
+            "                : `${maxStockSalePackages} طرد`}"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductFormModal.tsx": {
+      "before": "404e01831eeb8f13a6d03d4d30f400bcf1cf61224f8769955a3cd6fa5ed60319",
+      "after": "367556192edcc5bd8311c0ee26fef76d179f385e22712cb0571c39bd18073d27",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [
+            "import React, { useCallback, useEffect, useMemo, useState } from 'react';"
+          ],
+          "after": [
+            "import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';"
+          ]
+        },
+        {
+          "at": 5,
+          "before": [
+            "  ArrowLeftRight,"
+          ],
+          "after": []
+        },
+        {
+          "at": 11,
+          "before": [
+            "  Layers3,"
+          ],
+          "after": []
+        },
+        {
+          "at": 14,
+          "before": [
+            "  Tag,"
+          ],
+          "after": []
+        },
+        {
+          "at": 44,
+          "before": [],
+          "after": [
+            "import {isContentUnitOption} from '../../utils/unitLabels';"
+          ]
+        },
+        {
+          "at": 152,
+          "before": [
+            "    initialProduct?.purchasePackage || 'كرتونة'"
+          ],
+          "after": [
+            "    initialProduct?.purchasePackage || 'طرد'"
+          ]
+        },
+        {
+          "at": 175,
+          "before": [
+            "    initialProduct?.saleUnitCode &&",
+            "      initialProduct.saleUnitCode !== 'PCS' &&",
+            "      initialProduct.salePackage",
+            "      ? initialProduct.salePackage",
+            "      : 'كرتونة'"
+          ],
+          "after": [
+            "    initialProduct?.salePackage || 'طرد'"
+          ]
+        },
+        {
+          "at": 193,
+          "before": [
+            "  const [unit, setUnit] = useState(initialProduct?.unit || units.find(item => item.code === 'PKT')?.nameAr || units.find(item => item.code !== 'PCS' && !item.isHidden)?.nameAr || 'باكيت');"
+          ],
+          "after": [
+            "  const [unit, setUnit] = useState(initialProduct?.unit || units.find(item => item.code === 'PKT' && isContentUnitOption(item))?.nameAr || units.find(isContentUnitOption)?.nameAr || 'باكيت');"
+          ]
+        },
+        {
+          "at": 214,
+          "before": [],
+          "after": [
+            "  const [withoutParcel, setWithoutParcel] = useState(Boolean(initialProduct && (initialProduct.unitsPerPackage ?? 1) === 1 && (initialProduct.unitsPerSalePackage ?? initialProduct.unitsPerPackage ?? 1) === 1));",
+            "  const [differentSaleParcel, setDifferentSaleParcel] = useState((initialProduct?.unitsPerSalePackage ?? initialProduct?.unitsPerPackage ?? 1) !== (initialProduct?.unitsPerPackage ?? 1));",
+            "  const previousParcelContents = useRef(Math.max(2, initialProduct?.unitsPerPackage ?? 12));"
+          ]
+        },
+        {
+          "at": 412,
+          "before": [],
+          "after": [
+            "  // Presentation conversions only; the existing save payload and 170/171 guards stay below.",
+            "  const changeParcelContents = (rawValue: string) => {",
+            "    changeUnitsPerPackage(rawValue);",
+            "    if (!differentSaleParcel) {",
+            "      const count = Math.max(1, Number(rawValue) || 1);",
+            "      setUnitsPerSalePackage(rawValue === '' ? '' : count);",
+            "      setSalePackagePrice(salePackagePrice === '' ? '' : calculatePackagePrice(derivedSalePricePerUnit, count));",
+            "    }",
+            "  };",
+            "  const toggleWithoutParcel = (checked: boolean) => {",
+            "    if (checked) previousParcelContents.current = validUnitsPerPackage > 1 ? validUnitsPerPackage : previousParcelContents.current;",
+            "    const count = checked ? 1 : previousParcelContents.current;",
+            "    setWithoutParcel(checked);",
+            "    setUnitsPerPackage(count);",
+            "    setDefaultPurchasePrice(unitPurchasePrice === '' ? '' : calculatePackagePrice(Number(unitPurchasePrice), count));",
+            "    if (!differentSaleParcel || checked) {",
+            "      setDifferentSaleParcel(false);",
+            "      setUnitsPerSalePackage(count);",
+            "      setSalePackagePrice(salePackagePrice === '' ? '' : calculatePackagePrice(derivedSalePricePerUnit, count));",
+            "    }",
+            "  };",
+            "  const packagingOptions = (saved: string) => {",
+            "    const baseNames = new Set([unit,...units.filter(isContentUnitOption).map(item => item.nameAr)]);",
+            "    const choices = ['طرد', ...PURCHASE_PACKAGE_OPTIONS.map(item => item.nameAr)].filter(name => !baseNames.has(name) && !['باكيت','شوال','كيس','علبة','قنينة / زجاجة'].includes(name));",
+            "    return Array.from(new Set([saved, ...choices])).map(value => ({value, label: baseNames.has(value) || value === 'باكيت' ? 'طرد (التغليف المحفوظ)' : value}));",
+            "  };",
+            "  const purchaseQuoteProfit = calculateProductProfit(validSalePackagePrice, calculatePackagePrice(costPerUnit, validUnitsPerSalePackage));",
+            ""
+          ]
+        },
+        {
+          "at": 587,
+          "before": [],
+          "after": [
+            "    setWithoutParcel(fields.unitsPerPackage === 1 && fields.unitsPerSalePackage === 1);",
+            "    setDifferentSaleParcel(fields.unitsPerSalePackage !== fields.unitsPerPackage);"
+          ]
+        },
+        {
+          "at": 872,
+          "before": [
+            "    <FormFields className=\"nw-products-fields min-w-0\"><form onSubmit={handleSubmit} aria-busy={isSubmitting} data-unsaved={hasFlavors} dir=\"rtl\" className=\"nw-products-fields min-w-0 space-y-4 text-nw-text text-sm\">"
+          ],
+          "after": [
+            "    <FormFields className=\"nw-products-fields min-w-0\"><form onSubmit={handleSubmit} onInvalidCapture={event=>{const details=(event.target as HTMLElement).closest('details');if(details)details.open=true;}} aria-busy={isSubmitting} data-unsaved={hasFlavors} dir=\"rtl\" className=\"nw-products-fields min-w-0 space-y-4 text-nw-text text-sm\">"
+          ]
+        },
+        {
+          "at": 985,
+          "before": [],
+          "after": [
+            "        </div>",
+            "      </Card>",
+            "",
+            "      <Card padded={false} className=\"rounded-2xl border border-nw-border bg-nw-surface p-3.5\">",
+            "        <div className=\"mb-3 flex items-center gap-2\">",
+            "          <Barcode className=\"h-4 w-4 text-nw-info\" />",
+            "          <div>",
+            "            <h4 className=\"font-black text-nw-text\">التعريف والتتبع</h4>",
+            "            <p className=\"text-xs text-nw-muted\">",
+            "              SKU داخلي، والباركود اختياري",
+            "            </p>",
+            "          </div>",
+            "        </div>",
+            "        <div className=\"grid grid-cols-2 gap-2\">",
+            "          <div>",
+            "            <div className=\"mb-1.5 flex items-center justify-between\">",
+            "              <label className=\"text-xs font-bold text-nw-text\">",
+            "                SKU *",
+            "              </label>",
+            "              {!isEditing && (",
+            "                <UiButton variant=\"plain\"",
+            "                  type=\"button\"",
+            "                  onClick={generateSku}",
+            "                  className=\"text-xs font-bold text-nw-info\"",
+            "                >",
+            "                  توليد",
+            "                </UiButton>",
+            "              )}",
+            "            </div>",
+            "            <input aria-label=\"SKU\"",
+            "              required",
+            "              value={sku}",
+            "              onChange={(event) => setSku(event.target.value)}",
+            "              placeholder=\"NWS-1001\"",
+            "              className={`${inputClass} font-mono`}",
+            "            />",
+            "          </div>",
+            "          <div>",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-text\">",
+            "              الباركود",
+            "            </label>",
+            "            <div className=\"flex gap-1.5\">",
+            "              <input",
+            "                value={isFlavorMaster ? '' : barcode}",
+            "                onChange={(event) => setBarcode(event.target.value)}",
+            "                inputMode=\"text\"",
+            "                aria-label=\"باركود المنتج\"",
+            "                placeholder={",
+            "                  isFlavorMaster ? 'لا يُستخدم للمنتج الأساسي' : 'اختياري'",
+            "                }",
+            "                disabled={isFlavorMaster}",
+            "                className={`${inputClass} min-w-0 font-mono`}",
+            "              />",
+            "              <UiButton variant=\"plain\"",
+            "                type=\"button\"",
+            "                onClick={() => setIsBarcodeCameraOpen(true)}",
+            "                disabled={isFlavorMaster}",
+            "                aria-label=\"مسح باركود المنتج بالكاميرا\"",
+            "                title=\"مسح الباركود بالكاميرا\"",
+            "                className=\"flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-nw-border bg-nw-info-bg text-nw-info transition hover:bg-nw-info-bg disabled:cursor-not-allowed disabled:border-nw-border disabled:bg-nw-surface-2 disabled:text-nw-muted\"",
+            "              >",
+            "                <Camera className=\"h-4 w-4\" />",
+            "              </UiButton>",
+            "            </div>",
+            "            {isFlavorMaster && (",
+            "              <p className=\"mt-1 text-xs leading-4 text-nw-muted\">",
+            "                المنتج الأساسي للتجميع فقط؛ أضف الباركود لكل نكهة قابلة للبيع.",
+            "              </p>",
+            "            )}",
+            "          </div>",
+            "        </div>",
+            "      </Card>",
+            "",
+            "      <Card padded={false} className=\"space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-3.5\">",
+            "        <h4 className=\"font-black\">الطرد</h4>",
+            "        <label className=\"flex min-h-11 items-center gap-2 font-bold\"><input type=\"checkbox\" checked={withoutParcel} onChange={event=>toggleWithoutParcel(event.target.checked)}/>بيتباع بدون طرد</label>",
+            "        <div className=\"flex flex-wrap items-end gap-2\">",
+            "          {!withoutParcel && <label className=\"min-w-0 flex-1 text-xs font-bold\">الطرد فيه<input aria-label={'عدد '+unit+' في طرد الشراء'} type=\"number\" min=\"1\" step=\"1\" required value={unitsPerPackage} onChange={event=>changeParcelContents(event.target.value)} className={numberInputClass}/></label>}",
+            "          <label className=\"min-w-0 flex-1 text-xs font-bold\">{withoutParcel?'البيع بالوحدة':'محتوى الطرد'}<select aria-label=\"الوحدة الأساسية\" className={inputClass} value={unit} onChange={event=>setUnit(event.target.value)} disabled={isEditing}>{Array.from(new Set([unit,...units.filter(isContentUnitOption).map(item=>item.nameAr)])).map(name=><option key={name} value={name}>{name}</option>)}</select></label>",
+            "        </div>",
+            "        <h4 className=\"border-t border-nw-border pt-3 font-black\">الأسعار</h4>",
+            "        <div className={\"grid min-w-0 items-end gap-2 \"+(withoutParcel?\"grid-cols-[auto_minmax(0,1fr)]\":\"grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)]\")} role=\"group\" aria-label=\"أسعار الشراء والبيع\">",
+            "          <span/>{!withoutParcel&&<span className=\"text-center text-xs font-bold\">الطرد</span>}<span className=\"text-center text-xs font-bold\">{unit}</span>",
+            "          <strong className=\"py-3 text-xs\">شراء</strong>",
+            "          {!withoutParcel&&<label className=\"min-w-0 space-y-1 text-xs font-bold\">سعر شراء الطرد<input aria-label={\"سعر شراء الطرد\"} type=\"number\" min=\"0.001\" step=\"0.001\" required value={defaultPurchasePrice} onChange={event=>changePackagePurchasePrice(event.target.value)} className={numberInputClass}/></label>}",
+            "          <label className=\"min-w-0 space-y-1 text-xs font-bold\">{`سعر شراء ${unit}`}<input aria-label={`سعر شراء ${unit}`} type=\"number\" min=\"0\" step=\"0.0001\" required value={unitPurchasePrice} onChange={event=>changeUnitPurchasePrice(event.target.value)} className={numberInputClass}/></label>",
+            "          <strong className=\"py-3 text-xs\">بيع</strong>",
+            "          {!withoutParcel&&<label className=\"min-w-0 space-y-1 text-xs font-bold\">سعر بيع الطرد<input aria-label={\"سعر بيع الطرد\"} type=\"number\" min=\"0.001\" step=\"0.001\" required value={salePackagePrice} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>}",
+            "          <label className=\"min-w-0 space-y-1 text-xs font-bold\">سعر بيع {unit}<input aria-label={'سعر بيع '+unit} type=\"number\" min=\"0\" step=\"0.0001\" required value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>",
+            "        </div>",
+            "        {differentSaleParcel&&<p className=\"text-xs text-nw-muted\">طرد الشراء {validUnitsPerPackage} {unit}؛طرد البيع {validUnitsPerSalePackage} {unit}.</p>}",
+            "        <ProfitCard label={withoutParcel?'ربح '+unit+' التقريبي':'ربح الطرد التقريبي'} profit={purchaseQuoteProfit.profitPerUnit} margin={purchaseQuoteProfit.marginPercentage}/>",
+            "        <p className=\"text-xs text-nw-muted\">الربح التقريبي من سعر الشراء المقترح. سعر البيع لا يتغير تلقائياً عند الاستلام.</p>",
+            "        {costIsFromStock && costState && (",
+            "          <div data-testid=\"product-average-cost\" className=\"mt-3 rounded-xl border border-nw-border bg-nw-info-bg px-3 py-2\">",
+            "            <div className=\"flex items-center justify-between gap-2\">",
+            "              <span className=\"text-xs font-bold text-nw-info\">متوسط التكلفة الحالي — يتحدّث من الاستلام</span>",
+            "              <strong className=\"text-sm text-nw-text\">",
+            "                <bdi dir=\"ltr\">{formatJod(currentUnitCostInMinorUnits(costState) / 1000)}</bdi> {CURRENCY} لكل {unit}",
+            "              </strong>",
+            "            </div>",
+            "            <p className=\"mt-1 text-xs text-nw-muted\">",
+            "              سعرا الشراء أعلاه افتراضيان لأوامر الشراء فقط، وحفظ المنتج لا يغيّر متوسط التكلفة.",
+            "            </p>",
+            "          </div>",
+            "        )}",
+            "      </Card>",
+            "",
+            "      <details className=\"space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-3.5\">",
+            "        <summary className=\"min-h-11 cursor-pointer font-bold\">متقدم: التغليف والمخزون والصورة</summary>",
+            "        <label className=\"flex min-h-11 items-center gap-2 font-bold\"><input type=\"checkbox\" checked={differentSaleParcel} disabled={withoutParcel} onChange={event=>{setDifferentSaleParcel(event.target.checked);if(!event.target.checked){setUnitsPerSalePackage(validUnitsPerPackage);setSalePackagePrice(calculatePackagePrice(derivedSalePricePerUnit,validUnitsPerPackage));}}}/>طرد بيع مختلف عن طرد الشراء</label>",
+            "        {differentSaleParcel&&<label className=\"block text-xs font-bold\">عدد {unit} في طرد البيع<input aria-label={'عدد '+unit+' في طرد البيع'} type=\"number\" min=\"1\" step=\"1\" required value={unitsPerSalePackage} onChange={event=>setUnitsPerSalePackage(event.target.value===''?'':Number.parseInt(event.target.value,10))} className={numberInputClass}/></label>}",
+            "        <div className=\"grid grid-cols-2 gap-2\">",
+            "          <label className=\"min-w-0 text-xs font-bold\">تغليف الشراء للطباعة<select aria-label=\"نوع طرد الشراء\" value={purchasePackage} onChange={event=>setPurchasePackage(event.target.value)} className={inputClass}>{packagingOptions(purchasePackage).map(option=><option key={option.value} value={option.value}>{option.label}</option>)}</select></label>",
+            "          <label className=\"min-w-0 text-xs font-bold\">تغليف البيع للطباعة<select aria-label=\"نوع طرد البيع\" value={salePackage} onChange={event=>setSalePackage(event.target.value)} className={inputClass}>{packagingOptions(salePackage).map(option=><option key={option.value} value={option.value}>{option.label}</option>)}</select></label>",
+            "        </div>"
+          ]
+        },
+        {
+          "at": 1212,
+          "before": [],
+          "after": [
+            "",
+            "      <Card padded={false} className=\"rounded-2xl border border-nw-border bg-nw-surface p-3.5\">",
+            "        <div className=\"mb-3 flex items-center gap-2\">",
+            "          <Warehouse className=\"h-4 w-4 text-nw-info\" />",
+            "          <div>",
+            "            <h4 className=\"font-black text-nw-text\">ضبط المخزون</h4>",
+            "            <p className=\"text-xs text-nw-muted\">",
+            "              الرصيد يتحرك لاحقًا من الاستلام والطلبات تلقائيًا",
+            "            </p>",
+            "          </div>",
+            "        </div>",
+            "",
+            "        {!isEditing && (",
+            "          <div className=\"mb-3\">",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-text\">",
+            "              المستودع الافتراضي للصنف *",
+            "            </label>",
+            "            <WarehouseChoice options={warehouses} branchId={activeBranch?.id} value={warehouseId} onSingle={setWarehouseId}>",
+            "            <select aria-label=\"المستودع\"",
+            "              required",
+            "              value={warehouseId}",
+            "              onChange={(event) => setWarehouseId(event.target.value)}",
+            "              className={inputClass}",
+            "            >",
+            "              <option value=\"\">اختر المستودع</option>",
+            "              {warehouses.map((warehouse) => (",
+            "                <option key={warehouse.id} value={warehouse.id}>",
+            "                  {warehouse.name}",
+            "                </option>",
+            "              ))}",
+            "            </select>",
+            "            </WarehouseChoice>",
+            "          </div>",
+            "        )}",
+            "",
+            "        {!isEditing && (",
+            "          <div className=\"mb-3 flex items-center gap-2 rounded-xl border border-nw-border bg-nw-ok-bg px-3 py-2 text-xs font-bold text-nw-ok\">",
+            "            <Package className=\"h-3.5 w-3.5 shrink-0\" />",
+            "            يُنشأ الصنف برصيد صفر؛ أدخل البضاعة الفعلية من شاشة الاستلام.",
+            "          </div>",
+            "        )}",
+            "",
+            "        <div className=\"grid grid-cols-2 gap-2\">",
+            "          <div>",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-warn\">",
+            "              تنبيه عند (طرد)",
+            "            </label>",
+            "            <input aria-label=\"حد الطلب\"",
+            "              type=\"number\"",
+            "              min=\"0\"",
+            "              step=\"1\"",
+            "              required",
+            "              value={reorderLevel}",
+            "              onChange={(event) =>",
+            "                setReorderLevel(",
+            "                  event.target.value === ''",
+            "                    ? ''",
+            "                    : Number.parseInt(event.target.value, 10)",
+            "                )",
+            "              }",
+            "              className={numberInputClass}",
+            "            />",
+            "          </div>",
+            "          <div>",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-muted\">",
+            "              سقف المستودع (طرد)",
+            "            </label>",
+            "            <input aria-label=\"سقف المستودع\"",
+            "              type=\"number\"",
+            "              min=\"0\"",
+            "              step=\"1\"",
+            "              value={maxStockLevel}",
+            "              onChange={(event) =>",
+            "                setMaxStockLevel(",
+            "                  event.target.value === ''",
+            "                    ? ''",
+            "                    : Number.parseInt(event.target.value, 10)",
+            "                )",
+            "              }",
+            "              placeholder=\"اختياري\"",
+            "              className={numberInputClass}",
+            "            />",
+            "            <p className=\"mt-1 text-xs leading-4 text-nw-muted\">",
+            "              اختياري: كمية لا تريد تجاوزها عند الشراء، ولا تمنع البيع.",
+            "            </p>",
+            "          </div>",
+            "        </div>",
+            "",
+            "        <div className=\"mt-3 flex items-start gap-2 rounded-xl border border-nw-border bg-nw-info-bg p-2.5 text-xs leading-5 text-nw-muted\">",
+            "          <Boxes className=\"mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-info\" />",
+            "          كل القيم هنا بعدد الطرود؛ كل طرد ={' '}",
+            "          {validUnitsPerSalePackage} {unit}. النظام يحولها تلقائيًا إلى {unit}",
+            "          عند الحفظ والحساب.",
+            "        </div>",
+            "",
+            "        {isEditing && (",
+            "          <div className=\"mt-3 flex items-center justify-between rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2\">",
+            "            <span className=\"flex items-center gap-1.5 text-xs font-bold text-nw-muted\">",
+            "              <Boxes className=\"h-3.5 w-3.5 text-nw-info\" />",
+            "              الرصيد الحالي لا يُعدل من بطاقة المنتج",
+            "            </span>",
+            "            <strong className=\"text-nw-warn\">",
+            "              {currentStockSalePackages} طرد",
+            "              {currentStockLooseUnits > 0",
+            "                ? ` + ${currentStockLooseUnits} ${unit}`",
+            "                : ''}",
+            "            </strong>",
+            "          </div>",
+            "        )}",
+            "",
+            "        <div className=\"mt-3 flex items-start gap-2 rounded-xl bg-nw-surface-2 p-2.5 text-xs leading-5 text-nw-muted\">",
+            "          <Info className=\"mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-info\" />",
+            "          تاريخ الصلاحية ورقم التشغيلة يُسجلان عند استلام شحنة المورد،",
+            "          لأن كل شحنة قد تحمل صلاحية مختلفة."
+          ]
+        },
+        {
+          "at": 1544,
+          "before": [
+            "      <Card padded={false} className=\"rounded-2xl border border-nw-border bg-nw-surface p-3.5\">",
+            "        <div className=\"mb-3 flex items-center gap-2\">",
+            "          <Barcode className=\"h-4 w-4 text-nw-info\" />",
+            "          <div>",
+            "            <h4 className=\"font-black text-nw-text\">التعريف والتتبع</h4>",
+            "            <p className=\"text-xs text-nw-muted\">",
+            "              SKU داخلي، والباركود اختياري",
+            "            </p>"
+          ],
+          "after": [
+            "",
+            "",
+            "      </details>",
+            "",
+            "      {editConflict && (",
+            "        <ProductEditConflictPanel",
+            "          rows={conflictRows}",
+            "          statusChange={",
+            "            editConflict.snapshot.isActive !== openedActive",
+            "              ? { mine: openedActive, current: editConflict.snapshot.isActive }",
+            "              : undefined",
+            "          }",
+            "          formatValue={formatConflictValue}",
+            "          onReapply={reapplyMyEdits}",
+            "        />",
+            "      )}",
+            "",
+            "      {reappliedNotice && (",
+            "        <p role=\"status\" data-testid=\"product-edit-reapplied\" className=\"rounded-2xl border border-nw-border bg-nw-info-bg p-3 text-sm font-bold text-nw-info\">",
+            "          طُبّقت تعديلاتك فوق القيم الحالية. راجعها ثم اضغط «حفظ التعديلات».",
+            "        </p>",
+            "      )}",
+            "",
+            "      {submitError && (",
+            "        <div className=\"rounded-2xl border border-nw-border bg-nw-bad-bg p-3 text-nw-bad\">",
+            "          <div className=\"flex items-center gap-2 font-black text-nw-bad\">",
+            "            <AlertTriangle className=\"h-4 w-4\" />",
+            "            تعذر حفظ المنتج"
+          ]
+        },
+        {
+          "at": 1573,
+          "before": [
+            "        </div>",
+            "        <div className=\"grid grid-cols-2 gap-2\">",
+            "          <div>",
+            "            <div className=\"mb-1.5 flex items-center justify-between\">",
+            "              <label className=\"text-xs font-bold text-nw-text\">",
+            "                SKU *",
+            "              </label>",
+            "              {!isEditing && (",
+            "                <UiButton variant=\"plain\"",
+            "                  type=\"button\"",
+            "                  onClick={generateSku}",
+            "                  className=\"text-xs font-bold text-nw-info\"",
+            "                >",
+            "                  توليد",
+            "                </UiButton>",
+            "              )}",
+            "            </div>",
+            "            <input aria-label=\"SKU\"",
+            "              required",
+            "              value={sku}",
+            "              onChange={(event) => setSku(event.target.value)}",
+            "              placeholder=\"NWS-1001\"",
+            "              className={`${inputClass} font-mono`}",
+            "            />",
+            "          </div>",
+            "          <div>",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-text\">",
+            "              الباركود",
+            "            </label>",
+            "            <div className=\"flex gap-1.5\">",
+            "              <input",
+            "                value={isFlavorMaster ? '' : barcode}",
+            "                onChange={(event) => setBarcode(event.target.value)}",
+            "                inputMode=\"text\"",
+            "                aria-label=\"باركود المنتج\"",
+            "                placeholder={",
+            "                  isFlavorMaster ? 'لا يُستخدم للمنتج الأساسي' : 'اختياري'",
+            "                }",
+            "                disabled={isFlavorMaster}",
+            "                className={`${inputClass} min-w-0 font-mono`}",
+            "              />",
+            "              <UiButton variant=\"plain\"",
+            "                type=\"button\"",
+            "                onClick={() => setIsBarcodeCameraOpen(true)}",
+            "                disabled={isFlavorMaster}",
+            "                aria-label=\"مسح باركود المنتج بالكاميرا\"",
+            "                title=\"مسح الباركود بالكاميرا\"",
+            "                className=\"flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-nw-border bg-nw-info-bg text-nw-info transition hover:bg-nw-info-bg disabled:cursor-not-allowed disabled:border-nw-border disabled:bg-nw-surface-2 disabled:text-nw-muted\"",
+            "              >",
+            "                <Camera className=\"h-4 w-4\" />",
+            "              </UiButton>",
+            "            </div>",
+            "            {isFlavorMaster && (",
+            "              <p className=\"mt-1 text-xs leading-4 text-nw-muted\">",
+            "                المنتج الأساسي للتجميع فقط؛ أضف الباركود لكل نكهة قابلة للبيع.",
+            "              </p>",
+            "            )}",
+            "          </div>",
+            "        </div>",
+            "      </Card>",
+            "",
+            "      <Card padded={false} className=\"rounded-2xl border border-nw-border    p-3.5\">",
+            "        <div className=\"mb-3 flex items-center gap-2\">",
+            "          <Layers3 className=\"h-4 w-4 text-nw-warn\" />",
+            "          <div>",
+            "            <h4 className=\"font-black text-nw-text\">شراء المورد</h4>",
+            "            <p className=\"text-xs text-nw-muted\">",
+            "              عرّف الطرد مرة واحدة، والتكلفة تُحسب لكل {unit}",
+            "            </p>",
+            "          </div>",
+            "        </div>",
+            "",
+            "        <div className=\"grid grid-cols-2 gap-2\">",
+            "          <label className=\"col-span-2 text-xs font-bold text-nw-muted\">",
+            "            الوحدة الأساسية",
+            "            <select aria-label=\"الوحدة الأساسية\" className={inputClass} value={unit} onChange={event => setUnit(event.target.value)} disabled={isEditing}>",
+            "              {Array.from(new Set([unit, ...units.filter(item => item.code !== 'PCS' && !item.isHidden).map(item => item.nameAr)])).map(name => <option key={name} value={name}>{name}</option>)}",
+            "            </select>",
+            "          </label>",
+            "          <div>",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-muted\">",
+            "              نوع الطرد",
+            "            </label>",
+            "            <select aria-label=\"نوع طرد الشراء\"",
+            "              value={purchasePackage}",
+            "              onChange={(event) => setPurchasePackage(event.target.value)}",
+            "              className={inputClass}",
+            "            >",
+            "              {Array.from(new Set([purchasePackage, ...PURCHASE_PACKAGE_OPTIONS.map(item => item.nameAr)])).map((name) => (",
+            "                <option key={name} value={name}>",
+            "                  {name}",
+            "                </option>",
+            "              ))}",
+            "            </select>",
+            "          </div>",
+            "          <div>",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-muted\">",
+            "              عدد {unit} في الطرد *",
+            "            </label>",
+            "            <input aria-label={`عدد ${unit} في طرد الشراء`}",
+            "              type=\"number\"",
+            "              min=\"1\"",
+            "              step=\"1\"",
+            "              required",
+            "              value={unitsPerPackage}",
+            "              onChange={(event) =>",
+            "                changeUnitsPerPackage(event.target.value)",
+            "              }",
+            "              className={numberInputClass}",
+            "            />",
+            "          </div>",
+            "          <div>",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-muted\">",
+            "              سعر شراء الطرد *",
+            "            </label>",
+            "            <input aria-label=\"سعر شراء الطرد\"",
+            "              type=\"number\"",
+            "              min=\"0.001\"",
+            "              step=\"0.001\"",
+            "              required",
+            "              value={defaultPurchasePrice}",
+            "              onChange={(event) =>",
+            "                changePackagePurchasePrice(event.target.value)",
+            "              }",
+            "              className={numberInputClass}",
+            "            />",
+            "          </div>",
+            "          <div>",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-warn\">",
+            "              سعر شراء {unit} *",
+            "            </label>",
+            "            <input aria-label={`سعر شراء ${unit}`}",
+            "              type=\"number\"",
+            "              min=\"0.001\"",
+            "              step=\"0.001\"",
+            "              required",
+            "              value={unitPurchasePrice}",
+            "              onChange={(event) =>",
+            "                changeUnitPurchasePrice(event.target.value)",
+            "              }",
+            "              className={`${numberInputClass} border-nw-border text-nw-warn focus:border-nw-border`}",
+            "            />",
+            "          </div>",
+            "        </div>",
+            "",
+            "        <div className=\"mt-3 flex items-center justify-between rounded-xl border border-nw-border bg-nw-warn-bg px-3 py-2\">",
+            "          <span className=\"flex items-center gap-1.5 text-xs font-bold text-nw-muted\">",
+            "            <ArrowLeftRight className=\"h-3.5 w-3.5 text-nw-warn\" />",
+            "            السعران مربوطان تلقائيًا",
+            "          </span>",
+            "          <strong className=\"text-xs text-nw-warn\">",
+            "            {validUnitsPerPackage} {unit} × {formatJod(costPerUnit)} ={' '}",
+            "            {formatJod(validPackagePrice)} {CURRENCY}",
+            "          </strong>",
+            "        </div>",
+            "",
+            "        {costIsFromStock && costState && (",
+            "          <div data-testid=\"product-average-cost\" className=\"mt-3 rounded-xl border border-nw-border bg-nw-info-bg px-3 py-2\">",
+            "            <div className=\"flex items-center justify-between gap-2\">",
+            "              <span className=\"text-xs font-bold text-nw-info\">متوسط التكلفة الحالي — يتحدّث من الاستلام</span>",
+            "              <strong className=\"text-sm text-nw-text\">",
+            "                <bdi dir=\"ltr\">{formatJod(currentUnitCostInMinorUnits(costState) / 1000)}</bdi> {CURRENCY} لكل {unit}",
+            "              </strong>",
+            "            </div>",
+            "            <p className=\"mt-1 text-xs text-nw-muted\">",
+            "              سعرا الشراء أعلاه افتراضيان لأوامر الشراء فقط، وحفظ المنتج لا يغيّر متوسط التكلفة.",
+            "            </p>",
+            "          </div>",
+            "        )}",
+            "      </Card>",
+            "",
+            "      <Card padded={false} className=\"rounded-2xl border border-nw-border    p-3.5\">",
+            "        <div className=\"mb-3 flex items-center gap-2\">",
+            "          <Tag className=\"h-4 w-4 text-nw-ok\" />",
+            "          <div>",
+            "            <h4 className=\"font-black text-nw-text\">",
+            "              طرد بيع الجملة والربح",
+            "            </h4>",
+            "            <p className=\"text-xs text-nw-muted\">",
+            "              السعر المدخل لطرد البيع كاملًا ({validUnitsPerSalePackage} {unit})",
+            "            </p>",
+            "          </div>",
+            "        </div>",
+            "",
+            "        <div className=\"grid grid-cols-3 gap-2\">",
+            "          <div>",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-ok\">",
+            "              نوع طرد البيع",
+            "            </label>",
+            "            <select aria-label=\"نوع طرد البيع\"",
+            "              value={salePackage}",
+            "              onChange={(event) => setSalePackage(event.target.value)}",
+            "              className={inputClass}",
+            "            >",
+            "              {Array.from(new Set([salePackage, ...PURCHASE_PACKAGE_OPTIONS.map(option => option.nameAr)])).map((name) => (",
+            "                <option key={name} value={name}>",
+            "                  {name}",
+            "                </option>",
+            "              ))}",
+            "            </select>",
+            "          </div>",
+            "          <div>",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-text\">",
+            "              عدد {unit} في طرد البيع *",
+            "            </label>",
+            "            <input aria-label={`عدد ${unit} في طرد البيع`}",
+            "              type=\"number\"",
+            "              min=\"1\"",
+            "              step=\"1\"",
+            "              required",
+            "              value={unitsPerSalePackage}",
+            "              onChange={(event) =>",
+            "                setUnitsPerSalePackage(",
+            "                  event.target.value === ''",
+            "                    ? ''",
+            "                    : Number.parseInt(event.target.value, 10)",
+            "                )",
+            "              }",
+            "              className={numberInputClass}",
+            "            />",
+            "          </div>",
+            "          <div>",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-ok\">",
+            "              سعر بيع الطرد *",
+            "            </label>",
+            "            <input aria-label=\"سعر بيع الطرد\"",
+            "              type=\"number\"",
+            "              min=\"0.001\"",
+            "              step=\"0.001\"",
+            "              required",
+            "              value={salePackagePrice}",
+            "              onChange={(event) =>",
+            "                setSalePackagePrice(",
+            "                  event.target.value === ''",
+            "                    ? ''",
+            "                    : Number.parseFloat(event.target.value)",
+            "                )",
+            "              }",
+            "              className={numberInputClass}",
+            "            />",
+            "          </div>",
+            "        </div>",
+            "",
+            "        <div className=\"mt-3 grid grid-cols-2 gap-2\">",
+            "          <WholesaleMetric",
+            "            label={`تكلفة ${salePackage}`}",
+            "            value={salePackageCost}",
+            "            tone=\"amber\"",
+            "          />",
+            "          <ProfitCard",
+            "            label={`ربح ${salePackage}`}",
+            "            profit={salePackageProfit.profitPerUnit}",
+            "            margin={salePackageProfit.marginPercentage}",
+            "          />",
+            "        </div>",
+            "",
+            "        <div className=\"mt-2 flex items-start gap-2 rounded-xl border border-nw-border bg-nw-ok-bg p-2.5 text-xs leading-5 text-nw-muted\">",
+            "          <Info className=\"mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-ok\" />",
+            "          الزبون يطلب عدد طرود؛ كل {salePackage} يخصم{' '}",
+            "          {validUnitsPerSalePackage} {unit} من المخزون.",
+            "        </div>",
+            "",
+            "        {salePackageProfit.isLoss && (",
+            "          <div className=\"mt-2 flex items-start gap-2 rounded-xl border border-nw-border bg-nw-bad-bg p-2.5 text-xs font-bold text-nw-bad\">",
+            "            <AlertTriangle className=\"mt-0.5 h-3.5 w-3.5 shrink-0\" />",
+            "            سعر بيع الطرد أقل من تكلفته؛ سيظهر بيع هذا الطرد كخسارة.",
+            "          </div>",
+            "        )}",
+            "      </Card>",
+            "",
+            "      <Card padded={false} className=\"rounded-2xl border border-nw-border bg-nw-surface p-3.5\">",
+            "        <div className=\"mb-3 flex items-center gap-2\">",
+            "          <Warehouse className=\"h-4 w-4 text-nw-info\" />",
+            "          <div>",
+            "            <h4 className=\"font-black text-nw-text\">ضبط المخزون</h4>",
+            "            <p className=\"text-xs text-nw-muted\">",
+            "              الرصيد يتحرك لاحقًا من الاستلام والطلبات تلقائيًا",
+            "            </p>",
+            "          </div>",
+            "        </div>",
+            "",
+            "        {!isEditing && (",
+            "          <div className=\"mb-3\">",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-text\">",
+            "              المستودع الافتراضي للصنف *",
+            "            </label>",
+            "            <WarehouseChoice options={warehouses} branchId={activeBranch?.id} value={warehouseId} onSingle={setWarehouseId}>",
+            "            <select aria-label=\"المستودع\"",
+            "              required",
+            "              value={warehouseId}",
+            "              onChange={(event) => setWarehouseId(event.target.value)}",
+            "              className={inputClass}",
+            "            >",
+            "              <option value=\"\">اختر المستودع</option>",
+            "              {warehouses.map((warehouse) => (",
+            "                <option key={warehouse.id} value={warehouse.id}>",
+            "                  {warehouse.name}",
+            "                </option>",
+            "              ))}",
+            "            </select>",
+            "            </WarehouseChoice>",
+            "          </div>",
+            "        )}",
+            "",
+            "        {!isEditing && (",
+            "          <div className=\"mb-3 flex items-center gap-2 rounded-xl border border-nw-border bg-nw-ok-bg px-3 py-2 text-xs font-bold text-nw-ok\">",
+            "            <Package className=\"h-3.5 w-3.5 shrink-0\" />",
+            "            يُنشأ الصنف برصيد صفر؛ أدخل البضاعة الفعلية من شاشة الاستلام.",
+            "          </div>",
+            "        )}",
+            "",
+            "        <div className=\"grid grid-cols-2 gap-2\">",
+            "          <div>",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-warn\">",
+            "              تنبيه عند ({salePackage})",
+            "            </label>",
+            "            <input aria-label=\"حد الطلب\"",
+            "              type=\"number\"",
+            "              min=\"0\"",
+            "              step=\"1\"",
+            "              required",
+            "              value={reorderLevel}",
+            "              onChange={(event) =>",
+            "                setReorderLevel(",
+            "                  event.target.value === ''",
+            "                    ? ''",
+            "                    : Number.parseInt(event.target.value, 10)",
+            "                )",
+            "              }",
+            "              className={numberInputClass}",
+            "            />",
+            "          </div>",
+            "          <div>",
+            "            <label className=\"mb-1.5 block text-xs font-bold text-nw-muted\">",
+            "              سقف المستودع ({salePackage})",
+            "            </label>",
+            "            <input aria-label=\"سقف المستودع\"",
+            "              type=\"number\"",
+            "              min=\"0\"",
+            "              step=\"1\"",
+            "              value={maxStockLevel}",
+            "              onChange={(event) =>",
+            "                setMaxStockLevel(",
+            "                  event.target.value === ''",
+            "                    ? ''",
+            "                    : Number.parseInt(event.target.value, 10)",
+            "                )",
+            "              }",
+            "              placeholder=\"اختياري\"",
+            "              className={numberInputClass}",
+            "            />",
+            "            <p className=\"mt-1 text-xs leading-4 text-nw-muted\">",
+            "              اختياري: كمية لا تريد تجاوزها عند الشراء، ولا تمنع البيع.",
+            "            </p>",
+            "          </div>",
+            "        </div>",
+            "",
+            "        <div className=\"mt-3 flex items-start gap-2 rounded-xl border border-nw-border bg-nw-info-bg p-2.5 text-xs leading-5 text-nw-muted\">",
+            "          <Boxes className=\"mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-info\" />",
+            "          كل القيم هنا بعدد {salePackage}؛ كل {salePackage} ={' '}",
+            "          {validUnitsPerSalePackage} {unit}. النظام يحولها تلقائيًا إلى {unit}",
+            "          عند الحفظ والحساب.",
+            "        </div>",
+            "",
+            "        {isEditing && (",
+            "          <div className=\"mt-3 flex items-center justify-between rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2\">",
+            "            <span className=\"flex items-center gap-1.5 text-xs font-bold text-nw-muted\">",
+            "              <Boxes className=\"h-3.5 w-3.5 text-nw-info\" />",
+            "              الرصيد الحالي لا يُعدل من بطاقة المنتج",
+            "            </span>",
+            "            <strong className=\"text-nw-warn\">",
+            "              {currentStockSalePackages} {salePackage}",
+            "              {currentStockLooseUnits > 0",
+            "                ? ` + ${currentStockLooseUnits} ${unit}`",
+            "                : ''}",
+            "            </strong>",
+            "          </div>",
+            "        )}",
+            "",
+            "        <div className=\"mt-3 flex items-start gap-2 rounded-xl bg-nw-surface-2 p-2.5 text-xs leading-5 text-nw-muted\">",
+            "          <Info className=\"mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-info\" />",
+            "          تاريخ الصلاحية ورقم التشغيلة يُسجلان عند استلام شحنة المورد،",
+            "          لأن كل شحنة قد تحمل صلاحية مختلفة.",
+            "        </div>",
+            "      </Card>",
+            "",
+            "      {editConflict && (",
+            "        <ProductEditConflictPanel",
+            "          rows={conflictRows}",
+            "          statusChange={",
+            "            editConflict.snapshot.isActive !== openedActive",
+            "              ? { mine: openedActive, current: editConflict.snapshot.isActive }",
+            "              : undefined",
+            "          }",
+            "          formatValue={formatConflictValue}",
+            "          onReapply={reapplyMyEdits}",
+            "        />",
+            "      )}",
+            "",
+            "      {reappliedNotice && (",
+            "        <p role=\"status\" data-testid=\"product-edit-reapplied\" className=\"rounded-2xl border border-nw-border bg-nw-info-bg p-3 text-sm font-bold text-nw-info\">",
+            "          طُبّقت تعديلاتك فوق القيم الحالية. راجعها ثم اضغط «حفظ التعديلات».",
+            "        </p>",
+            "      )}",
+            "",
+            "      {submitError && (",
+            "        <div className=\"rounded-2xl border border-nw-border bg-nw-bad-bg p-3 text-nw-bad\">",
+            "          <div className=\"flex items-center gap-2 font-black text-nw-bad\">",
+            "            <AlertTriangle className=\"h-4 w-4\" />",
+            "            تعذر حفظ المنتج",
+            "          </div>",
+            "          <p className=\"mt-1.5 font-bold\">{submitError.message}</p>",
+            "          {submitError.code && (",
+            "            <p className=\"mt-1 font-mono text-xs text-nw-bad\">",
+            "              {submitError.code}",
+            "            </p>",
+            "          )}"
+          ],
+          "after": [
+            "          <p className=\"mt-1.5 font-bold\">{submitError.message}</p>",
+            "          {submitError.code && (",
+            "            <p className=\"mt-1 font-mono text-xs text-nw-bad\">",
+            "              {submitError.code}",
+            "            </p>",
+            "          )}"
+          ]
+        },
+        {
+          "at": 1637,
+          "before": [
+            "",
+            "const WholesaleMetric: React.FC<{",
+            "  label: string;",
+            "  value: number;",
+            "  tone: 'amber' | 'slate';",
+            "}> = ({ label, value, tone }) => (",
+            "  <div className=\"rounded-xl border border-nw-border bg-nw-surface-2 p-2.5\">",
+            "    <span className=\"text-xs font-bold text-nw-muted\">{label}</span>",
+            "    <strong",
+            "      className={`mt-1 block text-xs ${",
+            "        tone === 'amber' ? 'text-nw-warn' : 'text-nw-text'",
+            "      }`}",
+            "    >",
+            "      {formatJod(value)} {CURRENCY}",
+            "    </strong>",
+            "  </div>",
+            ");"
+          ],
+          "after": []
+        }
+      ]
+    },
+    "src/features/products/ProductsView.tsx": {
+      "before": "bdc836daa82a434294c23f00f23fd5b7d12580713a4a5e8455e9b9e9ae2aa6fc",
+      "after": "d5fa3a9c490e939f66edd3237570966270c0c9551fc5fbb767bce883423b2454",
+      "hunks": [
+        {
+          "at": 619,
+          "before": [
+            "                  {(product.unitsPerPackage || 1) === 1 ? product.unit : `${product.purchasePackage || 'طرد'} × ${product.unitsPerPackage} ${product.unit}`}"
+          ],
+          "after": [
+            "                  {(product.unitsPerPackage || 1) === 1 ? product.unit : `طرد × ${product.unitsPerPackage} ${product.unit}`}"
+          ]
+        },
+        {
+          "at": 722,
+          "before": [
+            "              : unitsPerSalePackage === 1 ? product.unit : `${product.salePackage} × ${unitsPerSalePackage} ${product.unit}`}"
+          ],
+          "after": [
+            "              : unitsPerSalePackage === 1 ? product.unit : `طرد × ${unitsPerSalePackage} ${product.unit}`}"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/ReceiveGoodsModal.tsx": {
+      "before": "d41e77ee46e186a2b9a13f1e2f0b66665d388591b22bfe68c40db952fbbe52a8",
+      "after": "96769afa0cd3d21ca113d3737d412f34464ace604db6c513efb2c5b3b51619be",
+      "hunks": [
+        {
+          "at": 14,
+          "before": [],
+          "after": [
+            "import {ReceivingPurchaseHint} from './ReceivingPurchaseHint';",
+            "import {ReceivingProductPriceEditor} from './ReceivingProductPriceEditor';",
+            "import {useReceivingPurchaseContexts} from '../../hooks/useReceivingPurchaseContexts';",
+            "import {quoteForQuantity} from '../../utils/receivingPurchaseContext';",
+            "import {useAuthStore} from '../../stores/useAuthStore';"
+          ]
+        },
+        {
+          "at": 65,
+          "before": [],
+          "after": [
+            "  const [editingProductId,setEditingProductId]=useState<string|null>(null);",
+            "  const {roles,roleName}=useAuthStore();",
+            "  const canEditSale=[...roles,roleName].some(role=>role!==null&&['owner','admin','manager','warehouse_keeper'].includes(role));",
+            "  const purchaseRead=useReceivingPurchaseContexts(items.map(item=>item.productId),isOpen);",
+            "  const priceTouched=useRef(new Set<string>()),hintApplied=useRef(new Set<string>());",
+            "  const currentReceiptKey=useRef('');",
+            "  currentReceiptKey.current=isOpen?(po?.id??''):'';",
+            "  useEffect(()=>{",
+            "    if(!isOpen||purchaseRead.status!=='ready')return;",
+            "    setItems(current=>current.map(item=>{",
+            "      if(hintApplied.current.has(item.purchaseOrderItemId)||priceTouched.current.has(item.purchaseOrderItemId))return item;",
+            "      hintApplied.current.add(item.purchaseOrderItemId);const quote=purchaseRead.quotes[item.productId];if(!quote)return item;",
+            "      return item.receivingMode==='package'?{...item,packagePriceJod:minorUnitsToJod(quoteForQuantity(quote,item.unitsPerPackage))}:{...item,unitCost:minorUnitsToJod(quoteForQuantity(quote,1))};",
+            "    }));",
+            "  },[isOpen,purchaseRead.status,purchaseRead.quotes,items.length]);",
+            "  const refreshEditedSaleQuote=async(productId:string)=>{",
+            "    const receiptKey=currentReceiptKey.current;",
+            "    try{const [product]=await fetchProductsForReceivingFromSupabase({productId,limit:1});if(product&&receiptKey&&currentReceiptKey.current===receiptKey)setItems(current=>current.map(item=>item.productId===productId?{...item,productDefaults:product}:item));}",
+            "    catch{if(receiptKey&&currentReceiptKey.current===receiptKey)storeEngine.setToast('تعذر تحديث سعر البيع؛سطر الاستلام محفوظ.','error');}",
+            "  };"
+          ]
+        },
+        {
+          "at": 95,
+          "before": [],
+          "after": [
+            "      priceTouched.current.clear();hintApplied.current.clear();"
+          ]
+        },
+        {
+          "at": 148,
+          "before": [],
+          "after": [
+            "    priceTouched.current.add(updated[index].purchaseOrderItemId);"
+          ]
+        },
+        {
+          "at": 161,
+          "before": [
+            "      const price=product?(product.defaultPackagePriceInMinorUnits||product.costPriceInMinorUnits*units):jodToMinorUnits(item.unitCost);"
+          ],
+          "after": [
+            "      const quote=purchaseRead.status==='ready'?purchaseRead.quotes[item.productId]:null;",
+            "      const price=quote?quoteForQuantity(quote,units):product?(product.defaultPackagePriceInMinorUnits||product.costPriceInMinorUnits*units):jodToMinorUnits(item.unitCost);"
+          ]
+        },
+        {
+          "at": 173,
+          "before": [],
+          "after": [
+            "      if(field==='price')priceTouched.current.add(item.purchaseOrderItemId);"
+          ]
+        },
+        {
+          "at": 187,
+          "before": [],
+          "after": [
+            "    if(editingProductId!==null)return;"
+          ]
+        },
+        {
+          "at": 340,
+          "before": [],
+          "after": [
+            "              <ReceivingPurchaseHint status={purchaseRead.status} error={purchaseRead.error} quote={purchaseRead.quotes[item.productId]} unitName={item.unit} units={item.receivingMode==='package'?item.unitsPerPackage:1} priceInMinorUnits={jodToMinorUnits(item.receivingMode==='package'?item.packagePriceJod:item.unitCost)} saleQuote={item.productDefaults?.saleQuote??null} onEditSale={canEditSale&&!isSubmitting?()=>setEditingProductId(item.productId):undefined}/>"
+          ]
+        },
+        {
+          "at": 432,
+          "before": [
+            "              disabled={isSubmitting || totalReceivingNow <= 0}"
+          ],
+          "after": [
+            "              disabled={isSubmitting || editingProductId!==null || totalReceivingNow <= 0}"
+          ]
+        },
+        {
+          "at": 447,
+          "before": [],
+          "after": [
+            "      {editingProductId&&<ReceivingProductPriceEditor productId={editingProductId} onClose={()=>setEditingProductId(null)} onSavedOrClosed={()=>void refreshEditedSaleQuote(editingProductId)}/>}"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/ReceivingProductPriceEditor.tsx": {
+      "added": true,
+      "after": "bf2ee274085c074aed6746941378cb3c494b2f59dfacaa02a9e865f979ac702e",
+      "hunks": []
+    },
+    "src/features/purchases/ReceivingPurchaseHint.tsx": {
+      "added": true,
+      "after": "e29842b1597bc09580f03070dc0a8553e51df19f855a7e325c0a1435aa091616",
+      "hunks": []
+    },
+    "src/hooks/useReceivingPurchaseContexts.ts": {
+      "added": true,
+      "after": "625dd4aa42752d3b010d8c831e6423f6bfe7c9160bba16aefe35c7ef871d1edf",
+      "hunks": []
+    },
+    "src/services/supabase/directReceiving.service.ts": {
+      "before": "e42f1e0afa62b0b4b36328b9c52ed369cdcecf4117d66c44d3223e42f89900a6",
+      "after": "9c6a75283a2060049d0fee91ae436806f1de4ffe9825b464e341a5e216baa246",
+      "hunks": [
+        {
+          "at": 18,
+          "before": [],
+          "after": [
+            "import {fetchSupplierReceiptDisplay} from './receivingPurchaseContext.service';",
+            "import {receivingSaleQuote} from '../../utils/receivingPurchaseContext';"
+          ]
+        },
+        {
+          "at": 231,
+          "before": [
+            "    return { success: true, data: mapSupplierReceiptRow(data) };"
+          ],
+          "after": [
+            "    const receipt=mapSupplierReceiptRow(data);",
+            "    try { receipt.displayLines=await fetchSupplierReceiptDisplay(receiptId); }",
+            "    catch(error:unknown) { receipt.displayError=error instanceof Error?error.message:'تعذر قراءة أساس أسعار الاستلام.'; }",
+            "    return { success: true, data: receipt };"
+          ]
+        },
+        {
+          "at": 580,
+          "before": [],
+          "after": [
+            "    saleQuote: receivingSaleQuote(product),"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/receivingPurchaseContext.service.ts": {
+      "added": true,
+      "after": "1bd2d9c285e7b2724bc81f1370d12ebe2ca29bcc2db053a3a466e9cbf04722b4",
+      "hunks": []
+    },
+    "src/types/directReceiving.ts": {
+      "before": "9940403a4abce232e6678a8bb28b20bccc066dba75a9052c0808e072320f163f",
+      "after": "715fedd580b94fca92c68208c8edad545a142e538c798b0a24cecd36e0b8e310",
+      "hunks": [
+        {
+          "at": 61,
+          "before": [],
+          "after": [
+            "  displayLines?: import('../utils/receivingPurchaseContext').ReceiptDisplayLine[];",
+            "  displayError?: string;"
+          ]
+        },
+        {
+          "at": 151,
+          "before": [],
+          "after": [
+            "  saleQuote?: import('../utils/receivingPurchaseContext').SalePriceQuote|null;"
+          ]
+        }
+      ]
+    },
+    "src/utils/inventoryFormatter.ts": {
+      "before": "3598e586ece856b6b234311631b60585ea7de9b3e0cb08e22e4801b6c2548a3c",
+      "after": "98c62f5906ae24925cbaaa68b364c1cd502cc33329bc9911af6f01af4a842296",
+      "hunks": [
+        {
+          "at": 50,
+          "before": [
+            "      (flavor.purchasePackage || 'كرتونة') === purchasePackage &&"
+          ],
+          "after": []
+        },
+        {
+          "at": 89,
+          "before": [
+            "  // Pluralization logic for Cartons",
+            "  let cartonLabel = purchasePackageName || 'كرتونة';",
+            "  if (cartonLabel === 'كرتونة') {",
+            "    if (cartons >= 3 && cartons <= 10) {",
+            "      cartonLabel = 'كراتين';",
+            "    } else {",
+            "      cartonLabel = 'كرتونة';",
+            "    }",
+            "  } else if (cartonLabel === 'طرد') {",
+            "    if (cartons >= 3 && cartons <= 10) {",
+            "      cartonLabel = 'طرود';",
+            "    } else {",
+            "      cartonLabel = 'طرد';",
+            "    }",
+            "  }"
+          ],
+          "after": [
+            "  // Packaging names remain stored for printing; the stock has exactly two levels.",
+            "  // Old products saved with purchasePackage='باكيت' still display a parcel here.",
+            "  void purchasePackageName;",
+            "  const cartonLabel = cartons >= 3 && cartons <= 10 ? 'طرود' : 'طرد';"
+          ]
+        }
+      ]
+    },
+    "src/utils/receivingPurchaseContext.ts": {
+      "added": true,
+      "after": "5e8b160add9948a45a2fdfdd17d3c8985458be9723bc7bc5c2f14f3599108dea",
+      "hunks": []
+    },
+    "src/utils/unitLabels.ts": {
+      "before": "608ea919da466802a6a3f5a323f0ef19ee7691b252b9fb540905073ae50fed3f",
+      "after": "8ffd0b47e4ad8b25184085bdb9d83ea167b1c68c1d9471922ba402fca8fff026",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [],
+          "after": [
+            "",
+            "/** New content choices are physical base units;keep stored legacy selections separately. */",
+            "export function isContentUnitOption(unit:{code:string;nameAr:string;isHidden?:boolean}):boolean {",
+            "  return !unit.isHidden&&!['PCS','CTN','BOX','SHRINK','BUNDLE','CASE','PARCEL'].includes(unit.code)",
+            "    &&!['طرد','كرتونة','كراتين','صندوق','شرنك','ربطة','حافظة'].includes(unit.nameAr);",
+            "}"
+          ]
+        }
+      ]
+    }
+  }
+}

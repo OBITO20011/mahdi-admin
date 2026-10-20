@@ -13,7 +13,7 @@ import {fixtureId as id} from './table-access-probes.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),
  project='nawasrah-service-audit-'+randomBytes(4).toString('hex')+'-test',container='supabase_db_'+project;
 const {migrationCeiling}=JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8'));
-assert.ok([198,199,200,201,202,203,204].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');
+assert.ok([198,199,200,201,202,203,204,205].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-service-access-')),
  report={schemaVersion:1,startedAt:new Date().toISOString(),migrationCeiling,managedAccess:false,output};
 const q=v=>"'"+String(v).replaceAll("'","''")+"'";

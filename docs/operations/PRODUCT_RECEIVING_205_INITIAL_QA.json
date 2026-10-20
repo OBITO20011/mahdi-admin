@@ -1,0 +1,133 @@
+{
+  "recordedAt": "2026-10-20T11:30:13.783Z",
+  "managedAccess": false,
+  "base": "d2a3d14e3a2688152caba0acf8e32acaed2679a8",
+  "finalEffectiveBrowser": {
+    "passed": 198,
+    "unchangedOtherAffected": 160,
+    "finalNew": 38,
+    "preexistingWebKitOnlySkips": 4,
+    "newSkips": 0,
+    "retriesAndTimeoutsUnchanged": true
+  },
+  "realDbGroups": 5,
+  "newUnits": 8,
+  "types": "PASS",
+  "strictLint": "PASS",
+  "initialFailures": [
+    {
+      "stage": "focused18",
+      "result": "17/18;current serviceartifact still204 before205readiness;historical proof/payload assertions passed"
+    },
+    {
+      "stage": "affected browser1",
+      "reason": "Recovery fixture did not handle new readonly purchase RPC;added typed no-history response;original resolver/no-write assertions unchanged"
+    },
+    {
+      "stage": "affected browser2",
+      "reason": "New sale-unit number input step0.001 blocked existing4decimal derived0.9792;input step now0.0001,min0;existing positive package validation and all concurrency assertions unchanged"
+    },
+    {
+      "stage": "full Admin units gh8T9A",
+      "result": "1282/1293;11 historical expectation failures",
+      "correction": "Exact205 inverse added for purchasing fixture;historic AST tests restore only exact approved205 hunks before comparison;current noun/contents/submit guard and205 reset expected explicitly. Historical money/payload/ACL pins unchanged."
+    },
+    {
+      "stage": "full Admin units d40Mav",
+      "result": "1292/1294;two negative controls expected older error name",
+      "correction": "Exact current entire-file guard now rejects the same extra statement and readiness/role mutations earlier;assert expected RECEIVING205 error,all mutation controls retained."
+    },
+    {
+      "stage": "interrupted local FULL scale fsh7KJ/U6wFu4",
+      "result": "No report or timings produced;execution session and worker process absent after host restart;orphan local container healthy with no client backend",
+      "correction": "Confirmed unchanged worktree via agent:resume/preflight;stopped only named disposable scale project with no-backup;rerun only interrupted205 DB pipeline,retain prior1294/192/types/lint/builds/browser proofs."
+    },
+    {
+      "stage": "final git diff check",
+      "result": "One new blank line at ProductFormModal EOF",
+      "correction": "Removed EOF blank line only;trimEnd and TypeScript emitted runtime byte equality proved. Refresh current source fingerprints/read access/reference;SQL,manifest,catalog,scale/upgrade/reset/runtime and browser behavior unchanged."
+    },
+    {
+      "stage": "Feature1a64099 push39437982733/PR39437991808 corebrowser CI",
+      "result": "346pass/9fail:3 existing admin-mobile-ux cases on3 browserprojects still expected cartons/shrink terminology",
+      "correction": "Update only six expected labels to ownerapproved parcel noun;quantities8/10/2/30/6,actions,overflow,axe and all other assertions unchanged. No product/runtime/SQL/permissions change;no skip/retry/timeout change. Fullnewhead CI required."
+    }
+  ],
+  "boundedCorrections": [
+    "Exact20file inverse restores204 source before parsing old query IDs and complete historic pins",
+    "N1 without-parcel only if both purchase and saleN1;existing purchaseN1/saleN10 preserved",
+    "Existing PCS sale-unit UUID preserved;existing bounded cacheProductPage supports nested editor",
+    "Late contents-only edit retains N/quantity while initial quote uses current N;actual price edit never overwritten",
+    "Collapsed required invalid input reopens details and still blocks writer",
+    "Stock family compatibility depends on physical N/baseunit,not print packaging labels",
+    "Stored sale parcel gross authority avoids false rounded-unit profit;1000/24 vs1005 =>loss5;profits explicitlyapproximate and WAC/writer/converters unchanged"
+  ],
+  "evidence": [
+    {
+      "name": "phase-c4-runtime-initial.log",
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c4-runtime-initial.log",
+      "sha256": "7819e20a985689324bb99bb1ddb9ed226edd3f75fe2cbde4b5c7f4a87d2524e2"
+    },
+    {
+      "name": "phase-c4-browser-initial.log",
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c4-browser-initial.log",
+      "sha256": "a5ccd53d7a6b89b4a214013aad2e6b7ad39fb2820f07a7e6665b80d46a3463b5"
+    },
+    {
+      "name": "phase-c4-browser-regression-initial.log",
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c4-browser-regression-initial.log",
+      "sha256": "afe90d5a15d7ef3db27721186f5bcfc36c7bc698a5168239234c5b38b037d3b6"
+    },
+    {
+      "name": "phase-c4-browser-regression-second.log",
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c4-browser-regression-second.log",
+      "sha256": "21e5f917697a4e2708fc3528c031486c66a668be29ca4f18ca4e55eb10e24388"
+    },
+    {
+      "name": "phase-c4-browser-regression-third.log",
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c4-browser-regression-third.log",
+      "sha256": "9d7fe5de47ec1a05760df38833d616616fb649d620af5c98732cdd5e97c18342"
+    },
+    {
+      "name": "phase-c4-browser-final-edges.log",
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c4-browser-final-edges.log",
+      "sha256": "8a52713c5cc505a7a7420f3cec4563650732af888fafc91aca770c391caeb2b2"
+    },
+    {
+      "name": "phase-c4-browser-exact-sale-final.log",
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c4-browser-exact-sale-final.log",
+      "sha256": "c67d6aa3c683e86d0cc03e4cee45b8d480a2f26a0b7a6a6cc27166ff774144ba"
+    },
+    {
+      "name": "phase-c4-exact-sale-types.log",
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c4-exact-sale-types.log",
+      "sha256": "1b07e85fab184f34010f1220b3c7ab67d30bfd84fbee475ba8b8ebc08a5c106a"
+    },
+    {
+      "name": "phase-c4-exact-sale-lint.log",
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c4-exact-sale-lint.log",
+      "sha256": "9fd44403fa50d3921aad2357d34f9b6d706c4e91743ed978d828ecd1e4f08a6e"
+    },
+    {
+      "name": "phase-c4-exact-sale-units.log",
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c4-exact-sale-units.log",
+      "sha256": "5958216a69a8fa8e2f48caa81ca00b7a104fe69a865c311dc9a5ed03deaf3489"
+    }
+  ],
+  "coreLabelCorrection": {
+    "cases": 9,
+    "passed": 9,
+    "log": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c205-core-parcel-browser.log",
+    "productAndSqlSourceUnchanged": true,
+    "expectedLabelsOnly": true,
+    "newSkips": 0,
+    "retriesAndTimeoutsUnchanged": true
+  },
+  "latestEffectiveBrowser": {
+    "passed": 207,
+    "previousAffected": 198,
+    "additionalCore": 9,
+    "preexistingWebKitOnlySkips": 4,
+    "newSkips": 0
+  }
+}

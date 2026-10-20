@@ -126,7 +126,7 @@ test('flavor master shows a compact read-only family stock summary', async ({ pa
     '[data-product-catalog-card="product-flavor-master-mobile-ux"]'
   );
   await expect(familyCard.getByText('إجمالي المتاح في النكهات')).toBeVisible();
-  await expect(familyCard.getByText(/8 كراتين/)).toBeVisible();
+  await expect(familyCard.getByText(/8 طرود/)).toBeVisible();
   await familyCard.getByRole('button', { name: /2 نكهات/ }).click();
   await expect(familyCard.getByText(/تفاح/)).toBeVisible();
   await expect(familyCard.getByText(/فراولة/)).toBeVisible();
@@ -144,9 +144,9 @@ test('flavor details separate on-hand, reserved and available family totals', as
   await expect(page.getByText('إجمالي مخزون النكهات')).toBeVisible();
   await expect(page.getByText('محسوب للعرض فقط من أرصدة النكهات المستقلة')).toBeVisible();
   const stockSummary = page.locator('[data-flavor-family-stock-summary="true"]');
-  await expect(stockSummary.getByText(/10 كراتين/)).toBeVisible();
-  await expect(stockSummary.getByText(/2 كرتونة/)).toBeVisible();
-  await expect(stockSummary.getByText(/8 كراتين/)).toBeVisible();
+  await expect(stockSummary.getByText(/10 طرود/)).toBeVisible();
+  await expect(stockSummary.getByText(/2 طرد/)).toBeVisible();
+  await expect(stockSummary.getByText(/8 طرود/)).toBeVisible();
   await expectNoOverflow(page);
   await expectNoSeriousAccessibilityViolations(page);
 });
@@ -166,8 +166,8 @@ test('inventory secondary data and actions stay reachable', async ({ page }) => 
   expect(expandedBox!.height).toBe(844);
   expect(expandedBox!.height).toBeGreaterThan(compactBox!.height);
   await expect(panel.getByText(/6251234567890/)).toBeVisible();
-  await expect(panel.getByText(/طرد الشراء: كرتونة × 30/)).toBeVisible();
-  await expect(panel.getByText(/طرد البيع: شرنك × 6/)).toBeVisible();
+  await expect(panel.getByText(/طرد الشراء: طرد × 30/)).toBeVisible();
+  await expect(panel.getByText(/طرد البيع: طرد × 6/)).toBeVisible();
 
   await expect(panel.getByRole('button', { name: /سجل الحركات/ })).toBeVisible();
   await expect(panel.getByRole('button', { name: /حذف الرصيد/ })).toBeVisible();

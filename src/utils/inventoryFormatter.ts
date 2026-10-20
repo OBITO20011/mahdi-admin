@@ -48,7 +48,6 @@ export function summarizeFlavorFamilyInventory(
   const hasCompatiblePackaging = flavors.every(
     (flavor) =>
       Math.max(1, Math.floor(flavor.unitsPerPackage || 1)) === unitsPerPackage &&
-      (flavor.purchasePackage || 'كرتونة') === purchasePackage &&
       (flavor.unit || 'باكيت') === unit
   );
 
@@ -87,21 +86,10 @@ export function formatWholesaleInventory(
   const cartons = Math.floor(pieces / pkgSize);
   const remainingPieces = pieces % pkgSize;
 
-  // Pluralization logic for Cartons
-  let cartonLabel = purchasePackageName || 'كرتونة';
-  if (cartonLabel === 'كرتونة') {
-    if (cartons >= 3 && cartons <= 10) {
-      cartonLabel = 'كراتين';
-    } else {
-      cartonLabel = 'كرتونة';
-    }
-  } else if (cartonLabel === 'طرد') {
-    if (cartons >= 3 && cartons <= 10) {
-      cartonLabel = 'طرود';
-    } else {
-      cartonLabel = 'طرد';
-    }
-  }
+  // Packaging names remain stored for printing; the stock has exactly two levels.
+  // Old products saved with purchasePackage='باكيت' still display a parcel here.
+  void purchasePackageName;
+  const cartonLabel = cartons >= 3 && cartons <= 10 ? 'طرود' : 'طرد';
 
   // Pluralization logic for Pieces
   let pieceLabel = unitCountLabel(remainingPieces, baseUnitName || 'باكيت');

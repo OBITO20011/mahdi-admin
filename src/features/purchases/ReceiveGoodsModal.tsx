@@ -11,6 +11,11 @@ import { PurchaseOrder, ReceivePurchaseOrderInput } from '../../types/purchases'
 import { receivePurchaseOrderInSupabase } from '../../services/supabase/purchases.service';
 import {fetchProductsForReceivingFromSupabase} from '../../services/supabase/directReceiving.service';
 import type {ReceivingProduct} from '../../types/directReceiving';
+import {ReceivingPurchaseHint} from './ReceivingPurchaseHint';
+import {ReceivingProductPriceEditor} from './ReceivingProductPriceEditor';
+import {useReceivingPurchaseContexts} from '../../hooks/useReceivingPurchaseContexts';
+import {quoteForQuantity} from '../../utils/receivingPurchaseContext';
+import {useAuthStore} from '../../stores/useAuthStore';
 import {jodToMinorUnits,minorUnitsToJod,normalizeIntegerQuantity} from '../../utils/receivingCalculations';
 import {
   X,
@@ -57,6 +62,26 @@ export const ReceiveGoodsModal = ({
   const [notes, setNotes] = useState<string>('');
   const [items, setItems] = useState<ReceiveRow[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [editingProductId,setEditingProductId]=useState<string|null>(null);
+  const {roles,roleName}=useAuthStore();
+  const canEditSale=[...roles,roleName].some(role=>role!==null&&['owner','admin','manager','warehouse_keeper'].includes(role));
+  const purchaseRead=useReceivingPurchaseContexts(items.map(item=>item.productId),isOpen);
+  const priceTouched=useRef(new Set<string>()),hintApplied=useRef(new Set<string>());
+  const currentReceiptKey=useRef('');
+  currentReceiptKey.current=isOpen?(po?.id??''):'';
+  useEffect(()=>{
+    if(!isOpen||purchaseRead.status!=='ready')return;
+    setItems(current=>current.map(item=>{
+      if(hintApplied.current.has(item.purchaseOrderItemId)||priceTouched.current.has(item.purchaseOrderItemId))return item;
+      hintApplied.current.add(item.purchaseOrderItemId);const quote=purchaseRead.quotes[item.productId];if(!quote)return item;
+      return item.receivingMode==='package'?{...item,packagePriceJod:minorUnitsToJod(quoteForQuantity(quote,item.unitsPerPackage))}:{...item,unitCost:minorUnitsToJod(quoteForQuantity(quote,1))};
+    }));
+  },[isOpen,purchaseRead.status,purchaseRead.quotes,items.length]);
+  const refreshEditedSaleQuote=async(productId:string)=>{
+    const receiptKey=currentReceiptKey.current;
+    try{const [product]=await fetchProductsForReceivingFromSupabase({productId,limit:1});if(product&&receiptKey&&currentReceiptKey.current===receiptKey)setItems(current=>current.map(item=>item.productId===productId?{...item,productDefaults:product}:item));}
+    catch{if(receiptKey&&currentReceiptKey.current===receiptKey)storeEngine.setToast('تعذر تحديث سعر البيع؛سطر الاستلام محفوظ.','error');}
+  };
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const idempotencyKey = useRef(crypto.randomUUID());
   const panel = useDialogFocus(isOpen, () => { if (!isSubmitting) onClose(); }, true);
@@ -67,6 +92,7 @@ export const ReceiveGoodsModal = ({
 
   useEffect(() => {
     if (isOpen && po) {
+      priceTouched.current.clear();hintApplied.current.clear();
       setSelectedWarehouseId(po.warehouseId || (warehouses[0]?.id || ''));
       setSupplierDeliveryNote('');
       setNotes('');
@@ -119,6 +145,7 @@ export const ReceiveGoodsModal = ({
 
   const handleUnitCostChange = (index: number, val: number) => {
     const updated = [...items];
+    priceTouched.current.add(updated[index].purchaseOrderItemId);
     updated[index].unitCost = Math.max(0, val);
     setItems(updated);
   };
@@ -131,7 +158,8 @@ export const ReceiveGoodsModal = ({
       const product=item.productDefaults;
       if(mode==='package'&&(!product||product.unitsPerPackage<=1))return item;
       const units=normalizeIntegerQuantity(product?.unitsPerPackage??1);
-      const price=product?(product.defaultPackagePriceInMinorUnits||product.costPriceInMinorUnits*units):jodToMinorUnits(item.unitCost);
+      const quote=purchaseRead.status==='ready'?purchaseRead.quotes[item.productId]:null;
+      const price=quote?quoteForQuantity(quote,units):product?(product.defaultPackagePriceInMinorUnits||product.costPriceInMinorUnits*units):jodToMinorUnits(item.unitCost);
       const count=Math.floor(item.thisReceiptQuantity/units);
       return {...item,receivingMode:mode,unitsPerPackage:mode==='base_unit'?1:units,
         packageQuantity:count,packagePriceJod:minorUnitsToJod(price),packageName:product?.purchaseUnitName??item.packageName,
@@ -142,6 +170,7 @@ export const ReceiveGoodsModal = ({
   const changePackage=(index:number,field:'quantity'|'contents'|'price'|'name',value:number|string)=>{
     setItems(current=>current.map((item,i)=>{
       if(i!==index||item.receivingMode!=='package')return item;
+      if(field==='price')priceTouched.current.add(item.purchaseOrderItemId);
       const updated={...item};
       if(field==='contents')updated.unitsPerPackage=normalizeIntegerQuantity(Number(value));
       if(field==='quantity')updated.packageQuantity=Math.max(0,Math.floor(Number(value)||0));
@@ -155,6 +184,7 @@ export const ReceiveGoodsModal = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if(editingProductId!==null)return;
     setErrorMsg(null);
 
     if (totalReceivingNow <= 0) {
@@ -307,6 +337,7 @@ export const ReceiveGoodsModal = ({
                 onContents={value=>changePackage(index,'contents',value)}
                 onPrice={value=>item.receivingMode==='package'?changePackage(index,'price',value):handleUnitCostChange(index,value)}
                 onPackageName={value=>changePackage(index,'name',value)}/>
+              <ReceivingPurchaseHint status={purchaseRead.status} error={purchaseRead.error} quote={purchaseRead.quotes[item.productId]} unitName={item.unit} units={item.receivingMode==='package'?item.unitsPerPackage:1} priceInMinorUnits={jodToMinorUnits(item.receivingMode==='package'?item.packagePriceJod:item.unitCost)} saleQuote={item.productDefaults?.saleQuote??null} onEditSale={canEditSale&&!isSubmitting?()=>setEditingProductId(item.productId):undefined}/>
             </Card>)}
             <p role="status" className="text-sm font-semibold text-nw-info">إجمالي الوحدات الداخلة: {totalReceivingNow} وحدة</p>
           </div>
@@ -398,7 +429,7 @@ export const ReceiveGoodsModal = ({
             </UiButton>
             <UiButton variant="plain"
               type="submit"
-              disabled={isSubmitting || totalReceivingNow <= 0}
+              disabled={isSubmitting || editingProductId!==null || totalReceivingNow <= 0}
               className="px-6 py-2 rounded-xl bg-nw-accent text-nw-on-accent font-bold transition shadow-lg disabled:opacity-50 flex items-center gap-2 h-auto min-h-11 min-w-0 whitespace-normal"
             >
               {isSubmitting ? (
@@ -413,6 +444,7 @@ export const ReceiveGoodsModal = ({
           </div>
         </form>
       </Card>
+      {editingProductId&&<ReceivingProductPriceEditor productId={editingProductId} onClose={()=>setEditingProductId(null)} onSavedOrClosed={()=>void refreshEditedSaleQuote(editingProductId)}/>}
     </FormFields>
   );
 };

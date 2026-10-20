@@ -36,7 +36,7 @@ test('shared named-unit control hides contents/package kind when receiving base 
  assert.match(html,/كم قنينة/);assert.match(html,/سعر قنينة/);assert.doesNotMatch(html,/بالطرد|نوع الطرد/);
  assert.doesNotMatch(html,/>طرد<\/button>/);assert.match(html,/<bdi>3<\/bdi> قنينة/);
  const packageHtml=renderToStaticMarkup(React.createElement(ReceivingUnitFields,{...props,unitName:'شوال',mode:'package',hasPackage:true}));
- assert.match(packageHtml,/كم شوال بالطرد/);assert.match(packageHtml,/<bdi>72<\/bdi> شوال/);
+ assert.match(packageHtml,/الطرد فيه 24 شوال/);assert.match(packageHtml,/<bdi>72<\/bdi> شوال/);
 });
 test('all existing receiving service RPC payload definitions remain source-identical',()=>{
  for(const file of ['src/services/supabase/purchases.service.ts','src/services/supabase/directReceiving.service.ts']){

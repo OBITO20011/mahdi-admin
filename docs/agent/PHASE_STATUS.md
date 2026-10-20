@@ -1,3 +1,44 @@
+# Current20Oct —package4 feature FULL35 accepted;genuine mainintegration
+
+Exactfeature 88c3941f0db7f6163813c13783f9eecd530428d9 push+PR FULL35 and bothsecret scans SUCCESS.
+Only integration metadata differs;source/tests/SQL/tools equal acceptedfeature.
+MainFULL35+secrets next,then5. Owner205command prepared locally only.
+No hostedaccess/deploy.
+
+# Current20Oct —package4 initial CI corelabels corrected
+
+Initial1a64099 core346pass/9fail:three oldparcel-label cases across3projects.
+Onlysix expectedstrings changed,allcounts/actions/axe unchanged;local9/9PASS.
+207effective browser total;no product/SQL/script change or proof invalidation.
+New exacthead FULL35 push+PR andsecrets required beforemainmerge,thenmainCI/5.
+
+# Current20Oct —package4 localgates complete;exactFULL35 next
+
+1294Admin192Customer/types/lint/builds/network/198effectivebrowser PASS.
+Current519functions/142SDK/504RPC andfive actualDBgroups PASS.
+FULLscale/reference167-519-13/upgrade200..205/replay/reset/offline PASS;see
+PRODUCT_RECEIVING_205_DELIVERY.json. Prior203/204reference bytes unchanged.
+PreparefeaturePR/exactFULL35+secrets,mainmerge/mainCI,then5. No hostedaccess/deploy.
+
+# Current20Oct — PR6/main204 delivered;package4 first realDB proofs PASS
+
+Main d2a3d14 FULL34 run39405084319+secrets39405084229 SUCCESS;strict
+verifyDeliveryCi and verify-handoff deliveryReady true. See SALES_HISTORY_204_MAIN_CI.
+205 disposable runtime XtgUyR five groups PASS:actual200/50base gross100000/20000,
+WAC500/400/default3000/sale600 unchanged;lastPO/cancellation/archive/legacyN10,
+five readerroles;anon/service42501;noappdata/sequence writes or SQLreplay delta.
+UItypes PASS;initialfocusedlint found one unused import,removed afterward.
+Current205 readiness/tooling and affected browser/quality/delivery remain.
+No ownedlocalDB/testserver;no hostedaccess/deploy.
+
+# Current20Oct — PR6 merged d2a3d14;isolated package4 implementation
+
+GitHub PR6 mergedtrue at d2a3d14;featurefa66444 exactFULL34 push+PR andsecrets
+accepted. MainFULL34 run39405084319 running;mainsecrets39405084229 SUCCESS.
+Package4 owner13–17 proceeds in independent phase-c-product-receiving worktree;
+read PRODUCT_RECEIVING_205.md. No package4 delivery until main204 FULL succeeds.
+Owner204 dry-run PASS offline/no hostedwrite;apply/verify-only never executed.
+
 # Current20Oct —package3 feature FULL34 accepted;genuine mainintegration
 
 Exact feature fa66444ee9cf765cf8c9471015789c72df008736 push+PR FULL34/34 and secrets verified.

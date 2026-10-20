@@ -2,140 +2,112 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "??",
-      "path": "docs/operations/SALES_HISTORY_204_CI.json"
+      "code": "A ",
+      "path": "docs/agent/PRODUCT_RECEIVING_205.md"
     },
     {
       "code": "A ",
-      "path": "docs/agent/SALES_HISTORY_204.md"
+      "path": "docs/operations/PRODUCT_RECEIVING_205_AR.md"
     },
     {
       "code": "A ",
-      "path": "docs/operations/ALL_COLLECTIONS_203_MAIN_CI.json"
+      "path": "docs/operations/PRODUCT_RECEIVING_205_CI.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/SALES_HISTORY_204_BUSY_GUARD.json"
+      "path": "docs/operations/PRODUCT_RECEIVING_205_DELIVERY.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/SALES_HISTORY_204_EVIDENCE.json"
+      "path": "docs/operations/PRODUCT_RECEIVING_205_EVIDENCE.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/SALES_HISTORY_204_FIRST_OWNER198_FIX.json"
+      "path": "docs/operations/PRODUCT_RECEIVING_205_INITIAL_QA.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/SALES_HISTORY_204_INITIAL_QA.json"
+      "path": "docs/operations/PRODUCT_RECEIVING_205_SCALE.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/SALES_HISTORY_204_SCALE.json"
+      "path": "docs/operations/SALES_HISTORY_204_MAIN_CI.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_204.json"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_205.json"
     },
     {
       "code": "A ",
-      "path": "e2e/package-f-sales-history-harness.html"
+      "path": "e2e/package-f-product-receiving205.spec.ts"
     },
     {
       "code": "A ",
-      "path": "e2e/package-f-sales-history-harness.tsx"
+      "path": "scripts/audit/product-receiving205-hunks.json"
     },
     {
       "code": "A ",
-      "path": "e2e/package-f-sales-history.fixture.ts"
+      "path": "scripts/audit/source-before-product-receiving205.mjs"
     },
     {
       "code": "A ",
-      "path": "e2e/package-f-sales-history204.spec.ts"
+      "path": "scripts/operations/build-acl-reference205.mjs"
     },
     {
       "code": "A ",
-      "path": "scripts/audit/sales-history204-hunks.json"
+      "path": "scripts/operations/frankfurt-owner-upgrade205.mjs"
     },
     {
       "code": "A ",
-      "path": "scripts/audit/source-before-sales-history204.mjs"
+      "path": "scripts/operations/frankfurt-reference205.mjs"
     },
     {
       "code": "A ",
-      "path": "scripts/operations/build-acl-reference204.mjs"
+      "path": "scripts/testing/run-product-receiving-upgrade205-runtime.mjs"
     },
     {
       "code": "A ",
-      "path": "scripts/operations/frankfurt-owner-upgrade204.mjs"
+      "path": "scripts/testing/run-product-receiving205-gates.mjs"
     },
     {
       "code": "A ",
-      "path": "scripts/operations/frankfurt-reference204.mjs"
+      "path": "scripts/testing/run-product-receiving205-runtime.mjs"
     },
     {
       "code": "A ",
-      "path": "scripts/testing/run-sales-history-upgrade204-runtime.mjs"
+      "path": "scripts/testing/run-product-receiving205-scale.mjs"
     },
     {
       "code": "A ",
-      "path": "scripts/testing/run-sales-history204-gates.mjs"
+      "path": "src/features/directReceiving/SupplierReceiptLines.tsx"
     },
     {
       "code": "A ",
-      "path": "scripts/testing/run-sales-history204-runtime.mjs"
+      "path": "src/features/purchases/ReceivingProductPriceEditor.tsx"
     },
     {
       "code": "A ",
-      "path": "scripts/testing/run-sales-history204-scale.mjs"
+      "path": "src/features/purchases/ReceivingPurchaseHint.tsx"
     },
     {
       "code": "A ",
-      "path": "src/features/salesHistory/RecentSalesCard.tsx"
+      "path": "src/hooks/useReceivingPurchaseContexts.ts"
     },
     {
       "code": "A ",
-      "path": "src/features/salesHistory/salesHistory.css"
+      "path": "src/services/supabase/receivingPurchaseContext.service.ts"
     },
     {
       "code": "A ",
-      "path": "src/features/salesHistory/SalesHistoryView.tsx"
+      "path": "src/utils/receivingPurchaseContext.ts"
     },
     {
       "code": "A ",
-      "path": "src/features/salesHistory/SalesInvoiceDialog.tsx"
+      "path": "supabase/migrations/205_product_receiving_display_read_models.sql"
     },
     {
       "code": "A ",
-      "path": "src/hooks/useSalesHistory.ts"
-    },
-    {
-      "code": "A ",
-      "path": "src/services/supabase/salesHistory.service.ts"
-    },
-    {
-      "code": "A ",
-      "path": "src/utils/salesHistory.ts"
-    },
-    {
-      "code": "A ",
-      "path": "supabase/migrations/204_sales_history_read_model.sql"
-    },
-    {
-      "code": "A ",
-      "path": "tests/sales-history204-evidence.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/sales-history204.test.ts"
-    },
-    {
-      "code": "AM",
-      "path": "docs/operations/SALES_HISTORY_204_AR.md"
-    },
-    {
-      "code": "AM",
-      "path": "docs/operations/SALES_HISTORY_204_DELIVERY.json"
+      "path": "tests/product-receiving205.test.ts"
     },
     {
       "code": "M ",
@@ -143,11 +115,23 @@
     },
     {
       "code": "M ",
-      "path": "docs/generated/DB_FUNCTIONS.md"
+      "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
       "code": "M ",
-      "path": "docs/operations/ALL_COLLECTIONS_203_AR.md"
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/PROJECT_OVERVIEW.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/generated/DB_FUNCTIONS.md"
     },
     {
       "code": "M ",
@@ -171,15 +155,23 @@
     },
     {
       "code": "M ",
-      "path": "e2e/package-f-home-harness.tsx"
+      "path": "e2e/admin-direct-receiving-recovery.spec.ts"
     },
     {
       "code": "M ",
-      "path": "e2e/package-f-home.spec.ts"
+      "path": "e2e/admin-mobile-ux.spec.ts"
     },
     {
       "code": "M ",
-      "path": "e2e/package-f-orders.spec.ts"
+      "path": "e2e/package-f-product-edit-conflict.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-purchasing-harness.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-receiving-units.spec.ts"
     },
     {
       "code": "M ",
@@ -191,10 +183,6 @@
     },
     {
       "code": "M ",
-      "path": "scripts/audit/historical-warehouse-query-sites.mjs"
-    },
-    {
-      "code": "M ",
       "path": "scripts/audit/run-service-access-diagnostic.mjs"
     },
     {
@@ -203,35 +191,11 @@
     },
     {
       "code": "M ",
-      "path": "scripts/audit/source-before-collections202.mjs"
+      "path": "scripts/audit/source-before-sales-history204.mjs"
     },
     {
       "code": "M ",
-      "path": "scripts/audit/source-before-home-damage201.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/source-before-staging-config.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/source-before198-presentation.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/table-access-inventory.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/build-acl-reference202.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/build-acl-reference203.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/first-owner-reference198.mjs"
+      "path": "scripts/operations/build-acl-reference204.mjs"
     },
     {
       "code": "M ",
@@ -239,11 +203,7 @@
     },
     {
       "code": "M ",
-      "path": "scripts/operations/frankfurt-reference202.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/frankfurt-reference203.mjs"
+      "path": "scripts/operations/frankfurt-reference204.mjs"
     },
     {
       "code": "M ",
@@ -263,59 +223,59 @@
     },
     {
       "code": "M ",
-      "path": "src/App.tsx"
+      "path": "src/components/ui/ReceivingUnitFields.tsx"
     },
     {
       "code": "M ",
-      "path": "src/components/layout/SideNav.tsx"
+      "path": "src/features/directReceiving/CreateDirectReceiptModal.tsx"
     },
     {
       "code": "M ",
-      "path": "src/components/layout/sideNavigationModel.ts"
+      "path": "src/features/directReceiving/SupplierReceiptDetailView.tsx"
     },
     {
       "code": "M ",
-      "path": "src/features/dashboard/DashboardHome.tsx"
+      "path": "src/features/goLive/goLiveImport.ts"
     },
     {
       "code": "M ",
-      "path": "src/features/dashboard/DashboardView.tsx"
+      "path": "src/features/inventory/InventoryOpeningSetupModal.tsx"
     },
     {
       "code": "M ",
-      "path": "src/features/more/adminNavigation.config.ts"
+      "path": "src/features/inventory/InventoryView.tsx"
     },
     {
       "code": "M ",
-      "path": "src/features/more/MoreMenuView.tsx"
+      "path": "src/features/products/ProductDetailModal.tsx"
     },
     {
       "code": "M ",
-      "path": "src/features/orders/OrderCommercialSummary.tsx"
+      "path": "src/features/products/ProductFormModal.tsx"
     },
     {
       "code": "M ",
-      "path": "src/features/orders/OrderDetailModal.tsx"
+      "path": "src/features/products/ProductsView.tsx"
     },
     {
       "code": "M ",
-      "path": "src/features/orders/OrdersCenterView.tsx"
+      "path": "src/features/purchases/ReceiveGoodsModal.tsx"
     },
     {
       "code": "M ",
-      "path": "src/features/orders/orderStatus.ts"
+      "path": "src/services/supabase/directReceiving.service.ts"
     },
     {
       "code": "M ",
-      "path": "src/services/supabase/orders.service.ts"
+      "path": "src/types/directReceiving.ts"
     },
     {
       "code": "M ",
-      "path": "src/stores/appStorePreferences.ts"
+      "path": "src/utils/inventoryFormatter.ts"
     },
     {
       "code": "M ",
-      "path": "tests/admin-navigation.test.ts"
+      "path": "src/utils/unitLabels.ts"
     },
     {
       "code": "M ",
@@ -339,18 +299,6 @@
     },
     {
       "code": "M ",
-      "path": "tests/dashboard-home.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/first-owner-preparation.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/frankfurt-public-config.test.ts"
-    },
-    {
-      "code": "M ",
       "path": "tests/go-live-integration164.test.ts"
     },
     {
@@ -363,11 +311,19 @@
     },
     {
       "code": "M ",
-      "path": "tests/orders-panel-presentation.test.ts"
+      "path": "tests/owner-warehouses.test.ts"
     },
     {
       "code": "M ",
-      "path": "tests/package-f-orders.test.ts"
+      "path": "tests/package-f-read-extensions.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/package-f-remaining-batch3.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/phase2-configurable-receiving.test.ts"
     },
     {
       "code": "M ",
@@ -375,15 +331,31 @@
     },
     {
       "code": "M ",
+      "path": "tests/receiving-unit-pricing.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/sales-history204-evidence.test.ts"
+    },
+    {
+      "code": "M ",
       "path": "tests/service-access-inventory.test.ts"
     },
     {
       "code": "M ",
-      "path": "tests/staff-account-management.test.ts"
+      "path": "tests/simple-inventory-operations.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/supplier-receiving.test.ts"
     },
     {
       "code": "M ",
       "path": "tests/trial-reset.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/unit-terminology.test.ts"
     },
     {
       "code": "M ",
@@ -392,26 +364,6 @@
     {
       "code": "M ",
       "path": "tests/withdrawals182-admission.test.ts"
-    },
-    {
-      "code": "MM",
-      "path": "docs/agent/OWNER_DECISIONS.md"
-    },
-    {
-      "code": "MM",
-      "path": "docs/agent/PHASE_C_CONTRACT.md"
-    },
-    {
-      "code": "MM",
-      "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": "MM",
-      "path": "docs/agent/PROJECT_OVERVIEW.md"
-    },
-    {
-      "code": "MM",
-      "path": "docs/agent/project-state.json"
     }
   ]
 }

@@ -1,0 +1,4 @@
+// Current205 gate only;frozen204 gates remain independent.
+import{execFile}from'node:child_process';import{promisify}from'node:util';import{mkdtemp}from'node:fs/promises';import{tmpdir}from'node:os';import path from'node:path';
+const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..'),output=await mkdtemp(path.join(tmpdir(),'nawasrah-product-receiving205-gate-')),reference=path.join(output,'local-reference-through205-ready.json');
+for(const args of [['scripts/testing/run-product-receiving205-runtime.mjs'],['scripts/testing/run-product-receiving205-scale.mjs'],['scripts/operations/build-acl-reference205.mjs','--output',reference],['scripts/testing/run-product-receiving-upgrade205-runtime.mjs',reference],['scripts/testing/run-trial-reset-runtime.mjs',reference,'--current205']]){const result=await exec(process.execPath,args,{cwd:root,windowsHide:true,maxBuffer:16*1024**2});process.stdout.write(result.stdout);process.stderr.write(result.stderr);}

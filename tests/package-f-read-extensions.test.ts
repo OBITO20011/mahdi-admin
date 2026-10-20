@@ -27,7 +27,7 @@ test('read adapters use the existing source fields and do not turn missing debt/
 test('wholesale quantity preserves count/unit facts without decorative emoji',()=>{
   const quantity=formatWholesaleInventory(157,24,'كرتونة','باكيت');
   assert.equal(quantity.cartons,6);assert.equal(quantity.remainingPieces,13);
-  assert.equal(quantity.cartonFormatted,'6 كراتين + 13 باكيت');
+  assert.equal(quantity.cartonFormatted,'6 طرود + 13 باكيت');
   assert.equal(quantity.totalPiecesFormatted,'(157 باكيت)');assert.doesNotMatch(quantity.fullFormatted,/📦/u);
 });
 

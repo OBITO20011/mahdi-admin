@@ -1,4 +1,4 @@
-import {FormFields, formatJod, Card, UiButton, formatUiDate, DataTable, Tr, Th, Td} from '../../components/ui';
+import {FormFields, formatJod, Card, UiButton, formatUiDate} from '../../components/ui';
 /**
  * Nawasrah Business Manager - Supplier Receipt Detail View
  * Detailed view and printable receipt for direct goods receiving
@@ -7,7 +7,7 @@ import {FormFields, formatJod, Card, UiButton, formatUiDate, DataTable, Tr, Th, 
 import React, { useState } from 'react';
 import { SupplierReceipt } from '../../types/directReceiving';
 import { CURRENCY } from '../../constants';
-import { formatWholesaleInventory } from '../../utils/inventoryFormatter';
+import {SupplierReceiptLines} from './SupplierReceiptLines';
 import { archiveSupplierReceiptInSupabase } from '../../services/supabase/directReceiving.service';
 import { useAppStoreActions } from '../../stores/useAppStore';
 import { CancelSupplierReceiptDialog } from './CancelSupplierReceiptDialog';
@@ -202,13 +202,7 @@ export const SupplierReceiptDetailView: React.FC<SupplierReceiptDetailViewProps>
           <div>
             <span className="text-nw-muted print:text-nw-muted block text-[10px] font-bold">طريقة الدفع</span>
             <strong className="text-nw-text print:text-nw-text text-xs">
-              {receipt.paymentMethod === 'cash'
-                ? 'نقدي'
-                : receipt.paymentMethod === 'cliq'
-                ? 'CliQ / تحويل'
-                : receipt.paymentMethod === 'deferred'
-                ? 'آجل'
-                : receipt.paymentMethod}
+              {receipt.status==='cancelled'?'ملغى / معكوس':receipt.amountPaidInMinorUnits===0?'آجل / ذمة':Array.from(new Set((receipt.payments??[]).filter(payment=>!payment.isReversed&&payment.amountInMinorUnits>0).map(payment=>payment.paymentMethod))).map(method=>({cash:'نقدي',cliq:'CliQ',bank_transfer:'تحويل',cheque:'شيك',card:'بطاقة'}[method]??method)).join(' / ')||'تفصيل طرق الدفع غير متاح'}
             </strong>
           </div>
         </div>
@@ -237,77 +231,7 @@ export const SupplierReceiptDetailView: React.FC<SupplierReceiptDetailViewProps>
           </UiButton>
         </div>
 
-        {/* Items Table */}
-        {activeSubTab === 'items' && (
-          <div className="space-y-3">
-            <h3 className="font-bold text-nw-text print:text-nw-text text-xs hidden print:block">
-              بيانات البضائع والأصناف المستلمة:
-            </h3>
-            <div className="overflow-x-auto border border-nw-border print:border-nw-border rounded-xl">
-              <DataTable caption="أصناف السند" className="w-full text-right text-xs">
-                <thead className="bg-nw-bg print:bg-nw-mute-bg text-nw-muted print:text-nw-text font-bold border-b border-nw-border print:border-nw-border">
-                  <Tr>
-                    <Th className="p-2.5">#</Th>
-                    <Th className="p-2.5">اسم الصنف / SKU</Th>
-                    <Th className="p-2.5 text-center">وحدة الشراء</Th>
-                    <Th className="p-2.5 text-center">الكمية الواردة</Th>
-                    <Th className="p-2.5 text-center">محتوى الطرد</Th>
-                    <Th className="p-2.5 text-center">إجمالي الوحدات</Th>
-                    <Th className="p-2.5 text-center">سعر الطرد</Th>
-                    <Th className="p-2.5 text-center">تكلفة الوحدة</Th>
-                    <Th className="p-2.5 text-center">سعر البيع</Th>
-                    <Th className="p-2.5 text-center">ربح الوحدة</Th>
-                    <Th className="p-2.5 text-center">الإجمالي</Th>
-                  </Tr>
-                </thead>
-                <tbody className="divide-y divide-nw-border print:divide-nw-border text-nw-text print:text-nw-text">
-                  {receipt.items?.map((item, idx) => (
-                    <Tr key={item.id} className="hover:bg-nw-surface-2">
-                      <Td className="p-2.5 font-bold">{idx + 1}</Td>
-                      <Td className="p-2.5 font-bold">
-                        <div>{item.productName}</div>
-                        <span className="text-[10px] text-nw-muted font-mono">{item.productSku}</span>
-                      </Td>
-                      <Td className="p-2.5 text-center font-bold">{item.purchaseUnitName}</Td>
-                      <Td className="p-2.5 text-center font-bold text-nw-info print:text-nw-text">
-                        {Math.floor(item.packageQuantity)}
-                      </Td>
-                      <Td className="p-2.5 text-center">{Math.floor(item.unitsPerPackage)} {item.baseUnitName}</Td>
-                      <Td className="p-2.5 text-center font-extrabold text-nw-ok print:text-nw-text">
-                        {formatWholesaleInventory(item.totalBaseUnits, item.unitsPerPackage, item.purchaseUnitName, item.baseUnitName).fullFormatted}
-                      </Td>
-                      <Td className="p-2.5 text-center font-mono">
-                        {formatJod(Number(minorToJod(item.packagePriceInMinorUnits)))} {CURRENCY}
-                      </Td>
-                      <Td className="p-2.5 text-center font-mono text-nw-warn print:text-nw-text">
-                        {formatJod(Number(minorToJod(item.baseUnitCostInMinorUnits)))} {CURRENCY}
-                      </Td>
-                      <Td className="p-2.5 text-center font-mono text-nw-info print:text-nw-text">
-                        {formatJod(Number(minorToJod(item.sellingPriceInMinorUnits || 0)))} {CURRENCY}
-                      </Td>
-                      <Td
-                        className={`p-2.5 text-center font-mono font-bold print:text-nw-text ${
-                          (item.sellingPriceInMinorUnits || 0) >= item.baseUnitCostInMinorUnits
-                            ? 'text-nw-ok'
-                            : 'text-nw-bad'
-                        }`}
-                      >
-                        {formatJod(Number(minorToJod(
-                          (item.sellingPriceInMinorUnits || 0) -
-                            item.baseUnitCostInMinorUnits
-                        )))}{' '}
-                        {CURRENCY}
-                      </Td>
-                      <Td className="p-2.5 text-center font-mono font-bold text-nw-ok print:text-nw-text">
-                        {formatJod(Number(minorToJod(item.lineTotalInMinorUnits)))} {CURRENCY}
-                      </Td>
-                    </Tr>
-                  ))}
-                </tbody>
-              </DataTable>
-            </div>
-          </div>
-        )}
+        <div className={activeSubTab==='items'?'':'hidden print:block'}><SupplierReceiptLines lines={receipt.displayLines} error={receipt.displayError}/></div>
 
         {/* Payments History List SubTab */}
         {activeSubTab === 'payments' && (

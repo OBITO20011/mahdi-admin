@@ -2,44 +2,50 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Integrate accepted package3 sales history204;featureFULL34 and secrets verified;genuine mainmerge and exactmainFULL34+secrets;then package4 in order.Prepare owner204 upgrade per latest request;no hostedaccess/deploy.",
-  "baselineSha": "6a0aebbbcffe530b9417fa18702597d3c335eb51",
+  "objective": "Integrate accepted package4 product/receiving205 exact feature FULL35+secrets;genuine mainmerge then exactmainFULL35+secrets;continue ordered5-9.Ask only new financial question.No hostedaccess/deploy.",
+  "baselineSha": "d2a3d14e3a2688152caba0acf8e32acaed2679a8",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR5/main6a FULL33+secrets delivered",
-    "C3 local1285Admin192Customer108affectedbrowser/realDB/FULLscale/ref/upgrade/reset PASS",
-    "C3 featurefa66444ee9cf765cf8c9471015789c72df008736 exactpush+PR FULL34 and secrets strictverified"
+    "PR6/main204 d2a3d14 deliveredFULL34+secrets",
+    "Package4 local1294Admin192Customer207effectivebrowser/realDB/FULLscale/ref/upgrade/reset PASS",
+    "Feature 88c3941f0db7f6163813c13783f9eecd530428d9 exact push+PR FULL35+secrets strictlyverified"
   ],
   "inProgress": [
-    "Genuine package3 mainmerge;exactmainFULL34+secrets next"
+    "Genuine205 mainmerge,exactmainFULL35+secrets next"
   ],
   "notStarted": [
-    "Package4 parcel/product/receiving then ordered5-9;ask only new financial decision"
+    "Package5 then6-9 in owner order"
   ],
   "testsPassed": [
-    "Corelocal gates in SALES_HISTORY_204_DELIVERY.json;final108effectivebrowser,current142SDK498RPC"
+    "TypesBoth/lint/buildsBoth/network0escaped",
+    "Actual water/juice money/WAC unchanged;legacy/currentbasis and roles/no-write/replay",
+    "198effectivebrowser;exactstoredsale1000/24 vsbuy1005 loss5fils",
+    "Fresh/incremental167migrations519functions13Realtime zero catalogdiff;actualupgrade/replay/reset/offline"
   ],
   "testsRemaining": [
-    "Main exactFULL34+secrets"
+    "Exact mainFULL35+secrets"
   ],
   "findings": [
-    "Latest owner explicitly requests new migration upgrade command;204 prepared owner-only,accepts prior203"
+    "Currentbaseadapter erases original20x10;display saved200base@.500 honestly,retain real legacy20/N10",
+    "No financial rule changed;latestprice readonly;exactstoredsalequote prevents rounding falseprofit",
+    "See PRODUCT_RECEIVING_205_INITIAL_QA for all initial failures and bounded corrections",
+    "One EOFblank removed with emittedJS byteequality;actualcurrent access/ref rebuilt;catalogs/manifest/functions equal passedDBpipeline"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Frankfurt/Production/hostedaccess,secrets or deployment",
-    "Committed001-203 immutable;only additive204readonly history reader within owner21/22",
-    "One writer;no tracked edits during verification;no financial formula/ACL expansion or weakened assertions/retries/timeouts"
+    "001-204 immutable;only additive205 readonly readers within owner13-17",
+    "One writer;no tracked edits during localverification;no weakened assertions/retries/timeouts"
   ],
-  "nextExactAction": "Commit genuine PR6 merge of exactgreen fa66444;push main;verify exactmainFULL34+secrets then package4.Owner204 CLI prepared offline only.",
-  "checkpointedAt": "2026-10-20T10:02:14.331Z",
+  "checkpointedAt": "2026-10-20T15:08:31.479Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "0A76F040A8B133E9FD30E36972115752452FBE87C4FA8308D616115D0B1CFA6A",
-  "filesTouchedCount": 103,
-  "filesTouchedManifestSha256": "d0e422ec54096de5542f1cc72327c290312b83d87abcd4f19a404b68da30d2af"
+  "filesTouchedCount": 91,
+  "filesTouchedManifestSha256": "dc1086a5aaae7cfb7758095919e8d5bc9a0a434d7d2d1e61a02a5acac6af8e66",
+  "nextExactAction": "Accepted88c3941 featureFULL35push+PR/secrets;metadata7testsPASS/sourceidentical/Gitleaks0;commit genuine mainmerge/push,exactmainFULL35+secrets then5.No hostedaccess.",
+  "workingTreeFingerprint": "F9E3FECCC6516DAEDD2083DD706E1796FB3912DE706EB8A03EC459A95392A91C"
 }

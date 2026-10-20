@@ -271,7 +271,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
   </div>;
 
   return <div ref={rootRef} dir="rtl" data-testid="inventory-workbench" className="min-w-0 bg-nw-bg text-nw-text">
-    <PageHeader title="المخزون الفعلي" description="راقب المتاح بالكراتين والباكيتات؛ كل تعديل محفوظ بحركة موثقة." actions={<>
+    <PageHeader title="المخزون الفعلي" description="راقب المتاح بالطرود والباكيتات؛ كل تعديل محفوظ بحركة موثقة." actions={<>
       <UiButton variant="primary" onClick={() => openModal('receive_goods')}><Truck className="h-4 w-4" />استلام بضاعة</UiButton>
       <UiButton onClick={() => openModal('stock_count')}><ClipboardCheck className="h-4 w-4" />بدء جرد</UiButton>
       <details className="relative"><summary className="flex min-h-11 cursor-pointer items-center rounded-xl border border-nw-border px-3 text-sm">إدارة</summary>
@@ -319,7 +319,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
                 <UiButton onClick={() => {setSearchQuery('');setSelectedBranchId('all');setSelectedWarehouseId('all');setSelectedCategoryId('all');setStatusFilter('all');}}>إعادة ضبط جميع الفلاتر</UiButton></Card> : <>
               <div className="hidden md:block"><TableShell caption="أصناف المخزون" minWidth={730} head={<><Th>الصنف</Th><Th>القسم</Th><Th>المتوفر</Th><Th>حد الطلب</Th><Th>متوسط التكلفة / باكيت</Th></>}>
                 {filteredProducts.map(product => <Tr key={product.id} data-inventory-product-row={product.id} selected={lastSelectedId === product.id}>
-                  <Td><button type="button" className="min-h-11 text-right" aria-label={'تفاصيل المنتج والرصيد: ' + product.nameAr} onClick={() => openProduct(product)}><span className="block font-semibold">{product.nameAr}</span><span className="text-xs text-nw-muted">{product.purchasePackage || product.unit} = {product.unitsPerPackage || 1} {product.unit}</span></button></Td>
+                  <Td><button type="button" className="min-h-11 text-right" aria-label={'تفاصيل المنتج والرصيد: ' + product.nameAr} onClick={() => openProduct(product)}><span className="block font-semibold">{product.nameAr}</span><span className="text-xs text-nw-muted">طرد = {product.unitsPerPackage || 1} {product.unit}</span></button></Td>
                   <Td>{categories.find(c => c.id === product.categoryId)?.nameAr || 'عام'}</Td>
                   <Td><InventoryStock product={product} /></Td><Td>{product.reorderLevel} {product.unit}</Td>
                   <Td>{Number.isFinite(product.costPrice) ? <MoneyText amount={product.costPrice} /> : 'غير متاح'}</Td>
@@ -328,7 +328,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
               <div className="grid gap-3 md:hidden">{filteredProducts.map(product => <Card key={product.id} data-inventory-product-card={product.id} padded={false} className={lastSelectedId === product.id ? 'border-nw-primary bg-nw-sel-row' : ''}>
                 <button type="button" className="min-h-11 w-full space-y-3 p-4 text-right" aria-label={'تفاصيل المنتج والرصيد: ' + product.nameAr} onClick={() => openProduct(product)}>
                   <span className="block break-words text-sm font-bold">{product.nameAr}</span><InventoryStock product={product} />
-                  <span className="flex justify-between gap-2 text-xs text-nw-muted"><span>حد الطلب: {product.reorderLevel} {product.unit}</span><span>{product.purchasePackage || product.unit} × {product.unitsPerPackage || 1}</span></span>
+                  <span className="flex justify-between gap-2 text-xs text-nw-muted"><span>حد الطلب: {product.reorderLevel} {product.unit}</span><span>طرد × {product.unitsPerPackage || 1}</span></span>
                 </button>
               </Card>)}</div>
             </>}
@@ -353,8 +353,8 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
               <Card className="p-3"><span className="text-nw-muted">سعر {product.unit}</span><p className="mb-0 font-bold"><MoneyText amount={product.retailPrice} /></p></Card>
               <Card className="p-3"><span className="text-nw-muted">سعر طرد البيع</span><p className="mb-0 font-bold"><MoneyText amount={product.salePackagePrice || 0} /></p></Card>
             </div>
-            <p className="m-0 text-xs text-nw-muted">طرد الشراء: {product.purchasePackage || product.unit} × {product.unitsPerPackage || 1}</p>
-            <p className="m-0 text-xs text-nw-muted">طرد البيع: {product.salePackage || 'غير مضبوط'} × {product.unitsPerSalePackage || 1}</p>
+            <p className="m-0 text-xs text-nw-muted">طرد الشراء: طرد × {product.unitsPerPackage || 1}</p>
+            <p className="m-0 text-xs text-nw-muted">طرد البيع: {product.salePackage?'طرد':'غير مضبوط'} × {product.unitsPerSalePackage || 1}</p>
             <p className="m-0 text-xs text-nw-muted">{branches.find(b => b.id === product.branchId)?.name || activeBranch.name} · {warehouses.find(w => w.id === product.warehouseId)?.name || 'المستودع الرئيسي'}{product.warehouseLocation && ' · رف: ' + product.warehouseLocation}</p>
             <div className="grid grid-cols-2 gap-2">
               <UiButton variant="primary" onClick={() => openModal('receive_goods', { productId: product.id })}><Truck className="h-4 w-4" />استلام</UiButton>
