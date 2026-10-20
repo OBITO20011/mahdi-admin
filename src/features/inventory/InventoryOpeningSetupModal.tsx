@@ -275,7 +275,7 @@ export const InventoryOpeningSetupModal: React.FC<
       '',
       '',
       product.unitsPerPackage,
-      product.purchasePackageName,
+      'طرد',
     ]);
     const csv = `\uFEFF${[header, ...lines]
       .map((row) => row.map(escapeCsv).join(','))
@@ -585,7 +585,7 @@ export const InventoryOpeningSetupModal: React.FC<
                     </div>
                     <p className="mt-1 text-[10px] text-nw-muted">
                       النظام الآن: {Math.floor(product.currentQuantity / product.unitsPerPackage)}{' '}
-                      {product.purchasePackageName} +{' '}
+                      طرد +{' '}
                       {product.currentQuantity % product.unitsPerPackage}{' '}
                       {product.baseUnitName} ({product.currentQuantity} إجمالي)
                     </p>
@@ -599,7 +599,7 @@ export const InventoryOpeningSetupModal: React.FC<
                   <div className="grid shrink-0 grid-cols-[1fr_1fr_auto] items-end gap-2">
                     <label className="space-y-1">
                       <span className="block text-[9px] font-bold text-nw-muted">
-                        عدد {product.purchasePackageName}
+                        عدد طرد
                       </span>
                       <input
                         type="number"

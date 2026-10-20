@@ -15,6 +15,8 @@ import { Supplier, Unit, Warehouse, Branch, Product } from '../../types';
 import { searchAdminProducts } from './products.service';
 import {directReceiptV2Lines} from '../../utils/receivingV2';
 import {parseSupplierCancellationPreview} from '../../utils/supplierCancellationPreview';
+import {fetchSupplierReceiptDisplay} from './receivingPurchaseContext.service';
+import {receivingSaleQuote} from '../../utils/receivingPurchaseContext';
 
 export async function previewSupplierReceiptCancellation(receiptId: string) {
   if (!isSupabaseConfigured || !supabase) throw new Error('الاتصال بقاعدة البيانات غير متاح.');
@@ -226,7 +228,10 @@ export const fetchSupplierReceiptByIdFromSupabase = async (
       return { success: false, error: error.message };
     }
 
-    return { success: true, data: mapSupplierReceiptRow(data) };
+    const receipt=mapSupplierReceiptRow(data);
+    try { receipt.displayLines=await fetchSupplierReceiptDisplay(receiptId); }
+    catch(error:unknown) { receipt.displayError=error instanceof Error?error.message:'تعذر قراءة أساس أسعار الاستلام.'; }
+    return { success: true, data: receipt };
   } catch (err: any) {
     return { success: false, error: err?.message || 'حدث خطأ أثناء جلب تفاصيل السند.' };
   }
@@ -572,6 +577,7 @@ const mapProductToReceivingProduct = (product: Product): ReceivingProduct => {
       costPriceInMinorUnits * unitsPerPackage,
     costPriceInMinorUnits,
     salePriceInMinorUnits: Math.round(product.retailPrice * 1000),
+    saleQuote: receivingSaleQuote(product),
     onHandQuantity: product.onHandQuantity,
     reservedQuantity: product.reservedQuantity,
     availableQuantity: product.availableQuantity,

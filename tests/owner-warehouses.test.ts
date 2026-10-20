@@ -1,3 +1,4 @@
+import {sourceBeforeProductReceiving205} from '../scripts/audit/source-before-product-receiving205.mjs';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -65,7 +66,7 @@ test('all existing financial awaits, RPC payloads and event-value handlers are u
     if(pin.added){assert.equal(sourceBeforeWarehouseManagement(file,current),null);continue;}
     const before=execFileSync('git',['show',snapshot.baseline+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
     assert.equal(sourceBeforeWarehouseManagement(file,current),before,file);
-    assert.deepEqual(collect(file,current),collect(file,before),file+' AST calls/handlers/required/disabled must be identical');
+    assert.deepEqual(collect(file,sourceBeforeProductReceiving205(file,current)!),collect(file,before),file+' AST calls/handlers/required/disabled must be identical');
   }
 });
 test('new warehouse RPCs have owner gate, stock/history guards and no direct table grants or delete',()=>{

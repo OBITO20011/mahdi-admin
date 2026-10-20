@@ -1,0 +1,30 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-product-receiving205-XtgUyR",
+  "startedAt": "2026-10-20T10:24:26.617Z",
+  "managedAccess": false,
+  "cases": [
+    {
+      "name": "actual water20x10 gross100000 and juice5x10 gross20000;physical200/50 and WAC500/400;defaults3000/sale600 unchanged;two readonly functions only",
+      "passed": true,
+      "receipt": "03a1b42c-82fd-4f75-b873-c5a7972a4a62"
+    },
+    {
+      "name": "last direct/PO evidence is ordered by actual receipt;gross beforediscount not WAC;cancelled PO excluded,archived completed direct retained",
+      "passed": true
+    },
+    {
+      "name": "labelled legacy20/N10 preserved after current productN24;canonical original20x10 not invented from product definition",
+      "passed": true
+    },
+    {
+      "name": "same five receipt-reader roles;cashier/sales/norole rejected by existing guard;anon/service42501;no table grant changes",
+      "passed": true
+    },
+    {
+      "name": "null/empty/oversize/nonexistent arguments rejected;duplicateIDs dedup;repeated reads andSQLreplay no appdata/sequence/catalog writes;existingDBlint",
+      "passed": true
+    }
+  ],
+  "ok": true,
+  "endedAt": "2026-10-20T10:26:40.742Z"
+}

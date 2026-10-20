@@ -14,7 +14,9 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`rece
  await expect(page.getByText(/الكمية التي ستدخل المخزون/)).toHaveCount(0);
  await expect(row.getByText(/تكلفة شوال المحسوبة/)).toBeVisible();
  await expect(row.getByRole('radio',{name:'طرد',exact:true})).toHaveAttribute('aria-checked','true');
+ await row.getByRole('button',{name:'تعديل محتوى الطرد',exact:true}).click();
  await expect(row.getByLabel('كم شوال بالطرد؟',{exact:true})).toHaveValue('24');
+ await row.getByRole('button',{name:'تم',exact:true}).click();
  await row.getByRole('radio',{name:'شوال',exact:true}).click();
  await expect(row.getByLabel('كم شوال بالطرد؟',{exact:true})).toHaveCount(0);
  await expect(row.getByLabel('كم شوال؟',{exact:true})).toHaveValue('1');
@@ -25,11 +27,13 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`rece
  const audit=await analyzePackageFAccessibility(page,new AxeBuilder({page}));
  expect(audit.violations.filter(v=>v.impact==='serious'||v.impact==='critical')).toEqual([]);
  await row.getByRole('radio',{name:'طرد',exact:true}).click();await expect(row.getByLabel('سعر طرد',{exact:true})).toHaveValue('1');
+ await row.getByRole('button',{name:'تعديل محتوى الطرد',exact:true}).click();
  await expect(row.getByLabel('كم شوال بالطرد؟',{exact:true})).toHaveValue('24');
  await page.goto(url(theme,'receive'));
  const po=page.locator('[data-receiving-line]').first();await expect(po.getByRole('radio',{name:'طرد',exact:true})).toBeVisible();
  await expect(page.getByText(/الكمية التي ستدخل المخزون/)).toHaveCount(0);
  await po.getByRole('radio',{name:'طرد',exact:true}).click();
+ await po.getByRole('button',{name:'تعديل محتوى الطرد',exact:true}).click();
  await expect(po.getByLabel('كم شوال بالطرد؟',{exact:true})).toHaveValue('24');
  await expect(po.getByLabel('سعر طرد',{exact:true})).toHaveValue('1');
  await checkLayout(page,page.getByTestId('purchasing-workbench'));

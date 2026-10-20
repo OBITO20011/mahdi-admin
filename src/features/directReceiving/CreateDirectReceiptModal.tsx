@@ -31,6 +31,11 @@ import {
   type LegacyReceiptReplayResolution,
 } from '../../services/supabase/directReceiving.service';
 import { CreateSupplierModal } from '../purchases/CreateSupplierModal';
+import {ReceivingPurchaseHint} from '../purchases/ReceivingPurchaseHint';
+import {ReceivingProductPriceEditor} from '../purchases/ReceivingProductPriceEditor';
+import {useReceivingPurchaseContexts} from '../../hooks/useReceivingPurchaseContexts';
+import {quoteForQuantity} from '../../utils/receivingPurchaseContext';
+import {useAuthStore} from '../../stores/useAuthStore';
 import { CURRENCY, PURCHASE_PACKAGE_OPTIONS } from '../../constants';
 import {
   Building2,
@@ -98,6 +103,27 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       receivingMode:ReceivingUnitMode;
     })[]
   >([]);
+
+  const purchaseRead=useReceivingPurchaseContexts(items.map(item=>item.productId));
+  const priceTouched=useRef(new Set<string>()),hintApplied=useRef(new Set<string>());
+  const [editingProductId,setEditingProductId]=useState<string|null>(null);
+  const {roles,roleName}=useAuthStore();
+  const canEditSale=[...roles,roleName].some(role=>role!==null&&['owner','admin','manager','warehouse_keeper'].includes(role));
+  useEffect(()=>{
+    if(purchaseRead.status!=='ready')return;
+    setItems(current=>current.map(item=>{
+      if(hintApplied.current.has(item.tempId)||priceTouched.current.has(item.tempId))return item;
+      hintApplied.current.add(item.tempId);
+      const quote=purchaseRead.quotes[item.productId];if(!quote)return item;
+      const price=quoteForQuantity(quote,item.unitsPerPackage);
+      return {...item,packagePriceInMinorUnits:price,pkgPriceJod:minorUnitsToJod(price)};
+    }));
+  },[purchaseRead.status,purchaseRead.quotes,items.length]);
+  const refreshEditedSaleQuote=async(productId:string)=>{
+    try{const [product]=await fetchProductsForReceivingFromSupabase({productId,limit:1});
+      if(product&&isMountedRef.current){selectedProductsRef.current.set(productId,product);setItems(current=>current.map(item=>item.productId===productId?{...item}:item));}
+    }catch{if(isMountedRef.current)setToast('تعذر تحديث سعر البيع الحالي؛سطر الاستلام محفوظ.','error');}
+  };
 
   // Product Search State
   const [productSearch, setProductSearch] = useState<string>('');
@@ -275,6 +301,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       const updated = [...prev];
       const item = { ...updated[index] };
 
+      if (field === 'pkgPriceJod') priceTouched.current.add(item.tempId);
       if (field === 'packageQuantity') {
         // MUST BE INTEGER >= 1
         item.packageQuantity = normalizeIntegerQuantity(Number(value));
@@ -323,7 +350,8 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
       if(!product)return item;
       const contents=normalizeIntegerQuantity(product.unitsPerPackage);
       if(mode==='package'&&contents<=1)return item;
-      const packagePrice=product.defaultPackagePriceInMinorUnits||product.costPriceInMinorUnits*contents;
+      const quote=purchaseRead.status==='ready'?purchaseRead.quotes[item.productId]:null;
+      const packagePrice=quote?quoteForQuantity(quote,contents):product.defaultPackagePriceInMinorUnits||product.costPriceInMinorUnits*contents;
       const price=mode==='base_unit'?Math.round(packagePrice/contents):packagePrice;
       return {...item,receivingMode:mode,unitsPerPackage:mode==='base_unit'?1:contents,
         purchaseUnitName:mode==='base_unit'?product.baseUnitName:product.purchaseUnitName,
@@ -378,6 +406,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
   // Main Action: Save Goods Receipt & Update Inventory
   const drawer = useDrawerShortfallConfirm();
   const handleSubmitReceipt = async () => {
+    if(editingProductId!==null)return;
     if (legacyReplayResolution) {
       setToast(
         'راجع سند الاستلام الموجود أولًا، ثم أغلق النموذج وابدأ عملية مستقلة فقط عند الحاجة.',
@@ -714,7 +743,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
 
         <div className="rounded-xl border border-nw-border bg-nw-info-bg px-3 py-2 text-[11px] font-bold leading-5 text-nw-info">
           اختر الصنف، ثم أدخل عدد الطرود التي وصلت فعليًا ومحتوى كل طرد.
-          مثال: 3 كراتين × 5 باكيتات = 15 باكيت تُضاف للمخزون.
+          مثال: 3 طرود × 5 باكيتات = 15 باكيت تُضاف للمخزون.
         </div>
 
         {/* Product Search Box */}
@@ -878,7 +907,8 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                     onContents={value=>updateItemField(index,'unitsPerPackage',value)}
                     onPrice={value=>updateItemField(index,'pkgPriceJod',value)}
                     onPackageName={value=>updateItemField(index,'purchaseUnitName',value)}/>
-                  <div>
+                  <details className="rounded-lg border border-nw-border p-2">
+                    <summary className="min-h-11 cursor-pointer font-bold">متقدم: خصم الصنف</summary>
                     {/* Discount (JOD) */}
                     <div className="space-y-0.5">
                       <label className="text-[10px] font-bold text-nw-muted">خصم الصنف ({CURRENCY})</label>
@@ -891,7 +921,8 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                         className="w-full bg-nw-surface border border-nw-border rounded-lg px-2 py-1 text-xs font-bold text-nw-bad text-center"
                       />
                     </div>
-                  </div>
+                  </details>
+                  <ReceivingPurchaseHint status={purchaseRead.status} error={purchaseRead.error} quote={purchaseRead.quotes[item.productId]} unitName={item.baseUnitName} units={item.unitsPerPackage} priceInMinorUnits={item.packagePriceInMinorUnits} saleQuote={sourceProduct?.saleQuote??null} onEditSale={canEditSale&&!isSubmitting?()=>setEditingProductId(item.productId):undefined}/>
 
                   {/* Calculations breakdown banner */}
                   <Card padded={false} className="bg-nw-surface border border-nw-border p-2 rounded-xl space-y-1.5 text-[11px] font-bold">
@@ -1173,7 +1204,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         <UiButton variant="plain"
           type="button"
           onClick={handleSubmitReceipt}
-          disabled={isSubmitting || items.length === 0 || legacyReplayResolution !== null}
+          disabled={isSubmitting || editingProductId!==null || items.length === 0 || legacyReplayResolution !== null}
           className="bg-nw-accent text-nw-on-accent font-extrabold px-6 py-2.5 rounded-xl shadow-lg shadow-nw-border transition flex items-center gap-2 text-xs disabled:opacity-50 h-auto min-h-11 min-w-0 whitespace-normal"
         >
           {isSubmitting ? (
@@ -1195,6 +1226,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         </UiButton>
       </div>
 
+      {editingProductId&&<ReceivingProductPriceEditor productId={editingProductId} onClose={()=>setEditingProductId(null)} onSavedOrClosed={()=>void refreshEditedSaleQuote(editingProductId)}/>}
       <CreateSupplierModal
         isOpen={showAddSupplierModal}
         onClose={() => setShowAddSupplierModal(false)}

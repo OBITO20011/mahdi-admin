@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 204,
+  "migrationCeiling": 205,
   "managedAccess": false,
   "sources": [
     {
@@ -93,7 +93,7 @@
     },
     {
       "file": "src/components/ui/ReceivingUnitFields.tsx",
-      "sha256": "93eadaba327adc7b8a0236322d3cf48cfd82cb225c3a557da30c8eb0db6fde55"
+      "sha256": "a3fff1030bd060e892ff4e3bb4baba9b1153cb777a9ba3d74f1d3420ecbbec44"
     },
     {
       "file": "src/components/ui/ResponsiveActionPanel.tsx",
@@ -253,7 +253,7 @@
     },
     {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-      "sha256": "fc85481eff8824a0db2c4d3fa5cc060a10e96266f34c397e7936229017a02e9f"
+      "sha256": "a4aad3eeb55c8df892164b6bb3a38266f873efc70bc7363998f08d0a7b72c2c5"
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
@@ -265,7 +265,11 @@
     },
     {
       "file": "src/features/directReceiving/SupplierReceiptDetailView.tsx",
-      "sha256": "de6a5ea6db5266ab46df73ff954ac16cbea6e7a6817548ac5e895e8471ee086a"
+      "sha256": "17d398fb916f3203e73f29082f757199d572d21dbb9c2e55e2e26d03de036a43"
+    },
+    {
+      "file": "src/features/directReceiving/SupplierReceiptLines.tsx",
+      "sha256": "dfa78784e566146bfef164343fd8cb1b4e22c60988a31f55b1fdbe43f22fb088"
     },
     {
       "file": "src/features/expenses/ExpenseFormModal.tsx",
@@ -277,7 +281,7 @@
     },
     {
       "file": "src/features/goLive/goLiveImport.ts",
-      "sha256": "6aef1af0cb92752768352535d6f651c2a0d9a5db3760335eb82f5d61ecd578fe"
+      "sha256": "762495484f270ce785a3ecdaff34b03bfc1924997a94d5c4c5394247191a0985"
     },
     {
       "file": "src/features/goLive/GoLiveSetupView.tsx",
@@ -297,11 +301,11 @@
     },
     {
       "file": "src/features/inventory/InventoryOpeningSetupModal.tsx",
-      "sha256": "b821d4e8fd16e3c6fd0e274d78a85f634f1bf87ef601eade7f8d51761f247aa3"
+      "sha256": "91b2eb6831bd49b1c0d1b168619e56fb4abde83c6b3c8a25e7d32e26c676a26c"
     },
     {
       "file": "src/features/inventory/InventoryView.tsx",
-      "sha256": "fe659790266118e14017019a429a8ecd266da363b9eb3a87f603787dbac6b2c8"
+      "sha256": "ce82164ddd8bd0620a9470269be0ea3ece343c90d63b40664a4f376c2a77433e"
     },
     {
       "file": "src/features/inventory/StockCountModal.tsx",
@@ -401,7 +405,7 @@
     },
     {
       "file": "src/features/products/ProductDetailModal.tsx",
-      "sha256": "4fd4abedb5858f2c5f97e978054562c619877814953a0cd64882808cb60157de"
+      "sha256": "5cd93163b21ba5cca615dd504d4d17d253f5e648ec276a1c9db256da5402a441"
     },
     {
       "file": "src/features/products/ProductEditConflictPanel.tsx",
@@ -409,11 +413,11 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "404e01831eeb8f13a6d03d4d30f400bcf1cf61224f8769955a3cd6fa5ed60319"
+      "sha256": "367556192edcc5bd8311c0ee26fef76d179f385e22712cb0571c39bd18073d27"
     },
     {
       "file": "src/features/products/ProductsView.tsx",
-      "sha256": "bdc836daa82a434294c23f00f23fd5b7d12580713a4a5e8455e9b9e9ae2aa6fc"
+      "sha256": "d5fa3a9c490e939f66edd3237570966270c0c9551fc5fbb767bce883423b2454"
     },
     {
       "file": "src/features/products/StockAdjustmentModal.tsx",
@@ -441,7 +445,15 @@
     },
     {
       "file": "src/features/purchases/ReceiveGoodsModal.tsx",
-      "sha256": "d41e77ee46e186a2b9a13f1e2f0b66665d388591b22bfe68c40db952fbbe52a8"
+      "sha256": "96769afa0cd3d21ca113d3737d412f34464ace604db6c513efb2c5b3b51619be"
+    },
+    {
+      "file": "src/features/purchases/ReceivingProductPriceEditor.tsx",
+      "sha256": "bf2ee274085c074aed6746941378cb3c494b2f59dfacaa02a9e865f979ac702e"
+    },
+    {
+      "file": "src/features/purchases/ReceivingPurchaseHint.tsx",
+      "sha256": "e29842b1597bc09580f03070dc0a8553e51df19f855a7e325c0a1435aa091616"
     },
     {
       "file": "src/features/purchases/SupplierPaymentModal.tsx",
@@ -518,6 +530,10 @@
     {
       "file": "src/hooks/useDrawerShortfallConfirm.tsx",
       "sha256": "20384c7ad7b77fce7837257b06575bb9b80b6fcfed493ca6c827c82b96470e87"
+    },
+    {
+      "file": "src/hooks/useReceivingPurchaseContexts.ts",
+      "sha256": "625dd4aa42752d3b010d8c831e6423f6bfe7c9160bba16aefe35c7ef871d1edf"
     },
     {
       "file": "src/hooks/useSalesHistory.ts",
@@ -601,7 +617,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "sha256": "e42f1e0afa62b0b4b36328b9c52ed369cdcecf4117d66c44d3223e42f89900a6"
+      "sha256": "9c6a75283a2060049d0fee91ae436806f1de4ffe9825b464e341a5e216baa246"
     },
     {
       "file": "src/services/supabase/expenses-shifts.service.ts",
@@ -688,6 +704,10 @@
       "sha256": "e1fa00d0562f3c7e3d5dccd8b505dd1f8866b3eb5ee8eae1b02e780962242e9a"
     },
     {
+      "file": "src/services/supabase/receivingPurchaseContext.service.ts",
+      "sha256": "1bd2d9c285e7b2724bc81f1370d12ebe2ca29bcc2db053a3a466e9cbf04722b4"
+    },
+    {
       "file": "src/services/supabase/reference-data.service.ts",
       "sha256": "dc966701d358ca7e3f4f2fd6fa0f94560a693c095b12955f98e4b5462249341f"
     },
@@ -761,7 +781,7 @@
     },
     {
       "file": "src/types/directReceiving.ts",
-      "sha256": "9940403a4abce232e6678a8bb28b20bccc066dba75a9052c0808e072320f163f"
+      "sha256": "715fedd580b94fca92c68208c8edad545a142e538c798b0a24cecd36e0b8e310"
     },
     {
       "file": "src/types/index.ts",
@@ -813,7 +833,7 @@
     },
     {
       "file": "src/utils/inventoryFormatter.ts",
-      "sha256": "3598e586ece856b6b234311631b60585ea7de9b3e0cb08e22e4801b6c2548a3c"
+      "sha256": "98c62f5906ae24925cbaaa68b364c1cd502cc33329bc9911af6f01af4a842296"
     },
     {
       "file": "src/utils/legacyUnitImportHeaders.ts",
@@ -856,6 +876,10 @@
       "sha256": "996ed8e06d7be777fce82e49e8746c4931ac2c67e055e3745e04e29e89932dde"
     },
     {
+      "file": "src/utils/receivingPurchaseContext.ts",
+      "sha256": "5e8b160add9948a45a2fdfdd17d3c8985458be9723bc7bc5c2f14f3599108dea"
+    },
+    {
       "file": "src/utils/receivingV2.ts",
       "sha256": "1fcb7262d6e1d58eddd19d16cf600e001385922f4d57c050a4f2a52b5962579b"
     },
@@ -877,7 +901,7 @@
     },
     {
       "file": "src/utils/unitLabels.ts",
-      "sha256": "608ea919da466802a6a3f5a323f0ef19ee7691b252b9fb540905073ae50fed3f"
+      "sha256": "8ffd0b47e4ad8b25184085bdb9d83ea167b1c68c1d9471922ba402fca8fff026"
     },
     {
       "file": "src/vite-env.d.ts",
@@ -1374,9 +1398,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:209",
+      "id": "src/services/supabase/directReceiving.service.ts:211",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 209,
+      "line": 211,
       "table": "supplier_receipts",
       "operation": "select",
       "role": "authenticated",
@@ -1426,9 +1450,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:533",
+      "id": "src/services/supabase/directReceiving.service.ts:538",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 533,
+      "line": 538,
       "table": "suppliers",
       "operation": "select",
       "role": "authenticated",
@@ -1473,9 +1497,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:606",
+      "id": "src/services/supabase/directReceiving.service.ts:612",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 606,
+      "line": 612,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -1512,9 +1536,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:621",
+      "id": "src/services/supabase/directReceiving.service.ts:627",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 621,
+      "line": 627,
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -1559,9 +1583,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:641",
+      "id": "src/services/supabase/directReceiving.service.ts:647",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 641,
+      "line": 647,
       "table": "branches",
       "operation": "select",
       "role": "authenticated",
@@ -3382,7 +3406,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 673,
+      "line": 679,
       "event": "*",
       "schema": "public",
       "table": "supplier_payments",
@@ -3392,7 +3416,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 673,
+      "line": 679,
       "event": "*",
       "schema": "public",
       "table": "supplier_receipt_items",
@@ -3402,7 +3426,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 673,
+      "line": 679,
       "event": "*",
       "schema": "public",
       "table": "supplier_receipts",
@@ -3503,18 +3527,18 @@
   ],
   "excluded": [
     {
-      "file": "src/components/ui/ReceivingUnitFields.tsx",
-      "line": 21,
-      "reason": "JavaScript Array/typed-array, not Supabase"
-    },
-    {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
-      "line": 990,
+      "line": 1021,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
       "line": 635,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/features/directReceiving/SupplierReceiptDetailView.tsx",
+      "line": 205,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
@@ -3524,27 +3548,27 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "line": 1372,
+      "line": 436,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "line": 1384,
-      "reason": "JavaScript Array/typed-array, not Supabase"
-    },
-    {
-      "file": "src/features/products/ProductFormModal.tsx",
-      "line": 1490,
+      "line": 1063,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "src/features/purchases/ReceiveGoodsModal.tsx",
-      "line": 101,
+      "line": 127,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
       "line": 27,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/hooks/useReceivingPurchaseContexts.ts",
+      "line": 8,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
@@ -3615,6 +3639,11 @@
       "line": 125,
       "reason": "Storage bucket API, not table/view",
       "expression": "supabase.storage\n    .from(PRODUCT_IMAGE_BUCKET)"
+    },
+    {
+      "file": "src/services/supabase/receivingPurchaseContext.service.ts",
+      "line": 6,
+      "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
       "file": "customer-web/src/App.tsx",

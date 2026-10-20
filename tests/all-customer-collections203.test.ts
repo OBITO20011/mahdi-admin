@@ -14,7 +14,7 @@ test('203 changes only persisted payment/reversal eligibility;every other202 byt
  for(const [current,old] of edits){assert.equal(restored.split(current).length,2);restored=restored.replace(current,old);}
  assert.equal(restored,original);assert.deepEqual(futureMigrationViolations(after),[]);assert.equal([...after.matchAll(/CREATE OR REPLACE FUNCTION/gu)].length,1);
  assert.doesNotMatch(after,/CREATE TABLE|CREATE INDEX|INSERT INTO|UPDATE public\.|DELETE FROM|GRANT EXECUTE/u);
- const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,204);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());
+ const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,205);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());
 });
 test('203 upgrade requires an exact complete199..203 prefix,including200 security,never a gap or unknown ceiling',()=>{
  const manifest=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_202.json')).manifest as string[],base=manifest.filter(f=>Number(f.slice(0,3))<=199).map(f=>f.slice(0,3)),versions=[...base,'200','201','202','203'],reference={prefixes:{'199':{appliedVersions:base}},appliedVersions:versions};

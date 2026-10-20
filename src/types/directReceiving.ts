@@ -58,6 +58,8 @@ export interface SupplierReceiptPayment {
 }
 
 export interface SupplierReceipt {
+  displayLines?: import('../utils/receivingPurchaseContext').ReceiptDisplayLine[];
+  displayError?: string;
   id: string;
   receiptNumber: string;
   supplierId: string;
@@ -146,6 +148,7 @@ export interface ReceivingProduct {
   defaultPackagePriceInMinorUnits: number;
   costPriceInMinorUnits: number;
   salePriceInMinorUnits: number;
+  saleQuote?: import('../utils/receivingPurchaseContext').SalePriceQuote|null;
   onHandQuantity: number;
   reservedQuantity: number;
   availableQuantity: number;

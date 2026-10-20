@@ -128,8 +128,8 @@ test('product creation is zero-stock while thresholds stay in sale packages', ()
   assert.doesNotMatch(productForm, /رصيد افتتاحي \(\{salePackage\}\)/);
   assert.match(productForm, /onHandQuantity: 0/);
   assert.match(productForm, /أدخل البضاعة الفعلية من شاشة الاستلام/);
-  assert.match(productForm, /تنبيه عند \(\{salePackage\}\)/);
-  assert.match(productForm, /سقف المستودع \(\{salePackage\}\)/);
+  assert.match(productForm, /تنبيه عند \(طرد\)/);
+  assert.match(productForm, /سقف المستودع \(طرد\)/);
   assert.match(
     productForm,
     /minSalePackages \* validUnitsPerSalePackage/

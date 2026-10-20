@@ -1,20 +1,17 @@
 import {Card,FormFields,SwitchTrack,UiButton,formatJod} from '../../components/ui';
 import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import {
   AlertTriangle,
-  ArrowLeftRight,
   Barcode,
   Boxes,
   Camera,
   CheckCircle2,
   Image,
   Info,
-  Layers3,
   Package,
   Palette,
   Plus,
-  Tag,
   Trash2,
   Upload,
   Warehouse,
@@ -44,6 +41,7 @@ import {
 } from '../../services/supabase/productCost.service';
 import { useAppStore } from '../../stores/useAppStore';
 import { Product } from '../../types';
+import {isContentUnitOption} from '../../utils/unitLabels';
 import { validateProductImage } from '../../utils/productImage';
 import {
   calculatePackagePrice,
@@ -151,7 +149,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   const [isBarcodeCameraOpen, setIsBarcodeCameraOpen] = useState(false);
   const [sku, setSku] = useState(initialProduct?.sku || '');
   const [purchasePackage, setPurchasePackage] = useState(
-    initialProduct?.purchasePackage || 'كرتونة'
+    initialProduct?.purchasePackage || 'طرد'
   );
   const [unitsPerPackage, setUnitsPerPackage] = useState<number | ''>(
     initialProduct?.unitsPerPackage ?? 1
@@ -174,11 +172,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     'package' | 'unit'
   >('package');
   const [salePackage, setSalePackage] = useState(
-    initialProduct?.saleUnitCode &&
-      initialProduct.saleUnitCode !== 'PCS' &&
-      initialProduct.salePackage
-      ? initialProduct.salePackage
-      : 'كرتونة'
+    initialProduct?.salePackage || 'طرد'
   );
   const [unitsPerSalePackage, setUnitsPerSalePackage] = useState<
     number | ''
@@ -196,7 +190,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             1)
         : '')
   );
-  const [unit, setUnit] = useState(initialProduct?.unit || units.find(item => item.code === 'PKT')?.nameAr || units.find(item => item.code !== 'PCS' && !item.isHidden)?.nameAr || 'باكيت');
+  const [unit, setUnit] = useState(initialProduct?.unit || units.find(item => item.code === 'PKT' && isContentUnitOption(item))?.nameAr || units.find(isContentUnitOption)?.nameAr || 'باكيت');
   const [warehouseId, setWarehouseId] = useState(
     initialProduct?.warehouseId || warehouses[0]?.id || ''
   );
@@ -217,6 +211,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           initialSalePackageUnits
         )
   );
+  const [withoutParcel, setWithoutParcel] = useState(Boolean(initialProduct && (initialProduct.unitsPerPackage ?? 1) === 1 && (initialProduct.unitsPerSalePackage ?? initialProduct.unitsPerPackage ?? 1) === 1));
+  const [differentSaleParcel, setDifferentSaleParcel] = useState((initialProduct?.unitsPerSalePackage ?? initialProduct?.unitsPerPackage ?? 1) !== (initialProduct?.unitsPerPackage ?? 1));
+  const previousParcelContents = useRef(Math.max(2, initialProduct?.unitsPerPackage ?? 12));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasFlavors, setHasFlavors] = useState(false);
   const [flavorDrafts, setFlavorDrafts] = useState<ProductFlavorDraft[]>([]);
@@ -412,6 +409,34 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     }
   };
 
+  // Presentation conversions only; the existing save payload and 170/171 guards stay below.
+  const changeParcelContents = (rawValue: string) => {
+    changeUnitsPerPackage(rawValue);
+    if (!differentSaleParcel) {
+      const count = Math.max(1, Number(rawValue) || 1);
+      setUnitsPerSalePackage(rawValue === '' ? '' : count);
+      setSalePackagePrice(salePackagePrice === '' ? '' : calculatePackagePrice(derivedSalePricePerUnit, count));
+    }
+  };
+  const toggleWithoutParcel = (checked: boolean) => {
+    if (checked) previousParcelContents.current = validUnitsPerPackage > 1 ? validUnitsPerPackage : previousParcelContents.current;
+    const count = checked ? 1 : previousParcelContents.current;
+    setWithoutParcel(checked);
+    setUnitsPerPackage(count);
+    setDefaultPurchasePrice(unitPurchasePrice === '' ? '' : calculatePackagePrice(Number(unitPurchasePrice), count));
+    if (!differentSaleParcel || checked) {
+      setDifferentSaleParcel(false);
+      setUnitsPerSalePackage(count);
+      setSalePackagePrice(salePackagePrice === '' ? '' : calculatePackagePrice(derivedSalePricePerUnit, count));
+    }
+  };
+  const packagingOptions = (saved: string) => {
+    const baseNames = new Set([unit,...units.filter(isContentUnitOption).map(item => item.nameAr)]);
+    const choices = ['طرد', ...PURCHASE_PACKAGE_OPTIONS.map(item => item.nameAr)].filter(name => !baseNames.has(name) && !['باكيت','شوال','كيس','علبة','قنينة / زجاجة'].includes(name));
+    return Array.from(new Set([saved, ...choices])).map(value => ({value, label: baseNames.has(value) || value === 'باكيت' ? 'طرد (التغليف المحفوظ)' : value}));
+  };
+  const purchaseQuoteProfit = calculateProductProfit(validSalePackagePrice, calculatePackagePrice(costPerUnit, validUnitsPerSalePackage));
+
   const changePackagePurchasePrice = (rawValue: string) => {
     if (rawValue === '') {
       setDefaultPurchasePrice('');
@@ -559,6 +584,8 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     setImageUrl(fields.imageUrl === NEW_IMAGE_SELECTED ? currentImageUrl : fields.imageUrl);
     setPurchasePackage(fields.purchasePackage);
     setUnitsPerPackage(fields.unitsPerPackage);
+    setWithoutParcel(fields.unitsPerPackage === 1 && fields.unitsPerSalePackage === 1);
+    setDifferentSaleParcel(fields.unitsPerSalePackage !== fields.unitsPerPackage);
     setDefaultPurchasePrice(fields.defaultPurchasePrice);
     setUnitPurchasePrice(calculateUnitCost(fields.defaultPurchasePrice, fields.unitsPerPackage));
     setLastPurchasePriceEdited('package');
@@ -842,7 +869,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   };
 
   return (
-    <FormFields className="nw-products-fields min-w-0"><form onSubmit={handleSubmit} aria-busy={isSubmitting} data-unsaved={hasFlavors} dir="rtl" className="nw-products-fields min-w-0 space-y-4 text-nw-text text-sm">
+    <FormFields className="nw-products-fields min-w-0"><form onSubmit={handleSubmit} onInvalidCapture={event=>{const details=(event.target as HTMLElement).closest('details');if(details)details.open=true;}} aria-busy={isSubmitting} data-unsaved={hasFlavors} dir="rtl" className="nw-products-fields min-w-0 space-y-4 text-nw-text text-sm">
       {(validUnitsPerSalePackage>1 || isFlavorMaster || initialProduct?.flavorMasterProductId) &&
         (initialProduct?.retailPrice ?? derivedSalePricePerUnit)===0 &&
         <p role="status" className="rounded-lg border border-nw-border p-3 text-nw-warn">
@@ -955,6 +982,122 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
             )}
           </div>
 
+        </div>
+      </Card>
+
+      <Card padded={false} className="rounded-2xl border border-nw-border bg-nw-surface p-3.5">
+        <div className="mb-3 flex items-center gap-2">
+          <Barcode className="h-4 w-4 text-nw-info" />
+          <div>
+            <h4 className="font-black text-nw-text">التعريف والتتبع</h4>
+            <p className="text-xs text-nw-muted">
+              SKU داخلي، والباركود اختياري
+            </p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <div className="mb-1.5 flex items-center justify-between">
+              <label className="text-xs font-bold text-nw-text">
+                SKU *
+              </label>
+              {!isEditing && (
+                <UiButton variant="plain"
+                  type="button"
+                  onClick={generateSku}
+                  className="text-xs font-bold text-nw-info"
+                >
+                  توليد
+                </UiButton>
+              )}
+            </div>
+            <input aria-label="SKU"
+              required
+              value={sku}
+              onChange={(event) => setSku(event.target.value)}
+              placeholder="NWS-1001"
+              className={`${inputClass} font-mono`}
+            />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-xs font-bold text-nw-text">
+              الباركود
+            </label>
+            <div className="flex gap-1.5">
+              <input
+                value={isFlavorMaster ? '' : barcode}
+                onChange={(event) => setBarcode(event.target.value)}
+                inputMode="text"
+                aria-label="باركود المنتج"
+                placeholder={
+                  isFlavorMaster ? 'لا يُستخدم للمنتج الأساسي' : 'اختياري'
+                }
+                disabled={isFlavorMaster}
+                className={`${inputClass} min-w-0 font-mono`}
+              />
+              <UiButton variant="plain"
+                type="button"
+                onClick={() => setIsBarcodeCameraOpen(true)}
+                disabled={isFlavorMaster}
+                aria-label="مسح باركود المنتج بالكاميرا"
+                title="مسح الباركود بالكاميرا"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-nw-border bg-nw-info-bg text-nw-info transition hover:bg-nw-info-bg disabled:cursor-not-allowed disabled:border-nw-border disabled:bg-nw-surface-2 disabled:text-nw-muted"
+              >
+                <Camera className="h-4 w-4" />
+              </UiButton>
+            </div>
+            {isFlavorMaster && (
+              <p className="mt-1 text-xs leading-4 text-nw-muted">
+                المنتج الأساسي للتجميع فقط؛ أضف الباركود لكل نكهة قابلة للبيع.
+              </p>
+            )}
+          </div>
+        </div>
+      </Card>
+
+      <Card padded={false} className="space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-3.5">
+        <h4 className="font-black">الطرد</h4>
+        <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={withoutParcel} onChange={event=>toggleWithoutParcel(event.target.checked)}/>بيتباع بدون طرد</label>
+        <div className="flex flex-wrap items-end gap-2">
+          {!withoutParcel && <label className="min-w-0 flex-1 text-xs font-bold">الطرد فيه<input aria-label={'عدد '+unit+' في طرد الشراء'} type="number" min="1" step="1" required value={unitsPerPackage} onChange={event=>changeParcelContents(event.target.value)} className={numberInputClass}/></label>}
+          <label className="min-w-0 flex-1 text-xs font-bold">{withoutParcel?'البيع بالوحدة':'محتوى الطرد'}<select aria-label="الوحدة الأساسية" className={inputClass} value={unit} onChange={event=>setUnit(event.target.value)} disabled={isEditing}>{Array.from(new Set([unit,...units.filter(isContentUnitOption).map(item=>item.nameAr)])).map(name=><option key={name} value={name}>{name}</option>)}</select></label>
+        </div>
+        <h4 className="border-t border-nw-border pt-3 font-black">الأسعار</h4>
+        <div className={"grid min-w-0 items-end gap-2 "+(withoutParcel?"grid-cols-[auto_minmax(0,1fr)]":"grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)]")} role="group" aria-label="أسعار الشراء والبيع">
+          <span/>{!withoutParcel&&<span className="text-center text-xs font-bold">الطرد</span>}<span className="text-center text-xs font-bold">{unit}</span>
+          <strong className="py-3 text-xs">شراء</strong>
+          {!withoutParcel&&<label className="min-w-0 space-y-1 text-xs font-bold">سعر شراء الطرد<input aria-label={"سعر شراء الطرد"} type="number" min="0.001" step="0.001" required value={defaultPurchasePrice} onChange={event=>changePackagePurchasePrice(event.target.value)} className={numberInputClass}/></label>}
+          <label className="min-w-0 space-y-1 text-xs font-bold">{`سعر شراء ${unit}`}<input aria-label={`سعر شراء ${unit}`} type="number" min="0" step="0.0001" required value={unitPurchasePrice} onChange={event=>changeUnitPurchasePrice(event.target.value)} className={numberInputClass}/></label>
+          <strong className="py-3 text-xs">بيع</strong>
+          {!withoutParcel&&<label className="min-w-0 space-y-1 text-xs font-bold">سعر بيع الطرد<input aria-label={"سعر بيع الطرد"} type="number" min="0.001" step="0.001" required value={salePackagePrice} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>}
+          <label className="min-w-0 space-y-1 text-xs font-bold">سعر بيع {unit}<input aria-label={'سعر بيع '+unit} type="number" min="0" step="0.0001" required value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>
+        </div>
+        {differentSaleParcel&&<p className="text-xs text-nw-muted">طرد الشراء {validUnitsPerPackage} {unit}؛طرد البيع {validUnitsPerSalePackage} {unit}.</p>}
+        <ProfitCard label={withoutParcel?'ربح '+unit+' التقريبي':'ربح الطرد التقريبي'} profit={purchaseQuoteProfit.profitPerUnit} margin={purchaseQuoteProfit.marginPercentage}/>
+        <p className="text-xs text-nw-muted">الربح التقريبي من سعر الشراء المقترح. سعر البيع لا يتغير تلقائياً عند الاستلام.</p>
+        {costIsFromStock && costState && (
+          <div data-testid="product-average-cost" className="mt-3 rounded-xl border border-nw-border bg-nw-info-bg px-3 py-2">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs font-bold text-nw-info">متوسط التكلفة الحالي — يتحدّث من الاستلام</span>
+              <strong className="text-sm text-nw-text">
+                <bdi dir="ltr">{formatJod(currentUnitCostInMinorUnits(costState) / 1000)}</bdi> {CURRENCY} لكل {unit}
+              </strong>
+            </div>
+            <p className="mt-1 text-xs text-nw-muted">
+              سعرا الشراء أعلاه افتراضيان لأوامر الشراء فقط، وحفظ المنتج لا يغيّر متوسط التكلفة.
+            </p>
+          </div>
+        )}
+      </Card>
+
+      <details className="space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-3.5">
+        <summary className="min-h-11 cursor-pointer font-bold">متقدم: التغليف والمخزون والصورة</summary>
+        <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={differentSaleParcel} disabled={withoutParcel} onChange={event=>{setDifferentSaleParcel(event.target.checked);if(!event.target.checked){setUnitsPerSalePackage(validUnitsPerPackage);setSalePackagePrice(calculatePackagePrice(derivedSalePricePerUnit,validUnitsPerPackage));}}}/>طرد بيع مختلف عن طرد الشراء</label>
+        {differentSaleParcel&&<label className="block text-xs font-bold">عدد {unit} في طرد البيع<input aria-label={'عدد '+unit+' في طرد البيع'} type="number" min="1" step="1" required value={unitsPerSalePackage} onChange={event=>setUnitsPerSalePackage(event.target.value===''?'':Number.parseInt(event.target.value,10))} className={numberInputClass}/></label>}
+        <div className="grid grid-cols-2 gap-2">
+          <label className="min-w-0 text-xs font-bold">تغليف الشراء للطباعة<select aria-label="نوع طرد الشراء" value={purchasePackage} onChange={event=>setPurchasePackage(event.target.value)} className={inputClass}>{packagingOptions(purchasePackage).map(option=><option key={option.value} value={option.value}>{option.label}</option>)}</select></label>
+          <label className="min-w-0 text-xs font-bold">تغليف البيع للطباعة<select aria-label="نوع طرد البيع" value={salePackage} onChange={event=>setSalePackage(event.target.value)} className={inputClass}>{packagingOptions(salePackage).map(option=><option key={option.value} value={option.value}>{option.label}</option>)}</select></label>
+        </div>
           <div>
             <label className="mb-1.5 block text-xs font-bold text-nw-text">
               العلامة التجارية
@@ -1066,6 +1209,120 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
               />
             )}
           </div>
+
+      <Card padded={false} className="rounded-2xl border border-nw-border bg-nw-surface p-3.5">
+        <div className="mb-3 flex items-center gap-2">
+          <Warehouse className="h-4 w-4 text-nw-info" />
+          <div>
+            <h4 className="font-black text-nw-text">ضبط المخزون</h4>
+            <p className="text-xs text-nw-muted">
+              الرصيد يتحرك لاحقًا من الاستلام والطلبات تلقائيًا
+            </p>
+          </div>
+        </div>
+
+        {!isEditing && (
+          <div className="mb-3">
+            <label className="mb-1.5 block text-xs font-bold text-nw-text">
+              المستودع الافتراضي للصنف *
+            </label>
+            <WarehouseChoice options={warehouses} branchId={activeBranch?.id} value={warehouseId} onSingle={setWarehouseId}>
+            <select aria-label="المستودع"
+              required
+              value={warehouseId}
+              onChange={(event) => setWarehouseId(event.target.value)}
+              className={inputClass}
+            >
+              <option value="">اختر المستودع</option>
+              {warehouses.map((warehouse) => (
+                <option key={warehouse.id} value={warehouse.id}>
+                  {warehouse.name}
+                </option>
+              ))}
+            </select>
+            </WarehouseChoice>
+          </div>
+        )}
+
+        {!isEditing && (
+          <div className="mb-3 flex items-center gap-2 rounded-xl border border-nw-border bg-nw-ok-bg px-3 py-2 text-xs font-bold text-nw-ok">
+            <Package className="h-3.5 w-3.5 shrink-0" />
+            يُنشأ الصنف برصيد صفر؛ أدخل البضاعة الفعلية من شاشة الاستلام.
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="mb-1.5 block text-xs font-bold text-nw-warn">
+              تنبيه عند (طرد)
+            </label>
+            <input aria-label="حد الطلب"
+              type="number"
+              min="0"
+              step="1"
+              required
+              value={reorderLevel}
+              onChange={(event) =>
+                setReorderLevel(
+                  event.target.value === ''
+                    ? ''
+                    : Number.parseInt(event.target.value, 10)
+                )
+              }
+              className={numberInputClass}
+            />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-xs font-bold text-nw-muted">
+              سقف المستودع (طرد)
+            </label>
+            <input aria-label="سقف المستودع"
+              type="number"
+              min="0"
+              step="1"
+              value={maxStockLevel}
+              onChange={(event) =>
+                setMaxStockLevel(
+                  event.target.value === ''
+                    ? ''
+                    : Number.parseInt(event.target.value, 10)
+                )
+              }
+              placeholder="اختياري"
+              className={numberInputClass}
+            />
+            <p className="mt-1 text-xs leading-4 text-nw-muted">
+              اختياري: كمية لا تريد تجاوزها عند الشراء، ولا تمنع البيع.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-3 flex items-start gap-2 rounded-xl border border-nw-border bg-nw-info-bg p-2.5 text-xs leading-5 text-nw-muted">
+          <Boxes className="mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-info" />
+          كل القيم هنا بعدد الطرود؛ كل طرد ={' '}
+          {validUnitsPerSalePackage} {unit}. النظام يحولها تلقائيًا إلى {unit}
+          عند الحفظ والحساب.
+        </div>
+
+        {isEditing && (
+          <div className="mt-3 flex items-center justify-between rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2">
+            <span className="flex items-center gap-1.5 text-xs font-bold text-nw-muted">
+              <Boxes className="h-3.5 w-3.5 text-nw-info" />
+              الرصيد الحالي لا يُعدل من بطاقة المنتج
+            </span>
+            <strong className="text-nw-warn">
+              {currentStockSalePackages} طرد
+              {currentStockLooseUnits > 0
+                ? ` + ${currentStockLooseUnits} ${unit}`
+                : ''}
+            </strong>
+          </div>
+        )}
+
+        <div className="mt-3 flex items-start gap-2 rounded-xl bg-nw-surface-2 p-2.5 text-xs leading-5 text-nw-muted">
+          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-info" />
+          تاريخ الصلاحية ورقم التشغيلة يُسجلان عند استلام شحنة المورد،
+          لأن كل شحنة قد تحمل صلاحية مختلفة.
         </div>
       </Card>
 
@@ -1284,400 +1541,9 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           </Card>
         )}
 
-      <Card padded={false} className="rounded-2xl border border-nw-border bg-nw-surface p-3.5">
-        <div className="mb-3 flex items-center gap-2">
-          <Barcode className="h-4 w-4 text-nw-info" />
-          <div>
-            <h4 className="font-black text-nw-text">التعريف والتتبع</h4>
-            <p className="text-xs text-nw-muted">
-              SKU داخلي، والباركود اختياري
-            </p>
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          <div>
-            <div className="mb-1.5 flex items-center justify-between">
-              <label className="text-xs font-bold text-nw-text">
-                SKU *
-              </label>
-              {!isEditing && (
-                <UiButton variant="plain"
-                  type="button"
-                  onClick={generateSku}
-                  className="text-xs font-bold text-nw-info"
-                >
-                  توليد
-                </UiButton>
-              )}
-            </div>
-            <input aria-label="SKU"
-              required
-              value={sku}
-              onChange={(event) => setSku(event.target.value)}
-              placeholder="NWS-1001"
-              className={`${inputClass} font-mono`}
-            />
-          </div>
-          <div>
-            <label className="mb-1.5 block text-xs font-bold text-nw-text">
-              الباركود
-            </label>
-            <div className="flex gap-1.5">
-              <input
-                value={isFlavorMaster ? '' : barcode}
-                onChange={(event) => setBarcode(event.target.value)}
-                inputMode="text"
-                aria-label="باركود المنتج"
-                placeholder={
-                  isFlavorMaster ? 'لا يُستخدم للمنتج الأساسي' : 'اختياري'
-                }
-                disabled={isFlavorMaster}
-                className={`${inputClass} min-w-0 font-mono`}
-              />
-              <UiButton variant="plain"
-                type="button"
-                onClick={() => setIsBarcodeCameraOpen(true)}
-                disabled={isFlavorMaster}
-                aria-label="مسح باركود المنتج بالكاميرا"
-                title="مسح الباركود بالكاميرا"
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-nw-border bg-nw-info-bg text-nw-info transition hover:bg-nw-info-bg disabled:cursor-not-allowed disabled:border-nw-border disabled:bg-nw-surface-2 disabled:text-nw-muted"
-              >
-                <Camera className="h-4 w-4" />
-              </UiButton>
-            </div>
-            {isFlavorMaster && (
-              <p className="mt-1 text-xs leading-4 text-nw-muted">
-                المنتج الأساسي للتجميع فقط؛ أضف الباركود لكل نكهة قابلة للبيع.
-              </p>
-            )}
-          </div>
-        </div>
-      </Card>
 
-      <Card padded={false} className="rounded-2xl border border-nw-border    p-3.5">
-        <div className="mb-3 flex items-center gap-2">
-          <Layers3 className="h-4 w-4 text-nw-warn" />
-          <div>
-            <h4 className="font-black text-nw-text">شراء المورد</h4>
-            <p className="text-xs text-nw-muted">
-              عرّف الطرد مرة واحدة، والتكلفة تُحسب لكل {unit}
-            </p>
-          </div>
-        </div>
 
-        <div className="grid grid-cols-2 gap-2">
-          <label className="col-span-2 text-xs font-bold text-nw-muted">
-            الوحدة الأساسية
-            <select aria-label="الوحدة الأساسية" className={inputClass} value={unit} onChange={event => setUnit(event.target.value)} disabled={isEditing}>
-              {Array.from(new Set([unit, ...units.filter(item => item.code !== 'PCS' && !item.isHidden).map(item => item.nameAr)])).map(name => <option key={name} value={name}>{name}</option>)}
-            </select>
-          </label>
-          <div>
-            <label className="mb-1.5 block text-xs font-bold text-nw-muted">
-              نوع الطرد
-            </label>
-            <select aria-label="نوع طرد الشراء"
-              value={purchasePackage}
-              onChange={(event) => setPurchasePackage(event.target.value)}
-              className={inputClass}
-            >
-              {Array.from(new Set([purchasePackage, ...PURCHASE_PACKAGE_OPTIONS.map(item => item.nameAr)])).map((name) => (
-                <option key={name} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="mb-1.5 block text-xs font-bold text-nw-muted">
-              عدد {unit} في الطرد *
-            </label>
-            <input aria-label={`عدد ${unit} في طرد الشراء`}
-              type="number"
-              min="1"
-              step="1"
-              required
-              value={unitsPerPackage}
-              onChange={(event) =>
-                changeUnitsPerPackage(event.target.value)
-              }
-              className={numberInputClass}
-            />
-          </div>
-          <div>
-            <label className="mb-1.5 block text-xs font-bold text-nw-muted">
-              سعر شراء الطرد *
-            </label>
-            <input aria-label="سعر شراء الطرد"
-              type="number"
-              min="0.001"
-              step="0.001"
-              required
-              value={defaultPurchasePrice}
-              onChange={(event) =>
-                changePackagePurchasePrice(event.target.value)
-              }
-              className={numberInputClass}
-            />
-          </div>
-          <div>
-            <label className="mb-1.5 block text-xs font-bold text-nw-warn">
-              سعر شراء {unit} *
-            </label>
-            <input aria-label={`سعر شراء ${unit}`}
-              type="number"
-              min="0.001"
-              step="0.001"
-              required
-              value={unitPurchasePrice}
-              onChange={(event) =>
-                changeUnitPurchasePrice(event.target.value)
-              }
-              className={`${numberInputClass} border-nw-border text-nw-warn focus:border-nw-border`}
-            />
-          </div>
-        </div>
-
-        <div className="mt-3 flex items-center justify-between rounded-xl border border-nw-border bg-nw-warn-bg px-3 py-2">
-          <span className="flex items-center gap-1.5 text-xs font-bold text-nw-muted">
-            <ArrowLeftRight className="h-3.5 w-3.5 text-nw-warn" />
-            السعران مربوطان تلقائيًا
-          </span>
-          <strong className="text-xs text-nw-warn">
-            {validUnitsPerPackage} {unit} × {formatJod(costPerUnit)} ={' '}
-            {formatJod(validPackagePrice)} {CURRENCY}
-          </strong>
-        </div>
-
-        {costIsFromStock && costState && (
-          <div data-testid="product-average-cost" className="mt-3 rounded-xl border border-nw-border bg-nw-info-bg px-3 py-2">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-xs font-bold text-nw-info">متوسط التكلفة الحالي — يتحدّث من الاستلام</span>
-              <strong className="text-sm text-nw-text">
-                <bdi dir="ltr">{formatJod(currentUnitCostInMinorUnits(costState) / 1000)}</bdi> {CURRENCY} لكل {unit}
-              </strong>
-            </div>
-            <p className="mt-1 text-xs text-nw-muted">
-              سعرا الشراء أعلاه افتراضيان لأوامر الشراء فقط، وحفظ المنتج لا يغيّر متوسط التكلفة.
-            </p>
-          </div>
-        )}
-      </Card>
-
-      <Card padded={false} className="rounded-2xl border border-nw-border    p-3.5">
-        <div className="mb-3 flex items-center gap-2">
-          <Tag className="h-4 w-4 text-nw-ok" />
-          <div>
-            <h4 className="font-black text-nw-text">
-              طرد بيع الجملة والربح
-            </h4>
-            <p className="text-xs text-nw-muted">
-              السعر المدخل لطرد البيع كاملًا ({validUnitsPerSalePackage} {unit})
-            </p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2">
-          <div>
-            <label className="mb-1.5 block text-xs font-bold text-nw-ok">
-              نوع طرد البيع
-            </label>
-            <select aria-label="نوع طرد البيع"
-              value={salePackage}
-              onChange={(event) => setSalePackage(event.target.value)}
-              className={inputClass}
-            >
-              {Array.from(new Set([salePackage, ...PURCHASE_PACKAGE_OPTIONS.map(option => option.nameAr)])).map((name) => (
-                <option key={name} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="mb-1.5 block text-xs font-bold text-nw-text">
-              عدد {unit} في طرد البيع *
-            </label>
-            <input aria-label={`عدد ${unit} في طرد البيع`}
-              type="number"
-              min="1"
-              step="1"
-              required
-              value={unitsPerSalePackage}
-              onChange={(event) =>
-                setUnitsPerSalePackage(
-                  event.target.value === ''
-                    ? ''
-                    : Number.parseInt(event.target.value, 10)
-                )
-              }
-              className={numberInputClass}
-            />
-          </div>
-          <div>
-            <label className="mb-1.5 block text-xs font-bold text-nw-ok">
-              سعر بيع الطرد *
-            </label>
-            <input aria-label="سعر بيع الطرد"
-              type="number"
-              min="0.001"
-              step="0.001"
-              required
-              value={salePackagePrice}
-              onChange={(event) =>
-                setSalePackagePrice(
-                  event.target.value === ''
-                    ? ''
-                    : Number.parseFloat(event.target.value)
-                )
-              }
-              className={numberInputClass}
-            />
-          </div>
-        </div>
-
-        <div className="mt-3 grid grid-cols-2 gap-2">
-          <WholesaleMetric
-            label={`تكلفة ${salePackage}`}
-            value={salePackageCost}
-            tone="amber"
-          />
-          <ProfitCard
-            label={`ربح ${salePackage}`}
-            profit={salePackageProfit.profitPerUnit}
-            margin={salePackageProfit.marginPercentage}
-          />
-        </div>
-
-        <div className="mt-2 flex items-start gap-2 rounded-xl border border-nw-border bg-nw-ok-bg p-2.5 text-xs leading-5 text-nw-muted">
-          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-ok" />
-          الزبون يطلب عدد طرود؛ كل {salePackage} يخصم{' '}
-          {validUnitsPerSalePackage} {unit} من المخزون.
-        </div>
-
-        {salePackageProfit.isLoss && (
-          <div className="mt-2 flex items-start gap-2 rounded-xl border border-nw-border bg-nw-bad-bg p-2.5 text-xs font-bold text-nw-bad">
-            <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-            سعر بيع الطرد أقل من تكلفته؛ سيظهر بيع هذا الطرد كخسارة.
-          </div>
-        )}
-      </Card>
-
-      <Card padded={false} className="rounded-2xl border border-nw-border bg-nw-surface p-3.5">
-        <div className="mb-3 flex items-center gap-2">
-          <Warehouse className="h-4 w-4 text-nw-info" />
-          <div>
-            <h4 className="font-black text-nw-text">ضبط المخزون</h4>
-            <p className="text-xs text-nw-muted">
-              الرصيد يتحرك لاحقًا من الاستلام والطلبات تلقائيًا
-            </p>
-          </div>
-        </div>
-
-        {!isEditing && (
-          <div className="mb-3">
-            <label className="mb-1.5 block text-xs font-bold text-nw-text">
-              المستودع الافتراضي للصنف *
-            </label>
-            <WarehouseChoice options={warehouses} branchId={activeBranch?.id} value={warehouseId} onSingle={setWarehouseId}>
-            <select aria-label="المستودع"
-              required
-              value={warehouseId}
-              onChange={(event) => setWarehouseId(event.target.value)}
-              className={inputClass}
-            >
-              <option value="">اختر المستودع</option>
-              {warehouses.map((warehouse) => (
-                <option key={warehouse.id} value={warehouse.id}>
-                  {warehouse.name}
-                </option>
-              ))}
-            </select>
-            </WarehouseChoice>
-          </div>
-        )}
-
-        {!isEditing && (
-          <div className="mb-3 flex items-center gap-2 rounded-xl border border-nw-border bg-nw-ok-bg px-3 py-2 text-xs font-bold text-nw-ok">
-            <Package className="h-3.5 w-3.5 shrink-0" />
-            يُنشأ الصنف برصيد صفر؛ أدخل البضاعة الفعلية من شاشة الاستلام.
-          </div>
-        )}
-
-        <div className="grid grid-cols-2 gap-2">
-          <div>
-            <label className="mb-1.5 block text-xs font-bold text-nw-warn">
-              تنبيه عند ({salePackage})
-            </label>
-            <input aria-label="حد الطلب"
-              type="number"
-              min="0"
-              step="1"
-              required
-              value={reorderLevel}
-              onChange={(event) =>
-                setReorderLevel(
-                  event.target.value === ''
-                    ? ''
-                    : Number.parseInt(event.target.value, 10)
-                )
-              }
-              className={numberInputClass}
-            />
-          </div>
-          <div>
-            <label className="mb-1.5 block text-xs font-bold text-nw-muted">
-              سقف المستودع ({salePackage})
-            </label>
-            <input aria-label="سقف المستودع"
-              type="number"
-              min="0"
-              step="1"
-              value={maxStockLevel}
-              onChange={(event) =>
-                setMaxStockLevel(
-                  event.target.value === ''
-                    ? ''
-                    : Number.parseInt(event.target.value, 10)
-                )
-              }
-              placeholder="اختياري"
-              className={numberInputClass}
-            />
-            <p className="mt-1 text-xs leading-4 text-nw-muted">
-              اختياري: كمية لا تريد تجاوزها عند الشراء، ولا تمنع البيع.
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-3 flex items-start gap-2 rounded-xl border border-nw-border bg-nw-info-bg p-2.5 text-xs leading-5 text-nw-muted">
-          <Boxes className="mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-info" />
-          كل القيم هنا بعدد {salePackage}؛ كل {salePackage} ={' '}
-          {validUnitsPerSalePackage} {unit}. النظام يحولها تلقائيًا إلى {unit}
-          عند الحفظ والحساب.
-        </div>
-
-        {isEditing && (
-          <div className="mt-3 flex items-center justify-between rounded-xl border border-nw-border bg-nw-surface-2 px-3 py-2">
-            <span className="flex items-center gap-1.5 text-xs font-bold text-nw-muted">
-              <Boxes className="h-3.5 w-3.5 text-nw-info" />
-              الرصيد الحالي لا يُعدل من بطاقة المنتج
-            </span>
-            <strong className="text-nw-warn">
-              {currentStockSalePackages} {salePackage}
-              {currentStockLooseUnits > 0
-                ? ` + ${currentStockLooseUnits} ${unit}`
-                : ''}
-            </strong>
-          </div>
-        )}
-
-        <div className="mt-3 flex items-start gap-2 rounded-xl bg-nw-surface-2 p-2.5 text-xs leading-5 text-nw-muted">
-          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-nw-info" />
-          تاريخ الصلاحية ورقم التشغيلة يُسجلان عند استلام شحنة المورد،
-          لأن كل شحنة قد تحمل صلاحية مختلفة.
-        </div>
-      </Card>
+      </details>
 
       {editConflict && (
         <ProductEditConflictPanel
@@ -1767,22 +1633,5 @@ const ProfitCard: React.FC<{
       </strong>
       <span className="font-mono text-xs">%{margin.toFixed(1)}</span>
     </div>
-  </div>
-);
-
-const WholesaleMetric: React.FC<{
-  label: string;
-  value: number;
-  tone: 'amber' | 'slate';
-}> = ({ label, value, tone }) => (
-  <div className="rounded-xl border border-nw-border bg-nw-surface-2 p-2.5">
-    <span className="text-xs font-bold text-nw-muted">{label}</span>
-    <strong
-      className={`mt-1 block text-xs ${
-        tone === 'amber' ? 'text-nw-warn' : 'text-nw-text'
-      }`}
-    >
-      {formatJod(value)} {CURRENCY}
-    </strong>
   </div>
 );

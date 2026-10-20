@@ -105,6 +105,9 @@ const installIsolatedBackend = async (
     if (path === '/rest/v1/warehouses') return fulfillJson(route, [warehouse]);
     if (path === '/rest/v1/branches') return fulfillJson(route, [branch]);
     if (path === '/rest/v1/rpc/search_admin_products') return fulfillJson(route, [product]);
+    if (path === '/rest/v1/rpc/get_receiving_purchase_context') return fulfillJson(route, {
+      products: (request.postDataJSON().p_product_ids as string[]).map(productId=>({productId,lastPurchase:null})),
+    });
 
     if (path === '/rest/v1/rpc/create_direct_supplier_receipt_v2') {
       createCallCount += 1;

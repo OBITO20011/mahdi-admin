@@ -79,6 +79,7 @@ for(const theme of ['light','dark'] as const)for(const width of [390,820,1440]){
 test('حالة الإخفاء التي غيّرها مستخدم آخر لا تُعاد تفعيلها بصمت من نموذج التعديل',async({page})=>{
   await page.goto(url('theme=light&reset=1'));
   await page.evaluate(id=>(window as unknown as {__otherUserEdit:(id:string,c:Record<string,unknown>)=>void}).__otherUserEdit(id,{is_active:false}),productId);
+  await page.getByText('متقدم: التغليف والمخزون والصورة',{exact:true}).click();
   await page.getByLabel('حد الطلب').fill('3');
   await save(page);
   const panel=page.getByTestId('product-edit-conflict');

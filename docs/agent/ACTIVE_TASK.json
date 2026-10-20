@@ -2,44 +2,51 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Integrate accepted package3 sales history204;featureFULL34 and secrets verified;genuine mainmerge and exactmainFULL34+secrets;then package4 in order.Prepare owner204 upgrade per latest request;no hostedaccess/deploy.",
-  "baselineSha": "6a0aebbbcffe530b9417fa18702597d3c335eb51",
+  "objective": "Owner package4 oneparcel/product13-15/receiving14-16/receipt17;readonly205 readers;financial writers/payloads/WAC171/optimistic170 preserved.Then ordered5-9;ask only new financial decision.No hostedaccess/deploy.",
+  "baselineSha": "d2a3d14e3a2688152caba0acf8e32acaed2679a8",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "main",
+  "branch": "codex/phase-c-product-receiving",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR5/main6a FULL33+secrets delivered",
-    "C3 local1285Admin192Customer108affectedbrowser/realDB/FULLscale/ref/upgrade/reset PASS",
-    "C3 featurefa66444ee9cf765cf8c9471015789c72df008736 exactpush+PR FULL34 and secrets strictverified"
+    "PR6/main204 d2a3d14 delivered FULL34+secrets",
+    "Package4 all local quality1294Admin192Customer198effectivebrowser PASS",
+    "205fiveactualDBgroups/manual519/SDK142/RPC504 andFULLscale/ref/upgrade/reset/offline PASS"
   ],
   "inProgress": [
-    "Genuine package3 mainmerge;exactmainFULL34+secrets next"
+    "FeaturePR andexactFULL35+secrets;then mainmerge/mainCI"
   ],
   "notStarted": [
-    "Package4 parcel/product/receiving then ordered5-9;ask only new financial decision"
+    "Ordered package5 then6-9 after4 delivery"
   ],
   "testsPassed": [
-    "Corelocal gates in SALES_HISTORY_204_DELIVERY.json;final108effectivebrowser,current142SDK498RPC"
+    "TypesBoth/lint/buildsBoth/network0escaped",
+    "Actual water/juice money/WAC unchanged;legacy/currentbasis and roles/no-write/replay",
+    "198effectivebrowser;exactstoredsale1000/24 vsbuy1005 loss5fils",
+    "Fresh/incremental167migrations519functions13Realtime zero catalogdiff;actualupgrade/replay/reset/offline"
   ],
   "testsRemaining": [
-    "Main exactFULL34+secrets"
+    "Feature push+PR exactFULL35 andbothsecrets",
+    "Mainmerge/exactmainFULL35+secrets then5"
   ],
   "findings": [
-    "Latest owner explicitly requests new migration upgrade command;204 prepared owner-only,accepts prior203"
+    "Currentbaseadapter erases original20x10;display saved200base@.500 honestly,retain real legacy20/N10",
+    "No financial rule changed;latestprice readonly;exactstoredsalequote prevents rounding falseprofit",
+    "See PRODUCT_RECEIVING_205_INITIAL_QA for all initial failures and bounded corrections",
+    "One EOFblank removed with emittedJS byteequality;actualcurrent access/ref rebuilt;catalogs/manifest/functions equal passedDBpipeline"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No Frankfurt/Production/hostedaccess,secrets or deployment",
-    "Committed001-203 immutable;only additive204readonly history reader within owner21/22",
-    "One writer;no tracked edits during verification;no financial formula/ACL expansion or weakened assertions/retries/timeouts"
+    "001-204 immutable;only additive205 readonly readers within owner13-17",
+    "One writer;no tracked edits during localverification;no weakened assertions/retries/timeouts"
   ],
-  "nextExactAction": "Commit genuine PR6 merge of exactgreen fa66444;push main;verify exactmainFULL34+secrets then package4.Owner204 CLI prepared offline only.",
-  "checkpointedAt": "2026-10-20T10:02:14.331Z",
+  "checkpointedAt": "2026-10-20T14:17:46.511Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "0A76F040A8B133E9FD30E36972115752452FBE87C4FA8308D616115D0B1CFA6A",
-  "filesTouchedCount": 103,
-  "filesTouchedManifestSha256": "d0e422ec54096de5542f1cc72327c290312b83d87abcd4f19a404b68da30d2af"
+  "filesTouchedCount": 89,
+  "filesTouchedManifestSha256": "c4d5d433a04931a97ad41d13a8d47f1340052f879f56d500148ba38490233982",
+  "nextExactAction": "Localgates/currentfinalreadiness/ref and Gitleaks0 PASS;commit/pushpackage4 andcreatePR;exactpush+PRFULL35+secrets,mainmerge/mainCI then5.No hostedaccess.",
+  "workingTreeFingerprint": "7A1726428BF870C2DF39DDCA70A34D62DE4C0EA2C7240DB59825CF30F91F5332"
 }

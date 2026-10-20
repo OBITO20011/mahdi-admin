@@ -90,7 +90,7 @@ test('Legacy receipt resolver uses one bounded attempt and the modal keeps submi
     /if \(res\.success && res\.data\)[\s\S]*idempotencyKeyRef\.current = crypto\.randomUUID\(\)/u);
   assert.match(directReceivingModal, /if \(!isMountedRef\.current\) return;/u);
   assert.match(directReceivingModal,
-    /disabled=\{isSubmitting \|\| items\.length === 0 \|\| legacyReplayResolution !== null\}/u);
+    /disabled=\{isSubmitting \|\| editingProductId!==null \|\| items\.length === 0 \|\| legacyReplayResolution !== null\}/u);
 });
 
 test('migration 113 is transactional, additive and keeps legacy history untouched', () => {
