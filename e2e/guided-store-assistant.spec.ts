@@ -124,7 +124,7 @@ test('guided store assistant stays clear of the mobile navigation and cart actio
     } else {
       await page.getByRole('button', {name: /زيادة .* في السلة/u}).first().click();
     }
-    const cartAction = page.getByRole('button', {name: /طرد في السلة/u});
+    const cartAction = page.getByRole('button', {name: /حبة في السلة/u});
     await expect(cartAction).toBeVisible();
     const cartActionBox = await cartAction.boundingBox();
     const triggerWithCartBox = await trigger.boundingBox();

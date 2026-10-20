@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "C6 owner19 storefront clear parcel/base-unit additions and presentation;preserve payload/prices/locks/recovery. Separate PR/FULL36/merge/mainCI then7;ask only newfinancialquestion.No hostedaccess.",
-  "baselineSha": "f92f32b5000ecf203e2336709324c95a6eda651c",
+  "baselineSha": "d2cacf6e50eb679b5f7300caacdb22d23b41d108",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/phase-c-storefront",
   "phase": "PACKAGE_F",
@@ -11,7 +11,7 @@
     "C5PR8/mainf92 exactFULL36/secrets strictdeliveryReady;owner206 offlinePASS/notexecuted"
   ],
   "inProgress": [
-    "C6 local gates accepted;prepare staged Gitleaks/commit/push/PR FULL36 then main integration"
+    "Commit2CI text fixes and exactadditiveinverse;newfeatureFULL36 push+PR/secrets thenmerge"
   ],
   "notStarted": [
     "C7 corrections",
@@ -23,7 +23,8 @@
     "C6 final51effectivebrowser/1oldskip includescatalogue+/- real lineID and unitline preservation;M10actual11orders/0duplicates/bothengines",
     "Customer195;latestCustomer types/strictlint/build+SEO and9term/source/unit PASS",
     "Final Admin1306/Customer195/types/strictlint/build+SEO/sourceinverse PASS",
-    "FinalSDK142/RPC507/network0escape PASS;offline203..206 PASS;immutable206 evidence and001-206 unchanged"
+    "FinalSDK142/RPC507/network0escape PASS;offline203..206 PASS;immutable206 evidence and001-206 unchanged",
+    "CI label corrections:4/4 Chromium/WebKit and8 exactinverse/currentreadiness tests PASS;55effectivebrowser/1oldskip total"
   ],
   "testsRemaining": [
     "Gitleaks/commit/exactFULL36 push+PR/secrets/mainCI then7"
@@ -33,7 +34,8 @@
     "C6 WebKit counter reset fixed by clamp;termguard exception avoided;actualunitnames preserved",
     "M10 first run12PASS/3FAIL/1oldskip:missing132allowlist and actual429 sharedKongIP in latecase;fixture allowlist and scenario-only abuse-state isolation added,all guards/assertions/limits unchanged",
     "Final UI removed obsolete parcel-type facet and fixed FAQ;catalog RPC/payload/defaultall unchanged;no price/role/SQL rule change",
-    "Catalogue+/- used productId for a lineId writer;new adapter resolves only unlocked legacy parcel lines and reuses existing add/update paths;CartDrawer binding untouched. New1440 UI assertions retain unit-line identity/qty/price."
+    "Catalogue+/- used productId for a lineId writer;new adapter resolves only unlocked legacy parcel lines and reuses existing add/update paths;CartDrawer binding untouched. New1440 UI assertions retain unit-line identity/qty/price.",
+    "Initial d2cacf6 CI core385PASS/4FAIL from2oldlabel assertions;changed only2strings and2additive sourceinverse entries;old21pins/app/SQL/accessproof unchanged"
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -42,12 +44,12 @@
     "001-206 and accepted historicalproofs/references immutable",
     "One writer;no tracked edits during localverification;no weaker assertions/retries/skips/timeouts"
   ],
-  "checkpointedAt": "2026-10-20T23:01:58.981Z",
+  "checkpointedAt": "2026-10-20T23:23:04.389Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 42,
-  "filesTouchedManifestSha256": "7f7bbe51e5e1fec0006aa733aa8a8369be7c996994b34a6932a3ff01e037f187",
-  "nextExactAction": "C6 all local gates PASS;staged Gitleaks then commit/push independent exact FULL36 push+PR/secrets,genuine main merge/mainCI,then7.No hostedaccess.",
-  "workingTreeFingerprint": "6520FC9CA2D10B0BDADF9BAA00219639D7FAE7026E57F4BD68ACFA6B9A9D04B4"
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "a1afbe4b6ad887d580d12b4e3bc7719d517e10d640adb44e8fc823f516243c90",
+  "nextExactAction": "C6 label4browser/8unitPASS;commit/push fixes,verify newexactFULL36 push+PR/secrets,genuine mainmerge/mainCI then7.No hostedaccess.",
+  "workingTreeFingerprint": "184F94A77768B194DFC0C645A42FDE6C9E49945940FFDDE0DE23437431C980C2"
 }

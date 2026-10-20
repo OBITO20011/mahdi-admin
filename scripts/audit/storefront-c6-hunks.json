@@ -1104,6 +1104,36 @@
       "added": true,
       "hunks": []
     },
+    "e2e/guided-store-assistant.spec.ts": {
+      "before": "c40c65bf4caca9ecbcda43eb4a507162689f2a38e3c529960f3bfd304520077e",
+      "after": "3f25928bcecbd581e090d0b694a832b46f71f586b9c7d9a6ed3a6f644f05c773",
+      "hunks": [
+        {
+          "at": 127,
+          "before": [
+            "    const cartAction = page.getByRole('button', {name: /طرد في السلة/u});"
+          ],
+          "after": [
+            "    const cartAction = page.getByRole('button', {name: /حبة في السلة/u});"
+          ]
+        }
+      ]
+    },
+    "e2e/phase6-package-b.spec.ts": {
+      "before": "6fc9a598f8aa6b45cea490db8bed0873da83e3cc1a956f7b8b95972640e428f7",
+      "after": "6e8b7f82c75eb06e255e11e5bca2b5947de9adb84fe7874592d0cff768d7029c",
+      "hunks": [
+        {
+          "at": 111,
+          "before": [
+            "  const summary = `${(2).toLocaleString('ar-JO')} طرد • ${(3).toLocaleString('ar-JO')} وحدة أساسية`;"
+          ],
+          "after": [
+            "  const summary = `${(3).toLocaleString('ar-JO')} وحدة + ${(2).toLocaleString('ar-JO')} طرد`;"
+          ]
+        }
+      ]
+    },
     "tests/phase6-package-b.test.ts": {
       "before": "33f0a2bfea354153f5130f3d64e33d20daf67b2edff1356b5b044c92154d105b",
       "after": "e9459ef38d86e7fe0de2347100c212862b19cd2bf906302b1d24c7c5575c43d6",

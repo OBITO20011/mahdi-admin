@@ -18,7 +18,7 @@
       "failed": 0
     },
     "affectedBrowser": {
-      "passed": 51,
+      "passed": 55,
       "inheritedSkipped": 1,
       "engines": [
         "chromium",
@@ -27,7 +27,8 @@
       "widths": [
         390,
         1440
-      ]
+      ],
+      "additionalCiLabelCases": 4
     },
     "m10": "STOREFRONT_C6_M10.json",
     "sdk": {
@@ -56,7 +57,7 @@
     "types": "PASS",
     "strictLint": "PASS",
     "buildAndSeo": "PASS",
-    "sourceInverseEntries": 21,
+    "sourceInverseEntries": 23,
     "sourceHashes": [
       {
         "file": "src/App.tsx",
@@ -1317,6 +1318,14 @@
     "phase-c6-build-controls-final.log": {
       "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c6-build-controls-final.log",
       "sha256": "30830e7f6228c402389eb2ded86f54cce13589745dbd010aadacbba66dfd7322"
+    },
+    "phase-c6-ci-label-browser.log": {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c6-ci-label-browser.log",
+      "sha256": "e013c07b8cd117e5b1e1f9dabceef734185f403b5feaf63c5d0d16e92e56599d"
+    },
+    "phase-c6-ci-label-unit.log": {
+      "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c6-ci-label-unit.log",
+      "sha256": "7a368ae57f137d766a548a3bbc1a6db677d2e947b92e96d2ba1bd7dfd9fad9db"
     }
   },
   "remaining": [
@@ -1324,5 +1333,15 @@
     "Commit/push and independent exact feature push+PR FULL36 plus secret scans",
     "Genuine main merge and exact main FULL36 plus secret scan",
     "Package7 in owner order"
-  ]
+  ],
+  "initialCi": {
+    "sha": "d2cacf6e50eb679b5f7300caacdb22d23b41d108",
+    "corePassed": 385,
+    "coreFailed": 4,
+    "cause": "Two obsolete text expectations in both engines;only2strings changed,all numeric and layout assertions retained",
+    "old21InversePinsUnchanged": true,
+    "applicationAndSqlAndAccessProofUnchanged": true,
+    "focusedBrowserPassed": 4,
+    "focusedUnitPassed": 8
+  }
 }

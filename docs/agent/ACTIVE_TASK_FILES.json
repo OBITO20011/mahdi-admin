@@ -2,172 +2,24 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "A ",
-      "path": "customer-web/src/components/ProductPurchaseControl.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "customer-web/src/utils/storefrontUnits.ts"
-    },
-    {
-      "code": "A ",
-      "path": "customer-web/tests/storefront-units.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "docs/agent/STOREFRONT_SIMPLIFICATION_C6.md"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/NAVIGATION_CASH_206_MAIN_CI.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/STOREFRONT_C6_AR.md"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/STOREFRONT_C6_DELIVERY.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/STOREFRONT_C6_M10.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/STOREFRONT_C6_OWNER_OFFLINE.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_STOREFRONT_C6.json"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/customer-storefront-c6.spec.ts"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-storefront-c6.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/storefront-c6-hunks.json"
-    },
-    {
-      "code": "A ",
-      "path": "tests/storefront-c6.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/App.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/components/CargoAddButton.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/components/CartDrawer.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/components/CheckoutModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/components/MerchandisingSections.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/components/MobileStoreNav.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/components/ProductCard.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/components/ProductDetailsModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/components/StoreHeader.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/utils/cart.ts"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/src/utils/checkout.ts"
-    },
-    {
-      "code": "M ",
-      "path": "customer-web/tests/checkout.test.ts"
-    },
-    {
       "code": "M ",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
       "code": "M ",
-      "path": "docs/agent/PROJECT_OVERVIEW.md"
+      "path": "docs/operations/STOREFRONT_C6_DELIVERY.json"
     },
     {
       "code": "M ",
-      "path": "docs/agent/project-state.json"
+      "path": "e2e/guided-store-assistant.spec.ts"
     },
     {
       "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
+      "path": "e2e/phase6-package-b.spec.ts"
     },
     {
       "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
-    },
-    {
-      "code": "M ",
-      "path": "e2e/customer-checkout-isolated.spec.ts"
-    },
-    {
-      "code": "M ",
-      "path": "e2e/customer-compact-product-grid.spec.ts"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/source-before-navigation-cash206.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/build-acl-reference206.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/frankfurt-reference206.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/run-customer-checkout-browser-e2e.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "tests/phase6-package-b.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/table-access-inventory.test.ts"
+      "path": "scripts/audit/storefront-c6-hunks.json"
     }
   ]
 }

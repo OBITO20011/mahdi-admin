@@ -1,3 +1,11 @@
+# Current21Oct — C6 first CI text expectations corrected
+
+Initial d2cacf6 core385pass/4fail:two inherited label expectations across both engines.
+N1 assistant fixture now expects its actual unit name;cart summary expects actual
+unit label and existing line order. All numeric/layout/identity assertions retained.
+Only2test strings and2additive exactC6inverse entries;old21pins/app/SQL/access
+proof unchanged. Focused browser and new exactfeature FULL36/secrets required.
+
 # Current21Oct — C6 local gates accepted;delivery pending
 
 Admin1306/Customer195/51effectivebrowser(1inheritedskip)/types/strictlint/build PASS.
