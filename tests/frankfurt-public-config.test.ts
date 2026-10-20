@@ -8,7 +8,7 @@ import {pathToFileURL} from 'node:url';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {restoreStagingConfig,sourceBeforeStagingConfig} from '../scripts/audit/source-before-staging-config.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+import {inventoryBeforeSales204 as inventory} from '../scripts/audit/source-before-sales-history204.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 const url='https://kzevmysfydaslxcerogt.supabase.co',key='sb_publishable_d4TElxRQFkC-AZko3_ASeg_YotqxGjV';
 test('both public defaults Frankfurt;historical evidence admits exactly two literals and nothing else',async()=>{

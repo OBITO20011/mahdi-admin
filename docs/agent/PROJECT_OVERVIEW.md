@@ -1,3 +1,16 @@
+#20Oct — توجيه المتابعة الأحدث
+
+المالك اعتمدPR5 وطلب متابعة3 ثم الخطوات التالية بالترتيب دون توقف إلا لسؤال
+مالي جديد؛انظر OWNER_DECISIONS. أمره الحالي صباحاً upgrade203،والوكيل لا
+ينفذه مستضافاً. نقاط الانتظار الإجرائية الأقدم أدناه سياق تاريخي.
+
+# Current20Oct —package3 authorized after PR5/main FULL33 acceptance
+
+Read SALES_HISTORY_204.md,PHASE_C_CONTRACT and OWNER_DECISIONS.
+Base6a0aebb main exactFULL33+secrets accepted;001-203 immutable.
+204 is an implementation number for explicitly requested new read-only RPC,
+not a new monetary decision. No hostedaccess/deploy.
+
 # Current20Oct — PR5 completion now includes additive203
 
 Read latest OWNER_DECISIONS and PHASE_STATUS. Actual undated legacy payment

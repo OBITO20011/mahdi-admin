@@ -11,11 +11,11 @@ export function OrderCommercialSummary({ order }: { order: Order }) {
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <p className="font-semibold">{item.productName}</p>
-            <p className="text-xs text-nw-muted">{item.commercialLineKind === 'configurable_parcel' ? 'طرد مشكّل' : item.commercialLineKind === 'legacy_single_sku_parcel' ? 'كرتونة' : item.unit} · <bdi dir="ltr">{item.quantity} × {item.unitPrice.toFixed(3)}</bdi></p>
+            <p className="text-xs text-nw-muted">{item.commercialLineKind === 'configurable_parcel' ? 'طرد مشكّل' : item.commercialLineKind === 'legacy_single_sku_parcel' ? 'طرد' : item.unit} · <bdi dir="ltr">{item.quantity} × {item.unitPrice.toFixed(3)}</bdi></p>
           </div>
           <MoneyText amount={item.totalPrice} className="shrink-0" />
         </div>
-        {!!item.parcelInstances?.length && <details className="text-xs">
+        {!!item.parcelInstances?.length && <details data-commercial-components className="text-xs">
           <summary className="min-h-11 cursor-pointer py-3 text-nw-primary">عرض مكونات الطرود ({item.parcelInstances.length})</summary>
           {item.parcelInstances.map((instance) => <div key={instance.id} className="space-y-1 pb-3">
             <h5 className="font-semibold">مكونات {instance.unitName} #{instance.sequence}</h5>

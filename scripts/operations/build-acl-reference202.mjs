@@ -13,7 +13,7 @@ import {readRealtimePublication,realtimePublicationSql} from '../testing/realtim
 import {functionReference,DEFAULT_WORKDIR,assertOutsideRepository} from './frankfurt-owner-build.mjs';
 import {readNotificationSnapshot} from './frankfurt-notification-hold.mjs';
 import {assessBuildCron} from './build-cron-report.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';
+import {inventoryBeforeSales204 as inventory} from '../audit/source-before-sales-history204.mjs';
 import {assertReady202Reference,ready202ReferenceName,assertReady202Catalog} from './frankfurt-reference202.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),cli=path.join(root,'node_modules/supabase/dist/supabase.js');
 export async function buildReady202Reference(args=[]){

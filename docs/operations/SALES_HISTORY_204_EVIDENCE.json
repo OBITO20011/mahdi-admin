@@ -1,0 +1,33 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-sales-history204-UHSQwR",
+  "startedAt": "2026-10-19T23:04:52.135Z",
+  "managedAccess": false,
+  "cases": [
+    {
+      "name": "realPOS cash12.050+debt14.500+debt29.500=56.050/3;Home parity,old075 still excludesPOS;one readonly function only",
+      "passed": true
+    },
+    {
+      "name": "websitecreatedold/completedtoday,returned/cancelled/new/undated and exactAmmanmidnight;canonical84160/7 equalsHome,never synthesize completion",
+      "passed": true
+    },
+    {
+      "name": "allmethods/sources/customer-name-or-phone/literalpercent/invoicenumber/dateperiod filters;oldinvoices reachable and successfulempty explicitzero",
+      "passed": true
+    },
+    {
+      "name": "stable serverpages no duplicate/missing IDs;Home last5 is same canonical getter,not operationalqueue or loadedstore",
+      "passed": true
+    },
+    {
+      "name": "same8ERP reader roles allowed;warehouse-only/norole P0001 fromunchangedguard,anon/service42501;warehouse+sales allowed",
+      "passed": true
+    },
+    {
+      "name": "invalidarguments fail,noappdata/sequence writes;SQLreplay zerodelta;real invoice historical name retained;unchanged DBlint",
+      "passed": true
+    }
+  ],
+  "ok": true,
+  "endedAt": "2026-10-19T23:07:23.049Z"
+}

@@ -29,4 +29,4 @@ export function restoreHomeDamage201SourceHashes(sources){
  });
 }
 
-export async function inventoryBeforeHomeDamage201(){const {inventory}=await import('./table-access-inventory.mjs');const source=await inventory();return {...source,sources:restoreHomeDamage201SourceHashes(source.sources)};}
+export async function inventoryBeforeHomeDamage201(){const {inventoryBeforeSales204}=await import('./source-before-sales-history204.mjs');const source=await inventoryBeforeSales204();return {...source,sources:restoreHomeDamage201SourceHashes(source.sources)};}

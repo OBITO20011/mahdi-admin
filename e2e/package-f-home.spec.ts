@@ -70,7 +70,7 @@ test('Home actions and period selector preserve existing intent; net is never gr
   await expect(kpis).toContainText('34,006.250');
   await page.getByRole('radio', { name: 'الأسبوع' }).click();
   await expect(kpis).toContainText('7,384.500');
-  await page.getByRole('button', { name: 'كل الطلبات' }).click();
+  await page.getByRole('button', { name: /طلبات تحتاج إجراء/  }).click();
   await expect(page.getByTestId('home-action')).toHaveText('orders');
   await page.getByRole('button', { name: 'مراجعة العملاء والذمم' }).click();
   await expect(page.getByTestId('home-action')).toHaveText('accounts');

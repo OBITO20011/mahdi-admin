@@ -147,7 +147,7 @@ const MenuSection: React.FC<MenuSectionProps> = ({
 };
 
 export const MoreMenuView: React.FC = () => {
-  const { signOut, roleName } = useAuthStore();
+  const { signOut, roleName,roles } = useAuthStore();
   const {
     activeBranch,
     branches,
@@ -267,7 +267,7 @@ export const MoreMenuView: React.FC = () => {
       <div className="space-y-2" aria-label="أقسام التنقل الإداري">
         {ADMIN_NAVIGATION_GROUPS.map((group) => {
           const visibleItems = group.items.filter(
-            (item) => isNavigationItemVisible(item,roleName),
+            (item) => isNavigationItemVisible(item,roleName,roles),
           );
           const GroupIcon = group.icon;
 

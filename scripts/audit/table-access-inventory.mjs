@@ -60,9 +60,9 @@ export function parseSource(file,text){
 // Embedded resources also require SELECT: explicitly retain every dependency.
 export function embeddedTables(select){const result=[];const regex=/([a-zA-Z_][\w]*(?::[a-zA-Z_][\w]*)?(?:![\w]+)*)\s*\(/gu;
  for(const m of select.matchAll(regex)){const name=m[1].split(':').at(-1).split('!')[0];if(name!=='count')result.push(name);}return [...new Set(result)].sort();}
-export async function inventory(){const entries=[],excluded=[],subscriptions=[],sources=[],texts=new Map();
+export async function inventory({projectSource=(_file,text)=>text}={}){const entries=[],excluded=[],subscriptions=[],sources=[],texts=new Map();
  for(const base of ['src','customer-web/src','supabase/functions'])for(const absolute of await files(path.join(root,base))){
-  const file=slash(path.relative(root,absolute)),text=(await readFile(absolute,'utf8')).replaceAll('\r\n','\n'),parsed=parseSource(file,text);sources.push({file,sha256:hash(text)});
+  const file=slash(path.relative(root,absolute)),text=projectSource(file,(await readFile(absolute,'utf8')).replaceAll('\r\n','\n'));if(text===null)continue;const parsed=parseSource(file,text);sources.push({file,sha256:hash(text)});
   entries.push(...parsed.entries);excluded.push(...parsed.excluded.map(e=>({file,...e})));subscriptions.push(...parsed.subscriptions);texts.set(file,text);
  }
  for(const e of entries){const selection=e.calls.find(c=>c.method==='select')?.args[0];

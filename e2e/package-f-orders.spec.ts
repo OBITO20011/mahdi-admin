@@ -203,6 +203,7 @@ for (const theme of ['light', 'dark']) {
     });
     await page.goto(url(`theme=${theme}&live`));
     await expect(page.locator('[data-order-card]')).toHaveCount(1);
+    await expect(page.getByTestId('orders-workbench')).toContainText('المتجر');
     await page.getByRole('tab', { name: /الكل/ }).click();
     await expect.poll(() => listReads).toBe(2);
     await expect(page.locator('[data-order-card]')).toHaveCount(6);

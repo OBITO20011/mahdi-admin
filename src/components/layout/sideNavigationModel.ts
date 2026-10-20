@@ -37,6 +37,7 @@ const toSideItem = (item: AdminNavigationItem): SideNavItem => ({
 
 const RAIL_LABELS: Readonly<Record<string, string>> = {
   'admin-warehouses':'مستودع',
+  'sales-history':'المبيعات',
   'sales-pos': 'بيع', 'sales-orders': 'الطلبات', 'parcel-configuration': 'الطرود',
   'catalog-products': 'المنتجات', 'inventory-current': 'المخزون',
   'customer-accounts': 'العملاء', 'supplier-receiving': 'الاستلام',
@@ -47,8 +48,8 @@ const RAIL_LABELS: Readonly<Record<string, string>> = {
 };
 
 /** Same rule as MoreMenuView: owner-only items are shown to the owner only. */
-export const isVisibleToRole = (item: AdminNavigationItem, roleName: string | null | undefined) =>
-  isNavigationItemVisible(item,roleName);
+export const isVisibleToRole = (item: AdminNavigationItem, roleName: string | null | undefined,roles?:readonly string[]) =>
+  isNavigationItemVisible(item,roleName,roles);
 
 export const SIDE_NAV_HOME: SideNavItem = {
   id: 'home',
@@ -67,10 +68,10 @@ export const SIDE_NAV_MORE: SideNavItem = {
   action: { type: 'tab', destination: 'more' },
 };
 
-export function buildSideNavigation(roleName: string | null | undefined): SideNavGroup[] {
+export function buildSideNavigation(roleName: string | null | undefined,roles?:readonly string[]): SideNavGroup[] {
   const groups: SideNavGroup[] = [{ id: 'today', label: 'اليوم', items: [SIDE_NAV_HOME] }];
   for (const group of ADMIN_NAVIGATION_GROUPS) {
-    const items = group.items.filter((item) => isVisibleToRole(item, roleName)).map(toSideItem);
+    const items = group.items.filter((item) => isVisibleToRole(item, roleName,roles)).map(toSideItem);
     if (items.length > 0) groups.push({ id: group.id, label: group.label, items });
   }
   return groups;

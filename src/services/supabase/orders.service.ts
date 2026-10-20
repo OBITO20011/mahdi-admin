@@ -59,6 +59,7 @@ export interface OperationalOrderListItem {
   amountPaid: number;
   amountDue: number;
   itemCount: number;
+  source?: string;
   /** Historical first line label from order_items.product_name_snapshot. */
   firstProductName: string;
   branchId: string;
@@ -180,6 +181,7 @@ const OPERATIONAL_ORDER_LIST_SELECT = `
   payment_status,
   total_in_minor_units,
   amount_paid_in_minor_units,
+  source,
   branch_id,
   created_at,
   updated_at,
@@ -394,6 +396,7 @@ function mapOperationalOrderListRows(
       amountDue: calculateOrderAmountDue(totalAmount, amountPaid),
       itemCount: asNonNegativeInteger(itemCountRelation.count),
       firstProductName: firstProductNamesByOrderId.get(value.id) || '',
+      source: typeof value.source === 'string' ? value.source : undefined,
       branchId: typeof value.branch_id === 'string' ? value.branch_id : '',
       createdAt:
         typeof value.created_at === 'string'

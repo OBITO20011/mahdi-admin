@@ -9,7 +9,7 @@ import {execFileSync} from 'node:child_process';
 import {bindFirstOwnerSql,validateFirstOwner} from '../scripts/operations/first-owner-core.mjs';
 import {firstOwnerArguments} from '../scripts/operations/frankfurt-first-owner.mjs';
 import {assertFirstOwner198Access,readFirstOwner198Reference} from '../scripts/operations/first-owner-reference198.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+import {inventoryBeforeSales204 as inventory} from '../scripts/audit/source-before-sales-history204.mjs';
 const input={ownerId:'92600000-0000-4000-8000-000000000001',email:'owner@example.test',name:'المالك',branchCode:'BR-MAIN',branchName:'الفرع الرئيسي'};
 test('first owner is a guarded data bootstrap,not an unauthenticated RPC or a second-owner bypass',()=>{
  const sql=bindFirstOwnerSql(input);for(const guard of ['FIRST_OWNER_AUTH_IDENTITY_NOT_CONFIRMED','FIRST_OWNER_ALREADY_INITIALIZED','FIRST_OWNER_REQUIRES_UNUSED_BUSINESS','FIRST_OWNER_BRANCH_MISMATCH'])assert.ok(sql.includes(guard));

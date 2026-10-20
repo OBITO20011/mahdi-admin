@@ -1,3 +1,4 @@
+import {recentSalesFixture} from './package-f-sales-history.fixture';
 import {DamageLossReportSection} from '../src/features/reports/DamageLossReportSection';
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -63,7 +64,7 @@ const Harness = () => {
     <div className="flex min-w-0 flex-1 flex-col">
       <Header />
       <main className="min-h-0 flex-1 overflow-y-auto" data-testid="home-scroll">
-        {params.has('live') ? <DashboardView /> : <DashboardHome data={data} currentUserName="مهدي النواصرة" currentShift={engine.state.currentShift} loading={params.has('loading')} error={params.has('error')?'فشل الاتصال':null} realtimeConnected={true}
+        {params.has('live') ? <DashboardView /> : <DashboardHome salesHistory={{data:recentSalesFixture,loading:params.has('loading'),error:params.has('error')?'فشل الاتصال':null,unavailable:false,reload:async()=>setAction('sales-refresh')}} onSalesHistory={()=>setAction('sales_history')} onInvoice={id=>setAction('invoice:'+id)} data={data} currentUserName="مهدي النواصرة" currentShift={engine.state.currentShift} loading={params.has('loading')} error={params.has('error')?'فشل الاتصال':null} realtimeConnected={true}
           onRefresh={() => setAction('refresh')} onOrders={() => setAction('orders')} onAccounts={() => setAction('accounts')} onInventory={() => setAction('inventory')} onProducts={() => setAction('products')} onShift={() => setAction('shifts')} onSell={() => setAction('pos')} onReceive={(id) => setAction(`receive_goods:${id ?? ''}`)} onExpense={() => setAction('add_expense')} />}
         {params.has('damage') && <div className="p-4"><DamageLossReportSection losses={{total:60,additional:0,alreadyIncluded:60,reasons:[{code:'customer_return_final',count:1,quantity:1,amount:60,alreadyIncluded:60}]}} /></div>}
         <output className="sr-only" data-testid="home-action">{action}</output>

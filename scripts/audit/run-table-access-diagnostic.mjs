@@ -14,7 +14,7 @@ import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
 const option=n=>process.argv.includes(n)?process.argv[process.argv.indexOf(n)+1]:null;
 const ceiling=Number(option('--migration-ceiling')||(process.argv.includes('--require-access')?199:138));
-assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');
+assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');
 const manifest=(await readdir(path.join(root,'supabase/migrations'))).filter(n=>/^\d{3}_.+\.sql$/u.test(n)&&Number(n.slice(0,3))<=ceiling).sort();
 const project=option('--local-project')||'nawasrah-table-audit-'+randomBytes(4).toString('hex')+'-test';
 assert.match(project,/^nawasrah-table-audit(?:-[a-f0-9]+)?-test$/u);

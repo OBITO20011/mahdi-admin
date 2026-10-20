@@ -26,6 +26,7 @@ const orderDetailModal = readFileSync('src/features/orders/OrderDetailModal.tsx'
 const expectedActiveTabs = [
   'home',
   'orders',
+  'sales_history',
   'products',
   'accounts',
   'more',
@@ -44,7 +45,7 @@ const expectedActiveTabs = [
 ].sort();
 
 const expectedGroupDestinations = new Map([
-  ['sales', ['pos', 'orders']],
+  ['sales', ['pos', 'orders','sales_history']],
   ['products-inventory', ['parcel_configuration', 'products', 'inventory']],
   ['customers', ['accounts']],
   ['suppliers-purchases', ['purchases']],
@@ -183,7 +184,7 @@ test('role visibility and the independent assistant gate are unchanged', () => {
   const warehouses=ownerOnlyItems.find(item=>item.id==='admin-warehouses');assert.ok(warehouses);
   assert.equal(isNavigationItemVisible(warehouses,'owner'),true);
   for(const role of ['admin','manager','accountant','cashier','sales','warehouse',null])assert.equal(isNavigationItemVisible(warehouses,role),false);
-  assert.match(moreMenu, /isNavigationItemVisible\(item,roleName\)/);
+  assert.match(moreMenu, /isNavigationItemVisible\(item,roleName,roles\)/);
   const cheque=ADMIN_NAVIGATION_GROUPS.flatMap(g=>g.items).find(i=>i.id==='finance-cheques');
   assert.ok(cheque);
   for(const role of ['owner','manager'])assert.equal(isNavigationItemVisible(cheque,role),true);

@@ -1,0 +1,78 @@
+{
+  "managedAccess": false,
+  "runtime": {
+    "passed": true,
+    "file": "SALES_HISTORY_204_EVIDENCE.json",
+    "output": "UHSQwR",
+    "groups": 6
+  },
+  "initialTypes": "PASS",
+  "initialLint": {
+    "warnings": 5,
+    "errors": 0,
+    "reason": "Removed unused imports/preserved inventory CTA;fixed identity-scoped request memo and cleanup callbacks;subsequent strictlint PASS"
+  },
+  "initialFocusedUnits": {
+    "pass": 35,
+    "fail": 5,
+    "total": 40,
+    "reason": "Expected labels/signatures changed by owner21/22;updated exact assertions and added new role/parser/history tests;40/40 PASS"
+  },
+  "browser": {
+    "firstRun": "104 affected cases;stopped after confirmed old Home all-orders button timeout;new compact counter assertion replaces same navigation intent",
+    "newOnlyRun": "Stopped after observed missing legacy aftercare arrays in new HTTP fixture and exact select-label mismatch;completed fixture contract and explicit label/for association;new-only rerun next",
+    "assertionsWeakened": false,
+    "retriesChanged": false,
+    "timeoutsChanged": false
+  },
+  "remaining": "Local gates complete;Gitleaks/PR/FULL34+secrets/mainmerge/mainCI",
+  "finalAffectedBrowser": {
+    "passed": 106,
+    "failed": 0,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "log": "phase-c204-browser-final.log"
+  },
+  "initialToolingUnit": {
+    "passed": 25,
+    "failed": 1,
+    "reason": "New204 prefix array omitted203 while cloned;strict unit caught it before any upgrade rehearsal;restored mandatory203 entry,assertions unchanged"
+  },
+  "fullQualityInitial": {
+    "report": "phase-c204-quality-0V6DPO",
+    "admin": {
+      "total": 1285,
+      "pass": 1262,
+      "fail": 23
+    },
+    "causes": [
+      "Historical raw inventory checked against exact204-restored hashes/query IDs",
+      "Newest whole-file guard now SALES204; old expected guard labels retained",
+      "Orders class-only historical test must first undo exact204 approved source",
+      "Stored service inventory not regenerated; live498RPC proof already current",
+      "Existing owner-only nav test must include actualRoles argument"
+    ],
+    "correction": "Exact inverse before historical parsing; preserve old proofs/hashes/ACL assertions; regenerate current service inventory only"
+  },
+  "fullQualityFollowup": {
+    "report": "phase-c204-quality-ELnolG",
+    "admin": {
+      "total": 1285,
+      "pass": 1283,
+      "fail": 2
+    },
+    "types": "PASS",
+    "strictlint": "PASS",
+    "cause": "Two stored current SERVICE_ACCESS_INVENTORY ceiling expectations203 now require204;immutable historical evidence remains unchanged"
+  },
+  "finalQuality": {
+    "admin": 1285,
+    "customer": 192,
+    "typesBoth": "PASS",
+    "strictLint": "PASS",
+    "buildsBoth": "PASS",
+    "networkExternalEscaped": 0
+  }
+}

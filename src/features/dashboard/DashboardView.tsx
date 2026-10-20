@@ -4,12 +4,21 @@ import { Card, UiButton } from '../../components/ui';
 import { fetchHomeDashboardFromSupabase, subscribeToDashboardRealtime } from '../../services/supabase/dashboard.service';
 import { useAppStoreActions, useAppStoreSelector } from '../../stores/useAppStore';
 import type { HomeDashboardData } from '../../types/dashboard';
+import {useAuthStore} from '../../stores/useAuthStore';
+import {useSalesHistory} from '../../hooks/useSalesHistory';
+import {canReadSalesHistory} from '../../utils/salesHistory';
+import {SalesInvoiceDialog} from '../salesHistory/SalesInvoiceDialog';
 import { DashboardHome } from './DashboardHome';
 
 export const DashboardView: React.FC = () => {
   const currentUserName = useAppStoreSelector((state) => state.currentUser.name);
   const currentShift = useAppStoreSelector((state) => state.currentShift);
   const { openModal, setActiveTab } = useAppStoreActions();
+  const {roles,roleName,user}=useAuthStore();
+  const canReadSales=canReadSalesHistory(roles,roleName);
+  const salesHistory=useSalesHistory({page:1,pageSize:5,period:'day',salesOnly:true},canReadSales,user?.id);
+  const [invoiceId,setInvoiceId]=useState<string|null>(null);
+  useEffect(()=>{setInvoiceId(null);},[user?.id,canReadSales]);
   const [data, setData] = useState<HomeDashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -58,8 +67,8 @@ export const DashboardView: React.FC = () => {
   if (loading && !data) return <div dir="rtl" role="status" aria-label="جاري تحميل الرئيسية" className="space-y-4 p-4 lg:p-8"><div className="h-32 animate-pulse rounded-2xl bg-nw-surface" /><div className="h-64 animate-pulse rounded-2xl bg-nw-surface" /></div>;
   if (error && !data) return <div dir="rtl" className="p-4 lg:p-8"><Card role="alert" className="text-center"><AlertCircle className="mx-auto h-7 w-7 text-nw-bad" aria-hidden="true" /><h1 className="mt-3 font-bold">تعذر تحميل مركز اليوم</h1><p className="mt-2 text-sm text-nw-muted">{error}</p><UiButton className="mt-5" onClick={() => void loadDashboard()}><RefreshCw className="h-4 w-4" aria-hidden="true" />إعادة المحاولة</UiButton></Card></div>;
   if (!data) return null;
-  return <DashboardHome data={data} currentUserName={currentUserName} currentShift={currentShift} loading={loading} error={error} realtimeConnected={realtimeConnected}
-    onRefresh={() => void loadDashboard()} onOrders={() => setActiveTab('orders')} onAccounts={() => setActiveTab('accounts')}
+  return <><DashboardHome salesHistory={canReadSales?salesHistory:undefined} onSalesHistory={()=>setActiveTab('sales_history')} onInvoice={setInvoiceId} data={data} currentUserName={currentUserName} currentShift={currentShift} loading={loading} error={error} realtimeConnected={realtimeConnected}
+    onRefresh={() => {void loadDashboard();void salesHistory.reload();}} onOrders={() => setActiveTab('orders')} onAccounts={() => setActiveTab('accounts')}
     onInventory={() => setActiveTab('inventory')} onProducts={() => setActiveTab('products')} onShift={() => setActiveTab('shifts')}
-    onSell={() => setActiveTab('pos')} onReceive={(productId) => openModal('receive_goods', productId ? { productId } : undefined)} onExpense={() => openModal('add_expense')} onCheques={()=>setActiveTab('cheques')} />;
+    onSell={() => setActiveTab('pos')} onReceive={(productId) => openModal('receive_goods', productId ? { productId } : undefined)} onExpense={() => openModal('add_expense')} onCheques={()=>setActiveTab('cheques')} />{invoiceId&&canReadSales&&<SalesInvoiceDialog orderId={invoiceId} onClose={()=>setInvoiceId(null)} onChanged={async()=>{await loadDashboard(true);await salesHistory.reload();}}/>}</>;
 };

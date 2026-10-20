@@ -1,3 +1,4 @@
+import {canReadSalesHistory} from '../../utils/salesHistory';
 import type { LucideIcon } from 'lucide-react';
 import {
   BarChart3,
@@ -37,7 +38,7 @@ export interface AdminNavigationItem {
   icon: LucideIcon;
   tone: string;
   action: AdminNavigationAction;
-  visibility?: 'all' | 'owner' | 'cheque-managers';
+  visibility?: 'all' | 'owner' | 'cheque-managers' | 'order-readers';
   classification?: 'classified' | 'unclassified';
 }
 
@@ -74,6 +75,7 @@ export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = [
         tone: 'bg-nw-info-bg text-nw-info',
         action: { type: 'tab', destination: 'orders' },
       },
+      {id:'sales-history',label:'سجل المبيعات',description:'كل الفواتير من نقطة البيع والمتجر',icon:ReceiptText,tone:'bg-nw-info-bg text-nw-info',action:{type:'tab',destination:'sales_history'},visibility:'order-readers'},
     ],
   },
   {
@@ -239,8 +241,8 @@ export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = [
   },
 ] as const;
 
-export const isNavigationItemVisible=(item:AdminNavigationItem,roleName:string|null|undefined)=>
-  item.visibility==='owner'?roleName==='owner':item.visibility==='cheque-managers'?roleName==='owner'||roleName==='manager':true;
+export const isNavigationItemVisible=(item:AdminNavigationItem,roleName:string|null|undefined,roles?:readonly string[])=>
+  item.visibility==='order-readers'?canReadSalesHistory(roles,roleName):item.visibility==='owner'?roleName==='owner':item.visibility==='cheque-managers'?roleName==='owner'||roleName==='manager':true;
 
 export const getNextOpenNavigationGroup = (
   current: AdminNavigationGroupId | null,

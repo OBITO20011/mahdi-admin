@@ -6,7 +6,7 @@ import {stageHistoricalResetSource} from '../scripts/testing/historical-reset-so
 import {migrationManifest} from '../scripts/testing/maintenance-db-contract.mjs';
 import {resetUnits} from '../scripts/operations/trial-reset-core.mjs';
 
-for(const [ceiling,count] of [[182,151],[199,161],[200,162],[201,163],[202,164]])test(`historical reset rehearses exact${ceiling} bytes while live owner reset still rejects newer files`,async()=>{
+for(const [ceiling,count] of [[182,151],[199,161],[200,162],[201,163],[202,164],[203,165]])test(`historical reset rehearses exact${ceiling} bytes while live owner reset still rejects newer files`,async()=>{
  const root=process.cwd(),full=await migrationManifest(root);
  const manifest=full.filter(m=>Number(m.name.slice(0,3))<=ceiling);
  const reference={migrationCeiling:ceiling,manifest};
@@ -23,7 +23,7 @@ for(const [ceiling,count] of [[182,151],[199,161],[200,162],[201,163],[202,164]]
 test('historical source refuses changed,missing or wrong-ceiling reference before staging',async()=>{
  const root=process.cwd(),manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=182);
  await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:195,manifest}),/HISTORICAL_RESET_CEILING/u);
- await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:203,manifest}),/HISTORICAL_RESET_CEILING/u);
+ await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:204,manifest}),/HISTORICAL_RESET_CEILING/u);
  await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:182,manifest:manifest.slice(1)}),/HISTORICAL_RESET_SOURCE_CHANGED/u);
  await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:182,manifest:manifest.map((m,i)=>i===0?{...m,sha256:'0'.repeat(64)}:m)}),/HISTORICAL_RESET_SOURCE_CHANGED/u);
 });
