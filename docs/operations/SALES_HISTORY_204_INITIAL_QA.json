@@ -25,15 +25,19 @@
     "retriesChanged": false,
     "timeoutsChanged": false
   },
-  "remaining": "Local gates complete;Gitleaks/PR/FULL34+secrets/mainmerge/mainCI",
+  "remaining": "All local gates complete;finalguardcommit/latestFULL34+secrets/mainmerge/mainCI",
   "finalAffectedBrowser": {
-    "passed": 106,
+    "passed": 108,
     "failed": 0,
     "engines": [
       "Chromium",
       "WebKit"
     ],
-    "log": "phase-c204-browser-final.log"
+    "basis": "90 unchanged affectedcases from initial106 +18 finalhistorycases including2newbusyEscape",
+    "logs": [
+      "phase-c204-browser-final.log",
+      "phase-c204-busy-history-final.log"
+    ]
   },
   "initialToolingUnit": {
     "passed": 25,
@@ -97,5 +101,35 @@
     "initialFinding": "generic-api-key falsepositive on currentAccessSha256 metadata",
     "verified": "Exact SHA256 recomputed from canonical TABLE_ACCESS_STAGING_198.json",
     "correction": "Rename metadata field evidenceDigestSha256;preserve actual digest,scanner rules and allowlist unchanged"
+  },
+  "busyDialogGuard": {
+    "initialRepro": "phase-c204-busy-repro.log:1failed at expected dialog remains visible afterEscape while existing aria-busy=true",
+    "scope": "New history wrapper only;existing writer,payload,confirmation and busy state untouched",
+    "fix": "Outer Escape checks embedded existing aria-busy before dismissal",
+    "sourcePinBefore": "5d3540d5ab263637534790bcc2f7d194ace7067402d08ad95c9e6332331a520f",
+    "sourcePinAfter": "1d9e72833f0d25e75acd92c5966530bb761a288aaa9b98da6492dff4c7154967",
+    "sqlAndMigrationBytesUnchanged": true,
+    "next": "Types/lint/newhistory18browser/currentSDK+RPCsource attestations/fresh204reference;reuse unchangedSQL/fullscale/upgrade/reset proofs,latestFULL34 reruns wholepipeline",
+    "correctedBrowser": {
+      "passed": 18,
+      "failed": 0,
+      "engines": [
+        "Chromium",
+        "WebKit"
+      ],
+      "log": "phase-c204-busy-history-final.log",
+      "types": "PASS",
+      "lint": "PASS"
+    },
+    "latestSourceReadiness": {
+      "sdk": 142,
+      "rpc": 498,
+      "functions": 517,
+      "reference166": true,
+      "reference0diff": true,
+      "sourceOnlyChange": true,
+      "admin1285Pass": true,
+      "adminBuildPass": true
+    }
   }
 }

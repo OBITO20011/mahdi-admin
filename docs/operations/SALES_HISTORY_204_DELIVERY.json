@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-10-20T03:46:57.461Z",
+  "recordedAt": "2026-10-20T04:42:58.255Z",
   "baseline": "6a0aebbbcffe530b9417fa18702597d3c335eb51",
   "managedAccess": false,
   "ownerCurrentCommand": "frankfurt-owner-upgrade203",
   "owner203ReferenceSha256": "aa63a3bc13922c631cbb711baaebb8d4eef5f72aa3b2b3f7a5349c91f20d7f99",
   "owner203OfflineMain": "offline203-2026-10-20T03-14-01-377Z",
-  "owner203Offline204Branch": "offline203-2026-10-20T03-10-57-008Z",
+  "owner203Offline204Branch": "offline203-2026-10-20T04-41-15-828Z",
   "owner204Status": "Prepared for later package3 upgrade;does not replace current203 morning command",
   "runtime": {
     "ok": true,
@@ -23,11 +23,13 @@
     "reports": [
       "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c204-quality-vDHKn0",
       "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c204-quality-ELnolG",
-      "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c204-quality-0V6DPO"
-    ]
+      "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c204-quality-0V6DPO",
+      "C:\\Users\\TOP\\AppData\\Local\\Temp/phase-c204-quality-aTEhg2"
+    ],
+    "latestAdminBuildAnd1285Units": true
   },
   "browser": {
-    "passed": 106,
+    "passed": 108,
     "engines": [
       "chromium",
       "webkit"
@@ -39,13 +41,15 @@
       "collections202",
       "home-damage201"
     ],
-    "sourceUnchangedSinceProbe": true
+    "sourceUnchangedSinceProbe": true,
+    "basis": "90 unchanged affected cases plus18 final history cases"
   },
   "access": {
     "functions": 517,
     "sdk": 142,
     "rpc": 498,
-    "sql42501": 0
+    "sql42501": 0,
+    "currentSourceReport": "phase-c204-readiness-10JdUS"
   },
   "scale": {
     "profile": "FULL",
@@ -111,12 +115,12 @@
     "functions": 517,
     "realtimeMembers": 13,
     "freshIncrementalDifferenceCount": 0,
-    "startedAt": "2026-10-20T03:29:34.650Z",
-    "managedAccess": false,
-    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-reference204-e80YEj",
-    "target": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c204-final-r6wBNW\\local-reference-through204-ready.json",
-    "ok": true,
-    "endedAt": "2026-10-20T03:33:21.374Z"
+    "output": "nawasrah-reference204-ojNA8t",
+    "target": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\local-reference-through204-ready.json",
+    "sourceChangeOnly": [
+      "src/features/salesHistory/SalesInvoiceDialog.tsx"
+    ],
+    "catalogAndManifestEqualPrevious": true
   },
   "upgrade": {
     "ok": true,
@@ -2572,13 +2576,13 @@
   },
   "offline204": {
     "ok": true,
-    "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline204-2026-10-20T03-46-01-182Z",
+    "output": "offline204-2026-10-20T04-41-11-946Z",
     "remoteWriteAttempted": false
   },
   "remaining": [
-    "Gitleaks/feature commit/PR/exactFULL34+secrets",
-    "Genuine mainmerge/exactmainFULL34+secrets",
-    "Next PhaseC packages in owner order;ask only new financial decision"
+    "Final guardcommit/Gitleaks/push+PR exactFULL34+secrets",
+    "Genuine mainmerge/mainFULL34+secrets",
+    "Package4 and next in owner order;203 remains current command"
   ],
   "toolingCorrection": {
     "initialFeature": "a328421c455aa117ff82df2bdff9332b3283a40b",
@@ -2595,5 +2599,58 @@
     "focusedLint": true,
     "productSqlAndBrowserSourcesUnchanged": true,
     "newExactFullCiRequired": true
+  },
+  "busyDialogCorrection": {
+    "file": "SALES_HISTORY_204_BUSY_GUARD.json",
+    "existingBusyGuardPreserved": true,
+    "finalBrowserHistory": 18,
+    "effectiveAffectedBrowser": 108
+  },
+  "preGuardCi": {
+    "sha": "3acf7a36c2f23c30d983c3b5f086e88913742d39",
+    "recordedAt": "2026-10-20T04:39:04.707Z",
+    "managedAccess": false,
+    "quality": [
+      {
+        "id": 39368168722,
+        "event": "push",
+        "sha": "3acf7a36c2f23c30d983c3b5f086e88913742d39",
+        "conclusion": "success",
+        "jobs": 34,
+        "strictFullVerified": true
+      },
+      {
+        "id": 39368172262,
+        "event": "pull_request",
+        "sha": "3acf7a36c2f23c30d983c3b5f086e88913742d39",
+        "conclusion": "success",
+        "jobs": 34,
+        "strictFullVerified": true
+      }
+    ],
+    "secrets": [
+      {
+        "id": 39368168740,
+        "event": "push",
+        "sha": "3acf7a36c2f23c30d983c3b5f086e88913742d39",
+        "conclusion": "success"
+      },
+      {
+        "id": 39368172394,
+        "event": "pull_request",
+        "sha": "3acf7a36c2f23c30d983c3b5f086e88913742d39",
+        "conclusion": "success"
+      }
+    ],
+    "pr": {
+      "number": 6,
+      "url": "https://github.com/OBITO20011/mahdi-admin/pull/6",
+      "base": "6a0aebbbcffe530b9417fa18702597d3c335eb51",
+      "head": "3acf7a36c2f23c30d983c3b5f086e88913742d39",
+      "state": "open"
+    },
+    "ok": true,
+    "releaseEvidence": false,
+    "reason": "Superseded by confirmed busyEscape correction before merge"
   }
 }

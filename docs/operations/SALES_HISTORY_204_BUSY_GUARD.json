@@ -1,0 +1,45 @@
+{
+  "ok": true,
+  "functions": 517,
+  "migrations": 166,
+  "realtimeMembers": 13,
+  "freshIncrementalDifferenceCount": 0,
+  "catalogUnchanged": true,
+  "manifestUnchanged": true,
+  "changedSourceFiles": [
+    "src/features/salesHistory/SalesInvoiceDialog.tsx"
+  ],
+  "referenceReady": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\local-reference-through204-ready.json",
+  "oldReadyBackup": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\local-reference-through204-before-busy-guard.json",
+  "newReferenceDigest": "aff96c1df345a0c0da35c6d40f69af2ea3806bc8d6caed09ccf4746524f2c977",
+  "oldReferenceDigest": "7ae694037808e17ac68daef8485918e071e988dae99bbafd6cc3840a91b5f803",
+  "referenceOutput": "nawasrah-reference204-ojNA8t",
+  "qualityOutput": "phase-c204-quality-aTEhg2",
+  "readinessOutput": "phase-c204-readiness-10JdUS",
+  "sdk": 142,
+  "rpc": 498,
+  "browserFinalHistory": 18,
+  "browserEffective": 108,
+  "ownerCurrentCommand": "frankfurt-owner-upgrade203",
+  "managedAccess": false,
+  "repro": {
+    "log": "phase-c204-busy-repro.log",
+    "failed": 1,
+    "cause": "Outer Escape dismissed while existing order aria-busy=true"
+  },
+  "corrected": {
+    "log": "phase-c204-busy-history-final.log",
+    "passed": 18,
+    "failed": 0,
+    "types": true,
+    "lint": true,
+    "adminUnits": 1285,
+    "adminBuild": true
+  },
+  "offline204": "offline204-2026-10-20T04-41-11-946Z",
+  "offline203": "offline203-2026-10-20T04-41-15-828Z",
+  "originalSqlScaleUpgradeResetProofsRetained": {
+    "reason": "SQL204/all migrations,writer/tool behavior,manifest and catalog unchanged;final FULL34 rechecks entire chain",
+    "pipeline": "phase-c204-final-r6wBNW"
+  }
+}

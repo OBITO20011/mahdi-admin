@@ -482,7 +482,7 @@
     },
     "src/features/salesHistory/SalesInvoiceDialog.tsx": {
       "added": true,
-      "after": "5d3540d5ab263637534790bcc2f7d194ace7067402d08ad95c9e6332331a520f",
+      "after": "1d9e72833f0d25e75acd92c5966530bb761a288aaa9b98da6492dff4c7154967",
       "hunks": []
     },
     "src/hooks/useSalesHistory.ts": {

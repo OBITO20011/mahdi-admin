@@ -1,3 +1,17 @@
+# Current20Oct — final history busy guard and current source proofs PASS
+
+Confirmed initial Escape closed history invoice during existing busy action;
+outerfocus boundary now checks existing order aria-busy,writer/payload unchanged.
+18/18finalhistory browser +90unchangedaffected =108effective;types/lint;
+1285Admin/newAdminbuild PASS,unchanged192Customer/builds remainvalid.
+Fresh SDK142 eJMo7e/RPC498 2QpylQ;newref ojNA8t166/517/13/0diff;catalog+
+manifest identical to original204,SQL/toolbehavior unchanged. Own oldfuture204
+ready retained backup;new204offline and203offline PASS;203readyhash unchanged.
+3acf prior push39368168722/PR39368172262 FULL34+secrets strictlyverified,
+but releasehead must include finalguard correction;newexactCI required.
+No localDB/browser processes;no hostedaccess/deploy. Finalcommit/CI thenmain,
+then orderedpackage4;no broader audits unless actual new failure.
+
 # Current20Oct —package3 all local gates PASS;PR delivery now
 
 1285Admin192Customer/typesboth/strictlint/buildsboth/network0escaped;

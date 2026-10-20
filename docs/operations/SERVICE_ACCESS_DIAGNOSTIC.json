@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-19T23:47:28.633Z",
+  "startedAt": "2026-10-20T04:33:55.691Z",
   "migrationCeiling": 204,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-t0ZOXP",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-2QpylQ",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -475,7 +475,7 @@
     },
     {
       "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
-      "sha256": "5d3540d5ab263637534790bcc2f7d194ace7067402d08ad95c9e6332331a520f"
+      "sha256": "1d9e72833f0d25e75acd92c5966530bb761a288aaa9b98da6492dff4c7154967"
     },
     {
       "file": "src/features/shifts/OwnerWithdrawalsPanel.tsx",
@@ -38120,7 +38120,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-19T23:49:00.781Z",
+  "endedAt": "2026-10-20T04:35:12.520Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -38484,7 +38484,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        611
+        619
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

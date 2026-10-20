@@ -88,3 +88,16 @@ test('204 loading is explicit and a delayed previous filter cannot overwrite the
   await expect(page.getByTestId('sales-history-summary')).toContainText('29.500');
   await expect(page.getByTestId('sales-history-summary')).not.toContainText('56.050');
 });
+
+// The outer history dialog must retain the existing order's busy close guard.
+test('204 busy invoice cannot close on Escape before its existing action settles',async({page})=>{
+  await api(page);let release:()=>void=()=>undefined,markStarted:()=>void=()=>undefined;
+  const barrier=new Promise<void>(resolve=>{release=resolve;}),started=new Promise<void>(resolve=>{markStarted=resolve;});
+  await page.route('**/rest/v1/rpc/accept_order_for_preparation',async route=>{markStarted();await barrier;await route.fulfill({json:{success:true}});});
+  await open(page);await page.getByRole('button',{name:'فتح الفاتورة INV-005',exact:true}).filter({visible:true}).click();
+  const dialog=page.getByRole('dialog',{name:'الفاتورة INV-005',exact:true}),detail=dialog.locator('.order-detail');
+  await dialog.getByRole('button',{name:'قبول الطلب وبدء التجهيز',exact:true}).click();await started;
+  try{await expect(detail).toHaveAttribute('aria-busy','true');await page.keyboard.press('Escape');await expect(dialog).toBeVisible();}
+  finally{release();}
+  await expect(detail).toHaveAttribute('aria-busy','false');await page.keyboard.press('Escape');await expect(dialog).toHaveCount(0);
+});

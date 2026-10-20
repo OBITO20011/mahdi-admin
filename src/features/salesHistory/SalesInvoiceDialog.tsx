@@ -11,7 +11,8 @@ import './salesHistory.css';
 export function SalesInvoiceDialog({orderId,onClose,onChanged}:{orderId:string;onClose:()=>void;onChanged?:()=>Promise<void>}) {
   const [order,setOrder]=useState<Order|null>(null),[error,setError]=useState<string|null>(null),[loading,setLoading]=useState(true);
   const version=useRef(0),restorePrint=useRef<(()=>void)|null>(null);
-  const panel=useDialogFocus(true,onClose,true);
+  // Preserve the embedded order's existing busy close lock at this outer focus boundary.
+  const panel=useDialogFocus(true,():void=>{if(!panel.current?.querySelector('.order-detail[aria-busy="true"]'))onClose();},true);
   const load=useCallback(async()=>{
     const current=++version.current;setLoading(true);setError(null);
     try {const result=await fetchOrderByIdFromSupabase(orderId);if(current!==version.current)return;

@@ -3,52 +3,46 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Package3 sales history and last5today,owner21/22:readonlyRPC204 same8orderreaderroles/serverpaging+filters/canonicalHomegross parity,realexistingdetails/print/aftercare,fixoperationalrow.source.No financial writer/permission expansion;no hostedaccess/deploy.",
-  "baselineSha": "a328421c455aa117ff82df2bdff9332b3283a40b",
+  "baselineSha": "3acf7a36c2f23c30d983c3b5f086e88913742d39",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/phase-c-sales-history",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR5/main6a0aebb exactFULL33+secrets delivered;owner approved Claude review",
-    "C3 readonly204 realDB6groups/106browser/SDK142/RPC498 PASS;517functions",
-    "Final1285Admin192Customer/typesboth/strictlint/buildsboth/network0escaped PASS",
-    "FULL150korders/1.2Mmovements p95 238/236/528/688ms;ref166/517/13 zeroDiff;upgrade200-204/replaynowrite/resetAuthTOTPWHStorage PASS",
-    "Feature a328421 committed;Gitleaks4.34MB0;known-own baseline synchronization",
-    "PR6 created and attached;feature a328421 pushed",
-    "CI historical firstOwner198 correction realAuth/TOTP/warehouse23proofsPASS;focused10/lintPASS;no product/SQLdelta"
+    "PR5/main6a FULL33+secrets delivered;owner203 CURRENT readyhash unchanged",
+    "C3 core realDB6groups/FULLscale p95238/236/528/688ms;originalupgrade/reset PASS",
+    "Finalbusyguard18history+90unchanged=108effectivebrowser/types/lint/Admin1285/newbuild PASS;Customer192/build unchangedPASS",
+    "Currentguard SDK142/RPC498/freshref166-517-13/0diff/cat+manifest unchanged;offline203+204 PASS",
+    "198fix23actualAuthTOTPproofs;prior3acf push+PR FULL34+secrets strictPASS;superseded by finalguard beforemerge"
   ],
   "inProgress": [
-    "Correctivecommit then new exactFULL34+secrets on push+PR"
+    "Finalguard commit/Gitleaks/new exactFULL34+secrets featurepush+PR"
   ],
   "notStarted": [
     "Packages4-9 in owner order;continue without procedural pause,ask only new financial decision"
   ],
   "testsPassed": [
-    "All local C3 gates complete;see SALES_HISTORY_204_DELIVERY.json"
+    "Corelocal gates in SALES_HISTORY_204_DELIVERY.json;final108effectivebrowser,current142SDK498RPC"
   ],
   "testsRemaining": [
-    "Strict exactFULL34+secrets featurepush+PR",
-    "Genuine mainmerge/exactmainFULL34+secrets"
+    "LatestFULL34+secrets then genuine mainmerge/mainFULL34+secrets"
   ],
   "findings": [
-    "203 remains CURRENT owner morningcommand,offline main and204branchPASS;reference unchanged",
-    "Historical exact204 inverse preserves all old source/hash/ACL proofs;initialfailures retained in QA JSON",
-    "a328 CI failedoperations-reset: firstOwner198 consumer still used raw204inventoryIDs;one-line exactinverse before historical parsing,negative ID guard retained"
+    "OneUIfile guard change only;committed001-204 immutable",
+    "203 is current morningownercommand;204futureonly;no hostedaccess/deploy"
   ],
   "blockers": [],
-  "activeProcesses": [
-    "Only read-only olda328 CI watchers18949/71413;all local DB/verification ended"
-  ],
+  "activeProcesses": [],
   "prohibitions": [
     "No Frankfurt/Production/hostedaccess,secrets or deployment",
     "Committed001-203 immutable;only additive204readonly history reader within owner21/22",
     "One writer;no tracked edits during verification;no financial formula/ACL expansion or weakened assertions/retries/timeouts"
   ],
-  "nextExactAction": "Stage corrected historical198 proof digest metadata;Gitleaks/correctivecommit/new exactFULL34+secrets;no product/SQL changes",
-  "checkpointedAt": "2026-10-20T04:10:27.277Z",
+  "nextExactAction": "All finalguard localgatesPASS;Gitleaks/commit/push/latestpush+PR FULL34+secrets;strictverify then mainmerge/mainCI then package4;203 ownercurrent",
+  "checkpointedAt": "2026-10-20T04:43:02.143Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "70F60CAAF21F0749D6FEF7204E2AEEE8A0956CE29F1B4B147C18FEC2C4979139",
-  "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "0fa32d38e4de5f4530fe277defc3a2400df32ac28a18678a14f8223b4e30cd5e"
+  "workingTreeFingerprint": "7C201BB9FE21928E6ED13127045C5F138BF6A7AB94A737AF59B1DAFE06C9EB8D",
+  "filesTouchedCount": 14,
+  "filesTouchedManifestSha256": "fa1d2977e2bcea12989b34abf3e6703ace1a68bcc5ce93fe3e39dfc0858944d0"
 }

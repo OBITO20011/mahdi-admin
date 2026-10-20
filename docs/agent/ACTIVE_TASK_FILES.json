@@ -2,24 +2,60 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "AM",
-      "path": "docs/operations/SALES_HISTORY_204_FIRST_OWNER198_FIX.json"
+      "code": " M",
+      "path": "docs/agent/PHASE_STATUS.md"
     },
     {
-      "code": "M ",
+      "code": " M",
+      "path": "docs/operations/SALES_HISTORY_204_AR.md"
+    },
+    {
+      "code": " M",
       "path": "docs/operations/SALES_HISTORY_204_DELIVERY.json"
     },
     {
-      "code": "M ",
-      "path": "scripts/operations/first-owner-reference198.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "tests/first-owner-preparation.test.ts"
-    },
-    {
-      "code": "MM",
+      "code": " M",
       "path": "docs/operations/SALES_HISTORY_204_INITIAL_QA.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_204.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-sales-history-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-sales-history204.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/sales-history204-hunks.json"
+    },
+    {
+      "code": " M",
+      "path": "src/features/salesHistory/SalesInvoiceDialog.tsx"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/SALES_HISTORY_204_BUSY_GUARD.json"
     }
   ]
 }

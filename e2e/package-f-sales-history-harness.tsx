@@ -16,8 +16,8 @@ if(!supabase||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.en
 const role=params.get('role')??'owner',roles=role==='mixed'?['warehouse_keeper','sales']:[role];
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
 auth.state={...auth.getState(),roleName:roles[0],roles,isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
-const engine=storeEngine as unknown as {state:AppState;getState:()=>AppState;refreshOrdersFromSupabase:()=>Promise<void>;refreshStockNotificationsFromSupabase:()=>Promise<[]>};
+const engine=storeEngine as unknown as {state:AppState;getState:()=>AppState;refreshOrdersFromSupabase:()=>Promise<void>;refreshProductsFromSupabase:()=>Promise<void>;refreshStockNotificationsFromSupabase:()=>Promise<[]>};
 engine.state={...engine.getState(),activeTab:params.has('home')?'home':'sales_history',currentUser:{...engine.getState().currentUser,name:'مالك التجربة',role:'Owner',themeMode:theme},activeBranch:{id:'92600000-0000-4000-8000-000000000200',name:'الفرع الرئيسي',address:'',city:'',phone:''}};
-engine.refreshOrdersFromSupabase=async()=>undefined;engine.refreshStockNotificationsFromSupabase=async()=>[];
+engine.refreshOrdersFromSupabase=async()=>undefined;engine.refreshProductsFromSupabase=async()=>undefined;engine.refreshStockNotificationsFromSupabase=async()=>[];
 function Harness(){const tab=useAppStoreSelector(s=>s.activeTab);return <div dir="rtl" className="flex min-h-[100dvh] min-w-0 bg-nw-bg font-sans text-nw-text"><SideNav/><main className="min-w-0 flex-1">{tab==='home'?<DashboardView/>:<SalesHistoryView/>}</main></div>;}
 createRoot(document.getElementById('root')!).render(<Harness/>);

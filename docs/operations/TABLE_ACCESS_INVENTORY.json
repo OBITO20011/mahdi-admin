@@ -473,7 +473,7 @@
     },
     {
       "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
-      "sha256": "5d3540d5ab263637534790bcc2f7d194ace7067402d08ad95c9e6332331a520f"
+      "sha256": "1d9e72833f0d25e75acd92c5966530bb761a288aaa9b98da6492dff4c7154967"
     },
     {
       "file": "src/features/shifts/OwnerWithdrawalsPanel.tsx",
@@ -3544,7 +3544,7 @@
     },
     {
       "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
-      "line": 26,
+      "line": 27,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
