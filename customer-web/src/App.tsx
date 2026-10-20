@@ -1,3 +1,4 @@
+import {storefrontSaleUnit, remainingStorefrontParcels} from './utils/storefrontUnits';
 import {
   AlertTriangle,
   Boxes,
@@ -62,6 +63,7 @@ import { PublicStorefrontSettings } from './types/storefront';
 import { StorefrontOffer } from './types/offers';
 import {
   calculateCartPackages,
+  formatCartQuantitySummary,
   calculateCartSubtotal,
   createBaseUnitCartItem,
   createCartItem,
@@ -191,7 +193,6 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     CatalogCategory[]
   >([]);
   const [catalogBrands, setCatalogBrands] = useState<CatalogFacet[]>([]);
-  const [catalogSaleUnits, setCatalogSaleUnits] = useState<CatalogFacet[]>([]);
   const [catalogSummary, setCatalogSummary] = useState<CatalogSummary>(
     EMPTY_CATALOG_SUMMARY
   );
@@ -363,7 +364,6 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           setProducts(catalog.items);
           setCatalogCategories(catalog.categories);
           setCatalogBrands(catalog.brands);
-          setCatalogSaleUnits(catalog.saleUnits);
           setCatalogSummary(catalog.summary);
           setCatalogTotal(catalog.total);
           setLoadError(null);
@@ -674,7 +674,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     () => {
       const quantities = new Map<string, number>();
       for (const item of cartItems) {
-        if (item.commercialLineKind === 'configurable_parcel') continue;
+        if (item.commercialLineKind !== 'legacy_single_sku_parcel') continue;
         quantities.set(item.productId, (quantities.get(item.productId) ?? 0) + item.quantity);
       }
       return quantities;
@@ -807,7 +807,6 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
     selectedSaleUnit !== 'all';
 
   const brands = catalogBrands;
-  const saleUnits = catalogSaleUnits;
   const searchSuggestions = useMemo(
     () => (searchQuery.trim() ? products.slice(0, 5) : []),
     [products, searchQuery]
@@ -859,18 +858,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       return;
     }
 
-    const existingQuantity = cartItems.reduce(
-      (sum, item) => sum + (
-        item.productId === product.id && item.commercialLineKind === 'legacy_single_sku_parcel'
-          ? item.quantity
-          : 0
-      ),
-      0
-    );
-    const remainingPackages = Math.max(
-      0,
-      product.availableSalePackages - existingQuantity
-    );
+    const remainingPackages = remainingStorefrontParcels(product, requiredBaseUnitsByProductId(cartItems).get(product.id) ?? 0);
     if (remainingPackages === 0) {
       showToast('وصلت إلى كامل الكمية المتاحة من هذا الصنف.', 'info');
       return;
@@ -881,7 +869,11 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       Math.max(1, Math.floor(requestedQuantity || 1))
     );
 
-    setCartItems((currentItems) => {
+    let addedQuantity = 0;
+    void mutateCart((currentItems) => {
+      const actualQuantity = Math.min(quantityToAdd, remainingStorefrontParcels(product, requiredBaseUnitsByProductId(currentItems).get(product.id) ?? 0));
+      if (actualQuantity === 0) return currentItems;
+      addedQuantity = actualQuantity;
       const currentItem = currentItems.find(
         (item) =>
           item.productId === product.id &&
@@ -891,27 +883,25 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       if (!currentItem) {
         return [
           ...currentItems,
-          { ...createCartItem(product), quantity: quantityToAdd },
+          { ...createCartItem(product), quantity: actualQuantity },
         ];
       }
       return currentItems.map((item) =>
         item.localLineId === currentItem.localLineId
-          ? { ...item, quantity: item.quantity + quantityToAdd }
+          ? { ...item, quantity: item.quantity + actualQuantity }
           : item
       );
-    });
-    showToast(
-      `تمت إضافة ${quantityToAdd.toLocaleString('ar-JO')} ${
-        product.saleUnitNameAr
-      } من ${product.nameAr}.`
-    );
+    }).then(() => {
+      if (addedQuantity > 0) showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontSaleUnit(product)} من ${product.nameAr}.`);
+      else showToast('وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.', 'info');
+    }).catch(() => showToast('تعذر حفظ الإضافة في السلة. راجع حالة السلة وحاول مجددًا.', 'error'));
   };
 
   const addToCart = (product: CatalogProduct) => {
     addQuantityToCart(product, 1);
   };
 
-  const addBaseUnitToCart = (product: CatalogProduct) => {
+  const addBaseUnitToCart = (product: CatalogProduct, requestedQuantity = 1) => {
     if (cartStorageRecovery) {
       setCartOpen(true);
       showToast('راجع حالة السلة المحفوظة قبل إضافة أصناف جديدة.', 'info');
@@ -926,19 +916,26 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
       showToast('وصلت السلة إلى كامل المخزون المتاح من هذه النكهة.', 'info');
       return;
     }
-    setCartItems((current) => {
+    const quantityToAdd = Math.min(product.availableQuantity - alreadyRequired, Math.max(1, Math.floor(requestedQuantity || 1)));
+    let addedQuantity = 0;
+    void mutateCart((current) => {
+      const actualQuantity = Math.min(quantityToAdd, Math.max(0, product.availableQuantity - (requiredBaseUnitsByProductId(current).get(product.id) ?? 0)));
+      if (actualQuantity === 0) return current;
+      addedQuantity = actualQuantity;
       const existing = current.find(
         (item) =>
           item.commercialLineKind === 'base_unit' &&
           item.productId === product.id &&
           !lockedLineIds.has(item.localLineId)
       );
-      if (!existing) return [...current, createBaseUnitCartItem(product)];
+      if (!existing) return [...current, {...createBaseUnitCartItem(product), quantity: actualQuantity}];
       return current.map((item) => item.localLineId === existing.localLineId
-        ? { ...item, localRevision: item.localRevision + 1, quantity: item.quantity + 1 }
+        ? { ...item, localRevision: item.localRevision + 1, quantity: item.quantity + actualQuantity }
         : item);
-    });
-    showToast(`تمت إضافة ${product.unitNameAr} من ${product.nameAr}.`);
+    }).then(() => {
+      if (addedQuantity > 0) showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${product.unitNameAr} من ${product.nameAr}.`);
+      else showToast('وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.', 'info');
+    }).catch(() => showToast('تعذر حفظ الإضافة في السلة. راجع حالة السلة وحاول مجددًا.', 'error'));
   };
 
   const saveParcelBuilder = (instance: ParcelInstanceSelection) => {
@@ -1211,6 +1208,27 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           : item
       )
     );
+  };
+
+  // Catalogue counters aggregate legacy parcels;the cart writer takes a line ID.
+  // Resolve only an editable parcel line,never a base-unit or frozen line.
+  const updateCatalogCartQuantity = (productId: string, quantity: number) => {
+    if (cartStorageRecovery) return;
+    const currentQuantity = cartQuantityByProduct.get(productId) ?? 0;
+    if (quantity > currentQuantity) {
+      const product = sellableProducts.find(candidate => candidate.id === productId);
+      if (product) addQuantityToCart(product, quantity - currentQuantity);
+      return;
+    }
+    if (quantity >= currentQuantity) return;
+    const line = cartItems.find(item => item.productId === productId
+      && item.commercialLineKind === 'legacy_single_sku_parcel'
+      && !lockedLineIds.has(item.localLineId));
+    if (!line) {
+      showToast('الكمية مرتبطة بطلب غير محسوم ولا يمكن إنقاصها الآن.', 'info');
+      return;
+    }
+    updateCartQuantity(line.localLineId, Math.max(0, line.quantity - (currentQuantity - quantity)));
   };
 
   const resetCatalogView = () => {
@@ -1527,6 +1545,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           }
         }}
         cartPackages={cartPackages}
+        cartSummary={formatCartQuantitySummary(cartItems)}
         favoritesCount={favoriteProductIds.length}
         favoritesActive={favoritesActive}
         onCartOpen={() => openCart()}
@@ -1779,7 +1798,6 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
 
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
                 <label className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-[10px] font-black text-slate-500">الماركة<select value={selectedBrand} onChange={(event) => { setCatalogOffset(0); setSelectedBrand(event.target.value); }} className="min-w-0 flex-1 bg-transparent text-xs font-black text-slate-800 outline-none"><option value="all">جميع الماركات</option>{brands.map((brand) => <option key={brand.id} value={brand.id}>{brand.nameAr}</option>)}</select></label>
-                <label className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-[10px] font-black text-slate-500">نوع الطرد<select value={selectedSaleUnit} onChange={(event) => { setCatalogOffset(0); setSelectedSaleUnit(event.target.value); }} className="min-w-0 flex-1 bg-transparent text-xs font-black text-slate-800 outline-none"><option value="all">جميع أنواع الطرود</option>{saleUnits.map((saleUnit) => <option key={saleUnit.id} value={saleUnit.id}>{saleUnit.nameAr}</option>)}</select></label>
               </div>
 
               {lastGuestOrder && <button type="button" onClick={repeatLastOrder} disabled={isRepeatingLastOrder} className="mt-3 w-full rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-xs font-black text-blue-800 disabled:cursor-wait disabled:opacity-60">{isRepeatingLastOrder ? 'جارٍ التحقق من أصناف الطلب...' : `إعادة آخر طلب (${lastGuestOrder.orderNumber})`}</button>}
@@ -1864,9 +1882,10 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                     key={product.id}
                     product={product}
                     cartQuantity={catalogCartQuantityByProduct.get(product.id) || 0}
+                    reservedQuantity={reservedBaseUnits.get(product.id) ?? 0}
                     isFavorite={favoriteProductIds.includes(product.id)}
                     onAdd={addToCart}
-                    onQuantityChange={updateCartQuantity}
+                    onQuantityChange={updateCatalogCartQuantity}
                     onOpenDetails={openProductDetails}
                     onToggleFavorite={toggleProductFavorite}
                   />
@@ -2024,9 +2043,10 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
                           key={product.id}
                           product={product}
                           cartQuantity={catalogCartQuantityByProduct.get(product.id) || 0}
+                          reservedQuantity={reservedBaseUnits.get(product.id) ?? 0}
                           isFavorite={favoriteProductIds.includes(product.id)}
                           onAdd={addToCart}
-                          onQuantityChange={updateCartQuantity}
+                          onQuantityChange={updateCatalogCartQuantity}
                           onOpenDetails={openProductDetails}
                           onToggleFavorite={toggleProductFavorite}
                         />
@@ -2051,8 +2071,8 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
               },
               {
                 icon: Boxes,
-                title: 'طرود جملة فقط',
-                text: 'كل كمية في السلة تمثل كرتونة أو شرنك أو صندوقًا كاملاً.',
+                title: 'طرد أو باكيت',
+                text: 'اختر الطرد أو الباكيت؛ أساس الكمية والسعر واضح بجانب كل زر.',
               },
               {
                 icon: Truck,
@@ -2107,6 +2127,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
           product={selectedProduct}
           initialVariantId={selectedProductVariantId ?? undefined}
           cartQuantityByProduct={cartQuantityByProduct}
+          reservedBaseUnits={reservedBaseUnits}
           relatedProducts={relatedProducts}
           onClose={closeProductDetails}
           onAddQuantity={addQuantityToCart}
@@ -2238,7 +2259,7 @@ function StorefrontApp({ trackingToken }: { trackingToken: string }) {
         whatsappNumber={storefrontSettings.whatsappNumber}
       />
 
-      <MobileStoreNav cartPackages={cartPackages} cartTotal={cartSubtotal} whatsappUrl={storeWhatsappUrl} onHome={() => navigateStorePage('home')} onCategories={() => navigateStorePage('categories')} onSearch={() => { setActivePage('catalog'); changeStoreLocation(getStorePagePath('catalog')); setSearchOpenSignal((value) => value + 1); }} onCart={() => openCart()} />
+      <MobileStoreNav cartPackages={cartPackages} cartSummary={formatCartQuantitySummary(cartItems)} cartTotal={cartSubtotal} whatsappUrl={storeWhatsappUrl} onHome={() => navigateStorePage('home')} onCategories={() => navigateStorePage('categories')} onSearch={() => { setActivePage('catalog'); changeStoreLocation(getStorePagePath('catalog')); setSearchOpenSignal((value) => value + 1); }} onCart={() => openCart()} />
 
       <FloatingContactActions whatsappUrl={storeWhatsappUrl} />
 

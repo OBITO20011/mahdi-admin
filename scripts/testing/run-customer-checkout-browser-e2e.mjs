@@ -1,3 +1,4 @@
+import {createServer} from 'node:http';
 import { execFile, spawn } from 'node:child_process';
 import { randomBytes } from 'node:crypto';
 import path from 'node:path';
@@ -158,6 +159,7 @@ const assertPublicCatalogFixtures = async (apiUrl, anonKey) => {
 
 let isolatedProjectRoot;
 let vite;
+let scenarioControl;
 try {
   const functionEnvironment = [
     `TURNSTILE_SECRET_KEY=${testSecret}`,
@@ -188,6 +190,14 @@ try {
   const apiUrl = status.API_URL || status.api_url;
   const anonKey = status.ANON_KEY || status.anon_key;
   if (!apiUrl || !anonKey) throw new Error('M10 isolated Supabase public configuration is missing.');
+
+  // Explicit local notification isolation before any order fixture/submission.
+  // This runner targets only its disposable Docker project, never a hosted DB.
+  await runSql(`ALTER TABLE public.orders DISABLE TRIGGER trg_notify_new_website_order_push;
+    SELECT cron.alter_job(jobid,active:=false) FROM cron.job;`);
+  const notificationIsolation = await runSql(`SELECT NOT EXISTS(SELECT 1 FROM cron.job WHERE active)
+    AND EXISTS(SELECT 1 FROM pg_trigger WHERE tgname='trg_notify_new_website_order_push' AND tgenabled='D');`);
+  if (notificationIsolation !== 't') throw new Error('M10_LOCAL_NOTIFICATION_ISOLATION_REQUIRED');
 
   await runSql(`
 DO $$
@@ -269,6 +279,11 @@ BEGIN
     '8a000000-0000-4000-8a00-000000000300',
     '8a000000-0000-4000-8a00-000000000010', 'configurable_mix', 1, true
   ) ON CONFLICT (id) DO UPDATE SET composition_mode='configurable_mix', configuration_revision=1, is_active=true;
+  -- Current132 policy requires explicit allowed flavors,not a bare config row.
+  INSERT INTO public.product_parcel_allowed_components(configuration_id,product_id)
+  VALUES ('8a000000-0000-4000-8a00-000000000300','8a000000-0000-4000-8a00-000000000011'),
+    ('8a000000-0000-4000-8a00-000000000300','8a000000-0000-4000-8a00-000000000012')
+  ON CONFLICT(configuration_id,product_id) DO NOTHING;
   INSERT INTO public.inventory_balances (warehouse_id, product_id, on_hand_quantity, reserved_quantity)
   VALUES
     (v_warehouse, '8a000000-0000-4000-8a00-000000000011', 20, 0),
@@ -285,6 +300,27 @@ END $$;
 
   await assertPublicCatalogFixtures(apiUrl, anonKey);
   await waitForGatewayTurnstileReadiness(apiUrl, anonKey);
+
+  // Docker/Kong appends the same physical client IP for every browser fixture.
+  // Start each independent scenario with fresh abuse-request fixture state.
+  // Orders and stock remain intact;within-scenario retries keep their records.
+  scenarioControl = createServer(async (request,response) => {
+    if (request.method !== 'POST' || request.url !== '/reset-gateway-scenario') {
+      response.writeHead(404).end();return;
+    }
+    try {
+      await runSql('DELETE FROM public.guest_order_gateway_requests;');
+      response.writeHead(200,{'Content-Type':'application/json'}).end(JSON.stringify({ok:true}));
+    } catch {
+      response.writeHead(500,{'Content-Type':'application/json'}).end(JSON.stringify({ok:false}));
+    }
+  });
+  await new Promise((resolve,reject) => {
+    scenarioControl.once('error',reject);scenarioControl.listen(0,'127.0.0.1',resolve);
+  });
+  const scenarioAddress = scenarioControl.address();
+  if (!scenarioAddress || typeof scenarioAddress === 'string') throw new Error('M10_LOCAL_CONTROL_REQUIRED');
+  const scenarioControlUrl = `http://127.0.0.1:${scenarioAddress.port}`;
 
   vite = await startIsolatedVite({root: path.join(projectRoot, 'customer-web'), port: vitePort,
     env: {
@@ -310,6 +346,7 @@ END $$;
       M10_CUSTOMER_BASE_URL: `http://127.0.0.1:${vitePort}`,
       M10_PUBLIC_SUPABASE_URL: publicSupabaseUrl,
       M10_ISOLATED_API_URL: apiUrl,
+      M10_ISOLATED_CONTROL_URL: scenarioControlUrl,
     },
   });
 
@@ -328,6 +365,7 @@ END $$;
   }
   console.log(JSON.stringify({ ok: true, desktop_and_mobile_orders: 11, ...summary }, null, 2));
 } finally {
+  if (scenarioControl) await new Promise(resolve => scenarioControl.close(resolve));
   await vite?.close();
   if (isolatedProjectRoot) {
     await execFileAsync(process.execPath, [cliPath, 'stop', '--no-backup', '--workdir', isolatedProjectRoot], {

@@ -1,0 +1,1198 @@
+{
+  "baseline": "f92f32b5000ecf203e2336709324c95a6eda651c",
+  "entries": {
+    "customer-web/src/App.tsx": {
+      "before": "5ee48e99526fa9e7fd3a7b1ca98b01083f883fd46f7c2a3994efebf7918cdb68",
+      "after": "cb5cb21a9b051d50c939ebf7fc2c03157aeaa09045d0638067fb97b1a1f98e9e",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {storefrontSaleUnit, remainingStorefrontParcels} from './utils/storefrontUnits';"
+          ]
+        },
+        {
+          "at": 66,
+          "before": [],
+          "after": [
+            "  formatCartQuantitySummary,"
+          ]
+        },
+        {
+          "at": 195,
+          "before": [
+            "  const [catalogSaleUnits, setCatalogSaleUnits] = useState<CatalogFacet[]>([]);"
+          ],
+          "after": []
+        },
+        {
+          "at": 366,
+          "before": [
+            "          setCatalogSaleUnits(catalog.saleUnits);"
+          ],
+          "after": []
+        },
+        {
+          "at": 677,
+          "before": [
+            "        if (item.commercialLineKind === 'configurable_parcel') continue;"
+          ],
+          "after": [
+            "        if (item.commercialLineKind !== 'legacy_single_sku_parcel') continue;"
+          ]
+        },
+        {
+          "at": 809,
+          "before": [
+            "  const saleUnits = catalogSaleUnits;"
+          ],
+          "after": []
+        },
+        {
+          "at": 861,
+          "before": [
+            "    const existingQuantity = cartItems.reduce(",
+            "      (sum, item) => sum + (",
+            "        item.productId === product.id && item.commercialLineKind === 'legacy_single_sku_parcel'",
+            "          ? item.quantity",
+            "          : 0",
+            "      ),",
+            "      0",
+            "    );",
+            "    const remainingPackages = Math.max(",
+            "      0,",
+            "      product.availableSalePackages - existingQuantity",
+            "    );"
+          ],
+          "after": [
+            "    const remainingPackages = remainingStorefrontParcels(product, requiredBaseUnitsByProductId(cartItems).get(product.id) ?? 0);"
+          ]
+        },
+        {
+          "at": 872,
+          "before": [
+            "    setCartItems((currentItems) => {"
+          ],
+          "after": [
+            "    let addedQuantity = 0;",
+            "    void mutateCart((currentItems) => {",
+            "      const actualQuantity = Math.min(quantityToAdd, remainingStorefrontParcels(product, requiredBaseUnitsByProductId(currentItems).get(product.id) ?? 0));",
+            "      if (actualQuantity === 0) return currentItems;",
+            "      addedQuantity = actualQuantity;"
+          ]
+        },
+        {
+          "at": 886,
+          "before": [
+            "          { ...createCartItem(product), quantity: quantityToAdd },"
+          ],
+          "after": [
+            "          { ...createCartItem(product), quantity: actualQuantity },"
+          ]
+        },
+        {
+          "at": 891,
+          "before": [
+            "          ? { ...item, quantity: item.quantity + quantityToAdd }"
+          ],
+          "after": [
+            "          ? { ...item, quantity: item.quantity + actualQuantity }"
+          ]
+        },
+        {
+          "at": 894,
+          "before": [
+            "    });",
+            "    showToast(",
+            "      `تمت إضافة ${quantityToAdd.toLocaleString('ar-JO')} ${",
+            "        product.saleUnitNameAr",
+            "      } من ${product.nameAr}.`",
+            "    );"
+          ],
+          "after": [
+            "    }).then(() => {",
+            "      if (addedQuantity > 0) showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${storefrontSaleUnit(product)} من ${product.nameAr}.`);",
+            "      else showToast('وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.', 'info');",
+            "    }).catch(() => showToast('تعذر حفظ الإضافة في السلة. راجع حالة السلة وحاول مجددًا.', 'error'));"
+          ]
+        },
+        {
+          "at": 904,
+          "before": [
+            "  const addBaseUnitToCart = (product: CatalogProduct) => {"
+          ],
+          "after": [
+            "  const addBaseUnitToCart = (product: CatalogProduct, requestedQuantity = 1) => {"
+          ]
+        },
+        {
+          "at": 919,
+          "before": [
+            "    setCartItems((current) => {"
+          ],
+          "after": [
+            "    const quantityToAdd = Math.min(product.availableQuantity - alreadyRequired, Math.max(1, Math.floor(requestedQuantity || 1)));",
+            "    let addedQuantity = 0;",
+            "    void mutateCart((current) => {",
+            "      const actualQuantity = Math.min(quantityToAdd, Math.max(0, product.availableQuantity - (requiredBaseUnitsByProductId(current).get(product.id) ?? 0)));",
+            "      if (actualQuantity === 0) return current;",
+            "      addedQuantity = actualQuantity;"
+          ]
+        },
+        {
+          "at": 931,
+          "before": [
+            "      if (!existing) return [...current, createBaseUnitCartItem(product)];"
+          ],
+          "after": [
+            "      if (!existing) return [...current, {...createBaseUnitCartItem(product), quantity: actualQuantity}];"
+          ]
+        },
+        {
+          "at": 933,
+          "before": [
+            "        ? { ...item, localRevision: item.localRevision + 1, quantity: item.quantity + 1 }"
+          ],
+          "after": [
+            "        ? { ...item, localRevision: item.localRevision + 1, quantity: item.quantity + actualQuantity }"
+          ]
+        },
+        {
+          "at": 935,
+          "before": [
+            "    });",
+            "    showToast(`تمت إضافة ${product.unitNameAr} من ${product.nameAr}.`);"
+          ],
+          "after": [
+            "    }).then(() => {",
+            "      if (addedQuantity > 0) showToast(`تمت إضافة ${addedQuantity.toLocaleString('ar-JO')} ${product.unitNameAr} من ${product.nameAr}.`);",
+            "      else showToast('وصلت السلة إلى كامل المخزون المتاح من هذا الصنف.', 'info');",
+            "    }).catch(() => showToast('تعذر حفظ الإضافة في السلة. راجع حالة السلة وحاول مجددًا.', 'error'));"
+          ]
+        },
+        {
+          "at": 1211,
+          "before": [],
+          "after": [
+            "  };",
+            "",
+            "  // Catalogue counters aggregate legacy parcels;the cart writer takes a line ID.",
+            "  // Resolve only an editable parcel line,never a base-unit or frozen line.",
+            "  const updateCatalogCartQuantity = (productId: string, quantity: number) => {",
+            "    if (cartStorageRecovery) return;",
+            "    const currentQuantity = cartQuantityByProduct.get(productId) ?? 0;",
+            "    if (quantity > currentQuantity) {",
+            "      const product = sellableProducts.find(candidate => candidate.id === productId);",
+            "      if (product) addQuantityToCart(product, quantity - currentQuantity);",
+            "      return;",
+            "    }",
+            "    if (quantity >= currentQuantity) return;",
+            "    const line = cartItems.find(item => item.productId === productId",
+            "      && item.commercialLineKind === 'legacy_single_sku_parcel'",
+            "      && !lockedLineIds.has(item.localLineId));",
+            "    if (!line) {",
+            "      showToast('الكمية مرتبطة بطلب غير محسوم ولا يمكن إنقاصها الآن.', 'info');",
+            "      return;",
+            "    }",
+            "    updateCartQuantity(line.localLineId, Math.max(0, line.quantity - (currentQuantity - quantity)));"
+          ]
+        },
+        {
+          "at": 1548,
+          "before": [],
+          "after": [
+            "        cartSummary={formatCartQuantitySummary(cartItems)}"
+          ]
+        },
+        {
+          "at": 1800,
+          "before": [
+            "                <label className=\"flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-[10px] font-black text-slate-500\">نوع الطرد<select value={selectedSaleUnit} onChange={(event) => { setCatalogOffset(0); setSelectedSaleUnit(event.target.value); }} className=\"min-w-0 flex-1 bg-transparent text-xs font-black text-slate-800 outline-none\"><option value=\"all\">جميع أنواع الطرود</option>{saleUnits.map((saleUnit) => <option key={saleUnit.id} value={saleUnit.id}>{saleUnit.nameAr}</option>)}</select></label>"
+          ],
+          "after": []
+        },
+        {
+          "at": 1885,
+          "before": [],
+          "after": [
+            "                    reservedQuantity={reservedBaseUnits.get(product.id) ?? 0}"
+          ]
+        },
+        {
+          "at": 1888,
+          "before": [
+            "                    onQuantityChange={updateCartQuantity}"
+          ],
+          "after": [
+            "                    onQuantityChange={updateCatalogCartQuantity}"
+          ]
+        },
+        {
+          "at": 2046,
+          "before": [],
+          "after": [
+            "                          reservedQuantity={reservedBaseUnits.get(product.id) ?? 0}"
+          ]
+        },
+        {
+          "at": 2049,
+          "before": [
+            "                          onQuantityChange={updateCartQuantity}"
+          ],
+          "after": [
+            "                          onQuantityChange={updateCatalogCartQuantity}"
+          ]
+        },
+        {
+          "at": 2074,
+          "before": [
+            "                title: 'طرود جملة فقط',",
+            "                text: 'كل كمية في السلة تمثل كرتونة أو شرنك أو صندوقًا كاملاً.',"
+          ],
+          "after": [
+            "                title: 'طرد أو باكيت',",
+            "                text: 'اختر الطرد أو الباكيت؛ أساس الكمية والسعر واضح بجانب كل زر.',"
+          ]
+        },
+        {
+          "at": 2130,
+          "before": [],
+          "after": [
+            "          reservedBaseUnits={reservedBaseUnits}"
+          ]
+        },
+        {
+          "at": 2262,
+          "before": [
+            "      <MobileStoreNav cartPackages={cartPackages} cartTotal={cartSubtotal} whatsappUrl={storeWhatsappUrl} onHome={() => navigateStorePage('home')} onCategories={() => navigateStorePage('categories')} onSearch={() => { setActivePage('catalog'); changeStoreLocation(getStorePagePath('catalog')); setSearchOpenSignal((value) => value + 1); }} onCart={() => openCart()} />"
+          ],
+          "after": [
+            "      <MobileStoreNav cartPackages={cartPackages} cartSummary={formatCartQuantitySummary(cartItems)} cartTotal={cartSubtotal} whatsappUrl={storeWhatsappUrl} onHome={() => navigateStorePage('home')} onCategories={() => navigateStorePage('categories')} onSearch={() => { setActivePage('catalog'); changeStoreLocation(getStorePagePath('catalog')); setSearchOpenSignal((value) => value + 1); }} onCart={() => openCart()} />"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/CargoAddButton.tsx": {
+      "before": "b6d104ecaf688bc6cf4b208a0cea4624e4318335c02034411c12ab0fb39234a0",
+      "after": "c5e7e287e970394097c678ea67347aa5086c06833b15083dbd5015ca8f36d94e",
+      "hunks": [
+        {
+          "at": 19,
+          "before": [],
+          "after": [
+            "  itemLabel?: string;"
+          ]
+        },
+        {
+          "at": 32,
+          "before": [],
+          "after": [
+            "  itemLabel = 'الطرد',"
+          ]
+        },
+        {
+          "at": 69,
+          "before": [
+            "      ? 'جاري إضافة الطرد...'"
+          ],
+          "after": [
+            "      ? `جاري إضافة ${itemLabel}...`"
+          ]
+        },
+        {
+          "at": 108,
+          "before": [
+            "          ? 'جاري إضافة الطرد إلى السلة'"
+          ],
+          "after": [
+            "          ? `جاري إضافة ${itemLabel} إلى السلة`"
+          ]
+        },
+        {
+          "at": 110,
+          "before": [
+            "            ? 'تمت إضافة الطرد إلى السلة'"
+          ],
+          "after": [
+            "            ? `تمت إضافة ${itemLabel} إلى السلة`"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/CartDrawer.tsx": {
+      "before": "75e187a81b2d92793c73884d6361ef26f2b94faddae69d8a251194862a3bf8fc",
+      "after": "f49b1f27d154bb75c74dcd26690eba01dfc1ce69745e723585b12146f3be3965",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {storefrontCartUnit} from '../utils/storefrontUnits';"
+          ]
+        },
+        {
+          "at": 312,
+          "before": [
+            "                            {item.saleUnitNameAr} ×{' '}"
+          ],
+          "after": [
+            "                            {storefrontCartUnit(item)} ×{' '}"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/CheckoutModal.tsx": {
+      "before": "ece5d99813f74941a7384fab7671d8dfae687e78f9e78612e5a9ac6501fcb412",
+      "after": "514639e7855a6b72a6d3e1aa3f7a30fa7970fd1abb29f86d1bf39b009e48d896",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {storefrontCartUnit} from '../utils/storefrontUnits';"
+          ]
+        },
+        {
+          "at": 847,
+          "before": [
+            "                            {item.quantity.toLocaleString('ar-JO')} {item.saleUnitNameAr} × {formatJod(item.unitPriceInMinorUnits)}"
+          ],
+          "after": [
+            "                            {item.quantity.toLocaleString('ar-JO')} {storefrontCartUnit(item)} × {formatJod(item.unitPriceInMinorUnits)}"
+          ]
+        },
+        {
+          "at": 967,
+          "before": [
+            "                          {item.saleUnitNameAr} ×{' '}"
+          ],
+          "after": [
+            "                          {storefrontCartUnit(item)} ×{' '}"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/MerchandisingSections.tsx": {
+      "before": "fea2f315575b6b52ddd9b8e0bcf390f815bfdeec9818e3a83dc3543656f7bc81",
+      "after": "7235edab28ae3facdc175c2470ae5d40121b78192d07d221d1d254372e30ea50",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {storefrontSaleUnit} from '../utils/storefrontUnits';"
+          ]
+        },
+        {
+          "at": 249,
+          "before": [
+            "                {product.saleUnitNameAr} • {product.categoryNameAr}"
+          ],
+          "after": [
+            "                {storefrontSaleUnit(product)} • {product.categoryNameAr}"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/MobileStoreNav.tsx": {
+      "before": "aa2fccbb21159d7f8b154a4196bdcc21f294c3881ad7aea4d4a05175db121961",
+      "after": "cb777e2d450eaeb894caacf8fce5100b29e83366fa8d66fbe871bf44bc0d45f2",
+      "hunks": [
+        {
+          "at": 6,
+          "before": [],
+          "after": [
+            "  cartSummary?: string;"
+          ]
+        },
+        {
+          "at": 15,
+          "before": [
+            "export function MobileStoreNav({ cartPackages, cartTotal, whatsappUrl, onHome, onCategories, onSearch, onCart }: MobileStoreNavProps) {"
+          ],
+          "after": [
+            "export function MobileStoreNav({ cartPackages, cartSummary, cartTotal, whatsappUrl, onHome, onCategories, onSearch, onCart }: MobileStoreNavProps) {"
+          ]
+        },
+        {
+          "at": 26,
+          "before": [
+            "          <span className=\"text-right\"><strong className=\"block text-xs font-black\">{cartPackages.toLocaleString('ar-JO')} طرد في السلة</strong><span className=\"text-[9px] font-bold text-slate-300\">اضغط لمراجعة الطلب</span></span>"
+          ],
+          "after": [
+            "          <span className=\"text-right\"><strong className=\"block text-xs font-black\">{cartSummary ?? `${cartPackages.toLocaleString('ar-JO')} طرد`} في السلة</strong><span className=\"text-[9px] font-bold text-slate-300\">اضغط لمراجعة الطلب</span></span>"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/ProductCard.tsx": {
+      "before": "beb96950d28df5e1cfe96ce1baaff1438bc8caf85b2b80b96e0b0253cf977efa",
+      "after": "a9cdf55bce0e338e4ab37daa8762744a9ab56c8684555519f54c67b1509a9bf5",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {storefrontSaleUnit, remainingStorefrontParcels} from '../utils/storefrontUnits';"
+          ]
+        },
+        {
+          "at": 21,
+          "before": [],
+          "after": [
+            "  reservedQuantity?: number;"
+          ]
+        },
+        {
+          "at": 32,
+          "before": [],
+          "after": [
+            "  reservedQuantity = 0,"
+          ]
+        },
+        {
+          "at": 40,
+          "before": [
+            "  const remainingAfterCart = Math.max(",
+            "    0,",
+            "    product.availableSalePackages - cartQuantity",
+            "  );"
+          ],
+          "after": [
+            "  const remainingAfterCart = remainingStorefrontParcels(product, reservedQuantity);"
+          ]
+        },
+        {
+          "at": 133,
+          "before": [
+            "        <div className=\"mt-4 hidden grid-cols-2 gap-2 sm:grid\">"
+          ],
+          "after": [
+            "        {product.unitsPerSalePackage > 1 && <div className=\"mt-4 hidden grid-cols-2 gap-2 sm:grid\">"
+          ]
+        },
+        {
+          "at": 137,
+          "before": [
+            "              {product.saleUnitNameAr}"
+          ],
+          "after": [
+            "              {storefrontSaleUnit(product)}"
+          ]
+        },
+        {
+          "at": 147,
+          "before": [
+            "        </div>"
+          ],
+          "after": [
+            "        </div>}"
+          ]
+        },
+        {
+          "at": 152,
+          "before": [
+            "              سعر {product.saleUnitNameAr}"
+          ],
+          "after": [
+            "              سعر {storefrontSaleUnit(product)}"
+          ]
+        },
+        {
+          "at": 158,
+          "before": [
+            "              <span className=\"sm:hidden\">{product.saleUnitNameAr}</span>"
+          ],
+          "after": [
+            "              <span className=\"sm:hidden\">{storefrontSaleUnit(product)}</span>"
+          ]
+        },
+        {
+          "at": 161,
+          "before": [
+            "              {product.saleUnitNameAr}"
+          ],
+          "after": [
+            "              {storefrontSaleUnit(product)}"
+          ]
+        },
+        {
+          "at": 236,
+          "before": [
+            "            في السلة: {cartQuantity.toLocaleString('ar-JO')} • المتبقي للإضافة:{' '}"
+          ],
+          "after": [
+            "            في السلة: {cartQuantity.toLocaleString('ar-JO')} {storefrontSaleUnit(product)} • المتبقي للإضافة:{' '}"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/ProductDetailsModal.tsx": {
+      "before": "59adc9973c0c3df30fa55f5dadff04b3ad257996c1bc2344d97fddbe2b3e3af8",
+      "after": "736c33e60587fe760b4ec84d844c32457b5a791e1245a6dee812c05174fc4e7f",
+      "hunks": [
+        {
+          "at": 7,
+          "before": [
+            "  Minus,"
+          ],
+          "after": []
+        },
+        {
+          "at": 8,
+          "before": [
+            "  Plus,"
+          ],
+          "after": []
+        },
+        {
+          "at": 19,
+          "before": [
+            "import { CargoAddButton } from './CargoAddButton';"
+          ],
+          "after": [
+            "import {ProductPurchaseControl} from './ProductPurchaseControl';",
+            "import {storefrontSaleUnit, storefrontPackageDescription, storefrontStock, storefrontUnitName, remainingStorefrontUnits, remainingStorefrontParcels} from '../utils/storefrontUnits';"
+          ]
+        },
+        {
+          "at": 23,
+          "before": [
+            "  calculateProductSelectionTotal,"
+          ],
+          "after": []
+        },
+        {
+          "at": 24,
+          "before": [
+            "  getRemainingProductPackages,"
+          ],
+          "after": []
+        },
+        {
+          "at": 32,
+          "before": [],
+          "after": [
+            "  reservedBaseUnits: ReadonlyMap<string, number>;"
+          ]
+        },
+        {
+          "at": 36,
+          "before": [
+            "  onAddBaseUnit: (product: CatalogProduct) => void;"
+          ],
+          "after": [
+            "  onAddBaseUnit: (product: CatalogProduct, quantity: number) => void;"
+          ]
+        },
+        {
+          "at": 51,
+          "before": [],
+          "after": [
+            "  reservedBaseUnits,"
+          ]
+        },
+        {
+          "at": 77,
+          "before": [
+            "  const remainingPackages = getRemainingProductPackages(",
+            "    product.availableSalePackages,",
+            "    cartQuantity",
+            "  );",
+            "  const [quantity, setQuantity] = useState(() =>",
+            "    clampProductSelectionQuantity(",
+            "      product.minimumOrderPackages,",
+            "      product.availableSalePackages,",
+            "      cartQuantity",
+            "    )",
+            "  );"
+          ],
+          "after": [
+            "  const reserved = reservedBaseUnits.get(product.id) ?? 0;",
+            "  const remainingUnits = remainingStorefrontUnits(product, reserved);",
+            "  const remainingPackages = remainingStorefrontParcels(product, reserved);",
+            "  const [quantity, setQuantity] = useState(() => clampProductSelectionQuantity(product.minimumOrderPackages, remainingPackages, 0));",
+            "  const [unitQuantity, setUnitQuantity] = useState(() => clampProductSelectionQuantity(1, remainingUnits, 0));"
+          ]
+        },
+        {
+          "at": 100,
+          "before": [
+            "    setQuantity(",
+            "      clampProductSelectionQuantity(",
+            "        product.minimumOrderPackages,",
+            "        product.availableSalePackages,",
+            "        cartQuantity",
+            "      )",
+            "    );"
+          ],
+          "after": [
+            "    setQuantity(product.minimumOrderPackages);",
+            "    setUnitQuantity(1);"
+          ]
+        },
+        {
+          "at": 104,
+          "before": [
+            "  }, [",
+            "    cartQuantity,",
+            "    product.availableSalePackages,",
+            "    product.id,",
+            "    product.minimumOrderPackages,",
+            "  ]);"
+          ],
+          "after": [
+            "  }, [product.id, product.minimumOrderPackages]);",
+            "",
+            "  useEffect(() => {",
+            "    setQuantity(current => clampProductSelectionQuantity(current, remainingPackages, 0));",
+            "    setUnitQuantity(current => clampProductSelectionQuantity(current, remainingUnits, 0));",
+            "  }, [product.id, remainingPackages, remainingUnits]);"
+          ]
+        },
+        {
+          "at": 121,
+          "before": [
+            "  const selectedTotal = calculateProductSelectionTotal(",
+            "    product.salePackagePriceInMinorUnits,",
+            "    quantity",
+            "  );",
+            "  const packageDescription = `${product.saleUnitNameAr} × ${product.unitsPerSalePackage.toLocaleString(",
+            "    'ar-JO'",
+            "  )} ${product.unitNameAr}`;"
+          ],
+          "after": [
+            "  const packageDescription = storefrontPackageDescription(product);"
+          ]
+        },
+        {
+          "at": 132,
+          "before": [
+            "    const shareText = `${product.nameAr} — سعر ${product.saleUnitNameAr} ${formatJod("
+          ],
+          "after": [
+            "    const shareText = `${product.nameAr} — سعر ${storefrontSaleUnit(product)} ${formatJod("
+          ]
+        },
+        {
+          "at": 161,
+          "before": [
+            "    const text = `${product.nameAr} — سعر ${product.saleUnitNameAr} ${formatJod(product.salePackagePriceInMinorUnits)}\\n${shareUrl}`;"
+          ],
+          "after": [
+            "    const text = `${product.nameAr} — سعر ${storefrontSaleUnit(product)} ${formatJod(product.salePackagePriceInMinorUnits)}\\n${shareUrl}`;"
+          ]
+        },
+        {
+          "at": 169,
+          "before": [
+            "        product.availableSalePackages,",
+            "        cartQuantity"
+          ],
+          "after": [
+            "        remainingPackages,",
+            "        0"
+          ]
+        },
+        {
+          "at": 313,
+          "before": [
+            "                  بيانات الطرد والسعر والمخزون موضحة أدناه."
+          ],
+          "after": [
+            "                  السعر والمخزون موضحان أدناه."
+          ]
+        },
+        {
+          "at": 363,
+          "before": [
+            "                                  ? `${variant.availableSalePackages.toLocaleString('ar-JO')} ${variant.saleUnitNameAr}`"
+          ],
+          "after": [
+            "                                  ? `${variant.availableSalePackages.toLocaleString('ar-JO')} ${storefrontSaleUnit(variant)}`"
+          ]
+        },
+        {
+          "at": 377,
+          "before": [
+            "                  سعر {product.saleUnitNameAr}"
+          ],
+          "after": [
+            "                  سعر {storefrontSaleUnit(product)}"
+          ]
+        },
+        {
+          "at": 383,
+          "before": [
+            "                  السعر لوحدة البيع: {product.saleUnitNameAr}"
+          ],
+          "after": [
+            "                  السعر لوحدة البيع: {storefrontSaleUnit(product)}"
+          ]
+        },
+        {
+          "at": 387,
+          "before": [
+            "              <div className=\"mt-4 grid grid-cols-2 gap-3\">"
+          ],
+          "after": [
+            "              {product.unitsPerSalePackage > 1 && <div className=\"mt-4 grid grid-cols-2 gap-3\">"
+          ]
+        },
+        {
+          "at": 394,
+          "before": [
+            "                    {product.saleUnitNameAr}"
+          ],
+          "after": [
+            "                    {storefrontSaleUnit(product)}"
+          ]
+        },
+        {
+          "at": 407,
+          "before": [
+            "              </div>"
+          ],
+          "after": [
+            "              </div>}"
+          ]
+        },
+        {
+          "at": 416,
+          "before": [
+            "                      {product.availableSalePackages.toLocaleString('ar-JO')}{' '}",
+            "                      {product.saleUnitNameAr}"
+          ],
+          "after": [
+            "                      {storefrontStock(product)}"
+          ]
+        },
+        {
+          "at": 423,
+          "before": [
+            "                    في سلتك حاليًا: {cartQuantity.toLocaleString('ar-JO')}"
+          ],
+          "after": [
+            "                    في سلتك حاليًا: {cartQuantity.toLocaleString('ar-JO')} {storefrontSaleUnit(product)}"
+          ]
+        },
+        {
+          "at": 496,
+          "before": [
+            "                        {relatedProduct.saleUnitNameAr}"
+          ],
+          "after": [
+            "                        {storefrontSaleUnit(relatedProduct)}"
+          ]
+        },
+        {
+          "at": 511,
+          "before": [
+            "        <footer className=\"shrink-0 border-t border-slate-100 bg-white px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 sm:px-7 sm:py-4\">",
+            "          <div className=\"mx-auto mb-3 grid max-w-3xl grid-cols-2 gap-2\">",
+            "            <button",
+            "              type=\"button\"",
+            "              onClick={() => onAddBaseUnit(product)}",
+            "              disabled={product.salePriceInMinorUnits <= 0 || product.availableQuantity < 1}",
+            "              className=\"min-h-12 rounded-2xl border border-blue-200 bg-blue-50 px-3 text-xs font-black text-blue-800 disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400\"",
+            "            >",
+            "              إضافة {product.unitNameAr} — {formatJod(product.salePriceInMinorUnits)}",
+            "            </button>",
+            "            <button",
+            "              type=\"button\"",
+            "              onClick={() => parcelOption && onOpenParcelBuilder(familyProduct, parcelOption)}",
+            "              disabled={!parcelOption || parcelOptionLoading}",
+            "              className=\"min-h-12 rounded-2xl bg-violet-700 px-3 text-xs font-black text-white disabled:bg-slate-300\"",
+            "            >",
+            "              {parcelOptionLoading ? 'جارٍ تحميل خيارات الطرد...' : parcelOption ? 'كوّن طردًا بالنكهات' : 'الطرد المختلط غير متاح'}",
+            "            </button>"
+          ],
+          "after": [
+            "        <footer role=\"group\" aria-label=\"إضافة المنتج للسلة\" className=\"shrink-0 border-t border-slate-100 bg-white px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 sm:px-7 sm:py-4\">",
+            "          <div className={`mx-auto grid max-w-3xl gap-2 ${product.unitsPerSalePackage > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>",
+            "            <ProductPurchaseControl label={packageDescription} unit={storefrontSaleUnit(product)} productName={product.nameAr}",
+            "              price={product.salePackagePriceInMinorUnits} quantity={quantity} remaining={remainingPackages}",
+            "              disabled={!product.isAvailable} onChange={handleQuantityChange} onAdd={handleAdd} />",
+            "            {product.unitsPerSalePackage > 1 && <ProductPurchaseControl label={storefrontUnitName(product.unitNameAr)} unit={storefrontUnitName(product.unitNameAr)} productName={product.nameAr}",
+            "              price={product.salePriceInMinorUnits} quantity={unitQuantity} remaining={remainingUnits}",
+            "              disabled={product.salePriceInMinorUnits <= 0 || remainingUnits === 0}",
+            "              onChange={next => setUnitQuantity(clampProductSelectionQuantity(next, remainingUnits, 0))}",
+            "              onAdd={() => onAddBaseUnit(product, unitQuantity)} />}"
+          ]
+        },
+        {
+          "at": 522,
+          "before": [
+            "          <div className=\"mx-auto flex max-w-3xl items-center gap-3\">",
+            "            {!product.isAvailable ? (",
+            "              <a href={buildWhatsAppUrl(storeWhatsAppNumber, `مرحبًا، أريد الاستفسار عن توفر ${product.nameAr} (${product.sku}).`)} target=\"_blank\" rel=\"noreferrer\" className=\"flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 text-xs font-black text-white\"><MessageCircle className=\"h-4 w-4\" />اسألنا على واتساب</a>",
+            "            ) : remainingPackages === 0 ? (",
+            "              <div className=\"flex h-12 shrink-0 items-center gap-1.5 rounded-2xl border border-emerald-200 bg-emerald-50 px-3 text-[10px] font-black text-emerald-700\">",
+            "                <CheckCircle2 className=\"h-4 w-4\" />",
+            "                في السلة",
+            "              </div>",
+            "            ) : (",
+            "              <div className=\"flex shrink-0 items-center rounded-2xl border border-slate-200 bg-slate-50\">",
+            "                <button",
+            "                  type=\"button\"",
+            "                  onClick={() => handleQuantityChange(quantity - 1)}",
+            "                  disabled={quantity <= 1}",
+            "                  aria-label=\"إنقاص الكمية\"",
+            "                  className=\"grid h-12 w-11 place-items-center text-slate-600 disabled:text-slate-300\"",
+            "                >",
+            "                  <Minus className=\"h-4 w-4\" />",
+            "                </button>",
+            "                <span className=\"min-w-9 text-center text-sm font-black text-slate-950\">",
+            "                  {quantity.toLocaleString('ar-JO')}",
+            "                </span>",
+            "                <button",
+            "                  type=\"button\"",
+            "                  onClick={() => handleQuantityChange(quantity + 1)}",
+            "                  disabled={quantity >= remainingPackages}",
+            "                  aria-label=\"زيادة الكمية\"",
+            "                  className=\"grid h-12 w-11 place-items-center text-blue-700 disabled:text-slate-300\"",
+            "                >",
+            "                  <Plus className=\"h-4 w-4\" />",
+            "                </button>",
+            "              </div>",
+            "            )}",
+            "",
+            "            <CargoAddButton",
+            "              onAdd={handleAdd}",
+            "              disabled={!product.isAvailable || remainingPackages === 0}",
+            "              ariaLabel={`إضافة ${quantity.toLocaleString('ar-JO')} من ${product.nameAr} إلى السلة`}",
+            "              label={",
+            "                remainingPackages === 0",
+            "                  ? 'الكمية المتوفرة موجودة في السلة'",
+            "                  : `إضافة ${quantity.toLocaleString('ar-JO')} للسلة`",
+            "              }",
+            "              trailing={",
+            "                remainingPackages > 0 ? (",
+            "                  <span className=\"text-xs font-black text-blue-100\">",
+            "                  {formatJod(selectedTotal)}",
+            "                  </span>",
+            "                ) : null",
+            "              }",
+            "            />",
+            "          </div>",
+            "          <p className=\"mt-2 text-center text-[9px] font-bold text-slate-400\">"
+          ],
+          "after": [
+            "          {familyProduct.variants.length > 0 && <button type=\"button\"",
+            "            onClick={() => parcelOption && onOpenParcelBuilder(familyProduct, parcelOption)}",
+            "            disabled={!parcelOption || parcelOptionLoading}",
+            "            className=\"mx-auto mt-2 block min-h-11 w-full max-w-3xl rounded-2xl bg-violet-700 px-3 text-xs font-black text-white disabled:bg-slate-300 disabled:text-slate-700\">",
+            "            {parcelOptionLoading ? 'جارٍ تحميل خيارات الطرد...' : parcelOption ? 'كوّن طردًا بالنكهات' : 'الطرد المختلط غير متاح'}",
+            "          </button>}",
+            "          {!product.isAvailable && <a href={buildWhatsAppUrl(storeWhatsAppNumber, `مرحبًا، أريد الاستفسار عن توفر ${product.nameAr} (${product.sku}).`)} target=\"_blank\" rel=\"noreferrer\" className=\"mx-auto mt-2 flex min-h-11 max-w-3xl items-center justify-center gap-2 rounded-2xl bg-emerald-700 px-4 text-xs font-black text-white\"><MessageCircle className=\"h-4 w-4\" />اسألنا على واتساب</a>}",
+            "          <p className=\"mt-2 text-center text-[9px] font-bold text-slate-600\">"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/ProductPurchaseControl.tsx": {
+      "before": null,
+      "after": "4c8e5b27e2208ecf9cbfccb53fe20732b62269174f2b1dad1b6c6d4598e43059",
+      "added": true,
+      "hunks": []
+    },
+    "customer-web/src/components/StoreHeader.tsx": {
+      "before": "de8be80ad1afb379d295bf3512ffae109780702e73326b55c1ddd169bf5e330f",
+      "after": "45d460b8ca71d490a352d4d7e9b4b94e53cdf61a9ad3ebf1ee99f816495058b6",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {storefrontSaleUnit} from '../utils/storefrontUnits';"
+          ]
+        },
+        {
+          "at": 21,
+          "before": [],
+          "after": [
+            "  cartSummary?: string;"
+          ]
+        },
+        {
+          "at": 45,
+          "before": [],
+          "after": [
+            "  cartSummary,"
+          ]
+        },
+        {
+          "at": 116,
+          "before": [
+            "                {product.saleUnitNameAr}"
+          ],
+          "after": [
+            "                {storefrontSaleUnit(product)}"
+          ]
+        },
+        {
+          "at": 217,
+          "before": [
+            "              aria-label={`فتح السلة، ${cartPackages.toLocaleString('ar-JO')} طرد`}"
+          ],
+          "after": [
+            "              aria-label={`فتح السلة، ${cartSummary ?? `${cartPackages.toLocaleString('ar-JO')} طرد`}`}"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/utils/cart.ts": {
+      "before": "ec82cf1b1a43e69ec57d7ad75aa26565b726c1fd21198f4e54948e2bf081df6c",
+      "after": "79808b19bd962d6aba652295400ec969a25a1022edc4aa3ff99c3f07a2d4148e",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {storefrontCartUnit, storefrontSaleUnit, storefrontUnitName} from './storefrontUnits';"
+          ]
+        },
+        {
+          "at": 71,
+          "before": [
+            "    saleUnitNameAr: product.saleUnitNameAr,"
+          ],
+          "after": [
+            "    saleUnitNameAr: storefrontSaleUnit(product),"
+          ]
+        },
+        {
+          "at": 91,
+          "before": [
+            "    saleUnitNameAr: product.unitNameAr || 'وحدة',"
+          ],
+          "after": [
+            "    saleUnitNameAr: storefrontUnitName(product.unitNameAr),"
+          ]
+        },
+        {
+          "at": 288,
+          "before": [
+            "      saleUnitNameAr: isBaseUnit ? product.unitNameAr : product.saleUnitNameAr,"
+          ],
+          "after": [
+            "      saleUnitNameAr: isBaseUnit ? storefrontUnitName(product.unitNameAr) : storefrontSaleUnit(product),"
+          ]
+        },
+        {
+          "at": 391,
+          "before": [
+            "  const baseUnits = cartItems.filter(item => item.commercialLineKind === 'base_unit')",
+            "    .reduce((sum, item) => sum + positiveInteger(item.quantity), 0);",
+            "  const parcels = cartItems.filter(item => item.commercialLineKind !== 'base_unit')",
+            "    .reduce((sum, item) => sum + positiveInteger(item.quantity), 0);",
+            "  return [parcels > 0 ? `${parcels.toLocaleString('ar-JO')} طرد` : '',",
+            "    baseUnits > 0 ? `${baseUnits.toLocaleString('ar-JO')} وحدة أساسية` : '']",
+            "    .filter(Boolean).join(' • ') || 'السلة فارغة';"
+          ],
+          "after": [
+            "  const counts = new Map<string, number>();",
+            "  for (const item of cartItems) {",
+            "    const label = storefrontCartUnit(item);",
+            "    counts.set(label, (counts.get(label) ?? 0) + positiveInteger(item.quantity));",
+            "  }",
+            "  return [...counts].map(([label, count]) => `${count.toLocaleString('ar-JO')} ${label}`).join(' + ') || 'السلة فارغة';"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/utils/checkout.ts": {
+      "before": "fbad2d9937858d45edfa3db1c46de808a8d6439ddfaf3a8ae32b24dd189f969b",
+      "after": "e9782e842c0dcda6c1662fa24714c98dbb76da70b1e27cf2a8e2aad313eb1344",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {storefrontCartUnit} from './storefrontUnits';"
+          ]
+        },
+        {
+          "at": 510,
+          "before": [
+            "    return `• ${item.nameAr} — ${item.quantity} ${item.saleUnitNameAr} × ${formatJod("
+          ],
+          "after": [
+            "    return `• ${item.nameAr} — ${item.quantity} ${storefrontCartUnit(item)} × ${formatJod("
+          ]
+        }
+      ]
+    },
+    "customer-web/src/utils/storefrontUnits.ts": {
+      "before": null,
+      "after": "429b1048d1fa038312f07d2c2843ffd0da59e9aede2ae36c7e7b5ddee2cd5cf8",
+      "added": true,
+      "hunks": []
+    },
+    "customer-web/tests/checkout.test.ts": {
+      "before": "643677857f8bcadbb3540372ddd5a352f8a5dbb306141a284648e2e6ce40fbdc",
+      "after": "46cc15ed575c9c5b5bf353184bb09fca56bc8b5cf5c101f62b4c4c3b461d4746",
+      "hunks": [
+        {
+          "at": 395,
+          "before": [
+            "  assert.match(message, /بيبسي — 2 كرتونة/);"
+          ],
+          "after": [
+            "  assert.match(message, /بيبسي — 2 طرد/);"
+          ]
+        }
+      ]
+    },
+    "customer-web/tests/storefront-units.test.ts": {
+      "before": null,
+      "after": "0a4f7672d93be0f7488ccd532b541704c63dc64afd6f19ad4ec0788b28a2c0f5",
+      "added": true,
+      "hunks": []
+    },
+    "e2e/customer-checkout-isolated.spec.ts": {
+      "before": "1cbe6aaeacc42cbedc3599fe1a324e65908e58f7fce369fa0838ae412ee3ae2c",
+      "after": "7914b557f296f4abba6c1761a5897560253e0af7960c03cdbafee53ef37fffe2",
+      "hunks": [
+        {
+          "at": 6,
+          "before": [],
+          "after": [
+            "const isolatedControlUrl = process.env.M10_ISOLATED_CONTROL_URL;"
+          ]
+        },
+        {
+          "at": 157,
+          "before": [],
+          "after": [
+            "    if (!isolatedControlUrl) throw new Error('M10 isolated scenario control is required.');",
+            "    assertLoopbackTestTarget(isolatedControlUrl,'M10 isolated scenario control');",
+            "    const reset = await fetch(`${isolatedControlUrl}/reset-gateway-scenario`,{method:'POST'});",
+            "    expect(reset.status).toBe(200);expect(await reset.json()).toEqual({ok:true});"
+          ]
+        }
+      ]
+    },
+    "e2e/customer-compact-product-grid.spec.ts": {
+      "before": "709cdaad2b5912389479d31d93eabc294f994cab756d8b828a546f59f2a3a564",
+      "after": "1d2fadb00814fe00141340a1ca61608a059657d69188c4bdf286193816517370",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            "  unitNameAr: 'حبة',"
+          ],
+          "after": [
+            "  unitNameAr: 'باكيت',"
+          ]
+        },
+        {
+          "at": 147,
+          "before": [
+            "        .getByText('كرتونة', { exact: true }).last()"
+          ],
+          "after": [
+            "        .getByText('باكيت', { exact: true }).last()"
+          ]
+        }
+      ]
+    },
+    "e2e/customer-storefront-c6.spec.ts": {
+      "before": null,
+      "after": "6c7c0edfad56f391647230c2596b57cc4ada3b3c31208fa3aa7c8dbeb5cbb89a",
+      "added": true,
+      "hunks": []
+    },
+    "e2e/guided-store-assistant.spec.ts": {
+      "before": "c40c65bf4caca9ecbcda43eb4a507162689f2a38e3c529960f3bfd304520077e",
+      "after": "3f25928bcecbd581e090d0b694a832b46f71f586b9c7d9a6ed3a6f644f05c773",
+      "hunks": [
+        {
+          "at": 127,
+          "before": [
+            "    const cartAction = page.getByRole('button', {name: /طرد في السلة/u});"
+          ],
+          "after": [
+            "    const cartAction = page.getByRole('button', {name: /حبة في السلة/u});"
+          ]
+        }
+      ]
+    },
+    "e2e/phase6-package-b.spec.ts": {
+      "before": "6fc9a598f8aa6b45cea490db8bed0873da83e3cc1a956f7b8b95972640e428f7",
+      "after": "6e8b7f82c75eb06e255e11e5bca2b5947de9adb84fe7874592d0cff768d7029c",
+      "hunks": [
+        {
+          "at": 111,
+          "before": [
+            "  const summary = `${(2).toLocaleString('ar-JO')} طرد • ${(3).toLocaleString('ar-JO')} وحدة أساسية`;"
+          ],
+          "after": [
+            "  const summary = `${(3).toLocaleString('ar-JO')} وحدة + ${(2).toLocaleString('ar-JO')} طرد`;"
+          ]
+        }
+      ]
+    },
+    "tests/phase6-package-b.test.ts": {
+      "before": "33f0a2bfea354153f5130f3d64e33d20daf67b2edff1356b5b044c92154d105b",
+      "after": "e9459ef38d86e7fe0de2347100c212862b19cd2bf906302b1d24c7c5575c43d6",
+      "hunks": [
+        {
+          "at": 66,
+          "before": [
+            "  const items = [{commercialLineKind: 'base_unit', quantity: 3},",
+            "    {commercialLineKind: 'legacy_single_sku_parcel', quantity: 2},",
+            "    {commercialLineKind: 'configurable_parcel', quantity: 1}] as CartItem[];",
+            "  assert.equal(formatCartQuantitySummary(items), `${(3).toLocaleString('ar-JO')} طرد • ${(3).toLocaleString('ar-JO')} وحدة أساسية`);"
+          ],
+          "after": [
+            "  const items = [{commercialLineKind: 'base_unit', quantity: 3, saleUnitNameAr: 'باكيت', unitsPerSalePackage: 1},",
+            "    {commercialLineKind: 'legacy_single_sku_parcel', quantity: 2, saleUnitNameAr: 'كرتونة', unitsPerSalePackage: 10},",
+            "    {commercialLineKind: 'configurable_parcel', quantity: 1, saleUnitNameAr: 'طرد', unitsPerSalePackage: 10}] as CartItem[];",
+            "  assert.equal(formatCartQuantitySummary(items), `${(3).toLocaleString('ar-JO')} باكيت + ${(3).toLocaleString('ar-JO')} طرد`);"
+          ]
+        },
+        {
+          "at": 71,
+          "before": [
+            "  assert.equal(formatCartQuantitySummary([items[0]]), `${(3).toLocaleString('ar-JO')} وحدة أساسية`);"
+          ],
+          "after": [
+            "  assert.equal(formatCartQuantitySummary([items[0]]), `${(3).toLocaleString('ar-JO')} باكيت`);"
+          ]
+        }
+      ]
+    },
+    "tests/storefront-c6.test.ts": {
+      "before": null,
+      "after": "badc6fe126d03392e5f86b09a90a0ec9358206ae8dd9516389acf06eb4a4a1e5",
+      "added": true,
+      "hunks": []
+    },
+    "tests/table-access-inventory.test.ts": {
+      "before": "814c128af6402614d44e18f8e5750cf3632bdc05b8a4dcf354a7bc83baf21976",
+      "after": "2134896455f4eb186ddba06e4f6162bc5c0f14072a70208234e8c70b41f24611",
+      "hunks": [
+        {
+          "at": 84,
+          "before": [],
+          "after": [
+            "// Current source evidence is separate from immutable historical owner references.",
+            "test('current table readiness matches the complete current source and approved ceiling',async()=>{",
+            " const state=JSON.parse(await readFile('docs/agent/project-state.json','utf8'));",
+            " const evidencePath=state.currentTableReadinessEvidence ?? 'docs/operations/TABLE_ACCESS_AFTER_206.json';",
+            " assert.match(evidencePath,/^docs\\/operations\\/TABLE_ACCESS_AFTER_[A-Z0-9_]+\\.json$/u);",
+            " const proof=JSON.parse(await readFile(evidencePath,'utf8')),source=await inventory();",
+            " assert.equal(proof.migrationCeiling,state.migrationCeiling);assert.equal(proof.managedAccess,false);",
+            " assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);",
+            " assert.deepEqual(proof.sourceHashes,source.sources);assert.deepEqual(verifyProbeCoverage(source,proof.results),proof.coverage);",
+            " assert.ok(proof.results.every((row:{sqlstate:string|null})=>row.sqlstate===null));",
+            "});",
+            ""
+          ]
+        }
+      ]
+    }
+  }
+}

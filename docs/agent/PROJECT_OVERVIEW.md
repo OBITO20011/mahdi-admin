@@ -1,3 +1,10 @@
+# Current21Oct — Phase C package6
+
+Read STOREFRONT_SIMPLIFICATION_C6.md and PHASE_C_CONTRACT.md. PriorC5 PR8/main
+FULL36+secrets strictly delivered. C6 storefront owner19;no price/payload/SQL
+change. Current ceiling206 and owner206 offline command;no hostedaccess/deploy.
+Current C6 access evidence is separate from immutable206 owner reference.
+
 #20Oct — C5 local gates accepted;CI delivery next
 
 1304Admin/189effectivebrowser/types/strictlint/build/network PASS.

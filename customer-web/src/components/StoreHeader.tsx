@@ -1,3 +1,4 @@
+import {storefrontSaleUnit} from '../utils/storefrontUnits';
 import {
   Heart,
   Menu,
@@ -17,6 +18,7 @@ interface StoreHeaderProps {
   searchQuery: string;
   onSearchChange: (value: string) => void;
   cartPackages: number;
+  cartSummary?: string;
   favoritesCount: number;
   favoritesActive: boolean;
   onCartOpen: () => void;
@@ -40,6 +42,7 @@ export function StoreHeader({
   searchQuery,
   onSearchChange,
   cartPackages,
+  cartSummary,
   favoritesCount,
   favoritesActive,
   onCartOpen,
@@ -110,7 +113,7 @@ export function StoreHeader({
             >
               <span>{product.nameAr}</span>
               <small className="font-bold text-slate-400">
-                {product.saleUnitNameAr}
+                {storefrontSaleUnit(product)}
               </small>
             </button>
           ))}
@@ -211,7 +214,7 @@ export function StoreHeader({
             <button
               type="button"
               onClick={onCartOpen}
-              aria-label={`فتح السلة، ${cartPackages.toLocaleString('ar-JO')} طرد`}
+              aria-label={`فتح السلة، ${cartSummary ?? `${cartPackages.toLocaleString('ar-JO')} طرد`}`}
               className="relative flex h-11 items-center gap-2 rounded-2xl bg-blue-700 px-3.5 font-extrabold text-white shadow-lg shadow-blue-900/15 transition hover:bg-blue-800"
             >
               <ShoppingCart className="h-4 w-4" />

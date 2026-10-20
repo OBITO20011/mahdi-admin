@@ -13,7 +13,7 @@ const baseProduct = {
   brandId: '',
   brandNameAr: '',
   unitId: '00000000-0000-4000-8000-000000000020',
-  unitNameAr: 'حبة',
+  unitNameAr: 'باكيت',
   saleUnitId: '00000000-0000-4000-8000-000000000021',
   saleUnitNameAr: 'كرتونة',
   unitsPerSalePackage: 1,
@@ -144,7 +144,7 @@ test.describe('شبكة المنتجات المدمجة', () => {
     await expect(page.getByText('١٫٢٥٠ د.أ').first()).toBeVisible();
     await expect(
       page.getByTestId('catalog-products-grid').locator('article').first()
-        .getByText('كرتونة', { exact: true }).last()
+        .getByText('باكيت', { exact: true }).last()
     ).toBeVisible();
 
     await page.getByRole('button', { name: `إضافة ${longName} إلى السلة` }).click();

@@ -1,3 +1,4 @@
+import {storefrontCartUnit} from './storefrontUnits';
 import { CartItem } from '../types/catalog';
 import {
   CheckoutErrors,
@@ -506,7 +507,7 @@ export function buildWhatsAppOrderMessage({
           (component) => `${component.flavorNameAr || component.nameAr} × ${component.baseQuantity}`
         ).join('، ')).join(' | ')})`
       : '';
-    return `• ${item.nameAr} — ${item.quantity} ${item.saleUnitNameAr} × ${formatJod(
+    return `• ${item.nameAr} — ${item.quantity} ${storefrontCartUnit(item)} × ${formatJod(
       item.unitPriceInMinorUnits
     )}${composition}`;
   });

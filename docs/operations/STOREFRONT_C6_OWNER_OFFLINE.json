@@ -1,0 +1,36 @@
+{
+  "recordedAt": "2026-10-20T22:58:08.752Z",
+  "managedAccess": false,
+  "referenceBytesUnchanged": {
+    "203": "aa63a3bc13922c631cbb711baaebb8d4eef5f72aa3b2b3f7a5349c91f20d7f99",
+    "204": "aff96c1df345a0c0da35c6d40f69af2ea3806bc8d6caed09ccf4746524f2c977",
+    "205": "0f5439d3269a3e017a8ff10d37614f30cd56ffc08873f3eaf857220c51061e52",
+    "206": "b69ed23867cb2b10ea7f3fc4e2c9965ebc00497b29b6129fee709871710c781c"
+  },
+  "offline": [
+    {
+      "version": 206,
+      "ok": true,
+      "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline206-2026-10-20T22-58-12-673Z",
+      "remoteWriteAttempted": false
+    },
+    {
+      "version": 205,
+      "ok": true,
+      "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline205-2026-10-20T22-58-16-388Z",
+      "remoteWriteAttempted": false
+    },
+    {
+      "version": 204,
+      "ok": true,
+      "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline204-2026-10-20T22-58-20-401Z",
+      "remoteWriteAttempted": false
+    },
+    {
+      "version": 203,
+      "ok": true,
+      "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline203-2026-10-20T22-58-23-918Z",
+      "remoteWriteAttempted": false
+    }
+  ]
+}

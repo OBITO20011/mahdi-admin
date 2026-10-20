@@ -392,7 +392,7 @@ test('WhatsApp opens only with the saved order number and summary', () => {
   assert.match(message, /ORD-2026-001/);
   assert.match(message, /طلب جملة جديد من الموقع/);
   assert.match(message, /الأصناف \(1\)/);
-  assert.match(message, /بيبسي — 2 كرتونة/);
+  assert.match(message, /بيبسي — 2 طرد/);
   assert.match(message, /الخصم \(WELCOME10\)/);
   assert.match(message, /طريقة الدفع: CliQ/);
   assert.match(message, /منطقة التوصيل: خارج الرمثا/);

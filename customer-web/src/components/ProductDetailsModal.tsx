@@ -5,9 +5,7 @@ import {
   CircleHelp,
   Copy,
   Heart,
-  Minus,
   PackageCheck,
-  Plus,
   Share2,
   Tag,
   X,
@@ -18,13 +16,12 @@ import { useEffect, useMemo, useState } from 'react';
 import {useDialogFocus} from '../hooks/useDialogFocus';
 import { CatalogProduct, PublicConfigurableParcelOption } from '../types/catalog';
 import { formatJod } from '../utils/money';
-import { CargoAddButton } from './CargoAddButton';
+import {ProductPurchaseControl} from './ProductPurchaseControl';
+import {storefrontSaleUnit, storefrontPackageDescription, storefrontStock, storefrontUnitName, remainingStorefrontUnits, remainingStorefrontParcels} from '../utils/storefrontUnits';
 import { ProductImage } from './ProductImage';
 import {
   buildProductShareUrl,
-  calculateProductSelectionTotal,
   clampProductSelectionQuantity,
-  getRemainingProductPackages,
 } from '../utils/productDetails';
 import { buildWhatsAppUrl } from '../utils/checkout';
 
@@ -32,10 +29,11 @@ interface ProductDetailsModalProps {
   product: CatalogProduct;
   initialVariantId?: string;
   cartQuantityByProduct: ReadonlyMap<string, number>;
+  reservedBaseUnits: ReadonlyMap<string, number>;
   relatedProducts: CatalogProduct[];
   onClose: () => void;
   onAddQuantity: (product: CatalogProduct, quantity: number) => void;
-  onAddBaseUnit: (product: CatalogProduct) => void;
+  onAddBaseUnit: (product: CatalogProduct, quantity: number) => void;
   parcelOption?: PublicConfigurableParcelOption;
   parcelOptionLoading?: boolean;
   onOpenParcelBuilder: (product: CatalogProduct, option: PublicConfigurableParcelOption) => void;
@@ -50,6 +48,7 @@ export function ProductDetailsModal({
   product: familyProduct,
   initialVariantId,
   cartQuantityByProduct,
+  reservedBaseUnits,
   relatedProducts,
   onClose,
   onAddQuantity,
@@ -75,17 +74,11 @@ export function ProductDetailsModal({
     familyProduct.variants.find((variant) => variant.id === selectedVariantId) ||
     familyProduct;
   const cartQuantity = cartQuantityByProduct.get(product.id) || 0;
-  const remainingPackages = getRemainingProductPackages(
-    product.availableSalePackages,
-    cartQuantity
-  );
-  const [quantity, setQuantity] = useState(() =>
-    clampProductSelectionQuantity(
-      product.minimumOrderPackages,
-      product.availableSalePackages,
-      cartQuantity
-    )
-  );
+  const reserved = reservedBaseUnits.get(product.id) ?? 0;
+  const remainingUnits = remainingStorefrontUnits(product, reserved);
+  const remainingPackages = remainingStorefrontParcels(product, reserved);
+  const [quantity, setQuantity] = useState(() => clampProductSelectionQuantity(product.minimumOrderPackages, remainingPackages, 0));
+  const [unitQuantity, setUnitQuantity] = useState(() => clampProductSelectionQuantity(1, remainingUnits, 0));
   const [shareMessage, setShareMessage] = useState('');
   const [imageZoomed, setImageZoomed] = useState(false);
   const panel = useDialogFocus(true, () => {
@@ -104,21 +97,16 @@ export function ProductDetailsModal({
   }, [familyProduct.id, familyProduct.variants, initialVariantId]);
 
   useEffect(() => {
-    setQuantity(
-      clampProductSelectionQuantity(
-        product.minimumOrderPackages,
-        product.availableSalePackages,
-        cartQuantity
-      )
-    );
+    setQuantity(product.minimumOrderPackages);
+    setUnitQuantity(1);
     setShareMessage('');
     setImageZoomed(false);
-  }, [
-    cartQuantity,
-    product.availableSalePackages,
-    product.id,
-    product.minimumOrderPackages,
-  ]);
+  }, [product.id, product.minimumOrderPackages]);
+
+  useEffect(() => {
+    setQuantity(current => clampProductSelectionQuantity(current, remainingPackages, 0));
+    setUnitQuantity(current => clampProductSelectionQuantity(current, remainingUnits, 0));
+  }, [product.id, remainingPackages, remainingUnits]);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -130,13 +118,7 @@ export function ProductDetailsModal({
     };
   }, [onClose]);
 
-  const selectedTotal = calculateProductSelectionTotal(
-    product.salePackagePriceInMinorUnits,
-    quantity
-  );
-  const packageDescription = `${product.saleUnitNameAr} × ${product.unitsPerSalePackage.toLocaleString(
-    'ar-JO'
-  )} ${product.unitNameAr}`;
+  const packageDescription = storefrontPackageDescription(product);
   const shareUrl = useMemo(
     () =>
       buildProductShareUrl(
@@ -147,7 +129,7 @@ export function ProductDetailsModal({
   );
 
   const handleShare = async () => {
-    const shareText = `${product.nameAr} — سعر ${product.saleUnitNameAr} ${formatJod(
+    const shareText = `${product.nameAr} — سعر ${storefrontSaleUnit(product)} ${formatJod(
       product.salePackagePriceInMinorUnits
     )}`;
 
@@ -176,7 +158,7 @@ export function ProductDetailsModal({
   };
 
   const shareOnWhatsApp = () => {
-    const text = `${product.nameAr} — سعر ${product.saleUnitNameAr} ${formatJod(product.salePackagePriceInMinorUnits)}\n${shareUrl}`;
+    const text = `${product.nameAr} — سعر ${storefrontSaleUnit(product)} ${formatJod(product.salePackagePriceInMinorUnits)}\n${shareUrl}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
   };
 
@@ -184,8 +166,8 @@ export function ProductDetailsModal({
     setQuantity(
       clampProductSelectionQuantity(
         nextQuantity,
-        product.availableSalePackages,
-        cartQuantity
+        remainingPackages,
+        0
       )
     );
   };
@@ -328,7 +310,7 @@ export function ProductDetailsModal({
                 </p>
               ) : (
                 <p className="mt-3 text-xs font-semibold leading-6 text-slate-400">
-                  بيانات الطرد والسعر والمخزون موضحة أدناه.
+                  السعر والمخزون موضحان أدناه.
                 </p>
               )}
 
@@ -378,7 +360,7 @@ export function ProductDetailsModal({
                               </strong>
                               <span className={`mt-0.5 block text-[8px] font-bold ${selected ? 'text-violet-100' : variant.isAvailable ? 'text-emerald-600' : 'text-rose-500'}`}>
                                 {variant.isAvailable
-                                  ? `${variant.availableSalePackages.toLocaleString('ar-JO')} ${variant.saleUnitNameAr}`
+                                  ? `${variant.availableSalePackages.toLocaleString('ar-JO')} ${storefrontSaleUnit(variant)}`
                                   : 'نافدة حاليًا'}
                               </span>
                             </div>
@@ -392,24 +374,24 @@ export function ProductDetailsModal({
 
               <div className="mt-5 rounded-3xl border border-orange-100 bg-orange-50 p-4">
                 <p className="text-[10px] font-bold text-orange-500">
-                  سعر {product.saleUnitNameAr}
+                  سعر {storefrontSaleUnit(product)}
                 </p>
                 <p className="mt-1 text-3xl font-black text-orange-700">
                   {formatJod(product.salePackagePriceInMinorUnits)}
                 </p>
                 <p className="mt-1 text-[10px] font-bold text-orange-700/70">
-                  السعر لوحدة البيع: {product.saleUnitNameAr}
+                  السعر لوحدة البيع: {storefrontSaleUnit(product)}
                 </p>
               </div>
 
-              <div className="mt-4 grid grid-cols-2 gap-3">
+              {product.unitsPerSalePackage > 1 && <div className="mt-4 grid grid-cols-2 gap-3">
                 <div className="rounded-3xl border border-blue-100 bg-blue-50 p-4">
                   <div className="flex items-center gap-2 text-blue-600">
                     <Boxes className="h-4 w-4" />
                     <p className="text-[10px] font-bold">طرد البيع</p>
                   </div>
                   <p className="mt-2 text-sm font-black text-blue-950">
-                    {product.saleUnitNameAr}
+                    {storefrontSaleUnit(product)}
                   </p>
                 </div>
                 <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
@@ -422,7 +404,7 @@ export function ProductDetailsModal({
                     {product.unitNameAr}
                   </p>
                 </div>
-              </div>
+              </div>}
 
               <div className="mt-4 rounded-3xl border border-emerald-100 bg-emerald-50 p-4">
                 <div className="flex items-center justify-between gap-3">
@@ -431,15 +413,14 @@ export function ProductDetailsModal({
                       المتوفر للطلب الآن
                     </p>
                     <p className="mt-1 text-base font-black text-emerald-950">
-                      {product.availableSalePackages.toLocaleString('ar-JO')}{' '}
-                      {product.saleUnitNameAr}
+                      {storefrontStock(product)}
                     </p>
                   </div>
                   <CheckCircle2 className="h-6 w-6 text-emerald-600" />
                 </div>
                 {cartQuantity > 0 && (
                   <p className="mt-2 text-[10px] font-bold text-emerald-700">
-                    في سلتك حاليًا: {cartQuantity.toLocaleString('ar-JO')}
+                    في سلتك حاليًا: {cartQuantity.toLocaleString('ar-JO')} {storefrontSaleUnit(product)}
                   </p>
                 )}
               </div>
@@ -512,7 +493,7 @@ export function ProductDetailsModal({
                         {relatedProduct.nameAr}
                       </p>
                       <p className="mt-1 text-[9px] font-bold text-slate-400">
-                        {relatedProduct.saleUnitNameAr}
+                        {storefrontSaleUnit(relatedProduct)}
                       </p>
                       <p className="mt-1 text-xs font-black text-orange-700">
                         {formatJod(
@@ -527,78 +508,25 @@ export function ProductDetailsModal({
           )}
         </div>
 
-        <footer className="shrink-0 border-t border-slate-100 bg-white px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 sm:px-7 sm:py-4">
-          <div className="mx-auto mb-3 grid max-w-3xl grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={() => onAddBaseUnit(product)}
-              disabled={product.salePriceInMinorUnits <= 0 || product.availableQuantity < 1}
-              className="min-h-12 rounded-2xl border border-blue-200 bg-blue-50 px-3 text-xs font-black text-blue-800 disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400"
-            >
-              إضافة {product.unitNameAr} — {formatJod(product.salePriceInMinorUnits)}
-            </button>
-            <button
-              type="button"
-              onClick={() => parcelOption && onOpenParcelBuilder(familyProduct, parcelOption)}
-              disabled={!parcelOption || parcelOptionLoading}
-              className="min-h-12 rounded-2xl bg-violet-700 px-3 text-xs font-black text-white disabled:bg-slate-300"
-            >
-              {parcelOptionLoading ? 'جارٍ تحميل خيارات الطرد...' : parcelOption ? 'كوّن طردًا بالنكهات' : 'الطرد المختلط غير متاح'}
-            </button>
+        <footer role="group" aria-label="إضافة المنتج للسلة" className="shrink-0 border-t border-slate-100 bg-white px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 sm:px-7 sm:py-4">
+          <div className={`mx-auto grid max-w-3xl gap-2 ${product.unitsPerSalePackage > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+            <ProductPurchaseControl label={packageDescription} unit={storefrontSaleUnit(product)} productName={product.nameAr}
+              price={product.salePackagePriceInMinorUnits} quantity={quantity} remaining={remainingPackages}
+              disabled={!product.isAvailable} onChange={handleQuantityChange} onAdd={handleAdd} />
+            {product.unitsPerSalePackage > 1 && <ProductPurchaseControl label={storefrontUnitName(product.unitNameAr)} unit={storefrontUnitName(product.unitNameAr)} productName={product.nameAr}
+              price={product.salePriceInMinorUnits} quantity={unitQuantity} remaining={remainingUnits}
+              disabled={product.salePriceInMinorUnits <= 0 || remainingUnits === 0}
+              onChange={next => setUnitQuantity(clampProductSelectionQuantity(next, remainingUnits, 0))}
+              onAdd={() => onAddBaseUnit(product, unitQuantity)} />}
           </div>
-          <div className="mx-auto flex max-w-3xl items-center gap-3">
-            {!product.isAvailable ? (
-              <a href={buildWhatsAppUrl(storeWhatsAppNumber, `مرحبًا، أريد الاستفسار عن توفر ${product.nameAr} (${product.sku}).`)} target="_blank" rel="noreferrer" className="flex h-12 flex-1 items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 text-xs font-black text-white"><MessageCircle className="h-4 w-4" />اسألنا على واتساب</a>
-            ) : remainingPackages === 0 ? (
-              <div className="flex h-12 shrink-0 items-center gap-1.5 rounded-2xl border border-emerald-200 bg-emerald-50 px-3 text-[10px] font-black text-emerald-700">
-                <CheckCircle2 className="h-4 w-4" />
-                في السلة
-              </div>
-            ) : (
-              <div className="flex shrink-0 items-center rounded-2xl border border-slate-200 bg-slate-50">
-                <button
-                  type="button"
-                  onClick={() => handleQuantityChange(quantity - 1)}
-                  disabled={quantity <= 1}
-                  aria-label="إنقاص الكمية"
-                  className="grid h-12 w-11 place-items-center text-slate-600 disabled:text-slate-300"
-                >
-                  <Minus className="h-4 w-4" />
-                </button>
-                <span className="min-w-9 text-center text-sm font-black text-slate-950">
-                  {quantity.toLocaleString('ar-JO')}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => handleQuantityChange(quantity + 1)}
-                  disabled={quantity >= remainingPackages}
-                  aria-label="زيادة الكمية"
-                  className="grid h-12 w-11 place-items-center text-blue-700 disabled:text-slate-300"
-                >
-                  <Plus className="h-4 w-4" />
-                </button>
-              </div>
-            )}
-
-            <CargoAddButton
-              onAdd={handleAdd}
-              disabled={!product.isAvailable || remainingPackages === 0}
-              ariaLabel={`إضافة ${quantity.toLocaleString('ar-JO')} من ${product.nameAr} إلى السلة`}
-              label={
-                remainingPackages === 0
-                  ? 'الكمية المتوفرة موجودة في السلة'
-                  : `إضافة ${quantity.toLocaleString('ar-JO')} للسلة`
-              }
-              trailing={
-                remainingPackages > 0 ? (
-                  <span className="text-xs font-black text-blue-100">
-                  {formatJod(selectedTotal)}
-                  </span>
-                ) : null
-              }
-            />
-          </div>
-          <p className="mt-2 text-center text-[9px] font-bold text-slate-400">
+          {familyProduct.variants.length > 0 && <button type="button"
+            onClick={() => parcelOption && onOpenParcelBuilder(familyProduct, parcelOption)}
+            disabled={!parcelOption || parcelOptionLoading}
+            className="mx-auto mt-2 block min-h-11 w-full max-w-3xl rounded-2xl bg-violet-700 px-3 text-xs font-black text-white disabled:bg-slate-300 disabled:text-slate-700">
+            {parcelOptionLoading ? 'جارٍ تحميل خيارات الطرد...' : parcelOption ? 'كوّن طردًا بالنكهات' : 'الطرد المختلط غير متاح'}
+          </button>}
+          {!product.isAvailable && <a href={buildWhatsAppUrl(storeWhatsAppNumber, `مرحبًا، أريد الاستفسار عن توفر ${product.nameAr} (${product.sku}).`)} target="_blank" rel="noreferrer" className="mx-auto mt-2 flex min-h-11 max-w-3xl items-center justify-center gap-2 rounded-2xl bg-emerald-700 px-4 text-xs font-black text-white"><MessageCircle className="h-4 w-4" />اسألنا على واتساب</a>}
+          <p className="mt-2 text-center text-[9px] font-bold text-slate-600">
             {packageDescription} • تُراجع الكمية والسعر مرة أخرى عند إرسال الطلب
           </p>
         </footer>

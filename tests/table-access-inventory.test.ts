@@ -80,3 +80,15 @@ test('post150 evidence covers every current query,role and variant and accepts n
  assert.ok(evidence.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
  assert.deepEqual(evidence.manifest.filter((n:string)=>Number(n.slice(0,3))>=139),['139_project_order_push_webhook_url.sql','150_explicit_application_table_read_privileges.sql']);
 });
+
+// Current source evidence is separate from immutable historical owner references.
+test('current table readiness matches the complete current source and approved ceiling',async()=>{
+ const state=JSON.parse(await readFile('docs/agent/project-state.json','utf8'));
+ const evidencePath=state.currentTableReadinessEvidence ?? 'docs/operations/TABLE_ACCESS_AFTER_206.json';
+ assert.match(evidencePath,/^docs\/operations\/TABLE_ACCESS_AFTER_[A-Z0-9_]+\.json$/u);
+ const proof=JSON.parse(await readFile(evidencePath,'utf8')),source=await inventory();
+ assert.equal(proof.migrationCeiling,state.migrationCeiling);assert.equal(proof.managedAccess,false);
+ assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);
+ assert.deepEqual(proof.sourceHashes,source.sources);assert.deepEqual(verifyProbeCoverage(source,proof.results),proof.coverage);
+ assert.ok(proof.results.every((row:{sqlstate:string|null})=>row.sqlstate===null));
+});
