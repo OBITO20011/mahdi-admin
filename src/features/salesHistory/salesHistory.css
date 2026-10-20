@@ -1,0 +1,9 @@
+@media print {
+  body:has(.sales-invoice-backdrop) > :not(.sales-invoice-backdrop) { display:none !important; }
+  .sales-invoice-backdrop { position:static !important;padding:0 !important;background:white !important;overflow:visible !important; }
+  .sales-invoice-dialog { width:100% !important;max-width:none !important;max-height:none !important;overflow:visible !important;border:0 !important;box-shadow:none !important; }
+  .sales-invoice-dialog { --nw-bg:white;--nw-surface:white;--nw-surface-2:white;--nw-text:#111;--nw-muted:#333;--nw-border:#bbb; }
+  .sales-invoice-dialog button,.sales-invoice-dialog .sales-invoice-rare-actions { display:none !important; }
+  .sales-invoice-dialog .order-detail > header { display:none !important; }
+  .sales-invoice-dialog li { break-inside:avoid; }
+}

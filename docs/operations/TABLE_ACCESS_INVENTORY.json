@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 203,
+  "migrationCeiling": 204,
   "managedAccess": false,
   "sources": [
     {
       "file": "src/App.tsx",
-      "sha256": "6fe758edd96d3b73b10d1d879bcd8a77676ef0466c2a847fb09f2b58d8df3ac0"
+      "sha256": "0f69e57b616d6836e890c9ce682c5ee0e57127df50c73232d9e9c89e85d0fc13"
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",
@@ -37,11 +37,11 @@
     },
     {
       "file": "src/components/layout/SideNav.tsx",
-      "sha256": "7cdaba3b3e8e875e5422bdf92bc5aaf65b8bea9cbb476d764816013dbfc7a023"
+      "sha256": "462405f6980a270d182406b75d173e9c38b704bfc3ca393d5712bd381bbc8fd1"
     },
     {
       "file": "src/components/layout/sideNavigationModel.ts",
-      "sha256": "093a41f378e09a24fa82f6bb1e15f0c11bdb88de2541ceb4ea2606f1218f0d2e"
+      "sha256": "f31ca0c5877c2464a9af6c6a314c09b77002e479c359b56f8d16d288edad71c5"
     },
     {
       "file": "src/components/modals/AllModals.tsx",
@@ -229,11 +229,11 @@
     },
     {
       "file": "src/features/dashboard/DashboardHome.tsx",
-      "sha256": "6883e1cc8528ca7a1cc1bba20146e04d8c2dce9677c15de5f8c11e898c78e014"
+      "sha256": "9f969bb4e272f2c92b280c4819bc97e6835c6012be055f3f4ed9ac9872ae3925"
     },
     {
       "file": "src/features/dashboard/DashboardView.tsx",
-      "sha256": "a86c9ebff80da769cb224a15621e40354d19607d7a7d228b718a2605db4a0d3a"
+      "sha256": "2afa33e459e2ca21e8c032f683105af8815df5781e8fb69e123d193fa21acb26"
     },
     {
       "file": "src/features/dashboard/KpiCards.tsx",
@@ -313,7 +313,7 @@
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
-      "sha256": "161f89f8b1c3b7d7d1711e3f208feffff5182fb398db4d14be3443cb35f4a798"
+      "sha256": "15a555ae7386a42b5b3503cb6757d051aec0761cf832fa36d23bb29133d9f5b0"
     },
     {
       "file": "src/features/more/InstallAppPanel.tsx",
@@ -325,7 +325,7 @@
     },
     {
       "file": "src/features/more/MoreMenuView.tsx",
-      "sha256": "aa7305dec056215dafa6298d122ead2232cb768b276dcae661ab108068723de2"
+      "sha256": "f4fab17e587ce8daa6b209da95477b7800bf916733632c85550a94c0a517c247"
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
@@ -365,19 +365,19 @@
     },
     {
       "file": "src/features/orders/OrderCommercialSummary.tsx",
-      "sha256": "b324c808c946fcc56e3119f0bbc0be258d86448ce97a1798cc62c198fe5bf6b1"
+      "sha256": "f1e2b88f7e7e89cf0fd203937cd233ba2e4c6319fe591c39b5f71a843892cad3"
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "49899aa8b91ae4a875833a6ee308d770b7a76adba611a07d5ce7a207f8216dd1"
+      "sha256": "4451c40f80d64fe034b67fc972eb0ba5ca07b449f5baf7d6b68d0041d8e39925"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
-      "sha256": "ddeb45cdcbe71aeca4e4a4b47de721c3e9c605e081b0c98563a367198b2f9ca6"
+      "sha256": "9d1217e90ab1016e6c68fa37e63bbd09bd28d36d044ecda58375d58d3fe8836a"
     },
     {
       "file": "src/features/orders/orderStatus.ts",
-      "sha256": "8bfa3800d5f227cb14f8be13a04004f77d1106c7026ed521ed6956587fe127ea"
+      "sha256": "60446e01ef40baed6312fa3be74ec2a193d7301d1e88fa43484a0adad9a87388"
     },
     {
       "file": "src/features/pos/BarcodeScannerModal.tsx",
@@ -464,6 +464,18 @@
       "sha256": "48dd1e985da9afc84733b08bca408be2abae4b2c5ccc6fc3d1a4239d0edee659"
     },
     {
+      "file": "src/features/salesHistory/RecentSalesCard.tsx",
+      "sha256": "a67a2c2d2abc58d5a077b1610dd6e11aa19ad2092c72615dbae590b69f6a07b5"
+    },
+    {
+      "file": "src/features/salesHistory/SalesHistoryView.tsx",
+      "sha256": "8162956dbb17ce66000f1af58c53563098f5da0fa512827d20b61ba0ddf12f49"
+    },
+    {
+      "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
+      "sha256": "1d9e72833f0d25e75acd92c5966530bb761a288aaa9b98da6492dff4c7154967"
+    },
+    {
       "file": "src/features/shifts/OwnerWithdrawalsPanel.tsx",
       "sha256": "50e36c2dd2b4dc79a5a8323ed4a2aee37b59ea5f72448c8df24a47e1ed69f182"
     },
@@ -506,6 +518,10 @@
     {
       "file": "src/hooks/useDrawerShortfallConfirm.tsx",
       "sha256": "20384c7ad7b77fce7837257b06575bb9b80b6fcfed493ca6c827c82b96470e87"
+    },
+    {
+      "file": "src/hooks/useSalesHistory.ts",
+      "sha256": "2b7740b772b77b00f23710f110c6dfe885528a7854799da8e40ab21cbf7c2d40"
     },
     {
       "file": "src/lib/async.ts",
@@ -625,7 +641,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "sha256": "319c2b273983b853ebd372000bee2b38380a657b2c6e78ada783abc5be24a868"
+      "sha256": "0148c128963e3962b0a59d7bcb799e744fe8417128689668f523276f0ed6650e"
     },
     {
       "file": "src/services/supabase/ownerWithdrawals.service.ts",
@@ -684,6 +700,10 @@
       "sha256": "ade5738d66af92e957111d2f5d5a8e0128ee0541bf5d23574908795ef7d4f276"
     },
     {
+      "file": "src/services/supabase/salesHistory.service.ts",
+      "sha256": "d85b108f7be04b3decc0f79a71045c9d318e3ee26bd57caf1ece2e43e1443540"
+    },
+    {
       "file": "src/services/supabase/staffAccounts.service.ts",
       "sha256": "a3f441aaa5f5c168e156f12c70e0805886f454446887a378f692fac1373249ae"
     },
@@ -701,7 +721,7 @@
     },
     {
       "file": "src/stores/appStorePreferences.ts",
-      "sha256": "0dc3a67d7620d1702f0d0f24f9c9efba5c04f3c0ce4d1ec97a44362a6c75c0bf"
+      "sha256": "cd20d545115b5095482c03ab8139e3e9885988a355d81f86b4fb84d702c35620"
     },
     {
       "file": "src/stores/modalTypes.ts",
@@ -842,6 +862,10 @@
     {
       "file": "src/utils/roleLabels.ts",
       "sha256": "bc19440ecf8a4dfa5bb5489283118024a3cec09ba7cf84a151657aa325edd091"
+    },
+    {
+      "file": "src/utils/salesHistory.ts",
+      "sha256": "6e94652801ef2b13a994f54e4d6327a4de7d3b392e14b8abe6ede2e27737dd4c"
     },
     {
       "file": "src/utils/supplierCancellationPreview.ts",
@@ -1611,9 +1635,9 @@
       "reachability": "no-static-consumer-found"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:274",
+      "id": "src/services/supabase/orders.service.ts:276",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 274,
+      "line": 276,
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -1639,7 +1663,7 @@
       "extensions": [],
       "constants": {
         "ORDER_DETAIL_SELECT": "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products!order_items_product_id_fkey (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n",
-        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
+        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  source,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
         "OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT": "\n  id,\n  order_id,\n  product_name_snapshot,\n  created_at\n",
         "MAX_OPERATIONAL_ORDER_ITEMS": "50"
       },
@@ -1654,9 +1678,9 @@
       "reachability": "no-static-consumer-found"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:278",
+      "id": "src/services/supabase/orders.service.ts:280",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 278,
+      "line": 280,
       "table": "order_items",
       "operation": "select",
       "role": "authenticated",
@@ -1709,7 +1733,7 @@
       "extensions": [],
       "constants": {
         "ORDER_DETAIL_SELECT": "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products!order_items_product_id_fkey (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n",
-        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
+        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  source,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
         "OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT": "\n  id,\n  order_id,\n  product_name_snapshot,\n  created_at\n",
         "MAX_OPERATIONAL_ORDER_ITEMS": "50"
       },
@@ -1720,9 +1744,9 @@
       "reachability": "no-static-consumer-found"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:569",
+      "id": "src/services/supabase/orders.service.ts:572",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 569,
+      "line": 572,
       "table": "orders",
       "operation": "select",
       "role": "authenticated",
@@ -1752,7 +1776,7 @@
       "extensions": [],
       "constants": {
         "ORDER_DETAIL_SELECT": "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products!order_items_product_id_fkey (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n",
-        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
+        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  source,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
         "OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT": "\n  id,\n  order_id,\n  product_name_snapshot,\n  created_at\n",
         "MAX_OPERATIONAL_ORDER_ITEMS": "50"
       },
@@ -1768,17 +1792,19 @@
         "units"
       ],
       "callers": [
-        "src/features/orders/OrdersCenterView.tsx"
+        "src/features/orders/OrdersCenterView.tsx",
+        "src/features/salesHistory/SalesInvoiceDialog.tsx"
       ],
       "screenPaths": [
-        "orders"
+        "orders",
+        "salesHistory"
       ],
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:590",
+      "id": "src/services/supabase/orders.service.ts:593",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 590,
+      "line": 593,
       "table": "order_parcel_instances",
       "operation": "select",
       "role": "authenticated",
@@ -1810,24 +1836,26 @@
       "extensions": [],
       "constants": {
         "ORDER_DETAIL_SELECT": "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products!order_items_product_id_fkey (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n",
-        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
+        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  source,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
         "OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT": "\n  id,\n  order_id,\n  product_name_snapshot,\n  created_at\n",
         "MAX_OPERATIONAL_ORDER_ITEMS": "50"
       },
       "source": "supabase.from('order_parcel_instances')\n        .select('id,order_item_id,instance_sequence,units_per_parcel_snapshot,parcel_unit_name_snapshot')\n        .eq('order_id', orderId).order('instance_sequence')",
       "embeddedTables": [],
       "callers": [
-        "src/features/orders/OrdersCenterView.tsx"
+        "src/features/orders/OrdersCenterView.tsx",
+        "src/features/salesHistory/SalesInvoiceDialog.tsx"
       ],
       "screenPaths": [
-        "orders"
+        "orders",
+        "salesHistory"
       ],
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:596",
+      "id": "src/services/supabase/orders.service.ts:599",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 596,
+      "line": 599,
       "table": "order_parcel_components",
       "operation": "select",
       "role": "authenticated",
@@ -1853,17 +1881,19 @@
       "extensions": [],
       "constants": {
         "ORDER_DETAIL_SELECT": "\n  id,\n  order_number,\n  customer_id,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  payment_reference_number,\n  payment_confirmed_at,\n  payment_confirmed_by,\n  cash_shift_id,\n  subtotal_in_minor_units,\n  delivery_fee_in_minor_units,\n  delivery_zone,\n  discount_in_minor_units,\n  promotion_code_snapshot,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  customer_notes,\n  internal_notes,\n  whatsapp_message,\n  tracking_token,\n  delivery_started_at,\n  estimated_arrival_at,\n  delivery_completed_at,\n  delivery_driver_phone,\n  source,\n  branch_id,\n  warehouse_id,\n  created_at,\n  updated_at,\n  customers (\n    id,\n    full_name,\n    phone,\n    email\n  ),\n  customer_addresses (\n    id,\n    governorate,\n    city,\n    area,\n    street,\n    building,\n    floor,\n    apartment,\n    notes,\n    latitude,\n    longitude,\n    formatted_address,\n    google_maps_url,\n    location_source,\n    location_confirmed\n  ),\n  order_items (\n    id,\n    commercial_line_kind,\n    product_id,\n    product_name_snapshot,\n    sku_snapshot,\n    quantity,\n    unit_price_in_minor_units,\n    line_total_in_minor_units,\n    sale_package_quantity,\n    units_per_sale_package,\n    sale_package_name_snapshot,\n    sale_package_price_in_minor_units,\n    products!order_items_product_id_fkey (\n      id,\n      cost_price_in_minor_units,\n      base_unit:units!products_unit_id_fkey (\n        name_ar\n      ),\n      product_images (\n        image_url\n      )\n    )\n  ),\n  order_status_history (\n    id,\n    old_status,\n    new_status,\n    changed_by,\n    notes,\n    created_at\n  ),\n  sales_returns (\n    id,\n    return_number,\n    reason,\n    stock_disposition,\n    refund_method,\n    refund_amount_in_minor_units,\n    reference_number,\n    created_at\n  )\n",
-        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
+        "OPERATIONAL_ORDER_LIST_SELECT": "\n  id,\n  order_number,\n  customer_name_snapshot,\n  status,\n  payment_method,\n  payment_status,\n  total_in_minor_units,\n  amount_paid_in_minor_units,\n  source,\n  branch_id,\n  created_at,\n  updated_at,\n  customers (\n    full_name,\n    phone\n  ),\n  customer_addresses (\n    governorate,\n    city,\n    area\n  ),\n  order_items (count)\n",
         "OPERATIONAL_ORDER_ITEM_PREVIEW_SELECT": "\n  id,\n  order_id,\n  product_name_snapshot,\n  created_at\n",
         "MAX_OPERATIONAL_ORDER_ITEMS": "50"
       },
       "source": "supabase.from('order_parcel_components')\n          .select('id,parcel_instance_id,product_id,base_quantity,product_name_snapshot,sku_snapshot,base_unit_name_snapshot')\n          .in('parcel_instance_id', instances.map((instance) => instance.id))",
       "embeddedTables": [],
       "callers": [
-        "src/features/orders/OrdersCenterView.tsx"
+        "src/features/orders/OrdersCenterView.tsx",
+        "src/features/salesHistory/SalesInvoiceDialog.tsx"
       ],
       "screenPaths": [
-        "orders"
+        "orders",
+        "salesHistory"
       ],
       "reachability": "has-source-consumer"
     },
@@ -3382,7 +3412,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1217,
+      "line": 1220,
       "event": "*",
       "schema": "public",
       "table": "orders",
@@ -3510,6 +3540,11 @@
     {
       "file": "src/features/purchases/ReceiveGoodsModal.tsx",
       "line": 101,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
+      "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
+      "line": 27,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {

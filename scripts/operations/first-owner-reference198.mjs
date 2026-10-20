@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {readReady198Reference,ready198ReferenceName} from './frankfurt-reference198.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';
+import {inventoryBeforeSales204 as inventory} from '../audit/source-before-sales-history204.mjs';
 import {restoreHomeDamage201SourceHashes} from '../audit/source-before-home-damage201.mjs';
 import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
 import {canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';

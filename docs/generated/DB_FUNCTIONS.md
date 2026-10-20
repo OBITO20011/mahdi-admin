@@ -3,7 +3,7 @@
 > Generated from an isolated canonical rebuild. Reference only; NOT a migration or a backup.
 > No business data, credentials or Production connection. Extension-owned public functions are included.
 
-<!-- DB_REFERENCE {"format":1,"migrationDigest":"fc3df5e466a0d35e19beb3f4f6eff8c9e1227be657407c85a39a06f9e502e310","migrations":[{"name":"001_initial_schema.sql","sha256":"c87a85aa9b16b938b5427c72ed348da56a8cc2b620a567bc2ab316dc24fea93c"},{"name":"002_rls_policies.sql","sha256":"456c69fea03f73381c3b11a639ce44fbb488324d321d8d2f0fdda28dcbbcaf8d"},{"name":"003_inventory_functions.sql","sha256":"5c1bcf20a04bf435674d482e8de8800a71fadc3422755438ae9990690825d055"},{"name":"004_customers_orders.sql","sha256":"31a9830dadd6e51a015b4c4c0a59f809499665f8e31d0db17be49f8b08e45fc3"},{"name":"005_order_status_transitions.sql","sha256":"54e3707fea6f39de07b2fc35dc23aac8af65341bb4c1b77c49b5466c312ae070"},{"name":"006_test_system_rpcs.sql","sha256":"70212be725ca6d38aa2db56e5e5f79a1786b1157ea7dc6b24fffca0eaf061329"},{"name":"007_dashboard_analytics_rpc.sql","sha256":"15d0fc39063917dd70737bea0f8203d1004d195bfad35aae591e12aff73dab3b"},{"name":"008_purchase_orders.sql","sha256":"42c2d0fa8b5698a6f381df115c20cdf7dc5eb38a43177adece1c820b4e04890e"},{"name":"009_direct_goods_receiving.sql","sha256":"1b7b34616bd79a4a1b121479e2ca3870eefc586134d0f8a51ce1f237bd293b72"},{"name":"010_warehouse_completion.sql","sha256":"3024502b22ef8364dc364a9d325df887457afb611f0a2f1a7d3b4e534729e8c9"},{"name":"011_supplier_receiving_hardening.sql","sha256":"fbd52f4b4bcb478f87888103b8ebba105e909e09513a6cff45b424d1f40a817d"},{"name":"012_supplier_purchasing_rbac.sql","sha256":"557137bd89ba8e404cdcc7a4dadc7d926e86ff905ea1e33eea41ba1a73fe77a2"},{"name":"013_public_product_catalog.sql","sha256":"c714996362dc9fadc2780285495c9d776262d7fb9bea54ed117e11cf9d3eef01"},{"name":"014_simple_inventory_operations.sql","sha256":"4cd0c139fb18276982ea19119e01444489f2826dd837079204367a9adcd471f7"},{"name":"015_ramtha_receiving_location.sql","sha256":"563d7970506ec26cfb37d09f03b3e9b01e953ac9d2013ebfdcc977f7d931e493"},{"name":"016_safe_paid_supplier_receipt_reversal.sql","sha256":"8d5642c733b42c275b94d6f05516dd97eced31381ebf7d1fecb934da8969a6a2"},{"name":"017_orders_customers_accounts.sql","sha256":"62f555c8dc8e77e62fed7a738efc49cfd2d8d516257be0c5f0228248fd86773d"},{"name":"018_customer_order_linking.sql","sha256":"505b30d0cabecc0187afb5d3d56f74a1f36c2aeba993922987ac9d0df738e720"},{"name":"019_product_catalog_experience.sql","sha256":"d2b8ed7af848957d40b9e866f76e88a228e82b3966670620a94eb4cf3602f980"},{"name":"020_product_image_storage.sql","sha256":"79a4c3b15caffaa46f2c32aa1ea30f863cd99f15978697285757d09fa2c343cb"},{"name":"021_wholesale_sale_packages.sql","sha256":"5c283104e929c1c4dca399d9c015b92a5bb35de1020a35bc5bd7da895078065f"},{"name":"022_operational_home_dashboard.sql","sha256":"663394160187f6c1823ef9bf0a91787f6f601d843f914ca22ebd7296dccb5c37"},{"name":"023_wholesale_order_accounting.sql","sha256":"c66270c9a269ad9a6794881c5e2a39e1fb4d4972576351929b3ea4bc0cf8e8ed"},{"name":"024_supplier_receiving_wholesale_guard.sql","sha256":"17d97c42f6fcee8384ee9de4b0641f22f6e5d9c768aafc3fdd4117a71e02ba08"},{"name":"025_product_reference_data_management.sql","sha256":"5b9db8671b547768450c33f2fa78990a028c39794cc8c5cfcbd80c4170d55f01"},{"name":"026_remove_production_test_rpcs.sql","sha256":"a32901ed96ad719b7f2af9b7c3c98239110beacfc1af9506c2dd04863815bf65"},{"name":"027_require_customer_for_debt_sales.sql","sha256":"edad64231edba425e1825d9892ae7fdfb92f2dcc8153af61689102e9f154b2a5"},{"name":"028_guest_order_submission_safety.sql","sha256":"55b233de7e19301d3982272066481635db4c19da9e190d05d4c3fd755a48d6dc"},{"name":"029_guest_promotions_and_gps.sql","sha256":"ae3cb386c64e7acc04aa48fc52e11a94cda5e194e49d923770f80c52228e9d5f"},{"name":"030_secure_order_entrypoints.sql","sha256":"53d4d6701e3d665c70052a1b8c5d74eebd12debced4bc18dc6f8d7dd0764efe7"},{"name":"031_public_catalog_categories.sql","sha256":"2f8aed8fc03706c9fe97aed948d3c3f3f8cd1e35f430e2d73fc22cc807a36140"},{"name":"032_require_active_erp_staff.sql","sha256":"4eaa4401ecb00f5744d75d77709b264a1667a0081067a68d418a64111a943397"},{"name":"033_order_web_push_notifications.sql","sha256":"1cbfa6a9ba1d467d344632e71cf5cb5d8883e191e75e6b950e654677865eeda3"},{"name":"034_prelaunch_test_data_cleanup.sql","sha256":"33f2b940719ab24ccc69eeb2737be407a254197029f1be6ce12b0f0a7dc02414"},{"name":"035_remove_push_test_controls.sql","sha256":"1cf50bf68241c9a083992ed913e556e8d56fd754d3f16c7f0746ac78bf0f008a"},{"name":"036_storefront_experience_and_payment.sql","sha256":"71f366912366bce1ab62c79eadccad8415f92d59c28785944de26a7754be326d"},{"name":"037_storefront_management.sql","sha256":"83133dea36e1a7483b44c51c588336ba549c9f41fa0b68f7f45a4ff949ade2e0"},{"name":"038_storefront_home_sections.sql","sha256":"466dceffe057bdb2888b186ffbb159d760ae243215e4e96676e793e84d48aa01"},{"name":"039_storefront_home_sections_lint.sql","sha256":"20a2d86788ecff64379b6735a72920edd1196b1ae9765f52252e4bfeadba1a8d"},{"name":"040_operational_expenses_and_cash_shifts.sql","sha256":"89c406a3da18764b14d4cd25141de9b0fe2441b528da0d10f78392ba8f9879e1"},{"name":"041_require_open_shift_for_pos_sales.sql","sha256":"3bc50070964d17be5c48e217cadc69b7431ec2b3a3591ae51b7f941c2391811c"},{"name":"042_website_order_payment_settlement.sql","sha256":"d8ececb5e1221d49773e5405c7de77d2650866eafbdfcd01b7a3b523c52a92e8"},{"name":"043_sales_returns_and_refunds.sql","sha256":"9ed93aa1d5b523ce0c26794ccd2ace0715a7926cfc3b83d63612268425c56b24"},{"name":"044_daily_shift_closing_report.sql","sha256":"7fe9150b98b2cc5e77ee6a00c7bf8a9acbd701037182a26c21dfe78cf0c11d35"},{"name":"045_secure_delivery_map_links.sql","sha256":"0b31c21c378cb76d55d68234566108b33b803ddbba6f6f4808b6aa78303dd25a"},{"name":"046_cancel_empty_cash_shift.sql","sha256":"3b88deae19a722cfe1077001ca69a69018444e080aa8847ec2ed86a7f529869a"},{"name":"047_inventory_opening_setup.sql","sha256":"cb7cecf7526b5a8959afbfd72167ced20925bbdfa493ac50348b4ff43ba104b5"},{"name":"048_public_storefront_promotion_offers.sql","sha256":"c3efb273ae65de58c5e4ac990ed4be713a5a2a1e46c5d728294a1ca002268ddc"},{"name":"049_active_promotions_are_storefront_offers.sql","sha256":"2d842035e109bf5b364183c659a013aadf2ff4cb7c478e7885125e0002baddd4"},{"name":"050_admin_api_security_hardening.sql","sha256":"0f0c29aebf0f4335958322f55043b754b7f5ac2831c1d916c055c0f6eab30e4f"},{"name":"051_enrolled_staff_mfa_enforcement.sql","sha256":"c82065d5df191826fc9e4f70bbbbb685f849f2c7559af5329fd096e4d881650a"},{"name":"052_owner_only_tagged_e2e_cleanup.sql","sha256":"7df9bbfd545cd25692558bb110cac8381be48c0f35e6fd7fd8561780e28042ce"},{"name":"053_remove_tagged_e2e_cleanup_rpc.sql","sha256":"03c6f10ef49491c2418e31732540d72089ab39c485c52c4f74e03abc93f8b95f"},{"name":"054_confirm_google_maps_coordinates.sql","sha256":"8a49d98294807628323fdf5985d3a0a48a8530068b677ed717b8867aaf41eaeb"},{"name":"055_operational_business_reports.sql","sha256":"e0234580b631befbc8335ef6582830b3737d7e46fbaaec56dd70b1c36501210c"},{"name":"056_inventory_movement_reports_and_public_pos_receipts.sql","sha256":"03dc52269b0d075696d25604ff7f814dd98c8693949f8950d3f71719b04362cb"},{"name":"057_secure_n8n_automation_events.sql","sha256":"f6bb003238a82972d449e7dfff1bb636704b9af282d883b55ffa7b0b896fd6a6"},{"name":"058_secure_order_delivery_tracking.sql","sha256":"a7596ba5c12e2fab6ed425cb44324df57bb36d26fb419968441daf105e5aae51"},{"name":"059_delivery_driver_contact.sql","sha256":"c469db52a024632ea13633accde3c24387c032fece660136499d06612ef7b4f6"},{"name":"060_simplified_order_settlement_and_receivables.sql","sha256":"135c3609964b62b9a9702f30530b091104487c828c6f08d744e1c0a0fba70e5d"},{"name":"061_delivery_zone_pricing.sql","sha256":"554238cd18ab26bf0e796eb9bfc84a253a9b59663d5dfcf5ee4594677edb5f23"},{"name":"062_finalize_automation_order_alerts.sql","sha256":"ae61739e9186469f1939c12a4cdd0776c4731ec14faca7e3ca095db5b3a245ea"},{"name":"063_category_cover_images.sql","sha256":"ebf44f277d9b12a48ce4480345fb4de599db847b2a4d2517991f8f19d79274bc"},{"name":"064_secure_staff_account_management.sql","sha256":"3d018dae4e96d07193b8343a68759ee4340083349c932acdb7ebcc618b1e2160"},{"name":"065_multiple_system_owners.sql","sha256":"568e78ee24560ade144aa1ebc13ef92ed0fe4cc5fca6f4ad34fc5a8f1cb6224e"},{"name":"066_secure_admin_ai_assistant.sql","sha256":"5acf1874446fd4bf5579223400def4a61a7d7c48113a19b0c60449856a816608"},{"name":"067_admin_ai_inventory_lookup.sql","sha256":"b4ffbd16d8f151c3b18684d9ab62a8991c9069f3b0db140ec68c6f6e57431b9b"},{"name":"068_admin_ai_operational_reports.sql","sha256":"78ad145e41b92fad9b00af86a9299ce75430884bfff0d0b0fab378e438e27698"},{"name":"069_admin_ai_product_price_lookup.sql","sha256":"d3c242a22d90db174efdb85aff39f5c03a8fb1354b49fcc4da8cd9725e63c72e"},{"name":"070_product_flavor_variants.sql","sha256":"e593d90dc2354ea0887ab25830c827765ae62c381f0fa43b9376f08ed60d8709"},{"name":"071_atomic_product_family_creation.sql","sha256":"5d783809e6902d53e58d3fc1d63dc9fa9c98a31dcb4db419c50b30f545dfb2df"},{"name":"072_manage_product_flavors.sql","sha256":"90e6f44b3946ab7fbd46e71a5fa0ec88a31c75543590a8c3e385cc4bf57682b9"},{"name":"073_admin_dashboard_performance_indexes.sql","sha256":"bbe23c0ec8808d7eda0df5f24c79d5c1eade9b72fc227a3a01a6ac6e7c243743"},{"name":"074_secure_warehouse_rpcs_and_self_profile.sql","sha256":"facc48cadcefba71b3858bc004ed5ea31d91896737b633afda4ab536232066f4"},{"name":"075_operational_orders_pagination.sql","sha256":"3eff5463e7dcb5d1f2224edb7981e462df24422a258e7e24eeb0fc8b94504048"},{"name":"076_admin_product_listing_read_model.sql","sha256":"9623f60d11792a5076d177c54d5b109509b8ca1dc7da72b51341dd88bf2f8d84"},{"name":"077_paginated_inventory_and_crm_read_models.sql","sha256":"18b1781550ceda776484208709a73a0698338989657abfae981f67e2a0eea48b"},{"name":"078_operational_accounting_integrity.sql","sha256":"cbd3361b2545a54614a471302290e755c21a960f651b8106aad126e6ec506fa6"},{"name":"079_remove_retired_warehouse_rpcs.sql","sha256":"a49dd3e78c7091da290814278a2c37e67514905314167f857358d961e7508637"},{"name":"080_supplier_payment_idempotency.sql","sha256":"76b2592a70e7415104ee7aedfee9c513c75b972cfa3fe518a535d79fc480d5b3"},{"name":"081_storefront_catalog_server_pagination.sql","sha256":"ed5e112969b6d6c34434d86355bb5a28fab1559466c507ee6d914532a368a8a6"},{"name":"082_admin_historical_read_models.sql","sha256":"7be584aa19746012f75ad5a4bcefe6c02e304ddd7772ec9be9483c38c1455642"},{"name":"083_shift_reversal_primitives.sql","sha256":"dcd204428be04bf45a7e64903fe2b82141c8ab59ec68ef61509461a142ec301e"},{"name":"084_full_cash_shift_reversal.sql","sha256":"67fed225cc85175b28ec3f07b6355f9510333a95c955184e78d7d5fe2a8a8409"},{"name":"085_admin_customer_receivables_and_scalability.sql","sha256":"2ee0984782ab02871ecbfd29c84298386f051d65703db4d240afd84cd003ab65"},{"name":"086_guest_order_abuse_gateway.sql","sha256":"ffee86671b8614d6308d4f2c03da8b3c30731978c80ad3fa65e9518d50cc2211"},{"name":"087_guest_order_line_item_limit.sql","sha256":"162d83c545b50e80e692cb5576d3f95b6b048c2f8b81336a87c2053a1a805f57"},{"name":"088_storefront_merchandising_rpc.sql","sha256":"45657ccf6d297afd7a3586dc95dc532b11c830d49cdff7f581af9d5c41016b10"},{"name":"089_customer_order_tracking_receipt.sql","sha256":"8c489a2908b98964a935253aab4b3903664bc1947921c0a268968330a5455e9d"},{"name":"090_optional_guest_delivery_details.sql","sha256":"4b02e370dc7fc7a18ce3446e691325fcb9dade905d38cc934584596720a360ef"},{"name":"091_expire_stale_new_website_orders.sql","sha256":"b66fa73b06fed8e695dc48260d325e0db88a294a7b26fb53ff955aed5f271d54"},{"name":"092_cleanup_guest_order_gateway_rate_limits.sql","sha256":"e5c5d6c01b7e748c35b9cd34df96427c70244bdc63865edb19bdb3bad56c7702"},{"name":"093_cash_shift_archive.sql","sha256":"ec6b3cdab4ffab6188b5ef3d633f126d64d44988d3a9cc674d51fa4b783b6a60"},{"name":"094_immutable_cash_shift_closing_report_snapshot.sql","sha256":"049a81e78f4726a716a63872a50db278165e1152223caa367c3e677876163e37"},{"name":"095_remove_unused_transfer_product_name.sql","sha256":"446766b75288ed9de3b33aabda0ee58cd94a3543f4bd01f54e3cc1bc139453e9"},{"name":"096_harden_automation_delivery_lifecycle.sql","sha256":"856cd1464e2b39bf8988bdc2789120ed80681242b2d9c07cbc28acbcf17fea61"},{"name":"097_core_business_alerts.sql","sha256":"d3afb579cd853a18c91100a2f29358bde29a91405bbaa701b93c3a8e580a67ee"},{"name":"098_business_summaries.sql","sha256":"5b39ddab61ff704370de2ce9dce18bfe8f99f74108e97fb03db8fba1f653dbde"},{"name":"099_advanced_monitoring_and_business_integrity.sql","sha256":"6f90f4a3e27f81082fdde1960d486d3bf1b87de7184ebd3c182c5fbb45cefcee"},{"name":"100_fix_cancelled_supplier_receipt_monitoring.sql","sha256":"8ca133c0efcc2ac0faf5c5c7d8c943e034fde3c4526bb6e5b1d13ba92b27bd1b"},{"name":"101_scope_core_business_incident_recovery.sql","sha256":"8efd0021375ae621b420db83e0bc71b5b8a9c324f788f8fd4bc4ed406255ee3c"},{"name":"102_privacy_minimize_business_alert_payload.sql","sha256":"64bec51cc1a40e46431dc1d608aa48658831923b88608a45d25c88ef68139a51"},{"name":"103_flavor_receiving_hardening.sql","sha256":"95321e321e11fbb0c4b923a43a682535587fad6e5c30ea256451a8fc8952b657"},{"name":"104_remove_unused_receive_purchase_order_product_id.sql","sha256":"f333e4dd5950cb89ac2562d45b989d27bdbff540d9327e407b10219f40295c93"},{"name":"105_harden_business_alert_rules_and_thresholds.sql","sha256":"0dee3dcca6fb2f75e47aefbf73dd0c73b0d1d77ed890bd26c793837559b1f1af"},{"name":"106_align_monitoring_owner_mfa_policy.sql","sha256":"11ca27e89ccc48779702dad5faa9bf3f2d383053674b6f04a39ac3a716f0109f"},{"name":"107_canonical_schema_reconciliation.sql","sha256":"7472dbdae40f1b66ff929d64abda94fe73a1b591359572844f74de920dcf11d9"},{"name":"108_harden_product_sku_barcode_integrity.sql","sha256":"5d3569f28fd2e9f661697d0b4496236fee0257d9329e297cd329bfab1808af34"},{"name":"109_admin_large_catalog_read_models.sql","sha256":"5e686d64a29a78fbc5a21c6961b5776d5f40614148fa1b6548c9ae82b3dd8505"},{"name":"110_fix_deferred_cash_shift_snapshot_guard_privileges.sql","sha256":"ac1ca40eefaafc3fa1de1e4b26b0ec6ff94e6a9222053b6dc361cf6221b3e1e9"},{"name":"111_harden_pos_sale_idempotency_replays.sql","sha256":"483c939a3bb0d9755628e79fa3b83efe23f02881a503692b7e79653420c8f973"},{"name":"112_configurable_parcel_foundation.sql","sha256":"f169e9b1e5f2878a68cd02c294587c8a1c63689fbdad95e40b145eb227af57e3"},{"name":"113_configurable_parcel_receiving_and_exact_wac.sql","sha256":"833d1ff666fc70c399ef0cd838948b817b167f7ba9771aec02e848e748627307"},{"name":"114_configurable_parcel_sales_contracts_and_safety_primitives.sql","sha256":"14e9d2af64b19bd4f97b73bb58d0fb661f9c3231673bca23d448a9803594a986"},{"name":"115_configurable_parcel_pos_sale_coordinator.sql","sha256":"19ccff06075cb532d03a80c56d088ad226c86fe30cf70cbbc76938d9d816ebc3"},{"name":"116_configurable_parcel_customer_reservation_coordinator.sql","sha256":"d16276631f77d02777f24a1395709d335156211ed3a88614ce2760eda72dc359"},{"name":"117_customer_public_configurable_parcel_read_contract.sql","sha256":"0447e1293c5c610b50e5fcc75a82950df058cd4d23cabb5610978a2c160c3c70"},{"name":"118_customer_guest_promotion_preview_v2.sql","sha256":"3d0ddf0a2a0d8a184bc62bb0a001d8564399cda54d8b6f8ccef0adbd2fd881b5"},{"name":"119_exact_wac_and_commercial_quantity_reporting.sql","sha256":"0416e25876bc92581a9b47398d5cf2953838f2cd7615486037b485df64bd412d"},{"name":"120_phase4_returns_refunds_foundation.sql","sha256":"dc029f4d53460c743099ed44e5eb820eecb00a32316a82f8c301519ab510c982"},{"name":"121_phase42_atomic_return_coordinator.sql","sha256":"9779212034a901dbb971a68ec485d16b0aa4be329478b9daf1a4263ce6989bdd"},{"name":"122_phase43_admin_aftercare_integration.sql","sha256":"df991de73f32931b81c9c4b9c2f611f44731e99044acbc2f5f60f4fe1192c066"},{"name":"123_phase5_private_financial_evidence_foundation.sql","sha256":"3f5fe7554b17bbc6be872175682c36d7f17b5f2b72f00bd32eae0f6a97483e80"},{"name":"124_phase5_canonical_collection_reversal_writers.sql","sha256":"4b6a50442ddf0dbee24233cb9036469b428ce20991e0315eb6c1fafe4bdd4f41"},{"name":"125_phase5_collection_lock_lint_correction.sql","sha256":"d1cda688b835c2791a0890f4e000a85fa7309b1a4e4de02f21819491330a546b"},{"name":"126_phase5_private_tender_coordinator.sql","sha256":"4c099804ba1d6b97df6af3fa0c0a8d514fd616397bde1bc7f5e5dae3eb8b1d21"},{"name":"127_phase5_private_financial_read_model.sql","sha256":"a2c9561ef071e959152d7dd06cafc0f9be933f18f845f4ae03d2b1a8971be60d"},{"name":"128_phase5_operational_payment_and_shift_refund_fixes.sql","sha256":"f0f2648e6513ba9820c27b3d56b7222e3783378d07ea3189fc2616e32de6f39d"},{"name":"129_phase5_block_paid_order_receipt_reversal.sql","sha256":"886af35898e5ae73df9427308ca322246330ddfb167814f44127d1e6c9cdb28e"},{"name":"130_phase5_review_followup_shift_refund_guards.sql","sha256":"46b830dbe2712f7e396dba23c1971e33ab097dec9e8be95500b1074708ce496f"},{"name":"131_phase6_operational_report_readers.sql","sha256":"790219c523ece5ef8f1853f45a0d5775c42509575e5f4e500d06a6df506f63a1"},{"name":"132_package_d_system_unification.sql","sha256":"775274e9d8f34f98ebc408bbde883ef909c64bc751107a43dc7d486f8499526b"},{"name":"133_package_e_supplier_po_financial_consistency.sql","sha256":"073787127aa6fa05448a43e20a97042969a185dac3fa1abed53ec12a874e16e4"},{"name":"134_package_e_read_performance.sql","sha256":"de3a0f6fa2a52cc595a06f912fbb199470327e27459365a7fd0d49dbf536d3dd"},{"name":"135_package_f_pos_customer_inventory_reads.sql","sha256":"2f699cac9eb167c1a44838ee9cf72894c0f7d47846125f698c211e2592ee3b52"},{"name":"136_package_f_customer_debt_aging.sql","sha256":"b324874e401ccde88084314841f9f75dc64562c40ecbfb780b177f531fc40e24"},{"name":"137_package_f_crm_financial_filters.sql","sha256":"4fee1c389f81d204bd6e781a968d0c7388d398847c6eadcb1b40253c1a609794"},{"name":"138_package_f_customer_statement.sql","sha256":"ab01b7a1e2ffdb57404df92a6eb637f6ca0278eaefd9c02b685d27fabe6ad6b3"},{"name":"139_project_order_push_webhook_url.sql","sha256":"c193211c782e4375092eb93aa74655f67f3429832010b7e0036e1db18847f262"},{"name":"150_explicit_application_table_read_privileges.sql","sha256":"747e19115c0ccd5ff050159555d429de5933078cb5f94e63c8df2b6656a4c5b0"},{"name":"151_explicit_application_realtime_publication.sql","sha256":"fd7f12e6ff97fec97e35fd04ba43b6954cd2a841accd8c2bebd6186db6823f62"},{"name":"160_go_live_setup_foundation.sql","sha256":"a0a0a33d51bbbba08fce4ce9c87da194149c4683a640d64b4daaf16404d864bb"},{"name":"161_go_live_customer_opening_balances.sql","sha256":"3456be3c07331beba1538a6f693dbe566696433a98a0a371bf2c82774fa619a6"},{"name":"162_go_live_supplier_opening_balances.sql","sha256":"e9b76071095c5371eb537f40abc44d9091bac6a80a72ddbe92d559f1cda9957b"},{"name":"163_go_live_unified_collection_and_supplier_opening_payment.sql","sha256":"b3a51f8f9dff65c533c864352b49d85786c0e0591402a7053682165785994345"},{"name":"164_go_live_receivables_in_reports.sql","sha256":"6a3d49d4c0b1e95fd128d2a817f3d3f744ea624c597e6055dd0ba8927d5a0e03"},{"name":"170_product_edit_optimistic_concurrency.sql","sha256":"78caaea4e7474d9c106a93b211c1c0ab9ecf3f836c834f21c25d02ed74069c73"},{"name":"171_product_cost_preserved_on_edit.sql","sha256":"cbda4e226de0752df522a23c2b6990ccd984d69d8d1a4e34f11ae10af1618781"},{"name":"180_owner_cash_withdrawals.sql","sha256":"080a6f155a3d6cbac1799e438e4698e899eb7d58258c0904d030cc56d752b9e1"},{"name":"181_owner_withdrawal_readers.sql","sha256":"e3448dd3161618fb3b6574944b84d56260b5eeaae214688135926bd29ce477f6"},{"name":"182_owner_withdrawal_monitoring.sql","sha256":"b8e7db1af4ef9111aa7c0476d0c6373a38df37bc168c018261a69b22637bb70e"},{"name":"190_deferred_cheques_evidence.sql","sha256":"a8a6e933d20c0778a8c50e59620b44e9f5ba2cee4b74bb1320bea44d2857d983"},{"name":"191_cheque_unified_customer_collection.sql","sha256":"3ced28e07c73c05871e67e7a76f669718952bfb517b2a477b21346a3994c9978"},{"name":"192_cheque_compensation_receivable_readers.sql","sha256":"2fafaa9471b4556db4a898ee7e94473fa4199f742ebc89621d0df3588a05a007"},{"name":"193_deferred_cheque_lifecycle.sql","sha256":"15d9fe88b01e79c325bd8bb68e479e8860efbfb5623f2f337b48906f23473295"},{"name":"194_cheque_shift_and_integrity.sql","sha256":"9867016ffa4b61b4abd65fb2bdf189d5e42f09df6a756c2293fff0f449bc5ee8"},{"name":"195_deferred_cheque_readers_and_alerts.sql","sha256":"c448f4726fb574a687402923759783ce0f859f1e56ee29221d8b24e53f3f6d4b"},{"name":"196_go_live_opening_cheques.sql","sha256":"e80f31be94b225c12faf55baed8fe5478d7d433b572954f7fb3066f2c5ed211d"},{"name":"197_canonical_home_customer_receivables.sql","sha256":"3caabd6c454a22a607761b57fff66e9c41119c468d468f54c1de9197111e7722"},{"name":"198_cashier_customer_collection_access.sql","sha256":"1f494dc9f95b6a4db5887f5ef675c4e792ff7cd7ef681f37588489f88c094bab"},{"name":"199_owner_warehouse_management.sql","sha256":"a34808ee64c80744fd8973559207983391aca0f53025f8f2764be74e52c2fcf0"},{"name":"200_revoke_legacy_product_cost_writers.sql","sha256":"39aa40c6ca2099316eeb0243eefd6efc1564d23c735164a2a51d68a339ba98eb"},{"name":"201_home_collections_and_damage_losses.sql","sha256":"ec24cfadafbd1fff55f0fe1e66c9480a04f490b41185d1be970fa2dfa23ad9de"},{"name":"202_all_customer_collections_read_model.sql","sha256":"c6fd0cc7e0d1d79d2fd1e157225cf773431af1bddbe3bffa58a9d2a927645e12"},{"name":"203_customer_payment_receipts_without_completion.sql","sha256":"6b5b9b7904874cf7359785f6dea882413fd0430a2709a0de0db32290f6ea4f64"}],"functionCount":516,"definitionsDigest":"f944d6efa506070206553723e6754672c17a95139d6c135c80f6bbd2197833a5"} -->
+<!-- DB_REFERENCE {"format":1,"migrationDigest":"966eab49bd0aecd970359e0e8e6d78117c113357bd29db2e0028231ee10e8c4f","migrations":[{"name":"001_initial_schema.sql","sha256":"c87a85aa9b16b938b5427c72ed348da56a8cc2b620a567bc2ab316dc24fea93c"},{"name":"002_rls_policies.sql","sha256":"456c69fea03f73381c3b11a639ce44fbb488324d321d8d2f0fdda28dcbbcaf8d"},{"name":"003_inventory_functions.sql","sha256":"5c1bcf20a04bf435674d482e8de8800a71fadc3422755438ae9990690825d055"},{"name":"004_customers_orders.sql","sha256":"31a9830dadd6e51a015b4c4c0a59f809499665f8e31d0db17be49f8b08e45fc3"},{"name":"005_order_status_transitions.sql","sha256":"54e3707fea6f39de07b2fc35dc23aac8af65341bb4c1b77c49b5466c312ae070"},{"name":"006_test_system_rpcs.sql","sha256":"70212be725ca6d38aa2db56e5e5f79a1786b1157ea7dc6b24fffca0eaf061329"},{"name":"007_dashboard_analytics_rpc.sql","sha256":"15d0fc39063917dd70737bea0f8203d1004d195bfad35aae591e12aff73dab3b"},{"name":"008_purchase_orders.sql","sha256":"42c2d0fa8b5698a6f381df115c20cdf7dc5eb38a43177adece1c820b4e04890e"},{"name":"009_direct_goods_receiving.sql","sha256":"1b7b34616bd79a4a1b121479e2ca3870eefc586134d0f8a51ce1f237bd293b72"},{"name":"010_warehouse_completion.sql","sha256":"3024502b22ef8364dc364a9d325df887457afb611f0a2f1a7d3b4e534729e8c9"},{"name":"011_supplier_receiving_hardening.sql","sha256":"fbd52f4b4bcb478f87888103b8ebba105e909e09513a6cff45b424d1f40a817d"},{"name":"012_supplier_purchasing_rbac.sql","sha256":"557137bd89ba8e404cdcc7a4dadc7d926e86ff905ea1e33eea41ba1a73fe77a2"},{"name":"013_public_product_catalog.sql","sha256":"c714996362dc9fadc2780285495c9d776262d7fb9bea54ed117e11cf9d3eef01"},{"name":"014_simple_inventory_operations.sql","sha256":"4cd0c139fb18276982ea19119e01444489f2826dd837079204367a9adcd471f7"},{"name":"015_ramtha_receiving_location.sql","sha256":"563d7970506ec26cfb37d09f03b3e9b01e953ac9d2013ebfdcc977f7d931e493"},{"name":"016_safe_paid_supplier_receipt_reversal.sql","sha256":"8d5642c733b42c275b94d6f05516dd97eced31381ebf7d1fecb934da8969a6a2"},{"name":"017_orders_customers_accounts.sql","sha256":"62f555c8dc8e77e62fed7a738efc49cfd2d8d516257be0c5f0228248fd86773d"},{"name":"018_customer_order_linking.sql","sha256":"505b30d0cabecc0187afb5d3d56f74a1f36c2aeba993922987ac9d0df738e720"},{"name":"019_product_catalog_experience.sql","sha256":"d2b8ed7af848957d40b9e866f76e88a228e82b3966670620a94eb4cf3602f980"},{"name":"020_product_image_storage.sql","sha256":"79a4c3b15caffaa46f2c32aa1ea30f863cd99f15978697285757d09fa2c343cb"},{"name":"021_wholesale_sale_packages.sql","sha256":"5c283104e929c1c4dca399d9c015b92a5bb35de1020a35bc5bd7da895078065f"},{"name":"022_operational_home_dashboard.sql","sha256":"663394160187f6c1823ef9bf0a91787f6f601d843f914ca22ebd7296dccb5c37"},{"name":"023_wholesale_order_accounting.sql","sha256":"c66270c9a269ad9a6794881c5e2a39e1fb4d4972576351929b3ea4bc0cf8e8ed"},{"name":"024_supplier_receiving_wholesale_guard.sql","sha256":"17d97c42f6fcee8384ee9de4b0641f22f6e5d9c768aafc3fdd4117a71e02ba08"},{"name":"025_product_reference_data_management.sql","sha256":"5b9db8671b547768450c33f2fa78990a028c39794cc8c5cfcbd80c4170d55f01"},{"name":"026_remove_production_test_rpcs.sql","sha256":"a32901ed96ad719b7f2af9b7c3c98239110beacfc1af9506c2dd04863815bf65"},{"name":"027_require_customer_for_debt_sales.sql","sha256":"edad64231edba425e1825d9892ae7fdfb92f2dcc8153af61689102e9f154b2a5"},{"name":"028_guest_order_submission_safety.sql","sha256":"55b233de7e19301d3982272066481635db4c19da9e190d05d4c3fd755a48d6dc"},{"name":"029_guest_promotions_and_gps.sql","sha256":"ae3cb386c64e7acc04aa48fc52e11a94cda5e194e49d923770f80c52228e9d5f"},{"name":"030_secure_order_entrypoints.sql","sha256":"53d4d6701e3d665c70052a1b8c5d74eebd12debced4bc18dc6f8d7dd0764efe7"},{"name":"031_public_catalog_categories.sql","sha256":"2f8aed8fc03706c9fe97aed948d3c3f3f8cd1e35f430e2d73fc22cc807a36140"},{"name":"032_require_active_erp_staff.sql","sha256":"4eaa4401ecb00f5744d75d77709b264a1667a0081067a68d418a64111a943397"},{"name":"033_order_web_push_notifications.sql","sha256":"1cbfa6a9ba1d467d344632e71cf5cb5d8883e191e75e6b950e654677865eeda3"},{"name":"034_prelaunch_test_data_cleanup.sql","sha256":"33f2b940719ab24ccc69eeb2737be407a254197029f1be6ce12b0f0a7dc02414"},{"name":"035_remove_push_test_controls.sql","sha256":"1cf50bf68241c9a083992ed913e556e8d56fd754d3f16c7f0746ac78bf0f008a"},{"name":"036_storefront_experience_and_payment.sql","sha256":"71f366912366bce1ab62c79eadccad8415f92d59c28785944de26a7754be326d"},{"name":"037_storefront_management.sql","sha256":"83133dea36e1a7483b44c51c588336ba549c9f41fa0b68f7f45a4ff949ade2e0"},{"name":"038_storefront_home_sections.sql","sha256":"466dceffe057bdb2888b186ffbb159d760ae243215e4e96676e793e84d48aa01"},{"name":"039_storefront_home_sections_lint.sql","sha256":"20a2d86788ecff64379b6735a72920edd1196b1ae9765f52252e4bfeadba1a8d"},{"name":"040_operational_expenses_and_cash_shifts.sql","sha256":"89c406a3da18764b14d4cd25141de9b0fe2441b528da0d10f78392ba8f9879e1"},{"name":"041_require_open_shift_for_pos_sales.sql","sha256":"3bc50070964d17be5c48e217cadc69b7431ec2b3a3591ae51b7f941c2391811c"},{"name":"042_website_order_payment_settlement.sql","sha256":"d8ececb5e1221d49773e5405c7de77d2650866eafbdfcd01b7a3b523c52a92e8"},{"name":"043_sales_returns_and_refunds.sql","sha256":"9ed93aa1d5b523ce0c26794ccd2ace0715a7926cfc3b83d63612268425c56b24"},{"name":"044_daily_shift_closing_report.sql","sha256":"7fe9150b98b2cc5e77ee6a00c7bf8a9acbd701037182a26c21dfe78cf0c11d35"},{"name":"045_secure_delivery_map_links.sql","sha256":"0b31c21c378cb76d55d68234566108b33b803ddbba6f6f4808b6aa78303dd25a"},{"name":"046_cancel_empty_cash_shift.sql","sha256":"3b88deae19a722cfe1077001ca69a69018444e080aa8847ec2ed86a7f529869a"},{"name":"047_inventory_opening_setup.sql","sha256":"cb7cecf7526b5a8959afbfd72167ced20925bbdfa493ac50348b4ff43ba104b5"},{"name":"048_public_storefront_promotion_offers.sql","sha256":"c3efb273ae65de58c5e4ac990ed4be713a5a2a1e46c5d728294a1ca002268ddc"},{"name":"049_active_promotions_are_storefront_offers.sql","sha256":"2d842035e109bf5b364183c659a013aadf2ff4cb7c478e7885125e0002baddd4"},{"name":"050_admin_api_security_hardening.sql","sha256":"0f0c29aebf0f4335958322f55043b754b7f5ac2831c1d916c055c0f6eab30e4f"},{"name":"051_enrolled_staff_mfa_enforcement.sql","sha256":"c82065d5df191826fc9e4f70bbbbb685f849f2c7559af5329fd096e4d881650a"},{"name":"052_owner_only_tagged_e2e_cleanup.sql","sha256":"7df9bbfd545cd25692558bb110cac8381be48c0f35e6fd7fd8561780e28042ce"},{"name":"053_remove_tagged_e2e_cleanup_rpc.sql","sha256":"03c6f10ef49491c2418e31732540d72089ab39c485c52c4f74e03abc93f8b95f"},{"name":"054_confirm_google_maps_coordinates.sql","sha256":"8a49d98294807628323fdf5985d3a0a48a8530068b677ed717b8867aaf41eaeb"},{"name":"055_operational_business_reports.sql","sha256":"e0234580b631befbc8335ef6582830b3737d7e46fbaaec56dd70b1c36501210c"},{"name":"056_inventory_movement_reports_and_public_pos_receipts.sql","sha256":"03dc52269b0d075696d25604ff7f814dd98c8693949f8950d3f71719b04362cb"},{"name":"057_secure_n8n_automation_events.sql","sha256":"f6bb003238a82972d449e7dfff1bb636704b9af282d883b55ffa7b0b896fd6a6"},{"name":"058_secure_order_delivery_tracking.sql","sha256":"a7596ba5c12e2fab6ed425cb44324df57bb36d26fb419968441daf105e5aae51"},{"name":"059_delivery_driver_contact.sql","sha256":"c469db52a024632ea13633accde3c24387c032fece660136499d06612ef7b4f6"},{"name":"060_simplified_order_settlement_and_receivables.sql","sha256":"135c3609964b62b9a9702f30530b091104487c828c6f08d744e1c0a0fba70e5d"},{"name":"061_delivery_zone_pricing.sql","sha256":"554238cd18ab26bf0e796eb9bfc84a253a9b59663d5dfcf5ee4594677edb5f23"},{"name":"062_finalize_automation_order_alerts.sql","sha256":"ae61739e9186469f1939c12a4cdd0776c4731ec14faca7e3ca095db5b3a245ea"},{"name":"063_category_cover_images.sql","sha256":"ebf44f277d9b12a48ce4480345fb4de599db847b2a4d2517991f8f19d79274bc"},{"name":"064_secure_staff_account_management.sql","sha256":"3d018dae4e96d07193b8343a68759ee4340083349c932acdb7ebcc618b1e2160"},{"name":"065_multiple_system_owners.sql","sha256":"568e78ee24560ade144aa1ebc13ef92ed0fe4cc5fca6f4ad34fc5a8f1cb6224e"},{"name":"066_secure_admin_ai_assistant.sql","sha256":"5acf1874446fd4bf5579223400def4a61a7d7c48113a19b0c60449856a816608"},{"name":"067_admin_ai_inventory_lookup.sql","sha256":"b4ffbd16d8f151c3b18684d9ab62a8991c9069f3b0db140ec68c6f6e57431b9b"},{"name":"068_admin_ai_operational_reports.sql","sha256":"78ad145e41b92fad9b00af86a9299ce75430884bfff0d0b0fab378e438e27698"},{"name":"069_admin_ai_product_price_lookup.sql","sha256":"d3c242a22d90db174efdb85aff39f5c03a8fb1354b49fcc4da8cd9725e63c72e"},{"name":"070_product_flavor_variants.sql","sha256":"e593d90dc2354ea0887ab25830c827765ae62c381f0fa43b9376f08ed60d8709"},{"name":"071_atomic_product_family_creation.sql","sha256":"5d783809e6902d53e58d3fc1d63dc9fa9c98a31dcb4db419c50b30f545dfb2df"},{"name":"072_manage_product_flavors.sql","sha256":"90e6f44b3946ab7fbd46e71a5fa0ec88a31c75543590a8c3e385cc4bf57682b9"},{"name":"073_admin_dashboard_performance_indexes.sql","sha256":"bbe23c0ec8808d7eda0df5f24c79d5c1eade9b72fc227a3a01a6ac6e7c243743"},{"name":"074_secure_warehouse_rpcs_and_self_profile.sql","sha256":"facc48cadcefba71b3858bc004ed5ea31d91896737b633afda4ab536232066f4"},{"name":"075_operational_orders_pagination.sql","sha256":"3eff5463e7dcb5d1f2224edb7981e462df24422a258e7e24eeb0fc8b94504048"},{"name":"076_admin_product_listing_read_model.sql","sha256":"9623f60d11792a5076d177c54d5b109509b8ca1dc7da72b51341dd88bf2f8d84"},{"name":"077_paginated_inventory_and_crm_read_models.sql","sha256":"18b1781550ceda776484208709a73a0698338989657abfae981f67e2a0eea48b"},{"name":"078_operational_accounting_integrity.sql","sha256":"cbd3361b2545a54614a471302290e755c21a960f651b8106aad126e6ec506fa6"},{"name":"079_remove_retired_warehouse_rpcs.sql","sha256":"a49dd3e78c7091da290814278a2c37e67514905314167f857358d961e7508637"},{"name":"080_supplier_payment_idempotency.sql","sha256":"76b2592a70e7415104ee7aedfee9c513c75b972cfa3fe518a535d79fc480d5b3"},{"name":"081_storefront_catalog_server_pagination.sql","sha256":"ed5e112969b6d6c34434d86355bb5a28fab1559466c507ee6d914532a368a8a6"},{"name":"082_admin_historical_read_models.sql","sha256":"7be584aa19746012f75ad5a4bcefe6c02e304ddd7772ec9be9483c38c1455642"},{"name":"083_shift_reversal_primitives.sql","sha256":"dcd204428be04bf45a7e64903fe2b82141c8ab59ec68ef61509461a142ec301e"},{"name":"084_full_cash_shift_reversal.sql","sha256":"67fed225cc85175b28ec3f07b6355f9510333a95c955184e78d7d5fe2a8a8409"},{"name":"085_admin_customer_receivables_and_scalability.sql","sha256":"2ee0984782ab02871ecbfd29c84298386f051d65703db4d240afd84cd003ab65"},{"name":"086_guest_order_abuse_gateway.sql","sha256":"ffee86671b8614d6308d4f2c03da8b3c30731978c80ad3fa65e9518d50cc2211"},{"name":"087_guest_order_line_item_limit.sql","sha256":"162d83c545b50e80e692cb5576d3f95b6b048c2f8b81336a87c2053a1a805f57"},{"name":"088_storefront_merchandising_rpc.sql","sha256":"45657ccf6d297afd7a3586dc95dc532b11c830d49cdff7f581af9d5c41016b10"},{"name":"089_customer_order_tracking_receipt.sql","sha256":"8c489a2908b98964a935253aab4b3903664bc1947921c0a268968330a5455e9d"},{"name":"090_optional_guest_delivery_details.sql","sha256":"4b02e370dc7fc7a18ce3446e691325fcb9dade905d38cc934584596720a360ef"},{"name":"091_expire_stale_new_website_orders.sql","sha256":"b66fa73b06fed8e695dc48260d325e0db88a294a7b26fb53ff955aed5f271d54"},{"name":"092_cleanup_guest_order_gateway_rate_limits.sql","sha256":"e5c5d6c01b7e748c35b9cd34df96427c70244bdc63865edb19bdb3bad56c7702"},{"name":"093_cash_shift_archive.sql","sha256":"ec6b3cdab4ffab6188b5ef3d633f126d64d44988d3a9cc674d51fa4b783b6a60"},{"name":"094_immutable_cash_shift_closing_report_snapshot.sql","sha256":"049a81e78f4726a716a63872a50db278165e1152223caa367c3e677876163e37"},{"name":"095_remove_unused_transfer_product_name.sql","sha256":"446766b75288ed9de3b33aabda0ee58cd94a3543f4bd01f54e3cc1bc139453e9"},{"name":"096_harden_automation_delivery_lifecycle.sql","sha256":"856cd1464e2b39bf8988bdc2789120ed80681242b2d9c07cbc28acbcf17fea61"},{"name":"097_core_business_alerts.sql","sha256":"d3afb579cd853a18c91100a2f29358bde29a91405bbaa701b93c3a8e580a67ee"},{"name":"098_business_summaries.sql","sha256":"5b39ddab61ff704370de2ce9dce18bfe8f99f74108e97fb03db8fba1f653dbde"},{"name":"099_advanced_monitoring_and_business_integrity.sql","sha256":"6f90f4a3e27f81082fdde1960d486d3bf1b87de7184ebd3c182c5fbb45cefcee"},{"name":"100_fix_cancelled_supplier_receipt_monitoring.sql","sha256":"8ca133c0efcc2ac0faf5c5c7d8c943e034fde3c4526bb6e5b1d13ba92b27bd1b"},{"name":"101_scope_core_business_incident_recovery.sql","sha256":"8efd0021375ae621b420db83e0bc71b5b8a9c324f788f8fd4bc4ed406255ee3c"},{"name":"102_privacy_minimize_business_alert_payload.sql","sha256":"64bec51cc1a40e46431dc1d608aa48658831923b88608a45d25c88ef68139a51"},{"name":"103_flavor_receiving_hardening.sql","sha256":"95321e321e11fbb0c4b923a43a682535587fad6e5c30ea256451a8fc8952b657"},{"name":"104_remove_unused_receive_purchase_order_product_id.sql","sha256":"f333e4dd5950cb89ac2562d45b989d27bdbff540d9327e407b10219f40295c93"},{"name":"105_harden_business_alert_rules_and_thresholds.sql","sha256":"0dee3dcca6fb2f75e47aefbf73dd0c73b0d1d77ed890bd26c793837559b1f1af"},{"name":"106_align_monitoring_owner_mfa_policy.sql","sha256":"11ca27e89ccc48779702dad5faa9bf3f2d383053674b6f04a39ac3a716f0109f"},{"name":"107_canonical_schema_reconciliation.sql","sha256":"7472dbdae40f1b66ff929d64abda94fe73a1b591359572844f74de920dcf11d9"},{"name":"108_harden_product_sku_barcode_integrity.sql","sha256":"5d3569f28fd2e9f661697d0b4496236fee0257d9329e297cd329bfab1808af34"},{"name":"109_admin_large_catalog_read_models.sql","sha256":"5e686d64a29a78fbc5a21c6961b5776d5f40614148fa1b6548c9ae82b3dd8505"},{"name":"110_fix_deferred_cash_shift_snapshot_guard_privileges.sql","sha256":"ac1ca40eefaafc3fa1de1e4b26b0ec6ff94e6a9222053b6dc361cf6221b3e1e9"},{"name":"111_harden_pos_sale_idempotency_replays.sql","sha256":"483c939a3bb0d9755628e79fa3b83efe23f02881a503692b7e79653420c8f973"},{"name":"112_configurable_parcel_foundation.sql","sha256":"f169e9b1e5f2878a68cd02c294587c8a1c63689fbdad95e40b145eb227af57e3"},{"name":"113_configurable_parcel_receiving_and_exact_wac.sql","sha256":"833d1ff666fc70c399ef0cd838948b817b167f7ba9771aec02e848e748627307"},{"name":"114_configurable_parcel_sales_contracts_and_safety_primitives.sql","sha256":"14e9d2af64b19bd4f97b73bb58d0fb661f9c3231673bca23d448a9803594a986"},{"name":"115_configurable_parcel_pos_sale_coordinator.sql","sha256":"19ccff06075cb532d03a80c56d088ad226c86fe30cf70cbbc76938d9d816ebc3"},{"name":"116_configurable_parcel_customer_reservation_coordinator.sql","sha256":"d16276631f77d02777f24a1395709d335156211ed3a88614ce2760eda72dc359"},{"name":"117_customer_public_configurable_parcel_read_contract.sql","sha256":"0447e1293c5c610b50e5fcc75a82950df058cd4d23cabb5610978a2c160c3c70"},{"name":"118_customer_guest_promotion_preview_v2.sql","sha256":"3d0ddf0a2a0d8a184bc62bb0a001d8564399cda54d8b6f8ccef0adbd2fd881b5"},{"name":"119_exact_wac_and_commercial_quantity_reporting.sql","sha256":"0416e25876bc92581a9b47398d5cf2953838f2cd7615486037b485df64bd412d"},{"name":"120_phase4_returns_refunds_foundation.sql","sha256":"dc029f4d53460c743099ed44e5eb820eecb00a32316a82f8c301519ab510c982"},{"name":"121_phase42_atomic_return_coordinator.sql","sha256":"9779212034a901dbb971a68ec485d16b0aa4be329478b9daf1a4263ce6989bdd"},{"name":"122_phase43_admin_aftercare_integration.sql","sha256":"df991de73f32931b81c9c4b9c2f611f44731e99044acbc2f5f60f4fe1192c066"},{"name":"123_phase5_private_financial_evidence_foundation.sql","sha256":"3f5fe7554b17bbc6be872175682c36d7f17b5f2b72f00bd32eae0f6a97483e80"},{"name":"124_phase5_canonical_collection_reversal_writers.sql","sha256":"4b6a50442ddf0dbee24233cb9036469b428ce20991e0315eb6c1fafe4bdd4f41"},{"name":"125_phase5_collection_lock_lint_correction.sql","sha256":"d1cda688b835c2791a0890f4e000a85fa7309b1a4e4de02f21819491330a546b"},{"name":"126_phase5_private_tender_coordinator.sql","sha256":"4c099804ba1d6b97df6af3fa0c0a8d514fd616397bde1bc7f5e5dae3eb8b1d21"},{"name":"127_phase5_private_financial_read_model.sql","sha256":"a2c9561ef071e959152d7dd06cafc0f9be933f18f845f4ae03d2b1a8971be60d"},{"name":"128_phase5_operational_payment_and_shift_refund_fixes.sql","sha256":"f0f2648e6513ba9820c27b3d56b7222e3783378d07ea3189fc2616e32de6f39d"},{"name":"129_phase5_block_paid_order_receipt_reversal.sql","sha256":"886af35898e5ae73df9427308ca322246330ddfb167814f44127d1e6c9cdb28e"},{"name":"130_phase5_review_followup_shift_refund_guards.sql","sha256":"46b830dbe2712f7e396dba23c1971e33ab097dec9e8be95500b1074708ce496f"},{"name":"131_phase6_operational_report_readers.sql","sha256":"790219c523ece5ef8f1853f45a0d5775c42509575e5f4e500d06a6df506f63a1"},{"name":"132_package_d_system_unification.sql","sha256":"775274e9d8f34f98ebc408bbde883ef909c64bc751107a43dc7d486f8499526b"},{"name":"133_package_e_supplier_po_financial_consistency.sql","sha256":"073787127aa6fa05448a43e20a97042969a185dac3fa1abed53ec12a874e16e4"},{"name":"134_package_e_read_performance.sql","sha256":"de3a0f6fa2a52cc595a06f912fbb199470327e27459365a7fd0d49dbf536d3dd"},{"name":"135_package_f_pos_customer_inventory_reads.sql","sha256":"2f699cac9eb167c1a44838ee9cf72894c0f7d47846125f698c211e2592ee3b52"},{"name":"136_package_f_customer_debt_aging.sql","sha256":"b324874e401ccde88084314841f9f75dc64562c40ecbfb780b177f531fc40e24"},{"name":"137_package_f_crm_financial_filters.sql","sha256":"4fee1c389f81d204bd6e781a968d0c7388d398847c6eadcb1b40253c1a609794"},{"name":"138_package_f_customer_statement.sql","sha256":"ab01b7a1e2ffdb57404df92a6eb637f6ca0278eaefd9c02b685d27fabe6ad6b3"},{"name":"139_project_order_push_webhook_url.sql","sha256":"c193211c782e4375092eb93aa74655f67f3429832010b7e0036e1db18847f262"},{"name":"150_explicit_application_table_read_privileges.sql","sha256":"747e19115c0ccd5ff050159555d429de5933078cb5f94e63c8df2b6656a4c5b0"},{"name":"151_explicit_application_realtime_publication.sql","sha256":"fd7f12e6ff97fec97e35fd04ba43b6954cd2a841accd8c2bebd6186db6823f62"},{"name":"160_go_live_setup_foundation.sql","sha256":"a0a0a33d51bbbba08fce4ce9c87da194149c4683a640d64b4daaf16404d864bb"},{"name":"161_go_live_customer_opening_balances.sql","sha256":"3456be3c07331beba1538a6f693dbe566696433a98a0a371bf2c82774fa619a6"},{"name":"162_go_live_supplier_opening_balances.sql","sha256":"e9b76071095c5371eb537f40abc44d9091bac6a80a72ddbe92d559f1cda9957b"},{"name":"163_go_live_unified_collection_and_supplier_opening_payment.sql","sha256":"b3a51f8f9dff65c533c864352b49d85786c0e0591402a7053682165785994345"},{"name":"164_go_live_receivables_in_reports.sql","sha256":"6a3d49d4c0b1e95fd128d2a817f3d3f744ea624c597e6055dd0ba8927d5a0e03"},{"name":"170_product_edit_optimistic_concurrency.sql","sha256":"78caaea4e7474d9c106a93b211c1c0ab9ecf3f836c834f21c25d02ed74069c73"},{"name":"171_product_cost_preserved_on_edit.sql","sha256":"cbda4e226de0752df522a23c2b6990ccd984d69d8d1a4e34f11ae10af1618781"},{"name":"180_owner_cash_withdrawals.sql","sha256":"080a6f155a3d6cbac1799e438e4698e899eb7d58258c0904d030cc56d752b9e1"},{"name":"181_owner_withdrawal_readers.sql","sha256":"e3448dd3161618fb3b6574944b84d56260b5eeaae214688135926bd29ce477f6"},{"name":"182_owner_withdrawal_monitoring.sql","sha256":"b8e7db1af4ef9111aa7c0476d0c6373a38df37bc168c018261a69b22637bb70e"},{"name":"190_deferred_cheques_evidence.sql","sha256":"a8a6e933d20c0778a8c50e59620b44e9f5ba2cee4b74bb1320bea44d2857d983"},{"name":"191_cheque_unified_customer_collection.sql","sha256":"3ced28e07c73c05871e67e7a76f669718952bfb517b2a477b21346a3994c9978"},{"name":"192_cheque_compensation_receivable_readers.sql","sha256":"2fafaa9471b4556db4a898ee7e94473fa4199f742ebc89621d0df3588a05a007"},{"name":"193_deferred_cheque_lifecycle.sql","sha256":"15d9fe88b01e79c325bd8bb68e479e8860efbfb5623f2f337b48906f23473295"},{"name":"194_cheque_shift_and_integrity.sql","sha256":"9867016ffa4b61b4abd65fb2bdf189d5e42f09df6a756c2293fff0f449bc5ee8"},{"name":"195_deferred_cheque_readers_and_alerts.sql","sha256":"c448f4726fb574a687402923759783ce0f859f1e56ee29221d8b24e53f3f6d4b"},{"name":"196_go_live_opening_cheques.sql","sha256":"e80f31be94b225c12faf55baed8fe5478d7d433b572954f7fb3066f2c5ed211d"},{"name":"197_canonical_home_customer_receivables.sql","sha256":"3caabd6c454a22a607761b57fff66e9c41119c468d468f54c1de9197111e7722"},{"name":"198_cashier_customer_collection_access.sql","sha256":"1f494dc9f95b6a4db5887f5ef675c4e792ff7cd7ef681f37588489f88c094bab"},{"name":"199_owner_warehouse_management.sql","sha256":"a34808ee64c80744fd8973559207983391aca0f53025f8f2764be74e52c2fcf0"},{"name":"200_revoke_legacy_product_cost_writers.sql","sha256":"39aa40c6ca2099316eeb0243eefd6efc1564d23c735164a2a51d68a339ba98eb"},{"name":"201_home_collections_and_damage_losses.sql","sha256":"ec24cfadafbd1fff55f0fe1e66c9480a04f490b41185d1be970fa2dfa23ad9de"},{"name":"202_all_customer_collections_read_model.sql","sha256":"c6fd0cc7e0d1d79d2fd1e157225cf773431af1bddbe3bffa58a9d2a927645e12"},{"name":"203_customer_payment_receipts_without_completion.sql","sha256":"6b5b9b7904874cf7359785f6dea882413fd0430a2709a0de0db32290f6ea4f64"},{"name":"204_sales_history_read_model.sql","sha256":"fbfcfad595e67dfff6799188d74c86b2b8f4b1a6a266e7017732f0a88864d424"}],"functionCount":517,"definitionsDigest":"d810bf28e7f6aa89b954430f11ab2194da0748e4b93ce58ffb0bfac0444d1d7d"} -->
 
 ## Index
 
@@ -229,300 +229,301 @@
 - [`get_purchase_orders_page(p_page integer, p_page_size integer, p_search text, p_status text, p_supplier_id uuid, p_warehouse_id uuid, p_sort text)`](#function-220)
 - [`get_push_subscription_status()`](#function-221)
 - [`get_push_webhook_secret()`](#function-222)
-- [`get_shift_owner_withdrawals_v1(p_shift_id uuid)`](#function-223)
-- [`get_stock_alert_notifications(p_include_resolved boolean, p_limit integer)`](#function-224)
-- [`get_supplier_opening_payable_v1(p_supplier_id uuid)`](#function-225)
-- [`get_supplier_payments_page(p_page integer, p_page_size integer, p_search text, p_supplier_id uuid, p_payment_method text)`](#function-226)
-- [`get_supplier_receipts_page(p_page integer, p_page_size integer, p_search text, p_supplier_id uuid, p_warehouse_id uuid, p_payment_status text, p_is_archived boolean)`](#function-227)
-- [`go_live_assert_setup_open_internal()`](#function-228)
-- [`go_live_begin_batch_internal(p_kind text, p_idempotency_key text, p_rows jsonb)`](#function-229)
-- [`go_live_cheque_party_internal(p_kind text, p_id text, p_phone text, p_name text)`](#function-230)
-- [`go_live_cheque_rows_internal(p_rows jsonb)`](#function-231)
-- [`go_live_collection_result_internal(p_operation_id uuid)`](#function-232)
-- [`go_live_customer_opening_positions_internal(p_customer_id uuid)`](#function-233)
-- [`go_live_guard_collection_operation()`](#function-234)
-- [`go_live_guard_collection_payment_reversal()`](#function-235)
-- [`go_live_guard_customer_opening_balance()`](#function-236)
-- [`go_live_guard_opening_cheque_internal()`](#function-237)
-- [`go_live_guard_setup_state()`](#function-238)
-- [`go_live_guard_supplier_opening_balance()`](#function-239)
-- [`go_live_main_branch_internal()`](#function-240)
-- [`go_live_normalize_name_internal(p_name text)`](#function-241)
-- [`go_live_plan_customer_collection_internal(p_customer_id uuid, p_amount bigint)`](#function-242)
-- [`go_live_reject_batch_mutation()`](#function-243)
-- [`go_live_reject_collection_mutation()`](#function-244)
-- [`go_live_reject_opening_write_after_finish()`](#function-245)
-- [`go_live_reject_truncate()`](#function-246)
-- [`go_live_resolve_unit_internal(p_value text)`](#function-247)
-- [`go_live_seed_exact_wac_from_opening()`](#function-248)
-- [`go_live_setup_counts_internal()`](#function-249)
-- [`go_live_supplier_opening_payable_internal(p_supplier_id uuid)`](#function-250)
-- [`guard_cash_shift_closing_report_snapshot()`](#function-251)
-- [`guard_finalized_order_parcel_item_history()`](#function-252)
-- [`guard_immutable_parcel_foundation_row()`](#function-253)
-- [`guard_new_configurable_parcel_row()`](#function-254)
-- [`guard_order_inventory_reservation_history()`](#function-255)
-- [`guard_order_parcel_component_history()`](#function-256)
-- [`guard_order_parcel_instance_history()`](#function-257)
-- [`guard_paid_order_customer_payment_reversal()`](#function-258)
-- [`guard_phase2_detail_history()`](#function-259)
-- [`guard_phase2_receipt_header_history()`](#function-260)
-- [`guard_phase3_customer_order_cost_finalization()`](#function-261)
-- [`guard_phase3_customer_v2_terminal_status()`](#function-262)
-- [`guard_phase4_aftercare_consumption_history()`](#function-263)
-- [`guard_phase4_immutable_row()`](#function-264)
-- [`guard_phase4_replacement_event_history()`](#function-265)
-- [`guard_phase4_sales_return_event_history()`](#function-266)
-- [`guard_supplier_invoice_identity_history()`](#function-267)
-- [`has_erp_role(p_allowed_roles text[])`](#function-268)
-- [`import_go_live_products_v1(p_idempotency_key text, p_rows jsonb, p_dry_run boolean)`](#function-269)
-- [`inventory_damage_period_totals_internal(p_branch_id uuid, p_from timestamp with time zone, p_to timestamp with time zone)`](#function-270)
-- [`inventory_damage_reject_mutation_internal()`](#function-271)
-- [`is_active_erp_staff()`](#function-272)
-- [`is_authenticated()`](#function-273)
-- [`is_mfa_policy_satisfied()`](#function-274)
-- [`issue_supplier_cheque_v1(p_supplier_id uuid, p_branch_id uuid, p_bank_name text, p_cheque_number text, p_due_date date, p_amount_in_minor_units bigint, p_notes text, p_idempotency_key text, p_claim_id uuid, p_purchase_order_id uuid, p_opening_only boolean)`](#function-275)
-- [`mark_all_stock_alerts_read()`](#function-276)
-- [`mark_stock_alert_read(p_stock_alert_id uuid)`](#function-277)
-- [`normalize_customer_phone(p_phone text)`](#function-278)
-- [`notify_new_website_order_push()`](#function-279)
-- [`open_cash_shift(p_branch_id uuid, p_opening_cash_in_minor_units bigint)`](#function-280)
-- [`owner_withdrawal_closing_section_internal(p_shift_id uuid)`](#function-281)
-- [`owner_withdrawal_events_internal(p_branch_id uuid, p_from timestamp with time zone, p_to timestamp with time zone)`](#function-282)
-- [`owner_withdrawal_format_jod_internal(p_minor bigint)`](#function-283)
-- [`owner_withdrawal_frozen_shift_effect_internal(p_shift_id uuid)`](#function-284)
-- [`owner_withdrawal_integrity_issues_internal()`](#function-285)
-- [`owner_withdrawal_period_totals_internal(p_branch_id uuid, p_from timestamp with time zone, p_to timestamp with time zone)`](#function-286)
-- [`owner_withdrawal_reject_mutation()`](#function-287)
-- [`owner_withdrawal_result_internal(p_withdrawal_id uuid, p_replay boolean)`](#function-288)
-- [`owner_withdrawal_shift_effect_internal(p_shift_id uuid)`](#function-289)
-- [`owner_withdrawal_shift_reversal_plan_internal(p_shift_id uuid)`](#function-290)
-- [`package_d_assert_carton_return_item_internal(p_item jsonb)`](#function-291)
-- [`package_d_assert_modern_sale_internal(p_order_id uuid, p_error_identity text)`](#function-292)
-- [`package_d_assert_return_evidence_before_single_sku_internal(p_operation_id uuid, p_require_settled boolean)`](#function-293)
-- [`package_d_assert_whole_single_sku_quantity_internal(p_order_item_id uuid, p_quantity integer)`](#function-294)
-- [`package_d_capture_single_sku_price_snapshot()`](#function-295)
-- [`package_d_create_customer_order_before_source_guard_internal(p_customer_full_name text, p_customer_phone text, p_customer_email text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_floor text, p_apartment text, p_address_notes text, p_latitude double precision, p_longitude double precision, p_formatted_address text, p_google_maps_url text, p_location_source text, p_branch_id uuid, p_warehouse_id uuid, p_items jsonb, p_delivery_fee_in_minor_units bigint, p_discount_in_minor_units bigint, p_customer_notes text, p_internal_notes text, p_source text)`](#function-296)
-- [`package_d_create_pos_sale_before_attempt_guard_internal(p_warehouse_id uuid, p_branch_id uuid, p_customer_id uuid, p_customer_name text, p_payment_method text, p_lines jsonb, p_discount_in_minor_units bigint, p_amount_received_in_minor_units bigint, p_idempotency_key text)`](#function-297)
-- [`package_d_guard_physical_capacity_internal()`](#function-298)
-- [`package_d_public_parcel_options_before_policy_internal(p_family_product_ids uuid[])`](#function-299)
-- [`package_d_reject_pos_cancellation_mutation()`](#function-300)
-- [`package_d_replacement_evidence_before_carton_internal(p_operation_id uuid, p_require_issued boolean)`](#function-301)
-- [`package_d_settle_sales_replacement_before_guard_internal(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_notes text)`](#function-302)
-- [`package_d_settle_sales_return_before_guard_internal(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)`](#function-303)
-- [`package_d_validate_configurable_parcel_before_policy_internal(p_actor_scope_type text, p_actor_user_id uuid, p_family_product_id uuid, p_parcel_configuration_id uuid, p_configuration_revision integer, p_components jsonb)`](#function-304)
-- [`pay_supplier_cheque_claim_v1(p_claim_id uuid, p_branch_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text, p_idempotency_key text)`](#function-305)
-- [`pay_supplier_opening_balance_v1(p_supplier_id uuid, p_branch_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text, p_idempotency_key text)`](#function-306)
-- [`phase133_legacy_po_payables_internal()`](#function-307)
-- [`phase133_supplier_balance_evidence_internal()`](#function-308)
-- [`phase133_supplier_balances_internal()`](#function-309)
-- [`phase2_allocate_largest_remainder_internal(p_total bigint, p_weighted_keys jsonb)`](#function-310)
-- [`phase2_apply_inventory_and_wac_internal(p_operation_id uuid, p_warehouse_id uuid, p_source_kind text, p_source_id uuid, p_components jsonb, p_user_id uuid, p_reference_label text)`](#function-311)
-- [`phase2_canonicalize_legacy_receipt_items_internal(p_items jsonb)`](#function-312)
-- [`phase2_canonicalize_receipt_lines_internal(p_lines jsonb)`](#function-313)
-- [`phase2_lock_inventory_products_internal(p_product_ids uuid[])`](#function-314)
-- [`phase2_lock_payment_shift_internal(p_branch_id uuid, p_payment_method text, p_amount bigint)`](#function-315)
-- [`phase2_lock_receipt_payment_shifts_internal(p_supplier_receipt_id uuid, p_purchase_receipt_id uuid)`](#function-316)
-- [`phase2_request_fingerprint_internal(p_payload jsonb)`](#function-317)
-- [`phase2_reverse_inventory_and_wac_internal(p_original_operation_id uuid, p_reversal_operation_id uuid, p_warehouse_id uuid, p_source_kind text, p_source_id uuid, p_user_id uuid, p_reason text)`](#function-318)
-- [`phase2_try_parse_uuid_internal(p_value text)`](#function-319)
-- [`phase2_validate_receipt_lines_internal(p_lines jsonb)`](#function-320)
-- [`phase35_report_base_unit_count_internal(p_order_item_id uuid, p_commercial_line_kind text, p_legacy_quantity integer)`](#function-321)
-- [`phase35_report_package_count_internal(p_order_item_id uuid, p_commercial_line_kind text, p_sale_package_quantity integer, p_units_per_sale_package integer)`](#function-322)
-- [`phase3_actor_scope_hash_internal(p_actor_scope_type text, p_erp_user_id uuid, p_guest_phone_hash text, p_guest_session_hash text)`](#function-323)
-- [`phase3_allocate_parcel_cogs_internal(p_components jsonb)`](#function-324)
-- [`phase3_assert_configurable_parcel_creation_allowed_internal(p_actor_scope_type text, p_actor_user_id uuid)`](#function-325)
-- [`phase3_assert_legacy_customer_lifecycle_allowed_internal(p_order_id uuid)`](#function-326)
-- [`phase3_canonicalize_components_internal(p_components jsonb)`](#function-327)
-- [`phase3_canonicalize_sale_request_internal(p_request jsonb)`](#function-328)
-- [`phase3_customer_cost_finalization_allowed_internal(p_order_id uuid, p_row_kind text, p_row_id uuid)`](#function-329)
-- [`phase3_customer_line_identity_internal(p_line jsonb)`](#function-330)
-- [`phase3_expire_customer_order_v2_internal(p_order_id uuid)`](#function-331)
-- [`phase3_lock_inventory_products_internal(p_product_ids uuid[])`](#function-332)
-- [`phase3_lock_open_pos_shift_internal(p_branch_id uuid)`](#function-333)
-- [`phase3_pos_reversal_inventory_rows_internal(p_order_id uuid)`](#function-334)
-- [`phase3_release_customer_reservations_internal(p_order_id uuid, p_lifecycle_operation_id uuid, p_operation_type text, p_idempotency_key text, p_request_fingerprint text, p_request_snapshot jsonb, p_actor_scope_type text, p_actor_scope_hash text, p_initiated_by uuid, p_terminal_state text, p_reason text)`](#function-335)
-- [`phase3_request_fingerprint_internal(p_payload jsonb)`](#function-336)
-- [`phase3_require_nonnegative_bigint_internal(p_value text, p_field text)`](#function-337)
-- [`phase3_require_positive_integer_internal(p_value text, p_field text)`](#function-338)
-- [`phase3_require_uuid_internal(p_value text, p_field text)`](#function-339)
-- [`phase3_resolve_legacy_pos_location_internal(p_warehouse_id uuid, p_branch_id uuid)`](#function-340)
-- [`phase3_resolve_operation_replay_internal(p_operation_type text, p_idempotency_key text, p_actor_scope_type text, p_actor_scope_hash text, p_request_fingerprint text)`](#function-341)
-- [`phase3_validate_configurable_parcel_internal(p_actor_scope_type text, p_actor_user_id uuid, p_family_product_id uuid, p_parcel_configuration_id uuid, p_configuration_revision integer, p_components jsonb)`](#function-342)
-- [`phase42_apply_return_inventory_before_phase43_internal(p_operation_id uuid, p_return_event_id uuid, p_warehouse_id uuid, p_sources jsonb, p_user_id uuid)`](#function-343)
-- [`phase42_apply_return_inventory_internal(p_operation_id uuid, p_return_event_id uuid, p_warehouse_id uuid, p_sources jsonb, p_user_id uuid)`](#function-344)
-- [`phase42_assert_operational_return_evidence_before_phase43(p_operation_id uuid, p_require_settled boolean)`](#function-345)
-- [`phase42_assert_operational_return_evidence_internal(p_operation_id uuid, p_require_settled boolean)`](#function-346)
-- [`phase42_canonicalize_return_request_before_phase43_internal(p_order_id uuid, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)`](#function-347)
-- [`phase42_canonicalize_return_request_internal(p_order_id uuid, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)`](#function-348)
-- [`phase42_customer_receivable_total_internal(p_customer_id uuid)`](#function-349)
-- [`phase42_expected_return_effects_pre43_internal(p_operation_id uuid)`](#function-350)
-- [`phase42_expected_return_inventory_effects_internal(p_operation_id uuid)`](#function-351)
-- [`phase42_guard_inventory_effect_history()`](#function-352)
-- [`phase42_guard_return_coordinator_version()`](#function-353)
-- [`phase42_guard_settlement_evidence()`](#function-354)
-- [`phase42_inventory_effects_snapshot_internal(p_operation_id uuid)`](#function-355)
-- [`phase42_order_financial_position_internal(p_order_id uuid)`](#function-356)
-- [`phase42_require_evidence_before_return_settlement()`](#function-357)
-- [`phase43_assert_operational_replacement_evidence_internal(p_operation_id uuid, p_require_issued boolean)`](#function-358)
-- [`phase43_assert_return_allocation_contract_internal(p_base_request jsonb, p_physical_sources jsonb)`](#function-359)
-- [`phase43_assert_return_physical_evidence_set_internal(p_operation_id uuid)`](#function-360)
-- [`phase43_assert_return_physical_source_internal(p_order_id uuid, p_root_kind text, p_root_id uuid, p_source_kind text, p_source_id uuid, p_product_id uuid)`](#function-361)
-- [`phase43_canonicalize_replacement_request_internal(p_order_id uuid, p_items jsonb, p_reason text, p_notes text)`](#function-362)
-- [`phase43_canonicalize_return_physical_sources_internal(p_sources jsonb)`](#function-363)
-- [`phase43_current_physical_representatives_internal(p_root_kind text, p_root_id uuid, p_product_id uuid)`](#function-364)
-- [`phase43_guard_immutable_replacement_effect()`](#function-365)
-- [`phase43_guard_replacement_settlement_evidence()`](#function-366)
-- [`phase43_inventory_effects_snapshot_internal(p_operation_id uuid)`](#function-367)
-- [`phase43_rebind_return_consumption_to_leaf()`](#function-368)
-- [`phase43_resolve_replacement_replay_internal(p_idempotency_key text, p_actor_scope_hash text, p_request_fingerprint text)`](#function-369)
-- [`phase43_return_inventory_sources_internal(p_operation_id uuid, p_sources jsonb)`](#function-370)
-- [`phase4_aftercare_source_root_internal(p_source_kind text, p_source_id uuid, p_product_id uuid)`](#function-371)
-- [`phase4_assert_aftercare_operation_binding_internal(p_operation_id uuid, p_entity_kind text, p_entity_id uuid, p_contract_version smallint)`](#function-372)
-- [`phase4_assert_no_settled_aftercare_for_order_internal(p_order_id uuid)`](#function-373)
-- [`phase4_assert_success_result_internal(p_operation_id uuid, p_operation_type text, p_result_snapshot jsonb, p_expected_entity_id uuid)`](#function-374)
-- [`phase4_authoritative_completion_internal(p_order_id uuid)`](#function-375)
-- [`phase4_cancel_draft_aftercare_internal(p_operation_id uuid)`](#function-376)
-- [`phase4_canonicalize_idempotency_key_internal(p_idempotency_key text)`](#function-377)
-- [`phase4_capture_parcel_component_price_snapshot()`](#function-378)
-- [`phase4_customer_completion_replay_preflight_internal(p_order_id uuid, p_idempotency_key text, p_payment_method text, p_amount_collected_in_minor_units bigint, p_delivery_fee_in_minor_units bigint, p_reference_number text, p_notes text)`](#function-379)
-- [`phase4_effective_standalone_unit_price_internal(p_product_id uuid, p_channel text, p_customer_phone text, p_promotion_code text, p_price_frozen_at timestamp with time zone)`](#function-380)
-- [`phase4_finalize_aftercare_operation_before_phase43(p_operation_id uuid)`](#function-381)
-- [`phase4_finalize_aftercare_operation_foundation_internal(p_operation_id uuid)`](#function-382)
-- [`phase4_finalize_aftercare_operation_internal(p_operation_id uuid)`](#function-383)
-- [`phase4_full_shift_context_snapshot_internal(p_shift_id uuid)`](#function-384)
-- [`phase4_guard_aftercare_operation_order_gate()`](#function-385)
-- [`phase4_guard_customer_payment_reversal_dependency()`](#function-386)
-- [`phase4_guard_order_reversal_dependency()`](#function-387)
-- [`phase4_guard_replacement_event_insert_state()`](#function-388)
-- [`phase4_guard_return_event_insert_state()`](#function-389)
-- [`phase4_lock_aftercare_operation_order_internal(p_operation_id uuid, p_expected_order_id uuid)`](#function-390)
-- [`phase4_lock_aftercare_order_gate_internal(p_operation_type text, p_request_identity_snapshot jsonb, p_expected_order_id uuid)`](#function-391)
-- [`phase4_lock_aftercare_parent_order_internal(p_parent_kind text, p_parent_id uuid, p_expected_operation_id uuid, p_expected_order_id uuid)`](#function-392)
-- [`phase4_lock_customer_order_context_internal(p_order_id uuid, p_require_open_shift boolean, p_lock_inventory boolean)`](#function-393)
-- [`phase4_lock_full_shift_context_internal(p_shift_id uuid)`](#function-394)
-- [`phase4_lock_order_inventory_internal(p_order_id uuid)`](#function-395)
-- [`phase4_lock_supplier_context_internal(p_supplier_receipt_id uuid, p_purchase_receipt_id uuid, p_supplier_payment_id uuid)`](#function-396)
-- [`phase4_prepare_component_inspection()`](#function-397)
-- [`phase4_resolve_operation_replay_internal(p_operation_type text, p_idempotency_key text, p_actor_scope_hash text, p_request_fingerprint text)`](#function-398)
-- [`phase4_supplier_context_snapshot_internal(p_supplier_receipt_id uuid, p_purchase_receipt_id uuid, p_supplier_payment_id uuid)`](#function-399)
-- [`phase4_validate_aftercare_consumption_insert()`](#function-400)
-- [`phase4_validate_replacement_item()`](#function-401)
-- [`phase4_validate_return_item_insert()`](#function-402)
-- [`phase6_financial_facts_internal(p_branch_id uuid, p_period_start timestamp with time zone, p_period_end timestamp with time zone, p_timezone text, p_verify_evidence boolean)`](#function-403)
-- [`populate_order_item_cost_snapshot()`](#function-404)
-- [`preview_cash_shift_full_reversal(p_shift_id uuid)`](#function-405)
-- [`preview_customer_cheque_v1(p_customer_id uuid, p_amount_in_minor_units bigint)`](#function-406)
-- [`preview_customer_collection_v1(p_customer_id uuid, p_amount_in_minor_units bigint)`](#function-407)
-- [`preview_go_live_cheques_v1(p_branch_id uuid, p_rows jsonb)`](#function-408)
-- [`preview_guest_promotion(p_code text, p_items jsonb, p_customer_phone text)`](#function-409)
-- [`preview_guest_promotion_v2(p_lines jsonb, p_promotion_code text, p_customer_phone text)`](#function-410)
-- [`preview_supplier_cheque_v1(p_supplier_id uuid, p_amount_in_minor_units bigint, p_claim_id uuid, p_purchase_order_id uuid, p_opening_only boolean)`](#function-411)
-- [`preview_supplier_receipt_cancellation(p_receipt_id uuid)`](#function-412)
-- [`product_cost_corrections_reject_mutation()`](#function-413)
-- [`product_edit_assert_version_internal(p_product_id uuid, p_expected_updated_at timestamp with time zone)`](#function-414)
-- [`product_edit_snapshot_internal(p_product_id uuid)`](#function-415)
-- [`product_has_cost_history_internal(p_product_id uuid)`](#function-416)
-- [`receive_customer_cheque_v1(p_customer_id uuid, p_branch_id uuid, p_bank_name text, p_cheque_number text, p_due_date date, p_amount_in_minor_units bigint, p_notes text, p_idempotency_key text)`](#function-417)
-- [`receive_inventory(p_warehouse_id uuid, p_product_id uuid, p_quantity integer, p_reference_type text, p_reference_id uuid, p_notes text)`](#function-418)
-- [`receive_purchase_order(p_purchase_order_id uuid, p_warehouse_id uuid, p_supplier_delivery_note text, p_notes text, p_items jsonb)`](#function-419)
-- [`receive_purchase_order_v2(p_purchase_order_id uuid, p_warehouse_id uuid, p_supplier_invoice_number text, p_supplier_invoice_date date, p_received_at timestamp with time zone, p_header_discount_in_minor_units bigint, p_supplier_freight_in_minor_units bigint, p_legacy_tax_in_minor_units bigint, p_amount_paid_at_receipt_in_minor_units bigint, p_payment_method text, p_payment_reference text, p_supplier_delivery_note text, p_notes text, p_idempotency_key text, p_lines jsonb)`](#function-420)
-- [`record_customer_opening_balances_v1(p_idempotency_key text, p_rows jsonb, p_dry_run boolean, p_confirm_new_customers boolean)`](#function-421)
-- [`record_customer_order_payment(p_order_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text)`](#function-422)
-- [`record_customer_order_payment_once(p_order_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text, p_idempotency_key text)`](#function-423)
-- [`record_erp_staff_password_reset(p_user_id uuid)`](#function-424)
-- [`record_external_monitoring_snapshot(p_checks jsonb, p_observed_at timestamp with time zone)`](#function-425)
-- [`record_go_live_cheques_v1(p_branch_id uuid, p_idempotency_key text, p_rows jsonb)`](#function-426)
-- [`record_supplier_opening_balances_v1(p_idempotency_key text, p_rows jsonb, p_dry_run boolean, p_confirm_new_suppliers boolean)`](#function-427)
-- [`record_supplier_payment(p_supplier_id uuid, p_purchase_order_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_payment_date timestamp with time zone, p_notes text, p_idempotency_key text)`](#function-428)
-- [`record_supplier_receipt_payment(p_receipt_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text, p_idempotency_key text)`](#function-429)
-- [`reject_flavor_master_inventory_mutation()`](#function-430)
-- [`reject_stocked_product_flavor_master_promotion()`](#function-431)
-- [`reorder_product_flavors_v1(p_master_product_id uuid, p_ordered_flavor_ids uuid[])`](#function-432)
-- [`report_admin_runtime_incident(p_fingerprint text, p_area text)`](#function-433)
-- [`resolve_legacy_supplier_receipt_replay_v1(p_idempotency_key uuid)`](#function-434)
-- [`return_completed_website_order(p_order_id uuid, p_reason text, p_stock_disposition text, p_refund_method text, p_reference_number text, p_notes text)`](#function-435)
-- [`return_deferred_cheque_v1(p_cheque_id uuid, p_expected_version integer, p_reason text, p_idempotency_key text)`](#function-436)
-- [`reverse_cash_shift_with_operations(p_shift_id uuid, p_reason text, p_idempotency_key text)`](#function-437)
-- [`reverse_customer_collection_v1(p_operation_id uuid, p_reason text)`](#function-438)
-- [`reverse_customer_opening_balance_v1(p_entry_id uuid, p_reason text)`](#function-439)
-- [`reverse_customer_order_payment(p_payment_id uuid, p_reason text)`](#function-440)
-- [`reverse_operational_expense(p_expense_id uuid, p_reason text)`](#function-441)
-- [`reverse_owner_cash_withdrawal_v1(p_withdrawal_id uuid, p_reason text, p_idempotency_key text)`](#function-442)
-- [`reverse_pos_sale(p_order_id uuid, p_reason text, p_idempotency_key text)`](#function-443)
-- [`reverse_supplier_cheque_claim_payment_v1(p_supplier_payment_id uuid, p_reason text, p_idempotency_key text)`](#function-444)
-- [`reverse_supplier_opening_balance_v1(p_entry_id uuid, p_reason text)`](#function-445)
-- [`reverse_supplier_payment(p_supplier_payment_id uuid, p_reason text, p_idempotency_key text)`](#function-446)
-- [`run_advanced_monitoring_checks(p_observed_at timestamp with time zone)`](#function-447)
-- [`save_customer(p_full_name text, p_phone text, p_customer_id uuid, p_email text, p_governorate text, p_whatsapp text, p_notes text, p_customer_type text)`](#function-448)
-- [`save_owner_warehouse_v1(p_id uuid, p_code text, p_name text, p_branch_id uuid, p_is_active boolean, p_expected_updated_at timestamp with time zone)`](#function-449)
-- [`save_product_brand(p_name_ar text, p_brand_id uuid, p_description text, p_logo_url text)`](#function-450)
-- [`save_product_category(p_name_ar text, p_category_id uuid, p_code text)`](#function-451)
-- [`save_product_category(p_name_ar text, p_category_id uuid, p_code text, p_image_url text)`](#function-452)
-- [`save_product_parcel_configuration_v1(p_family_product_id uuid, p_composition_mode text, p_is_active boolean)`](#function-453)
-- [`save_product_parcel_configuration_v1(p_family_product_id uuid, p_composition_mode text, p_is_active boolean, p_units_per_parcel integer, p_allowed_product_ids uuid[])`](#function-454)
-- [`save_product_unit(p_name_ar text, p_code text, p_conversion_factor integer, p_unit_id uuid)`](#function-455)
-- [`save_push_subscription(p_endpoint text, p_p256dh text, p_auth_key text, p_user_agent text, p_device_label text)`](#function-456)
-- [`save_storefront_settings(p_store_name_ar text, p_whatsapp_number text, p_cliq_alias text, p_orders_enabled boolean, p_announcement_text text, p_business_hours_text text, p_delivery_areas_text text, p_delivery_eta_text text, p_exchange_policy_text text, p_minimum_order_in_minor_units bigint, p_delivery_fee_in_minor_units bigint)`](#function-457)
-- [`save_storefront_settings_v2(p_store_name_ar text, p_whatsapp_number text, p_cliq_alias text, p_orders_enabled boolean, p_announcement_text text, p_business_hours_text text, p_delivery_areas_text text, p_delivery_eta_text text, p_exchange_policy_text text, p_minimum_order_in_minor_units bigint, p_delivery_fee_in_minor_units bigint, p_show_newest_products boolean, p_show_best_sellers boolean, p_show_offers boolean, p_show_low_stock boolean)`](#function-458)
-- [`save_storefront_settings_v3(p_store_name_ar text, p_whatsapp_number text, p_cliq_alias text, p_orders_enabled boolean, p_announcement_text text, p_business_hours_text text, p_delivery_areas_text text, p_delivery_eta_text text, p_exchange_policy_text text, p_minimum_order_in_minor_units bigint, p_inside_ramtha_delivery_fee_in_minor_units bigint, p_outside_ramtha_delivery_fee_in_minor_units bigint, p_show_newest_products boolean, p_show_best_sellers boolean, p_show_offers boolean, p_show_low_stock boolean)`](#function-459)
-- [`save_supplier(p_company_name text, p_supplier_id uuid, p_contact_person text, p_phone text, p_whatsapp text, p_email text, p_address text, p_tax_number text, p_notes text, p_is_active boolean)`](#function-460)
-- [`scan_business_summaries(p_observed_at timestamp with time zone)`](#function-461)
-- [`scan_core_business_alerts(p_observed_at timestamp with time zone, p_batch_size integer)`](#function-462)
-- [`scan_deferred_cheque_alerts_internal(p_observed_at timestamp with time zone)`](#function-463)
-- [`search_admin_products(p_search text, p_limit integer, p_category_id uuid, p_purpose text, p_product_id uuid)`](#function-464)
-- [`set_configurable_parcel_feature_state_v1(p_state text)`](#function-465)
-- [`set_customer_status(p_customer_id uuid, p_action text)`](#function-466)
-- [`set_erp_staff_account_active(p_user_id uuid, p_is_active boolean)`](#function-467)
-- [`set_go_live_main_branch_v1(p_branch_id uuid)`](#function-468)
-- [`set_product_brand_active(p_brand_id uuid, p_is_active boolean)`](#function-469)
-- [`set_product_category_active(p_category_id uuid, p_is_active boolean)`](#function-470)
-- [`set_product_primary_image(p_product_id uuid, p_image_url text)`](#function-471)
-- [`set_product_unit_active(p_unit_id uuid, p_is_active boolean)`](#function-472)
-- [`set_promotion_code_active(p_promotion_code_id uuid, p_is_active boolean)`](#function-473)
-- [`set_supplier_active(p_supplier_id uuid, p_is_active boolean)`](#function-474)
-- [`set_website_new_order_reservation_expiry()`](#function-475)
-- [`settle_admin_sales_return_v1(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_physical_sources jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)`](#function-476)
-- [`settle_sales_replacement_v1(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_notes text)`](#function-477)
-- [`settle_sales_return_v1(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)`](#function-478)
-- [`start_or_update_order_delivery(p_order_id uuid, p_eta_minutes integer, p_driver_phone text, p_notes text)`](#function-479)
-- [`submit_guest_customer_order(p_idempotency_key text, p_customer_full_name text, p_customer_phone text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_address_notes text, p_google_maps_url text, p_latitude double precision, p_longitude double precision, p_customer_notes text, p_items jsonb, p_promotion_code text, p_payment_method text, p_delivery_zone text)`](#function-480)
-- [`submit_guest_customer_order_core(p_idempotency_key text, p_customer_full_name text, p_customer_phone text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_address_notes text, p_google_maps_url text, p_latitude double precision, p_longitude double precision, p_customer_notes text, p_items jsonb, p_promotion_code text)`](#function-481)
-- [`submit_guest_customer_order_v2(p_idempotency_key text, p_guest_phone_hash text, p_guest_session_hash text, p_customer_full_name text, p_customer_phone text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_address_notes text, p_google_maps_url text, p_latitude double precision, p_longitude double precision, p_customer_notes text, p_lines jsonb, p_promotion_code text, p_payment_method text, p_delivery_zone text, p_expected_subtotal_in_minor_units bigint, p_expected_discount_in_minor_units bigint, p_expected_delivery_fee_in_minor_units bigint, p_expected_total_in_minor_units bigint)`](#function-482)
-- [`sync_order_delivery_tracking_timestamps()`](#function-483)
-- [`sync_order_payment_state()`](#function-484)
-- [`sync_product_flavor_commercial_settings()`](#function-485)
-- [`sync_stock_alert(p_product_id uuid, p_warehouse_id uuid, p_on_hand_quantity integer, p_reserved_quantity integer)`](#function-486)
-- [`sync_stock_alert_from_balance()`](#function-487)
-- [`sync_stock_alert_from_product()`](#function-488)
-- [`track_guest_order(p_order_number text, p_customer_phone text)`](#function-489)
-- [`track_guest_order_by_token(p_tracking_token text)`](#function-490)
-- [`transfer_inventory_between_warehouses(p_product_id uuid, p_source_warehouse_id uuid, p_destination_warehouse_id uuid, p_quantity integer, p_notes text, p_transfer_date timestamp with time zone)`](#function-491)
-- [`update_erp_staff_account_record(p_user_id uuid, p_full_name text, p_phone text, p_role_code text, p_branch_id uuid, p_job_title text)`](#function-492)
-- [`update_my_erp_profile(p_full_name text, p_phone text, p_avatar_url text)`](#function-493)
-- [`update_order_delivery_address(p_order_id uuid, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_floor text, p_apartment text, p_notes text, p_latitude double precision, p_longitude double precision, p_location_source text, p_location_confirmed boolean)`](#function-494)
-- [`update_order_status(p_order_id uuid, p_new_status text, p_notes text)`](#function-495)
-- [`update_product_flavor_v1(p_flavor_product_id uuid, p_flavor_name_ar text, p_barcode text, p_image_url text, p_is_active boolean)`](#function-496)
-- [`update_product_flavor_v2(p_flavor_product_id uuid, p_expected_updated_at timestamp with time zone, p_flavor_name_ar text, p_barcode text, p_image_url text, p_is_active boolean)`](#function-497)
-- [`update_product_master(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)`](#function-498)
-- [`update_product_master_v2(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)`](#function-499)
-- [`update_product_master_v3(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)`](#function-500)
-- [`update_product_master_v4(p_product_id uuid, p_expected_updated_at timestamp with time zone, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)`](#function-501)
-- [`update_purchase_order(p_purchase_order_id uuid, p_supplier_id uuid, p_branch_id uuid, p_warehouse_id uuid, p_expected_delivery_date timestamp with time zone, p_delivery_fee_in_minor_units bigint, p_discount_in_minor_units bigint, p_supplier_invoice_number text, p_notes text, p_internal_notes text, p_items jsonb)`](#function-502)
-- [`update_purchase_order_status(p_purchase_order_id uuid, p_new_status text, p_notes text)`](#function-503)
-- [`update_updated_at_column()`](#function-504)
-- [`upsert_promotion_code(p_code text, p_discount_type text, p_discount_value bigint, p_promotion_code_id uuid, p_description_ar text, p_minimum_subtotal_in_minor_units bigint, p_maximum_discount_in_minor_units bigint, p_starts_at timestamp with time zone, p_expires_at timestamp with time zone, p_maximum_total_redemptions integer, p_maximum_redemptions_per_phone integer, p_is_active boolean, p_is_public_offer boolean)`](#function-505)
-- [`validate_customer_address_map_url()`](#function-506)
-- [`validate_inventory_movement_source_chain()`](#function-507)
-- [`validate_order_inventory_reservation_chain()`](#function-508)
-- [`validate_order_parcel_component_family()`](#function-509)
-- [`validate_order_parcel_instance_family()`](#function-510)
-- [`validate_phase2_inventory_movement_source()`](#function-511)
-- [`validate_product_parcel_configuration()`](#function-512)
-- [`validate_purchase_order_component_family_v2()`](#function-513)
-- [`validate_purchase_receipt_item_family_v2()`](#function-514)
-- [`validate_sales_return_item_line_kind()`](#function-515)
-- [`validate_supplier_receipt_item_commercial_family()`](#function-516)
+- [`get_sales_history_page(p_page integer, p_page_size integer, p_period text, p_from_date date, p_to_date date, p_payment_method text, p_source text, p_customer_search text, p_number_search text, p_sales_only boolean)`](#function-223)
+- [`get_shift_owner_withdrawals_v1(p_shift_id uuid)`](#function-224)
+- [`get_stock_alert_notifications(p_include_resolved boolean, p_limit integer)`](#function-225)
+- [`get_supplier_opening_payable_v1(p_supplier_id uuid)`](#function-226)
+- [`get_supplier_payments_page(p_page integer, p_page_size integer, p_search text, p_supplier_id uuid, p_payment_method text)`](#function-227)
+- [`get_supplier_receipts_page(p_page integer, p_page_size integer, p_search text, p_supplier_id uuid, p_warehouse_id uuid, p_payment_status text, p_is_archived boolean)`](#function-228)
+- [`go_live_assert_setup_open_internal()`](#function-229)
+- [`go_live_begin_batch_internal(p_kind text, p_idempotency_key text, p_rows jsonb)`](#function-230)
+- [`go_live_cheque_party_internal(p_kind text, p_id text, p_phone text, p_name text)`](#function-231)
+- [`go_live_cheque_rows_internal(p_rows jsonb)`](#function-232)
+- [`go_live_collection_result_internal(p_operation_id uuid)`](#function-233)
+- [`go_live_customer_opening_positions_internal(p_customer_id uuid)`](#function-234)
+- [`go_live_guard_collection_operation()`](#function-235)
+- [`go_live_guard_collection_payment_reversal()`](#function-236)
+- [`go_live_guard_customer_opening_balance()`](#function-237)
+- [`go_live_guard_opening_cheque_internal()`](#function-238)
+- [`go_live_guard_setup_state()`](#function-239)
+- [`go_live_guard_supplier_opening_balance()`](#function-240)
+- [`go_live_main_branch_internal()`](#function-241)
+- [`go_live_normalize_name_internal(p_name text)`](#function-242)
+- [`go_live_plan_customer_collection_internal(p_customer_id uuid, p_amount bigint)`](#function-243)
+- [`go_live_reject_batch_mutation()`](#function-244)
+- [`go_live_reject_collection_mutation()`](#function-245)
+- [`go_live_reject_opening_write_after_finish()`](#function-246)
+- [`go_live_reject_truncate()`](#function-247)
+- [`go_live_resolve_unit_internal(p_value text)`](#function-248)
+- [`go_live_seed_exact_wac_from_opening()`](#function-249)
+- [`go_live_setup_counts_internal()`](#function-250)
+- [`go_live_supplier_opening_payable_internal(p_supplier_id uuid)`](#function-251)
+- [`guard_cash_shift_closing_report_snapshot()`](#function-252)
+- [`guard_finalized_order_parcel_item_history()`](#function-253)
+- [`guard_immutable_parcel_foundation_row()`](#function-254)
+- [`guard_new_configurable_parcel_row()`](#function-255)
+- [`guard_order_inventory_reservation_history()`](#function-256)
+- [`guard_order_parcel_component_history()`](#function-257)
+- [`guard_order_parcel_instance_history()`](#function-258)
+- [`guard_paid_order_customer_payment_reversal()`](#function-259)
+- [`guard_phase2_detail_history()`](#function-260)
+- [`guard_phase2_receipt_header_history()`](#function-261)
+- [`guard_phase3_customer_order_cost_finalization()`](#function-262)
+- [`guard_phase3_customer_v2_terminal_status()`](#function-263)
+- [`guard_phase4_aftercare_consumption_history()`](#function-264)
+- [`guard_phase4_immutable_row()`](#function-265)
+- [`guard_phase4_replacement_event_history()`](#function-266)
+- [`guard_phase4_sales_return_event_history()`](#function-267)
+- [`guard_supplier_invoice_identity_history()`](#function-268)
+- [`has_erp_role(p_allowed_roles text[])`](#function-269)
+- [`import_go_live_products_v1(p_idempotency_key text, p_rows jsonb, p_dry_run boolean)`](#function-270)
+- [`inventory_damage_period_totals_internal(p_branch_id uuid, p_from timestamp with time zone, p_to timestamp with time zone)`](#function-271)
+- [`inventory_damage_reject_mutation_internal()`](#function-272)
+- [`is_active_erp_staff()`](#function-273)
+- [`is_authenticated()`](#function-274)
+- [`is_mfa_policy_satisfied()`](#function-275)
+- [`issue_supplier_cheque_v1(p_supplier_id uuid, p_branch_id uuid, p_bank_name text, p_cheque_number text, p_due_date date, p_amount_in_minor_units bigint, p_notes text, p_idempotency_key text, p_claim_id uuid, p_purchase_order_id uuid, p_opening_only boolean)`](#function-276)
+- [`mark_all_stock_alerts_read()`](#function-277)
+- [`mark_stock_alert_read(p_stock_alert_id uuid)`](#function-278)
+- [`normalize_customer_phone(p_phone text)`](#function-279)
+- [`notify_new_website_order_push()`](#function-280)
+- [`open_cash_shift(p_branch_id uuid, p_opening_cash_in_minor_units bigint)`](#function-281)
+- [`owner_withdrawal_closing_section_internal(p_shift_id uuid)`](#function-282)
+- [`owner_withdrawal_events_internal(p_branch_id uuid, p_from timestamp with time zone, p_to timestamp with time zone)`](#function-283)
+- [`owner_withdrawal_format_jod_internal(p_minor bigint)`](#function-284)
+- [`owner_withdrawal_frozen_shift_effect_internal(p_shift_id uuid)`](#function-285)
+- [`owner_withdrawal_integrity_issues_internal()`](#function-286)
+- [`owner_withdrawal_period_totals_internal(p_branch_id uuid, p_from timestamp with time zone, p_to timestamp with time zone)`](#function-287)
+- [`owner_withdrawal_reject_mutation()`](#function-288)
+- [`owner_withdrawal_result_internal(p_withdrawal_id uuid, p_replay boolean)`](#function-289)
+- [`owner_withdrawal_shift_effect_internal(p_shift_id uuid)`](#function-290)
+- [`owner_withdrawal_shift_reversal_plan_internal(p_shift_id uuid)`](#function-291)
+- [`package_d_assert_carton_return_item_internal(p_item jsonb)`](#function-292)
+- [`package_d_assert_modern_sale_internal(p_order_id uuid, p_error_identity text)`](#function-293)
+- [`package_d_assert_return_evidence_before_single_sku_internal(p_operation_id uuid, p_require_settled boolean)`](#function-294)
+- [`package_d_assert_whole_single_sku_quantity_internal(p_order_item_id uuid, p_quantity integer)`](#function-295)
+- [`package_d_capture_single_sku_price_snapshot()`](#function-296)
+- [`package_d_create_customer_order_before_source_guard_internal(p_customer_full_name text, p_customer_phone text, p_customer_email text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_floor text, p_apartment text, p_address_notes text, p_latitude double precision, p_longitude double precision, p_formatted_address text, p_google_maps_url text, p_location_source text, p_branch_id uuid, p_warehouse_id uuid, p_items jsonb, p_delivery_fee_in_minor_units bigint, p_discount_in_minor_units bigint, p_customer_notes text, p_internal_notes text, p_source text)`](#function-297)
+- [`package_d_create_pos_sale_before_attempt_guard_internal(p_warehouse_id uuid, p_branch_id uuid, p_customer_id uuid, p_customer_name text, p_payment_method text, p_lines jsonb, p_discount_in_minor_units bigint, p_amount_received_in_minor_units bigint, p_idempotency_key text)`](#function-298)
+- [`package_d_guard_physical_capacity_internal()`](#function-299)
+- [`package_d_public_parcel_options_before_policy_internal(p_family_product_ids uuid[])`](#function-300)
+- [`package_d_reject_pos_cancellation_mutation()`](#function-301)
+- [`package_d_replacement_evidence_before_carton_internal(p_operation_id uuid, p_require_issued boolean)`](#function-302)
+- [`package_d_settle_sales_replacement_before_guard_internal(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_notes text)`](#function-303)
+- [`package_d_settle_sales_return_before_guard_internal(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)`](#function-304)
+- [`package_d_validate_configurable_parcel_before_policy_internal(p_actor_scope_type text, p_actor_user_id uuid, p_family_product_id uuid, p_parcel_configuration_id uuid, p_configuration_revision integer, p_components jsonb)`](#function-305)
+- [`pay_supplier_cheque_claim_v1(p_claim_id uuid, p_branch_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text, p_idempotency_key text)`](#function-306)
+- [`pay_supplier_opening_balance_v1(p_supplier_id uuid, p_branch_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text, p_idempotency_key text)`](#function-307)
+- [`phase133_legacy_po_payables_internal()`](#function-308)
+- [`phase133_supplier_balance_evidence_internal()`](#function-309)
+- [`phase133_supplier_balances_internal()`](#function-310)
+- [`phase2_allocate_largest_remainder_internal(p_total bigint, p_weighted_keys jsonb)`](#function-311)
+- [`phase2_apply_inventory_and_wac_internal(p_operation_id uuid, p_warehouse_id uuid, p_source_kind text, p_source_id uuid, p_components jsonb, p_user_id uuid, p_reference_label text)`](#function-312)
+- [`phase2_canonicalize_legacy_receipt_items_internal(p_items jsonb)`](#function-313)
+- [`phase2_canonicalize_receipt_lines_internal(p_lines jsonb)`](#function-314)
+- [`phase2_lock_inventory_products_internal(p_product_ids uuid[])`](#function-315)
+- [`phase2_lock_payment_shift_internal(p_branch_id uuid, p_payment_method text, p_amount bigint)`](#function-316)
+- [`phase2_lock_receipt_payment_shifts_internal(p_supplier_receipt_id uuid, p_purchase_receipt_id uuid)`](#function-317)
+- [`phase2_request_fingerprint_internal(p_payload jsonb)`](#function-318)
+- [`phase2_reverse_inventory_and_wac_internal(p_original_operation_id uuid, p_reversal_operation_id uuid, p_warehouse_id uuid, p_source_kind text, p_source_id uuid, p_user_id uuid, p_reason text)`](#function-319)
+- [`phase2_try_parse_uuid_internal(p_value text)`](#function-320)
+- [`phase2_validate_receipt_lines_internal(p_lines jsonb)`](#function-321)
+- [`phase35_report_base_unit_count_internal(p_order_item_id uuid, p_commercial_line_kind text, p_legacy_quantity integer)`](#function-322)
+- [`phase35_report_package_count_internal(p_order_item_id uuid, p_commercial_line_kind text, p_sale_package_quantity integer, p_units_per_sale_package integer)`](#function-323)
+- [`phase3_actor_scope_hash_internal(p_actor_scope_type text, p_erp_user_id uuid, p_guest_phone_hash text, p_guest_session_hash text)`](#function-324)
+- [`phase3_allocate_parcel_cogs_internal(p_components jsonb)`](#function-325)
+- [`phase3_assert_configurable_parcel_creation_allowed_internal(p_actor_scope_type text, p_actor_user_id uuid)`](#function-326)
+- [`phase3_assert_legacy_customer_lifecycle_allowed_internal(p_order_id uuid)`](#function-327)
+- [`phase3_canonicalize_components_internal(p_components jsonb)`](#function-328)
+- [`phase3_canonicalize_sale_request_internal(p_request jsonb)`](#function-329)
+- [`phase3_customer_cost_finalization_allowed_internal(p_order_id uuid, p_row_kind text, p_row_id uuid)`](#function-330)
+- [`phase3_customer_line_identity_internal(p_line jsonb)`](#function-331)
+- [`phase3_expire_customer_order_v2_internal(p_order_id uuid)`](#function-332)
+- [`phase3_lock_inventory_products_internal(p_product_ids uuid[])`](#function-333)
+- [`phase3_lock_open_pos_shift_internal(p_branch_id uuid)`](#function-334)
+- [`phase3_pos_reversal_inventory_rows_internal(p_order_id uuid)`](#function-335)
+- [`phase3_release_customer_reservations_internal(p_order_id uuid, p_lifecycle_operation_id uuid, p_operation_type text, p_idempotency_key text, p_request_fingerprint text, p_request_snapshot jsonb, p_actor_scope_type text, p_actor_scope_hash text, p_initiated_by uuid, p_terminal_state text, p_reason text)`](#function-336)
+- [`phase3_request_fingerprint_internal(p_payload jsonb)`](#function-337)
+- [`phase3_require_nonnegative_bigint_internal(p_value text, p_field text)`](#function-338)
+- [`phase3_require_positive_integer_internal(p_value text, p_field text)`](#function-339)
+- [`phase3_require_uuid_internal(p_value text, p_field text)`](#function-340)
+- [`phase3_resolve_legacy_pos_location_internal(p_warehouse_id uuid, p_branch_id uuid)`](#function-341)
+- [`phase3_resolve_operation_replay_internal(p_operation_type text, p_idempotency_key text, p_actor_scope_type text, p_actor_scope_hash text, p_request_fingerprint text)`](#function-342)
+- [`phase3_validate_configurable_parcel_internal(p_actor_scope_type text, p_actor_user_id uuid, p_family_product_id uuid, p_parcel_configuration_id uuid, p_configuration_revision integer, p_components jsonb)`](#function-343)
+- [`phase42_apply_return_inventory_before_phase43_internal(p_operation_id uuid, p_return_event_id uuid, p_warehouse_id uuid, p_sources jsonb, p_user_id uuid)`](#function-344)
+- [`phase42_apply_return_inventory_internal(p_operation_id uuid, p_return_event_id uuid, p_warehouse_id uuid, p_sources jsonb, p_user_id uuid)`](#function-345)
+- [`phase42_assert_operational_return_evidence_before_phase43(p_operation_id uuid, p_require_settled boolean)`](#function-346)
+- [`phase42_assert_operational_return_evidence_internal(p_operation_id uuid, p_require_settled boolean)`](#function-347)
+- [`phase42_canonicalize_return_request_before_phase43_internal(p_order_id uuid, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)`](#function-348)
+- [`phase42_canonicalize_return_request_internal(p_order_id uuid, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)`](#function-349)
+- [`phase42_customer_receivable_total_internal(p_customer_id uuid)`](#function-350)
+- [`phase42_expected_return_effects_pre43_internal(p_operation_id uuid)`](#function-351)
+- [`phase42_expected_return_inventory_effects_internal(p_operation_id uuid)`](#function-352)
+- [`phase42_guard_inventory_effect_history()`](#function-353)
+- [`phase42_guard_return_coordinator_version()`](#function-354)
+- [`phase42_guard_settlement_evidence()`](#function-355)
+- [`phase42_inventory_effects_snapshot_internal(p_operation_id uuid)`](#function-356)
+- [`phase42_order_financial_position_internal(p_order_id uuid)`](#function-357)
+- [`phase42_require_evidence_before_return_settlement()`](#function-358)
+- [`phase43_assert_operational_replacement_evidence_internal(p_operation_id uuid, p_require_issued boolean)`](#function-359)
+- [`phase43_assert_return_allocation_contract_internal(p_base_request jsonb, p_physical_sources jsonb)`](#function-360)
+- [`phase43_assert_return_physical_evidence_set_internal(p_operation_id uuid)`](#function-361)
+- [`phase43_assert_return_physical_source_internal(p_order_id uuid, p_root_kind text, p_root_id uuid, p_source_kind text, p_source_id uuid, p_product_id uuid)`](#function-362)
+- [`phase43_canonicalize_replacement_request_internal(p_order_id uuid, p_items jsonb, p_reason text, p_notes text)`](#function-363)
+- [`phase43_canonicalize_return_physical_sources_internal(p_sources jsonb)`](#function-364)
+- [`phase43_current_physical_representatives_internal(p_root_kind text, p_root_id uuid, p_product_id uuid)`](#function-365)
+- [`phase43_guard_immutable_replacement_effect()`](#function-366)
+- [`phase43_guard_replacement_settlement_evidence()`](#function-367)
+- [`phase43_inventory_effects_snapshot_internal(p_operation_id uuid)`](#function-368)
+- [`phase43_rebind_return_consumption_to_leaf()`](#function-369)
+- [`phase43_resolve_replacement_replay_internal(p_idempotency_key text, p_actor_scope_hash text, p_request_fingerprint text)`](#function-370)
+- [`phase43_return_inventory_sources_internal(p_operation_id uuid, p_sources jsonb)`](#function-371)
+- [`phase4_aftercare_source_root_internal(p_source_kind text, p_source_id uuid, p_product_id uuid)`](#function-372)
+- [`phase4_assert_aftercare_operation_binding_internal(p_operation_id uuid, p_entity_kind text, p_entity_id uuid, p_contract_version smallint)`](#function-373)
+- [`phase4_assert_no_settled_aftercare_for_order_internal(p_order_id uuid)`](#function-374)
+- [`phase4_assert_success_result_internal(p_operation_id uuid, p_operation_type text, p_result_snapshot jsonb, p_expected_entity_id uuid)`](#function-375)
+- [`phase4_authoritative_completion_internal(p_order_id uuid)`](#function-376)
+- [`phase4_cancel_draft_aftercare_internal(p_operation_id uuid)`](#function-377)
+- [`phase4_canonicalize_idempotency_key_internal(p_idempotency_key text)`](#function-378)
+- [`phase4_capture_parcel_component_price_snapshot()`](#function-379)
+- [`phase4_customer_completion_replay_preflight_internal(p_order_id uuid, p_idempotency_key text, p_payment_method text, p_amount_collected_in_minor_units bigint, p_delivery_fee_in_minor_units bigint, p_reference_number text, p_notes text)`](#function-380)
+- [`phase4_effective_standalone_unit_price_internal(p_product_id uuid, p_channel text, p_customer_phone text, p_promotion_code text, p_price_frozen_at timestamp with time zone)`](#function-381)
+- [`phase4_finalize_aftercare_operation_before_phase43(p_operation_id uuid)`](#function-382)
+- [`phase4_finalize_aftercare_operation_foundation_internal(p_operation_id uuid)`](#function-383)
+- [`phase4_finalize_aftercare_operation_internal(p_operation_id uuid)`](#function-384)
+- [`phase4_full_shift_context_snapshot_internal(p_shift_id uuid)`](#function-385)
+- [`phase4_guard_aftercare_operation_order_gate()`](#function-386)
+- [`phase4_guard_customer_payment_reversal_dependency()`](#function-387)
+- [`phase4_guard_order_reversal_dependency()`](#function-388)
+- [`phase4_guard_replacement_event_insert_state()`](#function-389)
+- [`phase4_guard_return_event_insert_state()`](#function-390)
+- [`phase4_lock_aftercare_operation_order_internal(p_operation_id uuid, p_expected_order_id uuid)`](#function-391)
+- [`phase4_lock_aftercare_order_gate_internal(p_operation_type text, p_request_identity_snapshot jsonb, p_expected_order_id uuid)`](#function-392)
+- [`phase4_lock_aftercare_parent_order_internal(p_parent_kind text, p_parent_id uuid, p_expected_operation_id uuid, p_expected_order_id uuid)`](#function-393)
+- [`phase4_lock_customer_order_context_internal(p_order_id uuid, p_require_open_shift boolean, p_lock_inventory boolean)`](#function-394)
+- [`phase4_lock_full_shift_context_internal(p_shift_id uuid)`](#function-395)
+- [`phase4_lock_order_inventory_internal(p_order_id uuid)`](#function-396)
+- [`phase4_lock_supplier_context_internal(p_supplier_receipt_id uuid, p_purchase_receipt_id uuid, p_supplier_payment_id uuid)`](#function-397)
+- [`phase4_prepare_component_inspection()`](#function-398)
+- [`phase4_resolve_operation_replay_internal(p_operation_type text, p_idempotency_key text, p_actor_scope_hash text, p_request_fingerprint text)`](#function-399)
+- [`phase4_supplier_context_snapshot_internal(p_supplier_receipt_id uuid, p_purchase_receipt_id uuid, p_supplier_payment_id uuid)`](#function-400)
+- [`phase4_validate_aftercare_consumption_insert()`](#function-401)
+- [`phase4_validate_replacement_item()`](#function-402)
+- [`phase4_validate_return_item_insert()`](#function-403)
+- [`phase6_financial_facts_internal(p_branch_id uuid, p_period_start timestamp with time zone, p_period_end timestamp with time zone, p_timezone text, p_verify_evidence boolean)`](#function-404)
+- [`populate_order_item_cost_snapshot()`](#function-405)
+- [`preview_cash_shift_full_reversal(p_shift_id uuid)`](#function-406)
+- [`preview_customer_cheque_v1(p_customer_id uuid, p_amount_in_minor_units bigint)`](#function-407)
+- [`preview_customer_collection_v1(p_customer_id uuid, p_amount_in_minor_units bigint)`](#function-408)
+- [`preview_go_live_cheques_v1(p_branch_id uuid, p_rows jsonb)`](#function-409)
+- [`preview_guest_promotion(p_code text, p_items jsonb, p_customer_phone text)`](#function-410)
+- [`preview_guest_promotion_v2(p_lines jsonb, p_promotion_code text, p_customer_phone text)`](#function-411)
+- [`preview_supplier_cheque_v1(p_supplier_id uuid, p_amount_in_minor_units bigint, p_claim_id uuid, p_purchase_order_id uuid, p_opening_only boolean)`](#function-412)
+- [`preview_supplier_receipt_cancellation(p_receipt_id uuid)`](#function-413)
+- [`product_cost_corrections_reject_mutation()`](#function-414)
+- [`product_edit_assert_version_internal(p_product_id uuid, p_expected_updated_at timestamp with time zone)`](#function-415)
+- [`product_edit_snapshot_internal(p_product_id uuid)`](#function-416)
+- [`product_has_cost_history_internal(p_product_id uuid)`](#function-417)
+- [`receive_customer_cheque_v1(p_customer_id uuid, p_branch_id uuid, p_bank_name text, p_cheque_number text, p_due_date date, p_amount_in_minor_units bigint, p_notes text, p_idempotency_key text)`](#function-418)
+- [`receive_inventory(p_warehouse_id uuid, p_product_id uuid, p_quantity integer, p_reference_type text, p_reference_id uuid, p_notes text)`](#function-419)
+- [`receive_purchase_order(p_purchase_order_id uuid, p_warehouse_id uuid, p_supplier_delivery_note text, p_notes text, p_items jsonb)`](#function-420)
+- [`receive_purchase_order_v2(p_purchase_order_id uuid, p_warehouse_id uuid, p_supplier_invoice_number text, p_supplier_invoice_date date, p_received_at timestamp with time zone, p_header_discount_in_minor_units bigint, p_supplier_freight_in_minor_units bigint, p_legacy_tax_in_minor_units bigint, p_amount_paid_at_receipt_in_minor_units bigint, p_payment_method text, p_payment_reference text, p_supplier_delivery_note text, p_notes text, p_idempotency_key text, p_lines jsonb)`](#function-421)
+- [`record_customer_opening_balances_v1(p_idempotency_key text, p_rows jsonb, p_dry_run boolean, p_confirm_new_customers boolean)`](#function-422)
+- [`record_customer_order_payment(p_order_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text)`](#function-423)
+- [`record_customer_order_payment_once(p_order_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text, p_idempotency_key text)`](#function-424)
+- [`record_erp_staff_password_reset(p_user_id uuid)`](#function-425)
+- [`record_external_monitoring_snapshot(p_checks jsonb, p_observed_at timestamp with time zone)`](#function-426)
+- [`record_go_live_cheques_v1(p_branch_id uuid, p_idempotency_key text, p_rows jsonb)`](#function-427)
+- [`record_supplier_opening_balances_v1(p_idempotency_key text, p_rows jsonb, p_dry_run boolean, p_confirm_new_suppliers boolean)`](#function-428)
+- [`record_supplier_payment(p_supplier_id uuid, p_purchase_order_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_payment_date timestamp with time zone, p_notes text, p_idempotency_key text)`](#function-429)
+- [`record_supplier_receipt_payment(p_receipt_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text, p_idempotency_key text)`](#function-430)
+- [`reject_flavor_master_inventory_mutation()`](#function-431)
+- [`reject_stocked_product_flavor_master_promotion()`](#function-432)
+- [`reorder_product_flavors_v1(p_master_product_id uuid, p_ordered_flavor_ids uuid[])`](#function-433)
+- [`report_admin_runtime_incident(p_fingerprint text, p_area text)`](#function-434)
+- [`resolve_legacy_supplier_receipt_replay_v1(p_idempotency_key uuid)`](#function-435)
+- [`return_completed_website_order(p_order_id uuid, p_reason text, p_stock_disposition text, p_refund_method text, p_reference_number text, p_notes text)`](#function-436)
+- [`return_deferred_cheque_v1(p_cheque_id uuid, p_expected_version integer, p_reason text, p_idempotency_key text)`](#function-437)
+- [`reverse_cash_shift_with_operations(p_shift_id uuid, p_reason text, p_idempotency_key text)`](#function-438)
+- [`reverse_customer_collection_v1(p_operation_id uuid, p_reason text)`](#function-439)
+- [`reverse_customer_opening_balance_v1(p_entry_id uuid, p_reason text)`](#function-440)
+- [`reverse_customer_order_payment(p_payment_id uuid, p_reason text)`](#function-441)
+- [`reverse_operational_expense(p_expense_id uuid, p_reason text)`](#function-442)
+- [`reverse_owner_cash_withdrawal_v1(p_withdrawal_id uuid, p_reason text, p_idempotency_key text)`](#function-443)
+- [`reverse_pos_sale(p_order_id uuid, p_reason text, p_idempotency_key text)`](#function-444)
+- [`reverse_supplier_cheque_claim_payment_v1(p_supplier_payment_id uuid, p_reason text, p_idempotency_key text)`](#function-445)
+- [`reverse_supplier_opening_balance_v1(p_entry_id uuid, p_reason text)`](#function-446)
+- [`reverse_supplier_payment(p_supplier_payment_id uuid, p_reason text, p_idempotency_key text)`](#function-447)
+- [`run_advanced_monitoring_checks(p_observed_at timestamp with time zone)`](#function-448)
+- [`save_customer(p_full_name text, p_phone text, p_customer_id uuid, p_email text, p_governorate text, p_whatsapp text, p_notes text, p_customer_type text)`](#function-449)
+- [`save_owner_warehouse_v1(p_id uuid, p_code text, p_name text, p_branch_id uuid, p_is_active boolean, p_expected_updated_at timestamp with time zone)`](#function-450)
+- [`save_product_brand(p_name_ar text, p_brand_id uuid, p_description text, p_logo_url text)`](#function-451)
+- [`save_product_category(p_name_ar text, p_category_id uuid, p_code text)`](#function-452)
+- [`save_product_category(p_name_ar text, p_category_id uuid, p_code text, p_image_url text)`](#function-453)
+- [`save_product_parcel_configuration_v1(p_family_product_id uuid, p_composition_mode text, p_is_active boolean)`](#function-454)
+- [`save_product_parcel_configuration_v1(p_family_product_id uuid, p_composition_mode text, p_is_active boolean, p_units_per_parcel integer, p_allowed_product_ids uuid[])`](#function-455)
+- [`save_product_unit(p_name_ar text, p_code text, p_conversion_factor integer, p_unit_id uuid)`](#function-456)
+- [`save_push_subscription(p_endpoint text, p_p256dh text, p_auth_key text, p_user_agent text, p_device_label text)`](#function-457)
+- [`save_storefront_settings(p_store_name_ar text, p_whatsapp_number text, p_cliq_alias text, p_orders_enabled boolean, p_announcement_text text, p_business_hours_text text, p_delivery_areas_text text, p_delivery_eta_text text, p_exchange_policy_text text, p_minimum_order_in_minor_units bigint, p_delivery_fee_in_minor_units bigint)`](#function-458)
+- [`save_storefront_settings_v2(p_store_name_ar text, p_whatsapp_number text, p_cliq_alias text, p_orders_enabled boolean, p_announcement_text text, p_business_hours_text text, p_delivery_areas_text text, p_delivery_eta_text text, p_exchange_policy_text text, p_minimum_order_in_minor_units bigint, p_delivery_fee_in_minor_units bigint, p_show_newest_products boolean, p_show_best_sellers boolean, p_show_offers boolean, p_show_low_stock boolean)`](#function-459)
+- [`save_storefront_settings_v3(p_store_name_ar text, p_whatsapp_number text, p_cliq_alias text, p_orders_enabled boolean, p_announcement_text text, p_business_hours_text text, p_delivery_areas_text text, p_delivery_eta_text text, p_exchange_policy_text text, p_minimum_order_in_minor_units bigint, p_inside_ramtha_delivery_fee_in_minor_units bigint, p_outside_ramtha_delivery_fee_in_minor_units bigint, p_show_newest_products boolean, p_show_best_sellers boolean, p_show_offers boolean, p_show_low_stock boolean)`](#function-460)
+- [`save_supplier(p_company_name text, p_supplier_id uuid, p_contact_person text, p_phone text, p_whatsapp text, p_email text, p_address text, p_tax_number text, p_notes text, p_is_active boolean)`](#function-461)
+- [`scan_business_summaries(p_observed_at timestamp with time zone)`](#function-462)
+- [`scan_core_business_alerts(p_observed_at timestamp with time zone, p_batch_size integer)`](#function-463)
+- [`scan_deferred_cheque_alerts_internal(p_observed_at timestamp with time zone)`](#function-464)
+- [`search_admin_products(p_search text, p_limit integer, p_category_id uuid, p_purpose text, p_product_id uuid)`](#function-465)
+- [`set_configurable_parcel_feature_state_v1(p_state text)`](#function-466)
+- [`set_customer_status(p_customer_id uuid, p_action text)`](#function-467)
+- [`set_erp_staff_account_active(p_user_id uuid, p_is_active boolean)`](#function-468)
+- [`set_go_live_main_branch_v1(p_branch_id uuid)`](#function-469)
+- [`set_product_brand_active(p_brand_id uuid, p_is_active boolean)`](#function-470)
+- [`set_product_category_active(p_category_id uuid, p_is_active boolean)`](#function-471)
+- [`set_product_primary_image(p_product_id uuid, p_image_url text)`](#function-472)
+- [`set_product_unit_active(p_unit_id uuid, p_is_active boolean)`](#function-473)
+- [`set_promotion_code_active(p_promotion_code_id uuid, p_is_active boolean)`](#function-474)
+- [`set_supplier_active(p_supplier_id uuid, p_is_active boolean)`](#function-475)
+- [`set_website_new_order_reservation_expiry()`](#function-476)
+- [`settle_admin_sales_return_v1(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_physical_sources jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)`](#function-477)
+- [`settle_sales_replacement_v1(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_notes text)`](#function-478)
+- [`settle_sales_return_v1(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)`](#function-479)
+- [`start_or_update_order_delivery(p_order_id uuid, p_eta_minutes integer, p_driver_phone text, p_notes text)`](#function-480)
+- [`submit_guest_customer_order(p_idempotency_key text, p_customer_full_name text, p_customer_phone text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_address_notes text, p_google_maps_url text, p_latitude double precision, p_longitude double precision, p_customer_notes text, p_items jsonb, p_promotion_code text, p_payment_method text, p_delivery_zone text)`](#function-481)
+- [`submit_guest_customer_order_core(p_idempotency_key text, p_customer_full_name text, p_customer_phone text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_address_notes text, p_google_maps_url text, p_latitude double precision, p_longitude double precision, p_customer_notes text, p_items jsonb, p_promotion_code text)`](#function-482)
+- [`submit_guest_customer_order_v2(p_idempotency_key text, p_guest_phone_hash text, p_guest_session_hash text, p_customer_full_name text, p_customer_phone text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_address_notes text, p_google_maps_url text, p_latitude double precision, p_longitude double precision, p_customer_notes text, p_lines jsonb, p_promotion_code text, p_payment_method text, p_delivery_zone text, p_expected_subtotal_in_minor_units bigint, p_expected_discount_in_minor_units bigint, p_expected_delivery_fee_in_minor_units bigint, p_expected_total_in_minor_units bigint)`](#function-483)
+- [`sync_order_delivery_tracking_timestamps()`](#function-484)
+- [`sync_order_payment_state()`](#function-485)
+- [`sync_product_flavor_commercial_settings()`](#function-486)
+- [`sync_stock_alert(p_product_id uuid, p_warehouse_id uuid, p_on_hand_quantity integer, p_reserved_quantity integer)`](#function-487)
+- [`sync_stock_alert_from_balance()`](#function-488)
+- [`sync_stock_alert_from_product()`](#function-489)
+- [`track_guest_order(p_order_number text, p_customer_phone text)`](#function-490)
+- [`track_guest_order_by_token(p_tracking_token text)`](#function-491)
+- [`transfer_inventory_between_warehouses(p_product_id uuid, p_source_warehouse_id uuid, p_destination_warehouse_id uuid, p_quantity integer, p_notes text, p_transfer_date timestamp with time zone)`](#function-492)
+- [`update_erp_staff_account_record(p_user_id uuid, p_full_name text, p_phone text, p_role_code text, p_branch_id uuid, p_job_title text)`](#function-493)
+- [`update_my_erp_profile(p_full_name text, p_phone text, p_avatar_url text)`](#function-494)
+- [`update_order_delivery_address(p_order_id uuid, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_floor text, p_apartment text, p_notes text, p_latitude double precision, p_longitude double precision, p_location_source text, p_location_confirmed boolean)`](#function-495)
+- [`update_order_status(p_order_id uuid, p_new_status text, p_notes text)`](#function-496)
+- [`update_product_flavor_v1(p_flavor_product_id uuid, p_flavor_name_ar text, p_barcode text, p_image_url text, p_is_active boolean)`](#function-497)
+- [`update_product_flavor_v2(p_flavor_product_id uuid, p_expected_updated_at timestamp with time zone, p_flavor_name_ar text, p_barcode text, p_image_url text, p_is_active boolean)`](#function-498)
+- [`update_product_master(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)`](#function-499)
+- [`update_product_master_v2(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)`](#function-500)
+- [`update_product_master_v3(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)`](#function-501)
+- [`update_product_master_v4(p_product_id uuid, p_expected_updated_at timestamp with time zone, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)`](#function-502)
+- [`update_purchase_order(p_purchase_order_id uuid, p_supplier_id uuid, p_branch_id uuid, p_warehouse_id uuid, p_expected_delivery_date timestamp with time zone, p_delivery_fee_in_minor_units bigint, p_discount_in_minor_units bigint, p_supplier_invoice_number text, p_notes text, p_internal_notes text, p_items jsonb)`](#function-503)
+- [`update_purchase_order_status(p_purchase_order_id uuid, p_new_status text, p_notes text)`](#function-504)
+- [`update_updated_at_column()`](#function-505)
+- [`upsert_promotion_code(p_code text, p_discount_type text, p_discount_value bigint, p_promotion_code_id uuid, p_description_ar text, p_minimum_subtotal_in_minor_units bigint, p_maximum_discount_in_minor_units bigint, p_starts_at timestamp with time zone, p_expires_at timestamp with time zone, p_maximum_total_redemptions integer, p_maximum_redemptions_per_phone integer, p_is_active boolean, p_is_public_offer boolean)`](#function-506)
+- [`validate_customer_address_map_url()`](#function-507)
+- [`validate_inventory_movement_source_chain()`](#function-508)
+- [`validate_order_inventory_reservation_chain()`](#function-509)
+- [`validate_order_parcel_component_family()`](#function-510)
+- [`validate_order_parcel_instance_family()`](#function-511)
+- [`validate_phase2_inventory_movement_source()`](#function-512)
+- [`validate_product_parcel_configuration()`](#function-513)
+- [`validate_purchase_order_component_family_v2()`](#function-514)
+- [`validate_purchase_receipt_item_family_v2()`](#function-515)
+- [`validate_sales_return_item_line_kind()`](#function-516)
+- [`validate_supplier_receipt_item_commercial_family()`](#function-517)
 
 <a id="function-1"></a>
 ## _archive_supplier_receipt_impl(p_receipt_id uuid, p_is_archived boolean)
@@ -23270,6 +23271,127 @@ $function$
 ```
 
 <a id="function-223"></a>
+## get_sales_history_page(p_page integer, p_page_size integer, p_period text, p_from_date date, p_to_date date, p_payment_method text, p_source text, p_customer_search text, p_number_search text, p_sales_only boolean)
+
+Owner: `postgres`; security: DEFINER; volatility: `s`.
+Search path/config: `["search_path=public, pg_temp"]`.
+Effective EXECUTE grants: `[{"role":"authenticated","grantor":"postgres","grantable":false},{"role":"postgres","grantor":"postgres","grantable":false}]`.
+Raw ACL: `["postgres=X/postgres","authenticated=X/postgres"]`; extension: `none`.
+
+```sql
+CREATE OR REPLACE FUNCTION public.get_sales_history_page(p_page integer DEFAULT 1, p_page_size integer DEFAULT 25, p_period text DEFAULT 'day'::text, p_from_date date DEFAULT NULL::date, p_to_date date DEFAULT NULL::date, p_payment_method text DEFAULT 'all'::text, p_source text DEFAULT 'all'::text, p_customer_search text DEFAULT NULL::text, p_number_search text DEFAULT NULL::text, p_sales_only boolean DEFAULT false)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'public', 'pg_temp'
+AS $function$
+DECLARE
+  v_page INTEGER := COALESCE(p_page,1);
+  v_size INTEGER := COALESCE(p_page_size,25);
+  v_period TEXT := COALESCE(NULLIF(BTRIM(p_period),''),'day');
+  v_method TEXT := COALESCE(NULLIF(BTRIM(p_payment_method),''),'all');
+  v_source TEXT := COALESCE(NULLIF(BTRIM(p_source),''),'all');
+  v_customer TEXT := NULLIF(BTRIM(p_customer_search),'');
+  v_number TEXT := NULLIF(BTRIM(p_number_search),'');
+  v_today DATE := (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Amman')::DATE;
+  v_from DATE;
+  v_to DATE;
+  v_start TIMESTAMPTZ;
+  v_end TIMESTAMPTZ;
+  v_result JSONB;
+BEGIN
+  PERFORM public.assert_erp_role(
+    ARRAY['owner','admin','manager','accountant','cashier','sales','orders','delivery_driver'],
+    'عرض سجل المبيعات'
+  );
+  IF v_page<1 OR v_page>100000 OR v_size<1 OR v_size>100 THEN
+    RAISE EXCEPTION 'رقم الصفحة أو حجمها غير صالح.';
+  END IF;
+  IF v_period NOT IN ('day','week','month','range','all') THEN
+    RAISE EXCEPTION 'فترة سجل المبيعات غير صالحة.';
+  END IF;
+  IF v_method NOT IN ('all','cash','cliq','bank_transfer','cheque','card','debt','mixed','unknown')
+     OR v_source NOT IN ('all','pos','website','unknown') THEN
+    RAISE EXCEPTION 'فلتر الدفع أو المصدر غير صالح.';
+  END IF;
+  IF CHAR_LENGTH(v_customer)>100 OR CHAR_LENGTH(v_number)>100 THEN
+    RAISE EXCEPTION 'عبارة البحث طويلة جداً.';
+  END IF;
+  IF v_period='range' THEN
+    IF p_from_date IS NULL OR p_to_date IS NULL OR NOT isfinite(p_from_date)
+      OR NOT isfinite(p_to_date) OR p_from_date>p_to_date THEN
+      RAISE EXCEPTION 'اختر مدى تاريخ صحيحاً.';
+    END IF;
+    v_from:=p_from_date;v_to:=p_to_date;
+  ELSE
+    IF p_from_date IS NOT NULL OR p_to_date IS NOT NULL THEN
+      RAISE EXCEPTION 'التواريخ المخصصة تتطلب اختيار مدى.';
+    END IF;
+    v_from:=CASE v_period WHEN 'day' THEN v_today WHEN 'week' THEN v_today-6
+      WHEN 'month' THEN date_trunc('month',v_today)::DATE ELSE NULL END;
+    v_to:=CASE WHEN v_period='all' THEN NULL ELSE v_today END;
+  END IF;
+  v_start:=v_from::TIMESTAMP AT TIME ZONE 'Asia/Amman';
+  v_end:=(v_to+1)::TIMESTAMP AT TIME ZONE 'Asia/Amman';
+
+  WITH first_completion AS MATERIALIZED (
+    SELECT h.order_id,MIN(h.created_at) AS at
+    FROM public.order_status_history h WHERE h.new_status='completed'
+    GROUP BY h.order_id
+  ), evidence AS (
+    SELECT o.id,o.order_number,o.total_in_minor_units,o.payment_method,o.payment_status,
+      o.source,o.status,o.created_at,fc.at AS first_completed_at,
+      COALESCE(fc.at,o.created_at) AS listed_at,
+      (fc.at IS NOT NULL AND o.status IN ('completed','returned')) AS counts_as_sale,
+      COALESCE(NULLIF(BTRIM(o.customer_name_snapshot),''),NULLIF(BTRIM(c.full_name),''),'زبون نقدي') AS customer_name,
+      COALESCE(c.phone,'') AS customer_phone
+    FROM public.orders o
+    LEFT JOIN first_completion fc ON fc.order_id=o.id
+    LEFT JOIN public.customers c ON c.id=o.customer_id
+    WHERE (v_method='all' OR o.payment_method::TEXT=v_method
+      OR (v_method='cash' AND o.payment_method::TEXT='cash_on_delivery')
+      OR (v_method='unknown' AND (o.payment_method IS NULL OR o.payment_method::TEXT NOT IN
+        ('cash','cash_on_delivery','cliq','bank_transfer','cheque','card','debt','mixed'))))
+      AND (v_source='all' OR o.source=v_source
+        OR (v_source='unknown' AND (o.source IS NULL OR o.source NOT IN ('pos','website'))))
+      AND (v_customer IS NULL OR strpos(lower(COALESCE(o.customer_name_snapshot,'')),lower(v_customer))>0
+        OR strpos(lower(COALESCE(c.full_name,'')),lower(v_customer))>0
+        OR strpos(COALESCE(c.phone,''),v_customer)>0)
+      AND (v_number IS NULL OR strpos(lower(COALESCE(o.order_number,'')),lower(v_number))>0)
+  ), filtered AS MATERIALIZED (
+    SELECT * FROM evidence
+    WHERE (v_start IS NULL OR listed_at>=v_start) AND (v_end IS NULL OR listed_at<v_end)
+      AND (NOT COALESCE(p_sales_only,false) OR counts_as_sale)
+  ), totals AS (
+    SELECT COUNT(*) AS invoice_count,COUNT(*) FILTER(WHERE counts_as_sale) AS sale_count,
+      COALESCE(SUM(total_in_minor_units) FILTER(WHERE counts_as_sale),0)::BIGINT AS sales,
+      COUNT(*) FILTER(WHERE first_completed_at IS NULL AND status IN ('completed','returned')) AS undated_count
+    FROM filtered
+  ), page_rows AS (
+    SELECT * FROM filtered ORDER BY listed_at DESC,id DESC
+    OFFSET ((v_page-1)*v_size) LIMIT v_size
+  )
+  SELECT jsonb_build_object(
+    'success',true,'generatedAt',CURRENT_TIMESTAMP,'timeZone','Asia/Amman',
+    'page',v_page,'pageSize',v_size,'totalCount',t.invoice_count,
+    'totalPages',GREATEST(1,CEIL(t.invoice_count::NUMERIC/v_size)::INTEGER),
+    'period',jsonb_build_object('kind',v_period,'fromDate',v_from,'toDate',v_to),
+    'summary',jsonb_build_object('invoiceCount',t.invoice_count,'salesCount',t.sale_count,
+      'salesInMinorUnits',t.sales,'undatedInvoiceCount',t.undated_count),
+    'rows',COALESCE((SELECT jsonb_agg(jsonb_build_object(
+      'id',r.id,'orderNumber',r.order_number,'listedAt',r.listed_at,
+      'firstCompletedAt',r.first_completed_at,'dateBasis',CASE WHEN r.first_completed_at IS NULL THEN 'creation' ELSE 'completion' END,
+      'customerName',r.customer_name,'customerPhone',r.customer_phone,
+      'totalInMinorUnits',r.total_in_minor_units,'paymentMethod',r.payment_method,
+      'paymentStatus',r.payment_status,'source',r.source,'status',r.status,
+      'countsAsSale',r.counts_as_sale) ORDER BY r.listed_at DESC,r.id DESC) FROM page_rows r),'[]'::JSONB)
+  ) INTO v_result FROM totals t;
+  RETURN v_result;
+END;
+$function$
+```
+
+<a id="function-224"></a>
 ## get_shift_owner_withdrawals_v1(p_shift_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -23311,7 +23433,7 @@ END;
 $function$
 ```
 
-<a id="function-224"></a>
+<a id="function-225"></a>
 ## get_stock_alert_notifications(p_include_resolved boolean, p_limit integer)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -23404,7 +23526,7 @@ END;
 $function$
 ```
 
-<a id="function-225"></a>
+<a id="function-226"></a>
 ## get_supplier_opening_payable_v1(p_supplier_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -23428,7 +23550,7 @@ END;
 $function$
 ```
 
-<a id="function-226"></a>
+<a id="function-227"></a>
 ## get_supplier_payments_page(p_page integer, p_page_size integer, p_search text, p_supplier_id uuid, p_payment_method text)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -23502,7 +23624,7 @@ END;
 $function$
 ```
 
-<a id="function-227"></a>
+<a id="function-228"></a>
 ## get_supplier_receipts_page(p_page integer, p_page_size integer, p_search text, p_supplier_id uuid, p_warehouse_id uuid, p_payment_status text, p_is_archived boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -23619,7 +23741,7 @@ END;
 $function$
 ```
 
-<a id="function-228"></a>
+<a id="function-229"></a>
 ## go_live_assert_setup_open_internal()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -23647,7 +23769,7 @@ END;
 $function$
 ```
 
-<a id="function-229"></a>
+<a id="function-230"></a>
 ## go_live_begin_batch_internal(p_kind text, p_idempotency_key text, p_rows jsonb)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -23687,7 +23809,7 @@ END;
 $function$
 ```
 
-<a id="function-230"></a>
+<a id="function-231"></a>
 ## go_live_cheque_party_internal(p_kind text, p_id text, p_phone text, p_name text)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -23721,7 +23843,7 @@ END;
 $function$
 ```
 
-<a id="function-231"></a>
+<a id="function-232"></a>
 ## go_live_cheque_rows_internal(p_rows jsonb)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -23814,7 +23936,7 @@ END;
 $function$
 ```
 
-<a id="function-232"></a>
+<a id="function-233"></a>
 ## go_live_collection_result_internal(p_operation_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -23853,7 +23975,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-233"></a>
+<a id="function-234"></a>
 ## go_live_customer_opening_positions_internal(p_customer_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -23879,7 +24001,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-234"></a>
+<a id="function-235"></a>
 ## go_live_guard_collection_operation()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -23912,7 +24034,7 @@ END;
 $function$
 ```
 
-<a id="function-235"></a>
+<a id="function-236"></a>
 ## go_live_guard_collection_payment_reversal()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -23944,7 +24066,7 @@ END;
 $function$
 ```
 
-<a id="function-236"></a>
+<a id="function-237"></a>
 ## go_live_guard_customer_opening_balance()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -23979,7 +24101,7 @@ END;
 $function$
 ```
 
-<a id="function-237"></a>
+<a id="function-238"></a>
 ## go_live_guard_opening_cheque_internal()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24004,7 +24126,7 @@ END;
 $function$
 ```
 
-<a id="function-238"></a>
+<a id="function-239"></a>
 ## go_live_guard_setup_state()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24037,7 +24159,7 @@ END;
 $function$
 ```
 
-<a id="function-239"></a>
+<a id="function-240"></a>
 ## go_live_guard_supplier_opening_balance()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24072,7 +24194,7 @@ END;
 $function$
 ```
 
-<a id="function-240"></a>
+<a id="function-241"></a>
 ## go_live_main_branch_internal()
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -24093,7 +24215,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-241"></a>
+<a id="function-242"></a>
 ## go_live_normalize_name_internal(p_name text)
 
 Owner: `postgres`; security: DEFINER; volatility: `i`.
@@ -24115,7 +24237,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-242"></a>
+<a id="function-243"></a>
 ## go_live_plan_customer_collection_internal(p_customer_id uuid, p_amount bigint)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -24164,7 +24286,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-243"></a>
+<a id="function-244"></a>
 ## go_live_reject_batch_mutation()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24186,7 +24308,7 @@ END;
 $function$
 ```
 
-<a id="function-244"></a>
+<a id="function-245"></a>
 ## go_live_reject_collection_mutation()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24208,7 +24330,7 @@ END;
 $function$
 ```
 
-<a id="function-245"></a>
+<a id="function-246"></a>
 ## go_live_reject_opening_write_after_finish()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24230,7 +24352,7 @@ END;
 $function$
 ```
 
-<a id="function-246"></a>
+<a id="function-247"></a>
 ## go_live_reject_truncate()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24252,7 +24374,7 @@ END;
 $function$
 ```
 
-<a id="function-247"></a>
+<a id="function-248"></a>
 ## go_live_resolve_unit_internal(p_value text)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -24274,7 +24396,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-248"></a>
+<a id="function-249"></a>
 ## go_live_seed_exact_wac_from_opening()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24300,7 +24422,7 @@ END;
 $function$
 ```
 
-<a id="function-249"></a>
+<a id="function-250"></a>
 ## go_live_setup_counts_internal()
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -24343,7 +24465,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-250"></a>
+<a id="function-251"></a>
 ## go_live_supplier_opening_payable_internal(p_supplier_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -24375,7 +24497,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-251"></a>
+<a id="function-252"></a>
 ## guard_cash_shift_closing_report_snapshot()
 
 Owner: `postgres`; security: INVOKER; volatility: `v`.
@@ -24426,7 +24548,7 @@ END;
 $function$
 ```
 
-<a id="function-252"></a>
+<a id="function-253"></a>
 ## guard_finalized_order_parcel_item_history()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24503,7 +24625,7 @@ END;
 $function$
 ```
 
-<a id="function-253"></a>
+<a id="function-254"></a>
 ## guard_immutable_parcel_foundation_row()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24526,7 +24648,7 @@ END;
 $function$
 ```
 
-<a id="function-254"></a>
+<a id="function-255"></a>
 ## guard_new_configurable_parcel_row()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24568,7 +24690,7 @@ END;
 $function$
 ```
 
-<a id="function-255"></a>
+<a id="function-256"></a>
 ## guard_order_inventory_reservation_history()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24628,7 +24750,7 @@ END;
 $function$
 ```
 
-<a id="function-256"></a>
+<a id="function-257"></a>
 ## guard_order_parcel_component_history()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24702,7 +24824,7 @@ END;
 $function$
 ```
 
-<a id="function-257"></a>
+<a id="function-258"></a>
 ## guard_order_parcel_instance_history()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24804,7 +24926,7 @@ END;
 $function$
 ```
 
-<a id="function-258"></a>
+<a id="function-259"></a>
 ## guard_paid_order_customer_payment_reversal()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24840,7 +24962,7 @@ END;
 $function$
 ```
 
-<a id="function-259"></a>
+<a id="function-260"></a>
 ## guard_phase2_detail_history()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24865,7 +24987,7 @@ END;
 $function$
 ```
 
-<a id="function-260"></a>
+<a id="function-261"></a>
 ## guard_phase2_receipt_header_history()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24925,7 +25047,7 @@ END;
 $function$
 ```
 
-<a id="function-261"></a>
+<a id="function-262"></a>
 ## guard_phase3_customer_order_cost_finalization()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -24968,7 +25090,7 @@ END;
 $function$
 ```
 
-<a id="function-262"></a>
+<a id="function-263"></a>
 ## guard_phase3_customer_v2_terminal_status()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -25118,7 +25240,7 @@ END;
 $function$
 ```
 
-<a id="function-263"></a>
+<a id="function-264"></a>
 ## guard_phase4_aftercare_consumption_history()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -25178,7 +25300,7 @@ END;
 $function$
 ```
 
-<a id="function-264"></a>
+<a id="function-265"></a>
 ## guard_phase4_immutable_row()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -25200,7 +25322,7 @@ END;
 $function$
 ```
 
-<a id="function-265"></a>
+<a id="function-266"></a>
 ## guard_phase4_replacement_event_history()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -25263,7 +25385,7 @@ END;
 $function$
 ```
 
-<a id="function-266"></a>
+<a id="function-267"></a>
 ## guard_phase4_sales_return_event_history()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -25353,7 +25475,7 @@ END;
 $function$
 ```
 
-<a id="function-267"></a>
+<a id="function-268"></a>
 ## guard_supplier_invoice_identity_history()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -25392,7 +25514,7 @@ END;
 $function$
 ```
 
-<a id="function-268"></a>
+<a id="function-269"></a>
 ## has_erp_role(p_allowed_roles text[])
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -25421,7 +25543,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-269"></a>
+<a id="function-270"></a>
 ## import_go_live_products_v1(p_idempotency_key text, p_rows jsonb, p_dry_run boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -25595,7 +25717,7 @@ END;
 $function$
 ```
 
-<a id="function-270"></a>
+<a id="function-271"></a>
 ## inventory_damage_period_totals_internal(p_branch_id uuid, p_from timestamp with time zone, p_to timestamp with time zone)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -25627,7 +25749,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-271"></a>
+<a id="function-272"></a>
 ## inventory_damage_reject_mutation_internal()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -25647,7 +25769,7 @@ BEGIN
 END; $function$
 ```
 
-<a id="function-272"></a>
+<a id="function-273"></a>
 ## is_active_erp_staff()
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -25689,7 +25811,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-273"></a>
+<a id="function-274"></a>
 ## is_authenticated()
 
 Owner: `postgres`; security: INVOKER; volatility: `v`.
@@ -25709,7 +25831,7 @@ END;
 $function$
 ```
 
-<a id="function-274"></a>
+<a id="function-275"></a>
 ## is_mfa_policy_satisfied()
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -25738,7 +25860,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-275"></a>
+<a id="function-276"></a>
 ## issue_supplier_cheque_v1(p_supplier_id uuid, p_branch_id uuid, p_bank_name text, p_cheque_number text, p_due_date date, p_amount_in_minor_units bigint, p_notes text, p_idempotency_key text, p_claim_id uuid, p_purchase_order_id uuid, p_opening_only boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -25781,7 +25903,7 @@ END;
 $function$
 ```
 
-<a id="function-276"></a>
+<a id="function-277"></a>
 ## mark_all_stock_alerts_read()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -25834,7 +25956,7 @@ END;
 $function$
 ```
 
-<a id="function-277"></a>
+<a id="function-278"></a>
 ## mark_stock_alert_read(p_stock_alert_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -25890,7 +26012,7 @@ END;
 $function$
 ```
 
-<a id="function-278"></a>
+<a id="function-279"></a>
 ## normalize_customer_phone(p_phone text)
 
 Owner: `postgres`; security: INVOKER; volatility: `i`.
@@ -25924,7 +26046,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-279"></a>
+<a id="function-280"></a>
 ## notify_new_website_order_push()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -25959,7 +26081,7 @@ END;
 $function$
 ```
 
-<a id="function-280"></a>
+<a id="function-281"></a>
 ## open_cash_shift(p_branch_id uuid, p_opening_cash_in_minor_units bigint)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -26014,7 +26136,7 @@ END;
 $function$
 ```
 
-<a id="function-281"></a>
+<a id="function-282"></a>
 ## owner_withdrawal_closing_section_internal(p_shift_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -26053,7 +26175,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-282"></a>
+<a id="function-283"></a>
 ## owner_withdrawal_events_internal(p_branch_id uuid, p_from timestamp with time zone, p_to timestamp with time zone)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -26093,7 +26215,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-283"></a>
+<a id="function-284"></a>
 ## owner_withdrawal_format_jod_internal(p_minor bigint)
 
 Owner: `postgres`; security: DEFINER; volatility: `i`.
@@ -26112,7 +26234,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-284"></a>
+<a id="function-285"></a>
 ## owner_withdrawal_frozen_shift_effect_internal(p_shift_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -26138,7 +26260,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-285"></a>
+<a id="function-286"></a>
 ## owner_withdrawal_integrity_issues_internal()
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -26200,7 +26322,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-286"></a>
+<a id="function-287"></a>
 ## owner_withdrawal_period_totals_internal(p_branch_id uuid, p_from timestamp with time zone, p_to timestamp with time zone)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -26224,7 +26346,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-287"></a>
+<a id="function-288"></a>
 ## owner_withdrawal_reject_mutation()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -26257,7 +26379,7 @@ END;
 $function$
 ```
 
-<a id="function-288"></a>
+<a id="function-289"></a>
 ## owner_withdrawal_result_internal(p_withdrawal_id uuid, p_replay boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -26294,7 +26416,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-289"></a>
+<a id="function-290"></a>
 ## owner_withdrawal_shift_effect_internal(p_shift_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -26317,7 +26439,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-290"></a>
+<a id="function-291"></a>
 ## owner_withdrawal_shift_reversal_plan_internal(p_shift_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -26358,7 +26480,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-291"></a>
+<a id="function-292"></a>
 ## package_d_assert_carton_return_item_internal(p_item jsonb)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -26425,7 +26547,7 @@ END;
 $function$
 ```
 
-<a id="function-292"></a>
+<a id="function-293"></a>
 ## package_d_assert_modern_sale_internal(p_order_id uuid, p_error_identity text)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -26456,7 +26578,7 @@ END;
 $function$
 ```
 
-<a id="function-293"></a>
+<a id="function-294"></a>
 ## package_d_assert_return_evidence_before_single_sku_internal(p_operation_id uuid, p_require_settled boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -26482,7 +26604,7 @@ END;
 $function$
 ```
 
-<a id="function-294"></a>
+<a id="function-295"></a>
 ## package_d_assert_whole_single_sku_quantity_internal(p_order_item_id uuid, p_quantity integer)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -26514,7 +26636,7 @@ END;
 $function$
 ```
 
-<a id="function-295"></a>
+<a id="function-296"></a>
 ## package_d_capture_single_sku_price_snapshot()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -26572,7 +26694,7 @@ END;
 $function$
 ```
 
-<a id="function-296"></a>
+<a id="function-297"></a>
 ## package_d_create_customer_order_before_source_guard_internal(p_customer_full_name text, p_customer_phone text, p_customer_email text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_floor text, p_apartment text, p_address_notes text, p_latitude double precision, p_longitude double precision, p_formatted_address text, p_google_maps_url text, p_location_source text, p_branch_id uuid, p_warehouse_id uuid, p_items jsonb, p_delivery_fee_in_minor_units bigint, p_discount_in_minor_units bigint, p_customer_notes text, p_internal_notes text, p_source text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -26812,7 +26934,7 @@ END;
 $function$
 ```
 
-<a id="function-297"></a>
+<a id="function-298"></a>
 ## package_d_create_pos_sale_before_attempt_guard_internal(p_warehouse_id uuid, p_branch_id uuid, p_customer_id uuid, p_customer_name text, p_payment_method text, p_lines jsonb, p_discount_in_minor_units bigint, p_amount_received_in_minor_units bigint, p_idempotency_key text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -26863,7 +26985,7 @@ END;
 $function$
 ```
 
-<a id="function-298"></a>
+<a id="function-299"></a>
 ## package_d_guard_physical_capacity_internal()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -26915,7 +27037,7 @@ END;
 $function$
 ```
 
-<a id="function-299"></a>
+<a id="function-300"></a>
 ## package_d_public_parcel_options_before_policy_internal(p_family_product_ids uuid[])
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -27112,7 +27234,7 @@ END;
 $function$
 ```
 
-<a id="function-300"></a>
+<a id="function-301"></a>
 ## package_d_reject_pos_cancellation_mutation()
 
 Owner: `postgres`; security: INVOKER; volatility: `v`.
@@ -27131,7 +27253,7 @@ END;
 $function$
 ```
 
-<a id="function-301"></a>
+<a id="function-302"></a>
 ## package_d_replacement_evidence_before_carton_internal(p_operation_id uuid, p_require_issued boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -27399,7 +27521,7 @@ END;
 $function$
 ```
 
-<a id="function-302"></a>
+<a id="function-303"></a>
 ## package_d_settle_sales_replacement_before_guard_internal(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -27722,7 +27844,7 @@ END;
 $function$
 ```
 
-<a id="function-303"></a>
+<a id="function-304"></a>
 ## package_d_settle_sales_return_before_guard_internal(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -28386,7 +28508,7 @@ END;
 $function$
 ```
 
-<a id="function-304"></a>
+<a id="function-305"></a>
 ## package_d_validate_configurable_parcel_before_policy_internal(p_actor_scope_type text, p_actor_user_id uuid, p_family_product_id uuid, p_parcel_configuration_id uuid, p_configuration_revision integer, p_components jsonb)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -28514,7 +28636,7 @@ END;
 $function$
 ```
 
-<a id="function-305"></a>
+<a id="function-306"></a>
 ## pay_supplier_cheque_claim_v1(p_claim_id uuid, p_branch_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text, p_idempotency_key text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -28584,7 +28706,7 @@ END;
 $function$
 ```
 
-<a id="function-306"></a>
+<a id="function-307"></a>
 ## pay_supplier_opening_balance_v1(p_supplier_id uuid, p_branch_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text, p_idempotency_key text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -28680,7 +28802,7 @@ END;
 $function$
 ```
 
-<a id="function-307"></a>
+<a id="function-308"></a>
 ## phase133_legacy_po_payables_internal()
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -28730,7 +28852,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-308"></a>
+<a id="function-309"></a>
 ## phase133_supplier_balance_evidence_internal()
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -28769,7 +28891,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-309"></a>
+<a id="function-310"></a>
 ## phase133_supplier_balances_internal()
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -28792,7 +28914,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-310"></a>
+<a id="function-311"></a>
 ## phase2_allocate_largest_remainder_internal(p_total bigint, p_weighted_keys jsonb)
 
 Owner: `postgres`; security: INVOKER; volatility: `i`.
@@ -28846,7 +28968,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-311"></a>
+<a id="function-312"></a>
 ## phase2_apply_inventory_and_wac_internal(p_operation_id uuid, p_warehouse_id uuid, p_source_kind text, p_source_id uuid, p_components jsonb, p_user_id uuid, p_reference_label text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -29042,7 +29164,7 @@ END;
 $function$
 ```
 
-<a id="function-312"></a>
+<a id="function-313"></a>
 ## phase2_canonicalize_legacy_receipt_items_internal(p_items jsonb)
 
 Owner: `postgres`; security: INVOKER; volatility: `i`.
@@ -29089,7 +29211,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-313"></a>
+<a id="function-314"></a>
 ## phase2_canonicalize_receipt_lines_internal(p_lines jsonb)
 
 Owner: `postgres`; security: INVOKER; volatility: `i`.
@@ -29156,7 +29278,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-314"></a>
+<a id="function-315"></a>
 ## phase2_lock_inventory_products_internal(p_product_ids uuid[])
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -29223,7 +29345,7 @@ END;
 $function$
 ```
 
-<a id="function-315"></a>
+<a id="function-316"></a>
 ## phase2_lock_payment_shift_internal(p_branch_id uuid, p_payment_method text, p_amount bigint)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -29258,7 +29380,7 @@ END;
 $function$
 ```
 
-<a id="function-316"></a>
+<a id="function-317"></a>
 ## phase2_lock_receipt_payment_shifts_internal(p_supplier_receipt_id uuid, p_purchase_receipt_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -29285,7 +29407,7 @@ END;
 $function$
 ```
 
-<a id="function-317"></a>
+<a id="function-318"></a>
 ## phase2_request_fingerprint_internal(p_payload jsonb)
 
 Owner: `postgres`; security: INVOKER; volatility: `i`.
@@ -29304,7 +29426,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-318"></a>
+<a id="function-319"></a>
 ## phase2_reverse_inventory_and_wac_internal(p_original_operation_id uuid, p_reversal_operation_id uuid, p_warehouse_id uuid, p_source_kind text, p_source_id uuid, p_user_id uuid, p_reason text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -29441,7 +29563,7 @@ END;
 $function$
 ```
 
-<a id="function-319"></a>
+<a id="function-320"></a>
 ## phase2_try_parse_uuid_internal(p_value text)
 
 Owner: `postgres`; security: INVOKER; volatility: `i`.
@@ -29465,7 +29587,7 @@ END;
 $function$
 ```
 
-<a id="function-320"></a>
+<a id="function-321"></a>
 ## phase2_validate_receipt_lines_internal(p_lines jsonb)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -29708,7 +29830,7 @@ END;
 $function$
 ```
 
-<a id="function-321"></a>
+<a id="function-322"></a>
 ## phase35_report_base_unit_count_internal(p_order_item_id uuid, p_commercial_line_kind text, p_legacy_quantity integer)
 
 Owner: `postgres`; security: INVOKER; volatility: `s`.
@@ -29736,7 +29858,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-322"></a>
+<a id="function-323"></a>
 ## phase35_report_package_count_internal(p_order_item_id uuid, p_commercial_line_kind text, p_sale_package_quantity integer, p_units_per_sale_package integer)
 
 Owner: `postgres`; security: INVOKER; volatility: `s`.
@@ -29770,7 +29892,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-323"></a>
+<a id="function-324"></a>
 ## phase3_actor_scope_hash_internal(p_actor_scope_type text, p_erp_user_id uuid, p_guest_phone_hash text, p_guest_session_hash text)
 
 Owner: `postgres`; security: INVOKER; volatility: `i`.
@@ -29825,7 +29947,7 @@ END;
 $function$
 ```
 
-<a id="function-324"></a>
+<a id="function-325"></a>
 ## phase3_allocate_parcel_cogs_internal(p_components jsonb)
 
 Owner: `postgres`; security: INVOKER; volatility: `s`.
@@ -29927,7 +30049,7 @@ END;
 $function$
 ```
 
-<a id="function-325"></a>
+<a id="function-326"></a>
 ## phase3_assert_configurable_parcel_creation_allowed_internal(p_actor_scope_type text, p_actor_user_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -29981,7 +30103,7 @@ END;
 $function$
 ```
 
-<a id="function-326"></a>
+<a id="function-327"></a>
 ## phase3_assert_legacy_customer_lifecycle_allowed_internal(p_order_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -30012,7 +30134,7 @@ END;
 $function$
 ```
 
-<a id="function-327"></a>
+<a id="function-328"></a>
 ## phase3_canonicalize_components_internal(p_components jsonb)
 
 Owner: `postgres`; security: INVOKER; volatility: `s`.
@@ -30089,7 +30211,7 @@ END;
 $function$
 ```
 
-<a id="function-328"></a>
+<a id="function-329"></a>
 ## phase3_canonicalize_sale_request_internal(p_request jsonb)
 
 Owner: `postgres`; security: INVOKER; volatility: `s`.
@@ -30374,7 +30496,7 @@ END;
 $function$
 ```
 
-<a id="function-329"></a>
+<a id="function-330"></a>
 ## phase3_customer_cost_finalization_allowed_internal(p_order_id uuid, p_row_kind text, p_row_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -30415,7 +30537,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-330"></a>
+<a id="function-331"></a>
 ## phase3_customer_line_identity_internal(p_line jsonb)
 
 Owner: `postgres`; security: INVOKER; volatility: `i`.
@@ -30459,7 +30581,7 @@ END;
 $function$
 ```
 
-<a id="function-331"></a>
+<a id="function-332"></a>
 ## phase3_expire_customer_order_v2_internal(p_order_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -30504,7 +30626,7 @@ END;
 $function$
 ```
 
-<a id="function-332"></a>
+<a id="function-333"></a>
 ## phase3_lock_inventory_products_internal(p_product_ids uuid[])
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -30527,7 +30649,7 @@ END;
 $function$
 ```
 
-<a id="function-333"></a>
+<a id="function-334"></a>
 ## phase3_lock_open_pos_shift_internal(p_branch_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -30585,7 +30707,7 @@ END;
 $function$
 ```
 
-<a id="function-334"></a>
+<a id="function-335"></a>
 ## phase3_pos_reversal_inventory_rows_internal(p_order_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -30627,7 +30749,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-335"></a>
+<a id="function-336"></a>
 ## phase3_release_customer_reservations_internal(p_order_id uuid, p_lifecycle_operation_id uuid, p_operation_type text, p_idempotency_key text, p_request_fingerprint text, p_request_snapshot jsonb, p_actor_scope_type text, p_actor_scope_hash text, p_initiated_by uuid, p_terminal_state text, p_reason text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -30778,7 +30900,7 @@ END;
 $function$
 ```
 
-<a id="function-336"></a>
+<a id="function-337"></a>
 ## phase3_request_fingerprint_internal(p_payload jsonb)
 
 Owner: `postgres`; security: INVOKER; volatility: `i`.
@@ -30797,7 +30919,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-337"></a>
+<a id="function-338"></a>
 ## phase3_require_nonnegative_bigint_internal(p_value text, p_field text)
 
 Owner: `postgres`; security: INVOKER; volatility: `i`.
@@ -30829,7 +30951,7 @@ END;
 $function$
 ```
 
-<a id="function-338"></a>
+<a id="function-339"></a>
 ## phase3_require_positive_integer_internal(p_value text, p_field text)
 
 Owner: `postgres`; security: INVOKER; volatility: `i`.
@@ -30861,7 +30983,7 @@ END;
 $function$
 ```
 
-<a id="function-339"></a>
+<a id="function-340"></a>
 ## phase3_require_uuid_internal(p_value text, p_field text)
 
 Owner: `postgres`; security: INVOKER; volatility: `i`.
@@ -30890,7 +31012,7 @@ END;
 $function$
 ```
 
-<a id="function-340"></a>
+<a id="function-341"></a>
 ## phase3_resolve_legacy_pos_location_internal(p_warehouse_id uuid, p_branch_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -30941,7 +31063,7 @@ END;
 $function$
 ```
 
-<a id="function-341"></a>
+<a id="function-342"></a>
 ## phase3_resolve_operation_replay_internal(p_operation_type text, p_idempotency_key text, p_actor_scope_type text, p_actor_scope_hash text, p_request_fingerprint text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -31013,7 +31135,7 @@ END;
 $function$
 ```
 
-<a id="function-342"></a>
+<a id="function-343"></a>
 ## phase3_validate_configurable_parcel_internal(p_actor_scope_type text, p_actor_user_id uuid, p_family_product_id uuid, p_parcel_configuration_id uuid, p_configuration_revision integer, p_components jsonb)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -31045,7 +31167,7 @@ END;
 $function$
 ```
 
-<a id="function-343"></a>
+<a id="function-344"></a>
 ## phase42_apply_return_inventory_before_phase43_internal(p_operation_id uuid, p_return_event_id uuid, p_warehouse_id uuid, p_sources jsonb, p_user_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -31200,7 +31322,7 @@ END;
 $function$
 ```
 
-<a id="function-344"></a>
+<a id="function-345"></a>
 ## phase42_apply_return_inventory_internal(p_operation_id uuid, p_return_event_id uuid, p_warehouse_id uuid, p_sources jsonb, p_user_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -31223,7 +31345,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-345"></a>
+<a id="function-346"></a>
 ## phase42_assert_operational_return_evidence_before_phase43(p_operation_id uuid, p_require_settled boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -31398,7 +31520,7 @@ END;
 $function$
 ```
 
-<a id="function-346"></a>
+<a id="function-347"></a>
 ## phase42_assert_operational_return_evidence_internal(p_operation_id uuid, p_require_settled boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -31432,7 +31554,7 @@ END;
 $function$
 ```
 
-<a id="function-347"></a>
+<a id="function-348"></a>
 ## phase42_canonicalize_return_request_before_phase43_internal(p_order_id uuid, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -31623,7 +31745,7 @@ END;
 $function$
 ```
 
-<a id="function-348"></a>
+<a id="function-349"></a>
 ## phase42_canonicalize_return_request_internal(p_order_id uuid, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -31656,7 +31778,7 @@ END;
 $function$
 ```
 
-<a id="function-349"></a>
+<a id="function-350"></a>
 ## phase42_customer_receivable_total_internal(p_customer_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -31694,7 +31816,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-350"></a>
+<a id="function-351"></a>
 ## phase42_expected_return_effects_pre43_internal(p_operation_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -31804,7 +31926,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-351"></a>
+<a id="function-352"></a>
 ## phase42_expected_return_inventory_effects_internal(p_operation_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -31864,7 +31986,7 @@ END;
 $function$
 ```
 
-<a id="function-352"></a>
+<a id="function-353"></a>
 ## phase42_guard_inventory_effect_history()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -31886,7 +32008,7 @@ END;
 $function$
 ```
 
-<a id="function-353"></a>
+<a id="function-354"></a>
 ## phase42_guard_return_coordinator_version()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -31912,7 +32034,7 @@ END;
 $function$
 ```
 
-<a id="function-354"></a>
+<a id="function-355"></a>
 ## phase42_guard_settlement_evidence()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -31946,7 +32068,7 @@ END;
 $function$
 ```
 
-<a id="function-355"></a>
+<a id="function-356"></a>
 ## phase42_inventory_effects_snapshot_internal(p_operation_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -31970,7 +32092,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-356"></a>
+<a id="function-357"></a>
 ## phase42_order_financial_position_internal(p_order_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -32018,7 +32140,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-357"></a>
+<a id="function-358"></a>
 ## phase42_require_evidence_before_return_settlement()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -32046,7 +32168,7 @@ END;
 $function$
 ```
 
-<a id="function-358"></a>
+<a id="function-359"></a>
 ## phase43_assert_operational_replacement_evidence_internal(p_operation_id uuid, p_require_issued boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -32071,7 +32193,7 @@ END;
 $function$
 ```
 
-<a id="function-359"></a>
+<a id="function-360"></a>
 ## phase43_assert_return_allocation_contract_internal(p_base_request jsonb, p_physical_sources jsonb)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -32178,7 +32300,7 @@ END;
 $function$
 ```
 
-<a id="function-360"></a>
+<a id="function-361"></a>
 ## phase43_assert_return_physical_evidence_set_internal(p_operation_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -32285,7 +32407,7 @@ END;
 $function$
 ```
 
-<a id="function-361"></a>
+<a id="function-362"></a>
 ## phase43_assert_return_physical_source_internal(p_order_id uuid, p_root_kind text, p_root_id uuid, p_source_kind text, p_source_id uuid, p_product_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -32344,7 +32466,7 @@ END;
 $function$
 ```
 
-<a id="function-362"></a>
+<a id="function-363"></a>
 ## phase43_canonicalize_replacement_request_internal(p_order_id uuid, p_items jsonb, p_reason text, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -32413,7 +32535,7 @@ END;
 $function$
 ```
 
-<a id="function-363"></a>
+<a id="function-364"></a>
 ## phase43_canonicalize_return_physical_sources_internal(p_sources jsonb)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -32508,7 +32630,7 @@ END;
 $function$
 ```
 
-<a id="function-364"></a>
+<a id="function-365"></a>
 ## phase43_current_physical_representatives_internal(p_root_kind text, p_root_id uuid, p_product_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -32590,7 +32712,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-365"></a>
+<a id="function-366"></a>
 ## phase43_guard_immutable_replacement_effect()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -32612,7 +32734,7 @@ END;
 $function$
 ```
 
-<a id="function-366"></a>
+<a id="function-367"></a>
 ## phase43_guard_replacement_settlement_evidence()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -32646,7 +32768,7 @@ END;
 $function$
 ```
 
-<a id="function-367"></a>
+<a id="function-368"></a>
 ## phase43_inventory_effects_snapshot_internal(p_operation_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -32670,7 +32792,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-368"></a>
+<a id="function-369"></a>
 ## phase43_rebind_return_consumption_to_leaf()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -32752,7 +32874,7 @@ END;
 $function$
 ```
 
-<a id="function-369"></a>
+<a id="function-370"></a>
 ## phase43_resolve_replacement_replay_internal(p_idempotency_key text, p_actor_scope_hash text, p_request_fingerprint text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -32784,7 +32906,7 @@ END;
 $function$
 ```
 
-<a id="function-370"></a>
+<a id="function-371"></a>
 ## phase43_return_inventory_sources_internal(p_operation_id uuid, p_sources jsonb)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -32859,7 +32981,7 @@ END;
 $function$
 ```
 
-<a id="function-371"></a>
+<a id="function-372"></a>
 ## phase4_aftercare_source_root_internal(p_source_kind text, p_source_id uuid, p_product_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -32901,7 +33023,7 @@ END;
 $function$
 ```
 
-<a id="function-372"></a>
+<a id="function-373"></a>
 ## phase4_assert_aftercare_operation_binding_internal(p_operation_id uuid, p_entity_kind text, p_entity_id uuid, p_contract_version smallint)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -32967,7 +33089,7 @@ END;
 $function$
 ```
 
-<a id="function-373"></a>
+<a id="function-374"></a>
 ## phase4_assert_no_settled_aftercare_for_order_internal(p_order_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -32997,7 +33119,7 @@ END;
 $function$
 ```
 
-<a id="function-374"></a>
+<a id="function-375"></a>
 ## phase4_assert_success_result_internal(p_operation_id uuid, p_operation_type text, p_result_snapshot jsonb, p_expected_entity_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `i`.
@@ -33053,7 +33175,7 @@ END;
 $function$
 ```
 
-<a id="function-375"></a>
+<a id="function-376"></a>
 ## phase4_authoritative_completion_internal(p_order_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -33117,7 +33239,7 @@ END;
 $function$
 ```
 
-<a id="function-376"></a>
+<a id="function-377"></a>
 ## phase4_cancel_draft_aftercare_internal(p_operation_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -33200,7 +33322,7 @@ END;
 $function$
 ```
 
-<a id="function-377"></a>
+<a id="function-378"></a>
 ## phase4_canonicalize_idempotency_key_internal(p_idempotency_key text)
 
 Owner: `postgres`; security: DEFINER; volatility: `i`.
@@ -33227,7 +33349,7 @@ END;
 $function$
 ```
 
-<a id="function-378"></a>
+<a id="function-379"></a>
 ## phase4_capture_parcel_component_price_snapshot()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -33295,7 +33417,7 @@ END;
 $function$
 ```
 
-<a id="function-379"></a>
+<a id="function-380"></a>
 ## phase4_customer_completion_replay_preflight_internal(p_order_id uuid, p_idempotency_key text, p_payment_method text, p_amount_collected_in_minor_units bigint, p_delivery_fee_in_minor_units bigint, p_reference_number text, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -33374,7 +33496,7 @@ END;
 $function$
 ```
 
-<a id="function-380"></a>
+<a id="function-381"></a>
 ## phase4_effective_standalone_unit_price_internal(p_product_id uuid, p_channel text, p_customer_phone text, p_promotion_code text, p_price_frozen_at timestamp with time zone)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -33477,7 +33599,7 @@ END;
 $function$
 ```
 
-<a id="function-381"></a>
+<a id="function-382"></a>
 ## phase4_finalize_aftercare_operation_before_phase43(p_operation_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -33534,7 +33656,7 @@ END;
 $function$
 ```
 
-<a id="function-382"></a>
+<a id="function-383"></a>
 ## phase4_finalize_aftercare_operation_foundation_internal(p_operation_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -34147,7 +34269,7 @@ END;
 $function$
 ```
 
-<a id="function-383"></a>
+<a id="function-384"></a>
 ## phase4_finalize_aftercare_operation_internal(p_operation_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -34214,7 +34336,7 @@ END;
 $function$
 ```
 
-<a id="function-384"></a>
+<a id="function-385"></a>
 ## phase4_full_shift_context_snapshot_internal(p_shift_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -34317,7 +34439,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-385"></a>
+<a id="function-386"></a>
 ## phase4_guard_aftercare_operation_order_gate()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -34371,7 +34493,7 @@ END;
 $function$
 ```
 
-<a id="function-386"></a>
+<a id="function-387"></a>
 ## phase4_guard_customer_payment_reversal_dependency()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -34395,7 +34517,7 @@ END;
 $function$
 ```
 
-<a id="function-387"></a>
+<a id="function-388"></a>
 ## phase4_guard_order_reversal_dependency()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -34419,7 +34541,7 @@ END;
 $function$
 ```
 
-<a id="function-388"></a>
+<a id="function-389"></a>
 ## phase4_guard_replacement_event_insert_state()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -34452,7 +34574,7 @@ END;
 $function$
 ```
 
-<a id="function-389"></a>
+<a id="function-390"></a>
 ## phase4_guard_return_event_insert_state()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -34490,7 +34612,7 @@ END;
 $function$
 ```
 
-<a id="function-390"></a>
+<a id="function-391"></a>
 ## phase4_lock_aftercare_operation_order_internal(p_operation_id uuid, p_expected_order_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -34525,7 +34647,7 @@ END;
 $function$
 ```
 
-<a id="function-391"></a>
+<a id="function-392"></a>
 ## phase4_lock_aftercare_order_gate_internal(p_operation_type text, p_request_identity_snapshot jsonb, p_expected_order_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -34583,7 +34705,7 @@ END;
 $function$
 ```
 
-<a id="function-392"></a>
+<a id="function-393"></a>
 ## phase4_lock_aftercare_parent_order_internal(p_parent_kind text, p_parent_id uuid, p_expected_operation_id uuid, p_expected_order_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -34757,7 +34879,7 @@ END;
 $function$
 ```
 
-<a id="function-393"></a>
+<a id="function-394"></a>
 ## phase4_lock_customer_order_context_internal(p_order_id uuid, p_require_open_shift boolean, p_lock_inventory boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -34827,7 +34949,7 @@ END;
 $function$
 ```
 
-<a id="function-394"></a>
+<a id="function-395"></a>
 ## phase4_lock_full_shift_context_internal(p_shift_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -34940,7 +35062,7 @@ END;
 $function$
 ```
 
-<a id="function-395"></a>
+<a id="function-396"></a>
 ## phase4_lock_order_inventory_internal(p_order_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -34982,7 +35104,7 @@ END;
 $function$
 ```
 
-<a id="function-396"></a>
+<a id="function-397"></a>
 ## phase4_lock_supplier_context_internal(p_supplier_receipt_id uuid, p_purchase_receipt_id uuid, p_supplier_payment_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -35089,7 +35211,7 @@ END;
 $function$
 ```
 
-<a id="function-397"></a>
+<a id="function-398"></a>
 ## phase4_prepare_component_inspection()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -35169,7 +35291,7 @@ END;
 $function$
 ```
 
-<a id="function-398"></a>
+<a id="function-399"></a>
 ## phase4_resolve_operation_replay_internal(p_operation_type text, p_idempotency_key text, p_actor_scope_hash text, p_request_fingerprint text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -35285,7 +35407,7 @@ END;
 $function$
 ```
 
-<a id="function-399"></a>
+<a id="function-400"></a>
 ## phase4_supplier_context_snapshot_internal(p_supplier_receipt_id uuid, p_purchase_receipt_id uuid, p_supplier_payment_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -35357,7 +35479,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-400"></a>
+<a id="function-401"></a>
 ## phase4_validate_aftercare_consumption_insert()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -35422,7 +35544,7 @@ END;
 $function$
 ```
 
-<a id="function-401"></a>
+<a id="function-402"></a>
 ## phase4_validate_replacement_item()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -35531,7 +35653,7 @@ END;
 $function$
 ```
 
-<a id="function-402"></a>
+<a id="function-403"></a>
 ## phase4_validate_return_item_insert()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -35652,7 +35774,7 @@ END;
 $function$
 ```
 
-<a id="function-403"></a>
+<a id="function-404"></a>
 ## phase6_financial_facts_internal(p_branch_id uuid, p_period_start timestamp with time zone, p_period_end timestamp with time zone, p_timezone text, p_verify_evidence boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -35973,7 +36095,7 @@ END;
 $function$
 ```
 
-<a id="function-404"></a>
+<a id="function-405"></a>
 ## populate_order_item_cost_snapshot()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -36019,7 +36141,7 @@ END;
 $function$
 ```
 
-<a id="function-405"></a>
+<a id="function-406"></a>
 ## preview_cash_shift_full_reversal(p_shift_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -36056,7 +36178,7 @@ END;
 $function$
 ```
 
-<a id="function-406"></a>
+<a id="function-407"></a>
 ## preview_customer_cheque_v1(p_customer_id uuid, p_amount_in_minor_units bigint)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -36082,7 +36204,7 @@ END;
 $function$
 ```
 
-<a id="function-407"></a>
+<a id="function-408"></a>
 ## preview_customer_collection_v1(p_customer_id uuid, p_amount_in_minor_units bigint)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -36114,7 +36236,7 @@ END;
 $function$
 ```
 
-<a id="function-408"></a>
+<a id="function-409"></a>
 ## preview_go_live_cheques_v1(p_branch_id uuid, p_rows jsonb)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -36158,7 +36280,7 @@ END;
 $function$
 ```
 
-<a id="function-409"></a>
+<a id="function-410"></a>
 ## preview_guest_promotion(p_code text, p_items jsonb, p_customer_phone text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -36181,7 +36303,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-410"></a>
+<a id="function-411"></a>
 ## preview_guest_promotion_v2(p_lines jsonb, p_promotion_code text, p_customer_phone text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -36481,7 +36603,7 @@ END;
 $function$
 ```
 
-<a id="function-411"></a>
+<a id="function-412"></a>
 ## preview_supplier_cheque_v1(p_supplier_id uuid, p_amount_in_minor_units bigint, p_claim_id uuid, p_purchase_order_id uuid, p_opening_only boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -36503,7 +36625,7 @@ END;
 $function$
 ```
 
-<a id="function-412"></a>
+<a id="function-413"></a>
 ## preview_supplier_receipt_cancellation(p_receipt_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -36539,7 +36661,7 @@ BEGIN
 END; $function$
 ```
 
-<a id="function-413"></a>
+<a id="function-414"></a>
 ## product_cost_corrections_reject_mutation()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -36560,7 +36682,7 @@ END;
 $function$
 ```
 
-<a id="function-414"></a>
+<a id="function-415"></a>
 ## product_edit_assert_version_internal(p_product_id uuid, p_expected_updated_at timestamp with time zone)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -36602,7 +36724,7 @@ END;
 $function$
 ```
 
-<a id="function-415"></a>
+<a id="function-416"></a>
 ## product_edit_snapshot_internal(p_product_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -36654,7 +36776,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-416"></a>
+<a id="function-417"></a>
 ## product_has_cost_history_internal(p_product_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -36684,7 +36806,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-417"></a>
+<a id="function-418"></a>
 ## receive_customer_cheque_v1(p_customer_id uuid, p_branch_id uuid, p_bank_name text, p_cheque_number text, p_due_date date, p_amount_in_minor_units bigint, p_notes text, p_idempotency_key text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -36733,7 +36855,7 @@ END;
 $function$
 ```
 
-<a id="function-418"></a>
+<a id="function-419"></a>
 ## receive_inventory(p_warehouse_id uuid, p_product_id uuid, p_quantity integer, p_reference_type text, p_reference_id uuid, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -36766,7 +36888,7 @@ END;
 $function$
 ```
 
-<a id="function-419"></a>
+<a id="function-420"></a>
 ## receive_purchase_order(p_purchase_order_id uuid, p_warehouse_id uuid, p_supplier_delivery_note text, p_notes text, p_items jsonb)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -36787,7 +36909,7 @@ BEGIN
 END; $function$
 ```
 
-<a id="function-420"></a>
+<a id="function-421"></a>
 ## receive_purchase_order_v2(p_purchase_order_id uuid, p_warehouse_id uuid, p_supplier_invoice_number text, p_supplier_invoice_date date, p_received_at timestamp with time zone, p_header_discount_in_minor_units bigint, p_supplier_freight_in_minor_units bigint, p_legacy_tax_in_minor_units bigint, p_amount_paid_at_receipt_in_minor_units bigint, p_payment_method text, p_payment_reference text, p_supplier_delivery_note text, p_notes text, p_idempotency_key text, p_lines jsonb)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -37403,7 +37525,7 @@ END;
 $function$
 ```
 
-<a id="function-421"></a>
+<a id="function-422"></a>
 ## record_customer_opening_balances_v1(p_idempotency_key text, p_rows jsonb, p_dry_run boolean, p_confirm_new_customers boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -37630,7 +37752,7 @@ END;
 $function$
 ```
 
-<a id="function-422"></a>
+<a id="function-423"></a>
 ## record_customer_order_payment(p_order_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -37688,7 +37810,7 @@ END;
 $function$
 ```
 
-<a id="function-423"></a>
+<a id="function-424"></a>
 ## record_customer_order_payment_once(p_order_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text, p_idempotency_key text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -37733,7 +37855,7 @@ END;
 $function$
 ```
 
-<a id="function-424"></a>
+<a id="function-425"></a>
 ## record_erp_staff_password_reset(p_user_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -37778,7 +37900,7 @@ END;
 $function$
 ```
 
-<a id="function-425"></a>
+<a id="function-426"></a>
 ## record_external_monitoring_snapshot(p_checks jsonb, p_observed_at timestamp with time zone)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -37826,7 +37948,7 @@ END;
 $function$
 ```
 
-<a id="function-426"></a>
+<a id="function-427"></a>
 ## record_go_live_cheques_v1(p_branch_id uuid, p_idempotency_key text, p_rows jsonb)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -37905,7 +38027,7 @@ END;
 $function$
 ```
 
-<a id="function-427"></a>
+<a id="function-428"></a>
 ## record_supplier_opening_balances_v1(p_idempotency_key text, p_rows jsonb, p_dry_run boolean, p_confirm_new_suppliers boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -38144,7 +38266,7 @@ END;
 $function$
 ```
 
-<a id="function-428"></a>
+<a id="function-429"></a>
 ## record_supplier_payment(p_supplier_id uuid, p_purchase_order_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_payment_date timestamp with time zone, p_notes text, p_idempotency_key text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -38297,7 +38419,7 @@ END;
 $function$
 ```
 
-<a id="function-429"></a>
+<a id="function-430"></a>
 ## record_supplier_receipt_payment(p_receipt_id uuid, p_amount_in_minor_units bigint, p_payment_method text, p_reference_number text, p_notes text, p_idempotency_key text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -38383,7 +38505,7 @@ END;
 $function$
 ```
 
-<a id="function-430"></a>
+<a id="function-431"></a>
 ## reject_flavor_master_inventory_mutation()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -38414,7 +38536,7 @@ END;
 $function$
 ```
 
-<a id="function-431"></a>
+<a id="function-432"></a>
 ## reject_stocked_product_flavor_master_promotion()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -38455,7 +38577,7 @@ END;
 $function$
 ```
 
-<a id="function-432"></a>
+<a id="function-433"></a>
 ## reorder_product_flavors_v1(p_master_product_id uuid, p_ordered_flavor_ids uuid[])
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -38549,7 +38671,7 @@ END;
 $function$
 ```
 
-<a id="function-433"></a>
+<a id="function-434"></a>
 ## report_admin_runtime_incident(p_fingerprint text, p_area text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -38582,7 +38704,7 @@ END;
 $function$
 ```
 
-<a id="function-434"></a>
+<a id="function-435"></a>
 ## resolve_legacy_supplier_receipt_replay_v1(p_idempotency_key uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -38631,7 +38753,7 @@ END;
 $function$
 ```
 
-<a id="function-435"></a>
+<a id="function-436"></a>
 ## return_completed_website_order(p_order_id uuid, p_reason text, p_stock_disposition text, p_refund_method text, p_reference_number text, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -38654,7 +38776,7 @@ END;
 $function$
 ```
 
-<a id="function-436"></a>
+<a id="function-437"></a>
 ## return_deferred_cheque_v1(p_cheque_id uuid, p_expected_version integer, p_reason text, p_idempotency_key text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -38673,7 +38795,7 @@ BEGIN RETURN public.cheque_compensate_internal(p_cheque_id,p_expected_version,'r
 $function$
 ```
 
-<a id="function-437"></a>
+<a id="function-438"></a>
 ## reverse_cash_shift_with_operations(p_shift_id uuid, p_reason text, p_idempotency_key text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -38798,7 +38920,7 @@ END;
 $function$
 ```
 
-<a id="function-438"></a>
+<a id="function-439"></a>
 ## reverse_customer_collection_v1(p_operation_id uuid, p_reason text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -38854,7 +38976,7 @@ END;
 $function$
 ```
 
-<a id="function-439"></a>
+<a id="function-440"></a>
 ## reverse_customer_opening_balance_v1(p_entry_id uuid, p_reason text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -38910,7 +39032,7 @@ END;
 $function$
 ```
 
-<a id="function-440"></a>
+<a id="function-441"></a>
 ## reverse_customer_order_payment(p_payment_id uuid, p_reason text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -38963,7 +39085,7 @@ END;
 $function$
 ```
 
-<a id="function-441"></a>
+<a id="function-442"></a>
 ## reverse_operational_expense(p_expense_id uuid, p_reason text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -39006,7 +39128,7 @@ END;
 $function$
 ```
 
-<a id="function-442"></a>
+<a id="function-443"></a>
 ## reverse_owner_cash_withdrawal_v1(p_withdrawal_id uuid, p_reason text, p_idempotency_key text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -39114,7 +39236,7 @@ END;
 $function$
 ```
 
-<a id="function-443"></a>
+<a id="function-444"></a>
 ## reverse_pos_sale(p_order_id uuid, p_reason text, p_idempotency_key text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -39379,7 +39501,7 @@ END;
 $function$
 ```
 
-<a id="function-444"></a>
+<a id="function-445"></a>
 ## reverse_supplier_cheque_claim_payment_v1(p_supplier_payment_id uuid, p_reason text, p_idempotency_key text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -39456,7 +39578,7 @@ END;
 $function$
 ```
 
-<a id="function-445"></a>
+<a id="function-446"></a>
 ## reverse_supplier_opening_balance_v1(p_entry_id uuid, p_reason text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -39513,7 +39635,7 @@ END;
 $function$
 ```
 
-<a id="function-446"></a>
+<a id="function-447"></a>
 ## reverse_supplier_payment(p_supplier_payment_id uuid, p_reason text, p_idempotency_key text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -39535,7 +39657,7 @@ BEGIN
 END; $function$
 ```
 
-<a id="function-447"></a>
+<a id="function-448"></a>
 ## run_advanced_monitoring_checks(p_observed_at timestamp with time zone)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -40058,7 +40180,7 @@ END;
 $function$
 ```
 
-<a id="function-448"></a>
+<a id="function-449"></a>
 ## save_customer(p_full_name text, p_phone text, p_customer_id uuid, p_email text, p_governorate text, p_whatsapp text, p_notes text, p_customer_type text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -40179,7 +40301,7 @@ END;
 $function$
 ```
 
-<a id="function-449"></a>
+<a id="function-450"></a>
 ## save_owner_warehouse_v1(p_id uuid, p_code text, p_name text, p_branch_id uuid, p_is_active boolean, p_expected_updated_at timestamp with time zone)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -40259,7 +40381,7 @@ END;
 $function$
 ```
 
-<a id="function-450"></a>
+<a id="function-451"></a>
 ## save_product_brand(p_name_ar text, p_brand_id uuid, p_description text, p_logo_url text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -40387,7 +40509,7 @@ END;
 $function$
 ```
 
-<a id="function-451"></a>
+<a id="function-452"></a>
 ## save_product_category(p_name_ar text, p_category_id uuid, p_code text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -40415,7 +40537,7 @@ AS $function$
 $function$
 ```
 
-<a id="function-452"></a>
+<a id="function-453"></a>
 ## save_product_category(p_name_ar text, p_category_id uuid, p_code text, p_image_url text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -40562,7 +40684,7 @@ END;
 $function$
 ```
 
-<a id="function-453"></a>
+<a id="function-454"></a>
 ## save_product_parcel_configuration_v1(p_family_product_id uuid, p_composition_mode text, p_is_active boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -40601,7 +40723,7 @@ END;
 $function$
 ```
 
-<a id="function-454"></a>
+<a id="function-455"></a>
 ## save_product_parcel_configuration_v1(p_family_product_id uuid, p_composition_mode text, p_is_active boolean, p_units_per_parcel integer, p_allowed_product_ids uuid[])
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -40679,7 +40801,7 @@ END;
 $function$
 ```
 
-<a id="function-455"></a>
+<a id="function-456"></a>
 ## save_product_unit(p_name_ar text, p_code text, p_conversion_factor integer, p_unit_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -40834,7 +40956,7 @@ END;
 $function$
 ```
 
-<a id="function-456"></a>
+<a id="function-457"></a>
 ## save_push_subscription(p_endpoint text, p_p256dh text, p_auth_key text, p_user_agent text, p_device_label text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -40929,7 +41051,7 @@ END;
 $function$
 ```
 
-<a id="function-457"></a>
+<a id="function-458"></a>
 ## save_storefront_settings(p_store_name_ar text, p_whatsapp_number text, p_cliq_alias text, p_orders_enabled boolean, p_announcement_text text, p_business_hours_text text, p_delivery_areas_text text, p_delivery_eta_text text, p_exchange_policy_text text, p_minimum_order_in_minor_units bigint, p_delivery_fee_in_minor_units bigint)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -41027,7 +41149,7 @@ END;
 $function$
 ```
 
-<a id="function-458"></a>
+<a id="function-459"></a>
 ## save_storefront_settings_v2(p_store_name_ar text, p_whatsapp_number text, p_cliq_alias text, p_orders_enabled boolean, p_announcement_text text, p_business_hours_text text, p_delivery_areas_text text, p_delivery_eta_text text, p_exchange_policy_text text, p_minimum_order_in_minor_units bigint, p_delivery_fee_in_minor_units bigint, p_show_newest_products boolean, p_show_best_sellers boolean, p_show_offers boolean, p_show_low_stock boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -41090,7 +41212,7 @@ END;
 $function$
 ```
 
-<a id="function-459"></a>
+<a id="function-460"></a>
 ## save_storefront_settings_v3(p_store_name_ar text, p_whatsapp_number text, p_cliq_alias text, p_orders_enabled boolean, p_announcement_text text, p_business_hours_text text, p_delivery_areas_text text, p_delivery_eta_text text, p_exchange_policy_text text, p_minimum_order_in_minor_units bigint, p_inside_ramtha_delivery_fee_in_minor_units bigint, p_outside_ramtha_delivery_fee_in_minor_units bigint, p_show_newest_products boolean, p_show_best_sellers boolean, p_show_offers boolean, p_show_low_stock boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -41162,7 +41284,7 @@ END;
 $function$
 ```
 
-<a id="function-460"></a>
+<a id="function-461"></a>
 ## save_supplier(p_company_name text, p_supplier_id uuid, p_contact_person text, p_phone text, p_whatsapp text, p_email text, p_address text, p_tax_number text, p_notes text, p_is_active boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -41267,7 +41389,7 @@ END;
 $function$
 ```
 
-<a id="function-461"></a>
+<a id="function-462"></a>
 ## scan_business_summaries(p_observed_at timestamp with time zone)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -41402,7 +41524,7 @@ END;
 $function$
 ```
 
-<a id="function-462"></a>
+<a id="function-463"></a>
 ## scan_core_business_alerts(p_observed_at timestamp with time zone, p_batch_size integer)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -41624,7 +41746,7 @@ END;
 $function$
 ```
 
-<a id="function-463"></a>
+<a id="function-464"></a>
 ## scan_deferred_cheque_alerts_internal(p_observed_at timestamp with time zone)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -41653,7 +41775,7 @@ END;
 $function$
 ```
 
-<a id="function-464"></a>
+<a id="function-465"></a>
 ## search_admin_products(p_search text, p_limit integer, p_category_id uuid, p_purpose text, p_product_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -41804,7 +41926,7 @@ END;
 $function$
 ```
 
-<a id="function-465"></a>
+<a id="function-466"></a>
 ## set_configurable_parcel_feature_state_v1(p_state text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -41835,7 +41957,7 @@ END;
 $function$
 ```
 
-<a id="function-466"></a>
+<a id="function-467"></a>
 ## set_customer_status(p_customer_id uuid, p_action text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -41872,7 +41994,7 @@ END;
 $function$
 ```
 
-<a id="function-467"></a>
+<a id="function-468"></a>
 ## set_erp_staff_account_active(p_user_id uuid, p_is_active boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -41939,7 +42061,7 @@ END;
 $function$
 ```
 
-<a id="function-468"></a>
+<a id="function-469"></a>
 ## set_go_live_main_branch_v1(p_branch_id uuid)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -41968,7 +42090,7 @@ END;
 $function$
 ```
 
-<a id="function-469"></a>
+<a id="function-470"></a>
 ## set_product_brand_active(p_brand_id uuid, p_is_active boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -42051,7 +42173,7 @@ END;
 $function$
 ```
 
-<a id="function-470"></a>
+<a id="function-471"></a>
 ## set_product_category_active(p_category_id uuid, p_is_active boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -42135,7 +42257,7 @@ END;
 $function$
 ```
 
-<a id="function-471"></a>
+<a id="function-472"></a>
 ## set_product_primary_image(p_product_id uuid, p_image_url text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -42232,7 +42354,7 @@ END;
 $function$
 ```
 
-<a id="function-472"></a>
+<a id="function-473"></a>
 ## set_product_unit_active(p_unit_id uuid, p_is_active boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -42324,7 +42446,7 @@ END;
 $function$
 ```
 
-<a id="function-473"></a>
+<a id="function-474"></a>
 ## set_promotion_code_active(p_promotion_code_id uuid, p_is_active boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -42384,7 +42506,7 @@ END;
 $function$
 ```
 
-<a id="function-474"></a>
+<a id="function-475"></a>
 ## set_supplier_active(p_supplier_id uuid, p_is_active boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -42448,7 +42570,7 @@ END;
 $function$
 ```
 
-<a id="function-475"></a>
+<a id="function-476"></a>
 ## set_website_new_order_reservation_expiry()
 
 Owner: `postgres`; security: INVOKER; volatility: `v`.
@@ -42475,7 +42597,7 @@ END;
 $function$
 ```
 
-<a id="function-476"></a>
+<a id="function-477"></a>
 ## settle_admin_sales_return_v1(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_physical_sources jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -42502,7 +42624,7 @@ END;
 $function$
 ```
 
-<a id="function-477"></a>
+<a id="function-478"></a>
 ## settle_sales_replacement_v1(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -42529,7 +42651,7 @@ END;
 $function$
 ```
 
-<a id="function-478"></a>
+<a id="function-479"></a>
 ## settle_sales_return_v1(p_order_id uuid, p_idempotency_key text, p_items jsonb, p_reason text, p_refund_method text, p_reference_number text, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -42558,7 +42680,7 @@ END;
 $function$
 ```
 
-<a id="function-479"></a>
+<a id="function-480"></a>
 ## start_or_update_order_delivery(p_order_id uuid, p_eta_minutes integer, p_driver_phone text, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -42688,7 +42810,7 @@ END;
 $function$
 ```
 
-<a id="function-480"></a>
+<a id="function-481"></a>
 ## submit_guest_customer_order(p_idempotency_key text, p_customer_full_name text, p_customer_phone text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_address_notes text, p_google_maps_url text, p_latitude double precision, p_longitude double precision, p_customer_notes text, p_items jsonb, p_promotion_code text, p_payment_method text, p_delivery_zone text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -42735,7 +42857,7 @@ END;
 $function$
 ```
 
-<a id="function-481"></a>
+<a id="function-482"></a>
 ## submit_guest_customer_order_core(p_idempotency_key text, p_customer_full_name text, p_customer_phone text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_address_notes text, p_google_maps_url text, p_latitude double precision, p_longitude double precision, p_customer_notes text, p_items jsonb, p_promotion_code text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -43046,7 +43168,7 @@ END;
 $function$
 ```
 
-<a id="function-482"></a>
+<a id="function-483"></a>
 ## submit_guest_customer_order_v2(p_idempotency_key text, p_guest_phone_hash text, p_guest_session_hash text, p_customer_full_name text, p_customer_phone text, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_address_notes text, p_google_maps_url text, p_latitude double precision, p_longitude double precision, p_customer_notes text, p_lines jsonb, p_promotion_code text, p_payment_method text, p_delivery_zone text, p_expected_subtotal_in_minor_units bigint, p_expected_discount_in_minor_units bigint, p_expected_delivery_fee_in_minor_units bigint, p_expected_total_in_minor_units bigint)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -43888,7 +44010,7 @@ END;
 $function$
 ```
 
-<a id="function-483"></a>
+<a id="function-484"></a>
 ## sync_order_delivery_tracking_timestamps()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -43921,7 +44043,7 @@ END;
 $function$
 ```
 
-<a id="function-484"></a>
+<a id="function-485"></a>
 ## sync_order_payment_state()
 
 Owner: `postgres`; security: INVOKER; volatility: `v`.
@@ -43964,7 +44086,7 @@ END;
 $function$
 ```
 
-<a id="function-485"></a>
+<a id="function-486"></a>
 ## sync_product_flavor_commercial_settings()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -44005,7 +44127,7 @@ END;
 $function$
 ```
 
-<a id="function-486"></a>
+<a id="function-487"></a>
 ## sync_stock_alert(p_product_id uuid, p_warehouse_id uuid, p_on_hand_quantity integer, p_reserved_quantity integer)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -44109,7 +44231,7 @@ END;
 $function$
 ```
 
-<a id="function-487"></a>
+<a id="function-488"></a>
 ## sync_stock_alert_from_balance()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -44136,7 +44258,7 @@ END;
 $function$
 ```
 
-<a id="function-488"></a>
+<a id="function-489"></a>
 ## sync_stock_alert_from_product()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -44174,7 +44296,7 @@ END;
 $function$
 ```
 
-<a id="function-489"></a>
+<a id="function-490"></a>
 ## track_guest_order(p_order_number text, p_customer_phone text)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -44224,7 +44346,7 @@ END;
 $function$
 ```
 
-<a id="function-490"></a>
+<a id="function-491"></a>
 ## track_guest_order_by_token(p_tracking_token text)
 
 Owner: `postgres`; security: DEFINER; volatility: `s`.
@@ -44270,7 +44392,7 @@ END;
 $function$
 ```
 
-<a id="function-491"></a>
+<a id="function-492"></a>
 ## transfer_inventory_between_warehouses(p_product_id uuid, p_source_warehouse_id uuid, p_destination_warehouse_id uuid, p_quantity integer, p_notes text, p_transfer_date timestamp with time zone)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -44299,7 +44421,7 @@ END;
 $function$
 ```
 
-<a id="function-492"></a>
+<a id="function-493"></a>
 ## update_erp_staff_account_record(p_user_id uuid, p_full_name text, p_phone text, p_role_code text, p_branch_id uuid, p_job_title text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -44387,7 +44509,7 @@ END;
 $function$
 ```
 
-<a id="function-493"></a>
+<a id="function-494"></a>
 ## update_my_erp_profile(p_full_name text, p_phone text, p_avatar_url text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -44470,7 +44592,7 @@ END;
 $function$
 ```
 
-<a id="function-494"></a>
+<a id="function-495"></a>
 ## update_order_delivery_address(p_order_id uuid, p_governorate text, p_city text, p_area text, p_street text, p_building text, p_floor text, p_apartment text, p_notes text, p_latitude double precision, p_longitude double precision, p_location_source text, p_location_confirmed boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -44599,7 +44721,7 @@ END;
 $function$
 ```
 
-<a id="function-495"></a>
+<a id="function-496"></a>
 ## update_order_status(p_order_id uuid, p_new_status text, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -44728,7 +44850,7 @@ END;
 $function$
 ```
 
-<a id="function-496"></a>
+<a id="function-497"></a>
 ## update_product_flavor_v1(p_flavor_product_id uuid, p_flavor_name_ar text, p_barcode text, p_image_url text, p_is_active boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -44839,7 +44961,7 @@ END;
 $function$
 ```
 
-<a id="function-497"></a>
+<a id="function-498"></a>
 ## update_product_flavor_v2(p_flavor_product_id uuid, p_expected_updated_at timestamp with time zone, p_flavor_name_ar text, p_barcode text, p_image_url text, p_is_active boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -44879,7 +45001,7 @@ END;
 $function$
 ```
 
-<a id="function-498"></a>
+<a id="function-499"></a>
 ## update_product_master(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -44996,7 +45118,7 @@ END;
 $function$
 ```
 
-<a id="function-499"></a>
+<a id="function-500"></a>
 ## update_product_master_v2(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_sale_price_in_minor_units bigint, p_wholesale_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -45074,7 +45196,7 @@ END;
 $function$
 ```
 
-<a id="function-500"></a>
+<a id="function-501"></a>
 ## update_product_master_v3(p_product_id uuid, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -45181,7 +45303,7 @@ END;
 $function$
 ```
 
-<a id="function-501"></a>
+<a id="function-502"></a>
 ## update_product_master_v4(p_product_id uuid, p_expected_updated_at timestamp with time zone, p_sku text, p_barcode text, p_name_ar text, p_description text, p_category_id uuid, p_brand_id uuid, p_unit_id uuid, p_purchase_unit_id uuid, p_units_per_purchase_unit integer, p_default_purchase_price_in_minor_units bigint, p_sale_unit_id uuid, p_units_per_sale_unit integer, p_default_sale_price_in_minor_units bigint, p_cost_price_in_minor_units bigint, p_min_stock_level integer, p_max_stock_level integer, p_is_active boolean, p_image_url text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -45259,7 +45381,7 @@ END;
 $function$
 ```
 
-<a id="function-502"></a>
+<a id="function-503"></a>
 ## update_purchase_order(p_purchase_order_id uuid, p_supplier_id uuid, p_branch_id uuid, p_warehouse_id uuid, p_expected_delivery_date timestamp with time zone, p_delivery_fee_in_minor_units bigint, p_discount_in_minor_units bigint, p_supplier_invoice_number text, p_notes text, p_internal_notes text, p_items jsonb)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -45460,7 +45582,7 @@ END;
 $function$
 ```
 
-<a id="function-503"></a>
+<a id="function-504"></a>
 ## update_purchase_order_status(p_purchase_order_id uuid, p_new_status text, p_notes text)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -45490,7 +45612,7 @@ END;
 $function$
 ```
 
-<a id="function-504"></a>
+<a id="function-505"></a>
 ## update_updated_at_column()
 
 Owner: `postgres`; security: INVOKER; volatility: `v`.
@@ -45511,7 +45633,7 @@ END;
 $function$
 ```
 
-<a id="function-505"></a>
+<a id="function-506"></a>
 ## upsert_promotion_code(p_code text, p_discount_type text, p_discount_value bigint, p_promotion_code_id uuid, p_description_ar text, p_minimum_subtotal_in_minor_units bigint, p_maximum_discount_in_minor_units bigint, p_starts_at timestamp with time zone, p_expires_at timestamp with time zone, p_maximum_total_redemptions integer, p_maximum_redemptions_per_phone integer, p_is_active boolean, p_is_public_offer boolean)
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -45680,7 +45802,7 @@ END;
 $function$
 ```
 
-<a id="function-506"></a>
+<a id="function-507"></a>
 ## validate_customer_address_map_url()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -45741,7 +45863,7 @@ END;
 $function$
 ```
 
-<a id="function-507"></a>
+<a id="function-508"></a>
 ## validate_inventory_movement_source_chain()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -45837,7 +45959,7 @@ END;
 $function$
 ```
 
-<a id="function-508"></a>
+<a id="function-509"></a>
 ## validate_order_inventory_reservation_chain()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -45934,7 +46056,7 @@ END;
 $function$
 ```
 
-<a id="function-509"></a>
+<a id="function-510"></a>
 ## validate_order_parcel_component_family()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -45977,7 +46099,7 @@ END;
 $function$
 ```
 
-<a id="function-510"></a>
+<a id="function-511"></a>
 ## validate_order_parcel_instance_family()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -46028,7 +46150,7 @@ END;
 $function$
 ```
 
-<a id="function-511"></a>
+<a id="function-512"></a>
 ## validate_phase2_inventory_movement_source()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -46082,7 +46204,7 @@ END;
 $function$
 ```
 
-<a id="function-512"></a>
+<a id="function-513"></a>
 ## validate_product_parcel_configuration()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -46125,7 +46247,7 @@ END;
 $function$
 ```
 
-<a id="function-513"></a>
+<a id="function-514"></a>
 ## validate_purchase_order_component_family_v2()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -46173,7 +46295,7 @@ END;
 $function$
 ```
 
-<a id="function-514"></a>
+<a id="function-515"></a>
 ## validate_purchase_receipt_item_family_v2()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -46219,7 +46341,7 @@ END;
 $function$
 ```
 
-<a id="function-515"></a>
+<a id="function-516"></a>
 ## validate_sales_return_item_line_kind()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.
@@ -46307,7 +46429,7 @@ END;
 $function$
 ```
 
-<a id="function-516"></a>
+<a id="function-517"></a>
 ## validate_supplier_receipt_item_commercial_family()
 
 Owner: `postgres`; security: DEFINER; volatility: `v`.

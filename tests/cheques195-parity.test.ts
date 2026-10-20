@@ -1,3 +1,4 @@
+import {sales204Pins} from '../scripts/audit/source-before-sales-history204.mjs';
 import {collections202Pins} from '../scripts/audit/source-before-collections202.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -12,7 +13,8 @@ for(const file of cheques195Files)test('cheques: every byte outside exact approv
   const current=readFileSync(file,'utf8'),source=file==='src/features/crm/CustomerCollectionModal.tsx'?restore198CollectionPresentation(current):current;
   const before=execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
   assert.equal(approvedCheques195Source(file,source),before);
-  if(Object.hasOwn(homeDamage201Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),Object.hasOwn(collections202Pins,file)?/COLLECTIONS202_ENTIRE_CURRENT_FILE_CHANGED/u:/HOME_DAMAGE201_ENTIRE_CURRENT_FILE_CHANGED/u,'latest exact entire-file pin rejects unapproved drift');
+  if(Object.hasOwn(sales204Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),/SALES204_ENTIRE_CURRENT_FILE_CHANGED/u,'newest full-file pin rejects mutation');
+  else if(Object.hasOwn(homeDamage201Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),Object.hasOwn(collections202Pins,file)?/COLLECTIONS202_ENTIRE_CURRENT_FILE_CHANGED/u:/HOME_DAMAGE201_ENTIRE_CURRENT_FILE_CHANGED/u,'latest exact entire-file pin rejects unapproved drift');
   else if(['src/App.tsx','src/components/layout/sideNavigationModel.ts','src/features/more/adminNavigation.config.ts','src/features/pos/PosView.tsx','src/stores/appStorePreferences.ts'].includes(file))assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),/WAREHOUSE_ENTIRE_CURRENT_FILE_CHANGED/u,'newer whole-file warehouse pin rejects mutation before legacy projection');
   else if(file==='src/features/goLive/GoLiveSetupView.tsx') assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),/TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED/u,'whole-file presentation pin rejects mutation');
   else assert.notEqual(approvedCheques195Source(file,source+'\n// unapproved mutation\n'),before,'outside-hunk changes remain observable');

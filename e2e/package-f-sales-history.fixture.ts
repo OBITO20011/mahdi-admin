@@ -1,0 +1,5 @@
+import type {SalesHistoryPage} from '../src/utils/salesHistory';
+/** Explicit presentation fixture only;the product always uses its real reader. */
+export const recentSalesFixture:SalesHistoryPage={generatedAt:'2026-10-09T12:00:00+03:00',timeZone:'Asia/Amman',page:1,pageSize:5,totalCount:42,totalPages:9,
+  period:{kind:'day',fromDate:'2026-10-09',toDate:'2026-10-09'},summary:{invoiceCount:42,salesCount:42,salesInMinorUnits:1284500,undatedInvoiceCount:0},
+  rows:[12050,14500,29500,26000,33000].map((amount,n)=>({id:`92700000-0000-4000-8000-${String(n+1).padStart(12,'0')}`,orderNumber:`INV-${n+1}`,listedAt:`2026-10-09T11:${String(40-n).padStart(2,'0')}:00+03:00`,firstCompletedAt:`2026-10-09T11:${String(40-n).padStart(2,'0')}:00+03:00`,dateBasis:'completion',customerName:['سوبرماركت الأمل','عميل دين','زبون CliQ','بقالة الحي','عميل المتجر'][n],customerPhone:'0790000000',totalInMinorUnits:amount,paymentMethod:n===2?'cliq':n===1?'debt':'cash',paymentStatus:n===1?'unpaid':'paid',source:n===4?'website':'pos',status:'completed',countsAsSale:true}))};

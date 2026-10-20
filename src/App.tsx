@@ -28,6 +28,7 @@ const OrdersCenterView = lazy(() =>
     default: module.OrdersCenterView,
   }))
 );
+const SalesHistoryView = lazy(() => import('./features/salesHistory/SalesHistoryView').then(module => ({default:module.SalesHistoryView})));
 const PosView = lazy(() =>
   import('./features/pos/PosView').then((module) => ({
     default: module.PosView,
@@ -180,6 +181,8 @@ export const App: React.FC = () => {
         return <DashboardView />;
       case 'orders':
         return <OrdersCenterView />;
+      case 'sales_history':
+        return <SalesHistoryView />;
       case 'pos':
         return <PosView />;
       case 'products':

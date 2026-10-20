@@ -3,7 +3,7 @@ import type { OperationalOrderListItem } from '../../services/supabase/orders.se
 import type { UiTone } from '../../components/ui';
 export const PAYMENT_METHOD_LABELS: Record<string, string> = {
   cash: 'نقدي', cash_on_delivery: 'نقدي عند الاستلام', cliq: 'CliQ', card: 'بطاقة',
-  bank_transfer: 'تحويل بنكي', debt: 'على الحساب', mixed: 'مختلط',
+  bank_transfer: 'تحويل بنكي', cheque:'شيك', debt: 'على الحساب', mixed: 'مختلط',
 };
 export function getPaymentLabel(order: OperationalOrderListItem): { label: string; tone: UiTone } {
   if (order.status === 'cancelled' || order.status === 'expired') return { label: 'لا مبلغ للتحصيل', tone: 'mute' };
@@ -12,7 +12,7 @@ export function getPaymentLabel(order: OperationalOrderListItem): { label: strin
   if (order.paymentStatus === 'partially_paid') return { label: `متبقي ${(order.amountDue || 0).toFixed(3)}`, tone: 'warn' };
   return { label: 'غير مدفوع', tone: 'bad' };
 }
-export const orderSourceLabel = (source?: string) => source === 'pos' ? 'الكاشير' : source === 'website' ? 'المتجر' : source || 'غير متاح';
+export const orderSourceLabel = (source?: string) => source === 'pos' ? 'نقطة البيع' : source === 'website' ? 'المتجر' : source || 'غير مسجّل';
 export function getOrderStatus(status: OrderStatus | string): { label: string; tone: UiTone; border: string } {
   const badges: Record<string, { label: string; tone: UiTone; border: string }> = {
     new: { label: 'جديد', tone: 'info', border: 'border-s-nw-info' },

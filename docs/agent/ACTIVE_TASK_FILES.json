@@ -3,247 +3,139 @@
   "files": [
     {
       "code": "??",
-      "path": "docs/operations/ALL_COLLECTIONS_203_CI.json"
+      "path": "docs/operations/SALES_HISTORY_204_CI.json"
     },
     {
       "code": "A ",
-      "path": "docs/design/OPENING_COLLECTION_CASH_REVIEW_201_AR.md"
+      "path": "docs/agent/SALES_HISTORY_204.md"
     },
     {
       "code": "A ",
-      "path": "docs/operations/ALL_COLLECTIONS_202_AR.md"
+      "path": "docs/operations/ALL_COLLECTIONS_203_MAIN_CI.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/ALL_COLLECTIONS_202_DELIVERY.json"
+      "path": "docs/operations/SALES_HISTORY_204_BUSY_GUARD.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/ALL_COLLECTIONS_202_EVIDENCE.json"
+      "path": "docs/operations/SALES_HISTORY_204_EVIDENCE.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/ALL_COLLECTIONS_202_SCALE.json"
+      "path": "docs/operations/SALES_HISTORY_204_FIRST_OWNER198_FIX.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/ALL_COLLECTIONS_202_SUPERSEDED_CI.json"
+      "path": "docs/operations/SALES_HISTORY_204_INITIAL_QA.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/ALL_COLLECTIONS_203_EVIDENCE.json"
+      "path": "docs/operations/SALES_HISTORY_204_SCALE.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/ALL_COLLECTIONS_203_SCALE.json"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_204.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/HOME_DAMAGE_201_AR.md"
+      "path": "e2e/package-f-sales-history-harness.html"
     },
     {
       "code": "A ",
-      "path": "docs/operations/HOME_DAMAGE_201_CI.json"
+      "path": "e2e/package-f-sales-history-harness.tsx"
     },
     {
       "code": "A ",
-      "path": "docs/operations/HOME_DAMAGE_201_DELIVERY.json"
+      "path": "e2e/package-f-sales-history.fixture.ts"
     },
     {
       "code": "A ",
-      "path": "docs/operations/HOME_DAMAGE_201_EVIDENCE.json"
+      "path": "e2e/package-f-sales-history204.spec.ts"
     },
     {
       "code": "A ",
-      "path": "docs/operations/HOME_DAMAGE_201_SCALE_BEFORE_FIX.json"
+      "path": "scripts/audit/sales-history204-hunks.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/HOME_DAMAGE_201_SCALE.json"
+      "path": "scripts/audit/source-before-sales-history204.mjs"
     },
     {
       "code": "A ",
-      "path": "docs/operations/OPENING_COLLECTION_CASH_201_BASELINE.json"
+      "path": "scripts/operations/build-acl-reference204.mjs"
     },
     {
       "code": "A ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_201.json"
+      "path": "scripts/operations/frankfurt-owner-upgrade204.mjs"
     },
     {
       "code": "A ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_202.json"
+      "path": "scripts/operations/frankfurt-reference204.mjs"
     },
     {
       "code": "A ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_203.json"
+      "path": "scripts/testing/run-sales-history-upgrade204-runtime.mjs"
     },
     {
       "code": "A ",
-      "path": "docs/operations/UNDATED_CUSTOMER_RECEIPT_202_BASELINE.json"
+      "path": "scripts/testing/run-sales-history204-gates.mjs"
     },
     {
       "code": "A ",
-      "path": "e2e/package-f-collections202.spec.ts"
+      "path": "scripts/testing/run-sales-history204-runtime.mjs"
     },
     {
       "code": "A ",
-      "path": "e2e/package-f-home-damage201.spec.ts"
+      "path": "scripts/testing/run-sales-history204-scale.mjs"
     },
     {
       "code": "A ",
-      "path": "e2e/package-f-report201-harness.html"
+      "path": "src/features/salesHistory/RecentSalesCard.tsx"
     },
     {
       "code": "A ",
-      "path": "e2e/package-f-report201-harness.tsx"
+      "path": "src/features/salesHistory/salesHistory.css"
     },
     {
       "code": "A ",
-      "path": "scripts/audit/collections202-hunks.json"
+      "path": "src/features/salesHistory/SalesHistoryView.tsx"
     },
     {
       "code": "A ",
-      "path": "scripts/audit/home-damage201-hunks.json"
+      "path": "src/features/salesHistory/SalesInvoiceDialog.tsx"
     },
     {
       "code": "A ",
-      "path": "scripts/audit/source-before-collections202.mjs"
+      "path": "src/hooks/useSalesHistory.ts"
     },
     {
       "code": "A ",
-      "path": "scripts/audit/source-before-home-damage201.mjs"
+      "path": "src/services/supabase/salesHistory.service.ts"
     },
     {
       "code": "A ",
-      "path": "scripts/operations/build-acl-reference201.mjs"
+      "path": "src/utils/salesHistory.ts"
     },
     {
       "code": "A ",
-      "path": "scripts/operations/build-acl-reference202.mjs"
+      "path": "supabase/migrations/204_sales_history_read_model.sql"
     },
     {
       "code": "A ",
-      "path": "scripts/operations/build-acl-reference203.mjs"
+      "path": "tests/sales-history204-evidence.test.ts"
     },
     {
       "code": "A ",
-      "path": "scripts/operations/frankfurt-owner-upgrade201.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/frankfurt-owner-upgrade202.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/frankfurt-owner-upgrade203.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/frankfurt-reference201.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/frankfurt-reference202.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/frankfurt-reference203.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-all-collections-upgrade202-runtime.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-all-collections-upgrade203-runtime.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-all-collections202-gates.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-all-collections202-runtime.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-all-collections202-scale.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-all-collections203-gates.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-all-collections203-runtime.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-all-collections203-scale.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-home-damage-upgrade201-runtime.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-home-damage201-gates.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-home-damage201-runtime.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-home-damage201-scale.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "src/features/reports/CustomerCollectionsSection.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "src/features/reports/DamageLossReportSection.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "src/utils/customerCollections.ts"
-    },
-    {
-      "code": "A ",
-      "path": "supabase/migrations/201_home_collections_and_damage_losses.sql"
-    },
-    {
-      "code": "A ",
-      "path": "supabase/migrations/202_all_customer_collections_read_model.sql"
-    },
-    {
-      "code": "A ",
-      "path": "supabase/migrations/203_customer_payment_receipts_without_completion.sql"
-    },
-    {
-      "code": "A ",
-      "path": "tests/all-customer-collections202.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/all-customer-collections203.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/home-damage201.test.ts"
+      "path": "tests/sales-history204.test.ts"
     },
     {
       "code": "AM",
-      "path": "docs/agent/HOME_DAMAGE_201.md"
+      "path": "docs/operations/SALES_HISTORY_204_AR.md"
     },
     {
       "code": "AM",
-      "path": "docs/operations/ALL_COLLECTIONS_203_AR.md"
-    },
-    {
-      "code": "AM",
-      "path": "docs/operations/ALL_COLLECTIONS_203_DELIVERY.json"
+      "path": "docs/operations/SALES_HISTORY_204_DELIVERY.json"
     },
     {
       "code": "M ",
@@ -251,19 +143,11 @@
     },
     {
       "code": "M ",
-      "path": "docs/agent/OWNER_DECISIONS.md"
-    },
-    {
-      "code": "M ",
-      "path": "docs/agent/PROJECT_OVERVIEW.md"
-    },
-    {
-      "code": "M ",
       "path": "docs/generated/DB_FUNCTIONS.md"
     },
     {
       "code": "M ",
-      "path": "docs/operations/LEGACY_PRODUCT_COST_200_AR.md"
+      "path": "docs/operations/ALL_COLLECTIONS_203_AR.md"
     },
     {
       "code": "M ",
@@ -291,11 +175,23 @@
     },
     {
       "code": "M ",
+      "path": "e2e/package-f-home.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/package-f-orders.spec.ts"
+    },
+    {
+      "code": "M ",
       "path": "scripts/agent/lib.mjs"
     },
     {
       "code": "M ",
       "path": "scripts/agent/preflight.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/historical-warehouse-query-sites.mjs"
     },
     {
       "code": "M ",
@@ -307,15 +203,31 @@
     },
     {
       "code": "M ",
-      "path": "scripts/audit/source-before-warehouse-management.mjs"
+      "path": "scripts/audit/source-before-collections202.mjs"
     },
     {
       "code": "M ",
-      "path": "scripts/operations/build-acl-reference199.mjs"
+      "path": "scripts/audit/source-before-home-damage201.mjs"
     },
     {
       "code": "M ",
-      "path": "scripts/operations/build-acl-reference200.mjs"
+      "path": "scripts/audit/source-before-staging-config.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before198-presentation.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/table-access-inventory.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/build-acl-reference202.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/build-acl-reference203.mjs"
     },
     {
       "code": "M ",
@@ -327,11 +239,11 @@
     },
     {
       "code": "M ",
-      "path": "scripts/operations/frankfurt-reference199.mjs"
+      "path": "scripts/operations/frankfurt-reference202.mjs"
     },
     {
       "code": "M ",
-      "path": "scripts/operations/frankfurt-reference200.mjs"
+      "path": "scripts/operations/frankfurt-reference203.mjs"
     },
     {
       "code": "M ",
@@ -351,31 +263,63 @@
     },
     {
       "code": "M ",
+      "path": "src/App.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/components/layout/SideNav.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/components/layout/sideNavigationModel.ts"
+    },
+    {
+      "code": "M ",
       "path": "src/features/dashboard/DashboardHome.tsx"
     },
     {
       "code": "M ",
-      "path": "src/features/products/StockAdjustmentModal.tsx"
+      "path": "src/features/dashboard/DashboardView.tsx"
     },
     {
       "code": "M ",
-      "path": "src/features/reports/ReportsCenterView.tsx"
+      "path": "src/features/more/adminNavigation.config.ts"
     },
     {
       "code": "M ",
-      "path": "src/services/supabase/dashboard.service.ts"
+      "path": "src/features/more/MoreMenuView.tsx"
     },
     {
       "code": "M ",
-      "path": "src/services/supabase/reports.service.ts"
+      "path": "src/features/orders/OrderCommercialSummary.tsx"
     },
     {
       "code": "M ",
-      "path": "src/types/dashboard.ts"
+      "path": "src/features/orders/OrderDetailModal.tsx"
     },
     {
       "code": "M ",
-      "path": "src/types/reports.ts"
+      "path": "src/features/orders/OrdersCenterView.tsx"
+    },
+    {
+      "code": "M ",
+      "path": "src/features/orders/orderStatus.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/services/supabase/orders.service.ts"
+    },
+    {
+      "code": "M ",
+      "path": "src/stores/appStorePreferences.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/admin-navigation.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/all-customer-collections203.test.ts"
     },
     {
       "code": "M ",
@@ -395,6 +339,14 @@
     },
     {
       "code": "M ",
+      "path": "tests/dashboard-home.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/first-owner-preparation.test.ts"
+    },
+    {
+      "code": "M ",
       "path": "tests/frankfurt-public-config.test.ts"
     },
     {
@@ -411,11 +363,23 @@
     },
     {
       "code": "M ",
+      "path": "tests/orders-panel-presentation.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/package-f-orders.test.ts"
+    },
+    {
+      "code": "M ",
       "path": "tests/product-integration171.test.ts"
     },
     {
       "code": "M ",
       "path": "tests/service-access-inventory.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/staff-account-management.test.ts"
     },
     {
       "code": "M ",
@@ -431,7 +395,19 @@
     },
     {
       "code": "MM",
+      "path": "docs/agent/OWNER_DECISIONS.md"
+    },
+    {
+      "code": "MM",
+      "path": "docs/agent/PHASE_C_CONTRACT.md"
+    },
+    {
+      "code": "MM",
       "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": "MM",
+      "path": "docs/agent/PROJECT_OVERVIEW.md"
     },
     {
       "code": "MM",

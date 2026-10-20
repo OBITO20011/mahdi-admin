@@ -1,0 +1,23 @@
+import {createRoot} from 'react-dom/client';
+import '@fontsource/ibm-plex-sans-arabic/400.css';
+import '@fontsource/ibm-plex-sans-arabic/500.css';
+import '@fontsource/ibm-plex-sans-arabic/600.css';
+import '@fontsource/ibm-plex-sans-arabic/700.css';
+import '../src/index.css';
+import {SalesHistoryView} from '../src/features/salesHistory/SalesHistoryView';
+import {DashboardView} from '../src/features/dashboard/DashboardView';
+import {SideNav} from '../src/components/layout/SideNav';
+import {storeEngine,useAppStoreSelector,type AppState} from '../src/stores/useAppStore';
+import {authStoreEngine,type AuthState} from '../src/stores/useAuthStore';
+import {supabase} from '../src/lib/supabase';
+const params=new URLSearchParams(location.search),theme=params.get('theme')==='dark'?'dark':'light';
+document.documentElement.dataset.theme=theme;document.documentElement.classList.toggle('theme-light',theme==='light');document.documentElement.classList.toggle('theme-dark',theme==='dark');
+if(!supabase||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL??'').hostname))throw Error('Sales204 harness requires loopback');
+const role=params.get('role')??'owner',roles=role==='mixed'?['warehouse_keeper','sales']:[role];
+const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
+auth.state={...auth.getState(),roleName:roles[0],roles,isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;
+const engine=storeEngine as unknown as {state:AppState;getState:()=>AppState;refreshOrdersFromSupabase:()=>Promise<void>;refreshProductsFromSupabase:()=>Promise<void>;refreshStockNotificationsFromSupabase:()=>Promise<[]>};
+engine.state={...engine.getState(),activeTab:params.has('home')?'home':'sales_history',currentUser:{...engine.getState().currentUser,name:'مالك التجربة',role:'Owner',themeMode:theme},activeBranch:{id:'92600000-0000-4000-8000-000000000200',name:'الفرع الرئيسي',address:'',city:'',phone:''}};
+engine.refreshOrdersFromSupabase=async()=>undefined;engine.refreshProductsFromSupabase=async()=>undefined;engine.refreshStockNotificationsFromSupabase=async()=>[];
+function Harness(){const tab=useAppStoreSelector(s=>s.activeTab);return <div dir="rtl" className="flex min-h-[100dvh] min-w-0 bg-nw-bg font-sans text-nw-text"><SideNav/><main className="min-w-0 flex-1">{tab==='home'?<DashboardView/>:<SalesHistoryView/>}</main></div>;}
+createRoot(document.getElementById('root')!).render(<Harness/>);

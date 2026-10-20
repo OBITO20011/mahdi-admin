@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-19T21:32:51.111Z",
-  "migrationCeiling": 203,
+  "startedAt": "2026-10-20T04:33:55.691Z",
+  "migrationCeiling": 204,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-DugTH8",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-2QpylQ",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
-      "sha256": "6fe758edd96d3b73b10d1d879bcd8a77676ef0466c2a847fb09f2b58d8df3ac0"
+      "sha256": "0f69e57b616d6836e890c9ce682c5ee0e57127df50c73232d9e9c89e85d0fc13"
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",
@@ -39,11 +39,11 @@
     },
     {
       "file": "src/components/layout/SideNav.tsx",
-      "sha256": "7cdaba3b3e8e875e5422bdf92bc5aaf65b8bea9cbb476d764816013dbfc7a023"
+      "sha256": "462405f6980a270d182406b75d173e9c38b704bfc3ca393d5712bd381bbc8fd1"
     },
     {
       "file": "src/components/layout/sideNavigationModel.ts",
-      "sha256": "093a41f378e09a24fa82f6bb1e15f0c11bdb88de2541ceb4ea2606f1218f0d2e"
+      "sha256": "f31ca0c5877c2464a9af6c6a314c09b77002e479c359b56f8d16d288edad71c5"
     },
     {
       "file": "src/components/modals/AllModals.tsx",
@@ -231,11 +231,11 @@
     },
     {
       "file": "src/features/dashboard/DashboardHome.tsx",
-      "sha256": "6883e1cc8528ca7a1cc1bba20146e04d8c2dce9677c15de5f8c11e898c78e014"
+      "sha256": "9f969bb4e272f2c92b280c4819bc97e6835c6012be055f3f4ed9ac9872ae3925"
     },
     {
       "file": "src/features/dashboard/DashboardView.tsx",
-      "sha256": "a86c9ebff80da769cb224a15621e40354d19607d7a7d228b718a2605db4a0d3a"
+      "sha256": "2afa33e459e2ca21e8c032f683105af8815df5781e8fb69e123d193fa21acb26"
     },
     {
       "file": "src/features/dashboard/KpiCards.tsx",
@@ -315,7 +315,7 @@
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
-      "sha256": "161f89f8b1c3b7d7d1711e3f208feffff5182fb398db4d14be3443cb35f4a798"
+      "sha256": "15a555ae7386a42b5b3503cb6757d051aec0761cf832fa36d23bb29133d9f5b0"
     },
     {
       "file": "src/features/more/InstallAppPanel.tsx",
@@ -327,7 +327,7 @@
     },
     {
       "file": "src/features/more/MoreMenuView.tsx",
-      "sha256": "aa7305dec056215dafa6298d122ead2232cb768b276dcae661ab108068723de2"
+      "sha256": "f4fab17e587ce8daa6b209da95477b7800bf916733632c85550a94c0a517c247"
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
@@ -367,19 +367,19 @@
     },
     {
       "file": "src/features/orders/OrderCommercialSummary.tsx",
-      "sha256": "b324c808c946fcc56e3119f0bbc0be258d86448ce97a1798cc62c198fe5bf6b1"
+      "sha256": "f1e2b88f7e7e89cf0fd203937cd233ba2e4c6319fe591c39b5f71a843892cad3"
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "49899aa8b91ae4a875833a6ee308d770b7a76adba611a07d5ce7a207f8216dd1"
+      "sha256": "4451c40f80d64fe034b67fc972eb0ba5ca07b449f5baf7d6b68d0041d8e39925"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
-      "sha256": "ddeb45cdcbe71aeca4e4a4b47de721c3e9c605e081b0c98563a367198b2f9ca6"
+      "sha256": "9d1217e90ab1016e6c68fa37e63bbd09bd28d36d044ecda58375d58d3fe8836a"
     },
     {
       "file": "src/features/orders/orderStatus.ts",
-      "sha256": "8bfa3800d5f227cb14f8be13a04004f77d1106c7026ed521ed6956587fe127ea"
+      "sha256": "60446e01ef40baed6312fa3be74ec2a193d7301d1e88fa43484a0adad9a87388"
     },
     {
       "file": "src/features/pos/BarcodeScannerModal.tsx",
@@ -466,6 +466,18 @@
       "sha256": "48dd1e985da9afc84733b08bca408be2abae4b2c5ccc6fc3d1a4239d0edee659"
     },
     {
+      "file": "src/features/salesHistory/RecentSalesCard.tsx",
+      "sha256": "a67a2c2d2abc58d5a077b1610dd6e11aa19ad2092c72615dbae590b69f6a07b5"
+    },
+    {
+      "file": "src/features/salesHistory/SalesHistoryView.tsx",
+      "sha256": "8162956dbb17ce66000f1af58c53563098f5da0fa512827d20b61ba0ddf12f49"
+    },
+    {
+      "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
+      "sha256": "1d9e72833f0d25e75acd92c5966530bb761a288aaa9b98da6492dff4c7154967"
+    },
+    {
       "file": "src/features/shifts/OwnerWithdrawalsPanel.tsx",
       "sha256": "50e36c2dd2b4dc79a5a8323ed4a2aee37b59ea5f72448c8df24a47e1ed69f182"
     },
@@ -508,6 +520,10 @@
     {
       "file": "src/hooks/useDrawerShortfallConfirm.tsx",
       "sha256": "20384c7ad7b77fce7837257b06575bb9b80b6fcfed493ca6c827c82b96470e87"
+    },
+    {
+      "file": "src/hooks/useSalesHistory.ts",
+      "sha256": "2b7740b772b77b00f23710f110c6dfe885528a7854799da8e40ab21cbf7c2d40"
     },
     {
       "file": "src/lib/async.ts",
@@ -627,7 +643,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "sha256": "319c2b273983b853ebd372000bee2b38380a657b2c6e78ada783abc5be24a868"
+      "sha256": "0148c128963e3962b0a59d7bcb799e744fe8417128689668f523276f0ed6650e"
     },
     {
       "file": "src/services/supabase/ownerWithdrawals.service.ts",
@@ -686,6 +702,10 @@
       "sha256": "ade5738d66af92e957111d2f5d5a8e0128ee0541bf5d23574908795ef7d4f276"
     },
     {
+      "file": "src/services/supabase/salesHistory.service.ts",
+      "sha256": "d85b108f7be04b3decc0f79a71045c9d318e3ee26bd57caf1ece2e43e1443540"
+    },
+    {
       "file": "src/services/supabase/staffAccounts.service.ts",
       "sha256": "a3f441aaa5f5c168e156f12c70e0805886f454446887a378f692fac1373249ae"
     },
@@ -703,7 +723,7 @@
     },
     {
       "file": "src/stores/appStorePreferences.ts",
-      "sha256": "0dc3a67d7620d1702f0d0f24f9c9efba5c04f3c0ce4d1ec97a44362a6c75c0bf"
+      "sha256": "cd20d545115b5095482c03ab8139e3e9885988a355d81f86b4fb84d702c35620"
     },
     {
       "file": "src/stores/modalTypes.ts",
@@ -844,6 +864,10 @@
     {
       "file": "src/utils/roleLabels.ts",
       "sha256": "bc19440ecf8a4dfa5bb5489283118024a3cec09ba7cf84a151657aa325edd091"
+    },
+    {
+      "file": "src/utils/salesHistory.ts",
+      "sha256": "6e94652801ef2b13a994f54e4d6327a4de7d3b392e14b8abe6ede2e27737dd4c"
     },
     {
       "file": "src/utils/supplierCancellationPreview.ts",
@@ -6524,6 +6548,44 @@
       "returnType": "text",
       "configuration": [
         "search_path=public, vault, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "name": "get_sales_history_page",
+      "names": [
+        "p_page",
+        "p_page_size",
+        "p_period",
+        "p_from_date",
+        "p_to_date",
+        "p_payment_method",
+        "p_source",
+        "p_customer_search",
+        "p_number_search",
+        "p_sales_only"
+      ],
+      "owner": "postgres",
+      "types": [
+        "integer",
+        "integer",
+        "text",
+        "date",
+        "date",
+        "text",
+        "text",
+        "text",
+        "text",
+        "boolean"
+      ],
+      "identity": "get_sales_history_page(integer,integer,text,date,date,text,text,text,text,boolean)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
       ],
       "securityDefiner": true
     },
@@ -16460,7 +16522,7 @@
       "command": "SELECT public.\"get_go_live_cheques_v1\"(1::integer,25::integer)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:618",
+      "site": "src/services/supabase/orders.service.ts:621",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -16473,7 +16535,7 @@
       "command": "SELECT public.\"accept_order_for_preparation\"(NULL::uuid,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:618",
+      "site": "src/services/supabase/orders.service.ts:621",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -16486,7 +16548,7 @@
       "command": "SELECT public.\"accept_order_for_preparation\"(NULL::uuid,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:618",
+      "site": "src/services/supabase/orders.service.ts:621",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -16499,7 +16561,7 @@
       "command": "SELECT public.\"accept_order_for_preparation\"(NULL::uuid,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:652",
+      "site": "src/services/supabase/orders.service.ts:655",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -16514,7 +16576,7 @@
       "command": "SELECT public.\"complete_website_order_with_payment\"(NULL::uuid,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:652",
+      "site": "src/services/supabase/orders.service.ts:655",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -16529,7 +16591,7 @@
       "command": "SELECT public.\"complete_website_order_with_payment\"(NULL::uuid,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:652",
+      "site": "src/services/supabase/orders.service.ts:655",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -16544,7 +16606,7 @@
       "command": "SELECT public.\"complete_website_order_with_payment\"(NULL::uuid,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:697",
+      "site": "src/services/supabase/orders.service.ts:700",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -16558,7 +16620,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:697",
+      "site": "src/services/supabase/orders.service.ts:700",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -16572,7 +16634,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:697",
+      "site": "src/services/supabase/orders.service.ts:700",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -16586,55 +16648,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:740",
-      "name": "get_operational_orders_page",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000001",
-      "appRole": "owner",
-      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
-      "args": [
-        "1::integer",
-        "25::integer",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
-    },
-    {
-      "site": "src/services/supabase/orders.service.ts:740",
-      "name": "get_operational_orders_page",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000002",
-      "appRole": "admin",
-      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
-      "args": [
-        "1::integer",
-        "25::integer",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
-    },
-    {
-      "site": "src/services/supabase/orders.service.ts:740",
-      "name": "get_operational_orders_page",
-      "role": "authenticated",
-      "actor": "92600000-0000-4000-8000-000000000003",
-      "appRole": "cashier",
-      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
-      "args": [
-        "1::integer",
-        "25::integer",
-        "NULL::text",
-        "NULL::text",
-        "NULL::text"
-      ],
-      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
-    },
-    {
-      "site": "src/services/supabase/orders.service.ts:852",
+      "site": "src/services/supabase/orders.service.ts:743",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -16650,7 +16664,7 @@
       "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:852",
+      "site": "src/services/supabase/orders.service.ts:743",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -16666,7 +16680,7 @@
       "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:852",
+      "site": "src/services/supabase/orders.service.ts:743",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -16682,7 +16696,55 @@
       "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:933",
+      "site": "src/services/supabase/orders.service.ts:855",
+      "name": "get_operational_orders_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
+    },
+    {
+      "site": "src/services/supabase/orders.service.ts:855",
+      "name": "get_operational_orders_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
+    },
+    {
+      "site": "src/services/supabase/orders.service.ts:855",
+      "name": "get_operational_orders_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "get_operational_orders_page(integer,integer,text,text,text)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text"
+      ],
+      "command": "SELECT public.\"get_operational_orders_page\"(1::integer,25::integer,NULL::text,NULL::text,NULL::text)"
+    },
+    {
+      "site": "src/services/supabase/orders.service.ts:936",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -16699,7 +16761,7 @@
       "command": "SELECT public.\"complete_website_order_with_settlement\"(NULL::uuid,NULL::text,0::bigint,0::bigint,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:933",
+      "site": "src/services/supabase/orders.service.ts:936",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -16716,7 +16778,7 @@
       "command": "SELECT public.\"complete_website_order_with_settlement\"(NULL::uuid,NULL::text,0::bigint,0::bigint,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:933",
+      "site": "src/services/supabase/orders.service.ts:936",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -16733,7 +16795,7 @@
       "command": "SELECT public.\"complete_website_order_with_settlement\"(NULL::uuid,NULL::text,0::bigint,0::bigint,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:984",
+      "site": "src/services/supabase/orders.service.ts:987",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -16750,7 +16812,7 @@
       "command": "SELECT public.\"return_completed_website_order\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:984",
+      "site": "src/services/supabase/orders.service.ts:987",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -16767,7 +16829,7 @@
       "command": "SELECT public.\"return_completed_website_order\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:984",
+      "site": "src/services/supabase/orders.service.ts:987",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -16784,7 +16846,7 @@
       "command": "SELECT public.\"return_completed_website_order\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1029",
+      "site": "src/services/supabase/orders.service.ts:1032",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -16798,7 +16860,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1029",
+      "site": "src/services/supabase/orders.service.ts:1032",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -16812,7 +16874,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1029",
+      "site": "src/services/supabase/orders.service.ts:1032",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -16826,7 +16888,7 @@
       "command": "SELECT public.\"update_order_status\"(NULL::uuid,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1080",
+      "site": "src/services/supabase/orders.service.ts:1083",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -16841,7 +16903,7 @@
       "command": "SELECT public.\"start_or_update_order_delivery\"(NULL::uuid,0::integer,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1080",
+      "site": "src/services/supabase/orders.service.ts:1083",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -16856,7 +16918,7 @@
       "command": "SELECT public.\"start_or_update_order_delivery\"(NULL::uuid,0::integer,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1080",
+      "site": "src/services/supabase/orders.service.ts:1083",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -16871,7 +16933,7 @@
       "command": "SELECT public.\"start_or_update_order_delivery\"(NULL::uuid,0::integer,NULL::text,NULL::text)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1138",
+      "site": "src/services/supabase/orders.service.ts:1141",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -16895,7 +16957,7 @@
       "command": "SELECT public.\"update_order_delivery_address\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1138",
+      "site": "src/services/supabase/orders.service.ts:1141",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -16919,7 +16981,7 @@
       "command": "SELECT public.\"update_order_delivery_address\"(NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1138",
+      "site": "src/services/supabase/orders.service.ts:1141",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -19701,6 +19763,69 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"settle_admin_sales_return_v1\"(NULL::uuid,'isolated-service-audit-0000000000000000000001','[]'::jsonb,'{}'::jsonb,NULL::text,NULL::text,NULL::text,NULL::text)"
+    },
+    {
+      "site": "src/services/supabase/salesHistory.service.ts:10",
+      "name": "get_sales_history_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "get_sales_history_page(integer,integer,text,date,date,text,text,text,text,boolean)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "CURRENT_DATE",
+        "CURRENT_DATE",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"get_sales_history_page\"(1::integer,25::integer,NULL::text,CURRENT_DATE,CURRENT_DATE,NULL::text,NULL::text,NULL::text,NULL::text,false)"
+    },
+    {
+      "site": "src/services/supabase/salesHistory.service.ts:10",
+      "name": "get_sales_history_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "get_sales_history_page(integer,integer,text,date,date,text,text,text,text,boolean)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "CURRENT_DATE",
+        "CURRENT_DATE",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"get_sales_history_page\"(1::integer,25::integer,NULL::text,CURRENT_DATE,CURRENT_DATE,NULL::text,NULL::text,NULL::text,NULL::text,false)"
+    },
+    {
+      "site": "src/services/supabase/salesHistory.service.ts:10",
+      "name": "get_sales_history_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "get_sales_history_page(integer,integer,text,date,date,text,text,text,text,boolean)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "CURRENT_DATE",
+        "CURRENT_DATE",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"get_sales_history_page\"(1::integer,25::integer,NULL::text,CURRENT_DATE,CURRENT_DATE,NULL::text,NULL::text,NULL::text,NULL::text,false)"
     },
     {
       "site": "src/services/supabase/stockAlerts.service.ts:72",
@@ -24838,7 +24963,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:618",
+      "site": "src/services/supabase/orders.service.ts:621",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -24855,7 +24980,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:618",
+      "site": "src/services/supabase/orders.service.ts:621",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -24872,7 +24997,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:618",
+      "site": "src/services/supabase/orders.service.ts:621",
       "name": "accept_order_for_preparation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -24889,7 +25014,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:652",
+      "site": "src/services/supabase/orders.service.ts:655",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -24908,7 +25033,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:652",
+      "site": "src/services/supabase/orders.service.ts:655",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -24927,7 +25052,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:652",
+      "site": "src/services/supabase/orders.service.ts:655",
       "name": "complete_website_order_with_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -24946,7 +25071,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:697",
+      "site": "src/services/supabase/orders.service.ts:700",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -24964,7 +25089,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:697",
+      "site": "src/services/supabase/orders.service.ts:700",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -24982,7 +25107,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:697",
+      "site": "src/services/supabase/orders.service.ts:700",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -25000,7 +25125,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:740",
+      "site": "src/services/supabase/orders.service.ts:743",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -25020,7 +25145,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:740",
+      "site": "src/services/supabase/orders.service.ts:743",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -25040,7 +25165,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:740",
+      "site": "src/services/supabase/orders.service.ts:743",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -25060,7 +25185,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:852",
+      "site": "src/services/supabase/orders.service.ts:855",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -25080,7 +25205,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:852",
+      "site": "src/services/supabase/orders.service.ts:855",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -25100,7 +25225,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:852",
+      "site": "src/services/supabase/orders.service.ts:855",
       "name": "get_operational_orders_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -25120,7 +25245,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/orders.service.ts:933",
+      "site": "src/services/supabase/orders.service.ts:936",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -25141,7 +25266,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:933",
+      "site": "src/services/supabase/orders.service.ts:936",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -25162,7 +25287,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:933",
+      "site": "src/services/supabase/orders.service.ts:936",
       "name": "complete_website_order_with_settlement",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -25183,7 +25308,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:984",
+      "site": "src/services/supabase/orders.service.ts:987",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -25204,7 +25329,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:984",
+      "site": "src/services/supabase/orders.service.ts:987",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -25225,7 +25350,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:984",
+      "site": "src/services/supabase/orders.service.ts:987",
       "name": "return_completed_website_order",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -25246,7 +25371,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1029",
+      "site": "src/services/supabase/orders.service.ts:1032",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -25264,7 +25389,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1029",
+      "site": "src/services/supabase/orders.service.ts:1032",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -25282,7 +25407,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1029",
+      "site": "src/services/supabase/orders.service.ts:1032",
       "name": "update_order_status",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -25300,7 +25425,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1080",
+      "site": "src/services/supabase/orders.service.ts:1083",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -25319,7 +25444,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1080",
+      "site": "src/services/supabase/orders.service.ts:1083",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -25338,7 +25463,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1080",
+      "site": "src/services/supabase/orders.service.ts:1083",
       "name": "start_or_update_order_delivery",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -25357,7 +25482,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1138",
+      "site": "src/services/supabase/orders.service.ts:1141",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -25385,7 +25510,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1138",
+      "site": "src/services/supabase/orders.service.ts:1141",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -25413,7 +25538,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/orders.service.ts:1138",
+      "site": "src/services/supabase/orders.service.ts:1141",
       "name": "update_order_delivery_address",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -28873,6 +28998,81 @@
       "sqlstate": "P0001"
     },
     {
+      "site": "src/services/supabase/salesHistory.service.ts:10",
+      "name": "get_sales_history_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "get_sales_history_page(integer,integer,text,date,date,text,text,text,text,boolean)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "CURRENT_DATE",
+        "CURRENT_DATE",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"get_sales_history_page\"(1::integer,25::integer,NULL::text,CURRENT_DATE,CURRENT_DATE,NULL::text,NULL::text,NULL::text,NULL::text,false)",
+      "probe": 426,
+      "message": "التواريخ المخصصة تتطلب اختيار مدى.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/salesHistory.service.ts:10",
+      "name": "get_sales_history_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "get_sales_history_page(integer,integer,text,date,date,text,text,text,text,boolean)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "CURRENT_DATE",
+        "CURRENT_DATE",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"get_sales_history_page\"(1::integer,25::integer,NULL::text,CURRENT_DATE,CURRENT_DATE,NULL::text,NULL::text,NULL::text,NULL::text,false)",
+      "probe": 427,
+      "message": "التواريخ المخصصة تتطلب اختيار مدى.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/salesHistory.service.ts:10",
+      "name": "get_sales_history_page",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "get_sales_history_page(integer,integer,text,date,date,text,text,text,text,boolean)",
+      "args": [
+        "1::integer",
+        "25::integer",
+        "NULL::text",
+        "CURRENT_DATE",
+        "CURRENT_DATE",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "false"
+      ],
+      "command": "SELECT public.\"get_sales_history_page\"(1::integer,25::integer,NULL::text,CURRENT_DATE,CURRENT_DATE,NULL::text,NULL::text,NULL::text,NULL::text,false)",
+      "probe": 428,
+      "message": "التواريخ المخصصة تتطلب اختيار مدى.",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
       "site": "src/services/supabase/stockAlerts.service.ts:72",
       "name": "get_stock_alert_notifications",
       "role": "authenticated",
@@ -28884,7 +29084,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_stock_alert_notifications\"(false,25::integer)",
-      "probe": 426,
+      "probe": 429,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -28901,7 +29101,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_stock_alert_notifications\"(false,25::integer)",
-      "probe": 427,
+      "probe": 430,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -28918,7 +29118,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_stock_alert_notifications\"(false,25::integer)",
-      "probe": 428,
+      "probe": 431,
       "message": "ليس لديك صلاحية عرض تنبيهات المخزون.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -28934,7 +29134,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"mark_stock_alert_read\"(NULL::uuid)",
-      "probe": 429,
+      "probe": 432,
       "message": "تنبيه المخزون المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -28950,7 +29150,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"mark_stock_alert_read\"(NULL::uuid)",
-      "probe": 430,
+      "probe": 433,
       "message": "تنبيه المخزون المحدد غير موجود.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -28966,7 +29166,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"mark_stock_alert_read\"(NULL::uuid)",
-      "probe": 431,
+      "probe": 434,
       "message": "ليس لديك صلاحية تحديث حالة تنبيه المخزون.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -28980,7 +29180,7 @@
       "identity": "mark_all_stock_alerts_read()",
       "args": [],
       "command": "SELECT public.\"mark_all_stock_alerts_read\"()",
-      "probe": 432,
+      "probe": 435,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -28994,7 +29194,7 @@
       "identity": "mark_all_stock_alerts_read()",
       "args": [],
       "command": "SELECT public.\"mark_all_stock_alerts_read\"()",
-      "probe": 433,
+      "probe": 436,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29008,7 +29208,7 @@
       "identity": "mark_all_stock_alerts_read()",
       "args": [],
       "command": "SELECT public.\"mark_all_stock_alerts_read\"()",
-      "probe": 434,
+      "probe": 437,
       "message": "ليس لديك صلاحية تحديث حالة تنبيهات المخزون.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29022,7 +29222,7 @@
       "identity": "get_public_storefront_settings()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_settings\"()",
-      "probe": 435,
+      "probe": 438,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29036,7 +29236,7 @@
       "identity": "get_public_storefront_settings()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_settings\"()",
-      "probe": 436,
+      "probe": 439,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29050,7 +29250,7 @@
       "identity": "get_public_storefront_settings()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_settings\"()",
-      "probe": 437,
+      "probe": 440,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29081,7 +29281,7 @@
         "false"
       ],
       "command": "SELECT public.\"save_storefront_settings_v3\"(NULL::text,NULL::text,NULL::text,false,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,false,false,false,false)",
-      "probe": 438,
+      "probe": 441,
       "message": "اسم المتجر يجب أن يكون بين حرفين و120 حرفًا.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29112,7 +29312,7 @@
         "false"
       ],
       "command": "SELECT public.\"save_storefront_settings_v3\"(NULL::text,NULL::text,NULL::text,false,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,false,false,false,false)",
-      "probe": 439,
+      "probe": 442,
       "message": "اسم المتجر يجب أن يكون بين حرفين و120 حرفًا.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29143,7 +29343,7 @@
         "false"
       ],
       "command": "SELECT public.\"save_storefront_settings_v3\"(NULL::text,NULL::text,NULL::text,false,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,false,false,false,false)",
-      "probe": 440,
+      "probe": 443,
       "message": "ليس لديك صلاحية إدارة إعدادات المتجر الإلكتروني.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29157,7 +29357,7 @@
       "identity": "get_owner_warehouses_v1()",
       "args": [],
       "command": "SELECT public.\"get_owner_warehouses_v1\"()",
-      "probe": 441,
+      "probe": 444,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29171,7 +29371,7 @@
       "identity": "get_owner_warehouses_v1()",
       "args": [],
       "command": "SELECT public.\"get_owner_warehouses_v1\"()",
-      "probe": 442,
+      "probe": 445,
       "message": "ليس لديك صلاحية إدارة الفروع والمستودعات.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29185,7 +29385,7 @@
       "identity": "get_owner_warehouses_v1()",
       "args": [],
       "command": "SELECT public.\"get_owner_warehouses_v1\"()",
-      "probe": 443,
+      "probe": 446,
       "message": "ليس لديك صلاحية إدارة الفروع والمستودعات.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29206,7 +29406,7 @@
         "CURRENT_TIMESTAMP"
       ],
       "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)",
-      "probe": 444,
+      "probe": 447,
       "message": "WAREHOUSE_INPUT_INVALID: تحقق من اسم المستودع والفرع.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29227,7 +29427,7 @@
         "CURRENT_TIMESTAMP"
       ],
       "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)",
-      "probe": 445,
+      "probe": 448,
       "message": "ليس لديك صلاحية حفظ مستودع.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29248,7 +29448,7 @@
         "CURRENT_TIMESTAMP"
       ],
       "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)",
-      "probe": 446,
+      "probe": 449,
       "message": "ليس لديك صلاحية حفظ مستودع.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29264,7 +29464,7 @@
         "ARRAY[]::uuid[]"
       ],
       "command": "SELECT public.\"get_public_configurable_parcel_options\"(ARRAY[]::uuid[])",
-      "probe": 447,
+      "probe": 450,
       "message": "PUBLIC_CONFIGURABLE_PARCEL_REQUEST_INVALID: Provide between 1 and 48 valid Family IDs.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29288,7 +29488,7 @@
         "ARRAY[]::uuid[]"
       ],
       "command": "SELECT public.\"get_public_storefront_catalog_page\"(25::integer,0::integer,NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,ARRAY[]::uuid[])",
-      "probe": 448,
+      "probe": 451,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29302,7 +29502,7 @@
       "identity": "get_public_storefront_merchandising()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_merchandising\"()",
-      "probe": 449,
+      "probe": 452,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29316,7 +29516,7 @@
       "identity": "get_public_storefront_offers()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_offers\"()",
-      "probe": 450,
+      "probe": 453,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29334,7 +29534,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"preview_guest_promotion_v2\"('[]'::jsonb,NULL::text,NULL::text)",
-      "probe": 451,
+      "probe": 454,
       "message": "PHASE3_SALE_CONTRACT_INVALID: Sale lines must be a non-empty array.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29352,7 +29552,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"preview_guest_promotion\"(NULL::text,'[]'::jsonb,NULL::text)",
-      "probe": 452,
+      "probe": 455,
       "message": "اكتب رمز خصم صحيحاً.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29369,7 +29569,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"track_guest_order\"(NULL::text,NULL::text)",
-      "probe": 453,
+      "probe": 456,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29385,7 +29585,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"track_guest_order_by_token\"(NULL::text)",
-      "probe": 454,
+      "probe": 457,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29401,7 +29601,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_public_pos_receipt\"(NULL::uuid)",
-      "probe": 455,
+      "probe": 458,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29415,7 +29615,7 @@
       "identity": "get_public_storefront_settings()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_settings\"()",
-      "probe": 456,
+      "probe": 459,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29429,7 +29629,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 457,
+      "probe": 460,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29443,7 +29643,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 458,
+      "probe": 461,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29457,7 +29657,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 459,
+      "probe": 462,
       "message": "ليس لديك صلاحية استخدام مساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29471,7 +29671,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 460,
+      "probe": 463,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29485,7 +29685,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 461,
+      "probe": 464,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29499,7 +29699,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 462,
+      "probe": 465,
       "message": "ليس لديك صلاحية قراءة مخزون وأسعار مساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29513,7 +29713,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 463,
+      "probe": 466,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29527,7 +29727,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 464,
+      "probe": 467,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29541,7 +29741,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 465,
+      "probe": 468,
       "message": "ليس لديك صلاحية عرض الصفحة الرئيسية.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29555,7 +29755,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 466,
+      "probe": 469,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29569,7 +29769,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 467,
+      "probe": 470,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29583,7 +29783,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 468,
+      "probe": 471,
       "message": "ليس لديك صلاحية قراءة التقرير الشهري لمساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29597,7 +29797,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 469,
+      "probe": 472,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29611,7 +29811,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 470,
+      "probe": 473,
       "message": "ليس لديك صلاحية إدارة حسابات الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29625,7 +29825,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 471,
+      "probe": 474,
       "message": "ليس لديك صلاحية إدارة حسابات الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29641,7 +29841,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 472,
+      "probe": 475,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29657,7 +29857,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 473,
+      "probe": 476,
       "message": "ليس لديك صلاحية عرض سجل إدارة الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29673,7 +29873,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 474,
+      "probe": 477,
       "message": "ليس لديك صلاحية عرض سجل إدارة الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29694,7 +29894,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 475,
+      "probe": 478,
       "message": "اسم المستخدم يجب أن يكون بين حرفين و120 حرفًا.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29715,7 +29915,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 476,
+      "probe": 479,
       "message": "ليس لديك صلاحية إضافة حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29736,7 +29936,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 477,
+      "probe": 480,
       "message": "ليس لديك صلاحية إضافة حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29757,7 +29957,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 478,
+      "probe": 481,
       "message": "لا يمكن تعديل حسابك الحالي من إدارة المستخدمين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29778,7 +29978,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 479,
+      "probe": 482,
       "message": "ليس لديك صلاحية تعديل حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29799,7 +29999,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 480,
+      "probe": 483,
       "message": "ليس لديك صلاحية تعديل حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29816,7 +30016,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 481,
+      "probe": 484,
       "message": "لا يمكن تعطيل أو تعديل حسابك الحالي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29833,7 +30033,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 482,
+      "probe": 485,
       "message": "ليس لديك صلاحية تفعيل أو تعطيل حساب مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29850,7 +30050,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 483,
+      "probe": 486,
       "message": "ليس لديك صلاحية تفعيل أو تعطيل حساب مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29866,7 +30066,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 484,
+      "probe": 487,
       "message": "لا يمكن إعادة تعيين كلمة مرور حسابك الحالي من هذه الشاشة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29882,7 +30082,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 485,
+      "probe": 488,
       "message": "ليس لديك صلاحية إعادة تعيين كلمة مرور مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29898,7 +30098,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 486,
+      "probe": 489,
       "message": "ليس لديك صلاحية إعادة تعيين كلمة مرور مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29916,7 +30116,7 @@
         "0::integer"
       ],
       "command": "SELECT public.\"claim_automation_deliveries\"(NULL::text,25::integer,0::integer)",
-      "probe": 487,
+      "probe": 490,
       "message": "Invalid automation delivery channel.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29935,7 +30135,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"complete_automation_delivery\"(NULL::uuid,NULL::text,false,NULL::text)",
-      "probe": 488,
+      "probe": 491,
       "message": "Invalid automation delivery completion.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -29949,7 +30149,7 @@
       "identity": "get_push_webhook_secret()",
       "args": [],
       "command": "SELECT public.\"get_push_webhook_secret\"()",
-      "probe": 489,
+      "probe": 492,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29965,7 +30165,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"get_active_order_push_targets\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 490,
+      "probe": 493,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -29984,7 +30184,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"authorize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::text,NULL::text)",
-      "probe": 491,
+      "probe": 494,
       "message": "Invalid gateway request.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30022,7 +30222,7 @@
         "0::bigint"
       ],
       "command": "SELECT public.\"submit_guest_customer_order_v2\"('isolated-service-audit-0000000000000000000001',NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,NULL::text,'[]'::jsonb,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,0::bigint)",
-      "probe": 492,
+      "probe": 495,
       "message": "PHASE3_IDEMPOTENCY_INPUT_INVALID: Customer operation identity is invalid.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30040,7 +30240,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"finalize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::uuid)",
-      "probe": 493,
+      "probe": 496,
       "message": "Gateway authorization was not found.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30058,7 +30258,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"finalize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::uuid)",
-      "probe": 494,
+      "probe": 497,
       "message": "Gateway authorization was not found.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33394,6 +33594,21 @@
       "role": "service_role",
       "allowed": true,
       "identity": "get_push_webhook_secret()"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "get_sales_history_page(integer,integer,text,date,date,text,text,text,text,boolean)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": true,
+      "identity": "get_sales_history_page(integer,integer,text,date,date,text,text,text,text,boolean)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "get_sales_history_page(integer,integer,text,date,date,text,text,text,text,boolean)"
     },
     {
       "role": "anon",
@@ -37905,7 +38120,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-19T21:34:28.758Z",
+  "endedAt": "2026-10-20T04:35:12.520Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -38269,7 +38484,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        603
+        619
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

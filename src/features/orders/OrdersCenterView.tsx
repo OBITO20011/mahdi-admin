@@ -279,7 +279,7 @@ export const OrdersCenterView: React.FC = () => {
 
   return <OrdersWorkbench orders={orders} activeFilter={activeFilter} counts={counts} summary={summary} searchQuery={searchQuery} sort={sort} page={page} totalCount={totalCount} totalPages={totalPages}
     listLoadVersion={listLoadVersion} restoreAfterVersion={restoreAfterVersion}
-    selectedOrderId={selectedOrderId} sourceFor={(id) => selectedOrder?.id === id ? selectedOrder.source : undefined} loading={loading} refreshing={refreshing} error={error}
+    selectedOrderId={selectedOrderId} sourceFor={(id) => orders.find(order => order.id === id)?.source} loading={loading} refreshing={refreshing} error={error}
     onOpen={openOrderDetails} onFilter={(value) => { setActiveFilter(value); setPage(1); }}
     onSearch={(value) => { setSearchQuery(value); setCounts({}); setPage(1); }} onSort={(value) => { setSort(value); setPage(1); }} onPage={setPage} onRefresh={() => void handleRefresh()}
     detail={selectedOrderLoading ? <div className="space-y-3 text-center text-nw-muted"><UiButton aria-label="رجوع للطلبات" onClick={closeOrderDetails} className="md:hidden"><ChevronRight className="h-4 w-4" />رجوع للطلبات</UiButton><div role="status"><RefreshCw className="mx-auto h-6 w-6 animate-spin" />جاري تحميل تفاصيل الطلب...</div><UiButton onClick={closeOrderDetails} className="hidden md:inline-flex">إغلاق</UiButton></div>

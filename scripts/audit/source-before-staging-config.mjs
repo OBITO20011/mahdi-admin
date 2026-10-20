@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
-import {inventory} from './table-access-inventory.mjs';
+import {inventoryBeforeSales204 as inventory} from './source-before-sales-history204.mjs';
 import {restoreUnitSourceHashes} from './source-before-unit-terminology.mjs';
 import {projectHistoricalWarehouseQuerySites} from './historical-warehouse-query-sites.mjs';
 const pins={

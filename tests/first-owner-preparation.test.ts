@@ -9,7 +9,7 @@ import {execFileSync} from 'node:child_process';
 import {bindFirstOwnerSql,validateFirstOwner} from '../scripts/operations/first-owner-core.mjs';
 import {firstOwnerArguments} from '../scripts/operations/frankfurt-first-owner.mjs';
 import {assertFirstOwner198Access,readFirstOwner198Reference} from '../scripts/operations/first-owner-reference198.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+import {inventoryBeforeSales204 as inventory} from '../scripts/audit/source-before-sales-history204.mjs';
 const input={ownerId:'92600000-0000-4000-8000-000000000001',email:'owner@example.test',name:'المالك',branchCode:'BR-MAIN',branchName:'الفرع الرئيسي'};
 test('first owner is a guarded data bootstrap,not an unauthenticated RPC or a second-owner bypass',()=>{
  const sql=bindFirstOwnerSql(input);for(const guard of ['FIRST_OWNER_AUTH_IDENTITY_NOT_CONFIRMED','FIRST_OWNER_ALREADY_INITIALIZED','FIRST_OWNER_REQUIRES_UNUSED_BUSINESS','FIRST_OWNER_BRANCH_MISMATCH'])assert.ok(sql.includes(guard));
@@ -30,6 +30,7 @@ test('first owner198 requires current real access identities,roles,history,catal
  const source=await inventory(),proof=JSON.parse(readFileSync('docs/operations/TABLE_ACCESS_STAGING_198.json','utf8'));
  const reference={migrationCeiling:198,catalog:proof.catalog,buildUtcDate:proof.startedAt.slice(0,10),manifest:proof.manifest.map((name:string)=>({name})),manifestDigest:'attested-by-readReady198Reference'};
  const accepted=assertFirstOwner198Access(reference,JSON.stringify(proof),source);assert.equal(accepted.queries,proof.results.length);
+ const changedSource=structuredClone(source);changedSource.entries[0].id+=':unapproved';assert.throws(()=>assertFirstOwner198Access(reference,JSON.stringify(proof),changedSource),/INCOMPLETE_QUERY_PROBE_COVERAGE/u,'Historical source projection never bypasses exact query identities');
  for(const change of [
   (p:typeof proof)=>{p.migrationCeiling=182;},(p:typeof proof)=>{p.managedAccess=true;},
   (p:typeof proof)=>{p.infrastructureOk=false;},(p:typeof proof)=>{p.applicationReady=false;},

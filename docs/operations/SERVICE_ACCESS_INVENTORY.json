@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 203,
+  "migrationCeiling": 204,
   "managedAccess": false,
   "sourceHashes": [
     {
       "file": "src/App.tsx",
-      "sha256": "6fe758edd96d3b73b10d1d879bcd8a77676ef0466c2a847fb09f2b58d8df3ac0"
+      "sha256": "0f69e57b616d6836e890c9ce682c5ee0e57127df50c73232d9e9c89e85d0fc13"
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",
@@ -37,11 +37,11 @@
     },
     {
       "file": "src/components/layout/SideNav.tsx",
-      "sha256": "7cdaba3b3e8e875e5422bdf92bc5aaf65b8bea9cbb476d764816013dbfc7a023"
+      "sha256": "462405f6980a270d182406b75d173e9c38b704bfc3ca393d5712bd381bbc8fd1"
     },
     {
       "file": "src/components/layout/sideNavigationModel.ts",
-      "sha256": "093a41f378e09a24fa82f6bb1e15f0c11bdb88de2541ceb4ea2606f1218f0d2e"
+      "sha256": "f31ca0c5877c2464a9af6c6a314c09b77002e479c359b56f8d16d288edad71c5"
     },
     {
       "file": "src/components/modals/AllModals.tsx",
@@ -229,11 +229,11 @@
     },
     {
       "file": "src/features/dashboard/DashboardHome.tsx",
-      "sha256": "6883e1cc8528ca7a1cc1bba20146e04d8c2dce9677c15de5f8c11e898c78e014"
+      "sha256": "9f969bb4e272f2c92b280c4819bc97e6835c6012be055f3f4ed9ac9872ae3925"
     },
     {
       "file": "src/features/dashboard/DashboardView.tsx",
-      "sha256": "a86c9ebff80da769cb224a15621e40354d19607d7a7d228b718a2605db4a0d3a"
+      "sha256": "2afa33e459e2ca21e8c032f683105af8815df5781e8fb69e123d193fa21acb26"
     },
     {
       "file": "src/features/dashboard/KpiCards.tsx",
@@ -313,7 +313,7 @@
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
-      "sha256": "161f89f8b1c3b7d7d1711e3f208feffff5182fb398db4d14be3443cb35f4a798"
+      "sha256": "15a555ae7386a42b5b3503cb6757d051aec0761cf832fa36d23bb29133d9f5b0"
     },
     {
       "file": "src/features/more/InstallAppPanel.tsx",
@@ -325,7 +325,7 @@
     },
     {
       "file": "src/features/more/MoreMenuView.tsx",
-      "sha256": "aa7305dec056215dafa6298d122ead2232cb768b276dcae661ab108068723de2"
+      "sha256": "f4fab17e587ce8daa6b209da95477b7800bf916733632c85550a94c0a517c247"
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
@@ -365,19 +365,19 @@
     },
     {
       "file": "src/features/orders/OrderCommercialSummary.tsx",
-      "sha256": "b324c808c946fcc56e3119f0bbc0be258d86448ce97a1798cc62c198fe5bf6b1"
+      "sha256": "f1e2b88f7e7e89cf0fd203937cd233ba2e4c6319fe591c39b5f71a843892cad3"
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "49899aa8b91ae4a875833a6ee308d770b7a76adba611a07d5ce7a207f8216dd1"
+      "sha256": "4451c40f80d64fe034b67fc972eb0ba5ca07b449f5baf7d6b68d0041d8e39925"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
-      "sha256": "ddeb45cdcbe71aeca4e4a4b47de721c3e9c605e081b0c98563a367198b2f9ca6"
+      "sha256": "9d1217e90ab1016e6c68fa37e63bbd09bd28d36d044ecda58375d58d3fe8836a"
     },
     {
       "file": "src/features/orders/orderStatus.ts",
-      "sha256": "8bfa3800d5f227cb14f8be13a04004f77d1106c7026ed521ed6956587fe127ea"
+      "sha256": "60446e01ef40baed6312fa3be74ec2a193d7301d1e88fa43484a0adad9a87388"
     },
     {
       "file": "src/features/pos/BarcodeScannerModal.tsx",
@@ -464,6 +464,18 @@
       "sha256": "48dd1e985da9afc84733b08bca408be2abae4b2c5ccc6fc3d1a4239d0edee659"
     },
     {
+      "file": "src/features/salesHistory/RecentSalesCard.tsx",
+      "sha256": "a67a2c2d2abc58d5a077b1610dd6e11aa19ad2092c72615dbae590b69f6a07b5"
+    },
+    {
+      "file": "src/features/salesHistory/SalesHistoryView.tsx",
+      "sha256": "8162956dbb17ce66000f1af58c53563098f5da0fa512827d20b61ba0ddf12f49"
+    },
+    {
+      "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
+      "sha256": "1d9e72833f0d25e75acd92c5966530bb761a288aaa9b98da6492dff4c7154967"
+    },
+    {
       "file": "src/features/shifts/OwnerWithdrawalsPanel.tsx",
       "sha256": "50e36c2dd2b4dc79a5a8323ed4a2aee37b59ea5f72448c8df24a47e1ed69f182"
     },
@@ -506,6 +518,10 @@
     {
       "file": "src/hooks/useDrawerShortfallConfirm.tsx",
       "sha256": "20384c7ad7b77fce7837257b06575bb9b80b6fcfed493ca6c827c82b96470e87"
+    },
+    {
+      "file": "src/hooks/useSalesHistory.ts",
+      "sha256": "2b7740b772b77b00f23710f110c6dfe885528a7854799da8e40ab21cbf7c2d40"
     },
     {
       "file": "src/lib/async.ts",
@@ -625,7 +641,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "sha256": "319c2b273983b853ebd372000bee2b38380a657b2c6e78ada783abc5be24a868"
+      "sha256": "0148c128963e3962b0a59d7bcb799e744fe8417128689668f523276f0ed6650e"
     },
     {
       "file": "src/services/supabase/ownerWithdrawals.service.ts",
@@ -684,6 +700,10 @@
       "sha256": "ade5738d66af92e957111d2f5d5a8e0128ee0541bf5d23574908795ef7d4f276"
     },
     {
+      "file": "src/services/supabase/salesHistory.service.ts",
+      "sha256": "d85b108f7be04b3decc0f79a71045c9d318e3ee26bd57caf1ece2e43e1443540"
+    },
+    {
       "file": "src/services/supabase/staffAccounts.service.ts",
       "sha256": "a3f441aaa5f5c168e156f12c70e0805886f454446887a378f692fac1373249ae"
     },
@@ -701,7 +721,7 @@
     },
     {
       "file": "src/stores/appStorePreferences.ts",
-      "sha256": "0dc3a67d7620d1702f0d0f24f9c9efba5c04f3c0ce4d1ec97a44362a6c75c0bf"
+      "sha256": "cd20d545115b5095482c03ab8139e3e9885988a355d81f86b4fb84d702c35620"
     },
     {
       "file": "src/stores/modalTypes.ts",
@@ -842,6 +862,10 @@
     {
       "file": "src/utils/roleLabels.ts",
       "sha256": "bc19440ecf8a4dfa5bb5489283118024a3cec09ba7cf84a151657aa325edd091"
+    },
+    {
+      "file": "src/utils/salesHistory.ts",
+      "sha256": "6e94652801ef2b13a994f54e4d6327a4de7d3b392e14b8abe6ede2e27737dd4c"
     },
     {
       "file": "src/utils/supplierCancellationPreview.ts",
@@ -2198,9 +2222,9 @@
       "source": "client().rpc('get_go_live_cheques_v1',{p_page:page,p_page_size:25})"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:618",
+      "id": "src/services/supabase/orders.service.ts:621",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 618,
+      "line": 621,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "confirmOrderInSupabase",
@@ -2212,9 +2236,9 @@
       "source": "supabase.rpc('accept_order_for_preparation', {\n      p_order_id: orderId,\n      p_notes: notes || null,\n    })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:652",
+      "id": "src/services/supabase/orders.service.ts:655",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 652,
+      "line": 655,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "completeWebsiteOrderWithPaymentInSupabase",
@@ -2226,9 +2250,9 @@
       "source": "supabase.rpc(\n      'complete_website_order_with_payment',\n      {\n        p_order_id: orderId,\n        p_payment_method: paymentMethod,\n        p_reference_number: referenceNumber?.trim() || null,\n        p_notes: notes || null,\n      }\n    )"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:697",
+      "id": "src/services/supabase/orders.service.ts:700",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 697,
+      "line": 700,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "cancelOrderInSupabase",
@@ -2240,9 +2264,9 @@
       "source": "supabase.rpc('update_order_status', {\n        p_order_id: orderId,\n        p_new_status: 'cancelled',\n        p_notes: notes || null,\n      })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:740",
+      "id": "src/services/supabase/orders.service.ts:743",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 740,
+      "line": 743,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "fetchOperationalOrdersPageFromSupabase",
@@ -2254,9 +2278,9 @@
       "source": "supabase.rpc('get_operational_orders_page', {\n      p_page: page,\n      p_page_size: pageSize,\n      p_filter: input.filter,\n      p_search: searchQuery,\n      p_sort: sort,\n    })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:852",
+      "id": "src/services/supabase/orders.service.ts:855",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 852,
+      "line": 855,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "fetchOperationalOrdersSummaryFromSupabase",
@@ -2268,9 +2292,9 @@
       "source": "supabase.rpc('get_operational_orders_page', {\n      p_page: 1,\n      p_page_size: 1,\n      p_filter: 'action',\n      p_search: null,\n      p_sort: 'newest',\n    })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:933",
+      "id": "src/services/supabase/orders.service.ts:936",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 933,
+      "line": 936,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "completeWebsiteOrderWithSettlementInSupabase",
@@ -2282,9 +2306,9 @@
       "source": "supabase.rpc('complete_website_order_with_settlement', {\n        p_order_id: input.orderId,\n        p_payment_method: request.paymentMethod,\n        p_amount_collected_in_minor_units: request.amountCollectedInMinorUnits,\n        p_delivery_fee_in_minor_units: request.deliveryFeeInMinorUnits,\n        p_reference_number: request.referenceNumber,\n        p_notes: request.notes,\n      })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:984",
+      "id": "src/services/supabase/orders.service.ts:987",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 984,
+      "line": 987,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "returnCompletedWebsiteOrderInSupabase",
@@ -2296,9 +2320,9 @@
       "source": "supabase.rpc(\n      'return_completed_website_order',\n      {\n        p_order_id: input.orderId,\n        p_reason: input.reason.trim(),\n        p_stock_disposition: input.stockDisposition,\n        p_refund_method: input.refundMethod,\n        p_reference_number: input.referenceNumber?.trim() || null,\n        p_notes: input.notes?.trim() || null,\n      }\n    )"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:1029",
+      "id": "src/services/supabase/orders.service.ts:1032",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1029,
+      "line": 1032,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "updateOrderStatusInSupabase",
@@ -2310,9 +2334,9 @@
       "source": "supabase.rpc('update_order_status', {\n      p_order_id: orderId,\n      p_new_status: newStatus,\n      p_notes: notes || null,\n    })"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:1080",
+      "id": "src/services/supabase/orders.service.ts:1083",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1080,
+      "line": 1083,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "startOrUpdateOrderDeliveryInSupabase",
@@ -2324,9 +2348,9 @@
       "source": "supabase.rpc(\n      'start_or_update_order_delivery',\n      {\n        p_order_id: orderId,\n        p_eta_minutes: etaMinutes,\n        p_driver_phone: driverPhone.trim(),\n        p_notes: notes?.trim() || null,\n      }\n    )"
     },
     {
-      "id": "src/services/supabase/orders.service.ts:1138",
+      "id": "src/services/supabase/orders.service.ts:1141",
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1138,
+      "line": 1141,
       "role": "authenticated",
       "receiver": "supabase",
       "function": "updateOrderDeliveryAddressInSupabase",
@@ -3095,6 +3119,20 @@
       "source": "client.rpc('settle_admin_sales_return_v1', {\n        p_order_id: orderId, p_idempotency_key: key,\n        p_items: payload.items, p_physical_sources: payload.physicalSources,\n        p_reason: payload.reason, p_refund_method: payload.refundMethod,\n        p_reference_number: payload.referenceNumber, p_notes: payload.notes,\n      })"
     },
     {
+      "id": "src/services/supabase/salesHistory.service.ts:10",
+      "file": "src/services/supabase/salesHistory.service.ts",
+      "line": 10,
+      "role": "authenticated",
+      "receiver": "supabase",
+      "function": "fetchSalesHistoryPageFromSupabase",
+      "name": "get_sales_history_page",
+      "dynamic": "'get_sales_history_page'",
+      "arguments": [
+        "{\n      p_page:input.page,p_page_size:input.pageSize,p_period:input.period,\n      p_from_date:input.period==='range'?input.fromDate:null,p_to_date:input.period==='range'?input.toDate:null,\n      p_payment_method:input.paymentMethod??'all',p_source:input.source??'all',\n      p_customer_search:input.customerSearch?.trim()||null,p_number_search:input.numberSearch?.trim()||null,p_sales_only:input.salesOnly??false,\n    }"
+      ],
+      "source": "supabase.rpc('get_sales_history_page',{\n      p_page:input.page,p_page_size:input.pageSize,p_period:input.period,\n      p_from_date:input.period==='range'?input.fromDate:null,p_to_date:input.period==='range'?input.toDate:null,\n      p_payment_method:input.paymentMethod??'all',p_source:input.source??'all',\n      p_customer_search:input.customerSearch?.trim()||null,p_number_search:input.numberSearch?.trim()||null,p_sales_only:input.salesOnly??false,\n    })"
+    },
+    {
       "id": "src/services/supabase/stockAlerts.service.ts:72",
       "file": "src/services/supabase/stockAlerts.service.ts",
       "line": 72,
@@ -3560,7 +3598,7 @@
     },
     {
       "file": "src/services/supabase/orders.service.ts",
-      "line": 1217,
+      "line": 1220,
       "role": "authenticated",
       "source": "client\n    .channel(`public-orders-changes-${crypto.randomUUID()}`)"
     },
@@ -3896,6 +3934,7 @@
     "get_purchase_orders_page",
     "get_push_subscription_status",
     "get_push_webhook_secret",
+    "get_sales_history_page",
     "get_shift_owner_withdrawals_v1",
     "get_stock_alert_notifications",
     "get_supplier_opening_payable_v1",

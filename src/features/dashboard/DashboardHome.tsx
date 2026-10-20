@@ -1,21 +1,11 @@
+import {RecentSalesCard} from '../salesHistory/RecentSalesCard';
+import type {SalesHistoryReadState} from '../../hooks/useSalesHistory';
 import {customerCollectionRows} from '../../utils/customerCollections';
 import React, { useState } from 'react';
-import { AlertTriangle, ChevronLeft, ClipboardList, PackagePlus, ReceiptText, RefreshCw, Truck, Boxes } from 'lucide-react';
-import { Card, KpiCard, KpiGrid, MoneyText, SalesBarChart, SectionHeader, SegmentedControl, StatusBadge, TableShell, Td, Th, Tr, UiButton, formatUiDate, formatUiTime } from '../../components/ui';
-import type { HomeDashboardData, HomeDashboardOrder } from '../../types/dashboard';
+import { ChevronLeft, PackagePlus, ReceiptText, RefreshCw } from 'lucide-react';
+import { Card, KpiCard, KpiGrid, MoneyText, SalesBarChart, SectionHeader, SegmentedControl, StatusBadge, UiButton, formatUiDate, formatUiTime } from '../../components/ui';
+import type { HomeDashboardData } from '../../types/dashboard';
 import type { Shift } from '../../types';
-import type { UiTone } from '../../components/ui/uiFormat';
-
-const statuses: Record<string, { label: string; tone: UiTone }> = {
-  new: { label: 'جديد', tone: 'info' }, confirmed: { label: 'مؤكد', tone: 'warn' },
-  preparing: { label: 'قيد التجهيز', tone: 'warn' }, ready: { label: 'جاهز للتوصيل', tone: 'ok' },
-  out_for_delivery: { label: 'بالتوصيل', tone: 'info' },
-};
-const priority = ['new', 'confirmed', 'preparing', 'ready', 'out_for_delivery'];
-const nextAction: Record<string, string> = {
-  new: 'تأكيد الطلب', confirmed: 'بدء التجهيز', preparing: 'إكمال التجهيز',
-  ready: 'بدء التوصيل', out_for_delivery: 'متابعة التوصيل',
-};
 
 interface DashboardHomeProps {
   data: HomeDashboardData;
@@ -34,18 +24,16 @@ interface DashboardHomeProps {
   onReceive: (productId?: string) => void;
   onExpense: () => void;
   onCheques?:()=>void;
+  salesHistory?:SalesHistoryReadState;
+  onSalesHistory?:()=>void;
+  onInvoice?:(id:string)=>void;
 }
 
 const money = (minor: number | null | undefined, available: boolean) =>
   available && minor != null ? <MoneyText amount={minor / 1000} currency /> : 'غير متاح';
 
-const OrderBadge: React.FC<{ order: HomeDashboardOrder }> = ({ order }) => {
-  const status = statuses[order.status];
-  return <StatusBadge tone={status?.tone ?? 'mute'}>{status?.label ?? order.status}</StatusBadge>;
-};
-
 /** Shared live/harness presentation. Fixtures never enter the live loader. */
-export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserName, currentShift, loading, error, realtimeConnected, onRefresh, onOrders, onAccounts, onInventory, onProducts, onShift, onSell, onReceive, onExpense,onCheques }) => {
+export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserName, currentShift, loading, error, realtimeConnected, onRefresh, onOrders, onAccounts, onInventory, onProducts, onShift, onSell, onReceive, onExpense,onCheques,salesHistory,onSalesHistory,onInvoice }) => {
   const [period, setPeriod] = useState<'day' | 'week' | 'month'>('day');
   const { summary, financialFactsAvailable: available } = data;
   const collections = summary.todayCollections;
@@ -58,16 +46,8 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
   const days = [...data.sevenDaySales].sort((a, b) => a.date.localeCompare(b.date));
   const date = new Date(data.generatedAt);
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Amman', year: 'numeric', month: '2-digit', day: '2-digit' }).format(date);
-  const activeOrders = [...data.latestOrders].filter((order) => priority.includes(order.status))
-    .sort((a, b) => priority.indexOf(a.status) - priority.indexOf(b.status)).slice(0, 4);
-  const count = (values: string[]) => data.orderStatuses.filter((item) => values.includes(item.status)).reduce((sum, item) => sum + item.count, 0);
+  const actionCount = data.orderStatuses.filter(item => ['new','confirmed','preparing','processing','ready','out_for_delivery'].includes(item.status)).reduce((sum,item)=>sum+item.count,0);
   const stockIssues = summary.lowStockCount + summary.outOfStockCount + summary.configurationIssuesCount;
-  const lanes = [
-    { label: 'طلبات جديدة', count: summary.newOrdersCount, Icon: ClipboardList, onClick: onOrders },
-    { label: 'قيد التجهيز', count: count(['confirmed', 'preparing', 'ready']), Icon: Boxes, onClick: onOrders },
-    { label: 'بالتوصيل', count: count(['out_for_delivery']), Icon: Truck, onClick: onOrders },
-    { label: 'تنبيهات المخزون', count: stockIssues, Icon: AlertTriangle, onClick: onInventory },
-  ];
   const periodLabel = period === 'day' ? 'مبيعات اليوم' : period === 'week' ? 'مبيعات آخر 7 أيام' : 'مبيعات الشهر';
   const periodSales = period === 'day' ? summary.todaySalesInMinorUnits : period === 'week' ? days.reduce((sum, day) => sum + day.salesInMinorUnits, 0) : summary.monthSalesInMinorUnits;
   const shift = currentShift?.status === 'open' ? currentShift : null;
@@ -115,28 +95,9 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
           <p className="m-0 text-sm">خلال يومين: <bdi>{data.chequeAlerts.due}</bdi> · متأخرة: <bdi>{data.chequeAlerts.overdue}</bdi></p>
           <p className="m-0 text-sm text-nw-muted">تأكد من كفاية رصيد الشيكات الصادرة: <MoneyText amount={data.chequeAlerts.outgoingDue/1000} currency /></p>
         </Card>}
+        {actionCount>0&&<button onClick={onOrders} className="flex min-h-11 items-center gap-2 text-sm font-semibold text-nw-primary">طلبات تحتاج إجراء: {actionCount}<ChevronLeft className="h-4 w-4" aria-hidden="true"/></button>}
         <div className="flex flex-wrap items-stretch gap-5">
-          <Card aria-labelledby="home-orders-title" className="order-2 min-w-0 flex-[2_1_520px] lg:order-1">
-            <SectionHeader id="home-orders-title" title="طلبات تحتاج إجراء" action={<UiButton onClick={onOrders}>كل الطلبات <ChevronLeft className="h-4 w-4" aria-hidden="true" /></UiButton>} />
-            <div className="mt-3 hidden lg:block">
-              <TableShell caption="طلبات تحتاج إجراء — الإجراء التالي" minWidth={520} head={<><Th>رقم الطلب</Th><Th>العميل</Th><Th>المصدر</Th><Th>الحالة</Th><Th>الإجمالي</Th></>}>
-                {activeOrders.map((order) => <Tr key={order.id}>
-                  <Td><button className="min-h-11 font-semibold text-nw-primary" onClick={onOrders} aria-label={`${nextAction[order.status]} ${order.orderNumber}`}><bdi>{order.orderNumber}</bdi></button></Td>
-                  <Td className="max-w-40 break-words">{order.customerName}</Td><Td>{order.source === 'pos' ? 'الكاشير' : order.source === 'website' ? 'المتجر' : order.source === 'admin' ? 'الإدارة' : order.source}</Td>
-                  <Td><OrderBadge order={order} /></Td><Td><MoneyText amount={order.totalInMinorUnits / 1000} /></Td>
-                </Tr>)}
-              </TableShell>
-            </div>
-            <div className="mt-3 space-y-2 lg:hidden">
-              {lanes.map(({ label, count: amount, Icon, onClick }) => <button key={label} onClick={onClick} className="flex min-h-14 w-full items-center gap-3 rounded-xl bg-nw-surface-2 px-3 py-2 text-right">
-                <Icon className="h-5 w-5 shrink-0 text-nw-muted" aria-hidden="true" /><span className="min-w-0 flex-1 text-sm font-semibold">{label}</span><StatusBadge tone={amount ? 'info' : 'mute'}>{amount}</StatusBadge><ChevronLeft className="h-4 w-4 text-nw-muted" aria-hidden="true" />
-              </button>)}
-              {activeOrders.map((order) => <button key={order.id} onClick={onOrders} className="flex min-h-14 w-full flex-wrap items-center justify-between gap-2 rounded-xl border border-nw-border p-3 text-right">
-                <span className="min-w-0 flex-1 break-words text-sm"><bdi className="font-bold">{order.orderNumber}</bdi> · {order.customerName}<span className="mt-1 block text-xs text-nw-muted">الإجراء التالي: {nextAction[order.status]}</span></span><OrderBadge order={order} />
-              </button>)}
-            </div>
-            {!activeOrders.length && <p className="py-8 text-center text-sm text-nw-muted">لا توجد طلبات معلّقة.</p>}
-          </Card>
+          {salesHistory&&<RecentSalesCard state={salesHistory} onOpen={id=>onInvoice?.(id)} onViewAll={()=>onSalesHistory?.()}/>}
 
           <Card aria-labelledby="home-shift-title" className="order-1 min-w-0 flex-[1_1_280px] lg:order-2">
             <SectionHeader id="home-shift-title" title="الوردية الحالية" action={<StatusBadge tone={shift ? 'ok' : 'mute'}>{shift ? 'مفتوحة' : 'لا توجد وردية مفتوحة'}</StatusBadge>} />
@@ -171,7 +132,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
             <div className="mt-5">{netAvailable ? <SalesBarChart label="صافي المبيعات آخر 7 أيام" points={days.map((day) => ({ id: day.date, label: day.date === today ? 'اليوم' : formatUiDate(`${day.date}T12:00:00+03:00`, { weekday: 'long' }), amount: day.netSalesInMinorUnits! / 1000, current: day.date === today }))} /> : <p className="py-12 text-center text-nw-muted">غير متاح</p>}</div>
           </Card>
           <Card aria-labelledby="home-stock-title" className="min-w-0 flex-[1_1_280px]">
-            <SectionHeader id="home-stock-title" title="تنبيهات المخزون" action={<StatusBadge tone={stockIssues ? 'warn' : 'ok'}>{stockIssues}</StatusBadge>} hint="الجاهزية محسوبة حسب طرد البيع" />
+            <SectionHeader id="home-stock-title" title="تنبيهات المخزون" action={<span className="flex items-center gap-2"><StatusBadge tone={stockIssues ? 'warn' : 'ok'}>{stockIssues}</StatusBadge><UiButton onClick={onInventory}>المخزون</UiButton></span>} hint="الجاهزية محسوبة حسب طرد البيع" />
             <div className="mt-4 space-y-2">
               {data.stockAlerts.slice(0, 5).map((item) => <div key={item.id} className="rounded-xl bg-nw-surface-2 p-3">
                 <div className="flex items-start justify-between gap-2"><p className="min-w-0 break-words text-sm font-semibold">{item.nameAr}</p><StatusBadge tone={item.severity === 'configuration' ? 'info' : item.severity === 'out_of_stock' ? 'bad' : 'warn'}>{item.severity === 'configuration' ? 'إعداد' : item.severity === 'out_of_stock' ? 'نفد' : 'منخفض'}</StatusBadge></div>

@@ -40,8 +40,8 @@ export const SideNav: React.FC<SideNavProps> = ({ collapsed = false }) => {
     shallowEqual,
   );
   const { setActiveTab, openModal } = useAppStoreActions();
-  const { roleName } = useAuthStore();
-  const groups = buildSideNavigation(roleName);
+  const { roleName,roles } = useAuthStore();
+  const groups = buildSideNavigation(roleName,roles);
   const canUseAssistant = ['owner', 'admin', 'manager', 'accountant'].includes(roleName || '');
 
   const run = (action: AdminNavigationAction) => {

@@ -2,56 +2,44 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Integrate PR5 accepted201-203;exact featureFULL33 and secrets green;genuine mainmerge then exactmainFULL33+secrets;owner203upgrade prepared only;then package3 sales history.No hosted access/deploy.",
-  "baselineSha": "74f8049c6565e6295d3d32d5ecbebdee904b4bb4",
+  "objective": "Integrate accepted package3 sales history204;featureFULL34 and secrets verified;genuine mainmerge and exactmainFULL34+secrets;then package4 in order.Prepare owner204 upgrade per latest request;no hostedaccess/deploy.",
+  "baselineSha": "6a0aebbbcffe530b9417fa18702597d3c335eb51",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "Security200 PR4/main74f8049 delivered;FULL30+secrets exactSHA verified",
-    "201 feature79b30be pushed;PR5 attached;Gitleaks4.25MB0;all local quality PASS",
-    "PR5/79b30be exactFULL31 push39309373132+PR39309433117;secrets39309373142/39309433247 SUCCESS verified",
-    "202 runtime10/SDK142/RPC495/FULLscale2336.947ms/ref164-516-13/upgrade200-202/replay/reset/offline PASS",
-    "202 corrective5b1a97b committed;Gitleaks4.15MB0;all local quality PASS",
-    "Reproduced202 undated payment1000 omitted with drawer101000;superseded FULL5b1 push+PR canceled before merge",
-    "203 final8realDB/SDK142/RPC495/FULLscale2348.992ms/ref165-516-13/upgrade200-203/replay/reset/offline ALLPASS",
-    "203feature68e43f3 exactFULL33 push39332353468/PR39332358298 + bothsecrets SUCCESS;strict requiredjobs verified"
+    "PR5/main6a FULL33+secrets delivered",
+    "C3 local1285Admin192Customer108affectedbrowser/realDB/FULLscale/ref/upgrade/reset PASS",
+    "C3 featurefa66444ee9cf765cf8c9471015789c72df008736 exactpush+PR FULL34 and secrets strictverified"
   ],
   "inProgress": [
-    "Genuine PR5 mainmerge staged;main exactFULL33+secrets follows"
+    "Genuine package3 mainmerge;exactmainFULL34+secrets next"
   ],
   "notStarted": [
-    "Packages3-7 ordered in PHASE_C_CONTRACT;each separate PR/fullCI/merge",
-    "Item20 design then mandatory Claude review STOP;supplier replacement later"
+    "Package4 parcel/product/receiving then ordered5-9;ask only new financial decision"
   ],
   "testsPassed": [
-    "201 closed evidence and79b30be exactFULL31 retained unchanged;see HOME_DAMAGE_201_DELIVERY.json",
-    "202 10realDB proofs,SDK142/142,RPC495/0SQL42501,FULL p95 2336.947ms<3000;fresh/incremental0diff;upgrade/reset/offline PASS",
-    "202 34affectedbrowser Chromium/WebKit390/1440/light/dark/HTTPmap/print/axe;Admin+Customer types/strictlint192Customer PASS",
-    "Final1273Admin192Customer/typesboth/strictlint/buildsboth/SEO/network0escaped PASS;all known test/doc drifts corrected exactly",
-    "203 final1277Admin192Customer/typesboth/strictlint/buildsboth/networkPASS;sourceUI identical202 so34browser retained",
-    "Main integration35/35+preflight PASS;source/tests/scripts/SQL/customer/workflows identical exactgreen68e43f3"
+    "Corelocal gates in SALES_HISTORY_204_DELIVERY.json;final108effectivebrowser,current142SDK498RPC"
   ],
   "testsRemaining": [
-    "Main exactFULL33+secrets;then package3"
+    "Main exactFULL34+secrets"
   ],
   "findings": [
-    "Legacy opening-stock/receive_inventory bypass proposals only;see LEGACY_PRODUCT_COST_200_AR.md",
-    "Initial201 scale3266.919ms failed;fixed daily rescan and preserved BEFORE_FIX evidence;current2598.207ms PASS"
+    "Latest owner explicitly requests new migration upgrade command;204 prepared owner-only,accepts prior203"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Frankfurt/Production/hosted access,secrets or deployment",
-    "Committed001-203 immutable;package3 only next after main exactFULL33",
-    "One writer;no tracked edits during local verification;no assertion/retry/timeout weakening"
+    "No Frankfurt/Production/hostedaccess,secrets or deployment",
+    "Committed001-203 immutable;only additive204readonly history reader within owner21/22",
+    "One writer;no tracked edits during verification;no financial formula/ACL expansion or weakened assertions/retries/timeouts"
   ],
-  "nextExactAction": "35mainintegration/preflight PASS;source identical green68e43f3. Gitleaks then genuine PR5merge commit/pushmain,exactFULL33+secrets and package3",
-  "checkpointedAt": "2026-10-19T22:33:56.135Z",
+  "nextExactAction": "Commit genuine PR6 merge of exactgreen fa66444;push main;verify exactmainFULL34+secrets then package4.Owner204 CLI prepared offline only.",
+  "checkpointedAt": "2026-10-20T10:02:14.331Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "workingTreeFingerprint": "7FDE16B724065D78E2D7B7C797B2F69458BD454958F4238ADB70DAAFF9D9FAB8",
-  "filesTouchedCount": 109,
-  "filesTouchedManifestSha256": "ac651d1923f1827a6664263cf84c475b52fa9089e095a17b379b465861a1c005"
+  "workingTreeFingerprint": "0A76F040A8B133E9FD30E36972115752452FBE87C4FA8308D616115D0B1CFA6A",
+  "filesTouchedCount": 103,
+  "filesTouchedManifestSha256": "d0e422ec54096de5542f1cc72327c290312b83d87abcd4f19a404b68da30d2af"
 }

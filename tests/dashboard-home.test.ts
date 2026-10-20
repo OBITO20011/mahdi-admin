@@ -59,8 +59,11 @@ test('the operational home removes the legacy dashboard overload', () => {
 });
 
 test('the home is a focused daily work center, not a reports shortcut', () => {
-  for (const label of ['مركز اليوم', 'طلبات جديدة', 'قيد التجهيز', 'بالتوصيل', 'ذمم العملاء', 'الإجراء التالي']) assert.ok(presentation.includes(label), label);
+  for (const label of ['مركز اليوم', 'طلبات تحتاج إجراء', 'ذمم العملاء', 'المخزون']) assert.ok(presentation.includes(label), label);
   assert.match(view, /setActiveTab\('orders'\)/);
+  assert.match(view, /setActiveTab\('sales_history'\)/);
+  assert.match(presentation, /RecentSalesCard/);
+  assert.match(readFileSync('src/features/salesHistory/RecentSalesCard.tsx','utf8'), /آخر مبيعات اليوم/);
   assert.match(view, /setActiveTab\('accounts'\)/);
   assert.match(view, /openModal\('receive_goods'/);
   assert.doesNotMatch(view, /setActiveTab\('reports'\)/);

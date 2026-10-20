@@ -37,6 +37,8 @@ interface OrderDetailModalProps {
   onClose: () => void;
   onOrderChanged?: () => Promise<void>;
   embedded?: boolean;
+  historyContext?: boolean;
+  onPrint?: () => void;
 }
 
 const STATUS_LABELS: Record<string, string> = {
@@ -113,6 +115,8 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   onClose,
   onOrderChanged,
   embedded = false,
+  historyContext = false,
+  onPrint,
 }) => {
   const {
     confirmOrder,
@@ -152,7 +156,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   const [latestTrackingUrl, setLatestTrackingUrl] = useState('');
   const nextStep = nextOrderStep(order.status);
   const phoneViewport = useSyncExternalStore(subscribePhoneViewport, isPhoneViewport, () => false);
-  const fullScreenDetail = embedded && phoneViewport;
+  const fullScreenDetail = embedded && phoneViewport && !historyContext;
   const detailFocus = useDialogFocus(!embedded || fullScreenDetail, () => { if (!busy) onClose(); }, true);
   const handleAftercareContract = useCallback((capability: AdminAftercareCapability | null) => {
     setAftercareCapability(capability);
@@ -361,7 +365,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   return (
     <div ref={detailFocus as React.RefObject<HTMLDivElement>} role={!embedded || fullScreenDetail ? 'dialog' : undefined} aria-modal={!embedded || fullScreenDetail ? true : undefined} aria-label={`تفاصيل الطلب ${order.orderNumber}`} aria-busy={busy} className="order-detail space-y-4 break-words text-sm text-nw-text">
       {embedded && <header className="sticky top-0 z-10 -mx-4 -mt-4 border-b border-nw-border bg-nw-bg p-4 pt-[max(1rem,env(safe-area-inset-top))] md:hidden">
-        <UiButton aria-label="رجوع للطلبات" onClick={onClose} disabled={busy}><ChevronRight className="h-4 w-4" />رجوع للطلبات</UiButton>
+        <UiButton aria-label={historyContext ? "إغلاق الفاتورة" : "رجوع للطلبات"} onClick={onClose} disabled={busy}><ChevronRight className="h-4 w-4" />{historyContext ? "إغلاق الفاتورة" : "رجوع للطلبات"}</UiButton>
       </header>}
       <div className="flex items-start justify-between border-b border-nw-border pb-3">
         <div className="md:min-w-0 md:flex-1">
@@ -388,7 +392,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
 
       <bdi dir="ltr" className="block text-xs text-nw-muted">{order.customerPhone || 'لا يوجد رقم هاتف'}</bdi>
       <p className="text-xs text-nw-muted">{order.governorate} · {order.region} · {order.address}</p>
-      <UiButton onClick={() => window.print()} className="w-full print:hidden"><Printer className="h-4 w-4" />طباعة الطلب</UiButton>
+      <UiButton onClick={onPrint ?? (() => window.print())} className="w-full print:hidden"><Printer className="h-4 w-4" />طباعة الطلب</UiButton>
       {embedded && <OrderCommercialSummary order={order} />}
 
       <section className="rounded-2xl border border-nw-info p-3 md:sticky md:top-0 md:z-10 md:bg-nw-surface">
@@ -469,6 +473,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         )}
       </section>
 
+      <details open={!historyContext} className={historyContext ? "sales-invoice-rare-actions rounded-xl border border-nw-border p-3" : "contents"}><summary className={historyContext ? "min-h-11 cursor-pointer py-3 font-semibold" : "hidden"}>⋯ إجراءات الفاتورة والمرتجع</summary>
       <div id={`order-action-area-${order.id}`} className="space-y-2 scroll-mt-4">
 
         {(showDeliveryEtaForm || order.status === 'out_for_delivery') && (
@@ -822,7 +827,7 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         {['completed', 'delivered'].includes(order.status) && (
           <div className="flex items-center justify-center gap-1.5 rounded-xl border border-nw-ok bg-nw-ok-bg p-3 font-bold text-nw-text">
             <CheckCircle2 className="h-4 w-4" />
-            تم التسليم وخصم الكمية من المخزون
+            {historyContext ? "حالة الفاتورة: مكتملة" : "تم التسليم وخصم الكمية من المخزون"}
           </div>
         )}
 
@@ -934,6 +939,8 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
           </div>
         )}
       </div>
+
+      </details>
 
       <details open={!embedded} className="rounded-xl border border-nw-border p-3"><summary className="min-h-11 cursor-pointer py-2 font-bold text-nw-primary">التواصل وملف العميل</summary>
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-nw-border bg-nw-surface-2 p-3">

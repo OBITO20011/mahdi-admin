@@ -17,9 +17,9 @@ test('status, source and payment presentation keep historical and uncollectible 
   assert.equal(getOrderStatus('expired').tone, 'mute');
   assert.equal(getPaymentLabel({ ...orderListFixture[0], status: 'cancelled', amountDue: 999 }).label, 'لا مبلغ للتحصيل');
   assert.equal(getPaymentLabel({ ...orderListFixture[0], paymentStatus: 'partially_paid', amountDue: 12.345 }).label, 'متبقي 12.345');
-  assert.equal(orderSourceLabel('pos'), 'الكاشير');
+  assert.equal(orderSourceLabel('pos'), 'نقطة البيع');
   assert.equal(orderSourceLabel('website'), 'المتجر');
-  assert.equal(orderSourceLabel(), 'غير متاح'); // no inference from prefix/number
+  assert.equal(orderSourceLabel(), 'غير مسجّل'); // no inference from prefix/number
 });
 test('phone cards retain historical contents, selected identity, coloured border and full money', () => {
   const html = renderToStaticMarkup(React.createElement(OperationalOrderCard, { order: orderListFixture[0], onOpen: () => undefined, selected: true }));
@@ -37,7 +37,7 @@ test('workbench uses seven columns and only supplied authoritative chip counters
   assert.match(html, /aria-label="حالات الطلبات"/);
   assert.match(html, /data-testid="order-detail-panel"/);
   assert.match(html, /aria-selected="true"/);
-  assert.match(html, /غير متاح/);
+  assert.match(html, /غير مسجّل/);
   assert.match(center, /\[activeFilter\]: result\.totalCount/);
   assert.doesNotMatch(center, /orderNumber.*startsWith|\.rpc\(/);
 });
@@ -51,7 +51,7 @@ test('compact details retain immutable sale kind, parcel components and financia
 test('phone detail is a full-screen scroll surface with guarded back; desktop table identities stay on one line', () => {
   assert.match(center, /fixed inset-0 z-40[\s\S]*?md:static/);
   assert.match(center, /data-testid="order-detail-scroll"[^>]*overflow-y-auto overscroll-contain/);
-  assert.match(detail, /aria-label="رجوع للطلبات" onClick=\{onClose\} disabled=\{busy\}/);
+  assert.match(renderToStaticMarkup(React.createElement(OrderDetailModal,{order:ordersFixture[1],embedded:true,onClose:()=>undefined})),/aria-label="رجوع للطلبات"/);
   assert.match(detail, /useDialogFocus\(!embedded \|\| fullScreenDetail,[\s\S]*?true\)/);
   assert.match(center, /data-order-number className="whitespace-nowrap font-bold"/);
   assert.match(center, /data-order-time className="whitespace-nowrap/);

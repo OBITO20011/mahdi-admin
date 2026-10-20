@@ -1,0 +1,544 @@
+{
+  "baseline": "6a0aebbbcffe530b9417fa18702597d3c335eb51",
+  "entries": {
+    "src/App.tsx": {
+      "before": "6fe758edd96d3b73b10d1d879bcd8a77676ef0466c2a847fb09f2b58d8df3ac0",
+      "after": "0f69e57b616d6836e890c9ce682c5ee0e57127df50c73232d9e9c89e85d0fc13",
+      "hunks": [
+        {
+          "at": 31,
+          "before": [],
+          "after": [
+            "const SalesHistoryView = lazy(() => import('./features/salesHistory/SalesHistoryView').then(module => ({default:module.SalesHistoryView})));"
+          ]
+        },
+        {
+          "at": 184,
+          "before": [],
+          "after": [
+            "      case 'sales_history':",
+            "        return <SalesHistoryView />;"
+          ]
+        }
+      ]
+    },
+    "src/components/layout/SideNav.tsx": {
+      "before": "7cdaba3b3e8e875e5422bdf92bc5aaf65b8bea9cbb476d764816013dbfc7a023",
+      "after": "462405f6980a270d182406b75d173e9c38b704bfc3ca393d5712bd381bbc8fd1",
+      "hunks": [
+        {
+          "at": 43,
+          "before": [
+            "  const { roleName } = useAuthStore();",
+            "  const groups = buildSideNavigation(roleName);"
+          ],
+          "after": [
+            "  const { roleName,roles } = useAuthStore();",
+            "  const groups = buildSideNavigation(roleName,roles);"
+          ]
+        }
+      ]
+    },
+    "src/components/layout/sideNavigationModel.ts": {
+      "before": "093a41f378e09a24fa82f6bb1e15f0c11bdb88de2541ceb4ea2606f1218f0d2e",
+      "after": "f31ca0c5877c2464a9af6c6a314c09b77002e479c359b56f8d16d288edad71c5",
+      "hunks": [
+        {
+          "at": 40,
+          "before": [],
+          "after": [
+            "  'sales-history':'المبيعات',"
+          ]
+        },
+        {
+          "at": 51,
+          "before": [
+            "export const isVisibleToRole = (item: AdminNavigationItem, roleName: string | null | undefined) =>",
+            "  isNavigationItemVisible(item,roleName);"
+          ],
+          "after": [
+            "export const isVisibleToRole = (item: AdminNavigationItem, roleName: string | null | undefined,roles?:readonly string[]) =>",
+            "  isNavigationItemVisible(item,roleName,roles);"
+          ]
+        },
+        {
+          "at": 71,
+          "before": [
+            "export function buildSideNavigation(roleName: string | null | undefined): SideNavGroup[] {"
+          ],
+          "after": [
+            "export function buildSideNavigation(roleName: string | null | undefined,roles?:readonly string[]): SideNavGroup[] {"
+          ]
+        },
+        {
+          "at": 74,
+          "before": [
+            "    const items = group.items.filter((item) => isVisibleToRole(item, roleName)).map(toSideItem);"
+          ],
+          "after": [
+            "    const items = group.items.filter((item) => isVisibleToRole(item, roleName,roles)).map(toSideItem);"
+          ]
+        }
+      ]
+    },
+    "src/features/dashboard/DashboardHome.tsx": {
+      "before": "6883e1cc8528ca7a1cc1bba20146e04d8c2dce9677c15de5f8c11e898c78e014",
+      "after": "9f969bb4e272f2c92b280c4819bc97e6835c6012be055f3f4ed9ac9872ae3925",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {RecentSalesCard} from '../salesHistory/RecentSalesCard';",
+            "import type {SalesHistoryReadState} from '../../hooks/useSalesHistory';"
+          ]
+        },
+        {
+          "at": 5,
+          "before": [
+            "import { AlertTriangle, ChevronLeft, ClipboardList, PackagePlus, ReceiptText, RefreshCw, Truck, Boxes } from 'lucide-react';",
+            "import { Card, KpiCard, KpiGrid, MoneyText, SalesBarChart, SectionHeader, SegmentedControl, StatusBadge, TableShell, Td, Th, Tr, UiButton, formatUiDate, formatUiTime } from '../../components/ui';",
+            "import type { HomeDashboardData, HomeDashboardOrder } from '../../types/dashboard';"
+          ],
+          "after": [
+            "import { ChevronLeft, PackagePlus, ReceiptText, RefreshCw } from 'lucide-react';",
+            "import { Card, KpiCard, KpiGrid, MoneyText, SalesBarChart, SectionHeader, SegmentedControl, StatusBadge, UiButton, formatUiDate, formatUiTime } from '../../components/ui';",
+            "import type { HomeDashboardData } from '../../types/dashboard';"
+          ]
+        },
+        {
+          "at": 8,
+          "before": [
+            "import type { UiTone } from '../../components/ui/uiFormat';",
+            "",
+            "const statuses: Record<string, { label: string; tone: UiTone }> = {",
+            "  new: { label: 'جديد', tone: 'info' }, confirmed: { label: 'مؤكد', tone: 'warn' },",
+            "  preparing: { label: 'قيد التجهيز', tone: 'warn' }, ready: { label: 'جاهز للتوصيل', tone: 'ok' },",
+            "  out_for_delivery: { label: 'بالتوصيل', tone: 'info' },",
+            "};",
+            "const priority = ['new', 'confirmed', 'preparing', 'ready', 'out_for_delivery'];",
+            "const nextAction: Record<string, string> = {",
+            "  new: 'تأكيد الطلب', confirmed: 'بدء التجهيز', preparing: 'إكمال التجهيز',",
+            "  ready: 'بدء التوصيل', out_for_delivery: 'متابعة التوصيل',",
+            "};"
+          ],
+          "after": []
+        },
+        {
+          "at": 27,
+          "before": [],
+          "after": [
+            "  salesHistory?:SalesHistoryReadState;",
+            "  onSalesHistory?:()=>void;",
+            "  onInvoice?:(id:string)=>void;"
+          ]
+        },
+        {
+          "at": 34,
+          "before": [
+            "const OrderBadge: React.FC<{ order: HomeDashboardOrder }> = ({ order }) => {",
+            "  const status = statuses[order.status];",
+            "  return <StatusBadge tone={status?.tone ?? 'mute'}>{status?.label ?? order.status}</StatusBadge>;",
+            "};",
+            ""
+          ],
+          "after": []
+        },
+        {
+          "at": 36,
+          "before": [
+            "export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserName, currentShift, loading, error, realtimeConnected, onRefresh, onOrders, onAccounts, onInventory, onProducts, onShift, onSell, onReceive, onExpense,onCheques }) => {"
+          ],
+          "after": [
+            "export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserName, currentShift, loading, error, realtimeConnected, onRefresh, onOrders, onAccounts, onInventory, onProducts, onShift, onSell, onReceive, onExpense,onCheques,salesHistory,onSalesHistory,onInvoice }) => {"
+          ]
+        },
+        {
+          "at": 49,
+          "before": [
+            "  const activeOrders = [...data.latestOrders].filter((order) => priority.includes(order.status))",
+            "    .sort((a, b) => priority.indexOf(a.status) - priority.indexOf(b.status)).slice(0, 4);",
+            "  const count = (values: string[]) => data.orderStatuses.filter((item) => values.includes(item.status)).reduce((sum, item) => sum + item.count, 0);"
+          ],
+          "after": [
+            "  const actionCount = data.orderStatuses.filter(item => ['new','confirmed','preparing','processing','ready','out_for_delivery'].includes(item.status)).reduce((sum,item)=>sum+item.count,0);"
+          ]
+        },
+        {
+          "at": 50,
+          "before": [
+            "  const lanes = [",
+            "    { label: 'طلبات جديدة', count: summary.newOrdersCount, Icon: ClipboardList, onClick: onOrders },",
+            "    { label: 'قيد التجهيز', count: count(['confirmed', 'preparing', 'ready']), Icon: Boxes, onClick: onOrders },",
+            "    { label: 'بالتوصيل', count: count(['out_for_delivery']), Icon: Truck, onClick: onOrders },",
+            "    { label: 'تنبيهات المخزون', count: stockIssues, Icon: AlertTriangle, onClick: onInventory },",
+            "  ];"
+          ],
+          "after": []
+        },
+        {
+          "at": 98,
+          "before": [],
+          "after": [
+            "        {actionCount>0&&<button onClick={onOrders} className=\"flex min-h-11 items-center gap-2 text-sm font-semibold text-nw-primary\">طلبات تحتاج إجراء: {actionCount}<ChevronLeft className=\"h-4 w-4\" aria-hidden=\"true\"/></button>}"
+          ]
+        },
+        {
+          "at": 100,
+          "before": [
+            "          <Card aria-labelledby=\"home-orders-title\" className=\"order-2 min-w-0 flex-[2_1_520px] lg:order-1\">",
+            "            <SectionHeader id=\"home-orders-title\" title=\"طلبات تحتاج إجراء\" action={<UiButton onClick={onOrders}>كل الطلبات <ChevronLeft className=\"h-4 w-4\" aria-hidden=\"true\" /></UiButton>} />",
+            "            <div className=\"mt-3 hidden lg:block\">",
+            "              <TableShell caption=\"طلبات تحتاج إجراء — الإجراء التالي\" minWidth={520} head={<><Th>رقم الطلب</Th><Th>العميل</Th><Th>المصدر</Th><Th>الحالة</Th><Th>الإجمالي</Th></>}>",
+            "                {activeOrders.map((order) => <Tr key={order.id}>",
+            "                  <Td><button className=\"min-h-11 font-semibold text-nw-primary\" onClick={onOrders} aria-label={`${nextAction[order.status]} ${order.orderNumber}`}><bdi>{order.orderNumber}</bdi></button></Td>",
+            "                  <Td className=\"max-w-40 break-words\">{order.customerName}</Td><Td>{order.source === 'pos' ? 'الكاشير' : order.source === 'website' ? 'المتجر' : order.source === 'admin' ? 'الإدارة' : order.source}</Td>",
+            "                  <Td><OrderBadge order={order} /></Td><Td><MoneyText amount={order.totalInMinorUnits / 1000} /></Td>",
+            "                </Tr>)}",
+            "              </TableShell>",
+            "            </div>",
+            "            <div className=\"mt-3 space-y-2 lg:hidden\">",
+            "              {lanes.map(({ label, count: amount, Icon, onClick }) => <button key={label} onClick={onClick} className=\"flex min-h-14 w-full items-center gap-3 rounded-xl bg-nw-surface-2 px-3 py-2 text-right\">",
+            "                <Icon className=\"h-5 w-5 shrink-0 text-nw-muted\" aria-hidden=\"true\" /><span className=\"min-w-0 flex-1 text-sm font-semibold\">{label}</span><StatusBadge tone={amount ? 'info' : 'mute'}>{amount}</StatusBadge><ChevronLeft className=\"h-4 w-4 text-nw-muted\" aria-hidden=\"true\" />",
+            "              </button>)}",
+            "              {activeOrders.map((order) => <button key={order.id} onClick={onOrders} className=\"flex min-h-14 w-full flex-wrap items-center justify-between gap-2 rounded-xl border border-nw-border p-3 text-right\">",
+            "                <span className=\"min-w-0 flex-1 break-words text-sm\"><bdi className=\"font-bold\">{order.orderNumber}</bdi> · {order.customerName}<span className=\"mt-1 block text-xs text-nw-muted\">الإجراء التالي: {nextAction[order.status]}</span></span><OrderBadge order={order} />",
+            "              </button>)}",
+            "            </div>",
+            "            {!activeOrders.length && <p className=\"py-8 text-center text-sm text-nw-muted\">لا توجد طلبات معلّقة.</p>}",
+            "          </Card>"
+          ],
+          "after": [
+            "          {salesHistory&&<RecentSalesCard state={salesHistory} onOpen={id=>onInvoice?.(id)} onViewAll={()=>onSalesHistory?.()}/>}"
+          ]
+        },
+        {
+          "at": 135,
+          "before": [
+            "            <SectionHeader id=\"home-stock-title\" title=\"تنبيهات المخزون\" action={<StatusBadge tone={stockIssues ? 'warn' : 'ok'}>{stockIssues}</StatusBadge>} hint=\"الجاهزية محسوبة حسب طرد البيع\" />"
+          ],
+          "after": [
+            "            <SectionHeader id=\"home-stock-title\" title=\"تنبيهات المخزون\" action={<span className=\"flex items-center gap-2\"><StatusBadge tone={stockIssues ? 'warn' : 'ok'}>{stockIssues}</StatusBadge><UiButton onClick={onInventory}>المخزون</UiButton></span>} hint=\"الجاهزية محسوبة حسب طرد البيع\" />"
+          ]
+        }
+      ]
+    },
+    "src/features/dashboard/DashboardView.tsx": {
+      "before": "a86c9ebff80da769cb224a15621e40354d19607d7a7d228b718a2605db4a0d3a",
+      "after": "2afa33e459e2ca21e8c032f683105af8815df5781e8fb69e123d193fa21acb26",
+      "hunks": [
+        {
+          "at": 7,
+          "before": [],
+          "after": [
+            "import {useAuthStore} from '../../stores/useAuthStore';",
+            "import {useSalesHistory} from '../../hooks/useSalesHistory';",
+            "import {canReadSalesHistory} from '../../utils/salesHistory';",
+            "import {SalesInvoiceDialog} from '../salesHistory/SalesInvoiceDialog';"
+          ]
+        },
+        {
+          "at": 17,
+          "before": [],
+          "after": [
+            "  const {roles,roleName,user}=useAuthStore();",
+            "  const canReadSales=canReadSalesHistory(roles,roleName);",
+            "  const salesHistory=useSalesHistory({page:1,pageSize:5,period:'day',salesOnly:true},canReadSales,user?.id);",
+            "  const [invoiceId,setInvoiceId]=useState<string|null>(null);",
+            "  useEffect(()=>{setInvoiceId(null);},[user?.id,canReadSales]);"
+          ]
+        },
+        {
+          "at": 70,
+          "before": [
+            "  return <DashboardHome data={data} currentUserName={currentUserName} currentShift={currentShift} loading={loading} error={error} realtimeConnected={realtimeConnected}",
+            "    onRefresh={() => void loadDashboard()} onOrders={() => setActiveTab('orders')} onAccounts={() => setActiveTab('accounts')}"
+          ],
+          "after": [
+            "  return <><DashboardHome salesHistory={canReadSales?salesHistory:undefined} onSalesHistory={()=>setActiveTab('sales_history')} onInvoice={setInvoiceId} data={data} currentUserName={currentUserName} currentShift={currentShift} loading={loading} error={error} realtimeConnected={realtimeConnected}",
+            "    onRefresh={() => {void loadDashboard();void salesHistory.reload();}} onOrders={() => setActiveTab('orders')} onAccounts={() => setActiveTab('accounts')}"
+          ]
+        },
+        {
+          "at": 73,
+          "before": [
+            "    onSell={() => setActiveTab('pos')} onReceive={(productId) => openModal('receive_goods', productId ? { productId } : undefined)} onExpense={() => openModal('add_expense')} onCheques={()=>setActiveTab('cheques')} />;"
+          ],
+          "after": [
+            "    onSell={() => setActiveTab('pos')} onReceive={(productId) => openModal('receive_goods', productId ? { productId } : undefined)} onExpense={() => openModal('add_expense')} onCheques={()=>setActiveTab('cheques')} />{invoiceId&&canReadSales&&<SalesInvoiceDialog orderId={invoiceId} onClose={()=>setInvoiceId(null)} onChanged={async()=>{await loadDashboard(true);await salesHistory.reload();}}/>}</>;"
+          ]
+        }
+      ]
+    },
+    "src/features/more/MoreMenuView.tsx": {
+      "before": "aa7305dec056215dafa6298d122ead2232cb768b276dcae661ab108068723de2",
+      "after": "f4fab17e587ce8daa6b209da95477b7800bf916733632c85550a94c0a517c247",
+      "hunks": [
+        {
+          "at": 150,
+          "before": [
+            "  const { signOut, roleName } = useAuthStore();"
+          ],
+          "after": [
+            "  const { signOut, roleName,roles } = useAuthStore();"
+          ]
+        },
+        {
+          "at": 270,
+          "before": [
+            "            (item) => isNavigationItemVisible(item,roleName),"
+          ],
+          "after": [
+            "            (item) => isNavigationItemVisible(item,roleName,roles),"
+          ]
+        }
+      ]
+    },
+    "src/features/more/adminNavigation.config.ts": {
+      "before": "161f89f8b1c3b7d7d1711e3f208feffff5182fb398db4d14be3443cb35f4a798",
+      "after": "15a555ae7386a42b5b3503cb6757d051aec0761cf832fa36d23bb29133d9f5b0",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {canReadSalesHistory} from '../../utils/salesHistory';"
+          ]
+        },
+        {
+          "at": 41,
+          "before": [
+            "  visibility?: 'all' | 'owner' | 'cheque-managers';"
+          ],
+          "after": [
+            "  visibility?: 'all' | 'owner' | 'cheque-managers' | 'order-readers';"
+          ]
+        },
+        {
+          "at": 78,
+          "before": [],
+          "after": [
+            "      {id:'sales-history',label:'سجل المبيعات',description:'كل الفواتير من نقطة البيع والمتجر',icon:ReceiptText,tone:'bg-nw-info-bg text-nw-info',action:{type:'tab',destination:'sales_history'},visibility:'order-readers'},"
+          ]
+        },
+        {
+          "at": 244,
+          "before": [
+            "export const isNavigationItemVisible=(item:AdminNavigationItem,roleName:string|null|undefined)=>",
+            "  item.visibility==='owner'?roleName==='owner':item.visibility==='cheque-managers'?roleName==='owner'||roleName==='manager':true;"
+          ],
+          "after": [
+            "export const isNavigationItemVisible=(item:AdminNavigationItem,roleName:string|null|undefined,roles?:readonly string[])=>",
+            "  item.visibility==='order-readers'?canReadSalesHistory(roles,roleName):item.visibility==='owner'?roleName==='owner':item.visibility==='cheque-managers'?roleName==='owner'||roleName==='manager':true;"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/OrderCommercialSummary.tsx": {
+      "before": "b324c808c946fcc56e3119f0bbc0be258d86448ce97a1798cc62c198fe5bf6b1",
+      "after": "f1e2b88f7e7e89cf0fd203937cd233ba2e4c6319fe591c39b5f71a843892cad3",
+      "hunks": [
+        {
+          "at": 14,
+          "before": [
+            "            <p className=\"text-xs text-nw-muted\">{item.commercialLineKind === 'configurable_parcel' ? 'طرد مشكّل' : item.commercialLineKind === 'legacy_single_sku_parcel' ? 'كرتونة' : item.unit} · <bdi dir=\"ltr\">{item.quantity} × {item.unitPrice.toFixed(3)}</bdi></p>"
+          ],
+          "after": [
+            "            <p className=\"text-xs text-nw-muted\">{item.commercialLineKind === 'configurable_parcel' ? 'طرد مشكّل' : item.commercialLineKind === 'legacy_single_sku_parcel' ? 'طرد' : item.unit} · <bdi dir=\"ltr\">{item.quantity} × {item.unitPrice.toFixed(3)}</bdi></p>"
+          ]
+        },
+        {
+          "at": 18,
+          "before": [
+            "        {!!item.parcelInstances?.length && <details className=\"text-xs\">"
+          ],
+          "after": [
+            "        {!!item.parcelInstances?.length && <details data-commercial-components className=\"text-xs\">"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/OrderDetailModal.tsx": {
+      "before": "49899aa8b91ae4a875833a6ee308d770b7a76adba611a07d5ce7a207f8216dd1",
+      "after": "4451c40f80d64fe034b67fc972eb0ba5ca07b449f5baf7d6b68d0041d8e39925",
+      "hunks": [
+        {
+          "at": 40,
+          "before": [],
+          "after": [
+            "  historyContext?: boolean;",
+            "  onPrint?: () => void;"
+          ]
+        },
+        {
+          "at": 118,
+          "before": [],
+          "after": [
+            "  historyContext = false,",
+            "  onPrint,"
+          ]
+        },
+        {
+          "at": 159,
+          "before": [
+            "  const fullScreenDetail = embedded && phoneViewport;"
+          ],
+          "after": [
+            "  const fullScreenDetail = embedded && phoneViewport && !historyContext;"
+          ]
+        },
+        {
+          "at": 368,
+          "before": [
+            "        <UiButton aria-label=\"رجوع للطلبات\" onClick={onClose} disabled={busy}><ChevronRight className=\"h-4 w-4\" />رجوع للطلبات</UiButton>"
+          ],
+          "after": [
+            "        <UiButton aria-label={historyContext ? \"إغلاق الفاتورة\" : \"رجوع للطلبات\"} onClick={onClose} disabled={busy}><ChevronRight className=\"h-4 w-4\" />{historyContext ? \"إغلاق الفاتورة\" : \"رجوع للطلبات\"}</UiButton>"
+          ]
+        },
+        {
+          "at": 395,
+          "before": [
+            "      <UiButton onClick={() => window.print()} className=\"w-full print:hidden\"><Printer className=\"h-4 w-4\" />طباعة الطلب</UiButton>"
+          ],
+          "after": [
+            "      <UiButton onClick={onPrint ?? (() => window.print())} className=\"w-full print:hidden\"><Printer className=\"h-4 w-4\" />طباعة الطلب</UiButton>"
+          ]
+        },
+        {
+          "at": 476,
+          "before": [],
+          "after": [
+            "      <details open={!historyContext} className={historyContext ? \"sales-invoice-rare-actions rounded-xl border border-nw-border p-3\" : \"contents\"}><summary className={historyContext ? \"min-h-11 cursor-pointer py-3 font-semibold\" : \"hidden\"}>⋯ إجراءات الفاتورة والمرتجع</summary>"
+          ]
+        },
+        {
+          "at": 830,
+          "before": [
+            "            تم التسليم وخصم الكمية من المخزون"
+          ],
+          "after": [
+            "            {historyContext ? \"حالة الفاتورة: مكتملة\" : \"تم التسليم وخصم الكمية من المخزون\"}"
+          ]
+        },
+        {
+          "at": 943,
+          "before": [],
+          "after": [
+            "      </details>",
+            ""
+          ]
+        }
+      ]
+    },
+    "src/features/orders/OrdersCenterView.tsx": {
+      "before": "ddeb45cdcbe71aeca4e4a4b47de721c3e9c605e081b0c98563a367198b2f9ca6",
+      "after": "9d1217e90ab1016e6c68fa37e63bbd09bd28d36d044ecda58375d58d3fe8836a",
+      "hunks": [
+        {
+          "at": 282,
+          "before": [
+            "    selectedOrderId={selectedOrderId} sourceFor={(id) => selectedOrder?.id === id ? selectedOrder.source : undefined} loading={loading} refreshing={refreshing} error={error}"
+          ],
+          "after": [
+            "    selectedOrderId={selectedOrderId} sourceFor={(id) => orders.find(order => order.id === id)?.source} loading={loading} refreshing={refreshing} error={error}"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/orderStatus.ts": {
+      "before": "8bfa3800d5f227cb14f8be13a04004f77d1106c7026ed521ed6956587fe127ea",
+      "after": "60446e01ef40baed6312fa3be74ec2a193d7301d1e88fa43484a0adad9a87388",
+      "hunks": [
+        {
+          "at": 6,
+          "before": [
+            "  bank_transfer: 'تحويل بنكي', debt: 'على الحساب', mixed: 'مختلط',"
+          ],
+          "after": [
+            "  bank_transfer: 'تحويل بنكي', cheque:'شيك', debt: 'على الحساب', mixed: 'مختلط',"
+          ]
+        },
+        {
+          "at": 15,
+          "before": [
+            "export const orderSourceLabel = (source?: string) => source === 'pos' ? 'الكاشير' : source === 'website' ? 'المتجر' : source || 'غير متاح';"
+          ],
+          "after": [
+            "export const orderSourceLabel = (source?: string) => source === 'pos' ? 'نقطة البيع' : source === 'website' ? 'المتجر' : source || 'غير مسجّل';"
+          ]
+        }
+      ]
+    },
+    "src/features/salesHistory/RecentSalesCard.tsx": {
+      "added": true,
+      "after": "a67a2c2d2abc58d5a077b1610dd6e11aa19ad2092c72615dbae590b69f6a07b5",
+      "hunks": []
+    },
+    "src/features/salesHistory/SalesHistoryView.tsx": {
+      "added": true,
+      "after": "8162956dbb17ce66000f1af58c53563098f5da0fa512827d20b61ba0ddf12f49",
+      "hunks": []
+    },
+    "src/features/salesHistory/SalesInvoiceDialog.tsx": {
+      "added": true,
+      "after": "1d9e72833f0d25e75acd92c5966530bb761a288aaa9b98da6492dff4c7154967",
+      "hunks": []
+    },
+    "src/hooks/useSalesHistory.ts": {
+      "added": true,
+      "after": "2b7740b772b77b00f23710f110c6dfe885528a7854799da8e40ab21cbf7c2d40",
+      "hunks": []
+    },
+    "src/services/supabase/orders.service.ts": {
+      "before": "319c2b273983b853ebd372000bee2b38380a657b2c6e78ada783abc5be24a868",
+      "after": "0148c128963e3962b0a59d7bcb799e744fe8417128689668f523276f0ed6650e",
+      "hunks": [
+        {
+          "at": 62,
+          "before": [],
+          "after": [
+            "  source?: string;"
+          ]
+        },
+        {
+          "at": 184,
+          "before": [],
+          "after": [
+            "  source,"
+          ]
+        },
+        {
+          "at": 399,
+          "before": [],
+          "after": [
+            "      source: typeof value.source === 'string' ? value.source : undefined,"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/salesHistory.service.ts": {
+      "added": true,
+      "after": "d85b108f7be04b3decc0f79a71045c9d318e3ee26bd57caf1ece2e43e1443540",
+      "hunks": []
+    },
+    "src/stores/appStorePreferences.ts": {
+      "before": "0dc3a67d7620d1702f0d0f24f9c9efba5c04f3c0ce4d1ec97a44362a6c75c0bf",
+      "after": "cd20d545115b5095482c03ab8139e3e9885988a355d81f86b4fb84d702c35620",
+      "hunks": [
+        {
+          "at": 6,
+          "before": [],
+          "after": [
+            "  'sales_history',"
+          ]
+        }
+      ]
+    },
+    "src/utils/salesHistory.ts": {
+      "added": true,
+      "after": "6e94652801ef2b13a994f54e4d6327a4de7d3b392e14b8abe6ede2e27737dd4c",
+      "hunks": []
+    }
+  }
+}

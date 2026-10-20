@@ -4,7 +4,7 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {inventory} from './table-access-inventory.mjs';
+import {inventoryBeforeSales204 as inventory} from './source-before-sales-history204.mjs';
 import {sourceBeforeStagingConfig} from './source-before-staging-config.mjs';
 import {projectHistoricalWarehouseQuerySites} from './historical-warehouse-query-sites.mjs';
 const file='src/features/crm/CustomerCollectionModal.tsx';

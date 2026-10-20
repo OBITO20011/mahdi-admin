@@ -3,6 +3,7 @@ export const APP_STORE_STORAGE_KEY = 'nawasrah_bm_state_v1';
 export const VALID_ACTIVE_TABS = [
   'home',
   'orders',
+  'sales_history',
   'products',
   'accounts',
   'more',
