@@ -225,6 +225,32 @@
         }
       ]
     },
+    "e2e/package-e-closing.spec.ts": {
+      "before": "8ca079222439a824e0a20c44fb0949497fcc634c07b8dccddbb929eecefd8c33",
+      "after": "beee72d74c82848e58e1a89d3b972b7d07bf68886bdde47c26d48c54793d1bba",
+      "hunks": [
+        {
+          "at": 32,
+          "before": [
+            "  await expect(row('مبيعات كاش')).toContainText('21.000');",
+            "  await expect(row('مبيعات CliQ')).toContainText('18.000');"
+          ],
+          "after": [
+            "  await expect(page.locator('section.grid-cols-3').getByText('مبيعات كاش',{exact:true}).locator('..')).toContainText('21.000');",
+            "  await expect(page.locator('section.grid-cols-3').getByText('مبيعات CliQ',{exact:true}).locator('..')).toContainText('18.000');"
+          ]
+        },
+        {
+          "at": 57,
+          "before": [
+            "  await expect(page.getByText('مبيعات كاش',{exact:true}).locator('..')).toContainText('14.000');"
+          ],
+          "after": [
+            "  await expect(page.locator('section.grid-cols-3').getByText('مبيعات كاش',{exact:true}).locator('..')).toContainText('14.000');"
+          ]
+        }
+      ]
+    },
     "e2e/package-f-cash.spec.ts": {
       "before": "b5a45a65a7678bbe06b2289f50f2cc275cb059dd5e2f21ad88ee5507661aaad1",
       "after": "4d128ac912c28d0efd1f385af537a7e056617979dc586aab7bdac6b11bcc7a09",

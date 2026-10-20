@@ -15,36 +15,39 @@
     "C5 committed/pushed a601193731e9e6696f619a334743bebf4892ffe6;PR8 attached"
   ],
   "inProgress": [
-    "C5 finaltest-only Home201 label correction;new exacthead CI next"
+    "C5 closing legacy selectors scoped;new exacthead FULL36 next"
   ],
   "notStarted": [
     "Following6-9 in ownerorder"
   ],
   "testsPassed": [
-    "1304Admin/31finalevidence;types/strictlint/build/network0;197browser/2oldskips",
+    "1304Admin/31finalevidence;types/strictlint/build/network0;203browser/2oldskips",
     "Actual206 DB9/FULLscale maxp95 151.382ms/ref168-520-13/upgrade200..206/replay/reset PASS",
     "SDK142 OKXa7U/RPC507 Q4HdXv denied0;offline206/205/204/203 PASS;oldrefsunchanged;Gitleaks0"
   ],
   "testsRemaining": [
-    "New exacthead feature FULL36 push+PR/secrets;genuine mainmerge/mainFULL36+secrets"
+    "New exacthead featureFULL36 push+PR/secrets;genuine mainmerge/mainFULL36+secrets"
   ],
   "findings": [
     "a601 CI old Home201 supplier label in four cases;one expectedlabel changed,eight actualcasesPASS",
-    "Money/print/axe/timeout/retry/skip unchanged;no app/SQL/tools/proof change;new exactFULL36 required"
+    "Money/print/axe/timeout/retry/skip unchanged;no app/SQL/tools/proof change;new exactFULL36 required",
+    "0ab core only old closing duplicate-label selectors;3scopedselectors/6casesPASS;all money assertions unchanged"
   ],
   "blockers": [],
-  "activeProcesses": [],
+  "activeProcesses": [
+    "Readonly old0abCI watchers31823/1434 finishing;no localDB/browser"
+  ],
   "prohibitions": [
     "No Production/Frankfurt/hostedaccess,secrets or deployment",
     "001-205 immutable;no financialrule/role/writer change",
     "One writer;no tracked edits during localverification;no weakened assertions/retries/timeouts"
   ],
-  "checkpointedAt": "2026-10-20T19:50:31.372Z",
+  "checkpointedAt": "2026-10-20T20:10:34.599Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
   "filesTouchedCount": 5,
-  "filesTouchedManifestSha256": "d72fdc94e1638c87bf190b8c0874500bb391d2f4322197b5816ba9e7391db9fb",
-  "nextExactAction": "C5 one old Home201 label corrected;8browser+10projection PASS;197effective;all app/SQL/DB/scale/ref/upgrade/reset/offline proofs unchanged. Commit/push correction then exactFULL36+secrets/mainmerge/mainCI and6.No hostedaccess.",
-  "workingTreeFingerprint": "03083002AD7B7A9616D18B6ED1E0DA4079DB524621384CC2F795604B3E02ADB5"
+  "filesTouchedManifestSha256": "785bf9b2035e8a7dc1631e418994f4ba6eac1fce7be1069219638be60f319f77",
+  "nextExactAction": "203browser andprojection10 PASS;only3 old closingselectors scoped,all moneyasserts unchanged. Commit/push then exactnewFULL36+secrets,mainmerge/mainCI,then6.No hostedaccess.",
+  "workingTreeFingerprint": "9110B95227AE925D0B8005B9B22CB178A7A47729719FF893BF9B5D3C60BA0D9A"
 }

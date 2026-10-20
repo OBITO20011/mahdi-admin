@@ -1,3 +1,12 @@
+# Current20Oct — C5 original closing-card selectors scoped
+
+0ab2843 coreCI found duplicate cash/CliQ text in new sharedflow and original
+salesbasis cards. Three selectors now scope originalcards;all amounts/assertions
+unchanged. Six Chromium/WebKit closingcases PASS;203effectivebrowser.
+App/SQL/executabletools/current206proof unchanged;old33projectionpins exact,
+one additional testinverse. New exactFULL36+secrets required beforemerge/mainCI.
+No hostedaccess/deploy.
+
 # Current20Oct — C5 first CI label expectation repaired
 
 Initial a601193 obsolete CI found Home201 supplier label expected old wording.

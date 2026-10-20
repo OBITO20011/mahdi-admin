@@ -22,8 +22,8 @@
     "networkExternalEscaped": 0
   },
   "browser": {
-    "effectivePassed": 197,
-    "affected": 173,
+    "effectivePassed": 203,
+    "affected": 179,
     "newNavigationAndPrint": 24,
     "unchangedProjectSkips": 2,
     "newSkips": 0,
@@ -41,7 +41,8 @@
       1440
     ],
     "ledger": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c5-browser-complete.json",
-    "finalHome201LabelCases": 8
+    "finalHome201LabelCases": 8,
+    "finalClosingSelectorCases": 6
   },
   "access": {
     "functions": 520,
@@ -185,6 +186,12 @@
     "reason": "Old Home201 supplier label;only expected text updated;money/axe/print assertions unchanged",
     "localCasesPassed": 8,
     "sourceSqlToolsProofsUnchanged": true,
-    "newExactFullRequired": true
+    "newExactFullRequired": true,
+    "closingSelector": {
+      "head": "0ab284350f524f2b0638d363f38781583a706808",
+      "reason": "Legacy global cash/CliQ labels now appear in both shared flow and original sales cards;scope original sales cards",
+      "changed": "three selectors only;all amounts and assertions unchanged",
+      "localCasesPassed": 6
+    }
   }
 }
