@@ -1,8 +1,12 @@
+import {CashFlowSummary} from './CashFlowSummary';
 /**
  * Nawasrah Business Manager - RPC-backed shift and cash reconciliation.
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import {useNavigationDrawer} from '../../components/layout/navigationDrawerContext';
+import {useAuthStore} from '../../stores/useAuthStore';
+import {hasNavigationRole} from '../more/adminNavigation.config';
 import {
   AlertCircle,
   CheckCircle2,
@@ -30,17 +34,18 @@ import { OwnerWithdrawalsPanel } from './OwnerWithdrawalsPanel';
 const money = (value: number) => <MoneyText amount={value} currency/>;
 
 export const ShiftsView: React.FC = () => {
+  const {roleName,roles}=useAuthStore();
+  const entry=useNavigationDrawer()?.entryIntent;
+  const withdrawalsEntry=useRef<HTMLDivElement>(null);
   const {
     currentShift,
     recentShifts,
-    currentUser,
     branches,
     activeBranch,
   } = useAppStoreSelector(
     (state) => ({
       currentShift: state.currentShift,
       recentShifts: state.recentShifts,
-      currentUser: state.currentUser,
       branches: state.branches,
       activeBranch: state.activeBranch,
     }),
@@ -242,7 +247,9 @@ export const ShiftsView: React.FC = () => {
     phase42_sales_return: 'مرتجع مبيعات مسوّى',
     shift: 'الوردية',
   }[operationType] ?? operationType);
-  const isOwner = currentUser.role === 'Owner';
+  const isOwner = hasNavigationRole(['owner'],roleName,roles);
+  const withdrawalShiftId=currentShift?.id;
+  useEffect(()=>{if(entry?.type==='owner_withdrawals'&&isOwner&&withdrawalShiftId){withdrawalsEntry.current?.scrollIntoView({block:'start'});withdrawalsEntry.current?.focus();}},[entry,isOwner,withdrawalShiftId]);
 
   const closeDisabled = isSubmitting || !Number.isFinite(actualCash) || actualCash < 0 || (needsReason && discrepancyReason.trim().length < 2);
   const started = currentShift ? new Date(currentShift.startTime) : null;
@@ -357,36 +364,9 @@ export const ShiftsView: React.FC = () => {
               </div>
               <div data-testid="cash-expected"><p className="m-0 mb-1 text-xs text-nw-side-muted">النقد المتوقع بالدرج</p><strong className="text-4xl"><MoneyText amount={currentShift.expectedCash} currency/></strong></div>
             </header>
-            <div className="p-4">
-              <SectionHeader title="حركة الدرج"/>
-              <div className="mt-3 grid gap-0 divide-y divide-nw-border lg:grid-cols-3">
-                {[
-                  ['رصيد افتتاحي',currentShift.openingCash,'text-nw-text'],
-                  ['مبيعات كاش (+)',currentShift.totalCashSales,'text-nw-ok'],
-                  ['سندات قبض كاش (+)',currentShift.cashReceipts,'text-nw-ok'],
-                  ['مبالغ مرتجعات كاش (−)',currentShift.cashRefunds,'text-nw-bad'],
-                  ['مصروفات من الدرج (−)',currentShift.cashExpenses,'text-nw-bad'],
-                  ['دفعات الموردين كاش (−)',currentShift.cashSupplierPayments,'text-nw-bad'],
-                  ...(currentShift.ownerWithdrawals?[['سحوبات المالك (−)',currentShift.ownerWithdrawals,'text-nw-bad']]:[]),
-                  ...(currentShift.ownerWithdrawalReturns?[['إرجاع سحوبات المالك (+)',currentShift.ownerWithdrawalReturns,'text-nw-ok']]:[]),
-                ].map(([label,value,tone])=><div key={label} className="flex min-w-0 items-center justify-between gap-2 py-3 lg:px-3"><span className="text-xs text-nw-muted">{label}</span><strong className={String(tone)}><MoneyText amount={Number(value)}/></strong></div>)}
-              </div>
-              <div className="flex items-center justify-between gap-2 border-t border-nw-border pt-3 text-sm font-bold"><span>المتوقع</span><MoneyText amount={currentShift.expectedCash}/></div>
-            </div>
-            <div className="space-y-3 border-t border-nw-border bg-nw-surface-2 p-4">
-              <SectionHeader title="خارج الدرج" hint="CliQ للحساب البنكي؛ المبيعات الآجلة للذمم"/>
-              <div className="grid gap-2 text-sm sm:grid-cols-2">
-                <div className="flex justify-between gap-2"><span className="text-nw-muted">مبيعات CliQ</span><MoneyText amount={currentShift.totalCliqSales}/></div>
-                <div className="flex justify-between gap-2"><span className="text-nw-muted">سندات قبض CliQ</span><MoneyText amount={currentShift.cliqReceipts}/></div>
-                <div className="flex justify-between gap-2"><span className="text-nw-muted">دفعات الموردين CliQ</span><MoneyText amount={currentShift.cliqSupplierPayments}/></div>
-                <div className="flex justify-between gap-2"><span className="text-nw-muted">مصروفات CliQ</span><MoneyText amount={currentShift.cliqExpenses}/></div>
-                <div className="flex justify-between gap-2"><span className="text-nw-muted">مبالغ مرتجعات CliQ</span><MoneyText amount={currentShift.cliqRefunds}/></div>
-                <div className="flex justify-between gap-2"><span className="text-nw-muted">مبيعات الدين للذمم</span><span>غير متاح</span></div>
-                {currentShift.totalCardSales!==0&&<div className="flex justify-between gap-2"><span className="text-nw-muted">مبيعات بطاقة (تاريخية)</span><MoneyText amount={currentShift.totalCardSales}/></div>}
-              </div>
-            </div>
-          </Card>
-          {isOwner && <OwnerWithdrawalsPanel shift={currentShift} onChanged={() => void refreshExpenseShiftCenterFromSupabase().catch(() => undefined)} />}
+            <div className="p-4"><SectionHeader title="حركة الدرج"/><div className="mt-3"><CashFlowSummary shift={currentShift}/></div></div>
+            </Card>
+          {isOwner && <div ref={withdrawalsEntry} tabIndex={-1}><OwnerWithdrawalsPanel shift={currentShift} onChanged={() => void refreshExpenseShiftCenterFromSupabase().catch(() => undefined)} /></div>}
           <UiButton onClick={() => void handleOpenReport(currentShift.id)}><FileText className="h-4 w-4"/>عرض التقرير المالي الحي</UiButton>
           {recentHistory}
           <div className="space-y-2 border-t border-nw-border pt-3">

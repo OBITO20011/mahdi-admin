@@ -1,0 +1,5 @@
+@media print {
+  .cash-flow-details > :not(summary) { display: block !important; content-visibility: visible !important; }
+  .cash-flow-details { break-inside: avoid; }
+  .cash-flow-details::details-content { display: block !important; content-visibility: visible !important; }
+}

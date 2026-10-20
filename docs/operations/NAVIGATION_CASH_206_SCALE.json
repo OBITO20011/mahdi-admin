@@ -1,0 +1,348 @@
+{
+  "startedAt": "2026-10-20T19:10:32.288Z",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-navigation-cash206-scale-lViw8T",
+  "profile": "FULL",
+  "managedAccess": false,
+  "parameters": {
+    "skus": 5000,
+    "families": 200,
+    "customers": 10000,
+    "suppliers": 100,
+    "orders": 150000,
+    "modern": 5000,
+    "receipts": 20000,
+    "payments": 200000,
+    "legacy_returns": 10000,
+    "shifts": 1460,
+    "movements": 1200000,
+    "days": 730
+  },
+  "counts": {
+    "skus": 5000,
+    "items": 450000,
+    "orders": 150000,
+    "shifts": 1460,
+    "returns": 15000,
+    "families": 200,
+    "payments": 200000,
+    "receipts": 20000,
+    "customers": 10000,
+    "movements": 1200000,
+    "suppliers": 100,
+    "replacements": 5000
+  },
+  "openProbe": {
+    "createdThrough": "open_cash_shift",
+    "additionalShifts": 1
+  },
+  "canonical": {
+    "closedSalesCount": 2500,
+    "closedSalesInMinorUnits": 30000000,
+    "pagesDistinct": true,
+    "homeUnchanged": true
+  },
+  "timings": [
+    {
+      "name": "closed-sales25",
+      "limitMs": 3000,
+      "p50": 79.205,
+      "p95": 93.785,
+      "max": 105.008,
+      "samples": 20,
+      "lastPlan": [
+        {
+          "Plan": {
+            "Node Type": "Result",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 0,
+            "Total Cost": 0.26,
+            "Plan Rows": 1,
+            "Plan Width": 32,
+            "Actual Startup Time": 84.829,
+            "Actual Total Time": 84.83,
+            "Actual Rows": 1,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 18878,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.035,
+          "Triggers": [],
+          "Execution Time": 84.866
+        }
+      ]
+    },
+    {
+      "name": "closed-sales100",
+      "limitMs": 3000,
+      "p50": 71.947,
+      "p95": 106.188,
+      "max": 107.18,
+      "samples": 20,
+      "lastPlan": [
+        {
+          "Plan": {
+            "Node Type": "Result",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 0,
+            "Total Cost": 0.26,
+            "Plan Rows": 1,
+            "Plan Width": 32,
+            "Actual Startup Time": 81.037,
+            "Actual Total Time": 81.037,
+            "Actual Rows": 1,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 18878,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.011,
+          "Triggers": [],
+          "Execution Time": 81.05
+        }
+      ]
+    },
+    {
+      "name": "closed-receipts",
+      "limitMs": 3000,
+      "p50": 56.629,
+      "p95": 62.634,
+      "max": 63.894,
+      "samples": 20,
+      "lastPlan": [
+        {
+          "Plan": {
+            "Node Type": "Result",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 0,
+            "Total Cost": 0.26,
+            "Plan Rows": 1,
+            "Plan Width": 32,
+            "Actual Startup Time": 59.21,
+            "Actual Total Time": 59.211,
+            "Actual Rows": 1,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 4986,
+            "Shared Read Blocks": 3488,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.012,
+          "Triggers": [],
+          "Execution Time": 59.226
+        }
+      ]
+    },
+    {
+      "name": "closed-refunds",
+      "limitMs": 3000,
+      "p50": 21.812,
+      "p95": 32.518,
+      "max": 35.243,
+      "samples": 20,
+      "lastPlan": [
+        {
+          "Plan": {
+            "Node Type": "Result",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 0,
+            "Total Cost": 0.26,
+            "Plan Rows": 1,
+            "Plan Width": 32,
+            "Actual Startup Time": 16.123,
+            "Actual Total Time": 16.123,
+            "Actual Rows": 1,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 4436,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.017,
+          "Triggers": [],
+          "Execution Time": 16.14
+        }
+      ]
+    },
+    {
+      "name": "open-sales",
+      "limitMs": 3000,
+      "p50": 117.734,
+      "p95": 151.382,
+      "max": 175.802,
+      "samples": 20,
+      "lastPlan": [
+        {
+          "Plan": {
+            "Node Type": "Result",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 0,
+            "Total Cost": 0.26,
+            "Plan Rows": 1,
+            "Plan Width": 32,
+            "Actual Startup Time": 118.974,
+            "Actual Total Time": 118.975,
+            "Actual Rows": 1,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 16434,
+            "Shared Read Blocks": 2752,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.012,
+          "Triggers": [],
+          "Execution Time": 118.991
+        }
+      ]
+    },
+    {
+      "name": "open-suppliers",
+      "limitMs": 3000,
+      "p50": 95.958,
+      "p95": 115.617,
+      "max": 116.976,
+      "samples": 20,
+      "lastPlan": [
+        {
+          "Plan": {
+            "Node Type": "Result",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 0,
+            "Total Cost": 0.26,
+            "Plan Rows": 1,
+            "Plan Width": 32,
+            "Actual Startup Time": 96.808,
+            "Actual Total Time": 96.809,
+            "Actual Rows": 1,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 12039,
+            "Shared Read Blocks": 2016,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning": {
+            "Shared Hit Blocks": 0,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.014,
+          "Triggers": [],
+          "Execution Time": 96.828
+        }
+      ]
+    }
+  ],
+  "ok": true,
+  "endedAt": "2026-10-20T19:22:48.887Z"
+}

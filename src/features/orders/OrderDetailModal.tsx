@@ -832,12 +832,12 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         )}
 
         {['completed', 'delivered'].includes(order.status) && (
-          <AdminAftercarePanel
+          <div data-return-entry tabIndex={-1}><AdminAftercarePanel
             order={order}
             onChanged={onOrderChanged}
             onContractResolved={handleAftercareContract}
             notify={setToast}
-          />
+          /></div>
         )}
 
         {['completed', 'delivered'].includes(order.status) &&

@@ -146,8 +146,10 @@ export async function functionReference(executor,ceiling=139){
   const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);assert.equal(functions.length,516,'FROZEN203_FUNCTION_COUNT');assert.equal(digest(JSON.stringify(ordered)),'f944d6efa506070206553723e6754672c17a95139d6c135c80f6bbd2197833a5','FROZEN203_FUNCTIONS_CHANGED');
  }else if(ceiling===204){
   const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);assert.equal(functions.length,517,'FROZEN204_FUNCTION_COUNT');assert.equal(digest(JSON.stringify(ordered)),'d810bf28e7f6aa89b954430f11ab2194da0748e4b93ce58ffb0bfac0444d1d7d','FROZEN204_FUNCTIONS_CHANGED');
+ }else if(ceiling===205){
+  const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);assert.equal(functions.length,519,'FROZEN205_FUNCTION_COUNT');assert.equal(digest(JSON.stringify(ordered)),'44d4912a69fc2cc45bd51ceb8238d9dd7311cf7b7ee54b0299457725aab26ef1','FROZEN205_FUNCTIONS_CHANGED');
  }else{
-  assert.equal(ceiling,205,'UNAPPROVED_FUNCTION_REFERENCE');
+  assert.equal(ceiling,206,'UNAPPROVED_FUNCTION_REFERENCE');
   const rendered=renderFunctionReference(await migrationManifest(root),functions);
   assert.equal(rendered,canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8')),'DB_FUNCTIONS_STALE');
  }

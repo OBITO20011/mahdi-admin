@@ -85,7 +85,7 @@ test('frontend loads the report through RPC and never queries accounting tables 
   assert.match(service, /\.rpc\(\s*'get_cash_shift_closing_report'/);
   assert.doesNotMatch(service, /\.from\(/);
   assert.match(view, /fetchCashShiftClosingReportFromSupabase/);
-  assert.match(view, /currentShift\.cliqSupplierPayments/);
+  assert.match(view, /CashFlowSummary shift=\{currentShift\}/);assert.match(readFileSync('src/features/shifts/cashFlowModel.ts','utf8'),/shift\.cliqSupplierPayments/);
 });
 
 test('daily closing UI exposes live and closed reports with print support', () => {

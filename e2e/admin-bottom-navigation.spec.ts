@@ -44,6 +44,7 @@ async function readNavigationGeometry(page: Page) {
 const activeTab = (page: Page) => page.getByTestId('active-tab');
 
 test.describe('شريط تنقل الإدارة السفلي (Package F)', () => {
+  test.beforeEach(async({page})=>{await page.setViewportSize({width:390,height:844});});
   test('يطبق ألوان Package F الفاتحة على الشريط وزر البيع دون خفض التباين', async ({
     page,
   }) => {
@@ -113,7 +114,7 @@ test.describe('شريط تنقل الإدارة السفلي (Package F)', () =>
       expect(page.url()).toBe(initialUrl);
     }
 
-    await expect(page.locator('[data-navigation-group]')).toHaveCount(6);
+    await expect(page.locator('[data-navigation-group]')).toHaveCount(4);
     await page.locator('[data-navigation-id="sales-pos"]').click();
     await expect(activeTab(page)).toHaveText('pos');
 
@@ -137,8 +138,6 @@ test.describe('شريط تنقل الإدارة السفلي (Package F)', () =>
       waitUntil: 'domcontentloaded',
     });
     await page.locator('[data-bottom-tab="more"]').click();
-    const customers = page.locator('[data-navigation-group="customers"]');
-    await customers.locator('button').first().click();
     await page.locator('[data-navigation-id="customer-accounts"]').click();
     await expect(activeTab(page)).toHaveText('accounts');
 
@@ -150,18 +149,17 @@ test.describe('شريط تنقل الإدارة السفلي (Package F)', () =>
     await expect(page.locator('[data-bottom-tab][aria-current="page"]')).toHaveCount(0);
   });
 
-  test('الاختصارات السريعة السابقة متاحة في المزيد وزر البيع يفتح نقطة البيع', async ({
+  test('الوجهات اليومية متاحة مرة واحدة في المزيد وزر البيع يفتح نقطة البيع', async ({
     page,
   }) => {
     await page.goto(`${harnessUrl}?start=more`, {
       waitUntil: 'domcontentloaded',
     });
-    const shortcuts = page.getByRole('region', { name: 'إجراءات سريعة' }).or(
-      page.locator('section[aria-label="إجراءات سريعة"]'),
-    );
-    await expect(shortcuts.locator('button')).toHaveText(['استلام بضاعة', 'مصروف', 'صنف جديد']);
-    await page.locator('[data-navigation-id="goods-receipt"]').click();
-    expect(await page.evaluate(() => window.__ADMIN_BOTTOM_NAV_MODAL__())).toBe('receive_goods');
+    await expect(page.locator('[data-navigation-id="supplier-receiving"]')).toBeVisible();
+    await expect(page.locator('[data-navigation-id="finance-expenses"]')).toBeVisible();
+    await expect(page.locator('[data-navigation-id="catalog-products"]')).toBeVisible();
+    await page.locator('[data-navigation-id="supplier-receiving"]').click();
+    await expect(activeTab(page)).toHaveText('purchases');
 
     await page.goto(`${harnessUrl}?start=home`, { waitUntil: 'domcontentloaded' });
     await page.locator('[data-bottom-tab="pos"]').click();
@@ -175,9 +173,8 @@ test.describe('شريط تنقل الإدارة السفلي (Package F)', () =>
       waitUntil: 'domcontentloaded',
     });
 
-    await expect(page.locator('[data-navigation-group]')).toHaveCount(6);
+    await expect(page.locator('[data-navigation-group]')).toHaveCount(2);
     await expect(page.locator('[data-navigation-id="assistant-shortcut"]')).toHaveCount(0);
-    await page.locator('[data-navigation-group="administration-store"] > button').click();
     await expect(page.locator('[data-navigation-id="admin-users"]')).toHaveCount(0);
   });
 

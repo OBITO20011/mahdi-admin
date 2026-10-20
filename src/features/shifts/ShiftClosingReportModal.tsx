@@ -1,3 +1,4 @@
+import {CashFlowSummary} from './CashFlowSummary';
 import React from 'react';
 import {
   Banknote,
@@ -133,6 +134,8 @@ export const ShiftClosingReportModal: React.FC<
               </span>
             </div>
           </section>
+
+          <CashFlowSummary shift={report.shift}/>
 
           <section>
             <h4 className="mb-2 flex items-center gap-2 font-black text-nw-text">

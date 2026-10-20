@@ -12,8 +12,11 @@ import { subscribeToStockAlertChanges } from '../../services/supabase/stockAlert
 import { Building2, Bell, BotMessageSquare, ChevronDown, Check } from 'lucide-react';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { UserAvatar } from '../ui';
+import {Menu} from 'lucide-react';
+import {useNavigationDrawer} from '../layout/navigationDrawerContext';
 
 export const Header: React.FC = () => {
+  const drawer=useNavigationDrawer();
   const {
     activeBranch,
     branches,
@@ -95,6 +98,8 @@ export const Header: React.FC = () => {
 
   return (
     <header className="admin-app-header z-20 flex items-center justify-between border-b border-nw-border bg-nw-surface px-3 py-2 text-nw-text shadow-sm">
+      {drawer&&<button type="button" aria-label="فتح القائمة الرئيسية" aria-expanded={drawer.isOpen} onClick={drawer.open} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-nw-border bg-nw-surface-2 text-nw-text lg:hidden"><Menu className="h-5 w-5" aria-hidden="true"/></button>}
+
       {/* Branch Selector Dropdown */}
       <div className="relative">
         <button

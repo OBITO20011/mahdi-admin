@@ -8,7 +8,7 @@ import {OrderDetailModal} from '../orders/OrderDetailModal';
 import type {Order} from '../../types';
 import './salesHistory.css';
 
-export function SalesInvoiceDialog({orderId,onClose,onChanged}:{orderId:string;onClose:()=>void;onChanged?:()=>Promise<void>}) {
+export function SalesInvoiceDialog({orderId,onClose,onChanged,returnContext=false}:{orderId:string;onClose:()=>void;onChanged?:()=>Promise<void>;returnContext?:boolean}) {
   const [order,setOrder]=useState<Order|null>(null),[error,setError]=useState<string|null>(null),[loading,setLoading]=useState(true);
   const version=useRef(0),restorePrint=useRef<(()=>void)|null>(null);
   // Preserve the embedded order's existing busy close lock at this outer focus boundary.
@@ -22,6 +22,7 @@ export function SalesInvoiceDialog({orderId,onClose,onChanged}:{orderId:string;o
   },[orderId]);
   const invalidate=useCallback(()=>{++version.current;restorePrint.current?.();},[]);
   useEffect(()=>{setOrder(null);void load();return invalidate;},[load,invalidate]);
+  useEffect(()=>{if(!returnContext||loading||!order||!panel.current)return;const target=panel.current.querySelector<HTMLElement>('[data-return-entry]');target?.scrollIntoView({block:'start'});target?.focus();},[returnContext,loading,order,panel]);
   const print=()=>{
     restorePrint.current?.();
     const closed=Array.from(panel.current?.querySelectorAll<HTMLDetailsElement>('details[data-commercial-components]:not([open])')??[]);

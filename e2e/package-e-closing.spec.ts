@@ -29,8 +29,8 @@ test('new closing shows first receipts and sale-time credit without moving CliQ 
   await expect(row('مبالغ مرجعة')).toContainText('12.000');
   await expect(row('تخفيض دين')).toContainText('3.000');
   await expect(row('صافي المبيعات')).toContainText('52.000');
-  await expect(row('مبيعات كاش')).toContainText('21.000');
-  await expect(row('مبيعات CliQ')).toContainText('18.000');
+  await expect(page.locator('section.grid-cols-3').getByText('مبيعات كاش',{exact:true}).locator('..')).toContainText('21.000');
+  await expect(page.locator('section.grid-cols-3').getByText('مبيعات CliQ',{exact:true}).locator('..')).toContainText('18.000');
   await expect(row('آجل متبقي')).toContainText('22.000');
   await expect(row('دفعات أولى عند الاستلام (مسجلة ضمن سندات القبض)')).toContainText('6.000');
   await expect(page.getByText(/منها 6\.000.*دفعات أولى عند البيع/u)).toContainText('CliQ: 6.000');
@@ -54,7 +54,7 @@ test('historical nonzero card sales remain visible without inventing modern cred
   await page.route('**/rest/v1/rpc/get_cash_shift_closing_report',route=>route.fulfill({json:fixture(false,7000)}));
   await page.goto('/e2e/package-e-closing-harness.html');
   await expect(page.getByText('مبيعات بطاقة',{exact:true}).locator('..')).toContainText('7.000');
-  await expect(page.getByText('مبيعات كاش',{exact:true}).locator('..')).toContainText('14.000');
+  await expect(page.locator('section.grid-cols-3').getByText('مبيعات كاش',{exact:true}).locator('..')).toContainText('14.000');
   await expect(page.getByText('إجمالي المبيعات',{exact:true}).locator('..')).toContainText('39.000');
   await expect(page.getByText('إجمالي الداخل',{exact:true}).locator('..')).toContainText('48.000');
   await expect(page.getByText('الكاش المتوقع',{exact:true}).locator('..')).toContainText('190.300');

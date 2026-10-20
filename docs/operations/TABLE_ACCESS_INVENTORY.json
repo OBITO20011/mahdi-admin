@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 205,
+  "migrationCeiling": 206,
   "managedAccess": false,
   "sources": [
     {
       "file": "src/App.tsx",
-      "sha256": "0f69e57b616d6836e890c9ce682c5ee0e57127df50c73232d9e9c89e85d0fc13"
+      "sha256": "111961bad365540e2a20554be9d71a4ed3f4682198f7ef6289e357d1ee54e8a9"
     },
     {
       "file": "src/components/common/AppErrorBoundary.tsx",
@@ -13,11 +13,11 @@
     },
     {
       "file": "src/components/common/Header.tsx",
-      "sha256": "b8ef037e7cb94cc85860b67d3f6da2dd21fb85425deaf6d8722e2c8ab5786b0f"
+      "sha256": "9f527bcc60fcabc31052980240673f9e673e35c99ec409032f44d0217873956f"
     },
     {
       "file": "src/components/common/Modal.tsx",
-      "sha256": "73e6249c50ad01304b0f4519ce01b4fc4a35bf88cd14351dd4ce0782a549ce32"
+      "sha256": "6d6a6d4d73d17d20ef2622669841ad7bd7156a0f9caf064176a207aa9ebc7de5"
     },
     {
       "file": "src/components/layout/AdminToast.tsx",
@@ -32,20 +32,28 @@
       "sha256": "6a87422b8f8e20f925ac0506f579e1e25bfd47b8b684a996a22a76de268a69c2"
     },
     {
+      "file": "src/components/layout/navigationDrawerContext.ts",
+      "sha256": "6d57b306dc8c79cc187ebf727d3a0866d547cf678110dde551e6d84b99f1472d"
+    },
+    {
+      "file": "src/components/layout/NavigationShell.tsx",
+      "sha256": "df46275755cd30761143465ab2a3139b00423d7633c854e0a740cb90e8c21e37"
+    },
+    {
       "file": "src/components/layout/quickActions.ts",
       "sha256": "dfe2f87fcf0433aac9549fcd1631bae7b366ee55e4f5bd65ffa6859c9a26d734"
     },
     {
       "file": "src/components/layout/SideNav.tsx",
-      "sha256": "462405f6980a270d182406b75d173e9c38b704bfc3ca393d5712bd381bbc8fd1"
+      "sha256": "720fcde77b325e07aacb38c45c2fa341ba1e47c191959f33a0c0c80cc3a4c5af"
     },
     {
       "file": "src/components/layout/sideNavigationModel.ts",
-      "sha256": "f31ca0c5877c2464a9af6c6a314c09b77002e479c359b56f8d16d288edad71c5"
+      "sha256": "610585274b34a7a82393101395663f9e8e84f47826dff38ad1d30f7c908bed01"
     },
     {
       "file": "src/components/modals/AllModals.tsx",
-      "sha256": "f2e7be83f5342315b49098844dfba78c8dfb55b00c089172a091912b56bc4a1f"
+      "sha256": "f01c6fe278125348ec606305866944b6d04b57a41442d60273d7a0bacb32491b"
     },
     {
       "file": "src/components/modals/BrandsModal.tsx",
@@ -229,7 +237,7 @@
     },
     {
       "file": "src/features/dashboard/DashboardHome.tsx",
-      "sha256": "9f969bb4e272f2c92b280c4819bc97e6835c6012be055f3f4ed9ac9872ae3925"
+      "sha256": "d1c865332506eb774d395f5e0f50094e6eb6c8a9e84d5e68c7c227b508e4f777"
     },
     {
       "file": "src/features/dashboard/DashboardView.tsx",
@@ -317,7 +325,11 @@
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
-      "sha256": "15a555ae7386a42b5b3503cb6757d051aec0761cf832fa36d23bb29133d9f5b0"
+      "sha256": "c9f56ec33b18dd0b85d22a6571d89b991b76e7a948b7f10a1e791a6e19d8f838"
+    },
+    {
+      "file": "src/features/more/DamageProductSelection.tsx",
+      "sha256": "6c0206cc978532c439b5978509518427129540a64a4da5ba095be2c81bd39f8f"
     },
     {
       "file": "src/features/more/InstallAppPanel.tsx",
@@ -329,7 +341,7 @@
     },
     {
       "file": "src/features/more/MoreMenuView.tsx",
-      "sha256": "f4fab17e587ce8daa6b209da95477b7800bf916733632c85550a94c0a517c247"
+      "sha256": "89ec7580a87c064807bdbb18d5e704bc514ae35591af8bfc96b7bc2f03e747c4"
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
@@ -373,7 +385,7 @@
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "4451c40f80d64fe034b67fc972eb0ba5ca07b449f5baf7d6b68d0041d8e39925"
+      "sha256": "3beca2062d65974ec6273d96bf8f8748994316ab55951eb205a15983e291a58c"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
@@ -481,11 +493,23 @@
     },
     {
       "file": "src/features/salesHistory/SalesHistoryView.tsx",
-      "sha256": "8162956dbb17ce66000f1af58c53563098f5da0fa512827d20b61ba0ddf12f49"
+      "sha256": "d85a99bb3d5252f8fb0a4a9f2a53908c5aaaeb4edb1e570cae614c27ee61860b"
     },
     {
       "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
-      "sha256": "1d9e72833f0d25e75acd92c5966530bb761a288aaa9b98da6492dff4c7154967"
+      "sha256": "a30a54215519e0a8132b0219591548f89db6ec68ec39a3d9ca8f49de7a1f1bd1"
+    },
+    {
+      "file": "src/features/shifts/CashFlowDetails.tsx",
+      "sha256": "407f257d29f9da83440ab9122345f935cc0c1c69387de10ee05cf17bbaa7b945"
+    },
+    {
+      "file": "src/features/shifts/cashFlowModel.ts",
+      "sha256": "eff0e563aeddda82920a96679006fcee3be32bb030324768f6e8f26e43617d02"
+    },
+    {
+      "file": "src/features/shifts/CashFlowSummary.tsx",
+      "sha256": "908daa59ee136c102b2e9418741b494f3ad6968b780f80810122a7ed264c4fcd"
     },
     {
       "file": "src/features/shifts/OwnerWithdrawalsPanel.tsx",
@@ -497,11 +521,11 @@
     },
     {
       "file": "src/features/shifts/ShiftClosingReportModal.tsx",
-      "sha256": "42ab11da4fc28baa0d32acf8c78514ae3709fbfb3681649ee1ca3008b637a2e6"
+      "sha256": "b84cf8919d46aecc14c08a5c3406ff7c62da7548d244bd818895d562d1262cac"
     },
     {
       "file": "src/features/shifts/ShiftsView.tsx",
-      "sha256": "5a5a4c7136b3221308fcaaefd5c2fbe77e4ecc3e01a9efd084c3d1be3139f32f"
+      "sha256": "a04e4ee286ef590c45a9c9ad183930de5ee8e5e4d31fe70f06777539346a1688"
     },
     {
       "file": "src/features/users/UserFormModal.tsx",
@@ -590,6 +614,10 @@
     {
       "file": "src/services/supabase/auth.service.ts",
       "sha256": "54f4b09369865e042f375d2507ba67b429e1dc7e7cae20a387870eb6d617b3ea"
+    },
+    {
+      "file": "src/services/supabase/cashShiftMovements.service.ts",
+      "sha256": "e36805c6f9610d5c30a9bdc76aad5e8b913dc0003e45ceb94d9370be440c7e3c"
     },
     {
       "file": "src/services/supabase/cheques.service.ts",
@@ -745,7 +773,7 @@
     },
     {
       "file": "src/stores/modalTypes.ts",
-      "sha256": "03f61fede8590f9a1407bb8780b4d4f2e9c471434cf5cc445de54c16c56dd919"
+      "sha256": "e048c7a840c807ce2acf67580f864b2430dc583d208e439d761cbca3a51bd96b"
     },
     {
       "file": "src/stores/referenceData.storeSlice.ts",
@@ -3527,6 +3555,11 @@
   ],
   "excluded": [
     {
+      "file": "src/components/layout/NavigationShell.tsx",
+      "line": 19,
+      "reason": "JavaScript Array/typed-array, not Supabase"
+    },
+    {
       "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
       "line": 1021,
       "reason": "JavaScript Array/typed-array, not Supabase"
@@ -3563,7 +3596,7 @@
     },
     {
       "file": "src/features/salesHistory/SalesInvoiceDialog.tsx",
-      "line": 27,
+      "line": 28,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {

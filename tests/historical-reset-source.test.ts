@@ -23,7 +23,7 @@ for(const [ceiling,count] of [[182,151],[199,161],[200,162],[201,163],[202,164],
 test('historical source refuses changed,missing or wrong-ceiling reference before staging',async()=>{
  const root=process.cwd(),manifest=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=182);
  await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:195,manifest}),/HISTORICAL_RESET_CEILING/u);
- await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:205,manifest}),/HISTORICAL_RESET_CEILING/u);
+ await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:206,manifest}),/HISTORICAL_RESET_CEILING/u);
  await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:182,manifest:manifest.slice(1)}),/HISTORICAL_RESET_SOURCE_CHANGED/u);
  await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:182,manifest:manifest.map((m,i)=>i===0?{...m,sha256:'0'.repeat(64)}:m)}),/HISTORICAL_RESET_SOURCE_CHANGED/u);
 });

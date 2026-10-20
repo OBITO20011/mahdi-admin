@@ -83,7 +83,7 @@ test('counted Cash starts unentered,never coerces empty to zero or preloads expe
 test('Cash surfaces use shared tokens and preserve explicit unavailable facts and all safety gates',()=>{
   for(const {file} of baseline){const source=readFileSync(file,'utf8');assert.doesNotMatch(source,/(?:bg|text|border)-(?:slate|blue|gray|rose|emerald|amber|cyan|orange|indigo)-\d/u);}
   const source=readFileSync(baseline[0].file,'utf8');
-  assert.match(source,/عدد العمليات: غير متاح/u);assert.match(source,/مبيعات الدين للذمم<\/span><span>غير متاح/u);
+  assert.match(source,/عدد العمليات: غير متاح/u);assert.match(readFileSync('src/features/shifts/CashFlowSummary.tsx','utf8'),/البيع الآجل يبقى في الذمم/u);
   assert.match(source,/needsReason && discrepancyReason.trim\(\).length < 2/u);assert.match(source,/fullReversalConfirmation.trim\(\) !== 'إلغاء الوردية'/u);
   assert.match(source,/CashDenominationCounter disabled=\{isSubmitting\} onApply=\{setActualCashInput\}/u);
   assert.doesNotMatch(source,/openModal\(|\.rpc\(/u);

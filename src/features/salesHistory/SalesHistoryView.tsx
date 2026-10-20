@@ -1,4 +1,5 @@
-import {useEffect,useState} from 'react';
+import {useEffect,useRef,useState} from 'react';
+import {useNavigationDrawer} from '../../components/layout/navigationDrawerContext';
 import {ChevronLeft,ChevronRight,RefreshCw} from 'lucide-react';
 import {Card,PageHeader,UiButton,MoneyText,StatusBadge,TableShell,Th,Td,Tr,formatUiDate} from '../../components/ui';
 import {useAuthStore} from '../../stores/useAuthStore';
@@ -10,12 +11,16 @@ const methods:Array<[SalesHistoryMethod,string]>=[['all','كل طرق الدفع
 const periods:Array<[SalesHistoryPeriod,string]>=[['day','اليوم'],['week','آخر 7 أيام'],['month','الشهر'],['range','مدى'],['all','كل التواريخ']];
 const payment=(row:SalesHistoryItem)=>row.paymentMethod?PAYMENT_METHOD_LABELS[row.paymentMethod]??row.paymentMethod:'غير مسجّلة';
 export function SalesHistoryView() {
+  const entry=useNavigationDrawer()?.entryIntent;
+  const numberInput=useRef<HTMLInputElement>(null);
+  const returnContext=entry?.type==='customer_return';
   const {roles,roleName,user}=useAuthStore(),allowed=canReadSalesHistory(roles,roleName);
-  const [page,setPage]=useState(1),[period,setPeriod]=useState<SalesHistoryPeriod>('day');
+  const [page,setPage]=useState(1),[period,setPeriod]=useState<SalesHistoryPeriod>(returnContext?'all':'day');
   const [method,setMethod]=useState<SalesHistoryMethod>('all'),[source,setSource]=useState<SalesHistorySource>('all');
   const [customer,setCustomer]=useState(''),[number,setNumber]=useState(''),[search,setSearch]=useState({customer:'',number:''});
   const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Amman',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
   const [from,setFrom]=useState(today),[to,setTo]=useState(today),[selected,setSelected]=useState<string|null>(null);
+  useEffect(()=>{if(entry?.type==='customer_return'){setPeriod('all');setMethod('all');setSource('all');setCustomer('');setNumber('');setSearch({customer:'',number:''});setPage(1);numberInput.current?.focus();}},[entry]);
   useEffect(()=>{const timer=window.setTimeout(()=>{setSearch({customer,number});setPage(1);},250);return ()=>window.clearTimeout(timer);},[customer,number]);
   useEffect(()=>{setSelected(null);},[user?.id,allowed]);
   const state=useSalesHistory({page,pageSize:25,period,fromDate:from,toDate:to,paymentMethod:method,source,customerSearch:search.customer,numberSearch:search.number},allowed,user?.id);
@@ -34,7 +39,7 @@ export function SalesHistoryView() {
         <div className="text-sm"><label htmlFor="sales-history-method">طريقة دفع الفاتورة</label><select id="sales-history-method" className={inputClass} value={method} onChange={e=>change(()=>setMethod(e.target.value as SalesHistoryMethod))}>{methods.map(([v,l])=><option key={v} value={v}>{l}</option>)}</select></div>
         <div className="text-sm"><label htmlFor="sales-history-source">المصدر</label><select id="sales-history-source" className={inputClass} value={source} onChange={e=>change(()=>setSource(e.target.value as SalesHistorySource))}><option value="all">كل المصادر</option><option value="pos">نقطة البيع</option><option value="website">المتجر</option><option value="unknown">غير مسجّل</option></select></div>
         <label className="text-sm">الزبون أو الهاتف<input maxLength={100} className={inputClass} value={customer} onChange={e=>setCustomer(e.target.value)} placeholder="اسم أو رقم هاتف"/></label>
-        <label className="text-sm">بحث برقم الفاتورة<input maxLength={100} className={inputClass} value={number} onChange={e=>setNumber(e.target.value)} placeholder="رقم الفاتورة"/></label>
+        <label className="text-sm">بحث برقم الفاتورة<input ref={numberInput} maxLength={100} className={inputClass} value={number} onChange={e=>setNumber(e.target.value)} placeholder="رقم الفاتورة"/></label>
       </div>
     </Card>
     {state.loading?<Card role="status">جاري تحميل سجل المبيعات…</Card>:state.error?<Card role="alert"><p>{state.error}</p><UiButton className="mt-3" onClick={()=>void state.reload()}>إعادة المحاولة</UiButton></Card>:!state.data?<Card role="status">سجل المبيعات غير متاح حالياً.</Card>:<>
@@ -48,6 +53,6 @@ export function SalesHistoryView() {
       </>}
       <nav aria-label="صفحات سجل المبيعات" className="flex flex-wrap items-center justify-center gap-3"><UiButton disabled={page<=1} onClick={()=>setPage(v=>v-1)}><ChevronRight className="h-4 w-4" aria-hidden="true"/>السابق</UiButton><span className="text-sm">صفحة {page} من {state.data.totalPages}</span><UiButton disabled={page>=state.data.totalPages} onClick={()=>setPage(v=>v+1)}>التالي<ChevronLeft className="h-4 w-4" aria-hidden="true"/></UiButton></nav>
     </>}
-    {selected&&<SalesInvoiceDialog orderId={selected} onClose={()=>setSelected(null)} onChanged={state.reload}/>}
+    {selected&&<SalesInvoiceDialog orderId={selected} returnContext={returnContext} onClose={()=>setSelected(null)} onChanged={state.reload}/>}
   </div>;
 }

@@ -23,6 +23,7 @@ export interface ModalPayloadMap {
   edit_product: ModalPayloadContract<Product, 'required'>;
   view_product: ModalPayloadContract<Product, 'required'>;
   adjust_stock: ModalPayloadContract<StockAdjustmentModalPayload, 'required'>;
+  damage_stock_selection: ModalPayloadContract<null, 'none'>;
   receive_goods: ModalPayloadContract<ModalProductIdPayload | null, 'optional'>;
   warehouse_transfer: ModalPayloadContract<ModalProductIdPayload | null, 'optional'>;
   stock_count: ModalPayloadContract<ModalProductIdPayload | null, 'optional'>;

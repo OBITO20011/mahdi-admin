@@ -1,3 +1,4 @@
+import {canUseNavigationAction} from '../src/features/more/adminNavigation.config';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -203,7 +204,8 @@ test('eligible staff can open the assistant from the header (phone) and SideNav 
   assert.match(header, /canUseAssistant && activeTab !== 'assistant'/);
   assert.match(header, /'owner', 'admin', 'manager', 'accountant'/);
   assert.match(header, /setActiveTab\('assistant'\)[\s\S]*?lg:hidden/);
-  assert.match(sideNav, /'owner', 'admin', 'manager', 'accountant'/);
-  assert.match(sideNav, /data-side-nav="assistant"/);
+  assert.match(sideNav,/buildSideNavigation\(roleName,roles\)/);
+  for(const role of ['owner','admin','manager','accountant'])assert.equal(canUseNavigationAction({type:'tab',destination:'assistant'},role),true);
+  for(const role of ['cashier','sales','view_only'])assert.equal(canUseNavigationAction({type:'tab',destination:'assistant'},role),false);
   assert.doesNotMatch(app, /data-navigation-action-dock/);
 });

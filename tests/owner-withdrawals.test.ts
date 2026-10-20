@@ -118,7 +118,7 @@ test('frontend: literal RPC names, owner-only panel, decision-4 warning never bl
     assert.match(service, new RegExp(`rpc\\('${rpc}'`, 'u'));
   assert.doesNotMatch(service, /\.from\(/u, 'no direct table access');
   const shifts = read('src/features/shifts/ShiftsView.tsx');
-  assert.match(shifts, /\{isOwner && <OwnerWithdrawalsPanel /u);
+  assert.match(shifts, /\{isOwner && <div[^>]*><OwnerWithdrawalsPanel /u);
   const hook = read('src/hooks/useDrawerShortfallConfirm.tsx');
   assert.match(hook, /بالدرج \$\{[^}]+\} دينار فقط، متأكد؟/u);
   for (const file of ['src/features/expenses/ExpenseFormModal.tsx', 'src/features/purchases/SupplierPaymentModal.tsx',

@@ -6,7 +6,7 @@ import {test,expect,type Page} from './isolated-test';
 const url=(theme:string,view='more',extra='')=>`/e2e/package-f-more-harness.html?theme=${theme}&view=${view}${extra}`;
 test('standalone More pairs footer tokens with its own canvas even before theme initialization',async({page})=>{
   await page.goto('/e2e/admin-navigation-harness.html');
-  const footer=page.locator('.pb-1');await expect(footer).toContainText('النواصرة');
+  const footer=page.locator('[data-navigation-id="sign-out"]');await expect(footer).toContainText('تسجيل الخروج');
   expect(await footer.evaluate(element=>{
     const root=element.parentElement!,probe=document.createElement('span');probe.style.backgroundColor='var(--nw-bg)';document.body.append(probe);
     const expected=getComputedStyle(probe).backgroundColor;probe.remove();return getComputedStyle(root).backgroundColor===expected;
@@ -63,34 +63,21 @@ async function audit(page:Page){
     return failed;
   });expect(overflow).toEqual([]);
 }
-test('More layout audit waits for actual JS height completion and still rejects settled clipping',async({page})=>{
-  await page.goto(url('light'));
-  await page.locator('#admin-navigation-trigger-products-inventory').click();
-  await stableNavigation(page);
-  const panel=page.locator('#admin-navigation-panel-products-inventory');
-  expect(await panel.evaluate(element=>({height:(element as HTMLElement).style.height,opacity:getComputedStyle(element).opacity}))).toEqual({height:'auto',opacity:'1'});
+test('More static layout still rejects real clipping through a bounded ancestor',async({page})=>{
+  await page.setViewportSize({width:390,height:844});await page.goto(url('light'));
+  const panel=page.locator('[data-navigation-group="products-inventory"]');
+  await expect(panel).toBeVisible();await stableNavigation(page);
   await checkLayout(page,page.getByTestId('more-workbench'));
-  await panel.evaluate(element=>{const text=document.createElement('span');text.style.cssText='display:block;width:2000px;white-space:nowrap;text-align:left';text.textContent='unintended settled navigation clipping';element.append(text);});
+  await panel.evaluate(element=>{const clip=document.createElement('div');clip.style.cssText='width:100px;overflow:hidden';const text=document.createElement('span');text.style.cssText='display:block;width:2000px;white-space:nowrap;text-align:left';text.textContent='unintended settled navigation clipping';clip.append(text);element.append(clip);});
   await expect(checkLayout(page,page.getByTestId('more-workbench'))).rejects.toThrow('Unintended text clipping');
 });
 for(const theme of ['light','dark'])for(const width of [390,820,1440]){
   test(`More ${theme} ${width}: all groups,roles,token contrast and containment`,async({page})=>{
     await page.setViewportSize({width,height:900});await page.goto(url(theme));
-    await expect(page.getByRole('heading',{name:'إدارة التطبيق',exact:true})).toBeVisible();
-    for(const [id,token] of [['assistant-shortcut','--nw-surface-2'],['sign-out','--nw-bad-bg']]){
-      expect(await page.locator(`[data-navigation-id="${id}"]`).evaluate((element,variable)=>{
-        const probe=document.createElement('span');probe.style.backgroundColor=`var(${variable})`;document.body.append(probe);
-        const expected=getComputedStyle(probe).backgroundColor;probe.remove();
-        return getComputedStyle(element).backgroundColor===expected;
-      },token)).toBe(true);
-    }
+    await expect(page.getByRole('heading',{name:width>=1024?'حسابي':'المزيد',exact:true})).toBeVisible();
     await audit(page);
-    for(const id of ['products-inventory','customers','suppliers-purchases','finance-reports','administration-store']){
-      await page.locator(`#admin-navigation-trigger-${id}`).click();
-      await expect(page.locator(`#admin-navigation-trigger-${id}`)).toHaveAttribute('aria-expanded','true');
-      await waitForPackageFMotion(page);
-      await audit(page);
-    }
+    if(width<1024)for(const id of ['sales','products-inventory','finance-reports','administration-store'])await expect(page.locator(`[data-navigation-group="${id}"]`)).toBeVisible();
+    else await expect(page.locator('[data-navigation-group="sales"]')).toBeHidden();
     await expect(page.locator('[data-navigation-id="profile-summary"]')).toBeVisible();
     await page.locator('[data-navigation-id="profile-summary"]').click();
     await stableDialog(page,'الملف الشخصي وإعدادات الحساب');await audit(page);

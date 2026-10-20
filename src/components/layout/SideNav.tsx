@@ -6,7 +6,9 @@
 
 import React from 'react';
 import {ROLE_LABELS} from '../../utils/roleLabels';
-import { BotMessageSquare, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
+import {useNavigationDrawer} from './navigationDrawerContext';
+import {canUseNavigationAction} from '../../features/more/adminNavigation.config';
 import { SECONDARY_QUICK_ACTIONS } from './quickActions';
 import {
   shallowEqual,
@@ -27,9 +29,11 @@ const join = (...parts: Array<string | false | null | undefined>) =>
 
 interface SideNavProps {
   collapsed?: boolean;
+  mobile?: boolean;
 }
 
-export const SideNav: React.FC<SideNavProps> = ({ collapsed = false }) => {
+export const SideNav: React.FC<SideNavProps> = ({ collapsed = false, mobile = false }) => {
+  const drawer=useNavigationDrawer();
   const { activeTab, newOrdersCount, currentUserName, currentUserRole } = useAppStoreSelector(
     (state) => ({
       activeTab: state.activeTab,
@@ -42,9 +46,12 @@ export const SideNav: React.FC<SideNavProps> = ({ collapsed = false }) => {
   const { setActiveTab, openModal } = useAppStoreActions();
   const { roleName,roles } = useAuthStore();
   const groups = buildSideNavigation(roleName,roles);
-  const canUseAssistant = ['owner', 'admin', 'manager', 'accountant'].includes(roleName || '');
+
 
   const run = (action: AdminNavigationAction) => {
+    if(!canUseNavigationAction(action,roleName,roles))return;
+    drawer?.close();
+    drawer?.setEntryIntent(action.type==='tab'?action.intent??null:null);
     if (action.type === 'tab') {
       setActiveTab(action.destination);
       return;
@@ -73,7 +80,7 @@ export const SideNav: React.FC<SideNavProps> = ({ collapsed = false }) => {
         onClick={() => run(item.action)}
         className={join(
           'relative flex items-center rounded-[10px] text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nw-accent',
-          collapsed ? 'h-14 w-14 flex-col justify-center gap-1 px-1 text-[10px] font-semibold' : 'min-h-10 w-full gap-2.5 px-3 py-2 text-right',
+          collapsed ? 'h-14 w-14 flex-col justify-center gap-1 px-1 text-[10px] font-semibold' : 'min-h-11 w-full gap-2.5 px-3 py-2 text-right',
           active
             ? 'bg-nw-side-active font-bold text-nw-side-active-text'
             : 'font-medium text-nw-side-text hover:bg-white/10',
@@ -100,7 +107,7 @@ export const SideNav: React.FC<SideNavProps> = ({ collapsed = false }) => {
     );
   };
 
-  const quickActions = SECONDARY_QUICK_ACTIONS.map((action) => ({
+  const quickActions = SECONDARY_QUICK_ACTIONS.filter(action=>canUseNavigationAction(action.action,roleName,roles)).map((action) => ({
     id: action.id,
     label: action.shortLabel,
     icon: action.icon,
@@ -112,8 +119,8 @@ export const SideNav: React.FC<SideNavProps> = ({ collapsed = false }) => {
       aria-label="القائمة الجانبية"
       data-side-nav-root
       className={join(
-        'hidden shrink-0 flex-col overflow-y-auto bg-nw-side text-nw-side-text lg:flex',
-        collapsed ? 'w-[76px] items-center gap-2 px-2 py-5' : 'w-[264px] gap-1 px-3.5 py-5',
+        mobile?'flex min-h-0 flex-1 shrink-0 flex-col overflow-y-auto bg-nw-side text-nw-side-text':'hidden shrink-0 flex-col overflow-y-auto bg-nw-side text-nw-side-text lg:flex',
+        mobile?'w-full gap-1 px-3.5 py-3':collapsed ? 'w-[76px] items-center gap-2 px-2 py-5' : 'w-[264px] gap-1 px-3.5 py-5',
       )}
     >
       <div className={join('flex items-center gap-2.5', collapsed ? 'mb-3' : 'px-2 pb-3')}>
@@ -130,15 +137,15 @@ export const SideNav: React.FC<SideNavProps> = ({ collapsed = false }) => {
 
       {!collapsed && (
         <div className="mb-3 flex flex-col gap-2 px-1">
-          <button
+          {canUseNavigationAction({type:'tab',destination:'pos'},roleName,roles) && <button
             type="button"
             data-side-nav-action="pos-sale"
-            onClick={() => setActiveTab('pos')}
+            onClick={() => run({type:'tab',destination:'pos'})}
             className="flex h-11 items-center justify-center gap-2 rounded-xl bg-nw-accent text-sm font-bold text-nw-on-accent transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
             <Plus className="h-4 w-4" aria-hidden="true" />
             بيع جديد
-          </button>
+          </button>}
           <div className="grid grid-cols-3 gap-1.5">
             {quickActions.map((action) => (
               <button
@@ -167,28 +174,10 @@ export const SideNav: React.FC<SideNavProps> = ({ collapsed = false }) => {
 
       <div className={join('mt-auto flex flex-col gap-1.5 pt-3', collapsed && 'items-center')}>
         {renderItem(SIDE_NAV_MORE)}
-        {canUseAssistant && (
-          <button
-            type="button"
-            data-side-nav="assistant"
-            aria-current={activeTab === 'assistant' ? 'page' : undefined}
-            aria-label={collapsed ? 'المساعد الإداري الذكي' : undefined}
-            title={collapsed ? 'المساعد الإداري الذكي' : undefined}
-            onClick={() => setActiveTab('assistant')}
-            className={join(
-              'flex items-center rounded-[10px] text-sm font-medium text-nw-side-text transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nw-accent',
-              collapsed ? 'h-14 w-14 justify-center' : 'min-h-10 w-full gap-2.5 px-3 py-2 text-right',
-              activeTab === 'assistant' && 'bg-nw-side-active font-bold text-nw-side-active-text',
-            )}
-          >
-            <BotMessageSquare className="h-[18px] w-[18px] shrink-0" aria-hidden="true" />
-            {!collapsed && <span>المساعد الذكي</span>}
-          </button>
-        )}
         {!collapsed && (
           <button
             type="button"
-            onClick={() => openModal('profile')}
+            onClick={() => run({type:'modal',destination:'profile'})}
             className="mt-1 flex min-h-12 items-center gap-2.5 rounded-xl bg-white/10 px-3 py-2 text-right transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nw-accent"
             aria-label={`الملف الشخصي: ${currentUserName}`}
           >

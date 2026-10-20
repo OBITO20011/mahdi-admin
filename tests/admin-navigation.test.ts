@@ -5,6 +5,7 @@ import {
   ADMIN_NAVIGATION_GROUPS,
   isNavigationItemVisible,
   getNextOpenNavigationGroup,
+  canUseNavigationAction,
 } from '../src/features/more/adminNavigation.config';
 import { VALID_ACTIVE_TABS } from '../src/stores/appStorePreferences';
 
@@ -45,15 +46,10 @@ const expectedActiveTabs = [
 ].sort();
 
 const expectedGroupDestinations = new Map([
-  ['sales', ['pos', 'orders','sales_history']],
-  ['products-inventory', ['parcel_configuration', 'products', 'inventory']],
-  ['customers', ['accounts']],
-  ['suppliers-purchases', ['purchases']],
-  ['finance-reports', ['shifts', 'expenses', 'reports','cheques']],
-  [
-    'administration-store',
-    ['users', 'warehouses', 'go_live', 'monitoring_dashboard', 'storefront_settings', 'promotion_codes', 'profile'],
-  ],
+ ['sales',['pos','orders','sales_history','accounts','sales_history']],
+ ['products-inventory',['products','purchases','inventory','parcel_configuration','damage_stock_selection']],
+ ['finance-reports',['shifts','expenses','reports','cheques','shifts']],
+ ['administration-store',['users','warehouses','storefront_settings','promotion_codes','go_live','monitoring_dashboard','assistant']],
 ]);
 
 test('the canonical activeTab contract is unchanged and every destination remains reachable', () => {
@@ -82,18 +78,11 @@ test('the canonical activeTab contract is unchanged and every destination remain
   assert.match(app, /case 'home':\s*case 'dashboard':/);
 });
 
-test('More exposes exactly the approved six navigation groups with no misroutes', () => {
-  assert.equal(ADMIN_NAVIGATION_GROUPS.length, 6);
+test('More exposes exactly the approved four navigation groups with no misroutes', () => {
+  assert.equal(ADMIN_NAVIGATION_GROUPS.length, 4);
   assert.deepEqual(
     ADMIN_NAVIGATION_GROUPS.map((group) => group.label),
-    [
-      'المبيعات',
-      'المنتجات والمخزون',
-      'العملاء والذمم',
-      'الموردون والمشتريات',
-      'المالية والتقارير',
-      'الإدارة والمتجر',
-    ],
+    ['البيع','المخزون والشراء','المال','الإدارة'],
   );
 
   for (const group of ADMIN_NAVIGATION_GROUPS) {
@@ -110,7 +99,7 @@ test('More exposes exactly the approved six navigation groups with no misroutes'
   assert.equal(new Set(ids).size, ids.length);
 
   const destinations = ADMIN_NAVIGATION_GROUPS.flatMap((group) =>
-    group.items.map((item) => `${item.action.type}:${item.action.destination}`),
+    group.items.map((item) => `${item.action.type}:${item.action.destination}:${item.action.type==='tab'?item.action.intent??'':''}`),
   );
   assert.equal(new Set(destinations).size, destinations.length);
 });
@@ -127,7 +116,6 @@ test('the mandatory parity gate preserves every functional legacy More feature',
     'inventory',
   ];
   const legacyModalDestinations = [
-    'profile',
     'storefront_settings',
     'promotion_codes',
   ];
@@ -154,7 +142,6 @@ test('the mandatory parity gate preserves every functional legacy More feature',
 
   for (const featureId of [
     'profile-summary',
-    'assistant-shortcut',
     'install-app',
     'theme-toggle',
     'biometric-toggle',
@@ -168,11 +155,10 @@ test('only one accordion group can open and a second press closes it', () => {
   assert.equal(getNextOpenNavigationGroup(null, 'sales'), 'sales');
   assert.equal(getNextOpenNavigationGroup('sales', 'products-inventory'), 'products-inventory');
   assert.equal(getNextOpenNavigationGroup('products-inventory', 'products-inventory'), null);
-  assert.match(moreMenu, /aria-expanded=\{isOpen\}/);
-  assert.match(moreMenu, /aria-controls=\{panelId\}/);
-  assert.match(moreMenu, /role="region"/);
-  assert.match(moreMenu, /dir="rtl"/);
-  assert.match(moreMenu, /useReducedMotion\(\)/);
+  assert.match(moreMenu,/SearchField label="ابحث عن شاشة"/);
+  assert.match(moreMenu,/grid grid-cols-3/);
+  assert.match(moreMenu,/dir="rtl"/);
+  assert.doesNotMatch(moreMenu,/aria-expanded|useReducedMotion/);
   assert.doesNotMatch(moreMenu, /localStorage/);
 });
 
@@ -180,29 +166,24 @@ test('role visibility and the independent assistant gate are unchanged', () => {
   const ownerOnlyItems = ADMIN_NAVIGATION_GROUPS.flatMap((group) => group.items).filter(
     (item) => item.visibility === 'owner',
   );
-  assert.deepEqual(ownerOnlyItems.map((item) => item.id), ['parcel-configuration', 'admin-users', 'admin-warehouses', 'admin-go-live', 'admin-monitoring']);
+  assert.deepEqual(ownerOnlyItems.map((item) => item.id), ['parcel-configuration', 'finance-withdrawals', 'admin-users', 'admin-warehouses', 'admin-go-live', 'admin-monitoring']);
   const warehouses=ownerOnlyItems.find(item=>item.id==='admin-warehouses');assert.ok(warehouses);
   assert.equal(isNavigationItemVisible(warehouses,'owner'),true);
   for(const role of ['admin','manager','accountant','cashier','sales','warehouse',null])assert.equal(isNavigationItemVisible(warehouses,role),false);
-  assert.match(moreMenu, /isNavigationItemVisible\(item,roleName,roles\)/);
+  assert.match(moreMenu, /searchNavigationGroups\(search,roleName,roles\)/);
   const cheque=ADMIN_NAVIGATION_GROUPS.flatMap(g=>g.items).find(i=>i.id==='finance-cheques');
   assert.ok(cheque);
   for(const role of ['owner','manager'])assert.equal(isNavigationItemVisible(cheque,role),true);
   for(const role of ['admin','accountant','cashier','sales','warehouse',null])assert.equal(isNavigationItemVisible(cheque,role),false);
-  assert.match(
-    moreMenu,
-    /\['owner', 'admin', 'manager', 'accountant'\]\.includes\(\s*roleName \|\| '',\s*\)/,
-  );
-  assert.match(moreMenu, /data-navigation-id="assistant-shortcut"/);
-  assert.ok(
-    ADMIN_NAVIGATION_GROUPS.every((group) =>
-      group.items.every((item) => item.action.destination !== 'assistant'),
-    ),
-  );
+  for(const role of ['owner','admin','manager','accountant'])assert.equal(canUseNavigationAction({type:'tab',destination:'assistant'},role),true);
+  for(const role of ['cashier','sales','warehouse_keeper','view_only',null])assert.equal(canUseNavigationAction({type:'tab',destination:'assistant'},role),false);
+  assert.ok(ADMIN_NAVIGATION_GROUPS.some(group=>group.items.some(item=>item.id==='admin-assistant')));
+
 });
 
 test('modal dispatcher, quick actions and nested feature views retain their identities', () => {
   const expectedModalIds = [
+    'damage_stock_selection',
     'add_customer',
     'add_expense',
     'add_product',
@@ -276,8 +257,9 @@ test('Package F bottom tabs: Home, Orders, centre Sell, Inventory, More; Custome
   assert.match(bottomTabs, /min-h-14/);
   // The floating quick-action button is gone; its shortcuts live in More and the SideNav.
   assert.doesNotMatch(app, /QuickActionButton|data-navigation-action-dock/);
-  assert.match(moreMenu, /SECONDARY_QUICK_ACTIONS\.map/);
-  assert.match(moreMenu, /data-navigation-id=\{quickAction\.id\}/);
-  assert.match(moreMenu, /handleNavigationAction\(quickAction\.action\)/);
+  assert.doesNotMatch(moreMenu,/SECONDARY_QUICK_ACTIONS|quick-action-trigger/);
+  const side=readFileSync('src/components/layout/SideNav.tsx','utf8');
+  assert.match(side,/SECONDARY_QUICK_ACTIONS.filter/);
+  assert.match(side,/onClick: \(\) => run\(action.action\)/);
   assert.match(header, /aria-label="فتح المساعد الإداري الذكي"/);
 });

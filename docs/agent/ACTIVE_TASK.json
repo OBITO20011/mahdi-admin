@@ -2,50 +2,48 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Integrate accepted package4 product/receiving205 exact feature FULL35+secrets;genuine mainmerge then exactmainFULL35+secrets;continue ordered5-9.Ask only new financial question.No hostedaccess/deploy.",
-  "baselineSha": "d2a3d14e3a2688152caba0acf8e32acaed2679a8",
+  "objective": "Integrate accepted package5 navigation/cash206 exact feature FULL36+secrets;genuine mainmerge then exactmainFULL36+secrets;continue ordered6-9.Ask only new financial question.No hostedaccess/deploy.",
+  "baselineSha": "e1eef2f22ebe783513eb2289949fc4e31ca46013",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "PR6/main204 d2a3d14 deliveredFULL34+secrets",
-    "Package4 local1294Admin192Customer207effectivebrowser/realDB/FULLscale/ref/upgrade/reset PASS",
-    "Feature 88c3941f0db7f6163813c13783f9eecd530428d9 exact push+PR FULL35+secrets strictlyverified"
+    "PR7/main205 e1eef2f deliveredFULL35+secrets",
+    "Package5 local1304Admin203effectivebrowser/realDB9/FULLscale/ref/upgrade/reset PASS",
+    "Feature 54989ef04932654abff42e5f2509885861484b4c exact push+PR FULL36+secrets strictlyverified"
   ],
   "inProgress": [
-    "Genuine205 mainmerge,exactmainFULL35+secrets next"
+    "Genuine206 mainmerge,exactmainFULL36+secrets next"
   ],
   "notStarted": [
-    "Package5 then6-9 in owner order"
+    "Package6 then7-9 in owner order"
   ],
   "testsPassed": [
-    "TypesBoth/lint/buildsBoth/network0escaped",
-    "Actual water/juice money/WAC unchanged;legacy/currentbasis and roles/no-write/replay",
-    "198effectivebrowser;exactstoredsale1000/24 vsbuy1005 loss5fils",
-    "Fresh/incremental167migrations519functions13Realtime zero catalogdiff;actualupgrade/replay/reset/offline"
+    "1304Admin/31finalevidence;types/strictlint/build/network0;203browser/2oldskips",
+    "Actual206 DB9/FULLscale maxp95 151.382ms/ref168-520-13/upgrade200..206/replay/reset PASS",
+    "SDK142 OKXa7U/RPC507 Q4HdXv denied0;offline206/205/204/203 PASS;oldrefsunchanged;Gitleaks0"
   ],
   "testsRemaining": [
-    "Exact mainFULL35+secrets"
+    "Exact mainFULL36+secrets"
   ],
   "findings": [
-    "Currentbaseadapter erases original20x10;display saved200base@.500 honestly,retain real legacy20/N10",
-    "No financial rule changed;latestprice readonly;exactstoredsalequote prevents rounding falseprofit",
-    "See PRODUCT_RECEIVING_205_INITIAL_QA for all initial failures and bounded corrections",
-    "One EOFblank removed with emittedJS byteequality;actualcurrent access/ref rebuilt;catalogs/manifest/functions equal passedDBpipeline"
+    "a601 CI old Home201 supplier label in four cases;one expectedlabel changed,eight actualcasesPASS",
+    "Money/print/axe/timeout/retry/skip unchanged;no app/SQL/tools/proof change;new exactFULL36 required",
+    "0ab core only old closing duplicate-label selectors;3scopedselectors/6casesPASS;all money assertions unchanged"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
-    "No Frankfurt/Production/hostedaccess,secrets or deployment",
-    "001-204 immutable;only additive205 readonly readers within owner13-17",
+    "No Production/Frankfurt/hostedaccess,secrets or deployment",
+    "001-205 immutable;no financialrule/role/writer change",
     "One writer;no tracked edits during localverification;no weakened assertions/retries/timeouts"
   ],
-  "checkpointedAt": "2026-10-20T15:08:31.479Z",
+  "checkpointedAt": "2026-10-20T20:42:27.269Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 91,
-  "filesTouchedManifestSha256": "dc1086a5aaae7cfb7758095919e8d5bc9a0a434d7d2d1e61a02a5acac6af8e66",
-  "nextExactAction": "Accepted88c3941 featureFULL35push+PR/secrets;metadata7testsPASS/sourceidentical/Gitleaks0;commit genuine mainmerge/push,exactmainFULL35+secrets then5.No hostedaccess.",
-  "workingTreeFingerprint": "F9E3FECCC6516DAEDD2083DD706E1796FB3912DE706EB8A03EC459A95392A91C"
+  "filesTouchedCount": 106,
+  "filesTouchedManifestSha256": "302d542e4f8c03c25f90127de854d94dcb6e16111564946206b4d5002a66d467",
+  "nextExactAction": "Genuine206 mainmerge source/tests/SQL/tools identical accepted54989ef;7metadata tests PASS. Commit/push afterpreflight/Gitleaks;exactmainFULL36+secrets then6.No hostedaccess.",
+  "workingTreeFingerprint": "A32BA58779C2F2914AB7C82168572BF188308089016CBFC073B9BFD9F4CC2094"
 }

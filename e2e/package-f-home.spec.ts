@@ -64,7 +64,7 @@ test('Home actions and period selector preserve existing intent; net is never gr
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto(url('theme=light'));
   const kpis = page.getByTestId('home-kpis');
-  await expect(kpis).toContainText('31,906.250');
+  await expect(kpis).toContainText('4,100.000');
   await expect(kpis).not.toContainText('34,006.250');
   await page.getByRole('radio', { name: 'الشهر' }).click();
   await expect(kpis).toContainText('34,006.250');
@@ -72,9 +72,9 @@ test('Home actions and period selector preserve existing intent; net is never gr
   await expect(kpis).toContainText('7,384.500');
   await page.getByRole('button', { name: /طلبات تحتاج إجراء/  }).click();
   await expect(page.getByTestId('home-action')).toHaveText('orders');
-  await page.getByRole('button', { name: 'مراجعة العملاء والذمم' }).click();
+  await page.getByRole('button', { name: 'مراجعة الذمم' }).click();
   await expect(page.getByTestId('home-action')).toHaveText('accounts');
-  await page.getByRole('button', { name: 'إغلاق الوردية', exact: true }).click();
+  await page.getByRole('button', { name: 'الصندوق', exact: true }).click();
   await expect(page.getByTestId('home-action')).toHaveText('shifts');
   await page.getByRole('button', { name: 'استلام', exact: true }).first().click();
   await expect(page.getByTestId('home-action')).toHaveText('receive_goods:p1');
@@ -121,10 +121,10 @@ test('unavailable financial facts and absent shift are explicit, not zeros', asy
   await page.goto(url('theme=dark&unavailable&noShift'));
   await expect(page.getByTestId('dashboard-home').getByRole('status')).toContainText('الأرقام المالية غير متاحة');
   await expect(page.getByTestId('home-kpis')).not.toContainText('1,284.500');
-  await expect(page.getByTestId('home-kpis')).not.toContainText('31,906.250');
+  await expect(page.getByTestId('home-kpis')).not.toContainText('4,100.000');
   await expect(page.getByTestId('home-kpis')).not.toContainText('8,420.750');
   await expect(page.locator('[aria-labelledby="home-sales-title"]')).toContainText('غير متاح');
-  await expect(page.getByRole('button', { name: 'فتح الصندوق والورديات' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'فتح الصندوق' })).toBeVisible();
 });
 
 test('live DashboardView still loads and refreshes the real adapter RPC contract', async ({ page }) => {
@@ -132,12 +132,12 @@ test('live DashboardView still loads and refreshes the real adapter RPC contract
   const payload = { ...homeFixture, financialFactsStatus: 'available' };
   await page.route('**/rest/v1/rpc/get_home_dashboard', (route) => { calls++; return route.fulfill({ json: payload }); });
   await page.goto(url('theme=light&live'));
-  await expect(page.getByTestId('home-kpis')).toContainText('31,906.250');
+  await expect(page.getByTestId('home-kpis')).toContainText('4,100.000');
   await expect(page.getByTestId('home-kpis')).toContainText('8,420.750');
   expect(calls).toBe(1);
   payload.financialFactsStatus = 'unavailable';
   await page.getByRole('button', { name: 'تحديث مركز اليوم' }).click();
   await expect(page.getByTestId('dashboard-home').getByRole('status')).toContainText('الأرقام المالية غير متاحة');
-  await expect(page.getByTestId('home-kpis')).not.toContainText('31,906.250');
+  await expect(page.getByTestId('home-kpis')).not.toContainText('4,100.000');
   expect(calls).toBe(2);
 });

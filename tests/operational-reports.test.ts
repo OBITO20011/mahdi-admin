@@ -50,7 +50,7 @@ test('report UI uses the RPC service and offers real browser print to Arabic PDF
   assert.match(view, /@page \{ size: A4 portrait/);
   assert.match(view, /direction: rtl/);
   assert.doesNotMatch(view, /alert\(/);
-  assert.match(moreMenu, /handleNavigationAction\(item\.action\)/);
+  assert.match(moreMenu, /run\(item.action\)/);
   assert.match(navigationConfig, /destination: 'reports'/);
   assert.match(navigationConfig, /التقارير والحسابات/);
 });

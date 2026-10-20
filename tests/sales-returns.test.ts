@@ -93,8 +93,8 @@ test('cash refunds reduce drawer expectation and are snapshotted on close', () =
     migration,
     /cash_refunds_in_minor_units = \(v_summary->>'cashRefundsInMinorUnits'\)::BIGINT/
   );
-  assert.match(shiftView, /مبالغ مرتجعات كاش/);
-  assert.match(shiftView, /currentShift\.cliqRefunds/);
+  assert.match(shiftView,/CashFlowSummary shift=\{currentShift\}/);assert.match(readFileSync('src/features/shifts/cashFlowModel.ts','utf8'),/مبالغ مرتجعات كاش/);
+  assert.match(readFileSync('src/features/shifts/cashFlowModel.ts','utf8'),/shift\.cliqRefunds/);
 });
 
 test('historical return service stays identifiable but Admin Legacy creation is read-only', () => {

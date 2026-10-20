@@ -6,9 +6,9 @@
 
 ### أ. RPC — EXECUTE الفعلي،لا افتراض نجاح من mock
 
-172 موضعSDK .rpc و4 موضعRESTGateway،166 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
+173 موضعSDK .rpc و4 موضعRESTGateway،167 اسم دالة. أسماءالأغلفةالديناميكية موثقةبالاستدعاءالذييوردها؛أيرابطغيرمحسوميفشلالجرد. ثلاثمصارفديناميكية تشملPOSV2 وإعدادالطرود،والبوابةتحوّلrpcName إلىsubmit_guest_customer_order_v2.
 
-قاعدة205 محلية جديدة: 504 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،119 نجاحمعrollback،385 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
+قاعدة206 محلية جديدة: 507 dispatch حقيقي إلىتواقيعالدوالالمستدعاة/overloads بأدوارهاالحقيقية؛0 رفض42501،119 نجاحمعrollback،388 رفض/خطأداخلجسمالدالة. has_function_privilege موثق لكلتوقيع/دور. **فحصالصلاحيةلايعنيقبولكلدورحسبقواعدالعمل**؛المالك/admin/cashier منفصلون.
 
 حدالقياسصريح:أُرسلتقيممحليةمحايدةمُنمّطةحسبتوقيعSQL(معرفعميل/فرع/مستودعfixtureحيثيوجد،NULL/JSONفارغلغيره)،وليستجميعحمولاتالتدفّقاتالصحيحةمنواجهةالتطبيق. النصالأصليلكلاستدعاءومعاملاتهفيSERVICE_ACCESS_INVENTORY.json؛قيمةكلprobeوأثرهفيSERVICE_ACCESS_DIAGNOSTIC.json. لا نسمّي274خطأتحققنجاحاًوظيفياً ولا42501. كلنجاحوكلخطأداخلsubtransactionأُرجع؛لاأثرماليأومخزنيباقٍ. اختباراتالمساراتالمتكاملةالقائمةتبقىمطلوبة؛هذهالإضافةتثبتEXECUTE/dispatchوليسإتمامكلسيناريو.
 
@@ -22,6 +22,7 @@
 | cancel_customer_order_v2؛src/services/supabase/adminCustomerV2Lifecycle.ts:320 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | complete_website_order_with_settlement_v2؛src/services/supabase/adminCustomerV2Lifecycle.ts:322 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | update_my_erp_profile؛src/services/supabase/auth.service.ts:160 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| get_cash_shift_movement_page؛src/services/supabase/cashShiftMovements.service.ts:34 | authenticated | owner:22023؛ admin:22023؛ cashier:P0001 |
 | receive_customer_cheque_v1؛src/services/supabase/cheques.service.ts:55 | authenticated | owner:23502؛ admin:23502؛ cashier:23502 |
 | issue_supplier_cheque_v1؛src/services/supabase/cheques.service.ts:57 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | preview_customer_cheque_v1؛src/services/supabase/cheques.service.ts:61 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
@@ -330,4 +331,4 @@ node scripts/audit/run-service-access-diagnostic.mjs
 node scripts/audit/service-access-report.mjs <diagnostic.json> <local-reference.json> <catalog-observed.json>
 ```
 
-لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على205 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
+لاconnectionstringأومفتاحخدمةبعيدفيهذهالأوامر. الأمرالأخيرقراءةملفاتمحفوظةفقط؛لاقيملأسرارفيالمخرجات. قياسEXECUTE على206 ومصدرالاستدعاءاتالحالي؛150 لاتغيرEXECUTE بدليل مقارنةالكتالوجالكاملة،و139تغيّر جسمenqueueغيرالمستدعىمنالواجهةمعإبقاءACL.139سُلّمتمنفصلة3a3893b،وقياسهاالحقيقيأثبتصفرمرجعقديمفيتعريفاتpublic بعدالتطبيقالمحلي؛لايعنيهذاأنهاتطبقتعلىفرانكفورت.
