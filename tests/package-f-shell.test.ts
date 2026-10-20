@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { ADMIN_NAVIGATION_GROUPS } from '../src/features/more/adminNavigation.config.ts';
+import { ADMIN_NAVIGATION_GROUPS,canUseNavigationAction } from '../src/features/more/adminNavigation.config.ts';
 import {
   SIDE_NAV_MORE,
   buildSideNavigation,
@@ -60,20 +60,20 @@ test('desktop shows the SideNav (POS collapses it); phones get the bottom tabs o
 test('one shared shortcut list feeds the SideNav and More; the centre tab is the sale', () => {
   assert.deepEqual(QUICK_ACTIONS.map((action) => action.id), ['pos-sale', 'goods-receipt', 'add-expense', 'add-product']);
   assert.deepEqual(SECONDARY_QUICK_ACTIONS.map((action) => action.id), ['goods-receipt', 'add-expense', 'add-product']);
-  assert.match(sideNav, /SECONDARY_QUICK_ACTIONS\.map/);
-  assert.match(sideNav, /setActiveTab\('pos'\)/);
+  assert.match(sideNav, /SECONDARY_QUICK_ACTIONS.filter/);
+  assert.match(sideNav, /run\(\{type:'tab',destination:'pos'\}\)/);
   assert.match(bottomTabs, /\{ id: 'pos', label: 'بيع', icon: Plus, centre: true \}/);
   assert.match(bottomTabs, /-mt-\[22px\]/);
   assert.doesNotMatch(bottomTabs, /\b(?:bg|text|border)-(?:slate|blue|gray|indigo)-\d/);
 });
 
 test('the assistant keeps its role gate on both shells', () => {
-  for (const source of [sideNav, header]) {
-    assert.match(source, /\['owner', 'admin', 'manager', 'accountant'\]\.includes\(\s*roleName \|\| ''/);
-  }
-  assert.match(sideNav, /setActiveTab\('assistant'\)/);
-  assert.match(header, /setActiveTab\('assistant'\)/);
-  assert.match(sideNav, /openModal\('profile'\)/);
+  assert.match(header,/\['owner', 'admin', 'manager', 'accountant'\].includes/);
+  for(const role of ['owner','admin','manager','accountant'])assert.equal(canUseNavigationAction({type:'tab',destination:'assistant'},role),true);
+  for(const role of ['sales','cashier','warehouse_keeper','view_only'])assert.equal(canUseNavigationAction({type:'tab',destination:'assistant'},role),false);
+  assert.match(sideNav,/buildSideNavigation\(roleName,roles\)/);
+  assert.match(header,/setActiveTab\('assistant'\)/);
+  assert.match(sideNav,/run\(\{type:'modal',destination:'profile'\}\)/);
   assert.doesNotMatch(sideNav, /\b(?:bg|text|border)-(?:slate|blue|gray|indigo)-\d/);
 });
 

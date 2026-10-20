@@ -92,5 +92,5 @@ test('touch chip opt-in preserves default dimensions and counters', () => {
 test('shift time is numeric first with Latin digits and correct morning/evening suffix', () => {
   assert.equal(formatUiTime('2026-10-09T05:12:00.000Z'), '08:12 ص');
   assert.equal(formatUiTime('2026-10-09T17:12:00.000Z'), '08:12 م');
-  assert.match(readFileSync('src/features/dashboard/DashboardHome.tsx', 'utf8'), /<bdi dir="ltr">\{formatUiTime\(shift.startTime\)\}<\/bdi>/);
+  assert.match(readFileSync('src/features/shifts/ShiftsView.tsx', 'utf8'), /<bdi dir="auto" data-testid="cash-start-time">\{formatUiTime\(currentShift.startTime\)\}<\/bdi>/);
 });

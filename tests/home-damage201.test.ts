@@ -35,7 +35,7 @@ test('201 Home displays canonical cash+CliQ;zero,missing,error and loading stay 
 test('201 shift outflow evidence includes supplier,withdrawal,refund,expense and withdrawal return',()=>{
  const currentShift={...shiftFixture,cashSupplierPayments:91.234,ownerWithdrawals:44.321,ownerWithdrawalReturns:5.123};
  const html=render(homeFixture,{currentShift});
- for(const text of ['دفعات موردين من الدرج','-91.234','سحوبات المالك','-44.321','إرجاع سحوبات المالك','5.123','-12.000','-24.000','810.300'])assert.ok(html.includes(text),text);
+ for(const text of ['دفعات الموردين كاش','91.234','سحوبات المالك','44.321','إرجاع سحوبات المالك','5.123','12.000','24.000','810.300','−','data-cash-flow="supplier_payments:cash"'])assert.ok(html.includes(text),text);
  assert.ok(!html.includes('mt-4 hidden space-y-3 text-sm lg:block'));
 });
 

@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-20T19:37:02.351Z",
+  "baseline": "e1eef2f22ebe783513eb2289949fc4e31ca46013",
+  "managedAccess": false,
+  "deliveryStatus": "LOCAL_GATES_PASS_CI_PENDING",
+  "ownerPreparedCommand": "frankfurt-owner-upgrade206",
+  "lastDeliveredOwnerCommand": "frankfurt-owner-upgrade205",
+  "runtime": {
+    "file": "NAVIGATION_CASH_206_EVIDENCE.json",
+    "groups": 9,
+    "ok": true
+  },
+  "quality": {
+    "admin": 1304,
+    "customer": 192,
+    "customerEvidence": "unchanged customer sources;accepted C4 evidence;full CI repeats current gate",
+    "types": true,
+    "strictLint": true,
+    "adminBuild": true,
+    "customerBuildEvidence": "accepted unchanged C4",
+    "networkExternalEscaped": 0
+  },
+  "browser": {
+    "effectivePassed": 189,
+    "affected": 165,
+    "newNavigationAndPrint": 24,
+    "unchangedProjectSkips": 2,
+    "newSkips": 0,
+    "engines": [
+      "chromium",
+      "webkit"
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "widths": [
+      390,
+      820,
+      1440
+    ],
+    "ledger": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c5-browser-complete.json"
+  },
+  "access": {
+    "functions": 520,
+    "sdk": 142,
+    "rpc": 507,
+    "denied": 0,
+    "sdkOutput": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-OKXa7U",
+    "rpcOutput": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-Q4HdXv"
+  },
+  "scale": {
+    "ok": true,
+    "profile": "FULL",
+    "counts": {
+      "skus": 5000,
+      "items": 450000,
+      "orders": 150000,
+      "shifts": 1460,
+      "returns": 15000,
+      "families": 200,
+      "payments": 200000,
+      "receipts": 20000,
+      "customers": 10000,
+      "movements": 1200000,
+      "suppliers": 100,
+      "replacements": 5000
+    },
+    "timings": [
+      {
+        "name": "closed-sales25",
+        "p95": 93.785
+      },
+      {
+        "name": "closed-sales100",
+        "p95": 106.188
+      },
+      {
+        "name": "closed-receipts",
+        "p95": 62.634
+      },
+      {
+        "name": "closed-refunds",
+        "p95": 32.518
+      },
+      {
+        "name": "open-sales",
+        "p95": 151.382
+      },
+      {
+        "name": "open-suppliers",
+        "p95": 115.617
+      }
+    ],
+    "evidence": "NAVIGATION_CASH_206_SCALE.json"
+  },
+  "reference": {
+    "startedAt": "2026-10-20T19:22:49.653Z",
+    "managedAccess": false,
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-reference206-uYojW5",
+    "target": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c206-final-vXtsnc\\local-reference-through206-ready.json",
+    "ok": true,
+    "migrations": 168,
+    "functions": 520,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferenceCount": 0,
+    "endedAt": "2026-10-20T19:25:46.586Z"
+  },
+  "upgrade": {
+    "ok": true,
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-legacy-cost-upgrade206-WugrbQ",
+    "applied": [
+      "200",
+      "201",
+      "202",
+      "203",
+      "204",
+      "205",
+      "206"
+    ],
+    "recorded": [
+      "200",
+      "201",
+      "202",
+      "203",
+      "204",
+      "205",
+      "206"
+    ],
+    "replayWrite": false,
+    "managedAccess": false,
+    "evidence": "NAVIGATION_CASH_206_UPGRADE.json"
+  },
+  "reset": {
+    "ok": true,
+    "evidence": "NAVIGATION_CASH_206_RESET.json",
+    "ownerRetained": true,
+    "verifiedTotpRetained": true,
+    "storageBytesDeleted": true
+  },
+  "remaining": [
+    "Exact feature FULL36 push+PR and secrets",
+    "Genuine main merge and exact mainFULL36+secrets"
+  ],
+  "ownerOffline": {
+    "recordedAt": "2026-10-20T19:36:44.758Z",
+    "managedAccess": false,
+    "oldReferencesUnchanged": {
+      "203": "aa63a3bc13922c631cbb711baaebb8d4eef5f72aa3b2b3f7a5349c91f20d7f99",
+      "204": "aff96c1df345a0c0da35c6d40f69af2ea3806bc8d6caed09ccf4746524f2c977",
+      "205": "0f5439d3269a3e017a8ff10d37614f30cd56ffc08873f3eaf857220c51061e52"
+    },
+    "reference206Sha256": "b69ed23867cb2b10ea7f3fc4e2c9965ebc00497b29b6129fee709871710c781c",
+    "offline": [
+      {
+        "version": 206,
+        "ok": true,
+        "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline206-2026-10-20T19-36-48-180Z",
+        "remoteWriteAttempted": false
+      },
+      {
+        "version": 205,
+        "ok": true,
+        "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline205-2026-10-20T19-36-51-708Z",
+        "remoteWriteAttempted": false
+      },
+      {
+        "version": 204,
+        "ok": true,
+        "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline204-2026-10-20T19-36-56-692Z",
+        "remoteWriteAttempted": false
+      },
+      {
+        "version": 203,
+        "ok": true,
+        "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline203-2026-10-20T19-37-01-545Z",
+        "remoteWriteAttempted": false
+      }
+    ]
+  }
+}

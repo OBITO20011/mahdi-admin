@@ -18,6 +18,7 @@ import { Modal } from '../common/Modal';
 import { ProductFormModal } from '../../features/products/ProductFormModal';
 import { ProductDetailModal } from '../../features/products/ProductDetailModal';
 import { StockAdjustmentModal } from '../../features/products/StockAdjustmentModal';
+import {DamageProductSelection} from '../../features/more/DamageProductSelection';
 import { CategoriesModal } from './CategoriesModal';
 import { BrandsModal } from './BrandsModal';
 import { UnitsModal } from './UnitsModal';
@@ -96,6 +97,8 @@ export const AllModals: React.FC = () => {
           <ProductDetailModal product={modalData} onClose={closeModal} />
         )}
       </Modal>
+
+      <Modal isOpen={currentModal==='damage_stock_selection'} onClose={closeModal} title="اختر الصنف التالف" subtitle="ثم سجل الكمية والسبب في نموذج تعديل المخزون" trackChanges={false}><DamageProductSelection/></Modal>
 
       {/* 3. Adjust Stock Modal */}
       <Modal

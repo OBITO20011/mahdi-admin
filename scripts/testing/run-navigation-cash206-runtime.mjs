@@ -1,0 +1,116 @@
+// Disposable local DB. Money/inventory operations use accepted public writers.
+import assert from 'node:assert/strict';
+import {execFile} from 'node:child_process';
+import {promisify} from 'node:util';
+import {readFile,writeFile,mkdtemp} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import path from 'node:path';
+import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
+import {schemaCatalogSql,catalogDifference} from './schema-catalog.mjs';
+import {readApplicationFingerprint} from './backup-restore-contract.mjs';
+import {assertPackageDDbLint} from './package-d-db-lint-policy.mjs';
+const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),project='nawasrah-navigation-cash206-test';
+const cli=path.join(root,'node_modules/supabase/dist/supabase.js'),executor=executorFor(['--container','supabase_db_'+project]);
+const output=await mkdtemp(path.join(tmpdir(),'nawasrah-navigation-cash206-')),report={output,startedAt:new Date().toISOString(),managedAccess:false,cases:[]};
+const id=n=>`92600000-0000-4000-8000-${String(n).padStart(12,'0')}`,owner=id(1),branch=id(200),warehouse=id(201),customer=id(405);
+const q=v=>"'"+String(v).replaceAll("'","''")+"'",j=v=>q(JSON.stringify(v))+'::jsonb';let local,stage='bootstrap205',counter=0,shift;
+const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,r.stderr);return r.stdout.trim();};
+const json=async input=>JSON.parse((await sql(input)).split('\n').at(-1));
+const auth=(body,uid=owner,role='authenticated',aal='aal2')=>`BEGIN;SELECT set_config('request.jwt.claims',${q(JSON.stringify({sub:uid,role,aal}))},true);SET LOCAL ROLE ${role};${body}COMMIT;`;
+const rpc=(call,uid=owner)=>json(auth('SELECT public.'+call+';',uid));
+const key=()=>`cash206-runtime-${String(++counter).padStart(8,'0')}`;
+const record=(name,details={})=>{report.cases.push({name,passed:true,...details});console.log(JSON.stringify(report.cases.at(-1)));};
+const call=(kind,method='cash',page=1,size=25,s=shift)=>`get_cash_shift_movement_page(${q(s)},${q(kind)},${q(method)},${page},${size})`;
+const detail=(...args)=>rpc(call(...args));
+const kinds=['sales','receipts','supplier_payments','expenses','refunds','withdrawals','withdrawal_returns'];
+const parity=async(s=shift)=>{for(const method of ['cash','cliq','card'])for(const kind of kinds){if((method==='card'&&kind!=='sales')||(method!=='cash'&&kind.startsWith('withdraw')))continue;
+  const result=await detail(kind,method,1,100,s);assert.equal(result.evidenceStatus,'matched',JSON.stringify(result));assert.equal(result.totalAmountInMinorUnits,result.canonicalAmountInMinorUnits);
+  if(result.totalCount<=100)assert.equal(result.rows.reduce((sum,row)=>sum+row.amountInMinorUnits,0),result.totalAmountInMinorUnits);}};
+const sale=(n,method='debt',c=customer)=>rpc(`create_pos_sale_v2(${q(warehouse)},${q(branch)},${q(c)},'عميل206',${q(method)},${j([{commercial_line_kind:'base_unit',product_id:id(101),base_quantity:n,price_authority:'server_catalog',line_discount_in_minor_units:0}])},0,${method==='debt'?0:n*1000},${q(key())})`);
+const collect=(n,method='cash')=>rpc(`collect_customer_balance_v1(${q(customer)},${n},${q(method)},${q(branch)},'LOCAL206',NULL,${q(key())})`);
+try{
+  const boot=await exec(process.execPath,[path.join(root,'scripts/testing/bootstrap-isolated-supabase.mjs')],{cwd:root,windowsHide:true,maxBuffer:8*1024**2,env:{...process.env,
+    NAWASRAH_ISOLATED_PROJECT_ID:project,NAWASRAH_MAX_MIGRATION:'205',NAWASRAH_SKIP_REDUNDANT_DB_RESET:'true',
+    NAWASRAH_SUPABASE_EXCLUDE:'gotrue,kong,postgrest,realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor'}});
+  local=JSON.parse(boot.stdout).isolatedProjectRoot;
+  await sql('ALTER TABLE orders DISABLE TRIGGER trg_notify_new_website_order_push;SELECT cron.alter_job(jobid,active:=false) FROM cron.job;');
+  await sql(await readFile(path.join(root,'scripts/testing/package-e-golden-day-fixture.sql'),'utf8'));
+  await sql(`INSERT INTO customers(id,full_name,phone,credit_limit_in_minor_units) VALUES(${q(customer)},'عميل206','0796600405',1000000);`);
+  await rpc(`set_go_live_main_branch_v1(${q(branch)})`);
+  await rpc(`record_supplier_opening_balances_v1(${q(key())},${j([{supplier_id:id(301),direction:'payable',amount_in_minor_units:'20000',original_balance_date:'2020-01-01'}])})`);
+  await rpc(`record_customer_opening_balances_v1(${q(key())},${j([{customer_id:customer,amount_in_minor_units:'5000',original_debt_date:'2020-01-01'}])})`);
+  await rpc(`open_cash_shift(${q(branch)},500000)`);shift=await json(`SELECT to_jsonb(id) FROM cash_shifts WHERE status='open' AND branch_id=${q(branch)};`);
+  stage='add readonly206';const beforeCatalog=await json(schemaCatalogSql),beforeData=await readApplicationFingerprint(executor);
+  const migration=await readFile(path.join(root,'supabase/migrations/206_cash_shift_movement_read_model.sql'),'utf8');await sql(migration);
+  assert.deepEqual(await readApplicationFingerprint(executor),beforeData);
+  const delta=catalogDifference(beforeCatalog,await json(schemaCatalogSql));assert.equal(delta.length,1);assert.equal(delta[0].section,'functions');assert.equal(delta[0].before,null);
+  const added=delta[0].after;assert.ok(added.identity.startsWith('get_cash_shift_movement_page('));
+  assert.deepEqual(added.acl,beforeCatalog.functions.find(f=>f.identity.startsWith('get_cash_shift_closing_report(')).acl);
+  assert.equal(added.owner,'postgres');assert.deepEqual(added.configuration,['search_path=public, pg_temp']);assert.match(added.definition,/STABLE/u);assert.match(added.definition,/SECURITY DEFINER/u);
+  await parity();record('one STABLE SECURITY DEFINER reader only;same closing ACL;empty full totals0;no application or sequence changes');
+  stage='two actual supplier vouchers90 and20';
+  // Identity fixture only;both payments below use the existing public writer.
+  await sql(`INSERT INTO branches(id,code,name_ar,is_active) VALUES(${q(id(210))},'CASH206-OTHER','فرع سندي المورد206',true);`);
+  await rpc(`record_supplier_opening_balances_v1(${q(key())},${j([{supplier_id:id(302),direction:'payable',amount_in_minor_units:'110000',original_balance_date:'2020-01-01'}])})`);
+  await rpc(`open_cash_shift(${q(id(210))},500000)`);const otherShift=await json(`SELECT to_jsonb(id) FROM cash_shifts WHERE status='open' AND branch_id=${q(id(210))};`);
+  for(const amount of [90000,20000])await rpc(`pay_supplier_opening_balance_v1(${q(id(302))},${q(id(210))},${amount},'cash',NULL,NULL,${q(key())})`);
+  const vouchers=await detail('supplier_payments','cash',1,25,otherShift);assert.equal(vouchers.evidenceStatus,'matched');assert.equal(vouchers.totalCount,2);assert.equal(vouchers.totalAmountInMinorUnits,110000);assert.deepEqual(vouchers.rows.map(row=>row.amountInMinorUnits).sort((a,b)=>a-b),[20000,90000]);
+  assert.equal((await rpc(`get_cash_shift_summary(${q(otherShift)})`)).expectedCashInMinorUnits,390000);record('owner two real supplier vouchers90+20,full detail110,opening500=>drawer390;other branch attribution isolated');
+  stage='500 minus90 minus20 equals390';
+  await rpc(`create_operational_expense(${q(branch)},'تشغيل','مصروف90',90000,'cash',NULL)`);
+  await rpc(`pay_supplier_opening_balance_v1(${q(id(301))},${q(branch)},20000,'cash',NULL,NULL,${q(key())})`);
+  await parity();assert.equal((await rpc(`get_cash_shift_summary(${q(shift)})`)).expectedCashInMinorUnits,390000);
+  assert.equal((await detail('supplier_payments')).rows[0].source,'supplier_opening_payment');record('actual opening500-expense90-supplier20=390;opening supplier actual evidence');
+  stage='opening and unified receipt allocation';
+  await collect(3000);await collect(1000,'cliq');
+  const receipt=await rpc(`create_direct_supplier_receipt_v2(p_supplier_id:=${q(id(301))},p_branch_id:=${q(branch)},p_warehouse_id:=${q(warehouse)},p_idempotency_key:=${q(key())},p_payment_method:='deferred',p_lines:=${j([{client_line_id:id(901),line_kind:'base_unit',commercial_quantity:1000,base_unit_name:'باكيت',gross_amount_in_minor_units:200000,line_discount_in_minor_units:0,components:[{product_id:id(101),base_quantity:1000}]}])})`);assert.equal(receipt.success,true);
+  const debt=await sale(30);assert.equal(debt.success,true);
+  const payment=await rpc(`record_customer_order_payment_once(${q(debt.orderId)},2000,'cash',NULL,NULL,${q(key())})`);
+  const mixed=await collect(4000);assert.deepEqual([mixed.openingAmountInMinorUnits,mixed.ordersAmountInMinorUnits],[1000,3000]);
+  const cashSale=await sale(2,'cash');await sale(3,'cliq');
+  await parity();assert.equal((await detail('receipts')).totalAmountInMinorUnits,9000);assert.equal((await detail('receipts','cliq')).totalAmountInMinorUnits,1000);
+  assert.equal((await detail('sales')).totalAmountInMinorUnits,2000);assert.equal((await detail('sales','cliq')).totalAmountInMinorUnits,3000);
+  await rpc(`reverse_customer_order_payment(${q(payment.payment_id)},'عكس قبض للاختبار206')`);await parity();assert.equal((await detail('receipts')).totalAmountInMinorUnits,7000);
+  record('opening3cash+1CliQ,order2cash,mixed4cash counted once;direct sales separate;actual payment reversal removed');
+  stage='refund and cheque compensation';
+  const item=await json(`SELECT to_jsonb(id) FROM order_items WHERE order_id=${q(cashSale.orderId)};`);
+  const returned=await rpc(`settle_admin_sales_return_v1(${q(cashSale.orderId)},${q(key())},${j([{return_scope:'base_unit',order_item_id:item,quantity:1,stock_disposition:'restock'}])},${j([{root_source_kind:'base_order_item',root_source_id:item,source_kind:'base_order_item',source_id:item,product_id:id(101),quantity:1,sellable_restock_quantity:1,defect_non_sellable_quantity:0,customer_damage_quantity:0}])},'مرتجع206','cash',NULL,NULL)`);assert.equal(returned.moneyRefundInMinorUnits,1000);
+  const cheque=await rpc(`receive_customer_cheque_v1(${q(customer)},${q(branch)},'بنك محلي','IN206',CURRENT_DATE+2,10000,NULL,${q(key())})`);
+  await rpc(`cancel_deferred_cheque_v1(${q(cheque.cheque.id)},1,'تصحيح تسجيل206',${q(key())})`);
+  // Existing oldest-debt allocation pays remaining order17 first,then claim1.
+  assert.equal((await collect(18000)).compensationAmountInMinorUnits,1000);
+  const issued=await rpc(`issue_supplier_cheque_v1(${q(id(301))},${q(branch)},'بنك محلي','OUT206',CURRENT_DATE+2,10000,NULL,${q(key())})`);
+  await rpc(`cancel_deferred_cheque_v1(${q(issued.cheque.id)},1,'تصحيح شيك مورد206',${q(key())})`);
+  const claim=await json(`SELECT to_jsonb(id) FROM cheque_compensation_claims WHERE cheque_id=${q(issued.cheque.id)};`);
+  await rpc(`pay_supplier_cheque_claim_v1(${q(claim)},${q(branch)},2000,'cliq','LOCAL206',NULL,${q(key())})`);
+  await parity();assert.ok((await detail('receipts')).rows.some(row=>row.source==='cheque_collection'));
+  assert.equal((await detail('supplier_payments','cliq')).rows[0].source,'supplier_cheque_payment');record('actual settled refund and customer/supplier compensation rows reconcile;CliQ stays outside drawer');
+  stage='paging and actual expense reversal';
+  for(let i=0;i<27;i++)await rpc(`create_operational_expense(${q(branch)},'اختبار','مصروف صفحة206',10,'cash',NULL)`);
+  const reversed=await rpc(`create_operational_expense(${q(branch)},'اختبار','مصروف معكوس206',500,'cash',NULL)`);await rpc(`reverse_operational_expense(${q(reversed.expenseId)},'عكس مصروف206')`);
+  const first=await detail('expenses'),second=await detail('expenses','cash',2);assert.equal(first.rows.length,25);assert.equal(second.rows.length,3);assert.equal(first.totalCount,28);assert.equal(first.totalAmountInMinorUnits,90270);
+  assert.equal(new Set([...first.rows,...second.rows].map(row=>row.id)).size,28);await parity();record('bounded25+3 pages/full total90270 with no duplicates;reversed expense absent');
+  stage='withdrawals and immutable close';
+  const w=await rpc(`create_owner_cash_withdrawal_v1(${q(shift)},5000,'سبب شخصي لا يظهر بالقارئ',${q(key())})`);await parity();
+  assert.equal((await detail('withdrawals')).rows[0].note,'سحب مالك');
+  const expected=(await rpc(`get_cash_shift_summary(${q(shift)})`)).expectedCashInMinorUnits;await rpc(`close_cash_shift(${q(shift)},${expected},NULL)`);
+  const frozen=await sql(`SELECT closing_report_snapshot::TEXT FROM cash_shifts WHERE id=${q(shift)};`);await parity();
+  await rpc(`open_cash_shift(${q(branch)},0)`);const next=await json(`SELECT to_jsonb(id) FROM cash_shifts WHERE status='open' AND branch_id=${q(branch)};`);
+  await rpc(`reverse_owner_cash_withdrawal_v1(${q(w.withdrawalId)},'إرجاع بعد إغلاق206',${q(key())})`);
+  await parity();await parity(next);assert.equal((await detail('withdrawal_returns','cash',1,25,next)).totalAmountInMinorUnits,5000);
+  assert.equal(await sql(`SELECT closing_report_snapshot::TEXT FROM cash_shifts WHERE id=${q(shift)};`),frozen);
+  record('withdrawal original persists;return belongs to new drawer;closed snapshot byte-identical;personal reason excluded');
+  stage='roles and input validation';
+  const roles=['owner','admin','manager','accountant','sales','cashier','warehouse_keeper','orders','delivery_driver','view_only',null];
+  for(let n=0;n<roles.length;n++){const uid=id(30+n),role=roles[n];await sql(`INSERT INTO auth.users(id,aud,role,email) VALUES(${q(uid)},'authenticated','authenticated',${q('cash206-'+n+'@example.test')});INSERT INTO profiles(id,full_name,is_active) VALUES(${q(uid)},'قارئ206',true);`);
+    if(role)await sql(`INSERT INTO roles(code,name_ar) VALUES(${q(role)},${q(role)}) ON CONFLICT(code) DO NOTHING;INSERT INTO user_roles(user_id,role_id) SELECT ${q(uid)},id FROM roles WHERE code=${q(role)};`);
+    const r=await executeInput(executor,auth('SELECT public.'+call('expenses')+';',uid));if(n<4)assert.equal(r.code,0,r.stderr);else{assert.notEqual(r.code,0);assert.match(r.stderr,/صلاحية/u);}}
+  for(const role of ['anon','service_role']){const r=await executeInput(executor,'\\set VERBOSITY verbose\n'+auth('SELECT public.'+call('expenses')+';',owner,role));assert.notEqual(r.code,0);assert.match(r.stderr,/42501/u);}
+  for(const bad of [`get_cash_shift_movement_page(NULL,'sales')`,call('bad'),call('expenses','card'),call('sales','cash',0),call('sales','cash',1,101),`get_cash_shift_movement_page(${q(id(9999))},'sales')`])assert.notEqual((await executeInput(executor,auth('SELECT public.'+bad+';'))).code,0);
+  record('same four closing roles only;seven other memberships rejected;anon/service42501;invalid bounds/kind/method/missing shift rejected');
+  stage='read only and replay';const fingerprint=await readApplicationFingerprint(executor),catalog=await json(schemaCatalogSql);
+  await parity();await parity(next);await sql(migration);assert.deepEqual(await json(schemaCatalogSql),catalog);assert.deepEqual(await readApplicationFingerprint(executor),fingerprint);
+  const {stdout:lint}=await exec(process.execPath,[cli,'db','lint','--local','--level','warning','--workdir',local],{cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024**2});assertPackageDDbLint(lint);
+  record('repeated reads and migration replay preserve all data/sequences/catalog;existing DB lint policy');report.ok=true;
+}catch(error){report.ok=false;report.stage=stage;report.error=error.message;process.exitCode=1;}
+finally{if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true,maxBuffer:1024**2});report.endedAt=new Date().toISOString();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}

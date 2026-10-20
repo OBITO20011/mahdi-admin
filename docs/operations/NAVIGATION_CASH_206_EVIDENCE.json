@@ -1,0 +1,45 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-navigation-cash206-wvGQtN",
+  "startedAt": "2026-10-20T18:28:06.757Z",
+  "managedAccess": false,
+  "cases": [
+    {
+      "name": "one STABLE SECURITY DEFINER reader only;same closing ACL;empty full totals0;no application or sequence changes",
+      "passed": true
+    },
+    {
+      "name": "owner two real supplier vouchers90+20,full detail110,opening500=>drawer390;other branch attribution isolated",
+      "passed": true
+    },
+    {
+      "name": "actual opening500-expense90-supplier20=390;opening supplier actual evidence",
+      "passed": true
+    },
+    {
+      "name": "opening3cash+1CliQ,order2cash,mixed4cash counted once;direct sales separate;actual payment reversal removed",
+      "passed": true
+    },
+    {
+      "name": "actual settled refund and customer/supplier compensation rows reconcile;CliQ stays outside drawer",
+      "passed": true
+    },
+    {
+      "name": "bounded25+3 pages/full total90270 with no duplicates;reversed expense absent",
+      "passed": true
+    },
+    {
+      "name": "withdrawal original persists;return belongs to new drawer;closed snapshot byte-identical;personal reason excluded",
+      "passed": true
+    },
+    {
+      "name": "same four closing roles only;seven other memberships rejected;anon/service42501;invalid bounds/kind/method/missing shift rejected",
+      "passed": true
+    },
+    {
+      "name": "repeated reads and migration replay preserve all data/sequences/catalog;existing DB lint policy",
+      "passed": true
+    }
+  ],
+  "ok": true,
+  "endedAt": "2026-10-20T18:31:44.608Z"
+}

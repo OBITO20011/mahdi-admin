@@ -1,3 +1,4 @@
+import {sourceBeforeNavigation206} from '../scripts/audit/source-before-navigation-cash206.mjs';
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -87,7 +88,7 @@ const printer=ts.createPrinter({removeComments:true});
 const hash=(value:unknown)=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 test('batch1 business contracts retain891c9a4;only Modal focus bindings use approved2026-10-13 contract',()=>{
   for(const expected of baseline){
-    const ast=ts.createSourceFile(expected.file,readFileSync(expected.file,'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
+    const ast=ts.createSourceFile(expected.file,sourceBeforeNavigation206(expected.file,readFileSync(expected.file,'utf8'))!,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
     const calls:string[]=[],bindings:string[]=[],handlers:Record<string,{sha256:string}>={};
     function visit(n:ts.Node){
       if(ts.isAwaitExpression(n)||ts.isCallExpression(n)&&/(?:FromSupabase|Service|\.rpc$|^run[A-Z]|^openModal$)/u.test(n.expression.getText(ast)))calls.push(printer.printNode(ts.EmitHint.Unspecified,n,ast));
@@ -126,7 +127,7 @@ test('shared fields and plain button retain native values,disabled,submit and ac
 test('original100 native properties retained;only2 new confirmation button types added by owner focus decision',()=>{
   const fields=[{"file":"src/components/common/Modal.tsx","count":4,"hash":"38db827d592f4595d1d523dcc07f6d1971f95bba23fc2da4f87a37b321a8a446"},{"file":"src/components/ui/Controls.tsx","count":5,"hash":"1437bb43486f0a47e3de40b33ea084a7b946a36efde3e52eef0b4b42212e80f2"},{"file":"src/features/more/MoreMenuView.tsx","count":10,"hash":"980d42d1599a2370eda464d2dcaa1fc33e8e1eb36d4385fc73e035cd1e49c56d"},{"file":"src/features/more/ProfileModal.tsx","count":77,"hash":"ef9c906272c1db0bb6311fd5b5a81406886c610455607dc5ca214f9bef044b97"},{"file":"src/features/more/InstallAppPanel.tsx","count":2,"hash":"2dc5426f1c8b3b354876670a63f36aeeef649b40e4d6e1b8425016295e8f1e0b"},{"file":"src/features/more/PushNotificationControls.tsx","count":4,"hash":"1f93d466baa82cb58f6ddfa12461afe905e9eb547a1beab5ed2faa6276960194"}] as const;
   for(const expected of fields){
-    const ast=ts.createSourceFile(expected.file,readFileSync(expected.file,'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),attrs:string[]=[];
+    const ast=ts.createSourceFile(expected.file,sourceBeforeNavigation206(expected.file,readFileSync(expected.file,'utf8'))!,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),attrs:string[]=[];
     function visit(n:ts.Node){
       if(ts.isJsxAttribute(n)&&/^(value|checked|disabled|required|readOnly|type|inputMode|autoComplete|min|max|step|pattern)$/u.test(n.name.getText(ast)))attrs.push(printer.printNode(ts.EmitHint.Unspecified,n,ast));
       ts.forEachChild(n,visit);

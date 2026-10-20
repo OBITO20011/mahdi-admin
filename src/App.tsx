@@ -15,6 +15,7 @@ import { IPhoneContainer } from './components/layout/IPhoneContainer';
 import { Header } from './components/common/Header';
 import { BottomTabs } from './components/layout/BottomTabs';
 import { SideNav } from './components/layout/SideNav';
+import {NavigationShell} from './components/layout/NavigationShell';
 import { Building2, Loader2 } from 'lucide-react';
 import { AppErrorBoundary } from './components/common/AppErrorBoundary';
 
@@ -245,6 +246,7 @@ export const App: React.FC = () => {
   // 3. Authenticated -> Full Application Interface
   return (
     <IPhoneContainer>
+      <NavigationShell>
       {/* Desktop: side navigation (POS collapses it to an icon rail). Phone: bottom tabs. */}
       <div className="flex h-full min-h-0 w-full">
       <SideNav collapsed={activeTab === 'pos'} />
@@ -274,6 +276,7 @@ export const App: React.FC = () => {
           <AllModals />
         </Suspense>
       )}
+      </NavigationShell>
     </IPhoneContainer>
   );
 };

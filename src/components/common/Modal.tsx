@@ -18,6 +18,8 @@ interface ModalProps {
   maxWidth?: string;
   closeDisabled?: boolean;
   confirmUnsavedClose?: boolean;
+  /** Read-only search filters need no automatic unsaved-input tracking. Explicit busy/unsaved guards stay active. */
+  trackChanges?: boolean;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -30,6 +32,7 @@ export const Modal: React.FC<ModalProps> = ({
   maxWidth = 'max-w-lg',
   closeDisabled = false,
   confirmUnsavedClose = false,
+  trackChanges = true,
 }) => {
   const titleId = useId();
   const edited = useRef(false);
@@ -59,8 +62,8 @@ export const Modal: React.FC<ModalProps> = ({
             aria-labelledby={titleId}
             data-state="opening"
             tabIndex={-1}
-            onInputCapture={() => { edited.current = true; }}
-            onChangeCapture={() => { edited.current = true; }}
+            onInputCapture={() => { if(trackChanges) edited.current = true; }}
+            onChangeCapture={() => { if(trackChanges) edited.current = true; }}
             initial={{ y: '100%', opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: '100%', opacity: 0 }}

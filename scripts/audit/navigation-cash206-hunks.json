@@ -1,0 +1,1777 @@
+{
+  "baseline": "e1eef2f22ebe783513eb2289949fc4e31ca46013",
+  "entries": {
+    "e2e/admin-bottom-navigation.spec.ts": {
+      "before": "a36403c4ccf48a57b9e00a23882239c587b812fcd48b3abfe5f69673899c2557",
+      "after": "33242523b8b30f86501324867b30e3251d97d1efc315fea5d7b8d6f5c5bc897b",
+      "hunks": [
+        {
+          "at": 47,
+          "before": [],
+          "after": [
+            "  test.beforeEach(async({page})=>{await page.setViewportSize({width:390,height:844});});"
+          ]
+        },
+        {
+          "at": 117,
+          "before": [
+            "    await expect(page.locator('[data-navigation-group]')).toHaveCount(6);"
+          ],
+          "after": [
+            "    await expect(page.locator('[data-navigation-group]')).toHaveCount(4);"
+          ]
+        },
+        {
+          "at": 140,
+          "before": [
+            "    const customers = page.locator('[data-navigation-group=\"customers\"]');",
+            "    await customers.locator('button').first().click();"
+          ],
+          "after": []
+        },
+        {
+          "at": 152,
+          "before": [
+            "  test('الاختصارات السريعة السابقة متاحة في المزيد وزر البيع يفتح نقطة البيع', async ({"
+          ],
+          "after": [
+            "  test('الوجهات اليومية متاحة مرة واحدة في المزيد وزر البيع يفتح نقطة البيع', async ({"
+          ]
+        },
+        {
+          "at": 158,
+          "before": [
+            "    const shortcuts = page.getByRole('region', { name: 'إجراءات سريعة' }).or(",
+            "      page.locator('section[aria-label=\"إجراءات سريعة\"]'),",
+            "    );",
+            "    await expect(shortcuts.locator('button')).toHaveText(['استلام بضاعة', 'مصروف', 'صنف جديد']);",
+            "    await page.locator('[data-navigation-id=\"goods-receipt\"]').click();",
+            "    expect(await page.evaluate(() => window.__ADMIN_BOTTOM_NAV_MODAL__())).toBe('receive_goods');"
+          ],
+          "after": [
+            "    await expect(page.locator('[data-navigation-id=\"supplier-receiving\"]')).toBeVisible();",
+            "    await expect(page.locator('[data-navigation-id=\"finance-expenses\"]')).toBeVisible();",
+            "    await expect(page.locator('[data-navigation-id=\"catalog-products\"]')).toBeVisible();",
+            "    await page.locator('[data-navigation-id=\"supplier-receiving\"]').click();",
+            "    await expect(activeTab(page)).toHaveText('purchases');"
+          ]
+        },
+        {
+          "at": 176,
+          "before": [
+            "    await expect(page.locator('[data-navigation-group]')).toHaveCount(6);"
+          ],
+          "after": [
+            "    await expect(page.locator('[data-navigation-group]')).toHaveCount(2);"
+          ]
+        },
+        {
+          "at": 177,
+          "before": [
+            "    await page.locator('[data-navigation-group=\"administration-store\"] > button').click();"
+          ],
+          "after": []
+        }
+      ]
+    },
+    "e2e/admin-navigation-cash206.spec.ts": {
+      "before": null,
+      "after": "324277d80b682963228386c64b7cca0d450ca8ef199adabd704fcdefeda3a24a",
+      "added": true,
+      "hunks": []
+    },
+    "e2e/admin-navigation.spec.ts": {
+      "before": "28dc5abdbc990603409178f7fb888f49ed5aab95a4ed0123fa94215a7c1f9144",
+      "after": "3764f7bc8f591ef2c674cd4c72c36b3097c5524b167bc7c6504350c4393471b9",
+      "hunks": [
+        {
+          "at": 26,
+          "before": [
+            "  test('يعرض ست مجموعات ويفتح Accordion واحدًا ويوجه POS إلى هويته الأصلية', async ({"
+          ],
+          "after": [
+            "  test('يعرض أربع مجموعات وبحثاً ويوجه POS إلى هويته الأصلية', async ({"
+          ]
+        },
+        {
+          "at": 29,
+          "before": [],
+          "after": [
+            "    await page.setViewportSize({width:390,height:844});",
+            "    await page.setViewportSize({width:390,height:844});"
+          ]
+        },
+        {
+          "at": 36,
+          "before": [
+            "    await expect(groups).toHaveCount(6);"
+          ],
+          "after": [
+            "    await expect(groups).toHaveCount(4);"
+          ]
+        },
+        {
+          "at": 38,
+          "before": [
+            "    const sales = page.locator('[data-navigation-group=\"sales\"] > button');",
+            "    const inventory = page.locator(",
+            "      '[data-navigation-group=\"products-inventory\"] > button',",
+            "    );",
+            "    await expect(sales).toHaveAttribute('aria-expanded', 'true');",
+            "    await expect(inventory).toHaveAttribute('aria-expanded', 'false');",
+            "",
+            "    await inventory.press('Enter');",
+            "    await expect(sales).toHaveAttribute('aria-expanded', 'false');",
+            "    await expect(inventory).toHaveAttribute('aria-expanded', 'true');",
+            "",
+            "    await inventory.click();",
+            "    await expect(inventory).toHaveAttribute('aria-expanded', 'false');",
+            "",
+            "    await sales.click();"
+          ],
+          "after": [
+            "    await page.getByRole('searchbox',{name:'ابحث عن شاشة'}).fill('نقطة البيع');"
+          ]
+        },
+        {
+          "at": 50,
+          "before": [],
+          "after": [
+            "    await page.setViewportSize({width:390,height:844});"
+          ]
+        },
+        {
+          "at": 59,
+          "before": [
+            "    const administration = page.locator(",
+            "      '[data-navigation-group=\"administration-store\"] > button',",
+            "    );",
+            "    await administration.click();"
+          ],
+          "after": []
+        },
+        {
+          "at": 63,
+          "before": [
+            "    await expect(page.locator('[data-navigation-id=\"admin-profile\"]')).toBeVisible();",
+            "    await page.locator('[data-navigation-id=\"admin-profile\"]').click();"
+          ],
+          "after": [
+            "    await expect(page.locator('[data-navigation-id=\"profile-summary\"]')).toBeVisible();",
+            "    await page.locator('[data-navigation-id=\"profile-summary\"]').click();"
+          ]
+        },
+        {
+          "at": 73,
+          "before": [],
+          "after": [
+            "    await page.setViewportSize({width:390,height:844});",
+            "    await page.setViewportSize({width:390,height:844});"
+          ]
+        },
+        {
+          "at": 77,
+          "before": [
+            "    await page.locator('[data-navigation-group=\"administration-store\"] > button').click();"
+          ],
+          "after": []
+        },
+        {
+          "at": 85,
+          "before": [
+            "  test('يفتح كل مجموعة وحدها ويحترم reduced motion', async ({ page }) => {"
+          ],
+          "after": [
+            "  test('يبقي الأقسام مكشوفة والبحث متاحاً مع تقليل الحركة', async ({ page }) => {"
+          ]
+        },
+        {
+          "at": 87,
+          "before": [],
+          "after": [
+            "    await page.setViewportSize({width:390,height:844});",
+            "    await page.setViewportSize({width:390,height:844});"
+          ]
+        },
+        {
+          "at": 93,
+          "before": [
+            "    const groupIds = [",
+            "      'sales',",
+            "      'products-inventory',",
+            "      'customers',",
+            "      'suppliers-purchases',",
+            "      'finance-reports',",
+            "      'administration-store',",
+            "    ];",
+            "",
+            "    for (const groupId of groupIds) {",
+            "      const trigger = page.locator(`[data-navigation-group=\"${groupId}\"] > button`);",
+            "      if ((await trigger.getAttribute('aria-expanded')) !== 'true') {",
+            "        await trigger.press('Enter');",
+            "      }",
+            "      await expect(trigger).toHaveAttribute('aria-expanded', 'true');",
+            "      await expect(",
+            "        page.locator('[data-navigation-group] > button[aria-expanded=\"true\"]'),",
+            "      ).toHaveCount(1);",
+            "    }",
+            ""
+          ],
+          "after": [
+            "    const groups=page.locator('[data-navigation-group]');await expect(groups).toHaveCount(4);",
+            "    for(const id of ['sales','products-inventory','finance-reports','administration-store'])await expect(page.locator(`[data-navigation-group=\"${id}\"]`)).toBeVisible();",
+            "    await page.getByRole('searchbox',{name:'ابحث عن شاشة'}).fill('التقارير');await expect(page.locator('[data-navigation-id=\"finance-reports\"]')).toBeVisible();"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-cash.spec.ts": {
+      "before": "b5a45a65a7678bbe06b2289f50f2cc275cb059dd5e2f21ad88ee5507661aaad1",
+      "after": "4d128ac912c28d0efd1f385af537a7e056617979dc586aab7bdac6b11bcc7a09",
+      "hunks": [
+        {
+          "at": 80,
+          "before": [
+            "  await expect(page.getByTestId('cash-workbench')).toContainText('عدد العمليات: غير متاح');await expect(page.getByTestId('cash-workbench')).toContainText('مبيعات الدين للذمم');"
+          ],
+          "after": [
+            "  await expect(page.getByTestId('cash-workbench')).toContainText('عدد العمليات: غير متاح');await expect(page.getByTestId('cash-workbench')).toContainText('البيع الآجل يبقى في الذمم');"
+          ]
+        },
+        {
+          "at": 193,
+          "before": [],
+          "after": [
+            "test('shared cash flow prints collapsed zero and CliQ evidence with the same server expected amount',async({page})=>{",
+            "  await page.route('**/rest/v1/rpc/get_cash_shift_closing_report',route=>route.fulfill({json:cashReportFixture}));",
+            "  await page.goto(url('live=1'));await page.getByRole('button',{name:'عرض التقرير المالي الحي',exact:true}).click();",
+            "  const dialog=page.getByRole('dialog',{name:'تقرير الإغلاق اليومي',exact:true});await expect(dialog).toHaveAttribute('data-state','open');",
+            "  const flow=page.locator('.shift-closing-report').getByTestId('cash-flow-summary'),outside=flow.locator('[data-cash-flow=\"supplier_payments:cliq\"]');",
+            "  await expect(outside).toBeHidden();const values=await flow.locator('[data-cash-flow]').allTextContents();",
+            "  await page.emulateMedia({media:'print'});await expect(outside).toBeVisible();",
+            "  for(const row of await flow.locator('[data-cash-flow]').all())await expect(row).toBeVisible();",
+            "  expect(await flow.locator('[data-cash-flow]').allTextContents()).toEqual(values);",
+            "  await page.emulateMedia({media:'screen'});await expect(outside).toBeHidden();",
+            "});",
+            ""
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-home.spec.ts": {
+      "before": "06304cc4021d97dfe1223074a06c5f36cb72e94c11aff702345b6ec002888fb4",
+      "after": "79025c344717ff0ca310d4a91cc274770ad12077d4a00c0404bb71d769f15980",
+      "hunks": [
+        {
+          "at": 67,
+          "before": [
+            "  await expect(kpis).toContainText('31,906.250');"
+          ],
+          "after": [
+            "  await expect(kpis).toContainText('4,100.000');"
+          ]
+        },
+        {
+          "at": 75,
+          "before": [
+            "  await page.getByRole('button', { name: 'مراجعة العملاء والذمم' }).click();"
+          ],
+          "after": [
+            "  await page.getByRole('button', { name: 'مراجعة الذمم' }).click();"
+          ]
+        },
+        {
+          "at": 77,
+          "before": [
+            "  await page.getByRole('button', { name: 'إغلاق الوردية', exact: true }).click();"
+          ],
+          "after": [
+            "  await page.getByRole('button', { name: 'الصندوق', exact: true }).click();"
+          ]
+        },
+        {
+          "at": 124,
+          "before": [
+            "  await expect(page.getByTestId('home-kpis')).not.toContainText('31,906.250');"
+          ],
+          "after": [
+            "  await expect(page.getByTestId('home-kpis')).not.toContainText('4,100.000');"
+          ]
+        },
+        {
+          "at": 127,
+          "before": [
+            "  await expect(page.getByRole('button', { name: 'فتح الصندوق والورديات' })).toBeVisible();"
+          ],
+          "after": [
+            "  await expect(page.getByRole('button', { name: 'فتح الصندوق' })).toBeVisible();"
+          ]
+        },
+        {
+          "at": 135,
+          "before": [
+            "  await expect(page.getByTestId('home-kpis')).toContainText('31,906.250');"
+          ],
+          "after": [
+            "  await expect(page.getByTestId('home-kpis')).toContainText('4,100.000');"
+          ]
+        },
+        {
+          "at": 141,
+          "before": [
+            "  await expect(page.getByTestId('home-kpis')).not.toContainText('31,906.250');"
+          ],
+          "after": [
+            "  await expect(page.getByTestId('home-kpis')).not.toContainText('4,100.000');"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-more.spec.ts": {
+      "before": "9865c47578e761e6a6ec8610911aef05b801ec9a0d14b2f223b885e805a4802f",
+      "after": "bea026ad15dc3e7563aa7cc5ed02263ae2544903b9f8588761821359f708034c",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            "  const footer=page.locator('.pb-1');await expect(footer).toContainText('النواصرة');"
+          ],
+          "after": [
+            "  const footer=page.locator('[data-navigation-id=\"sign-out\"]');await expect(footer).toContainText('تسجيل الخروج');"
+          ]
+        },
+        {
+          "at": 66,
+          "before": [
+            "test('More layout audit waits for actual JS height completion and still rejects settled clipping',async({page})=>{",
+            "  await page.goto(url('light'));",
+            "  await page.locator('#admin-navigation-trigger-products-inventory').click();",
+            "  await stableNavigation(page);",
+            "  const panel=page.locator('#admin-navigation-panel-products-inventory');",
+            "  expect(await panel.evaluate(element=>({height:(element as HTMLElement).style.height,opacity:getComputedStyle(element).opacity}))).toEqual({height:'auto',opacity:'1'});"
+          ],
+          "after": [
+            "test('More static layout still rejects real clipping through a bounded ancestor',async({page})=>{",
+            "  await page.setViewportSize({width:390,height:844});await page.goto(url('light'));",
+            "  const panel=page.locator('[data-navigation-group=\"products-inventory\"]');",
+            "  await expect(panel).toBeVisible();await stableNavigation(page);"
+          ]
+        },
+        {
+          "at": 71,
+          "before": [
+            "  await panel.evaluate(element=>{const text=document.createElement('span');text.style.cssText='display:block;width:2000px;white-space:nowrap;text-align:left';text.textContent='unintended settled navigation clipping';element.append(text);});"
+          ],
+          "after": [
+            "  await panel.evaluate(element=>{const clip=document.createElement('div');clip.style.cssText='width:100px;overflow:hidden';const text=document.createElement('span');text.style.cssText='display:block;width:2000px;white-space:nowrap;text-align:left';text.textContent='unintended settled navigation clipping';clip.append(text);element.append(clip);});"
+          ]
+        },
+        {
+          "at": 77,
+          "before": [
+            "    await expect(page.getByRole('heading',{name:'إدارة التطبيق',exact:true})).toBeVisible();",
+            "    for(const [id,token] of [['assistant-shortcut','--nw-surface-2'],['sign-out','--nw-bad-bg']]){",
+            "      expect(await page.locator(`[data-navigation-id=\"${id}\"]`).evaluate((element,variable)=>{",
+            "        const probe=document.createElement('span');probe.style.backgroundColor=`var(${variable})`;document.body.append(probe);",
+            "        const expected=getComputedStyle(probe).backgroundColor;probe.remove();",
+            "        return getComputedStyle(element).backgroundColor===expected;",
+            "      },token)).toBe(true);",
+            "    }"
+          ],
+          "after": [
+            "    await expect(page.getByRole('heading',{name:width>=1024?'حسابي':'المزيد',exact:true})).toBeVisible();"
+          ]
+        },
+        {
+          "at": 79,
+          "before": [
+            "    for(const id of ['products-inventory','customers','suppliers-purchases','finance-reports','administration-store']){",
+            "      await page.locator(`#admin-navigation-trigger-${id}`).click();",
+            "      await expect(page.locator(`#admin-navigation-trigger-${id}`)).toHaveAttribute('aria-expanded','true');",
+            "      await waitForPackageFMotion(page);",
+            "      await audit(page);",
+            "    }"
+          ],
+          "after": [
+            "    if(width<1024)for(const id of ['sales','products-inventory','finance-reports','administration-store'])await expect(page.locator(`[data-navigation-group=\"${id}\"]`)).toBeVisible();",
+            "    else await expect(page.locator('[data-navigation-group=\"sales\"]')).toBeHidden();"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-navigation206-harness.tsx": {
+      "before": null,
+      "after": "f701ce88a3b09f8b20ac56630c2a6ebfd60212c841af03fd24bdd685a581287a",
+      "added": true,
+      "hunks": []
+    },
+    "src/App.tsx": {
+      "before": "0f69e57b616d6836e890c9ce682c5ee0e57127df50c73232d9e9c89e85d0fc13",
+      "after": "111961bad365540e2a20554be9d71a4ed3f4682198f7ef6289e357d1ee54e8a9",
+      "hunks": [
+        {
+          "at": 18,
+          "before": [],
+          "after": [
+            "import {NavigationShell} from './components/layout/NavigationShell';"
+          ]
+        },
+        {
+          "at": 249,
+          "before": [],
+          "after": [
+            "      <NavigationShell>"
+          ]
+        },
+        {
+          "at": 279,
+          "before": [],
+          "after": [
+            "      </NavigationShell>"
+          ]
+        }
+      ]
+    },
+    "src/components/common/Header.tsx": {
+      "before": "b8ef037e7cb94cc85860b67d3f6da2dd21fb85425deaf6d8722e2c8ab5786b0f",
+      "after": "9f527bcc60fcabc31052980240673f9e673e35c99ec409032f44d0217873956f",
+      "hunks": [
+        {
+          "at": 15,
+          "before": [],
+          "after": [
+            "import {Menu} from 'lucide-react';",
+            "import {useNavigationDrawer} from '../layout/navigationDrawerContext';"
+          ]
+        },
+        {
+          "at": 19,
+          "before": [],
+          "after": [
+            "  const drawer=useNavigationDrawer();"
+          ]
+        },
+        {
+          "at": 101,
+          "before": [],
+          "after": [
+            "      {drawer&&<button type=\"button\" aria-label=\"فتح القائمة الرئيسية\" aria-expanded={drawer.isOpen} onClick={drawer.open} className=\"flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-nw-border bg-nw-surface-2 text-nw-text lg:hidden\"><Menu className=\"h-5 w-5\" aria-hidden=\"true\"/></button>}",
+            ""
+          ]
+        }
+      ]
+    },
+    "src/components/common/Modal.tsx": {
+      "before": "73e6249c50ad01304b0f4519ce01b4fc4a35bf88cd14351dd4ce0782a549ce32",
+      "after": "6d6a6d4d73d17d20ef2622669841ad7bd7156a0f9caf064176a207aa9ebc7de5",
+      "hunks": [
+        {
+          "at": 21,
+          "before": [],
+          "after": [
+            "  /** Read-only search filters need no automatic unsaved-input tracking. Explicit busy/unsaved guards stay active. */",
+            "  trackChanges?: boolean;"
+          ]
+        },
+        {
+          "at": 35,
+          "before": [],
+          "after": [
+            "  trackChanges = true,"
+          ]
+        },
+        {
+          "at": 65,
+          "before": [
+            "            onInputCapture={() => { edited.current = true; }}",
+            "            onChangeCapture={() => { edited.current = true; }}"
+          ],
+          "after": [
+            "            onInputCapture={() => { if(trackChanges) edited.current = true; }}",
+            "            onChangeCapture={() => { if(trackChanges) edited.current = true; }}"
+          ]
+        }
+      ]
+    },
+    "src/components/layout/NavigationShell.tsx": {
+      "before": null,
+      "after": "df46275755cd30761143465ab2a3139b00423d7633c854e0a740cb90e8c21e37",
+      "added": true,
+      "hunks": []
+    },
+    "src/components/layout/SideNav.tsx": {
+      "before": "462405f6980a270d182406b75d173e9c38b704bfc3ca393d5712bd381bbc8fd1",
+      "after": "720fcde77b325e07aacb38c45c2fa341ba1e47c191959f33a0c0c80cc3a4c5af",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            "import { BotMessageSquare, Plus } from 'lucide-react';"
+          ],
+          "after": [
+            "import { Plus } from 'lucide-react';",
+            "import {useNavigationDrawer} from './navigationDrawerContext';",
+            "import {canUseNavigationAction} from '../../features/more/adminNavigation.config';"
+          ]
+        },
+        {
+          "at": 32,
+          "before": [],
+          "after": [
+            "  mobile?: boolean;"
+          ]
+        },
+        {
+          "at": 35,
+          "before": [
+            "export const SideNav: React.FC<SideNavProps> = ({ collapsed = false }) => {"
+          ],
+          "after": [
+            "export const SideNav: React.FC<SideNavProps> = ({ collapsed = false, mobile = false }) => {",
+            "  const drawer=useNavigationDrawer();"
+          ]
+        },
+        {
+          "at": 49,
+          "before": [
+            "  const canUseAssistant = ['owner', 'admin', 'manager', 'accountant'].includes(roleName || '');"
+          ],
+          "after": [
+            ""
+          ]
+        },
+        {
+          "at": 52,
+          "before": [],
+          "after": [
+            "    if(!canUseNavigationAction(action,roleName,roles))return;",
+            "    drawer?.close();",
+            "    drawer?.setEntryIntent(action.type==='tab'?action.intent??null:null);"
+          ]
+        },
+        {
+          "at": 83,
+          "before": [
+            "          collapsed ? 'h-14 w-14 flex-col justify-center gap-1 px-1 text-[10px] font-semibold' : 'min-h-10 w-full gap-2.5 px-3 py-2 text-right',"
+          ],
+          "after": [
+            "          collapsed ? 'h-14 w-14 flex-col justify-center gap-1 px-1 text-[10px] font-semibold' : 'min-h-11 w-full gap-2.5 px-3 py-2 text-right',"
+          ]
+        },
+        {
+          "at": 110,
+          "before": [
+            "  const quickActions = SECONDARY_QUICK_ACTIONS.map((action) => ({"
+          ],
+          "after": [
+            "  const quickActions = SECONDARY_QUICK_ACTIONS.filter(action=>canUseNavigationAction(action.action,roleName,roles)).map((action) => ({"
+          ]
+        },
+        {
+          "at": 122,
+          "before": [
+            "        'hidden shrink-0 flex-col overflow-y-auto bg-nw-side text-nw-side-text lg:flex',",
+            "        collapsed ? 'w-[76px] items-center gap-2 px-2 py-5' : 'w-[264px] gap-1 px-3.5 py-5',"
+          ],
+          "after": [
+            "        mobile?'flex min-h-0 flex-1 shrink-0 flex-col overflow-y-auto bg-nw-side text-nw-side-text':'hidden shrink-0 flex-col overflow-y-auto bg-nw-side text-nw-side-text lg:flex',",
+            "        mobile?'w-full gap-1 px-3.5 py-3':collapsed ? 'w-[76px] items-center gap-2 px-2 py-5' : 'w-[264px] gap-1 px-3.5 py-5',"
+          ]
+        },
+        {
+          "at": 140,
+          "before": [
+            "          <button"
+          ],
+          "after": [
+            "          {canUseNavigationAction({type:'tab',destination:'pos'},roleName,roles) && <button"
+          ]
+        },
+        {
+          "at": 143,
+          "before": [
+            "            onClick={() => setActiveTab('pos')}"
+          ],
+          "after": [
+            "            onClick={() => run({type:'tab',destination:'pos'})}"
+          ]
+        },
+        {
+          "at": 148,
+          "before": [
+            "          </button>"
+          ],
+          "after": [
+            "          </button>}"
+          ]
+        },
+        {
+          "at": 176,
+          "before": [
+            "        {canUseAssistant && (",
+            "          <button",
+            "            type=\"button\"",
+            "            data-side-nav=\"assistant\"",
+            "            aria-current={activeTab === 'assistant' ? 'page' : undefined}",
+            "            aria-label={collapsed ? 'المساعد الإداري الذكي' : undefined}",
+            "            title={collapsed ? 'المساعد الإداري الذكي' : undefined}",
+            "            onClick={() => setActiveTab('assistant')}",
+            "            className={join(",
+            "              'flex items-center rounded-[10px] text-sm font-medium text-nw-side-text transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nw-accent',",
+            "              collapsed ? 'h-14 w-14 justify-center' : 'min-h-10 w-full gap-2.5 px-3 py-2 text-right',",
+            "              activeTab === 'assistant' && 'bg-nw-side-active font-bold text-nw-side-active-text',",
+            "            )}",
+            "          >",
+            "            <BotMessageSquare className=\"h-[18px] w-[18px] shrink-0\" aria-hidden=\"true\" />",
+            "            {!collapsed && <span>المساعد الذكي</span>}",
+            "          </button>",
+            "        )}"
+          ],
+          "after": []
+        },
+        {
+          "at": 180,
+          "before": [
+            "            onClick={() => openModal('profile')}"
+          ],
+          "after": [
+            "            onClick={() => run({type:'modal',destination:'profile'})}"
+          ]
+        }
+      ]
+    },
+    "src/components/layout/navigationDrawer.css": {
+      "before": null,
+      "after": "33ad27184deaf2b0e85735aa5c2ef419e20954223a3cf1b7bacbbdd322e65bc5",
+      "added": true,
+      "hunks": []
+    },
+    "src/components/layout/navigationDrawerContext.ts": {
+      "before": null,
+      "after": "6d57b306dc8c79cc187ebf727d3a0866d547cf678110dde551e6d84b99f1472d",
+      "added": true,
+      "hunks": []
+    },
+    "src/components/layout/sideNavigationModel.ts": {
+      "before": "f31ca0c5877c2464a9af6c6a314c09b77002e479c359b56f8d16d288edad71c5",
+      "after": "610585274b34a7a82393101395663f9e8e84f47826dff38ad1d30f7c908bed01",
+      "hunks": [
+        {
+          "at": 11,
+          "before": [],
+          "after": [
+            "  canUseNavigationAction,"
+          ]
+        },
+        {
+          "at": 41,
+          "before": [],
+          "after": [
+            "  'customer-returns':'مرتجع','inventory-damage':'تالف','finance-withdrawals':'سحب','admin-assistant':'المساعد',"
+          ]
+        },
+        {
+          "at": 67,
+          "before": [
+            "  label: 'الإعدادات والمزيد',"
+          ],
+          "after": [
+            "  label: 'الحساب',"
+          ]
+        },
+        {
+          "at": 74,
+          "before": [
+            "  const groups: SideNavGroup[] = [{ id: 'today', label: 'اليوم', items: [SIDE_NAV_HOME] }];"
+          ],
+          "after": [
+            "  const groups: SideNavGroup[] = canUseNavigationAction(SIDE_NAV_HOME.action,roleName,roles)?[{ id: 'today', label: 'اليوم', items: [SIDE_NAV_HOME] }]:[];"
+          ]
+        }
+      ]
+    },
+    "src/components/modals/AllModals.tsx": {
+      "before": "f2e7be83f5342315b49098844dfba78c8dfb55b00c089172a091912b56bc4a1f",
+      "after": "f01c6fe278125348ec606305866944b6d04b57a41442d60273d7a0bacb32491b",
+      "hunks": [
+        {
+          "at": 21,
+          "before": [],
+          "after": [
+            "import {DamageProductSelection} from '../../features/more/DamageProductSelection';"
+          ]
+        },
+        {
+          "at": 100,
+          "before": [],
+          "after": [
+            "",
+            "      <Modal isOpen={currentModal==='damage_stock_selection'} onClose={closeModal} title=\"اختر الصنف التالف\" subtitle=\"ثم سجل الكمية والسبب في نموذج تعديل المخزون\" trackChanges={false}><DamageProductSelection/></Modal>"
+          ]
+        }
+      ]
+    },
+    "src/features/dashboard/DashboardHome.tsx": {
+      "before": "9f969bb4e272f2c92b280c4819bc97e6835c6012be055f3f4ed9ac9872ae3925",
+      "after": "d1c865332506eb774d395f5e0f50094e6eb6c8a9e84d5e68c7c227b508e4f777",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {CashFlowSummary} from '../shifts/CashFlowSummary';"
+          ]
+        },
+        {
+          "at": 7,
+          "before": [
+            "import { Card, KpiCard, KpiGrid, MoneyText, SalesBarChart, SectionHeader, SegmentedControl, StatusBadge, UiButton, formatUiDate, formatUiTime } from '../../components/ui';"
+          ],
+          "after": [
+            "import { Card, KpiCard, KpiGrid, MoneyText, SalesBarChart, SectionHeader, SegmentedControl, StatusBadge, UiButton, formatUiDate } from '../../components/ui';"
+          ]
+        },
+        {
+          "at": 58,
+          "before": [
+            "      <section data-testid=\"dashboard-hero\" aria-labelledby=\"home-title\" className=\"bg-nw-hero px-4 pb-16 pt-5 text-nw-side-text lg:bg-nw-bg lg:px-8 lg:pb-6 lg:pt-8 lg:text-nw-text\">",
+            "        <div className=\"flex flex-wrap items-center justify-between gap-3\">",
+            "          <div className=\"min-w-0\">",
+            "            <h1 id=\"home-title\" className=\"m-0 break-words text-xl font-bold lg:text-2xl\">أهلاً {currentUserName || 'بإدارة النواصرة'}</h1>",
+            "            <p className=\"mt-1 text-xs text-nw-side-muted lg:text-nw-muted\">{formatUiDate(date, { weekday: 'long', day: 'numeric', month: 'long' })} · مركز اليوم</p>"
+          ],
+          "after": [
+            "      <section data-testid=\"dashboard-hero\" aria-labelledby=\"home-title\" className=\"px-4 pb-3 pt-3 lg:px-8 lg:pt-6\">",
+            "        <div className=\"flex flex-wrap items-center justify-between gap-2\">",
+            "          <div className=\"min-w-0\"><h1 id=\"home-title\" className=\"m-0 break-words text-lg font-bold lg:text-2xl\">أهلاً {currentUserName || 'بإدارة النواصرة'}</h1>",
+            "            <p className=\"mt-1 text-xs text-nw-muted\">{formatUiDate(date, {weekday:'long',day:'numeric',month:'long'})} · مركز اليوم · {realtimeConnected?'تحديث مباشر':'آخر نسخة محمّلة'}</p></div>",
+            "          <UiButton aria-label=\"تحديث مركز اليوم\" disabled={loading} onClick={onRefresh}><RefreshCw aria-hidden=\"true\" className={`h-4 w-4 ${loading?'animate-spin':''}`}/></UiButton>",
+            "        </div>",
+            "        <div className=\"mt-2\"><SegmentedControl<'day'|'week'|'month'> touchSize label=\"فترة المبيعات\" value={period} onChange={setPeriod} options={[{value:'day',label:'اليوم'},{value:'week',label:'الأسبوع'},{value:'month',label:'الشهر'}]}/></div>",
+            "      </section>",
+            "      <div className=\"space-y-3 px-4 pb-8 lg:space-y-5 lg:px-8\">",
+            "        {error&&<p role=\"alert\" className=\"rounded-xl bg-nw-bad-bg p-3 text-sm text-nw-bad\">تعذر التحديث: {error}</p>}",
+            "        {!available&&!loading&&!error&&<p role=\"status\" className=\"rounded-xl bg-nw-warn-bg p-3 text-sm text-nw-warn\">الأرقام المالية غير متاحة حالياً؛ أعد المحاولة أو راجع التقارير.</p>}",
+            "        <div data-testid=\"home-kpis\">",
+            "          <KpiGrid phonePairs className=\"[&>article]:p-3 [&>div]:p-3 [&_p]:my-0\">",
+            "            <KpiCard label={periodLabel} value={loading?'جاري التحميل…':error?'تعذر التحميل':money(periodSales,available)} note={`${summary.todayCompletedOrders} طلب مكتمل اليوم`} className=\"[&>div:nth-child(2)]:text-xl\"/>",
+            "            <KpiCard label=\"ربح الشهر\" value={loading?'جاري التحميل…':error?'تعذر التحميل':money(summary.monthProfitInMinorUnits,available&&data.access.canViewProfit)} note={data.access.canViewProfit?'حسب الربح المحسوب في النظام':'بحسب صلاحية الربح'} className=\"[&>div:nth-child(2)]:text-xl\"/>",
+            "            <KpiCard label=\"المقبوض اليوم\" value={collectedValue} note={collectedNote} className=\"[&>div:nth-child(2)]:text-xl\"/>",
+            "            <KpiCard label=\"ذمم العملاء\" value={loading?'جاري التحميل…':error?'تعذر التحميل':money(summary.customerReceivablesInMinorUnits,available)} note={<button type=\"button\" className=\"min-h-11 text-right text-nw-primary\" onClick={onAccounts}>مراجعة الذمم</button>} className=\"[&>div:nth-child(2)]:text-xl\"/>",
+            "          </KpiGrid>",
+            "        </div>",
+            "        <section aria-labelledby=\"home-shift-title\" className=\"rounded-xl border border-nw-border bg-nw-surface px-3\">",
+            "          <div className=\"flex min-h-14 flex-wrap items-center justify-between gap-2 py-1\">",
+            "            <h2 id=\"home-shift-title\" className=\"m-0 text-sm font-semibold\">{shift?'الوردية مفتوحة':'لا توجد وردية مفتوحة'}</h2>",
+            "            {shift&&<span className=\"text-sm\">المتوقع بالدرج <MoneyText amount={shift.expectedCash} className=\"font-bold\"/></span>}",
+            "            <UiButton onClick={onShift}>{shift?'الصندوق':'فتح الصندوق'}</UiButton>"
+          ]
+        },
+        {
+          "at": 83,
+          "before": [
+            "          <div className=\"flex flex-wrap items-center gap-2\">",
+            "            <div className=\"hidden lg:block\"><SegmentedControl<'day' | 'week' | 'month'> touchSize label=\"فترة المبيعات\" value={period} onChange={setPeriod} options={[{ value: 'day', label: 'اليوم' }, { value: 'week', label: 'الأسبوع' }, { value: 'month', label: 'الشهر' }]} /></div>",
+            "            <UiButton aria-label=\"تحديث مركز اليوم\" disabled={loading} onClick={onRefresh}><RefreshCw aria-hidden=\"true\" className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} /></UiButton>",
+            "          </div>"
+          ],
+          "after": [
+            "          {shift&&<details data-testid=\"home-shift-flows\"><summary className=\"min-h-11 cursor-pointer py-3 text-xs text-nw-muted\">تفصيل داخل / طالع</summary><div className=\"pb-3\"><CashFlowSummary shift={shift}/></div></details>}",
+            "        </section>",
+            "        <div className=\"grid grid-cols-2 gap-2 text-sm font-semibold\">",
+            "          <button onClick={onOrders} className=\"flex min-h-11 min-w-0 items-center justify-between gap-1 rounded-xl bg-nw-surface px-3 text-right text-nw-primary\"><span>{actionCount} طلبات تحتاج إجراء</span><ChevronLeft className=\"h-4 w-4 shrink-0\" aria-hidden=\"true\"/></button>",
+            "          <button onClick={onInventory} className=\"flex min-h-11 min-w-0 items-center justify-between gap-1 rounded-xl bg-nw-surface px-3 text-right text-nw-primary\"><span>{stockIssues} تنبيه مخزون</span><ChevronLeft className=\"h-4 w-4 shrink-0\" aria-hidden=\"true\"/></button>"
+          ]
+        },
+        {
+          "at": 88,
+          "before": [
+            "        <div className=\"mt-5 lg:hidden\" data-testid=\"home-mobile-sales\">",
+            "          <p className=\"text-sm text-nw-side-muted\">{periodLabel}</p>",
+            "          <div className=\"mt-1 break-words text-4xl font-bold\">{available ? <><MoneyText amount={periodSales / 1000} /> <span className=\"text-sm font-normal text-nw-side-muted\">د.أ</span></> : 'غير متاح'}</div>",
+            "          <p className=\"mt-2 text-xs text-nw-side-muted\">{summary.todayCompletedOrders} طلب مكتمل اليوم · {realtimeConnected ? 'تحديث مباشر' : 'آخر نسخة محمّلة'}</p>",
+            "        </div>",
+            "      </section>",
+            "",
+            "      <div className=\"relative -mt-10 space-y-5 px-4 pb-8 lg:mt-0 lg:px-8\">",
+            "        {error && <p role=\"alert\" className=\"rounded-xl bg-nw-bad-bg p-3 text-sm text-nw-bad\">تعذر التحديث: {error}</p>}",
+            "        {!available && <p role=\"status\" className=\"rounded-xl bg-nw-warn-bg p-3 text-sm text-nw-warn\">الأرقام المالية غير متاحة حالياً؛ أعد المحاولة أو راجع التقارير.</p>}",
+            "        <div data-testid=\"home-kpis\">",
+            "        <KpiGrid phonePairs className=\"lg:hidden\">",
+            "          <KpiCard label=\"طلبات اليوم\" value={summary.todayCompletedOrders} note={`${summary.newOrdersCount} طلب جديد`} />",
+            "          <KpiCard label=\"المقبوض اليوم\" value={collectedValue} note={collectedNote} className=\"[&>div:nth-child(2)]:text-xl\" />",
+            "          <KpiCard label=\"ذمم العملاء\" value={money(summary.customerReceivablesInMinorUnits, available)} className=\"[&>div:nth-child(2)]:text-xl\" />",
+            "          <KpiCard label=\"تنبيهات المخزون\" value={stockIssues} note=\"أصناف تحتاج متابعة\" />",
+            "        </KpiGrid>",
+            "        <KpiGrid className=\"hidden lg:grid\">",
+            "          <KpiCard label={periodLabel} value={money(periodSales, available)} note={`${summary.todayCompletedOrders} طلب مكتمل اليوم`} className=\"[&>div:nth-child(2)]:text-xl xl:[&>div:nth-child(2)]:text-2xl\" />",
+            "          <KpiCard label=\"صافي الشهر\" value={money(summary.monthNetSalesInMinorUnits, available)} note=\"بعد استحقاق المرتجعات\" className=\"[&>div:nth-child(2)]:text-xl xl:[&>div:nth-child(2)]:text-2xl\" />",
+            "          <KpiCard label=\"المقبوض اليوم\" value={collectedValue} note={collectedNote} className=\"[&>div:nth-child(2)]:text-xl\" />",
+            "          <KpiCard label=\"ذمم العملاء\" value={money(summary.customerReceivablesInMinorUnits, available)} note={<button type=\"button\" className=\"min-h-11 text-right text-nw-primary\" onClick={onAccounts}>مراجعة العملاء والذمم</button>} className=\"[&>div:nth-child(2)]:text-xl xl:[&>div:nth-child(2)]:text-2xl\" />",
+            "        </KpiGrid>",
+            "        </div>",
+            ""
+          ],
+          "after": []
+        },
+        {
+          "at": 94,
+          "before": [
+            "        {actionCount>0&&<button onClick={onOrders} className=\"flex min-h-11 items-center gap-2 text-sm font-semibold text-nw-primary\">طلبات تحتاج إجراء: {actionCount}<ChevronLeft className=\"h-4 w-4\" aria-hidden=\"true\"/></button>}",
+            "        <div className=\"flex flex-wrap items-stretch gap-5\">",
+            "          {salesHistory&&<RecentSalesCard state={salesHistory} onOpen={id=>onInvoice?.(id)} onViewAll={()=>onSalesHistory?.()}/>}",
+            "",
+            "          <Card aria-labelledby=\"home-shift-title\" className=\"order-1 min-w-0 flex-[1_1_280px] lg:order-2\">",
+            "            <SectionHeader id=\"home-shift-title\" title=\"الوردية الحالية\" action={<StatusBadge tone={shift ? 'ok' : 'mute'}>{shift ? 'مفتوحة' : 'لا توجد وردية مفتوحة'}</StatusBadge>} />",
+            "            {shift ? <>",
+            "              <div className=\"mt-4 lg:hidden\">",
+            "                <div className=\"flex items-center justify-between gap-3\"><span className=\"text-sm text-nw-muted\">النقد المتوقع بالصندوق</span><MoneyText amount={shift.expectedCash} className=\"text-2xl font-bold\" /></div>",
+            "                <dl className=\"mt-3 grid grid-cols-3 gap-3 border-t border-nw-border pt-3 text-center text-xs\">",
+            "                  <div><dt className=\"text-nw-muted\">مبيعات كاش</dt><dd className=\"m-0 mt-1 font-bold\"><MoneyText amount={shift.totalCashSales} /></dd></div>",
+            "                  <div><dt className=\"text-nw-muted\">الرصيد الافتتاحي</dt><dd className=\"m-0 mt-1 font-bold\"><MoneyText amount={shift.openingCash} /></dd></div>",
+            "                  <div><dt className=\"text-nw-muted\">بداية الوردية</dt><dd className=\"m-0 mt-1 font-bold\"><bdi dir=\"ltr\">{formatUiTime(shift.startTime)}</bdi></dd></div>",
+            "                </dl>",
+            "              </div>",
+            "              <dl data-testid=\"home-shift-flows\" className=\"mt-4 space-y-3 text-sm\">",
+            "                {[",
+            "                  ['الرصيد الافتتاحي', shift.openingCash], ['مبيعات كاش', shift.totalCashSales],",
+            "                  ['سندات قبض كاش', shift.cashReceipts], ['مرتجعات مدفوعة كاش', -shift.cashRefunds],",
+            "                  ['مصروفات من الدرج', -shift.cashExpenses],",
+            "                  ['دفعات موردين من الدرج', -shift.cashSupplierPayments],",
+            "                  ...(shift.ownerWithdrawals !== undefined ? [['سحوبات المالك', -shift.ownerWithdrawals]] : []),",
+            "                  ...(shift.ownerWithdrawalReturns !== undefined ? [['إرجاع سحوبات المالك', shift.ownerWithdrawalReturns]] : []),",
+            "                ].map(([label, value]) => <div key={String(label)} className=\"flex items-center justify-between gap-3\"><dt className=\"text-nw-muted\">{label}</dt><dd className=\"m-0\"><MoneyText amount={Number(value)} /></dd></div>)}",
+            "                <div className=\"flex items-center justify-between gap-3 rounded-xl bg-nw-surface-2 p-3\"><dt>النقد المتوقع بالصندوق</dt><dd className=\"m-0 text-xl font-bold\"><MoneyText amount={shift.expectedCash} /></dd></div>",
+            "              </dl>",
+            "              <UiButton className=\"mt-4 w-full\" onClick={onShift}>إغلاق الوردية</UiButton>",
+            "            </> : <><p className=\"my-6 text-sm text-nw-muted\">افتح الوردية من الصندوق لتسجيل الحركات النقدية.</p><UiButton className=\"w-full\" onClick={onShift}>فتح الصندوق والورديات</UiButton></>}",
+            "          </Card>",
+            "        </div>"
+          ],
+          "after": [
+            "        {salesHistory&&<RecentSalesCard state={salesHistory} onOpen={id=>onInvoice?.(id)} onViewAll={()=>onSalesHistory?.()}/>}"
+          ]
+        },
+        {
+          "at": 123,
+          "before": [
+            "          <details className=\"mt-4 text-sm\"><summary className=\"min-h-11 cursor-pointer text-nw-muted\">تفاصيل إضافية</summary><dl className=\"space-y-2 text-nw-muted\"><div>ذمم الموردين: {money(summary.supplierPayablesInMinorUnits, available)}</div>{summary.supplierAdvancesInMinorUnits !== undefined && <div>دفعات مقدّمة للموردين: {money(summary.supplierAdvancesInMinorUnits, available)}</div>}<div>عدد العملاء المتأخرين: غير متاح في قراءة الرئيسية</div>{data.access.canViewProfit && <div>ربح الشهر: {money(summary.monthProfitInMinorUnits, available)}</div>}</dl></details>"
+          ],
+          "after": [
+            "          <details className=\"mt-4 text-sm\"><summary className=\"min-h-11 cursor-pointer text-nw-muted\">تفاصيل إضافية</summary><dl className=\"space-y-2 text-nw-muted\"><div>صافي مبيعات الشهر بعد المرتجعات: {money(summary.monthNetSalesInMinorUnits, available)}</div><div>ذمم الموردين: {money(summary.supplierPayablesInMinorUnits, available)}</div>{summary.supplierAdvancesInMinorUnits !== undefined && <div>دفعات مقدّمة للموردين: {money(summary.supplierAdvancesInMinorUnits, available)}</div>}<div>عدد العملاء المتأخرين: غير متاح في قراءة الرئيسية</div>{data.access.canViewProfit && <div>ربح الشهر: {money(summary.monthProfitInMinorUnits, available)}</div>}</dl></details>"
+          ]
+        }
+      ]
+    },
+    "src/features/more/DamageProductSelection.tsx": {
+      "before": null,
+      "after": "6c0206cc978532c439b5978509518427129540a64a4da5ba095be2c81bd39f8f",
+      "added": true,
+      "hunks": []
+    },
+    "src/features/more/MoreMenuView.tsx": {
+      "before": "f4fab17e587ce8daa6b209da95477b7800bf916733632c85550a94c0a517c247",
+      "after": "89ec7580a87c064807bdbb18d5e704bc514ae35591af8bfc96b7bc2f03e747c4",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [
+            "/**",
+            " * Nawasrah Business Manager - Grouped mobile settings and operations menu",
+            " */"
+          ],
+          "after": [
+            "import React, {useEffect, useState} from 'react';",
+            "import {ChevronLeft, LogOut, Moon, Scan, Sun} from 'lucide-react';",
+            "import {shallowEqual, useAppStoreActions, useAppStoreSelector} from '../../stores/useAppStore';",
+            "import {useAuthStore} from '../../stores/useAuthStore';",
+            "import {isDeviceBiometricAvailable} from '../../services/deviceBiometrics.service';",
+            "import {UserAvatar, Card, PageHeader, SearchField, UiButton} from '../../components/ui';",
+            "import {useNavigationDrawer} from '../../components/layout/navigationDrawerContext';",
+            "import {ROLE_LABELS} from '../../utils/roleLabels';",
+            "import {InstallAppPanel} from './InstallAppPanel';",
+            "import {canUseNavigationAction, searchNavigationGroups, type AdminNavigationAction, type AdminNavigationItem} from './adminNavigation.config';"
+          ]
+        },
+        {
+          "at": 12,
+          "before": [
+            "import React, { useEffect, useState } from 'react';",
+            "import {",
+            "  shallowEqual,",
+            "  useAppStoreActions,",
+            "  useAppStoreSelector,",
+            "} from '../../stores/useAppStore';",
+            "import { useAuthStore } from '../../stores/useAuthStore';",
+            "import { isDeviceBiometricAvailable } from '../../services/deviceBiometrics.service';",
+            "import { InstallAppPanel } from './InstallAppPanel';",
+            "import { SECONDARY_QUICK_ACTIONS } from '../../components/layout/quickActions';",
+            "import { UserAvatar, Card, PageHeader, UiButton } from '../../components/ui';",
+            "import {",
+            "  ADMIN_NAVIGATION_GROUPS,",
+            "  isNavigationItemVisible,",
+            "  getNextOpenNavigationGroup,",
+            "  type AdminNavigationAction,",
+            "  type AdminNavigationGroupId,",
+            "} from './adminNavigation.config';",
+            "import {",
+            "  BotMessageSquare,",
+            "  ChevronDown,",
+            "  ChevronLeft,",
+            "  LogOut,",
+            "  Moon,",
+            "  Scan,",
+            "  Sun,",
+            "} from 'lucide-react';",
+            "import { AnimatePresence, motion, useReducedMotion } from 'motion/react';",
+            "",
+            "interface MenuItemProps {",
+            "  id: string;",
+            "  title: string;",
+            "  description: string;",
+            "  icon: React.ComponentType<{ className?: string }>;",
+            "  tone: string;",
+            "  onClick: () => void;"
+          ],
+          "after": [
+            "function NavigationItem({item, list, onClick}: {item: AdminNavigationItem; list: boolean; onClick: () => void}) {",
+            "  const Icon=item.icon;",
+            "  return <UiButton variant=\"plain\" type=\"button\" data-navigation-id={item.id} onClick={onClick}",
+            "    className={list?'!h-auto flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-2 text-right text-sm text-nw-text hover:bg-nw-surface-2':'!h-auto flex min-h-[88px] min-w-0 flex-col items-center justify-center gap-2 rounded-xl border border-nw-border bg-nw-surface px-2 py-3 text-center text-[13px] font-semibold leading-5 text-nw-text hover:bg-nw-surface-2'}>",
+            "    <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${item.tone}`}><Icon className=\"h-5 w-5\" aria-hidden=\"true\"/></span>",
+            "    <span className=\"min-w-0 break-words\">{item.label}</span>",
+            "    {list&&<ChevronLeft className=\"ms-auto h-4 w-4 shrink-0 text-nw-muted\" aria-hidden=\"true\"/>}",
+            "  </UiButton>;"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            "const MenuItem: React.FC<MenuItemProps> = ({",
+            "  id,",
+            "  title,",
+            "  description,",
+            "  icon: Icon,",
+            "  tone,",
+            "  onClick,",
+            "}) => (",
+            "  <UiButton variant=\"plain\"",
+            "    type=\"button\"",
+            "    data-navigation-id={id}",
+            "    onClick={onClick}",
+            "    className=\"!h-auto flex min-h-12 w-full items-center justify-between gap-3 rounded-xl px-2 py-2.5 text-right transition hover:bg-nw-surface active:scale-[0.99]\"",
+            "  >",
+            "    <span className=\"flex min-w-0 items-center gap-3\">",
+            "      <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${tone}`}>",
+            "        <Icon className=\"h-4 w-4\" />",
+            "      </span>",
+            "      <span className=\"min-w-0\">",
+            "        <span className=\"block break-words text-sm font-black text-nw-text\">",
+            "          {title}",
+            "        </span>",
+            "        <span className=\"mt-0.5 block break-words text-xs leading-4 text-nw-muted\">",
+            "          {description}",
+            "        </span>",
+            "      </span>",
+            "    </span>",
+            "    <ChevronLeft className=\"h-4 w-4 shrink-0 text-nw-muted\" />",
+            "  </UiButton>",
+            ");",
+            "",
+            "interface MenuSectionProps {",
+            "  id: AdminNavigationGroupId;",
+            "  title: string;",
+            "  description: string;",
+            "  icon: React.ComponentType<{ className?: string }>;",
+            "  iconTone: string;",
+            "  isOpen: boolean;",
+            "  onToggle: () => void;",
+            "  children: React.ReactNode;",
+            "}",
+            "",
+            "const MenuSection: React.FC<MenuSectionProps> = ({",
+            "  id,",
+            "  title,",
+            "  description,",
+            "  icon: Icon,",
+            "  iconTone,",
+            "  isOpen,",
+            "  onToggle,",
+            "  children,",
+            "}) => {",
+            "  const reduceMotion = useReducedMotion();",
+            "  const triggerId = `admin-navigation-trigger-${id}`;",
+            "  const panelId = `admin-navigation-panel-${id}`;",
+            "",
+            "  return (",
+            "    <Card padded={false}",
+            "      data-navigation-group={id}",
+            "      className=\"overflow-hidden rounded-2xl border border-nw-border bg-nw-surface shadow-sm\"",
+            "    >",
+            "      <UiButton variant=\"plain\"",
+            "        id={triggerId}",
+            "        type=\"button\"",
+            "        onClick={onToggle}",
+            "        aria-expanded={isOpen}",
+            "        aria-controls={panelId}",
+            "        className=\"!h-auto flex min-h-14 w-full items-center justify-between gap-3 p-3 text-right transition hover:bg-nw-surface active:scale-[0.995]\"",
+            "      >",
+            "        <span className=\"flex min-w-0 items-center gap-3\">",
+            "          <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${iconTone}`}>",
+            "            <Icon className=\"h-4 w-4\" />",
+            "          </span>",
+            "          <span className=\"min-w-0\">",
+            "            <span className=\"block text-xs font-black text-nw-text\">{title}</span>",
+            "            <span className=\"mt-0.5 block break-words text-xs leading-4 text-nw-muted\">",
+            "              {description}",
+            "            </span>",
+            "          </span>",
+            "        </span>",
+            "        <ChevronDown",
+            "          className={`h-4 w-4 shrink-0 text-nw-muted transition-transform motion-reduce:transition-none ${",
+            "            isOpen ? 'rotate-180' : ''",
+            "          }`}",
+            "        />",
+            "      </UiButton>",
+            "      <AnimatePresence initial={false}>",
+            "        {isOpen && (",
+            "          <motion.div",
+            "            id={panelId}",
+            "            role=\"region\"",
+            "            aria-labelledby={triggerId}",
+            "            initial={reduceMotion ? false : { height: 0, opacity: 0 }}",
+            "            animate={{ height: 'auto', opacity: 1 }}",
+            "            exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}",
+            "            transition={reduceMotion ? { duration: 0 } : { duration: 0.16, ease: 'easeOut' }}",
+            "            className=\"overflow-hidden border-t border-nw-border\"",
+            "          >",
+            "            <div className=\"px-2 py-1\">{children}</div>",
+            "          </motion.div>",
+            "        )}",
+            "      </AnimatePresence>",
+            "    </Card>",
+            "  );"
+          ],
+          "after": [
+            "export const MoreMenuView: React.FC = () => {",
+            "  const {signOut, roleName, roles}=useAuthStore();",
+            "  const state=useAppStoreSelector(value=>({activeBranch:value.activeBranch,branches:value.branches,",
+            "    isBiometricsEnabled:value.isBiometricsEnabled,currentUserName:value.currentUser.name,currentUserRole:value.currentUser.role,",
+            "    currentUserAvatarUrl:value.currentUser.avatarUrl,currentUserBranchId:value.currentUser.branchId,themeMode:value.currentUser.themeMode}),shallowEqual);",
+            "  const {toggleBiometrics, openModal, toggleThemeMode, setActiveTab}=useAppStoreActions();",
+            "  const drawer=useNavigationDrawer();",
+            "  const [search,setSearch]=useState('');",
+            "  const [isBiometricSupported,setIsBiometricSupported]=useState<boolean|null>(null);",
+            "  const [isUpdatingBiometrics,setIsUpdatingBiometrics]=useState(false);",
+            "  const isDarkMode=state.themeMode!=='light';",
+            "  const userBranch=state.branches.find(branch=>branch.id===state.currentUserBranchId)?.name||state.activeBranch.name;",
+            "  const groups=searchNavigationGroups(search,roleName,roles);",
+            "  useEffect(()=>{let active=true;void isDeviceBiometricAvailable().then(value=>{if(active)setIsBiometricSupported(value);});return()=>{active=false;};},[]);",
+            "  const handleBiometricToggle=async()=>{setIsUpdatingBiometrics(true);try{await toggleBiometrics();}finally{setIsUpdatingBiometrics(false);}};",
+            "  const run=(action:AdminNavigationAction)=>{",
+            "    if(!canUseNavigationAction(action,roleName,roles))return;",
+            "    drawer?.close();",
+            "    drawer?.setEntryIntent(action.type==='tab'?action.intent??null:null);",
+            "    if(action.type==='tab')setActiveTab(action.destination);else openModal(action.destination);",
+            "  };",
+            "  return <div dir=\"rtl\" className=\"mx-auto min-w-0 max-w-2xl space-y-4 bg-nw-bg p-3 pb-6 text-nw-text sm:p-4\">",
+            "    <PageHeader title={<><span className=\"lg:hidden\">المزيد</span><span className=\"hidden lg:inline\">حسابي</span></>}",
+            "      actions={<span className=\"block text-xs leading-5 text-nw-muted\">{state.activeBranch.name}</span>}/>",
+            "    <div className=\"space-y-5 lg:hidden\">",
+            "      <SearchField label=\"ابحث عن شاشة\" placeholder=\"ابحث عن شاشة\" value={search} onChange={event=>setSearch(event.target.value)}/>",
+            "      <div aria-label=\"أقسام التنقل الإداري\" className=\"space-y-5\">",
+            "        {groups.map(group=><section key={group.id} aria-labelledby={`navigation-section-${group.id}`} data-navigation-group={group.id}>",
+            "          <h2 id={`navigation-section-${group.id}`} className=\"mb-2 text-sm font-bold\">{group.label}</h2>",
+            "          <div className={group.id==='administration-store'?'divide-y divide-nw-border rounded-xl border border-nw-border bg-nw-surface p-1':'grid grid-cols-3 gap-2'}>",
+            "            {group.items.map(item=><NavigationItem key={item.id} item={item} list={group.id==='administration-store'} onClick={()=>run(item.action)}/>)}",
+            "          </div>",
+            "        </section>)}",
+            "        {groups.length===0&&<p role=\"status\" className=\"rounded-xl border border-nw-border p-4 text-sm text-nw-muted\">لا توجد شاشة مطابقة.</p>}",
+            "      </div>",
+            "    </div>",
+            "    <section aria-label=\"الحساب والأمان\" className=\"space-y-3\">",
+            "      <Card padded={false}>",
+            "        <UiButton variant=\"plain\" type=\"button\" data-navigation-id=\"profile-summary\" onClick={()=>openModal('profile')}",
+            "          className=\"!h-auto flex min-h-16 w-full items-center gap-3 px-3 py-3 text-right\">",
+            "          <UserAvatar name={state.currentUserName} src={state.currentUserAvatarUrl} className=\"h-10 w-10\"/>",
+            "          <span className=\"min-w-0 flex-1\"><span className=\"block break-words font-bold\">{state.currentUserName}</span><span className=\"mt-1 block text-xs text-nw-muted\">{ROLE_LABELS[state.currentUserRole]||state.currentUserRole} · {userBranch}</span></span>",
+            "          <ChevronLeft className=\"h-4 w-4 shrink-0\" aria-hidden=\"true\"/>",
+            "        </UiButton>",
+            "        <div data-navigation-id=\"theme-toggle\" className=\"flex min-h-12 items-center justify-between gap-3 border-t border-nw-border px-3 py-2\">",
+            "          <span className=\"flex min-w-0 items-center gap-2 text-sm\">{isDarkMode?<Moon className=\"h-4 w-4\" aria-hidden=\"true\"/>:<Sun className=\"h-4 w-4\" aria-hidden=\"true\"/>}مظهر التطبيق</span>",
+            "          <UiButton onClick={()=>toggleThemeMode()}>{isDarkMode?'فاتح':'داكن'}</UiButton>",
+            "        </div>",
+            "        <div data-navigation-id=\"biometric-toggle\" className=\"flex min-h-12 items-center justify-between gap-3 border-t border-nw-border px-3 py-2\">",
+            "          <span className=\"min-w-0\"><span className=\"flex items-center gap-2 text-sm\"><Scan className=\"h-4 w-4\" aria-hidden=\"true\"/>قفل Face ID</span><span className=\"mt-1 block text-xs leading-5 text-nw-muted\">{isBiometricSupported===null?'جاري التحقق من دعم الجهاز':isBiometricSupported?'قفل إضافي عند فتح التطبيق':'غير مدعوم على هذا الجهاز أو الاتصال غير آمن'}</span></span>",
+            "          <input type=\"checkbox\" aria-label=\"تفعيل قفل Face ID\" checked={state.isBiometricsEnabled} onChange={()=>void handleBiometricToggle()}",
+            "            disabled={isUpdatingBiometrics||(!state.isBiometricsEnabled&&isBiometricSupported!==true)} className=\"h-11 w-11 shrink-0 accent-nw-primary\"/>",
+            "        </div>",
+            "        <div data-navigation-id=\"install-app\" className=\"border-t border-nw-border p-3\"><InstallAppPanel/></div>",
+            "      </Card>",
+            "    </section>",
+            "    <UiButton variant=\"plain\" type=\"button\" data-navigation-id=\"sign-out\" onClick={()=>signOut()} className=\"min-h-11 text-sm text-nw-bad\"><LogOut className=\"h-4 w-4\" aria-hidden=\"true\"/>تسجيل الخروج</UiButton>",
+            "  </div>;"
+          ]
+        },
+        {
+          "at": 81,
+          "before": [
+            "export const MoreMenuView: React.FC = () => {",
+            "  const { signOut, roleName,roles } = useAuthStore();",
+            "  const {",
+            "    activeBranch,",
+            "    branches,",
+            "    isBiometricsEnabled,",
+            "    currentUserName,",
+            "    currentUserRole,",
+            "    currentUserAvatarUrl,",
+            "    currentUserBranchId,",
+            "    themeMode,",
+            "  } = useAppStoreSelector(",
+            "    (state) => ({",
+            "      activeBranch: state.activeBranch,",
+            "      branches: state.branches,",
+            "      isBiometricsEnabled: state.isBiometricsEnabled,",
+            "      currentUserName: state.currentUser.name,",
+            "      currentUserRole: state.currentUser.role,",
+            "      currentUserAvatarUrl: state.currentUser.avatarUrl,",
+            "      currentUserBranchId: state.currentUser.branchId,",
+            "      themeMode: state.currentUser.themeMode,",
+            "    }),",
+            "    shallowEqual,",
+            "  );",
+            "  const { toggleBiometrics, openModal, toggleThemeMode, setActiveTab } =",
+            "    useAppStoreActions();",
+            "",
+            "  const isDarkMode = themeMode !== 'light';",
+            "  const [isBiometricSupported, setIsBiometricSupported] = useState<boolean | null>(null);",
+            "  const [isUpdatingBiometrics, setIsUpdatingBiometrics] = useState(false);",
+            "  const [openSection, setOpenSection] = useState<AdminNavigationGroupId | null>('sales');",
+            "",
+            "  useEffect(() => {",
+            "    let isMounted = true;",
+            "",
+            "    void isDeviceBiometricAvailable().then((isAvailable) => {",
+            "      if (isMounted) setIsBiometricSupported(isAvailable);",
+            "    });",
+            "",
+            "    return () => {",
+            "      isMounted = false;",
+            "    };",
+            "  }, []);",
+            "",
+            "  const handleBiometricToggle = async () => {",
+            "    setIsUpdatingBiometrics(true);",
+            "    await toggleBiometrics();",
+            "    setIsUpdatingBiometrics(false);",
+            "  };",
+            "",
+            "  const toggleSection = (section: AdminNavigationGroupId) => {",
+            "    setOpenSection((current) => getNextOpenNavigationGroup(current, section));",
+            "  };",
+            "",
+            "  const handleNavigationAction = (action: AdminNavigationAction) => {",
+            "    if (action.type === 'tab') {",
+            "      setActiveTab(action.destination);",
+            "      return;",
+            "    }",
+            "",
+            "    openModal(action.destination);",
+            "  };",
+            "",
+            "  const canUseAssistant = ['owner', 'admin', 'manager', 'accountant'].includes(",
+            "    roleName || '',",
+            "  );",
+            "  const userBranch =",
+            "    branches.find((branch) => branch.id === currentUserBranchId)?.name ||",
+            "    activeBranch.name;",
+            "",
+            "  return (",
+            "    <div dir=\"rtl\" className=\"mx-auto max-w-2xl space-y-3 bg-nw-bg p-3 pb-6 text-nw-text sm:p-4 sm:pb-8\">",
+            "      <PageHeader title=\"إدارة التطبيق\" description=\"اختر ما تحتاجه فقط، دون ازدحام القوائم\"",
+            "        actions={<span className=\"rounded-full bg-nw-info-bg px-3 py-1 text-xs font-bold text-nw-info\">{activeBranch.name}</span>} />",
+            "",
+            "      {/* Former floating quick actions (Package F §4.2); \"بيع\" is the centre tab. */}",
+            "      <section aria-label=\"إجراءات سريعة\" className=\"grid grid-cols-3 gap-2\">",
+            "        {SECONDARY_QUICK_ACTIONS.map((quickAction) => {",
+            "          const QuickIcon = quickAction.icon;",
+            "          return (",
+            "            <UiButton variant=\"plain\"",
+            "              key={quickAction.id}",
+            "              type=\"button\"",
+            "              data-navigation-id={quickAction.id}",
+            "              onClick={() => handleNavigationAction(quickAction.action)}",
+            "              className=\"flex min-h-16 flex-col items-center justify-center gap-1.5 rounded-2xl border border-nw-border bg-nw-surface p-2 text-center text-sm font-bold text-nw-text transition hover:bg-nw-surface active:scale-[0.98]\"",
+            "            >",
+            "              <QuickIcon className=\"h-5 w-5 text-nw-warn\" aria-hidden=\"true\" />",
+            "              {quickAction.shortLabel}",
+            "            </UiButton>",
+            "          );",
+            "        })}",
+            "      </section>",
+            "",
+            "      {canUseAssistant && (",
+            "        <UiButton variant=\"plain\"",
+            "          type=\"button\"",
+            "          data-navigation-id=\"assistant-shortcut\"",
+            "          onClick={() => setActiveTab('assistant')}",
+            "          className=\"flex min-h-14 w-full items-center justify-between gap-3 rounded-2xl border border-nw-info bg-nw-surface-2 p-3 text-right shadow-sm transition hover:border-nw-info active:scale-[0.99]\"",
+            "        >",
+            "          <span className=\"flex min-w-0 items-center gap-3\">",
+            "            <span className=\"flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-nw-info-bg text-nw-info\">",
+            "              <BotMessageSquare className=\"h-4 w-4\" />",
+            "            </span>",
+            "            <span className=\"min-w-0\">",
+            "              <span className=\"block text-xs font-black text-nw-text\">",
+            "                المساعد الإداري الذكي",
+            "              </span>",
+            "              <span className=\"mt-0.5 block break-words text-xs leading-4 text-nw-muted\">",
+            "                وصول سريع مستقل بنفس الصلاحيات الحالية",
+            "              </span>",
+            "            </span>",
+            "          </span>",
+            "          <ChevronLeft className=\"h-4 w-4 shrink-0 text-nw-info\" />",
+            "        </UiButton>",
+            "      )}",
+            "",
+            "      <div className=\"space-y-2\" aria-label=\"أقسام التنقل الإداري\">",
+            "        {ADMIN_NAVIGATION_GROUPS.map((group) => {",
+            "          const visibleItems = group.items.filter(",
+            "            (item) => isNavigationItemVisible(item,roleName,roles),",
+            "          );",
+            "          const GroupIcon = group.icon;",
+            "",
+            "          return (",
+            "            <MenuSection",
+            "              key={group.id}",
+            "              id={group.id}",
+            "              title={group.label}",
+            "              description={group.description}",
+            "              icon={GroupIcon}",
+            "              iconTone={group.iconTone}",
+            "              isOpen={openSection === group.id}",
+            "              onToggle={() => toggleSection(group.id)}",
+            "            >",
+            "              {group.id === 'administration-store' && (",
+            "                <UiButton variant=\"plain\"",
+            "                  type=\"button\"",
+            "                  data-navigation-id=\"profile-summary\"",
+            "                  onClick={() => openModal('profile')}",
+            "                  className=\"!h-auto mb-1 flex min-h-14 w-full items-center justify-between gap-3 rounded-xl px-2 py-2.5 text-right transition hover:bg-nw-surface active:scale-[0.99]\"",
+            "                >",
+            "                  <span className=\"flex min-w-0 items-center gap-3\">",
+            "                    <UserAvatar name={currentUserName} src={currentUserAvatarUrl} className=\"h-10 w-10\" />",
+            "                    <span className=\"min-w-0\">",
+            "                      <span className=\"block break-words text-xs font-black text-nw-text\">",
+            "                        {currentUserName}",
+            "                      </span>",
+            "                      <span className=\"mt-0.5 block break-words text-xs leading-4 text-nw-muted\">",
+            "                        {currentUserRole} · {userBranch}",
+            "                      </span>",
+            "                    </span>",
+            "                  </span>",
+            "                  <span className=\"flex items-center gap-1 rounded-lg bg-nw-info-bg px-2 py-1 text-xs font-bold text-nw-info\">",
+            "                    الملف <ChevronLeft className=\"h-3 w-3\" />",
+            "                  </span>",
+            "                </UiButton>",
+            "              )}",
+            "",
+            "              {visibleItems.map((item) => (",
+            "                <MenuItem",
+            "                  key={item.id}",
+            "                  id={item.id}",
+            "                  title={item.label}",
+            "                  description={",
+            "                    item.classification === 'unclassified'",
+            "                      ? `الفرع الحالي: ${activeBranch.name} · Unclassified/Needs Decision`",
+            "                      : item.description",
+            "                  }",
+            "                  icon={item.icon}",
+            "                  tone={item.tone}",
+            "                  onClick={() => handleNavigationAction(item.action)}",
+            "                />",
+            "              ))}",
+            "",
+            "              {group.id === 'administration-store' && (",
+            "                <>",
+            "                  <div data-navigation-id=\"install-app\" className=\"border-t border-nw-border py-2\">",
+            "                    <InstallAppPanel />",
+            "                  </div>",
+            "",
+            "                  <div",
+            "                    data-navigation-id=\"theme-toggle\"",
+            "                    className=\"flex min-h-12 items-center justify-between gap-3 border-t border-nw-border px-2 py-2.5\"",
+            "                  >",
+            "                    <span className=\"flex min-w-0 items-center gap-3\">",
+            "                      <span className=\"flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-nw-warn-bg text-nw-warn\">",
+            "                        {isDarkMode ? <Moon className=\"h-4 w-4\" /> : <Sun className=\"h-4 w-4\" />}",
+            "                      </span>",
+            "                      <span className=\"min-w-0\">",
+            "                        <span className=\"block text-sm font-black text-nw-text\">مظهر التطبيق</span>",
+            "                        <span className=\"mt-0.5 block text-xs leading-4 text-nw-muted\">",
+            "                          {isDarkMode ? 'الوضع الداكن مفعّل' : 'الوضع الفاتح مفعّل'}",
+            "                        </span>",
+            "                      </span>",
+            "                    </span>",
+            "                    <UiButton variant=\"plain\"",
+            "                      type=\"button\"",
+            "                      onClick={() => toggleThemeMode()}",
+            "                      className=\"min-h-11 shrink-0 rounded-lg border border-nw-border bg-nw-surface-2 px-3 py-1.5 text-xs font-black text-nw-text transition hover:bg-nw-surface\"",
+            "                    >",
+            "                      {isDarkMode ? 'فاتح' : 'داكن'}",
+            "                    </UiButton>",
+            "                  </div>",
+            "",
+            "                  <div",
+            "                    data-navigation-id=\"biometric-toggle\"",
+            "                    className=\"flex min-h-12 items-center justify-between gap-3 border-t border-nw-border px-2 py-2.5\"",
+            "                  >",
+            "                    <span className=\"flex min-w-0 items-center gap-3\">",
+            "                      <span className=\"flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-nw-info-bg text-nw-info\">",
+            "                        <Scan className=\"h-4 w-4\" />",
+            "                      </span>",
+            "                      <span className=\"min-w-0\">",
+            "                        <span className=\"block text-sm font-black text-nw-text\">قفل Face ID</span>",
+            "                        <span className=\"mt-0.5 block break-words text-xs leading-4 text-nw-muted\">",
+            "                          {isBiometricSupported === null",
+            "                            ? 'جاري التحقق من دعم الجهاز'",
+            "                            : isBiometricSupported",
+            "                              ? 'قفل إضافي عند فتح التطبيق'",
+            "                              : 'غير مدعوم على هذا الجهاز أو الاتصال غير آمن'}",
+            "                        </span>",
+            "                      </span>",
+            "                    </span>",
+            "                    <input",
+            "                      type=\"checkbox\"",
+            "                      aria-label=\"تفعيل قفل Face ID\"",
+            "                      checked={isBiometricsEnabled}",
+            "                      onChange={() => void handleBiometricToggle()}",
+            "                      disabled={",
+            "                        isUpdatingBiometrics ||",
+            "                        (!isBiometricsEnabled && isBiometricSupported !== true)",
+            "                      }",
+            "                      className=\"h-11 w-11 shrink-0 cursor-pointer rounded accent-nw-primary disabled:cursor-not-allowed disabled:opacity-50\"",
+            "                    />",
+            "                  </div>",
+            "                </>",
+            "              )}",
+            "            </MenuSection>",
+            "          );",
+            "        })}",
+            "      </div>",
+            "",
+            "      <UiButton variant=\"plain\"",
+            "        type=\"button\"",
+            "        data-navigation-id=\"sign-out\"",
+            "        onClick={() => signOut()}",
+            "        className=\"flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl border border-nw-bad bg-nw-bad-bg p-3 text-sm font-black text-nw-bad transition hover:bg-nw-bad-bg active:scale-[0.99]\"",
+            "      >",
+            "        <LogOut className=\"h-4 w-4\" />",
+            "        تسجيل الخروج",
+            "      </UiButton>",
+            "",
+            "      <p className=\"pb-1 text-center text-xs leading-4 text-nw-muted\">",
+            "        النواصرة · إدارة الأعمال",
+            "      </p>",
+            "    </div>",
+            "  );",
+            "};",
+            ""
+          ],
+          "after": []
+        }
+      ]
+    },
+    "src/features/more/adminNavigation.config.ts": {
+      "before": "15a555ae7386a42b5b3503cb6757d051aec0761cf832fa36d23bb29133d9f5b0",
+      "after": "c9f56ec33b18dd0b85d22a6571d89b991b76e7a948b7f10a1e791a6e19d8f838",
+      "hunks": [
+        {
+          "at": 4,
+          "before": [],
+          "after": [
+            "  BotMessageSquare,",
+            "  HandCoins,",
+            "  RotateCcw,",
+            "  TriangleAlert,"
+          ]
+        },
+        {
+          "at": 35,
+          "before": [
+            "  | { type: 'tab'; destination: AppState['activeTab'] }"
+          ],
+          "after": [
+            "  | { type: 'tab'; destination: AppState['activeTab'];intent?:'customer_return'|'owner_withdrawals' }"
+          ]
+        },
+        {
+          "at": 58,
+          "before": [
+            "export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = ["
+          ],
+          "after": [
+            "const NAVIGATION_DEFINITIONS: readonly AdminNavigationGroup[] = ["
+          ]
+        },
+        {
+          "at": 248,
+          "before": [],
+          "after": [
+            "",
+            "// These UI boundaries mirror accepted205 RPC guards;the database remains authoritative.",
+            "export const ERP_READER_ROLES = ['owner','admin','manager','accountant','cashier','sales','warehouse_keeper','orders','delivery_driver','view_only'] as const;",
+            "const ORDER_READERS = ['owner','admin','manager','accountant','cashier','sales','orders','delivery_driver'] as const;",
+            "const CASH_READERS = ['owner','admin','manager','accountant'] as const;",
+            "const STOCK_WRITERS = ['owner','admin','manager','warehouse_keeper'] as const;",
+            "const SALES_WRITERS = ['owner','admin','manager','sales'] as const;",
+            "const RECEIPT_READERS = ['owner','admin','manager','accountant','warehouse_keeper'] as const;",
+            "const HOME_READERS = ['owner','admin','manager','accountant','sales','warehouse_keeper','delivery_driver'] as const;",
+            "const tabRoles:Partial<Record<AppState['activeTab'],readonly string[]>> = {",
+            "  home:HOME_READERS,dashboard:HOME_READERS,more:ERP_READER_ROLES,products:ERP_READER_ROLES,",
+            "  inventory:ERP_READER_ROLES,accounts:ERP_READER_ROLES,orders:ORDER_READERS,sales_history:ORDER_READERS,",
+            "  pos:SALES_WRITERS,purchases:RECEIPT_READERS,",
+            "  shifts:CASH_READERS,expenses:CASH_READERS,reports:CASH_READERS,cheques:['owner','manager'],",
+            "  users:['owner'],warehouses:['owner'],go_live:['owner'],assistant:CASH_READERS,",
+            "};",
+            "const modalRoles:Partial<Record<ModalNameCallableWithoutPayload,readonly string[]>> = {",
+            "  profile:ERP_READER_ROLES,profile_settings:ERP_READER_ROLES,notifications:ERP_READER_ROLES,",
+            "  storefront_settings:['owner','admin','manager'],promotion_codes:SALES_WRITERS,",
+            "  parcel_configuration:['owner'],monitoring_dashboard:['owner'],add_product:STOCK_WRITERS,",
+            "  receive_goods:RECEIPT_READERS,add_expense:CASH_READERS,damage_stock_selection:STOCK_WRITERS,",
+            "};",
+            "export function hasNavigationRole(allowed:readonly string[],roleName:string|null|undefined,roles?:readonly string[]):boolean {",
+            "  const membership=new Set([...(roles??[]),roleName].filter((role):role is string=>typeof role==='string'));",
+            "  return allowed.some(role=>membership.has(role));",
+            "}",
+            "export function canUseNavigationAction(action:AdminNavigationAction,roleName:string|null|undefined,roles?:readonly string[]):boolean {",
+            "  return hasNavigationRole((action.type==='tab'?tabRoles[action.destination]:modalRoles[action.destination])??[],roleName,roles);",
+            "}"
+          ]
+        },
+        {
+          "at": 278,
+          "before": [
+            "  item.visibility==='order-readers'?canReadSalesHistory(roles,roleName):item.visibility==='owner'?roleName==='owner':item.visibility==='cheque-managers'?roleName==='owner'||roleName==='manager':true;"
+          ],
+          "after": [
+            "  canUseNavigationAction(item.action,roleName,roles) && (item.visibility==='order-readers'?canReadSalesHistory(roles,roleName)",
+            "    :item.visibility==='owner'?hasNavigationRole(['owner'],roleName,roles)",
+            "    :item.visibility==='cheque-managers'?hasNavigationRole(['owner','manager'],roleName,roles):true);",
+            "",
+            "const byId=new Map(NAVIGATION_DEFINITIONS.flatMap(group=>group.items).map(item=>[item.id,item]));",
+            "function item(id:string,label?:string):AdminNavigationItem {",
+            "  const value=byId.get(id);if(!value)throw new Error('Unknown navigation item:'+id);",
+            "  return label?{...value,label}:value;",
+            "}",
+            "export const ADMIN_NAVIGATION_GROUPS:readonly AdminNavigationGroup[] = [",
+            "  {id:'sales',label:'البيع',description:'',icon:ShoppingBag,iconTone:'text-nw-info',items:[",
+            "    item('sales-pos','نقطة البيع'),item('sales-orders','الطلبات'),item('sales-history'),item('customer-accounts','العملاء'),",
+            "    {id:'customer-returns',label:'مرتجع زبون',description:'ابحث عن الفاتورة وافتح المرتجعات والاستبدال',icon:RotateCcw,tone:'bg-nw-info-bg text-nw-info',visibility:'order-readers',action:{type:'tab',destination:'sales_history',intent:'customer_return'}},",
+            "  ]},",
+            "  {id:'products-inventory',label:'المخزون والشراء',description:'',icon:Boxes,iconTone:'text-nw-info',items:[",
+            "    item('catalog-products'),item('supplier-receiving','الاستلام'),item('inventory-current','المخزون'),item('parcel-configuration'),",
+            "    {id:'inventory-damage',label:'بضاعة تالفة',description:'اختر المنتج ثم سجل التالف',icon:TriangleAlert,tone:'bg-nw-warn-bg text-nw-warn',action:{type:'modal',destination:'damage_stock_selection'}},",
+            "  ]},",
+            "  {id:'finance-reports',label:'المال',description:'',icon:WalletCards,iconTone:'text-nw-warn',items:[",
+            "    item('finance-shifts'),item('finance-expenses','المصاريف'),item('finance-reports','التقارير'),item('finance-cheques'),",
+            "    {id:'finance-withdrawals',label:'سحوبات المالك',description:'فتح السحوبات داخل الصندوق والورديات',icon:HandCoins,tone:'bg-nw-warn-bg text-nw-warn',visibility:'owner',action:{type:'tab',destination:'shifts',intent:'owner_withdrawals'}},",
+            "  ]},",
+            "  {id:'administration-store',label:'الإدارة',description:'',icon:Store,iconTone:'text-nw-info',items:[",
+            "    item('admin-users'),item('admin-warehouses'),item('admin-storefront','إعدادات المتجر'),item('admin-promotions','رموز الخصم'),item('admin-go-live'),item('admin-monitoring','مراقبة النظام'),",
+            "    {id:'admin-assistant',label:'المساعد',description:'المساعد الإداري',icon:BotMessageSquare,tone:'bg-nw-info-bg text-nw-info',action:{type:'tab',destination:'assistant'}},",
+            "  ]},",
+            "];",
+            "",
+            "export function searchNavigationGroups(search:string,roleName:string|null|undefined,roles?:readonly string[]):AdminNavigationGroup[] {",
+            "  const normalize=(value:string)=>value.normalize('NFKC').replace(/[\\u064B-\\u065F\\u0670]/gu,'').replace(/[أإآ]/gu,'ا').toLocaleLowerCase('ar');",
+            "  const query=normalize(search.trim());",
+            "  return ADMIN_NAVIGATION_GROUPS.map(group=>({...group,items:group.items.filter(entry=>isNavigationItemVisible(entry,roleName,roles)&&(!query||normalize(entry.label+' '+entry.description).includes(query)))})).filter(group=>group.items.length>0);",
+            "}"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/OrderDetailModal.tsx": {
+      "before": "4451c40f80d64fe034b67fc972eb0ba5ca07b449f5baf7d6b68d0041d8e39925",
+      "after": "3beca2062d65974ec6273d96bf8f8748994316ab55951eb205a15983e291a58c",
+      "hunks": [
+        {
+          "at": 835,
+          "before": [
+            "          <AdminAftercarePanel"
+          ],
+          "after": [
+            "          <div data-return-entry tabIndex={-1}><AdminAftercarePanel"
+          ]
+        },
+        {
+          "at": 840,
+          "before": [
+            "          />"
+          ],
+          "after": [
+            "          /></div>"
+          ]
+        }
+      ]
+    },
+    "src/features/salesHistory/SalesHistoryView.tsx": {
+      "before": "8162956dbb17ce66000f1af58c53563098f5da0fa512827d20b61ba0ddf12f49",
+      "after": "d85a99bb3d5252f8fb0a4a9f2a53908c5aaaeb4edb1e570cae614c27ee61860b",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [
+            "import {useEffect,useState} from 'react';"
+          ],
+          "after": [
+            "import {useEffect,useRef,useState} from 'react';",
+            "import {useNavigationDrawer} from '../../components/layout/navigationDrawerContext';"
+          ]
+        },
+        {
+          "at": 14,
+          "before": [],
+          "after": [
+            "  const entry=useNavigationDrawer()?.entryIntent;",
+            "  const numberInput=useRef<HTMLInputElement>(null);",
+            "  const returnContext=entry?.type==='customer_return';"
+          ]
+        },
+        {
+          "at": 18,
+          "before": [
+            "  const [page,setPage]=useState(1),[period,setPeriod]=useState<SalesHistoryPeriod>('day');"
+          ],
+          "after": [
+            "  const [page,setPage]=useState(1),[period,setPeriod]=useState<SalesHistoryPeriod>(returnContext?'all':'day');"
+          ]
+        },
+        {
+          "at": 23,
+          "before": [],
+          "after": [
+            "  useEffect(()=>{if(entry?.type==='customer_return'){setPeriod('all');setMethod('all');setSource('all');setCustomer('');setNumber('');setSearch({customer:'',number:''});setPage(1);numberInput.current?.focus();}},[entry]);"
+          ]
+        },
+        {
+          "at": 42,
+          "before": [
+            "        <label className=\"text-sm\">بحث برقم الفاتورة<input maxLength={100} className={inputClass} value={number} onChange={e=>setNumber(e.target.value)} placeholder=\"رقم الفاتورة\"/></label>"
+          ],
+          "after": [
+            "        <label className=\"text-sm\">بحث برقم الفاتورة<input ref={numberInput} maxLength={100} className={inputClass} value={number} onChange={e=>setNumber(e.target.value)} placeholder=\"رقم الفاتورة\"/></label>"
+          ]
+        },
+        {
+          "at": 56,
+          "before": [
+            "    {selected&&<SalesInvoiceDialog orderId={selected} onClose={()=>setSelected(null)} onChanged={state.reload}/>}"
+          ],
+          "after": [
+            "    {selected&&<SalesInvoiceDialog orderId={selected} returnContext={returnContext} onClose={()=>setSelected(null)} onChanged={state.reload}/>}"
+          ]
+        }
+      ]
+    },
+    "src/features/salesHistory/SalesInvoiceDialog.tsx": {
+      "before": "1d9e72833f0d25e75acd92c5966530bb761a288aaa9b98da6492dff4c7154967",
+      "after": "a30a54215519e0a8132b0219591548f89db6ec68ec39a3d9ca8f49de7a1f1bd1",
+      "hunks": [
+        {
+          "at": 11,
+          "before": [
+            "export function SalesInvoiceDialog({orderId,onClose,onChanged}:{orderId:string;onClose:()=>void;onChanged?:()=>Promise<void>}) {"
+          ],
+          "after": [
+            "export function SalesInvoiceDialog({orderId,onClose,onChanged,returnContext=false}:{orderId:string;onClose:()=>void;onChanged?:()=>Promise<void>;returnContext?:boolean}) {"
+          ]
+        },
+        {
+          "at": 25,
+          "before": [],
+          "after": [
+            "  useEffect(()=>{if(!returnContext||loading||!order||!panel.current)return;const target=panel.current.querySelector<HTMLElement>('[data-return-entry]');target?.scrollIntoView({block:'start'});target?.focus();},[returnContext,loading,order,panel]);"
+          ]
+        }
+      ]
+    },
+    "src/features/shifts/CashFlowDetails.tsx": {
+      "before": null,
+      "after": "407f257d29f9da83440ab9122345f935cc0c1c69387de10ee05cf17bbaa7b945",
+      "added": true,
+      "hunks": []
+    },
+    "src/features/shifts/CashFlowSummary.tsx": {
+      "before": null,
+      "after": "908daa59ee136c102b2e9418741b494f3ad6968b780f80810122a7ed264c4fcd",
+      "added": true,
+      "hunks": []
+    },
+    "src/features/shifts/ShiftClosingReportModal.tsx": {
+      "before": "42ab11da4fc28baa0d32acf8c78514ae3709fbfb3681649ee1ca3008b637a2e6",
+      "after": "b84cf8919d46aecc14c08a5c3406ff7c62da7548d244bd818895d562d1262cac",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {CashFlowSummary} from './CashFlowSummary';"
+          ]
+        },
+        {
+          "at": 137,
+          "before": [],
+          "after": [
+            "",
+            "          <CashFlowSummary shift={report.shift}/>"
+          ]
+        }
+      ]
+    },
+    "src/features/shifts/ShiftsView.tsx": {
+      "before": "5a5a4c7136b3221308fcaaefd5c2fbe77e4ecc3e01a9efd084c3d1be3139f32f",
+      "after": "a04e4ee286ef590c45a9c9ad183930de5ee8e5e4d31fe70f06777539346a1688",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {CashFlowSummary} from './CashFlowSummary';"
+          ]
+        },
+        {
+          "at": 6,
+          "before": [
+            "import React, { useEffect, useMemo, useState } from 'react';"
+          ],
+          "after": [
+            "import React, { useEffect, useMemo, useRef, useState } from 'react';",
+            "import {useNavigationDrawer} from '../../components/layout/navigationDrawerContext';",
+            "import {useAuthStore} from '../../stores/useAuthStore';",
+            "import {hasNavigationRole} from '../more/adminNavigation.config';"
+          ]
+        },
+        {
+          "at": 37,
+          "before": [],
+          "after": [
+            "  const {roleName,roles}=useAuthStore();",
+            "  const entry=useNavigationDrawer()?.entryIntent;",
+            "  const withdrawalsEntry=useRef<HTMLDivElement>(null);"
+          ]
+        },
+        {
+          "at": 42,
+          "before": [
+            "    currentUser,"
+          ],
+          "after": []
+        },
+        {
+          "at": 48,
+          "before": [
+            "      currentUser: state.currentUser,"
+          ],
+          "after": []
+        },
+        {
+          "at": 250,
+          "before": [
+            "  const isOwner = currentUser.role === 'Owner';"
+          ],
+          "after": [
+            "  const isOwner = hasNavigationRole(['owner'],roleName,roles);",
+            "  const withdrawalShiftId=currentShift?.id;",
+            "  useEffect(()=>{if(entry?.type==='owner_withdrawals'&&isOwner&&withdrawalShiftId){withdrawalsEntry.current?.scrollIntoView({block:'start'});withdrawalsEntry.current?.focus();}},[entry,isOwner,withdrawalShiftId]);"
+          ]
+        },
+        {
+          "at": 367,
+          "before": [
+            "            <div className=\"p-4\">",
+            "              <SectionHeader title=\"حركة الدرج\"/>",
+            "              <div className=\"mt-3 grid gap-0 divide-y divide-nw-border lg:grid-cols-3\">",
+            "                {[",
+            "                  ['رصيد افتتاحي',currentShift.openingCash,'text-nw-text'],",
+            "                  ['مبيعات كاش (+)',currentShift.totalCashSales,'text-nw-ok'],",
+            "                  ['سندات قبض كاش (+)',currentShift.cashReceipts,'text-nw-ok'],",
+            "                  ['مبالغ مرتجعات كاش (−)',currentShift.cashRefunds,'text-nw-bad'],",
+            "                  ['مصروفات من الدرج (−)',currentShift.cashExpenses,'text-nw-bad'],",
+            "                  ['دفعات الموردين كاش (−)',currentShift.cashSupplierPayments,'text-nw-bad'],",
+            "                  ...(currentShift.ownerWithdrawals?[['سحوبات المالك (−)',currentShift.ownerWithdrawals,'text-nw-bad']]:[]),",
+            "                  ...(currentShift.ownerWithdrawalReturns?[['إرجاع سحوبات المالك (+)',currentShift.ownerWithdrawalReturns,'text-nw-ok']]:[]),",
+            "                ].map(([label,value,tone])=><div key={label} className=\"flex min-w-0 items-center justify-between gap-2 py-3 lg:px-3\"><span className=\"text-xs text-nw-muted\">{label}</span><strong className={String(tone)}><MoneyText amount={Number(value)}/></strong></div>)}",
+            "              </div>",
+            "              <div className=\"flex items-center justify-between gap-2 border-t border-nw-border pt-3 text-sm font-bold\"><span>المتوقع</span><MoneyText amount={currentShift.expectedCash}/></div>",
+            "            </div>",
+            "            <div className=\"space-y-3 border-t border-nw-border bg-nw-surface-2 p-4\">",
+            "              <SectionHeader title=\"خارج الدرج\" hint=\"CliQ للحساب البنكي؛ المبيعات الآجلة للذمم\"/>",
+            "              <div className=\"grid gap-2 text-sm sm:grid-cols-2\">",
+            "                <div className=\"flex justify-between gap-2\"><span className=\"text-nw-muted\">مبيعات CliQ</span><MoneyText amount={currentShift.totalCliqSales}/></div>",
+            "                <div className=\"flex justify-between gap-2\"><span className=\"text-nw-muted\">سندات قبض CliQ</span><MoneyText amount={currentShift.cliqReceipts}/></div>",
+            "                <div className=\"flex justify-between gap-2\"><span className=\"text-nw-muted\">دفعات الموردين CliQ</span><MoneyText amount={currentShift.cliqSupplierPayments}/></div>",
+            "                <div className=\"flex justify-between gap-2\"><span className=\"text-nw-muted\">مصروفات CliQ</span><MoneyText amount={currentShift.cliqExpenses}/></div>",
+            "                <div className=\"flex justify-between gap-2\"><span className=\"text-nw-muted\">مبالغ مرتجعات CliQ</span><MoneyText amount={currentShift.cliqRefunds}/></div>",
+            "                <div className=\"flex justify-between gap-2\"><span className=\"text-nw-muted\">مبيعات الدين للذمم</span><span>غير متاح</span></div>",
+            "                {currentShift.totalCardSales!==0&&<div className=\"flex justify-between gap-2\"><span className=\"text-nw-muted\">مبيعات بطاقة (تاريخية)</span><MoneyText amount={currentShift.totalCardSales}/></div>}",
+            "              </div>",
+            "            </div>",
+            "          </Card>",
+            "          {isOwner && <OwnerWithdrawalsPanel shift={currentShift} onChanged={() => void refreshExpenseShiftCenterFromSupabase().catch(() => undefined)} />}"
+          ],
+          "after": [
+            "            <div className=\"p-4\"><SectionHeader title=\"حركة الدرج\"/><div className=\"mt-3\"><CashFlowSummary shift={currentShift}/></div></div>",
+            "            </Card>",
+            "          {isOwner && <div ref={withdrawalsEntry} tabIndex={-1}><OwnerWithdrawalsPanel shift={currentShift} onChanged={() => void refreshExpenseShiftCenterFromSupabase().catch(() => undefined)} /></div>}"
+          ]
+        }
+      ]
+    },
+    "src/features/shifts/cashFlow.css": {
+      "before": null,
+      "after": "8b4fe8dce16489b6b9f5134dfca12c8a1266b016cb684d24d18867568f1836b8",
+      "added": true,
+      "hunks": []
+    },
+    "src/features/shifts/cashFlowModel.ts": {
+      "before": null,
+      "after": "eff0e563aeddda82920a96679006fcee3be32bb030324768f6e8f26e43617d02",
+      "added": true,
+      "hunks": []
+    },
+    "src/index.css": {
+      "before": "b7b1189f7eeb1654d1c7189d7c1820791a8e6de2728ed731b0567696587609ba",
+      "after": "4fdedccc18468fdb49bedd9d926628786abf4c6a6bb3567cf7c5de1a9eb70856",
+      "hunks": [
+        {
+          "at": 6,
+          "before": [],
+          "after": [
+            "@import \"./features/shifts/cashFlow.css\";"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/cashShiftMovements.service.ts": {
+      "before": null,
+      "after": "e36805c6f9610d5c30a9bdc76aad5e8b913dc0003e45ceb94d9370be440c7e3c",
+      "added": true,
+      "hunks": []
+    },
+    "src/stores/modalTypes.ts": {
+      "before": "03f61fede8590f9a1407bb8780b4d4f2e9c471434cf5cc445de54c16c56dd919",
+      "after": "e048c7a840c807ce2acf67580f864b2430dc583d208e439d761cbca3a51bd96b",
+      "hunks": [
+        {
+          "at": 26,
+          "before": [],
+          "after": [
+            "  damage_stock_selection: ModalPayloadContract<null, 'none'>;"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+@keyframes navigation-drawer-enter {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.mobile-navigation-drawer {
+  animation: navigation-drawer-enter 160ms ease-out;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-navigation-drawer { animation: none; }
+}

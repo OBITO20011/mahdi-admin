@@ -23,31 +23,19 @@ async function expectNoSeriousAccessibilityViolations(page: Page) {
 }
 
 test.describe('تنظيم تنقل الإدارة', () => {
-  test('يعرض ست مجموعات ويفتح Accordion واحدًا ويوجه POS إلى هويته الأصلية', async ({
+  test('يعرض أربع مجموعات وبحثاً ويوجه POS إلى هويته الأصلية', async ({
     page,
   }) => {
+    await page.setViewportSize({width:390,height:844});
+    await page.setViewportSize({width:390,height:844});
     await page.goto(`${adminBaseUrl}/e2e/admin-navigation-harness.html`, {
       waitUntil: 'domcontentloaded',
     });
 
     const groups = page.locator('[data-navigation-group]');
-    await expect(groups).toHaveCount(6);
+    await expect(groups).toHaveCount(4);
 
-    const sales = page.locator('[data-navigation-group="sales"] > button');
-    const inventory = page.locator(
-      '[data-navigation-group="products-inventory"] > button',
-    );
-    await expect(sales).toHaveAttribute('aria-expanded', 'true');
-    await expect(inventory).toHaveAttribute('aria-expanded', 'false');
-
-    await inventory.press('Enter');
-    await expect(sales).toHaveAttribute('aria-expanded', 'false');
-    await expect(inventory).toHaveAttribute('aria-expanded', 'true');
-
-    await inventory.click();
-    await expect(inventory).toHaveAttribute('aria-expanded', 'false');
-
-    await sales.click();
+    await page.getByRole('searchbox',{name:'ابحث عن شاشة'}).fill('نقطة البيع');
     await page.locator('[data-navigation-id="sales-pos"]').click();
     await expect
       .poll(() =>
@@ -59,6 +47,7 @@ test.describe('تنظيم تنقل الإدارة', () => {
   });
 
   test('يحافظ على بوابة المالك والمساعد للأدوار المقيدة', async ({ page }) => {
+    await page.setViewportSize({width:390,height:844});
     await page.goto(
       `${adminBaseUrl}/e2e/admin-navigation-harness.html?role=view_only`,
       { waitUntil: 'domcontentloaded' },
@@ -68,15 +57,11 @@ test.describe('تنظيم تنقل الإدارة', () => {
       page.locator('[data-navigation-id="assistant-shortcut"]'),
     ).toHaveCount(0);
 
-    const administration = page.locator(
-      '[data-navigation-group="administration-store"] > button',
-    );
-    await administration.click();
     await expect(page.locator('[data-navigation-id="admin-users"]')).toHaveCount(0);
     await expect(page.locator('[data-navigation-id="admin-monitoring"]')).toHaveCount(0);
     await expect(page.locator('[data-navigation-id="admin-go-live"]')).toHaveCount(0);
-    await expect(page.locator('[data-navigation-id="admin-profile"]')).toBeVisible();
-    await page.locator('[data-navigation-id="admin-profile"]').click();
+    await expect(page.locator('[data-navigation-id="profile-summary"]')).toBeVisible();
+    await page.locator('[data-navigation-id="profile-summary"]').click();
     await expect
       .poll(() =>
         page.evaluate(() => window.__ADMIN_NAVIGATION_TEST_CURRENT_MODAL__()),
@@ -85,10 +70,11 @@ test.describe('تنظيم تنقل الإدارة', () => {
   });
 
   test('يعرض لوحة المراقبة للمالك فقط ويربطها بالمودال الصحيح', async ({page}) => {
+    await page.setViewportSize({width:390,height:844});
+    await page.setViewportSize({width:390,height:844});
     await page.goto(`${adminBaseUrl}/e2e/admin-navigation-harness.html?role=owner`, {
       waitUntil: 'domcontentloaded',
     });
-    await page.locator('[data-navigation-group="administration-store"] > button').click();
     const monitoring = page.locator('[data-navigation-id="admin-monitoring"]');
     await expect(monitoring).toBeVisible();
     await monitoring.press('Enter');
@@ -96,32 +82,17 @@ test.describe('تنظيم تنقل الإدارة', () => {
       window.__ADMIN_NAVIGATION_TEST_CURRENT_MODAL__())).toBe('monitoring_dashboard');
   });
 
-  test('يفتح كل مجموعة وحدها ويحترم reduced motion', async ({ page }) => {
+  test('يبقي الأقسام مكشوفة والبحث متاحاً مع تقليل الحركة', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.setViewportSize({width:390,height:844});
+    await page.setViewportSize({width:390,height:844});
     await page.goto(`${adminBaseUrl}/e2e/admin-navigation-harness.html`, {
       waitUntil: 'domcontentloaded',
     });
 
-    const groupIds = [
-      'sales',
-      'products-inventory',
-      'customers',
-      'suppliers-purchases',
-      'finance-reports',
-      'administration-store',
-    ];
-
-    for (const groupId of groupIds) {
-      const trigger = page.locator(`[data-navigation-group="${groupId}"] > button`);
-      if ((await trigger.getAttribute('aria-expanded')) !== 'true') {
-        await trigger.press('Enter');
-      }
-      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
-      await expect(
-        page.locator('[data-navigation-group] > button[aria-expanded="true"]'),
-      ).toHaveCount(1);
-    }
-
+    const groups=page.locator('[data-navigation-group]');await expect(groups).toHaveCount(4);
+    for(const id of ['sales','products-inventory','finance-reports','administration-store'])await expect(page.locator(`[data-navigation-group="${id}"]`)).toBeVisible();
+    await page.getByRole('searchbox',{name:'ابحث عن شاشة'}).fill('التقارير');await expect(page.locator('[data-navigation-id="finance-reports"]')).toBeVisible();
     await expectNoSeriousAccessibilityViolations(page);
   });
 });

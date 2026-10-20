@@ -36,9 +36,9 @@ test('both themes expose the shared calm, high-contrast Package F palette', () =
 test('Package F Home uses shared token surfaces without legacy contrast overrides', () => {
   assert.match(dashboard, /data-testid="dashboard-hero"/);
   assert.match(dashboard, /<KpiGrid phonePairs/);
-  assert.equal(dashboard.match(/<KpiCard /g)?.length, 8); // four desktop and four phone cards
-  assert.match(dashboard, /bg-nw-hero/);
-  assert.match(dashboard, /text-nw-side-text/);
+  assert.equal(dashboard.match(/<KpiCard /g)?.length, 4); // the same four cards at both widths
+  assert.doesNotMatch(dashboard, /bg-nw-hero/);
+  assert.match(dashboard, /bg-nw-bg text-nw-text/);
   assert.match(dashboard, /<Card/);
   assert.doesNotMatch(dashboard, /(?:bg|text|border)-(?:slate|blue|gray)-\d/);
   assert.doesNotMatch(css, /\[data-testid="dashboard-hero"\]|\[data-ui="dashboard-(?:status-card|quick-card|receivables)"\]/);

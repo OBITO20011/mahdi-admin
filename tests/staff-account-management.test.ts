@@ -66,8 +66,8 @@ test('Edge Function authenticates caller, limits origin, and keeps service role 
 });
 
 test('only an owner can assign a second owner while the final active owner remains protected', () => {
-  assert.match(moreMenu, /isNavigationItemVisible\(item,roleName,roles\)/);
-  assert.match(navigationConfig, /item\.visibility==='owner'\?roleName==='owner'/);
+  assert.match(moreMenu, /searchNavigationGroups\(search,roleName,roles\)/);
+  assert.match(navigationConfig, /item\.visibility==='owner'\?hasNavigationRole\(\['owner'\],roleName,roles\)/);
   assert.match(navigationConfig, /المستخدمون والصلاحيات/);
   assert.match(userForm, /مالك النظام/);
   assert.match(userForm, /إنشاء مالك نظام إضافي/);

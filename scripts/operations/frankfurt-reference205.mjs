@@ -1,10 +1,10 @@
+import {inventoryBeforeNavigation206} from '../audit/source-before-navigation-cash206.mjs';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {migrationManifest,manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {realtimePublicationSql,realtime151Tables} from '../testing/realtime151-contract.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';
 import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
 import {assertReady204Catalog} from './frankfurt-reference204.mjs';
 import {compareManagedCatalog} from './managed-catalog-policy.mjs';
@@ -45,5 +45,5 @@ export function assertReady205Reference(reference,manifest,proofText,source){
 export async function readReady205Reference(root,filename){
   return assertReady205Reference(JSON.parse(await readFile(filename,'utf8')),
     (await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=205),
-    await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_205.json'),'utf8'),await inventory());
+    await readFile(path.join(root,'docs/operations/TABLE_ACCESS_AFTER_205.json'),'utf8'),await inventoryBeforeNavigation206());
 }

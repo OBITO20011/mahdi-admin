@@ -1,6 +1,10 @@
 import {canReadSalesHistory} from '../../utils/salesHistory';
 import type { LucideIcon } from 'lucide-react';
 import {
+  BotMessageSquare,
+  HandCoins,
+  RotateCcw,
+  TriangleAlert,
   BarChart3,
   Activity,
   ClipboardCheck,
@@ -28,7 +32,7 @@ export type AdminNavigationGroupId =
   | 'administration-store';
 
 export type AdminNavigationAction =
-  | { type: 'tab'; destination: AppState['activeTab'] }
+  | { type: 'tab'; destination: AppState['activeTab'];intent?:'customer_return'|'owner_withdrawals' }
   | { type: 'modal'; destination: ModalNameCallableWithoutPayload };
 
 export interface AdminNavigationItem {
@@ -51,7 +55,7 @@ export interface AdminNavigationGroup {
   items: readonly AdminNavigationItem[];
 }
 
-export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = [
+const NAVIGATION_DEFINITIONS: readonly AdminNavigationGroup[] = [
   {
     id: 'sales',
     label: 'المبيعات',
@@ -241,8 +245,69 @@ export const ADMIN_NAVIGATION_GROUPS: readonly AdminNavigationGroup[] = [
   },
 ] as const;
 
+
+// These UI boundaries mirror accepted205 RPC guards;the database remains authoritative.
+export const ERP_READER_ROLES = ['owner','admin','manager','accountant','cashier','sales','warehouse_keeper','orders','delivery_driver','view_only'] as const;
+const ORDER_READERS = ['owner','admin','manager','accountant','cashier','sales','orders','delivery_driver'] as const;
+const CASH_READERS = ['owner','admin','manager','accountant'] as const;
+const STOCK_WRITERS = ['owner','admin','manager','warehouse_keeper'] as const;
+const SALES_WRITERS = ['owner','admin','manager','sales'] as const;
+const RECEIPT_READERS = ['owner','admin','manager','accountant','warehouse_keeper'] as const;
+const HOME_READERS = ['owner','admin','manager','accountant','sales','warehouse_keeper','delivery_driver'] as const;
+const tabRoles:Partial<Record<AppState['activeTab'],readonly string[]>> = {
+  home:HOME_READERS,dashboard:HOME_READERS,more:ERP_READER_ROLES,products:ERP_READER_ROLES,
+  inventory:ERP_READER_ROLES,accounts:ERP_READER_ROLES,orders:ORDER_READERS,sales_history:ORDER_READERS,
+  pos:SALES_WRITERS,purchases:RECEIPT_READERS,
+  shifts:CASH_READERS,expenses:CASH_READERS,reports:CASH_READERS,cheques:['owner','manager'],
+  users:['owner'],warehouses:['owner'],go_live:['owner'],assistant:CASH_READERS,
+};
+const modalRoles:Partial<Record<ModalNameCallableWithoutPayload,readonly string[]>> = {
+  profile:ERP_READER_ROLES,profile_settings:ERP_READER_ROLES,notifications:ERP_READER_ROLES,
+  storefront_settings:['owner','admin','manager'],promotion_codes:SALES_WRITERS,
+  parcel_configuration:['owner'],monitoring_dashboard:['owner'],add_product:STOCK_WRITERS,
+  receive_goods:RECEIPT_READERS,add_expense:CASH_READERS,damage_stock_selection:STOCK_WRITERS,
+};
+export function hasNavigationRole(allowed:readonly string[],roleName:string|null|undefined,roles?:readonly string[]):boolean {
+  const membership=new Set([...(roles??[]),roleName].filter((role):role is string=>typeof role==='string'));
+  return allowed.some(role=>membership.has(role));
+}
+export function canUseNavigationAction(action:AdminNavigationAction,roleName:string|null|undefined,roles?:readonly string[]):boolean {
+  return hasNavigationRole((action.type==='tab'?tabRoles[action.destination]:modalRoles[action.destination])??[],roleName,roles);
+}
 export const isNavigationItemVisible=(item:AdminNavigationItem,roleName:string|null|undefined,roles?:readonly string[])=>
-  item.visibility==='order-readers'?canReadSalesHistory(roles,roleName):item.visibility==='owner'?roleName==='owner':item.visibility==='cheque-managers'?roleName==='owner'||roleName==='manager':true;
+  canUseNavigationAction(item.action,roleName,roles) && (item.visibility==='order-readers'?canReadSalesHistory(roles,roleName)
+    :item.visibility==='owner'?hasNavigationRole(['owner'],roleName,roles)
+    :item.visibility==='cheque-managers'?hasNavigationRole(['owner','manager'],roleName,roles):true);
+
+const byId=new Map(NAVIGATION_DEFINITIONS.flatMap(group=>group.items).map(item=>[item.id,item]));
+function item(id:string,label?:string):AdminNavigationItem {
+  const value=byId.get(id);if(!value)throw new Error('Unknown navigation item:'+id);
+  return label?{...value,label}:value;
+}
+export const ADMIN_NAVIGATION_GROUPS:readonly AdminNavigationGroup[] = [
+  {id:'sales',label:'البيع',description:'',icon:ShoppingBag,iconTone:'text-nw-info',items:[
+    item('sales-pos','نقطة البيع'),item('sales-orders','الطلبات'),item('sales-history'),item('customer-accounts','العملاء'),
+    {id:'customer-returns',label:'مرتجع زبون',description:'ابحث عن الفاتورة وافتح المرتجعات والاستبدال',icon:RotateCcw,tone:'bg-nw-info-bg text-nw-info',visibility:'order-readers',action:{type:'tab',destination:'sales_history',intent:'customer_return'}},
+  ]},
+  {id:'products-inventory',label:'المخزون والشراء',description:'',icon:Boxes,iconTone:'text-nw-info',items:[
+    item('catalog-products'),item('supplier-receiving','الاستلام'),item('inventory-current','المخزون'),item('parcel-configuration'),
+    {id:'inventory-damage',label:'بضاعة تالفة',description:'اختر المنتج ثم سجل التالف',icon:TriangleAlert,tone:'bg-nw-warn-bg text-nw-warn',action:{type:'modal',destination:'damage_stock_selection'}},
+  ]},
+  {id:'finance-reports',label:'المال',description:'',icon:WalletCards,iconTone:'text-nw-warn',items:[
+    item('finance-shifts'),item('finance-expenses','المصاريف'),item('finance-reports','التقارير'),item('finance-cheques'),
+    {id:'finance-withdrawals',label:'سحوبات المالك',description:'فتح السحوبات داخل الصندوق والورديات',icon:HandCoins,tone:'bg-nw-warn-bg text-nw-warn',visibility:'owner',action:{type:'tab',destination:'shifts',intent:'owner_withdrawals'}},
+  ]},
+  {id:'administration-store',label:'الإدارة',description:'',icon:Store,iconTone:'text-nw-info',items:[
+    item('admin-users'),item('admin-warehouses'),item('admin-storefront','إعدادات المتجر'),item('admin-promotions','رموز الخصم'),item('admin-go-live'),item('admin-monitoring','مراقبة النظام'),
+    {id:'admin-assistant',label:'المساعد',description:'المساعد الإداري',icon:BotMessageSquare,tone:'bg-nw-info-bg text-nw-info',action:{type:'tab',destination:'assistant'}},
+  ]},
+];
+
+export function searchNavigationGroups(search:string,roleName:string|null|undefined,roles?:readonly string[]):AdminNavigationGroup[] {
+  const normalize=(value:string)=>value.normalize('NFKC').replace(/[\u064B-\u065F\u0670]/gu,'').replace(/[أإآ]/gu,'ا').toLocaleLowerCase('ar');
+  const query=normalize(search.trim());
+  return ADMIN_NAVIGATION_GROUPS.map(group=>({...group,items:group.items.filter(entry=>isNavigationItemVisible(entry,roleName,roles)&&(!query||normalize(entry.label+' '+entry.description).includes(query)))})).filter(group=>group.items.length>0);
+}
 
 export const getNextOpenNavigationGroup = (
   current: AdminNavigationGroupId | null,

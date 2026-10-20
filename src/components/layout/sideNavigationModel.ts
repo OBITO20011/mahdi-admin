@@ -8,6 +8,7 @@ import { Home, Settings2, type LucideIcon } from 'lucide-react';
 import {
   ADMIN_NAVIGATION_GROUPS,
   isNavigationItemVisible,
+  canUseNavigationAction,
   type AdminNavigationAction,
   type AdminNavigationItem,
 } from '../../features/more/adminNavigation.config';
@@ -37,6 +38,7 @@ const toSideItem = (item: AdminNavigationItem): SideNavItem => ({
 
 const RAIL_LABELS: Readonly<Record<string, string>> = {
   'admin-warehouses':'مستودع',
+  'customer-returns':'مرتجع','inventory-damage':'تالف','finance-withdrawals':'سحب','admin-assistant':'المساعد',
   'sales-history':'المبيعات',
   'sales-pos': 'بيع', 'sales-orders': 'الطلبات', 'parcel-configuration': 'الطرود',
   'catalog-products': 'المنتجات', 'inventory-current': 'المخزون',
@@ -62,14 +64,14 @@ export const SIDE_NAV_HOME: SideNavItem = {
 /** Profile, security, theme, install and sign-out live on the More screen. */
 export const SIDE_NAV_MORE: SideNavItem = {
   id: 'more',
-  label: 'الإعدادات والمزيد',
+  label: 'الحساب',
   railLabel: 'المزيد',
   icon: Settings2,
   action: { type: 'tab', destination: 'more' },
 };
 
 export function buildSideNavigation(roleName: string | null | undefined,roles?:readonly string[]): SideNavGroup[] {
-  const groups: SideNavGroup[] = [{ id: 'today', label: 'اليوم', items: [SIDE_NAV_HOME] }];
+  const groups: SideNavGroup[] = canUseNavigationAction(SIDE_NAV_HOME.action,roleName,roles)?[{ id: 'today', label: 'اليوم', items: [SIDE_NAV_HOME] }]:[];
   for (const group of ADMIN_NAVIGATION_GROUPS) {
     const items = group.items.filter((item) => isVisibleToRole(item, roleName,roles)).map(toSideItem);
     if (items.length > 0) groups.push({ id: group.id, label: group.label, items });

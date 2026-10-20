@@ -77,7 +77,7 @@ test('report audit requires real opening-animation completion,not merely visible
 for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`Cash ${theme} ${width}: authoritative fixture,Latin digits,containment,axe and sticky close`,async({page},info)=>{
   await page.setViewportSize({width,height:width<1024?844:1100});await page.goto(url('theme='+theme));
   await expect(page.getByTestId('cash-expected')).toContainText('810.300');await page.evaluate(()=>document.fonts.ready);
-  await expect(page.getByTestId('cash-workbench')).toContainText('عدد العمليات: غير متاح');await expect(page.getByTestId('cash-workbench')).toContainText('مبيعات الدين للذمم');
+  await expect(page.getByTestId('cash-workbench')).toContainText('عدد العمليات: غير متاح');await expect(page.getByTestId('cash-workbench')).toContainText('البيع الآجل يبقى في الذمم');
   await checkLayout(page);await axe(page);
   if(width<1024){const close=page.getByTestId('cash-count-open');await expect(close).toBeInViewport();
     await page.getByTestId('cash-scroll').evaluate(el=>{el.scrollTop=el.scrollHeight;});await expect(close).toBeInViewport();
@@ -188,6 +188,18 @@ for(const theme of ['light','dark'])test(`real report adapter ${theme} preserves
   const dialog=page.getByRole('dialog',{name:'تقرير الإغلاق اليومي',exact:true});await expect(dialog).toContainText('تفصيل كميات المرتجعات');await expect(dialog).toContainText('1,073.000');
   await checkLayout(page);await axe(page);
   await page.evaluate(()=>{window.print=()=>{document.body.dataset.printed='true';};});await dialog.getByRole('button',{name:'طباعة أو حفظ التقرير PDF',exact:true}).click();await expect(page.locator('body')).toHaveAttribute('data-printed','true');
+});
+
+test('shared cash flow prints collapsed zero and CliQ evidence with the same server expected amount',async({page})=>{
+  await page.route('**/rest/v1/rpc/get_cash_shift_closing_report',route=>route.fulfill({json:cashReportFixture}));
+  await page.goto(url('live=1'));await page.getByRole('button',{name:'عرض التقرير المالي الحي',exact:true}).click();
+  const dialog=page.getByRole('dialog',{name:'تقرير الإغلاق اليومي',exact:true});await expect(dialog).toHaveAttribute('data-state','open');
+  const flow=page.locator('.shift-closing-report').getByTestId('cash-flow-summary'),outside=flow.locator('[data-cash-flow="supplier_payments:cliq"]');
+  await expect(outside).toBeHidden();const values=await flow.locator('[data-cash-flow]').allTextContents();
+  await page.emulateMedia({media:'print'});await expect(outside).toBeVisible();
+  for(const row of await flow.locator('[data-cash-flow]').all())await expect(row).toBeVisible();
+  expect(await flow.locator('[data-cash-flow]').allTextContents()).toEqual(values);
+  await page.emulateMedia({media:'screen'});await expect(outside).toBeHidden();
 });
 
 for(const width of [390,1440])test(`closed center ${width} retains recent closed/cancelled/reversed audit and report access`,async({page})=>{
