@@ -10,10 +10,11 @@
   "completed": [
     "PR6/main204 d2a3d14 delivered FULL34+secrets",
     "Package4 all local quality1294Admin192Customer198effectivebrowser PASS",
-    "205fiveactualDBgroups/manual519/SDK142/RPC504 andFULLscale/ref/upgrade/reset/offline PASS"
+    "205fiveactualDBgroups/manual519/SDK142/RPC504 andFULLscale/ref/upgrade/reset/offline PASS",
+    "InitialCI core9 label-onlyfail corrected;local9/9 and207effectivebrowser;product/SQLunchanged"
   ],
   "inProgress": [
-    "FeaturePR andexactFULL35+secrets;then mainmerge/mainCI"
+    "Commit/push six corebrowser expectedlabels+evidence;newexacthead FULL35 push+PR"
   ],
   "notStarted": [
     "Ordered package5 then6-9 after4 delivery"
@@ -35,18 +36,20 @@
     "One EOFblank removed with emittedJS byteequality;actualcurrent access/ref rebuilt;catalogs/manifest/functions equal passedDBpipeline"
   ],
   "blockers": [],
-  "activeProcesses": [],
+  "activeProcesses": [
+    "Old read-only exact1a CI watchers mayfinish;no ownedlocaltestserver/DB"
+  ],
   "prohibitions": [
     "No Frankfurt/Production/hostedaccess,secrets or deployment",
     "001-204 immutable;only additive205 readonly readers within owner13-17",
     "One writer;no tracked edits during localverification;no weakened assertions/retries/timeouts"
   ],
-  "checkpointedAt": "2026-10-20T14:17:46.511Z",
+  "checkpointedAt": "2026-10-20T14:39:00.846Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 89,
-  "filesTouchedManifestSha256": "c4d5d433a04931a97ad41d13a8d47f1340052f879f56d500148ba38490233982",
-  "nextExactAction": "Localgates/currentfinalreadiness/ref and Gitleaks0 PASS;commit/pushpackage4 andcreatePR;exactpush+PRFULL35+secrets,mainmerge/mainCI then5.No hostedaccess.",
-  "workingTreeFingerprint": "7A1726428BF870C2DF39DDCA70A34D62DE4C0EA2C7240DB59825CF30F91F5332"
+  "filesTouchedCount": 5,
+  "filesTouchedManifestSha256": "093c556157861b6e27dcc57407835aa6d5f6422a87b909162378651d9bab0b22",
+  "nextExactAction": "Core9parcel labelcasesPASS;source/SQLunchanged;commit/push correction,exactnewFULL35+secrets,mainmerge/mainCI then5.No hostedaccess.",
+  "workingTreeFingerprint": "01BC85EA3DB432F763FE6627901DD923575243BC3CD0D7E0817BD26AA61228CB"
 }

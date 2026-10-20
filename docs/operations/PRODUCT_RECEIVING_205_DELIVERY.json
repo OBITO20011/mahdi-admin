@@ -21,7 +21,7 @@
     "report": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c205-quality-DGA6g8"
   },
   "browser": {
-    "passed": 198,
+    "passed": 207,
     "unchangedAffected": 160,
     "finalNew": 38,
     "preexistingWebKitOnlySkips": 4,
@@ -37,7 +37,9 @@
     "themes": [
       "light",
       "dark"
-    ]
+    ],
+    "finalCore": 9,
+    "basis": "198 priorpassed affected cases unchanged plus9 final core parcel-label cases"
   },
   "access": {
     "functions": 519,
@@ -2573,5 +2575,12 @@
       "src/features/products/ProductFormModal.tsx"
     ],
     "focusedTestsLog": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c205-post-eof-focused.log"
+  },
+  "initialFeatureCI": {
+    "sha": "1a64099d6906e4778d0f4536695aa4134422fe1a",
+    "push": 39437982733,
+    "pr": 39437991808,
+    "result": "Corebrowser346pass9label-onlyfail;fixed six expectations,local9/9;all product/SQLsource unchanged",
+    "remainingSourceTestsRequired": "New exacthead push+PR FULL35+secrets"
   }
 }

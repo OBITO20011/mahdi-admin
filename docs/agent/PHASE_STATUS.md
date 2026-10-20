@@ -1,3 +1,10 @@
+# Current20Oct —package4 initial CI corelabels corrected
+
+Initial1a64099 core346pass/9fail:three oldparcel-label cases across3projects.
+Onlysix expectedstrings changed,allcounts/actions/axe unchanged;local9/9PASS.
+207effective browser total;no product/SQL/script change or proof invalidation.
+New exacthead FULL35 push+PR andsecrets required beforemainmerge,thenmainCI/5.
+
 # Current20Oct —package4 localgates complete;exactFULL35 next
 
 1294Admin192Customer/types/lint/builds/network/198effectivebrowser PASS.

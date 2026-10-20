@@ -46,6 +46,11 @@
       "stage": "final git diff check",
       "result": "One new blank line at ProductFormModal EOF",
       "correction": "Removed EOF blank line only;trimEnd and TypeScript emitted runtime byte equality proved. Refresh current source fingerprints/read access/reference;SQL,manifest,catalog,scale/upgrade/reset/runtime and browser behavior unchanged."
+    },
+    {
+      "stage": "Feature1a64099 push39437982733/PR39437991808 corebrowser CI",
+      "result": "346pass/9fail:3 existing admin-mobile-ux cases on3 browserprojects still expected cartons/shrink terminology",
+      "correction": "Update only six expected labels to ownerapproved parcel noun;quantities8/10/2/30/6,actions,overflow,axe and all other assertions unchanged. No product/runtime/SQL/permissions change;no skip/retry/timeout change. Fullnewhead CI required."
     }
   ],
   "boundedCorrections": [
@@ -108,5 +113,21 @@
       "path": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c4-exact-sale-units.log",
       "sha256": "5958216a69a8fa8e2f48caa81ca00b7a104fe69a865c311dc9a5ed03deaf3489"
     }
-  ]
+  ],
+  "coreLabelCorrection": {
+    "cases": 9,
+    "passed": 9,
+    "log": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c205-core-parcel-browser.log",
+    "productAndSqlSourceUnchanged": true,
+    "expectedLabelsOnly": true,
+    "newSkips": 0,
+    "retriesAndTimeoutsUnchanged": true
+  },
+  "latestEffectiveBrowser": {
+    "passed": 207,
+    "previousAffected": 198,
+    "additionalCore": 9,
+    "preexistingWebKitOnlySkips": 4,
+    "newSkips": 0
+  }
 }
