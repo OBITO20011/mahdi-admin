@@ -1,0 +1,12 @@
+{
+  "startedAt": "2026-10-21T10:11:44.290Z",
+  "managedAccess": false,
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-reference207-TyvCUB",
+  "target": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\local-reference-through207-ready.json",
+  "ok": true,
+  "migrations": 169,
+  "functions": 523,
+  "realtimeMembers": 13,
+  "freshIncrementalDifferenceCount": 0,
+  "endedAt": "2026-10-21T10:14:51.483Z"
+}

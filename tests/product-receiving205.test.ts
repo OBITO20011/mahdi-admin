@@ -39,13 +39,13 @@ test('receipt parser retains stored commercial basis;missing sale stays null,nev
 test('205 exact inverse restores entire accepted204 source before query parsing;extra statements cannot be normalized',async()=>{
   const historical=await inventoryBeforeProductReceiving205(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_204.json'));
   assert.deepEqual(historical.sources,proof.sourceHashes);assert.deepEqual(verifyProbeCoverage(historical,proof.results),proof.coverage);
-  for(const [file,pin]of Object.entries(receiving205Pins) as Array<[string,{before?:string;after:string;added?:boolean}]>){const current=read(file),restored=sourceBeforeProductReceiving205(file,current);assert.throws(()=>sourceBeforeProductReceiving205(file,current+'\nvoid 205;\n'),/(?:RECEIVING205|NAVIGATION206)_ENTIRE_CURRENT_FILE_CHANGED/u);if(pin.added)assert.equal(restored,null);else assert.equal(createHash('sha256').update(restored!).digest('hex'),pin.before);}
+  for(const [file,pin]of Object.entries(receiving205Pins) as Array<[string,{before?:string;after:string;added?:boolean}]>){const current=read(file),restored=sourceBeforeProductReceiving205(file,current);assert.throws(()=>sourceBeforeProductReceiving205(file,current+'\nvoid 205;\n'),/(?:RECEIVING205|NAVIGATION206|CORRECTIONS207)_ENTIRE_CURRENT_FILE_CHANGED/u);if(pin.added)assert.equal(restored,null);else assert.equal(createHash('sha256').update(restored!).digest('hex'),pin.before);}
 });
 test('new205 readers are stable existing-role reads only;001-204 immutable and payload converters untouched',()=>{
   const sql=read('supabase/migrations/205_product_receiving_display_read_models.sql');assert.equal((sql.match(/CREATE OR REPLACE FUNCTION/gu)??[]).length,2);assert.equal((sql.match(/LANGUAGE plpgsql STABLE SECURITY DEFINER/gu)??[]).length,2);assert.equal((sql.match(/ARRAY\['owner','admin','manager','accountant','warehouse_keeper'\]/gu)??[]).length,2);assert.doesNotMatch(sql,/\b(?:INSERT INTO|UPDATE public\.|DELETE FROM|ALTER TABLE|CREATE TABLE)\b/u);
   const base='d2a3d14e3a2688152caba0acf8e32acaed2679a8';
   for(const f of ['src/utils/receivingV2.ts','src/utils/receivingCalculations.ts','src/services/supabase/purchases.service.ts','src/utils/productCalculations.ts'])assert.equal(read(f),execFileSync('git',['show',base+':'+f],{encoding:'utf8'}).replaceAll('\r\n','\n'));
-  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,206);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());
+  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,207);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());
   assert.match(read('scripts/operations/frankfurt-owner-build.mjs'),/d810bf28e7f6aa89b954430f11ab2194da0748e4b93ce58ffb0bfac0444d1d7d/u);
 });
 test('205 upgrade requires complete ordered199..205 prefixes;no missing204 or lower gap backfill',()=>{

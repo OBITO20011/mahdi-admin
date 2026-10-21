@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "migrationCeiling": 206,
+  "migrationCeiling": 207,
   "managedAccess": false,
   "sourceHashes": [
     {
@@ -192,6 +192,10 @@
       "sha256": "26ab51ce7098901f7f7b7d04f34e971ec3aaf3bd403cf16448d59f5456b2906b"
     },
     {
+      "file": "src/features/corrections/DocumentCorrectionAction.tsx",
+      "sha256": "01bd2b71584c88411fe5066a234bfbc07eefda73032b2da9e243f0e0959d0f81"
+    },
+    {
       "file": "src/features/crm/AddAddressModal.tsx",
       "sha256": "b02d0cf1447a02eee4e97d7fbe41840054548f179e12e95613dd1d5cc495e6fa"
     },
@@ -213,7 +217,7 @@
     },
     {
       "file": "src/features/crm/CustomerDetailView.tsx",
-      "sha256": "7c6acb95fe821d8c423e6094b01eaa4886c310f2ad1eb0f7b5a9da2f5734ccb9"
+      "sha256": "10c6f81e3ca6a025ddcc994ed026cf02b4cf6223c22dc8e5163880ac35541d91"
     },
     {
       "file": "src/features/crm/CustomerEditModal.tsx",
@@ -229,7 +233,7 @@
     },
     {
       "file": "src/features/crm/CustomerStatement.tsx",
-      "sha256": "ac5c66a2ef0ff97cfcd6abaae3638e42c02ab0e3ff6077c726d9a104c637dcc7"
+      "sha256": "65242cbbc2d90b56681264f552f8d8f4fdcc774500814028b05911e894470621"
     },
     {
       "file": "src/features/dashboard/ChartsSection.tsx",
@@ -385,7 +389,7 @@
     },
     {
       "file": "src/features/orders/OrderDetailModal.tsx",
-      "sha256": "3beca2062d65974ec6273d96bf8f8748994316ab55951eb205a15983e291a58c"
+      "sha256": "2aa19c2b0f0a1a7fb2c00f992d2532c5da9a55a68c15efd080123ab4afa0c895"
     },
     {
       "file": "src/features/orders/OrdersCenterView.tsx",
@@ -449,11 +453,11 @@
     },
     {
       "file": "src/features/purchases/PurchaseOrderDetailView.tsx",
-      "sha256": "fa704fd2d80c50480f62a57f61067686a6cba2811205db441d7d18d04350f0dc"
+      "sha256": "6f797658c2520adaec1eb9b266fcfdfd2507b05133d05f5a72e66c90eafd979c"
     },
     {
       "file": "src/features/purchases/PurchasesView.tsx",
-      "sha256": "e482ee5f2f0efa11a5767cf4f4bcff8acba35438efafdb10acb45d0f0d6c631a"
+      "sha256": "6588eee17f389b291b657d610962778262a2d5a3814873d1d278f9e379a33da5"
     },
     {
       "file": "src/features/purchases/ReceiveGoodsModal.tsx",
@@ -646,6 +650,10 @@
     {
       "file": "src/services/supabase/directReceiving.service.ts",
       "sha256": "9c6a75283a2060049d0fee91ae436806f1de4ffe9825b464e341a5e216baa246"
+    },
+    {
+      "file": "src/services/supabase/documentCorrections.service.ts",
+      "sha256": "ece133af893b6ddde7ca9b49b45ef41a0d26185c5c127b1819d0f846c12aa34c"
     },
     {
       "file": "src/services/supabase/expenses-shifts.service.ts",
@@ -858,6 +866,10 @@
     {
       "file": "src/utils/dialogFocus.ts",
       "sha256": "61ff87896a628125b2a74b33f04eb060407e7ca1e7b5eedbfa44dd68cb4a9e25"
+    },
+    {
+      "file": "src/utils/documentCorrection.ts",
+      "sha256": "1585cef59c464506938f85831136b2730c04776f1da7827d2f1f9451bc937f8f"
     },
     {
       "file": "src/utils/inventoryFormatter.ts",
@@ -1766,6 +1778,34 @@
         "{\n      p_supplier_receipt_id: receiptId,\n      p_reason: reason.trim() || 'إلغاء سند استلام البضائع',\n    }"
       ],
       "source": "supabase.rpc('cancel_supplier_receipt', {\n      p_supplier_receipt_id: receiptId,\n      p_reason: reason.trim() || 'إلغاء سند استلام البضائع',\n    })"
+    },
+    {
+      "id": "src/services/supabase/documentCorrections.service.ts:20",
+      "file": "src/services/supabase/documentCorrections.service.ts",
+      "line": 20,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "fetchCorrectionPreview",
+      "name": "get_document_correction_preview",
+      "dynamic": "'get_document_correction_preview'",
+      "arguments": [
+        "{p_action:action,p_record_id:recordId}"
+      ],
+      "source": "client().rpc('get_document_correction_preview',{p_action:action,p_record_id:recordId})"
+    },
+    {
+      "id": "src/services/supabase/documentCorrections.service.ts:48",
+      "file": "src/services/supabase/documentCorrections.service.ts",
+      "line": 48,
+      "role": "authenticated",
+      "receiver": "client()",
+      "function": "<callback>",
+      "name": "execute_document_correction_once",
+      "dynamic": "'execute_document_correction_once'",
+      "arguments": [
+        "{p_action:action,p_record_id:recordId,p_reason:attempt.reason,p_idempotency_key:attempt.key,p_preview_fingerprint:attempt.preview.fingerprint}"
+      ],
+      "source": "client().rpc('execute_document_correction_once',{p_action:action,p_record_id:recordId,p_reason:attempt.reason,p_idempotency_key:attempt.key,p_preview_fingerprint:attempt.preview.fingerprint})"
     },
     {
       "id": "src/services/supabase/expenses-shifts.service.ts:207",
@@ -3984,6 +4024,7 @@
     "delete_draft_purchase_order",
     "disable_push_subscription",
     "endorse_customer_cheque_v1",
+    "execute_document_correction_once",
     "finalize_guest_order_gateway",
     "finish_go_live_setup_v1",
     "get_active_order_push_targets",
@@ -4007,6 +4048,7 @@
     "get_deferred_cheque_detail",
     "get_deferred_cheque_home_alerts",
     "get_deferred_cheques_page",
+    "get_document_correction_preview",
     "get_erp_staff_account_audit_logs",
     "get_erp_staff_accounts",
     "get_expense_shift_center",

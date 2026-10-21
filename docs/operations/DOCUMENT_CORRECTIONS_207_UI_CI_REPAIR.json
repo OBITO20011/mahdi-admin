@@ -1,0 +1,37 @@
+{
+  "previousFeature": "14f0ae8d247cbbe031257f3a1e28ab7564d6f2ba",
+  "pushQualityRun": 39585085468,
+  "pushAll37Jobs": "SUCCESS",
+  "coreBrowserResult": {
+    "passed": 406,
+    "flaky": 1,
+    "case": "207 shared tab lock/mobile-webkit;second document update counter stayed0"
+  },
+  "cancelledPrRun": 39585088698,
+  "prHistoricalPhase3WaitIncident": {
+    "job": 119171969102,
+    "sameShaPushControlJob": 119171953932,
+    "control": "SUCCESS",
+    "rerunRequested": false
+  },
+  "fixtureCorrection": "Observe actual held1/pending1 WebLock before releasing first response;activate tab at real interaction;retain bothsaved1/tworequests/exactkey/busyclose assertions",
+  "productionSourceChanges": false,
+  "sqlChanges": false,
+  "assertionWeakening": false,
+  "timeoutsChanged": false,
+  "retriesChanged": false,
+  "skipsAdded": false,
+  "localVerification": {
+    "originalWebkitFiveRepeatsPassed": 5,
+    "correctedTwoEngineFocusedRepeatsPassed": 10,
+    "completeCorrectionCasesPassed": 18,
+    "retries": 0
+  },
+  "databaseProofsRemainExact": {
+    "sourceHashes": 308,
+    "sdk": 142,
+    "rpc": 513,
+    "dbGroupsIncludingStrictLint": 16,
+    "reference207Sha256": "1fb68178a9a4bd18ac958489a742e3cefc7a83c43f24cf251fd72f89ccf8bb88"
+  }
+}

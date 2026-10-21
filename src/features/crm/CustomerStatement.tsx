@@ -1,13 +1,16 @@
 import {useCustomerStatement} from '../../hooks/useCustomerStatement';
 import {Card,SectionHeader,MoneyText,UiButton,DataTable,Th,Tr,Td,formatUiDate} from '../../components/ui';
 import type {CustomerStatementMovement} from '../../utils/customerStatement';
+import {DocumentCorrectionAction} from '../corrections/DocumentCorrectionAction';
 
 const date=(row:CustomerStatementMovement)=>row.occurred_at?formatUiDate(row.occurred_at,{
   year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',
 }):'تاريخ غير متاح';
 
-export function CustomerStatement({customerId,revision}:{customerId:string;revision:unknown}) {
+export function CustomerStatement({customerId,revision,onChanged}:{customerId:string;revision:unknown;onChanged?:()=>void|Promise<void>}) {
   const {data,busy,error,loadMore,reload}=useCustomerStatement(customerId,revision);
+  const correction=(row:CustomerStatementMovement)=>row.movement_type==='payment'&&/^payment:[0-9a-f-]{36}$/iu.test(row.movement_id)
+    ?<DocumentCorrectionAction action="customer_payment" recordId={row.movement_id.slice(8)} onChanged={async()=>{reload();await onChanged?.();}}/>:null;
   return <Card className="min-w-0 space-y-4" data-testid="customer-statement" aria-busy={busy}>
     <SectionHeader title="كشف الحساب" hint="الحركات من الأحدث للأقدم؛ الرصيد محسوب زمنياً من أقدم حركة." />
     {data&&<>
@@ -27,6 +30,7 @@ export function CustomerStatement({customerId,revision}:{customerId:string;revis
               <h4 className="m-0 text-sm font-bold">{row.type_label}</h4><bdi className="text-xs text-nw-muted break-all">{row.reference}</bdi>
             </div>
             <p className="m-0 text-xs text-nw-muted"><bdi>{date(row)}</bdi></p>
+            {correction(row)}
             {row.reason&&<p className="m-0 text-sm">السبب: {row.reason}</p>}
             {row.movement_type.startsWith('cheque_')&&row.movement_type.endsWith('_compensation')&&<p className="m-0 text-xs text-nw-muted">تاريخ أصل الدين: {row.original_debt_at?formatUiDate(row.original_debt_at,{year:'numeric',month:'2-digit',day:'2-digit'}):'عمر غير متاح'}</p>}
             <dl className="m-0 grid grid-cols-3 gap-2 text-xs">
@@ -39,7 +43,7 @@ export function CustomerStatement({customerId,revision}:{customerId:string;revis
         <div className="hidden md:block"><DataTable caption="حركات كشف حساب العميل" style={{minWidth:650}}>
           <thead><tr>{['الحركة','المرجع','التاريخ','مدين','دائن','الرصيد'].map(label=><Th key={label}>{label}</Th>)}</tr></thead>
           <tbody>{data.movements.map(row=><Tr key={row.movement_id} data-statement-movement={row.movement_id}>
-            <Td>{row.type_label}{row.reason&&<p className="m-0 text-xs text-nw-muted">{row.reason}</p>}</Td><Td><bdi className="whitespace-nowrap">{row.reference}</bdi></Td>
+            <Td>{row.type_label}{correction(row)}{row.reason&&<p className="m-0 text-xs text-nw-muted">{row.reason}</p>}</Td><Td><bdi className="whitespace-nowrap">{row.reference}</bdi></Td>
             <Td><bdi className="whitespace-nowrap">{date(row)}</bdi></Td>
             <Td><MoneyText amount={row.debit_in_minor_units/1000} /></Td>
             <Td><MoneyText amount={row.credit_in_minor_units/1000} /></Td>

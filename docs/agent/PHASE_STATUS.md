@@ -1,3 +1,53 @@
+# Current21Oct —C7 feature FULL37 accepted;genuine mainintegration
+
+Exactfeature c37ed77d00a2d5b05a3e86737557675c3483b1a0 push+PR FULL37 and bothsecret scans SUCCESS.
+Only integration metadata differs;source/tests/SQL/tools equal acceptedfeature.
+MainFULL37+secrets next,then8. Owner207command prepared locally only.
+No hostedaccess/deploy.
+
+# Current21Oct — C7 two-tab test ordering strengthened
+
+14f pushFULL37 SUCCESS butnewWebKitcase flaky onexistingframework retry.
+Sameapp/SQL;test now proves actualheld1/pending1 before releasing heldresponse,
+activates tabs forinteraction,andretains all prior assertions/timeouts/retries.
+10focused+18full two-engine cases PASS withretries0. DB16/SDK142/RPC513/
+reference207/upgrade/reset/offline proofs remainexact(308unchangedprodsourcehashes).
+See DOCUMENT_CORRECTIONS_207_UI_CI_REPAIR.json. NewSHA push+PR FULL37 then
+genuine mainmerge/mainFULL37 required.No hostedaccess;owner206untilC7delivery.
+
+## Previous validation history
+
+# Current21Oct — corrected207 localgates accepted;newfeatureCI next
+
+TwoexplicitJSONBcasts corrected firstCI lint;unchangedDBlint now part of207runtime.
+16DB/SDK142/RPC513/newreference169-523-13difference0/upgrade/replay/reset/offline PASS.
+148UI same308production sourcehashes;no source/assertion weakening.
+Read DOCUMENT_CORRECTIONS_207_CI_REPAIR andDELIVERY. NewSHA FULL37/secrets,
+genuine mainmerge/mainFULL37 remain. Owner206currentuntilC7delivery;207prepared.
+No hostedaccess/deploy.
+
+## Prior preparation and validation history
+
+# Current21Oct —C7 local207 accepted;CI delivery next
+
+15actualDB/148browser/1313Admin/types/strictlint/build/network PASS.
+CurrentSDK142/RPC513/308sourcehashes;reference169-523-13/freshincremental0;
+upgrade200..207/replayno writes/resetOwner-TOTP-Storage/offline203..207 PASS.
+Read operations/DOCUMENT_CORRECTIONS_207_DELIVERY.json andCORRECTIONS_C7.md.
+Ceiling207;001-206/historicalproofs unchanged. Owner207prepared foracceptance;
+current206untilC7delivery.No hostedaccess/deploy. ExactfeatureFULL37+secrets,
+genuine mainmerge/mainFULL37 remain;then8.
+
+# Current21Oct — C6 delivered;C7 isolated preparation
+
+PR9 main41382ad strictFULL36 run39517993924 attempt2 +secrets39517993893 SUCCESS;
+actual206step/PRmergeSHA/deliveryReady verified. One sameSHA UTCmidnight
+environmental rerun resolved4jobs;no source/assertion change.
+Read CORRECTIONS_C7.md and PHASE_C_CONTRACT.md. C7 approved four rare
+corrections in existing documents,currentwriter roles/guards only.
+Ceiling206 until bounded207 added;001-206 andhistoricalproofs immutable.
+Owner206 current andofflineonly;no hostedaccess/deploy.
+
 # Current20Oct —C6 feature FULL36 accepted;genuine mainintegration
 
 Exactfeature 66811e6f441c9a4151996e898c224508ee76e090 push+PR FULL36 and bothsecret scans SUCCESS.

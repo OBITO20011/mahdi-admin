@@ -39,6 +39,7 @@ import {
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 import { LEGACY_PIECE_NAMES } from '../../utils/legacyUnitImportHeaders';
+import {DocumentCorrectionAction} from '../corrections/DocumentCorrectionAction';
 
 function formatHumanQuantity(qty: number, unitName?: string): string {
   const unit = (unitName || 'قطعة').trim();
@@ -685,6 +686,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                           <span className="text-nw-muted text-[11px]">
                             تاريخ الاستلام: {formatUiDate(rc.receivedAt, {year:'numeric',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}
                           </span>
+                          <DocumentCorrectionAction action="purchase_receipt" recordId={rc.id} onChanged={async()=>{await loadPoDetails();onRefresh();}}/>
                         </div>
 
                         <div className="space-y-1">

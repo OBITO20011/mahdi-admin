@@ -220,7 +220,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -284,6 +284,10 @@ jobs:
       - name: Navigation and cash206 contracts
         if: matrix.suite == 'navigation-cash206'
         run: node scripts/testing/run-navigation-cash206-gates.mjs
+
+      - name: Document corrections207 contracts
+        if: matrix.suite == 'document-corrections207'
+        run: node scripts/testing/run-document-corrections207-gates.mjs
 
       - name: Sales history204 contracts
         if: matrix.suite == 'sales-history204'

@@ -1,3 +1,4 @@
+import {corrections207Pins} from '../scripts/audit/source-before-corrections207.mjs';
 import {navigation206Pins} from '../scripts/audit/source-before-navigation-cash206.mjs';
 import {receiving205Pins} from '../scripts/audit/source-before-product-receiving205.mjs';
 import {sales204Pins} from '../scripts/audit/source-before-sales-history204.mjs';
@@ -15,7 +16,8 @@ for(const file of cheques195Files)test('cheques: every byte outside exact approv
   const current=readFileSync(file,'utf8'),source=file==='src/features/crm/CustomerCollectionModal.tsx'?restore198CollectionPresentation(current):current;
   const before=execFileSync('git',['show',baseline+':'+file],{encoding:'utf8'}).replaceAll('\r\n','\n');
   assert.equal(approvedCheques195Source(file,source),before);
-  if(Object.hasOwn(navigation206Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),/NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED/u,'newest full-file pin rejects extra logic');
+  if(Object.hasOwn(corrections207Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),/CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED/u,'newest exact full-file pin rejects extra logic');
+  else if(Object.hasOwn(navigation206Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),/NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED/u,'newest full-file pin rejects extra logic');
   else if(Object.hasOwn(receiving205Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),/RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED/u,'current entire-file pin rejects extra logic');
   else if(Object.hasOwn(sales204Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),/SALES204_ENTIRE_CURRENT_FILE_CHANGED/u,'newest full-file pin rejects mutation');
   else if(Object.hasOwn(homeDamage201Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\n// unapproved mutation\n'),Object.hasOwn(collections202Pins,file)?/COLLECTIONS202_ENTIRE_CURRENT_FILE_CHANGED/u:/HOME_DAMAGE201_ENTIRE_CURRENT_FILE_CHANGED/u,'latest exact entire-file pin rejects unapproved drift');

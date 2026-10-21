@@ -1,0 +1,78 @@
+{
+  "sha": "c37ed77d00a2d5b05a3e86737557675c3483b1a0",
+  "recordedAt": "2026-10-21T11:37:55.534Z",
+  "managedAccess": false,
+  "quality": [
+    {
+      "id": 39589741289,
+      "event": "push",
+      "sha": "c37ed77d00a2d5b05a3e86737557675c3483b1a0",
+      "conclusion": "success",
+      "attempt": 1,
+      "jobs": 37,
+      "strictFullVerified": true,
+      "actual207StepVerified": true
+    },
+    {
+      "id": 39589744461,
+      "event": "pull_request",
+      "sha": "c37ed77d00a2d5b05a3e86737557675c3483b1a0",
+      "conclusion": "success",
+      "attempt": 1,
+      "jobs": 37,
+      "strictFullVerified": true,
+      "actual207StepVerified": true
+    }
+  ],
+  "secrets": [
+    {
+      "id": 39589741285,
+      "event": "push",
+      "sha": "c37ed77d00a2d5b05a3e86737557675c3483b1a0",
+      "conclusion": "success"
+    },
+    {
+      "id": 39589744477,
+      "event": "pull_request",
+      "sha": "c37ed77d00a2d5b05a3e86737557675c3483b1a0",
+      "conclusion": "success"
+    }
+  ],
+  "pr": {
+    "number": 10,
+    "url": "https://github.com/OBITO20011/mahdi-admin/pull/10",
+    "base": "41382ad31f3e5d82aba4dc6ba6c75f6db4b0e159",
+    "head": "c37ed77d00a2d5b05a3e86737557675c3483b1a0",
+    "state": "open"
+  },
+  "browserQA": {
+    "sha": "c37ed77d00a2d5b05a3e86737557675c3483b1a0",
+    "recordedAt": "2026-10-21T11:28:40.662Z",
+    "cores": [
+      {
+        "run": 39589741289,
+        "event": "push",
+        "job": 119187502669,
+        "attempt": 1,
+        "passed": 407,
+        "duration": "13.1m",
+        "reportedFlaky": 0,
+        "corrections207FailuresOrFlakes": 0,
+        "logSha256": "dd7dd47435fda4805a5c286a7887a2147c882548c3cd6270ecbf0cb137e00cb2"
+      },
+      {
+        "run": 39589744461,
+        "event": "pull_request",
+        "job": 119187525452,
+        "attempt": 1,
+        "passed": 407,
+        "duration": "15.8m",
+        "reportedFlaky": 0,
+        "corrections207FailuresOrFlakes": 0,
+        "logSha256": "26a230e337f8dcb22a65ea50ef2b9b3a9e364a19631f556250eb9942e2de4aa7"
+      }
+    ],
+    "ok": true
+  },
+  "ok": true
+}

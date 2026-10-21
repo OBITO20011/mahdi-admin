@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-21T10:26:52.605713+00:00",
+  "baseline": "41382ad31f3e5d82aba4dc6ba6c75f6db4b0e159",
+  "deliveryStatus": "FEATURE_FULL37_PASS_MAIN_CI_PENDING",
+  "readyForCi": true,
+  "managedAccess": false,
+  "migrationCeiling": 207,
+  "newMigrations": [
+    "207_document_correction_preview_and_once.sql"
+  ],
+  "ownerCurrentCommandAfterAcceptance": "frankfurt-owner-upgrade207",
+  "ownerCommandExecuted": false,
+  "owner207ReferenceSha256": "1fb68178a9a4bd18ac958489a742e3cefc7a83c43f24cf251fd72f89ccf8bb88",
+  "previous203through206ReferenceBytesUnchanged": true,
+  "validation": {
+    "adminTests": {
+      "passed": 1313,
+      "failed": 0,
+      "skipped": 0,
+      "afterJsonbCastCorrection": true
+    },
+    "runtime": {
+      "passed": 16,
+      "file": "DOCUMENT_CORRECTIONS_207_RUNTIME.json"
+    },
+    "affectedBrowser": {
+      "passed": 148,
+      "newCorrectionCases": 18,
+      "existingAffectedCases": 130,
+      "engines": [
+        "chromium",
+        "webkit"
+      ],
+      "additionalFocusedRepeatsPassed": 10,
+      "newCorrectionCasesRetestedWithoutRetries": 18
+    },
+    "types": "PASS afterqueuefixture",
+    "strictLint": "PASS afterqueuefixture",
+    "adminBuild": "PASS",
+    "network": {
+      "externalRequestsEscaped": 0,
+      "productionRequestsEscaped": 0,
+      "deniedCanaries": 4
+    },
+    "sdk": {
+      "passed": 142,
+      "denied": 0,
+      "sourceFiles": 308,
+      "file": "TABLE_ACCESS_AFTER_207.json"
+    },
+    "rpc": {
+      "dispatches": 513,
+      "executeDenied": 0,
+      "file": "SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    "reference": {
+      "migrations": 169,
+      "functions": 523,
+      "realtimeMembers": 13,
+      "freshIncrementalDifferences": 0,
+      "file": "DOCUMENT_CORRECTIONS_207_REFERENCE.json"
+    },
+    "upgrade": {
+      "applied": [
+        "200",
+        "201",
+        "202",
+        "203",
+        "204",
+        "205",
+        "206",
+        "207"
+      ],
+      "replayWrites": false,
+      "file": "DOCUMENT_CORRECTIONS_207_UPGRADE.json"
+    },
+    "reset": {
+      "catalogDifferences": 0,
+      "ownerAndTotpPreserved": true,
+      "storageBytesDeleted": true,
+      "file": "DOCUMENT_CORRECTIONS_207_RESET.json"
+    },
+    "offline": {
+      "versions": [
+        203,
+        204,
+        205,
+        206,
+        207
+      ],
+      "remoteWriteAttempted": false,
+      "file": "DOCUMENT_CORRECTIONS_207_OFFLINE.json"
+    },
+    "referenceToolUnits": 20,
+    "sourceInverseEntries": 29,
+    "dbLint": "PASS: unchanged existing policy;new207functions warning/error0",
+    "productionSourceHashesUnchangedSinceCurrentDatabaseProof": true,
+    "sourceEvidenceTestsAfterQueueFix": {
+      "passed": 5,
+      "failed": 0
+    }
+  },
+  "repairs": [
+    "18 oldAdmin failures: current206 expectations updated to207;exact source inverses composed before historical assertions;no financial assertion removed",
+    "207 ownerhistory expectedlist missing206 corrected",
+    "206 functionReference frozen to accepted413 manual digest;207 uses current canonical manual",
+    "Local upgrade projectid shortened to avoid Supabase truncation;owned failedstack stoppednormally",
+    "Initial parallel reset bootstrap rejected byexistingglobalguard beforeDBstart;rerun sequentially afterupgrade",
+    "CI DB lint found two implicit text-toJSONB initializer warnings;explicitcasts only;unchangedlintpolicy nowrunsinside207gate. Supersededunreleased207reference preserved separately. FreshDBproof required."
+  ],
+  "remaining": [
+    "GenuineC7 mainmerge staged",
+    "ExactmainFULL37+secrets then8"
+  ],
+  "obsoleteFeature": "896182c8b4fa7fae487446f061edd42de745d293",
+  "obsoleteQualityRuns": [
+    39579733630,
+    39579741593
+  ],
+  "ciRepair": "DOCUMENT_CORRECTIONS_207_CI_REPAIR.json",
+  "uiCiRepair": "DOCUMENT_CORRECTIONS_207_UI_CI_REPAIR.json",
+  "featureCI": {
+    "sha": "c37ed77d00a2d5b05a3e86737557675c3483b1a0",
+    "recordedAt": "2026-10-21T11:37:55.534Z",
+    "managedAccess": false,
+    "quality": [
+      {
+        "id": 39589741289,
+        "event": "push",
+        "sha": "c37ed77d00a2d5b05a3e86737557675c3483b1a0",
+        "conclusion": "success",
+        "attempt": 1,
+        "jobs": 37,
+        "strictFullVerified": true,
+        "actual207StepVerified": true
+      },
+      {
+        "id": 39589744461,
+        "event": "pull_request",
+        "sha": "c37ed77d00a2d5b05a3e86737557675c3483b1a0",
+        "conclusion": "success",
+        "attempt": 1,
+        "jobs": 37,
+        "strictFullVerified": true,
+        "actual207StepVerified": true
+      }
+    ],
+    "secrets": [
+      {
+        "id": 39589741285,
+        "event": "push",
+        "sha": "c37ed77d00a2d5b05a3e86737557675c3483b1a0",
+        "conclusion": "success"
+      },
+      {
+        "id": 39589744477,
+        "event": "pull_request",
+        "sha": "c37ed77d00a2d5b05a3e86737557675c3483b1a0",
+        "conclusion": "success"
+      }
+    ],
+    "pr": {
+      "number": 10,
+      "url": "https://github.com/OBITO20011/mahdi-admin/pull/10",
+      "base": "41382ad31f3e5d82aba4dc6ba6c75f6db4b0e159",
+      "head": "c37ed77d00a2d5b05a3e86737557675c3483b1a0",
+      "state": "open"
+    },
+    "browserQA": {
+      "sha": "c37ed77d00a2d5b05a3e86737557675c3483b1a0",
+      "recordedAt": "2026-10-21T11:28:40.662Z",
+      "cores": [
+        {
+          "run": 39589741289,
+          "event": "push",
+          "job": 119187502669,
+          "attempt": 1,
+          "passed": 407,
+          "duration": "13.1m",
+          "reportedFlaky": 0,
+          "corrections207FailuresOrFlakes": 0,
+          "logSha256": "dd7dd47435fda4805a5c286a7887a2147c882548c3cd6270ecbf0cb137e00cb2"
+        },
+        {
+          "run": 39589744461,
+          "event": "pull_request",
+          "job": 119187525452,
+          "attempt": 1,
+          "passed": 407,
+          "duration": "15.8m",
+          "reportedFlaky": 0,
+          "corrections207FailuresOrFlakes": 0,
+          "logSha256": "26a230e337f8dcb22a65ea50ef2b9b3a9e364a19631f556250eb9942e2de4aa7"
+        }
+      ],
+      "ok": true
+    },
+    "ok": true
+  }
+}

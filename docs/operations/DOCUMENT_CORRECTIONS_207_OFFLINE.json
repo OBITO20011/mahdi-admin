@@ -1,0 +1,37 @@
+{
+  "current207": {
+    "ok": true,
+    "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline207-2026-10-21T10-26-14-557Z",
+    "remoteWriteAttempted": false
+  },
+  "previous203through206": [
+    {
+      "ceiling": 203,
+      "sha256": "aa63a3bc13922c631cbb711baaebb8d4eef5f72aa3b2b3f7a5349c91f20d7f99",
+      "ok": true,
+      "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline203-2026-10-21T10-25-45-247Z",
+      "remoteWriteAttempted": false
+    },
+    {
+      "ceiling": 204,
+      "sha256": "aff96c1df345a0c0da35c6d40f69af2ea3806bc8d6caed09ccf4746524f2c977",
+      "ok": true,
+      "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline204-2026-10-21T10-25-52-060Z",
+      "remoteWriteAttempted": false
+    },
+    {
+      "ceiling": 205,
+      "sha256": "0f5439d3269a3e017a8ff10d37614f30cd56ffc08873f3eaf857220c51061e52",
+      "ok": true,
+      "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline205-2026-10-21T10-26-00-121Z",
+      "remoteWriteAttempted": false
+    },
+    {
+      "ceiling": 206,
+      "sha256": "b69ed23867cb2b10ea7f3fc4e2c9965ebc00497b29b6129fee709871710c781c",
+      "ok": true,
+      "output": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\offline206-2026-10-21T10-26-09-651Z",
+      "remoteWriteAttempted": false
+    }
+  ]
+}

@@ -48,6 +48,7 @@ import {
   MapPin,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
+import {DocumentCorrectionAction} from '../corrections/DocumentCorrectionAction';
 
 type TabType = 'orders' | 'receiving' | 'suppliers' | 'payments' | 'reports';
 type PurchaseSort = 'newest' | 'highest_value' | 'outstanding';
@@ -1116,6 +1117,7 @@ export const PurchasesView: React.FC = () => {
                             <Printer className="w-3.5 h-3.5 text-nw-info" />
                             <span>طباعة السند</span>
                           </UiButton>
+                          <DocumentCorrectionAction action="supplier_payment" recordId={p.id} onChanged={loadData}/>
                         </Td>
                       </Tr>
                     ))}
