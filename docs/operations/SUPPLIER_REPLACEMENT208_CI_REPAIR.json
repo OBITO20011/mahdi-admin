@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-10-21T17:44:04.314Z",
+  "recordedAt": "2026-10-21T18:07:16.334Z",
   "supersededSha": "2b2718cec50acc5038e4110522c0464151042209",
   "supersededQualityRuns": [
     39644148929,
@@ -42,5 +42,43 @@
     "strictEslint": true,
     "qualityLogDirectory": "nawasrah208-ci-repair-quality-81aaba82c4824133863449dc021a70cb"
   },
-  "acceptance": "New exact-SHA FULL38 push and PR plus secrets;then mainFULL38 required"
+  "acceptance": "New exact-SHA FULL38 push and PR plus secrets;then mainFULL38 required",
+  "followup": {
+    "supersededSha": "95c335fc445104c0184b54f51f99342b75178fd9",
+    "qualityRuns": [
+      39646462132,
+      39646469749
+    ],
+    "cancelledBeforeEdits": true,
+    "job": 119383326619,
+    "cause": "Home financial status selector assumed only one independent status before208 pending reader",
+    "correction": "Explicit208 read fixture and financial-specific status selector;new independent pending-error assertion",
+    "localBrowser": {
+      "passed": 70,
+      "failed": 0,
+      "retries": 0,
+      "engines": [
+        "chromium",
+        "webkit"
+      ],
+      "fullAffectedFiles": [
+        "package-f-home",
+        "package-f-inventory",
+        "package-f-sales-history204"
+      ],
+      "logDirectory": "nawasrah208-home-fixture-c7b1e4574e78460086685b4251803b44"
+    },
+    "typecheck": true,
+    "strictEslint": true,
+    "unitCompatibility": {
+      "firstPass": 1323,
+      "failed": 1,
+      "cause": "New C9 inverse pin default rejection prefix differed from immutable206 mutation test identity",
+      "correction": "Only C9 new home-spec pin retains NAVIGATION206 rejection identity;old assertion/pins unchanged",
+      "finalPass": 1324,
+      "failedAfterCorrection": 0,
+      "skipped": 0,
+      "logDirectory": "nawasrah208-home-units-0222e44051464e478a572d2faaeaba0c"
+    }
+  }
 }

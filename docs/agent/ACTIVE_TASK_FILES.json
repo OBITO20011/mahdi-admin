@@ -7,27 +7,15 @@
     },
     {
       "code": " M",
-      "path": "docs/operations/SUPPLIER_REPLACEMENT208_DELIVERY.json"
+      "path": "docs/operations/SUPPLIER_REPLACEMENT208_CI_REPAIR.json"
     },
     {
       "code": " M",
-      "path": "e2e/package-f-inventory-harness.tsx"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-inventory.spec.ts"
-    },
-    {
-      "code": " M",
-      "path": "e2e/package-f-sales-history204.spec.ts"
+      "path": "e2e/package-f-home.spec.ts"
     },
     {
       "code": " M",
       "path": "scripts/audit/supplier-replacement208-hunks.json"
-    },
-    {
-      "code": "??",
-      "path": "docs/operations/SUPPLIER_REPLACEMENT208_CI_REPAIR.json"
     }
   ]
 }

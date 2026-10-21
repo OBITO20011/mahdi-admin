@@ -1,3 +1,12 @@
+# Final C9 fixture correction accepted locally;new exactCI next
+
+70 affected browser cases in bothengines/retries0,1324units/0skip,types/stricteslint PASS.
+Home208 read fixture/status selector and independent failure assertion corrected.
+Only C9 new pin preserves206 public rejection identity;alloldpins/assertions unchanged.
+See SUPPLIER_REPLACEMENT208_CI_REPAIR.json. No production/SQL/permission changes.
+New exactFULL38 push+PR/secrets thenmerge/mainFULL38;owner208 guide then Prompt5 audit.
+No hostedaccess/deploy or parcel-only implementation.
+
 # C9 corrective fixtures verified;new FULL38 required
 
 First2b2718c quality runs superseded/cancelled before edits after two stale208-reader fixtures.

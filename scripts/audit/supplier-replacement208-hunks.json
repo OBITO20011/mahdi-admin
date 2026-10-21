@@ -74,6 +74,54 @@
         }
       ]
     },
+    "e2e/package-f-home.spec.ts": {
+      "before": "79025c344717ff0ca310d4a91cc274770ad12077d4a00c0404bb71d769f15980",
+      "after": "5920cc7614f6f09f3f1f59c41e73abf4fb9aa7fcabab0bc9da9fca7ddc6c62f6",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 10,
+          "before": [],
+          "after": [
+            "test.beforeEach(async({page})=>{await page.route('**/rest/v1/rpc/get_supplier_replacements_page_v1',route=>route.fulfill({json:{contractVersion:208,page:1,pageSize:25,totalCount:0,pendingQuantity:0,pendingValueInMinorUnitsExact:'0.000000',cases:[]}}));});",
+            ""
+          ]
+        },
+        {
+          "at": 124,
+          "before": [
+            "  await expect(page.getByTestId('dashboard-home').getByRole('status')).toContainText('الأرقام المالية غير متاحة');"
+          ],
+          "after": [
+            "  await expect(page.getByTestId('dashboard-home').getByRole('status').filter({hasText:'الأرقام المالية غير متاحة'})).toContainText('الأرقام المالية غير متاحة');"
+          ]
+        },
+        {
+          "at": 142,
+          "before": [
+            "  await expect(page.getByTestId('dashboard-home').getByRole('status')).toContainText('الأرقام المالية غير متاحة');"
+          ],
+          "after": [
+            "  await expect(page.getByTestId('dashboard-home').getByRole('status').filter({hasText:'الأرقام المالية غير متاحة'})).toContainText('الأرقام المالية غير متاحة');"
+          ]
+        },
+        {
+          "at": 146,
+          "before": [],
+          "after": [
+            "",
+            "test('208 Home separates unavailable financial facts from a pending-asset read failure',async({page})=>{",
+            "  await page.route('**/rest/v1/rpc/get_supplier_replacements_page_v1',route=>route.fulfill({status:500,json:{message:'تعذر قراءة المعلّق في تجربة208.'}}));",
+            "  await page.goto(url('theme=dark&unavailable&noShift'));",
+            "  await expect(page.getByTestId('dashboard-home').getByRole('status').filter({hasText:'الأرقام المالية غير متاحة'})).toHaveCount(1);",
+            "  const pending=page.getByTestId('supplier-replacement-summary');await expect(pending.getByRole('alert')).toContainText('تعذر قراءة المعلّق في تجربة208.');await expect(pending).not.toContainText('مجموع كميات الأصناف المعلّقة:');",
+            "  for(const amount of ['1,284.500','4,100.000','8,420.750'])await expect(page.getByTestId('home-kpis')).not.toContainText(amount);",
+            "  await expect(page.getByRole('button',{name:'فتح الصندوق'})).toBeVisible();",
+            "});"
+          ]
+        }
+      ]
+    },
     "e2e/package-f-inventory-harness.tsx": {
       "before": "3ef0ea93c70f3edb6210a7dabffe96254a343de5e0db9a5d62540523f0d48b47",
       "after": "39b7a176c17cbf012e7b6833b7ddadf59e195facf0ee3cb0966b38105aab3626",
