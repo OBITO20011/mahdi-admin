@@ -1,3 +1,13 @@
+# Current21Oct — C7/main207 delivered;C8 shortdesign
+
+PR10 mergedtrue maina63763def32d329f7472feee608a7092992f25ea;
+FULL37 run39593444652 andsecrets39593444565 SUCCESS attempt1.
+StrictdeliveryReady/actual207step/mergeSHA verified,core407/0flaky.
+See operations/DOCUMENT_CORRECTIONS_207_MAIN_CI.json. C8docs-only item20
+shortdesign;C9 directownerdecision quantities three roles/values+reversal owner.
+No source/SQL changes;001-207 andowner207reference unchanged. OwnC8
+FULL37/merge/mainCI required beforeC9. No hostedaccess/deploy.
+
 # Current21Oct —C7 feature FULL37 accepted;genuine mainintegration
 
 Exactfeature c37ed77d00a2d5b05a3e86737557675c3483b1a0 push+PR FULL37 and bothsecret scans SUCCESS.

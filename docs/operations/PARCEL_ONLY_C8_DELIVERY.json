@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-21T12:06:33.100638+00:00",
+  "baseline": "a63763def32d329f7472feee608a7092992f25ea",
+  "deliveryStatus": "LOCAL_DOCS_GATES_PASS_CI_PENDING",
+  "scope": "C8 short item20 design and direct C9 quantity/value/reversal roles;no product or SQL implementation",
+  "migrationCeiling": 207,
+  "newMigrations": [],
+  "managedAccess": false,
+  "ownerCommand": "frankfurt-owner-upgrade207",
+  "ownerCommandExecuted": false,
+  "validation": {
+    "productionTestsSqlToolsUnchanged": true,
+    "allChangesUnderDocs": true,
+    "projectStateOnlyBranchChanged": true,
+    "adminUnits": {
+      "fullRunPassed": 1312,
+      "fullRunFailed": 1,
+      "failure": "Inherited project-state branch main;continuity assertion expected actual feature branch",
+      "correction": "Branch metadata only;no test changes",
+      "focusedContinuityPassed": 5,
+      "remainingFailures": 0,
+      "skipped": 0
+    },
+    "types": "PASS",
+    "lint": "PASS",
+    "strictEslint": "PASS",
+    "preflightAfterBranchSync": "PASS",
+    "owner207OfflineDryRun": "PASS"
+  },
+  "ciRemaining": [
+    "Exact feature push/PR FULL37 and secrets",
+    "Genuine main merge and exact main FULL37/secrets"
+  ],
+  "priorC7MainEvidence": "DOCUMENT_CORRECTIONS_207_MAIN_CI.json"
+}

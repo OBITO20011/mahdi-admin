@@ -1,0 +1,35 @@
+{
+  "sha": "a63763def32d329f7472feee608a7092992f25ea",
+  "qualityRun": 39593444652,
+  "qualityEvent": "push",
+  "secretsRun": 39593444565,
+  "jobs": 37,
+  "deliveryReady": true,
+  "actual207StepVerified": true,
+  "browserQA": {
+    "sha": "a63763def32d329f7472feee608a7092992f25ea",
+    "recordedAt": "2026-10-21T11:58:08.860Z",
+    "cores": [
+      {
+        "run": 39593444652,
+        "event": "push",
+        "job": 119199929296,
+        "attempt": 1,
+        "passed": 407,
+        "duration": "15.7m",
+        "reportedFlaky": 0,
+        "corrections207FailuresOrFlakes": 0,
+        "logSha256": "5e4d3740b4663a76d9d1508e4dd5c3e7acfa46cf1f93f673e75a912b2e2f0605"
+      }
+    ],
+    "ok": true
+  },
+  "recordedAt": "2026-10-21T12:01:01.521Z",
+  "managedAccess": false,
+  "pr": {
+    "number": 10,
+    "url": "https://github.com/OBITO20011/mahdi-admin/pull/10",
+    "merged": true,
+    "mergeSha": "a63763def32d329f7472feee608a7092992f25ea"
+  }
+}
