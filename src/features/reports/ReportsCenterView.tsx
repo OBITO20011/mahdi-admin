@@ -1,5 +1,6 @@
 import {CustomerCollectionsSection} from './CustomerCollectionsSection';
 import {DamageLossReportSection} from './DamageLossReportSection';
+import {SupplierReplacementSummary} from '../inventory/SupplierReplacementSummary';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Activity,
@@ -334,6 +335,7 @@ export const ReportsCenterView: React.FC = () => {
             <MetricCard label="الربح" value={money(report.sales.netProfit)} hint="بعد المرتجعات والاستبدال واسترجاع التكلفة والمصاريف والتلف" icon={TrendingUp} tone={report.sales.netProfit >= 0 ? 'emerald' : 'rose'} />
           </section>
 
+          <SupplierReplacementSummary ownerOnly />
           <DamageLossReportSection losses={report.sales.damageLosses} />
           <CustomerCollectionsSection collections={report.cashFlow.customerCollections} />
 

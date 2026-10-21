@@ -24,6 +24,7 @@ export interface ModalPayloadMap {
   view_product: ModalPayloadContract<Product, 'required'>;
   adjust_stock: ModalPayloadContract<StockAdjustmentModalPayload, 'required'>;
   damage_stock_selection: ModalPayloadContract<null, 'none'>;
+  supplier_replacement: ModalPayloadContract<{productId?:string;supplierId?:string;damageOnly?:boolean}|null,'optional'>;
   receive_goods: ModalPayloadContract<ModalProductIdPayload | null, 'optional'>;
   warehouse_transfer: ModalPayloadContract<ModalProductIdPayload | null, 'optional'>;
   stock_count: ModalPayloadContract<ModalProductIdPayload | null, 'optional'>;

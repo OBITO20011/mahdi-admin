@@ -32,7 +32,7 @@ test('navigation mirrors literal existing role memberships and unions all member
   assert.deepEqual(viewer.sort(),['catalog-products','customer-accounts','inventory-current']);
 });
 test('Arabic search normalizes diacritics/alef and never returns forbidden destinations',()=>{
-  assert.deepEqual(searchNavigationGroups('إِستلام','owner').flatMap(group=>group.items.map(item=>item.id)),['supplier-receiving']);
+  assert.deepEqual(searchNavigationGroups('إِستلام','owner').flatMap(group=>group.items.map(item=>item.id)),['supplier-receiving','supplier-replacement']);
   assert.equal(searchNavigationGroups('الصندوق','view_only').length,0);assert.equal(searchNavigationGroups('غير موجود','owner').length,0);
 });
 test('cash rows preserve each server field and put every CliQ/card movement outside cash',()=>{

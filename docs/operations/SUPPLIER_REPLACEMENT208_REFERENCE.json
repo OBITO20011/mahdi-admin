@@ -1,0 +1,12 @@
+{
+  "startedAt": "2026-10-21T17:05:43.481Z",
+  "managedAccess": false,
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-reference208-mDnpqr",
+  "target": "C:\\Users\\TOP\\AppData\\Local\\Temp\\phase-c9-reference208-e42aa4fda0b6477b8efe7ff3b890ac35\\local-reference-through208-ready.json",
+  "ok": true,
+  "migrations": 170,
+  "functions": 534,
+  "realtimeMembers": 13,
+  "freshIncrementalDifferenceCount": 0,
+  "endedAt": "2026-10-21T17:09:32.992Z"
+}

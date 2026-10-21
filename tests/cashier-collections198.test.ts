@@ -20,7 +20,7 @@ test('198 five explicit role-only changes rewind exactly to original191/163/121;
  }
  assert.equal([...sql.matchAll(/CREATE OR REPLACE FUNCTION/gu)].length,5);assert.deepEqual(futureMigrationViolations(sql),[]);
  assert.doesNotMatch(sql,/CREATE TABLE|CREATE INDEX|GRANT |REVOKE |reverse_customer|reverse_supplier|ALTER POLICY/u);
- const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,207);
+ const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,208);
  assert.equal(state.migration198CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());
 });
 test('198 collection UI keeps every original call and event handler;only an extra store read hides cashier reversal',()=>{

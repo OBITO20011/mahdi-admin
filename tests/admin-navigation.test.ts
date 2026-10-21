@@ -47,7 +47,7 @@ const expectedActiveTabs = [
 
 const expectedGroupDestinations = new Map([
  ['sales',['pos','orders','sales_history','accounts','sales_history']],
- ['products-inventory',['products','purchases','inventory','parcel_configuration','damage_stock_selection']],
+ ['products-inventory',['products','purchases','inventory','parcel_configuration','damage_stock_selection','supplier_replacement']],
  ['finance-reports',['shifts','expenses','reports','cheques','shifts']],
  ['administration-store',['users','warehouses','storefront_settings','promotion_codes','go_live','monitoring_dashboard','assistant']],
 ]);
@@ -183,6 +183,7 @@ test('role visibility and the independent assistant gate are unchanged', () => {
 
 test('modal dispatcher, quick actions and nested feature views retain their identities', () => {
   const expectedModalIds = [
+    'supplier_replacement',
     'damage_stock_selection',
     'add_customer',
     'add_expense',

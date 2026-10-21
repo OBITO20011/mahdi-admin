@@ -3,7 +3,7 @@ import test from 'node:test';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {sourceBeforeCorrectionRecoveryC8,correctionRecoveryC8Pins,inventoryBeforeCorrectionRecoveryC8} from '../scripts/audit/source-before-correction-recovery-c8.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+import {inventoryBeforeSupplierReplacement208 as inventory} from '../scripts/audit/source-before-supplier-replacement208.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 import {assertReady207Catalog} from '../scripts/operations/frankfurt-reference207.mjs';
 

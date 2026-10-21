@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-21T17:27:30.818Z",
+  "baseline": "7e325a00bbeea7711ae1f2e650848fe61ec99f93",
+  "status": "LOCAL_GATES_PASS_FEATURE_FULL38_PENDING",
+  "managedAccess": false,
+  "migrationCeiling": 208,
+  "migrationCanonicalLfSha256": "9741B8183DFE074650F136225C1DE2EFA578223CD3ADE9AD2EAF4379DC23FF65",
+  "newMigrations": [
+    "208_supplier_replacement_and_damage.sql"
+  ],
+  "historical001through207Unchanged": true,
+  "ownerCurrentUntilDelivery": "frankfurt-owner-upgrade207",
+  "ownerCurrentAfterDelivery": "frankfurt-owner-upgrade208",
+  "ownerCommandExecuted": false,
+  "reference": {
+    "sha256": "0ab1e910ec2fd63ddd30684ed8c8e8b46c0afe4f86f9cfaa4aad4f087dd65cf1",
+    "migrations": 170,
+    "functions": 534,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferences": 0
+  },
+  "validation": {
+    "adminUnits": {
+      "passed": 1324,
+      "failed": 0,
+      "skipped": 0
+    },
+    "finalFocusedUnits": 15,
+    "types": true,
+    "strictLint": true,
+    "build": true,
+    "affectedBrowser": {
+      "earlierPassed": 56,
+      "final208Passed": 18,
+      "engines": [
+        "chromium",
+        "webkit"
+      ],
+      "retries": 0
+    },
+    "networkIsolation": {
+      "externalEscaped": 0,
+      "productionEscaped": 0
+    },
+    "sdk": {
+      "queries": 142,
+      "sourceFiles": 313,
+      "errors": 0
+    },
+    "rpc": {
+      "dispatches": 525,
+      "expectedRoleDenials": [
+        [
+          "get_supplier_replacements_page_v1",
+          "admin"
+        ],
+        [
+          "get_supplier_replacements_page_v1",
+          "cashier"
+        ]
+      ]
+    },
+    "localRuntime": {
+      "baseFunctionalGroupsPassed": 19,
+      "focusedScaleRestoreGroupsPassed": 4,
+      "overlappingFoundationGroups": 2,
+      "distinctGroups": 21,
+      "fullSingleRunRequiredInCI": true,
+      "fullCIUsesNoFocusFlag": true,
+      "readScaleMilliseconds": [
+        528,
+        510,
+        501,
+        503,
+        521
+      ],
+      "fullLogicalRestoreDifferences": 0,
+      "allDataSequencesRestored": true,
+      "restoredReplayWrites": 0
+    },
+    "upgrade": {
+      "applied": [
+        "200",
+        "201",
+        "202",
+        "203",
+        "204",
+        "205",
+        "206",
+        "207",
+        "208"
+      ],
+      "replayWrites": 0
+    },
+    "reset": {
+      "owner": true,
+      "totp": true,
+      "warehouse": true,
+      "storage": true,
+      "ledgerEmpty": true,
+      "publicReport208": true,
+      "authenticatedRestReadNewCIAssertion": true
+    },
+    "offline203through207": true,
+    "offline208Logic": true
+  },
+  "remaining": [
+    "Gitleaks0",
+    "Exact feature FULL38 and secrets",
+    "Genuine main merge then exact main FULL38 and secrets",
+    "Prepare owner208 commands only then Prompt5 audit;parcel-only implementation forbidden"
+  ]
+}

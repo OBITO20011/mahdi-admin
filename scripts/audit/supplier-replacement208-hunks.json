@@ -1,0 +1,990 @@
+{
+  "baseline": "7e325a00bbeea7711ae1f2e650848fe61ec99f93",
+  "entries": {
+    "e2e/admin-navigation-cash206.spec.ts": {
+      "before": "324277d80b682963228386c64b7cca0d450ca8ef199adabd704fcdefeda3a24a",
+      "after": "b5811fa003c1a4c1ae290fc70bb72930ab8983cf435dec2bc29de465fc3c735d",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 51,
+          "before": [],
+          "after": [
+            "  await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',route=>route.fulfill({json:{contractVersion:208,products:[{id:inventoryProducts[0].id,name:inventoryProducts[0].name_ar,sku:inventoryProducts[0].sku,baseUnitName:'باكيت',unitsPerParcel:24}],suppliers:[],warehouses:[{id:'92600000-0000-4000-8000-000000000201',name:'مستودع المحل',branchId:'branch'}],lastSuppliers:[]}}));"
+          ]
+        },
+        {
+          "at": 54,
+          "before": [
+            "  release();await expect(page.getByRole('searchbox',{name:'ابحث عن الصنف التالف'})).toHaveCount(0);await expect(page.getByText('انكسر بالمحل',{exact:true})).toBeVisible();await expect(page.getByText('عصير برتقال 250مل',{exact:true})).toBeVisible();"
+          ],
+          "after": [
+            "  release();await expect(page.getByRole('searchbox',{name:'ابحث عن الصنف التالف'})).toHaveCount(0);await expect(page.getByRole('combobox',{name:'سبب التلف',exact:true})).toHaveValue('shop_breakage');await expect(page.getByRole('combobox',{name:'الصنف',exact:true})).toHaveValue(inventoryProducts[0].id);await expect(page.getByRole('combobox',{name:'الصنف',exact:true}).getByRole('option',{selected:true})).toHaveText('عصير برتقال 250مل · INV-0001');"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-home-damage201.spec.ts": {
+      "before": "01926772f552fa9a40bcb76e9bd5f1aa9aaac70d21596573619633cf01c32111",
+      "after": "52dfa2ab942de4f38711bce00e0e8efb3bb37632127c94d542fc744e9b9da4a7",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 74,
+          "before": [
+            "for(const width of [390,1440])test(`201 stock damage ${width}: four reasons,required other note and same RPC payload`,async({page})=>{"
+          ],
+          "after": [
+            "for(const width of [390,1440])test(`208 keyed stock damage ${width}: four reasons,required other note and exact physical quantity`,async({page})=>{"
+          ]
+        },
+        {
+          "at": 76,
+          "before": [
+            " let payload:unknown,calls=0;",
+            " await page.route('**/rest/v1/rpc/adjust_inventory_stock',async route=>{calls++;payload=route.request().postDataJSON();await route.fulfill({status:400,json:{message:'رفض اختبار معزول بلا كتابة',code:'FIXTURE_REJECTION'}});});"
+          ],
+          "after": [
+            " let payload:Record<string,unknown>|undefined,calls=0,legacyCalls=0;",
+            " await page.route('**/rest/v1/rpc/adjust_inventory_stock',route=>{legacyCalls++;return route.abort();});",
+            " await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',route=>route.fulfill({json:{contractVersion:208,products:[{id:'88888888-8888-4888-8888-000000000001',name:'عصير برتقال 250مل',sku:'INV-0001',baseUnitName:'باكيت',unitsPerParcel:24}],suppliers:[],warehouses:[{id:'88888888-8888-4888-8888-000000000099',name:'المستودع الرئيسي',branchId:'fixture-branch'}],lastSuppliers:[]}}));",
+            " await page.route('**/rest/v1/rpc/preview_supplier_replacement_v1',route=>route.fulfill({json:{contractVersion:208,action:'shop_damage',eligible:true,blockedReason:null,quantity:3,availableQuantity:100}}));",
+            " await page.route('**/rest/v1/rpc/execute_supplier_replacement_v1',async route=>{calls++;payload=route.request().postDataJSON();await route.fulfill({status:400,json:{message:'رفض اختبار معزول بلا كتابة',code:'P0001'}});});"
+          ]
+        },
+        {
+          "at": 84,
+          "before": [
+            " for(const reason of ['انكسر بالمحل','انتهت الصلاحية','تلف تخزين','أخرى'])await expect(dialog.getByRole('button',{name:reason,exact:true})).toBeVisible();",
+            " await dialog.getByRole('button',{name:'أخرى',exact:true}).click();const note=dialog.getByLabel('ملاحظات إضافية',{exact:true});await expect(note).toHaveAttribute('required','');",
+            " await dialog.getByLabel('الكمية',{exact:true}).fill('3');await dialog.getByRole('button',{name:'تأكيد تعديل المخزون',exact:true}).click();expect(calls).toBe(0);",
+            " await note.fill('سقوط العبوة أثناء النقل');await dialog.getByRole('button',{name:'تأكيد تعديل المخزون',exact:true}).click();",
+            " await expect.poll(()=>payload).toEqual({p_warehouse_id:'88888888-8888-4888-8888-000000000099',p_product_id:'88888888-8888-4888-8888-000000000001',p_actual_quantity:97,p_reason:'أخرى (سقوط العبوة أثناء النقل)',p_adjustment_type:'damage'});",
+            " await expect(dialog.locator('form')).toHaveAttribute('aria-busy','false');await checkLayout(page,dialog);"
+          ],
+          "after": [
+            " const reason=dialog.getByRole('combobox',{name:'سبب التلف',exact:true});for(const name of ['انكسر بالمحل','انتهت الصلاحية','تلف تخزين','أخرى'])await expect(reason.getByRole('option',{name,exact:true})).toHaveCount(1);",
+            " await reason.selectOption('other');const note=dialog.getByLabel('ملاحظة التلف',{exact:true});await expect(note).toHaveAttribute('required','');",
+            " await dialog.getByLabel('العدد',{exact:true}).fill('3');await dialog.getByRole('button',{name:'معاينة العملية',exact:true}).click();expect(calls).toBe(0);await expect(dialog.getByRole('button',{name:'تأكيد وحفظ العملية'})).toHaveCount(0);",
+            " await note.fill('سقوط العبوة أثناء النقل');await dialog.getByRole('button',{name:'معاينة العملية',exact:true}).click();await dialog.getByRole('button',{name:'تأكيد وحفظ العملية'}).click();",
+            " await expect.poll(()=>calls).toBe(1);expect(legacyCalls).toBe(0);expect(payload!.p_action).toBe('shop_damage');expect(payload!.p_idempotency_key).toMatch(/^sr208:/);",
+            " expect(payload!.p_payload).toEqual({warehouseId:'88888888-8888-4888-8888-000000000099',productId:'88888888-8888-4888-8888-000000000001',quantity:3,unit:'base',reason:'سقوط العبوة أثناء النقل',reasonCode:'other'});",
+            " await expect(dialog.getByTestId('supplier-replacement-panel')).toHaveAttribute('aria-busy','false');await checkLayout(page,dialog);"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-navigation206-harness.tsx": {
+      "before": "f701ce88a3b09f8b20ac56630c2a6ebfd60212c841af03fd24bdd685a581287a",
+      "after": "e4089cf03f9df0b438498c267c126f72886d98eed4ac3e9b84a233aa25502c12",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 25,
+          "before": [],
+          "after": [
+            "// Synthetic identity for the real208 durable-intent adapter; transport remains loopback.",
+            "supabase.auth.getUser=async()=>({data:{user:{id:'92600000-0000-4000-8000-000000000001'}},error:null}) as Awaited<ReturnType<NonNullable<typeof supabase>['auth']['getUser']>>;"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-products-harness.tsx": {
+      "before": "c7261f96e8df3bd8950c4e19c86af7cf613611457737bbdedd8cf569c7715beb",
+      "after": "08c9ccd0e2fac1f32439d7c56f9ba9bdbae10c2192f42ce052d988345fa187e8",
+      "errorPrefix": "TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 26,
+          "before": [],
+          "after": [
+            "supabase.auth.getUser=async()=>({data:{user:{id:'88888888-8888-4888-8888-000000000098'}},error:null}) as Awaited<ReturnType<NonNullable<typeof supabase>['auth']['getUser']>>;"
+          ]
+        }
+      ]
+    },
+    "e2e/phase6-package-b.spec.ts": {
+      "before": "6e8b7f82c75eb06e255e11e5bca2b5947de9adb84fe7874592d0cff768d7029c",
+      "after": "e2cb82a9a9e7bc69a7234b43040f47d8dd074c2cfd6be8b77b172dbfe5ba54fd",
+      "errorPrefix": "STOREFRONT_C6_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 29,
+          "before": [],
+          "after": [
+            "",
+            "test('208 owner supplier destination submits one atomic coordinator with exact physical leaves and reload recovery',async({page})=>{",
+            "  const supplierId='88880000-0000-4000-8000-000000000003',requests:Record<string,unknown>[]=[];let oldWrites=0;",
+            "  await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',route=>route.fulfill({json:{contractVersion:208,products:[{id:'juice',name:'عصير فراولة',sku:'JUICE',baseUnitName:'باكيت',unitsPerParcel:1}],suppliers:[{id:supplierId,name:'المورد الموثق'}],warehouses:[],lastSuppliers:[{productId:'juice',supplierId,supplierName:'المورد الموثق'}]}}));",
+            "  await page.route('**/rest/v1/rpc/settle_admin_sales_return_v1',route=>{oldWrites++;return route.abort();});",
+            "  await page.route('**/rest/v1/rpc/execute_supplier_replacement_v1',route=>{",
+            "    const req=route.request().postDataJSON();requests.push(req);if(requests.length===1)return route.abort();",
+            "    return route.fulfill({json:{success:true,contractVersion:208,action:'customer_return',idempotencyKey:req.p_idempotency_key,idempotent:true,operationId:'op',returnResult:{success:true},cases:[{",
+            "      id:'case',supplierId,supplierName:'المورد الموثق',productId:'juice',productName:'عصير فراولة',warehouseId:'warehouse',branchId:'branch',origin:'customer_return',quantity:3,commercialQuantity:3,unitsPerCommercialUnit:1,unitName:'باكيت',baseUnitName:'باكيت',pendingQuantity:3,receivedQuantity:0,writtenOffQuantity:0,occurredAt:'2026-10-21T10:00:00Z',events:[],unitCostInMinorUnitsExact:'60.000000',pendingValueInMinorUnitsExact:'180.000000'}]}});",
+            "  });",
+            "  await page.goto(url);await page.getByRole('button',{name:'مرتجع',exact:true}).click();await page.getByLabel('كمية المرتجع',{exact:true}).fill('3');await page.getByRole('button',{name:'غير قابل للبيع',exact:true}).click();",
+            "  await page.getByRole('combobox',{name:'مصير عيب المورد غير القابل للبيع',exact:true}).selectOption('supplier');await expect(page.getByRole('combobox',{name:'المورد',exact:true})).toHaveValue(supplierId);",
+            "  await page.getByPlaceholder('سبب المرتجع',{exact:true}).fill('عيب المورد في البضاعة');await page.getByRole('button',{name:'اعتماد المرتجع',exact:true}).click();await expect.poll(()=>requests.length).toBe(1);",
+            "  await expect(page.getByRole('button',{name:'استعادة المرتجع المرسل للمورد'})).toBeVisible();await page.reload();await page.getByRole('button',{name:'استعادة المرتجع المرسل للمورد'}).click();",
+            "  await expect(page.getByTestId('notice')).toContainText('استرداد نتيجة المرتجع المرتبط بالمورد');expect(requests.length).toBe(2);expect(requests[1]).toEqual(requests[0]);expect(oldWrites).toBe(0);",
+            "  expect(requests[0].p_action).toBe('customer_return');const payload=requests[0].p_payload as Record<string,unknown>;",
+            "  expect(payload.items).toEqual([{return_scope:'base_unit',order_item_id:'base-root',quantity:3,stock_disposition:'damaged'}]);",
+            "  expect(payload.supplierAssignments).toEqual([{sourceKind:'base_order_item',sourceId:'a',supplierId},{sourceKind:'replacement_item',sourceId:'b',supplierId}]);",
+            "  expect((payload.physicalSources as Array<{source_id:string;defect_non_sellable_quantity:number}>).map(s=>[s.source_id,s.defect_non_sellable_quantity])).toEqual([['a',2],['b',1]]);",
+            "});"
+          ]
+        }
+      ]
+    },
+    "e2e/supplier-replacement208-harness.tsx": {
+      "added": true,
+      "before": null,
+      "after": "609ce3eacc39a65198566e90b8a42ca9d5eeb4b73d0f01fb889320d291595ac0",
+      "hunks": []
+    },
+    "e2e/supplier-replacement208.spec.ts": {
+      "added": true,
+      "before": null,
+      "after": "4689bb24da0ee0033cd46c618420a4488283f61ceef95793c6e261d2dd2dfbd2",
+      "hunks": []
+    },
+    "src/components/layout/sideNavigationModel.ts": {
+      "before": "610585274b34a7a82393101395663f9e8e84f47826dff38ad1d30f7c908bed01",
+      "after": "5273c2c8b9061d80f74461e98e17419310bd50e7e9ea6d1bb693a56a6dc5668b",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 40,
+          "before": [],
+          "after": [
+            "  'supplier-replacement':'استبدال',"
+          ]
+        }
+      ]
+    },
+    "src/components/modals/AllModals.tsx": {
+      "before": "f01c6fe278125348ec606305866944b6d04b57a41442d60273d7a0bacb32491b",
+      "after": "2d6e80fccf277db571adb62bcf15d2c116d98355176526365370b125e3b173a0",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 22,
+          "before": [],
+          "after": [
+            "import {SupplierReplacementPanel} from '../../features/inventory/SupplierReplacementPanel';"
+          ]
+        },
+        {
+          "at": 208,
+          "before": [],
+          "after": [
+            "      <Modal isOpen={currentModal==='supplier_replacement'} onClose={closeModal} title=\"استبدال المورد والتالف\" maxWidth=\"max-w-2xl\">",
+            "        {currentModal==='supplier_replacement'&&<SupplierReplacementPanel {...(modalData&&'damageOnly' in modalData?modalData:modalData&&'supplierId' in modalData?modalData:modalData&&'productId' in modalData?{productId:modalData.productId}:{})}/>}",
+            "      </Modal>"
+          ]
+        }
+      ]
+    },
+    "src/features/dashboard/DashboardHome.tsx": {
+      "before": "d1c865332506eb774d395f5e0f50094e6eb6c8a9e84d5e68c7c227b508e4f777",
+      "after": "09f7c4abebb036344913f3b758ea7045d6338f75cc6627c8c4feae6941937f51",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import {SupplierReplacementSummary} from '../inventory/SupplierReplacementSummary';"
+          ]
+        },
+        {
+          "at": 113,
+          "before": [],
+          "after": [
+            "        <SupplierReplacementSummary ownerOnly />"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/InventoryOpeningSetupModal.tsx": {
+      "before": "91b2eb6831bd49b1c0d1b168619e56fb4abde83c6b3c8a25e7d32e26c676a26c",
+      "after": "2cb7c33bffc98e3e3bdf129e0bc9408762157388d7dcfd442cae43e8e06a357d",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import {SupplierReplacementSummary} from './SupplierReplacementSummary';"
+          ]
+        },
+        {
+          "at": 426,
+          "before": [],
+          "after": [
+            "      <SupplierReplacementSummary />"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/InventoryView.tsx": {
+      "before": "ce82164ddd8bd0620a9470269be0ea3ece343c90d63b40664a4f376c2a77433e",
+      "after": "53043d60c8bbbaeea4131f17068b93cb754a916c8986e842fe6de91590188c65",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 7,
+          "before": [],
+          "after": [
+            "import {SupplierReplacementSummary} from './SupplierReplacementSummary';"
+          ]
+        },
+        {
+          "at": 285,
+          "before": [],
+          "after": [
+            "      <SupplierReplacementSummary />"
+          ]
+        }
+      ]
+    },
+    "src/features/inventory/SupplierReplacementPanel.tsx": {
+      "added": true,
+      "before": null,
+      "after": "7ea3b27f700fb806bef0fa1d7d17ca0d7c08201e7b6d5e2a9b69aec80d210e21",
+      "hunks": []
+    },
+    "src/features/inventory/SupplierReplacementSummary.tsx": {
+      "added": true,
+      "before": null,
+      "after": "94a7cd7965e326fde08a9ae06aac5b02aab796a7a61565f8290ae1be4ce36e9d",
+      "hunks": []
+    },
+    "src/features/more/DamageProductSelection.tsx": {
+      "before": "6c0206cc978532c439b5978509518427129540a64a4da5ba095be2c81bd39f8f",
+      "after": "8ca7c6006a206291fed06faf6ba36dd4b1165a6fae76473bfd1b1b6fe941eeea",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 30,
+          "before": [
+            "      cacheProductPage([product]);openModal('adjust_stock',{product,mode:'deduct'});"
+          ],
+          "after": [
+            "      cacheProductPage([product]);openModal('supplier_replacement',{productId:product.id,damageOnly:true});"
+          ]
+        }
+      ]
+    },
+    "src/features/more/adminNavigation.config.ts": {
+      "before": "c9f56ec33b18dd0b85d22a6571d89b991b76e7a948b7f10a1e791a6e19d8f838",
+      "after": "eb4b212340af0903dbb9b40a974bc721381b6ef6402cde92e0bb9a5bd64fda77",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 269,
+          "before": [],
+          "after": [
+            "  supplier_replacement:['owner','manager','warehouse_keeper'],"
+          ]
+        },
+        {
+          "at": 296,
+          "before": [],
+          "after": [
+            "    {id:'supplier-replacement',label:'استبدال المورد',description:'المعلّق واستلام البديل والتالف',icon:RotateCcw,tone:'bg-nw-info-bg text-nw-info',action:{type:'modal',destination:'supplier_replacement'}},"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/AdminAftercarePanel.tsx": {
+      "before": "766be706748bf5241e69b733cad0d87462198ef8fd9719ee29f509bb0a511390",
+      "after": "57814a8a7c6c9336dd3ab729ec50de5e814dbcfab854bca29703e6efdac0bae2",
+      "errorPrefix": "SUPPLIER_REPLACEMENT208_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import {useAuthStore} from '../../stores/useAuthStore';",
+            "import {fetchSupplierReplacementOptions,submitSupplierReplacement,supplierReplacementRecovery,type ReplacementOptions} from '../../services/supabase/supplierReplacement.service';",
+            "import type {ReplacementAttempt} from '../../services/supabase/supplierReplacementIntent';"
+          ]
+        },
+        {
+          "at": 49,
+          "before": [],
+          "after": [
+            "  const {roles,roleName,user}=useAuthStore(),isOwner=roles.includes('owner')||roleName==='owner';",
+            "  const supplierScope=`supplier-replacement208:return:${order.id}`;",
+            "  const [supplierAttempt,setSupplierAttempt]=useState<ReplacementAttempt|null>(null);",
+            "  const [supplierRecoveryError,setSupplierRecoveryError]=useState('');",
+            "  const [destination,setDestination]=useState<'final'|'supplier'>('final');",
+            "  const [returnSupplier,setReturnSupplier]=useState(''),[supplierSearch,setSupplierSearch]=useState('');",
+            "  const [supplierOptions,setSupplierOptions]=useState<ReplacementOptions|null>(null),[supplierOptionsError,setSupplierOptionsError]=useState('');"
+          ]
+        },
+        {
+          "at": 74,
+          "before": [
+            "  }, [order.id]);"
+          ],
+          "after": [
+            "    if(isOwner)try{setSupplierAttempt(await supplierReplacementRecovery(supplierScope));setSupplierRecoveryError('');}",
+            "    catch(cause){setSupplierRecoveryError(cause instanceof Error?cause.message:'تعذر قراءة محاولة إرسال المرتجع للمورد.');}",
+            "  }, [order.id,isOwner,supplierScope]);",
+            "",
+            "  useEffect(()=>{setSupplierAttempt(null);setDestination('final');setReturnSupplier('');setSupplierRecoveryError('');},[user?.id,isOwner,order.id]);",
+            "  const suggestedProduct=returnDraft?.kind==='base'?returnDraft.productId:returnDraft?.parcel.components[0]?.productId;",
+            "  useEffect(()=>{let active=true;setSupplierOptions(null);setSupplierOptionsError('');if(!isOwner||destination!=='supplier')return;",
+            "    const timer=setTimeout(()=>{void fetchSupplierReplacementOptions('customer_return','',supplierSearch,suggestedProduct).then(value=>{if(active){setSupplierOptions(value);const last=value.lastSuppliers.find(s=>s.productId===suggestedProduct);if(last?.supplierId&&value.suppliers.some(s=>s.id===last.supplierId)){const lastId=last.supplierId;setReturnSupplier(current=>current||lastId);}}}).catch(cause=>{if(active)setSupplierOptionsError(cause instanceof Error?cause.message:'تعذر تحميل الموردين.');});},supplierSearch?250:0);",
+            "    return()=>{active=false;clearTimeout(timer);};",
+            "  },[isOwner,destination,supplierSearch,suggestedProduct,user?.id]);"
+          ]
+        },
+        {
+          "at": 123,
+          "before": [
+            "    || recoveryStates.replacement?.recoverable === true;"
+          ],
+          "after": [
+            "    || recoveryStates.replacement?.recoverable === true||supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared';"
+          ]
+        },
+        {
+          "at": 144,
+          "before": [],
+          "after": [
+            "    setDestination('final');setReturnSupplier('');"
+          ]
+        },
+        {
+          "at": 147,
+          "before": [],
+          "after": [
+            "    if(hasPendingRecovery||supplierRecoveryError){notify(supplierRecoveryError||'استعد المحاولة المعلقة قبل بدء عملية جديدة.','error');return;}"
+          ]
+        },
+        {
+          "at": 254,
+          "before": [],
+          "after": [
+            "    if(hasPendingRecovery||supplierRecoveryError){notify(supplierRecoveryError||'استعد المحاولة المعلقة قبل بدء مرتجع جديد.','error');return;}"
+          ]
+        },
+        {
+          "at": 273,
+          "before": [],
+          "after": [
+            "      if(destination==='supplier'){",
+            "        if(!isOwner||!returnSupplier)throw new Error('اختر المورد من حساب المالك.');",
+            "        const damaged=request.physical.filter(source=>source.defect_non_sellable_quantity>0);",
+            "        if(!damaged.length)throw new Error('لا توجد كمية بعيب مورد غير قابلة للبيع لإرسالها.');",
+            "        await submitSupplierReplacement(supplierScope,{action:'customer_return',expectedNonce:supplierAttempt?.nonce??null,",
+            "          payload:{orderId:order.id,items:request.items,physicalSources:request.physical,reason:reason.trim(),refundMethod,referenceNumber:reference.trim()||null,notes:notes.trim()||null,",
+            "            supplierAssignments:damaged.map(source=>({sourceKind:source.source_kind,sourceId:source.source_id,supplierId:returnSupplier}))}});",
+            "        notify('تمت تسوية المرتجع وربط التالف بالمعلّق لدى المورد في معاملة واحدة.');",
+            "        resetForm();await load();await onChanged?.();return;",
+            "      }"
+          ]
+        },
+        {
+          "at": 336,
+          "before": [],
+          "after": [
+            "        {isOwner&&(supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared')&&<UiButton disabled={busy} onClick={()=>void(async()=>{setBusy(true);try{await submitSupplierReplacement(supplierScope);notify('تم استرداد نتيجة المرتجع المرتبط بالمورد.');resetForm();await load();await onChanged?.();}catch(cause){notify(businessErrorMessage(cause),'error');}finally{await refreshRecoveryStates();setBusy(false);}})()}>استعادة المرتجع المرسل للمورد</UiButton>}"
+          ]
+        },
+        {
+          "at": 493,
+          "before": [],
+          "after": [
+            "        {isOwner&&<div className=\"space-y-2 rounded-xl border border-nw-border p-3\">",
+            "          <label className=\"block text-sm\">مصير عيب المورد غير القابل للبيع<select disabled={busy} value={destination} onChange={event=>setDestination(event.target.value as 'final'|'supplier')} className=\"min-h-11 w-full rounded bg-nw-surface p-2\"><option value=\"final\">تالف نهائي</option><option value=\"supplier\">للمورد بانتظار الاستبدال</option></select></label>",
+            "          {destination==='supplier'&&<>{supplierOptionsError?<p role=\"alert\">{supplierOptionsError}</p>:!supplierOptions?<p role=\"status\">جاري قراءة الموردين…</p>:<>",
+            "            <label className=\"block text-sm\">بحث المورد<input value={supplierSearch} onChange={event=>setSupplierSearch(event.target.value)} className=\"min-h-11 w-full rounded bg-nw-surface p-2\"/></label>",
+            "            <label className=\"block text-sm\">المورد<select value={returnSupplier} onChange={event=>setReturnSupplier(event.target.value)} className=\"min-h-11 w-full rounded bg-nw-surface p-2\"><option value=\"\">اختر المورد</option>{supplierOptions.suppliers.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></label>",
+            "            <p className=\"text-xs text-nw-muted\">آخر مورد مستلم للصنف: {supplierOptions.lastSuppliers.find(s=>s.productId===suggestedProduct)?.supplierName??'لا يوجد دليل استلام'}. يُرسل عيب المورد فقط؛ تبقى التسوية المالية الحالية كما هي.</p>",
+            "          </>}</>}",
+            "        </div>}",
+            "        {supplierRecoveryError&&<p role=\"alert\">{supplierRecoveryError}</p>}"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductDetailModal.tsx": {
+      "before": "5cd93163b21ba5cca615dd504d4d17d253f5e648ec276a1c9db256da5402a441",
+      "after": "c5365ff995a16906bad93f6f2263976a27ceb4ff626c6fc725a4d79c9381dca6",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 35,
+          "before": [],
+          "after": [
+            "import {canUseSupplierReplacement} from '../../utils/supplierReplacement';"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [
+            "  const { roleName } = useAuthStore();"
+          ],
+          "after": [
+            "  const { roleName,roles } = useAuthStore();"
+          ]
+        },
+        {
+          "at": 1000,
+          "before": [],
+          "after": [
+            "      {!isFlavorFamily&&canUseSupplierReplacement(roles,roleName)&&<UiButton onClick={()=>openModal('supplier_replacement',{productId:product.id})}>استبدال المورد والمعلّق</UiButton>}"
+          ]
+        }
+      ]
+    },
+    "src/features/products/StockAdjustmentModal.tsx": {
+      "before": "6e56cf69f9d614e580ee6619c8c907ccf4fe0e87fde7555bbca4f890a2964ae5",
+      "after": "31c187136f29f23ddabcb2351ac8285db5525a19823d5817390c296de5212596",
+      "errorPrefix": "HOME_DAMAGE201_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 2,
+          "before": [],
+          "after": [
+            "import {SupplierReplacementPanel} from '../inventory/SupplierReplacementPanel';"
+          ]
+        },
+        {
+          "at": 84,
+          "before": [],
+          "after": [
+            "  if(isDeduct)return <SupplierReplacementPanel productId={product.id} damageOnly />;"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/PurchasesView.tsx": {
+      "before": "6588eee17f389b291b657d610962778262a2d5a3814873d1d278f9e379a33da5",
+      "after": "ff7b936b248d310c9c14a1dc65ccbebaafa07720aa33597f6e71736d2455293f",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [],
+          "after": [
+            "import {useAuthStore} from '../../stores/useAuthStore';",
+            "import {canUseSupplierReplacement} from '../../utils/supplierReplacement';"
+          ]
+        },
+        {
+          "at": 96,
+          "before": [],
+          "after": [
+            "  const {roles,roleName}=useAuthStore();"
+          ]
+        },
+        {
+          "at": 820,
+          "before": [],
+          "after": [
+            "          {canUseSupplierReplacement(roles,roleName)&&<UiButton onClick={()=>storeEngine.openModal('supplier_replacement')}>استبدال المورد والمعلّق</UiButton>}"
+          ]
+        }
+      ]
+    },
+    "src/features/reports/DamageLossReportSection.tsx": {
+      "before": "d244356a3d5edb156ba8b5e2e0406ff9f5f4508bafa125626b6fa0136919ff4e",
+      "after": "aa57e90bddda001133f9e0757d2831b7506056fd8de5cb40b1da160cce03fda4",
+      "errorPrefix": "HOME_DAMAGE201_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 7,
+          "before": [],
+          "after": [
+            "  supplier_writeoff:'رفض المورد للاستبدال',customer_return_supplier_hold:'إعادة تصنيف مرتجع إلى معلّق',",
+            "  supplier_writeoff_reversal:'عكس رفض المورد',shop_damage_reversal:'عكس تلف المحل',customer_return_supplier_hold_reversal:'عكس تعليق المرتجع لدى المورد',"
+          ]
+        },
+        {
+          "at": 16,
+          "before": [
+            "        <div><dt className=\"text-sm text-nw-muted\">إجمالي خسائر التلف</dt><dd className=\"m-0 mt-1 text-xl font-bold text-nw-bad\"><MoneyText amount={losses.total} currency /></dd></div>"
+          ],
+          "after": [
+            "        <div><dt className=\"text-sm text-nw-muted\">{losses.contractVersion===208?'صافي خسائر التلف':'إجمالي خسائر التلف'}</dt><dd className=\"m-0 mt-1 text-xl font-bold text-nw-bad\"><MoneyText amount={losses.total} currency /></dd></div>"
+          ]
+        },
+        {
+          "at": 18,
+          "before": [
+            "        <div><dt className=\"text-sm text-nw-muted\">خصم إضافي من الربح — تلف المحل</dt><dd className=\"m-0 mt-1 text-xl font-bold\"><MoneyText amount={losses.additional} currency /></dd></div>"
+          ],
+          "after": [
+            "        <div><dt className=\"text-sm text-nw-muted\">{losses.contractVersion===208?'أثر إضافي على الربح':'خصم إضافي من الربح — تلف المحل'}</dt><dd className=\"m-0 mt-1 text-xl font-bold\"><MoneyText amount={losses.additional} currency /></dd></div>"
+          ]
+        },
+        {
+          "at": 20,
+          "before": [
+            "      <p className=\"text-sm text-nw-muted\">تلف المرتجع المحتسب أصلًا يظهر للتوضيح؛ يُخصم تلف المحل الإضافي من صافي الربح مرة واحدة.</p>"
+          ],
+          "after": [
+            "      {losses.contractVersion===208?<>",
+            "        <p className=\"text-sm text-nw-muted\">الخسارة قبل العكس وإعادة التصنيف: <MoneyText amount={losses.gross??0} currency /> · الاسترداد وإعادة التصنيف: <MoneyText amount={losses.recovered??0} currency /></p>",
+            "        <p className=\"text-sm text-nw-muted\">المعلّق أصل منفصل. يعاد تصنيف خسارة المرتجع المحتسبة أصلاً عند إرساله للمورد، ويثبت الرفض مرة واحدة. العكس اللاحق يظهر في فترته وقد يجعل الصافي سالباً.</p>",
+            "      </>:<p className=\"text-sm text-nw-muted\">تلف المرتجع المحتسب أصلًا يظهر للتوضيح؛ يُخصم تلف المحل الإضافي من صافي الربح مرة واحدة.</p>}"
+          ]
+        }
+      ]
+    },
+    "src/features/reports/ReportsCenterView.tsx": {
+      "before": "48dd1e985da9afc84733b08bca408be2abae4b2c5ccc6fc3d1a4239d0edee659",
+      "after": "04d321207a4baf53d24a1fd64bfae5cb072bd31d8fc992bcdc61ccd046a4d874",
+      "errorPrefix": "COLLECTIONS202_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "import {SupplierReplacementSummary} from '../inventory/SupplierReplacementSummary';"
+          ]
+        },
+        {
+          "at": 338,
+          "before": [],
+          "after": [
+            "          <SupplierReplacementSummary ownerOnly />"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/reports.service.ts": {
+      "before": "fecd78dcc8cfd9c762f56b0766a866437841ec53ec0889cba7335f2f9c0f8fd3",
+      "after": "786e8d419509538a25134f5eccbd8d09593a74208239f802b4dc6da298f78ebf",
+      "errorPrefix": "COLLECTIONS202_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 87,
+          "before": [
+            "    if (!validMoney(damage.totalInMinorUnits) || !validMoney(damage.additionalInMinorUnits)"
+          ],
+          "after": [
+            "    const signedMoney = (v: unknown) => typeof v === 'number' && Number.isSafeInteger(v);",
+            "    if (damage.contractVersion === 208) {",
+            "      if (!signedMoney(damage.totalInMinorUnits) || !signedMoney(damage.additionalInMinorUnits)",
+            "        || !validMoney(damage.alreadyIncludedInMinorUnits) || !validMoney(damage.grossInMinorUnits) || !validMoney(damage.recoveredInMinorUnits)",
+            "        || Number(damage.totalInMinorUnits) !== Number(damage.grossInMinorUnits) - Number(damage.recoveredInMinorUnits)",
+            "        || Number(damage.totalInMinorUnits) !== Number(damage.additionalInMinorUnits) + Number(damage.alreadyIncludedInMinorUnits)",
+            "        || !Array.isArray(damage.reasons) || damage.reasons.some((value) => {",
+            "          const row=recordValue(value);",
+            "          return !textValue(row.code) || !validMoney(row.count) || !validMoney(row.quantity) || !validMoney(row.alreadyIncludedInMinorUnits)",
+            "            || !signedMoney(row.amountInMinorUnits) || !validMoney(row.grossInMinorUnits) || !validMoney(row.recoveredInMinorUnits)",
+            "            || Number(row.amountInMinorUnits)!==Number(row.grossInMinorUnits)-Number(row.recoveredInMinorUnits);",
+            "        }) || damage.reasons.reduce((sum:number,value:unknown)=>sum+Number(recordValue(value).amountInMinorUnits),0)!==damage.totalInMinorUnits",
+            "        || damage.reasons.reduce((sum:number,value:unknown)=>sum+Number(recordValue(value).grossInMinorUnits),0)!==damage.grossInMinorUnits",
+            "        || damage.reasons.reduce((sum:number,value:unknown)=>sum+Number(recordValue(value).recoveredInMinorUnits),0)!==damage.recoveredInMinorUnits",
+            "        || damage.reasons.reduce((sum:number,value:unknown)=>sum+Number(recordValue(value).alreadyIncludedInMinorUnits),0)!==damage.alreadyIncludedInMinorUnits",
+            "        || new Set(damage.reasons.map((value:unknown)=>recordValue(value).code)).size!==damage.reasons.length",
+            "      ) throw new Error('بيانات صافي خسائر التلف 208 غير مكتملة. أعد تحميل التقرير.');",
+            "    } else if ((damage.contractVersion !== undefined && damage.contractVersion !== 201)",
+            "      || !validMoney(damage.totalInMinorUnits) || !validMoney(damage.additionalInMinorUnits)"
+          ]
+        },
+        {
+          "at": 136,
+          "before": [],
+          "after": [
+            "        ...(damage.contractVersion===208?{contractVersion:208 as const,gross:moneyValue(damage.grossInMinorUnits),recovered:moneyValue(damage.recoveredInMinorUnits)}:{}),"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/supplierReplacement.service.ts": {
+      "added": true,
+      "before": null,
+      "after": "abdf50da4907fe901cdb56359857c691c4596f40a2bc28630402c9a200f11109",
+      "hunks": []
+    },
+    "src/services/supabase/supplierReplacementIntent.ts": {
+      "added": true,
+      "before": null,
+      "after": "44d74f97e11c917ede322ab710a9b301b4767783237d0b5b5125ce5028d78a5f",
+      "hunks": []
+    },
+    "src/stores/modalTypes.ts": {
+      "before": "e048c7a840c807ce2acf67580f864b2430dc583d208e439d761cbca3a51bd96b",
+      "after": "5f5286e04608ed94ec96399db0f07b6a3dad7a84294bfbee85e37d569c68fbe8",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 27,
+          "before": [],
+          "after": [
+            "  supplier_replacement: ModalPayloadContract<{productId?:string;supplierId?:string;damageOnly?:boolean}|null,'optional'>;"
+          ]
+        }
+      ]
+    },
+    "src/types/reports.ts": {
+      "before": "0d3b237db7cc2b6dd2a8bb0f701314307f21fc889bfe294a24fe00ae1bd0c6a2",
+      "after": "37b0ac4db982b2df069b71afe67819beab2da98f28fdbdd8f25df4c5e99533cc",
+      "errorPrefix": "COLLECTIONS202_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 10,
+          "before": [],
+          "after": [
+            "  contractVersion?:208;",
+            "  gross?:number;",
+            "  recovered?:number;"
+          ]
+        }
+      ]
+    },
+    "src/utils/supplierReplacement.ts": {
+      "added": true,
+      "before": null,
+      "after": "254b67d84a6a6a592e8b668bf71bc6880604389bdafccc8aca99e8bda6863fdd",
+      "hunks": []
+    },
+    "tests/admin-navigation.test.ts": {
+      "before": "b4485c791ac6168bfa3ea51b30b7078695aa6bf17d11998e44dae8daf2cc61d0",
+      "after": "9084c376c4b266df9708f6166cc5c0b8bfdc81960b6e8773dc3c0421dd83b8aa",
+      "errorPrefix": "SUPPLIER_REPLACEMENT208_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 50,
+          "before": [
+            " ['products-inventory',['products','purchases','inventory','parcel_configuration','damage_stock_selection']],"
+          ],
+          "after": [
+            " ['products-inventory',['products','purchases','inventory','parcel_configuration','damage_stock_selection','supplier_replacement']],"
+          ]
+        },
+        {
+          "at": 186,
+          "before": [],
+          "after": [
+            "    'supplier_replacement',"
+          ]
+        }
+      ]
+    },
+    "tests/all-customer-collections203.test.ts": {
+      "before": "d02a35a1ae19e5b5c0d51b5137355690d8fa0dada4733c31f166dc93ac8974a1",
+      "after": "40f38181bc7a2d42ff7d402c7c32631fde5dffd8b63d656eb6142dd679127a42",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,207);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,208);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());"
+          ]
+        }
+      ]
+    },
+    "tests/canonical-receivables197.test.ts": {
+      "before": "87a2124a113b196a7a3ebd0107294078e4ee6c49d471972349508d4cdc8d07a5",
+      "after": "f5c34f6acc78146278b414d16cbdf3ad795dd31c9977aeab80685c620bbca318",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 56,
+          "before": [
+            " assert.equal(state.migrationCeiling,207);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            " assert.equal(state.migrationCeiling,208);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [
+            " assert.equal(source.migrationCeiling,207);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/cashier-collections198.test.ts": {
+      "before": "2e4d4b328406df98c8d02e660efd25275b034d9ab4769b4d94c00e784e16310c",
+      "after": "98b60108d152f9b0c537b67a79dab91636ca8d933e10e7fd26d8f545d9932f67",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 23,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,207);"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,208);"
+          ]
+        }
+      ]
+    },
+    "tests/cheques195-admission.test.ts": {
+      "before": "bd8ec0309b951ad5f33c8913c9d9604007576fb369efd2b1075ba8b903ee3715",
+      "after": "a82694e940a69b707322d4a1b61f39ba613de535dbb7f851a8aa4b3092542a36",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 12,
+          "before": [
+            "  assert.equal(source.migrationCeiling,207);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            "  assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/correction-recovery-c8.test.ts": {
+      "before": "4b60e827ab3ec10edf30ad6a91ee64ab8d636db9c47ab7fd90532704cc45d48d",
+      "after": "19e4f98105e4e3f9de1663d70df38add679be71099aa87af0ff16e37dbc26b9c",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:C8_RECOVERY:",
+      "hunks": [
+        {
+          "at": 6,
+          "before": [
+            "import {inventory} from '../scripts/audit/table-access-inventory.mjs';"
+          ],
+          "after": [
+            "import {inventoryBeforeSupplierReplacement208 as inventory} from '../scripts/audit/source-before-supplier-replacement208.mjs';"
+          ]
+        }
+      ]
+    },
+    "tests/document-corrections207.test.ts": {
+      "before": "753876f9840fc364153c6c3a67f9d5daa1fd78b1caded2ebd3954e8f4db4dfde",
+      "after": "72d4d6561412e83bfaf3554ff68afb19924a0a55736a9e5b8303bf2243b5884e",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 21,
+          "before": [
+            " const history=(await migrationManifest(process.cwd())).map((m:{name:string})=>m.name.slice(0,3));"
+          ],
+          "after": [
+            " const history=(await migrationManifest(process.cwd())).filter(m=>Number(m.name.slice(0,3))<=207).map((m:{name:string})=>m.name.slice(0,3));"
+          ]
+        }
+      ]
+    },
+    "tests/go-live-integration164.test.ts": {
+      "before": "bca33f03cb4b4db612fd2dedebd530052d40162bdfc987949b2604cff50dc746",
+      "after": "ec0c100c888ff11be5767e5ce0036767864ac4b285a154f2014b7366aebd454e",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 29,
+          "before": [
+            " assert.equal(source.migrationCeiling,207);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/historical-reset-source.test.ts": {
+      "before": "3426b87e121d8a50f6a7c1940c9b4b43019343146b5ed25454b5e7483d703a40",
+      "after": "6779385a5425bc25ad5fd3e59d2f999ea405da35d30284154e6d02fd64a0cf3c",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 26,
+          "before": [
+            " await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:207,manifest}),/HISTORICAL_RESET_CEILING/u);"
+          ],
+          "after": [
+            " await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:208,manifest}),/HISTORICAL_RESET_CEILING/u);"
+          ]
+        }
+      ]
+    },
+    "tests/navigation-cash206.test.ts": {
+      "before": "66975194a9da624143b0097f47943cae15e01378ec5bab4d50856d44ffcd59d8",
+      "after": "87d715c2182ce7037dcdd743eafb703e2d353ccf3336f6a2f07bc74e304d560a",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 35,
+          "before": [
+            "  assert.deepEqual(searchNavigationGroups('إِستلام','owner').flatMap(group=>group.items.map(item=>item.id)),['supplier-receiving']);"
+          ],
+          "after": [
+            "  assert.deepEqual(searchNavigationGroups('إِستلام','owner').flatMap(group=>group.items.map(item=>item.id)),['supplier-receiving','supplier-replacement']);"
+          ]
+        }
+      ]
+    },
+    "tests/opening-cheques196.test.ts": {
+      "before": "d6df9393eb2f96b5aaf255f2f8444c5d3158a05f017e68937c04052244a5bb67",
+      "after": "23ec1e83e33301b1663664b152a4d32a466318253028d0c9856d7947ada54fb2",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 22,
+          "before": [
+            " assert.equal(source.migrationCeiling,207);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/product-integration171.test.ts": {
+      "before": "905dc1eefd88f5940d8f5b9a37f6ccd72e26d9bab5771ca6929eebf86092a22e",
+      "after": "e70bf37087425bee99fa7897748c7754ae637b9a0e745500f85653879a66b717",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [
+            " assert.equal(source.migrationCeiling,207);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 54,
+          "before": [
+            " assert.equal(services.migrationCeiling,207);assert.equal(services.ok,true);",
+            " assert.ok(services.results.every((r:{sqlstate:string|null})=>r.sqlstate!=='42501'));"
+          ],
+          "after": [
+            " assert.equal(services.migrationCeiling,208);assert.equal(services.ok,true);",
+            " assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),[['get_supplier_replacements_page_v1','admin'],['get_supplier_replacements_page_v1','cashier']]);"
+          ]
+        }
+      ]
+    },
+    "tests/product-receiving205.test.ts": {
+      "before": "e1158e2f69c2129d6200c37b77681be79571a5983b5f12fcd774759ef6bed40d",
+      "after": "4cda30a916bcc23232e0b0c4c2063ffe489de175c8acd798ce4813e23fd1175d",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 48,
+          "before": [
+            "  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,207);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            "  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,208);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ]
+        }
+      ]
+    },
+    "tests/sales-history204-evidence.test.ts": {
+      "before": "a09f190fc6118ef28746ccc78ad3f96782003131b2bd1d1db5a23d15e1b130fc",
+      "after": "85d1a1261f8cec71ace957ec7da90214ad0b4e182abe80f44d04607e25fc6a41",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 24,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,207);"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,208);"
+          ]
+        }
+      ]
+    },
+    "tests/service-access-inventory.test.ts": {
+      "before": "716a98be3c1a7bc37dadb1569025d1bedf12c5e4736ff86f8e9e94bc08329e66",
+      "after": "103c511011c19c1d907ffc3053b3a93dedc001d8204bac9151c42ff07123833c",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [
+            " assert.match(source,/\\[198,199,200,201,202,203,204,205,206,207\\]\\.includes\\(migrationCeiling\\)/u);"
+          ],
+          "after": [
+            " assert.match(source,/\\[198,199,200,201,202,203,204,205,206,207,208\\]\\.includes\\(migrationCeiling\\)/u);"
+          ]
+        }
+      ]
+    },
+    "tests/supplier-replacement208-evidence.test.ts": {
+      "added": true,
+      "before": null,
+      "after": "96b851c10d847c90206c94b2f7c5c26c9b86b38865e927ee69a21aece5f22c34",
+      "hunks": []
+    },
+    "tests/supplier-replacement208.test.ts": {
+      "added": true,
+      "before": null,
+      "after": "7cb843f771b01f068a1f5a2c1a0f4894a41badfc250fabf3cda3f5c6f6530af9",
+      "hunks": []
+    },
+    "tests/trial-reset.test.ts": {
+      "before": "d1a2c3cfa971d8c8e1e3f99430986f9c0e68ac07e43b46b10a529b652293f5d5",
+      "after": "46f49a5f976805e9815a84f18bffdb23a805cc0f1fb8047c3080ee5c322ea1c1",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 26,
+          "before": [],
+          "after": [
+            " assert.match(source,/readReady208Reference/u);assert.match(source,/RESET_REQUIRES_COMPLETE208_HISTORY/u);assert.match(source,/functionReference\\(executor,208\\)/u);"
+          ]
+        },
+        {
+          "at": 75,
+          "before": [
+            "test('reset admits approved frozen prefixes and current207 only and preserves the named main warehouse,not trial locations',()=>{"
+          ],
+          "after": [
+            "test('reset admits approved frozen prefixes and current208 only and preserves the named main warehouse,not trial locations',()=>{"
+          ]
+        },
+        {
+          "at": 85,
+          "before": [
+            " for(const migrationCeiling of [138,198,208])assert.throws(()=>assertResetCeiling({migrationCeiling}));"
+          ],
+          "after": [
+            " assert.equal(assertResetCeiling({migrationCeiling:208}),170);",
+            " for(const migrationCeiling of [138,198,209])assert.throws(()=>assertResetCeiling({migrationCeiling}));"
+          ]
+        }
+      ]
+    },
+    "tests/withdrawals182-admission.test.ts": {
+      "before": "92f403da5807e5ac1d585e1685811fd6c0bba90dd646355ba53bab70369cd485",
+      "after": "d8fca32e7733d49bb36439992cd1e77f350a0d6644103de135fac9b29b407640",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [
+            " assert.equal(source.migrationCeiling,207);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [
+            " assert.equal(services.migrationCeiling,207);assert.equal(services.ok,true);",
+            " assert.ok(services.results.every((r:{sqlstate:string|null})=>r.sqlstate!=='42501'));"
+          ],
+          "after": [
+            " assert.equal(services.migrationCeiling,208);assert.equal(services.ok,true);",
+            " assert.deepEqual(services.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501').map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),[['get_supplier_replacements_page_v1','admin'],['get_supplier_replacements_page_v1','cashier']]);"
+          ]
+        }
+      ]
+    }
+  }
+}

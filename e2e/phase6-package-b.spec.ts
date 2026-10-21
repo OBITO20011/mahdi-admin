@@ -26,6 +26,26 @@ const context = {
 test.beforeEach(async ({page}) => {
   await page.route('**/rest/v1/rpc/get_admin_sales_aftercare_context_v1', route => route.fulfill({json: context}));
 });
+
+test('208 owner supplier destination submits one atomic coordinator with exact physical leaves and reload recovery',async({page})=>{
+  const supplierId='88880000-0000-4000-8000-000000000003',requests:Record<string,unknown>[]=[];let oldWrites=0;
+  await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',route=>route.fulfill({json:{contractVersion:208,products:[{id:'juice',name:'عصير فراولة',sku:'JUICE',baseUnitName:'باكيت',unitsPerParcel:1}],suppliers:[{id:supplierId,name:'المورد الموثق'}],warehouses:[],lastSuppliers:[{productId:'juice',supplierId,supplierName:'المورد الموثق'}]}}));
+  await page.route('**/rest/v1/rpc/settle_admin_sales_return_v1',route=>{oldWrites++;return route.abort();});
+  await page.route('**/rest/v1/rpc/execute_supplier_replacement_v1',route=>{
+    const req=route.request().postDataJSON();requests.push(req);if(requests.length===1)return route.abort();
+    return route.fulfill({json:{success:true,contractVersion:208,action:'customer_return',idempotencyKey:req.p_idempotency_key,idempotent:true,operationId:'op',returnResult:{success:true},cases:[{
+      id:'case',supplierId,supplierName:'المورد الموثق',productId:'juice',productName:'عصير فراولة',warehouseId:'warehouse',branchId:'branch',origin:'customer_return',quantity:3,commercialQuantity:3,unitsPerCommercialUnit:1,unitName:'باكيت',baseUnitName:'باكيت',pendingQuantity:3,receivedQuantity:0,writtenOffQuantity:0,occurredAt:'2026-10-21T10:00:00Z',events:[],unitCostInMinorUnitsExact:'60.000000',pendingValueInMinorUnitsExact:'180.000000'}]}});
+  });
+  await page.goto(url);await page.getByRole('button',{name:'مرتجع',exact:true}).click();await page.getByLabel('كمية المرتجع',{exact:true}).fill('3');await page.getByRole('button',{name:'غير قابل للبيع',exact:true}).click();
+  await page.getByRole('combobox',{name:'مصير عيب المورد غير القابل للبيع',exact:true}).selectOption('supplier');await expect(page.getByRole('combobox',{name:'المورد',exact:true})).toHaveValue(supplierId);
+  await page.getByPlaceholder('سبب المرتجع',{exact:true}).fill('عيب المورد في البضاعة');await page.getByRole('button',{name:'اعتماد المرتجع',exact:true}).click();await expect.poll(()=>requests.length).toBe(1);
+  await expect(page.getByRole('button',{name:'استعادة المرتجع المرسل للمورد'})).toBeVisible();await page.reload();await page.getByRole('button',{name:'استعادة المرتجع المرسل للمورد'}).click();
+  await expect(page.getByTestId('notice')).toContainText('استرداد نتيجة المرتجع المرتبط بالمورد');expect(requests.length).toBe(2);expect(requests[1]).toEqual(requests[0]);expect(oldWrites).toBe(0);
+  expect(requests[0].p_action).toBe('customer_return');const payload=requests[0].p_payload as Record<string,unknown>;
+  expect(payload.items).toEqual([{return_scope:'base_unit',order_item_id:'base-root',quantity:3,stock_disposition:'damaged'}]);
+  expect(payload.supplierAssignments).toEqual([{sourceKind:'base_order_item',sourceId:'a',supplierId},{sourceKind:'replacement_item',sourceId:'b',supplierId}]);
+  expect((payload.physicalSources as Array<{source_id:string;defect_non_sellable_quantity:number}>).map(s=>[s.source_id,s.defect_non_sellable_quantity])).toEqual([['a',2],['b',1]]);
+});
 test('partial return sends selected quantity and exact current source allocation; invalid quantities send nothing', async ({page}) => {
   let calls = 0;
   let payload: Record<string, unknown> | null = null;

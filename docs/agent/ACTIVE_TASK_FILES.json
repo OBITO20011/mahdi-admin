@@ -2,100 +2,364 @@
   "schemaVersion": 1,
   "files": [
     {
-      "code": "A ",
-      "path": "docs/design/PARCEL_ONLY_C8_DESIGN_AR.md"
+      "code": " M",
+      "path": ".github/workflows/quality.yml"
     },
     {
-      "code": "A ",
-      "path": "docs/operations/CORRECTION_RECOVERY_C8_CI_REPAIR.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_MAIN_CI.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/PARCEL_ONLY_C8_CI.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/PARCEL_ONLY_C8_DELIVERY.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_C8_RECOVERY.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/correction-recovery-c8-hunks.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-correction-recovery-c8.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "tests/correction-recovery-c8.test.ts"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
-      "code": "M ",
-      "path": "docs/agent/PHASE_C_CONTRACT.md"
-    },
-    {
-      "code": "M ",
+      "code": " M",
       "path": "docs/agent/PHASE_STATUS.md"
     },
     {
-      "code": "M ",
+      "code": " M",
       "path": "docs/agent/PROJECT_OVERVIEW.md"
     },
     {
-      "code": "M ",
+      "code": " M",
       "path": "docs/agent/project-state.json"
     },
     {
-      "code": "M ",
-      "path": "docs/design/SUPPLIER_REPLACEMENT_DAMAGE_DESIGN_AR.md"
+      "code": " M",
+      "path": "docs/generated/DB_FUNCTIONS.md"
     },
     {
-      "code": "M ",
+      "code": " M",
       "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
     },
     {
-      "code": "M ",
+      "code": " M",
       "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
     },
     {
-      "code": "M ",
+      "code": " M",
       "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "M ",
+      "code": " M",
       "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
-      "code": "M ",
-      "path": "e2e/document-corrections207.spec.ts"
+      "code": " M",
+      "path": "docs/operations/TRIAL_RESET_FRANKFURT_AR.md"
     },
     {
-      "code": "M ",
-      "path": "scripts/audit/source-before-corrections207.mjs"
+      "code": " M",
+      "path": "e2e/admin-navigation-cash206.spec.ts"
     },
     {
-      "code": "M ",
-      "path": "scripts/operations/build-acl-reference207.mjs"
+      "code": " M",
+      "path": "e2e/package-f-home-damage201.spec.ts"
     },
     {
-      "code": "M ",
-      "path": "scripts/operations/frankfurt-reference207.mjs"
+      "code": " M",
+      "path": "e2e/package-f-navigation206-harness.tsx"
     },
     {
-      "code": "M ",
-      "path": "src/services/supabase/documentCorrections.service.ts"
+      "code": " M",
+      "path": "e2e/package-f-products-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "e2e/phase6-package-b.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "package.json"
+    },
+    {
+      "code": " M",
+      "path": "scripts/agent/lib.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/agent/preflight.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/run-service-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-correction-recovery-c8.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-owner-build.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-trial-reset.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/trial-reset-core.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/historical-reset-source.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/testing/run-trial-reset-runtime.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/components/layout/sideNavigationModel.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/components/modals/AllModals.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/dashboard/DashboardHome.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/inventory/InventoryOpeningSetupModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/inventory/InventoryView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/more/adminNavigation.config.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/features/more/DamageProductSelection.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/AdminAftercarePanel.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/products/ProductDetailModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/products/StockAdjustmentModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/purchases/PurchasesView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/reports/DamageLossReportSection.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/reports/ReportsCenterView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/reports.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/stores/modalTypes.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/types/reports.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/admin-navigation.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/all-customer-collections203.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/canonical-receivables197.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cashier-collections198.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/cheques195-admission.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/correction-recovery-c8.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/document-corrections207.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/go-live-integration164.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/historical-reset-source.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/navigation-cash206.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/opening-cheques196.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-integration171.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/product-receiving205.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/sales-history204-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/service-access-inventory.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-reset.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/withdrawals182-admission.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/SUPPLIER_REPLACEMENT_C9.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/C8_MAIN_CI_METADATA.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/PARCEL_ONLY_C8_MAIN_CI.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/SUPPLIER_REPLACEMENT208_DELIVERY.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/SUPPLIER_REPLACEMENT208_LOCAL_RUNTIME.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/SUPPLIER_REPLACEMENT208_OFFLINE.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/SUPPLIER_REPLACEMENT208_REFERENCE.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/SUPPLIER_REPLACEMENT208_RESET.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/SUPPLIER_REPLACEMENT208_UPGRADE.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_208.json"
+    },
+    {
+      "code": "??",
+      "path": "e2e/supplier-replacement208-harness.html"
+    },
+    {
+      "code": "??",
+      "path": "e2e/supplier-replacement208-harness.tsx"
+    },
+    {
+      "code": "??",
+      "path": "e2e/supplier-replacement208.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-supplier-replacement208.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/supplier-replacement208-hunks.json"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/build-acl-reference208.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-owner-upgrade208.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/operations/frankfurt-reference208.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-supplier-replacement-upgrade208-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-supplier-replacement208-gates.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/run-supplier-replacement208-runtime.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/testing/supplier-replacement208-restore.mjs"
+    },
+    {
+      "code": "??",
+      "path": "src/features/inventory/SupplierReplacementPanel.tsx"
+    },
+    {
+      "code": "??",
+      "path": "src/features/inventory/SupplierReplacementSummary.tsx"
+    },
+    {
+      "code": "??",
+      "path": "src/services/supabase/supplierReplacement.service.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/services/supabase/supplierReplacementIntent.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/utils/supplierReplacement.ts"
+    },
+    {
+      "code": "??",
+      "path": "supabase/migrations/208_supplier_replacement_and_damage.sql"
+    },
+    {
+      "code": "??",
+      "path": "tests/supplier-replacement208-evidence.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "tests/supplier-replacement208.test.ts"
     }
   ]
 }

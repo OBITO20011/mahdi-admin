@@ -19,6 +19,7 @@ import { ProductFormModal } from '../../features/products/ProductFormModal';
 import { ProductDetailModal } from '../../features/products/ProductDetailModal';
 import { StockAdjustmentModal } from '../../features/products/StockAdjustmentModal';
 import {DamageProductSelection} from '../../features/more/DamageProductSelection';
+import {SupplierReplacementPanel} from '../../features/inventory/SupplierReplacementPanel';
 import { CategoriesModal } from './CategoriesModal';
 import { BrandsModal } from './BrandsModal';
 import { UnitsModal } from './UnitsModal';
@@ -204,6 +205,9 @@ export const AllModals: React.FC = () => {
       </Modal>
 
       {/* Bulk opening inventory setup */}
+      <Modal isOpen={currentModal==='supplier_replacement'} onClose={closeModal} title="استبدال المورد والتالف" maxWidth="max-w-2xl">
+        {currentModal==='supplier_replacement'&&<SupplierReplacementPanel {...(modalData&&'damageOnly' in modalData?modalData:modalData&&'supplierId' in modalData?modalData:modalData&&'productId' in modalData?{productId:modalData.productId}:{})}/>}
+      </Modal>
       <Modal isOpen={currentModal === 'parcel_configuration'} onClose={closeModal}
         title="إعداد الطرود المرنة" subtitle="الأصناف والعدد والنكهات وحالة الميزة — للمالك فقط">
         <ParcelConfigurationModal />

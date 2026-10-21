@@ -2,53 +2,55 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Integrate accepted C8 parcel-only design/directC9 roles andbounded207 confirmed replay status fix;genuine mainmerge/exactmainFULL37+secrets thenC9.No hostedaccess/deploy.",
-  "baselineSha": "a63763def32d329f7472feee608a7092992f25ea",
+  "objective": "Implement approvedC9 supplierreplacement/damage:atomic immediate/pending/partialreceive/writeoff/reversal,owner-onlyvalues/reverse,ownerreturncoordinator unchanged121;realgates/currentreference/ownerCLI/fullCI/merge/mainCI.No hostedaccess.",
+  "baselineSha": "7e325a00bbeea7711ae1f2e650848fe61ec99f93",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "main",
+  "branch": "codex/phase-c-supplier-replacement",
   "phase": "PACKAGE_F",
   "completed": [
-    "C7 PR10/maina637 deliveredFULL37+secrets",
-    "C8 design/ownerC9 roles andbounded207 replayfix localgates accepted;see PARCEL_ONLY_C8_DELIVERY.json",
-    "Feature 5392762fc05c09c6e72341ac6ed079a9de6f114f exact push+PR FULL37+secrets strictlyverified"
+    "Owner confirmed current C9 tree exclusively ours;checkpoint mismatch resolved",
+    "C9 additive208 implemented;local SDK142/RPC525/313sources and1324units accepted",
+    "Reference170-534-13/diff0,upgrade/replay0,resetOwner-TOTP-WHMAIN-Storage/208ledger/publicreport andoffline logic accepted"
   ],
   "inProgress": [
-    "GenuineC8 mainmerge,exactmainFULL37+secrets next"
+    "Gitleaks,featureFULL38/secrets then merge/mainFULL38"
   ],
   "notStarted": [
-    "C9 supplier replacement anddamage in owner order"
+    "Owner208 Arabic dry-run/apply/verify-only guide after merge;never hosted execution",
+    "Prompt5 comprehensive pre-trial audit only;parcel-only implementation forbidden"
   ],
   "testsPassed": [
-    "PriorC7 maina637 FULL37+secrets delivered",
-    "C8 initialdocs units1312+focusedcontinuity5/types/strictlint/offline207 PASS",
-    "Deterministic oldsource RED2positive/2negativePASS;rootfix30focused browsercases/repeats bothengines PASS,retries0",
-    "Full22correctionbrowser PASS;30focused repeats PASS,retries0",
-    "FreshactualSDK142 zOrclI/RPC513 or0izd all308currentprodhashes;0denied/errors",
-    "Offline203-207 PASS;alloldreference bytes unchanged",
-    "Final1315Admin/strictlint/build/types/preflight/currentreadiness/exactinverse PASS"
+    "Types/strictlint/build,1324units/0skip,15finalfocusedunits",
+    "18focused208browser plus56prioraffected;Chromium/WebKit retries0;network0escape",
+    "SQL19functional plusfocused200shipment/readscale501-528ms/fullrestore0diff+replay0writes at9741B818",
+    "SDK142/RPC525 complete313sourcehashes;only2 expected208reader role denials",
+    "Reference170migrations534functions13Realtime/freshincremental0;upgrade200..208+replay0writes",
+    "Actualreset208 owner/TOTP/WHMAIN preserved,Storage removed,ledgerempty,publicreport208;offline203-208localonly"
   ],
   "testsRemaining": [
-    "Exact mainFULL37+secrets"
+    "Gitleaks0;featurefull38(all21SQL+newauthenticatedRESTresetassertion)/secrets",
+    "Merge/mainfull38+secrets",
+    "Ownerguide then Prompt5 audit"
   ],
   "findings": [
-    "C8 initialdocs badea04 pushcorePASS;PRcore3WebKitfailures saved0,trace shows2identicalRPCs andlocalstatusCASerror. BothobsoleteCIcancelled,noenvironmentalrerun.",
-    "Validated server success only;allowlocalstatussucceeded iff immutableattempt otherwiseidentical;changedrequest stillrejects. No financial/RPC/key/SQL/role change.",
-    "C8 additive inverse3files;old29pins and207evidence/reference frozen;207source readers composeexactinverse.",
-    "C9 direct21Oct:quantities owner/manager/warehouse_keeper;values andeventreversal owneronly."
+    "001-207/oldpins/references unchanged;no hostedaccess/deploy",
+    "New pressurefixture corrected to existing canonical supplier302;CI alwaysfull21,localextensionfocus explicit",
+    "Ownerreset CLI stale205 binding corrected208;actualengine208 already locally proven"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No hosted/Frankfurt/Production/secrets/deploy",
-    "001-207/oldpins/references immutable;item20design only;bounded207CASfix only",
-    "One writer;no tracked editsduringverification;no weakenedassertions/retries/skips/timeouts"
+    "001-207/oldpins/references immutable;no121financialwriter change",
+    "Onewriter;no tracked editsduringverification/CI;no weaker assertions/retries/skips/timeouts",
+    "No parcel-only implementation without explicit ownerapproval"
   ],
-  "checkpointedAt": "2026-10-21T13:26:14.287Z",
+  "nextExactAction": "Local208 candidate accepted. Gitleaks0 then commit/push/PR exact FULL38+secrets;verify full21SQL and authenticatedRESTreset plus0flaky,merge/mainFULL38. Prepare owner208 instructions only then Prompt5 audit.No parcel-only implementation.",
+  "checkpointedAt": "2026-10-21T17:27:32.077Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 24,
-  "filesTouchedManifestSha256": "589af234dce2a95677c784e7f7352a028f00fb2143a94f333a2ce10378c931e1",
-  "nextExactAction": "AcceptedC8 exactfeatureFULL37+secrets;genuine mainmerge metadataonly. Commit/pushmain thenexactmainFULL37+secrets beforeC9.No hostedaccess.",
-  "workingTreeFingerprint": "3A0B91B0F91018B0772FC6A20ADFC956DBDACDB45A7EC6B75FBF92F4086BAA22"
+  "filesTouchedCount": 90,
+  "filesTouchedManifestSha256": "78b4dd5aa2548ef03001a247f05c97992b4f018c15c9e0a8192311945bafa1d1",
+  "workingTreeFingerprint": "4188AE1615D10CA643FD01E2B5106CA098609BBC2947E3D2091C3EA8C56DE249"
 }

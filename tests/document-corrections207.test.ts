@@ -18,7 +18,7 @@ test('207 refuses missing stock/WAC evidence instead of displaying an inferred c
  for(const stock of [[null],[{}],[{productName:'عصير',baseUnits:-20,wacBefore:500,wacAfter:'0'}]])assert.throws(()=>readCorrectionPreview({...p,effect:{...p.effect,stock}},'purchase_receipt',id));
 });
 test('207 owner admission accepts every complete199..207 prefix and refuses gaps,duplicates and unreviewed history',async()=>{
- const history=(await migrationManifest(process.cwd())).map((m:{name:string})=>m.name.slice(0,3));
+ const history=(await migrationManifest(process.cwd())).filter(m=>Number(m.name.slice(0,3))<=207).map((m:{name:string})=>m.name.slice(0,3));
  const reference={appliedVersions:history,prefixes:{199:{appliedVersions:history.slice(0,161)}}};
  for(let count=161;count<=169;count++)assert.deepEqual(assert207History(history.slice(0,count),reference),history.slice(count));
  for(const changed of [history.slice(0,160),[...history,'208'],[...history.slice(0,163),...history.slice(164)],history.map((n:string,i:number)=>i===165?'203':n)])assert.throws(()=>assert207History(changed,reference));

@@ -22,6 +22,8 @@ import {supabase} from '../src/lib/supabase';
 declare global{interface Window{__NAV206_LOCK__:(locked:boolean)=>void;}}
 const params=new URLSearchParams(location.search),role=params.get('role')??'owner',theme=params.get('theme')??'light';
 if(!supabase||!['localhost','127.0.0.1','[::1]'].includes(new URL(import.meta.env.VITE_SUPABASE_URL??'').hostname))throw Error('Navigation206 preview requires loopback');
+// Synthetic identity for the real208 durable-intent adapter; transport remains loopback.
+supabase.auth.getUser=async()=>({data:{user:{id:'92600000-0000-4000-8000-000000000001'}},error:null}) as Awaited<ReturnType<NonNullable<typeof supabase>['auth']['getUser']>>;
 document.documentElement.dataset.theme=theme;document.documentElement.classList.add(theme==='dark'?'theme-dark':'theme-light');
 const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
 auth.state={...auth.getState(),roleName:role,roles:params.has('multi')?[role,'owner']:[role],isAuthenticated:true,isLoading:false};auth.initAuth=async()=>undefined;

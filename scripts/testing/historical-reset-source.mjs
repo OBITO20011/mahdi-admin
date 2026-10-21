@@ -6,7 +6,7 @@ import path from 'node:path';
 import {migrationManifest} from './maintenance-db-contract.mjs';
 
 export async function stageHistoricalResetSource(root,reference){
- const counts={182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168},ceiling=reference.migrationCeiling;
+ const counts={182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169},ceiling=reference.migrationCeiling;
  assert.ok(Object.hasOwn(counts,ceiling),'HISTORICAL_RESET_CEILING');
  const approved=(await migrationManifest(root)).filter(m=>Number(m.name.slice(0,3))<=ceiling);
  assert.equal(approved.length,counts[ceiling],'HISTORICAL_RESET_FILE_COUNT');
