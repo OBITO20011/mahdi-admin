@@ -1,3 +1,14 @@
+# Current21Oct — corrected207 localgates accepted;newfeatureCI next
+
+TwoexplicitJSONBcasts corrected firstCI lint;unchangedDBlint now part of207runtime.
+16DB/SDK142/RPC513/newreference169-523-13difference0/upgrade/replay/reset/offline PASS.
+148UI same308production sourcehashes;no source/assertion weakening.
+Read DOCUMENT_CORRECTIONS_207_CI_REPAIR andDELIVERY. NewSHA FULL37/secrets,
+genuine mainmerge/mainFULL37 remain. Owner206currentuntilC7delivery;207prepared.
+No hostedaccess/deploy.
+
+## Prior preparation and validation history
+
 # Current21Oct —C7 local207 accepted;CI delivery next
 
 15actualDB/148browser/1313Admin/types/strictlint/build/network PASS.

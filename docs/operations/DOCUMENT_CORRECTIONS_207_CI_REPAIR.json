@@ -1,0 +1,22 @@
+{
+  "obsoleteFeature": "896182c8b4fa7fae487446f061edd42de745d293",
+  "cancelledQualityRuns": [
+    39579733630,
+    39579741593
+  ],
+  "failingJob": 119154175306,
+  "finding": "DB lint42804: stock/facts JSONB initialization needed explicit casts",
+  "correction": "Two explicit ::JSONB casts only;unchanged financial rules and existing DB lint policy",
+  "actualNewVerification": {
+    "dbGroups": 16,
+    "newFunctionsLintWarnings": 0,
+    "sdk": 142,
+    "rpc": 513,
+    "uiProductionSourceHashesUnchanged": true,
+    "newReferenceFreshIncrementalDifferences": 0,
+    "newUpgradeReplayWrites": false,
+    "newResetOwnerTotpStoragePreserved": true
+  },
+  "superseded207CandidatePreserved": true,
+  "old203through206ReferencesUnchanged": true
+}

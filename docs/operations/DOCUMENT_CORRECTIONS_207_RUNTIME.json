@@ -1,6 +1,6 @@
 {
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-corrections207-PILtSd",
-  "startedAt": "2026-10-21T01:32:54.058Z",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-corrections207-QXAicy",
+  "startedAt": "2026-10-21T09:57:06.986Z",
   "managedAccess": false,
   "cases": [
     {
@@ -62,8 +62,12 @@
     {
       "name": "canonical role matrix/AAL2/anon-serviceACL preserved;all denied/read/error pathszero writes",
       "passed": true
+    },
+    {
+      "name": "full DB lint retains exact existing policy;new207functions have no warnings/errors",
+      "passed": true
     }
   ],
   "ok": true,
-  "endedAt": "2026-10-21T01:35:55.607Z"
+  "endedAt": "2026-10-21T10:01:33.124Z"
 }

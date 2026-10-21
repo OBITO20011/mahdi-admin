@@ -26,7 +26,7 @@ DECLARE
   blocked TEXT; ref TEXT; shift_id UUID; method TEXT; amount BIGINT:=0;
   cash_delta BIGINT:=0; cliq_delta BIGINT:=0; customer_delta BIGINT:=0;
   supplier_delta BIGINT:=0; units BIGINT:=0; payments BIGINT:=0;
-  stock JSONB:='[]'; effect JSONB; facts JSONB:='{}'; result JSONB;
+  stock JSONB:='[]'::JSONB; effect JSONB; facts JSONB:='{}'::JSONB; result JSONB;
 BEGIN
   PERFORM public.correction207_assert_role_internal(p_action);
   IF p_record_id IS NULL THEN RAISE EXCEPTION 'CORRECTION_RECORD_REQUIRED'; END IF;

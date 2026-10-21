@@ -3,131 +3,15 @@
   "files": [
     {
       "code": "A ",
+      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_CI_REPAIR.json"
+    },
+    {
+      "code": "M ",
       "path": "docs/agent/CORRECTIONS_C7.md"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_DELIVERY.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_OFFLINE.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_REFERENCE.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_RESET.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_RUNTIME.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_UPGRADE.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE207_AR.md"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/STOREFRONT_C6_CI_ENVIRONMENT.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/STOREFRONT_C6_MAIN_CI.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_207.json"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/document-corrections207-harness.html"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/document-corrections207-harness.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/document-corrections207.spec.ts"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/document-corrections207-hunks.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-corrections207.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/build-acl-reference207.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/frankfurt-owner-upgrade207.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/operations/frankfurt-reference207.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-document-corrections-upgrade207-runtime.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-document-corrections207-gates.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/testing/run-document-corrections207-runtime.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "src/features/corrections/DocumentCorrectionAction.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "src/services/supabase/documentCorrections.service.ts"
-    },
-    {
-      "code": "A ",
-      "path": "src/utils/documentCorrection.ts"
-    },
-    {
-      "code": "A ",
-      "path": "supabase/migrations/207_document_correction_preview_and_once.sql"
-    },
-    {
-      "code": "A ",
-      "path": "tests/document-corrections207-evidence.test.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/document-corrections207.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": ".github/workflows/quality.yml"
-    },
-    {
-      "code": "M ",
-      "path": "docs/agent/OWNER_DECISIONS.md"
     },
     {
       "code": "M ",
       "path": "docs/agent/PHASE_STATUS.md"
-    },
-    {
-      "code": "M ",
-      "path": "docs/agent/PROJECT_OVERVIEW.md"
     },
     {
       "code": "M ",
@@ -139,7 +23,27 @@
     },
     {
       "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
+      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_DELIVERY.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_OFFLINE.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_REFERENCE.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_RESET.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_RUNTIME.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_UPGRADE.json"
     },
     {
       "code": "M ",
@@ -147,139 +51,15 @@
     },
     {
       "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_207.json"
     },
     {
       "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+      "path": "scripts/testing/run-document-corrections207-runtime.mjs"
     },
     {
       "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_INVENTORY.md"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/agent/lib.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/agent/preflight.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/run-service-access-diagnostic.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/run-table-access-diagnostic.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/audit/source-before-storefront-c6.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/frankfurt-owner-build.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/operations/trial-reset-core.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/historical-reset-source.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/run-trial-reset-runtime.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/crm/CustomerDetailView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/crm/CustomerStatement.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/orders/OrderDetailModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/purchases/PurchaseOrderDetailView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/purchases/PurchasesView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "tests/all-customer-collections203.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/canonical-receivables197.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/cashier-collections198.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/cheques195-admission.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/cheques195-parity.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/go-live-integration164.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/historical-reset-source.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/navigation-cash206.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/opening-cheques196.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/package-f-customers.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/package-f-phone-polish.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/product-integration171.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/product-receiving205.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/sales-history204-evidence.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/service-access-inventory.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/trial-reset.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/withdrawals182-admission.test.ts"
+      "path": "supabase/migrations/207_document_correction_preview_and_once.sql"
     }
   ]
 }

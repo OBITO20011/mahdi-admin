@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-10-21T09:46:36.146925+00:00",
+  "recordedAt": "2026-10-21T10:26:52.605713+00:00",
   "baseline": "41382ad31f3e5d82aba4dc6ba6c75f6db4b0e159",
   "deliveryStatus": "LOCAL_PASS_CI_PENDING",
   "readyForCi": true,
@@ -11,16 +11,17 @@
   ],
   "ownerCurrentCommandAfterAcceptance": "frankfurt-owner-upgrade207",
   "ownerCommandExecuted": false,
-  "owner207ReferenceSha256": "a6dc587d6f03f741a5337bb99eacd05794c88d5877edc38037b3beb6e46acdca",
+  "owner207ReferenceSha256": "1fb68178a9a4bd18ac958489a742e3cefc7a83c43f24cf251fd72f89ccf8bb88",
   "previous203through206ReferenceBytesUnchanged": true,
   "validation": {
     "adminTests": {
       "passed": 1313,
       "failed": 0,
-      "skipped": 0
+      "skipped": 0,
+      "afterJsonbCastCorrection": true
     },
     "runtime": {
-      "passed": 15,
+      "passed": 16,
       "file": "DOCUMENT_CORRECTIONS_207_RUNTIME.json"
     },
     "affectedBrowser": {
@@ -33,7 +34,7 @@
       ]
     },
     "types": "PASS",
-    "strictLint": "PASS",
+    "strictLint": "PASS after DB-lint gate addition",
     "adminBuild": "PASS",
     "network": {
       "externalRequestsEscaped": 0,
@@ -90,18 +91,26 @@
       "file": "DOCUMENT_CORRECTIONS_207_OFFLINE.json"
     },
     "referenceToolUnits": 20,
-    "sourceInverseEntries": 29
+    "sourceInverseEntries": 29,
+    "dbLint": "PASS: unchanged existing policy;new207functions warning/error0"
   },
   "repairs": [
     "18 oldAdmin failures: current206 expectations updated to207;exact source inverses composed before historical assertions;no financial assertion removed",
     "207 ownerhistory expectedlist missing206 corrected",
     "206 functionReference frozen to accepted413 manual digest;207 uses current canonical manual",
     "Local upgrade projectid shortened to avoid Supabase truncation;owned failedstack stoppednormally",
-    "Initial parallel reset bootstrap rejected byexistingglobalguard beforeDBstart;rerun sequentially afterupgrade"
+    "Initial parallel reset bootstrap rejected byexistingglobalguard beforeDBstart;rerun sequentially afterupgrade",
+    "CI DB lint found two implicit text-toJSONB initializer warnings;explicitcasts only;unchangedlintpolicy nowrunsinside207gate. Supersededunreleased207reference preserved separately. FreshDBproof required."
   ],
   "remaining": [
-    "Exactfeature push+PR FULL37 andbothsecret scans",
-    "Genuine mainmerge thenexactmainFULL37+secrets",
+    "Newexactfeature push+PR FULL37+bothsecrets",
+    "Genuine mainmergeandexactmainFULL37+secrets",
     "Package8 design then9 inownerorder"
-  ]
+  ],
+  "obsoleteFeature": "896182c8b4fa7fae487446f061edd42de745d293",
+  "obsoleteQualityRuns": [
+    39579733630,
+    39579741593
+  ],
+  "ciRepair": "DOCUMENT_CORRECTIONS_207_CI_REPAIR.json"
 }

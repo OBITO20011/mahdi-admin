@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-21T01:29:03.150Z",
+  "startedAt": "2026-10-21T10:07:38.101Z",
   "migrationCeiling": 207,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-Ugk17u",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-6dcgSA",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -38893,7 +38893,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-21T01:30:22.470Z",
+  "endedAt": "2026-10-21T10:10:01.033Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {

@@ -8,6 +8,7 @@ import path from 'node:path';
 import {executorFor,executeInput} from '../operations/build-empty-supabase.mjs';
 import {schemaCatalogSql,catalogDifference} from './schema-catalog.mjs';
 import {readApplicationFingerprint} from './backup-restore-contract.mjs';
+import {assertPackageDDbLint} from './package-d-db-lint-policy.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),project='nawasrah-corrections207-test';
 const cli=path.join(root,'node_modules/supabase/dist/supabase.js'),executor=executorFor(['--container','supabase_db_'+project]);
 const output=await mkdtemp(path.join(tmpdir(),'nawasrah-corrections207-')),report={output,startedAt:new Date().toISOString(),managedAccess:false,cases:[]};
@@ -164,6 +165,9 @@ try{
  await fail('get_document_correction_preview(NULL,NULL)',/CORRECTION_ACTION_INVALID/u);
  await fail(command(p,key(),'x'),/CORRECTION_REASON_INVALID/u);
  record('canonical role matrix/AAL2/anon-serviceACL preserved;all denied/read/error pathszero writes');
+ stage='DB lint';
+ const {stdout:lint}=await exec(process.execPath,[cli,'db','lint','--local','--level','warning','--workdir',local],{cwd:root,windowsHide:true,timeout:120000,maxBuffer:1024**2});
+ assertPackageDDbLint(lint);record('full DB lint retains exact existing policy;new207functions have no warnings/errors');
  report.ok=true;
 }catch(error){report.ok=false;report.stage=stage;report.error=error.message;process.exitCode=1;}
 finally{if(local)await exec(process.execPath,[cli,'stop','--no-backup','--workdir',local],{cwd:root,windowsHide:true,maxBuffer:1024**2});report.endedAt=new Date().toISOString();await writeFile(path.join(output,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));}

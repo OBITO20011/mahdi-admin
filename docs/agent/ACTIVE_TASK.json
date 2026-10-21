@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "C7 approved four corrections in existing document menus;read-only serverpreview,reason,durablekey,currentroles/locks/guards. Independent PR/FULLCI/merge/mainCI then8 design;ask onlynewfinancialquestion.No hostedaccess.",
-  "baselineSha": "41382ad31f3e5d82aba4dc6ba6c75f6db4b0e159",
+  "baselineSha": "896182c8b4fa7fae487446f061edd42de745d293",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/phase-c-corrections",
   "phase": "PACKAGE_F",
@@ -11,7 +11,7 @@
     "C6 PR9/main413 strictdeliveredFULL36+secrets;actual206step verified"
   ],
   "inProgress": [
-    "C7 localgates accepted;featurecommit/PR/FULL37 andsecrets next"
+    "Corrected207 finalAdmin1313/strictlint PASS;stage/commit/push newfeature thenstrictFULL37"
   ],
   "notStarted": [
     "C7 featureFULL37/merge/mainFULL37",
@@ -19,14 +19,15 @@
   ],
   "testsPassed": [
     "C6 PR9/main413 deliveredFULL36+secrets",
-    "C7 actual15DB/148browser/1313Admin/types/strictlint/build/network PASS",
-    "CurrentSDK142/RPC513;308 exactsourcehashes;no42501",
-    "Reference207169migrations/523functions/13Realtime/freshincremental0",
-    "Sameownerupgrade200..207andreplayno writes;207resetOwner-TOTP-Storage/catalog0 PASS",
-    "Offline203..207PASS;oldreferencebytesunchanged;referenceunits20PASS"
+    "Corrected20716actualDBinclunchangedstrictDBlint PASS QXAicy",
+    "Same308production sourcehashes:148browser/types/build/network remainvalid",
+    "FreshSDK142 hZUQJi/RPC513 6dcgSA no42501",
+    "Corrected207reference169-523-13difference0;upgrade200..207/replayno writes/resetOwner-TOTP-Storage/offline203..207 PASS",
+    "Old203-206 refs unchanged;superseded207candidate preserved",
+    "FinalAdmin1313 andstrictlint afterallcorrectedDBproofs PASS"
   ],
   "testsRemaining": [
-    "Exactfeaturepush+PR FULL37+bothsecrets",
+    "Newexactfeaturepush+PR FULL37+bothsecrets",
     "Genuine mainmergeandexactmainFULL37+secrets"
   ],
   "findings": [
@@ -43,12 +44,12 @@
     "001-206 andhistoricalproofs/references immutable;207 only approvedC7 envelope",
     "One writer;no tracked editsduringverification;no weakened assertions/retries/skips/timeouts"
   ],
-  "checkpointedAt": "2026-10-21T09:47:34.606Z",
+  "checkpointedAt": "2026-10-21T10:30:07.932Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 70,
-  "filesTouchedManifestSha256": "f5b7b07b734b9ae9ad41f1d369ff0fb8c7ddf814cf82092a441b0a49748fc978",
-  "nextExactAction": "C7localaccepted;commit/push/PR afterstagedGitleaks0;featureFULL37+bothsecrets then genuine mainmerge/mainFULL37 and8.No hostedaccess.",
-  "workingTreeFingerprint": "A41DBD300FAF6486BD3430E44A094C71D52089F4E081949926BF17D5378E64AE"
+  "filesTouchedCount": 15,
+  "filesTouchedManifestSha256": "eed5315da4eb76a5ccb26e17923c4bc05478462afa077617ad70ce1db6f5b1f1",
+  "nextExactAction": "Corrected207 allLocalgates PASS;commit/pushnewfeature/PR10 thenstrictpush+PR FULL37+secrets;genuine mainmerge/mainFULL37 and8.No hostedaccess.",
+  "workingTreeFingerprint": "029FA0DFB411F6AACD1BA3DA72F1020829ACD012D6ECF44FC2E642D5532FA3D3"
 }

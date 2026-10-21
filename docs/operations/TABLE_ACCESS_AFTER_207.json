@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-21T01:25:15.736Z",
+  "startedAt": "2026-10-21T10:02:07.980Z",
   "managedAccess": false,
   "migrationCeiling": 207,
   "manifest": [
@@ -174,7 +174,7 @@
     "206_cash_shift_movement_read_model.sql",
     "207_document_correction_preview_and_once.sql"
   ],
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-WEiCUn",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-hZUQJi",
   "stage": "rls-and-acl",
   "results": [
     {
@@ -202,7 +202,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43d612d7-7cc1-4233-b17e-5c05773a2152"
+            "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
           ]
         },
         {
@@ -237,7 +237,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43d612d7-7cc1-4233-b17e-5c05773a2152"
+            "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
           ]
         },
         {
@@ -272,7 +272,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43d612d7-7cc1-4233-b17e-5c05773a2152"
+            "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
           ]
         },
         {
@@ -307,7 +307,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43d612d7-7cc1-4233-b17e-5c05773a2152"
+            "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
           ]
         },
         {
@@ -342,7 +342,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43d612d7-7cc1-4233-b17e-5c05773a2152"
+            "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
           ]
         },
         {
@@ -377,7 +377,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43d612d7-7cc1-4233-b17e-5c05773a2152"
+            "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
           ]
         },
         {
@@ -412,7 +412,7 @@
           "method": "eq",
           "args": [
             "id",
-            "edd4283f-c7a0-48ef-aeb7-b3e77bc47e76"
+            "36623c50-484b-4093-80ea-33e43fad766b"
           ]
         },
         {
@@ -447,7 +447,7 @@
           "method": "eq",
           "args": [
             "id",
-            "edd4283f-c7a0-48ef-aeb7-b3e77bc47e76"
+            "36623c50-484b-4093-80ea-33e43fad766b"
           ]
         },
         {
@@ -482,7 +482,7 @@
           "method": "eq",
           "args": [
             "id",
-            "edd4283f-c7a0-48ef-aeb7-b3e77bc47e76"
+            "36623c50-484b-4093-80ea-33e43fad766b"
           ]
         },
         {
@@ -715,7 +715,7 @@
           "method": "eq",
           "args": [
             "id",
-            "61c14dcb-b78d-4199-8d13-a564529c2c16"
+            "76ceac5a-eecc-4b7d-aaf4-82bcd96875df"
           ]
         },
         {
@@ -750,7 +750,7 @@
           "method": "eq",
           "args": [
             "id",
-            "61c14dcb-b78d-4199-8d13-a564529c2c16"
+            "76ceac5a-eecc-4b7d-aaf4-82bcd96875df"
           ]
         },
         {
@@ -785,7 +785,7 @@
           "method": "eq",
           "args": [
             "id",
-            "61c14dcb-b78d-4199-8d13-a564529c2c16"
+            "76ceac5a-eecc-4b7d-aaf4-82bcd96875df"
           ]
         },
         {
@@ -1316,7 +1316,7 @@
           "args": [
             "id",
             [
-              "43d612d7-7cc1-4233-b17e-5c05773a2152"
+              "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
             ]
           ]
         }
@@ -1349,7 +1349,7 @@
           "args": [
             "id",
             [
-              "43d612d7-7cc1-4233-b17e-5c05773a2152"
+              "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
             ]
           ]
         }
@@ -1382,7 +1382,7 @@
           "args": [
             "id",
             [
-              "43d612d7-7cc1-4233-b17e-5c05773a2152"
+              "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
             ]
           ]
         }
@@ -1415,7 +1415,7 @@
           "args": [
             "order_id",
             [
-              "43d612d7-7cc1-4233-b17e-5c05773a2152"
+              "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
             ]
           ]
         },
@@ -1481,7 +1481,7 @@
           "args": [
             "order_id",
             [
-              "43d612d7-7cc1-4233-b17e-5c05773a2152"
+              "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
             ]
           ]
         },
@@ -1547,7 +1547,7 @@
           "args": [
             "order_id",
             [
-              "43d612d7-7cc1-4233-b17e-5c05773a2152"
+              "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
             ]
           ]
         },
@@ -1612,7 +1612,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43d612d7-7cc1-4233-b17e-5c05773a2152"
+            "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
           ]
         },
         {
@@ -1647,7 +1647,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43d612d7-7cc1-4233-b17e-5c05773a2152"
+            "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
           ]
         },
         {
@@ -1682,7 +1682,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43d612d7-7cc1-4233-b17e-5c05773a2152"
+            "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
           ]
         },
         {
@@ -1717,7 +1717,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "43d612d7-7cc1-4233-b17e-5c05773a2152"
+            "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
           ]
         },
         {
@@ -1754,7 +1754,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "43d612d7-7cc1-4233-b17e-5c05773a2152"
+            "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
           ]
         },
         {
@@ -1791,7 +1791,7 @@
           "method": "eq",
           "args": [
             "order_id",
-            "43d612d7-7cc1-4233-b17e-5c05773a2152"
+            "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
           ]
         },
         {
@@ -1829,7 +1829,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "d8f3fc9d-17ba-4843-9bbe-2fabe9a7ac9a"
+              "32fda6b2-4fac-44c5-83fc-baa25e46e5f7"
             ]
           ]
         }
@@ -1862,7 +1862,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "d8f3fc9d-17ba-4843-9bbe-2fabe9a7ac9a"
+              "32fda6b2-4fac-44c5-83fc-baa25e46e5f7"
             ]
           ]
         }
@@ -1895,7 +1895,7 @@
           "args": [
             "parcel_instance_id",
             [
-              "d8f3fc9d-17ba-4843-9bbe-2fabe9a7ac9a"
+              "32fda6b2-4fac-44c5-83fc-baa25e46e5f7"
             ]
           ]
         }
@@ -3763,7 +3763,7 @@
           "method": "eq",
           "args": [
             "id",
-            "a934a5c2-d581-4e39-91aa-08a9fcf9d719"
+            "0f7b4dea-2c61-4a94-a54a-4f8376828a6c"
           ]
         },
         {
@@ -3798,7 +3798,7 @@
           "method": "eq",
           "args": [
             "id",
-            "a934a5c2-d581-4e39-91aa-08a9fcf9d719"
+            "0f7b4dea-2c61-4a94-a54a-4f8376828a6c"
           ]
         },
         {
@@ -3833,7 +3833,7 @@
           "method": "eq",
           "args": [
             "id",
-            "a934a5c2-d581-4e39-91aa-08a9fcf9d719"
+            "0f7b4dea-2c61-4a94-a54a-4f8376828a6c"
           ]
         },
         {
@@ -4983,7 +4983,7 @@
             {
               "event_key": "audit-local-dispatch",
               "event_type": "new_order",
-              "entity_id": "43d612d7-7cc1-4233-b17e-5c05773a2152",
+              "entity_id": "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff",
               "status": "processing"
             }
           ]
@@ -5016,7 +5016,7 @@
           "method": "eq",
           "args": [
             "id",
-            "43d612d7-7cc1-4233-b17e-5c05773a2152"
+            "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff"
           ]
         },
         {
@@ -5055,7 +5055,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-10-21T01:26:42.097Z"
+              "completed_at": "2026-10-21T10:04:22.146Z"
             }
           ]
         },
@@ -5091,7 +5091,7 @@
               "status": "failed",
               "failed_count": 1,
               "last_error": "isolated diagnostic",
-              "completed_at": "2026-10-21T01:26:42.110Z"
+              "completed_at": "2026-10-21T10:04:22.176Z"
             }
           ]
         },
@@ -5125,9 +5125,9 @@
           "args": [
             {
               "failure_count": 0,
-              "last_success_at": "2026-10-21T01:26:42.126Z",
+              "last_success_at": "2026-10-21T10:04:22.212Z",
               "last_failure_message": null,
-              "updated_at": "2026-10-21T01:26:42.126Z"
+              "updated_at": "2026-10-21T10:04:22.212Z"
             }
           ]
         },
@@ -5162,9 +5162,9 @@
             {
               "is_active": false,
               "failure_count": 1,
-              "last_failure_at": "2026-10-21T01:26:42.142Z",
+              "last_failure_at": "2026-10-21T10:04:22.249Z",
               "last_failure_message": "isolated diagnostic",
-              "updated_at": "2026-10-21T01:26:42.142Z"
+              "updated_at": "2026-10-21T10:04:22.249Z"
             }
           ]
         },
@@ -5201,7 +5201,7 @@
               "delivered_count": 1,
               "failed_count": 0,
               "last_error": null,
-              "completed_at": "2026-10-21T01:26:42.158Z"
+              "completed_at": "2026-10-21T10:04:22.285Z"
             }
           ]
         },
@@ -42673,7 +42673,7 @@
         "owner": "postgres",
         "schema": "public",
         "identity": "get_document_correction_preview(p_action text, p_record_id uuid)",
-        "definition": "CREATE OR REPLACE FUNCTION public.get_document_correction_preview(p_action text, p_record_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n  o public.orders%ROWTYPE; cp public.customer_payments%ROWTYPE;\n  sp public.supplier_payments%ROWTYPE; pr public.purchase_receipts%ROWTYPE;\n  sr public.supplier_receipts%ROWTYPE; po public.purchase_orders%ROWTYPE;\n  blocked TEXT; ref TEXT; shift_id UUID; method TEXT; amount BIGINT:=0;\n  cash_delta BIGINT:=0; cliq_delta BIGINT:=0; customer_delta BIGINT:=0;\n  supplier_delta BIGINT:=0; units BIGINT:=0; payments BIGINT:=0;\n  stock JSONB:='[]'; effect JSONB; facts JSONB:='{}'; result JSONB;\nBEGIN\n  PERFORM public.correction207_assert_role_internal(p_action);\n  IF p_record_id IS NULL THEN RAISE EXCEPTION 'CORRECTION_RECORD_REQUIRED'; END IF;\n  IF p_action='pos_sale' THEN\n    SELECT * INTO o FROM public.orders WHERE id=p_record_id;\n    IF NOT FOUND THEN RAISE EXCEPTION 'CORRECTION_RECORD_NOT_FOUND: الفاتورة غير موجودة.'; END IF;\n    ref:=o.order_number;shift_id:=o.cash_shift_id;method:=o.payment_method;amount:=o.total_in_minor_units;\n    IF o.source IS DISTINCT FROM 'pos' OR o.status<>'completed' THEN blocked:='الفاتورة ليست بيع POS مكتملاً قابلاً للعكس.';\n    ELSIF EXISTS(SELECT 1 FROM public.pos_sale_reversals WHERE order_id=o.id) THEN blocked:='تم عكس البيع مسبقاً.';\n    ELSIF EXISTS(SELECT 1 FROM public.customer_payments WHERE order_id=o.id)\n      OR EXISTS(SELECT 1 FROM public.sales_returns WHERE order_id=o.id) THEN blocked:='توجد دفعة أو مرتجع مرتبط بالبيع.';\n    END IF;\n    SELECT COALESCE(jsonb_agg(to_jsonb(r) ORDER BY r.product_id,r.order_item_id,r.parcel_component_id),'[]'),\n      COALESCE(SUM(r.base_quantity),0) INTO stock,units\n    FROM public.phase3_pos_reversal_inventory_rows_internal(o.id) r;\n    IF blocked IS NULL AND units=0 THEN blocked:='لا توجد حقيقة مخزون قابلة للعكس.'; END IF;\n    IF blocked IS NULL AND EXISTS(SELECT 1 FROM public.phase3_pos_reversal_inventory_rows_internal(o.id) r\n      JOIN public.inventory_movements m ON m.product_id=r.product_id AND m.warehouse_id=o.warehouse_id\n      WHERE m.reference_id IS DISTINCT FROM o.id AND m.created_at>=o.created_at) THEN blocked:='توجد حركة مخزون لاحقة على أحد أصناف البيع.'; END IF;\n    IF blocked IS NULL AND EXISTS(SELECT 1 FROM public.phase3_pos_reversal_inventory_rows_internal(o.id) r\n      LEFT JOIN public.inventory_balances b ON b.product_id=r.product_id AND b.warehouse_id=o.warehouse_id\n      WHERE b.product_id IS NULL OR b.reserved_quantity<>0) THEN blocked:='مخزون أحد الأصناف غير متاح أو محجوز.'; END IF;\n    cash_delta:=CASE WHEN method='cash' THEN -amount ELSE 0 END;\n    cliq_delta:=CASE WHEN method='cliq' THEN -amount ELSE 0 END;\n    customer_delta:=CASE WHEN method='debt' THEN -amount ELSE 0 END;\n    facts:=jsonb_build_object('order',to_jsonb(o),'stock',stock);\n  ELSIF p_action='customer_payment' THEN\n    SELECT * INTO cp FROM public.customer_payments WHERE id=p_record_id;\n    IF NOT FOUND THEN RAISE EXCEPTION 'CORRECTION_RECORD_NOT_FOUND: سند القبض غير موجود.'; END IF;\n    SELECT * INTO o FROM public.orders WHERE id=cp.order_id;\n    ref:=cp.payment_number;shift_id:=cp.cash_shift_id;method:=cp.payment_method;amount:=cp.amount_in_minor_units;\n    IF cp.is_reversed THEN blocked:='تم عكس سند القبض مسبقاً.';\n    ELSIF o.id IS NULL OR o.status<>'completed' THEN blocked:='لا يمكن عكس الدفعة إلا لطلب مكتمل قائم.';\n    ELSIF COALESCE(o.payment_method,'cash_on_delivery')<>'debt' THEN blocked:='لا يمكن عكس قبض لطلب مكتمل غير آجل؛ العكس غير مدعوم.';\n    ELSIF EXISTS(SELECT 1 FROM public.customer_collection_order_payments WHERE customer_payment_id=cp.id) THEN blocked:='هذا السند جزء من تحصيل موحد؛ يعكس التحصيل كاملاً من مساره.';\n    ELSIF cp.payment_method IN ('cheque','check') OR EXISTS(SELECT 1 FROM public.deferred_cheque_allocations WHERE customer_payment_id=cp.id) THEN blocked:='أصل الشيك ثابت؛ التصحيح من مسار الشيك المعتمد.';\n    END IF;\n    cash_delta:=CASE WHEN method='cash' THEN -amount ELSE 0 END;\n    cliq_delta:=CASE WHEN method='cliq' THEN -amount ELSE 0 END;customer_delta:=amount;\n    facts:=jsonb_build_object('payment',to_jsonb(cp),'order',to_jsonb(o));\n  ELSIF p_action='supplier_payment' THEN\n    SELECT * INTO sp FROM public.supplier_payments WHERE id=p_record_id;\n    IF NOT FOUND THEN RAISE EXCEPTION 'CORRECTION_RECORD_NOT_FOUND: دفعة المورد غير موجودة.'; END IF;\n    ref:=COALESCE(NULLIF(btrim(sp.reference_number),''),'دفعة المورد');shift_id:=sp.cash_shift_id;method:=sp.payment_method;amount:=sp.amount_in_minor_units;\n    IF sp.is_reversed THEN blocked:='تم عكس دفعة المورد مسبقاً.';\n    ELSIF sp.payment_method IN ('cheque','check') OR EXISTS(SELECT 1 FROM public.deferred_cheques WHERE supplier_payment_id=sp.id) THEN blocked:='أصل الشيك ثابت؛ التصحيح من مسار الشيك المعتمد.';\n    ELSIF EXISTS(SELECT 1 FROM public.supplier_cheque_claim_payments WHERE supplier_payment_id=sp.id)\n      OR EXISTS(SELECT 1 FROM public.supplier_opening_payments WHERE supplier_payment_id=sp.id) THEN blocked:='هذه دفعة افتتاحية أو تعويض شيك؛ استخدم مسارها المعتمد.';\n    ELSIF (sp.supplier_receipt_id IS NULL)=(sp.purchase_order_id IS NULL) THEN blocked:='الدفعة لا تحمل مرجعاً مالياً واحداً قابلاً للعكس.';\n    END IF;\n    IF sp.supplier_receipt_id IS NOT NULL THEN\n      SELECT * INTO sr FROM public.supplier_receipts WHERE id=sp.supplier_receipt_id;\n      IF blocked IS NULL AND (sr.id IS NULL OR sr.status<>'completed' OR sr.supplier_id<>sp.supplier_id OR sr.amount_paid_in_minor_units<amount) THEN blocked:='سند المورد أو رصيد دفعاته لم يعد صالحاً للعكس.'; END IF;\n    ELSE\n      SELECT * INTO po FROM public.purchase_orders WHERE id=sp.purchase_order_id;\n      IF blocked IS NULL AND (po.id IS NULL OR po.supplier_id<>sp.supplier_id OR po.amount_paid_in_minor_units<amount) THEN blocked:='أمر الشراء أو رصيد دفعاته لم يعد صالحاً للعكس.'; END IF;\n    END IF;\n    cash_delta:=CASE WHEN method='cash' THEN amount ELSE 0 END;\n    cliq_delta:=CASE WHEN method='cliq' THEN amount ELSE 0 END;supplier_delta:=amount;\n    facts:=jsonb_build_object('payment',to_jsonb(sp),'receipt',to_jsonb(sr),'purchaseOrder',to_jsonb(po));\n  ELSE\n    SELECT * INTO pr FROM public.purchase_receipts WHERE id=p_record_id;\n    IF NOT FOUND THEN RAISE EXCEPTION 'CORRECTION_RECORD_NOT_FOUND: سند الاستلام غير موجود.'; END IF;\n    SELECT * INTO po FROM public.purchase_orders WHERE id=pr.purchase_order_id;\n    ref:=pr.receipt_number;\n    IF pr.phase2_finalized_at IS NULL OR pr.status<>'completed' THEN blocked:='سند الاستلام ليس سند Phase2 مكتملاً قابلاً للإلغاء.';\n    ELSIF EXISTS(SELECT 1 FROM public.supplier_payments WHERE purchase_receipt_id=pr.id AND NOT is_reversed AND operation_id IS DISTINCT FROM pr.operation_id) THEN blocked:='للسند دفعات لاحقة؛ إلغاؤها يحتاج سياسة مستقلة معتمدة.';\n    END IF;\n    SELECT COALESCE(SUM(amount_in_minor_units),0),\n      COALESCE(SUM(amount_in_minor_units) FILTER(WHERE payment_method='cash'),0),\n      COALESCE(SUM(amount_in_minor_units) FILTER(WHERE payment_method='cliq'),0)\n    INTO payments,cash_delta,cliq_delta FROM public.supplier_payments WHERE purchase_receipt_id=pr.id AND NOT is_reversed;\n    supplier_delta:=-pr.supplier_invoice_payable_total_snapshot_in_minor_units+payments;\n    SELECT -COALESCE(SUM(quantity),0) INTO units FROM public.inventory_movements WHERE operation_id=pr.operation_id AND movement_type='purchase_receipt';\n    SELECT COALESCE(jsonb_agg(jsonb_build_object('productId',s.product_id,'productName',p.name_ar,'baseUnits',-s.received_base_quantity,\n      'wacBefore',p.wac_cost_in_minor_units_exact,'wacAfter',CASE WHEN s.opening_global_quantity=0 THEN NULL ELSE s.prior_exact_wac_in_minor_units END)\n      ORDER BY s.product_id),'[]') INTO stock FROM public.phase2_receipt_wac_snapshots s JOIN public.products p ON p.id=s.product_id WHERE s.operation_id=pr.operation_id;\n    IF blocked IS NULL AND EXISTS(SELECT 1 FROM public.phase2_receipt_wac_snapshots s\n      JOIN public.products p ON p.id=s.product_id LEFT JOIN public.inventory_balances b ON b.product_id=s.product_id AND b.warehouse_id=pr.warehouse_id\n      WHERE s.operation_id=pr.operation_id AND (p.wac_cost_in_minor_units_exact IS DISTINCT FROM s.resulting_exact_wac_in_minor_units\n        OR p.cost_price_in_minor_units IS DISTINCT FROM s.resulting_legacy_wac_in_minor_units\n        OR (SELECT COALESCE(SUM(on_hand_quantity),0) FROM public.inventory_balances WHERE product_id=s.product_id) IS DISTINCT FROM s.opening_global_quantity+s.received_base_quantity\n        OR COALESCE(b.on_hand_quantity,0)-s.received_base_quantity<COALESCE(b.reserved_quantity,0)\n        OR EXISTS(SELECT 1 FROM public.inventory_movements m WHERE m.product_id=s.product_id AND m.mutation_sequence>s.receipt_movement_sequence_max))) THEN blocked:='تحرك المخزون أو تغير WAC بعد السند؛ الإلغاء غير آمن.'; END IF;\n    facts:=jsonb_build_object('receipt',to_jsonb(pr),'purchaseOrder',to_jsonb(po),'stock',stock,'payments',\n      (SELECT COALESCE(jsonb_agg(to_jsonb(p) ORDER BY p.id),'[]') FROM public.supplier_payments p WHERE p.purchase_receipt_id=pr.id));\n  END IF;\n  -- PO cancellation deliberately preserves its existing closed-payment-shift\n  -- semantics. Customer legacy NULL shift remains NULL; no fictitious shift.\n  IF p_action IN ('pos_sale','supplier_payment') AND shift_id IS NULL AND blocked IS NULL THEN blocked:='المستند غير مرتبط بوردية صريحة.'; END IF;\n  IF shift_id IS NOT NULL THEN\n    facts:=facts||jsonb_build_object('shift',(SELECT jsonb_build_object('id',id,'status',status) FROM public.cash_shifts WHERE id=shift_id));\n    IF blocked IS NULL AND NOT EXISTS(SELECT 1 FROM public.cash_shifts WHERE id=shift_id AND status='open') THEN blocked:='لا يمكن العكس على وردية مغلقة.'; END IF;\n  END IF;\n  effect:=jsonb_build_object('cashInMinorUnits',cash_delta,'cliqInMinorUnits',cliq_delta,\n    'customerDebtInMinorUnits',customer_delta,'supplierBalanceInMinorUnits',supplier_delta,\n    'inventoryBaseUnits',units,'paymentMethod',method,'paymentInMinorUnits',amount,'stock',stock);\n  result:=jsonb_build_object('contractVersion',207,'action',p_action,'recordId',p_record_id,'reference',ref,\n    'eligible',blocked IS NULL,'blockedReason',blocked,'cashShiftId',shift_id,'effect',effect);\n  RETURN result||jsonb_build_object('fingerprint',encode(extensions.digest((result||jsonb_build_object('facts',facts))::TEXT,'sha256'),'hex'));\nEND; $function$\n",
+        "definition": "CREATE OR REPLACE FUNCTION public.get_document_correction_preview(p_action text, p_record_id uuid)\n RETURNS jsonb\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO 'public', 'pg_temp'\nAS $function$\nDECLARE\n  o public.orders%ROWTYPE; cp public.customer_payments%ROWTYPE;\n  sp public.supplier_payments%ROWTYPE; pr public.purchase_receipts%ROWTYPE;\n  sr public.supplier_receipts%ROWTYPE; po public.purchase_orders%ROWTYPE;\n  blocked TEXT; ref TEXT; shift_id UUID; method TEXT; amount BIGINT:=0;\n  cash_delta BIGINT:=0; cliq_delta BIGINT:=0; customer_delta BIGINT:=0;\n  supplier_delta BIGINT:=0; units BIGINT:=0; payments BIGINT:=0;\n  stock JSONB:='[]'::JSONB; effect JSONB; facts JSONB:='{}'::JSONB; result JSONB;\nBEGIN\n  PERFORM public.correction207_assert_role_internal(p_action);\n  IF p_record_id IS NULL THEN RAISE EXCEPTION 'CORRECTION_RECORD_REQUIRED'; END IF;\n  IF p_action='pos_sale' THEN\n    SELECT * INTO o FROM public.orders WHERE id=p_record_id;\n    IF NOT FOUND THEN RAISE EXCEPTION 'CORRECTION_RECORD_NOT_FOUND: الفاتورة غير موجودة.'; END IF;\n    ref:=o.order_number;shift_id:=o.cash_shift_id;method:=o.payment_method;amount:=o.total_in_minor_units;\n    IF o.source IS DISTINCT FROM 'pos' OR o.status<>'completed' THEN blocked:='الفاتورة ليست بيع POS مكتملاً قابلاً للعكس.';\n    ELSIF EXISTS(SELECT 1 FROM public.pos_sale_reversals WHERE order_id=o.id) THEN blocked:='تم عكس البيع مسبقاً.';\n    ELSIF EXISTS(SELECT 1 FROM public.customer_payments WHERE order_id=o.id)\n      OR EXISTS(SELECT 1 FROM public.sales_returns WHERE order_id=o.id) THEN blocked:='توجد دفعة أو مرتجع مرتبط بالبيع.';\n    END IF;\n    SELECT COALESCE(jsonb_agg(to_jsonb(r) ORDER BY r.product_id,r.order_item_id,r.parcel_component_id),'[]'),\n      COALESCE(SUM(r.base_quantity),0) INTO stock,units\n    FROM public.phase3_pos_reversal_inventory_rows_internal(o.id) r;\n    IF blocked IS NULL AND units=0 THEN blocked:='لا توجد حقيقة مخزون قابلة للعكس.'; END IF;\n    IF blocked IS NULL AND EXISTS(SELECT 1 FROM public.phase3_pos_reversal_inventory_rows_internal(o.id) r\n      JOIN public.inventory_movements m ON m.product_id=r.product_id AND m.warehouse_id=o.warehouse_id\n      WHERE m.reference_id IS DISTINCT FROM o.id AND m.created_at>=o.created_at) THEN blocked:='توجد حركة مخزون لاحقة على أحد أصناف البيع.'; END IF;\n    IF blocked IS NULL AND EXISTS(SELECT 1 FROM public.phase3_pos_reversal_inventory_rows_internal(o.id) r\n      LEFT JOIN public.inventory_balances b ON b.product_id=r.product_id AND b.warehouse_id=o.warehouse_id\n      WHERE b.product_id IS NULL OR b.reserved_quantity<>0) THEN blocked:='مخزون أحد الأصناف غير متاح أو محجوز.'; END IF;\n    cash_delta:=CASE WHEN method='cash' THEN -amount ELSE 0 END;\n    cliq_delta:=CASE WHEN method='cliq' THEN -amount ELSE 0 END;\n    customer_delta:=CASE WHEN method='debt' THEN -amount ELSE 0 END;\n    facts:=jsonb_build_object('order',to_jsonb(o),'stock',stock);\n  ELSIF p_action='customer_payment' THEN\n    SELECT * INTO cp FROM public.customer_payments WHERE id=p_record_id;\n    IF NOT FOUND THEN RAISE EXCEPTION 'CORRECTION_RECORD_NOT_FOUND: سند القبض غير موجود.'; END IF;\n    SELECT * INTO o FROM public.orders WHERE id=cp.order_id;\n    ref:=cp.payment_number;shift_id:=cp.cash_shift_id;method:=cp.payment_method;amount:=cp.amount_in_minor_units;\n    IF cp.is_reversed THEN blocked:='تم عكس سند القبض مسبقاً.';\n    ELSIF o.id IS NULL OR o.status<>'completed' THEN blocked:='لا يمكن عكس الدفعة إلا لطلب مكتمل قائم.';\n    ELSIF COALESCE(o.payment_method,'cash_on_delivery')<>'debt' THEN blocked:='لا يمكن عكس قبض لطلب مكتمل غير آجل؛ العكس غير مدعوم.';\n    ELSIF EXISTS(SELECT 1 FROM public.customer_collection_order_payments WHERE customer_payment_id=cp.id) THEN blocked:='هذا السند جزء من تحصيل موحد؛ يعكس التحصيل كاملاً من مساره.';\n    ELSIF cp.payment_method IN ('cheque','check') OR EXISTS(SELECT 1 FROM public.deferred_cheque_allocations WHERE customer_payment_id=cp.id) THEN blocked:='أصل الشيك ثابت؛ التصحيح من مسار الشيك المعتمد.';\n    END IF;\n    cash_delta:=CASE WHEN method='cash' THEN -amount ELSE 0 END;\n    cliq_delta:=CASE WHEN method='cliq' THEN -amount ELSE 0 END;customer_delta:=amount;\n    facts:=jsonb_build_object('payment',to_jsonb(cp),'order',to_jsonb(o));\n  ELSIF p_action='supplier_payment' THEN\n    SELECT * INTO sp FROM public.supplier_payments WHERE id=p_record_id;\n    IF NOT FOUND THEN RAISE EXCEPTION 'CORRECTION_RECORD_NOT_FOUND: دفعة المورد غير موجودة.'; END IF;\n    ref:=COALESCE(NULLIF(btrim(sp.reference_number),''),'دفعة المورد');shift_id:=sp.cash_shift_id;method:=sp.payment_method;amount:=sp.amount_in_minor_units;\n    IF sp.is_reversed THEN blocked:='تم عكس دفعة المورد مسبقاً.';\n    ELSIF sp.payment_method IN ('cheque','check') OR EXISTS(SELECT 1 FROM public.deferred_cheques WHERE supplier_payment_id=sp.id) THEN blocked:='أصل الشيك ثابت؛ التصحيح من مسار الشيك المعتمد.';\n    ELSIF EXISTS(SELECT 1 FROM public.supplier_cheque_claim_payments WHERE supplier_payment_id=sp.id)\n      OR EXISTS(SELECT 1 FROM public.supplier_opening_payments WHERE supplier_payment_id=sp.id) THEN blocked:='هذه دفعة افتتاحية أو تعويض شيك؛ استخدم مسارها المعتمد.';\n    ELSIF (sp.supplier_receipt_id IS NULL)=(sp.purchase_order_id IS NULL) THEN blocked:='الدفعة لا تحمل مرجعاً مالياً واحداً قابلاً للعكس.';\n    END IF;\n    IF sp.supplier_receipt_id IS NOT NULL THEN\n      SELECT * INTO sr FROM public.supplier_receipts WHERE id=sp.supplier_receipt_id;\n      IF blocked IS NULL AND (sr.id IS NULL OR sr.status<>'completed' OR sr.supplier_id<>sp.supplier_id OR sr.amount_paid_in_minor_units<amount) THEN blocked:='سند المورد أو رصيد دفعاته لم يعد صالحاً للعكس.'; END IF;\n    ELSE\n      SELECT * INTO po FROM public.purchase_orders WHERE id=sp.purchase_order_id;\n      IF blocked IS NULL AND (po.id IS NULL OR po.supplier_id<>sp.supplier_id OR po.amount_paid_in_minor_units<amount) THEN blocked:='أمر الشراء أو رصيد دفعاته لم يعد صالحاً للعكس.'; END IF;\n    END IF;\n    cash_delta:=CASE WHEN method='cash' THEN amount ELSE 0 END;\n    cliq_delta:=CASE WHEN method='cliq' THEN amount ELSE 0 END;supplier_delta:=amount;\n    facts:=jsonb_build_object('payment',to_jsonb(sp),'receipt',to_jsonb(sr),'purchaseOrder',to_jsonb(po));\n  ELSE\n    SELECT * INTO pr FROM public.purchase_receipts WHERE id=p_record_id;\n    IF NOT FOUND THEN RAISE EXCEPTION 'CORRECTION_RECORD_NOT_FOUND: سند الاستلام غير موجود.'; END IF;\n    SELECT * INTO po FROM public.purchase_orders WHERE id=pr.purchase_order_id;\n    ref:=pr.receipt_number;\n    IF pr.phase2_finalized_at IS NULL OR pr.status<>'completed' THEN blocked:='سند الاستلام ليس سند Phase2 مكتملاً قابلاً للإلغاء.';\n    ELSIF EXISTS(SELECT 1 FROM public.supplier_payments WHERE purchase_receipt_id=pr.id AND NOT is_reversed AND operation_id IS DISTINCT FROM pr.operation_id) THEN blocked:='للسند دفعات لاحقة؛ إلغاؤها يحتاج سياسة مستقلة معتمدة.';\n    END IF;\n    SELECT COALESCE(SUM(amount_in_minor_units),0),\n      COALESCE(SUM(amount_in_minor_units) FILTER(WHERE payment_method='cash'),0),\n      COALESCE(SUM(amount_in_minor_units) FILTER(WHERE payment_method='cliq'),0)\n    INTO payments,cash_delta,cliq_delta FROM public.supplier_payments WHERE purchase_receipt_id=pr.id AND NOT is_reversed;\n    supplier_delta:=-pr.supplier_invoice_payable_total_snapshot_in_minor_units+payments;\n    SELECT -COALESCE(SUM(quantity),0) INTO units FROM public.inventory_movements WHERE operation_id=pr.operation_id AND movement_type='purchase_receipt';\n    SELECT COALESCE(jsonb_agg(jsonb_build_object('productId',s.product_id,'productName',p.name_ar,'baseUnits',-s.received_base_quantity,\n      'wacBefore',p.wac_cost_in_minor_units_exact,'wacAfter',CASE WHEN s.opening_global_quantity=0 THEN NULL ELSE s.prior_exact_wac_in_minor_units END)\n      ORDER BY s.product_id),'[]') INTO stock FROM public.phase2_receipt_wac_snapshots s JOIN public.products p ON p.id=s.product_id WHERE s.operation_id=pr.operation_id;\n    IF blocked IS NULL AND EXISTS(SELECT 1 FROM public.phase2_receipt_wac_snapshots s\n      JOIN public.products p ON p.id=s.product_id LEFT JOIN public.inventory_balances b ON b.product_id=s.product_id AND b.warehouse_id=pr.warehouse_id\n      WHERE s.operation_id=pr.operation_id AND (p.wac_cost_in_minor_units_exact IS DISTINCT FROM s.resulting_exact_wac_in_minor_units\n        OR p.cost_price_in_minor_units IS DISTINCT FROM s.resulting_legacy_wac_in_minor_units\n        OR (SELECT COALESCE(SUM(on_hand_quantity),0) FROM public.inventory_balances WHERE product_id=s.product_id) IS DISTINCT FROM s.opening_global_quantity+s.received_base_quantity\n        OR COALESCE(b.on_hand_quantity,0)-s.received_base_quantity<COALESCE(b.reserved_quantity,0)\n        OR EXISTS(SELECT 1 FROM public.inventory_movements m WHERE m.product_id=s.product_id AND m.mutation_sequence>s.receipt_movement_sequence_max))) THEN blocked:='تحرك المخزون أو تغير WAC بعد السند؛ الإلغاء غير آمن.'; END IF;\n    facts:=jsonb_build_object('receipt',to_jsonb(pr),'purchaseOrder',to_jsonb(po),'stock',stock,'payments',\n      (SELECT COALESCE(jsonb_agg(to_jsonb(p) ORDER BY p.id),'[]') FROM public.supplier_payments p WHERE p.purchase_receipt_id=pr.id));\n  END IF;\n  -- PO cancellation deliberately preserves its existing closed-payment-shift\n  -- semantics. Customer legacy NULL shift remains NULL; no fictitious shift.\n  IF p_action IN ('pos_sale','supplier_payment') AND shift_id IS NULL AND blocked IS NULL THEN blocked:='المستند غير مرتبط بوردية صريحة.'; END IF;\n  IF shift_id IS NOT NULL THEN\n    facts:=facts||jsonb_build_object('shift',(SELECT jsonb_build_object('id',id,'status',status) FROM public.cash_shifts WHERE id=shift_id));\n    IF blocked IS NULL AND NOT EXISTS(SELECT 1 FROM public.cash_shifts WHERE id=shift_id AND status='open') THEN blocked:='لا يمكن العكس على وردية مغلقة.'; END IF;\n  END IF;\n  effect:=jsonb_build_object('cashInMinorUnits',cash_delta,'cliqInMinorUnits',cliq_delta,\n    'customerDebtInMinorUnits',customer_delta,'supplierBalanceInMinorUnits',supplier_delta,\n    'inventoryBaseUnits',units,'paymentMethod',method,'paymentInMinorUnits',amount,'stock',stock);\n  result:=jsonb_build_object('contractVersion',207,'action',p_action,'recordId',p_record_id,'reference',ref,\n    'eligible',blocked IS NULL,'blockedReason',blocked,'cashShiftId',shift_id,'effect',effect);\n  RETURN result||jsonb_build_object('fingerprint',encode(extensions.digest((result||jsonb_build_object('facts',facts))::TEXT,'sha256'),'hex'));\nEND; $function$\n",
         "configuration": [
           "search_path=public, pg_temp"
         ]
@@ -67843,13 +67843,13 @@
     }
   ],
   "fixture": {
-    "orderId": "43d612d7-7cc1-4233-b17e-5c05773a2152",
-    "operationId": "edd4283f-c7a0-48ef-aeb7-b3e77bc47e76",
-    "receiptId": "61c14dcb-b78d-4199-8d13-a564529c2c16",
-    "poId": "a934a5c2-d581-4e39-91aa-08a9fcf9d719",
+    "orderId": "bab87fd5-4152-4ab4-87ed-a1b6b37ab6ff",
+    "operationId": "36623c50-484b-4093-80ea-33e43fad766b",
+    "receiptId": "76ceac5a-eecc-4b7d-aaf4-82bcd96875df",
+    "poId": "0f7b4dea-2c61-4a94-a54a-4f8376828a6c",
     "subscriptionId": "92600000-0000-4000-8000-000000000701",
     "instances": [
-      "d8f3fc9d-17ba-4843-9bbe-2fabe9a7ac9a"
+      "32fda6b2-4fac-44c5-83fc-baa25e46e5f7"
     ]
   },
   "access": [
@@ -73610,5 +73610,5 @@
     "zero_rows": 0,
     "other_error": 0
   },
-  "endedAt": "2026-10-21T01:29:02.631Z"
+  "endedAt": "2026-10-21T10:07:37.160Z"
 }
