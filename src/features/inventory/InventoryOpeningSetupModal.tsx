@@ -1,4 +1,5 @@
 import {WarehouseChoice} from '../../components/ui/WarehouseChoice';
+import {SupplierReplacementSummary} from './SupplierReplacementSummary';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AlertTriangle,
@@ -422,6 +423,7 @@ export const InventoryOpeningSetupModal: React.FC<
 
   return (
     <div aria-busy={isSubmitting} className="space-y-4 text-xs">
+      <SupplierReplacementSummary />
       <div className="rounded-2xl border border-nw-info/30 bg-nw-surface-2 from-nw-info-bg to-nw-border p-4">
         <div className="flex items-start gap-3">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-nw-info-bg text-nw-info">

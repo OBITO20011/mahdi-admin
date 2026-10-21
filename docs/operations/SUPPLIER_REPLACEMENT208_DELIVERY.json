@@ -1,0 +1,359 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-21T17:44:04.316Z",
+  "baseline": "7e325a00bbeea7711ae1f2e650848fe61ec99f93",
+  "status": "FEATURE_FULL38_PASS_MAIN_CI_PENDING",
+  "managedAccess": false,
+  "migrationCeiling": 208,
+  "migrationCanonicalLfSha256": "9741B8183DFE074650F136225C1DE2EFA578223CD3ADE9AD2EAF4379DC23FF65",
+  "newMigrations": [
+    "208_supplier_replacement_and_damage.sql"
+  ],
+  "historical001through207Unchanged": true,
+  "ownerCurrentUntilDelivery": "frankfurt-owner-upgrade207",
+  "ownerCurrentAfterDelivery": "frankfurt-owner-upgrade208",
+  "ownerCommandExecuted": false,
+  "reference": {
+    "sha256": "0ab1e910ec2fd63ddd30684ed8c8e8b46c0afe4f86f9cfaa4aad4f087dd65cf1",
+    "migrations": 170,
+    "functions": 534,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferences": 0
+  },
+  "validation": {
+    "adminUnits": {
+      "passed": 1324,
+      "failed": 0,
+      "skipped": 0
+    },
+    "finalFocusedUnits": 15,
+    "types": true,
+    "strictLint": true,
+    "build": true,
+    "affectedBrowser": {
+      "earlierPassed": 56,
+      "final208Passed": 18,
+      "engines": [
+        "chromium",
+        "webkit"
+      ],
+      "retries": 0
+    },
+    "networkIsolation": {
+      "externalEscaped": 0,
+      "productionEscaped": 0
+    },
+    "sdk": {
+      "queries": 142,
+      "sourceFiles": 313,
+      "errors": 0
+    },
+    "rpc": {
+      "dispatches": 525,
+      "expectedRoleDenials": [
+        [
+          "get_supplier_replacements_page_v1",
+          "admin"
+        ],
+        [
+          "get_supplier_replacements_page_v1",
+          "cashier"
+        ]
+      ]
+    },
+    "localRuntime": {
+      "baseFunctionalGroupsPassed": 19,
+      "focusedScaleRestoreGroupsPassed": 4,
+      "overlappingFoundationGroups": 2,
+      "distinctGroups": 21,
+      "fullSingleRunRequiredInCI": true,
+      "fullCIUsesNoFocusFlag": true,
+      "readScaleMilliseconds": [
+        528,
+        510,
+        501,
+        503,
+        521
+      ],
+      "fullLogicalRestoreDifferences": 0,
+      "allDataSequencesRestored": true,
+      "restoredReplayWrites": 0
+    },
+    "upgrade": {
+      "applied": [
+        "200",
+        "201",
+        "202",
+        "203",
+        "204",
+        "205",
+        "206",
+        "207",
+        "208"
+      ],
+      "replayWrites": 0
+    },
+    "reset": {
+      "owner": true,
+      "totp": true,
+      "warehouse": true,
+      "storage": true,
+      "ledgerEmpty": true,
+      "publicReport208": true,
+      "authenticatedRestReadNewCIAssertion": true
+    },
+    "offline203through207": true,
+    "offline208Logic": true
+  },
+  "remaining": [
+    "GenuineC9 mainmerge staged",
+    "ExactmainFULL38+secrets then owner208 guide and Prompt5 audit"
+  ],
+  "ciRepair": "SUPPLIER_REPLACEMENT208_CI_REPAIR.json",
+  "ciClassificationRepair": "SUPPLIER_REPLACEMENT208_CI_REPAIR.json",
+  "featureCI": {
+    "sha": "ec18333df7e1f0e58d0af5d820fd9a75fe396dd9",
+    "recordedAt": "2026-10-21T19:54:01.706Z",
+    "managedAccess": false,
+    "quality": [
+      {
+        "id": 39660650755,
+        "event": "push",
+        "sha": "ec18333df7e1f0e58d0af5d820fd9a75fe396dd9",
+        "attempt": 1,
+        "jobs": 38,
+        "strictFullVerified": true,
+        "actualReset208": {
+          "publicReport": true,
+          "authenticatedRestRead": true,
+          "ownerTotpStoragePreserved": true
+        },
+        "actualFull208": {
+          "passed": 21,
+          "readScale": {
+            "realWriterCases": 200,
+            "pageSize": 25,
+            "samplesMs": [
+              232,
+              232,
+              230,
+              233,
+              236
+            ],
+            "statementDeadlineMs": 5000
+          },
+          "restore": {
+            "logicalCatalogDifferences": 0,
+            "allPublicDataAndSequencesIdentical": true,
+            "replayZeroWrites": true
+          }
+        }
+      },
+      {
+        "id": 39660657349,
+        "event": "pull_request",
+        "sha": "ec18333df7e1f0e58d0af5d820fd9a75fe396dd9",
+        "attempt": 1,
+        "jobs": 38,
+        "strictFullVerified": true,
+        "actualReset208": {
+          "publicReport": true,
+          "authenticatedRestRead": true,
+          "ownerTotpStoragePreserved": true
+        },
+        "actualFull208": {
+          "passed": 21,
+          "readScale": {
+            "realWriterCases": 200,
+            "pageSize": 25,
+            "samplesMs": [
+              229,
+              228,
+              227,
+              225,
+              227
+            ],
+            "statementDeadlineMs": 5000
+          },
+          "restore": {
+            "logicalCatalogDifferences": 0,
+            "allPublicDataAndSequencesIdentical": true,
+            "replayZeroWrites": true
+          }
+        }
+      }
+    ],
+    "secrets": [
+      {
+        "id": 39660650823,
+        "event": "push",
+        "sha": "ec18333df7e1f0e58d0af5d820fd9a75fe396dd9",
+        "conclusion": "success"
+      },
+      {
+        "id": 39660657354,
+        "event": "pull_request",
+        "sha": "ec18333df7e1f0e58d0af5d820fd9a75fe396dd9",
+        "conclusion": "success"
+      }
+    ],
+    "browser": [
+      {
+        "run": 39660650755,
+        "job": 119432533564,
+        "name": "Lint, test, build and browser QA",
+        "skipped": 59,
+        "passed": 413,
+        "summaries": 1,
+        "duration": "13.5m",
+        "flaky": 0,
+        "logSha256": "9f8824c2f57871e45413b338c8fbac1c578d48cc01c049a02e490f07a032ad67"
+      },
+      {
+        "run": 39660650755,
+        "job": 119432533788,
+        "name": "Package F browser QA (2/5)",
+        "skipped": 0,
+        "passed": 176,
+        "summaries": 2,
+        "duration": "6.0m+9.0m",
+        "flaky": 0,
+        "logSha256": "21ac94df9bea87fcac257155e3e885b84be57066c332702cfbccc2a8d8b1fb38"
+      },
+      {
+        "run": 39660650755,
+        "job": 119432533803,
+        "name": "Package F browser QA (1/5)",
+        "skipped": 0,
+        "passed": 176,
+        "summaries": 2,
+        "duration": "4.5m+6.3m",
+        "flaky": 0,
+        "logSha256": "e0337d493dda8e0187ed2dd8693257943acd589cf85be25435a0c1f67ed7b1ca"
+      },
+      {
+        "run": 39660650755,
+        "job": 119432533805,
+        "name": "Package F browser QA (5/5)",
+        "skipped": 0,
+        "passed": 176,
+        "summaries": 2,
+        "duration": "4.1m+5.9m",
+        "flaky": 0,
+        "logSha256": "240381559cccb70a2c87faebfdf53920535c846ae7f9dc22a0d5b1d42659f04e"
+      },
+      {
+        "run": 39660650755,
+        "job": 119432533811,
+        "name": "Package F browser QA (4/5)",
+        "skipped": 0,
+        "passed": 176,
+        "summaries": 2,
+        "duration": "5.6m+9.1m",
+        "flaky": 0,
+        "logSha256": "9a4172d67f11a04e6e749362217ed78c68ef18e29e1e38148cea53ea502faafa"
+      },
+      {
+        "run": 39660650755,
+        "job": 119432533857,
+        "name": "Package F browser QA (3/5)",
+        "skipped": 0,
+        "passed": 176,
+        "summaries": 2,
+        "duration": "3.9m+5.3m",
+        "flaky": 0,
+        "logSha256": "0380c2afcd05885f4a00411d9532a6d7990d2cebf7d7a8adbda7f423cf7e6a9c"
+      },
+      {
+        "run": 39660657349,
+        "job": 119432550156,
+        "name": "Package F browser QA (5/5)",
+        "skipped": 0,
+        "passed": 176,
+        "summaries": 2,
+        "duration": "3.8m+5.3m",
+        "flaky": 0,
+        "logSha256": "3729d072ff02d8b60a651648430cdd21e451105e83b8814ea2fce456a8902839"
+      },
+      {
+        "run": 39660657349,
+        "job": 119432550176,
+        "name": "Lint, test, build and browser QA",
+        "skipped": 59,
+        "passed": 413,
+        "summaries": 1,
+        "duration": "13.0m",
+        "flaky": 0,
+        "logSha256": "3a88fac5e69052947de785b0ae7f4b2587fa0f40b5122c0ccee740700f5959a9"
+      },
+      {
+        "run": 39660657349,
+        "job": 119432550191,
+        "name": "Package F browser QA (3/5)",
+        "skipped": 0,
+        "passed": 176,
+        "summaries": 2,
+        "duration": "5.4m+8.1m",
+        "flaky": 0,
+        "logSha256": "ed88ecebb593d6e3865f450d2154f50ec5a817d49368fd9dd3d859bda58f21de"
+      },
+      {
+        "run": 39660657349,
+        "job": 119432550272,
+        "name": "Package F browser QA (4/5)",
+        "skipped": 0,
+        "passed": 176,
+        "summaries": 2,
+        "duration": "5.8m+9.5m",
+        "flaky": 0,
+        "logSha256": "8799a9609505dcd9a32e22b0d5827692d4f8460d82eec2b94b6b82dff939d304"
+      },
+      {
+        "run": 39660657349,
+        "job": 119432550301,
+        "name": "Package F browser QA (2/5)",
+        "skipped": 0,
+        "passed": 176,
+        "summaries": 2,
+        "duration": "4.7m+6.5m",
+        "flaky": 0,
+        "logSha256": "e038fe57984ed38b6b9f878c7dac41a72a98945595beac359e37c3cd3c287c0d"
+      },
+      {
+        "run": 39660657349,
+        "job": 119432550363,
+        "name": "Package F browser QA (1/5)",
+        "skipped": 0,
+        "passed": 176,
+        "summaries": 2,
+        "duration": "5.3m+7.6m",
+        "flaky": 0,
+        "logSha256": "0f2c9991896571e0acf0e2f53e29c430efe83589000d2df141e759deae1a1f7b"
+      }
+    ],
+    "browserTotals": [
+      {
+        "run": 39660650755,
+        "passed": 1293,
+        "legacyConditionalSkipped": 59,
+        "flaky": 0
+      },
+      {
+        "run": 39660657349,
+        "passed": 1293,
+        "legacyConditionalSkipped": 59,
+        "flaky": 0
+      }
+    ],
+    "pr": {
+      "number": 12,
+      "url": "https://github.com/OBITO20011/mahdi-admin/pull/12",
+      "base": "7e325a00bbeea7711ae1f2e650848fe61ec99f93",
+      "head": "ec18333df7e1f0e58d0af5d820fd9a75fe396dd9",
+      "merged": false,
+      "mergeSha": "7bd2f00528bacdecde17d3efc6fbcb39f47747ae"
+    },
+    "ok": true
+  },
+  "deliveryStatus": "FEATURE_FULL38_PASS_MAIN_CI_PENDING"
+}

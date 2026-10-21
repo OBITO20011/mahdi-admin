@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-21T12:44:09.315Z",
-  "migrationCeiling": 207,
+  "startedAt": "2026-10-21T16:50:04.417Z",
+  "migrationCeiling": 208,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-or0izd",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-479WuI",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -51,11 +51,11 @@
     },
     {
       "file": "src/components/layout/sideNavigationModel.ts",
-      "sha256": "610585274b34a7a82393101395663f9e8e84f47826dff38ad1d30f7c908bed01"
+      "sha256": "5273c2c8b9061d80f74461e98e17419310bd50e7e9ea6d1bb693a56a6dc5668b"
     },
     {
       "file": "src/components/modals/AllModals.tsx",
-      "sha256": "f01c6fe278125348ec606305866944b6d04b57a41442d60273d7a0bacb32491b"
+      "sha256": "2d6e80fccf277db571adb62bcf15d2c116d98355176526365370b125e3b173a0"
     },
     {
       "file": "src/components/modals/BrandsModal.tsx",
@@ -243,7 +243,7 @@
     },
     {
       "file": "src/features/dashboard/DashboardHome.tsx",
-      "sha256": "d1c865332506eb774d395f5e0f50094e6eb6c8a9e84d5e68c7c227b508e4f777"
+      "sha256": "09f7c4abebb036344913f3b758ea7045d6338f75cc6627c8c4feae6941937f51"
     },
     {
       "file": "src/features/dashboard/DashboardView.tsx",
@@ -315,15 +315,23 @@
     },
     {
       "file": "src/features/inventory/InventoryOpeningSetupModal.tsx",
-      "sha256": "91b2eb6831bd49b1c0d1b168619e56fb4abde83c6b3c8a25e7d32e26c676a26c"
+      "sha256": "2cb7c33bffc98e3e3bdf129e0bc9408762157388d7dcfd442cae43e8e06a357d"
     },
     {
       "file": "src/features/inventory/InventoryView.tsx",
-      "sha256": "ce82164ddd8bd0620a9470269be0ea3ece343c90d63b40664a4f376c2a77433e"
+      "sha256": "53043d60c8bbbaeea4131f17068b93cb754a916c8986e842fe6de91590188c65"
     },
     {
       "file": "src/features/inventory/StockCountModal.tsx",
       "sha256": "32aa2bb6b417b5bd430b95d7d54b91c8ed4debb56e4dfc1439961125deda8d8d"
+    },
+    {
+      "file": "src/features/inventory/SupplierReplacementPanel.tsx",
+      "sha256": "7ea3b27f700fb806bef0fa1d7d17ca0d7c08201e7b6d5e2a9b69aec80d210e21"
+    },
+    {
+      "file": "src/features/inventory/SupplierReplacementSummary.tsx",
+      "sha256": "94a7cd7965e326fde08a9ae06aac5b02aab796a7a61565f8290ae1be4ce36e9d"
     },
     {
       "file": "src/features/inventory/WarehouseTransferModal.tsx",
@@ -331,11 +339,11 @@
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
-      "sha256": "c9f56ec33b18dd0b85d22a6571d89b991b76e7a948b7f10a1e791a6e19d8f838"
+      "sha256": "eb4b212340af0903dbb9b40a974bc721381b6ef6402cde92e0bb9a5bd64fda77"
     },
     {
       "file": "src/features/more/DamageProductSelection.tsx",
-      "sha256": "6c0206cc978532c439b5978509518427129540a64a4da5ba095be2c81bd39f8f"
+      "sha256": "8ca7c6006a206291fed06faf6ba36dd4b1165a6fae76473bfd1b1b6fe941eeea"
     },
     {
       "file": "src/features/more/InstallAppPanel.tsx",
@@ -371,7 +379,7 @@
     },
     {
       "file": "src/features/orders/AdminAftercarePanel.tsx",
-      "sha256": "766be706748bf5241e69b733cad0d87462198ef8fd9719ee29f509bb0a511390"
+      "sha256": "57814a8a7c6c9336dd3ab729ec50de5e814dbcfab854bca29703e6efdac0bae2"
     },
     {
       "file": "src/features/orders/aftercarePresentation.ts",
@@ -423,7 +431,7 @@
     },
     {
       "file": "src/features/products/ProductDetailModal.tsx",
-      "sha256": "5cd93163b21ba5cca615dd504d4d17d253f5e648ec276a1c9db256da5402a441"
+      "sha256": "c5365ff995a16906bad93f6f2263976a27ceb4ff626c6fc725a4d79c9381dca6"
     },
     {
       "file": "src/features/products/ProductEditConflictPanel.tsx",
@@ -439,7 +447,7 @@
     },
     {
       "file": "src/features/products/StockAdjustmentModal.tsx",
-      "sha256": "6e56cf69f9d614e580ee6619c8c907ccf4fe0e87fde7555bbca4f890a2964ae5"
+      "sha256": "31c187136f29f23ddabcb2351ac8285db5525a19823d5817390c296de5212596"
     },
     {
       "file": "src/features/purchases/CreatePurchaseOrderModal.tsx",
@@ -459,7 +467,7 @@
     },
     {
       "file": "src/features/purchases/PurchasesView.tsx",
-      "sha256": "6588eee17f389b291b657d610962778262a2d5a3814873d1d278f9e379a33da5"
+      "sha256": "ff7b936b248d310c9c14a1dc65ccbebaafa07720aa33597f6e71736d2455293f"
     },
     {
       "file": "src/features/purchases/ReceiveGoodsModal.tsx",
@@ -483,7 +491,7 @@
     },
     {
       "file": "src/features/reports/DamageLossReportSection.tsx",
-      "sha256": "d244356a3d5edb156ba8b5e2e0406ff9f5f4508bafa125626b6fa0136919ff4e"
+      "sha256": "aa57e90bddda001133f9e0757d2831b7506056fd8de5cb40b1da160cce03fda4"
     },
     {
       "file": "src/features/reports/OwnerWithdrawalsReportSection.tsx",
@@ -491,7 +499,7 @@
     },
     {
       "file": "src/features/reports/ReportsCenterView.tsx",
-      "sha256": "48dd1e985da9afc84733b08bca408be2abae4b2c5ccc6fc3d1a4239d0edee659"
+      "sha256": "04d321207a4baf53d24a1fd64bfae5cb072bd31d8fc992bcdc61ccd046a4d874"
     },
     {
       "file": "src/features/salesHistory/RecentSalesCard.tsx",
@@ -751,7 +759,7 @@
     },
     {
       "file": "src/services/supabase/reports.service.ts",
-      "sha256": "fecd78dcc8cfd9c762f56b0766a866437841ec53ec0889cba7335f2f9c0f8fd3"
+      "sha256": "786e8d419509538a25134f5eccbd8d09593a74208239f802b4dc6da298f78ebf"
     },
     {
       "file": "src/services/supabase/salesAftercare.service.ts",
@@ -774,6 +782,14 @@
       "sha256": "ea2ea5e5d41b0f024055ccab9932dd12a343464256a458edcfe2047322148470"
     },
     {
+      "file": "src/services/supabase/supplierReplacement.service.ts",
+      "sha256": "abdf50da4907fe901cdb56359857c691c4596f40a2bc28630402c9a200f11109"
+    },
+    {
+      "file": "src/services/supabase/supplierReplacementIntent.ts",
+      "sha256": "44d74f97e11c917ede322ab710a9b301b4767783237d0b5b5125ce5028d78a5f"
+    },
+    {
       "file": "src/services/supabase/warehouses.service.ts",
       "sha256": "98704b3aad3ac46ba9a8deb33921c5f865f7401015418e32d369c5dce95f95dc"
     },
@@ -783,7 +799,7 @@
     },
     {
       "file": "src/stores/modalTypes.ts",
-      "sha256": "e048c7a840c807ce2acf67580f864b2430dc583d208e439d761cbca3a51bd96b"
+      "sha256": "5f5286e04608ed94ec96399db0f07b6a3dad7a84294bfbee85e37d569c68fbe8"
     },
     {
       "file": "src/stores/referenceData.storeSlice.ts",
@@ -839,7 +855,7 @@
     },
     {
       "file": "src/types/reports.ts",
-      "sha256": "0d3b237db7cc2b6dd2a8bb0f701314307f21fc889bfe294a24fe00ae1bd0c6a2"
+      "sha256": "37b0ac4db982b2df069b71afe67819beab2da98f28fdbdd8f25df4c5e99533cc"
     },
     {
       "file": "src/types/storefront.ts",
@@ -940,6 +956,10 @@
     {
       "file": "src/utils/supplierPaymentLimit.ts",
       "sha256": "7ec4b5cf0ec390087c4ee37506d5644570c3840a83a1ab37e1682683fc103769"
+    },
+    {
+      "file": "src/utils/supplierReplacement.ts",
+      "sha256": "254b67d84a6a6a592e8b668bf71bc6880604389bdafccc8aca99e8bda6863fdd"
     },
     {
       "file": "src/utils/unitLabels.ts",
@@ -5286,6 +5306,30 @@
     },
     {
       "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "name": "execute_supplier_replacement_v1",
+      "names": [
+        "p_action",
+        "p_payload",
+        "p_idempotency_key"
+      ],
+      "owner": "postgres",
+      "types": [
+        "text",
+        "jsonb",
+        "text"
+      ],
+      "identity": "execute_supplier_replacement_v1(text,jsonb,text)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
         "postgres=X/postgres"
       ],
       "name": "expire_stale_new_website_orders",
@@ -6914,6 +6958,60 @@
         "boolean"
       ],
       "identity": "get_supplier_receipts_page(integer,integer,text,uuid,uuid,text,boolean)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "name": "get_supplier_replacement_options_v1",
+      "names": [
+        "p_action",
+        "p_product_search",
+        "p_supplier_search",
+        "p_product_id"
+      ],
+      "owner": "postgres",
+      "types": [
+        "text",
+        "text",
+        "text",
+        "uuid"
+      ],
+      "identity": "get_supplier_replacement_options_v1(text,text,text,uuid)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "name": "get_supplier_replacements_page_v1",
+      "names": [
+        "p_supplier_id",
+        "p_branch_id",
+        "p_status",
+        "p_page",
+        "p_page_size"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid",
+        "uuid",
+        "text",
+        "integer",
+        "integer"
+      ],
+      "identity": "get_supplier_replacements_page_v1(uuid,uuid,text,integer,integer)",
       "returnType": "jsonb",
       "configuration": [
         "search_path=public, pg_temp"
@@ -10474,6 +10572,33 @@
       "acl": [
         "postgres=X/postgres"
       ],
+      "name": "phase6_financial_facts_before208_internal",
+      "names": [
+        "p_branch_id",
+        "p_period_start",
+        "p_period_end",
+        "p_timezone",
+        "p_verify_evidence"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid",
+        "timestamp with time zone",
+        "timestamp with time zone",
+        "text",
+        "boolean"
+      ],
+      "identity": "phase6_financial_facts_before208_internal(uuid,timestamp with time zone,timestamp with time zone,text,boolean)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
       "name": "phase6_financial_facts_internal",
       "names": [
         "p_branch_id",
@@ -10690,6 +10815,28 @@
         "uuid"
       ],
       "identity": "preview_supplier_receipt_cancellation(uuid)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ],
+      "name": "preview_supplier_replacement_v1",
+      "names": [
+        "p_action",
+        "p_payload"
+      ],
+      "owner": "postgres",
+      "types": [
+        "text",
+        "jsonb"
+      ],
+      "identity": "preview_supplier_replacement_v1(text,jsonb)",
       "returnType": "jsonb",
       "configuration": [
         "search_path=public, pg_temp"
@@ -12373,6 +12520,140 @@
         "text"
       ],
       "identity": "settle_sales_return_v1(uuid,text,jsonb,text,text,text,text)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "sr208_append_event_internal",
+      "names": [
+        "p_operation_id",
+        "p_case_id",
+        "p_action",
+        "p_quantity",
+        "p_held_delta",
+        "p_expense",
+        "p_stock_delta",
+        "p_reason",
+        "p_at",
+        "p_reverses"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid",
+        "uuid",
+        "text",
+        "integer",
+        "integer",
+        "bigint",
+        "integer",
+        "text",
+        "timestamp with time zone",
+        "uuid"
+      ],
+      "identity": "sr208_append_event_internal(uuid,uuid,text,integer,integer,bigint,integer,text,timestamp with time zone,uuid)",
+      "returnType": "uuid",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "sr208_assert_operation_internal",
+      "names": [
+        "p_operation_id"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid"
+      ],
+      "identity": "sr208_assert_operation_internal(uuid)",
+      "returnType": "void",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "sr208_assert_role_internal",
+      "names": [
+        "p_action"
+      ],
+      "owner": "postgres",
+      "types": [
+        "text"
+      ],
+      "identity": "sr208_assert_role_internal(text)",
+      "returnType": "uuid",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "sr208_case_dto_internal",
+      "names": [
+        "p_case_id",
+        "p_values"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid",
+        "boolean"
+      ],
+      "identity": "sr208_case_dto_internal(uuid,boolean)",
+      "returnType": "jsonb",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "sr208_inventory_fingerprint_internal",
+      "names": [
+        "p_product_id"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid"
+      ],
+      "identity": "sr208_inventory_fingerprint_internal(uuid)",
+      "returnType": "text",
+      "configuration": [
+        "search_path=public, pg_temp"
+      ],
+      "securityDefiner": true
+    },
+    {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "name": "sr208_operation_manifest_internal",
+      "names": [
+        "p_operation_id"
+      ],
+      "owner": "postgres",
+      "types": [
+        "uuid"
+      ],
+      "identity": "sr208_operation_manifest_internal(uuid)",
       "returnType": "jsonb",
       "configuration": [
         "search_path=public, pg_temp"
@@ -20458,6 +20739,180 @@
         "false"
       ],
       "command": "SELECT public.\"save_storefront_settings_v3\"(NULL::text,NULL::text,NULL::text,false,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,false,false,false,false)"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:23",
+      "name": "get_supplier_replacements_page_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "get_supplier_replacements_page_v1(uuid,uuid,text,integer,integer)",
+      "args": [
+        "NULL::uuid",
+        "'92600000-0000-4000-8000-000000000200'::uuid",
+        "NULL::text",
+        "1::integer",
+        "25::integer"
+      ],
+      "command": "SELECT public.\"get_supplier_replacements_page_v1\"(NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text,1::integer,25::integer)"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:23",
+      "name": "get_supplier_replacements_page_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "get_supplier_replacements_page_v1(uuid,uuid,text,integer,integer)",
+      "args": [
+        "NULL::uuid",
+        "'92600000-0000-4000-8000-000000000200'::uuid",
+        "NULL::text",
+        "1::integer",
+        "25::integer"
+      ],
+      "command": "SELECT public.\"get_supplier_replacements_page_v1\"(NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text,1::integer,25::integer)"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:23",
+      "name": "get_supplier_replacements_page_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "get_supplier_replacements_page_v1(uuid,uuid,text,integer,integer)",
+      "args": [
+        "NULL::uuid",
+        "'92600000-0000-4000-8000-000000000200'::uuid",
+        "NULL::text",
+        "1::integer",
+        "25::integer"
+      ],
+      "command": "SELECT public.\"get_supplier_replacements_page_v1\"(NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text,1::integer,25::integer)"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:32",
+      "name": "get_supplier_replacement_options_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "get_supplier_replacement_options_v1(text,text,text,uuid)",
+      "args": [
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"get_supplier_replacement_options_v1\"(NULL::text,NULL::text,NULL::text,NULL::uuid)"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:32",
+      "name": "get_supplier_replacement_options_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "get_supplier_replacement_options_v1(text,text,text,uuid)",
+      "args": [
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"get_supplier_replacement_options_v1\"(NULL::text,NULL::text,NULL::text,NULL::uuid)"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:32",
+      "name": "get_supplier_replacement_options_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "get_supplier_replacement_options_v1(text,text,text,uuid)",
+      "args": [
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"get_supplier_replacement_options_v1\"(NULL::text,NULL::text,NULL::text,NULL::uuid)"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:42",
+      "name": "preview_supplier_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "preview_supplier_replacement_v1(text,jsonb)",
+      "args": [
+        "NULL::text",
+        "'{}'::jsonb"
+      ],
+      "command": "SELECT public.\"preview_supplier_replacement_v1\"(NULL::text,'{}'::jsonb)"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:42",
+      "name": "preview_supplier_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "preview_supplier_replacement_v1(text,jsonb)",
+      "args": [
+        "NULL::text",
+        "'{}'::jsonb"
+      ],
+      "command": "SELECT public.\"preview_supplier_replacement_v1\"(NULL::text,'{}'::jsonb)"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:42",
+      "name": "preview_supplier_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "preview_supplier_replacement_v1(text,jsonb)",
+      "args": [
+        "NULL::text",
+        "'{}'::jsonb"
+      ],
+      "command": "SELECT public.\"preview_supplier_replacement_v1\"(NULL::text,'{}'::jsonb)"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:57",
+      "name": "execute_supplier_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "execute_supplier_replacement_v1(text,jsonb,text)",
+      "args": [
+        "NULL::text",
+        "'{}'::jsonb",
+        "'isolated-service-audit-0000000000000000000001'"
+      ],
+      "command": "SELECT public.\"execute_supplier_replacement_v1\"(NULL::text,'{}'::jsonb,'isolated-service-audit-0000000000000000000001')"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:57",
+      "name": "execute_supplier_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "execute_supplier_replacement_v1(text,jsonb,text)",
+      "args": [
+        "NULL::text",
+        "'{}'::jsonb",
+        "'isolated-service-audit-0000000000000000000001'"
+      ],
+      "command": "SELECT public.\"execute_supplier_replacement_v1\"(NULL::text,'{}'::jsonb,'isolated-service-audit-0000000000000000000001')"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:57",
+      "name": "execute_supplier_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "execute_supplier_replacement_v1(text,jsonb,text)",
+      "args": [
+        "NULL::text",
+        "'{}'::jsonb",
+        "'isolated-service-audit-0000000000000000000001'"
+      ],
+      "command": "SELECT public.\"execute_supplier_replacement_v1\"(NULL::text,'{}'::jsonb,'isolated-service-audit-0000000000000000000001')"
     },
     {
       "site": "src/services/supabase/warehouses.service.ts:28",
@@ -30032,6 +30487,228 @@
       "sqlstate": "P0001"
     },
     {
+      "site": "src/services/supabase/supplierReplacement.service.ts:23",
+      "name": "get_supplier_replacements_page_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "get_supplier_replacements_page_v1(uuid,uuid,text,integer,integer)",
+      "args": [
+        "NULL::uuid",
+        "'92600000-0000-4000-8000-000000000200'::uuid",
+        "NULL::text",
+        "1::integer",
+        "25::integer"
+      ],
+      "command": "SELECT public.\"get_supplier_replacements_page_v1\"(NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text,1::integer,25::integer)",
+      "probe": 459,
+      "message": "SUPPLIER_REPLACEMENT_PAGE_INVALID",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:23",
+      "name": "get_supplier_replacements_page_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "get_supplier_replacements_page_v1(uuid,uuid,text,integer,integer)",
+      "args": [
+        "NULL::uuid",
+        "'92600000-0000-4000-8000-000000000200'::uuid",
+        "NULL::text",
+        "1::integer",
+        "25::integer"
+      ],
+      "command": "SELECT public.\"get_supplier_replacements_page_v1\"(NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text,1::integer,25::integer)",
+      "probe": 460,
+      "message": "SUPPLIER_REPLACEMENT_ROLE_DENIED",
+      "outcome": "permission_denied",
+      "sqlstate": "42501"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:23",
+      "name": "get_supplier_replacements_page_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "get_supplier_replacements_page_v1(uuid,uuid,text,integer,integer)",
+      "args": [
+        "NULL::uuid",
+        "'92600000-0000-4000-8000-000000000200'::uuid",
+        "NULL::text",
+        "1::integer",
+        "25::integer"
+      ],
+      "command": "SELECT public.\"get_supplier_replacements_page_v1\"(NULL::uuid,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text,1::integer,25::integer)",
+      "probe": 461,
+      "message": "SUPPLIER_REPLACEMENT_ROLE_DENIED",
+      "outcome": "permission_denied",
+      "sqlstate": "42501"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:32",
+      "name": "get_supplier_replacement_options_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "get_supplier_replacement_options_v1(text,text,text,uuid)",
+      "args": [
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"get_supplier_replacement_options_v1\"(NULL::text,NULL::text,NULL::text,NULL::uuid)",
+      "probe": 462,
+      "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:32",
+      "name": "get_supplier_replacement_options_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "get_supplier_replacement_options_v1(text,text,text,uuid)",
+      "args": [
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"get_supplier_replacement_options_v1\"(NULL::text,NULL::text,NULL::text,NULL::uuid)",
+      "probe": 463,
+      "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:32",
+      "name": "get_supplier_replacement_options_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "get_supplier_replacement_options_v1(text,text,text,uuid)",
+      "args": [
+        "NULL::text",
+        "NULL::text",
+        "NULL::text",
+        "NULL::uuid"
+      ],
+      "command": "SELECT public.\"get_supplier_replacement_options_v1\"(NULL::text,NULL::text,NULL::text,NULL::uuid)",
+      "probe": 464,
+      "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:42",
+      "name": "preview_supplier_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "preview_supplier_replacement_v1(text,jsonb)",
+      "args": [
+        "NULL::text",
+        "'{}'::jsonb"
+      ],
+      "command": "SELECT public.\"preview_supplier_replacement_v1\"(NULL::text,'{}'::jsonb)",
+      "probe": 465,
+      "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:42",
+      "name": "preview_supplier_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "preview_supplier_replacement_v1(text,jsonb)",
+      "args": [
+        "NULL::text",
+        "'{}'::jsonb"
+      ],
+      "command": "SELECT public.\"preview_supplier_replacement_v1\"(NULL::text,'{}'::jsonb)",
+      "probe": 466,
+      "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:42",
+      "name": "preview_supplier_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "preview_supplier_replacement_v1(text,jsonb)",
+      "args": [
+        "NULL::text",
+        "'{}'::jsonb"
+      ],
+      "command": "SELECT public.\"preview_supplier_replacement_v1\"(NULL::text,'{}'::jsonb)",
+      "probe": 467,
+      "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:57",
+      "name": "execute_supplier_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000001",
+      "appRole": "owner",
+      "identity": "execute_supplier_replacement_v1(text,jsonb,text)",
+      "args": [
+        "NULL::text",
+        "'{}'::jsonb",
+        "'isolated-service-audit-0000000000000000000001'"
+      ],
+      "command": "SELECT public.\"execute_supplier_replacement_v1\"(NULL::text,'{}'::jsonb,'isolated-service-audit-0000000000000000000001')",
+      "probe": 468,
+      "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:57",
+      "name": "execute_supplier_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000002",
+      "appRole": "admin",
+      "identity": "execute_supplier_replacement_v1(text,jsonb,text)",
+      "args": [
+        "NULL::text",
+        "'{}'::jsonb",
+        "'isolated-service-audit-0000000000000000000001'"
+      ],
+      "command": "SELECT public.\"execute_supplier_replacement_v1\"(NULL::text,'{}'::jsonb,'isolated-service-audit-0000000000000000000001')",
+      "probe": 469,
+      "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
+      "site": "src/services/supabase/supplierReplacement.service.ts:57",
+      "name": "execute_supplier_replacement_v1",
+      "role": "authenticated",
+      "actor": "92600000-0000-4000-8000-000000000003",
+      "appRole": "cashier",
+      "identity": "execute_supplier_replacement_v1(text,jsonb,text)",
+      "args": [
+        "NULL::text",
+        "'{}'::jsonb",
+        "'isolated-service-audit-0000000000000000000001'"
+      ],
+      "command": "SELECT public.\"execute_supplier_replacement_v1\"(NULL::text,'{}'::jsonb,'isolated-service-audit-0000000000000000000001')",
+      "probe": 470,
+      "message": "SUPPLIER_REPLACEMENT_ACTION_INVALID",
+      "outcome": "body_validation_or_error",
+      "sqlstate": "P0001"
+    },
+    {
       "site": "src/services/supabase/warehouses.service.ts:28",
       "name": "get_owner_warehouses_v1",
       "role": "authenticated",
@@ -30040,7 +30717,7 @@
       "identity": "get_owner_warehouses_v1()",
       "args": [],
       "command": "SELECT public.\"get_owner_warehouses_v1\"()",
-      "probe": 459,
+      "probe": 471,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30054,7 +30731,7 @@
       "identity": "get_owner_warehouses_v1()",
       "args": [],
       "command": "SELECT public.\"get_owner_warehouses_v1\"()",
-      "probe": 460,
+      "probe": 472,
       "message": "ليس لديك صلاحية إدارة الفروع والمستودعات.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30068,7 +30745,7 @@
       "identity": "get_owner_warehouses_v1()",
       "args": [],
       "command": "SELECT public.\"get_owner_warehouses_v1\"()",
-      "probe": 461,
+      "probe": 473,
       "message": "ليس لديك صلاحية إدارة الفروع والمستودعات.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30089,7 +30766,7 @@
         "CURRENT_TIMESTAMP"
       ],
       "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)",
-      "probe": 462,
+      "probe": 474,
       "message": "WAREHOUSE_INPUT_INVALID: تحقق من اسم المستودع والفرع.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30110,7 +30787,7 @@
         "CURRENT_TIMESTAMP"
       ],
       "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)",
-      "probe": 463,
+      "probe": 475,
       "message": "ليس لديك صلاحية حفظ مستودع.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30131,7 +30808,7 @@
         "CURRENT_TIMESTAMP"
       ],
       "command": "SELECT public.\"save_owner_warehouse_v1\"(NULL::uuid,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,false,CURRENT_TIMESTAMP)",
-      "probe": 464,
+      "probe": 476,
       "message": "ليس لديك صلاحية حفظ مستودع.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30147,7 +30824,7 @@
         "ARRAY[]::uuid[]"
       ],
       "command": "SELECT public.\"get_public_configurable_parcel_options\"(ARRAY[]::uuid[])",
-      "probe": 465,
+      "probe": 477,
       "message": "PUBLIC_CONFIGURABLE_PARCEL_REQUEST_INVALID: Provide between 1 and 48 valid Family IDs.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30171,7 +30848,7 @@
         "ARRAY[]::uuid[]"
       ],
       "command": "SELECT public.\"get_public_storefront_catalog_page\"(25::integer,0::integer,NULL::uuid,NULL::text,NULL::text,NULL::text,NULL::uuid,NULL::uuid,ARRAY[]::uuid[])",
-      "probe": 466,
+      "probe": 478,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30185,7 +30862,7 @@
       "identity": "get_public_storefront_merchandising()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_merchandising\"()",
-      "probe": 467,
+      "probe": 479,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30199,7 +30876,7 @@
       "identity": "get_public_storefront_offers()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_offers\"()",
-      "probe": 468,
+      "probe": 480,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30217,7 +30894,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"preview_guest_promotion_v2\"('[]'::jsonb,NULL::text,NULL::text)",
-      "probe": 469,
+      "probe": 481,
       "message": "PHASE3_SALE_CONTRACT_INVALID: Sale lines must be a non-empty array.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30235,7 +30912,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"preview_guest_promotion\"(NULL::text,'[]'::jsonb,NULL::text)",
-      "probe": 470,
+      "probe": 482,
       "message": "اكتب رمز خصم صحيحاً.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30252,7 +30929,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"track_guest_order\"(NULL::text,NULL::text)",
-      "probe": 471,
+      "probe": 483,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30268,7 +30945,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"track_guest_order_by_token\"(NULL::text)",
-      "probe": 472,
+      "probe": 484,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30284,7 +30961,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"get_public_pos_receipt\"(NULL::uuid)",
-      "probe": 473,
+      "probe": 485,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30298,7 +30975,7 @@
       "identity": "get_public_storefront_settings()",
       "args": [],
       "command": "SELECT public.\"get_public_storefront_settings\"()",
-      "probe": 474,
+      "probe": 486,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30312,7 +30989,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 475,
+      "probe": 487,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30326,7 +31003,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 476,
+      "probe": 488,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30340,7 +31017,7 @@
       "identity": "authorize_admin_ai_assistant_request()",
       "args": [],
       "command": "SELECT public.\"authorize_admin_ai_assistant_request\"()",
-      "probe": 477,
+      "probe": 489,
       "message": "ليس لديك صلاحية استخدام مساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30354,7 +31031,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 478,
+      "probe": 490,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30368,7 +31045,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 479,
+      "probe": 491,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30382,7 +31059,7 @@
       "identity": "get_admin_ai_inventory_snapshot()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_inventory_snapshot\"()",
-      "probe": 480,
+      "probe": 492,
       "message": "ليس لديك صلاحية قراءة مخزون وأسعار مساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30396,7 +31073,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 481,
+      "probe": 493,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30410,7 +31087,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 482,
+      "probe": 494,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30424,7 +31101,7 @@
       "identity": "get_home_dashboard()",
       "args": [],
       "command": "SELECT public.\"get_home_dashboard\"()",
-      "probe": 483,
+      "probe": 495,
       "message": "ليس لديك صلاحية عرض الصفحة الرئيسية.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30438,7 +31115,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 484,
+      "probe": 496,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30452,7 +31129,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 485,
+      "probe": 497,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30466,7 +31143,7 @@
       "identity": "get_admin_ai_monthly_report()",
       "args": [],
       "command": "SELECT public.\"get_admin_ai_monthly_report\"()",
-      "probe": 486,
+      "probe": 498,
       "message": "ليس لديك صلاحية قراءة التقرير الشهري لمساعد الإدارة الذكي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30480,7 +31157,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 487,
+      "probe": 499,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30494,7 +31171,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 488,
+      "probe": 500,
       "message": "ليس لديك صلاحية إدارة حسابات الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30508,7 +31185,7 @@
       "identity": "get_erp_staff_accounts()",
       "args": [],
       "command": "SELECT public.\"get_erp_staff_accounts\"()",
-      "probe": 489,
+      "probe": 501,
       "message": "ليس لديك صلاحية إدارة حسابات الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30524,7 +31201,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 490,
+      "probe": 502,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30540,7 +31217,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 491,
+      "probe": 503,
       "message": "ليس لديك صلاحية عرض سجل إدارة الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30556,7 +31233,7 @@
         "25::integer"
       ],
       "command": "SELECT public.\"get_erp_staff_account_audit_logs\"(25::integer)",
-      "probe": 492,
+      "probe": 504,
       "message": "ليس لديك صلاحية عرض سجل إدارة الموظفين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30577,7 +31254,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 493,
+      "probe": 505,
       "message": "اسم المستخدم يجب أن يكون بين حرفين و120 حرفًا.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30598,7 +31275,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 494,
+      "probe": 506,
       "message": "ليس لديك صلاحية إضافة حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30619,7 +31296,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"create_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 495,
+      "probe": 507,
       "message": "ليس لديك صلاحية إضافة حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30640,7 +31317,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 496,
+      "probe": 508,
       "message": "لا يمكن تعديل حسابك الحالي من إدارة المستخدمين.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30661,7 +31338,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 497,
+      "probe": 509,
       "message": "ليس لديك صلاحية تعديل حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30682,7 +31359,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"update_erp_staff_account_record\"('92600000-0000-4000-8000-000000000001'::uuid,NULL::text,NULL::text,NULL::text,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text)",
-      "probe": 498,
+      "probe": 510,
       "message": "ليس لديك صلاحية تعديل حساب موظف أو مالك نظام.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30699,7 +31376,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 499,
+      "probe": 511,
       "message": "لا يمكن تعطيل أو تعديل حسابك الحالي.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30716,7 +31393,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 500,
+      "probe": 512,
       "message": "ليس لديك صلاحية تفعيل أو تعطيل حساب مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30733,7 +31410,7 @@
         "false"
       ],
       "command": "SELECT public.\"set_erp_staff_account_active\"('92600000-0000-4000-8000-000000000001'::uuid,false)",
-      "probe": 501,
+      "probe": 513,
       "message": "ليس لديك صلاحية تفعيل أو تعطيل حساب مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30749,7 +31426,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 502,
+      "probe": 514,
       "message": "لا يمكن إعادة تعيين كلمة مرور حسابك الحالي من هذه الشاشة.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30765,7 +31442,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 503,
+      "probe": 515,
       "message": "ليس لديك صلاحية إعادة تعيين كلمة مرور مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30781,7 +31458,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"record_erp_staff_password_reset\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 504,
+      "probe": 516,
       "message": "ليس لديك صلاحية إعادة تعيين كلمة مرور مستخدم.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30799,7 +31476,7 @@
         "0::integer"
       ],
       "command": "SELECT public.\"claim_automation_deliveries\"(NULL::text,25::integer,0::integer)",
-      "probe": 505,
+      "probe": 517,
       "message": "Invalid automation delivery channel.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30818,7 +31495,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"complete_automation_delivery\"(NULL::uuid,NULL::text,false,NULL::text)",
-      "probe": 506,
+      "probe": 518,
       "message": "Invalid automation delivery completion.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30832,7 +31509,7 @@
       "identity": "get_push_webhook_secret()",
       "args": [],
       "command": "SELECT public.\"get_push_webhook_secret\"()",
-      "probe": 507,
+      "probe": 519,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30848,7 +31525,7 @@
         "'92600000-0000-4000-8000-000000000001'::uuid"
       ],
       "command": "SELECT public.\"get_active_order_push_targets\"('92600000-0000-4000-8000-000000000001'::uuid)",
-      "probe": 508,
+      "probe": 520,
       "message": "success rolled back",
       "outcome": "success_rolled_back",
       "sqlstate": null
@@ -30867,7 +31544,7 @@
         "NULL::text"
       ],
       "command": "SELECT public.\"authorize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::text,NULL::text)",
-      "probe": 509,
+      "probe": 521,
       "message": "Invalid gateway request.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30905,7 +31582,7 @@
         "0::bigint"
       ],
       "command": "SELECT public.\"submit_guest_customer_order_v2\"('isolated-service-audit-0000000000000000000001',NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,NULL::text,0::double precision,0::double precision,NULL::text,'[]'::jsonb,NULL::text,NULL::text,NULL::text,0::bigint,0::bigint,0::bigint,0::bigint)",
-      "probe": 510,
+      "probe": 522,
       "message": "PHASE3_IDEMPOTENCY_INPUT_INVALID: Customer operation identity is invalid.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30923,7 +31600,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"finalize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::uuid)",
-      "probe": 511,
+      "probe": 523,
       "message": "Gateway authorization was not found.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -30941,7 +31618,7 @@
         "NULL::uuid"
       ],
       "command": "SELECT public.\"finalize_guest_order_gateway\"(NULL::uuid,NULL::text,NULL::uuid)",
-      "probe": 512,
+      "probe": 524,
       "message": "Gateway authorization was not found.",
       "outcome": "body_validation_or_error",
       "sqlstate": "P0001"
@@ -33351,6 +34028,21 @@
     {
       "role": "anon",
       "allowed": false,
+      "identity": "execute_supplier_replacement_v1(text,jsonb,text)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": true,
+      "identity": "execute_supplier_replacement_v1(text,jsonb,text)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "execute_supplier_replacement_v1(text,jsonb,text)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
       "identity": "expire_stale_new_website_orders(integer)"
     },
     {
@@ -34457,6 +35149,36 @@
       "role": "service_role",
       "allowed": false,
       "identity": "get_supplier_receipts_page(integer,integer,text,uuid,uuid,text,boolean)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "get_supplier_replacement_options_v1(text,text,text,uuid)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": true,
+      "identity": "get_supplier_replacement_options_v1(text,text,text,uuid)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "get_supplier_replacement_options_v1(text,text,text,uuid)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "get_supplier_replacements_page_v1(uuid,uuid,text,integer,integer)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": true,
+      "identity": "get_supplier_replacements_page_v1(uuid,uuid,text,integer,integer)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "get_supplier_replacements_page_v1(uuid,uuid,text,integer,integer)"
     },
     {
       "role": "anon",
@@ -37086,6 +37808,21 @@
     {
       "role": "anon",
       "allowed": false,
+      "identity": "phase6_financial_facts_before208_internal(uuid,timestamp with time zone,timestamp with time zone,text,boolean)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "phase6_financial_facts_before208_internal(uuid,timestamp with time zone,timestamp with time zone,text,boolean)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "phase6_financial_facts_before208_internal(uuid,timestamp with time zone,timestamp with time zone,text,boolean)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
       "identity": "phase6_financial_facts_internal(uuid,timestamp with time zone,timestamp with time zone,text,boolean)"
     },
     {
@@ -37232,6 +37969,21 @@
       "role": "service_role",
       "allowed": false,
       "identity": "preview_supplier_receipt_cancellation(uuid)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "preview_supplier_replacement_v1(text,jsonb)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": true,
+      "identity": "preview_supplier_replacement_v1(text,jsonb)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "preview_supplier_replacement_v1(text,jsonb)"
     },
     {
       "role": "anon",
@@ -38222,6 +38974,96 @@
       "role": "service_role",
       "allowed": false,
       "identity": "settle_sales_return_v1(uuid,text,jsonb,text,text,text,text)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "sr208_append_event_internal(uuid,uuid,text,integer,integer,bigint,integer,text,timestamp with time zone,uuid)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "sr208_append_event_internal(uuid,uuid,text,integer,integer,bigint,integer,text,timestamp with time zone,uuid)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "sr208_append_event_internal(uuid,uuid,text,integer,integer,bigint,integer,text,timestamp with time zone,uuid)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "sr208_assert_operation_internal(uuid)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "sr208_assert_operation_internal(uuid)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "sr208_assert_operation_internal(uuid)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "sr208_assert_role_internal(text)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "sr208_assert_role_internal(text)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "sr208_assert_role_internal(text)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "sr208_case_dto_internal(uuid,boolean)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "sr208_case_dto_internal(uuid,boolean)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "sr208_case_dto_internal(uuid,boolean)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "sr208_inventory_fingerprint_internal(uuid)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "sr208_inventory_fingerprint_internal(uuid)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "sr208_inventory_fingerprint_internal(uuid)"
+    },
+    {
+      "role": "anon",
+      "allowed": false,
+      "identity": "sr208_operation_manifest_internal(uuid)"
+    },
+    {
+      "role": "authenticated",
+      "allowed": false,
+      "identity": "sr208_operation_manifest_internal(uuid)"
+    },
+    {
+      "role": "service_role",
+      "allowed": false,
+      "identity": "sr208_operation_manifest_internal(uuid)"
     },
     {
       "role": "anon",
@@ -38893,7 +39735,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-21T12:45:32.771Z",
+  "endedAt": "2026-10-21T16:51:40.829Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -39257,7 +40099,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        665
+        674
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

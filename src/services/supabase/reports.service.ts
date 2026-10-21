@@ -84,7 +84,25 @@ export async function fetchOperationalBusinessReportFromSupabase(
   const damage = sales.damageLosses === undefined ? null : recordValue(sales.damageLosses);
   if (damage) {
     const validMoney = (v: unknown) => typeof v === 'number' && Number.isSafeInteger(v) && v >= 0;
-    if (!validMoney(damage.totalInMinorUnits) || !validMoney(damage.additionalInMinorUnits)
+    const signedMoney = (v: unknown) => typeof v === 'number' && Number.isSafeInteger(v);
+    if (damage.contractVersion === 208) {
+      if (!signedMoney(damage.totalInMinorUnits) || !signedMoney(damage.additionalInMinorUnits)
+        || !validMoney(damage.alreadyIncludedInMinorUnits) || !validMoney(damage.grossInMinorUnits) || !validMoney(damage.recoveredInMinorUnits)
+        || Number(damage.totalInMinorUnits) !== Number(damage.grossInMinorUnits) - Number(damage.recoveredInMinorUnits)
+        || Number(damage.totalInMinorUnits) !== Number(damage.additionalInMinorUnits) + Number(damage.alreadyIncludedInMinorUnits)
+        || !Array.isArray(damage.reasons) || damage.reasons.some((value) => {
+          const row=recordValue(value);
+          return !textValue(row.code) || !validMoney(row.count) || !validMoney(row.quantity) || !validMoney(row.alreadyIncludedInMinorUnits)
+            || !signedMoney(row.amountInMinorUnits) || !validMoney(row.grossInMinorUnits) || !validMoney(row.recoveredInMinorUnits)
+            || Number(row.amountInMinorUnits)!==Number(row.grossInMinorUnits)-Number(row.recoveredInMinorUnits);
+        }) || damage.reasons.reduce((sum:number,value:unknown)=>sum+Number(recordValue(value).amountInMinorUnits),0)!==damage.totalInMinorUnits
+        || damage.reasons.reduce((sum:number,value:unknown)=>sum+Number(recordValue(value).grossInMinorUnits),0)!==damage.grossInMinorUnits
+        || damage.reasons.reduce((sum:number,value:unknown)=>sum+Number(recordValue(value).recoveredInMinorUnits),0)!==damage.recoveredInMinorUnits
+        || damage.reasons.reduce((sum:number,value:unknown)=>sum+Number(recordValue(value).alreadyIncludedInMinorUnits),0)!==damage.alreadyIncludedInMinorUnits
+        || new Set(damage.reasons.map((value:unknown)=>recordValue(value).code)).size!==damage.reasons.length
+      ) throw new Error('بيانات صافي خسائر التلف 208 غير مكتملة. أعد تحميل التقرير.');
+    } else if ((damage.contractVersion !== undefined && damage.contractVersion !== 201)
+      || !validMoney(damage.totalInMinorUnits) || !validMoney(damage.additionalInMinorUnits)
       || !validMoney(damage.alreadyIncludedInMinorUnits) || !Array.isArray(damage.reasons)
       || Number(damage.totalInMinorUnits) !== Number(damage.additionalInMinorUnits) + Number(damage.alreadyIncludedInMinorUnits)
       || damage.reasons.some((value) => {
@@ -115,6 +133,7 @@ export async function fetchOperationalBusinessReportFromSupabase(
     },
     sales: {
       ...(damage ? {damageLosses: {
+        ...(damage.contractVersion===208?{contractVersion:208 as const,gross:moneyValue(damage.grossInMinorUnits),recovered:moneyValue(damage.recoveredInMinorUnits)}:{}),
         total: moneyValue(damage.totalInMinorUnits), additional: moneyValue(damage.additionalInMinorUnits),
         alreadyIncluded: moneyValue(damage.alreadyIncludedInMinorUnits),
         reasons: (damage.reasons as unknown[]).map((value) => {

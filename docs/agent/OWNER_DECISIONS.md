@@ -1,3 +1,12 @@
+# Current owner — C9 checkpoint and delivery, then Prompt5
+
+Owner explicitly approves the current uncommitted C9 tree as solely our work after
+the last checkpoint. Update checkpoint; complete verification, FULL CI and merge.
+After merge prepare Frankfurt208 dry-run/apply/verify-only commands with Arabic
+expected outcomes for the owner; do not execute hosted. Then execute Prompt5
+comprehensive pre-trial audit. Do not implement parcel-only sales without owner
+approval. No new hosted/deployment/secrets authority.
+
 #21Oct — صلاحيات سجل المعلّق وعكس أحداثه (جواب مباشر من المالك)
 
 جواب المالك: «الكميات للثلاثة؛ القيم والعكس للمالك فقط (موصى به)».

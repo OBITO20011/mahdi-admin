@@ -1,4 +1,5 @@
 import {CashFlowSummary} from '../shifts/CashFlowSummary';
+import {SupplierReplacementSummary} from '../inventory/SupplierReplacementSummary';
 import {RecentSalesCard} from '../salesHistory/RecentSalesCard';
 import type {SalesHistoryReadState} from '../../hooks/useSalesHistory';
 import {customerCollectionRows} from '../../utils/customerCollections';
@@ -109,6 +110,7 @@ export const DashboardHome: React.FC<DashboardHomeProps> = ({ data, currentUserN
             </div>
           </Card>
         </div>
+        <SupplierReplacementSummary ownerOnly />
         {summary.monthOwnerWithdrawalsInMinorUnits !== undefined && <Card data-testid="home-owner-withdrawals">
           <SectionHeader title="سحوبات المالك — هذا الشهر" hint="كل الفروع، بنفس نطاق ربح الشهر" />
           <dl className="mt-3 grid gap-3 sm:grid-cols-2">

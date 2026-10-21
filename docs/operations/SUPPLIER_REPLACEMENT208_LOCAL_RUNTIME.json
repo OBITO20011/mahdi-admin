@@ -1,0 +1,135 @@
+{
+  "recordedAt": "2026-10-21T17:05:41.642Z",
+  "managedAccess": false,
+  "migrationCanonicalLfSha256": "9741b8183dfe074650f136225c1de2efa578223cd3ade9ad2eaf4379dc23ff65",
+  "baseFunctionalCases": {
+    "passed": 19,
+    "cases": [
+      {
+        "name": "208 no backfill/business writes;only approved financial-reader overlay;all historical writers/ACL/sequences preserved;reapply zero data/catalog changes",
+        "passed": true
+      },
+      {
+        "name": "unchanged strict DB lint policy;all208 functions warning/error free",
+        "passed": true
+      },
+      {
+        "name": "immediate exactly2opposite movements/net0;held10@100 outside available;receive4+6 over10@200 gives20@150;no payable/cash/cheque/profit changes;overreceive rolls back",
+        "passed": true
+      },
+      {
+        "name": "record/receive/read/preview/replay role3 quantities only includingformer-owner recovery;writeoff/reverse owner42501;admin/cashier/accountant/sales denied;private tables+helpers deny all client roles",
+        "passed": true
+      },
+      {
+        "name": "208 optionsbounded50products/100suppliers:actualunit/parcelbasis/activewarehouse/lastvalidreceipt,quantitiesonly forrole3;legacyadmin damageoptionsonly;anon/service denied",
+        "passed": true
+      },
+      {
+        "name": "writeoff only held/no second out;historical150 loss once;inverse gives signed later-period credit150;valid later events do not break original exactkey replay;LIFO inverse restores stock",
+        "passed": true
+      },
+      {
+        "name": "actual121 return100/cost60 shares one TX/source201;held loss0 then rejectloss60 not120;shelf/payable unaffected;financialevidence/exactreplay/conflict verified",
+        "passed": true
+      },
+      {
+        "name": "real parallel samekey once/replay;different keys partialreceive serialize and onlyone consumes lastremaining",
+        "passed": true
+      },
+      {
+        "name": "actual receipt/send opposite directions observed PostgreSQL lock waits;frozen outgoing cost and incoming globalWAC use committed locked balances",
+        "passed": true
+      },
+      {
+        "name": "legacyadmin retains keyed shopdamage only;201 evidence capturedonce;ownerinverse restores exact stock/WAC and creditsloss;no new supplier permission",
+        "passed": true
+      },
+      {
+        "name": "exactnumeric6 fraction0.333333 retained;receive1 plus writeoff1+1 expense1 cumulative writtenoff-only;no receipt-rounding phantomloss",
+        "passed": true
+      },
+      {
+        "name": "actual failure after121+case rolls back order/refund/debt/cash/source201/case/allrows+sequences;shopcase rollback alsozero;failure before208envelope rolls back expense;exactkeys recover after removing fixturefailure",
+        "passed": true
+      },
+      {
+        "name": "standalone121 key cannot acquire C9 ledger tail;same source under newkey rejectedzero writes;staffcannotuseownerreturncoordinator",
+        "passed": true
+      },
+      {
+        "name": "replaced physicalleaf held at immutable issuancecost despite changed currentWAC;no guessed historical valuation",
+        "passed": true
+      },
+      {
+        "name": "inverse preserves unrelated productname/saleprice;real later receipt blocks unsafe quantity/WAC restoration",
+        "passed": true
+      },
+      {
+        "name": "real transaction startsbeforeevent butcommits stockmovement afterwitholderNOW;contentfingerprintblocks inverse despite timestamporder;reservationchange blockszero writes",
+        "passed": true
+      },
+      {
+        "name": "local transaction-only corrupt cost/eventreason detected by exactmanifest;replay rejected and complete database rollback;no production corruption switch",
+        "passed": true
+      },
+      {
+        "name": "canonical receipt cancellation/send bothdirections observed inventorylockwait withoutparentcycle;latermovement guardsstillblockcancel",
+        "passed": true
+      },
+      {
+        "name": "canonical receipt cancellation/send bothdirections observed inventorylockwait withoutparentcycle;latermovement guardsstillblockcancel;parentNOWAIT yields40001 zero writes incl entire121return rollback",
+        "passed": true
+      }
+    ],
+    "runCompleted": false,
+    "extensionFixtureFailureOnly": true
+  },
+  "focusedExtensions": {
+    "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-supplier-replacement208-2H1UPE",
+    "startedAt": "2026-10-21T17:03:01.962Z",
+    "managedAccess": false,
+    "mode": "focused-scale-restore",
+    "cases": [
+      {
+        "name": "208 no backfill/business writes;only approved financial-reader overlay;all historical writers/ACL/sequences preserved;reapply zero data/catalog changes",
+        "passed": true
+      },
+      {
+        "name": "unchanged strict DB lint policy;all208 functions warning/error free",
+        "passed": true
+      },
+      {
+        "name": "200 real canonical shipments;5 bounded page/total/value reads;secondpage zero writes",
+        "passed": true
+      },
+      {
+        "name": "full pg_dump and roles restore on empty second local cluster;all schemas/ACLs/data/sequences match;208 saved key replay zero writes",
+        "passed": true
+      }
+    ],
+    "migrationCanonicalLfSha256": "9741b8183dfe074650f136225c1de2efa578223cd3ade9ad2eaf4379dc23ff65",
+    "readScale": {
+      "realWriterCases": 200,
+      "pageSize": 25,
+      "samplesMs": [
+        528,
+        510,
+        501,
+        503,
+        521
+      ],
+      "statementDeadlineMs": 5000
+    },
+    "restore": {
+      "logicalCatalogDifferences": 0,
+      "allPublicDataAndSequencesIdentical": true,
+      "replayZeroWrites": true
+    },
+    "ok": true,
+    "endedAt": "2026-10-21T17:04:58.347Z"
+  },
+  "distinctCases": 21,
+  "fullRunnerAcceptance": "Required in exact-SHA FULL CI;not claimed as one complete local run",
+  "fixtureCorrection": "Reused existing canonical supplier302 from golden fixture;no product/SQL/assertion change"
+}

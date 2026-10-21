@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-21T19:19:31.682Z",
+  "supersededSha": "2b2718cec50acc5038e4110522c0464151042209",
+  "supersededQualityRuns": [
+    39644148929,
+    39644160606
+  ],
+  "cancellationCompletedBeforeEdits": true,
+  "findings": [
+    {
+      "job": 119375274771,
+      "cause": "Home204 fixture classified the new readonly208 RPC as a mutation",
+      "correction": "Explicit valid208 read response;unknown mutations still forbidden"
+    },
+    {
+      "job": 119375274905,
+      "cause": "Inventory unavailable fixture omitted the independent208 reader,causing an additional error alert",
+      "correction": "Explicit valid208 zero response;new independent-failure case asserts two errors and no guessed asset zero"
+    }
+  ],
+  "productionSourceChanged": false,
+  "sqlChanged": false,
+  "permissionsChanged": false,
+  "assertionsWeakened": false,
+  "retries": 0,
+  "local": {
+    "browser": {
+      "passed": 6,
+      "engines": [
+        "chromium",
+        "webkit"
+      ],
+      "logDirectory": "nawasrah208-ci-repair-a9ef6afc2ea7489d81353dc4a500a756"
+    },
+    "adminUnits": {
+      "passed": 1324,
+      "failed": 0,
+      "skipped": 0
+    },
+    "typecheck": true,
+    "strictEslint": true,
+    "qualityLogDirectory": "nawasrah208-ci-repair-quality-81aaba82c4824133863449dc021a70cb"
+  },
+  "acceptance": "New exact-SHA FULL38 push and PR plus secrets;then mainFULL38 required",
+  "followup": {
+    "supersededSha": "95c335fc445104c0184b54f51f99342b75178fd9",
+    "qualityRuns": [
+      39646462132,
+      39646469749
+    ],
+    "cancelledBeforeEdits": true,
+    "job": 119383326619,
+    "cause": "Home financial status selector assumed only one independent status before208 pending reader",
+    "correction": "Explicit208 read fixture and financial-specific status selector;new independent pending-error assertion",
+    "localBrowser": {
+      "passed": 70,
+      "failed": 0,
+      "retries": 0,
+      "engines": [
+        "chromium",
+        "webkit"
+      ],
+      "fullAffectedFiles": [
+        "package-f-home",
+        "package-f-inventory",
+        "package-f-sales-history204"
+      ],
+      "logDirectory": "nawasrah208-home-fixture-c7b1e4574e78460086685b4251803b44"
+    },
+    "typecheck": true,
+    "strictEslint": true,
+    "unitCompatibility": {
+      "firstPass": 1323,
+      "failed": 1,
+      "cause": "New C9 inverse pin default rejection prefix differed from immutable206 mutation test identity",
+      "correction": "Only C9 new home-spec pin retains NAVIGATION206 rejection identity;old assertion/pins unchanged",
+      "finalPass": 1324,
+      "failedAfterCorrection": 0,
+      "skipped": 0,
+      "logDirectory": "nawasrah208-home-units-0222e44051464e478a572d2faaeaba0c"
+    }
+  },
+  "classificationRepair": {
+    "supersededSha": "0bef287223334e13a34347568237f7343c63de7b",
+    "pushFull38": {
+      "run": 39649865084,
+      "success": true,
+      "browserPassed": 1293,
+      "flaky": 0,
+      "diagnosticOnlyNotCurrentAcceptance": true
+    },
+    "prRun": 39649871824,
+    "coreJobsStoppedAt20Minutes": [
+      119395186150,
+      119410874317
+    ],
+    "bothAttemptsAdmin1324Store195Passed": true,
+    "browserAssertionFailuresObserved": 0,
+    "oneEnvironmentalRetryConsumed": true,
+    "rootCause": "New C9 UI spec added14cases to unshardedcore near existing20min job limit",
+    "correction": "Rename only to existing Package F five-shard classification;source bytes identical",
+    "from": "e2e/supplier-replacement208.spec.ts",
+    "to": "e2e/package-f-supplier-replacement208.spec.ts",
+    "sha256": "4689bb24da0ee0033cd46c618420a4488283f61ceef95793c6e261d2dd2dfbd2",
+    "discovery": {
+      "all": 1352,
+      "beforeCore": 486,
+      "afterCore": 472,
+      "afterPackageF": 880,
+      "shards": [
+        176,
+        176,
+        176,
+        176,
+        176
+      ],
+      "missing": 0,
+      "duplicates": 0
+    },
+    "local": {
+      "browserPassed": 14,
+      "retries": 0,
+      "focusedUnitsPassed": 34,
+      "skipped": 0,
+      "typecheck": true,
+      "strictEslint": true,
+      "browserDirectory": "nawasrah208-balanced-browser-eb6173cef3684885826493fa1bed0352",
+      "qualityDirectory": "nawasrah208-balanced-quality-0b39dbd2dc10472b9099cc0ab11e5325"
+    },
+    "productionChanged": false,
+    "sqlChanged": false,
+    "oldPinsChanged": false,
+    "testBodyChanged": false,
+    "assertionsChanged": false,
+    "timeoutChanged": false,
+    "retriesChanged": false,
+    "skipsAdded": false,
+    "remaining": "New exactfeature FULL38 push+PR/secrets then merge/mainFULL38"
+  },
+  "sharedGuardRepair": {
+    "supersededSha": "1903723f07bcf75dd746fe9243871845d7909965",
+    "cancelledQualityRuns": [
+      39658686790,
+      39658696580
+    ],
+    "cancelledBeforeEdits": true,
+    "failedJobs": [
+      119425761313,
+      119425799500
+    ],
+    "cause": "Package F classification also requires the unchanged shared ancestor-clipping guard;focused34units did not include the global layout contract",
+    "correction": "Import and execute existing checkLayout over entire replacement dialog;all original functional/no-overflow assertions retained",
+    "testCaseCountChanged": false,
+    "assertionsStrengthened": true,
+    "sharedGuardUnchanged": true,
+    "productionChanged": false,
+    "sqlChanged": false,
+    "local": {
+      "adminUnitsPassed": 1324,
+      "failed": 0,
+      "skipped": 0,
+      "typecheck": true,
+      "strictEslint": true,
+      "browserPassed": 14,
+      "retries": 0,
+      "engines": [
+        "chromium",
+        "webkit"
+      ],
+      "qualityDirectory": "nawasrah208-guard-quality-7e467602f0164262858dc42de2b73a2e",
+      "browserDirectory": "nawasrah208-guard-browser-352a60558e164bc580610d6d0748af13"
+    },
+    "currentSpecSha256": "e6b4deeb9a9bfb063d9991342ec86b6760d62965bfb7130d93a01472489db220"
+  }
+}

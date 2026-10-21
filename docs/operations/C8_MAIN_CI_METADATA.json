@@ -1,0 +1,73 @@
+{
+  "sha": "7e325a00bbeea7711ae1f2e650848fe61ec99f93",
+  "recordedAt": "2026-10-21T13:54:58.990Z",
+  "run": {
+    "id": 39608011111,
+    "status": "completed",
+    "result": "success",
+    "attempt": 1
+  },
+  "job": {
+    "id": 119260456632,
+    "name": "Complete quality delivery gate",
+    "status": "in_progress",
+    "result": null,
+    "started": "2026-10-21T13:48:49Z",
+    "completed": null,
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "result": "success",
+        "completed": "2026-10-21T13:48:51Z"
+      },
+      {
+        "name": "Checkout routed gate",
+        "status": "completed",
+        "result": "success",
+        "completed": "2026-10-21T13:48:54Z"
+      },
+      {
+        "name": "Verify all routed branches without weakening full delivery",
+        "status": "completed",
+        "result": "success",
+        "completed": "2026-10-21T13:48:54Z"
+      },
+      {
+        "name": "Post Checkout routed gate",
+        "status": "completed",
+        "result": "success",
+        "completed": "2026-10-21T13:48:54Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "result": "success",
+        "completed": "2026-10-21T13:48:55Z"
+      }
+    ]
+  },
+  "rerunRequested": true,
+  "managedAccess": false,
+  "requestedAt": "2026-10-21T13:55:41.771Z",
+  "reason": "RunSUCCESS andall5finaljobstepsSUCCESS for>6min,butjob/checkrun remainsin_progress;other36jobsSUCCESS. Onefinalgate-only sameSHA environmental rerun underowner15Oct delegation.",
+  "rerunHttpStatus": 201,
+  "rerunAccepted": true,
+  "resolution": {
+    "recordedAt": "2026-10-21T13:57:35.425Z",
+    "runAttempt": 2,
+    "runStatus": "completed",
+    "runConclusion": "success",
+    "all37JobsSuccess": true,
+    "finalJob": {
+      "id": 119264010729,
+      "status": "completed",
+      "result": "success",
+      "started": "2026-10-21T13:55:47Z",
+      "completed": "2026-10-21T13:55:55Z"
+    },
+    "strictDeliveryReady": true,
+    "sourceChanged": false,
+    "assertionsWeakened": false
+  }
+}

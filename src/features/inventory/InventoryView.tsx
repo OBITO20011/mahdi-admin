@@ -4,6 +4,7 @@ import {shallowEqual, useAppStoreActions, useAppStoreSelector} from '../../store
 import type {Product, InventoryMovement} from '../../types';
 import {formatProductInventory, formatWholesaleInventory} from '../../utils/inventoryFormatter';
 import {ClearInventoryBalanceDialog} from './ClearInventoryBalanceDialog';
+import {SupplierReplacementSummary} from './SupplierReplacementSummary';
 import {fetchInventoryProductPageFromSupabase, type InventoryProductPage, type InventoryProduct} from '../../services/supabase/inventory.service';
 import {Card, PageHeader, SectionHeader, DetailLayout, MainColumn, DetailPanel, KpiGrid, KpiCard, MoneyText, StatusBadge, StockBar, FilterChips, SegmentedControl, SearchField, UiButton, ProductGlyph, formatUiDate, type UiTone} from '../../components/ui';
 import {TableShell, Th, Tr, Td} from '../../components/ui';
@@ -281,6 +282,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
       </details>
     </>} />
     <div className="space-y-5 p-4 pb-28 sm:p-6">
+      <SupplierReplacementSummary />
       <KpiGrid phonePairs>
         <KpiCard label="قيمة المخزون بالتكلفة" value={metricsReady && Number.isFinite(totalCostValue) ? <MoneyText amount={totalCostValue} /> : 'غير متاح'} note="د.أ · متوسط التكلفة" />
         <KpiCard label="أصناف نشطة" value={kpi(activeItemCount)} note="الأصناف المفعّلة فقط" />

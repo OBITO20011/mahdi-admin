@@ -6,6 +6,8 @@ import {MobileDisclosure, MobileActionMenu, FormFields, UiButton, Card, formatJo
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAppStoreSelector, storeEngine } from '../../stores/useAppStore';
+import {useAuthStore} from '../../stores/useAuthStore';
+import {canUseSupplierReplacement} from '../../utils/supplierReplacement';
 import {
   PurchaseOrder,
   PurchaseOrderStatus,
@@ -91,6 +93,7 @@ const HistoryPagination: React.FC<{
 };
 
 export const PurchasesView: React.FC = () => {
+  const {roles,roleName}=useAuthStore();
   const warehouses = useAppStoreSelector((state) => state.warehouses);
 
   const [activeTab, setActiveTab] = useState<TabType>('orders');
@@ -814,6 +817,7 @@ export const PurchasesView: React.FC = () => {
       {/* TAB 3: Supplier Management */}
       {activeTab === 'suppliers' && (
         <div className="space-y-4">
+          {canUseSupplierReplacement(roles,roleName)&&<UiButton onClick={()=>storeEngine.openModal('supplier_replacement')}>استبدال المورد والمعلّق</UiButton>}
           {/* Top Suppliers Toolbar */}
           <Card padded={false} className="bg-nw-surface border border-nw-border p-4 rounded-2xl shadow space-y-3">
             <div className="flex flex-col md:flex-row items-center gap-3">

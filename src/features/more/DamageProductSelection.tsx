@@ -27,7 +27,7 @@ export function DamageProductSelection() {
   const select=async(productId:string)=>{
     if(selecting.current||!allowed)return;selecting.current=true;setBusy(true);setError('');const current=version.current;
     try{const product=await fetchAdminProductById(productId,'stockable');if(current!==version.current)return;if(!product)throw new Error('الصنف لم يعد متاحاً.');
-      cacheProductPage([product]);openModal('adjust_stock',{product,mode:'deduct'});
+      cacheProductPage([product]);openModal('supplier_replacement',{productId:product.id,damageOnly:true});
     }catch(cause){if(current===version.current)setError(cause instanceof Error?cause.message:'تعذر تحميل الصنف.');}
     finally{selecting.current=false;if(current===version.current)setBusy(false);}
   };

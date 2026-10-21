@@ -1,4 +1,7 @@
 import { UiButton } from '../../components/ui';
+import {useAuthStore} from '../../stores/useAuthStore';
+import {fetchSupplierReplacementOptions,submitSupplierReplacement,supplierReplacementRecovery,type ReplacementOptions} from '../../services/supabase/supplierReplacement.service';
+import type {ReplacementAttempt} from '../../services/supabase/supplierReplacementIntent';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { PackageCheck, PackageX, RefreshCw, RotateCcw } from 'lucide-react';
 import { CURRENCY } from '../../constants';
@@ -43,6 +46,13 @@ const rootQuantity = (representatives: AftercarePhysicalRepresentative[]) =>
 export const AdminAftercarePanel: React.FC<Props> = ({
   order, onChanged, onContractResolved, notify,
 }) => {
+  const {roles,roleName,user}=useAuthStore(),isOwner=roles.includes('owner')||roleName==='owner';
+  const supplierScope=`supplier-replacement208:return:${order.id}`;
+  const [supplierAttempt,setSupplierAttempt]=useState<ReplacementAttempt|null>(null);
+  const [supplierRecoveryError,setSupplierRecoveryError]=useState('');
+  const [destination,setDestination]=useState<'final'|'supplier'>('final');
+  const [returnSupplier,setReturnSupplier]=useState(''),[supplierSearch,setSupplierSearch]=useState('');
+  const [supplierOptions,setSupplierOptions]=useState<ReplacementOptions|null>(null),[supplierOptionsError,setSupplierOptionsError]=useState('');
   const [context, setContext] = useState<AdminAftercareContext | null>(null);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -61,7 +71,16 @@ export const AdminAftercarePanel: React.FC<Props> = ({
 
   const refreshRecoveryStates = useCallback(async () => {
     setRecoveryStates(await fetchAdminAftercareRecoveryStates(order.id));
-  }, [order.id]);
+    if(isOwner)try{setSupplierAttempt(await supplierReplacementRecovery(supplierScope));setSupplierRecoveryError('');}
+    catch(cause){setSupplierRecoveryError(cause instanceof Error?cause.message:'تعذر قراءة محاولة إرسال المرتجع للمورد.');}
+  }, [order.id,isOwner,supplierScope]);
+
+  useEffect(()=>{setSupplierAttempt(null);setDestination('final');setReturnSupplier('');setSupplierRecoveryError('');},[user?.id,isOwner,order.id]);
+  const suggestedProduct=returnDraft?.kind==='base'?returnDraft.productId:returnDraft?.parcel.components[0]?.productId;
+  useEffect(()=>{let active=true;setSupplierOptions(null);setSupplierOptionsError('');if(!isOwner||destination!=='supplier')return;
+    const timer=setTimeout(()=>{void fetchSupplierReplacementOptions('customer_return','',supplierSearch,suggestedProduct).then(value=>{if(active){setSupplierOptions(value);const last=value.lastSuppliers.find(s=>s.productId===suggestedProduct);if(last?.supplierId&&value.suppliers.some(s=>s.id===last.supplierId)){const lastId=last.supplierId;setReturnSupplier(current=>current||lastId);}}}).catch(cause=>{if(active)setSupplierOptionsError(cause instanceof Error?cause.message:'تعذر تحميل الموردين.');});},supplierSearch?250:0);
+    return()=>{active=false;clearTimeout(timer);};
+  },[isOwner,destination,supplierSearch,suggestedProduct,user?.id]);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -101,7 +120,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
     ];
   }, [context]);
   const hasPendingRecovery = recoveryStates.return?.recoverable === true
-    || recoveryStates.replacement?.recoverable === true;
+    || recoveryStates.replacement?.recoverable === true||supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared';
 
   if (loading) return (
     <div className="rounded-2xl border border-nw-border bg-nw-surface-2 p-3 text-center text-nw-muted">
@@ -122,8 +141,10 @@ export const AdminAftercarePanel: React.FC<Props> = ({
   const resetForm = () => {
     setReplacementSource(null); setReplacementQuantity(1); setReturnDraft(null); setReason(''); setNotes('');
     setReference(''); setRefundMethod('cash');
+    setDestination('final');setReturnSupplier('');
   };
   const runReplacement = async () => {
+    if(hasPendingRecovery||supplierRecoveryError){notify(supplierRecoveryError||'استعد المحاولة المعلقة قبل بدء عملية جديدة.','error');return;}
     if (!replacementSource || reason.trim().length < 3) {
       notify('اكتب سبب الاستبدال وحدد الوحدة الحالية.', 'error'); return;
     }
@@ -230,6 +251,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
     };
   };
   const runReturn = async () => {
+    if(hasPendingRecovery||supplierRecoveryError){notify(supplierRecoveryError||'استعد المحاولة المعلقة قبل بدء مرتجع جديد.','error');return;}
     let request: ReturnType<typeof buildReturn>;
     try { request = buildReturn(); } catch (buildError) {
       notify(businessErrorMessage(buildError), 'error');
@@ -248,6 +270,16 @@ export const AdminAftercarePanel: React.FC<Props> = ({
       const current = fresh.data.baseItems.flatMap(item => item.physicalRepresentatives)
         .concat(fresh.data.parcelInstances.flatMap(parcel => parcel.components.flatMap(component => component.physicalRepresentatives)));
       assertReturnCapacityUnchanged(selected, current);
+      if(destination==='supplier'){
+        if(!isOwner||!returnSupplier)throw new Error('اختر المورد من حساب المالك.');
+        const damaged=request.physical.filter(source=>source.defect_non_sellable_quantity>0);
+        if(!damaged.length)throw new Error('لا توجد كمية بعيب مورد غير قابلة للبيع لإرسالها.');
+        await submitSupplierReplacement(supplierScope,{action:'customer_return',expectedNonce:supplierAttempt?.nonce??null,
+          payload:{orderId:order.id,items:request.items,physicalSources:request.physical,reason:reason.trim(),refundMethod,referenceNumber:reference.trim()||null,notes:notes.trim()||null,
+            supplierAssignments:damaged.map(source=>({sourceKind:source.source_kind,sourceId:source.source_id,supplierId:returnSupplier}))}});
+        notify('تمت تسوية المرتجع وربط التالف بالمعلّق لدى المورد في معاملة واحدة.');
+        resetForm();await load();await onChanged?.();return;
+      }
       const result = await settleAdminReturn({orderId: order.id, items: request.items,
         physicalSources: request.physical, reason, refundMethod,
         referenceNumber: reference, notes});
@@ -301,6 +333,7 @@ export const AdminAftercarePanel: React.FC<Props> = ({
       </div>
 
       {hasPendingRecovery && <div className="space-y-2 rounded-xl border border-nw-warn bg-nw-warn-bg p-3">
+        {isOwner&&(supplierAttempt?.status==='unknown'||supplierAttempt?.status==='prepared')&&<UiButton disabled={busy} onClick={()=>void(async()=>{setBusy(true);try{await submitSupplierReplacement(supplierScope);notify('تم استرداد نتيجة المرتجع المرتبط بالمورد.');resetForm();await load();await onChanged?.();}catch(cause){notify(businessErrorMessage(cause),'error');}finally{await refreshRecoveryStates();setBusy(false);}})()}>استعادة المرتجع المرسل للمورد</UiButton>}
         <b className="text-nw-text">توجد عملية معلقة يجب استعادتها بنفس الهوية</b>
         <p className="text-[10px] text-nw-text">لا تبدأ عملية جديدة قبل معرفة نتيجة المحاولة السابقة.</p>
         <div className="flex gap-2">
@@ -457,6 +490,15 @@ export const AdminAftercarePanel: React.FC<Props> = ({
             })}
           </div>)}
         </div>}
+        {isOwner&&<div className="space-y-2 rounded-xl border border-nw-border p-3">
+          <label className="block text-sm">مصير عيب المورد غير القابل للبيع<select disabled={busy} value={destination} onChange={event=>setDestination(event.target.value as 'final'|'supplier')} className="min-h-11 w-full rounded bg-nw-surface p-2"><option value="final">تالف نهائي</option><option value="supplier">للمورد بانتظار الاستبدال</option></select></label>
+          {destination==='supplier'&&<>{supplierOptionsError?<p role="alert">{supplierOptionsError}</p>:!supplierOptions?<p role="status">جاري قراءة الموردين…</p>:<>
+            <label className="block text-sm">بحث المورد<input value={supplierSearch} onChange={event=>setSupplierSearch(event.target.value)} className="min-h-11 w-full rounded bg-nw-surface p-2"/></label>
+            <label className="block text-sm">المورد<select value={returnSupplier} onChange={event=>setReturnSupplier(event.target.value)} className="min-h-11 w-full rounded bg-nw-surface p-2"><option value="">اختر المورد</option>{supplierOptions.suppliers.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></label>
+            <p className="text-xs text-nw-muted">آخر مورد مستلم للصنف: {supplierOptions.lastSuppliers.find(s=>s.productId===suggestedProduct)?.supplierName??'لا يوجد دليل استلام'}. يُرسل عيب المورد فقط؛ تبقى التسوية المالية الحالية كما هي.</p>
+          </>}</>}
+        </div>}
+        {supplierRecoveryError&&<p role="alert">{supplierRecoveryError}</p>}
         <textarea value={reason} onChange={(event) => setReason(event.target.value)} rows={2}
           placeholder="سبب المرتجع" className="w-full rounded-lg border border-nw-border bg-nw-surface p-2 text-nw-text"/>
         <div className="grid grid-cols-3 gap-1">

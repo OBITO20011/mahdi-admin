@@ -104,6 +104,13 @@ test('inventory unavailable read is explicit and does not present guessed zero K
   await expect(page.getByTestId('inventory-workbench').getByText('غير متاح',{exact:true})).toHaveCount(4);
   await expect(page.getByRole('button',{name:'إعادة المحاولة'})).toBeVisible();
 });
+test('208 inventory and pending failures remain independent explicit alerts without guessed asset zero',async({page})=>{
+  await page.goto(url('unavailable=1&replacementUnavailable=1'));const pending=page.getByTestId('supplier-replacement-summary');
+  await expect(pending.getByRole('alert')).toContainText('تعذر قراءة المعلّق في تجربة208.');await expect(pending).not.toContainText('مجموع كميات الأصناف المعلّقة:');
+  await expect(page.getByRole('alert').filter({hasText:'تعذر تحميل صفحة المخزون.'})).toHaveCount(1);await expect(page.getByRole('alert')).toHaveCount(2);
+  await expect(page.getByTestId('inventory-workbench').getByText('غير متاح',{exact:true})).toHaveCount(4);await expect(page.getByRole('button',{name:'إعادة المحاولة',exact:true})).toHaveCount(2);
+});
+
 test('existing view-only reader visibility is retained without adding a role policy',async({page})=>{
   await page.goto(url('viewOnly=1'));await expect(page.getByTestId('inventory-workbench')).toContainText('18,642.300');
   await expect(page.locator('[data-side-nav-item="admin-users"]')).toHaveCount(0);

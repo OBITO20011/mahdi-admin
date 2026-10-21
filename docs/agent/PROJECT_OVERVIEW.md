@@ -1,3 +1,24 @@
+# Current C9 candidate208 — local gates accepted;FULL CI/merge pending
+
+Current ceiling208/hash9741B818;001-207 and oldreferences unchanged.
+1324Admin/types/strictlint/build,18focused208browser+56previousaffected,SDK142/RPC525/313sources PASS.
+SQL19 basegroups plus200realshipment readscale501-528ms/full logicalrestore PASS;
+full21 remains mandatory in CI. Reference170-534-13/freshincremental0,upgrade200..208/replay0writes,
+reset208Owner-TOTP-WHMAIN-Storage/ledger/publicreport208 and offline208 logic PASS.
+Reset CLI stale205 binding corrected to208;actual ownerREST-after-reset check added for FULL CI.
+Owner208 guide after mainacceptance;current207 until delivery. Then Prompt5 auditonly;
+parcel-only implementation forbidden pending ownerapproval.No hostedaccess/deploy.
+
+# Current21Oct — C8 delivered;C9 implementation authorized
+
+PR11/main7e325a0 strictFULL37 run39608011111+secrets39608011107 SUCCESS;
+core411/0flaky,actual207step/mergeSHA/deliveryReady verified. One finalgate-only
+environmentalrerun resolvedGitHubmetadata;see PARCEL_ONLY_C8_MAIN_CI/C8_MAIN_CI_METADATA.
+Read SUPPLIER_REPLACEMENT_C9.md,PHASE_C_CONTRACT andlatestOWNER_DECISIONS.
+C9 quantity/record/receive three roles;values/reverse/writeoff/return-supplier owner.
+Ceiling207 until additive208;001-207/oldpins/references immutable. Owner207 current.
+No hostedaccess/deploy;item20 remainsdesign only.
+
 # Current21Oct — C8 corrected local gates accepted;new exactCI next
 
 Item20 design/directC9 roles plusbounded207 sameimmutable success-status fix.

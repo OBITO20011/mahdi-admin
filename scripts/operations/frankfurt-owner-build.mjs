@@ -151,8 +151,11 @@ export async function functionReference(executor,ceiling=139){
  }else if(ceiling===206){
   // Frozen accepted C6/main413 manual; historical references never read the current207 manual.
   const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);assert.equal(functions.length,520,'FROZEN206_FUNCTION_COUNT');assert.equal(digest(JSON.stringify(ordered)),'30add3d828c117a5d2b9cc400a6ba6a7537829097e78431a598ec63beb6e512a','FROZEN206_FUNCTIONS_CHANGED');
+ }else if(ceiling===207){
+  // Accepted a637/main207 manual, byte-identical at delivered C8/main7e325.
+  const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);assert.equal(functions.length,523,'FROZEN207_FUNCTION_COUNT');assert.equal(digest(JSON.stringify(ordered)),'8b763fc1e0348b012fbcfa0206c59b4e2f20b8a42adf45309f18444d97bd75cc','FROZEN207_FUNCTIONS_CHANGED');
  }else{
-  assert.equal(ceiling,207,'UNAPPROVED_FUNCTION_REFERENCE');
+  assert.equal(ceiling,208,'UNAPPROVED_FUNCTION_REFERENCE');
   const rendered=renderFunctionReference(await migrationManifest(root),functions);
   assert.equal(rendered,canonicalLf(await readFile(path.join(root,'docs/generated/DB_FUNCTIONS.md'),'utf8')),'DB_FUNCTIONS_STALE');
  }

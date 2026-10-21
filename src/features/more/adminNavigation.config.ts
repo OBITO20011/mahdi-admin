@@ -266,6 +266,7 @@ const modalRoles:Partial<Record<ModalNameCallableWithoutPayload,readonly string[
   storefront_settings:['owner','admin','manager'],promotion_codes:SALES_WRITERS,
   parcel_configuration:['owner'],monitoring_dashboard:['owner'],add_product:STOCK_WRITERS,
   receive_goods:RECEIPT_READERS,add_expense:CASH_READERS,damage_stock_selection:STOCK_WRITERS,
+  supplier_replacement:['owner','manager','warehouse_keeper'],
 };
 export function hasNavigationRole(allowed:readonly string[],roleName:string|null|undefined,roles?:readonly string[]):boolean {
   const membership=new Set([...(roles??[]),roleName].filter((role):role is string=>typeof role==='string'));
@@ -292,6 +293,7 @@ export const ADMIN_NAVIGATION_GROUPS:readonly AdminNavigationGroup[] = [
   {id:'products-inventory',label:'المخزون والشراء',description:'',icon:Boxes,iconTone:'text-nw-info',items:[
     item('catalog-products'),item('supplier-receiving','الاستلام'),item('inventory-current','المخزون'),item('parcel-configuration'),
     {id:'inventory-damage',label:'بضاعة تالفة',description:'اختر المنتج ثم سجل التالف',icon:TriangleAlert,tone:'bg-nw-warn-bg text-nw-warn',action:{type:'modal',destination:'damage_stock_selection'}},
+    {id:'supplier-replacement',label:'استبدال المورد',description:'المعلّق واستلام البديل والتالف',icon:RotateCcw,tone:'bg-nw-info-bg text-nw-info',action:{type:'modal',destination:'supplier_replacement'}},
   ]},
   {id:'finance-reports',label:'المال',description:'',icon:WalletCards,iconTone:'text-nw-warn',items:[
     item('finance-shifts'),item('finance-expenses','المصاريف'),item('finance-reports','التقارير'),item('finance-cheques'),

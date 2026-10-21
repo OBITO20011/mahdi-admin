@@ -7,6 +7,8 @@ import { homeFixture } from './package-f-home.fixture';
 const base = process.env.ADMIN_BASE_URL ?? 'http://127.0.0.1:4173';
 const url = (query = '') => `${base}/e2e/package-f-home-harness.html?${query}`;
 
+test.beforeEach(async({page})=>{await page.route('**/rest/v1/rpc/get_supplier_replacements_page_v1',route=>route.fulfill({json:{contractVersion:208,page:1,pageSize:25,totalCount:0,pendingQuantity:0,pendingValueInMinorUnitsExact:'0.000000',cases:[]}}));});
+
 async function assertLayout(page: Page) {
   await checkLayout(page,page.getByTestId('dashboard-home'));
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -119,7 +121,7 @@ test('token Header keeps branch, notifications, profile and assistant actions an
 
 test('unavailable financial facts and absent shift are explicit, not zeros', async ({ page }) => {
   await page.goto(url('theme=dark&unavailable&noShift'));
-  await expect(page.getByTestId('dashboard-home').getByRole('status')).toContainText('الأرقام المالية غير متاحة');
+  await expect(page.getByTestId('dashboard-home').getByRole('status').filter({hasText:'الأرقام المالية غير متاحة'})).toContainText('الأرقام المالية غير متاحة');
   await expect(page.getByTestId('home-kpis')).not.toContainText('1,284.500');
   await expect(page.getByTestId('home-kpis')).not.toContainText('4,100.000');
   await expect(page.getByTestId('home-kpis')).not.toContainText('8,420.750');
@@ -137,7 +139,16 @@ test('live DashboardView still loads and refreshes the real adapter RPC contract
   expect(calls).toBe(1);
   payload.financialFactsStatus = 'unavailable';
   await page.getByRole('button', { name: 'تحديث مركز اليوم' }).click();
-  await expect(page.getByTestId('dashboard-home').getByRole('status')).toContainText('الأرقام المالية غير متاحة');
+  await expect(page.getByTestId('dashboard-home').getByRole('status').filter({hasText:'الأرقام المالية غير متاحة'})).toContainText('الأرقام المالية غير متاحة');
   await expect(page.getByTestId('home-kpis')).not.toContainText('4,100.000');
   expect(calls).toBe(2);
+});
+
+test('208 Home separates unavailable financial facts from a pending-asset read failure',async({page})=>{
+  await page.route('**/rest/v1/rpc/get_supplier_replacements_page_v1',route=>route.fulfill({status:500,json:{message:'تعذر قراءة المعلّق في تجربة208.'}}));
+  await page.goto(url('theme=dark&unavailable&noShift'));
+  await expect(page.getByTestId('dashboard-home').getByRole('status').filter({hasText:'الأرقام المالية غير متاحة'})).toHaveCount(1);
+  const pending=page.getByTestId('supplier-replacement-summary');await expect(pending.getByRole('alert')).toContainText('تعذر قراءة المعلّق في تجربة208.');await expect(pending).not.toContainText('مجموع كميات الأصناف المعلّقة:');
+  for(const amount of ['1,284.500','4,100.000','8,420.750'])await expect(page.getByTestId('home-kpis')).not.toContainText(amount);
+  await expect(page.getByRole('button',{name:'فتح الصندوق'})).toBeVisible();
 });

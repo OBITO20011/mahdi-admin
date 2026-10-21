@@ -32,6 +32,7 @@ import {
 } from '../../services/supabase/products.service';
 import { useAppStore } from '../../stores/useAppStore';
 import { useAuthStore } from '../../stores/useAuthStore';
+import {canUseSupplierReplacement} from '../../utils/supplierReplacement';
 import { ProductCostCorrectionPanel } from './ProductCostCorrectionPanel';
 import type { ProductEditComparisonRow, ProductEditSnapshot } from '../../utils/productEditConflict';
 import { ProductEditConflictPanel } from './ProductEditConflictPanel';
@@ -64,7 +65,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     refreshProductsFromSupabase,
     setToast,
   } = useAppStore();
-  const { roleName } = useAuthStore();
+  const { roleName,roles } = useAuthStore();
   const [showCostCorrection, setShowCostCorrection] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
   const [showVisibilityConfirm, setShowVisibilityConfirm] = useState(false);
@@ -996,6 +997,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
       </div>
 
       {/* Owner only; the database refuses every other role as well. */}
+      {!isFlavorFamily&&canUseSupplierReplacement(roles,roleName)&&<UiButton onClick={()=>openModal('supplier_replacement',{productId:product.id})}>استبدال المورد والمعلّق</UiButton>}
       {roleName === 'owner' && (isFlavorFamily ? flavors.length > 0 : true) && (
         showCostCorrection ? (
           <ProductCostCorrectionPanel

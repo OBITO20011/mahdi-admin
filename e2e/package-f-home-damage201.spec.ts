@@ -71,17 +71,21 @@ test('201 full report distinguishes unsupported,empty and malformed damage reads
  await expect(page.getByText('بيانات خسائر التلف غير مكتملة. أعد تحميل التقرير.',{exact:true})).toBeVisible();await expect(page.locator('.operational-report-print')).toHaveCount(0);
 });
 
-for(const width of [390,1440])test(`201 stock damage ${width}: four reasons,required other note and same RPC payload`,async({page})=>{
+for(const width of [390,1440])test(`208 keyed stock damage ${width}: four reasons,required other note and exact physical quantity`,async({page})=>{
  await page.setViewportSize({width,height:1000});
- let payload:unknown,calls=0;
- await page.route('**/rest/v1/rpc/adjust_inventory_stock',async route=>{calls++;payload=route.request().postDataJSON();await route.fulfill({status:400,json:{message:'رفض اختبار معزول بلا كتابة',code:'FIXTURE_REJECTION'}});});
+ let payload:Record<string,unknown>|undefined,calls=0,legacyCalls=0;
+ await page.route('**/rest/v1/rpc/adjust_inventory_stock',route=>{legacyCalls++;return route.abort();});
+ await page.route('**/rest/v1/rpc/get_supplier_replacement_options_v1',route=>route.fulfill({json:{contractVersion:208,products:[{id:'88888888-8888-4888-8888-000000000001',name:'عصير برتقال 250مل',sku:'INV-0001',baseUnitName:'باكيت',unitsPerParcel:24}],suppliers:[],warehouses:[{id:'88888888-8888-4888-8888-000000000099',name:'المستودع الرئيسي',branchId:'fixture-branch'}],lastSuppliers:[]}}));
+ await page.route('**/rest/v1/rpc/preview_supplier_replacement_v1',route=>route.fulfill({json:{contractVersion:208,action:'shop_damage',eligible:true,blockedReason:null,quantity:3,availableQuantity:100}}));
+ await page.route('**/rest/v1/rpc/execute_supplier_replacement_v1',async route=>{calls++;payload=route.request().postDataJSON();await route.fulfill({status:400,json:{message:'رفض اختبار معزول بلا كتابة',code:'P0001'}});});
  await page.goto(`${base}/e2e/package-f-products-harness.html?view=stock&theme=light`);
  const dialog=page.getByRole('dialog',{name:'تعديل المخزون'});await expect(dialog).toBeVisible();
  await dialog.getByRole('button',{name:'خصم من المخزون (-)',exact:true}).click();
- for(const reason of ['انكسر بالمحل','انتهت الصلاحية','تلف تخزين','أخرى'])await expect(dialog.getByRole('button',{name:reason,exact:true})).toBeVisible();
- await dialog.getByRole('button',{name:'أخرى',exact:true}).click();const note=dialog.getByLabel('ملاحظات إضافية',{exact:true});await expect(note).toHaveAttribute('required','');
- await dialog.getByLabel('الكمية',{exact:true}).fill('3');await dialog.getByRole('button',{name:'تأكيد تعديل المخزون',exact:true}).click();expect(calls).toBe(0);
- await note.fill('سقوط العبوة أثناء النقل');await dialog.getByRole('button',{name:'تأكيد تعديل المخزون',exact:true}).click();
- await expect.poll(()=>payload).toEqual({p_warehouse_id:'88888888-8888-4888-8888-000000000099',p_product_id:'88888888-8888-4888-8888-000000000001',p_actual_quantity:97,p_reason:'أخرى (سقوط العبوة أثناء النقل)',p_adjustment_type:'damage'});
- await expect(dialog.locator('form')).toHaveAttribute('aria-busy','false');await checkLayout(page,dialog);
+ const reason=dialog.getByRole('combobox',{name:'سبب التلف',exact:true});for(const name of ['انكسر بالمحل','انتهت الصلاحية','تلف تخزين','أخرى'])await expect(reason.getByRole('option',{name,exact:true})).toHaveCount(1);
+ await reason.selectOption('other');const note=dialog.getByLabel('ملاحظة التلف',{exact:true});await expect(note).toHaveAttribute('required','');
+ await dialog.getByLabel('العدد',{exact:true}).fill('3');await dialog.getByRole('button',{name:'معاينة العملية',exact:true}).click();expect(calls).toBe(0);await expect(dialog.getByRole('button',{name:'تأكيد وحفظ العملية'})).toHaveCount(0);
+ await note.fill('سقوط العبوة أثناء النقل');await dialog.getByRole('button',{name:'معاينة العملية',exact:true}).click();await dialog.getByRole('button',{name:'تأكيد وحفظ العملية'}).click();
+ await expect.poll(()=>calls).toBe(1);expect(legacyCalls).toBe(0);expect(payload!.p_action).toBe('shop_damage');expect(payload!.p_idempotency_key).toMatch(/^sr208:/);
+ expect(payload!.p_payload).toEqual({warehouseId:'88888888-8888-4888-8888-000000000099',productId:'88888888-8888-4888-8888-000000000001',quantity:3,unit:'base',reason:'سقوط العبوة أثناء النقل',reasonCode:'other'});
+ await expect(dialog.getByTestId('supplier-replacement-panel')).toHaveAttribute('aria-busy','false');await checkLayout(page,dialog);
 });

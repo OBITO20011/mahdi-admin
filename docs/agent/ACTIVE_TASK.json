@@ -2,53 +2,54 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Integrate accepted C8 parcel-only design/directC9 roles andbounded207 confirmed replay status fix;genuine mainmerge/exactmainFULL37+secrets thenC9.No hostedaccess/deploy.",
-  "baselineSha": "a63763def32d329f7472feee608a7092992f25ea",
+  "objective": "Integrate accepted C9 supplierreplacement/damage208;genuine mainmerge/exactmainFULL38+secrets then owner208 guide and Prompt5 audit.No hostedaccess/deploy.",
+  "baselineSha": "7e325a00bbeea7711ae1f2e650848fe61ec99f93",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "main",
   "phase": "PACKAGE_F",
   "completed": [
-    "C7 PR10/maina637 deliveredFULL37+secrets",
-    "C8 design/ownerC9 roles andbounded207 replayfix localgates accepted;see PARCEL_ONLY_C8_DELIVERY.json",
-    "Feature 5392762fc05c09c6e72341ac6ed079a9de6f114f exact push+PR FULL37+secrets strictlyverified"
+    "C8 PR11/main7e325 deliveredFULL37+secrets",
+    "C9 supplierreplacement/damage208 localgates accepted;see SUPPLIER_REPLACEMENT208_DELIVERY.json",
+    "Feature ec18333df7e1f0e58d0af5d820fd9a75fe396dd9 exact push+PR FULL38+secrets strictlyverified"
   ],
   "inProgress": [
-    "GenuineC8 mainmerge,exactmainFULL37+secrets next"
+    "GenuineC9 mainmerge,exactmainFULL38+secrets next"
   ],
   "notStarted": [
-    "C9 supplier replacement anddamage in owner order"
+    "Owner208 guide then Prompt5 audit;no parcel-only implementation"
   ],
   "testsPassed": [
-    "PriorC7 maina637 FULL37+secrets delivered",
-    "C8 initialdocs units1312+focusedcontinuity5/types/strictlint/offline207 PASS",
-    "Deterministic oldsource RED2positive/2negativePASS;rootfix30focused browsercases/repeats bothengines PASS,retries0",
-    "Full22correctionbrowser PASS;30focused repeats PASS,retries0",
-    "FreshactualSDK142 zOrclI/RPC513 or0izd all308currentprodhashes;0denied/errors",
-    "Offline203-207 PASS;alloldreference bytes unchanged",
-    "Final1315Admin/strictlint/build/types/preflight/currentreadiness/exactinverse PASS"
+    "Types/strictlint/build,1324units/0skip,15finalfocusedunits",
+    "18focused208browser plus56prioraffected;Chromium/WebKit retries0;network0escape",
+    "SQL19functional plusfocused200shipment/readscale501-528ms/fullrestore0diff+replay0writes at9741B818",
+    "SDK142/RPC525 complete313sourcehashes;only2 expected208reader role denials",
+    "Reference170migrations534functions13Realtime/freshincremental0;upgrade200..208+replay0writes",
+    "Actualreset208 owner/TOTP/WHMAIN preserved,Storage removed,ledgerempty,publicreport208;offline203-208localonly",
+    "Final corrective fixtures:70both-engine affectedcases/retries0,1324units/0skip,types/stricteslint PASS",
+    "Final classification+sharedguard:1352discovered/no loss/duplicate;14browser/retries0,1324units/0skip,types/strictlint PASS"
   ],
   "testsRemaining": [
-    "Exact mainFULL37+secrets"
+    "Exact mainFULL38+secrets"
   ],
   "findings": [
-    "C8 initialdocs badea04 pushcorePASS;PRcore3WebKitfailures saved0,trace shows2identicalRPCs andlocalstatusCASerror. BothobsoleteCIcancelled,noenvironmentalrerun.",
-    "Validated server success only;allowlocalstatussucceeded iff immutableattempt otherwiseidentical;changedrequest stillrejects. No financial/RPC/key/SQL/role change.",
-    "C8 additive inverse3files;old29pins and207evidence/reference frozen;207source readers composeexactinverse.",
-    "C9 direct21Oct:quantities owner/manager/warehouse_keeper;values andeventreversal owneronly."
+    "001-207/oldpins/references unchanged;no hostedaccess/deploy",
+    "C9 reader fixtures corrected;70affectedbrowser/1324units priorpass;actual208full21+resetREST passed on oldpush",
+    "Two oldPRcore20min cutoffs;oneenvretry consumed.Classification moved14cases;required existing layoutguard now executed;1324units+14browser PASS.No weaker assertions/skips/timeouts.See CI_REPAIR/ENVIRONMENT."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No hosted/Frankfurt/Production/secrets/deploy",
-    "001-207/oldpins/references immutable;item20design only;bounded207CASfix only",
-    "One writer;no tracked editsduringverification;no weakenedassertions/retries/skips/timeouts"
+    "001-207/oldpins/references immutable;no121financialwriter change",
+    "Onewriter;no tracked editsduringverification/CI;no weaker assertions/retries/skips/timeouts",
+    "No parcel-only implementation without explicit ownerapproval"
   ],
-  "checkpointedAt": "2026-10-21T13:26:14.287Z",
+  "nextExactAction": "Commit/push genuineC9 mainmerge;exactmainFULL38+secrets then owner208guide and Prompt5audit only.",
+  "checkpointedAt": "2026-10-21T19:54:54.670Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 24,
-  "filesTouchedManifestSha256": "589af234dce2a95677c784e7f7352a028f00fb2143a94f333a2ce10378c931e1",
-  "nextExactAction": "AcceptedC8 exactfeatureFULL37+secrets;genuine mainmerge metadataonly. Commit/pushmain thenexactmainFULL37+secrets beforeC9.No hostedaccess.",
-  "workingTreeFingerprint": "3A0B91B0F91018B0772FC6A20ADFC956DBDACDB45A7EC6B75FBF92F4086BAA22"
+  "filesTouchedCount": 97,
+  "filesTouchedManifestSha256": "be79ba741d1f649ee9404ca1a99f9d5d6494eb88efa0cb9710329265028ff5a9",
+  "workingTreeFingerprint": "6F63FC09BA229CD02EA2EA59E12F19F3D98013F3A58DEDBB9C41EC4A263ED833"
 }

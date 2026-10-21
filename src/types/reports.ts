@@ -7,6 +7,9 @@ export interface OperationalReportPeriod {
 }
 
 export interface DamageLosses {
+  contractVersion?:208;
+  gross?:number;
+  recovered?:number;
   total: number;
   additional: number;
   alreadyIncluded: number;

@@ -1,4 +1,5 @@
 import {FormFields,UiButton} from '../../components/ui';
+import {SupplierReplacementPanel} from '../inventory/SupplierReplacementPanel';
 /**
  * Nawasrah Business Manager - Stock Adjustment Modal
  */
@@ -80,6 +81,7 @@ export const StockAdjustmentModal: React.FC<StockAdjustmentModalProps> = ({
     }
   };
 
+  if(isDeduct)return <SupplierReplacementPanel productId={product.id} damageOnly />;
   return (
     <FormFields className="nw-products-fields min-w-0"><form onSubmit={handleSave} aria-busy={isSubmitting} className="nw-products-fields min-w-0 space-y-4 text-nw-text text-sm">
       {/* Product Card Header */}

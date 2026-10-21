@@ -1,3 +1,67 @@
+# Current21Oct —C9 feature FULL38 accepted;genuine mainintegration
+
+Exactfeature ec18333df7e1f0e58d0af5d820fd9a75fe396dd9 push+PR FULL38 and bothsecret scans SUCCESS.
+Only integration metadata differs;source/tests/SQL/tools equal acceptedfeature.
+MainFULL38+secrets next,then owner208 guide and Prompt5 audit. Owner208command prepared locally only.
+No hostedaccess/deploy.
+
+# C9 final classification/layout guard accepted locally;new CI next
+
+Shared existing checkLayout now executes over replacement dialog. All1324units/0skip,
+14both-engine browser/retries0,types/stricteslint PASS. No sharedguard/assertion weakening.
+1903723 CI superseded/cancelled before edits after missing required import/call contract.
+1352cases preserved;14 moved from unshardedcore to existing five balancedFshards.
+No production/SQL/oldpin/timeout/retry/skip change. ExactnewFULL38 thenmerge/mainFULL38.
+Then owner208 guide and Prompt5 auditonly;no hostedaccess or parcel-only implementation.
+
+# C9 CI distribution correction verified;new exact FULL38 next
+
+Old0bef push FULL38/1293browser0flaky and actual208full21/resetREST PASS.
+PRcore reached20min twice without assertion failures;one environmental retry consumed.
+Byte-identical14case spec moved to existing Package F five-shard classification.
+1352discovered/core472/F880/5x176,no loss/duplicate;14browser+34units/types/strictlint PASS.
+No timeout/retry/skip/assertion/production/SQL/oldpin changes. See CI_REPAIR/CI_ENVIRONMENT.
+NewexactFULL38 push+PR/secrets thenmerge/mainFULL38;owner208 guide then Prompt5 auditonly.
+No hostedaccess or parcel-only implementation.
+
+# Final C9 fixture correction accepted locally;new exactCI next
+
+70 affected browser cases in bothengines/retries0,1324units/0skip,types/stricteslint PASS.
+Home208 read fixture/status selector and independent failure assertion corrected.
+Only C9 new pin preserves206 public rejection identity;alloldpins/assertions unchanged.
+See SUPPLIER_REPLACEMENT208_CI_REPAIR.json. No production/SQL/permission changes.
+New exactFULL38 push+PR/secrets thenmerge/mainFULL38;owner208 guide then Prompt5 audit.
+No hostedaccess/deploy or parcel-only implementation.
+
+# C9 corrective fixtures verified;new FULL38 required
+
+First2b2718c quality runs superseded/cancelled before edits after two stale208-reader fixtures.
+No production/SQL/permission changes;explicit read fixtures and independent failure assertions.
+6focused cases bothengines/retries0,1324units/0skip,types/stricteslint PASS.
+See SUPPLIER_REPLACEMENT208_CI_REPAIR.json. ExactnewFULL38+secrets beforemerge/mainCI.
+Owner208 guide then Prompt5 audit;no hostedaccess or parcel-only implementation.
+
+# Current C9 candidate208 — local gates accepted;FULL CI/merge pending
+
+Current ceiling208/hash9741B818;001-207 and oldreferences unchanged.
+1324Admin/types/strictlint/build,18focused208browser+56previousaffected,SDK142/RPC525/313sources PASS.
+SQL19 basegroups plus200realshipment readscale501-528ms/full logicalrestore PASS;
+full21 remains mandatory in CI. Reference170-534-13/freshincremental0,upgrade200..208/replay0writes,
+reset208Owner-TOTP-WHMAIN-Storage/ledger/publicreport208 and offline208 logic PASS.
+Reset CLI stale205 binding corrected to208;actual ownerREST-after-reset check added for FULL CI.
+Owner208 guide after mainacceptance;current207 until delivery. Then Prompt5 auditonly;
+parcel-only implementation forbidden pending ownerapproval.No hostedaccess/deploy.
+
+# Current21Oct — C8 delivered;C9 implementation authorized
+
+PR11/main7e325a0 strictFULL37 run39608011111+secrets39608011107 SUCCESS;
+core411/0flaky,actual207step/mergeSHA/deliveryReady verified. One finalgate-only
+environmentalrerun resolvedGitHubmetadata;see PARCEL_ONLY_C8_MAIN_CI/C8_MAIN_CI_METADATA.
+Read SUPPLIER_REPLACEMENT_C9.md,PHASE_C_CONTRACT andlatestOWNER_DECISIONS.
+C9 quantity/record/receive three roles;values/reverse/writeoff/return-supplier owner.
+Ceiling207 until additive208;001-207/oldpins/references immutable. Owner207 current.
+No hostedaccess/deploy;item20 remainsdesign only.
+
 # Current21Oct —C8 feature FULL37 accepted;genuine mainintegration
 
 Exactfeature 5392762fc05c09c6e72341ac6ed079a9de6f114f push+PR FULL37 and bothsecret scans SUCCESS.

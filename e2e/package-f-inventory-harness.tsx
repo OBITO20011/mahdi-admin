@@ -34,6 +34,7 @@ storeEngine.setActiveTab('inventory');
 const originalRpc=supabase.rpc.bind(supabase);
 const client=supabase as unknown as {rpc:(name:string,args?:Record<string,unknown>)=>unknown};
 client.rpc=(name,args)=>{
+  if(name==='get_supplier_replacements_page_v1')return Promise.resolve(params.has('replacementUnavailable')?{data:null,error:{message:'تعذر قراءة المعلّق في تجربة208.'}}:{data:{contractVersion:208,page:1,pageSize:25,totalCount:0,pendingQuantity:0,pendingValueInMinorUnitsExact:'0.000000',cases:[]},error:null});
   if(params.has('live'))return originalRpc(name,args);
   // Fixed read fixture only; all mutations still go to the isolated API.
   if(name==='get_admin_inventory_product_page') {
