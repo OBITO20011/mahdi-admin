@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-10-21T19:06:13.590Z",
+  "recordedAt": "2026-10-21T19:19:31.682Z",
   "supersededSha": "2b2718cec50acc5038e4110522c0464151042209",
   "supersededQualityRuns": [
     39644148929,
@@ -137,5 +137,40 @@
     "retriesChanged": false,
     "skipsAdded": false,
     "remaining": "New exactfeature FULL38 push+PR/secrets then merge/mainFULL38"
+  },
+  "sharedGuardRepair": {
+    "supersededSha": "1903723f07bcf75dd746fe9243871845d7909965",
+    "cancelledQualityRuns": [
+      39658686790,
+      39658696580
+    ],
+    "cancelledBeforeEdits": true,
+    "failedJobs": [
+      119425761313,
+      119425799500
+    ],
+    "cause": "Package F classification also requires the unchanged shared ancestor-clipping guard;focused34units did not include the global layout contract",
+    "correction": "Import and execute existing checkLayout over entire replacement dialog;all original functional/no-overflow assertions retained",
+    "testCaseCountChanged": false,
+    "assertionsStrengthened": true,
+    "sharedGuardUnchanged": true,
+    "productionChanged": false,
+    "sqlChanged": false,
+    "local": {
+      "adminUnitsPassed": 1324,
+      "failed": 0,
+      "skipped": 0,
+      "typecheck": true,
+      "strictEslint": true,
+      "browserPassed": 14,
+      "retries": 0,
+      "engines": [
+        "chromium",
+        "webkit"
+      ],
+      "qualityDirectory": "nawasrah208-guard-quality-7e467602f0164262858dc42de2b73a2e",
+      "browserDirectory": "nawasrah208-guard-browser-352a60558e164bc580610d6d0748af13"
+    },
+    "currentSpecSha256": "e6b4deeb9a9bfb063d9991342ec86b6760d62965bfb7130d93a01472489db220"
   }
 }

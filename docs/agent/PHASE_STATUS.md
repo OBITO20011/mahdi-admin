@@ -1,3 +1,12 @@
+# C9 final classification/layout guard accepted locally;new CI next
+
+Shared existing checkLayout now executes over replacement dialog. All1324units/0skip,
+14both-engine browser/retries0,types/stricteslint PASS. No sharedguard/assertion weakening.
+1903723 CI superseded/cancelled before edits after missing required import/call contract.
+1352cases preserved;14 moved from unshardedcore to existing five balancedFshards.
+No production/SQL/oldpin/timeout/retry/skip change. ExactnewFULL38 thenmerge/mainFULL38.
+Then owner208 guide and Prompt5 auditonly;no hostedaccess or parcel-only implementation.
+
 # C9 CI distribution correction verified;new exact FULL38 next
 
 Old0bef push FULL38/1293browser0flaky and actual208full21/resetREST PASS.

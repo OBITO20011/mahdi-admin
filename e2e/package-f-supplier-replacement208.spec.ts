@@ -1,3 +1,4 @@
+import {checkLayout} from './package-f-layout';
 import {test,expect,type Page,type BrowserContext} from './isolated-test';
 const url='/e2e/supplier-replacement208-harness.html',product='88880000-0000-4000-8000-000000000002',supplier='88880000-0000-4000-8000-000000000003',warehouse='88880000-0000-4000-8000-000000000004';
 const caseRow={id:'88880000-0000-4000-8000-000000000005',supplierId:supplier,supplierName:'مورد التجربة',productId:product,productName:'صنف التجربة',warehouseId:warehouse,branchId:'branch',origin:'shop',quantity:2,commercialQuantity:2,unitsPerCommercialUnit:1,unitName:'باكيت',baseUnitName:'باكيت',pendingQuantity:2,receivedQuantity:0,writtenOffQuantity:0,occurredAt:'2026-10-21T10:00:00Z',events:[]};
@@ -13,6 +14,7 @@ test('208 pending UI uses current unit/solewarehouse and real service once;histo
  await page.goto(url+'?role=manager');await fill(page);await expect(page.getByLabel('المستودع',{exact:true})).toHaveCount(0);await expect(page.getByText('مستودع المحل',{exact:true})).toBeVisible();
  await page.getByRole('button',{name:'تأكيد وحفظ العملية'}).click();await expect(page.getByTestId('saved')).toHaveText('1');expect(requests.length).toBe(1);expect(requests[0].p_payload).toEqual({productId:product,supplierId:supplier,warehouseId:warehouse,quantity:2,unit:'base',reason:'نفس البضاعة إلى المورد'});
  await page.getByRole('button',{name:'المعلّق',exact:true}).click();await expect(page.getByText('المعلّق 2 باكيت',{exact:false})).toBeVisible();await expect(page.getByText('قيمة الأصل المعلّق',{exact:false})).toHaveCount(0);await expect(page.getByRole('button',{name:'معاينة رفض المورد'})).toHaveCount(0);
+ await checkLayout(page,page.getByRole('dialog'));
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
 });
 test('208 unknown survives reload and recovers identicalkey/payload without storing financialresult',async({page})=>{
