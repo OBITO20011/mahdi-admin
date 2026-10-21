@@ -14,13 +14,14 @@ function payload(input:Record<string,unknown>,empty=false){
   return {success:true,generatedAt:at,timeZone:'Asia/Amman',page,pageSize:size,totalCount:values.length,totalPages:Math.max(1,Math.ceil(values.length/size)),period:{kind:input.p_period??'day',fromDate:input.p_period==='all'?null:String(input.p_from_date??'2026-10-19'),toDate:input.p_period==='all'?null:String(input.p_to_date??'2026-10-19')},summary:{invoiceCount:values.length,salesCount:sales.length,salesInMinorUnits:sales.reduce((sum,r)=>sum+r.totalInMinorUnits,0),undatedInvoiceCount:values.filter(r=>r.status==='completed'&&!r.firstCompletedAt).length},rows:values.slice((page-1)*size,page*size)};
 }
 async function api(page:Page,mode:{empty?:boolean;failed?:boolean;malformed?:boolean}={}){
-  const reads:Record<string,unknown>[]=[],writes:string[]=[];
+  const reads:Record<string,unknown>[]=[],replacementReads:Record<string,unknown>[]=[],writes:string[]=[];
   await page.route('**/rest/v1/**',async route=>{
     const request=route.request(),url=new URL(request.url()),name=url.pathname.split('/').at(-1)!;
     if(name==='get_sales_history_page'){
       const input=request.postDataJSON();reads.push(input);
       return mode.failed?route.fulfill({status:500,json:{message:'فشل قراءة معزول'}}):route.fulfill({json:mode.malformed?{success:true}:payload(input,mode.empty)});
     }
+    if(name==='get_supplier_replacements_page_v1'){replacementReads.push(request.postDataJSON());return route.fulfill({json:{contractVersion:208,page:1,pageSize:25,totalCount:0,pendingQuantity:0,pendingValueInMinorUnitsExact:'0.000000',cases:[]}});}
     if(name==='get_home_dashboard')return route.fulfill({json:{...homeFixture,financialFactsStatus:'available',summary:{...homeFixture.summary,todaySalesInMinorUnits:56050,todayCompletedOrders:3}}});
     if(name==='get_admin_sales_aftercare_context_v1')return route.fulfill({json:{contractVersion:403,serverTime:at,supported:false,capability:'legacy_pos_v1_unsupported',baseItems:[],parcelInstances:[],returns:[],replacements:[],order:{id:request.postDataJSON().p_order_id,orderNumber:'INV-001',status:'completed',saleContract:null,source:'pos',branchId:id(200),warehouseId:id(201),completedAt:null,deadlineAt:null,withinWindow:false}}});
     if(request.method()!=='GET'){writes.push(name);return route.fulfill({status:403,json:{message:'Mutations forbidden in sales204 harness'}});}
@@ -32,7 +33,7 @@ async function api(page:Page,mode:{empty?:boolean;failed?:boolean;malformed?:boo
     if(name==='order_parcel_components')return route.fulfill({json:[{id:id(811),parcel_instance_id:id(801),product_id:id(111),base_quantity:10,product_name_snapshot:'جبنة قديمة',sku_snapshot:'CHEESE-OLD',base_unit_name_snapshot:'باكيت'},{id:id(812),parcel_instance_id:id(801),product_id:id(112),base_quantity:10,product_name_snapshot:'شطة قديمة',sku_snapshot:'CHILI-OLD',base_unit_name_snapshot:'باكيت'}]});
     return route.fulfill({json:[]});
   });
-  return {reads,writes};
+  return {reads,replacementReads,writes};
 }
 const open=(page:Page,query='')=>page.goto(`${base}/e2e/package-f-sales-history-harness.html?${query}`);
 for(const width of [390,1440])for(const theme of ['light','dark'])test(`204 live paged history/details/print/axe ${width} ${theme}`,async({page})=>{

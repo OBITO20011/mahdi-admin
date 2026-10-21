@@ -1,3 +1,11 @@
+# C9 corrective fixtures verified;new FULL38 required
+
+First2b2718c quality runs superseded/cancelled before edits after two stale208-reader fixtures.
+No production/SQL/permission changes;explicit read fixtures and independent failure assertions.
+6focused cases bothengines/retries0,1324units/0skip,types/stricteslint PASS.
+See SUPPLIER_REPLACEMENT208_CI_REPAIR.json. ExactnewFULL38+secrets beforemerge/mainCI.
+Owner208 guide then Prompt5 audit;no hostedaccess or parcel-only implementation.
+
 # Current C9 candidate208 — local gates accepted;FULL CI/merge pending
 
 Current ceiling208/hash9741B818;001-207 and oldreferences unchanged.

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-21T17:44:04.314Z",
+  "supersededSha": "2b2718cec50acc5038e4110522c0464151042209",
+  "supersededQualityRuns": [
+    39644148929,
+    39644160606
+  ],
+  "cancellationCompletedBeforeEdits": true,
+  "findings": [
+    {
+      "job": 119375274771,
+      "cause": "Home204 fixture classified the new readonly208 RPC as a mutation",
+      "correction": "Explicit valid208 read response;unknown mutations still forbidden"
+    },
+    {
+      "job": 119375274905,
+      "cause": "Inventory unavailable fixture omitted the independent208 reader,causing an additional error alert",
+      "correction": "Explicit valid208 zero response;new independent-failure case asserts two errors and no guessed asset zero"
+    }
+  ],
+  "productionSourceChanged": false,
+  "sqlChanged": false,
+  "permissionsChanged": false,
+  "assertionsWeakened": false,
+  "retries": 0,
+  "local": {
+    "browser": {
+      "passed": 6,
+      "engines": [
+        "chromium",
+        "webkit"
+      ],
+      "logDirectory": "nawasrah208-ci-repair-a9ef6afc2ea7489d81353dc4a500a756"
+    },
+    "adminUnits": {
+      "passed": 1324,
+      "failed": 0,
+      "skipped": 0
+    },
+    "typecheck": true,
+    "strictEslint": true,
+    "qualityLogDirectory": "nawasrah208-ci-repair-quality-81aaba82c4824133863449dc021a70cb"
+  },
+  "acceptance": "New exact-SHA FULL38 push and PR plus secrets;then mainFULL38 required"
+}

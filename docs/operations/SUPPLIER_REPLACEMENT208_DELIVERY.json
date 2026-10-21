@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-10-21T17:27:30.818Z",
+  "recordedAt": "2026-10-21T17:44:04.316Z",
   "baseline": "7e325a00bbeea7711ae1f2e650848fe61ec99f93",
-  "status": "LOCAL_GATES_PASS_FEATURE_FULL38_PENDING",
+  "status": "CORRECTIVE_FIXTURES_VERIFIED_NEW_FEATURE_FULL38_PENDING",
   "managedAccess": false,
   "migrationCeiling": 208,
   "migrationCanonicalLfSha256": "9741B8183DFE074650F136225C1DE2EFA578223CD3ADE9AD2EAF4379DC23FF65",
@@ -106,9 +106,9 @@
     "offline208Logic": true
   },
   "remaining": [
-    "Gitleaks0",
     "Exact feature FULL38 and secrets",
     "Genuine main merge then exact main FULL38 and secrets",
     "Prepare owner208 commands only then Prompt5 audit;parcel-only implementation forbidden"
-  ]
+  ],
+  "ciRepair": "SUPPLIER_REPLACEMENT208_CI_REPAIR.json"
 }

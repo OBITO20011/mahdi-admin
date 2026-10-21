@@ -74,6 +74,40 @@
         }
       ]
     },
+    "e2e/package-f-inventory-harness.tsx": {
+      "before": "3ef0ea93c70f3edb6210a7dabffe96254a343de5e0db9a5d62540523f0d48b47",
+      "after": "39b7a176c17cbf012e7b6833b7ddadf59e195facf0ee3cb0966b38105aab3626",
+      "errorPrefix": "SUPPLIER_REPLACEMENT208_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 37,
+          "before": [],
+          "after": [
+            "  if(name==='get_supplier_replacements_page_v1')return Promise.resolve(params.has('replacementUnavailable')?{data:null,error:{message:'تعذر قراءة المعلّق في تجربة208.'}}:{data:{contractVersion:208,page:1,pageSize:25,totalCount:0,pendingQuantity:0,pendingValueInMinorUnitsExact:'0.000000',cases:[]},error:null});"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-inventory.spec.ts": {
+      "before": "cef9b810d62fb300fa1c04fc8c1fe76fc28f8e9eb450fdda916f800e047ed25d",
+      "after": "450977b5fe17f4df5c1cc33a58669e4bb388be9130d862c071c0ec4b16ee078f",
+      "errorPrefix": "SUPPLIER_REPLACEMENT208_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 107,
+          "before": [],
+          "after": [
+            "test('208 inventory and pending failures remain independent explicit alerts without guessed asset zero',async({page})=>{",
+            "  await page.goto(url('unavailable=1&replacementUnavailable=1'));const pending=page.getByTestId('supplier-replacement-summary');",
+            "  await expect(pending.getByRole('alert')).toContainText('تعذر قراءة المعلّق في تجربة208.');await expect(pending).not.toContainText('مجموع كميات الأصناف المعلّقة:');",
+            "  await expect(page.getByRole('alert').filter({hasText:'تعذر تحميل صفحة المخزون.'})).toHaveCount(1);await expect(page.getByRole('alert')).toHaveCount(2);",
+            "  await expect(page.getByTestId('inventory-workbench').getByText('غير متاح',{exact:true})).toHaveCount(4);await expect(page.getByRole('button',{name:'إعادة المحاولة',exact:true})).toHaveCount(2);",
+            "});",
+            ""
+          ]
+        }
+      ]
+    },
     "e2e/package-f-navigation206-harness.tsx": {
       "before": "f701ce88a3b09f8b20ac56630c2a6ebfd60212c841af03fd24bdd685a581287a",
       "after": "e4089cf03f9df0b438498c267c126f72886d98eed4ac3e9b84a233aa25502c12",
@@ -99,6 +133,38 @@
           "before": [],
           "after": [
             "supabase.auth.getUser=async()=>({data:{user:{id:'88888888-8888-4888-8888-000000000098'}},error:null}) as Awaited<ReturnType<NonNullable<typeof supabase>['auth']['getUser']>>;"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-sales-history204.spec.ts": {
+      "before": "172e298bb4a6051387579d597bb40f091148dacfc6feee4a09f762858d08f687",
+      "after": "31e060d3ee68e406ba2ce0f8932de3e4610608f380f152e98fd64a9fd80b6c77",
+      "errorPrefix": "SUPPLIER_REPLACEMENT208_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [
+            "  const reads:Record<string,unknown>[]=[],writes:string[]=[];"
+          ],
+          "after": [
+            "  const reads:Record<string,unknown>[]=[],replacementReads:Record<string,unknown>[]=[],writes:string[]=[];"
+          ]
+        },
+        {
+          "at": 24,
+          "before": [],
+          "after": [
+            "    if(name==='get_supplier_replacements_page_v1'){replacementReads.push(request.postDataJSON());return route.fulfill({json:{contractVersion:208,page:1,pageSize:25,totalCount:0,pendingQuantity:0,pendingValueInMinorUnitsExact:'0.000000',cases:[]}});}"
+          ]
+        },
+        {
+          "at": 36,
+          "before": [
+            "  return {reads,writes};"
+          ],
+          "after": [
+            "  return {reads,replacementReads,writes};"
           ]
         }
       ]
