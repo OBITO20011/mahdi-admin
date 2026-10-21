@@ -1,3 +1,4 @@
+import {sourceBeforeCorrections207} from '../scripts/audit/source-before-corrections207.mjs';
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -82,7 +83,7 @@ const hash=(value:unknown)=>createHash('sha256').update(typeof value==='string'?
 
 test('Customers existing business calls and financial/load handlers match d70cd575 after hook separation',()=>{
   for(const expected of baseline){
-    const ast=ts.createSourceFile(expected.file,readFileSync(expected.file,'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
+    const ast=ts.createSourceFile(expected.file,sourceBeforeCorrections207(expected.file,readFileSync(expected.file,'utf8'))!,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
     const calls:string[]=[],changes:string[]=[],handlers:Record<string,string>={};
     function visit(n:ts.Node){
       if(ts.isAwaitExpression(n)||ts.isCallExpression(n)&&/(?:FromSupabase|Service|\.rpc$|^run[A-Z]|^openModal$)/u.test(n.expression.getText(ast)))calls.push(printer.printNode(ts.EmitHint.Unspecified,n,ast));

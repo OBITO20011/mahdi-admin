@@ -1,0 +1,93 @@
+{
+  "run": 39517993924,
+  "job": 118954738042,
+  "sha": "41382ad31f3e5d82aba4dc6ba6c75f6db4b0e159",
+  "managedAccess": false,
+  "sourceChanges": false,
+  "assertionsChanged": false,
+  "incident": "Fresh/incremental local reference crosses UTC midnight23:58-00:00;relative day partition difference",
+  "schemas": [
+    "realtime"
+  ],
+  "identities": [
+    "[\"realtime\",null,\"messages_BUILD_DAY_3\",null,null]",
+    "[\"realtime\",null,\"messages_BUILD_DAY_-2\",null,null]",
+    "[\"realtime\",\"messages_BUILD_DAY_3\",\"messages_BUILD_DAY_3_inserted_at_topic_idx\",null,null]",
+    "[\"realtime\",\"messages_BUILD_DAY_3\",\"messages_BUILD_DAY_3_pkey\",null,null]",
+    "[\"realtime\",\"messages_BUILD_DAY_-2\",\"messages_BUILD_DAY_-2_inserted_at_topic_idx\",null,null]",
+    "[\"realtime\",\"messages_BUILD_DAY_-2\",\"messages_BUILD_DAY_-2_pkey\",null,null]",
+    "[\"realtime\",\"messages_BUILD_DAY_3\",\"messages_BUILD_DAY_3_pkey\",null,\"p\"]",
+    "[\"realtime\",\"messages_BUILD_DAY_3\",\"messages_payload_exclusive\",null,\"c\"]",
+    "[\"realtime\",\"messages_BUILD_DAY_-2\",\"messages_BUILD_DAY_-2_pkey\",null,\"p\"]",
+    "[\"realtime\",\"messages_BUILD_DAY_-2\",\"messages_payload_exclusive\",null,\"c\"]"
+  ],
+  "logSha256": "643f501eeab4422d2d32c84ec6a50a75bf599b35a7c2026fe490d0dc248d8667",
+  "authorization": "Owner15Oct one evidence-backed environmental rerun",
+  "rerunDispatched": true,
+  "additionalJob": {
+    "id": 118954737819,
+    "name": "Isolated current contracts (package-f-reads)",
+    "schemas": [
+      "realtime"
+    ],
+    "identities": [
+      "[\"realtime\",null,\"messages_BUILD_DAY_-2\",null,null]",
+      "[\"realtime\",null,\"messages_BUILD_DAY_3\",null,null]",
+      "[\"realtime\",\"messages_BUILD_DAY_-2\",\"messages_BUILD_DAY_-2_inserted_at_topic_idx\",null,null]",
+      "[\"realtime\",\"messages_BUILD_DAY_-2\",\"messages_BUILD_DAY_-2_pkey\",null,null]",
+      "[\"realtime\",\"messages_BUILD_DAY_3\",\"messages_BUILD_DAY_3_inserted_at_topic_idx\",null,null]",
+      "[\"realtime\",\"messages_BUILD_DAY_3\",\"messages_BUILD_DAY_3_pkey\",null,null]",
+      "[\"realtime\",\"messages_BUILD_DAY_-2\",\"messages_BUILD_DAY_-2_pkey\",null,\"p\"]",
+      "[\"realtime\",\"messages_BUILD_DAY_-2\",\"messages_payload_exclusive\",null,\"c\"]",
+      "[\"realtime\",\"messages_BUILD_DAY_3\",\"messages_BUILD_DAY_3_pkey\",null,\"p\"]",
+      "[\"realtime\",\"messages_BUILD_DAY_3\",\"messages_payload_exclusive\",null,\"c\"]"
+    ],
+    "logSha256": "fa0ab69439c7091cbf7dc7e693f62d8f3cb87f76ed463eaf0462f980aa690d1d"
+  },
+  "resetJobs": [
+    {
+      "id": 118954737829,
+      "name": "warehouse-management",
+      "stage": "restore-exact-creation-acl",
+      "crossedUtcDate": true,
+      "childReportTruncated": true,
+      "causeStatus": "Reset comparison stage spans UTC midnight;full child error truncated;environmental cause inferred pending sameSHA rerun",
+      "logSha256": "0fea2815b41263a2c3ae816844194b55aa82373ac0f315023edc29b4b088cf5b"
+    },
+    {
+      "id": 118954737681,
+      "name": "legacy-product-cost",
+      "stage": "restore-exact-creation-acl",
+      "crossedUtcDate": true,
+      "childReportTruncated": true,
+      "causeStatus": "Reset comparison stage spans UTC midnight;full child error truncated;environmental cause inferred pending sameSHA rerun",
+      "logSha256": "75867e96d9b455c6d2ca13c2b4426936f908173260598e003d44d279d71675ec"
+    }
+  ],
+  "dispatchedAt": "2026-10-21T00:16:33.897Z",
+  "failedJobs": [
+    {
+      "id": 118954737681,
+      "name": "Isolated current contracts (legacy-product-cost)"
+    },
+    {
+      "id": 118954737819,
+      "name": "Isolated current contracts (package-f-reads)"
+    },
+    {
+      "id": 118954737829,
+      "name": "Isolated current contracts (warehouse-management)"
+    },
+    {
+      "id": 118954738042,
+      "name": "Isolated current contracts (owner-withdrawals)"
+    },
+    {
+      "id": 118962030687,
+      "name": "Complete quality delivery gate"
+    }
+  ],
+  "sameSha": "41382ad31f3e5d82aba4dc6ba6c75f6db4b0e159",
+  "noSourceChanges": true,
+  "noWeakerAssertions": true
+}

@@ -1,0 +1,528 @@
+{
+  "baseline": "41382ad31f3e5d82aba4dc6ba6c75f6db4b0e159",
+  "entries": {
+    "e2e/document-corrections207-harness.tsx": {
+      "before": null,
+      "after": "9b2ac0191ed907d7f0b2487c8538fba8fd341c1398b773a5bee5025a839d2239",
+      "added": true,
+      "hunks": []
+    },
+    "e2e/document-corrections207.spec.ts": {
+      "before": null,
+      "after": "92f273f494b8bce8bc6fd7a0c8488b8f59e66e0498eb02a0adfc324230ab8e96",
+      "added": true,
+      "hunks": []
+    },
+    "src/features/corrections/DocumentCorrectionAction.tsx": {
+      "before": null,
+      "after": "01bd2b71584c88411fe5066a234bfbc07eefda73032b2da9e243f0e0959d0f81",
+      "added": true,
+      "hunks": []
+    },
+    "src/features/crm/CustomerDetailView.tsx": {
+      "before": "7c6acb95fe821d8c423e6094b01eaa4886c310f2ad1eb0f7b5a9da2f5734ccb9",
+      "after": "10c6f81e3ca6a025ddcc994ed026cf02b4cf6223c22dc8e5163880ac35541d91",
+      "hunks": [
+        {
+          "at": 251,
+          "before": [
+            "      <MobileTabSection value=\"statement\"><CustomerStatement customerId={customer.id} revision={customer} /></MobileTabSection>"
+          ],
+          "after": [
+            "      <MobileTabSection value=\"statement\"><CustomerStatement customerId={customer.id} revision={customer} onChanged={async()=>{await load();onRefreshList();}} /></MobileTabSection>"
+          ]
+        }
+      ]
+    },
+    "src/features/crm/CustomerStatement.tsx": {
+      "before": "ac5c66a2ef0ff97cfcd6abaae3638e42c02ab0e3ff6077c726d9a104c637dcc7",
+      "after": "65242cbbc2d90b56681264f552f8d8f4fdcc774500814028b05911e894470621",
+      "hunks": [
+        {
+          "at": 4,
+          "before": [],
+          "after": [
+            "import {DocumentCorrectionAction} from '../corrections/DocumentCorrectionAction';"
+          ]
+        },
+        {
+          "at": 10,
+          "before": [
+            "export function CustomerStatement({customerId,revision}:{customerId:string;revision:unknown}) {"
+          ],
+          "after": [
+            "export function CustomerStatement({customerId,revision,onChanged}:{customerId:string;revision:unknown;onChanged?:()=>void|Promise<void>}) {"
+          ]
+        },
+        {
+          "at": 12,
+          "before": [],
+          "after": [
+            "  const correction=(row:CustomerStatementMovement)=>row.movement_type==='payment'&&/^payment:[0-9a-f-]{36}$/iu.test(row.movement_id)",
+            "    ?<DocumentCorrectionAction action=\"customer_payment\" recordId={row.movement_id.slice(8)} onChanged={async()=>{reload();await onChanged?.();}}/>:null;"
+          ]
+        },
+        {
+          "at": 33,
+          "before": [],
+          "after": [
+            "            {correction(row)}"
+          ]
+        },
+        {
+          "at": 46,
+          "before": [
+            "            <Td>{row.type_label}{row.reason&&<p className=\"m-0 text-xs text-nw-muted\">{row.reason}</p>}</Td><Td><bdi className=\"whitespace-nowrap\">{row.reference}</bdi></Td>"
+          ],
+          "after": [
+            "            <Td>{row.type_label}{correction(row)}{row.reason&&<p className=\"m-0 text-xs text-nw-muted\">{row.reason}</p>}</Td><Td><bdi className=\"whitespace-nowrap\">{row.reference}</bdi></Td>"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/OrderDetailModal.tsx": {
+      "before": "3beca2062d65974ec6273d96bf8f8748994316ab55951eb205a15983e291a58c",
+      "after": "2aa19c2b0f0a1a7fb2c00f992d2532c5da9a55a68c15efd080123ab4afa0c895",
+      "hunks": [
+        {
+          "at": 34,
+          "before": [],
+          "after": [
+            "import {DocumentCorrectionAction} from '../corrections/DocumentCorrectionAction';"
+          ]
+        },
+        {
+          "at": 479,
+          "before": [],
+          "after": [
+            "        {order.source==='pos'&&<DocumentCorrectionAction action=\"pos_sale\" recordId={order.id} insideMenu={historyContext} onChanged={async()=>{await onOrderChanged?.();setToast('تم عكس البيع وحفظ أثره التدقيقي.','success');}}/>}"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/PurchaseOrderDetailView.tsx": {
+      "before": "fa704fd2d80c50480f62a57f61067686a6cba2811205db441d7d18d04350f0dc",
+      "after": "6f797658c2520adaec1eb9b266fcfdfd2507b05133d05f5a72e66c90eafd979c",
+      "hunks": [
+        {
+          "at": 42,
+          "before": [],
+          "after": [
+            "import {DocumentCorrectionAction} from '../corrections/DocumentCorrectionAction';"
+          ]
+        },
+        {
+          "at": 689,
+          "before": [],
+          "after": [
+            "                          <DocumentCorrectionAction action=\"purchase_receipt\" recordId={rc.id} onChanged={async()=>{await loadPoDetails();onRefresh();}}/>"
+          ]
+        }
+      ]
+    },
+    "src/features/purchases/PurchasesView.tsx": {
+      "before": "e482ee5f2f0efa11a5767cf4f4bcff8acba35438efafdb10acb45d0f0d6c631a",
+      "after": "6588eee17f389b291b657d610962778262a2d5a3814873d1d278f9e379a33da5",
+      "hunks": [
+        {
+          "at": 51,
+          "before": [],
+          "after": [
+            "import {DocumentCorrectionAction} from '../corrections/DocumentCorrectionAction';"
+          ]
+        },
+        {
+          "at": 1120,
+          "before": [],
+          "after": [
+            "                          <DocumentCorrectionAction action=\"supplier_payment\" recordId={p.id} onChanged={loadData}/>"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/documentCorrections.service.ts": {
+      "before": null,
+      "after": "ece133af893b6ddde7ca9b49b45ef41a0d26185c5c127b1819d0f846c12aa34c",
+      "added": true,
+      "hunks": []
+    },
+    "src/utils/documentCorrection.ts": {
+      "before": null,
+      "after": "1585cef59c464506938f85831136b2730c04776f1da7827d2f1f9451bc937f8f",
+      "added": true,
+      "hunks": []
+    },
+    "tests/all-customer-collections203.test.ts": {
+      "before": "5a35de139e5da0256627468b492a10c652fd28c442d884c48107edf3bebfa01d",
+      "after": "d02a35a1ae19e5b5c0d51b5137355690d8fa0dada4733c31f166dc93ac8974a1",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,206);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,207);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());"
+          ]
+        }
+      ]
+    },
+    "tests/canonical-receivables197.test.ts": {
+      "before": "8fa91734ed20c45511d74cea7c9fd8063d72e1599eae9b10771c55ab1137efc1",
+      "after": "87a2124a113b196a7a3ebd0107294078e4ee6c49d471972349508d4cdc8d07a5",
+      "hunks": [
+        {
+          "at": 56,
+          "before": [
+            " assert.equal(state.migrationCeiling,206);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            " assert.equal(state.migrationCeiling,207);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [
+            " assert.equal(source.migrationCeiling,206);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,207);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/cashier-collections198.test.ts": {
+      "before": "823db30ab4d40cacca86429dc71f33428aed3677b97f0a5a5b977a3e438e2260",
+      "after": "2e4d4b328406df98c8d02e660efd25275b034d9ab4769b4d94c00e784e16310c",
+      "hunks": [
+        {
+          "at": 23,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,206);"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,207);"
+          ]
+        }
+      ]
+    },
+    "tests/cheques195-admission.test.ts": {
+      "before": "34a22d7777db0feadf16d41fc07be662aa9db91c75e12d89e3c9555c53bb1260",
+      "after": "bd8ec0309b951ad5f33c8913c9d9604007576fb369efd2b1075ba8b903ee3715",
+      "hunks": [
+        {
+          "at": 12,
+          "before": [
+            "  assert.equal(source.migrationCeiling,206);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            "  assert.equal(source.migrationCeiling,207);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/cheques195-parity.test.ts": {
+      "before": "a03ab9dd186ca14ad20aeb131fd8038b6e58d29089112c90d7af9feacf9ad2b3",
+      "after": "3d5a0c6847e7371bdef17495feacc2edbc4d044e0f560603a09b52f493f37862",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {corrections207Pins} from '../scripts/audit/source-before-corrections207.mjs';"
+          ]
+        },
+        {
+          "at": 19,
+          "before": [
+            "  if(Object.hasOwn(navigation206Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\\n// unapproved mutation\\n'),/NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED/u,'newest full-file pin rejects extra logic');"
+          ],
+          "after": [
+            "  if(Object.hasOwn(corrections207Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\\n// unapproved mutation\\n'),/CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED/u,'newest exact full-file pin rejects extra logic');",
+            "  else if(Object.hasOwn(navigation206Pins,file))assert.throws(()=>approvedCheques195Source(file,source+'\\n// unapproved mutation\\n'),/NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED/u,'newest full-file pin rejects extra logic');"
+          ]
+        }
+      ]
+    },
+    "tests/document-corrections207-evidence.test.ts": {
+      "before": null,
+      "after": "2ced638a9d85640b1411f44051d324fa74823c88107d9f18f67627df31d916bc",
+      "added": true,
+      "hunks": []
+    },
+    "tests/document-corrections207.test.ts": {
+      "before": null,
+      "after": "753876f9840fc364153c6c3a67f9d5daa1fd78b1caded2ebd3954e8f4db4dfde",
+      "added": true,
+      "hunks": []
+    },
+    "tests/go-live-integration164.test.ts": {
+      "before": "36871a1d4749fd59ce27f1e5f367896dfeec7cac7afb0c763aedd295ee4ca144",
+      "after": "bca33f03cb4b4db612fd2dedebd530052d40162bdfc987949b2604cff50dc746",
+      "hunks": [
+        {
+          "at": 29,
+          "before": [
+            " assert.equal(source.migrationCeiling,206);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,207);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/historical-reset-source.test.ts": {
+      "before": "3602cd7357a045956e9ea980bd57c1f099550f3da756c312893c59d9e1b083aa",
+      "after": "3426b87e121d8a50f6a7c1940c9b4b43019343146b5ed25454b5e7483d703a40",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            "for(const [ceiling,count] of [[182,151],[199,161],[200,162],[201,163],[202,164],[203,165],[204,166]])test(`historical reset rehearses exact${ceiling} bytes while live owner reset still rejects newer files`,async()=>{"
+          ],
+          "after": [
+            "for(const [ceiling,count] of [[182,151],[199,161],[200,162],[201,163],[202,164],[203,165],[204,166],[205,167],[206,168]])test(`historical reset rehearses exact${ceiling} bytes while live owner reset still rejects newer files`,async()=>{"
+          ]
+        },
+        {
+          "at": 26,
+          "before": [
+            " await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:206,manifest}),/HISTORICAL_RESET_CEILING/u);"
+          ],
+          "after": [
+            " await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:207,manifest}),/HISTORICAL_RESET_CEILING/u);"
+          ]
+        }
+      ]
+    },
+    "tests/navigation-cash206.test.ts": {
+      "before": "6a4965080892ad096db6565fe0b6891c521ab283fa672df8c9d20f455530f649",
+      "after": "66975194a9da624143b0097f47943cae15e01378ec5bab4d50856d44ffcd59d8",
+      "hunks": [
+        {
+          "at": 72,
+          "before": [
+            "    assert.throws(()=>sourceBeforeNavigation206(file,current+'\\nvoid 206;\\n'),/NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED/u);"
+          ],
+          "after": [
+            "    assert.throws(()=>sourceBeforeNavigation206(file,current+'\\nvoid 206;\\n'),/(?:NAVIGATION206|CORRECTIONS207)_ENTIRE_CURRENT_FILE_CHANGED/u);"
+          ]
+        },
+        {
+          "at": 79,
+          "before": [
+            "  assert.throws(()=>sourceBeforeNavigation206(file,older+'\\nvoid unapproved;\\n'),/NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED/u);"
+          ],
+          "after": [
+            "  assert.throws(()=>sourceBeforeNavigation206(file,older+'\\nvoid unapproved;\\n'),/(?:NAVIGATION206|CORRECTIONS207)_ENTIRE_CURRENT_FILE_CHANGED/u);"
+          ]
+        }
+      ]
+    },
+    "tests/opening-cheques196.test.ts": {
+      "before": "494e15d968aa63d6bb99d26240c0b8eba7952a78def5b33312836f4002e2f471",
+      "after": "d6df9393eb2f96b5aaf255f2f8444c5d3158a05f017e68937c04052244a5bb67",
+      "hunks": [
+        {
+          "at": 22,
+          "before": [
+            " assert.equal(source.migrationCeiling,206);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,207);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/package-f-customers.test.ts": {
+      "before": "33d2e30144ab7b1fcf4517a8947ce37671a705425d8c4b608ded3cda25f2152f",
+      "after": "bc1f128b6b843fb9121613bd6ce2a4edd08298791d511220b14cfc4441aae66f",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {sourceBeforeCorrections207} from '../scripts/audit/source-before-corrections207.mjs';"
+          ]
+        },
+        {
+          "at": 86,
+          "before": [
+            "    const ast=ts.createSourceFile(expected.file,readFileSync(expected.file,'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);"
+          ],
+          "after": [
+            "    const ast=ts.createSourceFile(expected.file,sourceBeforeCorrections207(expected.file,readFileSync(expected.file,'utf8'))!,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);"
+          ]
+        }
+      ]
+    },
+    "tests/package-f-phone-polish.test.ts": {
+      "before": "e307a8b058a080e14c39d347220c567419bde6d69ca247a1fbead9223745e1c9",
+      "after": "bfa876904e362349147ebc1ac7a856f0533b04b9704a4e387363a53a4b294de6",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {sourceBeforeCorrections207} from '../scripts/audit/source-before-corrections207.mjs';"
+          ]
+        },
+        {
+          "at": 43,
+          "before": [
+            "  const profile = readFileSync('src/features/crm/CustomerDetailView.tsx', 'utf8');"
+          ],
+          "after": [
+            "  const profileFile = 'src/features/crm/CustomerDetailView.tsx';",
+            "  const profile = sourceBeforeCorrections207(profileFile,readFileSync(profileFile, 'utf8'))!;"
+          ]
+        }
+      ]
+    },
+    "tests/product-integration171.test.ts": {
+      "before": "c8befca6292f837b6e362e32cc124272d911e1a86a02f25fea0d7919fd56bc48",
+      "after": "905dc1eefd88f5940d8f5b9a37f6ccd72e26d9bab5771ca6929eebf86092a22e",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [
+            " assert.equal(source.migrationCeiling,206);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,207);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 54,
+          "before": [
+            " assert.equal(services.migrationCeiling,206);assert.equal(services.ok,true);"
+          ],
+          "after": [
+            " assert.equal(services.migrationCeiling,207);assert.equal(services.ok,true);"
+          ]
+        }
+      ]
+    },
+    "tests/product-receiving205.test.ts": {
+      "before": "0a03627ccdb86085a1ee0f694f64d5f15641f20b7d75bfe70c9ba36091539099",
+      "after": "e1158e2f69c2129d6200c37b77681be79571a5983b5f12fcd774759ef6bed40d",
+      "hunks": [
+        {
+          "at": 42,
+          "before": [
+            "  for(const [file,pin]of Object.entries(receiving205Pins) as Array<[string,{before?:string;after:string;added?:boolean}]>){const current=read(file),restored=sourceBeforeProductReceiving205(file,current);assert.throws(()=>sourceBeforeProductReceiving205(file,current+'\\nvoid 205;\\n'),/(?:RECEIVING205|NAVIGATION206)_ENTIRE_CURRENT_FILE_CHANGED/u);if(pin.added)assert.equal(restored,null);else assert.equal(createHash('sha256').update(restored!).digest('hex'),pin.before);}"
+          ],
+          "after": [
+            "  for(const [file,pin]of Object.entries(receiving205Pins) as Array<[string,{before?:string;after:string;added?:boolean}]>){const current=read(file),restored=sourceBeforeProductReceiving205(file,current);assert.throws(()=>sourceBeforeProductReceiving205(file,current+'\\nvoid 205;\\n'),/(?:RECEIVING205|NAVIGATION206|CORRECTIONS207)_ENTIRE_CURRENT_FILE_CHANGED/u);if(pin.added)assert.equal(restored,null);else assert.equal(createHash('sha256').update(restored!).digest('hex'),pin.before);}"
+          ]
+        },
+        {
+          "at": 48,
+          "before": [
+            "  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,206);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            "  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,207);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ]
+        }
+      ]
+    },
+    "tests/sales-history204-evidence.test.ts": {
+      "before": "6e8ece43c1734057ad5beb1c910e8cd5580f7e94dccbef911e263d61530d74f7",
+      "after": "a09f190fc6118ef28746ccc78ad3f96782003131b2bd1d1db5a23d15e1b130fc",
+      "hunks": [
+        {
+          "at": 14,
+          "before": [
+            "    assert.throws(()=>sourceBeforeSales204(file,current+'\\n// unrelated change\\n'),/(?:SALES204|NAVIGATION206)_ENTIRE_CURRENT_FILE_CHANGED/u);"
+          ],
+          "after": [
+            "    assert.throws(()=>sourceBeforeSales204(file,current+'\\n// unrelated change\\n'),/(?:SALES204|NAVIGATION206|CORRECTIONS207)_ENTIRE_CURRENT_FILE_CHANGED/u);"
+          ]
+        },
+        {
+          "at": 24,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,206);"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,207);"
+          ]
+        }
+      ]
+    },
+    "tests/service-access-inventory.test.ts": {
+      "before": "816ac29225a77f895933dc12f48e21c93fd8a3aed63bb7c33edc2a763e5c93ef",
+      "after": "716a98be3c1a7bc37dadb1569025d1bedf12c5e4736ff86f8e9e94bc08329e66",
+      "hunks": [
+        {
+          "at": 27,
+          "before": [
+            " assert.equal(evidence.ok,true);assert.equal(evidence.migrationCeiling,206);assert.equal(evidence.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(evidence.ok,true);assert.equal(evidence.migrationCeiling,JSON.parse(await readFile('docs/agent/project-state.json','utf8')).migrationCeiling);assert.equal(evidence.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 49,
+          "before": [
+            " assert.match(source,/\\[198,199,200,201,202,203,204,205,206\\]\\.includes\\(migrationCeiling\\)/u);"
+          ],
+          "after": [
+            " assert.match(source,/\\[198,199,200,201,202,203,204,205,206,207\\]\\.includes\\(migrationCeiling\\)/u);"
+          ]
+        }
+      ]
+    },
+    "tests/trial-reset.test.ts": {
+      "before": "ca7332ed34608f8a9aeaa61897ab3472f2f467c0117f0f22217531e907585574",
+      "after": "d1a2c3cfa971d8c8e1e3f99430986f9c0e68ac07e43b46b10a529b652293f5d5",
+      "hunks": [
+        {
+          "at": 74,
+          "before": [
+            "test('reset admits frozen182/199/200/201/202/203 and current206 only and preserves the named main warehouse,not trial locations',()=>{"
+          ],
+          "after": [
+            "test('reset admits approved frozen prefixes and current207 only and preserves the named main warehouse,not trial locations',()=>{"
+          ]
+        },
+        {
+          "at": 83,
+          "before": [
+            " for(const migrationCeiling of [138,198,207])assert.throws(()=>assertResetCeiling({migrationCeiling}));"
+          ],
+          "after": [
+            " assert.equal(assertResetCeiling({migrationCeiling:207}),169);",
+            " for(const migrationCeiling of [138,198,208])assert.throws(()=>assertResetCeiling({migrationCeiling}));"
+          ]
+        }
+      ]
+    },
+    "tests/withdrawals182-admission.test.ts": {
+      "before": "937a570cac44154b9a596840ea7b4eab2ad7c68ca859c899d35ac369e07b2ab7",
+      "after": "92f403da5807e5ac1d585e1685811fd6c0bba90dd646355ba53bab70369cd485",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [
+            " assert.equal(source.migrationCeiling,206);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,207);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [
+            " assert.equal(services.migrationCeiling,206);assert.equal(services.ok,true);"
+          ],
+          "after": [
+            " assert.equal(services.migrationCeiling,207);assert.equal(services.ok,true);"
+          ]
+        }
+      ]
+    }
+  }
+}

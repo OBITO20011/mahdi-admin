@@ -2,54 +2,53 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Integrate accepted C6 storefront exactfeature FULL36+secrets;genuine mainmerge and exactmainFULL36+secrets then7-9.Ask only newfinancialquestion.No hostedaccess/deploy.",
-  "baselineSha": "f92f32b5000ecf203e2336709324c95a6eda651c",
+  "objective": "C7 approved four corrections in existing document menus;read-only serverpreview,reason,durablekey,currentroles/locks/guards. Independent PR/FULLCI/merge/mainCI then8 design;ask onlynewfinancialquestion.No hostedaccess.",
+  "baselineSha": "41382ad31f3e5d82aba4dc6ba6c75f6db4b0e159",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "main",
+  "branch": "codex/phase-c-corrections",
   "phase": "PACKAGE_F",
   "completed": [
-    "C5 PR8/mainf92f32b deliveredFULL36+secrets",
-    "C6 current local gates and actual M10 checkout accepted;see STOREFRONT_C6_DELIVERY.json",
-    "Feature 66811e6f441c9a4151996e898c224508ee76e090 exact push+PR FULL36+secrets strictlyverified"
+    "C6 PR9/main413 strictdeliveredFULL36+secrets;actual206step verified"
   ],
   "inProgress": [
-    "GenuineC6 mainmerge,exactmainFULL36+secrets next"
+    "C7 localgates accepted;featurecommit/PR/FULL37 andsecrets next"
   ],
   "notStarted": [
-    "Package7 then8-9 in owner order"
+    "C7 featureFULL37/merge/mainFULL37",
+    "C8 item20design then9"
   ],
   "testsPassed": [
-    "C5 PR8/mainf92 FULL36/secrets strictdelivered",
-    "C6 final51effectivebrowser/1oldskip includescatalogue+/- real lineID and unitline preservation;M10actual11orders/0duplicates/bothengines",
-    "Customer195;latestCustomer types/strictlint/build+SEO and9term/source/unit PASS",
-    "Final Admin1306/Customer195/types/strictlint/build+SEO/sourceinverse PASS",
-    "FinalSDK142/RPC507/network0escape PASS;offline203..206 PASS;immutable206 evidence and001-206 unchanged",
-    "CI label corrections:4/4 Chromium/WebKit and8 exactinverse/currentreadiness tests PASS;55effectivebrowser/1oldskip total"
+    "C6 PR9/main413 deliveredFULL36+secrets",
+    "C7 actual15DB/148browser/1313Admin/types/strictlint/build/network PASS",
+    "CurrentSDK142/RPC513;308 exactsourcehashes;no42501",
+    "Reference207169migrations/523functions/13Realtime/freshincremental0",
+    "Sameownerupgrade200..207andreplayno writes;207resetOwner-TOTP-Storage/catalog0 PASS",
+    "Offline203..207PASS;oldreferencebytesunchanged;referenceunits20PASS"
   ],
   "testsRemaining": [
-    "Exact mainFULL36+secrets"
+    "Exactfeaturepush+PR FULL37+bothsecrets",
+    "Genuine mainmergeandexactmainFULL37+secrets"
   ],
   "findings": [
-    "Owner15Oct known-own baseline/branch sync from PR8f92;no unknown changes/001-206 fixed",
-    "C6 WebKit counter reset fixed by clamp;termguard exception avoided;actualunitnames preserved",
-    "M10 first run12PASS/3FAIL/1oldskip:missing132allowlist and actual429 sharedKongIP in latecase;fixture allowlist and scenario-only abuse-state isolation added,all guards/assertions/limits unchanged",
-    "Final UI removed obsolete parcel-type facet and fixed FAQ;catalog RPC/payload/defaultall unchanged;no price/role/SQL rule change",
-    "Catalogue+/- used productId for a lineId writer;new adapter resolves only unlocked legacy parcel lines and reuses existing add/update paths;CartDrawer binding untouched. New1440 UI assertions retain unit-line identity/qty/price.",
-    "Initial d2cacf6 CI core385PASS/4FAIL from2oldlabel assertions;changed only2strings and2additive sourceinverse entries;old21pins/app/SQL/accessproof unchanged"
+    "Clean managed tree at delivered413;inheritedtask mismatch only branch/baseline/fingerprint;bounded owner15Oct known-own sync;001-206 unchanged",
+    "Noindividualcurrentpreview;old fullshift preview differs fromcurrent writer dependencies;newserverreader required",
+    "Customer/PO lack callerkey;reuse immutablebusiness_operations for narrowly keyed canonical coordinator;no financialwriter replacement",
+    "Browsersecond11PASS/1axeFAIL duringdata-stateopening;helper nowwaits existingopenstate. No threshold/assertion weakening. Addedstoragefailure/crosstab/busyguards.",
+    "Codeinspection found successstatus persistence message could wrongly suggest no request sent after committed response;neutral recovery text +actualbrowsercase added.No SQL/financial rule change."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No hosted/Frankfurt/Production/secrets/deploy",
-    "001-206 and accepted historicalproofs/references immutable",
-    "One writer;no tracked edits during localverification;no weaker assertions/retries/skips/timeouts"
+    "001-206 andhistoricalproofs/references immutable;207 only approvedC7 envelope",
+    "One writer;no tracked editsduringverification;no weakened assertions/retries/skips/timeouts"
   ],
-  "checkpointedAt": "2026-10-20T23:53:37.081Z",
+  "checkpointedAt": "2026-10-21T09:47:34.606Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 45,
-  "filesTouchedManifestSha256": "ba9965b6e9f5a002c3adc250f16cd96473422fb26d8736c152159c50dc60fe0b",
-  "nextExactAction": "C6 exact66811e6 featureFULL36 twice+secrets accepted;verify metadata integration then genuine mergecommit/push,mainFULL36/secrets then7.No hostedaccess.",
-  "workingTreeFingerprint": "D5D4CEE155A3EE99B604571739DA523F988816924C24798B58FA9B4FB412E7F5"
+  "filesTouchedCount": 70,
+  "filesTouchedManifestSha256": "f5b7b07b734b9ae9ad41f1d369ff0fb8c7ddf814cf82092a441b0a49748fc978",
+  "nextExactAction": "C7localaccepted;commit/push/PR afterstagedGitleaks0;featureFULL37+bothsecrets then genuine mainmerge/mainFULL37 and8.No hostedaccess.",
+  "workingTreeFingerprint": "A41DBD300FAF6486BD3430E44A094C71D52089F4E081949926BF17D5378E64AE"
 }

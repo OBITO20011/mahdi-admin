@@ -1,0 +1,69 @@
+{
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-corrections207-PILtSd",
+  "startedAt": "2026-10-21T01:32:54.058Z",
+  "managedAccess": false,
+  "cases": [
+    {
+      "name": "additive3functions+1keyindex only;all oldfunctions/ACL/rows/sequences unchanged",
+      "passed": true
+    },
+    {
+      "name": "actuallegacyN5 plusconfigurable5 sale9500 reverses10baseunits across3realSKUrepresentatives;physicalbalancesexactlyrestored;replayzero writes",
+      "passed": true
+    },
+    {
+      "name": "actualPOS cash2 returns2baseunits/cash2000;previewzero writes;durableexactreplay/conflictingreason/secondkeyblocked",
+      "passed": true
+    },
+    {
+      "name": "stalePOS latermovement failszero writes;payment dependency blocked;actual standalone debtpayment restoresdebt/cashonce",
+      "passed": true
+    },
+    {
+      "name": "unified collection component blocked without partial reversal/writes",
+      "passed": true
+    },
+    {
+      "name": "normal supplier receiptpayment writer restores payable/cash2000;no duplicate result or writes",
+      "passed": true
+    },
+    {
+      "name": "actualPO cancellation subtracts20units/payable12000 and restoreshistoricalWAC;durablekeyreplayzero writes",
+      "passed": true
+    },
+    {
+      "name": "actualPO generaladvance remainscredit2000 afterreceipt cancellation;ordinaryPO reversal restoresit;ownedinitialcash1000 returnedonce andnetpayable11000 removed",
+      "passed": true
+    },
+    {
+      "name": "labelled historical laterreceiptpayment blockedzero writes;actual later sale blocksquantity/WAC rollback",
+      "passed": true
+    },
+    {
+      "name": "real parallel samekey one effect/replay;differentkey same target one effect;crossrecord keyconflict",
+      "passed": true
+    },
+    {
+      "name": "actual standalone banktransfer keeps canonical nullshift;restoresdebt withoutinventedcash",
+      "passed": true
+    },
+    {
+      "name": "real incoming/outgoing originalcheques and195claim payment denied;no primitive substitution",
+      "passed": true
+    },
+    {
+      "name": "injected canonicalwriter failure rolls back balances/payment/reversal/audit/envelope;exactsamekey succeedsafter removing fixturefailure",
+      "passed": true
+    },
+    {
+      "name": "closedshift blocks new correction;previouscommitted result is read-only recoverable withsameactor/requestkey",
+      "passed": true
+    },
+    {
+      "name": "canonical role matrix/AAL2/anon-serviceACL preserved;all denied/read/error pathszero writes",
+      "passed": true
+    }
+  ],
+  "ok": true,
+  "endedAt": "2026-10-21T01:35:55.607Z"
+}

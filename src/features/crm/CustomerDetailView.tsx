@@ -248,7 +248,7 @@ export const CustomerDetailView: React.FC<CustomerDetailViewProps> = ({
       <MobileTabsBar label="تفاصيل العميل" />
       </div>
       <MobileTabSection value="summary"><CustomerAgingDetail customerId={customer.id} revision={customer} /></MobileTabSection>
-      <MobileTabSection value="statement"><CustomerStatement customerId={customer.id} revision={customer} /></MobileTabSection>
+      <MobileTabSection value="statement"><CustomerStatement customerId={customer.id} revision={customer} onChanged={async()=>{await load();onRefreshList();}} /></MobileTabSection>
       <div className="hidden lg:block"><UiButton variant="accent" onClick={() => setPaymentOpen(true)}>تحصيل من الزبون</UiButton></div>
 
       <MobileTabSection value="summary" primary={false}><div className="grid grid-cols-3 gap-2">
