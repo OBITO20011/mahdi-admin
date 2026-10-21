@@ -3,7 +3,7 @@
   "status": "PAUSED",
   "owner": "codex",
   "objective": "Implement approvedC9 supplierreplacement/damage:atomic immediate/pending/partialreceive/writeoff/reversal,owner-onlyvalues/reverse,ownerreturncoordinator unchanged121;realgates/currentreference/ownerCLI/fullCI/merge/mainCI.No hostedaccess.",
-  "baselineSha": "95c335fc445104c0184b54f51f99342b75178fd9",
+  "baselineSha": "0bef287223334e13a34347568237f7343c63de7b",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/phase-c-supplier-replacement",
   "phase": "PACKAGE_F",
@@ -13,7 +13,7 @@
     "Reference170-534-13/diff0,upgrade/replay0,resetOwner-TOTP-WHMAIN-Storage/208ledger/publicreport andoffline logic accepted"
   ],
   "inProgress": [
-    "Final corrective candidate;new exactFULL38 push+PR/secrets next"
+    "Byte-identical208 spec now uses existing fiveCIshards;newexactFULL38 next"
   ],
   "notStarted": [
     "Owner208 Arabic dry-run/apply/verify-only guide after merge;never hosted execution",
@@ -26,17 +26,17 @@
     "SDK142/RPC525 complete313sourcehashes;only2 expected208reader role denials",
     "Reference170migrations534functions13Realtime/freshincremental0;upgrade200..208+replay0writes",
     "Actualreset208 owner/TOTP/WHMAIN preserved,Storage removed,ledgerempty,publicreport208;offline203-208localonly",
-    "Final corrective fixtures:70both-engine affectedcases/retries0,1324units/0skip,types/stricteslint PASS"
+    "Final corrective fixtures:70both-engine affectedcases/retries0,1324units/0skip,types/stricteslint PASS",
+    "Classification:1352discovered/no loss/duplicates;14both-engine cases,retries0;34focused units/types/strictlint PASS"
   ],
   "testsRemaining": [
-    "Gitleaks0 then new exact feature FULL38/secrets,merge/mainFULL38",
+    "New exact featureFULL38 push+PR/secrets,merge/mainFULL38",
     "Owner208 guide then Prompt5 audit"
   ],
   "findings": [
     "001-207/oldpins/references unchanged;no hostedaccess/deploy",
-    "New pressurefixture corrected to existing canonical supplier302;CI alwaysfull21,localextensionfocus explicit",
-    "Ownerreset CLI stale205 binding corrected208;actualengine208 already locally proven",
-    "Two earlier candidate CI pairs superseded/cancelled before edits;three old208-reader fixture assumptions repaired.No product/SQL/role changes;old proof identities/pins preserved.See CI_REPAIR."
+    "C9 reader fixtures corrected;70affectedbrowser/1324units priorpass;actual208full21+resetREST passed on oldpush",
+    "Two PRcore20min cutoffs despite1324+195units/0fail;oneenvrerun consumed.Rename-only14case classification repair;testbytes identical.Separate CI_REPAIR/ENVIRONMENT evidence."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -46,12 +46,12 @@
     "Onewriter;no tracked editsduringverification/CI;no weaker assertions/retries/skips/timeouts",
     "No parcel-only implementation without explicit ownerapproval"
   ],
-  "nextExactAction": "Gitleaks0 commit/push final Home208 fixture repair;new exactFULL38 push+PR/secrets verify21fullSQL/resetREST/0flaky,merge/mainFULL38.Then owner208 guide and Prompt5 audit only.",
-  "checkpointedAt": "2026-10-21T18:07:17.578Z",
+  "nextExactAction": "Commit/push byte-identical208 browser classification repair after Gitleaks0;exactnewFULL38 push+PR/secrets incl full21SQL/resetREST/allbrowser summaries0flaky;merge/mainFULL38.Then owner208 guide and Prompt5 audit only.",
+  "checkpointedAt": "2026-10-21T19:06:14.561Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "66de8a3e3951c7c737a56aad35febc4421862999ce5b3ac31b3f480871e28d16",
-  "workingTreeFingerprint": "03F246E28D90BEEEE33AFB758D07888F72617D751C508E0421208888D2316315"
+  "filesTouchedCount": 6,
+  "filesTouchedManifestSha256": "ec5638bb32f4fad4cec8d73fca2b5723d6c5ca19d5d146b4e424c4d5f51fc750",
+  "workingTreeFingerprint": "DDD2241F2E3282E229332C5ABAAB1DE722FE7601BC3ED2D3CFBAD5798A7D687E"
 }

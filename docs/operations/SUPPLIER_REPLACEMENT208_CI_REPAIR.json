@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-10-21T18:07:16.334Z",
+  "recordedAt": "2026-10-21T19:06:13.590Z",
   "supersededSha": "2b2718cec50acc5038e4110522c0464151042209",
   "supersededQualityRuns": [
     39644148929,
@@ -80,5 +80,62 @@
       "skipped": 0,
       "logDirectory": "nawasrah208-home-units-0222e44051464e478a572d2faaeaba0c"
     }
+  },
+  "classificationRepair": {
+    "supersededSha": "0bef287223334e13a34347568237f7343c63de7b",
+    "pushFull38": {
+      "run": 39649865084,
+      "success": true,
+      "browserPassed": 1293,
+      "flaky": 0,
+      "diagnosticOnlyNotCurrentAcceptance": true
+    },
+    "prRun": 39649871824,
+    "coreJobsStoppedAt20Minutes": [
+      119395186150,
+      119410874317
+    ],
+    "bothAttemptsAdmin1324Store195Passed": true,
+    "browserAssertionFailuresObserved": 0,
+    "oneEnvironmentalRetryConsumed": true,
+    "rootCause": "New C9 UI spec added14cases to unshardedcore near existing20min job limit",
+    "correction": "Rename only to existing Package F five-shard classification;source bytes identical",
+    "from": "e2e/supplier-replacement208.spec.ts",
+    "to": "e2e/package-f-supplier-replacement208.spec.ts",
+    "sha256": "4689bb24da0ee0033cd46c618420a4488283f61ceef95793c6e261d2dd2dfbd2",
+    "discovery": {
+      "all": 1352,
+      "beforeCore": 486,
+      "afterCore": 472,
+      "afterPackageF": 880,
+      "shards": [
+        176,
+        176,
+        176,
+        176,
+        176
+      ],
+      "missing": 0,
+      "duplicates": 0
+    },
+    "local": {
+      "browserPassed": 14,
+      "retries": 0,
+      "focusedUnitsPassed": 34,
+      "skipped": 0,
+      "typecheck": true,
+      "strictEslint": true,
+      "browserDirectory": "nawasrah208-balanced-browser-eb6173cef3684885826493fa1bed0352",
+      "qualityDirectory": "nawasrah208-balanced-quality-0b39dbd2dc10472b9099cc0ab11e5325"
+    },
+    "productionChanged": false,
+    "sqlChanged": false,
+    "oldPinsChanged": false,
+    "testBodyChanged": false,
+    "assertionsChanged": false,
+    "timeoutChanged": false,
+    "retriesChanged": false,
+    "skipsAdded": false,
+    "remaining": "New exactfeature FULL38 push+PR/secrets then merge/mainFULL38"
   }
 }

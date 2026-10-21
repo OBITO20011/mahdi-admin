@@ -1,0 +1,49 @@
+{
+  "sha": "0bef287223334e13a34347568237f7343c63de7b",
+  "run": 39649871824,
+  "job": 119395186150,
+  "reason": "Identical push FULL38 success/860browser0flaky;PR admin1324/store195 passed,assertion-free browser progress cut off by20min job limit.One evidence-backed environmental rerun,no source/timeout/retry changes",
+  "requestedAt": "2026-10-21T18:37:47.905Z",
+  "result": {},
+  "originalAdminUnits": {
+    "passed": 1324,
+    "failed": 0
+  },
+  "originalStoreUnits": {
+    "passed": 195,
+    "failed": 0
+  },
+  "originalJobLimitMinutes": 20,
+  "originalBrowserAssertionFailures": 0,
+  "sameShaPush": {
+    "run": 39649865084,
+    "fullJobs": 38,
+    "browserPassed": 1293,
+    "flaky": 0,
+    "previous860CountWasLastEngineOnly": true
+  },
+  "retryJob": 119410874317,
+  "sourceChanged": false,
+  "timeoutChanged": false,
+  "testRetriesChanged": false,
+  "logs": [
+    {
+      "job": 119395155016,
+      "redactedSha256": "36e51b5e4121f0bc48956f7c4ecf64a345a1c915e88ec54f520ce88f63f16466"
+    },
+    {
+      "job": 119395186150,
+      "redactedSha256": "fe7e15b0612f7b4b4bc206170b906cde5076210b15399224c9606dbfcc0d64cf"
+    }
+  ],
+  "retryOutcome": "Job20minute cutoff repeated;no further environmental rerun",
+  "retryAdminUnits": {
+    "passed": 1324,
+    "failed": 0
+  },
+  "retryStoreUnits": {
+    "passed": 195,
+    "failed": 0
+  },
+  "rootCorrection": "Move byte-identical C9 browser spec into existing Package F five-shard classification;14 cases leave unsharded core;all1352discovered preserved;no timeout/retry/skip/assertion change"
+}

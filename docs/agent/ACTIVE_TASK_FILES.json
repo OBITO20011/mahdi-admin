@@ -11,11 +11,19 @@
     },
     {
       "code": " M",
-      "path": "e2e/package-f-home.spec.ts"
+      "path": "docs/operations/SUPPLIER_REPLACEMENT208_DELIVERY.json"
     },
     {
       "code": " M",
       "path": "scripts/audit/supplier-replacement208-hunks.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/SUPPLIER_REPLACEMENT208_CI_ENVIRONMENT.json"
+    },
+    {
+      "code": "R ",
+      "path": "e2e/package-f-supplier-replacement208.spec.ts -> e2e/supplier-replacement208.spec.ts"
     }
   ]
 }

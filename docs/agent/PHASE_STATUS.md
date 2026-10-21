@@ -1,3 +1,13 @@
+# C9 CI distribution correction verified;new exact FULL38 next
+
+Old0bef push FULL38/1293browser0flaky and actual208full21/resetREST PASS.
+PRcore reached20min twice without assertion failures;one environmental retry consumed.
+Byte-identical14case spec moved to existing Package F five-shard classification.
+1352discovered/core472/F880/5x176,no loss/duplicate;14browser+34units/types/strictlint PASS.
+No timeout/retry/skip/assertion/production/SQL/oldpin changes. See CI_REPAIR/CI_ENVIRONMENT.
+NewexactFULL38 push+PR/secrets thenmerge/mainFULL38;owner208 guide then Prompt5 auditonly.
+No hostedaccess or parcel-only implementation.
+
 # Final C9 fixture correction accepted locally;new exactCI next
 
 70 affected browser cases in bothengines/retries0,1324units/0skip,types/stricteslint PASS.
