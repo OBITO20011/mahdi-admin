@@ -1,3 +1,15 @@
+# Current21Oct — C7 two-tab test ordering strengthened
+
+14f pushFULL37 SUCCESS butnewWebKitcase flaky onexistingframework retry.
+Sameapp/SQL;test now proves actualheld1/pending1 before releasing heldresponse,
+activates tabs forinteraction,andretains all prior assertions/timeouts/retries.
+10focused+18full two-engine cases PASS withretries0. DB16/SDK142/RPC513/
+reference207/upgrade/reset/offline proofs remainexact(308unchangedprodsourcehashes).
+See DOCUMENT_CORRECTIONS_207_UI_CI_REPAIR.json. NewSHA push+PR FULL37 then
+genuine mainmerge/mainFULL37 required.No hostedaccess;owner206untilC7delivery.
+
+## Previous validation history
+
 # Current21Oct — corrected207 localgates accepted
 
 TwoexplicitJSONBcasts corrected firstCI lint;unchangedDBlint now part of207runtime.

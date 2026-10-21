@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "recordedAt": "2026-10-21T10:26:52.605713+00:00",
   "baseline": "41382ad31f3e5d82aba4dc6ba6c75f6db4b0e159",
-  "deliveryStatus": "LOCAL_PASS_CI_PENDING",
+  "deliveryStatus": "LOCAL_PASS_NEW_FEATURE_CI_PENDING",
   "readyForCi": true,
   "managedAccess": false,
   "migrationCeiling": 207,
@@ -31,10 +31,12 @@
       "engines": [
         "chromium",
         "webkit"
-      ]
+      ],
+      "additionalFocusedRepeatsPassed": 10,
+      "newCorrectionCasesRetestedWithoutRetries": 18
     },
-    "types": "PASS",
-    "strictLint": "PASS after DB-lint gate addition",
+    "types": "PASS afterqueuefixture",
+    "strictLint": "PASS afterqueuefixture",
     "adminBuild": "PASS",
     "network": {
       "externalRequestsEscaped": 0,
@@ -92,7 +94,12 @@
     },
     "referenceToolUnits": 20,
     "sourceInverseEntries": 29,
-    "dbLint": "PASS: unchanged existing policy;new207functions warning/error0"
+    "dbLint": "PASS: unchanged existing policy;new207functions warning/error0",
+    "productionSourceHashesUnchangedSinceCurrentDatabaseProof": true,
+    "sourceEvidenceTestsAfterQueueFix": {
+      "passed": 5,
+      "failed": 0
+    }
   },
   "repairs": [
     "18 oldAdmin failures: current206 expectations updated to207;exact source inverses composed before historical assertions;no financial assertion removed",
@@ -112,5 +119,6 @@
     39579733630,
     39579741593
   ],
-  "ciRepair": "DOCUMENT_CORRECTIONS_207_CI_REPAIR.json"
+  "ciRepair": "DOCUMENT_CORRECTIONS_207_CI_REPAIR.json",
+  "uiCiRepair": "DOCUMENT_CORRECTIONS_207_UI_CI_REPAIR.json"
 }

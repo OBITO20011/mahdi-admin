@@ -3,7 +3,7 @@
   "files": [
     {
       "code": "A ",
-      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_CI_REPAIR.json"
+      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_UI_CI_REPAIR.json"
     },
     {
       "code": "M ",
@@ -15,51 +15,15 @@
     },
     {
       "code": "M ",
-      "path": "docs/agent/project-state.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/generated/DB_FUNCTIONS.md"
-    },
-    {
-      "code": "M ",
       "path": "docs/operations/DOCUMENT_CORRECTIONS_207_DELIVERY.json"
     },
     {
       "code": "M ",
-      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_OFFLINE.json"
+      "path": "e2e/document-corrections207.spec.ts"
     },
     {
       "code": "M ",
-      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_REFERENCE.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_RESET.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_RUNTIME.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_UPGRADE.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
-    },
-    {
-      "code": "M ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_207.json"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/run-document-corrections207-runtime.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "supabase/migrations/207_document_correction_preview_and_once.sql"
+      "path": "scripts/audit/document-corrections207-hunks.json"
     }
   ]
 }

@@ -42,8 +42,17 @@ test('207 shared tab lock sends identical key while pending confirmation cannot 
  await context.route('**/rest/v1/rpc/execute_document_correction_once',async route=>{requests.push(route.request().postDataJSON());await hold;await route.fulfill({json:{success:true,contractVersion:207,action:'pos_sale',recordId,idempotent:requests.length>1,preview:preview(),writerResult:{success:true}}});});
  await page.goto(url);const second=await context.newPage();await second.goto(url);const a=await open(page),b=await open(second);for(const d of [a,b])await d.getByLabel('سبب التصحيح').fill('نفس خطأ المستند');
  try{
-  await a.getByRole('button',{name:'تأكيد التصحيح'}).click();await expect.poll(()=>requests.length).toBe(1);await page.keyboard.press('Escape');await expect(a).toBeVisible();await expect(a.getByRole('button',{name:'إغلاق',exact:true}).last()).toBeDisabled();
-  await b.getByRole('button',{name:'تأكيد التصحيح'}).click();release();await expect(page.getByTestId('saved')).toContainText('1');await expect(second.getByTestId('saved')).toContainText('1');expect(requests.length).toBe(2);expect(requests[1]).toEqual(requests[0]);
+  await page.bringToFront();await a.getByRole('button',{name:'تأكيد التصحيح'}).click();await expect.poll(()=>requests.length).toBe(1);await page.keyboard.press('Escape');await expect(a).toBeVisible();await expect(a.getByRole('button',{name:'إغلاق',exact:true}).last()).toBeDisabled();
+  await second.bringToFront();
+  const lockName=`document-correction207:66660000-0000-4000-8000-000000000001:pos_sale:${recordId}:lock`;
+  await Promise.all([
+   b.getByRole('button',{name:'تأكيد التصحيح'}).click(),
+   (async()=>{
+    await expect.poll(()=>second.evaluate(async name=>{const locks=await navigator.locks.query();return {held:locks.held?.filter(lock=>lock.name===name).length??0,pending:locks.pending?.filter(lock=>lock.name===name).length??0};},lockName)).toEqual({held:1,pending:1});
+    expect(requests.length).toBe(1);release();await page.bringToFront();await expect(page.getByTestId('saved')).toContainText('1');
+   })(),
+  ]);
+  await second.bringToFront();await expect(second.getByTestId('saved')).toContainText('1');expect(requests.length).toBe(2);expect(requests[1]).toEqual(requests[0]);
  }finally{release();await second.close();}
 });
 test('207 committed response with failed local success save retains its original recovery key',async({page})=>{
