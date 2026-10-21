@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-21T10:07:38.101Z",
+  "startedAt": "2026-10-21T12:44:09.315Z",
   "migrationCeiling": 207,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-6dcgSA",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-or0izd",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -655,7 +655,7 @@
     },
     {
       "file": "src/services/supabase/documentCorrections.service.ts",
-      "sha256": "ece133af893b6ddde7ca9b49b45ef41a0d26185c5c127b1819d0f846c12aa34c"
+      "sha256": "d96a4cbe2d0d28c465464da71282fbb2f6ce9de80fa71d14cc370e70eb069e32"
     },
     {
       "file": "src/services/supabase/expenses-shifts.service.ts",
@@ -15237,7 +15237,7 @@
       "command": "SELECT public.\"get_document_correction_preview\"(NULL::text,NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/documentCorrections.service.ts:48",
+      "site": "src/services/supabase/documentCorrections.service.ts:60",
       "name": "execute_document_correction_once",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -15253,7 +15253,7 @@
       "command": "SELECT public.\"execute_document_correction_once\"(NULL::text,NULL::uuid,NULL::text,'isolated-service-audit-0000000000000000000001','isolated-service-audit-0000000000000000000001')"
     },
     {
-      "site": "src/services/supabase/documentCorrections.service.ts:48",
+      "site": "src/services/supabase/documentCorrections.service.ts:60",
       "name": "execute_document_correction_once",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -15269,7 +15269,7 @@
       "command": "SELECT public.\"execute_document_correction_once\"(NULL::text,NULL::uuid,NULL::text,'isolated-service-audit-0000000000000000000001','isolated-service-audit-0000000000000000000001')"
     },
     {
-      "site": "src/services/supabase/documentCorrections.service.ts:48",
+      "site": "src/services/supabase/documentCorrections.service.ts:60",
       "name": "execute_document_correction_once",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -23453,7 +23453,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/documentCorrections.service.ts:48",
+      "site": "src/services/supabase/documentCorrections.service.ts:60",
       "name": "execute_document_correction_once",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -23473,7 +23473,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/documentCorrections.service.ts:48",
+      "site": "src/services/supabase/documentCorrections.service.ts:60",
       "name": "execute_document_correction_once",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -23493,7 +23493,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/documentCorrections.service.ts:48",
+      "site": "src/services/supabase/documentCorrections.service.ts:60",
       "name": "execute_document_correction_once",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -38893,7 +38893,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-21T10:10:01.033Z",
+  "endedAt": "2026-10-21T12:45:32.771Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -39257,7 +39257,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        653
+        665
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

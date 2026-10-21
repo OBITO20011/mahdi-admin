@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-21T12:06:33.100638+00:00",
+  "baseline": "a63763def32d329f7472feee608a7092992f25ea",
+  "deliveryStatus": "FEATURE_FULL37_PASS_MAIN_CI_PENDING",
+  "scope": "Item20 design/directC9 roles plus bounded207 local successful-replay status race correction",
+  "migrationCeiling": 207,
+  "newMigrations": [],
+  "managedAccess": false,
+  "ownerCommand": "frankfurt-owner-upgrade207",
+  "ownerCommandExecuted": false,
+  "ciRemaining": [
+    "Exact feature push/PR FULL37 and secrets",
+    "Genuine main merge and exact main FULL37/secrets"
+  ],
+  "priorC7MainEvidence": "DOCUMENT_CORRECTIONS_207_MAIN_CI.json",
+  "initialDocsOnlyGates": {
+    "productionTestsSqlToolsUnchanged": true,
+    "allChangesUnderDocs": true,
+    "projectStateOnlyBranchChanged": true,
+    "adminUnits": {
+      "fullRunPassed": 1312,
+      "fullRunFailed": 1,
+      "failure": "Inherited project-state branch main;continuity assertion expected actual feature branch",
+      "correction": "Branch metadata only;no test changes",
+      "focusedContinuityPassed": 5,
+      "remainingFailures": 0,
+      "skipped": 0
+    },
+    "types": "PASS",
+    "lint": "PASS",
+    "strictEslint": "PASS",
+    "preflightAfterBranchSync": "PASS",
+    "owner207OfflineDryRun": "PASS"
+  },
+  "repairEvidence": "CORRECTION_RECOVERY_C8_CI_REPAIR.json",
+  "validation": {
+    "focusedBrowserPasses": 30,
+    "retries": 0,
+    "sqlRpcKeyAndPermissionsUnchanged": true,
+    "historicalPinsUnchanged": true,
+    "browser": {
+      "passed": 22,
+      "focusedRepeatedPassed": 30,
+      "retries": 0,
+      "engines": [
+        "chromium",
+        "webkit"
+      ]
+    },
+    "sdk": {
+      "passed": 142,
+      "permissionDenied": 0,
+      "zeroRows": 0,
+      "otherErrors": 0,
+      "sourceFiles": 308,
+      "file": "TABLE_ACCESS_AFTER_C8_RECOVERY.json"
+    },
+    "rpc": {
+      "dispatches": 513,
+      "executeDenied": 0,
+      "file": "SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    "types": "PASS",
+    "offlineOwnerVersions": [
+      203,
+      204,
+      205,
+      206,
+      207
+    ],
+    "oldOwnerReferenceBytesUnchanged": true,
+    "adminUnits": {
+      "passed": 1315,
+      "failed": 0,
+      "skipped": 0
+    },
+    "strictLint": "PASS",
+    "adminBuild": "PASS",
+    "preflight": "PASS",
+    "historical207InverseAndMutationGuards": "PASS"
+  },
+  "remaining": [
+    "GenuineC8 mainmerge staged",
+    "ExactmainFULL37+secrets thenC9"
+  ],
+  "featureCI": {
+    "sha": "5392762fc05c09c6e72341ac6ed079a9de6f114f",
+    "recordedAt": "2026-10-21T13:25:38.386Z",
+    "managedAccess": false,
+    "quality": [
+      {
+        "id": 39602814065,
+        "event": "push",
+        "sha": "5392762fc05c09c6e72341ac6ed079a9de6f114f",
+        "conclusion": "success",
+        "attempt": 1,
+        "jobs": 37,
+        "strictFullVerified": true,
+        "actual207StepVerified": true
+      },
+      {
+        "id": 39602820102,
+        "event": "pull_request",
+        "sha": "5392762fc05c09c6e72341ac6ed079a9de6f114f",
+        "conclusion": "success",
+        "attempt": 1,
+        "jobs": 37,
+        "strictFullVerified": true,
+        "actual207StepVerified": true
+      }
+    ],
+    "secrets": [
+      {
+        "id": 39602813968,
+        "event": "push",
+        "sha": "5392762fc05c09c6e72341ac6ed079a9de6f114f",
+        "conclusion": "success"
+      },
+      {
+        "id": 39602819912,
+        "event": "pull_request",
+        "sha": "5392762fc05c09c6e72341ac6ed079a9de6f114f",
+        "conclusion": "success"
+      }
+    ],
+    "pr": {
+      "number": 11,
+      "url": "https://github.com/OBITO20011/mahdi-admin/pull/11",
+      "base": "a63763def32d329f7472feee608a7092992f25ea",
+      "head": "5392762fc05c09c6e72341ac6ed079a9de6f114f",
+      "state": "open"
+    },
+    "browserQA": {
+      "sha": "5392762fc05c09c6e72341ac6ed079a9de6f114f",
+      "recordedAt": "2026-10-21T13:06:19.592Z",
+      "cores": [
+        {
+          "run": 39602814065,
+          "event": "push",
+          "job": 119231435155,
+          "attempt": 1,
+          "passed": 411,
+          "duration": "12.1m",
+          "reportedFlaky": 0,
+          "corrections207FailuresOrFlakes": 0,
+          "logSha256": "0531991f8e1f534a3072ea73b7b6442107858543f7cdfa4de4335b1b97ec12d9"
+        },
+        {
+          "run": 39602820102,
+          "event": "pull_request",
+          "job": 119231457164,
+          "attempt": 1,
+          "passed": 411,
+          "duration": "11.2m",
+          "reportedFlaky": 0,
+          "corrections207FailuresOrFlakes": 0,
+          "logSha256": "3b888e0b982953f2f15992c90a878bc2a8ef016bc5287664e9edcec984b7c4d5"
+        }
+      ],
+      "ok": true
+    },
+    "ok": true
+  }
+}

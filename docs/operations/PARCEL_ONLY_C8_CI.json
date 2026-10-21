@@ -1,0 +1,78 @@
+{
+  "sha": "5392762fc05c09c6e72341ac6ed079a9de6f114f",
+  "recordedAt": "2026-10-21T13:25:38.386Z",
+  "managedAccess": false,
+  "quality": [
+    {
+      "id": 39602814065,
+      "event": "push",
+      "sha": "5392762fc05c09c6e72341ac6ed079a9de6f114f",
+      "conclusion": "success",
+      "attempt": 1,
+      "jobs": 37,
+      "strictFullVerified": true,
+      "actual207StepVerified": true
+    },
+    {
+      "id": 39602820102,
+      "event": "pull_request",
+      "sha": "5392762fc05c09c6e72341ac6ed079a9de6f114f",
+      "conclusion": "success",
+      "attempt": 1,
+      "jobs": 37,
+      "strictFullVerified": true,
+      "actual207StepVerified": true
+    }
+  ],
+  "secrets": [
+    {
+      "id": 39602813968,
+      "event": "push",
+      "sha": "5392762fc05c09c6e72341ac6ed079a9de6f114f",
+      "conclusion": "success"
+    },
+    {
+      "id": 39602819912,
+      "event": "pull_request",
+      "sha": "5392762fc05c09c6e72341ac6ed079a9de6f114f",
+      "conclusion": "success"
+    }
+  ],
+  "pr": {
+    "number": 11,
+    "url": "https://github.com/OBITO20011/mahdi-admin/pull/11",
+    "base": "a63763def32d329f7472feee608a7092992f25ea",
+    "head": "5392762fc05c09c6e72341ac6ed079a9de6f114f",
+    "state": "open"
+  },
+  "browserQA": {
+    "sha": "5392762fc05c09c6e72341ac6ed079a9de6f114f",
+    "recordedAt": "2026-10-21T13:06:19.592Z",
+    "cores": [
+      {
+        "run": 39602814065,
+        "event": "push",
+        "job": 119231435155,
+        "attempt": 1,
+        "passed": 411,
+        "duration": "12.1m",
+        "reportedFlaky": 0,
+        "corrections207FailuresOrFlakes": 0,
+        "logSha256": "0531991f8e1f534a3072ea73b7b6442107858543f7cdfa4de4335b1b97ec12d9"
+      },
+      {
+        "run": 39602820102,
+        "event": "pull_request",
+        "job": 119231457164,
+        "attempt": 1,
+        "passed": 411,
+        "duration": "11.2m",
+        "reportedFlaky": 0,
+        "corrections207FailuresOrFlakes": 0,
+        "logSha256": "3b888e0b982953f2f15992c90a878bc2a8ef016bc5287664e9edcec984b7c4d5"
+      }
+    ],
+    "ok": true
+  },
+  "ok": true
+}

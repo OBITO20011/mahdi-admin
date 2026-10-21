@@ -1,3 +1,33 @@
+# Current21Oct — C8 corrected local gates accepted;new exactCI next
+
+Item20 design/directC9 roles plusbounded207 sameimmutable success-status fix.
+1315Admin/types/strictlint/build/22full+30focusedbrowser PASS,retries0.
+FreshSDK142 zOrclI/RPC513 or0izd bindall308currentproduction sourcehashes.
+207SQL/old29pins/oldreferences unchanged;offline203-207 PASS.
+See CORRECTION_RECOVERY_C8_CI_REPAIR andPARCEL_ONLY_C8_DELIVERY.
+Initialbadea CIcancelled after3WebKit failures;newexactFULL37/secrets then
+merge/mainFULL37 beforeC9. No hostedaccess/deploy;owner207 unchanged.
+
+# Current21Oct — C8 design plus bounded207 recovery correction
+
+Item20 remains design only. PR11 also repairs a proven local recovery status
+race after a validated207 server replay;no RPC/key/payload/SQL/role change.
+Original docs-only CI is superseded/cancelled after3WebKit failures;not acceptance.
+New deterministic browser test RED2/GREEN2 and30focused repeats PASS,retries0.
+Exact C8 inverse composes before207;all29oldpins/001-207/reference bytes stay.
+FreshcurrentSDK/RPC andfullbrowser/quality/newexactFULL37 remain beforemerge.
+No hostedaccess/deploy. C9 ownerroles alreadydecided;ask onlynewfinancial question.
+
+# Current21Oct — C7 delivered;C8 docs-only thenC9
+
+PR10/maina63763d exactFULL37 run39593444652 +secrets39593444565 SUCCESS;
+strictdeliveryReady/actual207step/mergeSHA verified;core407/0flaky.
+Read design/PARCEL_ONLY_C8_DESIGN_AR.md andPHASE_C_CONTRACT.md.
+Item20 isdesign only here;no flag/RPC/migration implementation. ThenC9 in
+ownerorder;latestdirectroledecision inOWNER_DECISIONS. Old procedural
+review STOP superseded byowner20Oct;no Claudeapproval claimed.
+Ceiling207/owner207 offlinecommand;no hostedaccess/deploy.
+
 # Current21Oct — C6 delivered;C7 isolated preparation
 
 PR9 main41382ad strictFULL36 run39517993924 attempt2 +secrets39517993893 SUCCESS;

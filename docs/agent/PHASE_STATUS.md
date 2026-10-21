@@ -1,3 +1,40 @@
+# Current21Oct —C8 feature FULL37 accepted;genuine mainintegration
+
+Exactfeature 5392762fc05c09c6e72341ac6ed079a9de6f114f push+PR FULL37 and bothsecret scans SUCCESS.
+Only integration metadata differs;source/tests/SQL/tools equal acceptedfeature.
+MainFULL37+secrets next,thenC9. Owner207command prepared locally only.
+No hostedaccess/deploy.
+
+# Current21Oct — C8 corrected local gates accepted;new exactCI next
+
+Item20 design/directC9 roles plusbounded207 sameimmutable success-status fix.
+1315Admin/types/strictlint/build/22full+30focusedbrowser PASS,retries0.
+FreshSDK142 zOrclI/RPC513 or0izd bindall308currentproduction sourcehashes.
+207SQL/old29pins/oldreferences unchanged;offline203-207 PASS.
+See CORRECTION_RECOVERY_C8_CI_REPAIR andPARCEL_ONLY_C8_DELIVERY.
+Initialbadea CIcancelled after3WebKit failures;newexactFULL37/secrets then
+merge/mainFULL37 beforeC9. No hostedaccess/deploy;owner207 unchanged.
+
+# Current21Oct — C8 design plus bounded207 recovery correction
+
+Item20 remains design only. PR11 also repairs a proven local recovery status
+race after a validated207 server replay;no RPC/key/payload/SQL/role change.
+Original docs-only CI is superseded/cancelled after3WebKit failures;not acceptance.
+New deterministic browser test RED2/GREEN2 and30focused repeats PASS,retries0.
+Exact C8 inverse composes before207;all29oldpins/001-207/reference bytes stay.
+FreshcurrentSDK/RPC andfullbrowser/quality/newexactFULL37 remain beforemerge.
+No hostedaccess/deploy. C9 ownerroles alreadydecided;ask onlynewfinancial question.
+
+# Current21Oct — C7/main207 delivered;C8 shortdesign
+
+PR10 mergedtrue maina63763def32d329f7472feee608a7092992f25ea;
+FULL37 run39593444652 andsecrets39593444565 SUCCESS attempt1.
+StrictdeliveryReady/actual207step/mergeSHA verified,core407/0flaky.
+See operations/DOCUMENT_CORRECTIONS_207_MAIN_CI.json. C8docs-only item20
+shortdesign;C9 directownerdecision quantities three roles/values+reversal owner.
+No source/SQL changes;001-207 andowner207reference unchanged. OwnC8
+FULL37/merge/mainCI required beforeC9. No hostedaccess/deploy.
+
 # Current21Oct —C7 feature FULL37 accepted;genuine mainintegration
 
 Exactfeature c37ed77d00a2d5b05a3e86737557675c3483b1a0 push+PR FULL37 and bothsecret scans SUCCESS.

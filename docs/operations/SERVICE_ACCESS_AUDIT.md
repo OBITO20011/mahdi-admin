@@ -54,7 +54,7 @@
 | archive_supplier_receipt؛src/services/supabase/directReceiving.service.ts:467 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | cancel_supplier_receipt؛src/services/supabase/directReceiving.service.ts:500 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_document_correction_preview؛src/services/supabase/documentCorrections.service.ts:20 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
-| execute_document_correction_once؛src/services/supabase/documentCorrections.service.ts:48 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
+| execute_document_correction_once؛src/services/supabase/documentCorrections.service.ts:60 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | preview_cash_shift_full_reversal؛src/services/supabase/expenses-shifts.service.ts:207 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | reverse_cash_shift_with_operations؛src/services/supabase/expenses-shifts.service.ts:275 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
 | get_cash_shift_closing_report؛src/services/supabase/expenses-shifts.service.ts:304 | authenticated | owner:P0001؛ admin:P0001؛ cashier:P0001 |
@@ -255,7 +255,7 @@ publications/pg_publication_tables لايلتقطهماschema-catalogالحال�
 |---|---|---|
 | automation/n8n/workflows/nawasrah-alerts.json | 32, 89, 175, 228 | EXTERNAL_CONSUMER |
 | docs/agent/HANDOFF_HISTORY.md | 445 | HISTORICAL_DOCUMENTATION |
-| docs/agent/OWNER_DECISIONS.md | 653 | HISTORICAL_DOCUMENTATION |
+| docs/agent/OWNER_DECISIONS.md | 665 | HISTORICAL_DOCUMENTATION |
 | docs/operations/FRANKFURT_OWNER_BUILD_AR.md | 100 | HISTORICAL_DOCUMENTATION |
 | docs/operations/STAGING_FRANKFURT_AR.md | 247 | HISTORICAL_DOCUMENTATION |
 | scripts/backup/README.md | 28 | PRESERVE_OLD_BACKUP_LINK |

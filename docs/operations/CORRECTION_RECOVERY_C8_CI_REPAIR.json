@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-21T12:39:57.548871+00:00",
+  "obsoleteSha": "badea0458967eacaefc09aa0cae0ea4ffefe32d0",
+  "push": 39597073195,
+  "pullRequest": 39597091510,
+  "pushCore": {
+    "job": 119211999624,
+    "result": "success"
+  },
+  "prCore": {
+    "job": 119212045653,
+    "result": "cancelled after test failure and artifact upload",
+    "failedTest": "207 shared tab lock sends identical key while pending confirmation cannot close",
+    "attemptsWithSameFailure": 3,
+    "passedOtherCases": 406,
+    "artifact": 12346230062
+  },
+  "traceFinding": {
+    "allThreeTracesRpcCalls": 2,
+    "requestsIdentical": true,
+    "secondPageAlert": "تغيّرت حالة المحاولة؛ يلزم استعادتها."
+  },
+  "environmentalRerunRequested": false,
+  "obsoleteQualityRunsCancelledBeforeTrackedFix": true,
+  "deterministicRegression": {
+    "oldSourcePositiveFailures": 2,
+    "oldSourceDifferentIdentityPasses": 2,
+    "fixedFocusedPasses": 30,
+    "retries": 0,
+    "engines": [
+      "chromium",
+      "webkit"
+    ]
+  },
+  "scope": "LocalCAS after validatedserver success;allowonlysameimmutablealready-succeeded;noRPC/payload/key/SQL/role change",
+  "historical207PinsChanged": false,
+  "managedAccess": false,
+  "finalLocalBrowser": {
+    "passed": 22,
+    "retries": 0
+  },
+  "currentAccess": {
+    "sdkPassed": 142,
+    "rpcDispatches": 513,
+    "sourceFiles": 308,
+    "permissionDenied": 0
+  },
+  "current207ReferenceSha256": "1fb68178a9a4bd18ac958489a742e3cefc7a83c43f24cf251fd72f89ccf8bb88",
+  "localQuality": {
+    "adminUnits": 1315,
+    "failed": 0,
+    "skipped": 0,
+    "types": "PASS",
+    "strictLint": "PASS",
+    "adminBuild": "PASS",
+    "historicalInverseAndCurrentReadiness": "PASS",
+    "offline203through207": "PASS"
+  }
+}
