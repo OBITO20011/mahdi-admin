@@ -145,9 +145,18 @@
     },
     "scripts/testing/private-ci-scope.mjs": {
       "before": "e0ac8ebe288b2f1609e48cb67a7f9ff28e414a25c8ad8ad74ea19c9737b3ad19",
-      "after": "594c1f2deb5a0fd481c223f7df8d99631995e47dfd4e846e0bcf48eeee93720a",
+      "after": "5cba8d0daa43cf840d097b30ecf0bd9b54587220eb46aee293644ab9ed71b266",
       "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
       "hunks": [
+        {
+          "at": 12,
+          "before": [
+            "export const isPackageFSpec = file => /(?:^|\\/)package-f-[^/]+\\.spec\\.ts$/u.test(file);"
+          ],
+          "after": [
+            "export {isPackageFSpec} from './package-f-ci-shards.mjs';"
+          ]
+        },
         {
           "at": 119,
           "before": [
@@ -1055,11 +1064,40 @@
     },
     "tests/package-f-ci-shards.test.ts": {
       "before": "ed5ca8bf0d14ff47d123d3b56faf38f90b58d0fabd1babe1f5f2f7efafef8fce",
-      "after": "67f327264c72db25e7ac07b0acf43d4520d220d659326a4b8be1ec339d3c178d",
+      "after": "6c493300727f8fb5f997a1e04fc8bbed4a544975987943707dcb16deb1799c1e",
       "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
       "hunks": [
         {
-          "at": 43,
+          "at": 6,
+          "before": [
+            "import {packageFShardCount,packageFShards} from '../scripts/testing/package-f-ci-shards.mjs';"
+          ],
+          "after": [
+            "import {packageFShardCount,packageFShards,isPackageFSpec,packageFSpecPattern,notPackageFSpecPattern} from '../scripts/testing/package-f-ci-shards.mjs';"
+          ]
+        },
+        {
+          "at": 10,
+          "before": [],
+          "after": [
+            "test('206/207 interface suites share existing F shards with exact historical filenames on both path styles',()=>{",
+            "  for(const file of ['package-f-future.spec.ts','admin-navigation-cash206.spec.ts','document-corrections207.spec.ts']){",
+            "    for(const prefix of ['e2e/','C:\\\\repo\\\\e2e\\\\']){",
+            "      assert.equal(isPackageFSpec(prefix+file),true);",
+            "      assert.equal(packageFSpecPattern.test(prefix+file),true);",
+            "      assert.equal(notPackageFSpecPattern.test(prefix+file),false);",
+            "    }",
+            "  }",
+            "  for(const file of ['regular.spec.ts','document-corrections207.spec.ts.extra','other-document-corrections207.spec.ts']){",
+            "    assert.equal(isPackageFSpec('e2e/'+file),false);",
+            "    assert.equal(notPackageFSpecPattern.test('/repo/e2e/'+file),true);",
+            "  }",
+            "});",
+            ""
+          ]
+        },
+        {
+          "at": 57,
           "before": [
             "  assert.match(workflow,/needs: \\[scope, quality, package-f-browser, database-runtime, current-database-runtime\\]/);"
           ],

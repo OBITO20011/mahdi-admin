@@ -1,3 +1,11 @@
+#22Oct — P1 CI redistribution locally accepted;new exact CI next
+
+1364native identities unchanged;428core+936F/five shards. Both historical206/207 specs byte-identical;44cases PASS under actual F CI config/worker1/retries0. All1330Adminunits/0skip,52focused,types/strictlint PASS. Production316source proofs still exact;SQL/services/pins unchanged. Old28b CI cancelled,never accepted;new FULL39 push+PR/secrets then genuine merge/mainFULL39 required. No hostedaccess/P2/parcel-only.
+
+#22Oct — P1 CI budget repair;28b superseded,not accepted
+
+Push core passed1329Admin/195store/413browser+59existingconditional skips but total20m expired;PR core also expired. Both old runs stopped before edits. Route44byte-identical206/207 interface cases into the existing five F shards;one shared classification for planning/native discovery/Playwright. No source/RPC/SQL/testcase/worker/retry/skip/timeout change. Full1364 identity equality and new local/exact FULL39 gates required. See PRETRIAL_P1_CI_REPAIR.json.
+
 #22Oct — pretrial P1 local gates accepted;exact FULL CI next
 
 All seven approved P1 implemented;1329Adminunits/0skip,types/strictlint/build,SDK142/RPC525/316sources and final26bothenginebrowser PASS. PWA4/RED2;network0;Gitleaks0;native1364=472core+892F/all5shards. One unchanged26case environmental navigation rerun passed. Historical pins/SQL/services unchanged;ceiling/owner208. Exact feature push+PR FULL39 plus secrets,then genuine merge/mainFULL39 required. No hostedaccess/deploy/P2/parcel-only. See PRETRIAL_P1_DELIVERY_AR and PRETRIAL_P1_DELIVERY.json.

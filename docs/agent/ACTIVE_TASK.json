@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Implement owner-approved seven pretrial P1 items:PWA update bothengines,per-product/unit pendingquantities,hide unsupported CRMcard,receiving terms,Arabic productcode,plain replacement copy,known rejection messages.No money/RPC/migration change.",
-  "baselineSha": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
+  "baselineSha": "28b897da4eb361f8e82f25e2c19201b7ddb87a4c",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/pretrial-p1",
   "phase": "PACKAGE_F",
@@ -12,26 +12,26 @@
     "Owner-approved seven P1 implemented and local gates accepted;details PRETRIAL_P1_DELIVERY.json"
   ],
   "inProgress": [
-    "Commit and publish locally accepted P1 candidate for exact CI"
+    "Publish corrected CI distribution on existingPR13"
   ],
   "notStarted": [
     "Exact feature FULL39 CI/secrets,PR merge and main FULL39 acceptance"
   ],
   "testsPassed": [
-    "1329Adminunits/0skip;types/strictlint/build;networkisolation0escapes",
-    "SDK142/RPC525/316sources;expected2readerdenials only;freshEXECUTEsupplement",
-    "PWA RED2/GREEN4;corrected72+final26bothenginebrowser PASS,retries0",
-    "Native1364=472core+892F/all5shards;Gitleakschanged+untracked0;diffcheck0"
+    "All1330Adminunits/0skip;types/strictlint;52CIrepairfocused",
+    "Native1364 exactsameidentities;428core+936F;44movedspec bytesunchanged;actualCIconfig44bothengine PASS/worker1/retries0",
+    "P1 production gates preserved:SDK142/RPC525/316sourcehashes,build/networkisolation/PWA4;no production changes in CIrepair"
   ],
   "testsRemaining": [
-    "Exact feature push+PR FULL39/secrets/PWA4/full20821,then merge/mainFULL39"
+    "FinalGitleaks0/diffcheck;corrective commit/newexact feature push+PR FULL39/secrets;genuine merge/mainFULL39"
   ],
   "findings": [
     "Known worktree branch/HEAD checkpoint mismatch synchronized to our delivered b79a9e7 under owner authorization",
     "Primary18report/continuityfiles copied without disturbing main;old references/migrations immutable",
     "Expanded359:4expected-title failures after Arabic rename;selector only fixed with print-color assertions retained",
     "Allunits first1319/10fail:historical refusal identities,addedPWA expectation/inverse,Arabic labels,missing offline service supplement.Fixed89focused PASS;no assertions/pins weakened.",
-    "Final browser25/26:one Chromium page.goto local net::ERR_TIMED_OUT before assertions while SDK+build active.One identical full26 environmental rerun after all heavy gates stopped;no retries/timeouts/source change."
+    "Final browser25/26:one Chromium page.goto local net::ERR_TIMED_OUT before assertions while SDK+build active.One identical full26 environmental rerun after all heavy gates stopped;no retries/timeouts/source change.",
+    "28b superseded:push1329/195units and413browser/59skip passed,but total20m job cancelled;PRsamebudget.No acceptedCI.Reroute44 identical206/207cases;no test/timeout/retry/worker/SQL changes."
   ],
   "blockers": [],
   "activeProcesses": [],
@@ -41,12 +41,12 @@
     "P2 deferred;no parcel-only implementation",
     "One writer;no tracked edits during verification;no weakened assertions/retries/skips/timeouts"
   ],
-  "nextExactAction": "Commit/push locally accepted P1 candidate;create and attach PR;discover and verify exact push+PR FULL39/secrets with actualPWA4/full20821/reset/browser1305;then genuine mainmerge and FULL39.",
-  "checkpointedAt": "2026-10-21T22:13:21.659Z",
+  "nextExactAction": "Commit/push CI-only redistribution;PR13 newexact push+PR FULL39/secrets with actualPWA4/full20821/reset/browser1305 and zero flaky required;then genuine mainintegration/FULL39.",
+  "checkpointedAt": "2026-10-21T22:50:12.247Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 78,
-  "filesTouchedManifestSha256": "6050b7b90be5be549f6c4b39227c2d6865df2658fceb518db32a5f0ba123b136",
-  "workingTreeFingerprint": "F58F7F4C6CCBEBC02C722F0518A6A9F63B501DD4DF7BB2148B38DB79B19A0AF8"
+  "filesTouchedCount": 11,
+  "filesTouchedManifestSha256": "85286f7eb1001b5262fd83296432c487b5f6d5bb556de85ffa9c71b77abb6e18",
+  "workingTreeFingerprint": "8042598C662C80D21930F0ACB24E4D2D321B578E7697D0AD9D071891CF217AA2"
 }

@@ -9,7 +9,7 @@ export function ciRoute({flag, isPrivate, event}) {
 
 const sourceExtensions = ['.ts', '.tsx', '.mjs', '.js', '.jsx', '.css', '.html', '.json'];
 const normalize = file => file.replaceAll('\\', '/').replace(/^\.\//u, '');
-export const isPackageFSpec = file => /(?:^|\/)package-f-[^/]+\.spec\.ts$/u.test(file);
+export {isPackageFSpec} from './package-f-ci-shards.mjs';
 
 // Resolve literal imports AND runtime harness/HTML links. Unresolved local
 // paths / computed runtime imports fall back to the complete browser set.

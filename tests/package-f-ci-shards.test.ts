@@ -3,9 +3,23 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {verifyBrowserDeliveryJobs} from '../scripts/agent/verify-delivery-ci.mjs';
-import {packageFShardCount,packageFShards} from '../scripts/testing/package-f-ci-shards.mjs';
+import {packageFShardCount,packageFShards,isPackageFSpec,packageFSpecPattern,notPackageFSpecPattern} from '../scripts/testing/package-f-ci-shards.mjs';
 import {summarizeTimings,timingRecord} from '../scripts/testing/ci-browser-timing-reporter.mjs';
 import {balanceBrowserCases} from '../scripts/testing/ci-browser-discovery.mjs';
+
+test('206/207 interface suites share existing F shards with exact historical filenames on both path styles',()=>{
+  for(const file of ['package-f-future.spec.ts','admin-navigation-cash206.spec.ts','document-corrections207.spec.ts']){
+    for(const prefix of ['e2e/','C:\\repo\\e2e\\']){
+      assert.equal(isPackageFSpec(prefix+file),true);
+      assert.equal(packageFSpecPattern.test(prefix+file),true);
+      assert.equal(notPackageFSpecPattern.test(prefix+file),false);
+    }
+  }
+  for(const file of ['regular.spec.ts','document-corrections207.spec.ts.extra','other-document-corrections207.spec.ts']){
+    assert.equal(isPackageFSpec('e2e/'+file),false);
+    assert.equal(notPackageFSpecPattern.test('/repo/e2e/'+file),true);
+  }
+});
 
 test('discovery rejects absent, duplicate, misrouted and substituted shard identities',()=>{
   assert.match(execFileSync(process.execPath,
