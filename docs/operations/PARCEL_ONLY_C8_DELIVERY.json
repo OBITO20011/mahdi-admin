@@ -2,14 +2,19 @@
   "schemaVersion": 1,
   "recordedAt": "2026-10-21T12:06:33.100638+00:00",
   "baseline": "a63763def32d329f7472feee608a7092992f25ea",
-  "deliveryStatus": "LOCAL_DOCS_GATES_PASS_CI_PENDING",
-  "scope": "C8 short item20 design and direct C9 quantity/value/reversal roles;no product or SQL implementation",
+  "deliveryStatus": "CORRECTIVE_LOCAL_GATES_PASS_CI_PENDING",
+  "scope": "Item20 design/directC9 roles plus bounded207 local successful-replay status race correction",
   "migrationCeiling": 207,
   "newMigrations": [],
   "managedAccess": false,
   "ownerCommand": "frankfurt-owner-upgrade207",
   "ownerCommandExecuted": false,
-  "validation": {
+  "ciRemaining": [
+    "Exact feature push/PR FULL37 and secrets",
+    "Genuine main merge and exact main FULL37/secrets"
+  ],
+  "priorC7MainEvidence": "DOCUMENT_CORRECTIONS_207_MAIN_CI.json",
+  "initialDocsOnlyGates": {
     "productionTestsSqlToolsUnchanged": true,
     "allChangesUnderDocs": true,
     "projectStateOnlyBranchChanged": true,
@@ -28,9 +33,55 @@
     "preflightAfterBranchSync": "PASS",
     "owner207OfflineDryRun": "PASS"
   },
-  "ciRemaining": [
-    "Exact feature push/PR FULL37 and secrets",
-    "Genuine main merge and exact main FULL37/secrets"
-  ],
-  "priorC7MainEvidence": "DOCUMENT_CORRECTIONS_207_MAIN_CI.json"
+  "repairEvidence": "CORRECTION_RECOVERY_C8_CI_REPAIR.json",
+  "validation": {
+    "focusedBrowserPasses": 30,
+    "retries": 0,
+    "sqlRpcKeyAndPermissionsUnchanged": true,
+    "historicalPinsUnchanged": true,
+    "browser": {
+      "passed": 22,
+      "focusedRepeatedPassed": 30,
+      "retries": 0,
+      "engines": [
+        "chromium",
+        "webkit"
+      ]
+    },
+    "sdk": {
+      "passed": 142,
+      "permissionDenied": 0,
+      "zeroRows": 0,
+      "otherErrors": 0,
+      "sourceFiles": 308,
+      "file": "TABLE_ACCESS_AFTER_C8_RECOVERY.json"
+    },
+    "rpc": {
+      "dispatches": 513,
+      "executeDenied": 0,
+      "file": "SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    "types": "PASS",
+    "offlineOwnerVersions": [
+      203,
+      204,
+      205,
+      206,
+      207
+    ],
+    "oldOwnerReferenceBytesUnchanged": true,
+    "adminUnits": {
+      "passed": 1315,
+      "failed": 0,
+      "skipped": 0
+    },
+    "strictLint": "PASS",
+    "adminBuild": "PASS",
+    "preflight": "PASS",
+    "historical207InverseAndMutationGuards": "PASS"
+  },
+  "remaining": [
+    "Corrective exactfeatureFULL37+secrets",
+    "Genuine mainmerge/mainFULL37+secrets beforeC9"
+  ]
 }

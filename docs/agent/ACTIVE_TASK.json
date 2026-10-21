@@ -2,51 +2,54 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "C8 docs-only item20 parcel-only design;persist C7 delivered mainproof and directC9 roles;ownPR/FULL37/merge/mainCI then C9.No hostedaccess/deploy.",
-  "baselineSha": "a63763def32d329f7472feee608a7092992f25ea",
+  "objective": "C8 item20 design/directC9 roles plus bounded207 local success-status recovery race fix;exactcurrentaccess/browser/quality thenPR11/fullCI/merge/mainCI,thenC9.No hostedaccess.",
+  "baselineSha": "badea0458967eacaefc09aa0cae0ea4ffefe32d0",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/phase-c-parcel-only-design",
   "phase": "PACKAGE_F",
   "completed": [
     "C7 PR10/maina63763d strictFULL37+secrets/actual207step PASS;core407/0flaky",
-    "C8 item20 design anddirectC9 roledecision saved;production/tests/SQL/tools unchanged"
+    "C8 item20 design anddirectC9 roledecision saved;production/tests/SQL/tools unchanged",
+    "C8 design/roles andboundedCASfix localgates COMPLETE;see PARCEL_ONLY_C8_DELIVERY"
   ],
   "inProgress": [
-    "C8 exactfeatureFULL37+secrets thenmerge/mainCI"
+    "Correctivecommit/PR11 exactFULL37+secrets then mainmerge/mainCI"
   ],
   "notStarted": [
     "C8 exactfeatureFULL37+secrets/merge/mainCI",
     "C9 implementation afterC8"
   ],
   "testsPassed": [
-    "Prior exactmainFULL37 andsecrets verified21Oct",
-    "Types/lint/strictESLint PASS",
-    "1312unaffectedAdmin units PASS;onlycontinuity branchmetadata required sync",
-    "Focusedcontinuity5PASS/preflightPASS aftermetadata-only branch sync",
-    "Source/tests/SQL/tools unchanged;owner207offline dry-runPASS"
+    "PriorC7 maina637 FULL37+secrets delivered",
+    "C8 initialdocs units1312+focusedcontinuity5/types/strictlint/offline207 PASS",
+    "Deterministic oldsource RED2positive/2negativePASS;rootfix30focused browsercases/repeats bothengines PASS,retries0",
+    "Full22correctionbrowser PASS;30focused repeats PASS,retries0",
+    "FreshactualSDK142 zOrclI/RPC513 or0izd all308currentprodhashes;0denied/errors",
+    "Offline203-207 PASS;alloldreference bytes unchanged",
+    "Final1315Admin/strictlint/build/types/preflight/currentreadiness/exactinverse PASS"
   ],
   "testsRemaining": [
-    "Gitleaks andexactfeatureFULL37+secrets",
-    "Genuine merge/mainFULL37+secrets beforeC9"
+    "Correctiveexactfeature FULL37/secrets,merge/mainCI before9"
   ],
   "findings": [
-    "Managed tree clean exactdeliveredmaina637;inheritedtask branch/baseline/fingerprint known-own only. Owner15Oct bounded continuity sync;no foreign changes.",
-    "Directowner21Oct:C9 quantities owner/manager/warehouse_keeper;values andeventreversal owner only.",
-    "Initial localunits1312PASS/1continuity branch mismatch;project-state inheritedmain now exactnewbranch only. No test/source change."
+    "C8 initialdocs badea04 pushcorePASS;PRcore3WebKitfailures saved0,trace shows2identicalRPCs andlocalstatusCASerror. BothobsoleteCIcancelled,noenvironmentalrerun.",
+    "Validated server success only;allowlocalstatussucceeded iff immutableattempt otherwiseidentical;changedrequest stillrejects. No financial/RPC/key/SQL/role change.",
+    "C8 additive inverse3files;old29pins and207evidence/reference frozen;207source readers composeexactinverse.",
+    "C9 direct21Oct:quantities owner/manager/warehouse_keeper;values andeventreversal owneronly."
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No hosted/Frankfurt/Production/secrets/deploy",
-    "001-207 immutable;C8 docs-only no newmigration",
+    "001-207/oldpins/references immutable;item20design only;bounded207CASfix only",
     "One writer;no tracked editsduringverification;no weakenedassertions/retries/skips/timeouts"
   ],
-  "checkpointedAt": "2026-10-21T12:06:37.635Z",
+  "checkpointedAt": "2026-10-21T12:49:35.654Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 9,
-  "filesTouchedManifestSha256": "1d8c22eefb6b0d4612e7753babc1d333cf885d4d82cc817bf4050a279ceccfdc",
-  "nextExactAction": "C8 docs-only localgates PASS;Gitleaks/commit/push/PR exactFULL37+secrets then genuine mainmerge/mainCI;C9 roles alreadydecided.No hostedaccess.",
-  "workingTreeFingerprint": "7963E7F49DAEDD6C7F77834B938DAC75C942291F334784CEC3D31FFEE51C3AB6"
+  "filesTouchedCount": 19,
+  "filesTouchedManifestSha256": "e39c01322cffaf844e47623d0cbc93eb31f63dd127799efa1ba9935c4926a002",
+  "nextExactAction": "C8 corrective localgates complete1315Admin/22+30browser/SDK142-RPC513/offline203-207;Gitleaks/commit/push/updatePR11/newexactFULL37+secrets then mainmerge/mainCI before9.No hostedaccess.",
+  "workingTreeFingerprint": "7D2D7381335544717696EF32F1BD006F5FDF73727FC7E4CB9AA44C5C7930CFDD"
 }

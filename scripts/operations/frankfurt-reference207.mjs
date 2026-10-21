@@ -4,7 +4,8 @@ import path from 'node:path';
 import {migrationManifest,manifestDigest,canonicalLf,sha256} from '../testing/maintenance-db-contract.mjs';
 import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 import {realtimePublicationSql,realtime151Tables} from '../testing/realtime151-contract.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';
+// Freeze the delivered207 source through the exact additive C8 recovery inverse.
+import {inventoryBeforeCorrectionRecoveryC8 as inventory} from '../audit/source-before-correction-recovery-c8.mjs';
 import {verifyProbeCoverage} from '../audit/table-access-probes.mjs';
 import {assertReady206Catalog} from './frankfurt-reference206.mjs';
 import {compareManagedCatalog} from './managed-catalog-policy.mjs';

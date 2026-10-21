@@ -13,7 +13,8 @@ import {readRealtimePublication,realtimePublicationSql} from '../testing/realtim
 import {functionReference,DEFAULT_WORKDIR,assertOutsideRepository} from './frankfurt-owner-build.mjs';
 import {readNotificationSnapshot} from './frankfurt-notification-hold.mjs';
 import {assessBuildCron} from './build-cron-report.mjs';
-import {inventory} from '../audit/table-access-inventory.mjs';
+// Freeze the delivered207 source through the exact additive C8 recovery inverse.
+import {inventoryBeforeCorrectionRecoveryC8 as inventory} from '../audit/source-before-correction-recovery-c8.mjs';
 import {assertReady207Reference,ready207ReferenceName,assertReady207Catalog} from './frankfurt-reference207.mjs';
 const root=path.resolve(import.meta.dirname,'../..'),exec=promisify(execFile),cli=path.join(root,'node_modules/supabase/dist/supabase.js');
 export async function buildReady207Reference(args=[]){

@@ -1,0 +1,66 @@
+{
+  "baseline": "badea0458967eacaefc09aa0cae0ea4ffefe32d0",
+  "entries": {
+    "src/services/supabase/documentCorrections.service.ts": {
+      "before": "ece133af893b6ddde7ca9b49b45ef41a0d26185c5c127b1819d0f846c12aa34c",
+      "after": "d96a4cbe2d0d28c465464da71282fbb2f6ce9de80fa71d14cc370e70eb069e32",
+      "hunks": [
+        {
+          "at": 46,
+          "before": [
+            "    const update=(status:Attempt['status'])=>{if(localStorage.getItem(key)!==serialized)throw new Error('تغيّرت حالة المحاولة؛ يلزم استعادتها.');persist(key,{...attempt,status});};"
+          ],
+          "after": [
+            "    const update=(status:Attempt['status'])=>{",
+            "      const raw=localStorage.getItem(key);",
+            "      if(raw!==serialized){",
+            "        // A delayed storage event from the previous lock holder can publish",
+            "        // this exact attempt's success while its server replay is returning.",
+            "        // Accept only an already validated server success for the same immutable",
+            "        // request; a changed identity or a rejection still fails closed.",
+            "        const current=readAttempt(raw,actorId,action,recordId);",
+            "        if(status!=='succeeded'||current?.status!=='succeeded'",
+            "          ||JSON.stringify({...current,status:attempt.status})!==serialized)throw new Error('تغيّرت حالة المحاولة؛ يلزم استعادتها.');",
+            "      }",
+            "      persist(key,{...attempt,status});",
+            "    };"
+          ]
+        }
+      ]
+    },
+    "e2e/document-corrections207.spec.ts": {
+      "before": "dc0da27b14aea24f112e20f114523bb8a686ec4ba03166796d5728815382459a",
+      "after": "7d96fd02321fe21e3b1b2828ab91eaa76f7370bd5e6fa9b721ff361645156280",
+      "hunks": [
+        {
+          "at": 65,
+          "before": [],
+          "after": [
+            "for(const changedIdentity of [false,true])test(`207 delayed prior success ${changedIdentity?'cannot replace another immutable request':'accepts its identical confirmed server response'}`,async({page})=>{",
+            " await mock(page);let calls=0;",
+            " const key=`document-correction207:66660000-0000-4000-8000-000000000001:pos_sale:${recordId}`;",
+            " await page.route('**/rest/v1/rpc/execute_document_correction_once',async route=>{",
+            "  calls++;await page.evaluate(({key,changedIdentity})=>{",
+            "   const attempt=JSON.parse(localStorage.getItem(key)!);attempt.status='succeeded';",
+            "   if(changedIdentity)attempt.reason='سبب مختلف لا يخص الرد الجاري';",
+            "   localStorage.setItem(key,JSON.stringify(attempt));",
+            "  },{key,changedIdentity});",
+            "  await route.fulfill({json:{success:true,contractVersion:207,action:'pos_sale',recordId,idempotent:true,preview:preview(),writerResult:{success:true}}});",
+            " });",
+            " await page.goto(url);const d=await open(page);await d.getByLabel('سبب التصحيح').fill('المستند نفسه من نافذتين');await d.getByRole('button',{name:'تأكيد التصحيح'}).click();",
+            " if(changedIdentity){await expect(d.getByRole('alert')).toContainText('تغيّرت حالة المحاولة');await expect(page.getByTestId('saved')).toContainText('0');}",
+            " else{await expect(page.getByTestId('saved')).toContainText('1');await expect(d.getByRole('status')).toContainText('تم التصحيح');}",
+            " expect(calls).toBe(1);expect(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)!).status,key)).toBe('succeeded');",
+            "});"
+          ]
+        }
+      ]
+    },
+    "tests/correction-recovery-c8.test.ts": {
+      "before": null,
+      "after": "4b60e827ab3ec10edf30ad6a91ee64ab8d636db9c47ab7fd90532704cc45d48d",
+      "added": true,
+      "hunks": []
+    }
+  }
+}

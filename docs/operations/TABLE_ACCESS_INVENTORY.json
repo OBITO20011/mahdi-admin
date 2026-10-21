@@ -653,7 +653,7 @@
     },
     {
       "file": "src/services/supabase/documentCorrections.service.ts",
-      "sha256": "ece133af893b6ddde7ca9b49b45ef41a0d26185c5c127b1819d0f846c12aa34c"
+      "sha256": "d96a4cbe2d0d28c465464da71282fbb2f6ce9de80fa71d14cc370e70eb069e32"
     },
     {
       "file": "src/services/supabase/expenses-shifts.service.ts",

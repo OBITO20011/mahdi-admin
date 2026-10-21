@@ -62,3 +62,19 @@ test('207 committed response with failed local success save retains its original
  let d=await open(page);await d.getByLabel('سبب التصحيح').fill('مستند نجاحه محفوظ بالخادم');await d.getByRole('button',{name:'تأكيد التصحيح'}).click();await expect(d.getByRole('alert')).toContainText('استعد نفس المحاولة');await expect(d.getByRole('alert')).not.toContainText('لم يُرسل');await expect(page.getByTestId('saved')).toContainText('0');expect(requests.length).toBe(1);
  await page.reload();d=await open(page);await d.getByRole('button',{name:'استعادة نفس المحاولة'}).click();await expect(page.getByTestId('saved')).toContainText('1');expect(requests.length).toBe(2);expect(requests[1]).toEqual(requests[0]);
 });
+for(const changedIdentity of [false,true])test(`207 delayed prior success ${changedIdentity?'cannot replace another immutable request':'accepts its identical confirmed server response'}`,async({page})=>{
+ await mock(page);let calls=0;
+ const key=`document-correction207:66660000-0000-4000-8000-000000000001:pos_sale:${recordId}`;
+ await page.route('**/rest/v1/rpc/execute_document_correction_once',async route=>{
+  calls++;await page.evaluate(({key,changedIdentity})=>{
+   const attempt=JSON.parse(localStorage.getItem(key)!);attempt.status='succeeded';
+   if(changedIdentity)attempt.reason='سبب مختلف لا يخص الرد الجاري';
+   localStorage.setItem(key,JSON.stringify(attempt));
+  },{key,changedIdentity});
+  await route.fulfill({json:{success:true,contractVersion:207,action:'pos_sale',recordId,idempotent:true,preview:preview(),writerResult:{success:true}}});
+ });
+ await page.goto(url);const d=await open(page);await d.getByLabel('سبب التصحيح').fill('المستند نفسه من نافذتين');await d.getByRole('button',{name:'تأكيد التصحيح'}).click();
+ if(changedIdentity){await expect(d.getByRole('alert')).toContainText('تغيّرت حالة المحاولة');await expect(page.getByTestId('saved')).toContainText('0');}
+ else{await expect(page.getByTestId('saved')).toContainText('1');await expect(d.getByRole('status')).toContainText('تم التصحيح');}
+ expect(calls).toBe(1);expect(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)!).status,key)).toBe('succeeded');
+});

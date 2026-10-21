@@ -3,19 +3,23 @@
   "files": [
     {
       "code": "A ",
-      "path": "docs/design/PARCEL_ONLY_C8_DESIGN_AR.md"
+      "path": "docs/operations/CORRECTION_RECOVERY_C8_CI_REPAIR.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/DOCUMENT_CORRECTIONS_207_MAIN_CI.json"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_C8_RECOVERY.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/PARCEL_ONLY_C8_DELIVERY.json"
+      "path": "scripts/audit/correction-recovery-c8-hunks.json"
     },
     {
-      "code": "M ",
-      "path": "docs/agent/OWNER_DECISIONS.md"
+      "code": "A ",
+      "path": "scripts/audit/source-before-correction-recovery-c8.mjs"
+    },
+    {
+      "code": "A ",
+      "path": "tests/correction-recovery-c8.test.ts"
     },
     {
       "code": "M ",
@@ -35,7 +39,43 @@
     },
     {
       "code": "M ",
-      "path": "docs/design/SUPPLIER_REPLACEMENT_DAMAGE_DESIGN_AR.md"
+      "path": "docs/operations/PARCEL_ONLY_C8_DELIVERY.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_AUDIT.md"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": "M ",
+      "path": "e2e/document-corrections207.spec.ts"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/audit/source-before-corrections207.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/build-acl-reference207.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "scripts/operations/frankfurt-reference207.mjs"
+    },
+    {
+      "code": "M ",
+      "path": "src/services/supabase/documentCorrections.service.ts"
     }
   ]
 }

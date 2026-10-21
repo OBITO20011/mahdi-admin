@@ -43,7 +43,19 @@ export async function submitDocumentCorrection(action:CorrectionAction,recordId:
     if(localStorage.getItem(key)!==raw)throw new Error('تغيّرت المحاولة في نافذة أخرى؛ أعد فتح المستند.');
     const hadUnknown=attempt.status!=='prepared';attempt={...attempt,status:'unknown'};persist(key,attempt);
     const serialized=JSON.stringify(attempt);
-    const update=(status:Attempt['status'])=>{if(localStorage.getItem(key)!==serialized)throw new Error('تغيّرت حالة المحاولة؛ يلزم استعادتها.');persist(key,{...attempt,status});};
+    const update=(status:Attempt['status'])=>{
+      const raw=localStorage.getItem(key);
+      if(raw!==serialized){
+        // A delayed storage event from the previous lock holder can publish
+        // this exact attempt's success while its server replay is returning.
+        // Accept only an already validated server success for the same immutable
+        // request; a changed identity or a rejection still fails closed.
+        const current=readAttempt(raw,actorId,action,recordId);
+        if(status!=='succeeded'||current?.status!=='succeeded'
+          ||JSON.stringify({...current,status:attempt.status})!==serialized)throw new Error('تغيّرت حالة المحاولة؛ يلزم استعادتها.');
+      }
+      persist(key,{...attempt,status});
+    };
     let response;
     try{response=await client().rpc('execute_document_correction_once',{p_action:action,p_record_id:recordId,p_reason:attempt.reason,p_idempotency_key:attempt.key,p_preview_fingerprint:attempt.preview.fingerprint});}
     catch{throw new Error('نتيجة التصحيح غير محسومة. استعد نفس المحاولة.');}
