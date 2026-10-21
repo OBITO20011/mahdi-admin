@@ -78,7 +78,7 @@ test.describe('isolated Admin 5k catalog performance', () => {
     const productsDomNodes = await page.locator('*').count();
     expect(productsDomNodes).toBeLessThan(6_000);
 
-    const productSearch = page.getByPlaceholder('اسم المنتج، SKU أو الباركود');
+    const productSearch = page.getByPlaceholder('اسم المنتج، رمز الصنف أو الباركود');
     await productSearch.fill('LCAT-000001');
     await page.waitForTimeout(320);
     await productSearch.fill('LCAT-004999');
@@ -94,7 +94,7 @@ test.describe('isolated Admin 5k catalog performance', () => {
     const inventoryDomNodes = await page.locator('*').count();
     expect(inventoryDomNodes).toBeLessThan(7_000);
 
-    const inventorySearch = page.getByPlaceholder('ابحث باسم المنتج، الكود SKU، أو الباركود...');
+    const inventorySearch = page.getByPlaceholder('ابحث باسم المنتج، رمز الصنف، أو الباركود...');
     await inventorySearch.fill('LCAT-005000');
     await expect(page.locator('[data-inventory-product-card]:visible, [data-inventory-product-row]:visible').filter({hasText: 'LCAT-005000'}))
       .toHaveCount(1, {timeout: 15_000});
@@ -105,7 +105,7 @@ test.describe('isolated Admin 5k catalog performance', () => {
     await expect(posCards.first()).toBeVisible({timeout: 30_000});
     expect(await posCards.count()).toBeLessThanOrEqual(40);
     const posMs = Date.now() - posStartedAt;
-    const posSearch = page.getByPlaceholder('ابحث باسم المنتج أو الباركود أو SKU...');
+    const posSearch = page.getByPlaceholder('ابحث باسم المنتج أو الباركود أو رمز الصنف...');
     await posSearch.fill('LCAT-003333');
     await expect(page.locator('[data-pos-product-card]:visible').filter({hasText: '9900000003333'}))
       .toHaveCount(1, {timeout: 15_000});
@@ -113,7 +113,7 @@ test.describe('isolated Admin 5k catalog performance', () => {
     await openMoreDestination(page, 'suppliers-purchases', 'supplier-receiving');
     await expect(page.getByRole('heading', {name: 'استلام البضائع من الموردين'})).toBeVisible({timeout: 30_000});
     await page.getByRole('button', {name: 'استلام بضاعة جديد'}).first().click();
-    const receivingSearch = page.getByPlaceholder(/SKU، أو الباركود لإضافته لسند الاستلام/);
+    const receivingSearch = page.getByPlaceholder(/رمز الصنف، أو الباركود لإضافته لسند الاستلام/);
     await receivingSearch.fill('LCAT-004444');
     await expect(page.locator('[data-receiving-product-result]:visible').filter({hasText: 'LCAT-004444'}))
       .toHaveCount(1, {timeout: 15_000});

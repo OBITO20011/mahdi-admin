@@ -1,0 +1,1210 @@
+{
+  "sourceRevision": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
+  "method": "Current JSX control text and public aria labels;dynamic expressions retained as candidates;runtime observations listed separately;not every source expression is a visible label",
+  "terms": [
+    {
+      "current": "SKU",
+      "proposed": "رمز الصنف",
+      "sourceSites": [
+        {
+          "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+          "line": 753,
+          "tag": "input",
+          "text": "",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+          "line": 795,
+          "tag": "FormFields",
+          "text": "{prod.nameAr} SKU: {prod.sku} {prod.barcode && <span>| الباركود: {prod.barcode}</span>} | الوحدة الأساسية: {prod.baseUnitName} | طرد الشراء: {prod.purchaseUnitName} × {prod.unitsPe",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/directReceiving/DirectReceivingView.tsx",
+          "line": 557,
+          "tag": "input",
+          "text": "",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/directReceiving/SupplierReceiptLines.tsx",
+          "line": 14,
+          "tag": "h3",
+          "text": "{index+1} . {line.components.map(c=>c.nameAr??c.sku??'صنف').join(' + ')}",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/inventory/ClearInventoryBalanceDialog.tsx",
+          "line": 197,
+          "tag": "label",
+          "text": "للتأكيد اكتب رمز الصنف: {product.sku}",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/inventory/ClearInventoryBalanceDialog.tsx",
+          "line": 201,
+          "tag": "input",
+          "text": "",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/inventory/InventoryOpeningSetupModal.tsx",
+          "line": 504,
+          "tag": "input",
+          "text": "",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/inventory/InventoryView.tsx",
+          "line": 299,
+          "tag": "SearchField",
+          "text": "",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/inventory/InventoryView.tsx",
+          "line": 344,
+          "tag": "DetailPanel",
+          "text": "{product.nameAr} رجوع للمخزون إغلاق SKU: {product.sku} الباركود: {product.barcode || 'غير محدد'} الفعلي {formatProductInventory(product, false).cartonFormatted} المحجوز {product.re",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/inventory/StockCountModal.tsx",
+          "line": 159,
+          "tag": "form",
+          "text": "{} جرد صنف أدخل ما على الرف؛ الفرق يُحفظ تلقائيًا كحركة موثقة. {} اختر المنتج المراد جرده * {stockableProducts.map((p) => (\n            <option key={p.id} value={p.id}>\n           ",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/inventory/StockCountModal.tsx",
+          "line": 179,
+          "tag": "select",
+          "text": "{stockableProducts.map((p) => (\n            <option key={p.id} value={p.id}>\n              {p.nameAr} - (الرمز: {p.sku}) - بالنظام: {formatProductInventory(p).fullFormatted}\n      ",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/inventory/StockCountModal.tsx",
+          "line": 307,
+          "tag": "input",
+          "text": "",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/inventory/SupplierReplacementPanel.tsx",
+          "line": 92,
+          "tag": "label",
+          "text": "الصنف اختر الصنف {options.products.map(p=><option key={p.id} value={p.id}>{p.name} · {p.sku}</option>)}",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/inventory/SupplierReplacementPanel.tsx",
+          "line": 92,
+          "tag": "select",
+          "text": "اختر الصنف {options.products.map(p=><option key={p.id} value={p.id}>{p.name} · {p.sku}</option>)}",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/inventory/WarehouseTransferModal.tsx",
+          "line": 153,
+          "tag": "input",
+          "text": "",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/more/DamageProductSelection.tsx",
+          "line": 39,
+          "tag": "UiButton",
+          "text": "{product.nameAr} {product.sku} · المتاح {product.availableQuantity} {product.unit}",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/more/ParcelConfigurationModal.tsx",
+          "line": 78,
+          "tag": "form",
+          "text": "الصنف / العائلة {context.products.map(p=><option key={p.familyProductId} value={p.familyProductId}>{p.nameAr} — {p.sku}</option>)} {form && product && <>\n            <label>نمط الط",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/more/ParcelConfigurationModal.tsx",
+          "line": 80,
+          "tag": "label",
+          "text": "الصنف / العائلة {context.products.map(p=><option key={p.familyProductId} value={p.familyProductId}>{p.nameAr} — {p.sku}</option>)}",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/more/ParcelConfigurationModal.tsx",
+          "line": 80,
+          "tag": "select",
+          "text": "{context.products.map(p=><option key={p.familyProductId} value={p.familyProductId}>{p.nameAr} — {p.sku}</option>)}",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/orders/AdminAftercarePanel.tsx",
+          "line": 370,
+          "tag": "UiButton",
+          "text": "{item.commercialLineKind === 'legacy_single_sku_parcel' ? 'استبدال كرتونة' : 'استبدال وحدة'}",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/orders/AdminAftercarePanel.tsx",
+          "line": 421,
+          "tag": "label",
+          "text": "{returnDraft.isSingleSkuParcel ? 'عدد كراتين المرتجع' : 'كمية المرتجع'} (المتبقي {rootQuantity(returnDraft.representatives) / returnDraft.unitsPerParcel} )",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/orders/AdminAftercarePanel.tsx",
+          "line": 422,
+          "tag": "input",
+          "text": "",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/orders/OrderCommercialSummary.tsx",
+          "line": 18,
+          "tag": "details",
+          "text": "عرض مكونات الطرود ( {item.parcelInstances.length} ) {item.parcelInstances.map((instance) => <div key={instance.id} className=\"space-y-1 pb-3\">\n            <h5 className=\"font-semib",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/orders/OrderCommercialSummary.tsx",
+          "line": 22,
+          "tag": "ul",
+          "text": "{instance.components.map((component) => <li key={component.id}>{component.name} ({component.sku}) — {component.quantity} {component.unitName}</li>)}",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/orders/OrderDetailModal.tsx",
+          "line": 1053,
+          "tag": "details",
+          "text": "مكونات {instance.unitName} # {instance.sequence} {instance.components.map((component) => (\n                    <li key={component.id}>\n                      {component.name} ({comp",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/orders/OrderDetailModal.tsx",
+          "line": 1055,
+          "tag": "ul",
+          "text": "{instance.components.map((component) => (\n                    <li key={component.id}>\n                      {component.name} ({component.sku}) — {component.quantity} {component.uni",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/pos/PosView.tsx",
+          "line": 722,
+          "tag": "SearchField",
+          "text": "",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/products/ProductFormModal.tsx",
+          "line": 1001,
+          "tag": "label",
+          "text": "SKU *",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/products/ProductFormModal.tsx",
+          "line": 1014,
+          "tag": "input",
+          "text": "",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/products/ProductsView.tsx",
+          "line": 335,
+          "tag": "input",
+          "text": "",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/products/ProductsView.tsx",
+          "line": 561,
+          "tag": "UiButton",
+          "text": "{product.imageUrl && !imageFailed ? (\n              <img\n                src={product.imageUrl}\n                alt={product.nameAr}\n                onError={() => setImageFailed(t",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/purchases/CreatePurchaseOrderModal.tsx",
+          "line": 582,
+          "tag": "input",
+          "text": "",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/purchases/ReceiveGoodsModal.tsx",
+          "line": 344,
+          "tag": "details",
+          "text": "تفاصيل أمر الشراء بمحتوى الطرود جدول فحص واستلام الأصناف: إجمالي قطع الاستلام الحالي: {totalReceivingNow} قطعة اسم المنتج المطلوب المستلم سابقاً المتبقي الكمية المستلمة الآن تكلفة ",
+          "dynamic": true
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "product-form",
+          "width": 390
+        },
+        {
+          "name": "product-details",
+          "width": 390
+        },
+        {
+          "name": "purchase-form",
+          "width": 390
+        },
+        {
+          "name": "product-form",
+          "width": 1440
+        },
+        {
+          "name": "product-details",
+          "width": 1440
+        },
+        {
+          "name": "purchase-form",
+          "width": 1440
+        },
+        {
+          "name": "purchase-detail",
+          "width": 390
+        },
+        {
+          "name": "purchase-detail",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "WAC",
+      "proposed": "متوسط تكلفة الوحدة الفعلية",
+      "sourceSites": [],
+      "observedIn": []
+    },
+    {
+      "current": "وحدات صغرى",
+      "proposed": "المبلغ بالدينار في الواجهة",
+      "sourceSites": [],
+      "observedIn": []
+    },
+    {
+      "current": "المخزون الفعلي",
+      "proposed": "البضاعة الموجودة",
+      "sourceSites": [
+        {
+          "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+          "line": 936,
+          "tag": "details",
+          "text": "تفاصيل الرصيد قبل/بعد وخيارات الصنف المخزون الفعلي قبل {formatWholesaleInventory(\n                            stockBefore,\n                            item.unitsPerPackage,\n       ",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/directReceiving/DirectReceivingView.tsx",
+          "line": 545,
+          "tag": "h2",
+          "text": "المخزون الفعلي بعد الاستلام والبيع",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/inventory/InventoryView.tsx",
+          "line": 275,
+          "tag": "PageHeader",
+          "text": "",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/products/StockAdjustmentModal.tsx",
+          "line": 86,
+          "tag": "form",
+          "text": "{} {product.nameAr} المخزون الحالي: {formatProductInventory(product).fullFormatted} {} تسوية زيادة جرد (+) خصم من المخزون (-) {} طريقة التعديل كمية مضافة / مخصومة مثال: إضافة +10 ق",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/products/StockAdjustmentModal.tsx",
+          "line": 153,
+          "tag": "UiButton",
+          "text": "تحديد الجرد الفعلي المباشر مثال: المخزون الفعلي هو 25",
+          "dynamic": false
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "stock-adjustment",
+          "width": 390
+        },
+        {
+          "name": "inventory",
+          "width": 390
+        },
+        {
+          "name": "stock-adjustment",
+          "width": 1440
+        },
+        {
+          "name": "inventory",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "Purchase Order",
+      "proposed": "أمر شراء",
+      "sourceSites": [
+        {
+          "file": "src/features/purchases/CreatePurchaseOrderModal.tsx",
+          "line": 401,
+          "tag": "FormFields",
+          "text": "{} {poToEdit ? <Edit className=\"w-5 h-5 text-nw-warn\" /> : <Plus className=\"w-5 h-5\" />} {poToEdit ? `تعديل أمر الشراء (${poToEdit.purchaseOrderNumber})` : 'إنشاء أمر شراء جديد (Pu",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/purchases/CreatePurchaseOrderModal.tsx",
+          "line": 410,
+          "tag": "h2",
+          "text": "{poToEdit ? `تعديل أمر الشراء (${poToEdit.purchaseOrderNumber})` : 'إنشاء أمر شراء جديد (Purchase Order)'}",
+          "dynamic": true
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "purchase-form",
+          "width": 390
+        },
+        {
+          "name": "purchase-form",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "Goods Receipt Note",
+      "proposed": "سند استلام",
+      "sourceSites": [
+        {
+          "file": "src/features/purchases/ReceiveGoodsModal.tsx",
+          "line": 246,
+          "tag": "FormFields",
+          "text": "{} استلام بضائع لمخزن (Goods Receipt Note) {po.purchaseOrderNumber} تسجيل الكميات الموردة فعلياً لزيادة رصيد المستودع وتحديث متوسط التكلفة {} {errorMsg && (\n            <div classN",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/purchases/ReceiveGoodsModal.tsx",
+          "line": 255,
+          "tag": "h2",
+          "text": "استلام بضائع لمخزن (Goods Receipt Note) {po.purchaseOrderNumber}",
+          "dynamic": true
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "receive-po",
+          "width": 390
+        },
+        {
+          "name": "receive-po",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "Direct Goods Receipt",
+      "proposed": "سند استلام مباشر",
+      "sourceSites": [
+        {
+          "file": "src/features/directReceiving/SupplierReceiptDetailView.tsx",
+          "line": 148,
+          "tag": "h2",
+          "text": "إذن استلام بضائع من مورد (Direct Goods Receipt)",
+          "dynamic": false
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "receipt-detail",
+          "width": 390
+        },
+        {
+          "name": "receipt-detail",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "Delivery Note",
+      "proposed": "رقم وصل المورد (اختياري)",
+      "sourceSites": [
+        {
+          "file": "src/features/purchases/ReceiveGoodsModal.tsx",
+          "line": 278,
+          "tag": "form",
+          "text": "{errorMsg && (\n            <div className=\"bg-nw-bad-bg border border-nw-border p-3 rounded-2xl text-nw-bad flex items-center gap-2\">\n              <AlertTriangle className=\"w-4 h-",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/purchases/ReceiveGoodsModal.tsx",
+          "line": 313,
+          "tag": "label",
+          "text": "إشعار تسليم المورد (Delivery Note):",
+          "dynamic": false
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "receive-po",
+          "width": 390
+        },
+        {
+          "name": "receive-po",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "إعداد الطرود المرنة",
+      "proposed": "تشكيل الطرود",
+      "sourceSites": [
+        {
+          "file": "src/components/modals/AllModals.tsx",
+          "line": 211,
+          "tag": "Modal",
+          "text": "",
+          "dynamic": false
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "parcels",
+          "width": 390
+        },
+        {
+          "name": "more",
+          "width": 390
+        },
+        {
+          "name": "sales-history",
+          "width": 1440
+        },
+        {
+          "name": "home",
+          "width": 1440
+        },
+        {
+          "name": "orders",
+          "width": 1440
+        },
+        {
+          "name": "parcels",
+          "width": 1440
+        },
+        {
+          "name": "inventory",
+          "width": 1440
+        },
+        {
+          "name": "customers",
+          "width": 1440
+        },
+        {
+          "name": "cash",
+          "width": 1440
+        },
+        {
+          "name": "go-live",
+          "width": 1440
+        },
+        {
+          "name": "cheques",
+          "width": 1440
+        },
+        {
+          "name": "customer-profile",
+          "width": 1440
+        },
+        {
+          "name": "customer-orders",
+          "width": 1440
+        },
+        {
+          "name": "customer-addresses",
+          "width": 1440
+        },
+        {
+          "name": "customer-statement",
+          "width": 1440
+        },
+        {
+          "name": "customer-edit",
+          "width": 1440
+        },
+        {
+          "name": "customer-new",
+          "width": 1440
+        },
+        {
+          "name": "cash-withdrawal",
+          "width": 1440
+        },
+        {
+          "name": "go-live-manual-0",
+          "width": 1440
+        },
+        {
+          "name": "go-live-manual-1",
+          "width": 1440
+        },
+        {
+          "name": "go-live-manual-2",
+          "width": 1440
+        },
+        {
+          "name": "go-live-manual-3",
+          "width": 1440
+        },
+        {
+          "name": "replacement-mixed-summary",
+          "width": 1440
+        },
+        {
+          "name": "cash-close",
+          "width": 1440
+        },
+        {
+          "name": "cash-report",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "حد الطلب",
+      "proposed": "نبّهني عند",
+      "sourceSites": [
+        {
+          "file": "src/features/inventory/InventoryView.tsx",
+          "line": 331,
+          "tag": "button",
+          "text": "{product.nameAr} حد الطلب: {product.reorderLevel} {product.unit} طرد × {product.unitsPerPackage || 1}",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/products/ProductFormModal.tsx",
+          "line": 1259,
+          "tag": "input",
+          "text": "",
+          "dynamic": false
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "inventory",
+          "width": 390
+        },
+        {
+          "name": "inventory",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "سقف المستودع",
+      "proposed": "أقصى كمية اختياري",
+      "sourceSites": [
+        {
+          "file": "src/features/products/ProductFormModal.tsx",
+          "line": 1276,
+          "tag": "label",
+          "text": "سقف المستودع (طرد)",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/products/ProductFormModal.tsx",
+          "line": 1279,
+          "tag": "input",
+          "text": "",
+          "dynamic": false
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "product-details",
+          "width": 390
+        },
+        {
+          "name": "product-details",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "غير متاح",
+      "proposed": "رسالة حسب سبب عدم توفر المعلومة؛لا تستبدل بصفر آلياً",
+      "sourceSites": [
+        {
+          "file": "src/features/corrections/DocumentCorrectionAction.tsx",
+          "line": 31,
+          "tag": "Modal",
+          "text": "{loading&&<p role=\"status\">جارٍ تحميل معاينة التصحيح…</p>} {error&&<p role=\"alert\" className=\"text-sm text-nw-warn\">{error}</p>} {done?<><p role=\"status\">تم التصحيح وحُفظ أثره التد",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/dashboard/DashboardHome.tsx",
+          "line": 125,
+          "tag": "details",
+          "text": "تفاصيل إضافية صافي مبيعات الشهر بعد المرتجعات: {money(summary.monthNetSalesInMinorUnits, available)} ذمم الموردين: {money(summary.supplierPayablesInMinorUnits, available)} {summary",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/inventory/InventoryView.tsx",
+          "line": 302,
+          "tag": "details",
+          "text": "تصفية وبحث متقدم الفرع: جميع الفروع ( {branches.length} ) {branches.map(b => <option key={b.id} value={b.id}>{b.name}</option>)} المستودع: جميع المستودعات ( {warehouses.length} ) {",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/pos/PosView.tsx",
+          "line": 759,
+          "tag": "button",
+          "text": "{prod.nameAr} {prod.barcode} {prod.unit} طرد {typeof prod.salePackagePrice === 'number' && Number.isFinite(prod.salePackagePrice) ? <MoneyText amount={prod.salePackagePrice} classN",
+          "dynamic": true
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "customers",
+          "width": 390
+        },
+        {
+          "name": "direct-receiving",
+          "width": 390
+        },
+        {
+          "name": "reports",
+          "width": 390
+        },
+        {
+          "name": "cash",
+          "width": 390
+        },
+        {
+          "name": "customers",
+          "width": 1440
+        },
+        {
+          "name": "direct-receiving",
+          "width": 1440
+        },
+        {
+          "name": "reports",
+          "width": 1440
+        },
+        {
+          "name": "cash",
+          "width": 1440
+        },
+        {
+          "name": "customer-profile",
+          "width": 390
+        },
+        {
+          "name": "customer-orders",
+          "width": 390
+        },
+        {
+          "name": "customer-addresses",
+          "width": 390
+        },
+        {
+          "name": "customer-statement",
+          "width": 390
+        },
+        {
+          "name": "customer-edit",
+          "width": 390
+        },
+        {
+          "name": "customer-new",
+          "width": 390
+        },
+        {
+          "name": "cash-close",
+          "width": 390
+        },
+        {
+          "name": "cash-withdrawal",
+          "width": 390
+        },
+        {
+          "name": "cash-report",
+          "width": 390
+        },
+        {
+          "name": "replacement-mixed-summary",
+          "width": 390
+        },
+        {
+          "name": "customer-profile",
+          "width": 1440
+        },
+        {
+          "name": "customer-orders",
+          "width": 1440
+        },
+        {
+          "name": "customer-addresses",
+          "width": 1440
+        },
+        {
+          "name": "customer-statement",
+          "width": 1440
+        },
+        {
+          "name": "customer-edit",
+          "width": 1440
+        },
+        {
+          "name": "customer-new",
+          "width": 1440
+        },
+        {
+          "name": "cash-withdrawal",
+          "width": 1440
+        },
+        {
+          "name": "replacement-mixed-summary",
+          "width": 1440
+        },
+        {
+          "name": "cash-close",
+          "width": 1440
+        },
+        {
+          "name": "cash-report",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "تحصيل هذا الشهر",
+      "proposed": "إخفاء البطاقة غير المدعومة أو رابط التقرير",
+      "sourceSites": [],
+      "observedIn": [
+        {
+          "name": "customers",
+          "width": 390
+        },
+        {
+          "name": "customers",
+          "width": 1440
+        },
+        {
+          "name": "customer-profile",
+          "width": 390
+        },
+        {
+          "name": "customer-orders",
+          "width": 390
+        },
+        {
+          "name": "customer-addresses",
+          "width": 390
+        },
+        {
+          "name": "customer-statement",
+          "width": 390
+        },
+        {
+          "name": "customer-edit",
+          "width": 390
+        },
+        {
+          "name": "customer-new",
+          "width": 390
+        },
+        {
+          "name": "customer-profile",
+          "width": 1440
+        },
+        {
+          "name": "customer-orders",
+          "width": 1440
+        },
+        {
+          "name": "customer-addresses",
+          "width": 1440
+        },
+        {
+          "name": "customer-statement",
+          "width": 1440
+        },
+        {
+          "name": "customer-edit",
+          "width": 1440
+        },
+        {
+          "name": "customer-new",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "نظام بالجملة والتوريد",
+      "proposed": "حذف الوصف الزائد",
+      "sourceSites": [
+        {
+          "file": "src/features/purchases/PurchasesView.tsx",
+          "line": 264,
+          "tag": "h1",
+          "text": "مركز إدارة المشتريات والموردين نظام بالجملة والتوريد",
+          "dynamic": false
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "purchases",
+          "width": 390
+        },
+        {
+          "name": "purchases",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "مركز إدارة المشتريات",
+      "proposed": "المشتريات والموردون",
+      "sourceSites": [
+        {
+          "file": "src/features/purchases/PurchasesView.tsx",
+          "line": 264,
+          "tag": "h1",
+          "text": "مركز إدارة المشتريات والموردين نظام بالجملة والتوريد",
+          "dynamic": false
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "purchases",
+          "width": 390
+        },
+        {
+          "name": "purchases",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "المستودع المستلم",
+      "proposed": "المستودع",
+      "sourceSites": [
+        {
+          "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+          "line": 655,
+          "tag": "label",
+          "text": "المستودع المستلم *",
+          "dynamic": false
+        },
+        {
+          "file": "src/features/purchases/ReceiveGoodsModal.tsx",
+          "line": 246,
+          "tag": "FormFields",
+          "text": "{} استلام بضائع لمخزن (Goods Receipt Note) {po.purchaseOrderNumber} تسجيل الكميات الموردة فعلياً لزيادة رصيد المستودع وتحديث متوسط التكلفة {} {errorMsg && (\n            <div classN",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/purchases/ReceiveGoodsModal.tsx",
+          "line": 278,
+          "tag": "form",
+          "text": "{errorMsg && (\n            <div className=\"bg-nw-bad-bg border border-nw-border p-3 rounded-2xl text-nw-bad flex items-center gap-2\">\n              <AlertTriangle className=\"w-4 h-",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/purchases/ReceiveGoodsModal.tsx",
+          "line": 294,
+          "tag": "label",
+          "text": "المستودع المستلم:",
+          "dynamic": false
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "receive-po",
+          "width": 390
+        },
+        {
+          "name": "receive-po",
+          "width": 1440
+        },
+        {
+          "name": "receipt-detail",
+          "width": 390
+        },
+        {
+          "name": "direct-form",
+          "width": 390
+        },
+        {
+          "name": "receipt-detail",
+          "width": 1440
+        },
+        {
+          "name": "direct-form",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "موقع الاستلام المعتمد",
+      "proposed": "المستودع مرة واحدة",
+      "sourceSites": [
+        {
+          "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+          "line": 676,
+          "tag": "label",
+          "text": "موقع الاستلام المعتمد",
+          "dynamic": false
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "direct-form",
+          "width": 390
+        },
+        {
+          "name": "direct-form",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "إجمالي قطع الاستلام",
+      "proposed": "الكميات حسب الصنف ووحدته",
+      "sourceSites": [
+        {
+          "file": "src/features/purchases/ReceiveGoodsModal.tsx",
+          "line": 344,
+          "tag": "details",
+          "text": "تفاصيل أمر الشراء بمحتوى الطرود جدول فحص واستلام الأصناف: إجمالي قطع الاستلام الحالي: {totalReceivingNow} قطعة اسم المنتج المطلوب المستلم سابقاً المتبقي الكمية المستلمة الآن تكلفة ",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/purchases/ReceiveGoodsModal.tsx",
+          "line": 347,
+          "tag": "h3",
+          "text": "جدول فحص واستلام الأصناف: إجمالي قطع الاستلام الحالي: {totalReceivingNow} قطعة",
+          "dynamic": true
+        }
+      ],
+      "observedIn": []
+    },
+    {
+      "current": "الوحدة الأساسية",
+      "proposed": "اسم الوحدة الحقيقي",
+      "sourceSites": [
+        {
+          "file": "src/features/corrections/DocumentCorrectionAction.tsx",
+          "line": 41,
+          "tag": "dl",
+          "text": "{([['الكاش في الدرج','cashInMinorUnits'],['CliQ خارج الدرج','cliqInMinorUnits'],['دين العميل','customerDebtInMinorUnits'],['رصيد المورد','supplierBalanceInMinorUnits']] as const).m",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/directReceiving/CreateDirectReceiptModal.tsx",
+          "line": 795,
+          "tag": "FormFields",
+          "text": "{prod.nameAr} SKU: {prod.sku} {prod.barcode && <span>| الباركود: {prod.barcode}</span>} | الوحدة الأساسية: {prod.baseUnitName} | طرد الشراء: {prod.purchaseUnitName} × {prod.unitsPe",
+          "dynamic": true
+        },
+        {
+          "file": "src/features/products/ProductFormModal.tsx",
+          "line": 1063,
+          "tag": "select",
+          "text": "{Array.from(new Set([unit,...units.filter(isContentUnitOption).map(item=>item.nameAr)])).map(name=><option key={name} value={name}>{name}</option>)}",
+          "dynamic": true
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "correction-pos_sale",
+          "width": 390
+        },
+        {
+          "name": "correction-customer_payment",
+          "width": 390
+        },
+        {
+          "name": "correction-supplier_payment",
+          "width": 390
+        },
+        {
+          "name": "correction-purchase_receipt",
+          "width": 390
+        },
+        {
+          "name": "correction-pos_sale",
+          "width": 1440
+        },
+        {
+          "name": "correction-customer_payment",
+          "width": 1440
+        },
+        {
+          "name": "correction-supplier_payment",
+          "width": 1440
+        },
+        {
+          "name": "correction-purchase_receipt",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "عكس الذرّي",
+      "proposed": "عكس العملية",
+      "sourceSites": [
+        {
+          "file": "src/features/shifts/ShiftsView.tsx",
+          "line": 485,
+          "tag": "UiButton",
+          "text": "{isFullReversalLoading ? 'جاري العكس الذرّي...' : 'تأكيد عكس الوردية بالكامل'}",
+          "dynamic": true
+        }
+      ],
+      "observedIn": []
+    },
+    {
+      "current": "ذرّي",
+      "proposed": "شرح الأثر بلغة المحل",
+      "sourceSites": [
+        {
+          "file": "src/features/shifts/ShiftsView.tsx",
+          "line": 485,
+          "tag": "UiButton",
+          "text": "{isFullReversalLoading ? 'جاري العكس الذرّي...' : 'تأكيد عكس الوردية بالكامل'}",
+          "dynamic": true
+        }
+      ],
+      "observedIn": []
+    },
+    {
+      "current": "operationId",
+      "proposed": "رقم العملية",
+      "sourceSites": [],
+      "observedIn": []
+    },
+    {
+      "current": "idempotency",
+      "proposed": "منع التكرار",
+      "sourceSites": [],
+      "observedIn": []
+    },
+    {
+      "current": "recovery",
+      "proposed": "التحقق من نتيجة الحفظ",
+      "sourceSites": [
+        {
+          "file": "src/features/pos/PosView.tsx",
+          "line": 720,
+          "tag": "section",
+          "text": "مسح الباركود {saleModeControl} مستودع البيع اختر المستودع {branchWarehouses.map(w => <option key={w.id} value={w.id}>{w.name}</option>)} {parcelOptions.length > 0 && <div className",
+          "dynamic": true
+        }
+      ],
+      "observedIn": []
+    },
+    {
+      "current": "المتوسط المرجح",
+      "proposed": "متوسط التكلفة",
+      "sourceSites": [],
+      "observedIn": []
+    },
+    {
+      "current": "المخزون بالوحدة",
+      "proposed": "الكمية مع اسم الوحدة",
+      "sourceSites": [
+        {
+          "file": "src/features/corrections/DocumentCorrectionAction.tsx",
+          "line": 41,
+          "tag": "dl",
+          "text": "{([['الكاش في الدرج','cashInMinorUnits'],['CliQ خارج الدرج','cliqInMinorUnits'],['دين العميل','customerDebtInMinorUnits'],['رصيد المورد','supplierBalanceInMinorUnits']] as const).m",
+          "dynamic": true
+        }
+      ],
+      "observedIn": [
+        {
+          "name": "correction-pos_sale",
+          "width": 390
+        },
+        {
+          "name": "correction-customer_payment",
+          "width": 390
+        },
+        {
+          "name": "correction-supplier_payment",
+          "width": 390
+        },
+        {
+          "name": "correction-purchase_receipt",
+          "width": 390
+        },
+        {
+          "name": "correction-pos_sale",
+          "width": 1440
+        },
+        {
+          "name": "correction-customer_payment",
+          "width": 1440
+        },
+        {
+          "name": "correction-supplier_payment",
+          "width": 1440
+        },
+        {
+          "name": "correction-purchase_receipt",
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "current": "القيمة التاريخية",
+      "proposed": "التكلفة وقت الإرسال",
+      "sourceSites": [],
+      "observedIn": []
+    },
+    {
+      "current": "مجموع كميات الأصناف المعلّقة",
+      "proposed": "كميات حسب الصنف والوحدة؛تجنب مجموع غير متجانس",
+      "sourceSites": [],
+      "observedIn": [
+        {
+          "name": "home",
+          "width": 390
+        },
+        {
+          "name": "inventory",
+          "width": 390
+        },
+        {
+          "name": "reports",
+          "width": 390
+        },
+        {
+          "name": "home",
+          "width": 1440
+        },
+        {
+          "name": "inventory",
+          "width": 1440
+        },
+        {
+          "name": "reports",
+          "width": 1440
+        },
+        {
+          "name": "replacement-mixed-summary",
+          "width": 390
+        },
+        {
+          "name": "replacement-mixed-summary",
+          "width": 1440
+        }
+      ]
+    }
+  ]
+}

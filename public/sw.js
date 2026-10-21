@@ -16,6 +16,14 @@ self.addEventListener('install', (event) => {
   );
 });
 
+// Recover an installed release that remained waiting. A stale tab cannot
+// promote a different release: both the message and worker identity must match.
+self.addEventListener('message', (event) => {
+  if (event.data?.type === 'NAWASRAH_ACTIVATE_RELEASE' && event.data.buildId === buildId) {
+    event.waitUntil(self.skipWaiting());
+  }
+});
+
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches

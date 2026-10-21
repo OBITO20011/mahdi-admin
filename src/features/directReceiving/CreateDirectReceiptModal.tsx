@@ -750,12 +750,12 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
         <div className="relative">
           <div className="flex items-center bg-nw-bg border border-nw-border rounded-xl px-3 py-2 text-xs focus-within:border-nw-border transition">
             <Search className="w-4 h-4 text-nw-muted ml-2" />
-            <input aria-label="ابحث باسم المنتج، SKU، أو الباركود لإضافته لسند الاستلام..."
+            <input aria-label="ابحث باسم المنتج، رمز الصنف، أو الباركود لإضافته لسند الاستلام..."
               type="text"
               value={productSearch}
               onChange={(e) => setProductSearch(e.target.value)}
               onFocus={() => setIsSearchFocused(true)}
-              placeholder="ابحث باسم المنتج، SKU، أو الباركود لإضافته لسند الاستلام..."
+              placeholder="ابحث باسم المنتج، رمز الصنف، أو الباركود لإضافته لسند الاستلام..."
               className="w-full bg-transparent text-nw-text placeholder-nw-muted outline-none font-bold"
             />
             {productSearch && (
@@ -801,7 +801,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
                       <div>
                         <h4 className="font-bold text-nw-text text-xs">{prod.nameAr}</h4>
                         <div className="flex items-center gap-2 text-[10px] text-nw-muted">
-                          <span>SKU: {prod.sku}</span>
+                          <span>رمز الصنف: {prod.sku}</span>
                           {prod.barcode && <span>| الباركود: {prod.barcode}</span>}
                           <span>| الوحدة الأساسية: {prod.baseUnitName}</span>
                           <span>| طرد الشراء: {prod.purchaseUnitName} × {prod.unitsPerPackage}</span>
@@ -1018,7 +1018,7 @@ export const CreateDirectReceiptModal: React.FC<CreateDirectReceiptModalProps> =
           <DollarSign className="w-4 h-4 text-nw-ok" />
           <span className="font-bold text-nw-text">ملخص الاستلام</span>
         </div>
-        <p role="status" className="text-sm text-nw-info">إجمالي الوحدات الداخلة: <bdi>{items.reduce((sum,item)=>sum+item.packageQuantity*item.unitsPerPackage,0)}</bdi> وحدة — {Array.from(new Set(items.map(item=>item.baseUnitName))).map(name=>`${items.filter(item=>item.baseUnitName===name).reduce((sum,item)=>sum+item.packageQuantity*item.unitsPerPackage,0)} ${name}`).join('، ')}</p>
+        <div role="status" className="space-y-1 text-sm text-nw-info" aria-label="الكميات الداخلة حسب الصنف">{items.map(item=><p key={item.tempId}>{item.productName}: <bdi>{item.packageQuantity*item.unitsPerPackage}</bdi> {item.baseUnitName}</p>)}</div>
 
         <div className="grid grid-cols-3 gap-2 rounded-xl border border-nw-border bg-nw-bg p-2.5 text-center">
           <div>

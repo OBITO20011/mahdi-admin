@@ -166,7 +166,7 @@ test('child WAC is initialized once and never overwritten by master edits', () =
 
 test('editing a flavor master exposes existing children and reuses management', () => {
   assert.match(adminForm, /النكهات الحالية/);
-  assert.match(adminForm, /SKU: \{flavor\.sku\}/);
+  assert.match(adminForm, /رمز الصنف: \{flavor\.sku\}/);
   assert.match(adminForm, /إدارة النكهات/);
   assert.match(adminForm, /openModal\('view_product', initialProduct\)/);
   assert.doesNotMatch(

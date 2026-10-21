@@ -127,7 +127,7 @@ export const BarcodeScannerModal: React.FC<BarcodeScannerModalProps> = ({
     setLastScannedCode(code);
     setLastScannedProduct(null);
     if (lookup.status === 'ambiguous') {
-      setToast('هذا الرمز يطابق أكثر من منتج؛ راجع SKU والباركود.', 'error');
+      setToast('هذا الرمز يطابق أكثر من منتج؛ راجع رمز الصنف والباركود.', 'error');
     } else if (lookup.status === 'not_sellable') {
       setToast('المنتج غير متاح للبيع من نقطة البيع.', 'error');
     } else {

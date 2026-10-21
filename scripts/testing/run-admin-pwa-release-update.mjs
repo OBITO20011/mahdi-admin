@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {execFile} from 'node:child_process';
+import {execFile, spawn} from 'node:child_process';
 import {createServer} from 'node:http';
 import {mkdtemp, readFile, rm, stat} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -20,6 +20,13 @@ const releaseRoots = {
   [releaseB]: path.join(temporaryRoot, 'release-b'),
 };
 let activeRoot = releaseRoots[releaseA];
+let holdNewWorker = false;
+const waitingOnly = process.argv.includes('--waiting-only');
+assert.ok(!process.env.CI || !waitingOnly, 'CI requires both automatic and waiting-worker scenarios');
+const guardPort = 4195;
+const apiOrigin = 'http://127.0.0.1:4196';
+const guardOrigin = `http://127.0.0.1:${guardPort}`;
+let guard;
 const requestedBrowsers = new Set(
   (process.env.NAWASRAH_PWA_TEST_BROWSERS || 'chromium,webkit')
     .split(',')
@@ -43,7 +50,9 @@ const buildRelease = async (releaseId) => {
     [viteCli, 'build', '--outDir', releaseRoots[releaseId], '--emptyOutDir'],
     {
       cwd: projectRoot,
-      env: {...process.env, NAWASRAH_ADMIN_RELEASE_ID: releaseId},
+      env: {...process.env, NAWASRAH_ADMIN_RELEASE_ID: releaseId,
+        VITE_SUPABASE_URL: apiOrigin, VITE_SUPABASE_PUBLISHABLE_KEY: 'isolated-pwa-publishable-key',
+        VITE_SUPABASE_ANON_KEY: 'isolated-pwa-publishable-key', VITE_SENTRY_DSN: '', VITE_BROWSER_QA_ISOLATED: 'true'},
       maxBuffer: 4 * 1024 * 1024,
       timeout: 180_000,
       windowsHide: true,
@@ -84,7 +93,15 @@ const server = createServer(async (request, response) => {
       'Content-Type': contentTypes.get(extension) || 'application/octet-stream',
       'Service-Worker-Allowed': '/',
     });
-    response.end(await readFile(filePath));
+    let body = await readFile(filePath);
+    if (relativePath === 'sw.js' && holdNewWorker && activeRoot === releaseRoots[releaseB]) {
+      const original = body.toString('utf8');
+      assert.ok(original.includes('.then(() => self.skipWaiting())'));
+      // Deterministically reproduce the observed installed-but-waiting state.
+      // Only the install-time promotion is held; the real worker/message path runs.
+      body = Buffer.from(original.replace('.then(() => self.skipWaiting())', '.then(() => undefined)'));
+    }
+    response.end(body);
   } catch (error) {
     response.writeHead(500).end(error instanceof Error ? error.message : 'Server error');
   }
@@ -202,20 +219,23 @@ const inspectPage = async (page, expectedRelease) => {
   throw new Error('Page did not stabilize after the service worker update reload.');
 };
 
-const runBrowserScenario = async (name, browserType, origin) => {
+const runBrowserScenario = async (name, browserType, origin, waiting) => {
   activeRoot = releaseRoots[releaseA];
-  const browser = await browserType.launch({headless: true});
+  holdNewWorker = waiting;
+  const browser = await browserType.launch({headless: true, proxy: {server: guardOrigin}});
   const context = await browser.newContext({serviceWorkers: 'allow'});
+  // Rendering-only fixture: no verification token, login, or external request.
+  await context.addInitScript(() => {
+    window.turnstile = {render: () => 'isolated-pwa-no-verification', remove() {}, reset() {}};
+  });
+  await context.route(`${apiOrigin}/**`, route => route.fulfill({status: 401, json: {message: 'ISOLATED_PWA_NO_AUTH'}}));
   const page = await context.newPage();
   const pageErrors = [];
   const failedLocalRequests = [];
   let mainFrameNavigations = 0;
 
   page.on('pageerror', (error) => {
-    const isLocalTurnstileProtocolNoise =
-      error.message.includes('challenges.cloudflare.com') &&
-      error.message.includes('Protocols must match');
-    if (!isLocalTurnstileProtocolNoise) pageErrors.push(error.message);
+    pageErrors.push(error.message);
   });
   page.on('requestfailed', (request) => {
     if (request.url().startsWith(origin)) failedLocalRequests.push(request.url());
@@ -235,6 +255,7 @@ const runBrowserScenario = async (name, browserType, origin) => {
     await waitForActiveRelease(page, releaseA);
     await waitForControllerRelease(page, releaseA);
     await waitForReleaseCacheCleanup(page, releaseA);
+    await page.evaluate(() => document.fonts.ready);
     const stateA = await inspectPage(page, releaseA);
     assert.ok(stateA.bodyTextLength > 0, `${name}: release A rendered a blank page`);
     assert.match(stateA.workerUrl || '', new RegExp(`build=${releaseA}$`));
@@ -273,6 +294,8 @@ const runBrowserScenario = async (name, browserType, origin) => {
     assert.deepEqual(failedLocalRequests, []);
 
     return {
+      browser: name,
+      scenario: waiting ? 'waiting-worker' : 'automatic',
       releaseAWorker: stateA.workerUrl,
       releaseBWorker: stateB.workerUrl,
       releaseCaches: stateB.releaseCacheKeys,
@@ -291,26 +314,37 @@ const runBrowserScenario = async (name, browserType, origin) => {
 
 let serverAddress;
 try {
+  // A conflicting listener is an infrastructure failure; never reuse or stop it.
+  guard = spawn(process.execPath, [path.join(scriptDirectory, 'run-browser-network-guard.mjs'), String(guardPort)],
+    {cwd: projectRoot, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe']});
+  await new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => reject(new Error('PWA network guard did not start')), 10_000);
+    guard.once('error', reject);
+    guard.once('exit', code => {clearTimeout(timeout); reject(new Error(`PWA network guard exited: ${code}`));});
+    guard.stdout.once('data', () => {clearTimeout(timeout); resolve();});
+  });
   await Promise.all([buildRelease(releaseA), buildRelease(releaseB)]);
   serverAddress = await listen();
   assert.ok(serverAddress && typeof serverAddress === 'object');
   const origin = `http://127.0.0.1:${serverAddress.port}`;
-  const chromiumResult = requestedBrowsers.has('chromium')
-    ? await runBrowserScenario('Chromium', chromium, origin)
-    : null;
-  const webkitResult = requestedBrowsers.has('webkit')
-    ? await runBrowserScenario('WebKit', webkit, origin)
-    : null;
-
-  console.log(JSON.stringify({
-    ok: true,
-    releaseA,
-    releaseB,
-    chromium: chromiumResult,
-    webkit: webkitResult,
-  }));
+  const results = [];
+  for (const [name, browserType] of [['Chromium', chromium], ['WebKit', webkit]]) {
+    if (!requestedBrowsers.has(name.toLowerCase())) continue;
+    for (const waiting of waitingOnly ? [true] : [false, true]) {
+      try { results.push({ok: true, ...await runBrowserScenario(name, browserType, origin, waiting)}); }
+      catch (error) { results.push({ok: false, browser: name, scenario: waiting ? 'waiting-worker' : 'automatic', error: error.message}); }
+    }
+  }
+  const network = await fetch(`${guardOrigin}/__network-guard/status`).then(response => response.json());
+  const ok = results.length > 0 && results.every(result => result.ok)
+    && network.escapedExternalRequests.length === 0 && network.deniedUnexpectedAttempts.length === 0;
+  const report = {ok, mode: waitingOnly ? 'waiting-only-local' : 'full', releaseA, releaseB, results, network};
+  console.log(JSON.stringify(report));
+  assert.ok(ok, 'PWA release-update acceptance failed');
+  if (process.env.CI) assert.equal(results.length, 4, 'All two-engine/two-scenario PWA checks required');
 } finally {
-  await new Promise((resolve) => server.close(() => resolve()));
+  if (server.listening) await new Promise((resolve) => server.close(() => resolve()));
+  guard?.kill();
   const resolvedTemporaryRoot = path.resolve(temporaryRoot);
   const resolvedSystemTemp = `${path.resolve(tmpdir())}${path.sep}`;
   if (

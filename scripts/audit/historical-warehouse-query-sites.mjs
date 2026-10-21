@@ -21,7 +21,7 @@ export function projectHistoricalWarehouseQuerySites(source){
   const a=parseSource(file,raw).entries,b=parseSource(file,before).entries,supplied=entries.filter(e=>e.file===file);
   assert.equal(a.length,b.length,'HISTORICAL204_QUERY_COUNT_CHANGED');
   const keys=Object.keys(a[0]??{}),pick=e=>Object.fromEntries(keys.map(k=>[k,e[k]]));
-  assert.deepEqual(supplied.map(pick),a,'HISTORICAL204_QUERY_INVENTORY_DRIFT:'+file);
+  assert.deepEqual(supplied.map(pick),a,'HISTORICAL_QUERY_INVENTORY_DRIFT:204:'+file);
   for(let i=0;i<a.length;i++)Object.assign(supplied[i],b[i]);entry.sha256=hash(before);
  }
  source={...source,entries,sources};

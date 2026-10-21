@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
+import {inventoryBeforePretrialP1 as inventory} from '../scripts/audit/source-before-pretrial-p1.mjs';
 import {serviceInventory} from '../scripts/audit/service-access-inventory.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 import {assertReady208Catalog} from '../scripts/operations/frankfurt-reference208.mjs';
@@ -11,9 +11,9 @@ import {migrationManifest,futureMigrationViolations} from '../scripts/testing/ma
 import {supplier208Pins,sourceBeforeSupplierReplacement208} from '../scripts/audit/source-before-supplier-replacement208.mjs';
 const read=(f:string)=>readFileSync(f,'utf8'),json=(f:string)=>JSON.parse(read(f));
 
-test('208 current SDK evidence binds every current production source and all142 real probes',async()=>{
+test('208 immutable SDK evidence binds every accepted208 source restored before P1 and all142 real probes',async()=>{
  const current=await inventory(),proof=json('docs/operations/TABLE_ACCESS_AFTER_208.json'),state=json('docs/agent/project-state.json');
- assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_208.json');assert.equal(state.migrationCeiling,208);
+ assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_PRETRIAL_P1.json');assert.equal(state.migrationCeiling,208);
  assert.equal(proof.migrationCeiling,208);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);
  assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(verifyProbeCoverage(current,proof.results),proof.coverage);assert.equal(proof.results.length,142);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));assertReady208Catalog(proof.catalog);
 });

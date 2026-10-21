@@ -1,5 +1,6 @@
 import {useEffect,useState} from 'react';
 import {Modal} from '../../components/common/Modal';
+import {RejectionNotice} from '../../components/common/RejectionNotice';
 import {MoneyText,UiButton} from '../../components/ui';
 import {useAuthStore} from '../../stores/useAuthStore';
 import {hasNavigationRole} from '../more/adminNavigation.config';
@@ -31,13 +32,13 @@ function CorrectionDialog({action,recordId,onClose,onChanged}:{action:Correction
   return <Modal isOpen title={correctionTitles[action]} onClose={onClose} closeDisabled={busy} trackChanges={false}>
     <div className="space-y-4" dir="rtl" aria-busy={busy} data-testid="document-correction-dialog">
       {loading&&<p role="status">جارٍ تحميل معاينة التصحيح…</p>}
-      {error&&<p role="alert" className="text-sm text-nw-warn">{error}</p>}
+      {error&&<RejectionNotice reason={error}/>}
       {done?<><p role="status">تم التصحيح وحُفظ أثره التدقيقي.</p><UiButton onClick={onClose}>إغلاق</UiButton></>:<>
         {preview&&<>
           <p className="font-bold">المستند: <bdi>{preview.reference}</bdi></p>
           {action!=='purchase_receipt'&&<p className="text-sm">القيمة الأصلية: <MoneyText amount={preview.effect.paymentInMinorUnits/1000} currency/> — {PAYMENT_METHOD_LABELS[preview.effect.paymentMethod??'']??'طريقة الدفع غير متاحة'}</p>}
           {recover?<p className="rounded-xl bg-nw-warn-bg p-3 text-sm">توجد محاولة محفوظة. استعد نتيجتها بنفس المفتاح والمدخلات؛ لا تبدأ محاولة جديدة.</p>
-            :!preview.eligible?<p role="status" className="rounded-xl bg-nw-warn-bg p-3 text-sm">{preview.blockedReason}</p>:<p className="text-sm text-nw-muted">معاينة من قاعدة البيانات؛ يعاد فحصها عند التأكيد.</p>}
+            :!preview.eligible?<RejectionNotice reason={preview.blockedReason} role="status"/>:<p className="text-sm text-nw-muted">معاينة من قاعدة البيانات؛ يعاد فحصها عند التأكيد.</p>}
           <dl className="space-y-2 rounded-xl border border-nw-border p-3 text-sm" aria-label="أثر التصحيح">
             {([['الكاش في الدرج','cashInMinorUnits'],['CliQ خارج الدرج','cliqInMinorUnits'],['دين العميل','customerDebtInMinorUnits'],['رصيد المورد','supplierBalanceInMinorUnits']] as const).map(([label,key])=><div className="flex justify-between gap-3" key={key}><dt>{label}</dt><dd><MoneyText amount={preview.effect[key]/1000} currency/></dd></div>)}
             <div className="flex justify-between gap-3"><dt>تغيّر المخزون بالوحدة الأساسية</dt><dd><bdi>{preview.effect.inventoryBaseUnits.toLocaleString('ar-JO')}</bdi></dd></div>

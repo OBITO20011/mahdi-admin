@@ -1,0 +1,206 @@
+{
+  "managedAccess": false,
+  "source": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
+  "scope": "UI control activations;data-entry fields listed separately;writes rejected before transport;no business-flow success claim",
+  "flows": [
+    {
+      "name": "sale-two-default-parcels",
+      "steps": [
+        "الصنف الأول",
+        "الصنف الثاني",
+        "إتمام البيع"
+      ],
+      "fields": [],
+      "writeRequests": [
+        "create_pos_sale_v2"
+      ],
+      "ok": true,
+      "authFixture": "Simulated SDK session in memory for UI counting only;all writes still rejected before transport;not an auth/ACL/business acceptance test"
+    },
+    {
+      "name": "receive-parcel-and-base",
+      "steps": [
+        "اختيار المورد",
+        "إضافة الصنف 1",
+        "إضافة الصنف 2",
+        "السطر الثاني باكيت",
+        "حفظ واستلام"
+      ],
+      "fields": [
+        "بحث الصنف 1",
+        "بحث الصنف 2"
+      ],
+      "writeRequests": [
+        "create_direct_supplier_receipt_v2"
+      ],
+      "ok": true,
+      "authFixture": "Simulated SDK session in memory for UI counting only;all writes still rejected before transport;not an auth/ACL/business acceptance test"
+    },
+    {
+      "name": "customer-cash-collection",
+      "steps": [
+        "فتح العميل",
+        "تحصيل",
+        "معاينة",
+        "حفظ"
+      ],
+      "fields": [
+        "المبلغ"
+      ],
+      "writeRequests": [
+        "collect_customer_balance_v1"
+      ],
+      "ok": true,
+      "authFixture": "Simulated SDK session in memory for UI counting only;all writes still rejected before transport;not an auth/ACL/business acceptance test"
+    },
+    {
+      "name": "close-shift-matching-count",
+      "steps": [
+        "عد الصندوق",
+        "إغلاق"
+      ],
+      "fields": [
+        "الكاش الفعلي"
+      ],
+      "writeRequests": [
+        "close_cash_shift"
+      ],
+      "ok": true,
+      "authFixture": "Simulated SDK session in memory for UI counting only;all writes still rejected before transport;not an auth/ACL/business acceptance test"
+    },
+    {
+      "name": "product-form-controls",
+      "steps": [
+        "توليد الرمز",
+        "إنشاء"
+      ],
+      "fields": [
+        "اسم المنتج",
+        "سعر الشراء",
+        "سعر البيع"
+      ],
+      "writeRequests": [
+        "create_product_with_opening_stock_v4"
+      ],
+      "ok": true,
+      "authFixture": "Simulated SDK session in memory for UI counting only;all writes still rejected before transport;not an auth/ACL/business acceptance test",
+      "currentFields": [
+        {
+          "name": "اسم المنتج",
+          "value": "",
+          "required": true,
+          "disabled": false
+        },
+        {
+          "name": "القسم",
+          "value": "drinks",
+          "required": true,
+          "disabled": false
+        },
+        {
+          "name": "SKU",
+          "value": "",
+          "required": true,
+          "disabled": false
+        },
+        {
+          "name": "باركود المنتج",
+          "value": "",
+          "required": false,
+          "disabled": false
+        },
+        {
+          "name": "INPUT",
+          "value": "on",
+          "required": false,
+          "disabled": false
+        },
+        {
+          "name": "عدد باكيت في طرد الشراء",
+          "value": "1",
+          "required": true,
+          "disabled": false
+        },
+        {
+          "name": "الوحدة الأساسية",
+          "value": "باكيت",
+          "required": false,
+          "disabled": false
+        },
+        {
+          "name": "سعر شراء الطرد",
+          "value": "",
+          "required": true,
+          "disabled": false
+        },
+        {
+          "name": "سعر شراء باكيت",
+          "value": "",
+          "required": true,
+          "disabled": false
+        },
+        {
+          "name": "سعر بيع الطرد",
+          "value": "",
+          "required": true,
+          "disabled": false
+        },
+        {
+          "name": "سعر بيع باكيت",
+          "value": "",
+          "required": true,
+          "disabled": false
+        },
+        {
+          "name": "INPUT",
+          "value": "on",
+          "required": false,
+          "disabled": false
+        },
+        {
+          "name": "نوع طرد الشراء",
+          "value": "طرد",
+          "required": false,
+          "disabled": false
+        },
+        {
+          "name": "نوع طرد البيع",
+          "value": "طرد",
+          "required": false,
+          "disabled": false
+        },
+        {
+          "name": "العلامة التجارية",
+          "value": "",
+          "required": false,
+          "disabled": false
+        },
+        {
+          "name": "وصف المنتج",
+          "value": "",
+          "required": false,
+          "disabled": false
+        },
+        {
+          "name": "INPUT",
+          "value": "",
+          "required": false,
+          "disabled": false
+        },
+        {
+          "name": "حد الطلب",
+          "value": "5",
+          "required": true,
+          "disabled": false
+        },
+        {
+          "name": "سقف المستودع",
+          "value": "",
+          "required": false,
+          "disabled": false
+        }
+      ]
+    }
+  ],
+  "ok": true
+}

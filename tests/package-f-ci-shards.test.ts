@@ -40,7 +40,7 @@ test('CI shards retain isolation, full matrix success, image and timeout contrac
   assert.match(block,/run-quality-ci\.mjs package-f --shard=\$\{\{ matrix.shard \}\}\/5/);
   assert.match(block,/name: playwright-report-package-f-\$\{\{ matrix.shard \}\}/);
   assert.match(block,/container:\s+image: mcr\.microsoft\.com\/playwright:v1\.62\.1-noble@sha256:[a-f0-9]{64}/);
-  assert.match(workflow,/needs: \[scope, quality, package-f-browser, database-runtime, current-database-runtime\]/);
+  assert.match(workflow,/needs: \[scope, quality, package-f-browser, database-runtime, current-database-runtime, pwa-release-update\]/);
   assert.match(workflow,/verify-private-ci-gate\.mjs/);
   assert.match(execFileSync(process.execPath,['scripts/testing/verify-ci-playwright-image.mjs'],{encoding:'utf8'}),/20m limit/);
 });

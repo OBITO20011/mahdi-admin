@@ -554,10 +554,10 @@ export const DirectReceivingView: React.FC = () => {
 
               <div className="flex min-w-[240px] items-center rounded-xl border border-nw-border bg-nw-bg px-3 py-2 text-xs">
                 <Search className="ml-2 h-4 w-4 text-nw-muted" />
-                <input aria-label="ابحث باسم الصنف أو SKU أو الباركود..."
+                <input aria-label="ابحث باسم الصنف أو رمز الصنف أو الباركود..."
                   value={inventorySearchTerm}
                   onChange={(event) => setInventorySearchTerm(event.target.value)}
-                  placeholder="ابحث باسم الصنف أو SKU أو الباركود..."
+                  placeholder="ابحث باسم الصنف أو رمز الصنف أو الباركود..."
                   className="w-full bg-transparent font-bold text-nw-text outline-none placeholder:text-nw-muted"
                 />
               </div>
@@ -663,7 +663,7 @@ export const DirectReceivingView: React.FC = () => {
                           {product.nameAr}
                         </h3>
                         <p className="mt-0.5 text-[10px] text-nw-muted">
-                          SKU: {product.sku}
+                          رمز الصنف: {product.sku}
                           {product.barcode ? ` · باركود: ${product.barcode}` : ''}
                         </p>
                       </div>

@@ -597,7 +597,7 @@ export const PurchaseOrderDetailView: React.FC<PurchaseOrderDetailViewProps> = (
                               <Td className="p-3 font-semibold text-nw-text">
                                 <div className="font-bold text-nw-text">{item.productName}</div>
                                 <div className="text-[10px] text-nw-muted font-mono flex flex-wrap items-center gap-2 mt-0.5">
-                                  <span>SKU: {item.sku || 'غير محدد'}</span>
+                                  <span>رمز الصنف: {item.sku || 'غير محدد'}</span>
                                   {item.barcode && <span>• باركود: {item.barcode}</span>}
                                   {item.unit && (
                                     <span className="bg-nw-surface-2 border border-nw-border px-1.5 py-0.2 rounded text-[9px] text-nw-text font-sans">

@@ -8,7 +8,6 @@ export function CustomerAgingSummary({revision}: {revision: unknown}) {
       <KpiCard label="إجمالي الذمم" value={data ? <MoneyText amount={data.total_in_minor_units / 1000} currency /> : 'غير متاح'} />
       <KpiCard label="متأخرون أكثر من 30 يوماً" value={data?.overdue_customer_count ?? 'غير متاح'} note="لا يشمل عمر غير متاح" valueTone="bad" />
       <KpiCard label="تجاوزوا حد الدين" value={data?.over_limit_customer_count ?? 'غير متاح'} valueTone="warn" />
-      <KpiCard label="تحصيل هذا الشهر" value="غير متاح" note="لا يرجعه قارئ العملاء الحالي" />
     </KpiGrid>
     <Card className="space-y-4"><SectionHeader title="عمر الديون" hint="توزيع للعرض: أقدم دين أولاً؛ العمر غير المتاح منفصل ولا يُعدّ متأخراً." />
       {data ? <AgingBar segments={agingSegments(data)} /> : <p className="m-0 text-sm text-nw-muted">عمر الديون غير متاح</p>}

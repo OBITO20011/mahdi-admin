@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "status": "LOCAL_ACCEPTED_EXACT_CI_PENDING",
+  "baseline": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
+  "branch": "codex/pretrial-p1",
+  "managedAccess": false,
+  "migrationCeiling": 208,
+  "noServiceOrMigrationChange": true,
+  "local": {
+    "units": {
+      "passed": 1329,
+      "failed": 0,
+      "skipped": 0
+    },
+    "types": true,
+    "strictLint": true,
+    "build": true,
+    "networkIsolation": {
+      "engines": 2,
+      "externalEscaped": 0,
+      "productionEscaped": 0
+    },
+    "sdk": {
+      "sources": 316,
+      "probes": 142,
+      "counts": {
+        "success": 142,
+        "permission_denied": 0,
+        "zero_rows": 0,
+        "other_error": 0
+      }
+    },
+    "rpc": {
+      "probes": 525,
+      "expectedDeniedRoles": [
+        "admin",
+        "cashier"
+      ],
+      "reader": "get_supplier_replacements_page_v1",
+      "supplement": "Fresh EXECUTE and dispatch;preserved historical saved-catalog assessment"
+    },
+    "browsers": {
+      "expandedInitial": {
+        "passed": 353,
+        "legacyConditionalSkipped": 2,
+        "failed": 4,
+        "reason": "Old exact English print-title selector;fixed without changing print-color assertions"
+      },
+      "correctedPurchasingProductsP1": {
+        "passed": 72,
+        "failed": 0,
+        "retries": 0
+      },
+      "finalP1And208": {
+        "passed": 26,
+        "failed": 0,
+        "retries": 0
+      },
+      "environmentalRerun": {
+        "count": 1,
+        "initialPassed": 25,
+        "initialFailed": 1,
+        "reason": "Chromium loopback page.goto net::ERR_TIMED_OUT before any application assertion while SDK/build active",
+        "sourceChanged": false,
+        "timeoutsChanged": false,
+        "finalFull26Passed": true
+      }
+    },
+    "pwa": {
+      "passed": 4,
+      "redBeforeFix": 2,
+      "details": "docs/operations/PRETRIAL_P1_PWA.json"
+    },
+    "gitleaks": {
+      "exitCode": 0,
+      "files": 80
+    },
+    "browserPartition": {
+      "full": 1364,
+      "core": 472,
+      "packageF": 892,
+      "shards": [
+        180,
+        178,
+        178,
+        178,
+        178
+      ]
+    }
+  },
+  "logHashes": {
+    "p1-allunits-accepted.log": "dc62c78c723ac562321f5f9c1716dd118f4a8e3e6903437c97d46f63bfbcc17c",
+    "p1-browser-quiescent.log": "5a73e2bcd3e0a4eb832220a7a0b77eb89e6489363622efd8e6187924a42b5f6e",
+    "p1-browser-final.log": "cf7de30b462089e255d9168eb5a3d311edc4e89ef1410bc5e9cf90b8d523bf1d",
+    "p1-accepted-quality.log": "990c9ad66245b5a5dd7a20d92beccb4f18fab48635c46415ed4de44874888326",
+    "p1-evidence-focused-final.log": "5300a38122b4cefce110718a9ce6ed29e2d712a518651ae444cc95db3080d5df"
+  },
+  "featureCi": "PENDING",
+  "mainCi": "PENDING",
+  "ownerCommand": "frankfurt-owner-upgrade208",
+  "ownerCommandExecuted": false,
+  "parcelOnlyImplemented": false,
+  "p2Implemented": false
+}

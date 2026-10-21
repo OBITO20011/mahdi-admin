@@ -1,0 +1,92 @@
+{
+  "scope": "Local isolated current working tree;exact committed CI still required",
+  "managedAccess": false,
+  "originalBaseline": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
+  "red": {
+    "scenarios": 2,
+    "passed": 0,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "logSha256": "1737631b9fa3507207f355ebb03ab9dda4644c26cf42db0b6d695d04e37dbb2f",
+    "reason": "Deterministic installed-but-waiting worker did not become controller within original30s"
+  },
+  "green": {
+    "ok": true,
+    "mode": "full",
+    "releaseA": "1111111111111111111111111111111111111111",
+    "releaseB": "2222222222222222222222222222222222222222",
+    "results": [
+      {
+        "ok": true,
+        "browser": "Chromium",
+        "scenario": "automatic",
+        "releaseAWorker": "http://127.0.0.1:52002/sw.js?build=1111111111111111111111111111111111111111",
+        "releaseBWorker": "http://127.0.0.1:52002/sw.js?build=2222222222222222222222222222222222222222",
+        "releaseCaches": [
+          "nawasrah-admin-shell-2222222222222222222222222222222222222222"
+        ],
+        "obsoleteReleaseCacheRemoved": true,
+        "cacheCleanup": true,
+        "reopenedOnReleaseB": true,
+        "mainFrameNavigations": 3,
+        "rendered": true
+      },
+      {
+        "ok": true,
+        "browser": "Chromium",
+        "scenario": "waiting-worker",
+        "releaseAWorker": "http://127.0.0.1:52002/sw.js?build=1111111111111111111111111111111111111111",
+        "releaseBWorker": "http://127.0.0.1:52002/sw.js?build=2222222222222222222222222222222222222222",
+        "releaseCaches": [
+          "nawasrah-admin-shell-2222222222222222222222222222222222222222"
+        ],
+        "obsoleteReleaseCacheRemoved": true,
+        "cacheCleanup": true,
+        "reopenedOnReleaseB": true,
+        "mainFrameNavigations": 3,
+        "rendered": true
+      },
+      {
+        "ok": true,
+        "browser": "WebKit",
+        "scenario": "automatic",
+        "releaseAWorker": "http://127.0.0.1:52002/sw.js?build=1111111111111111111111111111111111111111",
+        "releaseBWorker": "http://127.0.0.1:52002/sw.js?build=2222222222222222222222222222222222222222",
+        "releaseCaches": [
+          "nawasrah-admin-shell-2222222222222222222222222222222222222222"
+        ],
+        "obsoleteReleaseCacheRemoved": true,
+        "cacheCleanup": true,
+        "reopenedOnReleaseB": true,
+        "mainFrameNavigations": 3,
+        "rendered": true
+      },
+      {
+        "ok": true,
+        "browser": "WebKit",
+        "scenario": "waiting-worker",
+        "releaseAWorker": "http://127.0.0.1:52002/sw.js?build=1111111111111111111111111111111111111111",
+        "releaseBWorker": "http://127.0.0.1:52002/sw.js?build=2222222222222222222222222222222222222222",
+        "releaseCaches": [
+          "nawasrah-admin-shell-2222222222222222222222222222222222222222"
+        ],
+        "obsoleteReleaseCacheRemoved": true,
+        "cacheCleanup": true,
+        "reopenedOnReleaseB": true,
+        "mainFrameNavigations": 3,
+        "rendered": true
+      }
+    ],
+    "network": {
+      "denied": [],
+      "blockedCanaryAttempts": [],
+      "deniedUnexpectedAttempts": [],
+      "escapedExternalRequests": []
+    }
+  },
+  "assertionsWeakened": false,
+  "retriesAdded": 0,
+  "timeoutsIncreased": false
+}

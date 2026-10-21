@@ -1,3 +1,21 @@
+#22Oct — pretrial P1 local gates accepted;exact FULL CI next
+
+All seven approved P1 implemented;1329Adminunits/0skip,types/strictlint/build,SDK142/RPC525/316sources and final26bothenginebrowser PASS. PWA4/RED2;network0;Gitleaks0;native1364=472core+892F/all5shards. One unchanged26case environmental navigation rerun passed. Historical pins/SQL/services unchanged;ceiling/owner208. Exact feature push+PR FULL39 plus secrets,then genuine merge/mainFULL39 required. No hostedaccess/deploy/P2/parcel-only. See PRETRIAL_P1_DELIVERY_AR and PRETRIAL_P1_DELIVERY.json.
+
+#22Oct — owner approved seven pretrial P1 items
+
+Implement PWA update repair and both-engine acceptance;per-product/unit held quantities;hide unsupported CRMmonthlycollection card;receiving terminology/units;Arabic product code with small generator;plain replacement text;known rejection messages.
+Presentation only:no money/RPC/migration changes;if required stop for owner decision.P2 deferred;parcel-only forbidden. Worktree/fullCI/Gitleaks0/checkpoint;standing commit/PR/merge/mainCI process remains. No hostedaccess/deploy.
+
+# Current21Oct —C9 delivered208;owner208 current;Prompt5 report ready
+
+PR12/main b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3 FULL38 39665806828 and secrets 39665806800 SUCCESS;strict delivery and actual208full21/resetREST verified.
+1293browser/0flaky;all historical001-207 remain unchanged. Owner currentcommand frankfurt-owner-upgrade208;170migrations/534functions/13Realtime reference saved.
+Arabic dry-run/apply/verify-only guide prepared;agent executed none hosted.
+Prompt5 audit:110files/1584controls/128views390-1440;five UIclickcounts3/5/4/2/3.
+Standalone PWA release-update did NOT pass locally;see PRETRIAL208_REVIEW_AR and PWA proof. No blanket trial-readiness claim.
+Report-only review before UI corrections;parcel-only implementation forbidden pending owner approval. No hostedaccess/deploy.
+
 # Current21Oct —C9 feature FULL38 accepted;genuine mainintegration
 
 Exactfeature ec18333df7e1f0e58d0af5d820fd9a75fe396dd9 push+PR FULL38 and bothsecret scans SUCCESS.

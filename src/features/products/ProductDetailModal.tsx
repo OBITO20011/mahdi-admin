@@ -480,7 +480,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           </div>
           <div className="flex flex-wrap gap-1.5 border-t border-nw-border pt-2.5 font-mono text-xs text-nw-text">
             <span className="rounded-lg bg-nw-surface-2 px-2 py-1">
-              SKU: {product.sku}
+              رمز الصنف: {product.sku}
             </span>
             {product.barcode && (
               <span className="rounded-lg bg-nw-surface-2 px-2 py-1">

@@ -36,7 +36,7 @@ for(const theme of ['light','dark']){
  test(`receipt paper remains readable independently of screen theme ${theme}`,async({page})=>{
   await page.goto(`/e2e/package-f-purchasing-harness.html?theme=${theme}&view=receipt`);
   await page.emulateMedia({media:'print'});
-  const title=page.getByRole('heading',{name:'إذن استلام بضائع من مورد (Direct Goods Receipt)',exact:true});
+  const title=page.getByRole('heading',{name:'سند استلام بضاعة',exact:true});
   await expect(title).toBeVisible();
   expect(await title.evaluate(e=>getComputedStyle(e).color)).toBe('rgb(15, 27, 45)');
   expect(await title.evaluate(e=>getComputedStyle(e.closest('.nw-purchasing-fields')!).getPropertyValue('--nw-surface').trim())).toBe('#ffffff');

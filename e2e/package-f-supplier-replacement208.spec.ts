@@ -19,7 +19,7 @@ test('208 pending UI uses current unit/solewarehouse and real service once;histo
 });
 test('208 unknown survives reload and recovers identicalkey/payload without storing financialresult',async({page})=>{
  await mocks(page);const requests:Record<string,unknown>[]=[];await page.route('**/rest/v1/rpc/execute_supplier_replacement_v1',route=>{const req=route.request().postDataJSON();requests.push(req);return requests.length===1?route.abort():route.fulfill({json:success(req,true)});});
- await page.goto(url);await fill(page);await page.getByRole('button',{name:'تأكيد وحفظ العملية'}).click();await expect(page.getByRole('alert')).toBeVisible();await page.reload();await expect(page.getByTestId('replacement-recovery')).toContainText('لم تُحسم');
+ await page.goto(url);await fill(page);await page.getByRole('button',{name:'تأكيد وحفظ العملية'}).click();await expect(page.getByRole('alert')).toBeVisible();await page.reload();await expect(page.getByTestId('replacement-recovery')).toContainText('لم تتأكد نتيجة الحفظ بعد');
  await page.getByRole('button',{name:'استعادة نفس المحاولة'}).click();await expect(page.getByTestId('saved')).toHaveText('1');expect(requests.length).toBe(2);expect(requests[1]).toEqual(requests[0]);
  const stored=await page.evaluate(async()=>new Promise<unknown>((resolve,reject)=>{const request=indexedDB.open('nawasrah-supplier-replacement208',1);request.onsuccess=()=>{const db=request.result,tx=db.transaction('attempts','readonly'),get=tx.objectStore('attempts').getAll();get.onsuccess=()=>resolve(get.result);get.onerror=()=>reject(get.error);tx.oncomplete=()=>db.close();};}));
  expect(JSON.stringify(stored)).not.toMatch(/pendingValue|unitCost|manifest|operationId|returnResult/);expect(JSON.stringify(stored)).toContain('succeeded');
@@ -34,7 +34,7 @@ test('208 committed result with failed local success save retains exact unknown 
  await page.route('**/rest/v1/rpc/execute_supplier_replacement_v1',route=>{const req=route.request().postDataJSON();requests.push(req);return route.fulfill({json:success(req,requests.length>1)});});
  await page.goto(url);await page.evaluate(()=>{const original=IDBObjectStore.prototype.put;IDBObjectStore.prototype.put=function(value:unknown,key?:IDBValidKey){if(value&&typeof value==='object'&&'status' in value&&value.status==='succeeded')throw new DOMException('savefailed','QuotaExceededError');return original.call(this,value,key);};});
  await fill(page);await page.getByRole('button',{name:'تأكيد وحفظ العملية'}).click();await expect(page.getByRole('alert')).toBeVisible();await expect(page.getByRole('alert')).not.toContainText('لم يُرسل');await expect(page.getByTestId('saved')).toHaveText('0');
- await page.reload();await expect(page.getByTestId('replacement-recovery')).toContainText('لم تُحسم');await page.getByRole('button',{name:'استعادة نفس المحاولة'}).click();await expect(page.getByTestId('saved')).toHaveText('1');expect(requests[1]).toEqual(requests[0]);
+ await page.reload();await expect(page.getByTestId('replacement-recovery')).toContainText('لم تتأكد نتيجة الحفظ بعد');await page.getByRole('button',{name:'استعادة نفس المحاولة'}).click();await expect(page.getByTestId('saved')).toHaveText('1');expect(requests[1]).toEqual(requests[0]);
 });
 test('208 response for another request cannot mark this attempt successful',async({page})=>{
  await mocks(page);const requests:Record<string,unknown>[]=[];
@@ -49,7 +49,7 @@ test('208 stale other-tab newintent cannot silently start another shipment',asyn
  try{await page.bringToFront();await page.getByRole('button',{name:'تأكيد وحفظ العملية'}).click();await expect.poll(()=>requests.length).toBe(1);await second.bringToFront();
   const lock='supplier-replacement208:88880000-0000-4000-8000-000000000001:supplier-replacement208:panel';
   await Promise.all([second.getByRole('button',{name:'تأكيد وحفظ العملية'}).click(),(async()=>{await expect.poll(()=>second.evaluate(async key=>(await navigator.locks.query()).pending?.filter(l=>l.name===key).length??0,lock)).toBe(1);release();})()]);
-  await expect(second.getByRole('alert')).toContainText('تغيّرت المحاولة');expect(requests.length).toBe(1);await expect(second.getByTestId('replacement-recovery')).toContainText('آخر عملية مثبتة');
+  await expect(second.getByRole('alert')).toContainText('تغيّرت المحاولة');expect(requests.length).toBe(1);await expect(second.getByTestId('replacement-recovery')).toContainText('آخر عملية محفوظة');
  }finally{release();await second.close();}
 });
 test('208 same request after explicit fresh review createsnewshipment nonce;recovery keeps the previouskey',async({page})=>{

@@ -36,7 +36,8 @@ test('product terminology remains tied to the products destination and SKU ident
   assert.match(productsView, /product\.sku/);
   assert.match(productsView, /product\.barcode/);
   assert.match(productForm, /اسم المنتج/);
-  assert.match(productForm, /رمز الصنف SKU/);
+  assert.match(productForm, /aria-label="رمز الصنف"/);
+  assert.match(productForm, /onClick=\{generateSku\}/);
   assert.match(productsView, /openModal\('view_product', product\)/);
   assert.match(productsView, /openModal\('edit_product', product\)/);
   assert.match(productsView, /openModal\('receive_goods', \{ productId: flavorId \}\)/);

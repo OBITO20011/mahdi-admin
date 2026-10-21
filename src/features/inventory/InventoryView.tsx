@@ -296,7 +296,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
           <div className="flex flex-wrap items-center justify-between gap-3">
             <FilterChips<InventoryStatusFilter> touchSize label="حالة المخزون" value={statusFilter} onChange={setStatusFilter}
               options={[{value:'all',label:'الكل',count:totalItemCount},{value:'available',label:'متوفر',count:availableStockCount},{value:'low_stock',label:'منخفض',count:lowStockCount},{value:'out_of_stock',label:'نفد',count:outOfStockCount}]} />
-            <SearchField label="البحث في المخزون" placeholder="ابحث باسم المنتج، الكود SKU، أو الباركود..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="w-full md:max-w-sm" />
+            <SearchField label="البحث في المخزون" placeholder="ابحث باسم المنتج، رمز الصنف، أو الباركود..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)} className="w-full md:max-w-sm" />
             <UiButton aria-label="تحديث المخزون" disabled={isProductPageLoading} onClick={() => setProductPageRefreshToken(value => value + 1)}><RefreshCw className="h-4 w-4" />تحديث</UiButton>
           </div>
           <details className="rounded-xl border border-nw-border bg-nw-surface px-4">
@@ -346,7 +346,7 @@ export const InventoryView: React.FC<InventoryViewProps> = ({
           <div className="flex shrink-0 items-center justify-between gap-2 border-b border-nw-border p-4"><h2 className="m-0 break-words text-base font-bold">{product.nameAr}</h2>
             <UiButton aria-label="رجوع للمخزون" onClick={closeDetail} className="shrink-0 text-xs"><ArrowRight className="h-4 w-4" /><span className="md:hidden">رجوع للمخزون</span><span className="hidden md:inline">إغلاق</span></UiButton></div>
           <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain p-4 pb-28 md:overflow-visible md:pb-4">
-            <div className="flex items-start gap-3"><ProductGlyph name={product.nameAr} image={product.imageUrl} /><div className="min-w-0 space-y-1 text-xs text-nw-muted"><p className="m-0 break-all">SKU: <bdi dir="ltr">{product.sku}</bdi></p><p className="m-0 break-all">الباركود: <bdi dir="ltr">{product.barcode || 'غير محدد'}</bdi></p></div></div>
+            <div className="flex items-start gap-3"><ProductGlyph name={product.nameAr} image={product.imageUrl} /><div className="min-w-0 space-y-1 text-xs text-nw-muted"><p className="m-0 break-all">رمز الصنف: <bdi dir="ltr">{product.sku}</bdi></p><p className="m-0 break-all">الباركود: <bdi dir="ltr">{product.barcode || 'غير محدد'}</bdi></p></div></div>
             <InventoryStock product={product} />
             <div className="grid grid-cols-2 gap-2 text-xs">
               <Card className="p-3"><span className="text-nw-muted">الفعلي</span><p className="mb-0 font-bold">{formatProductInventory(product, false).cartonFormatted}</p></Card>
