@@ -22,6 +22,7 @@ export type AdminAftercareCapability =
   | 'unsupported_contract';
 
 interface AdminAftercareBaseItem {
+  parcelOnly?: boolean;
   orderItemId: string; productId: string; quantity: number;
   remainingQuantity: number;
   physicalRepresentatives: AftercarePhysicalRepresentative[];
@@ -33,6 +34,7 @@ interface AdminAftercareBaseItem {
 interface AdminAftercareParcelInstance {
   parcelInstanceId: string; orderItemId: string;
   components: Array<{
+    parcelOnly?: boolean;
     parcelComponentId: string; productId: string; quantity: number;
     physicalRepresentatives: AftercarePhysicalRepresentative[];
   }>;

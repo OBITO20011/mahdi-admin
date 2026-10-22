@@ -46,12 +46,15 @@ test('migration policy rejects unquoted/quoted/mixed-case/new-renamed layers and
     'DO $$ BEGIN v_sql := REPLACE(v_sql,\'old\',\'new\'); EXECUTE v_sql; END $$;',
     'DO $$ BEGIN EXECUTE format(\'CREATE OR REPLACE FUNCTION public.x() RETURNS void AS ...\'); END $$;',
     'DO $$ BEGIN v_sql := regexp_replace(v_sql,\'a\',\'b\'); EXECUTE v_sql; END $$;',
+    'GRANT EXECUTE ON FUNCTION public.f() TO authenticated; DO $$ BEGIN v_sql := replace(v_sql,\'a\',\'b\'); EXECUTE v_sql; END $$;',
   ]) assert.ok(futureMigrationViolations(sql).length > 0, sql);
   for (const sql of [
     'CREATE OR REPLACE FUNCTION public.x() RETURNS int AS $$ SELECT 1 $$ LANGUAGE sql;',
     '-- pg_get_functiondef(1); CREATE FUNCTION x_before_y()\nSELECT 1;',
     '/* nested /* pg_get_functiondef(1) */ CREATE FUNCTION x_before_y() */ SELECT 1;',
     "SELECT replace(customer_name,'a','b');",
+    "SELECT regexp_replace(customer_name,'a','b'); GRANT EXECUTE ON FUNCTION public.f() TO authenticated;",
+    "SELECT replace(customer_name,'a','b'); CREATE TRIGGER t AFTER UPDATE ON public.x FOR EACH ROW EXECUTE FUNCTION public.f();",
     'SELECT public._old_before_new();', // Existing calls are not new layers.
   ]) assert.deepEqual(futureMigrationViolations(sql), [], sql);
 });

@@ -8,7 +8,7 @@ import {createInterface} from 'node:readline/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {TARGET,OLD_REF,DEFAULT_WORKDIR,assertOutsideRepository,connectionFromLink,ownerPassword,functionReference} from './frankfurt-owner-build.mjs';
-import {readReady208Reference,ready208ReferenceName} from './frankfurt-reference208.mjs';
+import {readReady209Reference,ready209ReferenceName} from './frankfurt-reference209.mjs';
 import {holdUpgradeGuard,historySql} from './frankfurt-owner-upgrade.mjs';
 import {executeInput} from './build-empty-supabase.mjs';
 import {resetWithExecutor,resetUnits,uuid,sqlLiteral} from './trial-reset-core.mjs';
@@ -28,13 +28,13 @@ export function resetArguments(args){
 export async function runReset(args){
  const options=resetArguments(args),{workdir,ownerId}=options;assertOutsideRepository(workdir);assertOutsideRepository(await realpath(workdir),await realpath(root));
  const old=await readFile(path.join(root,'supabase/.temp/project-ref'));assert.equal(old.toString().trim(),OLD_REF,'OLD_BACKUP_LINK_CHANGED');
- const reference=await readReady208Reference(root,path.join(workdir,ready208ReferenceName));await resetUnits(root,reference);
+ const reference=await readReady209Reference(root,path.join(workdir,ready209ReferenceName));await resetUnits(root,reference);
  const output=path.join(workdir,'trial-reset-'+new Date().toISOString().replaceAll(/[:.]/gu,'-'));await mkdir(output);
  const report={mode:options.apply?'owner-trial-reset':'offline-dry-run',projectRef:TARGET.id,output,startedAt:new Date().toISOString(),remoteWriteAttempted:false};
  let env,guard;
  try{
-  if(!options.apply){Object.assign(report,{ok:true,networkAccess:false,migrationCeiling:208,migrations:170,
-   plan:['verify current208/history/hold and exact BR-MAIN/WH-MAIN','empty product-images via Storage API using official CLI','disable five jobs;drop/recreate public only',
+  if(!options.apply){Object.assign(report,{ok:true,networkAccess:false,migrationCeiling:209,migrations:170,
+   plan:['verify current209/history/hold and exact BR-MAIN/WH-MAIN','empty product-images via Storage API using official CLI','disable five jobs;drop/recreate public only',
     'delete non-owner Auth users','replay literal170 SQL files+034 environment guards+official history','restore owner profile/role/branch and exact main warehouse UUID',
     'verify every public count,Auth/Vault/bucket preservation,full catalog,publication,DB_FUNCTIONS,CLI dry-run'],
    warning:'DESTRUCTIVE owner-only preparation;no database or Storage access in this mode'});return report;}
@@ -48,7 +48,7 @@ export async function runReset(args){
   const executor={command:psql,args:[...connection,'-X','-q','-At','-w','-v','ON_ERROR_STOP=1'],env};
   const sql=async input=>{const r=await executeInput(executor,input);assert.equal(r.code,0,'RESET_PREFLIGHT_SQL_FAILED');return r.stdout.trim();};
   assert.equal(await sql("SELECT current_setting('server_version_num')::integer/10000;"),'17');
-  assert.deepEqual(JSON.parse(await sql(historySql)),reference.appliedVersions,'RESET_REQUIRES_COMPLETE208_HISTORY');
+  assert.deepEqual(JSON.parse(await sql(historySql)),reference.appliedVersions,'RESET_REQUIRES_COMPLETE209_HISTORY');
   const original=JSON.parse(await readFile(path.join(workdir,'notification-before.json'),'utf8'));
   await verifyCatalogReadOnly(executor,output,reference,original,{beforeBuildDate:reference.buildUtcDate,afterBuildDate:new Date().toISOString().slice(0,10)},report);
   guard=await holdUpgradeGuard(executor);
@@ -66,7 +66,7 @@ export async function runReset(args){
    clearHistory:async()=>{await cliCall(['migration','repair','--linked','--status','reverted',...reference.appliedVersions]);await sql('DELETE FROM supabase_migrations.seed_files;');},
    repair:async version=>{await cliCall(['migration','repair','--linked','--status','applied',version]);},
    finalDryRun:async()=>{await cliCall(['migration','list','--linked']);const r=await cliCall(['db','push','--linked','--dry-run','--skip-vault']);assert.match(r.stdout+r.stderr,/up to date/iu);}});
-  report.functions=await functionReference(executor,208);
+  report.functions=await functionReference(executor,209);
   // Recreated cron IDs differ;subsequent owner verify must use their exact NEW
   // definitions. No secrets or owner profile contents are stored in these files.
   await copyFile(path.join(workdir,'notification-before.json'),path.join(output,'previous-notification-before.json'));

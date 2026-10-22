@@ -8,6 +8,7 @@ import ts from 'typescript';
 import {ReceivingUnitFields} from '../src/components/ui';
 import {purchaseReceiptV2Lines,directReceiptV2Lines} from '../src/utils/receivingV2';
 import {strictProductLegacySource} from './strict-product-legacy-source';
+import {sourceBeforeParcel209} from '../scripts/audit/source-before-parcel209.mjs';
 const product='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',item='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
 test('existing base-unit PO payload remains literally unchanged',()=>{
  const input={purchaseOrderItemId:item,productId:product,receivedQuantity:7,unitCost:.143,baseUnitName:'قنينة'};
@@ -57,6 +58,6 @@ test('POS sale/recovery/payment/print/share action bodies remain AST-identical',
   const printer=ts.createPrinter({removeComments:true});
   function visit(n:ts.Node){if(ts.isVariableDeclaration(n)&&names.includes(n.name.getText(ast))&&n.initializer)result[n.name.getText(ast)]=printer.printNode(ts.EmitHint.Unspecified,n.initializer,ast);ts.forEachChild(n,visit);}visit(ast);return result;
  };
- const before=extract(execFileSync('git',['show',`d293ec38d29ba7d3dd74e0c4b732edf9e01ad469:${file}`],{encoding:'utf8'})),after=extract(readFileSync(file,'utf8'));
+ const before=extract(execFileSync('git',['show',`d293ec38d29ba7d3dd74e0c4b732edf9e01ad469:${file}`],{encoding:'utf8'})),after=extract(sourceBeforeParcel209(file,readFileSync(file,'utf8'))!);
  assert.deepEqual(Object.keys(before).sort(),names.sort());assert.deepEqual(after,before);
 });

@@ -13,20 +13,20 @@ const read=(f:string)=>readFileSync(f,'utf8'),json=(f:string)=>JSON.parse(read(f
 
 test('208 immutable SDK evidence binds every accepted208 source restored before P1 and all142 real probes',async()=>{
  const current=await inventory(),proof=json('docs/operations/TABLE_ACCESS_AFTER_208.json'),state=json('docs/agent/project-state.json');
- assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json');assert.equal(state.migrationCeiling,208);
+ assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_209.json');assert.equal(state.migrationCeiling,209);
  assert.equal(proof.migrationCeiling,208);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);
  assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(verifyProbeCoverage(current,proof.results),proof.coverage);assert.equal(proof.results.length,142);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));assertReady208Catalog(proof.catalog);
 });
 
 test('208 all current RPC dispatches bind source;only exact new supplier reader denies admin/cashier',async()=>{
- const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,208);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);
+ const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,209);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);
  const denied=proof.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501');assert.deepEqual(denied.map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),[['get_supplier_replacements_page_v1','admin'],['get_supplier_replacements_page_v1','cashier']]);
  assert.ok(denied.every((r:{site:string})=>r.site.startsWith('src/services/supabase/supplierReplacement.service.ts:')));
  for(const name of ['execute_supplier_replacement_v1','preview_supplier_replacement_v1','get_supplier_replacements_page_v1','get_supplier_replacement_options_v1'])assert.ok(current.functionNames.includes(name));
 });
 
 test('208 owner admission accepts complete199..208 prefixes and rejects gaps,duplicates,future history',async()=>{
- const history=(await migrationManifest(process.cwd())).map((m:{name:string})=>m.name.slice(0,3));assert.equal(history.length,170);const reference={appliedVersions:history,prefixes:{199:{appliedVersions:history.slice(0,161)}}};
+ const history=(await migrationManifest(process.cwd())).filter((m:{name:string})=>Number(m.name.slice(0,3))<=208).map((m:{name:string})=>m.name.slice(0,3));assert.equal(history.length,170);const reference={appliedVersions:history,prefixes:{199:{appliedVersions:history.slice(0,161)}}};
  for(let n=161;n<=170;n++)assert.deepEqual(assert208History(history.slice(0,n),reference),history.slice(n));
  for(const changed of [history.slice(1),[...history,'209'],[...history.slice(0,164),...history.slice(165)],history.map((v:string,i:number)=>i===168?'206':v)])assert.throws(()=>assert208History(changed,reference));
 });

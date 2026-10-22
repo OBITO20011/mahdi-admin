@@ -1,5 +1,5 @@
 {
-  "status": "FEATURE_FULL39_ACCEPTED_MAIN_PENDING",
+  "status": "DELIVERED_MAIN_FULL39_ACCEPTED",
   "baseline": "4795e70e40b0462100e92fe5006b61cd62df1b9d",
   "package": "A",
   "migrationCeiling": 208,
@@ -25,7 +25,23 @@
     "matchingBeyondFirstPage": true,
     "zeroWrites": true
   },
-  "ci": "PENDING",
+  "ci": {
+    "sha": "d7779f56dc0bdfe77091bb4881cbae4ad50ced3a",
+    "pr": 14,
+    "quality": [
+      39720017808
+    ],
+    "secrets": [
+      39720017974
+    ],
+    "proof": "docs/operations/TRIAL_OWNER_A_MAIN_CI.json",
+    "jobs": 39,
+    "actualBrowserPassed": 1317,
+    "legacyConditionalSkipped": 59,
+    "flaky": 0,
+    "actualSearchZeroWrites": true,
+    "deliveryReady": true
+  },
   "packageBImplemented": false,
   "adminUnits": 1335,
   "storefrontUnits": 195,

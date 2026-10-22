@@ -117,3 +117,14 @@ test('POS unknown result reload uses only RECOVER_EXISTING with the original req
   await expect.poll(async () => (await state())?.status).toBe('OUTCOME_UNKNOWN');
   expect((await state()).request).toEqual(before.request); expect(requests[1]).toEqual(requests[0]);
 });
+
+for(const width of [390,1440])test('209 POS parcel only barcode search and selection keeps parcel quantity and price '+width,async({page})=>{
+ await page.setViewportSize({width,height:1000});await page.goto(url('parcelOnly=1'));
+ await expect(product(page,0)).toContainText('طرد فقط');await expect(page.getByRole('radio',{name:'باكيت',exact:true})).toHaveCount(0);
+ const search=page.getByPlaceholder('ابحث باسم المنتج أو الباركود أو رمز الصنف...');await search.fill(posFixtureProducts[0].barcode);
+ await expect(page.locator('[data-pos-product-card]:visible')).toHaveCount(1);await product(page,0).click();
+ if(width===390)await page.getByRole('button',{name:'مراجعة السلة والعميل',exact:true}).click();
+ const cart=page.getByTestId('pos-workbench');await expect(cart).toContainText('طرد');await expect(cart).toContainText(posFixtureProducts[0].name_ar);
+ await expect(page.locator('[data-pos-quantity]:visible')).toHaveText('1');
+ await expect(cart).toContainText('21.600');
+});

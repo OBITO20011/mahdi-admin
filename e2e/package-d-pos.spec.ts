@@ -97,7 +97,7 @@ test('POS unknown response reload recovers the immutable request instead of star
       warehouseId, branchId, idempotentReplay: true, subtotalInMinorUnits: 1000, discountInMinorUnits: 0,
       totalInMinorUnits: 1000, amountPaidInMinorUnits: 1000, changeDueInMinorUnits: 0, paymentMethod: 'cash', paymentStatus: 'paid',
       items: [{id: '77777777-7777-4777-8777-777777777777', productId, productName: 'منتج الاختبار', sku: 'D2',
-        salePackage: 'طرد', commercialLineKind: 'legacy_single_sku_parcel', quantity: 1, baseQuantity: 1,
+        salePackage: 'باكيت', commercialLineKind: 'base_unit', quantity: 1, baseQuantity: 1,
         unitsPerSalePackage: 1, unitPriceInMinorUnits: 1000, lineTotalInMinorUnits: 1000,
         allocatedDiscountInMinorUnits: 0, netRefundableAmountInMinorUnits: 1000, cogsInMinorUnits: 300,
         profitInMinorUnits: 700, parcelInstances: []}],
@@ -109,6 +109,8 @@ test('POS unknown response reload recovers the immutable request instead of star
     'nawasrah:pos-v2:attempt:v1:11111111-1111-4111-8111-111111111111') || 'null'));
   await expect.poll(async () => (await state())?.status).toBe('OUTCOME_UNKNOWN');
   const before = await state();
+  expect(before.request.lines).toEqual([{commercial_line_kind:'base_unit',product_id:productId,base_quantity:1}]);
+  expect(requests[0].p_lines).toEqual(before.request.lines);
   await page.reload();
   await expect(page.locator(`[data-pos-product-card="${productId}"]`)).toBeDisabled();
   await page.getByRole('button', {name: 'استرجاع محاولة البيع'}).click();

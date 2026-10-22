@@ -509,11 +509,11 @@ export function ProductDetailsModal({
         </div>
 
         <footer role="group" aria-label="إضافة المنتج للسلة" className="shrink-0 border-t border-slate-100 bg-white px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 sm:px-7 sm:py-4">
-          <div className={`mx-auto grid max-w-3xl gap-2 ${product.unitsPerSalePackage > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+          <div className={`mx-auto grid max-w-3xl gap-2 ${!product.parcelOnly&&product.unitsPerSalePackage > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
             <ProductPurchaseControl label={packageDescription} unit={storefrontSaleUnit(product)} productName={product.nameAr}
               price={product.salePackagePriceInMinorUnits} quantity={quantity} remaining={remainingPackages}
               disabled={!product.isAvailable} onChange={handleQuantityChange} onAdd={handleAdd} />
-            {product.unitsPerSalePackage > 1 && <ProductPurchaseControl label={storefrontUnitName(product.unitNameAr)} unit={storefrontUnitName(product.unitNameAr)} productName={product.nameAr}
+            {!product.parcelOnly&&product.unitsPerSalePackage > 1 && <ProductPurchaseControl label={storefrontUnitName(product.unitNameAr)} unit={storefrontUnitName(product.unitNameAr)} productName={product.nameAr}
               price={product.salePriceInMinorUnits} quantity={unitQuantity} remaining={remainingUnits}
               disabled={product.salePriceInMinorUnits <= 0 || remainingUnits === 0}
               onChange={next => setUnitQuantity(clampProductSelectionQuantity(next, remainingUnits, 0))}

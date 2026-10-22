@@ -5,6 +5,13 @@ export function businessErrorMessage(message: unknown): string {
   const rejectionCode=text.match(/\b(?:CORRECTION|SUPPLIER_REPLACEMENT)_[A-Z_]+\b/u)?.[0];
   if(rejectionCode&&rejectionMessages[rejectionCode])return rejectionMessages[rejectionCode];
   const known: Array<[RegExp, string]> = [
+    [/PARCEL209_UNIT_SALE_FORBIDDEN/u,'هذا الصنف بيتباع بالطرد بس. احذف المفرد من السلة وأضفه كطرد.'],
+    [/PARCEL209_LEGACY_PARCEL_EVIDENCE_REQUIRED/u,'هذا الصنف يحتاج البيع الحديث بالطرد. حدّث التطبيق وأعد اختيار الطرد.'],
+    [/PARCEL209_REPLACEMENT_WHOLE_PARCEL_REQUIRED/u,'الاستبدال لهذا الصنف يحتاج طرداً كاملاً مثبتاً في الفاتورة، بكل نكهاته إن كان مشكّلاً.'],
+    [/PARCEL209_PARCEL_SIZE_REQUIRED/u,'الطرد فقط يحتاج أكثر من وحدة في طرد البيع. راجع طريقة البيع وحجم الطرد.'],
+    [/PARCEL209_FAMILY_CHANGED_RETRY/u,'تغيّرت نكهات المنتج. حدّث البيانات ثم راجع المحاولة قبل إرسالها من جديد.'],
+    [/PARCEL209_INHERITED_METHOD/u,'طريقة بيع النكهة تتبع المنتج الأساسي. افتح المنتج الأساسي لتعديلها.'],
+    [/PARCEL209_METHOD_INVALID/u,'اختر طريقة بيع صحيحة واحدة على الأقل.'],
     [/PACKAGE_D_CARTON_DAMAGE_PRICE_MISSING/u,
       'هذا البيع القديم لا يحتوي سعر القطعة التاريخي؛ لا يمكن تسوية ضرر العميل. مرتجع السليم وعيب المورد متاحان.'],
     [/PACKAGE_D_CARTON_DAMAGE_INSPECT_ONE/u,

@@ -1,3 +1,15 @@
+#22Oct — B209 local gates accepted;feature/main FULL40 next
+
+Unified sale methods and additive209 implemented. Final1348Admin/197store/0skip;90affected/new browser identities plus36finalmethod/2purchaseprice subset bothengines;types/strictlint/build/network0/native1400. Actual320source SDK148/REST209/noRole0writes and RPC525. DB16groups/7real races/oldrefund1000/fullrestore0diff. Fresh/incremental171migrations/546functions/13Realtime;only products.parcel_only column added. Local owner apply209/replay0/resetREST/TOTP/Storage all PASS. Owner209 guide prepared only;no hostedaccess/deploy. Separate feature push+PR FULL40/secrets,then genuine main FULL40/secrets remain. See TRIAL_OWNER_B_LOCAL.json.
+
+#22Oct — owner package B209 authorized after A delivery
+
+A PR14/main d7779f5 exact FULL39/secrets accepted. B only in codex/trial-sale-methods:complete C8 parcel_only,209 DB guards/locks/replay/legacy/replacement/import plus unified product sale-method section (parcel/single required-one,formed capability via existing owner RPC or real state+direct family link). Own PR/FULLCI/merge/mainCI/Gitleaks0/checkpoint. Owner209 command prepared only;no hostedaccess/deploy. Initial ceiling208 until additive209 is introduced;001-208/oldpins/references immutable. Read TRIAL_OWNER_B.md and design/PARCEL_ONLY_C8_DESIGN_AR.md.
+
+#22Oct — trial package A delivered;B209 now next
+
+PR14 merged main d7779f5;exact main FULL39 39720017808 and secrets 39720017974 SUCCESS;strict deliveryReady true. Actual1335Admin/195store/1317browser/0flaky/59unchangedconditionals,server search/148SDK/zeroWrites,PWA4/full20821/resetREST verified. A no migration/financialwriter/permission change;owner208 remains current until B209 delivered. Next B separate worktree/PR/fullCI,complete C8 with owner latest unified sale-method section. No hostedaccess/deploy.
+
 #22Oct — trial package A exact feature FULL39 accepted
 
 PR14/headf1417c5 push+PR FULL39 and both secret scans accepted;1335Admin/195store/1317browser/0flaky/59unchangedconditionals,actual A search/148SDK/zeroWrites,PWA4/full20821/resetREST verified. Genuine main integration changes docs/state only;source/tests/tools/SQL equal acceptedfeature. Main FULL39/secrets required before B209. No hostedaccess/deploy;owner208 unchanged.

@@ -247,7 +247,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208]
+        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209]
     env:
       NAWASRAH_PACKAGE_D_CURRENT: '1'
     steps:
@@ -319,6 +319,10 @@ jobs:
       - name: Document corrections207 contracts
         if: matrix.suite == 'document-corrections207'
         run: node scripts/testing/run-document-corrections207-gates.mjs
+      - name: Parcel209 methods admission races restore upgrade reset and current SDK
+        if: matrix.suite == 'parcel209'
+        run: node scripts/testing/run-parcel209-gates.mjs
+
       - name: Supplier replacement208 contracts
         if: matrix.suite == 'supplier-replacement208'
         run: node scripts/testing/run-supplier-replacement208-gates.mjs

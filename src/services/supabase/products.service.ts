@@ -1,5 +1,6 @@
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import { Product } from '../../types';
+import { businessErrorMessage } from '../../utils/businessError';
 import {
   PRODUCT_EDIT_CONFLICT_MESSAGE,
   readProductEditSnapshot,
@@ -7,6 +8,7 @@ import {
 } from '../../utils/productEditConflict';
 
 export interface CreateProductInput {
+  parcelOnly?: boolean;
   sku: string;
   barcode?: string;
   nameAr: string;
@@ -111,7 +113,11 @@ export function toProductMutationFailure(
       conflict: readProductEditSnapshot(source.details) ?? undefined,
     };
   }
-  if (searchable.includes('product_edit_version_required')) {
+  const methodCode = rawMessage.match(/\bPARCEL209_(?:PARCEL_SIZE_REQUIRED|INHERITED_METHOD|METHOD_INVALID|FAMILY_CHANGED_RETRY)\b/u)?.[0];
+  if (methodCode) {
+    code = methodCode;
+    message = businessErrorMessage(methodCode);
+  } else if (searchable.includes('product_edit_version_required')) {
     code = 'PRODUCT_EDIT_VERSION_REQUIRED';
     message = 'أعد فتح المنتج ثم احفظ التعديل.';
   } else if (
@@ -173,6 +179,8 @@ export function toProductMutationFailure(
 }
 
 export interface UpdateProductInput {
+  /** Omission preserves the existing server flag. */
+  parcelOnly?: boolean;
   productId: string;
   sku: string;
   barcode?: string;
@@ -326,6 +334,7 @@ export function mapAdminProductRecord(record: Record<string, any>): Product {
     saleUnitCode: saleUnit?.code || undefined,
     salePackage: saleUnit?.name_ar || undefined,
     unitsPerSalePackage,
+    parcelOnly: record.parcel_only === true,
     salePackagePrice: saleUnit
       ? toFiniteNumber(record.default_sale_price_in_minor_units) / 1000
       : 0,
@@ -669,8 +678,8 @@ export async function createProductWithOpeningStockInSupabase(
 
   try {
     const { data: res, error } = await supabase.rpc(
-      'create_product_with_opening_stock_v4',
-      rpcParams
+      'create_product_with_opening_stock_v5',
+      {...rpcParams, p_parcel_only: input.parcelOnly ?? false}
     );
 
     if (error) {
@@ -849,8 +858,9 @@ export async function createProductFamilyWithFlavorsInSupabase(
     saleUnitIdToUse = saleUnitIdToUse || purchaseUnitIdToUse || unitIdToUse;
 
     const { data, error } = await supabase.rpc(
-      'create_product_family_with_flavors_v1',
+      'create_product_family_with_flavors_v2',
       {
+        p_parcel_only: input.parcelOnly ?? false,
         p_sku: input.sku.trim(),
         // Flavor-family masters are grouping records, never sellable barcode targets.
         p_barcode: null,
@@ -1043,7 +1053,8 @@ export async function updateProductInSupabase(
     saleUnitIdToUse =
       saleUnitIdToUse || purchaseUnitIdToUse || unitIdToUse;
 
-    const { data, error } = await supabase.rpc('update_product_master_v4', {
+    const { data, error } = await supabase.rpc('update_product_master_v5', {
+      p_parcel_only: input.parcelOnly ?? null,
       p_product_id: input.productId,
       p_expected_updated_at: input.expectedUpdatedAt,
       p_sku: input.sku.trim(),

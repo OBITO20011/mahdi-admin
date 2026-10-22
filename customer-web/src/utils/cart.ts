@@ -85,6 +85,7 @@ export function createCartItem(product: CatalogProduct): LegacyParcelCartItem {
 }
 
 export function createBaseUnitCartItem(product: CatalogProduct): BaseUnitCartItem {
+  if(product.parcelOnly)throw new Error('هذا الصنف بيتباع بالطرد بس؛ اختر طرداً.');
   return {
     ...cartDisplayFields(product),
     commercialLineKind: 'base_unit',
@@ -278,6 +279,7 @@ export function reconcileCart(
     if (item.commercialLineKind === 'configurable_parcel') return [...result, item];
     const product = productsById.get(item.productId);
     const isBaseUnit = item.commercialLineKind === 'base_unit';
+    if(isBaseUnit&&product?.parcelOnly)return [...result,item];
     const available = isBaseUnit ? product?.availableQuantity ?? 0 : product?.availableSalePackages ?? 0;
     if (!product || !product.isAvailable || available < 1) return result;
     return [...result, {
@@ -351,6 +353,9 @@ export function reconcileCartSnapshot(
     if (item.commercialLineKind === 'configurable_parcel') return [item];
     if (!requestedIds.has(item.productId)) return [item];
     const product = productsById.get(item.productId);
+    if(item.commercialLineKind==='base_unit'&&product?.parcelOnly){
+      throw new Error(`${item.nameAr} بيتباع بالطرد بس. احذف سطر المفرد واختر طرداً؛ لم تتغيّر السلة تلقائياً.`);
+    }
     if (!product || !product.isAvailable) {
       removedUnavailableItems += 1;
       return [];

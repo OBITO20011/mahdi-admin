@@ -76,6 +76,7 @@ export function mapCatalogProduct(item: RawCatalogItem): CatalogProduct {
     saleUnitId: textValue(item.saleUnitId),
     saleUnitNameAr: textValue(item.saleUnitNameAr) || 'طرد',
     unitsPerSalePackage,
+    parcelOnly: item.parcelOnly === true,
     salePriceInMinorUnits,
     salePackagePriceInMinorUnits,
     availableQuantity,

@@ -2,6 +2,7 @@ import type { Product } from '../types';
 
 /** Current values the database returns with PRODUCT_EDIT_CONFLICT (migration 170). */
 export interface ProductEditSnapshot {
+  parcelOnly?: boolean;
   productId: string;
   updatedAt: string;
   nameAr: string;
@@ -27,6 +28,7 @@ export interface ProductEditSnapshot {
 
 /** The product form's editable fields, in the form's own units (JOD, sale packages). */
 export interface ProductEditFields {
+  parcelOnly?: boolean;
   nameAr: string;
   description: string;
   sku: string;
@@ -63,6 +65,7 @@ export function readProductEditSnapshot(details: unknown): ProductEditSnapshot |
   if (!text(s.productId) || !text(s.updatedAt)) return null;
   return {
     productId: text(s.productId),
+    parcelOnly: s.parcelOnly === true,
     updatedAt: text(s.updatedAt),
     nameAr: text(s.nameAr),
     sku: text(s.sku),
@@ -93,6 +96,7 @@ const packages = (units: number, perPackage: number) => Math.ceil(Math.max(0, Nu
 export function productToEditFields(product: Product): ProductEditFields {
   const perSale = product.unitsPerSalePackage ?? product.unitsPerPackage ?? 1;
   return {
+    parcelOnly: product.parcelOnly === true,
     nameAr: product.nameAr || '',
     description: product.description || '',
     sku: product.sku || '',
@@ -114,6 +118,7 @@ export function productToEditFields(product: Product): ProductEditFields {
 export function snapshotToEditFields(snapshot: ProductEditSnapshot): ProductEditFields {
   const perSale = snapshot.unitsPerSalePackage || 1;
   return {
+    parcelOnly: snapshot.parcelOnly === true,
     nameAr: snapshot.nameAr,
     description: snapshot.description,
     sku: snapshot.sku,
@@ -133,6 +138,7 @@ export function snapshotToEditFields(snapshot: ProductEditSnapshot): ProductEdit
 }
 
 export const PRODUCT_EDIT_FIELD_LABELS: Readonly<Record<keyof ProductEditFields, string>> = {
+  parcelOnly: 'طريقة البيع',
   nameAr: 'اسم المنتج',
   description: 'الوصف',
   sku: 'رمز الصنف SKU',
@@ -151,6 +157,9 @@ export const PRODUCT_EDIT_FIELD_LABELS: Readonly<Record<keyof ProductEditFields,
 };
 
 const same = (a: unknown, b: unknown) =>
+  typeof a === 'boolean' || typeof b === 'boolean'
+    ? Boolean(a) === Boolean(b)
+    :
   typeof a === 'number' || typeof b === 'number'
     ? (a === '' ? '' : Number(a)) === (b === '' ? '' : Number(b))
     : String(a ?? '').trim() === String(b ?? '').trim();

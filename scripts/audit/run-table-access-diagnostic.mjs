@@ -14,7 +14,7 @@ import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
 const option=n=>process.argv.includes(n)?process.argv[process.argv.indexOf(n)+1]:null;
 const ceiling=Number(option('--migration-ceiling')||(process.argv.includes('--require-access')?199:138));
-assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');
+assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');
 const manifest=(await readdir(path.join(root,'supabase/migrations'))).filter(n=>/^\d{3}_.+\.sql$/u.test(n)&&Number(n.slice(0,3))<=ceiling).sort();
 const project=option('--local-project')||'nawasrah-table-audit-'+randomBytes(4).toString('hex')+'-test';
 assert.match(project,/^nawasrah-table-audit(?:-[a-f0-9]+)?-test$/u);
@@ -90,6 +90,12 @@ try{
   console.log(JSON.stringify({trialAReceiptSearch:report.trialAReceiptSearch}));
  }
  report.stage='actual-original-queries';
+ if(process.argv.includes('--parcel209')){
+  assert.equal(ceiling,209,'PARCEL209_REQUIRES_CURRENT209');
+  const {parcel209AccessContract}=await import('../testing/parcel209-access-contract.mjs');
+  report.parcel209Access=await parcel209AccessContract({executor,json,url:'http://127.0.0.1:25421',secret});
+  console.log(JSON.stringify({parcel209Access:report.parcel209Access}));
+ }
  for(const entry of source.entries){const actors=entry.role==='service_role'?[[1,'service_role']]:[[1,'owner'],[2,'admin'],[3,'cashier']];
   for(const [n,appRole] of actors)for(const extra of entry.extensions.length?[false,true]:[false]){
    const r=await replay(entry,{url:'http://127.0.0.1:25421',role:entry.role,actor:id(n),secret,scope:scopes(ids,id(n)),extra});r.appRole=appRole;report.results.push(r);

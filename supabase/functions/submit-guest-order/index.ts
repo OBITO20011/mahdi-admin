@@ -366,9 +366,14 @@ export async function handleGuestOrderRequest(
 
   if (!succeeded) {
     logSecurityEvent('guest_order_rejected', requestId);
+    const message=typeof orderResult.message==='string'?orderResult.message:'';
+    const parcelOnly=orderResult.code==='23514'&&message.startsWith('PARCEL209_UNIT_SALE_FORBIDDEN:');
+    const changedFamily=orderResult.code==='40001'&&message.startsWith('PARCEL209_FAMILY_CHANGED_RETRY:');
     return jsonResponse({
-      error: 'تعذر إكمال الطلب بهذه البيانات. راجع الكميات وحاول مرة أخرى.',
-      code: 'order_rejected',
+      error: parcelOnly?'أحد الأصناف بيتباع بالطرد بس. احذف سطر المفرد واختر طرداً؛ لم تتغيّر السلة تلقائياً.'
+        :changedFamily?'تغيّرت نكهات أحد الأصناف. حدّث السلة وراجعها قبل إرسال طلب جديد.'
+        :'تعذر إكمال الطلب بهذه البيانات. راجع الكميات وحاول مرة أخرى.',
+      code: parcelOnly?'parcel_only_sale_required':changedFamily?'product_methods_changed':'order_rejected',
     }, 400, origin);
   }
 

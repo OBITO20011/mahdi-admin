@@ -33,6 +33,7 @@ export interface AdminAftercareRecoveryState {
 
 const definitiveRejections: Record<AdminAftercareAction, ReadonlySet<string>> = {
   replacement: new Set([
+    'PARCEL209_REPLACEMENT_WHOLE_PARCEL_REQUIRED',
     'PHASE4_LOGICAL_QUANTITY_ALREADY_CONSUMED', 'PHASE4_REPLACEMENT_WINDOW_INVALID',
     'PHASE43_ORDER_NOT_FOUND', 'PHASE43_ORIGINAL_SALE_INVALID',
     'PHASE43_REPLACEMENT_INVENTORY_UNAVAILABLE', 'PHASE43_REPLACEMENT_ITEM_INVALID',
@@ -104,6 +105,8 @@ const isDefinitiveRejection = (
 ) => {
   if (data !== null || !isObject(error) || typeof error.code !== 'string') return false;
   const identity = extractIdentity(error.message);
+  // Named209 guard rolls back before writes; other serialization failures keep recovery.
+  if(error.code==='40001'&&identity==='PARCEL209_FAMILY_CHANGED_RETRY')return true;
   return identity !== null && definitiveRejectionSqlStates.has(error.code)
     && definitiveRejections[action].has(identity);
 };

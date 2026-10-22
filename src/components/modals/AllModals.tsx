@@ -210,7 +210,7 @@ export const AllModals: React.FC = () => {
       </Modal>
       <Modal isOpen={currentModal === 'parcel_configuration'} onClose={closeModal}
         title="الطرد المشكّل (خلط النكهات)" subtitle="النكهات وكم حبة بالطرد — للمالك فقط">
-        <ParcelConfigurationModal />
+        <ParcelConfigurationModal initialFamilyProductId={modalData&&'familyProductId' in modalData?modalData.familyProductId:undefined}/>
       </Modal>
 
       <Modal

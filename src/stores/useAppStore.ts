@@ -1070,6 +1070,7 @@ class StoreEngine {
 
         const unitObj = this.state.units.find((u) => u.nameAr === productData.unit || u.id === productData.unit);
         const res = await createProductWithOpeningStockInSupabase({
+          parcelOnly: productData.parcelOnly,
           sku: productData.sku.trim(),
           barcode: productData.barcode || undefined,
           nameAr: productData.nameAr.trim(),
@@ -1172,6 +1173,7 @@ class StoreEngine {
     );
 
     const result = await updateProductInSupabase({
+      parcelOnly: updates.parcelOnly,
       productId: id,
       sku: updates.sku || current.sku,
       barcode: updates.barcode ?? current.barcode,

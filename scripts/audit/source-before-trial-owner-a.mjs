@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {sourceBeforeParcel209,restoreParcel209SourceHashes,projectParcel209QuerySites} from './source-before-parcel209.mjs';
 export const trialOwnerAPins=JSON.parse(readFileSync(new URL('./trial-owner-a-hunks.json',import.meta.url),'utf8')).entries;
 const hash=s=>createHash('sha256').update(s).digest('hex'),olderHashes=new Map();
 for(const name of ['pretrial-p1','supplier-replacement208','correction-recovery-c8','document-corrections207','storefront-c6','navigation-cash206','product-receiving205','sales-history204','collections202','home-damage201','warehouse-management','unit-terminology']){
@@ -10,7 +11,8 @@ for(const name of ['pretrial-p1','supplier-replacement208','correction-recovery-
  }
 }
 export function sourceBeforeTrialOwnerA(file,text){
- const source=text.replaceAll('\r\n','\n'),pin=trialOwnerAPins[file];if(!pin)return source;
+ const source=sourceBeforeParcel209(file,text);if(source===null)return null;
+ const pin=trialOwnerAPins[file];if(!pin)return source;
  const digest=hash(source);if(digest===pin.before||olderHashes.get(file)?.has(digest))return source;
  assert.equal(digest,pin.after,(pin.errorPrefix??'TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:')+file);
  if(pin.added)return null;
@@ -20,7 +22,7 @@ export function sourceBeforeTrialOwnerA(file,text){
  }
  const restored=lines.join('\n');assert.equal(hash(restored),pin.before,'TRIAL_A_ENTIRE_RESTORED_FILE_CHANGED:'+file);return restored;
 }
-export function restoreTrialOwnerASourceHashes(sources){return sources.flatMap(s=>{
+export function restoreTrialOwnerASourceHashes(sources){return restoreParcel209SourceHashes(sources).flatMap(s=>{
  const pin=trialOwnerAPins[s.file];if(!pin||s.sha256===pin.before||olderHashes.get(s.file)?.has(s.sha256))return [s];
  assert.equal(s.sha256,pin.after,'TRIAL_A_SOURCE_HASH:'+s.file);
  const text=sourceBeforeTrialOwnerA(s.file,readFileSync(new URL('../../'+s.file,import.meta.url),'utf8'));
@@ -30,11 +32,13 @@ export function restoreTrialOwnerASourceHashes(sources){return sources.flatMap(s
 // current SDK gate still verifies every real site and every role/variant.
 export function projectTrialOwnerAQuerySites(source,parseSource){
  assert.equal(typeof parseSource,'function','TRIAL_A_SOURCE_PARSER_REQUIRED');
+ source=projectParcel209QuerySites(source,parseSource);
  const entries=[];
  for(const file of new Set(source.entries.map(e=>e.file))){
   const supplied=source.entries.filter(e=>e.file===file),pin=trialOwnerAPins[file];
   if(!pin){entries.push(...supplied);continue;}
-  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');
+  const raw=sourceBeforeParcel209(file,readFileSync(new URL('../../'+file,import.meta.url),'utf8'));
+  assert.notEqual(raw,null,'TRIAL_A_QUERY_FILE_REQUIRED');
   const before=sourceBeforeTrialOwnerA(file,raw),entry=source.sources.find(s=>s.file===file);
   assert.ok(entry,'HISTORICAL_QUERY_SOURCE_REQUIRED:TRIAL_A:'+file);
   if(entry.sha256!==hash(raw)){

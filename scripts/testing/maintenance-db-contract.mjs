@@ -50,7 +50,10 @@ export function futureMigrationViolations(sql) {
   // Conservative: REPLACE/regexp_replace + EXECUTE in one migration needs an
   // explicit rewrite, not a text-derived function body. Ordinary data REPLACE
   // without dynamic execution remains permitted; CREATE OR REPLACE is permitted.
-  if (/\b(?:replace|regexp_replace)"?\s*\(/iu.test(code) && /\bexecute\b/iu.test(code)) errors.push('TEXT_PATCH_WITH_DYNAMIC_EXECUTION');
+  // Privilege declarations (EXECUTE ON) and static trigger declarations
+  // (EXECUTE FUNCTION/PROCEDURE) are not dynamic statement execution.
+  const dynamicExecute=/\bexecute\b(?!\s+(?:on|function|procedure)\b)/iu;
+  if (/\b(?:replace|regexp_replace)"?\s*\(/iu.test(code) && dynamicExecute.test(code)) errors.push('TEXT_PATCH_WITH_DYNAMIC_EXECUTION');
   if (/\bexecute\s+(?:format\s*\()?\s*['"]\s*(?:create|alter|drop)\s+(?:or\s+replace\s+)?(?:function|procedure)\b/iu.test(code))
     errors.push('DYNAMIC_FUNCTION_DDL');
   return [...new Set(errors)];

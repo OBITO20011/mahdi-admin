@@ -1,4 +1,25 @@
-import type {AftercarePhysicalRepresentative, ReturnPhysicalSource} from '../../services/supabase/salesAftercare.service';
+import type {AdminAftercareContext,AftercarePhysicalRepresentative,ReplacementRequestItem,ReturnPhysicalSource} from '../../services/supabase/salesAftercare.service';
+
+/** Use all current physical leaves of the actual saved parcel instance. The
+ * server independently validates lineage, full commercial scope and capacity. */
+export function wholeParcelReplacementItems(parcel:AdminAftercareContext['parcelInstances'][number]):ReplacementRequestItem[] {
+  if(!parcel.components.length)throw new Error('بيانات الطرد غير مكتملة. حدّث الطلب.');
+  const seen=new Set<string>();
+  return parcel.components.flatMap(component=>{
+    if(component.physicalRepresentatives.some(source=>!Number.isSafeInteger(source.remainingQuantity)||source.remainingQuantity<0)){throw new Error('سلسلة قطع الطرد غير متطابقة. حدّث الطلب.');}
+    const total=component.physicalRepresentatives.reduce((sum,source)=>sum+source.remainingQuantity,0);
+    if(!Number.isSafeInteger(component.quantity)||component.quantity<1||total!==component.quantity){
+      throw new Error('الطرد لم يعد كاملاً؛ راجع القطع الحالية قبل الاستبدال.');
+    }
+    return component.physicalRepresentatives.filter(source=>source.remainingQuantity>0).map(source=>{
+      const key=source.sourceKind+':'+source.sourceId;
+      if(seen.has(key)||source.productId!==component.productId||!Number.isSafeInteger(source.remainingQuantity)){
+        throw new Error('سلسلة قطع الطرد غير متطابقة. حدّث الطلب.');
+      }
+      seen.add(key);return {sourceKind:source.sourceKind,sourceId:source.sourceId,quantity:source.remainingQuantity};
+    });
+  });
+}
 
 /** Commercial cartons are converted only using immutable sale read facts. */
 export function singleSkuPhysicalQuantity(cartons: number, unitsPerParcel: number): number {

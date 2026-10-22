@@ -74,3 +74,10 @@ test('C6 real flavor identity remains selected and capability absence is distinc
  await dialog.getByRole('region',{name:'إضافة باكيت',exact:true}).getByRole('button',{name:/إضافة .* باكيت من/}).click();
  await expect.poll(()=>savedLines(page)).toMatchObject([{commercialLineKind:'base_unit',productId:child.id,quantity:1,unitPriceInMinorUnits:550}]);
 });
+
+for(const width of [390,1440])test('209 parcel only has no unit or unavailable mixed control '+width,async({page})=>{
+ await page.setViewportSize({width,height:1000});const dialog=await setup(page,{parcelOnly:true});
+ await expect(dialog.getByRole('region',{name:'إضافة باكيت',exact:true})).toHaveCount(0);await expect(dialog.getByText('الطرد المختلط غير متاح',{exact:true})).toHaveCount(0);await expect(dialog.getByRole('button',{name:'كوّن طردًا بالنكهات',exact:true})).toHaveCount(0);
+ await dialog.getByRole('region',{name:'إضافة طرد',exact:true}).getByRole('button',{name:/إضافة .* طرد من/}).click();
+ await expect.poll(()=>savedLines(page)).toMatchObject([{commercialLineKind:'legacy_single_sku_parcel',quantity:1,unitsPerSalePackage:10,unitPriceInMinorUnits:5500}]);
+});

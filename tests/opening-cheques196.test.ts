@@ -19,7 +19,7 @@ test('196 follow-up is exactly four explicit JSONB initializer casts;SQL busines
 });
 test('196 real-role evidence exactly covers current SDK queries;opening evidence remains RPC-only',async()=>{
  const source=await inventory(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_196.json'));
- assert.equal(source.migrationCeiling,208);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);
+ assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);
  assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,await sourceBefore198Presentation(source.sources));
  assert.deepEqual(proof.coverage,verifyProbeCoverage(source,proof.results));
  assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));assertChequesCatalog(proof.catalog);

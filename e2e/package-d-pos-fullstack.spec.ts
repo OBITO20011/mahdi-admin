@@ -150,8 +150,8 @@ test.describe('Package D POS browser to real isolated RPC', () => {
     expect(sold.result.items[0].commercialLineKind).toBe('legacy_single_sku_parcel');
     expect(sold.result.items[0].baseQuantity).toBe(5);
     await mountAftercare(page,orderId);
-    await page.getByRole('button',{name:'استبدال كرتونة',exact:true}).click();
-    await expect(page.getByLabel('عدد كراتين الاستبدال')).toHaveValue('1');
+    await page.getByRole('button',{name:'استبدال طرد',exact:true}).click();
+    await expect(page.getByLabel('عدد طرود الاستبدال')).toHaveValue('1');
     await page.getByPlaceholder('سبب العيب/الاستبدال').fill('عيب كرتونة من بيع الكاشير');
     const replacementResponse=page.waitForResponse(r=>r.url().endsWith('/rest/v1/rpc/settle_sales_replacement_v1'));
     await page.getByRole('button',{name:'اعتماد الاستبدال',exact:true}).click();
@@ -160,7 +160,7 @@ test.describe('Package D POS browser to real isolated RPC', () => {
     expect(replacementState.orderReplacements).toBe(1);
     expect(replacementState.content.replacementItems[0].quantity).toBe(5);
     await page.getByRole('button',{name:'مرتجع',exact:true}).click();
-    await expect(page.getByLabel('عدد كراتين المرتجع')).toHaveValue('1');
+    await expect(page.getByLabel('عدد طرود المرتجع')).toHaveValue('1');
     await page.getByPlaceholder('سبب المرتجع').fill('مرتجع الكرتونة البديلة كاملة');
     await page.getByRole('button',{name:'كاش',exact:true}).click();
     const returnResponse=page.waitForResponse(r=>r.url().endsWith('/rest/v1/rpc/settle_admin_sales_return_v1'));

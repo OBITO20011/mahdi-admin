@@ -1,4 +1,5 @@
 import {navigation206Pins} from '../scripts/audit/source-before-navigation-cash206.mjs';
+import {parcel209Pins} from '../scripts/audit/source-before-parcel209.mjs';
 import {receiving205Pins} from '../scripts/audit/source-before-product-receiving205.mjs';
 import {sales204Pins} from '../scripts/audit/source-before-sales-history204.mjs';
 import {collections202Pins} from '../scripts/audit/source-before-collections202.mjs';
@@ -20,6 +21,7 @@ for(const file of withdrawals182Files)test('withdrawals182 exact approved additi
  else if(file==='src/features/directReceiving/CreateDirectReceiptModal.tsx')assert.throws(()=>approvedWithdrawals182Source(file,outside),/WAREHOUSE_ENTIRE_CURRENT_FILE_CHANGED/u,'newer full-file warehouse pin rejects unapproved logic');
  else if(['src/features/goLive/GoLiveSetupView.tsx','src/features/reports/ReportsCenterView.tsx'].includes(file))
   assert.throws(()=>approvedWithdrawals182Source(file,outside),/TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED/u,'whole-file terminology pin rejects unapproved logic before normalization');
+ else if(Object.hasOwn(parcel209Pins,file))assert.throws(()=>approvedWithdrawals182Source(file,outside),/PARCEL209_ENTIRE_CURRENT_FILE_CHANGED/u,'new exact209 whole-file pin rejects extra logic');
  else assert.notEqual(approvedWithdrawals182Source(file,outside),before,'Unapproved logic outside an approved hunk must remain visible');
 });
 test('withdrawals182 mapping rejects changed approved RPC arguments or money,not a blanket source exemption',()=>{

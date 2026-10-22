@@ -2,51 +2,59 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Owner trial package A only:flavor parcel naming/eligibility,no duplicate parcel,hide packaging inputs preserving values,receipt item previews and server product search,hide unavailable mixed button.No migrations/financial RPC changes.",
-  "baselineSha": "4795e70e40b0462100e92fe5006b61cd62df1b9d",
+  "objective": "Owner package B209:full parcel_only C8 design plus unified sale-method section(parcel/single required-one,mixed capability via existing owner RPC or real state/direct family link).DB admission/locks/replay/legacy/replacement/flavor/import guards;separate PR/FULLCI/merge/owner209 commands.No hostedaccess.",
+  "baselineSha": "529b828ab21f6824f7f93a48c88b2c719551d8bd",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "main",
+  "branch": "codex/trial-sale-methods",
   "phase": "PACKAGE_F",
   "completed": [
-    "P1 main4795e70 reports/checklist/owner208 repair carried;no hosted execution",
-    "A1-A4 implemented with read-only server product search,no SQL or financialwriter change",
-    "A all local gates accepted;old pins/reference bytes unchanged",
-    "PR14/f1417c5 exact push+PR FULL39/secrets accepted;actual server search/1317browser each"
+    "A PR14/main d7779f5 FULL39/secrets accepted;B isolated separate worktree",
+    "B209 unified methods/DB admission/flavor/import/whole replacement/recovery implemented",
+    "Final209 real SDK148/320sources/REST methods,noRole0writes and RPC525 accepted",
+    "16runtime groups/7real PostgreSQL races/full restore0diff/replay0 accepted",
+    "66affected +24new bothengine browser identities accepted;197store units/builds/network0/native1400",
+    "209 fresh-incremental0diff/546functions/13members plus owner apply209/replay0 and full resetREST/TOTP/Storage PASS"
   ],
   "inProgress": [
-    "A genuine main integration;metadata-only local gates then exact mainFULL39"
+    "PR15 529b both38/40;only stale N1 replay fixture failed;corrected adapter6/realPOS8/terminology24/contracts23 accepted;production/209/ref unchanged"
   ],
   "notStarted": [
-    "Package B parcel_only209 starts after A delivery"
+    "Feature/PR/main exactFULL40 acceptance;no hostedcommands authorized"
   ],
   "testsPassed": [
-    "1335Admin/195store/34focused;types/strictlint/build both",
-    "132+22Chromium/WebKit/retries0;native1376/network0",
-    "SDK148/RPC525/318sources;real paging/roles/filters/zeroWrites;offline208"
+    "Final1348Admin/197store units0skip;types/strictlint/bothbuilds/network0/native1400",
+    "90affected/new bothengine identities;36finalmethod and2purchaseprice subset0retries",
+    "Current SDK148/320sources/actual209REST noRole0writes;RPC525",
+    "DB16groups/7realraces/old1000refund/restore0diff/replay0",
+    "Final209 reference171migrations/546functions/13Realtime/fresh-incremental0diff;owner localapply/replay/resetREST/TOTP/Storage PASS",
+    "Gitleaks final96files exit0",
+    "Full real isolated POS8 bothengines:refund4500/damage2700-1800/lineage/replay/absence0writes PASS;Gitleaks98files0"
   ],
   "testsRemaining": [
-    "Main types/strictlint/1335Admin/195store/Gitleaks/diffcheck",
-    "Exact mainFULL39/secrets;then B209 with revised sale-method section"
+    "Exact feature push+PR FULL40 and both secret scans",
+    "Genuine merge and exact main FULL40/secrets;owner209 reference copy and shortArabic delivery"
   ],
   "findings": [
-    "No migration or financialwriter/permission change;read-only SDK search plus existing205 commercial snapshot reader",
-    "Historical refs/pins remain unchanged;new A exactinverse and separate current evidence",
-    "B parcel_only209 explicitly authorized after A delivery only"
+    "001-208 immutable;209 LF15A81C0D;4writer roles/private helpers/replay preserved",
+    "Realtime stays13members;208->209 permits only parcel_only in existing products ALL-COLUMNS metadata",
+    "Mixed capability uses real owner-only state/direct family link;dirty edits save first",
+    "Named209 definite refusals never override prior uncertain immutable attempts",
+    "Legacy purchase10/sale1 opens single-only;purchase3000 preserved;explicit parcel conversion retains unit price"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No hosted/Frankfurt/Production/secrets/deploy",
-    "A:no migration/financial RPC/write contract/permission changes",
-    "B parcel_only209 authorized only after A delivery",
-    "One writer;no tracked edits during verification;no weakened assertions/retries/skips/timeouts"
+    "No old migration/pin/reference edits;only authorized additive209",
+    "No financial policy change;preserve171 cost/CAS and old invoices/replay/returns",
+    "One writer;no tracked edits during verification;no weaker asserts/retries/skips/timeouts"
   ],
-  "nextExactAction": "A genuine merge local types/strictlint/1335Admin/195store/Gitleaks0 PASS;commit/push merge,verify exact main FULL39/secrets and PR14 merged SHA.Then B209 own worktree/PR with unified sale methods from latest owner.No hostedaccess.",
-  "checkpointedAt": "2026-10-22T04:01:04.259Z",
+  "nextExactAction": "Commit accepted N1 adapter6 fixture repair;push PR15;fresh exact push+PR FULL40/secrets then merge/mainFULL40. No hostedaccess.",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 51,
-  "filesTouchedManifestSha256": "9e0d2065cc64a9de8f805ad397f7f1e287ed662692485592c2242cd97d9b940f",
-  "workingTreeFingerprint": "5D1C0AF313297BDD9E719E78C56606B316C8CCF2702F963FAC0119DCF49244EE"
+  "checkpointedAt": "2026-10-22T11:59:27.371Z",
+  "filesTouchedCount": 4,
+  "filesTouchedManifestSha256": "33a8c1a7caf573c808273fdbab69010b13ea99a287414daf8ae04c4a8f94d7aa",
+  "workingTreeFingerprint": "7DBF725C8C89D9F70B6FFBCCC50332F9D67254743A8D1DAE1B3D085CD0D3FC0A"
 }

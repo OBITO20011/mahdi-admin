@@ -34,6 +34,7 @@ import {
   type ProductEditSnapshot,
 } from '../../utils/productEditConflict';
 import { ProductEditConflictPanel } from './ProductEditConflictPanel';
+import {ProductFormParcelCapability} from './ProductFormParcelCapability';
 import {
   currentUnitCostInMinorUnits,
   fetchProductCostState,
@@ -212,6 +213,8 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         )
   );
   const [withoutParcel, setWithoutParcel] = useState(Boolean(initialProduct && (initialProduct.unitsPerPackage ?? 1) === 1 && (initialProduct.unitsPerSalePackage ?? initialProduct.unitsPerPackage ?? 1) === 1));
+  const [allowSingle,setAllowSingle]=useState(initialProduct?.parcelOnly!==true);
+  const [formChanged,setFormChanged]=useState(false);
   const [differentSaleParcel, setDifferentSaleParcel] = useState((initialProduct?.unitsPerSalePackage ?? initialProduct?.unitsPerPackage ?? 1) !== (initialProduct?.unitsPerPackage ?? 1));
   const previousParcelContents = useRef(Math.max(2, initialProduct?.unitsPerPackage ?? 12));
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -324,6 +327,11 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     1,
     Math.floor(Number(unitsPerSalePackage) || 1)
   );
+  // Sale N1 can coexist with a saved purchase parcel. Show the sale method
+  // truthfully without rewriting the purchase quantity or its saved price.
+  const parcelMethodSelected = !withoutParcel && validUnitsPerSalePackage > 1;
+  const parcelMethodSize = parcelMethodSelected ? validUnitsPerSalePackage
+    : Math.max(2, validUnitsPerPackage > 1 ? validUnitsPerPackage : previousParcelContents.current);
   const validSalePackagePrice = Math.max(
     0,
     Number(salePackagePrice) || 0
@@ -429,6 +437,23 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       setUnitsPerSalePackage(count);
       setSalePackagePrice(salePackagePrice === '' ? '' : calculatePackagePrice(derivedSalePricePerUnit, count));
     }
+  };
+  const selectParcelMethod = (enabled: boolean) => {
+    if (!enabled) {toggleWithoutParcel(true);return;}
+    const count = parcelMethodSize;
+    const purchaseName = validUnitsPerPackage > 1 ? purchasePackage
+      : ['PCS','HABBA','UNIT'].includes(initialProduct?.purchaseUnitCode ?? '')
+        ? units.find(item => item.code === 'PARCEL')?.nameAr
+          ?? units.find(item => item.code === 'CTN')?.nameAr ?? 'طرد'
+        : purchasePackage;
+    setWithoutParcel(false);
+    if (validUnitsPerPackage <= 1) {
+      setPurchasePackage(purchaseName);setUnitsPerPackage(count);
+      setDefaultPurchasePrice(unitPurchasePrice === '' ? '' : calculatePackagePrice(Number(unitPurchasePrice), count));
+    }
+    setDifferentSaleParcel(false);setSalePackage(purchaseName);
+    setUnitsPerSalePackage(count);
+    setSalePackagePrice(salePackagePrice === '' ? '' : calculatePackagePrice(derivedSalePricePerUnit, count));
   };
   const purchaseQuoteProfit = calculateProductProfit(validSalePackagePrice, calculatePackagePrice(costPerUnit, validUnitsPerSalePackage));
 
@@ -544,6 +569,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   };
 
   const readFormFields = (): ProductEditFields => ({
+    parcelOnly: !allowSingle,
     nameAr: nameAr.trim(),
     description: description.trim(),
     sku: sku.trim().toUpperCase(),
@@ -569,6 +595,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   }, []);
 
   const applyFormFields = (fields: ProductEditFields, currentImageUrl: string) => {
+    setAllowSingle(fields.parcelOnly!==true);
     setNameAr(fields.nameAr);
     setDescription(fields.description);
     setSku(fields.sku);
@@ -599,6 +626,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     row: ProductEditComparisonRow,
     value: ProductEditComparisonRow['mine']
   ) => {
+    if(row.field==='parcelOnly')return value===true?'طرد فقط':'المفرد مسموح';
     if (row.field === 'imageUrl') {
       return value === NEW_IMAGE_SELECTED ? 'صورة جديدة مختارة' : value ? 'صورة محفوظة' : 'بدون صورة';
     }
@@ -627,6 +655,12 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if(!parcelMethodSelected&&!allowSingle){
+      setSubmitError({message:'اختر طريقة بيع واحدة على الأقل: طرد أو حبة مفردة.'});return;
+    }
+    if(!allowSingle&&validUnitsPerSalePackage<=1){
+      setSubmitError({message:'الطرد فقط يحتاج أكثر من وحدة في طرد البيع.'});return;
+    }
 
     if (!nameAr.trim() || !sku.trim()) {
       setToast('اسم المنتج ورمز الصنف مطلوبان.', 'error');
@@ -705,6 +739,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
     setReappliedNotice(false);
 
     const payload: Partial<Product> = {
+      parcelOnly: !allowSingle,
       nameAr: nameAr.trim(),
       description: description.trim(),
       imageUrl: imageUrl.trim(),
@@ -808,6 +843,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
           openingQuantity: 0,
           imageUrl: payload.imageUrl,
           flavors: uploadedFlavors,
+          parcelOnly: !allowSingle,
         });
       } else {
         result =
@@ -864,7 +900,7 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
   };
 
   return (
-    <FormFields className="nw-products-fields min-w-0"><form onSubmit={handleSubmit} onInvalidCapture={event=>{const details=(event.target as HTMLElement).closest('details');if(details)details.open=true;}} aria-busy={isSubmitting} data-unsaved={hasFlavors} dir="rtl" className="nw-products-fields min-w-0 space-y-4 text-nw-text text-sm">
+    <FormFields className="nw-products-fields min-w-0"><form onSubmit={handleSubmit} onChangeCapture={()=>setFormChanged(true)} onInvalidCapture={event=>{const details=(event.target as HTMLElement).closest('details');if(details)details.open=true;}} aria-busy={isSubmitting} data-unsaved={hasFlavors} dir="rtl" className="nw-products-fields min-w-0 space-y-4 text-nw-text text-sm">
       {(validUnitsPerSalePackage>1 || isFlavorMaster || initialProduct?.flavorMasterProductId) &&
         (initialProduct?.retailPrice ?? derivedSalePricePerUnit)===0 &&
         <p role="status" className="rounded-lg border border-nw-border p-3 text-nw-warn">
@@ -1051,24 +1087,32 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       </Card>
 
       <Card padded={false} className="space-y-3 rounded-2xl border border-nw-border bg-nw-surface p-3.5">
-        <h4 className="font-black">الطرد</h4>
-        <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={withoutParcel} onChange={event=>toggleWithoutParcel(event.target.checked)}/>بيتباع بدون طرد</label>
+        <h4 className="font-black">طريقة البيع</h4>
+        <fieldset className="grid min-w-0 gap-3 sm:grid-cols-2" aria-label="طريقة البيع">
+          <div className="min-w-0 space-y-2 rounded-lg border border-nw-border p-3">
+            <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={parcelMethodSelected} onChange={event=>selectParcelMethod(event.target.checked)}/>طرد ({parcelMethodSize} {unit})</label>
+            <label className="block space-y-1 text-xs font-bold">سعر بيع الطرد<input aria-label="سعر بيع الطرد" type="number" min="0.001" step="0.001" required disabled={!parcelMethodSelected} value={salePackagePrice === '' ? '' : parcelMethodSelected ? salePackagePrice : calculatePackagePrice(derivedSalePricePerUnit,parcelMethodSize)} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>
+          </div>
+          <div className="min-w-0 space-y-2 rounded-lg border border-nw-border p-3">
+            <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={allowSingle} onChange={event=>setAllowSingle(event.target.checked)}/>حبة مفردة</label>
+            <label className="block space-y-1 text-xs font-bold">سعر بيع {unit}<input aria-label={'سعر بيع '+unit} type="number" min="0" step="0.0001" required disabled={!allowSingle} value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>
+          </div>
+        </fieldset>
+        {!parcelMethodSelected&&!allowSingle&&<p role="alert" className="text-nw-bad">اختر طريقة بيع واحدة على الأقل.</p>}
+        {(isFlavorMaster||hasFlavors)&&<ProductFormParcelCapability familyId={initialProduct?.id} dirty={formChanged} busy={isSubmitting} onOpen={familyProductId=>openModal('parcel_configuration',{familyProductId})}/>}
         <div className="flex flex-wrap items-end gap-2">
           {!withoutParcel && <label className="min-w-0 flex-1 text-xs font-bold">الطرد فيه<input aria-label={'عدد '+unit+' في طرد الشراء'} type="number" min="1" step="1" required value={unitsPerPackage} onChange={event=>changeParcelContents(event.target.value)} className={numberInputClass}/></label>}
           <label className="min-w-0 flex-1 text-xs font-bold">{withoutParcel?'البيع بالوحدة':'محتوى الطرد'}<select aria-label="الوحدة الأساسية" className={inputClass} value={unit} onChange={event=>setUnit(event.target.value)} disabled={isEditing}>{Array.from(new Set([unit,...units.filter(isContentUnitOption).map(item=>item.nameAr)])).map(name=><option key={name} value={name}>{name}</option>)}</select></label>
         </div>
-        <h4 className="border-t border-nw-border pt-3 font-black">الأسعار</h4>
+        <h4 className="border-t border-nw-border pt-3 font-black">سعر الشراء المقترح</h4>
         <div className={"grid min-w-0 items-end gap-2 "+(withoutParcel?"grid-cols-[auto_minmax(0,1fr)]":"grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)]")} role="group" aria-label="أسعار الشراء والبيع">
           <span/>{!withoutParcel&&<span className="text-center text-xs font-bold">الطرد</span>}<span className="text-center text-xs font-bold">{unit}</span>
           <strong className="py-3 text-xs">شراء</strong>
           {!withoutParcel&&<label className="min-w-0 space-y-1 text-xs font-bold">سعر شراء الطرد<input aria-label={"سعر شراء الطرد"} type="number" min="0.001" step="0.001" required value={defaultPurchasePrice} onChange={event=>changePackagePurchasePrice(event.target.value)} className={numberInputClass}/></label>}
           <label className="min-w-0 space-y-1 text-xs font-bold">{`سعر شراء ${unit}`}<input aria-label={`سعر شراء ${unit}`} type="number" min="0" step="0.0001" required value={unitPurchasePrice} onChange={event=>changeUnitPurchasePrice(event.target.value)} className={numberInputClass}/></label>
-          <strong className="py-3 text-xs">بيع</strong>
-          {!withoutParcel&&<label className="min-w-0 space-y-1 text-xs font-bold">سعر بيع الطرد<input aria-label={"سعر بيع الطرد"} type="number" min="0.001" step="0.001" required value={salePackagePrice} onChange={event=>setSalePackagePrice(event.target.value===''?'':Number.parseFloat(event.target.value))} className={numberInputClass}/></label>}
-          <label className="min-w-0 space-y-1 text-xs font-bold">سعر بيع {unit}<input aria-label={'سعر بيع '+unit} type="number" min="0" step="0.0001" required value={salePackagePrice===''?'':derivedSalePricePerUnit} onChange={event=>setSalePackagePrice(event.target.value===''?'':calculatePackagePrice(Number.parseFloat(event.target.value)||0,validUnitsPerSalePackage))} className={numberInputClass}/></label>
         </div>
-        {differentSaleParcel&&<p className="text-xs text-nw-muted">طرد الشراء {validUnitsPerPackage} {unit}؛طرد البيع {validUnitsPerSalePackage} {unit}.</p>}
-        <ProfitCard label={withoutParcel?'ربح '+unit+' التقريبي':'ربح الطرد التقريبي'} profit={purchaseQuoteProfit.profitPerUnit} margin={purchaseQuoteProfit.marginPercentage}/>
+        {differentSaleParcel&&<p className="text-xs text-nw-muted">طرد الشراء {validUnitsPerPackage} {unit}؛{parcelMethodSelected?'طرد البيع '+validUnitsPerSalePackage+' '+unit:'البيع بالمفرد' }.</p>}
+        <ProfitCard label={!parcelMethodSelected?'ربح '+unit+' التقريبي':'ربح الطرد التقريبي'} profit={purchaseQuoteProfit.profitPerUnit} margin={purchaseQuoteProfit.marginPercentage}/>
         <p className="text-xs text-nw-muted">الربح التقريبي من سعر الشراء المقترح. سعر البيع لا يتغير تلقائياً عند الاستلام.</p>
         {costIsFromStock && costState && (
           <div data-testid="product-average-cost" className="mt-3 rounded-xl border border-nw-border bg-nw-info-bg px-3 py-2">

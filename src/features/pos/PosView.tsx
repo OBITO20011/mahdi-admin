@@ -15,6 +15,7 @@ import {runPosV2Attempt, readPosV2Recovery, inspectOrCancelPosV2Attempt} from '.
 import type {CreatePosSaleV2Input, PosV2ConfigurableParcelLine} from '../../services/supabase/posV2.service';
 import {PosParcelBuilder, type PosParcelOption} from './PosParcelBuilder';
 import {posCartLines, posStockDemand, posWarehouseAvailable, posV2Invoice, type PosCartItem} from './posV2Cart';
+import {posSaleModeForProduct,posCartSaleMethodConflict} from './saleMethods';
 import {jodToMinorUnits} from '../../utils/receivingCalculations';
 import { Card, PageHeader, StatusBadge, MoneyText, SearchField, FilterChips, SegmentedControl, UiButton, StickyActionBar, ResponsiveCartPanel, ProductGlyph, formatItemCount } from '../../components/ui';
 import { useDialogFocus } from '../../hooks/useDialogFocus';
@@ -312,11 +313,12 @@ export const PosView: React.FC = () => {
   };
 
   const addToCart = (prod: Product) => {
+    const productSaleMode=posSaleModeForProduct(prod,saleMode);
     if (isSubmitting || recoveryBlocked || !warehouseId) {setToast('حدد المستودع واسترجع أي محاولة معلقة قبل البيع.', 'error'); return;}
     if (cartItems.length && cartWarehouseRef.current !== warehouseId) {setToast('تغير مستودع البيع؛ أفرغ السلة ثم أعد تركيبها.', 'error'); return;}
     cartWarehouseRef.current = warehouseId;
     knownProductsRef.current.set(prod.id, prod);
-    const unitsPerSalePackage = saleMode === 'base_unit' ? 1 : Math.max(
+    const unitsPerSalePackage = productSaleMode === 'base_unit' ? 1 : Math.max(
       1,
       Math.floor(prod.unitsPerSalePackage || 1)
     );
@@ -324,7 +326,7 @@ export const PosView: React.FC = () => {
       posWarehouseAvailable(prod, warehouseId),
       unitsPerSalePackage
     );
-    const existingIndex = cartItems.findIndex((item) => item.productId === prod.id && item.v2Line.commercial_line_kind === saleMode);
+    const existingIndex = cartItems.findIndex((item) => item.productId === prod.id && item.v2Line.commercial_line_kind === productSaleMode);
     const currentQuantity =
       existingIndex >= 0 ? cartItems[existingIndex].quantity : 0;
     if (!canSetPosQuantity(currentQuantity + 1, availableSalePackages)) {
@@ -340,17 +342,17 @@ export const PosView: React.FC = () => {
       if (!cartFits(updated)) {setToast('الكمية المشتركة للقطع والطرود تتجاوز مخزون المستودع.', 'error'); return;}
       setCartItems(updated);
     } else {
-      const unitPrice = saleMode === 'base_unit' ? prod.retailPrice : prod.salePackagePrice;
+      const unitPrice = productSaleMode === 'base_unit' ? prod.retailPrice : prod.salePackagePrice;
       if (typeof unitPrice !== 'number' || !Number.isFinite(unitPrice) || unitPrice < 0) {setToast('سعر البيع غير متوفر.', 'error'); return;}
       const newItem: PosCartItem = {
-        v2Line: saleMode === 'base_unit' ? {commercial_line_kind: saleMode, product_id: prod.id, base_quantity: 1}
-          : {commercial_line_kind: saleMode, product_id: prod.id, parcel_quantity: 1, units_per_parcel: unitsPerSalePackage},
+        v2Line: productSaleMode === 'base_unit' ? {commercial_line_kind: productSaleMode, product_id: prod.id, base_quantity: 1}
+          : {commercial_line_kind: productSaleMode, product_id: prod.id, parcel_quantity: 1, units_per_parcel: unitsPerSalePackage},
         id: `cart-${Date.now()}-${Math.random()}`,
         productId: prod.id,
         productName: prod.nameAr,
         productImage: prod.imageUrl,
         sku: prod.sku,
-        unit: saleMode === 'base_unit' ? prod.unit : prod.salePackage || 'طرد',
+        unit: productSaleMode === 'base_unit' ? prod.unit : 'طرد',
         unitPrice,
         costPrice: prod.costPrice,
         quantity: 1,
@@ -435,6 +437,8 @@ export const PosView: React.FC = () => {
   const handleCompleteSale = async () => {
     if (isSubmitting || recoveryBlocked || !warehouseId) return;
     if (cartItems.length === 0) return;
+    const methodConflict=posCartSaleMethodConflict(cartItems,knownProductsRef.current);
+    if(methodConflict){setToast(methodConflict,'error');return;}
     if (cartWarehouseRef.current !== warehouseId || !cartFits(cartItems)) {setToast('تغير المستودع أو المخزون المتاح؛ راجع السلة قبل الإرسال.', 'error'); return;}
 
     if (!openPosShift) {
@@ -625,14 +629,22 @@ export const PosView: React.FC = () => {
 
   const currentProductUnit=knownProductsRef.current.get(cartItems.at(-1)?.productId??'')?.unit;
   const saleUnitLabel=currentProductUnit||'باكيت';
+  const cartMethodConflict=recoveryBlocked?null:posCartSaleMethodConflict(cartItems,knownProductsRef.current);
+  const hasUnitMethod=filteredProducts.length===0||filteredProducts.some(product=>!product.parcelOnly);
+  const hasParcelMethod=filteredProducts.length===0||filteredProducts.some(product=>(product.unitsPerSalePackage??1)>1);
+  const saleModeOptions:Array<{value:'base_unit'|'legacy_single_sku_parcel'|'configurable_parcel';label:string}>=[
+    ...(hasUnitMethod?[{value:'base_unit' as const,label:saleUnitLabel}]:[]),
+    ...(hasParcelMethod?[{value:'legacy_single_sku_parcel' as const,label:'طرد'}]:[]),
+    ...(parcelOptions.length?[{value:'configurable_parcel' as const,label:'طرد مشكّل'}]:[]),
+  ];
   const cartBaseUnitTotals=Array.from(cartItems.reduce((totals,item)=>{
     const name=knownProductsRef.current.get(item.productId)?.unit||'باكيت';
     totals.set(name,(totals.get(name)??0)+item.baseQuantity);
     return totals;
   },new Map<string,number>()));
   const saleModeControl = <SegmentedControl touchSize disabled={isSubmitting || recoveryBlocked} label="وحدة البيع"
- options={[{value: 'base_unit', label: saleUnitLabel}, {value: 'legacy_single_sku_parcel', label: 'طرد'}, {value: 'configurable_parcel', label: 'طرد مشكّل'}]}
- value={showParcelCatalog ? 'configurable_parcel' : saleMode}
+ options={saleModeOptions}
+ value={showParcelCatalog ? 'configurable_parcel' : !hasParcelMethod?'base_unit':!hasUnitMethod?'legacy_single_sku_parcel':saleMode}
  onChange={value => {setShowParcelCatalog(value === 'configurable_parcel'); if (value !== 'configurable_parcel') setSaleMode(value);}} />;
   const paymentControl = <SegmentedControl touchSize label="طريقة الدفع" value={paymentMethod}
  options={[{value: 'cash' as PaymentMethod, label: 'كاش'}, {value: 'cliq' as PaymentMethod, label: 'CliQ'}, {value: 'debt' as PaymentMethod, label: 'دين'}]}
@@ -751,7 +763,8 @@ export const PosView: React.FC = () => {
               {isProductsLoading && filteredProducts.length === 0 && !productsError && <Card role="status" className="col-span-full text-nw-muted"><Loader2 className="h-5 w-5 animate-spin" />جارٍ تحميل المنتجات…</Card>}
               {!isProductsLoading && filteredProducts.length === 0 && !productsError && <Card className="col-span-full text-nw-muted">لا توجد منتجات مطابقة.</Card>}
               {filteredProducts.map(prod => {
-                const currentItem = cartItems.find(item => item.productId === prod.id && item.v2Line.commercial_line_kind === saleMode);
+                const productSaleMode=posSaleModeForProduct(prod,saleMode);
+                const currentItem = cartItems.find(item => item.productId === prod.id && item.v2Line.commercial_line_kind === productSaleMode);
                 const inCart = cartItems.some(item => item.productId === prod.id);
                 const stock = posWarehouseAvailable(prod, warehouseId);
                 const lowStock = stock <= prod.reorderLevel;
@@ -766,8 +779,9 @@ export const PosView: React.FC = () => {
                       <h3 className="m-0 break-words text-sm font-bold">{prod.nameAr}</h3>
                       <bdi dir="ltr" className="block break-all text-xs text-nw-muted">{prod.barcode}</bdi>
                       <div className="flex flex-wrap justify-between gap-2 text-xs">
-                        <span>{prod.unit} <MoneyText amount={prod.retailPrice} className="font-bold text-nw-text" /></span>
-                        <span>طرد {typeof prod.salePackagePrice === 'number' && Number.isFinite(prod.salePackagePrice) ? <MoneyText amount={prod.salePackagePrice} className="font-bold text-nw-text" /> : 'غير متاح'}</span>
+                        {!prod.parcelOnly&&<span>{prod.unit} <MoneyText amount={prod.retailPrice} className="font-bold text-nw-text" /></span>}
+                        {(prod.unitsPerSalePackage??1)>1&&<span>طرد {typeof prod.salePackagePrice === 'number' && Number.isFinite(prod.salePackagePrice) ? <MoneyText amount={prod.salePackagePrice} className="font-bold text-nw-text" /> : 'غير متاح'}</span>}
+                        {prod.parcelOnly&&<span className="font-bold text-nw-info">طرد فقط</span>}
                       </div>
                       <p className={'m-0 text-xs ' + (lowStock ? 'text-nw-warn' : 'text-nw-muted')}><bdi dir="ltr">{stock}</bdi> {prod.unit} · {stock === 0 ? 'نفد' : lowStock ? 'منخفض' : 'متوفر'}</p>
                     </div>
@@ -787,6 +801,7 @@ export const PosView: React.FC = () => {
             title={'سلة المبيعات الحالية (' + cartItems.length + ')'}
             action={cartItems.length > 0 && <UiButton variant="danger" disabled={isSubmitting || recoveryBlocked} onClick={() => setCartItems([])} className="px-2 text-xs"><Trash2 className="h-4 w-4" />إفراغ السلة</UiButton>}
             footer={<>{cartTotals}{paymentControl}{completeSaleButton}</>}>
+            {cartMethodConflict&&<p role="alert" className="rounded-lg bg-nw-bad-bg p-3 text-sm text-nw-bad">{cartMethodConflict}</p>}
                       {/* Customer Picker */}
           <div className="space-y-2 rounded-2xl border border-nw-border bg-nw-bg/35 p-3">
             <div className="flex items-center justify-between gap-2">
