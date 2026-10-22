@@ -203,5 +203,28 @@
     "productionAndSqlUnchanged": true,
     "assertionsWeakened": false,
     "retriesSkipsTimeoutsChanged": false
+  },
+  "featureCiAdapterResponseRepair": {
+    "supersededSha": "529b828ab21f6824f7f93a48c88b2c719551d8bd",
+    "failedRuns": [
+      39743313893,
+      39743319543
+    ],
+    "eachOther38JobsPassed": true,
+    "cause": "Canned replay called an N1 base-unit request a legacy parcel;strict immutable response validation correctly refused it",
+    "correction": "Canned response uses base_unit/باكيت;assert exact original one-unit request and RPC lines;retain same request,key,two calls and receipt",
+    "adapterBrowserPassed": 6,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "retries": 0,
+    "focusedContractTestsPassed": 23,
+    "types": true,
+    "strictEslint": true,
+    "gitleaks": 0,
+    "productionAndSqlUnchanged": true,
+    "strictResultValidationUnchanged": true,
+    "retriesSkipsTimeoutsChanged": false
   }
 }

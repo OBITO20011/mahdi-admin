@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner package B209:full parcel_only C8 design plus unified sale-method section(parcel/single required-one,mixed capability via existing owner RPC or real state/direct family link).DB admission/locks/replay/legacy/replacement/flavor/import guards;separate PR/FULLCI/merge/owner209 commands.No hostedaccess.",
-  "baselineSha": "bfc802ac0a298ae4ebccc9f82d3459db7abe72c2",
+  "baselineSha": "529b828ab21f6824f7f93a48c88b2c719551d8bd",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/trial-sale-methods",
   "phase": "PACKAGE_F",
@@ -16,7 +16,7 @@
     "209 fresh-incremental0diff/546functions/13members plus owner apply209/replay0 and full resetREST/TOTP/Storage PASS"
   ],
   "inProgress": [
-    "PR15 three obsolete candidates stopped;exact historical170/ownerlabel24/realPOS8 test corrections accepted;production/209/ref unchanged"
+    "PR15 529b both38/40;only stale N1 replay fixture failed;corrected adapter6/realPOS8/terminology24/contracts23 accepted;production/209/ref unchanged"
   ],
   "notStarted": [
     "Feature/PR/main exactFULL40 acceptance;no hostedcommands authorized"
@@ -49,12 +49,12 @@
     "No financial policy change;preserve171 cost/CAS and old invoices/replay/returns",
     "One writer;no tracked edits during verification;no weaker asserts/retries/skips/timeouts"
   ],
-  "nextExactAction": "Commit accepted realPOS8 exactlabel test repair;push PR15;fresh exact push+PR FULL40/secrets then merge/mainFULL40. No hostedaccess.",
+  "nextExactAction": "Commit accepted N1 adapter6 fixture repair;push PR15;fresh exact push+PR FULL40/secrets then merge/mainFULL40. No hostedaccess.",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "checkpointedAt": "2026-10-22T07:50:08.380Z",
+  "checkpointedAt": "2026-10-22T11:59:27.371Z",
   "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "f5904e221974d86bf00d84c82007bea381db2f367d6b2c599822c5346f221680",
-  "workingTreeFingerprint": "752B49DFE6DA836DCCCE0A448219771371B746E087FF86BC197BD9286D05D8A0"
+  "filesTouchedManifestSha256": "33a8c1a7caf573c808273fdbab69010b13ea99a287414daf8ae04c4a8f94d7aa",
+  "workingTreeFingerprint": "7DBF725C8C89D9F70B6FFBCCC50332F9D67254743A8D1DAE1B3D085CD0D3FC0A"
 }

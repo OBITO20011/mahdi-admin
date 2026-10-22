@@ -171,6 +171,30 @@
         }
       ]
     },
+    "e2e/package-d-pos.spec.ts": {
+      "before": "104c6fe6b2e5c78fda59b4c3ea49d6f0c7ab64e4f4bff8535c55777ce2995d88",
+      "after": "21f9561ba17dbc18a4e8e03fc0b9b4bcf3b5b86df093cb62b90611af0687b9bc",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 100,
+          "before": [
+            "        salePackage: 'طرد', commercialLineKind: 'legacy_single_sku_parcel', quantity: 1, baseQuantity: 1,"
+          ],
+          "after": [
+            "        salePackage: 'باكيت', commercialLineKind: 'base_unit', quantity: 1, baseQuantity: 1,"
+          ]
+        },
+        {
+          "at": 112,
+          "before": [],
+          "after": [
+            "  expect(before.request.lines).toEqual([{commercial_line_kind:'base_unit',product_id:productId,base_quantity:1}]);",
+            "  expect(requests[0].p_lines).toEqual(before.request.lines);"
+          ]
+        }
+      ]
+    },
     "e2e/package-f-pos-harness.tsx": {
       "before": "a29c384af6c0896d9128c2d4112e0f15f1858061e177aac98310093c5d204d2f",
       "after": "1929a6d0dedf707654426a22f8d7becbc9549f1c131bb4278ab6704e555274ed",
