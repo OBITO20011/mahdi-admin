@@ -3,7 +3,7 @@
   "status": "ACTIVE",
   "owner": "codex",
   "objective": "Owner package B209:full parcel_only C8 design plus unified sale-method section(parcel/single required-one,mixed capability via existing owner RPC or real state/direct family link).DB admission/locks/replay/legacy/replacement/flavor/import guards;separate PR/FULLCI/merge/owner209 commands.No hostedaccess.",
-  "baselineSha": "bdf1e4f61c613f4fc5037da6462bcff88acf4cfd",
+  "baselineSha": "d591fc7e6d0adf95d6289c778a823171ca6c6b1d",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
   "branch": "codex/trial-sale-methods",
   "phase": "PACKAGE_F",
@@ -16,7 +16,7 @@
     "209 fresh-incremental0diff/546functions/13members plus owner apply209/replay0 and full resetREST/TOTP/Storage PASS"
   ],
   "inProgress": [
-    "PR15 old bdf feature runs cancelled;historical P1 exact170-file scope repaired;fresh1348/lint/Gitleaks0 accepted"
+    "PR15 old candidates stopped;exact owner terminology checkbox correction accepted24browsers/23contract tests/types/lint/Gitleaks0"
   ],
   "notStarted": [
     "Feature/PR/main exactFULL40 acceptance;no hostedcommands authorized"
@@ -48,12 +48,12 @@
     "No financial policy change;preserve171 cost/CAS and old invoices/replay/returns",
     "One writer;no tracked edits during verification;no weaker asserts/retries/skips/timeouts"
   ],
-  "nextExactAction": "Commit accepted test-only historical170-file scope correction;push PR15 and fresh exact push+PR FULL40/secrets. No hostedaccess.",
+  "nextExactAction": "Commit accepted24bothengine terminology test repair;push PR15;fresh exact push+PR FULL40/secrets then merge/mainFULL40. No hostedaccess.",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "checkpointedAt": "2026-10-22T07:10:09.662Z",
+  "checkpointedAt": "2026-10-22T07:25:32.266Z",
   "filesTouchedCount": 4,
-  "filesTouchedManifestSha256": "e8f61107b262889956c2223ec1133de1a3c32f6ae8c4744c3df60169dd043816",
-  "workingTreeFingerprint": "60FFC75774C85B2A9626CD7129D60143FACAA2EEE4F9DFA2FCC9C7FD5F274E98"
+  "filesTouchedManifestSha256": "404c6535e92fa74cb574b2bf52450592f07878c9da5d5368bfea266ff7aff513",
+  "workingTreeFingerprint": "938BB98A38547AA22E991800BE13DAB1FDD773185D172315F106F4A23C7B3961"
 }

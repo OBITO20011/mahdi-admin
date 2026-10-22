@@ -11,11 +11,11 @@
     },
     {
       "code": " M",
-      "path": "scripts/audit/parcel209-hunks.json"
+      "path": "e2e/package-f-unit-terminology.spec.ts"
     },
     {
       "code": " M",
-      "path": "tests/pretrial-p1.test.ts"
+      "path": "scripts/audit/parcel209-hunks.json"
     }
   ]
 }

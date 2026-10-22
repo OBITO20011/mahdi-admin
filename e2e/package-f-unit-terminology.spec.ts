@@ -16,7 +16,10 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`base
     await unit.selectOption(name);
     await expect(dialog.getByLabel(`عدد ${name} في طرد الشراء`,{exact:true})).toHaveValue('24');
     await expect(dialog.getByLabel(`سعر شراء ${name}`,{exact:true})).toHaveValue('1');
-    await expect(dialog).not.toContainText(/حبة|حبات/u);
+    await expect(dialog.getByRole('checkbox',{name:'حبة مفردة',exact:true})).toBeChecked();
+    const text=await dialog.innerText();
+    expect(text.split('حبة مفردة')).toHaveLength(2);
+    expect(text.replace('حبة مفردة','')).not.toMatch(/حبة|حبات/u);
   }
   await checkLayout(page,page.getByTestId('products-workbench'));
   const result=await analyzePackageFAccessibility(page,new AxeBuilder({page}));

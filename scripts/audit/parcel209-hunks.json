@@ -393,6 +393,25 @@
         }
       ]
     },
+    "e2e/package-f-unit-terminology.spec.ts": {
+      "before": "aeb48ac012e4e21fdc0b2247239fefbc9d447df19f4e61b091ac4dbf348b21ec",
+      "after": "5ef7d2284217e82b2059baa8563e5faf64ee1bf7e5090b1ce4b736aa8e65bd00",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 19,
+          "before": [
+            "    await expect(dialog).not.toContainText(/حبة|حبات/u);"
+          ],
+          "after": [
+            "    await expect(dialog.getByRole('checkbox',{name:'حبة مفردة',exact:true})).toBeChecked();",
+            "    const text=await dialog.innerText();",
+            "    expect(text.split('حبة مفردة')).toHaveLength(2);",
+            "    expect(text.replace('حبة مفردة','')).not.toMatch(/حبة|حبات/u);"
+          ]
+        }
+      ]
+    },
     "scripts/agent/lib.mjs": {
       "before": "faee40adb03343ebe273f9c2ae321a95522623112f56c3366ec7bef9615a7939",
       "after": "9c1bb88b8d8bd82ffd6393946c3ebc5cad3f3e6dcd5ec56da678191b2c4c88e9",

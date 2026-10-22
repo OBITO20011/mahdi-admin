@@ -154,5 +154,26 @@
     "gitleaks": 0,
     "assertionsWeakened": false,
     "retriesSkipsTimeoutsChanged": false
+  },
+  "featureCiTerminologyRepair": {
+    "supersededSha": "d591fc7e6d0adf95d6289c778a823171ca6c6b1d",
+    "cancelledRuns": [
+      39738859136,
+      39738865026
+    ],
+    "cause": "Historical terminology browser forbade the exact owner-requested sale-method checkbox label",
+    "correction": "Require checked checkbox and exactly one literal حبة مفردة occurrence;ban حبة/حبات in every other dialog text;retain unit/price/layout/accessibility assertions",
+    "browserPassed": 24,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "retries": 0,
+    "focusedContractTestsPassed": 23,
+    "types": true,
+    "strictEslint": true,
+    "gitleaks": 0,
+    "productionAndSqlUnchanged": true,
+    "retriesSkipsTimeoutsChanged": false
   }
 }
