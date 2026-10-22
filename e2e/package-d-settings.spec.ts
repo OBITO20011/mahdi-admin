@@ -16,7 +16,7 @@ test('owner saves exact parcel flavor/quantity and must confirm feature activati
   await page.goto('/e2e/package-d-settings-harness.html');
   await page.getByText('متقدم: حالة الطرد المشكّل',{exact:true}).click();
   await expect(page.getByText('حالة الطرد المشكّل — متوقفة')).toBeVisible();expect(writes).toBe(0);
-  await page.getByLabel('كم حبة بالطرد').fill('6');await page.getByLabel('متاح للبيع كطرد').check();await page.getByLabel('نكهة الاختبار',{exact:true}).check();
+  await page.getByLabel('كم حبة بالطرد').fill('6');await page.getByLabel('متاح للبيع كطرد مشكّل',{exact:true}).check();await page.getByLabel('نكهة الاختبار',{exact:true}).check();
   await page.getByRole('button',{name:'حفظ إعداد الطرد'}).click();await expect(page.getByRole('status')).toHaveText('تم حفظ إعداد الطرد.');
   await page.getByLabel('حالة الميزة',{exact:true}).selectOption('ENABLED');await expect(page.getByRole('button',{name:'تأكيد تغيير حالة الميزة'})).toBeDisabled();expect(writes).toBe(1);
   await page.getByLabel('أؤكد تغيير الحالة إلى مفعّلة للجميع').check();await page.getByRole('button',{name:'تأكيد تغيير حالة الميزة'}).click();

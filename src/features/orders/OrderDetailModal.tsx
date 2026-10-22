@@ -13,6 +13,7 @@ import {
   Phone,
   Printer,
   ReceiptText,
+  Share2,
   RotateCcw,
   Smartphone,
   Truck,
@@ -24,7 +25,7 @@ import { getOrderStatus, PAYMENT_METHOD_LABELS } from './orderStatus';
 import { OrderCommercialSummary } from './OrderCommercialSummary';
 import { useDialogFocus } from '../../hooks/useDialogFocus';
 import { CURRENCY } from '../../constants';
-import { useAppStoreActions } from '../../stores/useAppStore';
+import { useAppStoreActions, useAppStoreSelector } from '../../stores/useAppStore';
 import { Order, OrderStatus } from '../../types';
 import { CustomerLocationCard } from './CustomerLocationCard';
 import { EditAddressModal } from './EditAddressModal';
@@ -32,6 +33,9 @@ import { AdminAftercarePanel } from './AdminAftercarePanel';
 import { buildStorefrontTrackingUrl } from '../../services/supabase/orders.service';
 import type { AdminAftercareCapability } from '../../services/supabase/salesAftercare.service';
 import {DocumentCorrectionAction} from '../corrections/DocumentCorrectionAction';
+import {SaleReceiptDialog} from '../receipts/SaleReceiptDialog';
+import {orderReceipt} from '../receipts/saleReceipt';
+import {receiptDocumentShareText} from '../../../customer-web/src/receipts/commercialReceipt';
 
 interface OrderDetailModalProps {
   order: Order;
@@ -130,6 +134,32 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
   } = useAppStoreActions();
 
   const [busy, setBusy] = useState(false);
+  const [showReceipt, setShowReceipt] = useState(false);
+  const receiptBranch = useAppStoreSelector(state => state.branches.find(branch => branch.id === order.branchId));
+  const savedReceipt = orderReceipt(order, receiptBranch);
+  const copyReceiptLink = async () => {
+    if (!order.publicReceiptUrl) return;
+    try {
+      await navigator.clipboard.writeText(order.publicReceiptUrl);
+      setToast('تم نسخ رابط الوصل.', 'success');
+    } catch {
+      setToast('تعذر نسخ رابط الوصل على هذا الجهاز.', 'error');
+    }
+  };
+  const shareReceipt = async () => {
+    if (!order.publicReceiptUrl) return;
+    try {
+      const text = receiptDocumentShareText(savedReceipt, order.publicReceiptUrl);
+      if (navigator.share) await navigator.share({title:`وصل ${order.orderNumber}`, text, url:order.publicReceiptUrl});
+      else {
+        await navigator.clipboard.writeText(text);
+        setToast('تم نسخ الوصل مع رابطه للمشاركة.', 'success');
+      }
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') return;
+      setToast('تعذرت مشاركة الوصل على هذا الجهاز.', 'error');
+    }
+  };
   const [showCancelForm, setShowCancelForm] = useState(false);
   const [cancelReason, setCancelReason] = useState('');
   const [showEditAddress, setShowEditAddress] = useState(false);
@@ -393,7 +423,17 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
 
       <bdi dir="ltr" className="block text-xs text-nw-muted">{order.customerPhone || 'لا يوجد رقم هاتف'}</bdi>
       <p className="text-xs text-nw-muted">{order.governorate} · {order.region} · {order.address}</p>
-      <UiButton onClick={onPrint ?? (() => window.print())} className="w-full print:hidden"><Printer className="h-4 w-4" />طباعة الطلب</UiButton>
+      <div className="flex flex-wrap gap-2 print:hidden" aria-label="وصل الشراء">
+        <UiButton variant="primary" onClick={() => setShowReceipt(true)}><Printer className="h-4 w-4" />طباعة الوصل</UiButton>
+        {order.publicReceiptUrl && <>
+          <UiButton onClick={() => void shareReceipt()}><Share2 className="h-4 w-4" />مشاركة الوصل</UiButton>
+          <UiButton onClick={() => void copyReceiptLink()}><Copy className="h-4 w-4" />نسخ الرابط</UiButton>
+        </>}
+        <details className="rounded-lg border border-nw-border px-3">
+          <summary className="min-h-11 cursor-pointer py-3" aria-label="خيارات طباعة إضافية">⋯</summary>
+          <UiButton onClick={onPrint ?? (() => window.print())}><Printer className="h-4 w-4" />طباعة ورقة التجهيز</UiButton>
+        </details>
+      </div>
       {embedded && <OrderCommercialSummary order={order} />}
 
       <section className="rounded-2xl border border-nw-info p-3 md:sticky md:top-0 md:z-10 md:bg-nw-surface">
@@ -1160,6 +1200,9 @@ export const OrderDetailModal: React.FC<OrderDetailModalProps> = ({
         </div>
       )}
 
+      {showReceipt && <SaleReceiptDialog receipt={savedReceipt} onClose={() => setShowReceipt(false)}
+        onShare={order.publicReceiptUrl ? () => void shareReceipt() : undefined}
+        onCopy={order.publicReceiptUrl ? () => void copyReceiptLink() : undefined} />}
       {showEditAddress && (
         <EditAddressModal
           order={order}

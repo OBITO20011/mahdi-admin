@@ -1,6 +1,8 @@
 import { MoneyText } from '../../components/ui';
 import { Order } from '../../types';
 import { PAYMENT_METHOD_LABELS } from './orderStatus';
+import {savedReceiptLine} from '../receipts/saleReceipt';
+import {receiptLineDescription} from '../../../customer-web/src/receipts/commercialReceipt';
 
 /** Presentation of immutable order snapshots only; never reads the current catalogue. */
 export function OrderCommercialSummary({ order }: { order: Order }) {
@@ -11,7 +13,7 @@ export function OrderCommercialSummary({ order }: { order: Order }) {
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <p className="font-semibold">{item.productName}</p>
-            <p className="text-xs text-nw-muted">{item.commercialLineKind === 'configurable_parcel' ? 'طرد مشكّل' : item.commercialLineKind === 'legacy_single_sku_parcel' ? 'طرد' : item.unit} · <bdi dir="ltr">{item.quantity} × {item.unitPrice.toFixed(3)}</bdi></p>
+            <p className="text-xs text-nw-muted">{receiptLineDescription(savedReceiptLine(item))} · <bdi dir="ltr">{item.quantity} × {item.unitPrice.toFixed(3)}</bdi></p>
           </div>
           <MoneyText amount={item.totalPrice} className="shrink-0" />
         </div>

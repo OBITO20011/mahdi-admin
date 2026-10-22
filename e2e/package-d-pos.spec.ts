@@ -29,16 +29,16 @@ test('POS base and single-SKU parcel share physical capacity in the selected war
   await expect(page.getByRole('button', {name: 'بطاقة 💳'})).toHaveCount(0);
   const card = page.locator(`[data-pos-product-card="${productId}"]`);
   await card.click(); // Three physical units.
-  await page.getByRole('radio', {name: 'باكيت', exact: true}).click();
-  await card.click(); await card.click(); // Two additional physical units.
+  const unit=page.locator(`[data-pos-product="${productId}"] [data-pos-add-method="base_unit"]`);
+  await unit.click(); await unit.click(); // Two additional physical units.
   await openCart(page);
   await expect(page.getByRole('heading', {name: 'سلة المبيعات الحالية (2)'})).toBeVisible();
   const rows = page.getByRole('heading', {name: 'منتج الاختبار', level: 5});
   await expect(rows).toHaveCount(2);
   await closeCart(page);
-  await card.click(); // Over capacity: neither line can grow.
+  await unit.click(); // Over capacity: neither line can grow.
   await openCart(page);
-  const quantities = rows.locator('..').locator('..').locator('[data-pos-quantity]');
+  const quantities = rows.locator('xpath=ancestor::*[@data-pos-cart-line]').locator('[data-pos-quantity]');
   await expect(quantities).toHaveText(['1', '2']);
   await closeCart(page);
   await expect(page.locator('[data-single-warehouse]')).toHaveAttribute('data-single-warehouse',warehouseId);
@@ -56,7 +56,6 @@ test('POS parcel builder requires exact allowed composition and edits one instan
       {productId: flavorId, nameAr: 'نكهة ب', sku: 'B', availableQuantity: 5}],
   }]}}));
   await page.goto(url);
-  await page.getByRole('radio', {name: 'طرد مشكّل', exact: true}).click();
   await page.getByRole('button', {name: 'تركيب طرد: عائلة الاختبار'}).click();
   const dialog = page.getByRole('dialog', {name: 'تركيب طرد: عائلة الاختبار'});
   const add = dialog.getByRole('button', {name: 'إضافة الطرد المكتمل'});
@@ -87,7 +86,7 @@ test('POS unknown response reload recovers the immutable request instead of star
   await page.route('**/rest/v1/rpc/get_open_pos_shift', route => route.fulfill({json: {success: true,
     hasOpenShift: true, shift: {id: flavorId, branchId, shiftNumber: 'D2', startTime: '2026-10-07T00:00:00Z'}}}));
   await page.route('**/rest/v1/orders?*', route => route.fulfill({json:
-    new URL(route.request().url()).searchParams.get('select') === 'created_at'
+    new URL(route.request().url()).searchParams.get('select') === 'created_at,order_items(id,base_unit_name_snapshot)'
       ? {created_at: '2026-10-07T00:00:00Z'} : []}));
   await page.route('**/rest/v1/rpc/create_pos_sale_v2', async route => {
     requests.push(route.request().postDataJSON());

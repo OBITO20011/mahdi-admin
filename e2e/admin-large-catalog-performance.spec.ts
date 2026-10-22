@@ -21,6 +21,10 @@ window.turnstile = {
 };`;
 
 const installTurnstileShim = async (context: BrowserContext) => {
+  // The shared isolation fixture already defines a deliberately non-verifying
+  // SDK. Install this suite's explicit test-token callback before app startup;
+  // otherwise loadTurnstile correctly reuses that default and never loads api.js.
+  await context.addInitScript(turnstileShim);
   await context.route(
     'https://challenges.cloudflare.com/turnstile/v0/api.js**',
     async (route: Route) => {
@@ -29,8 +33,12 @@ const installTurnstileShim = async (context: BrowserContext) => {
   );
 };
 
-const openMoreDestination = (page: Page, groupId: string, destinationId: string) =>
-  openShellDestination(page, groupId, destinationId);
+const openMoreDestination = async (page: Page, groupId: string, destinationId: string) => {
+  // Daily destinations are in the phone drawer after206, not the rare More list.
+  const drawer = page.getByRole('button', {name: 'فتح القائمة الرئيسية', exact: true});
+  if (await drawer.isVisible()) await drawer.click();
+  await openShellDestination(page, groupId, destinationId);
+};
 
 test.describe('isolated Admin 5k catalog performance', () => {
   test.skip(!enabled, 'Run through the isolated large-catalog runner.');
@@ -96,7 +104,8 @@ test.describe('isolated Admin 5k catalog performance', () => {
 
     const inventorySearch = page.getByPlaceholder('ابحث باسم المنتج، رمز الصنف، أو الباركود...');
     await inventorySearch.fill('LCAT-005000');
-    await expect(page.locator('[data-inventory-product-card]:visible, [data-inventory-product-row]:visible').filter({hasText: 'LCAT-005000'}))
+    // Inventory intentionally shows the unique fixture name, not its hidden SKU.
+    await expect(page.locator('[data-inventory-product-card]:visible, [data-inventory-product-row]:visible').filter({hasText: 'منتج اختبار الحجم 005000'}))
       .toHaveCount(1, {timeout: 15_000});
 
     const posStartedAt = Date.now();
@@ -107,7 +116,7 @@ test.describe('isolated Admin 5k catalog performance', () => {
     const posMs = Date.now() - posStartedAt;
     const posSearch = page.getByPlaceholder('ابحث باسم المنتج أو الباركود أو رمز الصنف...');
     await posSearch.fill('LCAT-003333');
-    await expect(page.locator('[data-pos-product-card]:visible').filter({hasText: '9900000003333'}))
+    await expect(page.locator('[data-pos-product]:visible').filter({hasText: '9900000003333'}))
       .toHaveCount(1, {timeout: 15_000});
 
     await openMoreDestination(page, 'suppliers-purchases', 'supplier-receiving');

@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "status": "INDEPENDENT_D_LOCAL_VERIFIED_PUBLIC210_AND_FULL_CI_PENDING",
+  "recordedAt": "2026-10-22T14:50:07.610Z",
+  "branch": "codex/trial-sale-receipts",
+  "baselineSha": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
+  "managedAccess": false,
+  "deployed": false,
+  "scope": {
+    "d2ExplicitMethods": true,
+    "d3SharedSavedReceiptAndReadOnlyReprint": true,
+    "d4MixedOnlyWithLegacyReadDisable": true,
+    "internalCommercialKinds": true,
+    "publicReader210Implemented": false,
+    "publicReader210Approved": false,
+    "saleRpcChanged": false,
+    "pricesChanged": false,
+    "migrationsAdded": []
+  },
+  "verification": {
+    "adminUnits": {
+      "passed": 1353,
+      "failed": 0,
+      "skipped": 0
+    },
+    "customerUnits": {
+      "passed": 197,
+      "failed": 0,
+      "skipped": 0
+    },
+    "types": true,
+    "strictLint": true,
+    "adminBuild": true,
+    "isolatedCustomerBuildAndSeo": true,
+    "networkEscapes": 0,
+    "browserBatches": {
+      "affected96": true,
+      "final130": true,
+      "separateLargeCatalog5000Cases2": true,
+      "historicalDefaultSkipsExecutedSeparately": 2,
+      "earlierSeparateSettingsAndCapacity16": true,
+      "realPos8": true,
+      "engines": [
+        "Chromium",
+        "WebKit"
+      ],
+      "retries": 0
+    },
+    "native": {
+      "full": 1420,
+      "core": 432,
+      "packageF": 988,
+      "shards": [
+        198,
+        198,
+        198,
+        198,
+        196
+      ]
+    },
+    "sdk": {
+      "sources": 325,
+      "sites": 51,
+      "results": 148,
+      "errors": 0,
+      "sourceHashesSha256": "f998a5ccb9a91264136afb9230987084a18a94eb6424792df41f0f9fd53087d2"
+    },
+    "rpc": {
+      "dispatches": 525,
+      "expectedOwnerReaderDenials": 2,
+      "allProbesRollback": true
+    },
+    "historicalSql001Through209Unchanged": true,
+    "oldPinJsonUnchanged": true
+  },
+  "owner209": {
+    "ok": true,
+    "offlineOnly": true,
+    "migrationCeiling": 209,
+    "migrations": 171,
+    "functions": 546,
+    "referenceSha256": "fb3c820d74d37320932e946ffc27609d9853adade1205e53b755071269722b86",
+    "hostedCommandsExecuted": false
+  },
+  "testingInfrastructureRepair": {
+    "scope": "5k suite only",
+    "explicitTurnstileTestCallback": true,
+    "phoneDrawerNavigation": true,
+    "uniqueInventoryFixtureNameInsteadOfHiddenSku": true,
+    "productionAuthUnchanged": true,
+    "assertionBudgetsUnchanged": true
+  },
+  "pending": [
+    "Owner decision on bounded read-only public receipt210;no SQL implemented",
+    "Exact feature push and draft PR FULL40 plus both secret scans",
+    "No merge before210 decision and final complete D verification",
+    "J then H only after D merge/main CI"
+  ]
+}

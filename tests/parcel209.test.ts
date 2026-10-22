@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import {inventoryBeforeTrialD} from '../scripts/audit/source-before-trial-sale-receipts.mjs';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
@@ -10,7 +11,6 @@ import type {Product} from '../src/types';
 import type {PosCartItem} from '../src/features/pos/posV2Cart';
 import type {AdminAftercareContext} from '../src/services/supabase/salesAftercare.service';
 import {parcel209Pins,sourceBeforeParcel209} from '../scripts/audit/source-before-parcel209.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
 import {assert209History} from '../scripts/operations/frankfurt-owner-upgrade209.mjs';
 import {assertReady209Catalog,assert209PublicationTransition} from '../scripts/operations/frankfurt-reference209.mjs';
@@ -59,8 +59,8 @@ test('209 exact inverse restores every touched source to deliveredA and rejects 
  for(const [file,pin]of Object.entries(parcel209Pins) as [string,{added?:boolean}][]){const current=read(file),restored=sourceBeforeParcel209(file,current);assert.throws(()=>sourceBeforeParcel209(file,current+'\nvoid unapproved;\n'));
   if(pin.added)assert.equal(restored,null);else{const baseline=execFileSync('git',['show','d7779f56dc0bdfe77091bb4881cbae4ad50ced3a:'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n');assert.equal(restored,baseline);assert.throws(()=>sourceBeforeParcel209(file,baseline+'\nvoid unapproved;\n'));}}
 });
-test('current209 SDK proof binds every actual source and role/query variant without historical projection',async()=>{
- const source=await inventory(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_209.json'));assert.equal(proof.migrationCeiling,209);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,source.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(source,proof.results));assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
+test('frozen209 SDK proof binds every accepted source and role/query variant through exact D inverse',async()=>{
+ const source=await inventoryBeforeTrialD(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_209.json'));assert.equal(proof.migrationCeiling,209);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,source.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(source,proof.results));assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
  for(const field of ['ok','ownerV5RestMutation','adminBarcodeMethod','noRoleRefused','readZeroWrites'])assert.equal(proof.parcel209Access[field],true);
  assert.deepEqual(proof.parcel209Access.publicInheritedMethods,[{role:'anon',rows:3,parcelOnly:true},{role:'authenticated',rows:3,parcelOnly:true}]);
 });

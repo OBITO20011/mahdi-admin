@@ -7,7 +7,8 @@ import {fetchParcelConfigurationContext, saveParcelConfiguration, setParcelFeatu
 const inputClass = 'mt-1 w-full rounded-lg border border-nw-border bg-nw-surface p-2 text-sm';
 const labels = {OFF:'متوقفة',OWNER_PILOT:'تجربة المالك فقط',ENABLED:'مفعّلة للجميع'};
 const flavorFamilies = (data: ParcelConfigurationContext) => data.products.filter(p =>
-  p.isFlavorMaster && p.components.some(c => c.productId !== p.familyProductId));
+  p.isFlavorMaster && p.components.some(c => c.productId !== p.familyProductId)
+  && p.configuration?.composition_mode!=='single_sku');
 export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamilyProductId?:string}) {
   const {roleName:role} = useAuthStore();
   const [context,setContext] = useState<ParcelConfigurationContext | null>(null);
@@ -21,7 +22,7 @@ export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamily
   const select = (data: ParcelConfigurationContext, id: string) => {
     const candidates = flavorFamilies(data);
     const p = candidates.find(product => product.familyProductId === id) ?? candidates[0];
-    setForm(p ? {familyProductId:p.familyProductId,mode:p.configuration?.composition_mode ?? 'configurable_mix',
+    setForm(p ? {familyProductId:p.familyProductId,mode:'configurable_mix',
       active:p.configuration?.is_active ?? false, units:p.unitsPerParcel,
       allowed:p.configuration ? [...p.allowedProductIds] : p.isFlavorMaster ? [] : [id]} : null);
   };
@@ -54,6 +55,16 @@ export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamily
     catch (reason) {setUncertain(true);setError(reason instanceof Error ? reason.message : 'تعذر تأكيد تغيير الحالة؛ أعد التحميل.');}
     finally {setBusy(false);}
   };
+  const disableLegacy = async (product:ParcelConfigurationContext['products'][number]) => {
+    if(busy||uncertain||product.configuration?.composition_mode!=='single_sku'||!product.configuration.is_active)return;
+    setBusy(true);setError('');setMessage('');
+    try{
+      await saveParcelConfiguration({familyProductId:product.familyProductId,mode:'single_sku',active:false,
+        units:product.unitsPerParcel,allowed:[...product.allowedProductIds]},product);
+      const data=await fetchParcelConfigurationContext();setContext(data);select(data,form?.familyProductId??'');setMessage('تم إيقاف الإعداد القديم؛ بيانات المبيعات السابقة محفوظة.');
+    }catch(reason){setUncertain(true);setError(reason instanceof Error?reason.message:'تعذر تأكيد الإيقاف؛ أعد تحميل الإعداد.');}
+    finally{setBusy(false);}
+  };
   if (role !== 'owner') return <p role="alert">إعداد الطرود متاح للمالك فقط.</p>;
   const product=context?.products.find(p=>p.familyProductId===form?.familyProductId);
   const missingCandidates=(context ? flavorFamilies(context) : []).flatMap(p=>p.configuration?.is_active
@@ -85,11 +96,8 @@ export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamily
             {flavorFamilies(context).map(p=><option key={p.familyProductId} value={p.familyProductId}>{p.nameAr} — {p.sku}</option>)}
           </select></label>
           {form && product && <>
-            <label>نمط الطرد<select className={inputClass} value={form.mode} onChange={e=>{const mode=e.target.value as ParcelConfigurationInput['mode'];setForm({...form,mode,allowed:mode==='single_sku'?[form.familyProductId]:[]});}}>
-              <option value="single_sku">صنف واحد</option>{product.isFlavorMaster && <option value="configurable_mix">نكهات مختارة</option>}
-            </select></label>
             <label>كم حبة بالطرد<input className={inputClass} required type="number" min="1" step="1" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>
-            <label className="flex gap-2"><input type="checkbox" checked={form.active} onChange={e=>setForm({...form,active:e.target.checked})}/>متاح للبيع كطرد</label>
+            <label className="flex gap-2"><input type="checkbox" checked={form.active} onChange={e=>setForm({...form,active:e.target.checked})}/>متاح للبيع كطرد مشكّل</label>
             {form.mode==='configurable_mix' && <fieldset className="space-y-2"><legend>النكهات المسموحة</legend>
               {product.components.filter(p=>p.productId!==product.familyProductId).map(component=><label className="flex gap-2" key={component.productId}>
                 <input type="checkbox" checked={form.allowed.includes(component.productId)} onChange={e=>setForm({...form,allowed:e.target.checked?[...form.allowed,component.productId]:form.allowed.filter(id=>id!==component.productId)})}/>
@@ -101,6 +109,14 @@ export function ParcelConfigurationModal({initialFamilyProductId}:{initialFamily
           </>}
         </fieldset>
       </form>}
+      {context.products.some(p=>p.configuration?.composition_mode==='single_sku')&&<section aria-label="إعدادات الطرد القديمة" className="space-y-3 rounded-xl border border-nw-border p-3">
+        <h3 className="font-bold">إعدادات قديمة للقراءة فقط</h3>
+        <p className="text-sm text-nw-muted">الطرد العادي يُضبط من نموذج المنتج. تبقى هذه الإعدادات ومبيعاتها السابقة محفوظة؛ يمكنك إيقاف البيع الجديد بها.</p>
+        {context.products.filter(p=>p.configuration?.composition_mode==='single_sku').map(p=><article key={p.familyProductId} className="space-y-2 border-t border-nw-border pt-3">
+          <h4 className="font-bold">{p.nameAr}</h4><p>كم حبة بالطرد: {p.unitsPerParcel} · {p.configuration?.is_active?'متاح للبيع':'متوقف'}</p>
+          {p.configuration?.is_active&&<UiButton type="button" disabled={busy||uncertain} onClick={()=>void disableLegacy(p)}>إيقاف الإعداد القديم — {p.nameAr}</UiButton>}
+        </article>)}
+      </section>}
     </>}
   </FormFields>;
 }

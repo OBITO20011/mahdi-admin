@@ -20,8 +20,9 @@ test('no generic piece terminology in UI source; exact import-only compatibility
     if(file===compatibility)return false;
     let text=readFileSync(file,'utf8');
     if(approved.has(file)){
-      assert.equal(text.split('كم حبة بالطرد').length-1,1,file+' exact owner phrase once');
-      text=text.replace('كم حبة بالطرد','');
+      // D uses the same owner label in the editable form and saved legacy view.
+      assert.equal(text.split('كم حبة بالطرد').length-1,file==='src/features/more/ParcelConfigurationModal.tsx'?2:1,file+' exact owner phrase count');
+      text=text.replaceAll('كم حبة بالطرد','');
     }
     if(file==='src/features/products/ProductFormModal.tsx'){
       assert.equal(text.split('حبة مفردة').length-1,2,'exact owner sale-method label and validation');

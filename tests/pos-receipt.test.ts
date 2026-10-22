@@ -43,12 +43,14 @@ test('POS receipt share text contains the saved wholesale sale details', () => {
 
 test('POS buttons print and share instead of showing simulated alerts', () => {
   const view = readFileSync('src/features/pos/PosView.tsx', 'utf8');
-  assert.match(view, /window\.print\(\)/);
+  const dialog=readFileSync('src/features/receipts/SaleReceiptDialog.tsx','utf8');
+  const template=readFileSync('customer-web/src/receipts/ReceiptDocument.tsx','utf8');
+  assert.match(dialog, /window\.print\(\)/);
   assert.match(view, /navigator\.share/);
   assert.match(view, /getOrCreatePublicPosReceiptUrlFromSupabase/);
-  assert.match(view, /نسخ الرابط/);
+  assert.match(dialog, /نسخ الرابط/);
   assert.match(view, /api\.whatsapp\.com\/send/);
-  assert.match(view, /@page \{ size: 80mm auto/);
+  assert.match(template, /@page \{ size:80mm auto/);
   assert.doesNotMatch(view, /جاري إرسال الأمر لطابعة/);
   assert.doesNotMatch(view, /تم إنشاء رابط الإيصال الإلكتروني/);
 });
@@ -59,5 +61,6 @@ test('saved base-unit name wins over product package label in print/share',()=>{
    subtotal:11,discount:0,totalAmount:11,paymentMethod:'cash',paidAmount:11,remainingAmount:0,changeDue:0});
  assert.match(text,/مياه: 2 قنينة/);assert.match(text,/رز: 1 شوال/);
  const view=readFileSync('src/features/pos/PosView.tsx','utf8');
- assert.match(view,/i\.quantity\} \{i\.unit \|\| i\.salePackage \|\| 'طرد'/);
+ assert.match(view,/SaleReceiptDialog/);
+ const adapter=readFileSync('src/features/receipts/saleReceipt.ts','utf8');assert.match(adapter,/baseUnitName:item.baseUnitName/);
 });

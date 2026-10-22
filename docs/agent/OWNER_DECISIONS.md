@@ -1,3 +1,7 @@
+#22Oct — owner trial batch2 authorized: D then J then H
+
+A/B delivered main581cb97. Implement separate D UI-only receipts/card methods/reprint/formed configuration,then J approved supplier disposition/reclassification DB,then H official brand/assets/SEO. Own worktree/PR/FULLCI/merge/mainCI/Gitleaks0/checkpoint each. No hostedaccess/deploy. D public legacy reader lacks saved kind/composition;bounded read-only210 proposal awaits owner approval (no SQL implemented). Read TRIAL_OWNER_D_J_H_AR.md.
+
 #22Oct — owner package B209 authorized after A delivery
 
 A PR14/main d7779f5 exact FULL39/secrets accepted. B only in codex/trial-sale-methods:complete C8 parcel_only,209 DB guards/locks/replay/legacy/replacement/import plus unified product sale-method section (parcel/single required-one,formed capability via existing owner RPC or real state+direct family link). Own PR/FULLCI/merge/mainCI/Gitleaks0/checkpoint. Owner209 command prepared only;no hostedaccess/deploy. Initial ceiling208 until additive209 is introduced;001-208/oldpins/references immutable. Read TRIAL_OWNER_B.md and design/PARCEL_ONLY_C8_DESIGN_AR.md.

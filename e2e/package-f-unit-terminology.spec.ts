@@ -29,12 +29,12 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`base
 for(const theme of ['light','dark'])for(const width of [390,820,1440])test(`POS content label ${theme} ${width}: packet default then real product unit`,async({page})=>{
   await page.setViewportSize({width,height:900});
   await page.goto(`/e2e/package-f-pos-harness.html?theme=${theme}&base-unit=sack`);
-  await expect(page.getByRole('radio',{name:'باكيت',exact:true})).toBeVisible();
+  await expect(page.locator('[data-pos-add-method="base_unit"]').first()).toContainText('+ شوال');
   if(width<1024)await page.getByRole('button',{name:'مراجعة السلة والعميل',exact:true}).click();
   await expect(page.getByTestId('pos-cart-base-units').filter({visible:true})).toHaveText('0 باكيت');
   if(width<1024)await page.getByRole('button',{name:'رجوع للبيع',exact:true}).click();
   await page.locator('[data-pos-product-card]').first().click();
-  await expect(page.getByRole('radio',{name:'شوال',exact:true})).toBeVisible();
+  await expect(page.locator('[data-pos-add-method="base_unit"]').first()).toContainText('+ شوال');
   if(width<1024)await page.getByRole('button',{name:'مراجعة السلة والعميل',exact:true}).click();
   await expect(page.getByTestId('pos-cart-base-units').filter({visible:true})).toHaveText('24 شوال');
   await expect(page.getByTestId('pos-workbench')).not.toContainText(/وحدة الصنف|وحدات صغرى/u);

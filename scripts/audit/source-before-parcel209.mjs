@@ -1,5 +1,6 @@
 // Exact additive inverse over delivered main d7779f5; older evidence stays immutable.
 import assert from 'node:assert/strict';
+import {sourceBeforeTrialD,restoreTrialDSourceHashes,projectTrialDQuerySites} from './source-before-trial-sale-receipts.mjs';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 export const parcel209Pins=JSON.parse(readFileSync(new URL('./parcel209-hunks.json',import.meta.url),'utf8')).entries;
@@ -10,7 +11,8 @@ for(const name of ['trial-owner-a','pretrial-p1','supplier-replacement208','corr
  }
 }
 export function sourceBeforeParcel209(file,text){
- const source=text.replaceAll('\r\n','\n'),pin=parcel209Pins[file];if(!pin)return source;
+ const source=sourceBeforeTrialD(file,text);if(source===null)return null;
+ const pin=parcel209Pins[file];if(!pin)return source;
  const digest=hash(source);if(digest===pin.before||olderHashes.get(file)?.has(digest))return source;
  assert.equal(digest,pin.after,(pin.errorPrefix??'PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:')+file);
  if(pin.added)return null;
@@ -20,7 +22,7 @@ export function sourceBeforeParcel209(file,text){
  }
  const restored=lines.join('\n');assert.equal(hash(restored),pin.before,'PARCEL209_ENTIRE_RESTORED_FILE_CHANGED:'+file);return restored;
 }
-export function restoreParcel209SourceHashes(sources){return sources.flatMap(s=>{
+export function restoreParcel209SourceHashes(sources){return restoreTrialDSourceHashes(sources).flatMap(s=>{
  const pin=parcel209Pins[s.file];if(!pin||s.sha256===pin.before||olderHashes.get(s.file)?.has(s.sha256))return [s];
  assert.equal(s.sha256,pin.after,'PARCEL209_SOURCE_HASH:'+s.file);
  const text=sourceBeforeParcel209(s.file,readFileSync(new URL('../../'+s.file,import.meta.url),'utf8'));
@@ -30,11 +32,13 @@ export function restoreParcel209SourceHashes(sources){return sources.flatMap(s=>
 // current SDK gate still verifies every real site and every role/variant.
 export function projectParcel209QuerySites(source,parseSource){
  assert.equal(typeof parseSource,'function','PARCEL209_SOURCE_PARSER_REQUIRED');
+ source=projectTrialDQuerySites(source,parseSource);
  const entries=[];
  for(const file of new Set(source.entries.map(e=>e.file))){
   const supplied=source.entries.filter(e=>e.file===file),pin=parcel209Pins[file];
   if(!pin){entries.push(...supplied);continue;}
-  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\r\n','\n');
+  const raw=sourceBeforeTrialD(file,readFileSync(new URL('../../'+file,import.meta.url),'utf8'));
+  assert.notEqual(raw,null,'PARCEL209_QUERY_FILE_REQUIRED');
   const before=sourceBeforeParcel209(file,raw),entry=source.sources.find(s=>s.file===file);
   assert.ok(entry,'HISTORICAL_QUERY_SOURCE_REQUIRED:PARCEL209:'+file);
   if(entry.sha256!==hash(raw)){

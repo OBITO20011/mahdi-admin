@@ -3,11 +3,47 @@
   "files": [
     {
       "code": " M",
+      "path": "docs/agent/OWNER_DECISIONS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/PHASE_STATUS.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/PROJECT_OVERVIEW.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent/project-state.json"
+    },
+    {
+      "code": " M",
       "path": "docs/agent/TRIAL_OWNER_B.md"
     },
     {
       "code": " M",
-      "path": "docs/operations/TRIAL_OWNER_B_LOCAL.json"
+      "path": "docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/SERVICE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
+    },
+    {
+      "code": " M",
+      "path": "e2e/admin-large-catalog-performance.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/orders-focus-restoration.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-d-pos-fullstack.spec.ts"
     },
     {
       "code": " M",
@@ -15,7 +51,195 @@
     },
     {
       "code": " M",
-      "path": "scripts/audit/parcel209-hunks.json"
+      "path": "e2e/package-d-settings.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-cheques.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-orders.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-pos-harness.tsx"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-pos.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-sales-history204.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/package-f-unit-terminology.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "e2e/phase6-package-c.spec.ts"
+    },
+    {
+      "code": " M",
+      "path": "scripts/audit/source-before-parcel209.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/build-acl-reference209.mjs"
+    },
+    {
+      "code": " M",
+      "path": "scripts/operations/frankfurt-reference209.mjs"
+    },
+    {
+      "code": " M",
+      "path": "src/features/more/ParcelConfigurationModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/OrderCommercialSummary.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/orders/OrderDetailModal.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/features/pos/posV2Cart.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/features/pos/PosView.tsx"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/orders.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/services/supabase/pos.service.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/types/index.ts"
+    },
+    {
+      "code": " M",
+      "path": "src/utils/receipt.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/package-f-inventory.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/package-f-orders.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/package-f-pos.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/parcel209.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pos-receipt.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/pretrial-p1.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/supplier-replacement208-evidence.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/trial-owner-a.test.ts"
+    },
+    {
+      "code": " M",
+      "path": "tests/unit-terminology.test.ts"
+    },
+    {
+      "code": "??",
+      "path": "customer-web/src/receipts/commercialReceipt.ts"
+    },
+    {
+      "code": "??",
+      "path": "customer-web/src/receipts/ReceiptDocument.tsx"
+    },
+    {
+      "code": "??",
+      "path": "docs/agent/TRIAL_OWNER_D_J_H_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TABLE_ACCESS_AFTER_TRIAL_D.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TRIAL_OWNER_B_DELIVERY.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TRIAL_OWNER_B_FEATURE_CI.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TRIAL_OWNER_B_MAIN_CI.json"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TRIAL_OWNER_D_LOCAL_AR.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/operations/TRIAL_OWNER_D_LOCAL.json"
+    },
+    {
+      "code": "??",
+      "path": "e2e/package-f-trial-sale-receipts.spec.ts"
+    },
+    {
+      "code": "??",
+      "path": "e2e/trial-d-receipt-harness.html"
+    },
+    {
+      "code": "??",
+      "path": "e2e/trial-d-receipt-harness.tsx"
+    },
+    {
+      "code": "??",
+      "path": "e2e/trial-d-receipt.fixture.ts"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/source-before-trial-sale-receipts.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/audit/trial-sale-receipts-hunks.json"
+    },
+    {
+      "code": "??",
+      "path": "src/features/pos/PosProductCard.tsx"
+    },
+    {
+      "code": "??",
+      "path": "src/features/receipts/saleReceipt.ts"
+    },
+    {
+      "code": "??",
+      "path": "src/features/receipts/SaleReceiptDialog.tsx"
+    },
+    {
+      "code": "??",
+      "path": "tests/trial-sale-receipts.test.ts"
     }
   ]
 }

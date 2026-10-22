@@ -22,14 +22,28 @@ export function posWarehouseAvailable(product: Product, warehouseId: string): nu
   const balance = product.warehouseBalances?.find(b => b.warehouseId === warehouseId);
   return balance ? balance.availableQuantity : product.warehouseId === warehouseId ? product.availableQuantity : 0;
 }
-export function posV2Invoice(sale: PosV2SaleResult, actor: {id: string; name: string}, createdAt: string): Invoice & {changeDue: number} {
+export function receiptBaseUnitNames(value:unknown):ReadonlyMap<string,string>{
+  const data=value&&typeof value==='object'?value as Record<string,unknown>:{};
+  return new Map((Array.isArray(data.order_items)?data.order_items:[]).flatMap((row:unknown)=>{
+    if(!row||typeof row!=='object')return [];const item=row as Record<string,unknown>;
+    return typeof item.id==='string'&&typeof item.base_unit_name_snapshot==='string'&&item.base_unit_name_snapshot.trim()
+      ?[[item.id,item.base_unit_name_snapshot.trim()] as const]:[];
+  }));
+}
+export function posV2Invoice(sale: PosV2SaleResult, actor: {id: string; name: string}, createdAt: string,baseUnits:ReadonlyMap<string,string>=new Map()): Invoice & {changeDue: number} {
   const items = sale.items as Array<Record<string, any>>;
   return {id: sale.orderId, invoiceNumber: sale.orderNumber, orderId: sale.orderId, customerName: sale.customerName,
     items: items.map(i => ({id: i.id, productId: i.productId, productName: i.productName, sku: i.sku,
       productImage: '', unit: i.salePackage, unitPrice: i.unitPriceInMinorUnits / 1000,
       costPrice: i.cogsInMinorUnits / i.baseQuantity / 1000, quantity: i.quantity, baseQuantity: i.baseQuantity,
       unitsPerSalePackage: i.unitsPerSalePackage, salePackage: i.salePackage, discount: i.allocatedDiscountInMinorUnits / 1000,
-      totalPrice: i.lineTotalInMinorUnits / 1000, commercialLineKind: i.commercialLineKind})),
+      totalPrice: i.lineTotalInMinorUnits / 1000, commercialLineKind: i.commercialLineKind,
+      ...(baseUnits.has(i.id)?{baseUnitName:baseUnits.get(i.id)}:{}),
+      ...(Array.isArray(i.parcelInstances)&&i.parcelInstances.length?{parcelInstances:i.parcelInstances.map((p:Record<string,any>)=>({
+        id:p.instance_id,sequence:p.instance_sequence,unitName:'طرد',
+        components:(Array.isArray(p.components)?p.components:[]).map((c:Record<string,any>)=>({id:c.component_id,productId:c.product_id,
+          name:c.product_name_snapshot,sku:c.sku_snapshot,unitName:c.base_unit_name_snapshot,quantity:c.base_quantity})),
+      }))}:{})})),
     subtotal: sale.subtotalInMinorUnits / 1000, discount: sale.discountInMinorUnits / 1000, taxAmount: 0,
     totalAmount: sale.totalInMinorUnits / 1000, paidAmount: sale.amountPaidInMinorUnits / 1000,
     remainingAmount: (sale.totalInMinorUnits - sale.amountPaidInMinorUnits) / 1000, paymentMethod: sale.paymentMethod,

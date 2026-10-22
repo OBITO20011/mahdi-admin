@@ -68,9 +68,7 @@ test('POS existing three line modes send the exact typed request;no Card tender 
   await page.route('**/rest/v1/rpc/create_pos_sale_v2', async route => { requests.push(route.request().postDataJSON()); await route.abort('failed'); });
   await page.goto(url('theme=dark'));
   await product(page, 0).click();
-  await page.getByRole('radio', { name: 'باكيت', exact: true }).click();
-  await product(page, 1).click();
-  await page.getByRole('radio', { name: 'طرد مشكّل', exact: true }).click();
+  await page.locator(`[data-pos-product="${posFixtureProducts[1].id}"] [data-pos-add-method="base_unit"]`).click();
   await page.getByRole('button', { name: 'تركيب طرد: طرد شيبس مشكّل', exact: true }).click();
   const builder = page.getByRole('dialog', { name: 'تركيب طرد: طرد شيبس مشكّل' });
   await builder.getByLabel('كمية عينة').fill('10'); await builder.getByLabel('كمية شطة').fill('20');
@@ -120,7 +118,7 @@ test('POS unknown result reload uses only RECOVER_EXISTING with the original req
 
 for(const width of [390,1440])test('209 POS parcel only barcode search and selection keeps parcel quantity and price '+width,async({page})=>{
  await page.setViewportSize({width,height:1000});await page.goto(url('parcelOnly=1'));
- await expect(product(page,0)).toContainText('طرد فقط');await expect(page.getByRole('radio',{name:'باكيت',exact:true})).toHaveCount(0);
+ await expect(page.locator(`[data-pos-product="${posFixtureProducts[0].id}"]`)).toContainText('طرد فقط');await expect(page.getByRole('radio',{name:'باكيت',exact:true})).toHaveCount(0);
  const search=page.getByPlaceholder('ابحث باسم المنتج أو الباركود أو رمز الصنف...');await search.fill(posFixtureProducts[0].barcode);
  await expect(page.locator('[data-pos-product-card]:visible')).toHaveCount(1);await product(page,0).click();
  if(width===390)await page.getByRole('button',{name:'مراجعة السلة والعميل',exact:true}).click();

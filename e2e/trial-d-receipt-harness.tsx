@@ -1,0 +1,15 @@
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import '../src/index.css';
+import {OrderDetailModal} from '../src/features/orders/OrderDetailModal';
+import {authStoreEngine,type AuthState} from '../src/stores/useAuthStore';
+import {storeEngine,type AppState} from '../src/stores/useAppStore';
+import {trialDOrder} from './trial-d-receipt.fixture';
+const params=new URLSearchParams(location.search);
+const auth=authStoreEngine as unknown as {state:AuthState;getState:()=>AuthState;initAuth:()=>Promise<void>};
+auth.state={...auth.getState(),roleName:'owner',roles:['owner'],isLoading:false,isAuthenticated:true};
+auth.initAuth=async()=>undefined;
+const engine=storeEngine as unknown as {state:AppState};
+engine.state={...engine.state,branches:[{id:trialDOrder.branchId,name:'فرع التجربة',address:'شارع التجربة',phone:'',city:'الرمثا',isMain:true}]};
+const order={...trialDOrder,source:params.has('website')?'website':'pos',publicReceiptUrl:params.has('no-link')?undefined:trialDOrder.publicReceiptUrl};
+createRoot(document.getElementById('root')!).render(<main dir="rtl" className="mx-auto max-w-2xl p-4"><OrderDetailModal order={order} historyContext onClose={()=>undefined}/></main>);
