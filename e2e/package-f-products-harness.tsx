@@ -55,7 +55,7 @@ client.rpc=(name,args)=>{
  if(name==='get_admin_parcel_configuration_context_v1')return Promise.resolve({data:{featureState:'ENABLED',products:[
  {familyProductId:products[0].id,nameAr:products[0].nameAr,sku:products[0].sku,isFlavorMaster:false,unitsPerParcel:24,parcelPriceInMinorUnits:21600,
  configuration:{id:'88888888-8888-4888-8888-000000000090',composition_mode:'single_sku',is_active:true,configuration_revision:2},
- allowedProductIds:[products[0].id],components:[{productId:products[0].id,nameAr:products[0].nameAr,sku:products[0].sku,flavorNameAr:null,packetPriceInMinorUnits:900}]},
+ allowedProductIds:[products[0].id],components:[{productId:products[0].id,nameAr:products[0].nameAr,sku:products[0].sku,flavorNameAr:null,packetPriceInMinorUnits:params.has('trialA')?0:900}]},
  {familyProductId:familyId,nameAr:'عائلة شيبس بنكهاته',sku:'MIX-001',isFlavorMaster:true,unitsPerParcel:24,parcelPriceInMinorUnits:24000,
  configuration:{id:'88888888-8888-4888-8888-000000000091',composition_mode:'configurable_mix',is_active:true,configuration_revision:3},
  allowedProductIds:[products[5].id,products[6].id],components:products.slice(5).map(p=>({productId:p.id,nameAr:p.nameAr,sku:p.sku,flavorNameAr:p.flavorNameAr??null,packetPriceInMinorUnits:p.id===products[6].id?0:1000}))}
@@ -72,7 +72,7 @@ function Harness(){
  const target=(data&&'product' in data?data.product:data??chosen) as typeof chosen;
  const form=modal==='form'||modal==='add_product'||modal==='edit_product';
  const detail=modal==='detail'||modal==='view_product',stock=modal==='stock',parcel=modal==='parcel';
- const title=form?'بيانات المنتج':detail?'تفاصيل المنتج':stock?'تعديل المخزون':'إعداد الطرود المرنة';
+ const title=form?'بيانات المنتج':detail?'تفاصيل المنتج':stock?'تعديل المخزون':'الطرد المشكّل (خلط النكهات)';
  return <main dir="rtl" data-testid="products-workbench" className="min-h-[100dvh] bg-nw-bg font-sans text-nw-text">
   <nav aria-label="شاشات المعاينة" className="flex flex-wrap gap-2 p-4">
    {['products','detail','form','stock','parcel'].map((key,i)=><UiButton key={key} onClick={()=>{storeEngine.closeModal();setView(key);}}>{['المنتجات','تفاصيل','نموذج المنتج','تعديل مخزون','إعداد الطرود'][i]}</UiButton>)}

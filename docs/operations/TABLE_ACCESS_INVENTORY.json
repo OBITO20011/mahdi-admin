@@ -57,7 +57,7 @@
     },
     {
       "file": "src/components/modals/AllModals.tsx",
-      "sha256": "2d6e80fccf277db571adb62bcf15d2c116d98355176526365370b125e3b173a0"
+      "sha256": "f9186561a9dc6c41ba8fbcf7c8365f276819102cab360120fcd1cad9481a8f53"
     },
     {
       "file": "src/components/modals/BrandsModal.tsx",
@@ -273,7 +273,7 @@
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
-      "sha256": "a751598e367a18d71e46ec32ecd395ab435f63880f606fda1811e60658a61991"
+      "sha256": "be388ae692d48a7d568d974e91cb6de1497225d4308d33cc96507a923a14e783"
     },
     {
       "file": "src/features/directReceiving/RecordSupplierPaymentModal.tsx",
@@ -282,6 +282,10 @@
     {
       "file": "src/features/directReceiving/SupplierReceiptDetailView.tsx",
       "sha256": "05d786499ae7469151ceafad0f1def09d1d08499da8522a65dbe6ddcaaced82e"
+    },
+    {
+      "file": "src/features/directReceiving/SupplierReceiptItemsPreview.tsx",
+      "sha256": "7db554563d60e725ed02e23240b3884573c24da9603b00ff2deaf0bd8274e7c5"
     },
     {
       "file": "src/features/directReceiving/SupplierReceiptLines.tsx",
@@ -345,7 +349,7 @@
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
-      "sha256": "eb4b212340af0903dbb9b40a974bc721381b6ef6402cde92e0bb9a5bd64fda77"
+      "sha256": "f69efb0fc768c729c971c5ee82db65475fdbd628f972f39152322d1de851d991"
     },
     {
       "file": "src/features/more/DamageProductSelection.tsx",
@@ -365,7 +369,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "641c6160e9c1d56f8c8e51b2fd6f40c1e7e340f2bac325e64881204b0d6d6dd6"
+      "sha256": "ee137fff81edfe7305241e05893260d95302d4328b3c465ff5f81ef8d511ac49"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -445,7 +449,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "d77bb2e3e36c2c59230ec9f97c9f770bf3b1195ba43573c4558dc9ac4de362af"
+      "sha256": "4a3ae8b63a84245dfcb6964b9f6ca760f5033ec5f986f7b2ec6db7078b9fae19"
     },
     {
       "file": "src/features/products/ProductsView.tsx",
@@ -665,7 +669,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "sha256": "9c6a75283a2060049d0fee91ae436806f1de4ffe9825b464e341a5e216baa246"
+      "sha256": "c685687284e83f8ee732aafa252fbdcd9c79dfee04cb8810b94fa62262bb01cc"
     },
     {
       "file": "src/services/supabase/documentCorrections.service.ts",
@@ -786,6 +790,10 @@
     {
       "file": "src/services/supabase/storefront-settings.service.ts",
       "sha256": "ea2ea5e5d41b0f024055ccab9932dd12a343464256a458edcfe2047322148470"
+    },
+    {
+      "file": "src/services/supabase/supplierReceiptSearch.ts",
+      "sha256": "e73e0e5384fe7b677fe1400835ffb2604df85f9f68f0359297af35291187cfd2"
     },
     {
       "file": "src/services/supabase/supplierReplacement.service.ts",
@@ -1073,7 +1081,7 @@
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
-      "sha256": "736c33e60587fe760b4ec84d844c32457b5a791e1245a6dee812c05174fc4e7f"
+      "sha256": "c69b251b0650226b2f4ebe47e57808c018ccdb6c43be5028309cc46738d147ba"
     },
     {
       "file": "customer-web/src/components/ProductImage.tsx",
@@ -1478,9 +1486,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:211",
+      "id": "src/services/supabase/directReceiving.service.ts:229",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 211,
+      "line": 229,
       "table": "supplier_receipts",
       "operation": "select",
       "role": "authenticated",
@@ -1530,9 +1538,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:538",
+      "id": "src/services/supabase/directReceiving.service.ts:556",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 538,
+      "line": 556,
       "table": "suppliers",
       "operation": "select",
       "role": "authenticated",
@@ -1577,9 +1585,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:612",
+      "id": "src/services/supabase/directReceiving.service.ts:630",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 612,
+      "line": 630,
       "table": "units",
       "operation": "select",
       "role": "authenticated",
@@ -1616,9 +1624,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:627",
+      "id": "src/services/supabase/directReceiving.service.ts:645",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 627,
+      "line": 645,
       "table": "warehouses",
       "operation": "select",
       "role": "authenticated",
@@ -1663,9 +1671,9 @@
       "reachability": "has-source-consumer"
     },
     {
-      "id": "src/services/supabase/directReceiving.service.ts:647",
+      "id": "src/services/supabase/directReceiving.service.ts:665",
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 647,
+      "line": 665,
       "table": "branches",
       "operation": "select",
       "role": "authenticated",
@@ -3161,6 +3169,119 @@
       "reachability": "has-source-consumer"
     },
     {
+      "id": "src/services/supabase/supplierReceiptSearch.ts:17",
+      "file": "src/services/supabase/supplierReceiptSearch.ts",
+      "line": 17,
+      "table": "supplier_receipts",
+      "operation": "select",
+      "role": "authenticated",
+      "roleEvidence": "src/lib/supabase session client; authenticated ERP user",
+      "screen": "supplierReceiptSearch.ts",
+      "function": "searchSupplierReceiptRows",
+      "receiver": "client",
+      "calls": [
+        {
+          "method": "select",
+          "args": [
+            "`\n    *, suppliers(company_name,phone), warehouses(name_ar), branches(name_ar),\n    profiles!supplier_receipts_received_by_fkey(full_name),\n    supplier_receipt_items(*,products(name_ar,sku,barcode)),\n    search_supplier:suppliers(),\n    search_items:supplier_receipt_items(products!inner())\n  `",
+            "{count: 'exact'}"
+          ]
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'is_archived'",
+            "params.isArchived ?? false"
+          ]
+        },
+        {
+          "method": "ilike",
+          "args": [
+            "'search_supplier.company_name'",
+            "pattern"
+          ]
+        },
+        {
+          "method": "ilike",
+          "args": [
+            "'search_items.products.name_ar'",
+            "pattern"
+          ]
+        },
+        {
+          "method": "or",
+          "args": [
+            "`receipt_number.ilike.${literal},supplier_invoice_number.ilike.${literal},search_supplier.not.is.null,search_items.not.is.null`"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'received_at'",
+            "{ascending: false}"
+          ]
+        },
+        {
+          "method": "order",
+          "args": [
+            "'id'",
+            "{ascending: false}"
+          ]
+        },
+        {
+          "method": "range",
+          "args": [
+            "(params.page - 1) * params.pageSize",
+            "params.page * params.pageSize - 1"
+          ]
+        }
+      ],
+      "extensions": [
+        {
+          "method": "eq",
+          "args": [
+            "'supplier_id'",
+            "params.supplierId"
+          ],
+          "conditional": true,
+          "line": 30
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'warehouse_id'",
+            "params.warehouseId"
+          ],
+          "conditional": true,
+          "line": 31
+        },
+        {
+          "method": "eq",
+          "args": [
+            "'payment_status'",
+            "params.paymentStatus"
+          ],
+          "conditional": true,
+          "line": 32
+        }
+      ],
+      "constants": {},
+      "source": "client.from('supplier_receipts').select(`\n    *, suppliers(company_name,phone), warehouses(name_ar), branches(name_ar),\n    profiles!supplier_receipts_received_by_fkey(full_name),\n    supplier_receipt_items(*,products(name_ar,sku,barcode)),\n    search_supplier:suppliers(),\n    search_items:supplier_receipt_items(products!inner())\n  `, {count: 'exact'})\n    .eq('is_archived', params.isArchived ?? false)\n    .ilike('search_supplier.company_name', pattern)\n    .ilike('search_items.products.name_ar', pattern)\n    .or(`receipt_number.ilike.${literal},supplier_invoice_number.ilike.${literal},search_supplier.not.is.null,search_items.not.is.null`)\n    .order('received_at', {ascending: false}).order('id', {ascending: false})\n    .range((params.page - 1) * params.pageSize, params.page * params.pageSize - 1)",
+      "embeddedTables": [
+        "branches",
+        "products",
+        "profiles",
+        "supplier_receipt_items",
+        "suppliers",
+        "warehouses"
+      ],
+      "callers": [
+        "src/services/supabase/directReceiving.service.ts"
+      ],
+      "screenPaths": [],
+      "reachability": "has-source-consumer"
+    },
+    {
       "id": "supabase/functions/send-order-push/index.ts:87",
       "file": "supabase/functions/send-order-push/index.ts",
       "line": 87,
@@ -3486,7 +3607,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 679,
+      "line": 697,
       "event": "*",
       "schema": "public",
       "table": "supplier_payments",
@@ -3496,7 +3617,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 679,
+      "line": 697,
       "event": "*",
       "schema": "public",
       "table": "supplier_receipt_items",
@@ -3506,7 +3627,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "line": 679,
+      "line": 697,
       "event": "*",
       "schema": "public",
       "table": "supplier_receipts",
@@ -3613,7 +3734,7 @@
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
-      "line": 635,
+      "line": 647,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
@@ -3628,12 +3749,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "line": 436,
-      "reason": "JavaScript Array/typed-array, not Supabase"
-    },
-    {
-      "file": "src/features/products/ProductFormModal.tsx",
-      "line": 1063,
+      "line": 1058,
       "reason": "JavaScript Array/typed-array, not Supabase"
     },
     {
@@ -3787,7 +3903,7 @@
     }
   ],
   "totals": {
-    "queries": 50,
+    "queries": 51,
     "tableNames": [
       "branches",
       "brands",
@@ -3820,7 +3936,7 @@
       "user_roles",
       "warehouses"
     ],
-    "authenticated": 43,
+    "authenticated": 44,
     "service_role": 7,
     "anon": 0,
     "subscriptions": 20

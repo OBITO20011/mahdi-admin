@@ -3,123 +3,75 @@
   "files": [
     {
       "code": "A ",
-      "path": "docs/agent/PRETRIAL_P1.md"
+      "path": "docs/agent/TRIAL_OWNER_A.md"
     },
     {
       "code": "A ",
-      "path": "docs/design/PRETRIAL_P1_DELIVERY_AR.md"
+      "path": "docs/operations/FRANKFURT_LEGACY_READERS208_OWNER.sql"
     },
     {
       "code": "A ",
-      "path": "docs/design/PRETRIAL208_CAPABILITIES_AR.md"
+      "path": "docs/operations/FRANKFURT_READER_ACL208_AR.md"
     },
     {
       "code": "A ",
-      "path": "docs/design/PRETRIAL208_COVERAGE_AR.md"
+      "path": "docs/operations/FRANKFURT_READER_ACL208_OWNER.sql"
     },
     {
       "code": "A ",
-      "path": "docs/design/PRETRIAL208_REVIEW_AR.md"
+      "path": "docs/operations/FRANKFURT_READER_ACL208_PREPARED.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE208_AR.md"
+      "path": "docs/operations/PRETRIAL_P1_MAIN_CI.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/FRANKFURT_OWNER_UPGRADE208_PREPARED.json"
+      "path": "docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/PRETRIAL_P1_CI_REPAIR.json"
+      "path": "docs/operations/TRIAL_DAY_CHECKLIST_AR.md"
     },
     {
       "code": "A ",
-      "path": "docs/operations/PRETRIAL_P1_DELIVERY.json"
+      "path": "docs/operations/TRIAL_OWNER_A_DELIVERY.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/PRETRIAL_P1_FEATURE_CI.json"
+      "path": "e2e/package-f-trial-owner-a.spec.ts"
     },
     {
       "code": "A ",
-      "path": "docs/operations/PRETRIAL_P1_PWA.json"
+      "path": "scripts/audit/source-before-trial-owner-a.mjs"
     },
     {
       "code": "A ",
-      "path": "docs/operations/PRETRIAL208_AUDIT.json"
+      "path": "scripts/audit/trial-owner-a-hunks.json"
     },
     {
       "code": "A ",
-      "path": "docs/operations/PRETRIAL208_BROWSER_OBSERVATIONS.json"
+      "path": "scripts/testing/trial-a-receipt-search-contract.mjs"
     },
     {
       "code": "A ",
-      "path": "docs/operations/PRETRIAL208_CLICK_MEASUREMENTS.json"
+      "path": "src/features/directReceiving/SupplierReceiptItemsPreview.tsx"
     },
     {
       "code": "A ",
-      "path": "docs/operations/PRETRIAL208_PWA.json"
+      "path": "src/services/supabase/supplierReceiptSearch.ts"
     },
     {
       "code": "A ",
-      "path": "docs/operations/PRETRIAL208_RPC_REVIEW.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/PRETRIAL208_TERMINOLOGY.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/PRETRIAL208_UI_INVENTORY.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/SUPPLIER_REPLACEMENT208_MAIN_CI.json"
-    },
-    {
-      "code": "A ",
-      "path": "docs/operations/TABLE_ACCESS_AFTER_PRETRIAL_P1.json"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/package-f-pretrial-p1.spec.ts"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/pretrial-p1-harness.html"
-    },
-    {
-      "code": "A ",
-      "path": "e2e/pretrial-p1-harness.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/pretrial-p1-hunks.json"
-    },
-    {
-      "code": "A ",
-      "path": "scripts/audit/source-before-pretrial-p1.mjs"
-    },
-    {
-      "code": "A ",
-      "path": "src/components/common/RejectionNotice.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "src/features/inventory/SupplierReplacementQuantities.tsx"
-    },
-    {
-      "code": "A ",
-      "path": "src/utils/rejectionMessage.ts"
-    },
-    {
-      "code": "A ",
-      "path": "tests/pretrial-p1.test.ts"
+      "path": "tests/trial-owner-a.test.ts"
     },
     {
       "code": "M ",
       "path": ".github/workflows/quality.yml"
+    },
+    {
+      "code": "M ",
+      "path": "customer-web/src/components/ProductDetailsModal.tsx"
     },
     {
       "code": "M ",
@@ -139,11 +91,15 @@
     },
     {
       "code": "M ",
-      "path": "docs/agent/SUPPLIER_REPLACEMENT_C9.md"
+      "path": "docs/design/PRETRIAL_P1_DELIVERY_AR.md"
     },
     {
       "code": "M ",
-      "path": "docs/agent/VERIFICATION_GATES.md"
+      "path": "docs/operations/PRETRIAL_P1_CI_REPAIR.json"
+    },
+    {
+      "code": "M ",
+      "path": "docs/operations/PRETRIAL_P1_DELIVERY.json"
     },
     {
       "code": "M ",
@@ -155,39 +111,35 @@
     },
     {
       "code": "M ",
-      "path": "docs/operations/SUPPLIER_REPLACEMENT208_DELIVERY.json"
-    },
-    {
-      "code": "M ",
       "path": "docs/operations/TABLE_ACCESS_INVENTORY.json"
     },
     {
       "code": "M ",
-      "path": "e2e/admin-large-catalog-performance.spec.ts"
+      "path": "e2e/customer-storefront-c6.spec.ts"
     },
     {
       "code": "M ",
-      "path": "e2e/package-f-purchasing.spec.ts"
+      "path": "e2e/package-d-settings-harness.tsx"
     },
     {
       "code": "M ",
-      "path": "e2e/package-f-supplier-replacement208.spec.ts"
+      "path": "e2e/package-d-settings.spec.ts"
     },
     {
       "code": "M ",
-      "path": "e2e/phase6-package-c.spec.ts"
+      "path": "e2e/package-f-product-receiving205.spec.ts"
     },
     {
       "code": "M ",
-      "path": "playwright.ci.config.ts"
+      "path": "e2e/package-f-products-harness.tsx"
     },
     {
       "code": "M ",
-      "path": "public/sw.js"
+      "path": "e2e/package-f-products.spec.ts"
     },
     {
       "code": "M ",
-      "path": "scripts/agent/verify-delivery-ci.mjs"
+      "path": "e2e/package-f-purchasing-harness.tsx"
     },
     {
       "code": "M ",
@@ -195,47 +147,19 @@
     },
     {
       "code": "M ",
-      "path": "scripts/audit/source-before-supplier-replacement208.mjs"
+      "path": "scripts/audit/run-table-access-diagnostic.mjs"
     },
     {
       "code": "M ",
-      "path": "scripts/operations/build-acl-reference208.mjs"
+      "path": "scripts/audit/source-before-pretrial-p1.mjs"
     },
     {
       "code": "M ",
-      "path": "scripts/operations/frankfurt-reference208.mjs"
+      "path": "scripts/audit/table-access-probes.mjs"
     },
     {
       "code": "M ",
-      "path": "scripts/testing/package-f-ci-shards.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/private-ci-scope.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/run-admin-pwa-release-update.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "scripts/testing/verify-browser-ci-partition.mjs"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/corrections/DocumentCorrectionAction.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/crm/CustomerAging.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/dashboard/ChartsSection.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/directReceiving/CreateDirectReceiptModal.tsx"
+      "path": "src/components/modals/AllModals.tsx"
     },
     {
       "code": "M ",
@@ -243,47 +167,11 @@
     },
     {
       "code": "M ",
-      "path": "src/features/directReceiving/SupplierReceiptDetailView.tsx"
+      "path": "src/features/more/adminNavigation.config.ts"
     },
     {
       "code": "M ",
-      "path": "src/features/inventory/ClearInventoryBalanceDialog.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/inventory/InventoryOpeningSetupModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/inventory/InventoryView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/inventory/StockCountModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/inventory/SupplierReplacementPanel.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/inventory/SupplierReplacementSummary.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/inventory/WarehouseTransferModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/pos/BarcodeScannerModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/pos/PosView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/products/ProductDetailModal.tsx"
+      "path": "src/features/more/ParcelConfigurationModal.tsx"
     },
     {
       "code": "M ",
@@ -291,51 +179,23 @@
     },
     {
       "code": "M ",
-      "path": "src/features/products/ProductsView.tsx"
+      "path": "src/services/supabase/directReceiving.service.ts"
     },
     {
       "code": "M ",
-      "path": "src/features/purchases/CreatePurchaseOrderModal.tsx"
+      "path": "tests/owner-warehouses.test.ts"
     },
     {
       "code": "M ",
-      "path": "src/features/purchases/PurchaseOrderDetailView.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/features/purchases/ReceiveGoodsModal.tsx"
-    },
-    {
-      "code": "M ",
-      "path": "src/pwa/pwa.ts"
-    },
-    {
-      "code": "M ",
-      "path": "src/utils/businessError.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/admin-mobile-ux-characterization.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/cheques195-parity.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/package-f-ci-shards.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/private-ci-budget.test.ts"
-    },
-    {
-      "code": "M ",
-      "path": "tests/product-flavors.test.ts"
+      "path": "tests/pretrial-p1.test.ts"
     },
     {
       "code": "M ",
       "path": "tests/supplier-replacement208-evidence.test.ts"
+    },
+    {
+      "code": "M ",
+      "path": "tests/unit-terminology.test.ts"
     }
   ]
 }

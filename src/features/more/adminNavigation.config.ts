@@ -89,7 +89,7 @@ const NAVIGATION_DEFINITIONS: readonly AdminNavigationGroup[] = [
     icon: Boxes,
     iconTone: 'border border-nw-info bg-nw-info-bg text-nw-info',
     items: [
-      {id:'parcel-configuration',label:'إعداد الطرود المرنة',description:'الأصناف وعدد القطع والنكهات وحالة الميزة',
+      {id:'parcel-configuration',label:'الطرد المشكّل (خلط النكهات)',description:'خلط نكهات المنتج في طرد؛ الطرد العادي من نموذج المنتج',
         icon:Package,tone:'bg-nw-info-bg text-nw-info',visibility:'owner',
         action:{type:'modal',destination:'parcel_configuration'}},
       {

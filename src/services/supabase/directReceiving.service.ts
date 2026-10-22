@@ -17,6 +17,7 @@ import {directReceiptV2Lines} from '../../utils/receivingV2';
 import {parseSupplierCancellationPreview} from '../../utils/supplierCancellationPreview';
 import {fetchSupplierReceiptDisplay} from './receivingPurchaseContext.service';
 import {receivingSaleQuote} from '../../utils/receivingPurchaseContext';
+import {searchSupplierReceiptRows} from './supplierReceiptSearch';
 
 export async function previewSupplierReceiptCancellation(receiptId: string) {
   if (!isSupabaseConfigured || !supabase) throw new Error('الاتصال بقاعدة البيانات غير متاح.');
@@ -153,10 +154,14 @@ export const fetchSupplierReceiptsFromSupabase = async (params?: {
   }
 
   try {
+    const search = params?.search?.trim() || '';
+    if (search.length > 100) return {...empty, error: 'عبارة البحث طويلة جدًا.'};
+    // Financial summary remains the authoritative RPC result for all receipts
+    // under the selected filters. Search rows/count are paginated by PostgreSQL.
     const { data, error } = await supabase.rpc('get_supplier_receipts_page', {
       p_page: page,
       p_page_size: pageSize,
-      p_search: params?.search?.trim() || null,
+      p_search: null,
       p_supplier_id: params?.supplierId || null,
       p_warehouse_id: params?.warehouseId || null,
       p_payment_status: params?.paymentStatus || 'all',
@@ -168,17 +173,30 @@ export const fetchSupplierReceiptsFromSupabase = async (params?: {
       return { ...empty, error: error.message };
     }
 
+    // Preserve the existing reader's role/MFA gate before dispatching the SDK search.
+    const searched = search ? await searchSupplierReceiptRows(supabase, {...params, page, pageSize, search}) : null;
+    if (searched?.error) return {...empty, error: searched.error.message};
+
     const payload = data && typeof data === 'object' ? data as {
       receipts?: unknown[];
       total_count?: unknown;
       summary?: Record<string, unknown>;
     } : {};
     const summary = payload.summary || {};
-    const totalCount = Math.max(0, Number(payload.total_count) || 0);
-    const receipts = (Array.isArray(payload.receipts) ? payload.receipts : []).map(mapSupplierReceiptRow);
+    const totalCount = Math.max(0, Number(searched ? searched.count : payload.total_count) || 0);
+    const receipts = (searched ? searched.data || [] : Array.isArray(payload.receipts) ? payload.receipts : []).map(mapSupplierReceiptRow);
+    const displayReceipts: SupplierReceipt[] = [];
+    // Existing205 snapshots describe commercial parcels. Physical item rows
+    // alone cannot reconstruct their original count after product-size edits.
+    for (let at = 0; at < receipts.length; at += 5) {
+      displayReceipts.push(...await Promise.all(receipts.slice(at, at + 5).map(async receipt => {
+        try { return {...receipt, displayLines: await fetchSupplierReceiptDisplay(receipt.id)}; }
+        catch (cause) { return {...receipt, displayError: cause instanceof Error ? cause.message : 'تعذر عرض كميات السند.'}; }
+      })));
+    }
     return {
       success: true,
-      data: receipts,
+      data: displayReceipts,
       page,
       pageSize,
       totalCount,

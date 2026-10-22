@@ -80,10 +80,10 @@ for(const theme of ['light','dark'])for(const width of [390,820,1440]){
    ['تفاصيل','تفاصيل المنتج','تعديل المنتج'],
    ['نموذج المنتج','بيانات المنتج','إنشاء المنتج'],
    ['تعديل مخزون','تعديل المخزون','تأكيد تعديل المخزون'],
-   ['إعداد الطرود','إعداد الطرود المرنة','حفظ إعداد الطرد'],
+   ['إعداد الطرود','الطرد المشكّل (خلط النكهات)','حفظ إعداد الطرد'],
   ]){
    await nav.getByRole('button',{name,exact:true}).click();const dialog=await stable(page);await expect(dialog).toHaveAccessibleName(title);
-   if(name==='إعداد الطرود')await expect(dialog.getByLabel('الصنف / العائلة')).toHaveValue('88888888-8888-4888-8888-000000000001');
+   if(name==='إعداد الطرود')await expect(dialog.getByLabel('الصنف / العائلة')).toHaveValue('88888888-8888-4888-8888-000000000005');
    await geometry(page,dialog);
    // Both themes/all surfaces get axe at phone width;all widths get full geometry/action checks.
    if(width===390)await accessibility(page);
@@ -111,6 +111,7 @@ test('family details and parcel configuration retain flavors and explicit owner 
  await dialog.getByRole('button',{name:'إغلاق',exact:true}).last().click();
  await dialog.getByRole('button',{name:'إغلاق',exact:true}).click();await expect(dialog).toHaveCount(0);
  await page.getByRole('navigation',{name:'شاشات المعاينة'}).getByRole('button',{name:'إعداد الطرود',exact:true}).click();dialog=await stable(page);
+ await dialog.getByText('متقدم: حالة الطرد المشكّل',{exact:true}).click();
  await dialog.getByLabel('حالة الميزة',{exact:true}).selectOption('OFF');await expect(dialog.getByRole('button',{name:'تأكيد تغيير حالة الميزة'})).toBeDisabled();
  await dialog.getByRole('checkbox',{name:'أؤكد تغيير الحالة إلى متوقفة'}).check();await expect(dialog.getByRole('button',{name:'تأكيد تغيير حالة الميزة'})).toBeEnabled();
  await dialog.getByLabel('الصنف / العائلة').selectOption('88888888-8888-4888-8888-000000000005');

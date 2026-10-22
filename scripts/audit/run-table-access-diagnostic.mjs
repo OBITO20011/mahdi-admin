@@ -82,6 +82,14 @@ try{
  const deadline=Date.now()+15000;while(true){try{const r=await fetch('http://127.0.0.1:25421/');if(r.status===200)break;}catch{/* readiness only */}
   if(Date.now()>deadline)throw Error('LOCAL_POSTGREST_NOT_READY');await new Promise(resolve=>setTimeout(resolve,100));}
  report.stage='actual-original-queries';console.log(JSON.stringify({stage:report.stage,queries:source.entries.length}));
+ if(process.argv.includes('--trial-owner-a-search')){
+  assert.equal(ceiling,208,'TRIAL_A_REQUIRES_CURRENT208');
+  report.stage='trial-a-receipt-search';
+  const {trialAReceiptSearchContract}=await import('../testing/trial-a-receipt-search-contract.mjs');
+  report.trialAReceiptSearch=await trialAReceiptSearchContract({executor,sql,json,ownerRpc,url:'http://127.0.0.1:25421',secret});
+  console.log(JSON.stringify({trialAReceiptSearch:report.trialAReceiptSearch}));
+ }
+ report.stage='actual-original-queries';
  for(const entry of source.entries){const actors=entry.role==='service_role'?[[1,'service_role']]:[[1,'owner'],[2,'admin'],[3,'cashier']];
   for(const [n,appRole] of actors)for(const extra of entry.extensions.length?[false,true]:[false]){
    const r=await replay(entry,{url:'http://127.0.0.1:25421',role:entry.role,actor:id(n),secret,scope:scopes(ids,id(n)),extra});r.appRole=appRole;report.results.push(r);

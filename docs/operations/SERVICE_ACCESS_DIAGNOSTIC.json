@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-10-21T22:05:03.976Z",
+  "startedAt": "2026-10-22T03:04:36.998Z",
   "migrationCeiling": 208,
   "managedAccess": false,
-  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-uIbNbp",
+  "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-service-access-Moht3r",
   "sourceHashes": [
     {
       "file": "src/App.tsx",
@@ -59,7 +59,7 @@
     },
     {
       "file": "src/components/modals/AllModals.tsx",
-      "sha256": "2d6e80fccf277db571adb62bcf15d2c116d98355176526365370b125e3b173a0"
+      "sha256": "f9186561a9dc6c41ba8fbcf7c8365f276819102cab360120fcd1cad9481a8f53"
     },
     {
       "file": "src/components/modals/BrandsModal.tsx",
@@ -275,7 +275,7 @@
     },
     {
       "file": "src/features/directReceiving/DirectReceivingView.tsx",
-      "sha256": "a751598e367a18d71e46ec32ecd395ab435f63880f606fda1811e60658a61991"
+      "sha256": "be388ae692d48a7d568d974e91cb6de1497225d4308d33cc96507a923a14e783"
     },
     {
       "file": "src/features/directReceiving/RecordSupplierPaymentModal.tsx",
@@ -284,6 +284,10 @@
     {
       "file": "src/features/directReceiving/SupplierReceiptDetailView.tsx",
       "sha256": "05d786499ae7469151ceafad0f1def09d1d08499da8522a65dbe6ddcaaced82e"
+    },
+    {
+      "file": "src/features/directReceiving/SupplierReceiptItemsPreview.tsx",
+      "sha256": "7db554563d60e725ed02e23240b3884573c24da9603b00ff2deaf0bd8274e7c5"
     },
     {
       "file": "src/features/directReceiving/SupplierReceiptLines.tsx",
@@ -347,7 +351,7 @@
     },
     {
       "file": "src/features/more/adminNavigation.config.ts",
-      "sha256": "eb4b212340af0903dbb9b40a974bc721381b6ef6402cde92e0bb9a5bd64fda77"
+      "sha256": "f69efb0fc768c729c971c5ee82db65475fdbd628f972f39152322d1de851d991"
     },
     {
       "file": "src/features/more/DamageProductSelection.tsx",
@@ -367,7 +371,7 @@
     },
     {
       "file": "src/features/more/ParcelConfigurationModal.tsx",
-      "sha256": "641c6160e9c1d56f8c8e51b2fd6f40c1e7e340f2bac325e64881204b0d6d6dd6"
+      "sha256": "ee137fff81edfe7305241e05893260d95302d4328b3c465ff5f81ef8d511ac49"
     },
     {
       "file": "src/features/more/ProfileModal.tsx",
@@ -447,7 +451,7 @@
     },
     {
       "file": "src/features/products/ProductFormModal.tsx",
-      "sha256": "d77bb2e3e36c2c59230ec9f97c9f770bf3b1195ba43573c4558dc9ac4de362af"
+      "sha256": "4a3ae8b63a84245dfcb6964b9f6ca760f5033ec5f986f7b2ec6db7078b9fae19"
     },
     {
       "file": "src/features/products/ProductsView.tsx",
@@ -667,7 +671,7 @@
     },
     {
       "file": "src/services/supabase/directReceiving.service.ts",
-      "sha256": "9c6a75283a2060049d0fee91ae436806f1de4ffe9825b464e341a5e216baa246"
+      "sha256": "c685687284e83f8ee732aafa252fbdcd9c79dfee04cb8810b94fa62262bb01cc"
     },
     {
       "file": "src/services/supabase/documentCorrections.service.ts",
@@ -788,6 +792,10 @@
     {
       "file": "src/services/supabase/storefront-settings.service.ts",
       "sha256": "ea2ea5e5d41b0f024055ccab9932dd12a343464256a458edcfe2047322148470"
+    },
+    {
+      "file": "src/services/supabase/supplierReceiptSearch.ts",
+      "sha256": "e73e0e5384fe7b677fe1400835ffb2604df85f9f68f0359297af35291187cfd2"
     },
     {
       "file": "src/services/supabase/supplierReplacement.service.ts",
@@ -1075,7 +1083,7 @@
     },
     {
       "file": "customer-web/src/components/ProductDetailsModal.tsx",
-      "sha256": "736c33e60587fe760b4ec84d844c32457b5a791e1245a6dee812c05174fc4e7f"
+      "sha256": "c69b251b0650226b2f4ebe47e57808c018ccdb6c43be5028309cc46738d147ba"
     },
     {
       "file": "customer-web/src/components/ProductImage.tsx",
@@ -15155,7 +15163,7 @@
       "command": "SELECT public.\"get_home_dashboard\"()"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:23",
+      "site": "src/services/supabase/directReceiving.service.ts:24",
       "name": "preview_supplier_receipt_cancellation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -15167,7 +15175,7 @@
       "command": "SELECT public.\"preview_supplier_receipt_cancellation\"(NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:23",
+      "site": "src/services/supabase/directReceiving.service.ts:24",
       "name": "preview_supplier_receipt_cancellation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -15179,7 +15187,7 @@
       "command": "SELECT public.\"preview_supplier_receipt_cancellation\"(NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:23",
+      "site": "src/services/supabase/directReceiving.service.ts:24",
       "name": "preview_supplier_receipt_cancellation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -15191,7 +15199,7 @@
       "command": "SELECT public.\"preview_supplier_receipt_cancellation\"(NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:156",
+      "site": "src/services/supabase/directReceiving.service.ts:161",
       "name": "get_supplier_receipts_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -15209,7 +15217,7 @@
       "command": "SELECT public.\"get_supplier_receipts_page\"(1::integer,25::integer,NULL::text,NULL::uuid,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:156",
+      "site": "src/services/supabase/directReceiving.service.ts:161",
       "name": "get_supplier_receipts_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -15227,7 +15235,7 @@
       "command": "SELECT public.\"get_supplier_receipts_page\"(1::integer,25::integer,NULL::text,NULL::uuid,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:156",
+      "site": "src/services/supabase/directReceiving.service.ts:161",
       "name": "get_supplier_receipts_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -15245,7 +15253,7 @@
       "command": "SELECT public.\"get_supplier_receipts_page\"(1::integer,25::integer,NULL::text,NULL::uuid,'92600000-0000-4000-8000-000000000201'::uuid,NULL::text,false)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:265",
+      "site": "src/services/supabase/directReceiving.service.ts:283",
       "name": "resolve_legacy_supplier_receipt_replay_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -15257,7 +15265,7 @@
       "command": "SELECT public.\"resolve_legacy_supplier_receipt_replay_v1\"(NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:265",
+      "site": "src/services/supabase/directReceiving.service.ts:283",
       "name": "resolve_legacy_supplier_receipt_replay_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -15269,7 +15277,7 @@
       "command": "SELECT public.\"resolve_legacy_supplier_receipt_replay_v1\"(NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:265",
+      "site": "src/services/supabase/directReceiving.service.ts:283",
       "name": "resolve_legacy_supplier_receipt_replay_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -15281,7 +15289,7 @@
       "command": "SELECT public.\"resolve_legacy_supplier_receipt_replay_v1\"(NULL::uuid)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:375",
+      "site": "src/services/supabase/directReceiving.service.ts:393",
       "name": "create_direct_supplier_receipt_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -15308,7 +15316,7 @@
       "command": "SELECT public.\"create_direct_supplier_receipt_v2\"(NULL::uuid,'92600000-0000-4000-8000-000000000201'::uuid,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text,CURRENT_DATE,CURRENT_TIMESTAMP,0::bigint,0::bigint,0::bigint,0::bigint,NULL::text,NULL::text,NULL::text,NULL::text,'isolated-service-audit-0000000000000000000001','[]'::jsonb)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:375",
+      "site": "src/services/supabase/directReceiving.service.ts:393",
       "name": "create_direct_supplier_receipt_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -15335,7 +15343,7 @@
       "command": "SELECT public.\"create_direct_supplier_receipt_v2\"(NULL::uuid,'92600000-0000-4000-8000-000000000201'::uuid,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text,CURRENT_DATE,CURRENT_TIMESTAMP,0::bigint,0::bigint,0::bigint,0::bigint,NULL::text,NULL::text,NULL::text,NULL::text,'isolated-service-audit-0000000000000000000001','[]'::jsonb)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:375",
+      "site": "src/services/supabase/directReceiving.service.ts:393",
       "name": "create_direct_supplier_receipt_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -15362,7 +15370,7 @@
       "command": "SELECT public.\"create_direct_supplier_receipt_v2\"(NULL::uuid,'92600000-0000-4000-8000-000000000201'::uuid,'92600000-0000-4000-8000-000000000200'::uuid,NULL::text,CURRENT_DATE,CURRENT_TIMESTAMP,0::bigint,0::bigint,0::bigint,0::bigint,NULL::text,NULL::text,NULL::text,NULL::text,'isolated-service-audit-0000000000000000000001','[]'::jsonb)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:436",
+      "site": "src/services/supabase/directReceiving.service.ts:454",
       "name": "record_supplier_receipt_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -15379,7 +15387,7 @@
       "command": "SELECT public.\"record_supplier_receipt_payment\"(NULL::uuid,0::bigint,NULL::text,NULL::text,NULL::text,'isolated-service-audit-0000000000000000000001')"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:436",
+      "site": "src/services/supabase/directReceiving.service.ts:454",
       "name": "record_supplier_receipt_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -15396,7 +15404,7 @@
       "command": "SELECT public.\"record_supplier_receipt_payment\"(NULL::uuid,0::bigint,NULL::text,NULL::text,NULL::text,'isolated-service-audit-0000000000000000000001')"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:436",
+      "site": "src/services/supabase/directReceiving.service.ts:454",
       "name": "record_supplier_receipt_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -15413,7 +15421,7 @@
       "command": "SELECT public.\"record_supplier_receipt_payment\"(NULL::uuid,0::bigint,NULL::text,NULL::text,NULL::text,'isolated-service-audit-0000000000000000000001')"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:467",
+      "site": "src/services/supabase/directReceiving.service.ts:485",
       "name": "archive_supplier_receipt",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -15426,7 +15434,7 @@
       "command": "SELECT public.\"archive_supplier_receipt\"(NULL::uuid,false)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:467",
+      "site": "src/services/supabase/directReceiving.service.ts:485",
       "name": "archive_supplier_receipt",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -15439,7 +15447,7 @@
       "command": "SELECT public.\"archive_supplier_receipt\"(NULL::uuid,false)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:467",
+      "site": "src/services/supabase/directReceiving.service.ts:485",
       "name": "archive_supplier_receipt",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -15452,7 +15460,7 @@
       "command": "SELECT public.\"archive_supplier_receipt\"(NULL::uuid,false)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:500",
+      "site": "src/services/supabase/directReceiving.service.ts:518",
       "name": "cancel_supplier_receipt",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -15465,7 +15473,7 @@
       "command": "SELECT public.\"cancel_supplier_receipt\"(NULL::uuid,NULL::text)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:500",
+      "site": "src/services/supabase/directReceiving.service.ts:518",
       "name": "cancel_supplier_receipt",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -15478,7 +15486,7 @@
       "command": "SELECT public.\"cancel_supplier_receipt\"(NULL::uuid,NULL::text)"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:500",
+      "site": "src/services/supabase/directReceiving.service.ts:518",
       "name": "cancel_supplier_receipt",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -23449,7 +23457,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:23",
+      "site": "src/services/supabase/directReceiving.service.ts:24",
       "name": "preview_supplier_receipt_cancellation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -23465,7 +23473,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:23",
+      "site": "src/services/supabase/directReceiving.service.ts:24",
       "name": "preview_supplier_receipt_cancellation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -23481,7 +23489,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:23",
+      "site": "src/services/supabase/directReceiving.service.ts:24",
       "name": "preview_supplier_receipt_cancellation",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -23497,7 +23505,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:156",
+      "site": "src/services/supabase/directReceiving.service.ts:161",
       "name": "get_supplier_receipts_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -23519,7 +23527,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:156",
+      "site": "src/services/supabase/directReceiving.service.ts:161",
       "name": "get_supplier_receipts_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -23541,7 +23549,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:156",
+      "site": "src/services/supabase/directReceiving.service.ts:161",
       "name": "get_supplier_receipts_page",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -23563,7 +23571,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:265",
+      "site": "src/services/supabase/directReceiving.service.ts:283",
       "name": "resolve_legacy_supplier_receipt_replay_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -23579,7 +23587,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:265",
+      "site": "src/services/supabase/directReceiving.service.ts:283",
       "name": "resolve_legacy_supplier_receipt_replay_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -23595,7 +23603,7 @@
       "sqlstate": null
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:265",
+      "site": "src/services/supabase/directReceiving.service.ts:283",
       "name": "resolve_legacy_supplier_receipt_replay_v1",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -23611,7 +23619,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:375",
+      "site": "src/services/supabase/directReceiving.service.ts:393",
       "name": "create_direct_supplier_receipt_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -23642,7 +23650,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:375",
+      "site": "src/services/supabase/directReceiving.service.ts:393",
       "name": "create_direct_supplier_receipt_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -23673,7 +23681,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:375",
+      "site": "src/services/supabase/directReceiving.service.ts:393",
       "name": "create_direct_supplier_receipt_v2",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -23704,7 +23712,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:436",
+      "site": "src/services/supabase/directReceiving.service.ts:454",
       "name": "record_supplier_receipt_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -23725,7 +23733,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:436",
+      "site": "src/services/supabase/directReceiving.service.ts:454",
       "name": "record_supplier_receipt_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -23746,7 +23754,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:436",
+      "site": "src/services/supabase/directReceiving.service.ts:454",
       "name": "record_supplier_receipt_payment",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -23767,7 +23775,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:467",
+      "site": "src/services/supabase/directReceiving.service.ts:485",
       "name": "archive_supplier_receipt",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -23784,7 +23792,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:467",
+      "site": "src/services/supabase/directReceiving.service.ts:485",
       "name": "archive_supplier_receipt",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -23801,7 +23809,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:467",
+      "site": "src/services/supabase/directReceiving.service.ts:485",
       "name": "archive_supplier_receipt",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -23818,7 +23826,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:500",
+      "site": "src/services/supabase/directReceiving.service.ts:518",
       "name": "cancel_supplier_receipt",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000001",
@@ -23835,7 +23843,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:500",
+      "site": "src/services/supabase/directReceiving.service.ts:518",
       "name": "cancel_supplier_receipt",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000002",
@@ -23852,7 +23860,7 @@
       "sqlstate": "P0001"
     },
     {
-      "site": "src/services/supabase/directReceiving.service.ts:500",
+      "site": "src/services/supabase/directReceiving.service.ts:518",
       "name": "cancel_supplier_receipt",
       "role": "authenticated",
       "actor": "92600000-0000-4000-8000-000000000003",
@@ -39747,7 +39755,7 @@
   ],
   "currentOldRefFunctions": [],
   "ok": true,
-  "endedAt": "2026-10-21T22:06:43.057Z",
+  "endedAt": "2026-10-22T03:06:21.576Z",
   "savedCatalogAssessment": {
     "storagePolicies": [
       {
@@ -40111,7 +40119,7 @@
     {
       "file": "docs/agent/OWNER_DECISIONS.md",
       "lines": [
-        679
+        683
       ],
       "category": "HISTORICAL_DOCUMENTATION"
     },

@@ -1,3 +1,7 @@
+#22Oct — trial owner packages A then B authorized
+
+Owner explicitly authorizes A1-A4 presentation/read-only receipt search first,separate worktree/PR/FULLCI;then full parcel_only design in B/migration209,separate worktree/PR/FULLCI. Current A ceiling208;no B source implementation yet. No Frankfurt/hostedaccess or deployment. See TRIAL_OWNER_A.md. A132bothengine+22focused/types/strictlint passed;final source evidence/units/CI pending.
+
 #22Oct — owner approved seven pretrial P1 items
 
 Implement PWA update repair and both-engine acceptance;per-product/unit held quantities;hide unsupported CRMmonthlycollection card;receiving terminology/units;Arabic product code with small generator;plain replacement text;known rejection messages.

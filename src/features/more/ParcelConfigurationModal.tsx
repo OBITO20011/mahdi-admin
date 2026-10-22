@@ -6,6 +6,8 @@ import {fetchParcelConfigurationContext, saveParcelConfiguration, setParcelFeatu
 
 const inputClass = 'mt-1 w-full rounded-lg border border-nw-border bg-nw-surface p-2 text-sm';
 const labels = {OFF:'متوقفة',OWNER_PILOT:'تجربة المالك فقط',ENABLED:'مفعّلة للجميع'};
+const flavorFamilies = (data: ParcelConfigurationContext) => data.products.filter(p =>
+  p.isFlavorMaster && p.components.some(c => c.productId !== p.familyProductId));
 export function ParcelConfigurationModal() {
   const {roleName:role} = useAuthStore();
   const [context,setContext] = useState<ParcelConfigurationContext | null>(null);
@@ -17,8 +19,9 @@ export function ParcelConfigurationModal() {
   const [error,setError] = useState('');
   const [uncertain,setUncertain] = useState(false);
   const select = (data: ParcelConfigurationContext, id: string) => {
-    const p = data.products.find(product => product.familyProductId === id);
-    setForm(p ? {familyProductId:id,mode:p.configuration?.composition_mode ?? (p.isFlavorMaster?'configurable_mix':'single_sku'),
+    const candidates = flavorFamilies(data);
+    const p = candidates.find(product => product.familyProductId === id) ?? candidates[0];
+    setForm(p ? {familyProductId:p.familyProductId,mode:p.configuration?.composition_mode ?? 'configurable_mix',
       active:p.configuration?.is_active ?? false, units:p.unitsPerParcel,
       allowed:p.configuration ? [...p.allowedProductIds] : p.isFlavorMaster ? [] : [id]} : null);
   };
@@ -53,11 +56,11 @@ export function ParcelConfigurationModal() {
   };
   if (role !== 'owner') return <p role="alert">إعداد الطرود متاح للمالك فقط.</p>;
   const product=context?.products.find(p=>p.familyProductId===form?.familyProductId);
-  const missingCandidates=context?.products.flatMap(p=>p.configuration?.is_active
-    ? p.components.filter(c=>p.allowedProductIds.includes(c.productId) && c.packetPriceInMinorUnits===0) : []) ?? [];
+  const missingCandidates=(context ? flavorFamilies(context) : []).flatMap(p=>p.configuration?.is_active
+    ? p.components.filter(c=>p.allowedProductIds.includes(c.productId) && c.packetPriceInMinorUnits===0) : []);
   const missingPacketPrices=missingCandidates.filter((c,index)=>missingCandidates.findIndex(other=>other.productId===c.productId)===index);
   return <FormFields dir="rtl" aria-busy={busy} className="nw-products-fields min-w-0 space-y-4 text-nw-text">
-    <p className="text-sm">إعدادات البيع الجديدة للمتجر والكاشير. لا تغيّر الطرود أو الأسعار التاريخية.</p>
+    <p className="text-sm">هنا تجهّز طرداً مشكّلاً من نكهات المنتج. الطرد العادي يُضبط من نموذج المنتج ولا يحتاج هذه الشاشة.</p>
     {missingPacketPrices.length>0 && <aside role="status" className="rounded-lg border border-nw-border p-3 text-nw-warn">
       <p>عبّي سعر الباكيت؛ بدونه لا يُحسب خصم ضرر العميل</p>
       <ul>{missingPacketPrices.map(c=><li key={c.productId}>{c.nameAr} — {c.sku}</li>)}</ul>
@@ -66,25 +69,26 @@ export function ParcelConfigurationModal() {
     {message && <p role="status" className="text-nw-ok">{message}</p>}
     <UiButton variant="plain" type="button" disabled={busy} onClick={()=>void reload()} className="rounded-lg border p-2">إعادة تحميل الإعداد</UiButton>
     {!context ? <p>جارٍ تحميل إعداد الطرود...</p> : <>
+      <details><summary className="min-h-11 cursor-pointer font-bold">متقدم: حالة الطرد المشكّل</summary>
       <fieldset disabled={busy || uncertain} className="space-y-3 rounded-xl border border-nw-border p-3">
-        <legend>حالة الطرود المرنة — {labels[context.featureState]}</legend>
+        <legend>حالة الطرد المشكّل — {labels[context.featureState]}</legend>
         <label>حالة الميزة<select aria-label="حالة الميزة" className={inputClass} value={nextState} onChange={e=>{setNextState(e.target.value as ParcelFeatureState);setConfirm(false);}}>
           {Object.entries(labels).map(([value,label])=><option key={value} value={value}>{label}</option>)}
         </select></label>
         {nextState!==context.featureState && <><p>التغيير يؤثر على عمليات البيع الجديدة. إيقاف الميزة لا يلغي الطلبات السابقة.</p>
           <label className="flex gap-2"><input type="checkbox" checked={confirm} onChange={e=>setConfirm(e.target.checked)}/>أؤكد تغيير الحالة إلى {labels[nextState]}</label>
           <UiButton variant="primary" type="button" disabled={!confirm} onClick={()=>void changeState()} className="rounded-lg p-2">تأكيد تغيير حالة الميزة</UiButton></>}
-      </fieldset>
-      {!context.products.length ? <p>لا توجد أصناف مؤهلة؛ عرّف وحدة بيع للمنتج أولاً.</p> : <form onSubmit={event=>void save(event)} aria-busy={busy} className="space-y-3">
+      </fieldset></details>
+      {!flavorFamilies(context).length ? <p>لا توجد منتجات لها نكهات بعد. أضف النكهات من نموذج المنتج، ثم جهّز الطرد المشكّل هنا.</p> : <form onSubmit={event=>void save(event)} aria-busy={busy} className="space-y-3">
         <fieldset disabled={busy || uncertain} className="space-y-3">
           <label>الصنف / العائلة<select className={inputClass} value={form?.familyProductId ?? ''} onChange={e=>select(context,e.target.value)}>
-            {context.products.map(p=><option key={p.familyProductId} value={p.familyProductId}>{p.nameAr} — {p.sku}</option>)}
+            {flavorFamilies(context).map(p=><option key={p.familyProductId} value={p.familyProductId}>{p.nameAr} — {p.sku}</option>)}
           </select></label>
           {form && product && <>
             <label>نمط الطرد<select className={inputClass} value={form.mode} onChange={e=>{const mode=e.target.value as ParcelConfigurationInput['mode'];setForm({...form,mode,allowed:mode==='single_sku'?[form.familyProductId]:[]});}}>
               <option value="single_sku">صنف واحد</option>{product.isFlavorMaster && <option value="configurable_mix">نكهات مختارة</option>}
             </select></label>
-            <label>عدد القطع في الطرد<input className={inputClass} required type="number" min="1" step="1" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>
+            <label>كم حبة بالطرد<input className={inputClass} required type="number" min="1" step="1" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>
             <label className="flex gap-2"><input type="checkbox" checked={form.active} onChange={e=>setForm({...form,active:e.target.checked})}/>متاح للبيع كطرد</label>
             {form.mode==='configurable_mix' && <fieldset className="space-y-2"><legend>النكهات المسموحة</legend>
               {product.components.filter(p=>p.productId!==product.familyProductId).map(component=><label className="flex gap-2" key={component.productId}>

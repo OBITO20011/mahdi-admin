@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {sourceBeforeTrialOwnerA,restoreTrialOwnerASourceHashes} from './source-before-trial-owner-a.mjs';
 export const pretrialP1Pins=JSON.parse(readFileSync(new URL('./pretrial-p1-hunks.json',import.meta.url),'utf8')).entries;
 const hash=s=>createHash('sha256').update(s).digest('hex'),olderHashes=new Map();
 for(const name of ['supplier-replacement208','correction-recovery-c8','document-corrections207','storefront-c6','navigation-cash206','product-receiving205','sales-history204','collections202','home-damage201','warehouse-management','unit-terminology']){
@@ -10,7 +11,7 @@ for(const name of ['supplier-replacement208','correction-recovery-c8','document-
   }
 }
 export function sourceBeforePretrialP1(file,text){
-  const source=text.replaceAll('\r\n','\n'),pin=pretrialP1Pins[file];if(!pin)return source;
+  const source=sourceBeforeTrialOwnerA(file,text),pin=pretrialP1Pins[file];if(source===null)return null;if(!pin)return source;
   const digest=hash(source);if(digest===pin.before||olderHashes.get(file)?.has(digest))return source;
   assert.equal(digest,pin.after,(pin.errorPrefix??'PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:')+file);
   if(pin.added)return null;
@@ -19,7 +20,7 @@ export function sourceBeforePretrialP1(file,text){
   }
   const restored=lines.join('\n');assert.equal(hash(restored),pin.before,'PRETRIAL_P1_ENTIRE_RESTORED_FILE_CHANGED:'+file);return restored;
 }
-export function restorePretrialP1SourceHashes(sources){return sources.flatMap(s=>{
+export function restorePretrialP1SourceHashes(sources){return restoreTrialOwnerASourceHashes(sources).flatMap(s=>{
   const pin=pretrialP1Pins[s.file];if(!pin||s.sha256===pin.before||olderHashes.get(s.file)?.has(s.sha256))return [s];
   assert.equal(s.sha256,pin.after,'PRETRIAL_P1_SOURCE_HASH:'+s.file);
   const text=sourceBeforePretrialP1(s.file,readFileSync(new URL('../../'+s.file,import.meta.url),'utf8'));

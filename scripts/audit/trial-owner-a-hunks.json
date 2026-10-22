@@ -1,0 +1,689 @@
+{
+  "baseline": "4795e70e40b0462100e92fe5006b61cd62df1b9d",
+  "entries": {
+    ".github/workflows/quality.yml": {
+      "before": "99e47f97a6e9e11eed6895f276f1fa5992be4cd9cb259d8ea6f13db3f5e039de",
+      "after": "dc798cd8c52d1b1ad23db97a8fe950b637ba8054c6e65177474edfc7e6aa0bbb",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 311,
+          "before": [],
+          "after": [
+            "      - name: Trial package A server receipt search and existing role gates",
+            "        if: matrix.suite == 'product-receiving205'",
+            "        run: node scripts/audit/run-table-access-diagnostic.mjs --migration-ceiling 208 --require-access --trial-owner-a-search",
+            ""
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/ProductDetailsModal.tsx": {
+      "before": "736c33e60587fe760b4ec84d844c32457b5a791e1245a6dee812c05174fc4e7f",
+      "after": "c69b251b0650226b2f4ebe47e57808c018ccdb6c43be5028309cc46738d147ba",
+      "errorPrefix": "STOREFRONT_C6_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 522,
+          "before": [
+            "          {familyProduct.variants.length > 0 && <button type=\"button\""
+          ],
+          "after": [
+            "          {familyProduct.variants.length > 0 && parcelOption && <button type=\"button\""
+          ]
+        },
+        {
+          "at": 526,
+          "before": [
+            "            {parcelOptionLoading ? 'جارٍ تحميل خيارات الطرد...' : parcelOption ? 'كوّن طردًا بالنكهات' : 'الطرد المختلط غير متاح'}"
+          ],
+          "after": [
+            "            {parcelOptionLoading ? 'جارٍ تحميل خيارات الطرد...' : 'كوّن طردًا بالنكهات'}"
+          ]
+        }
+      ]
+    },
+    "e2e/customer-storefront-c6.spec.ts": {
+      "before": "6c7c0edfad56f391647230c2596b57cc4ada3b3c31208fa3aa7c8dbeb5cbb89a",
+      "after": "fa8a51326eb1cfcef922e94b9a8f0aa3b17f029caf02a8e74ea45ed0941019d5",
+      "errorPrefix": "STOREFRONT_C6_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 73,
+          "before": [
+            " await expect(dialog.getByRole('button',{name:'الطرد المختلط غير متاح',exact:true})).toBeDisabled();"
+          ],
+          "after": [
+            " await expect(dialog.getByRole('button',{name:'الطرد المختلط غير متاح',exact:true})).toHaveCount(0);"
+          ]
+        }
+      ]
+    },
+    "e2e/package-d-settings-harness.tsx": {
+      "before": "c83718e81269912dbc69b8be6dc4ca77c6166445162fa3a0ce0fc7529a661217",
+      "after": "96dd37f7d3c26ded5f6ee937cba410fb088754b770fb8562e1cdc141d69abb19",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 10,
+          "before": [
+            "createRoot(document.getElementById('root')!).render(<Modal isOpen onClose={()=>undefined} title=\"إعداد الطرود المرنة\"><ParcelConfigurationModal/></Modal>);"
+          ],
+          "after": [
+            "createRoot(document.getElementById('root')!).render(<Modal isOpen onClose={()=>undefined} title=\"الطرد المشكّل (خلط النكهات)\"><ParcelConfigurationModal/></Modal>);"
+          ]
+        }
+      ]
+    },
+    "e2e/package-d-settings.spec.ts": {
+      "before": "af23df7d1546519b9aab39a55da3b60c256fb318837df08e543cbf2b9dfc6e68",
+      "after": "8060561919c829e57d00d88c2484bf5d1308785bba4ede9d647ee072dd280966",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [
+            "  await expect(page.getByText('حالة الطرود المرنة — متوقفة')).toBeVisible();expect(writes).toBe(0);",
+            "  await page.getByLabel('عدد القطع في الطرد').fill('6');await page.getByLabel('متاح للبيع كطرد').check();await page.getByLabel('نكهة الاختبار',{exact:true}).check();"
+          ],
+          "after": [
+            "  await page.getByText('متقدم: حالة الطرد المشكّل',{exact:true}).click();",
+            "  await expect(page.getByText('حالة الطرد المشكّل — متوقفة')).toBeVisible();expect(writes).toBe(0);",
+            "  await page.getByLabel('كم حبة بالطرد').fill('6');await page.getByLabel('متاح للبيع كطرد').check();await page.getByLabel('نكهة الاختبار',{exact:true}).check();"
+          ]
+        },
+        {
+          "at": 23,
+          "before": [
+            "  await expect(page.getByText('حالة الطرود المرنة — مفعّلة للجميع')).toBeVisible();expect(writes).toBe(2);"
+          ],
+          "after": [
+            "  await expect(page.getByText('حالة الطرد المشكّل — مفعّلة للجميع')).toBeVisible();expect(writes).toBe(2);"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [
+            "  const data={featureState:'OFF',products:[{familyProductId:family,nameAr:'صنف',sku:'D3',isFlavorMaster:false,unitsPerParcel:5,parcelPriceInMinorUnits:10000,",
+            "    configuration:null,allowedProductIds:[],components:[{productId:family,nameAr:'صنف',sku:'D3',flavorNameAr:null}]}]};"
+          ],
+          "after": [
+            "  const data={featureState:'OFF',products:[{familyProductId:family,nameAr:'عائلة',sku:'D3',isFlavorMaster:true,unitsPerParcel:5,parcelPriceInMinorUnits:10000,",
+            "    configuration:null,allowedProductIds:[],components:[{productId:child,nameAr:'نكهة',sku:'D3-A',flavorNameAr:'نكهة'}]}]};"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-product-receiving205.spec.ts": {
+      "before": "9691d815098e3742b47ebdc7f8ba88b101344f6ed7b451de8dcb4c6497c3fe3e",
+      "after": "f196a0127d6106f18b80c57341cf23b39bea04a8d7581867f560bc7c7f02db5d",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 52,
+          "before": [
+            "  await editor.getByRole('checkbox',{name:'بيتباع بدون طرد',exact:true}).uncheck();await expect(editor.getByLabel('عدد باكيت في طرد الشراء',{exact:true})).toHaveValue('20');await editor.getByText('متقدم: التغليف والمخزون والصورة',{exact:true}).click();await expect(editor.getByLabel('نوع طرد الشراء')).toBeVisible();await expect(editor.getByLabel('نوع طرد الشراء').locator('option').filter({hasText:/^باكيت$/})).toHaveCount(0);"
+          ],
+          "after": [
+            "  await editor.getByRole('checkbox',{name:'بيتباع بدون طرد',exact:true}).uncheck();await expect(editor.getByLabel('عدد باكيت في طرد الشراء',{exact:true})).toHaveValue('20');await editor.getByText('متقدم: التغليف والمخزون والصورة',{exact:true}).click();await expect(editor.getByLabel('نوع طرد الشراء')).toHaveCount(0);await expect(editor.getByLabel('نوع طرد البيع')).toHaveCount(0);"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-products-harness.tsx": {
+      "before": "08c9ccd0e2fac1f32439d7c56f9ba9bdbae10c2192f42ce052d988345fa187e8",
+      "after": "7bf0553fc6d160d92f00e7ee3eec64b9e80e8b70d69906ac7a9fa5c2b7ab952a",
+      "errorPrefix": "TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 58,
+          "before": [
+            " allowedProductIds:[products[0].id],components:[{productId:products[0].id,nameAr:products[0].nameAr,sku:products[0].sku,flavorNameAr:null,packetPriceInMinorUnits:900}]},"
+          ],
+          "after": [
+            " allowedProductIds:[products[0].id],components:[{productId:products[0].id,nameAr:products[0].nameAr,sku:products[0].sku,flavorNameAr:null,packetPriceInMinorUnits:params.has('trialA')?0:900}]},"
+          ]
+        },
+        {
+          "at": 75,
+          "before": [
+            " const title=form?'بيانات المنتج':detail?'تفاصيل المنتج':stock?'تعديل المخزون':'إعداد الطرود المرنة';"
+          ],
+          "after": [
+            " const title=form?'بيانات المنتج':detail?'تفاصيل المنتج':stock?'تعديل المخزون':'الطرد المشكّل (خلط النكهات)';"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-products.spec.ts": {
+      "before": "1f0aadf792b5828b81a88ae56b141a4723774ba923f0b29ede6ad569e0595a1a",
+      "after": "5a55d0e015349535b3db12ce3aa1a5e345f7be7ebac3de1df455adfbb45db690",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 83,
+          "before": [
+            "   ['إعداد الطرود','إعداد الطرود المرنة','حفظ إعداد الطرد'],"
+          ],
+          "after": [
+            "   ['إعداد الطرود','الطرد المشكّل (خلط النكهات)','حفظ إعداد الطرد'],"
+          ]
+        },
+        {
+          "at": 86,
+          "before": [
+            "   if(name==='إعداد الطرود')await expect(dialog.getByLabel('الصنف / العائلة')).toHaveValue('88888888-8888-4888-8888-000000000001');"
+          ],
+          "after": [
+            "   if(name==='إعداد الطرود')await expect(dialog.getByLabel('الصنف / العائلة')).toHaveValue('88888888-8888-4888-8888-000000000005');"
+          ]
+        },
+        {
+          "at": 114,
+          "before": [],
+          "after": [
+            " await dialog.getByText('متقدم: حالة الطرد المشكّل',{exact:true}).click();"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-purchasing-harness.tsx": {
+      "before": "b7317e4708800dc336232f463f389738251300f74a92647e017afa7055e4e518",
+      "after": "0f2c960123cbd10b1b62748ad58a142160327c75a120330f97b9cd0575fe4029",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 60,
+          "before": [],
+          "after": [
+            " if(name==='get_supplier_receipt_display_context' && params.has('serverSearchA'))return originalRpc(name,args);"
+          ]
+        },
+        {
+          "at": 74,
+          "before": [],
+          "after": [
+            " if(table==='supplier_receipts' && params.has('serverSearchA'))return originalFrom(table);"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-trial-owner-a.spec.ts": {
+      "added": true,
+      "before": null,
+      "after": "6f670e5c61ca68d18f7cffe15d7ae8488f1c3085d0645ed7f860da6d23d20596",
+      "hunks": []
+    },
+    "src/components/modals/AllModals.tsx": {
+      "before": "2d6e80fccf277db571adb62bcf15d2c116d98355176526365370b125e3b173a0",
+      "after": "f9186561a9dc6c41ba8fbcf7c8365f276819102cab360120fcd1cad9481a8f53",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 212,
+          "before": [
+            "        title=\"إعداد الطرود المرنة\" subtitle=\"الأصناف والعدد والنكهات وحالة الميزة — للمالك فقط\">"
+          ],
+          "after": [
+            "        title=\"الطرد المشكّل (خلط النكهات)\" subtitle=\"النكهات وكم حبة بالطرد — للمالك فقط\">"
+          ]
+        }
+      ]
+    },
+    "src/features/directReceiving/DirectReceivingView.tsx": {
+      "before": "a751598e367a18d71e46ec32ecd395ab435f63880f606fda1811e60658a61991",
+      "after": "be388ae692d48a7d568d974e91cb6de1497225d4308d33cc96507a923a14e783",
+      "errorPrefix": "TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 8,
+          "before": [
+            "import React, { useState, useEffect, useCallback, useMemo } from 'react';"
+          ],
+          "after": [
+            "import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';",
+            "import {SupplierReceiptItemsPreview} from './SupplierReceiptItemsPreview';"
+          ]
+        },
+        {
+          "at": 51,
+          "before": [],
+          "after": [
+            "  const [receiptError, setReceiptError] = useState('');",
+            "  const receiptRequest = useRef(0);"
+          ]
+        },
+        {
+          "at": 93,
+          "before": [],
+          "after": [
+            "    const request = ++receiptRequest.current;",
+            "    setReceiptError('');"
+          ]
+        },
+        {
+          "at": 111,
+          "before": [
+            "      if (receiptsRes.success && receiptsRes.data) {"
+          ],
+          "after": [
+            "      if (request !== receiptRequest.current) return;",
+            "      if (!receiptsRes.success) throw new Error(receiptsRes.error || 'تعذر تحميل سندات الاستلام.');",
+            "      if (receiptsRes.data) {"
+          ]
+        },
+        {
+          "at": 122,
+          "before": [],
+          "after": [
+            "      if (request !== receiptRequest.current) return;",
+            "      setReceiptError(err instanceof Error ? err.message : 'تعذر تحميل سندات الاستلام.');"
+          ]
+        },
+        {
+          "at": 126,
+          "before": [
+            "      if (!isSilent) setLoading(false);"
+          ],
+          "after": [
+            "      if (request === receiptRequest.current) setLoading(false);"
+          ]
+        },
+        {
+          "at": 346,
+          "before": [],
+          "after": [
+            "      {receiptError ? <p role=\"alert\" className=\"text-nw-bad\">تعذر تحميل الاستلامات: {receiptError}</p> : <>",
+            "      {searchTerm.trim() && <p className=\"text-xs text-nw-muted\">الملخص لكل السندات ضمن الفلاتر المختارة؛ البحث يحدد قائمة السندات أدناه.</p>}"
+          ]
+        },
+        {
+          "at": 387,
+          "before": [],
+          "after": [
+            "      </>}"
+          ]
+        },
+        {
+          "at": 475,
+          "before": [
+            "            <input aria-label=\"ابحث برقم السند أو فاتورة المورد...\""
+          ],
+          "after": [
+            "            <input aria-label=\"ابحث باسم الصنف أو المورد أو رقم السند\""
+          ]
+        },
+        {
+          "at": 479,
+          "before": [
+            "              placeholder=\"ابحث برقم السند أو فاتورة المورد...\""
+          ],
+          "after": [
+            "              placeholder=\"اسم الصنف أو المورد أو رقم السند\""
+          ]
+        },
+        {
+          "at": 848,
+          "before": [
+            "          ) : receipts.length === 0 ? ("
+          ],
+          "after": [
+            "          ) : receiptError ? null : receipts.length === 0 ? ("
+          ]
+        },
+        {
+          "at": 928,
+          "before": [],
+          "after": [
+            "                    <SupplierReceiptItemsPreview items={r.items || []} displayLines={r.displayLines} error={r.displayError} />",
+            ""
+          ]
+        }
+      ]
+    },
+    "src/features/directReceiving/SupplierReceiptItemsPreview.tsx": {
+      "added": true,
+      "before": null,
+      "after": "7db554563d60e725ed02e23240b3884573c24da9603b00ff2deaf0bd8274e7c5",
+      "hunks": []
+    },
+    "src/features/more/ParcelConfigurationModal.tsx": {
+      "before": "641c6160e9c1d56f8c8e51b2fd6f40c1e7e340f2bac325e64881204b0d6d6dd6",
+      "after": "ee137fff81edfe7305241e05893260d95302d4328b3c465ff5f81ef8d511ac49",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [],
+          "after": [
+            "const flavorFamilies = (data: ParcelConfigurationContext) => data.products.filter(p =>",
+            "  p.isFlavorMaster && p.components.some(c => c.productId !== p.familyProductId));"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            "    const p = data.products.find(product => product.familyProductId === id);",
+            "    setForm(p ? {familyProductId:id,mode:p.configuration?.composition_mode ?? (p.isFlavorMaster?'configurable_mix':'single_sku'),"
+          ],
+          "after": [
+            "    const candidates = flavorFamilies(data);",
+            "    const p = candidates.find(product => product.familyProductId === id) ?? candidates[0];",
+            "    setForm(p ? {familyProductId:p.familyProductId,mode:p.configuration?.composition_mode ?? 'configurable_mix',"
+          ]
+        },
+        {
+          "at": 59,
+          "before": [
+            "  const missingCandidates=context?.products.flatMap(p=>p.configuration?.is_active",
+            "    ? p.components.filter(c=>p.allowedProductIds.includes(c.productId) && c.packetPriceInMinorUnits===0) : []) ?? [];"
+          ],
+          "after": [
+            "  const missingCandidates=(context ? flavorFamilies(context) : []).flatMap(p=>p.configuration?.is_active",
+            "    ? p.components.filter(c=>p.allowedProductIds.includes(c.productId) && c.packetPriceInMinorUnits===0) : []);"
+          ]
+        },
+        {
+          "at": 63,
+          "before": [
+            "    <p className=\"text-sm\">إعدادات البيع الجديدة للمتجر والكاشير. لا تغيّر الطرود أو الأسعار التاريخية.</p>"
+          ],
+          "after": [
+            "    <p className=\"text-sm\">هنا تجهّز طرداً مشكّلاً من نكهات المنتج. الطرد العادي يُضبط من نموذج المنتج ولا يحتاج هذه الشاشة.</p>"
+          ]
+        },
+        {
+          "at": 72,
+          "before": [],
+          "after": [
+            "      <details><summary className=\"min-h-11 cursor-pointer font-bold\">متقدم: حالة الطرد المشكّل</summary>"
+          ]
+        },
+        {
+          "at": 74,
+          "before": [
+            "        <legend>حالة الطرود المرنة — {labels[context.featureState]}</legend>"
+          ],
+          "after": [
+            "        <legend>حالة الطرد المشكّل — {labels[context.featureState]}</legend>"
+          ]
+        },
+        {
+          "at": 81,
+          "before": [
+            "      </fieldset>",
+            "      {!context.products.length ? <p>لا توجد أصناف مؤهلة؛ عرّف وحدة بيع للمنتج أولاً.</p> : <form onSubmit={event=>void save(event)} aria-busy={busy} className=\"space-y-3\">"
+          ],
+          "after": [
+            "      </fieldset></details>",
+            "      {!flavorFamilies(context).length ? <p>لا توجد منتجات لها نكهات بعد. أضف النكهات من نموذج المنتج، ثم جهّز الطرد المشكّل هنا.</p> : <form onSubmit={event=>void save(event)} aria-busy={busy} className=\"space-y-3\">"
+          ]
+        },
+        {
+          "at": 85,
+          "before": [
+            "            {context.products.map(p=><option key={p.familyProductId} value={p.familyProductId}>{p.nameAr} — {p.sku}</option>)}"
+          ],
+          "after": [
+            "            {flavorFamilies(context).map(p=><option key={p.familyProductId} value={p.familyProductId}>{p.nameAr} — {p.sku}</option>)}"
+          ]
+        },
+        {
+          "at": 91,
+          "before": [
+            "            <label>عدد القطع في الطرد<input className={inputClass} required type=\"number\" min=\"1\" step=\"1\" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>"
+          ],
+          "after": [
+            "            <label>كم حبة بالطرد<input className={inputClass} required type=\"number\" min=\"1\" step=\"1\" value={form.units} onChange={e=>setForm({...form,units:Number(e.target.value)})}/></label>"
+          ]
+        }
+      ]
+    },
+    "src/features/more/adminNavigation.config.ts": {
+      "before": "eb4b212340af0903dbb9b40a974bc721381b6ef6402cde92e0bb9a5bd64fda77",
+      "after": "f69efb0fc768c729c971c5ee82db65475fdbd628f972f39152322d1de851d991",
+      "errorPrefix": "NAVIGATION206_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 92,
+          "before": [
+            "      {id:'parcel-configuration',label:'إعداد الطرود المرنة',description:'الأصناف وعدد القطع والنكهات وحالة الميزة',"
+          ],
+          "after": [
+            "      {id:'parcel-configuration',label:'الطرد المشكّل (خلط النكهات)',description:'خلط نكهات المنتج في طرد؛ الطرد العادي من نموذج المنتج',"
+          ]
+        }
+      ]
+    },
+    "src/features/products/ProductFormModal.tsx": {
+      "before": "d77bb2e3e36c2c59230ec9f97c9f770bf3b1195ba43573c4558dc9ac4de362af",
+      "after": "4a3ae8b63a84245dfcb6964b9f6ca760f5033ec5f986f7b2ec6db7078b9fae19",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 22,
+          "before": [
+            "import { CURRENCY, PURCHASE_PACKAGE_OPTIONS } from '../../constants';"
+          ],
+          "after": [
+            "import { CURRENCY } from '../../constants';"
+          ]
+        },
+        {
+          "at": 432,
+          "before": [
+            "  const packagingOptions = (saved: string) => {",
+            "    const baseNames = new Set([unit,...units.filter(isContentUnitOption).map(item => item.nameAr)]);",
+            "    const choices = ['طرد', ...PURCHASE_PACKAGE_OPTIONS.map(item => item.nameAr)].filter(name => !baseNames.has(name) && !['باكيت','شوال','كيس','علبة','قنينة / زجاجة'].includes(name));",
+            "    return Array.from(new Set([saved, ...choices])).map(value => ({value, label: baseNames.has(value) || value === 'باكيت' ? 'طرد (التغليف المحفوظ)' : value}));",
+            "  };"
+          ],
+          "after": []
+        },
+        {
+          "at": 1091,
+          "before": [
+            "        <div className=\"grid grid-cols-2 gap-2\">",
+            "          <label className=\"min-w-0 text-xs font-bold\">تغليف الشراء للطباعة<select aria-label=\"نوع طرد الشراء\" value={purchasePackage} onChange={event=>setPurchasePackage(event.target.value)} className={inputClass}>{packagingOptions(purchasePackage).map(option=><option key={option.value} value={option.value}>{option.label}</option>)}</select></label>",
+            "          <label className=\"min-w-0 text-xs font-bold\">تغليف البيع للطباعة<select aria-label=\"نوع طرد البيع\" value={salePackage} onChange={event=>setSalePackage(event.target.value)} className={inputClass}>{packagingOptions(salePackage).map(option=><option key={option.value} value={option.value}>{option.label}</option>)}</select></label>",
+            "        </div>"
+          ],
+          "after": []
+        }
+      ]
+    },
+    "src/services/supabase/directReceiving.service.ts": {
+      "before": "9c6a75283a2060049d0fee91ae436806f1de4ffe9825b464e341a5e216baa246",
+      "after": "c685687284e83f8ee732aafa252fbdcd9c79dfee04cb8810b94fa62262bb01cc",
+      "errorPrefix": "RECEIVING205_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [],
+          "after": [
+            "import {searchSupplierReceiptRows} from './supplierReceiptSearch';"
+          ]
+        },
+        {
+          "at": 157,
+          "before": [],
+          "after": [
+            "    const search = params?.search?.trim() || '';",
+            "    if (search.length > 100) return {...empty, error: 'عبارة البحث طويلة جدًا.'};",
+            "    // Financial summary remains the authoritative RPC result for all receipts",
+            "    // under the selected filters. Search rows/count are paginated by PostgreSQL."
+          ]
+        },
+        {
+          "at": 164,
+          "before": [
+            "      p_search: params?.search?.trim() || null,"
+          ],
+          "after": [
+            "      p_search: null,"
+          ]
+        },
+        {
+          "at": 176,
+          "before": [],
+          "after": [
+            "    // Preserve the existing reader's role/MFA gate before dispatching the SDK search.",
+            "    const searched = search ? await searchSupplierReceiptRows(supabase, {...params, page, pageSize, search}) : null;",
+            "    if (searched?.error) return {...empty, error: searched.error.message};",
+            ""
+          ]
+        },
+        {
+          "at": 186,
+          "before": [
+            "    const totalCount = Math.max(0, Number(payload.total_count) || 0);",
+            "    const receipts = (Array.isArray(payload.receipts) ? payload.receipts : []).map(mapSupplierReceiptRow);"
+          ],
+          "after": [
+            "    const totalCount = Math.max(0, Number(searched ? searched.count : payload.total_count) || 0);",
+            "    const receipts = (searched ? searched.data || [] : Array.isArray(payload.receipts) ? payload.receipts : []).map(mapSupplierReceiptRow);",
+            "    const displayReceipts: SupplierReceipt[] = [];",
+            "    // Existing205 snapshots describe commercial parcels. Physical item rows",
+            "    // alone cannot reconstruct their original count after product-size edits.",
+            "    for (let at = 0; at < receipts.length; at += 5) {",
+            "      displayReceipts.push(...await Promise.all(receipts.slice(at, at + 5).map(async receipt => {",
+            "        try { return {...receipt, displayLines: await fetchSupplierReceiptDisplay(receipt.id)}; }",
+            "        catch (cause) { return {...receipt, displayError: cause instanceof Error ? cause.message : 'تعذر عرض كميات السند.'}; }",
+            "      })));",
+            "    }"
+          ]
+        },
+        {
+          "at": 199,
+          "before": [
+            "      data: receipts,"
+          ],
+          "after": [
+            "      data: displayReceipts,"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/supplierReceiptSearch.ts": {
+      "added": true,
+      "before": null,
+      "after": "e73e0e5384fe7b677fe1400835ffb2604df85f9f68f0359297af35291187cfd2",
+      "hunks": []
+    },
+    "tests/owner-warehouses.test.ts": {
+      "before": "96e49089f53fe128a14745779e738bc35b802a08bfcf01afa6d1ef060dceef40",
+      "after": "e7adc108d7bf7b4469f93bf7e7bf98eafdb2795ae3d87e56a8b5261c2c35ae44",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [],
+          "after": [
+            "import {inventoryBeforeTrialOwnerA} from '../scripts/audit/source-before-trial-owner-a.mjs';"
+          ]
+        },
+        {
+          "at": 93,
+          "before": [
+            " assert.equal(projectHistoricalWarehouseQuerySites(source).entries.length,source.entries.length);"
+          ],
+          "after": [
+            " assert.equal(projectHistoricalWarehouseQuerySites(source).entries.length,(await inventoryBeforeTrialOwnerA()).entries.length);"
+          ]
+        }
+      ]
+    },
+    "tests/pretrial-p1.test.ts": {
+      "before": "0821bfd2d2987c9bee5cbd0d988ca262618721c6b1a63c463a4dad9450aafffd",
+      "after": "69fe8fafbcc6d7e297c28dedc43b1a3335e30c850c78aceb3217ce75bcf2c1d6",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            "import {inventory} from '../scripts/audit/table-access-inventory.mjs';"
+          ],
+          "after": []
+        },
+        {
+          "at": 11,
+          "before": [],
+          "after": [
+            "import {sourceBeforeTrialOwnerA,inventoryBeforeTrialOwnerA} from '../scripts/audit/source-before-trial-owner-a.mjs';"
+          ]
+        },
+        {
+          "at": 35,
+          "before": [
+            "  const diff=execFileSync('git',['diff','--name-only',base,'--',...paths],{encoding:'utf8'}).trim();assert.equal(diff,'');"
+          ],
+          "after": [
+            "  const changed=execFileSync('git',['diff','--name-only',base,'--',...paths],{encoding:'utf8'}).trim().split('\\n').filter(Boolean);",
+            "  for(const file of changed){const restored=sourceBeforeTrialOwnerA(file,read(file));if(restored!==null)assert.equal(restored,execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\\r\\n','\\n'));}"
+          ]
+        },
+        {
+          "at": 50,
+          "before": [
+            "  const current=await inventory(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_PRETRIAL_P1.json'));",
+            "  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_PRETRIAL_P1.json');"
+          ],
+          "after": [
+            "  const current=await inventoryBeforeTrialOwnerA(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_PRETRIAL_P1.json'));",
+            "  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json');"
+          ]
+        }
+      ]
+    },
+    "tests/supplier-replacement208-evidence.test.ts": {
+      "before": "38e819899c425d48d1d53b7fdfee7f4bb4be080ae2d820cac1e13ccc7c34398d",
+      "after": "a605a7cc691d4d97e25c75af10a61750ced4716380fac3daa1fc0cb7332a82f0",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_PRETRIAL_P1.json');assert.equal(state.migrationCeiling,208);"
+          ],
+          "after": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json');assert.equal(state.migrationCeiling,208);"
+          ]
+        }
+      ]
+    },
+    "tests/trial-owner-a.test.ts": {
+      "added": true,
+      "before": null,
+      "after": "b135d6b77d6c1dacb85becf7a60de56bb73f7822f3da14e8ba7086bd8e191ed0",
+      "hunks": []
+    },
+    "tests/unit-terminology.test.ts": {
+      "before": "952de75ec24656387af970764f02098d9507374f844ff0709322c0d089def60f",
+      "after": "af4d43a3a9a461f40d9d1b6d8839c553a3ed5e9cc04e0a3e5ce694fef105bc16",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            "  const violations=[...sources('src'),...sources('customer-web/src')].filter(file=>file!==compatibility && /حبة|حبات|الحبة|الحبات|وحدة الصنف|الوحدة الصغرى|وحدات صغرى|الوحدات الصغرى/u.test(readFileSync(file,'utf8')));"
+          ],
+          "after": [
+            "  // Owner's exact trial-day wording; no other piece terminology is allowed.",
+            "  const approved=new Set(['src/components/modals/AllModals.tsx','src/features/more/ParcelConfigurationModal.tsx']);",
+            "  const forbidden=/حبة|حبات|الحبة|الحبات|وحدة الصنف|الوحدة الصغرى|وحدات صغرى|الوحدات الصغرى/u;",
+            "  const violations=[...sources('src'),...sources('customer-web/src')].filter(file=>{",
+            "    if(file===compatibility)return false;",
+            "    let text=readFileSync(file,'utf8');",
+            "    if(approved.has(file)){",
+            "      assert.equal(text.split('كم حبة بالطرد').length-1,1,file+' exact owner phrase once');",
+            "      text=text.replace('كم حبة بالطرد','');",
+            "    }",
+            "    return forbidden.test(text);",
+            "  });",
+            "  assert.ok(forbidden.test('حبة')&&forbidden.test('عدد الحبات'));"
+          ]
+        }
+      ]
+    }
+  }
+}

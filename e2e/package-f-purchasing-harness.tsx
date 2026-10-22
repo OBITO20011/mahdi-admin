@@ -57,6 +57,7 @@ if(params.has('purchase205')){
 const client=supabase as unknown as {rpc:(n:string,a?:Record<string,unknown>)=>unknown;from:(n:string)=>unknown;channel:(n:string)=>unknown;removeChannel:(c:unknown)=>unknown};
 client.rpc=(name,args)=>{
  const response=(data:unknown)=>Promise.resolve({data,error:null});
+ if(name==='get_supplier_receipt_display_context' && params.has('serverSearchA'))return originalRpc(name,args);
  if(name==='get_receiving_purchase_context'&&!params.has('purchase205')){const data={products:(args?.p_product_ids as string[]).map(productId=>({productId,lastPurchase:null}))};const request=Promise.resolve({data,error:null});return Object.assign(request,{abortSignal:()=>request});}
  if(name==='get_supplier_receipt_display_context'&&!params.has('purchase205'))return response({receiptId:receipt.id,lines:displayLines});
  if(name==='get_purchase_orders_page'){const rows=poRows.filter(p=>!args?.p_status||args.p_status==='all'||p.status===args.p_status);return response({orders:rows,total_count:rows.length,summary:{draft_count:1,sent_count:0,approved_count:0,partially_received_count:1,received_count:1,total_in_minor_units:3000000,paid_in_minor_units:800000,due_in_minor_units:2200000}});}
@@ -70,6 +71,7 @@ client.rpc=(name,args)=>{
 };
 const supplierReady=params.has('lateSupplier')?new Promise<void>(resolve=>window.addEventListener('fixture-suppliers-ready',()=>resolve(),{once:true})):Promise.resolve();
 client.from=(table)=>{
+ if(table==='supplier_receipts' && params.has('serverSearchA'))return originalFrom(table);
  const rows:Record<string,unknown>[]=(table==='suppliers'?[otherSupplierRow,supplierRow]:table==='warehouses'?[warehouseRow]:table==='branches'?[branchRow]:table==='units'?[{id:params.has('purchase205')?receivingRows[0].base_unit.id:'packet',code:'PKT',name_ar:'باكيت'},{id:params.has('purchase205')?'88888888-8888-4888-8888-000000000082':'carton',code:'CTN',name_ar:'كرتونة'}]:table==='purchase_orders'?poRows:table==='supplier_receipts'?[displayReceiptRow]:[]) as Record<string,unknown>[];
  let result=rows,single=false;
  const chain:Record<string,unknown>={};

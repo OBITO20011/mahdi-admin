@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { BarcodeCameraCaptureModal } from '../barcode/BarcodeCameraCaptureModal';
 import type { StartBarcodeCamera } from '../barcode/barcodeCamera';
-import { CURRENCY, PURCHASE_PACKAGE_OPTIONS } from '../../constants';
+import { CURRENCY } from '../../constants';
 import {
   removeUploadedProductImage,
   uploadProductImageToSupabase,
@@ -429,11 +429,6 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
       setUnitsPerSalePackage(count);
       setSalePackagePrice(salePackagePrice === '' ? '' : calculatePackagePrice(derivedSalePricePerUnit, count));
     }
-  };
-  const packagingOptions = (saved: string) => {
-    const baseNames = new Set([unit,...units.filter(isContentUnitOption).map(item => item.nameAr)]);
-    const choices = ['طرد', ...PURCHASE_PACKAGE_OPTIONS.map(item => item.nameAr)].filter(name => !baseNames.has(name) && !['باكيت','شوال','كيس','علبة','قنينة / زجاجة'].includes(name));
-    return Array.from(new Set([saved, ...choices])).map(value => ({value, label: baseNames.has(value) || value === 'باكيت' ? 'طرد (التغليف المحفوظ)' : value}));
   };
   const purchaseQuoteProfit = calculateProductProfit(validSalePackagePrice, calculatePackagePrice(costPerUnit, validUnitsPerSalePackage));
 
@@ -1094,10 +1089,6 @@ export const ProductFormModal: React.FC<ProductFormModalProps> = ({
         <summary className="min-h-11 cursor-pointer font-bold">متقدم: التغليف والمخزون والصورة</summary>
         <label className="flex min-h-11 items-center gap-2 font-bold"><input type="checkbox" checked={differentSaleParcel} disabled={withoutParcel} onChange={event=>{setDifferentSaleParcel(event.target.checked);if(!event.target.checked){setUnitsPerSalePackage(validUnitsPerPackage);setSalePackagePrice(calculatePackagePrice(derivedSalePricePerUnit,validUnitsPerPackage));}}}/>طرد بيع مختلف عن طرد الشراء</label>
         {differentSaleParcel&&<label className="block text-xs font-bold">عدد {unit} في طرد البيع<input aria-label={'عدد '+unit+' في طرد البيع'} type="number" min="1" step="1" required value={unitsPerSalePackage} onChange={event=>setUnitsPerSalePackage(event.target.value===''?'':Number.parseInt(event.target.value,10))} className={numberInputClass}/></label>}
-        <div className="grid grid-cols-2 gap-2">
-          <label className="min-w-0 text-xs font-bold">تغليف الشراء للطباعة<select aria-label="نوع طرد الشراء" value={purchasePackage} onChange={event=>setPurchasePackage(event.target.value)} className={inputClass}>{packagingOptions(purchasePackage).map(option=><option key={option.value} value={option.value}>{option.label}</option>)}</select></label>
-          <label className="min-w-0 text-xs font-bold">تغليف البيع للطباعة<select aria-label="نوع طرد البيع" value={salePackage} onChange={event=>setSalePackage(event.target.value)} className={inputClass}>{packagingOptions(salePackage).map(option=><option key={option.value} value={option.value}>{option.label}</option>)}</select></label>
-        </div>
           <div>
             <label className="mb-1.5 block text-xs font-bold text-nw-text">
               العلامة التجارية

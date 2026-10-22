@@ -2,49 +2,50 @@
   "schemaVersion": 1,
   "status": "ACTIVE",
   "owner": "codex",
-  "objective": "Implement owner-approved seven pretrial P1 items:PWA update bothengines,per-product/unit pendingquantities,hide unsupported CRMcard,receiving terms,Arabic productcode,plain replacement copy,known rejection messages.No money/RPC/migration change.",
-  "baselineSha": "b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3",
+  "objective": "Owner trial package A only:flavor parcel naming/eligibility,no duplicate parcel,hide packaging inputs preserving values,receipt item previews and server product search,hide unavailable mixed button.No migrations/financial RPC changes.",
+  "baselineSha": "4795e70e40b0462100e92fe5006b61cd62df1b9d",
   "historyBaseline": "bdea567562b1de8c64fe3aa286076258decf3d26",
-  "branch": "main",
+  "branch": "codex/trial-owner-a",
   "phase": "PACKAGE_F",
   "completed": [
-    "C9 PR12/main208 exactFULL38+secrets;owner208guide and Prompt5 report",
-    "Owner-approved seven P1 implemented and local gates accepted;details PRETRIAL_P1_DELIVERY.json",
-    "PR13/headed13ffb exact push+PR FULL39 and both secrets accepted;actualPWA4/full20821/reset/browser1305 each"
+    "P1 main4795e70 reports/checklist/owner208 repair carried;no hosted execution",
+    "A1-A4 implemented with read-only server product search,no SQL or financialwriter change",
+    "A all local gates accepted;old pins/reference bytes unchanged"
   ],
   "inProgress": [
-    "Genuine main merge;docs/state only;local metadata gates then exact mainFULL39"
+    "A exact feature push+PR FULLCI/secrets,then genuine merge/main FULLCI"
   ],
   "notStarted": [
-    "Exact mainFULL39/secrets and final owner report/checkpoint"
+    "Package B parcel_only209 starts after A delivery"
   ],
   "testsPassed": [
-    "All1330Adminunits/0skip;types/strictlint;52CIrepairfocused",
-    "Native1364 exactsameidentities;428core+936F;44movedspec bytesunchanged;actualCIconfig44bothengine PASS/worker1/retries0",
-    "P1 production gates preserved:SDK142/RPC525/316sourcehashes,build/networkisolation/PWA4;no production changes in CIrepair"
+    "1335Admin/195store/34focused;types/strictlint/build both",
+    "132+22Chromium/WebKit/retries0;native1376/network0",
+    "SDK148/RPC525/318sources;real paging/roles/filters/zeroWrites;offline208"
   ],
   "testsRemaining": [
-    "Mainintegration types/strictlint/all1330units/Gitleaks/diffcheck;mainFULL39/secrets"
+    "Gitleaks0;exact feature push+PR FULLCI/secrets",
+    "Genuine merge;main FULLCI/secrets strict delivery"
   ],
   "findings": [
-    "HistoricalC9/P1 evidence and oldpins retained;no service/SQL changes",
-    "Old28b superseded for core20m;accepted redistribution preserves1364identities/core428/F936",
-    "Original19 primary reports preserved in namedstash and carried in feature"
+    "No migration or financialwriter/permission change;read-only SDK search plus existing205 commercial snapshot reader",
+    "Historical refs/pins remain unchanged;new A exactinverse and separate current evidence",
+    "B parcel_only209 explicitly authorized after A delivery only"
   ],
   "blockers": [],
   "activeProcesses": [],
   "prohibitions": [
     "No hosted/Frankfurt/Production/secrets/deploy",
-    "No money/RPC/migration/permission/auth logic change;ask if needed",
-    "P2 deferred;no parcel-only implementation",
+    "A:no migration/financial RPC/write contract/permission changes",
+    "B parcel_only209 authorized only after A delivery",
     "One writer;no tracked edits during verification;no weakened assertions/retries/skips/timeouts"
   ],
-  "nextExactAction": "P1 main local gates PASS1330/195/types/strictlint/Gitleaks0;commit genuine PR13 merge,push main,verify exact FULL39/secrets/PWA4/full20821/reset/browser1305,then owner report and STOP.Defer new Frankfurt ACL request;no hostedaccess.",
-  "checkpointedAt": "2026-10-22T00:10:23.020Z",
+  "nextExactAction": "A local gates accepted;commit/push separate A branch,open PR,verify exact feature push+PR FULL39 and secret scans;then genuine main merge and FULL39 before B209.No hosted access.",
+  "checkpointedAt": "2026-10-22T03:16:56.962Z",
   "filesTouched": [
     "docs/agent/ACTIVE_TASK_FILES.json"
   ],
-  "filesTouchedCount": 84,
-  "filesTouchedManifestSha256": "539475fa65b2f1b6b79b11904c7d1313ee273bbdcd7be14dfd499a4203c57023",
-  "workingTreeFingerprint": "137686A83D446E33849A2AE26A0D7321E9C4E17A3EE3F0F9884DAE2F15026594"
+  "filesTouchedCount": 49,
+  "filesTouchedManifestSha256": "d7635aad836a2368db3da6d463df6193e62abb5f84b2fa3eb9ff388262a0b2cf",
+  "workingTreeFingerprint": "F2578EF2F28CB95C3143655B3528DF4689E661074ECEFCDB395F3C738C646775"
 }

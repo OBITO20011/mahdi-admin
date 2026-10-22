@@ -1,0 +1,62 @@
+{
+  "status": "LOCAL_ACCEPTED_EXACT_CI_PENDING",
+  "baseline": "4795e70e40b0462100e92fe5006b61cd62df1b9d",
+  "package": "A",
+  "migrationCeiling": 208,
+  "noMigration": true,
+  "noFinancialWriterOrPermissionChanges": true,
+  "managedAccess": false,
+  "deployed": false,
+  "browsers": {
+    "affectedPassed": 132,
+    "finalFocusedPassed": 22,
+    "retries": 0
+  },
+  "types": true,
+  "strictLint": true,
+  "sdk": {
+    "queries": 148,
+    "sourceFiles": 318,
+    "sites": 51,
+    "success": 148,
+    "errors": 0,
+    "realServerSearch": true,
+    "pages": 2,
+    "matchingBeyondFirstPage": true,
+    "zeroWrites": true
+  },
+  "ci": "PENDING",
+  "packageBImplemented": false,
+  "adminUnits": 1335,
+  "storefrontUnits": 195,
+  "unitSkipped": 0,
+  "build": true,
+  "storefrontLint": true,
+  "isolatedStorefrontBuild": true,
+  "network": {
+    "externalRequestsEscaped": 0,
+    "productionRequestsEscaped": 0
+  },
+  "nativeBrowserPartition": {
+    "full": 1376,
+    "core": 428,
+    "packageF": 948,
+    "shards": [
+      190,
+      190,
+      190,
+      190,
+      188
+    ]
+  },
+  "rpc": {
+    "queries": 525,
+    "sites": 183,
+    "ok": true,
+    "expectedDenialsOnly": true
+  },
+  "offlineOwner208Reference": true,
+  "historicalPinsAndMigrationsUnchanged": true,
+  "focusedHistoricalUnits": 34,
+  "gitleaks": 0
+}

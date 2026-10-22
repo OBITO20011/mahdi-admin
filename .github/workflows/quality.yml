@@ -308,6 +308,10 @@ jobs:
         if: matrix.suite == 'product-receiving205'
         run: node scripts/testing/run-product-receiving205-gates.mjs
 
+      - name: Trial package A server receipt search and existing role gates
+        if: matrix.suite == 'product-receiving205'
+        run: node scripts/audit/run-table-access-diagnostic.mjs --migration-ceiling 208 --require-access --trial-owner-a-search
+
       - name: Navigation and cash206 contracts
         if: matrix.suite == 'navigation-cash206'
         run: node scripts/testing/run-navigation-cash206-gates.mjs

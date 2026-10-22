@@ -7,8 +7,8 @@ import vm from 'node:vm';
 import {describeRejection,rejectionMessages} from '../src/utils/rejectionMessage';
 import {businessErrorMessage} from '../src/utils/businessError';
 import {pretrialP1Pins,sourceBeforePretrialP1,inventoryBeforePretrialP1} from '../scripts/audit/source-before-pretrial-p1.mjs';
-import {inventory} from '../scripts/audit/table-access-inventory.mjs';
 import {verifyProbeCoverage} from '../scripts/audit/table-access-probes.mjs';
+import {sourceBeforeTrialOwnerA,inventoryBeforeTrialOwnerA} from '../scripts/audit/source-before-trial-owner-a.mjs';
 const read=(file:string)=>readFileSync(file,'utf8').replaceAll('\r\n','\n');
 const base='b79a9e7bc5e4ff9551c8dab111edb6c04fc17dd3';
 
@@ -32,7 +32,8 @@ test('P1 worker only promotes the exact matching release message',async()=>{
 
 test('P1 preserves all service contracts,money/quantity calculations and historical migrations byte-for-byte',()=>{
   const paths=['src/services/supabase','supabase/migrations','src/utils/receivingCalculations.ts','src/utils/supplierReplacement.ts','src/utils/documentCorrection.ts'];
-  const diff=execFileSync('git',['diff','--name-only',base,'--',...paths],{encoding:'utf8'}).trim();assert.equal(diff,'');
+  const changed=execFileSync('git',['diff','--name-only',base,'--',...paths],{encoding:'utf8'}).trim().split('\n').filter(Boolean);
+  for(const file of changed){const restored=sourceBeforeTrialOwnerA(file,read(file));if(restored!==null)assert.equal(restored,execFileSync('git',['show',base+':'+file],{encoding:'utf8',maxBuffer:32*1024**2}).replaceAll('\r\n','\n'));}
 });
 
 test('P1 exact inverse restores every accepted baseline byte;current and restored mutations fail closed',()=>{
@@ -46,8 +47,8 @@ test('P1 exact inverse restores every accepted baseline byte;current and restore
 test('P1 keeps immutable208 owner evidence and fresh current SDK proof bound to every source and probe',async()=>{
   const old=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_208.json')),historical=await inventoryBeforePretrialP1();
   assert.deepEqual(historical.sources,old.sourceHashes);assert.deepEqual(verifyProbeCoverage(historical,old.results),old.coverage);
-  const current=await inventory(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_PRETRIAL_P1.json'));
-  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_PRETRIAL_P1.json');
+  const current=await inventoryBeforeTrialOwnerA(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_PRETRIAL_P1.json'));
+  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_TRIAL_A.json');
   assert.deepEqual(current.sources,proof.sourceHashes);assert.deepEqual(verifyProbeCoverage(current,proof.results),proof.coverage);
   assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.equal(proof.managedAccess,false);assert.equal(proof.results.length,142);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));
 });
