@@ -40,7 +40,7 @@ for (const theme of ['light', 'dark']) {
       await page.goto(`/e2e/package-f-orders-harness.html?theme=${theme}&live`);
       const card = page.getByRole('button', { name: `فتح الطلب ${fixture.orderNumber}`, exact: true });
       await card.click();
-      await expect(page.getByTestId('order-detail-panel').getByText('طباعة الطلب', { exact: true })).toBeVisible();
+      await expect(page.getByTestId('order-detail-panel').getByText('طباعة الوصل', { exact: true })).toBeVisible();
       await expect.poll(() => queries.length).toBe(2);
       await page.getByRole('button', { name: 'رجوع للطلبات', exact: true }).click();
 

@@ -216,7 +216,7 @@ export async function createPosSaleInSupabase(
   }
 }
 
-function storefrontReceiptUrl(receiptToken: string): string {
+export function storefrontReceiptUrl(receiptToken: string): string {
   const environment = (
     import.meta as ImportMeta & { env?: Record<string, string | undefined> }
   ).env;

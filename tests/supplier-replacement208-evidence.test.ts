@@ -13,13 +13,13 @@ const read=(f:string)=>readFileSync(f,'utf8'),json=(f:string)=>JSON.parse(read(f
 
 test('208 immutable SDK evidence binds every accepted208 source restored before P1 and all142 real probes',async()=>{
  const current=await inventory(),proof=json('docs/operations/TABLE_ACCESS_AFTER_208.json'),state=json('docs/agent/project-state.json');
- assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_209.json');assert.equal(state.migrationCeiling,209);
+ assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_210.json');assert.equal(state.migrationCeiling,210);
  assert.equal(proof.migrationCeiling,208);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);
  assert.deepEqual(proof.sourceHashes,current.sources);assert.deepEqual(verifyProbeCoverage(current,proof.results),proof.coverage);assert.equal(proof.results.length,142);assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));assertReady208Catalog(proof.catalog);
 });
 
 test('208 all current RPC dispatches bind source;only exact new supplier reader denies admin/cashier',async()=>{
- const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,209);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);
+ const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,210);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);
  const denied=proof.results.filter((r:{sqlstate:string|null})=>r.sqlstate==='42501');assert.deepEqual(denied.map((r:{name:string;appRole:string})=>[r.name,r.appRole]).sort(),[['get_supplier_replacements_page_v1','admin'],['get_supplier_replacements_page_v1','cashier']]);
  assert.ok(denied.every((r:{site:string})=>r.site.startsWith('src/services/supabase/supplierReplacement.service.ts:')));
  for(const name of ['execute_supplier_replacement_v1','preview_supplier_replacement_v1','get_supplier_replacements_page_v1','get_supplier_replacement_options_v1'])assert.ok(current.functionNames.includes(name));

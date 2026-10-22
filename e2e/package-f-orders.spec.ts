@@ -169,7 +169,8 @@ test('detail preserves contact/address tools, parcel composition and print', asy
   await expect(page.getByRole('heading', { name: /تعديل/ }).last()).toBeVisible();
   await page.getByRole('dialog', { name: 'تعديل عنوان التوصيل' }).getByRole('button', { name: 'إغلاق', exact: true }).click();
   await page.evaluate(() => { window.print = () => { document.body.dataset.printed = 'true'; }; });
-  await panel.getByRole('button', { name: 'طباعة الطلب', exact: true }).click();
+  await panel.getByLabel('خيارات طباعة إضافية',{exact:true}).click();
+  await panel.getByRole('button', { name: 'طباعة ورقة التجهيز', exact: true }).click();
   await expect(page.locator('body')).toHaveAttribute('data-printed', 'true');
 });
 for (const theme of ['light', 'dark']) {
@@ -218,7 +219,7 @@ for (const theme of ['light', 'dark']) {
     await expect.poll(() => listReads).toBe(3);
     await expect(page.getByText('جاري تحميل الطلبات...', { exact: true })).toBeAttached();
     await expect(page.locator('[data-order-card]')).toHaveCount(0);
-    await expect(page.getByTestId('order-detail-panel').getByText('طباعة الطلب', { exact: true })).toBeVisible();
+    await expect(page.getByTestId('order-detail-panel').getByText('طباعة الوصل', { exact: true })).toBeVisible();
     releaseList!();
     await expect(page.locator('[data-order-card]')).toHaveCount(6);
     await page.getByRole('button', { name: 'رجوع للطلبات', exact: true }).click();
@@ -258,7 +259,7 @@ test('live controller retains bounded RPC paging/search and selected-only detail
   expect(requests[0]).toEqual({ path: 'get_operational_orders_page', body: { p_page: 1, p_page_size: 25, p_filter: 'action', p_search: null, p_sort: 'newest' } });
   expect(requests.filter((r) => r.path === 'orders' && String(r.body.id).startsWith('eq.'))).toHaveLength(0);
   await page.getByRole('button', { name: 'فتح الطلب W-10482', exact: true }).click();
-  await expect(page.getByTestId('order-detail-panel').getByText('طباعة الطلب', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('order-detail-panel').getByText('طباعة الوصل', { exact: true })).toBeVisible();
   expect(requests.some((r) => r.path === 'orders' && r.body.id === `eq.${ordersFixture[0].id}`)).toBe(true);
   // Phone details now cover the list; return through the real navigation before searching.
   if (page.viewportSize()!.width < 768) await page.getByRole('button', { name: 'رجوع للطلبات', exact: true }).click();

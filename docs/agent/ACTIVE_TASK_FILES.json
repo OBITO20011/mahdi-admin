@@ -3,19 +3,19 @@
   "files": [
     {
       "code": " M",
-      "path": "docs/agent/TRIAL_OWNER_B.md"
+      "path": ".github/workflows/quality.yml"
     },
     {
       "code": " M",
-      "path": "docs/operations/TRIAL_OWNER_B_LOCAL.json"
+      "path": "docs/operations/TRIAL_OWNER_D_CI_REPAIR.json"
     },
     {
       "code": " M",
-      "path": "e2e/package-d-pos.spec.ts"
+      "path": "docs/operations/TRIAL_OWNER_D_LOCAL.json"
     },
     {
       "code": " M",
-      "path": "scripts/audit/parcel209-hunks.json"
+      "path": "scripts/audit/trial-sale-receipts-hunks.json"
     }
   ]
 }

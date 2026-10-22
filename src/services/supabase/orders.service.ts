@@ -2,6 +2,7 @@ import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import { Order, OrderStatus, PaymentMethod, PaymentStatus } from '../../types';
 import { isCustomerV2Order, runCustomerV2AdminAction } from './adminCustomerV2Lifecycle';
 import { attachHistoricalParcelComposition } from './historicalParcelComposition';
+import {storefrontReceiptUrl} from './pos.service';
 import {
   calculateOrderAmountDue,
   type OperationalOrderFilter,
@@ -96,6 +97,7 @@ const ORDER_DETAIL_SELECT = `
   internal_notes,
   whatsapp_message,
   tracking_token,
+  public_receipt_token,
   delivery_started_at,
   estimated_arrival_at,
   delivery_completed_at,
@@ -131,6 +133,7 @@ const ORDER_DETAIL_SELECT = `
   order_items (
     id,
     commercial_line_kind,
+    base_unit_name_snapshot,
     product_id,
     product_name_snapshot,
     sku_snapshot,
@@ -456,6 +459,7 @@ function mapOrderRows(data: unknown[]): Order[] {
         discount: 0,
         totalPrice: lineTotal,
         commercialLineKind: item.commercial_line_kind || undefined,
+        baseUnitName: item.base_unit_name_snapshot || undefined,
       };
     });
 
@@ -516,6 +520,7 @@ function mapOrderRows(data: unknown[]): Order[] {
       locationSource: addr.location_source || 'manual',
       locationConfirmed: Boolean(addr.location_confirmed),
       trackingToken: ord.tracking_token || undefined,
+      publicReceiptUrl: ord.public_receipt_token?storefrontReceiptUrl(ord.public_receipt_token):undefined,
       deliveryStartedAt: ord.delivery_started_at || undefined,
       estimatedArrivalAt: ord.estimated_arrival_at || undefined,
       deliveryCompletedAt: ord.delivery_completed_at || undefined,

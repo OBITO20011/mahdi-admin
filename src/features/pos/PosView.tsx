@@ -14,11 +14,13 @@ import {supabase} from '../../lib/supabase';
 import {runPosV2Attempt, readPosV2Recovery, inspectOrCancelPosV2Attempt} from '../../services/supabase/posV2Recovery';
 import type {CreatePosSaleV2Input, PosV2ConfigurableParcelLine} from '../../services/supabase/posV2.service';
 import {PosParcelBuilder, type PosParcelOption} from './PosParcelBuilder';
-import {posCartLines, posStockDemand, posWarehouseAvailable, posV2Invoice, type PosCartItem} from './posV2Cart';
-import {posSaleModeForProduct,posCartSaleMethodConflict} from './saleMethods';
+import {posCartLines, posStockDemand, posWarehouseAvailable, posV2Invoice, receiptBaseUnitNames, type PosCartItem} from './posV2Cart';
+import {posSaleModeForProduct,posCartSaleMethodConflict,type PosSingleProductMode} from './saleMethods';
+import {PosProductCard} from './PosProductCard';
 import {jodToMinorUnits} from '../../utils/receivingCalculations';
-import { Card, PageHeader, StatusBadge, MoneyText, SearchField, FilterChips, SegmentedControl, UiButton, StickyActionBar, ResponsiveCartPanel, ProductGlyph, formatItemCount } from '../../components/ui';
-import { useDialogFocus } from '../../hooks/useDialogFocus';
+import { Card, PageHeader, StatusBadge, MoneyText, SearchField, FilterChips, SegmentedControl, UiButton, StickyActionBar, ResponsiveCartPanel, formatItemCount } from '../../components/ui';
+import {SaleReceiptDialog} from '../receipts/SaleReceiptDialog';
+import {invoiceReceipt} from '../receipts/saleReceipt';
 import { Modal } from '../../components/common/Modal';
 import {useAuthStore} from '../../stores/useAuthStore';
 import {ChequeRegistrationForm} from '../cheques/ChequeRegistrationForm';
@@ -41,13 +43,9 @@ import {
   Minus,
   Trash2,
   Receipt,
-  Printer,
-  Share2,
-  CheckCircle2,
   Loader2,
   UserPlus,
   CircleAlert,
-  Copy,
 } from 'lucide-react';
 import { CURRENCY } from '../../constants';
 import {
@@ -57,7 +55,6 @@ import {
 } from '../../utils/posCalculations';
 import {
   buildReceiptShareText,
-  paymentMethodLabel,
 } from '../../utils/receipt';
 import {
   isPosSellableProduct,
@@ -105,14 +102,12 @@ export const PosView: React.FC = () => {
   } = useAppStoreActions();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [showParcelCatalog, setShowParcelCatalog] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [posProducts, setPosProducts] = useState<Product[]>([]);
   const [isProductsLoading, setIsProductsLoading] = useState(true);
   const [productsError, setProductsError] = useState<string | null>(null);
   const [cartItems, setCartItems] = useState<PosCartItem[]>([]);
-  const [saleMode, setSaleMode] = useState<'base_unit' | 'legacy_single_sku_parcel'>('legacy_single_sku_parcel');
   const [selectedWarehouseId, setSelectedWarehouseId] = useState('');
   const branchWarehouses = warehouses.filter(w => w.branchId === activeBranch.id);
   const warehouseId = branchWarehouses.find(w => w.id === selectedWarehouseId)?.id
@@ -138,7 +133,6 @@ export const PosView: React.FC = () => {
   const [lastInvoice, setLastInvoice] = useState<
     (Invoice & { changeDue: number }) | null
   >(null);
-  const receiptFocus = useDialogFocus(showReceiptModal, () => setShowReceiptModal(false));
   useEffect(() => { if (showReceiptModal) setIsCartOpen(false); }, [showReceiptModal]);
   const [isBarcodeScannerOpen, setIsBarcodeScannerOpen] = useState<boolean>(false);
   const [isAddCustomerOpen, setIsAddCustomerOpen] = useState<boolean>(false);
@@ -312,8 +306,8 @@ export const PosView: React.FC = () => {
     return resolvePosProductCode(matches, code);
   };
 
-  const addToCart = (prod: Product) => {
-    const productSaleMode=posSaleModeForProduct(prod,saleMode);
+  const addToCart = (prod: Product,preferred:PosSingleProductMode='legacy_single_sku_parcel') => {
+    const productSaleMode=posSaleModeForProduct(prod,preferred);
     if (isSubmitting || recoveryBlocked || !warehouseId) {setToast('حدد المستودع واسترجع أي محاولة معلقة قبل البيع.', 'error'); return;}
     if (cartItems.length && cartWarehouseRef.current !== warehouseId) {setToast('تغير مستودع البيع؛ أفرغ السلة ثم أعد تركيبها.', 'error'); return;}
     cartWarehouseRef.current = warehouseId;
@@ -330,7 +324,7 @@ export const PosView: React.FC = () => {
     const currentQuantity =
       existingIndex >= 0 ? cartItems[existingIndex].quantity : 0;
     if (!canSetPosQuantity(currentQuantity + 1, availableSalePackages)) {
-      setToast(`المتاح من ${prod.nameAr} هو ${availableSalePackages} طرد بيع فقط.`, 'error');
+      setToast(`المتاح من ${prod.nameAr} هو ${availableSalePackages} ${productSaleMode==='base_unit'?prod.unit:'طرد'} فقط.`, 'error');
       return;
     }
 
@@ -484,8 +478,8 @@ export const PosView: React.FC = () => {
     try {
       const result = await runPosV2Attempt(supabase, currentUser.id, intent, request);
       if (result.ok === false) {setToast(result.message, 'error'); return;}
-      const meta = await supabase.from('orders').select('created_at').eq('id', result.data.orderId).single();
-      const invoice = posV2Invoice(result.data, currentUser, typeof meta.data?.created_at === 'string' ? meta.data.created_at : '');
+      const meta = await supabase.from('orders').select('created_at,order_items(id,base_unit_name_snapshot)').eq('id', result.data.orderId).single();
+      const invoice = posV2Invoice(result.data, currentUser, typeof meta.data?.created_at === 'string' ? meta.data.created_at : '',receiptBaseUnitNames(meta.data));
       try {invoice.publicReceiptUrl = await getOrCreatePublicPosReceiptUrlFromSupabase(result.data.orderId);} catch {/* Committed sale is still recoverable. */}
       setLastInvoice(invoice); setShowReceiptModal(true); setCartItems([]); setDiscountAmount(0);
       setCashReceived(0); setSelectedCustomerId(''); setPaymentMethod('cash');
@@ -541,7 +535,6 @@ export const PosView: React.FC = () => {
   );
   const receiptBranch = lastInvoice ? branches.find(branch => branch.id === lastInvoice.branchId) : undefined;
 
-  const handlePrintReceipt = () => window.print();
 
   const ensurePublicReceiptUrl = async () => {
     if (!lastInvoice) throw new Error('لا توجد فاتورة لإنشاء الرابط.');
@@ -627,25 +620,12 @@ export const PosView: React.FC = () => {
   };
 
 
-  const currentProductUnit=knownProductsRef.current.get(cartItems.at(-1)?.productId??'')?.unit;
-  const saleUnitLabel=currentProductUnit||'باكيت';
   const cartMethodConflict=recoveryBlocked?null:posCartSaleMethodConflict(cartItems,knownProductsRef.current);
-  const hasUnitMethod=filteredProducts.length===0||filteredProducts.some(product=>!product.parcelOnly);
-  const hasParcelMethod=filteredProducts.length===0||filteredProducts.some(product=>(product.unitsPerSalePackage??1)>1);
-  const saleModeOptions:Array<{value:'base_unit'|'legacy_single_sku_parcel'|'configurable_parcel';label:string}>=[
-    ...(hasUnitMethod?[{value:'base_unit' as const,label:saleUnitLabel}]:[]),
-    ...(hasParcelMethod?[{value:'legacy_single_sku_parcel' as const,label:'طرد'}]:[]),
-    ...(parcelOptions.length?[{value:'configurable_parcel' as const,label:'طرد مشكّل'}]:[]),
-  ];
   const cartBaseUnitTotals=Array.from(cartItems.reduce((totals,item)=>{
     const name=knownProductsRef.current.get(item.productId)?.unit||'باكيت';
     totals.set(name,(totals.get(name)??0)+item.baseQuantity);
     return totals;
   },new Map<string,number>()));
-  const saleModeControl = <SegmentedControl touchSize disabled={isSubmitting || recoveryBlocked} label="وحدة البيع"
- options={saleModeOptions}
- value={showParcelCatalog ? 'configurable_parcel' : !hasParcelMethod?'base_unit':!hasUnitMethod?'legacy_single_sku_parcel':saleMode}
- onChange={value => {setShowParcelCatalog(value === 'configurable_parcel'); if (value !== 'configurable_parcel') setSaleMode(value);}} />;
   const paymentControl = <SegmentedControl touchSize label="طريقة الدفع" value={paymentMethod}
  options={[{value: 'cash' as PaymentMethod, label: 'كاش'}, {value: 'cliq' as PaymentMethod, label: 'CliQ'}, {value: 'debt' as PaymentMethod, label: 'دين'}]}
  onChange={value => setPaymentMethod(value)} />;
@@ -738,7 +718,6 @@ export const PosView: React.FC = () => {
                 <Camera className="h-5 w-5" /><span className="hidden sm:inline">مسح الباركود</span>
               </UiButton>
             </div>
-            <div className="lg:hidden">{saleModeControl}</div>
             <FilterChips touchSize label="أقسام المنتجات" value={selectedCategory} onChange={value => setSelectedCategory(value)}
               options={[{value: 'all',label: 'جميع الأقسام'},...categories.map(category=>({value:category.id,label:category.nameAr}))]} />
             <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -751,51 +730,26 @@ export const PosView: React.FC = () => {
               </select>
               </WarehouseChoice>
             </div>
-            <div className={showParcelCatalog ? '' : 'hidden'}>      {parcelOptions.length > 0 && <div className="flex flex-wrap gap-2">
-        {parcelOptions.map(option => <button type="button" key={option.parcelConfigurationId}
-          disabled={isSubmitting || recoveryBlocked || !warehouseId} className="min-h-11 rounded-xl bg-nw-info-bg text-nw-info p-3 text-sm"
-          onClick={() => {setEditingParcelId(null); setParcelOption(option);}}>تركيب طرد: {option.nameAr}</button>)}
-      </div>}
-
-</div>
-            {!showParcelCatalog && <div data-testid="pos-product-list" className="grid min-w-0 gap-3 lg:grid-cols-[repeat(auto-fill,minmax(190px,1fr))]">
-              {productsError && <Card role="alert" className="col-span-full text-nw-bad">{productsError}</Card>}
-              {isProductsLoading && filteredProducts.length === 0 && !productsError && <Card role="status" className="col-span-full text-nw-muted"><Loader2 className="h-5 w-5 animate-spin" />جارٍ تحميل المنتجات…</Card>}
-              {!isProductsLoading && filteredProducts.length === 0 && !productsError && <Card className="col-span-full text-nw-muted">لا توجد منتجات مطابقة.</Card>}
-              {filteredProducts.map(prod => {
-                const productSaleMode=posSaleModeForProduct(prod,saleMode);
-                const currentItem = cartItems.find(item => item.productId === prod.id && item.v2Line.commercial_line_kind === productSaleMode);
-                const inCart = cartItems.some(item => item.productId === prod.id);
-                const stock = posWarehouseAvailable(prod, warehouseId);
-                const lowStock = stock <= prod.reorderLevel;
-                return <div key={prod.id} className={'flex min-w-0 items-center gap-2 rounded-2xl border bg-nw-surface p-3 lg:block lg:p-4 ' + (inCart ? 'border-nw-primary ring-1 ring-nw-primary' : 'border-nw-border')}>
-                  <button type="button" data-pos-product-card={prod.id} aria-label={'إضافة ' + prod.nameAr}
-                    disabled={isSubmitting || recoveryBlocked || !warehouseId}
-                    onKeyDown={event => { if (event.key === 'Enter' && event.repeat) event.preventDefault(); }}
-                    onClick={() => addToCart(prod)}
-                    className="flex min-h-11 min-w-0 flex-1 items-center gap-3 text-right focus-visible:outline focus-visible:outline-2 focus-visible:outline-nw-primary disabled:opacity-60 lg:w-full lg:flex-col lg:items-stretch">
-                    <ProductGlyph name={prod.nameAr} image={prod.imageUrl} className="h-14 w-14 shrink-0 lg:h-20 lg:w-full" />
-                    <div className="min-w-0 flex-1 space-y-2">
-                      <h3 className="m-0 break-words text-sm font-bold">{prod.nameAr}</h3>
-                      <bdi dir="ltr" className="block break-all text-xs text-nw-muted">{prod.barcode}</bdi>
-                      <div className="flex flex-wrap justify-between gap-2 text-xs">
-                        {!prod.parcelOnly&&<span>{prod.unit} <MoneyText amount={prod.retailPrice} className="font-bold text-nw-text" /></span>}
-                        {(prod.unitsPerSalePackage??1)>1&&<span>طرد {typeof prod.salePackagePrice === 'number' && Number.isFinite(prod.salePackagePrice) ? <MoneyText amount={prod.salePackagePrice} className="font-bold text-nw-text" /> : 'غير متاح'}</span>}
-                        {prod.parcelOnly&&<span className="font-bold text-nw-info">طرد فقط</span>}
-                      </div>
-                      <p className={'m-0 text-xs ' + (lowStock ? 'text-nw-warn' : 'text-nw-muted')}><bdi dir="ltr">{stock}</bdi> {prod.unit} · {stock === 0 ? 'نفد' : lowStock ? 'منخفض' : 'متوفر'}</p>
-                    </div>
-                  </button>
-                  <div className="flex shrink-0 items-center gap-1 lg:hidden">
-                    {currentItem && <><UiButton aria-label={'تقليل ' + prod.nameAr + ' من القائمة'} disabled={isSubmitting || recoveryBlocked}
-                      className="w-11 px-0" onClick={() => updateQuantity(currentItem.id, -1)}><Minus className="h-4 w-4" /></UiButton>
-                      <bdi dir="ltr" data-pos-product-quantity={prod.id} className="nw-num min-w-4 text-center font-bold">{currentItem.quantity}</bdi></>}
-                    <UiButton aria-label={'زيادة ' + prod.nameAr + ' من القائمة'} disabled={isSubmitting || recoveryBlocked || !warehouseId}
-                      className="w-11 px-0" onClick={() => addToCart(prod)}><Plus className="h-4 w-4" /></UiButton>
-                  </div>
-                </div>;
+            <div data-testid="pos-product-list" className="grid min-w-0 gap-3 lg:grid-cols-[repeat(auto-fill,minmax(240px,1fr))]">
+              {productsError&&<Card role="alert" className="col-span-full text-nw-bad">{productsError}</Card>}
+              {isProductsLoading&&filteredProducts.length===0&&!productsError&&<Card role="status" className="col-span-full text-nw-muted"><Loader2 className="h-5 w-5 animate-spin"/>جارٍ تحميل المنتجات…</Card>}
+              {!isProductsLoading&&filteredProducts.length===0&&!productsError&&<Card className="col-span-full text-nw-muted">لا توجد منتجات مطابقة.</Card>}
+              {filteredProducts.map(prod=>{
+                const own=cartItems.filter(item=>item.productId===prod.id);
+                return <PosProductCard key={prod.id} product={prod} stock={posWarehouseAvailable(prod,warehouseId)}
+                  parcelQuantity={own.find(i=>i.v2Line.commercial_line_kind==='legacy_single_sku_parcel')?.quantity??0}
+                  unitQuantity={own.find(i=>i.v2Line.commercial_line_kind==='base_unit')?.quantity??0}
+                  disabled={isSubmitting||recoveryBlocked||!warehouseId} onAdd={mode=>addToCart(prod,mode)}
+                  onReduce={mode=>{const item=own.find(i=>i.v2Line.commercial_line_kind===mode);if(item)updateQuantity(item.id,-1);}}/>;
               })}
-            </div>}
+            </div>
+            {parcelOptions.length>0&&<section aria-label="الطرود المشكّلة المتاحة" className="mt-3 grid min-w-0 gap-3 lg:grid-cols-[repeat(auto-fill,minmax(240px,1fr))]">
+              {parcelOptions.filter(option=>!searchQuery.trim()||option.nameAr.includes(searchQuery.trim())).map(option=><article key={option.parcelConfigurationId} className="space-y-2 rounded-2xl border border-nw-border bg-nw-surface p-3">
+                <h3 className="font-bold">{option.nameAr}</h3>
+                <UiButton disabled={isSubmitting||recoveryBlocked||!warehouseId} onClick={()=>{setEditingParcelId(null);setParcelOption(option);}} aria-label={'تركيب طرد: '+option.nameAr} className="w-full justify-start">+ طرد مشكّل <MoneyText amount={option.parcelPriceInMinorUnits/1000}/></UiButton>
+                <p className="text-xs text-nw-muted">في السلة: <bdi dir="ltr">{cartItems.filter(i=>i.v2Line.commercial_line_kind==='configurable_parcel'&&i.v2Line.family_product_id===option.familyProductId).reduce((sum,i)=>sum+i.quantity,0)}</bdi> طرد مشكّل</p>
+              </article>)}
+            </section>}
           </section>
           <ResponsiveCartPanel open={isCartOpen} onClose={() => setIsCartOpen(false)} busy={isSubmitting}
             title={'سلة المبيعات الحالية (' + cartItems.length + ')'}
@@ -886,19 +840,18 @@ export const PosView: React.FC = () => {
           </div>
 
 
-            <div className="hidden lg:block">{saleModeControl}</div>
                     {cartItems.length === 0 ? (
           <div className="py-6 text-center text-nw-muted text-xs">
-            انقر على أي منتج أعلاه لإضافته إلى الفاتورة
+            اختر + طرد أو + وحدة من بطاقة الصنف أعلاه لإضافته إلى الفاتورة
           </div>
         ) : (
           <div className="space-y-3">
             {cartItems.map((item) => (
-              <div key={item.id} className="flex flex-wrap items-center justify-between gap-2 border-b border-nw-border py-3 text-sm">
+              <div key={item.id} data-pos-cart-line className="flex flex-wrap items-center justify-between gap-2 border-b border-nw-border py-3 text-sm">
                 <div className="min-w-0 w-full">
-                  <h5 className="font-bold text-nw-text break-words">{item.productName}</h5>
+                  <div className="flex flex-wrap items-center gap-1"><h5 className="font-bold text-nw-text break-words">{item.productName}</h5><span data-pos-cart-line-kind className="text-xs font-bold">· {item.quantity} {item.v2Line.commercial_line_kind==='base_unit'?item.unit:item.v2Line.commercial_line_kind==='legacy_single_sku_parcel'?'طرد':'طرد مشكّل'}</span></div>
                   <StatusBadge tone={item.v2Line.commercial_line_kind === 'configurable_parcel' ? 'warn' : 'info'}>{item.v2Line.commercial_line_kind === 'base_unit' ? item.unit : item.v2Line.commercial_line_kind === 'legacy_single_sku_parcel' ? 'طرد' : 'طرد مشكّل'}</StatusBadge><span className="nw-num text-xs text-nw-muted">
-                    {item.unitPrice.toFixed(3)} {CURRENCY} / {item.unit}
+                    {item.unitPrice.toFixed(3)} {CURRENCY} / {item.v2Line.commercial_line_kind==='base_unit'?item.unit:item.v2Line.commercial_line_kind==='legacy_single_sku_parcel'?'طرد':'طرد مشكّل'}
                   </span>
                 </div>
 
@@ -960,127 +913,8 @@ export const PosView: React.FC = () => {
         </div>
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">{paymentControl}{completeSaleButton}</div>
       </StickyActionBar>
-      {/* Print Receipt Modal Sheet */}
-      {showReceiptModal && lastInvoice && (
-        <div ref={receiptFocus as React.RefObject<HTMLDivElement>} role="dialog" aria-modal="true" aria-label="إيصال البيع" className="fixed inset-0 z-50 flex items-center justify-center bg-nw-side/80 backdrop-blur-md p-4">
-          <style>{`
-            @media print {
-              @page { size: 80mm auto; margin: 4mm; }
-              html, body { background: #ffffff !important; }
-              body * { visibility: hidden !important; }
-              .pos-receipt-print,
-              .pos-receipt-print * { visibility: visible !important; }
-              .pos-receipt-print {
-                position: absolute !important;
-                inset: 0 !important;
-                width: 72mm !important;
-                margin: 0 auto !important;
-                padding: 3mm !important;
-                border: 0 !important;
-                box-shadow: none !important;
-                color: #111827 !important;
-                background: #ffffff !important;
-                direction: rtl !important;
-                font-family: Arial, Tahoma, sans-serif !important;
-              }
-            }
-          `}</style>
-          <div className="w-full max-w-sm bg-nw-surface border border-nw-border rounded-3xl shadow-2xl p-5 text-right font-sans space-y-4">
-            <div className="flex items-center justify-between border-b border-nw-border pb-3">
-              <div className="flex items-center gap-2 text-nw-ok font-bold text-xs">
-                <CheckCircle2 className="w-5 h-5" />
-                <span>تم إتمام العملية بنجاح!</span>
-              </div>
-              <button
-                aria-label="إغلاق الإيصال" onClick={() => setShowReceiptModal(false)}
-                className="h-11 w-11 rounded-full bg-nw-surface-2 text-nw-muted flex items-center justify-center hover:text-nw-text"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Receipt Preview */}
-            <div className="pos-receipt-print bg-nw-surface text-nw-muted p-4 rounded-xl shadow-inner text-[11px] leading-relaxed space-y-2">
-              <div className="text-center border-b border-nw-border pb-2">
-                <h4 className="font-extrabold text-xs">محلات النواصرة</h4>
-                <p className="text-[9px] text-nw-muted">{receiptBranch?.name || lastInvoice.branchId}</p>
-                <p className="text-[9px] text-nw-muted">
-                  {[receiptBranch?.address, receiptBranch?.phone].filter(Boolean).join(' | ')}
-                </p>
-                <p className="text-[9px] text-nw-muted">رقم الفاتورة: {lastInvoice.invoiceNumber}</p>
-                <p className="text-[9px] text-nw-muted">
-                  {lastInvoice.createdAt ? new Date(lastInvoice.createdAt).toLocaleString('ar-JO-u-nu-latn') : 'التاريخ في الإيصال المحفوظ'}
-                </p>
-              </div>
-
-              <div className="border-b border-nw-border pb-2 text-[10px]">
-                العميل: {lastInvoice.customerName || 'زبون نقدي'}
-              </div>
-
-              <div className="border-b border-nw-border pb-2 space-y-1">
-                {(lastInvoice.items || []).map((i: any) => (
-                  <div key={i.id} className="flex justify-between">
-                    <span>{i.productName} ({i.quantity} {i.unit || i.salePackage || 'طرد'})</span>
-                    <span>{i.totalPrice.toFixed(3)} د.أ</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="space-y-1 text-left font-bold border-b border-nw-border pb-2">
-                <div className="flex justify-between">
-                  <span>الإجمالي:</span>
-                  <span>{lastInvoice.totalAmount.toFixed(3)} د.أ</span>
-                </div>
-                <div className="flex justify-between text-[10px] text-nw-muted">
-                  <span>طريقة الدفع:</span>
-                  <span>{paymentMethodLabel(lastInvoice.paymentMethod)}</span>
-                </div>
-                {lastInvoice.remainingAmount > 0 && (
-                  <div className="flex justify-between text-[10px] text-nw-bad">
-                    <span>المتبقي على العميل:</span>
-                    <span>{lastInvoice.remainingAmount.toFixed(3)} د.أ</span>
-                  </div>
-                )}
-                {lastInvoice.changeDue > 0 && (
-                  <div className="flex justify-between text-[10px] text-nw-muted">
-                    <span>الباقي للزبون:</span>
-                    <span>{lastInvoice.changeDue.toFixed(3)} د.أ</span>
-                  </div>
-                )}
-              </div>
-
-              <div className="text-center pt-1 text-[9px] text-nw-muted">
-                شكراً لتسوقكم من نواصرة!
-              </div>
-            </div>
-
-            {/* Print & Share Action Buttons */}
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                onClick={handlePrintReceipt}
-                className="min-h-11 bg-nw-info-bg hover:bg-nw-info-bg text-nw-text font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow"
-              >
-                <Printer className="w-3.5 h-3.5" />
-                <span>طباعة / PDF</span>
-              </button>
-              <button
-                onClick={() => void handleShareReceipt()}
-                className="min-h-11 bg-nw-surface-2 hover:bg-nw-surface-2 text-nw-text font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 border border-nw-border"
-              >
-                <Share2 className="w-3.5 h-3.5" />
-                <span>مشاركة الإيصال</span>
-              </button>
-              <button
-                onClick={() => void handleCopyReceiptLink()}
-                className="min-h-11 bg-nw-ok-bg/50 hover:bg-nw-ok-bg/60 text-nw-ok font-bold py-2.5 rounded-xl text-[10px] flex items-center justify-center gap-1 border border-nw-ok/50"
-              >
-                <Copy className="w-3.5 h-3.5" />
-                <span>نسخ الرابط</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {showReceiptModal&&lastInvoice&&<SaleReceiptDialog completed receipt={invoiceReceipt(lastInvoice,receiptBranch)}
+        onClose={()=>setShowReceiptModal(false)} onShare={()=>void handleShareReceipt()} onCopy={()=>void handleCopyReceiptLink()}/>}
 
       {parcelOption && <PosParcelBuilder option={parcelOption}
         initialComponents={(() => {const line = cartItems.find(i => i.id === editingParcelId)?.v2Line;

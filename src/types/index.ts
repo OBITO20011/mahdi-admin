@@ -309,6 +309,7 @@ export interface OrderItem {
   discount: number;
   totalPrice: number;
   commercialLineKind?: string;
+  baseUnitName?: string;
   parcelInstances?: {
     id: string;
     sequence: number;
@@ -342,6 +343,7 @@ export interface Order {
   locationSource?: 'gps' | 'map_pin' | 'manual';
   locationConfirmed?: boolean;
   trackingToken?: string;
+  publicReceiptUrl?: string;
   deliveryStartedAt?: string;
   estimatedArrivalAt?: string;
   deliveryCompletedAt?: string;

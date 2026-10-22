@@ -47,7 +47,10 @@ for(const width of [390,1440])for(const theme of ['light','dark'])test(`204 live
   const dialog=page.getByRole('dialog',{name:'الفاتورة INV-001',exact:true});await expect(dialog).toBeVisible();
   await expect(dialog.getByTestId('order-commercial-summary')).toContainText('مياه تاريخية باسم الفاتورة');await expect(dialog.getByTestId('order-commercial-summary')).toContainText('طرد شيبس مشكّل تاريخي');
   await dialog.locator('summary').filter({hasText:'إجراءات الفاتورة والمرتجع'}).click();await expect(dialog).toContainText('هذا بيع POS تاريخي');
-  await checkLayout(page,dialog);await page.evaluate(()=>{window.print=()=>{document.body.dataset.printCalls='1';};});await dialog.getByRole('button',{name:'طباعة الطلب',exact:true}).click();
+  await checkLayout(page,dialog);await page.evaluate(()=>{window.print=()=>{document.body.dataset.printCalls='1';};});await dialog.getByRole('button',{name:'طباعة الوصل',exact:true}).click();
+  const receipt=page.getByRole('dialog',{name:'إيصال البيع',exact:true});await expect(receipt.getByTestId('sale-receipt-document')).toContainText('طرد شيبس مشكّل تاريخي');
+  await receipt.getByRole('button',{name:'طباعة / PDF',exact:true}).click();await receipt.getByRole('button',{name:'إغلاق الإيصال',exact:true}).click();
+  await dialog.getByLabel('خيارات طباعة إضافية',{exact:true}).click();await dialog.getByRole('button',{name:'طباعة ورقة التجهيز',exact:true}).click();
   await expect(page.locator('body')).toHaveAttribute('data-print-calls','1');await expect(dialog.getByTestId('order-commercial-summary')).toContainText('جبنة قديمة');
   await page.emulateMedia({media:'print'});await expect(page.getByTestId('sales-history')).not.toBeVisible();await expect(dialog.getByText('شطة قديمة',{exact:false}).first()).toBeVisible();await expect(dialog.getByTestId('order-commercial-summary')).toContainText('12.050');expect(proof.writes).toEqual([]);
 });

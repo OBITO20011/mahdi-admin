@@ -1,0 +1,302 @@
+{
+  "sha": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
+  "recordedAt": "2026-10-22T12:57:06.787Z",
+  "managedAccess": false,
+  "quality": [
+    {
+      "id": 39779203932,
+      "event": "push",
+      "sha": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
+      "attempt": 1,
+      "jobs": 40,
+      "strictFullVerified": true,
+      "actualReset208": {
+        "publicReport": true,
+        "authenticatedRestRead": true,
+        "ownerTotpStoragePreserved": true
+      },
+      "actualFull208": {
+        "passed": 21,
+        "readScale": {
+          "realWriterCases": 200,
+          "pageSize": 25,
+          "samplesMs": [
+            234,
+            234,
+            235,
+            234,
+            236
+          ],
+          "statementDeadlineMs": 5000
+        },
+        "restore": {
+          "logicalCatalogDifferences": 0,
+          "allPublicDataAndSequencesIdentical": true,
+          "replayZeroWrites": true
+        }
+      }
+    }
+  ],
+  "secrets": [
+    {
+      "id": 39779203931,
+      "event": "push",
+      "sha": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
+      "conclusion": "success"
+    }
+  ],
+  "browser": [
+    {
+      "run": 39779203932,
+      "job": 119825885957,
+      "name": "Package F browser QA (4/5)",
+      "skipped": 0,
+      "passed": 194,
+      "summaries": 2,
+      "duration": "6.0m+9.0m",
+      "flaky": 0,
+      "logSha256": "a6a10f86bef22959beef1dd49877e60ed10a3b0f177b99992b16cb540d3a8973"
+    },
+    {
+      "run": 39779203932,
+      "job": 119825885958,
+      "name": "Package F browser QA (1/5)",
+      "skipped": 0,
+      "passed": 194,
+      "summaries": 2,
+      "duration": "6.1m+9.8m",
+      "flaky": 0,
+      "logSha256": "1b83a4fb348ff3279822ea27a77ac161bbaa3d536f69b896bb61150d3ff42418"
+    },
+    {
+      "run": 39779203932,
+      "job": 119825885962,
+      "name": "Package F browser QA (2/5)",
+      "skipped": 0,
+      "passed": 194,
+      "summaries": 2,
+      "duration": "5.6m+8.6m",
+      "flaky": 0,
+      "logSha256": "e25d0a91cf62e851dd31b14c20d6ea3ed7657ed97860ac04f1b0d76a34ca21fa"
+    },
+    {
+      "run": 39779203932,
+      "job": 119825886005,
+      "name": "Lint, test, build and browser QA",
+      "skipped": 59,
+      "passed": 373,
+      "summaries": 1,
+      "duration": "14.8m",
+      "flaky": 0,
+      "logSha256": "e0189ba79fb0561864abcd47a9e030b4297ccef00c1d8b142fb416f0ce6987e1"
+    },
+    {
+      "run": 39779203932,
+      "job": 119825886055,
+      "name": "Package F browser QA (3/5)",
+      "skipped": 0,
+      "passed": 194,
+      "summaries": 2,
+      "duration": "4.3m+6.0m",
+      "flaky": 0,
+      "logSha256": "13106f1a87a6586900106dc24746cb5bcbbfd9b359247de51ff539f3f4297735"
+    },
+    {
+      "run": 39779203932,
+      "job": 119825886067,
+      "name": "Package F browser QA (5/5)",
+      "skipped": 0,
+      "passed": 192,
+      "summaries": 2,
+      "duration": "4.6m+6.4m",
+      "flaky": 0,
+      "logSha256": "10b86c3f7df6bcec84cced84ba9cef771d7a41ede600e080adf31063ea763144"
+    }
+  ],
+  "browserTotals": [
+    {
+      "run": 39779203932,
+      "passed": 1341,
+      "legacyConditionalSkipped": 59,
+      "flaky": 0
+    }
+  ],
+  "qualityRun": 39779203932,
+  "qualityEvent": "push",
+  "secretsRun": 39779203931,
+  "jobs": 40,
+  "deliveryReady": true,
+  "pwa": [
+    {
+      "run": 39779203932,
+      "job": 119825886111,
+      "mode": "full",
+      "scenarios": [
+        {
+          "browser": "Chromium",
+          "scenario": "automatic",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        },
+        {
+          "browser": "Chromium",
+          "scenario": "waiting-worker",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        },
+        {
+          "browser": "WebKit",
+          "scenario": "automatic",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        },
+        {
+          "browser": "WebKit",
+          "scenario": "waiting-worker",
+          "ok": true,
+          "cacheCleanup": true,
+          "reopenedOnReleaseB": true
+        }
+      ],
+      "network": {
+        "denied": [],
+        "blockedCanaryAttempts": [],
+        "deniedUnexpectedAttempts": [],
+        "escapedExternalRequests": []
+      }
+    }
+  ],
+  "trialASearch": [
+    {
+      "run": 39779203932,
+      "job": 119825887259,
+      "ok": true,
+      "managedAccess": false,
+      "realPostgrest": true,
+      "matchingOutsideFirstPage": true,
+      "pages": 2,
+      "fullItemsRetained": true,
+      "exactCount": 32,
+      "filtersAndQuotedSearch": true,
+      "zeroWrites": true,
+      "singleSkuHasNoDuplicateParcel": true,
+      "cases": [
+        {
+          "role": "owner",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "admin",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "manager",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "warehouse_keeper",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "accountant",
+          "passed": true,
+          "matchingOutsideFirstPage": true
+        },
+        {
+          "role": "cashier",
+          "existingReaderDenied": true,
+          "passed": true
+        },
+        {
+          "role": "no-role",
+          "existingReaderDenied": true,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "actualPosBrowser": [
+    {
+      "run": 39779203932,
+      "job": 119825887108,
+      "passed": 8,
+      "scenariosPerEngine": 4,
+      "engines": [
+        "Chromium",
+        "WebKit"
+      ],
+      "realPublicRpc": true,
+      "realIsolatedDatabase": true,
+      "productionRequests": 0
+    }
+  ],
+  "parcel209": [
+    {
+      "run": 39779203932,
+      "job": 119825886942,
+      "cases": 16,
+      "races": 7,
+      "restore": {
+        "logicalCatalogDifferences": 0,
+        "allPublicDataAndSequencesIdentical": true,
+        "replayZeroWrites": true
+      },
+      "access": {
+        "ok": true,
+        "ownerV5RestMutation": true,
+        "publicInheritedMethods": [
+          {
+            "role": "anon",
+            "rows": 3,
+            "parcelOnly": true
+          },
+          {
+            "role": "authenticated",
+            "rows": 3,
+            "parcelOnly": true
+          }
+        ],
+        "adminBarcodeMethod": true,
+        "noRoleRefused": true,
+        "readZeroWrites": true
+      },
+      "reference": {
+        "migrations": 171,
+        "functions": 546,
+        "realtimeMembers": 13,
+        "freshIncrementalDifferenceCount": 0
+      },
+      "upgrade": {
+        "applied": [
+          "209"
+        ],
+        "recorded": [
+          "209"
+        ],
+        "replayWrite": false
+      },
+      "reset": {
+        "ownerRetained": true,
+        "totp": true,
+        "storageDeleted": true,
+        "rest209": true
+      }
+    }
+  ],
+  "pr": {
+    "number": 15,
+    "url": "https://github.com/OBITO20011/mahdi-admin/pull/15",
+    "base": "d7779f56dc0bdfe77091bb4881cbae4ad50ced3a",
+    "head": "1109841021913d0a85b00360a812c40e8961ff9e",
+    "merged": true,
+    "mergeSha": "581cb972a247ef13dbdc697b75bcc5c674bfa97d"
+  },
+  "ok": true
+}

@@ -119,7 +119,6 @@ for(const theme of ['light','dark'])for(const width of [390,1440])test(`POS cheq
     return route.fulfill({json:{...chequeResult({...chequeRows[0]!,customer_id:customerId,branch_id:posFixtureIds.branch,amount_in_minor_units:1001}),customerBalanceInMinorUnits:43999}});
   });
   await page.goto('/e2e/package-f-pos-harness.html?theme='+theme);
-  await page.getByRole('radio',{name:'طرد',exact:true}).click();
   await page.locator(`[data-pos-product-card="${posFixtureProducts[0]!.id}"]`).click();
   if(width===390)await page.getByRole('button',{name:'مراجعة السلة والعميل',exact:true}).click();
   await page.getByRole('combobox',{name:'اختيار العميل',exact:true}).selectOption(customerId);

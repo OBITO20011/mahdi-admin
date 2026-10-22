@@ -17,8 +17,9 @@ test('POS token presentation preserves V2,open shift,recovery and all authority 
   assert.match(pos, /selectedPosCustomer\.currentBalance > selectedPosCustomer\.creditLimit/);
   assert.match(pos, /<SearchField emphasis ref=\{searchInputRef\}/);
   assert.match(pos, /<StickyActionBar tone="hero"/);
-  assert.match(pos, /lg:grid-cols-\[repeat\(auto-fill,minmax\(190px,1fr\)\)\]/);
-  assert.match(pos, /event\.key === 'Enter' && event\.repeat/);
+  assert.match(pos, /lg:grid-cols-\[repeat\(auto-fill,minmax\(240px,1fr\)\)\]/);
+  const card=readFileSync('src/features/pos/PosProductCard.tsx','utf8');
+  assert.match(card, /event\.key==='Enter'&&event\.repeat/);
   assert.match(pos, /searchInputRef\.current\?\.focus\(\{preventScroll: true\}\)/);
 });
 test('product initial/photo comes from real name/image and uses only decorative tokens', () => {

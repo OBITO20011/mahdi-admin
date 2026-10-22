@@ -1,3 +1,23 @@
+#22Oct — D210 complete local gates;final FULL41 pending
+
+Owner approved read-only210. D1-D4 complete;1356admin/197store,public6/internal20 both engines,currentSDK326/148 andRPC525,DB7/read-only/ACL/restore0,fresh-incremental172/546/13,local apply/replay/resetREST/TOTP/Storage PASS. Owner210 guide/reference prepared only,old208/209 preserved. Final Gitleaks/exact push+PR16 FULL41 then merge/mainCI before J211 then H. No hostedaccess/deploy.
+
+#22Oct — owner approved read-only210 and adopted current D tree
+
+Implement only saved public receipt commercial kind/quantity/unit/composition in same STABLE token-gated reader,unchanged ACL and no writes/cost/profit. Complete D verification/PR16 FULL CI/merge/mainCI,then J from211,then H. No hostedaccess/deploy.
+
+#22Oct — D internal parts locally verified;public210 decision pending
+
+Owner adopted current tree. D2/D3/D4/internal saved receipt implemented;1353admin/197store,96+130browser batches/5kCatalog2/realPOS8,325source SDK148/RPC525,types/strictlint/builds/network0/native1420 PASS. No SQL/sale RPC/price/permission changes;old001-209/pins/owner209 reference preserved. Public-reader210 remains unapproved;no D merge before decision. Draft PR/exact feature FULL40 and secrets next. See TRIAL_OWNER_D_LOCAL.json.
+
+#22Oct — owner trial batch2 authorized: D then J then H
+
+A/B delivered main581cb97. Implement separate D UI-only receipts/card methods/reprint/formed configuration,then J approved supplier disposition/reclassification DB,then H official brand/assets/SEO. Own worktree/PR/FULLCI/merge/mainCI/Gitleaks0/checkpoint each. No hostedaccess/deploy. D public legacy reader lacks saved kind/composition;bounded read-only210 proposal awaits owner approval (no SQL implemented). Read TRIAL_OWNER_D_J_H_AR.md.
+
+#22Oct — owner packages A/B delivered;B209 exact main FULL40 accepted
+
+PR15 merged main 581cb972a247ef13dbdc697b75bcc5c674bfa97d after exact push+PR FULL40/secrets. Exact main quality 39779203932 and secrets 39779203931 SUCCESS;strict deliveryReady true. Actual1348Admin/197store/1341browser/0flaky/59unchanged historical conditionals;realPOS8/PWA4/full20821 and20916groups/7realraces/restore0/replay0/resetREST verified. Owner209 reference171migrations/546functions/13Realtime copied locally;208 preserved. Dry-run/apply/verify-only guide prepared only;no hostedaccess/deploy. See TRIAL_OWNER_B_DELIVERY.json and TRIAL_OWNER_B_MAIN_CI.json. No further phase authorized.
+
 #22Oct — B209 local gates accepted;feature/main FULL40 next
 
 Unified sale methods and additive209 implemented. Final1348Admin/197store/0skip;90affected/new browser identities plus36finalmethod/2purchaseprice subset bothengines;types/strictlint/build/network0/native1400. Actual320source SDK148/REST209/noRole0writes and RPC525. DB16groups/7real races/oldrefund1000/fullrestore0diff. Fresh/incremental171migrations/546functions/13Realtime;only products.parcel_only column added. Local owner apply209/replay0/resetREST/TOTP/Storage all PASS. Owner209 guide prepared only;no hostedaccess/deploy. Separate feature push+PR FULL40/secrets,then genuine main FULL40/secrets remain. See TRIAL_OWNER_B_LOCAL.json.

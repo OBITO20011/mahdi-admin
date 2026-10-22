@@ -101,7 +101,10 @@
     "frankfurt-owner-upgrade208": "node scripts/operations/frankfurt-owner-upgrade208.mjs",
     "test:parcel209:runtime": "node scripts/testing/run-parcel209-runtime.mjs",
     "test:parcel209:gates": "node scripts/testing/run-parcel209-gates.mjs",
-    "frankfurt-owner-upgrade209": "node scripts/operations/frankfurt-owner-upgrade209.mjs"
+    "frankfurt-owner-upgrade209": "node scripts/operations/frankfurt-owner-upgrade209.mjs",
+    "test:receipt210:runtime": "node scripts/testing/run-receipt210-runtime.mjs",
+    "test:receipt210:gates": "node scripts/testing/run-receipt210-gates.mjs",
+    "frankfurt-owner-upgrade210": "node scripts/operations/frankfurt-owner-upgrade210.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1128.0",

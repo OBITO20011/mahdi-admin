@@ -18,6 +18,8 @@ test('public receipt supports Arabic print and sharing without private fields', 
   assert.match(page, /إيصال إلكتروني موثّق/);
   assert.match(page, /window\.print\(\)/);
   assert.match(page, /navigator\.share/);
-  assert.match(page, /@page \{ size: A4 portrait/);
+  assert.match(page, /ReceiptPrintStyle/);
+  assert.match(readFileSync('src/receipts/ReceiptDocument.tsx','utf8'), /@page \{ size:80mm auto/);
+  assert.match(page, /ReceiptDocument receipt=\{receiptDocument\}/);
   assert.doesNotMatch(page, /customerPhone|customerAddress|costPrice|profit/);
 });

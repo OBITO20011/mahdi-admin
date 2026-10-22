@@ -1,0 +1,2362 @@
+{
+  "baseline": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
+  "entries": {
+    ".github/workflows/quality.yml": {
+      "before": "06d24766f44f9ccec345c4fd771f89afcb733308080fe782c8e265ac9f552387",
+      "after": "e64711e0f6297ff8130b974596b02ece9065a058c80715d33349e490f9072af3",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 250,
+          "before": [
+            "        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209]"
+          ],
+          "after": [
+            "        suite: [package-d, before-after, phase3, phase3-basic, phase42, phase43, phase44-financial, phase44-lineage, phase44-concurrency, pos-browser, golden-day, supplier-ledger, closing, package-f-reads, package-f-aging, operations-reset, warehouse-management, owner-withdrawals, deferred-cheques, opening-cheques, legacy-product-cost, home-damage201, all-collections202, all-collections203, sales-history204, product-receiving205, navigation-cash206, document-corrections207, supplier-replacement208, parcel209, receipt210]"
+          ]
+        },
+        {
+          "at": 326,
+          "before": [],
+          "after": [
+            "      - name: Receipt210 read-only saved public receipt restore upgrade and current SDK",
+            "        if: matrix.suite == 'receipt210'",
+            "        run: node scripts/testing/run-receipt210-gates.mjs",
+            ""
+          ]
+        },
+        {
+          "at": 496,
+          "before": [
+            "        run: npx playwright install --with-deps chromium webkit"
+          ],
+          "after": [
+            "        run: |",
+            "          # Keep Ubuntu's signed packages; avoid the Azure mirror that exhausted",
+            "          # the job budget twice while downloading browser system dependencies.",
+            "          sudo sed -i '\\|^https\\?://azure\\.archive\\.ubuntu\\.com/ubuntu/[[:space:]]|d' /etc/apt/apt-mirrors.txt",
+            "          grep -q '^https://archive\\.ubuntu\\.com/ubuntu/' /etc/apt/apt-mirrors.txt",
+            "          if grep -Fq 'azure.archive.ubuntu.com' /etc/apt/apt-mirrors.txt; then",
+            "            echo '::error::Azure apt mirror was not removed'",
+            "            exit 1",
+            "          fi",
+            "          npx playwright install --with-deps chromium webkit"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/components/PublicPosReceiptPage.tsx": {
+      "before": "ae31fd2500894a418bfac62fd2d2318c2f4552a67f0c42ecd52a483946617adc",
+      "after": "303d9d5d297d8684df9fdceca4f79ca1675d13bf069ce0c92ced1cd82714fd02",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [
+            "import {",
+            "  AlertTriangle,",
+            "  ArrowRight,",
+            "  Loader2,",
+            "  PackageCheck,",
+            "  Printer,",
+            "  ReceiptText,",
+            "  Share2,",
+            "  ShieldCheck,",
+            "} from 'lucide-react';"
+          ],
+          "after": [
+            "import { AlertTriangle, ArrowRight, Loader2, Printer, Share2 } from 'lucide-react';"
+          ]
+        },
+        {
+          "at": 5,
+          "before": [
+            "",
+            "const money = (minorUnits: number) =>",
+            "  `${(minorUnits / 1000).toLocaleString('ar-JO', {",
+            "    minimumFractionDigits: 3,",
+            "    maximumFractionDigits: 3,",
+            "  })} د.أ`;",
+            "",
+            "const paymentLabel = (method: string) =>",
+            "  ({",
+            "    cash: 'كاش',",
+            "    cliq: 'CliQ',",
+            "    card: 'بطاقة',",
+            "    bank_transfer: 'تحويل بنكي',",
+            "    debt: 'آجل على الحساب',",
+            "    mixed: 'دفع مختلط',",
+            "  })[method] || method || 'غير محدد';"
+          ],
+          "after": [
+            "import { ReceiptDocument, ReceiptPrintStyle } from '../receipts/ReceiptDocument';",
+            "import { receiptDocumentShareText } from '../receipts/commercialReceipt';",
+            "import { publicReceiptDocument } from '../receipts/publicReceipt';"
+          ]
+        },
+        {
+          "at": 10,
+          "before": [
+            "  const [receipt, setReceipt] = useState<PublicPosReceipt | null>(null);",
+            "  const [error, setError] = useState('');",
+            "  const [isLoading, setIsLoading] = useState(true);",
+            "",
+            "  useEffect(() => {",
+            "    let active = true;",
+            "    setIsLoading(true);",
+            "    setError('');",
+            "    fetchPublicPosReceipt(token)",
+            "      .then((result) => {",
+            "        if (!active) return;",
+            "        setReceipt(result);",
+            "        document.title = `إيصال ${result.orderNumber} | محلات النواصرة التجارية`;",
+            "      })",
+            "      .catch((loadError) => {",
+            "        if (!active) return;",
+            "        setError(",
+            "          loadError instanceof Error",
+            "            ? loadError.message",
+            "            : 'تعذر تحميل الإيصال.'",
+            "        );",
+            "      })",
+            "      .finally(() => {",
+            "        if (active) setIsLoading(false);",
+            "      });",
+            "    return () => {",
+            "      active = false;",
+            "    };",
+            "  }, [token]);",
+            "",
+            "  const shareReceipt = async () => {",
+            "    if (!receipt) return;",
+            "    const text = `إيصال ${receipt.orderNumber} من ${receipt.branch.name}\\nالإجمالي: ${money(receipt.totalInMinorUnits)}`;",
+            "    if (navigator.share) {",
+            "      await navigator.share({",
+            "        title: `إيصال ${receipt.orderNumber}`,",
+            "        text,",
+            "        url: window.location.href,",
+            "      });",
+            "      return;",
+            "    }",
+            "    await navigator.clipboard.writeText(window.location.href);"
+          ],
+          "after": [
+            "  const [receipt,setReceipt]=useState<PublicPosReceipt|null>(null);",
+            "  const [error,setError]=useState(''),[isLoading,setIsLoading]=useState(true);",
+            "  useEffect(()=>{",
+            "    let active=true;setIsLoading(true);setError('');setReceipt(null);",
+            "    fetchPublicPosReceipt(token).then(result=>{if(active){setReceipt(result);document.title=`إيصال ${result.orderNumber} | محلات النواصرة التجارية`;}})",
+            "      .catch(loadError=>{if(active)setError(loadError instanceof Error?loadError.message:'تعذر تحميل الإيصال.');})",
+            "      .finally(()=>{if(active)setIsLoading(false);});",
+            "    return()=>{active=false;};",
+            "  },[token]);",
+            "  const receiptDocument=receipt?publicReceiptDocument(receipt):null;",
+            "  const shareReceipt=async()=>{",
+            "    if(!receiptDocument)return;",
+            "    const text=receiptDocumentShareText(receiptDocument,window.location.href);",
+            "    try{",
+            "      if(navigator.share)await navigator.share({title:`إيصال ${receiptDocument.number}`,text,url:window.location.href});",
+            "      else await navigator.clipboard.writeText(text);",
+            "    }catch(shareError){if(!(shareError instanceof DOMException&&shareError.name==='AbortError'))setError('تعذر مشاركة الوصل.');}"
+          ]
+        },
+        {
+          "at": 28,
+          "before": [
+            "",
+            "  return (",
+            "    <div className=\"min-h-screen bg-slate-100 px-3 py-6 text-slate-950\" dir=\"rtl\">",
+            "      <style>{`",
+            "        @media print {",
+            "          @page { size: A4 portrait; margin: 12mm; }",
+            "          body { background: #fff !important; }",
+            "          .receipt-actions { display: none !important; }",
+            "          .public-pos-receipt { box-shadow: none !important; border: 0 !important; }",
+            "        }",
+            "      `}</style>",
+            "",
+            "      <main className=\"public-pos-receipt mx-auto max-w-2xl overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-xl\">",
+            "        <header className=\"bg-gradient-to-br from-blue-950 via-blue-900 to-blue-700 px-5 py-6 text-white\">",
+            "          <div className=\"flex items-start justify-between gap-4\">",
+            "            <div>",
+            "              <div className=\"mb-2 flex items-center gap-2 text-xs font-black text-blue-200\">",
+            "                <ReceiptText className=\"h-4 w-4\" />",
+            "                إيصال إلكتروني موثّق",
+            "              </div>",
+            "              <h1 className=\"text-2xl font-black\">{receipt?.branch.name || 'محلات النواصرة التجارية'}</h1>",
+            "              <p className=\"mt-1 text-xs text-blue-100\">تجارة الجملة والمواد الغذائية</p>",
+            "            </div>",
+            "            <div className=\"rounded-2xl border border-white/20 bg-white/10 p-3\">",
+            "              <ShieldCheck className=\"h-7 w-7 text-emerald-300\" />",
+            "            </div>",
+            "          </div>",
+            "        </header>",
+            "",
+            "        {isLoading && (",
+            "          <div className=\"flex min-h-72 flex-col items-center justify-center gap-3 text-slate-500\">",
+            "            <Loader2 className=\"h-8 w-8 animate-spin text-blue-600\" />",
+            "            <p className=\"text-sm font-bold\">جاري تحميل الإيصال من Supabase...</p>",
+            "          </div>",
+            "        )}",
+            "",
+            "        {!isLoading && error && (",
+            "          <div className=\"flex min-h-72 flex-col items-center justify-center gap-3 px-6 text-center\">",
+            "            <AlertTriangle className=\"h-10 w-10 text-amber-500\" />",
+            "            <h2 className=\"text-lg font-black\">تعذر فتح الإيصال</h2>",
+            "            <p className=\"text-sm leading-7 text-slate-500\">{error}</p>",
+            "            <a href=\"/products\" className=\"mt-2 rounded-xl bg-blue-700 px-5 py-3 text-sm font-black text-white\">العودة إلى المتجر</a>",
+            "          </div>",
+            "        )}",
+            "",
+            "        {!isLoading && receipt && (",
+            "          <div className=\"space-y-5 p-5 sm:p-7\">",
+            "            <section className=\"grid grid-cols-2 gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs\">",
+            "              <div><span className=\"block text-slate-500\">رقم الإيصال</span><b className=\"mt-1 block font-mono text-blue-800\">{receipt.orderNumber}</b></div>",
+            "              <div><span className=\"block text-slate-500\">التاريخ</span><b className=\"mt-1 block\">{new Date(receipt.createdAt).toLocaleString('ar-JO')}</b></div>",
+            "              <div><span className=\"block text-slate-500\">طريقة الدفع</span><b className=\"mt-1 block\">{paymentLabel(receipt.paymentMethod)}</b></div>",
+            "              <div><span className=\"block text-slate-500\">الحالة</span><b className=\"mt-1 block text-emerald-700\">{receipt.status === 'returned' ? 'مرتجع' : 'مكتمل'}</b></div>",
+            "            </section>",
+            "",
+            "            {receipt.status === 'returned' && (",
+            "              <div className=\"rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs font-bold text-amber-800\">هذه الفاتورة مسجلة كمرتجعة في نظام الإدارة.</div>",
+            "            )}",
+            "",
+            "            <section>",
+            "              <h2 className=\"mb-3 flex items-center gap-2 text-base font-black\"><PackageCheck className=\"h-5 w-5 text-blue-700\" />أصناف الجملة</h2>",
+            "              <div className=\"overflow-hidden rounded-2xl border border-slate-200\">",
+            "                {receipt.items.map((item, index) => (",
+            "                  <article key={`${item.sku}-${index}`} className=\"grid grid-cols-[1fr_auto] gap-3 border-t border-slate-200 p-4 first:border-0\">",
+            "                    <div className=\"min-w-0\">",
+            "                      <h3 className=\"font-black\">{item.productName}</h3>",
+            "                      <p className=\"mt-1 text-[11px] text-slate-500\">{item.packageQuantity} {item.packageName} × {money(item.packagePriceInMinorUnits)} · محتوى الطرد {item.unitsPerPackage}</p>",
+            "                      {item.sku && <small className=\"font-mono text-[10px] text-slate-400\">{item.sku}</small>}",
+            "                    </div>",
+            "                    <b className=\"text-sm text-blue-900\">{money(item.lineTotalInMinorUnits)}</b>",
+            "                  </article>",
+            "                ))}",
+            "              </div>",
+            "            </section>",
+            "",
+            "            <section className=\"space-y-2 rounded-2xl bg-slate-950 p-5 text-sm text-white\">",
+            "              <div className=\"flex justify-between text-slate-300\"><span>المجموع الفرعي</span><b>{money(receipt.subtotalInMinorUnits)}</b></div>",
+            "              {receipt.discountInMinorUnits > 0 && <div className=\"flex justify-between text-emerald-300\"><span>الخصم</span><b>-{money(receipt.discountInMinorUnits)}</b></div>}",
+            "              <div className=\"flex justify-between border-t border-slate-700 pt-3 text-lg font-black\"><span>الإجمالي</span><b className=\"text-amber-300\">{money(receipt.totalInMinorUnits)}</b></div>",
+            "            </section>",
+            "",
+            "            <footer className=\"text-center text-xs leading-6 text-slate-500\">",
+            "              {receipt.branch.address && <p>{receipt.branch.address}</p>}",
+            "              {receipt.branch.phone && <p dir=\"ltr\">{receipt.branch.phone}</p>}",
+            "              <p className=\"mt-2 flex items-center justify-center gap-1 font-bold text-emerald-700\"><ShieldCheck className=\"h-4 w-4\" />تم تحميل الإيصال مباشرة من نظام نواصرة</p>",
+            "            </footer>",
+            "",
+            "            <div className=\"receipt-actions grid grid-cols-3 gap-2\">",
+            "              <button type=\"button\" onClick={() => window.print()} className=\"flex items-center justify-center gap-1 rounded-xl bg-blue-700 px-2 py-3 text-xs font-black text-white\"><Printer className=\"h-4 w-4\" />طباعة</button>",
+            "              <button type=\"button\" onClick={() => void shareReceipt()} className=\"flex items-center justify-center gap-1 rounded-xl border border-blue-200 bg-blue-50 px-2 py-3 text-xs font-black text-blue-800\"><Share2 className=\"h-4 w-4\" />مشاركة</button>",
+            "              <a href=\"/products\" className=\"flex items-center justify-center gap-1 rounded-xl border border-slate-200 px-2 py-3 text-xs font-black text-slate-700\"><ArrowRight className=\"h-4 w-4\" />المتجر</a>",
+            "            </div>",
+            "          </div>",
+            "        )}",
+            "      </main>",
+            "    </div>",
+            "  );"
+          ],
+          "after": [
+            "  return <div className=\"min-h-screen bg-slate-100 px-3 py-6 text-slate-950\" dir=\"rtl\">",
+            "    <ReceiptPrintStyle/>",
+            "    <main className=\"public-pos-receipt mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-4 shadow-xl sm:p-7\">",
+            "      {isLoading&&<div role=\"status\" className=\"flex min-h-72 flex-col items-center justify-center gap-3 text-slate-500\"><Loader2 className=\"h-8 w-8 animate-spin\"/><p>جاري تحميل الإيصال...</p></div>}",
+            "      {!isLoading&&!receiptDocument&&<div className=\"space-y-3 py-12 text-center\"><AlertTriangle className=\"mx-auto h-10 w-10 text-amber-500\"/><h1>تعذر فتح الإيصال</h1><p role=\"alert\">{error}</p><a href=\"/products\">العودة إلى المتجر</a></div>}",
+            "      {!isLoading&&receiptDocument&&<>",
+            "        <p className=\"receipt-actions mb-3 text-center text-sm font-bold\">إيصال إلكتروني موثّق</p>",
+            "        {receipt?.status==='returned'&&<p className=\"receipt-actions mb-3 rounded-xl bg-amber-50 p-3 text-sm text-amber-800\">هذه الفاتورة مسجلة كمرتجعة في نظام الإدارة.</p>}",
+            "        <ReceiptDocument receipt={receiptDocument}/>",
+            "        {error&&<p role=\"alert\" className=\"receipt-actions\">{error}</p>}",
+            "        <div className=\"receipt-actions mt-5 grid grid-cols-3 gap-2 text-center text-xs font-bold\">",
+            "          <button type=\"button\" onClick={()=>window.print()} className=\"rounded-xl bg-blue-700 p-3 text-white\"><Printer className=\"mx-auto mb-1 h-4 w-4\"/>طباعة الوصل</button>",
+            "          <button type=\"button\" onClick={()=>void shareReceipt()} className=\"rounded-xl border border-blue-200 p-3\"><Share2 className=\"mx-auto mb-1 h-4 w-4\"/>مشاركة الوصل</button>",
+            "          <a href=\"/products\" className=\"rounded-xl border border-slate-200 p-3\"><ArrowRight className=\"mx-auto mb-1 h-4 w-4\"/>المتجر</a>",
+            "        </div>",
+            "      </>}",
+            "    </main>",
+            "  </div>;"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/receipts/ReceiptDocument.tsx": {
+      "added": true,
+      "before": null,
+      "after": "f554e7931b2e07f8cc01c37269343741f42da0e4cfd93f8f4b6578ecd416c02d",
+      "hunks": []
+    },
+    "customer-web/src/receipts/commercialReceipt.ts": {
+      "added": true,
+      "before": null,
+      "after": "08a9f5d6908321de6c331ac567b67f5aaa057e0ad3529ecf640a8813cbc5be57",
+      "hunks": []
+    },
+    "customer-web/src/receipts/publicReceipt.ts": {
+      "added": true,
+      "before": null,
+      "after": "0dfbc28692a9b941030f92a9abbddf63983268dcc29660c1ee7a4d4584c21b5a",
+      "hunks": []
+    },
+    "customer-web/src/services/receipts.service.ts": {
+      "before": "1feadd0aff5cc3496a64f3398fadb4ffc90b2f91559212e029cc0b6cc92402af",
+      "after": "23fb6b38b13fa8916b6ba06cabd6ef5b872aa7450f3134ba3d98db7b19615a16",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 65,
+          "before": [],
+          "after": [
+            "            commercialLineKind: stringValue(row.commercialLineKind) || undefined,",
+            "            baseQuantity: row.baseQuantity == null ? undefined : integerValue(row.baseQuantity),",
+            "            baseUnitName: stringValue(row.baseUnitName) || undefined,",
+            "            parcelInstances: Array.isArray(row.parcelInstances) ? row.parcelInstances.map((parcel) => {",
+            "              const saved = recordValue(parcel);",
+            "              return { components: Array.isArray(saved.components) ? saved.components.map((component) => {",
+            "                const value = recordValue(component);",
+            "                return { name: stringValue(value.name), quantity: integerValue(value.quantity), unitName: stringValue(value.unitName) };",
+            "              }) : [] };",
+            "            }) : [],"
+          ]
+        }
+      ]
+    },
+    "customer-web/src/types/receipt.ts": {
+      "before": "c55a282643737a574cf0807fd47e2c463e7d903ab77c24d53ca5e0bc91008dc3",
+      "after": "751a383ce93bc71df5789e0e7be427b425744ab40c591632705ceeca22274dfd",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import type { ReceiptParcel } from '../receipts/commercialReceipt';",
+            ""
+          ]
+        },
+        {
+          "at": 11,
+          "before": [],
+          "after": [
+            "  commercialLineKind?: string;",
+            "  baseQuantity?: number;",
+            "  baseUnitName?: string;",
+            "  parcelInstances?: ReceiptParcel[];"
+          ]
+        }
+      ]
+    },
+    "e2e/admin-large-catalog-performance.spec.ts": {
+      "before": "865196446b54a9ca977f7a9f0860e31294c53772ed940184ee3152484485fea0",
+      "after": "732829a76aab91ae41721a859b12e6dcdf56c9fc3740dfc8ba0cc7e044dcb507",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 24,
+          "before": [],
+          "after": [
+            "  // The shared isolation fixture already defines a deliberately non-verifying",
+            "  // SDK. Install this suite's explicit test-token callback before app startup;",
+            "  // otherwise loadTurnstile correctly reuses that default and never loads api.js.",
+            "  await context.addInitScript(turnstileShim);"
+          ]
+        },
+        {
+          "at": 36,
+          "before": [
+            "const openMoreDestination = (page: Page, groupId: string, destinationId: string) =>",
+            "  openShellDestination(page, groupId, destinationId);"
+          ],
+          "after": [
+            "const openMoreDestination = async (page: Page, groupId: string, destinationId: string) => {",
+            "  // Daily destinations are in the phone drawer after206, not the rare More list.",
+            "  const drawer = page.getByRole('button', {name: 'فتح القائمة الرئيسية', exact: true});",
+            "  if (await drawer.isVisible()) await drawer.click();",
+            "  await openShellDestination(page, groupId, destinationId);",
+            "};"
+          ]
+        },
+        {
+          "at": 107,
+          "before": [
+            "    await expect(page.locator('[data-inventory-product-card]:visible, [data-inventory-product-row]:visible').filter({hasText: 'LCAT-005000'}))"
+          ],
+          "after": [
+            "    // Inventory intentionally shows the unique fixture name, not its hidden SKU.",
+            "    await expect(page.locator('[data-inventory-product-card]:visible, [data-inventory-product-row]:visible').filter({hasText: 'منتج اختبار الحجم 005000'}))"
+          ]
+        },
+        {
+          "at": 119,
+          "before": [
+            "    await expect(page.locator('[data-pos-product-card]:visible').filter({hasText: '9900000003333'}))"
+          ],
+          "after": [
+            "    await expect(page.locator('[data-pos-product]:visible').filter({hasText: '9900000003333'}))"
+          ]
+        }
+      ]
+    },
+    "e2e/orders-focus-restoration.spec.ts": {
+      "before": "56653ab68beb300b8689886e2635c9b293801882fd1a5ce930c209953a9a04fe",
+      "after": "681224766fb32ddfedcadb95c27dcea49a16b5d02d657286b686f9ecb49c684f",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 43,
+          "before": [
+            "      await expect(page.getByTestId('order-detail-panel').getByText('طباعة الطلب', { exact: true })).toBeVisible();"
+          ],
+          "after": [
+            "      await expect(page.getByTestId('order-detail-panel').getByText('طباعة الوصل', { exact: true })).toBeVisible();"
+          ]
+        }
+      ]
+    },
+    "e2e/package-d-pos-fullstack.spec.ts": {
+      "before": "0235d4826b7e19c664a2790689a52324380ae7724b787939877bb2fa99e70c6f",
+      "after": "47932c1777720ee38da7101f9789ceffc2436a85e6838ecc3ff6beb822c65a64",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 90,
+          "before": [
+            "    await page.getByRole('radio',{name:'باكيت',exact:true}).click();",
+            "    await page.locator(`[data-pos-product-card=\"${productId}\"]`).click();"
+          ],
+          "after": [
+            "",
+            "    await page.locator(`[data-pos-product=\"${productId}\"] [data-pos-add-method=\"base_unit\"]`).click();"
+          ]
+        },
+        {
+          "at": 144,
+          "before": [
+            "    await page.getByRole('radio',{name:'طرد',exact:true}).click();"
+          ],
+          "after": []
+        },
+        {
+          "at": 182,
+          "before": [
+            "    await page.getByRole('radio',{name:'طرد',exact:true}).click();"
+          ],
+          "after": []
+        },
+        {
+          "at": 210,
+          "before": [
+            "    await mount(page);await page.getByRole('radio',{name:'باكيت',exact:true}).click();",
+            "    await page.locator(`[data-pos-product-card=\"${productId}\"]`).click();"
+          ],
+          "after": [
+            "    await mount(page);",
+            "    await page.locator(`[data-pos-product=\"${productId}\"] [data-pos-add-method=\"base_unit\"]`).click();"
+          ]
+        }
+      ]
+    },
+    "e2e/package-d-pos.spec.ts": {
+      "before": "21f9561ba17dbc18a4e8e03fc0b9b4bcf3b5b86df093cb62b90611af0687b9bc",
+      "after": "d4a7c64e4a660941910530c008adbd11d64d18a543e81d6a1ad0b65cae1c8b61",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 32,
+          "before": [
+            "  await page.getByRole('radio', {name: 'باكيت', exact: true}).click();",
+            "  await card.click(); await card.click(); // Two additional physical units."
+          ],
+          "after": [
+            "  const unit=page.locator(`[data-pos-product=\"${productId}\"] [data-pos-add-method=\"base_unit\"]`);",
+            "  await unit.click(); await unit.click(); // Two additional physical units."
+          ]
+        },
+        {
+          "at": 39,
+          "before": [
+            "  await card.click(); // Over capacity: neither line can grow."
+          ],
+          "after": [
+            "  await unit.click(); // Over capacity: neither line can grow."
+          ]
+        },
+        {
+          "at": 41,
+          "before": [
+            "  const quantities = rows.locator('..').locator('..').locator('[data-pos-quantity]');"
+          ],
+          "after": [
+            "  const quantities = rows.locator('xpath=ancestor::*[@data-pos-cart-line]').locator('[data-pos-quantity]');"
+          ]
+        },
+        {
+          "at": 58,
+          "before": [
+            "  await page.getByRole('radio', {name: 'طرد مشكّل', exact: true}).click();"
+          ],
+          "after": []
+        },
+        {
+          "at": 89,
+          "before": [
+            "    new URL(route.request().url()).searchParams.get('select') === 'created_at'"
+          ],
+          "after": [
+            "    new URL(route.request().url()).searchParams.get('select') === 'created_at,order_items(id,base_unit_name_snapshot)'"
+          ]
+        }
+      ]
+    },
+    "e2e/package-d-settings.spec.ts": {
+      "before": "8060561919c829e57d00d88c2484bf5d1308785bba4ede9d647ee072dd280966",
+      "after": "e3919b38d0a902879697f84ce0afff30bd01ec559e7283e3894becf44077e7a5",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 19,
+          "before": [
+            "  await page.getByLabel('كم حبة بالطرد').fill('6');await page.getByLabel('متاح للبيع كطرد').check();await page.getByLabel('نكهة الاختبار',{exact:true}).check();"
+          ],
+          "after": [
+            "  await page.getByLabel('كم حبة بالطرد').fill('6');await page.getByLabel('متاح للبيع كطرد مشكّل',{exact:true}).check();await page.getByLabel('نكهة الاختبار',{exact:true}).check();"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-cheques.spec.ts": {
+      "before": "4ca12c3b21b6236a4e3b6d1e6c065135197ba739d8959621cd7fcf1ba912c11e",
+      "after": "0c09bf27f930f814a8b36b77cc034e5b4fb04e76185b58b684dda90ef09411dc",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 121,
+          "before": [
+            "  await page.getByRole('radio',{name:'طرد',exact:true}).click();"
+          ],
+          "after": []
+        }
+      ]
+    },
+    "e2e/package-f-orders.spec.ts": {
+      "before": "720d67f73a81ac4e6856adbcaf7045112fcefb5ac10d8bb3a67bdadec683f77b",
+      "after": "8e4c4bf03b3e3b2f01bcd4f661b41aabb5e932dd34cb4f16f6807659e7588974",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 172,
+          "before": [
+            "  await panel.getByRole('button', { name: 'طباعة الطلب', exact: true }).click();"
+          ],
+          "after": [
+            "  await panel.getByLabel('خيارات طباعة إضافية',{exact:true}).click();",
+            "  await panel.getByRole('button', { name: 'طباعة ورقة التجهيز', exact: true }).click();"
+          ]
+        },
+        {
+          "at": 222,
+          "before": [
+            "    await expect(page.getByTestId('order-detail-panel').getByText('طباعة الطلب', { exact: true })).toBeVisible();"
+          ],
+          "after": [
+            "    await expect(page.getByTestId('order-detail-panel').getByText('طباعة الوصل', { exact: true })).toBeVisible();"
+          ]
+        },
+        {
+          "at": 262,
+          "before": [
+            "  await expect(page.getByTestId('order-detail-panel').getByText('طباعة الطلب', { exact: true })).toBeVisible();"
+          ],
+          "after": [
+            "  await expect(page.getByTestId('order-detail-panel').getByText('طباعة الوصل', { exact: true })).toBeVisible();"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-pos-harness.tsx": {
+      "before": "1929a6d0dedf707654426a22f8d7becbc9549f1c131bb4278ab6704e555274ed",
+      "after": "ed992d6372e6194a1c25455148f9f978edc1290d5b9c28211111575321713574",
+      "errorPrefix": "TERMINOLOGY_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 46,
+          "before": [
+            "      `${product.name_ar} ${product.sku} ${product.barcode}`.toLowerCase().includes(search)).map(product=>({...product,...(params.has('parcelOnly')?{parcel_only:true}:{}),...(params.get('base-unit')==='sack'?{base_unit:{code:'SACK',name_ar:'شوال'}}:{})})));"
+          ],
+          "after": [
+            "      `${product.name_ar} ${product.sku} ${product.barcode}`.toLowerCase().includes(search)).map(product=>({...product,...(params.has('parcelOnly')?{parcel_only:true}:{}),...(params.has('unitOnly')?{units_per_sale_unit:1}:{}),...(params.get('base-unit')==='sack'?{base_unit:{code:'SACK',name_ar:'شوال'}}:{})})));"
+          ]
+        },
+        {
+          "at": 48,
+          "before": [
+            "  if (name === 'get_pos_configurable_parcel_options_v1') return success({ options: [posFixtureParcel] });"
+          ],
+          "after": [
+            "  if (name === 'get_pos_configurable_parcel_options_v1') return success({ options: params.has('no-mix')?[]:[posFixtureParcel] });"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-pos.spec.ts": {
+      "before": "900afef69d7120011ebf47e190d032fa195648aaa0ea66e5cdbf77c9ac70a2c7",
+      "after": "a25711598cd3ffdd25b5c03bacfe9f707779ecb6c305fe46518cb4c7f22fab7c",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 71,
+          "before": [
+            "  await page.getByRole('radio', { name: 'باكيت', exact: true }).click();",
+            "  await product(page, 1).click();",
+            "  await page.getByRole('radio', { name: 'طرد مشكّل', exact: true }).click();"
+          ],
+          "after": [
+            "  await page.locator(`[data-pos-product=\"${posFixtureProducts[1].id}\"] [data-pos-add-method=\"base_unit\"]`).click();"
+          ]
+        },
+        {
+          "at": 121,
+          "before": [
+            " await expect(product(page,0)).toContainText('طرد فقط');await expect(page.getByRole('radio',{name:'باكيت',exact:true})).toHaveCount(0);"
+          ],
+          "after": [
+            " await expect(page.locator(`[data-pos-product=\"${posFixtureProducts[0].id}\"]`)).toContainText('طرد فقط');await expect(page.getByRole('radio',{name:'باكيت',exact:true})).toHaveCount(0);"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-public-receipt210.spec.ts": {
+      "added": true,
+      "before": null,
+      "after": "977aac81565a03b3515d521ab3c3dd59ec6cd8de9d8069219dd91e1a58cbc234",
+      "hunks": []
+    },
+    "e2e/package-f-sales-history204.spec.ts": {
+      "before": "31e060d3ee68e406ba2ce0f8932de3e4610608f380f152e98fd64a9fd80b6c77",
+      "after": "904d856d5e3bd0a39bf99b15f94728bc47f2c878a94cbf9b38628a8f29a3d849",
+      "errorPrefix": "SUPPLIER_REPLACEMENT208_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 50,
+          "before": [
+            "  await checkLayout(page,dialog);await page.evaluate(()=>{window.print=()=>{document.body.dataset.printCalls='1';};});await dialog.getByRole('button',{name:'طباعة الطلب',exact:true}).click();"
+          ],
+          "after": [
+            "  await checkLayout(page,dialog);await page.evaluate(()=>{window.print=()=>{document.body.dataset.printCalls='1';};});await dialog.getByRole('button',{name:'طباعة الوصل',exact:true}).click();",
+            "  const receipt=page.getByRole('dialog',{name:'إيصال البيع',exact:true});await expect(receipt.getByTestId('sale-receipt-document')).toContainText('طرد شيبس مشكّل تاريخي');",
+            "  await receipt.getByRole('button',{name:'طباعة / PDF',exact:true}).click();await receipt.getByRole('button',{name:'إغلاق الإيصال',exact:true}).click();",
+            "  await dialog.getByLabel('خيارات طباعة إضافية',{exact:true}).click();await dialog.getByRole('button',{name:'طباعة ورقة التجهيز',exact:true}).click();"
+          ]
+        }
+      ]
+    },
+    "e2e/package-f-trial-sale-receipts.spec.ts": {
+      "added": true,
+      "before": null,
+      "after": "c4ef58db4e2afa2a1921e4ba0c9521d3deccb767a7b6eddc4edd4014220a8643",
+      "hunks": []
+    },
+    "e2e/package-f-unit-terminology.spec.ts": {
+      "before": "5ef7d2284217e82b2059baa8563e5faf64ee1bf7e5090b1ce4b736aa8e65bd00",
+      "after": "f96768f438aede3c6d4886f9651e682bcbf1d67c450b364fd59eecc9799ac008",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 32,
+          "before": [
+            "  await expect(page.getByRole('radio',{name:'باكيت',exact:true})).toBeVisible();"
+          ],
+          "after": [
+            "  await expect(page.locator('[data-pos-add-method=\"base_unit\"]').first()).toContainText('+ شوال');"
+          ]
+        },
+        {
+          "at": 37,
+          "before": [
+            "  await expect(page.getByRole('radio',{name:'شوال',exact:true})).toBeVisible();"
+          ],
+          "after": [
+            "  await expect(page.locator('[data-pos-add-method=\"base_unit\"]').first()).toContainText('+ شوال');"
+          ]
+        }
+      ]
+    },
+    "e2e/phase6-package-c.spec.ts": {
+      "before": "d4c993fe2cee69fd5b34ad5d7a136f5806b581e3e768be2ad3595d37c606b16e",
+      "after": "35fc82523c2aa46b547c345fbc5648fe91e0d3171760bef0ecb5340ea726238e",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [
+            "  const quantity = page.locator('[data-pos-quantity]:visible, [data-pos-product-quantity=\"keyboard-product\"]:visible');"
+          ],
+          "after": [
+            "  const quantity = page.locator('[data-pos-product-quantity=\"keyboard-product\"]:visible');"
+          ]
+        }
+      ]
+    },
+    "e2e/trial-d-receipt-harness.tsx": {
+      "added": true,
+      "before": null,
+      "after": "99dc4577cc98c10d4a069ef016fb41eb1278b7b80f2dc6428a267648ad65743f",
+      "hunks": []
+    },
+    "e2e/trial-d-receipt.fixture.ts": {
+      "added": true,
+      "before": null,
+      "after": "50bf11d6e3829ae39e30e90d35dbf466d58a656a58ebceac414eac25846b9e01",
+      "hunks": []
+    },
+    "scripts/agent/lib.mjs": {
+      "before": "9c1bb88b8d8bd82ffd6393946c3ebc5cad3f3e6dcd5ec56da678191b2c4c88e9",
+      "after": "c91aa371d403b5555641187fdc2484109522cb4ae83e97cb51126062297788f8",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 112,
+          "before": [
+            "    integrationPins: Object.fromEntries([160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209].map(number => {"
+          ],
+          "after": [
+            "    integrationPins: Object.fromEntries([160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210].map(number => {"
+          ]
+        }
+      ]
+    },
+    "scripts/agent/preflight.mjs": {
+      "before": "56966730f979d81ba45d47e4ad50a6f590f30c4c813f03a6bbda21cc6a0a3586",
+      "after": "7582fec2ae50003a07fa211e54ce7223535256a34a10f768acf3a33089b1fa28",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 11,
+          "before": [
+            "for(const number of [160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209]) {"
+          ],
+          "after": [
+            "for(const number of [160,161,162,163,164,170,171,180,181,182,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210]) {"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/run-service-access-diagnostic.mjs": {
+      "before": "19d9dbfdb5712e338745e614cd46760d75d77e7ab2ca13cc5f10432a26916244",
+      "after": "6ee493ca133f9695706cfb4c70714eb29af5ec06ead96d8b33e4e4b434f6d313",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            "assert.ok([198,199,200,201,202,203,204,205,206,207,208,209].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');"
+          ],
+          "after": [
+            "assert.ok([198,199,200,201,202,203,204,205,206,207,208,209,210].includes(migrationCeiling),'APPROVED_SERVICE_AUDIT_CEILING_REQUIRED');"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/run-table-access-diagnostic.mjs": {
+      "before": "48afcd1c249424fbca7ec765404526c0a43cae7657431a915e1f554fa91ba969",
+      "after": "a59f04c46f9cb3eead9459ac75e529ae86a2956bf309d6cb45095586d1e9865a",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {loadPinnedPostgrestImage} from '../testing/pinned-postgrest-image.mjs';"
+          ]
+        },
+        {
+          "at": 18,
+          "before": [
+            "assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');"
+          ],
+          "after": [
+            "assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');"
+          ]
+        },
+        {
+          "at": 77,
+          "before": [],
+          "after": [
+            " report.stage='verified-postgrest-fixture';",
+            " const localPostgrestImage=await loadPinnedPostgrestImage();"
+          ]
+        },
+        {
+          "at": 84,
+          "before": [
+            "  '-e','PGRST_DB_ANON_ROLE=anon','-e','PGRST_JWT_SECRET='+secret,'ghcr.io/supabase/postgrest:v16.1@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d'],{windowsHide:true});restStarted=true;"
+          ],
+          "after": [
+            "  '-e','PGRST_DB_ANON_ROLE=anon','-e','PGRST_JWT_SECRET='+secret,localPostgrestImage],{windowsHide:true});restStarted=true;"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/source-before-parcel209.mjs": {
+      "before": "fed0c6eb6b03bbb1b68330845ab15bf1846b7e113cb3d46c130b7c73526924c8",
+      "after": "53bdac897bf8a38fc6b7deb9d066a61520ba0ed59960b9342835a107b4dcb633",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "import {sourceBeforeTrialD,restoreTrialDSourceHashes,projectTrialDQuerySites} from './source-before-trial-sale-receipts.mjs';"
+          ]
+        },
+        {
+          "at": 14,
+          "before": [
+            " const source=text.replaceAll('\\r\\n','\\n'),pin=parcel209Pins[file];if(!pin)return source;"
+          ],
+          "after": [
+            " const source=sourceBeforeTrialD(file,text);if(source===null)return null;",
+            " const pin=parcel209Pins[file];if(!pin)return source;"
+          ]
+        },
+        {
+          "at": 25,
+          "before": [
+            "export function restoreParcel209SourceHashes(sources){return sources.flatMap(s=>{"
+          ],
+          "after": [
+            "export function restoreParcel209SourceHashes(sources){return restoreTrialDSourceHashes(sources).flatMap(s=>{"
+          ]
+        },
+        {
+          "at": 35,
+          "before": [],
+          "after": [
+            " source=projectTrialDQuerySites(source,parseSource);"
+          ]
+        },
+        {
+          "at": 40,
+          "before": [
+            "  const raw=readFileSync(new URL('../../'+file,import.meta.url),'utf8').replaceAll('\\r\\n','\\n');"
+          ],
+          "after": [
+            "  const raw=sourceBeforeTrialD(file,readFileSync(new URL('../../'+file,import.meta.url),'utf8'));",
+            "  assert.notEqual(raw,null,'PARCEL209_QUERY_FILE_REQUIRED');"
+          ]
+        }
+      ]
+    },
+    "scripts/audit/source-before-trial-sale-receipts.mjs": {
+      "added": true,
+      "before": null,
+      "after": "5ef0ba729185b6e74be8b56219e8021b7c8d2426697fbacaf68a3586fa97bbba",
+      "hunks": []
+    },
+    "scripts/operations/build-acl-reference209.mjs": {
+      "before": "eb85d5134a64e189c710fb0c98ad1751b1d51638f288ce3bd05b1e52dd8860e9",
+      "after": "76ccc89ae419ee699a9f8527176e80e44e90edb6c5b1f890a9fabb4b9977dd2d",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            "import {inventory} from '../audit/table-access-inventory.mjs';"
+          ],
+          "after": [
+            "import {verifiedInventoryBeforeTrialD as inventory} from '../audit/source-before-trial-sale-receipts.mjs';"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/build-acl-reference210.mjs": {
+      "added": true,
+      "before": null,
+      "after": "a3430cdbbe427965587c8f7c2e2ca12928d391654981f46e5373d0b7bfaf516b",
+      "hunks": []
+    },
+    "scripts/operations/frankfurt-owner-build.mjs": {
+      "before": "f970c5e56e36ea8ce6b71e6189c9ddbc4c7fea4df804a54b2e6e4e8b1ec90606",
+      "after": "368bd2b90e4f51830c4e5f54f29e44be2f00fbef7cd1107f27b3d7abaecc5170",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 160,
+          "before": [],
+          "after": [
+            " }else if(ceiling===209){",
+            "  // Frozen delivered B/main581cb97 manual;210 changes only its public receipt reader.",
+            "  const ordered=[...functions].sort((a,b)=>a.identity<b.identity?-1:a.identity>b.identity?1:0);assert.equal(functions.length,546,'FROZEN209_FUNCTION_COUNT');assert.equal(digest(JSON.stringify(ordered)),'c11cd51b4ac4afc10b1f9fb024b7ee5dddc6e3572e0c046cd7dba1eca9d622f9','FROZEN209_FUNCTIONS_CHANGED');"
+          ]
+        },
+        {
+          "at": 164,
+          "before": [
+            "  assert.equal(ceiling,209,'UNAPPROVED_FUNCTION_REFERENCE');"
+          ],
+          "after": [
+            "  assert.equal(ceiling,210,'UNAPPROVED_FUNCTION_REFERENCE');"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/frankfurt-owner-upgrade210.mjs": {
+      "added": true,
+      "before": null,
+      "after": "5f31570aea93e6b6571e6db126eeb85b65ff28200b972194c3ef99741e158173",
+      "hunks": []
+    },
+    "scripts/operations/frankfurt-reference209.mjs": {
+      "before": "bc98c04ca793ba56d5ba9978707e332819e3ef23d6968c0201c0afefe1dcfeb8",
+      "after": "17590a64a9c8961562b47d2524d8a0707db9b0a8dce86ca0f230ca9234f8632a",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 7,
+          "before": [
+            "import {inventory} from '../audit/table-access-inventory.mjs';"
+          ],
+          "after": [
+            "import {verifiedInventoryBeforeTrialD as inventory} from '../audit/source-before-trial-sale-receipts.mjs';"
+          ]
+        }
+      ]
+    },
+    "scripts/operations/frankfurt-reference210.mjs": {
+      "added": true,
+      "before": null,
+      "after": "75f6f7078d115cc82d3912376690c1e7ba2ee36e653521917fd88cc11b0adda2",
+      "hunks": []
+    },
+    "scripts/operations/trial-reset-core.mjs": {
+      "before": "fc71817b6e4e0ab22621eee9fa9ddf085e33a4a68f0826afa9459cd9dc16e580",
+      "after": "50e6ddd0adc5038495a72f91582113959c09ad5f78c69d2ec40044c7d7931102",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 14,
+          "before": [
+            "const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171});"
+          ],
+          "after": [
+            "const resetFileCounts=Object.freeze({182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172});"
+          ]
+        }
+      ]
+    },
+    "scripts/testing/historical-reset-source.mjs": {
+      "before": "0a4fc4cdce09456b0b6d9f798d6b8b61300273861226bf7604bdac966d9d8ce1",
+      "after": "751601ba3a73ad4d8344358bf36591dafd24cdc647b5705b4a04db12cc91791c",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            " const counts={182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170},ceiling=reference.migrationCeiling;"
+          ],
+          "after": [
+            " const counts={182:151,199:161,200:162,201:163,202:164,203:165,204:166,205:167,206:168,207:169,208:170,209:171,210:172},ceiling=reference.migrationCeiling;"
+          ]
+        }
+      ]
+    },
+    "scripts/testing/pinned-postgrest-image.mjs": {
+      "added": true,
+      "before": null,
+      "after": "5fde942eac5d9f69668fdecad95c2dac0c8ec7766f0d8f5c28fb928b21612c1c",
+      "hunks": []
+    },
+    "scripts/testing/receipt210-restore.mjs": {
+      "added": true,
+      "before": null,
+      "after": "3fa8ce31b0509fbf427df200fdd441f4016f550fe0471d510d65bc3682d1b55e",
+      "hunks": []
+    },
+    "scripts/testing/run-receipt-upgrade210-runtime.mjs": {
+      "added": true,
+      "before": null,
+      "after": "c8cfd53a001248d11f2240091942cc93f9825913d87dfe18f523e4a28ce1aeea",
+      "hunks": []
+    },
+    "scripts/testing/run-receipt210-gates.mjs": {
+      "added": true,
+      "before": null,
+      "after": "dc24ae0cfd23635024f9eac8b5cd46093e641748fb439d9387a33b3ce3f561dd",
+      "hunks": []
+    },
+    "scripts/testing/run-receipt210-runtime.mjs": {
+      "added": true,
+      "before": null,
+      "after": "e920fd5eec1efc36f211c8b690a508539081b208aa8f27073e225c53976a317c",
+      "hunks": []
+    },
+    "scripts/testing/run-trial-reset-runtime.mjs": {
+      "before": "a20dcf08a0eb34e2884aee7bfe8cd51320ca2e371cc7a9d01509ece3b55566a1",
+      "after": "10d128200d552cd84b3ae9adb1052207cca7408aca87889655dae6c0bd576c59",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [],
+          "after": [
+            "import {readReady210Reference,assertReady210Catalog} from '../operations/frankfurt-reference210.mjs';"
+          ]
+        },
+        {
+          "at": 14,
+          "before": [
+            "import {mkdtemp,writeFile,copyFile} from 'node:fs/promises';"
+          ],
+          "after": [
+            "import {mkdtemp,writeFile,copyFile,readFile} from 'node:fs/promises';"
+          ]
+        },
+        {
+          "at": 40,
+          "before": [
+            " const latest209=process.argv.includes('--current209');"
+          ],
+          "after": [
+            " const latest210=process.argv.includes('--current210');",
+            " const latest209=latest210||process.argv.includes('--current209');"
+          ]
+        },
+        {
+          "at": 51,
+          "before": [
+            " const current=latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201||latest||process.argv.includes('--current199'),explicit=process.argv.slice(2).find(arg=>!['--current199','--current200','--current201','--current202','--current203','--current204','--current205','--current206','--current207','--current208','--current209'].includes(arg));"
+          ],
+          "after": [
+            " const current=latest209||latest208||latest207||latest206||latest205||latest204||latest203||latest202||latest201||latest||process.argv.includes('--current199'),explicit=process.argv.slice(2).find(arg=>!['--current199','--current200','--current201','--current202','--current203','--current204','--current205','--current206','--current207','--current208','--current209','--current210'].includes(arg));"
+          ]
+        },
+        {
+          "at": 55,
+          "before": [
+            " const reference=await (latest209?readReady209Reference:latest208?readReady208Reference:latest207?readReady207Reference:latest206?readReady206Reference:latest205?readReady205Reference:latest204?readReady204Reference:latest203?readReady203Reference:latest202?readReady202Reference:latest201?readReady201Reference:latest?readReady200Reference:current?readReady199Reference:readReference182)(root,referencePath);"
+          ],
+          "after": [
+            " const reference=await (latest210?readReady210Reference:latest209?readReady209Reference:latest208?readReady208Reference:latest207?readReady207Reference:latest206?readReady206Reference:latest205?readReady205Reference:latest204?readReady204Reference:latest203?readReady203Reference:latest202?readReady202Reference:latest201?readReady201Reference:latest?readReady200Reference:current?readReady199Reference:readReference182)(root,referencePath);"
+          ]
+        },
+        {
+          "at": 58,
+          "before": [
+            " const sourceRoot=latest209?root:await stageHistoricalResetSource(root,reference);"
+          ],
+          "after": [
+            " const checkoutCeiling=JSON.parse(await readFile(path.join(root,'docs/agent/project-state.json'),'utf8')).migrationCeiling;",
+            " const sourceRoot=reference.migrationCeiling===checkoutCeiling?root:await stageHistoricalResetSource(root,reference);"
+          ]
+        },
+        {
+          "at": 150,
+          "before": [],
+          "after": [
+            " if(latest210){assertReady210Catalog(await json(schemaCatalogSql));const wire=await ownerSession.rpc('get_public_pos_receipt',{p_receipt_token:null});assert.equal(wire.error,null,'ACTUAL_OWNER210_REST_READ');assert.equal(wire.data.success,false);report.rest210ReceiptRead=true;}"
+          ]
+        }
+      ]
+    },
+    "src/features/more/ParcelConfigurationModal.tsx": {
+      "before": "ecf475a11a0837dc7cf0700e7b8db4b5f29fd57bab656522d01823309878d47c",
+      "after": "7d438540dbf2d0c6342d336f05907eab469aa917b084282ef195a0a953515ef9",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 10,
+          "before": [
+            "  p.isFlavorMaster && p.components.some(c => c.productId !== p.familyProductId));"
+          ],
+          "after": [
+            "  p.isFlavorMaster && p.components.some(c => c.productId !== p.familyProductId)",
+            "  && p.configuration?.composition_mode!=='single_sku');"
+          ]
+        },
+        {
+          "at": 25,
+          "before": [
+            "    setForm(p ? {familyProductId:p.familyProductId,mode:p.configuration?.composition_mode ?? 'configurable_mix',"
+          ],
+          "after": [
+            "    setForm(p ? {familyProductId:p.familyProductId,mode:'configurable_mix',"
+          ]
+        },
+        {
+          "at": 58,
+          "before": [],
+          "after": [
+            "  const disableLegacy = async (product:ParcelConfigurationContext['products'][number]) => {",
+            "    if(busy||uncertain||product.configuration?.composition_mode!=='single_sku'||!product.configuration.is_active)return;",
+            "    setBusy(true);setError('');setMessage('');",
+            "    try{",
+            "      await saveParcelConfiguration({familyProductId:product.familyProductId,mode:'single_sku',active:false,",
+            "        units:product.unitsPerParcel,allowed:[...product.allowedProductIds]},product);",
+            "      const data=await fetchParcelConfigurationContext();setContext(data);select(data,form?.familyProductId??'');setMessage('تم إيقاف الإعداد القديم؛ بيانات المبيعات السابقة محفوظة.');",
+            "    }catch(reason){setUncertain(true);setError(reason instanceof Error?reason.message:'تعذر تأكيد الإيقاف؛ أعد تحميل الإعداد.');}",
+            "    finally{setBusy(false);}",
+            "  };"
+          ]
+        },
+        {
+          "at": 98,
+          "before": [
+            "            <label>نمط الطرد<select className={inputClass} value={form.mode} onChange={e=>{const mode=e.target.value as ParcelConfigurationInput['mode'];setForm({...form,mode,allowed:mode==='single_sku'?[form.familyProductId]:[]});}}>",
+            "              <option value=\"single_sku\">صنف واحد</option>{product.isFlavorMaster && <option value=\"configurable_mix\">نكهات مختارة</option>}",
+            "            </select></label>"
+          ],
+          "after": []
+        },
+        {
+          "at": 100,
+          "before": [
+            "            <label className=\"flex gap-2\"><input type=\"checkbox\" checked={form.active} onChange={e=>setForm({...form,active:e.target.checked})}/>متاح للبيع كطرد</label>"
+          ],
+          "after": [
+            "            <label className=\"flex gap-2\"><input type=\"checkbox\" checked={form.active} onChange={e=>setForm({...form,active:e.target.checked})}/>متاح للبيع كطرد مشكّل</label>"
+          ]
+        },
+        {
+          "at": 112,
+          "before": [],
+          "after": [
+            "      {context.products.some(p=>p.configuration?.composition_mode==='single_sku')&&<section aria-label=\"إعدادات الطرد القديمة\" className=\"space-y-3 rounded-xl border border-nw-border p-3\">",
+            "        <h3 className=\"font-bold\">إعدادات قديمة للقراءة فقط</h3>",
+            "        <p className=\"text-sm text-nw-muted\">الطرد العادي يُضبط من نموذج المنتج. تبقى هذه الإعدادات ومبيعاتها السابقة محفوظة؛ يمكنك إيقاف البيع الجديد بها.</p>",
+            "        {context.products.filter(p=>p.configuration?.composition_mode==='single_sku').map(p=><article key={p.familyProductId} className=\"space-y-2 border-t border-nw-border pt-3\">",
+            "          <h4 className=\"font-bold\">{p.nameAr}</h4><p>كم حبة بالطرد: {p.unitsPerParcel} · {p.configuration?.is_active?'متاح للبيع':'متوقف'}</p>",
+            "          {p.configuration?.is_active&&<UiButton type=\"button\" disabled={busy||uncertain} onClick={()=>void disableLegacy(p)}>إيقاف الإعداد القديم — {p.nameAr}</UiButton>}",
+            "        </article>)}",
+            "      </section>}"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/OrderCommercialSummary.tsx": {
+      "before": "f1e2b88f7e7e89cf0fd203937cd233ba2e4c6319fe591c39b5f71a843892cad3",
+      "after": "8412f150ac53b0a1affc5208203bb6fad289aaa4026810bf3e1ff39755c2ad95",
+      "errorPrefix": "SALES204_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 4,
+          "before": [],
+          "after": [
+            "import {savedReceiptLine} from '../receipts/saleReceipt';",
+            "import {receiptLineDescription} from '../../../customer-web/src/receipts/commercialReceipt';"
+          ]
+        },
+        {
+          "at": 16,
+          "before": [
+            "            <p className=\"text-xs text-nw-muted\">{item.commercialLineKind === 'configurable_parcel' ? 'طرد مشكّل' : item.commercialLineKind === 'legacy_single_sku_parcel' ? 'طرد' : item.unit} · <bdi dir=\"ltr\">{item.quantity} × {item.unitPrice.toFixed(3)}</bdi></p>"
+          ],
+          "after": [
+            "            <p className=\"text-xs text-nw-muted\">{receiptLineDescription(savedReceiptLine(item))} · <bdi dir=\"ltr\">{item.quantity} × {item.unitPrice.toFixed(3)}</bdi></p>"
+          ]
+        }
+      ]
+    },
+    "src/features/orders/OrderDetailModal.tsx": {
+      "before": "2aa19c2b0f0a1a7fb2c00f992d2532c5da9a55a68c15efd080123ab4afa0c895",
+      "after": "2db81bd98ea239388d457be71640e2127331502e5512c2d520616d744e11d240",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [],
+          "after": [
+            "  Share2,"
+          ]
+        },
+        {
+          "at": 28,
+          "before": [
+            "import { useAppStoreActions } from '../../stores/useAppStore';"
+          ],
+          "after": [
+            "import { useAppStoreActions, useAppStoreSelector } from '../../stores/useAppStore';"
+          ]
+        },
+        {
+          "at": 36,
+          "before": [],
+          "after": [
+            "import {SaleReceiptDialog} from '../receipts/SaleReceiptDialog';",
+            "import {orderReceipt} from '../receipts/saleReceipt';",
+            "import {receiptDocumentShareText} from '../../../customer-web/src/receipts/commercialReceipt';"
+          ]
+        },
+        {
+          "at": 137,
+          "before": [],
+          "after": [
+            "  const [showReceipt, setShowReceipt] = useState(false);",
+            "  const receiptBranch = useAppStoreSelector(state => state.branches.find(branch => branch.id === order.branchId));",
+            "  const savedReceipt = orderReceipt(order, receiptBranch);",
+            "  const copyReceiptLink = async () => {",
+            "    if (!order.publicReceiptUrl) return;",
+            "    try {",
+            "      await navigator.clipboard.writeText(order.publicReceiptUrl);",
+            "      setToast('تم نسخ رابط الوصل.', 'success');",
+            "    } catch {",
+            "      setToast('تعذر نسخ رابط الوصل على هذا الجهاز.', 'error');",
+            "    }",
+            "  };",
+            "  const shareReceipt = async () => {",
+            "    if (!order.publicReceiptUrl) return;",
+            "    try {",
+            "      const text = receiptDocumentShareText(savedReceipt, order.publicReceiptUrl);",
+            "      if (navigator.share) await navigator.share({title:`وصل ${order.orderNumber}`, text, url:order.publicReceiptUrl});",
+            "      else {",
+            "        await navigator.clipboard.writeText(text);",
+            "        setToast('تم نسخ الوصل مع رابطه للمشاركة.', 'success');",
+            "      }",
+            "    } catch (error) {",
+            "      if (error instanceof DOMException && error.name === 'AbortError') return;",
+            "      setToast('تعذرت مشاركة الوصل على هذا الجهاز.', 'error');",
+            "    }",
+            "  };"
+          ]
+        },
+        {
+          "at": 426,
+          "before": [
+            "      <UiButton onClick={onPrint ?? (() => window.print())} className=\"w-full print:hidden\"><Printer className=\"h-4 w-4\" />طباعة الطلب</UiButton>"
+          ],
+          "after": [
+            "      <div className=\"flex flex-wrap gap-2 print:hidden\" aria-label=\"وصل الشراء\">",
+            "        <UiButton variant=\"primary\" onClick={() => setShowReceipt(true)}><Printer className=\"h-4 w-4\" />طباعة الوصل</UiButton>",
+            "        {order.publicReceiptUrl && <>",
+            "          <UiButton onClick={() => void shareReceipt()}><Share2 className=\"h-4 w-4\" />مشاركة الوصل</UiButton>",
+            "          <UiButton onClick={() => void copyReceiptLink()}><Copy className=\"h-4 w-4\" />نسخ الرابط</UiButton>",
+            "        </>}",
+            "        <details className=\"rounded-lg border border-nw-border px-3\">",
+            "          <summary className=\"min-h-11 cursor-pointer py-3\" aria-label=\"خيارات طباعة إضافية\">⋯</summary>",
+            "          <UiButton onClick={onPrint ?? (() => window.print())}><Printer className=\"h-4 w-4\" />طباعة ورقة التجهيز</UiButton>",
+            "        </details>",
+            "      </div>"
+          ]
+        },
+        {
+          "at": 1203,
+          "before": [],
+          "after": [
+            "      {showReceipt && <SaleReceiptDialog receipt={savedReceipt} onClose={() => setShowReceipt(false)}",
+            "        onShare={order.publicReceiptUrl ? () => void shareReceipt() : undefined}",
+            "        onCopy={order.publicReceiptUrl ? () => void copyReceiptLink() : undefined} />}"
+          ]
+        }
+      ]
+    },
+    "src/features/pos/PosProductCard.tsx": {
+      "added": true,
+      "before": null,
+      "after": "fd431176edd36abc5ca012b6f11882fcd0889ddb955dd4becdee49bc3d4468cd",
+      "hunks": []
+    },
+    "src/features/pos/PosView.tsx": {
+      "before": "17f36f9f5ac87c4aa1cbbfd3b454b09bc10f4768231a96c65a1e94953e9bdbf1",
+      "after": "28a31b9de6ab0c3e8d1fbfcc33f93bf74efab8674f85a88324b9eccc048154cc",
+      "errorPrefix": "WAREHOUSE_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [
+            "import {posCartLines, posStockDemand, posWarehouseAvailable, posV2Invoice, type PosCartItem} from './posV2Cart';",
+            "import {posSaleModeForProduct,posCartSaleMethodConflict} from './saleMethods';"
+          ],
+          "after": [
+            "import {posCartLines, posStockDemand, posWarehouseAvailable, posV2Invoice, receiptBaseUnitNames, type PosCartItem} from './posV2Cart';",
+            "import {posSaleModeForProduct,posCartSaleMethodConflict,type PosSingleProductMode} from './saleMethods';",
+            "import {PosProductCard} from './PosProductCard';"
+          ]
+        },
+        {
+          "at": 21,
+          "before": [
+            "import { Card, PageHeader, StatusBadge, MoneyText, SearchField, FilterChips, SegmentedControl, UiButton, StickyActionBar, ResponsiveCartPanel, ProductGlyph, formatItemCount } from '../../components/ui';",
+            "import { useDialogFocus } from '../../hooks/useDialogFocus';"
+          ],
+          "after": [
+            "import { Card, PageHeader, StatusBadge, MoneyText, SearchField, FilterChips, SegmentedControl, UiButton, StickyActionBar, ResponsiveCartPanel, formatItemCount } from '../../components/ui';",
+            "import {SaleReceiptDialog} from '../receipts/SaleReceiptDialog';",
+            "import {invoiceReceipt} from '../receipts/saleReceipt';"
+          ]
+        },
+        {
+          "at": 45,
+          "before": [
+            "  Printer,",
+            "  Share2,",
+            "  CheckCircle2,"
+          ],
+          "after": []
+        },
+        {
+          "at": 48,
+          "before": [
+            "  Copy,"
+          ],
+          "after": []
+        },
+        {
+          "at": 57,
+          "before": [
+            "  paymentMethodLabel,"
+          ],
+          "after": []
+        },
+        {
+          "at": 104,
+          "before": [
+            "  const [showParcelCatalog, setShowParcelCatalog] = useState(false);"
+          ],
+          "after": []
+        },
+        {
+          "at": 110,
+          "before": [
+            "  const [saleMode, setSaleMode] = useState<'base_unit' | 'legacy_single_sku_parcel'>('legacy_single_sku_parcel');"
+          ],
+          "after": []
+        },
+        {
+          "at": 135,
+          "before": [
+            "  const receiptFocus = useDialogFocus(showReceiptModal, () => setShowReceiptModal(false));"
+          ],
+          "after": []
+        },
+        {
+          "at": 309,
+          "before": [
+            "  const addToCart = (prod: Product) => {",
+            "    const productSaleMode=posSaleModeForProduct(prod,saleMode);"
+          ],
+          "after": [
+            "  const addToCart = (prod: Product,preferred:PosSingleProductMode='legacy_single_sku_parcel') => {",
+            "    const productSaleMode=posSaleModeForProduct(prod,preferred);"
+          ]
+        },
+        {
+          "at": 327,
+          "before": [
+            "      setToast(`المتاح من ${prod.nameAr} هو ${availableSalePackages} طرد بيع فقط.`, 'error');"
+          ],
+          "after": [
+            "      setToast(`المتاح من ${prod.nameAr} هو ${availableSalePackages} ${productSaleMode==='base_unit'?prod.unit:'طرد'} فقط.`, 'error');"
+          ]
+        },
+        {
+          "at": 481,
+          "before": [
+            "      const meta = await supabase.from('orders').select('created_at').eq('id', result.data.orderId).single();",
+            "      const invoice = posV2Invoice(result.data, currentUser, typeof meta.data?.created_at === 'string' ? meta.data.created_at : '');"
+          ],
+          "after": [
+            "      const meta = await supabase.from('orders').select('created_at,order_items(id,base_unit_name_snapshot)').eq('id', result.data.orderId).single();",
+            "      const invoice = posV2Invoice(result.data, currentUser, typeof meta.data?.created_at === 'string' ? meta.data.created_at : '',receiptBaseUnitNames(meta.data));"
+          ]
+        },
+        {
+          "at": 537,
+          "before": [
+            "  const handlePrintReceipt = () => window.print();"
+          ],
+          "after": []
+        },
+        {
+          "at": 622,
+          "before": [
+            "  const currentProductUnit=knownProductsRef.current.get(cartItems.at(-1)?.productId??'')?.unit;",
+            "  const saleUnitLabel=currentProductUnit||'باكيت';"
+          ],
+          "after": []
+        },
+        {
+          "at": 623,
+          "before": [
+            "  const hasUnitMethod=filteredProducts.length===0||filteredProducts.some(product=>!product.parcelOnly);",
+            "  const hasParcelMethod=filteredProducts.length===0||filteredProducts.some(product=>(product.unitsPerSalePackage??1)>1);",
+            "  const saleModeOptions:Array<{value:'base_unit'|'legacy_single_sku_parcel'|'configurable_parcel';label:string}>=[",
+            "    ...(hasUnitMethod?[{value:'base_unit' as const,label:saleUnitLabel}]:[]),",
+            "    ...(hasParcelMethod?[{value:'legacy_single_sku_parcel' as const,label:'طرد'}]:[]),",
+            "    ...(parcelOptions.length?[{value:'configurable_parcel' as const,label:'طرد مشكّل'}]:[]),",
+            "  ];"
+          ],
+          "after": []
+        },
+        {
+          "at": 628,
+          "before": [
+            "  const saleModeControl = <SegmentedControl touchSize disabled={isSubmitting || recoveryBlocked} label=\"وحدة البيع\"",
+            " options={saleModeOptions}",
+            " value={showParcelCatalog ? 'configurable_parcel' : !hasParcelMethod?'base_unit':!hasUnitMethod?'legacy_single_sku_parcel':saleMode}",
+            " onChange={value => {setShowParcelCatalog(value === 'configurable_parcel'); if (value !== 'configurable_parcel') setSaleMode(value);}} />;"
+          ],
+          "after": []
+        },
+        {
+          "at": 720,
+          "before": [
+            "            <div className=\"lg:hidden\">{saleModeControl}</div>"
+          ],
+          "after": []
+        },
+        {
+          "at": 733,
+          "before": [
+            "            <div className={showParcelCatalog ? '' : 'hidden'}>      {parcelOptions.length > 0 && <div className=\"flex flex-wrap gap-2\">",
+            "        {parcelOptions.map(option => <button type=\"button\" key={option.parcelConfigurationId}",
+            "          disabled={isSubmitting || recoveryBlocked || !warehouseId} className=\"min-h-11 rounded-xl bg-nw-info-bg text-nw-info p-3 text-sm\"",
+            "          onClick={() => {setEditingParcelId(null); setParcelOption(option);}}>تركيب طرد: {option.nameAr}</button>)}",
+            "      </div>}",
+            "",
+            "</div>",
+            "            {!showParcelCatalog && <div data-testid=\"pos-product-list\" className=\"grid min-w-0 gap-3 lg:grid-cols-[repeat(auto-fill,minmax(190px,1fr))]\">",
+            "              {productsError && <Card role=\"alert\" className=\"col-span-full text-nw-bad\">{productsError}</Card>}",
+            "              {isProductsLoading && filteredProducts.length === 0 && !productsError && <Card role=\"status\" className=\"col-span-full text-nw-muted\"><Loader2 className=\"h-5 w-5 animate-spin\" />جارٍ تحميل المنتجات…</Card>}",
+            "              {!isProductsLoading && filteredProducts.length === 0 && !productsError && <Card className=\"col-span-full text-nw-muted\">لا توجد منتجات مطابقة.</Card>}",
+            "              {filteredProducts.map(prod => {",
+            "                const productSaleMode=posSaleModeForProduct(prod,saleMode);",
+            "                const currentItem = cartItems.find(item => item.productId === prod.id && item.v2Line.commercial_line_kind === productSaleMode);",
+            "                const inCart = cartItems.some(item => item.productId === prod.id);",
+            "                const stock = posWarehouseAvailable(prod, warehouseId);",
+            "                const lowStock = stock <= prod.reorderLevel;",
+            "                return <div key={prod.id} className={'flex min-w-0 items-center gap-2 rounded-2xl border bg-nw-surface p-3 lg:block lg:p-4 ' + (inCart ? 'border-nw-primary ring-1 ring-nw-primary' : 'border-nw-border')}>",
+            "                  <button type=\"button\" data-pos-product-card={prod.id} aria-label={'إضافة ' + prod.nameAr}",
+            "                    disabled={isSubmitting || recoveryBlocked || !warehouseId}",
+            "                    onKeyDown={event => { if (event.key === 'Enter' && event.repeat) event.preventDefault(); }}",
+            "                    onClick={() => addToCart(prod)}",
+            "                    className=\"flex min-h-11 min-w-0 flex-1 items-center gap-3 text-right focus-visible:outline focus-visible:outline-2 focus-visible:outline-nw-primary disabled:opacity-60 lg:w-full lg:flex-col lg:items-stretch\">",
+            "                    <ProductGlyph name={prod.nameAr} image={prod.imageUrl} className=\"h-14 w-14 shrink-0 lg:h-20 lg:w-full\" />",
+            "                    <div className=\"min-w-0 flex-1 space-y-2\">",
+            "                      <h3 className=\"m-0 break-words text-sm font-bold\">{prod.nameAr}</h3>",
+            "                      <bdi dir=\"ltr\" className=\"block break-all text-xs text-nw-muted\">{prod.barcode}</bdi>",
+            "                      <div className=\"flex flex-wrap justify-between gap-2 text-xs\">",
+            "                        {!prod.parcelOnly&&<span>{prod.unit} <MoneyText amount={prod.retailPrice} className=\"font-bold text-nw-text\" /></span>}",
+            "                        {(prod.unitsPerSalePackage??1)>1&&<span>طرد {typeof prod.salePackagePrice === 'number' && Number.isFinite(prod.salePackagePrice) ? <MoneyText amount={prod.salePackagePrice} className=\"font-bold text-nw-text\" /> : 'غير متاح'}</span>}",
+            "                        {prod.parcelOnly&&<span className=\"font-bold text-nw-info\">طرد فقط</span>}",
+            "                      </div>",
+            "                      <p className={'m-0 text-xs ' + (lowStock ? 'text-nw-warn' : 'text-nw-muted')}><bdi dir=\"ltr\">{stock}</bdi> {prod.unit} · {stock === 0 ? 'نفد' : lowStock ? 'منخفض' : 'متوفر'}</p>",
+            "                    </div>",
+            "                  </button>",
+            "                  <div className=\"flex shrink-0 items-center gap-1 lg:hidden\">",
+            "                    {currentItem && <><UiButton aria-label={'تقليل ' + prod.nameAr + ' من القائمة'} disabled={isSubmitting || recoveryBlocked}",
+            "                      className=\"w-11 px-0\" onClick={() => updateQuantity(currentItem.id, -1)}><Minus className=\"h-4 w-4\" /></UiButton>",
+            "                      <bdi dir=\"ltr\" data-pos-product-quantity={prod.id} className=\"nw-num min-w-4 text-center font-bold\">{currentItem.quantity}</bdi></>}",
+            "                    <UiButton aria-label={'زيادة ' + prod.nameAr + ' من القائمة'} disabled={isSubmitting || recoveryBlocked || !warehouseId}",
+            "                      className=\"w-11 px-0\" onClick={() => addToCart(prod)}><Plus className=\"h-4 w-4\" /></UiButton>",
+            "                  </div>",
+            "                </div>;"
+          ],
+          "after": [
+            "            <div data-testid=\"pos-product-list\" className=\"grid min-w-0 gap-3 lg:grid-cols-[repeat(auto-fill,minmax(240px,1fr))]\">",
+            "              {productsError&&<Card role=\"alert\" className=\"col-span-full text-nw-bad\">{productsError}</Card>}",
+            "              {isProductsLoading&&filteredProducts.length===0&&!productsError&&<Card role=\"status\" className=\"col-span-full text-nw-muted\"><Loader2 className=\"h-5 w-5 animate-spin\"/>جارٍ تحميل المنتجات…</Card>}",
+            "              {!isProductsLoading&&filteredProducts.length===0&&!productsError&&<Card className=\"col-span-full text-nw-muted\">لا توجد منتجات مطابقة.</Card>}",
+            "              {filteredProducts.map(prod=>{",
+            "                const own=cartItems.filter(item=>item.productId===prod.id);",
+            "                return <PosProductCard key={prod.id} product={prod} stock={posWarehouseAvailable(prod,warehouseId)}",
+            "                  parcelQuantity={own.find(i=>i.v2Line.commercial_line_kind==='legacy_single_sku_parcel')?.quantity??0}",
+            "                  unitQuantity={own.find(i=>i.v2Line.commercial_line_kind==='base_unit')?.quantity??0}",
+            "                  disabled={isSubmitting||recoveryBlocked||!warehouseId} onAdd={mode=>addToCart(prod,mode)}",
+            "                  onReduce={mode=>{const item=own.find(i=>i.v2Line.commercial_line_kind===mode);if(item)updateQuantity(item.id,-1);}}/>;"
+          ]
+        },
+        {
+          "at": 745,
+          "before": [
+            "            </div>}"
+          ],
+          "after": [
+            "            </div>",
+            "            {parcelOptions.length>0&&<section aria-label=\"الطرود المشكّلة المتاحة\" className=\"mt-3 grid min-w-0 gap-3 lg:grid-cols-[repeat(auto-fill,minmax(240px,1fr))]\">",
+            "              {parcelOptions.filter(option=>!searchQuery.trim()||option.nameAr.includes(searchQuery.trim())).map(option=><article key={option.parcelConfigurationId} className=\"space-y-2 rounded-2xl border border-nw-border bg-nw-surface p-3\">",
+            "                <h3 className=\"font-bold\">{option.nameAr}</h3>",
+            "                <UiButton disabled={isSubmitting||recoveryBlocked||!warehouseId} onClick={()=>{setEditingParcelId(null);setParcelOption(option);}} aria-label={'تركيب طرد: '+option.nameAr} className=\"w-full justify-start\">+ طرد مشكّل <MoneyText amount={option.parcelPriceInMinorUnits/1000}/></UiButton>",
+            "                <p className=\"text-xs text-nw-muted\">في السلة: <bdi dir=\"ltr\">{cartItems.filter(i=>i.v2Line.commercial_line_kind==='configurable_parcel'&&i.v2Line.family_product_id===option.familyProductId).reduce((sum,i)=>sum+i.quantity,0)}</bdi> طرد مشكّل</p>",
+            "              </article>)}",
+            "            </section>}"
+          ]
+        },
+        {
+          "at": 842,
+          "before": [
+            "            <div className=\"hidden lg:block\">{saleModeControl}</div>"
+          ],
+          "after": []
+        },
+        {
+          "at": 845,
+          "before": [
+            "            انقر على أي منتج أعلاه لإضافته إلى الفاتورة"
+          ],
+          "after": [
+            "            اختر + طرد أو + وحدة من بطاقة الصنف أعلاه لإضافته إلى الفاتورة"
+          ]
+        },
+        {
+          "at": 850,
+          "before": [
+            "              <div key={item.id} className=\"flex flex-wrap items-center justify-between gap-2 border-b border-nw-border py-3 text-sm\">"
+          ],
+          "after": [
+            "              <div key={item.id} data-pos-cart-line className=\"flex flex-wrap items-center justify-between gap-2 border-b border-nw-border py-3 text-sm\">"
+          ]
+        },
+        {
+          "at": 852,
+          "before": [
+            "                  <h5 className=\"font-bold text-nw-text break-words\">{item.productName}</h5>"
+          ],
+          "after": [
+            "                  <div className=\"flex flex-wrap items-center gap-1\"><h5 className=\"font-bold text-nw-text break-words\">{item.productName}</h5><span data-pos-cart-line-kind className=\"text-xs font-bold\">· {item.quantity} {item.v2Line.commercial_line_kind==='base_unit'?item.unit:item.v2Line.commercial_line_kind==='legacy_single_sku_parcel'?'طرد':'طرد مشكّل'}</span></div>"
+          ]
+        },
+        {
+          "at": 854,
+          "before": [
+            "                    {item.unitPrice.toFixed(3)} {CURRENCY} / {item.unit}"
+          ],
+          "after": [
+            "                    {item.unitPrice.toFixed(3)} {CURRENCY} / {item.v2Line.commercial_line_kind==='base_unit'?item.unit:item.v2Line.commercial_line_kind==='legacy_single_sku_parcel'?'طرد':'طرد مشكّل'}"
+          ]
+        },
+        {
+          "at": 916,
+          "before": [
+            "      {/* Print Receipt Modal Sheet */}",
+            "      {showReceiptModal && lastInvoice && (",
+            "        <div ref={receiptFocus as React.RefObject<HTMLDivElement>} role=\"dialog\" aria-modal=\"true\" aria-label=\"إيصال البيع\" className=\"fixed inset-0 z-50 flex items-center justify-center bg-nw-side/80 backdrop-blur-md p-4\">",
+            "          <style>{`",
+            "            @media print {",
+            "              @page { size: 80mm auto; margin: 4mm; }",
+            "              html, body { background: #ffffff !important; }",
+            "              body * { visibility: hidden !important; }",
+            "              .pos-receipt-print,",
+            "              .pos-receipt-print * { visibility: visible !important; }",
+            "              .pos-receipt-print {",
+            "                position: absolute !important;",
+            "                inset: 0 !important;",
+            "                width: 72mm !important;",
+            "                margin: 0 auto !important;",
+            "                padding: 3mm !important;",
+            "                border: 0 !important;",
+            "                box-shadow: none !important;",
+            "                color: #111827 !important;",
+            "                background: #ffffff !important;",
+            "                direction: rtl !important;",
+            "                font-family: Arial, Tahoma, sans-serif !important;",
+            "              }",
+            "            }",
+            "          `}</style>",
+            "          <div className=\"w-full max-w-sm bg-nw-surface border border-nw-border rounded-3xl shadow-2xl p-5 text-right font-sans space-y-4\">",
+            "            <div className=\"flex items-center justify-between border-b border-nw-border pb-3\">",
+            "              <div className=\"flex items-center gap-2 text-nw-ok font-bold text-xs\">",
+            "                <CheckCircle2 className=\"w-5 h-5\" />",
+            "                <span>تم إتمام العملية بنجاح!</span>",
+            "              </div>",
+            "              <button",
+            "                aria-label=\"إغلاق الإيصال\" onClick={() => setShowReceiptModal(false)}",
+            "                className=\"h-11 w-11 rounded-full bg-nw-surface-2 text-nw-muted flex items-center justify-center hover:text-nw-text\"",
+            "              >",
+            "                ✕",
+            "              </button>",
+            "            </div>",
+            "",
+            "            {/* Receipt Preview */}",
+            "            <div className=\"pos-receipt-print bg-nw-surface text-nw-muted p-4 rounded-xl shadow-inner text-[11px] leading-relaxed space-y-2\">",
+            "              <div className=\"text-center border-b border-nw-border pb-2\">",
+            "                <h4 className=\"font-extrabold text-xs\">محلات النواصرة</h4>",
+            "                <p className=\"text-[9px] text-nw-muted\">{receiptBranch?.name || lastInvoice.branchId}</p>",
+            "                <p className=\"text-[9px] text-nw-muted\">",
+            "                  {[receiptBranch?.address, receiptBranch?.phone].filter(Boolean).join(' | ')}",
+            "                </p>",
+            "                <p className=\"text-[9px] text-nw-muted\">رقم الفاتورة: {lastInvoice.invoiceNumber}</p>",
+            "                <p className=\"text-[9px] text-nw-muted\">",
+            "                  {lastInvoice.createdAt ? new Date(lastInvoice.createdAt).toLocaleString('ar-JO-u-nu-latn') : 'التاريخ في الإيصال المحفوظ'}",
+            "                </p>",
+            "              </div>",
+            "",
+            "              <div className=\"border-b border-nw-border pb-2 text-[10px]\">",
+            "                العميل: {lastInvoice.customerName || 'زبون نقدي'}",
+            "              </div>",
+            "",
+            "              <div className=\"border-b border-nw-border pb-2 space-y-1\">",
+            "                {(lastInvoice.items || []).map((i: any) => (",
+            "                  <div key={i.id} className=\"flex justify-between\">",
+            "                    <span>{i.productName} ({i.quantity} {i.unit || i.salePackage || 'طرد'})</span>",
+            "                    <span>{i.totalPrice.toFixed(3)} د.أ</span>",
+            "                  </div>",
+            "                ))}",
+            "              </div>",
+            "",
+            "              <div className=\"space-y-1 text-left font-bold border-b border-nw-border pb-2\">",
+            "                <div className=\"flex justify-between\">",
+            "                  <span>الإجمالي:</span>",
+            "                  <span>{lastInvoice.totalAmount.toFixed(3)} د.أ</span>",
+            "                </div>",
+            "                <div className=\"flex justify-between text-[10px] text-nw-muted\">",
+            "                  <span>طريقة الدفع:</span>",
+            "                  <span>{paymentMethodLabel(lastInvoice.paymentMethod)}</span>",
+            "                </div>",
+            "                {lastInvoice.remainingAmount > 0 && (",
+            "                  <div className=\"flex justify-between text-[10px] text-nw-bad\">",
+            "                    <span>المتبقي على العميل:</span>",
+            "                    <span>{lastInvoice.remainingAmount.toFixed(3)} د.أ</span>",
+            "                  </div>",
+            "                )}",
+            "                {lastInvoice.changeDue > 0 && (",
+            "                  <div className=\"flex justify-between text-[10px] text-nw-muted\">",
+            "                    <span>الباقي للزبون:</span>",
+            "                    <span>{lastInvoice.changeDue.toFixed(3)} د.أ</span>",
+            "                  </div>",
+            "                )}",
+            "              </div>",
+            "",
+            "              <div className=\"text-center pt-1 text-[9px] text-nw-muted\">",
+            "                شكراً لتسوقكم من نواصرة!",
+            "              </div>",
+            "            </div>",
+            "",
+            "            {/* Print & Share Action Buttons */}",
+            "            <div className=\"grid grid-cols-3 gap-2\">",
+            "              <button",
+            "                onClick={handlePrintReceipt}",
+            "                className=\"min-h-11 bg-nw-info-bg hover:bg-nw-info-bg text-nw-text font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow\"",
+            "              >",
+            "                <Printer className=\"w-3.5 h-3.5\" />",
+            "                <span>طباعة / PDF</span>",
+            "              </button>",
+            "              <button",
+            "                onClick={() => void handleShareReceipt()}",
+            "                className=\"min-h-11 bg-nw-surface-2 hover:bg-nw-surface-2 text-nw-text font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 border border-nw-border\"",
+            "              >",
+            "                <Share2 className=\"w-3.5 h-3.5\" />",
+            "                <span>مشاركة الإيصال</span>",
+            "              </button>",
+            "              <button",
+            "                onClick={() => void handleCopyReceiptLink()}",
+            "                className=\"min-h-11 bg-nw-ok-bg/50 hover:bg-nw-ok-bg/60 text-nw-ok font-bold py-2.5 rounded-xl text-[10px] flex items-center justify-center gap-1 border border-nw-ok/50\"",
+            "              >",
+            "                <Copy className=\"w-3.5 h-3.5\" />",
+            "                <span>نسخ الرابط</span>",
+            "              </button>",
+            "            </div>",
+            "          </div>",
+            "        </div>",
+            "      )}"
+          ],
+          "after": [
+            "      {showReceiptModal&&lastInvoice&&<SaleReceiptDialog completed receipt={invoiceReceipt(lastInvoice,receiptBranch)}",
+            "        onClose={()=>setShowReceiptModal(false)} onShare={()=>void handleShareReceipt()} onCopy={()=>void handleCopyReceiptLink()}/>}"
+          ]
+        }
+      ]
+    },
+    "src/features/pos/posV2Cart.ts": {
+      "before": "5a36e9503a04097189b36b0968733aded26b93f320c7ad67df289d349db8b828",
+      "after": "a610b4d43f48c70d8cd7dbd291f86f6216d98468f5aed62050b38f663390a952",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 25,
+          "before": [
+            "export function posV2Invoice(sale: PosV2SaleResult, actor: {id: string; name: string}, createdAt: string): Invoice & {changeDue: number} {"
+          ],
+          "after": [
+            "export function receiptBaseUnitNames(value:unknown):ReadonlyMap<string,string>{",
+            "  const data=value&&typeof value==='object'?value as Record<string,unknown>:{};",
+            "  return new Map((Array.isArray(data.order_items)?data.order_items:[]).flatMap((row:unknown)=>{",
+            "    if(!row||typeof row!=='object')return [];const item=row as Record<string,unknown>;",
+            "    return typeof item.id==='string'&&typeof item.base_unit_name_snapshot==='string'&&item.base_unit_name_snapshot.trim()",
+            "      ?[[item.id,item.base_unit_name_snapshot.trim()] as const]:[];",
+            "  }));",
+            "}",
+            "export function posV2Invoice(sale: PosV2SaleResult, actor: {id: string; name: string}, createdAt: string,baseUnits:ReadonlyMap<string,string>=new Map()): Invoice & {changeDue: number} {"
+          ]
+        },
+        {
+          "at": 40,
+          "before": [
+            "      totalPrice: i.lineTotalInMinorUnits / 1000, commercialLineKind: i.commercialLineKind})),"
+          ],
+          "after": [
+            "      totalPrice: i.lineTotalInMinorUnits / 1000, commercialLineKind: i.commercialLineKind,",
+            "      ...(baseUnits.has(i.id)?{baseUnitName:baseUnits.get(i.id)}:{}),",
+            "      ...(Array.isArray(i.parcelInstances)&&i.parcelInstances.length?{parcelInstances:i.parcelInstances.map((p:Record<string,any>)=>({",
+            "        id:p.instance_id,sequence:p.instance_sequence,unitName:'طرد',",
+            "        components:(Array.isArray(p.components)?p.components:[]).map((c:Record<string,any>)=>({id:c.component_id,productId:c.product_id,",
+            "          name:c.product_name_snapshot,sku:c.sku_snapshot,unitName:c.base_unit_name_snapshot,quantity:c.base_quantity})),",
+            "      }))}:{})})),"
+          ]
+        }
+      ]
+    },
+    "src/features/receipts/SaleReceiptDialog.tsx": {
+      "added": true,
+      "before": null,
+      "after": "f3160c2948c8f73bb31aceee71eecc64206173373f88b4b589dc15d9eef893e2",
+      "hunks": []
+    },
+    "src/features/receipts/saleReceipt.ts": {
+      "added": true,
+      "before": null,
+      "after": "da21a2d76131acff033794327e54bd22f733a6b739e9263b4183104330b1d581",
+      "hunks": []
+    },
+    "src/services/supabase/orders.service.ts": {
+      "before": "0148c128963e3962b0a59d7bcb799e744fe8417128689668f523276f0ed6650e",
+      "after": "6207a97a113187d3b11c377eb25998930840121bc384097029ba9879e10e4e7d",
+      "errorPrefix": "SALES204_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 5,
+          "before": [],
+          "after": [
+            "import {storefrontReceiptUrl} from './pos.service';"
+          ]
+        },
+        {
+          "at": 100,
+          "before": [],
+          "after": [
+            "  public_receipt_token,"
+          ]
+        },
+        {
+          "at": 136,
+          "before": [],
+          "after": [
+            "    base_unit_name_snapshot,"
+          ]
+        },
+        {
+          "at": 462,
+          "before": [],
+          "after": [
+            "        baseUnitName: item.base_unit_name_snapshot || undefined,"
+          ]
+        },
+        {
+          "at": 523,
+          "before": [],
+          "after": [
+            "      publicReceiptUrl: ord.public_receipt_token?storefrontReceiptUrl(ord.public_receipt_token):undefined,"
+          ]
+        }
+      ]
+    },
+    "src/services/supabase/pos.service.ts": {
+      "before": "b215a66371b57ed40bf640750eb3dc9efd29c72aae4f7e2f689f794c933da841",
+      "after": "e3bde172911896ef20f71a3b8ebf77c573074b6430ecb4d2757d03aca86ada8b",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 219,
+          "before": [
+            "function storefrontReceiptUrl(receiptToken: string): string {"
+          ],
+          "after": [
+            "export function storefrontReceiptUrl(receiptToken: string): string {"
+          ]
+        }
+      ]
+    },
+    "src/types/index.ts": {
+      "before": "21337767b707861f36ddf2afdff18b2632b217af8a5d112a088e5f6f1458a980",
+      "after": "7486f1e272a72274e083e279c544cc9ce43cf8c793b7a7fdcaf93a2e19734910",
+      "errorPrefix": "PARCEL209_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 312,
+          "before": [],
+          "after": [
+            "  baseUnitName?: string;"
+          ]
+        },
+        {
+          "at": 346,
+          "before": [],
+          "after": [
+            "  publicReceiptUrl?: string;"
+          ]
+        }
+      ]
+    },
+    "src/utils/receipt.ts": {
+      "before": "ba63d6de59b70fac5d10ee838081b9a32012aaf3102ae34aff6a49d46ad8eae6",
+      "after": "6e46eca879d74f94fabd20cbcf4aa35f6fa2ff4a4af707994bf5f9e7905c5297",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 1,
+          "before": [
+            "import type { PaymentMethod } from '../types';"
+          ],
+          "after": [
+            "import type { OrderItem,PaymentMethod } from '../types';",
+            "import {receiptLineDescription} from '../../customer-web/src/receipts/commercialReceipt';"
+          ]
+        },
+        {
+          "at": 10,
+          "before": [],
+          "after": [
+            "  commercialLineKind?:string;",
+            "  baseQuantity?:number;",
+            "  baseUnitName?:string;",
+            "  parcelInstances?:OrderItem['parcelInstances'];"
+          ]
+        },
+        {
+          "at": 52,
+          "before": [
+            "      `• ${item.productName}: ${item.quantity} ${item.unit || item.salePackage || 'طرد'} - ${money(item.totalPrice)}`"
+          ],
+          "after": [
+            "      `• ${item.productName}: ${receiptLineDescription({key:'',name:item.productName,kind:item.commercialLineKind,quantity:item.quantity,",
+            "        baseQuantity:item.baseQuantity,baseUnitName:item.baseUnitName,savedUnitName:item.unit||item.salePackage||'طرد',",
+            "        parcels:item.parcelInstances?.map(p=>({components:p.components.map(c=>({name:c.name,quantity:c.quantity,unitName:c.unitName}))})),",
+            "        totalInMinorUnits:Math.round(item.totalPrice*1000)})} - ${money(item.totalPrice)}`"
+          ]
+        }
+      ]
+    },
+    "tests/all-customer-collections203.test.ts": {
+      "before": "daac35fd44713c845f6bd048cd646055d3dde078546bc958367005db4a092be6",
+      "after": "3366a67ffd6194eb9209fba49da09f4d039de08e4e93a8c123be3dbd6a077e30",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 17,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,209);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,210);assert.equal(state.migration203CanonicalLfSha256,createHash('sha256').update(after).digest('hex').toUpperCase());"
+          ]
+        }
+      ]
+    },
+    "tests/canonical-receivables197.test.ts": {
+      "before": "b68840da7b701c86212f79644c2f5cad048711e268272a3a4d074141610145e8",
+      "after": "922134f6ffffee58783d116993bf5efe04115b7a7f66696fb49fd62cb1bfa3a8",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 56,
+          "before": [
+            " assert.equal(state.migrationCeiling,209);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            " assert.equal(state.migrationCeiling,210);assert.equal(state.migration197CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ]
+        },
+        {
+          "at": 68,
+          "before": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,197);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/cashier-collections198.test.ts": {
+      "before": "9f66d86ef80988321df2005814356267bd8cb30725a5dd5c1800514c4ab4b397",
+      "after": "55550db22b6b4043f2eb4b7b09bbee8cb657e765c556e0b4294ef9b9308b8138",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 23,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,209);"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,210);"
+          ]
+        }
+      ]
+    },
+    "tests/cheques195-admission.test.ts": {
+      "before": "9bb9600bf9e223265970c61261240c529636ad9fd8e03ed22409c0dfc63d50cb",
+      "after": "770eed8f194ea3bb9b2f7471697784f86f39eac41e68add32401d9e2f3de803e",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 12,
+          "before": [
+            "  assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            "  assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,195);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/go-live-integration164.test.ts": {
+      "before": "62df879cfff92a2ade2d1a230281474ce8c2e7f238790b0cbb35bf06916275fb",
+      "after": "172d5426e9ddbba72c1de1ba7b3982bcb94ef1266c9c34751e6e9530dac1e38e",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 29,
+          "before": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,164);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/historical-reset-source.test.ts": {
+      "before": "f568b482da16ffe5f80036b9c6a059238a1e6c1c33abada51dc43e8b29bc212f",
+      "after": "f44478030d49a3f6d05607950777d4641d1f6128aaac64d76eccdef396a0c928",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            "for(const [ceiling,count] of [[182,151],[199,161],[200,162],[201,163],[202,164],[203,165],[204,166],[205,167],[206,168]])test(`historical reset rehearses exact${ceiling} bytes while live owner reset still rejects newer files`,async()=>{"
+          ],
+          "after": [
+            "for(const [ceiling,count] of [[182,151],[199,161],[200,162],[201,163],[202,164],[203,165],[204,166],[205,167],[206,168],[209,171]])test(`historical reset rehearses exact${ceiling} bytes while live owner reset still rejects newer files`,async()=>{"
+          ]
+        },
+        {
+          "at": 26,
+          "before": [
+            " await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:209,manifest}),/HISTORICAL_RESET_CEILING/u);"
+          ],
+          "after": [
+            " await assert.rejects(stageHistoricalResetSource(root,{migrationCeiling:211,manifest}),/HISTORICAL_RESET_CEILING/u);"
+          ]
+        }
+      ]
+    },
+    "tests/opening-cheques196.test.ts": {
+      "before": "a6992259623f106ce3441dffbc32d50b33df4ab635f881ebe1f2d449fb06799b",
+      "after": "1cbfee51e660df53919c210c2c51ab174a9e7b45b2c13b4cf8df8fe21466a848",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 22,
+          "before": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,196);assert.equal(proof.managedAccess,false);"
+          ]
+        }
+      ]
+    },
+    "tests/package-f-inventory.test.ts": {
+      "before": "b30a2ba4511b6a35dd111aa57ed801af04e440692cb0198f9f2f6ef8892fb112",
+      "after": "332f4e8bccfb6dccbb9232e0dd19d04bf568e4c13cb9188d4125c4e8352bb52a",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 31,
+          "before": [
+            "    const ast=ts.createSourceFile(file,readFileSync(file,'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),calls:string[]=[];"
+          ],
+          "after": [
+            "    let source=readFileSync(file,'utf8');",
+            "    if(file==='src/features/pos/PosView.tsx'){",
+            "      // D adds saved unit names to this existing read only. Every other actual",
+            "      // await/business call remains in the original trace, including its args.",
+            "      const selected=\".select('created_at,order_items(id,base_unit_name_snapshot)')\";",
+            "      assert.equal(source.split(selected).length-1,1);",
+            "      source=source.replace(selected,\".select('created_at')\");",
+            "    }",
+            "    const ast=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX),calls:string[]=[];"
+          ]
+        }
+      ]
+    },
+    "tests/package-f-orders.test.ts": {
+      "before": "d67c788e6a0c895ac0c53d2a70cb15fe5cce5cdf2cdeb1835368f34b21f8ef0c",
+      "after": "946ef20447e6c33fd919e00cb6532bb252ff2df976b504d2cbeb8a056a5a9ff5",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 46,
+          "before": [
+            "  for (const label of ['كرتونة', 'طرد مشكّل', 'باكيت', 'جبنة', 'شطة', 'ملح', '90.200', '2.000', '92.200', 'طباعة الطلب', 'إلغاء الطلب مع ذكر السبب']) assert.ok(html.includes(label), label);"
+          ],
+          "after": [
+            "  for (const label of ['طرد', 'طرد مشكّل', 'وحدة', 'جبنة', 'شطة', 'ملح', '90.200', '2.000', '92.200', 'طباعة الوصل', 'طباعة ورقة التجهيز', 'إلغاء الطلب مع ذكر السبب']) assert.ok(html.includes(label), label);"
+          ]
+        }
+      ]
+    },
+    "tests/package-f-pos.test.ts": {
+      "before": "b556b27782f0fc577749121180311d4a6419f58f727c7c00a881d75c0fea1b08",
+      "after": "75b1a2e70c0ad42b859eabf9b3e667f02162bdcc29ca2a4dae233ccbf4f07e30",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [
+            "  assert.match(pos, /lg:grid-cols-\\[repeat\\(auto-fill,minmax\\(190px,1fr\\)\\)\\]/);",
+            "  assert.match(pos, /event\\.key === 'Enter' && event\\.repeat/);"
+          ],
+          "after": [
+            "  assert.match(pos, /lg:grid-cols-\\[repeat\\(auto-fill,minmax\\(240px,1fr\\)\\)\\]/);",
+            "  const card=readFileSync('src/features/pos/PosProductCard.tsx','utf8');",
+            "  assert.match(card, /event\\.key==='Enter'&&event\\.repeat/);"
+          ]
+        }
+      ]
+    },
+    "tests/parcel209.test.ts": {
+      "before": "a4c5c988ba1b464b451a80e1cc2a32ab8ca08a2b9f21beb496cc862449194e96",
+      "after": "6509ef017dee7fc8bdc1b4256a106dbd63f061390447133bc457c52a59bf0f4c",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 3,
+          "before": [],
+          "after": [
+            "import {inventoryBeforeTrialD} from '../scripts/audit/source-before-trial-sale-receipts.mjs';"
+          ]
+        },
+        {
+          "at": 13,
+          "before": [
+            "import {inventory} from '../scripts/audit/table-access-inventory.mjs';"
+          ],
+          "after": []
+        },
+        {
+          "at": 62,
+          "before": [
+            "test('current209 SDK proof binds every actual source and role/query variant without historical projection',async()=>{",
+            " const source=await inventory(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_209.json'));assert.equal(proof.migrationCeiling,209);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,source.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(source,proof.results));assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));"
+          ],
+          "after": [
+            "test('frozen209 SDK proof binds every accepted source and role/query variant through exact D inverse',async()=>{",
+            " const source=await inventoryBeforeTrialD(),proof=JSON.parse(read('docs/operations/TABLE_ACCESS_AFTER_209.json'));assert.equal(proof.migrationCeiling,209);assert.equal(proof.managedAccess,false);assert.equal(proof.infrastructureOk,true);assert.equal(proof.applicationReady,true);assert.deepEqual(proof.sourceHashes,source.sources);assert.deepEqual(proof.coverage,verifyProbeCoverage(source,proof.results));assert.ok(proof.results.every((r:{sqlstate:string|null})=>r.sqlstate===null));"
+          ]
+        }
+      ]
+    },
+    "tests/pos-receipt.test.ts": {
+      "before": "0cdb56593642d99de6249b7ffbeffd0cded8a6f0a6083f9f5ac134d95a1de450",
+      "after": "41c113016ef8dbb14f0d4e8e0b82ffb39607b609be832888219a3c8023c7f27c",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 46,
+          "before": [
+            "  assert.match(view, /window\\.print\\(\\)/);"
+          ],
+          "after": [
+            "  const dialog=readFileSync('src/features/receipts/SaleReceiptDialog.tsx','utf8');",
+            "  const template=readFileSync('customer-web/src/receipts/ReceiptDocument.tsx','utf8');",
+            "  assert.match(dialog, /window\\.print\\(\\)/);"
+          ]
+        },
+        {
+          "at": 51,
+          "before": [
+            "  assert.match(view, /نسخ الرابط/);"
+          ],
+          "after": [
+            "  assert.match(dialog, /نسخ الرابط/);"
+          ]
+        },
+        {
+          "at": 53,
+          "before": [
+            "  assert.match(view, /@page \\{ size: 80mm auto/);"
+          ],
+          "after": [
+            "  assert.match(template, /@page \\{ size:80mm auto/);"
+          ]
+        },
+        {
+          "at": 64,
+          "before": [
+            " assert.match(view,/i\\.quantity\\} \\{i\\.unit \\|\\| i\\.salePackage \\|\\| 'طرد'/);"
+          ],
+          "after": [
+            " assert.match(view,/SaleReceiptDialog/);",
+            " const adapter=readFileSync('src/features/receipts/saleReceipt.ts','utf8');assert.match(adapter,/baseUnitName:item.baseUnitName/);"
+          ]
+        }
+      ]
+    },
+    "tests/postgrest-bundled-image.test.ts": {
+      "added": true,
+      "before": null,
+      "after": "07dfa2e2a8c48b1fb6785589180ce66e5fc3cd59e3033278e519c642209620ed",
+      "hunks": []
+    },
+    "tests/postgrest-registry-image.test.ts": {
+      "before": "491ef47f828f88855ee2914bc21a313fde6d75c6db4fcac67c81b67f016cc9ef",
+      "after": "d92e4a6672b9376197426871afb2729c52d7e2eba407e423913d82b6092d39d2",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 9,
+          "before": [
+            "const pinned=proof.mirror+'@'+proof.digest;"
+          ],
+          "after": [
+            "const pinned=proof.legacy+'@'+proof.digest;"
+          ]
+        },
+        {
+          "at": 21,
+          "before": [
+            "test('registry repair changes ONLY the Docker image argument,not launch env,port,readiness or probe contracts',()=>{"
+          ],
+          "after": [
+            "test('verified local immutable image changes ONLY the Docker image argument,not launch env,port,readiness or probe contracts',()=>{"
+          ]
+        },
+        {
+          "at": 26,
+          "before": [
+            " const after=block(current);assert.equal(after.split(pinned).length,2);"
+          ],
+          "after": [
+            " const actual=block(current);assert.equal(actual.split('localPostgrestImage').length,2);",
+            " const after=actual.replace('localPostgrestImage',\"'\"+pinned+\"'\");assert.equal(after.split(pinned).length,2);"
+          ]
+        }
+      ]
+    },
+    "tests/pretrial-p1.test.ts": {
+      "before": "e3c459d3b44045527b5cd20c23bd49d86107d3a8a97f052309577dabe0ca2b26",
+      "after": "fd74609362d0210d332c867b3b6fd9e1a0cc527622f69b6a65f3b6c9049415f5",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 56,
+          "before": [
+            "  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_209.json');"
+          ],
+          "after": [
+            "  assert.equal(JSON.parse(read('docs/agent/project-state.json')).currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_210.json');"
+          ]
+        }
+      ]
+    },
+    "tests/product-integration171.test.ts": {
+      "before": "213568f35718d3aa2efc09e65cba58dbd7cf4faacfbaace2b1ec3dd14b429e2e",
+      "after": "083c5097479e2b4155923370432ff55a9c8738d63bdca227de2cafae459a5dff",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,171);assert.equal(proof.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 54,
+          "before": [
+            " assert.equal(services.migrationCeiling,209);assert.equal(services.ok,true);"
+          ],
+          "after": [
+            " assert.equal(services.migrationCeiling,210);assert.equal(services.ok,true);"
+          ]
+        }
+      ]
+    },
+    "tests/product-receiving205.test.ts": {
+      "before": "e737b105f6c5c8dae397228046e978cfb7f46255c43dd5ef777f12ac52bbc3fc",
+      "after": "092303fedf5e7a7e0c841e41858dd72d96d73b431e20a5608aaf24a13211c573",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 48,
+          "before": [
+            "  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,209);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ],
+          "after": [
+            "  const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,210);assert.equal(state.migration205CanonicalLfSha256,createHash('sha256').update(sql).digest('hex').toUpperCase());"
+          ]
+        }
+      ]
+    },
+    "tests/receipt210.test.ts": {
+      "added": true,
+      "before": null,
+      "after": "2138a5854e2d7cc0fc635fbde0ec4af5c85c1114adb6b44ffef8f0e34589fb9e",
+      "hunks": []
+    },
+    "tests/sales-history204-evidence.test.ts": {
+      "before": "0b3b849c3f0f70d4dcafb749ccc416bdbaf5f6152659dde191266c20a90e3e3b",
+      "after": "513116a30be4d8ddd6e5a76dc1dade050e59cdd79056c773d45bce4d4acf15ae",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 24,
+          "before": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,209);"
+          ],
+          "after": [
+            " const state=JSON.parse(read('docs/agent/project-state.json'));assert.equal(state.migrationCeiling,210);"
+          ]
+        }
+      ]
+    },
+    "tests/service-access-inventory.test.ts": {
+      "before": "dd1f5089b7826062a081e1a4bafaca203e7a09c6be135fbad22d6e05f5a94eba",
+      "after": "6e68f8c2d3a3f5390e6fec07b129e7b904a747d66686d0edabdcb254232a6d5b",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 49,
+          "before": [
+            " assert.match(source,/\\[198,199,200,201,202,203,204,205,206,207,208,209\\]\\.includes\\(migrationCeiling\\)/u);"
+          ],
+          "after": [
+            " assert.match(source,/\\[198,199,200,201,202,203,204,205,206,207,208,209,210\\]\\.includes\\(migrationCeiling\\)/u);"
+          ]
+        }
+      ]
+    },
+    "tests/supplier-replacement208-evidence.test.ts": {
+      "before": "342f0ae0ea2126aa64a3b64618e8ce01c57b3cee0da63a5bdbf91b7365a2a2b6",
+      "after": "a6c73be30270920341fe41bb3c5694d6649c469d41ffe7b6ab4ff2cbf6ef4379",
+      "errorPrefix": "PRETRIAL_P1_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 16,
+          "before": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_209.json');assert.equal(state.migrationCeiling,209);"
+          ],
+          "after": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_210.json');assert.equal(state.migrationCeiling,210);"
+          ]
+        },
+        {
+          "at": 22,
+          "before": [
+            " const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,209);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);"
+          ],
+          "after": [
+            " const current=await serviceInventory(),proof=json('docs/operations/SERVICE_ACCESS_DIAGNOSTIC.json');assert.equal(proof.ok,true);assert.equal(proof.migrationCeiling,210);assert.equal(proof.managedAccess,false);assert.deepEqual(proof.sourceHashes,current.sourceHashes);"
+          ]
+        },
+        {
+          "at": 43,
+          "before": [
+            "});"
+          ],
+          "after": [
+            "});"
+          ]
+        }
+      ]
+    },
+    "tests/trial-owner-a.test.ts": {
+      "before": "86c0f2d6507f44930575ef726cf0a47ed4d5db5346b213332d1909df1ef234ff",
+      "after": "950a27e821965b68c12bb32e8cc51657643cb1bc7a253056e7805730d455103e",
+      "errorPrefix": "TRIAL_D_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 54,
+          "before": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_209.json');",
+            " assert.equal(state.migrationCeiling,209);assert.deepEqual(current.sources,proof.sourceHashes);"
+          ],
+          "after": [
+            " assert.equal(state.currentTableReadinessEvidence,'docs/operations/TABLE_ACCESS_AFTER_210.json');",
+            " assert.equal(state.migrationCeiling,210);assert.deepEqual(current.sources,proof.sourceHashes);"
+          ]
+        }
+      ]
+    },
+    "tests/trial-reset.test.ts": {
+      "before": "baeb6ec694258b41d2c70ba304fd8e9a8d92d1fa6fdaf2233709e9db83221c7b",
+      "after": "ed986cbabd71282669dd932b201c287613431d5e9be7f9f634cf129704e32d15",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 75,
+          "before": [
+            "test('reset admits approved frozen prefixes and current209 only and preserves the named main warehouse,not trial locations',()=>{"
+          ],
+          "after": [
+            "test('reset admits approved frozen prefixes and current210 only and preserves the named main warehouse,not trial locations',()=>{"
+          ]
+        },
+        {
+          "at": 87,
+          "before": [
+            " for(const migrationCeiling of [138,198,210])assert.throws(()=>assertResetCeiling({migrationCeiling}));"
+          ],
+          "after": [
+            " assert.equal(assertResetCeiling({migrationCeiling:210}),172);",
+            " for(const migrationCeiling of [138,198,211])assert.throws(()=>assertResetCeiling({migrationCeiling}));"
+          ]
+        }
+      ]
+    },
+    "tests/trial-sale-receipts.test.ts": {
+      "added": true,
+      "before": null,
+      "after": "52a8562acdec9bef34805c4595790ab1fb36fe947a236d44d3a1e1627f238621",
+      "hunks": []
+    },
+    "tests/unit-terminology.test.ts": {
+      "before": "486c0e1a88205667e838def84f1c6716fdc1dcae6089f10d70f1c3d6b67932cf",
+      "after": "6eb24ae6f5a910ba8c70605292ffe588aaae09ce716676fa8461574202841d58",
+      "errorPrefix": "TRIAL_A_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 23,
+          "before": [
+            "      assert.equal(text.split('كم حبة بالطرد').length-1,1,file+' exact owner phrase once');",
+            "      text=text.replace('كم حبة بالطرد','');"
+          ],
+          "after": [
+            "      // D uses the same owner label in the editable form and saved legacy view.",
+            "      assert.equal(text.split('كم حبة بالطرد').length-1,file==='src/features/more/ParcelConfigurationModal.tsx'?2:1,file+' exact owner phrase count');",
+            "      text=text.replaceAll('كم حبة بالطرد','');"
+          ]
+        }
+      ]
+    },
+    "tests/withdrawals182-admission.test.ts": {
+      "before": "5e41c9591d63acc0fe617d797238b28480111ffa3f6d1c554a80962230370b5c",
+      "after": "33e28136260a335cf8c355c027baa7274aac081c6a4580e99a6946a8b75aa02f",
+      "errorPrefix": "CORRECTIONS207_ENTIRE_CURRENT_FILE_CHANGED:",
+      "hunks": [
+        {
+          "at": 20,
+          "before": [
+            " assert.equal(source.migrationCeiling,209);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);"
+          ],
+          "after": [
+            " assert.equal(source.migrationCeiling,210);assert.equal(proof.migrationCeiling,182);assert.equal(proof.managedAccess,false);"
+          ]
+        },
+        {
+          "at": 31,
+          "before": [
+            " assert.equal(services.migrationCeiling,209);assert.equal(services.ok,true);"
+          ],
+          "after": [
+            " assert.equal(services.migrationCeiling,210);assert.equal(services.ok,true);"
+          ]
+        }
+      ]
+    }
+  }
+}

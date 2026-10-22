@@ -1,0 +1,719 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-22T17:26:47.356Z",
+  "supersededSha": "73c308040d5a75c0a16f0bef28541970d8035f7e",
+  "managedAccess": false,
+  "deployed": false,
+  "failures": {
+    "push": 39817588705,
+    "pr": 39817593699,
+    "reason": "GHCR anonymous pinned PostgREST image pull429 before access queries",
+    "oneUnchangedPushRerunAlsoFailed": true,
+    "oldJobStatusAnomaly": {
+      "job": 119960123334,
+      "financialStep": "success",
+      "completeJob": "success",
+      "rawJobResult": null
+    },
+    "oldCandidatesNotAccepted": true,
+    "cancelledBeforeEdits": true
+  },
+  "change": {
+    "file": "scripts/audit/run-table-access-diagnostic.mjs",
+    "onlyImageArgument": true,
+    "versionUnchanged": "v16.1",
+    "digestUnchanged": "sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+    "environmentPortReadinessTimeoutProbeContractsUnchanged": true,
+    "noFallbackOrNewRetry": true,
+    "productionSourceFinancialRpcAndSqlUnchanged": true
+  },
+  "imageParity": {
+    "recordedAt": "2026-10-22T17:25:20.455Z",
+    "localOnly": true,
+    "from": "ghcr.io/supabase/postgrest:v16.1@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+    "to": "public.ecr.aws/supabase/postgrest:v16.1@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+    "digest": "sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+    "actualPinnedEcrPull": true,
+    "imageId": "sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+    "os": "linux",
+    "architecture": "amd64",
+    "identicalRootFs": true,
+    "rootFsSha256": "62dd676b6f41e8129ca317da286574fb5f5a382ed5178f710e6766e3d951ba0c",
+    "identicalConfiguration": true,
+    "configurationSha256": "d47d9f402c7b8d5d22b8f2a9eb7853e40100f20456f0a10dbf1a985965eb8fbd",
+    "bothRepositoryDigestsPresent": true
+  },
+  "additionalFrozen209Reference": {
+    "migrations": 171,
+    "functions": 546,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferenceCount": 0,
+    "ownerSaved209Unchanged": true
+  },
+  "pending": [
+    "Actual bundle-backed209/210 SDK148/roles/zero writes",
+    "All1361/197units/types/strictlint/Gitleaks0",
+    "New exact push/PR/main FULL41"
+  ],
+  "priorIndependentEvidence": {
+    "feature210BothRuns7DbGroups": true,
+    "feature210BothRunsRestore0AndResetRest": true,
+    "featureBothRunsBrowser1367Flaky0": true,
+    "notFinalFullAcceptance": true
+  },
+  "validation": {
+    "actualEcr": [
+      {
+        "migrationCeiling": 209,
+        "actualPinnedEcrImage": true,
+        "sourceFiles": 326,
+        "sourceHashesSha256": "05390f6707686c3a93653c6b1d742a351f6f5acd92233233a0554b48c5508045",
+        "querySites": 51,
+        "results": 148,
+        "errors": 0,
+        "allExistingActorVariants": true,
+        "sourceHashesMatchCurrent210Readiness": true,
+        "methods": {
+          "ok": true,
+          "ownerV5RestMutation": true,
+          "publicInheritedMethods": [
+            {
+              "role": "anon",
+              "rows": 3,
+              "parcelOnly": true
+            },
+            {
+              "role": "authenticated",
+              "rows": 3,
+              "parcelOnly": true
+            }
+          ],
+          "adminBarcodeMethod": true,
+          "noRoleRefused": true,
+          "readZeroWrites": true
+        },
+        "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-z82JuQ"
+      },
+      {
+        "migrationCeiling": 210,
+        "actualPinnedEcrImage": true,
+        "sourceFiles": 326,
+        "sourceHashesSha256": "05390f6707686c3a93653c6b1d742a351f6f5acd92233233a0554b48c5508045",
+        "querySites": 51,
+        "results": 148,
+        "errors": 0,
+        "allExistingActorVariants": true,
+        "sourceHashesMatchCurrent210Readiness": true,
+        "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-mWu8S5"
+      }
+    ],
+    "adminUnits": {
+      "passed": 1357,
+      "failed": 0,
+      "skipped": 0
+    },
+    "customerUnits": {
+      "passed": 197,
+      "failed": 0,
+      "skipped": 0
+    },
+    "bothTypechecks": true,
+    "strictLint": true,
+    "exactDiagnosticChangeVerified": true,
+    "productionSqlWorkflowDependenciesUnchanged": true,
+    "registryContractTestsPassed": 2,
+    "gitleaks": {
+      "exitCode": 0,
+      "files": 107
+    }
+  },
+  "reset209Repair": {
+    "supersededSha": "ff38c81651dd1adb701cad673f372fd79b1151a8",
+    "runs": [
+      39824840364,
+      39824845768
+    ],
+    "detected": "RESET_MANIFEST_CHANGED",
+    "reason": "Historical209 reset used checkout210 via hardcoded latest209 selector;strict guard correctly rejected extra210.",
+    "bothRunsStoppedBeforeEdits": true,
+    "fix": "Use real checkout migration ceiling to select current root;otherwise stage exact hash-bound historical manifest. Historical209/210 source counts171/172 explicit.",
+    "ownerResetGuardUnchanged": true,
+    "liveOwnerCliUnchanged": true,
+    "sqlAndFinancialWritersUnchanged": true,
+    "tests": "Added real byte-for-byte209 view test;root209 reset must still reject extra210;changed/missing hash and unknown211 rejected.",
+    "validation": {
+      "sourceCeiling": 209,
+      "files": 171,
+      "exactHashBoundHistoricalView": true,
+      "actualFullLocalReset": true,
+      "catalogDifferences": 0,
+      "ownerRetained": true,
+      "verifiedTotpRetained": true,
+      "mainWarehousePreserved": true,
+      "storageBytesDeleted": true,
+      "staffDeleted": true,
+      "rest208OwnerRead": true,
+      "rest209CatalogRead": true,
+      "allDataCleared": true,
+      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-trial-reset-ghgQi3"
+    }
+  },
+  "registryIndependentFixture": {
+    "supersededSha": "c2a38d6c886441056572f7111ad0faa1504fdf54",
+    "runs": [
+      39829357854,
+      39829364217
+    ],
+    "failure": "ECR Data limit exceeded at local-postgrest before queries",
+    "stoppedBeforeEdits": true,
+    "archive": "tests/fixtures/postgrest-v16.1-linux-amd64.tar.gz",
+    "compressedBytes": 6503741,
+    "archiveSha256": "f68c7e96cf47296e13b2db0a4b52fd040df216bc082c8218621bf5b8a33d1d91",
+    "officialIndexDigest": "sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+    "actualLocalLoadAndOfflineVersion": true,
+    "version": "PostgREST 16.1",
+    "runtimeRegistryPulls": 0,
+    "registryAuth": 0,
+    "newRetries": 0,
+    "originalImageBlobsRetained": true,
+    "allSdkLaunchEnvironmentPortReadinessAndProbeContractsUnchanged": true,
+    "cryptoAndNegativeContractTests": 6,
+    "license": "tests/fixtures/postgrest-v16.1.LICENSE",
+    "notice": "tests/fixtures/POSTGREST_IMAGE_NOTICE.md",
+    "validation": {
+      "sdk": [
+        {
+          "migrationCeiling": 209,
+          "migrations": 171,
+          "sourceTotals": {
+            "queries": 51,
+            "tableNames": [
+              "branches",
+              "brands",
+              "business_operations",
+              "categories",
+              "customer_addresses",
+              "customers",
+              "inventory_balances",
+              "order_items",
+              "order_parcel_components",
+              "order_parcel_instances",
+              "order_status_history",
+              "orders",
+              "product_images",
+              "products",
+              "profiles",
+              "purchase_order_items",
+              "purchase_orders",
+              "purchase_receipt_items",
+              "purchase_receipts",
+              "push_dispatches",
+              "push_subscriptions",
+              "roles",
+              "sales_returns",
+              "supplier_payments",
+              "supplier_receipt_items",
+              "supplier_receipts",
+              "suppliers",
+              "units",
+              "user_roles",
+              "warehouses"
+            ],
+            "authenticated": 44,
+            "service_role": 7,
+            "anon": 0,
+            "subscriptions": 20
+          },
+          "querySites": 51,
+          "success": 148,
+          "permissionDenied": 0,
+          "otherError": 0,
+          "applicationReady": true,
+          "sourceHashesSha256": "05390f6707686c3a93653c6b1d742a351f6f5acd92233233a0554b48c5508045",
+          "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-eYbmlN"
+        },
+        {
+          "migrationCeiling": 210,
+          "migrations": 172,
+          "sourceTotals": {
+            "queries": 51,
+            "tableNames": [
+              "branches",
+              "brands",
+              "business_operations",
+              "categories",
+              "customer_addresses",
+              "customers",
+              "inventory_balances",
+              "order_items",
+              "order_parcel_components",
+              "order_parcel_instances",
+              "order_status_history",
+              "orders",
+              "product_images",
+              "products",
+              "profiles",
+              "purchase_order_items",
+              "purchase_orders",
+              "purchase_receipt_items",
+              "purchase_receipts",
+              "push_dispatches",
+              "push_subscriptions",
+              "roles",
+              "sales_returns",
+              "supplier_payments",
+              "supplier_receipt_items",
+              "supplier_receipts",
+              "suppliers",
+              "units",
+              "user_roles",
+              "warehouses"
+            ],
+            "authenticated": 44,
+            "service_role": 7,
+            "anon": 0,
+            "subscriptions": 20
+          },
+          "querySites": 51,
+          "success": 148,
+          "permissionDenied": 0,
+          "otherError": 0,
+          "applicationReady": true,
+          "sourceHashesSha256": "05390f6707686c3a93653c6b1d742a351f6f5acd92233233a0554b48c5508045",
+          "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-pIBhka"
+        }
+      ],
+      "adminUnits": {
+        "passed": 1361,
+        "failed": 0,
+        "skipped": 0
+      },
+      "customerUnits": {
+        "passed": 197,
+        "failed": 0,
+        "skipped": 0
+      },
+      "types": true,
+      "strictLint": true,
+      "gitleaks": {
+        "exitCode": 0,
+        "files": 112
+      }
+    }
+  },
+  "browserDependencyMirror": {
+    "supersededSha": "5b1eea360116e813614434c391822984dd7c5668",
+    "pushRun": 39835562459,
+    "attempts": [
+      {
+        "attempt": 1,
+        "job": 120022922139,
+        "result": "cancelled",
+        "reason": "35min deadline while apt downloaded official Ubuntu packages from azure.archive.ubuntu.com;POS test skipped",
+        "lastPackage": 130
+      },
+      {
+        "attempt": 2,
+        "job": 120041495352,
+        "result": "cancelled",
+        "reason": "One unchanged environmental rerun;35min deadline again in the same apt phase;POS test skipped",
+        "lastPackage": 150
+      }
+    ],
+    "previousPrStrictProof": {
+      "sha": "5b1eea360116e813614434c391822984dd7c5668",
+      "recordedAt": "2026-10-22T20:00:47.311Z",
+      "managedAccess": false,
+      "quality": [
+        {
+          "id": 39835569335,
+          "event": "pull_request",
+          "sha": "5b1eea360116e813614434c391822984dd7c5668",
+          "attempt": 2,
+          "jobs": 41,
+          "strictFullVerified": true,
+          "actualReset208": {
+            "publicReport": true,
+            "authenticatedRestRead": true,
+            "ownerTotpStoragePreserved": true
+          },
+          "actualFull208": {
+            "passed": 21,
+            "readScale": {
+              "realWriterCases": 200,
+              "pageSize": 25,
+              "samplesMs": [
+                222,
+                221,
+                221,
+                221,
+                223
+              ],
+              "statementDeadlineMs": 5000
+            },
+            "restore": {
+              "logicalCatalogDifferences": 0,
+              "allPublicDataAndSequencesIdentical": true,
+              "replayZeroWrites": true
+            }
+          }
+        }
+      ],
+      "secrets": [
+        {
+          "id": 39835562176,
+          "event": "push",
+          "sha": "5b1eea360116e813614434c391822984dd7c5668",
+          "conclusion": "success"
+        },
+        {
+          "id": 39835569535,
+          "event": "pull_request",
+          "sha": "5b1eea360116e813614434c391822984dd7c5668",
+          "conclusion": "success"
+        }
+      ],
+      "browser": [
+        {
+          "run": 39835569335,
+          "job": 120038663667,
+          "name": "Lint, test, build and browser QA",
+          "skipped": 59,
+          "passed": 373,
+          "summaries": 1,
+          "duration": "11.3m",
+          "flaky": 0,
+          "logSha256": "e613e10ba29a222e1c9055b5516ed928550f5af3de1a9358ed5256de4e1ff3a7"
+        },
+        {
+          "run": 39835569335,
+          "job": 120038663860,
+          "name": "Package F browser QA (5/5)",
+          "skipped": 0,
+          "passed": 198,
+          "summaries": 2,
+          "duration": "5.3m+7.4m",
+          "flaky": 0,
+          "logSha256": "f608240b46ea6dc269320767f909ec44605a5ca596134b0906edf7be21d0c920"
+        },
+        {
+          "run": 39835569335,
+          "job": 120038663896,
+          "name": "Package F browser QA (2/5)",
+          "skipped": 0,
+          "passed": 200,
+          "summaries": 2,
+          "duration": "4.6m+6.3m",
+          "flaky": 0,
+          "logSha256": "496061ad78f1531e667131525ff458093f3d7850abe32a6e6dea26393523d1f3"
+        },
+        {
+          "run": 39835569335,
+          "job": 120038663911,
+          "name": "Package F browser QA (4/5)",
+          "skipped": 0,
+          "passed": 198,
+          "summaries": 2,
+          "duration": "5.1m+7.3m",
+          "flaky": 0,
+          "logSha256": "0704ee89a2902d7eac2d299d6baac267e8d1a736122dfb9a981501fd709427a9"
+        },
+        {
+          "run": 39835569335,
+          "job": 120038663916,
+          "name": "Package F browser QA (3/5)",
+          "skipped": 0,
+          "passed": 198,
+          "summaries": 2,
+          "duration": "4.9m+6.7m",
+          "flaky": 0,
+          "logSha256": "1f052434298920d73f974f408b5cfc2408401253496465725cb5311facfad411"
+        },
+        {
+          "run": 39835569335,
+          "job": 120038663996,
+          "name": "Package F browser QA (1/5)",
+          "skipped": 0,
+          "passed": 200,
+          "summaries": 2,
+          "duration": "5.9m+8.7m",
+          "flaky": 0,
+          "logSha256": "4b8890a5303ceeb0f92fbcc4077db444d58a86d5e59e89e08a34dc6fc0e63728"
+        }
+      ],
+      "browserTotals": [
+        {
+          "run": 39835569335,
+          "passed": 1367,
+          "legacyConditionalSkipped": 59,
+          "flaky": 0
+        }
+      ],
+      "pwa": [
+        {
+          "run": 39835569335,
+          "job": 120038663981,
+          "mode": "full",
+          "scenarios": [
+            {
+              "browser": "Chromium",
+              "scenario": "automatic",
+              "ok": true,
+              "cacheCleanup": true,
+              "reopenedOnReleaseB": true
+            },
+            {
+              "browser": "Chromium",
+              "scenario": "waiting-worker",
+              "ok": true,
+              "cacheCleanup": true,
+              "reopenedOnReleaseB": true
+            },
+            {
+              "browser": "WebKit",
+              "scenario": "automatic",
+              "ok": true,
+              "cacheCleanup": true,
+              "reopenedOnReleaseB": true
+            },
+            {
+              "browser": "WebKit",
+              "scenario": "waiting-worker",
+              "ok": true,
+              "cacheCleanup": true,
+              "reopenedOnReleaseB": true
+            }
+          ],
+          "network": {
+            "denied": [],
+            "blockedCanaryAttempts": [],
+            "deniedUnexpectedAttempts": [],
+            "escapedExternalRequests": []
+          }
+        }
+      ],
+      "trialASearch": [
+        {
+          "run": 39835569335,
+          "job": 120038664682,
+          "ok": true,
+          "managedAccess": false,
+          "realPostgrest": true,
+          "matchingOutsideFirstPage": true,
+          "pages": 2,
+          "fullItemsRetained": true,
+          "exactCount": 32,
+          "filtersAndQuotedSearch": true,
+          "zeroWrites": true,
+          "singleSkuHasNoDuplicateParcel": true,
+          "cases": [
+            {
+              "role": "owner",
+              "passed": true,
+              "matchingOutsideFirstPage": true
+            },
+            {
+              "role": "admin",
+              "passed": true,
+              "matchingOutsideFirstPage": true
+            },
+            {
+              "role": "manager",
+              "passed": true,
+              "matchingOutsideFirstPage": true
+            },
+            {
+              "role": "warehouse_keeper",
+              "passed": true,
+              "matchingOutsideFirstPage": true
+            },
+            {
+              "role": "accountant",
+              "passed": true,
+              "matchingOutsideFirstPage": true
+            },
+            {
+              "role": "cashier",
+              "existingReaderDenied": true,
+              "passed": true
+            },
+            {
+              "role": "no-role",
+              "existingReaderDenied": true,
+              "passed": true
+            }
+          ]
+        }
+      ],
+      "actualPosBrowser": [
+        {
+          "run": 39835569335,
+          "job": 120038664415,
+          "passed": 8,
+          "scenariosPerEngine": 4,
+          "engines": [
+            "Chromium",
+            "WebKit"
+          ],
+          "realPublicRpc": true,
+          "realIsolatedDatabase": true,
+          "productionRequests": 0
+        }
+      ],
+      "parcel209": [
+        {
+          "run": 39835569335,
+          "job": 120038664690,
+          "cases": 16,
+          "races": 7,
+          "restore": {
+            "logicalCatalogDifferences": 0,
+            "allPublicDataAndSequencesIdentical": true,
+            "replayZeroWrites": true
+          },
+          "access": {
+            "ok": true,
+            "ownerV5RestMutation": true,
+            "publicInheritedMethods": [
+              {
+                "role": "anon",
+                "rows": 3,
+                "parcelOnly": true
+              },
+              {
+                "role": "authenticated",
+                "rows": 3,
+                "parcelOnly": true
+              }
+            ],
+            "adminBarcodeMethod": true,
+            "noRoleRefused": true,
+            "readZeroWrites": true
+          },
+          "reference": {
+            "migrations": 171,
+            "functions": 546,
+            "realtimeMembers": 13,
+            "freshIncrementalDifferenceCount": 0
+          },
+          "upgrade": {
+            "applied": [
+              "209"
+            ],
+            "recorded": [
+              "209"
+            ],
+            "replayWrite": false
+          },
+          "reset": {
+            "ownerRetained": true,
+            "totp": true,
+            "storageDeleted": true,
+            "rest209": true
+          }
+        }
+      ],
+      "receipt210": [
+        {
+          "run": 39835569335,
+          "job": 120038665256,
+          "cases": 7,
+          "restore": {
+            "logicalCatalogDifferences": 0,
+            "allPublicDataAndSequencesIdentical": true,
+            "replayZeroWrites": true
+          },
+          "reference": {
+            "migrations": 172,
+            "functions": 546,
+            "realtimeMembers": 13,
+            "freshIncrementalDifferenceCount": 0
+          },
+          "upgrade": {
+            "applied": [
+              "209",
+              "210"
+            ],
+            "recorded": [
+              "209",
+              "210"
+            ],
+            "replayWrite": false
+          },
+          "reset": {
+            "ownerRetained": true,
+            "totp": true,
+            "storageDeleted": true,
+            "rest210": true
+          }
+        }
+      ],
+      "pr": {
+        "number": 16,
+        "url": "https://github.com/OBITO20011/mahdi-admin/pull/16",
+        "base": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
+        "head": "5b1eea360116e813614434c391822984dd7c5668",
+        "merged": false,
+        "mergeSha": "effce0758962dcb40798a7d034fb319c23bc87d7"
+      },
+      "ok": true
+    },
+    "allRemoteVerificationStoppedBeforeEdits": true,
+    "correction": "Exclude only Azure entry from actual /etc/apt/apt-mirrors.txt used by official GitHub Ubuntu image;keep official HTTPS archive/security entries and their priorities. Guard retained archive and refuse unremoved Azure. Sources,suites,components,keyring and existing Playwright command stay unchanged.",
+    "noMoreUnchangedReruns": true,
+    "noSourceSqlFinancialPermissionChange": true,
+    "noTimeoutRetrySkipOrAssertionChange": true,
+    "verification": {
+      "actualWorkflowBlockTested": true,
+      "target": "/etc/apt/apt-mirrors.txt",
+      "onlyAzureMirrorRemoved": true,
+      "officialArchiveAndSecurityEntriesUnchanged": true,
+      "prioritiesRetained": true,
+      "sourcesFileSuitesComponentsAndSigningKeyUntouched": true,
+      "playwrightInstallCommandUnchanged": true,
+      "positiveCases": 3,
+      "negativeCases": 2,
+      "unknownAzureLayoutAndMissingArchiveRefused": true,
+      "officialRunnerSource": {
+        "url": "https://raw.githubusercontent.com/actions/runner-images/main/images/ubuntu/scripts/build/configure-apt-sources.sh",
+        "sha256": "90b1cde55a1daacb8b65efd19faa3a1fe61c24353c3fef829da2104ff6be5f16",
+        "indirectionConfirmed": true
+      },
+      "officialHttpsRelease": {
+        "url": "https://archive.ubuntu.com/ubuntu/dists/noble/InRelease",
+        "status": 200,
+        "bytes": 255850,
+        "sha256": "cdb2f31d809f589719a53c6ad15f255b27569c4059542ada282aaa21b8e164b0",
+        "signedEnvelope": true,
+        "codename": "noble"
+      }
+    },
+    "localValidation": {
+      "adminUnits": {
+        "passed": 1361,
+        "failed": 0,
+        "skipped": 0
+      },
+      "storeUnits": {
+        "passed": 197,
+        "failed": 0,
+        "skipped": 0
+      },
+      "bothTypechecks": true,
+      "strictLint": true,
+      "gitleaks": {
+        "files": 112,
+        "exitCode": 0
+      },
+      "changedPaths": [
+        ".github/workflows/quality.yml",
+        "scripts/audit/trial-sale-receipts-hunks.json",
+        "docs/agent/ACTIVE_TASK.json",
+        "docs/agent/ACTIVE_TASK_FILES.json",
+        "docs/operations/TRIAL_OWNER_D_CI_REPAIR.json",
+        "docs/operations/TRIAL_OWNER_D_LOCAL.json"
+      ],
+      "productionSourceSqlAndRpcUnchanged": true
+    }
+  }
+}

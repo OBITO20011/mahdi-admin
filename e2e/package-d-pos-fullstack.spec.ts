@@ -87,8 +87,8 @@ test.describe('Package D POS browser to real isolated RPC', () => {
   test.skip(!enabled, 'Requires NAWASRAH_PACKAGE_D_POS_FULLSTACK=1 isolated runner.');
   test('committed lost response, reload and two-tab recovery never duplicate business writes', async ({page, context}) => {
     await mount(page);
-    await page.getByRole('radio',{name:'باكيت',exact:true}).click();
-    await page.locator(`[data-pos-product-card="${productId}"]`).click();
+
+    await page.locator(`[data-pos-product="${productId}"] [data-pos-add-method="base_unit"]`).click();
     let committedResponse: Record<string, unknown> | undefined;
     const requests: unknown[] = [];
     await page.route('**/rest/v1/rpc/create_pos_sale_v2',async route => {
@@ -142,7 +142,6 @@ test.describe('Package D POS browser to real isolated RPC', () => {
 
   test('POS single-SKU carton uses the real Admin Replacement and current-leaf Return RPCs',async({page})=>{
     await mount(page);
-    await page.getByRole('radio',{name:'طرد',exact:true}).click();
     await page.locator('[data-pos-product-card="92400000-0000-0000-0000-000000000103"]').click();
     await page.getByRole('button',{name:/^إتمام البيع ·/}).click();
     await expect.poll(async()=>(await state(page))?.status).toBe('SUCCEEDED');
@@ -181,7 +180,6 @@ test.describe('Package D POS browser to real isolated RPC', () => {
 
   test('carton customer damage uses frozen standalone price and restocks only accepted sellable units',async({page})=>{
     await mount(page);
-    await page.getByRole('radio',{name:'طرد',exact:true}).click();
     await page.locator('[data-pos-product-card="92400000-0000-0000-0000-000000000103"]').click();
     await page.getByRole('button',{name:/^إتمام البيع ·/}).click();
     await expect.poll(async()=>(await state(page))?.status).toBe('SUCCEEDED');
@@ -209,8 +207,8 @@ test.describe('Package D POS browser to real isolated RPC', () => {
   });
 
   test('server absence and explicit confirmed cancellation unlock POS without erasing the attempt',async({page})=>{
-    await mount(page);await page.getByRole('radio',{name:'باكيت',exact:true}).click();
-    await page.locator(`[data-pos-product-card="${productId}"]`).click();
+    await mount(page);
+    await page.locator(`[data-pos-product="${productId}"] [data-pos-add-method="base_unit"]`).click();
     await page.route('**/rest/v1/rpc/create_pos_sale_v2',route=>route.abort('failed'));
     const before=await snapshot();await page.getByRole('button',{name:/^إتمام البيع ·/}).click();
     await expect.poll(async()=>(await state(page))?.status).toBe('OUTCOME_UNKNOWN');

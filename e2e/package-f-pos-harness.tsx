@@ -43,9 +43,9 @@ client.rpc = (name, args) => {
     const search = String(args?.p_search ?? '').toLowerCase();
     return success(posFixtureProducts.filter(product =>
       (!args?.p_category_id || product.category_id === args.p_category_id) &&
-      `${product.name_ar} ${product.sku} ${product.barcode}`.toLowerCase().includes(search)).map(product=>({...product,...(params.has('parcelOnly')?{parcel_only:true}:{}),...(params.get('base-unit')==='sack'?{base_unit:{code:'SACK',name_ar:'شوال'}}:{})})));
+      `${product.name_ar} ${product.sku} ${product.barcode}`.toLowerCase().includes(search)).map(product=>({...product,...(params.has('parcelOnly')?{parcel_only:true}:{}),...(params.has('unitOnly')?{units_per_sale_unit:1}:{}),...(params.get('base-unit')==='sack'?{base_unit:{code:'SACK',name_ar:'شوال'}}:{})})));
   }
-  if (name === 'get_pos_configurable_parcel_options_v1') return success({ options: [posFixtureParcel] });
+  if (name === 'get_pos_configurable_parcel_options_v1') return success({ options: params.has('no-mix')?[]:[posFixtureParcel] });
   if (name === 'get_open_pos_shift') return success({ success: true, hasOpenShift: !params.has('closed'),
     shift: { id: posFixtureIds.configuration, shiftNumber: 'SHIFT-42', branchId: branch.id, startTime: '2026-10-09T05:12:00Z' } });
   if (name === 'get_pos_customer_page') return success({ customers: [{ id: '55555555-5555-4555-8555-555555555555',

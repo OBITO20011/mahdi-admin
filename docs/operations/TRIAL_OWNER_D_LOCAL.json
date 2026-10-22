@@ -1,0 +1,336 @@
+{
+  "schemaVersion": 1,
+  "status": "D210_MIRRORLIST_LOCAL_VERIFIED_NEW_EXACT_FULL_CI_PENDING",
+  "recordedAt": "2026-10-22T20:19:57.532Z",
+  "branch": "codex/trial-sale-receipts",
+  "baselineSha": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
+  "managedAccess": false,
+  "deployed": false,
+  "scope": {
+    "d2ExplicitMethods": true,
+    "d3SharedSavedReceiptAndReadOnlyReprint": true,
+    "d4MixedOnlyWithLegacyReadDisable": true,
+    "internalCommercialKinds": true,
+    "publicReader210Implemented": true,
+    "publicReader210Approved": true,
+    "saleRpcChanged": false,
+    "pricesChanged": false,
+    "migrationsAdded": [
+      210
+    ],
+    "permissionsChanged": false,
+    "financialWritersChanged": false
+  },
+  "verification": {
+    "adminUnits": {
+      "passed": 1361,
+      "failed": 0,
+      "skipped": 0
+    },
+    "customerUnits": {
+      "passed": 197,
+      "failed": 0,
+      "skipped": 0
+    },
+    "types": true,
+    "strictLint": true,
+    "adminBuild": true,
+    "isolatedCustomerBuildAndSeo": true,
+    "networkEscapes": 0,
+    "browserBatches": {
+      "affected96": true,
+      "final130": true,
+      "separateLargeCatalog5000Cases2": true,
+      "historicalDefaultSkipsExecutedSeparately": 2,
+      "earlierSeparateSettingsAndCapacity16": true,
+      "realPos8": true,
+      "engines": [
+        "Chromium",
+        "WebKit"
+      ],
+      "retries": 0,
+      "internalReprint20After210": true,
+      "publicReceipt210Cases6": true
+    },
+    "native": {
+      "full": 1426,
+      "core": 432,
+      "packageF": 994,
+      "shards": [
+        200,
+        200,
+        198,
+        198,
+        198
+      ]
+    },
+    "sdk": {
+      "sources": 326,
+      "sites": 51,
+      "results": 148,
+      "errors": 0,
+      "sourceHashesSha256": "05390f6707686c3a93653c6b1d742a351f6f5acd92233233a0554b48c5508045",
+      "migrationCeiling": 210
+    },
+    "rpc": {
+      "dispatches": 525,
+      "expectedOwnerReaderDenials": 2,
+      "allProbesRollback": true
+    },
+    "historicalSql001Through209Unchanged": true,
+    "oldPinJsonUnchanged": true,
+    "receipt210": {
+      "cases": 7,
+      "allPassed": true,
+      "stableReadOnly": true,
+      "sameTokenGateAndAcl": true,
+      "onlyOneFunctionDefinitionDelta": true,
+      "allDataAndSequencesUnchanged": true,
+      "restore": {
+        "logicalCatalogDifferences": 0,
+        "allPublicDataAndSequencesIdentical": true,
+        "replayZeroWrites": true
+      }
+    },
+    "gitleaks": {
+      "exitCode": 0,
+      "files": 107,
+      "scope": "all changed/untracked against delivered main581cb97"
+    },
+    "registryRepair": {
+      "actualEcr209And210": true,
+      "querySuccessesEach": 148,
+      "allSourceHashesUnchanged": true,
+      "onlyImageArgumentChanged": true,
+      "imageDigestUnchanged": "sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+      "registryContractTestsPassed": 2
+    },
+    "historical209Reset": {
+      "sourceCeiling": 209,
+      "files": 171,
+      "exactHashBoundHistoricalView": true,
+      "actualFullLocalReset": true,
+      "catalogDifferences": 0,
+      "ownerRetained": true,
+      "verifiedTotpRetained": true,
+      "mainWarehousePreserved": true,
+      "storageBytesDeleted": true,
+      "staffDeleted": true,
+      "rest208OwnerRead": true,
+      "rest209CatalogRead": true,
+      "allDataCleared": true,
+      "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-trial-reset-ghgQi3"
+    },
+    "finalGitleaks": {
+      "exitCode": 0,
+      "files": 112
+    }
+  },
+  "owner209": {
+    "ok": true,
+    "offlineOnly": true,
+    "migrationCeiling": 209,
+    "migrations": 171,
+    "functions": 546,
+    "referenceSha256": "fb3c820d74d37320932e946ffc27609d9853adade1205e53b755071269722b86",
+    "hostedCommandsExecuted": false
+  },
+  "testingInfrastructureRepair": {
+    "scope": "5k suite only",
+    "explicitTurnstileTestCallback": true,
+    "phoneDrawerNavigation": true,
+    "uniqueInventoryFixtureNameInsteadOfHiddenSku": true,
+    "productionAuthUnchanged": true,
+    "assertionBudgetsUnchanged": true,
+    "receipt210Fixtures": {
+      "publicLayoutUsesExistingRootGuard": true,
+      "strictModeExactlyFourReadsOverTwoLoads": true,
+      "refusalUsesValidNewStatus": true,
+      "serviceRoleStillDenied": true,
+      "resetAcceptsApproved210Rejects211": true
+    }
+  },
+  "pending": [
+    "Commit final bounded mirrorlist correction",
+    "New exact push+PR FULL41/secrets,merge/main FULL41",
+    "Then J211 and H after D delivery"
+  ],
+  "owner210": {
+    "offlineOnly": true,
+    "migrationCeiling": 210,
+    "migrations": 172,
+    "functions": 546,
+    "realtimeMembers": 13,
+    "freshIncrementalDifferenceCount": 0,
+    "referenceSha256": "247f57bb3433c4ab0c0810f17547610657f6b33a81efb36fe44f37e874bc0420",
+    "previous208And209ReferencesUnchanged": true,
+    "localOwnerPipeline": {
+      "applied": [
+        "209",
+        "210"
+      ],
+      "recorded": [
+        "209",
+        "210"
+      ],
+      "replayZeroWrites": true
+    },
+    "localReset": {
+      "ownerRetained": true,
+      "totpRetained": true,
+      "storageBytesDeleted": true,
+      "staffDeleted": true,
+      "rest210ReceiptRead": true
+    },
+    "guide": "docs/operations/TRIAL_OWNER_UPGRADE210_AR.md",
+    "hostedCommandsExecuted": false
+  },
+  "ciRepair": "docs/operations/TRIAL_OWNER_D_CI_REPAIR.json",
+  "registryIndependentFixture": {
+    "supersededSha": "c2a38d6c886441056572f7111ad0faa1504fdf54",
+    "runs": [
+      39829357854,
+      39829364217
+    ],
+    "failure": "ECR Data limit exceeded at local-postgrest before queries",
+    "stoppedBeforeEdits": true,
+    "archive": "tests/fixtures/postgrest-v16.1-linux-amd64.tar.gz",
+    "compressedBytes": 6503741,
+    "archiveSha256": "f68c7e96cf47296e13b2db0a4b52fd040df216bc082c8218621bf5b8a33d1d91",
+    "officialIndexDigest": "sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d",
+    "actualLocalLoadAndOfflineVersion": true,
+    "version": "PostgREST 16.1",
+    "runtimeRegistryPulls": 0,
+    "registryAuth": 0,
+    "newRetries": 0,
+    "originalImageBlobsRetained": true,
+    "allSdkLaunchEnvironmentPortReadinessAndProbeContractsUnchanged": true,
+    "cryptoAndNegativeContractTests": 6,
+    "license": "tests/fixtures/postgrest-v16.1.LICENSE",
+    "notice": "tests/fixtures/POSTGREST_IMAGE_NOTICE.md",
+    "validation": {
+      "sdk": [
+        {
+          "migrationCeiling": 209,
+          "migrations": 171,
+          "sourceTotals": {
+            "queries": 51,
+            "tableNames": [
+              "branches",
+              "brands",
+              "business_operations",
+              "categories",
+              "customer_addresses",
+              "customers",
+              "inventory_balances",
+              "order_items",
+              "order_parcel_components",
+              "order_parcel_instances",
+              "order_status_history",
+              "orders",
+              "product_images",
+              "products",
+              "profiles",
+              "purchase_order_items",
+              "purchase_orders",
+              "purchase_receipt_items",
+              "purchase_receipts",
+              "push_dispatches",
+              "push_subscriptions",
+              "roles",
+              "sales_returns",
+              "supplier_payments",
+              "supplier_receipt_items",
+              "supplier_receipts",
+              "suppliers",
+              "units",
+              "user_roles",
+              "warehouses"
+            ],
+            "authenticated": 44,
+            "service_role": 7,
+            "anon": 0,
+            "subscriptions": 20
+          },
+          "querySites": 51,
+          "success": 148,
+          "permissionDenied": 0,
+          "otherError": 0,
+          "applicationReady": true,
+          "sourceHashesSha256": "05390f6707686c3a93653c6b1d742a351f6f5acd92233233a0554b48c5508045",
+          "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-eYbmlN"
+        },
+        {
+          "migrationCeiling": 210,
+          "migrations": 172,
+          "sourceTotals": {
+            "queries": 51,
+            "tableNames": [
+              "branches",
+              "brands",
+              "business_operations",
+              "categories",
+              "customer_addresses",
+              "customers",
+              "inventory_balances",
+              "order_items",
+              "order_parcel_components",
+              "order_parcel_instances",
+              "order_status_history",
+              "orders",
+              "product_images",
+              "products",
+              "profiles",
+              "purchase_order_items",
+              "purchase_orders",
+              "purchase_receipt_items",
+              "purchase_receipts",
+              "push_dispatches",
+              "push_subscriptions",
+              "roles",
+              "sales_returns",
+              "supplier_payments",
+              "supplier_receipt_items",
+              "supplier_receipts",
+              "suppliers",
+              "units",
+              "user_roles",
+              "warehouses"
+            ],
+            "authenticated": 44,
+            "service_role": 7,
+            "anon": 0,
+            "subscriptions": 20
+          },
+          "querySites": 51,
+          "success": 148,
+          "permissionDenied": 0,
+          "otherError": 0,
+          "applicationReady": true,
+          "sourceHashesSha256": "05390f6707686c3a93653c6b1d742a351f6f5acd92233233a0554b48c5508045",
+          "output": "C:\\Users\\TOP\\AppData\\Local\\Temp\\nawasrah-table-access-pIBhka"
+        }
+      ],
+      "adminUnits": {
+        "passed": 1361,
+        "failed": 0,
+        "skipped": 0
+      },
+      "customerUnits": {
+        "passed": 197,
+        "failed": 0,
+        "skipped": 0
+      },
+      "types": true,
+      "strictLint": true
+    }
+  },
+  "browserDependencyMirror": {
+    "proof": "TRIAL_OWNER_D_CI_REPAIR.json",
+    "productUnchanged": true,
+    "previousPrFull41Success": true,
+    "previousPushFailedBeforePosTests": true,
+    "newExactPushPrMainRequired": true,
+    "localVerified": true
+  }
+}

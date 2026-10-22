@@ -1,3 +1,4 @@
+import {loadPinnedPostgrestImage} from '../testing/pinned-postgrest-image.mjs';
 // Diagnostic, not a grant repair: fresh local001-138, real JWT/PostgREST roles.
 // Expected permission denials are findings, not a passing application-readiness gate.
 import assert from 'node:assert/strict';
@@ -14,7 +15,7 @@ import {schemaCatalogSql} from '../testing/schema-catalog.mjs';
 const exec=promisify(execFile),root=path.resolve(import.meta.dirname,'../..');
 const option=n=>process.argv.includes(n)?process.argv[process.argv.indexOf(n)+1]:null;
 const ceiling=Number(option('--migration-ceiling')||(process.argv.includes('--require-access')?199:138));
-assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');
+assert.ok([138,150,164,171,182,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210].includes(ceiling),'ONLY_APPROVED_AUDIT_CEILINGS');
 const manifest=(await readdir(path.join(root,'supabase/migrations'))).filter(n=>/^\d{3}_.+\.sql$/u.test(n)&&Number(n.slice(0,3))<=ceiling).sort();
 const project=option('--local-project')||'nawasrah-table-audit-'+randomBytes(4).toString('hex')+'-test';
 assert.match(project,/^nawasrah-table-audit(?:-[a-f0-9]+)?-test$/u);
@@ -73,12 +74,14 @@ try{
  const instances=await json(`SELECT jsonb_agg(id ORDER BY id) FROM order_parcel_instances WHERE order_id=${q(sale.orderId)};`);assert.ok(instances.length);
  const ids={orderId:sale.orderId,operationId:sale.operationId,receiptId:received.receipt_id,poId:po.purchase_order_id,subscriptionId:id(701),instances};
  report.fixture=ids;
+ report.stage='verified-postgrest-fixture';
+ const localPostgrestImage=await loadPinnedPostgrestImage();
  report.stage='local-postgrest';
  // Fixed public TEST signing material;not a managed credential. Tokens stay in RAM.
  const secret='isolated-table-access-audit-signing-material-only';
  await exec('docker',['run','-d','--name',rest,'--network','supabase_network_'+project,'-p','127.0.0.1:25421:3000',
   '-e','PGRST_DB_URI=postgresql://authenticator:postgres@db:5432/postgres','-e','PGRST_DB_SCHEMAS=public',
-  '-e','PGRST_DB_ANON_ROLE=anon','-e','PGRST_JWT_SECRET='+secret,'ghcr.io/supabase/postgrest:v16.1@sha256:5922bde07147b82b1c9d8f749e48c1e5b99ebb233f3888bb7ab65f07cf4ac82d'],{windowsHide:true});restStarted=true;
+  '-e','PGRST_DB_ANON_ROLE=anon','-e','PGRST_JWT_SECRET='+secret,localPostgrestImage],{windowsHide:true});restStarted=true;
  const deadline=Date.now()+15000;while(true){try{const r=await fetch('http://127.0.0.1:25421/');if(r.status===200)break;}catch{/* readiness only */}
   if(Date.now()>deadline)throw Error('LOCAL_POSTGREST_NOT_READY');await new Promise(resolve=>setTimeout(resolve,100));}
  report.stage='actual-original-queries';console.log(JSON.stringify({stage:report.stage,queries:source.entries.length}));

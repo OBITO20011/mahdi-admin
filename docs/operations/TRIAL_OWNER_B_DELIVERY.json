@@ -1,0 +1,292 @@
+{
+  "schemaVersion": 1,
+  "status": "DELIVERED_MAIN_FULL40_ACCEPTED",
+  "recordedAt": "2026-10-22T12:57:43.098Z",
+  "branch": "codex/trial-sale-methods",
+  "baselineSha": "d7779f56dc0bdfe77091bb4881cbae4ad50ced3a",
+  "managedAccess": false,
+  "deployed": false,
+  "scope": {
+    "parcelOnly": true,
+    "unifiedSaleMethods": true,
+    "atLeastOne": true,
+    "ownerOnlyMixedRealStateAndDirectFamilyLink": true,
+    "legacyPurchase10Sale1Preserved": true,
+    "optionalExcel": true,
+    "allAdmissionPaths": true,
+    "oldHistoryReplayReturnsPreserved": true
+  },
+  "migration": {
+    "ceiling": 209,
+    "file": "209_product_sale_methods.sql",
+    "canonicalLfSha256": "15a81c0d43bb9377b676d76fddbefc83939d30ecc47817af207c6215f5bcfcd7",
+    "historical001Through208Unchanged": true
+  },
+  "verification": {
+    "adminUnits": {
+      "passed": 1348,
+      "failed": 0,
+      "skipped": 0
+    },
+    "customerUnits": {
+      "passed": 197,
+      "failed": 0,
+      "skipped": 0
+    },
+    "types": true,
+    "strictEslint": true,
+    "adminBuild": true,
+    "isolatedCustomerBuild": true,
+    "networkEscapes": 0,
+    "browsers": {
+      "initialAffected": 66,
+      "new209": 24,
+      "finalSaleMethodSubset": 36,
+      "explicitPurchasePriceSubset": 2,
+      "engines": [
+        "Chromium",
+        "WebKit"
+      ],
+      "retries": 0
+    },
+    "nativePartition": {
+      "full": 1400,
+      "core": 432,
+      "packageF": 968,
+      "shards": [
+        194,
+        194,
+        194,
+        194,
+        192
+      ]
+    },
+    "sdk": {
+      "sources": 320,
+      "sites": 51,
+      "passed": 148,
+      "errors": 0,
+      "access": {
+        "ok": true,
+        "ownerV5RestMutation": true,
+        "publicInheritedMethods": [
+          {
+            "role": "anon",
+            "rows": 3,
+            "parcelOnly": true
+          },
+          {
+            "role": "authenticated",
+            "rows": 3,
+            "parcelOnly": true
+          }
+        ],
+        "adminBarcodeMethod": true,
+        "noRoleRefused": true,
+        "readZeroWrites": true
+      }
+    },
+    "rpc": {
+      "probes": 525,
+      "expectedPrivateReaderDenials": 2
+    },
+    "database": {
+      "groups": 16,
+      "realBlockingRaces": 7,
+      "zeroWriteRefusals": true,
+      "oldUnitRefundInMinorUnits": 1000,
+      "currentUnitQuoteInMinorUnits": 900,
+      "restore": {
+        "logicalCatalogDifferences": 0,
+        "allPublicDataAndSequencesIdentical": true,
+        "replayZeroWrites": true
+      }
+    }
+  },
+  "ownerPreparation": {
+    "referenceName": "local-reference-through209-ready.json",
+    "referenceSha256": "fb3c820d74d37320932e946ffc27609d9853adade1205e53b755071269722b86",
+    "migrations": 171,
+    "functions": 546,
+    "realtimeMembers": 13,
+    "onlyNewPublishedColumn": "products.parcel_only",
+    "freshIncrementalCatalogDifferences": 0,
+    "localUpgrade": {
+      "applied": [
+        "209"
+      ],
+      "recorded": [
+        "209"
+      ],
+      "replayWrites": false
+    },
+    "localReset": {
+      "catalogDifferences": 0,
+      "ownerRetained": true,
+      "totpRetained": true,
+      "storageBytesDeleted": true,
+      "staffDeleted": true,
+      "actualAuthenticatedRest209": true
+    },
+    "guide": "docs/operations/TRIAL_OWNER_UPGRADE209_AR.md",
+    "hostedCommandsExecuted": false
+  },
+  "remaining": [
+    "Exact feature push and PR FULL40 plus secret scans",
+    "Genuine merge and exact main FULL40 plus secret scan",
+    "Copy validated final209 reference into owner local workspace;never execute hosted commands"
+  ],
+  "featureCiScopeRepair": {
+    "supersededSha": "bdf1e4f61c613f4fc5037da6462bcff88acf4cfd",
+    "cancelledRuns": [
+      39737114212,
+      39737122154
+    ],
+    "cause": "Historical P1 migration comparison included additive209 absent from its accepted208 baseline",
+    "correction": "Exact170 historical filename set plus every historical byte compared;nonmigration inverses and independent209 gates retained",
+    "productionAndSqlUnchanged": true,
+    "adminUnitsWith209Tracked": {
+      "passed": 1348,
+      "failed": 0,
+      "skipped": 0
+    },
+    "typesAndStrictLint": true,
+    "gitleaks": 0,
+    "assertionsWeakened": false,
+    "retriesSkipsTimeoutsChanged": false
+  },
+  "featureCiTerminologyRepair": {
+    "supersededSha": "d591fc7e6d0adf95d6289c778a823171ca6c6b1d",
+    "cancelledRuns": [
+      39738859136,
+      39738865026
+    ],
+    "cause": "Historical terminology browser forbade the exact owner-requested sale-method checkbox label",
+    "correction": "Require checked checkbox and exactly one literal حبة مفردة occurrence;ban حبة/حبات in every other dialog text;retain unit/price/layout/accessibility assertions",
+    "browserPassed": 24,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "retries": 0,
+    "focusedContractTestsPassed": 23,
+    "types": true,
+    "strictEslint": true,
+    "gitleaks": 0,
+    "productionAndSqlUnchanged": true,
+    "retriesSkipsTimeoutsChanged": false
+  },
+  "featureCiPosLabelRepair": {
+    "supersededSha": "bfc802ac0a298ae4ebccc9f82d3459db7abe72c2",
+    "cancelledRuns": [
+      39740406817,
+      39740412916
+    ],
+    "correction": "Only3 exact button/input selectors from old carton terminology to current owner طرد",
+    "fullRealPosBrowserPassed": 8,
+    "scenariosPerEngine": 4,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "realPublicRpc": true,
+    "realIsolatedDatabase": true,
+    "productionRequests": 0,
+    "retries": 0,
+    "refund4500": true,
+    "damageEntitlement2700AndDeduction1800": true,
+    "replayLineageZeroWritesPreserved": true,
+    "focusedContractTestsPassed": 23,
+    "types": true,
+    "strictEslint": true,
+    "gitleaks": 0,
+    "productionAndSqlUnchanged": true,
+    "assertionsWeakened": false,
+    "retriesSkipsTimeoutsChanged": false
+  },
+  "featureCiAdapterResponseRepair": {
+    "supersededSha": "529b828ab21f6824f7f93a48c88b2c719551d8bd",
+    "failedRuns": [
+      39743313893,
+      39743319543
+    ],
+    "eachOther38JobsPassed": true,
+    "cause": "Canned replay called an N1 base-unit request a legacy parcel;strict immutable response validation correctly refused it",
+    "correction": "Canned response uses base_unit/باكيت;assert exact original one-unit request and RPC lines;retain same request,key,two calls and receipt",
+    "adapterBrowserPassed": 6,
+    "engines": [
+      "Chromium",
+      "WebKit"
+    ],
+    "retries": 0,
+    "focusedContractTestsPassed": 23,
+    "types": true,
+    "strictEslint": true,
+    "gitleaks": 0,
+    "productionAndSqlUnchanged": true,
+    "strictResultValidationUnchanged": true,
+    "retriesSkipsTimeoutsChanged": false
+  },
+  "package": "B",
+  "featureSha": "1109841021913d0a85b00360a812c40e8961ff9e",
+  "mainSha": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
+  "pr": {
+    "number": 15,
+    "url": "https://github.com/OBITO20011/mahdi-admin/pull/15",
+    "merged": true
+  },
+  "featureCi": {
+    "quality": [
+      39774771721,
+      39774779380
+    ],
+    "secrets": [
+      39774771878,
+      39774779190
+    ],
+    "proof": "docs/operations/TRIAL_OWNER_B_FEATURE_CI.json"
+  },
+  "mainCi": {
+    "quality": [
+      39779203932
+    ],
+    "secrets": [
+      39779203931
+    ],
+    "jobs": 40,
+    "adminUnits": 1348,
+    "storefrontUnits": 197,
+    "browserPassed": 1341,
+    "unchangedLegacyConditionalSkipped": 59,
+    "flaky": 0,
+    "realPosBrowser": 8,
+    "db209Groups": 16,
+    "realRaces": 7,
+    "proof": "docs/operations/TRIAL_OWNER_B_MAIN_CI.json",
+    "deliveryReady": true
+  },
+  "ownerUpgrade": {
+    "ok": true,
+    "managedAccess": false,
+    "ownerCommandExecuted": false,
+    "sha": "581cb972a247ef13dbdc697b75bcc5c674bfa97d",
+    "path": "C:\\Users\\TOP\\NawasrahFrankfurt\\nawasrah-fra-001-138\\local-reference-through209-ready.json",
+    "sha256": "fb3c820d74d37320932e946ffc27609d9853adade1205e53b755071269722b86",
+    "preserved208Sha256": "0ab1e910ec2fd63ddd30684ed8c8e8b46c0afe4f86f9cfaa4aad4f087dd65cf1",
+    "migrations": 171,
+    "functions": 546,
+    "realtimeMembers": 13,
+    "guide": "docs/operations/TRIAL_OWNER_UPGRADE209_AR.md",
+    "modes": [
+      "--dry-run",
+      "--apply",
+      "--verify-only"
+    ],
+    "executed": false
+  },
+  "packageA": {
+    "pr": 14,
+    "sha": "d7779f56dc0bdfe77091bb4881cbae4ad50ced3a",
+    "alreadyDelivered": true
+  }
+}

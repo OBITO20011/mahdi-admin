@@ -1,4 +1,5 @@
-import type { PaymentMethod } from '../types';
+import type { OrderItem,PaymentMethod } from '../types';
+import {receiptLineDescription} from '../../customer-web/src/receipts/commercialReceipt';
 
 export interface ReceiptShareItem {
   productName: string;
@@ -6,6 +7,10 @@ export interface ReceiptShareItem {
   salePackage?: string;
   unit?: string;
   totalPrice: number;
+  commercialLineKind?:string;
+  baseQuantity?:number;
+  baseUnitName?:string;
+  parcelInstances?:OrderItem['parcelInstances'];
 }
 
 export interface ReceiptShareInput {
@@ -44,7 +49,10 @@ const money = (value: number) => `${value.toFixed(3)} د.أ`;
 export function buildReceiptShareText(input: ReceiptShareInput): string {
   const lines = input.items.map(
     (item) =>
-      `• ${item.productName}: ${item.quantity} ${item.unit || item.salePackage || 'طرد'} - ${money(item.totalPrice)}`
+      `• ${item.productName}: ${receiptLineDescription({key:'',name:item.productName,kind:item.commercialLineKind,quantity:item.quantity,
+        baseQuantity:item.baseQuantity,baseUnitName:item.baseUnitName,savedUnitName:item.unit||item.salePackage||'طرد',
+        parcels:item.parcelInstances?.map(p=>({components:p.components.map(c=>({name:c.name,quantity:c.quantity,unitName:c.unitName}))})),
+        totalInMinorUnits:Math.round(item.totalPrice*1000)})} - ${money(item.totalPrice)}`
   );
 
   return [

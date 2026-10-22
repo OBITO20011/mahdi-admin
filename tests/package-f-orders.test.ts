@@ -43,7 +43,7 @@ test('workbench uses seven columns and only supplied authoritative chip counters
 });
 test('compact details retain immutable sale kind, parcel components and financial values', () => {
   const html = renderToStaticMarkup(React.createElement(OrderDetailModal, { order: ordersFixture[1], embedded: true, onClose: () => undefined }));
-  for (const label of ['كرتونة', 'طرد مشكّل', 'باكيت', 'جبنة', 'شطة', 'ملح', '90.200', '2.000', '92.200', 'طباعة الطلب', 'إلغاء الطلب مع ذكر السبب']) assert.ok(html.includes(label), label);
+  for (const label of ['طرد', 'طرد مشكّل', 'وحدة', 'جبنة', 'شطة', 'ملح', '90.200', '2.000', '92.200', 'طباعة الوصل', 'طباعة ورقة التجهيز', 'إلغاء الطلب مع ذكر السبب']) assert.ok(html.includes(label), label);
   assert.match(html, /data-testid="order-commercial-summary"/);
   assert.match(html, /<details[^>]*><summary[^>]*>[\s\S]*?تفاصيل الطلب والحساب/);
   assert.doesNotMatch(html, /[٠-٩]/);
